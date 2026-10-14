@@ -319,7 +319,9 @@ fn remote_glob_commands_preprocess_static_pattern_prefix() {
     assert!(!rg_command.contains("--hidden"));
     assert!(!rg_command.contains("--sort"));
 
-    let openbitfun_rg_command = build_remote_rg_command("/home/user/repo", ".openbitfun/**/*.json");
+    let product_directory = openbitfun_core_types::product_identity::hidden_data_directory();
+    let openbitfun_rg_command =
+        build_remote_rg_command("/home/user/repo", &format!("{product_directory}/**/*.json"));
     assert!(openbitfun_rg_command.contains("--no-ignore"));
     assert!(openbitfun_rg_command.contains("--hidden"));
     assert!(!openbitfun_rg_command.contains("--sort"));

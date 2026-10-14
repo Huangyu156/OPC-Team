@@ -3,7 +3,7 @@ name = "openbitfun-dsh-adapter"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "DeepSeek Harness (dsh) bundle source projection adapter for OpenBitFun"
+description = "DeepSeek Harness (dsh) bundle source projection adapter for OPC-Team"
 autotests = false
 
 [lib]

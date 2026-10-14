@@ -1,7 +1,7 @@
 //! Core service owner crate.
 //!
 //! This crate owns platform-agnostic service building blocks that can be
-//! tested without compiling the full OpenBitFun product runtime.
+//! tested without compiling the full OPC-Team product runtime.
 
 pub mod bounded_fs;
 #[cfg(feature = "coordination-store")]

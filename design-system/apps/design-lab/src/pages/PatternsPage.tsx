@@ -135,8 +135,8 @@ export function PatternsPage({ colorScheme, contrast, density, tokenOverrides }:
               <NavigationPanelBody>
                 <NavigationPanelContent>
                   <NavigationPanelSection title={t("patterns.navigation.workspace")}>
-                    <NavigationPanelItem leading={<Icon name="folder" />} selected>Open-OpenBitFun</NavigationPanelItem>
-                    <NavigationPanelItem leading={<Icon name="star" />}>OpenBitFun UI</NavigationPanelItem>
+                    <NavigationPanelItem leading={<Icon name="folder" />} selected>Open-OPC-Team</NavigationPanelItem>
+                    <NavigationPanelItem leading={<Icon name="star" />}>OPC-Team UI</NavigationPanelItem>
                   </NavigationPanelSection>
                   <Disclosure defaultOpen leading={<Icon name="extension" />} summary={t("patterns.navigation.tools")}>
                     <NavigationPanelItem leading={<Icon name="browser" />}>{t("patterns.actions.openBrowser")}</NavigationPanelItem>

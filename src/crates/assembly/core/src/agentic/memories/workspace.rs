@@ -25,7 +25,7 @@ const AD_HOC_INSTRUCTIONS: &str = r#"# Ad-hoc notes
 
 ## Instructions
 
-- This extension contains ad-hoc notes to add, update, or forget OpenBitFun memories.
+- This extension contains ad-hoc notes to add, update, or forget OPC-Team memories.
 - Consider every note as authoritative memory input from an explicit user request.
 - Use `phase2_workspace_diff.md` to find new or edited notes.
 - Consolidate new or edited note content into `MEMORY.md` and `memory_summary.md` when it is durable and reusable.

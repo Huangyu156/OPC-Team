@@ -4,7 +4,7 @@
 //! Account-authenticated Relay connections over official or LAN URLs, plus IM bots.
 //!
 //! Bot connections (Telegram / Feishu / Weixin) run independently of relay connections
-//! (LAN / OpenBitFun Server). Calling `stop()` only
+//! (LAN / OPC-Team Server). Calling `stop()` only
 //! tears down the relay side; bots keep running.  Use `stop_bot()` or
 //! `stop_all()` to shut everything down.
 

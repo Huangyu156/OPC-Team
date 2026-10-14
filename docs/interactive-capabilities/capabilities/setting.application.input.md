@@ -37,13 +37,13 @@ Configure conversation text selection actions, voice input, microphones, recogni
 2. 进入“应用与界面 > 输入与交互”
    Go to App & Interface > Input & Interaction
 
-入口 / Entry: OpenBitFun 设置
+入口 / Entry: OPC-Team 设置
 
 ## 智能体可替你做什么 / What an agent can do for you
 
 | 操作 / Action | 中文说明 | English description |
 | --- | --- | --- |
-| 打开对应界面 / Open the UI | 进入 OpenBitFun 中对应的功能界面。 | Open the matching feature in OpenBitFun. |
+| 打开对应界面 / Open the UI | 进入 OPC-Team 中对应的功能界面。 | Open the matching feature in OPC-Team. |
 
 ## 可配置选项 / Configurable options
 

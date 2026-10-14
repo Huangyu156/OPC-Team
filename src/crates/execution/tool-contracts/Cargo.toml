@@ -3,7 +3,7 @@ name = "openbitfun-agent-tools"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun agent tool contracts"
+description = "OPC-Team agent tool contracts"
 
 [lib]
 name = "openbitfun_agent_tools"

@@ -76,7 +76,7 @@ fn reject_protected_metadata_path(path: &str) -> OpenBitFunResult<()> {
         "product_id" | "schema_version" | "version" | "last_modified"
     ) {
         return Err(OpenBitFunError::validation(format!(
-            "Configuration metadata '{path}' is managed by OpenBitFun and cannot be changed directly"
+            "Configuration metadata '{path}' is managed by OPC-Team and cannot be changed directly"
         )));
     }
     Ok(())
@@ -381,7 +381,7 @@ impl ConfigManager {
         Ok(())
     }
 
-    /// Loads an existing OpenBitFun config, with a narrow repair for the sparse
+    /// Loads an existing OPC-Team config, with a narrow repair for the sparse
     /// document written by released standalone installers.
     async fn load_existing_config(&mut self) -> OpenBitFunResult<()> {
         let content = fs::read_to_string(&self.config_file)
@@ -421,7 +421,7 @@ impl ConfigManager {
 
         self.config = config;
         self.load_diagnostics = diagnostics;
-        debug!("Loaded OpenBitFun config from file without rewriting it");
+        debug!("Loaded OPC-Team config from file without rewriting it");
         Ok(())
     }
 

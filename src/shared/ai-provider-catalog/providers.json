@@ -6,8 +6,8 @@
       "id": "openbitfun",
       "display_order": 0,
       "region": "any",
-      "name": "OpenBitFun",
-      "description": "OpenBitFun hosted AI service",
+      "name": "OPC-Team Service",
+      "description": "OPC-Team Model Platform",
       "requires_api_key": true,
       "catalog_provider_ids": [],
       "endpoints": [

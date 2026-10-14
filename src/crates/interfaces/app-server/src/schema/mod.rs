@@ -1,4 +1,4 @@
-//! JSON-RPC wire contract for the OpenBitFun app-server surface.
+//! JSON-RPC wire contract for the OPC-Team app-server surface.
 //!
 //! Schema types are grouped by product domain while this module re-exports the
 //! complete contract. Existing consumers can continue importing types from

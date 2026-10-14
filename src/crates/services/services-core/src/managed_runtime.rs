@@ -66,7 +66,7 @@ impl ManagedRuntimeResolver {
     /// Resolve a command from:
     /// 1) explicit path command
     /// 2) system PATH
-    /// 3) OpenBitFun managed runtimes
+    /// 3) OPC-Team managed runtimes
     pub fn resolve_command(&self, command: &str) -> Option<ResolvedCommand> {
         if is_path_like_command(command) {
             return self.resolve_explicit_path_command(command);

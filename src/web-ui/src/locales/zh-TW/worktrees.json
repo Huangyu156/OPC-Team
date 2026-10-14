@@ -53,15 +53,15 @@
   },
   "management": {
     "title": "工作區 Worktrees",
-    "description": "依工作區分組，僅列出目前執行主機上 OpenBitFun Worktree 根目錄內的 Worktree",
-    "loading": "正在掃描 OpenBitFun Worktree…",
-    "loadFailed": "無法載入 OpenBitFun Worktree 清單。",
+    "description": "依工作區分組，僅列出目前執行主機上 OPC-Team Worktree 根目錄內的 Worktree",
+    "loading": "正在掃描 OPC-Team Worktree…",
+    "loadFailed": "無法載入 OPC-Team Worktree 清單。",
     "refresh": "重新整理 Worktree",
     "retry": "重試",
     "worktreeCount": "{{count}} 個 Worktree",
     "deleted": "已刪除 {{path}}。",
     "empty": {
-      "title": "目前沒有 OpenBitFun Worktree",
+      "title": "目前沒有 OPC-Team Worktree",
       "description": "為隔離工作階段建立的 worktree 會顯示在這裡。"
     },
     "lifecycle": {

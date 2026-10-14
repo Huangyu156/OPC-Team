@@ -229,8 +229,7 @@ impl AcpRuntime for OpenBitFunAcpRuntime {
                     ),
             )
             .agent_info(
-                Implementation::new("openbitfun-acp", env!("CARGO_PKG_VERSION"))
-                    .title("OpenBitFun"),
+                Implementation::new("openbitfun-acp", env!("CARGO_PKG_VERSION")).title("OPC-Team"),
             ))
     }
 

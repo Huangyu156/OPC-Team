@@ -73,8 +73,21 @@ function executableCandidates(buildType: E2eBuildType): string[] {
   const binaryName = `openbitfun-desktop${suffix}`;
 
   if (process.platform === 'darwin') {
+    // Tauri names the macOS bundle after `productName` (`OPC-Team.app`) while the
+    // executable inside it keeps `mainBinaryName` (`openbitfun-desktop`). Bundles
+    // built before the product rename still use the OpenBitFun names for both.
+    // The real `tauri build` bundle lives in `target/<profile>/bundle/macos`, so it
+    // is listed before the legacy top-level `.app` layout. The raw executable stays
+    // first because forced `OPENBITFUN_E2E_APP_MODE` modes read index 0 directly.
     return [
       path.join(root, 'target', buildType, binaryName),
+      path.join(root, 'target', buildType, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
+      path.join(root, 'target', buildType, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
+      path.join(root, 'target', buildType, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
+      path.join(root, 'target', buildType, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+      path.join(root, 'target', buildType, 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
+      path.join(root, 'target', buildType, 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
+      path.join(root, 'target', buildType, 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
       path.join(root, 'target', buildType, 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
     ];
   }
@@ -236,7 +249,7 @@ async function waitForEmbeddedDriverReady(timeoutMs: number = 30000): Promise<vo
 
 async function waitForWebviewDocumentReady(timeoutMs: number = 30000): Promise<void> {
   const startedAt = Date.now();
-  let lastError = 'OpenBitFun app shell is not ready';
+  let lastError = 'OPC-Team app shell is not ready';
 
   while (Date.now() - startedAt < timeoutMs) {
     let sessionId: string | null = null;
@@ -248,7 +261,7 @@ async function waitForWebviewDocumentReady(timeoutMs: number = 30000): Promise<v
         await deleteProbeSession(sessionId);
         return;
       }
-      lastError = 'OpenBitFun app shell is not ready';
+      lastError = 'OPC-Team app shell is not ready';
     } catch (error) {
       lastError = error instanceof Error ? error.message : String(error);
     } finally {
@@ -428,7 +441,7 @@ async function startOpenBitFunApp(): Promise<void> {
 
   stopOpenBitFunApp();
 
-  console.log(`Starting OpenBitFun with embedded WebDriver on port ${DRIVER_PORT}`);
+  console.log(`Starting OPC-Team with embedded WebDriver on port ${DRIVER_PORT}`);
   console.log(`Application: ${appPath}`);
 
   openbitfunApp = spawn(appPath, [], {
@@ -572,7 +585,7 @@ export function createEmbeddedConfig(specs: string[], label: string): Options.Te
     },
 
     afterSession: function afterSession() {
-      console.log('Stopping OpenBitFun app...');
+      console.log('Stopping OPC-Team app...');
       stopOpenBitFunApp();
     },
 

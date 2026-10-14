@@ -1,7 +1,7 @@
-// OpenBitFun backend adapter for PPT Live.
+// OPC-Team backend adapter for PPT Live.
 //
 // The MiniApp agent bridge (`app.agent.*`) is the only generation path. A
-// single cowork agent turn loads OpenBitFun's pinned built-in `ppt-design` skill
+// single cowork agent turn loads OPC-Team's pinned built-in `ppt-design` skill
 // and produces the entire deck through its project.json + slides/ file protocol.
 
 import {

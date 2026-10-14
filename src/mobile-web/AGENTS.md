@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Mobile web is the browser-based remote control client for OpenBitFun desktop sessions.
+Mobile web is the browser-based remote control client for OPC-Team desktop sessions.
 
 ## Boundaries
 

@@ -19,7 +19,7 @@ use std::sync::Arc;
 //
 // `PluginHost` itself remains the adapter-owned process/IPC resource. Core
 // keeps only the product-level lifecycle assembly and logical instance/PTy
-// ownership needed to bind adapter callbacks to OpenBitFun owners; these maps do
+// ownership needed to bind adapter callbacks to OPC-Team owners; these maps do
 // not supervise a physical process tree or make trust/configuration policy.
 
 use terminal_core::{CloseSessionRequest, TerminalApi};
@@ -500,7 +500,7 @@ pub async fn ensure_configured_plugin_instance(
         .filter_map(plugin_declaration)
         .collect::<Vec<_>>();
     // Resolve the configured declarations directly. Plugin activation is an
-    // explicit OpenBitFun configuration choice; no separate external-integration
+    // explicit OPC-Team configuration choice; no separate external-integration
     // policy, safe-mode switch, or activation approval is required before the
     // host can load the configured plugins.
     let prepared = client
@@ -1877,7 +1877,7 @@ fn resolve_host_entry(spec: PluginHostLaunchSpec) -> crate::OpenBitFunResult<Pat
     let executable = std::env::current_exe().map_err(crate::OpenBitFunError::Io)?;
     let executable_directory = executable.parent().ok_or_else(|| {
         crate::OpenBitFunError::config(format!(
-            "OpenBitFun executable has no parent directory: {}",
+            "OPC-Team executable has no parent directory: {}",
             executable.display()
         ))
     })?;
@@ -2021,7 +2021,7 @@ mod tests {
     #[test]
     fn development_host_entry_is_owned_by_the_openbitfun_repository() {
         let spec = PluginHostLaunchSpec::bun();
-        let entry = development_host_entry(spec).expect("OpenBitFun repository root");
+        let entry = development_host_entry(spec).expect("OPC-Team repository root");
 
         assert!(entry.ends_with(
             Path::new("src")

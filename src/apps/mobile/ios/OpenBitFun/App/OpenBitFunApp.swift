@@ -52,7 +52,7 @@ struct OpenBitFunApp: App {
                             TaskCompletionNotifier.finishOnboarding(enable: true)
                         }
                     } message: {
-                        Text(model.localized("允许 OpenBitFun 在任务完成时发送通知。你可以稍后在系统设置中更改。"))
+                        Text(model.localized("允许 OPC-Team 在任务完成时发送通知。你可以稍后在系统设置中更改。"))
                     }
                     .onChange(of: scenePhase) { phase in
                         if phase == .background { Self.coldStartProcessClaimed = true; coldStartConsumed = true; showStartupBrand = false; showColdStart = false }

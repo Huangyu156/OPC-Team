@@ -1,9 +1,9 @@
 ---
 name: create-agent
-description: Create or update OpenBitFun custom modes and subagents. Turn the user's needs into a role prompt and a suitable tool selection, then save an agent definition. Use for reusable roles, not ordinary delegation to an existing subagent.
+description: Create or update OPC-Team custom modes and subagents. Turn the user's needs into a role prompt and a suitable tool selection, then save an agent definition. Use for reusable roles, not ordinary delegation to an existing subagent.
 ---
 
-# Create an OpenBitFun Agent
+# Create an OPC-Team Agent
 
 ## Understand the role
 
@@ -32,10 +32,10 @@ Save one UTF-8 `<id>.md` file directly in the agents directory. Start with YAML 
 
 | Scope | Directory | Supported roles |
 | --- | --- | --- |
-| Project | `<workspace>/.openbitfun/agents/` | Subagent |
-| User on Windows | `%APPDATA%/openbitfun/agents/` | Mode or subagent |
-| User on macOS | `~/Library/Application Support/openbitfun/agents/` | Mode or subagent |
-| User on Linux | `$XDG_CONFIG_HOME/openbitfun/agents/`, or `~/.config/openbitfun/agents/` | Mode or subagent |
+| Project | `<workspace>/.opcteam/agents/` | Subagent |
+| User on Windows | `%APPDATA%/opcteam/agents/` | Mode or subagent |
+| User on macOS | `~/Library/Application Support/opcteam/agents/` | Mode or subagent |
+| User on Linux | `$XDG_CONFIG_HOME/opcteam/agents/`, or `~/.config/opcteam/agents/` | Mode or subagent |
 
 If `OPENBITFUN_USER_ROOT` is configured, use its `agents/` subdirectory for user roles. Use the environment where the role will be used. If the user has a custom data location, use that location. A mode cannot be installed at project scope.
 

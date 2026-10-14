@@ -1,7 +1,7 @@
 /**
  * Design-token contract for `openbitfun/canvas`.
  *
- * Canvas uses host-provided OpenBitFun semantic CSS variables instead of declaring
+ * Canvas uses host-provided OPC-Team semantic CSS variables instead of declaring
  * an independent hardcoded color palette. Treat exported colors as token
  * references or host-resolved strings; do not depend on concrete hex values.
  */

@@ -42,7 +42,7 @@ final class TaskCompletionNotifier {
         if let completed {
             let content = UNMutableNotificationContent()
             content.title = MobileLocalization.text("任务已完成")
-            content.body = MobileLocalization.text("打开 OpenBitFun 查看结果。")
+            content.body = MobileLocalization.text("打开 OPC-Team 查看结果。")
             content.sound = .default
             content.userInfo = ["target": completed.target, "sessionId": completed.sessionId]
             let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)

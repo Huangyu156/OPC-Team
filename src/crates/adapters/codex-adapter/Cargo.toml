@@ -3,7 +3,7 @@ name = "openbitfun-codex-adapter"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Codex static source adapter for OpenBitFun"
+description = "Codex static source adapter for OPC-Team"
 autotests = false
 
 [lib]

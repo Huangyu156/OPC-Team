@@ -1,5 +1,5 @@
 [Unit]
-Description=Daily OpenBitFun Skin market backup
+Description=Daily OPC-Team Skin market backup
 
 [Timer]
 OnCalendar=*-*-* 03:37:00 UTC

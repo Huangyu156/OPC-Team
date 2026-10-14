@@ -2200,6 +2200,7 @@ mod opencode_configured_skill_tests {
     use super::{SkillRegistry, SkillRootEntry};
     use crate::external_sources::LocalConfiguredSkillRootContribution;
     use openbitfun_agent_runtime::skills::{resolve_visible_skills, SkillLocation};
+    use openbitfun_core_types::product_identity::hidden_data_directory;
     use openbitfun_product_domains::external_sources::ExternalSourceScope;
     use std::fs;
     use std::path::{Path, PathBuf};
@@ -2314,16 +2315,18 @@ mod opencode_configured_skill_tests {
         let temp = tempfile::tempdir().unwrap();
         let project = temp.path().join("project");
         write(
-            project.join(".openbitfun/skills/review/SKILL.md"),
+            project
+                .join(hidden_data_directory())
+                .join("skills/review/SKILL.md"),
             &skill("review"),
         );
         write(project.join("custom/review/SKILL.md"), &skill("review"));
         let standard = SkillRegistry::scan_skills_in_dir(&SkillRootEntry {
-            path: project.join(".openbitfun/skills"),
+            path: project.join(hidden_data_directory()).join("skills"),
             level: SkillLocation::Project,
             slot: "openbitfun",
             source_id: "openbitfun",
-            source_label: "OpenBitFun",
+            source_label: "OPC-Team",
             priority: 0,
             is_builtin: false,
         })
@@ -2341,7 +2344,7 @@ mod opencode_configured_skill_tests {
         ));
 
         assert_eq!(resolved.len(), 1);
-        assert!(resolved[0].path.contains(".openbitfun"));
+        assert!(resolved[0].path.contains(hidden_data_directory()));
     }
 
     #[tokio::test]
@@ -2536,6 +2539,7 @@ mod opencode_configured_skill_tests {
 mod remote_scan_tests {
     use super::SkillRegistry;
     use crate::agentic::workspace::{WorkspaceDirEntry, WorkspaceFileSystem};
+    use openbitfun_core_types::product_identity::hidden_data_directory;
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::time::{Duration, Instant};
 
@@ -2611,7 +2615,7 @@ mod remote_scan_tests {
         }
         async fn is_dir(&self, path: &str) -> anyhow::Result<bool> {
             self.round_trip().await;
-            Ok(path.contains("/.openbitfun/")
+            Ok(path.contains(&format!("/{}/", hidden_data_directory()))
                 || path.contains("/.codex/")
                 || (self.claude_hooks && path.contains("/.claude/"))
                 || (self.installation_lock.is_some() && path.contains("/.agents/")))
@@ -2743,7 +2747,7 @@ mod remote_scan_tests {
         // The same project catalog on disk must retain the remote scan's source
         // precedence and invocation policy, without involving user-global skills.
         let local_root = tempfile::tempdir().unwrap();
-        for parent in [".openbitfun", ".codex"] {
+        for parent in [hidden_data_directory(), ".codex"] {
             for index in 0..13 {
                 let name = format!("skill-{index:02}");
                 let dir = local_root.path().join(parent).join("skills").join(&name);

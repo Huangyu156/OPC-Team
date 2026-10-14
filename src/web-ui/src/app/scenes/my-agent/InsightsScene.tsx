@@ -610,7 +610,7 @@ const ReportView: React.FC<{ report: InsightsReport; onBack: () => void }> = ({ 
             )}
           <BasicCharts stats={report.stats} />
 
-          {/* How You Use OpenBitFun */}
+          {/* How You Use OPC-Team */}
           {report.interaction_style.narrative && <div data-section="usage"><InteractionStyleSection report={report} /></div>}
           <div data-section="usage">
             <UsageCharts stats={report.stats} />

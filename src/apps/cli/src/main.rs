@@ -2,7 +2,7 @@
 // several layers of `async fn`) exceeds the default depth.
 #![recursion_limit = "256"]
 
-/// OpenBitFun CLI
+/// OPC-Team CLI
 ///
 /// Command-line interface version, supports:
 /// - Interactive TUI
@@ -137,7 +137,7 @@ pub(crate) fn ensure_cli_mcp_service(
 
 #[derive(Parser)]
 #[command(name = "openbitfun")]
-#[command(about = "OpenBitFun CLI - AI agent-driven command-line programming assistant", long_about = None)]
+#[command(about = "OPC-Team CLI - AI agent-driven command-line programming assistant", long_about = None)]
 #[command(version)]
 struct Cli {
     #[command(subcommand)]
@@ -331,7 +331,7 @@ enum Commands {
         action: Option<McpAction>,
     },
 
-    /// Inspect and review OpenBitFun-managed plugin packages
+    /// Inspect and review OPC-Team-managed plugin packages
     ///
     /// Package layout: <package-root>/<package-id>/openbitfun.plugin.json
     Plugins {
@@ -386,7 +386,7 @@ enum Commands {
         action: DispatchAction,
     },
 
-    /// Start the OpenBitFun app server over stdio
+    /// Start the OPC-Team app server over stdio
     ///
     /// stdout carries JSON-RPC traffic only; logs are written to stderr.
     Server,
@@ -509,7 +509,7 @@ enum AcpAction {
         #[arg(long, default_value = "openbitfun")]
         command: String,
     },
-    /// Manage external ACP agents that OpenBitFun can launch
+    /// Manage external ACP agents that OPC-Team can launch
     Clients {
         #[command(subcommand)]
         action: AcpClientsAction,
@@ -686,7 +686,7 @@ enum ExternalConfigAction {
     },
     /// Remove this project's overrides and inherit global settings
     ResetProject,
-    /// Back up and reset a policy written by an incompatible OpenBitFun version
+    /// Back up and reset a policy written by an incompatible OPC-Team version
     ResetIncompatible,
 }
 
@@ -1249,7 +1249,7 @@ async fn run_cli() -> Result<()> {
     let raw_args = std::env::args_os().collect::<Vec<_>>();
     let product_binary_name = option_env!("OPENBITFUN_PRODUCT_BINARY_NAME").unwrap_or("openbitfun");
     let product_display_name =
-        option_env!("OPENBITFUN_PRODUCT_DISPLAY_NAME").unwrap_or("OpenBitFun CLI");
+        option_env!("OPENBITFUN_PRODUCT_DISPLAY_NAME").unwrap_or("OPC-Team CLI");
     let parsed = Cli::command()
         .name(product_binary_name)
         .bin_name(product_binary_name)

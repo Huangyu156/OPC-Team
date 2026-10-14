@@ -1,10 +1,10 @@
-# OpenBitFun 简体中文语言包
+# OPC-Team 简体中文语言包
 # Chinese Simplified (zh-CN) Fluent Translation File
 
 # ==================== 通用 ====================
 app-version = 版本 { $version }
 loading = 加载中...
-welcome = 欢迎使用 OpenBitFun
+welcome = 欢迎使用 OPC-Team
 
 # ==================== 操作 ====================
 action-confirm = 确认

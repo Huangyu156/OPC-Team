@@ -49,7 +49,7 @@ fn spawn_detached_action(action: &str, job_id: &str, description: &str) -> Resul
         bail!("dispatch detached workers are supported only on Linux and macOS");
     }
 
-    let executable = std::env::current_exe().context("resolve OpenBitFun executable")?;
+    let executable = std::env::current_exe().context("resolve OPC-Team executable")?;
     let mut command = openbitfun_services_core::process_manager::create_command(executable);
     command
         .arg("dispatch")
@@ -521,7 +521,7 @@ mod tests {
                  wait",
             )
             // These trailing arguments make the real process identity match
-            // the hidden worker contract without launching OpenBitFun Runtime.
+            // the hidden worker contract without launching OPC-Team Runtime.
             .args(["dispatch", "__run", "--job", job_id])
             .env("OPENBITFUN_DISPATCH_TERM_TEST_READY", &ready_path)
             .stdin(Stdio::null())

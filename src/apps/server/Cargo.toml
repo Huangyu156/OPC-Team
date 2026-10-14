@@ -3,7 +3,7 @@ name = "openbitfun-server"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun Server - Web-based AI Code Assistant"
+description = "OPC-Team Server - Web-based AI Code Assistant"
 
 [[bin]]
 name = "openbitfun-server"

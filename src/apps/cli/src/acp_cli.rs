@@ -85,9 +85,9 @@ impl CliAcpPermissionMode {
 pub(crate) fn print_status(command: &str) -> Result<()> {
     let cwd = std::env::current_dir().context("Failed to resolve current directory")?;
     let config_dir =
-        CliConfig::config_dir().context("Failed to resolve OpenBitFun config directory")?;
+        CliConfig::config_dir().context("Failed to resolve OPC-Team config directory")?;
 
-    println!("OpenBitFun ACP");
+    println!("OPC-Team ACP");
     println!("Status: available");
     println!("Protocol: Agent Client Protocol v1 over stdio");
     println!("Server command: {}", shell_command(command));
@@ -115,7 +115,7 @@ pub(crate) async fn print_doctor(command: &str) -> Result<bool> {
     ));
 
     checks.push(check_result(
-        "OpenBitFun config directory",
+        "OPC-Team config directory",
         CliConfig::config_dir()
             .map(|path| path.display().to_string())
             .map_err(|error| error.to_string()),
@@ -155,7 +155,7 @@ pub(crate) async fn print_doctor(command: &str) -> Result<bool> {
     };
     checks.push(ai_check);
 
-    println!("OpenBitFun ACP doctor");
+    println!("OPC-Team ACP doctor");
     println!();
 
     let mut has_error = false;
@@ -204,8 +204,8 @@ pub(crate) fn acp_help_text(command: &str) -> String {
         "\
 Agent Client Protocol (ACP)\n\
 ─────────────────────────────────\n\
-OpenBitFun exposes its agent runtime as an ACP server over stdio.\n\
-OpenBitFun CLI can also launch external ACP agents such as opencode, Claude Code, and Codex.\n\
+OPC-Team exposes its agent runtime as an ACP server over stdio.\n\
+OPC-Team CLI can also launch external ACP agents such as opencode, Claude Code, and Codex.\n\
 \n\
 Use this from an ACP-compatible editor or host:\n\
   {command} acp\n\
@@ -222,7 +222,7 @@ Human-facing helper commands:\n\
 Notes:\n\
 - The plain `acp` command reserves stdout for JSON-RPC protocol traffic.\n\
 - Logs for the ACP server are written to stderr.\n\
-- Run the command from the project directory you want OpenBitFun to operate on.",
+- Run the command from the project directory you want OPC-Team to operate on.",
         command = command
     )
 }
@@ -591,7 +591,7 @@ fn print_zed_config(command: &str) -> Result<()> {
     println!();
     let snippet = json!({
         "agent_servers": {
-            "OpenBitFun": {
+            "OPC-Team": {
                 "command": command,
                 "args": ["acp"]
             }
@@ -616,7 +616,7 @@ fn print_generic_config(command: &str) -> Result<()> {
     println!();
     println!("JSON shape:");
     let snippet = json!({
-        "name": "OpenBitFun",
+        "name": "OPC-Team",
         "transport": "stdio",
         "command": command,
         "args": ["acp"]

@@ -1871,7 +1871,7 @@ impl ComputerUseTool {
 
         let host = context.computer_use_host.as_ref().ok_or_else(|| {
             OpenBitFunError::tool(
-                "Computer use is only available in the OpenBitFun desktop app.".to_string(),
+                "Computer use is only available in the OPC-Team desktop app.".to_string(),
             )
         })?;
 

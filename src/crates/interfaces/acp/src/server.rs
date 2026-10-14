@@ -69,7 +69,7 @@ pub trait AcpRuntime: Send + Sync + 'static {
     }
 }
 
-/// Typed ACP server backed by an injected OpenBitFun runtime.
+/// Typed ACP server backed by an injected OPC-Team runtime.
 pub struct AcpServer<R> {
     runtime: Arc<R>,
 }

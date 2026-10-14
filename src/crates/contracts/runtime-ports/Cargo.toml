@@ -3,7 +3,7 @@ name = "openbitfun-runtime-ports"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Thin runtime ports for OpenBitFun core decomposition"
+description = "Thin runtime ports for OPC-Team core decomposition"
 autotests = false
 
 [lib]

@@ -1,4 +1,4 @@
-//! SSH transport for persistent OpenBitFun dispatch jobs.
+//! SSH transport for persistent OPC-Team dispatch jobs.
 //!
 //! The target-side runner is the `openbitfun dispatch` CLI surface. This module is
 //! deliberately only a controller transport: the remote CLI owns jobs,
@@ -312,7 +312,7 @@ pub async fn probe(
                 Ok(release) => (
                     None,
                     Some(format!(
-                        "published OpenBitFun CLI {} does not carry the dispatch capabilities this controller requires",
+                        "published OPC-Team CLI {} does not carry the dispatch capabilities this controller requires",
                         release.public.version
                     )),
                 ),
@@ -355,7 +355,7 @@ impl PrebuiltIncompatibility {
     fn describe(&self) -> String {
         match self {
             Self::UnsupportedPlatform { os, arch } => format!(
-                "OpenBitFun publishes no CLI binary for {os} {arch}"
+                "OPC-Team publishes no CLI binary for {os} {arch}"
             ),
             Self::MuslLibc => format!(
                 "target uses musl libc; published binaries are linked against glibc {GLIBC_FLOOR} or newer"
@@ -419,7 +419,7 @@ fn compare_versions(left: &str, right: &str) -> std::cmp::Ordering {
 /// Whether a published artifact is expected to implement the controller's
 /// required protocol.
 ///
-/// OpenBitFun starts at 1.0.0. No OpenBitFun 0.x artifact is a compatible install
+/// OPC-Team starts at 1.0.0. No OPC-Team 0.x artifact is a compatible install
 /// candidate, even if it was built from a checkout that happened to carry a
 /// similar dispatch surface.
 fn published_release_supports_required_dispatch_protocol(version: &str) -> bool {
@@ -508,11 +508,11 @@ pub fn validate_dispatch_protocol(protocol: &Value, approval_policy: Option<&str
     Ok(())
 }
 
-/// Explicitly install the latest confirmed OpenBitFun CLI release on the SSH target.
+/// Explicitly install the latest confirmed OPC-Team CLI release on the SSH target.
 ///
 /// This function fails closed when the build has no release trust root, a
 /// checksum/signature is absent, or either verification fails. It never uses
-/// sudo and writes only below `~/.local/bin` and `~/.openbitfun`.
+/// sudo and writes only below `~/.local/bin` and `~/.opcteam`.
 pub async fn install_cli_start(
     manager: &SSHConnectionManager,
     connection_id: &str,
@@ -528,7 +528,7 @@ pub async fn install_cli_start(
     let release = resolve_release(&target.os, &target.arch).await?;
     if !published_release_supports_required_dispatch_protocol(&release.public.version) {
         return Err(anyhow!(
-            "published OpenBitFun CLI {} does not contain the dispatch capabilities required by this controller",
+            "published OPC-Team CLI {} does not contain the dispatch capabilities required by this controller",
             release.public.version
         ));
     }
@@ -539,7 +539,7 @@ pub async fn install_cli_start(
     // may still be reading the archive or paths this attempt would replace.
     install_cli_cancel(manager, connection_id)
         .await
-        .context("stop an earlier OpenBitFun CLI installation")?;
+        .context("stop an earlier OPC-Team CLI installation")?;
 
     let dir = product_data_path(&target.home, &["dispatch", "install"]);
     let archive_path = format!("{dir}/{}", release.filename);
@@ -593,12 +593,12 @@ pub async fn install_cli_start(
     ));
     let driver = to_unix_script(&install_driver_script(&dir, &body_path, &install_token));
     if let ArchiveSource::ControllerPush { reason } = &archive_source {
-        log::info!("OpenBitFun CLI dispatch install is pushing the archive over SFTP: {reason}");
+        log::info!("OPC-Team CLI dispatch install is pushing the archive over SFTP: {reason}");
         let archive = download_verified_archive(&release).await?;
         manager
             .sftp_write(connection_id, &archive_path, &archive)
             .await
-            .context("stage verified OpenBitFun CLI archive")?;
+            .context("stage verified OPC-Team CLI archive")?;
     }
     stage_and_launch_installer(
         manager,
@@ -702,10 +702,10 @@ async fn download_archive_on_target(
             },
         )
         .await?;
-    ensure_command_completed(&result, "download OpenBitFun CLI release on the target")?;
+    ensure_command_completed(&result, "download OPC-Team CLI release on the target")?;
     if result.exit_code != 0 {
         return Err(remote_command_error(
-            "download OpenBitFun CLI release on the target",
+            "download OPC-Team CLI release on the target",
             result.exit_code,
             &result.stdout,
             &result.stderr,
@@ -786,7 +786,7 @@ case "$GITHUB_SPEED" in ''|*[!0-9]*) GITHUB_SPEED=0 ;; esac
 FIRST_URL="$GITHUB_URL"
 SECOND_URL="$MIRROR_URL"
 if [ -n "$MIRROR_URL" ] && [ "$GITHUB_SPEED" -lt {healthy_bps} ]; then
-  echo "GitHub CLI probe: $((GITHUB_SPEED / 1024)) KiB/s; trying OpenBitFun mirror first."
+  echo "GitHub CLI probe: $((GITHUB_SPEED / 1024)) KiB/s; trying OPC-Team mirror first."
   FIRST_URL="$MIRROR_URL"
   SECOND_URL="$GITHUB_URL"
 else
@@ -796,7 +796,7 @@ INSTALLED=0
 for URL in "$FIRST_URL" "$SECOND_URL"; do
   [ -n "$URL" ] || continue
   rm -f "$PART"
-  echo "Downloading OpenBitFun CLI from $URL"
+  echo "Downloading OPC-Team CLI from $URL"
   if {fetch}; then
     SIZE=$(wc -c <"$PART" | tr -d '[:space:]')
     if [ "$SIZE" -le "$MAX" ] && printf '%s  %s\n' "$EXPECTED" "$PART" | {verify}; then
@@ -807,7 +807,7 @@ for URL in "$FIRST_URL" "$SECOND_URL"; do
   fi
   echo "Download source failed verification; trying the next source." >&2
 done
-[ "$INSTALLED" = "1" ] || {{ echo "ERROR: every OpenBitFun CLI source failed" >&2; exit 1; }}
+[ "$INSTALLED" = "1" ] || {{ echo "ERROR: every OPC-Team CLI source failed" >&2; exit 1; }}
 chmod 600 "$ARCHIVE"
 trap - EXIT
 "#,
@@ -839,11 +839,11 @@ async fn stage_and_launch_installer(
     manager
         .sftp_write(connection_id, body_path, body.as_bytes())
         .await
-        .context("stage OpenBitFun CLI install body")?;
+        .context("stage OPC-Team CLI install body")?;
     manager
         .sftp_write(connection_id, script_path, driver.as_bytes())
         .await
-        .context("stage OpenBitFun CLI install driver")?;
+        .context("stage OPC-Team CLI install driver")?;
 
     exec_ok(
         manager,
@@ -887,7 +887,7 @@ async fn stage_and_launch_installer(
         Ok(channel) => channel,
         Err(error) => {
             let _ = install_cli_cancel(manager, connection_id).await;
-            return Err(error).context("start remote OpenBitFun CLI installer");
+            return Err(error).context("start remote OPC-Team CLI installer");
         }
     };
     tokio::spawn(async move {
@@ -903,7 +903,7 @@ fn ensure_confirmed_release(
 ) -> Result<()> {
     if resolved != expected {
         return Err(anyhow!(
-            "OpenBitFun CLI release metadata changed after confirmation; probe the target and confirm the new asset"
+            "OPC-Team CLI release metadata changed after confirmation; probe the target and confirm the new asset"
         ));
     }
     Ok(())
@@ -964,7 +964,7 @@ pub async fn install_cli_poll(
     };
     let mut output = output.to_string();
     if status == DispatchInstallStatus::Failed && exit_code == Some(130) && output.is_empty() {
-        output.push_str("OpenBitFun CLI installation was cancelled.\n");
+        output.push_str("OPC-Team CLI installation was cancelled.\n");
     }
     Ok(DispatchInstallPoll {
         cursor: size,
@@ -1020,17 +1020,17 @@ pub async fn account_daemon_identity(
             },
         )
         .await?;
-    ensure_command_completed(&result, "read OpenBitFun daemon target identity")?;
+    ensure_command_completed(&result, "read OPC-Team daemon target identity")?;
     if result.exit_code != 0 {
         return Err(remote_command_error(
-            "read OpenBitFun daemon target identity",
+            "read OPC-Team daemon target identity",
             result.exit_code,
             &result.stdout,
             &result.stderr,
         ));
     }
     let identity: DispatchAccountDaemonIdentity = serde_json::from_str(result.stdout.trim())
-        .context("OpenBitFun daemon target returned an invalid identity")?;
+        .context("OPC-Team daemon target returned an invalid identity")?;
     if identity.device_id.len() != 32
         || !identity
             .device_id
@@ -1041,7 +1041,7 @@ pub async fn account_daemon_identity(
         || identity.device_name.chars().any(char::is_control)
     {
         return Err(anyhow!(
-            "OpenBitFun daemon target returned an unsafe identity"
+            "OPC-Team daemon target returned an unsafe identity"
         ));
     }
     Ok(identity)
@@ -1110,10 +1110,10 @@ pub async fn provision_account_daemon(
         .await;
     let _ = manager.sftp_remove(connection_id, &request_path).await;
     let result = result?;
-    ensure_command_completed(&result, "provision persistent OpenBitFun daemon")?;
+    ensure_command_completed(&result, "provision persistent OPC-Team daemon")?;
     if result.exit_code != 0 {
         return Err(remote_command_error(
-            "provision persistent OpenBitFun daemon",
+            "provision persistent OPC-Team daemon",
             result.exit_code,
             &result.stdout,
             &result.stderr,
@@ -1121,10 +1121,10 @@ pub async fn provision_account_daemon(
     }
     let response: DispatchAccountDaemonProvisionResponse =
         serde_json::from_str(result.stdout.trim())
-            .context("OpenBitFun daemon provisioning returned invalid JSON")?;
+            .context("OPC-Team daemon provisioning returned invalid JSON")?;
     if response.device_id != request.device_id || !response.service_installed {
         return Err(anyhow!(
-            "OpenBitFun daemon provisioning returned an inconsistent result"
+            "OPC-Team daemon provisioning returned an inconsistent result"
         ));
     }
     Ok(response)
@@ -1155,10 +1155,10 @@ pub async fn deprovision_account_daemon(
             },
         )
         .await?;
-    ensure_command_completed(&result, "roll back OpenBitFun daemon provisioning")?;
+    ensure_command_completed(&result, "roll back OPC-Team daemon provisioning")?;
     if result.exit_code != 0 {
         return Err(remote_command_error(
-            "roll back OpenBitFun daemon provisioning",
+            "roll back OPC-Team daemon provisioning",
             result.exit_code,
             &result.stdout,
             &result.stderr,
@@ -1176,7 +1176,7 @@ async fn account_daemon_cli_path(
     let protocol = probed
         .protocol
         .as_ref()
-        .ok_or_else(|| anyhow!("the SSH target has no compatible OpenBitFun dispatch protocol"))?;
+        .ok_or_else(|| anyhow!("the SSH target has no compatible OPC-Team dispatch protocol"))?;
     validate_dispatch_protocol(protocol, None)?;
     let supports_provisioning = protocol
         .get("capabilities")
@@ -1188,12 +1188,12 @@ async fn account_daemon_cli_path(
         });
     if !supports_provisioning {
         return Err(anyhow!(
-            "the target OpenBitFun CLI does not support account daemon provisioning"
+            "the target OPC-Team CLI does not support account daemon provisioning"
         ));
     }
     probed
         .cli_path
-        .ok_or_else(|| anyhow!("the SSH target has no OpenBitFun CLI"))
+        .ok_or_else(|| anyhow!("the SSH target has no OPC-Team CLI"))
 }
 
 /// Keys of the `ai` config section that make up "model configuration": the
@@ -1218,7 +1218,7 @@ pub async fn sync_model_config(
     let payload = validate_model_config_payload(ai_model_config)?;
     ensure_plain_ssh_target(manager, connection_id).await?;
 
-    let locate = exec_lines(manager, connection_id, locate_target_config_script()).await?;
+    let locate = exec_lines(manager, connection_id, &locate_target_config_script()).await?;
     let get = |key: &str| {
         locate
             .lines()
@@ -1238,7 +1238,7 @@ pub async fn sync_model_config(
     let config_dir = get("dir");
     if config_dir.is_empty() {
         return Err(anyhow!(
-            "could not resolve the target OpenBitFun config directory"
+            "could not resolve the target OPC-Team config directory"
         ));
     }
     let config_path = format!("{config_dir}/app.json");
@@ -1333,20 +1333,30 @@ fn merge_model_config(
     serde_json::to_string_pretty(&root).context("encode merged target app.json")
 }
 
-/// Where the target CLI reads its global config from, mirroring the
-/// `dirs::config_dir()` resolution inside the CLI itself.
-fn locate_target_config_script() -> &'static str {
-    r#"
+/// Where the target CLI reads its global config from, mirroring the CLI's own
+/// `dirs::config_dir()/<data namespace>/config` resolution.
+///
+/// The namespace comes from `product_identity::data_namespace()` instead of
+/// being spelled out in the script: the target CLI resolves its config through
+/// the same product identity, and a dispatch target that reports a different
+/// namespace is refused as incompatible. A hardcoded product directory made the
+/// sync read and write a path the target never consults.
+fn locate_target_config_script() -> String {
+    let namespace = shell_quote_posix(openbitfun_services_core::product_identity::data_namespace());
+    format!(
+        r#"
 LC_ALL=C
+NAMESPACE={namespace}
 case "$(uname -s 2>/dev/null)" in
-  Darwin) CONFIG_DIR="$HOME/Library/Application Support/openbitfun/config" ;;
-  Linux) CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}/openbitfun/config" ;;
+  Darwin) CONFIG_DIR="$HOME/Library/Application Support/$NAMESPACE/config" ;;
+  Linux) CONFIG_DIR="${{XDG_CONFIG_HOME:-$HOME/.config}}/$NAMESPACE/config" ;;
   *) printf 'os=unsupported\n'; exit 0 ;;
 esac
 printf 'os=supported\n'
 printf 'dir=%s\n' "$CONFIG_DIR"
 if [ -f "$CONFIG_DIR/app.json" ]; then printf 'config=1\n'; else printf 'config=0\n'; fi
 "#
+    )
 }
 
 async fn exec_lines(
@@ -1457,7 +1467,7 @@ pub async fn sync_workspace(
     ensure_plain_ssh_target(manager, connection_id).await?;
     let target = probe_remote_target(manager, connection_id).await?;
     let cli_path = target.cli_path.as_deref().ok_or_else(|| {
-        anyhow!("OpenBitFun CLI is not installed on the SSH target; install it before syncing")
+        anyhow!("OPC-Team CLI is not installed on the SSH target; install it before syncing")
     })?;
 
     // A clean incremental sync has `headCommit == knownHead`. Without an
@@ -1697,7 +1707,7 @@ async fn invoke_workspace_operation(
     ensure_plain_ssh_target(manager, connection_id).await?;
     let target = probe_remote_target(manager, connection_id).await?;
     let cli_path = target.cli_path.as_deref().ok_or_else(|| {
-        anyhow!("OpenBitFun CLI is not installed on the SSH target; install it before dispatching")
+        anyhow!("OPC-Team CLI is not installed on the SSH target; install it before dispatching")
     })?;
     let deadline = tokio::time::Instant::now() + WORKSPACE_OPERATION_WAIT;
     loop {
@@ -1739,7 +1749,7 @@ pub async fn upload_bundle(
     ensure_plain_ssh_target(manager, connection_id).await?;
     let target = probe_remote_target(manager, connection_id).await?;
     let cli_path = target.cli_path.as_deref().ok_or_else(|| {
-        anyhow!("OpenBitFun CLI is not installed on the SSH target; install it before dispatching")
+        anyhow!("OPC-Team CLI is not installed on the SSH target; install it before dispatching")
     })?;
 
     let begin = invoke_json_at_path(
@@ -1865,16 +1875,16 @@ where
                 .install_error
                 .as_deref()
                 .or(probed.protocol_error.as_deref())
-                .unwrap_or("this SSH target cannot run the OpenBitFun CLI")
+                .unwrap_or("this SSH target cannot run the OPC-Team CLI")
         ));
     }
     if let Some(reason) = probed.prebuilt_incompatible.as_deref() {
         return Err(anyhow!(
-            "no published OpenBitFun CLI can run on this target ({reason}); install OpenBitFun there manually and retry"
+            "no published OPC-Team CLI can run on this target ({reason}); install OPC-Team there manually and retry"
         ));
     }
     let release = probed.release.clone().ok_or_else(|| {
-        anyhow!("could not resolve an OpenBitFun CLI release for this target's platform")
+        anyhow!("could not resolve an OPC-Team CLI release for this target's platform")
     })?;
 
     progress(
@@ -1887,7 +1897,7 @@ where
             "reason": probed
                 .protocol_error
                 .clone()
-                .unwrap_or_else(|| "the target has no compatible OpenBitFun CLI".to_string()),
+                .unwrap_or_else(|| "the target has no compatible OPC-Team CLI".to_string()),
         }),
     )
     .await
@@ -1912,7 +1922,7 @@ where
             DispatchInstallStatus::Succeeded => break,
             DispatchInstallStatus::Failed => {
                 let error = anyhow!(
-                    "OpenBitFun CLI installation failed on the SSH target: {}",
+                    "OPC-Team CLI installation failed on the SSH target: {}",
                     bounded_detail(&poll.output)
                 );
                 emit_cli_install_failure(&mut progress, "install-status", &error).await?;
@@ -1923,7 +1933,7 @@ where
         if tokio::time::Instant::now() >= deadline {
             let _ = install_cli_cancel(manager, connection_id).await;
             let error = anyhow!(
-                "OpenBitFun CLI installation did not finish within {} minutes",
+                "OPC-Team CLI installation did not finish within {} minutes",
                 CLI_INSTALL_WAIT.as_secs() / 60
             );
             emit_cli_install_failure(&mut progress, "install-timeout", &error).await?;
@@ -1945,7 +1955,7 @@ where
             let error = anyhow!(
                 "{}",
                 reprobed.protocol_error.as_deref().unwrap_or(
-                    "the installed OpenBitFun CLI still does not answer the dispatch protocol"
+                    "the installed OPC-Team CLI still does not answer the dispatch protocol"
                 )
             );
             emit_cli_install_failure(&mut progress, "protocol-validation", &error).await?;
@@ -2014,7 +2024,7 @@ async fn invoke_json(
     ensure_plain_ssh_target(manager, connection_id).await?;
     let target = probe_remote_target(manager, connection_id).await?;
     let cli_path = target.cli_path.as_deref().ok_or_else(|| {
-        anyhow!("OpenBitFun CLI is not installed on the SSH target; confirm installation first")
+        anyhow!("OPC-Team CLI is not installed on the SSH target; confirm installation first")
     })?;
     invoke_json_at_path(
         manager,
@@ -2320,7 +2330,7 @@ async fn fetch_latest_release_version(client: &reqwest::Client) -> Result<String
         }
     }
     Err(anyhow!(
-        "could not resolve the latest OpenBitFun release: {}",
+        "could not resolve the latest OPC-Team release: {}",
         failures.join("; ")
     ))
 }
@@ -2391,7 +2401,7 @@ fn release_target(os: &str, arch: &str) -> Result<&'static str> {
         ("Darwin", "x86_64" | "amd64") => Ok("x86_64-apple-darwin"),
         ("Darwin", "aarch64" | "arm64") => Ok("aarch64-apple-darwin"),
         (os, arch) => Err(anyhow!(
-            "OpenBitFun SSH dispatch CLI install does not support {os} {arch}"
+            "OPC-Team SSH dispatch CLI install does not support {os} {arch}"
         )),
     }
 }
@@ -2404,7 +2414,7 @@ fn release_http_client() -> Result<reqwest::Client> {
         // still fail instead of hanging the installer forever.
         .read_timeout(Duration::from_secs(RELEASE_READ_TIMEOUT_SECONDS))
         .build()
-        .context("build OpenBitFun release HTTP client")
+        .context("build OPC-Team release HTTP client")
 }
 
 async fn fetch_required_text(client: &reqwest::Client, url: &str) -> Result<String> {
@@ -2504,7 +2514,7 @@ async fn download_verified_archive(release: &ResolvedRelease) -> Result<Vec<u8>>
     }
 
     Err(anyhow!(
-        "OpenBitFun CLI archive failed from every source: {}",
+        "OPC-Team CLI archive failed from every source: {}",
         failures.join("; ")
     ))
 }
@@ -2598,7 +2608,7 @@ async fn download_release_bytes(client: &reqwest::Client, url: &str) -> Result<V
         .is_some_and(|length| length > MAX_ARCHIVE_BYTES as u64)
     {
         return Err(anyhow!(
-            "OpenBitFun CLI archive exceeds the {} MB safety limit",
+            "OPC-Team CLI archive exceeds the {} MB safety limit",
             MAX_ARCHIVE_BYTES / (1024 * 1024)
         ));
     }
@@ -2616,7 +2626,7 @@ async fn download_release_bytes(client: &reqwest::Client, url: &str) -> Result<V
 fn extend_bounded_archive(archive: &mut Vec<u8>, chunk: &[u8], limit: usize) -> Result<()> {
     if archive.len().saturating_add(chunk.len()) > limit {
         return Err(anyhow!(
-            "OpenBitFun CLI archive exceeds the {} MB safety limit",
+            "OPC-Team CLI archive exceeds the {} MB safety limit",
             limit / (1024 * 1024)
         ));
     }
@@ -2697,28 +2707,28 @@ esac
 # anything is replaced — turns "install succeeded but the target is still
 # reported incompatible" into one honest error at the point of cause.
 if ! staged_dispatch="$("$NEW" dispatch --help 2>&1 >/dev/null)"; then
-  echo "ERROR: this OpenBitFun build does not provide dispatch support: $staged_dispatch" >&2
+  echo "ERROR: this OPC-Team build does not provide dispatch support: $staged_dispatch" >&2
   exit 1
 fi
 if ! staged_probe="$(printf '{{}}\n' | "$NEW" dispatch probe 2>/dev/null)"; then
-  echo "ERROR: staged OpenBitFun dispatch probe failed" >&2
+  echo "ERROR: staged OPC-Team dispatch probe failed" >&2
   exit 1
 fi
 case "$staged_probe" in
   *'"productId":"{product_id}",'*) ;;
-  *) echo "ERROR: staged OpenBitFun CLI returned the wrong product identity" >&2; exit 1 ;;
+  *) echo "ERROR: staged OPC-Team CLI returned the wrong product identity" >&2; exit 1 ;;
 esac
 case "$staged_probe" in
   *'"dataNamespace":"{data_namespace}",'*) ;;
-  *) echo "ERROR: staged OpenBitFun CLI returned the wrong data namespace" >&2; exit 1 ;;
+  *) echo "ERROR: staged OPC-Team CLI returned the wrong data namespace" >&2; exit 1 ;;
 esac
 case "$staged_probe" in
   *'"protocolVersion":{protocol_version},'*) ;;
-  *) echo "ERROR: staged OpenBitFun CLI returned an incompatible dispatch protocol" >&2; exit 1 ;;
+  *) echo "ERROR: staged OPC-Team CLI returned an incompatible dispatch protocol" >&2; exit 1 ;;
 esac
 case "$staged_probe" in
   *'"{worker_profile_capability}"'*) ;;
-  *) echo "ERROR: staged OpenBitFun CLI lacks safe dispatch worker profile selection" >&2; exit 1 ;;
+  *) echo "ERROR: staged OPC-Team CLI lacks safe dispatch worker profile selection" >&2; exit 1 ;;
 esac
 if [ -e "$TARGET" ]; then
   mv -f "$TARGET" "$BACKUP"
@@ -3038,7 +3048,7 @@ fi
 rm -f "$PIDF" "$DRIVER_PIDF" "$PREPF"
 if [ "$active" = "1" ]; then
   printf '130\n' >"$EXITF"
-  printf '\nOpenBitFun CLI installation cancelled by client.\n' >>"$LOG"
+  printf '\nOPC-Team CLI installation cancelled by client.\n' >>"$LOG"
 fi
 exit 0
 "#
@@ -3124,17 +3134,32 @@ fn bounded_detail(value: &str) -> String {
 mod tests {
     use super::*;
 
+    /// The target home every install fixture is built against.
+    const TEST_TARGET_HOME: &str = "/home/user";
+
+    /// The managed install directory the controller really uses. Fixtures must
+    /// be derived from the compiled product identity rather than restating a
+    /// literal, or they silently stop describing the shipped layout.
+    fn managed_install_dir() -> String {
+        product_data_path(TEST_TARGET_HOME, &["dispatch", "install"])
+    }
+
+    fn managed_install_path(name: &str) -> String {
+        format!("{}/{name}", managed_install_dir())
+    }
+
     #[test]
     fn generated_install_scripts_are_lf_only_and_never_use_sudo() {
+        let install_dir = managed_install_dir();
         let body = install_body_script(
-            "/home/user/.openbitfun/dispatch/install",
-            "/home/user/.openbitfun/dispatch/install/archive.tar.gz",
+            &install_dir,
+            &managed_install_path("archive.tar.gz"),
             "1.2.3",
             &ArchiveSource::TargetDownload,
         );
         let driver = install_driver_script(
-            "/home/user/.openbitfun/dispatch/install",
-            "/home/user/.openbitfun/dispatch/install/install-cli-body.sh",
+            &install_dir,
+            &managed_install_path("install-cli-body.sh"),
             "openbitfun-install-test-token",
         );
         for (name, script) in [("body", body), ("driver", driver)] {
@@ -3277,20 +3302,21 @@ mod tests {
     fn a_result_bundle_is_only_read_from_its_own_managed_directory() {
         // The path is chosen by the target, so a compromised or buggy one must
         // not be able to point this at an arbitrary file to exfiltrate.
-        assert!(validate_managed_result_path(
-            "/home/user",
-            "job-1",
-            "/home/user/.openbitfun/dispatch/workspaces/job-1/result.bundle"
-        )
-        .is_ok());
+        let job_dir = product_data_path(TEST_TARGET_HOME, &["dispatch", "workspaces", "job-1"]);
+        let managed = format!("{job_dir}/result.bundle");
+        assert!(validate_managed_result_path(TEST_TARGET_HOME, "job-1", &managed).is_ok());
+        let other_job = format!(
+            "{}/result.bundle",
+            product_data_path(TEST_TARGET_HOME, &["dispatch", "workspaces", "job-2"])
+        );
         for hostile in [
-            "/home/user/.ssh/id_ed25519",
-            "/home/user/.openbitfun/dispatch/workspaces/job-2/result.bundle",
-            "/home/user/.openbitfun/dispatch/workspaces/job-1/../../../.ssh/id_ed25519",
-            "/home/user/.openbitfun/dispatch/workspaces/job-1/current/secret",
+            "/home/user/.ssh/id_ed25519".to_string(),
+            other_job,
+            format!("{job_dir}/../../../.ssh/id_ed25519"),
+            format!("{job_dir}/current/secret"),
         ] {
             assert!(
-                validate_managed_result_path("/home/user", "job-1", hostile).is_err(),
+                validate_managed_result_path(TEST_TARGET_HOME, "job-1", &hostile).is_err(),
                 "must reject {hostile}"
             );
         }
@@ -3353,8 +3379,8 @@ mod tests {
     #[test]
     fn the_install_path_uses_the_shared_staging_and_commit_implementation() {
         let release = install_body_script(
-            "/home/user/.openbitfun/dispatch/install",
-            "/home/user/.openbitfun/dispatch/install/archive.tar.gz",
+            &managed_install_dir(),
+            &managed_install_path("archive.tar.gz"),
             "1.2.3",
             &ArchiveSource::TargetDownload,
         );
@@ -3384,7 +3410,7 @@ mod tests {
         );
         assert!(
             !release.contains("cargo build"),
-            "no install path may compile OpenBitFun on the target"
+            "no install path may compile OPC-Team on the target"
         );
     }
 
@@ -3392,11 +3418,11 @@ mod tests {
     fn release_compatibility_uses_capability_floor_not_installed_version() {
         assert!(
             !published_release_supports_required_dispatch_protocol("0.2.15"),
-            "OpenBitFun releases predate the OpenBitFun product contract"
+            "OPC-Team releases predate the OPC-Team product contract"
         );
         assert!(
             !published_release_supports_required_dispatch_protocol("0.2.16"),
-            "a previously compatible OpenBitFun release is not an OpenBitFun release"
+            "a previously compatible OPC-Team release is not an OPC-Team release"
         );
         assert!(!published_release_supports_required_dispatch_protocol(
             "0.3.0+build.1"
@@ -3598,8 +3624,8 @@ mod tests {
     #[test]
     fn install_body_stages_only_the_openbitfun_binary_under_its_real_name() {
         let body = install_body_script(
-            "/home/user/.openbitfun/dispatch/install",
-            "/home/user/.openbitfun/dispatch/install/archive.tar.gz",
+            &managed_install_dir(),
+            &managed_install_path("archive.tar.gz"),
             "1.2.3",
             &ArchiveSource::TargetDownload,
         );
@@ -3615,8 +3641,14 @@ mod tests {
             !body.contains("LEGACY_TARGET") && !body.contains("LEGACY_NEW"),
             "the installer must not publish a companion or compatibility entrypoint"
         );
-        assert!(body.contains(r#""productId":"openbitfun""#));
-        assert!(body.contains(r#""dataNamespace":"openbitfun""#));
+        assert!(body.contains(&format!(
+            r#""productId":"{}""#,
+            openbitfun_services_core::product_identity::product_id()
+        )));
+        assert!(body.contains(&format!(
+            r#""dataNamespace":"{}""#,
+            openbitfun_services_core::product_identity::data_namespace()
+        )));
     }
 
     fn dispatch_capable_binary(capabilities: &str) -> String {
@@ -3744,7 +3776,7 @@ mod tests {
 
         assert!(
             output.status.success(),
-            "install must succeed on a host with no pre-existing OpenBitFun CLI:\nstdout: {}\nstderr: {}",
+            "install must succeed on a host with no pre-existing OPC-Team CLI:\nstdout: {}\nstderr: {}",
             String::from_utf8_lossy(&output.stdout),
             String::from_utf8_lossy(&output.stderr)
         );
@@ -3776,20 +3808,20 @@ mod tests {
     fn generated_install_scripts_parse_as_bash() {
         for script in [
             install_body_script(
-                "/home/user/.openbitfun/dispatch/install",
-                "/home/user/.openbitfun/dispatch/install/archive.tar.gz",
+                &managed_install_dir(),
+                &managed_install_path("archive.tar.gz"),
                 "1.2.3",
                 &ArchiveSource::TargetDownload,
             ),
             install_driver_script(
-                "/home/user/.openbitfun/dispatch/install",
-                "/home/user/.openbitfun/dispatch/install/install-cli-body.sh",
+                &managed_install_dir(),
+                &managed_install_path("install-cli-body.sh"),
                 "openbitfun-install-test-token",
             ),
             target_download_script(
                 RemoteDownloader::Curl,
                 RemoteDigestTool::Sha256Sum,
-                "/home/user/.openbitfun/dispatch/install/archive.tar.gz",
+                &managed_install_path("archive.tar.gz"),
                 "https://example.invalid/archive.tar.gz",
                 "https://openbitfun.example.invalid/archive.tar.gz",
                 &"a".repeat(64),
@@ -3797,13 +3829,14 @@ mod tests {
             target_download_script(
                 RemoteDownloader::Wget,
                 RemoteDigestTool::Shasum,
-                "/home/user/.openbitfun/dispatch/install/archive.tar.gz",
+                &managed_install_path("archive.tar.gz"),
                 "https://example.invalid/archive.tar.gz",
                 "https://openbitfun.example.invalid/archive.tar.gz",
                 &"a".repeat(64),
             ),
             install_poll_script(17),
             install_cancel_script(),
+            locate_target_config_script(),
         ] {
             let output = std::process::Command::new("bash")
                 .args(["-n", "-c", &to_unix_script(&script)])
@@ -4050,6 +4083,22 @@ mod tests {
             vec![1, 2, 3, 4],
             "the over-limit chunk must never be buffered"
         );
+    }
+
+    #[test]
+    fn target_config_lookup_tracks_the_compiled_data_namespace() {
+        let script = locate_target_config_script();
+        let namespace = openbitfun_services_core::product_identity::data_namespace();
+
+        assert!(script.contains(&format!("NAMESPACE={}", shell_quote_posix(namespace))));
+        // Both platform branches must append the data namespace to the OS config
+        // root, exactly like the CLI's `dirs::config_dir()/<namespace>/config`.
+        assert!(script.contains("Application Support/$NAMESPACE/config"));
+        assert!(script.contains(r#"${XDG_CONFIG_HOME:-$HOME/.config}/$NAMESPACE/config"#));
+
+        // No product name may be spelled out: a hardcoded directory made the
+        // model-config sync read and write a path the target CLI never uses.
+        assert!(!script.contains("openbitfun"));
     }
 
     #[test]

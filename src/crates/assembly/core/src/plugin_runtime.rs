@@ -630,6 +630,13 @@ export const WorkspaceToolsPlugin: Plugin = async () => ({
 })
 "#;
 
+    /// Project plugin root exactly as the product resolves it through PathManager.
+    fn plugins_root(workspace: &std::path::Path) -> PathBuf {
+        workspace
+            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join("plugins")
+    }
+
     struct Fixture {
         _temp: tempfile::TempDir,
         workspace: PathBuf,
@@ -683,7 +690,7 @@ export const WorkspaceToolsPlugin: Plugin = async () => ({
             let temp = tempfile::tempdir().expect("tempdir");
             let workspace = temp.path().join("workspace");
             let user = temp.path().join("user");
-            let package = workspace.join(".openbitfun/plugins/acme.demo");
+            let package = plugins_root(&workspace).join("acme.demo");
             let source_path = package.join(files[0].0);
             fs::create_dir_all(user.join("plugins")).expect("create user plugins");
             let mut manifest_files = Vec::new();
@@ -714,7 +721,7 @@ export const WorkspaceToolsPlugin: Plugin = async () => ({
             let service = Arc::new(ManagedPluginSourceService::new(
                 user.join("plugins"),
                 user.clone(),
-                workspace.join(".openbitfun/plugins"),
+                plugins_root(&workspace),
                 workspace.clone(),
                 user.join("runtime/plugin-trust.json"),
             ));
@@ -814,13 +821,9 @@ export const WorkspaceToolsPlugin: Plugin = async () => ({
                 if package_id == "acme.demo"
         ));
         fixture.activate().await;
-        fs::remove_dir_all(fixture.workspace.join(".openbitfun/plugins"))
-            .expect("remove plugin root");
-        fs::write(
-            fixture.workspace.join(".openbitfun/plugins"),
-            "not a directory",
-        )
-        .expect("make plugin root unreadable");
+        fs::remove_dir_all(plugins_root(&fixture.workspace)).expect("remove plugin root");
+        fs::write(plugins_root(&fixture.workspace), "not a directory")
+            .expect("make plugin root unreadable");
 
         let cleared = deactivate_with_service(
             Arc::clone(&fixture.service),

@@ -67,7 +67,7 @@ impl Tool for PublishMiniAppTool {
     }
 
     async fn description(&self) -> OpenBitFunResult<String> {
-        Ok(r#"Submit an installed MiniApp to the OpenBitFun MiniApp market for human review.
+        Ok(r#"Submit an installed MiniApp to the OPC-Team MiniApp market for human review.
 
 Identify the app by `app_name` — the display name the user used (e.g. "循天问命"), matched against installed apps' manifest names in every locale — or by `app_id` if you already have one. Installed apps are resolved through the running MiniApp manager: do NOT search the filesystem for the app; if the name does not resolve, the error lists every installed app to pick from.
 
@@ -104,7 +104,7 @@ Publishing is an outward-facing action: only call this when the user explicitly 
                     "items": { "type": "string" },
                     "minItems": 1,
                     "maxItems": 5,
-                    "description": "1-5 absolute paths to PNG/JPEG/WebP marketplace images, each <= 5 MiB. A 16:9 composition works best (1920x1080 recommended, 2560x1440 max useful); the first image becomes the listing-card cover. Keep key content clear and away from the edges because the web market and OpenBitFun desktop client crop images to 16:9."
+                    "description": "1-5 absolute paths to PNG/JPEG/WebP marketplace images, each <= 5 MiB. A 16:9 composition works best (1920x1080 recommended, 2560x1440 max useful); the first image becomes the listing-card cover. Keep key content clear and away from the edges because the web market and OPC-Team desktop client crop images to 16:9."
                 },
                 "changelog": {
                     "type": "string",
@@ -268,7 +268,7 @@ Publishing is an outward-facing action: only call this when the user explicitly 
                 }
             });
             let message = format!(
-                "The user is not signed in to the MiniApp market. Show this GitHub authorization link to the user and ask them to open it in a browser: {authorization_url}\nOpenBitFun keeps polling in the background; after the user finishes authorizing, call PublishMiniApp again with the same arguments to continue publishing."
+                "The user is not signed in to the MiniApp market. Show this GitHub authorization link to the user and ask them to open it in a browser: {authorization_url}\nOPC-Team keeps polling in the background; after the user finishes authorizing, call PublishMiniApp again with the same arguments to continue publishing."
             );
             return Ok(vec![ToolResult::Result {
                 data: json!({

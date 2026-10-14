@@ -1426,7 +1426,7 @@ fn external_mcp_product_view_is_version_guarded_and_contains_only_disclosed_fiel
         candidates: vec![
             ExternalMcpConflictCandidate {
                 candidate_id: "native_mcp:github".to_string(),
-                display_name: "OpenBitFun: github".to_string(),
+                display_name: "OPC-Team: github".to_string(),
                 external: false,
                 source: None,
                 behavior_version: "native-v1".to_string(),

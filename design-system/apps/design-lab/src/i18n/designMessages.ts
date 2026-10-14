@@ -27,7 +27,7 @@ export const designEn = {
   "design.componentIndex": "Component index",
   "design.foundations": "Foundations",
   "design.brand": "Brand resources",
-  "design.intro": "Components, foundations, and brand assets for OpenBitFun.",
+  "design.intro": "Components, foundations, and brand assets for OPC-Team.",
   /* Brand line: the same English sentence in every locale, as on the reference product sites.
      It states the design stance (neutral, connected, intelligent) and what it is the stance of,
      so it is not translated. Short enough to hold two lines at every width. */
@@ -35,7 +35,7 @@ export const designEn = {
   /* The line under the brand line, in the same English in every locale: it explains the sentence
      above it (what the blocks are) and what this site is for, in the register the reference
      products use for the same job. */
-  "design.sloganSupport": "Tokens, components, and motion every OpenBitFun surface is assembled from. Neutral by default, connected across surfaces, live in this Lab.",
+  "design.sloganSupport": "Tokens, components, and motion every OPC-Team surface is assembled from. Neutral by default, connected across surfaces, live in this Lab.",
   /* Homepage product picture. The showcase frame repeats the product's own welcome screen, so its
      chrome labels stay English in every locale — the same rule as the brand line above. Sample data
      inside that frame (session and repository names, machine, version, model) is not copy: it lives
@@ -61,17 +61,17 @@ export const designEn = {
   /* The page closes on a footer built like the product site's own: the line under the wordmark,
      the columns, and the small print. Its copy is translated, unlike the picture above, because a
      reader of a translated catalog still expects a footer in their language. */
-  "design.homeFooter.pathsLabel": "OpenBitFun design system",
+  "design.homeFooter.pathsLabel": "OPC-Team design system",
   "design.homeFooter.tagline": "Built in the open.",
   "design.homeFooter.taglineAccent": "Moving forward together.",
-  "design.homeFooter.copyright": "© {year} OpenBitFun",
-  "design.homeFooter.contactLabel": "Contact OpenBitFun",
+  "design.homeFooter.copyright": "© {year} OPC-Team",
+  "design.homeFooter.contactLabel": "Contact OPC-Team",
   "design.homeFooter.contact": "hello@openbitfun.com",
   "design.homeFooter.openSource": "Open Source",
   "design.homeFooter.license": "MIT",
   /* The lockup is a way out of the Lab: it opens the product site in a new tab, so the label says
      both what it is and that focus will move to another tab. */
-  "design.homeFooter.siteLabel": "OpenBitFun website (opens in a new tab)",
+  "design.homeFooter.siteLabel": "OPC-Team website (opens in a new tab)",
   "design.componentsIntro": "Browse components and try their states and interactions.",
   "design.foundationsIntro": "Color, typography, spacing, shape, and motion.",
   "design.brandIntro": "Original artwork, characters, and brand motion.",
@@ -166,11 +166,11 @@ export const designZhCN = {
   "design.componentIndex": "组件索引",
   "design.foundations": "设计规范",
   "design.brand": "品牌资源",
-  "design.intro": "OpenBitFun 的组件、设计规范与品牌资源。",
+  "design.intro": "OPC-Team 的组件、设计规范与品牌资源。",
   /* Brand line; kept English in every locale on purpose. See designEn above. */
   "design.slogan": "Neutral, connected, intelligent AI Core Blocks.",
   /* Support line; kept English in every locale on purpose. See designEn above. */
-  "design.sloganSupport": "Tokens, components, and motion every OpenBitFun surface is assembled from. Neutral by default, connected across surfaces, live in this Lab.",
+  "design.sloganSupport": "Tokens, components, and motion every OPC-Team surface is assembled from. Neutral by default, connected across surfaces, live in this Lab.",
   /* Homepage product picture; kept English in every locale on purpose. See designEn above. */
   "design.homePreview.search": "Search",
   "design.homePreview.newSession": "New session",
@@ -191,15 +191,15 @@ export const designZhCN = {
   "design.homePreview.contextAsk": "Ask",
   "design.homePreview.mode": "Standard",
   /* Footer copy is translated; see designEn above. */
-  "design.homeFooter.pathsLabel": "OpenBitFun 设计系统",
+  "design.homeFooter.pathsLabel": "OPC-Team 设计系统",
   "design.homeFooter.tagline": "开放共建，",
   "design.homeFooter.taglineAccent": "一起向前。",
-  "design.homeFooter.copyright": "© {year} OpenBitFun",
-  "design.homeFooter.contactLabel": "联系 OpenBitFun",
+  "design.homeFooter.copyright": "© {year} OPC-Team",
+  "design.homeFooter.contactLabel": "联系 OPC-Team",
   "design.homeFooter.contact": "hello@openbitfun.com",
   "design.homeFooter.openSource": "开放源码",
   "design.homeFooter.license": "MIT",
-  "design.homeFooter.siteLabel": "访问 OpenBitFun 官网（在新标签页打开）",
+  "design.homeFooter.siteLabel": "访问 OPC-Team 官网（在新标签页打开）",
   "design.componentsIntro": "查看组件，体验状态与交互。",
   "design.foundationsIntro": "颜色、排版、间距、形态与动效。",
   "design.brandIntro": "原始标识、角色形象与品牌动效。",
@@ -245,7 +245,7 @@ export const designZhCN = {
   "design.tokenNote": "组件直接消费语义令牌与系统令牌。编辑草稿时，可在对应组件中查看影响。",
   "design.identity": "Logo 与品牌标识",
   "design.characters": "角色与 IP",
-  "design.identityNote": "从应用图标、透明标识、字标到动态表达，保持同一个 OpenBitFun。",
+  "design.identityNote": "从应用图标、透明标识、字标到动态表达，保持同一个 OPC-Team。",
   "design.charactersNote": "浏览完整角色家族，检查真实头像尺寸，探索已有的角色动作。",
   "design.silverMark": "银色标识",
   "design.lineMark": "轮廓标识",
@@ -295,11 +295,11 @@ export const designZhTW = {
   "design.componentIndex": "元件索引",
   "design.foundations": "設計規範",
   "design.brand": "品牌資源",
-  "design.intro": "OpenBitFun 的元件、設計規範與品牌資源。",
+  "design.intro": "OPC-Team 的元件、設計規範與品牌資源。",
   /* Brand line; kept English in every locale on purpose. See designEn above. */
   "design.slogan": "Neutral, connected, intelligent AI Core Blocks.",
   /* Support line; kept English in every locale on purpose. See designEn above. */
-  "design.sloganSupport": "Tokens, components, and motion every OpenBitFun surface is assembled from. Neutral by default, connected across surfaces, live in this Lab.",
+  "design.sloganSupport": "Tokens, components, and motion every OPC-Team surface is assembled from. Neutral by default, connected across surfaces, live in this Lab.",
   /* Homepage product picture; kept English in every locale on purpose. See designEn above. */
   "design.homePreview.search": "Search",
   "design.homePreview.newSession": "New session",
@@ -320,15 +320,15 @@ export const designZhTW = {
   "design.homePreview.contextAsk": "Ask",
   "design.homePreview.mode": "Standard",
   /* Footer copy is translated; see designEn above. */
-  "design.homeFooter.pathsLabel": "OpenBitFun 設計系統",
+  "design.homeFooter.pathsLabel": "OPC-Team 設計系統",
   "design.homeFooter.tagline": "開放共建，",
   "design.homeFooter.taglineAccent": "一起向前。",
-  "design.homeFooter.copyright": "© {year} OpenBitFun",
-  "design.homeFooter.contactLabel": "聯絡 OpenBitFun",
+  "design.homeFooter.copyright": "© {year} OPC-Team",
+  "design.homeFooter.contactLabel": "聯絡 OPC-Team",
   "design.homeFooter.contact": "hello@openbitfun.com",
   "design.homeFooter.openSource": "開放原始碼",
   "design.homeFooter.license": "MIT",
-  "design.homeFooter.siteLabel": "前往 OpenBitFun 官網（另開分頁）",
+  "design.homeFooter.siteLabel": "前往 OPC-Team 官網（另開分頁）",
   "design.componentsIntro": "查看元件，體驗狀態與互動。",
   "design.foundationsIntro": "色彩、排版、間距、形態與動效。",
   "design.brandIntro": "原始標誌、角色形象與品牌動效。",
@@ -355,7 +355,7 @@ export const designZhTW = {
   "design.accessibilityNote": "保留清晰的鍵盤焦點，為控制項提供無障礙名稱，同時用文字和色彩傳達狀態。檢查窄螢幕版面、觸控目標與高對比模式。",
   "design.tokenNote": "元件直接使用語意權杖與系統權杖。編輯草稿時，可在對應元件中查看影響。",
   "design.identity": "Logo 與品牌標誌", "design.characters": "角色與 IP",
-  "design.identityNote": "從應用程式圖示、透明標誌、字標到動態表達，保持同一個 OpenBitFun。",
+  "design.identityNote": "從應用程式圖示、透明標誌、字標到動態表達，保持同一個 OPC-Team。",
   "design.charactersNote": "瀏覽完整角色家族，檢查實際頭像尺寸，探索已有的角色動作。",
   "design.silverMark": "銀色標誌", "design.lineMark": "輪廓標誌", "design.appIcon": "應用程式圖示", "design.wordmark": "品牌字標",
   "design.aboutMotion": "品牌介紹動效", "design.voiceMotion": "語音粒子動效", "design.assetBackground": "預覽背景", "design.actualSize": "實際尺寸",

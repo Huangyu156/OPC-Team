@@ -3,6 +3,7 @@
  */
 
 import * as path from 'path';
+import * as fs from 'fs';
 import * as os from 'os';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
@@ -12,22 +13,44 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 /**
+ * Resolve the macOS `.app` bundle executable.
+ *
+ * Tauri names the bundle after `productName` (`OPC-Team.app`) while the
+ * executable inside it keeps `mainBinaryName` (`openbitfun-desktop`). Bundles
+ * built before the product rename still use the OpenBitFun names for both.
+ *
+ * `tauri build` writes the real bundle to `target/<profile>/bundle/macos`, so
+ * that layout comes first and the top-level `.app` layout stays as fallback.
+ */
+function getMacApplicationPath(): string {
+  const root = path.resolve(__dirname, '..', '..', '..', 'target', 'debug');
+  const candidates = [
+    path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
+    path.join(root, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+    path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
+    path.join(root, 'OpenBitFun.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+  ];
+
+  return candidates.find((candidate) => fs.existsSync(candidate)) ?? candidates[0];
+}
+
+/**
  * Get the debug application path for the current platform
  */
 export function getApplicationPath(): string {
   const isWindows = process.platform === 'win32';
   const isMac = process.platform === 'darwin';
-  
-  let appName: string;
-  
-  if (isWindows) {
-    appName = 'openbitfun-desktop.exe';
-  } else if (isMac) {
-    appName = 'OpenBitFun.app/Contents/MacOS/OpenBitFun';
-  } else {
-    appName = 'openbitfun-desktop';
+
+  if (isMac) {
+    return getMacApplicationPath();
   }
-  
+
+  const appName = isWindows ? 'openbitfun-desktop.exe' : 'openbitfun-desktop';
+
   return path.resolve(__dirname, '..', '..', '..', 'target', 'debug', appName);
 }
 

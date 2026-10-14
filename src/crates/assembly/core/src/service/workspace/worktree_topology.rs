@@ -272,10 +272,7 @@ mod tests {
     fn initialized_repository() -> tempfile::TempDir {
         let directory = tempfile::tempdir().expect("temporary repository should be created");
         git(directory.path(), &["init"]);
-        git(
-            directory.path(),
-            &["config", "user.name", "OpenBitFun Tests"],
-        );
+        git(directory.path(), &["config", "user.name", "OPC-Team Tests"]);
         git(
             directory.path(),
             &["config", "user.email", "openbitfun@example.com"],

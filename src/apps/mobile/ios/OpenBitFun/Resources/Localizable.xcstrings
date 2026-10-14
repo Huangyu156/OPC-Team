@@ -227,12 +227,12 @@
         }
       }
     },
-    "OpenBitFun iOS版": {
+    "OPC-Team iOS版": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun for iOS"
+            "value": "OPC-Team for iOS"
           }
         }
       }
@@ -687,12 +687,12 @@
         }
       }
     },
-    "向 OpenBitFun 提问": {
+    "向 OPC-Team 提问": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ask OpenBitFun"
+            "value": "Ask OPC-Team"
           }
         }
       }
@@ -2107,22 +2107,22 @@
         }
       }
     },
-    "这是 OpenBitFun 的移动端会话界面。你可以从手机连接桌面端，查看工作区、会话和智能体的执行状态。": {
+    "这是 OPC-Team 的移动端会话界面。你可以从手机连接桌面端，查看工作区、会话和智能体的执行状态。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This is the OpenBitFun mobile conversation UI. Connect to a desktop to view workspaces, sessions, and agent status."
+            "value": "This is the OPC-Team mobile conversation UI. Connect to a desktop to view workspaces, sessions, and agent status."
           }
         }
       }
     },
-    "这是 OpenBitFun 的远程会话预览。": {
+    "这是 OPC-Team 的远程会话预览。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This is a OpenBitFun remote session preview."
+            "value": "This is a OPC-Team remote session preview."
           }
         }
       }
@@ -2657,52 +2657,52 @@
         }
       }
     },
-    "在桌面端打开 OpenBitFun，然后进入远程连接。": {
+    "在桌面端打开 OPC-Team，然后进入远程连接。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open OpenBitFun on desktop, then go to Remote Connect."
+            "value": "Open OPC-Team on desktop, then go to Remote Connect."
           }
         }
       }
     },
-    "此桌面要求使用 OpenBitFun 账号验证身份。": {
+    "此桌面要求使用 OPC-Team 账号验证身份。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This desktop requires your OpenBitFun account to verify your identity."
+            "value": "This desktop requires your OPC-Team account to verify your identity."
           }
         }
       }
     },
-    "OpenBitFun 用户名": {
+    "OPC-Team 用户名": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun username"
+            "value": "OPC-Team username"
           }
         }
       }
     },
-    "OpenBitFun 密码": {
+    "OPC-Team 密码": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun password"
+            "value": "OPC-Team password"
           }
         }
       }
     },
-    "OpenBitFun 账号": {
+    "OPC-Team 账号": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun account"
+            "value": "OPC-Team account"
           }
         }
       }
@@ -2747,12 +2747,12 @@
         }
       }
     },
-    "告诉 OpenBitFun 要做什么": {
+    "告诉 OPC-Team 要做什么": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tell OpenBitFun what to do"
+            "value": "Tell OPC-Team what to do"
           }
         }
       }
@@ -2997,12 +2997,12 @@
         }
       }
     },
-    "问问 OpenBitFun": {
+    "问问 OPC-Team": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Ask OpenBitFun"
+            "value": "Ask OPC-Team"
           }
         }
       }
@@ -3067,12 +3067,12 @@
         }
       }
     },
-    "OpenBitFun": {
+    "OPC-Team": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun"
+            "value": "OPC-Team"
           }
         }
       }
@@ -3267,12 +3267,12 @@
         }
       }
     },
-    "连接桌面工作区后，OpenBitFun 才能读取项目文件、运行命令并修改代码。": {
+    "连接桌面工作区后，OPC-Team 才能读取项目文件、运行命令并修改代码。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Connect a desktop workspace before OpenBitFun can read project files, run commands, and change code."
+            "value": "Connect a desktop workspace before OPC-Team can read project files, run commands, and change code."
           }
         }
       }
@@ -3287,22 +3287,22 @@
         }
       }
     },
-    "OpenBitFun 已就绪": {
+    "OPC-Team 已就绪": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun is ready"
+            "value": "OPC-Team is ready"
           }
         }
       }
     },
-    "OpenBitFun 正在回复": {
+    "OPC-Team 正在回复": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun is answering"
+            "value": "OPC-Team is answering"
           }
         }
       }
@@ -3857,12 +3857,12 @@
         }
       }
     },
-    "OpenBitFun 远程": {
+    "OPC-Team 远程": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun Remote"
+            "value": "OPC-Team Remote"
           }
         }
       }
@@ -3877,12 +3877,12 @@
         }
       }
     },
-    "连接桌面端后，OpenBitFun 可以访问你的代码仓库、运行命令和修改文件。": {
+    "连接桌面端后，OPC-Team 可以访问你的代码仓库、运行命令和修改文件。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "After connecting the desktop, OpenBitFun can access your repositories, run commands, and edit files."
+            "value": "After connecting the desktop, OPC-Team can access your repositories, run commands, and edit files."
           }
         }
       }
@@ -4207,12 +4207,12 @@
         }
       }
     },
-    "OpenBitFun 用户": {
+    "OPC-Team 用户": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun user"
+            "value": "OPC-Team user"
           }
         }
       }
@@ -4577,12 +4577,12 @@
         }
       }
     },
-    "连接桌面端后，OpenBitFun 可以访问代码仓库、运行命令和处理本地开发任务。": {
+    "连接桌面端后，OPC-Team 可以访问代码仓库、运行命令和处理本地开发任务。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "After connecting the desktop, OpenBitFun can access repositories, run commands, and handle local development tasks."
+            "value": "After connecting the desktop, OPC-Team can access repositories, run commands, and handle local development tasks."
           }
         }
       }
@@ -4612,7 +4612,7 @@
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "The desktop is signed in to a OpenBitFun account. Verify the same account to continue."
+            "value": "The desktop is signed in to a OPC-Team account. Verify the same account to continue."
           }
         }
       }
@@ -5217,12 +5217,12 @@
         }
       }
     },
-    "告诉 OpenBitFun 要做什么...": {
+    "告诉 OPC-Team 要做什么...": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Tell OpenBitFun what to do..."
+            "value": "Tell OPC-Team what to do..."
           }
         }
       }
@@ -5607,32 +5607,32 @@
         }
       }
     },
-    "OpenBitFun 正在执行...": {
+    "OPC-Team 正在执行...": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun is working..."
+            "value": "OPC-Team is working..."
           }
         }
       }
     },
-    "OpenBitFun 正在处理...": {
+    "OPC-Team 正在处理...": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun is processing..."
+            "value": "OPC-Team is processing..."
           }
         }
       }
     },
-    "OpenBitFun 已更新会话": {
+    "OPC-Team 已更新会话": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "OpenBitFun updated the session"
+            "value": "OPC-Team updated the session"
           }
         }
       }
@@ -6437,12 +6437,12 @@
         }
       }
     },
-    "请输入 OpenBitFun 用户名。": {
+    "请输入 OPC-Team 用户名。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Enter a OpenBitFun username."
+            "value": "Enter a OPC-Team username."
           }
         }
       }
@@ -6607,12 +6607,12 @@
         }
       }
     },
-    "把这块手表加入你的 OpenBitFun 账号？": {
+    "把这块手表加入你的 OPC-Team 账号？": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Add this watch to your OpenBitFun account?"
+            "value": "Add this watch to your OPC-Team account?"
           }
         }
       }
@@ -6727,12 +6727,12 @@
         }
       }
     },
-    "%@ 已连接。你可以继续发送指令，桌面端会在 OpenBitFun 中执行。": {
+    "%@ 已连接。你可以继续发送指令，桌面端会在 OPC-Team 中执行。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "%@ is connected. You can keep sending instructions; the desktop will run them in OpenBitFun."
+            "value": "%@ is connected. You can keep sending instructions; the desktop will run them in OPC-Team."
           }
         }
       }
@@ -7115,28 +7115,28 @@
         }
       }
     },
-    "打开 OpenBitFun 授权": {
+    "打开 OPC-Team 授权": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open OpenBitFun authorization"
+            "value": "Open OPC-Team authorization"
           }
         }
       }
     },
-    "该设备已离线，或不属于当前 OpenBitFun 账户。": {
+    "该设备已离线，或不属于当前 OPC-Team 账户。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This device is offline or does not belong to your OpenBitFun account."
+            "value": "This device is offline or does not belong to your OPC-Team account."
           }
         },
         "zh-Hans": {
           "stringUnit": {
             "state": "translated",
-            "value": "该设备已离线，或不属于当前 OpenBitFun 账户。"
+            "value": "该设备已离线，或不属于当前 OPC-Team 账户。"
           }
         }
       }
@@ -7181,12 +7181,12 @@
         }
       }
     },
-    "打开 OpenBitFun 查看结果。": {
+    "打开 OPC-Team 查看结果。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Open OpenBitFun to view the result."
+            "value": "Open OPC-Team to view the result."
           }
         }
       }
@@ -7221,12 +7221,12 @@
         }
       }
     },
-    "允许 OpenBitFun 在任务完成时发送通知。你可以稍后在系统设置中更改。": {
+    "允许 OPC-Team 在任务完成时发送通知。你可以稍后在系统设置中更改。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "Allow OpenBitFun to notify you when tasks finish. You can change this later in system settings."
+            "value": "Allow OPC-Team to notify you when tasks finish. You can change this later in system settings."
           }
         }
       }
@@ -7563,12 +7563,12 @@
         }
       }
     },
-    "这是 OpenBitFun 的移动端会话界面。你可以从手机连接桌面端，查看工作区、会话和 Agent 的执行状态。": {
+    "这是 OPC-Team 的移动端会话界面。你可以从手机连接桌面端，查看工作区、会话和 Agent 的执行状态。": {
       "localizations": {
         "en": {
           "stringUnit": {
             "state": "translated",
-            "value": "This is the OpenBitFun mobile conversation UI. Connect to a desktop to view workspaces, sessions, and agent status."
+            "value": "This is the OPC-Team mobile conversation UI. Connect to a desktop to view workspaces, sessions, and agent status."
           }
         }
       }

@@ -242,7 +242,7 @@ impl Tool for LoadedExternalTool {
         .map_err(OpenBitFunError::tool)?
         {
             return Err(OpenBitFunError::tool(format!(
-                "external tool '{}' was disabled in another OpenBitFun process; refresh external tools before retrying",
+                "external tool '{}' was disabled in another OPC-Team process; refresh external tools before retrying",
                 self.name()
             )));
         }
@@ -725,7 +725,7 @@ impl Tool for ExternalToolMux {
             .map_err(OpenBitFunError::tool)?
             {
                 return Err(OpenBitFunError::tool(format!(
-                    "tool conflict choice for '{}' changed in another OpenBitFun process; refresh before retrying",
+                    "tool conflict choice for '{}' changed in another OPC-Team process; refresh before retrying",
                     self.name
                 )));
             }

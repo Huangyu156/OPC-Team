@@ -785,7 +785,7 @@ const AgentsHomeView: React.FC = () => {
         leading={(
           <AssistantAvatar
             presetId="claw"
-            name="OpenBitFun"
+            name="OPC-Team"
             size="lg"
           />
         )}

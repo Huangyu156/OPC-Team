@@ -1,4 +1,4 @@
-//! Device-pair message keys for GitHub-authenticated OpenBitFun Relay sessions.
+//! Device-pair message keys for GitHub-authenticated OPC-Team Relay sessions.
 //! Public keys come from the relay's same-account directory. Private keys are
 //! generated and retained by each device. The relay wire envelope is unchanged.
 
@@ -8,6 +8,8 @@ use hkdf::Hkdf;
 use sha2::Sha256;
 use x25519_dalek::{PublicKey, StaticSecret};
 
+// Frozen wire value: mobile and web clients derive the same key from this exact
+// string, so it must not follow the product rename.
 pub const KDF_SALT: &[u8] = b"OpenBitFun Relay v1.0.0 device key";
 
 pub fn generate_secret() -> [u8; 32] {
@@ -24,6 +26,7 @@ pub fn provisioning_secret(
     let mut secret = [0; 32];
     let info = format!("{device_id}:{request_id}");
     Hkdf::<Sha256>::new(
+        // Frozen wire value, for the same reason as KDF_SALT.
         Some(b"OpenBitFun device provisioning v1.0.0"),
         parent_secret,
     )

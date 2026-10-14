@@ -185,7 +185,7 @@ struct SidebarView: View {
 
     private var authenticatedHeader: some View {
         HStack(spacing: 6) {
-            Text(verbatim: "OpenBitFun")
+            Text(verbatim: "OPC-Team")
                 .font(.system(size: 20, weight: .medium))
                 .foregroundStyle(OpenBitFunTheme.sidebarInk)
             Spacer(minLength: 0)

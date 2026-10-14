@@ -1747,7 +1747,7 @@ impl AcpClientService {
         Child,
         StderrTail,
     )> {
-        // An agent whose runtime OpenBitFun ships (dsh) needs it in place before the
+        // An agent whose runtime OPC-Team ships (dsh) needs it in place before the
         // command runs, because the command's only job is to boot it.
         if let Some(profile) = builtin_acp_client_preset(client_id).and_then(|p| p.bundled_profile)
         {
@@ -1850,7 +1850,7 @@ impl AcpClientService {
             OpenBitFunError::service("SSH manager is not available for remote ACP".to_string())
         })?;
         // Same reason as `start_local_transport`: the command below only boots
-        // the runtime OpenBitFun ships, so it has to be on that host first.
+        // the runtime OPC-Team ships, so it has to be on that host first.
         if let Some(profile) = builtin_acp_client_preset(client_id).and_then(|p| p.bundled_profile)
         {
             ensure_bundled_profile_remote(

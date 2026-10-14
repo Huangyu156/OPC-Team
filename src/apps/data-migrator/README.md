@@ -1,9 +1,9 @@
-# OpenBitFun Data Migrator
+# OPC-Team Data Migrator
 
 [中文](README.zh-CN.md)
 
 A separate, optional desktop utility for importing old **BitFun** data into
-**OpenBitFun**.
+**OPC-Team**.
 
 ## Download and run
 
@@ -20,18 +20,18 @@ Windows needs the Microsoft Edge WebView2 runtime. macOS uses the system WebView
 Linux packages are built on Ubuntu 22.04. No login or network connection is
 needed for migration. ARM Windows/Linux packages are not currently produced.
 
-1. Close BitFun, OpenBitFun, their CLI instances, and background data writers.
+1. Close BitFun, OPC-Team, their CLI instances, and background data writers.
 2. Open Data Migrator. Check the **source and destination** directories.
 3. Select the data groups, scan, then run the preflight plan.
 4. Review the destination, scope, and conflicts, then start migration. If known writers
    remain open, the tool waits for them to stop; it does not terminate them.
 5. Read the report. Sign in again or repair paths where indicated, close the
-   tool, and open OpenBitFun yourself.
+   tool, and open OPC-Team yourself.
 
 ## Data and compatibility
 
 Supported sources are **stable BitFun releases 0.2.17–0.2.19**, targeting
-**OpenBitFun 1.0**. Direct migration from 0.2.16 or earlier is not supported;
+**OPC-Team 1.0**. Direct migration from 0.2.16 or earlier is not supported;
 upgrade BitFun first, launch it, and verify that your existing data is accessible.
 
 Scanning isolates errors in individual sessions, runtime event logs, Skills,
@@ -43,7 +43,7 @@ If a domain fails during execution, it is rolled back before independent domains
 continue. Execution stops if rollback cannot complete safely. Review warnings
 and the migration report before retrying.
 
-The destination is OpenBitFun: configuration schema **1**, workspace registry
+The destination is OPC-Team: configuration schema **1**, workspace registry
 format **1**, coordination database schema **2**, and the session, memory,
 extension, and connection formats accepted by the shared storage owners in
 this source revision. Unknown product/configuration schemas and newer SQLite
@@ -94,15 +94,15 @@ importing stored connection records does not connect to or migrate a remote host
 
 **Migration finishes, but workspaces or sessions are empty, or some data is missing**
 
-If you have already launched OpenBitFun or run a migration, existing destination data may take precedence and remain unchanged during retries.
+If you have already launched OPC-Team or run a migration, existing destination data may take precedence and remain unchanged during retries.
 
-If OpenBitFun contains no new data you need to keep, you can clear its destination data and retry:
+If OPC-Team contains no new data you need to keep, you can clear its destination data and retry:
 
-1. Fully quit BitFun, OpenBitFun, their CLI/background writers, and other migrator instances.
-2. Open Data Migrator and check the destination locations. Under **Reset OpenBitFun data**, select **Review reset directories**.
-3. Save any data and migration logs/backups you need from the listed directories. **Reset permanently removes all their contents, including existing OpenBitFun settings, credentials, assistant workspaces, and sessions.** It does not create a backup.
-4. Type `RESET`, then select **Permanently reset OpenBitFun data**. If a directory cannot be fully removed, close applications using it and retry before migrating.
-5. Scan again and start a new migration. Launch OpenBitFun after migration finishes.
+1. Fully quit BitFun, OPC-Team, their CLI/background writers, and other migrator instances.
+2. Open Data Migrator and check the destination locations. Under **Reset OPC-Team data**, select **Review reset directories**.
+3. Save any data and migration logs/backups you need from the listed directories. **Reset permanently removes all their contents, including existing OPC-Team settings, credentials, assistant workspaces, and sessions.** It does not create a backup.
+4. Type `RESET`, then select **Permanently reset OPC-Team data**. If a directory cannot be fully removed, close applications using it and retry before migrating.
+5. Scan again and start a new migration. Launch OPC-Team after migration finishes.
 
 The reset preview uses the selected destination locations. For standard locations,
 it also covers platform Skills/SSH parent directories and Desktop WebView/UI data
@@ -113,22 +113,22 @@ Unsafe overlaps and linked reset paths are rejected.
 Windows destination directories:
 
 ```text
-%APPDATA%\openbitfun
-%USERPROFILE%\.openbitfun
+%APPDATA%\opcteam
+%USERPROFILE%\.opcteam
 %LOCALAPPDATA%\OpenBitFun
 ```
 
-On macOS the standard roots are `~/.openbitfun` and
-`~/Library/Application Support/{openbitfun,OpenBitFun}`. On Linux they are
-`~/.openbitfun`, `~/.config/openbitfun`, and
-`~/.local/share/{openbitfun,OpenBitFun}` (or the corresponding XDG locations).
+On macOS the standard roots are `~/.opcteam` and
+`~/Library/Application Support/{opcteam,OpenBitFun}`. On Linux they are
+`~/.opcteam`, `~/.config/opcteam`, and
+`~/.local/share/{opcteam,OpenBitFun}` (or the corresponding XDG locations).
 Always review the actual paths shown by the tool before confirming.
 
 **The issue persists after retrying**
 
-Open a report in [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) or share your feedback in the OpenBitFun user WeChat group. Include:
+Open a report in [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) or share your feedback in the OPC-Team user WeChat group. Include:
 
-- Your operating system and the BitFun, OpenBitFun, and migrator versions.
+- Your operating system and the BitFun, OPC-Team, and migrator versions.
 - Steps to reproduce, the expected result, and the actual result.
 - The workspace and session name or ID associated with missing data.
 - Migration logs from the affected run.
@@ -136,7 +136,7 @@ Open a report in [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) or
 Windows migration log location:
 
 ```text
-%APPDATA%\openbitfun\data\migrations\bitfun-to-openbitfun\runs\<run-id>\
+%APPDATA%\opcteam\data\migrations\bitfun-to-openbitfun\runs\<run-id>\
 ```
 
 Provide the log files from the affected run, such as `report.json`, `plan.json`, `journal.jsonl`, `locations.json`, and `release-observation.json` when present. The `stage` and `backup` directories contain personal data, so sharing them is optional and at your discretion; the log files listed above are usually sufficient for an initial report. Save the logs before clearing the destination directories for another attempt.

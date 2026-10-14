@@ -336,7 +336,7 @@ pub async fn import_config(
 ) -> Result<Value, String> {
     let config_service = &state.config_service;
     let export: ConfigExport = serde_json::from_value(request.config_data)
-        .map_err(|error| format!("Failed to parse OpenBitFun config export: {error}"))?;
+        .map_err(|error| format!("Failed to parse OPC-Team config export: {error}"))?;
 
     match config_service.import_config(export).await {
         Ok(result) => {

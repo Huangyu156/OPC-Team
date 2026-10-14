@@ -567,7 +567,7 @@ fn build_action_card(
         "header": {
             "title": {
                 "tag": "plain_text",
-                "content": "OpenBitFun Remote Connect",
+                "content": "OPC-Team Remote Connect",
             }
         },
         "elements": elements,

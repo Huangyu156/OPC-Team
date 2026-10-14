@@ -67,7 +67,7 @@ struct SettingsView: View {
                                 SettingsValueRow(
                                     icon: nil,
                                     title: "产品",
-                                    value: "OpenBitFun iOS版"
+                                    value: "OPC-Team iOS版"
                                 )
                                 Divider().overlay(OpenBitFunTheme.line).padding(.horizontal, 26)
                                 SettingsValueRow(icon: nil, title: "版本", value: appVersion)

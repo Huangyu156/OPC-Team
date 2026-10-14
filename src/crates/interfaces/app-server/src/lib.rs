@@ -1,4 +1,4 @@
-//! OpenBitFun generic JSON-RPC App Server host surface.
+//! OPC-Team generic JSON-RPC App Server host surface.
 //!
 //! This crate owns a protocol-agnostic JSON-RPC server/client scaffold built on
 //! [`agent_client_protocol`] using custom roles ([`AppServer`]/[`AppClient`]),

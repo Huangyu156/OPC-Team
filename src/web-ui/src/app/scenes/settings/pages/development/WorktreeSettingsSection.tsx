@@ -46,8 +46,8 @@ const AUTO_DELETE_LIMIT_MAX = 100;
 const WORKTREE_REMOVE_ANIMATION_MS = 180;
 
 const DEFAULT_SETTINGS: WorktreeSettings = {
-  rootPath: '~/.openbitfun/worktrees',
-  branchPrefix: 'openbitfun/',
+  rootPath: '~/.opcteam/worktrees',
+  branchPrefix: 'opcteam/',
   copyLocalChanges: false,
   autoDeleteEnabled: true,
   autoDeleteLimit: 15,

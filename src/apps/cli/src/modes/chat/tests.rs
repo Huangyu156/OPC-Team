@@ -467,7 +467,7 @@ mod tests {
                 "toolName": "review",
                 "candidates": [{
                     "candidateId": "openbitfun:review",
-                    "displayName": "OpenBitFun review",
+                    "displayName": "OPC-Team review",
                     "kind": "built_in",
                     "providerId": "openbitfun",
                     "contentVersion": "builtin-v1"
@@ -606,10 +606,10 @@ mod tests {
     fn external_tool_review_summary_discloses_execution_boundary_and_commands() {
         let summary = external_tool_review_text(Some(&external_tool_review_snapshot()));
 
-        assert!(summary.contains("OpenBitFun and MCP"));
+        assert!(summary.contains("OPC-Team and MCP"));
         assert!(summary.contains("External AI applications"));
         assert!(summary.contains("Use /mcp to manage MCP servers"));
-        assert!(summary.contains("OpenBitFun does not run external code while checking sources"));
+        assert!(summary.contains("OPC-Team does not run external code while checking sources"));
         assert!(summary.contains("filesystem, network, process, environment variables"));
         assert!(summary.contains("inherited environment variables"));
         assert!(summary.contains("processes it starts may keep running after cancellation"));
@@ -636,7 +636,7 @@ mod tests {
     fn external_tool_runtime_recovery_starts_with_refresh_without_restart_pressure() {
         let mut snapshot = external_tool_review_snapshot();
         snapshot.tools[0].activation = ExternalToolActivationState::RuntimeUnavailable {
-            reason: "OpenBitFun could not find Node.js for external tools".to_string(),
+            reason: "OPC-Team could not find Node.js for external tools".to_string(),
         };
 
         let summary = external_tool_review_text(Some(&snapshot));
@@ -655,7 +655,7 @@ mod tests {
         let summary = external_tool_review_text(Some(&snapshot));
         assert!(summary.contains("Current choices"));
         assert!(summary.contains("OpenCode review [selected, currently unavailable]"));
-        assert!(summary.contains("OpenBitFun review [not selected]"));
+        assert!(summary.contains("OPC-Team review [not selected]"));
         assert!(summary.contains("/tools choose 1 1"));
 
         snapshot.tools[0].activation = ExternalToolActivationState::Active;
@@ -790,7 +790,7 @@ mod tests {
             crate::actions::action_for_alias("/hooks", crate::actions::ActionContext::Chat)
                 .expect("/hooks must be registered");
         assert_eq!(action.id, "hooks");
-        // /hooks shows OpenBitFun's own executable hooks; the external read-only
+        // /hooks shows OPC-Team's own executable hooks; the external read-only
         // catalog keeps its own command.
         assert_eq!(action.handler, ActionHandler::NativeHooks);
         for alias in ["/hooks_external", "/hooks-external"] {
@@ -933,7 +933,7 @@ mod tests {
         assert!(text.contains("Discovery is read-only"));
         assert!(text.contains("Claude Code"));
         assert!(text.contains("PreToolUse"));
-        assert!(text.contains("coverage mapped: OpenBitFun tool before"));
+        assert!(text.contains("coverage mapped: OPC-Team tool before"));
         assert!(text.contains("SessionStart"));
         assert!(text.contains("native only"));
         assert!(text.contains("opaque static registration"));
@@ -954,7 +954,10 @@ mod tests {
                 },
                 NativeHookFileView {
                     scope: "project".to_string(),
-                    location: "<workspace>/.openbitfun/config/hooks.json".to_string(),
+                    location: format!(
+                        "<workspace>/{}/config/hooks.json",
+                        openbitfun_core_types::product_identity::hidden_data_directory()
+                    ),
                     exists: true,
                     loaded: false,
                 },
@@ -980,7 +983,7 @@ mod tests {
     fn native_hook_text_reports_gating_layers_and_issues() {
         let text = render_native_hook_overview(&native_hook_overview());
 
-        assert!(text.contains("Hooks (OpenBitFun)"));
+        assert!(text.contains("Hooks (OPC-Team)"));
         assert!(text.contains("Hooks: enabled (app.hooks.enabled)"));
         assert!(text.contains("Project hook file: disabled (app.hooks.project_hooks_enabled)"));
         assert!(text.contains("user [loaded; present]"));
@@ -2347,8 +2350,8 @@ mod tests {
                 "logicalId": "review",
                 "candidates": [{
                     "candidateId": "openbitfun:review",
-                    "displayName": "OpenBitFun review",
-                    "sourceLabel": "OpenBitFun",
+                    "displayName": "OPC-Team review",
+                    "sourceLabel": "OPC-Team",
                     "external": false
                 }, {
                     "candidateId": "external_subagent:opencode:review:v1",
@@ -2370,7 +2373,7 @@ mod tests {
         assert!(summary.contains("Requested model: anthropic/claude-sonnet-4"));
         assert!(summary.contains("Requested profile: named variant high"));
         assert!(summary.contains("configured effort: high"));
-        assert!(summary.contains("Resolution: choose a OpenBitFun model"));
+        assert!(summary.contains("Resolution: choose a OPC-Team model"));
         assert!(summary.contains("Affects 2 agents"));
         assert!(summary.contains("/agent bind 1 2"));
         assert!(summary.contains("Tools: read, search"));
@@ -2450,7 +2453,7 @@ mod tests {
         assert!(
             summary.contains("Review agent (OpenCode, external) [selected, currently unavailable]")
         );
-        assert!(summary.contains("OpenBitFun review (OpenBitFun, OpenBitFun/local) [not selected]"));
+        assert!(summary.contains("OPC-Team review (OPC-Team, OPC-Team/local) [not selected]"));
         assert!(summary.contains("/agent choose 1 1"));
 
         snapshot.subagents[0].activation_state = ExternalSubagentActivationState::Active;
@@ -2479,7 +2482,7 @@ mod tests {
             "",
         );
         let text = lines.join("\n");
-        assert!(text.contains("check that OpenBitFun can read and save its settings, then refresh"));
+        assert!(text.contains("check that OPC-Team can read and save its settings, then refresh"));
         assert!(!text.to_ascii_lowercase().contains("restart"));
     }
 
@@ -2502,8 +2505,8 @@ mod tests {
         });
 
         let agents = external_agent_review_text(Some(&snapshot));
-        assert!(agents.contains("OpenBitFun could not save conflict information"));
-        assert!(agents.contains("check OpenBitFun settings storage, then refresh"));
+        assert!(agents.contains("OPC-Team could not save conflict information"));
+        assert!(agents.contains("check OPC-Team settings storage, then refresh"));
         assert!(agents.contains("external_subagent.conflict_history_write_failed"));
         assert!(agents.contains("future_host.agent_map_invalid"));
 

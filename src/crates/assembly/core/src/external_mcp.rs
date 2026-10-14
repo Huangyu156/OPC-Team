@@ -79,7 +79,7 @@ pub(super) const EXTERNAL_MCP_RUNTIME_STATUS_UNAVAILABLE: &str =
     "external_mcp.runtime.status_unavailable";
 
 /// Narrow product-to-runtime port. Product reconciliation works only with
-/// source-neutral prepared MCP data; the concrete OpenBitFun MCP manager remains
+/// source-neutral prepared MCP data; the concrete OPC-Team MCP manager remains
 /// behind this implementation boundary.
 #[async_trait]
 pub(super) trait ExternalMcpRuntimePort: Send + Sync {
@@ -318,7 +318,7 @@ pub(super) fn prepared_mcp_config(
         timeouts,
     };
     config.validate().map_err(|_| {
-        "The external MCP configuration is not valid for the OpenBitFun runtime".to_string()
+        "The external MCP configuration is not valid for the OPC-Team runtime".to_string()
     })?;
     Ok(config)
 }
@@ -594,7 +594,7 @@ fn build_conflict(
             behavior_version: candidate.behavior_version.clone(),
             available: candidate.enabled,
             unavailable_reason: (!candidate.enabled)
-                .then(|| "This OpenBitFun MCP server is disabled".to_string()),
+                .then(|| "This OPC-Team MCP server is disabled".to_string()),
         });
     }
     for definition in &group.external {

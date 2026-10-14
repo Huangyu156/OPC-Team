@@ -488,7 +488,7 @@ impl Tool for GrepTool {
     }
 
     async fn description(&self) -> OpenBitFunResult<String> {
-        Ok(r#"Search file contents in the active workspace with OpenBitFun's built-in structured search.
+        Ok(r#"Search file contents in the active workspace with OPC-Team's built-in structured search.
 
 Usage:
 - Use Grep by default for codebase content search because it preserves workspace-aware permissions and consistent output.
@@ -1277,11 +1277,18 @@ mod tests {
             repo_status: WorkspaceSearchRepoStatus {
                 repo_id: "repo".to_string(),
                 repo_path: "/repo".to_string(),
-                storage_root: "/repo/.openbitfun/search/flashgrep-index".to_string(),
-                base_snapshot_root: "/repo/.openbitfun/search/flashgrep-index/base-snapshot"
-                    .to_string(),
-                workspace_overlay_root:
-                    "/repo/.openbitfun/search/flashgrep-index/workspace-overlay".to_string(),
+                storage_root: format!(
+                    "/repo/{}/search/flashgrep-index",
+                    openbitfun_core_types::product_identity::hidden_data_directory()
+                ),
+                base_snapshot_root: format!(
+                    "/repo/{}/search/flashgrep-index/base-snapshot",
+                    openbitfun_core_types::product_identity::hidden_data_directory()
+                ),
+                workspace_overlay_root: format!(
+                    "/repo/{}/search/flashgrep-index/workspace-overlay",
+                    openbitfun_core_types::product_identity::hidden_data_directory()
+                ),
                 phase: WorkspaceSearchRepoPhase::Ready,
                 snapshot_key: None,
                 base_head_commit: None,
@@ -1357,11 +1364,18 @@ mod tests {
             repo_status: WorkspaceSearchRepoStatus {
                 repo_id: "repo".to_string(),
                 repo_path: "/repo".to_string(),
-                storage_root: "/repo/.openbitfun/search/flashgrep-index".to_string(),
-                base_snapshot_root: "/repo/.openbitfun/search/flashgrep-index/base-snapshot"
-                    .to_string(),
-                workspace_overlay_root:
-                    "/repo/.openbitfun/search/flashgrep-index/workspace-overlay".to_string(),
+                storage_root: format!(
+                    "/repo/{}/search/flashgrep-index",
+                    openbitfun_core_types::product_identity::hidden_data_directory()
+                ),
+                base_snapshot_root: format!(
+                    "/repo/{}/search/flashgrep-index/base-snapshot",
+                    openbitfun_core_types::product_identity::hidden_data_directory()
+                ),
+                workspace_overlay_root: format!(
+                    "/repo/{}/search/flashgrep-index/workspace-overlay",
+                    openbitfun_core_types::product_identity::hidden_data_directory()
+                ),
                 phase: WorkspaceSearchRepoPhase::Ready,
                 snapshot_key: None,
                 base_head_commit: None,

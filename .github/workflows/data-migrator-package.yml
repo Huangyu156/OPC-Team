@@ -107,7 +107,7 @@ jobs:
         uses: softprops/action-gh-release@v3
         with:
           tag_name: ${{ github.ref_name }}
-          name: OpenBitFun Data Migrator ${{ github.ref_name }}
+          name: OPC-Team Data Migrator ${{ github.ref_name }}
           draft: true
           make_latest: false
           files: migrator-release-assets/*

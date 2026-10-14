@@ -402,7 +402,13 @@ mod tests {
         let content = fs::read_to_string(workspace_root.join(".gitignore"))
             .await
             .expect("Failed to read .gitignore");
-        assert_eq!(content, "target/\n.env\n.openbitfun/\n");
+        assert_eq!(
+            content,
+            format!(
+                "target/\n.env\n{}/\n",
+                openbitfun_core_types::product_identity::hidden_data_directory()
+            )
+        );
 
         fs::remove_dir_all(&workspace_root)
             .await
@@ -415,9 +421,15 @@ mod tests {
         fs::create_dir_all(&workspace_root)
             .await
             .expect("Failed to create temp workspace");
-        fs::write(workspace_root.join(".gitignore"), "target/\n.openbitfun/\n")
-            .await
-            .expect("Failed to seed .gitignore");
+        fs::write(
+            workspace_root.join(".gitignore"),
+            format!(
+                "target/\n{}/\n",
+                openbitfun_core_types::product_identity::hidden_data_directory()
+            ),
+        )
+        .await
+        .expect("Failed to seed .gitignore");
 
         ensure_workspace_gitignore_ignores_openbitfun(&workspace_root)
             .await
@@ -426,7 +438,13 @@ mod tests {
         let content = fs::read_to_string(workspace_root.join(".gitignore"))
             .await
             .expect("Failed to read .gitignore");
-        assert_eq!(content, "target/\n.openbitfun/\n");
+        assert_eq!(
+            content,
+            format!(
+                "target/\n{}/\n",
+                openbitfun_core_types::product_identity::hidden_data_directory()
+            )
+        );
 
         fs::remove_dir_all(&workspace_root)
             .await

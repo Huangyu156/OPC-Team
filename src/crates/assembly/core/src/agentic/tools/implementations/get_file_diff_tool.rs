@@ -1345,7 +1345,7 @@ Usage:
                         return ValidationResult {
                             result: false,
                             message: Some(
-                                "Tool context is required to resolve OpenBitFun URIs".to_string(),
+                                "Tool context is required to resolve OPC-Team URIs".to_string(),
                             ),
                             error_code: Some(400),
                             meta: None,
@@ -1936,7 +1936,7 @@ mod tests {
             directory.path(),
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=tests@openbitfun.dev",
                 "commit",
@@ -2509,7 +2509,7 @@ mod tests {
             directory.path(),
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=tests@openbitfun.dev",
                 "commit",
@@ -2579,7 +2579,7 @@ mod tests {
             directory.path(),
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=tests@openbitfun.dev",
                 "commit",
@@ -2640,7 +2640,7 @@ mod tests {
             directory.path(),
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=tests@openbitfun.dev",
                 "commit",
@@ -2759,7 +2759,7 @@ mod tests {
             &nested,
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=tests@openbitfun.dev",
                 "commit",
@@ -2873,7 +2873,7 @@ mod tests {
             directory.path(),
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=tests@openbitfun.dev",
                 "commit",
@@ -2891,7 +2891,7 @@ mod tests {
             directory.path(),
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=tests@openbitfun.dev",
                 "commit",

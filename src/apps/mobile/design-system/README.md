@@ -1,4 +1,4 @@
-# OpenBitFun Mobile Design System
+# OPC-Team Mobile Design System
 
 This directory is the source-neutral visual contract for the native HarmonyOS,
 Android, and iOS applications. It owns stable visual facts and deterministic

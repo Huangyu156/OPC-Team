@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# OpenBitFun Relay deploy — region detection and China mirror configuration.
+# OPC-Team Relay deploy — region detection and China mirror configuration.
 #
 # Source this file, then call:
 #   openbitfun_mirror_init [--cn-mirror|--global-mirror]
@@ -476,14 +476,14 @@ openbitfun_mirror_apply_apt_debian_family() {
     openbitfun_mirror_backup_file /etc/apt/sources.list
   fi
 
-  # Prefer a OpenBitFun-owned list so cloud-init vendor files stay intact.
+  # Prefer an OPC-Team-owned list so cloud-init vendor files stay intact.
   local list_file="/etc/apt/sources.list.d/openbitfun-cn-mirror.list"
   local tmp
   tmp="$(mktemp)"
   case "$id" in
     ubuntu)
       cat >"$tmp" <<EOF
-# Managed by OpenBitFun relay deploy (China mirrors). Safe to delete to revert.
+# Managed by OPC-Team relay deploy (China mirrors). Safe to delete to revert.
 deb ${scheme}://${mirror}/ubuntu/ ${version_codename} main restricted universe multiverse
 deb ${scheme}://${mirror}/ubuntu/ ${version_codename}-updates main restricted universe multiverse
 deb ${scheme}://${mirror}/ubuntu/ ${version_codename}-backports main restricted universe multiverse
@@ -492,7 +492,7 @@ EOF
       ;;
     debian)
       cat >"$tmp" <<EOF
-# Managed by OpenBitFun relay deploy (China mirrors). Safe to delete to revert.
+# Managed by OPC-Team relay deploy (China mirrors). Safe to delete to revert.
 deb ${scheme}://${mirror}/debian/ ${version_codename} main contrib non-free non-free-firmware
 deb ${scheme}://${mirror}/debian/ ${version_codename}-updates main contrib non-free non-free-firmware
 deb ${scheme}://${mirror}/debian-security ${suite_security} main contrib non-free non-free-firmware
@@ -500,7 +500,7 @@ EOF
       ;;
     *)
       # Unknown distro: the suites can only come from the file that is already
-      # there. Write the rewrite into the OpenBitFun-owned list and disable the
+      # there. Write the rewrite into the OPC-Team-owned list and disable the
       # original by rename rather than overwriting it in place — an in-place
       # edit is invisible to `openbitfun_mirror_restore_apt`, which leaves the host
       # permanently pinned to Chinese mirrors with only a timestamped backup the
@@ -511,7 +511,7 @@ EOF
         return 0
       fi
       {
-        echo "# Managed by OpenBitFun relay deploy (China mirrors). Safe to delete to revert."
+        echo "# Managed by OPC-Team relay deploy (China mirrors). Safe to delete to revert."
         sed -e "s|deb.debian.org/debian|${mirror}/debian|g" \
           -e "s|security.debian.org/debian-security|${mirror}/debian-security|g" \
           -e "s|archive.ubuntu.com/ubuntu|${mirror}/ubuntu|g" \
@@ -583,7 +583,7 @@ openbitfun_mirror_apply_apt() {
 
   # A write that succeeds still proves nothing about the mirror. Without this
   # probe the first symptom is an `apt-get update` failure several steps later,
-  # with nothing tying it back to the sources OpenBitFun swapped in.
+  # with nothing tying it back to the sources OPC-Team swapped in.
   if openbitfun_mirror_probe_apt; then
     return 0
   fi
@@ -819,7 +819,7 @@ openbitfun_mirror_restore_apt() {
     echo ">>> apt mirror: keeping ${list_file} because an upstream source could not be restored" >&2
   fi
   if [ "$changed" -eq 1 ]; then
-    echo ">>> apt mirror: removed OpenBitFun mirror list and restored disabled upstream sources"
+    echo ">>> apt mirror: removed OPC-Team mirror list and restored disabled upstream sources"
   fi
 }
 
@@ -867,7 +867,7 @@ openbitfun_mirror_remove_docker_daemon() {
           rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
             || openbitfun_mirror_priv rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
             || true
-          echo ">>> docker mirror: removed OpenBitFun-created ${daemon_json}"
+          echo ">>> docker mirror: removed OPC-Team-created ${daemon_json}"
           if command -v docker >/dev/null 2>&1; then
             openbitfun_mirror_priv systemctl restart docker 2>/dev/null \
               || openbitfun_mirror_priv service docker restart 2>/dev/null \
@@ -944,7 +944,7 @@ PY
   rm -f "$state_file" 2>/dev/null || openbitfun_mirror_priv rm -f "$state_file" 2>/dev/null || true
   rm -f "$version_file" 2>/dev/null || openbitfun_mirror_priv rm -f "$version_file" 2>/dev/null || true
   rm -f "$created_state" 2>/dev/null || openbitfun_mirror_priv rm -f "$created_state" 2>/dev/null || true
-  echo ">>> docker mirror: removed OpenBitFun-managed registry mirrors from ${daemon_json}"
+  echo ">>> docker mirror: removed OPC-Team-managed registry mirrors from ${daemon_json}"
   if command -v docker >/dev/null 2>&1; then
     openbitfun_mirror_priv systemctl restart docker 2>/dev/null \
       || openbitfun_mirror_priv service docker restart 2>/dev/null \
@@ -996,11 +996,11 @@ openbitfun_mirror_remove_cargo_managed_block() {
   fi
   openbitfun_mirror_chown_to_home_owner "$cargo_home" "$cfg"
   rm -f "$tmp"
-  echo ">>> cargo mirror: removed legacy OpenBitFun block from ${cfg}; relay Cargo mirroring is build-local"
+  echo ">>> cargo mirror: removed legacy OPC-Team block from ${cfg}; relay Cargo mirroring is build-local"
 }
 
 openbitfun_mirror_restore_host() {
-  echo ">>> Restoring global host sources managed by OpenBitFun..."
+  echo ">>> Restoring global host sources managed by OPC-Team..."
   openbitfun_mirror_restore_apt || true
   openbitfun_mirror_remove_docker_daemon || true
   openbitfun_mirror_remove_cargo_managed_block || true

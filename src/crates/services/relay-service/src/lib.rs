@@ -1297,7 +1297,7 @@ mod tests {
         assert_eq!(headers_response.headers()["referrer-policy"], "no-referrer");
 
         let info = get_json(app, "/api/info").await;
-        assert_eq!(info["name"], "OpenBitFun Relay Server");
+        assert_eq!(info["name"], "OPC-Team Relay Server");
         assert_eq!(info["version"], "test-host-version");
         assert_eq!(info["protocol_version"], 3);
     }

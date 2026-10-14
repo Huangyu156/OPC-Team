@@ -37,7 +37,7 @@ pub const DEFAULT_CUSTOM_SUBAGENT_READONLY: bool = true;
 pub const DEFAULT_CUSTOM_SUBAGENT_REVIEW: bool = false;
 pub const DEFAULT_CUSTOM_MODE_MODEL: &str = "primary";
 pub const DEFAULT_CUSTOM_SUBAGENT_MODEL: &str = "fast";
-// Only OpenBitFun custom agents are loaded. Unlike skills, custom subagents from
+// Only OPC-Team custom agents are loaded. Unlike skills, custom subagents from
 // different vendors do not share a stable schema or compatible tool contract.
 pub const CUSTOM_AGENT_PROJECT_AGENT_SUBDIRS: &[(&str, &str)] =
     &[(hidden_data_directory(), "agents")];

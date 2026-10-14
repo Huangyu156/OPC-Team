@@ -273,7 +273,7 @@ impl SessionMetadataStore {
 
     /// Load the rebuildable Session index while the caller owns both index locks.
     ///
-    /// Per-session `metadata.json` files are authoritative. Older OpenBitFun versions
+    /// Per-session `metadata.json` files are authoritative. Older OPC-Team versions
     /// can leave `index.json` missing, empty, or truncated if the machine stops
     /// during the Windows direct-overwrite fallback. Treat only index
     /// deserialization failures as recoverable; real filesystem errors must still

@@ -23,7 +23,7 @@ that contract must be visible. Foreground takeover requires explicit user
 permission; approval of a message's content and recipient does not authorize it.
 A generated agent plan cannot widen the original user's authorization.
 
-The operating system owns privacy/sharing indicators. OpenBitFun neither imitates
+The operating system owns privacy/sharing indicators. OPC-Team neither imitates
 macOS's Sharing menu on other systems nor suppresses native capture borders.
 Product feedback adds target, mode, action, preview and Stop without claiming to
 replace system consent or system Stop Sharing.
@@ -67,9 +67,9 @@ replacement for the existing Windows, Linux or product runtime providers.
 
 The five requested areas are adapted from `computer-use-rust` into the existing
 product owners. The reference repository is development evidence, never a
-runtime, build, test or filesystem dependency of OpenBitFun.
+runtime, build, test or filesystem dependency of OPC-Team.
 
-| Area | Reference source | OpenBitFun owner and adaptation |
+| Area | Reference source | OPC-Team owner and adaptation |
 |---|---|---|
 | Permission query/request | `src/native/permissions.rs`, native permission probes | `computer_use_permissions` contracts, Desktop `permissions.rs`, `ComputerUsePermissions.tsx`; four separate read-only probes and explicit request receipts; Windows capability/UIPI facts and Linux AT-SPI/session consent replace macOS-specific assumptions |
 | App sharing and control grants | `src/sharing.rs`, `src/grants.rs`, sharing controls in `src/gui.rs` | Admission state machine plus Desktop `sharing.rs`, `shared_preview.rs`, `process_identity.rs`, `grants.rs`, `share_grants.rs`; user-selected native window, observe first, separate revocable grant, executable-bound remembered preference, manual preview gestures |
@@ -79,7 +79,7 @@ runtime, build, test or filesystem dependency of OpenBitFun.
 
 ### Permissions and user sharing
 
-Opening the OpenBitFun settings page, checking status or reading AX never requests OS permission.
+Opening the OPC-Team settings page, checking status or reading AX never requests OS permission.
 The user selects each request explicitly. Receipts distinguish a request API
 invocation from the current grant and from observing a visible OS dialog. Input
 Monitoring is optional. Windows does not invent a macOS-style grant; protected
@@ -555,7 +555,7 @@ also describes executing ordered actions before returning an observation; this
 is a public integration pattern, not proof of the desktop application's API wire.
 The [programmatic-tool guide](https://developers.openai.com/api/docs/guides/tools-programmatic-tool-calling)
 calls for measuring correctness, evidence, model turns and latency together.
-OpenBitFun applies the interaction policy through its existing typed program and
+OPC-Team applies the interaction policy through its existing typed program and
 host port, retaining its authorization, partial receipts and cancellation rules.
 
 Local macOS acceptance used the production Tool → host → native input/observation

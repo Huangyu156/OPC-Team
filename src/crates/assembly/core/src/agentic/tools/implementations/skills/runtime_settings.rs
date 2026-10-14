@@ -31,9 +31,9 @@ fn render_commit_coauthor_policy(content: &str, enabled: bool) -> OpenBitFunResu
     }
 
     let policy = if enabled {
-        "The execution host setting `app.ai_experience.enable_git_commit_coauthor` is `true`. Unless the user explicitly opts out, add the exact OpenBitFun co-author trailer below exactly once to each new commit."
+        "The execution host setting `app.ai_experience.enable_git_commit_coauthor` is `true`. Unless the user explicitly opts out, add the exact OPC-Team co-author trailer below exactly once to each new commit."
     } else {
-        "The execution host setting `app.ai_experience.enable_git_commit_coauthor` is `false`. Do not add the OpenBitFun co-author trailer to new commits. Preserve other co-authors and existing commit history."
+        "The execution host setting `app.ai_experience.enable_git_commit_coauthor` is `false`. Do not add the OPC-Team co-author trailer to new commits. Preserve other co-authors and existing commit history."
     };
     Ok(content.replace(COMMIT_COAUTHOR_POLICY_PLACEHOLDER, policy))
 }
@@ -66,14 +66,15 @@ mod tests {
             )));
             if enabled {
                 assert!(assistant
-                    .contains("add the exact OpenBitFun co-author trailer below exactly once"));
+                    .contains("add the exact OPC-Team co-author trailer below exactly once"));
             } else {
-                assert!(assistant
-                    .contains("Do not add the OpenBitFun co-author trailer to new commits"));
+                assert!(
+                    assistant.contains("Do not add the OPC-Team co-author trailer to new commits")
+                );
                 assert!(!assistant
-                    .contains("add the exact OpenBitFun co-author trailer below exactly once"));
+                    .contains("add the exact OPC-Team co-author trailer below exactly once"));
             }
-            assert!(assistant.contains("Generated with [OpenBitFun](https://github.com/bitfun-ai)"));
+            assert!(assistant.contains("Generated with [OPC-Team](https://github.com/bitfun-ai)"));
         }
     }
 

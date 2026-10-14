@@ -237,7 +237,7 @@ impl Tool for ViewImageTool {
                 "detail": {
                     "type": "string",
                     "enum": ["original"],
-                    "description": "Optional detail override. Supported value: original. OpenBitFun preserves image detail when possible and may optimize bytes to fit the active provider limits."
+                    "description": "Optional detail override. Supported value: original. OPC-Team preserves image detail when possible and may optimize bytes to fit the active provider limits."
                 }
             },
             "required": ["path"],

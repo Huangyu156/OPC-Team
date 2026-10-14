@@ -79,7 +79,7 @@ final class MobileCoreAdapter {
             scope: scope,
             service: "com.openbitfun.mobile.account",
             deviceId: installID,
-            deviceName: "OpenBitFun iPhone",
+            deviceName: "OPC-Team iPhone",
             log: MobileCoreLog()
         )
         self.deviceDirectory = DeviceDirectoryStore.companion.create(scope: scope, accountStore: account)

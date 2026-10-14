@@ -1,4 +1,4 @@
-// dsh-openbitfun: a DeepSeek Harness (dsh) plugin bundle that exposes the OpenBitFun
+// dsh-openbitfun: a DeepSeek Harness (dsh) plugin bundle that exposes the OPC-Team
 // Agent SDK Host — a standalone `openbitfun-sdk-host` process speaking
 // newline-delimited JSON-RPC 2.0 over stdio — as dsh tools.
 //
@@ -11,7 +11,7 @@
 //   1. `hostPath` in this plugin's patch config,
 //   2. the OPENBITFUN_SDK_HOST environment variable,
 //   3. `<session cwd>/target/{debug,release}/openbitfun-sdk-host(.exe)` walking up
-//      the directory tree (a OpenBitFun checkout-local build),
+//      the directory tree (an OPC-Team checkout-local build),
 //   4. `openbitfun-sdk-host` on PATH.
 
 import { spawn } from 'node:child_process';
@@ -145,11 +145,11 @@ class SdkHostClient {
 
   stderrSuffix() {
     const tail = this.stderrTail.trim();
-    return tail === '' ? '' : `\nOpenBitFun SDK Host stderr tail:\n${tail}`;
+    return tail === '' ? '' : `\nOPC-Team SDK Host stderr tail:\n${tail}`;
   }
 
   async ensureReady() {
-    if (this.disposed) throw new Error('the OpenBitFun SDK Host bridge is disposed');
+    if (this.disposed) throw new Error('the OPC-Team SDK Host bridge is disposed');
     if (this.readyPromise !== null) return this.readyPromise;
     this.readyPromise = this.#boot().catch((error) => {
       this.readyPromise = null;
@@ -183,7 +183,7 @@ class SdkHostClient {
       this.child = null;
       this.readyPromise = null;
       const message =
-        `OpenBitFun SDK Host process exited unexpectedly (code ${code ?? 'null'}, signal ${signal ?? 'null'})` +
+        `OPC-Team SDK Host process exited unexpectedly (code ${code ?? 'null'}, signal ${signal ?? 'null'})` +
         this.stderrSuffix();
       const error = new HostError(message, 'PROCESS_LOST');
       if (!booted) exitDeferred.reject(error);
@@ -196,7 +196,7 @@ class SdkHostClient {
     child.once('error', (error) => {
       this.readyPromise = null;
       spawnErrorDeferred.reject(
-        new HostError(`cannot start OpenBitFun SDK Host "${this.spawnSpec}": ${error.message}`, 'SPAWN_FAILED', error),
+        new HostError(`cannot start OPC-Team SDK Host "${this.spawnSpec}": ${error.message}`, 'SPAWN_FAILED', error),
       );
     });
 
@@ -231,7 +231,7 @@ class SdkHostClient {
     const pending = deferred();
     const timer = setTimeout(() => {
       this.pending.delete(id);
-      pending.reject(new HostError(`OpenBitFun SDK Host request timed out: ${method} after ${timeoutMs}ms`, 'TIMEOUT'));
+      pending.reject(new HostError(`OPC-Team SDK Host request timed out: ${method} after ${timeoutMs}ms`, 'TIMEOUT'));
     }, timeoutMs);
     this.pending.set(id, {
       resolve: (value) => {
@@ -247,7 +247,7 @@ class SdkHostClient {
     if (child === null || child.stdin.destroyed) {
       this.pending.delete(id);
       clearTimeout(timer);
-      pending.reject(new HostError('the OpenBitFun SDK Host is not running', 'NOT_RUNNING'));
+      pending.reject(new HostError('the OPC-Team SDK Host is not running', 'NOT_RUNNING'));
       return pending.promise;
     }
     child.stdin.write(`${JSON.stringify({ jsonrpc: '2.0', id, method, params: params ?? {} })}\n`, (error) => {
@@ -255,7 +255,7 @@ class SdkHostClient {
       if (this.pending.delete(id)) {
         clearTimeout(timer);
         pending.reject(
-          new HostError(`cannot write to OpenBitFun SDK Host stdin: ${error.message}`, 'WRITE_FAILED', error),
+          new HostError(`cannot write to OPC-Team SDK Host stdin: ${error.message}`, 'WRITE_FAILED', error),
         );
       }
     });
@@ -291,7 +291,7 @@ class SdkHostClient {
       const data = typeof message.error === 'object' && message.error !== null ? message.error.data : undefined;
       entry.reject(
         new HostError(
-          `OpenBitFun SDK Host error: ${String(message.error?.message ?? 'request failed')}`,
+          `OPC-Team SDK Host error: ${String(message.error?.message ?? 'request failed')}`,
           'RPC_ERROR',
           undefined,
           data,
@@ -322,14 +322,14 @@ class SdkHostClient {
   }
 
   /**
-   * Start one OpenBitFun turn and wait for its terminal `query/result`.
+   * Start one OPC-Team turn and wait for its terminal `query/result`.
    * Resolves with { status, text, error } where status is
    * completed | failed | cancelled.
    */
   async startQuery(params) {
     const started = await this.request('query/start', params);
     if (typeof started?.queryId !== 'string' || typeof started?.sessionId !== 'string') {
-      throw new HostError('OpenBitFun SDK Host returned an invalid query/start response', 'PROTOCOL');
+      throw new HostError('OPC-Team SDK Host returned an invalid query/start response', 'PROTOCOL');
     }
     const terminal = deferred();
     let settled = false;
@@ -426,26 +426,26 @@ const RUN_TOOL_PARAMETERS = {
     prompt: {
       type: 'string',
       description:
-        'The task for the OpenBitFun agent. OpenBitFun runs it autonomously with its own agent loop and returns its final text answer.',
+        'The task for the OPC-Team agent. OPC-Team runs it autonomously with its own agent loop and returns its final text answer.',
     },
     cwd: {
       type: 'string',
       description:
-        'Optional absolute workspace directory for the OpenBitFun session. Defaults to this dsh session cwd.',
+        'Optional absolute workspace directory for the OPC-Team session. Defaults to this dsh session cwd.',
     },
     session_id: {
       type: 'string',
       description:
-        'Optional OpenBitFun session id returned by a previous openbitfun_run call. Pass it to continue that OpenBitFun conversation instead of starting a new one.',
+        'Optional OPC-Team session id returned by a previous openbitfun_run call. Pass it to continue that OPC-Team conversation instead of starting a new one.',
     },
     agent: {
       type: 'string',
-      description: 'Optional OpenBitFun agent type for a new session (default: OpenBitFun built-in default).',
+      description: 'Optional OPC-Team agent type for a new session (default: OPC-Team built-in default).',
     },
     model: {
       type: 'string',
       description:
-        'Optional OpenBitFun model id for a new session (default: the user configured OpenBitFun model).',
+        'Optional OPC-Team model id for a new session (default: the user configured OPC-Team model).',
     },
   },
   required: ['prompt'],
@@ -468,7 +468,7 @@ const RUN_TOOL_OUTPUT_SCHEMA = {
 function renderRunOutput(_args, value) {
   const text = value.status === 'completed'
     ? value.text
-    : `OpenBitFun turn ended with status "${value.status}".\n` +
+    : `OPC-Team turn ended with status "${value.status}".\n` +
       `${value.error !== undefined ? `Error: ${value.error}\n` : ''}` +
       `Partial answer:\n${value.text}`;
   return [{ type: 'text', text }];
@@ -483,9 +483,9 @@ function isStaleSessionError(error) {
 
 /**
  * Register the `openbitfun_run` tool plus a short system-prompt section.
- * One SDK Host client is kept per resolved binary; OpenBitFun sessions are
+ * One SDK Host client is kept per resolved binary; OPC-Team sessions are
  * transient per Host connection, so the plugin maps each dsh session to one
- * OpenBitFun session and closes the oldest mappings past `maxSessions`.
+ * OPC-Team session and closes the oldest mappings past `maxSessions`.
  */
 export function apply(ctx, config) {
   const options = {
@@ -501,7 +501,7 @@ export function apply(ctx, config) {
     const resolved = resolveHostPath(options, cwd);
     if (resolved === null) {
       throw new Error(
-        'cannot locate the OpenBitFun SDK Host binary ("openbitfun-sdk-host"). ' +
+        'cannot locate the OPC-Team SDK Host binary ("openbitfun-sdk-host"). ' +
           'Build it with `cargo build -p openbitfun-sdk-host-app`, set the OPENBITFUN_SDK_HOST environment variable, ' +
           'or configure the hostPath option of the dsh-openbitfun plugin row.',
       );
@@ -539,9 +539,9 @@ export function apply(ctx, config) {
   const openbitfunRunTool = {
     name: 'openbitfun_run',
     description:
-      'Delegate a task to the OpenBitFun agent runtime: OpenBitFun executes the prompt in a workspace with its own ' +
+      'Delegate a task to the OPC-Team agent runtime: OPC-Team executes the prompt in a workspace with its own ' +
       'agent loop and tools, then returns its final text answer. The result includes a session_id; pass it in a ' +
-      'later call to continue the same OpenBitFun conversation. OpenBitFun interactive permission prompts are auto-rejected ' +
+      'later call to continue the same OPC-Team conversation. OPC-Team interactive permission prompts are auto-rejected ' +
       'by the SDK host, so use this for tasks that do not require interactive approval.',
     parameters: RUN_TOOL_PARAMETERS,
     output: {
@@ -578,7 +578,7 @@ export function apply(ctx, config) {
         if (isNonEmptyString(args.model)) createParams.model = args.model;
         const created = await client.request('session/create', createParams);
         if (typeof created?.sessionId !== 'string' || created.sessionId === '') {
-          throw new HostError('OpenBitFun SDK Host returned an invalid session/create response', 'PROTOCOL');
+          throw new HostError('OPC-Team SDK Host returned an invalid session/create response', 'PROTOCOL');
         }
         sessions.set(key, { sessionId: created.sessionId, client, lastUsed: Date.now() });
         evictSessions();
@@ -593,7 +593,7 @@ export function apply(ctx, config) {
       } catch (error) {
         if (!mapped || !isStaleSessionError(error)) throw error;
         // The host connection restarted (or evicted this session); drop the
-        // stale mapping and retry once with a fresh OpenBitFun session.
+        // stale mapping and retry once with a fresh OPC-Team session.
         sessions.delete(key);
         sessionId = await createSession();
         started = await client.startQuery({ prompt, sessionId });
@@ -631,12 +631,12 @@ export function apply(ctx, config) {
     presentCall(args) {
       return {
         card: 'generic',
-        title: `OpenBitFun: ${truncate(args.prompt, 80)}`,
+        title: `OPC-Team: ${truncate(args.prompt, 80)}`,
         kind: 'tool',
       };
     },
     presentResult() {
-      return { card: 'generic', title: 'OpenBitFun', kind: 'tool' };
+      return { card: 'generic', title: 'OPC-Team', kind: 'tool' };
     },
   };
 
@@ -646,11 +646,11 @@ export function apply(ctx, config) {
     name: 'tool:openbitfun',
     order: 200,
     text:
-      'Use the openbitfun_run tool to delegate a task to the OpenBitFun agent runtime when the user asks to use OpenBitFun, ' +
-      'or when handing a whole subtask to OpenBitFun is appropriate. OpenBitFun runs the prompt autonomously in the ' +
-      'workspace and returns its final text answer; pass the returned session_id back to continue that OpenBitFun ' +
+      'Use the openbitfun_run tool to delegate a task to the OPC-Team agent runtime when the user asks to use OPC-Team, ' +
+      'or when handing a whole subtask to OPC-Team is appropriate. OPC-Team runs the prompt autonomously in the ' +
+      'workspace and returns its final text answer; pass the returned session_id back to continue that OPC-Team ' +
       'conversation across calls. Do not use it for tasks that need interactive permission approval, because the ' +
-      'SDK host auto-rejects OpenBitFun permission prompts.',
+      'SDK host auto-rejects OPC-Team permission prompts.',
   });
 
   ctx.on('dispose', () => {

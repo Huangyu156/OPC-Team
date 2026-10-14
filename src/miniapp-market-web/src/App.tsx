@@ -99,7 +99,7 @@ function App() {
 function GitHubIdentityPage({ complete }: { complete: boolean }) {
   const { t } = useLocale();
   useTheme();
-  useEffect(() => { document.title = `OpenBitFun · ${t(complete ? 'authComplete' : 'signIn')}`; }, [complete, t]);
+  useEffect(() => { document.title = `OPC-Team · ${t(complete ? 'authComplete' : 'signIn')}`; }, [complete, t]);
   return <IconContext.Provider value={{ size: 24, weight: 'regular' }}>
     {complete ? <DesktopComplete t={t} /> : <AccountSignIn />}
   </IconContext.Provider>;
@@ -209,7 +209,7 @@ function MarketApp() {
         <footer>
           <div className="footer-brand">
             <MarketLogo weight="duotone" aria-hidden="true" />
-            <span>OpenBitFun MiniApp Market</span>
+            <span>OPC-Team MiniApp Market</span>
           </div>
           <a href={OPENBITFUN_HOME_URL} target="_blank" rel="noreferrer">
             {t('openbitfunHome')}
@@ -286,7 +286,7 @@ function Header({
             <MarketLogo size={25} weight="duotone" aria-hidden="true" />
           </span>
           <span className="brand-copy">
-            <strong>OpenBitFun</strong>
+            <strong>OPC-Team</strong>
             <span>{t('market')}</span>
           </span>
         </Button>

@@ -28,7 +28,7 @@ const questions = [
         value: "stable",
       },
     ],
-    prompt: "OpenBitFun has three versions — which would you like me to pull?",
+    prompt: "OPC-Team has three versions — which would you like me to pull?",
     selectionMode: "single",
   },
 ];
@@ -45,7 +45,7 @@ test("AskUser replaces the completed form and legacy summary with only the quest
 
   assert.match(markup, /data-openbitfun-component="ask-user"/);
   assert.match(markup, /data-openbitfun-state="completed"/);
-  assert.match(markup, /<dt[^>]*>OpenBitFun has three versions — which would you like me to pull\?/);
+  assert.match(markup, /<dt[^>]*>OPC-Team has three versions — which would you like me to pull\?/);
   assert.match(markup, /data-openbitfun-part="answer-value">v0\.2\.19-beta\.1 \(Recommended\)/);
   assert.doesNotMatch(markup, /<(?:button|input|fieldset|progress|svg)\b/);
   assert.doesNotMatch(markup, /1 question answered|Choose version:|v0\.2\.18|basic testing/);

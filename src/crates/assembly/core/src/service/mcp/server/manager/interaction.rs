@@ -37,7 +37,7 @@ impl MCPServerManager {
                 .file_name()
                 .and_then(|v| v.to_str())
                 .filter(|v| !v.is_empty())
-                .unwrap_or("OpenBitFun Workspace")
+                .unwrap_or("OPC-Team Workspace")
                 .to_string();
             roots.push(json!({
                 "uri": uri,

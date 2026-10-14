@@ -1,18 +1,18 @@
 [中文](./verify-downloads.zh-CN.md) | **English**
 
-# Verify OpenBitFun downloads
+# Verify OPC-Team downloads
 
-Signed OpenBitFun releases provide a detached `<asset>.sig` file for each covered
+Signed OPC-Team releases provide a detached `<asset>.sig` file for each covered
 desktop installer or CLI archive. Release `v1.0.0`, for example, provides
 signatures for its desktop and CLI downloads.
 
-OpenBitFun uses this pinned minisign public key:
+OPC-Team uses this pinned minisign public key:
 
 - Key ID: `50F47CBE6CC0A376`
 - Public key: `RWR2o8Bsvnz0UOBc3NoTVW06wdiGM7pLP3LpiL4A3Sp4nxkBsWlJRTxn`
 
 The same key is published as `minisign.pub` with signed releases and is built
-into official OpenBitFun update paths. The commands below pin the key directly so
+into official OPC-Team update paths. The commands below pin the key directly so
 the signature and key are not both trusted only because they came from the same
 download location.
 
@@ -53,17 +53,17 @@ Invoke-WebRequest "$Base/${Asset}.sig" -OutFile "${Asset}.sig"
 $EncodedSignature = (Get-Content "${Asset}.sig" -Raw).Trim()
 [IO.File]::WriteAllBytes("${Asset}.minisig", [Convert]::FromBase64String($EncodedSignature))
 minisign -Vm $Asset -P $PublicKey -x "${Asset}.minisig"
-if ($LASTEXITCODE -ne 0) { throw "OpenBitFun download signature verification failed" }
+if ($LASTEXITCODE -ne 0) { throw "OPC-Team download signature verification failed" }
 ```
 
 ## What the `.sig` file means
 
-OpenBitFun release `.sig` files are base64-wrapped **minisign signatures**. Decode
+OPC-Team release `.sig` files are base64-wrapped **minisign signatures**. Decode
 one layer before giving the result to the minisign CLI, as shown above. A valid
 signature proves that the file's exact bytes match a signature made by the
-pinned OpenBitFun release key; changing even one byte makes verification fail.
+pinned OPC-Team release key; changing even one byte makes verification fail.
 
-This is not platform code signing. In particular, an OpenBitFun `.sig` is not an
+This is not platform code signing. In particular, an OPC-Team `.sig` is not an
 Apple Developer ID signature or notarization ticket, and it is not Windows
 Authenticode. Gatekeeper and SmartScreen can therefore show their own warnings
 independently of a successful minisign check. Signature verification also does

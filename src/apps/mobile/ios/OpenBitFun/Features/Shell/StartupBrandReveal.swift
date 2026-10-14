@@ -27,7 +27,7 @@ struct StartupBrandReveal: View {
         .contentShape(Rectangle())
         .onTapGesture { }
         .accessibilityElement(children: .ignore)
-        .accessibilityLabel("OpenBitFun")
+        .accessibilityLabel("OPC-Team")
         .accessibilityIdentifier("startup.brand")
         .task {
             guard !reduceMotion else { onFinished(); return }

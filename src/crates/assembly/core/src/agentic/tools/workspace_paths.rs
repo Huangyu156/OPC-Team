@@ -1,6 +1,6 @@
 //! Workspace path resolution for agent tools.
 //!
-//! When OpenBitFun runs on Windows but the open workspace is a **remote SSH** (POSIX) tree,
+//! When OPC-Team runs on Windows but the open workspace is a **remote SSH** (POSIX) tree,
 //! `std::path::Path` treats paths like `/home/user/proj` as non-absolute and joins them
 //! incorrectly. Remote sessions must use POSIX path semantics for tool arguments.
 

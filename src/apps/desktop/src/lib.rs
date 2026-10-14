@@ -135,7 +135,7 @@ fn show_fatal_startup_error(message: &str) {
     use windows::core::PCWSTR;
     use windows::Win32::UI::WindowsAndMessaging::{MessageBoxW, MB_ICONERROR, MB_OK};
 
-    let title = "OpenBitFun startup error"
+    let title = "OPC-Team startup error"
         .encode_utf16()
         .chain(std::iter::once(0))
         .collect::<Vec<_>>();
@@ -455,7 +455,7 @@ pub async fn run() {
     ) {
         log::error!("Failed to select Desktop agent profile: {}", error);
         show_fatal_startup_error(&format!(
-            "OpenBitFun could not select its Desktop agent profile and cannot continue.\n\n{error}\n\nSee early-startup.log for details."
+            "OPC-Team could not select its Desktop agent profile and cannot continue.\n\n{error}\n\nSee early-startup.log for details."
         ));
         return;
     }
@@ -464,7 +464,7 @@ pub async fn run() {
     if let Err(e) = openbitfun_core::service::config::initialize_global_config().await {
         log::error!("Failed to initialize global config service: {}", e);
         show_fatal_startup_error(&format!(
-            "OpenBitFun could not initialize its configuration and cannot continue.\n\n{e}\n\nSee early-startup.log for details."
+            "OPC-Team could not initialize its configuration and cannot continue.\n\n{e}\n\nSee early-startup.log for details."
         ));
         return;
     }
@@ -618,7 +618,7 @@ pub async fn run() {
         Err(e) => {
             log::error!("Failed to initialize AppState: {}", e);
             show_fatal_startup_error(&format!(
-                "OpenBitFun could not initialize its application state and cannot continue.\n\n{e}\n\nSee {} for details.",
+                "OPC-Team could not initialize its application state and cannot continue.\n\n{e}\n\nSee {} for details.",
                 logging::early_startup_log_path(&session_log_dir).display()
             ));
             return;
@@ -711,7 +711,7 @@ pub async fn run() {
         .plugin(tauri_plugin_fs::init())
         .plugin(
             tauri_plugin_autostart::Builder::new()
-                .app_name("OpenBitFun")
+                .app_name("OPC-Team")
                 .build(),
         )
         .plugin(tauri_plugin_notification::init())
@@ -827,16 +827,23 @@ pub async fn run() {
                 const CREATE_NO_WINDOW: u32 = 0x08000000;
                 let step_started = Instant::now();
 
+                // The NSIS installer derives this key from the bundle identity as
+                // `Software\<publisher>\<productName>`. The product is named
+                // `OPC-Team` since the rename, so that key is the authoritative
+                // one; the legacy `OpenBitFun` key is mirrored separately so an
+                // install created before the rename still finds the custom install
+                // path its own upgrader reads.
+                const INSTALL_LOCATION_REGISTRY_KEYS: [&str; 2] = [
+                    r"HKCU\Software\OpenBitFun Team\OPC-Team",
+                    r"HKCU\Software\OpenBitFun Team\OpenBitFun",
+                ];
+
                 if let Ok(exe) = std::env::current_exe() {
                     if let Some(install_dir) = exe.parent() {
                         let dir_str = install_dir.to_string_lossy();
-                        let need_update =
-                            match std::process::Command::new("reg")
-                                .args([
-                                    "query",
-                                    r"HKCU\Software\OpenBitFun Team\OpenBitFun",
-                                    "/ve",
-                                ])
+                        for registry_key in INSTALL_LOCATION_REGISTRY_KEYS {
+                            let need_update = match std::process::Command::new("reg")
+                                .args(["query", registry_key, "/ve"])
                                 .creation_flags(CREATE_NO_WINDOW)
                                 .output()
                             {
@@ -846,21 +853,17 @@ pub async fn run() {
                                 }
                                 Err(_) => true,
                             };
-                        if need_update {
+                            if !need_update {
+                                continue;
+                            }
                             let _ = std::process::Command::new("reg")
-                                .args([
-                                    "add",
-                                    r"HKCU\Software\OpenBitFun Team\OpenBitFun",
-                                    "/ve",
-                                    "/d",
-                                    &dir_str,
-                                    "/f",
-                                ])
+                                .args(["add", registry_key, "/ve", "/d", &dir_str, "/f"])
                                 .creation_flags(CREATE_NO_WINDOW)
                                 .status();
                             log::info!(
-                                "Synced Tauri install-location registry to: {}",
-                                install_dir.display()
+                                "Synced Tauri install-location registry key to: {} (key={})",
+                                install_dir.display(),
+                                registry_key
                             );
                         }
                     }

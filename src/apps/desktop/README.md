@@ -1,4 +1,4 @@
-# OpenBitFun Desktop
+# OPC-Team Desktop
 
 For development commands, see [AGENTS.md](AGENTS.md) and the repository
 [contribution guide](../../../CONTRIBUTING.md).
@@ -12,7 +12,7 @@ Remote SSH/Docker workspaces open their locally stored session mirror, not the
 remote project directory. These actions are unavailable in Peer Device Mode,
 browser clients, and for detached sessions owned by another host.
 
-For manual recovery, exit every OpenBitFun instance using the session and back
+For manual recovery, exit every OPC-Team instance using the session and back
 up its complete directory before editing or moving files. Moving a directory
 does not update the workspace bindings in its metadata or saved configuration.
 
@@ -76,7 +76,7 @@ On Ubuntu GNOME, Computer Use uses the system desktop portal for screen sharing
 and foreground input. Start a control session, then approve the surface and
 input devices in the system dialog on the machine running Desktop. GNOME owns
 its sharing indicator and stop control. Stopping sharing revokes further input;
-OpenBitFun never falls back from Wayland to X11 input after denial or disconnect.
+OPC-Team never falls back from Wayland to X11 input after denial or disconnect.
 Foreground portal input controls the desktop seat and can move your real pointer.
 
 Background application operations use AT-SPI semantic actions and EditableText
@@ -194,7 +194,7 @@ About only contains
 product identity and build information.
 
 Choose **Download update** to download and verify an update while continuing to
-use OpenBitFun. Downloading does not install or restart the application.
+use OPC-Team. Downloading does not install or restart the application.
 When the navigation footer is visible, a dot travels from the download button to
 the circle beside **More**. Only after it arrives does the navigation circle appear and the
 card close. The circle fills from bottom to top using downloaded bytes, with a
@@ -219,11 +219,11 @@ opens automatically. Select the checkmark to open the installation confirmation
 directly. More no longer shows a reminder for the downloaded version.
 Failed downloads return to the reminder in More; an older downloaded package
 keeps its own installation checkmark if a newer download fails.
-Installation restarts OpenBitFun on this device and interrupts its active sessions.
+Installation restarts OPC-Team on this device and interrupts its active sessions.
 Choosing **Later**, or closing the confirmation, keeps the downloaded update.
 The checkmark remains available whenever you are ready.
 
-Downloaded updates remain available after closing and reopening OpenBitFun.
+Downloaded updates remain available after closing and reopening OPC-Team.
 After reopening, the current updater requires access to the update server to
 restore installer metadata, but does not download the package again. If this
 step or installation fails, the pending update remains available to retry.
@@ -259,7 +259,7 @@ Linux service.
 ## Remote SSH file handle errors
 
 If writing files and browsing directories both start failing with
-`Limit exceeded: handle limit reached`, update OpenBitFun to a build containing
+`Limit exceeded: handle limit reached`, update OPC-Team to a build containing
 the SFTP handle-lifecycle fix. Earlier builds can exhaust a client-side counter
 even when the server has already closed the files. Save ongoing work before
 manually disconnecting and reconnecting the remote workspace as a temporary
@@ -268,9 +268,9 @@ recovery; reconnecting can interrupt its terminals and commands.
 This message alone does not establish a server configuration problem. Raising
 server limits only delays a leaked-counter failure. Running `ulimit` in a new
 SSH shell does not change the limits of the already-running SFTP subsystem.
-OpenBitFun does not modify the remote user's shell startup files, SSH daemon
+OPC-Team does not modify the remote user's shell startup files, SSH daemon
 configuration, or OS limits automatically. If the problem persists after the
-fix, capture the OpenBitFun version and logs plus the server's SFTP implementation
+fix, capture the OPC-Team version and logs plus the server's SFTP implementation
 and advertised limits so genuine concurrent-handle or server resource exhaustion
 can be distinguished from a client lifecycle problem.
 
@@ -365,13 +365,13 @@ configured custom URL takes precedence. Disabling or deleting the official sourc
 also disables its environment override.
 
 SkillHub uses its ClawHub-compatible search API and native ZIP download API, and
-installs supporting files into OpenBitFun's user or project Skills directory. An
+installs supporting files into OPC-Team's user or project Skills directory. An
 existing destination is preserved and reported as a conflict. skills.sh-compatible
 sources use the existing repository-based `npx skills` installer: a custom search
 API does not supply a custom ZIP download protocol.
 
 Tokens are stored in the serving host's application configuration; browser login
-sessions are not shared with OpenBitFun. The market is currently available in the
+sessions are not shared with OPC-Team. The market is currently available in the
 local Desktop scene. Peer mode and older hosts show unsupported states. SSH/Docker
 project installation remains unsupported; choose user scope to install on the
 serving host. Mobile/bot controls, CLI peers and Detached Dispatch do not gain a
@@ -401,7 +401,7 @@ This is best-effort notification, not a durable message inbox. Switching session
 or devices discards output from the previous selection before sending.
 
 Proactive notifications currently require the session runtime and WeChat bot to
-run on the same OpenBitFun host. A session on that host may use an SSH workspace;
+run on the same OPC-Team host. A session on that host may use an SSH workspace;
 this does not make it an account-device session. When switching the bot to another
 account device, the existing reply includes an explicit notice that proactive
 scheduled-job and desktop-result notifications are unavailable there. Ordinary

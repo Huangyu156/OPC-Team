@@ -1,6 +1,6 @@
-# OpenBitFun Installer
+# OPC-Team Installer
 
-A fully custom, branded installer for OpenBitFun — built with **Tauri 2 + React** for maximum UI flexibility.
+A fully custom, branded installer for OPC-Team — built with **Tauri 2 + React** for maximum UI flexibility.
 
 ## Why a Custom Installer?
 
@@ -270,7 +270,7 @@ reduced-motion preference.
 
 ### Adding Installer Payload
 
-Place the built OpenBitFun application files in `src-tauri/payload/` before building the installer. The build script handles this automatically.
+Place the built OPC-Team application files in `src-tauri/payload/` before building the installer. The build script handles this automatically.
 During `cargo build`, the payload directory is packed into an embedded zip inside `openbitfun-installer.exe`.
 
 ## Integration with CI/CD

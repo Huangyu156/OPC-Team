@@ -211,7 +211,7 @@ fn native_conflict_stays_active_by_default_but_is_not_recorded_as_a_choice() {
         candidate_id: "native_mcp:openbitfun-github".to_string(),
         server_id: "openbitfun-github".to_string(),
         name: "github".to_string(),
-        display_name: "OpenBitFun: github".to_string(),
+        display_name: "OPC-Team: github".to_string(),
         behavior_version: "native-v1".to_string(),
         enabled: true,
     };

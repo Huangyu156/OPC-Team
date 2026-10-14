@@ -143,7 +143,7 @@ fn interactive_startup_survives_resize_multiline_input_and_emits_cleanup() {
         "interactive startup did not render the multiline input tail",
     );
     assert!(
-        !process.output().contains("Welcome to OpenBitFun CLI!"),
+        !process.output().contains("Welcome to OPC-Team CLI!"),
         "multiline input was submitted instead of remaining in the startup editor"
     );
 
@@ -370,7 +370,7 @@ fn export_dialog_writes_markdown_under_the_local_cli_directory() {
             .as_mut()
             .expect("PTY process child")
             .try_wait()
-            .expect("poll OpenBitFun CLI process")
+            .expect("poll OPC-Team CLI process")
         {
             panic!(
                 "export process exited with {status}; output:\n{}",
@@ -406,10 +406,7 @@ fn export_dialog_writes_markdown_under_the_local_cli_directory() {
         "{markdown}"
     );
     assert!(markdown.contains("## Assistant"), "{markdown}");
-    assert!(
-        !markdown.contains("Welcome to OpenBitFun CLI!"),
-        "{markdown}"
-    );
+    assert!(!markdown.contains("Welcome to OPC-Team CLI!"), "{markdown}");
 }
 
 fn session_markdown_exports(workspace: &std::path::Path) -> Vec<std::path::PathBuf> {
@@ -632,7 +629,7 @@ impl PtyProcess {
         let mut child = pair
             .slave
             .spawn_command(command)
-            .expect("spawn OpenBitFun CLI in native PTY");
+            .expect("spawn OPC-Team CLI in native PTY");
         drop(pair.slave);
 
         let mut reader = pair.master.try_clone_reader().expect("clone PTY reader");
@@ -654,7 +651,7 @@ impl PtyProcess {
 
         // Detect an immediate startup failure before handing the process to the test.
         if let Some(status) = child.try_wait().expect("poll initial CLI process") {
-            panic!("OpenBitFun CLI exited during PTY startup: {status}");
+            panic!("OPC-Team CLI exited during PTY startup: {status}");
         }
 
         Self {
@@ -681,7 +678,7 @@ impl PtyProcess {
                 .as_mut()
                 .expect("PTY process child")
                 .try_wait()
-                .expect("poll OpenBitFun CLI process")
+                .expect("poll OPC-Team CLI process")
             {
                 let output = self.output();
                 self.close_io();
@@ -735,7 +732,7 @@ impl PtyProcess {
                 .as_mut()
                 .expect("PTY process child")
                 .try_wait()
-                .expect("poll OpenBitFun CLI process")
+                .expect("poll OPC-Team CLI process")
             {
                 break status;
             }

@@ -3,7 +3,7 @@ name = "openbitfun-agent-runtime"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Agent runtime contracts and owner decisions for OpenBitFun"
+description = "Agent runtime contracts and owner decisions for OPC-Team"
 autotests = false
 
 [lib]

@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "OpenBitFun 远程控制客户端"
+      "value": "OPC-Team 远程控制客户端"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "连接 OpenBitFun 桌面端并控制远程会话"
+      "value": "连接 OPC-Team 桌面端并控制远程会话"
     },
     {
       "name": "EntryAbility_label",
-      "value": "OpenBitFun"
+      "value": "OPC-Team"
     },
     {
       "name": "permission_microphone_reason",
@@ -310,7 +310,7 @@
     },
     {
       "name": "notification_onboardingBody",
-      "value": "允许 OpenBitFun 在任务完成时发送通知。你可以稍后在系统设置中更改。"
+      "value": "允许 OPC-Team 在任务完成时发送通知。你可以稍后在系统设置中更改。"
     },
     {
       "name": "notification_onboardingLater",
@@ -322,7 +322,7 @@
     },
     {
       "name": "app_title",
-      "value": "OpenBitFun"
+      "value": "OPC-Team"
     },
     {
       "name": "common_cancel",
@@ -406,7 +406,7 @@
     },
     {
       "name": "notification_taskCompletedBody",
-      "value": "OpenBitFun 任务已经完成，点击打开 OpenBitFun 查看结果。"
+      "value": "OPC-Team 任务已经完成，点击打开 OPC-Team 查看结果。"
     },
     {
       "name": "chatHome_prompt",
@@ -414,7 +414,7 @@
     },
     {
       "name": "chatHome_placeholder",
-      "value": "问问 OpenBitFun"
+      "value": "问问 OPC-Team"
     },
     {
       "name": "chatHome_localHint",
@@ -474,7 +474,7 @@
     },
     {
       "name": "chatHome_codeHintBody",
-      "value": "连接桌面工作区后，OpenBitFun 才能读取项目文件、运行命令并修改代码。"
+      "value": "连接桌面工作区后，OPC-Team 才能读取项目文件、运行命令并修改代码。"
     },
     {
       "name": "chatHome_enterCode",
@@ -482,11 +482,11 @@
     },
     {
       "name": "generalChat_ready",
-      "value": "OpenBitFun 已就绪"
+      "value": "OPC-Team 已就绪"
     },
     {
       "name": "generalChat_generating",
-      "value": "OpenBitFun 正在回复"
+      "value": "OPC-Team 正在回复"
     },
     {
       "name": "generalChat_sending",
@@ -598,7 +598,7 @@
     },
     {
       "name": "settings_about_openbitfun",
-      "value": "关于 OpenBitFun"
+      "value": "关于 OPC-Team"
     },
     {
       "name": "settings_about_product",
@@ -1006,7 +1006,7 @@
     },
     {
       "name": "code_title",
-      "value": "OpenBitFun 远程"
+      "value": "OPC-Team 远程"
     },
     {
       "name": "code_heroTitle",
@@ -1014,7 +1014,7 @@
     },
     {
       "name": "code_heroBody",
-      "value": "连接桌面端后，OpenBitFun 可以访问你的代码仓库、运行命令和修改文件。"
+      "value": "连接桌面端后，OPC-Team 可以访问你的代码仓库、运行命令和修改文件。"
     },
     {
       "name": "code_connectWorkspace",
@@ -1230,7 +1230,7 @@
     },
     {
       "name": "remote_settings_openbitfunUser",
-      "value": "OpenBitFun 用户"
+      "value": "OPC-Team 用户"
     },
     {
       "name": "remote_settings_accountSignedIn",
@@ -1354,7 +1354,7 @@
     },
     {
       "name": "remote_settings_githubAccount",
-      "value": "OpenBitFun 账号"
+      "value": "OPC-Team 账号"
     },
     {
       "name": "remote_settings_connectedDesktop",
@@ -1438,7 +1438,7 @@
     },
     {
       "name": "connect_subtitle",
-      "value": "连接桌面端后，OpenBitFun 可以访问代码仓库、运行命令和处理本地开发任务。"
+      "value": "连接桌面端后，OPC-Team 可以访问代码仓库、运行命令和处理本地开发任务。"
     },
     {
       "name": "connect_accountDevicesTitle",
@@ -1466,7 +1466,7 @@
     },
     {
       "name": "connect_deviceLinkUnavailable",
-      "value": "该设备已离线，或不属于当前 OpenBitFun 账户。"
+      "value": "该设备已离线，或不属于当前 OPC-Team 账户。"
     },
     {
       "name": "connect_accountPairTitle",
@@ -1486,11 +1486,11 @@
     },
     {
       "name": "connect_accountUsernamePlaceholder",
-      "value": "OpenBitFun 用户名"
+      "value": "OPC-Team 用户名"
     },
     {
       "name": "connect_accountPasswordPlaceholder",
-      "value": "OpenBitFun 密码"
+      "value": "OPC-Team 密码"
     },
     {
       "name": "connect_stepsTitle",
@@ -1798,7 +1798,7 @@
     },
     {
       "name": "sheet_instructionPlaceholder",
-      "value": "告诉 OpenBitFun 要做什么..."
+      "value": "告诉 OPC-Team 要做什么..."
     },
     {
       "name": "sheet_advancedOptions",
@@ -1898,7 +1898,7 @@
     },
     {
       "name": "chat_inputPlaceholder",
-      "value": "向 OpenBitFun 提问"
+      "value": "向 OPC-Team 提问"
     },
     {
       "name": "chat_voiceListeningPlaceholder",
@@ -2138,7 +2138,7 @@
     },
     {
       "name": "chat_executing",
-      "value": "OpenBitFun 正在执行..."
+      "value": "OPC-Team 正在执行..."
     },
     {
       "name": "chat_model",
@@ -2146,11 +2146,11 @@
     },
     {
       "name": "chat_openbitfunProcessing",
-      "value": "OpenBitFun 正在处理..."
+      "value": "OPC-Team 正在处理..."
     },
     {
       "name": "chat_updatedSession",
-      "value": "OpenBitFun 已更新会话"
+      "value": "OPC-Team 已更新会话"
     },
     {
       "name": "chat_desktopFile",
@@ -2562,7 +2562,7 @@
     },
     {
       "name": "errors_accountUsernameRequired",
-      "value": "请输入 OpenBitFun 用户名。"
+      "value": "请输入 OPC-Team 用户名。"
     },
     {
       "name": "errors_accountPasswordRequired",
@@ -2638,7 +2638,7 @@
     },
     {
       "name": "errors_hostStreamUnsupported",
-      "value": "已连接的桌面端 OpenBitFun 版本过旧，不支持按需会话流。请升级该设备上的 OpenBitFun 后继续。"
+      "value": "已连接的桌面端 OPC-Team 版本过旧，不支持按需会话流。请升级该设备上的 OPC-Team 后继续。"
     },
     {
       "name": "errors_imageTooLargeAfterCompression",
@@ -2702,7 +2702,7 @@
     },
     {
       "name": "watchProvision_doneBody",
-      "value": "%1$s 已登录，可以在手表上使用 OpenBitFun 了。"
+      "value": "%1$s 已登录，可以在手表上使用 OPC-Team 了。"
     },
     {
       "name": "watchProvision_rejected",
@@ -2726,7 +2726,7 @@
     },
     {
       "name": "watchProvision_errors_desktopAuthorizationFailed",
-      "value": "桌面端没能完成手表登录，请确认桌面端已登录同一 OpenBitFun 账号。"
+      "value": "桌面端没能完成手表登录，请确认桌面端已登录同一 OPC-Team 账号。"
     },
     {
       "name": "watchProvision_errors_passwordFailed",
@@ -2746,7 +2746,7 @@
     },
     {
       "name": "ui_seedConnected",
-      "value": "%1$s 已连接。你可以继续发送指令，桌面端会在 OpenBitFun 中执行。"
+      "value": "%1$s 已连接。你可以继续发送指令，桌面端会在 OPC-Team 中执行。"
     },
     {
       "name": "time_justNow",

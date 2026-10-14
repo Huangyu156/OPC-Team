@@ -25,7 +25,7 @@ pub(crate) fn resolve_mcp_local_command_with_resolver(
 ) -> MCPRuntimeResult<MCPLocalCommandResolution> {
     let resolved = resolver.resolve_command(command).ok_or_else(|| {
         MCPRuntimeError::process(format!(
-            "MCP server command '{}' not found in system PATH or OpenBitFun managed runtimes at {}",
+            "MCP server command '{}' not found in system PATH or OPC-Team managed runtimes at {}",
             command,
             resolver.runtime_root_display()
         ))

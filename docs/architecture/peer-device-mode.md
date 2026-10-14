@@ -1,7 +1,7 @@
 # Peer Device Mode
 
 Peer Device Mode switches the desktop (and mobile control target) data plane
-onto another same-account online OpenBitFun device. The React shell stays local;
+onto another same-account online OPC-Team device. The React shell stays local;
 product invokes and agentic events come from the peer. The peer may be Desktop
 or CLI: both speak the same HostInvoke / DeviceEvent protocol.
 
@@ -9,7 +9,7 @@ or CLI: both speak the same HostInvoke / DeviceEvent protocol.
 
 After login, clicking an online peer device **B** from controller **A** must make
 A's workspace list, sessions, assistants, chat, and tools behave like using
-OpenBitFun on B's machine. The authority is **B's live local OpenBitFun state** via
+OPC-Team on B's machine. The authority is **B's live local OPC-Team state** via
 HostInvoke / DeviceEvent fan-out — not a merged cloud session history.
 
 ## Attachment vs rendered surface
@@ -272,7 +272,7 @@ local-change signal. Pending local edits take priority over the periodic pull;
 a fetched blob is applied only if the local document still matches its
 pre-fetch snapshot. The comparison and import share the config write lock.
 
-Imports validate the OpenBitFun product identity, export format and config
+Imports validate the OPC-Team product identity, export format and config
 schema, then replace the document. Within the supported schema, omitted fields
 with serde defaults acquire those defaults; they do not retain the receiving
 host's prior value. Arrays and dynamic maps remain authoritative, so deleted

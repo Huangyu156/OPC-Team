@@ -306,7 +306,7 @@ pub async fn install_cli_cancel(
 /// ready model.
 ///
 /// Credential-bearing: this writes the controller's API keys into the target
-/// user's OpenBitFun configuration. Callers are the explicit UI command and the
+/// user's OPC-Team configuration. Callers are the explicit UI command and the
 /// automatic submit-time repair in [`ensure_target_model_config`]; both leave
 /// a durable record of having done it.
 pub(super) async fn push_model_config(
@@ -442,7 +442,7 @@ pub async fn submit(
                 .protocol_error
                 .as_deref()
                 .or(cli_probe.install_error.as_deref())
-                .unwrap_or("OpenBitFun CLI dispatch protocol is unavailable on the SSH target")
+                .unwrap_or("OPC-Team CLI dispatch protocol is unavailable on the SSH target")
         )
     })?;
     dispatch_ssh::validate_dispatch_protocol(cli_protocol, Some(&request.approval_policy))?;
@@ -462,7 +462,7 @@ pub async fn submit(
     )
     .await?;
     let cli_protocol = cli_probe.protocol.as_ref().ok_or_else(|| {
-        anyhow::anyhow!("OpenBitFun CLI dispatch protocol is unavailable on the SSH target")
+        anyhow::anyhow!("OPC-Team CLI dispatch protocol is unavailable on the SSH target")
     })?;
     if !target_serves_model(cli_protocol, request.model.as_deref()) {
         anyhow::bail!(
@@ -521,7 +521,7 @@ pub async fn submit(
             anyhow::bail!(
                 "{}",
                 workspace_probe.protocol_error.as_deref().unwrap_or(
-                    "OpenBitFun CLI dispatch protocol is unavailable in the target worktree"
+                    "OPC-Team CLI dispatch protocol is unavailable in the target worktree"
                 )
             );
         }

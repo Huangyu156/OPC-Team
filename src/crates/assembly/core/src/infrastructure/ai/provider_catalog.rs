@@ -120,7 +120,7 @@ pub(crate) fn builtin_provider_catalog_identity(
 }
 
 /// A models.dev snapshot that contributes provider bindings makes the catalog
-/// mixed even when the caller passed the OpenBitFun-only source.
+/// mixed even when the caller passed the OPC-Team-only source.
 fn promoted_catalog_source(
     overlay: &ProviderOverlayDocument,
     models_dev: Option<&ModelsDevCatalog>,

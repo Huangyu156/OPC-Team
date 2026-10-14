@@ -3,7 +3,7 @@ name = "openbitfun-app-server"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun generic JSON-RPC app-server surface over agent_client_protocol custom roles"
+description = "OPC-Team generic JSON-RPC app-server surface over agent_client_protocol custom roles"
 
 [lib]
 name = "openbitfun_app_server"

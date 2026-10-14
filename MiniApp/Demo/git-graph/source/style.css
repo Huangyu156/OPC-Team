@@ -1,5 +1,5 @@
 /* styles/tokens.css */
-/* Git Graph MiniApp — theme tokens (host --openbitfun-* when running in OpenBitFun) */
+/* Git Graph MiniApp — theme tokens (host --openbitfun-* when running in OPC-Team) */
 :root {
   --bg:          var(--openbitfun-bg);
   --bg-surface:  var(--openbitfun-bg-secondary);

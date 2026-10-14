@@ -106,7 +106,7 @@ fn extension_command_help_request(command_name: &str, arguments: &str) -> Option
             "",
             "Usage: /extensions [status | refresh | safe-mode on | safe-mode off | source enable <source-key> | source disable <source-key>]",
             "",
-            "Shows external AI application sources and controls OpenBitFun Safe Mode. Source files remain owned by their native application.",
+            "Shows external AI application sources and controls OPC-Team Safe Mode. Source files remain owned by their native application.",
             "",
             "Help: /help extensions, /extensions -h, or /extensions --help",
         ].join("\n")),
@@ -115,7 +115,7 @@ fn extension_command_help_request(command_name: &str, arguments: &str) -> Option
             "",
             "Usage: /tools [refresh | enable <number> | disable <number> | choose <conflict-number> <choice-number>]",
             "",
-            "Shows OpenBitFun, MCP, and compatible external tool sources. Activation and conflicts remain guarded by OpenBitFun policy.",
+            "Shows OPC-Team, MCP, and compatible external tool sources. Activation and conflicts remain guarded by OPC-Team policy.",
             "",
             "Help: /help tools, /tools -h, or /tools --help",
         ].join("\n")),
@@ -146,7 +146,7 @@ fn extension_command_help_request(command_name: &str, arguments: &str) -> Option
 fn render_external_hook_catalog(snapshot: &ExternalHookCatalogSnapshotV1) -> String {
     let mut lines = vec![
         "Available external Hook sources".to_string(),
-        "Discovery is read-only. Review an exact import plan before OpenBitFun copies or enables anything."
+        "Discovery is read-only. Review an exact import plan before OPC-Team copies or enables anything."
             .to_string(),
         String::new(),
     ];
@@ -343,10 +343,10 @@ fn projection_label(
         {
             Some(
                 openbitfun_product_domains::external_hook_contributions::ExternalHookPoint::ToolBefore,
-            ) => "coverage mapped: OpenBitFun tool before",
+            ) => "coverage mapped: OPC-Team tool before",
             Some(
                 openbitfun_product_domains::external_hook_contributions::ExternalHookPoint::ToolAfter,
-            ) => "coverage mapped: OpenBitFun tool after",
+            ) => "coverage mapped: OPC-Team tool after",
             None => "invalid mapping",
         },
         ExternalHookProjectionStatus::NativeOnly => "native only",
@@ -731,7 +731,7 @@ impl ChatMode {
                 );
                 let status = if remove {
                     format!(
-                        "Removed OpenBitFun's managed copy of {import_id}; the source was unchanged."
+                        "Removed OPC-Team's managed copy of {import_id}; the source was unchanged."
                     )
                 } else if enabled {
                     format!("Enabled {import_id} for the next matching event.")

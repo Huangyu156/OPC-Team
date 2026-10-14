@@ -1,9 +1,9 @@
-Analyze this OpenBitFun usage data and suggest improvements.
+Analyze this OPC-Team usage data and suggest improvements.
 
 ## OPENBITFUN FEATURES REFERENCE (pick from these for features_to_try):
 
 1. **Skills**: Create reusable prompt templates as markdown files that run with a single button or command.
-   - How to use: Create `.openbitfun/skills/commit/SKILL.md` with instructions. Then trigger it from the Skills panel.
+   - How to use: Create `.opcteam/skills/commit/SKILL.md` with instructions. Then trigger it from the Skills panel.
    - Good for: repetitive workflows - commit messages, code reviews, testing, deployment, or complex multi-step workflows
    - Example SKILL.md content:
      ```markdown
@@ -16,9 +16,9 @@ Analyze this OpenBitFun usage data and suggest improvements.
    - Authoring new skills: Invoke the built-in `writing-skills` skill for guidance on creating well-structured skill files.
 
 2. **SubAgents (Task Agents)**: Custom agents you define for specific domains or tasks. SubAgents run in parallel and return results to the parent agent.
-   - How to use: Create agents in `.openbitfun/agents/` with custom prompts and tool configurations.
+   - How to use: Create agents in `.opcteam/agents/` with custom prompts and tool configurations.
    - Good for: domain-specific tasks, parallel exploration, focused code review
-   - Example agent config (`.openbitfun/agents/security-reviewer/agent.json`):
+   - Example agent config (`.opcteam/agents/security-reviewer/agent.json`):
      ```json
      {
        "name": "Security Reviewer",
@@ -29,12 +29,12 @@ Analyze this OpenBitFun usage data and suggest improvements.
      ```
    - Parallel exploration: Launch multiple SubAgents to investigate different parts of the codebase simultaneously, then synthesize their findings.
 
-3. **MCP Servers**: Connect OpenBitFun to external tools, databases, and APIs via Model Context Protocol.
+3. **MCP Servers**: Connect OPC-Team to external tools, databases, and APIs via Model Context Protocol.
    - How to use: Configure MCP servers in settings to connect to external services.
    - Good for: database queries, API integration, connecting to internal tools
    - Common integrations:
      - **Database**: Query PostgreSQL/MySQL directly from chat — `SELECT * FROM users WHERE ...`
-     - **GitHub**: Create issues, review PRs, manage releases without leaving OpenBitFun
+     - **GitHub**: Create issues, review PRs, manage releases without leaving OPC-Team
      - **Slack/Discord**: Post messages, read channels, manage notifications
      - **Notion/Linear**: Create and update project management items
    - Example config:
@@ -60,7 +60,7 @@ Analyze this OpenBitFun usage data and suggest improvements.
    - For work with independent branches, enable or invoke the built-in `multitask` skill so the Agent can coordinate parallel subagents without changing the session's main Agent.
    - Tip: Use the Plan skill for complex tasks, then ask Standard to implement the resulting plan.
 
-5. **CLI Exec (Headless)**: Run OpenBitFun non-interactively from scripts and CI/CD pipelines.
+5. **CLI Exec (Headless)**: Run OPC-Team non-interactively from scripts and CI/CD pipelines.
    - How to use: `openbitfun exec "fix lint errors" --tools "Edit,Read,ExecCommand"`
    - Good for: CI/CD integration, batch code fixes, automated reviews
    - CI/CD examples:

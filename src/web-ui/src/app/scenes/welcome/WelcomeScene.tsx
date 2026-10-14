@@ -121,7 +121,7 @@ const WelcomeScene: React.FC = () => {
               <OpenBitFunMark style={{ width: '100%', height: '100%' }} />
             </span>
             <span className="welcome-scene__brand-name">
-              OpenBitFun{t('welcomeScene.space.separator')}
+              OPC-Team{t('welcomeScene.space.separator')}
             </span>
           </h1>
           <h2

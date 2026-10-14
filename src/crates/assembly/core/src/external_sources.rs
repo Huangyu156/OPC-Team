@@ -730,7 +730,7 @@ fn external_capability_descriptor(
 }
 
 /// Internal SDK-ready registration seam. Adapters only contribute discovery
-/// providers and metadata; execution remains owned by OpenBitFun policy/runtime.
+/// providers and metadata; execution remains owned by OPC-Team policy/runtime.
 #[derive(Clone)]
 struct ExternalEcosystemRegistration {
     descriptor: ExternalIntegrationEcosystemDescriptor,
@@ -1991,7 +1991,7 @@ impl WorkspaceExternalSourceService {
         recovery_policy: WorkerRecoveryPolicy,
     ) -> Result<ExternalSourceCatalogSnapshot, String> {
         // Preferences are global to the local execution domain and may be
-        // changed by another OpenBitFun process. Synchronize before every refresh
+        // changed by another OPC-Team process. Synchronize before every refresh
         // so a cached CLI/Desktop service cannot keep an externally disabled
         // source active.
         sync_service_preferences(self).await?;
@@ -4839,10 +4839,10 @@ fn native_mcp_behavior_version(
     config: &crate::service::mcp::MCPServerConfig,
 ) -> Result<String, String> {
     let value = serde_json::to_value(config)
-        .map_err(|error| format!("Could not fingerprint OpenBitFun MCP configuration: {error}"))?;
+        .map_err(|error| format!("Could not fingerprint OPC-Team MCP configuration: {error}"))?;
     let mut encoded = Vec::new();
     write_canonical_json(&value, &mut encoded)
-        .map_err(|error| format!("Could not fingerprint OpenBitFun MCP configuration: {error}"))?;
+        .map_err(|error| format!("Could not fingerprint OPC-Team MCP configuration: {error}"))?;
     Ok(revision_key.opaque_revision("openbitfun.mcp.behavior.v1", [encoded.as_slice()]))
 }
 
@@ -4886,7 +4886,7 @@ async fn load_native_mcp_candidates(
         .config_service()
         .load_all_configs()
         .await
-        .map_err(|error| format!("Could not read OpenBitFun MCP configuration: {error}"))?;
+        .map_err(|error| format!("Could not read OPC-Team MCP configuration: {error}"))?;
     let mut candidates = Vec::with_capacity(configs.len());
     for config in configs {
         let behavior_version = native_mcp_behavior_version(revision_key, &config)?;
@@ -4894,7 +4894,7 @@ async fn load_native_mcp_candidates(
         candidates.push(NativeMcpCandidate {
             candidate_id,
             server_id: config.id,
-            display_name: format!("OpenBitFun: {}", config.name),
+            display_name: format!("OPC-Team: {}", config.name),
             name: config.name,
             behavior_version,
             enabled: config.enabled,
@@ -4908,7 +4908,7 @@ async fn load_native_mcp_candidates(
     Ok(candidates)
 }
 
-/// Stable product identifier for a OpenBitFun-owned MCP configuration. Surfaces
+/// Stable product identifier for a OPC-Team-owned MCP configuration. Surfaces
 /// use this only to correlate native list rows with conflict candidates; the
 /// underlying configuration id remains private to the MCP owner.
 pub fn native_mcp_candidate_id(server_id: &str) -> String {
@@ -8347,7 +8347,7 @@ mod tests {
     fn effective_workspace_references_keep_native_order_before_external_aliases() {
         let native = vec![crate::service::workspace::RelatedPath {
             path: "D:/native-docs".to_string(),
-            description: Some("OpenBitFun workspace setting".to_string()),
+            description: Some("OPC-Team workspace setting".to_string()),
         }];
         let source_key = SourceKey::new("opencode.references", "project-config").unwrap();
         let external = openbitfun_external_sources::ExternalWorkspaceReferenceCoordinatorSnapshot {

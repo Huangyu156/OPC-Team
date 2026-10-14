@@ -439,7 +439,7 @@ fn acp_external_agent_bridge_preserves_tool_contract() {
                 },
                 "workspace_path": {
                     "type": "string",
-                    "description": "Optional absolute workspace path. Defaults to the current OpenBitFun workspace."
+                    "description": "Optional absolute workspace path. Defaults to the current OPC-Team workspace."
                 },
                 "timeout_seconds": {
                     "type": "integer",

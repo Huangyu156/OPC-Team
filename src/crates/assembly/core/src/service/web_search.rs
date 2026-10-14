@@ -141,7 +141,7 @@ async fn resolve_provider(config: &WebSearchConfig) -> Arc<dyn WebSearchProvider
                 let http = &config.providers.openbitfun_search_http;
                 if http.endpoint.trim().is_empty() {
                     return Err(OpenBitFunError::config(
-                        "OpenBitFun Search HTTP endpoint is not configured".to_string(),
+                        "OPC-Team Search HTTP endpoint is not configured".to_string(),
                     ));
                 }
                 let auth = match http.auth.mode.trim() {
@@ -155,7 +155,7 @@ async fn resolve_provider(config: &WebSearchConfig) -> Arc<dyn WebSearchProvider
                     "header" => {
                         if http.auth.header_name.trim().is_empty() {
                             return Err(OpenBitFunError::config(
-                                "OpenBitFun Search HTTP auth header name is not configured"
+                                "OPC-Team Search HTTP auth header name is not configured"
                                     .to_string(),
                             ));
                         }
@@ -167,7 +167,7 @@ async fn resolve_provider(config: &WebSearchConfig) -> Arc<dyn WebSearchProvider
                     }
                     mode => {
                         return Err(OpenBitFunError::config(format!(
-                            "Unsupported OpenBitFun Search HTTP authentication mode '{mode}'"
+                            "Unsupported OPC-Team Search HTTP authentication mode '{mode}'"
                         )))
                     }
                 };
@@ -248,7 +248,7 @@ fn credential_id_for_provider<'a>(
                 "" | "none"
             ) {
                 return Err(OpenBitFunError::validation(
-                    "OpenBitFun Search HTTP authentication mode does not use a credential"
+                    "OPC-Team Search HTTP authentication mode does not use a credential"
                         .to_string(),
                 ));
             }

@@ -2,7 +2,7 @@
 name = "openbitfun-core-types"
 version.workspace = true
 edition.workspace = true
-description = "OpenBitFun shared low-level product DTOs"
+description = "OPC-Team shared low-level product DTOs"
 autotests = false
 
 [lib]

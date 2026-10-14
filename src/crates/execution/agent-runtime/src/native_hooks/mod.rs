@@ -1,4 +1,4 @@
-//! Native OpenBitFun agent lifecycle hooks.
+//! Native OPC-Team agent lifecycle hooks.
 //!
 //! This module owns the portable hook engine that executes user-configured
 //! command hooks at agent lifecycle events. The configuration document, event
@@ -7,7 +7,7 @@
 //! consistent with Codex hooks so users can reuse existing hook scripts.
 //!
 //! The engine is host-independent: it receives already-loaded settings layers
-//! and fully-built payloads, and never resolves OpenBitFun config paths itself.
+//! and fully-built payloads, and never resolves OPC-Team config paths itself.
 //! Config discovery, scope gating, and dispatch-site integration live in
 //! `openbitfun-core` (`native_hooks` wiring).
 //!

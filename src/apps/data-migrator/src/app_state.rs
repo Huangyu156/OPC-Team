@@ -61,7 +61,7 @@ impl CommandError {
             ),
             LegacyMigrationError::SourceEqualsTarget(_) => Self::new(
                 "source_equals_target",
-                "The legacy and OpenBitFun data locations are not safely separated.",
+                "The legacy and OPC-Team data locations are not safely separated.",
                 false,
             ),
             LegacyMigrationError::UnsupportedSource(_) => Self::new(
@@ -106,13 +106,13 @@ impl CommandError {
             ),
             LegacyMigrationError::ProcessInspection(_) => Self::new(
                 "process_inspection_failed",
-                "OpenBitFun could not verify that all data-writing processes have stopped.",
+                "OPC-Team could not verify that all data-writing processes have stopped.",
                 true,
             ),
             LegacyMigrationError::UntrustedExecutable(_)
             | LegacyMigrationError::TrustedInstallationUnavailable(_) => Self::new(
                 "trusted_installation_unavailable",
-                "The signed OpenBitFun installation could not be verified.",
+                "The signed OPC-Team installation could not be verified.",
                 true,
             ),
             LegacyMigrationError::InjectedCrash(_) => Self::new(
@@ -380,7 +380,7 @@ impl MigratorCoordinator {
             if confirmation != "RESET" {
                 return Err(CommandError::new(
                     "reset_confirmation_required",
-                    "Type RESET to confirm permanent deletion of OpenBitFun data.",
+                    "Type RESET to confirm permanent deletion of OPC-Team data.",
                     true,
                 ));
             }
@@ -413,7 +413,7 @@ impl MigratorCoordinator {
             )
             .map_err(|error| CommandError::from_legacy(&error))?;
             if !blockers.is_empty() {
-                return Err(CommandError::new("reset_writers_running", "Close BitFun, OpenBitFun, their CLI/background writers, and other Data Migrator instances, then retry reset.", true));
+                return Err(CommandError::new("reset_writers_running", "Close BitFun, OPC-Team, their CLI/background writers, and other Data Migrator instances, then retry reset.", true));
             }
             openbitfun_legacy_migration::reset_target_data(&roots, &preview.directories, &protected)
                 .map_err(|_| CommandError::new("reset_scope_changed", "Reset stopped because the directories failed revalidation. Review the paths again; some data may already have been removed.", true))
@@ -435,7 +435,7 @@ impl MigratorCoordinator {
         match result {
             Ok(result) => {
                 if !result.failed.is_empty() {
-                    session.error = Some(CommandError::new("reset_incomplete", "Some OpenBitFun directories could not be fully removed. Close applications using them, then review and retry reset before migrating.", true));
+                    session.error = Some(CommandError::new("reset_incomplete", "Some OPC-Team directories could not be fully removed. Close applications using them, then review and retry reset before migrating.", true));
                 }
                 session.reset_result = Some(result);
             }
@@ -462,7 +462,7 @@ impl MigratorCoordinator {
         let path = export_failure_diagnostics(&layout, &report).map_err(|_| {
             CommandError::new(
                 "diagnostics_export_failed",
-                "OpenBitFun could not write the sanitized migration diagnostics file.",
+                "OPC-Team could not write the sanitized migration diagnostics file.",
                 true,
             )
         })?;
@@ -1007,7 +1007,7 @@ fn redact_plan_for_ui(plan: &MigrationPlan) -> MigrationPlan {
         .collect();
     for conflict in &mut redacted.conflicts {
         conflict.source_summary = "Legacy item".to_string();
-        conflict.target_summary = "Existing OpenBitFun item".to_string();
+        conflict.target_summary = "Existing OPC-Team item".to_string();
     }
     redacted
 }
@@ -1202,7 +1202,7 @@ mod tests {
         assert!(!roots.target_user_root.exists());
         let target = roots.target_user_root.join("config/app.json");
         for value in [
-            serde_json::json!({"product_id":"openbitfun", "schema_version":999, "version":"9.0.0"}),
+            serde_json::json!({"product_id":"opcteam", "schema_version":999, "version":"9.0.0"}),
             serde_json::json!({"product_id":"other-product", "schema_version":1, "version":"1.0.0"}),
             serde_json::json!({"version":"0.2.19"}),
         ] {

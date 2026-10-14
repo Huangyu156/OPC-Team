@@ -1,4 +1,4 @@
-# dsh-openbitfun bundle patch: register the OpenBitFun SDK Host bridge in this profile.
+# dsh-openbitfun bundle patch: register the OPC-Team SDK Host bridge in this profile.
 # The row below carries neutral defaults; override it in the profile's own
 # cordis.patch.yml when a custom host binary or tighter caps are needed, e.g.:
 #

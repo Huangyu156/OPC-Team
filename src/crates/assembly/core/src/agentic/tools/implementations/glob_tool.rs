@@ -877,12 +877,13 @@ mod tests {
     #[tokio::test]
     async fn workspace_io_glob_preserves_static_scope_and_openbitfun_hidden_exception() {
         let root = make_temp_dir("workspace-io-scope");
+        let product_directory = openbitfun_core_types::product_identity::hidden_data_directory();
         fs::create_dir_all(root.join("src/deep")).unwrap();
-        fs::create_dir_all(root.join(".openbitfun")).unwrap();
+        fs::create_dir_all(root.join(product_directory)).unwrap();
         fs::write(root.join("src/lib.rs"), "").unwrap();
         fs::write(root.join("src/deep/mod.rs"), "").unwrap();
-        fs::write(root.join(".gitignore"), ".openbitfun/\n").unwrap();
-        fs::write(root.join(".openbitfun/.hidden.json"), "{}").unwrap();
+        fs::write(root.join(".gitignore"), format!("{product_directory}/\n")).unwrap();
+        fs::write(root.join(product_directory).join(".hidden.json"), "{}").unwrap();
         let fs_provider = crate::agentic::workspace::LocalWorkspaceFs;
         let result = collect_workspace_glob(&fs_provider, &root.to_string_lossy(), "src/*.rs", 10)
             .await
@@ -895,7 +896,7 @@ mod tests {
         let result = collect_workspace_glob(
             &fs_provider,
             &root.to_string_lossy(),
-            ".openbitfun/**/*.json",
+            &format!("{product_directory}/**/*.json"),
             10,
         )
         .await

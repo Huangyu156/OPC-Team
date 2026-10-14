@@ -1,6 +1,6 @@
 # Detached task dispatch
 
-Detached dispatch lets one OpenBitFun process submit work to another OpenBitFun process
+Detached dispatch lets one OPC-Team process submit work to another OPC-Team process
 without making the submitting process part of the execution topology. The
 submitter can disconnect or exit after the target has durably acknowledged the
 job.
@@ -24,7 +24,7 @@ There are three roles:
 
 The controller is never a runtime or filesystem proxy for a non-local job. It
 stores only an outbound observer record under
-`~/.openbitfun/dispatch/outbound/`; it must not create the target session in the
+`~/.opcteam/dispatch/outbound/`; it must not create the target session in the
 controller's normal session store. A target session is an ordinary local
 session on the target and can be resumed there.
 
@@ -71,7 +71,7 @@ build output are not delivery inputs.
 
 Setup that can outlive one request is recorded before the outbound submit is
 acknowledged. The controller keeps an owner-only crash journal at
-`~/.openbitfun/dispatch/outbound/.preparations/<jobId>.json` and retains it through
+`~/.opcteam/dispatch/outbound/.preparations/<jobId>.json` and retains it through
 the target's validated submit acknowledgement. Preparation, retry, and recovery
 for the same job are serialized by one per-job run lock, so an expired-entry
 recovery cannot race a live attempt.
@@ -98,7 +98,7 @@ The controller resolves the repository remote URL when one exists and derives
 a stable `repoKey`. The target keeps an owner-only bare repository cache at:
 
 ```text
-~/.openbitfun/dispatch/repos/<repoKey>
+~/.opcteam/dispatch/repos/<repoKey>
 ```
 
 `workspace-provision` creates or refreshes that repository, fetches its remote
@@ -107,7 +107,7 @@ commit. When the commit is reachable, the target creates the job worktree and
 branch at:
 
 ```text
-~/.openbitfun/dispatch/worktrees/<repoKey>/<project>-<short job id>
+~/.opcteam/dispatch/worktrees/<repoKey>/<project>-<short job id>
 ```
 
 (see "Workspace naming" below for how the leaf is derived)
@@ -180,7 +180,7 @@ Git worktree delivery and is intentionally incompatible with targets that do
 not implement it; version 5 adds the target-owned reasoning catalog and
 per-turn preset selection (`reasoning_presets`). SSH submission can repair that mismatch
 through signed release installation; an account device must be upgraded as a
-OpenBitFun device.
+OPC-Team device.
 
 Public job verbs are:
 
@@ -229,7 +229,7 @@ cannot make two product data spaces compatible.
 provisioning, submission probes again and automatically installs or upgrades a
 compatible latest prebuilt `openbitfun` release when needed. Release resolution
 stays bound to the expected OS and architecture. GitHub is the default byte
-source; when its measured transfer rate is below 512 KiB/s, OpenBitFun is tried
+source; when its measured transfer rate is below 512 KiB/s, OPC-Team is tried
 first and GitHub remains the fallback. The same policy applies whether the SSH
 target downloads directly or the controller has to push the archive. The
 controller verifies the
@@ -238,7 +238,7 @@ archive signature, pins the SHA-256 passed to the installer, waits with a
 bounded deadline, and probes the installed binary again before continuing.
 
 The signed prebuilt release is the only install path. The controller never
-compiles OpenBitFun on a target, and exposes no command to do so: when no published
+compiles OPC-Team on a target, and exposes no command to do so: when no published
 binary can run there — an unsupported platform, a libc floor, a missing `tar`,
 an unreachable release, or a release that predates a required capability — the
 probe reports why and the target cannot be selected.
@@ -311,7 +311,7 @@ reading one growing transcript.
 A target checkout lives at:
 
 ```text
-~/.openbitfun/dispatch/worktrees/<repoKey>/<project>-<short job id>
+~/.opcteam/dispatch/worktrees/<repoKey>/<project>-<short job id>
 ```
 
 `repoKey` groups every checkout of one source repository under its shared clone.

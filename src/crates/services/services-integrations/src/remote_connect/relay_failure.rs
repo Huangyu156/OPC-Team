@@ -61,7 +61,7 @@ const OUTDATED_MARKERS: &[&str] = &[
     "incompatible client build",
     "requires matching client versions",
     "update the controlling app",
-    "update openbitfun on every device",
+    "on every device",
 ];
 
 /// Substrings that mean the account session must be re-established.
@@ -185,7 +185,7 @@ mod tests {
         for message in [
             "incompatible client build: remote control requires matching client versions",
             "relay_session_history_retired",
-            "This relay does not store session history; update OpenBitFun on every device to continue.",
+            "This relay does not store session history; update OPC-Team on every device to continue.",
         ] {
             assert_eq!(classify_relay_failure(message), RelayFailureKind::ClientOutdated, "{message}");
         }

@@ -27,8 +27,8 @@ struct ComposerBar: View {
 
     private var placeholder: String {
         model.localized(model.surface == .remote
-            ? "向 OpenBitFun 提问"
-            : (model.localSessionSelected ? "输入消息" : "问问 OpenBitFun"))
+            ? "向 OPC-Team 提问"
+            : (model.localSessionSelected ? "输入消息" : "问问 OPC-Team"))
     }
 
     private var expanded: Bool {

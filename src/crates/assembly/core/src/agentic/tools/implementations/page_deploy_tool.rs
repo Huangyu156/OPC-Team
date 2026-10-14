@@ -1,4 +1,4 @@
-//! PageDeploy tool — deploy a saved OpenBitFun Page version to production.
+//! PageDeploy tool — deploy a saved OPC-Team Page version to production.
 
 use crate::agentic::tools::framework::{PermissionIntent, Tool, ToolResult, ToolUseContext};
 use crate::agentic::tools::page_deploy_host::invoke_page_deploy;
@@ -29,7 +29,7 @@ impl Tool for PageDeployTool {
 
     async fn description(&self) -> OpenBitFunResult<String> {
         Ok(
-            r#"Switch the production pointer of an existing OpenBitFun Page to a previously saved version_id (rollback or promote a prior version).
+            r#"Switch the production pointer of an existing OPC-Team Page to a previously saved version_id (rollback or promote a prior version).
 
 Requires a logged-in GitHub account. This tool is only available after account login. To create or update page content and publish, use PagePublish instead. Existing versions can also be reviewed from the Pages scene.
 
@@ -43,7 +43,7 @@ Preview a version at /p/{username}/{slug}/@v/{version_id}."#
     }
 
     fn short_description(&self) -> String {
-        "Deploy a saved OpenBitFun Page version to production.".to_string()
+        "Deploy a saved OPC-Team Page version to production.".to_string()
     }
 
     fn input_schema(&self) -> Value {
@@ -171,15 +171,15 @@ fn deploy_result_for_assistant(
 ) -> String {
     if visibility != "public" {
         return format!(
-            "Deployed OpenBitFun Page '{slug}' version '{version_id}' with {visibility} visibility. Open or copy it from the Pages scene/tool card so OpenBitFun can create a scoped browser-access link; do not share the raw Page URL."
+            "Deployed OPC-Team Page '{slug}' version '{version_id}' with {visibility} visibility. Open or copy it from the Pages scene/tool card so OPC-Team can create a scoped browser-access link; do not share the raw Page URL."
         );
     }
     // Trailing space after URL keeps chat linkifiers from eating the next char.
     if url.is_empty() {
-        format!("Deployed public OpenBitFun Page '{slug}' version '{version_id}' to production.")
+        format!("Deployed public OPC-Team Page '{slug}' version '{version_id}' to production.")
     } else {
         format!(
-            "Deployed public OpenBitFun Page '{slug}' version '{version_id}'. Production URL: {url} \n\
+            "Deployed public OPC-Team Page '{slug}' version '{version_id}'. Production URL: {url} \n\
              Share this full absolute URL with the user, and keep a trailing space after the URL."
         )
     }

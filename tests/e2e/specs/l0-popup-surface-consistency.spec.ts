@@ -244,7 +244,7 @@ describe('L0 Popup Surface Consistency', () => {
 
     const aboutLayout = await readAboutLayoutEvidence();
     expect(aboutLayout.headerLogoCount).toBe(0);
-    expect(aboutLayout.headerTitle).toContain('OpenBitFun');
+    expect(aboutLayout.headerTitle).toContain('OPC-Team');
     expect(aboutLayout.headerHeight).toBeGreaterThanOrEqual(44);
     expect(aboutLayout.headerHeight).toBeLessThanOrEqual(49);
     expect(aboutLayout.headerCloseCenterOffset).toBeLessThanOrEqual(1);

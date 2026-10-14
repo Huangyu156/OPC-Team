@@ -1995,7 +1995,7 @@ async fn require_submission_write_auth(
         return Err(MarketError::new(
             StatusCode::FORBIDDEN,
             "web_submissions_disabled",
-            "Web submissions are disabled. Use OpenBitFun Desktop to submit MiniApps.",
+            "Web submissions are disabled. Use OPC-Team Desktop to submit MiniApps.",
         ));
     }
     state.auth.require_csrf(headers, &auth)?;

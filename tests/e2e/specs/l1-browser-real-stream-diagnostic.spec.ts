@@ -1,5 +1,5 @@
 /**
- * Diagnostic-only spec for comparing the real local stream inside OpenBitFun's
+ * Diagnostic-only spec for comparing the real local stream inside OPC-Team's
  * embedded browser. Run with OPENBITFUN_BROWSER_STREAM_URL=http://127.0.0.1:41953/
  */
 

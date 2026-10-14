@@ -8331,8 +8331,15 @@ mod tests {
         // The whole point of the pid file is cancellation, so removing one that
         // is still in use silently breaks interrupt/kill for a command that may
         // legitimately run for hours. Liveness, never age.
-        let live = format!("/tmp/.openbitfun-exec-live-{}.pid", uuid::Uuid::new_v4());
-        let dead = format!("/tmp/.openbitfun-exec-dead-{}.pid", uuid::Uuid::new_v4());
+        let product_directory = hidden_data_directory();
+        let live = format!(
+            "/tmp/{product_directory}-exec-live-{}.pid",
+            uuid::Uuid::new_v4()
+        );
+        let dead = format!(
+            "/tmp/{product_directory}-exec-dead-{}.pid",
+            uuid::Uuid::new_v4()
+        );
         std::fs::write(&live, std::process::id().to_string()).expect("write live pid file");
         // Reaped immediately, so its pid is guaranteed not to be running.
         let mut corpse = std::process::Command::new("true")
@@ -8393,7 +8400,7 @@ mod tests {
         let signal =
             container_signal_command(&pid_file, crate::remote_ssh::WorkspaceProcessSignal::Kill);
 
-        assert!(pid_file.starts_with("/tmp/.openbitfun-exec-"));
+        assert!(pid_file.starts_with(&format!("/tmp/{}-exec-", hidden_data_directory())));
         assert!(wrapped.contains("setsid '/bin/bash' -lc"));
         assert!(wrapped.contains("exec 9<&0 || exit 1"));
         assert!(wrapped.contains("<&9 &"));
@@ -8422,7 +8429,7 @@ mod tests {
         let wrapped = supervised_container_command_with_pid_file(
             &container,
             "read value; printf 'stdin:%s' \"$value\"",
-            "/tmp/.openbitfun-exec-stdin-contract.pid",
+            &format!("/tmp/{}-exec-stdin-contract.pid", hidden_data_directory()),
         );
         let mut child = std::process::Command::new("sh")
             .args(["-lc", &wrapped])
@@ -8670,7 +8677,7 @@ mod tests {
                 .unwrap(),
             "cancelled Docker command must not continue inside the container"
         );
-        let original = b"OpenBitFun container workspace\0binary";
+        let original = b"OPC-Team container workspace\0binary";
         manager
             .container_write_file(
                 connection_id,

@@ -1,10 +1,10 @@
 //! Persistence for subscription-account credentials.
 //!
 //! OAuth tokens and API keys are stored outside the metadata JSON. macOS uses
-//! a prompt-free encrypted file vault in OpenBitFun's application data directory;
+//! a prompt-free encrypted file vault in OPC-Team's application data directory;
 //! Windows and Linux continue to use their native credential stores.
 //!
-//! Path: `{dirs::config_dir()}/openbitfun/data/subscription_auth.json`.
+//! Path: `{dirs::config_dir()}/opcteam/data/subscription_auth.json`.
 
 use anyhow::{anyhow, Context, Result};
 use serde::{Deserialize, Serialize};
@@ -228,7 +228,7 @@ struct SecureStoreFile {
     /// Monotonic provider epochs, retained even after an account is removed.
     ///
     /// The retained entry is a tombstone: an authorization or token refresh
-    /// that began in another OpenBitFun process before logout must not be able to
+    /// that began in another OPC-Team process before logout must not be able to
     /// publish its stale credential after logout has completed.
     #[serde(default, skip_serializing_if = "HashMap::is_empty")]
     provider_revisions: HashMap<String, u64>,
@@ -566,7 +566,7 @@ async fn acquire_store_file_lock_with_timeout(
                 if tokio::time::Instant::now() >= deadline {
                     let _ = fs2::FileExt::unlock(&file);
                     return Err(anyhow!(
-                        "timed out waiting for subscription credential transaction lock {}; another OpenBitFun process may be updating credentials",
+                        "timed out waiting for subscription credential transaction lock {}; another OPC-Team process may be updating credentials",
                         lock_path.display()
                     ));
                 }
@@ -579,7 +579,7 @@ async fn acquire_store_file_lock_with_timeout(
                 let remaining = deadline.saturating_duration_since(tokio::time::Instant::now());
                 if remaining.is_zero() {
                     return Err(anyhow!(
-                        "timed out waiting for subscription credential transaction lock {}; another OpenBitFun process may be updating credentials",
+                        "timed out waiting for subscription credential transaction lock {}; another OPC-Team process may be updating credentials",
                         lock_path.display()
                     ));
                 }
@@ -612,7 +612,7 @@ async fn acquire_store_transaction() -> Result<(PathBuf, StoreTransactionGuard)>
     ))
 }
 
-/// Serializes rotating-token refreshes for one provider across OpenBitFun
+/// Serializes rotating-token refreshes for one provider across OPC-Team
 /// processes. The caller must reload the credential after acquiring the lease.
 pub(crate) async fn acquire_provider_refresh_lease(provider: &str) -> Result<ProviderRefreshLease> {
     if provider.is_empty()

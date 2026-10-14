@@ -3,7 +3,7 @@ name = "openbitfun-claude-code-adapter"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Claude Code static source adapter for OpenBitFun"
+description = "Claude Code static source adapter for OPC-Team"
 autotests = false
 
 [lib]

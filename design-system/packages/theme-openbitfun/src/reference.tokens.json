@@ -1,5 +1,5 @@
 {
-  "$description": "Foundational named color scales for the OpenBitFun theme. Numeric steps increase from light to dark and remain independent from semantic UI roles.",
+  "$description": "Foundational named color scales for the OPC-Team theme. Numeric steps increase from light to dark and remain independent from semantic UI roles.",
   "ref": {
     "color": {
       "$type": "color",
@@ -54,7 +54,7 @@
         "1000": { "$value": "#000000" }
       },
       "navy": {
-        "$description": "Blue-black scale for OpenBitFun's restrained primary surfaces and actions.",
+        "$description": "Blue-black scale for OPC-Team's restrained primary surfaces and actions.",
         "50": { "$value": "#f4f7fa" },
         "100": { "$value": "#e6ecf3" },
         "200": { "$value": "#c8d5e3" },

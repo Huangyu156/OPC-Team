@@ -155,7 +155,7 @@ impl AuthService {
     pub(crate) fn new(config: MarketConfig, db: Database) -> MarketResult<Self> {
         openbitfun_services_core::tls_provider::ensure_ring_crypto_provider();
         let client = reqwest::Client::builder()
-            .user_agent("OpenBitFun-MiniApp-Market/1")
+            .user_agent("OPC-Team-MiniApp-Market/1")
             .redirect(reqwest::redirect::Policy::none())
             .connect_timeout(std::time::Duration::from_secs(10))
             .timeout(std::time::Duration::from_secs(20))

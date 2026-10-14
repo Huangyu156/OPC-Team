@@ -2,7 +2,7 @@
 name = "openbitfun-config-contracts"
 version.workspace = true
 edition.workspace = true
-description = "Persisted OpenBitFun configuration contracts without product runtime"
+description = "Persisted OPC-Team configuration contracts without product runtime"
 
 [dependencies]
 openbitfun-core-types = { path = "../core-types" }

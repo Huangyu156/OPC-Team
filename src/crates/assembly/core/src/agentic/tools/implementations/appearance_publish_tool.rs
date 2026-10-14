@@ -39,7 +39,7 @@ impl Tool for PublishAppearanceTool {
     }
 
     async fn description(&self) -> OpenBitFunResult<String> {
-        Ok(r#"Submit a local `.openbitfun-appearance` package to the OpenBitFun Skin market for human review.
+        Ok(r#"Submit a local `.openbitfun-appearance` package to the OPC-Team Skin market for human review.
 
 The product calls catalog entries "Skins", but package/runtime identifiers always remain Appearance: `appearance.json`, schema `openbitfun.appearance`, and extension `.openbitfun-appearance`. Pass an absolute local path to a completed archive. The package itself supplies the public name, description, author, version, mode and preview; the tool derives the marketplace slug and next release number from submission history.
 
@@ -84,7 +84,7 @@ This is an outward-facing publication action. Use it only when the user explicit
                 },
                 "min_openbitfun_version": {
                     "type": "string",
-                    "description": "Minimum compatible OpenBitFun semantic version. Defaults to this running client version."
+                    "description": "Minimum compatible OPC-Team semantic version. Defaults to this running client version."
                 }
             }
         })
@@ -273,7 +273,7 @@ This is an outward-facing publication action. Use it only when the user explicit
                     "expires_at": expires_at,
                 }),
                 result_for_assistant: Some(format!(
-                    "The user is not signed in to the Skin market. Show this GitHub authorization link and ask them to open it in a browser: {authorization_url}\nOpenBitFun is polling in the background. After authorization, call PublishAppearance again with the same arguments."
+                    "The user is not signed in to the Skin market. Show this GitHub authorization link and ask them to open it in a browser: {authorization_url}\nOPC-Team is polling in the background. After authorization, call PublishAppearance again with the same arguments."
                 )),
                 image_attachments: None,
             }]);

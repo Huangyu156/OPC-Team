@@ -144,7 +144,7 @@ fn strip_thinking_tier(model: &str) -> (&str, Option<&str>) {
 }
 
 /// Resolves current Antigravity wire ids and keeps old Gemini CLI preview ids
-/// working for model configurations persisted by earlier OpenBitFun releases.
+/// working for model configurations persisted by earlier OPC-Team releases.
 fn resolve_antigravity_model(
     configured_model: &str,
     request: &serde_json::Value,

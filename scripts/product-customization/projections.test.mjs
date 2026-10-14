@@ -26,6 +26,11 @@ test('build environment isolates custom Cargo output without overriding the defa
   const customEnvironment = productBuildEnvironment(customResolution);
 
   assert.equal(defaultEnvironment.CARGO_TARGET_DIR, undefined);
+  // The default product defines the data identity while install names stay put.
+  assert.equal(defaultEnvironment.OPENBITFUN_PRODUCT_ID, 'opcteam');
+  assert.equal(defaultEnvironment.OPENBITFUN_DATA_NAMESPACE, 'opcteam');
+  assert.equal(defaultEnvironment.OPENBITFUN_HIDDEN_DATA_DIRECTORY, '.opcteam');
+  assert.equal(defaultEnvironment.OPENBITFUN_PRODUCT_BINARY_NAME, 'openbitfun');
   assert.match(customEnvironment.CARGO_TARGET_DIR, /target[\\/]\.product-cache[\\/]/);
   assert.equal(customEnvironment.OPENBITFUN_PRODUCT_ID, 'acme');
   assert.equal(customEnvironment.OPENBITFUN_DATA_NAMESPACE, 'acme');

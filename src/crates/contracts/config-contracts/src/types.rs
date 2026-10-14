@@ -81,7 +81,7 @@ pub struct GlobalConfig {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub font: Option<FontPreferenceSnapshot>,
     /// Version of the persisted configuration schema. This is intentionally
-    /// independent from the OpenBitFun application version stored in `version`.
+    /// independent from the OPC-Team application version stored in `version`.
     pub schema_version: u32,
     /// Application build that most recently wrote this document. Informational
     /// only; compatibility is determined by `schema_version`.
@@ -287,7 +287,7 @@ impl std::fmt::Debug for SkillMarketSource {
 ///
 /// Hook declarations themselves live in `hooks.json` documents (user scope:
 /// `config/hooks.json` next to this file; project scope:
-/// `{project}/.openbitfun/config/hooks.json`), not in this settings document.
+/// `{project}/.opcteam/config/hooks.json`), not in this settings document.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
 #[serde(default)]
 pub struct AgentHooksConfig {
@@ -627,7 +627,7 @@ pub struct AIExperienceConfig {
     /// User-defined quick actions (post-coding menu); persisted for the web UI.
     #[serde(default = "default_quick_actions")]
     pub quick_actions: Vec<AiExperienceQuickAction>,
-    /// Whether built-in commit workflows add OpenBitFun as a Git co-author.
+    /// Whether built-in commit workflows add OPC-Team as a Git co-author.
     #[serde(default = "default_true")]
     pub enable_git_commit_coauthor: bool,
 }
@@ -1176,7 +1176,7 @@ pub struct AIConfig {
     #[serde(default)]
     pub web_search: WebSearchConfig,
 
-    /// Reattach to an already-running browser when OpenBitFun starts. Off by
+    /// Reattach to an already-running browser when OPC-Team starts. Off by
     /// default: the browser forgets its approval when it restarts, so this can
     /// put an approval dialog in front of the user before they asked for the
     /// browser at all.
@@ -1207,7 +1207,7 @@ fn default_openbitfun_search_http_credential_id() -> String {
 
 /// Non-secret WebSearch settings that are safe to persist and synchronize.
 /// Unknown fields are retained so a newer provider configuration survives an
-/// older OpenBitFun build reading and writing the document.
+/// older OPC-Team build reading and writing the document.
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(default, rename_all = "camelCase")]
 pub struct WebSearchConfig {
@@ -1665,7 +1665,7 @@ pub struct AIModelConfig {
     /// Context window size (total token limit for input + output).
     pub context_window: Option<u32>,
     /// Optional advanced override for the request output limit. When absent,
-    /// OpenBitFun derives a tiered limit from the context window at runtime.
+    /// OPC-Team derives a tiered limit from the context window at runtime.
     pub max_tokens: Option<u32>,
     pub temperature: Option<f64>,
     pub top_p: Option<f64>,
@@ -1790,7 +1790,7 @@ pub enum AuthConfig {
     /// Use the inline `api_key` string (default).
     #[default]
     ApiKey,
-    /// Use OpenBitFun in-app subscription OAuth for the named provider.
+    /// Use OPC-Team in-app subscription OAuth for the named provider.
     Subscription {
         provider: SubscriptionProvider,
         #[serde(default, skip_serializing_if = "Option::is_none")]

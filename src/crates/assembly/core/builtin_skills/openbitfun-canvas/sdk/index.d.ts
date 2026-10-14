@@ -1,5 +1,5 @@
 /**
- * Public API for authoring OpenBitFun Canvas TSX artifacts via `openbitfun/canvas`.
+ * Public API for authoring OPC-Team Canvas TSX artifacts via `openbitfun/canvas`.
  *
  * Be creative with layout — use Grid, Row, cards, charts, tables, and raw SVG
  * in whatever combination serves the content. Read the canvas skill for full

@@ -2,7 +2,7 @@
 
 This document captures UI behavior conventions for Flow Chat tool cards.
 
-## OpenBitFun controls
+## OPC-Team controls
 
 `OpenBitFunControlToolCard` composes the public Ambient and Prominent frameworks.
 Discovery (`list`, `search`, `get`) uses Ambient; `open`, `execute`, `configure`,

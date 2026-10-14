@@ -25,7 +25,7 @@
     },
     "http": {
       "title": "自訂搜尋服務",
-      "description": "服務需實作 OpenBitFun Search HTTP Protocol v1"
+      "description": "服務需實作 OPC-Team Search HTTP Protocol v1"
     },
     "protocol": {
       "title": "協定說明",
@@ -84,12 +84,12 @@
     },
     "error": {
       "title": "錯誤回應",
-      "description": "非 2xx 回應可以傳回以下結構；即使沒有該結構，OpenBitFun 也會依 HTTP 狀態碼識別常見錯誤。",
+      "description": "非 2xx 回應可以傳回以下結構；即使沒有該結構，OPC-Team 也會依 HTTP 狀態碼識別常見錯誤。",
       "codes": "支援的 code："
     },
     "notes": {
-      "resultHandling": "服務可以傳回少於 maxResults 的結果；OpenBitFun 會驗證、去重並截斷結果，回應根的未知欄位會被忽略。",
-      "transportLimits": "OpenBitFun 不跟隨重新導向，請求逾時為 60 秒，讀取回應的上限為 1 MiB。"
+      "resultHandling": "服務可以傳回少於 maxResults 的結果；OPC-Team 會驗證、去重並截斷結果，回應根的未知欄位會被忽略。",
+      "transportLimits": "OPC-Team 不跟隨重新導向，請求逾時為 60 秒，讀取回應的上限為 1 MiB。"
     }
   },
   "actions": {

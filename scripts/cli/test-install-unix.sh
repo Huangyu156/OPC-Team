@@ -21,6 +21,20 @@ export OPENBITFUN_CLI_BIN_DIR="${TEST_ROOT}/bin"
 export CARGO_BUILD_TARGET="$TARGET"
 mkdir -p "$HOME"
 
+# Pre-seed the pre-rename PATH block: an upgrade must replace the block an older
+# install wrote, not leave it beside the new OPC-Team marker.
+for rc_file in "$HOME/.bashrc" "$HOME/.zshrc"; do
+  cat >"$rc_file" <<'EOF'
+# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>
+# Added so `openbitfun` is available in new shells after install.sh.
+case ":$PATH:" in
+  *":$HOME/.local/bin:"*) ;;
+  *) export PATH="$HOME/.local/bin:$PATH" ;;
+esac
+# <<< OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) <<<
+EOF
+done
+
 hash_file() {
   if command -v sha256sum >/dev/null 2>&1; then
     sha256sum "$1" | awk '{print $1}'
@@ -35,8 +49,11 @@ bash "${REPO_ROOT}/src/apps/cli/install.sh"
 "${OPENBITFUN_CLI_BIN_DIR}/openbitfun" --version >/dev/null
 [ -f "${OPENBITFUN_CLI_BIN_DIR}/resources/ext-host/extension-host.js" ]
 
+MANAGED_MARKER='# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>'
+LEGACY_MANAGED_MARKER='# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>'
 for rc_file in "$HOME/.bashrc" "$HOME/.zshrc"; do
-  [ "$(grep -Fc '# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>' "$rc_file")" -eq 1 ]
+  [ "$(grep -Fc "$MANAGED_MARKER" "$rc_file")" -eq 1 ]
+  [ "$(grep -Fc "$LEGACY_MANAGED_MARKER" "$rc_file")" -eq 0 ]
 done
 
 PRIMARY_HASH="$(hash_file "${OPENBITFUN_CLI_BIN_DIR}/openbitfun")"

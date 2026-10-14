@@ -1,4 +1,4 @@
-//! Typed owner facts for user-facing OpenBitFun product controls.
+//! Typed owner facts for user-facing OPC-Team product controls.
 //!
 //! This registry is deliberately separate from the explanatory capability
 //! overlay. Config paths, command handlers, value schemas, risk, and argument
@@ -404,7 +404,7 @@ pub fn owner_definitions() -> Vec<ProductControlOwnerDefinition> {
                 "additionalProperties": false,
                 "properties": {
                     "id": { "type": "string", "minLength": 1, "description": "Imported pet ID." },
-                    "packagePath": { "type": "string", "minLength": 1, "description": "Imported OpenBitFun pet-package directory." }
+                    "packagePath": { "type": "string", "minLength": 1, "description": "Imported OPC-Team pet-package directory." }
                 },
                 "anyOf": [{ "required": ["id"] }, { "required": ["packagePath"] }]
             }),

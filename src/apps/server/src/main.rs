@@ -13,7 +13,7 @@
 //! it does not claim a remote, multi-user, or public Server Agent API.
 
 use anyhow::Result;
-/// OpenBitFun Server
+/// OPC-Team Server
 ///
 /// Web server with support for:
 /// - RESTful API
@@ -65,7 +65,7 @@ struct ServerArgs {
     workspace: Option<PathBuf>,
 
     /// Browser origin allowed to connect to this Server Host. Repeat to allow more than one.
-    /// When omitted, only OpenBitFun's local Web development origins are allowed.
+    /// When omitted, only OPC-Team's local Web development origins are allowed.
     #[arg(long = "allowed-origin", value_name = "ORIGIN")]
     allowed_origins: Vec<String>,
 }
@@ -93,7 +93,7 @@ async fn main() -> Result<()> {
         .with_max_level(tracing::Level::INFO)
         .init();
 
-    tracing::info!("OpenBitFun Server v{}", env!("CARGO_PKG_VERSION"));
+    tracing::info!("OPC-Team Server v{}", env!("CARGO_PKG_VERSION"));
     openbitfun_core::service::remote_connect::ensure_rustls_crypto_provider();
 
     let args = ServerArgs::parse();

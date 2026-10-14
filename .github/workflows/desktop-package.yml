@@ -828,7 +828,7 @@ jobs:
             200) ;;
             404)
               gh release create "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" \
-                --verify-tag --draft --title "OpenBitFun ${RELEASE_VERSION}" \
+                --verify-tag --draft --title "OPC-Team ${RELEASE_VERSION}" \
                 --generate-notes
               ;;
             *)
@@ -855,7 +855,7 @@ jobs:
           EOF
           fi
           gh release edit "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" \
-            --title "OpenBitFun ${RELEASE_VERSION}" --notes-file release-notes.md \
+            --title "OPC-Team ${RELEASE_VERSION}" --notes-file release-notes.md \
             --draft=false --prerelease="${RELEASE_PRERELEASE}" --latest="${RELEASE_LATEST}"
 
       - name: Verify published legacy update feeds
@@ -974,7 +974,7 @@ jobs:
               --repo "${GITHUB_REPOSITORY}" \
               --target "${CHECKOUT_REF}" \
               --prerelease \
-              --title "OpenBitFun Beta Update Channel" \
+              --title "OPC-Team Beta Update Channel" \
               --notes "Mutable updater pointer. Installable beta releases use immutable version tags."
           fi
           mkdir -p beta-channel

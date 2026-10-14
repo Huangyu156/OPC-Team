@@ -878,7 +878,7 @@ fn require_macos_background_input() -> OpenBitFunResult<()> {
         return Ok(());
     }
     Err(OpenBitFunError::tool(
-        "[BACKGROUND_INPUT_UNAVAILABLE] macOS Accessibility permission is required for background app input. Grant OpenBitFun in System Settings -> Privacy & Security -> Accessibility, then retry desktop.meta/capabilities or desktop.get_app_state.".to_string(),
+        "[BACKGROUND_INPUT_UNAVAILABLE] macOS Accessibility permission is required for background app input. Grant OPC-Team in System Settings -> Privacy & Security -> Accessibility, then retry desktop.meta/capabilities or desktop.get_app_state.".to_string(),
     ))
 }
 

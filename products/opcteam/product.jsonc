@@ -1,18 +1,29 @@
 {
   "$schema": "../schemas/product-definition.schema.json",
   "schemaVersion": 1,
+  // Data identity is the OPC-Team identity: new stores, the product home
+  // directory, and the project-local data directory all use the opcteam
+  // namespace and its `.opcteam` hidden directory.
   "productId": "opcteam",
   "dataNamespace": "opcteam",
   "localeRoot": "./locales",
   "members": {
     "desktop": {
       "displayNameKey": "product.desktop.name",
-      "binaryName": "opcteam-desktop",
-      "bundleId": "com.opcteam.desktop"
+      // Install and upgrade identity deliberately stays on the already-published
+      // OpenBitFun values: the signed bundles, OS install records, and store
+      // listings registered under them are what an upgrade replaces in place.
+      // They move to the com.opcteam.desktop values only once the signing and
+      // store material for OPC-Team is in place; changing them now would look
+      // like a different product and break in-place upgrades.
+      "binaryName": "openbitfun-desktop",
+      "bundleId": "com.openbitfun.desktop"
     },
     "cli": {
       "displayNameKey": "product.cli.name",
-      "binaryName": "opcteam"
+      // The CLI keeps its published executable name for the same reason, so
+      // existing package managers and shell aliases keep upgrading the same file.
+      "binaryName": "openbitfun"
     }
   }
 }

@@ -1,7 +1,7 @@
 # Third-Party Notices
 
-OpenBitFun redistributes selected material and links libraries from the following
-third-party projects. These notices are included with OpenBitFun's Desktop and CLI
+OPC-Team redistributes selected material and links libraries from the following
+third-party projects. These notices are included with OPC-Team's Desktop and CLI
 release packages.
 
 ## HarmonyOS Sans Fonts
@@ -11,7 +11,7 @@ release packages.
 - License: HarmonyOS Sans Fonts License Agreement
 - Copyright: Copyright 2021 Huawei Device Co., Ltd.
 
-Non-Apple OpenBitFun GUI distributions bundle unmodified copies of the Base and
+Non-Apple OPC-Team GUI distributions bundle unmodified copies of the Base and
 Simplified Chinese variable fonts (Version 2.040), exposing the design system's
 Regular (400), Medium (500), Semibold (600), and Bold (700) weights. They do not bundle the
 Traditional Chinese font family. Apple GUI distributions and Traditional
@@ -28,7 +28,7 @@ the non-Apple frontend artifact under `third-party/fonts/harmonyos-sans/`.
 - License: MIT
 - Copyright: Copyright (c) 2025 models.dev
 
-OpenBitFun includes a curated, reasoning-only fallback derived from the models.dev
+OPC-Team includes a curated, reasoning-only fallback derived from the models.dev
 catalog. It is used when a newer cached catalog is unavailable. The precise
 source revision, retrieval metadata, transformation, and content hashes are
 recorded in `models-dev.provenance.json`, which is shipped as
@@ -56,7 +56,7 @@ that runs Linux, redrawn at row icon size by narrowing its view box.
 - License: MIT
 - Copyright: Copyright (c) 2026 Sideguide Technologies Inc.
 
-OpenBitFun links anydoc to convert supported office documents, OpenDocument files,
+OPC-Team links anydoc to convert supported office documents, OpenDocument files,
 RTF, EPUB, CSV, and PDFs into Markdown for the Agent Read tool.
 
 MIT License

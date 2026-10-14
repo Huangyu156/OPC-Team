@@ -217,7 +217,7 @@ function prepareScenarioRuntime(name, baseEnv) {
   fs.mkdirSync(workspace, { recursive: true });
   fs.writeFileSync(
     path.join(workspace, 'README.md'),
-    '# OpenBitFun performance fixture workspace\n',
+    '# OPC-Team performance fixture workspace\n',
     'utf8',
   );
 

@@ -22,7 +22,7 @@ impl From<openbitfun_services_core::storage_error::StorageError> for OpenBitFunE
     }
 }
 
-/// Unified error type for the OpenBitFun application
+/// Unified error type for the OPC-Team application
 #[derive(Debug, Error, Serialize)]
 pub enum OpenBitFunError {
     #[error("Service error: {0}")]

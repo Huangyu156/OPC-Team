@@ -721,7 +721,7 @@ fn commit_verification_fixture(workspace: &std::path::Path) {
         workspace,
         &[
             "-c",
-            "user.name=OpenBitFun Test",
+            "user.name=OPC-Team Test",
             "-c",
             "user.email=openbitfun-test@example.invalid",
             "commit",
@@ -757,7 +757,7 @@ fn patch_and_verifier_keep_agent_commits_and_exclude_preexisting_untracked_files
         workspace,
         &[
             "-c",
-            "user.name=OpenBitFun Test",
+            "user.name=OPC-Team Test",
             "-c",
             "user.email=openbitfun-test@example.invalid",
             "commit",

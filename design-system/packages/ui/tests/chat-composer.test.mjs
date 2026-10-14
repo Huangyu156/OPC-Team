@@ -47,7 +47,7 @@ test("ChatComposerActionButton shares one stable action and icon geometry", () =
 test("ChatComposer publishes stable context, content, and action slots", () => {
   const markup = renderToStaticMarkup(
     createElement(ChatComposer, {
-      contextBar: createElement("div", null, "This computer · OpenBitFun"),
+      contextBar: createElement("div", null, "This computer · OPC-Team"),
       endActions: createElement("button", { type: "button" }, "Send"),
       layout: "compact",
       startActions: createElement("button", { type: "button" }, "Add"),

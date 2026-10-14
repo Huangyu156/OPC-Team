@@ -1383,8 +1383,7 @@ pub async fn save_project_permission_rules(
     let current_revision = project_permission_rules_revision(current_content.as_deref());
     if request.revision != current_revision {
         return Err(
-            "Project permission rules changed outside OpenBitFun. Reload before saving."
-                .to_string(),
+            "Project permission rules changed outside OPC-Team. Reload before saving.".to_string(),
         );
     }
 

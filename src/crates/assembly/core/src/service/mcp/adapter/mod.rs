@@ -1,6 +1,6 @@
 //! MCP adapter module
 //!
-//! Adapts MCP resources, prompts, and tools to OpenBitFun's agentic system.
+//! Adapts MCP resources, prompts, and tools to OPC-Team's agentic system.
 
 mod context;
 mod prompt;

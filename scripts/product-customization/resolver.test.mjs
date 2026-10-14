@@ -10,14 +10,15 @@ const ROOT = resolve(import.meta.dirname, '..', '..');
 const ACME = join(ROOT, 'products', 'fixtures', 'acme', 'product.jsonc');
 
 test('default and custom members resolve through one deterministic contract', () => {
-  const openbitfun = resolveProductDefinition({ rootDir: ROOT, member: 'desktop' });
+  const defaultProduct = resolveProductDefinition({ rootDir: ROOT, member: 'desktop' });
   const desktop = resolveProductDefinition({ rootDir: ROOT, productConfig: ACME, member: 'desktop' });
   const cli = resolveProductDefinition({ rootDir: ROOT, productConfig: ACME, member: 'cli' });
 
-  assert.equal(openbitfun.assembly.productId, 'openbitfun');
-  assert.equal(openbitfun.assembly.dataNamespace, 'openbitfun');
-  assert.equal(openbitfun.assembly.binaryName, 'openbitfun-desktop');
-  assert.equal(openbitfun.assembly.bundleId, 'com.openbitfun.desktop');
+  assert.equal(defaultProduct.assembly.productId, 'opcteam');
+  assert.equal(defaultProduct.assembly.dataNamespace, 'opcteam');
+  // Install and upgrade identity stays on the published OpenBitFun values.
+  assert.equal(defaultProduct.assembly.binaryName, 'openbitfun-desktop');
+  assert.equal(defaultProduct.assembly.bundleId, 'com.openbitfun.desktop');
   assert.equal(desktop.assembly.bundleId, 'com.acme.desktop');
   assert.equal(cli.assembly.binaryName, 'acme');
   assert.equal(cli.assembly.bundleId, undefined);

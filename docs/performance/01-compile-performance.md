@@ -1,4 +1,4 @@
-# OpenBitFun 编译与依赖治理计划
+# OPC-Team 编译与依赖治理计划
 
 > 最近核实：2026-08-14
 >
@@ -289,7 +289,7 @@ target triple 和 `normal,build` 版本化 package instance 去重口径；它�
 | Core feature-free | 63 → 63 | 51 → 51 | 50 → 50 | 空默认与显式 owner feature 不变；只删除 consumer 侧冗余开关 |
 | Core `product-full` | 569 → 569 | 556 → 556 | 600 → 600 | 完整产品 owner 集合与运行能力不变 |
 | CLI | 642 → 640 | 641 → 639 | 664 → 662 | Markdown 只使用 parser，退出未消费的 `getopts` 与 HTML renderer |
-| Desktop | 790 → 790 | 805 → 793 | 887 → 887 | OpenBitFun 的 macOS Objective-C 直接依赖边按实际 imports 选择 feature；Tauri/wry 等第三方仍合并自身所需 feature |
+| Desktop | 790 → 790 | 805 → 793 | 887 → 887 | OPC-Team 的 macOS Objective-C 直接依赖边按实际 imports 选择 feature；Tauri/wry 等第三方仍合并自身所需 feature |
 | Relay Service | 190 → 190 | 193 → 193 | 192 → 192 | 独立 Docker manifest 保持显式版本与默认策略，闭包不变 |
 | Services Integrations feature-free | 26 → 26 | 28 → 28 | 27 → 27 | Qrcode 的 PNG/SVG 能力仍由 `remote-connect` owner 显式选择 |
 
@@ -302,7 +302,7 @@ MiniApp/Skin Market 的 2 个 SQLx 声明改为继承 workspace 根策略。剩�
 第三方默认收敛只处理有源码与构建证据的依赖：Futures 保留 `std`，Tracing 保留 `std`，Chrono 保留
 `serde + clock + std`；Tokio Stream 的真实 consumer 只使用 feature-free 的 Receiver/iter wrappers；
 Remote Connect 显式选择 qrcode 的 `image + svg`；Pulldown-Cmark 不启用 CLI 未使用的命令行/HTML renderer；
-OpenBitFun 的 macOS Objective-C binding 直接依赖边只选择源码导入的类型和所需 `std`；Cargo 的最终
+OPC-Team 的 macOS Objective-C binding 直接依赖边只选择源码导入的类型和所需 `std`；Cargo 的最终
 feature union 仍包含 Tauri、wry、notification、updater 等第三方路径的需求。根 `Cargo.lock` 从 1169
 降到 1158，新增 package 为 0；删除项仅来自
 Pulldown-Cmark 的 `getopts`/HTML escape 子图和未使用的 Objective-C framework binding。未关闭 Axum、Tauri、

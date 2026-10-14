@@ -11,14 +11,14 @@ title_en: "Built-in browser"
 
 > 功能 / Feature
 
-在 OpenBitFun 内打开网页和本地服务；智能体可直接读取页面、选择元素并点击、填写、滚动或截图。
+在 OPC-Team 内打开网页和本地服务；智能体可直接读取页面、选择元素并点击、填写、滚动或截图。
 
-Open webpages and local services inside OpenBitFun, where an agent can inspect the page and select, click, fill, scroll, or capture elements directly.
+Open webpages and local services inside OPC-Team, where an agent can inspect the page and select, click, fill, scroll, or capture elements directly.
 
 ## 完整功能清单 / Everything included
 
-- **由专用智能体工具控制 / Delegated Agent tool** · `ControlHub` · 输入完整网址、本地域名或开发服务端口并在 OpenBitFun 内打开
-  - Open full URLs, local hostnames, or development-service ports inside OpenBitFun
+- **由专用智能体工具控制 / Delegated Agent tool** · `ControlHub` · 输入完整网址、本地域名或开发服务端口并在 OPC-Team 内打开
+  - Open full URLs, local hostnames, or development-service ports inside OPC-Team
 - **由专用智能体工具控制 / Delegated Agent tool** · `WebSearch` / `WebFetch` · 让智能体搜索网页并按需读取指定页面正文
   - Let an agent search the web and fetch selected page content on demand
 - **由专用智能体工具控制 / Delegated Agent tool** · `ControlHub` · 使用后退、前进和地址栏浏览页面历史
@@ -51,7 +51,7 @@ Open webpages and local services inside OpenBitFun, where an agent can inspect t
 3. 智能体先读取页面，再用元素引用执行操作
    The agent inspects the page, then acts through element refs
 
-入口 / Entry: OpenBitFun 功能入口
+入口 / Entry: OPC-Team 功能入口
 
 ## 智能体可替你做什么 / What an agent can do for you
 

@@ -36,7 +36,7 @@ impl OpenBitFunSearchHttpProvider {
             WebSearchError::new(
                 provider.clone(),
                 WebSearchErrorKind::InvalidConfiguration,
-                format!("OpenBitFun Search endpoint is invalid: {error}"),
+                format!("OPC-Team Search endpoint is invalid: {error}"),
             )
         })?;
         validate_endpoint(&endpoint, provider.clone())?;
@@ -108,14 +108,14 @@ impl WebSearchProvider for OpenBitFunSearchHttpProvider {
                     WebSearchError::new(
                         provider.clone(),
                         WebSearchErrorKind::InvalidConfiguration,
-                        format!("OpenBitFun Search auth header name is invalid: {error}"),
+                        format!("OPC-Team Search auth header name is invalid: {error}"),
                     )
                 })?;
                 let value = HeaderValue::from_str(value).map_err(|error| {
                     WebSearchError::new(
                         provider.clone(),
                         WebSearchErrorKind::InvalidConfiguration,
-                        format!("OpenBitFun Search auth header value is invalid: {error}"),
+                        format!("OPC-Team Search auth header value is invalid: {error}"),
                     )
                 })?;
                 builder.header(name, value)
@@ -124,7 +124,7 @@ impl WebSearchProvider for OpenBitFunSearchHttpProvider {
         let response = builder.send().await.map_err(|error| {
             transport_error(
                 provider.clone(),
-                "Failed to call OpenBitFun Search HTTP endpoint",
+                "Failed to call OPC-Team Search HTTP endpoint",
                 error,
             )
         })?;
@@ -157,7 +157,7 @@ impl WebSearchProvider for OpenBitFunSearchHttpProvider {
             WebSearchError::new(
                 provider.clone(),
                 WebSearchErrorKind::InvalidResponse,
-                format!("Failed to parse OpenBitFun Search HTTP response: {error}"),
+                format!("Failed to parse OPC-Team Search HTTP response: {error}"),
             )
         })?;
         let raw_results = response
@@ -196,7 +196,7 @@ fn validate_endpoint(endpoint: &Url, provider: WebSearchProviderId) -> Result<()
         return Err(WebSearchError::new(
             provider,
             WebSearchErrorKind::InvalidConfiguration,
-            "OpenBitFun Search endpoint cannot contain user info or a fragment",
+            "OPC-Team Search endpoint cannot contain user info or a fragment",
         ));
     }
     if endpoint.scheme() == "https" {
@@ -206,7 +206,7 @@ fn validate_endpoint(endpoint: &Url, provider: WebSearchProviderId) -> Result<()
         return Err(WebSearchError::new(
             provider,
             WebSearchErrorKind::InvalidConfiguration,
-            "OpenBitFun Search endpoint must use HTTPS; HTTP is allowed only for localhost or loopback IPs",
+            "OPC-Team Search endpoint must use HTTPS; HTTP is allowed only for localhost or loopback IPs",
         ));
     }
     Ok(())
@@ -234,7 +234,7 @@ fn validate_auth(
                 WebSearchError::new(
                     provider.clone(),
                     WebSearchErrorKind::InvalidConfiguration,
-                    format!("OpenBitFun Search auth header name is invalid: {error}"),
+                    format!("OPC-Team Search auth header name is invalid: {error}"),
                 )
             })?;
             let forbidden = [
@@ -259,14 +259,14 @@ fn validate_auth(
                 return Err(WebSearchError::new(
                     provider,
                     WebSearchErrorKind::InvalidConfiguration,
-                    "OpenBitFun Search auth header cannot override a protocol-managed header",
+                    "OPC-Team Search auth header cannot override a protocol-managed header",
                 ));
             }
             HeaderValue::from_str(value).map_err(|error| {
                 WebSearchError::new(
                     provider,
                     WebSearchErrorKind::InvalidConfiguration,
-                    format!("OpenBitFun Search auth header value is invalid: {error}"),
+                    format!("OPC-Team Search auth header value is invalid: {error}"),
                 )
             })?;
             Ok(())
@@ -274,7 +274,7 @@ fn validate_auth(
         _ => Err(WebSearchError::new(
             provider,
             WebSearchErrorKind::InvalidConfiguration,
-            "OpenBitFun Search authentication secret is not configured on this device",
+            "OPC-Team Search authentication secret is not configured on this device",
         )),
     }
 }
@@ -296,6 +296,6 @@ fn validate_content_type(
     Err(WebSearchError::new(
         provider,
         WebSearchErrorKind::InvalidResponse,
-        "OpenBitFun Search endpoint did not return a supported JSON content type",
+        "OPC-Team Search endpoint did not return a supported JSON content type",
     ))
 }

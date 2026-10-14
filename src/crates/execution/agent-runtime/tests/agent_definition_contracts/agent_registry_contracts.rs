@@ -225,7 +225,7 @@ fn builtin_agent_definition_catalog_preserves_order_categories_models_and_visibi
     let control_agent = specs
         .iter()
         .find(|spec| spec.id == "OpenBitFun")
-        .expect("OpenBitFun control agent should be registered");
+        .expect("OPC-Team control agent should be registered");
     assert_eq!(control_agent.category, BuiltinAgentCategory::Hidden);
     assert_eq!(control_agent.default_model_id, "primary");
     assert_eq!(default_model_id_for_builtin_agent("OpenBitFun"), "primary");

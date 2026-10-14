@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export the production OpenBitFun Appearance registry into this standalone skill."""
+"""Export the production OPC-Team Appearance registry into this standalone skill."""
 
 from __future__ import annotations
 
@@ -49,7 +49,7 @@ def run(command: list[str], cwd: Path) -> str:
 def export_registry(repo: Path) -> dict[str, Any]:
     web_ui = repo / "src" / "web-ui"
     if not (web_ui / "src" / "infrastructure" / "appearance" / "registry" / "defaultAppearanceRegistry.ts").is_file():
-        raise SyncError(f"Not a OpenBitFun checkout with the Appearance registry: {repo}")
+        raise SyncError(f"Not a OPC-Team checkout with the Appearance registry: {repo}")
     source = r"""
 import { createServer } from 'vite';
 const server = await createServer({ root: process.cwd(), logLevel: 'silent', appType: 'custom', server: { middlewareMode: true } });
@@ -102,8 +102,8 @@ try {
 
 
 def create_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Synchronize the standalone registry from a OpenBitFun checkout")
-    parser.add_argument("repo", help="OpenBitFun repository root")
+    parser = argparse.ArgumentParser(description="Synchronize the standalone registry from a OPC-Team checkout")
+    parser.add_argument("repo", help="OPC-Team repository root")
     parser.add_argument("--output", default=str(DEFAULT_OUTPUT))
     parser.add_argument("--allow-dirty", action="store_true", help="record and export a dirty working tree")
     parser.add_argument("--check", action="store_true", help="fail when the bundled registry differs from the checkout")
@@ -118,7 +118,7 @@ def main() -> int:
         status = run(["git", "status", "--porcelain=v1"], repo)
         dirty = bool(status)
         if dirty and not args.allow_dirty:
-            raise SyncError("OpenBitFun checkout is dirty; commit changes or pass --allow-dirty so provenance records the state")
+            raise SyncError("OPC-Team checkout is dirty; commit changes or pass --allow-dirty so provenance records the state")
         tree_evidence = run(["git", "diff", "--no-ext-diff", "HEAD"], repo) + "\n" + status
         snapshot = export_registry(repo)
         output_value = {
@@ -141,7 +141,7 @@ def main() -> int:
                 raise SyncError(f"Could not read bundled registry: {error}") from error
             if contract_view(current) != contract_view(output_value):
                 raise SyncError(
-                    "Bundled registry differs from the selected OpenBitFun checkout; "
+                    "Bundled registry differs from the selected OPC-Team checkout; "
                     "run sync_registry.py without --check to refresh it"
                 )
             print(json.dumps({

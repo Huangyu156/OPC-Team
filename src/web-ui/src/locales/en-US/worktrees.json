@@ -53,15 +53,15 @@
   },
   "management": {
     "title": "Workspace worktrees",
-    "description": "Grouped by workspace; only worktrees in OpenBitFun's worktree root on the current execution host are listed",
-    "loading": "Scanning OpenBitFun worktrees…",
-    "loadFailed": "Could not load the OpenBitFun worktree list.",
+    "description": "Grouped by workspace; only worktrees in OPC-Team's worktree root on the current execution host are listed",
+    "loading": "Scanning OPC-Team worktrees…",
+    "loadFailed": "Could not load the OPC-Team worktree list.",
     "refresh": "Refresh worktrees",
     "retry": "Try again",
     "worktreeCount": "{{count}} worktrees",
     "deleted": "Deleted {{path}}.",
     "empty": {
-      "title": "No OpenBitFun worktrees",
+      "title": "No OPC-Team worktrees",
       "description": "Worktrees created for isolated sessions will appear here."
     },
     "lifecycle": {

@@ -39,7 +39,7 @@ const OUTDATED_MARKERS = [
   'incompatible client build',
   'requires matching client versions',
   'update the controlling app',
-  'update openbitfun on every device',
+  'on every device',
 ];
 
 /** Substrings that mean the account session must be re-established. */

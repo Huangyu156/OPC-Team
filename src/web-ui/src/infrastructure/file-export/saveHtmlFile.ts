@@ -4,7 +4,7 @@ export function safeHtmlFileName(title: string): string {
   let stem = title.trim().replace(/\.html?$/i, '')
     .replace(/[\\/:*?"<>|\u0000-\u001f]+/g, '-')
     .slice(0, 96).replace(/[.\s]+$/g, '').trim();
-  if (!stem) stem = 'OpenBitFun';
+  if (!stem) stem = 'OPC-Team';
   if (/^(con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(stem)) stem = `_${stem}`;
   return `${stem}.html`;
 }

@@ -169,10 +169,7 @@ fn git_diff_arg_builders_preserve_existing_command_contract() {
 async fn review_safe_workspace_diff_forces_rename_detection() {
     let repo_dir = TempRepoDir::new("review-workspace-rename");
     run_git(repo_dir.path(), &["init"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.name", "OpenBitFun Tests"],
-    );
+    run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
     run_git(
         repo_dir.path(),
         &["config", "user.email", "tests@openbitfun.dev"],
@@ -242,10 +239,7 @@ async fn git_service_preserves_repository_status_contract() {
 async fn workspace_diff_port_reports_staged_unstaged_and_untracked_changes() {
     let repo_dir = TempRepoDir::new("workspace-diff-port");
     run_git(repo_dir.path(), &["init"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.name", "OpenBitFun Tests"],
-    );
+    run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
     run_git(
         repo_dir.path(),
         &["config", "user.email", "tests@openbitfun.dev"],
@@ -296,10 +290,7 @@ async fn workspace_diff_port_reports_staged_unstaged_and_untracked_changes() {
 async fn workspace_diff_port_keeps_staged_changes_when_worktree_returns_to_head() {
     let repo_dir = TempRepoDir::new("workspace-diff-cancelled-worktree");
     run_git(repo_dir.path(), &["init"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.name", "OpenBitFun Tests"],
-    );
+    run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
     run_git(
         repo_dir.path(),
         &["config", "user.email", "tests@openbitfun.dev"],
@@ -359,10 +350,7 @@ async fn workspace_diff_port_keeps_staged_additions_deleted_from_the_worktree() 
 async fn workspace_diff_port_preserves_staged_delete_and_recreated_file_sources() {
     let repo_dir = TempRepoDir::new("workspace-diff-staged-delete-recreated");
     run_git(repo_dir.path(), &["init"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.name", "OpenBitFun Tests"],
-    );
+    run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
     run_git(
         repo_dir.path(),
         &["config", "user.email", "tests@openbitfun.dev"],
@@ -391,10 +379,7 @@ async fn workspace_diff_port_preserves_staged_delete_and_recreated_file_sources(
 async fn workspace_diff_port_marks_conflicts_without_projecting_an_incomplete_patch() {
     let repo_dir = TempRepoDir::new("workspace-diff-conflict");
     run_git(repo_dir.path(), &["init"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.name", "OpenBitFun Tests"],
-    );
+    run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
     run_git(
         repo_dir.path(),
         &["config", "user.email", "tests@openbitfun.dev"],
@@ -432,10 +417,7 @@ async fn workspace_diff_port_marks_conflicts_without_projecting_an_incomplete_pa
 async fn workspace_diff_port_scopes_parent_repository_paths_to_the_bound_workspace() {
     let repo_dir = TempRepoDir::new("workspace-diff-scope");
     run_git(repo_dir.path(), &["init"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.name", "OpenBitFun Tests"],
-    );
+    run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
     run_git(
         repo_dir.path(),
         &["config", "user.email", "tests@openbitfun.dev"],
@@ -592,10 +574,7 @@ fn git_status_json_preserves_conflict_contract() {
 async fn review_git_service_reads_exact_renamed_and_deleted_range_without_mutation() {
     let repo_dir = TempRepoDir::new("review-exact-range");
     run_git(repo_dir.path(), &["init"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.name", "OpenBitFun Tests"],
-    );
+    run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
     run_git(
         repo_dir.path(),
         &["config", "user.email", "openbitfun-tests@example.com"],

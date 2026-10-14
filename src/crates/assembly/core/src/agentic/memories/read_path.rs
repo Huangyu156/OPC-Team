@@ -85,7 +85,7 @@ fn render_memory_read_path_reminder(memory_root: &Path, memory_summary: &str) ->
     format!(
         r#"## Memory
 
-You have access to a local OpenBitFun memory folder with guidance from prior runs. Use it when it is likely to help with the current request.
+You have access to a local OPC-Team memory folder with guidance from prior runs. Use it when it is likely to help with the current request.
 
 Decision boundary:
 - Skip memory only when the request is clearly self-contained and does not need workspace history, prior decisions, or user preferences.

@@ -193,7 +193,7 @@ function ChatComposerPreview({ interactive, state }: PreviewProps) {
         contextBar={state === "default" ? undefined : (
           <div className="flow-chat-composer-preview__context">
             <span><Monitor aria-hidden="true" />This computer</span>
-            <span>OpenBitFun</span>
+            <span>OPC-Team</span>
             <span><GitBranch aria-hidden="true" />1.0.0-explore</span>
             <span><Circle aria-hidden="true" />worktree</span>
             <span className="flow-chat-composer-preview__permission">
@@ -613,7 +613,7 @@ function SessionPreview({
     error: state === "error" ? t("components.preview.flowChat.failed") : undefined,
     fields: [
       { label: "Session", value: "review-42" },
-      { label: "Workspace", value: "OpenBitFun" },
+      { label: "Workspace", value: "OPC-Team" },
     ],
     isExpanded,
     onToggle: interactive ? () => setIsExpanded((value) => !value) : undefined,

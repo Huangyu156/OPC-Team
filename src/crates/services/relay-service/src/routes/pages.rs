@@ -1312,13 +1312,13 @@ fn page_login_form_response(
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>需要登录 · OpenBitFun Page</title>
+  <title>需要登录 · OPC-Team Page</title>
   <style>{}</style>
 </head>
 <body>
   <main>
     <div class="mark" aria-hidden="true">B</div>
-    <p class="eyebrow">OPENBITFUN PAGE</p>
+    <p class="eyebrow">OPC-Team PAGE</p>
     <h1>登录后访问</h1>
     <p>此页面受访问权限保护，请使用邮箱或 GitHub 登录。</p>
     <p class="secondary">This Page is protected. Sign in with your email or GitHub account.</p>
@@ -1327,7 +1327,7 @@ fn page_login_form_response(
       <p data-page-login-error class="error" role="alert" hidden></p>
       <button data-page-login-submit class="submit" type="submit">使用邮箱或 GitHub 登录 · Sign in with email or GitHub</button>
     </form>
-    <p class="note">使用 OpenBitFun 统一账号登录。</p>
+    <p class="note">使用 OPC-Team 统一账号登录。</p>
     <noscript><p class="error">登录需要启用 JavaScript。 JavaScript is required to sign in.</p></noscript>
   </main>
   <script src="{client_script}" defer></script>

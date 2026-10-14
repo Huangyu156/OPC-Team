@@ -683,7 +683,7 @@ export default function Canvas() {
   {/* Title */}
   <Box padding={{ x: 24, y: 20 }} background="#0f0f1a" borderBottom="1px solid #2d2d4a">
     <Text size={22} weight={700} color="#e2e8f0">
-      OpenBitFun 架构总览
+      OPC-Team 架构总览
     </Text>
     <Text size={13} color="#94a3b8" margin={{ top: 4 }}>
       Rust 工作空间 + React 前端

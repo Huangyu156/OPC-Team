@@ -149,7 +149,7 @@ fn ask_preset_allows_low_risk_actions_and_keeps_mutations_guarded() {
     for (action, resource) in [
         ("read", "C:/repo/README.md"),
         ("read", "C:/repo/.env.example"),
-        ("websearch", "OpenBitFun permission model"),
+        ("websearch", "OPC-Team permission model"),
         ("webfetch", "https://example.com/docs"),
         ("task", "general"),
         ("task", "send_input:session-1"),

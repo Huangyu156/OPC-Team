@@ -115,7 +115,7 @@ test('a retired relay version (410) reads as retired wording and drops raw detai
   const text = en(key);
   assert.equal(action, 'check-updates', 'a retired relay only offers an update path');
   assert.match(text, /retired/i);
-  assert.match(text, /OpenBitFun/, 'the sentence tells the user to update OpenBitFun');
+  assert.match(text, /OPC-Team/, 'the sentence tells the user to update OPC-Team');
   assert.doesNotMatch(text, /HTTP|410|List devices failed/i, 'no raw transport detail reaches the banner');
 });
 
@@ -139,7 +139,7 @@ test('an outdated client refusal reads as an update instruction', () => {
   const { key, action } = present(new Error('remote control requires matching client versions'));
   const text = en(key);
   assert.equal(action, 'check-updates');
-  assert.match(text, /too old|update OpenBitFun/i);
+  assert.match(text, /too old|update OPC-Team/i);
   assert.doesNotMatch(text, /HTTP|client versions/i);
 });
 

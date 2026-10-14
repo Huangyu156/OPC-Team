@@ -56,7 +56,7 @@ async function runParent() {
       });
       response.end(
         [
-          'data: {"id":"fixture","object":"chat.completion.chunk","model":"fixture-model","choices":[{"index":0,"delta":{"role":"assistant","content":"OpenBitFun SDK "},"finish_reason":null}]}',
+          'data: {"id":"fixture","object":"chat.completion.chunk","model":"fixture-model","choices":[{"index":0,"delta":{"role":"assistant","content":"OPC-Team SDK "},"finish_reason":null}]}',
           'data: {"id":"fixture","object":"chat.completion.chunk","model":"fixture-model","choices":[{"index":0,"delta":{"content":"fixture response"},"finish_reason":null}]}',
           'data: {"id":"fixture","object":"chat.completion.chunk","model":"fixture-model","choices":[{"index":0,"delta":{},"finish_reason":"stop"}]}',
           "data: [DONE]",
@@ -195,11 +195,11 @@ async function runWorker() {
     const deltas = items.filter((item) => item.type === "assistant_text_delta");
     const terminalResults = items.filter((item) => item.type === "result");
 
-    assert.equal(deltas.map((item) => item.text).join(""), "OpenBitFun SDK fixture response");
+    assert.equal(deltas.map((item) => item.text).join(""), "OPC-Team SDK fixture response");
     assert.equal(terminalResults.length, 1);
     assert.deepEqual(terminalResults[0], result);
     assert.equal(result.status, "completed");
-    assert.equal(result.outputText, "OpenBitFun SDK fixture response");
+    assert.equal(result.outputText, "OPC-Team SDK fixture response");
     assert.equal(JSON.stringify(items).includes(apiKey), false);
     process.stdout.write("phase:result_received\n");
   } finally {

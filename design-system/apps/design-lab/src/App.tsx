@@ -246,7 +246,7 @@ export function App() {
     {
       detail: t("brand.description"),
       icon: "spark",
-      keywords: `OpenBitFun brand logo motion ${t("nav.brand")}`,
+      keywords: `OPC-Team brand logo motion ${t("nav.brand")}`,
       label: t("design.brand"),
       route: { page: "brand" },
     },
@@ -436,7 +436,7 @@ export function App() {
             icon={<CatalogIcon glyph={Menu} />}
             onClick={() => setSidebarOpen(true)}
           />
-          <a className="design-wordmark-link" href="#overview" aria-label="OpenBitFun Design" onClick={event => {
+          <a className="design-wordmark-link" href="#overview" aria-label="OPC-Team Design" onClick={event => {
             if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
             event.preventDefault();
             navigate({ page: "overview" });
@@ -444,7 +444,7 @@ export function App() {
             {/* The product site's header lockup: the app mark next to the wordmark. The name is
                 visible now, and the link's accessible label still says which site it leads to. */}
             <OpenBitFunSolidMark className="design-app-mark" size={28} />
-            <span className="design-wordmark-name">OpenBitFun</span>
+            <span className="design-wordmark-name">OPC-Team</span>
           </a>
           <LabNavigation page={route.page} componentName={activeComponent?.name}
             onNavigate={page => page === "tokens" ? openTokenPage() : navigate({ page })} />
@@ -541,7 +541,7 @@ export function App() {
 
         <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen} placement="left" size="sm">
           <DialogHeader>
-            <DialogTitle>OpenBitFun Design</DialogTitle>
+            <DialogTitle>OPC-Team Design</DialogTitle>
             <DialogClose aria-label={t("app.closeNavigation")} />
           </DialogHeader>
           <DialogBody className="lab-mobile-navigation">

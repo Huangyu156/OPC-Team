@@ -148,7 +148,7 @@ async fn read_remote_directory_contents(
         .filter(|value| !value.is_empty());
     if explicit_connection_id.is_some() {
         return Some(Err(OpenBitFunError::NotImplemented(
-            format!("Remote workspaces are not compiled into this OpenBitFun host; refusing remote directory IO: {path}"),
+            format!("Remote workspaces are not compiled into this OPC-Team host; refusing remote directory IO: {path}"),
         )));
     }
     None
@@ -598,7 +598,7 @@ mod remote_marker_tests {
             );
             let message = error.to_string();
             assert!(
-                message.contains("not compiled into this OpenBitFun host"),
+                message.contains("not compiled into this OPC-Team host"),
                 "unexpected error: {message}"
             );
             assert!(

@@ -63,7 +63,7 @@ fn browser_sessions() -> Arc<BrowserSessionRegistry> {
         .clone()
 }
 
-/// Disconnect the user-selected external browser from OpenBitFun without closing
+/// Disconnect the user-selected external browser from OPC-Team without closing
 /// any browser tabs or changing the browser-owned Remote debugging preference.
 /// Page sessions and the retained browser WebSocket share this cleanup so an
 /// in-flight or later tool action cannot continue through a stale binding.
@@ -142,7 +142,7 @@ impl ControlHubTool {
             "Respect the disconnected browser connection. If ComputerUse is available and desktop control is authorized for this task, use its app observations and app-scoped input to continue in the existing browser.",
         )
         .with_hint(
-            "Use target='builtin' for OpenBitFun's built-in browser when that surface is sufficient.",
+            "Use target='builtin' for OPC-Team's built-in browser when that surface is sufficient.",
         )
     }
 
@@ -206,7 +206,7 @@ impl ControlHubTool {
             ControlHubError::new(
                 ErrorCode::NotAvailable,
                 format!(
-                    "browser.{action} is a CDP protocol extension and is not available for OpenBitFun's built-in WebView target."
+                    "browser.{action} is a CDP protocol extension and is not available for OPC-Team's built-in WebView target."
                 ),
             )
             .with_hint(
@@ -241,8 +241,8 @@ impl ControlHubTool {
             ErrorCode::NotAvailable
         };
         ControlHubError::new(code, message).with_hints([
-            "Keep the OpenBitFun Desktop window open and retry browser.open_builtin; CLI/headless runtimes do not provide a built-in browser surface.",
-            "If the user only asked to show OpenBitFun's browser without a URL, use OpenBitFunControl open on capability_id='feature.browser' instead of inventing a placeholder URL.",
+            "Keep the OPC-Team Desktop window open and retry browser.open_builtin; CLI/headless runtimes do not provide a built-in browser surface.",
+            "If the user only asked to show OPC-Team's browser without a URL, use OpenBitFunControl open on capability_id='feature.browser' instead of inventing a placeholder URL.",
         ])
     }
 
@@ -259,22 +259,22 @@ impl ControlHubTool {
             BrowserKind::Chrome | BrowserKind::Edge => {
                 vec![
                     format!(
-                        "{} can connect OpenBitFun to the current real profile, preserving its open tabs, cookies, extensions, and login state.",
+                        "{} can connect OPC-Team to the current real profile, preserving its open tabs, cookies, extensions, and login state.",
                         kind
                     ),
                     "If connection requires browser-owned setup or consent, use ComputerUse application observations and app-scoped input when available. Do not hand ordinary browser work back to the user or require a visit to Settings when an authorized desktop route can finish the task.".to_string(),
-                    "After approval, keep using browser.connect / snapshot / click / fill; OpenBitFun retains one guarded browser connection to avoid repeated prompts.".to_string(),
+                    "After approval, keep using browser.connect / snapshot / click / fill; OPC-Team retains one guarded browser connection to avoid repeated prompts.".to_string(),
                 ]
             }
             _ => {
                 let exe = BrowserLauncher::browser_executable(kind);
                 vec![
                     format!(
-                        "If {} already publishes DevToolsActivePort from its normal user-data directory, OpenBitFun reuses that real profile automatically; otherwise it starts a persistent managed profile.",
+                        "If {} already publishes DevToolsActivePort from its normal user-data directory, OPC-Team reuses that real profile automatically; otherwise it starts a persistent managed profile.",
                         kind
                     ),
                     format!(
-                        "If CDP is not ready on test port {}, retry browser.connect — it starts \"{}\" with OpenBitFun's managed profile.",
+                        "If CDP is not ready on test port {}, retry browser.connect — it starts \"{}\" with OPC-Team's managed profile.",
                         port, exe
                     ),
                     "After the browser is listening, use browser.connect / snapshot / click / fill to drive the DOM directly.".to_string(),
@@ -391,7 +391,7 @@ impl ControlHubTool {
             )
             .with_hints([
                 "Pass an http(s) URL or domain, e.g. { \"url\": \"https://example.com\" }.",
-                "If the user only wants to show OpenBitFun's browser surface, call OpenBitFunControl open with capability_id='feature.browser' and omit item_id.",
+                "If the user only wants to show OPC-Team's browser surface, call OpenBitFunControl open with capability_id='feature.browser' and omit item_id.",
             ]));
         }
 
@@ -459,15 +459,15 @@ Use this tool via `{ domain, action, params }` for browser automation, terminal 
 
 ### domain: "browser"  (shared browser automation)
 - Target selection:
-  * `params.target: "builtin" | "external"` selects OpenBitFun's native built-in WebView or an external CDP browser. Existing calls default to `external`; a built-in `session_id` also selects `builtin` automatically.
+  * `params.target: "builtin" | "external"` selects OPC-Team's native built-in WebView or an external CDP browser. Existing calls default to `external`; a built-in `session_id` also selects `builtin` automatically.
   * Portable actions use one `BrowserActions` implementation on both targets, with the same parameters, @eN refs, results, and errors. The browser engine is the adapter, not a second action stack.
 - Default URL-opening policy:
-  * If the user only asks to open/show OpenBitFun's browser surface and provides no URL, use `OpenBitFunControl` with `{ action: "open", capability_id: "feature.browser" }`. Do not invent `about:blank` or another URL.
-  * For requests that only open, show, preview, or view a URL, use `open_builtin`. This is the default browser-opening action and keeps the page inside OpenBitFun.
+  * If the user only asks to open/show OPC-Team's browser surface and provides no URL, use `OpenBitFunControl` with `{ action: "open", capability_id: "feature.browser" }`. Do not invent `about:blank` or another URL.
+  * For requests that only open, show, preview, or view a URL, use `open_builtin`. This is the default browser-opening action and keeps the page inside OPC-Team.
   * `open_builtin { url, title?, replace_existing? }` requires a real http(s) URL/domain, waits for the exact native WebView to become controllable, and returns its built-in `session_id`; the Agent can immediately snapshot/read/interact with it using `target: "builtin"`.
 - Shared workflow: `connect { target, target_url?, target_title? }` -> navigate -> snapshot (returns @e1, @e2 ... refs) -> click/fill with `{ target, selector: "@e1" }`. URL/title matching and exact `session_id` selection work on both targets; take a fresh snapshot after DOM mutations.
 - Automation modes (external browser):
-  * `connect { mode: "default" }` (default) — on Chrome 144+ and current Edge, request a user-approved connection to the currently running real profile so existing tabs and login state are preserved. Other supported Chromium browsers also reuse the real profile when it publishes DevToolsActivePort; otherwise OpenBitFun starts or attaches its persistent managed profile on port 9222.
+  * `connect { mode: "default" }` (default) — on Chrome 144+ and current Edge, request a user-approved connection to the currently running real profile so existing tabs and login state are preserved. Other supported Chromium browsers also reuse the real profile when it publishes DevToolsActivePort; otherwise OPC-Team starts or attaches its persistent managed profile on port 9222.
   * `connect { mode: "headless" }` — attach to an already-running headless browser on the headless test port 9223. This mode never starts a browser; when nothing is listening it returns `NOT_AVAILABLE` together with the exact launch command.
   * `params.port` overrides the CDP port for `connect` and for every other CDP action; after `connect`, actions reuse the connected session's port automatically.
 - Target-specific extensions:
@@ -594,7 +594,7 @@ Branch on `ok` and `error.code`, not on English messages.
                 // registry rather than a field on the context, so we can't be
                 // 100% sure here without round-tripping. We report "likely
                 // available iff a desktop host is present" because that bridge
-                // only exists in OpenBitFun's desktop runtime; the actual call will
+                // only exists in OPC-Team's desktop runtime; the actual call will
                 // surface a clean error if the bridge is offline.
                 let likely_terminal_available = context.computer_use_host.is_some();
                 let browser_default = browser_sessions().default_id().await;
@@ -777,7 +777,7 @@ Branch on `ok` and `error.code`, not on English messages.
                         "unavailable",
                         Some("OpenBitFunControl"),
                         95,
-                        "The request is to show OpenBitFun's browser surface without a URL. Call OpenBitFunControl open with capability_id='feature.browser' and omit item_id; do not invent about:blank.",
+                        "The request is to show OPC-Team's browser surface without a URL. Call OpenBitFunControl open with capability_id='feature.browser' and omit item_id; do not invent about:blank.",
                     );
                 }
                 let desktop_kw = [
@@ -1121,10 +1121,10 @@ Branch on `ok` and `error.code`, not on English messages.
                         "open_builtin",
                         ControlHubError::new(
                             ErrorCode::NotAvailable,
-                            "OpenBitFun's built-in browser requires an active Desktop product surface; it is unavailable in this runtime.",
+                            "OPC-Team's built-in browser requires an active Desktop product surface; it is unavailable in this runtime.",
                         )
                         .with_hint(
-                            "Use target='external' for a CDP browser in CLI/headless runtimes, or open this task in OpenBitFun Desktop.",
+                            "Use target='external' for a CDP browser in CLI/headless runtimes, or open this task in OPC-Team Desktop.",
                         ),
                     ));
                 }
@@ -1206,7 +1206,7 @@ Branch on `ok` and `error.code`, not on English messages.
                         json!({
                             "success": true,
                             "target": "builtin",
-                            "browser": "OpenBitFun built-in browser",
+                            "browser": "OPC-Team built-in browser",
                             "browser_mode": "embedded_webview",
                             "session_id": target.id,
                             "page_url": target.url,
@@ -1217,7 +1217,7 @@ Branch on `ok` and `error.code`, not on English messages.
                             "shared_action_contract": true,
                         }),
                         Some(format!(
-                            "Connected to OpenBitFun's built-in browser (session {}, page '{}')",
+                            "Connected to OPC-Team's built-in browser (session {}, page '{}')",
                             target.id, target.title
                         )),
                     )]);
@@ -1310,7 +1310,7 @@ Branch on `ok` and `error.code`, not on English messages.
                             ControlHubError::new(
                                 ErrorCode::NotAvailable,
                                 format!(
-                                    "{} needs one-time setup before OpenBitFun can use the current logged-in profile.",
+                                    "{} needs one-time setup before OPC-Team can use the current logged-in profile.",
                                     kind
                                 ),
                             )
@@ -1506,7 +1506,7 @@ Branch on `ok` and `error.code`, not on English messages.
                         ControlHubError::new(
                             ErrorCode::NotAvailable,
                             format!(
-                                "{} needs one-time setup before OpenBitFun can use the current logged-in profile.",
+                                "{} needs one-time setup before OPC-Team can use the current logged-in profile.",
                                 kind
                             ),
                         )
@@ -1727,7 +1727,7 @@ Branch on `ok` and `error.code`, not on English messages.
                             "tab_new",
                             ControlHubError::new(
                                 ErrorCode::NotAvailable,
-                                "OpenBitFun's built-in browser requires an active Desktop product surface.",
+                                "OPC-Team's built-in browser requires an active Desktop product surface.",
                             ),
                         ));
                     }
@@ -3077,7 +3077,7 @@ impl Tool for ControlHubTool {
                 },
                 "action": {
                     "type": "string",
-                    "description": "The atomic action to perform within the domain. For a concrete browser URL, default to open_builtin. To show OpenBitFun's browser surface without a URL, use OpenBitFunControl open on feature.browser instead of inventing a URL. Browser params.target selects builtin or external; both use the same portable action contract."
+                    "description": "The atomic action to perform within the domain. For a concrete browser URL, default to open_builtin. To show OPC-Team's browser surface without a URL, use OpenBitFunControl open on feature.browser instead of inventing a URL. Browser params.target selects builtin or external; both use the same portable action contract."
                 },
                 "params": {
                     "type": "object",
@@ -3884,7 +3884,7 @@ mod control_hub_tests {
             .block_on(tool.dispatch(
                 "meta",
                 "route_hint",
-                &json!({ "intent": "切换 OpenBitFun 默认模型" }),
+                &json!({ "intent": "切换 OPC-Team 默认模型" }),
                 &ctx,
             ))
             .unwrap();

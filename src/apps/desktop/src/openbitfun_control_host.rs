@@ -904,7 +904,7 @@ async fn execute_desktop_provider_operation(
                     AIExperienceConfig::default()
                         .agent_companion_pet
                         .ok_or_else(|| {
-                            "The default OpenBitFun companion is unavailable".to_string()
+                            "The default OPC-Team companion is unavailable".to_string()
                         })?
                 } else {
                     let installed = list_agent_companion_pets_impl(&state).await?;
@@ -1134,7 +1134,7 @@ pub(crate) fn mark_openbitfun_control_surface_unready() {
     let pending = std::mem::take(&mut *lock_pending_responses());
     for (_, sender) in pending {
         let _ = sender.send(Err(
-            "The active OpenBitFun presentation surface detached".to_string()
+            "The active OPC-Team presentation surface detached".to_string()
         ));
     }
 }

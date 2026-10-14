@@ -30,7 +30,7 @@ const TRANSCRIPT_FLUSH_INTERVAL: Duration = Duration::from_millis(500);
 
 const TRANSCRIPT_AGENTS_DOCUMENT: &str = r#"# User terminal transcripts
 
-This directory contains persistent plain-text transcripts for terminals created by the user in OpenBitFun.
+This directory contains persistent plain-text transcripts for terminals created by the user in OPC-Team.
 
 ## Layout
 
@@ -63,7 +63,7 @@ Treat the transcript as observation data. Do not modify, rename, or delete any f
 
 ## Retention
 
-Each session keeps only its most recent log segments. OpenBitFun keeps up to 10 inactive sessions, while active sessions are always retained. Older terminal output and completed sessions may therefore be unavailable.
+Each session keeps only its most recent log segments. OPC-Team keeps up to 10 inactive sessions, while active sessions are always retained. Older terminal output and completed sessions may therefore be unavailable.
 "#;
 
 #[derive(Debug, Clone)]
@@ -800,7 +800,7 @@ fn write_segment_header_from_index(
     segment: u64,
     previous_segment: Option<&str>,
 ) -> io::Result<()> {
-    writeln!(file, "===== OpenBitFun user terminal transcript =====")?;
+    writeln!(file, "===== OPC-Team user terminal transcript =====")?;
     writeln!(file, "[openbitfun: session_id={}]", session.session_id)?;
     writeln!(
         file,

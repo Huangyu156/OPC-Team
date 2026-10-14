@@ -244,7 +244,7 @@ export function OverviewPage({ onNavigate, colorScheme, contrast, density, token
                 new tab and carries the arrow that says so. */}
             <a className="design-home-footer-wordmark" href="https://openbitfun.com/" rel="noreferrer"
               target="_blank" aria-label={t("design.homeFooter.siteLabel")}>
-              <span aria-hidden="true">&gt;_</span> OpenBitFun
+              <span aria-hidden="true">&gt;_</span> OPC-Team
               <Icon className="design-home-footer-wordmark-arrow" aria-hidden="true" name="arrow-up-right" size="sm" />
             </a>
             <p className="design-home-footer-tagline">

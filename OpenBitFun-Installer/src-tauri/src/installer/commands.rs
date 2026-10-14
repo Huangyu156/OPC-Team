@@ -6,7 +6,7 @@ use super::types::{
     ConnectionTestResult, DiskSpaceInfo, InstallOptions, InstallProgress, ModelConfig,
     RemoteModelInfo,
 };
-use super::MAIN_APP_EXE;
+use super::{LEGACY_PRODUCT_NAME, MAIN_APP_EXE, PRODUCT_NAME};
 use openbitfun_core_types::{
     installer_config_handoff::{
         InstallerConfigHandoff, InstallerModelHandoff, INSTALLER_CONFIG_HANDOFF_FILE_NAME,
@@ -139,7 +139,7 @@ pub(crate) fn get_default_install_path() -> String {
             .unwrap_or_else(|| PathBuf::from("/opt"))
     };
 
-    base.join("OpenBitFun").to_string_lossy().to_string()
+    base.join(PRODUCT_NAME).to_string_lossy().to_string()
 }
 
 /// Last successful install path if still valid, otherwise platform default.
@@ -167,7 +167,7 @@ pub(crate) fn get_initial_install_path() -> String {
     get_default_install_path()
 }
 
-/// Detect an existing OpenBitFun install (Tauri NSIS or this installer) via Add/Remove Programs registry.
+/// Detect an existing OPC-Team install (Tauri NSIS or this installer) via Add/Remove Programs registry.
 #[tauri::command]
 pub(crate) fn get_existing_installation() -> ExistingInstallationResponse {
     #[cfg(not(target_os = "windows"))]
@@ -663,7 +663,8 @@ pub(crate) async fn start_installation(
     Ok(())
 }
 
-/// Uninstall OpenBitFun (for the uninstaller companion).
+/// Uninstall OPC-Team (for the uninstaller companion). Also clears the install records,
+/// shortcuts and autostart entries written by pre-rename builds.
 #[tauri::command]
 pub(crate) async fn uninstall(install_path: String) -> Result<(), String> {
     let install_path = PathBuf::from(&install_path);
@@ -830,7 +831,7 @@ pub(crate) fn launch_application(install_path: String) -> Result<(), String> {
     let exe = if cfg!(target_os = "windows") {
         PathBuf::from(&install_path).join(MAIN_APP_EXE)
     } else if cfg!(target_os = "macos") {
-        PathBuf::from(&install_path).join("OpenBitFun")
+        PathBuf::from(&install_path).join(PRODUCT_NAME)
     } else {
         PathBuf::from(&install_path).join("openbitfun")
     };
@@ -839,13 +840,13 @@ pub(crate) fn launch_application(install_path: String) -> Result<(), String> {
     create_windows_silent_command(&exe)
         .current_dir(&install_path)
         .spawn()
-        .map_err(|e| format!("Failed to launch OpenBitFun: {}", e))?;
+        .map_err(|e| format!("Failed to launch OPC-Team: {}", e))?;
 
     #[cfg(not(target_os = "windows"))]
     std::process::Command::new(&exe)
         .current_dir(&install_path)
         .spawn()
-        .map_err(|e| format!("Failed to launch OpenBitFun: {}", e))?;
+        .map_err(|e| format!("Failed to launch OPC-Team: {}", e))?;
 
     Ok(())
 }
@@ -860,7 +861,7 @@ pub(crate) fn launch_legacy_data_migrator(
     request: LaunchLegacyDataMigratorRequest,
 ) -> Result<bool, String> {
     let _ = request;
-    Err("Data Migrator is distributed separately. Download and run OpenBitFun Data Migrator to import legacy data.".to_string())
+    Err("Data Migrator is distributed separately. Download and run OPC-Team Data Migrator to import legacy data.".to_string())
 }
 
 /// Close the installer window.
@@ -1195,18 +1196,23 @@ fn find_existing_ancestor(path: &Path) -> PathBuf {
     current
 }
 
-/// Actual install root is always under an `OpenBitFun` directory: `{user choice}/OpenBitFun`.
-/// If the user already chose a path whose last segment is `OpenBitFun`, do not append again.
-fn with_openbitfun_install_subdir(path: PathBuf) -> PathBuf {
-    let already_openbitfun = path
+/// Actual install root is always under a product directory: `{user choice}/{productName}`.
+/// The directory name matches the desktop `productName`, which is also the directory a
+/// `currentUser` Tauri NSIS install uses (`%LOCALAPPDATA%\{productName}`). A path whose last
+/// segment is already the current or the pre-rename product name is used as-is, so in-place
+/// upgrades of an existing installation keep their directory.
+fn with_product_install_subdir(path: PathBuf) -> PathBuf {
+    let already_product_dir = path
         .file_name()
         .and_then(|n| n.to_str())
-        .map(|s| s.eq_ignore_ascii_case("OpenBitFun"))
+        .map(|s| {
+            s.eq_ignore_ascii_case(PRODUCT_NAME) || s.eq_ignore_ascii_case(LEGACY_PRODUCT_NAME)
+        })
         .unwrap_or(false);
-    if already_openbitfun {
+    if already_product_dir {
         path
     } else {
-        path.join("OpenBitFun")
+        path.join(PRODUCT_NAME)
     }
 }
 
@@ -1226,7 +1232,7 @@ fn prepare_install_target(requested_path: &Path) -> Result<PathBuf, String> {
         return Err(format!("{}path_not_directory", INSTALL_PATH_ERR_PREFIX));
     }
 
-    let install_path = with_openbitfun_install_subdir(requested_path.to_path_buf());
+    let install_path = with_product_install_subdir(requested_path.to_path_buf());
 
     if install_path.exists() {
         if !install_path.is_dir() {
@@ -1274,7 +1280,7 @@ fn ensure_config_directory() -> Result<PathBuf, String> {
         .join(data_namespace())
         .join("config");
     std::fs::create_dir_all(&config_root)
-        .map_err(|e| format!("Failed to create OpenBitFun config directory: {}", e))?;
+        .map_err(|e| format!("Failed to create OPC-Team config directory: {}", e))?;
     Ok(config_root)
 }
 
@@ -1896,8 +1902,9 @@ fn rollback_installation(install_path: &Path, install_dir_was_absent: bool) {
 mod tests {
     use super::{
         apply_first_launch_language_at, apply_theme_preference_at, normalize_app_language,
-        preflight_validate_payload_zip_archive, INSTALLER_APP_LANGUAGE_ALIASES_BY_PRIORITY,
-        MAIN_APP_EXE, MIN_WINDOWS_APP_EXE_BYTES, REQUIRED_PAYLOAD_FILES,
+        preflight_validate_payload_zip_archive, with_product_install_subdir,
+        INSTALLER_APP_LANGUAGE_ALIASES_BY_PRIORITY, LEGACY_PRODUCT_NAME, MAIN_APP_EXE,
+        MIN_WINDOWS_APP_EXE_BYTES, PRODUCT_NAME, REQUIRED_PAYLOAD_FILES,
     };
     use openbitfun_core_types::installer_config_handoff::{
         InstallerConfigHandoff, INSTALLER_CONFIG_HANDOFF_FILE_NAME,
@@ -1956,6 +1963,26 @@ mod tests {
     fn normalize_app_language_rejects_unknown_language_codes() {
         assert_eq!(normalize_app_language("fr-FR"), None);
         assert_eq!(normalize_app_language(""), None);
+    }
+
+    #[test]
+    fn install_root_accepts_the_current_and_the_pre_rename_product_directory() {
+        let base = std::path::PathBuf::from("apps");
+
+        // A path that already ends in a product directory is kept as-is, so upgrading a
+        // pre-rename installation in place does not nest a second directory.
+        assert_eq!(
+            with_product_install_subdir(base.join(PRODUCT_NAME)),
+            base.join(PRODUCT_NAME)
+        );
+        assert_eq!(
+            with_product_install_subdir(base.join(LEGACY_PRODUCT_NAME)),
+            base.join(LEGACY_PRODUCT_NAME)
+        );
+        assert_eq!(
+            with_product_install_subdir(base.clone()),
+            base.join(PRODUCT_NAME)
+        );
     }
 
     #[test]

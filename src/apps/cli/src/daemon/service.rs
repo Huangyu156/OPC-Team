@@ -32,7 +32,7 @@ fn systemd_unit_path() -> Result<PathBuf> {
 fn render_systemd_unit(executable: &Path) -> String {
     format!(
         "[Unit]\n\
-         Description=OpenBitFun CLI account device host\n\
+         Description=OPC-Team CLI account device host\n\
          After=network-online.target\n\
          Wants=network-online.target\n\
          \n\
@@ -303,7 +303,7 @@ fn platform_service_active() -> Option<bool> {
 }
 
 /// Install and start the auto-start service. Requires a persisted account
-/// session (the daemon logs in from `~/.openbitfun/account_session.enc`).
+/// session (the daemon logs in from `~/.opcteam/account_session.enc`).
 pub(crate) fn install_service() -> Result<()> {
     ensure_persisted_account_session()?;
     let executable = current_exe_path()?;

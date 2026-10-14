@@ -1,7 +1,7 @@
 //! Agent tool for making a port on an SSH host reachable from this machine.
 //!
 //! Works from any session, not just a remote-SSH workspace. `target` accepts
-//! whatever the caller already knows the host as — a saved OpenBitFun connection,
+//! whatever the caller already knows the host as — a saved OPC-Team connection,
 //! a `~/.ssh/config` alias, or `[user@]host[:port]` — because an Agent that
 //! reached a box with `ssh myserver` in a shell should be able to forward its
 //! ports with the same name it just used. When the session *is* bound to a
@@ -245,7 +245,7 @@ impl PortForwardTool {
         if !result.success {
             return Err(OpenBitFunError::tool(format!(
                 "Could not connect to '{target}': {}. Key or agent authentication is required; \
-                 a target that needs a password must be saved in OpenBitFun's SSH connections first.",
+                 a target that needs a password must be saved in OPC-Team's SSH connections first.",
                 result.error.unwrap_or_else(|| "unknown error".to_string())
             )));
         }
@@ -286,13 +286,13 @@ impl Tool for PortForwardTool {
         Ok(r#"Make a port listening on an SSH host reachable from the user's machine, so they can open it in a browser.
 
 Operations:
-- "targets": List SSH hosts you can forward from (saved OpenBitFun connections and ~/.ssh/config hosts). Read-only.
+- "targets": List SSH hosts you can forward from (saved OPC-Team connections and ~/.ssh/config hosts). Read-only.
 - "detect": List TCP ports currently listening on the host. Read-only; forwards nothing.
 - "start": Forward one remote port. Requires remote_port. Returns the local address to give the user.
 - "list": Show forwards currently running for the host.
 - "stop": Stop one forward by forward_id.
 
-`target` names the SSH host: a saved connection (id or name), a ~/.ssh/config Host, or [user@]host[:port]. Omit it only when the session already runs in a remote SSH workspace. Ad-hoc targets authenticate with an SSH agent or a config-declared key; a host needing a password must be saved in OpenBitFun's SSH connections first.
+`target` names the SSH host: a saved connection (id or name), a ~/.ssh/config Host, or [user@]host[:port]. Omit it only when the session already runs in a remote SSH workspace. Ad-hoc targets authenticate with an SSH agent or a config-declared key; a host needing a password must be saved in OPC-Team's SSH connections first.
 
 The returned local_port is authoritative and is NOT always the port requested: if that local port is in use, a free one is bound instead and requested_local_port records what was asked for. Always report the returned local_address rather than assuming it matches the remote port.
 

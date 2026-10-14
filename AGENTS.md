@@ -2,7 +2,7 @@
 
 # AGENTS.md
 
-OpenBitFun is a Rust workspace plus React frontends.
+OPC-Team is a Rust workspace plus React frontends.
 
 Repository rule: **keep product logic platform-agnostic, then expose it through platform adapters**.
 
@@ -166,7 +166,7 @@ await api.invoke('your_command', { request: { ... } });
 
 ### Remote scenarios
 
-OpenBitFun is not a local-only desktop app. The workspace, the runtime that executes
+OPC-Team is not a local-only desktop app. The workspace, the runtime that executes
 a turn, and the person driving it can each sit on a different machine. Treat the
 four scenarios below as first-class targets of every change, not as a later port.
 
@@ -175,7 +175,7 @@ four scenarios below as first-class targets of every change, not as a later port
 | Remote workspace | The active workspace lives on an SSH host, a jump-host chain, or a Docker container; files, terminal, search, and Agent subprocesses must execute there | [remote-workspace-transport.md](docs/architecture/remote-workspace-transport.md), [remote-workspaces.md](docs/features/remote-workspaces.md) |
 | Remote control | Mobile web, or a Feishu / Telegram / WeChat bot, drives a session on a Desktop or CLI host through the Remote Connect relay | [`src/mobile-web`](src/mobile-web/AGENTS.md), `remote_connect` in [services-integrations](src/crates/services/services-integrations/AGENTS.md), [relay-service](src/crates/services/relay-service/AGENTS.md) |
 | Peer Device Mode | One same-account device becomes the data plane of another: the controller shell stays local, invokes and events come from the peer | [peer-device-mode.md](docs/architecture/peer-device-mode.md), [peer-device README](src/web-ui/src/infrastructure/peer-device/README.md) |
-| Detached Dispatch | A controller submits a durable job to another OpenBitFun host and may then disconnect; the target owns the job, session, worktree, event log, and permission mailbox | [detached-task-dispatch.md](docs/architecture/detached-task-dispatch.md) |
+| Detached Dispatch | A controller submits a durable job to another OPC-Team host and may then disconnect; the target owns the job, session, worktree, event log, and permission mailbox | [detached-task-dispatch.md](docs/architecture/detached-task-dispatch.md) |
 
 Rules that apply to all four:
 
@@ -234,7 +234,7 @@ evidence of remote behavior.
 ### Upgrade compatibility
 
 Users upgrade in place, and the remote scenarios above routinely put two
-different OpenBitFun versions on the same connection. Every change must keep
+different OPC-Team versions on the same connection. Every change must keep
 existing installs working without manual repair.
 
 - **Persisted shapes are read by older and newer code.** Config, settings,
@@ -266,9 +266,9 @@ existing installs working without manual repair.
 
 ### Agent hooks
 
-- OpenBitFun native user hooks implement the Codex hook contract, so <https://learn.chatgpt.com/docs/hooks> is the reference for their events, payload fields, and decision schema. Do not fork that contract. [`docs/features/agent-hooks.md`](docs/features/agent-hooks.md) ([中文](docs/features/agent-hooks.zh-CN.md)) covers only the OpenBitFun-specific parts — file locations, the `app.hooks` gates, and the deviations table — and must be updated whenever a deviation is added or closed.
+- OPC-Team native user hooks implement the Codex hook contract, so <https://learn.chatgpt.com/docs/hooks> is the reference for their events, payload fields, and decision schema. Do not fork that contract. [`docs/features/agent-hooks.md`](docs/features/agent-hooks.md) ([中文](docs/features/agent-hooks.zh-CN.md)) covers only the OPC-Team-specific parts — file locations, the `app.hooks` gates, and the deviations table — and must be updated whenever a deviation is added or closed.
 - The portable engine (settings parsing, payload construction, process execution, decision merging) lives in `openbitfun-agent-runtime::native_hooks`. `openbitfun-core::native_hooks` owns config discovery, gating, and per-event dispatch helpers; dispatch sites call those helpers instead of executing hooks inline.
-- Executable hooks may come from native user configuration, ecosystem plugins, or OpenBitFun built-ins (including the current compiled-in `post_call_hooks`). These sources keep distinct trust, configuration, contract, and execution-policy semantics, but may register through the shared `HookRegistry` and be dispatched by `AgentHookEngine`. The external hook catalog of other AI applications (`external_hooks`) remains read-only discovery data and must not enter the executable registry.
+- Executable hooks may come from native user configuration, ecosystem plugins, or OPC-Team built-ins (including the current compiled-in `post_call_hooks`). These sources keep distinct trust, configuration, contract, and execution-policy semantics, but may register through the shared `HookRegistry` and be dispatched by `AgentHookEngine`. The external hook catalog of other AI applications (`external_hooks`) remains read-only discovery data and must not enter the executable registry.
 
 ## Architecture
 
@@ -348,7 +348,7 @@ first, then [`docs/sdlc-harness/design.md`](docs/sdlc-harness/design.md). If
 module boundaries or behavior change, follow the matching design under
 `docs/sdlc-harness/architecture/` or `docs/sdlc-harness/features/`.
 
-Do not hard-code OpenBitFun repository assumptions as target-project rules; keep
+Do not hard-code OPC-Team repository assumptions as target-project rules; keep
 quality protection behavior target-aware, evidence-backed, risk-tiered,
 cost-aware, and auditable.
 

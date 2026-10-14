@@ -162,7 +162,7 @@ fn native_hook_help_text() -> String {
         "",
         "Usage: /hooks [refresh | import <source-number> [--confirm] | update <import-number> [--confirm] | enable <import-number> | disable <import-number> | remove <import-number> --confirm | reset <user|project> --confirm]",
         "",
-        "Shows native OpenBitFun Hooks plus compatible Claude Code and Codex command Hooks.",
+        "Shows native OPC-Team Hooks plus compatible Claude Code and Codex command Hooks.",
         "Import and update are preview-only until the exact reviewed plan is confirmed. Source files are never edited.",
         "Compatibility aliases: /hooks_external and /hooks-external.",
         "",
@@ -200,8 +200,8 @@ fn native_hook_rule_line(rule: &NativeHookRuleView) -> String {
 
 fn render_native_hook_overview(overview: &NativeHookOverview) -> String {
     let mut lines = vec![
-        "Hooks (OpenBitFun)".to_string(),
-        "Commands OpenBitFun runs at agent lifecycle events. Nothing was executed to build this view."
+        "Hooks (OPC-Team)".to_string(),
+        "Commands OPC-Team runs at agent lifecycle events. Nothing was executed to build this view."
             .to_string(),
         String::new(),
     ];

@@ -1,6 +1,6 @@
 //! In-app subscription authentication.
 //!
-//! Lets OpenBitFun sign in to another product's subscription (Codex/ChatGPT,
+//! Lets OPC-Team sign in to another product's subscription (Codex/ChatGPT,
 //! Antigravity/Google, OpenCode, xAI/SuperGrok, Hermes/Nous Portal) with an in-app OAuth flow,
 //! and use the resulting tokens to authenticate AI requests. Secret material
 //! is stored separately from the non-secret account metadata. macOS uses a
@@ -39,7 +39,7 @@ pub(crate) const OPENCODE_COMPAT_VERSION: &str = "1.18.29";
 
 pub const OPENCODE_GO_REQUIRES_API_KEY: &str = "OpenCode Console OAuth supports Zen only. Edit this model to use the OpenCode Go API-key preset. Existing configuration and credentials have been preserved.";
 
-/// One of the subscription providers OpenBitFun can sign in to.
+/// One of the subscription providers OPC-Team can sign in to.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
 pub enum SubscriptionProvider {
@@ -159,7 +159,7 @@ pub fn runtime_model_override(
         return Some(provider.suggested().2);
     }
     match (provider, model) {
-        // OpenBitFun used this as its original Codex subscription default. It is
+        // OPC-Team used this as its original Codex subscription default. It is
         // no longer in OpenCode's current ChatGPT subscription model set.
         (SubscriptionProvider::Codex, "gpt-5-codex") => Some("gpt-5.5"),
         // The retired Grok proxy exposed an unversioned coding-model alias;
@@ -508,7 +508,7 @@ pub(crate) fn store_revision_conflict(
     current_revision: u64,
 ) -> anyhow::Error {
     anyhow!(
-        "{} credentials changed in another OpenBitFun process (current revision {current_revision}); retry the operation",
+        "{} credentials changed in another OPC-Team process (current revision {current_revision}); retry the operation",
         provider.display_label()
     )
 }

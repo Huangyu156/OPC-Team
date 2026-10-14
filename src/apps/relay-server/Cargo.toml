@@ -1,7 +1,7 @@
 [package]
 name = "openbitfun-relay-server"
 version = "1.0.5" # x-release-please-version
-authors = ["OpenBitFun Team"]
+authors = ["OPC-Team"]
 edition = "2021"
 description = "OpenBitFun standalone Remote Connect relay server"
 

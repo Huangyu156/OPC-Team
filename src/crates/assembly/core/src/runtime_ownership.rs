@@ -306,7 +306,7 @@ impl CoreRuntimeOwnershipError {
         let guidance = match deployment {
             RuntimeDeployment::Embedded if entrypoint == "cli-interactive" => "A Shared TUI Runtime owns this workspace; use `openbitfun chat --shared`, or close its clients and wait up to 30 seconds",
             RuntimeDeployment::Embedded => "A Shared TUI Runtime owns this workspace; close its clients and wait up to 30 seconds before retrying this application",
-            RuntimeDeployment::Shared => "An Embedded OpenBitFun process owns this workspace; close it before using `--shared`",
+            RuntimeDeployment::Shared => "An Embedded OPC-Team process owns this workspace; close it before using `--shared`",
         };
         format!("{prefix}. {guidance}")
     }

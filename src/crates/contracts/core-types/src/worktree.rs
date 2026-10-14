@@ -211,6 +211,7 @@ mod tests {
     use super::{
         SessionExecutionTargetRequest, WorktreeError, WorktreeErrorCode, WorktreeSettings,
     };
+    use crate::product_identity::{hidden_data_directory, product_id};
 
     #[test]
     fn execution_target_request_uses_stable_camel_case_tags() {
@@ -228,8 +229,11 @@ mod tests {
     #[test]
     fn worktree_defaults_include_managed_cleanup_policy() {
         let defaults = WorktreeSettings::default();
-        assert_eq!(defaults.root_path, "~/.openbitfun/worktrees");
-        assert_eq!(defaults.branch_prefix, "openbitfun/");
+        assert_eq!(
+            defaults.root_path,
+            format!("~/{}/worktrees", hidden_data_directory())
+        );
+        assert_eq!(defaults.branch_prefix, format!("{}/", product_id()));
         assert!(!defaults.copy_local_changes);
         assert!(defaults.auto_delete_enabled);
         assert_eq!(defaults.auto_delete_limit, 15);

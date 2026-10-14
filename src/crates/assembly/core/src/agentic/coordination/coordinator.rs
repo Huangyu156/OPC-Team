@@ -1412,7 +1412,7 @@ impl ConversationCoordinator {
         #[cfg(not(feature = "remote-workspace"))]
         {
             Err(OpenBitFunError::NotImplemented(format!(
-                "Remote workspace services are unavailable for connection {connection_id}: remote workspaces are not compiled into this OpenBitFun host (feature `remote-workspace`); no local fallback was attempted"
+                "Remote workspace services are unavailable for connection {connection_id}: remote workspaces are not compiled into this OPC-Team host (feature `remote-workspace`); no local fallback was attempted"
             )))
         }
 
@@ -2898,7 +2898,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &str,
         // Pre-resolved on-disk session storage path (mirror dir for remote workspaces).
         // When present we use it directly so we never re-resolve without remote SSH info
-        // (which would slugify a raw remote POSIX path under `~/.openbitfun/projects/`).
+        // (which would slugify a raw remote POSIX path under `~/.opcteam/projects/`).
         resolved_session_storage_path: Option<&std::path::Path>,
         status: crate::service::session::TurnStatus,
         user_message_metadata: Option<serde_json::Value>,
@@ -19307,7 +19307,7 @@ mod tests {
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
         let permission_path = workspace
             .path()
-            .join(".openbitfun")
+            .join(openbitfun_core_types::product_identity::hidden_data_directory())
             .join("config")
             .join("tool_permissions.json");
         tokio::fs::create_dir_all(permission_path.parent().expect("permission parent"))

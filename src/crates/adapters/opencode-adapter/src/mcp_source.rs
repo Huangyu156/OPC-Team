@@ -161,7 +161,7 @@ impl OpenCodeMcpProvider {
             }
             if parsed.v2 {
                 deep_merge(&mut defaults, parsed.defaults);
-                diagnostics.push(ExternalSourceDiagnostic::warning("opencode.mcp.v2_host_policy", "OpenCode V2 MCP connections are imported independently; Code Mode, host permissions and connection lifecycle are managed by OpenBitFun", Some(key.clone())).with_asset_kind(ExternalSourceAssetKind::Mcp));
+                diagnostics.push(ExternalSourceDiagnostic::warning("opencode.mcp.v2_host_policy", "OpenCode V2 MCP connections are imported independently; Code Mode, host permissions and connection lifecycle are managed by OPC-Team", Some(key.clone())).with_asset_kind(ExternalSourceAssetKind::Mcp));
             }
             for (name, patch) in parsed.servers {
                 if merged_servers.len() >= MAX_MCP_SERVERS && !merged_servers.contains_key(&name) {

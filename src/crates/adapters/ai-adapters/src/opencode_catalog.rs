@@ -158,7 +158,7 @@ fn route_for(plan: OpenCodePlan, format: &str) -> Result<OpenCodeRoute> {
         },
         _ => {
             return Err(anyhow!(
-                "OpenCode {:?} does not support OpenBitFun request format '{}'",
+                "OpenCode {:?} does not support OPC-Team request format '{}'",
                 plan,
                 format.trim()
             ));
@@ -337,7 +337,7 @@ fn offerings_from_remote_config(config: RemoteConfig) -> Vec<CatalogOffering> {
                 .and_then(|item| item.api.as_deref())
                 .or(provider.api.as_deref());
             let Some(format) = format_for_remote_model(npm, api) else {
-                // OpenBitFun does not currently have a compatible adapter for
+                // OPC-Team does not currently have a compatible adapter for
                 // every AI SDK package returned by OpenCode (for example its
                 // Google-native gateway shape). Do not offer a model with an
                 // endpoint we cannot faithfully reproduce.

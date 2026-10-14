@@ -22,6 +22,7 @@ use openbitfun_agent_runtime::custom_agent::{
 use openbitfun_agent_runtime::sdk::{RuntimeAgentRegistry, RuntimeAgentRegistryQuery};
 use openbitfun_agent_runtime::session::SessionConfig;
 use openbitfun_agent_runtime::thread_goal_tools::THREAD_GOAL_TOOL_NAMES;
+use openbitfun_core_types::product_identity::hidden_data_directory;
 use openbitfun_product_domains::external_sources::EcosystemId;
 use openbitfun_product_domains::external_subagents::ExternalSubagentMode;
 use std::collections::{BTreeMap, HashMap};
@@ -1401,7 +1402,7 @@ impl CustomAgentTestEnv {
     fn new(prefix: &str) -> Self {
         let root = std::env::temp_dir().join(format!("{prefix}-{}", unique_suffix()));
         let workspace_root = root.join("workspace");
-        let workspace_agents_dir = workspace_root.join(".openbitfun").join("agents");
+        let workspace_agents_dir = workspace_root.join(hidden_data_directory()).join("agents");
         let user_agents_dir = root.join("user-root").join("agents");
         std::fs::create_dir_all(&workspace_agents_dir)
             .expect("workspace agents dir should be created");

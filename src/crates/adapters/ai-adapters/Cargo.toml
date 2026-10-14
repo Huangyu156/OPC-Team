@@ -3,7 +3,7 @@ name = "openbitfun-ai-adapters"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Shared AI protocol adapters for OpenBitFun core and installer"
+description = "Shared AI protocol adapters for OPC-Team core and installer"
 autotests = false
 
 [lib]

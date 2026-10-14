@@ -1,8 +1,8 @@
 /**
- * OpenBitFun Installer build script.
+ * OPC-Team Installer build script.
  *
  * Steps:
- * 1. Build OpenBitFun main app (optional).
+ * 1. Build OPC-Team main app (optional).
  * 2. Prepare installer payload from built app binaries.
  * 3. Build installer app (Tauri).
  *
@@ -77,7 +77,7 @@ function run(cmd, cwd = ROOT) {
 
 function printHelpAndExit() {
   console.log(`
-OpenBitFun Installer build script
+OPC-Team Installer build script
 
 Usage:
   node scripts/build-installer.cjs [options]
@@ -85,7 +85,7 @@ Usage:
 Options:
   --mode <fast|release>  Build mode (default: release)
   --fast                 Alias for --mode fast
-  --skip-app-build       Skip building main OpenBitFun app
+  --skip-app-build       Skip building main OPC-Team app
   --app-exe <path>       Exact desktop executable to package. Required when the
                          desired build is outside the active Cargo target dir.
   --dev                  Run installer with tauri dev instead of tauri build
@@ -223,9 +223,9 @@ if (isDev) {
   log("Installer run mode: release (strict payload validation)");
 }
 
-// Step 1: Build main OpenBitFun app.
+// Step 1: Build main OPC-Team app.
 if (!skipAppBuild) {
-  log("Step 1: Building OpenBitFun main application...");
+  log("Step 1: Building OPC-Team main application...");
   run(getMainAppBuildCommand(buildMode), OPENBITFUN_ROOT);
 } else {
   log("Step 1: Skipped (--skip-app-build)");
@@ -239,7 +239,7 @@ log("Step 2: Preparing installer payload...");
 
   if (!appExePath && STRICT_PAYLOAD_VALIDATION) {
     error(
-      `Could not find the exact ${getExpectedAppProfile(buildMode)} OpenBitFun executable at ${expectedAppExePath}. ` +
+      `Could not find the exact ${getExpectedAppProfile(buildMode)} OPC-Team executable at ${expectedAppExePath}. ` +
         "Build that profile first, set OPENBITFUN_INSTALLER_APP_EXE, or pass --app-exe."
     );
   }

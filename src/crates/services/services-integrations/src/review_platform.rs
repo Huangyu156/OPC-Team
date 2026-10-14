@@ -669,7 +669,7 @@ pub struct ReviewPlatformWorkspaceSnapshot {
 ///
 /// Review-platform only touches the workspace for repository discovery
 /// (`git rev-parse --show-toplevel`, `git remote -v`); provider data itself is
-/// fetched over HTTP from the host running OpenBitFun. Remote SSH workspaces are
+/// fetched over HTTP from the host running OPC-Team. Remote SSH workspaces are
 /// therefore fully supported as long as the product runtime can execute those
 /// Git probes on the remote host, which is what this port injects.
 /// Identifies the repository a review-platform operation runs against.
@@ -1662,7 +1662,7 @@ impl ReviewPlatformService {
     ) -> Result<(), ReviewPlatformError> {
         if platform == ReviewPlatformKind::Github {
             return Err(ReviewPlatformError::Api(format!(
-                "GitHub tokens are not stored by OpenBitFun. Authenticate the local GitHub CLI with `gh auth login --hostname {}`.",
+                "GitHub tokens are not stored by OPC-Team. Authenticate the local GitHub CLI with `gh auth login --hostname {}`.",
                 normalize_provider_host(host)?
             )));
         }
@@ -4584,7 +4584,7 @@ fn validate_current_stored_tokens(
 ) -> Result<(), ReviewPlatformError> {
     if stored.schema_version != REVIEW_PLATFORM_TOKEN_SCHEMA_VERSION {
         return Err(ReviewPlatformError::Parse(format!(
-            "Review platform token store schema {} is not supported by OpenBitFun 1.0.0; use the explicit data migration tool instead",
+            "Review platform token store schema {} is not supported by OPC-Team 1.0.0; use the explicit data migration tool instead",
             stored.schema_version
         )));
     }
@@ -5360,7 +5360,7 @@ impl ReviewPlatformService {
                     .and_then(|version| u16::try_from(version).ok());
                 if schema_version != Some(REVIEW_PLATFORM_TOKEN_SCHEMA_VERSION) {
                     return Err(ReviewPlatformError::Parse(
-                        "Review platform token store is not in the OpenBitFun 1.0.0 format; use the explicit data migration tool instead"
+                        "Review platform token store is not in the OPC-Team 1.0.0 format; use the explicit data migration tool instead"
                             .to_string(),
                     ));
                 }

@@ -1,8 +1,8 @@
 /* Coding Selfie — daily coding snapshot.
  * Design system reference:
- *   palette  ─ Inherits OpenBitFun host theme (--openbitfun-* tokens). Surfaces,
+ *   palette  ─ Inherits OPC-Team host theme (--openbitfun-* tokens). Surfaces,
  *              text and borders all proxy through host vars so the dashboard
- *              reads as a native OpenBitFun panel under both openbitfun-dark and
+ *              reads as a native OPC-Team panel under both openbitfun-dark and
  *              openbitfun-light. The host contract owns first-paint defaults.
  *   accent   ─ host primary (cool blue / slate) for hero/streak/heatmap
  *              accents. Diff stats keep semantic green/red so additions and
@@ -24,7 +24,7 @@
   --cs-text-muted: var(--openbitfun-text-muted);
 
   /* Primary accent now follows the host (cool blue in dark, slate in light)
-   * so the dashboard stops fighting OpenBitFun's neutral palette. The previous
+   * so the dashboard stops fighting OPC-Team's neutral palette. The previous
    * "run green" is preserved as a secondary semantic color (--cs-add). */
   --cs-accent:      var(--openbitfun-accent);
   --cs-accent-2:    var(--openbitfun-accent-hover);

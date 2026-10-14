@@ -1,4 +1,4 @@
-# OpenBitFun CLI Agent Guide
+# OPC-Team CLI Agent Guide
 
 Scope: `src/apps/cli`.
 

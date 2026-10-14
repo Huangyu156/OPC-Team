@@ -1,6 +1,6 @@
 /* Regex Playground — developer-tool theme.
  * Design system reference:
- *   palette  ─ Inherits OpenBitFun host theme (--openbitfun-* tokens) so it reads
+ *   palette  ─ Inherits OPC-Team host theme (--openbitfun-* tokens) so it reads
  *              as a native panel under both openbitfun-dark and openbitfun-light.
  *              Local --rx-* tokens are derived from the required host vars;
  *              the host contract owns first-paint defaults.
@@ -22,7 +22,7 @@ body, html { margin: 0; padding: 0; height: 100%; }
 :root {
   color-scheme: dark;
   /* Surfaces — drive everything off host bg tokens so the playground tracks
-   * OpenBitFun light/dark automatically. Fallbacks mirror the default dark theme. */
+   * OPC-Team light/dark automatically. Fallbacks mirror the default dark theme. */
   --rx-bg:        var(--openbitfun-bg);
   --rx-bg-2:      var(--openbitfun-bg-tertiary);
   --rx-surface:   var(--openbitfun-bg-secondary);
@@ -39,12 +39,12 @@ body, html { margin: 0; padding: 0; height: 100%; }
   --rx-text-dim:  var(--openbitfun-text-muted);
 
   /* Accent — follows host primary (blue in dark, slate in light) instead of
-   * the previous saturated "run green" which clashed with OpenBitFun's neutral palette. */
+   * the previous saturated "run green" which clashed with OPC-Team's neutral palette. */
   --rx-accent:        var(--openbitfun-accent);
   --rx-accent-strong: var(--openbitfun-accent-hover);
   --rx-accent-soft:   color-mix(in srgb, var(--rx-accent) 14%, transparent);
 
-  /* Semantic colors — pulled from host so they harmonize with the rest of OpenBitFun. */
+  /* Semantic colors — pulled from host so they harmonize with the rest of OPC-Team. */
   --rx-match:      var(--openbitfun-warning);            /* warm match highlight */
   --rx-match-soft: color-mix(in srgb, var(--rx-match) 18%, transparent);
   --rx-error:      var(--openbitfun-error);

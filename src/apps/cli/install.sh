@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# OpenBitFun CLI — one-click build + install into PATH.
+# OPC-Team CLI — one-click build + install into PATH.
 #
 # Usage (from anywhere inside the repo, or this directory):
 #   bash src/apps/cli/install.sh
@@ -44,7 +44,7 @@ resolve_repo_root() {
     echo "$candid"
     return 0
   fi
-  echo "Error: could not locate OpenBitFun repository root from $SCRIPT_DIR" >&2
+  echo "Error: could not locate OPC-Team repository root from $SCRIPT_DIR" >&2
   exit 1
 }
 
@@ -91,8 +91,13 @@ require_cargo() {
 }
 
 # Marker keeps shellrc edits idempotent across re-installs.
-SHELLRC_MARKER_BEGIN="# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>"
-SHELLRC_MARKER_END="# <<< OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) <<<"
+SHELLRC_MARKER_BEGIN="# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>"
+SHELLRC_MARKER_END="# <<< OPC-Team CLI PATH (managed by src/apps/cli/install.sh) <<<"
+# Pre-rename marker. Installs made before the OPC-Team rename wrote this block,
+# so it is still recognized: an upgrade replaces the stale block instead of
+# leaving it behind and appending a second one beside it.
+SHELLRC_LEGACY_MARKER_BEGIN="# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>"
+SHELLRC_LEGACY_MARKER_END="# <<< OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) <<<"
 
 ensure_bin_dir_on_path_block() {
   local bin_dir="$1"
@@ -116,12 +121,15 @@ upsert_shellrc_path() {
 
   block="$(ensure_bin_dir_on_path_block "$bin_dir")"
 
-  if grep -Fq "$SHELLRC_MARKER_BEGIN" "$rc_file" 2>/dev/null; then
+  if grep -Fq "$SHELLRC_MARKER_BEGIN" "$rc_file" 2>/dev/null \
+    || grep -Fq "$SHELLRC_LEGACY_MARKER_BEGIN" "$rc_file" 2>/dev/null; then
     tmp="$(mktemp)"
-    # Replace existing managed block.
-    awk -v begin="$SHELLRC_MARKER_BEGIN" -v end="$SHELLRC_MARKER_END" '
-      $0 == begin { in_block=1; next }
-      $0 == end { in_block=0; next }
+    # Replace the managed block, whether this version wrote it or a pre-rename
+    # install did.
+    awk -v begin="$SHELLRC_MARKER_BEGIN" -v end="$SHELLRC_MARKER_END" \
+      -v legacy_begin="$SHELLRC_LEGACY_MARKER_BEGIN" -v legacy_end="$SHELLRC_LEGACY_MARKER_END" '
+      $0 == begin || $0 == legacy_begin { in_block=1; next }
+      $0 == end || $0 == legacy_end { in_block=0; next }
       !in_block { print }
     ' "$rc_file" >"$tmp"
     printf '\n%s\n' "$block" >>"$tmp"
@@ -217,7 +225,7 @@ install_bundle() {
       mv "$plugin_host_backup" "$plugin_host_target"
     fi
     rm -rf "$stage_dir"
-    echo "Error: CLI installation failed; the previous OpenBitFun CLI was restored." >&2
+    echo "Error: CLI installation failed; the previous OPC-Team CLI was restored." >&2
     return 1
   fi
 
@@ -272,7 +280,7 @@ restart_daemon_for_upgrade() {
 
 usage() {
   cat <<'EOF'
-OpenBitFun CLI install script
+OPC-Team CLI install script
 
 Usage:
   bash install.sh [--help]
@@ -309,7 +317,7 @@ BIN_DIR="${OPENBITFUN_CLI_BIN_DIR:-${HOME}/.local/bin}"
 HOST_ARCH="$(host_arch_label)"
 HOST_OS="$(uname -s)"
 
-echo "=== OpenBitFun CLI Install ==="
+echo "=== OPC-Team CLI Install ==="
 echo "Repo:   $REPO_ROOT"
 echo "Host:   ${HOST_OS} / ${HOST_ARCH} ($(uname -m))"
 echo "Install dir: $BIN_DIR"

@@ -92,7 +92,7 @@ impl CronService {
 
         if !service.is_scheduling_owner() {
             warn!(
-                "Another OpenBitFun instance owns scheduled jobs; this instance runs as standby and only reads them: lease={}",
+                "Another OPC-Team instance owns scheduled jobs; this instance runs as standby and only reads them: lease={}",
                 service.scheduling_lease.path().display()
             );
         }
@@ -964,7 +964,7 @@ impl SchedulingLease {
             return Ok(());
         }
         Err(OpenBitFunError::service(format!(
-            "Scheduled jobs are managed by the other running OpenBitFun instance (lease: {}); {} was refused here instead of overwriting its state",
+            "Scheduled jobs are managed by the other running OPC-Team instance (lease: {}); {} was refused here instead of overwriting its state",
             self.path.display(),
             operation
         )))
@@ -1344,6 +1344,7 @@ fn cron_enqueue_error_is_missing_session(error: &str) -> bool {
 mod tests {
     use super::*;
     use crate::service::cron::{CronJobState, CRON_JOBS_VERSION};
+    use openbitfun_core_types::product_identity::hidden_data_directory;
 
     fn sample_job(schedule: CronSchedule) -> CronJob {
         CronJob {
@@ -1510,7 +1511,10 @@ mod tests {
     fn materialize_workspace_ref_normalizes_windows_style_paths() {
         let workspace = materialize_workspace_ref(CronWorkspaceRef {
             workspace_id: None,
-            workspace_path: r"c:\Users\wsp\.openbitfun\personal_assistant\workspace\".to_string(),
+            workspace_path: format!(
+                r"c:\Users\wsp\{}\personal_assistant\workspace\",
+                hidden_data_directory()
+            ),
             project_workspace_path: None,
             execution_target: None,
             remote_connection_id: None,
@@ -1519,7 +1523,10 @@ mod tests {
 
         assert_eq!(
             workspace.workspace_path,
-            "C:/Users/wsp/.openbitfun/personal_assistant/workspace"
+            format!(
+                "C:/Users/wsp/{}/personal_assistant/workspace",
+                hidden_data_directory()
+            )
         );
     }
 
@@ -1527,7 +1534,10 @@ mod tests {
     fn workspace_filter_uses_id_even_when_paths_differ() {
         let workspace = CronWorkspaceRef {
             workspace_id: Some("local_workspace".to_string()),
-            workspace_path: r"C:\Users\wsp\.openbitfun\personal_assistant\workspace".to_string(),
+            workspace_path: format!(
+                r"C:\Users\wsp\{}\personal_assistant\workspace",
+                hidden_data_directory()
+            ),
             project_workspace_path: None,
             execution_target: None,
             remote_connection_id: None,

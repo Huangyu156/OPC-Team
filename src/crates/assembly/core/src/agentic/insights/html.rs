@@ -74,7 +74,7 @@ impl HtmlLabels {
 
     pub fn en() -> Self {
         HtmlLabels {
-            title: "OpenBitFun Insights",
+            title: "OPC-Team Insights",
             subtitle_template: "{msgs} messages across {sessions} sessions ({analyzed} analyzed) | {start} to {end}",
             at_a_glance: "At a Glance",
             whats_working: "What's working:",
@@ -82,7 +82,7 @@ impl HtmlLabels {
             quick_wins: "Quick wins to try:",
             looking_ahead: "Looking ahead:",
             nav_work: "What You Work On",
-            nav_usage: "How You Use OpenBitFun",
+            nav_usage: "How You Use OPC-Team",
             nav_wins: "Impressive Things",
             nav_friction: "Where Things Go Wrong",
             nav_suggestions: "Suggestions",
@@ -95,7 +95,7 @@ impl HtmlLabels {
             stat_median_response: "Median Response",
             stat_avg_response: "Avg Response",
             section_work: "What You Work On",
-            section_usage: "How You Use OpenBitFun",
+            section_usage: "How You Use OPC-Team",
             section_wins: "Impressive Things You Did",
             section_friction: "Where Things Go Wrong",
             section_suggestions: "Suggestions",
@@ -138,7 +138,7 @@ impl HtmlLabels {
 
     pub fn zh() -> Self {
         HtmlLabels {
-            title: "OpenBitFun 洞察",
+            title: "OPC-Team 洞察",
             subtitle_template:
                 "{msgs} 条消息，{sessions} 个会话（{analyzed} 个已分析）| {start} 至 {end}",
             at_a_glance: "概览",
@@ -160,7 +160,7 @@ impl HtmlLabels {
             stat_median_response: "中位响应",
             stat_avg_response: "平均响应",
             section_work: "工作领域",
-            section_usage: "你如何使用 OpenBitFun",
+            section_usage: "你如何使用 OPC-Team",
             section_wins: "亮眼成果",
             section_friction: "问题所在",
             section_suggestions: "建议",

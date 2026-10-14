@@ -17,7 +17,7 @@ describe('HTML file export on the viewing device', () => {
     expect(safeHtmlFileName(' Chart / 比较.htm ')).toBe('Chart - 比较.html');
     expect(safeHtmlFileName('CON')).toBe('_CON.html');
     expect(safeHtmlFileName('A... ')).toBe('A.html');
-    expect(safeHtmlFileName('.html')).toBe('OpenBitFun.html');
+    expect(safeHtmlFileName('.html')).toBe('OPC-Team.html');
   });
 
   it('downloads in the browser without invoking a desktop filesystem or dialog', async () => {

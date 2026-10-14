@@ -1,11 +1,11 @@
-//! Product wiring for native OpenBitFun agent hooks.
+//! Product wiring for native OPC-Team agent hooks.
 //!
 //! This module connects the portable hook engine
-//! (`openbitfun_agent_runtime::native_hooks`) to OpenBitFun configuration and the
+//! (`openbitfun_agent_runtime::native_hooks`) to OPC-Team configuration and the
 //! agent runtime dispatch sites:
 //!
-//! - Settings discovery: user scope `~/.config/openbitfun/config/hooks.json`
-//!   plus project scope `{project}/.openbitfun/config/hooks.json`, both using the
+//! - Settings discovery: user scope `~/.config/opcteam/config/hooks.json`
+//!   plus project scope `{project}/.opcteam/config/hooks.json`, both using the
 //!   Codex-compatible `hooks.json` document schema.
 //! - Gating: `hooks.enabled` and `hooks.project_hooks_enabled` in the app
 //!   settings document. Project hooks are disabled by default because they
@@ -230,7 +230,7 @@ impl PluginToolAfterOutput {
             metadata,
         } = self;
         // The Host carries title and metadata through the complete ordered
-        // OpenCode Hook chain. OpenBitFun's stable ToolResult contract currently
+        // OpenCode Hook chain. OPC-Team's stable ToolResult contract currently
         // has one mutable presentation field: the model-visible output. Keep
         // the raw result immutable and avoid inventing a second persistence/UI
         // schema until a product consumer for these two presentation facts is

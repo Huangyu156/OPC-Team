@@ -121,7 +121,7 @@ struct WelcomeHomeView: View {
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @Environment(\.scenePhase) private var scenePhase
     @State private var started = Date()
-    private var phrases: [String] { ["OpenBitFun", model.localized("干点活儿"), model.localized("玩点花样"), model.localized("随你发挥")] }
+    private var phrases: [String] { ["OPC-Team", model.localized("干点活儿"), model.localized("玩点花样"), model.localized("随你发挥")] }
 
     var body: some View {
         GeometryReader { geometry in
@@ -129,7 +129,7 @@ struct WelcomeHomeView: View {
             ScrollView(showsIndicators: false) {
                 VStack(spacing: 0) {
                     HStack {
-                        HStack(spacing: 0) { ForEach(Array("OpenBitFun".enumerated()), id: \.offset) { _, c in welcomeGlyph(c, size: MobileDesignGeometry.welcomeHeaderWordSize) } }
+                        HStack(spacing: 0) { ForEach(Array("OPC-Team".enumerated()), id: \.offset) { _, c in welcomeGlyph(c, size: MobileDesignGeometry.welcomeHeaderWordSize) } }
                         Spacer()
                     }
                     .padding(.horizontal, MobileDesignGeometry.welcomeGutter)
@@ -198,9 +198,9 @@ struct WelcomeHomeView: View {
             .clipShape(Capsule())
         }.buttonStyle(.plain)
     }
-    private func duration(_ word: String) -> Double { 250+Double(word.count)*185+(word == "OpenBitFun" ? 600 : 0)+1800+650 }
+    private func duration(_ word: String) -> Double { 250+Double(word.count)*185+(word == "OPC-Team" ? 600 : 0)+1800+650 }
     private func phrase(at date: Date) -> (word: String,time: Double) {
-        if reduceMotion { return ("OpenBitFun",2700) }
+        if reduceMotion { return ("OPC-Team",2700) }
         var time = max(0,date.timeIntervalSince(started)*1000).truncatingRemainder(dividingBy: phrases.reduce(0) { $0+duration($1) })
         for word in phrases { if time < duration(word) { return (word,time) };time -= duration(word) }
         return (phrases[0],0)

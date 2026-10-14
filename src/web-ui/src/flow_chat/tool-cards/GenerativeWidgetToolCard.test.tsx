@@ -131,7 +131,7 @@ it('exports completed source without preview readiness and handles cancellation,
     await act(async () => button().click());
     expect(exportHtml).toHaveBeenCalledWith({
       widgetCode: code, title: 'Chart', language: 'en-US', dialogTitle: 'Export HTML',
-      hostUnavailableMessage: 'This action requires OpenBitFun and is unavailable in the exported HTML.',
+      hostUnavailableMessage: 'This action requires OPC-Team and is unavailable in the exported HTML.',
     });
     expect(notificationService.success).not.toHaveBeenCalled();
     expect(notificationService.error).not.toHaveBeenCalled();

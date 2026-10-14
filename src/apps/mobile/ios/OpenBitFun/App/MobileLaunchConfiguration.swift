@@ -19,7 +19,7 @@ enum MobileLaunchConfiguration {
             selectedSessionID: first.id,
             messages: [
                 ChatMessage(id: UUID(), role: .user, text: "你好"),
-                ChatMessage(id: UUID(), role: .assistant, text: "这是 OpenBitFun 的移动端会话界面。你可以从手机连接桌面端，查看工作区、会话和智能体的执行状态。")
+                ChatMessage(id: UUID(), role: .assistant, text: "这是 OPC-Team 的移动端会话界面。你可以从手机连接桌面端，查看工作区、会话和智能体的执行状态。")
             ],
             connectCore: !ProcessInfo.processInfo.arguments.contains("--composer-model-picker") && !ProcessInfo.processInfo.arguments.contains("--composer-draft-preview") && !streamingRegressionPreview && !ProcessInfo.processInfo.arguments.contains("--permission-mailbox-preview") && !ProcessInfo.processInfo.arguments.contains("--harness-preview") && designPreviewScenario() == nil
         )
@@ -104,7 +104,7 @@ enum MobileLaunchConfiguration {
             model.filePreview = MobileFilePreview(
                 id: "src/main.rs",
                 name: "main.rs",
-                content: "// Remote workspace preview\nfn main() {\n    println!(\"Hello from OpenBitFun\");\n}\n",
+                content: "// Remote workspace preview\nfn main() {\n    println!(\"Hello from OPC-Team\");\n}\n",
                 mimeType: "text/x-rust",
                 imageData: nil,
                 truncated: false,
@@ -154,7 +154,7 @@ enum MobileLaunchConfiguration {
                 ComposerModelOption(
                     id: "preview-codex",
                     primaryLabel: "GPT-5.6 Codex",
-                    secondaryLabel: "OpenBitFun 账号",
+                    secondaryLabel: "OPC-Team 账号",
                     source: "ACCOUNT",
                     selected: false,
                     roles: ["PRIMARY"]
@@ -327,7 +327,7 @@ private extension MobileAppModel {
         selectedSessionID = session.id
         messages = [
             ChatMessage(id: UUID(), role: .user, text: "你好"),
-            ChatMessage(id: UUID(), role: .assistant, text: "这是 OpenBitFun 的远程会话预览。"),
+            ChatMessage(id: UUID(), role: .assistant, text: "这是 OPC-Team 的远程会话预览。"),
         ]
         timelineRows = messages.map(Self.simpleTimelineRow)
     }

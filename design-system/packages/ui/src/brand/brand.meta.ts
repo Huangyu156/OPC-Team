@@ -19,7 +19,7 @@ export const subagentHatchMeta = {
 export const openBitFunSolidMarkMeta = {
   category: "brand",
   name: "OpenBitFunSolidMark",
-  description: "The original silver OpenBitFun mark on a transparent canvas, preserving its material and shading.",
+  description: "The original silver OPC-Team mark on a transparent canvas, preserving its material and shading.",
   maturity: "stable",
   props: [
     { name: "size", type: "number", defaultValue: "control.height.lg" },
@@ -45,7 +45,7 @@ export const openBitFunAppIconMeta = {
 export const openBitFunMarkMeta = {
   category: "brand",
   name: "OpenBitFunMark",
-  description: "The authored OpenBitFun mark with inherited color and an optional startup breathing motion.",
+  description: "The authored OPC-Team mark with inherited color and an optional startup breathing motion.",
   maturity: "stable",
   props: [
     { name: "size", type: "CSSProperties['width']", defaultValue: "120px" },
@@ -60,7 +60,7 @@ export const openBitFunMarkMeta = {
 export const openBitFunBrandMotionMeta = {
   category: "brand",
   name: "OpenBitFunBrandMotion",
-  description: "OpenBitFun motion: circulating highlights, counter-rotating hexagons, or a compact engineering drawing that forms the original mark.",
+  description: "OPC-Team motion: circulating highlights, counter-rotating hexagons, or a compact engineering drawing that forms the original mark.",
   maturity: "stable",
   props: [
     { name: "size", type: "number", defaultValue: "192" },

@@ -25,7 +25,7 @@ function Resolve-RepoRoot {
         $candidate = $parent
     }
 
-    throw "Could not locate the OpenBitFun repository root from $PSScriptRoot"
+    throw "Could not locate the OPC-Team repository root from $PSScriptRoot"
 }
 
 function Resolve-TargetRoot([string]$RepoRoot) {
@@ -150,7 +150,7 @@ function Install-OpenBitFunCli(
             New-Item -ItemType Directory -Path (Split-Path -Parent $pluginHostTarget) -Force | Out-Null
             Move-Item -LiteralPath $pluginHostBackup -Destination $pluginHostTarget -Force
         }
-        throw "CLI installation failed; the previous OpenBitFun CLI was restored. $installError"
+        throw "CLI installation failed; the previous OPC-Team CLI was restored. $installError"
     }
     finally {
         Remove-Item -LiteralPath $stageDir -Recurse -Force -ErrorAction SilentlyContinue
@@ -170,7 +170,7 @@ if (-not (Get-Command rustc -ErrorAction SilentlyContinue)) {
     throw 'rustc was not found. Install Rust from https://rustup.rs and re-run.'
 }
 
-Write-Host '=== OpenBitFun CLI Install ==='
+Write-Host '=== OPC-Team CLI Install ==='
 Write-Host "Repo: $repoRoot"
 Write-Host "Install dir: $BinDir"
 

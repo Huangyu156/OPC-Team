@@ -123,6 +123,7 @@ src/apps/mobile/android/local.properties
 src/apps/mobile/android/.kotlin/
 /src/apps/mobile/ios/build/
 .openbitfun/
+.opcteam/
 .bitfun/
 
 # Downloaded Flashgrep release assets (metadata stays tracked).
@@ -134,3 +135,4 @@ src/apps/mobile/android/.kotlin/
 
 # Retired implementation-process notes stay local; durable docs live with their owner.
 /docs/superpowers/
+/OPC-Team/.openbitfun/search/flashgrep-index/

@@ -222,7 +222,7 @@ function retryFixture() {
     'release',
     'bundle',
     'macos',
-    'OpenBitFun.app'
+    'OPC-Team.app'
   );
   const executableDir = join(appDir, 'Contents', 'MacOS');
   const executablePath = join(executableDir, 'openbitfun-desktop');

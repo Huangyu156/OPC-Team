@@ -216,7 +216,7 @@ describe('L1 managed Worktree desktop restart recovery', () => {
       pendingManifest = { fixtureRoot, repositoryPath };
 
       git(repositoryPath, ['init']);
-      git(repositoryPath, ['config', 'user.name', 'OpenBitFun E2E']);
+      git(repositoryPath, ['config', 'user.name', 'OPC-Team E2E']);
       git(repositoryPath, ['config', 'user.email', 'openbitfun-e2e@example.invalid']);
       fs.writeFileSync(path.join(repositoryPath, 'shared.txt'), 'restart baseline\n');
       git(repositoryPath, ['add', 'shared.txt']);

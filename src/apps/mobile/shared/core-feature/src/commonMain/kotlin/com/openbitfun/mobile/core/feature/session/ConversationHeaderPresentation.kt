@@ -13,7 +13,7 @@ public object ConversationHeaderPresenter {
      * Not a localized string: it is the product's name, the same in every
      * locale, so it belongs here rather than in each app's string table.
      */
-    private const val BRAND = "OpenBitFun"
+    private const val BRAND = "OPC-Team"
 
     /**
      * @param desktopName the machine being driven, when one is named. It wins

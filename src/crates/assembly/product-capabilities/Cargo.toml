@@ -3,7 +3,7 @@ name = "openbitfun-product-capabilities"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun product capability pack contracts"
+description = "OPC-Team product capability pack contracts"
 autotests = false
 
 [lib]

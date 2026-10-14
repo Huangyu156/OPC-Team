@@ -27,8 +27,8 @@ FROM debian:trixie-slim
 
 ARG VERSION
 ARG REVISION
-LABEL org.opencontainers.image.title="OpenBitFun Relay Server" \
-      org.opencontainers.image.description="Self-hosted relay server for OpenBitFun" \
+LABEL org.opencontainers.image.title="OPC-Team Relay Server" \
+      org.opencontainers.image.description="Self-hosted relay server for OPC-Team" \
       org.opencontainers.image.source="https://github.com/GCWing/OpenBitFun" \
       org.opencontainers.image.url="https://github.com/GCWing/OpenBitFun" \
       org.opencontainers.image.version="${VERSION}" \

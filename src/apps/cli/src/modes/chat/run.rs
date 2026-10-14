@@ -694,7 +694,7 @@ impl ChatMode {
                             if chat_state.enqueue_permission_request(request) {
                                 self.emit_terminal_attention(
                                     &mut terminal,
-                                    "OpenBitFun requires permission",
+                                    "OPC-Team requires permission",
                                 );
                                 needs_redraw = true;
                             }
@@ -729,7 +729,7 @@ impl ChatMode {
                                     if outcome.added {
                                         self.emit_terminal_attention(
                                             &mut terminal,
-                                            "OpenBitFun requires permission",
+                                            "OPC-Team requires permission",
                                         );
                                     }
                                     if outcome.changed {
@@ -1034,7 +1034,7 @@ impl ChatMode {
                         if projection.requested_input {
                             self.emit_terminal_attention(
                                 &mut terminal,
-                                "OpenBitFun requires your input",
+                                "OPC-Team requires your input",
                             );
                         }
                         if matches!(event, AgenticEvent::ContextCompressionStarted { .. })
@@ -1048,7 +1048,7 @@ impl ChatMode {
                                 chat_view.set_status(None);
                                 self.emit_terminal_attention(
                                     &mut terminal,
-                                    "OpenBitFun finished the current turn",
+                                    "OPC-Team finished the current turn",
                                 );
                                 tracing::info!("Dialog turn completed");
                             }
@@ -1057,7 +1057,7 @@ impl ChatMode {
                                 chat_view.set_status(Some(format!("Error: {error}")));
                                 self.emit_terminal_attention(
                                     &mut terminal,
-                                    "OpenBitFun turn failed",
+                                    "OPC-Team turn failed",
                                 );
                                 tracing::error!("Dialog turn failed: {error}");
                             }

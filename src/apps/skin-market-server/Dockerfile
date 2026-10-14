@@ -59,7 +59,7 @@ RUN --mount=type=cache,id=openbitfun-skin-market-cargo-registry,target=/usr/loca
 FROM debian:bookworm-slim AS runtime
 
 ARG MARKET_GIT_COMMIT=unknown
-LABEL org.opencontainers.image.title="OpenBitFun Skin Market" \
+LABEL org.opencontainers.image.title="OPC-Team Skin Market" \
       org.opencontainers.image.revision="${MARKET_GIT_COMMIT}"
 
 RUN apt-get update \

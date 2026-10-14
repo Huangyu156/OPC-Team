@@ -1,4 +1,4 @@
-//! Versioned local SDK Host adapter for the shared OpenBitFun Agent Runtime.
+//! Versioned local SDK Host adapter for the shared OPC-Team Agent Runtime.
 //!
 //! This crate owns only protocol and connection lifecycle. Agent execution,
 //! Session persistence, Tool/MCP, Permission, and Hook behavior remain in the

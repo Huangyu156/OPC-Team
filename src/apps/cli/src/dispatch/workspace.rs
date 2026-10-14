@@ -79,7 +79,7 @@ const MAX_BUNDLE_BYTES: u64 = 2 * 1024 * 1024 * 1024;
 /// Cap on the change list reported after a sync, so a huge refactor cannot push
 /// the response past the smallest host transport envelope.
 const MAX_REPORTED_CHANGES: usize = 2_000;
-const DEFAULT_SYNC_COMMIT_MESSAGE: &str = "OpenBitFun dispatch result";
+const DEFAULT_SYNC_COMMIT_MESSAGE: &str = "OPC-Team dispatch result";
 /// A freshly spawned child may not have published an inspectable process
 /// identity by the first poll. Keep that tiny start window from spawning a
 /// duplicate worker while still allowing a dead child to be recovered.
@@ -1075,7 +1075,7 @@ fn sync_in_store(
                 "-c",
                 "commit.gpgsign=false",
                 "-c",
-                "user.name=OpenBitFun Dispatch",
+                "user.name=OPC-Team Dispatch",
                 "-c",
                 "user.email=dispatch@openbitfun.local",
                 "commit",

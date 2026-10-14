@@ -3,15 +3,20 @@
 use anyhow::{Context, Result};
 use std::path::{Path, PathBuf};
 
-use super::MAIN_APP_EXE;
+use super::{LEGACY_PRODUCT_NAME, MAIN_APP_EXE, PRODUCT_NAME};
 
-const SHORTCUT_NAME: &str = "OpenBitFun.lnk";
-const NESTED_START_MENU_DIR: &str = "OpenBitFun";
+/// Shortcut file names follow the desktop `productName`, like Tauri NSIS
+/// (`$DESKTOP\${PRODUCTNAME}.lnk` and `$SMPROGRAMS\${PRODUCTNAME}.lnk`). Shortcuts written by
+/// pre-rename builds keep the legacy name, so both are removed.
+fn shortcut_file_name(product_name: &str) -> String {
+    format!("{}.lnk", product_name)
+}
 
-/// Create a desktop shortcut for OpenBitFun.
+/// Create a desktop shortcut for OPC-Team, replacing the pre-rename shortcut.
 pub(super) fn create_desktop_shortcut(install_path: &Path) -> Result<()> {
     let desktop = dirs::desktop_dir().with_context(|| "Cannot find Desktop directory")?;
-    let shortcut_path = desktop.join(SHORTCUT_NAME);
+    remove_shortcut_file(&desktop.join(shortcut_file_name(LEGACY_PRODUCT_NAME)))?;
+    let shortcut_path = desktop.join(shortcut_file_name(PRODUCT_NAME));
     let exe_path = install_path.join(MAIN_APP_EXE);
 
     create_lnk(&shortcut_path, &exe_path, install_path)?;
@@ -19,11 +24,12 @@ pub(super) fn create_desktop_shortcut(install_path: &Path) -> Result<()> {
     Ok(())
 }
 
-/// Create a Start Menu shortcut for OpenBitFun.
+/// Create a Start Menu shortcut for OPC-Team, replacing the pre-rename shortcut.
 pub(super) fn create_start_menu_shortcut(install_path: &Path) -> Result<()> {
     let start_menu = get_start_menu_dir()?;
     remove_nested_start_menu_shortcut(&start_menu)?;
-    let shortcut_path = start_menu.join(SHORTCUT_NAME);
+    remove_shortcut_file(&start_menu.join(shortcut_file_name(LEGACY_PRODUCT_NAME)))?;
+    let shortcut_path = start_menu.join(shortcut_file_name(PRODUCT_NAME));
     let exe_path = install_path.join(MAIN_APP_EXE);
 
     create_lnk(&shortcut_path, &exe_path, install_path)?;
@@ -31,24 +37,20 @@ pub(super) fn create_start_menu_shortcut(install_path: &Path) -> Result<()> {
     Ok(())
 }
 
-/// Remove desktop shortcut.
+/// Remove desktop shortcuts written by this installer or by a pre-rename build.
 pub(super) fn remove_desktop_shortcut() -> Result<()> {
     if let Some(desktop) = dirs::desktop_dir() {
-        let shortcut_path = desktop.join(SHORTCUT_NAME);
-        if shortcut_path.exists() {
-            std::fs::remove_file(&shortcut_path)?;
-        }
+        remove_shortcut_file(&desktop.join(shortcut_file_name(PRODUCT_NAME)))?;
+        remove_shortcut_file(&desktop.join(shortcut_file_name(LEGACY_PRODUCT_NAME)))?;
     }
     Ok(())
 }
 
-/// Remove Start Menu shortcut, including the nested folder layout.
+/// Remove Start Menu shortcuts, including the nested folder layout.
 pub(super) fn remove_start_menu_shortcut() -> Result<()> {
     let start_menu = get_start_menu_dir()?;
-    let shortcut_path = start_menu.join(SHORTCUT_NAME);
-    if shortcut_path.exists() {
-        std::fs::remove_file(&shortcut_path)?;
-    }
+    remove_shortcut_file(&start_menu.join(shortcut_file_name(PRODUCT_NAME)))?;
+    remove_shortcut_file(&start_menu.join(shortcut_file_name(LEGACY_PRODUCT_NAME)))?;
     remove_nested_start_menu_shortcut(&start_menu)?;
     Ok(())
 }
@@ -64,10 +66,22 @@ fn get_start_menu_dir() -> Result<PathBuf> {
         .join("Programs"))
 }
 
+/// Remove the nested Start Menu folder used by layouts older than the current installer.
+///
+/// `bundle.windows.nsis.startMenuFolder` is not configured, so the desktop NSIS build places its
+/// shortcut directly in `Programs`; only pre-rename layouts grouped shortcuts under a folder named
+/// after the legacy product name.
 fn remove_nested_start_menu_shortcut(start_menu: &Path) -> Result<()> {
-    let nested_dir = start_menu.join(NESTED_START_MENU_DIR);
+    let nested_dir = start_menu.join(LEGACY_PRODUCT_NAME);
     if nested_dir.exists() {
         std::fs::remove_dir_all(&nested_dir)?;
+    }
+    Ok(())
+}
+
+fn remove_shortcut_file(shortcut_path: &Path) -> Result<()> {
+    if shortcut_path.exists() {
+        std::fs::remove_file(shortcut_path)?;
     }
     Ok(())
 }

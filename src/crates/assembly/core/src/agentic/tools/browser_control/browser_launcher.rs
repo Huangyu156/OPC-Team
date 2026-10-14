@@ -2,7 +2,7 @@
 //!
 //! Platform browser detection and launch process handling live in
 //! `openbitfun-services-integrations`. Core keeps this module to preserve the
-//! existing product/tool import path and to inject OpenBitFun's managed profile
+//! existing product/tool import path and to inject OPC-Team's managed profile
 //! directory.
 
 use openbitfun_services_integrations::browser_control::launcher as provider;

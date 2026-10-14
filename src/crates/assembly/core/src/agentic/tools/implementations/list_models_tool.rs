@@ -9,7 +9,7 @@ use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 
-/// Lists enabled OpenBitFun model configurations, optionally filtered by a fuzzy query.
+/// Lists enabled OPC-Team model configurations, optionally filtered by a fuzzy query.
 pub struct ListModelsTool;
 
 impl Default for ListModelsTool {
@@ -131,8 +131,8 @@ fn build_list_models_result(config: &AIConfig, query: Option<&str>) -> (Value, S
 
     let assistant_result = if models.is_empty() {
         match query.filter(|value| !value.trim().is_empty()) {
-            Some(query) => format!("No enabled OpenBitFun models matched '{}'.", query.trim()),
-            None => "No enabled OpenBitFun models are configured.".to_string(),
+            Some(query) => format!("No enabled OPC-Team models matched '{}'.", query.trim()),
+            None => "No enabled OPC-Team models are configured.".to_string(),
         }
     } else {
         let rows =
@@ -173,11 +173,11 @@ impl Tool for ListModelsTool {
     }
 
     async fn description(&self) -> OpenBitFunResult<String> {
-        Ok("List enabled OpenBitFun models as provider_name, model_id, and model_name. Use `query` to filter models; exact `primary` or `fast` resolves that default selector.".to_string())
+        Ok("List enabled OPC-Team models as provider_name, model_id, and model_name. Use `query` to filter models; exact `primary` or `fast` resolves that default selector.".to_string())
     }
 
     fn short_description(&self) -> String {
-        "List enabled OpenBitFun models.".to_string()
+        "List enabled OPC-Team models.".to_string()
     }
 
     fn default_exposure(&self) -> ToolExposure {
@@ -233,9 +233,9 @@ impl Tool for ListModelsTool {
     fn render_tool_use_message(&self, input: &Value, _options: &ToolRenderOptions) -> String {
         match input.get("query").and_then(Value::as_str) {
             Some(query) if !query.trim().is_empty() => {
-                format!("Find enabled OpenBitFun models matching {}", query.trim())
+                format!("Find enabled OPC-Team models matching {}", query.trim())
             }
-            _ => "List enabled OpenBitFun models".to_string(),
+            _ => "List enabled OPC-Team models".to_string(),
         }
     }
 
@@ -253,10 +253,10 @@ impl Tool for ListModelsTool {
         _context: &ToolUseContext,
     ) -> OpenBitFunResult<Vec<ToolResult>> {
         let service = GlobalConfigManager::get_service().await.map_err(|_| {
-            OpenBitFunError::tool("OpenBitFun model configuration is unavailable.".to_string())
+            OpenBitFunError::tool("OPC-Team model configuration is unavailable.".to_string())
         })?;
         let config: AIConfig = service.get_config(Some("ai")).await.map_err(|_| {
-            OpenBitFunError::tool("OpenBitFun model configuration could not be loaded.".to_string())
+            OpenBitFunError::tool("OPC-Team model configuration could not be loaded.".to_string())
         })?;
         let query = input.get("query").and_then(Value::as_str);
         let (data, result_for_assistant) = build_list_models_result(&config, query);

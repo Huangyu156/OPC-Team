@@ -1,5 +1,5 @@
 {
-  "$description": "OpenBitFun dark semantic theme migrated from the built-in dark Appearance.",
+  "$description": "OPC-Team dark semantic theme migrated from the built-in dark Appearance.",
   "component": {
     "button": {
       "$description": "Button-specific state colors. Keep shared action colors stable for other controls and preserve contrast-mode feedback.",

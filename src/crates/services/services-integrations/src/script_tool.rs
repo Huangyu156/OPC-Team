@@ -853,7 +853,7 @@ impl ScriptToolRuntime for NodeScriptToolRuntime {
                 Err(reason) => ScriptToolRuntimeAvailability::Unavailable { reason },
             },
             None => ScriptToolRuntimeAvailability::Unavailable {
-                reason: "OpenBitFun could not find Node.js for external tools".to_string(),
+                reason: "OPC-Team could not find Node.js for external tools".to_string(),
             },
         };
         availability
@@ -1049,7 +1049,7 @@ async fn probe_node_version(executable: &PathBuf) -> Result<String, String> {
         .env_remove("NODE_PATH");
     let mut child = ProcessTreeChild::spawn(&mut command)
         .await
-        .map_err(|_| "OpenBitFun could not start Node.js for external tools".to_string())?;
+        .map_err(|_| "OPC-Team could not start Node.js for external tools".to_string())?;
     let stdout = child
         .take_stdout()
         .ok_or_else(|| "Node.js version output was unavailable".to_string())?;

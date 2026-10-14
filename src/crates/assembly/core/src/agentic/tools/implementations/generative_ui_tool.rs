@@ -56,11 +56,11 @@ impl GenerativeUITool {
     }
 
     fn openbitfun_design_system_reminder() -> &'static str {
-        "OpenBitFun design-system reminder: when the widget should feel native to the host OpenBitFun app, compose the provided `openbitfun-*` scaffold classes first and use host-projected canonical tokens instead of hard-coded design values. Prefer CSS variables such as `var(--openbitfun-color-surface-canvas)`, `var(--openbitfun-color-surface-panel)`, `var(--openbitfun-color-surface-scene)`, `var(--openbitfun-color-surface-raised)`, `var(--openbitfun-color-content-primary)`, `var(--openbitfun-color-content-secondary)`, `var(--openbitfun-color-content-muted)`, `var(--openbitfun-color-accent-default)`, `var(--openbitfun-color-accent-hover)`, `var(--openbitfun-color-border-subtle)`, `var(--openbitfun-color-border-default)`, `var(--openbitfun-color-border-strong)`, `var(--openbitfun-color-action-neutral-surface)`, `var(--openbitfun-color-action-neutral-surface-hover)`, `var(--openbitfun-color-action-quiet-hover)`, `var(--openbitfun-shadow-*)`, `var(--openbitfun-motion-duration-*)`, `var(--openbitfun-motion-easing-*)`, `var(--openbitfun-font-family-sans)`, and `var(--openbitfun-font-family-mono)`. Radius, spacing, font-size, and font-weight variables are iframe-local scaffold values rather than host appearance extension points. Support both `openbitfun-dark` and `openbitfun-light`; do not assume dark-only, purple-only, or landing-page styling. Favor compact desktop workbench layouts, panel/card surfaces, strong information hierarchy, and reusable OpenBitFun component patterns. Avoid hard-coded colors, arbitrary spacing, giant hero sections, fake mobile chrome, and full marketing-page shells; prefer understated, premium UI with layered surfaces, restrained contrast, subtle borders, and do not use thick left-accent emphasis blocks."
+        "OPC-Team design-system reminder: when the widget should feel native to the host OPC-Team app, compose the provided `openbitfun-*` scaffold classes first and use host-projected canonical tokens instead of hard-coded design values. Prefer CSS variables such as `var(--openbitfun-color-surface-canvas)`, `var(--openbitfun-color-surface-panel)`, `var(--openbitfun-color-surface-scene)`, `var(--openbitfun-color-surface-raised)`, `var(--openbitfun-color-content-primary)`, `var(--openbitfun-color-content-secondary)`, `var(--openbitfun-color-content-muted)`, `var(--openbitfun-color-accent-default)`, `var(--openbitfun-color-accent-hover)`, `var(--openbitfun-color-border-subtle)`, `var(--openbitfun-color-border-default)`, `var(--openbitfun-color-border-strong)`, `var(--openbitfun-color-action-neutral-surface)`, `var(--openbitfun-color-action-neutral-surface-hover)`, `var(--openbitfun-color-action-quiet-hover)`, `var(--openbitfun-shadow-*)`, `var(--openbitfun-motion-duration-*)`, `var(--openbitfun-motion-easing-*)`, `var(--openbitfun-font-family-sans)`, and `var(--openbitfun-font-family-mono)`. Radius, spacing, font-size, and font-weight variables are iframe-local scaffold values rather than host appearance extension points. Support both `openbitfun-dark` and `openbitfun-light`; do not assume dark-only, purple-only, or landing-page styling. Favor compact desktop workbench layouts, panel/card surfaces, strong information hierarchy, and reusable OPC-Team component patterns. Avoid hard-coded colors, arbitrary spacing, giant hero sections, fake mobile chrome, and full marketing-page shells; prefer understated, premium UI with layered surfaces, restrained contrast, subtle borders, and do not use thick left-accent emphasis blocks."
     }
 
     fn openbitfun_widget_scaffold_reminder() -> &'static str {
-        "OpenBitFun widget scaffold reminder: the host iframe already provides reusable utility classes. Prefer these host classes before inventing a new visual language: `openbitfun-root`, `openbitfun-stack`, `openbitfun-row`, `openbitfun-row-wrap`, `openbitfun-toolbar`, `openbitfun-section`, `openbitfun-section-header`, `openbitfun-title`, `openbitfun-subtitle`, `openbitfun-eyebrow`, `openbitfun-card`, `openbitfun-panel`, `openbitfun-card-accent`, `openbitfun-grid`, `openbitfun-kpi`, `openbitfun-kpi-label`, `openbitfun-kpi-value`, `openbitfun-kpi-meta`, `openbitfun-badge`, `openbitfun-badge-accent`, `openbitfun-badge-success`, `openbitfun-badge-warning`, `openbitfun-badge-error`, `openbitfun-button`, `openbitfun-button-primary`, `openbitfun-input`, `openbitfun-textarea`, `openbitfun-select`, `openbitfun-list`, `openbitfun-list-item`, `openbitfun-table-wrap`, `openbitfun-table`, `openbitfun-empty`, `openbitfun-divider`, `openbitfun-code`, and `openbitfun-mono`. Generate markup that composes these classes first, and only add small local CSS when the scaffold is insufficient."
+        "OPC-Team widget scaffold reminder: the host iframe already provides reusable utility classes. Prefer these host classes before inventing a new visual language: `openbitfun-root`, `openbitfun-stack`, `openbitfun-row`, `openbitfun-row-wrap`, `openbitfun-toolbar`, `openbitfun-section`, `openbitfun-section-header`, `openbitfun-title`, `openbitfun-subtitle`, `openbitfun-eyebrow`, `openbitfun-card`, `openbitfun-panel`, `openbitfun-card-accent`, `openbitfun-grid`, `openbitfun-kpi`, `openbitfun-kpi-label`, `openbitfun-kpi-value`, `openbitfun-kpi-meta`, `openbitfun-badge`, `openbitfun-badge-accent`, `openbitfun-badge-success`, `openbitfun-badge-warning`, `openbitfun-badge-error`, `openbitfun-button`, `openbitfun-button-primary`, `openbitfun-input`, `openbitfun-textarea`, `openbitfun-select`, `openbitfun-list`, `openbitfun-list-item`, `openbitfun-table-wrap`, `openbitfun-table`, `openbitfun-empty`, `openbitfun-divider`, `openbitfun-code`, and `openbitfun-mono`. Generate markup that composes these classes first, and only add small local CSS when the scaffold is insufficient."
     }
 
     fn combined_reminder() -> String {
@@ -139,21 +139,21 @@ impl GenerativeUITool {
 
         if selected_appearance_id == "system" {
             return Some(format!(
-                "OpenBitFun active appearance selection: system. Exact runtime resolution is host-dependent, so do not assume one palette. {}",
+                "OPC-Team active appearance selection: system. Exact runtime resolution is host-dependent, so do not assume one palette. {}",
                 Self::baseline_appearance_context()
             ));
         }
 
         if let Some(snapshot) = Self::builtin_appearance_snapshot(&selected_appearance_id) {
             return Some(format!(
-                "OpenBitFun active appearance snapshot: {}. {}",
+                "OPC-Team active appearance snapshot: {}. {}",
                 Self::format_appearance_snapshot(snapshot),
                 Self::baseline_appearance_context()
             ));
         }
 
         Some(format!(
-            "OpenBitFun active appearance selection: {}. Backend does not have an exact built-in snapshot for this appearance, so use OpenBitFun CSS variables strictly and avoid hard-coded fallback palettes. {}",
+            "OPC-Team active appearance selection: {}. Backend does not have an exact built-in snapshot for this appearance, so use OPC-Team CSS variables strictly and avoid hard-coded fallback palettes. {}",
             selected_appearance_id,
             Self::baseline_appearance_context()
         ))
@@ -211,7 +211,7 @@ Input rules:
 25. For charts, give charts a fixed-height wrapper and keep legends or summary numbers outside the canvas when possible.
 26. For mockups, use compact spacing and clear hierarchy. Avoid building full app chrome unless the chrome itself is the point.
 27. For lightweight generative art, prefer SVG and keep the output deterministic and performant.
-28. If the widget is meant to match OpenBitFun's product UI, apply these reminders strictly: {} {}"#,
+28. If the widget is meant to match OPC-Team's product UI, apply these reminders strictly: {} {}"#,
             Self::openbitfun_design_system_reminder(),
             Self::openbitfun_widget_scaffold_reminder()
         ))
@@ -254,7 +254,7 @@ Input rules:
                 "widget_code": {
                     "type": "string",
                     "description": format!(
-                        "Raw HTML fragment or raw SVG. No Markdown code fences. For HTML: no <!DOCTYPE>, <html>, <head>, or <body>. The 260-line / 28KB guideline is a soft reliability threshold. For larger widgets, use data-driven loops, shared CSS classes, and simpler markup rather than truncating required behavior. {} If the widget should match OpenBitFun, rely on `openbitfun-*` scaffold classes plus host-projected color, surface, status, border, shadow, motion, and font-family variables instead of hard-coded colors or custom chrome. Treat radius, spacing, font-size, and font-weight variables as iframe-local scaffold values, not host appearance extension points. If the user asked for file navigation, do not finish this field until each clickable node has verified file metadata or is intentionally non-clickable.",
+                        "Raw HTML fragment or raw SVG. No Markdown code fences. For HTML: no <!DOCTYPE>, <html>, <head>, or <body>. The 260-line / 28KB guideline is a soft reliability threshold. For larger widgets, use data-driven loops, shared CSS classes, and simpler markup rather than truncating required behavior. {} If the widget should match OPC-Team, rely on `openbitfun-*` scaffold classes plus host-projected color, surface, status, border, shadow, motion, and font-family variables instead of hard-coded colors or custom chrome. Treat radius, spacing, font-size, and font-weight variables as iframe-local scaffold values, not host appearance extension points. If the user asked for file navigation, do not finish this field until each clickable node has verified file metadata or is intentionally non-clickable.",
                         Self::combined_reminder()
                     )
                 },

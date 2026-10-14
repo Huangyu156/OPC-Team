@@ -603,7 +603,7 @@ pub struct ExternalMcpServerDefinition {
     pub working_directory: Option<String>,
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub environment_keys: Vec<String>,
-    /// Names read from OpenBitFun's parent environment while resolving `{env:NAME}`
+    /// Names read from OPC-Team's parent environment while resolving `{env:NAME}`
     /// references. Values never enter the static catalog.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub environment_reference_names: Vec<String>,

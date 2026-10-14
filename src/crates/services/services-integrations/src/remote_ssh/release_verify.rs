@@ -1,4 +1,4 @@
-//! Shared verification primitives for OpenBitFun release assets.
+//! Shared verification primitives for OPC-Team release assets.
 //!
 //! Remote installers must use the same build-time trust root as the CLI
 //! self-updater. A SHA256 sidecar detects corruption, while the minisign
@@ -14,7 +14,7 @@ use sha2::{Digest, Sha256};
 /// key. When absent, [`OFFICIAL_RELEASE_PUBKEY`] applies.
 pub(crate) const RELEASE_PUBKEY: Option<&str> = option_env!("OPENBITFUN_RELEASE_PUBKEY");
 
-/// The official OpenBitFun release public key (minisign key ID `50F47CBE6CC0A376`),
+/// The official OPC-Team release public key (minisign key ID `50F47CBE6CC0A376`),
 /// base64-wrapped the way Tauri wraps `minisign.pub`. This is public data —
 /// every release publishes it as the `minisign.pub` asset — so compiling it in
 /// lets development builds verify and install official releases instead of
@@ -32,7 +32,7 @@ pub(crate) fn release_pubkey() -> Option<&'static str> {
 pub(crate) fn require_release_pubkey() -> Result<&'static str> {
     release_pubkey().ok_or_else(|| {
         anyhow!(
-            "this build has no OpenBitFun release signing key; refusing to install executable code"
+            "this build has no OPC-Team release signing key; refusing to install executable code"
         )
     })
 }
@@ -104,7 +104,7 @@ fn decode_public_key(value: &str) -> Result<String> {
 
 /// Verify the minisign signature over a checksum sidecar, then return its
 /// normalized digest. This is useful when the eventual target host has only a
-/// SHA256 implementation and no copy of the OpenBitFun trust root.
+/// SHA256 implementation and no copy of the OPC-Team trust root.
 pub(crate) fn verify_signed_checksum(
     checksum_text: &str,
     signature_b64: &str,

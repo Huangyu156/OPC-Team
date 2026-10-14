@@ -493,7 +493,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
                     return ValidationResult {
                         result: false,
                         message: Some(
-                            "Tool context is required to resolve OpenBitFun URIs".to_string(),
+                            "Tool context is required to resolve OPC-Team URIs".to_string(),
                         ),
                         error_code: Some(400),
                         meta: None,

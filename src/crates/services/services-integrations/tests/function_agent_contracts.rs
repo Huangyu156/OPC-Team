@@ -65,7 +65,7 @@ async fn git_service_builds_commit_snapshot_from_staged_diff_without_unstaged_co
 fn init_git_repo(repo: &Path) {
     git(repo, &["init", "-b", "main"]);
     git(repo, &["config", "user.email", "test@example.com"]);
-    git(repo, &["config", "user.name", "OpenBitFun Test"]);
+    git(repo, &["config", "user.name", "OPC-Team Test"]);
 }
 
 fn git(repo: &Path, args: &[&str]) {

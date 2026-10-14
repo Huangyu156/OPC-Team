@@ -7,8 +7,8 @@
 //! Left-click  – shows and focuses the main window on macOS; toggles it elsewhere.
 //! Right-click – opens a context menu with:
 //!   • toggle desktop Agent companion pet (persisted via `app.ai_experience`)
-//!   • "Show OpenBitFun"
-//!   • "Quit OpenBitFun"
+//!   • "Show OPC-Team"
+//!   • "Quit OPC-Team"
 //!
 //! The context menu is rebuilt every time the user left-clicks (for freshness),
 //! periodically, and after locale changes.
@@ -44,22 +44,22 @@ struct TrayStrings {
 }
 
 const STRINGS_ZH_CN: TrayStrings = TrayStrings {
-    show_app: "显示 OpenBitFun",
-    quit_app: "退出 OpenBitFun",
+    show_app: "显示 OPC-Team",
+    quit_app: "退出 OPC-Team",
     desktop_pet: "显示桌面宠物",
     mark_all_read: "全部标为已读",
 };
 
 const STRINGS_ZH_TW: TrayStrings = TrayStrings {
-    show_app: "顯示 OpenBitFun",
-    quit_app: "退出 OpenBitFun",
+    show_app: "顯示 OPC-Team",
+    quit_app: "退出 OPC-Team",
     desktop_pet: "顯示桌面寵物",
     mark_all_read: "全部標為已讀",
 };
 
 const STRINGS_EN_US: TrayStrings = TrayStrings {
-    show_app: "Show OpenBitFun",
-    quit_app: "Quit OpenBitFun",
+    show_app: "Show OPC-Team",
+    quit_app: "Quit OPC-Team",
     desktop_pet: "Show desktop pet",
     mark_all_read: "Mark all as read",
 };
@@ -253,7 +253,7 @@ pub fn setup_tray(
         .icon_as_template(cfg!(target_os = "macos"))
         .menu(&initial_menu)
         .show_menu_on_left_click(false)
-        .tooltip("OpenBitFun")
+        .tooltip("OPC-Team")
         .on_menu_event(|app, event| {
             let id = event.id.as_ref();
             if id == "mark_all_read" {

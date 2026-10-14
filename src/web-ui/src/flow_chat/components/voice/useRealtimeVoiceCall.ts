@@ -549,7 +549,7 @@ export function useRealtimeVoiceCallController(disabled = false): RealtimeVoiceC
           call.callId,
           JSON.stringify({
             ok: false,
-            error: 'A OpenBitFun task is already running through the client voice assistant',
+            error: 'A OPC-Team task is already running through the client voice assistant',
             context: buildVoiceClientContext(
               activeTaskContext(activeTaskRef.current),
               callTargetRef.current,
@@ -593,7 +593,7 @@ export function useRealtimeVoiceCallController(disabled = false): RealtimeVoiceC
         sessionId: miniAppTarget?.sessionId ?? boundTarget?.sessionId ?? null,
         target: miniAppTarget
           ? { kind: 'miniapp', id: miniAppTarget.appId, name: miniAppTarget.appName }
-          : { kind: 'workspace', id: workspace?.id ?? boundTarget!.sessionId, name: workspace?.name ?? 'OpenBitFun' },
+          : { kind: 'workspace', id: workspace?.id ?? boundTarget!.sessionId, name: workspace?.name ?? 'OPC-Team' },
         state: 'starting',
         controller: new AbortController(),
         outcome,

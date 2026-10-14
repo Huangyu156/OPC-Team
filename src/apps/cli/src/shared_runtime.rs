@@ -1291,7 +1291,7 @@ struct StartupChild {
 
 impl StartupChild {
     fn spawn(workspace: &Path, identity: &str) -> Result<Self> {
-        let executable = std::env::current_exe().context("resolve OpenBitFun executable")?;
+        let executable = std::env::current_exe().context("resolve OPC-Team executable")?;
         let mut command = openbitfun_services_core::process_manager::create_command(executable);
         command
             .arg("__shared-runtime")

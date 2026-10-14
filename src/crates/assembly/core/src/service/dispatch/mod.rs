@@ -270,7 +270,7 @@ pub enum DispatchStoreError {
     ClaimRelease(String),
 }
 
-/// Durable observer-only index for jobs submitted to other OpenBitFun processes.
+/// Durable observer-only index for jobs submitted to other OPC-Team processes.
 ///
 /// This store intentionally lives outside every workspace/session directory.
 /// Writing a record here must never acquire runtime ownership or create a local

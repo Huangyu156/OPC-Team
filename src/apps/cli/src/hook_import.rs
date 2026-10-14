@@ -59,14 +59,14 @@ pub(crate) enum HookAction {
     Enable { import_id: String },
     /// Disable one imported Hook source without deleting it
     Disable { import_id: String },
-    /// Remove only OpenBitFun's managed copy of one imported Hook source
+    /// Remove only OPC-Team's managed copy of one imported Hook source
     Remove {
         import_id: String,
-        /// Confirm removal of the OpenBitFun-managed copy
+        /// Confirm removal of the OPC-Team-managed copy
         #[arg(long, required = true)]
         confirm: bool,
     },
-    /// Reset a corrupt OpenBitFun-managed Hook index without changing source files
+    /// Reset a corrupt OPC-Team-managed Hook index without changing source files
     Reset {
         #[arg(value_enum)]
         scope: HookImportResetScope,
@@ -159,7 +159,7 @@ pub(crate) async fn run(action: Option<HookAction>) -> Result<()> {
             .await
             .map_err(operation_error)?;
             println!(
-                "Removed OpenBitFun's managed Hook copy; the source was not changed: {}",
+                "Removed OPC-Team's managed Hook copy; the source was not changed: {}",
                 escape(&import_id)
             );
             Ok(())

@@ -8,7 +8,7 @@
       "revision": "81c336c1c20b80ac648e0416a7b6e0c0ae7878bb",
       "package_version": "0.32.3",
       "local_patches": [
-        "prefer OpenBitFun ControlHub browser domain when available, use agent-browser only when ControlHub is unavailable or for supported Electron work, and route native desktop work to OpenBitFun ComputerUse",
+        "prefer OPC-Team ControlHub browser domain when available, use agent-browser only when ControlHub is unavailable or for supported Electron work, and route native desktop work to OPC-Team ComputerUse",
         "pin the documented install version and require user approval",
         "preserve explicit missing-prerequisite and no-silent-fallback behavior"
       ]

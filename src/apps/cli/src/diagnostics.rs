@@ -10,7 +10,7 @@ pub(crate) const DETAIL_MAX_LEN: usize = 500;
 pub(crate) const SESSION_IN_USE_ERROR_CODE: &str = "session_in_use";
 pub(crate) const OUTCOME_UNKNOWN_ERROR_CODE: &str = "outcome_unknown";
 pub(crate) const SESSION_IN_USE_USER_MESSAGE: &str =
-    "This session is open in another OpenBitFun instance. Close it there and retry.";
+    "This session is open in another OPC-Team instance. Close it there and retry.";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub(crate) enum ExitKind {

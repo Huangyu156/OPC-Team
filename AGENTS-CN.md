@@ -2,7 +2,7 @@
 
 # AGENTS-CN.md
 
-OpenBitFun 是一个由 Rust workspace 与 React 前端组成的项目。
+OPC-Team 是一个由 Rust workspace 与 React 前端组成的项目。
 
 仓库核心原则：**先保持产品逻辑平台无关，再通过平台适配层对外暴露能力**。
 
@@ -130,7 +130,7 @@ await api.invoke('your_command', { request: { ... } });
 
 ### 远程场景
 
-OpenBitFun 不是只在本地运行的桌面应用：工作区、执行这一轮的 runtime、以及正在操作的人，
+OPC-Team 不是只在本地运行的桌面应用：工作区、执行这一轮的 runtime、以及正在操作的人，
 可能分别位于三台机器。下面四种场景是每次改动都要一并覆盖的一等目标，不是事后再补的适配。
 
 | 场景 | 含义 | 设计入口 |
@@ -138,7 +138,7 @@ OpenBitFun 不是只在本地运行的桌面应用：工作区、执行这一轮
 | 远程工作区 | 当前工作区位于 SSH 主机、跳板机链路或 Docker 容器；文件、终端、搜索和 Agent 子进程都必须在那一侧执行 | [remote-workspace-transport.md](docs/architecture/remote-workspace-transport.md)、[remote-workspaces.md](docs/features/remote-workspaces.md) |
 | 远程控制 | 手机端 mobile web，或飞书 / Telegram / 微信 Bot，通过 Remote Connect relay 驱动 Desktop 或 CLI 宿主上的会话 | [`src/mobile-web`](src/mobile-web/AGENTS.md)、[services-integrations](src/crates/services/services-integrations/AGENTS.md) 的 `remote_connect`、[relay-service](src/crates/services/relay-service/AGENTS.md) |
 | 多端互控（Peer Device Mode） | 同账号的一台设备成为另一台的数据平面：控制端外壳仍在本地，invoke 和事件来自 peer | [peer-device-mode.md](docs/architecture/peer-device-mode.md)、[peer-device README](src/web-ui/src/infrastructure/peer-device/README.md) |
-| Dispatch 分离任务 | 控制端把持久化任务提交到另一台 OpenBitFun 宿主后即可断开；目标端拥有 job、session、worktree、事件日志和权限信箱 | [detached-task-dispatch.md](docs/architecture/detached-task-dispatch.md) |
+| Dispatch 分离任务 | 控制端把持久化任务提交到另一台 OPC-Team 宿主后即可断开；目标端拥有 job、session、worktree、事件日志和权限信箱 | [detached-task-dispatch.md](docs/architecture/detached-task-dispatch.md) |
 
 四种场景共同适用的规则：
 
@@ -180,7 +180,7 @@ OpenBitFun 不是只在本地运行的桌面应用：工作区、执行这一轮
 
 ### 升级兼容性
 
-用户是原地升级的，而上述远程场景经常让两个不同版本的 OpenBitFun 连在同一条链路上。
+用户是原地升级的，而上述远程场景经常让两个不同版本的 OPC-Team 连在同一条链路上。
 任何改动都必须保证已有安装在升级后无需手工修复即可继续工作。
 
 - **落盘结构会被新旧两侧代码同时读取。** 配置、设置、会话、连接配置、worktree 和
@@ -204,9 +204,9 @@ OpenBitFun 不是只在本地运行的桌面应用：工作区、执行这一轮
 
 ### Agent Hooks
 
-- OpenBitFun 的原生用户 Hooks 实现 Codex Hook 契约，因此 <https://learn.chatgpt.com/docs/hooks> 是其事件、载荷字段与决策结构的参考来源，不要另起炉灶。[`docs/features/agent-hooks.zh-CN.md`](docs/features/agent-hooks.zh-CN.md)（[English](docs/features/agent-hooks.md)）只覆盖 OpenBitFun 特有部分 —— 文件位置、`app.hooks` 开关和差异表 —— 新增或消除差异时必须同步更新。
+- OPC-Team 的原生用户 Hooks 实现 Codex Hook 契约，因此 <https://learn.chatgpt.com/docs/hooks> 是其事件、载荷字段与决策结构的参考来源，不要另起炉灶。[`docs/features/agent-hooks.zh-CN.md`](docs/features/agent-hooks.zh-CN.md)（[English](docs/features/agent-hooks.md)）只覆盖 OPC-Team 特有部分 —— 文件位置、`app.hooks` 开关和差异表 —— 新增或消除差异时必须同步更新。
 - 可移植引擎（配置解析、载荷构造、进程执行、决策合并）位于 `openbitfun-agent-runtime::native_hooks`。`openbitfun-core::native_hooks` 负责配置发现、开关门控和按事件的分发辅助函数；各分发点调用这些辅助函数，不要就地执行 Hook。
-- 可执行 Hooks 可以来自原生用户配置、生态插件或 OpenBitFun 内置实现（包括当前编译期 `post_call_hooks`）。这些来源保持各自的信任、配置、契约和执行策略语义，但可以统一注册到共享的 `HookRegistry`，并由 `AgentHookEngine` 调度。其他 AI 应用的外部 Hook 目录（`external_hooks`）仍只用于只读发现，不得进入可执行 Registry。
+- 可执行 Hooks 可以来自原生用户配置、生态插件或 OPC-Team 内置实现（包括当前编译期 `post_call_hooks`）。这些来源保持各自的信任、配置、契约和执行策略语义，但可以统一注册到共享的 `HookRegistry`，并由 `AgentHookEngine` 调度。其他 AI 应用的外部 Hook 目录（`external_hooks`）仍只用于只读发现，不得进入可执行 Registry。
 
 ## 架构
 
@@ -266,7 +266,7 @@ OpenCode 兼容或目标项目治理的变更，先阅读
 [`docs/sdlc-harness/design.md`](docs/sdlc-harness/design.md)。如果变更影响模块边界或行为，
 继续参考 `docs/sdlc-harness/architecture/` 或 `docs/sdlc-harness/features/` 下的对应设计。
 
-不要把 OpenBitFun 自身验证假设硬编码成目标项目通用规则；质量保护行为必须保持面向目标项目、
+不要把 OPC-Team 自身验证假设硬编码成目标项目通用规则；质量保护行为必须保持面向目标项目、
 基于证据、按风险分级、成本可控并可审计。
 
 ## 验证

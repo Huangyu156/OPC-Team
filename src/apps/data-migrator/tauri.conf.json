@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "OpenBitFun Data Migrator",
+  "productName": "OPC-Team Data Migrator",
   "version": "0.1.2",
   "mainBinaryName": "openbitfun-data-migrator",
   "identifier": "com.openbitfun.data-migrator",
@@ -24,7 +24,7 @@
     "windows": [
       {
         "label": "migrator",
-        "title": "OpenBitFun Data Migrator",
+        "title": "OPC-Team Data Migrator",
         "width": 860,
         "height": 680,
         "minWidth": 680,

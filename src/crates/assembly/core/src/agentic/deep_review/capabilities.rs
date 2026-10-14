@@ -467,9 +467,14 @@ mod tests {
             .find_skill_by_key_for_workspace(source_key, Some(root))
             .await
             .expect("discovered review skill");
-        import_copy_as(source, root.join(".openbitfun/skills"), None)
-            .await
-            .expect("imported review skill");
+        import_copy_as(
+            source,
+            root.join(openbitfun_core_types::product_identity::hidden_data_directory())
+                .join("skills"),
+            None,
+        )
+        .await
+        .expect("imported review skill");
         registry
             .get_all_skills_for_workspace(Some(root))
             .await
@@ -588,7 +593,11 @@ mod tests {
             source_guidance.guidance,
             "Review $target for Claude compatibility."
         );
-        assert!(!temp.path().join(".openbitfun/skills").exists());
+        assert!(!temp
+            .path()
+            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join("skills")
+            .exists());
         let imported = import_review_skill(temp.path(), source_key).await;
 
         let descriptor = review_capability_catalog(&context)

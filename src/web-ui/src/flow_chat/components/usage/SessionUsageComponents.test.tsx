@@ -139,7 +139,7 @@ vi.mock('react-i18next', async (importOriginal) => ({
         'usage.help.legacyModel': 'Older sessions did not store per-round model names.',
         'usage.help.inferredModel': 'Inferred from the session model setting.',
         'usage.help.filesUnavailable': 'No file snapshot or file-edit tool record was found for this session.',
-        'usage.help.filesNoRecordedChanges': 'OpenBitFun did not detect file changes in this session. This is expected when the agent did not edit files.',
+        'usage.help.filesNoRecordedChanges': 'OPC-Team did not detect file changes in this session. This is expected when the agent did not edit files.',
         'usage.help.filesRemoteUnavailable': 'No remote snapshot summary was found for this session. File rows can still appear from recognized file-edit tool records.',
         'usage.help.filesNotTracked': 'No local snapshot or identifiable file-edit tool record was found for this session.',
         'usage.help.fileDiffUnavailable': 'Diff links require a snapshot-backed file row and a visible file path.',

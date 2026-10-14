@@ -1,4 +1,4 @@
-//! OpenBitFun MiniApp marketplace service.
+//! OPC-Team MiniApp marketplace service.
 
 mod artifacts;
 mod auth;

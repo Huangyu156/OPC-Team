@@ -43,7 +43,7 @@ pub struct DispatchWorkspaceDelivery {
 ///
 /// Dispatch is deliberately orthogonal to `SessionExecutionTarget`: the latter
 /// describes a path owned by this process, while non-local dispatch targets are
-/// owned by another OpenBitFun process.
+/// owned by another OPC-Team process.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(tag = "kind", rename_all = "lowercase")]
 #[derive(Default)]

@@ -1,4 +1,4 @@
-//! Built-in skills shipped with OpenBitFun.
+//! Built-in skills shipped with OPC-Team.
 //!
 //! These skills are embedded into the `openbitfun-core` binary and installed into a
 //! managed `.system` directory under the user skills root on demand.
@@ -402,9 +402,10 @@ mod tests {
         .expect("built-in plan skill should parse");
 
         assert_eq!(skill.name, "plan");
-        assert!(skill
-            .content
-            .contains(".openbitfun/plans/<short-kebab-name>.plan.md"));
+        assert!(skill.content.contains(&format!(
+            "{}/plans/<short-kebab-name>.plan.md",
+            openbitfun_core_types::product_identity::hidden_data_directory()
+        )));
         assert!(skill.content.contains("status: pending"));
     }
 
@@ -482,7 +483,7 @@ mod tests {
         assert!(example.contains("cinematic animated-wallpaper"));
 
         let metadata = embedded_skill_text("create-openbitfun-skin/agents/openai.yaml");
-        assert!(metadata.contains("display_name: \"OpenBitFun Appearance Manual\""));
+        assert!(metadata.contains("display_name: \"OPC-Team Appearance Manual\""));
 
         let workflow =
             embedded_skill_text("create-openbitfun-skin/references/authoring-workflow.md");
@@ -494,8 +495,8 @@ mod tests {
         let skill = embedded_skill_text("commit-push-pr/SKILL.md");
         assert!(skill.contains("name: commit-push-pr"));
         assert!(skill
-            .contains("Co-authored-by: OpenBitFun <318544290+bitfun-ai@users.noreply.github.com>"));
-        assert!(skill.contains("Generated with [OpenBitFun](https://github.com/bitfun-ai)"));
+            .contains("Co-authored-by: OPC-Team <318544290+bitfun-ai@users.noreply.github.com>"));
+        assert!(skill.contains("Generated with [OPC-Team](https://github.com/bitfun-ai)"));
     }
 
     #[test]

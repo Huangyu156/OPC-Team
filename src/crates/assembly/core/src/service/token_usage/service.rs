@@ -168,7 +168,7 @@ impl TokenUsageService {
         )
     }
 
-    /// Resolve a surface request and aggregate this OpenBitFun host's persisted
+    /// Resolve a surface request and aggregate this OPC-Team host's persisted
     /// usage. The request is intentionally workspace-agnostic: Peer transport
     /// selects the host, while SSH workspace routing does not change it.
     pub async fn get_statistics_for_request(

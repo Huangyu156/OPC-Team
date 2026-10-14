@@ -540,7 +540,7 @@ For instructions on locating and reading the transcripts, read: `{}`
     /// Supported placeholders:
     /// - `{PERSONA}` - Workspace persona files (BOOTSTRAP.md, SOUL.md, USER.md, IDENTITY.md)
     /// - `{LANGUAGE_PREFERENCE}` - User language preference (read from global config)
-    /// - `{MEMORY_ROOT}` - OpenBitFun memory workspace root, used by internal memory agents
+    /// - `{MEMORY_ROOT}` - OPC-Team memory workspace root, used by internal memory agents
     /// - `{READ_TERMINAL}` - Local user terminal transcript guidance
     /// - `{COMPUTER_USE_GUIDANCE}` - Shared native desktop interaction guidance
     /// - `{FILE_REFERENCES}` - Shared file and image reference guidance
@@ -591,7 +591,7 @@ For instructions on locating and reading the transcripts, read: `{}`
         }
 
         // Replace {SESSION_ID} — used by deep-research Pro mode to anchor a per-session
-        // work_dir under .openbitfun/sessions/{SESSION_ID}/research/. Falls back to a
+        // work_dir under .opcteam/sessions/{SESSION_ID}/research/. Falls back to a
         // timestamp slug when no session is bound (e.g. one-shot prompt builds in tests).
         let mut resolved_session_id: Option<String> = None;
         if result.contains(PLACEHOLDER_SESSION_ID)
@@ -646,12 +646,12 @@ async fn memory_summary_enabled() -> bool {
 
 #[cfg(test)]
 mod tests {
-    use super::build_prompt_context_for_workspace;
     use super::PromptBuilder;
     use super::PromptBuilderContext;
     use super::RemoteExecutionHints;
     use super::RuntimeContextNeeds;
     use super::ToolListingSections;
+    use super::{build_prompt_context_for_workspace, hidden_data_directory};
     use crate::agentic::agents::UserContextPolicy;
     use crate::agentic::WorkspaceBinding;
     use crate::service::workspace::RelatedPath;
@@ -794,7 +794,7 @@ mod tests {
             .expect("runtime context should build");
 
         assert!(runtime_context.contains("## Local Client"));
-        assert!(runtime_context.contains("Local OpenBitFun client OS:"));
+        assert!(runtime_context.contains("Local OPC-Team client OS:"));
         assert!(runtime_context.contains("Computer use / keyboard"));
         assert!(!runtime_context.contains("## Workspace Execution"));
         assert!(!runtime_context.contains("## ExecCommand Shell"));
@@ -873,8 +873,8 @@ mod tests {
         assert!(runtime_context.contains("## Workspace Execution"));
         assert!(runtime_context.contains("## ExecCommand Shell"));
         assert!(runtime_context.contains("## Local Client"));
-        assert!(runtime_context.contains("Local OpenBitFun client OS:"));
-        assert!(runtime_context.contains("Computer use and UI automation operate on the local OpenBitFun desktop, even when workspace file and shell tools target a remote host."));
+        assert!(runtime_context.contains("Local OPC-Team client OS:"));
+        assert!(runtime_context.contains("Computer use and UI automation operate on the local OPC-Team desktop, even when workspace file and shell tools target a remote host."));
         assert!(runtime_context.contains("ExecCommand uses the remote user's default POSIX shell"));
         assert!(runtime_context.contains("This session operates on the remote SSH host only"));
     }
@@ -883,7 +883,7 @@ mod tests {
     async fn runtime_context_omits_local_client_os_for_remote_with_only_control_hub() {
         // Simulates a remote workspace where ComputerUse is disabled (filtered
         // out by is_available_in_context) but ControlHub remains available.
-        // The agent must NOT see "Local OpenBitFun client OS" because that signal
+        // The agent must NOT see "Local OPC-Team client OS" because that signal
         // causes it to mistake the client OS for the workspace execution OS.
         let context = PromptBuilderContext::new("/workspace/project", None, None)
             .with_runtime_context_needs(RuntimeContextNeeds::from_tool_names([
@@ -908,7 +908,7 @@ mod tests {
             .contains("Workspace file and shell tools operate on remote SSH connection"));
         assert!(runtime_context.contains("## ExecCommand Shell"));
         assert!(!runtime_context.contains("## Local Client"));
-        assert!(!runtime_context.contains("Local OpenBitFun client OS:"));
+        assert!(!runtime_context.contains("Local OPC-Team client OS:"));
     }
 
     #[tokio::test]
@@ -1019,7 +1019,10 @@ mod tests {
 
         assert_eq!(
             prompt,
-            "[View full report](.openbitfun/sessions/session-1/research/report.md)"
+            format!(
+                "[View full report]({}/sessions/session-1/research/report.md)",
+                hidden_data_directory()
+            )
         );
     }
 
@@ -1035,7 +1038,10 @@ mod tests {
 
         assert_eq!(
             prompt,
-            "[View full report](computer://.openbitfun/sessions/session-1/research/report.md)"
+            format!(
+                "[View full report](computer://{}/sessions/session-1/research/report.md)",
+                hidden_data_directory()
+            )
         );
     }
 

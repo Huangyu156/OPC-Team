@@ -4,9 +4,12 @@
 //! definition. They are compile-time facts rather than runtime configuration:
 //! a running process cannot switch product identity or storage namespaces.
 
-const DEFAULT_PRODUCT_ID: &str = "openbitfun";
-const DEFAULT_DATA_NAMESPACE: &str = "openbitfun";
-const DEFAULT_HIDDEN_DATA_DIRECTORY: &str = ".openbitfun";
+// Canonical identity of a locally built first-party artifact. Official builds
+// override these through the OPENBITFUN_* variables below, whose names stay
+// fixed because the build adapters and packaging scripts already read them.
+const DEFAULT_PRODUCT_ID: &str = "opcteam";
+const DEFAULT_DATA_NAMESPACE: &str = "opcteam";
+const DEFAULT_HIDDEN_DATA_DIRECTORY: &str = ".opcteam";
 
 /// Stable identifier for the product family represented by this artifact.
 pub const fn product_id() -> &'static str {
@@ -39,9 +42,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn default_identity_is_openbitfun() {
-        assert_eq!(product_id(), "openbitfun");
-        assert_eq!(data_namespace(), "openbitfun");
-        assert_eq!(hidden_data_directory(), ".openbitfun");
+    fn default_identity_is_opcteam() {
+        assert_eq!(product_id(), "opcteam");
+        assert_eq!(data_namespace(), "opcteam");
+        assert_eq!(hidden_data_directory(), ".opcteam");
     }
 }

@@ -1,4 +1,4 @@
-//! Shared GitHub identity used by every OpenBitFun product surface.
+//! Shared GitHub identity used by every OPC-Team product surface.
 mod credentials;
 mod flow;
 pub use credentials::{

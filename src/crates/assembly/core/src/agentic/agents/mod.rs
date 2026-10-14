@@ -1,4 +1,4 @@
-//! Mode system for OpenBitFun
+//! Mode system for OPC-Team
 //!
 //! Provides flexible mode selection with different system prompts and tool sets
 

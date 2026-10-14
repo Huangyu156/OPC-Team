@@ -3,7 +3,7 @@ name = "openbitfun-miniapp-market-service"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun MiniApp marketplace service"
+description = "OPC-Team MiniApp marketplace service"
 
 [lib]
 name = "openbitfun_miniapp_market_service"

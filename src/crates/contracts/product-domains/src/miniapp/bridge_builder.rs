@@ -1,4 +1,4 @@
-//! Bridge script builder — generate window.app Runtime Adapter (OpenBitFun Hosted) for iframe.
+//! Bridge script builder — generate window.app Runtime Adapter (OPC-Team Hosted) for iframe.
 
 use crate::miniapp::types::{EsmDep, MiniAppPermissions};
 use serde_json;

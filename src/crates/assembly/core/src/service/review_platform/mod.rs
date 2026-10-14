@@ -2,7 +2,7 @@
 //!
 //! Provider detection, provider DTO mapping, token persistence, and HTTP/Git
 //! integration logic live in `openbitfun-services-integrations::review_platform`.
-//! Core only preserves the legacy static API, injects OpenBitFun storage paths, and
+//! Core only preserves the legacy static API, injects OPC-Team storage paths, and
 //! connects the product remote-workspace classifier.
 
 use crate::infrastructure::try_get_path_manager_arc;
@@ -170,7 +170,7 @@ impl ReviewPlatformWorkspaceClassifier for CoreReviewPlatformWorkspaceClassifier
         {
             let _ = (current_dir, args);
             Err(ReviewPlatformError::InvalidRepository(format!(
-                "Remote workspaces are not compiled into this OpenBitFun host (feature `remote-workspace`); refusing to run Git against the local filesystem for remote workspace {}",
+                "Remote workspaces are not compiled into this OPC-Team host (feature `remote-workspace`); refusing to run Git against the local filesystem for remote workspace {}",
                 target.workspace_id
             )))
         }
@@ -482,7 +482,7 @@ mod tests {
 
         assert!(error
             .to_string()
-            .contains("Remote workspaces are not compiled into this OpenBitFun host"));
+            .contains("Remote workspaces are not compiled into this OPC-Team host"));
     }
 
     #[tokio::test]

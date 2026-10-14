@@ -247,7 +247,7 @@ mod tests {
             } => {
                 assert_eq!(
                     err,
-                    "command 'lsp_open_workspace' is unsupported because the OpenBitFun LSP runtime has been retired"
+                    "command 'lsp_open_workspace' is unsupported because the OPC-Team LSP runtime has been retired"
                 );
             }
             other => panic!("unexpected response: {other:?}"),
@@ -328,7 +328,7 @@ mod tests {
                 ..
             } => {
                 assert!(
-                    err.contains("is unknown to this OpenBitFun CLI peer host version"),
+                    err.contains("is unknown to this OPC-Team CLI peer host version"),
                     "{err}"
                 );
                 assert!(!err.contains("is not supported on CLI peer host"), "{err}");

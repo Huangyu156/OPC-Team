@@ -170,7 +170,7 @@ impl MCPServerManager {
             let _ = MCPServerManager::update_oauth_snapshot(&callback_session, |snapshot| {
                 snapshot.status = MCPRemoteOAuthStatus::AwaitingCallback;
                 snapshot.message = Some(
-                    "Waiting for the OAuth provider to redirect back to OpenBitFun.".to_string(),
+                    "Waiting for the OAuth provider to redirect back to OPC-Team.".to_string(),
                 );
             })
             .await;

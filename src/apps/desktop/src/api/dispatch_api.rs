@@ -242,7 +242,7 @@ pub async fn dispatch_provision_target(
         )
         .await;
         let _ = super::remote_connect_api::remove_dispatch_account_device(&provisioning).await;
-        return Err(format!("provision persistent OpenBitFun daemon: {error}"));
+        return Err(format!("provision persistent OPC-Team daemon: {error}"));
     }
 
     if let Err(error) =

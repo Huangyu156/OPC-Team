@@ -670,7 +670,7 @@ fn parse_markdown_command(name: &str, content: &str) -> Result<ClaudeCommandInpu
                         .to_string();
                 }
                 // Display-only in Claude Code. It is intentionally not part of
-                // OpenBitFun's executable behavior version.
+                // OPC-Team's executable behavior version.
                 "argument-hint" => {
                     if value.as_str().is_none() {
                         return Err(
@@ -679,7 +679,7 @@ fn parse_markdown_command(name: &str, content: &str) -> Result<ClaudeCommandInpu
                     }
                 }
                 // Claude Code treats this as a permission preapproval hint.
-                // OpenBitFun keeps its own permission policy authoritative, so the
+                // OPC-Team keeps its own permission policy authoritative, so the
                 // hint is validated but intentionally not projected into the
                 // executable command definition or behavior version.
                 "allowed-tools" => {

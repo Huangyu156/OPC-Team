@@ -1,4 +1,4 @@
-/** Opt-in OpenBitFun identity and motion, separate from generic UI controls. */
+/** Opt-in OPC-Team identity and motion, separate from generic UI controls. */
 export { OpenBitFunSolidMark, OpenBitFunAppIcon, type OpenBitFunArtworkProps } from "./brand/OpenBitFunArtwork";
 export { OpenBitFunMark, type OpenBitFunMarkProps } from "./brand/OpenBitFunMark";
 export { OpenBitFunBrandMotion, type OpenBitFunBrandMotionProps } from "./brand/OpenBitFunBrandMotion";

@@ -421,7 +421,7 @@ def add_build_arguments(parser: argparse.ArgumentParser) -> None:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build, rebuild, or check a cinematic OpenBitFun skin.")
+    parser = argparse.ArgumentParser(description="Build, rebuild, or check a cinematic OPC-Team skin.")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     contact = subparsers.add_parser("contact", help="Generate only the timestamped source contact sheet.")

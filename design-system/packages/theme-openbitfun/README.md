@@ -1,6 +1,6 @@
 # @openbitfun/theme-openbitfun
 
-Replaceable OpenBitFun theme values for the framework-neutral `@openbitfun/ui` package.
+Replaceable OPC-Team theme values for the framework-neutral `@openbitfun/ui` package.
 
 ```ts
 import "@openbitfun/theme-openbitfun/default.css";

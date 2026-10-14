@@ -115,9 +115,9 @@ async function main() {
     }, null, 2)}\n`,
   );
 
-  const homeDescription = `Learn ${catalog.counts.features} OpenBitFun features and ${catalog.counts.settings} settings pages in Chinese or English.`;
+  const homeDescription = `Learn ${catalog.counts.features} OPC-Team features and ${catalog.counts.settings} settings pages in Chinese or English.`;
   await writeFile(path.join(outputRoot, 'index.html'), renderPage(template, {
-    title: 'OpenBitFun Playbook — Features, settings, and practical guides',
+    title: 'OPC-Team Playbook — Features, settings, and practical guides',
     description: homeDescription,
     url: `${catalog.origin}/`,
     assetVersion,
@@ -128,7 +128,7 @@ async function main() {
     const directory = path.join(outputRoot, 'capabilities', capability.id);
     await mkdir(directory, { recursive: true });
     await writeFile(path.join(directory, 'index.html'), renderPage(template, {
-      title: `${capability.titleEn} / ${capability.titleZh} — OpenBitFun Playbook`,
+      title: `${capability.titleEn} / ${capability.titleZh} — OPC-Team Playbook`,
       description: capability.summaryEn,
       url: capability.docsUrl,
       assetVersion,

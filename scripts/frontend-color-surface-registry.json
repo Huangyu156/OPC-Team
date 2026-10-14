@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Authoritative registry for every OpenBitFun frontend color surface, its canonical token owner, narrowly scoped specialized palette owners, and non-product artifacts excluded from ordinary UI governance.",
+  "description": "Authoritative registry for every OPC-Team frontend color surface, its canonical token owner, narrowly scoped specialized palette owners, and non-product artifacts excluded from ordinary UI governance.",
   "contracts": {
     "webSystem": "design-system/packages/design-tokens/src/system.tokens.json",
     "webTheme": "design-system/packages/theme-openbitfun/src/light.tokens.json",
@@ -140,7 +140,7 @@
     },
     {
       "id": "installer",
-      "label": "OpenBitFun Installer",
+      "label": "OPC-Team Installer",
       "kind": "canonical-web",
       "owner": "@openbitfun/theme-openbitfun with the installer preset owner",
       "root": "OpenBitFun-Installer",
@@ -463,7 +463,7 @@
       "path": "src/web-ui/public/monaco-editor",
       "kind": "generated-third-party",
       "owner": "Monaco package copy step",
-      "reason": "Vendored editor output is verified by the Monaco asset check and is not OpenBitFun application UI source."
+      "reason": "Vendored editor output is verified by the Monaco asset check and is not OPC-Team application UI source."
     },
     {
       "id": "relay-static",

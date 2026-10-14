@@ -1,5 +1,5 @@
 # syntax=docker/dockerfile:1.7
-# OpenBitFun Relay Server standalone Docker build.
+# OPC-Team Relay Server standalone Docker build.
 # The reduced repository-root context contains only the relay app and services.
 #
 # Rebuild caching:
@@ -132,8 +132,8 @@ ARG RELAY_GIT_COMMIT=unknown
 ARG OPENBITFUN_USE_CN_MIRROR=0
 ARG OPENBITFUN_APT_MIRROR=mirrors.aliyun.com
 
-LABEL org.opencontainers.image.title="OpenBitFun Relay Server" \
-      org.opencontainers.image.description="Self-hosted relay server for OpenBitFun" \
+LABEL org.opencontainers.image.title="OPC-Team Relay Server" \
+      org.opencontainers.image.description="Self-hosted relay server for OPC-Team" \
       org.opencontainers.image.source="https://github.com/GCWing/OpenBitFun" \
       org.opencontainers.image.revision="${RELAY_GIT_COMMIT}" \
       org.opencontainers.image.licenses="MIT"

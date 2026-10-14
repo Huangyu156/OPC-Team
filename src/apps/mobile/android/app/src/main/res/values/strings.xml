@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">OpenBitFun</string>
+    <string name="app_name">OPC-Team</string>
     <string name="navigation_general_chat">Chat</string>
     <string name="navigation_remote">Remote</string>
     <string name="navigation_account">Account</string>
@@ -18,7 +18,7 @@
     <string name="settings_general_chat_section">General chat</string>
     <string name="settings_about_section">About</string>
     <string name="settings_about_product">Product</string>
-    <string name="settings_about_product_value">OpenBitFun for Android</string>
+    <string name="settings_about_product_value">OPC-Team for Android</string>
     <string name="settings_about_version">Version</string>
     <string name="settings_theme">Theme</string>
     <string name="settings_theme_system">System default</string>
@@ -28,8 +28,8 @@
     <string name="account_login_title">Sign in with email or GitHub</string>
     <string name="account_login_body">Sign in with email or GitHub to connect to your computers.\nTasks and model settings stay on the controlled computer.</string>
     <string name="account_login_server">Sign-in server</string>
-    <string name="account_username_placeholder">OpenBitFun username</string>
-    <string name="account_password_placeholder">OpenBitFun password</string>
+    <string name="account_username_placeholder">OPC-Team username</string>
+    <string name="account_password_placeholder">OPC-Team password</string>
     <string name="account_relay_url_placeholder">Relay URL, for example https://relay.example.com</string>
     <string name="account_signing_in">Signing in…</string>
     <string name="account_connect">Connect</string>
@@ -204,7 +204,7 @@
     <string name="common_back">Back</string>
     <string name="common_open">Open</string>
     <string name="session_messages_title">Messages</string>
-    <string name="message_input_label">Ask OpenBitFun</string>
+    <string name="message_input_label">Ask OPC-Team</string>
     <string name="message_send">Send</string>
     <string name="message_stop">Stop</string>
     <string name="message_attach_image">Attach image</string>
@@ -241,7 +241,7 @@
     <string name="model_catalog_stale_warning">The model list could not be refreshed. Showing the previously loaded list.</string>
     <string name="workspace_title">Workspace</string>
     <string name="workspace_failed">Could not load workspace information.</string>
-    <string name="workspace_reference_unsupported">The desktop does not support selecting workspaces by ID. Update OpenBitFun on the desktop.</string>
+    <string name="workspace_reference_unsupported">The desktop does not support selecting workspaces by ID. Update OPC-Team on the desktop.</string>
     <string name="workspace_reference_unknown">The desktop no longer has this workspace.</string>
     <string name="workspace_reference_ambiguous">Several open workspaces share this path. Choose one from the list.</string>
     <string name="assistants_title">Assistants</string>
@@ -331,7 +331,7 @@
     <string name="connection_waiting">Waiting to connect</string>
     <string name="chat_status_messages_synced">Messages synced</string>
     <string name="chat_status_restoring_connection">Restoring connection</string>
-    <string name="chat_status_executing">OpenBitFun is working...</string>
+    <string name="chat_status_executing">OPC-Team is working...</string>
     <string name="connection_checking">Checking the connection…</string>
     <string name="connection_lost_detail">The desktop stopped answering. The pairing is still here, so try again — or disconnect and pair afresh.</string>
     <string name="connection_check_again">Check again</string>
@@ -339,10 +339,10 @@
     <string name="sessions_failed_network">Could not reach the relay.</string>
     <string name="sessions_failed_timeout">The desktop did not answer in time.</string>
     <string name="sessions_failed_rate_limited">Too many requests; try again shortly.</string>
-    <string name="sessions_failed_protocol_mismatch">The desktop answered in a format this app does not understand. Update OpenBitFun on the desktop.</string>
+    <string name="sessions_failed_protocol_mismatch">The desktop answered in a format this app does not understand. Update OPC-Team on the desktop.</string>
     <string name="sessions_failed_session_not_found">That session is no longer on the desktop.</string>
-    <string name="sessions_failed_workspace_id_unsupported">The desktop does not support selecting workspaces by ID. Update OpenBitFun on the desktop.</string>
-    <string name="sessions_failed_host_stream_unsupported">The desktop runs an older OpenBitFun version that does not support on-demand session streaming. Update OpenBitFun on the desktop to continue.</string>
+    <string name="sessions_failed_workspace_id_unsupported">The desktop does not support selecting workspaces by ID. Update OPC-Team on the desktop.</string>
+    <string name="sessions_failed_host_stream_unsupported">The desktop runs an older OPC-Team version that does not support on-demand session streaming. Update OPC-Team on the desktop to continue.</string>
     <string name="sessions_failed_workspace_id_unknown">The desktop no longer has this workspace.</string>
     <!-- 8.3 conversation surface -->
     <string name="conversation_back">Back to sessions</string>
@@ -397,7 +397,7 @@
     <string name="tool_op_ask_confirmation">Ask for confirmation</string>
     <string name="create_title">New task</string>
     <string name="create_back">Back</string>
-    <string name="create_placeholder">Tell OpenBitFun what to do</string>
+    <string name="create_placeholder">Tell OPC-Team what to do</string>
     <string name="create_chat">Chat</string>
     <string name="create_workspace_picker">Choose a workspace</string>
     <string name="create_no_workspaces">No recent workspaces. Open one on the desktop first.</string>
@@ -407,22 +407,22 @@
     <string name="remote_settings_connection_source">Connection source</string>
     <string name="remote_settings_source_account_device">Account device</string>
     <string name="remote_settings_source_none">Not connected</string>
-    <string name="remote_settings_desktop_product">OpenBitFun Desktop</string>
+    <string name="remote_settings_desktop_product">OPC-Team Desktop</string>
     <string name="remote_settings_no_desktop">No desktop connected yet</string>
     <string name="remote_settings_disconnect">Disconnect</string>
     <string name="remote_settings_reconnect">Reconnect</string>
     <string name="remote_settings_account_signed_in">Authenticated</string>
-    <string name="account_open_github">Open OpenBitFun authorization</string>
+    <string name="account_open_github">Open OPC-Team authorization</string>
     <string name="chat_image_prepare_failed">This image could not be prepared. Choose another image.</string>
     <string name="harness_minimal">Minimal</string>
     <string name="harness_standard">Standard</string>
     <string name="harness_ultimate">Ultimate</string>
     <string name="task_completed_title">Task completed</string>
-    <string name="task_completed_body">Open OpenBitFun to view the result.</string>
+    <string name="task_completed_body">Open OPC-Team to view the result.</string>
     <string name="notification_onboarding_title">Task completion notifications</string>
     <string name="notification_onboarding_later">Later</string>
     <string name="notification_onboarding_enable">Enable notifications</string>
-    <string name="notification_onboarding_body">Allow OpenBitFun to notify you when tasks finish. You can change this later in system settings.</string>
+    <string name="notification_onboarding_body">Allow OPC-Team to notify you when tasks finish. You can change this later in system settings.</string>
     <string name="welcome_login">Sign in</string>
     <string name="welcome_work">Get things done</string>
     <string name="welcome_play">Try something fun</string>

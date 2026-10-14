@@ -32,7 +32,7 @@ import kotlin.math.*
 /** A welcome layout, C text motion. Only presentation state is kept here. */
 @Composable
 internal fun WelcomeHome(onLogin: () -> Unit, signedIn: Boolean = false, modifier: Modifier = Modifier) {
-    val phrases = listOf("OpenBitFun", stringResource(R.string.welcome_work), stringResource(R.string.welcome_play), stringResource(R.string.welcome_yours))
+    val phrases = listOf("OPC-Team", stringResource(R.string.welcome_work), stringResource(R.string.welcome_play), stringResource(R.string.welcome_yours))
     var moving by remember { mutableStateOf(false) }
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     LaunchedEffect(lifecycle) {
@@ -55,13 +55,13 @@ internal fun WelcomeHome(onLogin: () -> Unit, signedIn: Boolean = false, modifie
         val pageHeight = maxHeight.coerceAtLeast(540.dp)
         Column(Modifier.widthIn(max = G.WelcomeMaxWidth).fillMaxWidth().verticalScroll(rememberScrollState()).heightIn(min = pageHeight)) {
             Row(Modifier.fillMaxWidth().height(G.WelcomeHeaderHeight).padding(horizontal = G.WelcomeGutter), verticalAlignment = Alignment.CenterVertically) {
-                Row { "OpenBitFun".forEach { c -> WelcomeGlyph(c, G.WelcomeHeaderWordSize.value, Modifier) } }
+                Row { "OPC-Team".forEach { c -> WelcomeGlyph(c, G.WelcomeHeaderWordSize.value, Modifier) } }
             }
             Box(Modifier.fillMaxWidth().height((pageHeight - G.WelcomeHeaderHeight - 228.dp).coerceAtLeast(270.dp)), contentAlignment = Alignment.Center) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.offset(y = (-28).dp)) {
                     WelcomeBrandFlow(Modifier.size(G.WelcomeMarkSize))
                     Spacer(Modifier.height(29.dp))
-                    Row(Modifier.height(48.dp).clearAndSetSemantics { contentDescription = "OpenBitFun" }, verticalAlignment = Alignment.CenterVertically) {
+                    Row(Modifier.height(48.dp).clearAndSetSemantics { contentDescription = "OPC-Team" }, verticalAlignment = Alignment.CenterVertically) {
                         phrase.forEachIndexed { index, c ->
                             val p = ((time - 180 - index * 55) / 800).coerceIn(0f, 1f)
                             val ease = 1 - (1-p).pow(3)
@@ -103,7 +103,7 @@ private fun WelcomeAction(label: String, onClick: () -> Unit) {
         Text(label, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
     }
 }
-private fun welcomeDuration(word: String) = 250+word.length*185+(if(word=="OpenBitFun")600 else 0)+1800+650
+private fun welcomeDuration(word: String) = 250+word.length*185+(if(word=="OPC-Team")600 else 0)+1800+650
 
 @Composable
 private fun WelcomeGlyph(letter: Char, fontSize: Float, modifier: Modifier) {

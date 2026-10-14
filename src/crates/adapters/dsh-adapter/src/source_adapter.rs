@@ -327,7 +327,7 @@ pub fn load_dsh_package_adapter(
         None => DshPluginRuntimeAdapter::from_package(input, observed_at_ms)?,
     };
     // Cordis rows can mount services that later register model-facing tools in
-    // dsh, but static row metadata is not a safe executable OpenBitFun provider
+    // dsh, but static row metadata is not a safe executable OPC-Team provider
     // candidate. This runtime-free adapter therefore exposes no dispatch target.
     Ok((Arc::new(adapter), Vec::new()))
 }
@@ -413,10 +413,10 @@ impl DshEntryKind {
     fn diagnostic_message(self) -> &'static str {
         match self {
             Self::Bundle => {
-                "dsh bundle entry is discovered from cordis.patch.yml but is not installed or executed by OpenBitFun"
+                "dsh bundle entry is discovered from cordis.patch.yml but is not installed or executed by OPC-Team"
             }
             Self::ProfileBundle => {
-                "dsh profile bundle reference is discovered from package.json but is not installed or executed by OpenBitFun"
+                "dsh profile bundle reference is discovered from package.json but is not installed or executed by OPC-Team"
             }
         }
     }

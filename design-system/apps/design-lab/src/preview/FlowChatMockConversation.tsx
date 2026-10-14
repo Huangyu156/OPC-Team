@@ -175,12 +175,12 @@ export function FlowChatMockConversation({ scenario, fromStart = false, toolGall
       aria-label={t('flowChat.mock.transcript')} tabIndex={0}>
       <div className="flow-chat-mock__timeline">
         <UserTurn>{t('flowChat.mock.request')}</UserTurn>
-        <article className="flow-chat-mock__assistant" aria-label="OpenBitFun">
+        <article className="flow-chat-mock__assistant" aria-label="OPC-Team">
           <p>{t('flowChat.mock.intro')}</p>
           <MockThinking active={!finished && current.phase === 'thinking'} />
         </article>
         {index >= 1 && <MockExploration active={!finished && current.phase === 'exploring'} />}
-        <article className="flow-chat-mock__assistant" aria-label="OpenBitFun">
+        <article className="flow-chat-mock__assistant" aria-label="OPC-Team">
           {index >= 2 && <p>{t('flowChat.mock.finding')}</p>}
           {questionIndex >= 0 && index >= questionIndex && <AskUser
             answers={answers} onAnswersChange={(id, values) => setAnswers((previous) => ({ ...previous, [id]: values }))}
@@ -196,7 +196,7 @@ export function FlowChatMockConversation({ scenario, fromStart = false, toolGall
         </article>
         {showChanges && <>
           <UserTurn>{t('flowChat.mock.steering')}</UserTurn>
-          <article className="flow-chat-mock__assistant" aria-label="OpenBitFun">
+          <article className="flow-chat-mock__assistant" aria-label="OPC-Team">
             <p>{t('flowChat.mock.applied')}</p>
             <MockThinking summary />
             <div className="flow-chat-mock__tool"><MockPlan completed={success} active={busy} cancelled={cancelled} /></div>
@@ -205,7 +205,7 @@ export function FlowChatMockConversation({ scenario, fromStart = false, toolGall
             {command && <div className="flow-chat-mock__tool"><ScenarioCommand item={command} clock={clock} /></div>}
           </article>
         </>}
-        {finished && <article className="flow-chat-mock__assistant flow-chat-mock__result" aria-label="OpenBitFun">
+        {finished && <article className="flow-chat-mock__assistant flow-chat-mock__result" aria-label="OPC-Team">
           <p><strong>{t(`flowChat.mock.result.${outcome}`)}</strong></p>
           <p>{t(stopped && !showChanges ? 'flowChat.mock.resultDetail.stoppedBeforeChanges' : `flowChat.mock.resultDetail.${outcome}`)}</p>
           {success && <ul><li><code>src/pages/LoginPage.tsx</code> — {t('flowChat.mock.fileResult')}</li>
@@ -218,7 +218,7 @@ export function FlowChatMockConversation({ scenario, fromStart = false, toolGall
         </>}
         {sent.map((message) => <Fragment key={message.id}>
           <UserTurn newTurn>{message.text}</UserTurn>
-          <article className="flow-chat-mock__assistant" aria-label="OpenBitFun"><p>{t('flowChat.mock.localReply')}</p></article>
+          <article className="flow-chat-mock__assistant" aria-label="OPC-Team"><p>{t('flowChat.mock.localReply')}</p></article>
         </Fragment>)}
         <div className="flow-chat-mock__runtime"><FlowChatRuntimeStatus visible={busy} label={t(`flowChat.mock.runtime.${current.phase}`)} /></div>
       </div>

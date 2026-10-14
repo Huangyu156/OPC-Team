@@ -1,8 +1,8 @@
 use crate::plugin_host::PluginHostInstance;
-// OpenCode client route projections backed by OpenBitFun owners.
+// OpenCode client route projections backed by OPC-Team owners.
 //
 // The adapter owns OpenCode path/method matching, wire DTOs, framing, and
-// transport errors. This module only invokes the existing OpenBitFun session,
+// transport errors. This module only invokes the existing OPC-Team session,
 // filesystem, terminal, MCP, Git, and model owners and projects their
 // results into the adapter's route contract. The logical instance and PTY
 // maps in `plugin_host` scope those calls; they are not physical process

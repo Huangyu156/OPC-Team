@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate and compile an Appearance manifest with a real OpenBitFun checkout."""
+"""Validate and compile an Appearance manifest with a real OPC-Team checkout."""
 
 from __future__ import annotations
 
@@ -83,7 +83,7 @@ def verify_host(repo: Path, source: Path) -> dict[str, Any]:
     web_ui = repo / "src" / "web-ui"
     registry_module = web_ui / "src" / "infrastructure" / "appearance" / "registry" / "defaultAppearanceRegistry.ts"
     if not registry_module.is_file():
-        raise HostVerificationError(f"Not a OpenBitFun checkout with the Appearance registry: {repo}")
+        raise HostVerificationError(f"Not a OPC-Team checkout with the Appearance registry: {repo}")
 
     registry = registry_sync.export_registry(repo)
     kind = appearance.source_kind(source)
@@ -130,7 +130,7 @@ try {
     try:
         result = json.loads(raw)
     except json.JSONDecodeError as error:
-        raise HostVerificationError(f"OpenBitFun host verifier produced invalid JSON: {error}\n{raw[:500]}") from error
+        raise HostVerificationError(f"OPC-Team host verifier produced invalid JSON: {error}\n{raw[:500]}") from error
 
     revision = run(["git", "rev-parse", "HEAD"], repo)
     dirty = bool(run(["git", "status", "--porcelain=v1"], repo))
@@ -157,8 +157,8 @@ try {
 
 
 def create_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Validate and compile an Appearance with the real OpenBitFun host")
-    parser.add_argument("repo", help="OpenBitFun repository root")
+    parser = argparse.ArgumentParser(description="Validate and compile an Appearance with the real OPC-Team host")
+    parser.add_argument("repo", help="OPC-Team repository root")
     parser.add_argument("source", help="Appearance project directory or .openbitfun-appearance archive")
     parser.add_argument("--report", help="write a JSON verification report")
     parser.add_argument("--strict-warnings", action="store_true", help="fail verification when warnings are present")

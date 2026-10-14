@@ -1,7 +1,7 @@
 {
   "name": "openbitfun-e2e-tests",
   "version": "1.0.0",
-  "description": "E2E tests for OpenBitFun using WebDriverIO and the embedded OpenBitFun WebDriver",
+  "description": "E2E tests for OPC-Team using WebDriverIO and the embedded OPC-Team WebDriver",
   "type": "module",
   "scripts": {
     "test": "wdio run ./config/wdio.conf.ts",

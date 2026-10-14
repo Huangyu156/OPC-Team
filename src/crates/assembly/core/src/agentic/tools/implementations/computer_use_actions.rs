@@ -63,7 +63,7 @@ impl ComputerUseActions {
     ) -> OpenBitFunResult<Vec<ToolResult>> {
         let host = context.computer_use_host.as_ref().ok_or_else(|| {
             OpenBitFunError::tool(
-                "Desktop control is only available in the OpenBitFun desktop app".to_string(),
+                "Desktop control is only available in the OPC-Team desktop app".to_string(),
             )
         })?;
 

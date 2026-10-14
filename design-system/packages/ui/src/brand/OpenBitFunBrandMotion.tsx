@@ -83,7 +83,7 @@ const authoredContours = Array.from(markSource.matchAll(/<path\b[^>]*\sd="([^"]+
 const innerContour = authoredContours[0];
 const outerContour = authoredContours[authoredContours.length - 1];
 if (!innerContour || !outerContour || authoredContours.length < 2) {
-  throw new Error("The OpenBitFun mark must provide its authored inner and outer contours.");
+  throw new Error("The OPC-Team mark must provide its authored inner and outer contours.");
 }
 // Preserve the master's exact proportions and cubic corners. Pad its 120px canvas
 // by two units on each side so the icon-weight strokes fit throughout each turn.

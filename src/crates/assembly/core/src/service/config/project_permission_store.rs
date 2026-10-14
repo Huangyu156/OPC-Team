@@ -86,7 +86,10 @@ pub async fn load_project_permission_config_remote(
 
 #[cfg(test)]
 mod tests {
-    use super::{deserialize_project_permission_config, project_permission_file_path_for_remote};
+    use super::{
+        deserialize_project_permission_config, hidden_data_directory,
+        project_permission_file_path_for_remote,
+    };
     use openbitfun_runtime_ports::{PermissionEffect, PermissionRule};
 
     #[test]
@@ -120,7 +123,10 @@ mod tests {
     fn remote_permission_path_is_workspace_scoped() {
         assert_eq!(
             project_permission_file_path_for_remote("/home/user/project/"),
-            "/home/user/project/.openbitfun/config/tool_permissions.json"
+            format!(
+                "/home/user/project/{}/config/tool_permissions.json",
+                hidden_data_directory()
+            )
         );
     }
 }

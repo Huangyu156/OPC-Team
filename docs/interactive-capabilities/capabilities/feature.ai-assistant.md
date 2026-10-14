@@ -58,10 +58,10 @@ Work with AI in project context, create sessions, continue tasks, answer permiss
    Open the AI assistant or create a session
 2. 选择项目、模型和工作模式
    Choose a project, model, and working mode
-3. 描述目标；OpenBitFun 会在会话中持续记录进度
-   Describe the goal; OpenBitFun keeps progress in the session
+3. 描述目标；OPC-Team 会在会话中持续记录进度
+   Describe the goal; OPC-Team keeps progress in the session
 
-入口 / Entry: OpenBitFun 对应场景
+入口 / Entry: OPC-Team 对应场景
 
 ## 智能体可替你做什么 / What an agent can do for you
 

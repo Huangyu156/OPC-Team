@@ -25,7 +25,7 @@ use super::{
 /// Number of hex characters used to name a target's shared clone.
 const REPO_KEY_CHARS: usize = 16;
 /// Commit written when the user asked to carry uncommitted work along.
-const UNCOMMITTED_COMMIT_MESSAGE: &str = "OpenBitFun dispatch: uncommitted baseline changes";
+const UNCOMMITTED_COMMIT_MESSAGE: &str = "OPC-Team dispatch: uncommitted baseline changes";
 
 #[derive(Debug, Clone)]
 pub(super) struct PreparedBaseline {
@@ -390,7 +390,7 @@ async fn commit_uncommitted_changes(worktree_path: &str) -> Result<()> {
             "-c",
             "commit.gpgsign=false",
             "-c",
-            "user.name=OpenBitFun Dispatch",
+            "user.name=OPC-Team Dispatch",
             "-c",
             "user.email=dispatch@openbitfun.local",
             "commit",

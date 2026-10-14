@@ -82,7 +82,7 @@ pub struct ToolUseContext {
     pub primary_model_facts: PrimaryModelFacts,
     /// Extended context data passed from execution layer to tools.
     pub custom_data: HashMap<String, Value>,
-    /// Desktop automation (Computer use); only set in OpenBitFun desktop.
+    /// Desktop automation (Computer use); only set in OPC-Team desktop.
     pub computer_use_host: Option<crate::agentic::tools::computer_use_host::ComputerUseHostRef>,
     pub runtime_tool_restrictions: ToolRuntimeRestrictions,
     /// Runtime handles such as workspace I/O services and cancellation.

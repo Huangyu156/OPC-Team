@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "digest": "fnv1a64:e2b40d572990839b",
+  "digest": "fnv1a64:6281a2970869f929",
   "retiredCommandPrefixes": [
     {
       "prefix": "lsp_",
-      "reason": "the OpenBitFun LSP runtime has been retired"
+      "reason": "the OPC-Team LSP runtime has been retired"
     }
   ],
   "capabilities": {

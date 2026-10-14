@@ -47,7 +47,7 @@ pub fn render_prompt_environment_info(facts: PromptEnvironmentFacts<'_>) -> Stri
         format!(
             r#"# Environment Information
 <environment_details>
-- Local OpenBitFun client OS: {} ({}) — applies to Computer use / UI automation on this machine only.
+- Local OPC-Team client OS: {} ({}) — applies to Computer use / UI automation on this machine only.
 - Local client architecture: {}
 - {}
 </environment_details>
@@ -88,7 +88,7 @@ pub struct RuntimeContextNeeds {
     /// `ControlHub` is available. Distinct from `computer_use` because in remote
     /// workspaces `ControlHub` stays available (browser/terminal on the local
     /// client) while `ComputerUse` is disabled, and the agent should NOT receive
-    /// the prominent "Local OpenBitFun client OS" block that belongs to desktop
+    /// the prominent "Local OPC-Team client OS" block that belongs to desktop
     /// automation.
     pub control_hub: bool,
 }
@@ -210,12 +210,12 @@ pub fn render_runtime_context_reminder(facts: &RuntimeContextFacts) -> Option<St
         let mut local_client_lines = Vec::new();
         if facts.remote_execution.is_some() && facts.needs.workspace_tools {
             local_client_lines.push(
-                "- Computer use and UI automation operate on the local OpenBitFun desktop, even when workspace file and shell tools target a remote host."
+                "- Computer use and UI automation operate on the local OPC-Team desktop, even when workspace file and shell tools target a remote host."
                     .to_string(),
             );
         }
         local_client_lines.push(format!(
-            "- Local OpenBitFun client OS: {} ({})",
+            "- Local OPC-Team client OS: {} ({})",
             facts.host_os, facts.host_family
         ));
         local_client_lines.push(format!("- Local client architecture: {}", facts.host_arch));

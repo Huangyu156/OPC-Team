@@ -133,7 +133,7 @@ fn prompt_environment_info_preserves_local_and_remote_guidance() {
         host_arch: "aarch64",
         remote_execution_active: true,
     });
-    assert!(remote.contains("- Local OpenBitFun client OS: linux (unix)"));
+    assert!(remote.contains("- Local OPC-Team client OS: linux (unix)"));
     assert!(remote.contains("applies to Computer use / UI automation"));
     assert!(remote.contains("Local client architecture: aarch64"));
 }
@@ -162,7 +162,7 @@ fn runtime_context_renderer_preserves_local_exec_and_computer_use_guidance() {
     assert!(reminder.contains("PowerShell (powershell)"));
     assert!(reminder.contains("prefer native PowerShell cmdlets"));
     assert!(reminder.contains("## Local Client"));
-    assert!(reminder.contains("- Local OpenBitFun client OS: windows (windows)"));
+    assert!(reminder.contains("- Local OPC-Team client OS: windows (windows)"));
     assert!(reminder.contains("meta`/`super`"));
 }
 
@@ -197,7 +197,7 @@ fn runtime_context_renderer_preserves_remote_workspace_split() {
     assert!(reminder.contains("ExecCommand uses the remote user's default POSIX shell"));
     assert!(!reminder.contains("## ExecControl"));
     assert!(
-        reminder.contains("Computer use and UI automation operate on the local OpenBitFun desktop")
+        reminder.contains("Computer use and UI automation operate on the local OPC-Team desktop")
     );
 }
 

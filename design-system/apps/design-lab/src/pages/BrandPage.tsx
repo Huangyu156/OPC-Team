@@ -240,7 +240,7 @@ export function BrandPage({ onOpenComponent }: { onOpenComponent: OpenComponent 
         </div>
         <ThemeRoot className="brand-gallery-wordmark" colorScheme="light" density="compact">
           <h2>{t(wordmark.label)}</h2>
-          <img src={wordmarkUrl} alt="OpenBitFun" width={2172} height={724} />
+          <img src={wordmarkUrl} alt="OPC-Team" width={2172} height={724} />
           <AssetActions resource={wordmark} onOpenComponent={onOpenComponent} />
         </ThemeRoot>
       </section>

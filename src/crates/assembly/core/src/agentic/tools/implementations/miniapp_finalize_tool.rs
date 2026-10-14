@@ -30,7 +30,7 @@ impl Tool for FinalizeMiniAppTool {
     }
 
     async fn description(&self) -> OpenBitFunResult<String> {
-        Ok(r#"Finalize source files edited for an installed OpenBitFun MiniApp.
+        Ok(r#"Finalize source files edited for an installed OPC-Team MiniApp.
 
 Call this after every successful Read/Write/Edit pass under a MiniApp root returned by InitMiniApp, and after modifying an existing MiniApp. It:
 - reloads source files from disk;

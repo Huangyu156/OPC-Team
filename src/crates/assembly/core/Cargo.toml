@@ -3,7 +3,7 @@ name = "openbitfun-core"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun Core Library - Platform-agnostic business logic"
+description = "OPC-Team Core Library - Platform-agnostic business logic"
 
 [lib]
 name = "openbitfun_core"

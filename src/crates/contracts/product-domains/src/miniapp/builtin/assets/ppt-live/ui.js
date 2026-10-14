@@ -3702,7 +3702,7 @@ function bindExportModal() {
 }
 
 /* ============================================
-   HOST APPEARANCE — follow OpenBitFun light/dark mode
+   HOST APPEARANCE — follow OPC-Team light/dark mode
    ============================================ */
 function resolveAppearanceMode(mode) {
   if (mode === 'dark' || mode === 'light') return mode;

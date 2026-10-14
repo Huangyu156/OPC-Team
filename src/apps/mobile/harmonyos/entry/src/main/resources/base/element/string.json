@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "OpenBitFun remote control client"
+      "value": "OPC-Team remote control client"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "Connect to OpenBitFun desktop and control remote sessions"
+      "value": "Connect to OPC-Team desktop and control remote sessions"
     },
     {
       "name": "EntryAbility_label",
-      "value": "OpenBitFun"
+      "value": "OPC-Team"
     },
     {
       "name": "permission_microphone_reason",

@@ -85,7 +85,7 @@ fn ensure_skill_can_be_deleted(skill: &SkillInfo) -> Result<(), String> {
     if can_delete_owned_skill(&skill.source_id, &skill.source_slot, skill.is_builtin) {
         Ok(())
     } else {
-        Err("Only OpenBitFun-owned, non-built-in Skills can be deleted from OpenBitFun".to_string())
+        Err("Only OPC-Team-owned, non-built-in Skills can be deleted from OPC-Team".to_string())
     }
 }
 
@@ -1795,7 +1795,7 @@ pub async fn download_skill_market(
     let runtime_manager = RuntimeManager::new()
         .map_err(|e| format!("Failed to initialize runtime manager: {}", e))?;
     let resolved_npx = runtime_manager.resolve_command("npx").ok_or_else(|| {
-        "Command 'npx' is not available. Install Node.js or configure OpenBitFun runtimes."
+        "Command 'npx' is not available. Install Node.js or configure OPC-Team runtimes."
             .to_string()
     })?;
 

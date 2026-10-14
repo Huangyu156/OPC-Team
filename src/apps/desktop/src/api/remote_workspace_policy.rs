@@ -106,7 +106,7 @@ mod tests {
         assert_eq!(
             remote_workspace_policy("get_token_usage_statistics"),
             Some(RemoteWorkspacePolicy::Agnostic),
-            "token usage is recorded by the current OpenBitFun runtime and does not follow the workspace filesystem to an SSH host"
+            "token usage is recorded by the current OPC-Team runtime and does not follow the workspace filesystem to an SSH host"
         );
     }
 

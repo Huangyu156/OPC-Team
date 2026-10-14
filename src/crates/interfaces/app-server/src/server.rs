@@ -1,4 +1,4 @@
-//! OpenBitFun app-server assembly over the generic `AppServer` role.
+//! OPC-Team app-server assembly over the generic `AppServer` role.
 //!
 //! Request handlers are grouped by product domain under [`handlers`]. This
 //! module owns the server lifecycle, handler integration order, transport
@@ -86,7 +86,7 @@ impl ConnectionEventState {
     }
 }
 
-/// OpenBitFun agent kernel server over the generic app-server role.
+/// OPC-Team agent kernel server over the generic app-server role.
 ///
 /// Hosts may inject an [`AppServerHostPolicy`] (identity + canonical
 /// workspace scope + method allowlist, enforced fail-closed as the first

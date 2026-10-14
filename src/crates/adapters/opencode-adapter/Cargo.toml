@@ -3,7 +3,7 @@ name = "openbitfun-opencode-adapter"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenCode-compatible source and candidate adapter for OpenBitFun"
+description = "OpenCode-compatible source and candidate adapter for OPC-Team"
 autotests = false
 
 [lib]

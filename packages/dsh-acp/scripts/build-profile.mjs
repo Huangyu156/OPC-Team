@@ -34,7 +34,7 @@ import { parseArgs } from 'node:util'
 
 const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
-/** The profile directory OpenBitFun materializes this build into. */
+/** The profile directory OPC-Team materializes this build into. */
 export const PROFILE_NAME = 'openbitfun-acp'
 
 /**
@@ -56,7 +56,7 @@ const VENDORED = {
   '@deepseek-ai/dsh-agent-spine-demo': '0.1.0-rc.6',
 }
 
-/** Basename of the build stamp OpenBitFun compares before re-materializing. */
+/** Basename of the build stamp OPC-Team compares before re-materializing. */
 const STAMP_FILENAME = '.openbitfun-bridge.json'
 
 const { values } = parseArgs({
@@ -156,7 +156,7 @@ function vendor(name, version) {
 }
 
 /**
- * Hash every file in the output so OpenBitFun can tell one build from another.
+ * Hash every file in the output so OPC-Team can tell one build from another.
  *
  * A version string is not enough: during development the bridge's version
  * stands still while its code changes, and a stale profile on disk would look

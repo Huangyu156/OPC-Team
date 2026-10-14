@@ -99,9 +99,9 @@ impl PathManager {
 
     /// Get user config root directory
     ///
-    /// - Windows: %APPDATA%\openbitfun\
-    /// - macOS: ~/Library/Application Support/openbitfun/
-    /// - Linux: ~/.config/openbitfun/
+    /// - Windows: %APPDATA%\opcteam\
+    /// - macOS: ~/Library/Application Support/opcteam/
+    /// - Linux: ~/.config/opcteam/
     fn get_user_config_root() -> OpenBitFunResult<PathBuf> {
         if let Some(path) = Self::env_path("OPENBITFUN_USER_ROOT")
             .or_else(|| Self::env_path("OPENBITFUN_E2E_USER_ROOT"))
@@ -119,7 +119,7 @@ impl PathManager {
         Self::env_path("OPENBITFUN_HOME").or_else(|| Self::env_path("OPENBITFUN_E2E_HOME"))
     }
 
-    /// Get assistant home root directory: ~/.openbitfun/
+    /// Get assistant home root directory: ~/.opcteam/
     pub fn product_home_dir(&self) -> PathBuf {
         if let Some(path) = &self.product_home_override {
             return path.clone();
@@ -129,7 +129,7 @@ impl PathManager {
             .join(hidden_data_directory())
     }
 
-    /// Get assistant workspace base directory: ~/.openbitfun/personal_assistant/
+    /// Get assistant workspace base directory: ~/.opcteam/personal_assistant/
     ///
     /// `override_root` is reserved for future user customization.
     pub fn assistant_workspace_base_dir(&self, override_root: Option<&Path>) -> PathBuf {
@@ -139,13 +139,13 @@ impl PathManager {
             .join("personal_assistant")
     }
 
-    /// Get the default assistant workspace directory: ~/.openbitfun/personal_assistant/workspace
+    /// Get the default assistant workspace directory: ~/.opcteam/personal_assistant/workspace
     pub fn default_assistant_workspace_dir(&self, override_root: Option<&Path>) -> PathBuf {
         self.assistant_workspace_base_dir(override_root)
             .join("workspace")
     }
 
-    /// Get a named assistant workspace directory: ~/.openbitfun/personal_assistant/workspace-<id>
+    /// Get a named assistant workspace directory: ~/.opcteam/personal_assistant/workspace-<id>
     pub fn assistant_workspace_dir(
         &self,
         assistant_id: &str,
@@ -167,10 +167,10 @@ impl PathManager {
         }
     }
 
-    /// True if `path` is this machine's OpenBitFun **assistant** workspace directory.
+    /// True if `path` is this machine's OPC-Team **assistant** workspace directory.
     ///
     /// Used so remote-workspace registry (especially roots like `/`) does not
-    /// mis-classify client paths such as `/Users/.../.openbitfun/personal_assistant/workspace-*`
+    /// mis-classify client paths such as `/Users/.../.opcteam/personal_assistant/workspace-*`
     /// as SSH remote paths.
     pub fn is_local_assistant_workspace_path(&self, path: &str) -> bool {
         let p = Path::new(path);
@@ -180,35 +180,35 @@ impl PathManager {
         p.starts_with(self.assistant_workspace_base_dir(None))
     }
 
-    /// Get the root directory for user-scoped OpenBitFun storage.
+    /// Get the root directory for user-scoped OPC-Team storage.
     pub fn user_root_dir(&self) -> &Path {
         &self.user_root
     }
 
-    /// Get user config directory: ~/.config/openbitfun/config/
+    /// Get user config directory: ~/.config/opcteam/config/
     pub fn user_config_dir(&self) -> PathBuf {
         self.user_root.join("config")
     }
 
-    /// Get app config file path: ~/.config/openbitfun/config/app.json
+    /// Get app config file path: ~/.config/opcteam/config/app.json
     pub fn app_config_file(&self) -> PathBuf {
         self.user_config_dir().join("app.json")
     }
 
-    /// Get user agent hooks file: ~/.config/openbitfun/config/hooks.json
+    /// Get user agent hooks file: ~/.config/opcteam/config/hooks.json
     pub fn user_hooks_file(&self) -> PathBuf {
         self.user_config_dir().join("hooks.json")
     }
 
-    /// Get user agent directory: ~/.config/openbitfun/agents/
+    /// Get user agent directory: ~/.config/opcteam/agents/
     pub fn user_agents_dir(&self) -> PathBuf {
         self.user_root.join("agents")
     }
 
     /// Get user skills directory:
-    /// - Windows: C:\Users\xxx\AppData\Roaming\openbitfun\skills\
-    /// - macOS: ~/Library/Application Support/openbitfun/skills/
-    /// - Linux: ~/.local/share/openbitfun/skills/
+    /// - Windows: C:\Users\xxx\AppData\Roaming\opcteam\skills\
+    /// - macOS: ~/Library/Application Support/opcteam/skills/
+    /// - Linux: ~/.local/share/opcteam/skills/
     pub fn user_skills_dir(&self) -> PathBuf {
         if cfg!(target_os = "windows") {
             dirs::data_dir()
@@ -230,24 +230,24 @@ impl PathManager {
         }
     }
 
-    /// Get OpenBitFun-managed built-in skills directory under the user skills root.
+    /// Get OPC-Team-managed built-in skills directory under the user skills root.
     pub fn builtin_skills_dir(&self) -> PathBuf {
         self.user_skills_dir().join(".system")
     }
 
-    /// Get cache root directory: ~/.config/openbitfun/cache/
+    /// Get cache root directory: ~/.config/opcteam/cache/
     pub fn cache_root(&self) -> PathBuf {
         self.user_root.join("cache")
     }
 
-    /// Get managed runtimes root directory: ~/.config/openbitfun/runtimes/
+    /// Get managed runtimes root directory: ~/.config/opcteam/runtimes/
     ///
-    /// OpenBitFun-managed runtime components (e.g. node/python/office) are stored here.
+    /// OPC-Team-managed runtime components (e.g. node/python/office) are stored here.
     pub fn managed_runtimes_dir(&self) -> PathBuf {
         self.user_root.join("runtimes")
     }
 
-    /// Get user data directory: ~/.config/openbitfun/data/
+    /// Get user data directory: ~/.config/opcteam/data/
     pub fn user_data_dir(&self) -> PathBuf {
         self.user_root.join("data")
     }
@@ -277,7 +277,7 @@ impl PathManager {
         self.temp_dir().join("speech-input")
     }
 
-    /// Get user memory database file: ~/.config/openbitfun/data/memories/memories.sqlite
+    /// Get user memory database file: ~/.config/opcteam/data/memories/memories.sqlite
     pub fn memories_database_file(&self) -> PathBuf {
         self.user_data_dir()
             .join("memories")
@@ -296,12 +296,12 @@ impl PathManager {
         self.user_data_dir().join("agent-runtime").join("ownership")
     }
 
-    /// Get user memory workspace root directory: ~/.openbitfun/memories/
+    /// Get user memory workspace root directory: ~/.opcteam/memories/
     pub fn memories_root_dir(&self) -> PathBuf {
         self.product_home_dir().join("memories")
     }
 
-    /// Root for per-host, per-remote-path workspace mirrors: `~/.openbitfun/remote_ssh/`.
+    /// Root for per-host, per-remote-path workspace mirrors: `~/.opcteam/remote_ssh/`.
     ///
     /// Session/chat persistence for SSH workspaces lives under
     /// `{this}/{sanitized_host}/{remote_path_segments}/sessions/`.
@@ -322,12 +322,12 @@ impl PathManager {
             })
     }
 
-    /// Get scheduled jobs directory: ~/.config/openbitfun/data/cron/
+    /// Get scheduled jobs directory: ~/.config/opcteam/data/cron/
     pub fn user_cron_dir(&self) -> PathBuf {
         self.user_data_dir().join("cron")
     }
 
-    /// Get scheduled jobs persistence file: ~/.config/openbitfun/data/cron/jobs.json
+    /// Get scheduled jobs persistence file: ~/.config/opcteam/data/cron/jobs.json
     pub fn cron_jobs_file(&self) -> PathBuf {
         self.user_cron_dir().join("jobs.json")
     }
@@ -341,17 +341,17 @@ impl PathManager {
         self.user_cron_dir().join("scheduler.lock")
     }
 
-    /// Get miniapps root directory: ~/.config/openbitfun/data/miniapps/
+    /// Get miniapps root directory: ~/.config/opcteam/data/miniapps/
     pub fn miniapps_dir(&self) -> PathBuf {
         self.user_data_dir().join("miniapps")
     }
 
-    /// Get directory for a specific miniapp: ~/.config/openbitfun/data/miniapps/{app_id}/
+    /// Get directory for a specific miniapp: ~/.config/opcteam/data/miniapps/{app_id}/
     pub fn miniapp_dir(&self, app_id: &str) -> PathBuf {
         self.miniapps_dir().join(app_id)
     }
 
-    /// Get user-level rules directory: ~/.config/openbitfun/data/rules/
+    /// Get user-level rules directory: ~/.config/opcteam/data/rules/
     pub fn user_rules_dir(&self) -> PathBuf {
         self.user_data_dir().join("rules")
     }
@@ -361,22 +361,22 @@ impl PathManager {
         self.user_data_dir().join("plugins")
     }
 
-    /// Get logs directory: ~/.config/openbitfun/logs/
+    /// Get logs directory: ~/.config/opcteam/logs/
     pub fn logs_dir(&self) -> PathBuf {
         self.user_root.join("logs")
     }
 
-    /// Get temp directory: ~/.config/openbitfun/temp/
+    /// Get temp directory: ~/.config/opcteam/temp/
     pub fn temp_dir(&self) -> PathBuf {
         self.user_root.join("temp")
     }
 
-    /// Get project config root directory: {project}/.openbitfun/
+    /// Get project config root directory: {project}/.opcteam/
     pub fn project_root(&self, workspace_path: &Path) -> PathBuf {
         workspace_path.join(hidden_data_directory())
     }
 
-    /// Get the shared runtime projects root directory: ~/.openbitfun/projects/
+    /// Get the shared runtime projects root directory: ~/.opcteam/projects/
     pub fn projects_root(&self) -> PathBuf {
         self.product_home_dir().join("projects")
     }
@@ -386,7 +386,7 @@ impl PathManager {
         self.product_home_dir().join("worktrees")
     }
 
-    /// Get the runtime root for a workspace: ~/.openbitfun/projects/<24-hex-key>/
+    /// Get the runtime root for a workspace: ~/.opcteam/projects/<24-hex-key>/
     pub fn project_runtime_root(&self, workspace_path: &Path) -> PathBuf {
         let runtime_root = self
             .projects_root()
@@ -403,7 +403,7 @@ impl PathManager {
             .join(self.project_runtime_slug(workspace_path))
     }
 
-    /// Get the runtime root for a remote workspace: ~/.openbitfun/projects/<24-hex-key>/.
+    /// Get the runtime root for a remote workspace: ~/.opcteam/projects/<24-hex-key>/.
     pub fn remote_workspace_runtime_root(&self, ssh_host: &str, remote_root_norm: &str) -> PathBuf {
         let runtime_root = self
             .projects_root()
@@ -549,47 +549,47 @@ impl PathManager {
         runtime_root.to_path_buf()
     }
 
-    /// Get project internal config directory: {project}/.openbitfun/config/
+    /// Get project internal config directory: {project}/.opcteam/config/
     pub fn project_internal_config_dir(&self, workspace_path: &Path) -> PathBuf {
         self.project_root(workspace_path).join("config")
     }
 
-    /// Get project agent profiles file: {project}/.openbitfun/config/agent_profiles.json
+    /// Get project agent profiles file: {project}/.opcteam/config/agent_profiles.json
     pub fn project_agent_profiles_file(&self, workspace_path: &Path) -> PathBuf {
         self.project_internal_config_dir(workspace_path)
             .join("agent_profiles.json")
     }
 
-    /// Get project tool permission rules file: {project}/.openbitfun/config/tool_permissions.json
+    /// Get project tool permission rules file: {project}/.opcteam/config/tool_permissions.json
     pub fn project_permission_file(&self, workspace_path: &Path) -> PathBuf {
         self.project_internal_config_dir(workspace_path)
             .join("tool_permissions.json")
     }
 
-    /// Get project mode skills file: {project}/.openbitfun/config/mode_skills.json
+    /// Get project mode skills file: {project}/.opcteam/config/mode_skills.json
     pub fn project_mode_skills_file(&self, workspace_path: &Path) -> PathBuf {
         self.project_internal_config_dir(workspace_path)
             .join("mode_skills.json")
     }
 
-    /// Get project subagent overrides file: {project}/.openbitfun/config/agent_subagents.json
+    /// Get project subagent overrides file: {project}/.opcteam/config/agent_subagents.json
     pub fn project_agent_subagents_file(&self, workspace_path: &Path) -> PathBuf {
         self.project_internal_config_dir(workspace_path)
             .join("agent_subagents.json")
     }
 
-    /// Get project agent hooks file: {project}/.openbitfun/config/hooks.json
+    /// Get project agent hooks file: {project}/.opcteam/config/hooks.json
     pub fn project_hooks_file(&self, workspace_path: &Path) -> PathBuf {
         self.project_internal_config_dir(workspace_path)
             .join("hooks.json")
     }
 
-    /// Get project agent directory: {project}/.openbitfun/agents/
+    /// Get project agent directory: {project}/.opcteam/agents/
     pub fn project_agents_dir(&self, workspace_path: &Path) -> PathBuf {
         self.project_root(workspace_path).join("agents")
     }
 
-    /// Get project-level rules directory: {project}/.openbitfun/rules/
+    /// Get project-level rules directory: {project}/.opcteam/rules/
     pub fn project_rules_dir(&self, workspace_path: &Path) -> PathBuf {
         self.project_root(workspace_path).join("rules")
     }
@@ -599,17 +599,17 @@ impl PathManager {
         self.project_root(workspace_path).join("plugins")
     }
 
-    /// Get project snapshots directory: ~/.openbitfun/projects/<24-hex-key>/snapshots/
+    /// Get project snapshots directory: ~/.opcteam/projects/<24-hex-key>/snapshots/
     pub fn project_snapshots_dir(&self, workspace_path: &Path) -> PathBuf {
         self.project_runtime_root(workspace_path).join("snapshots")
     }
 
-    /// Get project sessions directory: ~/.openbitfun/projects/<24-hex-key>/sessions/
+    /// Get project sessions directory: ~/.opcteam/projects/<24-hex-key>/sessions/
     pub fn project_sessions_dir(&self, workspace_path: &Path) -> PathBuf {
         self.project_runtime_root(workspace_path).join("sessions")
     }
 
-    /// Get project plans directory: {project}/.openbitfun/plans/
+    /// Get project plans directory: {project}/.opcteam/plans/
     pub fn project_plans_dir(&self, workspace_path: &Path) -> PathBuf {
         self.project_root(workspace_path).join("plans")
     }
@@ -723,7 +723,7 @@ impl Default for PathManager {
                     e
                 );
                 Self {
-                    user_root: std::env::temp_dir().join("openbitfun"),
+                    user_root: std::env::temp_dir().join(data_namespace()),
                     product_home_override: Self::get_product_home_override(),
                     project_runtime_key_cache: Arc::new(Mutex::new(HashMap::new())),
                 }
@@ -741,7 +741,7 @@ impl PathManager {
             .unwrap_or_else(|| user_root.clone());
         Self {
             user_root,
-            product_home_override: Some(base.join("home").join(".openbitfun")),
+            product_home_override: Some(base.join("home").join(hidden_data_directory())),
             project_runtime_key_cache: Arc::new(Mutex::new(HashMap::new())),
         }
     }
@@ -823,7 +823,10 @@ pub fn try_get_path_manager_arc() -> OpenBitFunResult<Arc<PathManager>> {
 
 #[cfg(test)]
 mod tests {
-    use super::{GlobalPathManagerState, PathManager, LEGACY_REMOTE_RUNTIME_DIRECTORIES};
+    use super::{
+        hidden_data_directory, GlobalPathManagerState, PathManager,
+        LEGACY_REMOTE_RUNTIME_DIRECTORIES,
+    };
     use openbitfun_services_core::workspace_identity::{
         remote_workspace_runtime_key, remote_workspace_runtime_root,
     };
@@ -901,7 +904,7 @@ mod tests {
         assert_eq!(pm.user_plugins_dir(), pm.user_data_dir().join("plugins"));
         assert_eq!(
             pm.project_plugins_dir(workspace),
-            workspace.join(".openbitfun").join("plugins")
+            workspace.join(hidden_data_directory()).join("plugins")
         );
         assert_eq!(
             pm.project_plugin_trust_file(workspace),
@@ -1158,7 +1161,7 @@ mod tests {
 
         assert_eq!(
             pm.project_plans_dir(workspace),
-            workspace.join(".openbitfun").join("plans")
+            workspace.join(hidden_data_directory()).join("plans")
         );
     }
 

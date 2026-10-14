@@ -59,7 +59,7 @@ RUN --mount=type=cache,id=openbitfun-market-cargo-registry,target=/usr/local/car
 FROM debian:bookworm-slim AS runtime
 
 ARG MARKET_GIT_COMMIT=unknown
-LABEL org.opencontainers.image.title="OpenBitFun MiniApp Market" \
+LABEL org.opencontainers.image.title="OPC-Team MiniApp Market" \
       org.opencontainers.image.revision="${MARKET_GIT_COMMIT}"
 
 RUN apt-get update \

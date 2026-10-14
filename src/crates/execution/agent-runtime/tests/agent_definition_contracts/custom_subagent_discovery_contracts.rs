@@ -36,7 +36,10 @@ fn custom_subagent_discovery_preserves_openbitfun_priority_and_ignores_foreign_a
     let openbitfun_user = TestTempDir::new("openbitfun-runtime-subagent-user");
     let home = TestTempDir::new("openbitfun-runtime-subagent-home");
 
-    let project_openbitfun = workspace.path.join(".openbitfun").join("agents");
+    let project_openbitfun = workspace
+        .path
+        .join(openbitfun_core_types::product_identity::hidden_data_directory())
+        .join("agents");
     let project_claude = workspace.path.join(".claude").join("agents");
     let user_openbitfun = openbitfun_user.path.join("agents");
     let home_claude = home.path.join(".claude").join("agents");
@@ -50,7 +53,7 @@ fn custom_subagent_discovery_preserves_openbitfun_priority_and_ignores_foreign_a
         &project_openbitfun.join("shared.md"),
         "Shared",
         "Shared",
-        "Project OpenBitFun agent",
+        "Project OPC-Team agent",
         CustomSubagentKind::Project,
     );
     write_agent(
@@ -64,7 +67,7 @@ fn custom_subagent_discovery_preserves_openbitfun_priority_and_ignores_foreign_a
         &user_openbitfun.join("user-only.md"),
         "UserOnly",
         "UserOnly",
-        "OpenBitFun user agent",
+        "OPC-Team user agent",
         CustomSubagentKind::User,
     );
     write_agent(
@@ -115,7 +118,7 @@ fn custom_subagent_discovery_preserves_openbitfun_priority_and_ignores_foreign_a
     );
     assert_eq!(
         report.definitions[0].definition.description,
-        "Project OpenBitFun agent"
+        "Project OPC-Team agent"
     );
     assert_eq!(
         report.definitions[0].path,
@@ -126,7 +129,10 @@ fn custom_subagent_discovery_preserves_openbitfun_priority_and_ignores_foreign_a
 #[test]
 fn custom_subagent_discovery_reports_parse_errors_without_dropping_valid_files() {
     let workspace = TestTempDir::new("openbitfun-runtime-subagent-invalid");
-    let project_openbitfun = workspace.path.join(".openbitfun").join("agents");
+    let project_openbitfun = workspace
+        .path
+        .join(openbitfun_core_types::product_identity::hidden_data_directory())
+        .join("agents");
     fs::create_dir_all(&project_openbitfun).expect("project agents dir should be created");
     let broken_path = project_openbitfun.join("broken.md");
     fs::write(&broken_path, "No front matter").expect("broken markdown file should be written");

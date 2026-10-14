@@ -19,7 +19,7 @@ pub(crate) async fn dispatch(command: &str, args: Value) -> anyhow::Result<Value
         .ok_or_else(|| anyhow!("Unknown detached dispatch target command '{command}'"))?;
     let executable = discover_cli().ok_or_else(|| {
         anyhow!(
-            "OpenBitFun CLI dispatch runner is not installed on this device; install `openbitfun` in ~/.local/bin or PATH"
+            "OPC-Team CLI dispatch runner is not installed on this device; install `openbitfun` in ~/.local/bin or PATH"
         )
     })?;
     invoke_cli(&executable, verb, args).await

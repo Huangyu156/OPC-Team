@@ -119,8 +119,8 @@ fn set_inhibitor_enabled(
         if inhibitor.is_none() {
             let guard = keepawake::Builder::default()
                 .idle(true)
-                .reason("Prevent sleep is enabled in OpenBitFun")
-                .app_name("OpenBitFun")
+                .reason("Prevent sleep is enabled in OPC-Team")
+                .app_name("OPC-Team")
                 .app_reverse_domain("com.openbitfun.desktop")
                 .create()
                 .map_err(|error| {

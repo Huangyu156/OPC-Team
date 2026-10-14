@@ -13,6 +13,7 @@ use openbitfun_agent_runtime::skills::{
     PROJECT_SKILL_KEY_PREFIX, PROJECT_SKILL_ROOTS, USER_CONFIG_SKILL_ROOTS, USER_HOME_SKILL_ROOTS,
     USER_SKILL_KEY_PREFIX,
 };
+use openbitfun_core_types::product_identity::hidden_data_directory;
 
 fn builtin_skill(dir_name: &str) -> SkillInfo {
     SkillInfo {
@@ -23,7 +24,7 @@ fn builtin_skill(dir_name: &str) -> SkillInfo {
         level: SkillLocation::User,
         source_slot: "openbitfun-system".to_string(),
         source_id: "openbitfun".to_string(),
-        source_label: "OpenBitFun".to_string(),
+        source_label: "OPC-Team".to_string(),
         installation_source: None,
         import_origin: None,
         entry_file: None,
@@ -47,7 +48,7 @@ fn custom_user_skill(dir_name: &str) -> SkillInfo {
         level: SkillLocation::User,
         source_slot: "openbitfun".to_string(),
         source_id: "openbitfun".to_string(),
-        source_label: "OpenBitFun".to_string(),
+        source_label: "OPC-Team".to_string(),
         installation_source: None,
         import_origin: None,
         entry_file: None,
@@ -429,11 +430,11 @@ fn project_skill(dir_name: &str) -> SkillInfo {
         key: format!("project::openbitfun::{}", dir_name),
         name: dir_name.to_string(),
         description: String::new(),
-        path: format!("/workspace/.openbitfun/skills/{}", dir_name),
+        path: format!("/workspace/{}/skills/{}", hidden_data_directory(), dir_name),
         level: SkillLocation::Project,
         source_slot: "openbitfun".to_string(),
         source_id: "openbitfun".to_string(),
-        source_label: "OpenBitFun".to_string(),
+        source_label: "OPC-Team".to_string(),
         installation_source: None,
         import_origin: None,
         entry_file: None,
@@ -633,7 +634,12 @@ fn skill_discovery_root_facts_are_runtime_owned() {
     assert_eq!(
         project_roots,
         [
-            (".openbitfun", "openbitfun", "openbitfun", "OpenBitFun"),
+            (
+                hidden_data_directory(),
+                "openbitfun",
+                "openbitfun",
+                "OPC-Team",
+            ),
             (".claude", "claude", "claude-code", "Claude Code"),
             (".codex", "codex", "codex", "Codex"),
             (".cursor", "cursor", "cursor", "Cursor"),
@@ -676,14 +682,14 @@ fn skill_discovery_root_facts_are_runtime_owned() {
 fn skill_source_identity_is_serialized_without_changing_slot_identity() {
     let mut info = project_skill("pdf");
     info.source_id = "openbitfun".to_string();
-    info.source_label = "OpenBitFun".to_string();
+    info.source_label = "OPC-Team".to_string();
     info.allow_user_invocation = false;
     info.argument_hint = Some("[file]".to_string());
 
     let value = serde_json::to_value(info).expect("skill info should serialize");
     assert_eq!(value["sourceSlot"], "openbitfun");
     assert_eq!(value["sourceId"], "openbitfun");
-    assert_eq!(value["sourceLabel"], "OpenBitFun");
+    assert_eq!(value["sourceLabel"], "OPC-Team");
     assert_eq!(value["allowUserInvocation"], false);
     assert_eq!(value["argumentHint"], "[file]");
 }
@@ -822,7 +828,7 @@ description: Work with PDF files.
 Use the pdf workflow.
 "#;
     let mut data = SkillData::from_markdown(
-        "/workspace/.openbitfun/skills/pdf".to_string(),
+        format!("/workspace/{}/skills/pdf", hidden_data_directory()),
         markdown,
         SkillLocation::Project,
         true,
@@ -838,7 +844,10 @@ Use the pdf workflow.
 
     let assistant = render_loaded_skill_for_assistant(&data, false);
     assert!(assistant.contains("Skill 'pdf' loaded successfully."));
-    assert!(assistant.contains("relative to /workspace/.openbitfun/skills/pdf"));
+    assert!(assistant.contains(&format!(
+        "relative to /workspace/{}/skills/pdf",
+        hidden_data_directory()
+    )));
     assert!(assistant.contains("<skill_content>\nUse the pdf workflow.\n\n</skill_content>"));
     assert!(!assistant.contains("from stable key"));
 
@@ -1065,7 +1074,7 @@ Use the presentation workflow.
         data,
         "openbitfun-system",
         "openbitfun",
-        "OpenBitFun",
+        "OPC-Team",
         "user",
         10,
         true,

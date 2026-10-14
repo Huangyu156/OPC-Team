@@ -49,9 +49,9 @@ impl FeishuBot {
 
     fn enter_pairing_code_message(language: BotLanguage) -> &'static str {
         if language.is_chinese() {
-            "\u{8bf7}\u{8f93}\u{5165} OpenBitFun Desktop \u{4e2d}\u{663e}\u{793a}\u{7684} 6 \u{4f4d}\u{914d}\u{5bf9}\u{7801}\u{3002}"
+            "\u{8bf7}\u{8f93}\u{5165} OPC-Team Desktop \u{4e2d}\u{663e}\u{793a}\u{7684} 6 \u{4f4d}\u{914d}\u{5bf9}\u{7801}\u{3002}"
         } else {
-            "Please enter the 6-digit pairing code from OpenBitFun Desktop."
+            "Please enter the 6-digit pairing code from OPC-Team Desktop."
         }
     }
 

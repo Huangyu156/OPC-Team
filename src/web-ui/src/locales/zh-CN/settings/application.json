@@ -120,10 +120,10 @@
   "launchAtLogin": {
     "sections": {
       "title": "登录时启动",
-      "hint": "登录本用户后是否自动运行 OpenBitFun"
+      "hint": "登录本用户后是否自动运行 OPC-Team"
     },
     "toggleLabel": "登录时自动启动",
-    "toggleDescription": "当前用户登录系统后自动启动 OpenBitFun",
+    "toggleDescription": "当前用户登录系统后自动启动 OPC-Team",
     "messages": {
       "loading": "加载中…",
       "loadFailed": "无法读取登录启动设置",
@@ -133,10 +133,10 @@
   "preventSleep": {
     "sections": {
       "title": "电源",
-      "hint": "OpenBitFun 运行时的电脑睡眠行为"
+      "hint": "OPC-Team 运行时的电脑睡眠行为"
     },
     "toggleLabel": "阻止电脑睡眠",
-    "toggleDescription": "OpenBitFun 运行期间保持电脑唤醒，即使没有任务。显示器仍可关闭；手动睡眠和合盖行为由系统决定",
+    "toggleDescription": "OPC-Team 运行期间保持电脑唤醒，即使没有任务。显示器仍可关闭；手动睡眠和合盖行为由系统决定",
     "messages": {
       "loading": "加载中…",
       "loadFailed": "无法读取阻止睡眠设置",
@@ -179,11 +179,11 @@
     },
     "startupRecovery": {
       "title": "上次会话异常结束",
-      "message": "OpenBitFun 发现上次会话留下了崩溃报告。如需反馈问题，可以导出诊断包。"
+      "message": "OPC-Team 发现上次会话留下了崩溃报告。如需反馈问题，可以导出诊断包。"
     },
     "configRecovery": {
       "title": "配置已恢复",
-      "message": "OpenBitFun 已修复或隔离 {{count}} 个配置问题，应用得以继续启动。请检查模型设置后再继续使用。"
+      "message": "OPC-Team 已修复或隔离 {{count}} 个配置问题，应用得以继续启动。请检查模型设置后再继续使用。"
     },
     "levels": {
       "trace": "Trace",

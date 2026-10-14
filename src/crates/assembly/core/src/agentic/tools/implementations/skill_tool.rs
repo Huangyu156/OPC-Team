@@ -102,7 +102,7 @@ Important:
             && context.and_then(|c| c.ws_fs()).is_none()
         {
             section.push_str(
-                "\n\nRemote workspace note: Project-level skills on the server could not be indexed because workspace I/O is unavailable. Only user-level skills are shown; OpenBitFun will not fall back to scanning the remote path on the local filesystem.",
+                "\n\nRemote workspace note: Project-level skills on the server could not be indexed because workspace I/O is unavailable. Only user-level skills are shown; OPC-Team will not fall back to scanning the remote path on the local filesystem.",
             );
         }
         Some(section)
@@ -364,12 +364,20 @@ mod tests {
     use crate::agentic::WorkspaceBinding;
     use crate::service::remote_ssh::workspace_state::workspace_session_identity;
     use async_trait::async_trait;
+    use openbitfun_core_types::product_identity::hidden_data_directory;
     use serde_json::json;
     use std::fs;
     use std::path::PathBuf;
     use std::sync::Arc;
 
     struct FakeRemoteFs;
+
+    impl FakeRemoteFs {
+        /// Product project skills root as the runtime resolves it on the remote host.
+        fn skills_root() -> String {
+            format!("/remote/project/{}/skills", hidden_data_directory())
+        }
+    }
 
     #[async_trait]
     impl WorkspaceFileSystem for FakeRemoteFs {
@@ -378,7 +386,7 @@ mod tests {
         }
 
         async fn read_file_text(&self, path: &str) -> anyhow::Result<String> {
-            if path == "/remote/project/.openbitfun/skills/remote-only/SKILL.md" {
+            if path == format!("{}/remote-only/SKILL.md", Self::skills_root()) {
                 return Ok(r#"---
 name: remote-only-skill-for-test
 description: Remote project skill visible only through workspace services.
@@ -396,31 +404,27 @@ Use the remote project skill.
         }
 
         async fn exists(&self, path: &str) -> anyhow::Result<bool> {
-            Ok(matches!(
-                path,
-                "/remote/project/.openbitfun/skills"
-                    | "/remote/project/.openbitfun/skills/remote-only"
-                    | "/remote/project/.openbitfun/skills/remote-only/SKILL.md"
-            ))
+            let root = Self::skills_root();
+            Ok(path == root
+                || path == format!("{root}/remote-only")
+                || path == format!("{root}/remote-only/SKILL.md"))
         }
 
         async fn is_file(&self, path: &str) -> anyhow::Result<bool> {
-            Ok(path == "/remote/project/.openbitfun/skills/remote-only/SKILL.md")
+            Ok(path == format!("{}/remote-only/SKILL.md", Self::skills_root()))
         }
 
         async fn is_dir(&self, path: &str) -> anyhow::Result<bool> {
-            Ok(matches!(
-                path,
-                "/remote/project/.openbitfun/skills"
-                    | "/remote/project/.openbitfun/skills/remote-only"
-            ))
+            let root = Self::skills_root();
+            Ok(path == root || path == format!("{root}/remote-only"))
         }
 
         async fn read_dir(&self, path: &str) -> anyhow::Result<Vec<WorkspaceDirEntry>> {
-            if path == "/remote/project/.openbitfun/skills" {
+            let root = Self::skills_root();
+            if path == root {
                 return Ok(vec![WorkspaceDirEntry {
                     name: "remote-only".to_string(),
-                    path: "/remote/project/.openbitfun/skills/remote-only".to_string(),
+                    path: format!("{root}/remote-only"),
                     is_dir: true,
                     is_symlink: false,
                     modified: None,
@@ -453,6 +457,17 @@ Use the remote project skill.
         imported: bool,
     }
 
+    impl ClaudeRemoteFs {
+        fn claude_skills_root() -> String {
+            "/remote/project/.claude/skills".to_string()
+        }
+
+        /// Product project skills root as the runtime resolves it on the remote host.
+        fn product_skills_root() -> String {
+            format!("/remote/project/{}/skills", hidden_data_directory())
+        }
+    }
+
     #[async_trait]
     impl WorkspaceFileSystem for ClaudeRemoteFs {
         async fn read_file(&self, path: &str) -> anyhow::Result<Vec<u8>> {
@@ -460,9 +475,10 @@ Use the remote project skill.
         }
 
         async fn read_file_text(&self, path: &str) -> anyhow::Result<String> {
-            if path == "/remote/project/.claude/skills/remote-review/SKILL.md"
-                || (self.imported
-                    && path == "/remote/project/.openbitfun/skills/remote-review/SKILL.md")
+            let claude_root = Self::claude_skills_root();
+            let product_root = Self::product_skills_root();
+            if path == format!("{claude_root}/remote-review/SKILL.md")
+                || (self.imported && path == format!("{product_root}/remote-review/SKILL.md"))
             {
                 return Ok(
                     "---\ndescription: Review a remote target.\narguments: target focus\nmodel: opus\n---\n\nReview $target for $focus.\nContext: !`git diff`\n"
@@ -470,8 +486,7 @@ Use the remote project skill.
                 );
             }
             if self.imported
-                && path
-                    == "/remote/project/.openbitfun/skills/remote-review/.openbitfun-import.json"
+                && path == format!("{product_root}/remote-review/.openbitfun-import.json")
             {
                 return Ok(json!({ "schemaVersion": 1, "importId": "remote-import", "sourceKey": "project::claude::remote-review", "sourcePath": "/remote/project/.claude/skills/remote-review", "sourceId": "claude-code", "sourceLabel": "Claude Code", "sourceSlot": "claude", "fingerprint": "fixture" }).to_string());
             }
@@ -487,26 +502,28 @@ Use the remote project skill.
         }
 
         async fn is_file(&self, path: &str) -> anyhow::Result<bool> {
-            Ok(path == "/remote/project/.claude/skills/remote-review/SKILL.md" || (self.imported && matches!(path,
-                "/remote/project/.openbitfun/skills/remote-review/SKILL.md" | "/remote/project/.openbitfun/skills/remote-review/.openbitfun-import.json")))
+            let claude_root = Self::claude_skills_root();
+            let product_root = Self::product_skills_root();
+            Ok(path == format!("{claude_root}/remote-review/SKILL.md")
+                || (self.imported
+                    && (path == format!("{product_root}/remote-review/SKILL.md")
+                        || path
+                            == format!("{product_root}/remote-review/.openbitfun-import.json"))))
         }
 
         async fn is_dir(&self, path: &str) -> anyhow::Result<bool> {
-            Ok(matches!(
-                path,
-                "/remote/project/.claude/skills" | "/remote/project/.claude/skills/remote-review"
-            ) || (self.imported
-                && matches!(
-                    path,
-                    "/remote/project/.openbitfun/skills"
-                        | "/remote/project/.openbitfun/skills/remote-review"
-                )))
+            let claude_root = Self::claude_skills_root();
+            let product_root = Self::product_skills_root();
+            Ok(path == claude_root
+                || path == format!("{claude_root}/remote-review")
+                || (self.imported
+                    && (path == product_root || path == format!("{product_root}/remote-review"))))
         }
 
         async fn read_dir(&self, path: &str) -> anyhow::Result<Vec<WorkspaceDirEntry>> {
-            if path == "/remote/project/.claude/skills"
-                || (self.imported && path == "/remote/project/.openbitfun/skills")
-            {
+            let claude_root = Self::claude_skills_root();
+            let product_root = Self::product_skills_root();
+            if path == claude_root || (self.imported && path == product_root) {
                 return Ok(vec![WorkspaceDirEntry {
                     name: "remote-review".to_string(),
                     path: format!("{path}/remote-review"),
@@ -547,7 +564,7 @@ Use the remote project skill.
             .unwrap();
         crate::agentic::tools::implementations::skills::registry::imports::import_copy_as(
             source,
-            root.join(".openbitfun/skills"),
+            root.join(hidden_data_directory()).join("skills"),
             target_name.map(str::to_string),
         )
         .await
@@ -578,10 +595,13 @@ Use the remote project skill.
     async fn stable_key_loads_source_without_changing_original_name_resolution() {
         let temp = tempfile::tempdir().unwrap();
         for (directory, body) in [
-            (".openbitfun/skills/same", "default body"),
-            (".codex/skills/nested/same", "chosen body"),
+            (
+                format!("{}/skills/same", hidden_data_directory()),
+                "default body",
+            ),
+            (".codex/skills/nested/same".to_string(), "chosen body"),
         ] {
-            let path = temp.path().join(directory);
+            let path = temp.path().join(&directory);
             fs::create_dir_all(&path).unwrap();
             fs::write(
                 path.join("SKILL.md"),
@@ -714,13 +734,20 @@ Use the remote project skill.
                 .count(),
             7
         );
-        assert!(!temp.path().join(".openbitfun/skills").exists());
+        assert!(!temp
+            .path()
+            .join(hidden_data_directory())
+            .join("skills")
+            .exists());
     }
 
     #[tokio::test]
     async fn skill_call_expands_arguments_in_loaded_prompt() {
         let temp = tempfile::tempdir().expect("tempdir");
-        let skill_dir = temp.path().join(".openbitfun/skills/argument-skill");
+        let skill_dir = temp
+            .path()
+            .join(hidden_data_directory())
+            .join("skills/argument-skill");
         fs::create_dir_all(&skill_dir).expect("skill directory");
         fs::write(
             skill_dir.join("SKILL.md"),
@@ -787,7 +814,7 @@ Use the remote project skill.
         assert!(data.get("skill_display_name").is_none());
         assert_eq!(data["source_slot"], "openbitfun");
         assert_eq!(data["source_id"], "openbitfun");
-        assert_eq!(data["source_label"], "OpenBitFun");
+        assert_eq!(data["source_label"], "OPC-Team");
     }
 
     #[tokio::test]
@@ -830,7 +857,7 @@ Use the remote project skill.
             .await
             .expect("native DeepResearch should still allow explicit stable-key invocation");
         assert_eq!(loaded.name, "deep-research");
-        assert_eq!(loaded.source_label, "OpenBitFun");
+        assert_eq!(loaded.source_label, "OPC-Team");
     }
 
     #[tokio::test]
@@ -963,7 +990,7 @@ Use the remote project skill.
             .expect("remote Claude skill should load with the discovery dialect");
         assert_eq!(loaded.name, "remote-review");
         assert_eq!(loaded.source_id, "openbitfun");
-        assert_eq!(loaded.source_label, "OpenBitFun");
+        assert_eq!(loaded.source_label, "OPC-Team");
         assert_eq!(loaded.argument_names, ["target", "focus"]);
         assert_eq!(loaded.compatibility_warnings.len(), 2);
         assert!(loaded.content.contains("!`git diff`"));
@@ -1129,11 +1156,11 @@ Use the remote project skill.
         assert!(data["content"]
             .as_str()
             .unwrap_or_default()
-            .contains("# Create an OpenBitFun Agent"));
+            .contains("# Create an OPC-Team Agent"));
         let assistant = result_for_assistant.as_deref().unwrap_or_default();
         assert!(assistant.contains("<skill_content>\n"));
         assert!(assistant.contains("\n</skill_content>"));
-        assert!(assistant.contains("# Create an OpenBitFun Agent"));
+        assert!(assistant.contains("# Create an OPC-Team Agent"));
         assert!(!assistant.contains("from stable key"));
     }
 
@@ -1159,7 +1186,7 @@ Use the remote project skill.
                 &context,
             )
             .await
-            .expect("stable key should load OpenBitFun's built-in ppt-design skill");
+            .expect("stable key should load OPC-Team's built-in ppt-design skill");
 
         let ToolResult::Result {
             data,
@@ -1173,7 +1200,7 @@ Use the remote project skill.
         assert_eq!(data["skill_key"], "user::openbitfun-system::ppt-design");
         assert_eq!(data["source_slot"], "openbitfun-system");
         assert_eq!(data["source_id"], "openbitfun");
-        assert_eq!(data["source_label"], "OpenBitFun");
+        assert_eq!(data["source_label"], "OPC-Team");
         assert!(data["content"]
             .as_str()
             .unwrap_or_default()
@@ -1187,6 +1214,13 @@ Use the remote project skill.
 
     struct OrderingRemoteFs;
 
+    impl OrderingRemoteFs {
+        /// Product project skills root as the runtime resolves it on the remote host.
+        fn skills_root() -> String {
+            format!("/remote/project/{}/skills", hidden_data_directory())
+        }
+    }
+
     #[async_trait]
     impl WorkspaceFileSystem for OrderingRemoteFs {
         async fn read_file(&self, path: &str) -> anyhow::Result<Vec<u8>> {
@@ -1194,24 +1228,34 @@ Use the remote project skill.
         }
 
         async fn read_file_text(&self, path: &str) -> anyhow::Result<String> {
-            match path {
-                "/remote/project/.openbitfun/skills/z-last/SKILL.md" => {
-                    Ok("---\nname: z-last\ndescription: last\n---\n\nz\n".to_string())
+            let root = Self::skills_root();
+            for (relative, contents) in [
+                (
+                    "z-last/SKILL.md",
+                    "---\nname: z-last\ndescription: last\n---\n\nz\n",
+                ),
+                (
+                    "z-last/agents/openai.yaml",
+                    "policy:\n  allow_implicit_invocation: false\n",
+                ),
+                (
+                    "a-first/SKILL.md",
+                    "---\nname: A-First\ndescription: first\n---\n\na\n",
+                ),
+                (
+                    "dup-one/SKILL.md",
+                    "---\nname: dup\ndescription: dup one\n---\n\none\n",
+                ),
+                (
+                    "dup-two/SKILL.md",
+                    "---\nname: dup\ndescription: dup two\n---\n\ntwo\n",
+                ),
+            ] {
+                if path == format!("{root}/{relative}") {
+                    return Ok(contents.to_string());
                 }
-                "/remote/project/.openbitfun/skills/z-last/agents/openai.yaml" => {
-                    Ok("policy:\n  allow_implicit_invocation: false\n".to_string())
-                }
-                "/remote/project/.openbitfun/skills/a-first/SKILL.md" => {
-                    Ok("---\nname: A-First\ndescription: first\n---\n\na\n".to_string())
-                }
-                "/remote/project/.openbitfun/skills/dup-one/SKILL.md" => {
-                    Ok("---\nname: dup\ndescription: dup one\n---\n\none\n".to_string())
-                }
-                "/remote/project/.openbitfun/skills/dup-two/SKILL.md" => {
-                    Ok("---\nname: dup\ndescription: dup two\n---\n\ntwo\n".to_string())
-                }
-                _ => anyhow::bail!("not found: {}", path),
             }
+            anyhow::bail!("not found: {}", path)
         }
 
         async fn write_file(&self, _path: &str, _contents: &[u8]) -> anyhow::Result<()> {
@@ -1223,61 +1267,41 @@ Use the remote project skill.
         }
 
         async fn is_file(&self, path: &str) -> anyhow::Result<bool> {
-            Ok(matches!(
-                path,
-                "/remote/project/.openbitfun/skills/z-last/SKILL.md"
-                    | "/remote/project/.openbitfun/skills/z-last/agents/openai.yaml"
-                    | "/remote/project/.openbitfun/skills/a-first/SKILL.md"
-                    | "/remote/project/.openbitfun/skills/dup-one/SKILL.md"
-                    | "/remote/project/.openbitfun/skills/dup-two/SKILL.md"
-            ))
+            let root = Self::skills_root();
+            Ok([
+                "z-last/SKILL.md",
+                "z-last/agents/openai.yaml",
+                "a-first/SKILL.md",
+                "dup-one/SKILL.md",
+                "dup-two/SKILL.md",
+            ]
+            .iter()
+            .any(|relative| path == format!("{root}/{relative}")))
         }
 
         async fn is_dir(&self, path: &str) -> anyhow::Result<bool> {
-            Ok(matches!(
-                path,
-                "/remote/project/.openbitfun/skills"
-                    | "/remote/project/.openbitfun/skills/z-last"
-                    | "/remote/project/.openbitfun/skills/a-first"
-                    | "/remote/project/.openbitfun/skills/dup-one"
-                    | "/remote/project/.openbitfun/skills/dup-two"
-            ))
+            let root = Self::skills_root();
+            Ok(path == root
+                || ["z-last", "a-first", "dup-one", "dup-two"]
+                    .iter()
+                    .any(|name| path == format!("{root}/{name}")))
         }
 
         async fn read_dir(&self, path: &str) -> anyhow::Result<Vec<WorkspaceDirEntry>> {
-            match path {
-                "/remote/project/.openbitfun/skills" => Ok(vec![
-                    WorkspaceDirEntry {
-                        name: "z-last".to_string(),
-                        path: "/remote/project/.openbitfun/skills/z-last".to_string(),
-                        is_dir: true,
-                        is_symlink: false,
-                        modified: None,
-                    },
-                    WorkspaceDirEntry {
-                        name: "a-first".to_string(),
-                        path: "/remote/project/.openbitfun/skills/a-first".to_string(),
-                        is_dir: true,
-                        is_symlink: false,
-                        modified: None,
-                    },
-                    WorkspaceDirEntry {
-                        name: "dup-two".to_string(),
-                        path: "/remote/project/.openbitfun/skills/dup-two".to_string(),
-                        is_dir: true,
-                        is_symlink: false,
-                        modified: None,
-                    },
-                    WorkspaceDirEntry {
-                        name: "dup-one".to_string(),
-                        path: "/remote/project/.openbitfun/skills/dup-one".to_string(),
-                        is_dir: true,
-                        is_symlink: false,
-                        modified: None,
-                    },
-                ]),
-                _ => Ok(vec![]),
+            let root = Self::skills_root();
+            if path != root {
+                return Ok(vec![]);
             }
+            Ok(["z-last", "a-first", "dup-two", "dup-one"]
+                .iter()
+                .map(|name| WorkspaceDirEntry {
+                    name: (*name).to_string(),
+                    path: format!("{root}/{name}"),
+                    is_dir: true,
+                    is_symlink: false,
+                    modified: None,
+                })
+                .collect())
         }
     }
 

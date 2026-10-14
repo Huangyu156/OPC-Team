@@ -33,11 +33,11 @@ const MAX_TOOL_RESULT_BYTES: usize = 16 * 1024;
 const MAX_SPOKEN_PROGRESS_CHARS: usize = 600;
 const MAX_CLIENT_CONTEXT_CHARS: usize = 16 * 1024;
 
-const OPENBITFUN_VOICE_INSTRUCTIONS: &str = r#"You are the voice interface of the OpenBitFun conversation identified by voice_call_target. Reply naturally and concisely in the user's language. Text and voice share that conversation's persistent public history. The call stays bound to this conversation even when the user switches tabs. kind=control is the product-control Agent; kind=session uses the existing session's Agent; kind=miniapp uses that MiniApp's domain workflow.
+const OPENBITFUN_VOICE_INSTRUCTIONS: &str = r#"You are the voice interface of the OPC-Team conversation identified by voice_call_target. Reply naturally and concisely in the user's language. Text and voice share that conversation's persistent public history. The call stays bound to this conversation even when the user switches tabs. kind=control is the product-control Agent; kind=session uses the existing session's Agent; kind=miniapp uses that MiniApp's domain workflow.
 
 Use get_openbitfun_client_context before answering references to earlier conversation, new text messages, client state, open workspaces, visible sessions or running tasks. Its history is a bounded snapshot of public user and assistant text, not the complete history; when history_truncated is true, ask the bound Agent to inspect earlier context instead of guessing. Never guess a resource id. Use switch_openbitfun_workspace for navigation-only requests. For work or product actions, call run_openbitfun_task. With kind=control or kind=session this continues the bound Agent using the user's final transcript and its full canonical context; workspace_id does not retarget that conversation. With kind=miniapp, omit workspace_id for MiniApp work. An explicit workspace_id overrides only MiniApp routing and starts a normal workspace task. Without a bound target, select the intended opened workspace. Set activate_workspace=true for a requested foreground workspace task and false for explicit background work. Keep acknowledgements brief; do not invent results.
 
-If the user asks to stop, cancel, abort, or interrupt the OpenBitFun task currently running through this client voice assistant, call stop_openbitfun_task immediately. A stop request is a control operation, not a new task: never pass it to run_openbitfun_task and never claim the task stopped before the stop_openbitfun_task result confirms it. Do not claim that work is complete before the tool result arrives. OpenBitFun will speak brief public progress summaries while the Agent task is running; do not expose private reasoning, raw logs, or tool payloads. OpenBitFun also speaks a concise final outcome itself. When a task tool result contains outcome_spoken=true, do not repeat that outcome; wait for the user's next request. If outcome_spoken is false or absent, summarize the outcome clearly and mention any user action still required. Never invent client state or task results."#;
+If the user asks to stop, cancel, abort, or interrupt the OPC-Team task currently running through this client voice assistant, call stop_openbitfun_task immediately. A stop request is a control operation, not a new task: never pass it to run_openbitfun_task and never claim the task stopped before the stop_openbitfun_task result confirms it. Do not claim that work is complete before the tool result arrives. OPC-Team will speak brief public progress summaries while the Agent task is running; do not expose private reasoning, raw logs, or tool payloads. OPC-Team also speaks a concise final outcome itself. When a task tool result contains outcome_spoken=true, do not repeat that outcome; wait for the user's next request. If outcome_spoken is false or absent, summarize the outcome clearly and mention any user action still required. Never invent client state or task results."#;
 
 #[derive(Debug, Clone)]
 pub struct VolcengineRealtimeSpeechConfig {
@@ -607,7 +607,7 @@ fn session_create_payload(
             //
             // This is the provider-hosted Voice model's client control-plane
             // tool list. It is intentionally independent from the tool registry
-            // assembled for a normal OpenBitFun Agent session. In particular,
+            // assembled for a normal OPC-Team Agent session. In particular,
             // `run_openbitfun_task` delegates one complete user intent either to a
             // newly created workspace Agent session or, when the call target
             // says so, through an Agentic MiniApp's existing chat contract.
@@ -640,7 +640,7 @@ fn session_create_payload(
                 {
                     "type": "function",
                     "name": "switch_openbitfun_workspace",
-                    "description": "Activate one currently opened OpenBitFun workspace in the client. Obtain the exact workspace_id from get_openbitfun_client_context and never guess it.",
+                    "description": "Activate one currently opened OPC-Team workspace in the client. Obtain the exact workspace_id from get_openbitfun_client_context and never guess it.",
                     "parameters": {
                         "type": "object",
                         "additionalProperties": false,
@@ -663,7 +663,7 @@ fn session_create_payload(
                         "properties": {
                             "task": {
                                 "type": "string",
-                                "description": "A complete standalone description of the work OpenBitFun should perform."
+                                "description": "A complete standalone description of the work OPC-Team should perform."
                             },
                             "workspace_id": {
                                 "type": "string",
@@ -680,7 +680,7 @@ fn session_create_payload(
                 {
                     "type": "function",
                     "name": "stop_openbitfun_task",
-                    "description": "Stop the OpenBitFun Agent task currently owned by this client-level voice assistant. Use this for any user request to stop, cancel, abort, or interrupt the current task.",
+                    "description": "Stop the OPC-Team Agent task currently owned by this client-level voice assistant. Use this for any user request to stop, cancel, abort, or interrupt the current task.",
                     "parameters": {
                         "type": "object",
                         "additionalProperties": false,

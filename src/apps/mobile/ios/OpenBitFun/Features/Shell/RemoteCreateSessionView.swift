@@ -197,7 +197,7 @@ struct RemoteCreateSessionView: View {
             TextField(
                 "",
                 text: $instruction,
-                prompt: Text(model.localized(speech.isListening ? "正在聆听" : "告诉 OpenBitFun 要做什么"))
+                prompt: Text(model.localized(speech.isListening ? "正在聆听" : "告诉 OPC-Team 要做什么"))
                     .foregroundColor(speech.isListening ? OpenBitFunTheme.statusSuccess : OpenBitFunTheme.muted),
                 axis: .vertical
             )

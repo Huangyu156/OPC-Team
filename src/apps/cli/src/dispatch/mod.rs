@@ -387,7 +387,7 @@ async fn query_in_store(
                 bail!("usageReport does not accept a filePath");
             }
             let path_manager = openbitfun_core::infrastructure::PathManager::new()
-                .map_err(|error| anyhow::anyhow!("resolve OpenBitFun storage root: {error}"))?;
+                .map_err(|error| anyhow::anyhow!("resolve OPC-Team storage root: {error}"))?;
             let token_usage = openbitfun_core::service::token_usage::TokenUsageService::for_queries(
                 &path_manager,
             );

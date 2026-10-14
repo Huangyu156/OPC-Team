@@ -1,11 +1,11 @@
 {
   "schemaVersion": 5,
-  "product": "OpenBitFun",
-  "title": "OpenBitFun Playbook",
+  "product": "OPC-Team",
+  "title": "OPC-Team Playbook",
   "origin": "https://playbook.openbitfun.com",
   "source": "src/shared/interactive-capabilities/catalog.json",
-  "digest": "dcea667ca017ed22790f12c28d5ccd4011314fca16d7e2ce9fc9cf87ff283825",
-  "ownerDigest": "c989ace53614c2a526fefe64816fdd6895ec71edcc28f44b6f80d1edb75bb33e",
+  "digest": "02844ee40fe0d16b8b6a1cc7f2c6c78b04a25a70a7b4c70848db5ffc5072db58",
+  "ownerDigest": "5dbb3c6847cc2dfb5ffdf3d48683be1700d73df583a649cea5d86cb281688d71",
   "searchAcceptance": [
     {
       "id": "companion-pet-mixed",
@@ -12042,7 +12042,7 @@
             "type": "string"
           },
           "packagePath": {
-            "description": "Imported OpenBitFun pet-package directory.",
+            "description": "Imported OPC-Team pet-package directory.",
             "minLength": 1,
             "type": "string"
           }
@@ -19412,13 +19412,13 @@
         "创建、归档、恢复和分叉会话",
         "暂停、继续或引导正在运行的任务",
         "查看工具调用、权限请求和用量",
-        "用创造模式安全定制正在运行的 OpenBitFun 前端"
+        "用创造模式安全定制正在运行的 OPC-Team 前端"
       ],
       "highlightsEn": [
         "Create, archive, restore, and fork sessions",
         "Pause, continue, or steer running work",
         "Inspect tool calls, permission requests, and usage",
-        "Safely customize the running OpenBitFun frontend in Creative mode"
+        "Safely customize the running OPC-Team frontend in Creative mode"
       ],
       "items": [
         {
@@ -19621,11 +19621,11 @@
               "AskUserQuestion"
             ],
             "workflowZh": [
-              "复杂任务用 TodoWrite 维护当前进度；正式计划产物通过 Write 写入项目的 .openbitfun/plans 目录",
+              "复杂任务用 TodoWrite 维护当前进度；正式计划产物通过 Write 写入项目的 .opcteam/plans 目录",
               "缺少会改变结果的用户选择时用 AskUserQuestion；能从仓库或当前上下文查明的信息不重复询问"
             ],
             "workflowEn": [
-              "Use TodoWrite to maintain progress for complex work; create formal plan artifacts with Write under the project's .openbitfun/plans directory",
+              "Use TodoWrite to maintain progress for complex work; create formal plan artifacts with Write under the project's .opcteam/plans directory",
               "Use AskUserQuestion only for a missing choice that changes the outcome; do not ask again for facts available from the repository or current context"
             ]
           }
@@ -19667,12 +19667,12 @@
       "stepsZh": [
         "打开 AI 助手或新建会话",
         "选择项目、模型和工作模式",
-        "描述目标；OpenBitFun 会在会话中持续记录进度"
+        "描述目标；OPC-Team 会在会话中持续记录进度"
       ],
       "stepsEn": [
         "Open the AI assistant or create a session",
         "Choose a project, model, and working mode",
-        "Describe the goal; OpenBitFun keeps progress in the session"
+        "Describe the goal; OPC-Team keeps progress in the session"
       ],
       "agentExamplesZh": [
         "新建一个会话，我们来排查这个构建错误",
@@ -19732,11 +19732,11 @@
         "创建、归档、恢复和分叉会话",
         "暂停、继续或引导正在运行的任务",
         "查看工具调用、权限请求和用量",
-        "用创造模式安全定制正在运行的 OpenBitFun 前端",
+        "用创造模式安全定制正在运行的 OPC-Team 前端",
         "Create, archive, restore, and fork sessions",
         "Pause, continue, or steer running work",
         "Inspect tool calls, permission requests, and usage",
-        "Safely customize the running OpenBitFun frontend in Creative mode",
+        "Safely customize the running OPC-Team frontend in Creative mode",
         "打开并新建一个 AI 会话",
         "Open and create a new AI session",
         "重命名、归档、恢复、删除、复制、分叉与导出会话",
@@ -19807,9 +19807,9 @@
         "Use update_goal complete only after the objective is achieved, and blocked only after the repeated-blocker threshold is genuinely met",
         "TodoWrite",
         "AskUserQuestion",
-        "复杂任务用 TodoWrite 维护当前进度；正式计划产物通过 Write 写入项目的 .openbitfun/plans 目录",
+        "复杂任务用 TodoWrite 维护当前进度；正式计划产物通过 Write 写入项目的 .opcteam/plans 目录",
         "缺少会改变结果的用户选择时用 AskUserQuestion；能从仓库或当前上下文查明的信息不重复询问",
-        "Use TodoWrite to maintain progress for complex work; create formal plan artifacts with Write under the project's .openbitfun/plans directory",
+        "Use TodoWrite to maintain progress for complex work; create formal plan artifacts with Write under the project's .opcteam/plans directory",
         "Use AskUserQuestion only for a missing choice that changes the outcome; do not ask again for facts available from the repository or current context"
       ],
       "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.ai-assistant/"
@@ -20606,11 +20606,11 @@
             ],
             "workflowZh": [
               "先用 Read 读取当前内容，再根据改动范围选择 Edit 精确替换或 Write 创建/完整写入文件",
-              "文件工具沿用 OpenBitFun 的工作区、权限与变更快照语义；写入后重新读取或查看差异确认结果"
+              "文件工具沿用 OPC-Team 的工作区、权限与变更快照语义；写入后重新读取或查看差异确认结果"
             ],
             "workflowEn": [
               "Read the current content first, then use Edit for exact replacements or Write for creation/full rewrites",
-              "The file tools preserve OpenBitFun workspace, permission, and change-snapshot semantics; read back or inspect the diff after writing"
+              "The file tools preserve OPC-Team workspace, permission, and change-snapshot semantics; read back or inspect the diff after writing"
             ]
           }
         },
@@ -20791,9 +20791,9 @@
         "Use Glob for path or filename patterns, then Grep for text, regular expressions, and surrounding context",
         "Both tools use the current session workspace data plane and never silently fall back to local paths for a remote workspace",
         "先用 Read 读取当前内容，再根据改动范围选择 Edit 精确替换或 Write 创建/完整写入文件",
-        "文件工具沿用 OpenBitFun 的工作区、权限与变更快照语义；写入后重新读取或查看差异确认结果",
+        "文件工具沿用 OPC-Team 的工作区、权限与变更快照语义；写入后重新读取或查看差异确认结果",
         "Read the current content first, then use Edit for exact replacements or Write for creation/full rewrites",
-        "The file tools preserve OpenBitFun workspace, permission, and change-snapshot semantics; read back or inspect the diff after writing",
+        "The file tools preserve OPC-Team workspace, permission, and change-snapshot semantics; read back or inspect the diff after writing",
         "GetFileDiff",
         "若 GetFileDiff 是延迟工具，先用 GetToolSpec 加载它的当前契约",
         "按工作区、会话或目标文件读取差异，并在页面或快照变化后重新获取最新结果",
@@ -21595,8 +21595,8 @@
       "categoryId": "workspace",
       "titleZh": "内置浏览器",
       "titleEn": "Built-in browser",
-      "summaryZh": "在 OpenBitFun 内打开网页和本地服务；智能体可直接读取页面、选择元素并点击、填写、滚动或截图。",
-      "summaryEn": "Open webpages and local services inside OpenBitFun, where an agent can inspect the page and select, click, fill, scroll, or capture elements directly.",
+      "summaryZh": "在 OPC-Team 内打开网页和本地服务；智能体可直接读取页面、选择元素并点击、填写、滚动或截图。",
+      "summaryEn": "Open webpages and local services inside OPC-Team, where an agent can inspect the page and select, click, fill, scroll, or capture elements directly.",
       "keywordsZh": [
         "浏览器",
         "网页",
@@ -21636,8 +21636,8 @@
       "items": [
         {
           "id": "open-urls",
-          "titleZh": "输入完整网址、本地域名或开发服务端口并在 OpenBitFun 内打开",
-          "titleEn": "Open full URLs, local hostnames, or development-service ports inside OpenBitFun",
+          "titleZh": "输入完整网址、本地域名或开发服务端口并在 OPC-Team 内打开",
+          "titleEn": "Open full URLs, local hostnames, or development-service ports inside OPC-Team",
           "control": {
             "kind": "delegate",
             "tools": [
@@ -21957,8 +21957,8 @@
         "Let an agent inspect and operate the built-in page",
         "Share one action contract with external CDP browsers",
         "Keep the page beside a session",
-        "输入完整网址、本地域名或开发服务端口并在 OpenBitFun 内打开",
-        "Open full URLs, local hostnames, or development-service ports inside OpenBitFun",
+        "输入完整网址、本地域名或开发服务端口并在 OPC-Team 内打开",
+        "Open full URLs, local hostnames, or development-service ports inside OPC-Team",
         "让智能体搜索网页并按需读取指定页面正文",
         "Let an agent search the web and fetch selected page content on demand",
         "使用后退、前进和地址栏浏览页面历史",
@@ -22509,8 +22509,8 @@
       "categoryId": "automation",
       "titleZh": "Mini Apps 小应用",
       "titleEn": "Mini Apps",
-      "summaryZh": "在 OpenBitFun 内安装、创建和运行轻量应用，让界面、数据与智能体工作流组合在一起。",
-      "summaryEn": "Install, create, and run lightweight apps inside OpenBitFun, combining UI, data, and agent workflows.",
+      "summaryZh": "在 OPC-Team 内安装、创建和运行轻量应用，让界面、数据与智能体工作流组合在一起。",
+      "summaryEn": "Install, create, and run lightweight apps inside OPC-Team, combining UI, data, and agent workflows.",
       "keywordsZh": [
         "Mini App",
         "小应用",
@@ -24175,8 +24175,8 @@
       "categoryId": "connect",
       "titleZh": "Remote Connect 与多设备",
       "titleEn": "Remote Connect & devices",
-      "summaryZh": "从手机、Bot 或另一台 OpenBitFun 设备连接当前主机，远程查看会话、回答权限并继续工作。",
-      "summaryEn": "Connect to this host from mobile, a bot, or another OpenBitFun device to inspect sessions, answer permissions, and continue work remotely.",
+      "summaryZh": "从手机、Bot 或另一台 OPC-Team 设备连接当前主机，远程查看会话、回答权限并继续工作。",
+      "summaryEn": "Connect to this host from mobile, a bot, or another OPC-Team device to inspect sessions, answer permissions, and continue work remotely.",
       "keywordsZh": [
         "Remote Connect",
         "远程控制",
@@ -24278,13 +24278,13 @@
         },
         {
           "id": "peer-device",
-          "titleZh": "进入 Peer Device Mode，把另一台 OpenBitFun 设备作为命令与事件数据面",
-          "titleEn": "Enter Peer Device Mode and use another OpenBitFun device as the command and event data plane",
+          "titleZh": "进入 Peer Device Mode，把另一台 OPC-Team 设备作为命令与事件数据面",
+          "titleEn": "Enter Peer Device Mode and use another OPC-Team device as the command and event data plane",
           "control": {
             "kind": "open",
             "reasonCode": "unstructuredInteraction",
-            "reasonZh": "“进入 Peer Device Mode，把另一台 OpenBitFun 设备作为命令与事件数据面”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
-            "reasonEn": "“Enter Peer Device Mode and use another OpenBitFun device as the command and event data plane” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
+            "reasonZh": "“进入 Peer Device Mode，把另一台 OPC-Team 设备作为命令与事件数据面”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
+            "reasonEn": "“Enter Peer Device Mode and use another OPC-Team device as the command and event data plane” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
           }
         }
       ],
@@ -24354,8 +24354,8 @@
         "Sign in with GitHub, sign out, and inspect identity status",
         "列出、连接、查看设备型号与系统、设置别名和删除同账户设备",
         "List, connect, inspect model and OS, set aliases, and remove same-account devices",
-        "进入 Peer Device Mode，把另一台 OpenBitFun 设备作为命令与事件数据面",
-        "Enter Peer Device Mode and use another OpenBitFun device as the command and event data plane",
+        "进入 Peer Device Mode，把另一台 OPC-Team 设备作为命令与事件数据面",
+        "Enter Peer Device Mode and use another OPC-Team device as the command and event data plane",
         "打开 Remote Connect",
         "我想配置手机远程控制",
         "带我管理已连接设备",
@@ -24371,8 +24371,8 @@
       "categoryId": "connect",
       "titleZh": "Detached Dispatch 远程派发",
       "titleEn": "Detached Dispatch",
-      "summaryZh": "把可持续运行的任务派发到另一台 OpenBitFun 主机；控制端可以断开，目标主机继续执行并保留记录。",
-      "summaryEn": "Dispatch durable work to another OpenBitFun host; the controller may disconnect while the target continues and keeps the record.",
+      "summaryZh": "把可持续运行的任务派发到另一台 OPC-Team 主机；控制端可以断开，目标主机继续执行并保留记录。",
+      "summaryEn": "Dispatch durable work to another OPC-Team host; the controller may disconnect while the target continues and keeps the record.",
       "keywordsZh": [
         "派发任务",
         "Detached Dispatch",
@@ -24411,13 +24411,13 @@
         },
         {
           "id": "provision",
-          "titleZh": "为目标主机配置运行环境并安装或更新 OpenBitFun CLI",
-          "titleEn": "Provision the target runtime and install or update the OpenBitFun CLI",
+          "titleZh": "为目标主机配置运行环境并安装或更新 OPC-Team CLI",
+          "titleEn": "Provision the target runtime and install or update the OPC-Team CLI",
           "control": {
             "kind": "open",
             "reasonCode": "unstructuredInteraction",
-            "reasonZh": "“为目标主机配置运行环境并安装或更新 OpenBitFun CLI”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
-            "reasonEn": "“Provision the target runtime and install or update the OpenBitFun CLI” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
+            "reasonZh": "“为目标主机配置运行环境并安装或更新 OPC-Team CLI”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
+            "reasonEn": "“Provision the target runtime and install or update the OPC-Team CLI” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
           }
         },
         {
@@ -24537,8 +24537,8 @@
         "Reload events and execution history after reconnecting",
         "列出可派发目标并探测版本、连接和运行能力",
         "List dispatch targets and probe their version, connectivity, and runtime capabilities",
-        "为目标主机配置运行环境并安装或更新 OpenBitFun CLI",
-        "Provision the target runtime and install or update the OpenBitFun CLI",
+        "为目标主机配置运行环境并安装或更新 OPC-Team CLI",
+        "Provision the target runtime and install or update the OPC-Team CLI",
         "在提交任务前同步目标所需的模型配置",
         "Synchronize required model configuration before submitting a job",
         "把包含工作区、会话、模型和权限策略的持久任务提交到目标",
@@ -25248,8 +25248,8 @@
         },
         {
           "id": "launch-at-login",
-          "titleZh": "控制 OpenBitFun 是否在登录系统后自动启动",
-          "titleEn": "Choose whether OpenBitFun launches automatically after system sign-in",
+          "titleZh": "控制 OPC-Team 是否在登录系统后自动启动",
+          "titleEn": "Choose whether OPC-Team launches automatically after system sign-in",
           "control": {
             "kind": "direct",
             "operations": [],
@@ -25262,8 +25262,8 @@
         },
         {
           "id": "prevent-sleep",
-          "titleZh": "控制 OpenBitFun 运行期间是否阻止电脑自动睡眠",
-          "titleEn": "Choose whether OpenBitFun prevents the computer from sleeping while it runs",
+          "titleZh": "控制 OPC-Team 运行期间是否阻止电脑自动睡眠",
+          "titleEn": "Choose whether OPC-Team prevents the computer from sleeping while it runs",
           "control": {
             "kind": "direct",
             "operations": [],
@@ -25336,8 +25336,8 @@
           "id": "launch-at-login",
           "titleZh": "登录后自动启动",
           "titleEn": "Launch at login",
-          "descriptionZh": "在当前桌面系统登录后自动启动 OpenBitFun。",
-          "descriptionEn": "Launch OpenBitFun automatically after signing in to this desktop system.",
+          "descriptionZh": "在当前桌面系统登录后自动启动 OPC-Team。",
+          "descriptionEn": "Launch OPC-Team automatically after signing in to this desktop system.",
           "valueSchema": {
             "type": "boolean"
           },
@@ -25351,8 +25351,8 @@
           "id": "prevent-sleep",
           "titleZh": "阻止系统睡眠",
           "titleEn": "Prevent system sleep",
-          "descriptionZh": "在 OpenBitFun 运行期间持有本机睡眠抑制器。",
-          "descriptionEn": "Hold a local sleep inhibitor while OpenBitFun is running.",
+          "descriptionZh": "在 OPC-Team 运行期间持有本机睡眠抑制器。",
+          "descriptionEn": "Hold a local sleep inhibitor while OPC-Team is running.",
           "valueSchema": {
             "type": "boolean"
           },
@@ -25451,10 +25451,10 @@
         "Enable or disable automatic update checks",
         "手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装",
         "Check and download updates in the background, then confirm installation and restart or install later from About",
-        "控制 OpenBitFun 是否在登录系统后自动启动",
-        "Choose whether OpenBitFun launches automatically after system sign-in",
-        "控制 OpenBitFun 运行期间是否阻止电脑自动睡眠",
-        "Choose whether OpenBitFun prevents the computer from sleeping while it runs",
+        "控制 OPC-Team 是否在登录系统后自动启动",
+        "Choose whether OPC-Team launches automatically after system sign-in",
+        "控制 OPC-Team 运行期间是否阻止电脑自动睡眠",
+        "Choose whether OPC-Team prevents the computer from sleeping while it runs",
         "选择关闭主窗口时退出、最小化到托盘或每次询问",
         "Choose whether closing the main window quits, minimizes to tray, or asks each time",
         "分别控制任务完成和权限请求通知",
@@ -25638,8 +25638,8 @@
           "id": "theme",
           "titleZh": "主题",
           "titleEn": "Theme",
-          "descriptionZh": "使用系统、OpenBitFun 深色或 OpenBitFun 浅色外观。",
-          "descriptionEn": "Use the system, OpenBitFun dark, or OpenBitFun light appearance.",
+          "descriptionZh": "使用系统、OPC-Team 深色或 OPC-Team 浅色外观。",
+          "descriptionEn": "Use the system, OPC-Team dark, or OPC-Team light appearance.",
           "valueSchema": {
             "type": "string",
             "enum": [
@@ -25663,8 +25663,8 @@
           "id": "language",
           "titleZh": "界面语言",
           "titleEn": "Interface language",
-          "descriptionZh": "设置 OpenBitFun 的界面语言。",
-          "descriptionEn": "Set the OpenBitFun interface language.",
+          "descriptionZh": "设置 OPC-Team 的界面语言。",
+          "descriptionEn": "Set the OPC-Team interface language.",
           "valueSchema": {
             "type": "string",
             "enum": [
@@ -25830,11 +25830,11 @@
       ],
       "agentExamplesZh": [
         "关闭桌面伙伴",
-        "让 OpenBitFun 使用 /path/to/pet 里的萌宠"
+        "让 OPC-Team 使用 /path/to/pet 里的萌宠"
       ],
       "agentExamplesEn": [
         "Turn off the desktop companion",
-        "Make OpenBitFun use the pet at /path/to/pet"
+        "Make OPC-Team use the pet at /path/to/pet"
       ],
       "destination": {
         "kind": "settings",
@@ -25845,8 +25845,8 @@
           "id": "list-pets",
           "titleZh": "列出可用萌宠",
           "titleEn": "List available pets",
-          "descriptionZh": "读取当前角色以及 OpenBitFun 已导入的 Petdex 角色。",
-          "descriptionEn": "Read the active character and Petdex characters imported into OpenBitFun.",
+          "descriptionZh": "读取当前角色以及 OPC-Team 已导入的 Petdex 角色。",
+          "descriptionEn": "Read the active character and Petdex characters imported into OPC-Team.",
           "risk": "read",
           "inputSchema": {
             "additionalProperties": false,
@@ -25906,8 +25906,8 @@
           "id": "delete-pet",
           "titleZh": "删除已导入萌宠",
           "titleEn": "Delete an imported pet",
-          "descriptionZh": "按角色 ID 或 OpenBitFun 包目录删除已导入角色；若正在使用则安全回退到默认角色。",
-          "descriptionEn": "Delete an imported character by ID or OpenBitFun package path, safely falling back when it is active.",
+          "descriptionZh": "按角色 ID 或 OPC-Team 包目录删除已导入角色；若正在使用则安全回退到默认角色。",
+          "descriptionEn": "Delete an imported character by ID or OPC-Team package path, safely falling back when it is active.",
           "risk": "destructive",
           "inputSchema": {
             "additionalProperties": false,
@@ -25930,7 +25930,7 @@
                 "type": "string"
               },
               "packagePath": {
-                "description": "Imported OpenBitFun pet-package directory.",
+                "description": "Imported OPC-Team pet-package directory.",
                 "minLength": 1,
                 "type": "string"
               }
@@ -25993,9 +25993,9 @@
         "刷新角色列表并删除不再需要的导入包",
         "Refresh the character list and delete imported packages you no longer need",
         "关闭桌面伙伴",
-        "让 OpenBitFun 使用 /path/to/pet 里的萌宠",
+        "让 OPC-Team 使用 /path/to/pet 里的萌宠",
         "Turn off the desktop companion",
-        "Make OpenBitFun use the pet at /path/to/pet"
+        "Make OPC-Team use the pet at /path/to/pet"
       ],
       "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.pet/"
     },
@@ -27347,8 +27347,8 @@
       "categoryId": "assistant",
       "titleZh": "记忆设置",
       "titleEn": "Memory settings",
-      "summaryZh": "控制 OpenBitFun 是否从会话中提取和使用长期记忆，以及保留、整理和模型策略。",
-      "summaryEn": "Control whether OpenBitFun extracts and uses long-term memory from sessions, including retention, consolidation, and model policy.",
+      "summaryZh": "控制 OPC-Team 是否从会话中提取和使用长期记忆，以及保留、整理和模型策略。",
+      "summaryEn": "Control whether OPC-Team extracts and uses long-term memory from sessions, including retention, consolidation, and model policy.",
       "keywordsZh": [
         "记忆设置",
         "长期记忆",
@@ -28161,8 +28161,8 @@
           "id": "worktree-root-path",
           "titleZh": "受管 Worktree 根目录",
           "titleEn": "Managed-worktree root",
-          "descriptionZh": "设置 OpenBitFun 创建受管 Worktree 的统一根目录。",
-          "descriptionEn": "Set the common root where OpenBitFun creates managed worktrees.",
+          "descriptionZh": "设置 OPC-Team 创建受管 Worktree 的统一根目录。",
+          "descriptionEn": "Set the common root where OPC-Team creates managed worktrees.",
           "valueSchema": {
             "type": "string",
             "minLength": 1,
@@ -28207,8 +28207,8 @@
           "id": "worktree-auto-delete-enabled",
           "titleZh": "自动清理 Worktree",
           "titleEn": "Automatic worktree cleanup",
-          "descriptionZh": "允许 OpenBitFun 自动清理超过保留上限的受管 Worktree。",
-          "descriptionEn": "Allow OpenBitFun to prune managed worktrees beyond the retention limit.",
+          "descriptionZh": "允许 OPC-Team 自动清理超过保留上限的受管 Worktree。",
+          "descriptionEn": "Allow OPC-Team to prune managed worktrees beyond the retention limit.",
           "valueSchema": {
             "type": "boolean"
           },
@@ -28496,8 +28496,8 @@
         },
         {
           "id": "browser-auto-connect",
-          "titleZh": "控制 OpenBitFun 启动时是否自动连接浏览器",
-          "titleEn": "Choose whether OpenBitFun reconnects browser control at startup",
+          "titleZh": "控制 OPC-Team 启动时是否自动连接浏览器",
+          "titleEn": "Choose whether OPC-Team reconnects browser control at startup",
           "control": {
             "kind": "direct",
             "operations": [],
@@ -28678,8 +28678,8 @@
           "id": "browser-auto-connect",
           "titleZh": "启动时连接浏览器",
           "titleEn": "Connect browser on startup",
-          "descriptionZh": "OpenBitFun 启动后自动尝试连接浏览器控制。",
-          "descriptionEn": "Automatically try to connect browser control after OpenBitFun starts.",
+          "descriptionZh": "OPC-Team 启动后自动尝试连接浏览器控制。",
+          "descriptionEn": "Automatically try to connect browser control after OPC-Team starts.",
           "valueSchema": {
             "type": "boolean"
           },
@@ -28754,8 +28754,8 @@
         "Enable or disable Computer Use after operating-system authorization",
         "查看并请求辅助功能与屏幕录制权限",
         "Inspect and request accessibility and screen-recording permissions",
-        "控制 OpenBitFun 启动时是否自动连接浏览器",
-        "Choose whether OpenBitFun reconnects browser control at startup",
+        "控制 OPC-Team 启动时是否自动连接浏览器",
+        "Choose whether OPC-Team reconnects browser control at startup",
         "发现并选择浏览器、配置默认 CDP 或按需重启",
         "Discover and choose a browser, configure default CDP, or restart it when needed",
         "控制是否在安全边界内修复模型生成的非法工具参数 JSON",
@@ -29208,8 +29208,8 @@
         },
         {
           "id": "project-hooks",
-          "titleZh": "对可信仓库单独启用项目级 .openbitfun/config/hooks.json",
-          "titleEn": "Enable project-level .openbitfun/config/hooks.json separately for trusted repositories",
+          "titleZh": "对可信仓库单独启用项目级 .opcteam/config/hooks.json",
+          "titleEn": "Enable project-level .opcteam/config/hooks.json separately for trusted repositories",
           "destination": {
             "kind": "settings",
             "pageId": "tools.automation",
@@ -29389,8 +29389,8 @@
         "Add, edit, and delete custom post-coding quick actions and prompts",
         "整体启用或停用智能体生命周期 Hooks",
         "Enable or disable agent lifecycle hooks globally",
-        "对可信仓库单独启用项目级 .openbitfun/config/hooks.json",
-        "Enable project-level .openbitfun/config/hooks.json separately for trusted repositories",
+        "对可信仓库单独启用项目级 .opcteam/config/hooks.json",
+        "Enable project-level .opcteam/config/hooks.json separately for trusted repositories",
         "定位用户级和项目级 Hooks 配置文件并在修改后即时生效",
         "Locate user and project hook configuration files and apply edits without restarting",
         "在会话、智能体、工具、权限和用户输入等 Codex Hook 事件上运行处理器",
@@ -29442,34 +29442,34 @@
       "highlightsZh": [
         "切换 WebSearch 运行时搜索服务",
         "在执行主机上加密保存设备凭据",
-        "配置和查看 OpenBitFun Search HTTP Protocol v1"
+        "配置和查看 OPC-Team Search HTTP Protocol v1"
       ],
       "highlightsEn": [
         "Switch the WebSearch runtime provider",
         "Store device credentials encrypted on the execution host",
-        "Configure and inspect OpenBitFun Search HTTP Protocol v1"
+        "Configure and inspect OPC-Team Search HTTP Protocol v1"
       ],
       "items": [
         {
           "id": "provider",
-          "titleZh": "在免费 Exa MCP、Exa Search API、Tavily 与 OpenBitFun Search HTTP Protocol 之间选择运行时服务",
-          "titleEn": "Choose free Exa MCP, Exa Search API, Tavily, or OpenBitFun Search HTTP Protocol as the runtime provider",
+          "titleZh": "在免费 Exa MCP、Exa Search API、Tavily 与 OPC-Team Search HTTP Protocol 之间选择运行时服务",
+          "titleEn": "Choose free Exa MCP, Exa Search API, Tavily, or OPC-Team Search HTTP Protocol as the runtime provider",
           "control": {
             "kind": "open",
             "reasonCode": "unstructuredInteraction",
-            "reasonZh": "“在免费 Exa MCP、Exa Search API、Tavily 与 OpenBitFun Search HTTP Protocol 之间选择运行时服务”与各服务的配置状态相关，目前没有一个能安全完成选择、检查和保存整个流程的单一结构化 Command；智能体会打开精确设置入口，由用户确认配置。",
-            "reasonEn": "“Choose free Exa MCP, Exa Search API, Tavily, or OpenBitFun Search HTTP Protocol as the runtime provider” depends on provider-specific configuration state, and no single structured Command can safely complete selection, validation, and saving; the Agent opens the exact settings entry for user confirmation."
+            "reasonZh": "“在免费 Exa MCP、Exa Search API、Tavily 与 OPC-Team Search HTTP Protocol 之间选择运行时服务”与各服务的配置状态相关，目前没有一个能安全完成选择、检查和保存整个流程的单一结构化 Command；智能体会打开精确设置入口，由用户确认配置。",
+            "reasonEn": "“Choose free Exa MCP, Exa Search API, Tavily, or OPC-Team Search HTTP Protocol as the runtime provider” depends on provider-specific configuration state, and no single structured Command can safely complete selection, validation, and saving; the Agent opens the exact settings entry for user confirmation."
           }
         },
         {
           "id": "http-endpoint",
-          "titleZh": "为 OpenBitFun Search HTTP Protocol 配置端点、认证方式和受限凭据 Header",
-          "titleEn": "Configure the endpoint, authentication mode, and restricted credential header for OpenBitFun Search HTTP Protocol",
+          "titleZh": "为 OPC-Team Search HTTP Protocol 配置端点、认证方式和受限凭据 Header",
+          "titleEn": "Configure the endpoint, authentication mode, and restricted credential header for OPC-Team Search HTTP Protocol",
           "control": {
             "kind": "open",
             "reasonCode": "unstructuredInteraction",
-            "reasonZh": "“为 OpenBitFun Search HTTP Protocol 配置端点、认证方式和受限凭据 Header”包含 URL、安全限制和认证方式等关联字段，需要在设置页中一起校验并明确保存；智能体会打开对应入口而不猜测端点配置。",
-            "reasonEn": "“Configure the endpoint, authentication mode, and restricted credential header for OpenBitFun Search HTTP Protocol” combines URL, security restrictions, and authentication fields that must be validated and explicitly saved together in Settings; the Agent opens the corresponding entry instead of guessing endpoint configuration."
+            "reasonZh": "“为 OPC-Team Search HTTP Protocol 配置端点、认证方式和受限凭据 Header”包含 URL、安全限制和认证方式等关联字段，需要在设置页中一起校验并明确保存；智能体会打开对应入口而不猜测端点配置。",
+            "reasonEn": "“Configure the endpoint, authentication mode, and restricted credential header for OPC-Team Search HTTP Protocol” combines URL, security restrictions, and authentication fields that must be validated and explicitly saved together in Settings; the Agent opens the corresponding entry instead of guessing endpoint configuration."
           }
         },
         {
@@ -29485,13 +29485,13 @@
         },
         {
           "id": "http-protocol",
-          "titleZh": "查看并复制 OpenBitFun Search HTTP Protocol v1 的请求、响应和传输限制",
-          "titleEn": "Inspect and copy the request, response, and transport limits for OpenBitFun Search HTTP Protocol v1",
+          "titleZh": "查看并复制 OPC-Team Search HTTP Protocol v1 的请求、响应和传输限制",
+          "titleEn": "Inspect and copy the request, response, and transport limits for OPC-Team Search HTTP Protocol v1",
           "control": {
             "kind": "open",
             "reasonCode": "visualSelection",
-            "reasonZh": "协议说明仅在选中 OpenBitFun Search HTTP Protocol 时显示，并由设置页提供完整可复制内容；智能体会打开精确入口，避免用不完整摘要替代产品内协议。",
-            "reasonEn": "The protocol specification is shown only when OpenBitFun Search HTTP Protocol is selected and the Settings page owns the complete copyable content; the Agent opens the exact entry instead of substituting an incomplete summary."
+            "reasonZh": "协议说明仅在选中 OPC-Team Search HTTP Protocol 时显示，并由设置页提供完整可复制内容；智能体会打开精确入口，避免用不完整摘要替代产品内协议。",
+            "reasonEn": "The protocol specification is shown only when OPC-Team Search HTTP Protocol is selected and the Settings page owns the complete copyable content; the Agent opens the exact entry instead of substituting an incomplete summary."
           }
         }
       ],
@@ -29537,18 +29537,18 @@
         "custom endpoint",
         "切换 WebSearch 运行时搜索服务",
         "在执行主机上加密保存设备凭据",
-        "配置和查看 OpenBitFun Search HTTP Protocol v1",
+        "配置和查看 OPC-Team Search HTTP Protocol v1",
         "Switch the WebSearch runtime provider",
         "Store device credentials encrypted on the execution host",
-        "Configure and inspect OpenBitFun Search HTTP Protocol v1",
-        "在免费 Exa MCP、Exa Search API、Tavily 与 OpenBitFun Search HTTP Protocol 之间选择运行时服务",
-        "Choose free Exa MCP, Exa Search API, Tavily, or OpenBitFun Search HTTP Protocol as the runtime provider",
-        "为 OpenBitFun Search HTTP Protocol 配置端点、认证方式和受限凭据 Header",
-        "Configure the endpoint, authentication mode, and restricted credential header for OpenBitFun Search HTTP Protocol",
+        "Configure and inspect OPC-Team Search HTTP Protocol v1",
+        "在免费 Exa MCP、Exa Search API、Tavily 与 OPC-Team Search HTTP Protocol 之间选择运行时服务",
+        "Choose free Exa MCP, Exa Search API, Tavily, or OPC-Team Search HTTP Protocol as the runtime provider",
+        "为 OPC-Team Search HTTP Protocol 配置端点、认证方式和受限凭据 Header",
+        "Configure the endpoint, authentication mode, and restricted credential header for OPC-Team Search HTTP Protocol",
         "查看当前执行主机的凭据状态，并保存、替换或清除 API Key/Secret",
         "Inspect credential status on the current execution host and save, replace, or clear an API key or secret",
-        "查看并复制 OpenBitFun Search HTTP Protocol v1 的请求、响应和传输限制",
-        "Inspect and copy the request, response, and transport limits for OpenBitFun Search HTTP Protocol v1",
+        "查看并复制 OPC-Team Search HTTP Protocol v1 的请求、响应和传输限制",
+        "Inspect and copy the request, response, and transport limits for OPC-Team Search HTTP Protocol v1",
         "打开网页搜索设置",
         "带我配置 WebSearch 搜索服务",
         "Open Web Search settings",

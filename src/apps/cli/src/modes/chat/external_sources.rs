@@ -32,7 +32,7 @@ fn parse_external_tool_review_action(
     // so a changed target fails closed instead of reusing the same number for
     // a different tool after a watcher refresh.
     let snapshot = reviewed_snapshot.or(current_snapshot).ok_or_else(|| {
-        "OpenBitFun has not finished checking external tools; run /tools refresh".to_string()
+        "OPC-Team has not finished checking external tools; run /tools refresh".to_string()
     })?;
     if command.eq_ignore_ascii_case("enable") || command.eq_ignore_ascii_case("disable") {
         let index = parse_positive_index(parts.next(), "tool number")?;

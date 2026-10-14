@@ -562,7 +562,7 @@ impl Tool for FileWriteTool {
 
 #[cfg(test)]
 mod tests {
-    use super::{diagnose_plan_artifact, FileWriteTool};
+    use super::{diagnose_plan_artifact, hidden_data_directory, FileWriteTool};
     use crate::agentic::tools::file_tool_guidance::{
         file_tool_guidance_message, is_file_tool_guidance_message, FILE_TOOL_GUIDANCE_PREFIX,
     };
@@ -1047,13 +1047,13 @@ mod tests {
 
     #[test]
     fn write_success_result_reports_non_blocking_plan_issues() {
-        let logical_path = ".openbitfun/plans/example.plan.md";
+        let logical_path = format!("{}/plans/example.plan.md", hidden_data_directory());
         let content = "---\nname: Example\noverview: Overview\ntodos: []\n---\n";
         let issues = diagnose_plan_artifact(content);
 
         let result = FileWriteTool::write_success_result(
-            logical_path,
-            super::write_file_success_outcome(logical_path, false, content),
+            &logical_path,
+            super::write_file_success_outcome(&logical_path, false, content),
             false,
             None,
             &[],
@@ -1172,7 +1172,7 @@ mod tests {
 
         assert_eq!(
             FileWriteTool::fallback_file_path(&context),
-            ".openbitfun/tmp/write_456789abcdef.tmp"
+            format!("{}/tmp/write_456789abcdef.tmp", hidden_data_directory())
         );
     }
 
@@ -1190,7 +1190,7 @@ mod tests {
             .await
             .expect("malformed payload should be preserved");
 
-        let fallback_directory = root.join(".openbitfun").join("tmp");
+        let fallback_directory = root.join(hidden_data_directory()).join("tmp");
         let entries = std::fs::read_dir(&fallback_directory)
             .expect("read workspace fallback directory")
             .collect::<Result<Vec<_>, _>>()

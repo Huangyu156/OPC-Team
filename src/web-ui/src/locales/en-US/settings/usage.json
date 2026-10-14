@@ -1,6 +1,6 @@
 {
   "title": "Call Statistics",
-  "subtitle": "Recorded model usage across workspaces on this OpenBitFun host, including subagents",
+  "subtitle": "Recorded model usage across workspaces on this OPC-Team host, including subagents",
   "overview": {
     "title": "Selected Period",
     "description": "Calculated in {{timeZone}}"
@@ -36,7 +36,7 @@
   "refresh": "Refresh",
   "loading": "Loading usage statistics…",
   "loadFailed": "Failed to load usage statistics. Please try again.",
-  "unsupported": "The connected device uses an older OpenBitFun version that does not support usage statistics.",
+  "unsupported": "The connected device uses an older OPC-Team version that does not support usage statistics.",
   "empty": {
     "title": "No usage data yet",
     "description": "Model call statistics will appear here once you start chatting with a model.",

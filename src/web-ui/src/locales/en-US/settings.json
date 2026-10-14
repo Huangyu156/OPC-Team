@@ -332,7 +332,7 @@
       }
     },
     "scopeDescriptions": {
-      "app": "Available within the OpenBitFun window; some actions do not trigger while typing",
+      "app": "Available within the OPC-Team window; some actions do not trigger while typing",
       "chat": "Active when the chat area has focus",
       "editor": "Active when code text has focus; editor canvas shortcuts also apply",
       "terminal": "Active when the terminal area has focus",

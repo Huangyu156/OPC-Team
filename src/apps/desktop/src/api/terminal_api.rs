@@ -48,7 +48,7 @@ impl TerminalState {
         if !*initialized {
             let mut config = TerminalConfig::default();
 
-            // Set scripts directory to app data dir: {config_dir}/openbitfun/temp/scripts
+            // Set scripts directory to app data dir: {config_dir}/opcteam/temp/scripts
             let scripts_dir = Self::get_scripts_dir();
             config.shell_integration.scripts_dir = Some(scripts_dir);
 

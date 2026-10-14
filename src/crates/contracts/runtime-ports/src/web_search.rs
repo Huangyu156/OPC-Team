@@ -5,7 +5,7 @@ use std::fmt;
 /// Stable identifier for the backend that actually executed a web search.
 ///
 /// This is a string newtype rather than a closed enum so persisted results from
-/// a newer OpenBitFun build remain readable by older code.
+/// a newer OPC-Team build remain readable by older code.
 #[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
 #[serde(transparent)]
 pub struct WebSearchProviderId(String);

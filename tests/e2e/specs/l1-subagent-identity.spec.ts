@@ -2,7 +2,7 @@
  * Native L1 coverage for subagent identity presentation.
  *
  * Creates real persisted session relationships through Desktop commands, then
- * verifies the rendered Agent tree through OpenBitFun's embedded WebDriver.
+ * verifies the rendered Agent tree through OPC-Team's embedded WebDriver.
  */
 
 import { browser, expect, $ } from '@wdio/globals';

@@ -351,7 +351,7 @@ impl WorktreeService {
     }
 
     /// Lists local Git projects known to the workspace service together with
-    /// worktrees beneath the configured OpenBitFun worktree root. Invalid and
+    /// worktrees beneath the configured OPC-Team worktree root. Invalid and
     /// non-Git workspace records are ignored so one stale project cannot hide
     /// the rest of the catalog.
     pub async fn list_projects(
@@ -2285,7 +2285,10 @@ mod tests {
         let user_root = std::env::temp_dir().join("openbitfun-worktree-root-test");
         let path_manager = PathManager::with_user_root_for_tests(user_root);
         let settings = WorktreeSettings {
-            root_path: r"~\.openbitfun\worktrees".to_string(),
+            root_path: format!(
+                r"~\{}\worktrees",
+                openbitfun_core_types::product_identity::hidden_data_directory()
+            ),
             ..WorktreeSettings::default()
         };
 

@@ -342,7 +342,7 @@ impl AccountClient {
         }
     }
 
-    /// Reuse the shared GitHub login used by the OpenBitFun marketplaces.
+    /// Reuse the shared GitHub login used by the OPC-Team marketplaces.
     pub async fn login_with_identity(
         &self,
         relay_url: &str,

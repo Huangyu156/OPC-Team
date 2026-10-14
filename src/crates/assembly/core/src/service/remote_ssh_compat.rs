@@ -84,7 +84,7 @@ pub mod workspace_state {
     /// states that no local fallback was attempted.
     pub fn remote_workspace_not_compiled_message(path: &str) -> String {
         format!(
-            "Remote workspaces are not compiled into this OpenBitFun host (feature `remote-workspace`); refusing to read the local filesystem for a remote path: {path}"
+            "Remote workspaces are not compiled into this OPC-Team host (feature `remote-workspace`); refusing to read the local filesystem for a remote path: {path}"
         )
     }
 

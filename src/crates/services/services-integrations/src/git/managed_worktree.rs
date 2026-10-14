@@ -501,7 +501,7 @@ mod tests {
         let repository = temp.path().join("repository");
         fs::create_dir_all(&repository).expect("create repository");
         git(&repository, &["init"]);
-        git(&repository, &["config", "user.name", "OpenBitFun Test"]);
+        git(&repository, &["config", "user.name", "OPC-Team Test"]);
         git(
             &repository,
             &["config", "user.email", "openbitfun-test@example.invalid"],

@@ -1,4 +1,4 @@
-# OpenBitFun 启动性能与产物体积审阅报告
+# OPC-Team 启动性能与产物体积审阅报告
 
 - 审阅日期:2026-07-26
 - 审阅范围:Tauri 冷启动链路(src/apps/desktop)、前端首包与分包(src/web-ui)、静态资源(public/dist)、Rust release profile

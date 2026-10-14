@@ -51,7 +51,7 @@ impl Agent for CreativeHarness {
     }
 
     fn description(&self) -> &str {
-        "Creative Harness for building MiniApps and customizing the OpenBitFun interface"
+        "Creative Harness for building MiniApps and customizing the OPC-Team interface"
     }
 
     fn prompt_template_name(&self, _model_name: Option<&str>) -> &str {

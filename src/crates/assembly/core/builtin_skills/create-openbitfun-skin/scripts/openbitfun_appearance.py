@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build, validate, inspect, and query OpenBitFun Appearance packages."""
+"""Build, validate, inspect, and query OPC-Team Appearance packages."""
 
 from __future__ import annotations
 
@@ -1733,7 +1733,7 @@ def command_contract(args: argparse.Namespace, registry: Mapping[str, Any]) -> N
 
 
 def create_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Build and validate OpenBitFun .openbitfun-appearance packages")
+    parser = argparse.ArgumentParser(description="Build and validate OPC-Team .openbitfun-appearance packages")
     subparsers = parser.add_subparsers(dest="command", required=True)
     init = subparsers.add_parser("init", help="initialize a minimal sparse Appearance project")
     init.add_argument("project")

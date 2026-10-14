@@ -1,6 +1,6 @@
 //! Compatibility facade for managed plugin package review.
 //!
-//! Product assembly supplies OpenBitFun path ownership. Concrete discovery,
+//! Product assembly supplies OPC-Team path ownership. Concrete discovery,
 //! integrity checks, locking, and trust persistence are service concerns.
 
 use openbitfun_services_integrations::plugin_source::ManagedPluginSourceService;
@@ -19,7 +19,7 @@ pub type ManagedPluginSourceSnapshot =
 pub type ManagedPluginSourceError =
     openbitfun_services_integrations::plugin_source::ManagedPluginSourceError;
 
-/// Refresh OpenBitFun-managed user and workspace package roots.
+/// Refresh OPC-Team-managed user and workspace package roots.
 pub async fn refresh_managed_plugin_sources(
     workspace: &Path,
 ) -> Result<ManagedPluginSourceSnapshot, ManagedPluginSourceError> {

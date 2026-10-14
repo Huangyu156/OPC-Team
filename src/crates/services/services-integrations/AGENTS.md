@@ -64,8 +64,8 @@ slices that are outside pure product logic but still platform-neutral.
   `services-core::workspace_identity`; `remote_ssh::paths` is only its legacy
   compatibility re-export and must not regain transport-independent logic.
 - Retained developer Relay deployment tooling (`remote_ssh/relay_deploy.rs`) stages embedded
-  scripts under `~/.openbitfun/relay-deploy/` and clones source to
-  `~/.openbitfun/relay-src/` (never `$HOME/openbitfun`). Embeds
+  scripts under `~/.opcteam/relay-deploy/` and clones source to
+  `~/.opcteam/relay-src/` (never `$HOME/opcteam`). Embeds
   `src/apps/relay-server/mirror.sh` and runs `openbitfun_mirror_init` before apt /
   Docker install / GitHub sync so mainland China hosts use configured mirrors.
   Operator guide: `src/apps/relay-server/README.md`. The product wizard is retired. Desktop Tauri

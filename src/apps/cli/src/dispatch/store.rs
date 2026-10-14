@@ -219,7 +219,7 @@ pub(crate) struct DispatchStore {
 impl DispatchStore {
     pub(crate) fn open_default() -> Result<Self> {
         let path_manager = openbitfun_core::infrastructure::PathManager::new()
-            .map_err(|error| anyhow!("resolve OpenBitFun storage root: {error}"))?;
+            .map_err(|error| anyhow!("resolve OPC-Team storage root: {error}"))?;
         let store = Self::open(path_manager.product_home_dir().join("dispatch"))?;
         if let Err(error) = store.maybe_collect_expired_terminal_jobs() {
             tracing::warn!("Dispatch retention cleanup failed: {error:#}");

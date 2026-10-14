@@ -356,7 +356,7 @@ impl WorkspaceInfoRuntimeExt for WorkspaceInfo {
                 .filter(|value| !value.is_empty())
                 .ok_or_else(|| {
                     OpenBitFunError::config(
-                        "Remote workspace requires a non-empty sshHost in the current OpenBitFun format",
+                        "Remote workspace requires a non-empty sshHost in the current OPC-Team format",
                     )
                 })?;
             options
@@ -366,7 +366,7 @@ impl WorkspaceInfoRuntimeExt for WorkspaceInfo {
                 .filter(|value| !value.is_empty())
                 .ok_or_else(|| {
                     OpenBitFunError::config(
-                        "Remote workspace requires a non-empty connectionId in the current OpenBitFun format",
+                        "Remote workspace requires a non-empty connectionId in the current OPC-Team format",
                     )
                 })?;
 

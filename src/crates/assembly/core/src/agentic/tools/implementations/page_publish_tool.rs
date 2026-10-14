@@ -1,4 +1,4 @@
-//! PagePublish tool — create/update a OpenBitFun Page from inline files or a directory,
+//! PagePublish tool — create/update a OPC-Team Page from inline files or a directory,
 //! then optionally deploy to production.
 
 use std::collections::HashMap;
@@ -32,15 +32,15 @@ impl Tool for PagePublishTool {
 
     async fn description(&self) -> OpenBitFunResult<String> {
         Ok(
-            r#"Publish a OpenBitFun Page to the account relay: upload content, freeze an immutable version, and optionally deploy it to production.
+            r#"Publish a OPC-Team Page to the account relay: upload content, freeze an immutable version, and optionally deploy it to production.
 
 Requires a logged-in GitHub account. This tool is only available after account login. Published Pages can be reviewed and managed later from the Pages scene.
 
-When you produce self-contained publishable web content (landing page, docs site, or a Page with server/worker.js) and the user is logged in, proactively ask whether they want it published to OpenBitFun Page (suggest a slug and visibility). If they already said publish/deploy/上线, proceed with permission confirmation.
+When you produce self-contained publishable web content (landing page, docs site, or a Page with server/worker.js) and the user is logged in, proactively ask whether they want it published to OPC-Team Page (suggest a slug and visibility). If they already said publish/deploy/上线, proceed with permission confirmation.
 
 IMPORTANT — content source:
 - Prefer `files` (inline path→UTF-8 content). For agent-authored pages, pass HTML/JS directly in `files` and call PagePublish. Do NOT Write/Edit page files into the user workspace just to publish, and do NOT create folders like openbitfun-page/ unless the user explicitly asked to keep a local copy.
-- Use `directory` only when the user already has (or explicitly wants) page sources on disk in a local workspace. Remote workspaces must use `files` so OpenBitFun never mistakes a remote path for a local path.
+- Use `directory` only when the user already has (or explicitly wants) page sources on disk in a local workspace. Remote workspaces must use `files` so OPC-Team never mistakes a remote path for a local path.
 
 Input:
 - slug (required): page path id (lowercase letters, digits, hyphens)
@@ -61,7 +61,7 @@ Use PageDeploy only to switch an already-saved version_id (rollback / promote a 
     }
 
     fn short_description(&self) -> String {
-        "Publish a OpenBitFun Page (upload, save version, deploy).".to_string()
+        "Publish a OPC-Team Page (upload, save version, deploy).".to_string()
     }
 
     fn input_schema(&self) -> Value {
@@ -306,27 +306,25 @@ fn publish_result_for_assistant(
             "saved without changing production"
         };
         return format!(
-            "OpenBitFun Page '{slug}' version '{version_id}' was {state} with {visibility} visibility. Open or copy it from the Pages scene/tool card so OpenBitFun can create a scoped browser-access link; do not share the raw Page URL."
+            "OPC-Team Page '{slug}' version '{version_id}' was {state} with {visibility} visibility. Open or copy it from the Pages scene/tool card so OPC-Team can create a scoped browser-access link; do not share the raw Page URL."
         );
     }
 
     // Trailing space after URL keeps chat linkifiers from eating the next char.
     if deployed {
         if url.is_empty() {
-            format!(
-                "Published public OpenBitFun Page '{slug}' version '{version_id}' to production."
-            )
+            format!("Published public OPC-Team Page '{slug}' version '{version_id}' to production.")
         } else {
             format!(
-                "Published public OpenBitFun Page '{slug}' version '{version_id}'. Production URL: {url} \n\
+                "Published public OPC-Team Page '{slug}' version '{version_id}'. Production URL: {url} \n\
                  Share this full absolute URL with the user, and keep a trailing space after the URL."
             )
         }
     } else if preview.is_empty() {
-        format!("Saved public OpenBitFun Page '{slug}' version '{version_id}' (not deployed).")
+        format!("Saved public OPC-Team Page '{slug}' version '{version_id}' (not deployed).")
     } else {
         format!(
-            "Saved public OpenBitFun Page '{slug}' version '{version_id}' (not deployed). Preview URL: {preview} \n\
+            "Saved public OPC-Team Page '{slug}' version '{version_id}' (not deployed). Preview URL: {preview} \n\
              Share this full absolute URL with the user, and keep a trailing space after the URL."
         )
     }

@@ -1132,7 +1132,7 @@ Patch schema for "update":
                     // here stops the agent from presenting a standby list as the
                     // state that will actually run.
                     result_for_assistant.push_str(
-                        "\n\nScheduling note: another running OpenBitFun instance owns scheduled job execution right now, so these jobs run there and edits or manual runs are refused in this instance.",
+                        "\n\nScheduling note: another running OPC-Team instance owns scheduled job execution right now, so these jobs run there and edits or manual runs are refused in this instance.",
                     );
                 }
 

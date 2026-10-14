@@ -169,9 +169,9 @@ pub(super) fn require_ax_trust_for(retry_hint: &str) -> OpenBitFunResult<()> {
         return Ok(());
     }
     Err(OpenBitFunError::tool(format!(
-        "[PERMISSION_DENIED] macOS Accessibility permission not granted to OpenBitFun. \
+        "[PERMISSION_DENIED] macOS Accessibility permission not granted to OPC-Team. \
          Use Computer Use permissions to request access, or open System Settings → \
-         Privacy & Security → Accessibility → enable OpenBitFun. {}",
+         Privacy & Security → Accessibility → enable OPC-Team. {}",
         retry_hint
     )))
 }

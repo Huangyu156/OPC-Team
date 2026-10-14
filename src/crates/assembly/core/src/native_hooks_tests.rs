@@ -6,6 +6,7 @@ use crate::native_hooks::{
 use openbitfun_agent_runtime::native_hooks::{
     AgentHookEvent, AgentHookScope, AgentHookSettingsLayer,
 };
+use openbitfun_core_types::product_identity::hidden_data_directory;
 use serde_json::json;
 use std::path::{Path, PathBuf};
 
@@ -78,7 +79,9 @@ fn user_settings_path_is_always_present_and_project_path_is_gated() {
     assert_eq!(with_project[1].0, AgentHookScope::Project);
     assert_eq!(
         with_project[1].1,
-        workspace.join(".openbitfun/config/hooks.json")
+        workspace
+            .join(hidden_data_directory())
+            .join("config/hooks.json")
     );
 
     // No workspace means no project layer even when project hooks are enabled.

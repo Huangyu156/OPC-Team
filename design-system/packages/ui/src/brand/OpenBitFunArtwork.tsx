@@ -9,7 +9,7 @@ import appIcon512 from "./assets/openbitfun-app-icon-512.png";
 import styles from "./brand.module.css";
 
 export interface OpenBitFunArtworkProps extends Omit<ImgHTMLAttributes<HTMLImageElement>, "src" | "srcSet" | "sizes" | "width" | "height" | "alt" | "children"> {
-  /** Omit when adjacent text already identifies OpenBitFun. */
+  /** Omit when adjacent text already identifies OPC-Team. */
   label?: string;
   /** Display size in CSS pixels; the original square proportions are preserved. */
   size?: number;

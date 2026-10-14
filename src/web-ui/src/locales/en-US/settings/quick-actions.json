@@ -7,9 +7,9 @@
   "commitAttribution": {
     "title": "Commit attribution",
     "scope": "Shared across workspaces on this execution host. Applies the next time a built-in commit workflow is loaded.",
-    "label": "Add OpenBitFun as a co-author",
-    "description": "Credit OpenBitFun ({{account}}) as a co-author of new commits created by the built-in commit workflow.",
-    "unsupported": "This execution host does not support this setting. Upgrade OpenBitFun on the host."
+    "label": "Add OPC-Team as a co-author",
+    "description": "Credit OPC-Team ({{account}}) as a co-author of new commits created by the built-in commit workflow.",
+    "unsupported": "This execution host does not support this setting. Upgrade OPC-Team on the host."
   },
   "quickActions": {
     "defaults": {

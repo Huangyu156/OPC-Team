@@ -13,7 +13,7 @@ struct ConversationHeader: View {
 
     private var resolvedTitle: String {
         if let title = model.selectedSession?.title, !title.isEmpty { return title }
-        return "OpenBitFun"
+        return "OPC-Team"
     }
 
     private var resolvedSubtitle: String? {

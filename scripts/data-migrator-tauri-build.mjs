@@ -36,19 +36,22 @@ export function prepareDataMigratorTauriConfig(
   return output;
 }
 
-// The tool identity and the format destination are separate. Never inherit a
-// branded Desktop build's data namespace or sibling-executable projections.
+// The tool's install identity and the data destination are separate. Never
+// inherit a branded Desktop build's data namespace or sibling-executable
+// projections: the pinned values below are explicit. The data identity must
+// stay pinned to the current product (opcteam / .opcteam) so migrated data
+// lands in the directories the renamed application actually reads.
 export function dataMigratorEnvironment(environment = process.env) {
   const result = { ...environment };
   for (const key of ['OPENBITFUN_DESKTOP_BINARY_NAME', 'OPENBITFUN_DATA_MIGRATOR_BINARY_NAME']) delete result[key];
   return {
     ...result,
     CI: 'true',
-    OPENBITFUN_PRODUCT_ID: 'openbitfun',
-    OPENBITFUN_DATA_NAMESPACE: 'openbitfun',
-    OPENBITFUN_HIDDEN_DATA_DIRECTORY: '.openbitfun',
+    OPENBITFUN_PRODUCT_ID: 'opcteam',
+    OPENBITFUN_DATA_NAMESPACE: 'opcteam',
+    OPENBITFUN_HIDDEN_DATA_DIRECTORY: '.opcteam',
     OPENBITFUN_PRODUCT_BINARY_NAME: 'openbitfun-data-migrator',
-    OPENBITFUN_PRODUCT_DISPLAY_NAME: 'OpenBitFun Data Migrator',
+    OPENBITFUN_PRODUCT_DISPLAY_NAME: 'OPC-Team Data Migrator',
   };
 }
 
@@ -62,7 +65,7 @@ async function main() {
   await generateDataMigratorTheme();
   const forwardArgs = tauriArguments(process.argv.slice(2));
   if (forwardArgs.some((arg) => arg.startsWith('--product-config'))) {
-    throw new Error('The standalone migrator has its own identity and supports OpenBitFun data only.');
+    throw new Error('The standalone migrator pins its own identity and OPC-Team data destination; --product-config is not supported.');
   }
   const generated = prepareDataMigratorTauriConfig(
     join(APP_DIR, 'tauri.conf.json'),

@@ -3,7 +3,7 @@ name = "openbitfun-tool-packs"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun concrete tool-pack owner crate"
+description = "OPC-Team concrete tool-pack owner crate"
 
 [lib]
 name = "openbitfun_tool_packs"

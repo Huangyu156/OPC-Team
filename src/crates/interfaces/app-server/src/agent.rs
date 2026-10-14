@@ -1,4 +1,4 @@
-//! OpenBitFun agent runtime adapter for the generic app-server surface.
+//! OPC-Team agent runtime adapter for the generic app-server surface.
 //!
 //! This is the Phase 2 wiring point: [`OpenBitFunAppRuntime`] holds an externally
 //! assembled [`AgentRuntime`] (built by product assembly from `AgenticSystem`,
@@ -14,7 +14,7 @@ use openbitfun_agent_runtime::sdk::{AgentEventSource, AgentRuntime, PortErrorKin
 use openbitfun_core::service::git::GitError;
 use openbitfun_runtime_ports::{AgentContextReloadPort, ProductSearchPort};
 
-/// Host-injected OpenBitFun agent runtime exposed over the app-server surface.
+/// Host-injected OPC-Team agent runtime exposed over the app-server surface.
 ///
 /// Construct with [`OpenBitFunAppRuntime::new`] from a product-assembled
 /// `AgentRuntime` and the runtime's [`AgentEventSource`] (so the server can

@@ -3,7 +3,7 @@ name = "openbitfun-product-domains"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun product domain owner crate"
+description = "OPC-Team product domain owner crate"
 autotests = false
 
 [lib]

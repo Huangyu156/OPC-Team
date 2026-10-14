@@ -3,7 +3,7 @@ name = "openbitfun-transport"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun Transport Layer - Cross-platform communication adapters"
+description = "OPC-Team Transport Layer - Cross-platform communication adapters"
 
 [lib]
 name = "openbitfun_transport"

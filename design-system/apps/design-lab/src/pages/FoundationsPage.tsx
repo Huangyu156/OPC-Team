@@ -82,7 +82,7 @@ export function FoundationsPage({ density, mode, onDensityChange, onModeChange, 
   const [sampleText, setSampleText] = useState("");
   const [motionReplay, setMotionReplay] = useState(0);
   const [exampleEnabled, setExampleEnabled] = useState(false);
-  const defaultSample = `OpenBitFun — ${t("design.foundations")}`;
+  const defaultSample = `OPC-Team — ${t("design.foundations")}`;
   const tokenValue = (name: string) => {
     const token = getToken(name);
     return token.values[token.collection === "system" ? density : mode]!;

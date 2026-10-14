@@ -296,7 +296,7 @@ mod tests {
     fn init_git_repo(repo: &std::path::Path) {
         git(repo, &["init", "-b", "main"]);
         git(repo, &["config", "user.email", "test@example.com"]);
-        git(repo, &["config", "user.name", "OpenBitFun Test"]);
+        git(repo, &["config", "user.name", "OPC-Team Test"]);
     }
 
     fn git(repo: &std::path::Path, args: &[&str]) {

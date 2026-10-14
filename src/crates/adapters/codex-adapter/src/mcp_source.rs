@@ -558,7 +558,7 @@ fn materialize_server(
         .then(|| {
             ExternalSourceDiagnostic::warning(
                 "codex.mcp.required_not_imported",
-                "OpenBitFun does not adopt Codex required-startup failure semantics",
+                "OPC-Team does not adopt Codex required-startup failure semantics",
                 Some(effective_source),
             )
             .with_asset_kind(ExternalSourceAssetKind::Mcp)

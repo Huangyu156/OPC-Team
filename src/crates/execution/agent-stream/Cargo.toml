@@ -3,7 +3,7 @@ name = "openbitfun-agent-stream"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Lightweight agent stream processing for OpenBitFun"
+description = "Lightweight agent stream processing for OPC-Team"
 
 [lib]
 name = "openbitfun_agent_stream"

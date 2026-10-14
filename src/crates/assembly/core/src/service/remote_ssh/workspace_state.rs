@@ -104,7 +104,7 @@ pub fn local_workspace_roots_equal(a: &Path, b: &Path) -> bool {
 
 /// When a remote scope has `connection_id` but no resolvable SSH host, we must not read/write the
 /// legacy per-connection tree (it is not the same layout as `remote_ssh/{host}/.../sessions`).
-/// This returns a dedicated stub under `~/.openbitfun/remote_ssh/_unresolved/.../sessions` that is
+/// This returns a dedicated stub under `~/.opcteam/remote_ssh/_unresolved/.../sessions` that is
 /// usually absent, so session listing is empty until host can be resolved.
 pub fn unresolved_remote_session_storage_dir(
     connection_id: &str,
@@ -200,7 +200,7 @@ impl RemoteWorkspaceStateManager {
         path: &str,
         preferred_connection_id: Option<&str>,
     ) -> Option<RemoteWorkspaceEntry> {
-        // Assistant sessions use client-local paths under ~/.openbitfun/personal_assistant.
+        // Assistant sessions use client-local paths under ~/.opcteam/personal_assistant.
         // A registered remote root of `/` matches every absolute path; without an explicit
         // `remote_connection_id`, those paths must not be treated as SSH workspaces.
         let is_local_assistant_path =
@@ -290,7 +290,7 @@ impl RemoteWorkspaceStateManager {
 
     // ── Session storage ────────────────────────────────────────────
 
-    /// Runtime directory for persisted sessions (`~/.openbitfun/projects/<24-hex>/sessions`).
+    /// Runtime directory for persisted sessions (`~/.opcteam/projects/<24-hex>/sessions`).
     pub fn get_remote_session_mirror_path(
         &self,
         ssh_host: &str,
@@ -411,7 +411,7 @@ pub fn remote_workspace_support() -> RemoteWorkspaceSupport {
 /// [`remote_workspace_support`] here.
 pub fn remote_workspace_not_compiled_message(path: &str) -> String {
     format!(
-        "Remote workspaces are not compiled into this OpenBitFun host (feature `remote-workspace`); refusing to read the local filesystem for a remote path: {path}"
+        "Remote workspaces are not compiled into this OPC-Team host (feature `remote-workspace`); refusing to read the local filesystem for a remote path: {path}"
     )
 }
 

@@ -208,7 +208,7 @@ impl DshMcpProvider {
                 diagnostics.push(diagnostic(&key, "composition_required", "DSH patches require profile composition; declarations in this source cannot be activated from a partial configuration"));
             }
             if !declarations.is_empty() {
-                diagnostics.push(diagnostic(&key, "declaration_scope", "Explicit MCP declarations are reused independently in OpenBitFun; native DSH profile selection, bundle overlays and reconnect lifecycle are not imported"));
+                diagnostics.push(diagnostic(&key, "declaration_scope", "Explicit MCP declarations are reused independently in OPC-Team; native DSH profile selection, bundle overlays and reconnect lifecycle are not imported"));
             }
             let mut identities = BTreeSet::new();
             let mut names = BTreeSet::new();

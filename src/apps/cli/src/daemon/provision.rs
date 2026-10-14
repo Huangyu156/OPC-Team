@@ -71,7 +71,7 @@ pub(crate) fn provision(request_path: PathBuf) -> Result<()> {
     if let Err(error) = super::service::install_service_for_provisioning() {
         let _ = super::service::uninstall_service_for_provisioning();
         session_store::clear_session();
-        return Err(error).context("install persistent OpenBitFun daemon service");
+        return Err(error).context("install persistent OPC-Team daemon service");
     }
 
     let response = DispatchAccountDaemonProvisionResponse {
@@ -100,7 +100,7 @@ pub(crate) fn deprovision(device_id: String, user_id: String) -> Result<()> {
 
     let uninstall_result = super::service::uninstall_service_for_provisioning();
     session_store::clear_session();
-    uninstall_result.context("remove persistent OpenBitFun daemon service")?;
+    uninstall_result.context("remove persistent OPC-Team daemon service")?;
     println!("{{\"removed\":true}}");
     Ok(())
 }

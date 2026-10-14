@@ -37,7 +37,7 @@ Show an agent companion on the desktop, and choose, import, or manage Petdex cha
 3. 选择预设或导入 Petdex 包
    Choose a preset or import a Petdex pack
 
-入口 / Entry: OpenBitFun 设置
+入口 / Entry: OPC-Team 设置
 
 ## 智能体可替你做什么 / What an agent can do for you
 

@@ -1,4 +1,4 @@
-//! OpenBitFun Page incremental upload client (Save Version → Deploy).
+//! OPC-Team Page incremental upload client (Save Version → Deploy).
 
 use anyhow::{anyhow, Result};
 use log::{info, warn};

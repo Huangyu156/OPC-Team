@@ -1,4 +1,4 @@
-# OpenBitFun iOS
+# OPC-Team iOS
 
 Native SwiftUI client for local and remote conversations, account device connection,
 workspace and session management, approvals, attachments, and file previews.

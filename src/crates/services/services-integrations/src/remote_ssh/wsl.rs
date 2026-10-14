@@ -24,7 +24,7 @@ pub(crate) fn validate(config: &WslWorkspaceConfig) -> anyhow::Result<()> {
 
 pub(crate) fn ensure_supported() -> anyhow::Result<()> {
     if !cfg!(windows) {
-        anyhow::bail!("Native WSL workspaces require a Windows OpenBitFun host");
+        anyhow::bail!("Native WSL workspaces require a Windows OPC-Team host");
     }
     Ok(())
 }
@@ -252,7 +252,7 @@ mod tests {
             .await
             .unwrap_err()
             .to_string()
-            .contains("Windows OpenBitFun host"));
+            .contains("Windows OPC-Team host"));
     }
     #[test]
     fn wsl_rejects_windows_and_relative_workspace_paths() {
@@ -309,7 +309,7 @@ mod tests {
             .error
             .as_ref()
             .unwrap()
-            .contains("Windows OpenBitFun host"));
+            .contains("Windows OPC-Team host"));
         assert_eq!(manager.get_saved_connections().await.len(), 1);
         assert!(!manager.is_connected(&config.id).await);
         // Terminal transport selection must restore the saved target before
@@ -318,7 +318,7 @@ mod tests {
             .local_process_exec_spec(&config.id, "pwd", true)
             .await
             .unwrap_err();
-        assert!(error.to_string().contains("Windows OpenBitFun host"));
+        assert!(error.to_string().contains("Windows OPC-Team host"));
     }
 
     /// Opt-in real Windows/WSL transport check. Set OPENBITFUN_TEST_WSL_DISTRO

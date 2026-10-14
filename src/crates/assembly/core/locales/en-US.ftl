@@ -1,10 +1,10 @@
-# OpenBitFun English Language Pack
+# OPC-Team English Language Pack
 # English (US) (en-US) Fluent Translation File
 
 # ==================== General ====================
 app-version = Version { $version }
 loading = Loading...
-welcome = Welcome to OpenBitFun
+welcome = Welcome to OPC-Team
 
 # ==================== Actions ====================
 action-confirm = Confirm

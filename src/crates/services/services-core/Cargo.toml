@@ -3,7 +3,7 @@ name = "openbitfun-services-core"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun core service owner crate"
+description = "OPC-Team core service owner crate"
 autotests = false
 
 [lib]

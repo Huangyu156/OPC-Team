@@ -1,8 +1,8 @@
 [中文](README.zh-CN.md) | **English**
 
-# OpenBitFun E2E Tests
+# OPC-Team E2E Tests
 
-E2E test framework using WebDriverIO + the embedded OpenBitFun WebDriver.
+E2E test framework using WebDriverIO + the embedded OPC-Team WebDriver.
 
 > For complete documentation, see [E2E-TESTING-GUIDE.md](E2E-TESTING-GUIDE.md)
 
@@ -55,7 +55,7 @@ tests/e2e/
 
 ### Embedded WebDriver not ready
 
-The test runner starts OpenBitFun directly and waits for the embedded WebDriver service on `127.0.0.1:4445`.
+The test runner starts OPC-Team directly and waits for the embedded WebDriver service on `127.0.0.1:4445`.
 
 ### App not built
 
@@ -70,4 +70,4 @@ Debug builds are slower. Adjust timeouts in config if needed.
 ## More Information
 
 - [Complete Testing Guide](E2E-TESTING-GUIDE.md) - Test writing guidelines, best practices, test plan
-- [OpenBitFun Project Structure](../../AGENTS.md)
+- [OPC-Team Project Structure](../../AGENTS.md)

@@ -1,6 +1,6 @@
 {
   "title": "調用統計",
-  "subtitle": "目前 OpenBitFun 主機跨工作區已記錄的模型用量，包含子代理調用",
+  "subtitle": "目前 OPC-Team 主機跨工作區已記錄的模型用量，包含子代理調用",
   "overview": {
     "title": "所選時段用量",
     "description": "依 {{timeZone}} 統計"
@@ -36,7 +36,7 @@
   "refresh": "重新整理",
   "loading": "正在載入調用統計…",
   "loadFailed": "載入調用統計失敗，請重試。",
-  "unsupported": "目前連線裝置的 OpenBitFun 版本較舊，暫不支援調用統計。",
+  "unsupported": "目前連線裝置的 OPC-Team 版本較舊，暫不支援調用統計。",
   "empty": {
     "title": "暫無調用資料",
     "description": "開始與模型對話後，這裡會顯示模型調用統計",

@@ -53,7 +53,7 @@ instead of leaving them with a bare `404`/`502`, because those clients cannot
 be patched after the fact. Both forms answer the same body:
 
 ```json
-{"error":"relay_version_retired","message":"…Update OpenBitFun on this device, then sign in again to continue.","update_required":true}
+{"error":"relay_version_retired","message":"…Update OPC-Team on this device, then sign in again to continue.","update_required":true}
 ```
 
 The code string, the `update_required` flag and the message are one contract,

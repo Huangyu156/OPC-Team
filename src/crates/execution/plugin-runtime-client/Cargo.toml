@@ -3,7 +3,7 @@ name = "openbitfun-plugin-runtime-client"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Default PluginRuntimeClient implementation for OpenBitFun extension execution"
+description = "Default PluginRuntimeClient implementation for OPC-Team extension execution"
 
 [lib]
 name = "openbitfun_plugin_runtime_client"

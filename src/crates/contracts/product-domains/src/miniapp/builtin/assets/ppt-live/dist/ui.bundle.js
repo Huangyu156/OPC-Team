@@ -37069,7 +37069,7 @@ function createPptxDeck(deck = {}) {
   pptx.author = "PPT Live";
   pptx.subject = deck.brief?.topic || deck.title || "PPT Live deck";
   pptx.title = deck.title || "PPT Live";
-  pptx.company = "OpenBitFun";
+  pptx.company = "OPC-Team";
   pptx.lang = "zh-CN";
   pptx.theme = {
     headFontFace: PPTX_LATIN_FONT_FACE,
@@ -37370,7 +37370,7 @@ ${prompt}`;
 
 ## \u7EA6\u675F
 
-- \u7528\u6237\u4ECE OpenBitFun \u4F1A\u8BDD\u6C14\u6CE1\u53D1\u8D77\u8BF7\u6C42\u3001\u5728 PPT Live \u753B\u5E03\u4E0A\u770B\u7ED3\u679C\uFF0C\u751F\u6210\u8FC7\u7A0B\u4E2D\u4E0D\u4F1A\u56DE\u7B54\u63D0\u95EE\u3002\u5982\u6709\u6B67\u4E49\u81EA\u884C\u5224\u65AD\u6700\u4F18\u65B9\u6848\u5E76\u8BB0\u5F55\u5047\u8BBE\u3002
+- \u7528\u6237\u4ECE OPC-Team \u4F1A\u8BDD\u6C14\u6CE1\u53D1\u8D77\u8BF7\u6C42\u3001\u5728 PPT Live \u753B\u5E03\u4E0A\u770B\u7ED3\u679C\uFF0C\u751F\u6210\u8FC7\u7A0B\u4E2D\u4E0D\u4F1A\u56DE\u7B54\u63D0\u95EE\u3002\u5982\u6709\u6B67\u4E49\u81EA\u884C\u5224\u65AD\u6700\u4F18\u65B9\u6848\u5E76\u8BB0\u5F55\u5047\u8BBE\u3002
 - \u4E0D\u8981\u8C03\u7528 AskUserQuestion\u3001ControlHub\u3001GenerativeUI\u3001ComputerUse \u7B49\u4EA4\u4E92\u5DE5\u5177\u3002
 
 ## Authoring subset\uFF08\u751F\u6210\u89C4\u5219\uFF09

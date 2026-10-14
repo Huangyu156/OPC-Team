@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Shared helpers for OpenBitFun Relay Server deploy/start/stop/restart scripts.
+# Shared helpers for OPC-Team Relay Server deploy/start/stop/restart scripts.
 # Sourced by the other *.sh files in this directory (not executed directly).
 
 CONTAINER_NAME="${CONTAINER_NAME:-openbitfun-relay}"

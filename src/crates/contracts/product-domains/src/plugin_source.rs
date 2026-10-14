@@ -1,6 +1,6 @@
 //! Product-owned plugin package and trust contracts.
 //!
-//! These contracts identify OpenBitFun-managed packages before an ecosystem
+//! These contracts identify OPC-Team-managed packages before an ecosystem
 //! adapter or PluginRuntimeClient implementation is selected. Filesystem discovery and trust
 //! persistence are concrete service integration responsibilities.
 

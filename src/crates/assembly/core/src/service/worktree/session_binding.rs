@@ -538,14 +538,14 @@ mod tests {
         let request: WorktreeSessionBindingRequest = serde_json::from_value(serde_json::json!({
             "requestId": "request-2",
             "sessionId": "session-2",
-            "projectWorkspacePath": "D:\\workspace\\OpenBitFun",
+            "projectWorkspacePath": "D:\\workspace\\OPC-Team",
             "enabled": false
         }))
         .expect("request should deserialize");
 
         assert_eq!(
             request.project_workspace_path.as_deref(),
-            Some(r"D:\workspace\OpenBitFun")
+            Some(r"D:\workspace\OPC-Team")
         );
     }
 

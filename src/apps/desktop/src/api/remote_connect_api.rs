@@ -908,8 +908,7 @@ pub(crate) async fn wait_for_dispatch_account_device_online(
         }
         if tokio::time::Instant::now() >= deadline {
             return Err(
-                "remote OpenBitFun daemon did not connect to the relay within 30 seconds"
-                    .to_string(),
+                "remote OPC-Team daemon did not connect to the relay within 30 seconds".to_string(),
             );
         }
         tokio::time::sleep(std::time::Duration::from_millis(500)).await;
@@ -1842,9 +1841,9 @@ pub async fn remote_connect_get_methods() -> Result<Vec<ConnectionMethodInfo>, S
             },
             ConnectionMethod::OpenBitFunServer => ConnectionMethodInfo {
                 id: "openbitfun_server".into(),
-                name: "OpenBitFun Server".into(),
+                name: "OPC-Team Server".into(),
                 available: true,
-                description: "Official OpenBitFun relay".into(),
+                description: "Official OPC-Team relay".into(),
             },
             ConnectionMethod::BotFeishu => ConnectionMethodInfo {
                 id: "bot_feishu".into(),

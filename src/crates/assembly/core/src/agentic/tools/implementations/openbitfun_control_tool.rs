@@ -1,4 +1,4 @@
-//! OpenBitFunControl — discover and control user-facing OpenBitFun features and settings.
+//! OpenBitFunControl — discover and control user-facing OPC-Team features and settings.
 
 use crate::agentic::agents::get_agent_registry;
 use crate::agentic::tools::framework::{
@@ -83,7 +83,7 @@ impl OpenBitFunControlTool {
                         "status": "unavailable",
                         "contractAvailable": true,
                         "readBack": false,
-                        "reason": format!("Shared OpenBitFun configuration is unavailable: {error}"),
+                        "reason": format!("Shared OPC-Team configuration is unavailable: {error}"),
                     }),
                 );
                 Ok(result)
@@ -274,7 +274,7 @@ impl OpenBitFunControlTool {
             .and_then(|availability| availability.reason.as_deref())
             .unwrap_or("This action requires a product-host or presentation adapter");
         format!(
-            "unsupported[profile=headless]: {} {} is unavailable on this OpenBitFun surface: {reason}",
+            "unsupported[profile=headless]: {} {} is unavailable on this OPC-Team surface: {reason}",
             request.action.as_str(),
             definition_id.as_deref().unwrap_or("product-control action")
         )
@@ -310,13 +310,13 @@ impl Tool for OpenBitFunControlTool {
 
     async fn description(&self) -> OpenBitFunResult<String> {
         Ok(
-            "Control OpenBitFun itself through its internal ProductControl API. Use the two-step flow: first `list` or `search`, then `get` the matching capability and follow its returned schema and availability to `configure`, `execute`, or `open`. To show a capability's root surface, call `open` with only its capability_id. destination.actionId is presentation metadata, never an item_id or operation_id. The full catalog loads only on demand; never guess IDs or values."
+            "Control OPC-Team itself through its internal ProductControl API. Use the two-step flow: first `list` or `search`, then `get` the matching capability and follow its returned schema and availability to `configure`, `execute`, or `open`. To show a capability's root surface, call `open` with only its capability_id. destination.actionId is presentation metadata, never an item_id or operation_id. The full catalog loads only on demand; never guess IDs or values."
                 .to_string(),
         )
     }
 
     fn short_description(&self) -> String {
-        "Discover and control OpenBitFun features and settings.".to_string()
+        "Discover and control OPC-Team features and settings.".to_string()
     }
 
     fn input_schema(&self) -> Value {
@@ -543,14 +543,14 @@ impl Tool for OpenBitFunControlTool {
                     ));
                 }
             } else if product_capability(capability_id).is_err() {
-                return invalid("capability_id does not identify a known OpenBitFun capability.");
+                return invalid("capability_id does not identify a known OPC-Team capability.");
             }
         }
         if action == "execute" {
             let capability_id = Self::capability_id(input).unwrap_or_default();
             let operation_id = Self::operation_id(input).unwrap_or_default();
             let Ok(capability) = product_capability(capability_id) else {
-                return invalid("capability_id does not identify a known OpenBitFun capability.");
+                return invalid("capability_id does not identify a known OPC-Team capability.");
             };
             let Some(operation) = capability
                 .operations
@@ -569,7 +569,7 @@ impl Tool for OpenBitFunControlTool {
                     .map(|control| control.tool.as_str())
                     .unwrap_or("none");
                 return invalid(&format!(
-                    "operation_id is not exposed by this OpenBitFun capability. Valid operation_id values: [{valid_operations}]. The delegated Agent tool is {delegated_tool}. destination.actionId is presentation metadata and cannot be executed as an operation."
+                    "operation_id is not exposed by this OPC-Team capability. Valid operation_id values: [{valid_operations}]. The delegated Agent tool is {delegated_tool}. destination.actionId is presentation metadata and cannot be executed as an operation."
                 ));
             };
             if let Err(error) =
@@ -582,14 +582,14 @@ impl Tool for OpenBitFunControlTool {
             let capability_id = Self::capability_id(input).unwrap_or_default();
             let option_id = Self::option_id(input).unwrap_or_default();
             let Ok(capability) = product_capability(capability_id) else {
-                return invalid("capability_id does not identify a known OpenBitFun capability.");
+                return invalid("capability_id does not identify a known OPC-Team capability.");
             };
             let Some(option) = capability
                 .options
                 .iter()
                 .find(|option| option.id == option_id)
             else {
-                return invalid("option_id is not exposed by this OpenBitFun setting.");
+                return invalid("option_id is not exposed by this OPC-Team setting.");
             };
             if let Some(value) = configure_value.as_ref() {
                 if let Err(error) = validate_option_value(&option.value_schema, value) {
@@ -634,7 +634,7 @@ impl Tool for OpenBitFunControlTool {
             || (action == "execute" && !Self::operation_is_readonly(input));
         if mutating_control && Self::agent_is_readonly(context) {
             return Err(OpenBitFunError::tool(
-                "This read-only agent may discover OpenBitFun features and settings but cannot control them"
+                "This read-only agent may discover OPC-Team features and settings but cannot control them"
                     .to_string(),
             ));
         }

@@ -1,11 +1,11 @@
 ---
 name: openbitfun-frontend-dev
-description: Safely customize the running packaged OpenBitFun desktop frontend through a draft, a provisional hot apply, and a 15-second user-confirmed rollback window. Use only in OpenBitFun Creative mode when the user asks to change OpenBitFun's own client UI.
+description: Safely customize the running packaged OPC-Team desktop frontend through a draft, a provisional hot apply, and a 15-second user-confirmed rollback window. Use only in OPC-Team Creative mode when the user asks to change OPC-Team's own client UI.
 ---
 
-# OpenBitFun frontend customization
+# OPC-Team frontend customization
 
-Use this workflow only for the running OpenBitFun desktop client's own frontend. It is not for a website in the user's workspace, a MiniApp, or a remote OpenBitFun host.
+Use this workflow only for the running OPC-Team desktop client's own frontend. It is not for a website in the user's workspace, a MiniApp, or a remote OPC-Team host.
 
 ## Required workflow
 
@@ -17,7 +17,7 @@ Use this workflow only for the running OpenBitFun desktop client's own frontend.
 6. Read the final `apply` result. Only `status: "confirmed"` means the revision was kept; `status: "rolled_back"` includes the reason. Use `FrontendWorkbench status` for later inspection, not direct reads of `state.json`.
 7. Use `FrontendWorkbench inspect` to check actual mount slots, registered commands and diagnostics. For reusable capabilities, register commands with `ui.commands.register`, compose persistent `ui.state` with `ui.events`, and verify behavior with `FrontendWorkbench invoke` using the discovered schema. Commands and subscriptions follow activation; state survives code rollback. These commands run in the visible local client, not a headless service.
 
-`apply` is a two-phase transaction: the confirmed active revision remains authoritative while the candidate is previewed, then user confirmation commits it. If the app shell cannot report readiness, the user does not confirm within 15 seconds, or OpenBitFun exits, the host restores the prior revision. Never bypass or emulate readiness or the confirmation timer in editable page JavaScript.
+`apply` is a two-phase transaction: the confirmed active revision remains authoritative while the candidate is previewed, then user confirmation commits it. If the app shell cannot report readiness, the user does not confirm within 15 seconds, or OPC-Team exits, the host restores the prior revision. Never bypass or emulate readiness or the confirmation timer in editable page JavaScript.
 
 Use `action: "rollback"` when the user explicitly asks to undo the currently active customization. Do not delete revision history manually.
 

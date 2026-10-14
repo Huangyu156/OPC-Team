@@ -2,7 +2,7 @@ import { i18nService } from '@/infrastructure/i18n';
 
 const t = (key: string, options?: Record<string, unknown>) => i18nService.t(key, options);
 export interface GlobalConfig {
-  product_id: 'openbitfun';
+  product_id: 'opcteam';
   app: AppConfig;
   editor: EditorConfig;
   terminal: TerminalConfig;
@@ -642,7 +642,7 @@ export interface ConfigValidationWarning {
 }
 
 export interface ConfigExport {
-  product_id: 'openbitfun';
+  product_id: 'opcteam';
   format_version: 1;
   config: GlobalConfig;
   export_timestamp: string;

@@ -1557,7 +1557,7 @@ mod review_path_tests {
             root,
             &[
                 "-c",
-                "user.name=OpenBitFun Tests",
+                "user.name=OPC-Team Tests",
                 "-c",
                 "user.email=openbitfun@example.com",
                 "commit",

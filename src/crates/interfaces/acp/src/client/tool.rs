@@ -125,7 +125,7 @@ impl Tool for AcpAgentTool {
         context: &ToolUseContext,
     ) -> OpenBitFunResult<Vec<ToolResult>> {
         let openbitfun_session_id = context.session_id.clone().ok_or_else(|| {
-            OpenBitFunError::tool("ACP tool requires an active OpenBitFun session".to_string())
+            OpenBitFunError::tool("ACP tool requires an active OPC-Team session".to_string())
         })?;
         let prompt = input
             .get("prompt")

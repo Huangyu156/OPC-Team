@@ -3,7 +3,7 @@ name = "openbitfun-runtime-services"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Typed runtime service assembly for OpenBitFun runtimes"
+description = "Typed runtime service assembly for OPC-Team runtimes"
 
 [lib]
 name = "openbitfun_runtime_services"

@@ -64,7 +64,23 @@ function getDesktopBinaryPath() {
   const binaryName = `openbitfun-desktop${suffix}`;
 
   if (process.platform === 'darwin') {
-    return path.join(ROOT_DIR, 'target', 'debug', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun');
+    // Tauri names the macOS bundle after `productName` (`OPC-Team.app`) while the
+    // executable inside it keeps `mainBinaryName` (`openbitfun-desktop`). Bundles
+    // built before the product rename still use the OpenBitFun names, so they stay
+    // as fallbacks instead of invalidating an already-built debug bundle.
+    // `tauri build` writes the real bundle to `target/<profile>/bundle/macos`, so
+    // that layout comes first and the top-level `.app` layout stays as fallback.
+    const candidates = [
+      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
+      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
+      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
+      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+      path.join(ROOT_DIR, 'target', 'debug', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
+      path.join(ROOT_DIR, 'target', 'debug', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
+      path.join(ROOT_DIR, 'target', 'debug', 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
+      path.join(ROOT_DIR, 'target', 'debug', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+    ];
+    return candidates.find((candidate) => fs.existsSync(candidate)) ?? candidates[0];
   }
 
   return path.join(ROOT_DIR, 'target', 'debug', binaryName);

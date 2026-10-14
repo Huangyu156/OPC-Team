@@ -3,7 +3,7 @@ name = "openbitfun-skin-market-service"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun appearance marketplace service"
+description = "OPC-Team appearance marketplace service"
 
 [lib]
 name = "openbitfun_skin_market_service"

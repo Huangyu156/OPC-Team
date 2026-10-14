@@ -1,6 +1,6 @@
-//! OpenBitFun-managed plugin package discovery and trust persistence.
+//! OPC-Team-managed plugin package discovery and trust persistence.
 //!
-//! This module reads only OpenBitFun-managed package roots. Ecosystem-specific
+//! This module reads only OPC-Team-managed package roots. Ecosystem-specific
 //! file interpretation remains in the corresponding adapter.
 
 use fs2::FileExt;

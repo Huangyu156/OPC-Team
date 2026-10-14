@@ -376,7 +376,7 @@ impl ConfigService {
         })
     }
 
-    /// Imports a complete current-format OpenBitFun configuration export.
+    /// Imports a complete current-format OPC-Team configuration export.
     pub async fn import_config(
         &self,
         export: ConfigExport,
@@ -1487,7 +1487,7 @@ mod tests {
             ("last_modified", serde_json::json!(0)),
         ] {
             let error = service.set_config(path, value).await.unwrap_err();
-            assert!(error.to_string().contains("managed by OpenBitFun"));
+            assert!(error.to_string().contains("managed by OPC-Team"));
         }
 
         drop(service);
@@ -1804,7 +1804,7 @@ mod tests {
         })
         .await
         {
-            Ok(_) => panic!("structured telemetry is not a current OpenBitFun config"),
+            Ok(_) => panic!("structured telemetry is not a current OPC-Team config"),
             Err(error) => error,
         };
         assert!(error.to_string().contains("expected a boolean"), "{error}");

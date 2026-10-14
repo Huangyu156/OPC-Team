@@ -812,7 +812,7 @@ impl OpenCodePackageProjection {
             source: self.source.clone(),
             code: "opencode.npm_plugin_projection_only".to_string(),
             message: format!(
-                "OpenCode npm plugin is discovered from opencode.json but is not installed or executed by OpenBitFun: {}",
+                "OpenCode npm plugin is discovered from opencode.json but is not installed or executed by OPC-Team: {}",
                 self.package
             ),
             detail: PluginDiagnosticDetail::Manifest {
@@ -1514,7 +1514,7 @@ impl OpenCodeSourceProjection {
             source,
             code: "opencode.npm_plugin_projection_only".to_string(),
             message: format!(
-                "OpenCode npm plugin is present in opencode.json but is not installed or executed by OpenBitFun: {package}"
+                "OpenCode npm plugin is present in opencode.json but is not installed or executed by OPC-Team: {package}"
             ),
             detail: PluginDiagnosticDetail::Manifest {
                 manifest: PluginManifestRef {
@@ -1583,7 +1583,7 @@ impl OpenCodeSourceProjection {
             source,
             code: "opencode.hook_mapped_runtime_unavailable".to_string(),
             message: format!(
-                "OpenCode Hook {event_name} was recognized from the plugin return object. It may {declared_risks}, but {safety_statement} and Hook execution is unavailable in this OpenBitFun version"
+                "OpenCode Hook {event_name} was recognized from the plugin return object. It may {declared_risks}, but {safety_statement} and Hook execution is unavailable in this OPC-Team version"
             ),
             detail: PluginDiagnosticDetail::Adapter {
                 adapter_id: OPENCODE_ADAPTER_ID.to_string(),

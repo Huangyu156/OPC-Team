@@ -23,7 +23,7 @@ from cinematic_recipe import (  # noqa: E402
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Generate a cinematic OpenBitFun Appearance manifest.")
+    parser = argparse.ArgumentParser(description="Generate a cinematic OPC-Team Appearance manifest.")
     parser.add_argument("--output", type=Path, required=True, help="Skin root containing package/.")
     parser.add_argument("--id", required=True, dest="appearance_id")
     parser.add_argument("--name", required=True)

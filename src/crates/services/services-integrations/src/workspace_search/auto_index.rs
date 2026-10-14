@@ -205,7 +205,7 @@ mod tests {
         process_manager::create_command("git")
             .args([
                 "-c",
-                "user.name=OpenBitFun Test",
+                "user.name=OPC-Team Test",
                 "-c",
                 "user.email=openbitfun-test@example.invalid",
                 "commit",

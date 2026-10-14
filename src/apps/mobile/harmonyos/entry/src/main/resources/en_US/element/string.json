@@ -2,15 +2,15 @@
   "string": [
     {
       "name": "module_desc",
-      "value": "OpenBitFun remote control client"
+      "value": "OPC-Team remote control client"
     },
     {
       "name": "EntryAbility_desc",
-      "value": "Connect to OpenBitFun desktop and control remote sessions"
+      "value": "Connect to OPC-Team desktop and control remote sessions"
     },
     {
       "name": "EntryAbility_label",
-      "value": "OpenBitFun"
+      "value": "OPC-Team"
     },
     {
       "name": "permission_microphone_reason",
@@ -310,7 +310,7 @@
     },
     {
       "name": "notification_onboardingBody",
-      "value": "Allow OpenBitFun to notify you when tasks finish. You can change this later in system settings."
+      "value": "Allow OPC-Team to notify you when tasks finish. You can change this later in system settings."
     },
     {
       "name": "notification_onboardingLater",
@@ -322,7 +322,7 @@
     },
     {
       "name": "app_title",
-      "value": "OpenBitFun"
+      "value": "OPC-Team"
     },
     {
       "name": "common_cancel",
@@ -406,7 +406,7 @@
     },
     {
       "name": "notification_taskCompletedBody",
-      "value": "Your OpenBitFun task is ready. Tap to open OpenBitFun and view the result."
+      "value": "Your OPC-Team task is ready. Tap to open OPC-Team and view the result."
     },
     {
       "name": "chatHome_prompt",
@@ -414,7 +414,7 @@
     },
     {
       "name": "chatHome_placeholder",
-      "value": "Ask OpenBitFun"
+      "value": "Ask OPC-Team"
     },
     {
       "name": "chatHome_localHint",
@@ -474,7 +474,7 @@
     },
     {
       "name": "chatHome_codeHintBody",
-      "value": "Connect a desktop workspace before OpenBitFun can read project files, run commands, and change code."
+      "value": "Connect a desktop workspace before OPC-Team can read project files, run commands, and change code."
     },
     {
       "name": "chatHome_enterCode",
@@ -482,11 +482,11 @@
     },
     {
       "name": "generalChat_ready",
-      "value": "OpenBitFun is ready"
+      "value": "OPC-Team is ready"
     },
     {
       "name": "generalChat_generating",
-      "value": "OpenBitFun is answering"
+      "value": "OPC-Team is answering"
     },
     {
       "name": "generalChat_sending",
@@ -598,7 +598,7 @@
     },
     {
       "name": "settings_about_openbitfun",
-      "value": "About OpenBitFun"
+      "value": "About OPC-Team"
     },
     {
       "name": "settings_about_product",
@@ -1006,7 +1006,7 @@
     },
     {
       "name": "code_title",
-      "value": "OpenBitFun Remote"
+      "value": "OPC-Team Remote"
     },
     {
       "name": "code_heroTitle",
@@ -1014,7 +1014,7 @@
     },
     {
       "name": "code_heroBody",
-      "value": "After connecting the desktop, OpenBitFun can access your repositories, run commands, and edit files."
+      "value": "After connecting the desktop, OPC-Team can access your repositories, run commands, and edit files."
     },
     {
       "name": "code_connectWorkspace",
@@ -1230,7 +1230,7 @@
     },
     {
       "name": "remote_settings_openbitfunUser",
-      "value": "OpenBitFun user"
+      "value": "OPC-Team user"
     },
     {
       "name": "remote_settings_accountSignedIn",
@@ -1354,7 +1354,7 @@
     },
     {
       "name": "remote_settings_githubAccount",
-      "value": "OpenBitFun account"
+      "value": "OPC-Team account"
     },
     {
       "name": "remote_settings_connectedDesktop",
@@ -1438,7 +1438,7 @@
     },
     {
       "name": "connect_subtitle",
-      "value": "After connecting the desktop, OpenBitFun can access repositories, run commands, and handle local development tasks."
+      "value": "After connecting the desktop, OPC-Team can access repositories, run commands, and handle local development tasks."
     },
     {
       "name": "connect_accountDevicesTitle",
@@ -1466,7 +1466,7 @@
     },
     {
       "name": "connect_deviceLinkUnavailable",
-      "value": "This device is offline or does not belong to your OpenBitFun account."
+      "value": "This device is offline or does not belong to your OPC-Team account."
     },
     {
       "name": "connect_accountPairTitle",
@@ -1474,7 +1474,7 @@
     },
     {
       "name": "connect_accountPairIntro",
-      "value": "The desktop is signed in to a OpenBitFun account. Verify the same account to continue."
+      "value": "The desktop is signed in to a OPC-Team account. Verify the same account to continue."
     },
     {
       "name": "connect_accountPairBody",
@@ -1486,11 +1486,11 @@
     },
     {
       "name": "connect_accountUsernamePlaceholder",
-      "value": "OpenBitFun username"
+      "value": "OPC-Team username"
     },
     {
       "name": "connect_accountPasswordPlaceholder",
-      "value": "OpenBitFun password"
+      "value": "OPC-Team password"
     },
     {
       "name": "connect_stepsTitle",
@@ -1798,7 +1798,7 @@
     },
     {
       "name": "sheet_instructionPlaceholder",
-      "value": "Tell OpenBitFun what to do..."
+      "value": "Tell OPC-Team what to do..."
     },
     {
       "name": "sheet_advancedOptions",
@@ -1898,7 +1898,7 @@
     },
     {
       "name": "chat_inputPlaceholder",
-      "value": "Ask OpenBitFun"
+      "value": "Ask OPC-Team"
     },
     {
       "name": "chat_voiceListeningPlaceholder",
@@ -2138,7 +2138,7 @@
     },
     {
       "name": "chat_executing",
-      "value": "OpenBitFun is working..."
+      "value": "OPC-Team is working..."
     },
     {
       "name": "chat_model",
@@ -2146,11 +2146,11 @@
     },
     {
       "name": "chat_openbitfunProcessing",
-      "value": "OpenBitFun is processing..."
+      "value": "OPC-Team is processing..."
     },
     {
       "name": "chat_updatedSession",
-      "value": "OpenBitFun updated the session"
+      "value": "OPC-Team updated the session"
     },
     {
       "name": "chat_desktopFile",
@@ -2562,7 +2562,7 @@
     },
     {
       "name": "errors_accountUsernameRequired",
-      "value": "Enter a OpenBitFun username."
+      "value": "Enter a OPC-Team username."
     },
     {
       "name": "errors_accountPasswordRequired",
@@ -2638,7 +2638,7 @@
     },
     {
       "name": "errors_hostStreamUnsupported",
-      "value": "The connected desktop runs an older OpenBitFun version that does not support on-demand session streaming. Update OpenBitFun on that device to continue."
+      "value": "The connected desktop runs an older OPC-Team version that does not support on-demand session streaming. Update OPC-Team on that device to continue."
     },
     {
       "name": "errors_imageTooLargeAfterCompression",
@@ -2702,7 +2702,7 @@
     },
     {
       "name": "watchProvision_doneBody",
-      "value": "%1$s is signed in and ready to use OpenBitFun."
+      "value": "%1$s is signed in and ready to use OPC-Team."
     },
     {
       "name": "watchProvision_rejected",
@@ -2726,7 +2726,7 @@
     },
     {
       "name": "watchProvision_errors_desktopAuthorizationFailed",
-      "value": "The desktop could not sign in the watch. Make sure it uses the same OpenBitFun account."
+      "value": "The desktop could not sign in the watch. Make sure it uses the same OPC-Team account."
     },
     {
       "name": "watchProvision_errors_passwordFailed",
@@ -2746,7 +2746,7 @@
     },
     {
       "name": "ui_seedConnected",
-      "value": "%1$s is connected. You can keep sending instructions; the desktop will run them in OpenBitFun."
+      "value": "%1$s is connected. You can keep sending instructions; the desktop will run them in OPC-Team."
     },
     {
       "name": "time_justNow",

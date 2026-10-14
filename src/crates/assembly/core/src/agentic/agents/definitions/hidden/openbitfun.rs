@@ -15,7 +15,7 @@ impl Agent for OpenBitFunAgent {
         "OpenBitFun"
     }
     fn description(&self) -> &str {
-        "The persistent OpenBitFun product-control assistant"
+        "The persistent OPC-Team product-control assistant"
     }
     fn prompt_template_name(&self, _model_name: Option<&str>) -> &str {
         "openbitfun_agent"

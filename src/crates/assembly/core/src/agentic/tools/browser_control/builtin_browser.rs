@@ -1,4 +1,4 @@
-//! Platform-neutral host port for automating OpenBitFun's built-in browser.
+//! Platform-neutral host port for automating OPC-Team's built-in browser.
 
 use std::collections::HashMap;
 use std::sync::{Arc, OnceLock, RwLock};
@@ -97,7 +97,7 @@ pub fn builtin_browser_host_available() -> bool {
 fn host() -> OpenBitFunResult<Arc<dyn BuiltInBrowserHost>> {
     read_lock(host_slot()).clone().ok_or_else(|| {
         OpenBitFunError::tool(
-            "OpenBitFun's built-in browser automation host is unavailable in this runtime. This capability requires an active Desktop product surface."
+            "OPC-Team's built-in browser automation host is unavailable in this runtime. This capability requires an active Desktop product surface."
                 .to_string(),
         )
     })

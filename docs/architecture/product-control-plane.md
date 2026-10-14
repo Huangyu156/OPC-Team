@@ -1,12 +1,12 @@
-# OpenBitFun 产品控制平面
+# OPC-Team 产品控制平面
 
-本文定义用户手动操作、Agent 自行控制、全局搜索和 OpenBitFun Playbook 之间的
+本文定义用户手动操作、Agent 自行控制、全局搜索和 OPC-Team Playbook 之间的
 一致性边界。它只描述稳定所有权与运行约束；具体页面文案和能力清单由生成的
 `ResolvedProductCapabilityGraph` 承载。
 
 ## 1. 不变量
 
-OpenBitFun 对一项用户可见功能或设置只允许一个业务 owner。该 owner 提供类型化
+OPC-Team 对一项用户可见功能或设置只允许一个业务 owner。该 owner 提供类型化
 Query/Command，持有校验、状态写入、运行时副作用、回读和错误语义。不同入口只做
 参数与展示适配：
 
@@ -101,8 +101,8 @@ Product Control Registry 是闭集路由，不是第二个业务 owner，也不�
 
 ## 6. 远程与版本兼容
 
-产品设置默认在持有 OpenBitFun 产品状态的 host 执行，不随 Remote Workspace 路径迁移。
-Peer Device Mode 将命令代理到 peer host；Remote Control 使用目标 OpenBitFun host；Detached
+产品设置默认在持有 OPC-Team 产品状态的 host 执行，不随 Remote Workspace 路径迁移。
+Peer Device Mode 将命令代理到 peer host；Remote Control 使用目标 OPC-Team host；Detached
 Dispatch 只允许目标 CLI profile 明确支持的 headless 命令。每种 delivery profile 在
 解析图中给出 availability，缺少能力时返回 typed unsupported。
 

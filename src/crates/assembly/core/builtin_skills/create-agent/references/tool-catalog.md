@@ -36,7 +36,7 @@ Use these tables to select tools for the user's tasks, then put their exact name
 | `AgentWait` | Wait for selected background agent results. |
 | `AgentList` | List direct child agents and their status. |
 | `AgentControl` | Interrupt or delete agent subtrees recursively. |
-| `ListModels` | List enabled OpenBitFun model configurations. |
+| `ListModels` | List enabled OPC-Team model configurations. |
 | `Skill` | Discover and load reusable skills for specialized workflows. |
 
 ## Web access
@@ -80,12 +80,12 @@ Use these tables to select tools for the user's tasks, then put their exact name
 | `ControlHub` | Control built-in or external browsers and existing terminal sessions. |
 | `Playbook` | Retrieve predefined operation guides for common tasks. |
 
-## OpenBitFun customization
+## OPC-Team customization
 
 | Tool name | Purpose |
 | --- | --- |
-| `OpenBitFunControl` | Discover and control OpenBitFun features and settings. |
-| `FrontendWorkbench` | Draft and hot-apply the packaged OpenBitFun frontend with rollback protection. |
+| `OpenBitFunControl` | Discover and control OPC-Team features and settings. |
+| `FrontendWorkbench` | Draft and hot-apply the packaged OPC-Team frontend with rollback protection. |
 | `PublishAppearance` | Submit an Appearance package to the Skin market for review. |
 
 ## MiniApp development and publishing
@@ -114,6 +114,6 @@ Use these tables to select tools for the user's tasks, then put their exact name
 | `SessionMessage` | Send a message to another agent session and receive its result asynchronously. |
 | `SessionHistory` | Export an agent session transcript and index for targeted history reads. |
 | `PortForward` | Forward a port from an SSH host to the user's machine. |
-| `PagePublish` | Upload, save a version of, and deploy an OpenBitFun Page. |
-| `PageDeploy` | Deploy a saved OpenBitFun Page version to production. |
+| `PagePublish` | Upload, save a version of, and deploy an OPC-Team Page. |
+| `PageDeploy` | Deploy a saved OPC-Team Page version to production. |
 | `GetTime` | Return the current time, weekday, and Unix timestamp. |

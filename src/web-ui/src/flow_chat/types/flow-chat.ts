@@ -505,7 +505,7 @@ export interface Session {
   /** SSH remote: same `workspacePath` on different hosts must not share coordinator/persistence. */
   remoteConnectionId?: string;
 
-  /** SSH config host for `~/.openbitfun/remote_ssh/{host}/...` session paths when disconnected. */
+  /** SSH config host for `~/.opcteam/remote_ssh/{host}/...` session paths when disconnected. */
   remoteSshHost?: string;
 
   /** Persisted workspace identity host; `localhost` is the local-workspace sentinel. */

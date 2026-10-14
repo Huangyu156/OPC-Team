@@ -29,7 +29,7 @@ const AUTO_CHECK_INTERVAL: Duration = Duration::from_secs(6 * 60 * 60);
 const PROBE_WINDOW: Duration = Duration::from_secs(10);
 const PROBE_BYTES: u64 = 4 * 1024 * 1024;
 /// GitHub stays first at or above this rate. Below it, a synchronized
-/// OpenBitFun copy is preferred and GitHub remains the fallback.
+/// OPC-Team copy is preferred and GitHub remains the fallback.
 const HEALTHY_THROUGHPUT: u64 = 512 * 1024;
 /// Sustained below this counts as a dead link and we fail over. Deliberately
 /// far under the healthy bar: a genuinely slow but only available source must
@@ -106,17 +106,17 @@ pub(crate) async fn run_manual(check_only: bool) -> Result<UpdateOutcome> {
     match outcome {
         UpdateOutcome::Current => {
             println!(
-                "OpenBitFun CLI is up to date ({}).",
+                "OPC-Team CLI is up to date ({}).",
                 env!("CARGO_PKG_VERSION")
             )
         }
         // `try_source` already printed the available version and its source.
         UpdateOutcome::Available => println!("Run `openbitfun update` to install it."),
         UpdateOutcome::Updated => println!(
-            "OpenBitFun CLI was updated successfully. Restart this command to use the new version."
+            "OPC-Team CLI was updated successfully. Restart this command to use the new version."
         ),
         UpdateOutcome::Unsupported => println!(
-            "OpenBitFun CLI self-update supports official Linux x86_64/ARM64 archive installations."
+            "OPC-Team CLI self-update supports official Linux x86_64/ARM64 archive installations."
         ),
     }
     Ok(outcome)
@@ -167,7 +167,7 @@ pub(crate) async fn maybe_run_automatic() {
 
     match spawn_detached_install() {
         Ok(true) => eprintln!(
-            "OpenBitFun CLI {newest} is downloading in the background; it will be used next launch."
+            "OPC-Team CLI {newest} is downloading in the background; it will be used next launch."
         ),
         Ok(false) => tracing::debug!("A CLI update is already in progress; skipping."),
         Err(error) => tracing::debug!("Could not start background CLI update: {error}"),
@@ -180,7 +180,7 @@ fn spawn_detached_install() -> Result<bool> {
     if InstallLock::is_held() {
         return Ok(false);
     }
-    let exe = std::env::current_exe().context("resolve current OpenBitFun CLI executable")?;
+    let exe = std::env::current_exe().context("resolve current OPC-Team CLI executable")?;
     Command::new(exe)
         .arg("update")
         .env(BACKGROUND_INSTALL_ENV, "1")
@@ -235,7 +235,7 @@ fn report_background_failure() {
     if message.is_empty() {
         return;
     }
-    eprintln!("The last background OpenBitFun CLI update failed: {message}");
+    eprintln!("The last background OPC-Team CLI update failed: {message}");
     eprintln!("Run `openbitfun update` to retry.");
 }
 
@@ -289,7 +289,7 @@ impl InstallLock {
             Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {
                 if Self::is_held() {
                     return Err(anyhow!(
-                        "another OpenBitFun CLI update is already running ({})",
+                        "another OPC-Team CLI update is already running ({})",
                         path.display()
                     ));
                 }
@@ -319,8 +319,7 @@ async fn update_from_configured_sources(check_only: bool) -> Result<UpdateOutcom
     let Some(platform_key) = current_platform_key() else {
         return Ok(UpdateOutcome::Unsupported);
     };
-    let current_exe =
-        std::env::current_exe().context("resolve current OpenBitFun CLI executable")?;
+    let current_exe = std::env::current_exe().context("resolve current OPC-Team CLI executable")?;
     if is_development_binary(&current_exe) {
         return Ok(UpdateOutcome::Unsupported);
     }
@@ -346,7 +345,7 @@ async fn update_from_configured_sources(check_only: bool) -> Result<UpdateOutcom
             .collect::<Vec<_>>()
             .join(", ");
         println!(
-            "OpenBitFun CLI {} is available from {} (current {}).",
+            "OPC-Team CLI {} is available from {} (current {}).",
             newest,
             from,
             env!("CARGO_PKG_VERSION")
@@ -410,7 +409,7 @@ async fn update_from_configured_sources(check_only: bool) -> Result<UpdateOutcom
             .find(|(candidate, _)| candidate.source == ReleaseSource::GitHub)
         {
             eprintln!(
-                "GitHub update speed is {} KiB/s, under the {} KiB/s bar; trying the OpenBitFun mirror first.",
+                "GitHub update speed is {} KiB/s, under the {} KiB/s bar; trying the OPC-Team mirror first.",
                 github_speed / 1024,
                 HEALTHY_THROUGHPUT / 1024
             );
@@ -425,7 +424,7 @@ async fn update_from_configured_sources(check_only: bool) -> Result<UpdateOutcom
     let mut buffer = staging.resume();
     if !buffer.is_empty() {
         eprintln!(
-            "Resuming a previous OpenBitFun CLI download at {} MB.",
+            "Resuming a previous OPC-Team CLI download at {} MB.",
             buffer.len() / (1024 * 1024)
         );
     }
@@ -890,7 +889,7 @@ async fn download_text(client: &Client, url: &str) -> Result<String> {
 /// Forks that publish their own releases override this with their own key.
 const RELEASE_PUBKEY: Option<&str> = option_env!("OPENBITFUN_RELEASE_PUBKEY");
 
-/// The official OpenBitFun release public key (minisign key ID `50F47CBE6CC0A376`),
+/// The official OPC-Team release public key (minisign key ID `50F47CBE6CC0A376`),
 /// base64-wrapped the way Tauri wraps `minisign.pub`. Public data — each
 /// release ships it as the `minisign.pub` asset — and the update source above
 /// is pinned to the official repository, so local and fork builds verifying
@@ -1016,7 +1015,7 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
             return base;
         }
         base.context(format!(
-            "the previous CLI could NOT be put back ({}); reinstall OpenBitFun manually",
+            "the previous CLI could NOT be put back ({}); reinstall OPC-Team manually",
             failures.join("; ")
         ))
     };
@@ -1112,7 +1111,7 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
             return Err(failed);
         }
         return Err(failed.context(format!(
-            "the previous CLI could NOT be put back ({}); reinstall OpenBitFun manually",
+            "the previous CLI could NOT be put back ({}); reinstall OPC-Team manually",
             rollback_failures.join("; ")
         )));
     }

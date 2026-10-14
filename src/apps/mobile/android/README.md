@@ -1,4 +1,4 @@
-# OpenBitFun Android
+# OPC-Team Android
 
 Android application entrypoint over the Kotlin Multiplatform shared core.
 

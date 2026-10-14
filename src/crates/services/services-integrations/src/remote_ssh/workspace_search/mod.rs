@@ -294,13 +294,14 @@ mod tests {
 
     #[test]
     fn remote_workspace_search_paths_preserve_current_contract() {
+        let product_directory = openbitfun_services_core::product_identity::hidden_data_directory();
         assert_eq!(
             remote_flashgrep_install_dir("/home/wgq/workspace/bot_detection"),
-            "/home/wgq/workspace/bot_detection/.openbitfun/bin"
+            format!("/home/wgq/workspace/bot_detection/{product_directory}/bin")
         );
         assert_eq!(
             remote_workspace_search_storage_root("/home/wgq/workspace/bot_detection/"),
-            "/home/wgq/workspace/bot_detection/.openbitfun/search/flashgrep-index"
+            format!("/home/wgq/workspace/bot_detection/{product_directory}/search/flashgrep-index")
         );
         assert_eq!(join_remote_path("/", "tmp/file.txt"), "/tmp/file.txt");
         assert_eq!(

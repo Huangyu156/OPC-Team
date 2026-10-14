@@ -3,7 +3,7 @@ name = "openbitfun-pi-adapter"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Runtime-free PI extension source discovery for OpenBitFun"
+description = "Runtime-free PI extension source discovery for OPC-Team"
 
 [dependencies]
 openbitfun-product-domains = { path = "../../contracts/product-domains", features = ["external-sources"] }

@@ -127,7 +127,7 @@ jobs:
           gh release create "$TAG_NAME" \
             --repo "$GITHUB_REPOSITORY" \
             --verify-tag \
-            --title "OpenBitFun Mobile $VERSION" \
+            --title "OPC-Team Mobile $VERSION" \
             --generate-notes \
             --prerelease="$PRERELEASE" \
             mobile-release-assets/*

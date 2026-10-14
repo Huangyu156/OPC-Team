@@ -12,7 +12,7 @@ const APP = join(ROOT, 'src/apps/data-migrator');
 test('independent bundle owns version, offline assets, icons and identity', () => {
   const output = prepareDataMigratorTauriConfig(join(APP, 'tauri.conf.json'), mkdtempSync(join(tmpdir(), 'migrator-config-')));
   const config = JSON.parse(readFileSync(output, 'utf8'));
-  assert.equal(config.productName, 'OpenBitFun Data Migrator');
+  assert.equal(config.productName, 'OPC-Team Data Migrator');
   assert.equal(config.identifier, 'com.openbitfun.data-migrator');
   assert.equal(config.version, releaseVersion());
   assert.deepEqual(config.build, { frontendDist: 'ui' });
@@ -24,8 +24,8 @@ test('independent bundle owns version, offline assets, icons and identity', () =
 
 test('a Desktop product environment cannot change the migration destination identity', () => {
   const env = dataMigratorEnvironment({ OPENBITFUN_PRODUCT_ID: 'acme', OPENBITFUN_DATA_NAMESPACE: 'acme', OPENBITFUN_DESKTOP_BINARY_NAME: 'acme', CI: '1' });
-  assert.equal(env.OPENBITFUN_PRODUCT_ID, 'openbitfun');
-  assert.equal(env.OPENBITFUN_DATA_NAMESPACE, 'openbitfun');
+  assert.equal(env.OPENBITFUN_PRODUCT_ID, 'opcteam');
+  assert.equal(env.OPENBITFUN_DATA_NAMESPACE, 'opcteam');
   assert.equal(env.OPENBITFUN_DESKTOP_BINARY_NAME, undefined);
   assert.equal(env.CI, 'true');
 });

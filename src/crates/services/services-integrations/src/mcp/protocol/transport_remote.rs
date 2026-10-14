@@ -385,7 +385,7 @@ impl RemoteMCPTransport {
         if !header_map.contains_key(USER_AGENT) {
             header_map.insert(
                 USER_AGENT,
-                HeaderValue::from_static("OpenBitFun-MCP-Client/1.0"),
+                HeaderValue::from_static("OPC-Team-MCP-Client/1.0"),
             );
         }
 

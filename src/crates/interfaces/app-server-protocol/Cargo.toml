@@ -3,7 +3,7 @@ name = "openbitfun-app-server-protocol"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Behavior-light wire contracts and roles for the OpenBitFun App Server"
+description = "Behavior-light wire contracts and roles for the OPC-Team App Server"
 
 [lib]
 name = "openbitfun_app_server_protocol"

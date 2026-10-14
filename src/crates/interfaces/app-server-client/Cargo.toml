@@ -3,7 +3,7 @@ name = "openbitfun-app-server-client"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "Transport-agnostic lightweight client for the OpenBitFun App Server"
+description = "Transport-agnostic lightweight client for the OPC-Team App Server"
 
 [lib]
 name = "openbitfun_app_server_client"

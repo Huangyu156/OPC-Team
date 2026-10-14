@@ -33,7 +33,7 @@ export function BrandPreview({ name, state = "playing", active = true }: { name:
 
 export function brandCodeSample(name: string): string {
   const usage = name === "OpenBitFunSolidMark" || name === "OpenBitFunAppIcon"
-    ? `<${name} size={128} label="OpenBitFun" />`
+    ? `<${name} size={128} label="OPC-Team" />`
     : name === "OpenBitFunMark"
     ? '<OpenBitFunMark size={120} motion="breathe" active={isLoading} />'
     : name === "OpenBitFunBrandMotion"

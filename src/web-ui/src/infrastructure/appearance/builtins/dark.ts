@@ -35,7 +35,7 @@ export const openBitFunDarkPalette: AppearancePalette = {
   name: 'Dark',
   type: 'dark',
   description: 'Default dark appearance',
-  author: 'OpenBitFun Team',
+  author: 'OPC-Team',
   version: '2.1.0',
 
 

@@ -670,7 +670,7 @@ mod tests {
         let mut pending = PendingToolCall::default();
         pending.start_new("call_1".to_string(), Some("Task".to_string()));
         pending.append_arguments(
-            "{\"description\":\"Explore OpenBitFun project structure\",\"prompt\":\"read README\\n\\nthoroughness: very",
+            "{\"description\":\"Explore OPC-Team project structure\",\"prompt\":\"read README\\n\\nthoroughness: very",
         );
 
         let finalized = pending

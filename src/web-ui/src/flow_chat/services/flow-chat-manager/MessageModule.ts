@@ -427,7 +427,7 @@ async function sendMessageInternal(
       options?.execution?.kind === 'fresh_external_subagent'
       && (acpClientId || driver.id !== 'local')
     ) {
-      throw new Error('External subagent command delegation requires the local OpenBitFun runtime');
+      throw new Error('External subagent command delegation requires the local OPC-Team runtime');
     }
 
     if (

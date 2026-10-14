@@ -1,8 +1,8 @@
-//! Stable OpenBitFun product-release facts shared across product domains.
+//! Stable OPC-Team product-release facts shared across product domains.
 
 use semver::Version;
 
-/// OpenBitFun begins as a new product at this release.
+/// OPC-Team begins as a new product at this release.
 pub const OPENBITFUN_INITIAL_RELEASE_VERSION: Version = Version::new(1, 0, 0);
 
 /// Market packages use stable product compatibility versions. The inaugural

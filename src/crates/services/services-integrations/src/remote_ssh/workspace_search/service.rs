@@ -578,7 +578,7 @@ impl RemoteWorkspaceSearchService {
         Ok(WorkspaceIndexStatus {
             active_task,
             repo_status,
-            // Remote workspaces are indexed by the remote daemon directly; OpenBitFun's local
+            // Remote workspaces are indexed by the remote daemon directly; OPC-Team's local
             // auto-index policy never evaluates them, so there is no decision to report.
             auto_index: None,
         })

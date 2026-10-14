@@ -328,7 +328,7 @@ export const PlanDisplay: React.FC<PlanDisplayProps> = ({
       return;
     }
 
-    const projectPlansDirectory = joinPath(currentWorkspace.rootPath, '.openbitfun/plans');
+    const projectPlansDirectory = joinPath(currentWorkspace.rootPath, '.opcteam/plans');
     const projectPlanPath = joinPath(projectPlansDirectory, basenamePath(planFilePath));
     if (saveSuccessTimerRef.current) {
       clearTimeout(saveSuccessTimerRef.current);

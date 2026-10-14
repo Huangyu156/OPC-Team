@@ -227,7 +227,7 @@ export const WorkspaceProjectPermissionsDialog: React.FC<WorkspaceProjectPermiss
     } catch (error) {
       log.error('Failed to save project permission rules', { workspaceId: workspace.id, error });
       notificationService.error(
-        error instanceof Error && error.message.includes('changed outside OpenBitFun')
+        error instanceof Error && error.message.includes('changed outside OPC-Team')
           ? t('projectPermissions.rulesConflict')
           : t('projectPermissions.rulesSaveFailed'),
       );

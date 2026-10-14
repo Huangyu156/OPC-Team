@@ -711,7 +711,7 @@ rollout_context:\n\
 - rollout_path: {rollout_path}\n\
 - rollout_cwd: {workspace_path}\n\
 {assistant_persona_rules}\n\
-rendered conversation (pre-rendered from OpenBitFun session transcript):\n\
+rendered conversation (pre-rendered from OPC-Team session transcript):\n\
 <conversation>\n\
 {transcript}\n\
 </conversation>\n\n\

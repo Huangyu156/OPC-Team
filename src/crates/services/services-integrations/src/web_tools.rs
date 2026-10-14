@@ -855,10 +855,10 @@ mod tests {
                 max_results: 5,
             })
             .await
-            .expect("OpenBitFun HTTP fixture search should succeed");
+            .expect("OPC-Team HTTP fixture search should succeed");
         let request = request_task
             .await
-            .expect("OpenBitFun HTTP fixture request task");
+            .expect("OPC-Team HTTP fixture request task");
         let request_lower = request.to_ascii_lowercase();
 
         assert!(request_lower.contains("accept: application/vnd.openbitfun.web-search.v1+json"));
@@ -927,7 +927,7 @@ mod tests {
             .expect_err("protocol error envelope should be mapped");
         request_task
             .await
-            .expect("OpenBitFun error fixture request task");
+            .expect("OPC-Team error fixture request task");
 
         assert_eq!(error.kind, WebSearchErrorKind::RateLimited);
         assert_eq!(error.message, "Slow down");

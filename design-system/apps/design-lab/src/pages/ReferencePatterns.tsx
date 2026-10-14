@@ -216,7 +216,7 @@ function ProviderFields() {
       </Disclosure>
     </Card>)}
     <Disclosure summary={t("patterns.provider.advanced")}>
-      <Field label={t("patterns.provider.headers")} controlWidth="fill"><Textarea defaultValue={'{\n  "X-Client": "OpenBitFun"\n}'} rows={3} /></Field>
+      <Field label={t("patterns.provider.headers")} controlWidth="fill"><Textarea defaultValue={'{\n  "X-Client": "OPC-Team"\n}'} rows={3} /></Field>
     </Disclosure>
   </div>;
 }

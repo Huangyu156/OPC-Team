@@ -120,10 +120,10 @@
   "launchAtLogin": {
     "sections": {
       "title": "Login",
-      "hint": "Start OpenBitFun when you sign in to this account"
+      "hint": "Start OPC-Team when you sign in to this account"
     },
     "toggleLabel": "Launch at sign-in",
-    "toggleDescription": "Start OpenBitFun when you sign in to the system",
+    "toggleDescription": "Start OPC-Team when you sign in to the system",
     "messages": {
       "loading": "Loading...",
       "loadFailed": "Failed to load launch-at-sign-in settings",
@@ -133,10 +133,10 @@
   "preventSleep": {
     "sections": {
       "title": "Power",
-      "hint": "Computer sleep behavior while OpenBitFun is running"
+      "hint": "Computer sleep behavior while OPC-Team is running"
     },
     "toggleLabel": "Prevent sleep",
-    "toggleDescription": "Keep the computer awake while OpenBitFun is running, even without a task. The display may turn off; the system controls manual sleep and lid-close behavior",
+    "toggleDescription": "Keep the computer awake while OPC-Team is running, even without a task. The display may turn off; the system controls manual sleep and lid-close behavior",
     "messages": {
       "loading": "Loading…",
       "loadFailed": "Failed to read the prevent-sleep setting",
@@ -179,11 +179,11 @@
     },
     "startupRecovery": {
       "title": "Previous session ended unexpectedly",
-      "message": "OpenBitFun found a crash report from the previous session. You can export diagnostics if you want to report the issue."
+      "message": "OPC-Team found a crash report from the previous session. You can export diagnostics if you want to report the issue."
     },
     "configRecovery": {
       "title": "Configuration recovered",
-      "message": "OpenBitFun repaired or isolated {{count}} configuration issue(s) so the app could start. Review your model settings before continuing."
+      "message": "OPC-Team repaired or isolated {{count}} configuration issue(s) so the app could start. Review your model settings before continuing."
     },
     "levels": {
       "trace": "Trace",

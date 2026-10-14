@@ -120,7 +120,7 @@ async fn local_workspace_search_unavailable_message(root_path: &str) -> Option<S
 
     if !workspace_search_daemon_available() {
         return Some(
-            "Workspace search daemon is unavailable. OpenBitFun will continue using legacy search."
+            "Workspace search daemon is unavailable. OPC-Team will continue using legacy search."
                 .to_string(),
         );
     }

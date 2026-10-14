@@ -1,7 +1,7 @@
 //! Device identity for Remote Connect pairing and account device routing.
 //!
 //! `device_id` is generated once and persisted under
-//! `<OPENBITFUN_HOME>/device_identity.json` (normally `~/.openbitfun/device_identity.json`).
+//! `<OPENBITFUN_HOME>/device_identity.json` (normally `~/.opcteam/device_identity.json`).
 //! Hostname/MAC are refreshed for display only — they must not rewrite `device_id`,
 //! because macOS private Wi‑Fi addresses and interface order make MAC unstable.
 
@@ -230,7 +230,7 @@ fn identity_file_path() -> Result<PathBuf> {
     }
 
     let home = super::product_home_dir()
-        .ok_or_else(|| anyhow!("cannot determine OpenBitFun home directory"))?;
+        .ok_or_else(|| anyhow!("cannot determine OPC-Team home directory"))?;
     Ok(home.join("device_identity.json"))
 }
 

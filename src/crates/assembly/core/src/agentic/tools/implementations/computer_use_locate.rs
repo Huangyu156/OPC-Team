@@ -36,13 +36,13 @@ pub(crate) async fn execute_computer_use_locate(
         service.get_config(Some("ai")).await.unwrap_or_default();
     if !ai.computer_use_enabled {
         return Err(OpenBitFunError::tool(
-            "Computer use is disabled in OpenBitFun settings.".to_string(),
+            "Computer use is disabled in OPC-Team settings.".to_string(),
         ));
     }
 
     let host = context.computer_use_host.as_ref().ok_or_else(|| {
         OpenBitFunError::tool(
-            "Computer use is only available in the OpenBitFun desktop app.".to_string(),
+            "Computer use is only available in the OPC-Team desktop app.".to_string(),
         )
     })?;
 

@@ -1,6 +1,6 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "OpenBitFun",
+  "productName": "OPC-Team",
   "identifier": "com.openbitfun.desktop.dev",
   "build": {
     "beforeDevCommand": "pnpm run dev:web",

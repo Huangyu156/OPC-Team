@@ -306,7 +306,7 @@ fn normalize_manual_submission(
         request.min_openbitfun_version.trim().to_string()
     };
     semver::Version::parse(&min_openbitfun_version)
-        .map_err(|_| "Minimum OpenBitFun version must use semantic version syntax.".to_string())?;
+        .map_err(|_| "Minimum OPC-Team version must use semantic version syntax.".to_string())?;
 
     let spdx_expression = trimmed(request.license.spdx_expression);
     let custom_url = trimmed(request.license.custom_url);
@@ -352,17 +352,17 @@ fn find_release(
 
 fn validate_minimum_openbitfun_version(minimum: &str) -> Result<(), String> {
     let minimum = semver::Version::parse(minimum)
-        .map_err(|_| "The release declares an invalid minimum OpenBitFun version.".to_string())?;
+        .map_err(|_| "The release declares an invalid minimum OPC-Team version.".to_string())?;
     if minimum < OPENBITFUN_INITIAL_RELEASE_VERSION {
         return Err(
-            "The release declares a minimum OpenBitFun version earlier than 1.0.0.".to_string(),
+            "The release declares a minimum OPC-Team version earlier than 1.0.0.".to_string(),
         );
     }
     let current = semver::Version::parse(env!("CARGO_PKG_VERSION"))
-        .map_err(|_| "The current OpenBitFun version is invalid.".to_string())?;
+        .map_err(|_| "The current OPC-Team version is invalid.".to_string())?;
     if !supports_market_minimum_version(&current, &minimum) {
         return Err(format!(
-            "This Appearance requires OpenBitFun {minimum} or newer. Current version: {current}."
+            "This Appearance requires OPC-Team {minimum} or newer. Current version: {current}."
         ));
     }
     Ok(())

@@ -2231,7 +2231,7 @@ fn mcp_cursor_format_helpers_preserve_cursor_compatibility_contract() {
 #[test]
 fn mcp_config_accepts_camel_case_streamable_http_type() {
     // Cursor, Cline, and other MCP clients emit `type: "streamableHttp"`.
-    // OpenBitFun must accept it (and other casings) as streamable HTTP.
+    // OPC-Team must accept it (and other casings) as streamable HTTP.
     let config = serde_json::json!({
         "mcpServers": {
             "remote": {

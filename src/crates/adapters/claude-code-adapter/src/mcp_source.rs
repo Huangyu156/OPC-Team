@@ -1016,7 +1016,7 @@ fn prepare_import_projection(
             (
                 PreparedExternalMcpImportTransport::Remote { url },
                 None,
-                // Native OAuth discovery and login belong to OpenBitFun after import.
+                // Native OAuth discovery and login belong to OPC-Team after import.
                 Some(true),
                 BTreeMap::new(),
                 headers,

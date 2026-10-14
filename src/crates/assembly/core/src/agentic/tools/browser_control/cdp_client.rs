@@ -58,7 +58,7 @@ pub struct CdpClient {
     session_alive: Option<Arc<AtomicBool>>,
 }
 
-/// Process-wide browser connection retained after the user approves OpenBitFun.
+/// Process-wide browser connection retained after the user approves OPC-Team.
 /// Keeping one browser WebSocket avoids repeated approval prompts and lets
 /// settings commands and agent tools share the same live profile.
 #[derive(Clone)]
@@ -108,7 +108,7 @@ impl CdpClient {
     }
 
     /// Connect to a guarded browser-level endpoint and retain it under the
-    /// logical port used by OpenBitFun's browser tools. The WebSocket handshake
+    /// logical port used by OPC-Team's browser tools. The WebSocket handshake
     /// waits for the user to approve the request in their browser.
     pub async fn connect_user_profile_browser(
         logical_port: u16,
@@ -137,7 +137,7 @@ impl CdpClient {
                 .await
                 .map_err(|error| {
                     OpenBitFunError::tool(format!(
-                        "Could not connect to the current browser profile. Approve OpenBitFun's remote debugging request in the browser, then try again: {}",
+                        "Could not connect to the current browser profile. Approve OPC-Team's remote debugging request in the browser, then try again: {}",
                         error
                     ))
                 })?,

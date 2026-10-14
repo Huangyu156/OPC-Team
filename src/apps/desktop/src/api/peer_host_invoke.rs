@@ -637,7 +637,7 @@ mod tests {
         assert!(!result.ok);
         let error = result.error.unwrap_or_default();
         assert!(
-            error.contains("is unknown to this OpenBitFun desktop peer host version"),
+            error.contains("is unknown to this OPC-Team desktop peer host version"),
             "{error}"
         );
     }
@@ -650,7 +650,7 @@ mod tests {
         assert_eq!(
             result.error.as_deref(),
             Some(
-                "command 'lsp_open_workspace' is unsupported because the OpenBitFun LSP runtime has been retired"
+                "command 'lsp_open_workspace' is unsupported because the OPC-Team LSP runtime has been retired"
             )
         );
     }

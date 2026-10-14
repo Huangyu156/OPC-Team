@@ -1,5 +1,5 @@
 [Unit]
-Description=Back up the OpenBitFun MiniApp market
+Description=Back up the OPC-Team MiniApp market
 After=docker.service
 
 [Service]
