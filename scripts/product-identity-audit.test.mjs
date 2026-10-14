@@ -14,6 +14,7 @@ import {
   auditRepository,
   listRepositoryFiles,
   normalizeRepositoryPath,
+  productIdentityRules,
   shouldAuditContent,
   shouldAuditPath,
 } from './product-identity-audit.mjs';
@@ -69,6 +70,70 @@ test('rejects non-canonical casing and abbreviated OpenBitFun names', () => {
       'abbreviated-openbitfun-name',
     ],
   );
+});
+
+test('accepts the canonical OPC-Team identity in casing, paths, and contracts', () => {
+  const source = [
+    'OPC-Team',
+    'opcteam',
+    'OPCTeam',
+    'opcTeamControlBridge',
+    'OPCTEAM_USER_ROOT',
+    'com.opcteam.desktop',
+    'opcteam-desktop',
+    'https://github.com/Huangyu156/OPC-Team',
+  ].join('\n');
+
+  assert.deepEqual(violationsFor(source), []);
+  assert.deepEqual(violationsFor('', 'products/opcteam/product.jsonc'), []);
+});
+
+test('rejects competing OPC-Team spellings so a third casing cannot drift in', () => {
+  // Assembled at runtime so this file never carries the spellings it rejects.
+  const competingHyphen = ['opc', 'team'].join('-');
+  const competingSnake = `${['OPC', 'TEAM'].join('_')}_USER_ROOT`;
+  const competingPascal = ['Opc', 'Team'].join('');
+  const competingCli = `${competingHyphen}-cli`;
+  const source = [
+    competingHyphen,
+    competingSnake,
+    competingPascal,
+    competingCli,
+  ].join('\n');
+
+  assert.deepEqual(
+    violationsFor(source).map((violation) => violation.rule),
+    [
+      'noncanonical-opcteam-casing',
+      'noncanonical-opcteam-casing',
+      'noncanonical-opcteam-casing',
+      'noncanonical-opcteam-casing',
+    ],
+  );
+  assert.ok(
+    violationsFor(competingHyphen, `products/${competingHyphen}/product.jsonc`).some(
+      (violation) => violation.rule === 'noncanonical-opcteam-casing' && violation.location === 'path',
+    ),
+  );
+  // A spaced display form is ordinary prose, not a competing identifier.
+  assert.deepEqual(violationsFor('The OPC team reviewed the plan.'), []);
+});
+
+test('retires an identity by spelling once it leaves the active list', () => {
+  const activeRules = productIdentityRules();
+  assert.ok(activeRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'));
+  assert.ok(activeRules.some((rule) => rule.id === 'noncanonical-opcteam-casing'));
+  assert.equal(activeRules.some((rule) => rule.id.startsWith('retired-')), false);
+
+  const flippedRules = productIdentityRules(['opcteam']);
+  assert.equal(flippedRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'), false);
+  assert.ok(flippedRules.some((rule) => rule.id === 'noncanonical-opcteam-casing'));
+
+  const retired = flippedRules.find((rule) => rule.id === 'retired-openbitfun-name');
+  assert.ok(retired);
+  for (const sample of ['OpenBitFun', '.openbitfun/config', 'OPENBITFUN_USER_ROOT']) {
+    assert.ok(new RegExp(retired.pattern.source, retired.pattern.flags).test(sample), sample);
+  }
 });
 
 test('rejects retired names in copy, packages, paths, protocols, and environment variables', () => {

@@ -1,0 +1,18 @@
+{
+  "$schema": "../schemas/product-definition.schema.json",
+  "schemaVersion": 1,
+  "productId": "opcteam",
+  "dataNamespace": "opcteam",
+  "localeRoot": "./locales",
+  "members": {
+    "desktop": {
+      "displayNameKey": "product.desktop.name",
+      "binaryName": "opcteam-desktop",
+      "bundleId": "com.opcteam.desktop"
+    },
+    "cli": {
+      "displayNameKey": "product.cli.name",
+      "binaryName": "opcteam"
+    }
+  }
+}

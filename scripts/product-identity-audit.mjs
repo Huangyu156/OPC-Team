@@ -12,6 +12,12 @@
  * the organization profile URL. Those are allowed only as whole-line matches
  * where every retired token on the line belongs to one of those identifiers; a
  * line that pairs an identifier with any other retired token still fails.
+ *
+ * Two product identities are audited: the OpenBitFun identity the default
+ * product definition still builds, and the OPC-Team identity introduced by the
+ * rename. Both are held to their own canonical casings so neither can drift into
+ * a competing spelling; `activeProductIdentityIds` is the single place to flip
+ * once OpenBitFun must no longer appear.
  */
 import { execFileSync } from 'node:child_process';
 import { existsSync, readFileSync, statSync } from 'node:fs';
@@ -62,6 +68,68 @@ const attributedExternalIdentities = Object.freeze([
 
 const retiredProductPatternSource = `(?<!open)${retiredProductToken}`;
 
+/**
+ * Product identities the repository knows about, keyed by stable product id.
+ *
+ * `pattern` must match every separator spelling of the identity so a competing
+ * spelling cannot be introduced silently; `canonicalCasings` is the complete set
+ * of shapes that may appear in sources. A spaced display form is deliberately
+ * not matched, which keeps ordinary prose out of the rule.
+ *
+ * The OPC-Team identifier stem is `opcteam` without a separator: Kotlin and Java
+ * package segments and Android application ids cannot contain hyphens, so a
+ * hyphenated stem would force a second spelling across the mobile sources. The
+ * hyphenated spelling stays available as the capitalized display and brand form.
+ */
+const auditedProductIdentities = Object.freeze({
+  openbitfun: Object.freeze({
+    label: 'OpenBitFun',
+    pattern: /openbitfun/giu,
+    canonicalCasings: Object.freeze(['OpenBitFun', 'openBitFun', 'openbitfun', 'OPENBITFUN']),
+    allowedFiles: noncanonicalIdentityDataBoundaryFiles,
+  }),
+  opcteam: Object.freeze({
+    label: 'OPC-Team',
+    pattern: /opc[-_]?team/giu,
+    canonicalCasings: Object.freeze(['OPC-Team', 'opcteam', 'OPCTeam', 'OPCTEAM', 'opcTeam']),
+  }),
+});
+
+// Identities that may still appear in sources. Move an id out of this list once
+// the OPC-Team rename is complete: every spelling of a non-active identity is
+// then reported as `retired-<id>-name`.
+const activeProductIdentityIds = Object.freeze(['openbitfun', 'opcteam']);
+
+function casingRuleFor(identityId) {
+  const identity = auditedProductIdentities[identityId];
+  return Object.freeze({
+    id: `noncanonical-${identityId}-casing`,
+    description: `non-canonical ${identity.label} casing`,
+    pattern: identity.pattern,
+    isViolation: (value) => !identity.canonicalCasings.includes(value),
+    allowedFiles: identity.allowedFiles,
+  });
+}
+
+function retiredIdentityRuleFor(identityId) {
+  const identity = auditedProductIdentities[identityId];
+  return Object.freeze({
+    id: `retired-${identityId}-name`,
+    description: `retired ${identity.label} product identity`,
+    pattern: identity.pattern,
+    allowedFiles: identity.allowedFiles,
+  });
+}
+
+export function productIdentityRules(activeIdentityIds = activeProductIdentityIds) {
+  return [
+    ...activeIdentityIds.map(casingRuleFor),
+    ...Object.keys(auditedProductIdentities)
+      .filter((identityId) => !activeIdentityIds.includes(identityId))
+      .map(retiredIdentityRuleFor),
+  ];
+}
+
 function isExternalAttributionOnlyLine(lineText) {
   if (typeof lineText !== 'string') {
     return false;
@@ -85,13 +153,7 @@ function isExternalAttributionOnlyLine(lineText) {
 }
 
 const identityRules = Object.freeze([
-  Object.freeze({
-    id: 'noncanonical-openbitfun-casing',
-    description: 'non-canonical OpenBitFun casing',
-    pattern: /openbitfun/giu,
-    isViolation: (value) => !['OpenBitFun', 'openBitFun', 'openbitfun', 'OPENBITFUN'].includes(value),
-    allowedFiles: noncanonicalIdentityDataBoundaryFiles,
-  }),
+  ...productIdentityRules(),
   Object.freeze({
     id: 'abbreviated-openbitfun-name',
     description: 'abbreviated OpenBitFun product name',
