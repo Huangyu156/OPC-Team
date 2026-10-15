@@ -136,3 +136,6 @@ src/apps/mobile/android/.kotlin/
 # Retired implementation-process notes stay local; durable docs live with their owner.
 /docs/superpowers/
 /OPC-Team/.openbitfun/search/flashgrep-index/
+
+# Rivet agent runtime state: meridian SQLite DB + WAL, memory index, tool artifacts.
+.rivet/
