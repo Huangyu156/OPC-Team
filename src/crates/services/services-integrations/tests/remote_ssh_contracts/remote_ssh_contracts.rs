@@ -1,4 +1,4 @@
-use openbitfun_services_integrations::remote_ssh::{
+use opc_services_integrations::remote_ssh::{
     canonicalize_local_workspace_root, local_workspace_roots_equal,
     local_workspace_stable_storage_id, normalize_local_workspace_root_for_stable_id,
     normalize_remote_workspace_path, remote_root_to_mirror_subpath, remote_workspace_runtime_root,
@@ -225,7 +225,7 @@ fn remote_workspace_session_paths_use_supplied_mirror_root() {
 #[test]
 fn local_workspace_identity_helpers_preserve_canonical_root_contract() {
     let workspace_root = std::env::temp_dir().join(format!(
-        "openbitfun-services-remote-ssh-contract-{}",
+        "opc-services-remote-ssh-contract-{}",
         std::process::id()
     ));
     let nested = workspace_root.join("nested");
@@ -254,7 +254,7 @@ fn local_workspace_identity_helpers_preserve_canonical_root_contract() {
 #[test]
 fn workspace_session_identity_preserves_local_and_remote_contracts() {
     let workspace_root = std::env::temp_dir().join(format!(
-        "openbitfun-services-workspace-identity-{}",
+        "opc-services-workspace-identity-{}",
         std::process::id()
     ));
     std::fs::create_dir_all(&workspace_root).expect("workspace root should exist");

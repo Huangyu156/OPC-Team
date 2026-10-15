@@ -42,7 +42,7 @@ export function ComputerUseSharingControls({ snapshot, onSnapshot, onMutation }:
     finally { if (scope.isCurrent()) setBusy(false); }
   };
   const target = targets.find(target => target.selection_id === selected);
-  return <div className="computer-control-card__sharing" data-openbitfun-component="computer-control" data-openbitfun-part="sharing">
+  return <div className="computer-control-card__sharing" data-opc-component="computer-control" data-opc-part="sharing">
     {selecting && <>
       <p>{t('computerSharing.selectDescription')}</p>
       <Select size="sm" aria-label={t('computerSharing.application')} value={selected} disabled={busy}

@@ -22,17 +22,17 @@ use super::{CachedInteractiveView, CachedVisualMarkView};
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 use log::warn;
 #[cfg(any(test, target_os = "macos", target_os = "windows"))]
-use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-use openbitfun_core::agentic::tools::computer_use_host::ComputerUseHost;
+use opc_core::agentic::tools::computer_use_host::ComputerScreenshot;
+use opc_core::agentic::tools::computer_use_host::ComputerUseHost;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
-use openbitfun_core::agentic::tools::computer_use_host::VisualMark;
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_core::agentic::tools::computer_use_host::VisualMark;
+use opc_core::agentic::tools::computer_use_host::{
     AppClickParams, AppInputAction, AppSelector, AppStateSnapshot, AppWaitPredicate, ClickTarget,
     InteractiveActionResult, InteractiveClickParams, InteractiveScrollParams,
     InteractiveTypeTextParams, InteractiveView, InteractiveViewOpts, VisualActionResult,
     VisualClickParams, VisualMarkView, VisualMarkViewOpts,
 };
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 use std::time::{Duration, Instant};
 
@@ -1687,7 +1687,7 @@ mod app_wait_tests {
 /// noise.
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 fn compute_interactive_view_digest(
-    elements: &[openbitfun_core::agentic::tools::computer_use_host::InteractiveElement],
+    elements: &[opc_core::agentic::tools::computer_use_host::InteractiveElement],
 ) -> String {
     use sha1::{Digest, Sha1};
     const BUCKET: f64 = 8.0;
@@ -1810,11 +1810,11 @@ fn build_regular_visual_marks(
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 fn visual_marks_to_overlay_elements(
     marks: &[VisualMark],
-) -> Vec<openbitfun_core::agentic::tools::computer_use_host::InteractiveElement> {
+) -> Vec<opc_core::agentic::tools::computer_use_host::InteractiveElement> {
     marks
         .iter()
         .map(
-            |mark| openbitfun_core::agentic::tools::computer_use_host::InteractiveElement {
+            |mark| opc_core::agentic::tools::computer_use_host::InteractiveElement {
                 i: mark.i,
                 node_idx: mark.i,
                 role: "VisualMark".to_string(),

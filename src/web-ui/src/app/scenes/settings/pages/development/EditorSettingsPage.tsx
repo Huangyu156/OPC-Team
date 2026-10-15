@@ -409,7 +409,7 @@ const EditorSettingsPage: React.FC = () => {
 
   if (isLoading || loadFailed) {
     return (
-      <ConfigPageLayout className="openbitfun-editor-config" data-openbitfun-component="editor-config" data-openbitfun-part="root" data-openbitfun-state="loading">
+      <ConfigPageLayout className="opc-editor-config" data-opc-component="editor-config" data-opc-part="root" data-opc-state="loading">
         <ConfigPageHeader
           title={t('title')}
           subtitle={t('subtitle')}
@@ -430,7 +430,7 @@ const EditorSettingsPage: React.FC = () => {
   }
 
   return (
-    <ConfigPageLayout className="openbitfun-editor-config" data-openbitfun-component="editor-config" data-openbitfun-part="root">
+    <ConfigPageLayout className="opc-editor-config" data-opc-component="editor-config" data-opc-part="root">
       <ConfigPageHeader
         title={t('title')}
         subtitle={t('subtitle')}
@@ -446,7 +446,7 @@ const EditorSettingsPage: React.FC = () => {
         ) : undefined}
       />
 
-      <ConfigPageContent className="openbitfun-editor-config__content" data-openbitfun-component="editor-config" data-openbitfun-part="content">
+      <ConfigPageContent className="opc-editor-config__content" data-opc-component="editor-config" data-opc-part="content">
         <ConfigPageSection
           title={t('sections.appearance.title')}
           description={t('sections.appearance.description')}

@@ -1,8 +1,8 @@
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_events::ToolExecutionProgressInfo;
-use openbitfun_runtime_ports::{
+use opc_events::ToolExecutionProgressInfo;
+use opc_runtime_ports::{
     HookFunctionCancelRequest, HookFunctionGeneration, HookFunctionReverseAsk,
     HookFunctionReverseMetadata, HookFunctionReverseReply, HookFunctionReverseSink,
     HookFunctionRuntime, HookFunctionToolContext, HookFunctionToolRequest, HookFunctionToolResult,
@@ -68,14 +68,14 @@ impl Drop for PluginToolExecutionGuard {
 
 struct PluginHostToolMux {
     id: String,
-    hook_registry: openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry,
+    hook_registry: opc_agent_runtime::native_hooks::RuntimeHookRegistry,
     routes: RwLock<BTreeMap<(String, String), PluginHostToolRoute>>,
 }
 
 impl PluginHostToolMux {
     fn new(
         id: String,
-        hook_registry: openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry,
+        hook_registry: opc_agent_runtime::native_hooks::RuntimeHookRegistry,
     ) -> Self {
         Self {
             id,
@@ -102,9 +102,9 @@ impl PluginHostToolMux {
     }
     fn routes_for_scope(&self, workspace_scope: &str) -> Vec<PluginHostToolRoute> {
         if self.hook_registry.source_activation_for_workspace(
-            openbitfun_agent_runtime::native_hooks::RuntimeHookSource::Plugin,
+            opc_agent_runtime::native_hooks::RuntimeHookSource::Plugin,
             Some(workspace_scope),
-        ) != openbitfun_agent_runtime::native_hooks::RuntimeHookActivation::Ready
+        ) != opc_agent_runtime::native_hooks::RuntimeHookActivation::Ready
         {
             return Vec::new();
         }
@@ -444,13 +444,13 @@ async fn handle_tool_ask(params: HookFunctionReverseAsk) -> PortResult<HookFunct
     let policy = crate::agentic::agents::get_agent_registry()
         .get_agent_tool_policy(&route.agent, Some(&instance.workspace_id))
         .await;
-    let evaluator = openbitfun_runtime_ports::PermissionEvaluator::case_sensitive();
+    let evaluator = opc_runtime_ports::PermissionEvaluator::case_sensitive();
     if patterns.iter().any(|resource| {
         evaluator.evaluate_constraint_resource(
             permission_action,
             resource,
             &policy.permission_constraints,
-        ) == openbitfun_runtime_ports::PermissionEffect::Deny
+        ) == opc_runtime_ports::PermissionEffect::Deny
     }) {
         return Err(PortError::new(
             PortErrorKind::PermissionDenied,
@@ -470,7 +470,7 @@ async fn handle_tool_ask(params: HookFunctionReverseAsk) -> PortResult<HookFunct
     let request_id = uuid::Uuid::new_v4().to_string();
     let mut pending = manager
         .register_batch_for_turn(
-            vec![openbitfun_runtime_ports::PermissionRequest {
+            vec![opc_runtime_ports::PermissionRequest {
                 request_id: request_id.clone(),
                 round_id: route.dialog_turn_id.clone(),
                 order: 0,
@@ -485,8 +485,8 @@ async fn handle_tool_ask(params: HookFunctionReverseAsk) -> PortResult<HookFunct
                 action: permission_action.to_string(),
                 resources: patterns,
                 save_resources: params.always,
-                source: openbitfun_runtime_ports::PermissionRequestSource {
-                    kind: openbitfun_runtime_ports::PermissionRequestSourceKind::Extension,
+                source: opc_runtime_ports::PermissionRequestSource {
+                    kind: opc_runtime_ports::PermissionRequestSourceKind::Extension,
                     identity: instance_id.to_string(),
                 },
                 delegation: None,
@@ -515,22 +515,22 @@ async fn handle_tool_ask(params: HookFunctionReverseAsk) -> PortResult<HookFunct
         }
     };
     match outcome {
-        openbitfun_agent_runtime::permission::PermissionWaitOutcome::Replied(
-            openbitfun_runtime_ports::PermissionReply::OnceWithInput { .. },
+        opc_agent_runtime::permission::PermissionWaitOutcome::Replied(
+            opc_runtime_ports::PermissionReply::OnceWithInput { .. },
         ) => Err(PortError::new(
             PortErrorKind::Backend,
             "Plugin-owned permission requests do not support edited input",
         )),
-        openbitfun_agent_runtime::permission::PermissionWaitOutcome::Replied(
-            openbitfun_runtime_ports::PermissionReply::Once,
+        opc_agent_runtime::permission::PermissionWaitOutcome::Replied(
+            opc_runtime_ports::PermissionReply::Once,
         ) => Ok(HookFunctionReverseReply::Once),
-        openbitfun_agent_runtime::permission::PermissionWaitOutcome::Replied(
-            openbitfun_runtime_ports::PermissionReply::Always,
+        opc_agent_runtime::permission::PermissionWaitOutcome::Replied(
+            opc_runtime_ports::PermissionReply::Always,
         ) => Ok(HookFunctionReverseReply::Always),
-        openbitfun_agent_runtime::permission::PermissionWaitOutcome::Replied(
-            openbitfun_runtime_ports::PermissionReply::Reject { feedback },
+        opc_agent_runtime::permission::PermissionWaitOutcome::Replied(
+            opc_runtime_ports::PermissionReply::Reject { feedback },
         ) => Ok(HookFunctionReverseReply::Reject { feedback }),
-        openbitfun_agent_runtime::permission::PermissionWaitOutcome::Cancelled { reason } => {
+        opc_agent_runtime::permission::PermissionWaitOutcome::Cancelled { reason } => {
             Ok(HookFunctionReverseReply::Reject {
                 feedback: Some(reason),
             })
@@ -659,8 +659,8 @@ mod tests {
         PluginToolExecutionRoute,
     };
     use crate::agentic::tools::framework::{Tool, ToolUseContext};
-    use openbitfun_opencode_plugin_host::JsonRpcPeer;
-    use openbitfun_runtime_ports::{
+    use opc_opencode_plugin_host::JsonRpcPeer;
+    use opc_runtime_ports::{
         HookFunctionGeneration, HookFunctionReverseAsk, HookFunctionReverseMetadata,
         HookFunctionToolAttachment, HookFunctionToolResult, PortErrorKind,
     };
@@ -669,7 +669,7 @@ mod tests {
     use std::path::PathBuf;
     use tokio::net::{TcpListener, TcpStream};
 
-    async fn client() -> openbitfun_opencode_plugin_host::PluginHostClient {
+    async fn client() -> opc_opencode_plugin_host::PluginHostClient {
         let listener = TcpListener::bind(("127.0.0.1", 0)).await.unwrap();
         let address = listener.local_addr().unwrap();
         let host = tokio::spawn(async move { TcpStream::connect(address).await.unwrap() });
@@ -679,18 +679,18 @@ mod tests {
             backend,
             1,
             1024 * 1024,
-            openbitfun_opencode_plugin_host::PluginHostCapabilities::all_supported(),
+            opc_opencode_plugin_host::PluginHostCapabilities::all_supported(),
         )
         .client()
     }
 
     fn route(
-        client: openbitfun_opencode_plugin_host::PluginHostClient,
+        client: opc_opencode_plugin_host::PluginHostClient,
         instance_id: &str,
     ) -> PluginHostToolRoute {
         let instance_id = instance_id.to_string();
         PluginHostToolRoute {
-            runtime: openbitfun_opencode_plugin_host::hook_function_runtime(client),
+            runtime: opc_opencode_plugin_host::hook_function_runtime(client),
             host_generation: 1,
             instance_id: instance_id.clone(),
             generation_key: "generation-test".to_string(),
@@ -723,7 +723,7 @@ mod tests {
     fn plugin_tools_own_their_side_effecting_timeout_path() {
         let mux = PluginHostToolMux::new(
             "timeout-tool".to_string(),
-            openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry::default(),
+            opc_agent_runtime::native_hooks::RuntimeHookRegistry::default(),
         );
 
         assert!(mux.manages_own_execution_timeout());
@@ -795,12 +795,12 @@ mod tests {
     #[tokio::test]
     async fn same_named_tool_routes_are_isolated_by_workspace() {
         let client = client().await;
-        let registry = openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry::default();
+        let registry = opc_agent_runtime::native_hooks::RuntimeHookRegistry::default();
         for scope in ["C:/workspace-a", "D:/workspace-b"] {
             registry.set_source_activation_for_workspace(
-                openbitfun_agent_runtime::native_hooks::RuntimeHookSource::Plugin,
+                opc_agent_runtime::native_hooks::RuntimeHookSource::Plugin,
                 Some(scope),
-                openbitfun_agent_runtime::native_hooks::RuntimeHookActivation::Ready,
+                opc_agent_runtime::native_hooks::RuntimeHookActivation::Ready,
             );
         }
         let mux = PluginHostToolMux::new("shared-tool".to_string(), registry);
@@ -838,9 +838,9 @@ mod tests {
 
     #[tokio::test]
     async fn tool_route_honors_the_shared_workspace_activation_gate() {
-        use openbitfun_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
+        use opc_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
 
-        let registry = openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry::default();
+        let registry = opc_agent_runtime::native_hooks::RuntimeHookRegistry::default();
         let mux = PluginHostToolMux::new("gated-tool".to_string(), registry.clone());
         mux.set_route(
             "C:/workspace-gated".to_string(),
@@ -865,13 +865,13 @@ mod tests {
 
     #[tokio::test]
     async fn tool_route_requires_the_exact_generation_agent_key() {
-        use openbitfun_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
+        use opc_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
 
         let workspace = std::env::current_dir().expect("absolute workspace");
         let scope = "plugin-tool-workspace".to_string();
         let generation_a_agent = "external_subagent_runtime:opencode-plugin:generation-a-agent";
         let generation_b_agent = "external_subagent_runtime:opencode-plugin:generation-b-agent";
-        let registry = openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry::default();
+        let registry = opc_agent_runtime::native_hooks::RuntimeHookRegistry::default();
         registry.set_source_activation_for_workspace(
             RuntimeHookSource::Plugin,
             Some(&scope),
@@ -916,11 +916,11 @@ mod tests {
 
     #[tokio::test]
     async fn tool_only_plugin_route_is_available_to_native_agents() {
-        use openbitfun_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
+        use opc_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
 
         let workspace = std::env::current_dir().expect("absolute workspace");
         let scope = "plugin-tool-workspace".to_string();
-        let registry = openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry::default();
+        let registry = opc_agent_runtime::native_hooks::RuntimeHookRegistry::default();
         registry.set_source_activation_for_workspace(
             RuntimeHookSource::Plugin,
             Some(&scope),
@@ -940,11 +940,11 @@ mod tests {
 
     #[tokio::test]
     async fn remote_workspace_cannot_match_a_local_plugin_tool_route() {
-        use openbitfun_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
+        use opc_agent_runtime::native_hooks::{RuntimeHookActivation, RuntimeHookSource};
 
         let workspace = std::env::current_dir().expect("absolute workspace");
         let scope = "plugin-tool-workspace".to_string();
-        let registry = openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry::default();
+        let registry = opc_agent_runtime::native_hooks::RuntimeHookRegistry::default();
         registry.set_source_activation_for_workspace(
             RuntimeHookSource::Plugin,
             Some(&scope),

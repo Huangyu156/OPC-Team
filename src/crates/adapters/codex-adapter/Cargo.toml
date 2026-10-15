@@ -1,5 +1,5 @@
 [package]
-name = "openbitfun-codex-adapter"
+name = "opc-codex-adapter"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -7,13 +7,13 @@ description = "Codex static source adapter for OPC-Team"
 autotests = false
 
 [lib]
-name = "openbitfun_codex_adapter"
+name = "opc_codex_adapter"
 crate-type = ["rlib"]
 
 [dependencies]
-openbitfun-product-domains = { path = "../../contracts/product-domains", features = ["external-sources"] }
-openbitfun-services-core = { path = "../../services/services-core", features = ["asar", "installed-apps"] }
-openbitfun-static-hook-support = { path = "../static-hook-support" }
+opc-product-domains = { path = "../../contracts/product-domains", features = ["external-sources"] }
+opc-services-core = { path = "../../services/services-core", features = ["asar", "installed-apps"] }
+opc-static-hook-support = { path = "../static-hook-support" }
 dirs = { workspace = true }
 dunce = { workspace = true }
 hex = { workspace = true }

@@ -1,14 +1,14 @@
 //! Compatibility facade for review-platform operations.
 //!
 //! Provider detection, provider DTO mapping, token persistence, and HTTP/Git
-//! integration logic live in `openbitfun-services-integrations::review_platform`.
+//! integration logic live in `opc-services-integrations::review_platform`.
 //! Core only preserves the legacy static API, injects OPC-Team storage paths, and
 //! connects the product remote-workspace classifier.
 
 use crate::infrastructure::try_get_path_manager_arc;
 use std::sync::Arc;
 
-pub use openbitfun_services_integrations::review_platform::{
+pub use opc_services_integrations::review_platform::{
     classify_git_command_failure, untrusted_repository_error_message, ReviewAuthSource,
     ReviewAuthState, ReviewChecks, ReviewDecision, ReviewEvidenceCompleteness, ReviewFileStatus,
     ReviewItemState, ReviewPlatformAccount, ReviewPlatformActionResult,
@@ -26,7 +26,7 @@ pub use openbitfun_services_integrations::review_platform::{
 };
 
 use crate::service::workspace::{WorkspaceInfo, WorkspaceKind};
-use openbitfun_services_integrations::review_platform::{
+use opc_services_integrations::review_platform::{
     ReviewGitExecution, ReviewPlatformService as ReviewPlatformOwnerService,
     ReviewPlatformWorkspaceClassifier, ReviewRemoteGitTarget, REVIEW_PLATFORM_TOKEN_FILE_NAME,
 };
@@ -127,7 +127,7 @@ impl ReviewPlatformWorkspaceClassifier for CoreReviewPlatformWorkspaceClassifier
         #[cfg(feature = "remote-workspace")]
         {
             use crate::service::remote_ssh::workspace_state::get_remote_workspace_manager;
-            use openbitfun_services_integrations::remote_ssh::{
+            use opc_services_integrations::remote_ssh::{
                 build_remote_git_command, normalize_remote_workspace_path,
             };
 
@@ -449,7 +449,7 @@ mod tests {
                     workspace_id: "ws-unregistered".to_string(),
                     connection_id: "conn-unregistered".to_string(),
                 },
-                "/openbitfun-tests/unregistered-remote-workspace",
+                "/opc-tests/unregistered-remote-workspace",
                 &["remote", "-v"],
             )
             .await

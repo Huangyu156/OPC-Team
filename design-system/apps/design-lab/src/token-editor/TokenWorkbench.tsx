@@ -21,7 +21,7 @@ import {
   type TokenDrafts,
   type TokenEditorContext,
 } from "./model";
-const SOURCE_ENDPOINT = "/__openbitfun-design-lab/token-source";
+const SOURCE_ENDPOINT = "/__opc-design-lab/token-source";
 
 type CollectionFilter = "all" | TokenCollection;
 type CategoryFilter =
@@ -290,7 +290,7 @@ export function TokenWorkbench({
     const blob = new Blob([payload], { type: "application/json" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
-    link.download = "openbitfun-token-draft.json";
+    link.download = "opc-token-draft.json";
     link.href = url;
     link.click();
     URL.revokeObjectURL(url);

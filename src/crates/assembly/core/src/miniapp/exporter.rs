@@ -1,6 +1,6 @@
 //! MiniApp export engine — export to Electron or Tauri standalone app (skeleton).
 
-pub use openbitfun_product_domains::miniapp::exporter::{
+pub use opc_product_domains::miniapp::exporter::{
     build_export_check_result, ExportCheckResult, ExportOptions, ExportResult, ExportTarget,
 };
 

@@ -1,13 +1,13 @@
 #![cfg(feature = "workspace-instructions")]
 
-use openbitfun_services_core::workspace_instructions::{
+use opc_services_core::workspace_instructions::{
     read_workspace_conditional_instruction_sources, read_workspace_instruction_files,
     read_workspace_instruction_sources, WorkspaceInstructionPathMatcher,
 };
 use std::fs;
 
 fn instruction_names(
-    files: &[openbitfun_services_core::workspace_instructions::WorkspaceInstructionFile],
+    files: &[opc_services_core::workspace_instructions::WorkspaceInstructionFile],
 ) -> Vec<&str> {
     files.iter().map(|file| file.name.as_str()).collect()
 }

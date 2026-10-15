@@ -4,7 +4,7 @@ The product rename changed the **data identity**, not only the display name:
 user-level state moved from the `openbitfun` namespace and the `.openbitfun`
 home directory to `opcteam` and `.opcteam`.
 
-[`scripts/migrate-openbitfun-to-opcteam.mjs`](../../scripts/migrate-openbitfun-to-opcteam.mjs)
+[`scripts/migrate-opc-to-opcteam.mjs`](../../scripts/migrate-opc-to-opcteam.mjs)
 copies pre-rename data into the new locations. It is a **manual, operator-run
 step**. The application never performs this migration itself.
 
@@ -54,20 +54,20 @@ Always start with the default dry run. It prints the source, target, file count
 and byte count for every root and writes nothing:
 
 ```bash
-node scripts/migrate-openbitfun-to-opcteam.mjs
+node scripts/migrate-opc-to-opcteam.mjs
 ```
 
 Include project directories explicitly, repeating `--workspace` as needed:
 
 ```bash
-node scripts/migrate-openbitfun-to-opcteam.mjs --workspace /path/to/project
+node scripts/migrate-opc-to-opcteam.mjs --workspace /path/to/project
 ```
 
 Then perform the copy. **`--apply` is the only flag that writes anything:**
 
 ```bash
-node scripts/migrate-openbitfun-to-opcteam.mjs --apply
-node scripts/migrate-openbitfun-to-opcteam.mjs --apply --workspace /path/to/project
+node scripts/migrate-opc-to-opcteam.mjs --apply
+node scripts/migrate-opc-to-opcteam.mjs --apply --workspace /path/to/project
 ```
 
 Close the application before `--apply`. The app holds the destination files open
@@ -111,7 +111,7 @@ copied.
 ## Verification
 
 ```bash
-node --test scripts/migrate-openbitfun-to-opcteam.test.mjs
+node --test scripts/migrate-opc-to-opcteam.test.mjs
 ```
 
 The suite covers the dry run, byte-for-byte copying, skip versus `--force`,

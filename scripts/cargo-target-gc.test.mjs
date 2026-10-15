@@ -18,7 +18,7 @@ import {
 } from './cargo-target-gc.mjs';
 
 function fixtureRoot() {
-  const root = join(tmpdir(), `openbitfun-target-gc-${process.pid}-${Date.now()}`);
+  const root = join(tmpdir(), `opc-target-gc-${process.pid}-${Date.now()}`);
   mkdirSync(root, { recursive: true });
   return {
     root,
@@ -61,8 +61,8 @@ function touchFingerprint(
 }
 
 test('split helpers parse cargo cache names', () => {
-  assert.deepEqual(splitIncrementalCrateDir('openbitfun_core-3vwcc7dt79hqo'), {
-    crate: 'openbitfun_core',
+  assert.deepEqual(splitIncrementalCrateDir('opc_core-3vwcc7dt79hqo'), {
+    crate: 'opc_core',
     hash: '3vwcc7dt79hqo',
   });
   assert.deepEqual(splitFingerprintDir('aes-gcm-150676ea617fdfd1'), {
@@ -71,7 +71,7 @@ test('split helpers parse cargo cache names', () => {
   });
   assert.equal(extractDepsArtifactHash('libsyn-0ddb3bc374064a9b.rlib'), '0ddb3bc374064a9b');
   assert.equal(
-    extractDepsArtifactHash('openbitfun_core-023db5b6b08d0150.02dradpmwvb53dgn1eck0186y.rcgu.o'),
+    extractDepsArtifactHash('opc_core-023db5b6b08d0150.02dradpmwvb53dgn1eck0186y.rcgu.o'),
     '023db5b6b08d0150'
   );
 });
@@ -95,29 +95,29 @@ test('collectGcPlan keeps distinct Cargo units while pruning stale generations',
     const now = Date.now();
     const dayMs = 24 * 60 * 60 * 1_000;
 
-    touchDir(join(profileDir, 'incremental', 'openbitfun_core-oldhash1'), now - 3_000);
-    touchDir(join(profileDir, 'incremental', 'openbitfun_core-newhash2'), now);
+    touchDir(join(profileDir, 'incremental', 'opc_core-oldhash1'), now - 3_000);
+    touchDir(join(profileDir, 'incremental', 'opc_core-newhash2'), now);
     touchDir(
-      join(profileDir, 'incremental', 'openbitfun_core-newhash2', 's-old-session'),
+      join(profileDir, 'incremental', 'opc_core-newhash2', 's-old-session'),
       now - 2_000
     );
     touchDir(
-      join(profileDir, 'incremental', 'openbitfun_core-newhash2', 's-new-session'),
+      join(profileDir, 'incremental', 'opc_core-newhash2', 's-new-session'),
       now
     );
 
     const libUnit = { target: 1, profile: 2, path: 3, compile_kind: 0 };
     touchFingerprint(
       profileDir,
-      'openbitfun-core-aaaaaaaaaaaaaaaa',
-      'lib-openbitfun_core',
+      'opc-core-aaaaaaaaaaaaaaaa',
+      'lib-opc_core',
       { ...libUnit, features: '["old"]' },
       now - 3 * dayMs
     );
     touchFingerprint(
       profileDir,
-      'openbitfun-core-bbbbbbbbbbbbbbbb',
-      'lib-openbitfun_core',
+      'opc-core-bbbbbbbbbbbbbbbb',
+      'lib-opc_core',
       { ...libUnit, features: '["latest"]' },
       now
     );
@@ -125,8 +125,8 @@ test('collectGcPlan keeps distinct Cargo units while pruning stale generations',
     // when the directory itself is old.
     touchFingerprint(
       profileDir,
-      'openbitfun-core-cccccccccccccccc',
-      'lib-openbitfun_core',
+      'opc-core-cccccccccccccccc',
+      'lib-opc_core',
       { ...libUnit, features: '["recent"]' },
       now - 3 * dayMs,
       now - 60 * 60 * 1_000
@@ -134,48 +134,48 @@ test('collectGcPlan keeps distinct Cargo units while pruning stale generations',
     // Test units are a distinct Cargo unit and remain independently reusable.
     touchFingerprint(
       profileDir,
-      'openbitfun-core-dddddddddddddddd',
-      'test-lib-openbitfun_core',
+      'opc-core-dddddddddddddddd',
+      'test-lib-opc_core',
       { target: 1, profile: 4, path: 3, compile_kind: 0 },
       now - 4 * dayMs
     );
     // An old incomplete fingerprint is abandoned output.
     touchDir(
-      join(profileDir, '.fingerprint', 'openbitfun-core-eeeeeeeeeeeeeeee'),
+      join(profileDir, '.fingerprint', 'opc-core-eeeeeeeeeeeeeeee'),
       now - 5 * dayMs
     );
 
-    touchFile(join(profileDir, 'deps', 'libopenbitfun_core-aaaaaaaaaaaaaaaa.rlib'), now);
-    touchFile(join(profileDir, 'deps', 'libopenbitfun_core-bbbbbbbbbbbbbbbb.rlib'), now);
-    touchFile(join(profileDir, 'deps', 'libopenbitfun_core-cccccccccccccccc.rlib'), now);
-    touchFile(join(profileDir, 'deps', 'libopenbitfun_core-dddddddddddddddd.rlib'), now);
-    touchFile(join(profileDir, 'deps', 'libopenbitfun_core-eeeeeeeeeeeeeeee.rlib'), now);
+    touchFile(join(profileDir, 'deps', 'libopc_core-aaaaaaaaaaaaaaaa.rlib'), now);
+    touchFile(join(profileDir, 'deps', 'libopc_core-bbbbbbbbbbbbbbbb.rlib'), now);
+    touchFile(join(profileDir, 'deps', 'libopc_core-cccccccccccccccc.rlib'), now);
+    touchFile(join(profileDir, 'deps', 'libopc_core-dddddddddddddddd.rlib'), now);
+    touchFile(join(profileDir, 'deps', 'libopc_core-eeeeeeeeeeeeeeee.rlib'), now);
 
-    touchDir(join(profileDir, 'build', 'openbitfun-core-aaaaaaaaaaaaaaaa'), now);
-    touchDir(join(profileDir, 'build', 'openbitfun-core-bbbbbbbbbbbbbbbb'), now);
-    touchDir(join(profileDir, 'build', 'openbitfun-core-eeeeeeeeeeeeeeee'), now);
+    touchDir(join(profileDir, 'build', 'opc-core-aaaaaaaaaaaaaaaa'), now);
+    touchDir(join(profileDir, 'build', 'opc-core-bbbbbbbbbbbbbbbb'), now);
+    touchDir(join(profileDir, 'build', 'opc-core-eeeeeeeeeeeeeeee'), now);
 
     const plan = collectGcPlan(profileDir, { now, fingerprintMinAgeMs: dayMs });
 
-    assert.ok(plan.incremental.some((path) => path.endsWith('openbitfun_core-oldhash1')));
+    assert.ok(plan.incremental.some((path) => path.endsWith('opc_core-oldhash1')));
     assert.ok(
       plan.incremental.some((path) =>
-        path.includes(`${join('openbitfun_core-newhash2', 's-old-session')}`)
+        path.includes(`${join('opc_core-newhash2', 's-old-session')}`)
       )
     );
-    assert.ok(plan.fingerprint.some((path) => path.endsWith('openbitfun-core-aaaaaaaaaaaaaaaa')));
-    assert.ok(plan.fingerprint.some((path) => path.endsWith('openbitfun-core-eeeeeeeeeeeeeeee')));
-    assert.ok(!plan.fingerprint.some((path) => path.endsWith('openbitfun-core-bbbbbbbbbbbbbbbb')));
-    assert.ok(!plan.fingerprint.some((path) => path.endsWith('openbitfun-core-cccccccccccccccc')));
-    assert.ok(!plan.fingerprint.some((path) => path.endsWith('openbitfun-core-dddddddddddddddd')));
-    assert.ok(plan.deps.some((path) => path.endsWith('libopenbitfun_core-aaaaaaaaaaaaaaaa.rlib')));
-    assert.ok(plan.deps.some((path) => path.endsWith('libopenbitfun_core-eeeeeeeeeeeeeeee.rlib')));
-    assert.ok(!plan.deps.some((path) => path.endsWith('libopenbitfun_core-bbbbbbbbbbbbbbbb.rlib')));
-    assert.ok(!plan.deps.some((path) => path.endsWith('libopenbitfun_core-cccccccccccccccc.rlib')));
-    assert.ok(!plan.deps.some((path) => path.endsWith('libopenbitfun_core-dddddddddddddddd.rlib')));
-    assert.ok(plan.build.some((path) => path.endsWith('openbitfun-core-aaaaaaaaaaaaaaaa')));
-    assert.ok(plan.build.some((path) => path.endsWith('openbitfun-core-eeeeeeeeeeeeeeee')));
-    assert.ok(!plan.build.some((path) => path.endsWith('openbitfun-core-bbbbbbbbbbbbbbbb')));
+    assert.ok(plan.fingerprint.some((path) => path.endsWith('opc-core-aaaaaaaaaaaaaaaa')));
+    assert.ok(plan.fingerprint.some((path) => path.endsWith('opc-core-eeeeeeeeeeeeeeee')));
+    assert.ok(!plan.fingerprint.some((path) => path.endsWith('opc-core-bbbbbbbbbbbbbbbb')));
+    assert.ok(!plan.fingerprint.some((path) => path.endsWith('opc-core-cccccccccccccccc')));
+    assert.ok(!plan.fingerprint.some((path) => path.endsWith('opc-core-dddddddddddddddd')));
+    assert.ok(plan.deps.some((path) => path.endsWith('libopc_core-aaaaaaaaaaaaaaaa.rlib')));
+    assert.ok(plan.deps.some((path) => path.endsWith('libopc_core-eeeeeeeeeeeeeeee.rlib')));
+    assert.ok(!plan.deps.some((path) => path.endsWith('libopc_core-bbbbbbbbbbbbbbbb.rlib')));
+    assert.ok(!plan.deps.some((path) => path.endsWith('libopc_core-cccccccccccccccc.rlib')));
+    assert.ok(!plan.deps.some((path) => path.endsWith('libopc_core-dddddddddddddddd.rlib')));
+    assert.ok(plan.build.some((path) => path.endsWith('opc-core-aaaaaaaaaaaaaaaa')));
+    assert.ok(plan.build.some((path) => path.endsWith('opc-core-eeeeeeeeeeeeeeee')));
+    assert.ok(!plan.build.some((path) => path.endsWith('opc-core-bbbbbbbbbbbbbbbb')));
   } finally {
     cleanup();
   }
@@ -187,25 +187,25 @@ test('runCargoTargetGc prunes old generations and honors dry-run', () => {
     const targetDir = join(root, 'target');
     const profileDir = join(targetDir, 'debug');
     const now = Date.now();
-    touchDir(join(profileDir, 'incremental', 'openbitfun_demo-old'), now - 1_000);
-    touchDir(join(profileDir, 'incremental', 'openbitfun_demo-new'), now);
+    touchDir(join(profileDir, 'incremental', 'opc_demo-old'), now - 1_000);
+    touchDir(join(profileDir, 'incremental', 'opc_demo-new'), now);
     const unit = { target: 1, profile: 2, path: 3, compile_kind: 0 };
     touchFingerprint(
       profileDir,
-      'openbitfun-demo-aaaaaaaaaaaaaaaa',
-      'lib-openbitfun_demo',
+      'opc-demo-aaaaaaaaaaaaaaaa',
+      'lib-opc_demo',
       unit,
       now - 1_000
     );
     touchFingerprint(
       profileDir,
-      'openbitfun-demo-bbbbbbbbbbbbbbbb',
-      'lib-openbitfun_demo',
+      'opc-demo-bbbbbbbbbbbbbbbb',
+      'lib-opc_demo',
       unit,
       now
     );
-    touchFile(join(profileDir, 'deps', 'libopenbitfun_demo-aaaaaaaaaaaaaaaa.rlib'), now - 1_000);
-    touchFile(join(profileDir, 'deps', 'libopenbitfun_demo-bbbbbbbbbbbbbbbb.rlib'), now);
+    touchFile(join(profileDir, 'deps', 'libopc_demo-aaaaaaaaaaaaaaaa.rlib'), now - 1_000);
+    touchFile(join(profileDir, 'deps', 'libopc_demo-bbbbbbbbbbbbbbbb.rlib'), now);
     touchFile(join(profileDir, 'deps', 'libghost-cccccccccccccccc.rlib'), now - 2_000);
 
     const dry = runCargoTargetGc({
@@ -219,7 +219,7 @@ test('runCargoTargetGc prunes old generations and honors dry-run', () => {
     });
     assert.equal(dry.dryRun, true);
     assert.ok(dry.counts.total >= 2);
-    assert.ok(existsSync(join(profileDir, 'incremental', 'openbitfun_demo-old')));
+    assert.ok(existsSync(join(profileDir, 'incremental', 'opc_demo-old')));
 
     const live = runCargoTargetGc({
       rootDir: root,
@@ -231,18 +231,18 @@ test('runCargoTargetGc prunes old generations and honors dry-run', () => {
       logger: { info() {}, warn() {} },
     });
     assert.equal(live.skipped, false);
-    assert.equal(existsSync(join(profileDir, 'incremental', 'openbitfun_demo-old')), false);
-    assert.equal(existsSync(join(profileDir, 'incremental', 'openbitfun_demo-new')), true);
+    assert.equal(existsSync(join(profileDir, 'incremental', 'opc_demo-old')), false);
+    assert.equal(existsSync(join(profileDir, 'incremental', 'opc_demo-new')), true);
     assert.equal(
-      existsSync(join(profileDir, '.fingerprint', 'openbitfun-demo-aaaaaaaaaaaaaaaa')),
+      existsSync(join(profileDir, '.fingerprint', 'opc-demo-aaaaaaaaaaaaaaaa')),
       false
     );
     assert.equal(
-      existsSync(join(profileDir, 'deps', 'libopenbitfun_demo-aaaaaaaaaaaaaaaa.rlib')),
+      existsSync(join(profileDir, 'deps', 'libopc_demo-aaaaaaaaaaaaaaaa.rlib')),
       false
     );
     assert.equal(
-      existsSync(join(profileDir, 'deps', 'libopenbitfun_demo-bbbbbbbbbbbbbbbb.rlib')),
+      existsSync(join(profileDir, 'deps', 'libopc_demo-bbbbbbbbbbbbbbbb.rlib')),
       true
     );
     assert.equal(existsSync(join(profileDir, 'deps', 'libghost-cccccccccccccccc.rlib')), false);
@@ -316,8 +316,8 @@ test('dry-run environment remains effective when CLI omits the flag', () => {
   try {
     const targetDir = join(root, 'target');
     const profileDir = join(targetDir, 'debug');
-    touchDir(join(profileDir, 'incremental', 'openbitfun_demo-old'), 1);
-    touchDir(join(profileDir, 'incremental', 'openbitfun_demo-new'), 2);
+    touchDir(join(profileDir, 'incremental', 'opc_demo-old'), 1);
+    touchDir(join(profileDir, 'incremental', 'opc_demo-new'), 2);
     process.env.OPENBITFUN_TARGET_GC_DRY_RUN = '1';
 
     const result = runCargoTargetGc({
@@ -330,7 +330,7 @@ test('dry-run environment remains effective when CLI omits the flag', () => {
 
     assert.equal(parseGcArgs([]).dryRun, undefined);
     assert.equal(result.dryRun, true);
-    assert.equal(existsSync(join(profileDir, 'incremental', 'openbitfun_demo-old')), true);
+    assert.equal(existsSync(join(profileDir, 'incremental', 'opc_demo-old')), true);
   } finally {
     if (previous === undefined) {
       delete process.env.OPENBITFUN_TARGET_GC_DRY_RUN;

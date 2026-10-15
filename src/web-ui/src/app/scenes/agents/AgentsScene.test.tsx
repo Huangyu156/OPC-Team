@@ -250,7 +250,7 @@ describeWithJsdom('AgentsScene', () => {
     });
 
     expect(container.querySelector('[data-testid="create-agent-page"]')).toBeTruthy();
-    expect(container.querySelector('.openbitfun-agents-scene--page')).toBeTruthy();
+    expect(container.querySelector('.opc-agents-scene--page')).toBeTruthy();
   }, 10_000);
 
   it('keeps agent subpages stretched across the active scene viewport', () => {
@@ -283,12 +283,12 @@ describeWithJsdom('AgentsScene', () => {
       root.render(<AgentsScene />);
     });
 
-    const presentation = container.querySelector('.openbitfun-agents-scene__harness-presentation');
+    const presentation = container.querySelector('.opc-agents-scene__harness-presentation');
     expect(presentation?.tagName).toBe('UL');
     expect(presentation?.getAttribute('role')).toBe('list');
     expect(presentation?.getAttribute('aria-label')).toBe('harnessZone.title');
     expect(presentation?.querySelectorAll(':scope > li')).toHaveLength(4);
-    expect(presentation?.querySelectorAll('[data-openbitfun-component="harness-profile-step"]')).toHaveLength(4);
+    expect(presentation?.querySelectorAll('[data-opc-component="harness-profile-step"]')).toHaveLength(4);
 
     for (const id of ['Minimal', 'Standard', 'Ultimate', 'Creative']) {
       const profile = container.querySelector<HTMLElement>(`[data-testid="agents-harness-${id}"]`);
@@ -296,8 +296,8 @@ describeWithJsdom('AgentsScene', () => {
       expect(profile?.textContent).toContain(`harnessZone.profiles.${id}.name`);
       expect(profile?.textContent).toContain(`harnessZone.profiles.${id}.purpose`);
       expect(profile?.tagName).toBe('BUTTON');
-      expect(profile?.querySelector('.openbitfun-agents-scene__harness-profile-icon')).not.toBeNull();
-      expect(profile?.querySelector('.openbitfun-agents-scene__harness-route svg')).not.toBeNull();
+      expect(profile?.querySelector('.opc-agents-scene__harness-profile-icon')).not.toBeNull();
+      expect(profile?.querySelector('.opc-agents-scene__harness-route svg')).not.toBeNull();
       expect(profile?.dataset.openbitfunState).toBeUndefined();
     }
     expect(presentation?.querySelectorAll('button')).toHaveLength(4);

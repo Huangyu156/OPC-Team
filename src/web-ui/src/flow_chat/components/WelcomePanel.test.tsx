@@ -152,10 +152,10 @@ describe('WelcomePanel Git summary loading', () => {
     act(() => {
       root.unmount();
     });
-    document.querySelector('[data-openbitfun-overlay-host="true"]')?.remove();
+    document.querySelector('[data-opc-overlay-host="true"]')?.remove();
     document.head.querySelector('style[data-welcome-appearance-test]')?.remove();
     document.documentElement.removeAttribute('data-openbitfun-appearance');
-    document.documentElement.removeAttribute('data-openbitfun-appearance-revision');
+    document.documentElement.removeAttribute('data-opc-appearance-revision');
     container.remove();
   });
 
@@ -164,9 +164,9 @@ describe('WelcomePanel Git summary loading', () => {
       root.render(<WelcomePanel sessionMode='Standard' />);
     });
 
-    expect(container.querySelector('[data-openbitfun-product-part="workspaceAction"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-product-part="gitAction"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-product-part="gitAction"]')?.textContent).toContain('main');
+    expect(container.querySelector('[data-opc-product-part="workspaceAction"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-product-part="gitAction"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-product-part="gitAction"]')?.textContent).toContain('main');
   });
 
   it('does not render the retired panda mascot', async () => {
@@ -174,13 +174,13 @@ describe('WelcomePanel Git summary loading', () => {
       root.render(<WelcomePanel sessionMode="claw" workspacePath="D:/workspace/Assistant" />);
     });
 
-    expect(container.querySelector('[data-openbitfun-product-part="mascot"]')).toBeNull();
+    expect(container.querySelector('[data-opc-product-part="mascot"]')).toBeNull();
     expect(container.querySelector('img[src^="/panda_full_"]')).toBeNull();
   });
 
   it('keeps the welcome copy, Git scope and strip selection in sync without activating a workspace', async () => {
     await act(async () => root.render(<DraftWorkspaceSurfaces />));
-    const welcomeTrigger = () => container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="workspaceAction"]')!;
+    const welcomeTrigger = () => container.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceAction"]')!;
     const stripTrigger = () => container.querySelector<HTMLButtonElement>('[data-testid="chat-input-workspace-trigger"]')!;
     await act(async () => stripTrigger().click());
     await act(async () => document.querySelector<HTMLButtonElement>('[data-testid="chat-input-workspace-option-workspace-2"]')!.click());
@@ -188,17 +188,17 @@ describe('WelcomePanel Git summary loading', () => {
     expect(welcomeTrigger().textContent).toContain('Other project');
     expect(welcomeTrigger().title).toBe('D:/workspace/Other');
     expect(stripTrigger().textContent).toContain('Other project');
-    expect(container.querySelector('[data-openbitfun-product-part="gitAction"]')?.textContent).toContain('feature/other');
+    expect(container.querySelector('[data-opc-product-part="gitAction"]')?.textContent).toContain('feature/other');
     expect(workspaceMocks.gitScopes.at(-1)).toBe('workspace-2');
-    expect(container.querySelector('[data-openbitfun-product-part="narrative"]')?.textContent).toContain('welcome.waitingToStage');
+    expect(container.querySelector('[data-opc-product-part="narrative"]')?.textContent).toContain('welcome.waitingToStage');
     // A preview of B must not navigate to the shell's Git panel for A.
-    expect(container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="gitAction"]')?.disabled).toBe(true);
+    expect(container.querySelector<HTMLButtonElement>('[data-opc-product-part="gitAction"]')?.disabled).toBe(true);
 
     await act(async () => welcomeTrigger().click());
-    const menu = document.querySelector('[data-openbitfun-product-part="workspaceMenu"]')!;
+    const menu = document.querySelector('[data-opc-product-part="workspaceMenu"]')!;
     expect(menu.textContent).not.toContain('header.newProject');
     expect(menu.querySelector('[aria-checked="true"]')?.textContent).toContain('Other project');
-    await act(async () => menu.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="workspaceItem"]')!.click());
+    await act(async () => menu.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceItem"]')!.click());
 
     expect(welcomeTrigger().textContent).toContain('OpenBitFun');
     expect(stripTrigger().textContent).toContain('OpenBitFun');
@@ -215,11 +215,11 @@ describe('WelcomePanel Git summary loading', () => {
   it('closes the welcome selector when first submission binds the draft', async () => {
     const session = newDraft();
     await act(async () => root.render(<WelcomePanel session={session} />));
-    await act(async () => container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="workspaceAction"]')!.click());
-    expect(document.querySelector('[data-openbitfun-product-part="workspaceMenu"]')).not.toBeNull();
+    await act(async () => container.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceAction"]')!.click());
+    expect(document.querySelector('[data-opc-product-part="workspaceMenu"]')).not.toBeNull();
     await act(async () => root.render(<WelcomePanel session={{ ...session, draft: { ...session.draft!, phase: 'creating' } }} />));
-    expect(document.querySelector('[data-openbitfun-product-part="workspaceMenu"]')).toBeNull();
-    expect(container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="workspaceAction"]')?.disabled).toBe(true);
+    expect(document.querySelector('[data-opc-product-part="workspaceMenu"]')).toBeNull();
+    expect(container.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceAction"]')?.disabled).toBe(true);
     expect(workspaceMocks.switchWorkspace).not.toHaveBeenCalled();
   });
 
@@ -227,17 +227,17 @@ describe('WelcomePanel Git summary loading', () => {
     const session = newDraft();
     session.draft!.workspaceId = 'closed-workspace';
     await act(async () => root.render(<WelcomePanel session={session} />));
-    const trigger = container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="workspaceAction"]')!;
+    const trigger = container.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceAction"]')!;
     expect(trigger.textContent).toContain('workspaceStrip.unavailableLabel');
     expect(trigger.disabled).toBe(false);
-    expect(container.querySelector('[data-openbitfun-product-part="gitAction"]')).toBeNull();
+    expect(container.querySelector('[data-opc-product-part="gitAction"]')).toBeNull();
     expect(workspaceMocks.gitScopes.at(-1)).toBe('');
   });
 
   it('keeps an existing empty session bound to its own workspace', async () => {
     const session = { ...newDraft(), draft: undefined, workspaceId: 'workspace-2' };
     await act(async () => root.render(<WelcomePanel session={session} />));
-    const trigger = container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="workspaceAction"]')!;
+    const trigger = container.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceAction"]')!;
     expect(trigger.textContent).toContain('Other project');
     expect(trigger.disabled).toBe(true);
     expect(workspaceMocks.gitScopes.at(-1)).toBe('workspace-2');
@@ -248,18 +248,18 @@ describe('WelcomePanel Git summary loading', () => {
       root.render(<WelcomePanel sessionMode='Standard' />);
     });
 
-    const trigger = container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="workspaceAction"]');
-    expect(trigger?.getAttribute('data-openbitfun-component')).toBe('button');
+    const trigger = container.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceAction"]');
+    expect(trigger?.getAttribute('data-opc-component')).toBe('button');
     expect(trigger?.querySelector('[data-overflow-behavior]')).toBeNull();
-    await act(async () => trigger?.querySelector<HTMLElement>('[data-openbitfun-part="label"]')?.click());
+    await act(async () => trigger?.querySelector<HTMLElement>('[data-opc-part="label"]')?.click());
 
-    const menu = document.querySelector<HTMLElement>('[data-openbitfun-product-part="workspaceMenu"]');
-    expect(menu?.closest('[data-openbitfun-overlay-host]')?.getAttribute('data-openbitfun-overlay-host')).toBe('true');
+    const menu = document.querySelector<HTMLElement>('[data-opc-product-part="workspaceMenu"]');
+    expect(menu?.closest('[data-opc-overlay-host]')?.getAttribute('data-opc-overlay-host')).toBe('true');
     expect(menu?.style.visibility).toBe('visible');
 
-    await act(async () => trigger?.querySelector<HTMLElement>('[data-openbitfun-part="trailing-icon"]')?.click());
+    await act(async () => trigger?.querySelector<HTMLElement>('[data-opc-part="trailing-icon"]')?.click());
     expect(trigger?.getAttribute('aria-expanded')).toBe('false');
-    expect(document.querySelector('[data-openbitfun-product-part="workspaceMenu"]')).toBeNull();
+    expect(document.querySelector('[data-opc-product-part="workspaceMenu"]')).toBeNull();
   });
 
   it('keeps saved welcome action styles targeting the migrated Button', async () => {
@@ -278,7 +278,7 @@ describe('WelcomePanel Git summary loading', () => {
     const snapshot = new AppearanceCompiler(registry).compile(restored, 1);
     expect(JSON.stringify(restored)).toBe(serialized);
     document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
-    document.documentElement.setAttribute('data-openbitfun-appearance-revision', String(snapshot.revision));
+    document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
     const style = document.createElement('style');
     style.setAttribute('data-welcome-appearance-test', '');
     style.textContent = snapshot.cssText;
@@ -291,7 +291,7 @@ describe('WelcomePanel Git summary loading', () => {
     ) as CSSStyleRule | undefined;
     expect(rule).toBeDefined();
     expect(document.querySelector(rule!.selectorText)).toBe(
-      container.querySelector('[data-openbitfun-product-part="workspaceAction"]'),
+      container.querySelector('[data-opc-product-part="workspaceAction"]'),
     );
   });
 });

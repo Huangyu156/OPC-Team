@@ -8,7 +8,7 @@ import {
 } from "@openbitfun/token-engine";
 
 const execFileAsync = promisify(execFile);
-const ENDPOINT = "/__openbitfun-design-lab/token-source";
+const ENDPOINT = "/__opc-design-lab/token-source";
 const MAX_BODY_BYTES = 128 * 1024;
 
 const targetDefinitions = {
@@ -303,7 +303,7 @@ export function createTokenAuthoringPlugin({ designSystemDirectory }) {
   let writeQueue = Promise.resolve();
 
   return {
-    name: "openbitfun-token-authoring",
+    name: "opc-token-authoring",
     configureServer(server) {
       server.middlewares.use(async (request, response, next) => {
         const requestUrl = new URL(request.url ?? "/", "http://127.0.0.1");

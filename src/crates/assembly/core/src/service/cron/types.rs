@@ -1,10 +1,10 @@
 //! Scheduled job data types.
 
-use openbitfun_agent_runtime::scheduled_job::DEFAULT_SCHEDULED_JOB_RETRY_DELAY_MS;
-pub use openbitfun_agent_runtime::scheduled_job::{
+use opc_agent_runtime::scheduled_job::DEFAULT_SCHEDULED_JOB_RETRY_DELAY_MS;
+pub use opc_agent_runtime::scheduled_job::{
     ScheduledJobRunStatus as CronJobRunStatus, ScheduledJobRuntimeState as CronJobState,
 };
-use openbitfun_core_types::SessionExecutionTarget;
+use opc_core_types::SessionExecutionTarget;
 use serde::{Deserialize, Serialize};
 
 pub const CRON_JOBS_VERSION: u32 = 2;

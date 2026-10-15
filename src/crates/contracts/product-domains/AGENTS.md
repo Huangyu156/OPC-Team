@@ -4,13 +4,13 @@
 
 Scope: this guide applies to `src/crates/contracts/product-domains`.
 
-`openbitfun-product-domains` owns platform-agnostic product-domain contracts that can
+`opc-product-domains` owns platform-agnostic product-domain contracts that can
 compile without the full core runtime. Keep it focused on pure state, DTOs,
 policies, and narrow ports; concrete runtime behavior belongs outside this crate.
 
 ## Guardrails
 
-- Do not add a dependency from `openbitfun-product-domains` to `openbitfun-core`.
+- Do not add a dependency from `opc-product-domains` to `opc-core`.
 - Keep the default feature lightweight. Default builds must not pull runtime,
   service, desktop, network, process, AI, or tool-runtime dependencies.
 - This crate may own pure DTOs, enums, serialization contracts, search plans,
@@ -41,7 +41,7 @@ policies, and narrow ports; concrete runtime behavior belongs outside this crate
   typed peer capability list, and the exported artifact under `src/generated/`.
   Hosts and the Web UI derive their tables from it; it never executes anything.
   Design: `docs/architecture/remote-surface-contract.md`. Focused check:
-  `cargo test -p openbitfun-product-domains --no-default-features remote_surface`,
+  `cargo test -p opc-product-domains --no-default-features remote_surface`,
   then `pnpm run capabilities:generate` to refresh the generated projections.
 - `external-sources` may own open ecosystem/source identifiers, typed
   capability-provider ports, catalog DTOs, and version-sensitive conflict
@@ -60,10 +60,10 @@ policies, and narrow ports; concrete runtime behavior belongs outside this crate
 Use the smallest matching check for the changed surface:
 
 ```bash
-cargo test -p openbitfun-product-domains --no-default-features
-cargo test -p openbitfun-product-domains --features product-full
+cargo test -p opc-product-domains --no-default-features
+cargo test -p opc-product-domains --features product-full
 node scripts/check-core-boundaries.mjs
-cargo check -p openbitfun-core --features product-full
+cargo check -p opc-core --features product-full
 ```
 
 For documentation-only changes, run `git diff --check`.
@@ -71,6 +71,6 @@ For documentation-only changes, run `git diff --check`.
 For MiniApp bridge/session or embedded bundle changes, use the focused contracts:
 
 ```bash
-cargo test --locked -p openbitfun-product-domains --no-default-features --features miniapp --lib miniapp::agent_bridge::tests
-cargo test --locked -p openbitfun-product-domains --no-default-features --features miniapp --test miniapp_contracts
+cargo test --locked -p opc-product-domains --no-default-features --features miniapp --lib miniapp::agent_bridge::tests
+cargo test --locked -p opc-product-domains --no-default-features --features miniapp --test miniapp_contracts
 ```

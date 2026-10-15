@@ -20,11 +20,11 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use tauri::State;
 
 use crate::api::app_state::AppState;
-use openbitfun_core::agentic::coordination::{
+use opc_core::agentic::coordination::{
     ConversationCoordinator, DialogScheduler, DialogSubmissionPolicy, DialogTriggerSource,
 };
-use openbitfun_core::agentic::core::{MessageContent, MessageRole, Session, SessionConfig};
-use openbitfun_core::miniapp::agent_bridge::{
+use opc_core::agentic::core::{MessageContent, MessageRole, Session, SessionConfig};
+use opc_core::miniapp::agent_bridge::{
     agent_prompt_with_context_paths, agent_run_id_from_request, build_agent_submission_plan,
     extract_agent_turn_text, require_agent_prompt, require_enabled_agent_permissions,
     validate_reused_session, MiniAppAgentRateLimiter, MiniAppAgentRunRecord,
@@ -32,12 +32,12 @@ use openbitfun_core::miniapp::agent_bridge::{
     MiniAppAgentTurnMessageRole, MINIAPP_AGENT_KIND, UNKNOWN_AGENT_RUN_MESSAGE,
     UNKNOWN_AGENT_SESSION_MESSAGE,
 };
-use openbitfun_core::miniapp::agent_context::{
+use opc_core::miniapp::agent_context::{
     remove_agent_context_snapshot, reserve_agent_context_snapshot, MiniAppAgentContextInput,
     MiniAppAgentContextSnapshot,
 };
-use openbitfun_core::miniapp::agent_workspace::prepare_agent_workspace;
-use openbitfun_core::OpcTeamError;
+use opc_core::miniapp::agent_workspace::prepare_agent_workspace;
+use opc_core::OpcTeamError;
 
 // ============== Run registry ==============
 
@@ -61,11 +61,11 @@ fn agent_rate_limiter() -> &'static MiniAppAgentRateLimiter {
 }
 
 struct MiniAppAgentContextCleanupEmitter {
-    inner: Arc<dyn openbitfun_core::infrastructure::events::EventEmitter>,
+    inner: Arc<dyn opc_core::infrastructure::events::EventEmitter>,
 }
 
 #[async_trait::async_trait]
-impl openbitfun_core::infrastructure::events::EventEmitter for MiniAppAgentContextCleanupEmitter {
+impl opc_core::infrastructure::events::EventEmitter for MiniAppAgentContextCleanupEmitter {
     async fn emit(&self, event_name: &str, payload: serde_json::Value) -> anyhow::Result<()> {
         let terminal_turn = matches!(
             event_name,
@@ -90,8 +90,8 @@ impl openbitfun_core::infrastructure::events::EventEmitter for MiniAppAgentConte
 }
 
 pub fn wrap_miniapp_agent_context_cleanup_emitter(
-    inner: Arc<dyn openbitfun_core::infrastructure::events::EventEmitter>,
-) -> Arc<dyn openbitfun_core::infrastructure::events::EventEmitter> {
+    inner: Arc<dyn opc_core::infrastructure::events::EventEmitter>,
+) -> Arc<dyn opc_core::infrastructure::events::EventEmitter> {
     Arc::new(MiniAppAgentContextCleanupEmitter { inner })
 }
 
@@ -132,7 +132,7 @@ fn agent_prompt_with_context(
 async fn require_agent_permission(
     state: &AppState,
     app_id: &str,
-) -> Result<openbitfun_core::miniapp::AgentPermissions, String> {
+) -> Result<opc_core::miniapp::AgentPermissions, String> {
     require_agent_access(state, app_id)
         .await
         .map(|(permissions, _)| permissions)
@@ -144,7 +144,7 @@ async fn require_agent_permission(
 async fn require_agent_access(
     state: &AppState,
     app_id: &str,
-) -> Result<(openbitfun_core::miniapp::AgentPermissions, bool), String> {
+) -> Result<(opc_core::miniapp::AgentPermissions, bool), String> {
     let app = state
         .miniapp_manager
         .get(app_id)
@@ -152,7 +152,7 @@ async fn require_agent_access(
         .map_err(|e| e.to_string())?;
     let market_strict = matches!(
         app.runtime_profile,
-        openbitfun_core::miniapp::types::MiniAppRuntimeProfile::MarketStrict
+        opc_core::miniapp::types::MiniAppRuntimeProfile::MarketStrict
     );
     let permissions = require_enabled_agent_permissions(app.permissions.agent.as_ref())?;
     Ok((permissions, market_strict))
@@ -626,8 +626,8 @@ pub async fn miniapp_agent_run(
     }
 
     let status = match outcome {
-        openbitfun_core::agentic::coordination::DialogSubmitOutcome::Started { .. } => "started",
-        openbitfun_core::agentic::coordination::DialogSubmitOutcome::Queued { .. } => "queued",
+        opc_core::agentic::coordination::DialogSubmitOutcome::Started { .. } => "started",
+        opc_core::agentic::coordination::DialogSubmitOutcome::Queued { .. } => "queued",
     };
 
     agent_run_registry().register(MiniAppAgentRunRecord {
@@ -760,8 +760,8 @@ mod tests {
         MiniAppAgentEnsureSessionRequest, MiniAppAgentRunRequest,
         DEFAULT_MINIAPP_AGENT_DISPLAY_TEXT,
     };
-    use openbitfun_core::miniapp::agent_bridge::is_clean_relative_subdir;
-    use openbitfun_core::miniapp::agent_context::{
+    use opc_core::miniapp::agent_bridge::is_clean_relative_subdir;
+    use opc_core::miniapp::agent_context::{
         agent_context_file, publish_agent_context_snapshot, MiniAppAgentContextInput,
     };
     use serde_json::json;
@@ -839,7 +839,7 @@ mod tests {
     struct TestEmitter;
 
     #[async_trait::async_trait]
-    impl openbitfun_core::infrastructure::events::EventEmitter for TestEmitter {
+    impl opc_core::infrastructure::events::EventEmitter for TestEmitter {
         async fn emit(&self, _event_name: &str, _payload: serde_json::Value) -> anyhow::Result<()> {
             Ok(())
         }

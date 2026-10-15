@@ -265,8 +265,8 @@ const FlowChatListHeader = forwardRef<HTMLDivElement, {
   <div ref={ref} className="message-list-header-block">
     <div
       className="message-list-header"
-      data-openbitfun-component="virtual-message-list"
-      data-openbitfun-part="header"
+      data-opc-component="virtual-message-list"
+      data-opc-part="header"
       style={{
         height: `${FLOWCHAT_TURN_TOP_GAP_PX}px`,
         minHeight: `${FLOWCHAT_TURN_TOP_GAP_PX}px`,
@@ -291,8 +291,8 @@ const FlowChatListFooter = ({
   <>
     <div
       className="message-list-footer"
-      data-openbitfun-component="virtual-message-list"
-      data-openbitfun-part="footer"
+      data-opc-component="virtual-message-list"
+      data-opc-part="footer"
       style={{
         height: `${bottomLayoutInsetPx}px`,
         minHeight: `${bottomLayoutInsetPx}px`,
@@ -304,8 +304,8 @@ const FlowChatListFooter = ({
     {/* Flex consumes/restores the latest Turn's trailing space without per-token writes. */}
     <div
       className="message-list-tail-spacer"
-      data-openbitfun-component="virtual-message-list"
-      data-openbitfun-part="tailSpacer"
+      data-opc-component="virtual-message-list"
+      data-opc-part="tailSpacer"
       aria-hidden="true"
       style={{
         height: `${tailSpacerPx}px`,
@@ -324,9 +324,9 @@ const FlowChatHistoryPagingSentinel = ({
 }) => (
   <div
     className="virtual-message-list__history-paging-sentinel"
-    data-openbitfun-component="virtual-message-list"
-    data-openbitfun-part="boundaryStatus"
-    data-openbitfun-state={state === 'loading' ? 'preparing' : state === 'error' ? 'unavailable' : undefined}
+    data-opc-component="virtual-message-list"
+    data-opc-part="boundaryStatus"
+    data-opc-state={state === 'loading' ? 'preparing' : state === 'error' ? 'unavailable' : undefined}
     data-history-paging-sentinel={state}
     data-history-boundary-status={state === 'loading' ? 'preparing' : state === 'error' ? 'not-ready' : undefined}
     aria-hidden={state === 'idle'}
@@ -2276,7 +2276,7 @@ const VirtualMessageListSession = forwardRef<VirtualMessageListRef, VirtualMessa
             // Compatibility groups still own a local disclosure. This scoped
             // activation belongs to navigation, not a new reader gesture.
             isExpandingSearchSourceRef.current = true;
-            try { expandable.querySelector<HTMLElement>('[data-openbitfun-part="header"][role="button"]')?.click(); }
+            try { expandable.querySelector<HTMLElement>('[data-opc-part="header"][role="button"]')?.click(); }
             finally { isExpandingSearchSourceRef.current = false; }
           }
           retry('source-not-expanded');
@@ -2632,14 +2632,14 @@ const VirtualMessageListSession = forwardRef<VirtualMessageListRef, VirtualMessa
   if (virtualItems.length === 0) {
     return (
       <div
-        data-openbitfun-component="virtual-message-list"
-        data-openbitfun-part="root"
-        data-openbitfun-state="empty"
+        data-opc-component="virtual-message-list"
+        data-opc-part="root"
+        data-opc-state="empty"
         className="virtual-message-list virtual-message-list--empty"
         data-testid="flowchat-message-list-empty"
       >
-        <div className="empty-state" data-openbitfun-component="virtual-message-list" data-openbitfun-part="empty">
-          <p data-openbitfun-component="virtual-message-list" data-openbitfun-part="emptyMessage">No messages yet</p>
+        <div className="empty-state" data-opc-component="virtual-message-list" data-opc-part="empty">
+          <p data-opc-component="virtual-message-list" data-opc-part="emptyMessage">No messages yet</p>
         </div>
       </div>
     );
@@ -2653,8 +2653,8 @@ const VirtualMessageListSession = forwardRef<VirtualMessageListRef, VirtualMessa
       onRepaired={viewportAnchor.captureAnchor}>
     <FlowChatPrependSnapshot itemKeys={prependItemKeys} scrollerRef={scrollerElementRef} snapshotRef={prependSnapshotRef}>
     <FlowChatOpeningBoundary
-      data-openbitfun-component="virtual-message-list"
-      data-openbitfun-part="root"
+      data-opc-component="virtual-message-list"
+      data-opc-part="root"
       className="virtual-message-list"
       data-testid="flowchat-message-list"
       data-presentation-mode={presentationMode}
@@ -2668,7 +2668,7 @@ const VirtualMessageListSession = forwardRef<VirtualMessageListRef, VirtualMessa
         className="virtual-message-list__scroller"
         data-flowchat-scroller="true"
         data-testid="flowchat-scroller"
-        data-openbitfun-viewport-inset-bottom={inputOverlayInsetPx}
+        data-opc-viewport-inset-bottom={inputOverlayInsetPx}
         style={{
           '--_flow-chat-input-overlay-inset': `${inputOverlayInsetPx}px`,
         } as React.CSSProperties}
@@ -2685,8 +2685,8 @@ const VirtualMessageListSession = forwardRef<VirtualMessageListRef, VirtualMessa
         */}
         <div
           className="virtual-message-list__items"
-          data-openbitfun-component="virtual-message-list"
-          data-openbitfun-part="items"
+          data-opc-component="virtual-message-list"
+          data-opc-part="items"
           data-testid="flowchat-item-list"
           style={{
             paddingTop: `${virtualizer.paddingTopPx}px`,

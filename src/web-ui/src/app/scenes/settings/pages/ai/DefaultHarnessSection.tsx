@@ -174,7 +174,7 @@ export function DefaultHarnessSection(): React.ReactElement {
           align="center"
         >
           <div
-            className="openbitfun-runtime-settings__row-control"
+            className="opc-runtime-settings__row-control"
             data-testid="default-harness-strategy"
           >
             <Select
@@ -196,7 +196,7 @@ export function DefaultHarnessSection(): React.ReactElement {
             align="center"
           >
             <div
-              className="openbitfun-runtime-settings__row-control"
+              className="opc-runtime-settings__row-control"
               data-testid="default-harness-fixed-mode"
             >
               <Select

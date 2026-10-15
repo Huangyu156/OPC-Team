@@ -1,6 +1,6 @@
 //! Built-in skills shipped with OPC-Team.
 //!
-//! These skills are embedded into the `openbitfun-core` binary and installed into a
+//! These skills are embedded into the `opc-core` binary and installed into a
 //! managed `.system` directory under the user skills root on demand.
 
 use crate::infrastructure::get_path_manager_arc;
@@ -311,7 +311,7 @@ async fn desired_file_content(
 #[cfg(test)]
 mod tests {
     use super::BUILTIN_SKILLS_DIR;
-    use openbitfun_agent_runtime::skills::{SkillData, SkillLocation};
+    use opc_agent_runtime::skills::{SkillData, SkillLocation};
 
     fn embedded_skill_text(path: &str) -> &'static str {
         BUILTIN_SKILLS_DIR
@@ -323,14 +323,14 @@ mod tests {
 
     #[test]
     fn custom_agent_skill_embeds_parseable_templates() {
-        use openbitfun_agent_runtime::custom_agent::{
+        use opc_agent_runtime::custom_agent::{
             custom_agent_read_markdown_str, default_custom_agent_tools,
             default_custom_agent_user_context_policy, CustomAgentKind, CustomAgentLevel,
             CUSTOM_AGENT_SCHEMA_VERSION,
         };
 
         let skill = SkillData::from_markdown(
-            "/openbitfun-system/create-agent".to_string(),
+            "/opc-system/create-agent".to_string(),
             embedded_skill_text("create-agent/SKILL.md"),
             SkillLocation::User,
             true,
@@ -390,7 +390,7 @@ mod tests {
     fn plan_skill_embeds_a_valid_plan_artifact_workflow() {
         let text = embedded_skill_text("plan/SKILL.md");
         let skill = SkillData::from_markdown(
-            "/openbitfun-system/plan".to_string(),
+            "/opc-system/plan".to_string(),
             text,
             SkillLocation::User,
             true,
@@ -400,7 +400,7 @@ mod tests {
         assert_eq!(skill.name, "plan");
         assert!(skill.content.contains(&format!(
             "{}/plans/<short-kebab-name>.plan.md",
-            openbitfun_core_types::product_identity::hidden_data_directory()
+            opc_core_types::product_identity::hidden_data_directory()
         )));
         assert!(skill.content.contains("status: pending"));
     }
@@ -409,7 +409,7 @@ mod tests {
     fn debug_skill_embeds_the_canonical_name_and_log_receiver() {
         let text = embedded_skill_text("debug/SKILL.md");
         let skill = SkillData::from_markdown(
-            "/openbitfun-system/debug".to_string(),
+            "/opc-system/debug".to_string(),
             text,
             SkillLocation::User,
             true,
@@ -425,7 +425,7 @@ mod tests {
     #[test]
     fn canvas_skills_keep_internal_artifact_references_out_of_chat() {
         for path in [
-            "openbitfun-canvas/SKILL.md",
+            "opc-canvas/SKILL.md",
             "pr-review-canvas/SKILL.md",
             "agent-eval-canvas/SKILL.md",
         ] {
@@ -435,7 +435,7 @@ mod tests {
                 "{path} must tell the agent to leave Canvas URI presentation to the client"
             );
             assert!(
-                !text.contains("give the returned `openbitfun-canvas://...` artifact reference"),
+                !text.contains("give the returned `opc-canvas://...` artifact reference"),
                 "{path} still instructs the agent to expose an internal Canvas URI"
             );
         }
@@ -465,7 +465,7 @@ mod tests {
     }
 
     #[test]
-    fn create_openbitfun_skin_embeds_authoring_contract_and_example() {
+    fn create_opc_skin_embeds_authoring_contract_and_example() {
         let skill = embedded_skill_text("create-openbitfun-skin/SKILL.md");
         assert!(skill.contains("name: create-openbitfun-skin"));
 

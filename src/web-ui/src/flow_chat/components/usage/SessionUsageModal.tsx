@@ -84,8 +84,8 @@ export const SessionUsageModal: React.FC = () => {
       <DialogBody>
         <div
           className="session-usage-dialog__content"
-          data-openbitfun-component="session-usage-modal"
-          data-openbitfun-part="content"
+          data-opc-component="session-usage-modal"
+          data-opc-part="content"
         >
           <SessionUsageReportCard
             compact

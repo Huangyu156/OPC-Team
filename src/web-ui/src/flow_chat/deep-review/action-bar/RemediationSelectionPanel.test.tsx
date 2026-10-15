@@ -29,7 +29,7 @@ vi.mock('react-i18next', () => ({
 }));
 
 vi.mock('@openbitfun/ui', async () => ({
-  Icon: ({ name }: { name: string }) => <span data-openbitfun-component="icon" data-openbitfun-name={name} />,
+  Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   Button: ({
     children,
     disabled,
@@ -232,7 +232,7 @@ describeWithJsdom('RemediationSelectionPanel interactions', () => {
     mount(<Panel />);
     const header = container.querySelector<HTMLElement>('.deep-review-action-bar__remediation-toggle')!;
     const checkbox = header.querySelector<HTMLInputElement>('input[type="checkbox"]')!;
-    const box = header.querySelector<HTMLElement>('[data-openbitfun-part="box"]')!;
+    const box = header.querySelector<HTMLElement>('[data-opc-part="box"]')!;
 
     for (const target of [checkbox, box]) {
       act(() => { target.click(); });

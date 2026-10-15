@@ -1,12 +1,12 @@
 [package]
-name = "openbitfun-data-migrator"
+name = "opc-data-migrator"
 version = "0.1.2"
 authors.workspace = true
 edition.workspace = true
 description = "OpenBitFun offline legacy data migrator"
 
 [lib]
-name = "openbitfun_data_migrator_lib"
+name = "opc_data_migrator_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [[bin]]
@@ -17,10 +17,10 @@ path = "src/main.rs"
 tauri-build = { workspace = true }
 
 [dependencies]
-openbitfun-legacy-migration-adapters = { path = "../../crates/services/legacy-migration-adapters" }
-openbitfun-core-types = { path = "../../crates/contracts/core-types" }
-openbitfun-legacy-migration = { path = "../../crates/services/legacy-migration" }
-openbitfun-product-domains = { path = "../../crates/contracts/product-domains", features = ["legacy-migration"] }
+opc-legacy-migration-adapters = { path = "../../crates/services/legacy-migration-adapters" }
+opc-core-types = { path = "../../crates/contracts/core-types" }
+opc-legacy-migration = { path = "../../crates/services/legacy-migration" }
+opc-product-domains = { path = "../../crates/contracts/product-domains", features = ["legacy-migration"] }
 serde = { workspace = true }
 serde_json = { workspace = true }
 tauri = { workspace = true }

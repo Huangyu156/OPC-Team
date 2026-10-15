@@ -20,7 +20,7 @@ test("OverflowText preserves the complete accessible text while exposing overflo
   assert.match(markup, /data-overflow="false"/);
   assert.match(markup, /data-overflow-behavior="marquee"/);
   assert.match(markup, />deepseek-v4-pro-with-a-long-suffix<\/span>/);
-  assert.match(markup, /data-openbitfun-part="content"/);
+  assert.match(markup, /data-opc-part="content"/);
 });
 
 test("OverflowText preserves rich composition and allows explicit static or highlighted text", () => {
@@ -75,7 +75,7 @@ test("OverflowText measures real clipping for fade and marquee treatments", asyn
   assert.match(styles, /data-overflow-behavior="fade"/);
   assert.match(styles, /data-overflow-behavior="marquee"/);
   assert.match(styles, /--opcteam-layout-overflow-text-fade-extent/);
-  assert.match(styles, /openbitfun-overflow-text-marquee/);
+  assert.match(styles, /opc-overflow-text-marquee/);
   assert.match(styles, /prefers-reduced-motion:\s*reduce/);
   assert.match(styles, /\.root:dir\(rtl\)/);
   assert.match(styles, /\.root\[data-overflow-style="ellipsis"\] > \.content\s*\{[^}]*text-overflow:\s*ellipsis/s);

@@ -12,8 +12,8 @@ use crate::service::workspace_runtime::{
 };
 use async_trait::async_trait;
 use log::{debug, info, warn};
-use openbitfun_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
-use openbitfun_services_core::workspace_identity::WorkspaceSessionIdentity;
+use opc_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
+use opc_services_core::workspace_identity::WorkspaceSessionIdentity;
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
@@ -547,7 +547,7 @@ fn bound_snapshot_context(
         WorkspaceRuntimeTarget::LocalWorkspace { workspace_root } => {
             if identity.is_remote()
                 || identity.hostname
-                    != openbitfun_services_core::workspace_identity::LOCAL_WORKSPACE_SSH_HOST
+                    != opc_services_core::workspace_identity::LOCAL_WORKSPACE_SSH_HOST
                 || canonical_snapshot_io_path(workspace_root)
                     != canonical_snapshot_io_path(Path::new(&identity.logical_workspace_path))
             {
@@ -941,7 +941,7 @@ impl Tool for WrappedTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> crate::util::errors::OpcTeamResult<Vec<openbitfun_agent_tools::PermissionIntent>> {
+    ) -> crate::util::errors::OpcTeamResult<Vec<opc_agent_tools::PermissionIntent>> {
         self.original_tool.permission_intents(input, context)
     }
 
@@ -1454,10 +1454,8 @@ mod tests {
 
     impl TestWorkspace {
         async fn new() -> Self {
-            let path = std::env::temp_dir().join(format!(
-                "openbitfun-snapshot-manager-test-{}",
-                Uuid::new_v4()
-            ));
+            let path =
+                std::env::temp_dir().join(format!("opc-snapshot-manager-test-{}", Uuid::new_v4()));
             std::fs::create_dir_all(&path).expect("test workspace should be created");
             let record =
                 crate::service::workspace::legacy_compat::register_local_fixture(&path, None).await;
@@ -1494,7 +1492,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -1762,7 +1760,7 @@ mod tests {
     #[tokio::test]
     async fn wrapped_remote_mutation_preserves_tool_error_without_repeating() {
         let workspace = TestWorkspace::new().await;
-        let remote_root = format!("/openbitfun-tests/snapshot-single-call/{}", Uuid::new_v4());
+        let remote_root = format!("/opc-tests/snapshot-single-call/{}", Uuid::new_v4());
         let connection_id = format!("snapshot-test-{}", Uuid::new_v4());
         let mut context = tool_context(workspace.path().to_path_buf(), "failed-remote-tool").await;
         let record = crate::service::workspace::legacy_compat::register_remote_fixture(
@@ -1776,8 +1774,8 @@ mod tests {
             PathBuf::from(&remote_root),
             connection_id.clone(),
             "test".into(),
-            openbitfun_services_core::workspace_identity::WorkspaceSessionIdentity {
-                workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+            opc_services_core::workspace_identity::WorkspaceSessionIdentity {
+                workspace_kind: opc_core_types::WorkspaceKind::Remote,
                 hostname: "test-host".into(),
                 logical_workspace_path: remote_root.clone(),
                 remote_connection_id: Some(connection_id),

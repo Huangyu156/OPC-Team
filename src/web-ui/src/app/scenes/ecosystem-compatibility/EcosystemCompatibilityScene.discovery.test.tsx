@@ -228,9 +228,9 @@ describe('compatibility discovery lifecycle', () => {
     await act(async () => discoverySwitch().click());
     const alert = container.querySelector('[data-external-discovery-control] [role="alert"]');
     expect(alert?.textContent).toBe('discovery.saveFailed');
-    expect(alert?.getAttribute('data-openbitfun-component')).toBe('alert');
+    expect(alert?.getAttribute('data-opc-component')).toBe('alert');
     expect(alert?.getAttribute('aria-live')).toBe('assertive');
-    expect(alert?.querySelector('[data-openbitfun-part="icon"]')).toBeNull();
+    expect(alert?.querySelector('[data-opc-part="icon"]')).toBeNull();
     expect(discoverySwitch().checked).toBe(true);
     expect(discoverySwitch().disabled).toBe(false);
     expect(mocks.getDiscoverySnapshot).toHaveBeenLastCalledWith('workspace-a', false);

@@ -28,7 +28,7 @@ pub async fn status(State(state): State<Arc<AppState>>) -> WebDriverResponse {
         "message": "OPC-Team embedded WebDriver is ready",
         "build": {
             "version": env!("CARGO_PKG_VERSION"),
-            "name": "openbitfun-embedded-webdriver"
+            "name": "opc-embedded-webdriver"
         }
     }))
 }

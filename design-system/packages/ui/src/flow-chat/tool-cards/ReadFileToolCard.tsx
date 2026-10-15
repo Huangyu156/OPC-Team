@@ -39,7 +39,7 @@ export function ReadFileToolCard({
       {...props}
       aria-label={accessibleLabel}
       className={className}
-      data-openbitfun-tool-card="read-file"
+      data-opc-tool-card="read-file"
       header={(
         <AmbientToolCardHeader
           action={action}
@@ -48,8 +48,8 @@ export function ReadFileToolCard({
             <IconButton
               aria-label={messages.toolCardOpenDetails}
               title={messages.toolCardOpenDetails}
-              data-openbitfun-affordance="open-panel-right"
-              data-openbitfun-part="affordanceButton"
+              data-opc-affordance="open-panel-right"
+              data-opc-part="affordanceButton"
               icon={<Icon name="arrow-up-right" size="sm" />}
               onClick={onOpen}
               size="sm"

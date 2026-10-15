@@ -1,5 +1,5 @@
 // Pure projections and review text derived from the external-source catalog.
-use openbitfun_product_domains::external_source_control::{
+use opc_product_domains::external_source_control::{
     ExternalSourceDesiredState, ExternalSourceEffectiveStatus, ExternalSourceRecoveryActionV1,
 };
 
@@ -165,7 +165,7 @@ fn external_command_counts(snapshot: &ExternalSourceCatalogSnapshot) -> (usize, 
 fn external_integration_policy_lines(snapshot: &ExternalSourceCatalogSnapshot) -> Vec<String> {
     let policy = &snapshot.integration_policy;
     if policy.status
-        == openbitfun_product_domains::external_integration_policy::ExternalIntegrationPolicyStatus::IncompatibleSchema
+        == opc_product_domains::external_integration_policy::ExternalIntegrationPolicyStatus::IncompatibleSchema
     {
         return vec![
             format!(
@@ -181,8 +181,7 @@ fn external_integration_policy_lines(snapshot: &ExternalSourceCatalogSnapshot) -
                 "Access: safely off; unsupported policy status '{}'",
                 policy.status.as_str()
             ),
-            "Recover: upgrade OPC-Team or connect through a compatible workspace host"
-                .to_string(),
+            "Recover: upgrade OPC-Team or connect through a compatible workspace host".to_string(),
         ];
     }
     let scope = if policy.workspace_override.is_some() {
@@ -287,7 +286,7 @@ fn parse_external_control_action(arguments: &str) -> Result<ExternalControlUiAct
 }
 
 fn external_control_status_text(
-    control: &openbitfun_product_domains::external_source_control::ExternalSourceControlSnapshotV1,
+    control: &opc_product_domains::external_source_control::ExternalSourceControlSnapshotV1,
 ) -> String {
     let mut lines = vec!["Extensions".to_string(), String::new()];
     if control.safe_mode {
@@ -378,7 +377,7 @@ struct ExternalControlMutationResult {
     action: ExternalControlUiAction,
     result: std::result::Result<
         (
-            openbitfun_product_domains::external_source_control::ExternalSourceControlSnapshotV1,
+            opc_product_domains::external_source_control::ExternalSourceControlSnapshotV1,
             Option<ExternalSourceCatalogSnapshot>,
             Option<ExternalSourceConflictPreferences>,
         ),
@@ -610,9 +609,7 @@ fn external_tool_default_reason(activation: &ExternalToolActivationState) -> &'s
         ExternalToolActivationState::RuntimeUnavailable { .. } => {
             "The required JavaScript run environment is unavailable."
         }
-        ExternalToolActivationState::LoadFailed { .. } => {
-            "OPC-Team could not load this tool file."
-        }
+        ExternalToolActivationState::LoadFailed { .. } => "OPC-Team could not load this tool file.",
         _ => "The current state is unavailable.",
     }
 }
@@ -1007,7 +1004,7 @@ enum ExternalIssueSurface {
 }
 
 fn is_external_agent_diagnostic(
-    diagnostic: &openbitfun_product_domains::external_sources::ExternalSourceDiagnostic,
+    diagnostic: &opc_product_domains::external_sources::ExternalSourceDiagnostic,
 ) -> bool {
     matches!(diagnostic.asset_kind, ExternalSourceAssetKind::Subagent)
 }
@@ -1063,7 +1060,7 @@ fn append_external_source_issues(
     }
 }
 
-const DISABLED_EXTERNAL_AGENT_CONFLICT_CHOICE: &str = "__openbitfun_disabled__";
+const DISABLED_EXTERNAL_AGENT_CONFLICT_CHOICE: &str = "__opc_disabled__";
 
 fn external_agent_activation_label(state: &ExternalSubagentActivationState) -> &'static str {
     match state {

@@ -7,7 +7,7 @@ use crate::agentic::WorkspaceBinding;
 use crate::infrastructure::{get_path_manager_arc, PathManager};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::debug;
-use openbitfun_services_core::workspace_identity::normalize_remote_workspace_path;
+use opc_services_core::workspace_identity::normalize_remote_workspace_path;
 use serde::Serialize;
 use std::collections::{HashMap, HashSet};
 use std::path::{Path, PathBuf};
@@ -307,8 +307,7 @@ mod tests {
 
     #[tokio::test]
     async fn ensure_local_workspace_runtime_creates_complete_layout_without_project_dot_dir() {
-        let test_root =
-            std::env::temp_dir().join(format!("openbitfun-runtime-test-{}", Uuid::new_v4()));
+        let test_root = std::env::temp_dir().join(format!("opc-runtime-test-{}", Uuid::new_v4()));
         let workspace_root = test_root.join("workspace");
         fs::create_dir_all(&workspace_root).expect("workspace should exist");
 
@@ -342,8 +341,7 @@ mod tests {
 
     #[tokio::test]
     async fn ensure_local_workspace_runtime_does_not_import_project_local_runtime_entries() {
-        let test_root =
-            std::env::temp_dir().join(format!("openbitfun-runtime-test-{}", Uuid::new_v4()));
+        let test_root = std::env::temp_dir().join(format!("opc-runtime-test-{}", Uuid::new_v4()));
         let workspace_root = test_root.join("workspace");
         fs::create_dir_all(&workspace_root).expect("workspace should exist");
 
@@ -373,8 +371,7 @@ mod tests {
 
     #[tokio::test]
     async fn ensure_remote_workspace_runtime_does_not_import_nested_session_store() {
-        let test_root =
-            std::env::temp_dir().join(format!("openbitfun-runtime-test-{}", Uuid::new_v4()));
+        let test_root = std::env::temp_dir().join(format!("opc-runtime-test-{}", Uuid::new_v4()));
         let path_manager = Arc::new(PathManager::with_user_root_for_tests(
             test_root.join("user"),
         ));
@@ -382,7 +379,7 @@ mod tests {
         let context = service.context_for_remote_workspace("example-host", "/root/repo");
         let nested_sessions = context
             .sessions_dir
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("sessions");
         fs::create_dir_all(&nested_sessions).expect("nested sessions should exist");
         fs::write(nested_sessions.join("not-imported.json"), "{}")
@@ -401,8 +398,7 @@ mod tests {
 
     #[tokio::test]
     async fn ensure_local_workspace_runtime_uses_verified_cache_on_repeat_calls() {
-        let test_root =
-            std::env::temp_dir().join(format!("openbitfun-runtime-test-{}", Uuid::new_v4()));
+        let test_root = std::env::temp_dir().join(format!("opc-runtime-test-{}", Uuid::new_v4()));
         let workspace_root = test_root.join("workspace");
         fs::create_dir_all(&workspace_root).expect("workspace should exist");
 

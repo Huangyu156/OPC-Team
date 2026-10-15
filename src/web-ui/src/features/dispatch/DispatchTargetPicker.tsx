@@ -143,9 +143,9 @@ export const DispatchTargetPicker: React.FC<DispatchTargetPickerProps> = ({
     <Menu
       ref={menuRef}
       className="dispatch-target-picker__menu"
-      data-openbitfun-component="dispatch-target-picker"
-      data-openbitfun-part="menu"
-      data-openbitfun-placement={menuLayout?.placement ?? 'top'}
+      data-opc-component="dispatch-target-picker"
+      data-opc-part="menu"
+      data-opc-placement={menuLayout?.placement ?? 'top'}
       style={{
         top: `${menuLayout?.top ?? 0}px`,
         left: `${menuLayout?.left ?? 0}px`,
@@ -164,8 +164,8 @@ export const DispatchTargetPicker: React.FC<DispatchTargetPickerProps> = ({
             role="menuitemradio"
             checked={localDirectorySelected}
             className="dispatch-target-picker__option-row"
-            data-openbitfun-component="dispatch-target-picker"
-            data-openbitfun-part="option"
+            data-opc-component="dispatch-target-picker"
+            data-opc-part="option"
             data-testid="dispatch-target-local-option"
             disabled={localWorktreeControl?.locked}
             leading={<Laptop size={15} aria-hidden />}
@@ -183,8 +183,8 @@ export const DispatchTargetPicker: React.FC<DispatchTargetPickerProps> = ({
               role="menuitemradio"
               checked={localWorktreeSelected}
               className="dispatch-target-picker__option-row"
-              data-openbitfun-component="dispatch-target-picker"
-              data-openbitfun-part="option"
+              data-opc-component="dispatch-target-picker"
+              data-opc-part="option"
               data-testid="dispatch-target-new-worktree-option"
               disabled={localWorktreeControl.locked}
               leading={<FolderGit2 size={15} aria-hidden />}
@@ -316,16 +316,16 @@ export const DispatchTargetPicker: React.FC<DispatchTargetPickerProps> = ({
       <div
         ref={rootRef}
         className="dispatch-target-picker"
-        data-openbitfun-component="dispatch-target-picker"
-        data-openbitfun-part="root"
+        data-opc-component="dispatch-target-picker"
+        data-opc-part="root"
       >
         <Tooltip content={tooltip} placement="top">
           <button data-overflow-trigger
             ref={triggerRef}
             type="button"
             className="dispatch-target-picker__trigger"
-            data-openbitfun-component="dispatch-target-picker"
-            data-openbitfun-part="trigger"
+            data-opc-component="dispatch-target-picker"
+            data-opc-part="trigger"
             aria-haspopup="menu"
             aria-expanded={open}
             aria-label={tooltip}

@@ -8,7 +8,7 @@
 use crate::infrastructure::get_path_manager_arc;
 use crate::service::remote_ssh::{RemoteFileService, RemoteTerminalManager, SSHConnectionManager};
 use crate::service::workspace_runtime::WorkspaceRuntimeService;
-pub use openbitfun_services_integrations::remote_ssh::{
+pub use opc_services_integrations::remote_ssh::{
     local_workspace_stable_storage_id, normalize_remote_workspace_path,
     remote_root_to_mirror_subpath, remote_workspace_stable_id,
     sanitize_remote_mirror_path_component, sanitize_ssh_connection_id_for_local_dir,
@@ -40,7 +40,7 @@ pub async fn resolve_workspace_session_identity(
             lookup_remote_connection_with_hint(workspace_path, Some(connection_id)).await
         {
             return Some(WorkspaceSessionIdentity {
-                workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+                workspace_kind: opc_core_types::WorkspaceKind::Remote,
                 hostname: entry.ssh_host,
                 logical_workspace_path: entry.remote_root,
                 remote_connection_id: Some(entry.connection_id),
@@ -48,7 +48,7 @@ pub async fn resolve_workspace_session_identity(
         }
 
         return Some(WorkspaceSessionIdentity {
-            workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+            workspace_kind: opc_core_types::WorkspaceKind::Remote,
             hostname: "_unresolved".to_string(),
             logical_workspace_path: normalize_remote_workspace_path(workspace_path),
             remote_connection_id: Some(connection_id.to_string()),
@@ -66,7 +66,7 @@ pub async fn resolve_workspace_session_identity(
     // workspace must never be misclassified as an invalid local path.
     if let Some(entry) = lookup_remote_connection_with_hint(workspace_path, None).await {
         return Some(WorkspaceSessionIdentity {
-            workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+            workspace_kind: opc_core_types::WorkspaceKind::Remote,
             hostname: entry.ssh_host,
             logical_workspace_path: entry.remote_root,
             remote_connection_id: Some(entry.connection_id),
@@ -89,17 +89,17 @@ pub fn remote_workspace_session_mirror_dir(ssh_host: &str, remote_root_norm: &st
 
 /// Canonical local root [`PathBuf`] plus normalized string form (single `canonicalize` call).
 pub fn canonicalize_local_workspace_root(path: &Path) -> Result<(PathBuf, String), String> {
-    openbitfun_services_integrations::remote_ssh::canonicalize_local_workspace_root(path)
+    opc_services_integrations::remote_ssh::canonicalize_local_workspace_root(path)
 }
 
 /// Canonical absolute local path as a stable UTF-8 string (forward slashes, dunce-simplified).
 pub fn normalize_local_workspace_root_for_stable_id(path: &Path) -> Result<String, String> {
-    openbitfun_services_integrations::remote_ssh::normalize_local_workspace_root_for_stable_id(path)
+    opc_services_integrations::remote_ssh::normalize_local_workspace_root_for_stable_id(path)
 }
 
 /// Whether two local paths refer to the same workspace root (canonical comparison when possible).
 pub fn local_workspace_roots_equal(a: &Path, b: &Path) -> bool {
-    openbitfun_services_integrations::remote_ssh::local_workspace_roots_equal(a, b)
+    opc_services_integrations::remote_ssh::local_workspace_roots_equal(a, b)
 }
 
 /// When a remote scope has `connection_id` but no resolvable SSH host, we must not read/write the
@@ -110,7 +110,7 @@ pub fn unresolved_remote_session_storage_dir(
     connection_id: &str,
     workspace_path_norm: &str,
 ) -> PathBuf {
-    openbitfun_services_integrations::remote_ssh::unresolved_remote_session_storage_dir(
+    opc_services_integrations::remote_ssh::unresolved_remote_session_storage_dir(
         get_path_manager_arc().remote_ssh_mirror_root_dir(),
         connection_id,
         workspace_path_norm,
@@ -535,7 +535,7 @@ mod tests {
         let manager = super::init_remote_workspace_manager();
         manager
             .register_remote_workspace(
-                "/openbitfun-tests/identity-fallback/repo".to_string(),
+                "/opc-tests/identity-fallback/repo".to_string(),
                 "conn-identity-fallback".to_string(),
                 "Fallback Server".to_string(),
                 "fallback-host".to_string(),
@@ -543,7 +543,7 @@ mod tests {
             .await;
 
         let identity = super::resolve_workspace_session_identity(
-            "/openbitfun-tests/identity-fallback/repo",
+            "/opc-tests/identity-fallback/repo",
             None,
             None,
         )
@@ -557,19 +557,19 @@ mod tests {
         );
         assert_eq!(
             identity.logical_workspace_path(),
-            "/openbitfun-tests/identity-fallback/repo"
+            "/opc-tests/identity-fallback/repo"
         );
 
         manager
             .unregister_remote_workspace(
                 "conn-identity-fallback",
-                "/openbitfun-tests/identity-fallback/repo",
+                "/opc-tests/identity-fallback/repo",
             )
             .await;
 
         assert!(
             super::resolve_workspace_session_identity(
-                "/openbitfun-tests/identity-fallback/repo",
+                "/opc-tests/identity-fallback/repo",
                 None,
                 None,
             )
@@ -582,7 +582,7 @@ mod tests {
     #[tokio::test]
     async fn effective_session_path_returns_local_sessions_dir() {
         let workspace_root = std::env::temp_dir().join(format!(
-            "openbitfun-local-session-path-test-{}",
+            "opc-local-session-path-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_root).expect("workspace root should exist");
@@ -615,7 +615,7 @@ mod tests {
     #[tokio::test]
     async fn manager_effective_session_path_returns_local_sessions_dir() {
         let workspace_root = std::env::temp_dir().join(format!(
-            "openbitfun-manager-local-session-path-test-{}",
+            "opc-manager-local-session-path-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_root).expect("workspace root should exist");

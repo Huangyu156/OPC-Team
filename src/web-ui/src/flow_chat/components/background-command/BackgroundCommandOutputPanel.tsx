@@ -266,9 +266,9 @@ export const BackgroundCommandOutputPanel: React.FC<BackgroundCommandOutputPanel
 
   return (
     <>
-      <section data-openbitfun-component="background-command-output-panel" data-openbitfun-part="root" data-openbitfun-state={[loading && 'loading', error && 'error'].filter(Boolean).join(' ') || undefined} className="background-command-output-panel">
-        <header data-openbitfun-component="background-command-output-panel" data-openbitfun-part="header" className="background-command-output-panel__header">
-          <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="title" className="background-command-output-panel__title-group">
+      <section data-opc-component="background-command-output-panel" data-opc-part="root" data-opc-state={[loading && 'loading', error && 'error'].filter(Boolean).join(' ') || undefined} className="background-command-output-panel">
+        <header data-opc-component="background-command-output-panel" data-opc-part="header" className="background-command-output-panel__header">
+          <div data-opc-component="background-command-output-panel" data-opc-part="title" className="background-command-output-panel__title-group">
             <span className="background-command-output-panel__icon">
               <Icon name="terminal" size="md" aria-hidden="true" />
             </span>
@@ -277,7 +277,7 @@ export const BackgroundCommandOutputPanel: React.FC<BackgroundCommandOutputPanel
               <p title={command}><OverflowText>{command}</OverflowText></p>
             </div>
           </div>
-          <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="headerActions" className="background-command-output-panel__header-actions">
+          <div data-opc-component="background-command-output-panel" data-opc-part="headerActions" className="background-command-output-panel__header-actions">
             <Tooltip content={canSendInput
                 ? t('backgroundCommandOutput.sendInput')
                 : t('backgroundCommandOutput.sendInputUnavailable')}>
@@ -315,7 +315,7 @@ export const BackgroundCommandOutputPanel: React.FC<BackgroundCommandOutputPanel
           </div>
         </header>
 
-        <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="meta" className="background-command-output-panel__meta">
+        <div data-opc-component="background-command-output-panel" data-opc-part="meta" className="background-command-output-panel__meta">
           <div className="background-command-output-panel__meta-status">
             {metadata ? (
               <>
@@ -338,40 +338,40 @@ export const BackgroundCommandOutputPanel: React.FC<BackgroundCommandOutputPanel
         </div>
 
         {metadata?.truncatedFromStart || projection?.incomplete ? (
-          <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="notice" className="background-command-output-panel__notice">
+          <div data-opc-component="background-command-output-panel" data-opc-part="notice" className="background-command-output-panel__notice">
             <Icon glyph={AlertCircle} size="sm" aria-hidden="true" />
             <span>{t(projection?.incomplete ? 'backgroundCommandOutput.replayIncomplete' : 'backgroundCommandOutput.truncatedFromStart')}</span>
           </div>
         ) : null}
 
         {error ? (
-          <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="error" className="background-command-output-panel__error">
+          <div data-opc-component="background-command-output-panel" data-opc-part="error" className="background-command-output-panel__error">
             <Icon glyph={AlertCircle} size="sm" aria-hidden="true" />
             <span>{t('backgroundCommandOutput.error', { message: error })}</span>
           </div>
         ) : null}
 
-        <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="output" className="background-command-output-panel__output">
+        <div data-opc-component="background-command-output-panel" data-opc-part="output" className="background-command-output-panel__output">
           {projection?.unknownGeometry ? (
             <div className="background-command-output-panel__empty">
               {t('backgroundCommandOutput.unknownGeometry')}
             </div>
           ) : projection?.text ? (
-            <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="terminal" className="background-command-output-panel__terminal-container">
+            <div data-opc-component="background-command-output-panel" data-opc-part="terminal" className="background-command-output-panel__terminal-container">
               <Suspense fallback={<pre className="background-command-output-panel__projection-fallback">{projection.text}</pre>}>
                 <BackgroundTerminalProjection projection={projection} />
               </Suspense>
             </div>
           ) : (
-            <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="empty" className="background-command-output-panel__empty">
+            <div data-opc-component="background-command-output-panel" data-opc-part="empty" className="background-command-output-panel__empty">
               {loading ? t('backgroundCommandOutput.loading') : t('backgroundCommandOutput.empty')}
             </div>
           )}
         </div>
         {isInputEditorOpen ? (
           <form
-            data-openbitfun-component="background-command-output-panel"
-            data-openbitfun-part="inputEditor"
+            data-opc-component="background-command-output-panel"
+            data-opc-part="inputEditor"
             className="background-command-output-panel__input-editor"
             onSubmit={(event) => {
               event.preventDefault();
@@ -392,7 +392,7 @@ export const BackgroundCommandOutputPanel: React.FC<BackgroundCommandOutputPanel
               spellCheck={false}
             />
             <div className="background-command-output-panel__input-editor-footer">
-              <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="inputOptions" className="background-command-output-panel__input-options">
+              <div data-opc-component="background-command-output-panel" data-opc-part="inputOptions" className="background-command-output-panel__input-options">
                 <Checkbox
                   className="background-command-output-panel__input-option"
                   size="sm"
@@ -410,7 +410,7 @@ export const BackgroundCommandOutputPanel: React.FC<BackgroundCommandOutputPanel
                   label={t('backgroundCommandInput.maskInput')}
                 />
               </div>
-              <div data-openbitfun-component="background-command-output-panel" data-openbitfun-part="inputActions" className="background-command-output-panel__input-editor-actions">
+              <div data-opc-component="background-command-output-panel" data-opc-part="inputActions" className="background-command-output-panel__input-editor-actions">
                 <Button
                   type="button"
                   variant="fill"

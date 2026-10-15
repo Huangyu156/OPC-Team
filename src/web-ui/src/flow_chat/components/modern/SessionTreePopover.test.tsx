@@ -87,7 +87,7 @@ describe('SessionTreePopover', () => {
   afterEach(() => {
     act(() => root.unmount());
     container.remove();
-    document.querySelector('[data-openbitfun-overlay-host="true"]')?.remove();
+    document.querySelector('[data-opc-overlay-host="true"]')?.remove();
     vi.restoreAllMocks();
   });
 
@@ -162,7 +162,7 @@ describe('SessionTreePopover', () => {
     });
 
     const panel = document.querySelector<HTMLElement>('.session-tree-popover__panel');
-    expect(panel?.closest('[data-openbitfun-overlay-host]')?.getAttribute('data-openbitfun-overlay-host')).toBe('true');
+    expect(panel?.closest('[data-opc-overlay-host]')?.getAttribute('data-opc-overlay-host')).toBe('true');
     expect(panel?.style.visibility).toBe('visible');
     const actionButton = panel?.querySelector<HTMLButtonElement>(
       '[aria-label="flowChatHeader.agentTreeActions"]',
@@ -229,7 +229,7 @@ describe('SessionTreePopover', () => {
     subagentNodes.forEach((node) => {
       const sessionId = node.dataset.sessionId!;
       const avatar = node.querySelector<HTMLElement>(
-        '[data-openbitfun-component="subagent-avatar"]',
+        '[data-opc-component="subagent-avatar"]',
       )!;
       const presentation = resolveSubagentAvatarPresentation(sessionId);
 

@@ -1,8 +1,8 @@
 //! Desktop-owned embedded relay host for LAN Remote Connect modes.
 
 use log::{info, warn};
-use openbitfun_core::service::remote_connect::embedded_relay_host::EmbeddedRelayHost;
-use openbitfun_relay_service::{build_relay_router, MemoryAssetStore};
+use opc_core::service::remote_connect::embedded_relay_host::EmbeddedRelayHost;
+use opc_relay_service::{build_relay_router, MemoryAssetStore};
 use std::sync::Arc;
 use tokio::sync::Mutex;
 
@@ -94,7 +94,7 @@ impl EmbeddedRelayHost for DesktopEmbeddedRelayHost {
                 .filter(|path| !path.as_os_str().is_empty())
                 .or_else(|| {
                     dirs::home_dir().map(|home| {
-                        home.join(openbitfun_core_types::product_identity::hidden_data_directory())
+                        home.join(opc_core_types::product_identity::hidden_data_directory())
                     })
                 })
                 .ok_or_else(|| {
@@ -106,7 +106,7 @@ impl EmbeddedRelayHost for DesktopEmbeddedRelayHost {
         };
         #[cfg(test)]
         let database_path = ":memory:".to_string();
-        let database = Arc::new(openbitfun_relay_service::db::connect(&database_path).await?);
+        let database = Arc::new(opc_relay_service::db::connect(&database_path).await?);
         let asset_store = Arc::new(MemoryAssetStore::new());
         let start_time = std::time::Instant::now();
 
@@ -123,7 +123,7 @@ impl EmbeddedRelayHost for DesktopEmbeddedRelayHost {
             app = app.fallback_service(static_app);
         }
         app = app.layer(axum::middleware::from_fn(
-            openbitfun_relay_service::relay_security_headers,
+            opc_relay_service::relay_security_headers,
         ));
 
         info!("Embedded relay started on 0.0.0.0:{port}");
@@ -306,10 +306,8 @@ mod tests {
 
     #[tokio::test]
     async fn static_cache_headers_and_listener_lifecycle_are_preserved() {
-        let static_dir = std::env::temp_dir().join(format!(
-            "openbitfun-embedded-relay-host-{}",
-            uuid::Uuid::new_v4()
-        ));
+        let static_dir =
+            std::env::temp_dir().join(format!("opc-embedded-relay-host-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(static_dir.join("assets"))
             .expect("test static directory should be created");
         std::fs::write(static_dir.join("index.html"), "embedded relay test")

@@ -7,7 +7,7 @@ import { createEmbeddedConfig } from './embedded-driver';
 
 // Worker processes inherit this root; each runner invocation starts fresh.
 const runtimeRoot = process.env.OPENBITFUN_MARKDOWN_E2E_ROOT
-  ?? mkdtempSync(join(tmpdir(), 'openbitfun-markdown-profile-'));
+  ?? mkdtempSync(join(tmpdir(), 'opc-markdown-profile-'));
 process.env.OPENBITFUN_MARKDOWN_E2E_ROOT = runtimeRoot;
 Object.assign(process.env, {
   OPENBITFUN_E2E_STORAGE_ROOT: runtimeRoot,

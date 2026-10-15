@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState, type RefObje
 
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 const LEAVE_DELAY_MS = 120;
-const CARD_HEADER = '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="surface"]';
+const CARD_HEADER = '[data-opc-component="flow-chat-tool-card"][data-opc-part="surface"]';
 
 export interface ThinkingContinuationResolution {
   element: HTMLElement | null;
@@ -49,8 +49,8 @@ function visibleBounds(element: HTMLElement, bounds: DOMRect) {
     const rect = parent.getBoundingClientRect();
     const clientTop = rect.top + parent.clientTop;
     const height = parent.clientHeight || rect.height;
-    const insetTop = Number(parent.getAttribute('data-openbitfun-viewport-inset-top')) || 0;
-    const insetBottom = Number(parent.getAttribute('data-openbitfun-viewport-inset-bottom')) || 0;
+    const insetTop = Number(parent.getAttribute('data-opc-viewport-inset-top')) || 0;
+    const insetBottom = Number(parent.getAttribute('data-opc-viewport-inset-bottom')) || 0;
     top = Math.max(top, clientTop + insetTop);
     bottom = Math.min(bottom, clientTop + height - insetBottom);
   }
@@ -179,7 +179,7 @@ export function useThinkingAnnotation(
         for (let ancestor = successor?.parentElement; ancestor; ancestor = ancestor.parentElement) {
           geometryObserver.observe(ancestor);
           insetObserver.observe(ancestor, { attributes: true,
-            attributeFilter: ['data-openbitfun-viewport-inset-top', 'data-openbitfun-viewport-inset-bottom'] });
+            attributeFilter: ['data-opc-viewport-inset-top', 'data-opc-viewport-inset-bottom'] });
         }
       } else {
         view.removeEventListener('scroll', onScroll, true);

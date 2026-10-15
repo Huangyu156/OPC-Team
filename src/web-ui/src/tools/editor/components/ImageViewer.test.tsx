@@ -67,7 +67,7 @@ it('joins the overlay stack in fullscreen and restores its control on Escape', a
   const label = 'editor.imageViewer.enterFullscreen';
   await act(async () => container.querySelector<HTMLButtonElement>(`[aria-label="${label}"]`)!.click());
   const dialog = document.querySelector('[role="dialog"]')!;
-  expect(dialog.closest('[data-openbitfun-overlay-layer]')).not.toBeNull();
+  expect(dialog.closest('[data-opc-overlay-layer]')).not.toBeNull();
   expect(dialog.getAttribute('aria-modal')).toBe('true');
   expect(container.hasAttribute('inert')).toBe(true);
   await act(async () => document.activeElement!.dispatchEvent(new KeyboardEvent('keydown', {

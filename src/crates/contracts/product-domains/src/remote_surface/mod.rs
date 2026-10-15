@@ -648,7 +648,7 @@ mod tests {
             "account_logout",
             "peer_mode_ping",
             "dispatch_submit",
-            "mark_openbitfun_control_surface_ready",
+            "mark_opc_control_surface_ready",
         ] {
             assert!(
                 local.contains(anchor),

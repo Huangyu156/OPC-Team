@@ -1,8 +1,8 @@
-use openbitfun_codex_adapter::{CodexSubagentProvider, CodexSubagentProviderOptions};
-use openbitfun_product_domains::external_sources::{
+use opc_codex_adapter::{CodexSubagentProvider, CodexSubagentProviderOptions};
+use opc_product_domains::external_sources::{
     ExecutionDomainId, ExternalSourceContext, ExternalSourceScope, SourceKey,
 };
-use openbitfun_product_domains::external_subagents::{
+use opc_product_domains::external_subagents::{
     ExternalSubagentCompatibilityState, ExternalSubagentDiscoveryInput,
     ExternalSubagentModelProfileRequest, ExternalSubagentModelRequest,
     ExternalSubagentSourceProvider,
@@ -54,7 +54,7 @@ impl Fixture {
     fn discover(
         &self,
         suppressed_sources: BTreeSet<SourceKey>,
-    ) -> openbitfun_product_domains::external_subagents::ExternalSubagentProviderSnapshot {
+    ) -> opc_product_domains::external_subagents::ExternalSubagentProviderSnapshot {
         self.provider()
             .discover(&ExternalSubagentDiscoveryInput {
                 context: self.context(),

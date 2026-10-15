@@ -311,9 +311,9 @@ const MemorySettingsSection: React.FC = () => {
   if (loading || loadFailed) {
     return (
       <div id={sectionAnchor}
-        className="openbitfun-memories-config"
-        data-openbitfun-component="config"
-        data-openbitfun-part="root"
+        className="opc-memories-config"
+        data-opc-component="config"
+        data-opc-part="root"
       >
         <ConfigPageSectionStack>
           {loading ? (
@@ -335,9 +335,9 @@ const MemorySettingsSection: React.FC = () => {
 
   return (
     <div id={sectionAnchor}
-      className="openbitfun-memories-config"
-      data-openbitfun-component="config"
-      data-openbitfun-part="root"
+      className="opc-memories-config"
+      data-opc-component="config"
+      data-opc-part="root"
     >
       <ConfigPageSectionStack>
         <ConfigPageSection

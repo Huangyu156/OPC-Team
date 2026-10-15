@@ -12,12 +12,12 @@ test("Disclosure connects its trigger and region with accessible state", () => {
     createElement("button", null, "Reset"),
   ));
 
-  assert.match(markup, /data-openbitfun-component="disclosure"/);
+  assert.match(markup, /data-opc-component="disclosure"/);
   assert.match(markup, /data-open="true"/);
   assert.match(markup, /aria-expanded="true"/);
-  assert.match(markup, /aria-controls="openbitfun-disclosure-[^"]+-content"/);
+  assert.match(markup, /aria-controls="opc-disclosure-[^"]+-content"/);
   assert.match(markup, /role="region"/);
-  assert.match(markup, /aria-labelledby="openbitfun-disclosure-[^"]+-trigger"/);
+  assert.match(markup, /aria-labelledby="opc-disclosure-[^"]+-trigger"/);
   assert.doesNotMatch(markup, /inert=""/);
 });
 
@@ -52,7 +52,7 @@ test("Disclosure native mode preserves details anatomy and browser-owned state",
   }, createElement("ul", null, createElement("li", null, "Unavailable"))));
   assert.match(markup, /^<details[^>]*open=""/);
   assert.match(markup, /name="diagnostics"/);
-  assert.match(markup, /data-openbitfun-component="disclosure"/);
+  assert.match(markup, /data-opc-component="disclosure"/);
   assert.match(markup, /<summary[^>]*>Source issues<\/summary><ul>/);
   assert.doesNotMatch(markup, /aria-expanded|aria-hidden|inert|role="region"|<button/);
   const closed = renderToStaticMarkup(createElement(Disclosure, {

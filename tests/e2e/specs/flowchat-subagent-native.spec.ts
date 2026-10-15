@@ -36,7 +36,7 @@ class SubagentTranscriptPage {
       const grid = [...document.querySelectorAll<HTMLElement>('[data-flowchat-scroller] [data-agent-card-grid]')]
         .find(node => node.querySelectorAll('[data-agent-capsule-trigger]').length >= 3);
       if (!grid) throw new Error('Recorded parent needs at least three adjacent Subagent launch cards');
-      const cards = [...grid.querySelectorAll<HTMLElement>('[data-openbitfun-tool-card="agent-control"]')];
+      const cards = [...grid.querySelectorAll<HTMLElement>('[data-opc-tool-card="agent-control"]')];
       const focused = cards[0].querySelector<HTMLElement>('[data-agent-capsule-trigger]')!;
       focused.focus({ preventScroll: true });
       window.flowchatAgentGridProbe = { grid, cards, focused };
@@ -51,7 +51,7 @@ class SubagentTranscriptPage {
       const box = grid.getBoundingClientRect();
       return {
         connected: grid.isConnected && cards.every(card => card.isConnected),
-        sameCards: cards.every((card, index) => grid.querySelectorAll('[data-openbitfun-tool-card="agent-control"]')[index] === card),
+        sameCards: cards.every((card, index) => grid.querySelectorAll('[data-opc-tool-card="agent-control"]')[index] === card),
         focused: document.activeElement === focused,
         activeElement: document.activeElement?.getAttribute('data-testid') || document.activeElement?.tagName,
         display: style.display,

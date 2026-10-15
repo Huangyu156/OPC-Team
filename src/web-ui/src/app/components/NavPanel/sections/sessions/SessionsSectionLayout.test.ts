@@ -62,9 +62,9 @@ describe('SessionsSection layout styles', () => {
     const statusBlock = extractInlineItemBlock(stylesheet, 'status');
     expect(statusBlock).toContain('grid-area: 1 / 1;');
     expect(statusBlock).not.toContain('margin-inline-end');
-    expect(statusBlock).toContain('.openbitfun-nav-panel__inline-item:hover &');
-    expect(statusBlock).toContain('.openbitfun-nav-panel__inline-item:focus-within &');
-    expect(statusBlock).toContain('.openbitfun-nav-panel__inline-item.is-menu-open &');
+    expect(statusBlock).toContain('.opc-nav-panel__inline-item:hover &');
+    expect(statusBlock).toContain('.opc-nav-panel__inline-item:focus-within &');
+    expect(statusBlock).toContain('.opc-nav-panel__inline-item.is-menu-open &');
     expect(statusBlock).toContain('visibility: hidden;');
     expect(stylesheet).not.toContain('padding-right: 24px;');
     expect(actionsBlock).not.toContain('display: none;');
@@ -73,8 +73,8 @@ describe('SessionsSection layout styles', () => {
     expect(actionsBlock).not.toContain('visibility: hidden;');
     expect(actionsBlock).toContain('opacity: 0;');
     expect(actionsBlock).toContain('pointer-events: none;');
-    expect(actionsBlock).toContain('.openbitfun-nav-panel__inline-item:hover &');
-    expect(actionsBlock).toContain('.openbitfun-nav-panel__inline-item:focus-within &');
+    expect(actionsBlock).toContain('.opc-nav-panel__inline-item:hover &');
+    expect(actionsBlock).toContain('.opc-nav-panel__inline-item:focus-within &');
     expect(actionsBlock).toContain('&.is-open');
     expect(actionsBlock).toContain('opacity: 1;');
   });
@@ -156,9 +156,9 @@ describe('SessionsSection layout styles', () => {
     expect(labelBlock).toContain('flex: 1 1 auto;');
     expect(labelBlock).toContain('min-width: 0;');
     expect(labelBlock).not.toContain('text-overflow: ellipsis;');
-    expect(source).toMatch(/<OverflowText[^>]*className="openbitfun-nav-panel__inline-toggle-label"/);
+    expect(source).toMatch(/<OverflowText[^>]*className="opc-nav-panel__inline-toggle-label"/);
     // The chip is decorative; the full sentence stays on the button's aria-label.
-    expect(source).toContain('className="openbitfun-nav-panel__inline-toggle-count" aria-hidden');
+    expect(source).toContain('className="opc-nav-panel__inline-toggle-count" aria-hidden');
     expect(source).toContain("aria-label={t('nav.sessions.showMore', {");
     expect(source).toContain('aria-label={expandToggleLabels.ariaLabel}');
     expect(source).not.toContain('inline-toggle-dots');
@@ -174,9 +174,9 @@ describe('SessionsSection layout styles', () => {
     expect(labelBlock).toContain('flex: 1 1 0;');
     expect(labelBlock).toContain('overflow: hidden;');
     expect(labelBlock).not.toContain('text-overflow: ellipsis;');
-    expect(readSessionsSectionSource()).toMatch(/<OverflowText[^>]*behavior="marquee"[^>]*className="openbitfun-nav-panel__inline-item-label"/);
+    expect(readSessionsSectionSource()).toMatch(/<OverflowText[^>]*behavior="marquee"[^>]*className="opc-nav-panel__inline-item-label"/);
     expect(btwBadgeBlock).toContain('flex: 0 0 auto;');
-    expect(readSessionsSectionSource()).toMatch(/<StatusPill[^>]*className="openbitfun-nav-panel__inline-item-btw-badge"[^>]*tone="neutral">\s*\{childSessionBadge\}\s*<\/StatusPill>/);
+    expect(readSessionsSectionSource()).toMatch(/<StatusPill[^>]*className="opc-nav-panel__inline-item-btw-badge"[^>]*tone="neutral">\s*\{childSessionBadge\}\s*<\/StatusPill>/);
     expect(reviewBadgeBlock).toContain('white-space: nowrap;');
     expect(reviewBadgeBlock).toContain('color: color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 82%, var(--opcteam-color-content-primary));');
     expect(reviewBadgeBlock).toContain('font-weight: var(--opcteam-type-label-selected-font-weight);');
@@ -224,7 +224,7 @@ describe('SessionsSection layout styles', () => {
       'flex: 0 0 var(--opcteam-space-5);',
     );
     expect(source).toMatch(
-      /className="openbitfun-nav-panel__inline-toggle-trailing"[\s\S]{0,400}?inline-toggle-chevron/,
+      /className="opc-nav-panel__inline-toggle-trailing"[\s\S]{0,400}?inline-toggle-chevron/,
     );
   });
 });

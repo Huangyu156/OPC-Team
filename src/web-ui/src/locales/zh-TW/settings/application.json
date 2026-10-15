@@ -56,7 +56,7 @@
         "name": "亮色",
         "description": "亮色外觀 - 純白界面、柔和中性灰與深海軍藍操作色"
       },
-      "openbitfun-monochrome": {
+      "opc-monochrome": {
         "name": "黑白撞色",
         "description": "黑白撞色外觀 - 深黑結構層、明亮白色工作區與柔和中性灰塊面"
       },

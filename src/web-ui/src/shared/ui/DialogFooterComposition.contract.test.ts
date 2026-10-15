@@ -11,13 +11,13 @@ interface FooterSurfaceContract {
 const footerSurfaces: FooterSurfaceContract[] = [
   {
     source: '../../infrastructure/update/AppUpdatePanel.tsx',
-    marker: 'className="openbitfun-update-details__footer"',
+    marker: 'className="opc-update-details__footer"',
   },
   {
     source: '../../app/components/RemoteConnectDialog/RemoteConnectDisclaimer.tsx',
-    marker: 'className="openbitfun-remote-disclaimer__actions"',
+    marker: 'className="opc-remote-disclaimer__actions"',
     stylesheet: '../../app/components/RemoteConnectDialog/RemoteConnectDisclaimer.scss',
-    selector: '.openbitfun-remote-disclaimer__actions',
+    selector: '.opc-remote-disclaimer__actions',
   },
   {
     source: '../../app/components/MCPInteractionDialog/MCPInteractionDialog.tsx',
@@ -45,7 +45,7 @@ const footerSurfaces: FooterSurfaceContract[] = [
   },
   {
     source: '../../app/scenes/skills/SkillsScene.tsx',
-    marker: 'className="openbitfun-skills-scene__modal-form-actions"',
+    marker: 'className="opc-skills-scene__modal-form-actions"',
     stylesheet: '../../app/scenes/skills/SkillsScene.scss',
     selector: '&__modal-form-actions',
   },
@@ -63,7 +63,7 @@ const footerSurfaces: FooterSurfaceContract[] = [
   },
   {
     source: '../../app/scenes/settings/pages/tools/DeviceControlSettingsPage.tsx',
-    marker: 'className="openbitfun-debug-config__modal-footer"',
+    marker: 'className="opc-debug-config__modal-footer"',
   },
   {
     source: '../../app/scenes/settings/pages/tools/HooksSettingsSection.tsx',

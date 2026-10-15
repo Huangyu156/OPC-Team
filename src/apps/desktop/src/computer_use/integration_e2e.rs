@@ -235,7 +235,7 @@ mod tests {
 
     #[test]
     fn element_token_register_format_resolve_round_trip() {
-        use openbitfun_agent_tools::element_token;
+        use opc_agent_tools::element_token;
 
         let pid = 12345;
         let window_id = 42u32;
@@ -259,7 +259,7 @@ mod tests {
 
     #[test]
     fn element_token_stale_token_returns_error() {
-        use openbitfun_agent_tools::element_token;
+        use opc_agent_tools::element_token;
 
         let pid = 99999;
         // Register 9 snapshots (LRU cap is 8) — the first one should be evicted.
@@ -276,7 +276,7 @@ mod tests {
 
     #[test]
     fn element_token_resolve_element_args_precedence() {
-        use openbitfun_agent_tools::element_token::{self, ResolvedElement};
+        use opc_agent_tools::element_token::{self, ResolvedElement};
 
         let pid = 55555;
         let wid = 7u32;
@@ -333,9 +333,7 @@ mod tests {
     fn complete_flow_type_compatibility() {
         // Verify that the AxNode type from the host trait can be constructed
         // with the fields that macos_ax_dump produces.
-        use openbitfun_core::agentic::tools::computer_use_host::{
-            AppInfo, AppStateSnapshot, AxNode,
-        };
+        use opc_core::agentic::tools::computer_use_host::{AppInfo, AppStateSnapshot, AxNode};
 
         let node = AxNode {
             idx: 0,
@@ -377,7 +375,7 @@ mod tests {
         };
 
         // Verify we can compute an element token for this snapshot.
-        use openbitfun_agent_tools::element_token;
+        use opc_agent_tools::element_token;
         let sid = element_token::global().register_snapshot(1234, 0, 1);
         let token = element_token::format_token(sid, 0);
         let (wid, idx) = element_token::global()
@@ -396,7 +394,7 @@ mod tests {
 mod tests {
     #[test]
     fn element_token_system_works_cross_platform() {
-        use openbitfun_agent_tools::element_token;
+        use opc_agent_tools::element_token;
 
         let pid = 12345;
         let sid = element_token::global().register_snapshot(pid, 1, 10);

@@ -314,7 +314,7 @@ describeWithJsdom('TaskToolDisplay', () => {
 
   async function previewText(): Promise<string> {
     const trigger = container.querySelector('[data-agent-capsule-trigger]');
-    if (trigger && !document.querySelector('[data-openbitfun-part="agentPreview"]')) {
+    if (trigger && !document.querySelector('[data-opc-part="agentPreview"]')) {
       vi.useFakeTimers();
       try {
         await act(async () => { trigger.dispatchEvent(new dom.window.MouseEvent('mouseover', { bubbles: true })); });
@@ -324,7 +324,7 @@ describeWithJsdom('TaskToolDisplay', () => {
         vi.useRealTimers();
       }
     }
-    return `${container.textContent ?? ''}${document.querySelector('[data-openbitfun-part="agentPreview"]')?.textContent ?? ''}`;
+    return `${container.textContent ?? ''}${document.querySelector('[data-opc-part="agentPreview"]')?.textContent ?? ''}`;
   }
 
   beforeEach(() => {
@@ -399,13 +399,13 @@ describeWithJsdom('TaskToolDisplay', () => {
     ));
     const trigger = container.querySelector<HTMLButtonElement>('[data-agent-capsule-trigger]')!;
     expect(trigger.hasAttribute('aria-expanded')).toBe(false);
-    expect(container.querySelector('[data-openbitfun-part="expandedCollapse"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="expandedCollapse"]')).toBeNull();
     expect(await previewText()).not.toContain('Review frontend code');
     await act(async () => trigger.click());
     expect(onOpenInPanel).toHaveBeenCalledWith('task-detail', expect.objectContaining({
       data: expect.objectContaining({ toolItem: expect.objectContaining({ id: 'task-tool-1' }) }),
     }));
-    expect(container.querySelector('[data-openbitfun-part="expandedCollapse"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="expandedCollapse"]')).toBeNull();
   });
 
   it('keeps Deep Review reviewer task cards collapsed when they start running', async () => {
@@ -467,7 +467,7 @@ describeWithJsdom('TaskToolDisplay', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="agentType"]')?.textContent).toBe('CodeReview');
+    expect(container.querySelector('[data-opc-part="agentType"]')?.textContent).toBe('CodeReview');
     expect(await previewText()).toContain('Review completed work');
   });
 
@@ -712,9 +712,9 @@ describeWithJsdom('TaskToolDisplay', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-tool-card="agent-control"][data-openbitfun-status="running"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="preparing"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="streaming"]')).toBeTruthy();
-    expect(container.querySelector('[data-openbitfun-part="interruptAgentButton"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="agentStatus"]')?.getAttribute('data-status')).toBe('running');
+    expect(container.querySelector('[data-opc-tool-card="agent-control"][data-opc-status="running"], [data-opc-tool-card="agent-control"][data-opc-status="preparing"], [data-opc-tool-card="agent-control"][data-opc-status="streaming"]')).toBeTruthy();
+    expect(container.querySelector('[data-opc-part="interruptAgentButton"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="agentStatus"]')?.getAttribute('data-status')).toBe('running');
     expect(await previewText()).not.toContain(label);
 
   });
@@ -744,8 +744,8 @@ describeWithJsdom('TaskToolDisplay', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="processing"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="interruptAgentButton"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="processing"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="interruptAgentButton"]')).toBeNull();
 
   });
 
@@ -784,7 +784,7 @@ describeWithJsdom('TaskToolDisplay', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-tool-card="agent-control"][data-openbitfun-status="running"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="preparing"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="streaming"]')).toBeTruthy();
+    expect(container.querySelector('[data-opc-tool-card="agent-control"][data-opc-status="running"], [data-opc-tool-card="agent-control"][data-opc-status="preparing"], [data-opc-tool-card="agent-control"][data-opc-status="streaming"]')).toBeTruthy();
     expect(await previewText()).toContain('Review CLI app layer diff');
   });
 
@@ -878,7 +878,7 @@ describeWithJsdom('TaskToolDisplay', () => {
         <TaskToolDisplay toolItem={toolItem} config={config} sessionId="parent-session" />,
       );
     });
-    expect(container.querySelector('[data-openbitfun-tool-card="agent-control"][data-openbitfun-status="running"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="preparing"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="streaming"]')).toBeTruthy();
+    expect(container.querySelector('[data-opc-tool-card="agent-control"][data-opc-status="running"], [data-opc-tool-card="agent-control"][data-opc-status="preparing"], [data-opc-tool-card="agent-control"][data-opc-status="streaming"]')).toBeTruthy();
 
     await act(async () => {
       mocks.dynamicReviewTurn.status = 'error';
@@ -887,7 +887,7 @@ describeWithJsdom('TaskToolDisplay', () => {
       mocks.flowChatListeners.forEach((listener) => listener());
     });
 
-    expect(container.querySelector('[data-openbitfun-part="processing"]')).toBeFalsy();
+    expect(container.querySelector('[data-opc-part="processing"]')).toBeFalsy();
     expect(await previewText()).toContain('toolCards.taskTool.failed');
 
   });
@@ -918,7 +918,7 @@ describeWithJsdom('TaskToolDisplay', () => {
         <TaskToolDisplay toolItem={toolItem} config={config} sessionId="parent-session" />,
       );
     });
-    expect(container.querySelector('[data-openbitfun-tool-card="agent-control"][data-openbitfun-status="running"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="preparing"], [data-openbitfun-tool-card="agent-control"][data-openbitfun-status="streaming"]')).toBeTruthy();
+    expect(container.querySelector('[data-opc-tool-card="agent-control"][data-opc-status="running"], [data-opc-tool-card="agent-control"][data-opc-status="preparing"], [data-opc-tool-card="agent-control"][data-opc-status="streaming"]')).toBeTruthy();
 
     await act(async () => {
       mocks.dynamicReviewTurn.status = 'cancelled';
@@ -926,7 +926,7 @@ describeWithJsdom('TaskToolDisplay', () => {
       mocks.flowChatListeners.forEach((listener) => listener());
     });
 
-    expect(container.querySelector('[data-openbitfun-part="processing"]')).toBeFalsy();
+    expect(container.querySelector('[data-opc-part="processing"]')).toBeFalsy();
 
   });
 
@@ -964,7 +964,7 @@ describeWithJsdom('TaskToolDisplay', () => {
     await act(async () => container.querySelector<HTMLButtonElement>('[data-agent-capsule-trigger]')!.click());
     expect(mocks.openBtwSessionInAuxPane).toHaveBeenCalledWith(expect.objectContaining({ agentType: 'ReviewFixer' }));
     expect(mocks.openBtwSessionInAuxPane.mock.calls.at(-1)?.[0]).not.toHaveProperty('viewKind');
-    expect(container.querySelector('[data-openbitfun-part="interruptAgentButton"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="interruptAgentButton"]')).toBeNull();
   });
 
   it('opens the real subagent session in the aux pane when the task card rail is clicked', async () => {
@@ -989,10 +989,10 @@ describeWithJsdom('TaskToolDisplay', () => {
 
     const openButton = container.querySelector<HTMLButtonElement>('[data-agent-capsule-trigger]');
     expect(openButton).toBeTruthy();
-    expect(container.querySelector('[data-openbitfun-component="subagent-avatar"][data-openbitfun-avatar-id]'))
+    expect(container.querySelector('[data-opc-component="subagent-avatar"][data-opc-avatar-id]'))
       .toBeTruthy();
     expect(await previewText()).not.toContain('repo-investigator');
-    expect(container.querySelector('[data-openbitfun-part="subagentName"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="subagentName"]')).toBeNull();
 
     await act(async () => {
       openButton!.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
@@ -1038,12 +1038,12 @@ describeWithJsdom('TaskToolDisplay', () => {
     });
 
     expect(await previewText()).not.toContain('repo-investigator');
-    expect(container.querySelector('[data-openbitfun-part="subagentName"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('incubating');
+    expect(container.querySelector('[data-opc-part="subagentName"]')).toBeNull();
+    expect(container.querySelector('[data-opc-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('incubating');
     await act(async () => root.render(
       <TaskToolDisplay toolItem={{ ...toolItem, status: 'cancelled' }} config={config} sessionId="parent-session" />,
     ));
-    expect(container.querySelector('[data-openbitfun-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('stopped');
+    expect(container.querySelector('[data-opc-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('stopped');
   });
 
   it('opens an ordinary CodeReview subagent instead of treating it as Deep Review coverage', async () => {
@@ -1214,10 +1214,10 @@ describeWithJsdom('TaskToolDisplay', () => {
       );
     });
 
-    const summary = container.querySelector<HTMLElement>('[data-openbitfun-tool-card="agent-control"]');
+    const summary = container.querySelector<HTMLElement>('[data-opc-tool-card="agent-control"]');
     expect(summary?.textContent).not.toContain('Explore agent');
-    expect(summary?.querySelector('[data-openbitfun-part="agentType"]')?.textContent).toBe('Explore');
-    expect(summary?.querySelector('[data-openbitfun-part="agentModel"]')?.textContent).toBe('fast');
+    expect(summary?.querySelector('[data-opc-part="agentType"]')?.textContent).toBe('Explore');
+    expect(summary?.querySelector('[data-opc-part="agentModel"]')?.textContent).toBe('fast');
     expect(await previewText()).toContain('Explore isolated context');
   });
 
@@ -1249,11 +1249,11 @@ describeWithJsdom('TaskToolDisplay', () => {
       );
     });
 
-    const summary = container.querySelector<HTMLElement>('[data-openbitfun-tool-card="session-message"]')!;
+    const summary = container.querySelector<HTMLElement>('[data-opc-tool-card="session-message"]')!;
     expect(summary.getAttribute('data-operation')).toBe('send');
-    expect(summary.querySelector('[data-openbitfun-part="target"] [data-overflow-content]')?.textContent).toBe('Bubble Bandit');
+    expect(summary.querySelector('[data-opc-part="target"] [data-overflow-content]')?.textContent).toBe('Bubble Bandit');
     expect(summary.textContent).not.toContain('Continue investigation');
-    await act(async () => summary.querySelector<HTMLButtonElement>('[data-openbitfun-part="result"]')!.click());
+    await act(async () => summary.querySelector<HTMLButtonElement>('[data-opc-part="result"]')!.click());
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('Continue investigation');
   });
 
@@ -1279,9 +1279,9 @@ describeWithJsdom('TaskToolDisplay', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="agentStatus"]')).toBeTruthy();
+    expect(container.querySelector('[data-opc-part="agentStatus"]')).toBeTruthy();
     expect(container.querySelector(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="surface"][data-openbitfun-status="cancelled"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="surface"][data-opc-status="cancelled"]',
     )).toBeTruthy();
     expect(await previewText()).not.toContain('Failed');
   });
@@ -1323,11 +1323,11 @@ describeWithJsdom('TaskToolDisplay', () => {
     });
 
     expect(container.querySelector('[data-agent-capsule-trigger]')).toBeNull();
-    const summary = container.querySelector<HTMLElement>('[data-openbitfun-tool-card="session-message"]')!;
+    const summary = container.querySelector<HTMLElement>('[data-opc-tool-card="session-message"]')!;
     expect(summary.getAttribute('data-operation')).toBe('interrupt');
-    expect(summary.getAttribute('data-openbitfun-status')).toBe('completed');
-    expect(summary.querySelector('[data-openbitfun-part="result"]')?.textContent).toContain('toolCards.interaction.interruptedRuns');
-    await act(async () => summary.querySelector<HTMLButtonElement>('[data-openbitfun-part="result"]')!.click());
+    expect(summary.getAttribute('data-opc-status')).toBe('completed');
+    expect(summary.querySelector('[data-opc-part="result"]')?.textContent).toContain('toolCards.interaction.interruptedRuns');
+    await act(async () => summary.querySelector<HTMLButtonElement>('[data-opc-part="result"]')!.click());
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('toolCards.interaction.interruptedRuns');
 
   });

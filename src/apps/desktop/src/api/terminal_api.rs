@@ -7,13 +7,13 @@ use std::sync::Arc;
 use tauri::{AppHandle, Emitter, State};
 use tokio::sync::Mutex;
 
-use openbitfun_core::infrastructure::try_get_path_manager_arc;
-use openbitfun_core::service::remote_ssh::workspace_state::{
+use opc_core::infrastructure::try_get_path_manager_arc;
+use opc_core::service::remote_ssh::workspace_state::{
     get_remote_workspace_manager, init_remote_workspace_manager,
 };
-use openbitfun_core::service::runtime::RuntimeManager;
-use openbitfun_core::service::terminal::TerminalEvent;
-use openbitfun_core::service::terminal::{
+use opc_core::service::runtime::RuntimeManager;
+use opc_core::service::terminal::TerminalEvent;
+use opc_core::service::terminal::{
     AcknowledgeRequest as CoreAcknowledgeRequest, CloseSessionRequest as CoreCloseSessionRequest,
     CommandCompletionReason as CoreCommandCompletionReason,
     CreateSessionRequest as CoreCreateSessionRequest,
@@ -92,7 +92,7 @@ impl TerminalState {
     fn get_scripts_dir() -> PathBuf {
         dirs::config_dir()
             .unwrap_or_else(|| PathBuf::from("."))
-            .join(openbitfun_core_types::product_identity::data_namespace())
+            .join(opc_core_types::product_identity::data_namespace())
             .join("temp")
             .join("scripts")
     }
@@ -454,7 +454,7 @@ fn remote_terminal_signal_bytes(signal: &str) -> Option<&'static [u8]> {
 
 async fn spawn_remote_pty_session(
     app: &AppHandle,
-    terminal_manager: &openbitfun_core::service::remote_ssh::RemoteTerminalManager,
+    terminal_manager: &opc_core::service::remote_ssh::RemoteTerminalManager,
     connection_id: &str,
     request: &CreateSessionRequest,
     initial_cwd: Option<&str>,
@@ -555,14 +555,14 @@ pub async fn terminal_create(
     app_state: State<'_, AppState>,
 ) -> Result<SessionResponse, String> {
     if let Some(id) = request.workspace_id.as_deref() {
-        let service = openbitfun_core::service::workspace::get_global_workspace_service()
+        let service = opc_core::service::workspace::get_global_workspace_service()
             .ok_or("Workspace service is unavailable")?;
         let workspace = service
             .require_workspace(id)
             .await
             .map_err(|e| e.to_string())?;
         request.connection_id = match workspace.workspace_kind {
-            openbitfun_core::service::workspace::WorkspaceKind::Remote => Some(
+            opc_core::service::workspace::WorkspaceKind::Remote => Some(
                 workspace
                     .remote_ssh_connection_id()
                     .ok_or("Remote workspace is missing its saved SSH connection ID")?
@@ -575,7 +575,7 @@ pub async fn terminal_create(
             .get_or_insert_with(|| workspace.root_path.to_string_lossy().into_owned());
     } else if request.connection_id.is_none() {
         // Upgrade-only pre-ID terminal payload. Never infer a target from cwd.
-        let service = openbitfun_core::service::workspace::get_global_workspace_service()
+        let service = opc_core::service::workspace::get_global_workspace_service()
             .ok_or("Workspace service is unavailable")?;
         let workspace = service
             .resolve_legacy_workspace_reference(
@@ -589,7 +589,7 @@ pub async fn terminal_create(
             .ok_or("Terminal workspace ID is unavailable")?;
         request.workspace_id = Some(workspace.id.clone());
         request.connection_id = match workspace.workspace_kind {
-            openbitfun_core::service::workspace::WorkspaceKind::Remote => Some(
+            opc_core::service::workspace::WorkspaceKind::Remote => Some(
                 workspace
                     .remote_ssh_connection_id()
                     .ok_or("Remote workspace is missing its saved SSH connection ID")?
@@ -665,9 +665,9 @@ pub async fn terminal_create(
         api.session_manager()
             .set_owner(
                 &session.id,
-                openbitfun_core::service::terminal::session::SessionOwner {
+                opc_core::service::terminal::session::SessionOwner {
                     id: workspace_id.clone(),
-                    owner_type: openbitfun_core::service::terminal::session::OwnerType::Workspace,
+                    owner_type: opc_core::service::terminal::session::OwnerType::Workspace,
                 },
             )
             .await

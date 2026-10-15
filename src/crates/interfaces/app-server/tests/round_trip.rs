@@ -6,7 +6,7 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use agent_client_protocol::{ConnectionTo, Dispatch, JsonRpcResponse, Responder, SentRequest};
-use openbitfun_app_server::{transport, AppClient, AppServer};
+use opc_app_server::{transport, AppClient, AppServer};
 use serde::{Deserialize, Serialize};
 use tokio::task::LocalSet;
 

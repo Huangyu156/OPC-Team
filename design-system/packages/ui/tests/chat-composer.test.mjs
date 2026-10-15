@@ -38,10 +38,10 @@ test("ChatComposerActionButton shares one stable action and icon geometry", () =
     ),
   );
 
-  assert.equal((markup.match(/data-openbitfun-role="composer-action"/g) ?? []).length, 2);
-  assert.equal((markup.match(/data-openbitfun-shape="circle"/g) ?? []).length, 2);
-  assert.match(markup, /data-openbitfun-variant="fill"/);
-  assert.match(markup, /data-openbitfun-variant="primary"/);
+  assert.equal((markup.match(/data-opc-role="composer-action"/g) ?? []).length, 2);
+  assert.equal((markup.match(/data-opc-shape="circle"/g) ?? []).length, 2);
+  assert.match(markup, /data-opc-variant="fill"/);
+  assert.match(markup, /data-opc-variant="primary"/);
 });
 
 test("ChatComposer publishes stable context, content, and action slots", () => {
@@ -55,15 +55,15 @@ test("ChatComposer publishes stable context, content, and action slots", () => {
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="chat-composer"/);
+  assert.match(markup, /data-opc-component="chat-composer"/);
   assert.match(markup, /data-has-context="true"/);
-  assert.match(markup, /data-openbitfun-part="contextBar"/);
-  const surface = markup.match(/<div[^>]+data-openbitfun-part="surface"[^>]*>/)?.[0];
+  assert.match(markup, /data-opc-part="contextBar"/);
+  const surface = markup.match(/<div[^>]+data-opc-part="surface"[^>]*>/)?.[0];
   assert.ok(surface);
-  assert.match(surface, /data-openbitfun-layout="compact"/);
-  assert.match(markup, /data-openbitfun-part="startActions"/);
-  assert.match(markup, /data-openbitfun-part="content"/);
-  assert.match(markup, /data-openbitfun-part="endActions"/);
+  assert.match(surface, /data-opc-layout="compact"/);
+  assert.match(markup, /data-opc-part="startActions"/);
+  assert.match(markup, /data-opc-part="content"/);
+  assert.match(markup, /data-opc-part="endActions"/);
   assert.match(markup, /aria-label="Message"/);
 });
 
@@ -79,9 +79,9 @@ test("ChatComposer exposes expanded, busy, and disabled state without owning edi
 
   assert.match(markup, /aria-busy="true"/);
   assert.match(markup, /aria-disabled="true"/);
-  assert.match(markup, /data-openbitfun-state="busy disabled"/);
-  assert.match(markup, /data-openbitfun-layout="expanded"/);
-  assert.doesNotMatch(markup, /data-openbitfun-part="contextBar"/);
+  assert.match(markup, /data-opc-state="busy disabled"/);
+  assert.match(markup, /data-opc-layout="expanded"/);
+  assert.doesNotMatch(markup, /data-opc-part="contextBar"/);
   assert.match(markup, /contenteditable="true"/);
 });
 
@@ -126,12 +126,12 @@ test("ChatComposer exposes a neutral pending-message queue with per-message atta
     }),
   );
 
-  assert.match(markup, /data-openbitfun-part="body"/);
-  assert.match(markup, /data-openbitfun-part="queue"/);
-  assert.match(markup, /data-openbitfun-component="chat-composer-queue"/);
-  assert.match(markup, /data-openbitfun-part="title"[^>]*>.*Wait for sending.*13/s);
+  assert.match(markup, /data-opc-part="body"/);
+  assert.match(markup, /data-opc-part="queue"/);
+  assert.match(markup, /data-opc-component="chat-composer-queue"/);
+  assert.match(markup, /data-opc-part="title"[^>]*>.*Wait for sending.*13/s);
   const attachmentBadge = markup.match(
-    /<span[^>]*data-openbitfun-part="attachmentCount"[^>]*>3<\/span>/,
+    /<span[^>]*data-opc-part="attachmentCount"[^>]*>3<\/span>/,
   )?.[0];
   assert.ok(attachmentBadge);
   assert.match(attachmentBadge, /aria-label="3 image attachments"/);
@@ -230,9 +230,9 @@ test("ChatComposer resolves compound slots into the same stable anatomy", () => 
     ),
   );
 
-  assert.match(markup, /data-openbitfun-part="content"[^>]*><div data-editor="true">Draft<\/div>/);
-  assert.match(markup, /data-openbitfun-part="startActions"[^>]*><button type="button">Add<\/button>/);
-  assert.match(markup, /data-openbitfun-part="endActions"[^>]*><button type="button">Send<\/button>/);
+  assert.match(markup, /data-opc-part="content"[^>]*><div data-editor="true">Draft<\/div>/);
+  assert.match(markup, /data-opc-part="startActions"[^>]*><button type="button">Add<\/button>/);
+  assert.match(markup, /data-opc-part="endActions"[^>]*><button type="button">Send<\/button>/);
   assert.equal((markup.match(/>Draft</g) ?? []).length, 1);
 });
 
@@ -272,10 +272,10 @@ test("ChatComposer geometry is driven by public system and semantic tokens", asy
   assert.match(styles, /"content content"\s*"start end"/);
   assert.match(
     styles,
-    /\[data-openbitfun-layout=(?:"compact"|compact)\][^{]*\{[^}]*block-size:\s*var\(--opcteam-control-chat-composer-compact-height\)[^}]*border-radius:\s*var\(--opcteam-control-composer-surface-radius\)/,
+    /\[data-opc-layout=(?:"compact"|compact)\][^{]*\{[^}]*block-size:\s*var\(--opcteam-control-chat-composer-compact-height\)[^}]*border-radius:\s*var\(--opcteam-control-composer-surface-radius\)/,
   );
   assert.match(
     styles,
-    /\[data-openbitfun-layout=(?:"compact"|compact)\][^{]*\.\w+\s*\{[^}]*block-size:\s*var\(--opcteam-control-chat-composer-compact-track-height\)[^}]*align-self:\s*center/,
+    /\[data-opc-layout=(?:"compact"|compact)\][^{]*\.\w+\s*\{[^}]*block-size:\s*var\(--opcteam-control-chat-composer-compact-track-height\)[^}]*align-self:\s*center/,
   );
 });

@@ -82,8 +82,8 @@ export function ControlConversation({ session, sessionRef, voiceTarget, active, 
     const presentation = parseComposerPresentation(turn.userMessage.metadata?.composerPresentation);
     if (turn.userMessage.content || turn.userMessage.images?.length) entries.push({ id: `${row.id}:user`, role: 'user', content: <>
       {presentation ? <UserMessagePresentationContent presentation={presentation} /> : turn.userMessage.content}
-      {!!turn.userMessage.images?.length && <div className="openbitfun-conversation-mode-surface__images"
-        data-openbitfun-component="conversation-mode-surface" data-openbitfun-part="images">
+      {!!turn.userMessage.images?.length && <div className="opc-conversation-mode-surface__images"
+        data-opc-component="conversation-mode-surface" data-opc-part="images">
         {turn.userMessage.images.map(image => <UserMessageImage key={image.id} image={image} onPreview={setPreview} />)}
       </div>}
     </>, activity: turn.id === processingTurnId
@@ -155,8 +155,8 @@ export function ControlConversation({ session, sessionRef, voiceTarget, active, 
     <IconButton size="sm" variant="quiet" icon={<SquarePen size={16} />} aria-label={t('dock.newConversation')}
       disabled={conversationBusy || historyBusy} loading={creatingConversation} onClick={() => void createConversation()} />
   </Tooltip> : undefined;
-  const historyFeedback = failedHistory || historyBusy ? <div className="openbitfun-conversation-mode-surface__history" role="status"
-    data-openbitfun-component="conversation-mode-surface" data-openbitfun-part="history">
+  const historyFeedback = failedHistory || historyBusy ? <div className="opc-conversation-mode-surface__history" role="status"
+    data-opc-component="conversation-mode-surface" data-opc-part="history">
     {historyBusy ? t('dock.loadingHistory') : <><span>{failedHistory}</span>
       <Button size="sm" variant="fill" onClick={() => void loadEarlier()}>{t('dock.retry')}</Button></>}
   </div> : undefined;
@@ -167,12 +167,12 @@ export function ControlConversation({ session, sessionRef, voiceTarget, active, 
       requiresTextInput={Boolean(ownedRequests.length || needsAnswer)} onCloseVoice={onClose} onVoiceViewChange={onVoiceViewChange}
       transcript={mode => <VoiceCallTranscript compact presentation={mode} entries={entries} status={status || sessionError} header={historyFeedback}
         onLoadEarlier={active && canLoadEarlier && !historyBusy && !failedHistory ? () => void loadEarlier() : undefined}
-        className="openbitfun-conversation-mode-surface__transcript" />}>
+        className="opc-conversation-mode-surface__transcript" />}>
       <ControlComposer active={active} />
     </ConversationModeSurface>
     {preview && <Dialog open aria-label={t('context.image')} onOpenChange={() => setPreview(null)}>
-      <img className="openbitfun-conversation-mode-surface__image-preview" src={preview} alt={t('context.image')}
-        data-openbitfun-component="conversation-mode-surface" data-openbitfun-part="imagePreview" />
+      <img className="opc-conversation-mode-surface__image-preview" src={preview} alt={t('context.image')}
+        data-opc-component="conversation-mode-surface" data-opc-part="imagePreview" />
     </Dialog>}
   </>;
 }

@@ -84,7 +84,7 @@ describe('WorkspaceListSection layout styles', () => {
     expect(workspaceLabel).toContain('overflow: hidden;');
     expect(workspaceLabel).not.toContain('text-overflow: ellipsis;');
     expect(readWorkspaceItemSource()).toMatch(
-      /<OverflowText\s+behavior="marquee"\s+className="openbitfun-nav-panel__workspace-item-label"/,
+      /<OverflowText\s+behavior="marquee"\s+className="opc-nav-panel__workspace-item-label"/,
     );
     expect(workspaceActions).toContain('position: absolute;');
     expect(workspaceActions).toContain('right: 4px;');
@@ -128,7 +128,7 @@ describe('WorkspaceListSection layout styles', () => {
   it('keeps nested selection surfaces full-width while aligning their titles', () => {
     const stylesheet = readWorkspaceListStylesheet();
     const fullWidthSessionLists = stylesheet.match(
-      /\.openbitfun-nav-panel__inline-list \{\n\s+\/\/[^\n]+\n\s+margin-left: 0;/g,
+      /\.opc-nav-panel__inline-list \{\n\s+\/\/[^\n]+\n\s+margin-left: 0;/g,
     );
     const sessionRails = stylesheet.match(/--opcteam-nav-session-rail: 30px;/g);
 
@@ -178,10 +178,10 @@ describe('WorkspaceListSection layout styles', () => {
     const stylesheet = readWorkspaceListStylesheet();
 
     expect(stylesheet).toContain(
-      '.openbitfun-nav-panel__workspace-item:hover,\n' +
-      '  .openbitfun-nav-panel__assistant-item:hover,\n' +
-      '  .openbitfun-nav-panel__workspace-item-card:hover,\n' +
-      '  .openbitfun-nav-panel__assistant-item-card:hover {\n' +
+      '.opc-nav-panel__workspace-item:hover,\n' +
+      '  .opc-nav-panel__assistant-item:hover,\n' +
+      '  .opc-nav-panel__workspace-item-card:hover,\n' +
+      '  .opc-nav-panel__assistant-item-card:hover {\n' +
       '    transform: none;\n' +
       '    box-shadow: none;\n' +
       '  }',
@@ -205,11 +205,11 @@ describe('WorkspaceListSection layout styles', () => {
     const remoteHost = extractBlock(stylesheet, '&__workspace-item-remote-host');
     const remoteNameRow = extractBlock(
       stylesheet,
-      "&__workspace-item[data-openbitfun-state~='remote'] &__workspace-item-name-row",
+      "&__workspace-item[data-opc-state~='remote'] &__workspace-item-name-row",
     );
     const remoteNameButton = extractBlock(
       stylesheet,
-      "&__workspace-item[data-openbitfun-state~='remote'] &__workspace-item-name-btn",
+      "&__workspace-item[data-opc-state~='remote'] &__workspace-item-name-btn",
     );
 
     expect(remoteNameRow).toContain('gap: var(--opcteam-space-2);');
@@ -257,7 +257,7 @@ describe('WorkspaceListSection layout styles', () => {
     expect(workspaceCard).toContain('align-items: center;');
     expect(collapseButton).toContain('min-height: 30px;');
     expect(stylesheet).not.toContain(
-      "&__workspace-item[data-openbitfun-state~='remote'] &__workspace-item-collapse-btn",
+      "&__workspace-item[data-opc-state~='remote'] &__workspace-item-collapse-btn",
     );
   });
 
@@ -283,7 +283,7 @@ describe('WorkspaceListSection layout styles', () => {
 
   it('uses the standard workspace session-row presentation inside assistant groups', () => {
     const itemSource = readWorkspaceItemSource();
-    const assistantSessionsStart = itemSource.indexOf('openbitfun-nav-panel__assistant-item-sessions');
+    const assistantSessionsStart = itemSource.indexOf('opc-nav-panel__assistant-item-sessions');
     const assistantSessionsEnd = itemSource.indexOf('useWorkspaceViewPreferences', assistantSessionsStart);
     const assistantSessionsMarkup = itemSource.slice(assistantSessionsStart, assistantSessionsEnd);
 

@@ -258,7 +258,7 @@ export function FlowChatSelectionBar({ rootRef, sessionId, parentSessionId, acti
     }
     const mutation = new MutationObserver(schedule);
     mutation.observe(root, { childList: true, characterData: true, subtree: true, attributes: true,
-      attributeFilter: ['class', 'style', 'hidden', 'aria-hidden', 'data-openbitfun-viewport-inset-bottom'] });
+      attributeFilter: ['class', 'style', 'hidden', 'aria-hidden', 'data-opc-viewport-inset-bottom'] });
     return () => { cancelAnimationFrame(frame); observer.disconnect(); mutation.disconnect(); };
   }, [selection, editing, autoShowToolbar, clear, rootRef]);
 
@@ -286,19 +286,19 @@ export function FlowChatSelectionBar({ rootRef, sessionId, parentSessionId, acti
   return (
     <>
       {selection && active && !editing && autoShowToolbar === true && createOverlayPortal(
-        <Card appearance="raised" radius="lg" data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="root"
-          ref={popupRef} className="conversation-excerpt__popover" data-flowchat-selection-ignore="true" data-openbitfun-native-webview-occlusion
+        <Card appearance="raised" radius="lg" data-opc-product-component="conversation-excerpt" data-opc-product-part="root"
+          ref={popupRef} className="conversation-excerpt__popover" data-flowchat-selection-ignore="true" data-opc-native-webview-occlusion
           style={{ left: position?.left ?? 0, top: position?.top ?? 0, visibility: position ? 'visible' : 'hidden' }}>
-          <ToolbarGroup data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="toolbar" className="conversation-excerpt__toolbar"
+          <ToolbarGroup data-opc-product-component="conversation-excerpt" data-opc-product-part="toolbar" className="conversation-excerpt__toolbar"
             role="group" aria-label={t('selection.actions')}>
             <Button size="sm" variant="text" className="conversation-excerpt__action"
-              data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="action"
+              data-opc-product-component="conversation-excerpt" data-opc-product-part="action"
               leadingIcon={<Icon name="edit" />} onClick={beginEditing} aria-haspopup="dialog">
               {t('selection.annotate')}
             </Button>
             <ToolbarSeparator />
             <Button size="sm" variant="text" className="conversation-excerpt__action"
-              data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="action"
+              data-opc-product-component="conversation-excerpt" data-opc-product-part="action"
               leadingIcon={<Icon name="side-chat" />} disabled={!canAsk}
               title={!canAsk ? t('selection.sideUnsupported') : undefined} onClick={() => submit('ask')}>
               {t(child ? 'selection.askHere' : 'selection.askSide')}
@@ -308,7 +308,7 @@ export function FlowChatSelectionBar({ rootRef, sessionId, parentSessionId, acti
       )}
       <Dialog ref={editorRef} open={!!selection && editing && active} onOpenChange={clear} size="sm" className="conversation-excerpt__dialog"
         initialFocusRef={commentRef} data-flowchat-selection-ignore="true"
-        data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="dialog"
+        data-opc-product-component="conversation-excerpt" data-opc-product-part="dialog"
         onKeyDown={event => {
           if (event.key !== 'Escape' && event.key !== 'Tab') event.stopPropagation();
         }}>
@@ -318,7 +318,7 @@ export function FlowChatSelectionBar({ rootRef, sessionId, parentSessionId, acti
         </DialogHeader>
         <DialogBody>
           <div className="conversation-excerpt__editor"
-            data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="editor">
+            data-opc-product-component="conversation-excerpt" data-opc-product-part="editor">
             {selection && <ConversationExcerptEditor excerpt={selection.excerpt} comment={comment}
               onCommentChange={setComment} inputRef={commentRef} onSubmit={() => submit('annotate')} />}
           </div>

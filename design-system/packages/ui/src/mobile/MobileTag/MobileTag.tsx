@@ -36,18 +36,18 @@ export const MobileTag = forwardRef<HTMLButtonElement, MobileTagProps>(
         {...props}
         className={classNames(styles.root, className)}
         data-appearance={appearance}
-        data-openbitfun-component="mobile-tag"
+        data-opc-component="mobile-tag"
         data-selected={selected ? "true" : "false"}
         data-size={size}
         ref={ref}
         type={type}
       >
         {leading !== undefined && leading !== null && (
-          <span aria-hidden="true" className={styles.leading} data-openbitfun-part="leading">{leading}</span>
+          <span aria-hidden="true" className={styles.leading} data-opc-part="leading">{leading}</span>
         )}
-        <span className={styles.label} data-openbitfun-part="label">{children}</span>
+        <span className={styles.label} data-opc-part="label">{children}</span>
         {trailing !== undefined && trailing !== null && (
-          <span className={styles.trailing} data-openbitfun-part="trailing">{trailing}</span>
+          <span className={styles.trailing} data-opc-part="trailing">{trailing}</span>
         )}
       </button>
     );

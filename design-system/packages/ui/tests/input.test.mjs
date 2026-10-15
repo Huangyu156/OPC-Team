@@ -28,9 +28,9 @@ test("Input keeps native input semantics and independent content slots", () => {
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="input"/);
-  assert.match(markup, /data-openbitfun-part="leading"/);
-  assert.match(markup, /data-openbitfun-part="trailing"/);
+  assert.match(markup, /data-opc-component="input"/);
+  assert.match(markup, /data-opc-part="leading"/);
+  assert.match(markup, /data-opc-part="trailing"/);
   assert.match(markup, /aria-label="Project name"/);
   assert.match(markup, /placeholder="Name"/);
   assert.match(markup, /type="text"/);

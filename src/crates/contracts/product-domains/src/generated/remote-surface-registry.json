@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "digest": "fnv1a64:6281a2970869f929",
+  "digest": "fnv1a64:ef424e97495c5559",
   "retiredCommandPrefixes": [
     {
       "prefix": "lsp_",
@@ -4410,7 +4410,7 @@
       }
     },
     {
-      "id": "mark_openbitfun_control_surface_ready",
+      "id": "mark_opc_control_surface_ready",
       "surface": "tauri_command",
       "remoteWorkspace": "WorkspaceAgnostic",
       "peer": {
@@ -4422,7 +4422,7 @@
       }
     },
     {
-      "id": "mark_openbitfun_control_surface_unready",
+      "id": "mark_opc_control_surface_unready",
       "surface": "tauri_command",
       "remoteWorkspace": "WorkspaceAgnostic",
       "peer": {
@@ -5980,7 +5980,7 @@
       }
     },
     {
-      "id": "report_openbitfun_control_result",
+      "id": "report_opc_control_result",
       "surface": "tauri_command",
       "remoteWorkspace": "WorkspaceAgnostic",
       "peer": {

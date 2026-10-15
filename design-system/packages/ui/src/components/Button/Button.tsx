@@ -38,10 +38,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       {...props}
       aria-busy={loading || undefined}
       className={classNames(styles.button, className)}
-      data-openbitfun-component="button"
-      data-openbitfun-part="root"
-      data-openbitfun-tone={tone}
-      data-openbitfun-variant={variant}
+      data-opc-component="button"
+      data-opc-part="root"
+      data-opc-tone={tone}
+      data-opc-variant={variant}
       data-loading={loading ? "true" : "false"}
       data-label-behavior={labelBehavior}
       data-size={size}
@@ -49,20 +49,20 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       ref={ref}
       type={type}
     >
-      <span aria-hidden="true" className={styles.progress} data-openbitfun-part="progress" />
-      <span className={styles.content} data-openbitfun-part="content">
+      <span aria-hidden="true" className={styles.progress} data-opc-part="progress" />
+      <span className={styles.content} data-opc-part="content">
         {leadingIcon && (
-          <span aria-hidden="true" className={classNames(styles.icon, styles.leadingIcon)} data-openbitfun-icon-slot="true" data-openbitfun-part="leading-icon">
+          <span aria-hidden="true" className={classNames(styles.icon, styles.leadingIcon)} data-opc-icon-slot="true" data-opc-part="leading-icon">
             {leadingIcon}
           </span>
         )}
         {labelBehavior === "static" ? (
-          <span className={classNames(styles.label, styles.staticLabel)} data-openbitfun-part="label">{children}</span>
+          <span className={classNames(styles.label, styles.staticLabel)} data-opc-part="label">{children}</span>
         ) : (
-          <OverflowText className={styles.label} data-openbitfun-part="label">{children}</OverflowText>
+          <OverflowText className={styles.label} data-opc-part="label">{children}</OverflowText>
         )}
         {trailingIcon && (
-          <span aria-hidden="true" className={classNames(styles.icon, styles.trailingIcon)} data-openbitfun-icon-slot="true" data-openbitfun-part="trailing-icon">
+          <span aria-hidden="true" className={classNames(styles.icon, styles.trailingIcon)} data-opc-icon-slot="true" data-opc-part="trailing-icon">
             {trailingIcon}
           </span>
         )}

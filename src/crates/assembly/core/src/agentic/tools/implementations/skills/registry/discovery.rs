@@ -40,7 +40,7 @@ fn supports_flat_skills(source_id: &str) -> bool {
 #[cfg(all(test, feature = "external-sources"))]
 mod configured_pi_tests {
     use super::*;
-    use openbitfun_product_domains::external_sources::ExternalSourceScope;
+    use opc_product_domains::external_sources::ExternalSourceScope;
 
     #[tokio::test]
     async fn explicit_paths_reuse_pi_parsing_and_keep_stable_distinct_identities() {
@@ -134,7 +134,7 @@ fn flat_skill_data(
     content: &str,
     level: SkillLocation,
     slot: &str,
-) -> Result<SkillData, openbitfun_agent_runtime::skills::SkillParseError> {
+) -> Result<SkillData, opc_agent_runtime::skills::SkillParseError> {
     let stem = filename.strip_suffix(".md").unwrap_or(filename);
     let mut data = SkillRegistry::parse_skill_markdown(
         format!("{}/{stem}", directory.trim_end_matches(['/', '\\'])),
@@ -167,7 +167,7 @@ impl SkillRegistry {
         let mut seen = standard.iter().filter_map(identity).collect::<HashSet<_>>();
         for root in roots {
             let level = if root.scope
-                == openbitfun_product_domains::external_sources::ExternalSourceScope::UserGlobal
+                == opc_product_domains::external_sources::ExternalSourceScope::UserGlobal
             {
                 SkillLocation::User
             } else {

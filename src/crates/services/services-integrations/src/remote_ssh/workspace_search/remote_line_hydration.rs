@@ -17,7 +17,7 @@
 use crate::workspace_search::line_hydration::{
     plan_wanted_lines, push_line_results, MAX_HYDRATED_LINE_COLUMNS,
 };
-use openbitfun_services_core::filesystem::{ContentMatchPreviewBuilder, FileSearchResult};
+use opc_services_core::filesystem::{ContentMatchPreviewBuilder, FileSearchResult};
 
 /// Ceiling on lines hydrated in one remote content search, applied on top of any
 /// caller limit.

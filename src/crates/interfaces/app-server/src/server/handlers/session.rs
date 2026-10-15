@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
 use agent_client_protocol::{Builder, Error, HandleDispatchFrom};
-use openbitfun_agent_runtime::sdk::AgentSessionRestoreRequest;
-use openbitfun_app_server_protocol::session::{
+use opc_agent_runtime::sdk::AgentSessionRestoreRequest;
+use opc_app_server_protocol::session::{
     CancelLineageRequest, CancelLineageResponse, CompactSessionRequest, CompactSessionResponse,
     InspectLineageRequest, InspectLineageResponse, ReadTranscriptRequest, ReadTranscriptResponse,
     RedoSessionRequest, ReloadContextRequest, ReloadContextResponse, ResolveWorkspaceRequest,
@@ -184,19 +184,17 @@ pub(in crate::server) fn builder(
                     let transcript = runtime_call(
                         runtime
                             .runtime()
-                            .read_session_transcript(
-                                openbitfun_runtime_ports::SessionTranscriptRequest {
-                                    session_id: session_id.clone(),
-                                    turn_id: None,
-                                },
-                            )
+                            .read_session_transcript(opc_runtime_ports::SessionTranscriptRequest {
+                                session_id: session_id.clone(),
+                                turn_id: None,
+                            })
                             .await,
                     )?;
                     let workspace_binding = runtime_call(
                         runtime
                             .runtime()
                             .resolve_session_workspace_binding(
-                                openbitfun_runtime_ports::AgentSessionWorkspaceRequest {
+                                opc_runtime_ports::AgentSessionWorkspaceRequest {
                                     session_id: session_id.clone(),
                                 },
                             )

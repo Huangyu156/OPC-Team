@@ -101,5 +101,5 @@ export interface DragEventPayload {
 /**
  * Custom MIME type for transferring OpenBitFun context payloads via the browser DnD API.
  */
-export const OPENBITFUN_CONTEXT_MIME_TYPE = 'application/x-openbitfun-context';
+export const OPENBITFUN_CONTEXT_MIME_TYPE = 'application/x-opc-context';
 export const OPENBITFUN_CONTEXT_JSON_MIME_TYPE = 'application/json';

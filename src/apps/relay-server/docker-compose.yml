@@ -14,10 +14,10 @@ services:
         OPENBITFUN_USE_CN_MIRROR: ${OPENBITFUN_USE_CN_MIRROR:-0}
         OPENBITFUN_APT_MIRROR: ${OPENBITFUN_APT_MIRROR:-mirrors.aliyun.com}
         OPENBITFUN_CARGO_SPARSE_URL: ${OPENBITFUN_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}
-    image: openbitfun-relay:${RELAY_GIT_COMMIT:-local}
+    image: opc-relay:${RELAY_GIT_COMMIT:-local}
     # Intentionally no `platform:` pin — build/run for the host CPU
     # (linux/amd64 on x86_64, linux/arm64 on aarch64).
-    container_name: openbitfun-relay
+    container_name: opc-relay
     restart: unless-stopped
     ports:
       # Host and container port both follow RELAY_PORT (default 9700).
@@ -29,7 +29,7 @@ services:
       - RELAY_ROOM_WEB_DIR=/app/room-web
       - RELAY_ROOM_TTL=300
       - RELAY_ASSET_STORE_MAX_BYTES=1073741824
-      - RELAY_DB_PATH=/app/data/openbitfun_relay.db
+      - RELAY_DB_PATH=/app/data/opc_relay.db
       - RELAY_PAGE_PUBLIC_BASE_URL=${RELAY_PAGE_PUBLIC_BASE_URL:-}
       - RELAY_PAGE_AUTH_BASE_URL=${RELAY_PAGE_AUTH_BASE_URL:-}
     volumes:
@@ -47,7 +47,7 @@ services:
   # Uncomment if you need HTTPS / domain-based access.
   # caddy:
   #   image: caddy:2-alpine
-  #   container_name: openbitfun-caddy
+  #   container_name: opc-caddy
   #   restart: unless-stopped
   #   ports:
   #     - "80:80"

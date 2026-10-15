@@ -13,15 +13,15 @@ use crate::miniapp::types::{
 use crate::product_domain_runtime::CoreProductDomainRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::Utc;
-use openbitfun_product_domains::miniapp::customization::{
+use opc_product_domains::miniapp::customization::{
     MiniAppCustomizationBaseline, MiniAppCustomizationMetadata, MiniAppPermissionDiff,
 };
-use openbitfun_product_domains::miniapp::draft::MiniAppDraft;
-use openbitfun_product_domains::miniapp::lifecycle::{
+use opc_product_domains::miniapp::draft::MiniAppDraft;
+use opc_product_domains::miniapp::lifecycle::{
     build_worker_revision, MiniAppCreateInput, MiniAppUpdatePatch,
 };
-use openbitfun_product_domains::miniapp::market::{InstalledMarketOrigin, MarketPackageMeta};
-use openbitfun_product_domains::miniapp::ports::{
+use opc_product_domains::miniapp::market::{InstalledMarketOrigin, MarketPackageMeta};
+use opc_product_domains::miniapp::ports::{
     MiniAppCompilePort, MiniAppImportFromPathRequest, MiniAppPortError, MiniAppPortErrorKind,
     MiniAppPortFuture, MiniAppRuntimeFacade,
 };
@@ -127,7 +127,7 @@ impl MiniAppManager {
             .is_some_and(|meta| {
                 matches!(
                     meta.runtime_profile,
-                    openbitfun_product_domains::miniapp::types::MiniAppRuntimeProfile::MarketStrict
+                    opc_product_domains::miniapp::types::MiniAppRuntimeProfile::MarketStrict
                 )
             })
     }
@@ -762,12 +762,12 @@ impl MiniAppCompilePort for MiniAppManager {
                 &appearance_mode,
                 workspace_root.as_deref(),
             )
-            .map_err(map_openbitfun_error_to_miniapp_port_error)
+            .map_err(map_opc_error_to_miniapp_port_error)
         })
     }
 }
 
-fn map_openbitfun_error_to_miniapp_port_error(error: OpcTeamError) -> MiniAppPortError {
+fn map_opc_error_to_miniapp_port_error(error: OpcTeamError) -> MiniAppPortError {
     let kind = match &error {
         OpcTeamError::NotFound(_) => MiniAppPortErrorKind::NotFound,
         OpcTeamError::Validation(_) => MiniAppPortErrorKind::InvalidInput,
@@ -785,7 +785,7 @@ fn map_openbitfun_error_to_miniapp_port_error(error: OpcTeamError) -> MiniAppPor
 }
 
 fn map_miniapp_port_error(error: MiniAppPortError) -> OpcTeamError {
-    let message = strip_openbitfun_error_prefix(error.message);
+    let message = strip_opc_error_prefix(error.message);
     match error.kind {
         MiniAppPortErrorKind::NotFound => OpcTeamError::NotFound(message),
         MiniAppPortErrorKind::InvalidInput => OpcTeamError::validation(message),
@@ -800,7 +800,7 @@ fn map_miniapp_port_error(error: MiniAppPortError) -> OpcTeamError {
     }
 }
 
-fn strip_openbitfun_error_prefix(message: String) -> String {
+fn strip_opc_error_prefix(message: String) -> String {
     const PREFIXES: &[&str] = &[
         "Not found: ",
         "Validation error: ",
@@ -824,7 +824,7 @@ mod tests {
     use crate::miniapp::types::{
         FsPermissions, MiniAppMeta, MiniAppPermissions, MiniAppSource, NpmDep,
     };
-    use openbitfun_product_domains::miniapp::storage::{
+    use opc_product_domains::miniapp::storage::{
         COMPILED_HTML, DRAFT_JSON, ESM_DEPS_JSON, INDEX_HTML, META_JSON, PACKAGE_JSON, SOURCE_DIR,
         STORAGE_JSON, STYLE_CSS, UI_JS, WORKER_JS,
     };
@@ -850,7 +850,7 @@ mod tests {
 
     fn test_manager() -> TestMiniAppManager {
         let root = std::env::temp_dir().join(format!(
-            "openbitfun-miniapp-manager-draft-{}",
+            "opc-miniapp-manager-draft-{}",
             uuid::Uuid::new_v4()
         ));
         let path_manager =
@@ -1037,7 +1037,7 @@ mod tests {
     async fn import_from_path_preserves_fallback_files_recompile_and_runtime_state() {
         let manager = test_manager();
         let import_root = std::env::temp_dir().join(format!(
-            "openbitfun-miniapp-import-source-{}",
+            "opc-miniapp-import-source-{}",
             uuid::Uuid::new_v4()
         ));
         write_import_source(&import_root).await;
@@ -1090,7 +1090,7 @@ mod tests {
     async fn import_from_path_preserves_invalid_meta_error_shape() {
         let manager = test_manager();
         let import_root = std::env::temp_dir().join(format!(
-            "openbitfun-miniapp-invalid-import-source-{}",
+            "opc-miniapp-invalid-import-source-{}",
             uuid::Uuid::new_v4()
         ));
         tokio::fs::create_dir_all(&import_root).await.unwrap();

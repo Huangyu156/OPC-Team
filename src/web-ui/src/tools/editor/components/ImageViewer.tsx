@@ -197,24 +197,24 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
       aria-modal={expanded || undefined}
       aria-label={expanded ? fileName || filePath : undefined}
       tabIndex={expanded ? -1 : undefined}
-      data-openbitfun-native-webview-occlusion={expanded || undefined}
-      className={`openbitfun-image-viewer ${className} ${expanded ? 'fullscreen' : ''}`}
-      data-openbitfun-component="image-viewer"
-      data-openbitfun-part="root"
-      data-openbitfun-state={expanded ? 'fullscreen' : undefined}
+      data-opc-native-webview-occlusion={expanded || undefined}
+      className={`opc-image-viewer ${className} ${expanded ? 'fullscreen' : ''}`}
+      data-opc-component="image-viewer"
+      data-opc-part="root"
+      data-opc-state={expanded ? 'fullscreen' : undefined}
     >
       <Toolbar
-        className="openbitfun-image-viewer__toolbar"
+        className="opc-image-viewer__toolbar"
         leading={
-          <div data-openbitfun-component="image-viewer" data-openbitfun-part="info" className="openbitfun-image-viewer__info">
-            <OverflowText className="openbitfun-image-viewer__filename">{fileName || filePath.split(/[/\\]/).pop()}</OverflowText>
+          <div data-opc-component="image-viewer" data-opc-part="info" className="opc-image-viewer__info">
+            <OverflowText className="opc-image-viewer__filename">{fileName || filePath.split(/[/\\]/).pop()}</OverflowText>
             {originCurrent && imageDimensions && (
-              <span className="openbitfun-image-viewer__dimensions">
+              <span className="opc-image-viewer__dimensions">
                 {imageDimensions.width} × {imageDimensions.height}
               </span>
             )}
             {originCurrent && fileSize > 0 && (
-              <span className="openbitfun-image-viewer__filesize">
+              <span className="opc-image-viewer__filesize">
                 {formatBytes(fileSize)}
               </span>
             )}
@@ -237,7 +237,7 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
                 <Button
                   size="sm"
                   variant="text"
-                  className="openbitfun-image-viewer__zoom-display"
+                  className="opc-image-viewer__zoom-display"
                   onClick={handleZoomReset}
                 >
                   {zoom}%
@@ -293,29 +293,29 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
         }
       />
 
-      <div data-openbitfun-component="image-viewer" data-openbitfun-part="container" className="openbitfun-image-viewer__container">
+      <div data-opc-component="image-viewer" data-opc-part="container" className="opc-image-viewer__container">
         {(!originCurrent || loading) && (
-          <div data-openbitfun-component="image-viewer" data-openbitfun-part="loading" className="openbitfun-image-viewer__loading">
-            <div className="openbitfun-image-viewer__spinner" />
+          <div data-opc-component="image-viewer" data-opc-part="loading" className="opc-image-viewer__loading">
+            <div className="opc-image-viewer__spinner" />
             <p>{t('editor.common.loading')}</p>
           </div>
         )}
 
         {originCurrent && error && (
-          <div data-openbitfun-component="image-viewer" data-openbitfun-part="error" className="openbitfun-image-viewer__error">
+          <div data-opc-component="image-viewer" data-opc-part="error" className="opc-image-viewer__error">
             <p>{error}</p>
-            <p className="openbitfun-image-viewer__error-path">{filePath}</p>
+            <p className="opc-image-viewer__error-path">{filePath}</p>
           </div>
         )}
 
         {originCurrent && !loading && !error && imageUrl && (
-          <div data-openbitfun-component="image-viewer" data-openbitfun-part="imageWrapper" className="openbitfun-image-viewer__image-wrapper">
+          <div data-opc-component="image-viewer" data-opc-part="imageWrapper" className="opc-image-viewer__image-wrapper">
             <img
               src={imageUrl}
               alt={fileName || filePath}
-              className="openbitfun-image-viewer__image"
-              data-openbitfun-component="image-viewer"
-              data-openbitfun-part="image"
+              className="opc-image-viewer__image"
+              data-opc-component="image-viewer"
+              data-opc-part="image"
               style={{
                 transform: `scale(${zoom / 100}) rotate(${rotation}deg)`,
               }}
@@ -326,7 +326,7 @@ export const ImageViewer: React.FC<ImageViewerProps> = ({
         )}
         
         {originCurrent && !loading && !error && !imageUrl && (
-          <div data-openbitfun-component="image-viewer" data-openbitfun-part="error" className="openbitfun-image-viewer__error">
+          <div data-opc-component="image-viewer" data-opc-part="error" className="opc-image-viewer__error">
             <p>{t('editor.imageViewer.imageUrlEmpty')}</p>
           </div>
         )}

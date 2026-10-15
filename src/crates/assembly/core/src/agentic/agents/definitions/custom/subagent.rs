@@ -4,11 +4,11 @@ use crate::agentic::agents::{PromptBuilderContext, UserContextPolicy};
 use crate::agentic::session::SystemPromptCacheIdentity;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_runtime::custom_agent::{
+use opc_agent_runtime::custom_agent::{
     custom_agent_read_markdown_file, default_custom_agent_user_context_policy,
     CustomAgentDefinition, CustomAgentKind,
 };
-pub use openbitfun_agent_runtime::custom_subagent::CustomSubagentKind;
+pub use opc_agent_runtime::custom_subagent::CustomSubagentKind;
 type CustomSubagentDefinition = CustomAgentDefinition;
 
 pub struct CustomSubagent {
@@ -220,7 +220,7 @@ mod tests {
 
     #[test]
     fn review_metadata_round_trips_through_front_matter() {
-        let dir = TestTempDir::new("openbitfun-subagent-test");
+        let dir = TestTempDir::new("opc-subagent-test");
         let path = dir.join("review-agent.md");
         let mut subagent = CustomSubagent::new(
             "ReviewExtra".to_string(),

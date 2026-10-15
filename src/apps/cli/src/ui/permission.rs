@@ -11,7 +11,7 @@ use ratatui::{
 
 use super::string_utils::truncate_str;
 use super::theme::Theme;
-use openbitfun_agent_runtime::sdk::{PermissionReply, PermissionRequest};
+use opc_agent_runtime::sdk::{PermissionReply, PermissionRequest};
 
 #[derive(Debug, Clone)]
 pub(crate) struct PermissionPrompt {
@@ -285,7 +285,7 @@ mod tests {
     };
     use crate::ui::theme::{builtin_theme_json, Appearance, EffectiveColorScheme, Theme};
     use crossterm::event::{KeyCode, KeyEvent, KeyModifiers};
-    use openbitfun_agent_runtime::sdk::{
+    use opc_agent_runtime::sdk::{
         PermissionDelegationContext, PermissionReply, PermissionRequest, PermissionRequestSource,
         PermissionRequestSourceKind,
     };

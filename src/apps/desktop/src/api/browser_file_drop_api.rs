@@ -142,7 +142,7 @@ mod windows {
         webview: &tauri::WebviewWindow,
         request: &ResolveBrowserDroppedFilePathsRequest,
     ) -> Result<Vec<String>, String> {
-        let object_group = format!("openbitfun-browser-drop-{}", request.token);
+        let object_group = format!("opc-browser-drop-{}", request.token);
         let token = serde_json::to_string(&request.token)
             .map_err(|error| format!("Failed to encode browser drop token: {error}"))?;
 

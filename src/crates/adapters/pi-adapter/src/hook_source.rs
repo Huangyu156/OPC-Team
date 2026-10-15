@@ -1,6 +1,6 @@
-use openbitfun_product_domains::external_hook_catalog::*;
-use openbitfun_product_domains::external_sources::*;
-use openbitfun_static_hook_support::{
+use opc_product_domains::external_hook_catalog::*;
+use opc_product_domains::external_sources::*;
+use opc_static_hook_support::{
     read_bounded_file, regular_file_exists, BoundedFileRead, StaticHookCatalog,
 };
 use oxc_parse::{

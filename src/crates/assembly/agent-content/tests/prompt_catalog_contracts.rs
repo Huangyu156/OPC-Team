@@ -1,4 +1,4 @@
-use openbitfun_agent_content::{
+use opc_agent_content::{
     agent_prompt, agent_prompt_names,
     insights::{
         AREAS, AT_A_GLANCE, FACET_EXTRACTION, FRICTION, FUN_ENDING, HORIZON, INTERACTION_STYLE,
@@ -54,8 +54,8 @@ const CATALOG_PROMPT_SOURCES: &[(&str, &[u8])] = &[
         include_bytes!("../prompts/agents/minimal_mode.md"),
     ),
     (
-        "openbitfun_agent",
-        include_bytes!("../prompts/agents/openbitfun_agent.md"),
+        "opc_agent",
+        include_bytes!("../prompts/agents/opc_agent.md"),
     ),
     (
         "phase1_system",

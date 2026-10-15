@@ -20,9 +20,9 @@ export const ConfigMessage: React.FC<ConfigMessageProps> = ({
 
   return (
     <div
-      className={['openbitfun-config-message', className].filter(Boolean).join(' ')}
-      data-openbitfun-component="config"
-      data-openbitfun-part="message"
+      className={['opc-config-message', className].filter(Boolean).join(' ')}
+      data-opc-component="config"
+      data-opc-part="message"
     >
       <Alert tone={message.type} message={message.text} />
     </div>

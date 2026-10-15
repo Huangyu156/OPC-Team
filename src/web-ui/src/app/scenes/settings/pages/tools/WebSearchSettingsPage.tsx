@@ -17,7 +17,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 
 const log = createLogger('WebSearchSettings');
 
-type ProviderId = 'exa_mcp_free' | 'exa_search_api' | 'tavily' | 'openbitfun_search_http';
+type ProviderId = 'exa_mcp_free' | 'exa_search_api' | 'tavily' | 'opc_search_http';
 type HttpAuthMode = 'none' | 'bearer' | 'header';
 
 interface CredentialProviderConfig extends Record<string, unknown> {
@@ -40,7 +40,7 @@ interface WebSearchConfig extends Record<string, unknown> {
   providers: {
     exa_search_api: CredentialProviderConfig;
     tavily: CredentialProviderConfig;
-    openbitfun_search_http: OpenBitFunHttpConfig;
+    opc_search_http: OpenBitFunHttpConfig;
     [key: string]: unknown;
   };
 }
@@ -50,11 +50,11 @@ const DEFAULT_CONFIG: WebSearchConfig = {
   providers: {
     exa_search_api: { credentialId: 'exa-search-api' },
     tavily: { credentialId: 'tavily-search-api' },
-    openbitfun_search_http: {
+    opc_search_http: {
       endpoint: '',
       auth: {
         mode: 'none',
-        credentialId: 'openbitfun-search-http',
+        credentialId: 'opc-search-http',
         headerName: '',
       },
     },
@@ -116,8 +116,8 @@ function normalizeConfig(value: unknown): WebSearchConfig {
   const rawTavily = rawProviders.tavily && typeof rawProviders.tavily === 'object'
     ? rawProviders.tavily as Partial<CredentialProviderConfig>
     : {};
-  const rawHttp = rawProviders.openbitfun_search_http && typeof rawProviders.openbitfun_search_http === 'object'
-    ? rawProviders.openbitfun_search_http as Partial<OpenBitFunHttpConfig>
+  const rawHttp = rawProviders.opc_search_http && typeof rawProviders.opc_search_http === 'object'
+    ? rawProviders.opc_search_http as Partial<OpenBitFunHttpConfig>
     : {};
   const rawAuth = rawHttp.auth && typeof rawHttp.auth === 'object'
     ? rawHttp.auth as Partial<OpenBitFunHttpAuthConfig>
@@ -137,11 +137,11 @@ function normalizeConfig(value: unknown): WebSearchConfig {
         ...DEFAULT_CONFIG.providers.tavily,
         ...rawTavily,
       },
-      openbitfun_search_http: {
-        ...DEFAULT_CONFIG.providers.openbitfun_search_http,
+      opc_search_http: {
+        ...DEFAULT_CONFIG.providers.opc_search_http,
         ...rawHttp,
         auth: {
-          ...DEFAULT_CONFIG.providers.openbitfun_search_http.auth,
+          ...DEFAULT_CONFIG.providers.opc_search_http.auth,
           ...rawAuth,
         },
       },
@@ -184,7 +184,7 @@ const WebSearchSettingsPage: React.FC = () => {
       description: t('providerDescriptions.tavily'),
     },
     {
-      value: 'openbitfun_search_http',
+      value: 'opc_search_http',
       label: t('providers.openbitfunSearchHttp'),
       description: t('providerDescriptions.openbitfunSearchHttp'),
     },
@@ -196,14 +196,14 @@ const WebSearchSettingsPage: React.FC = () => {
   ], [t]);
 
   const selectedProvider = config.provider as ProviderId;
-  const httpConfig = config.providers.openbitfun_search_http;
+  const httpConfig = config.providers.opc_search_http;
   const hasUnsavedChanges = useMemo(
     () => JSON.stringify(config) !== JSON.stringify(savedConfig),
     [config, savedConfig],
   );
   const credentialRequired = selectedProvider === 'exa_search_api'
     || selectedProvider === 'tavily'
-    || (selectedProvider === 'openbitfun_search_http' && !['', 'none'].includes(httpConfig.auth.mode));
+    || (selectedProvider === 'opc_search_http' && !['', 'none'].includes(httpConfig.auth.mode));
 
   const refreshCredentialStatus = useCallback(async (provider: string, required: boolean) => {
     const requestId = ++credentialStatusRequestIdRef.current;
@@ -397,7 +397,7 @@ const WebSearchSettingsPage: React.FC = () => {
 
   if (loadFailed) {
     return (
-      <ConfigPageLayout data-openbitfun-component="config" data-openbitfun-part="root">
+      <ConfigPageLayout data-opc-component="config" data-opc-part="root">
         <ConfigPageHeader title={t('title')} subtitle={t('subtitle')} />
         <ConfigPageContent>
           <ConfigRetryState
@@ -412,7 +412,7 @@ const WebSearchSettingsPage: React.FC = () => {
   }
 
   return (
-    <ConfigPageLayout data-openbitfun-component="config" data-openbitfun-part="root">
+    <ConfigPageLayout data-opc-component="config" data-opc-part="root">
       <ConfigPageHeader
         title={t('title')}
         subtitle={t('subtitle')}
@@ -471,7 +471,7 @@ const WebSearchSettingsPage: React.FC = () => {
           </ConfigPageRow>
         </ConfigPageSection>
 
-        {selectedProvider === 'openbitfun_search_http' ? (
+        {selectedProvider === 'opc_search_http' ? (
           <ConfigPageSection
             title={t('sections.http.title')}
             description={t('sections.http.description')}
@@ -486,8 +486,8 @@ const WebSearchSettingsPage: React.FC = () => {
                   ...previous,
                   providers: {
                     ...previous.providers,
-                    openbitfun_search_http: {
-                      ...previous.providers.openbitfun_search_http,
+                    opc_search_http: {
+                      ...previous.providers.opc_search_http,
                       endpoint: event.target.value,
                     },
                   },
@@ -504,10 +504,10 @@ const WebSearchSettingsPage: React.FC = () => {
                   ...previous,
                   providers: {
                     ...previous.providers,
-                    openbitfun_search_http: {
-                      ...previous.providers.openbitfun_search_http,
+                    opc_search_http: {
+                      ...previous.providers.opc_search_http,
                       auth: {
-                        ...previous.providers.openbitfun_search_http.auth,
+                        ...previous.providers.opc_search_http.auth,
                         mode: normalizeSelectValue(value) as HttpAuthMode,
                       },
                     },
@@ -526,10 +526,10 @@ const WebSearchSettingsPage: React.FC = () => {
                     ...previous,
                     providers: {
                       ...previous.providers,
-                      openbitfun_search_http: {
-                        ...previous.providers.openbitfun_search_http,
+                      opc_search_http: {
+                        ...previous.providers.opc_search_http,
                         auth: {
-                          ...previous.providers.openbitfun_search_http.auth,
+                          ...previous.providers.opc_search_http.auth,
                           headerName: event.target.value,
                         },
                       },
@@ -567,7 +567,7 @@ const WebSearchSettingsPage: React.FC = () => {
           </ConfigPageSection>
         ) : null}
 
-        {selectedProvider === 'openbitfun_search_http' ? (
+        {selectedProvider === 'opc_search_http' ? (
           <ConfigPageSection
             title={t('sections.protocol.title')}
             description={t('sections.protocol.description')}
@@ -586,9 +586,9 @@ const WebSearchSettingsPage: React.FC = () => {
           >
             <div
               ref={protocolRef}
-              id="web-search-openbitfun-protocol"
-              data-openbitfun-component="config"
-              data-openbitfun-part="collectionDetails"
+              id="web-search-opc-protocol"
+              data-opc-component="config"
+              data-opc-part="collectionDetails"
             >
               <section>
                 <h4>{t('protocol.request.title')}</h4>

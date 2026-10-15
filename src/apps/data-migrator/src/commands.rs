@@ -1,6 +1,6 @@
 use crate::app_state::{CommandError, DiagnosticsExportView, MigratorCoordinator, MigratorView};
-use openbitfun_legacy_migration::MigrationRoots;
-use openbitfun_product_domains::legacy_migration::MigrationSelection;
+use opc_legacy_migration::MigrationRoots;
+use opc_product_domains::legacy_migration::MigrationSelection;
 use serde::Deserialize;
 use tauri::{AppHandle, State};
 
@@ -40,7 +40,7 @@ pub(crate) struct ResetRequest {
 }
 
 #[tauri::command]
-pub(crate) fn preview_openbitfun_reset(
+pub(crate) fn preview_opc_reset(
     state: State<'_, MigratorCoordinator>,
     request: EmptyRequest,
 ) -> Result<MigratorView, CommandError> {
@@ -49,7 +49,7 @@ pub(crate) fn preview_openbitfun_reset(
 }
 
 #[tauri::command]
-pub(crate) fn reset_openbitfun_data(
+pub(crate) fn reset_opc_data(
     state: State<'_, MigratorCoordinator>,
     request: ResetRequest,
 ) -> Result<MigratorView, CommandError> {

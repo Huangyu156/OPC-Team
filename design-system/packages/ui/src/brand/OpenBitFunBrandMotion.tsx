@@ -221,10 +221,10 @@ export function OpenBitFunBrandMotion({ active = true, size = 192, label, varian
       ref={svgRef}
       className={classNames(styles.flow, variant !== "flow" && styles.iconMotion, className)}
       style={{ ...style, "--_brand-motion-size": `${size}px` } as CSSProperties}
-      data-openbitfun-component="openbitfun-brand-motion"
-      data-openbitfun-part="root"
-      data-openbitfun-active={active}
-      data-openbitfun-variant={variant}
+      data-opc-component="opc-brand-motion"
+      data-opc-part="root"
+      data-opc-active={active}
+      data-opc-variant={variant}
       viewBox={variant === "flow" ? "0 0 256 256" : MARK_VIEW_BOX}
       width={size}
       height={size}

@@ -9,8 +9,8 @@ use crate::agentic::tools::workspace_paths::posix_style_path_is_absolute;
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_core_types::SessionExecutionTarget;
-use openbitfun_runtime_ports::{
+use opc_core_types::SessionExecutionTarget;
+use opc_runtime_ports::{
     AgentDialogPrependedReminder, AgentDialogTurnRequest, AgentSessionCreateRequest,
     AgentSessionListRequest, AgentSessionReplyRoute, AgentSessionSummary,
     AgentSessionWorkspaceBinding, AgentSessionWorkspaceRequest,
@@ -44,11 +44,11 @@ impl SessionMessageTool {
     }
 
     fn validate_session_id(session_id: &str) -> Result<(), String> {
-        openbitfun_core_types::validate_session_id(session_id)
+        opc_core_types::validate_session_id(session_id)
     }
 
     fn forwarded_user_input_metadata(context: &ToolUseContext) -> serde_json::Map<String, Value> {
-        use openbitfun_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
+        use opc_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
 
         let mut metadata = serde_json::Map::new();
         if let Some(value @ (Value::Bool(_) | Value::String(_))) =
@@ -760,9 +760,7 @@ mod tests {
     use super::*;
     use crate::agentic::tools::framework::ToolUseContext;
     use crate::agentic::WorkspaceBinding;
-    use openbitfun_core_types::{
-        SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
-    };
+    use opc_core_types::{SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle};
     use serde_json::json;
     use std::collections::HashMap;
     use std::fs;
@@ -781,7 +779,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -925,7 +923,7 @@ mod tests {
 
     #[test]
     fn session_message_forwards_noninteractive_user_input_fact() {
-        use openbitfun_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
+        use opc_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
 
         let mut context = empty_context();
         context.custom_data.insert(
@@ -995,7 +993,7 @@ mod tests {
     #[tokio::test]
     async fn validate_existing_session_rejects_agent_type_override() {
         let tool = SessionMessageTool::new();
-        let workspace = TestTempDir::new("openbitfun-session-message-tool-test");
+        let workspace = TestTempDir::new("opc-session-message-tool-test");
 
         let validation = tool
             .validate_input(
@@ -1019,7 +1017,7 @@ mod tests {
     #[tokio::test]
     async fn validate_new_session_requires_session_name() {
         let tool = SessionMessageTool::new();
-        let workspace = TestTempDir::new("openbitfun-session-message-tool-test");
+        let workspace = TestTempDir::new("opc-session-message-tool-test");
 
         let validation = tool
             .validate_input(
@@ -1042,7 +1040,7 @@ mod tests {
     #[tokio::test]
     async fn validate_new_session_requires_agent_type() {
         let tool = SessionMessageTool::new();
-        let workspace = TestTempDir::new("openbitfun-session-message-tool-test");
+        let workspace = TestTempDir::new("opc-session-message-tool-test");
 
         let validation = tool
             .validate_input(
@@ -1065,7 +1063,7 @@ mod tests {
     #[tokio::test]
     async fn validate_new_session_accepts_create_and_send_shape() {
         let tool = SessionMessageTool::new();
-        let workspace = TestTempDir::new("openbitfun-session-message-tool-test");
+        let workspace = TestTempDir::new("opc-session-message-tool-test");
 
         let validation = tool
             .validate_input(

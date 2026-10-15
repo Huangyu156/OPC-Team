@@ -1,5 +1,5 @@
-use openbitfun_opencode_adapter::{OpenCodeCommandProvider, OpenCodeCommandProviderOptions};
-use openbitfun_product_domains::external_sources::{
+use opc_opencode_adapter::{OpenCodeCommandProvider, OpenCodeCommandProviderOptions};
+use opc_product_domains::external_sources::{
     EcosystemId, ExecutionDomainId, ExternalSourceContext, ExternalSourceHealth,
     PromptCommandAvailability, PromptCommandDefinition, PromptCommandExecutionTarget,
     PromptCommandProviderSnapshot, PromptCommandShellPreference, PromptCommandSourceProvider,

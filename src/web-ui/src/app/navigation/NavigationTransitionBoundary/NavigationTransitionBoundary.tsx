@@ -138,25 +138,25 @@ export const NavigationTransitionBoundary: React.FC<NavigationTransitionBoundary
   }, []);
 
   const rootClassName = [
-    'openbitfun-navigation-transition-boundary',
+    'opc-navigation-transition-boundary',
     className,
   ].filter(Boolean).join(' ');
   const currentClassName = [
-    'openbitfun-navigation-transition-boundary__layer',
-    pendingTransition && 'openbitfun-navigation-transition-boundary__layer--incoming',
+    'opc-navigation-transition-boundary__layer',
+    pendingTransition && 'opc-navigation-transition-boundary__layer--incoming',
     layerClassName,
   ].filter(Boolean).join(' ');
   const outgoingClassName = [
-    'openbitfun-navigation-transition-boundary__layer',
-    'openbitfun-navigation-transition-boundary__layer--outgoing',
+    'opc-navigation-transition-boundary__layer',
+    'opc-navigation-transition-boundary__layer--outgoing',
     layerClassName,
   ].filter(Boolean).join(' ');
 
   return (
     <div
       className={rootClassName}
-      data-openbitfun-component="navigation-transition-boundary"
-      data-openbitfun-part="root"
+      data-opc-component="navigation-transition-boundary"
+      data-opc-part="root"
       {...rootProps}
       data-motion="presence"
       data-view-transition-phase={pendingTransition?.phase}
@@ -166,8 +166,8 @@ export const NavigationTransitionBoundary: React.FC<NavigationTransitionBoundary
           key={pendingTransition.outgoingKey}
           className={outgoingClassName}
           aria-hidden="true"
-          data-openbitfun-component="navigation-transition-boundary"
-          data-openbitfun-part="layer"
+          data-opc-component="navigation-transition-boundary"
+          data-opc-part="layer"
           {...{ inert: '' }}
         >
           {pendingTransition.children}
@@ -176,8 +176,8 @@ export const NavigationTransitionBoundary: React.FC<NavigationTransitionBoundary
       <div
         key={transitionKey}
         className={currentClassName}
-        data-openbitfun-component="navigation-transition-boundary"
-        data-openbitfun-part="layer"
+        data-opc-component="navigation-transition-boundary"
+        data-opc-part="layer"
       >
         {children}
       </div>

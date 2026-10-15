@@ -299,7 +299,7 @@ function App() {
     let disposed = false;
 
     void import('@tauri-apps/api/event')
-      .then(({ listen }) => listen('openbitfun_main_window_close_requested', () => {
+      .then(({ listen }) => listen('opc_main_window_close_requested', () => {
         userCloseRequestedRef.current = true;
         startupTrace.markPhase('main_window_user_close_requested', { reason: 'user-close-requested' });
       }))
@@ -439,7 +439,7 @@ function App() {
     void import('./global-search/openBitFunControlBridge')
       .then(({ initializeOpenBitFunControlBridge }) => initializeOpenBitFunControlBridge())
       .then(() => {
-        startupTrace.markPhase('openbitfun_control_surface_ready');
+        startupTrace.markPhase('opc_control_surface_ready');
         setOpenBitFunControlReady(true);
       })
       .catch(error => {

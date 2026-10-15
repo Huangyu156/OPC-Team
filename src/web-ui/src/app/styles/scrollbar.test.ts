@@ -37,17 +37,17 @@ describe('shared native scrollbar presentation', () => {
 
     expect(interactionRules).toContain('(pointer: fine) and (forced-colors: none)');
     expect(interactionRules).toContain(
-      ':not(:hover, :focus-visible, :has(:focus-visible), [data-openbitfun-scrollbar-visibility="always"])',
+      ':not(:hover, :focus-visible, :has(:focus-visible), [data-opc-scrollbar-visibility="always"])',
     );
     expect(interactionRules).toContain('background: transparent;');
     expect(interactionRules).toContain('scrollbar-color: transparent transparent;');
     expect(interactionRules).not.toMatch(/(?:overflow|width|height|display|scrollbar-gutter)\s*:/);
     expect(hoverRules).toContain('@media (hover: hover) and (pointer: fine) and (forced-colors: none)');
     expect(hoverRules).toMatch(
-      /\[data-openbitfun-scrollbar-visibility="hover"\]:not\(:hover, :focus-visible, :has\(:focus-visible\)\)\s*\{\s*scrollbar-width:\s*none;/,
+      /\[data-opc-scrollbar-visibility="hover"\]:not\(:hover, :focus-visible, :has\(:focus-visible\)\)\s*\{\s*scrollbar-width:\s*none;/,
     );
     expect(hoverRules).toMatch(
-      /\[data-openbitfun-scrollbar-visibility="hover"\]:not\(:hover, :focus-visible, :has\(:focus-visible\)\)::-webkit-scrollbar\s*\{\s*display:\s*none;/,
+      /\[data-opc-scrollbar-visibility="hover"\]:not\(:hover, :focus-visible, :has\(:focus-visible\)\)::-webkit-scrollbar\s*\{\s*display:\s*none;/,
     );
     expect(hoverRules).not.toMatch(/(?:overflow(?:-[xy])?|scrollbar-gutter)\s*:/);
     expect(stylesheet).not.toMatch(/\.is-scrolling|:focus-within|!important/);

@@ -1,7 +1,7 @@
 #[cfg(feature = "mcp-bridge")]
-use openbitfun_agent_tools::validate_mcp_tool_bridge_input;
+use opc_agent_tools::validate_mcp_tool_bridge_input;
 #[cfg(feature = "acp-bridge")]
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     acp_external_agent_tool_input_schema, build_acp_external_agent_tool_definition,
     build_acp_external_agent_tool_name, build_acp_external_agent_tool_result,
     normalize_name_for_acp_tool_part, render_acp_external_agent_rejected_message,
@@ -9,19 +9,18 @@ use openbitfun_agent_tools::{
     render_acp_external_agent_use_message, validate_acp_external_agent_tool_input,
     AcpExternalAgentToolDefinitionInput, ACP_TOOL_PREFIX, ACP_TOOL_SUFFIX,
 };
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     build_get_tool_spec_assistant_detail, build_get_tool_spec_detail_result,
     build_get_tool_spec_duplicate_load_hint, build_get_tool_spec_duplicate_load_result,
-    build_openbitfun_runtime_uri, build_prompt_visible_tool_manifest_definitions,
+    build_opc_runtime_uri, build_prompt_visible_tool_manifest_definitions,
     build_tool_execution_timeout_presentation, build_tool_path_policy_denial_message,
     build_tool_runtime_artifact_reference, build_tool_session_runtime_artifact_reference,
     call_deferred_tool_description, call_deferred_tool_input_schema,
     collect_loaded_deferred_tool_specs, effective_tool_invocation, get_tool_spec_input_schema,
     get_tool_spec_is_concurrency_safe, get_tool_spec_is_readonly, get_tool_spec_short_description,
-    is_openbitfun_runtime_uri, is_remote_posix_path_within_root,
-    is_tool_path_allowed_by_resolved_roots, normalize_host_path, normalize_runtime_relative_path,
-    parse_openbitfun_current_session_uri, parse_openbitfun_runtime_uri,
-    posix_resolve_path_with_workspace, posix_style_path_is_absolute,
+    is_opc_runtime_uri, is_remote_posix_path_within_root, is_tool_path_allowed_by_resolved_roots,
+    normalize_host_path, normalize_runtime_relative_path, parse_opc_current_session_uri,
+    parse_opc_runtime_uri, posix_resolve_path_with_workspace, posix_style_path_is_absolute,
     render_get_tool_spec_tool_use_message, resolve_contextual_tool_manifest,
     resolve_contextual_tool_manifest_from_provider, resolve_get_tool_spec_detail,
     resolve_get_tool_spec_detail_from_provider,
@@ -40,7 +39,7 @@ use openbitfun_agent_tools::{
     ToolPathOperation, ToolPathResolution, ToolRenderOptions, ToolResult, ToolRuntimeRestrictions,
     ToolWorkspaceKind, ValidationResult, CALL_DEFERRED_TOOL_NAME, GET_TOOL_SPEC_TOOL_NAME,
 };
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     build_invalid_tool_call_error_message, build_normal_tool_json_repair_notice,
     build_permission_denied_tool_presentation, build_tool_execution_error_presentation,
     build_user_rejected_tool_presentation, build_user_rejected_tool_presentation_with_instruction,
@@ -50,21 +49,21 @@ use openbitfun_agent_tools::{
     USER_STEERING_INTERRUPTED_MESSAGE,
 };
 #[cfg(feature = "mcp-bridge")]
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     build_mcp_tool_bridge_definition, build_mcp_tool_bridge_name, build_mcp_tool_bridge_result,
     mcp_tool_bridge_dynamic_tool_info, mcp_tool_bridge_short_description, normalize_name_for_mcp,
     render_mcp_tool_bridge_rejected_message, render_mcp_tool_bridge_result_message,
     render_mcp_tool_bridge_use_message, McpToolBridgeBehaviorHints, McpToolBridgeDefinitionInput,
     MCP_TOOL_DELIMITER, MCP_TOOL_PREFIX,
 };
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     build_persisted_tool_output_message, count_tool_result_lines, file_tool_guidance_message,
     generate_tool_result_preview, is_file_tool_guidance_message,
     sanitize_tool_result_file_component, select_tool_result_indices_for_persistence,
     tool_result_is_persisted_output, PersistedToolOutput, ToolResultPersistenceCandidate,
     FILE_TOOL_GUIDANCE_PREFIX, PERSISTED_OUTPUT_TAG, TOOL_RESULT_PREVIEW_CHARS,
 };
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     materialize_static_tool_provider_groups, ContextualToolManifestItem, DynamicToolDescriptor,
     DynamicToolProvider, GetToolSpecCatalogProvider, PortResult, PortableToolContextProvider,
     StaticToolMaterializationError, StaticToolProvider, StaticToolProviderFactory,
@@ -200,7 +199,7 @@ fn call_deferred_tool_contract_rejects_non_object_arguments() {
 
 #[test]
 fn call_deferred_tool_input_serializes_canonical_wire_shape() {
-    let parsed = openbitfun_agent_tools::parse_call_deferred_tool_input(&json!({
+    let parsed = opc_agent_tools::parse_call_deferred_tool_input(&json!({
         "tool_name": "CreatePlan",
         "overview": "outside",
         "args": {
@@ -709,7 +708,7 @@ fn write_tail_closure_notice_preserves_write_like_guidance() {
     assert!(is_write_like_tool_name("write_notebook"));
     assert!(!is_write_like_tool_name("Read"));
 
-    let notice = openbitfun_agent_tools::build_write_tail_closure_notice("Write");
+    let notice = opc_agent_tools::build_write_tail_closure_notice("Write");
 
     assert!(notice.contains("latest Read result"));
     assert!(notice.contains("use Edit to add only the missing continuation"));
@@ -853,7 +852,7 @@ fn runtime_restrictions_surface_custom_deny_messages() {
 #[test]
 fn delegation_restrictions_cover_all_agent_spawn_surfaces() {
     let restrictions = tool_restrictions_for_delegation_policy(
-        openbitfun_runtime_ports::DelegationPolicy::top_level().spawn_child(),
+        opc_runtime_ports::DelegationPolicy::top_level().spawn_child(),
     );
 
     for tool_name in ["Task", "AgentSpawn"] {
@@ -944,7 +943,7 @@ fn file_tool_guidance_marker_is_provider_neutral() {
 fn persisted_tool_output_message_keeps_reference_preview_and_metadata_shape() {
     let rendered = build_persisted_tool_output_message(
         &PersistedToolOutput {
-            reference: "openbitfun-runtime://session/session-1/tool-results/bash_1.txt".to_string(),
+            reference: "opc-runtime://session/session-1/tool-results/bash_1.txt".to_string(),
             original_chars: 12_345,
             line_count: 7,
             preview: "first lines".to_string(),
@@ -1272,10 +1271,9 @@ fn current_session_uri_contract_rejects_missing_context_escape_and_unknown_autho
         "A current session is required to resolve session artifacts"
     );
 
-    let escape = parse_openbitfun_current_session_uri(
-        "openbitfun://current-session/artifacts/../secret.txt",
-    )
-    .expect_err("parent escape should be rejected");
+    let escape =
+        parse_opc_current_session_uri("openbitfun://current-session/artifacts/../secret.txt")
+            .expect_err("parent escape should be rejected");
     assert_eq!(
         escape.to_string(),
         "Runtime artifact path cannot escape its root"
@@ -1348,13 +1346,13 @@ fn tool_path_absolute_contract_keeps_remote_posix_and_runtime_uri_semantics() {
 
 #[test]
 fn runtime_uri_contract_is_provider_neutral_and_normalized() {
-    let uri = build_openbitfun_runtime_uri("workspace-123", r"plans\demo.plan.md")
+    let uri = build_opc_runtime_uri("workspace-123", r"plans\demo.plan.md")
         .expect("runtime URI should build");
 
     assert_eq!(uri, "openbitfun://runtime/workspace-123/plans/demo.plan.md");
-    assert!(is_openbitfun_runtime_uri(&uri));
+    assert!(is_opc_runtime_uri(&uri));
 
-    let parsed = parse_openbitfun_runtime_uri(&uri).expect("runtime URI should parse");
+    let parsed = parse_opc_runtime_uri(&uri).expect("runtime URI should parse");
     assert_eq!(parsed.workspace_scope, "workspace-123");
     assert_eq!(parsed.relative_path, "plans/demo.plan.md");
     assert_eq!(
@@ -1366,7 +1364,7 @@ fn runtime_uri_contract_is_provider_neutral_and_normalized() {
 
 #[test]
 fn runtime_uri_contract_rejects_escape_and_invalid_scope() {
-    let escape = build_openbitfun_runtime_uri("workspace-123", "../secret.txt")
+    let escape = build_opc_runtime_uri("workspace-123", "../secret.txt")
         .expect_err("runtime URI should reject parent directory escape");
     assert_eq!(
         escape.to_string(),
@@ -1374,14 +1372,14 @@ fn runtime_uri_contract_rejects_escape_and_invalid_scope() {
     );
 
     let empty_scope =
-        build_openbitfun_runtime_uri("  ", "logs/tool.txt").expect_err("scope should be required");
+        build_opc_runtime_uri("  ", "logs/tool.txt").expect_err("scope should be required");
     assert_eq!(
         empty_scope.to_string(),
         "Runtime URI workspace scope cannot be empty"
     );
 
     let unsupported =
-        parse_openbitfun_runtime_uri("/tmp/result.txt").expect_err("non-runtime URI should fail");
+        parse_opc_runtime_uri("/tmp/result.txt").expect_err("non-runtime URI should fail");
     assert_eq!(
         unsupported.to_string(),
         "Unsupported runtime URI: /tmp/result.txt"
@@ -2062,7 +2060,7 @@ fn get_tool_spec_contract_builds_duplicate_load_result() {
 
 #[test]
 fn get_tool_spec_contract_builds_detail_result() {
-    let result = build_get_tool_spec_detail_result(&openbitfun_agent_tools::GetToolSpecDetail {
+    let result = build_get_tool_spec_detail_result(&opc_agent_tools::GetToolSpecDetail {
         tool_name: "Git".to_string(),
         description: "Use <repo> & inspect changes.".to_string(),
         input_schema: json!({
@@ -2105,11 +2103,9 @@ fn get_tool_spec_contract_builds_detail_result() {
 #[test]
 fn get_tool_spec_contract_plans_duplicate_load_without_core_context() {
     let input = json!({ "tool_name": "WebFetch" });
-    let plan = openbitfun_agent_tools::resolve_get_tool_spec_execution_plan(
-        &input,
-        &["WebFetch".to_string()],
-    )
-    .expect("duplicate load should be planned");
+    let plan =
+        opc_agent_tools::resolve_get_tool_spec_execution_plan(&input, &["WebFetch".to_string()])
+            .expect("duplicate load should be planned");
 
     let GetToolSpecExecutionPlan::DuplicateLoad(result) = plan else {
         panic!("expected duplicate-load plan");
@@ -2136,11 +2132,9 @@ fn get_tool_spec_contract_plans_duplicate_load_without_core_context() {
 #[test]
 fn get_tool_spec_contract_plans_detail_load_without_resolving_product_detail() {
     let input = json!({ "tool_name": "Git" });
-    let plan = openbitfun_agent_tools::resolve_get_tool_spec_execution_plan(
-        &input,
-        &["WebFetch".to_string()],
-    )
-    .expect("detail load should be planned");
+    let plan =
+        opc_agent_tools::resolve_get_tool_spec_execution_plan(&input, &["WebFetch".to_string()])
+            .expect("detail load should be planned");
 
     let GetToolSpecExecutionPlan::LoadDetail { tool_name } = plan else {
         panic!("expected detail-load plan");
@@ -2151,7 +2145,7 @@ fn get_tool_spec_contract_plans_detail_load_without_resolving_product_detail() {
 
 #[test]
 fn get_tool_spec_contract_rejects_missing_tool_name_in_execution_plan() {
-    let err = openbitfun_agent_tools::resolve_get_tool_spec_execution_plan(&json!({}), &[])
+    let err = opc_agent_tools::resolve_get_tool_spec_execution_plan(&json!({}), &[])
         .expect_err("missing tool name should be rejected");
 
     assert_eq!(err, GetToolSpecExecutionError::MissingToolName);
@@ -2572,9 +2566,7 @@ impl ToolDecorator<Arc<RegistryMarkerTool>> for RegistryMarkerDecorator {
 
 struct RegistryMarkerSnapshotWrapper;
 
-impl openbitfun_agent_tools::SnapshotToolWrapper<RegistryMarkerTool>
-    for RegistryMarkerSnapshotWrapper
-{
+impl opc_agent_tools::SnapshotToolWrapper<RegistryMarkerTool> for RegistryMarkerSnapshotWrapper {
     fn wrap_for_snapshot_tracking(&self, tool: Arc<RegistryMarkerTool>) -> Arc<RegistryMarkerTool> {
         Arc::new(RegistryMarkerTool {
             name: format!("snapshot_{}", tool.name),
@@ -2625,7 +2617,7 @@ fn generic_tool_registry_applies_decorator_to_static_provider_tools() {
 #[test]
 fn generic_snapshot_tool_decorator_delegates_to_snapshot_wrapper_port() {
     let decorator: ToolDecoratorRef<RegistryMarkerTool> = Arc::new(
-        openbitfun_agent_tools::SnapshotToolDecorator::new(Arc::new(RegistryMarkerSnapshotWrapper)),
+        opc_agent_tools::SnapshotToolDecorator::new(Arc::new(RegistryMarkerSnapshotWrapper)),
     );
     let providers = vec![StaticToolProviderGroup::new(
         "core-basic",
@@ -2772,7 +2764,7 @@ fn manifest_policy_tools_from_registry_snapshot_preserve_exposure_and_availabili
         .collect();
 
     let policy_tools =
-        openbitfun_agent_tools::build_tool_manifest_policy_tools(&tools, &available_tool_names);
+        opc_agent_tools::build_tool_manifest_policy_tools(&tools, &available_tool_names);
 
     assert_eq!(
         policy_tools,

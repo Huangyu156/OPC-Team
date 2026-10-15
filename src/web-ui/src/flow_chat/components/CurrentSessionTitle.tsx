@@ -55,14 +55,14 @@ const CurrentSessionTitle: React.FC<CurrentSessionTitleProps> = ({ onCreateSessi
   const newSessionLabel = t('session.newCode');
 
   return (
-    <div data-openbitfun-component="current-session-title" data-openbitfun-part="root" className="openbitfun-current-session-title">
-      <OverflowText data-openbitfun-component="current-session-title" data-openbitfun-part="title" className="openbitfun-current-session-title__text">{title}</OverflowText>
+    <div data-opc-component="current-session-title" data-opc-part="root" className="opc-current-session-title">
+      <OverflowText data-opc-component="current-session-title" data-opc-part="title" className="opc-current-session-title__text">{title}</OverflowText>
       <SessionTitleNumber number={activeSession ? titleNumbers.get(activeSession.sessionId) : undefined} />
       <Tooltip content={newSessionLabel} placement="bottom">
         <button
-          data-openbitfun-component="current-session-title"
-          data-openbitfun-part="create"
-          className="openbitfun-current-session-title__create-btn"
+          data-opc-component="current-session-title"
+          data-opc-part="create"
+          className="opc-current-session-title__create-btn"
           onClick={handleCreateSession}
           aria-label={newSessionLabel}
         >

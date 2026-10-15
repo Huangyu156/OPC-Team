@@ -16,7 +16,7 @@ use crate::service::i18n::LocaleId;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::{GeminiResponse, GeminiUsage, Message, ToolDefinition};
 use log::{debug, info, warn};
-use openbitfun_agent_content::insights::{
+use opc_agent_content::insights::{
     AREAS as AREAS_PROMPT_TEMPLATE, AT_A_GLANCE as AT_A_GLANCE_PROMPT_TEMPLATE,
     FACET_EXTRACTION as FACET_PROMPT_TEMPLATE, FRICTION as FRICTION_PROMPT_TEMPLATE,
     FUN_ENDING as FUN_ENDING_PROMPT_TEMPLATE, HORIZON as HORIZON_PROMPT_TEMPLATE,
@@ -875,7 +875,7 @@ impl InsightsService {
 
         debug!(
             "Suggestions parsed: md_additions={}, features={}, patterns={}",
-            value["openbitfun_md_additions"]
+            value["opc_md_additions"]
                 .as_array()
                 .map(|a| a.len())
                 .unwrap_or(0),
@@ -890,7 +890,7 @@ impl InsightsService {
         );
 
         Ok(InsightsSuggestions {
-            openbitfun_md_additions: value["openbitfun_md_additions"]
+            opc_md_additions: value["opc_md_additions"]
                 .as_array()
                 .map(|arr| {
                     arr.iter()
@@ -1723,7 +1723,7 @@ fn is_retryable_error(e: &OpcTeamError) -> bool {
 
 fn default_suggestions() -> InsightsSuggestions {
     InsightsSuggestions {
-        openbitfun_md_additions: Vec::new(),
+        opc_md_additions: Vec::new(),
         features_to_try: Vec::new(),
         usage_patterns: Vec::new(),
     }

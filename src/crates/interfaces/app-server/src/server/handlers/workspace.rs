@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use agent_client_protocol::{Builder, HandleDispatchFrom};
-use openbitfun_app_server_protocol::workspace::*;
+use opc_app_server_protocol::workspace::*;
 
 use crate::agent::{runtime_call, OpcTeamAppRuntime};
 use crate::role::{AppClient, AppServer};

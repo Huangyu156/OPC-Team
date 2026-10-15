@@ -43,7 +43,7 @@ pub(crate) fn api_key_plan(base_url: &str) -> Option<OpenCodePlan> {
 pub(crate) async fn api_key_models(
     client: &reqwest::Client,
     plan: OpenCodePlan,
-) -> Result<Vec<openbitfun_core_types::RemoteModelInfo>> {
+) -> Result<Vec<opc_core_types::RemoteModelInfo>> {
     let catalog = load_base_catalog(client).await?;
     api_key_models_from_catalog(catalog, plan)
 }
@@ -51,7 +51,7 @@ pub(crate) async fn api_key_models(
 fn api_key_models_from_catalog(
     catalog: RemoteConfig,
     plan: OpenCodePlan,
-) -> Result<Vec<openbitfun_core_types::RemoteModelInfo>> {
+) -> Result<Vec<opc_core_types::RemoteModelInfo>> {
     let mut result = Vec::new();
     for offering in offerings_from_remote_config(catalog)
         .into_iter()
@@ -59,10 +59,10 @@ fn api_key_models_from_catalog(
     {
         let route = route_for(plan, &offering.format)?;
         for model in offering.models {
-            result.push(openbitfun_core_types::RemoteModelInfo {
+            result.push(opc_core_types::RemoteModelInfo {
                 id: model.id,
                 display_name: model.display_name,
-                routing: Some(openbitfun_core_types::RemoteModelRouting {
+                routing: Some(opc_core_types::RemoteModelRouting {
                     format: route.format.to_string(),
                     base_url: route.base_url.to_string(),
                     request_url: route.request_url.to_string(),

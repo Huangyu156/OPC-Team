@@ -2,7 +2,7 @@
 //! Like computer-use-rust's native State, each instance has a fresh namespace,
 //! and every new AX observation invalidates the preceding node address space.
 
-use openbitfun_agent_tools::computer_use_control::ObservationScope;
+use opc_agent_tools::computer_use_control::ObservationScope;
 use std::collections::{hash_map::RandomState, VecDeque};
 use std::hash::{BuildHasher, Hasher};
 

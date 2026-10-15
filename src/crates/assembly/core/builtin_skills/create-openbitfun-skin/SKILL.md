@@ -23,14 +23,14 @@ The bundled registry and package references define capabilities. Files under `ex
 Run commands from this Skill directory:
 
 ```powershell
-python scripts/openbitfun_appearance.py contract list components
-python scripts/openbitfun_appearance.py contract list scenes
-python scripts/openbitfun_appearance.py contract list renderers
-python scripts/openbitfun_appearance.py contract show components <component-id>
-python scripts/openbitfun_appearance.py contract show scenes <scene-id>
-python scripts/openbitfun_appearance.py contract properties
-python scripts/openbitfun_appearance.py contract tokens theme
-python scripts/openbitfun_appearance.py contract tokens widget
+python scripts/opc_appearance.py contract list components
+python scripts/opc_appearance.py contract list scenes
+python scripts/opc_appearance.py contract list renderers
+python scripts/opc_appearance.py contract show components <component-id>
+python scripts/opc_appearance.py contract show scenes <scene-id>
+python scripts/opc_appearance.py contract properties
+python scripts/opc_appearance.py contract tokens theme
+python scripts/opc_appearance.py contract tokens widget
 ```
 
 Only author registered surfaces, Parts, facets, states, renderer adapters, tokens, and Style IR properties returned by these commands. A Part descriptor may further restrict its allowed properties.
@@ -54,7 +54,7 @@ The following Parts are not registered and must not be used:
 Initialize the smallest valid overlay:
 
 ```powershell
-python scripts/openbitfun_appearance.py init <project-dir> --id <id> --name "<name>" --mode <light-or-dark>
+python scripts/opc_appearance.py init <project-dir> --id <id> --name "<name>" --mode <light-or-dark>
 ```
 
 Edit `<project-dir>/appearance.json` and declare only the values the skin needs to change. OPC-Team merges the package over its built-in light or dark Appearance.
@@ -74,16 +74,16 @@ Read [style-example-contract.md](references/style-example-contract.md) before ad
 ## Validate importability
 
 ```powershell
-python scripts/openbitfun_appearance.py validate <project-dir>
-python scripts/openbitfun_appearance.py build <project-dir> --output <skin>.openbitfun-appearance
-python scripts/openbitfun_appearance.py validate <skin>.openbitfun-appearance
-python scripts/openbitfun_appearance.py inspect <project-or-archive>
+python scripts/opc_appearance.py validate <project-dir>
+python scripts/opc_appearance.py build <project-dir> --output <skin>.openbitfun-appearance
+python scripts/opc_appearance.py validate <skin>.openbitfun-appearance
+python scripts/opc_appearance.py inspect <project-or-archive>
 ```
 
 When a OPC-Team checkout is available, verify with the production registry, Validator, Compiler, and packaged-video display-dimension probe:
 
 ```powershell
-python scripts/verify_host.py <openbitfun-repo> <skin>.openbitfun-appearance --report <host-verification.json> --strict-warnings
+python scripts/verify_host.py <opc-repo> <skin>.openbitfun-appearance --report <host-verification.json> --strict-warnings
 ```
 
 Standalone validation proves package and bundled-registry compatibility. Host verification proves the selected checkout accepts and compiles the package. Neither proves runtime visual quality; import the skin and inspect the actual surfaces.
@@ -102,7 +102,7 @@ Keep style-specific asset roles, crop decisions, palettes, material construction
 Treat the bundled registry as the offline authority. Confirm it before targeting a checkout:
 
 ```powershell
-python scripts/sync_registry.py <openbitfun-repo> --check
+python scripts/sync_registry.py <opc-repo> --check
 ```
 
 The check compares the exported Appearance contract, not provenance-only commit or timestamp fields. Unrelated OPC-Team commits do not invalidate a compatible snapshot.
@@ -110,7 +110,7 @@ The check compares the exported Appearance contract, not provenance-only commit 
 Refresh it only from a clean checkout after OPC-Team changes Appearance descriptors:
 
 ```powershell
-python scripts/sync_registry.py <openbitfun-repo>
+python scripts/sync_registry.py <opc-repo>
 ```
 
 Do not hand-edit `references/appearance-registry.json`. Use `--allow-dirty` only for local investigation, never for a distributed snapshot.

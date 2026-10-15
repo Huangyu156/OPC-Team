@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
-const root = await mkdtemp(path.join(tmpdir(), 'openbitfun-interaction-scroll-'));
+const root = await mkdtemp(path.join(tmpdir(), 'opc-interaction-scroll-'));
 const userRoot = path.join(root, 'user');
 const productHome = path.join(root, 'home');
 const frontend = path.join(root, 'frontend');
@@ -21,7 +21,7 @@ assert.equal(await readFile(path.join(frontendSource, 'frontend-revision.json'),
 assert.equal(await readFile(path.join(frontend, 'frontend-revision.json'), 'utf8'), manifest);
 await mkdir(userRoot, { recursive: true });
 await mkdir(productHome, { recursive: true });
-const binaryName = 'openbitfun-desktop' + (process.platform === 'win32' ? '.exe' : '');
+const binaryName = 'opc-desktop' + (process.platform === 'win32' ? '.exe' : '');
 const binarySource = path.resolve(process.env.OPENBITFUN_E2E_DESKTOP_BINARY || path.join(repo, 'target/debug', binaryName));
 const binary = path.join(root, binaryName);
 const binaryStat = await stat(binarySource);
@@ -94,8 +94,8 @@ const pointerClick = target => request('/session/' + session + '/actions', { act
   ] }] });
 
 function chromeGeometry() {
-  const bar = [...document.querySelectorAll('.openbitfun-scene-top-bar')].find(el => el.getBoundingClientRect().width > 0);
-  const surface = bar?.closest('.openbitfun-workspace-body__scene-surface');
+  const bar = [...document.querySelectorAll('.opc-scene-top-bar')].find(el => el.getBoundingClientRect().width > 0);
+  const surface = bar?.closest('.opc-workspace-body__scene-surface');
   const tab = bar?.querySelector('[role=tab]');
   if (!surface) return null;
   return { surfaceScrollLeft: surface.scrollLeft, surfaceScrollTop: surface.scrollTop,
@@ -172,7 +172,7 @@ try {
   });
   await stableChrome('wheel skips hidden ancestors', async () => {
     const position = await execute(() => {
-      const rect = document.querySelector('.openbitfun-scene-top-bar').getBoundingClientRect();
+      const rect = document.querySelector('.opc-scene-top-bar').getBoundingClientRect();
       return { x: Math.floor(rect.left + 20), y: Math.floor(rect.top + 2) };
     });
     const ancestors = await execute(({ x, y }) => {
@@ -224,13 +224,13 @@ try {
     assert.equal(await execute(el => el.value, search), '');
   });
 
-  const shortcutSelector = '[data-openbitfun-component=keyboard-shortcuts][data-openbitfun-part=key] button';
+  const shortcutSelector = '[data-opc-component=keyboard-shortcuts][data-opc-part=key] button';
   const shortcuts = await until(async () => {
     const elements = await request('/session/' + session + '/elements', { using: 'css selector', value: shortcutSelector });
     return elements.length > 1 ? elements : null;
   }, 'keyboard shortcut settings');
   const scrollport = await execute(() => {
-    for (let el = document.querySelector('[data-openbitfun-component=keyboard-shortcuts][data-openbitfun-part=content]'); el; el = el.parentElement) {
+    for (let el = document.querySelector('[data-opc-component=keyboard-shortcuts][data-opc-part=content]'); el; el = el.parentElement) {
       if (['auto', 'scroll'].includes(getComputedStyle(el).overflowY) && el.scrollHeight > el.clientHeight) return el;
     }
     return null;
@@ -269,7 +269,7 @@ try {
   report.checks.push('offscreen control reveal and activation');
   await elementAction(lastShortcut, 'click'); // Stop recording without changing a shortcut.
 
-  const oversized = await locate('[data-openbitfun-component=keyboard-shortcuts][data-openbitfun-part=content]');
+  const oversized = await locate('[data-opc-component=keyboard-shortcuts][data-opc-part=content]');
   const oversizedHeight = await execute(el => el.getBoundingClientRect().height, oversized);
   assert.ok(oversizedHeight > await execute(() => innerHeight), 'The real settings content must exceed the viewport');
   await recordClick(oversized);

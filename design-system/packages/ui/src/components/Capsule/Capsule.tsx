@@ -21,9 +21,9 @@ export const Capsule = forwardRef<HTMLSpanElement, CapsuleProps>(function Capsul
 }, ref) {
   return (
     <span {...props} className={classNames(actionStyles.host, styles.root, className)}
-      data-openbitfun-component="capsule" data-size={size} data-overflow-trigger ref={ref}>
+      data-opc-component="capsule" data-size={size} data-overflow-trigger ref={ref}>
       {children}
-      {action != null && <FloatingAction data-openbitfun-part="action">{action}</FloatingAction>}
+      {action != null && <FloatingAction data-opc-part="action">{action}</FloatingAction>}
     </span>
   );
 });

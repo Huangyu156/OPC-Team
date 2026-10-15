@@ -100,12 +100,12 @@ describe('AgentWaitToolCard', () => {
 
     expect(html).toContain('Waiting for results');
     expect(html).not.toContain('Send a steering message to end the wait early');
-    expect(html).toContain('data-openbitfun-component="tool-relation-row"');
-    expect(html).toContain('data-openbitfun-tool-card="agent-wait"');
-    expect(html).toContain('data-openbitfun-part="content"');
+    expect(html).toContain('data-opc-component="tool-relation-row"');
+    expect(html).toContain('data-opc-tool-card="agent-wait"');
+    expect(html).toContain('data-opc-part="content"');
     expect(html).toContain('aria-haspopup="dialog"');
-    expect(html).not.toContain('data-openbitfun-part="summary"');
-    expect(html).not.toContain('data-openbitfun-part="steeringHint"');
+    expect(html).not.toContain('data-opc-part="summary"');
+    expect(html).not.toContain('data-opc-part="steeringHint"');
   });
 
   it('uses matching IP avatars and fun names for both subagent participants', () => {
@@ -134,16 +134,16 @@ describe('AgentWaitToolCard', () => {
       </ToolCapsulePresentationProvider>,
     );
 
-    expect(html).toContain(`data-openbitfun-avatar-id="${resolveSubagentAvatarPresentation('child-session').avatarId}"`);
+    expect(html).toContain(`data-opc-avatar-id="${resolveSubagentAvatarPresentation('child-session').avatarId}"`);
     expect(html).toContain(flowChatEn.subagentIdentity.names[nameKey]);
     expect(html).toContain(flowChatEn.toolCards.interaction.currentSession);
-    expect(html).toContain(`data-openbitfun-avatar-id="${resolveSubagentAvatarPresentation('session-1').avatarId}"`);
+    expect(html).toContain(`data-opc-avatar-id="${resolveSubagentAvatarPresentation('session-1').avatarId}"`);
     expect(html).not.toContain('Internal worker label');
     expect(html).not.toContain('other-child');
     expect(html).toContain('data-operation="receive"');
     expect(html).toContain('lucide-arrow-left');
-    expect(html).not.toContain('data-openbitfun-component="status-pill"');
-    expect(html.indexOf('data-openbitfun-part="source"')).toBeLessThan(html.indexOf('data-openbitfun-part="targets"'));
+    expect(html).not.toContain('data-opc-component="status-pill"');
+    expect(html.indexOf('data-opc-part="source"')).toBeLessThan(html.indexOf('data-opc-part="targets"'));
   });
 
   it('renders the corresponding IP when AgentSpawn records only an agent alias and background ID', () => {
@@ -158,9 +158,9 @@ describe('AgentWaitToolCard', () => {
     ]) });
     const html = renderToStaticMarkup(<AgentWaitToolCard toolItem={item()} config={config} sessionId="session-1" />);
     const nameKey = resolveSubagentNameKey('child-session').split('.').at(-1) as keyof typeof flowChatEn.subagentIdentity.names;
-    expect(html).toContain(`data-openbitfun-avatar-id="${resolveSubagentAvatarPresentation('child-session').avatarId}"`);
+    expect(html).toContain(`data-opc-avatar-id="${resolveSubagentAvatarPresentation('child-session').avatarId}"`);
     expect(html).toContain(flowChatEn.subagentIdentity.names[nameKey]);
-    expect(html).toContain('data-openbitfun-part="target"');
+    expect(html).toContain('data-opc-part="target"');
     expect(html).not.toContain('lucide-bot');
   });
 
@@ -172,14 +172,14 @@ describe('AgentWaitToolCard', () => {
       const root = createRoot(container);
       try {
         act(() => root.render(<AgentWaitToolCard toolItem={wait} config={config} sessionId="session-1" />));
-        const target = container.querySelector<HTMLButtonElement>('[data-openbitfun-part="target"]')!;
+        const target = container.querySelector<HTMLButtonElement>('[data-opc-part="target"]')!;
         expect(target.querySelector('[data-overflow-content]')?.textContent).toBe(flowChatEn.toolCards.interaction.unknownAgent);
         expect(target.disabled).toBe(true);
-        expect(target.hasAttribute('data-openbitfun-affordance')).toBe(false);
-        expect(target.querySelector('[data-openbitfun-component="subagent-hatch"]')?.getAttribute('data-phase'))
+        expect(target.hasAttribute('data-opc-affordance')).toBe(false);
+        expect(target.querySelector('[data-opc-component="subagent-hatch"]')?.getAttribute('data-phase'))
           .toBe(status === 'running' ? 'incubating' : 'stopped');
         expect(container.querySelector('.lucide-bot')).toBeNull();
-        expect(container.querySelector('[data-openbitfun-avatar-id]')).toBeNull();
+        expect(container.querySelector('[data-opc-avatar-id]')).toBeNull();
       } finally {
         act(() => root.unmount());
       }
@@ -191,7 +191,7 @@ describe('AgentWaitToolCard', () => {
     const wait = item();
     wait.toolCall.input = {};
     const html = renderToStaticMarkup(<AgentWaitToolCard toolItem={wait} config={config} sessionId="session-1" />);
-    expect(html).toContain('data-openbitfun-component="subagent-hatch"');
+    expect(html).toContain('data-opc-component="subagent-hatch"');
     expect(html).toContain('data-phase="stopped"');
     expect(html).not.toContain('lucide-bot');
   });
@@ -210,8 +210,8 @@ describe('AgentWaitToolCard', () => {
     const root = createRoot(container);
     try {
       act(() => root.render(<AgentWaitToolCard toolItem={item()} config={config} sessionId="session-1" />));
-      const target = container.querySelector<HTMLButtonElement>('[data-openbitfun-part="target"]')!;
-      const hatch = target.querySelector('[data-openbitfun-component="subagent-hatch"]');
+      const target = container.querySelector<HTMLButtonElement>('[data-opc-part="target"]')!;
+      const hatch = target.querySelector('[data-opc-component="subagent-hatch"]');
       expect(target.querySelector('[data-overflow-content]')?.textContent).toBe(flowChatEn.toolCards.interaction.unknownAgent);
       expect(target.disabled).toBe(true);
       act(() => {
@@ -219,13 +219,13 @@ describe('AgentWaitToolCard', () => {
           parentSessionId: 'session-1', parentToolCallId: 'launch' }));
         storeListeners.forEach(listener => listener());
       });
-      expect(container.querySelector('[data-openbitfun-part="target"]')).toBe(target);
-      expect(target.querySelector('[data-openbitfun-component="subagent-hatch"]')).toBe(hatch);
+      expect(container.querySelector('[data-opc-part="target"]')).toBe(target);
+      expect(target.querySelector('[data-opc-component="subagent-hatch"]')).toBe(hatch);
       expect(hatch?.getAttribute('data-phase')).toBe('ready');
       expect(target.disabled).toBe(false);
       const resolvedNameKey = resolveSubagentNameKey('child-session').split('.').at(-1) as keyof typeof flowChatEn.subagentIdentity.names;
       expect(target.querySelector('[data-overflow-content]')?.textContent).toBe(flowChatEn.subagentIdentity.names[resolvedNameKey]);
-      expect(target.querySelector('[data-openbitfun-avatar-id]')?.getAttribute('data-openbitfun-avatar-id'))
+      expect(target.querySelector('[data-opc-avatar-id]')?.getAttribute('data-opc-avatar-id'))
         .toBe(resolveSubagentAvatarPresentation('child-session').avatarId);
       act(() => target.click());
       expect(openBtwSessionInAuxPane).toHaveBeenCalledWith(expect.objectContaining({ childSessionId: 'child-session' }));
@@ -270,11 +270,11 @@ describe('AgentWaitToolCard', () => {
           <AgentWaitToolCard toolItem={wait} config={config} sessionId="session-1" />
         </ToolCapsulePresentationProvider>,
       ));
-      const surface = container.querySelector('[data-openbitfun-component="tool-relation-row"]');
+      const surface = container.querySelector('[data-opc-component="tool-relation-row"]');
       expect(surface?.tagName).toBe('DIV');
-      expect(surface?.hasAttribute('data-openbitfun-expandable')).toBe(false);
+      expect(surface?.hasAttribute('data-opc-expandable')).toBe(false);
       expect(container.textContent).not.toContain('Expandable record');
-      const avatarButtons = container.querySelectorAll<HTMLButtonElement>('[data-openbitfun-part="target"]');
+      const avatarButtons = container.querySelectorAll<HTMLButtonElement>('[data-opc-part="target"]');
       expect(avatarButtons).toHaveLength(2);
       expect(avatarButtons[0].querySelector('[data-subagent-motion-art] svg')).not.toBeNull();
       expect(avatarButtons[1].querySelector('[data-subagent-motion-art] svg')).not.toBeNull();
@@ -312,7 +312,7 @@ describe('AgentWaitToolCard', () => {
     const root = createRoot(container);
     try {
       act(() => root.render(<AgentWaitToolCard toolItem={wait} config={config} sessionId="session-1" />));
-      const targets = container.querySelectorAll('[data-openbitfun-part="target"]');
+      const targets = container.querySelectorAll('[data-opc-part="target"]');
       expect(targets).toHaveLength(6);
       expect(container.querySelector('[data-agent-wait-scroll]')).toBeNull();
       expect(container.querySelector('[aria-expanded]')).toBeNull();
@@ -346,7 +346,7 @@ describe('AgentWaitToolCard', () => {
     );
     expect(withDetail).toContain(flowChatEn.toolCards.default.failed);
     expect(withDetail).toContain('aria-haspopup="dialog"');
-    expect(withDetail).not.toContain('data-openbitfun-part="extra"');
+    expect(withDetail).not.toContain('data-opc-part="extra"');
 
     failed.toolResult = { success: false, result: {} };
     const withoutDetail = renderToStaticMarkup(
@@ -364,7 +364,7 @@ describe('AgentWaitToolCard', () => {
     expect(unknown).not.toContain('Wait result received');
     completed.toolResult.result = { results: [] };
     const empty = renderToStaticMarkup(<AgentWaitToolCard toolItem={completed} config={config} sessionId="session-1" />);
-    expect(empty).toContain('data-openbitfun-part="result"');
+    expect(empty).toContain('data-opc-part="result"');
     expect(empty).toContain('No new results');
   });
 
@@ -379,13 +379,13 @@ describe('AgentWaitToolCard', () => {
     const root = createRoot(container);
     try {
       act(() => root.render(<AgentWaitToolCard toolItem={completed} config={config} sessionId="session-1" />));
-      act(() => container.querySelector<HTMLButtonElement>('[data-openbitfun-part="result"]')!.click());
+      act(() => container.querySelector<HTMLButtonElement>('[data-opc-part="result"]')!.click());
       const dialog = document.querySelector('[role="dialog"]');
       expect(dialog?.textContent).toContain('The release is ready.');
       expect(dialog?.textContent).not.toContain('a1_bg1');
       expect(dialog?.textContent).not.toContain('internal-alias');
       expect(dialog?.textContent).not.toContain('Results received: 1');
-      expect(dialog?.querySelector('[data-openbitfun-part="field"]')).toBeNull();
+      expect(dialog?.querySelector('[data-opc-part="field"]')).toBeNull();
     } finally {
       act(() => root.unmount());
       container.remove();

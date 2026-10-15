@@ -56,7 +56,7 @@ test("the Host resolver uses the package-local executable without environment fa
   const previousHostPath = process.env.OPENBITFUN_SDK_HOST_PATH;
   process.env.OPENBITFUN_SDK_HOST_PATH = process.execPath;
   try {
-    const executableName = process.platform === "win32" ? "openbitfun-sdk-host.exe" : "openbitfun-sdk-host";
+    const executableName = process.platform === "win32" ? "opc-sdk-host.exe" : "opc-sdk-host";
     const expectedHost = fileURLToPath(
       new URL(
         `../native/${process.platform}-${process.arch}/${executableName}`,

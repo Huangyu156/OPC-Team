@@ -267,8 +267,8 @@ export const PANEL_CONTENT_CONFIGS: Record<PanelContentType, PanelContentConfig>
     supportsDownload: false,
     showHeader: false
   },
-  'openbitfun-canvas': {
-    type: 'openbitfun-canvas',
+  'opc-canvas': {
+    type: 'opc-canvas',
     displayName: 'OPC-Team Canvas',
     icon: { glyph: Network },
     supportsCopy: false,

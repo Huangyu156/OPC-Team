@@ -39,7 +39,7 @@ Requires a logged-in GitHub account. This tool is only available after account l
 When you produce self-contained publishable web content (landing page, docs site, or a Page with server/worker.js) and the user is logged in, proactively ask whether they want it published to OPC-Team Page (suggest a slug and visibility). If they already said publish/deploy/上线, proceed with permission confirmation.
 
 IMPORTANT — content source:
-- Prefer `files` (inline path→UTF-8 content). For agent-authored pages, pass HTML/JS directly in `files` and call PagePublish. Do NOT Write/Edit page files into the user workspace just to publish, and do NOT create folders like openbitfun-page/ unless the user explicitly asked to keep a local copy.
+- Prefer `files` (inline path→UTF-8 content). For agent-authored pages, pass HTML/JS directly in `files` and call PagePublish. Do NOT Write/Edit page files into the user workspace just to publish, and do NOT create folders like opc-page/ unless the user explicitly asked to keep a local copy.
 - Use `directory` only when the user already has (or explicitly wants) page sources on disk in a local workspace. Remote workspaces must use `files` so OPC-Team never mistakes a remote path for a local path.
 
 Input:
@@ -374,7 +374,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -492,7 +492,7 @@ mod tests {
             "connection-1".to_string(),
             "Remote".to_string(),
             crate::service::remote_ssh::workspace_state::WorkspaceSessionIdentity {
-                workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+                workspace_kind: opc_core_types::WorkspaceKind::Remote,
                 hostname: "remote.example".to_string(),
                 logical_workspace_path: "/srv/page".to_string(),
                 remote_connection_id: Some("connection-1".to_string()),

@@ -12,15 +12,15 @@ const triggerOwners = new WeakMap<HTMLElement, { count: number; previous: string
 export function registerTooltipTrigger(element: HTMLElement): () => void {
   let owner = triggerOwners.get(element);
   if (!owner) {
-    owner = { count: 0, previous: element.getAttribute("data-openbitfun-tooltip-trigger") };
+    owner = { count: 0, previous: element.getAttribute("data-opc-tooltip-trigger") };
     triggerOwners.set(element, owner);
-    element.setAttribute("data-openbitfun-tooltip-trigger", "true");
+    element.setAttribute("data-opc-tooltip-trigger", "true");
   }
   owner.count++;
   return () => {
     if (--owner.count > 0) return;
     triggerOwners.delete(element);
-    if (owner.previous === null) element.removeAttribute("data-openbitfun-tooltip-trigger");
-    else element.setAttribute("data-openbitfun-tooltip-trigger", owner.previous);
+    if (owner.previous === null) element.removeAttribute("data-opc-tooltip-trigger");
+    else element.setAttribute("data-opc-tooltip-trigger", owner.previous);
   };
 }

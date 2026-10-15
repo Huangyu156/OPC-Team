@@ -2,8 +2,8 @@
 
 #[cfg(feature = "rpc")]
 use agent_client_protocol::{JsonRpcNotification, JsonRpcRequest, JsonRpcResponse};
-use openbitfun_events::AgenticEventEnvelope;
-use openbitfun_product_domains::tool_permissions::{PermissionRequest, PermissionRequestEvent};
+use opc_events::AgenticEventEnvelope;
+use opc_product_domains::tool_permissions::{PermissionRequest, PermissionRequestEvent};
 use serde::{Deserialize, Serialize};
 
 /// Browser-facing projected runtime or permission event.

@@ -1,9 +1,9 @@
 //! Native Skill copy provenance and publication, owned alongside registry filesystem IO.
 use super::*;
-use openbitfun_agent_runtime::skills::SkillImportOrigin;
+use opc_agent_runtime::skills::SkillImportOrigin;
 use sha2::{Digest, Sha256};
 
-pub const IMPORT_MARKER: &str = ".openbitfun-import.json";
+pub const IMPORT_MARKER: &str = ".opc-import.json";
 
 pub fn parse_import_origin(content: &str) -> Result<SkillImportOrigin, String> {
     let origin: SkillImportOrigin =
@@ -41,7 +41,7 @@ pub async fn read_import_origin(path: &Path) -> Result<Option<SkillImportOrigin>
 /// Remove only the reviewed native copy; serialize with publication of new copies.
 pub async fn remove_imported_copy(path: &Path, expected_import_id: &str) -> Result<(), String> {
     let root = path.parent().ok_or("Invalid Skill target")?;
-    let _lock = openbitfun_services_core::json_store::JsonFileStore
+    let _lock = opc_services_core::json_store::JsonFileStore
         .acquire_cross_process_lock(&root.join(".skill-import-lock"))
         .await
         .map_err(|error| error.to_string())?;
@@ -288,7 +288,7 @@ pub async fn import_copy_as_reviewed(
     fs::create_dir_all(&target_root)
         .await
         .map_err(|error| error.to_string())?;
-    let _lock = openbitfun_services_core::json_store::JsonFileStore
+    let _lock = opc_services_core::json_store::JsonFileStore
         .acquire_cross_process_lock(&target_root.join(".skill-import-lock"))
         .await
         .map_err(|error| error.to_string())?;

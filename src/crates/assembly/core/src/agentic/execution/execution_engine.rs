@@ -67,11 +67,11 @@ use crate::util::types::ToolDefinition;
 use crate::util::{elapsed_ms_u64, truncate_at_char_boundary};
 use dashmap::DashMap;
 use log::{debug, error, info, trace, warn};
-use openbitfun_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
-use openbitfun_agent_runtime::remote_file_delivery::TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY;
-use openbitfun_ai_adapters::ModelExchangeTraceConfig;
-use openbitfun_core_types::{ModelRequestContext, SessionModelBindingPolicy};
-use openbitfun_runtime_ports::{resolve_permission_mode, PermissionMode, PermissionModeLayers};
+use opc_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
+use opc_agent_runtime::remote_file_delivery::TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY;
+use opc_ai_adapters::ModelExchangeTraceConfig;
+use opc_core_types::{ModelRequestContext, SessionModelBindingPolicy};
+use opc_runtime_ports::{resolve_permission_mode, PermissionMode, PermissionModeLayers};
 use sha2::{Digest, Sha256};
 use std::collections::{HashMap, HashSet};
 use std::sync::atomic::{AtomicU8, Ordering};
@@ -562,7 +562,7 @@ struct TurnPromptScaffoldInput<'a> {
 }
 
 struct FinalizeRoundInput<'a> {
-    permission_constraints: openbitfun_runtime_ports::PermissionConstraintLayer,
+    permission_constraints: opc_runtime_ports::PermissionConstraintLayer,
     context_window: usize,
     tool_definitions: Option<Vec<ToolDefinition>>,
     reminder_text: &'a str,
@@ -626,7 +626,7 @@ impl ExecutionEngine {
         ModelRequestContext {
             prompt_cache_route_key: Some(prompt_cache_lineage_id.to_string()),
             output_schema: context
-                .get(openbitfun_runtime_ports::OUTPUT_SCHEMA_CONTEXT_KEY)
+                .get(opc_runtime_ports::OUTPUT_SCHEMA_CONTEXT_KEY)
                 .and_then(|schema| serde_json::from_str(schema).ok()),
         }
     }
@@ -3511,7 +3511,7 @@ impl ExecutionEngine {
                 if enable_context_compression
                     && prefetch_enabled
                     && compression_prefetch.is_none()
-                    && openbitfun_agent_runtime::compression_prefetch::in_prefetch_window(
+                    && opc_agent_runtime::compression_prefetch::in_prefetch_window(
                         token_pressure.total_tokens,
                         token_pressure.input_limit,
                     )
@@ -3521,7 +3521,7 @@ impl ExecutionEngine {
                         "Compression prefetch admitted: session_id={}, turn_id={}, round_index={}, total_tokens={}, prefetch_limit={}, input_limit={}, context_window={}",
                         context.session_id, context.dialog_turn_id, round_index,
                         token_pressure.total_tokens,
-                        token_pressure.input_limit.saturating_sub(openbitfun_agent_runtime::compression_prefetch::PREFETCH_LEAD_TOKENS),
+                        token_pressure.input_limit.saturating_sub(opc_agent_runtime::compression_prefetch::PREFETCH_LEAD_TOKENS),
                         token_pressure.input_limit, context_window
                     );
                     let trace_dir = self
@@ -4683,13 +4683,13 @@ impl ExecutionEngine {
         // dialog success) so other agents and failed turns are unaffected.
         #[cfg(feature = "deep-research")]
         {
-            if openbitfun_agent_workflows::deep_research::should_post_process_research_report(
+            if opc_agent_workflows::deep_research::should_post_process_research_report(
                 &agent_type,
                 success && effective_finish_reason != "user_steering",
             ) {
                 if let Some(workspace) = context.workspace.as_ref() {
                     if let Some(workspace_services) = context.workspace_services.as_ref() {
-                        openbitfun_services_integrations::deep_research::run_for_session_workspace(
+                        opc_services_integrations::deep_research::run_for_session_workspace(
                             workspace_services.fs.as_ref(),
                             &workspace.root_path().to_string_lossy(),
                             &context.session_id,
@@ -4857,7 +4857,7 @@ mod tests {
     use crate::service::config::types::AIModelConfig;
     use crate::service::remote_ssh::workspace_state::workspace_session_identity;
     use crate::util::types::ToolDefinition;
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         PermissionMode, WorkspaceDirEntry, WorkspaceFileSystem, WorkspacePathKind,
     };
     use serde_json::json;
@@ -4871,7 +4871,7 @@ mod tests {
     #[tokio::test]
     async fn computer_use_pixels_and_geometry_reach_real_provider_wire() {
         use base64::Engine;
-        use openbitfun_ai_adapters::providers::{
+        use opc_ai_adapters::providers::{
             anthropic::AnthropicMessageConverter, gemini::GeminiMessageConverter,
             openai::OpenAIMessageConverter,
         };
@@ -5663,7 +5663,7 @@ mod tests {
             subagent_parent_info: None,
             permission_delegation: None,
             permission_runtime_ceiling: None,
-            delegation_policy: openbitfun_runtime_ports::DelegationPolicy::top_level(),
+            delegation_policy: opc_runtime_ports::DelegationPolicy::top_level(),
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
             workspace_services: Some(local_workspace_services(
                 workspace_root.to_string_lossy().to_string(),
@@ -5771,7 +5771,7 @@ mod tests {
             .with_round_id(round_id.to_string());
         let tool_result = Message::tool_result(ToolResult {
             tool_id: format!("{round_id}-read"),
-            tool_name: openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
+            tool_name: opc_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
             effective_tool_name: Some("Read".to_string()),
             result: json!({ "file_path": workspace_root.join("src/lib.rs") }),
             result_for_assistant: Some("source".to_string()),
@@ -6241,7 +6241,7 @@ mod tests {
             subagent_parent_info: None,
             permission_delegation: None,
             permission_runtime_ceiling: None,
-            delegation_policy: openbitfun_runtime_ports::DelegationPolicy::top_level(),
+            delegation_policy: opc_runtime_ports::DelegationPolicy::top_level(),
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
             workspace_services: None,
             terminal_port: None,
@@ -6538,7 +6538,7 @@ mod tests {
         });
         let mut context = HashMap::new();
         context.insert(
-            openbitfun_runtime_ports::OUTPUT_SCHEMA_CONTEXT_KEY.to_string(),
+            opc_runtime_ports::OUTPUT_SCHEMA_CONTEXT_KEY.to_string(),
             schema.to_string(),
         );
 

@@ -1,13 +1,13 @@
 use std::path::{Path, PathBuf};
 
-use openbitfun_core_types::product_identity::hidden_data_directory;
+use opc_core_types::product_identity::hidden_data_directory;
 
 use super::types::SkillSourceDialect;
 
 pub const USER_SKILL_KEY_PREFIX: &str = "user";
 pub const PROJECT_SKILL_KEY_PREFIX: &str = "project";
 pub const OPENBITFUN_USER_SKILL_SLOT: &str = "openbitfun";
-pub const OPENBITFUN_SYSTEM_SKILL_SLOT: &str = "openbitfun-system";
+pub const OPENBITFUN_SYSTEM_SKILL_SLOT: &str = "opc-system";
 pub const OPENBITFUN_SYSTEM_SKILL_DIR: &str = ".system";
 pub const OPENBITFUN_SKILL_SOURCE_ID: &str = "openbitfun";
 pub const OPENBITFUN_SKILL_SOURCE_LABEL: &str = "OPC-Team";

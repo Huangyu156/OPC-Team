@@ -16,7 +16,7 @@ interface MiniAppBubbleWelcomeProps {
   onSuggestion: (prompt: string) => void;
 }
 
-/** Keep aligned with the block padding on `.openbitfun-fmc__miniapp-welcome-content`. */
+/** Keep aligned with the block padding on `.opc-fmc__miniapp-welcome-content`. */
 const WELCOME_CONTENT_BLOCK_PADDING_PX = 36;
 
 /**
@@ -42,33 +42,33 @@ export const MiniAppBubbleWelcome: React.FC<MiniAppBubbleWelcomeProps> = ({
   const inputClearance = computeFlowChatInputStackFooterPx(inputHeight);
 
   return (
-    <ScrollArea className="openbitfun-fmc__miniapp-welcome" data-openbitfun-component="miniapp-bubble-welcome" data-openbitfun-part="root">
+    <ScrollArea className="opc-fmc__miniapp-welcome" data-opc-component="miniapp-bubble-welcome" data-opc-part="root">
       <div
-        className="openbitfun-fmc__miniapp-welcome-content"
+        className="opc-fmc__miniapp-welcome-content"
         style={{
           paddingBottom: `${WELCOME_CONTENT_BLOCK_PADDING_PX + inputClearance}px`,
         }}
       >
         {showIcon && <div
-          className="openbitfun-fmc__miniapp-welcome-icon"
-          data-openbitfun-component="miniapp-bubble-welcome"
-          data-openbitfun-part="icon"
+          className="opc-fmc__miniapp-welcome-icon"
+          data-opc-component="miniapp-bubble-welcome"
+          data-opc-part="icon"
           aria-hidden="true"
         >
           {renderMiniAppIcon(appIcon, 28)}
         </div>}
 
         {title !== appName && (
-          <div className="openbitfun-fmc__miniapp-welcome-eyebrow" data-openbitfun-component="miniapp-bubble-welcome" data-openbitfun-part="eyebrow">{appName}</div>
+          <div className="opc-fmc__miniapp-welcome-eyebrow" data-opc-component="miniapp-bubble-welcome" data-opc-part="eyebrow">{appName}</div>
         )}
-        <h2 data-openbitfun-component="miniapp-bubble-welcome" data-openbitfun-part="title">{title}</h2>
-        {description && <p className="openbitfun-fmc__miniapp-welcome-description" data-openbitfun-component="miniapp-bubble-welcome" data-openbitfun-part="description">{description}</p>}
+        <h2 data-opc-component="miniapp-bubble-welcome" data-opc-part="title">{title}</h2>
+        {description && <p className="opc-fmc__miniapp-welcome-description" data-opc-component="miniapp-bubble-welcome" data-opc-part="description">{description}</p>}
 
         {workspaceLabel && workspacePath && (
           <div
-            className="openbitfun-fmc__miniapp-workspace"
-            data-openbitfun-component="miniapp-bubble-welcome"
-            data-openbitfun-part="workspace"
+            className="opc-fmc__miniapp-workspace"
+            data-opc-component="miniapp-bubble-welcome"
+            data-opc-part="workspace"
             title={workspacePath}
             data-workspace-path={workspacePath}
           >
@@ -78,20 +78,20 @@ export const MiniAppBubbleWelcome: React.FC<MiniAppBubbleWelcomeProps> = ({
         )}
 
         {suggestions.length > 0 && (
-          <div className="openbitfun-fmc__miniapp-suggestions" data-openbitfun-component="miniapp-bubble-welcome" data-openbitfun-part="suggestions">
+          <div className="opc-fmc__miniapp-suggestions" data-opc-component="miniapp-bubble-welcome" data-opc-part="suggestions">
             {welcome?.suggestionsLabel && (
-              <div className="openbitfun-fmc__miniapp-suggestions-label" data-openbitfun-component="miniapp-bubble-welcome" data-openbitfun-part="suggestionsLabel">
+              <div className="opc-fmc__miniapp-suggestions-label" data-opc-component="miniapp-bubble-welcome" data-opc-part="suggestionsLabel">
                 {welcome.suggestionsLabel}
               </div>
             )}
-            <div className="openbitfun-fmc__miniapp-suggestions-list" data-openbitfun-component="miniapp-bubble-welcome" data-openbitfun-part="suggestionsList">
+            <div className="opc-fmc__miniapp-suggestions-list" data-opc-component="miniapp-bubble-welcome" data-opc-part="suggestionsList">
               {suggestions.map((suggestion, index) => (
                 <button
                   key={`${suggestion.label}:${index}`}
                   type="button"
-                  className="openbitfun-fmc__miniapp-suggestion"
-                  data-openbitfun-component="miniapp-bubble-welcome"
-                  data-openbitfun-part="suggestion"
+                  className="opc-fmc__miniapp-suggestion"
+                  data-opc-component="miniapp-bubble-welcome"
+                  data-opc-part="suggestion"
                   title={suggestion.prompt}
                   onClick={() => onSuggestion(suggestion.prompt)}
                 >

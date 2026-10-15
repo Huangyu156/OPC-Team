@@ -26,7 +26,7 @@ use crate::workspace_search::{
     WorkspaceSearchRepoStatus,
 };
 use async_trait::async_trait;
-use openbitfun_services_core::filesystem::{ContentMatchPreviewBuilder, FileSearchOutcome};
+use opc_services_core::filesystem::{ContentMatchPreviewBuilder, FileSearchOutcome};
 use std::collections::HashMap;
 use std::ops::Deref;
 use std::path::{Component, Path, PathBuf};
@@ -46,7 +46,7 @@ fn require_remote_flashgrep() -> Result<(), String> {
 const REMOTE_STDIO_REQUEST_TIMEOUT: Duration = Duration::from_secs(120);
 const REMOTE_STDIO_SHUTDOWN_TIMEOUT: Duration = Duration::from_secs(2);
 const REMOTE_STDIO_SESSION_IDLE_GRACE: Duration = Duration::from_secs(45);
-const CLIENT_NAME: &str = "openbitfun-remote-workspace-search";
+const CLIENT_NAME: &str = "opc-remote-workspace-search";
 
 static REMOTE_STDIO_SESSIONS: LazyLock<RwLock<HashMap<String, RemoteStdioSessionEntry>>> =
     LazyLock::new(|| RwLock::new(HashMap::new()));

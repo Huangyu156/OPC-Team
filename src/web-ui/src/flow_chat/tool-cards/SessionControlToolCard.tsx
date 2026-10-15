@@ -137,7 +137,7 @@ export const SessionControlToolCard: React.FC<ToolCardProps> = React.memo(({
   ].filter((field): field is NonNullable<typeof field> => Boolean(field));
 
   return (
-    <div ref={cardRootRef} data-openbitfun-adapter="session-control" data-tool-card-id={toolId ?? ''}>
+    <div ref={cardRootRef} data-opc-adapter="session-control" data-tool-card-id={toolId ?? ''}>
       <SessionControlToolCardView
         status={status}
         action={actionLabels[action]}

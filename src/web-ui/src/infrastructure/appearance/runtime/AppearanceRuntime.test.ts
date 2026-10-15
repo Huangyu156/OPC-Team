@@ -56,12 +56,12 @@ describe('AppearanceRuntime', () => {
 
     await runtime.initialize(pkg('test.first', 'first'));
     expect(document.documentElement.getAttribute('data-openbitfun-appearance')).toBe('test.first');
-    expect(document.querySelectorAll('style[data-openbitfun-appearance-runtime]')).toHaveLength(1);
+    expect(document.querySelectorAll('style[data-opc-appearance-runtime]')).toHaveLength(1);
 
     await expect(runtime.applyPackage(pkg('test.second', 'fail'))).rejects.toThrow('renderer failed');
     expect(runtime.getSnapshot()?.id).toBe('test.first');
     expect(document.documentElement.getAttribute('data-openbitfun-appearance')).toBe('test.first');
-    expect(document.querySelectorAll('style[data-openbitfun-appearance-runtime]')).toHaveLength(1);
+    expect(document.querySelectorAll('style[data-opc-appearance-runtime]')).toHaveLength(1);
     expect(calls.at(-1)).toEqual({ tokens: { '--opcteam-color-surface-canvas': 'first' } });
     expect(listener).toHaveBeenCalledTimes(1);
   });
@@ -201,10 +201,10 @@ describe('AppearanceRuntime', () => {
       apply: next => {
         if (next?.tokens['--opcteam-color-surface-canvas'] !== 'second') return;
         const stagedStyle = document.querySelector<HTMLStyleElement>(
-          'style[data-openbitfun-appearance-runtime="2"]',
+          'style[data-opc-appearance-runtime="2"]',
         );
         observations.push({
-          rootRevision: document.documentElement.getAttribute('data-openbitfun-appearance-revision'),
+          rootRevision: document.documentElement.getAttribute('data-opc-appearance-revision'),
           stagedCss: stagedStyle?.textContent ?? '',
         });
       },
@@ -218,15 +218,15 @@ describe('AppearanceRuntime', () => {
 
     expect(observations).toEqual([expect.objectContaining({ rootRevision: '1' })]);
     expect(observations[0].stagedCss).toContain(
-      '[data-openbitfun-appearance="test.same-id"][data-openbitfun-appearance-revision="2"]',
+      '[data-openbitfun-appearance="test.same-id"][data-opc-appearance-revision="2"]',
     );
-    expect(document.documentElement.getAttribute('data-openbitfun-appearance-revision')).toBe('2');
-    expect(document.querySelectorAll('style[data-openbitfun-appearance-runtime]')).toHaveLength(1);
+    expect(document.documentElement.getAttribute('data-opc-appearance-revision')).toBe('2');
+    expect(document.querySelectorAll('style[data-opc-appearance-runtime]')).toHaveLength(1);
   });
 
   it('applies normal cascade after legacy styles and reserves important for explicit overrides', async () => {
     document.head.innerHTML = '<style>.legacy-gallery { color: rgb(255, 0, 0); }</style>';
-    document.body.innerHTML = '<div class="legacy-gallery" data-openbitfun-component="gallery-layout" data-openbitfun-part="root">Run</div>';
+    document.body.innerHTML = '<div class="legacy-gallery" data-opc-component="gallery-layout" data-opc-part="root">Run</div>';
     const registry = new AppearanceRegistry()
       .registerComponent({ id: 'gallery-layout', parts: [{ id: 'root' }] })
       .freeze();
@@ -248,7 +248,7 @@ describe('AppearanceRuntime', () => {
     };
 
     await runtime.initialize(basePackage);
-    const gallery = document.querySelector('[data-openbitfun-component="gallery-layout"]') as HTMLDivElement;
+    const gallery = document.querySelector('[data-opc-component="gallery-layout"]') as HTMLDivElement;
     expect(window.getComputedStyle(gallery).color).toBe('rgb(0, 255, 0)');
 
     gallery.style.color = 'rgb(255, 0, 0)';

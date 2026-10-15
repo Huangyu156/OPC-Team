@@ -50,11 +50,11 @@ describe('Remote Connect safety contracts', () => {
 
   it('composes disclaimer actions through the shared dialog footer spacing', () => {
     const rootStyle = disclaimerStyleSource.slice(
-      disclaimerStyleSource.indexOf('.openbitfun-remote-disclaimer {'),
-      disclaimerStyleSource.indexOf('.openbitfun-remote-disclaimer__meta'),
+      disclaimerStyleSource.indexOf('.opc-remote-disclaimer {'),
+      disclaimerStyleSource.indexOf('.opc-remote-disclaimer__meta'),
     );
     const actionStyle = disclaimerStyleSource.slice(
-      disclaimerStyleSource.indexOf('.openbitfun-remote-disclaimer__actions'),
+      disclaimerStyleSource.indexOf('.opc-remote-disclaimer__actions'),
     );
 
     expect(disclaimerSource).toContain('<DialogBody>');
@@ -79,19 +79,19 @@ describe('Remote Connect safety contracts', () => {
     expect(overview).toContain("view: 'account'");
     expect(overview).toContain("view: 'network'");
     expect(overview).toContain("view: 'bot'");
-    expect(dialogSource).not.toContain('data-openbitfun-part="groupTab"');
+    expect(dialogSource).not.toContain('data-opc-part="groupTab"');
     expect(dialogSource).not.toContain('remote-connect-group-');
   });
 
   it('keeps persistent navigation beside a single task surface', () => {
     expect(dialogSource).toContain('size="2xl"');
-    expect(dialogSource).toContain('className="openbitfun-remote-connect-dialog"');
-    expect(dialogSource).toContain('className="openbitfun-remote-connect-dialog__header"');
-    expect(dialogSource).toContain('className="openbitfun-remote-connect-dialog__body"');
-    expect(dialogSource).toContain('data-openbitfun-part="sidebar"');
-    expect(dialogSource).toContain('data-openbitfun-part="sidebarBrand"');
-    expect(dialogSource).toContain('data-openbitfun-part="main"');
-    expect(dialogSource).toContain('className="openbitfun-remote-connect__navigation"');
+    expect(dialogSource).toContain('className="opc-remote-connect-dialog"');
+    expect(dialogSource).toContain('className="opc-remote-connect-dialog__header"');
+    expect(dialogSource).toContain('className="opc-remote-connect-dialog__body"');
+    expect(dialogSource).toContain('data-opc-part="sidebar"');
+    expect(dialogSource).toContain('data-opc-part="sidebarBrand"');
+    expect(dialogSource).toContain('data-opc-part="main"');
+    expect(dialogSource).toContain('className="opc-remote-connect__navigation"');
     expect(dialogSource).toContain("aria-current={activeView === view ? 'page' : undefined}");
   });
 
@@ -125,15 +125,15 @@ describe('Remote Connect safety contracts', () => {
     }
     expect(surfaceStyleSource).toContain('@mixin action-bar');
     expect(dialogStyleSource).toContain('@include surface.action-bar;');
-    expect(dialogSource).toContain('className="openbitfun-remote-connect__card-actions"');
-    expect(networkSource).toContain('className="openbitfun-remote-connect__card-actions"');
+    expect(dialogSource).toContain('className="opc-remote-connect__card-actions"');
+    expect(networkSource).toContain('className="opc-remote-connect__card-actions"');
   });
 
   it('uses one destructive treatment and real buttons for every link-like action', () => {
     const networkSource = readFileSync(new URL('./RemoteNetworkConnections.tsx', import.meta.url), 'utf8');
 
     expect(dialogSource).not.toContain('role="link"');
-    expect(dialogSource).toContain('className="openbitfun-remote-connect__inline-link" onClick={handleOpenFeishuPlatform}');
+    expect(dialogSource).toContain('className="opc-remote-connect__inline-link" onClick={handleOpenFeishuPlatform}');
     expect(dialogSource).toContain('<Button variant="outline" tone="danger" size="sm" onClick={handleDisconnectBot}>');
     expect(networkSource).toContain('<Button variant="outline" tone="danger" size="sm" onClick={onDisconnect}>');
     expect(accountPanelSource).toContain('leadingIcon={<LogOut size={14} />} onClick={handleLogout}');
@@ -167,14 +167,14 @@ describe('Remote Connect safety contracts', () => {
 
   it('keeps the dialog height stable while selected content scrolls inside it', () => {
     const desktopGeometry = dialogStyleSource.slice(
-      dialogStyleSource.indexOf('.openbitfun-remote-connect-dialog {'),
-      dialogStyleSource.indexOf('.openbitfun-remote-connect-dialog__header'),
+      dialogStyleSource.indexOf('.opc-remote-connect-dialog {'),
+      dialogStyleSource.indexOf('.opc-remote-connect-dialog__header'),
     );
 
     expect(desktopGeometry).toContain('block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)))');
     expect(desktopGeometry).toContain('min-block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)))');
     expect(desktopGeometry).toContain('max-block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)))');
-    expect(dialogStyleSource).toContain(".openbitfun-remote-connect [data-openbitfun-part='panel']");
+    expect(dialogStyleSource).toContain(".opc-remote-connect [data-opc-part='panel']");
     expect(dialogSource).toContain('<ScrollArea');
   });
 
@@ -185,7 +185,7 @@ describe('Remote Connect safety contracts', () => {
     expect(dialogSource).toContain("panelId: 'remote-connect-bot-tabpanel'");
     expect(dialogSource.match(/<TabGroup/g)).toHaveLength(2);
     expect(dialogSource).not.toContain('handleTabArrowKey');
-    expect(dialogSource).not.toContain('data-openbitfun-part="subtab"');
+    expect(dialogSource).not.toContain('data-opc-part="subtab"');
   });
 
   it('offers two relay endpoints and the supported chat providers', () => {
@@ -195,7 +195,7 @@ describe('Remote Connect safety contracts', () => {
     );
 
     expect(methods).toContain("id: 'lan'");
-    expect(methods).toContain("id: 'openbitfun_server'");
+    expect(methods).toContain("id: 'opc_server'");
     expect(methods).not.toContain("id: 'ngrok'");
     expect(methods).not.toContain("id: 'custom_server'");
     expect(methods).toContain("id: 'telegram'");
@@ -205,19 +205,19 @@ describe('Remote Connect safety contracts', () => {
 
   it('uses the real monochrome app marks for every chat provider', () => {
     const identityBrandStyle = dialogStyleSource.slice(
-      dialogStyleSource.indexOf('.openbitfun-remote-connect__bot-identity-icon'),
-      dialogStyleSource.indexOf('.openbitfun-remote-connect__bot-identity-title'),
+      dialogStyleSource.indexOf('.opc-remote-connect__bot-identity-icon'),
+      dialogStyleSource.indexOf('.opc-remote-connect__bot-identity-title'),
     );
     const footerMessageBrandStyle = navPanelStyleSource.slice(
-      navPanelStyleSource.indexOf("&[data-openbitfun-device-kind='message-app'] {"),
-      navPanelStyleSource.indexOf('.openbitfun-nav-panel__footer-device-status-attached-count'),
+      navPanelStyleSource.indexOf("&[data-opc-device-kind='message-app'] {"),
+      navPanelStyleSource.indexOf('.opc-nav-panel__footer-device-status-attached-count'),
     );
     const footerBrandColorStyle = navPanelStyleSource.slice(
-      navPanelStyleSource.indexOf('.openbitfun-nav-panel__footer-device-status-attached {'),
-      navPanelStyleSource.indexOf('.openbitfun-nav-panel__footer-device-status-attached-group'),
+      navPanelStyleSource.indexOf('.opc-nav-panel__footer-device-status-attached {'),
+      navPanelStyleSource.indexOf('.opc-nav-panel__footer-device-status-attached-group'),
     );
     const overviewMessageBrandStart = navPanelStyleSource.indexOf(
-      "&[data-openbitfun-device-kind='message-app'] .openbitfun-device-overview__device-icon {",
+      "&[data-opc-device-kind='message-app'] .opc-device-overview__device-icon {",
     );
     const overviewMessageBrandStyle = navPanelStyleSource.slice(
       overviewMessageBrandStart,

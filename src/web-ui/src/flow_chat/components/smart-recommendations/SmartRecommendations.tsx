@@ -112,18 +112,18 @@ export const SmartRecommendations: React.FC<SmartRecommendationsProps> = ({
 
   return (
     <div
-      data-openbitfun-component="smart-recommendations"
-      data-openbitfun-part="root"
-      data-openbitfun-state={hasLoadingAction ? 'loading' : undefined}
-      className={`openbitfun-smart-recommendations ${className}`}
+      data-opc-component="smart-recommendations"
+      data-opc-part="root"
+      data-opc-state={hasLoadingAction ? 'loading' : undefined}
+      className={`opc-smart-recommendations ${className}`}
     >
-      <div data-openbitfun-component="smart-recommendations" data-openbitfun-part="header" className="openbitfun-smart-recommendations__header">
-        <span data-openbitfun-component="smart-recommendations" data-openbitfun-part="title" className="openbitfun-smart-recommendations__title">{t('smartRecommendations.title')}</span>
+      <div data-opc-component="smart-recommendations" data-opc-part="header" className="opc-smart-recommendations__header">
+        <span data-opc-component="smart-recommendations" data-opc-part="title" className="opc-smart-recommendations__title">{t('smartRecommendations.title')}</span>
         <Tooltip content={t('smartRecommendations.close')}>
           <IconButton
-            data-openbitfun-component="smart-recommendations"
-            data-openbitfun-part="close"
-            className="openbitfun-smart-recommendations__close"
+            data-opc-component="smart-recommendations"
+            data-opc-part="close"
+            className="opc-smart-recommendations__close"
             onClick={handleClose}
             icon={<Icon name="xmark" size="md" />}
             size="sm"
@@ -133,7 +133,7 @@ export const SmartRecommendations: React.FC<SmartRecommendationsProps> = ({
         </Tooltip>
       </div>
 
-      <div data-openbitfun-component="smart-recommendations" data-openbitfun-part="actions" className="openbitfun-smart-recommendations__actions">
+      <div data-opc-component="smart-recommendations" data-opc-part="actions" className="opc-smart-recommendations__actions">
         {actions.map(action => {
           const CatalogIconName = action.icon ? RECOMMENDATION_CATALOG[action.icon] : undefined;
           const IconComponent = action.icon

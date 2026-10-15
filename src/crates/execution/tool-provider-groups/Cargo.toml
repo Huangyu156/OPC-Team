@@ -1,12 +1,12 @@
 [package]
-name = "openbitfun-tool-packs"
+name = "opc-tool-packs"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
 description = "OPC-Team concrete tool-pack owner crate"
 
 [lib]
-name = "openbitfun_tool_packs"
+name = "opc_tool_packs"
 crate-type = ["rlib"]
 
 [features]

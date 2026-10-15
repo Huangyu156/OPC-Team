@@ -420,8 +420,8 @@ const MiniAppGalleryView: React.FC<MiniAppGalleryViewProps> = ({ tabs }) => {
 
   return (
     <GalleryLayout
-      data-openbitfun-component="miniapp-gallery-view"
-      data-openbitfun-part="root"
+      data-opc-component="miniapp-gallery-view"
+      data-opc-part="root"
       className="miniapp-gallery-pane miniapp-gallery"
     >
       <GalleryPageHeader
@@ -500,7 +500,7 @@ const MiniAppGalleryView: React.FC<MiniAppGalleryViewProps> = ({ tabs }) => {
 
       {tabs}
 
-      <div data-openbitfun-component="miniapp-gallery-view" data-openbitfun-part="content" className="gallery-zones">
+      <div data-opc-component="miniapp-gallery-view" data-opc-part="content" className="gallery-zones">
         {activeApps.length > 0 ? (
           <GalleryZone
             title={t('running')}
@@ -532,8 +532,8 @@ const MiniAppGalleryView: React.FC<MiniAppGalleryViewProps> = ({ tabs }) => {
           tools={(
             categories.length > 1 ? (
               <div
-                data-openbitfun-component="miniapp-gallery-view"
-                data-openbitfun-part="categoryFilters"
+                data-opc-component="miniapp-gallery-view"
+                data-opc-part="categoryFilters"
               >
                 <SegmentedControl size="md"
                   className="miniapp-gallery__categories"
@@ -552,8 +552,8 @@ const MiniAppGalleryView: React.FC<MiniAppGalleryViewProps> = ({ tabs }) => {
                       icon: categoryIcon,
                       label: (
                         <span
-                          data-openbitfun-component="miniapp-gallery-view"
-                          data-openbitfun-part="categoryFilter"
+                          data-opc-component="miniapp-gallery-view"
+                          data-opc-part="categoryFilter"
                         >
                           {category === 'all'
                             ? t('all')

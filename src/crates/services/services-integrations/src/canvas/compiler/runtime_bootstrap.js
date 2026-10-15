@@ -1,5 +1,5 @@
 (() => {
-  const root = document.getElementById('openbitfun-canvas-root');
+  const root = document.getElementById('opc-canvas-root');
   let appearance = makeAppearance({
     type: 'auto',
     bg: 'var(--opcteam-canvas-bg)',
@@ -205,7 +205,7 @@
   }
   function inspectableElement(target) {
     if (!(target instanceof Element) || !root || !root.contains(target) || target === root) return null;
-    return target.closest('[data-openbitfun-canvas-node]') || target;
+    return target.closest('[data-opc-canvas-node]') || target;
   }
   function clearInspectHighlight() {
     if (!inspectElement) return;
@@ -249,7 +249,7 @@
     event.stopPropagation();
     highlightInspectElement(element);
     window.parent?.postMessage({
-      type: 'openbitfun-canvas-element-selected',
+      type: 'opc-canvas-element-selected',
       reference: elementReference(element),
     }, '*');
   }, true);
@@ -269,7 +269,7 @@
       flushEffects();
       if (!readySent) {
         readySent = true;
-        window.parent?.postMessage({ type: 'openbitfun-canvas-ready' }, '*');
+        window.parent?.postMessage({ type: 'opc-canvas-ready' }, '*');
       }
     } catch (error) {
       reportRuntimeError(error);
@@ -278,7 +278,7 @@
   function reportRuntimeError(error) {
     if (root) root.replaceChildren(errorView(error));
     window.parent?.postMessage({
-      type: 'openbitfun-canvas-runtime-error',
+      type: 'opc-canvas-runtime-error',
       message: String(error?.message || error),
       name: error?.name ? String(error.name) : undefined,
       stack: error?.stack ? String(error.stack) : undefined,
@@ -1249,19 +1249,19 @@
     return action => new Promise((resolve, reject) => {
       const requestId = `action-${++actionSeq}`;
       pendingActions.set(requestId, { resolve, reject });
-      window.parent?.postMessage({ type: 'openbitfun-canvas-action', requestId, action }, '*');
+      window.parent?.postMessage({ type: 'opc-canvas-action', requestId, action }, '*');
     });
   }
   function persistState() {
     if (!hostStateReady) return;
     window.parent?.postMessage({
-      type: 'openbitfun-canvas-save-state',
+      type: 'opc-canvas-save-state',
       values: Object.fromEntries(state.entries())
     }, '*');
   }
   window.addEventListener('message', event => {
     const data = event.data || {};
-    if (data.type === 'openbitfun-canvas-action-result') {
+    if (data.type === 'opc-canvas-action-result') {
       const pending = pendingActions.get(data.requestId);
       if (!pending) return;
       pendingActions.delete(data.requestId);
@@ -1269,16 +1269,16 @@
       else pending.resolve(data.result ?? null);
       return;
     }
-    if (data.type === 'openbitfun-canvas-appearance') {
+    if (data.type === 'opc-canvas-appearance') {
       applyHostAppearance(data.appearance);
       rerender();
       return;
     }
-    if (data.type === 'openbitfun-canvas-design-mode') {
+    if (data.type === 'opc-canvas-design-mode') {
       setDesignMode(data.enabled);
       return;
     }
-    if (data.type !== 'openbitfun-canvas-state' && data.type !== 'openbitfun-canvas-load-state-result' && data.type !== 'openbitfun-canvas-save-state-result') return;
+    if (data.type !== 'opc-canvas-state' && data.type !== 'opc-canvas-load-state-result' && data.type !== 'opc-canvas-save-state-result') return;
     const values = data.state && typeof data.state === 'object' && data.state.values && typeof data.state.values === 'object'
       ? data.state.values
       : {};

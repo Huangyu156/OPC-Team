@@ -17,11 +17,11 @@ test("Field associates label, description, and required state with its control",
     })),
   );
 
-  assert.match(markup, /data-openbitfun-component="field"/);
+  assert.match(markup, /data-opc-component="field"/);
   assert.match(markup, /data-orientation="vertical"/);
   assert.match(markup, /data-required="true"/);
   assert.match(markup, /<label[^>]+for="project-name"/);
-  assert.match(markup, /data-openbitfun-part="required"[^>]*>\*<\/span>/);
+  assert.match(markup, /data-opc-part="required"[^>]*>\*<\/span>/);
   assert.match(markup, /id="project-name-description"/);
   assert.match(markup, /aria-describedby="project-help project-name-description"/);
   assert.match(markup, /id="project-name"/);
@@ -40,7 +40,7 @@ test("Field renders a validation message wired to the control accessibility cont
 
   assert.match(markup, /data-invalid="true"/);
   assert.match(markup, /aria-invalid="true"/);
-  assert.match(markup, /data-openbitfun-part="error"[^>]*id="project-name-error"/);
+  assert.match(markup, /data-opc-part="error"[^>]*id="project-name-error"/);
   assert.match(markup, /aria-describedby="project-name-error"/);
   assert.match(markup, /Name is already taken/);
 });
@@ -54,8 +54,8 @@ test("Field exposes horizontal layout independently from its control", () => {
   );
 
   assert.match(markup, /data-orientation="horizontal"/);
-  assert.match(markup, /data-openbitfun-part="content"/);
-  assert.match(markup, /data-openbitfun-part="control"/);
+  assert.match(markup, /data-opc-part="content"/);
+  assert.match(markup, /data-opc-part="control"/);
   assert.match(markup, /type="checkbox"/);
 });
 
@@ -85,10 +85,10 @@ test("Field keeps label and control adornments outside the associated control", 
     }, createElement(Input, { id: "appearance" })),
   );
 
-  assert.match(markup, /data-openbitfun-part="label-row"/);
-  assert.match(markup, /data-openbitfun-part="label-action"[^>]*><button[^>]*>Help/);
-  assert.match(markup, /data-openbitfun-part="control-leading"[^>]*><button[^>]*>Toggle/);
-  assert.match(markup, /data-openbitfun-part="control-trailing"[^>]*><button[^>]*>More/);
+  assert.match(markup, /data-opc-part="label-row"/);
+  assert.match(markup, /data-opc-part="label-action"[^>]*><button[^>]*>Help/);
+  assert.match(markup, /data-opc-part="control-leading"[^>]*><button[^>]*>Toggle/);
+  assert.match(markup, /data-opc-part="control-trailing"[^>]*><button[^>]*>More/);
   assert.match(markup, /<label[^>]+for="appearance"/);
   const labelMarkup = /<label[^>]*>.*?<\/label>/s.exec(markup)?.[0] ?? "";
   assert.doesNotMatch(labelMarkup, /<button/);

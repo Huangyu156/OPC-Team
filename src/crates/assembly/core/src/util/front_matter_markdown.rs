@@ -1,1 +1,1 @@
-pub use openbitfun_services_core::markdown::FrontMatterMarkdown;
+pub use opc_services_core::markdown::FrontMatterMarkdown;

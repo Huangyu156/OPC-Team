@@ -2,7 +2,7 @@ use crate::local_source_paths::{
     find_project_root, local_source_plan, local_source_watch_roots, LocalConfigDirectoryKind,
     LocalSourcePlanItem, OpenCodeLocalConfigOptions,
 };
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     EcosystemId, ExternalSourceAssetKind, ExternalSourceContext, ExternalSourceDiagnostic,
     ExternalSourceHealth, ExternalSourceProviderError, ExternalSourceRecord, ExternalSourceScope,
     ExternalToolCapability, ExternalToolDefinition, ExternalToolProviderIdentity,
@@ -816,9 +816,10 @@ mod tests {
         });
         let context = ExternalSourceContext {
             workspace_root: Some(workspace),
-            execution_domain_id:
-                openbitfun_product_domains::external_sources::ExecutionDomainId::new("local-user")
-                    .unwrap(),
+            execution_domain_id: opc_product_domains::external_sources::ExecutionDomainId::new(
+                "local-user",
+            )
+            .unwrap(),
         };
 
         let snapshot = provider

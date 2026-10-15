@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PortError, PortErrorKind, PortResult, RuntimeServiceCapability, RuntimeServicePort,
     TerminalExecCommandRequest, TerminalExecCommandResponse, TerminalExecControlAction,
     TerminalExecControlOrigin, TerminalExecControlRequest, TerminalExecLifecycleSink,
@@ -56,7 +56,7 @@ impl RuntimeServicePort for TerminalRuntimePort {
 
 #[async_trait::async_trait]
 impl TerminalPort for TerminalRuntimePort {
-    fn exec_terminal_size(&self) -> Option<openbitfun_runtime_ports::ExecTerminalSize> {
+    fn exec_terminal_size(&self) -> Option<opc_runtime_ports::ExecTerminalSize> {
         Some(crate::exec::EXEC_TERMINAL_SIZE)
     }
 
@@ -256,7 +256,7 @@ fn terminal_port_error(error: TerminalError) -> PortError {
 #[cfg(test)]
 mod tests {
     use super::TerminalRuntimePort;
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         RuntimeServiceCapability, RuntimeServicePort, TerminalExecCommandRequest,
         TerminalExecSessionCompletionStatus, TerminalPort, TerminalSendStdinRequest,
     };
@@ -275,13 +275,13 @@ mod tests {
         let argv = vec![
             "cmd".to_string(),
             "/C".to_string(),
-            "echo openbitfun-terminal-port".to_string(),
+            "echo opc-terminal-port".to_string(),
         ];
         #[cfg(not(windows))]
         let argv = vec![
             "sh".to_string(),
             "-c".to_string(),
-            "printf openbitfun-terminal-port".to_string(),
+            "printf opc-terminal-port".to_string(),
         ];
 
         let response = port
@@ -299,7 +299,7 @@ mod tests {
             .expect("short command should run through terminal port");
 
         assert!(
-            response.output.contains("openbitfun-terminal-port"),
+            response.output.contains("opc-terminal-port"),
             "unexpected terminal output: {:?}",
             response.output
         );
@@ -322,9 +322,6 @@ mod tests {
             .await
             .expect_err("missing session should be a typed port error");
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::NotFound
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::NotFound);
     }
 }

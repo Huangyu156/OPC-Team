@@ -1,7 +1,7 @@
 //! Independent stdio Server Host behind the `openbitfun server` command.
 //!
 //! This module is the only assembly point in the CLI that may import the App
-//! Server implementation (`openbitfun_app_server`). `openbitfun server` is not a TUI,
+//! Server implementation (`opc_app_server`). `openbitfun server` is not a TUI,
 //! controller, or headless-CLI feature: it is a separate Host surface that
 //! reuses the reviewed CLI product assembly, selected with
 //! `DeliveryProfile::Cli` because the CLI assembly is the reviewed kernel
@@ -33,7 +33,7 @@ use anyhow::{Context as _, Result};
 use futures_util::io::AsyncRead;
 use tokio_util::compat::{TokioAsyncReadCompatExt, TokioAsyncWriteCompatExt};
 
-use openbitfun_app_server::{
+use opc_app_server::{
     AppManagementService, AppServerDisconnect, AppServerHostLimits, AppServerHostPolicy,
     OpcTeamAppRuntime, OpcTeamAppServer,
 };
@@ -263,15 +263,15 @@ pub(crate) async fn serve() -> Result<()> {
     let workspace_root = std::env::current_dir().context("Failed to resolve server workspace")?;
 
     crate::agent::agentic_system::select_agentic_system_profile(
-        openbitfun_core::product_assembly::DeliveryProfile::Cli,
+        opc_core::product_assembly::DeliveryProfile::Cli,
     )?;
-    openbitfun_core::service::config::initialize_global_config()
+    opc_core::service::config::initialize_global_config()
         .await
         .context("Failed to initialize global config service")?;
     tracing::info!("Global config service initialized");
     let workspace = crate::create_cli_local_workspace(&workspace_root).await?;
 
-    use openbitfun_core::infrastructure::ai::AIClientFactory;
+    use opc_core::infrastructure::ai::AIClientFactory;
     AIClientFactory::initialize_global()
         .await
         .context("Failed to initialize global AIClientFactory")?;
@@ -279,20 +279,19 @@ pub(crate) async fn serve() -> Result<()> {
 
     crate::initialize_terminal_service().await;
 
-    let path_manager = openbitfun_core::infrastructure::try_get_path_manager_arc()
+    let path_manager = opc_core::infrastructure::try_get_path_manager_arc()
         .map_err(|error| anyhow::anyhow!(error.to_string()))?;
-    let deployment = openbitfun_services_core::runtime_ownership::RuntimeDeployment::Embedded;
-    let runtime_ownership =
-        openbitfun_core::runtime_ownership::CoreRuntimeOwnership::fixed_workspace(
-            path_manager.as_ref(),
-            "server",
-            &workspace_root,
-            deployment,
-        )
-        .map_err(|error| anyhow::anyhow!(error.startup_message(deployment, "server")))?;
+    let deployment = opc_services_core::runtime_ownership::RuntimeDeployment::Embedded;
+    let runtime_ownership = opc_core::runtime_ownership::CoreRuntimeOwnership::fixed_workspace(
+        path_manager.as_ref(),
+        "server",
+        &workspace_root,
+        deployment,
+    )
+    .map_err(|error| anyhow::anyhow!(error.startup_message(deployment, "server")))?;
 
     let agentic_system = crate::agent::agentic_system::init_agentic_system(
-        openbitfun_core::product_assembly::DeliveryProfile::Cli,
+        opc_core::product_assembly::DeliveryProfile::Cli,
         std::sync::Arc::new(runtime_ownership),
     )
     .await
@@ -337,9 +336,7 @@ pub(crate) async fn serve() -> Result<()> {
     );
 
     let served = server
-        .serve(openbitfun_app_server::protocol::ByteStreams::new(
-            stdout, stdin,
-        ))
+        .serve(opc_app_server::protocol::ByteStreams::new(stdout, stdin))
         .await;
 
     cancel_active_turns(&disconnect_runtime, &workspace.id).await;
@@ -359,11 +356,8 @@ pub(crate) async fn serve() -> Result<()> {
 
 /// Cancel every in-flight turn in the Host workspace after the connection
 /// ends, so a client that disconnected mid-turn cannot leave work running.
-async fn cancel_active_turns(
-    runtime: &openbitfun_agent_runtime::sdk::AgentRuntime,
-    workspace_id: &str,
-) {
-    use openbitfun_agent_runtime::sdk::{AgentSessionListRequest, AgentTurnCancellationRequest};
+async fn cancel_active_turns(runtime: &opc_agent_runtime::sdk::AgentRuntime, workspace_id: &str) {
+    use opc_agent_runtime::sdk::{AgentSessionListRequest, AgentTurnCancellationRequest};
     let request = AgentSessionListRequest {
         workspace_id: Some(workspace_id.to_owned()),
         workspace_path: String::new(),

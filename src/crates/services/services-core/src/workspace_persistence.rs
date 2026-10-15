@@ -2,7 +2,7 @@
 
 use crate::storage_error::{StorageError as OpcTeamError, StorageResult as OpcTeamResult};
 use crate::workspace_records::{PrimaryAssistantKey, WorkspaceInfo, WorkspaceKind};
-use openbitfun_core_types::product_identity::product_id;
+use opc_core_types::product_identity::product_id;
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
 use std::path::Path;

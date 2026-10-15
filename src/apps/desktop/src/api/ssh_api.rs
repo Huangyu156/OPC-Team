@@ -13,7 +13,7 @@ use tauri::{Emitter, State};
 use crate::api::app_state::SSHServiceError;
 use crate::startup_trace::DesktopStartupTrace;
 use crate::AppState;
-use openbitfun_core::service::remote_ssh::{
+use opc_core::service::remote_ssh::{
     list_remote_listening_ports, ConnectionTestReport, DockerContainerInfo, PortForward,
     PortForwardRequest, RemoteListeningPort, RemoteTreeNode, SSHAuthMethod, SSHConfigEntry,
     SSHConfigLookupResult, SSHConnectionConfig, SSHConnectionManager, SSHConnectionResult,
@@ -59,8 +59,8 @@ async fn hydrate_stored_password(
 
 #[tauri::command]
 pub async fn ssh_list_wsl_distributions(
-) -> Result<openbitfun_core::service::remote_ssh::WslDistributions, String> {
-    openbitfun_services_integrations::remote_ssh::wsl::list_distributions()
+) -> Result<opc_core::service::remote_ssh::WslDistributions, String> {
+    opc_services_integrations::remote_ssh::wsl::list_distributions()
         .await
         .map_err(|error| error.to_string())
 }
@@ -310,7 +310,7 @@ pub async fn remote_read_dir(
     state: State<'_, AppState>,
     connection_id: String,
     path: String,
-) -> Result<Vec<openbitfun_core::service::remote_ssh::RemoteDirEntry>, String> {
+) -> Result<Vec<opc_core::service::remote_ssh::RemoteDirEntry>, String> {
     let remote_fs = state.get_remote_file_service_async().await?;
     remote_fs
         .read_dir(&connection_id, &path)
@@ -513,7 +513,7 @@ impl LocalDownloadStaging {
             )
         })?;
         let (file, temp_path) = tempfile::Builder::new()
-            .prefix(".openbitfun-download-")
+            .prefix(".opc-download-")
             .tempfile_in(parent)
             .map_err(|error| {
                 format!(
@@ -576,7 +576,7 @@ impl LocalDownloadStaging {
 /// The remote reader bounds every protocol request, so a cancelled transfer
 /// stops at the next chunk boundary instead of waiting for the whole file.
 async fn download_remote_file_to_local(
-    remote_fs: &openbitfun_core::service::remote_ssh::RemoteFileService,
+    remote_fs: &opc_core::service::remote_ssh::RemoteFileService,
     connection_id: &str,
     remote_path: &str,
     destination: &Path,
@@ -618,7 +618,7 @@ async fn download_remote_file_to_local(
 /// Remote file size used only to keep the reported percentage sane; the actual
 /// byte count always comes from the stream.
 async fn remote_declared_size(
-    remote_fs: &openbitfun_core::service::remote_ssh::RemoteFileService,
+    remote_fs: &opc_core::service::remote_ssh::RemoteFileService,
     connection_id: &str,
     remote_path: &str,
 ) -> u64 {
@@ -1254,8 +1254,7 @@ pub async fn remote_open_workspace(
     connection_id: String,
     remote_path: String,
 ) -> Result<(), String> {
-    let remote_path =
-        openbitfun_core::service::remote_ssh::normalize_remote_workspace_path(&remote_path);
+    let remote_path = opc_core::service::remote_ssh::normalize_remote_workspace_path(&remote_path);
     let manager = state.get_ssh_manager_async().await?;
 
     // Verify connection exists
@@ -1488,7 +1487,7 @@ mod tests {
 
     #[tokio::test]
     async fn local_docker_profiles_do_not_require_a_legacy_password_vault_entry() {
-        use openbitfun_core::service::remote_ssh::{
+        use opc_core::service::remote_ssh::{
             ContainerAccess, ContainerWorkspaceConfig, SSHAuthMethod, SSHConnectionConfig,
             SSHConnectionManager,
         };

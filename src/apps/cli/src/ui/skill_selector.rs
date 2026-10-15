@@ -46,7 +46,7 @@ impl SkillItem {
         }
 
         match self.source_slot.trim().trim_start_matches("home.") {
-            "openbitfun" | "openbitfun-system" => "OPC-Team",
+            "openbitfun" | "opc-system" => "OPC-Team",
             "claude" => "Claude Code",
             "codex" => "Codex",
             "cursor" => "Cursor",

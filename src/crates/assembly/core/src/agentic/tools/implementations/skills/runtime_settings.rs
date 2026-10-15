@@ -4,9 +4,9 @@ use super::types::SkillData;
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::AIExperienceConfig;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_agent_runtime::skills::OPENBITFUN_SYSTEM_SKILL_SLOT;
+use opc_agent_runtime::skills::OPENBITFUN_SYSTEM_SKILL_SLOT;
 
-const COMMIT_SKILL_KEY: &str = "user::openbitfun-system::commit-push-pr";
+const COMMIT_SKILL_KEY: &str = "user::opc-system::commit-push-pr";
 const COMMIT_COAUTHOR_POLICY_PLACEHOLDER: &str = "{{OPENBITFUN_GIT_COMMIT_COAUTHOR_POLICY}}";
 
 pub(super) async fn apply_builtin_runtime_settings(skill: &mut SkillData) -> OpcTeamResult<()> {
@@ -52,7 +52,7 @@ mod tests {
     fn builtin_commit_coauthor_policy_resolves_both_preferences_for_the_assistant() {
         for enabled in [true, false] {
             let mut skill = SkillData::from_markdown(
-                "/openbitfun-system/commit-push-pr".to_string(),
+                "/opc-system/commit-push-pr".to_string(),
                 COMMIT_SKILL,
                 SkillLocation::User,
                 true,

@@ -9,7 +9,7 @@ repository-wide rules and the nearest narrower guide when one exists.
 
 ## Role
 
-`openbitfun-core` is the shared product runtime facade. It still owns compatibility
+`opc-core` is the shared product runtime facade. It still owns compatibility
 paths and the `product-full` assembly boundary, but new decomposition work should
 prefer the owner crates described in `docs/architecture/product-architecture.md`
 and `docs/architecture/agent-runtime-services-design.md`.
@@ -31,7 +31,7 @@ SessionManager -> Session -> DialogTurn -> ModelRound
 
 - Keep shared core platform-agnostic. Avoid host-specific APIs such as
   `tauri::AppHandle`; use shared abstractions such as
-  `openbitfun_events::EventEmitter`.
+  `opc_events::EventEmitter`.
 - Desktop-only host adapters belong in `src/apps/desktop`, then flow through
   typed capability interfaces; use the production transport adapter when event
   delivery is needed.
@@ -44,7 +44,7 @@ SessionManager -> Session -> DialogTurn -> ModelRound
 
 ## Decomposition Rules
 
-- Treat `openbitfun-core` as a compatibility facade plus full product assembly point,
+- Treat `opc-core` as a compatibility facade plus full product assembly point,
   not as the preferred home for new stable contracts.
 - Put stable DTOs, facts, ports, and pure decisions in the matching owner crate
   where a clear owner exists. Keep concrete managers, IO, platform adapters, and
@@ -144,7 +144,7 @@ SessionManager -> Session -> DialogTurn -> ModelRound
   compatibility assembly selected by real product entrypoints, never the
   library's implicit default. Capability-local utility dependencies remain
   optional and are activated by their owner features; in particular,
-  `base64`, `futures`, `regex`, `tokio-util`, and `openbitfun-agent-tools` belong to
+  `base64`, `futures`, `regex`, `tokio-util`, and `opc-agent-tools` belong to
   the Agent Runtime, local-storage, or dispatch-store closures that
   use them. Core's direct feature-free Tokio edge keeps only filesystem and
   synchronization support required by config and app-path state; the selected
@@ -156,13 +156,13 @@ SessionManager -> Session -> DialogTurn -> ModelRound
   `I18nService` must select `i18n-runtime` explicitly.
 - Reusable diagnostic redaction and local Diff implementations remain
   compatibility facades under the exact `diagnostics` and `diff` features.
-  Agent Runtime selects `openbitfun-services-core/workspace-text-runtime` for
+  Agent Runtime selects `opc-services-core/workspace-text-runtime` for
   bounded asynchronous workspace reads; synchronous path normalization stays
   available to contract-only consumers without Tokio.
 - Platform transport emitters are host adapters. Desktop imports
-  `openbitfun_transport::TransportEmitter` directly; Core exposes only the stable
-  `openbitfun_events::EventEmitter` contract and must not re-export a host adapter.
-- Keep `cargo check -p openbitfun-core --no-default-features` viable. Gate
+  `opc_transport::TransportEmitter` directly; Core exposes only the stable
+  `opc_events::EventEmitter` contract and must not re-export a host adapter.
+- Keep `cargo check -p opc-core --no-default-features` viable. Gate
   product-only modules at their owner feature; if a light facade operation
   cannot safely complete without a product owner, fail closed and preserve any
   durable recovery state instead of enabling `product-full` implicitly.
@@ -193,22 +193,22 @@ Narrower local guides already exist for some subtrees:
 For config-backed product-control option defaults, typed binding, and persisted readback:
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib every_catalog_config_option
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib every_catalog_config_option
 ```
 
 AI client construction and subscription credential compatibility:
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features ai-adapter-runtime,subscription-auth --lib infrastructure::ai::client_factory::tests
+cargo test -p opc-core --no-default-features --features ai-adapter-runtime,subscription-auth --lib infrastructure::ai::client_factory::tests
 ```
 
 This guide owns Core verification. Select one command pattern that matches the
 change; do not run every feature variant:
 
 ```bash
-cargo check -p openbitfun-core --no-default-features
-cargo check -p openbitfun-core --no-default-features --features <touched-owner-feature>
-cargo test -p openbitfun-core --no-default-features --features <minimal-features> --lib <module>::<test>
+cargo check -p opc-core --no-default-features
+cargo check -p opc-core --no-default-features --features <touched-owner-feature>
+cargo test -p opc-core --no-default-features --features <minimal-features> --lib <module>::<test>
 ```
 
 Use the first command when the feature-free facade changed, the second when one
@@ -219,16 +219,16 @@ are not the default Core precheck. For documentation-only changes, run
 `git diff --check`.
 
 For assistant discovery, opened-state persistence, and reopening by workspace ID:
-`cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib service::workspace::service::tests::assistant_`.
+`cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib service::workspace::service::tests::assistant_`.
 
 For local/SSH workspace identity collisions, SSH connection rebinding, committed
 session storage, legacy path compatibility, and queue admission, use the matching
 owner filter:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,remote-workspace --lib service::workspace::
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,remote-workspace --lib agentic::session::
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,remote-workspace --lib agentic::coordination::
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,remote-workspace --lib service::workspace::
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,remote-workspace --lib agentic::session::
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,remote-workspace --lib agentic::coordination::
 ```
 
 The coordination filter includes the scheduler admission tests. These catalog and
@@ -241,14 +241,14 @@ For direct user follow-ups to reusable subagent sessions, legacy route defaults,
 source binding, and FreshOnly admission:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib subagent_conversation_
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib subagent_conversation_
 ```
 
 These fixtures cover local turn admission and SSH-workspace agent resolution;
 they do not exercise live SSH, relay, peer, or dispatch connections.
 
 For disk-backed history paging and legacy sessions without a catalog:
-`cargo test --locked -p openbitfun-core --no-default-features --features remote-connect,git --lib history_page_`.
+`cargo test --locked -p opc-core --no-default-features --features remote-connect,git --lib history_page_`.
 Also run the `staged_revert_catalog_projection` and `load_relay_session_turns_`
 filters for the same target when changing visibility. Paging must not parse
 unrelated turn bodies or rewrite history. To compare real-file first-page work
@@ -257,22 +257,22 @@ against full materialization locally, use the same target with
 and reports timings without asserting a machine-dependent latency in CI.
 
 For host-stream history reads and abandoned execution after a runtime restart:
-`cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib load_relay_session_turns_`.
+`cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib load_relay_session_turns_`.
 The observer must preserve terminal history and another process's writer lease;
 absence from one coordinator's memory alone never proves execution stopped.
 
 For built-in provider overlay, trusted endpoint validation, and reasoning catalog changes:
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features ai-adapter-runtime --lib infrastructure::ai::
+cargo test -p opc-core --no-default-features --features ai-adapter-runtime --lib infrastructure::ai::
 ```
 
 For model selector latency, run the catalog and session mutation owner fixtures:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features model-catalog --lib infrastructure::ai::reasoning_catalog::tests
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib session_model_update
-cargo test --locked -p openbitfun-core --no-default-features --features remote-connect,git --lib remote_attach_and_mutation_paths_preserve_workspace_ownership_facts
+cargo test --locked -p opc-core --no-default-features --features model-catalog --lib infrastructure::ai::reasoning_catalog::tests
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib session_model_update
+cargo test --locked -p opc-core --no-default-features --features remote-connect,git --lib remote_attach_and_mutation_paths_preserve_workspace_ownership_facts
 ```
 
 Catalog snapshots remain usable during background refresh. Selector mutations
@@ -283,108 +283,108 @@ and remote routing contracts, not live SSH/relay/peer/dispatch connections.
 
 Remote session host rollback port wiring:
 
-`cargo test --locked -p openbitfun-core --no-default-features --features remote-connect --lib remote_session_host_registers_targeted_rollback_port`.
+`cargo test --locked -p opc-core --no-default-features --features remote-connect --lib remote_session_host_registers_targeted_rollback_port`.
 
 Configuration persistence, account settings import, backup restore, legacy
 field/deletion compatibility, local-change notifications, and save/reload/model
 concurrency regressions have feature-free fixtures:
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --lib service::config::
+cargo test -p opc-core --no-default-features --lib service::config::
 ```
 
 The account sync adapter requires `remote-connect`, which also covers
 Agent-profile canonicalization in the focused configuration suite:
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features remote-connect --lib service::config::
-cargo test -p openbitfun-core --no-default-features --features remote-connect --lib service::remote_connect::settings_sync::tests
-cargo test --locked -p openbitfun-core --no-default-features --features remote-connect --lib service::remote_connect::permission_publication::tests
-cargo test --locked -p openbitfun-core --no-default-features --features remote-connect --lib service_agent_runtime::tests::local_workspace_marker_is_not_remote_routing_authority
-cargo test --locked -p openbitfun-core --no-default-features --features remote-connect --lib service_agent_runtime::tests::remote_workspace_catalog_tracks_opened_rows_and_assistant_identity
+cargo test -p opc-core --no-default-features --features remote-connect --lib service::config::
+cargo test -p opc-core --no-default-features --features remote-connect --lib service::remote_connect::settings_sync::tests
+cargo test --locked -p opc-core --no-default-features --features remote-connect --lib service::remote_connect::permission_publication::tests
+cargo test --locked -p opc-core --no-default-features --features remote-connect --lib service_agent_runtime::tests::local_workspace_marker_is_not_remote_routing_authority
+cargo test --locked -p opc-core --no-default-features --features remote-connect --lib service_agent_runtime::tests::remote_workspace_catalog_tracks_opened_rows_and_assistant_identity
 ```
 
 Focused workspace-IO and snapshot regression entry points (use the matching
 filter rather than a product-wide build):
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git,document-read --lib file_read_tool::tests
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib file_write_tool::tests
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib file_edit_tool::tests
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib classified_edit
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib delete_file_tool::tests
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,remote-workspace,git --lib service::snapshot::
+cargo test -p opc-core --no-default-features --features agent-runtime,git,document-read --lib file_read_tool::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib file_write_tool::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib file_edit_tool::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib classified_edit
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib delete_file_tool::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,remote-workspace,git --lib service::snapshot::
 ```
 
 MCP chat discovery and deferred-tool manifest contracts (Git is needed by the
 existing Agent tool test assembly):
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features mcp-runtime,git --lib agentic::tools::product_runtime::
+cargo test --locked -p opc-core --no-default-features --features mcp-runtime,git --lib agentic::tools::product_runtime::
 ```
 
 User Agent directory watching and registry regressions (omit `file-watch` to
 exercise query-time discovery fallback):
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,file-watch --lib agentic::agents::registry::
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,file-watch --lib agentic::agents::registry::
 ```
 
 Skill discovery, installation provenance, and local/remote registry regressions:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib agentic::tools::implementations::skills::
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib agentic::tools::implementations::skills::
 ```
 
 SessionControl workspace selection, remote routing, and session-targeted actions:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib session_control_tool::tests
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib list_workspaces
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib session_control_tool::tests
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib list_workspaces
 ```
 
 MiniApp Agent appdata workspace registration and pre-ID session compatibility:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,tools-miniapp --lib miniapp::agent_workspace::tests
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,tools-miniapp --lib miniapp::agent_workspace::tests
 ```
 
 Workspace history upgrade compatibility and MiniApp record preservation:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib legacy_miniapp_history
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib legacy_miniapp_history
 ```
 
 Skill hook activation, session cleanup, and tool preflight/permission ordering:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib native_hooks
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib agentic::tools::pipeline::tool_pipeline::tests
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib native_hooks
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib agentic::tools::pipeline::tool_pipeline::tests
 ```
 
 For configured OpenCode discovery and explicit skill loading, include their owner feature and tool tests:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,external-sources --lib agentic::tools::implementations::skill
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,external-sources --lib agentic::tools::implementations::skill
 ```
 
 Detached Dispatch controller, target query compatibility, and managed-baseline checks:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,dispatch-store,ssh-remote,git --lib service::dispatch::
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,dispatch-store,ssh-remote,git --lib service::dispatch::
 ```
 
 IM bot reply routing, account-device observation, and interaction delivery:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features remote-connect --lib service::remote_connect::bot::
-cargo test --locked -p openbitfun-core --no-default-features --features remote-connect --lib service::remote_connect::bot::weixin::tests
+cargo test --locked -p opc-core --no-default-features --features remote-connect --lib service::remote_connect::bot::
+cargo test --locked -p opc-core --no-default-features --features remote-connect --lib service::remote_connect::bot::weixin::tests
 ```
 
 Pages account publication and tool gates (including remote directory rejection):
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features remote-connect,tools-pages,git,ssh-remote --lib page_
+cargo test -p opc-core --no-default-features --features remote-connect,tools-pages,git,ssh-remote --lib page_
 ```
 
 `tools-pages` selects only the Pages tool group. Account host wiring additionally
@@ -394,33 +394,33 @@ not select MiniApp runtime or market dependencies.
 Scheduled-job workspace identity and the temporary 1.0.0 target upgrade boundary:
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,scheduled-jobs,git --lib service::cron::service::tests
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,scheduled-jobs,git --lib cron_100_target_upgrades_once
+cargo test -p opc-core --no-default-features --features agent-runtime,scheduled-jobs,git --lib service::cron::service::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,scheduled-jobs,git --lib cron_100_target_upgrades_once
 ```
 
 For workspace-ID fork ownership and pre-ID session-directory upgrade coverage:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git --lib session_fork_
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git --lib session_fork_
 ```
 
 For remote search ID binding without a live SSH connection:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,ssh-remote --lib service::search::remote::identity_tests
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,ssh-remote --lib service::search::remote::identity_tests
 ```
 
 For host-owned user queue admission, cancellation, steering receipts and client disconnects:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features remote-connect,git --lib host_queue_
+cargo test --locked -p opc-core --no-default-features --features remote-connect,git --lib host_queue_
 ```
 
 For Computer Use control host admission, cancellation leases, control entrypoints,
 permission projection and provider-neutral tool contracts:
 
 ```bash
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git,tools-computer-use --lib computer_use_tool::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,git,tools-computer-use --lib computer_use_tool::tests
 ```
 
 These mock-host tests do not validate native capture, background input or remote
@@ -429,5 +429,5 @@ GUI behavior; native fixtures remain owned by the Desktop Computer Use guide.
 For plain-prompt goal activation and remote goal storage routing:
 
 ```bash
-cargo test --locked -p openbitfun-core --no-default-features --features agent-runtime,git,remote-workspace --lib thread_goal_
+cargo test --locked -p opc-core --no-default-features --features agent-runtime,git,remote-workspace --lib thread_goal_
 ```

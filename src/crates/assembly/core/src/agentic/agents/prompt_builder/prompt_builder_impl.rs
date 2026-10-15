@@ -19,15 +19,15 @@ use crate::service::workspace::get_global_workspace_service;
 use crate::service::workspace::RelatedPath;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::{debug, info, warn};
-use openbitfun_agent_runtime::prompt::{
+use opc_agent_runtime::prompt::{
     render_project_layout, render_runtime_context_reminder, render_user_context_reminder,
     render_workspace_context, PrependedPromptReminders, ProjectLayoutFacts, PromptRelatedPath,
     RemoteExecutionHints, RuntimeContextFacts, RuntimeContextNeeds, RuntimeShellFacts,
     ToolListingSections, UserContextPolicy, UserContextSection, WorkspaceContextFacts,
     WorktreeContextFacts,
 };
-use openbitfun_agent_runtime::remote_file_delivery::user_workspace_relative_file_link;
-use openbitfun_core_types::{product_identity::hidden_data_directory, SessionExecutionTargetKind};
+use opc_agent_runtime::remote_file_delivery::user_workspace_relative_file_link;
+use opc_core_types::{product_identity::hidden_data_directory, SessionExecutionTargetKind};
 use std::path::Path;
 
 /// Placeholder constants
@@ -655,9 +655,7 @@ mod tests {
     use crate::agentic::agents::UserContextPolicy;
     use crate::agentic::WorkspaceBinding;
     use crate::service::workspace::RelatedPath;
-    use openbitfun_core_types::{
-        SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
-    };
+    use opc_core_types::{SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle};
     use std::path::PathBuf;
 
     #[tokio::test]

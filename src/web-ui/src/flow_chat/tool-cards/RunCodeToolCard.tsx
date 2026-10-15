@@ -88,7 +88,7 @@ export const RunCodeToolCard: React.FC<ToolCardProps> = ({
 
   return (
     <div
-      data-openbitfun-adapter="run-code-tool-card"
+      data-opc-adapter="run-code-tool-card"
       ref={cardRootRef}
       data-tool-card-id={toolId ?? ''}
     >

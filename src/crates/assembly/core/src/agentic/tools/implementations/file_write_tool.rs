@@ -10,8 +10,8 @@ use crate::agentic::tools::framework::{
 use crate::agentic::tools::ToolPathOperation;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_tools::strip_invalid_windows_drive_path_prefix;
-use openbitfun_core_types::product_identity::hidden_data_directory;
+use opc_agent_tools::strip_invalid_windows_drive_path_prefix;
+use opc_core_types::product_identity::hidden_data_directory;
 use serde_json::{json, Value};
 use tool_runtime::fs::{
     write_file_success_outcome, write_same_content_outcome, WriteLocalFileOutcome,
@@ -243,7 +243,7 @@ impl FileWriteTool {
             "properties": {
                 "payload": {
                     "type": "string",
-                    "description": "A path-first Write payload in the format `+++ {absolute_file_path_or_openbitfun_uri}\n{file_content}`. Content lines do not need a leading `+`."
+                    "description": "A path-first Write payload in the format `+++ {absolute_file_path_or_opc_uri}\n{file_content}`. Content lines do not need a leading `+`."
                 }
             },
             "required": ["payload"],
@@ -570,7 +570,7 @@ mod tests {
     use crate::agentic::tools::ToolRuntimeRestrictions;
     use crate::agentic::WorkspaceBinding;
     use async_trait::async_trait;
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         ToolRuntimeHandles, WorkspaceCommandOptions, WorkspaceCommandResult, WorkspaceDirEntry,
         WorkspaceFileSystem, WorkspaceServices, WorkspaceShell,
     };
@@ -592,7 +592,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -720,7 +720,7 @@ mod tests {
             let root = if remote {
                 PathBuf::from("/remote/workspace")
             } else {
-                std::env::temp_dir().join("openbitfun-write-unreadable-fixture")
+                std::env::temp_dir().join("opc-write-unreadable-fixture")
             };
             let expected_path = if remote {
                 "/remote/workspace/result.txt".to_string()
@@ -822,8 +822,7 @@ mod tests {
 
     #[tokio::test]
     async fn preflight_write_error_allows_new_file_target() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-write-test-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-write-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).expect("create temp workspace");
 
         let error =
@@ -836,8 +835,7 @@ mod tests {
 
     #[tokio::test]
     async fn preflight_write_error_allows_existing_file() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-write-test-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-write-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).expect("create temp workspace");
         std::fs::write(root.join("existing.md"), "already here").expect("create existing file");
 
@@ -851,8 +849,7 @@ mod tests {
 
     #[tokio::test]
     async fn call_impl_treats_identical_existing_content_as_success() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-write-test-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-write-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).expect("create temp workspace");
         std::fs::write(root.join("existing.md"), "same content").expect("create existing file");
 
@@ -887,8 +884,7 @@ mod tests {
 
     #[tokio::test]
     async fn call_impl_overwrites_different_existing_content() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-write-test-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-write-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).expect("create temp workspace");
         std::fs::write(root.join("existing.md"), "old content").expect("create existing file");
 
@@ -916,8 +912,7 @@ mod tests {
 
     #[tokio::test]
     async fn call_impl_appends_warning_for_ignored_top_level_parameters() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-write-test-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-write-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).expect("create temp workspace");
 
         let tool = FileWriteTool::new();
@@ -984,8 +979,7 @@ mod tests {
 
     #[tokio::test]
     async fn call_impl_accepts_path_only_for_empty_file() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-write-test-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-write-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).expect("create temp workspace");
 
         let tool = FileWriteTool::new();
@@ -1178,8 +1172,7 @@ mod tests {
 
     #[tokio::test]
     async fn call_impl_preserves_malformed_payload_in_workspace_temp_file() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-write-test-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-write-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).expect("create temp workspace");
         let original_payload = "def main():\n    print(\"Hello world\")";
 

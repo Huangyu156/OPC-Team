@@ -31,12 +31,12 @@ const TerminalScene: React.FC<TerminalSceneProps> = ({ isActive = true }) => {
   // and cursor state after resize-sensitive shell output.
   return (
     <div
-      className="openbitfun-terminal-scene"
+      className="opc-terminal-scene"
       aria-hidden={!isActive}
       data-testid="shell-panel"
-      data-openbitfun-scene="terminal"
-      data-openbitfun-part="root"
-      data-openbitfun-state={isActive ? undefined : 'inactive'}
+      data-opc-scene="terminal"
+      data-opc-part="root"
+      data-opc-state={isActive ? undefined : 'inactive'}
     >
       {activeSessionId ? (
         <ConnectedTerminal
@@ -50,9 +50,9 @@ const TerminalScene: React.FC<TerminalSceneProps> = ({ isActive = true }) => {
           closeBehavior="detach"
         />
       ) : (
-        <div className="openbitfun-terminal-scene__empty" data-testid="shell-command-list" data-openbitfun-scene="terminal" data-openbitfun-part="empty">
-          <CatalogIcon name="terminal" size="lg" className="openbitfun-terminal-scene__empty-icon" style={{ width: 32, height: 32 }} />
-          <p className="openbitfun-terminal-scene__empty-hint" data-testid="shell-panel-title">{t('emptyState')}</p>
+        <div className="opc-terminal-scene__empty" data-testid="shell-command-list" data-opc-scene="terminal" data-opc-part="empty">
+          <CatalogIcon name="terminal" size="lg" className="opc-terminal-scene__empty-icon" style={{ width: 32, height: 32 }} />
+          <p className="opc-terminal-scene__empty-hint" data-testid="shell-panel-title">{t('emptyState')}</p>
         </div>
       )}
     </div>

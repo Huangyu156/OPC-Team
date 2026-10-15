@@ -28,9 +28,9 @@ pub(crate) fn resolve_legacy_workspace_reference(
     let ssh_host = text(ssh_host);
     let path_matches = |workspace: &&WorkspaceInfo| {
         if workspace.workspace_kind == WorkspaceKind::Remote {
-            openbitfun_services_core::workspace_identity::normalize_remote_workspace_path(
+            opc_services_core::workspace_identity::normalize_remote_workspace_path(
                 &workspace.root_path.to_string_lossy(),
-            ) == openbitfun_services_core::workspace_identity::normalize_remote_workspace_path(path)
+            ) == opc_services_core::workspace_identity::normalize_remote_workspace_path(path)
         } else {
             let local = std::path::Path::new(path);
             workspace.root_path == local
@@ -375,9 +375,7 @@ pub(crate) async fn register_remote_fixture_with_id(
             remote_connection_id: Some(connection.to_owned()),
             remote_ssh_host: Some(host.to_owned()),
             stable_workspace_id: Some(
-                openbitfun_services_core::workspace_identity::remote_workspace_stable_id(
-                    host, path,
-                ),
+                opc_services_core::workspace_identity::remote_workspace_stable_id(host, path),
             ),
             ..Default::default()
         },
@@ -692,7 +690,7 @@ mod tests {
     #[tokio::test]
     async fn id_only_restore_uses_record_type_and_separates_execution_from_storage() {
         use crate::agentic::session::CoreSessionStorePort;
-        use openbitfun_runtime_ports::{SessionStorageKind, SessionStorePort};
+        use opc_runtime_ports::{SessionStorageKind, SessionStorePort};
         let logical_root = format!("/srv/id-only-{}", uuid::Uuid::new_v4());
         let record = register_remote_fixture(&logical_root, "ssh-localhost", "localhost").await;
         let mut config = SessionConfig {
@@ -1030,8 +1028,8 @@ impl WorkspaceService {
     /// send IDs and kind; this adapter never infers kind from SSH metadata.
     pub async fn upgrade_legacy_session_binding(
         &self,
-        binding: openbitfun_runtime_ports::AgentSessionWorkspaceBinding,
-    ) -> OpcTeamResult<openbitfun_runtime_ports::AgentSessionWorkspaceBinding> {
+        binding: opc_runtime_ports::AgentSessionWorkspaceBinding,
+    ) -> OpcTeamResult<opc_runtime_ports::AgentSessionWorkspaceBinding> {
         let mut config = crate::agentic::core::SessionConfig {
             workspace_id: binding.workspace_id,
             project_workspace_id: binding.project_workspace_id,
@@ -1064,7 +1062,7 @@ impl WorkspaceService {
             ));
         }
         crate::agentic::workspace::apply_workspace_record(&mut config, &record)?;
-        Ok(openbitfun_runtime_ports::AgentSessionWorkspaceBinding {
+        Ok(opc_runtime_ports::AgentSessionWorkspaceBinding {
             workspace_kind: config.workspace_kind,
             workspace_id: config.workspace_id,
             project_workspace_id: config.project_workspace_id,
@@ -1117,13 +1115,12 @@ impl WorkspaceService {
         let local_path =
             dunce::canonicalize(path).unwrap_or_else(|_| std::path::PathBuf::from(path));
         let remote_path =
-            openbitfun_services_core::workspace_identity::normalize_remote_workspace_path(path);
+            opc_services_core::workspace_identity::normalize_remote_workspace_path(path);
         for record in self.list_workspace_infos().await {
             let contains = if record.workspace_kind == WorkspaceKind::Remote {
-                let root =
-                    openbitfun_services_core::workspace_identity::normalize_remote_workspace_path(
-                        &record.root_path.to_string_lossy(),
-                    );
+                let root = opc_services_core::workspace_identity::normalize_remote_workspace_path(
+                    &record.root_path.to_string_lossy(),
+                );
                 remote_path == root
                     || remote_path.starts_with(&format!("{}/", root.trim_end_matches('/')))
             } else {
@@ -1326,7 +1323,7 @@ impl WorkspaceService {
                 .await
             {
                 if let Some(id) = binding.workspace_id.as_deref() {
-                    use openbitfun_runtime_ports::SessionStorePort;
+                    use opc_runtime_ports::SessionStorePort;
                     let storage = crate::agentic::session::CoreSessionStorePort::with_path_manager(
                         sessions.persistence_manager().path_manager().clone(),
                     )

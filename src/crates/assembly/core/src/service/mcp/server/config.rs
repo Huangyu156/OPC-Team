@@ -2,8 +2,8 @@
 
 use crate::util::errors::OpcTeamError;
 
-use openbitfun_services_integrations::mcp::server::MCPServerConfigValidationError;
-pub use openbitfun_services_integrations::mcp::server::{
+use opc_services_integrations::mcp::server::MCPServerConfigValidationError;
+pub use opc_services_integrations::mcp::server::{
     MCPImportOrigin, MCPServerConfig, MCPServerOAuthConfig, MCPServerTimeouts, MCPServerTransport,
     MCPServerXaaConfig,
 };

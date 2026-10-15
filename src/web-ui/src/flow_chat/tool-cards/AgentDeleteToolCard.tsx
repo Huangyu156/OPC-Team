@@ -32,7 +32,7 @@ export const AgentDeleteToolCard: React.FC<ToolCardProps> = ({ toolItem, session
   const summary = interactionOutcome(status, t, count === undefined ? t('toolCards.interaction.deleted')
     : t('toolCards.interaction.agentsDeleted', { value: formatNumber(count) }), t('toolCards.interaction.deleting'));
 
-  return <ToolRelationRow data-openbitfun-adapter="agent-delete" data-tool-card-id={toolItem.id}
+  return <ToolRelationRow data-opc-adapter="agent-delete" data-tool-card-id={toolItem.id}
     interaction={{ operation: 'delete', source, targets, target: targets[0] ?? { kind: 'agent', label: t('toolCards.interaction.unknownAgent') } }}
     result={summary} status={status} resultLabel={t('toolCards.interaction.inspectResult')}
     detailsTitle={summary}

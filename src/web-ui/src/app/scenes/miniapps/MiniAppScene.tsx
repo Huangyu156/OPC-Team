@@ -163,11 +163,11 @@ const MiniAppScene: React.FC<MiniAppSceneProps> = ({ appId }) => {
     <div
       className="miniapp-scene"
       data-miniapp-id={appId}
-      data-openbitfun-scene="miniapp"
-      data-openbitfun-part="root"
-      data-openbitfun-state={customizeOpen ? 'customizing' : undefined}
+      data-opc-scene="miniapp"
+      data-opc-part="root"
+      data-opc-state={customizeOpen ? 'customizing' : undefined}
     >
-      <div className="miniapp-scene__header" data-openbitfun-scene="miniapp" data-openbitfun-part="header">
+      <div className="miniapp-scene__header" data-opc-scene="miniapp" data-opc-part="header">
         <div className="miniapp-scene__header-center">
           {app ? (
             <OverflowText className="miniapp-scene__title">{appName}</OverflowText>
@@ -199,15 +199,15 @@ const MiniAppScene: React.FC<MiniAppSceneProps> = ({ appId }) => {
       <div className={[
         'miniapp-scene__content',
         customizeOpen && app && 'miniapp-scene__content--customizing',
-      ].filter(Boolean).join(' ')} data-openbitfun-scene="miniapp" data-openbitfun-part="content">
+      ].filter(Boolean).join(' ')} data-opc-scene="miniapp" data-opc-part="content">
         {loading && !app && (
-          <div className="miniapp-scene__loading" data-openbitfun-scene="miniapp" data-openbitfun-part="loading">
+          <div className="miniapp-scene__loading" data-opc-scene="miniapp" data-opc-part="loading">
             <Loader2 size={28} className="miniapp-scene__spinning" strokeWidth={1.5} />
             <span>{t('scene.loading')}</span>
           </div>
         )}
         {error && !app && (
-          <div className="miniapp-scene__error" data-openbitfun-scene="miniapp" data-openbitfun-part="error">
+          <div className="miniapp-scene__error" data-opc-scene="miniapp" data-opc-part="error">
             <AlertTriangle size={32} strokeWidth={1.5} />
             <p>{t('scene.loadFailed', { error })}</p>
             <Button variant="outline" size="sm" onClick={() => void load(appId)}>
@@ -216,7 +216,7 @@ const MiniAppScene: React.FC<MiniAppSceneProps> = ({ appId }) => {
           </div>
         )}
         {app && (
-          <div className="miniapp-scene__runner-shell" data-openbitfun-scene="miniapp" data-openbitfun-part="runner">
+          <div className="miniapp-scene__runner-shell" data-opc-scene="miniapp" data-opc-part="runner">
             {loading && (
               <div className="miniapp-scene__refresh-overlay" role="status" aria-live="polite">
                 <Loader2 size={20} className="miniapp-scene__spinning" strokeWidth={1.5} />
@@ -228,7 +228,7 @@ const MiniAppScene: React.FC<MiniAppSceneProps> = ({ appId }) => {
               strictRuntime={strictRuntime}
             />
             {customizePreview && (
-              <div className="miniapp-scene__preview-stage" role="region" aria-label={t('customize.previewTitle')} data-openbitfun-scene="miniapp" data-openbitfun-part="preview">
+              <div className="miniapp-scene__preview-stage" role="region" aria-label={t('customize.previewTitle')} data-opc-scene="miniapp" data-opc-part="preview">
                 <div className="miniapp-scene__preview-stage-header">
                   <div>
                     <span className="miniapp-scene__preview-stage-title">{t('customize.previewTitle')}</span>
@@ -255,7 +255,7 @@ const MiniAppScene: React.FC<MiniAppSceneProps> = ({ appId }) => {
           </div>
         )}
         {customizeNotice && (
-          <div className="miniapp-scene__customize-notice" role="status" data-openbitfun-scene="miniapp" data-openbitfun-part="notice">
+          <div className="miniapp-scene__customize-notice" role="status" data-opc-scene="miniapp" data-opc-part="notice">
             <Icon name="check-circle" size="md" />
             <span>{customizeNotice}</span>
           </div>

@@ -52,7 +52,7 @@ describe('model service collapsed presentation', () => {
       /&__provider-group-header\s*\{[^}]*background:\s*transparent/,
     );
     expect(modelSettingsStyles).toMatch(
-      /\.openbitfun-collection-item__details\s*\{[^}]*background:\s*transparent/,
+      /\.opc-collection-item__details\s*\{[^}]*background:\s*transparent/,
     );
   });
 
@@ -61,7 +61,7 @@ describe('model service collapsed presentation', () => {
       /&\[data-expanded='true'\]\s*\{[^}]*border-bottom:\s*1px solid var\(--opcteam-color-border-subtle\)/,
     );
     expect(collectionItemStyles).toMatch(
-      /& \+ \.openbitfun-collection-item\s*\{[^}]*border-top:\s*1px solid var\(--opcteam-color-border-subtle\)/,
+      /& \+ \.opc-collection-item\s*\{[^}]*border-top:\s*1px solid var\(--opcteam-color-border-subtle\)/,
     );
     expect(modelSettingsStyles).not.toContain('&:not(:last-child)');
   });
@@ -74,9 +74,9 @@ describe('model service collapsed presentation', () => {
 
   it('keeps the enable switch at the trailing edge and reveals secondary model actions on interaction', () => {
     expect(modelSettingsSource).toMatch(
-      /<span className="openbitfun-model-settings__model-enable">[\s\S]*?<Switch[\s\S]*?<div[\s\S]*?className="openbitfun-model-settings__model-actions"/,
+      /<span className="opc-model-settings__model-enable">[\s\S]*?<Switch[\s\S]*?<div[\s\S]*?className="opc-model-settings__model-actions"/,
     );
-    expect(modelSettingsSource).toContain('data-openbitfun-part="modelActions"');
+    expect(modelSettingsSource).toContain('data-opc-part="modelActions"');
     expect(modelSettingsSource).toContain('toggleOnRowClick');
   });
 
@@ -86,7 +86,7 @@ describe('model service collapsed presentation', () => {
     const badgeSource = modelSettingsSource.slice(badgeStart, detailsStart);
 
     expect(badgeSource).toContain('{(isTesting || testResult) && (');
-    expect(badgeSource).toContain('openbitfun-model-settings__status-dot');
+    expect(badgeSource).toContain('opc-model-settings__status-dot');
     expect(badgeSource).not.toContain('<StatusPill');
     expect(badgeSource).toContain('role="status"');
     expect(badgeSource).toContain('aria-live="polite"');

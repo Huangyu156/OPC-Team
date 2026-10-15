@@ -1,5 +1,5 @@
 ---
-name: openbitfun-frontend-dev
+name: opc-frontend-dev
 description: Safely customize the running packaged OPC-Team desktop frontend through a draft, a provisional hot apply, and a 15-second user-confirmed rollback window. Use only in OPC-Team Creative mode when the user asks to change OPC-Team's own client UI.
 ---
 
@@ -11,7 +11,7 @@ Use this workflow only for the running OPC-Team desktop client's own frontend. I
 
 1. Call `FrontendWorkbench` with `action: "prepare"`.
 2. Edit only the returned draft directory. Never edit the packaged resource directory, active revision, state file, or another draft.
-3. Read the returned `openbitfun-creation-api.md`. Edit `openbitfun-creation.css`, `openbitfun-creation.js`, and optional `creation-assets/` only. The draft contains no application bundle or `index.html`. It needs no source repository, Node.js, dependencies, compiler, or rebuild. CSS loads last; JavaScript is a browser ES module exporting `default function activate(ui)`, called after the real shell renders. Use `ui.mount` slots and documented semantic selectors; return cleanup for your listeners/timers.
+3. Read the returned `opc-creation-api.md`. Edit `opc-creation.css`, `opc-creation.js`, and optional `creation-assets/` only. The draft contains no application bundle or `index.html`. It needs no source repository, Node.js, dependencies, compiler, or rebuild. CSS loads last; JavaScript is a browser ES module exporting `default function activate(ui)`, called after the real shell renders. Use `ui.mount` slots and documented semantic selectors; return cleanup for your listeners/timers.
 4. Call `FrontendWorkbench` with `action: "apply"`, setting its `draft_id` input to the exact returned `draftId`.
 5. Before calling `apply`, tell the user to inspect the live preview and use the immutable review window. Its Keep button remains disabled until both the real shell and customization activate; the 15-second countdown starts after readiness.
 6. Read the final `apply` result. Only `status: "confirmed"` means the revision was kept; `status: "rolled_back"` includes the reason. Use `FrontendWorkbench status` for later inspection, not direct reads of `state.json`.

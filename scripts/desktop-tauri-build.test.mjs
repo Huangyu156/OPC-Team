@@ -140,7 +140,7 @@ test('Desktop builds prepare and bundle the OpenCode extension Host', () => {
 });
 
 test('macOS release signing covers the bundled flashgrep executable', () => {
-  const fixture = join(tmpdir(), `openbitfun-flashgrep-signing-${process.pid}-${Date.now()}`);
+  const fixture = join(tmpdir(), `opc-flashgrep-signing-${process.pid}-${Date.now()}`);
   const desktopDir = join(fixture, 'src', 'apps', 'desktop');
   const source = join(fixture, 'flashgrep-aarch64-apple-darwin');
   const calls = [];
@@ -192,7 +192,7 @@ test('unsigned and non-macOS builds keep the original flashgrep executable', () 
 });
 
 test('macOS packaging fails when bundled flashgrep signing fails', () => {
-  const fixture = join(tmpdir(), `openbitfun-flashgrep-signing-failure-${process.pid}-${Date.now()}`);
+  const fixture = join(tmpdir(), `opc-flashgrep-signing-failure-${process.pid}-${Date.now()}`);
   const desktopDir = join(fixture, 'src', 'apps', 'desktop');
   const source = join(fixture, 'flashgrep-x86_64-apple-darwin');
   mkdirSync(desktopDir, { recursive: true });
@@ -213,7 +213,7 @@ test('macOS packaging fails when bundled flashgrep signing fails', () => {
 });
 
 function retryFixture() {
-  const root = join(tmpdir(), `openbitfun-dmg-retry-${process.pid}-${Date.now()}`);
+  const root = join(tmpdir(), `opc-dmg-retry-${process.pid}-${Date.now()}`);
   const desktopDir = join(root, 'src', 'apps', 'desktop');
   const targetDir = join(root, 'target');
   const appDir = join(
@@ -225,7 +225,7 @@ function retryFixture() {
     'OPC-Team.app'
   );
   const executableDir = join(appDir, 'Contents', 'MacOS');
-  const executablePath = join(executableDir, 'openbitfun-desktop');
+  const executablePath = join(executableDir, 'opc-desktop');
   mkdirSync(desktopDir, { recursive: true });
   mkdirSync(executableDir, { recursive: true });
   writeFileSync(executablePath, 'test executable');
@@ -325,7 +325,7 @@ test('does not retry failures outside the narrow DMG bundling boundary', () => {
 });
 
 test('Desktop Tauri projection consumes only the resolved member identity', () => {
-  const fixture = join(tmpdir(), `openbitfun-tauri-product-${process.pid}-${Date.now()}`);
+  const fixture = join(tmpdir(), `opc-tauri-product-${process.pid}-${Date.now()}`);
   mkdirSync(fixture, { recursive: true });
   const baseConfig = join(fixture, 'tauri.conf.json');
   writeFileSync(baseConfig, JSON.stringify({
@@ -355,7 +355,7 @@ test('Desktop Tauri projection consumes only the resolved member identity', () =
 });
 
 test('Desktop packaging includes only the selected Flashgrep target', () => {
-  const fixture = join(tmpdir(), `openbitfun-without-flashgrep-${process.pid}-${Date.now()}`);
+  const fixture = join(tmpdir(), `opc-without-flashgrep-${process.pid}-${Date.now()}`);
   mkdirSync(fixture, { recursive: true });
   const baseConfig = join(fixture, 'tauri.conf.json');
   writeFileSync(baseConfig, JSON.stringify({
@@ -378,7 +378,7 @@ test('Desktop packaging includes only the selected Flashgrep target', () => {
 });
 
 test('Windows updater installs NSIS packages without showing its progress window', () => {
-  const fixture = join(tmpdir(), `openbitfun-tauri-updater-${process.pid}-${Date.now()}`);
+  const fixture = join(tmpdir(), `opc-tauri-updater-${process.pid}-${Date.now()}`);
   const baseConfig = join(fixture, 'tauri.conf.json');
   const updaterEnv = {
     OPENBITFUN_ENABLE_UPDATER_ARTIFACTS: process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS,
@@ -417,7 +417,7 @@ test('Windows updater installs NSIS packages without showing its progress window
 });
 
 test('beta Desktop artifacts compile and bundle only beta updater endpoints', () => {
-  const fixture = join(tmpdir(), `openbitfun-tauri-beta-${process.pid}-${Date.now()}`);
+  const fixture = join(tmpdir(), `opc-tauri-beta-${process.pid}-${Date.now()}`);
   const baseConfig = join(fixture, 'tauri.conf.json');
   const names = [
     'OPENBITFUN_ENABLE_UPDATER_ARTIFACTS',
@@ -484,7 +484,7 @@ test('static desktop Tauri configs do not require the DeepSeek profile at compil
 });
 
 test('official packaging injects the DeepSeek profile resource', () => {
-  const fixture = join(tmpdir(), `openbitfun-tauri-dsh-${process.pid}-${Date.now()}`);
+  const fixture = join(tmpdir(), `opc-tauri-dsh-${process.pid}-${Date.now()}`);
   mkdirSync(fixture, { recursive: true });
   const baseConfig = join(fixture, 'tauri.conf.json');
   writeFileSync(baseConfig, JSON.stringify({

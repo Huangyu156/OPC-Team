@@ -88,10 +88,10 @@ export const ThreadGoalStripControl: React.FC<ThreadGoalStripControlProps> = ({
       >
         <button
           type="button"
-          className={`openbitfun-chat-input-workspace-strip__goal-btn openbitfun-chat-input-workspace-strip__goal-btn--${tone}`}
-          data-openbitfun-component="chat-input-workspace-strip"
-          data-openbitfun-part="goal"
-          data-openbitfun-state={tone}
+          className={`opc-chat-input-workspace-strip__goal-btn opc-chat-input-workspace-strip__goal-btn--${tone}`}
+          data-opc-component="chat-input-workspace-strip"
+          data-opc-part="goal"
+          data-opc-state={tone}
           data-testid="chat-input-thread-goal"
           aria-haspopup="dialog"
           aria-label={t('threadGoal.stripOpenWithGoal')}
@@ -101,7 +101,7 @@ export const ThreadGoalStripControl: React.FC<ThreadGoalStripControlProps> = ({
           }}
         >
           <Icon glyph={Goal} size="xs" aria-hidden />
-          <span className="openbitfun-chat-input-workspace-strip__goal-text">
+          <span className="opc-chat-input-workspace-strip__goal-text">
             <span>{statusLabel}</span>
             {/* A goal that has not driven a turn yet has no elapsed time to show. */}
             {elapsedSeconds > 0 ? (
@@ -114,9 +114,9 @@ export const ThreadGoalStripControl: React.FC<ThreadGoalStripControlProps> = ({
         <Tooltip content={quickRun.label} placement="top">
           <button
             type="button"
-            className="openbitfun-chat-input-workspace-strip__goal-run"
-            data-openbitfun-component="chat-input-workspace-strip"
-            data-openbitfun-part="goalRun"
+            className="opc-chat-input-workspace-strip__goal-run"
+            data-opc-component="chat-input-workspace-strip"
+            data-opc-part="goalRun"
             data-testid="chat-input-thread-goal-run"
             aria-label={quickRun.label}
             onClick={event => {
@@ -132,9 +132,9 @@ export const ThreadGoalStripControl: React.FC<ThreadGoalStripControlProps> = ({
         <Tooltip content={clearLabel} placement="top">
           <button
             type="button"
-            className="openbitfun-chat-input-workspace-strip__goal-clear"
-            data-openbitfun-component="chat-input-workspace-strip"
-            data-openbitfun-part="goalClear"
+            className="opc-chat-input-workspace-strip__goal-clear"
+            data-opc-component="chat-input-workspace-strip"
+            data-opc-part="goalClear"
             data-testid="chat-input-thread-goal-clear"
             aria-label={clearLabel}
             onClick={event => {

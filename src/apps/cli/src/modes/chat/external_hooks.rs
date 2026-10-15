@@ -333,22 +333,20 @@ fn matcher_label(matcher: &ExternalHookMatcherSummary) -> String {
 }
 
 fn projection_label(
-    entry: &openbitfun_product_domains::external_hook_catalog::ExternalHookCatalogEntry,
+    entry: &opc_product_domains::external_hook_catalog::ExternalHookCatalogEntry,
 ) -> &'static str {
     match entry.projection_status {
-        ExternalHookProjectionStatus::Mapped => match entry
-            .mapping
-            .as_ref()
-            .map(|mapping| mapping.hook_point)
-        {
-            Some(
-                openbitfun_product_domains::external_hook_contributions::ExternalHookPoint::ToolBefore,
-            ) => "coverage mapped: OPC-Team tool before",
-            Some(
-                openbitfun_product_domains::external_hook_contributions::ExternalHookPoint::ToolAfter,
-            ) => "coverage mapped: OPC-Team tool after",
-            None => "invalid mapping",
-        },
+        ExternalHookProjectionStatus::Mapped => {
+            match entry.mapping.as_ref().map(|mapping| mapping.hook_point) {
+                Some(
+                    opc_product_domains::external_hook_contributions::ExternalHookPoint::ToolBefore,
+                ) => "coverage mapped: OPC-Team tool before",
+                Some(
+                    opc_product_domains::external_hook_contributions::ExternalHookPoint::ToolAfter,
+                ) => "coverage mapped: OPC-Team tool after",
+                None => "invalid mapping",
+            }
+        }
         ExternalHookProjectionStatus::NativeOnly => "native only",
         ExternalHookProjectionStatus::Opaque => "opaque static registration",
         _ => "unknown projection",
@@ -384,9 +382,9 @@ fn source_health_label(health: ExternalSourceHealth) -> &'static str {
 }
 
 fn hook_handler_label(
-    kind: openbitfun_product_domains::external_hook_catalog::ExternalHookHandlerKind,
+    kind: opc_product_domains::external_hook_catalog::ExternalHookHandlerKind,
 ) -> &'static str {
-    use openbitfun_product_domains::external_hook_catalog::ExternalHookHandlerKind;
+    use opc_product_domains::external_hook_catalog::ExternalHookHandlerKind;
     match kind {
         ExternalHookHandlerKind::Function => "function",
         ExternalHookHandlerKind::Command => "command",
@@ -476,13 +474,13 @@ impl ChatMode {
                 self.spawn_hook_management(
                     async move {
                         let imports =
-                            openbitfun_core::external_hook_import::external_hook_import_snapshot(
+                            opc_core::external_hook_import::external_hook_import_snapshot(
                                 workspace_id.as_deref(),
                                 refresh,
                             )
                             .await?;
                         let native = project_native_hook_overview(
-                            openbitfun_core::native_hooks::overview(workspace_id.as_deref())
+                            opc_core::native_hooks::overview(workspace_id.as_deref())
                                 .await
                                 .map_err(ExternalSourceOperationError::invalid_request)?,
                             &workspace,
@@ -591,7 +589,7 @@ impl ChatMode {
         if !confirm {
             self.spawn_hook_management(
                 async move {
-                    openbitfun_core::external_hook_import::plan_external_hook_import(
+                    opc_core::external_hook_import::plan_external_hook_import(
                         workspace_id.as_deref(),
                         source,
                     )
@@ -620,7 +618,7 @@ impl ChatMode {
         let workspace_id = self.agent.workspace_id();
         self.spawn_hook_management(
             async move {
-                let result = openbitfun_core::external_hook_import::apply_external_hook_import(
+                let result = opc_core::external_hook_import::apply_external_hook_import(
                     workspace_id.as_deref(),
                     ExternalHookImportApplyRequestV1 {
                         schema_version: EXTERNAL_HOOK_IMPORT_SCHEMA_V1,
@@ -640,7 +638,7 @@ impl ChatMode {
                     crate::hook_import::completed_import_status(&snapshot, &source, applied)
                         .to_string();
                 let native = project_native_hook_overview(
-                    openbitfun_core::native_hooks::overview(workspace_id.as_deref())
+                    opc_core::native_hooks::overview(workspace_id.as_deref())
                         .await
                         .map_err(ExternalSourceOperationError::invalid_request)?,
                     &workspace,
@@ -663,8 +661,7 @@ impl ChatMode {
         &'a self,
         number: usize,
         chat_state: &mut ChatState,
-    ) -> Option<&'a openbitfun_product_domains::external_hook_import::ImportedHookSourceSnapshotV1>
-    {
+    ) -> Option<&'a opc_product_domains::external_hook_import::ImportedHookSourceSnapshotV1> {
         let Some(snapshot) = &self.hook_management_snapshot else {
             chat_state.add_system_message("Run /hooks first to load imported sources.".to_string());
             return None;
@@ -716,7 +713,7 @@ impl ChatMode {
         let workspace_id = self.agent.workspace_id();
         self.spawn_hook_management(
             async move {
-                let imports = openbitfun_core::external_hook_import::mutate_external_hook_import(
+                let imports = opc_core::external_hook_import::mutate_external_hook_import(
                     workspace_id.as_deref(),
                     ExternalHookImportMutationRequestV1 {
                         schema_version: EXTERNAL_HOOK_IMPORT_SCHEMA_V1,
@@ -726,7 +723,9 @@ impl ChatMode {
                 )
                 .await?;
                 let native = project_native_hook_overview(
-                    openbitfun_core::native_hooks::overview(workspace_id.as_deref()).await.map_err(ExternalSourceOperationError::invalid_request)?,
+                    opc_core::native_hooks::overview(workspace_id.as_deref())
+                        .await
+                        .map_err(ExternalSourceOperationError::invalid_request)?,
                     &workspace,
                 );
                 let status = if remove {
@@ -792,7 +791,7 @@ impl ChatMode {
         let workspace_id = self.agent.workspace_id();
         self.spawn_hook_management(
             async move {
-                let imports = openbitfun_core::external_hook_import::mutate_external_hook_import(
+                let imports = opc_core::external_hook_import::mutate_external_hook_import(
                     workspace_id.as_deref(),
                     ExternalHookImportMutationRequestV1 {
                         schema_version: EXTERNAL_HOOK_IMPORT_SCHEMA_V1,
@@ -802,7 +801,7 @@ impl ChatMode {
                 )
                 .await?;
                 let native = project_native_hook_overview(
-                    openbitfun_core::native_hooks::overview(workspace_id.as_deref()).await.map_err(ExternalSourceOperationError::invalid_request)?,
+                    opc_core::native_hooks::overview(workspace_id.as_deref()).await.map_err(ExternalSourceOperationError::invalid_request)?,
                     &workspace,
                 );
                 Ok(HookManagementResult::Changed {

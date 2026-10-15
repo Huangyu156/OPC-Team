@@ -10,8 +10,8 @@ test("model discovery keeps an unknown historical result expandable", () => {
     hasResult: true, onToggle() {},
   }));
   assert.match(html, /aria-expanded="false"/);
-  assert.match(html, /data-openbitfun-tool-card="list-models"/);
-  assert.match(html, /data-openbitfun-attention="ambient"/);
+  assert.match(html, /data-opc-tool-card="list-models"/);
+  assert.match(html, /data-opc-attention="ambient"/);
 });
 
 test("control failures retain partial output, error hints and the detail toggle", () => {
@@ -20,7 +20,7 @@ test("control failures retain partial output, error hints and the detail toggle"
     error: 'STALE_REF', resultLabel: 'Result', resultText: 'Partial output',
     notices: ['Read the page again.'], paramsText: '{"selector":"@e1"}', paramsLabel: 'Parameters', onToggle() {},
   }));
-  assert.match(html, /data-openbitfun-attention="prominent"/);
+  assert.match(html, /data-opc-attention="prominent"/);
   assert.match(html, /aria-expanded="true"/);
   assert.match(html, /STALE_REF/);
   assert.match(html, /Partial output/);

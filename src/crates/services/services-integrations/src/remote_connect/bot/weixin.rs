@@ -364,7 +364,7 @@ impl WeixinProviderClient {
         let msg = json!({
             "from_user_id": "",
             "to_user_id": to_user_id,
-            "client_id": format!("openbitfun-wx-{}", uuid::Uuid::new_v4()),
+            "client_id": format!("opc-wx-{}", uuid::Uuid::new_v4()),
             "message_type": 2,
             "message_state": 2,
             "item_list": item_list,
@@ -663,7 +663,7 @@ impl WeixinProviderClient {
         let msg = json!({
             "from_user_id": "",
             "to_user_id": to_user_id,
-            "client_id": format!("openbitfun-wx-{}", uuid::Uuid::new_v4()),
+            "client_id": format!("opc-wx-{}", uuid::Uuid::new_v4()),
             "message_type": 2,
             "message_state": 2,
             "item_list": items,
@@ -1624,8 +1624,7 @@ async fn fetch_qr_code(base: &str, local_token_list: &[String]) -> Result<QrCode
 
 fn sync_buf_path(bot_account_id: &str) -> PathBuf {
     let base = super::super::product_home_dir().unwrap_or_else(|| {
-        std::env::temp_dir()
-            .join(openbitfun_services_core::product_identity::hidden_data_directory())
+        std::env::temp_dir().join(opc_services_core::product_identity::hidden_data_directory())
     });
     base.join("weixin")
         .join(format!("{bot_account_id}_get_updates_buf.txt"))
@@ -1633,8 +1632,7 @@ fn sync_buf_path(bot_account_id: &str) -> PathBuf {
 
 fn context_tokens_path(bot_account_id: &str) -> PathBuf {
     let base = super::super::product_home_dir().unwrap_or_else(|| {
-        std::env::temp_dir()
-            .join(openbitfun_services_core::product_identity::hidden_data_directory())
+        std::env::temp_dir().join(opc_services_core::product_identity::hidden_data_directory())
     });
     base.join("weixin")
         .join(format!("{bot_account_id}_context_tokens.json"))

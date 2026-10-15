@@ -101,7 +101,7 @@ function compileLegacyPackage() {
   const snapshot = new AppearanceCompiler(registry).compile(restored, 1);
   expect(JSON.stringify(restored)).toBe(serialized);
   document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
-  document.documentElement.setAttribute('data-openbitfun-appearance-revision', String(snapshot.revision));
+  document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
   const style = document.createElement('style');
   style.textContent = snapshot.cssText;
   document.head.appendChild(style);
@@ -137,7 +137,7 @@ describe('message copy and image export controls', () => {
     container.remove();
     document.head.querySelectorAll('style').forEach(style => style.remove());
     document.documentElement.removeAttribute('data-openbitfun-appearance');
-    document.documentElement.removeAttribute('data-openbitfun-appearance-revision');
+    document.documentElement.removeAttribute('data-opc-appearance-revision');
     vi.clearAllTimers();
     vi.useRealTimers();
   });
@@ -157,16 +157,16 @@ describe('message copy and image export controls', () => {
     };
     act(() => root.render(<ExportContent dialogTurn={turn} expandThinking={expandThinking} />));
     expect(container.querySelector('.export-content__user-bubble')?.textContent).toBe(userText);
-    expect(container.querySelector('[data-openbitfun-product-part="text"]')?.textContent).toBe('Answer');
+    expect(container.querySelector('[data-opc-product-part="text"]')?.textContent).toBe('Answer');
     expect(container.querySelector('.export-content__subtitle')).toBeNull();
     expect(container.textContent).not.toContain('exportImage.aiAssistant');
     expect(container.textContent).not.toContain('exportImage.subtitle');
     expect(container.querySelector('.export-content__timestamp')?.textContent).toBe('Export date');
-    const thinking = container.querySelector('[data-openbitfun-product-part="thinking"]');
+    const thinking = container.querySelector('[data-opc-product-part="thinking"]');
     if (expandThinking) {
       expect(thinking?.textContent).toBe('Private thinking');
       expect(thinking?.querySelector('[data-expanded="true"]')).not.toBeNull();
-      expect(thinking?.compareDocumentPosition(container.querySelector('[data-openbitfun-product-part="text"]')!))
+      expect(thinking?.compareDocumentPosition(container.querySelector('[data-opc-product-part="text"]')!))
         .toBe(Node.DOCUMENT_POSITION_FOLLOWING);
     } else {
       expect(thinking).toBeNull();
@@ -248,9 +248,9 @@ describe('message copy and image export controls', () => {
     const dialog = document.querySelector<HTMLElement>('[data-testid="export-image-dialog"]')!;
     const compact = dialog.querySelector<HTMLInputElement>('[data-testid="export-image-compact"]')!;
     const thinking = dialog.querySelector<HTMLInputElement>('[data-testid="export-image-thinking"]')!;
-    expect(dialog.querySelectorAll('[data-openbitfun-component="card"]')).toHaveLength(2);
-    const compactCard = compact.closest('[data-openbitfun-component="card"]')!;
-    const thinkingCard = thinking.closest('[data-openbitfun-component="card"]')!;
+    expect(dialog.querySelectorAll('[data-opc-component="card"]')).toHaveLength(2);
+    const compactCard = compact.closest('[data-opc-component="card"]')!;
+    const thinkingCard = thinking.closest('[data-opc-component="card"]')!;
     expect(compact.type).toBe('checkbox');
     expect(thinking.type).toBe('checkbox');
     expect(compactCard.querySelector('[data-preview-thinking]')?.getAttribute('data-preview-thinking')).toBe('collapsed');
@@ -304,7 +304,7 @@ describe('message copy and image export controls', () => {
     const menu = document.querySelector<HTMLElement>('[data-testid="model-round-copy-menu"]')!;
     expect(menu.textContent).toContain('exportImage.exportToImage');
     expect(menu.querySelectorAll('button')).toHaveLength(3);
-    expect(menu.querySelector('[data-openbitfun-component="menu-section"]')).toBeNull();
+    expect(menu.querySelector('[data-opc-component="menu-section"]')).toBeNull();
     act(() => menu.querySelector<HTMLButtonElement>('[data-testid="model-round-export-image"]')!.click());
     expect(document.querySelector('[data-testid="model-round-copy-menu"]')).toBeNull();
     const dialog = document.querySelector<HTMLElement>('[data-testid="export-image-dialog"]')!;
@@ -377,16 +377,16 @@ describe('message copy and image export controls', () => {
     };
     act(() => root.render(<ModelRoundItem round={withHistory} turnId="turn-1" isLastRound isTurnComplete />));
     const historyCard = container.querySelector<HTMLElement>('.model-round-item__retry-toggle')!;
-    expect(historyCard.getAttribute('data-openbitfun-component')).toBe('flow-chat-tool-card');
-    expect(historyCard.getAttribute('data-openbitfun-attention')).toBe('ambient');
+    expect(historyCard.getAttribute('data-opc-component')).toBe('flow-chat-tool-card');
+    expect(historyCard.getAttribute('data-opc-attention')).toBe('ambient');
     expectCompiledRuleMatches(compileLegacyPackage(), historyCard, '0.6');
-    const historyToggle = historyCard.querySelector<HTMLButtonElement>('[data-openbitfun-part="iconAffordanceButton"]')!;
+    const historyToggle = historyCard.querySelector<HTMLButtonElement>('[data-opc-part="iconAffordanceButton"]')!;
     expect(historyToggle.getAttribute('aria-expanded')).toBe('false');
     act(() => historyToggle.click());
     expect(historyToggle.getAttribute('aria-expanded')).toBe('true');
     const toggle = container.querySelector<HTMLButtonElement>('.model-round-item__attempt-diagnostic-toggle')!;
     expect(toggle.tagName).toBe('BUTTON');
-    const attemptLabel = toggle.querySelector<HTMLElement>('[data-openbitfun-product-part="attemptLabel"]')!;
+    const attemptLabel = toggle.querySelector<HTMLElement>('[data-opc-product-part="attemptLabel"]')!;
     act(() => attemptLabel.click());
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
     act(() => toggle.click());
@@ -397,7 +397,7 @@ describe('message copy and image export controls', () => {
     const copy = container.querySelector<HTMLButtonElement>('.model-round-item__attempt-diagnostic-copy')!;
     await act(async () => copy.click());
     expect(mocks.clipboard).toHaveBeenCalledExactlyOnceWith('Request timed out');
-    expect(copy.getAttribute('data-openbitfun-state')).toBe('copied');
+    expect(copy.getAttribute('data-opc-state')).toBe('copied');
     expect(toggle.getAttribute('aria-expanded')).toBe('true');
     act(() => toggle.click());
     expect(container.querySelector('.model-round-item__attempt-diagnostic-details')).toBeNull();

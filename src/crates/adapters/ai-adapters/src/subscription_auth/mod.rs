@@ -410,7 +410,7 @@ pub(crate) fn build_http_client(
     options: &SubscriptionHttpOptions,
     provider: &str,
 ) -> Result<reqwest::Client> {
-    openbitfun_services_core::tls_provider::ensure_ring_crypto_provider();
+    opc_services_core::tls_provider::ensure_ring_crypto_provider();
     let mut builder = reqwest::Client::builder()
         .tls_backend_rustls()
         .timeout(Duration::from_secs(30))
@@ -1148,7 +1148,7 @@ mod tests {
     }
 
     fn temp_store_path() -> std::path::PathBuf {
-        let dir = std::env::temp_dir().join(format!("openbitfun-subauth-{}", uuid::Uuid::new_v4()));
+        let dir = std::env::temp_dir().join(format!("opc-subauth-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&dir).unwrap();
         dir.join("subscription_auth.json")
     }
@@ -1722,18 +1722,17 @@ mod tests {
         let loaded_path = parent.join("child-loaded");
         let resume_path = parent.join("child-resume");
         let outcome_path = parent.join("child-outcome");
-        let mut child = openbitfun_services_core::process_manager::create_command(
-            std::env::current_exe().unwrap(),
-        )
-        .arg("--exact")
-        .arg("subscription_auth::tests::cross_process_stale_login_cas_child")
-        .arg("--nocapture")
-        .env(STALE_LOGIN_CHILD_METADATA_ENV, &path)
-        .env(STALE_LOGIN_CHILD_LOADED_ENV, &loaded_path)
-        .env(STALE_LOGIN_CHILD_RESUME_ENV, &resume_path)
-        .env(STALE_LOGIN_CHILD_OUTCOME_ENV, &outcome_path)
-        .spawn()
-        .expect("spawn stale-login child process");
+        let mut child =
+            opc_services_core::process_manager::create_command(std::env::current_exe().unwrap())
+                .arg("--exact")
+                .arg("subscription_auth::tests::cross_process_stale_login_cas_child")
+                .arg("--nocapture")
+                .env(STALE_LOGIN_CHILD_METADATA_ENV, &path)
+                .env(STALE_LOGIN_CHILD_LOADED_ENV, &loaded_path)
+                .env(STALE_LOGIN_CHILD_RESUME_ENV, &resume_path)
+                .env(STALE_LOGIN_CHILD_OUTCOME_ENV, &outcome_path)
+                .spawn()
+                .expect("spawn stale-login child process");
 
         tokio::time::timeout(Duration::from_secs(5), async {
             while !loaded_path.exists() {

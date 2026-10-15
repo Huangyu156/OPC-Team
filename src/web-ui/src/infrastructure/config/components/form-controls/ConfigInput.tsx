@@ -63,8 +63,8 @@ export const ConfigInput = forwardRef<HTMLInputElement, ConfigInputProps>(({
                 <span
                   aria-hidden="true"
                   className="config-form-label__required"
-                  data-openbitfun-component="config"
-                  data-openbitfun-part="required"
+                  data-opc-component="config"
+                  data-opc-part="required"
                 >
                   *
                 </span>
@@ -91,8 +91,8 @@ export const ConfigInput = forwardRef<HTMLInputElement, ConfigInputProps>(({
               <span
                 aria-hidden="true"
                 className="config-form-label__required"
-                data-openbitfun-component="config"
-                data-openbitfun-part="required"
+                data-opc-component="config"
+                data-opc-part="required"
               >
                 *
               </span>

@@ -22,8 +22,8 @@
 #![allow(dead_code)]
 
 use image::{Rgba, RgbaImage};
-use openbitfun_core::agentic::tools::computer_use_host::InteractiveElement;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::computer_use_host::InteractiveElement;
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::io::Cursor;
 
 /// Render the SoM overlay onto `jpeg_bytes` and return a fresh JPEG.

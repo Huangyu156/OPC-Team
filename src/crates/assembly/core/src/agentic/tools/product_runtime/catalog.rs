@@ -6,7 +6,7 @@ use crate::agentic::tools::registry::{get_global_tool_registry, ToolRef};
 use crate::agentic::tools::tool_context_runtime::ToolUseContext;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::ToolDefinition;
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     resolve_contextual_tool_manifest, resolve_contextual_visible_tools, ContextualToolManifest,
     ContextualVisibleTools, DynamicToolInfo, GetToolSpecCatalogProvider,
     GetToolSpecDeferredToolSummary, GetToolSpecExecutionError, GetToolSpecRuntime,
@@ -446,7 +446,7 @@ mod tests {
     use crate::agentic::tools::ToolRuntimeRestrictions;
     #[cfg(feature = "external-sources")]
     use crate::agentic::WorkspaceBinding;
-    use openbitfun_agent_tools::{
+    use opc_agent_tools::{
         GetToolSpecCatalogProvider, ToolCatalogSnapshotProvider, CALL_DEFERRED_TOOL_NAME,
         GET_TOOL_SPEC_TOOL_NAME,
     };
@@ -555,7 +555,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -795,7 +795,7 @@ mod tests {
             Arc::new(DeferredMcpCatalogTool) as Arc<dyn Tool>,
         ];
         let context = tool_context(Some("Standard"));
-        let manifest = openbitfun_agent_tools::resolve_contextual_tool_manifest(
+        let manifest = opc_agent_tools::resolve_contextual_tool_manifest(
             &tool_snapshot,
             &["mcp__github__search_repos".to_string()],
             &AgentToolPolicyOverrides::default(),
@@ -817,7 +817,7 @@ mod tests {
             vec![GET_TOOL_SPEC_TOOL_NAME, "CallDeferredTool"]
         );
 
-        let detail = openbitfun_agent_tools::resolve_get_tool_spec_detail(
+        let detail = opc_agent_tools::resolve_get_tool_spec_detail(
             &manifest.deferred_tools,
             "mcp__github__search_repos",
             &context,
@@ -882,7 +882,7 @@ mod tests {
                 &AgentToolPolicyOverrides::default(),
                 &context,
             );
-        let manifest = openbitfun_agent_tools::resolve_contextual_tool_manifest(
+        let manifest = opc_agent_tools::resolve_contextual_tool_manifest(
             &tool_snapshot,
             &allowed_tools,
             &exposure_overrides,
@@ -1145,7 +1145,7 @@ mod tests {
             "WebSearch".to_string(),
         ];
 
-        let manifest = openbitfun_agent_tools::resolve_contextual_tool_manifest(
+        let manifest = opc_agent_tools::resolve_contextual_tool_manifest(
             &tool_snapshot,
             &allowed_tools,
             &AgentToolPolicyOverrides::default(),

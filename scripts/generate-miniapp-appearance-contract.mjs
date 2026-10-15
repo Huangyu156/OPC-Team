@@ -28,7 +28,7 @@ const systemDeclarations = renderDeclarations('system');
 const darkDeclarations = renderDeclarations('theme', 'dark');
 const lightDeclarations = renderDeclarations('theme', 'light');
 const generated = [
-  '<style id="openbitfun-appearance-default">',
+  '<style id="opc-appearance-default">',
   '  :root {',
   '    color-scheme: light dark;',
   '    background: transparent;',

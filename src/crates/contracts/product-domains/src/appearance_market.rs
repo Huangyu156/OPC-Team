@@ -77,7 +77,7 @@ pub struct AppearanceMarketListingSummary {
     pub package_version: String,
     pub latest_release: u32,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub required_capabilities: Vec<String>,
     pub owner: AppearanceMarketUserSummary,
     pub preview_url: String,
@@ -105,7 +105,7 @@ pub struct AppearanceMarketRelease {
     pub release_number: u32,
     pub package_version: String,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub package_sha256: String,
     pub package_size: u64,
     pub review_bundle_hash: String,
@@ -155,7 +155,7 @@ pub struct AppearanceMarketSubmission {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub package_version: Option<String>,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub required_capabilities: Vec<String>,
     pub changelog: String,
     pub license: AppearanceMarketLicense,
@@ -184,7 +184,7 @@ pub struct AppearanceMarketSubmissionDraftRequest {
     pub slug: String,
     pub release_number: u32,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub changelog: String,
     pub license: AppearanceMarketLicense,
     #[serde(skip_serializing_if = "Option::is_none")]

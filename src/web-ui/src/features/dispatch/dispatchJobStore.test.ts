@@ -46,9 +46,9 @@ describe('dispatchJobStore', () => {
     registerJob();
     dispatchJobStore.getState().updateTitle('job-1', 'Investigate build failure', source);
     const storage = dispatchJobStore.persist.getOptions().storage!;
-    const saved = (await storage.getItem('openbitfun-dispatch-jobs-v1'))!;
+    const saved = (await storage.getItem('opc-dispatch-jobs-v1'))!;
     dispatchJobStore.setState({ jobs: {} });
-    await storage.setItem('openbitfun-dispatch-jobs-v1', saved);
+    await storage.setItem('opc-dispatch-jobs-v1', saved);
     await dispatchJobStore.persist.rehydrate();
     const job = dispatchJobStore.getState().jobs['job-1'];
     dispatchJobStore.getState().mergeOutboundRecords([{
@@ -72,10 +72,10 @@ describe('dispatchJobStore', () => {
   it('preserves legacy manual names without titleSource when the index still has the submission name', async () => {
     registerJob();
     const storage = dispatchJobStore.persist.getOptions().storage!;
-    const legacy = (await storage.getItem('openbitfun-dispatch-jobs-v1'))!;
+    const legacy = (await storage.getItem('opc-dispatch-jobs-v1'))!;
     legacy.state.jobs['job-1'].title = 'My investigation';
     delete legacy.state.jobs['job-1'].titleSource;
-    await storage.setItem('openbitfun-dispatch-jobs-v1', legacy);
+    await storage.setItem('opc-dispatch-jobs-v1', legacy);
     await dispatchJobStore.persist.rehydrate();
     const job = dispatchJobStore.getState().jobs['job-1'];
     dispatchJobStore.getState().mergeOutboundRecords([{

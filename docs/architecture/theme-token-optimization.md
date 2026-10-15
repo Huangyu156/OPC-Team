@@ -139,7 +139,7 @@ Web UI Appearance 的当前 schema 固定为 v2。颜色入口是 `theme-tokens`
 
 - `tokens` 只能包含 `appearanceTokenContract.ts` 登记的 root Token。
 - `scopes.chrome` 只能重绑定设计系统已有的 canonical theme Token，并应用到
-  `[data-openbitfun-theme-scope="chrome"]`；scope 内不发明另一套 chrome 名称。
+  `[data-opc-theme-scope="chrome"]`；scope 内不发明另一套 chrome 名称。
 - `ThemeTokenAppearanceAdapter` 在切换时移除上一包写入的 root/scoped Token，再写入新包；不双写任何
   历史名称。
 - Token 名和 Token 值都经过 allowlist 与安全校验；未登记名称、嵌套 `var()`、URL 或可注入片段直接失败。

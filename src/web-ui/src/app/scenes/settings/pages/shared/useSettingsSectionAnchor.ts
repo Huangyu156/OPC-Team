@@ -12,7 +12,7 @@ export function useSettingsSectionAnchor(sectionId: SettingsSectionId, ready = t
     if (!ready || target !== sectionId) return;
     const anchor = document.getElementById(id);
     if (!anchor) return;
-    const content = anchor.closest('.openbitfun-config-page-content__inner');
+    const content = anchor.closest('.opc-config-page-content__inner');
     let following = true;
     const align = () => {
       if (following) anchor.scrollIntoView?.({ block: 'start', inline: 'nearest' });
@@ -23,7 +23,7 @@ export function useSettingsSectionAnchor(sectionId: SettingsSectionId, ready = t
     const stop = () => { following = false; observer?.disconnect(); };
     if (content) observer?.observe(content);
     align();
-    const page = anchor.closest('.openbitfun-config-page-layout');
+    const page = anchor.closest('.opc-config-page-layout');
     const events = ['wheel', 'pointerdown', 'touchstart', 'keydown'] as const;
     events.forEach(event => page?.addEventListener(event, stop, { passive: true }));
     return () => {

@@ -58,7 +58,7 @@ describe('ToolCardChangeSummary rolling counts', () => {
     callbacks.forEach(callback => callback(now));
   });
   const wheel = (place: number) => container.querySelector<HTMLElement>(
-    `[data-openbitfun-change="added"] [data-digit-place="${place}"] > span`,
+    `[data-opc-change="added"] [data-digit-place="${place}"] > span`,
   )!;
   const position = (place: number) => Number(wheel(place).style.transform.match(/-([\d.]+)lh/)![1]);
 
@@ -115,7 +115,7 @@ describe('ToolCardChangeSummary rolling counts', () => {
     expect(frames.size).toBe(0);
     render(5, false);
     expect(container.querySelector('[data-rolling-number]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+5');
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+5');
   });
 
   it('stops active motion immediately when reduced motion is requested', () => {
@@ -128,9 +128,9 @@ describe('ToolCardChangeSummary rolling counts', () => {
     });
     expect(frames.size).toBe(0);
     expect(container.querySelector('[data-rolling-number]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+10');
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+10');
     render(20);
     expect(frames.size).toBe(0);
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+20');
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+20');
   });
 });

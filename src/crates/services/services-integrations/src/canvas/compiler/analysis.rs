@@ -1,4 +1,4 @@
-use openbitfun_product_domains::canvas::types::{
+use opc_product_domains::canvas::types::{
     CanvasDiagnostic, CanvasDiagnosticCategory, CanvasDiagnosticSeverity,
 };
 
@@ -613,7 +613,7 @@ fn is_identifier(value: &str) -> bool {
 
 #[cfg(feature = "canvas-runtime")]
 pub(super) fn sdk_runtime_exports() -> &'static [&'static str] {
-    openbitfun_product_domains::canvas::CANVAS_SDK_RUNTIME_EXPORTS
+    opc_product_domains::canvas::CANVAS_SDK_RUNTIME_EXPORTS
 }
 
 #[cfg(feature = "canvas-runtime")]

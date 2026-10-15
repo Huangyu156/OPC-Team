@@ -1,4 +1,4 @@
-use openbitfun_services_core::filesystem::FileSearchOutcome;
+use opc_services_core::filesystem::FileSearchOutcome;
 
 use super::flashgrep::{
     DirtyFileStats as FlashgrepDirtyFileStats, FileCount as FlashgrepFileCount,

@@ -7,7 +7,7 @@ use crate::agentic::tools::framework::{
 };
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_services_integrations::web_tools::WebToolNetworkProvider;
+use opc_services_integrations::web_tools::WebToolNetworkProvider;
 use serde_json::{json, Value};
 
 /// WebFetch tool

@@ -58,13 +58,13 @@ test("mobile entry exposes touch controls without product state", () => {
     trailing: createElement("svg"),
   }));
 
-  assert.match(iconButton, /data-openbitfun-component="mobile-icon-button"/);
+  assert.match(iconButton, /data-opc-component="mobile-icon-button"/);
   assert.match(iconButton, /data-appearance="floating"/);
   assert.match(iconButton, /aria-busy="true"/);
   assert.match(iconButton, /disabled=""/);
-  assert.match(textField, /data-openbitfun-component="mobile-text-field"/);
+  assert.match(textField, /data-opc-component="mobile-text-field"/);
   assert.match(textField, /<input[^>]*aria-label="Search"/);
-  assert.match(row, /data-openbitfun-component="mobile-list-row"/);
+  assert.match(row, /data-opc-component="mobile-list-row"/);
   assert.match(row, /data-selected="true"/);
   assert.match(row, /aria-current="true"/);
 });
@@ -81,11 +81,11 @@ test("mobile entry exposes reusable composer and floating action anatomy", () =>
     trailing: createElement("button", null, "Settings"),
   }));
 
-  assert.match(composer, /data-openbitfun-component="mobile-composer"/);
+  assert.match(composer, /data-opc-component="mobile-composer"/);
   assert.match(composer, /data-expanded="false"/);
-  assert.match(composer, /data-openbitfun-part="editor"[^>]*role="button"/);
-  assert.match(actions, /data-openbitfun-component="mobile-floating-actions"/);
-  assert.match(actions, /data-openbitfun-part="trailing"/);
+  assert.match(composer, /data-opc-part="editor"[^>]*role="button"/);
+  assert.match(actions, /data-opc-component="mobile-floating-actions"/);
+  assert.match(actions, /data-opc-part="trailing"/);
 });
 
 test("mobile disclosure exposes stable parts without changing toggle semantics", () => {
@@ -94,10 +94,10 @@ test("mobile disclosure exposes stable parts without changing toggle semantics",
       onToggle: () => undefined, open, title: "Advanced options",
     }, "Server"));
     assert.match(markup, new RegExp(`aria-expanded="${open}"`));
-    assert.match(markup, /<button[^>]*data-openbitfun-part="trigger"[^>]*type="button"/);
-    assert.match(markup, /data-openbitfun-part="title"/);
-    assert.match(markup, /data-openbitfun-part="chevron"/);
-    assert.equal(markup.includes('data-openbitfun-part="body"'), open);
+    assert.match(markup, /<button[^>]*data-opc-part="trigger"[^>]*type="button"/);
+    assert.match(markup, /data-opc-part="title"/);
+    assert.match(markup, /data-opc-part="chevron"/);
+    assert.equal(markup.includes('data-opc-part="body"'), open);
   }
 });
 
@@ -123,7 +123,7 @@ test("mobile entry exposes the complete reusable mobile surface set", () => {
   ].map(example => renderToStaticMarkup(example));
 
   for (const name of ["badge", "banner", "button", "card", "disclosure", "file-button", "link", "message", "page-header", "scrim", "section", "segmented-control", "status", "textarea"]) {
-    assert.ok(examples.some(markup => markup.includes(`data-openbitfun-component="mobile-${name}"`)), `missing mobile-${name}`);
+    assert.ok(examples.some(markup => markup.includes(`data-opc-component="mobile-${name}"`)), `missing mobile-${name}`);
   }
   assert.equal(typeof MobileActionSheet, "function");
   assert.equal(typeof MobileConfirmSheet, "function");
@@ -231,7 +231,7 @@ test("mobile entry exposes the second round of touch controls", () => {
   ].map(example => renderToStaticMarkup(example));
 
   for (const name of ["switch", "checkbox", "radio-group", "tag", "select", "stepper", "avatar", "tab-bar", "toolbar"]) {
-    assert.ok(markup.some(html => html.includes(`data-openbitfun-component="mobile-${name}"`)), `missing mobile-${name}`);
+    assert.ok(markup.some(html => html.includes(`data-opc-component="mobile-${name}"`)), `missing mobile-${name}`);
   }
 });
 

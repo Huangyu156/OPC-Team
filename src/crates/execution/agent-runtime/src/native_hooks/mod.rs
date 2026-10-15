@@ -9,11 +9,11 @@
 //! The engine is host-independent: it receives already-loaded settings layers
 //! and fully-built payloads, and never resolves OPC-Team config paths itself.
 //! Config discovery, scope gating, and dispatch-site integration live in
-//! `openbitfun-core` (`native_hooks` wiring).
+//! `opc-core` (`native_hooks` wiring).
 //!
 //! Distinct from:
 //! - `post_call_hooks`: internal compiled-in Rust hooks (not user-configured).
-//! - the external hook catalog (`openbitfun-product-domains`): read-only
+//! - the external hook catalog (`opc-product-domains`): read-only
 //!   inspection of other AI applications' hook configuration.
 
 #[cfg(feature = "native-hook-runtime")]

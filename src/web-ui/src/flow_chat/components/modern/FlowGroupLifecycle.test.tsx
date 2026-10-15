@@ -72,13 +72,13 @@ it('renders one shared file header and keeps failed revisions visible with expli
   const render = () => act(() => root.render(<FlowGroupRenderer turnId="turn" data={{ ...data }} />));
   render();
   const node = container.querySelector('[data-testid="chat-file-edit-group"]')!;
-  const header = container.querySelector('[data-openbitfun-part="summary"]')!;
+  const header = container.querySelector('[data-opc-part="summary"]')!;
   expect(header.textContent).toBe('fileEditGroup.expandedApp.tsx');
   expect(node.getAttribute('data-expanded')).toBe('true');
-  expect(container.querySelector('[data-openbitfun-part="controls"]')).toBeNull();
+  expect(container.querySelector('[data-opc-part="controls"]')).toBeNull();
   data.phase = 'settled';
   render();
-  expect(container.querySelector('[data-openbitfun-part="summary"]')).toBe(header);
+  expect(container.querySelector('[data-opc-part="summary"]')).toBe(header);
   expect(header.textContent).toBe('fileEditGroup.labelApp.tsx');
   expect(node.getAttribute('data-expanded')).toBe('false');
   data.allItems = [data.allItems[0], { ...data.allItems[1], status: 'error' }];
@@ -97,7 +97,7 @@ it.each(['explore', 'context', 'interface'] as const)('%s stays open through eac
   const call = container.querySelector('[data-call="call"]');
   expect(node.getAttribute('data-expanded')).toBe('true');
   expect(node.classList.contains('explore-region--bounded')).toBe(false);
-  expect(container.querySelector('[data-openbitfun-edge-fade]')).toBeNull();
+  expect(container.querySelector('[data-opc-edge-fade]')).toBeNull();
   render(group('collecting', category));
   expect(container.querySelector('[data-call="call"]')).toBe(call);
   expect(node.getAttribute('data-expanded')).toBe('true');
@@ -210,7 +210,7 @@ it.each(['focus', 'wheel', 'search', 'filter'] as const)('%s interaction does no
   const render = (data: FlowGroupData) => act(() => root.render(<FlowGroupRenderer turnId="turn" data={data} />));
   render(group('collecting', 'explore', true));
   if (interaction === 'focus') act(() => container.querySelector<HTMLButtonElement>('[data-call] button')!.focus());
-  else if (interaction === 'wheel') act(() => container.querySelector('[data-openbitfun-part="content"]')!
+  else if (interaction === 'wheel') act(() => container.querySelector('[data-opc-part="content"]')!
     .dispatchEvent(new WheelEvent('wheel', { deltaY: -40, bubbles: true })));
   else if (interaction === 'search') search('Read');
   else selectFilter('groupBrowser.toolsLabel', 'Read');

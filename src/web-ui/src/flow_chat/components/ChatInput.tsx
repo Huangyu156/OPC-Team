@@ -841,7 +841,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   const measureCapsuleInputWidth = useCallback((): number | null => {
     const containerEl = containerRef.current;
     const editorEl = richTextInputRef.current;
-    const boxEl = editorEl?.closest('.openbitfun-chat-input__box') as HTMLElement | null;
+    const boxEl = editorEl?.closest('.opc-chat-input__box') as HTMLElement | null;
 
     if (!containerEl || !boxEl) {
       return null;
@@ -854,13 +854,13 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     clone.style.visibility = 'hidden';
     clone.style.pointerEvents = 'none';
     clone.style.width = `${containerEl.getBoundingClientRect().width}px`;
-    clone.classList.add('openbitfun-chat-input--capsule');
-    clone.classList.remove('openbitfun-chat-input--multi-line');
+    clone.classList.add('opc-chat-input--capsule');
+    clone.classList.remove('opc-chat-input--multi-line');
 
     const cloneComposerSurfaceEl = clone.querySelector(
-      '[data-openbitfun-component="chat-composer"] [data-openbitfun-part="surface"]',
+      '[data-opc-component="chat-composer"] [data-opc-part="surface"]',
     ) as HTMLElement | null;
-    const cloneInputAreaEl = clone.querySelector('.openbitfun-chat-input__input-area') as HTMLElement | null;
+    const cloneInputAreaEl = clone.querySelector('.opc-chat-input__input-area') as HTMLElement | null;
 
     if (cloneComposerSurfaceEl) {
       // ChatComposer owns the compact/expanded grid. Force its public layout
@@ -919,9 +919,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     // A fixed boxWidth-minus-constant estimate drifts when the right-side
     // controls grow (for example with longer model labels), causing false
     // "single-line" results for text that already wraps in the real editor.
-    const boxEl = el.closest('.openbitfun-chat-input__box') as HTMLElement | null;
-    const actionsLeftEl = boxEl?.querySelector('.openbitfun-chat-input__actions-left') as HTMLElement | null;
-    const actionsRightEl = boxEl?.querySelector('.openbitfun-chat-input__actions-right') as HTMLElement | null;
+    const boxEl = el.closest('.opc-chat-input__box') as HTMLElement | null;
+    const actionsLeftEl = boxEl?.querySelector('.opc-chat-input__actions-left') as HTMLElement | null;
+    const actionsRightEl = boxEl?.querySelector('.opc-chat-input__actions-right') as HTMLElement | null;
     const boxWidth = boxEl?.offsetWidth ?? containerRef.current?.offsetWidth ?? 400;
     const boxComputedStyle = boxEl ? window.getComputedStyle(boxEl) : null;
     const boxPaddingLeft = boxComputedStyle ? parseFloat(boxComputedStyle.paddingLeft || '0') : 0;
@@ -1043,9 +1043,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   useEffect(() => {
     if (layoutResizeSuspended) return;
     const containerEl = containerRef.current;
-    const boxEl = containerEl?.querySelector('.openbitfun-chat-input__box') as HTMLElement | null;
-    const actionsLeftEl = containerEl?.querySelector('.openbitfun-chat-input__actions-left') as HTMLElement | null;
-    const actionsRightEl = containerEl?.querySelector('.openbitfun-chat-input__actions-right') as HTMLElement | null;
+    const boxEl = containerEl?.querySelector('.opc-chat-input__box') as HTMLElement | null;
+    const actionsLeftEl = containerEl?.querySelector('.opc-chat-input__actions-left') as HTMLElement | null;
+    const actionsRightEl = containerEl?.querySelector('.opc-chat-input__actions-right') as HTMLElement | null;
     const observedElements = [containerEl, boxEl, actionsLeftEl, actionsRightEl].filter(
       (element): element is HTMLElement => !!element,
     );
@@ -6102,7 +6102,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     [openScene]
   );
   useEffect(() => {
-    const dropZone = containerRef.current?.closest('.openbitfun-chat-input-drop-zone') as HTMLElement | null;
+    const dropZone = containerRef.current?.closest('.opc-chat-input-drop-zone') as HTMLElement | null;
     const el = dropZone ?? containerRef.current;
     if (!el) return;
     const observer = new ResizeObserver(() => {
@@ -6134,9 +6134,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
   });
 
   const renderActionButton = () => {
-    if (!derivedState) return <span className="openbitfun-chat-input__send-action" data-openbitfun-component="chat-input" data-openbitfun-part="sendButton" data-openbitfun-action="send" data-openbitfun-state="disabled"><ChatComposerActionButton
+    if (!derivedState) return <span className="opc-chat-input__send-action" data-opc-component="chat-input" data-opc-part="sendButton" data-opc-action="send" data-opc-state="disabled"><ChatComposerActionButton
       aria-label={t('input.sendShortcut')}
-      className="openbitfun-chat-input__send-button"
+      className="opc-chat-input__send-button"
       disabled
       icon={<Icon name="arrow-up" size="lg" />}
       variant="primary"
@@ -6147,21 +6147,21 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     if (interruptedTurnRecovery) {
       return (
         <span
-          className="openbitfun-chat-input__send-action"
-          data-openbitfun-component="chat-input"
-          data-openbitfun-part="sendButton"
-          data-openbitfun-action="continue-interrupted"
-          data-openbitfun-state={isInterruptedTurnRecoveryInFlight ? 'disabled' : undefined}
+          className="opc-chat-input__send-action"
+          data-opc-component="chat-input"
+          data-opc-part="sendButton"
+          data-opc-action="continue-interrupted"
+          data-opc-state={isInterruptedTurnRecoveryInFlight ? 'disabled' : undefined}
         >
           <Tooltip content={t('input.continueInterrupted')}>
             <ChatComposerActionButton
               aria-label={t('input.continueInterrupted')}
-              className="openbitfun-chat-input__send-button"
+              className="opc-chat-input__send-button"
               onClick={() => void handleRecoverInterruptedTurn()}
               disabled={isInterruptedTurnRecoveryInFlight}
               data-testid="chat-input-continue-interrupted-btn"
               icon={isInterruptedTurnRecoveryInFlight
-                ? <Loader2 className="openbitfun-spin" />
+                ? <Loader2 className="opc-spin" />
                 : <Play fill="currentColor" />}
               variant="primary"
             />
@@ -6172,15 +6172,15 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     
     if (sendButtonMode === 'cancel') {
       return (
-        <span className="openbitfun-chat-input__send-action" data-openbitfun-component="chat-input" data-openbitfun-part="sendButton" data-openbitfun-action="cancel">
+        <span className="opc-chat-input__send-action" data-opc-component="chat-input" data-opc-part="sendButton" data-opc-action="cancel">
           <Tooltip content={t('input.stopGeneration')}>
             <div
-              className="openbitfun-chat-input__send-button openbitfun-chat-input__send-button--breathing"
+              className="opc-chat-input__send-button opc-chat-input__send-button--breathing"
               onClick={() => void handleSendOrCancel()}
               data-testid="chat-input-cancel-btn"
             >
-              <div className="openbitfun-chat-input__breathing-circle" />
-              {hasQueuedInput && <span className="openbitfun-chat-input__queued-badge" data-openbitfun-component="chat-input" data-openbitfun-part="queuedBadge">1</span>}
+              <div className="opc-chat-input__breathing-circle" />
+              {hasQueuedInput && <span className="opc-chat-input__queued-badge" data-opc-component="chat-input" data-opc-part="queuedBadge">1</span>}
             </div>
           </Tooltip>
         </span>
@@ -6189,11 +6189,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
     if (sendButtonMode === 'retry') {
       return (
-        <span className="openbitfun-chat-input__send-action" data-openbitfun-component="chat-input" data-openbitfun-part="sendButton" data-openbitfun-action="retry" data-openbitfun-state={isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend ? 'disabled' : undefined}>
+        <span className="opc-chat-input__send-action" data-opc-component="chat-input" data-opc-part="sendButton" data-opc-action="retry" data-opc-state={isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend ? 'disabled' : undefined}>
           <Tooltip content={t('input.retry')}>
             <ChatComposerActionButton
               aria-label={t('input.retry')}
-              className="openbitfun-chat-input__send-button openbitfun-chat-input__send-button--retry"
+              className="opc-chat-input__send-button opc-chat-input__send-button--retry"
               onClick={() => void handleSendOrCancel()}
               disabled={isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend}
               icon={<RotateCcw />}
@@ -6206,25 +6206,25 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
     if (sendButtonMode === 'split') {
       return (
-        <div data-openbitfun-component="chat-input" data-openbitfun-part="sendActions" data-openbitfun-action="split" className="openbitfun-chat-input__split-actions">
-          <span className="openbitfun-chat-input__send-action" data-openbitfun-component="chat-input" data-openbitfun-part="sendButton" data-openbitfun-action="cancel">
+        <div data-opc-component="chat-input" data-opc-part="sendActions" data-opc-action="split" className="opc-chat-input__split-actions">
+          <span className="opc-chat-input__send-action" data-opc-component="chat-input" data-opc-part="sendButton" data-opc-action="cancel">
             <Tooltip content={t('input.stopGeneration')}>
               <div
-                className="openbitfun-chat-input__send-button openbitfun-chat-input__send-button--breathing"
+                className="opc-chat-input__send-button opc-chat-input__send-button--breathing"
                 onClick={() => {
                   void handleCancelCurrentTask();
                 }}
                 data-testid="chat-input-cancel-btn"
               >
-                <div className="openbitfun-chat-input__breathing-circle" />
+                <div className="opc-chat-input__breathing-circle" />
               </div>
             </Tooltip>
           </span>
-          <span className="openbitfun-chat-input__send-action" data-openbitfun-component="chat-input" data-openbitfun-part="sendButton" data-openbitfun-action="send" data-openbitfun-state={!hasSendableInput || isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend ? 'disabled' : undefined}>
+          <span className="opc-chat-input__send-action" data-opc-component="chat-input" data-opc-part="sendButton" data-opc-action="send" data-opc-state={!hasSendableInput || isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend ? 'disabled' : undefined}>
             <Tooltip content={t('input.sendShortcut')}>
               <ChatComposerActionButton
                 aria-label={t('input.sendShortcut')}
-                className="openbitfun-chat-input__send-button"
+                className="opc-chat-input__send-button"
                 onClick={() => void handleSendOrCancel()}
                 disabled={!hasSendableInput || isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend}
                 data-testid="chat-input-send-btn"
@@ -6238,11 +6238,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     }
     
     return (
-      <span className="openbitfun-chat-input__send-action" data-openbitfun-component="chat-input" data-openbitfun-part="sendButton" data-openbitfun-action="send" data-openbitfun-state={!hasSendableInput || isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend ? 'disabled' : undefined}>
+      <span className="opc-chat-input__send-action" data-opc-component="chat-input" data-opc-part="sendButton" data-opc-action="send" data-opc-state={!hasSendableInput || isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend ? 'disabled' : undefined}>
         <Tooltip content={t('input.sendShortcut')}>
           <ChatComposerActionButton
             aria-label={t('input.sendShortcut')}
-            className="openbitfun-chat-input__send-button"
+            className="opc-chat-input__send-button"
             onClick={() => void handleSendOrCancel()}
             disabled={!hasSendableInput || isModelSwitching || isModeChangePending || caps.transferInFlight || !targetCanSubmit || !modelAvailability.canSend}
             data-testid="chat-input-send-btn"
@@ -6360,7 +6360,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         extendedTargetRef={fileDropTargetRef}
         onDragStateChange={setContextFileDragOver}
         acceptedTypes={['file', 'directory', 'image', 'code-snippet', 'mermaid-diagram']}
-        className={`openbitfun-chat-input-drop-zone${presentation === 'conversation' ? ' openbitfun-chat-input-drop-zone--conversation' : ''}`}
+        className={`opc-chat-input-drop-zone${presentation === 'conversation' ? ' opc-chat-input-drop-zone--conversation' : ''}`}
         disabled={!isSceneActive || caps.transferInFlight || isInterruptedTurnRecoveryInFlight}
         onExternalFilesDrop={
           isWindowsDesktopRuntime() && !caps.transferInFlight
@@ -6385,10 +6385,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       >
         <div 
           ref={containerRef}
-          className={`openbitfun-chat-input ${isMultiLine ? 'openbitfun-chat-input--multi-line' : 'openbitfun-chat-input--capsule'} ${derivedState?.isProcessing || caps.transferInFlight ? 'openbitfun-chat-input--processing' : ''} ${className}`}
-          data-openbitfun-component="chat-input"
-          data-openbitfun-part="root"
-          data-openbitfun-state={[
+          className={`opc-chat-input ${isMultiLine ? 'opc-chat-input--multi-line' : 'opc-chat-input--capsule'} ${derivedState?.isProcessing || caps.transferInFlight ? 'opc-chat-input--processing' : ''} ${className}`}
+          data-opc-component="chat-input"
+          data-opc-part="root"
+          data-opc-state={[
             isMultiLine && 'multiline',
             (derivedState?.isProcessing || caps.transferInFlight) && 'processing',
           ].filter(Boolean).join(' ')}
@@ -6398,11 +6398,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
         {recommendationContext && (
           <SmartRecommendations
             context={recommendationContext}
-            className="openbitfun-chat-input__recommendations"
+            className="opc-chat-input__recommendations"
           />
         )}
 
-        <div className="openbitfun-chat-input__container" data-openbitfun-component="chat-input" data-openbitfun-part="container">
+        <div className="opc-chat-input__container" data-opc-component="chat-input" data-opc-part="container">
           <AcpPlanPanel entries={acpPlanEntries} />
           {/* The request sits directly above the field that answers it, so the
               transcript it is about stays readable while deciding. */}
@@ -6417,9 +6417,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               onRespondBatch={respondPermissionBatch}
             />
           ) : null}
-          <div ref={externalFileDropTargetRef} className="openbitfun-chat-input__box" data-openbitfun-component="chat-input" data-openbitfun-part="box">
+          <div ref={externalFileDropTargetRef} className="opc-chat-input__box" data-opc-component="chat-input" data-opc-part="box">
             <ChatComposer
-              className="openbitfun-chat-input__composer"
+              className="opc-chat-input__composer"
               contextBar={workspaceStrip}
               layout={isMultiLine ? 'expanded' : 'compact'}
               queue={(
@@ -6432,37 +6432,37 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               disabled={caps.transferInFlight || isInterruptedTurnRecoveryInFlight}
             >
               <ChatComposerContent>
-                <div className="openbitfun-chat-input__content">
+                <div className="opc-chat-input__content">
             {showTargetSwitcher && (
-              <div className="openbitfun-chat-input__target-switcher" data-openbitfun-component="chat-input" data-openbitfun-part="targetSwitcher" data-testid="chat-input-target-switcher">
-                <span className="openbitfun-chat-input__target-switcher-label" data-openbitfun-component="chat-input" data-openbitfun-part="targetLabel">{t('chatInput.conversationTarget')}</span>
+              <div className="opc-chat-input__target-switcher" data-opc-component="chat-input" data-opc-part="targetSwitcher" data-testid="chat-input-target-switcher">
+                <span className="opc-chat-input__target-switcher-label" data-opc-component="chat-input" data-opc-part="targetLabel">{t('chatInput.conversationTarget')}</span>
                 <button data-overflow-trigger
                   type="button"
                   tabIndex={-1}
-                  className={`openbitfun-chat-input__target-tab ${inputTarget === 'main' ? 'openbitfun-chat-input__target-tab--active' : ''}`}
-                  data-openbitfun-component="chat-input"
-                  data-openbitfun-part="target"
-                  data-openbitfun-target="main"
-                  data-openbitfun-state={inputTarget === 'main' ? 'selected' : ''}
+                  className={`opc-chat-input__target-tab ${inputTarget === 'main' ? 'opc-chat-input__target-tab--active' : ''}`}
+                  data-opc-component="chat-input"
+                  data-opc-part="target"
+                  data-opc-target="main"
+                  data-opc-state={inputTarget === 'main' ? 'selected' : ''}
                   aria-pressed={inputTarget === 'main'}
                   onClick={() => setInputTarget('main')}
                 >
                   {t('chatInput.targetMain')}
                   {inputTarget === 'main' && currentSessionTitle && (
                     <>
-                      <span className="openbitfun-chat-input__target-tab-separator" aria-hidden="true">·</span>
-                      <OverflowText className="openbitfun-chat-input__target-tab-name" data-openbitfun-component="chat-input" data-openbitfun-part="targetName">{currentSessionTitle}</OverflowText>
+                      <span className="opc-chat-input__target-tab-separator" aria-hidden="true">·</span>
+                      <OverflowText className="opc-chat-input__target-tab-name" data-opc-component="chat-input" data-opc-part="targetName">{currentSessionTitle}</OverflowText>
                     </>
                   )}
                 </button>
                 <button data-overflow-trigger
                   type="button"
                   tabIndex={-1}
-                  className={`openbitfun-chat-input__target-tab ${inputTarget === 'btw' ? 'openbitfun-chat-input__target-tab--active' : ''}`}
-                  data-openbitfun-component="chat-input"
-                  data-openbitfun-part="target"
-                  data-openbitfun-target="btw"
-                  data-openbitfun-state={inputTarget === 'btw' ? 'selected' : ''}
+                  className={`opc-chat-input__target-tab ${inputTarget === 'btw' ? 'opc-chat-input__target-tab--active' : ''}`}
+                  data-opc-component="chat-input"
+                  data-opc-part="target"
+                  data-opc-target="btw"
+                  data-opc-state={inputTarget === 'btw' ? 'selected' : ''}
                   aria-pressed={inputTarget === 'btw'}
                   onClick={() => setInputTarget('btw')}
                 >
@@ -6477,19 +6477,19 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                   <OverflowText>{activeBtwTargetLabel}</OverflowText>
                   {inputTarget === 'btw' && activeBtwSessionTitle && activeBtwSessionTitle !== activeBtwTargetLabel && (
                     <>
-                      <span className="openbitfun-chat-input__target-tab-separator" aria-hidden="true">·</span>
-                      <OverflowText className="openbitfun-chat-input__target-tab-name" data-openbitfun-component="chat-input" data-openbitfun-part="targetName">{activeBtwSessionTitle}</OverflowText>
+                      <span className="opc-chat-input__target-tab-separator" aria-hidden="true">·</span>
+                      <OverflowText className="opc-chat-input__target-tab-name" data-opc-component="chat-input" data-opc-part="targetName">{activeBtwSessionTitle}</OverflowText>
                     </>
                   )}
                 </button>
               </div>
             )}
-            <div ref={inputAreaAnchorRef} className="openbitfun-chat-input__input-area" data-openbitfun-component="chat-input" data-openbitfun-part="area">
+            <div ref={inputAreaAnchorRef} className="opc-chat-input__input-area" data-opc-component="chat-input" data-opc-part="area">
               <ChatInputAttachments key={effectiveTargetSessionId ?? 'empty'} contexts={contexts}
                 surfaceEpoch={deviceSurfaceScope.epoch} onRemove={removeContext}
                 onUpdate={(id, comment) => contextStore.getState().updateContext(id, { comment })} />
               {showPlaceholder && (
-                <span className="openbitfun-chat-input__placeholder" data-openbitfun-component="chat-input" data-openbitfun-part="placeholder" aria-hidden>
+                <span className="opc-chat-input__placeholder" data-opc-component="chat-input" data-opc-part="placeholder" aria-hidden>
                   {t('input.placeholder')}
                 </span>
               )}
@@ -6557,41 +6557,41 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                   return (
                     <div
                       ref={slashCommandPickerRef}
-                      data-openbitfun-component="chat-input"
-                      data-openbitfun-part="commandPicker"
-                      data-openbitfun-command="actions"
-                      data-openbitfun-state="open"
-                      data-openbitfun-placement={slashCommandPickerLayout?.placement ?? 'top'}
-                      className="openbitfun-chat-input__slash-command-picker"
+                      data-opc-component="chat-input"
+                      data-opc-part="commandPicker"
+                      data-opc-command="actions"
+                      data-opc-state="open"
+                      data-opc-placement={slashCommandPickerLayout?.placement ?? 'top'}
+                      className="opc-chat-input__slash-command-picker"
                       style={{
                         top: `${slashCommandPickerLayout?.top ?? 0}px`,
                         left: `${slashCommandPickerLayout?.left ?? 0}px`,
                         visibility: slashCommandPickerLayout ? 'visible' : 'hidden',
                       }}
                     >
-                      <div className="openbitfun-chat-input__slash-command-header" data-openbitfun-component="chat-input" data-openbitfun-part="commandHeader">
+                      <div className="opc-chat-input__slash-command-header" data-opc-component="chat-input" data-opc-part="commandHeader">
                         <span>{t('chatInput.quickAction')}</span>
-                        <span className="openbitfun-chat-input__slash-command-hint">{t('chatInput.selectHint')}</span>
+                        <span className="opc-chat-input__slash-command-hint">{t('chatInput.selectHint')}</span>
                       </div>
-                      <div className="openbitfun-chat-input__slash-command-list" data-openbitfun-component="chat-input" data-openbitfun-part="commandList">
+                      <div className="opc-chat-input__slash-command-list" data-opc-component="chat-input" data-opc-part="commandList">
                         {actions.length > 0 ? (
                           actions.map((action, index) => (
                             <div data-overflow-trigger
-                              data-openbitfun-component="chat-input"
-                              data-openbitfun-part="commandItem"
-                              data-openbitfun-command-item-kind="action"
-                              data-openbitfun-state={index === slashCommandState.selectedIndex ? 'selected' : ''}
+                              data-opc-component="chat-input"
+                              data-opc-part="commandItem"
+                              data-opc-command-item-kind="action"
+                              data-opc-state={index === slashCommandState.selectedIndex ? 'selected' : ''}
                               key={action.id}
-                              className={`openbitfun-chat-input__slash-command-item ${index === slashCommandState.selectedIndex ? 'openbitfun-chat-input__slash-command-item--selected' : ''}`}
+                              className={`opc-chat-input__slash-command-item ${index === slashCommandState.selectedIndex ? 'opc-chat-input__slash-command-item--selected' : ''}`}
                               onClick={() => selectSlashCommandAction(action.id)}
                               onMouseEnter={() => setSlashCommandState(prev => ({ ...prev, selectedIndex: index }))}
                             >
-                              <OverflowText className="openbitfun-chat-input__slash-command-name" data-openbitfun-component="chat-input" data-openbitfun-part="commandName">{action.command}</OverflowText>
-                              <OverflowText lines={2} className="openbitfun-chat-input__slash-command-label" data-openbitfun-component="chat-input" data-openbitfun-part="commandLabel" marqueeActive={index === slashCommandState.selectedIndex}>{action.label}</OverflowText>
+                              <OverflowText className="opc-chat-input__slash-command-name" data-opc-component="chat-input" data-opc-part="commandName">{action.command}</OverflowText>
+                              <OverflowText lines={2} className="opc-chat-input__slash-command-label" data-opc-component="chat-input" data-opc-part="commandLabel" marqueeActive={index === slashCommandState.selectedIndex}>{action.label}</OverflowText>
                             </div>
                           ))
                         ) : (
-                          <div className="openbitfun-chat-input__slash-command-empty" data-openbitfun-component="chat-input" data-openbitfun-part="commandEmpty">
+                          <div className="opc-chat-input__slash-command-empty" data-opc-component="chat-input" data-opc-part="commandEmpty">
                             {t('chatInput.noMatchingCommand')}
                           </div>
                         )}
@@ -6606,25 +6606,25 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                   return (
                     <div
                       ref={slashCommandPickerRef}
-                      data-openbitfun-component="chat-input"
-                      data-openbitfun-part="commandPicker"
-                      data-openbitfun-command="all"
-                      data-openbitfun-state="open"
-                      data-openbitfun-placement={slashCommandPickerLayout?.placement ?? 'top'}
-                      className="openbitfun-chat-input__slash-command-picker"
+                      data-opc-component="chat-input"
+                      data-opc-part="commandPicker"
+                      data-opc-command="all"
+                      data-opc-state="open"
+                      data-opc-placement={slashCommandPickerLayout?.placement ?? 'top'}
+                      className="opc-chat-input__slash-command-picker"
                       style={{
                         top: `${slashCommandPickerLayout?.top ?? 0}px`,
                         left: `${slashCommandPickerLayout?.left ?? 0}px`,
                         visibility: slashCommandPickerLayout ? 'visible' : 'hidden',
                       }}
                     >
-                      <div className="openbitfun-chat-input__slash-command-header" data-openbitfun-component="chat-input" data-openbitfun-part="commandHeader">
+                      <div className="opc-chat-input__slash-command-header" data-opc-component="chat-input" data-opc-part="commandHeader">
                         <span>{t('chatInput.commands')}</span>
-                        <span className="openbitfun-chat-input__slash-command-hint">{t('chatInput.selectHint')}</span>
+                        <span className="opc-chat-input__slash-command-hint">{t('chatInput.selectHint')}</span>
                       </div>
-                      <div className="openbitfun-chat-input__slash-command-list" data-openbitfun-component="chat-input" data-openbitfun-part="commandList">
+                      <div className="opc-chat-input__slash-command-list" data-opc-component="chat-input" data-opc-part="commandList">
                         {items.length === 0 && (mcpPromptCommandsLoading || resolvedModeSkillsLoading) ? (
-                          <div className="openbitfun-chat-input__slash-command-empty" data-openbitfun-component="chat-input" data-openbitfun-part="commandEmpty">
+                          <div className="opc-chat-input__slash-command-empty" data-opc-component="chat-input" data-opc-part="commandEmpty">
                             {resolvedModeSkillsLoading && !mcpPromptCommandsLoading
                               ? t('chatInput.boostSkillsLoading')
                               : t('chatInput.loadingMcpPrompts')}
@@ -6632,9 +6632,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                         ) : items.length === 0 && resolvedModeSkillsLoadFailed ? (
                           <button
                             type="button"
-                            className="openbitfun-chat-input__slash-command-empty openbitfun-chat-input__slash-command-empty--retry"
-                            data-openbitfun-component="chat-input"
-                            data-openbitfun-part="commandEmpty"
+                            className="opc-chat-input__slash-command-empty opc-chat-input__slash-command-empty--retry"
+                            data-opc-component="chat-input"
+                            data-opc-part="commandEmpty"
                             onClick={retryResolvedModeSkills}
                           >
                             {t('chatInput.boostSkillsLoadFailed')}
@@ -6651,20 +6651,20 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                             return (
                               <React.Fragment key={`${item.kind}-${item.id}`}>
                                 {index === firstSkillIndex && (
-                                  <div className="openbitfun-chat-input__slash-command-section" data-openbitfun-component="chat-input" data-openbitfun-part="commandSection">
-                                    <span className="openbitfun-chat-input__slash-command-section-line" aria-hidden />
-                                    <span className="openbitfun-chat-input__slash-command-section-title">
+                                  <div className="opc-chat-input__slash-command-section" data-opc-component="chat-input" data-opc-part="commandSection">
+                                    <span className="opc-chat-input__slash-command-section-line" aria-hidden />
+                                    <span className="opc-chat-input__slash-command-section-title">
                                       {t('chatInput.boostSkills')}
                                     </span>
-                                    <span className="openbitfun-chat-input__slash-command-section-line" aria-hidden />
+                                    <span className="opc-chat-input__slash-command-section-line" aria-hidden />
                                   </div>
                                 )}
                                 <div data-overflow-trigger
-                                  data-openbitfun-component="chat-input"
-                                  data-openbitfun-part="commandItem"
-                                  data-openbitfun-command-item-kind={item.kind === 'mcpPrompt' ? 'mcp' : item.kind === 'externalCommand' || item.kind === 'acpCommand' ? 'action' : item.kind}
-                                  data-openbitfun-state={index === slashCommandState.selectedIndex ? 'selected' : undefined}
-                                  className={`openbitfun-chat-input__slash-command-item ${index === slashCommandState.selectedIndex ? 'openbitfun-chat-input__slash-command-item--selected' : ''}`}
+                                  data-opc-component="chat-input"
+                                  data-opc-part="commandItem"
+                                  data-opc-command-item-kind={item.kind === 'mcpPrompt' ? 'mcp' : item.kind === 'externalCommand' || item.kind === 'acpCommand' ? 'action' : item.kind}
+                                  data-opc-state={index === slashCommandState.selectedIndex ? 'selected' : undefined}
+                                  className={`opc-chat-input__slash-command-item ${index === slashCommandState.selectedIndex ? 'opc-chat-input__slash-command-item--selected' : ''}`}
                                   title={`${commandText}\n${labelText}`}
                                   onClick={() => {
                                     if (item.kind === 'skill') {
@@ -6681,22 +6681,22 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                                   }}
                                   onMouseEnter={() => setSlashCommandState(prev => ({ ...prev, selectedIndex: index }))}
                                 >
-                                  <OverflowText className="openbitfun-chat-input__slash-command-name" data-openbitfun-component="chat-input" data-openbitfun-part="commandName">
+                                  <OverflowText className="opc-chat-input__slash-command-name" data-opc-component="chat-input" data-opc-part="commandName">
                                     {commandText}
                                   </OverflowText>
                                   <span
-                                    className={`openbitfun-chat-input__slash-command-label ${item.kind === 'skill' ? 'openbitfun-chat-input__slash-command-label--single-line' : ''}`}
-                                    data-openbitfun-component="chat-input"
-                                    data-openbitfun-part="commandLabel"
+                                    className={`opc-chat-input__slash-command-label ${item.kind === 'skill' ? 'opc-chat-input__slash-command-label--single-line' : ''}`}
+                                    data-opc-component="chat-input"
+                                    data-opc-part="commandLabel"
                                   >
                                     {labelText}
                                   </span>
                                   {item.kind === 'externalCommand' && item.status !== 'available' ? (
                                     <span
-                                      className={`openbitfun-chat-input__slash-command-status openbitfun-chat-input__slash-command-status--${item.status === 'restricted' ? 'restricted' : 'choose'}`}
-                                      data-openbitfun-component="chat-input"
-                                      data-openbitfun-part="commandStatus"
-                                      data-openbitfun-state={item.status}
+                                      className={`opc-chat-input__slash-command-status opc-chat-input__slash-command-status--${item.status === 'restricted' ? 'restricted' : 'choose'}`}
+                                      data-opc-component="chat-input"
+                                      data-opc-part="commandStatus"
+                                      data-opc-state={item.status}
                                     >
                                       {t(item.status === 'restricted'
                                         ? 'chatInput.commandStatus.restricted'
@@ -6708,7 +6708,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                             );
                           })
                         ) : (
-                          <div className="openbitfun-chat-input__slash-command-empty" data-openbitfun-component="chat-input" data-openbitfun-part="commandEmpty">
+                          <div className="opc-chat-input__slash-command-empty" data-opc-component="chat-input" data-opc-part="commandEmpty">
                             {/* A catalog issue must not leave the list blank: say why nothing is listed. */}
                             {externalPromptCommandsIssue === 'host_unavailable'
                               ? t('chatInput.externalCommandsHostUnavailable')
@@ -6727,33 +6727,33 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                   return (
                     <div
                       ref={slashCommandPickerRef}
-                      data-openbitfun-component="chat-input"
-                      data-openbitfun-part="commandPicker"
-                      data-openbitfun-command="skills"
-                      data-openbitfun-state="open"
-                      data-openbitfun-placement={slashCommandPickerLayout?.placement ?? 'top'}
-                      className="openbitfun-chat-input__slash-command-picker"
+                      data-opc-component="chat-input"
+                      data-opc-part="commandPicker"
+                      data-opc-command="skills"
+                      data-opc-state="open"
+                      data-opc-placement={slashCommandPickerLayout?.placement ?? 'top'}
+                      className="opc-chat-input__slash-command-picker"
                       style={{
                         top: `${slashCommandPickerLayout?.top ?? 0}px`,
                         left: `${slashCommandPickerLayout?.left ?? 0}px`,
                         visibility: slashCommandPickerLayout ? 'visible' : 'hidden',
                       }}
                     >
-                      <div className="openbitfun-chat-input__slash-command-header" data-openbitfun-component="chat-input" data-openbitfun-part="commandHeader">
+                      <div className="opc-chat-input__slash-command-header" data-opc-component="chat-input" data-opc-part="commandHeader">
                         <span>{t('chatInput.boostSkills')}</span>
-                        <span className="openbitfun-chat-input__slash-command-hint">{t('chatInput.selectHint')}</span>
+                        <span className="opc-chat-input__slash-command-hint">{t('chatInput.selectHint')}</span>
                       </div>
-                      <div className="openbitfun-chat-input__slash-command-list" data-openbitfun-component="chat-input" data-openbitfun-part="commandList">
+                      <div className="opc-chat-input__slash-command-list" data-opc-component="chat-input" data-opc-part="commandList">
                         {items.length === 0 && resolvedModeSkillsLoading ? (
-                          <div className="openbitfun-chat-input__slash-command-empty" data-openbitfun-component="chat-input" data-openbitfun-part="commandEmpty">
+                          <div className="opc-chat-input__slash-command-empty" data-opc-component="chat-input" data-opc-part="commandEmpty">
                             {t('chatInput.boostSkillsLoading')}
                           </div>
                         ) : items.length === 0 && resolvedModeSkillsLoadFailed ? (
                           <button
                             type="button"
-                            className="openbitfun-chat-input__slash-command-empty openbitfun-chat-input__slash-command-empty--retry"
-                            data-openbitfun-component="chat-input"
-                            data-openbitfun-part="commandEmpty"
+                            className="opc-chat-input__slash-command-empty opc-chat-input__slash-command-empty--retry"
+                            data-opc-component="chat-input"
+                            data-opc-part="commandEmpty"
                             onClick={retryResolvedModeSkills}
                           >
                             {t('chatInput.boostSkillsLoadFailed')}
@@ -6768,11 +6768,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                                   : item.label;
 
                             return (
-                              <div data-overflow-trigger data-openbitfun-component="chat-input" data-openbitfun-part="commandItem"
-                                data-openbitfun-command-item-kind={item.kind === 'mcpPrompt' ? 'mcp' : item.kind === 'externalCommand' || item.kind === 'acpCommand' ? 'action' : item.kind}
-                                data-openbitfun-state={index === slashCommandState.selectedIndex ? 'selected' : undefined}
+                              <div data-overflow-trigger data-opc-component="chat-input" data-opc-part="commandItem"
+                                data-opc-command-item-kind={item.kind === 'mcpPrompt' ? 'mcp' : item.kind === 'externalCommand' || item.kind === 'acpCommand' ? 'action' : item.kind}
+                                data-opc-state={index === slashCommandState.selectedIndex ? 'selected' : undefined}
                                 key={`${item.kind}-${item.id}`}
-                                className={`openbitfun-chat-input__slash-command-item ${index === slashCommandState.selectedIndex ? 'openbitfun-chat-input__slash-command-item--selected' : ''}`}
+                                className={`opc-chat-input__slash-command-item ${index === slashCommandState.selectedIndex ? 'opc-chat-input__slash-command-item--selected' : ''}`}
                                 title={`${commandText}\n${labelText}`}
                                 onClick={() => {
                                   if (item.kind === 'skill') {
@@ -6789,13 +6789,13 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                                 }}
                                 onMouseEnter={() => setSlashCommandState(prev => ({ ...prev, selectedIndex: index }))}
                               >
-                                <OverflowText className="openbitfun-chat-input__slash-command-name" data-openbitfun-component="chat-input" data-openbitfun-part="commandName">
+                                <OverflowText className="opc-chat-input__slash-command-name" data-opc-component="chat-input" data-opc-part="commandName">
                                   {commandText}
                                 </OverflowText>
                                 <span
-                                  className={`openbitfun-chat-input__slash-command-label ${item.kind === 'skill' ? 'openbitfun-chat-input__slash-command-label--single-line' : ''}`}
-                                  data-openbitfun-component="chat-input"
-                                  data-openbitfun-part="commandLabel"
+                                  className={`opc-chat-input__slash-command-label ${item.kind === 'skill' ? 'opc-chat-input__slash-command-label--single-line' : ''}`}
+                                  data-opc-component="chat-input"
+                                  data-opc-part="commandLabel"
                                 >
                                   {labelText}
                                 </span>
@@ -6803,7 +6803,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                             );
                           })
                         ) : (
-                          <div className="openbitfun-chat-input__slash-command-empty" data-openbitfun-component="chat-input" data-openbitfun-part="commandEmpty">
+                          <div className="opc-chat-input__slash-command-empty" data-opc-component="chat-input" data-opc-part="commandEmpty">
                             {t('chatInput.noMatchingCommand')}
                           </div>
                         )}
@@ -6819,20 +6819,20 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               </ChatComposerContent>
 
               {presentation !== 'conversation' && <ChatComposerStartActions>
-              <div className="openbitfun-chat-input__actions-left" data-openbitfun-component="chat-input" data-openbitfun-part="actionsLeft">
+              <div className="opc-chat-input__actions-left" data-opc-component="chat-input" data-opc-part="actionsLeft">
                 <div
-                  className="openbitfun-chat-input__agent-boost"
-                  data-openbitfun-component="chat-input"
-                  data-openbitfun-part="boost"
+                  className="opc-chat-input__agent-boost"
+                  data-opc-component="chat-input"
+                  data-opc-part="boost"
                   data-testid="chat-input-agent-boost"
                   ref={agentBoostRef}
                 >
                   {!isAcpTargetSession && (
-                    <span className="openbitfun-chat-input__agent-boost-trigger" ref={boostTriggerRef} data-openbitfun-component="chat-input" data-openbitfun-part="boostTrigger" data-openbitfun-state={modeState.dropdownOpen ? 'open' : undefined}>
+                    <span className="opc-chat-input__agent-boost-trigger" ref={boostTriggerRef} data-opc-component="chat-input" data-opc-part="boostTrigger" data-opc-state={modeState.dropdownOpen ? 'open' : undefined}>
                       <Tooltip content={t('chatInput.addBoostTooltip')}>
                         <ChatComposerActionButton
                           aria-label={t('chatInput.addBoostTooltip')}
-                          className="openbitfun-chat-input__agent-boost-add"
+                          className="opc-chat-input__agent-boost-add"
                           data-testid="chat-input-agent-boost-trigger"
                           aria-haspopup="menu"
                           aria-expanded={modeState.dropdownOpen}
@@ -6853,11 +6853,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                   {modeState.dropdownOpen && createOverlayPortal(
                     <Menu
                       ref={boostMenuRef}
-                      className="openbitfun-chat-input__mode-dropdown openbitfun-chat-input__mode-dropdown--agent-boost"
-                      data-openbitfun-component="chat-input"
-                      data-openbitfun-part="boostMenu"
-                      data-openbitfun-state="open"
-                      data-openbitfun-placement={boostMenuLayout?.placement ?? 'top'}
+                      className="opc-chat-input__mode-dropdown opc-chat-input__mode-dropdown--agent-boost"
+                      data-opc-component="chat-input"
+                      data-opc-part="boostMenu"
+                      data-opc-state="open"
+                      data-opc-placement={boostMenuLayout?.placement ?? 'top'}
                       style={{
                         top: `${boostMenuLayout?.top ?? 0}px`,
                         left: `${boostMenuLayout?.left ?? 0}px`,
@@ -6875,7 +6875,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                             onOpenChange={open => setBoostSubmenuOpen('harness', open)}
                             onSelectionComplete={() => dispatchMode({ type: 'CLOSE_DROPDOWN' })}
                           />
-                          <MenuSeparator data-openbitfun-component="chat-input" data-openbitfun-part="boostDivider" />
+                          <MenuSeparator data-opc-component="chat-input" data-opc-part="boostDivider" />
                         </>
                       ) : null}
 
@@ -6891,10 +6891,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                             {additionalModeItems.map(item => (
                               <MenuItem
                                 key={item.id}
-                                data-openbitfun-component="chat-input"
-                                data-openbitfun-part="boostSubmenuItem"
-                                data-openbitfun-boost-item-kind="additional-mode"
-                                data-openbitfun-additional-mode-id={item.id}
+                                data-opc-component="chat-input"
+                                data-opc-part="boostSubmenuItem"
+                                data-opc-boost-item-kind="additional-mode"
+                                data-opc-additional-mode-id={item.id}
                                 data-testid={`chat-input-additional-mode-${item.id}`}
                                 title={item.title}
                                 leading={<Icon name="spark" size="xs" aria-hidden />}
@@ -6907,15 +6907,15 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                               </MenuItem>
                             ))}
                           </ChatInputBoostSubmenu>
-                          <MenuSeparator data-openbitfun-component="chat-input" data-openbitfun-part="boostDivider" />
+                          <MenuSeparator data-opc-component="chat-input" data-opc-part="boostDivider" />
                         </>
                       )}
 
                       <>
                         <MenuItem
-                          data-openbitfun-component="chat-input"
-                          data-openbitfun-part="boostItem"
-                          data-openbitfun-boost-item-kind="context"
+                          data-opc-component="chat-input"
+                          data-opc-part="boostItem"
+                          data-opc-boost-item-kind="context"
                           leading={<Icon name="files" size="sm" aria-hidden />}
                           onClick={handleBoostOpenAtContext}
                         >
@@ -6923,9 +6923,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                         </MenuItem>
 
                         <MenuItem
-                          data-openbitfun-component="chat-input"
-                          data-openbitfun-part="boostItem"
-                          data-openbitfun-boost-item-kind="context"
+                          data-opc-component="chat-input"
+                          data-opc-part="boostItem"
+                          data-opc-boost-item-kind="context"
                           leading={<Icon name="image" size="sm" aria-hidden />}
                           onClick={handleBoostPickImage}
                         >
@@ -6941,14 +6941,14 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                             onOpenChange={open => setBoostSubmenuOpen('skills', open)}
                           >
                             {resolvedModeSkillsLoading && !resolvedModeSkillsLoaded ? (
-                              <div className="openbitfun-chat-input__boost-submenu-loading" data-openbitfun-component="chat-input" data-openbitfun-part="boostSubmenuState" data-openbitfun-state="loading">
-                                <Icon glyph={Loader2} size="sm" className="openbitfun-chat-input__boost-submenu-spinner" aria-hidden />
+                              <div className="opc-chat-input__boost-submenu-loading" data-opc-component="chat-input" data-opc-part="boostSubmenuState" data-opc-state="loading">
+                                <Icon glyph={Loader2} size="sm" className="opc-chat-input__boost-submenu-spinner" aria-hidden />
                                 <span>{t('chatInput.boostSkillsLoading')}</span>
                               </div>
                             ) : resolvedModeSkillsLoadFailed ? (
                               <MenuItem
-                                data-openbitfun-component="chat-input"
-                                data-openbitfun-part="boostSubmenuState"
+                                data-opc-component="chat-input"
+                                data-opc-part="boostSubmenuState"
                                 leading={<RotateCcw size={13} aria-hidden />}
                                 onClick={event => {
                                   event.stopPropagation();
@@ -6958,14 +6958,14 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                                 {t('chatInput.boostSkillsLoadFailed')}
                               </MenuItem>
                             ) : userInvocableSkills.length === 0 ? (
-                              <div className="openbitfun-chat-input__boost-submenu-empty" data-openbitfun-component="chat-input" data-openbitfun-part="boostSubmenuState" data-openbitfun-state="empty">{t('chatInput.boostSkillsEmpty')}</div>
+                              <div className="opc-chat-input__boost-submenu-empty" data-opc-component="chat-input" data-opc-part="boostSubmenuState" data-opc-state="empty">{t('chatInput.boostSkillsEmpty')}</div>
                             ) : (
                               userInvocableSkills.map(skill => (
                                 <MenuItem
                                   key={skill.key}
-                                  data-openbitfun-component="chat-input"
-                                  data-openbitfun-part="boostSubmenuItem"
-                                  data-openbitfun-boost-item-kind="skill"
+                                  data-opc-component="chat-input"
+                                  data-opc-part="boostSubmenuItem"
+                                  data-opc-boost-item-kind="skill"
                                   title={skill.description || skill.name}
                                   leading={<Icon name="book-open" size="xs" aria-hidden />}
                                   onClick={event => {
@@ -6979,9 +6979,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                             )}
                             <MenuSeparator />
                             <MenuItem
-                              data-openbitfun-component="chat-input"
-                              data-openbitfun-part="boostSubmenuManage"
-                              data-openbitfun-boost-item-kind="manage"
+                              data-opc-component="chat-input"
+                              data-opc-part="boostSubmenuManage"
+                              data-opc-boost-item-kind="manage"
                               onClick={handleOpenSkillsLibrary}
                             >
                               {t('chatInput.openSkillsLibrary')}
@@ -6991,11 +6991,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
                         {canUseThreadGoal && !!effectiveTargetSession?.workspacePath && (
                           <>
-                            <MenuSeparator data-openbitfun-component="chat-input" data-openbitfun-part="boostDivider" />
+                            <MenuSeparator data-opc-component="chat-input" data-opc-part="boostDivider" />
                             <MenuItem
-                              data-openbitfun-component="chat-input"
-                              data-openbitfun-part="boostItem"
-                              data-openbitfun-boost-item-kind="thread-goal"
+                              data-opc-component="chat-input"
+                              data-opc-part="boostItem"
+                              data-opc-boost-item-kind="thread-goal"
                               data-testid="chat-input-boost-thread-goal"
                               leading={<Icon glyph={Goal} size="sm" aria-hidden />}
                               onClick={handleBoostOpenThreadGoal}
@@ -7007,11 +7007,11 @@ export const ChatInput: React.FC<ChatInputProps> = ({
 
                         {!!currentSessionId && !isBtwSession && (
                           <>
-                            <MenuSeparator data-openbitfun-component="chat-input" data-openbitfun-part="boostDivider" />
+                            <MenuSeparator data-opc-component="chat-input" data-opc-part="boostDivider" />
                             <MenuItem
-                              data-openbitfun-component="chat-input"
-                              data-openbitfun-part="boostItem"
-                              data-openbitfun-boost-item-kind="context"
+                              data-opc-component="chat-input"
+                              data-opc-part="boostItem"
+                              data-opc-boost-item-kind="context"
                               data-testid="chat-input-boost-start-btw"
                               leading={<Icon name="side-chat" size="sm" aria-hidden />}
                               onClick={handleBoostStartBtw}
@@ -7022,12 +7022,12 @@ export const ChatInput: React.FC<ChatInputProps> = ({
                         )}
 
                         {(!currentSessionId || isBtwSession) && (
-                          <MenuSeparator data-openbitfun-component="chat-input" data-openbitfun-part="boostDivider" />
+                          <MenuSeparator data-opc-component="chat-input" data-opc-part="boostDivider" />
                         )}
                         <MenuItem
-                          data-openbitfun-component="chat-input"
-                          data-openbitfun-part="boostItem"
-                          data-openbitfun-boost-item-kind="context"
+                          data-opc-component="chat-input"
+                          data-opc-part="boostItem"
+                          data-opc-boost-item-kind="context"
                           data-testid="chat-input-boost-new-session"
                           leading={<Icon name="plus" size="sm" aria-hidden />}
                           onClick={handleBoostNewSession}
@@ -7050,9 +7050,9 @@ export const ChatInput: React.FC<ChatInputProps> = ({
               </ChatComposerStartActions>}
 
               <ChatComposerEndActions>
-              <div className="openbitfun-chat-input__actions-right" data-openbitfun-component="chat-input" data-openbitfun-part="actionsRight">
+              <div className="opc-chat-input__actions-right" data-opc-component="chat-input" data-opc-part="actionsRight">
                 {voiceInput.phase === 'idle' ? (
-                  <div className="openbitfun-chat-input__model-usage-group" data-openbitfun-component="chat-input" data-openbitfun-part="model">
+                  <div className="opc-chat-input__model-usage-group" data-opc-component="chat-input" data-opc-part="model">
                   <ModelSelector
                     currentMode={effectiveSendAgentType}
                     sessionId={effectiveTargetSessionId || undefined}

@@ -13,14 +13,14 @@ test("IconButton requires an accessible label and keeps its icon decorative", ()
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="icon-button"/);
-  assert.match(markup, /data-openbitfun-part="progress"/);
-  assert.match(markup, /data-openbitfun-part="icon"/);
+  assert.match(markup, /data-opc-component="icon-button"/);
+  assert.match(markup, /data-opc-part="progress"/);
+  assert.match(markup, /data-opc-part="icon"/);
   assert.match(markup, /aria-label="Show list"/);
   assert.match(markup, /aria-hidden="true"/);
   assert.match(markup, /data-icon="list"/);
-  assert.match(markup, /data-openbitfun-variant="quiet"/);
-  assert.match(markup, /data-openbitfun-shape="square"/);
+  assert.match(markup, /data-opc-variant="quiet"/);
+  assert.match(markup, /data-opc-shape="square"/);
   assert.match(markup, /type="button"/);
 });
 
@@ -36,9 +36,9 @@ test("IconButton exposes presentation, shape, tone, and size independently", () 
     }),
   );
 
-  assert.match(markup, /data-openbitfun-variant="primary"/);
-  assert.match(markup, /data-openbitfun-shape="circle"/);
-  assert.match(markup, /data-openbitfun-tone="danger"/);
+  assert.match(markup, /data-opc-variant="primary"/);
+  assert.match(markup, /data-opc-shape="circle"/);
+  assert.match(markup, /data-opc-tone="danger"/);
   assert.match(markup, /data-size="lg"/);
 });
 
@@ -75,8 +75,8 @@ test("outlined circles compose the standard size with disabled and loading state
       size: "standard", shape: "circle", variant: "outline", ...state,
     }));
     assert.match(markup, /data-size="standard"/);
-    assert.match(markup, /data-openbitfun-shape="circle"/);
-    assert.match(markup, /data-openbitfun-variant="outline"/);
+    assert.match(markup, /data-opc-shape="circle"/);
+    assert.match(markup, /data-opc-variant="outline"/);
     if (state.disabled || state.loading) assert.match(markup, /disabled=""/);
   }
 });
@@ -84,7 +84,7 @@ test("outlined circles compose the standard size with disabled and loading state
 test("IconButton styles consume shared action and geometry tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /\[data-openbitfun-variant=primary\]/);
+  assert.match(styles, /\[data-opc-variant=primary\]/);
   assert.match(styles, /--opcteam-color-action-neutral-surface-hover/);
   assert.match(styles, /--opcteam-color-action-primary-background/);
   assert.match(styles, /--opcteam-control-height-sm/);
@@ -109,11 +109,11 @@ test("quiet IconButtons are transparent at rest while emphasized variants retain
   );
   assert.match(
     styles,
-    /\.button\[data-openbitfun-variant="fill"\],\s*\.button\[data-openbitfun-variant="primary"\]\s*\{[^}]*background:\s*var\(--opcteam-color-surface-tertiary\)/s,
+    /\.button\[data-opc-variant="fill"\],\s*\.button\[data-opc-variant="primary"\]\s*\{[^}]*background:\s*var\(--opcteam-color-surface-tertiary\)/s,
   );
   assert.doesNotMatch(styles, /--_icon-button-background-(?:hover|active):\s*transparent/);
   for (const state of ["hover", "active"]) {
-    assert.ok(styles.includes(`:is(:${state}, [data-openbitfun-preview-state="${state}"]):not(:disabled)::before`));
+    assert.ok(styles.includes(`:is(:${state}, [data-opc-preview-state="${state}"]):not(:disabled)::before`));
   }
   assert.match(styles, /\.button:focus-visible\s*\{[^}]*outline:.*var\(--opcteam-color-focus-ring\)/s);
 });

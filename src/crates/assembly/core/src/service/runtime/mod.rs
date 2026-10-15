@@ -1,14 +1,14 @@
 //! Managed runtime service compatibility adapter.
 //!
 //! Command resolution and PATH merge rules are owned by
-//! `openbitfun-services-core`; core only supplies the product-managed runtime root.
+//! `opc-services-core`; core only supplies the product-managed runtime root.
 
 use crate::infrastructure::get_path_manager_arc;
 use crate::util::errors::OpcTeamResult;
-use openbitfun_services_core::managed_runtime::ManagedRuntimeResolver;
+use opc_services_core::managed_runtime::ManagedRuntimeResolver;
 use std::path::{Path, PathBuf};
 
-pub use openbitfun_services_core::managed_runtime::{
+pub use opc_services_core::managed_runtime::{
     ResolvedCommand, RuntimeCommandCapability, RuntimeSource,
 };
 
@@ -76,7 +76,7 @@ mod tests {
     fn temp_runtime_root() -> PathBuf {
         let mut p = std::env::temp_dir();
         let id = format!(
-            "openbitfun-core-runtime-adapter-test-{}-{}",
+            "opc-core-runtime-adapter-test-{}-{}",
             std::process::id(),
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)

@@ -33,28 +33,28 @@ export const ExternalAppsOverview: React.FC<ExternalAppsOverviewProps> = ({
   onOpenPolicy,
 }) => (
   <ConfigPageSection
-    className="openbitfun-external-sources-config__apps"
+    className="opc-external-sources-config__apps"
     title={t('applications.title')}
   >
-    <div className="openbitfun-external-sources-config__app-list">
+    <div className="opc-external-sources-config__app-list">
       {applications.map((application) => (
         <div
           key={application.ecosystemId}
-          className="openbitfun-external-sources-config__app-row"
-          data-openbitfun-product-component="external-sources-config"
-          data-openbitfun-product-part="application"
-          data-openbitfun-ecosystem={application.ecosystemId}
+          className="opc-external-sources-config__app-row"
+          data-opc-product-component="external-sources-config"
+          data-opc-product-part="application"
+          data-opc-ecosystem={application.ecosystemId}
         >
-          <OverflowText className="openbitfun-external-sources-config__app-name">
+          <OverflowText className="opc-external-sources-config__app-name">
             {application.displayName}
           </OverflowText>
           {application.attentionCount > 0 ? (
             <Tooltip content={t('applications.attentionRequired')} placement="top">
               <button
                 type="button"
-                className="openbitfun-external-sources-config__app-attention"
-                data-openbitfun-product-component="external-sources-config"
-                data-openbitfun-product-part="appAttention"
+                className="opc-external-sources-config__app-attention"
+                data-opc-product-component="external-sources-config"
+                data-opc-product-part="appAttention"
                 aria-label={t('applications.openAdvanced', {
                   name: application.displayName,
                 })}
@@ -65,9 +65,9 @@ export const ExternalAppsOverview: React.FC<ExternalAppsOverviewProps> = ({
             </Tooltip>
           ) : null}
           <div
-            className="openbitfun-external-sources-config__app-toggle"
-            data-openbitfun-product-component="external-sources-config"
-            data-openbitfun-product-part="applicationToggle"
+            className="opc-external-sources-config__app-toggle"
+            data-opc-product-component="external-sources-config"
+            data-opc-product-part="applicationToggle"
             title={!policiesEnabled ? t('applications.enableInAdvanced') : undefined}
             role={!policiesEnabled ? 'button' : undefined}
             tabIndex={!policiesEnabled ? 0 : undefined}
@@ -94,7 +94,7 @@ export const ExternalAppsOverview: React.FC<ExternalAppsOverviewProps> = ({
         </div>
       ))}
       {applications.length === 0 ? (
-        <div className="openbitfun-external-sources-config__app-empty">
+        <div className="opc-external-sources-config__app-empty">
           {t('applications.empty')}
         </div>
       ) : null}

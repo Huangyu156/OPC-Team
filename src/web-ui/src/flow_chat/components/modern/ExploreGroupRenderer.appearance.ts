@@ -5,7 +5,7 @@ export const fileEditGroupAppearanceDescriptor: AppearanceSurfaceDescriptor = {
     { id: 'root' }, { id: 'header' }, { id: 'summary' }, { id: 'controls' },
     { id: 'contentWrapper' }, { id: 'content' }, { id: 'item' },
   ],
-  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } }],
+  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } }],
 };
 export const exploreGroupAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   id: 'explore-group',
@@ -13,7 +13,7 @@ export const exploreGroupAppearanceDescriptor: AppearanceSurfaceDescriptor = {
     { id: 'root' }, { id: 'header' }, { id: 'summary' },
     { id: 'contentWrapper' }, { id: 'controls' }, { id: 'content' }, { id: 'item' },
   ],
-  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } }],
+  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } }],
 };
 export const contextLoadGroupAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   id: 'context-load-group',
@@ -21,7 +21,7 @@ export const contextLoadGroupAppearanceDescriptor: AppearanceSurfaceDescriptor =
     { id: 'root' }, { id: 'header' }, { id: 'summary' },
     { id: 'contentWrapper' }, { id: 'controls' }, { id: 'content' }, { id: 'item' },
   ],
-  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } }],
+  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } }],
 };
 export const shellGroupAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   id: 'shell-group',
@@ -31,7 +31,7 @@ export const shellGroupAppearanceDescriptor: AppearanceSurfaceDescriptor = {
     { id: 'root' }, { id: 'header' }, { id: 'summary' },
     { id: 'contentWrapper' }, { id: 'controls' }, { id: 'content' }, { id: 'item' },
   ],
-  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } }],
+  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } }],
 };
 export const interfaceObservationGroupAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   id: 'interface-observation-group',
@@ -39,5 +39,5 @@ export const interfaceObservationGroupAppearanceDescriptor: AppearanceSurfaceDes
     { id: 'root' }, { id: 'header' }, { id: 'summary' },
     { id: 'contentWrapper' }, { id: 'controls' }, { id: 'content' }, { id: 'item' },
   ],
-  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } }],
+  states: [{ id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } }],
 };

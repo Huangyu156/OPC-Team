@@ -27,9 +27,9 @@ test("brand resources use original artwork, localized names and real downloads",
       }, createElement(BrandPage, { onOpenComponent() {} })));
       const entries = componentRegistry.filter(component => component.category === "brand" && component.name !== "SubagentHatch");
       assert.deepEqual(new Set(brandResources.filter(item => item.name !== "wordmark").map(item => item.name)), new Set(entries.map(item => item.name)));
-      assert.match(html, /data-openbitfun-component="openbitfun-solid-mark"/);
+      assert.match(html, /data-opc-component="opc-solid-mark"/);
       assert.match(html, /id="brand-resource-title"/);
-      assert.match(html, /download="openbitfun-silver-mark.png"/);
+      assert.match(html, /download="opc-silver-mark.png"/);
       assert.match(html, /href="#subagent-ip"/);
       assert.match(html, /aria-pressed="true"/);
       assert.doesNotMatch(html, /<h2>OpenBitFunSolidMark<|>brand\.|>design\./);

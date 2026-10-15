@@ -68,7 +68,7 @@ describe('StickySectionHeader', () => {
           intersectionRect: {} as DOMRectReadOnly,
           isIntersecting: true,
           rootBounds: { top: 10 } as DOMRectReadOnly,
-          target: container.querySelector('.openbitfun-nav-panel__sticky-section-sentinel')!,
+          target: container.querySelector('.opc-nav-panel__sticky-section-sentinel')!,
           time: 0,
         },
       ], {} as IntersectionObserver);
@@ -83,7 +83,7 @@ describe('StickySectionHeader', () => {
           intersectionRect: {} as DOMRectReadOnly,
           isIntersecting: false,
           rootBounds: { top: 10 } as DOMRectReadOnly,
-          target: container.querySelector('.openbitfun-nav-panel__sticky-section-sentinel')!,
+          target: container.querySelector('.opc-nav-panel__sticky-section-sentinel')!,
           time: 1,
         },
       ], {} as IntersectionObserver);

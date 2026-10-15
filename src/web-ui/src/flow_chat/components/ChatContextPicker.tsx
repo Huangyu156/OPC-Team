@@ -675,7 +675,7 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
     // while a row click accepts the row exactly like Enter. Both input devices
     // therefore select a directory without leaving the current level.
     const clickedEnterAffordance = event.target instanceof Element
-      && Boolean(event.target.closest('[data-openbitfun-part="indicator"]'));
+      && Boolean(event.target.closest('[data-opc-part="indicator"]'));
     if (selection.kind === 'file' && selection.item.isDirectory && !isSearchMode && clickedEnterAffordance) {
       enterDirectory(selection.item);
       return;
@@ -785,19 +785,19 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
 
   const picker = (
     <div
-      data-openbitfun-component="chat-context-picker"
-      data-openbitfun-part="root"
-      data-openbitfun-state={[
+      data-opc-component="chat-context-picker"
+      data-opc-part="root"
+      data-opc-state={[
         isLoading && 'loading',
         (fileLoadError || (showMcpStatus && mcpLoadFailed)) && 'error',
       ].filter(Boolean).join(' ') || undefined}
-      data-openbitfun-placement={isOverlay ? overlayLayout?.placement ?? 'top' : undefined}
+      data-opc-placement={isOverlay ? overlayLayout?.placement ?? 'top' : undefined}
       ref={containerRef}
       className={`chat-context-picker${isOverlay ? ' chat-context-picker--overlay' : ''}${displayItems.some(item => item.kind === 'skill') ? ' chat-context-picker--skills' : ''}`}
       style={style}
       onMouseDown={event => event.preventDefault()}
     >
-      <div data-openbitfun-component="chat-context-picker" data-openbitfun-part="header" className="chat-context-picker__header">
+      <div data-opc-component="chat-context-picker" data-opc-part="header" className="chat-context-picker__header">
         {canNavigateBack && (
           <Tooltip content={t('contextPicker.goBack')}>
             <IconButton
@@ -813,8 +813,8 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
           <div className="chat-context-picker__directory-label" title={currentViewLabel}>
             {view === 'files' ? (
               <span
-                data-openbitfun-component="chat-context-picker"
-                data-openbitfun-part="currentDirectoryPath"
+                data-opc-component="chat-context-picker"
+                data-opc-part="currentDirectoryPath"
                 className="chat-context-picker__directory-path chat-context-picker__directory-path--file"
               >
                 {currentDirectoryTailStart > 0 && (
@@ -828,8 +828,8 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
               </span>
             ) : (
               <span
-                data-openbitfun-component="chat-context-picker"
-                data-openbitfun-part="currentViewLabel"
+                data-opc-component="chat-context-picker"
+                data-opc-part="currentViewLabel"
                 className="chat-context-picker__directory-path"
               >
                 <OverflowText title="">{currentViewLabel}</OverflowText>
@@ -849,7 +849,7 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
           />
         )}
       </div>
-      <div data-openbitfun-component="chat-context-picker" data-openbitfun-part="content" className="chat-context-picker__content">
+      <div data-opc-component="chat-context-picker" data-opc-part="content" className="chat-context-picker__content">
         <Listbox
           aria-label={isSearchMode
             ? t('contextPicker.searchResults')
@@ -858,7 +858,7 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
           focusMode="virtual"
         >
           {displayItems.length === 0 && fileLoadError ? (
-          <ListboxEmpty data-openbitfun-state="error" className="chat-context-picker__empty">
+          <ListboxEmpty data-opc-state="error" className="chat-context-picker__empty">
             <span>{t(fileLoadError === 'search'
               ? 'contextPicker.searchUnavailable'
               : 'contextPicker.browseUnavailable')}</span>
@@ -906,7 +906,7 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
                   title={skill ? '' : undefined}
                   key={key}
                   data-index={index}
-                  data-openbitfun-context-kind={selection.kind === 'source' || selection.kind === 'action'
+                  data-opc-context-kind={selection.kind === 'source' || selection.kind === 'action'
                     ? selection.id
                     : selection.kind === 'mcp' ? `mcp-${selection.item.kind}` : selection.kind}
                   indicator={selection.kind === 'source' || isEnterableDirectory
@@ -942,8 +942,8 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
                           overflowStyle="ellipsis"
                           marqueeTrigger="interaction"
                           className="chat-context-picker__skill-description"
-                          data-openbitfun-component="chat-context-picker"
-                          data-openbitfun-part="skillDescription"
+                          data-opc-component="chat-context-picker"
+                          data-opc-part="skillDescription"
                           title=""
                         >
                           {skillDescription}
@@ -973,7 +973,7 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
               </ListboxEmpty>
             )}
             {fileLoadError && (
-              <ListboxEmpty data-openbitfun-state="error" className="chat-context-picker__empty">
+              <ListboxEmpty data-opc-state="error" className="chat-context-picker__empty">
                 <span>{t(fileLoadError === 'search'
                   ? 'contextPicker.searchUnavailable'
                   : 'contextPicker.browseUnavailable')}</span>
@@ -1006,7 +1006,7 @@ export const ChatContextPicker: React.FC<ChatContextPickerProps> = ({
           )}
         </>
       )}
-      <div data-openbitfun-component="chat-context-picker" data-openbitfun-part="footer" className="chat-context-picker__footer">
+      <div data-opc-component="chat-context-picker" data-opc-part="footer" className="chat-context-picker__footer">
         <span><KeyHint>↑</KeyHint><KeyHint>↓</KeyHint> {t('contextPicker.navHint')}</span>
         {!isSearchMode && (view === 'sources' || view === 'files') && (
           <span><KeyHint>→</KeyHint> {t('contextPicker.enterHint')}</span>

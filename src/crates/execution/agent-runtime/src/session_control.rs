@@ -111,7 +111,7 @@ fn invalid(message: impl Into<String>) -> SessionControlValidationResult {
 }
 
 pub fn validate_session_id(session_id: &str) -> Result<(), String> {
-    openbitfun_core_types::validate_session_id(session_id)
+    opc_core_types::validate_session_id(session_id)
 }
 
 pub fn default_session_name() -> &'static str {

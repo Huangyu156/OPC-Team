@@ -9,13 +9,13 @@ const context = { revision: 1, appearanceId: 'test', mode: 'light' as const, glo
 
 afterEach(async () => {
   vi.restoreAllMocks();
-  document.documentElement.removeAttribute('data-openbitfun-native-material');
+  document.documentElement.removeAttribute('data-opc-native-material');
   await themeTokenAppearanceAdapter.apply(undefined, undefined, context);
 });
 
 describe('annotation highlight paint colors', () => {
   const accent = '--opcteam-component-conversation-excerpt-accent';
-  const paintStyle = () => document.querySelector<HTMLStyleElement>('style[data-openbitfun-appearance-highlight-paint]');
+  const paintStyle = () => document.querySelector<HTMLStyleElement>('style[data-opc-appearance-highlight-paint]');
   const background = () => /background-color: ([^;]+);/.exec(paintStyle()?.textContent ?? '')?.[1] ?? '';
   it.each([
     ['#059cb0', 'rgba(5, 156, 176, 0.3)'],
@@ -77,16 +77,16 @@ describe('annotation highlight paint colors', () => {
     for (const name of Object.keys(tokens)) {
       expect(document.documentElement.style.getPropertyValue(name)).toBe('color(srgb 0 0.5 1 / 0.25)');
     }
-    const scope = document.querySelector('style[data-openbitfun-appearance-theme-scopes]')!;
+    const scope = document.querySelector('style[data-opc-appearance-theme-scopes]')!;
     expect(scope.textContent).not.toContain('color-mix(');
-    expect(scope.textContent).toContain('[data-openbitfun-theme-scope="chrome"]');
+    expect(scope.textContent).toContain('[data-opc-theme-scope="chrome"]');
     expect(JSON.stringify(settings)).toBe(before);
   });
 });
 
 describe('theme root background', () => {
   it('keeps the native backdrop exposed across theme switches and resets', async () => {
-    document.documentElement.setAttribute('data-openbitfun-native-material', 'sidebar');
+    document.documentElement.setAttribute('data-opc-native-material', 'sidebar');
     for (const pkg of builtinAppearancePackages) {
       await themeTokenAppearanceAdapter.apply(pkg.renderers?.['theme-tokens']?.settings, undefined, context);
       expect(document.documentElement.style.backgroundColor).toBe('transparent');
@@ -94,7 +94,7 @@ describe('theme root background', () => {
     }
     await themeTokenAppearanceAdapter.apply(undefined, undefined, context);
     expect(document.documentElement.style.backgroundColor).toBe('');
-    expect(document.documentElement.getAttribute('data-openbitfun-native-material')).toBe('sidebar');
+    expect(document.documentElement.getAttribute('data-opc-native-material')).toBe('sidebar');
   });
 
   it('preserves the opaque theme background in browsers and older desktop hosts', async () => {

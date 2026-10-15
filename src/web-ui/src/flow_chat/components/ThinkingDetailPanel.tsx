@@ -59,15 +59,15 @@ export function ThinkingDetailPanel({ data }: { data: ThinkingDetailPanelData })
 
   return <div
     className="thinking-details-panel"
-    data-openbitfun-component="model-thinking-display"
-    data-openbitfun-part="details"
-    data-openbitfun-state={isStreaming ? 'streaming' : undefined}
+    data-opc-component="model-thinking-display"
+    data-opc-part="details"
+    data-opc-state={isStreaming ? 'streaming' : undefined}
     data-testid="thinking-details-panel"
     role="region"
     aria-label={item?.reasoningKind === 'summary' ? t('toolCards.think.thinkingSummary') : t('toolCards.think.thinkingProcess')}
   >
     <div className="thinking-details-panel__actions"
-      data-openbitfun-component="model-thinking-display" data-openbitfun-part="detailsActions">
+      data-opc-component="model-thinking-display" data-opc-part="detailsActions">
       <Button size="sm" variant="outline" disabled={!item || !data.navigationTarget}
         onClick={() => {
           if (!surface.isCurrent() || surface.surfaceId !== data.surfaceId || !data.navigationTarget) return;

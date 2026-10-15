@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use std::sync::Arc;
 
 use log::warn;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use tokio::sync::RwLock;
 
 use super::config::RemoteAcpClientRequirementSnapshot;

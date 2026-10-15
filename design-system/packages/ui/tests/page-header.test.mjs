@@ -15,11 +15,11 @@ test("PageHeader decouples heading semantics from visual size", () => {
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="page-header"/);
+  assert.match(markup, /data-opc-component="page-header"/);
   assert.match(markup, /data-level="2"/);
   assert.match(markup, /data-size="display"/);
-  assert.match(markup, /<h2[^>]*data-openbitfun-part="heading"[^>]*>Appearance<\/h2>/);
-  assert.match(markup, /data-openbitfun-part="description">Interface language and visual appearance<\/span>/);
+  assert.match(markup, /<h2[^>]*data-opc-part="heading"[^>]*>Appearance<\/h2>/);
+  assert.match(markup, /data-opc-part="description">Interface language and visual appearance<\/span>/);
 });
 
 test("PageHeader exposes alignment and action content independently", () => {
@@ -33,10 +33,10 @@ test("PageHeader exposes alignment and action content independently", () => {
   );
 
   assert.match(markup, /data-align="center"/);
-  assert.match(markup, /data-openbitfun-part="leading"[^>]*><svg aria-hidden="true"><\/svg>/);
-  assert.match(markup, /data-openbitfun-part="action"/);
+  assert.match(markup, /data-opc-part="leading"[^>]*><svg aria-hidden="true"><\/svg>/);
+  assert.match(markup, /data-opc-part="action"/);
   assert.match(markup, /<button/);
-  assert.match(markup, /data-openbitfun-part="action"[^]*>Close<\/span>/);
+  assert.match(markup, /data-opc-part="action"[^]*>Close<\/span>/);
 });
 
 test("PageHeader marks a required title with a decorative asterisk", () => {
@@ -50,7 +50,7 @@ test("PageHeader marks a required title with a decorative asterisk", () => {
   assert.match(markup, /data-required="true"/);
   assert.match(
     markup,
-    /data-openbitfun-part="heading"[^>]*>Provider name<span aria-hidden="true"[^>]*data-openbitfun-part="required"[^>]*>\*<\/span><\/h1>/,
+    /data-opc-part="heading"[^>]*>Provider name<span aria-hidden="true"[^>]*data-opc-part="required"[^>]*>\*<\/span><\/h1>/,
   );
 });
 
@@ -60,7 +60,7 @@ test("PageHeader omits the required marker by default", () => {
   );
 
   assert.match(markup, /data-required="false"/);
-  assert.doesNotMatch(markup, /data-openbitfun-part="required"/);
+  assert.doesNotMatch(markup, /data-opc-part="required"/);
 });
 
 test("PageHeader styles use shared typography and content tokens", async () => {

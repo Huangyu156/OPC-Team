@@ -1,23 +1,23 @@
 [package]
-name = "openbitfun-app-server"
+name = "opc-app-server"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
 description = "OPC-Team generic JSON-RPC app-server surface over agent_client_protocol custom roles"
 
 [lib]
-name = "openbitfun_app_server"
+name = "opc_app_server"
 
 [dependencies]
 agent-client-protocol = { workspace = true }
-openbitfun-app-server-protocol = { path = "../app-server-protocol" }
+opc-app-server-protocol = { path = "../app-server-protocol" }
 # Host-service handlers use the reviewed Agent Runtime owner closure. Add a
 # narrower Core owner feature when a newly registered domain needs it; the
-# protocol surface must not inherit the broad openbitfun-core/product-full union.
-openbitfun-core = { path = "../../assembly/core", features = ["external-sources", "git", "i18n-runtime", "remote-connect", "web-tools"] }
-openbitfun-agent-runtime = { path = "../../execution/agent-runtime", features = ["agent-runtime"] }
-openbitfun-product-domains = { path = "../../contracts/product-domains", features = ["external-sources"] }
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", features = ["agent-api", "product-search"] }
+# protocol surface must not inherit the broad opc-core/product-full union.
+opc-core = { path = "../../assembly/core", features = ["external-sources", "git", "i18n-runtime", "remote-connect", "web-tools"] }
+opc-agent-runtime = { path = "../../execution/agent-runtime", features = ["agent-runtime"] }
+opc-product-domains = { path = "../../contracts/product-domains", features = ["external-sources"] }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", features = ["agent-api", "product-search"] }
 dunce = { workspace = true }
 tokio = { workspace = true, features = ["macros", "rt", "sync", "time"] }
 serde = { workspace = true }
@@ -30,12 +30,12 @@ url = { workspace = true }
 [features]
 default = []
 # Compatibility feature for existing callers. TypeScript schemas are owned and
-# exported by `openbitfun-app-server-protocol`.
-ts = ["openbitfun-app-server-protocol/ts"]
+# exported by `opc-app-server-protocol`.
+ts = ["opc-app-server-protocol/ts"]
 
 [lints]
 workspace = true
 
 [dev-dependencies]
 async-trait = { workspace = true }
-openbitfun-app-server-client = { path = "../app-server-client" }
+opc-app-server-client = { path = "../app-server-client" }

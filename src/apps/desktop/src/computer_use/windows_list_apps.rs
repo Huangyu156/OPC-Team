@@ -19,8 +19,8 @@ use std::collections::HashMap;
 use std::ffi::c_void;
 use std::sync::Mutex;
 
-use openbitfun_core::agentic::tools::computer_use_host::AppInfo;
-use openbitfun_core::util::errors::OpcTeamResult;
+use opc_core::agentic::tools::computer_use_host::AppInfo;
+use opc_core::util::errors::OpcTeamResult;
 use windows::core::BOOL;
 use windows::Win32::Foundation::{HWND, LPARAM, TRUE};
 use windows::Win32::UI::WindowsAndMessaging::{
@@ -83,12 +83,11 @@ pub(super) fn list_running_apps(_include_hidden: bool) -> OpcTeamResult<Vec<AppI
     Ok(apps)
 }
 
-pub(super) fn list_share_targets() -> Vec<openbitfun_agent_tools::computer_use_control::ShareTarget>
-{
+pub(super) fn list_share_targets() -> Vec<opc_agent_tools::computer_use_control::ShareTarget> {
     enumerate_windows()
         .into_iter()
         .map(
-            |window| openbitfun_agent_tools::computer_use_control::ShareTarget {
+            |window| opc_agent_tools::computer_use_control::ShareTarget {
                 selection_id: String::new(),
                 unavailable_reason: None,
                 id: format!("pid:{}/window:{}", window.pid, window.hwnd),

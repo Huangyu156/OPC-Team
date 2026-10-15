@@ -159,8 +159,8 @@ const BrowserPanel: React.FC<BrowserPanelProps> = ({ isActive, initialUrl, openR
   }, [addContext, evalInWebview, getCurrentUrl, getWebviewLabel, hasWebview, isInspectorActive, isTauri, stopInspector]);
 
   return (
-    <div data-openbitfun-component="browser-panel" data-openbitfun-part="root" data-openbitfun-state={isLoading ? 'loading' : ''} className="browser-panel" data-testid="browser-panel">
-      <form data-openbitfun-component="browser-panel" data-openbitfun-part="toolbar" className="browser-panel__toolbar" onSubmit={handleSubmit} data-testid="browser-panel-title">
+    <div data-opc-component="browser-panel" data-opc-part="root" data-opc-state={isLoading ? 'loading' : ''} className="browser-panel" data-testid="browser-panel">
+      <form data-opc-component="browser-panel" data-opc-part="toolbar" className="browser-panel__toolbar" onSubmit={handleSubmit} data-testid="browser-panel-title">
         <IconButton
           type="button"
           size="sm"
@@ -188,7 +188,7 @@ const BrowserPanel: React.FC<BrowserPanelProps> = ({ isActive, initialUrl, openR
           )}
           data-testid="browser-refresh-button"
         />
-        <div data-openbitfun-component="browser-panel" data-openbitfun-part="address" className="browser-panel__address">
+        <div data-opc-component="browser-panel" data-opc-part="address" className="browser-panel__address">
           <Input
             className="browser-panel__address-field"
             type="text"
@@ -214,17 +214,17 @@ const BrowserPanel: React.FC<BrowserPanelProps> = ({ isActive, initialUrl, openR
       </form>
 
       {error ? (
-        <div data-openbitfun-component="browser-panel" data-openbitfun-part="error" className="browser-panel__error" data-testid="browser-error-message">
+        <div data-opc-component="browser-panel" data-opc-part="error" className="browser-panel__error" data-testid="browser-error-message">
           <AlertTriangle size={16} />
           <span>{error}</span>
         </div>
       ) : null}
 
-      <div data-openbitfun-component="browser-panel" data-openbitfun-part="content" className="browser-panel__content" data-testid="browser-page-frame">
+      <div data-opc-component="browser-panel" data-opc-part="content" className="browser-panel__content" data-testid="browser-page-frame">
         {!isTauri ? (
           <iframe
-            data-openbitfun-component="browser-panel"
-            data-openbitfun-part="iframe"
+            data-opc-component="browser-panel"
+            data-opc-part="iframe"
             className="browser-panel__iframe"
             src={currentUrl}
             title="Embedded Browser Panel"
@@ -233,13 +233,13 @@ const BrowserPanel: React.FC<BrowserPanelProps> = ({ isActive, initialUrl, openR
         ) : (
           <div
             ref={viewportRef}
-            data-openbitfun-component="browser-panel"
-            data-openbitfun-part="webviewHost"
+            data-opc-component="browser-panel"
+            data-opc-part="webviewHost"
             className="browser-panel__webview-host"
             data-webview-label={webviewLabel}
           >
             {!browser.previewUrl && (
-              <div data-openbitfun-component="browser-panel" data-openbitfun-part="placeholder" className="browser-panel__webview-placeholder">
+              <div data-opc-component="browser-panel" data-opc-part="placeholder" className="browser-panel__webview-placeholder">
                 <Icon name="browser" size="lg" />
                 <OverflowText data-testid="browser-current-url">{currentUrl}</OverflowText>
               </div>

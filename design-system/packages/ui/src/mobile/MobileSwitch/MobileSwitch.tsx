@@ -40,7 +40,7 @@ export const MobileSwitch = forwardRef<HTMLInputElement, MobileSwitchProps>(
     const resolved = controlled ? checked : uncontrolled;
     /* Focus and press states belong to the hidden input, but the row is what changes. The Lab drives
        the row through a root attribute, so lift that hook off the input onto the label. */
-    const previewState = (props as Record<string, unknown>)["data-openbitfun-preview-state"];
+    const previewState = (props as Record<string, unknown>)["data-opc-preview-state"];
 
     function handleChange(event: ChangeEvent<HTMLInputElement>) {
       if (!controlled) setUncontrolled(event.target.checked);
@@ -54,13 +54,13 @@ export const MobileSwitch = forwardRef<HTMLInputElement, MobileSwitchProps>(
         data-appearance={appearance}
         data-checked={resolved ? "true" : "false"}
         data-disabled={disabled ? "true" : "false"}
-        data-openbitfun-component="mobile-switch"
-        data-openbitfun-preview-state={typeof previewState === "string" ? previewState : undefined}
+        data-opc-component="mobile-switch"
+        data-opc-preview-state={typeof previewState === "string" ? previewState : undefined}
       >
-        <span className={styles.copy} data-openbitfun-part="copy">
-          <span className={styles.label} data-openbitfun-part="label">{label}</span>
+        <span className={styles.copy} data-opc-part="copy">
+          <span className={styles.label} data-opc-part="label">{label}</span>
           {description !== undefined && description !== null && (
-            <span className={styles.description} data-openbitfun-part="description">{description}</span>
+            <span className={styles.description} data-opc-part="description">{description}</span>
           )}
         </span>
         <span className={styles.control}>
@@ -74,8 +74,8 @@ export const MobileSwitch = forwardRef<HTMLInputElement, MobileSwitchProps>(
             role="switch"
             type="checkbox"
           />
-          <span aria-hidden="true" className={styles.track} data-openbitfun-part="track">
-            <span className={styles.thumb} data-openbitfun-part="thumb" />
+          <span aria-hidden="true" className={styles.track} data-opc-part="track">
+            <span className={styles.thumb} data-opc-part="thumb" />
           </span>
         </span>
       </label>

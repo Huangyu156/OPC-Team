@@ -31,7 +31,7 @@ export function FileRevisionSummary({ file, itemCount, expanded, onToggle, conte
   testId: string;
 }) {
   const prefixLabel = expanded ? file.expandedLabel : file.countLabel;
-  return <div className={styles.header} data-expanded={expanded} data-openbitfun-component={component} data-openbitfun-part="header">
+  return <div className={styles.header} data-expanded={expanded} data-opc-component={component} data-opc-part="header">
     {itemCount > 2 && <span aria-hidden="true" className={styles.page} data-layer="2" />}
     {itemCount > 1 && <span aria-hidden="true" className={styles.page} data-layer="1" />}
     <div className={styles.front} data-has-file-action={Boolean(file.openFile)}>
@@ -41,7 +41,7 @@ export function FileRevisionSummary({ file, itemCount, expanded, onToggle, conte
         <span className={styles.icon} aria-hidden="true"><Icon glyph={FileEdit} size="sm" />
           <span className={styles.disclosure}><Icon name={expanded ? 'chevron-down' : 'chevron-right'} size="sm" /></span>
         </span>
-        <span className={styles.subject} data-openbitfun-component={component} data-openbitfun-part="summary">
+        <span className={styles.subject} data-opc-component={component} data-opc-part="summary">
           {prefixLabel && <span className={styles.count}>{prefixLabel}</span>}
           <OverflowText className={styles.filename} title={file.path}>{file.label}</OverflowText>
         </span>
@@ -55,7 +55,7 @@ export function FileRevisionSummary({ file, itemCount, expanded, onToggle, conte
             deletions={file.changeSummary.deletions} aria-label={file.changeSummary.label} />}
         </span>}
       </button>
-      {file.openFile && <div className={styles.actions} data-openbitfun-component={component} data-openbitfun-part="controls">
+      {file.openFile && <div className={styles.actions} data-opc-component={component} data-opc-part="controls">
         <IconButton size="sm" variant="quiet" aria-label={file.openFile.label} title={file.openFile.label}
           icon={<Icon name="arrow-up-right" size="sm" />} onClick={file.openFile.onPress} />
       </div>}

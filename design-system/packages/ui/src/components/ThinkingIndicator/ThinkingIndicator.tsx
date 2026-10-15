@@ -95,7 +95,7 @@ export const ThinkingIndicator = forwardRef<HTMLSpanElement, ThinkingIndicatorPr
   }, [active]);
 
   return <span {...props} ref={ref} className={classNames(styles.root, className)}
-    data-openbitfun-component="thinking-indicator" data-active={active} data-size={size}
+    data-opc-component="thinking-indicator" data-active={active} data-size={size}
     aria-hidden={label ? undefined : "true"} aria-label={label} role={label ? "img" : undefined}>
     <svg ref={svgRef} viewBox={viewBox} fill="none" aria-hidden="true" focusable="false">
       <defs>

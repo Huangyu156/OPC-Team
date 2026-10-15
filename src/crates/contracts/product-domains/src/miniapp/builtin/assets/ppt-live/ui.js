@@ -50,7 +50,7 @@ import { exportFormatIcon, exportFormatTone } from './src/export-format-icons.js
 import {
   installOpenBitFunBackendAdapter,
   PPT_DESIGN_SKILL_KEY,
-} from './src/openbitfun-backend-adapter.js';
+} from './src/opc-backend-adapter.js';
 import {
   DeckProjectContractError,
   buildDeckRunRequestInput,
@@ -3711,7 +3711,7 @@ function resolveAppearanceMode(mode) {
 }
 
 function getHostAppearanceMode() {
-  const attributeMode = document.documentElement.getAttribute('data-openbitfun-appearance-mode');
+  const attributeMode = document.documentElement.getAttribute('data-opc-appearance-mode');
   if (attributeMode === 'dark' || attributeMode === 'light') return attributeMode;
   const runtimeMode = runtime().appearanceMode;
   if (runtimeMode === 'dark' || runtimeMode === 'light') return runtimeMode;
@@ -3721,7 +3721,7 @@ function getHostAppearanceMode() {
 function applyAppearanceMode(mode) {
   const resolved = resolveAppearanceMode(mode);
   const root = document.documentElement;
-  root.setAttribute('data-openbitfun-appearance-mode', resolved);
+  root.setAttribute('data-opc-appearance-mode', resolved);
   root.style.colorScheme = resolved;
   ensureCanvasFitted();
   rerender();

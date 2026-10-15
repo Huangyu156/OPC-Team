@@ -21,14 +21,14 @@ if (process.argv.includes('--build')) {
     pubkey: Buffer.from('untrusted comment: minisign public key\n' + publicKey + '\n').toString('base64'),
     endpoints: ['https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json', 'https://openbitfun.com/release/latest-v1.json'],
   } };
-  const build = spawn('cargo', ['build', '-p', 'openbitfun-desktop'], {
+  const build = spawn('cargo', ['build', '-p', 'opc-desktop'], {
     cwd: repo, windowsHide: true, stdio: ['ignore', 'inherit', 'inherit'],
     env: { ...process.env, TAURI_CONFIG: JSON.stringify(config) },
   });
   const [code] = await once(build, 'exit');
   assert.equal(code, 0, 'Desktop build failed');
 }
-const root = await mkdtemp(path.join(tmpdir(), 'openbitfun-app-update-'));
+const root = await mkdtemp(path.join(tmpdir(), 'opc-app-update-'));
 const userRoot = path.join(root, 'user');
 const productHome = path.join(root, 'home');
 const frontend = path.join(root, 'frontend');
@@ -40,7 +40,7 @@ assert.equal(await readFile(path.join(frontendSource, 'frontend-revision.json'),
 assert.equal(await readFile(path.join(frontend, 'frontend-revision.json'), 'utf8'), manifest);
 await mkdir(userRoot, { recursive: true });
 await mkdir(productHome, { recursive: true });
-const binaryName = 'openbitfun-desktop' + (process.platform === 'win32' ? '.exe' : '');
+const binaryName = 'opc-desktop' + (process.platform === 'win32' ? '.exe' : '');
 const binarySource = path.resolve(process.env.OPENBITFUN_E2E_DESKTOP_BINARY || path.join(repo, 'target/debug', binaryName));
 const binary = path.join(root, binaryName);
 const binaryStat = await stat(binarySource);

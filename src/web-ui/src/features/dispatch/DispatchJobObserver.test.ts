@@ -383,9 +383,9 @@ describe('DispatchJobObserver', () => {
     // A recreated renderer resumes from its paired transcript cursor, which
     // may already be past the title event, while the index still has the default.
     const storage = dispatchJobStore.persist.getOptions().storage!;
-    const persisted = (await storage.getItem('openbitfun-dispatch-jobs-v1'))!;
+    const persisted = (await storage.getItem('opc-dispatch-jobs-v1'))!;
     dispatchJobStore.setState({ jobs: {} });
-    await storage.setItem('openbitfun-dispatch-jobs-v1', persisted);
+    await storage.setItem('opc-dispatch-jobs-v1', persisted);
     await dispatchJobStore.persist.rehydrate();
     flowChatStore.setState(() => ({ sessions: new Map(), activeSessionId: null }));
     mocks.loadTranscript.mockResolvedValue(cachedTranscript({ cursor: 50 }));

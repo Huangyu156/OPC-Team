@@ -1,5 +1,5 @@
 ---
-name: create-openbitfun-cinematic-wallpaper-skin
+name: create-opc-cinematic-wallpaper-skin
 description: Apply the cinematic animated-wallpaper style recipe to a OPC-Team Appearance skin. Use after loading the parent create-openbitfun-skin Skill when the user provides animated character artwork and wants a host-managed video background, source-derived glass materials, image-led cards, illustrated dialogs, reproducible builds, or cinematic drift checks.
 ---
 
@@ -83,7 +83,7 @@ python examples/cinematic-animated-wallpaper/scripts/build_cinematic_skin.py bui
   --name "<Skin name>" `
   --frame-time <seconds> `
   --palette <palette.json> `
-  --opcteam-repo <openbitfun-repo>
+  --opcteam-repo <opc-repo>
 ```
 
 The thin recipe entrypoint combines cinematic asset generation and manifest construction with the parent's generic build support. It initializes the package, generates previews and assets, copies resolved recipe inputs, scaffolds the manifest, validates project and archive, runs strict host verification, and writes the reproducibility record.

@@ -21,7 +21,7 @@ Do not use an example's surface plan to infer current host capabilities. The reg
 
 ## 3. Initialize and author sparsely
 
-Run `openbitfun_appearance.py init`, then add only required globals, materials, component Parts, scenes, renderers, and assets.
+Run `opc_appearance.py init`, then add only required globals, materials, component Parts, scenes, renderers, and assets.
 
 Use typed Style IR values. Compose Parts through `materials: []`; the singular `material` field is unsupported. Keep image references in Style IR image-only and put video only in top-level `backgroundMedia`.
 

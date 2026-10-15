@@ -35,7 +35,7 @@ import { parseArgs } from 'node:util'
 const PACKAGE_ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
 /** The profile directory OPC-Team materializes this build into. */
-export const PROFILE_NAME = 'openbitfun-acp'
+export const PROFILE_NAME = 'opc-acp'
 
 /**
  * The oldest `@deepseek-ai/dsh` this build is known to boot against. The bridge
@@ -57,7 +57,7 @@ const VENDORED = {
 }
 
 /** Basename of the build stamp OPC-Team compares before re-materializing. */
-const STAMP_FILENAME = '.openbitfun-bridge.json'
+const STAMP_FILENAME = '.opc-bridge.json'
 
 const { values } = parseArgs({
   args: process.argv.slice(2),

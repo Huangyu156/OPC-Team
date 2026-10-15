@@ -3,7 +3,7 @@ import { themes } from '@openbitfun/theme-openbitfun';
 
 export type Theme = 'light' | 'dark';
 
-export const THEME_STORAGE_KEY = 'openbitfun-market-theme';
+export const THEME_STORAGE_KEY = 'opc-market-theme';
 
 export function isTheme(value: string | null): value is Theme {
   return value === 'light' || value === 'dark';

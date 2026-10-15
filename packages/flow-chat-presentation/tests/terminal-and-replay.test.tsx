@@ -116,17 +116,17 @@ it('Lab next-step playback retains the real card and manual state; Replay resets
   expect(container.querySelector('[data-testid="chat-thinking-panel"]')).toBe(thinking);
   expect(container.querySelector('[data-testid="chat-explore-group"]')).not.toBeNull();
   act(() => next.click());
-  const card = container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]');
+  const card = container.querySelector('[data-opc-adapter="exec-process-tool-card"]');
   expect(card).not.toBeNull();
-  const expanded = () => card?.querySelector('[data-openbitfun-part="surface"][data-openbitfun-state~="expanded"]');
+  const expanded = () => card?.querySelector('[data-opc-part="surface"][data-opc-state~="expanded"]');
   expect(expanded()).toBeNull();
   act(() => next.click());
   expect(expanded()).toBeNull();
   await act(async () => { next.click(); });
   expect(expanded()).toBeNull();
-  await act(async () => { card!.querySelector<HTMLElement>('[data-openbitfun-part="surface"]')!.click(); });
+  await act(async () => { card!.querySelector<HTMLElement>('[data-opc-part="surface"]')!.click(); });
   await act(async () => { await vi.dynamicImportSettled(); });
-  expect(container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]')).toBe(card);
+  expect(container.querySelector('[data-opc-adapter="exec-process-tool-card"]')).toBe(card);
   expect(expanded()).not.toBeNull();
   expect(container.querySelector('.terminal-output-renderer__xterm-host')).not.toBeNull();
   act(() => next.click());
@@ -135,8 +135,8 @@ it('Lab next-step playback retains the real card and manual state; Replay resets
   expect(expanded()).not.toBeNull();
   expect(next.disabled).toBe(true);
   act(() => replay.click());
-  expect(container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]')).not.toBe(card);
-  expect(container.querySelector('[data-openbitfun-part="surface"][data-openbitfun-state~="expanded"]')).toBeNull();
+  expect(container.querySelector('[data-opc-adapter="exec-process-tool-card"]')).not.toBe(card);
+  expect(container.querySelector('[data-opc-part="surface"][data-opc-state~="expanded"]')).toBeNull();
 });
 
 async function renderConversation(locale: 'en-US' | 'zh-CN' | 'zh-TW' = 'en-US') {
@@ -175,10 +175,10 @@ it.each(['en-US', 'zh-CN', 'zh-TW'] as const)('complete conversation composes re
   expect(container.querySelectorAll('[data-testid="chat-thinking-panel"]')).toHaveLength(2);
   expect(container.querySelector('[data-reasoning-kind="summary"]')).not.toBeNull();
   expect(container.querySelector('[data-testid="chat-explore-group"]')).not.toBeNull();
-  expect(container.querySelector('[data-openbitfun-tool-card="todo"]')).not.toBeNull();
-  expect(container.querySelectorAll('[data-openbitfun-component="file-operation-tool-card"][data-openbitfun-part="root"]')).toHaveLength(2);
-  expect(container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]')).not.toBeNull();
-  expect(container.querySelector('[data-openbitfun-component="chat-composer"]')).not.toBeNull();
+  expect(container.querySelector('[data-opc-tool-card="todo"]')).not.toBeNull();
+  expect(container.querySelectorAll('[data-opc-component="file-operation-tool-card"][data-opc-part="root"]')).toHaveLength(2);
+  expect(container.querySelector('[data-opc-adapter="exec-process-tool-card"]')).not.toBeNull();
+  expect(container.querySelector('[data-opc-component="chat-composer"]')).not.toBeNull();
   expect(container.querySelector('[data-runtime-status-visible="false"]')).not.toBeNull();
   expect(container.querySelector('.flow-chat-mock .flow-chat-mock__toolbar')).toBeNull();
   expect(container.textContent).not.toMatch(/flowChat\.mock\.|nav\.flowChatMock/);
@@ -292,16 +292,16 @@ it.each(['frontend', 'inspect'])('answering the question applies the chosen %s b
   await click('Awaiting an answer');
   expect(button('Next step').disabled).toBe(true);
   expect(button('Continue').disabled).toBe(true);
-  expect(container.querySelector('[data-openbitfun-component="file-operation-tool-card"]')).toBeNull();
+  expect(container.querySelector('[data-opc-component="file-operation-tool-card"]')).toBeNull();
   act(() => container.querySelector<HTMLInputElement>(`input[value="${choice}"]`)!.click());
   await click('Continue');
   if (choice === 'inspect') {
-    expect(container.querySelector('[data-openbitfun-component="file-operation-tool-card"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]')).toBeNull();
+    expect(container.querySelector('[data-opc-component="file-operation-tool-card"]')).toBeNull();
+    expect(container.querySelector('[data-opc-adapter="exec-process-tool-card"]')).toBeNull();
     expect(container.textContent).toContain('No files were changed.');
     expect(button('Next step').disabled).toBe(true);
   } else {
-    expect(container.querySelector('[data-openbitfun-component="file-operation-tool-card"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="file-operation-tool-card"]')).not.toBeNull();
     expect(container.textContent).toContain('keep the API unchanged');
     expect(button('Next step').disabled).toBe(false);
   }
@@ -310,18 +310,18 @@ it.each(['frontend', 'inspect'])('answering the question applies the chosen %s b
 it('busy input queues locally; stopping retains output and enables explicit queue delivery', async () => {
   await renderConversation();
   await click('In progress');
-  const card = container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]');
+  const card = container.querySelector('[data-opc-adapter="exec-process-tool-card"]');
   setDraft('Keep the existing API.');
   await click('Add to queue');
-  expect(container.querySelector('[data-openbitfun-component="chat-composer-queue"]')?.textContent).toContain('Keep the existing API.');
+  expect(container.querySelector('[data-opc-component="chat-composer-queue"]')?.textContent).toContain('Keep the existing API.');
   expect(button('Send queued message').disabled).toBe(true);
   await click('Stop playback');
-  expect(container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]')).toBe(card);
-  expect(card?.querySelector('[data-openbitfun-status="cancelled"]')).not.toBeNull();
+  expect(container.querySelector('[data-opc-adapter="exec-process-tool-card"]')).toBe(card);
+  expect(card?.querySelector('[data-opc-status="cancelled"]')).not.toBeNull();
   expect(container.querySelector('[data-runtime-status-visible="false"]')).not.toBeNull();
   expect(container.textContent).not.toContain('All 12 tests passed');
   await click('Send queued message');
-  expect(container.querySelector('[data-openbitfun-component="chat-composer-queue"]')).toBeNull();
+  expect(container.querySelector('[data-opc-component="chat-composer-queue"]')).toBeNull();
   expect(container.querySelectorAll('.flow-chat-mock__user')).toHaveLength(3);
   const turns = container.querySelectorAll('.flow-chat-mock__user');
   expect(turns[turns.length - 1].textContent).toContain('Keep the existing API.');
@@ -333,7 +333,7 @@ it('removing a queued message and switching scenarios discard local scenario sta
   setDraft('An unsent follow-up');
   await click('Add to queue');
   await click('Remove queued message');
-  expect(container.querySelector('[data-openbitfun-component="chat-composer-queue"]')).toBeNull();
+  expect(container.querySelector('[data-opc-component="chat-composer-queue"]')).toBeNull();
   expect(container.textContent).not.toContain('An unsent follow-up');
   setDraft('Unsent draft');
   await click('Execution failed');

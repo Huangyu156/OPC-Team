@@ -12,7 +12,7 @@ E2E test framework using WebDriverIO + the embedded OPC-Team WebDriver.
 
 ```bash
 # Build the debug app
-cargo build -p openbitfun-desktop
+cargo build -p opc-desktop
 
 # Install test dependencies
 pnpm --dir tests/e2e install
@@ -60,7 +60,7 @@ The test runner starts OPC-Team directly and waits for the embedded WebDriver se
 ### App not built
 
 ```bash
-cargo build -p openbitfun-desktop
+cargo build -p opc-desktop
 ```
 
 ### Test timeout

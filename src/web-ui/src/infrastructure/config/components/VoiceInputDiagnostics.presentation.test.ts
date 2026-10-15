@@ -13,7 +13,7 @@ describe('VoiceInputDiagnostics presentation', () => {
   it('refreshes microphones from the device dropdown without a separate refresh action', () => {
     const source = readSource('./VoiceInputDiagnostics.tsx');
     const deviceSelect = source.match(
-      /<Select[\s\S]*?data-openbitfun-part="deviceSelect"[\s\S]*?\/>/,
+      /<Select[\s\S]*?data-opc-part="deviceSelect"[\s\S]*?\/>/,
     )?.[0] ?? '';
 
     expect(deviceSelect).toContain('onPointerDown={() => void loadMicrophones()}');

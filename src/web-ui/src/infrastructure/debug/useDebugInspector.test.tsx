@@ -19,11 +19,11 @@ vi.mock('@/infrastructure/api/service-api/ApiClient', () => ({
 
 vi.mock('./mainWindowInspector', () => ({
   createMainWindowInspectorScript: () =>
-    'window.__openbitfunInspectorToggleCount = (window.__openbitfunInspectorToggleCount || 0) + 1; window.__openbitfun_main_inspector_active = true;',
+    'window.__openbitfunInspectorToggleCount = (window.__openbitfunInspectorToggleCount || 0) + 1; window.__opc_main_inspector_active = true;',
   CANCEL_MAIN_WINDOW_INSPECTOR_SCRIPT:
-    'window.__openbitfun_main_inspector_active = false;',
+    'window.__opc_main_inspector_active = false;',
   IS_INSPECTOR_ACTIVE_SCRIPT:
-    'return Boolean(window.__openbitfun_main_inspector_active);',
+    'return Boolean(window.__opc_main_inspector_active);',
 }));
 
 function DebugInspectorHarness(): null {
@@ -72,7 +72,7 @@ describe('useDebugInspector', () => {
     vi.clearAllMocks();
     setTauriRuntime(false);
     delete (window as unknown as { __openbitfunInspectorToggleCount?: number }).__openbitfunInspectorToggleCount;
-    delete (window as unknown as { __openbitfun_main_inspector_active?: boolean }).__openbitfun_main_inspector_active;
+    delete (window as unknown as { __opc_main_inspector_active?: boolean }).__opc_main_inspector_active;
   });
 
   it('does not intercept DevTools shortcuts outside the desktop runtime', () => {

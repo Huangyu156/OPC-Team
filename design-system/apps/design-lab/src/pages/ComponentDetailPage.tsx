@@ -194,12 +194,12 @@ function ReferenceDisclosure({ label, children }: { label: string; children: Rea
       className="design-reference-disclosure"
       summary={label}
       renderHeader={triggerProps => (
-        <h2 className="design-reference-heading" data-openbitfun-part="header">
+        <h2 className="design-reference-heading" data-opc-part="header">
           <button {...triggerProps} className="design-reference-trigger" data-overflow-trigger>
-            <span aria-hidden="true" className="design-reference-indicator" data-openbitfun-part="indicator">
+            <span aria-hidden="true" className="design-reference-indicator" data-opc-part="indicator">
               <Icon name="chevron-right" size="sm" />
             </span>
-            <OverflowText className="design-reference-label" data-openbitfun-part="heading">{label}</OverflowText>
+            <OverflowText className="design-reference-label" data-opc-part="heading">{label}</OverflowText>
           </button>
         </h2>
       )}
@@ -795,7 +795,7 @@ export function ComponentDetailPage({
               required
             >
               <Input
-                defaultValue="openbitfun-provider-api-key"
+                defaultValue="opc-provider-api-key"
                 readOnly
                 trailing={<Icon name="eye" size="lg" aria-hidden="true" />}
                 type="password"
@@ -934,7 +934,7 @@ export function ComponentDetailPage({
       <IconButton
         aria-label={t(annotation ? "components.preview.fieldHelp" : "components.preview.listView")}
         className={state === "focus-visible" ? "lab-force-focus" : undefined}
-        data-openbitfun-preview-state={state === "hover" || state === "active" ? state : undefined}
+        data-opc-preview-state={state === "hover" || state === "active" ? state : undefined}
         disabled={state === "disabled" || applyInspectorControls && inspectorDisabled}
         icon={annotation ? <Icon name="info" /> : <Icon glyph={List} />}
         loading={state === "loading" || applyInspectorControls && inspectorLoading}
@@ -974,7 +974,7 @@ export function ComponentDetailPage({
     if (component.name === "SplitView") return <SplitViewPreview state={state} />;
 
     if (component.name === "MobileButton") {
-      return <MobileButton data-openbitfun-preview-state={state} disabled={state === "disabled"} loading={state === "loading"}>{t("components.preview.actionCardTitle")}</MobileButton>;
+      return <MobileButton data-opc-preview-state={state} disabled={state === "disabled"} loading={state === "loading"}>{t("components.preview.actionCardTitle")}</MobileButton>;
     }
 
     if (component.name === "MobileCard") {
@@ -1017,7 +1017,7 @@ export function ComponentDetailPage({
         <MobileIconButton
           appearance="floating"
           aria-label={t("components.preview.searchLabel")}
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
           disabled={state === "disabled"}
           icon={<Icon name="search" aria-hidden="true" />}
           loading={state === "loading"}
@@ -1046,7 +1046,7 @@ export function ComponentDetailPage({
       return (
         <MobileListRow
           appearance="surface"
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
           disabled={state === "disabled"}
           label={t("components.preview.session")}
           leading={<Icon name="session" aria-hidden="true" />}
@@ -1076,7 +1076,7 @@ export function ComponentDetailPage({
     if (component.name === "MobileCheckbox") {
       return (
         <MobileCheckbox
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
           defaultChecked={state === "checked"}
           description={t("components.preview.fieldDescription")}
           disabled={state === "disabled"}
@@ -1091,7 +1091,7 @@ export function ComponentDetailPage({
     if (component.name === "MobileRadioGroup") {
       return (
         <MobileRadioGroup
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
           key={state}
           name="detail-mobile-radio"
           options={[
@@ -1106,7 +1106,7 @@ export function ComponentDetailPage({
     if (component.name === "MobileSelect") {
       return (
         <MobileSelect
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
           defaultOpen={state === "open"}
           description={state === "invalid" ? t("components.preview.inputError") : undefined}
           disabled={state === "disabled"}
@@ -1126,7 +1126,7 @@ export function ComponentDetailPage({
     if (component.name === "MobileStepper") {
       return (
         <MobileStepper
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-within" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-within" ? state : undefined}
           decrementLabel={t("components.preview.mobileDecrease")}
           description={state === "invalid" ? t("components.preview.inputError") : undefined}
           disabled={state === "disabled"}
@@ -1144,7 +1144,7 @@ export function ComponentDetailPage({
     if (component.name === "MobileSwitch") {
       return (
         <MobileSwitch
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
           defaultChecked={state === "on"}
           description={t("components.preview.fieldDescription")}
           disabled={state === "disabled"}
@@ -1157,7 +1157,7 @@ export function ComponentDetailPage({
     if (component.name === "MobileTabBar") {
       return (
         <MobileTabBar
-          data-openbitfun-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" || state === "focus-visible" ? state : undefined}
           items={[
             { icon: <Icon aria-hidden="true" name="session" />, label: t("components.preview.segmentedChat"), value: "chat" },
             { icon: <Icon aria-hidden="true" name="folder" />, label: t("components.preview.segmentedAgent"), value: "agent" },
@@ -1176,7 +1176,7 @@ export function ComponentDetailPage({
         <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
           {["Design", "Frontend", "Tokens"].map((label, index) => (
             <MobileTag
-              data-openbitfun-preview-state={index === 0 ? forcedTagState : undefined}
+              data-opc-preview-state={index === 0 ? forcedTagState : undefined}
               disabled={state === "disabled"}
               key={label}
               selected={state === "selected" && index === 0}
@@ -1289,7 +1289,7 @@ export function ComponentDetailPage({
     if (component.name === "Disclosure") {
       return (
         <Disclosure
-          data-openbitfun-preview-state={state === "hover" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "focus-visible" ? state : undefined}
           defaultOpen={state === "open"}
           disabled={state === "disabled"}
           key={state}
@@ -1311,7 +1311,7 @@ export function ComponentDetailPage({
             },
           ]}
           className={state === "focus-visible" ? "lab-force-focus" : undefined}
-          data-openbitfun-preview-state={state === "hover" || state === "active" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" ? state : undefined}
           description={t("components.preview.actionCardDescription")}
           disabled={state === "disabled"}
           leading={<Icon name="session" size="lg" aria-hidden="true" />}
@@ -1327,7 +1327,7 @@ export function ComponentDetailPage({
       return (
         <LauncherButton
           className={state === "focus-visible" ? "lab-force-focus" : undefined}
-          data-openbitfun-preview-state={
+          data-opc-preview-state={
             state === "hover" || state === "active" || state === "focus-visible"
               ? state
               : undefined
@@ -1421,7 +1421,7 @@ export function ComponentDetailPage({
       return (
         <Select
           aria-label="Mode"
-          data-openbitfun-preview-state={state === "hover" || state === "focus-visible" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "focus-visible" ? state : undefined}
           disabled={state === "disabled"}
           invalid={state === "invalid"}
           leading={<Icon name="unselected" />}
@@ -1455,7 +1455,7 @@ export function ComponentDetailPage({
               label: t("components.preview.more"),
             },
           ]}
-          data-openbitfun-preview-state={state === "hover" || state === "active" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" ? state : undefined}
           disabled={state === "disabled"}
           leading={<Icon name="session" size="lg" aria-hidden="true" />}
           metadata={actionItemShowMetadata ? "12" : undefined}
@@ -1491,7 +1491,7 @@ export function ComponentDetailPage({
           className={state === "focus-visible"
             ? "component-activity-item-example lab-force-focus"
             : "component-activity-item-example"}
-          data-openbitfun-preview-state={state === "hover" || state === "active" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" ? state : undefined}
           detail={surface && activityShowDetail
             ? <code>{t("components.preview.activityDetail")}</code>
             : undefined}
@@ -1523,7 +1523,7 @@ export function ComponentDetailPage({
       return (
         <Button
           className={state === "focus-visible" ? "lab-force-focus" : undefined}
-          data-openbitfun-preview-state={state === "hover" || state === "active" ? state : undefined}
+          data-opc-preview-state={state === "hover" || state === "active" ? state : undefined}
           disabled={state === "disabled" || applyInspectorControls && inspectorDisabled}
           leadingIcon={leadingIcon}
           loading={state === "loading" || applyInspectorControls && inspectorLoading}

@@ -276,7 +276,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
         const { pickWorkspaceDirectory } = await import(
           '@/infrastructure/peer-device/pickWorkspaceDirectory'
         );
-        unlistenFns.push(await listen('openbitfun_menu_open_project', async () => {
+        unlistenFns.push(await listen('opc_menu_open_project', async () => {
           try {
             const selected = await pickWorkspaceDirectory({
               title: t('header.selectProjectDirectory'),
@@ -284,8 +284,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
             if (selected) await openWorkspace(selected);
           } catch {}
         }));
-        unlistenFns.push(await listen('openbitfun_menu_new_project', () => handleNewProject()));
-        unlistenFns.push(await listen('openbitfun_menu_about', () => handleShowAbout()));
+        unlistenFns.push(await listen('opc_menu_new_project', () => handleNewProject()));
+        unlistenFns.push(await listen('opc_menu_about', () => handleShowAbout()));
       } catch {}
     })();
     return () => { unlistenFns.forEach(fn => fn()); unlistenFns = []; };
@@ -442,7 +442,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
           }
         };
 
-        unlistenFn = await listen('openbitfun_main_window_close_requested', async () => {
+        unlistenFn = await listen('opc_main_window_close_requested', async () => {
           if (handlingClose) return;
           handlingClose = true;
 
@@ -670,12 +670,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
   }, []);
 
   const containerClassName = [
-    'openbitfun-app-layout',
-    isMacOS ? 'openbitfun-app-layout--macos' : '',
+    'opc-app-layout',
+    isMacOS ? 'opc-app-layout--macos' : '',
     className,
-    isFullscreen ? 'openbitfun-app-layout--window-fullscreen' : '',
-    isFullscreenChrome ? 'openbitfun-app-layout--fullscreen-chrome' : '',
-    isTransitioning ? 'openbitfun-app-layout--transitioning' : '',
+    isFullscreen ? 'opc-app-layout--window-fullscreen' : '',
+    isFullscreenChrome ? 'opc-app-layout--fullscreen-chrome' : '',
+    isTransitioning ? 'opc-app-layout--transitioning' : '',
   ].filter(Boolean).join(' ');
 
   const aboutDialog = (
@@ -695,12 +695,12 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
         <DailyAppUpdateGate />
         {aboutDialog}
         <div
-          className={`${containerClassName} openbitfun-app-layout--toolbar-mode`}
+          className={`${containerClassName} opc-app-layout--toolbar-mode`}
           data-testid="app-layout"
-          data-openbitfun-component="app-layout"
-          data-openbitfun-part="root"
-          data-openbitfun-state="toolbar"
-          data-openbitfun-background-media={backgroundMedia?.url ? 'video' : undefined}
+          data-opc-component="app-layout"
+          data-opc-part="root"
+          data-opc-state="toolbar"
+          data-opc-background-media={backgroundMedia?.url ? 'video' : undefined}
         >
           <AppearanceBackgroundMediaLayer
             media={backgroundMedia}
@@ -722,10 +722,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
       <div
         className={containerClassName}
         data-testid="app-layout"
-        data-openbitfun-component="app-layout"
-        data-openbitfun-part="root"
-        data-openbitfun-state={isFullscreen ? 'fullscreen' : undefined}
-        data-openbitfun-background-media={backgroundMedia?.url ? 'video' : undefined}
+        data-opc-component="app-layout"
+        data-opc-part="root"
+        data-opc-state={isFullscreen ? 'fullscreen' : undefined}
+        data-opc-background-media={backgroundMedia?.url ? 'video' : undefined}
       >
         <AppearanceBackgroundMediaLayer
           media={backgroundMedia}
@@ -735,19 +735,19 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
         {windowModeHint && (
           <div
             key={windowModeHint.id}
-            className="openbitfun-window-mode-hint"
-            data-openbitfun-component="app-layout"
-            data-openbitfun-part="windowModeHint"
+            className="opc-window-mode-hint"
+            data-opc-component="app-layout"
+            data-opc-part="windowModeHint"
             role="status"
             aria-live="polite"
           >
-            <span className="openbitfun-window-mode-hint__title" data-openbitfun-component="app-layout" data-openbitfun-part="windowModeTitle">{windowModeHint.title}</span>
-            <OverflowText className="openbitfun-window-mode-hint__detail" data-openbitfun-component="app-layout" data-openbitfun-part="windowModeDetail">{windowModeHint.detail}</OverflowText>
+            <span className="opc-window-mode-hint__title" data-opc-component="app-layout" data-opc-part="windowModeTitle">{windowModeHint.title}</span>
+            <OverflowText className="opc-window-mode-hint__detail" data-opc-component="app-layout" data-opc-part="windowModeDetail">{windowModeHint.detail}</OverflowText>
           </div>
         )}
 
         {/* Main content — always render WorkspaceBody; WelcomeScene in viewport handles no-workspace state */}
-        <main className="openbitfun-app-main-workspace" data-testid="app-main-content" data-openbitfun-component="app-layout" data-openbitfun-part="main">
+        <main className="opc-app-main-workspace" data-testid="app-main-content" data-opc-component="app-layout" data-opc-part="main">
           <WorkspaceBody
             onMinimize={canUseNativeWindowControls && !isMacOS ? handleMinimize : undefined}
             onMaximize={canUseNativeWindowControls ? handleMaximize : undefined}

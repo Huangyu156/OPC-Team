@@ -167,15 +167,15 @@ type UpcomingModelMode = 'smart' | 'pool';
 type ModelSelectorLevelDirection = 'none' | 'forward' | 'back';
 
 const ModelSelectorTooltipContent: React.FC<{ details: ModelSelectorTooltipDetails }> = ({ details }) => (
-  <div className="openbitfun-model-selector__tooltip">
+  <div className="opc-model-selector__tooltip">
     {details.rows.map(row => (
-      <div key={row.key} className="openbitfun-model-selector__tooltip-row">
-        <span className="openbitfun-model-selector__tooltip-label">{row.label}</span>
-        <span className="openbitfun-model-selector__tooltip-value">{row.value}</span>
+      <div key={row.key} className="opc-model-selector__tooltip-row">
+        <span className="opc-model-selector__tooltip-label">{row.label}</span>
+        <span className="opc-model-selector__tooltip-value">{row.value}</span>
       </div>
     ))}
     {details.warning ? (
-      <div className="openbitfun-model-selector__tooltip-warning">{details.warning}</div>
+      <div className="opc-model-selector__tooltip-warning">{details.warning}</div>
     ) : null}
   </div>
 );
@@ -185,15 +185,15 @@ const ModelSelectorMenuLevel: React.FC<{
   direction: ModelSelectorLevelDirection;
 }> = ({ children, direction }) => (
   <div
-    className="openbitfun-model-selector__level"
-    data-openbitfun-component="model-selector"
-    data-openbitfun-part="level"
+    className="opc-model-selector__level"
+    data-opc-component="model-selector"
+    data-opc-part="level"
     data-direction={direction}
   >
     <div
-      className="openbitfun-model-selector__list"
-      data-openbitfun-component="model-selector"
-      data-openbitfun-part="list"
+      className="opc-model-selector__list"
+      data-opc-component="model-selector"
+      data-opc-part="list"
     >
       <MenuSection>{children}</MenuSection>
     </div>
@@ -952,8 +952,8 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         leading={<Icon name="info" size="sm" aria-hidden />}
         data-testid="chat-model-selector-status"
         data-model-status={currentAvailability.status}
-        data-openbitfun-component="model-selector"
-        data-openbitfun-part="option"
+        data-opc-component="model-selector"
+        data-opc-part="option"
       >
         {getAvailabilityLabel(currentAvailability.status, t)}
       </MenuItem>
@@ -961,8 +961,8 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         <MenuItem
           data-testid="chat-model-selector-open-settings"
           leading={<Icon name="settings" size="sm" aria-hidden />}
-          data-openbitfun-component="model-selector"
-          data-openbitfun-part="option"
+          data-opc-component="model-selector"
+          data-opc-part="option"
           onClick={handleOpenModelSettings}
         >
           {t('modelSelector.openModelSettings')}
@@ -1950,7 +1950,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   const modeControl = isNativeModelSelection ? (
     <MenuItem
       ref={modeFieldRef}
-      className="openbitfun-model-selector__mode-control"
+      className="opc-model-selector__mode-control"
       data-testid="chat-model-selector-settings-mode"
       data-model-menu-target="modes"
       aria-expanded={activePanel === 'modes'}
@@ -1968,17 +1968,17 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   ) : undefined;
 
   return (
-    <div data-openbitfun-component="model-selector" data-openbitfun-part="root"
+    <div data-opc-component="model-selector" data-opc-part="root"
       ref={dropdownRef}
-      className={`openbitfun-model-selector ${className}`}
-      data-openbitfun-state={[modelInformationLoading ? 'loading' : displayedAvailability.status, dropdownOpen && 'open'].filter(Boolean).join(' ')}
+      className={`opc-model-selector ${className}`}
+      data-opc-state={[modelInformationLoading ? 'loading' : displayedAvailability.status, dropdownOpen && 'open'].filter(Boolean).join(' ')}
     >
       {showModelTrigger && (
       <Tooltip content={disabledReason || tooltipContent} disabled={dropdownOpen}>
         <button data-overflow-trigger
           ref={triggerRef}
           data-testid="chat-model-selector-btn"
-          className={`openbitfun-model-selector__trigger ${dropdownOpen ? 'openbitfun-model-selector__trigger--open' : ''}`}
+          className={`opc-model-selector__trigger ${dropdownOpen ? 'opc-model-selector__trigger--open' : ''}`}
           type="button"
           aria-haspopup="menu"
           aria-expanded={dropdownOpen}
@@ -2005,26 +2005,26 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
             || reasoningLoading
             || externalSelection?.disabled
           }
-         data-openbitfun-component="model-selector" data-openbitfun-part="trigger" data-openbitfun-state={dropdownOpen ? 'open' : undefined}>
+         data-opc-component="model-selector" data-opc-part="trigger" data-opc-state={dropdownOpen ? 'open' : undefined}>
           {modelInformationLoading && <Spinner size="xs" />}
-          <OverflowText className="openbitfun-model-selector__name" data-openbitfun-component="model-selector" data-openbitfun-part="name">
+          <OverflowText className="opc-model-selector__name" data-opc-component="model-selector" data-opc-part="name">
              {modelLabel}
           </OverflowText>
           {isAcpSelection && acpFastMode?.enabled && (
-            <Icon glyph={Zap} size="xs" className="openbitfun-model-selector__fast-icon" />
+            <Icon glyph={Zap} size="xs" className="opc-model-selector__fast-icon" />
           )}
           {hasReasoningSettings && (
             <span
-              className="openbitfun-model-selector__trigger-reasoning"
+              className="opc-model-selector__trigger-reasoning"
               data-testid="chat-model-selector-trigger-reasoning"
-              data-openbitfun-component="model-selector"
-              data-openbitfun-part="reasoningSummary"
+              data-opc-component="model-selector"
+              data-opc-part="reasoningSummary"
             >
               {t('reasoningSelector.title')}: {' '}
               {currentReasoningLabel}
             </span>
           )}
-          <Icon name="chevron-down" size="xs" className="openbitfun-model-selector__chevron" data-testid="chat-model-selector-dropdown-indicator" />
+          <Icon name="chevron-down" size="xs" className="opc-model-selector__chevron" data-testid="chat-model-selector-dropdown-indicator" />
         </button>
       </Tooltip>
       )}
@@ -2049,9 +2049,9 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         {createOverlayPortal(
           <Menu
             id={menuId}
-            className="openbitfun-model-selector__dropdown"
-            data-openbitfun-component="model-selector"
-            data-openbitfun-part="dropdown"
+            className="opc-model-selector__dropdown"
+            data-opc-component="model-selector"
+            data-opc-part="dropdown"
             ref={portalDropdownRef}
             style={{
               ...dropdownStyle,
@@ -2076,10 +2076,10 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               )}
             {showModelLoadingState ? (
               <div
-                className="openbitfun-model-selector__loading"
+                className="opc-model-selector__loading"
                 data-testid="chat-model-selector-loading"
-                data-openbitfun-component="model-selector"
-                data-openbitfun-part="loading"
+                data-opc-component="model-selector"
+                data-opc-part="loading"
                 role="status"
               >
                 <LoadingState size="sm">{t('modelSelector.status.loading')}</LoadingState>
@@ -2093,7 +2093,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                   {hasSettingsPanel && !activeProviderGroup && (
                     <>
                       <MenuItem
-                        className="openbitfun-model-selector__selection-back"
+                        className="opc-model-selector__selection-back"
                         data-testid="chat-model-selector-summary-back"
                         aria-label={t('modelSelector.backToSettings')}
                         aria-describedby={`${menuId}-current-selection`}
@@ -2136,9 +2136,9 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                   data-model-id={model.id}
                                   data-model-name={model.modelName}
                                   data-selected={currentModelId === model.id ? 'true' : 'false'}
-                                  data-openbitfun-component="model-selector"
-                                  data-openbitfun-part="option"
-                                  data-openbitfun-state={currentModelId === model.id ? 'selected' : undefined}
+                                  data-opc-component="model-selector"
+                                  data-opc-part="option"
+                                  data-opc-state={currentModelId === model.id ? 'selected' : undefined}
                                   metadata={currentModelId === model.id ? <Icon name="check-line" size="sm" aria-hidden /> : null}
                                   onClick={() => handleSelectModelFromMenu(model.id)}
                                 >
@@ -2154,8 +2154,8 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                     <>
                       <MenuItem
                         data-testid="chat-model-selector-back"
-                        data-openbitfun-component="model-selector"
-                        data-openbitfun-part="back"
+                        data-opc-component="model-selector"
+                        data-opc-part="back"
                         aria-label={t(modelsFromSummary ? 'modelSelector.backToSettings' : 'modelSelector.backToProviders')}
                         leading={<Icon name="chevron-left" size="xs" aria-hidden />}
                         onClick={closeProviderLevel}
@@ -2175,9 +2175,9 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                               data-model-id={model.id}
                               data-model-name={model.modelName}
                               data-selected={isSelected ? 'true' : 'false'}
-                              data-openbitfun-component="model-selector"
-                              data-openbitfun-part="option"
-                              data-openbitfun-state={isSelected ? 'selected' : undefined}
+                              data-opc-component="model-selector"
+                              data-opc-part="option"
+                              data-opc-state={isSelected ? 'selected' : undefined}
                               metadata={isSelected ? <Icon name="check-line" size="sm" aria-hidden /> : null}
                               onClick={() => handleSelectModelFromMenu(model.id)}
                             >
@@ -2204,19 +2204,19 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                               data-testid="chat-model-selector-provider"
                               data-provider-key={group.key}
                               data-selected={isSelected ? 'true' : 'false'}
-                              data-openbitfun-component="model-selector"
-                              data-openbitfun-part="providerOption"
-                              data-openbitfun-state={isSelected ? 'selected' : undefined}
+                              data-opc-component="model-selector"
+                              data-opc-part="providerOption"
+                              data-opc-state={isSelected ? 'selected' : undefined}
                               metadata={group.models.length}
                               shortcut={<Icon name="chevron-right" size="sm" aria-hidden />}
                               onClick={() => openProviderLevel(group.key)}
                             >
-                              <span className="openbitfun-model-selector__option-main" data-openbitfun-component="model-selector" data-openbitfun-part="optionMain">
-                                <OverflowText className="openbitfun-model-selector__option-name">
+                              <span className="opc-model-selector__option-main" data-opc-component="model-selector" data-opc-part="optionMain">
+                                <OverflowText className="opc-model-selector__option-name">
                                   {group.providerName}
                                 </OverflowText>
                                 {isSelected && (
-                                  <Icon name="check-line" size="xs" aria-hidden="true" className="openbitfun-model-selector__option-selected-check" data-testid="chat-model-selector-provider-selected-check" />
+                                  <Icon name="check-line" size="xs" aria-hidden="true" className="opc-model-selector__option-selected-check" data-testid="chat-model-selector-provider-selected-check" />
                                 )}
                               </span>
                             </MenuItem>
@@ -2234,7 +2234,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                 aria-label={t('modelSelector.modelSettings')}
               >
                 <MenuList
-                  className="openbitfun-model-selector__settings-card"
+                  className="opc-model-selector__settings-card"
                   data-model-mode={currentModelMode ?? undefined}
                   data-has-model={showModelChoices}
                   data-has-reasoning={hasReasoningSettings}
@@ -2242,9 +2242,9 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                 >
                   {activePanel === 'modes' && (
                     <div
-                      className="openbitfun-model-selector__mode-choices"
-                      data-openbitfun-component="model-selector"
-                      data-openbitfun-part="modeChoices"
+                      className="opc-model-selector__mode-choices"
+                      data-opc-component="model-selector"
+                      data-opc-part="modeChoices"
                       aria-busy={modeSelectionPending || undefined}
                       onKeyDown={handleModeChoicesKeyDown}
                     >
@@ -2279,19 +2279,19 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                   )}
                   {((showModelChoices && !currentModelMode) || hasReasoningSettings) && (
                     <div
-                      className="openbitfun-model-selector__model-summary"
+                      className="opc-model-selector__model-summary"
                       aria-hidden={activePanel === 'modes' || undefined}
                       {...(activePanel === 'modes' ? { inert: '' } : {})}
                     >
                       {showModelChoices && !currentModelMode && (
                         <MenuList
-                          className="openbitfun-model-selector__model-field"
-                          data-openbitfun-component="model-selector"
-                          data-openbitfun-part="selectionSummary"
+                          className="opc-model-selector__model-field"
+                          data-opc-component="model-selector"
+                          data-opc-part="selectionSummary"
                         >
                           <MenuItem data-overflow-trigger
                             ref={modelFieldRef}
-                            className="openbitfun-model-selector__model-control"
+                            className="opc-model-selector__model-control"
                             labelBehavior="static"
                             data-testid="chat-model-selector-settings-model"
                             data-model-menu-target="models"
@@ -2305,7 +2305,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                             }}
                             disabled={disabled || loading || externalSelection?.disabled}
                           >
-                            <OverflowText className="openbitfun-model-selector__model-name">
+                            <OverflowText className="opc-model-selector__model-name">
                               {settingsModelLabel}
                             </OverflowText>
                           </MenuItem>
@@ -2313,7 +2313,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                       )}
                       {hasReasoningSettings && (
                         <div
-                          className="openbitfun-model-selector__reasoning-control"
+                          className="opc-model-selector__reasoning-control"
                           data-reasoning-mode={automaticReasoning ? 'auto' : 'manual'}
                         >
                           <ReasoningIntensityControl
@@ -2332,7 +2332,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                   {(modeControl || (showModelChoices && !currentModelMode && displayedModel?.providerName)) && (
                     <MenuList
                       className={currentModelMode
-                        ? 'openbitfun-model-selector__mode-summary' : 'openbitfun-model-selector__mode-footer'}
+                        ? 'opc-model-selector__mode-summary' : 'opc-model-selector__mode-footer'}
                       aria-hidden={activePanel === 'modes' || undefined}
                       {...(activePanel === 'modes' ? { inert: '' } : {})}
                     >
@@ -2340,7 +2340,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                       {showModelChoices && !currentModelMode && displayedModel?.providerName && (
                         <MenuItem data-overflow-trigger
                           ref={providerFieldRef}
-                          className="openbitfun-model-selector__provider-control"
+                          className="opc-model-selector__provider-control"
                           labelBehavior="static"
                           data-testid="chat-model-selector-settings-provider"
                           data-model-menu-target="providers"
@@ -2349,7 +2349,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                           onClick={() => openPanelFromClick('providers')}
                           onKeyDown={event => handlePanelTriggerKeyDown('providers', event)}
                         >
-                          <OverflowText className="openbitfun-model-selector__model-provider">
+                          <OverflowText className="opc-model-selector__model-provider">
                             {displayedModel.providerName}
                           </OverflowText>
                         </MenuItem>

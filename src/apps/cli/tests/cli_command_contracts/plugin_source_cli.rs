@@ -22,7 +22,7 @@ fn sha256(bytes: &[u8]) -> String {
 /// Project plugin root exactly as the CLI resolves it through PathManager.
 fn plugins_root(workspace: &Path) -> PathBuf {
     workspace
-        .join(openbitfun_core_types::product_identity::hidden_data_directory())
+        .join(opc_core_types::product_identity::hidden_data_directory())
         .join("plugins")
 }
 
@@ -49,7 +49,7 @@ fn write_package(workspace: &Path, source: &[u8], declared_hash: &str) {
 
 fn run_cli(workspace: &Path, user_root: &Path, home_root: &Path, args: &[&str]) -> Output {
     let config_root = user_root.join("host-config");
-    openbitfun_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
+    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
         .args(args)
         .current_dir(workspace)
         .env_remove("OPENBITFUN_USER_ROOT")
@@ -128,7 +128,7 @@ fn plugin_source_cli_rejects_unavailable_product_paths() {
     std::fs::create_dir_all(&workspace).expect("create workspace");
 
     let output =
-        openbitfun_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
+        opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
             .args(["plugins", "list"])
             .current_dir(&workspace)
             .env_remove("OPENBITFUN_USER_ROOT")

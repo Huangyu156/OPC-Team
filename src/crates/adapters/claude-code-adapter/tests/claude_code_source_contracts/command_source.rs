@@ -1,5 +1,5 @@
-use openbitfun_claude_code_adapter::{ClaudeCodeCommandProvider, ClaudeCodeCommandProviderOptions};
-use openbitfun_product_domains::external_sources::{
+use opc_claude_code_adapter::{ClaudeCodeCommandProvider, ClaudeCodeCommandProviderOptions};
+use opc_product_domains::external_sources::{
     ExecutionDomainId, ExternalSourceContext, PromptCommandAvailability,
     PromptCommandProviderSnapshot, PromptCommandShellPreference, PromptCommandSourceProvider,
 };
@@ -57,7 +57,7 @@ fn write(path: impl AsRef<Path>, contents: &str) {
 fn resolve(
     provider: &ClaudeCodeCommandProvider,
     snapshot: &PromptCommandProviderSnapshot,
-) -> Vec<openbitfun_product_domains::external_sources::PromptCommandDefinition> {
+) -> Vec<opc_product_domains::external_sources::PromptCommandDefinition> {
     provider
         .resolve_commands(
             snapshot,
@@ -523,8 +523,7 @@ fn invalid_higher_layer_command_masks_lower_layer_until_source_is_disabled() {
         .sources
         .iter()
         .filter(|source| {
-            source.scope
-                != openbitfun_product_domains::external_sources::ExternalSourceScope::UserGlobal
+            source.scope != opc_product_domains::external_sources::ExternalSourceScope::UserGlobal
         })
         .map(|source| source.key.clone())
         .collect::<BTreeSet<_>>();
@@ -576,12 +575,12 @@ fn watch_roots_are_bounded_to_user_and_project_claude_directories() {
 
 #[test]
 fn configured_claude_directory_is_shared_by_providers_and_watch_roots() {
-    use openbitfun_claude_code_adapter::{
+    use opc_claude_code_adapter::{
         ClaudeCodeHookProvider, ClaudeCodeHookProviderOptions, ClaudeCodeInstructionSourceOptions,
         ClaudeCodeSubagentProvider, ClaudeCodeSubagentProviderOptions,
     };
-    use openbitfun_product_domains::external_hook_catalog::ExternalHookSourceProvider;
-    use openbitfun_product_domains::external_subagents::{
+    use opc_product_domains::external_hook_catalog::ExternalHookSourceProvider;
+    use opc_product_domains::external_subagents::{
         ExternalSubagentDiscoveryInput, ExternalSubagentSourceProvider,
     };
     struct Restore(Option<std::ffi::OsString>);
@@ -620,9 +619,9 @@ fn configured_claude_directory_is_shared_by_providers_and_watch_roots() {
     let agents =
         ClaudeCodeSubagentProvider::new(ClaudeCodeSubagentProviderOptions::from_environment());
     let hooks = ClaudeCodeHookProvider::new(ClaudeCodeHookProviderOptions::from_environment());
-    let context = openbitfun_product_domains::external_sources::ExternalSourceContext {
+    let context = opc_product_domains::external_sources::ExternalSourceContext {
         workspace_root: None,
-        execution_domain_id: openbitfun_product_domains::external_sources::ExecutionDomainId::new(
+        execution_domain_id: opc_product_domains::external_sources::ExecutionDomainId::new(
             "local-user",
         )
         .unwrap(),

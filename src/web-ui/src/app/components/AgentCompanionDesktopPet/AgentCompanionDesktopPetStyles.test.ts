@@ -80,9 +80,9 @@ describe('AgentCompanionDesktopPet styles', () => {
     const overlay = extractBlock(stylesheet, '&__overlay');
     const menuItem = extractBlock(stylesheet, '&__menu-item');
     const hover = extractBlock(actionItemStyles,
-      '.root:not([data-disabled="true"]):hover,\n  .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="hover"])');
+      '.root:not([data-disabled="true"]):hover,\n  .root:not([data-disabled="true"]):has(.trigger[data-opc-preview-state="hover"])');
     const pressed = extractBlock(actionItemStyles,
-      '.root:not([data-disabled="true"]):has(.trigger:active),\n  .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="active"])');
+      '.root:not([data-disabled="true"]):has(.trigger:active),\n  .root:not([data-disabled="true"]):has(.trigger[data-opc-preview-state="active"])');
 
     expect(source).toContain('import { OverflowText, Menu, MenuItem, ScrollArea } from \'@openbitfun/ui\'');
     expect(source).not.toContain('triggerClassName');

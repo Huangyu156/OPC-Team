@@ -165,12 +165,12 @@ export const TabOverflowMenu: React.FC<TabOverflowMenuProps> = ({
       : '';
 
   return (
-    <div data-openbitfun-product-component="canvas-tab-overflow" data-openbitfun-product-part="root" data-openbitfun-state={isOpen ? 'open' : ''} ref={wrapperRef} className="canvas-tab-panorama-wrapper">
+    <div data-opc-product-component="canvas-tab-overflow" data-opc-product-part="root" data-opc-state={isOpen ? 'open' : ''} ref={wrapperRef} className="canvas-tab-panorama-wrapper">
       <Tooltip content={tooltipContent} placement="bottom">
         {hasOverflow ? (
           <Button
-            data-openbitfun-product-component="canvas-tab-overflow"
-            data-openbitfun-product-part="trigger"
+            data-opc-product-component="canvas-tab-overflow"
+            data-opc-product-part="trigger"
             size="sm"
             variant="outline"
             labelBehavior="static"
@@ -181,14 +181,14 @@ export const TabOverflowMenu: React.FC<TabOverflowMenuProps> = ({
             leadingIcon={hasMissionControl ? <Icon glyph={LayoutGrid} size="sm" /> : undefined}
             trailingIcon={<Icon name={isOpen ? 'chevron-up' : 'chevron-down'} size="sm" />}
           >
-            <span data-openbitfun-product-component="canvas-tab-overflow" data-openbitfun-product-part="badge">
+            <span data-opc-product-component="canvas-tab-overflow" data-opc-product-part="badge">
               +{overflowTabs.length}
             </span>
           </Button>
         ) : (
           <IconButton
-            data-openbitfun-product-component="canvas-tab-overflow"
-            data-openbitfun-product-part="trigger"
+            data-opc-product-component="canvas-tab-overflow"
+            data-opc-product-part="trigger"
             size="sm"
             variant="outline"
             aria-label={tooltipContent}
@@ -249,9 +249,9 @@ export const TabOverflowMenu: React.FC<TabOverflowMenuProps> = ({
                 }]}
               >
                 <OverflowText behavior="marquee"
-                  data-openbitfun-product-component="canvas-tab-overflow"
-                  data-openbitfun-product-part="itemTitle"
-                  data-openbitfun-state={[
+                  data-opc-product-component="canvas-tab-overflow"
+                  data-opc-product-part="itemTitle"
+                  data-opc-state={[
                     activeTabId === tab.id && 'active',
                     tab.isDirty && 'dirty',
                     tab.fileDeletedFromDisk && 'deleted',

@@ -90,7 +90,7 @@ export const useInputHistoryStore = create<InputHistoryState>()(
       },
     }),
     {
-      name: 'openbitfun-input-history',
+      name: 'opc-input-history',
       version: 2, // Bump version to migrate from old format
       migrate: (persistedState: any, version: number) => {
         if (version < 2) {

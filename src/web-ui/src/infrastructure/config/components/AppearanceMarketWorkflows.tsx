@@ -210,8 +210,8 @@ export function AppearanceMarketWorkflows({ workflow }: AppearanceMarketWorkflow
   const renderManualSubmit = () => manualSubmitOpen && (
     <form
       className="appearance-market__manual-submit"
-      data-openbitfun-component="appearance-settings"
-      data-openbitfun-part="marketManualSubmit"
+      data-opc-component="appearance-settings"
+      data-opc-part="marketManualSubmit"
       onSubmit={event => void submitPackage(event)}
     >
       <div className="appearance-market__manual-submit-heading">
@@ -380,8 +380,8 @@ export function AppearanceMarketWorkflows({ workflow }: AppearanceMarketWorkflow
     return (
       <section
         className="appearance-market__workflow"
-        data-openbitfun-component="appearance-settings"
-        data-openbitfun-part="marketWorkflow"
+        data-opc-component="appearance-settings"
+        data-opc-part="marketWorkflow"
         aria-labelledby="appearance-market-submissions-title"
       >
         <header className="appearance-market__workflow-heading">
@@ -421,15 +421,15 @@ export function AppearanceMarketWorkflows({ workflow }: AppearanceMarketWorkflow
             ) : (
               <div
                 className="appearance-market__submission-list"
-                data-openbitfun-component="appearance-settings"
-                data-openbitfun-part="marketSubmissionList"
+                data-opc-component="appearance-settings"
+                data-opc-part="marketSubmissionList"
               >
                 {submissions.map(submission => (
                   <article
                     key={submission.submissionId}
                     className="appearance-market__submission"
-                    data-openbitfun-component="appearance-settings"
-                    data-openbitfun-part="marketSubmission"
+                    data-opc-component="appearance-settings"
+                    data-opc-part="marketSubmission"
                   >
                     <div className="appearance-market__submission-preview">
                       {submission.previewUrl
@@ -485,8 +485,8 @@ export function AppearanceMarketWorkflows({ workflow }: AppearanceMarketWorkflow
   return (
     <section
       className="appearance-market__workflow"
-      data-openbitfun-component="appearance-settings"
-      data-openbitfun-part="marketWorkflow"
+      data-opc-component="appearance-settings"
+      data-opc-part="marketWorkflow"
       aria-labelledby="appearance-market-review-title"
     >
       <header className="appearance-market__workflow-heading">
@@ -511,13 +511,13 @@ export function AppearanceMarketWorkflows({ workflow }: AppearanceMarketWorkflow
       ) : (
         <div
           className="appearance-market__review-layout"
-          data-openbitfun-component="appearance-settings"
-          data-openbitfun-part="marketReviewLayout"
+          data-opc-component="appearance-settings"
+          data-opc-part="marketReviewLayout"
         >
           <ScrollArea
             className="appearance-market__review-queue"
-            data-openbitfun-component="appearance-settings"
-            data-openbitfun-part="marketReviewQueue"
+            data-opc-component="appearance-settings"
+            data-opc-part="marketReviewQueue"
           >
             {reviewQueue.map(submission => (
               <button data-overflow-trigger
@@ -535,8 +535,8 @@ export function AppearanceMarketWorkflows({ workflow }: AppearanceMarketWorkflow
           </ScrollArea>
           <ScrollArea
             className="appearance-market__review-detail"
-            data-openbitfun-component="appearance-settings"
-            data-openbitfun-part="marketReviewDetail"
+            data-opc-component="appearance-settings"
+            data-opc-part="marketReviewDetail"
           >
             {detailLoading || !reviewDetail ? (
               <p className="appearance-market__loading">{t('package.market.review.detailLoading')}</p>
@@ -591,8 +591,8 @@ export function AppearanceMarketWorkflows({ workflow }: AppearanceMarketWorkflow
                 )}
                 <div
                   className="appearance-market__review-actions"
-                  data-openbitfun-component="appearance-settings"
-                  data-openbitfun-part="marketReviewActions"
+                  data-opc-component="appearance-settings"
+                  data-opc-part="marketReviewActions"
                 >
                   <Textarea
                     label={t('package.market.review.reason')}

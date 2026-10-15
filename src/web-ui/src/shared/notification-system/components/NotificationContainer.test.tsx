@@ -115,7 +115,7 @@ describe('NotificationContainer', () => {
     }]);
 
     act(() => root.render(<NotificationContainer />));
-    const action = document.querySelector('.notification-item__actions [data-openbitfun-component="button"]') as HTMLButtonElement;
+    const action = document.querySelector('.notification-item__actions [data-opc-component="button"]') as HTMLButtonElement;
     action.focus();
     expect(document.activeElement).toBe(action);
 

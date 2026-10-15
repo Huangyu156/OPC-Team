@@ -6,12 +6,12 @@ use agent_client_protocol::schema::{
 };
 use agent_client_protocol::{Client, ConnectionTo, Error, Result};
 use log::warn;
-use openbitfun_agent_runtime::sdk::{
+use opc_agent_runtime::sdk::{
     AgentDialogTurnRequest, AgentSessionEventReceiver, AgentSubmissionSource,
     AgentTurnCancellationRequest, DialogSubmissionPolicy, DialogSubmitOutcome, PermissionReply,
     PermissionRequest, PermissionRequestEvent, PermissionRequestEventReceiver,
 };
-use openbitfun_events::AgenticEvent as CoreEvent;
+use opc_events::AgenticEvent as CoreEvent;
 use serde_json::json;
 use tokio::sync::broadcast;
 
@@ -41,7 +41,7 @@ impl OpcTeamAcpRuntime {
 
         let mut event_rx = self
             .agent_runtime
-            .subscribe_session_events(&acp_session.openbitfun_session_id)
+            .subscribe_session_events(&acp_session.opc_session_id)
             .map_err(|error| Self::session_runtime_error(&session_id, error))?;
         let mut permission_rx = self
             .agent_runtime
@@ -57,7 +57,7 @@ impl OpcTeamAcpRuntime {
             Err(queued_turn_id) => {
                 self.agent_runtime
                     .cancel_turn(turn_cancellation_request(
-                        &acp_session.openbitfun_session_id,
+                        &acp_session.opc_session_id,
                         Some(&queued_turn_id),
                         "acp_busy_rejected",
                     ))
@@ -75,7 +75,7 @@ impl OpcTeamAcpRuntime {
             &mut permission_rx,
             &connection,
             &acp_session.acp_session_id,
-            &acp_session.openbitfun_session_id,
+            &acp_session.opc_session_id,
             &turn_id,
         )
         .await?;
@@ -89,7 +89,7 @@ impl OpcTeamAcpRuntime {
 
         self.agent_runtime
             .cancel_turn(turn_cancellation_request(
-                &acp_session.openbitfun_session_id,
+                &acp_session.opc_session_id,
                 None,
                 "acp_client_cancelled",
             ))
@@ -102,7 +102,7 @@ impl OpcTeamAcpRuntime {
 
 fn dialog_turn_request(session: &AcpSessionState, prompt: ParsedPrompt) -> AgentDialogTurnRequest {
     AgentDialogTurnRequest {
-        session_id: session.openbitfun_session_id.clone(),
+        session_id: session.opc_session_id.clone(),
         message: prompt.user_message,
         output_schema: None,
         original_message: prompt.original_user_message,
@@ -167,7 +167,7 @@ async fn wait_for_prompt_completion(
     permission_rx: &mut PermissionRequestEventReceiver,
     connection: &ConnectionTo<Client>,
     acp_session_id: &str,
-    openbitfun_session_id: &str,
+    opc_session_id: &str,
     turn_id: &str,
 ) -> Result<StopReason> {
     let mut seen_tool_calls = HashSet::new();
@@ -179,7 +179,7 @@ async fn wait_for_prompt_completion(
             permission = permission_rx.recv() => {
                 match permission {
                     Ok(PermissionRequestEvent::Asked { request })
-                        if permission_request_targets_session(&request, openbitfun_session_id) =>
+                        if permission_request_targets_session(&request, opc_session_id) =>
                     {
                         handle_permission_request(
                             runtime,
@@ -193,7 +193,7 @@ async fn wait_for_prompt_completion(
                     Err(broadcast::error::RecvError::Lagged(count)) => {
                         cancel_turn_after_event_stream_failure(
                             runtime,
-                            openbitfun_session_id,
+                            opc_session_id,
                             turn_id,
                             "acp_permission_stream_lagged",
                         )
@@ -205,7 +205,7 @@ async fn wait_for_prompt_completion(
                     Err(broadcast::error::RecvError::Closed) => {
                         cancel_turn_after_event_stream_failure(
                             runtime,
-                            openbitfun_session_id,
+                            opc_session_id,
                             turn_id,
                             "acp_permission_stream_closed",
                         )
@@ -224,7 +224,7 @@ async fn wait_for_prompt_completion(
                 );
                 cancel_turn_after_event_stream_failure(
                     runtime,
-                    openbitfun_session_id,
+                    opc_session_id,
                     turn_id,
                     "acp_event_stream_lagged",
                 )
@@ -234,7 +234,7 @@ async fn wait_for_prompt_completion(
             Err(broadcast::error::RecvError::Closed) => {
                 cancel_turn_after_event_stream_failure(
                     runtime,
-                    openbitfun_session_id,
+                    opc_session_id,
                     turn_id,
                     "acp_event_stream_closed",
                 )
@@ -243,7 +243,7 @@ async fn wait_for_prompt_completion(
             }
         };
 
-        if event.session_id() != Some(openbitfun_session_id) {
+        if event.session_id() != Some(opc_session_id) {
             continue;
         }
         if !prompt_event_matches_turn(&event, turn_id) {
@@ -418,12 +418,12 @@ async fn handle_permission_request(
 
 #[cfg(test)]
 mod tests {
-    use openbitfun_agent_runtime::sdk::{
+    use opc_agent_runtime::sdk::{
         AgentInputAttachment, AgentSubmissionSource, DialogSubmitOutcome,
         PermissionDelegationContext, PermissionRequest, PermissionRequestSource,
         PermissionRequestSourceKind,
     };
-    use openbitfun_events::AgenticEvent;
+    use opc_events::AgenticEvent;
 
     use super::{
         dialog_turn_request, permission_request_targets_session, prompt_event_matches_turn,
@@ -433,7 +433,7 @@ mod tests {
     fn session() -> AcpSessionState {
         AcpSessionState {
             acp_session_id: "acp-session".to_string(),
-            openbitfun_session_id: "openbitfun-session".to_string(),
+            opc_session_id: "opc-session".to_string(),
             workspace_id: "workspace-1".to_string(),
             cwd: "/workspace".to_string(),
             mode_id: "Standard".to_string(),
@@ -485,7 +485,7 @@ mod tests {
             },
         );
 
-        assert_eq!(request.session_id, "openbitfun-session");
+        assert_eq!(request.session_id, "opc-session");
         assert_eq!(request.workspace_path.as_deref(), Some("/workspace"));
         assert_eq!(request.policy.trigger_source, AgentSubmissionSource::Cli);
         assert_eq!(request.metadata["acp_transport"], true);
@@ -494,13 +494,10 @@ mod tests {
 
     #[test]
     fn cancellation_request_keeps_bounded_wait_and_active_turn_semantics() {
-        let request = turn_cancellation_request(
-            &session().openbitfun_session_id,
-            None,
-            "acp_client_cancelled",
-        );
+        let request =
+            turn_cancellation_request(&session().opc_session_id, None, "acp_client_cancelled");
 
-        assert_eq!(request.session_id, "openbitfun-session");
+        assert_eq!(request.session_id, "opc-session");
         assert_eq!(request.turn_id, None);
         assert_eq!(request.source, Some(AgentSubmissionSource::Cli));
         assert_eq!(request.wait_timeout_ms, Some(5_000));
@@ -509,15 +506,12 @@ mod tests {
     #[test]
     fn queued_prompt_is_rejected_with_its_exact_turn_identity() {
         let queued_turn_id = resolve_started_prompt_turn(DialogSubmitOutcome::Queued {
-            session_id: "openbitfun-session".to_string(),
+            session_id: "opc-session".to_string(),
             turn_id: "turn-queued".to_string(),
         })
         .expect_err("queued prompt must not be treated as started");
-        let cancellation = turn_cancellation_request(
-            "openbitfun-session",
-            Some(&queued_turn_id),
-            "acp_busy_rejected",
-        );
+        let cancellation =
+            turn_cancellation_request("opc-session", Some(&queued_turn_id), "acp_busy_rejected");
 
         assert_eq!(cancellation.turn_id.as_deref(), Some("turn-queued"));
         assert_eq!(cancellation.reason.as_deref(), Some("acp_busy_rejected"));
@@ -526,7 +520,7 @@ mod tests {
     #[test]
     fn prompt_events_are_scoped_to_the_submitted_turn() {
         let current = AgenticEvent::TextChunk {
-            session_id: "openbitfun-session".to_string(),
+            session_id: "opc-session".to_string(),
             turn_id: "turn-current".to_string(),
             round_id: "round".to_string(),
             attempt_id: None,
@@ -534,7 +528,7 @@ mod tests {
             text: "current".to_string(),
         };
         let other = AgenticEvent::DialogTurnCompleted {
-            session_id: "openbitfun-session".to_string(),
+            session_id: "opc-session".to_string(),
             turn_id: "turn-other".to_string(),
             total_rounds: 1,
             total_tools: 0,
@@ -552,16 +546,16 @@ mod tests {
     #[test]
     fn permission_requests_target_direct_and_delegated_acp_sessions() {
         assert!(permission_request_targets_session(
-            &permission_request("openbitfun-session", None),
-            "openbitfun-session",
+            &permission_request("opc-session", None),
+            "opc-session",
         ));
         assert!(permission_request_targets_session(
-            &permission_request("child-session", Some("openbitfun-session")),
-            "openbitfun-session",
+            &permission_request("child-session", Some("opc-session")),
+            "opc-session",
         ));
         assert!(!permission_request_targets_session(
             &permission_request("child-session", Some("other-session")),
-            "openbitfun-session",
+            "opc-session",
         ));
     }
 }

@@ -676,7 +676,7 @@ fn platform_asset<'a>(
 }
 
 fn build_client() -> Result<Client> {
-    openbitfun_services_core::tls_provider::ensure_ring_crypto_provider();
+    opc_services_core::tls_provider::ensure_ring_crypto_provider();
     Client::builder()
         .connect_timeout(Duration::from_secs(8))
         // Deliberately no `.timeout()`: a whole-request ceiling turns "slow" into
@@ -976,7 +976,7 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
 
     let update_prefix = format!(
         "{}-update.",
-        openbitfun_core_types::product_identity::hidden_data_directory()
+        opc_core_types::product_identity::hidden_data_directory()
     );
     let stage = tempfile::Builder::new()
         .prefix(&update_prefix)
@@ -1477,21 +1477,21 @@ mod tests {
         let stage =
             |version: &str, filename: &str| PartialDownload::open_in(dir.path(), version, filename);
 
-        let first = stage("1.0.0", "openbitfun-cli-1.0.0-x86_64.tar.gz");
+        let first = stage("1.0.0", "opc-cli-1.0.0-x86_64.tar.gz");
         assert!(first.resume().is_empty(), "nothing staged yet");
         first.save(b"partial-bytes");
         assert_eq!(
-            stage("1.0.0", "openbitfun-cli-1.0.0-x86_64.tar.gz").resume(),
+            stage("1.0.0", "opc-cli-1.0.0-x86_64.tar.gz").resume(),
             b"partial-bytes",
             "same version and asset must resume"
         );
 
         // Opening a different version evicts the stale partial rather than
         // resuming a mismatched archive into the new one.
-        let newer = stage("1.0.1", "openbitfun-cli-1.0.1-x86_64.tar.gz");
+        let newer = stage("1.0.1", "opc-cli-1.0.1-x86_64.tar.gz");
         assert!(newer.resume().is_empty());
         assert!(
-            stage("1.0.0", "openbitfun-cli-1.0.0-x86_64.tar.gz")
+            stage("1.0.0", "opc-cli-1.0.0-x86_64.tar.gz")
                 .resume()
                 .is_empty(),
             "the superseded partial must be gone"
@@ -1564,7 +1564,7 @@ mod tests {
     fn release_signature_rejects_tampered_bytes() {
         // The whole point: a mirror that alters the archive cannot also forge
         // this, unlike the checksum it serves alongside it.
-        let tampered = b"hello-openbitfun-tampered\n";
+        let tampered = b"hello-opc-tampered\n";
         assert!(verify_signature(tampered, FIXTURE_SIGNATURE, FIXTURE_PUBKEY).is_err());
         assert!(verify_signature(FIXTURE_DATA, "bm90LWEtc2lnbmF0dXJl", FIXTURE_PUBKEY).is_err());
     }

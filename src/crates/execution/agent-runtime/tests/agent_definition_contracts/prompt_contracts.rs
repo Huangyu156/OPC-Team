@@ -1,13 +1,11 @@
-use openbitfun_agent_runtime::prompt::{
+use opc_agent_runtime::prompt::{
     render_project_layout, render_prompt_environment_info, render_runtime_context_reminder,
     render_user_context_reminder, render_workspace_context, PrependedPromptReminders,
     ProjectLayoutFacts, PromptEnvironmentFacts, PromptRelatedPath, RemoteExecutionHints,
     RuntimeContextFacts, RuntimeContextNeeds, RuntimeShellFacts, ToolListingSections,
     UserContextPolicy, UserContextSection, WorkspaceContextFacts, WorktreeContextFacts,
 };
-use openbitfun_core_types::{
-    SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
-};
+use opc_core_types::{SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle};
 
 #[test]
 fn user_context_policy_preserves_order_and_deduplicates_sections() {

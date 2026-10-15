@@ -9,7 +9,7 @@ use std::time::Duration;
 
 use anyhow::{anyhow, Result};
 
-use openbitfun_core::service::remote_connect::DeviceIdentity;
+use opc_core::service::remote_connect::DeviceIdentity;
 
 use crate::{runtime, BootstrapProfile};
 

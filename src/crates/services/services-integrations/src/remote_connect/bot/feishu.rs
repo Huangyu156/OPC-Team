@@ -513,7 +513,7 @@ fn build_markdown_card(content: &str) -> serde_json::Value {
                     "text_align": "left",
                     "text_size": "normal",
                     "margin": "0px 0px 0px 0px",
-                    "element_id": "openbitfun_remote_reply_markdown",
+                    "element_id": "opc_remote_reply_markdown",
                 }
             ],
         },

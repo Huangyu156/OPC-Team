@@ -40,7 +40,7 @@ describe('overlay exit content', () => {
       <button>Inside</button>
     </Dialog>));
     expect(document.activeElement).toBe(before);
-    expect(host.querySelector('.custom-scrim')?.getAttribute('data-openbitfun-part')).toBe('overlay');
+    expect(host.querySelector('.custom-scrim')?.getAttribute('data-opc-part')).toBe('overlay');
     expect(host.querySelector('[data-product-overlay="preview"]')).not.toBeNull();
     after.focus();
     act(() => root.render(null));

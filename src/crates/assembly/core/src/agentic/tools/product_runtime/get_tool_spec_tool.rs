@@ -8,7 +8,7 @@ use crate::agentic::tools::framework::{Tool, ToolRenderOptions, ToolResult, Vali
 use crate::agentic::tools::tool_context_runtime::ToolUseContext;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     build_get_tool_spec_catalog_description, build_get_tool_spec_description,
     GetToolSpecDeferredToolSummary, GetToolSpecExecutionError, GET_TOOL_SPEC_TOOL_NAME,
 };
@@ -115,7 +115,7 @@ mod tests {
     fn deferred_tools_context_lists_names_without_short_descriptions() {
         let tool_name = format!("CatalogDescriptionTestTool_{}", uuid::Uuid::new_v4());
         let description = GetToolSpecTool::build_deferred_tools_context_section(&[
-            openbitfun_agent_tools::GetToolSpecDeferredToolSummary {
+            opc_agent_tools::GetToolSpecDeferredToolSummary {
                 name: tool_name.clone(),
                 short_description: None,
             },
@@ -137,7 +137,7 @@ mod tests {
             session_id: None,
             dialog_turn_id: None,
             workspace: None,
-            loaded_deferred_tool_specs: vec![openbitfun_agent_tools::LoadedDeferredToolSpec {
+            loaded_deferred_tool_specs: vec![opc_agent_tools::LoadedDeferredToolSpec {
                 tool_name: "WebFetch".to_string(),
                 catalog_generation,
             }],
@@ -145,7 +145,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         };
 
         let results = tool

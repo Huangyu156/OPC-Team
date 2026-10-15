@@ -3,9 +3,9 @@ use crate::agentic::agents::{
     ExternalProvidedAgent, ExternalSubagentModelBinding, ExternalSubagentRegistration,
     ExternalSubagentRoute,
 };
-use openbitfun_product_domains::external_sources::EcosystemId;
-use openbitfun_product_domains::external_subagents::ExternalSubagentMode;
-use openbitfun_product_domains::plugin_capabilities::{PluginCapabilityProjection, PluginToolRef};
+use opc_product_domains::external_sources::EcosystemId;
+use opc_product_domains::external_subagents::ExternalSubagentMode;
+use opc_product_domains::plugin_capabilities::{PluginCapabilityProjection, PluginToolRef};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet, HashMap};
 use std::path::PathBuf;
@@ -329,7 +329,7 @@ pub(crate) fn active_generation_key(workspace_id: &str, route_owner: &str) -> Op
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::plugin_capabilities::{
+    use opc_product_domains::plugin_capabilities::{
         PluginAgentProjection, PluginContributorIdentity, PluginSkillRootContribution,
     };
 

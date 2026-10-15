@@ -8,7 +8,7 @@ interface SuppressedTitle {
   accessibleAttribute?: "aria-label" | "aria-description";
 }
 
-const TOOLTIP_OWNER = '[data-openbitfun-tooltip-trigger], [role="tooltip"]';
+const TOOLTIP_OWNER = '[data-opc-tooltip-trigger], [role="tooltip"]';
 
 /**
  * Route legacy HTML titles through the application tooltip while interacting.
@@ -107,7 +107,7 @@ export function subscribeApplicationTitleTooltips(
       suppress(element);
       observer.observe(element, {
         attributes: true,
-        attributeFilter: ["title", "data-openbitfun-tooltip-trigger"],
+        attributeFilter: ["title", "data-opc-tooltip-trigger"],
         childList: true,
       });
     }

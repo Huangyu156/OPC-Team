@@ -52,7 +52,7 @@ fn target_cli_verb(command: &str) -> Option<&'static str> {
 
 async fn invoke_cli(executable: &Path, verb: &str, args: Value) -> anyhow::Result<Value> {
     let request = serde_json::to_vec(&args).context("serialize target dispatch request")?;
-    let mut child = openbitfun_core::util::process_manager::create_tokio_command(executable)
+    let mut child = opc_core::util::process_manager::create_tokio_command(executable)
         .arg("dispatch")
         .arg(verb)
         .stdin(std::process::Stdio::piped())
@@ -162,7 +162,7 @@ mod tests {
     /// answer exactly that family, no more and no less.
     #[test]
     fn target_command_family_matches_registry() {
-        use openbitfun_product_domains::remote_surface::{operations, PeerStance};
+        use opc_product_domains::remote_surface::{operations, PeerStance};
         for op in operations() {
             let registry_says_target = op.id.starts_with("dispatch_target_");
             assert_eq!(
@@ -183,7 +183,7 @@ mod tests {
         use std::os::unix::fs::symlink;
 
         let temp = tempfile::tempdir().expect("tempdir");
-        let binary = temp.path().join("openbitfun-real");
+        let binary = temp.path().join("opc-real");
         std::fs::write(&binary, b"binary").expect("binary");
         let link = temp.path().join("openbitfun");
         symlink(&binary, &link).expect("symlink");

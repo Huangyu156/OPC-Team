@@ -143,12 +143,12 @@ export const ToolTimeoutIndicator: React.FC<ToolTimeoutIndicatorProps> = ({
     <ToolDuration isRunning showIcon={showIcon} elapsedMs={elapsedMs} remainingMs={remainingMs} timeoutMs={timeoutMs}
       timeoutDisabled={isTimeoutDisabled} open={isPopoverOpen}>
       {canControlTimeout && (
-        <div data-openbitfun-component="tool-timeout-indicator" data-openbitfun-part="controls" className="timeout-control-wrapper" ref={controlRef}>
+        <div data-opc-component="tool-timeout-indicator" data-opc-part="controls" className="timeout-control-wrapper" ref={controlRef}>
           <button
             ref={triggerRef}
             type="button"
-            data-openbitfun-component="tool-timeout-indicator"
-            data-openbitfun-part="toggle"
+            data-opc-component="tool-timeout-indicator"
+            data-opc-part="toggle"
             className={`timeout-ignore-btn ${isTimeoutDisabled ? 'is-active' : ''}`}
             onClick={(e) => {
               e.stopPropagation();
@@ -172,9 +172,9 @@ export const ToolTimeoutIndicator: React.FC<ToolTimeoutIndicatorProps> = ({
           {isPopoverOpen && createOverlayPortal(
             <Menu
               ref={popoverRef}
-              data-openbitfun-component="tool-timeout-indicator"
-              data-openbitfun-part="popover"
-              data-openbitfun-placement={popoverLayout?.placement ?? 'bottom'}
+              data-opc-component="tool-timeout-indicator"
+              data-opc-part="popover"
+              data-opc-placement={popoverLayout?.placement ?? 'bottom'}
               className="timeout-extend-popover"
               style={{
                 top: `${popoverLayout?.top ?? 0}px`,
@@ -186,8 +186,8 @@ export const ToolTimeoutIndicator: React.FC<ToolTimeoutIndicatorProps> = ({
             >
               {remainingAtDisable > 0 ? (
                 <MenuItem
-                  data-openbitfun-component="tool-timeout-indicator"
-                  data-openbitfun-part="option"
+                  data-opc-component="tool-timeout-indicator"
+                  data-opc-part="option"
                   onClick={(e) => {
                     e.stopPropagation();
                     extendTimeout(remainingAtDisable);
@@ -197,8 +197,8 @@ export const ToolTimeoutIndicator: React.FC<ToolTimeoutIndicatorProps> = ({
                 </MenuItem>
               ) : null}
               <MenuItem
-                data-openbitfun-component="tool-timeout-indicator"
-                data-openbitfun-part="option"
+                data-opc-component="tool-timeout-indicator"
+                data-opc-part="option"
                 onClick={(e) => {
                   e.stopPropagation();
                   extendTimeout(60);
@@ -207,8 +207,8 @@ export const ToolTimeoutIndicator: React.FC<ToolTimeoutIndicatorProps> = ({
                 +1m
               </MenuItem>
               <MenuItem
-                data-openbitfun-component="tool-timeout-indicator"
-                data-openbitfun-part="option"
+                data-opc-component="tool-timeout-indicator"
+                data-opc-part="option"
                 onClick={(e) => {
                   e.stopPropagation();
                   extendTimeout(300);
@@ -217,8 +217,8 @@ export const ToolTimeoutIndicator: React.FC<ToolTimeoutIndicatorProps> = ({
                 +5m
               </MenuItem>
               <MenuItem
-                data-openbitfun-component="tool-timeout-indicator"
-                data-openbitfun-part="option"
+                data-opc-component="tool-timeout-indicator"
+                data-opc-part="option"
                 onClick={(e) => {
                   e.stopPropagation();
                   extendTimeout(600);

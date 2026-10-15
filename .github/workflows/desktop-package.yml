@@ -375,7 +375,7 @@ jobs:
           if ($env:WINDOWS_CERTIFICATE_THUMBPRINT) {
             # Tauri restores the unsigned raw EXE after bundling; sign it again
             # before the custom installer snapshots and hashes its payload.
-            & ./scripts/ci/sign-windows.ps1 -Path 'target/x86_64-pc-windows-msvc/release/openbitfun-desktop.exe'
+            & ./scripts/ci/sign-windows.ps1 -Path 'target/x86_64-pc-windows-msvc/release/opc-desktop.exe'
             $installers = @(Get-ChildItem 'target/x86_64-pc-windows-msvc/release/bundle/nsis/*.exe' -File)
             if ($installers.Count -eq 0) { throw 'NSIS installer was not produced.' }
             foreach ($installer in $installers) {
@@ -390,11 +390,11 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           # The payload manifest must hash the already signed desktop executable.
-          $env:OPENBITFUN_INSTALLER_APP_EXE = 'target/x86_64-pc-windows-msvc/release/openbitfun-desktop.exe'
+          $env:OPENBITFUN_INSTALLER_APP_EXE = 'target/x86_64-pc-windows-msvc/release/opc-desktop.exe'
           pnpm run installer:build:only
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if ($env:WINDOWS_CERTIFICATE_THUMBPRINT) {
-            & ./scripts/ci/sign-windows.ps1 -Path 'OpenBitFun-Installer/src-tauri/target/release/openbitfun-installer.exe'
+            & ./scripts/ci/sign-windows.ps1 -Path 'OpenBitFun-Installer/src-tauri/target/release/opc-installer.exe'
           }
 
       - name: Verify Apple signature and notarization
@@ -410,13 +410,13 @@ jobs:
       - name: Upload bundles
         uses: actions/upload-artifact@v6
         with:
-          name: openbitfun-${{ needs.prepare.outputs.release_tag }}-${{ matrix.platform.name }}-bundle
+          name: opc-${{ needs.prepare.outputs.release_tag }}-${{ matrix.platform.name }}-bundle
           if-no-files-found: error
           path: |
             target/*/release/bundle
             target/release/bundle
             src/apps/desktop/target/release/bundle
-            OpenBitFun-Installer/src-tauri/target/release/openbitfun-installer.exe
+            OpenBitFun-Installer/src-tauri/target/release/opc-installer.exe
 
   linux-binaries:
     name: Linux CLI and Relay Server
@@ -462,7 +462,7 @@ jobs:
         if: needs.prepare.outputs.relay_image_only != 'true'
         uses: actions/download-artifact@v7
         with:
-          pattern: openbitfun-linux-${{ needs.prepare.outputs.release_tag }}-*
+          pattern: opc-linux-${{ needs.prepare.outputs.release_tag }}-*
           path: linux-release-assets
           merge-multiple: true
 
@@ -594,7 +594,7 @@ jobs:
       - name: Upload signed image descriptor
         uses: actions/upload-artifact@v6
         with:
-          name: openbitfun-relay-image-${{ needs.prepare.outputs.release_tag }}
+          name: opc-relay-image-${{ needs.prepare.outputs.release_tag }}
           if-no-files-found: error
           retention-days: 7
           path: |
@@ -653,21 +653,21 @@ jobs:
       - name: Download bundled artifacts
         uses: actions/download-artifact@v7
         with:
-          pattern: openbitfun-${{ needs.prepare.outputs.release_tag }}-*-bundle
+          pattern: opc-${{ needs.prepare.outputs.release_tag }}-*-bundle
           path: release-assets
           merge-multiple: true
 
       - name: Download Linux binary artifacts
         uses: actions/download-artifact@v7
         with:
-          pattern: openbitfun-linux-${{ needs.prepare.outputs.release_tag }}-*
+          pattern: opc-linux-${{ needs.prepare.outputs.release_tag }}-*
           path: linux-release-assets
           merge-multiple: true
 
       - name: Download Relay image descriptor
         uses: actions/download-artifact@v7
         with:
-          name: openbitfun-relay-image-${{ needs.prepare.outputs.release_tag }}
+          name: opc-relay-image-${{ needs.prepare.outputs.release_tag }}
           path: relay-image-assets
 
       - name: List release assets
@@ -782,8 +782,8 @@ jobs:
             release-assets/**/*.dmg \
             release-assets/**/*.dmg.sig \
             release-assets/minisign.pub \
-            linux-release-assets/openbitfun-cli-*.tar.gz \
-            linux-release-assets/openbitfun-cli-*.tar.gz.sha256 \
+            linux-release-assets/opc-cli-*.tar.gz \
+            linux-release-assets/opc-cli-*.tar.gz.sha256 \
             linux-release-assets/openbitfun-relay-server-*.tar.gz \
             linux-release-assets/openbitfun-relay-server-*.tar.gz.sha256 \
             linux-release-assets/*.tar.gz.sig \
@@ -843,10 +843,10 @@ jobs:
           MOBILE_VERSION="${MOBILE_VERSION:-$RELEASE_VERSION}"
           gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" \
             --json body --jq .body > release-notes.md
-          if ! grep -q '<!-- openbitfun-mobile-release -->' release-notes.md; then
+          if ! grep -q '<!-- opc-mobile-release -->' release-notes.md; then
             cat >> release-notes.md <<EOF
 
-          <!-- openbitfun-mobile-release -->
+          <!-- opc-mobile-release -->
           ### Android mobile
 
           Android mobile version **${MOBILE_VERSION}** is published separately as a prerelease:
@@ -1007,8 +1007,8 @@ jobs:
       # 10-minute cron tick. Until the mirror has these bytes, CN clients have
       # only the GitHub origin to fall back to. Best effort: the cron run is
       # still the source of truth, so a failed or unconfigured ping never fails
-      # the release. Receiver: scripts/openbitfun-release-sync.sh.
-      # Host restore: deploy/openbitfun-host/README.md.
+      # the release. Receiver: scripts/opc-release-sync.sh.
+      # Host restore: deploy/opc-host/README.md.
       - name: Request openbitfun mirror sync
         if: github.repository == 'GCWing/OpenBitFun'
         continue-on-error: true

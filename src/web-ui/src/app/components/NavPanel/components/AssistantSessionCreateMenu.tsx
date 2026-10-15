@@ -83,16 +83,16 @@ const AssistantSessionCreateMenu: React.FC<AssistantSessionCreateMenuProps> = ({
   return (
     <div
       ref={anchorRef}
-      className={`openbitfun-nav-panel__assistant-session-actions${menuOpen ? ' is-open' : ''}`}
-      data-openbitfun-component="nav-panel"
-      data-openbitfun-part="assistantSessionActions"
-      data-openbitfun-state={menuOpen ? 'open' : undefined}
+      className={`opc-nav-panel__assistant-session-actions${menuOpen ? ' is-open' : ''}`}
+      data-opc-component="nav-panel"
+      data-opc-part="assistantSessionActions"
+      data-opc-state={menuOpen ? 'open' : undefined}
     >
-      <div className={`openbitfun-nav-panel__assistant-session-split-button${menuOpen ? ' is-active' : ''}`}>
+      <div className={`opc-nav-panel__assistant-session-split-button${menuOpen ? ' is-active' : ''}`}>
         <Tooltip content={createPrimaryLabel} placement="right" followCursor>
           <button
             type="button"
-            className="openbitfun-nav-panel__assistant-session-split-main"
+            className="opc-nav-panel__assistant-session-split-main"
             aria-label={createPrimaryLabel}
             onClick={() => {
               closeMenu();
@@ -106,7 +106,7 @@ const AssistantSessionCreateMenu: React.FC<AssistantSessionCreateMenuProps> = ({
         <Tooltip content={chooseAssistantLabel} placement="right" followCursor disabled={menuOpen}>
           <button
             type="button"
-            className="openbitfun-nav-panel__assistant-session-split-toggle"
+            className="opc-nav-panel__assistant-session-split-toggle"
             aria-label={chooseAssistantLabel}
             aria-haspopup="menu"
             aria-expanded={menuOpen}
@@ -122,7 +122,7 @@ const AssistantSessionCreateMenu: React.FC<AssistantSessionCreateMenuProps> = ({
       {menuOpen ? createOverlayPortal(
         <Menu
           ref={menuRef}
-          className="openbitfun-nav-panel__assistant-session-menu"
+          className="opc-nav-panel__assistant-session-menu"
           inlineSize="content"
           aria-label={chooseAssistantLabel}
           data-testid="nav-assistant-session-menu"
@@ -145,7 +145,7 @@ const AssistantSessionCreateMenu: React.FC<AssistantSessionCreateMenuProps> = ({
                 }}
                 data-testid={`nav-assistant-session-menu-item-${workspace.id}`}
               >
-                <OverflowText className="openbitfun-nav-panel__assistant-session-menu-name">{assistantName}</OverflowText>
+                <OverflowText className="opc-nav-panel__assistant-session-menu-name">{assistantName}</OverflowText>
               </MenuItem>
             );
           })}

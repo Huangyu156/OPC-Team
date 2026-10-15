@@ -131,8 +131,8 @@ export const NotificationContainer: React.FC<React.PropsWithChildren> = ({ child
     <OverlayRegion>
       <div
         className="notification-container"
-        data-openbitfun-component="notification"
-        data-openbitfun-part="container"
+        data-opc-component="notification"
+        data-opc-part="container"
       >
         <ScrollArea className="notification-container__viewport" scrollbarVisibility="hidden">
           {children}

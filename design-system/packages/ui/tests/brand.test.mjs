@@ -46,7 +46,7 @@ test("published artwork embeds the same bytes as the application icon generator"
   assert.ok(solid.includes((await readFile(new URL("openbitfun-app-mark.png", source))).toString("base64")));
   const app = renderToStaticMarkup(createElement(brand.OpenBitFunAppIcon));
   for (const size of [16, 32, 128, 256, 512]) {
-    assert.ok(app.includes((await readFile(new URL(`openbitfun-app-icon-${size}.png`, source))).toString("base64")));
+    assert.ok(app.includes((await readFile(new URL(`opc-app-icon-${size}.png`, source))).toString("base64")));
   }
 });
 

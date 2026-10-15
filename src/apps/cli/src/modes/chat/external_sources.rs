@@ -426,18 +426,18 @@ impl ChatMode {
             let result = async {
                 if matches!(&task_action, ExternalControlUiAction::Show) {
                     let surface =
-                        openbitfun_core::external_sources::get_external_source_control_snapshot(
+                        opc_core::external_sources::get_external_source_control_snapshot(
                             workspace.as_deref(),
                             false,
-                            openbitfun_product_domains::external_sources::ExternalSourceHostCapabilities::read_write(),
+                            opc_product_domains::external_sources::ExternalSourceHostCapabilities::read_write(),
                         )
                         .await?;
                     let preferences =
-                        openbitfun_core::external_sources::external_source_conflict_choices()
+                        opc_core::external_sources::external_source_conflict_choices()
                             .await
                             .map(ExternalSourceConflictPreferences::from)
                             .map_err(
-                                openbitfun_core::external_sources::sanitize_external_source_operation_error,
+                                opc_core::external_sources::sanitize_external_source_operation_error,
                             )?;
                     return Ok((
                         surface.control,
@@ -462,7 +462,7 @@ impl ChatMode {
                     }
                     ExternalControlUiAction::Show => unreachable!(),
                 };
-                let surface = openbitfun_core::external_sources::apply_external_source_control_action(
+                let surface = opc_core::external_sources::apply_external_source_control_action(
                     workspace.as_deref(),
                     ExternalSourceControlRequestV1 {
                         schema_version: EXTERNAL_SOURCE_CONTROL_SCHEMA_V1,
@@ -473,17 +473,17 @@ impl ChatMode {
                 )
                 .await?;
                 let snapshot =
-                    openbitfun_core::external_sources::get_external_source_control_snapshot(
+                    opc_core::external_sources::get_external_source_control_snapshot(
                         workspace.as_deref(),
                         false,
-                        openbitfun_product_domains::external_sources::ExternalSourceHostCapabilities::read_write(),
+                        opc_product_domains::external_sources::ExternalSourceHostCapabilities::read_write(),
                     )
                     .await?;
-                let preferences = openbitfun_core::external_sources::external_source_conflict_choices()
+                let preferences = opc_core::external_sources::external_source_conflict_choices()
                     .await
                     .map(ExternalSourceConflictPreferences::from)
                     .map_err(
-                        openbitfun_core::external_sources::sanitize_external_source_operation_error,
+                        opc_core::external_sources::sanitize_external_source_operation_error,
                     )?;
                 Ok((
                     surface.control,
@@ -630,18 +630,15 @@ impl ChatMode {
         rt_handle.spawn(async move {
             let result = match &task_action {
                 ExternalToolReviewAction::Refresh => {
-                    openbitfun_core::external_sources::external_source_snapshot(
-                        workspace.as_deref(),
-                        true,
-                    )
-                    .await
+                    opc_core::external_sources::external_source_snapshot(workspace.as_deref(), true)
+                        .await
                 }
                 ExternalToolReviewAction::Decide {
                     approval_key,
                     decision_key,
                     approved,
                 } => {
-                    openbitfun_core::external_sources::set_external_tool_target_decision(
+                    opc_core::external_sources::set_external_tool_target_decision(
                         workspace.as_deref(),
                         approval_key,
                         decision_key,
@@ -654,7 +651,7 @@ impl ChatMode {
                     conflict_key,
                     candidate_id,
                 } => {
-                    openbitfun_core::external_sources::set_external_tool_conflict_choice(
+                    opc_core::external_sources::set_external_tool_conflict_choice(
                         workspace.as_deref(),
                         conflict_key,
                         candidate_id,
@@ -665,7 +662,7 @@ impl ChatMode {
                 ExternalToolReviewAction::Show => unreachable!(),
             }
             .map(ExternalSourceCatalogSnapshot::from)
-            .map_err(openbitfun_core::external_sources::sanitize_external_source_operation_error);
+            .map_err(opc_core::external_sources::sanitize_external_source_operation_error);
             let _ = sender.send(ExternalToolMutationResult {
                 action: task_action,
                 result,
@@ -836,11 +833,8 @@ impl ChatMode {
         rt_handle.spawn(async move {
             let result = match &task_action {
                 ExternalAgentReviewAction::Refresh => {
-                    openbitfun_core::external_sources::external_source_snapshot(
-                        workspace.as_deref(),
-                        true,
-                    )
-                    .await
+                    opc_core::external_sources::external_source_snapshot(workspace.as_deref(), true)
+                        .await
                 }
                 ExternalAgentReviewAction::Decide {
                     candidate_id,
@@ -849,7 +843,7 @@ impl ChatMode {
                     expected_subagent_generation,
                     expected_preference_revision,
                 } => {
-                    openbitfun_core::external_sources::set_external_subagent_activation(
+                    opc_core::external_sources::set_external_subagent_activation(
                         workspace.as_deref(),
                         candidate_id,
                         *approved,
@@ -866,7 +860,7 @@ impl ChatMode {
                     expected_subagent_generation,
                     expected_preference_revision,
                 } => {
-                    openbitfun_core::external_sources::choose_external_subagent_conflict(
+                    opc_core::external_sources::choose_external_subagent_conflict(
                         workspace.as_deref(),
                         conflict_key,
                         candidate_id,
@@ -882,7 +876,7 @@ impl ChatMode {
                     expected_subagent_generation,
                     expected_preference_revision,
                 } => {
-                    openbitfun_core::external_sources::set_external_subagent_model_binding(
+                    opc_core::external_sources::set_external_subagent_model_binding(
                         workspace.as_deref(),
                         binding_key,
                         target.clone(),
@@ -894,7 +888,7 @@ impl ChatMode {
                 ExternalAgentReviewAction::Show => unreachable!(),
             }
             .map(ExternalSourceCatalogSnapshot::from)
-            .map_err(openbitfun_core::external_sources::sanitize_external_source_operation_error);
+            .map_err(opc_core::external_sources::sanitize_external_source_operation_error);
             let _ = sender.send(ExternalAgentMutationResult {
                 action: task_action,
                 result,

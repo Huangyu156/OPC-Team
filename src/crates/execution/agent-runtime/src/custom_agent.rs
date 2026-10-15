@@ -1,7 +1,7 @@
 //! Custom agent portable schema and serialization decisions.
 
 use crate::prompt::{UserContextPolicy, UserContextSection};
-use openbitfun_core_types::product_identity::hidden_data_directory;
+use opc_core_types::product_identity::hidden_data_directory;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
 use serde_yaml::{Mapping, Value};
@@ -246,7 +246,7 @@ impl CustomAgentDefinition {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CustomAgentDiscoveryRoots {
     pub workspace_root: Option<PathBuf>,
-    pub openbitfun_user_agents_dir: Option<PathBuf>,
+    pub opc_user_agents_dir: Option<PathBuf>,
     pub home_dir: Option<PathBuf>,
 }
 
@@ -353,10 +353,10 @@ pub fn custom_agent_possible_dirs(roots: &CustomAgentDiscoveryRoots) -> Vec<Cust
         }
     }
 
-    if let Some(openbitfun_agents) = &roots.openbitfun_user_agents_dir {
-        if openbitfun_agents.exists() && openbitfun_agents.is_dir() {
+    if let Some(opc_agents) = &roots.opc_user_agents_dir {
+        if opc_agents.exists() && opc_agents.is_dir() {
             entries.push(CustomAgentDirEntry {
-                path: openbitfun_agents.clone(),
+                path: opc_agents.clone(),
                 level: CustomAgentLevel::User,
             });
         }

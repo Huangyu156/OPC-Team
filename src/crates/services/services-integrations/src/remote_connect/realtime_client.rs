@@ -15,8 +15,8 @@ pub fn account_auth_payload(token: &str, machine: bool) -> Value {
     json!({
         "token": token,
         "clientType": if machine { "machine-scoped" } else { "user-scoped" },
-        "clientVersion": openbitfun_product_domains::account::client_version(),
-        "clientProtocol": openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION,
+        "clientVersion": opc_product_domains::account::client_version(),
+        "clientProtocol": opc_product_domains::account::CLIENT_PROTOCOL_VERSION,
     })
 }
 

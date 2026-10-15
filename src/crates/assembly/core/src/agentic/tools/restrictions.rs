@@ -1,5 +1,5 @@
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-pub use openbitfun_agent_tools::{
+pub use opc_agent_tools::{
     is_miniapp_headless_agent_run, is_miniapp_market_strict_agent_run,
     is_remote_posix_path_within_root, miniapp_agent_run_tool_restrictions,
     miniapp_headless_agent_tool_restrictions, miniapp_market_strict_agent_tool_restrictions,
@@ -95,8 +95,7 @@ mod tests {
 
     #[test]
     fn local_path_containment_handles_missing_children() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-restrictions-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-restrictions-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(root.join("allowed")).expect("create temp root");
 
         let allowed_child = root.join("allowed").join("nested").join("file.txt");

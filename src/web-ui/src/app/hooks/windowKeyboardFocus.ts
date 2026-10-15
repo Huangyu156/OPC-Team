@@ -42,7 +42,7 @@ const restoreFocusedEditable = (snapshot: FocusSnapshot) => {
 };
 
 const focusAppRootForKeyboardShortcuts = () => {
-  const appRoot = document.querySelector('.openbitfun-app-layout');
+  const appRoot = document.querySelector('.opc-app-layout');
   if (!(appRoot instanceof HTMLElement)) {
     window.focus();
     return;

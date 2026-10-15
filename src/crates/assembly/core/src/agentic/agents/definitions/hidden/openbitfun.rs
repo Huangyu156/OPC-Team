@@ -18,7 +18,7 @@ impl Agent for OpcTeamAgent {
         "The persistent OPC-Team product-control assistant"
     }
     fn prompt_template_name(&self, _model_name: Option<&str>) -> &str {
-        "openbitfun_agent"
+        "opc_agent"
     }
     fn default_tools(&self) -> Vec<String> {
         vec![

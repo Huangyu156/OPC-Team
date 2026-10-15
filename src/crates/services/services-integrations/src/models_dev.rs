@@ -1,7 +1,7 @@
 //! models.dev source loading and last-valid snapshot persistence.
 //!
 //! This module deliberately exposes the source document as JSON text. The
-//! provider-specific interpretation belongs to `openbitfun-ai-adapters`, which is
+//! provider-specific interpretation belongs to `opc-ai-adapters`, which is
 //! above this integration layer in the repository dependency graph.
 //!
 //! `OPENBITFUN_MODELS_DEV_PATH` selects a local JSON file as the runtime refresh

@@ -513,7 +513,7 @@ const DeviceControlSettingsPage: React.FC = () => {
   }, [peerModeActive, renderedPeerDeviceId, refreshComputerUseStatus, refreshBrowserControlStatus]);
 
   return (
-    <SettingsPage pageId="tools.desktop-control" className="openbitfun-runtime-settings" data-openbitfun-component="runtime-settings" data-openbitfun-part="root" data-openbitfun-view="browser-desktop-control">
+    <SettingsPage pageId="tools.desktop-control" className="opc-runtime-settings" data-opc-component="runtime-settings" data-opc-part="root" data-opc-view="browser-desktop-control">
       {loadError ? (
         <ConfigRetryState message={t('loading.failed')} retryLabel={t('loading.retry')} onRetry={() => void loadPageData()} />
       ) : isLoading ? (
@@ -544,7 +544,7 @@ const DeviceControlSettingsPage: React.FC = () => {
                     : null}
                 />
                 <ConfigPageRow label={t('computerUse.enable')} description={t('computerUse.enableDesc')} align="center">
-                  <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+                  <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                     <Switch
                       checked={computerUseEnabled}
                       onChange={(e) => handleComputerUseEnabledChange(e.target.checked)}
@@ -557,12 +557,12 @@ const DeviceControlSettingsPage: React.FC = () => {
                   label={t('computerUse.accessibility')}
                   description={t('computerUse.accessibilityDesc')}
                   align="center"
-                  className="openbitfun-runtime-settings__status-row"
+                  className="opc-runtime-settings__status-row"
                 >
                   <div
-                    className="openbitfun-runtime-settings__status-actions"
-                    data-openbitfun-component="runtime-settings"
-                    data-openbitfun-part="control"
+                    className="opc-runtime-settings__status-actions"
+                    data-opc-component="runtime-settings"
+                    data-opc-part="control"
                   >
                     <StatusPill
                       tone={computerUseStatusLoading ? 'neutral' : computerUseStatusError ? 'warning' : computerUseAccess ? 'success' : 'warning'}
@@ -572,7 +572,7 @@ const DeviceControlSettingsPage: React.FC = () => {
                     </StatusPill>
                     {!computerUseAccess && (
                       <Button
-                        className="openbitfun-runtime-settings__row-action-btn"
+                        className="opc-runtime-settings__row-action-btn"
                         size="sm"
                         variant="outline"
                         disabled={computerUseBusy || computerUseStatusLoading}
@@ -587,12 +587,12 @@ const DeviceControlSettingsPage: React.FC = () => {
                   label={t('computerUse.screenCapture')}
                   description={t('computerUse.screenCaptureDesc')}
                   align="center"
-                  className="openbitfun-runtime-settings__status-row"
+                  className="opc-runtime-settings__status-row"
                 >
                   <div
-                    className="openbitfun-runtime-settings__status-actions"
-                    data-openbitfun-component="runtime-settings"
-                    data-openbitfun-part="control"
+                    className="opc-runtime-settings__status-actions"
+                    data-opc-component="runtime-settings"
+                    data-opc-part="control"
                   >
                     <StatusPill
                       tone={computerUseStatusLoading ? 'neutral' : computerUseStatusError ? 'warning' : computerUseScreen ? 'success' : 'warning'}
@@ -602,7 +602,7 @@ const DeviceControlSettingsPage: React.FC = () => {
                     </StatusPill>
                     {!computerUseScreen && (
                       <Button
-                        className="openbitfun-runtime-settings__row-action-btn"
+                        className="opc-runtime-settings__row-action-btn"
                         size="sm"
                         variant="outline"
                         disabled={computerUseBusy || computerUseStatusLoading}
@@ -616,18 +616,18 @@ const DeviceControlSettingsPage: React.FC = () => {
                 </>}
                 {computerUsePlatformMessage && (
                   <div
-                    className="openbitfun-runtime-settings__platform-note"
-                    data-openbitfun-component="runtime-settings"
-                    data-openbitfun-part="platformNote"
+                    className="opc-runtime-settings__platform-note"
+                    data-opc-component="runtime-settings"
+                    data-opc-part="platformNote"
                     role="note"
                   >
                     <Icon
                       aria-hidden="true"
-                      className="openbitfun-runtime-settings__platform-note-icon"
+                      className="opc-runtime-settings__platform-note-icon"
                       name="info"
                       size="sm"
                     />
-                    <p className="openbitfun-runtime-settings__platform-note-copy">
+                    <p className="opc-runtime-settings__platform-note-copy">
                       <strong>{t('computerUse.platformNote')}: </strong>
                       {computerUsePlatformMessage}
                     </p>
@@ -672,7 +672,7 @@ const DeviceControlSettingsPage: React.FC = () => {
                   description={t(browserCdpAvailable ? 'browserControl.preferredBrowserConnectedDesc' : 'browserControl.preferredBrowserDesc')}
                   align="center"
                 >
-                  <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+                  <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                     <Select
                       value={preferredBrowser}
                       options={browserSelectOptions}
@@ -687,12 +687,12 @@ const DeviceControlSettingsPage: React.FC = () => {
                     label={t('browserControl.defaultCdp')}
                     description={t('browserControl.defaultCdpDesc')}
                     align="center"
-                    className="openbitfun-runtime-settings__status-row"
+                    className="opc-runtime-settings__status-row"
                   >
                     <div
-                      className="openbitfun-runtime-settings__status-actions"
-                      data-openbitfun-component="runtime-settings"
-                      data-openbitfun-part="control"
+                      className="opc-runtime-settings__status-actions"
+                      data-opc-component="runtime-settings"
+                      data-opc-part="control"
                     >
                       <StatusPill
                         tone={browserStatusLoading ? 'neutral' : browserStatusError ? 'warning' : browserDefaultCdpEnabled ? 'success' : 'neutral'}
@@ -711,7 +711,7 @@ const DeviceControlSettingsPage: React.FC = () => {
                     description={t('browserControl.autoConnectOnStartupDesc')}
                     align="center"
                   >
-                    <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+                    <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                       <Switch
                         checked={browserAutoConnectOnStartup}
                         onChange={(e) => void handleBrowserAutoConnectChange(e.target.checked)}
@@ -724,12 +724,12 @@ const DeviceControlSettingsPage: React.FC = () => {
                   label={t('browserControl.status')}
                   description={browserStatusDescription}
                   align="center"
-                  className="openbitfun-runtime-settings__status-row"
+                  className="opc-runtime-settings__status-row"
                 >
                   <div
-                    className="openbitfun-runtime-settings__status-actions"
-                    data-openbitfun-component="runtime-settings"
-                    data-openbitfun-part="control"
+                    className="opc-runtime-settings__status-actions"
+                    data-opc-component="runtime-settings"
+                    data-opc-part="control"
                   >
                     <StatusPill
                       tone={browserStatusLoading ? 'neutral' : browserStatusError ? 'warning' : browserCdpAvailable ? 'success' : 'neutral'}
@@ -740,7 +740,7 @@ const DeviceControlSettingsPage: React.FC = () => {
                     </StatusPill>
                     {browserCdpAvailable ? (
                       <Button
-                        className="openbitfun-runtime-settings__row-action-btn"
+                        className="opc-runtime-settings__row-action-btn"
                         size="sm"
                         variant="outline"
                         disabled={browserControlBusy || browserStatusLoading || browserStatusError}
@@ -750,7 +750,7 @@ const DeviceControlSettingsPage: React.FC = () => {
                       </Button>
                     ) : (
                       <Button
-                        className="openbitfun-runtime-settings__row-action-btn"
+                        className="opc-runtime-settings__row-action-btn"
                         size="sm"
                         variant="outline"
                         disabled={browserControlBusy || browserStatusLoading || browserStatusError}
@@ -792,19 +792,19 @@ const DeviceControlSettingsPage: React.FC = () => {
               <DialogClose />
             </DialogHeader>
             <DialogBody>
-              <div className="openbitfun-debug-config__modal-body" data-openbitfun-component="runtime-settings" data-openbitfun-part="restartModal">
+              <div className="opc-debug-config__modal-body" data-opc-component="runtime-settings" data-opc-part="restartModal">
                 <p>{t('browserControl.restartModal.description', { browser: browserRestartPrompt?.browserKind || browserKind })}</p>
                 <p>{t('browserControl.restartModal.warning')}</p>
                 {browserRestartPrompt?.message ? (
-                  <p className="openbitfun-runtime-settings__hint">{browserRestartPrompt.message}</p>
+                  <p className="opc-runtime-settings__hint">{browserRestartPrompt.message}</p>
                 ) : null}
               </div>
             </DialogBody>
             <DialogFooter
               separator
-              className="openbitfun-debug-config__modal-footer"
-              data-openbitfun-component="runtime-settings"
-              data-openbitfun-part="modalFooter"
+              className="opc-debug-config__modal-footer"
+              data-opc-component="runtime-settings"
+              data-opc-part="modalFooter"
             >
               <Button
                 variant="fill"

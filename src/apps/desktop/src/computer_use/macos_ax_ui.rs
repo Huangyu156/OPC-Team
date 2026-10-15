@@ -7,10 +7,10 @@ use core_foundation::array::{CFArray, CFArrayRef};
 use core_foundation::base::{CFGetTypeID, CFTypeRef, TCFType};
 use core_foundation::string::{CFString, CFStringRef};
 use core_graphics::geometry::{CGPoint, CGSize};
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_core::agentic::tools::computer_use_host::{
     OcrAccessibilityHit, UiElementLocateQuery, UiElementLocateResult,
 };
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::collections::VecDeque;
 use std::ffi::c_void;
 

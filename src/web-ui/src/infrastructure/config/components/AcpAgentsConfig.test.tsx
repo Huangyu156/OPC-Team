@@ -241,7 +241,7 @@ async function openView(container: HTMLElement, label: string): Promise<void> {
 
 async function selectPermission(container: HTMLElement, value: string): Promise<void> {
   const trigger = container.querySelector<HTMLButtonElement>(
-    '[data-openbitfun-part="confirmation"] button[role="combobox"]',
+    '[data-opc-part="confirmation"] button[role="combobox"]',
   );
   expect(trigger).not.toBeNull();
   await act(async () => trigger!.click());
@@ -422,7 +422,7 @@ describe('AcpAgentsConfig', () => {
     });
 
     await act(async () => root.render(<AcpAgentsConfig />));
-    expect(container.querySelector('[data-openbitfun-part="confirmation"]')?.textContent)
+    expect(container.querySelector('[data-opc-part="confirmation"]')?.textContent)
       .toContain('permissionMode.ask');
     expect(container.querySelector('[role="alert"]')?.textContent)
       .toContain('permissionMode.legacyRejectWarning');
@@ -516,17 +516,17 @@ describe('AcpAgentsConfig', () => {
     });
 
     const row = Array.from(
-      container.querySelectorAll('.openbitfun-acp-agents__registry-row'),
-    ).find(candidate => candidate.querySelector('.openbitfun-acp-agents__registry-name')
+      container.querySelectorAll('.opc-acp-agents__registry-row'),
+    ).find(candidate => candidate.querySelector('.opc-acp-agents__registry-name')
       ?.textContent === 'opencode');
     expect(row).toBeTruthy();
 
     const status = row?.querySelector(
-      '[data-openbitfun-component="status-pill"][data-openbitfun-state="not_installed"]',
+      '[data-opc-component="status-pill"][data-opc-state="not_installed"]',
     );
 
-    expect(row?.querySelector('[data-openbitfun-part="capabilities"]')).toBeNull();
-    expect(row?.querySelectorAll('[data-openbitfun-component="status-pill"]')).toHaveLength(1);
+    expect(row?.querySelector('[data-opc-part="capabilities"]')).toBeNull();
+    expect(row?.querySelectorAll('[data-opc-component="status-pill"]')).toHaveLength(1);
     expect(status?.getAttribute('data-tone')).toBe('neutral');
   });
 
@@ -1061,8 +1061,8 @@ describe('AcpAgentsConfig', () => {
     // and the preset list happen to produce, so "the last add button" belongs
     // to some other agent as often as not.
     const harnessRow = Array.from(
-      container.querySelectorAll('.openbitfun-acp-agents__registry-row'),
-    ).find(row => row.querySelector('.openbitfun-acp-agents__registry-name')
+      container.querySelectorAll('.opc-acp-agents__registry-row'),
+    ).find(row => row.querySelector('.opc-acp-agents__registry-name')
       ?.textContent === 'DeepSeek Harness');
     expect(harnessRow).toBeTruthy();
 
@@ -1080,7 +1080,7 @@ describe('AcpAgentsConfig', () => {
     // The command has to name the profile OpenBitFun materializes; a bare `dsh`
     // would drop the user into the harness's own default composition, which
     // does not speak ACP at all.
-    expect(saveJsonConfigMock).toHaveBeenCalledWith(expect.stringContaining('openbitfun-acp'));
+    expect(saveJsonConfigMock).toHaveBeenCalledWith(expect.stringContaining('opc-acp'));
   });
 
   it('does not downgrade enabled agents on transient probe timeouts during refresh', async () => {

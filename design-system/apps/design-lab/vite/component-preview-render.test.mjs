@@ -85,21 +85,21 @@ test("color and pattern directories expose one labelled panel while retaining ot
 
 test("Capsule previews publish the glass action composition in every supported state", () => {
   const { html, preview } = render("Capsule");
-  assert.match(preview, /data-openbitfun-component="capsule"/);
-  assert.match(preview, /data-openbitfun-variant="glass"/);
-  assert.match(preview, /data-openbitfun-shape="circle"/);
-  assert.match(preview, /data-openbitfun-preview-state="disabled"/);
+  assert.match(preview, /data-opc-component="capsule"/);
+  assert.match(preview, /data-opc-variant="glass"/);
+  assert.match(preview, /data-opc-shape="circle"/);
+  assert.match(preview, /data-opc-preview-state="disabled"/);
   assert.match(html, /import \{ Button, Capsule, Icon, IconButton \}/);
   assert.doesNotMatch(html, />component\.Capsule\.description</);
 });
 
 test("Textarea opens with its editable, validation and disabled examples visible", () => {
   const { html, preview } = render("Textarea");
-  assert.equal((preview.match(/data-openbitfun-component="textarea"/g) ?? []).length, 5);
+  assert.equal((preview.match(/data-opc-component="textarea"/g) ?? []).length, 5);
   assert.equal((preview.match(/<textarea\b/g) ?? []).length, 5);
   for (const state of ["hover", "focus-visible", "invalid", "disabled"]) assert.ok(preview.includes(`data-state="${state}"`));
-  assert.match(preview, /data-openbitfun-part="count"/);
-  assert.doesNotMatch(preview, /data-openbitfun-component="switch"|>Switch<|>关闭<|>开启</);
+  assert.match(preview, /data-opc-part="count"/);
+  assert.doesNotMatch(preview, /data-opc-component="switch"|>Switch<|>关闭<|>开启</);
   assert.match(html, /import \{ Textarea \}/);
 });
 
@@ -107,11 +107,11 @@ test("other components formerly using the fallback render their own state specim
   for (const name of ["Alert", "Avatar", "Checkbox", "NumberInput", "Radio", "Empty"]) {
     const { preview, html } = render(name);
     const componentId = name.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
-    assert.match(preview, new RegExp(`data-openbitfun-component="${componentId}"`), name);
+    assert.match(preview, new RegExp(`data-opc-component="${componentId}"`), name);
     assert.match(preview, /class="[^"]*design-component-overview/);
     assert.doesNotMatch(preview, /<details/);
     assert.doesNotMatch(preview, /component-preview-matrix/);
-    assert.doesNotMatch(preview, /data-openbitfun-component="switch"|>Switch</, name);
+    assert.doesNotMatch(preview, /data-opc-component="switch"|>Switch</, name);
     assert.doesNotMatch(html, /import \{ Switch \}/, name);
   }
   assert.match(render("Alert").preview, /data-state="error"/);
@@ -122,32 +122,32 @@ test("LauncherButton exposes its interaction states with the catalog mic", () =>
   const { html, preview } = render("LauncherButton");
 
   assert.equal(
-    (preview.match(/data-openbitfun-component="launcher-button"/g) ?? []).length,
+    (preview.match(/data-opc-component="launcher-button"/g) ?? []).length,
     5,
   );
-  assert.match(preview, /data-openbitfun-name="mic"/);
+  assert.match(preview, /data-opc-name="mic"/);
   for (const state of ["hover", "active", "disabled"]) assert.ok(preview.includes(`data-state="${state}"`));
   assert.match(html, /import \{ Icon, LauncherButton \}/);
 });
 
 test("FieldGroup compares complete form groups at their natural width", () => {
   const { preview } = render("FieldGroup");
-  assert.equal((preview.match(/data-openbitfun-component="field-group"/g) ?? []).length, 3);
+  assert.equal((preview.match(/data-opc-component="field-group"/g) ?? []).length, 3);
   for (const state of ["subtle", "plain", "divided"]) assert.ok(preview.includes(`data-state="${state}"`));
   assert.doesNotMatch(preview, /component-preview-matrix/);
 });
 
 test("Switch is explicit and unknown components never silently become switches", () => {
-  assert.match(render("Switch").preview, /data-openbitfun-component="switch"/);
+  assert.match(render("Switch").preview, /data-opc-component="switch"/);
   const { preview } = render("UnregisteredExample");
   assert.match(preview, /此组件尚未实现预览/);
-  assert.doesNotMatch(preview, /data-openbitfun-component="switch"/);
+  assert.doesNotMatch(preview, /data-opc-component="switch"/);
 });
 
 test("RollingText exposes real standalone and TabGroup replacement specimens", () => {
   const { preview, html } = render("RollingText");
-  assert.match(preview, /data-openbitfun-component="rolling-text"/);
-  assert.match(preview, /data-openbitfun-component="tab-group"/);
+  assert.match(preview, /data-opc-component="rolling-text"/);
+  assert.match(preview, /data-opc-component="tab-group"/);
   assert.match(preview, /替换标题/);
   assert.match(html, /labelTransitionKey/);
 });
@@ -160,8 +160,8 @@ test("Icon details include real mixed-icon compositions at every button size", (
     assert.match(preview, new RegExp(`aria-label="SVG / ${size}"`));
     assert.match(preview, new RegExp(`aria-label="Icon / ${size}"`));
   }
-  assert.match(preview, /data-openbitfun-component="tab-group"/);
-  assert.match(preview, /data-openbitfun-component="input"/);
+  assert.match(preview, /data-opc-component="tab-group"/);
+  assert.match(preview, /data-opc-component="input"/);
   assert.match(preview, /design-icon-directory/);
   assert.match(preview, /aria-label="搜索图标"/);
 });
@@ -180,7 +180,7 @@ test("the complete registry has an authored presentation and a renderable defaul
 
 test("important choices and semantic variants are visible without opening an inspector", () => {
   const button = render("Button").preview;
-  for (const variant of ["outline", "fill", "secondary", "primary", "text"]) assert.ok(button.includes(`data-openbitfun-variant="${variant}"`));
+  for (const variant of ["outline", "fill", "secondary", "primary", "text"]) assert.ok(button.includes(`data-opc-variant="${variant}"`));
   const iconButton = render("IconButton").preview;
   assert.ok(iconButton.includes('data-state-count="6"'));
   assert.ok(iconButton.includes('aria-busy="true"'));
@@ -196,7 +196,7 @@ test("navigation and mobile components open in usable compositions", () => {
   assert.match(render("TabGroup").preview, /role="tabpanel"/);
   assert.match(render("SegmentedControl").preview, /data-selected-content="chat"/);
   assert.match(render("MobileComposer").preview, /<textarea/);
-  assert.match(render("MobileComposer").preview, /data-openbitfun-component="mobile-message"/);
+  assert.match(render("MobileComposer").preview, /data-opc-component="mobile-message"/);
   assert.doesNotMatch(render("Composer").preview.match(/<textarea[^>]*>/)?.[0] ?? "", /readonly/);
   assert.match(render("MobileScrim").preview, /design-scrim-example/);
 });

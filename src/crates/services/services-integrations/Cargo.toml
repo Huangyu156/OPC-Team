@@ -1,5 +1,5 @@
 [package]
-name = "openbitfun-services-integrations"
+name = "opc-services-integrations"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -7,7 +7,7 @@ description = "OPC-Team integration service owner crate"
 autotests = false
 
 [lib]
-name = "openbitfun_services_integrations"
+name = "opc_services_integrations"
 crate-type = ["rlib"]
 
 [dependencies]
@@ -18,19 +18,19 @@ serde_json = { workspace = true }
 log = { workspace = true }
 ts-rs = { workspace = true, optional = true }
 tempfile = { workspace = true, optional = true }
-openbitfun-agent-runtime = { path = "../../execution/agent-runtime", optional = true }
-openbitfun-agent-workflows = { path = "../../execution/agent-workflows", optional = true }
-openbitfun-agent-tools = { path = "../../execution/tool-contracts", optional = true }
-openbitfun-events = { path = "../../contracts/events" }
-openbitfun-core-types = { path = "../../contracts/core-types", optional = true }
-openbitfun-product-domains = { path = "../../contracts/product-domains", optional = true }
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", optional = true }
+opc-agent-runtime = { path = "../../execution/agent-runtime", optional = true }
+opc-agent-workflows = { path = "../../execution/agent-workflows", optional = true }
+opc-agent-tools = { path = "../../execution/tool-contracts", optional = true }
+opc-events = { path = "../../contracts/events" }
+opc-core-types = { path = "../../contracts/core-types", optional = true }
+opc-product-domains = { path = "../../contracts/product-domains", optional = true }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", optional = true }
 aes-gcm = { workspace = true, optional = true }
 aes = { workspace = true, optional = true }
 anyhow = { workspace = true, optional = true }
 async-trait = { workspace = true, optional = true }
 base64 = { workspace = true, optional = true }
-openbitfun-services-core = { path = "../services-core", optional = true }
+opc-services-core = { path = "../services-core", optional = true }
 bzip2 = { workspace = true, optional = true }
 chrono = { workspace = true, optional = true }
 dunce = { workspace = true, optional = true }
@@ -99,7 +99,7 @@ default = []
 # app-server's `ts` feature enables `product-full` which pulls `git`.
 ts = ["dep:ts-rs"]
 models-dev = [
-    "openbitfun-services-core/tls-provider",
+    "opc-services-core/tls-provider",
     "reqwest",
     "reqwest/rustls-no-provider",
     "reqwest/system-proxy",
@@ -110,9 +110,9 @@ models-dev = [
     "tokio/time",
     "windows",
 ]
-browser-control = ["anyhow", "openbitfun-services-core/process-runtime", "openbitfun-services-core/tls-provider", "dirs", "reqwest", "reqwest/json", "reqwest/rustls-no-provider", "thiserror", "tokio/time"]
+browser-control = ["anyhow", "opc-services-core/process-runtime", "opc-services-core/tls-provider", "dirs", "reqwest", "reqwest/json", "reqwest/rustls-no-provider", "thiserror", "tokio/time"]
 canvas-runtime = [
-    "dep:openbitfun-product-domains",
+    "dep:opc-product-domains",
     "oxc",
     "sha2",
     "tokio/fs",
@@ -122,14 +122,14 @@ canvas-runtime = [
 deep-research = [
     "anyhow",
     "async-trait",
-    "dep:openbitfun-agent-workflows",
-    "dep:openbitfun-core-types",
-    "openbitfun-runtime-ports/workspace-ports",
+    "dep:opc-agent-workflows",
+    "dep:opc-core-types",
+    "opc-runtime-ports/workspace-ports",
 ]
 git = [
     "async-trait",
-    "openbitfun-runtime-ports/git-port",
-    "openbitfun-services-core/process-runtime",
+    "opc-runtime-ports/git-port",
+    "opc-services-core/process-runtime",
     "chrono",
     "git2",
     "thiserror",
@@ -141,8 +141,8 @@ git = [
 ]
 file-watch = ["notify", "tokio/rt", "tokio/sync"]
 function-agents = [
-    "openbitfun-product-domains/function-agents",
-    "dep:openbitfun-product-domains",
+    "opc-product-domains/function-agents",
+    "dep:opc-product-domains",
     "git",
 ]
 mcp = [
@@ -150,9 +150,9 @@ mcp = [
     "anyhow",
     "async-trait",
     "base64",
-    "openbitfun-agent-tools/mcp-bridge",
-    "openbitfun-services-core/process-runtime",
-    "openbitfun-services-core/tls-provider",
+    "opc-agent-tools/mcp-bridge",
+    "opc-services-core/process-runtime",
+    "opc-services-core/tls-provider",
     "futures",
     "hex",
     "rand",
@@ -175,8 +175,8 @@ mcp = [
     "process-tree",
 ]
 miniapp-storage = [
-    "dep:openbitfun-product-domains",
-    "openbitfun-product-domains/miniapp",
+    "dep:opc-product-domains",
+    "opc-product-domains/miniapp",
     "tokio/fs",
     "tokio/time",
     "uuid",
@@ -184,10 +184,10 @@ miniapp-storage = [
 miniapp-runtime = [
     "miniapp-storage",
     "base64",
-    "openbitfun-product-domains/miniapp",
-    "openbitfun-services-core/process-runtime",
-    "openbitfun-services-core/tls-provider",
-    "dep:openbitfun-product-domains",
+    "opc-product-domains/miniapp",
+    "opc-services-core/process-runtime",
+    "opc-services-core/tls-provider",
+    "dep:opc-product-domains",
     "dirs",
     "reqwest",
     "reqwest/rustls-no-provider",
@@ -203,10 +203,10 @@ miniapp-runtime = [
     "which",
 ]
 account-identity = [
-    "dep:openbitfun-product-domains",
-    "openbitfun-services-core/tls-provider",
-    "openbitfun-services-core/credential-vault",
-    "openbitfun-services-core/product-identity",
+    "dep:opc-product-domains",
+    "opc-services-core/tls-provider",
+    "opc-services-core/credential-vault",
+    "opc-services-core/product-identity",
     "chrono", "dirs", "thiserror",
     "dep:keyring-core", "dep:windows-native-keyring-store", "dep:zbus-secret-service-keyring-store",
     "reqwest", "reqwest/json", "reqwest/rustls-no-provider",
@@ -214,10 +214,10 @@ account-identity = [
 ]
 miniapp-market = [
     "account-identity",
-    "openbitfun-services-core/tls-provider",
-    "openbitfun-product-domains/appearance-market",
-    "openbitfun-services-core/credential-vault",
-    "openbitfun-services-core/product-identity",
+    "opc-services-core/tls-provider",
+    "opc-product-domains/appearance-market",
+    "opc-services-core/credential-vault",
+    "opc-services-core/product-identity",
     "chrono",
     "dep:keyring-core",
     "dep:windows-native-keyring-store",
@@ -241,8 +241,8 @@ miniapp-market = [
     "zip",
 ]
 plugin-source = [
-    "openbitfun-product-domains/plugin-source",
-    "dep:openbitfun-product-domains",
+    "opc-product-domains/plugin-source",
+    "dep:opc-product-domains",
     "dunce",
     "fs2",
     "hex",
@@ -257,11 +257,11 @@ plugin-source = [
     "windows",
 ]
 hook-import = [
-    "dep:openbitfun-agent-runtime",
-    "openbitfun-agent-runtime/native-hook-settings",
-    "openbitfun-product-domains/external-sources",
-    "openbitfun-services-core/local-storage",
-    "dep:openbitfun-product-domains",
+    "dep:opc-agent-runtime",
+    "opc-agent-runtime/native-hook-settings",
+    "opc-product-domains/external-sources",
+    "opc-services-core/local-storage",
+    "dep:opc-product-domains",
     "hex",
     "sha2",
     "thiserror",
@@ -273,7 +273,7 @@ remote-connect = [
     "dep:sioc",
     "dep:pulldown-cmark",
     "fs2",
-    "dep:openbitfun-product-domains",
+    "dep:opc-product-domains",
     "thiserror",
     "dep:hkdf",
     "account-identity",
@@ -283,14 +283,14 @@ remote-connect = [
     "aes-gcm",
     "async-trait",
     "base64",
-    "dep:openbitfun-agent-tools",
-    "dep:openbitfun-core-types",
-    "openbitfun-services-core/local-storage",
-    "openbitfun-services-core/process-runtime",
-    "openbitfun-services-core/tls-provider",
-    "openbitfun-runtime-ports/agent-api",
-    "openbitfun-runtime-ports/remote-workspace-ports",
-    "openbitfun-runtime-ports/workspace-ports",
+    "dep:opc-agent-tools",
+    "dep:opc-core-types",
+    "opc-services-core/local-storage",
+    "opc-services-core/process-runtime",
+    "opc-services-core/tls-provider",
+    "opc-runtime-ports/agent-api",
+    "opc-runtime-ports/remote-workspace-ports",
+    "opc-runtime-ports/workspace-ports",
     "chrono",
     "dirs",
     "futures",
@@ -334,12 +334,12 @@ remote-connect = [
 remote-ssh = [
     "anyhow",
     "async-trait",
-    "openbitfun-services-core/filesystem",
-    "openbitfun-services-core/process-runtime",
-    "openbitfun-services-core/workspace-identity",
-    "openbitfun-runtime-ports/remote-exec-port",
-    "openbitfun-runtime-ports/remote-workspace-ports",
-    "openbitfun-runtime-ports/workspace-ports",
+    "opc-services-core/filesystem",
+    "opc-services-core/process-runtime",
+    "opc-services-core/workspace-identity",
+    "opc-runtime-ports/remote-exec-port",
+    "opc-runtime-ports/remote-workspace-ports",
+    "opc-runtime-ports/workspace-ports",
     "regex",
     "sha2",
     "terminal-core",
@@ -361,9 +361,9 @@ remote-ssh-concrete = [
     "anyhow",
     "async-trait",
     "base64",
-    "dep:openbitfun-core-types",
-    "openbitfun-services-core/tls-provider",
-    "dep:openbitfun-runtime-ports",
+    "dep:opc-core-types",
+    "opc-services-core/tls-provider",
+    "dep:opc-runtime-ports",
     "chrono",
     "dirs",
     "minisign-verify",
@@ -388,15 +388,15 @@ remote-persistence = [
     "anyhow",
     "base64",
     "hostname",
-    "openbitfun-services-core/product-identity",
+    "opc-services-core/product-identity",
     "rand",
     "sha2",
     "windows",
 ]
 review-platform = [
     "async-trait",
-    "openbitfun-services-core/process-runtime",
-    "openbitfun-services-core/tls-provider",
+    "opc-services-core/process-runtime",
+    "opc-services-core/tls-provider",
     "chrono",
     "futures",
     "reqwest",
@@ -415,10 +415,10 @@ review-platform = [
 speech = [
     "async-trait",
     "base64",
-    "openbitfun-services-core/tls-provider",
+    "opc-services-core/tls-provider",
     "bzip2",
     "chrono",
-    "dep:openbitfun-core-types",
+    "dep:opc-core-types",
     "futures-util",
     "reqwest",
     "reqwest/rustls-no-provider",
@@ -444,8 +444,8 @@ speech-realtime = [
 ]
 workspace-search = [
     "async-trait",
-    "openbitfun-services-core/filesystem",
-    "openbitfun-services-core/process-runtime",
+    "opc-services-core/filesystem",
+    "opc-services-core/process-runtime",
     "dunce",
     "thiserror",
     "tokio/io-util",
@@ -454,10 +454,10 @@ workspace-search = [
     "tokio/time",
     "which",
 ]
-process-tree = ["openbitfun-services-core/process-runtime"]
+process-tree = ["opc-services-core/process-runtime"]
 script-tool-runtime = [
     "async-trait",
-    "openbitfun-runtime-ports/script-tool-runtime",
+    "opc-runtime-ports/script-tool-runtime",
     "process-tree",
     "tokio/io-util",
     "tokio/process",
@@ -468,8 +468,8 @@ script-tool-runtime = [
 ]
 web-tools = [
     "async-trait",
-    "openbitfun-runtime-ports/web-search-port",
-    "openbitfun-services-core/tls-provider",
+    "opc-runtime-ports/web-search-port",
+    "opc-services-core/tls-provider",
     "chrono",
     "futures-util",
     "reqwest",
@@ -497,7 +497,7 @@ product-full = [
     "web-tools",
     "workspace-search",
 ]
-skillhub = ["openbitfun-services-core/tls-provider", "reqwest", "reqwest/json", "reqwest/query", "reqwest/rustls-no-provider", "reqwest/stream", "zip", "tempfile", "tokio/fs", "tokio/io-util"]
+skillhub = ["opc-services-core/tls-provider", "reqwest", "reqwest/json", "reqwest/query", "reqwest/rustls-no-provider", "reqwest/stream", "zip", "tempfile", "tokio/fs", "tokio/io-util"]
 ssh_config = ["dep:ssh_config"]
 
 [dev-dependencies]

@@ -5,8 +5,8 @@ use std::time::Instant;
 
 use dark_light::Mode;
 use log::{debug, error, warn};
-use openbitfun_core::infrastructure::try_get_path_manager_arc;
-use openbitfun_core::service::config::types::GlobalConfig;
+use opc_core::infrastructure::try_get_path_manager_arc;
+use opc_core::service::config::types::GlobalConfig;
 use tauri::webview::PageLoadEvent;
 use tauri::{Manager, WebviewUrl};
 
@@ -366,13 +366,13 @@ impl AppearanceConfig {
                     if (!root) return false;
                     
                     root.setAttribute('data-openbitfun-appearance', '{id}');
-                    root.setAttribute('data-openbitfun-appearance-mode', '{appearance_mode}');
+                    root.setAttribute('data-opc-appearance-mode', '{appearance_mode}');
                     root.setAttribute('data-opcteam-design-system-root', '');
                     root.setAttribute('data-color-scheme', '{appearance_mode}');
                     root.setAttribute('data-contrast', 'standard');
                     root.setAttribute('data-density', 'compact');
                     if ({native_sidebar_material}) {{
-                        root.setAttribute('data-openbitfun-native-material', 'sidebar');
+                        root.setAttribute('data-opc-native-material', 'sidebar');
                     }}
                     
                     root.style.setProperty('--opcteam-color-surface-canvas', '{bg_primary}');
@@ -462,7 +462,7 @@ mod startup_appearance_tests {
         assert!(script.contains("__OPENBITFUN_BOOTSTRAP_APPEARANCE_ID__"));
         assert!(script.contains("__OPENBITFUN_BOOTSTRAP_APPEARANCE_SELECTION__"));
         assert!(script.contains("data-openbitfun-appearance"));
-        assert!(script.contains("data-openbitfun-appearance-mode"));
+        assert!(script.contains("data-opc-appearance-mode"));
         assert!(script.contains("data-opcteam-design-system-root"));
         assert!(script.contains("data-color-scheme"));
         assert!(script.contains("--opcteam-color-surface-canvas"));
@@ -643,7 +643,7 @@ pub fn create_main_window(
         #[cfg(target_os = "windows")]
         if persistent_test_store {
             builder = builder.data_directory(
-                openbitfun_core::infrastructure::get_path_manager_arc()
+                opc_core::infrastructure::get_path_manager_arc()
                     .user_data_dir()
                     .join("e2e-webview"),
             );

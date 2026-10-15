@@ -1,10 +1,10 @@
-use openbitfun_claude_code_adapter::{ClaudeCodeHookProvider, ClaudeCodeHookProviderOptions};
-use openbitfun_product_domains::external_hook_catalog::{
+use opc_claude_code_adapter::{ClaudeCodeHookProvider, ClaudeCodeHookProviderOptions};
+use opc_product_domains::external_hook_catalog::{
     ExternalHookHandlerKind, ExternalHookNativeActivation, ExternalHookProjectionStatus,
     ExternalHookSourceProvider,
 };
-use openbitfun_product_domains::external_hook_contributions::ExternalHookPoint;
-use openbitfun_product_domains::external_sources::{ExecutionDomainId, ExternalSourceContext};
+use opc_product_domains::external_hook_contributions::ExternalHookPoint;
+use opc_product_domains::external_sources::{ExecutionDomainId, ExternalSourceContext};
 use std::fs;
 use tempfile::tempdir;
 
@@ -166,8 +166,7 @@ fn narrower_project_activation_cannot_enable_a_disabled_user_import() {
         .sources
         .iter()
         .find(|source| {
-            source.scope
-                == openbitfun_product_domains::external_sources::ExternalSourceScope::UserGlobal
+            source.scope == opc_product_domains::external_sources::ExternalSourceScope::UserGlobal
         })
         .unwrap();
 

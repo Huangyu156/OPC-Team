@@ -45,8 +45,8 @@ describe('Settings content typography', () => {
   });
 
   it('does not let individual settings pages shrink shared headings or subtitles', () => {
-    expect(appearanceStyles).not.toContain('.openbitfun-config-page-section__title');
-    expect(appearanceStyles).not.toContain('.openbitfun-config-page-section__description');
-    expect(shortcutStyles).not.toContain('.openbitfun-config-page-header__subtitle');
+    expect(appearanceStyles).not.toContain('.opc-config-page-section__title');
+    expect(appearanceStyles).not.toContain('.opc-config-page-section__description');
+    expect(shortcutStyles).not.toContain('.opc-config-page-header__subtitle');
   });
 });

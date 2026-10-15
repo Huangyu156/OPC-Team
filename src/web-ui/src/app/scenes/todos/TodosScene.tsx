@@ -402,23 +402,23 @@ const TodosScene: React.FC = () => {
 
   return (
     <ScrollArea
-      className="openbitfun-todos"
-      data-openbitfun-scene="todos"
-      data-openbitfun-part="root"
+      className="opc-todos"
+      data-opc-scene="todos"
+      data-opc-part="root"
       data-testid="todos-scene"
     >
-      <header className="openbitfun-todos__head" data-openbitfun-scene="todos" data-openbitfun-part="header">
-        <div className="openbitfun-todos__head-main">
-          <div className="openbitfun-todos__head-text">
-            <h2 className="openbitfun-todos__title">{t('title')}</h2>
-            <p className="openbitfun-todos__subtitle">{t('header.subtitle')}</p>
+      <header className="opc-todos__head" data-opc-scene="todos" data-opc-part="header">
+        <div className="opc-todos__head-main">
+          <div className="opc-todos__head-text">
+            <h2 className="opc-todos__title">{t('title')}</h2>
+            <p className="opc-todos__subtitle">{t('header.subtitle')}</p>
           </div>
         </div>
-        <div className="openbitfun-todos__head-actions" data-openbitfun-scene="todos" data-openbitfun-part="headerActions">
+        <div className="opc-todos__head-actions" data-opc-scene="todos" data-opc-part="headerActions">
           <div
-            className="openbitfun-todos__month-navigation"
-            data-openbitfun-scene="todos"
-            data-openbitfun-part="monthNavigation"
+            className="opc-todos__month-navigation"
+            data-opc-scene="todos"
+            data-opc-part="monthNavigation"
           >
             <Tooltip content={t('calendar.previousMonth')}>
               <IconButton
@@ -430,7 +430,7 @@ const TodosScene: React.FC = () => {
                 data-testid="todos-calendar-prev"
               />
             </Tooltip>
-            <span className="openbitfun-todos__month-label" data-testid="todos-calendar-month">
+            <span className="opc-todos__month-label" data-testid="todos-calendar-month">
               <CalendarDays size={14} aria-hidden="true" />
               <span>{monthLabel}</span>
             </span>
@@ -448,7 +448,7 @@ const TodosScene: React.FC = () => {
           <Button
             size="sm"
             variant="outline"
-            className="openbitfun-todos__today-button"
+            className="opc-todos__today-button"
             onClick={showCurrentMonth}
           >
             {t('calendar.today')}
@@ -456,7 +456,7 @@ const TodosScene: React.FC = () => {
           <Button
             size="sm"
             variant="primary"
-            className="openbitfun-todos__new-button"
+            className="opc-todos__new-button"
             leadingIcon={<Icon name="plus" size="lg" />}
             onClick={handleCreateNew}
             disabled={workspaceOptions.length === 0}
@@ -473,13 +473,13 @@ const TodosScene: React.FC = () => {
         size="2xl"
         closeOnPointerOutside={!renderedEditor.saving}
         aria-label={renderedEditor.editingJob ? t('editor.editTitle') : t('editor.createTitle')}
-        className="openbitfun-todos-editor-dialog"
+        className="opc-todos-editor-dialog"
         data-testid="todos-editor-modal"
       >
-        <DialogHeader className="openbitfun-todos-editor-dialog__header">
+        <DialogHeader className="opc-todos-editor-dialog__header">
           {!renderedEditor.saving && <DialogClose />}
         </DialogHeader>
-        <DialogBody className="openbitfun-todos-editor-dialog__body" inset="none">
+        <DialogBody className="opc-todos-editor-dialog__body" inset="none">
           <TodoEditor
             draft={renderedEditor.draft}
             onDraftChange={setDraft}
@@ -501,57 +501,57 @@ const TodosScene: React.FC = () => {
         </DialogBody>
       </Dialog>
 
-      <div className="openbitfun-todos__panes" data-openbitfun-scene="todos" data-openbitfun-part="panes">
+      <div className="opc-todos__panes" data-opc-scene="todos" data-opc-part="panes">
         {/* ── Tier 1: due within 24 hours ───────────────────── */}
         <ScrollArea
-          className="openbitfun-todos__pane openbitfun-todos__pane--list"
+          className="opc-todos__pane opc-todos__pane--list"
           aria-label={t('list.title')}
-          data-openbitfun-scene="todos"
-          data-openbitfun-part="listPane"
+          data-opc-scene="todos"
+          data-opc-part="listPane"
           data-testid="todos-list-pane"
           role="region"
         >
           <section
-            className="openbitfun-todos__overview"
+            className="opc-todos__overview"
             aria-label={t('overview.title')}
-            data-openbitfun-scene="todos"
-            data-openbitfun-part="overview"
+            data-opc-scene="todos"
+            data-opc-part="overview"
             data-testid="todos-overview"
           >
-            <header className="openbitfun-todos__overview-head">
-              <h3 className="openbitfun-todos__overview-title">{t('overview.title')}</h3>
+            <header className="opc-todos__overview-head">
+              <h3 className="opc-todos__overview-title">{t('overview.title')}</h3>
               <CalendarDays size={14} aria-hidden="true" />
             </header>
-            <div className="openbitfun-todos__overview-metrics">
-              <div className="openbitfun-todos__overview-metric">
-                <p className="openbitfun-todos__overview-value">
+            <div className="opc-todos__overview-metrics">
+              <div className="opc-todos__overview-metric">
+                <p className="opc-todos__overview-value">
                   <strong>{visibleTodos.length}</strong>
                   <span>{t('overview.unit')}</span>
                 </p>
-                <p className="openbitfun-todos__overview-label">{t('overview.total')}</p>
+                <p className="opc-todos__overview-label">{t('overview.total')}</p>
               </div>
-              <div className="openbitfun-todos__overview-metric">
-                <p className="openbitfun-todos__overview-value">
+              <div className="opc-todos__overview-metric">
+                <p className="opc-todos__overview-value">
                   <strong>{dueSoonTodoCount}</strong>
                   <span>{t('overview.unit')}</span>
                 </p>
-                <p className="openbitfun-todos__overview-label">{t('overview.dueSoon')}</p>
+                <p className="opc-todos__overview-label">{t('overview.dueSoon')}</p>
               </div>
             </div>
           </section>
 
-          <header className="openbitfun-todos__pane-head">
-            <h3 className="openbitfun-todos__list-title">
+          <header className="opc-todos__pane-head">
+            <h3 className="opc-todos__list-title">
               {t('list.countTitle', { total: visibleTodos.length })}
             </h3>
           </header>
 
           {visibleTodos.length === 0 ? (
-            <p className="openbitfun-todos__empty" data-openbitfun-scene="todos" data-openbitfun-part="empty">
+            <p className="opc-todos__empty" data-opc-scene="todos" data-opc-part="empty">
               {t('list.empty')}
             </p>
           ) : (
-            <div className="openbitfun-todos__rows" data-openbitfun-scene="todos" data-openbitfun-part="rows">
+            <div className="opc-todos__rows" data-opc-scene="todos" data-opc-part="rows">
               {visibleTodos.map((occurrence) => (
                 <TodoItemRow
                   key={occurrence.job.id}
@@ -572,11 +572,11 @@ const TodosScene: React.FC = () => {
           )}
 
           {buckets.inactive.length > 0 ? (
-            <div className="openbitfun-todos__inactive" data-openbitfun-scene="todos" data-openbitfun-part="inactive">
-              <h4 className="openbitfun-todos__inactive-title">
+            <div className="opc-todos__inactive" data-opc-scene="todos" data-opc-part="inactive">
+              <h4 className="opc-todos__inactive-title">
                 {t('inactive.title', { total: buckets.inactive.length })}
               </h4>
-              <div className="openbitfun-todos__rows">
+              <div className="opc-todos__rows">
                 {buckets.inactive.map((entry) => (
                   <TodoItemRow
                     key={entry.job.id}
@@ -598,9 +598,9 @@ const TodosScene: React.FC = () => {
 
         {/* ── Tier 2: more than 24 hours out ────────────────── */}
         <div
-          className="openbitfun-todos__pane openbitfun-todos__pane--calendar"
-          data-openbitfun-scene="todos"
-          data-openbitfun-part="calendarPane"
+          className="opc-todos__pane opc-todos__pane--calendar"
+          data-opc-scene="todos"
+          data-opc-part="calendarPane"
           data-has-selection={selectedDayKey ? 'true' : 'false'}
           data-testid="todos-calendar-pane"
         >
@@ -618,20 +618,20 @@ const TodosScene: React.FC = () => {
             minimumRetainMs={160}
           >
             <ScrollArea
-              className="openbitfun-todos__day-detail-presence"
+              className="opc-todos__day-detail-presence"
               data-open={selectedDayKey ? 'true' : 'false'}
               aria-hidden={!selectedDayKey}
               {...(!selectedDayKey ? { inert: '' } : {})}
             >
               <section
-                className="openbitfun-todos__day-detail"
+                className="opc-todos__day-detail"
                 aria-label={t('calendar.dayDetailTitle')}
-                data-openbitfun-scene="todos"
-                data-openbitfun-part="dayDetail"
+                data-opc-scene="todos"
+                data-opc-part="dayDetail"
                 data-testid="todos-day-detail"
               >
-                <header className="openbitfun-todos__day-detail-head">
-                  <h4 className="openbitfun-todos__day-detail-title">
+                <header className="opc-todos__day-detail-head">
+                  <h4 className="opc-todos__day-detail-title">
                     {renderedSelectedDayOccurrences[0]
                       ? formatDateTime(renderedSelectedDayOccurrences[0].atMs, formatDate)
                       : t('calendar.dayDetailTitle')}
@@ -646,11 +646,11 @@ const TodosScene: React.FC = () => {
                   </Button>
                 </header>
                 {renderedSelectedDayOccurrences.length === 0 ? (
-                  <p className="openbitfun-todos__empty" data-testid="todos-day-empty">
+                  <p className="opc-todos__empty" data-testid="todos-day-empty">
                     {t('calendar.dayEmpty')}
                   </p>
                 ) : (
-                  <div className="openbitfun-todos__rows">
+                  <div className="opc-todos__rows">
                     {renderedSelectedDayOccurrences.map((occurrence) => (
                       <TodoItemRow
                         key={`${occurrence.job.id}-${occurrence.atMs}`}

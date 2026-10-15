@@ -2,7 +2,7 @@ use crate::agentic::tools::framework::{PermissionIntent, Tool, ToolResult, ToolU
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use log::{error, info};
-use openbitfun_runtime_ports::{WebSearchRequest, WebSearchResult};
+use opc_runtime_ports::{WebSearchRequest, WebSearchResult};
 use serde_json::{json, Value};
 
 const DEFAULT_RESULTS: u64 = 10;

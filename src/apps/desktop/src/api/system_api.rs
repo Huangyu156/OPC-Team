@@ -5,14 +5,14 @@ use std::sync::{Arc, Mutex, OnceLock};
 
 use crate::api::app_state::AppState;
 use crate::startup_trace::DesktopStartupTrace;
-use openbitfun_core::service::system;
+use opc_core::service::system;
 use serde::{Deserialize, Serialize};
 use tauri::{AppHandle, Emitter, Manager, Position, Size, State};
 use tauri_plugin_opener::OpenerExt;
 use tauri_plugin_updater::UpdaterExt;
 
 /// Emitted during `install_update` download; matches `installUpdateWithProgress` / frontend listener.
-const UPDATE_PROGRESS_EVENT: &str = "openbitfun-update-progress";
+const UPDATE_PROGRESS_EVENT: &str = "opc-update-progress";
 
 /// Updater origins, in configured (fallback) order. Kept in step with
 /// `scripts/desktop-tauri-build.mjs`, which bakes the same pair into the bundle.
@@ -529,7 +529,7 @@ pub async fn run_system_command(
 ) -> Result<CommandOutputResponse, String> {
     if request.workspace_id.is_some() || request.cwd.is_some() {
         let cwd = request.cwd.as_deref().unwrap_or_default();
-        if openbitfun_core::service::workspace::remote_io_for_legacy_or_id(
+        if opc_core::service::workspace::remote_io_for_legacy_or_id(
             request.workspace_id.as_deref(),
             request.controller_local,
             cwd.trim(),
@@ -1272,7 +1272,7 @@ mod tests {
 #[cfg(test)]
 mod remote_guard_tests {
     use super::{run_system_command, RunCommandRequest};
-    use openbitfun_core::service::remote_ssh::workspace_state::init_remote_workspace_manager;
+    use opc_core::service::remote_ssh::workspace_state::init_remote_workspace_manager;
 
     const REMOTE_ROOT: &str = "/remote-audit-run-command";
     const CONNECTION_ID: &str = "remote-audit-run-command-connection";

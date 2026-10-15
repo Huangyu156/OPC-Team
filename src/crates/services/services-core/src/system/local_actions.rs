@@ -906,9 +906,7 @@ mod tests {
             path_command_exists("cmd"),
             "cmd must be on PATH on Windows hosts"
         );
-        assert!(!path_command_exists(
-            "definitely-not-a-real-binary-openbitfun-xyz"
-        ));
+        assert!(!path_command_exists("definitely-not-a-real-binary-opc-xyz"));
     }
 
     #[test]
@@ -957,10 +955,7 @@ mod tests {
     #[test]
     fn missing_file_reports_not_found_before_spawn() {
         let err = LocalSystemProvider::new()
-            .open_file(
-                "__openbitfun_missing_file_for_local_system_provider_test__",
-                None,
-            )
+            .open_file("__opc_missing_file_for_local_system_provider_test__", None)
             .expect_err("missing file must be rejected before spawning an opener");
         assert_eq!(err.kind(), LocalSystemActionErrorKind::NotFound);
         assert!(!err.hints().is_empty());

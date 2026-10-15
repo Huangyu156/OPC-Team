@@ -1,7 +1,7 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     acp_external_agent_tool_input_schema, build_acp_external_agent_tool_definition,
     build_acp_external_agent_tool_name, build_acp_external_agent_tool_result,
     render_acp_external_agent_rejected_message, render_acp_external_agent_result_for_assistant,
@@ -9,8 +9,8 @@ use openbitfun_agent_tools::{
     validate_acp_external_agent_tool_input, AcpExternalAgentToolDefinition,
     AcpExternalAgentToolDefinitionInput, ToolResult, ValidationResult,
 };
-use openbitfun_core::agentic::tools::framework::{Tool, ToolRenderOptions, ToolUseContext};
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::framework::{Tool, ToolRenderOptions, ToolUseContext};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use serde_json::Value;
 
 use super::config::AcpClientConfig;
@@ -124,7 +124,7 @@ impl Tool for AcpAgentTool {
         input: &Value,
         context: &ToolUseContext,
     ) -> OpcTeamResult<Vec<ToolResult>> {
-        let openbitfun_session_id = context.session_id.clone().ok_or_else(|| {
+        let opc_session_id = context.session_id.clone().ok_or_else(|| {
             OpcTeamError::tool("ACP tool requires an active OPC-Team session".to_string())
         })?;
         let prompt = input
@@ -154,7 +154,7 @@ impl Tool for AcpAgentTool {
                 prompt,
                 workspace_path,
                 None,
-                openbitfun_session_id,
+                opc_session_id,
                 None,
                 timeout_seconds,
             )

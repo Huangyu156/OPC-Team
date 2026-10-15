@@ -54,7 +54,7 @@ export const FormSection = forwardRef<HTMLElement, FormSectionProps>(
       <section
         {...props}
         className={classNames(styles.section, className)}
-        data-openbitfun-component="form-section"
+        data-opc-component="form-section"
         data-description-layout={descriptionLayout}
         ref={ref}
       >
@@ -62,28 +62,28 @@ export const FormSection = forwardRef<HTMLElement, FormSectionProps>(
           || (description !== undefined && description !== null)
           || (leading !== undefined && leading !== null)
           || (actions !== undefined && actions !== null) ? (
-            <div className={styles.header} data-openbitfun-part="header">
+            <div className={styles.header} data-opc-part="header">
               {(title !== undefined && title !== null)
                 || (description !== undefined && description !== null)
                 || (leading !== undefined && leading !== null) ? (
-                  <div className={styles.headingRegion} data-openbitfun-part="heading-region">
+                  <div className={styles.headingRegion} data-opc-part="heading-region">
                     {leading !== undefined && leading !== null && (
-                      <div className={styles.leading} data-openbitfun-part="leading">{leading}</div>
+                      <div className={styles.leading} data-opc-part="leading">{leading}</div>
                     )}
                     {(title !== undefined && title !== null)
                       || (description !== undefined && description !== null) ? (
-                        <div className={styles.headingContent} data-openbitfun-part="heading-content">
+                        <div className={styles.headingContent} data-opc-part="heading-content">
                           {title !== undefined && title !== null && createElement(
                             headingAs,
-                            { className: styles.title, "data-openbitfun-part": "title" },
+                            { className: styles.title, "data-opc-part": "title" },
                             title,
                           )}
                           {description !== undefined && description !== null && (descriptionLayout === "inline" ? (
-                            <OverflowText as="div" className={styles.description} data-openbitfun-part="description">
+                            <OverflowText as="div" className={styles.description} data-opc-part="description">
                               {description}
                             </OverflowText>
                           ) : (
-                            <div className={styles.description} data-openbitfun-part="description">
+                            <div className={styles.description} data-opc-part="description">
                               {description}
                             </div>
                           ))}
@@ -92,7 +92,7 @@ export const FormSection = forwardRef<HTMLElement, FormSectionProps>(
                   </div>
                 ) : null}
               {actions !== undefined && actions !== null && (
-                <div className={styles.actions} data-openbitfun-part="actions">{actions}</div>
+                <div className={styles.actions} data-opc-part="actions">{actions}</div>
               )}
             </div>
           ) : null}
@@ -117,7 +117,7 @@ export const FieldGroup = forwardRef<HTMLDivElement, FieldGroupProps>(
           {...props}
           className={classNames(styles.group, className)}
           data-appearance={appearance}
-          data-openbitfun-component="field-group"
+          data-opc-component="field-group"
           data-dividers={dividers ? "true" : "false"}
           data-field-surface={fieldSurface}
           ref={ref}
@@ -142,7 +142,7 @@ export const FieldRow = forwardRef<HTMLDivElement, FieldRowProps>(
         {...props}
         className={classNames(styles.row, className)}
         data-align={align}
-        data-openbitfun-part="row"
+        data-opc-part="row"
         data-padding={padding}
         ref={ref}
       >

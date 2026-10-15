@@ -94,7 +94,7 @@ fn external_directory_resource(
         return Ok(None);
     }
 
-    if is_openbitfun_managed_local_path(context, resolved)? {
+    if is_opc_managed_local_path(context, resolved)? {
         return Ok(None);
     }
 
@@ -123,12 +123,12 @@ fn external_directory_resource(
     ))
 }
 
-fn is_openbitfun_managed_local_path(
+fn is_opc_managed_local_path(
     context: &ToolUseContext,
     resolved: &ToolPathResolution,
 ) -> OpcTeamResult<bool> {
     let path = Path::new(&resolved.resolved_path);
-    for root in openbitfun_managed_local_roots(context)? {
+    for root in opc_managed_local_roots(context)? {
         if is_local_path_within_root(path, &root)? {
             return Ok(true);
         }
@@ -154,7 +154,7 @@ fn is_current_workspace_plan_path(
     is_local_path_within_root(Path::new(&resolved.resolved_path), &plans_root)
 }
 
-fn openbitfun_managed_local_roots(context: &ToolUseContext) -> OpcTeamResult<Vec<PathBuf>> {
+fn opc_managed_local_roots(context: &ToolUseContext) -> OpcTeamResult<Vec<PathBuf>> {
     let mut roots = vec![terminal_transcript_root(context)];
     if context.workspace_root().is_none() {
         return Ok(roots);
@@ -174,7 +174,7 @@ fn terminal_transcript_root(_context: &ToolUseContext) -> PathBuf {
     #[cfg(test)]
     if let Some(path) = _context
         .custom_data
-        .get("__openbitfun_test_terminal_transcript_root")
+        .get("__opc_test_terminal_transcript_root")
         .and_then(|value| value.as_str())
         .filter(|path| !path.trim().is_empty())
     {
@@ -192,7 +192,7 @@ mod tests {
         DeleteFileTool, FileEditTool, FileReadTool, FileWriteTool,
     };
     use crate::agentic::WorkspaceBinding;
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         PermissionConstraintLayer, PermissionEffect, PermissionEvaluator, PermissionRule,
     };
     use serde_json::{json, Value};
@@ -295,7 +295,7 @@ mod tests {
             ToolUseContext::for_tool_listing(Some(WorkspaceBinding::new(None, workspace)), None);
         context.session_id = Some("session-1".to_string());
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".to_string(),
+            "__opc_test_runtime_root".to_string(),
             json!(runtime_root.to_string_lossy().to_string()),
         );
 
@@ -319,7 +319,7 @@ mod tests {
         let runtime_root = temp.path().join("runtime");
         let terminal_root = temp.path().join("terminals");
         let plan = workspace
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("plans/plan.plan.md");
         let reference = runtime_root.join("sessions/session-1/artifacts/session-references/ref.md");
         let compression =
@@ -344,11 +344,11 @@ mod tests {
             ToolUseContext::for_tool_listing(Some(WorkspaceBinding::new(None, workspace)), None);
         context.session_id = Some("session-1".to_string());
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".to_string(),
+            "__opc_test_runtime_root".to_string(),
             json!(runtime_root.to_string_lossy().to_string()),
         );
         context.custom_data.insert(
-            "__openbitfun_test_terminal_transcript_root".to_string(),
+            "__opc_test_terminal_transcript_root".to_string(),
             json!(terminal_root.to_string_lossy().to_string()),
         );
 
@@ -381,7 +381,7 @@ mod tests {
         let workspace = temp.path().join("workspace");
         let runtime_root = temp.path().join("runtime");
         let plan = workspace
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("plans/plan.plan.md");
         let transcript =
             runtime_root.join("sessions/session-1/artifacts/compression-transcripts/turn.md");
@@ -395,11 +395,11 @@ mod tests {
             ToolUseContext::for_tool_listing(Some(WorkspaceBinding::new(None, workspace)), None);
         context.session_id = Some("session-1".to_string());
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".to_string(),
+            "__opc_test_runtime_root".to_string(),
             json!(runtime_root.to_string_lossy().to_string()),
         );
         context.custom_data.insert(
-            "__openbitfun_test_terminal_transcript_root".to_string(),
+            "__opc_test_terminal_transcript_root".to_string(),
             json!(temp.path().join("terminals").to_string_lossy().to_string()),
         );
 
@@ -446,11 +446,11 @@ mod tests {
     }
 
     #[test]
-    fn project_openbitfun_files_are_not_globally_exempt_from_edit_permission() {
+    fn project_opc_files_are_not_globally_exempt_from_edit_permission() {
         let temp = tempfile::tempdir().expect("temp dir");
         let workspace = temp.path().join("workspace");
         let config_file = workspace
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("config/settings.json");
         fs::create_dir_all(config_file.parent().expect("config parent")).expect("config dir");
         fs::write(&config_file, "{}").expect("config file");
@@ -480,11 +480,11 @@ mod tests {
             ToolUseContext::for_tool_listing(Some(WorkspaceBinding::new(None, workspace)), None);
         context.session_id = Some("session-1".to_string());
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".to_string(),
+            "__opc_test_runtime_root".to_string(),
             json!(runtime_root.to_string_lossy().to_string()),
         );
         context.custom_data.insert(
-            "__openbitfun_test_terminal_transcript_root".to_string(),
+            "__opc_test_terminal_transcript_root".to_string(),
             json!(temp.path().join("terminals").to_string_lossy().to_string()),
         );
 
@@ -576,7 +576,7 @@ mod tests {
             .replace('\\', "/")
             .ends_with(&format!(
                 "/{}/tmp/write_toolcall123.tmp",
-                openbitfun_core_types::product_identity::hidden_data_directory()
+                opc_core_types::product_identity::hidden_data_directory()
             )));
     }
 }

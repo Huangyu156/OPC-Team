@@ -13,11 +13,11 @@ describe('CreateAgentPage presentation contract', () => {
   it('keeps the reference-led header and two-panel information hierarchy', () => {
     const source = readLocalFile('./CreateAgentPage.tsx');
 
-    expect(source).not.toMatch(/openbitfun-(?:mark|app-icon)/);
+    expect(source).not.toMatch(/opc-(?:mark|app-icon)/);
     expect(source).toContain('th-create-page__panel--definition');
     expect(source).toContain('th-create-page__panel--capabilities');
-    expect(source.match(/data-openbitfun-part="column"/g)).toHaveLength(2);
-    expect(source).toContain('data-openbitfun-part="tool"');
+    expect(source.match(/data-opc-part="column"/g)).toHaveLength(2);
+    expect(source).toContain('data-opc-part="tool"');
     expect(source).toContain("t('agentsOverview.form.basicInformation')");
     expect(source).toContain("t('agentsOverview.form.contextPolicy')");
     expect(source).toContain("t('agentsOverview.form.prompt')");
@@ -39,7 +39,7 @@ describe('CreateAgentPage presentation contract', () => {
     const source = readLocalFile('./CreateAgentPage.tsx');
 
     expect(source).toContain('const selectedContextSections = VISIBLE_CONTEXT_SECTIONS.filter');
-    expect(source).toContain('data-openbitfun-part="contextPreview"');
+    expect(source).toContain('data-opc-part="contextPreview"');
     expect(source).toContain('aria-live="polite"');
     expect(source).toContain('aria-describedby="custom-agent-runtime-context-preview"');
     expect(source).toContain("t('agentsOverview.form.contextPreviewEmpty')");

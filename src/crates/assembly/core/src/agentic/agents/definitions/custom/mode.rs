@@ -3,7 +3,7 @@ use crate::agentic::agents::Agent;
 use crate::agentic::agents::{PromptBuilderContext, UserContextPolicy};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_runtime::custom_agent::{
+use opc_agent_runtime::custom_agent::{
     custom_agent_read_markdown_file, default_custom_agent_user_context_policy,
     CustomAgentDefinition, CustomAgentKind, CustomAgentLevel,
 };

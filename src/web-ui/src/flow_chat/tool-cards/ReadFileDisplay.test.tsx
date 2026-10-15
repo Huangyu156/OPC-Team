@@ -168,7 +168,7 @@ describe('ReadFileDisplay', () => {
       );
     });
 
-    const card = container.querySelector<HTMLElement>('[data-openbitfun-tool-card="read-file"]');
+    const card = container.querySelector<HTMLElement>('[data-opc-tool-card="read-file"]');
     expect(card?.getAttribute('role')).toBe('button');
     expect(card?.tabIndex).toBe(0);
 
@@ -212,7 +212,7 @@ describe('ReadFileDisplay', () => {
     });
 
     const openButton = container.querySelector<HTMLButtonElement>(
-      '[data-openbitfun-part="actionRegion"] button',
+      '[data-opc-part="actionRegion"] button',
     );
     expect(openButton).not.toBeNull();
     expect(openButton?.type).toBe('button');
@@ -244,7 +244,7 @@ describe('ReadFileDisplay', () => {
     act(() => { openButton?.click(); });
     expect(onOpenInEditor).toHaveBeenCalledTimes(2);
 
-    const surface = container.querySelector<HTMLElement>('[data-openbitfun-part="surface"]');
+    const surface = container.querySelector<HTMLElement>('[data-opc-part="surface"]');
     act(() => { surface?.click(); });
     expect(onOpenInEditor).toHaveBeenCalledTimes(3);
     expect(onOpenInEditor).toHaveBeenLastCalledWith('src/action.ts');

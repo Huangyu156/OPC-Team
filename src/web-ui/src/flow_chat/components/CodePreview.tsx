@@ -233,8 +233,8 @@ export const CodePreview: React.FC<CodePreviewProps> = memo(({
   
   if (!content) {
     return (
-      <div data-openbitfun-component="code-preview" data-openbitfun-part="root" data-openbitfun-state="empty" className={`code-preview code-preview--empty ${className}`}>
-        <span data-openbitfun-component="code-preview" data-openbitfun-part="placeholder" className="code-preview__placeholder">No content</span>
+      <div data-opc-component="code-preview" data-opc-part="root" data-opc-state="empty" className={`code-preview code-preview--empty ${className}`}>
+        <span data-opc-component="code-preview" data-opc-part="placeholder" className="code-preview__placeholder">No content</span>
       </div>
     );
   }
@@ -244,15 +244,15 @@ export const CodePreview: React.FC<CodePreviewProps> = memo(({
   };
   
   return (
-    <div data-openbitfun-component="code-preview" data-openbitfun-part="root" data-openbitfun-state={isStreaming ? 'streaming' : undefined} className={`code-preview ${isStreaming ? 'code-preview--streaming' : ''} ${className}`}>
+    <div data-opc-component="code-preview" data-opc-part="root" data-opc-state={isStreaming ? 'streaming' : undefined} className={`code-preview ${isStreaming ? 'code-preview--streaming' : ''} ${className}`}>
       <ScrollArea
         edgeFade={edgeFade}
         scrollbarVisibility={scrollbarVisibility}
         orientation="both"
         overscrollBehaviorY="auto"
         ref={containerRef}
-        data-openbitfun-component="code-preview"
-        data-openbitfun-part="content"
+        data-opc-component="code-preview"
+        data-opc-part="content"
         className="code-preview__content"
         data-inset={inset ? "true" : undefined}
         style={containerStyle}
@@ -297,20 +297,20 @@ export const CodePreview: React.FC<CodePreviewProps> = memo(({
             {displayContent}
           </SyntaxHighlighter>
         ) : (
-          <pre data-openbitfun-component="code-preview" data-openbitfun-part="plain" className="code-preview__plain" aria-label="Code preview">
+          <pre data-opc-component="code-preview" data-opc-part="plain" className="code-preview__plain" aria-label="Code preview">
             <code>
               {displayContent.split('\n').map((line, index) => {
                 const lineNumber = displayContentInfo.startingLineNumber + index;
                 return (
-                  <span data-openbitfun-component="code-preview" data-openbitfun-part="line" data-openbitfun-state={highlightedLine === lineNumber ? 'highlighted' : undefined}
+                  <span data-opc-component="code-preview" data-opc-part="line" data-opc-state={highlightedLine === lineNumber ? 'highlighted' : undefined}
                     key={`${lineNumber}-${index}`}
                     className={`code-preview__plain-line${highlightedLine === lineNumber ? ' code-preview__plain-line--highlighted' : ''}`}
                     onClick={() => handleLineClick(lineNumber)}
                   >
                     {showLineNumbers && (
-                      <span data-openbitfun-component="code-preview" data-openbitfun-part="lineNumber" className="code-preview__plain-line-number">{lineNumber}</span>
+                      <span data-opc-component="code-preview" data-opc-part="lineNumber" className="code-preview__plain-line-number">{lineNumber}</span>
                     )}
-                    <span data-openbitfun-component="code-preview" data-openbitfun-part="lineContent" className="code-preview__plain-line-content">{line || '\u00A0'}</span>
+                    <span data-opc-component="code-preview" data-opc-part="lineContent" className="code-preview__plain-line-content">{line || '\u00A0'}</span>
                   </span>
                 );
               })}
@@ -320,7 +320,7 @@ export const CodePreview: React.FC<CodePreviewProps> = memo(({
         
         {/* Streaming cursor indicator */}
         {isStreaming && (
-          <span data-openbitfun-component="code-preview" data-openbitfun-part="cursor" className="code-preview__cursor" />
+          <span data-opc-component="code-preview" data-opc-part="cursor" className="code-preview__cursor" />
         )}
       </ScrollArea>
     </div>

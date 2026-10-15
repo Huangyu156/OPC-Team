@@ -11,8 +11,7 @@ use crate::agentic::events::{
     ModelRoundAttemptToolDiagnostic, ToolEventData,
 };
 use crate::agentic::memories::{
-    parse_openbitfun_memory_citation, parse_openbitfun_memory_citation_payloads,
-    strip_openbitfun_memory_citations,
+    parse_opc_memory_citation, parse_opc_memory_citation_payloads, strip_opc_memory_citations,
 };
 use crate::agentic::permission_policy::{
     permission_mode_from_context, resolve_effective_permission_policy,
@@ -38,14 +37,14 @@ use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::Message as AIMessage;
 use crate::util::types::ToolDefinition;
 use log::{debug, error, warn};
-use openbitfun_agent_runtime::turn_cancellation::DialogTurnCancellationTokenStore;
-use openbitfun_agent_tools::{parse_call_deferred_tool_input, CALL_DEFERRED_TOOL_NAME};
-use openbitfun_ai_adapters::{
+use opc_agent_runtime::turn_cancellation::DialogTurnCancellationTokenStore;
+use opc_agent_tools::{parse_call_deferred_tool_input, CALL_DEFERRED_TOOL_NAME};
+use opc_ai_adapters::{
     ModelExchangeRequestTraceHandle, ModelExchangeResponseTrace, ModelExchangeTraceConfig,
 };
-use openbitfun_core_types::errors::{AiProviderError, ErrorCategory};
-use openbitfun_core_types::ModelResponseReplay;
-use openbitfun_runtime_ports::PermissionRule;
+use opc_core_types::errors::{AiProviderError, ErrorCategory};
+use opc_core_types::ModelResponseReplay;
+use opc_runtime_ports::PermissionRule;
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 use tokio_util::sync::CancellationToken;
@@ -116,10 +115,10 @@ impl ModelRoundLifecycle {
 }
 
 impl RoundExecutor {
-    const MAX_STREAM_ATTEMPTS: usize = openbitfun_agent_stream::retry::MAX_MODEL_ATTEMPTS;
+    const MAX_STREAM_ATTEMPTS: usize = opc_agent_stream::retry::MAX_MODEL_ATTEMPTS;
 
     fn should_retry_provider_error(category: &ErrorCategory) -> bool {
-        openbitfun_agent_stream::retry::should_retry(category)
+        opc_agent_stream::retry::should_retry(category)
     }
 
     fn terminal_request_error(error: &anyhow::Error, attempts: u32) -> OpcTeamError {
@@ -231,8 +230,8 @@ impl RoundExecutor {
             .map(|block| block.payload.as_str())
             .collect::<Vec<_>>();
 
-        parse_openbitfun_memory_citation_payloads(payloads)
-            .or_else(|| parse_openbitfun_memory_citation(&stream_result.full_text))
+        parse_opc_memory_citation_payloads(payloads)
+            .or_else(|| parse_opc_memory_citation(&stream_result.full_text))
             .map(Into::into)
     }
 
@@ -262,12 +261,12 @@ impl RoundExecutor {
 
     fn resolve_permission_policy(
         global: &crate::service::config::types::GlobalConfig,
-        mode: openbitfun_runtime_ports::PermissionMode,
+        mode: opc_runtime_ports::PermissionMode,
         project_rules: &[PermissionRule],
         agent_profile: Option<&AgentProfileConfig>,
-        agent_definition_constraints: &openbitfun_runtime_ports::PermissionConstraintLayer,
-        parent_runtime_ceiling: Option<&openbitfun_runtime_ports::PermissionRuntimeCeiling>,
-    ) -> openbitfun_runtime_ports::ResolvedPermissionPolicy {
+        agent_definition_constraints: &opc_runtime_ports::PermissionConstraintLayer,
+        parent_runtime_ceiling: Option<&opc_runtime_ports::PermissionRuntimeCeiling>,
+    ) -> opc_runtime_ports::ResolvedPermissionPolicy {
         resolve_effective_permission_policy(
             global,
             Some(mode),
@@ -287,7 +286,7 @@ impl RoundExecutor {
     fn resolve_permission_mode(
         global: &crate::service::config::types::GlobalConfig,
         context_vars: &std::collections::HashMap<String, String>,
-    ) -> openbitfun_runtime_ports::PermissionMode {
+    ) -> opc_runtime_ports::PermissionMode {
         permission_mode_from_context(global, context_vars)
     }
 
@@ -991,7 +990,7 @@ impl RoundExecutor {
             let parsed_memory_citation =
                 Self::parsed_memory_citation_from_stream_result(&stream_result);
             let model_response_replay = Self::model_response_replay(&stream_result);
-            let (clean_text, _) = strip_openbitfun_memory_citations(&stream_result.full_text);
+            let (clean_text, _) = strip_opc_memory_citations(&stream_result.full_text);
             let assistant_message =
                 Message::assistant_with_reasoning(reasoning, clean_text, vec![])
                     .with_turn_id(context.dialog_turn_id.clone())
@@ -1048,7 +1047,7 @@ impl RoundExecutor {
         let parsed_memory_citation =
             Self::parsed_memory_citation_from_stream_result(&stream_result);
         let model_response_replay = Self::model_response_replay(&stream_result);
-        let (clean_text, _) = strip_openbitfun_memory_citations(&stream_result.full_text);
+        let (clean_text, _) = strip_opc_memory_citations(&stream_result.full_text);
         let assistant_message =
             Message::assistant_with_reasoning(reasoning, clean_text, tool_calls.clone())
                 .with_turn_id(context.dialog_turn_id.clone())
@@ -1407,7 +1406,7 @@ impl RoundExecutor {
                     attempt_id: None,
                     attempt_index: None,
                     tool_event: ToolEventData::Failed {
-                        identity: openbitfun_events::ToolEventIdentity::direct(
+                        identity: opc_events::ToolEventIdentity::direct(
                             tool_call.tool_id.clone(),
                             tool_call.tool_name.clone(),
                         ),
@@ -1549,7 +1548,7 @@ impl RoundExecutor {
         error_message: &str,
         provider_error: Option<&AiProviderError>,
     ) -> u64 {
-        openbitfun_agent_stream::retry::delay_ms(attempt_index, error_message, provider_error)
+        opc_agent_stream::retry::delay_ms(attempt_index, error_message, provider_error)
     }
 }
 
@@ -1594,12 +1593,12 @@ pub(super) mod tests {
     use crate::service::config::types::{AgentProfileConfig, GlobalConfig};
     use crate::util::errors::OpcTeamError;
     use crate::util::types::ai::GeminiUsage;
-    use openbitfun_agent_runtime::permission::{
+    use opc_agent_runtime::permission::{
         AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY,
     };
-    use openbitfun_agent_runtime::turn_cancellation::DialogTurnCancellationTokenStore;
-    use openbitfun_core_types::errors::{AiProviderError, ErrorCategory};
-    use openbitfun_runtime_ports::{
+    use opc_agent_runtime::turn_cancellation::DialogTurnCancellationTokenStore;
+    use opc_core_types::errors::{AiProviderError, ErrorCategory};
+    use opc_runtime_ports::{
         DelegationPolicy, PermissionEffect, PermissionEvaluator, PermissionPolicyPreset,
         PermissionRule,
     };
@@ -1636,7 +1635,7 @@ pub(super) mod tests {
     fn deferred_tool_replay_uses_canonical_gateway_arguments() {
         let mut tool_calls = vec![ToolCall {
             tool_id: "call-1".to_string(),
-            tool_name: openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
+            tool_name: opc_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
             arguments: json!({
                 "tool_name": "CreatePlan",
                 "overview": "outside",
@@ -1833,7 +1832,7 @@ pub(super) mod tests {
             &self,
         ) -> Arc<crate::infrastructure::ai::AIClient> {
             Arc::new(crate::infrastructure::ai::AIClient::new(
-                openbitfun_core_types::AIConfig {
+                opc_core_types::AIConfig {
                     name: "retry-test".to_string(),
                     base_url: self.url.clone(),
                     request_url: self.url.clone(),
@@ -2229,7 +2228,7 @@ pub(super) mod tests {
 
         let resolved = RoundExecutor::resolve_permission_policy(
             &global,
-            openbitfun_runtime_ports::PermissionMode::Ask,
+            opc_runtime_ports::PermissionMode::Ask,
             &project_rules,
             Some(&agent),
             &Default::default(),
@@ -2257,11 +2256,10 @@ pub(super) mod tests {
 
     #[test]
     fn permission_mode_context_overrides_persisted_default_mode() {
-        use openbitfun_runtime_ports::PermissionMode;
+        use opc_runtime_ports::PermissionMode;
 
         let mut global = GlobalConfig::default();
-        global.tool_permissions.policy.preset =
-            openbitfun_runtime_ports::PermissionPolicyPreset::Ask;
+        global.tool_permissions.policy.preset = opc_runtime_ports::PermissionPolicyPreset::Ask;
         global.tool_permissions.interaction.auto_approve_ask = true;
         let mut context_vars = std::collections::HashMap::new();
 
@@ -2492,7 +2490,7 @@ pub(super) mod tests {
     fn error_trace_response_from_stream_result_preserves_structured_context() {
         let stream_result = StreamResult {
             full_thinking: "reasoning".to_string(),
-            reasoning_content_kind: Some(openbitfun_core_types::ReasoningContentKind::Reasoning),
+            reasoning_content_kind: Some(opc_core_types::ReasoningContentKind::Reasoning),
             reasoning_content_present: true,
             thinking_signature: Some("sig".to_string()),
             full_text: String::new(),
@@ -2704,7 +2702,7 @@ pub(super) mod tests {
 
     #[test]
     fn provider_retry_after_is_only_a_delay_hint() {
-        let permission_error = openbitfun_core_types::errors::AiProviderError::from_parts(
+        let permission_error = opc_core_types::errors::AiProviderError::from_parts(
             "permission denied".to_string(),
             Some("openai".to_string()),
             None,
@@ -2720,7 +2718,7 @@ pub(super) mod tests {
             1_000
         );
 
-        let rate_limit_error = openbitfun_core_types::errors::AiProviderError::from_parts(
+        let rate_limit_error = opc_core_types::errors::AiProviderError::from_parts(
             "too many requests".to_string(),
             Some("openai".to_string()),
             None,

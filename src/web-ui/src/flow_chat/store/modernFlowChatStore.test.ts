@@ -1194,7 +1194,7 @@ describe('sessionToVirtualItems explore grouping', () => {
   });
 
   it('attaches the latest Canvas artifact card to the completed response tail', () => {
-    const artifactReference = 'openbitfun-canvas://session/canvas-session/canvas/canvas_1';
+    const artifactReference = 'opc-canvas://session/canvas-session/canvas/canvas_1';
     const createCanvas = makeTool('create-canvas', 'CreateCanvas');
     createCanvas.toolResult = {
       success: true,

@@ -22,7 +22,7 @@ describe('SessionTitleSection presentation', () => {
     expect(enableRowStart).toBeGreaterThan(-1);
     expect(modelConditionStart).toBeGreaterThan(enableRowStart);
     expect(modelRowStart).toBeGreaterThan(modelConditionStart);
-    expect(enableRow).toContain('data-openbitfun-part="enableControl"');
+    expect(enableRow).toContain('data-opc-part="enableControl"');
     expect(enableRow).toContain('<Switch');
   });
 });

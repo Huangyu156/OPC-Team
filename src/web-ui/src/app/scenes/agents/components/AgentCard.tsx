@@ -26,44 +26,44 @@ const AgentCard: React.FC<AgentCardProps> = ({ agent, disabledReason, onOpenDeta
     <AgentCatalogCard
       agent={agent}
       onOpenDetails={onOpenDetails}
-      data-openbitfun-product-component="agent-card"
-      data-openbitfun-product-part="root"
+      data-opc-product-component="agent-card"
+      data-opc-product-part="root"
     >
       <CardHeader
         align="center"
         className="agent-catalog-card__header"
-        data-openbitfun-product-component="agent-card"
-        data-openbitfun-product-part="header"
+        data-opc-product-component="agent-card"
+        data-opc-product-part="header"
         title={(
-          <div className="agent-catalog-card__title" data-openbitfun-product-component="agent-card" data-openbitfun-product-part="headerInfo">
-            <div className="agent-catalog-card__title-row" data-openbitfun-product-component="agent-card" data-openbitfun-product-part="titleRow">
-              <OverflowText className="agent-catalog-card__name" data-openbitfun-product-component="agent-card" data-openbitfun-product-part="name" data-testid="agent-list-item-title">
+          <div className="agent-catalog-card__title" data-opc-product-component="agent-card" data-opc-product-part="headerInfo">
+            <div className="agent-catalog-card__title-row" data-opc-product-component="agent-card" data-opc-product-part="titleRow">
+              <OverflowText className="agent-catalog-card__name" data-opc-product-component="agent-card" data-opc-product-part="name" data-testid="agent-list-item-title">
                 {agent.name}
               </OverflowText>
               <span className="agent-catalog-card__identity">
-                <span className="agent-catalog-card__icon" data-openbitfun-product-component="agent-card" data-openbitfun-product-part="iconArea" aria-hidden="true">
-                  <span data-openbitfun-product-component="agent-card" data-openbitfun-product-part="icon">
+                <span className="agent-catalog-card__icon" data-opc-product-component="agent-card" data-opc-product-part="iconArea" aria-hidden="true">
+                  <span data-opc-product-component="agent-card" data-opc-product-part="icon">
                     <Icon {...agentIcon} size="sm" />
                   </span>
                 </span>
                 <OverflowText behavior="marquee">
-                  <span data-openbitfun-product-component="agent-card" data-openbitfun-product-part="badges">{badge.label}</span>
-                  <span data-openbitfun-product-component="agent-card" data-openbitfun-product-part="capabilities">{capabilities ? ` · ${capabilities}` : null}</span>
+                  <span data-opc-product-component="agent-card" data-opc-product-part="badges">{badge.label}</span>
+                  <span data-opc-product-component="agent-card" data-opc-product-part="capabilities">{capabilities ? ` · ${capabilities}` : null}</span>
                 </OverflowText>
               </span>
             </div>
           </div>
         )}
       />
-      <CardBody data-openbitfun-product-component="agent-card" data-openbitfun-product-part="body">
-        <OverflowText as="p" lines={2} className="agent-catalog-card__description" data-openbitfun-product-component="agent-card" data-openbitfun-product-part="description" data-testid="agent-list-item-description">
+      <CardBody data-opc-product-component="agent-card" data-opc-product-part="body">
+        <OverflowText as="p" lines={2} className="agent-catalog-card__description" data-opc-product-component="agent-card" data-opc-product-part="description" data-testid="agent-list-item-description">
           {getAgentDescription(t, agent)}
         </OverflowText>
       </CardBody>
-      <CardFooter align={disabledReason ? 'between' : 'start'} className="agent-catalog-card__footer" data-openbitfun-product-component="agent-card" data-openbitfun-product-part="footer">
-        <AgentCatalogMetrics {...metrics} agent={agent} data-openbitfun-product-component="agent-card" data-openbitfun-product-part="meta" />
+      <CardFooter align={disabledReason ? 'between' : 'start'} className="agent-catalog-card__footer" data-opc-product-component="agent-card" data-opc-product-part="footer">
+        <AgentCatalogMetrics {...metrics} agent={agent} data-opc-product-component="agent-card" data-opc-product-part="meta" />
         {disabledReason && (
-          <span className="agent-catalog-card__status" data-openbitfun-state="disabled" title={disabledReason}>
+          <span className="agent-catalog-card__status" data-opc-state="disabled" title={disabledReason}>
             <Icon className="agent-catalog-card__status-icon" name="unselected" size="2xs" />
             <OverflowText>{disabledReason}</OverflowText>
           </span>

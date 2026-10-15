@@ -43,22 +43,22 @@ export function MobileAvatar({
       {...props}
       aria-label={label}
       className={classNames(styles.root, className)}
-      data-openbitfun-component="mobile-avatar"
+      data-opc-component="mobile-avatar"
       data-shape={shape}
       data-size={size}
       role={label ? "img" : undefined}
     >
       {children !== undefined && children !== null
-        ? <span aria-hidden="true" className={styles.content} data-openbitfun-part="content">{children}</span>
+        ? <span aria-hidden="true" className={styles.content} data-opc-part="content">{children}</span>
         : src !== undefined && src !== null
-          ? <img alt="" className={styles.image} data-openbitfun-part="image" draggable={false} height={48} src={src} width={48} />
-          : <span aria-hidden="true" className={styles.initials} data-openbitfun-part="initials">{initialsOf(name ?? "")}</span>}
+          ? <img alt="" className={styles.image} data-opc-part="image" draggable={false} height={48} src={src} width={48} />
+          : <span aria-hidden="true" className={styles.initials} data-opc-part="initials">{initialsOf(name ?? "")}</span>}
       {status !== undefined && status !== null && (
         <span
           aria-label={statusLabel}
           aria-hidden={statusLabel ? undefined : true}
           className={styles.status}
-          data-openbitfun-part="status"
+          data-opc-part="status"
           data-status={status}
           role={statusLabel ? "img" : undefined}
         />

@@ -105,7 +105,7 @@ describe('catalog icon consumer integration', () => {
   it('keeps the shared refresh action compact and disables it while loading', () => {
     const props = { tooltip: 'Refresh', onClick: () => {} };
     const idle = renderToStaticMarkup(createElement(ConfigRefreshButton, props));
-    expect(idle).toContain('data-openbitfun-name="refresh"');
+    expect(idle).toContain('data-opc-name="refresh"');
     expect(idle).toContain('data-size="sm"');
     const loading = renderToStaticMarkup(createElement(ConfigRefreshButton, { ...props, loading: true }));
     expect(loading).toContain('aria-busy="true"');

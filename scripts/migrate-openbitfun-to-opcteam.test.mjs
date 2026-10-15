@@ -25,9 +25,9 @@ import {
   planMigrationRoots,
   resolvePlatformBaseDirectories,
   validateRootGuardrails,
-} from './migrate-openbitfun-to-opcteam.mjs';
+} from './migrate-opc-to-opcteam.mjs';
 
-const script = fileURLToPath(new URL('./migrate-openbitfun-to-opcteam.mjs', import.meta.url));
+const script = fileURLToPath(new URL('./migrate-opc-to-opcteam.mjs', import.meta.url));
 
 function snapshotTree(root) {
   const entries = {};
@@ -65,7 +65,7 @@ function backupDirectories(target) {
 }
 
 function fixture(t) {
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-rename-migration-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-rename-migration-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
 
   const appData = path.join(root, 'appdata');
@@ -283,7 +283,7 @@ test('--workspace migrates the project-local product directory', (t) => {
 });
 
 test('unsafe source/target combinations are refused before anything is written', (t) => {
-  const base = mkdtempSync(path.join(tmpdir(), 'openbitfun-rename-guard-'));
+  const base = mkdtempSync(path.join(tmpdir(), 'opc-rename-guard-'));
   t.after(() => rmSync(base, { recursive: true, force: true }));
   const source = path.join(base, 'source');
   mkdirSync(source, { recursive: true });

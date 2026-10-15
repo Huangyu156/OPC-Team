@@ -50,31 +50,31 @@ it('shows image export after the final streamed content is applied without remou
   const render = (value: FlowToolItem) => act(() => root.render(
     <GenerativeWidgetToolCard toolItem={value} config={{} as ToolCardConfig} />));
   const rendered = (widgetCode: string) => act(() => frameState.props?.onWidgetEvent?.({
-    source: 'openbitfun-widget', type: 'openbitfun-widget:rendered',
+    source: 'opc-widget', type: 'opc-widget:rendered',
     widgetId: 'streamed-widget', widgetCode,
   }));
-  const exportAction = () => container.querySelector('[data-openbitfun-part="exportAction"]');
+  const exportAction = () => container.querySelector('[data-opc-part="exportAction"]');
   try {
     render(item);
-    const card = container.querySelector('[data-openbitfun-part="root"]');
-    act(() => frameState.props?.onWidgetEvent?.({ source: 'openbitfun-widget', type: 'openbitfun-widget:ready' }));
+    const card = container.querySelector('[data-opc-part="root"]');
+    act(() => frameState.props?.onWidgetEvent?.({ source: 'opc-widget', type: 'opc-widget:ready' }));
     rendered(partialCode);
     expect(exportAction()).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="htmlExportAction"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="htmlExportAction"]')).toBeNull();
     render({ ...item, status: 'completed', isParamsStreaming: false,
       toolCall: { id: 'streamed-widget', input: { widget_code: finalCode } },
       toolResult: { success: true, result: { widget_code: finalCode } },
     });
     expect(exportAction()).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="htmlExportAction"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="htmlExportAction"]')).not.toBeNull();
     // A shell-ready event must not mark unapplied final content as ready.
-    act(() => frameState.props?.onWidgetEvent?.({ source: 'openbitfun-widget', type: 'openbitfun-widget:ready' }));
+    act(() => frameState.props?.onWidgetEvent?.({ source: 'opc-widget', type: 'opc-widget:ready' }));
     expect(exportAction()).toBeNull();
     rendered(partialCode);
     expect(exportAction()).toBeNull();
     rendered(finalCode);
     expect(exportAction()).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="root"]')).toBe(card);
+    expect(container.querySelector('[data-opc-part="root"]')).toBe(card);
   } finally {
     act(() => root.unmount());
     container.remove();
@@ -93,13 +93,13 @@ it('opens source details only from the dedicated button, not the header or its t
   };
   try {
     act(() => root.render(<GenerativeWidgetToolCard toolItem={item} sessionId="session-1" config={{} as ToolCardConfig} />));
-    const header = container.querySelector<HTMLElement>('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="surface"]')!;
-    expect(header.getAttribute('data-openbitfun-interactive')).toBe('false');
+    const header = container.querySelector<HTMLElement>('[data-opc-component="flow-chat-tool-card"][data-opc-part="surface"]')!;
+    expect(header.getAttribute('data-opc-interactive')).toBe('false');
     expect(container.querySelector('.generative-widget-card')?.getAttribute('title')).toBeNull();
     act(() => header.click());
-    act(() => container.querySelector<HTMLElement>('[data-openbitfun-part="title"]')!.click());
+    act(() => container.querySelector<HTMLElement>('[data-opc-part="title"]')!.click());
     expect(createTab).not.toHaveBeenCalled();
-    act(() => container.querySelector<HTMLButtonElement>('button[data-openbitfun-affordance="open-panel-right"]')!.click());
+    act(() => container.querySelector<HTMLButtonElement>('button[data-opc-affordance="open-panel-right"]')!.click());
     expect(createTab).toHaveBeenCalledTimes(1);
     expect(createTab).toHaveBeenCalledWith(expect.objectContaining({
       type: 'generative-widget', title: 'Chart',
@@ -127,7 +127,7 @@ it('exports completed source without preview readiness and handles cancellation,
   exportHtml.mockResolvedValueOnce(false).mockResolvedValueOnce(true).mockRejectedValueOnce(new Error('Write failed'));
   try {
     act(() => root.render(<GenerativeWidgetToolCard toolItem={item} config={{} as ToolCardConfig} />));
-    const button = () => container.querySelector<HTMLButtonElement>('[data-openbitfun-part="htmlExportAction"] button')!;
+    const button = () => container.querySelector<HTMLButtonElement>('[data-opc-part="htmlExportAction"] button')!;
     await act(async () => button().click());
     expect(exportHtml).toHaveBeenCalledWith({
       widgetCode: code, title: 'Chart', language: 'en-US', dialogTitle: 'Export HTML',
@@ -157,8 +157,8 @@ it('preserves the live preview disclosure on failure and keeps historical failur
   const failed = { ...item, status: 'error' as const, toolResult: { success: false, error: 'Generation failed' } };
   const render = (value: FlowToolItem, key = 'live') => act(() => root.render(
     <GenerativeWidgetToolCard key={key} toolItem={value} config={{} as ToolCardConfig} />));
-  const region = () => container.querySelector('[data-openbitfun-part="expandedCollapse"]')!;
-  const toggle = () => container.querySelector<HTMLButtonElement>('[data-openbitfun-part="affordanceButton"]')!;
+  const region = () => container.querySelector('[data-opc-part="expandedCollapse"]')!;
+  const toggle = () => container.querySelector<HTMLButtonElement>('[data-opc-part="affordanceButton"]')!;
   try {
     render(item);
     const liveRegion = region();

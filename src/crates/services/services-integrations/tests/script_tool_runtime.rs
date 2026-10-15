@@ -1,8 +1,8 @@
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PortErrorKind, ScriptToolExpectedExport, ScriptToolInvokeRequest, ScriptToolLoadRequest,
     ScriptToolRuntime, ScriptToolRuntimeAvailability,
 };
-use openbitfun_services_integrations::script_tool::NodeScriptToolRuntime;
+use opc_services_integrations::script_tool::NodeScriptToolRuntime;
 use serde_json::json;
 
 fn sample_source(output: &str) -> String {

@@ -1,10 +1,10 @@
 //! Types for session persistence
 
-use openbitfun_core_types::ToolImageAttachment;
-use openbitfun_core_types::{
+use opc_core_types::ToolImageAttachment;
+use opc_core_types::{
     AiErrorDetail, SessionContinuationPolicy, SessionExecutionTarget, SessionKind,
 };
-use openbitfun_events::ModelRoundAttemptDiagnostic;
+use opc_events::ModelRoundAttemptDiagnostic;
 use serde::{Deserialize, Serialize};
 
 pub const SESSION_STORAGE_SCHEMA_VERSION: u32 = 2;
@@ -95,7 +95,7 @@ pub struct SessionMetadata {
     /// Agent type
     #[serde(
         alias = "agent_type",
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_agent_id"
+        deserialize_with = "opc_core_types::agent_identity::deserialize_agent_id"
     )]
     pub agent_type: String,
     /// Mode of the last surviving user dialog turn in the persisted history.
@@ -107,9 +107,7 @@ pub struct SessionMetadata {
         skip_serializing_if = "Option::is_none",
         alias = "last_user_dialog_agent_type"
     )]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_user_dialog_agent_type: Option<String>,
     /// Mode of the most recent user submission accepted by the scheduler.
     ///
@@ -120,9 +118,7 @@ pub struct SessionMetadata {
         skip_serializing_if = "Option::is_none",
         alias = "last_submitted_agent_type"
     )]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_submitted_agent_type: Option<String>,
 
     /// Creator identity for future permission checks
@@ -544,9 +540,7 @@ pub struct DialogTurnData {
     /// Maintenance/local utility turns leave this empty so they do not affect
     /// mode-transition reminder semantics.
     #[serde(default, skip_serializing_if = "Option::is_none", alias = "agent_type")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub agent_type: Option<String>,
 
     /// User message
@@ -868,7 +862,7 @@ pub struct ThinkingItemData {
         skip_serializing_if = "Option::is_none",
         alias = "reasoning_kind"
     )]
-    pub reasoning_kind: Option<openbitfun_core_types::ReasoningContentKind>,
+    pub reasoning_kind: Option<opc_core_types::ReasoningContentKind>,
     #[serde(alias = "is_streaming")]
     pub is_streaming: bool,
     #[serde(alias = "is_collapsed")]
@@ -1147,7 +1141,7 @@ impl SessionMetadata {
         let external_provider = self
             .custom_metadata
             .as_ref()
-            .and_then(|custom| custom.get(openbitfun_core_types::SESSION_PROVIDER_METADATA_KEY))
+            .and_then(|custom| custom.get(opc_core_types::SESSION_PROVIDER_METADATA_KEY))
             .and_then(serde_json::Value::as_str)
             .is_some_and(|provider| !provider.is_empty());
         if selector == "auto" && !self.agent_type.starts_with("acp:") && !external_provider {
@@ -1186,8 +1180,7 @@ impl SessionMetadata {
         Self {
             session_id,
             session_name,
-            agent_type: openbitfun_core_types::agent_identity::canonical_agent_id(&agent_type)
-                .to_owned(),
+            agent_type: opc_core_types::agent_identity::canonical_agent_id(&agent_type).to_owned(),
             last_user_dialog_agent_type: None,
             last_submitted_agent_type: None,
             created_by: None,
@@ -1362,7 +1355,7 @@ mod tests {
         SessionRelationshipKind, SessionTurnWindowResponse, TextItemData, ThinkingItemData,
         ToolItemData, UserMessageData,
     };
-    use openbitfun_core_types::{SessionContinuationPolicy, SessionKind};
+    use opc_core_types::{SessionContinuationPolicy, SessionKind};
 
     #[test]
     fn dialog_turn_kind_defaults_to_user_dialog_for_legacy_payloads() {

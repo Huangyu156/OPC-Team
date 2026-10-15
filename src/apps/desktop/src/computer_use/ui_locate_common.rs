@@ -1,9 +1,7 @@
 //! Shared validation, filter matching, and global→native pixel mapping for UI locate tools.
 
-use openbitfun_core::agentic::tools::computer_use_host::{
-    UiElementLocateQuery, UiElementLocateResult,
-};
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::computer_use_host::{UiElementLocateQuery, UiElementLocateResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use screenshots::display_info::DisplayInfo;
 
 pub(super) fn validate_query(q: &UiElementLocateQuery) -> OpcTeamResult<()> {

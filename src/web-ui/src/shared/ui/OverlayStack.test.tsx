@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { DesignSystemProvider, Dialog, OverlayLayer, OverlayRegion, Portal, MenuPopover, subscribeOverlayInteraction } from '@openbitfun/ui';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
-const slot = (id: string) => document.querySelector(`[data-test-layer="${id}"]`)!.closest<HTMLElement>('[data-openbitfun-overlay-layer]')!;
+const slot = (id: string) => document.querySelector(`[data-test-layer="${id}"]`)!.closest<HTMLElement>('[data-opc-overlay-layer]')!;
 const rank = (id: string) => Number(slot(id).style.zIndex);
 
 describe('document overlay ownership', () => {
@@ -21,7 +21,7 @@ describe('document overlay ownership', () => {
   });
   afterEach(() => {
     act(() => root.unmount()); container.remove();
-    document.querySelectorAll('[data-openbitfun-overlay-host]').forEach(element => element.remove());
+    document.querySelectorAll('[data-opc-overlay-host]').forEach(element => element.remove());
     vi.useRealTimers(); vi.unstubAllGlobals();
   });
 

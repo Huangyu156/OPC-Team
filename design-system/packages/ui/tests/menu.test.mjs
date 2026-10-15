@@ -33,11 +33,11 @@ test("Menu composes grouped items, heading actions, and separators with native r
     ),
   );
 
-  assert.match(markup, /data-openbitfun-component="menu"/);
+  assert.match(markup, /data-opc-component="menu"/);
   assert.match(markup, /role="menu"/);
-  assert.match(markup, /data-openbitfun-scrollbar-visibility="always"/);
+  assert.match(markup, /data-opc-scrollbar-visibility="always"/);
   assert.match(markup, /aria-labelledby="[^"]+"[^>]+role="group"/);
-  assert.match(markup, /data-openbitfun-part="heading-actions"/);
+  assert.match(markup, /data-opc-part="heading-actions"/);
   assert.match(markup, /aria-label="Add session"/);
   assert.equal((markup.match(/role="menuitem"/g) ?? []).length, 3);
   assert.match(markup, /aria-checked="true"[^>]+role="menuitemcheckbox"/);
@@ -50,7 +50,7 @@ test("Menu owns roving focus and standard single-level navigation keys", async (
     "utf8",
   );
 
-  assert.match(source, /querySelectorAll<HTMLButtonElement>\("\[data-openbitfun-menu-item\]"\)/);
+  assert.match(source, /querySelectorAll<HTMLButtonElement>\("\[data-opc-menu-item\]"\)/);
   assert.match(source, /case "ArrowDown"/);
   assert.match(source, /case "ArrowUp"/);
   assert.match(source, /case "Home"/);
@@ -93,7 +93,7 @@ test("flat, grouped, and custom scrolling menus share the same row-spacing owner
       createElement(MenuSeparator),
       createElement(MenuSection, { title: "Recent projects" },
         createElement(ScrollArea, { style: { maxHeight: 240 } },
-          createElement(MenuList, { "data-openbitfun-part": "recent-projects" },
+          createElement(MenuList, { "data-opc-part": "recent-projects" },
             createElement(MenuItem, { checked: true, role: "menuitemradio" }, "Selected"),
             createElement(MenuItem, null, "Next"),
           ),
@@ -101,13 +101,13 @@ test("flat, grouped, and custom scrolling menus share the same row-spacing owner
       ),
     ),
   );
-  const lists = Array.from(markup.matchAll(/<div[^>]*class="([^"]+)"[^>]*data-openbitfun-menu-list=""[^>]*>/g));
+  const lists = Array.from(markup.matchAll(/<div[^>]*class="([^"]+)"[^>]*data-opc-menu-list=""[^>]*>/g));
   assert.equal(lists.length, 3, "root, section and nested scroll content must each own a row stack");
   const sharedClass = lists[2][1];
   assert.ok(lists.every(([, classes]) => classes.split(" ").includes(sharedClass)));
-  assert.match(lists[0][0], /data-openbitfun-part="list"/);
-  assert.match(lists[1][0], /data-openbitfun-part="section-items"/);
-  assert.match(lists[2][0], /data-openbitfun-part="recent-projects"/);
+  assert.match(lists[0][0], /data-opc-part="list"/);
+  assert.match(lists[1][0], /data-opc-part="section-items"/);
+  assert.match(lists[2][0], /data-opc-part="recent-projects"/);
   assert.equal((markup.match(/role="menu"/g) ?? []).length, 1, "a row stack must not introduce a nested menu");
 });
 
@@ -126,9 +126,9 @@ test("Menu keeps focus rings inside items without adding a permanent gutter", as
   const itemStyles = await readFile(new URL("../src/components/ActionItem/ActionItem.module.css", import.meta.url), "utf8");
   assert.match(styles, /\.list\s*\{[^}]*padding:\s*0/);
   assert.match(itemStyles, /\.root:has\(\.trigger:focus-visible\)\s*\{[^}]*box-shadow:\s*0 0 0 var\(--opcteam-focus-width\)/);
-  assert.match(styles, /\.item:has\(> \[data-openbitfun-part="trigger"\]:focus-visible\)\s*\{[^}]*box-shadow:\s*inset 0 0 0 var\(--opcteam-focus-width\)/);
+  assert.match(styles, /\.item:has\(> \[data-opc-part="trigger"\]:focus-visible\)\s*\{[^}]*box-shadow:\s*inset 0 0 0 var\(--opcteam-focus-width\)/);
   // Keep clipping and scrolling; the item owns its focus indicator.
-  assert.match(scrollStyles, /data-openbitfun-orientation="vertical"\]\s*\{[^}]*overflow-x:\s*hidden;[^}]*overflow-y:\s*auto/);
+  assert.match(scrollStyles, /data-opc-orientation="vertical"\]\s*\{[^}]*overflow-x:\s*hidden;[^}]*overflow-y:\s*auto/);
   assert.doesNotMatch(styles, /overflow[^:]*:\s*visible/);
 });
 
@@ -147,7 +147,7 @@ test("Menu keeps equal item insets while its scrollbar stays on the surface edge
 test("content-sized menus hug their widest row inside the shared menu bounds", async () => {
   const styles = await readFile(new URL("../src/components/Menu/Menu.module.css", import.meta.url), "utf8");
   const popover = await readFile(new URL("../src/components/Menu/MenuPopover.tsx", import.meta.url), "utf8");
-  const contentRule = styles.match(/\.root\[data-openbitfun-inline-size="content"\]\s*\{[^}]*\}/)?.[0] ?? "";
+  const contentRule = styles.match(/\.root\[data-opc-inline-size="content"\]\s*\{[^}]*\}/)?.[0] ?? "";
 
   assert.notEqual(contentRule, "");
   assert.match(contentRule, /inline-size:\s*max-content/);
@@ -158,8 +158,8 @@ test("content-sized menus hug their widest row inside the shared menu bounds", a
 
   const contentMarkup = renderToStaticMarkup(createElement(Menu, { inlineSize: "content" }, createElement(MenuItem, null, "Paste")));
   const defaultMarkup = renderToStaticMarkup(createElement(Menu, null, createElement(MenuItem, null, "Paste")));
-  assert.match(contentMarkup, /data-openbitfun-inline-size="content"/);
-  assert.match(defaultMarkup, /data-openbitfun-inline-size="fixed"/);
+  assert.match(contentMarkup, /data-opc-inline-size="content"/);
+  assert.match(defaultMarkup, /data-opc-inline-size="fixed"/);
   // Submenus are separate surfaces and must inherit the requested sizing mode.
   assert.match(popover, /items=\{activeEntry\.submenu!\}[^>]*inlineSize=\{inlineSize\}/);
 });

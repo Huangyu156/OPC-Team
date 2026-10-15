@@ -270,7 +270,7 @@ const FILE_CONTRACTS = Object.freeze([
     ],
   },
   {
-    path: 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/scripts/openbitfun_appearance.py',
+    path: 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/scripts/opc_appearance.py',
     forbidden: [
       {
         code: 'standalone-appearance-typography-reintroduced',

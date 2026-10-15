@@ -31,41 +31,41 @@ export function AppUpdatePanel() {
 
   return (
     // Preserve the published Appearance ancestry for existing update skins.
-    <section className="openbitfun-update-details" data-testid="app-update-panel"
-      data-openbitfun-component="about-dialog" data-openbitfun-part="updateCard"
-      data-openbitfun-state={state.checkStatus === 'checking' ? 'checking' : downloading ? 'downloading'
+    <section className="opc-update-details" data-testid="app-update-panel"
+      data-opc-component="about-dialog" data-opc-part="updateCard"
+      data-opc-state={state.checkStatus === 'checking' ? 'checking' : downloading ? 'downloading'
         : state.error || state.checkError ? 'error' : state.status === 'ready' || state.status === 'installing' ? 'installed'
           : state.checkStatus === 'latest' ? 'latest' : undefined} aria-label={t('update.thisDevice')}>
-      <DialogHeader className="openbitfun-update-details__header">
+      <DialogHeader className="opc-update-details__header">
         <DialogHeading>
           <DialogTitle>
-            <span data-openbitfun-component="update" data-openbitfun-part="notesLabel">
-              {target ? <span className="openbitfun-update-details__versions"
-                data-openbitfun-component="update" data-openbitfun-part="versions">
-                <span data-openbitfun-component="update" data-openbitfun-part="versionRow">
-                  <span data-openbitfun-component="update" data-openbitfun-part="versionLabel">{productName}</span>
-                  <span className="openbitfun-update-details__version"
-                    data-openbitfun-component="update" data-openbitfun-part="versionValue">v{target}</span>
+            <span data-opc-component="update" data-opc-part="notesLabel">
+              {target ? <span className="opc-update-details__versions"
+                data-opc-component="update" data-opc-part="versions">
+                <span data-opc-component="update" data-opc-part="versionRow">
+                  <span data-opc-component="update" data-opc-part="versionLabel">{productName}</span>
+                  <span className="opc-update-details__version"
+                    data-opc-component="update" data-opc-part="versionValue">v{target}</span>
                 </span>
               </span> : t('update.detailsTitle')}
             </span>
           </DialogTitle>
         </DialogHeading>
-        <DialogClose className="openbitfun-update-details__close" />
+        <DialogClose className="opc-update-details__close" />
       </DialogHeader>
-      <DialogBody className="openbitfun-update-details__body">
-        <div className="openbitfun-update-panel" data-openbitfun-component="update" data-openbitfun-part="panel">
-          {(status || state.error || state.checkError) && <div className="openbitfun-update-panel__feedback"
-            data-openbitfun-component="about-dialog" data-openbitfun-part="updateFeedback">
-            {status && <p className="openbitfun-update-panel__status" role="status"
-              data-openbitfun-component="update" data-openbitfun-part="panelStatus">{status}</p>}
+      <DialogBody className="opc-update-details__body">
+        <div className="opc-update-panel" data-opc-component="update" data-opc-part="panel">
+          {(status || state.error || state.checkError) && <div className="opc-update-panel__feedback"
+            data-opc-component="about-dialog" data-opc-part="updateFeedback">
+            {status && <p className="opc-update-panel__status" role="status"
+              data-opc-component="update" data-opc-part="panelStatus">{status}</p>}
             {state.error && <Alert tone="error" showIcon message={formatUpdateInstallError(state.error, t)} />}
             {state.checkError && <Alert tone="error" showIcon message={formatUpdateInstallError(state.checkError, t)} />}
           </div>}
           {releaseNotes ? (
-            <section className="openbitfun-update-panel__notes" aria-label={t('update.releaseNotes')}
-              data-openbitfun-component="update" data-openbitfun-part="notes">
-              <div className="openbitfun-update-panel__prose" data-openbitfun-component="update" data-openbitfun-part="notesBody">
+            <section className="opc-update-panel__notes" aria-label={t('update.releaseNotes')}
+              data-opc-component="update" data-opc-part="notes">
+              <div className="opc-update-panel__prose" data-opc-component="update" data-opc-part="notesBody">
                 <ReactMarkdown skipHtml components={{
                   img: () => null,
                   ul: ({ children }) => <ul role="list">{children}</ul>,
@@ -77,23 +77,23 @@ export function AppUpdatePanel() {
               </div>
             </section>
           ) : (
-            <div className="openbitfun-update-panel__empty" aria-hidden="true"
-              data-openbitfun-component="update" data-openbitfun-part="releaseArtwork">
-              <OpenBitFunMark className="openbitfun-update-details__mark" />
+            <div className="opc-update-panel__empty" aria-hidden="true"
+              data-opc-component="update" data-opc-part="releaseArtwork">
+              <OpenBitFunMark className="opc-update-details__mark" />
             </div>
           )}
         </div>
       </DialogBody>
-      <DialogFooter separator className="openbitfun-update-details__footer">
-        <div className="openbitfun-update-panel__actions" data-openbitfun-component="about-dialog" data-openbitfun-part="updateActions">
+      <DialogFooter separator className="opc-update-details__footer">
+        <div className="opc-update-panel__actions" data-opc-component="about-dialog" data-opc-part="updateActions">
           {downloading ? (
-            <div className="openbitfun-update-progress__bar openbitfun-update-panel__progress"
+            <div className="opc-update-progress__bar opc-update-panel__progress"
               role="progressbar" aria-label={t('update.downloadingTitle')}
               aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent ?? undefined}
-              data-openbitfun-component="about-dialog" data-openbitfun-part="progress">
-              <div className={'openbitfun-update-progress__fill' + (fraction == null ? ' openbitfun-update-progress__fill--indeterminate' : '')}
+              data-opc-component="about-dialog" data-opc-part="progress">
+              <div className={'opc-update-progress__fill' + (fraction == null ? ' opc-update-progress__fill--indeterminate' : '')}
                 style={fraction == null ? undefined : { transform: `scaleX(${fraction})` }}
-                data-openbitfun-component="about-dialog" data-openbitfun-part="progressFill" />
+                data-opc-component="about-dialog" data-opc-part="progressFill" />
             </div>
           ) : (
             <>
@@ -101,7 +101,7 @@ export function AppUpdatePanel() {
                 onClick={() => skipped ? state.restoreReminder(target) : state.skipVersion(target)}>
                 {t(skipped ? 'update.restoreReminder' : 'update.skipVersion')}
               </Button>}
-              <div className="openbitfun-update-panel__primary-actions">
+              <div className="opc-update-panel__primary-actions">
                 {canDownload && <Button size="md" variant={state.version ? 'outline' : 'primary'}
                   disabled={busy} onClick={() => void state.startInstall(Boolean(state.version), target ?? undefined)}>
                   {t(state.error ? 'update.retryDownload' : 'update.downloadUpdate')}

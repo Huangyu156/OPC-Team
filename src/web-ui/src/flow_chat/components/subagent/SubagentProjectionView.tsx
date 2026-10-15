@@ -70,14 +70,14 @@ const SubagentProjectionTextBlock = React.memo<{ textItem: FlowTextItem; classNa
   };
 
   return (
-    <div data-openbitfun-component="subagent-projection" data-openbitfun-part="truncated" className="subagent-projection-text--truncated" data-thinking-continuation="">
+    <div data-opc-component="subagent-projection" data-opc-part="truncated" className="subagent-projection-text--truncated" data-thinking-continuation="">
       <FlowTextBlock
         textItem={truncatedItem}
         className={className}
         replayStreamingOnMount={false}
       />
-      <div data-openbitfun-component="subagent-projection" data-openbitfun-part="hint" className="subagent-projection-text__hint">
-        <span data-openbitfun-component="subagent-projection" data-openbitfun-part="message" className="subagent-projection-text__message">
+      <div data-opc-component="subagent-projection" data-opc-part="hint" className="subagent-projection-text__hint">
+        <span data-opc-component="subagent-projection" data-opc-part="message" className="subagent-projection-text__message">
           {t('subagent.showingLines', { shown: SUBAGENT_TEXT_TRUNCATE_LINES, total: lines.length })}
         </span>
         <Button
@@ -123,7 +123,7 @@ function renderProjectedItem(
       );
     case 'tool':
       return (
-        <div data-openbitfun-component="subagent-projection" data-openbitfun-part="item" key={item.id} className="flowchat-flow-item" data-thinking-continuation="" data-flow-item-id={item.id} data-flow-item-type="tool">
+        <div data-opc-component="subagent-projection" data-opc-part="item" key={item.id} className="flowchat-flow-item" data-thinking-continuation="" data-flow-item-id={item.id} data-flow-item-type="tool">
           <FlowToolCard
             toolItem={item as FlowToolItem}
             sessionId={sessionId}
@@ -342,21 +342,21 @@ export const SubagentProjectionView: React.FC<SubagentProjectionViewProps> = ({
 
   return (
     <FlowChatReaderProvider store={reader}>
-    <div data-openbitfun-component="subagent-projection" data-openbitfun-part="root" data-openbitfun-state="expanded"
+    <div data-opc-component="subagent-projection" data-opc-part="root" data-opc-state="expanded"
       className={`subagent-projection-wrapper ${className}`.trim()}
       data-subagent-session-id={resolvedSubagentSessionId}
     >
       <div
         ref={containerRef}
-        data-openbitfun-component="subagent-projection"
-        data-openbitfun-part="container"
+        data-opc-component="subagent-projection"
+        data-opc-part="container"
         className="subagent-projection-container subagent-projection-container--expanded"
         data-parent-tool-id={parentTaskToolId}
       >
         <TimelineMutationBoundary itemKeys={runs.map(run => run[0].id)} scrollerRef={containerRef}
           canRepair={() => !followRef.current && viewportOwner.canShift()} shift={viewportOwner.shift}
           rowSelector=".subagent-projection-run">
-        <div ref={contentRef} style={{ paddingTop: virtualizer.paddingTopPx, paddingBottom: virtualizer.paddingBottomPx }} data-openbitfun-component="subagent-projection" data-openbitfun-part="content" className="subagent-projection-content" data-flow-item-stack="">
+        <div ref={contentRef} style={{ paddingTop: virtualizer.paddingTopPx, paddingBottom: virtualizer.paddingBottomPx }} data-opc-component="subagent-projection" data-opc-part="content" className="subagent-projection-content" data-flow-item-stack="">
           {virtualizer.rows.map((row, index) => <React.Fragment key={row.key}>
             {index > 0 && row.startPx > virtualizer.rows[index - 1].endPx && <div aria-hidden="true" style={{ height: row.startPx - virtualizer.rows[index - 1].endPx }} />}
             <div ref={virtualizer.measureRowElement} data-virtual-index={row.index} data-virtual-item-key={row.key}

@@ -13,11 +13,11 @@ test("Alert exposes semantic tone and public anatomy", () => {
     tone: "warning",
   }));
 
-  assert.match(markup, /data-openbitfun-component="alert"/);
-  assert.match(markup, /data-openbitfun-tone="warning"/);
-  assert.match(markup, /data-openbitfun-part="title"/);
-  assert.match(markup, /data-openbitfun-part="message"/);
-  assert.match(markup, /data-openbitfun-part="description"/);
+  assert.match(markup, /data-opc-component="alert"/);
+  assert.match(markup, /data-opc-tone="warning"/);
+  assert.match(markup, /data-opc-part="title"/);
+  assert.match(markup, /data-opc-part="message"/);
+  assert.match(markup, /data-opc-part="description"/);
 });
 
 test("Alert preserves explicit announcement roles and live priority", () => {

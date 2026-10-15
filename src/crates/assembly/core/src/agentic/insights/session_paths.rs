@@ -2,7 +2,7 @@
 
 use crate::agentic::session::session_store_port::CoreSessionStorePort;
 use crate::service::workspace::get_global_workspace_service;
-use openbitfun_runtime_ports::SessionStorePort;
+use opc_runtime_ports::SessionStorePort;
 use std::collections::HashSet;
 use std::path::PathBuf;
 

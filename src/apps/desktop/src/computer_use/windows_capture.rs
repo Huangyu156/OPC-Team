@@ -1,6 +1,6 @@
 //! Window-only WGC frames and authoritative DWM geometry.
 //! There is no desktop/GDI fallback and no encode/decode round trip.
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::Win32::Foundation::{HWND, RECT};
 use windows::Win32::Graphics::Dwm::{DwmGetWindowAttribute, DWMWA_EXTENDED_FRAME_BOUNDS};
 

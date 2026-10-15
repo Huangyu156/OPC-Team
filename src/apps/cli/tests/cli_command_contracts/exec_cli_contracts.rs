@@ -8,7 +8,7 @@ use support::{
 };
 
 fn run_cli(args: &[&str]) -> Output {
-    openbitfun_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
+    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
         .args(args)
         .output()
         .expect("run openbitfun")
@@ -43,14 +43,13 @@ fn is_terminal_event(value: &serde_json::Value) -> bool {
 fn command_timeout_helper_returns_within_its_failure_budget() {
     #[cfg(windows)]
     let mut command = {
-        let mut command =
-            openbitfun_services_core::process_manager::create_command("powershell.exe");
+        let mut command = opc_services_core::process_manager::create_command("powershell.exe");
         command.args(["-NoProfile", "-Command", "Start-Sleep -Seconds 30"]);
         command
     };
     #[cfg(not(windows))]
     let mut command = {
-        let mut command = openbitfun_services_core::process_manager::create_command("sh");
+        let mut command = opc_services_core::process_manager::create_command("sh");
         command.args(["-c", "exec sleep 30"]);
         command
     };
@@ -103,7 +102,7 @@ fn exec_accepts_hidden_confirm_compatibility_flag() {
 }
 
 #[test]
-fn cli_agent_controls_its_own_isolated_config_through_openbitfun_control() {
+fn cli_agent_controls_its_own_isolated_config_through_opc_control() {
     let server = MockOpenAiServer::product_control_loop();
     let environment = CliTestEnvironment::new();
     environment.configure_product_control_mock_model(server.base_url());
@@ -124,13 +123,13 @@ fn cli_agent_controls_its_own_isolated_config_through_openbitfun_control() {
     server.assert_chat_completion_requests(5);
 
     let requests = server.chat_completion_request_bodies();
-    let openbitfun_control = requests[0]["tools"]
+    let opc_control = requests[0]["tools"]
         .as_array()
         .expect("model tools")
         .iter()
         .find(|tool| tool["function"]["name"] == "OpenBitFunControl")
         .expect("OpcTeamControl is loaded for the CLI Agent");
-    let description = openbitfun_control["function"]["description"]
+    let description = opc_control["function"]["description"]
         .as_str()
         .expect("OpcTeamControl description");
     assert!(description.contains("two-step"), "{description}");

@@ -1,7 +1,7 @@
 //! Logging Configuration
 
 use chrono::Local;
-use openbitfun_core::infrastructure::get_path_manager_arc;
+use opc_core::infrastructure::get_path_manager_arc;
 use serde::Serialize;
 use serde_json::Value;
 use std::fs::{self, File, OpenOptions};
@@ -91,7 +91,7 @@ impl EarlyFileLogger {
             return;
         };
         let line = format!(
-            "[{}][tid:{}][INFO][openbitfun_desktop::logging] Early startup logging handoff completed: runtime_backend=tauri_plugin_log\n",
+            "[{}][tid:{}][INFO][opc_desktop::logging] Early startup logging handoff completed: runtime_backend=tauri_plugin_log\n",
             Local::now().format("%Y-%m-%dT%H:%M:%S%.3f"),
             get_thread_id()
         );
@@ -224,7 +224,7 @@ fn resolve_logs_root() -> PathBuf {
     if is_embedded_webdriver_mode() {
         return std::env::temp_dir().join(format!(
             "{}-e2e-logs",
-            openbitfun_core_types::product_identity::data_namespace()
+            opc_core_types::product_identity::data_namespace()
         ));
     }
 
@@ -631,22 +631,10 @@ fn configured_log_builder(log_targets: Vec<Target>) -> tauri_plugin_log::Builder
         // These targets can emit hot-path trace diagnostics during event
         // routing. Keep debug diagnostics, warnings, and errors, but avoid
         // drowning useful app traces in mechanical noise.
-        .level_for(
-            "openbitfun_core::agentic::events::queue",
-            log::LevelFilter::Debug,
-        )
-        .level_for(
-            "openbitfun_core::agentic::events::router",
-            log::LevelFilter::Debug,
-        )
-        .level_for(
-            "openbitfun_agent_runtime::event_queue",
-            log::LevelFilter::Debug,
-        )
-        .level_for(
-            "openbitfun_agent_runtime::event_router",
-            log::LevelFilter::Debug,
-        )
+        .level_for("opc_core::agentic::events::queue", log::LevelFilter::Debug)
+        .level_for("opc_core::agentic::events::router", log::LevelFilter::Debug)
+        .level_for("opc_agent_runtime::event_queue", log::LevelFilter::Debug)
+        .level_for("opc_agent_runtime::event_router", log::LevelFilter::Debug)
         .level_for("hyper_util", log::LevelFilter::Info)
         .level_for("h2", log::LevelFilter::Info)
         .level_for("portable_pty", log::LevelFilter::Info)
@@ -788,14 +776,14 @@ mod tests {
         let logger = EarlyFileLogger::new(path.clone());
         let record = log::Record::builder()
             .level(log::Level::Error)
-            .target("openbitfun_desktop::startup")
+            .target("opc_desktop::startup")
             .args(format_args!("Startup failed: code={}", 7))
             .build();
 
         logger.write_record(&record);
 
         let content = fs::read_to_string(path).expect("read early log");
-        assert!(content.contains("[ERROR][openbitfun_desktop::startup]"));
+        assert!(content.contains("[ERROR][opc_desktop::startup]"));
         assert!(content.contains("Startup failed: code=7"));
     }
 

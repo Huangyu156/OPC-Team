@@ -7,20 +7,20 @@
 //! tools or execute plugin code.
 
 use async_trait::async_trait;
-use openbitfun_dsh_adapter::load_dsh_package_adapter;
-use openbitfun_opencode_adapter::load_opencode_package_adapter;
-use openbitfun_plugin_runtime_client::{DefaultPluginRuntimeClient, PluginRuntimeAdapter};
-use openbitfun_product_domains::plugin_source::{
+use opc_dsh_adapter::load_dsh_package_adapter;
+use opc_opencode_adapter::load_opencode_package_adapter;
+use opc_plugin_runtime_client::{DefaultPluginRuntimeClient, PluginRuntimeAdapter};
+use opc_product_domains::plugin_source::{
     PluginActivationAuthority, PluginPackageInput, PluginPackageSourceIdentity,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PluginCapabilityRef, PluginDispatchEnvelope, PluginEffectCandidatePayload,
     PluginPermissionGate, PluginResponseEnvelope, PluginRiskLevel, PluginRuntimeAvailability,
     PluginRuntimeBinding, PluginRuntimeClient, PluginRuntimeEpochs, PluginRuntimeReadRequest,
     PluginRuntimeReadResponse, PluginSourceRef, PluginStatusKind, PluginTargetRef, PortError,
     PortErrorKind, PortResult,
 };
-use openbitfun_services_integrations::plugin_source::{
+use opc_services_integrations::plugin_source::{
     ManagedPluginSourceError, ManagedPluginSourceIssue, ManagedPluginSourceService,
 };
 use std::path::{Path, PathBuf};
@@ -30,8 +30,8 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 #[cfg(feature = "opencode-plugin-host")]
 pub(crate) fn opencode_config_snapshot(
     workspace: &Path,
-) -> Result<openbitfun_opencode_adapter::OpenCodeConfigSnapshot, String> {
-    openbitfun_opencode_adapter::load_opencode_config_snapshot(workspace)
+) -> Result<opc_opencode_adapter::OpenCodeConfigSnapshot, String> {
+    opc_opencode_adapter::load_opencode_config_snapshot(workspace)
         .map_err(|error| error.to_string())
 }
 
@@ -447,7 +447,7 @@ impl ManagedPluginActivationView {
 }
 
 fn project_candidate(
-    effect: &openbitfun_runtime_ports::PluginEffectCandidate,
+    effect: &opc_runtime_ports::PluginEffectCandidate,
 ) -> Option<ManagedPluginCandidateView> {
     let PluginPermissionGate::PermissionRequired { .. } = &effect.permission else {
         return None;
@@ -611,8 +611,8 @@ impl PluginRuntimeClient for ActivationGatedPluginRuntimeClient {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::plugin_source::{PluginPackageFile, PluginPackageManifest};
-    use openbitfun_services_integrations::plugin_source::ManagedPluginTrustDecision;
+    use opc_product_domains::plugin_source::{PluginPackageFile, PluginPackageManifest};
+    use opc_services_integrations::plugin_source::ManagedPluginTrustDecision;
     use sha2::{Digest, Sha256};
     use std::fs;
     use tokio::sync::Notify;
@@ -633,7 +633,7 @@ export const WorkspaceToolsPlugin: Plugin = async () => ({
     /// Project plugin root exactly as the product resolves it through PathManager.
     fn plugins_root(workspace: &std::path::Path) -> PathBuf {
         workspace
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("plugins")
     }
 

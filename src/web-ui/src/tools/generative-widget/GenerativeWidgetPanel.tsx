@@ -97,8 +97,8 @@ export const GenerativeWidgetPanel: React.FC<GenerativeWidgetPanelProps> = ({
 
   if (!draftCode) {
     return (
-      <div className="openbitfun-generative-widget-panel openbitfun-generative-widget-panel--empty" data-openbitfun-component="generative-widget" data-openbitfun-part="empty" data-openbitfun-state="empty">
-        <div className="openbitfun-generative-widget-panel__empty-copy">
+      <div className="opc-generative-widget-panel opc-generative-widget-panel--empty" data-opc-component="generative-widget" data-opc-part="empty" data-opc-state="empty">
+        <div className="opc-generative-widget-panel__empty-copy">
           {t('toolCards.generativeUI.empty')}
         </div>
       </div>
@@ -106,14 +106,14 @@ export const GenerativeWidgetPanel: React.FC<GenerativeWidgetPanelProps> = ({
   }
 
   return (
-    <div className="openbitfun-generative-widget-panel" data-openbitfun-component="generative-widget" data-openbitfun-part="root">
-      <div className="openbitfun-generative-widget-panel__toolbar" data-openbitfun-component="generative-widget" data-openbitfun-part="toolbar">
-        <div className="openbitfun-generative-widget-panel__toolbar-meta" data-openbitfun-component="generative-widget" data-openbitfun-part="toolbarMeta">
-          <span className={`openbitfun-generative-widget-panel__save-state openbitfun-generative-widget-panel__save-state--${saveState}`}>
+    <div className="opc-generative-widget-panel" data-opc-component="generative-widget" data-opc-part="root">
+      <div className="opc-generative-widget-panel__toolbar" data-opc-component="generative-widget" data-opc-part="toolbar">
+        <div className="opc-generative-widget-panel__toolbar-meta" data-opc-component="generative-widget" data-opc-part="toolbarMeta">
+          <span className={`opc-generative-widget-panel__save-state opc-generative-widget-panel__save-state--${saveState}`}>
             {saveLabel}
           </span>
         </div>
-        <div className="openbitfun-generative-widget-panel__toolbar-actions" data-openbitfun-component="generative-widget" data-openbitfun-part="toolbarActions">
+        <div className="opc-generative-widget-panel__toolbar-actions" data-opc-component="generative-widget" data-opc-part="toolbarActions">
           <Button
             variant="outline"
             size="sm"
@@ -136,21 +136,21 @@ export const GenerativeWidgetPanel: React.FC<GenerativeWidgetPanelProps> = ({
         </div>
       </div>
 
-      <div className="openbitfun-generative-widget-panel__workspace" data-openbitfun-component="generative-widget" data-openbitfun-part="workspace">
-        <section className="openbitfun-generative-widget-panel__pane openbitfun-generative-widget-panel__pane--editor" data-openbitfun-component="generative-widget" data-openbitfun-part="editorPane">
-          <div className="openbitfun-generative-widget-panel__pane-header" data-openbitfun-component="generative-widget" data-openbitfun-part="paneHeader">
-            <span className="openbitfun-generative-widget-panel__pane-title">
+      <div className="opc-generative-widget-panel__workspace" data-opc-component="generative-widget" data-opc-part="workspace">
+        <section className="opc-generative-widget-panel__pane opc-generative-widget-panel__pane--editor" data-opc-component="generative-widget" data-opc-part="editorPane">
+          <div className="opc-generative-widget-panel__pane-header" data-opc-component="generative-widget" data-opc-part="paneHeader">
+            <span className="opc-generative-widget-panel__pane-title">
               <Code2 size={14} />
               <span>{t('toolCards.generativeUI.source')}</span>
             </span>
           </div>
           <Textarea
-            className="openbitfun-generative-widget-panel__editor-field"
+            className="opc-generative-widget-panel__editor-field"
             font="mono"
             layout="fill"
             resize="none"
-            data-openbitfun-component="generative-widget"
-            data-openbitfun-part="editor"
+            data-opc-component="generative-widget"
+            data-opc-part="editor"
             value={draftCode}
             onValueChange={(value) => {
               setDraftCode(value);
@@ -166,7 +166,7 @@ export const GenerativeWidgetPanel: React.FC<GenerativeWidgetPanelProps> = ({
       </div>
 
       {saveError && (
-        <div className="openbitfun-generative-widget-panel__error" data-openbitfun-component="generative-widget" data-openbitfun-part="error">
+        <div className="opc-generative-widget-panel__error" data-opc-component="generative-widget" data-opc-part="error">
           {saveError}
         </div>
       )}

@@ -179,29 +179,29 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
         </DialogHeader>
         {hasMessage || hasPreview ? (
           <DialogBody>
-            <div className={styles.content} data-openbitfun-component="confirm-dialog" data-openbitfun-part="content">
+            <div className={styles.content} data-opc-component="confirm-dialog" data-opc-part="content">
               {hasMessage ? (
                 <div
                   className={styles.messageRow}
-                  data-openbitfun-component="confirm-dialog"
-                  data-openbitfun-part="messageRow"
+                  data-opc-component="confirm-dialog"
+                  data-opc-part="messageRow"
                 >
                   {resolvedIcon !== null ? (
                     <span
                       aria-hidden="true"
                       className={styles.icon}
-                      data-openbitfun-component="confirm-dialog"
-                      data-openbitfun-icon-slot="true"
-                      data-openbitfun-part="icon"
-                      data-openbitfun-status={type === "error" ? "danger" : type}
+                      data-opc-component="confirm-dialog"
+                      data-opc-icon-slot="true"
+                      data-opc-part="icon"
+                      data-opc-status={type === "error" ? "danger" : type}
                     >
                       {resolvedIcon}
                     </span>
                   ) : null}
                   <div
                     className={styles.message}
-                    data-openbitfun-component="confirm-dialog"
-                    data-openbitfun-part="message"
+                    data-opc-component="confirm-dialog"
+                    data-opc-part="message"
                   >
                     {message}
                   </div>
@@ -210,8 +210,8 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
               {hasPreview ? (
                 <div
                   className={styles.preview}
-                  data-openbitfun-component="confirm-dialog"
-                  data-openbitfun-part="preview"
+                  data-opc-component="confirm-dialog"
+                  data-opc-part="preview"
                 >
                   {typeof preview === "string" ? <pre>{preview}</pre> : preview}
                 </div>
@@ -223,14 +223,14 @@ export const ConfirmDialog = forwardRef<HTMLDivElement, ConfirmDialogProps>(
           {secondaryAtStart ? (
             <div
               className={styles.splitActions}
-              data-openbitfun-component="confirm-dialog"
-              data-openbitfun-part="actions"
+              data-opc-component="confirm-dialog"
+              data-opc-part="actions"
             >
               {secondaryButton}
               <div
                 className={styles.actionGroup}
-                data-openbitfun-component="confirm-dialog"
-                data-openbitfun-part="actionGroup"
+                data-opc-component="confirm-dialog"
+                data-opc-part="actionGroup"
               >
                 {cancelButton}
                 {confirmButton}

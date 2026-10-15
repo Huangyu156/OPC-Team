@@ -74,15 +74,15 @@ export function RunCodeToolCard({
   return (
     <AmbientToolCard
       {...props}
-      data-openbitfun-tool-card="run-code"
+      data-opc-tool-card="run-code"
       expandedContent={hasDetails ? (
-        <div className={styles.sections} data-openbitfun-part="details">
+        <div className={styles.sections} data-opc-part="details">
           {program && <Section label={programLabel}>{program}</Section>}
           {(output || error) && (
             <Section label={outputLabel}>
               {error
                 ? <div className={styles.error}>{error}</div>
-                : <ToolCardText data-openbitfun-part="output">{output}</ToolCardText>}
+                : <ToolCardText data-opc-part="output">{output}</ToolCardText>}
             </Section>
           )}
         </div>
@@ -141,24 +141,24 @@ export function WebFetchToolCard({
   return (
     <AmbientToolCard
       {...props}
-      data-openbitfun-tool-card="web-fetch"
+      data-opc-tool-card="web-fetch"
       expandedContent={hasDetails ? (
-        <div className={styles.fetchMeta} data-openbitfun-part="details">
-          {url && <span className={styles.openLinkText} data-openbitfun-part="sourceLink">{url}</span>}
+        <div className={styles.fetchMeta} data-opc-part="details">
+          {url && <span className={styles.openLinkText} data-opc-part="sourceLink">{url}</span>}
           {details.length > 0 && (
-            <div className={styles.detailsRow} data-openbitfun-part="detailsRow">
+            <div className={styles.detailsRow} data-opc-part="detailsRow">
               <span className={styles.pills}>
                 {details.map((detail, index) => (
-                  <span className={styles.pill} data-openbitfun-part="detail" key={index}>{detail}</span>
+                  <span className={styles.pill} data-opc-part="detail" key={index}>{detail}</span>
                 ))}
               </span>
             </div>
           )}
           {error ? (
-            <div className={styles.error} data-openbitfun-part="error">{error}</div>
+            <div className={styles.error} data-opc-part="error">{error}</div>
           ) : (
             <Section label={contentLabel} actions={copyAction}>
-              <ToolCardText variant="prose" data-openbitfun-part="content">{content || emptyContent}</ToolCardText>
+              <ToolCardText variant="prose" data-opc-part="content">{content || emptyContent}</ToolCardText>
             </Section>
           )}
         </div>
@@ -229,13 +229,13 @@ export function DefaultToolCard({
   return (
     <AmbientToolCard
       {...props}
-      data-openbitfun-confirmation={requiresConfirmation ? "true" : "false"}
-      data-openbitfun-tool-card="default"
+      data-opc-confirmation={requiresConfirmation ? "true" : "false"}
+      data-opc-tool-card="default"
       requiresConfirmation={requiresConfirmation}
       expandedContent={detailsAvailable ? (
-        <div className={styles.sections} data-openbitfun-part="details">
+        <div className={styles.sections} data-opc-part="details">
           {(toolName !== displayName || description) && (
-            <div className={styles.meta} data-openbitfun-part="meta">
+            <div className={styles.meta} data-opc-part="meta">
               {toolName !== displayName && <span className={styles.metaLabel}>{toolName}</span>}
               {description && <span className={styles.metaDescription}>{description}</span>}
             </div>
@@ -243,13 +243,13 @@ export function DefaultToolCard({
           {(resultPreview || error) && (
             <Section label={resultLabel}>
               {error
-                ? <div className={styles.error} data-openbitfun-part="error">{error}</div>
-                : <ToolCardText data-openbitfun-part="result">{resultPreview}</ToolCardText>}
+                ? <div className={styles.error} data-opc-part="error">{error}</div>
+                : <ToolCardText data-opc-part="result">{resultPreview}</ToolCardText>}
             </Section>
           )}
           {inputPreview && (
             <ToolCardDisclosure defaultOpen={!resultPreview && !error} onOpenChange={onInputOpenChange} summary={inputLabel}>
-              <ToolCardText data-openbitfun-part="input">{inputPreview}</ToolCardText>
+              <ToolCardText data-opc-part="input">{inputPreview}</ToolCardText>
             </ToolCardDisclosure>
           )}
         </div>
@@ -313,16 +313,16 @@ export function ViewImageToolCard({
     <>
       <AmbientToolCard
         {...props}
-        data-openbitfun-tool-card="view-image"
+        data-opc-tool-card="view-image"
         expandedContent={source ? (
-          <div className={styles.imageContent} data-openbitfun-part="imageContent">
+          <div className={styles.imageContent} data-opc-part="imageContent">
             {imageFailed ? (
-              <div className={styles.imageError} data-openbitfun-part="imageError" role="alert">{errorText}</div>
+              <div className={styles.imageError} data-opc-part="imageError" role="alert">{errorText}</div>
             ) : (
               <button
                 aria-label={previewLabel}
                 className={styles.imageButton}
-                data-openbitfun-part="imagePreview"
+                data-opc-part="imagePreview"
                 onClick={onOpenPreview}
                 type="button"
               >
@@ -364,7 +364,7 @@ export function ViewImageToolCard({
           <DialogClose />
         </DialogHeader>
         <DialogBody>
-          <div className={styles.lightbox} data-openbitfun-part="lightbox">
+          <div className={styles.lightbox} data-opc-part="lightbox">
             <img alt={alt} src={source ?? ""} />
           </div>
         </DialogBody>
@@ -425,7 +425,7 @@ function TodoProgressBar({
     "aria-valuenow": total > 0 ? completed : undefined,
     "aria-valuetext": total > 0 && typeof valueText === "string" ? valueText : undefined,
     "aria-hidden": total === 0 ? true : undefined,
-    "data-openbitfun-part": "todoProgress",
+    "data-opc-part": "todoProgress",
     role: total > 0 ? "progressbar" : undefined,
   };
 
@@ -466,9 +466,9 @@ export function TodoToolCard({
       <div
         {...props}
         className={styles.todoCompact}
-        data-openbitfun-state={[loading && "loading", allCompleted && "completed"].filter(Boolean).join(" ") || undefined}
-        data-openbitfun-tool-card="todo"
-        data-openbitfun-view="compact"
+        data-opc-state={[loading && "loading", allCompleted && "completed"].filter(Boolean).join(" ") || undefined}
+        data-opc-tool-card="todo"
+        data-opc-view="compact"
       >
         <span className={styles.todoCompactIcon}>{taskIcon}</span>
         <OverflowText className={styles.todoCompactText}>{summary ?? compactCountLabel ?? title}</OverflowText>
@@ -480,7 +480,7 @@ export function TodoToolCard({
   const expanded = Boolean(isExpanded && hasItems);
   const countLabel = progressLabel ?? `${completedCount} / ${totalCount}`;
   const headerSummary = (
-    <span className={styles.todoSummary} data-openbitfun-part="summary">
+    <span className={styles.todoSummary} data-opc-part="summary">
       <OverflowText>{summary ?? title}</OverflowText>
     </span>
   );
@@ -490,7 +490,7 @@ export function TodoToolCard({
       {...props}
       allowExpandedWhenFailed
       className={classNames(styles.todoRoot, props.className)}
-      data-openbitfun-tool-card="todo"
+      data-opc-tool-card="todo"
       expandedContentLayout="flush"
       expandedContent={hasItems ? (
         <div className={styles.todoExpanded}>
@@ -500,12 +500,12 @@ export function TodoToolCard({
             totalCount={totalCount}
             valueText={compactProgressLabel ?? countLabel}
           />
-          <ScrollArea className={styles.todoList} data-openbitfun-part="todoList" edgeFade="vertical" overscrollBehaviorY="auto" role="list">
+          <ScrollArea className={styles.todoList} data-opc-part="todoList" edgeFade="vertical" overscrollBehaviorY="auto" role="list">
             {items.map((item) => (
               <div
                 aria-current={item.status === "in_progress" ? "step" : undefined}
                 className={styles.todoItem}
-                data-openbitfun-part="todoItem"
+                data-opc-part="todoItem"
                 data-status={item.status}
                 key={item.key}
                 role="listitem"
@@ -525,7 +525,7 @@ export function TodoToolCard({
         <ProminentToolCardSummary
           action={expanded ? title : undefined}
           content={expanded ? undefined : headerSummary}
-          extra={expanded ? <span className={styles.todoCount} data-openbitfun-part="todoCount">{countLabel}</span> : undefined}
+          extra={expanded ? <span className={styles.todoCount} data-opc-part="todoCount">{countLabel}</span> : undefined}
           icon={expanded ? undefined : taskIcon}
         />
       )}

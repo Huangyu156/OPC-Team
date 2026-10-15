@@ -3,7 +3,7 @@
 //! Provides comprehensive configuration management functionality.
 
 use super::manager::{
-    validate_current_config_value, validate_openbitfun_product_identity, ConfigManager,
+    validate_current_config_value, validate_opc_product_identity, ConfigManager,
     ConfigManagerSettings, ConfigStatistics,
 };
 use super::types::*;
@@ -65,7 +65,7 @@ impl<'de> Deserialize<'de> for ConfigExport {
 }
 
 fn validate_config_export(export: &ConfigExport) -> OpcTeamResult<()> {
-    validate_openbitfun_product_identity(&export.product_id, "Configuration export")?;
+    validate_opc_product_identity(&export.product_id, "Configuration export")?;
     if export.format_version != CURRENT_CONFIG_EXPORT_FORMAT_VERSION {
         return Err(OpcTeamError::validation(format!(
             "Configuration export format_version must be {CURRENT_CONFIG_EXPORT_FORMAT_VERSION}, found {}",
@@ -368,7 +368,7 @@ impl ConfigService {
         let config: GlobalConfig = serde_json::from_value(config_value)?;
 
         Ok(ConfigExport {
-            product_id: openbitfun_core_types::product_identity::product_id().to_string(),
+            product_id: opc_core_types::product_identity::product_id().to_string(),
             format_version: CURRENT_CONFIG_EXPORT_FORMAT_VERSION,
             config,
             export_timestamp: chrono::Utc::now().to_rfc3339(),
@@ -716,17 +716,17 @@ impl ConfigService {
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::ConfigReadPort for ConfigService {
+impl opc_runtime_ports::ConfigReadPort for ConfigService {
     async fn get_config_value(
         &self,
         key: &str,
-    ) -> openbitfun_runtime_ports::PortResult<Option<serde_json::Value>> {
+    ) -> opc_runtime_ports::PortResult<Option<serde_json::Value>> {
         self.get_config::<serde_json::Value>(Some(key))
             .await
             .map(Some)
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })
@@ -884,7 +884,7 @@ mod tests {
 
     fn current_export(config: GlobalConfig) -> ConfigExport {
         ConfigExport {
-            product_id: openbitfun_core_types::product_identity::product_id().to_string(),
+            product_id: opc_core_types::product_identity::product_id().to_string(),
             format_version: CURRENT_CONFIG_EXPORT_FORMAT_VERSION,
             config,
             export_timestamp: "2026-09-04T00:00:00Z".to_string(),
@@ -2050,12 +2050,10 @@ mod tests {
             .expect("valid models should save");
 
         let invalid_models = vec![AIModelConfig {
-            reasoning: Some(openbitfun_core_types::ReasoningConfig {
-                presets: vec![openbitfun_core_types::ReasoningPreset {
+            reasoning: Some(opc_core_types::ReasoningConfig {
+                presets: vec![opc_core_types::ReasoningPreset {
                     id: "bad-budget".to_string(),
-                    actions: vec![openbitfun_core_types::ReasoningPresetAction::BudgetTokens {
-                        value: 0,
-                    }],
+                    actions: vec![opc_core_types::ReasoningPresetAction::BudgetTokens { value: 0 }],
                     ..Default::default()
                 }],
                 ..Default::default()
@@ -2084,18 +2082,18 @@ mod tests {
         let (service, _dir) = test_service("invalid-reasoning-import").await;
         let mut config = GlobalConfig::default();
         config.ai.models.push(AIModelConfig {
-            reasoning: Some(openbitfun_core_types::ReasoningConfig {
+            reasoning: Some(opc_core_types::ReasoningConfig {
                 presets: vec![
-                    openbitfun_core_types::ReasoningPreset {
+                    opc_core_types::ReasoningPreset {
                         id: "same".to_string(),
-                        actions: vec![openbitfun_core_types::ReasoningPresetAction::Toggle {
+                        actions: vec![opc_core_types::ReasoningPresetAction::Toggle {
                             enabled: true,
                         }],
                         ..Default::default()
                     },
-                    openbitfun_core_types::ReasoningPreset {
+                    opc_core_types::ReasoningPreset {
                         id: "same".to_string(),
-                        actions: vec![openbitfun_core_types::ReasoningPresetAction::Toggle {
+                        actions: vec![opc_core_types::ReasoningPresetAction::Toggle {
                             enabled: false,
                         }],
                         ..Default::default()

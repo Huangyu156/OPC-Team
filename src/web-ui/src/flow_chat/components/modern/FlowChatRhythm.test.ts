@@ -79,10 +79,10 @@ describe('FlowChat transcript rhythm', () => {
       'margin: 0 0 var(--opcteam-control-flow-chat-card-gap) 0;',
     );
     expect(sharedRhythm).toMatch(
-      /data-openbitfun-attention='ambient'[\s\S]*?data-openbitfun-expanded-shell='false'[\s\S]*?:has\([\s\S]*?\+ \.flowchat-flow-item[\s\S]*?margin-bottom: var\(--opcteam-control-flow-chat-paragraph-gap\);/,
+      /data-opc-attention='ambient'[\s\S]*?data-opc-expanded-shell='false'[\s\S]*?:has\([\s\S]*?\+ \.flowchat-flow-item[\s\S]*?margin-bottom: var\(--opcteam-control-flow-chat-paragraph-gap\);/,
     );
     expect(toolStyles).not.toContain(
-      "> [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-expanded-shell='false']",
+      "> [data-opc-component='flow-chat-tool-card'][data-opc-part='root'][data-opc-expanded-shell='false']",
     );
     expect(toolStyles).not.toContain('+ .task-with-subagent-wrapper');
     expect(sharedRhythm).toContain("[data-thinking-attachment='side']");
@@ -261,7 +261,7 @@ describe('FlowChat transcript rhythm', () => {
       "&[data-ambient-tool-run-continuation-after='true']",
     );
     expect(rendererStyles).not.toContain(
-      "> [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-expanded-shell='false']",
+      "> [data-opc-component='flow-chat-tool-card'][data-opc-part='root'][data-opc-expanded-shell='false']",
     );
     expect(rendererStyles).not.toContain(
       '.task-with-subagent-wrapper:last-child:not(.task-with-subagent-wrapper--expanded)',

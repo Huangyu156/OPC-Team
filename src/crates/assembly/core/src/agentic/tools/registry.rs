@@ -6,11 +6,11 @@ use crate::agentic::tools::product_runtime::{
 };
 use crate::util::errors::OpcTeamResult;
 use log::{debug, info, trace, warn};
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     DynamicToolDescriptor, DynamicToolProvider, PortResult, ToolDecoratorRef,
     ToolRegistry as AgentToolRegistry,
 };
-use openbitfun_product_capabilities::DeliveryProfile;
+use opc_product_capabilities::DeliveryProfile;
 use std::sync::Arc;
 
 pub(in crate::agentic::tools) type ToolRef = Arc<dyn Tool>;
@@ -56,7 +56,7 @@ fn notify_external_tool_registry_changed() {
     crate::external_sources::notify_external_tool_registry_changed();
 }
 
-pub use openbitfun_agent_tools::GET_TOOL_SPEC_TOOL_NAME;
+pub use opc_agent_tools::GET_TOOL_SPEC_TOOL_NAME;
 
 /// Tool registry - manages all available tools (using IndexMap to maintain registration order)
 pub struct ToolRegistry {
@@ -87,7 +87,7 @@ impl ToolRegistry {
     ///
     /// The default production decorator preserves snapshot-aware wrapping while
     /// allowing future owner crates to replace this concrete service coupling
-    /// through the `openbitfun-runtime-ports` interface.
+    /// through the `opc-runtime-ports` interface.
     pub fn with_tool_decorator(tool_decorator: ProductToolDecoratorRef) -> Self {
         ProductToolRuntime::with_tool_decorator(tool_decorator)
             .create_registry()
@@ -384,7 +384,7 @@ mod tests {
     };
     use crate::agentic::tools::product_runtime::ProductToolRuntime;
     use async_trait::async_trait;
-    use openbitfun_agent_tools::{DynamicToolProvider, ToolDecorator};
+    use opc_agent_tools::{DynamicToolProvider, ToolDecorator};
     use serde_json::json;
     use serde_json::Value;
     use std::sync::Arc;
@@ -638,7 +638,7 @@ mod tests {
     #[cfg(feature = "product-full")]
     #[test]
     fn product_capability_provider_plan_covers_registry_manifest_without_owning_order() {
-        let assembly = openbitfun_product_capabilities::default_product_capability_assembly();
+        let assembly = opc_product_capabilities::default_product_capability_assembly();
         let mut provider_tools = assembly
             .tool_provider_group_plan()
             .iter()
@@ -657,7 +657,7 @@ mod tests {
 
     #[test]
     fn product_capability_provider_plan_keeps_owner_group_order() {
-        let assembly = openbitfun_product_capabilities::default_product_capability_assembly();
+        let assembly = opc_product_capabilities::default_product_capability_assembly();
         let provider_ids = assembly
             .tool_provider_group_plan()
             .iter()
@@ -1025,15 +1025,15 @@ mod tests {
         let refreshed_generation = registry.current_snapshot_generation();
 
         assert!(refreshed_generation > removed_generation);
-        let error = openbitfun_agent_tools::validate_deferred_tool_usage(
+        let error = opc_agent_tools::validate_deferred_tool_usage(
             "mcp__github__search_repos",
             &["mcp__github__search_repos".to_string()],
-            &[openbitfun_agent_tools::LoadedDeferredToolSpec {
+            &[opc_agent_tools::LoadedDeferredToolSpec {
                 tool_name: "mcp__github__search_repos".to_string(),
                 catalog_generation: loaded_generation,
             }],
             refreshed_generation,
-            openbitfun_agent_tools::GET_TOOL_SPEC_TOOL_NAME,
+            opc_agent_tools::GET_TOOL_SPEC_TOOL_NAME,
         )
         .expect_err("refresh must invalidate the previously loaded MCP spec");
 

@@ -537,7 +537,7 @@ export function Tooltip({
   }, [externalTriggerRef, isShown, tooltipId]);
 
   const triggerElement = children ? cloneElement(children as ReactElement<Record<string, unknown>>, {
-    "data-openbitfun-tooltip-trigger": "true",
+    "data-opc-tooltip-trigger": "true",
     ref: handleTriggerRef,
     onMouseEnter: handleMouseEnter,
     onMouseLeave: handleMouseLeave,
@@ -563,12 +563,12 @@ export function Tooltip({
           id={tooltipId}
           role="tooltip"
           data-motion="presence"
-          data-openbitfun-native-webview-occlusion
+          data-opc-native-webview-occlusion
           className={classNames(styles.root, className)}
-          data-openbitfun-component="tooltip"
-          data-openbitfun-placement={layout.placement}
-          data-openbitfun-interactive={interactive ? "true" : "false"}
-          data-openbitfun-state={isShown ? "visible" : undefined}
+          data-opc-component="tooltip"
+          data-opc-placement={layout.placement}
+          data-opc-interactive={interactive ? "true" : "false"}
+          data-opc-state={isShown ? "visible" : undefined}
           data-instant={instantRef.current || undefined}
           // Portal clicks still bubble through the React tree to the owning control.
           onClick={(event) => event.stopPropagation()}
@@ -585,10 +585,10 @@ export function Tooltip({
           }}
         >
           {!followCursor && (
-            <div className={styles.arrow} data-openbitfun-part="arrow" aria-hidden="true" />
+            <div className={styles.arrow} data-opc-part="arrow" aria-hidden="true" />
           )}
-          <div className={styles.content} data-openbitfun-part="content">
-            <div className={styles.body} data-openbitfun-part="body">{content}</div>
+          <div className={styles.content} data-opc-part="content">
+            <div className={styles.body} data-opc-part="body">{content}</div>
           </div>
         </div>
         </Portal>

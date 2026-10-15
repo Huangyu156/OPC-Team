@@ -91,7 +91,7 @@ export const PagePublishDisplay: React.FC<ToolCardProps> = ({ toolItem }) => {
   return (
     <div
       ref={cardRootRef}
-      data-openbitfun-adapter="page-publish"
+      data-opc-adapter="page-publish"
       data-testid="chat-page-publish-card"
       data-tool-card-id={toolId ?? ''}
       data-status={status}

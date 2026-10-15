@@ -1,21 +1,19 @@
 //! HostInvoke / DeviceEvent dispatch for CLI Peer Host.
 
-use openbitfun_core_types::agent_identity_wire::{
+use opc_core_types::agent_identity_wire::{
     translate_agent_identity_command, translate_agent_identity_response, AgentIdentityDialect,
 };
 
 use serde_json::{json, Value};
 
-use openbitfun_core::service::remote_connect::remote_server::RemoteResponse;
+use opc_core::service::remote_connect::remote_server::RemoteResponse;
 
 use super::commands;
 use super::control::{
     attach_controller, detach_controller, parse_controller_device_id, peer_mode_ping_value,
 };
 use super::state::peer_host_state;
-use openbitfun_product_domains::remote_surface::{
-    peer_host_verdict, PeerHostKind, PeerHostVerdict,
-};
+use opc_product_domains::remote_surface::{peer_host_verdict, PeerHostKind, PeerHostVerdict};
 
 #[derive(Debug, Clone)]
 struct HostInvokeBridgeResult {
@@ -268,7 +266,7 @@ mod tests {
     /// registry routes to the host control plane.
     #[test]
     fn dispatch_target_verbs_match_registry() {
-        use openbitfun_product_domains::remote_surface::{operations, PeerStance};
+        use opc_product_domains::remote_surface::{operations, PeerStance};
         for op in operations() {
             let is_target = op.id.starts_with("dispatch_target_");
             assert_eq!(
@@ -320,7 +318,7 @@ mod tests {
 
     #[tokio::test]
     async fn unknown_command_reports_host_version_mismatch() {
-        let resp = handle_host_invoke("not_an_openbitfun_command", json!({})).await;
+        let resp = handle_host_invoke("not_an_opc_command", json!({})).await;
         match resp {
             RemoteResponse::HostInvokeResult {
                 ok: false,

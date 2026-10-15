@@ -335,7 +335,7 @@ describe('ModelSelector external transport reuse', () => {
       )?.click();
     });
     await act(async () => {
-      document.body.querySelector<HTMLButtonElement>('[data-openbitfun-value="preset:high"]')?.click();
+      document.body.querySelector<HTMLButtonElement>('[data-opc-value="preset:high"]')?.click();
       await Promise.resolve();
     });
 
@@ -669,7 +669,7 @@ describe('ModelSelector external transport reuse', () => {
     expect(document.body.querySelector('[data-testid="chat-model-selector-settings-model"]')).not.toBeNull();
     await act(async () => { reasoningRow?.click(); });
     await act(async () => {
-      document.body.querySelector<HTMLButtonElement>('[data-openbitfun-value="preset:high"]')?.click();
+      document.body.querySelector<HTMLButtonElement>('[data-opc-value="preset:high"]')?.click();
       await Promise.resolve();
     });
 
@@ -769,7 +769,7 @@ describe('ModelSelector external transport reuse', () => {
     await renderTarget(selection);
     await clickControl('chat-model-selector-btn');
     await clickControl('chat-model-selector-settings-reasoning');
-    expect(document.activeElement?.getAttribute('data-openbitfun-value')).toBe('preset:high');
+    expect(document.activeElement?.getAttribute('data-opc-value')).toBe('preset:high');
     await act(async () => {
       document.activeElement?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true, cancelable: true }));
     });
@@ -790,15 +790,15 @@ describe('ModelSelector external transport reuse', () => {
     await renderTarget(selection);
     await clickControl('chat-model-selector-btn');
     await clickControl('chat-model-selector-settings-reasoning');
-    expect(document.body.querySelector('[data-openbitfun-value="preset:high"]')?.getAttribute('aria-pressed')).toBe('true');
-    await act(async () => { document.body.querySelector<HTMLButtonElement>('[data-openbitfun-value="auto"]')?.click(); });
+    expect(document.body.querySelector('[data-opc-value="preset:high"]')?.getAttribute('aria-pressed')).toBe('true');
+    await act(async () => { document.body.querySelector<HTMLButtonElement>('[data-opc-value="auto"]')?.click(); });
     expect(selection.onSelectReasoningPreset).toHaveBeenCalledWith(null);
     expect(agentAPI.updateSessionModel).not.toHaveBeenCalled();
     expect(configManager.setConfig).not.toHaveBeenCalled();
     await renderTarget({ ...selection, selectedReasoningPreset: 'auto' });
     expect(container.querySelector('[data-testid="chat-model-selector-btn"]')?.getAttribute('aria-expanded')).toBe('true');
     await clickControl('chat-model-selector-settings-reasoning');
-    expect(document.body.querySelector('[data-openbitfun-value="auto"]')?.getAttribute('aria-pressed')).toBe('true');
+    expect(document.body.querySelector('[data-opc-value="auto"]')?.getAttribute('aria-pressed')).toBe('true');
     expect(container.querySelector('[data-testid="chat-model-selector-trigger-reasoning"]')?.textContent)
       .toContain('reasoningSelector.auto');
   });
@@ -840,7 +840,7 @@ describe('ModelSelector external transport reuse', () => {
     await clickControl('chat-model-selector-btn');
     await clickControl('chat-model-selector-settings-reasoning');
     await renderTarget({ ...selection, disabled: true });
-    await act(async () => { document.body.querySelector<HTMLButtonElement>('[data-openbitfun-value="preset:medium"]')?.click(); });
+    await act(async () => { document.body.querySelector<HTMLButtonElement>('[data-opc-value="preset:medium"]')?.click(); });
     expect(selection.onSelectReasoningPreset).not.toHaveBeenCalled();
     expect(container.querySelector<HTMLButtonElement>('[data-testid="chat-model-selector-btn"]')?.disabled).toBe(true);
   });
@@ -851,12 +851,12 @@ describe('ModelSelector external transport reuse', () => {
     await clickControl('chat-model-selector-btn');
     await clickControl('chat-model-selector-settings-reasoning');
     await act(async () => {
-      document.body.querySelector<HTMLButtonElement>('[data-openbitfun-value="preset:medium"]')!.click();
+      document.body.querySelector<HTMLButtonElement>('[data-opc-value="preset:medium"]')!.click();
     });
     expect(selection.onSelectReasoningPreset).toHaveBeenCalledWith('medium');
-    expect(document.body.querySelector('[data-openbitfun-value="preset:high"]')?.getAttribute('aria-pressed')).toBe('true');
-    expect(document.body.querySelector<HTMLButtonElement>('[data-openbitfun-value="preset:medium"]')?.disabled).toBe(false);
-    expect(document.activeElement?.getAttribute('data-openbitfun-value')).toBe('preset:medium');
+    expect(document.body.querySelector('[data-opc-value="preset:high"]')?.getAttribute('aria-pressed')).toBe('true');
+    expect(document.body.querySelector<HTMLButtonElement>('[data-opc-value="preset:medium"]')?.disabled).toBe(false);
+    expect(document.activeElement?.getAttribute('data-opc-value')).toBe('preset:medium');
     expect(container.querySelector('[data-testid="chat-model-selector-btn"]')?.getAttribute('aria-expanded')).toBe('true');
     expect(container.querySelector('[data-testid="chat-model-selector-trigger-reasoning"]')?.textContent)
       .toContain('reasoningSelector.levels.high');

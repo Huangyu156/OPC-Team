@@ -559,8 +559,8 @@ describe('Session usage report UI components', () => {
 
     const openButton = container.querySelector('button[aria-label="Open details"]');
     expect(openButton?.textContent).toBe('Details');
-    expect(openButton?.getAttribute('data-openbitfun-component')).toBe('button');
-    expect(openButton?.getAttribute('data-openbitfun-variant')).toBe('outline');
+    expect(openButton?.getAttribute('data-opc-component')).toBe('button');
+    expect(openButton?.getAttribute('data-opc-variant')).toBe('outline');
     expect(container.querySelector('.session-usage-report-card__action-group')).toBeNull();
     act(() => {
       openButton?.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
@@ -1150,7 +1150,7 @@ describe('Session usage report UI components', () => {
     const snapshot = new AppearanceCompiler(registry).compile(restored, 1);
     expect(JSON.stringify(restored)).toBe(serialized);
     document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
-    document.documentElement.setAttribute('data-openbitfun-appearance-revision', String(snapshot.revision));
+    document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
     const style = document.createElement('style');
     style.textContent = snapshot.cssText;
     document.head.appendChild(style);
@@ -1162,8 +1162,8 @@ describe('Session usage report UI components', () => {
     const report = usageReport();
     render(<SessionUsagePanel report={report} initialTab="models" />);
     const modelsTab = container.querySelector('#session-usage-tab-models');
-    expect(container.querySelector('[role="tablist"]')?.getAttribute('data-openbitfun-component')).toBe('tab-group');
-    expect(modelsTab?.getAttribute('data-openbitfun-part')).toBe('tab');
+    expect(container.querySelector('[role="tablist"]')?.getAttribute('data-opc-component')).toBe('tab-group');
+    expect(modelsTab?.getAttribute('data-opc-part')).toBe('tab');
     expect(document.querySelector(rule!.selectorText)).toBe(modelsTab);
     render(<SessionUsagePanel report={report} initialTab="files" />);
     expect(document.querySelector(rule!.selectorText)).toBeNull();

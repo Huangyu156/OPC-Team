@@ -4,19 +4,19 @@
 //! [`agent_client_protocol`] using custom roles ([`AppServer`]/[`AppClient`]),
 //! instead of the built-in ACP `Agent`/`Client` roles. Consumers register their
 //! own `JsonRpcRequest` / `JsonRpcNotification` types; the crate binds no
-//! schema method set, unlike [`openbitfun_acp`].
+//! schema method set, unlike [`opc_acp`].
 //!
 //! [`OpcTeamAppServer`] exposes the selected Agent Kernel and management
 //! operations over a host-injected runtime. Behavior-light wire contracts are
-//! owned by `openbitfun-app-server-protocol`; [`schema`] remains a compatibility
+//! owned by `opc-app-server-protocol`; [`schema`] remains a compatibility
 //! re-export for existing server-side imports. Typed clients are owned by the
-//! separate `openbitfun-app-server-client` crate.
+//! separate `opc-app-server-client` crate.
 //!
 //! # Example
 //!
 //! ```no_run
-//! use openbitfun_app_server::{AppServer, AppClient, transport};
-//! use openbitfun_app_server::prelude::*;
+//! use opc_app_server::{AppServer, AppClient, transport};
+//! use opc_app_server::prelude::*;
 //! # use serde::{Deserialize, Serialize};
 //! #
 //! # #[derive(Debug, Clone, Serialize, Deserialize, agent_client_protocol::JsonRpcRequest)]
@@ -32,7 +32,7 @@
 //! # }
 //! ```
 //!
-//! [`openbitfun_acp`]: openbitfun_acp
+//! [`opc_acp`]: opc_acp
 //!
 //! # Crate boundary
 //!

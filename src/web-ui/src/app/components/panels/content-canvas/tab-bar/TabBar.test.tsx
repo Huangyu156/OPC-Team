@@ -67,7 +67,7 @@ describe('canvas TabGroup integration', () => {
   });
 
   const render = () => act(() => root.render(<TabBar {...props} />));
-  const tab = (id: string) => container.querySelector<HTMLButtonElement>(`[role="tab"][data-openbitfun-value="${id}"]`)!;
+  const tab = (id: string) => container.querySelector<HTMLButtonElement>(`[role="tab"][data-opc-value="${id}"]`)!;
   const wrapper = (id: string) => container.querySelector<HTMLElement>(`.canvas-tab[data-tab-id="${id}"]`)!;
 
   it('adds the session-to-workbench drag format only when pop-out is available', () => {
@@ -175,10 +175,10 @@ describe('canvas TabGroup integration', () => {
     });
 
     act(() => list.dispatchEvent(new Event('scroll')));
-    expect(container.querySelector('[data-openbitfun-product-part="badge"]')?.textContent).toBe('+2');
+    expect(container.querySelector('[data-opc-product-part="badge"]')?.textContent).toBe('+2');
     expect(container.querySelectorAll('[role="tab"]')).toHaveLength(3);
     width = 400;
     act(() => list.dispatchEvent(new Event('scroll')));
-    expect(container.querySelector('[data-openbitfun-product-component="canvas-tab-overflow"]')).toBeNull();
+    expect(container.querySelector('[data-opc-product-component="canvas-tab-overflow"]')).toBeNull();
   });
 });

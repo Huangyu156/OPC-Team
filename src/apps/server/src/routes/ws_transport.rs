@@ -8,7 +8,7 @@
 //! wraps the `SplitSink` (each `String` -> `Message::Text`), incoming wraps the
 //! `SplitStream` (each `Message::Text` -> `Ok(String)`, everything else -> `Err`).
 //!
-//! The returned `Lines` is handed to [`openbitfun_app_server::OpcTeamAppServer::serve`]
+//! The returned `Lines` is handed to [`opc_app_server::OpcTeamAppServer::serve`]
 //! per WebSocket connection, so the browser connects directly to the in-process
 //! app-server over native JSON-RPC -- no custom `{type:"request"|...}` envelope,
 //! no hand-written `route_agent_command`, no shared in-process client.

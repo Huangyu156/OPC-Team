@@ -257,7 +257,7 @@ export const AskUserQuestionCard: React.FC<ToolCardProps> = ({
   }, [canAnswer, peerDevice, sessionId, toolId]);
   const handleInteraction = useCallback((event: React.SyntheticEvent) => {
     const target = event.target;
-    if (target instanceof Element && target.closest('input, [data-openbitfun-part="option"], [data-openbitfun-part="custom-option"]')) {
+    if (target instanceof Element && target.closest('input, [data-opc-part="option"], [data-opc-part="custom-option"]')) {
       startInteraction();
     }
   }, [startInteraction]);

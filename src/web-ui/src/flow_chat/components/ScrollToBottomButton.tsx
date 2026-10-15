@@ -43,7 +43,7 @@ export const ScrollToBottomButton: React.FC<ScrollToBottomButtonProps> = ({
   return (
     <RetainedMountBoundary present={visible}>
       <Tooltip content={t('scroll.toBottom')} disabled={!visible}>
-        <button data-openbitfun-icon-slot="true" data-openbitfun-component="scroll-to-bottom-button" data-openbitfun-part="root"
+        <button data-opc-icon-slot="true" data-opc-component="scroll-to-bottom-button" data-opc-part="root"
           ref={buttonRef}
           {...buttonProps}
           data-visible={visible ? 'true' : 'false'}
@@ -54,9 +54,9 @@ export const ScrollToBottomButton: React.FC<ScrollToBottomButtonProps> = ({
           tabIndex={visible ? buttonProps.tabIndex : -1}
           {...(!visible ? { inert: '' } : {})}
         >
-          <LucideChevronDown data-openbitfun-component="scroll-to-bottom-button" data-openbitfun-part="icon" className="scroll-icon" size="var(--opcteam-control-icon-size-md)" aria-hidden="true" />
+          <LucideChevronDown data-opc-component="scroll-to-bottom-button" data-opc-part="icon" className="scroll-icon" size="var(--opcteam-control-icon-size-md)" aria-hidden="true" />
           {unreadCount !== undefined && unreadCount > 0 && (
-            <span data-openbitfun-component="scroll-to-bottom-button" data-openbitfun-part="badge" className="unread-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
+            <span data-opc-component="scroll-to-bottom-button" data-opc-part="badge" className="unread-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
           )}
         </button>
       </Tooltip>

@@ -190,12 +190,12 @@ const css = [
   }),
 ].join("\n");
 
-const legacyAliasCss = `/* Legacy compatibility aliases: skins authored before the OPC-Team rename reference --openbitfun-* names. Keep until no supported skin can still reference them. */
+const legacyAliasCss = `/* Legacy compatibility aliases: skins authored before the OPC-Team rename reference --opc-* names. Keep until no supported skin can still reference them. */
 :root, :where([data-opcteam-design-system-root]) {
 ${Object.keys(semanticThemes.light)
   .map((name) => {
     const newName = tokenNameToCssVariable(name);
-    return `  --openbitfun-${newName.slice("--opcteam-".length)}: var(${newName});`;
+    return `  --opc-${newName.slice("--opcteam-".length)}: var(${newName});`;
   })
   .join("\n")}
 }

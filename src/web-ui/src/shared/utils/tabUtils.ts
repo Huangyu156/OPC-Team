@@ -81,9 +81,9 @@ export function openCanvasArtifactTab(options: OpenCanvasArtifactTabOptions): bo
     return false;
   }
 
-  const duplicateCheckKey = JSON.stringify(['openbitfun-canvas', options.workspaceId, artifactReference]);
+  const duplicateCheckKey = JSON.stringify(['opc-canvas', options.workspaceId, artifactReference]);
   createTab({
-    type: 'openbitfun-canvas',
+    type: 'opc-canvas',
     title: options.title?.trim() || 'OPC-Team Canvas',
     data: {
       artifactReference,

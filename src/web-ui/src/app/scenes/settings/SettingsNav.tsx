@@ -113,9 +113,9 @@ function highlightFirstMatch(text: string, query: string): React.ReactNode {
     <>
       {text.slice(0, index)}
       <mark
-        className="openbitfun-settings-nav__search-highlight"
-        data-openbitfun-component="settings-nav"
-        data-openbitfun-part="highlight"
+        className="opc-settings-nav__search-highlight"
+        data-opc-component="settings-nav"
+        data-opc-part="highlight"
       >
         {text.slice(index, index + needle.length)}
       </mark>
@@ -170,9 +170,9 @@ const SettingsNav: React.FC = () => {
   const dirtyMarker = useCallback((pageId: SettingsPageId) => (
     dirtyPageIds.has(pageId) ? (
       <span
-        className="openbitfun-settings-nav__dirty-marker"
-        data-openbitfun-component="settings-nav"
-        data-openbitfun-part="dirtyMarker"
+        className="opc-settings-nav__dirty-marker"
+        data-opc-component="settings-nav"
+        data-opc-part="dirtyMarker"
         title={t('changeGuard.unsavedPage')}
         aria-label={t('changeGuard.unsavedPage')}
       />
@@ -261,21 +261,21 @@ const SettingsNav: React.FC = () => {
 
   return (
     <NavigationPanel
-      className="openbitfun-settings-nav"
+      className="opc-settings-nav"
       data-testid="settings-nav"
       aria-label={t('shared:features.settings')}
-      data-openbitfun-component="settings-nav"
-      data-openbitfun-part="root"
+      data-opc-component="settings-nav"
+      data-opc-part="root"
     >
       <NavigationPanelHeader
-        className="openbitfun-settings-nav__panel-header"
-        data-openbitfun-component="settings-nav"
-        data-openbitfun-part="header"
+        className="opc-settings-nav__panel-header"
+        data-opc-component="settings-nav"
+        data-opc-part="header"
       >
-        <div className="openbitfun-settings-nav__search" data-openbitfun-component="settings-nav" data-openbitfun-part="search">
+        <div className="opc-settings-nav__search" data-opc-component="settings-nav" data-opc-part="search">
           <SearchField
             ref={searchInputRef}
-            className="openbitfun-settings-nav__search-field"
+            className="opc-settings-nav__search-field"
             size="sm"
             value={draftQuery}
             onValueChange={setDraftQuery}
@@ -294,15 +294,15 @@ const SettingsNav: React.FC = () => {
         </div>
       </NavigationPanelHeader>
       <NavigationPanelBody>
-        <NavigationPanelContent className="openbitfun-settings-nav__content">
+        <NavigationPanelContent className="opc-settings-nav__content">
           {isSearchMode ? (
             results.length ? (
               <div
                 ref={resultsRef}
                 id="settings-nav-results"
-                className="openbitfun-settings-nav__search-results"
-                data-openbitfun-component="settings-nav"
-                data-openbitfun-part="searchResults"
+                className="opc-settings-nav__search-results"
+                data-opc-component="settings-nav"
+                data-opc-part="searchResults"
                 role="listbox"
                 tabIndex={results.length ? 0 : undefined}
                 onKeyDown={handleResultsKeyDown}
@@ -324,11 +324,11 @@ const SettingsNav: React.FC = () => {
                       aria-selected={active}
                       aria-busy={pendingPageId === row.destination.pageId || undefined}
                       selected={active}
-                      data-openbitfun-component="settings-nav"
-                      data-openbitfun-part="searchResult"
-                      data-openbitfun-state={[active && 'active', selected && 'selected'].filter(Boolean).join(' ') || undefined}
+                      data-opc-component="settings-nav"
+                      data-opc-part="searchResult"
+                      data-opc-state={[active && 'active', selected && 'selected'].filter(Boolean).join(' ') || undefined}
                       className={[
-                        'openbitfun-settings-nav__search-result-item',
+                        'opc-settings-nav__search-result-item',
                         selected && 'is-highlighted',
                         active && 'is-active',
                       ].filter(Boolean).join(' ')}
@@ -339,11 +339,11 @@ const SettingsNav: React.FC = () => {
                       }}
                       onFocus={() => preload(row.destination.pageId)}
                     >
-                      <span className="openbitfun-settings-nav__search-result-copy">
-                        <OverflowText behavior="marquee" className="openbitfun-settings-nav__search-result-line">
+                      <span className="opc-settings-nav__search-result-copy">
+                        <OverflowText behavior="marquee" className="opc-settings-nav__search-result-line">
                           {highlightFirstMatch(path, searchQuery)}
                         </OverflowText>
-                        <OverflowText behavior="marquee" className="openbitfun-settings-nav__search-result-desc">
+                        <OverflowText behavior="marquee" className="opc-settings-nav__search-result-desc">
                           {highlightFirstMatch(row.description, searchQuery)}
                         </OverflowText>
                       </span>
@@ -353,43 +353,43 @@ const SettingsNav: React.FC = () => {
                 })}
               </div>
             ) : (
-              <div className="openbitfun-settings-nav__search-empty" role="status" data-openbitfun-component="settings-nav" data-openbitfun-part="searchEmpty">
+              <div className="opc-settings-nav__search-empty" role="status" data-opc-component="settings-nav" data-opc-part="searchEmpty">
                 {t('navigation.search.empty')}
               </div>
             )
           ) : SETTINGS_CATEGORIES.map((category) => (
             <NavigationPanelSection
               key={category.id}
-              className="openbitfun-settings-nav__category"
-              data-openbitfun-component="settings-nav"
-              data-openbitfun-part="category"
+              className="opc-settings-nav__category"
+              data-opc-component="settings-nav"
+              data-opc-part="category"
               title={(
                 <span
-                  className="openbitfun-settings-nav__category-label"
-                  data-openbitfun-component="settings-nav"
-                  data-openbitfun-part="categoryHeader"
+                  className="opc-settings-nav__category-label"
+                  data-opc-component="settings-nav"
+                  data-opc-part="categoryHeader"
                 >
                   {t(category.labelKey)}
                 </span>
               )}
             >
-              <div className="openbitfun-settings-nav__items" data-openbitfun-component="settings-nav" data-openbitfun-part="items">
+              <div className="opc-settings-nav__items" data-opc-component="settings-nav" data-opc-part="items">
                 {category.pages.map((page) => (
                   <NavigationPanelItem data-overflow-trigger
                     key={page.id}
                     data-testid="settings-nav-page"
                     data-settings-page={page.id}
-                    data-openbitfun-component="settings-nav"
-                    data-openbitfun-part="item"
-                    data-openbitfun-state={activePageId === page.id ? 'active' : undefined}
-                    className="openbitfun-settings-nav__item"
+                    data-opc-component="settings-nav"
+                    data-opc-part="item"
+                    data-opc-state={activePageId === page.id ? 'active' : undefined}
+                    className="opc-settings-nav__item"
                     selected={activePageId === page.id}
                     aria-busy={pendingPageId === page.id || undefined}
                     onClick={() => activate({ pageId: page.id })}
                     onPointerEnter={() => preload(page.id)}
                     onFocus={() => preload(page.id)}
                   >
-                    <OverflowText className="openbitfun-settings-nav__item-label">{t(page.labelKey)}</OverflowText>
+                    <OverflowText className="opc-settings-nav__item-label">{t(page.labelKey)}</OverflowText>
                     {pendingPageId === page.id ? <Spinner size="sm" /> : dirtyMarker(page.id)}
                   </NavigationPanelItem>
                 ))}

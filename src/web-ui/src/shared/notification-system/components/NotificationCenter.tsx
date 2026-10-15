@@ -128,9 +128,9 @@ export const NotificationCenter: React.FC = () => {
         data-notification-message={notification.message}
         data-notification-diagnostics={technicalDetails ?? undefined}
         data-context-type={isActive ? undefined : 'notification'}
-        data-openbitfun-component="notification"
-        data-openbitfun-part="centerItem"
-        data-openbitfun-state={[isUnread && 'unread', isExpanded && 'expanded'].filter(Boolean).join(' ') || undefined}
+        data-opc-component="notification"
+        data-opc-part="centerItem"
+        data-opc-state={[isUnread && 'unread', isExpanded && 'expanded'].filter(Boolean).join(' ') || undefined}
       >
         <Card className="notification-center__item-card" appearance="neutral">
           <Disclosure
@@ -218,10 +218,10 @@ export const NotificationCenter: React.FC = () => {
       <div
         className="notification-center"
         data-testid="notification-center"
-        data-openbitfun-component="notification"
-        data-openbitfun-part="centerRoot"
+        data-opc-component="notification"
+        data-opc-part="centerRoot"
       >
-        <div className="notification-center__header" data-openbitfun-component="notification" data-openbitfun-part="centerHeader">
+        <div className="notification-center__header" data-opc-component="notification" data-opc-part="centerHeader">
           <DialogHeader className="notification-center__dialog-header">
             <DialogHeading>
               <DialogTitle>{t('components:notificationCenter.title')}</DialogTitle>
@@ -241,7 +241,7 @@ export const NotificationCenter: React.FC = () => {
                 title={t('components:notificationCenter.actions.clearAll')}
                 aria-label={t('components:notificationCenter.actions.clearAll')}
               />
-              <span className="notification-center__close" data-openbitfun-component="notification" data-openbitfun-part="centerClose">
+              <span className="notification-center__close" data-opc-component="notification" data-opc-part="centerClose">
                 <DialogClose
                   title={t('common:actions.close')}
                   aria-label={t('common:actions.close')}
@@ -264,7 +264,7 @@ export const NotificationCenter: React.FC = () => {
               size="md"
             />
           </div>
-          <ScrollArea className="notification-center__content" data-openbitfun-component="notification" data-openbitfun-part="centerList">
+          <ScrollArea className="notification-center__content" data-opc-component="notification" data-opc-part="centerList">
             {notifications.length === 0 ? (
               <div className="notification-center__empty" role="status">
                 <div className="notification-center__empty-icon" aria-hidden="true">

@@ -36,7 +36,7 @@ export function ExecRelationPresentation({ toolItem, model, t, rootRef, renderOu
     {error && <ToolCardText variant="prose">{error}</ToolCardText>}
   </>;
 
-  return <div ref={rootRef} data-openbitfun-adapter="exec-process-tool-card" data-tool-card-id={toolItem.id}>
+  return <div ref={rootRef} data-opc-adapter="exec-process-tool-card" data-tool-card-id={toolItem.id}>
     <ToolRelationRow interaction={interaction} result={summary} status={status}
       details={details} detailsTitle={model.actionLabel} detailsSize="md" resultLabel={t('toolCards.interaction.inspectResult')} />
   </div>;

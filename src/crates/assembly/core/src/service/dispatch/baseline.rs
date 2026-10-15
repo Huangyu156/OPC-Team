@@ -454,7 +454,7 @@ fn finish_bundle(path: PathBuf) -> Result<PreparedBundle> {
     let size = std::fs::symlink_metadata(&path)
         .with_context(|| format!("inspect dispatch bundle {}", path.display()))?
         .len();
-    let sha256 = openbitfun_services_core::dispatch_workspace::sha256_file(&path)?;
+    let sha256 = opc_services_core::dispatch_workspace::sha256_file(&path)?;
     Ok(PreparedBundle { path, sha256, size })
 }
 
@@ -544,7 +544,7 @@ fn project_label(project_workspace_path: &str) -> String {
 /// directory keys it instead.
 fn repo_key(remote_url: Option<&str>, common_git_dir: &Path) -> String {
     let mut digest = Sha256::new();
-    digest.update(b"openbitfun-dispatch-repo");
+    digest.update(b"opc-dispatch-repo");
     match remote_url {
         Some(url) => {
             digest.update(b"remote:");

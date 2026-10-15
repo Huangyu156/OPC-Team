@@ -2,8 +2,8 @@
 //! submits input. Image coordinates carry the immutable capture identity.
 use super::*;
 use crate::computer_use::control_session;
-use openbitfun_agent_tools::computer_use_control::{ControlSnapshot, ObservationScope};
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_agent_tools::computer_use_control::{ControlSnapshot, ObservationScope};
+use opc_core::agentic::tools::computer_use_host::{
     AppInputAction, ClickTarget, ComputerUseActionLease, ComputerUseImageContentRect,
     ComputerUseImageGlobalBounds,
 };

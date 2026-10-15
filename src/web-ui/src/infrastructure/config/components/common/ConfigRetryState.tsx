@@ -26,9 +26,9 @@ export const ConfigRetryState: React.FC<ConfigRetryStateProps> = ({
   className = '',
 }) => (
   <div
-    className={['openbitfun-config-retry-state', className].filter(Boolean).join(' ')}
-    data-openbitfun-component="config"
-    data-openbitfun-part="retryState"
+    className={['opc-config-retry-state', className].filter(Boolean).join(' ')}
+    data-opc-component="config"
+    data-opc-part="retryState"
   >
     <ConfigMessage message={{ type: 'error', text: message }} />
     <Button

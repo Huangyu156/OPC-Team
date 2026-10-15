@@ -2,7 +2,7 @@ use crate::agentic::tools::file_permissions::file_permission_intents;
 use crate::agentic::tools::framework::{
     PermissionIntent, Tool, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
-use crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri;
+use crate::agentic::tools::workspace_paths::is_opc_tool_uri;
 use crate::agentic::tools::ToolPathOperation;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
@@ -187,7 +187,7 @@ Important notes:
                 };
             }
             None => {
-                if is_openbitfun_tool_uri(path_str) {
+                if is_opc_tool_uri(path_str) {
                     return ValidationResult {
                         result: false,
                         message: Some(
@@ -392,7 +392,7 @@ mod tests {
     #[tokio::test]
     async fn local_and_remote_delete_use_the_same_filesystem_contract() {
         use crate::agentic::{tools::framework::ToolUseContext, WorkspaceBinding};
-        use openbitfun_runtime_ports::ToolRuntimeHandles;
+        use opc_runtime_ports::ToolRuntimeHandles;
         use serde_json::json;
         use std::os::unix::fs::symlink;
         use std::path::PathBuf;
@@ -400,8 +400,7 @@ mod tests {
         // Run the real provider against separate fixture roots through both Session bindings.
         // These are routing/behavior tests, not evidence of a live SSH connection.
         for remote in [false, true] {
-            let root =
-                std::env::temp_dir().join(format!("openbitfun-delete-{}", uuid::Uuid::new_v4()));
+            let root = std::env::temp_dir().join(format!("opc-delete-{}", uuid::Uuid::new_v4()));
             std::fs::create_dir_all(root.join("empty")).unwrap();
             std::fs::create_dir_all(root.join("nonempty")).unwrap();
             std::fs::write(root.join("nonempty/keep.txt"), "keep").unwrap();

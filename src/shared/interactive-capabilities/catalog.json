@@ -225,11 +225,11 @@
       "touch_session_activity"
     ],
     "hostBridges": [
-      "mark_openbitfun_control_surface_ready",
-      "mark_openbitfun_control_surface_unready",
+      "mark_opc_control_surface_ready",
+      "mark_opc_control_surface_unready",
       "peer_host_invoke_complete",
       "product_control_invoke",
-      "report_openbitfun_control_result",
+      "report_opc_control_result",
       "report_ide_control_result",
       "webdriver_bridge_result"
     ],
@@ -3461,17 +3461,17 @@
             ],
             "workflowZh": [
               "用 CreateCanvas 提交单文件 TSX，并仅从 openbitfun/canvas 导入允许的运行时组件",
-              "保留返回的 openbitfun-canvas 引用，先 ReadCanvas 获取当前版本，再用 PatchCanvas 做局部改动或 UpdateCanvas 完整更新"
+              "保留返回的 opc-canvas 引用，先 ReadCanvas 获取当前版本，再用 PatchCanvas 做局部改动或 UpdateCanvas 完整更新"
             ],
             "workflowEn": [
               "Use CreateCanvas with a single TSX file and import runtime components only from openbitfun/canvas",
-              "Keep the returned openbitfun-canvas reference, inspect it with ReadCanvas, then use PatchCanvas for focused changes or UpdateCanvas for a full update"
+              "Keep the returned opc-canvas reference, inspect it with ReadCanvas, then use PatchCanvas for focused changes or UpdateCanvas for a full update"
             ]
           },
           "evidence": [
             "command:report_canvas_runtime_ready",
-            "source:src/web-ui/src/tools/openbitfun-canvas/reactRuntime.ts#runtime: 'react'",
-            "source:src/web-ui/src/tools/openbitfun-canvas/OpenBitFunCanvasPanel.tsx#renderedHtml"
+            "source:src/web-ui/src/tools/opc-canvas/reactRuntime.ts#runtime: 'react'",
+            "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#renderedHtml"
           ]
         },
         {
@@ -3528,7 +3528,7 @@
             ]
           },
           "evidence": [
-            "source:src/web-ui/src/tools/openbitfun-canvas/OpenBitFunCanvasPanel.tsx#lastKnownGoodRevision"
+            "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#lastKnownGoodRevision"
           ]
         },
         {
@@ -3542,7 +3542,7 @@
             "reasonEn": "“Select an element inside Canvas and add its reference to session context” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
           },
           "evidence": [
-            "source:src/web-ui/src/tools/openbitfun-canvas/OpenBitFunCanvasPanel.tsx#createCanvasElementContext"
+            "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#createCanvasElementContext"
           ]
         },
         {
@@ -3557,7 +3557,7 @@
           },
           "evidence": [
             "command:report_canvas_runtime_error",
-            "source:src/web-ui/src/tools/openbitfun-canvas/OpenBitFunCanvasPanel.tsx#canvas-runtime-auto-repair"
+            "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#canvas-runtime-auto-repair"
           ]
         },
         {
@@ -3571,7 +3571,7 @@
             "reasonEn": "“Export the current Canvas as a standalone HTML file” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
           },
           "evidence": [
-            "source:src/web-ui/src/tools/openbitfun-canvas/canvasHtmlExportService.ts#export async function exportCanvasHtml"
+            "source:src/web-ui/src/tools/opc-canvas/canvasHtmlExportService.ts#export async function exportCanvasHtml"
           ]
         }
       ],
@@ -9678,7 +9678,7 @@
     "miniapp_export": {
       "capabilityId": "feature.miniapps"
     },
-    "openbitfun_control_host": {
+    "opc_control_host": {
       "capabilityId": null
     },
     "context_upload": {

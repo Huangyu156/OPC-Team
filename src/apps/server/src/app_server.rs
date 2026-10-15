@@ -13,8 +13,8 @@
 //! constructs the [`OpcTeamAppRuntime`] and wraps it in a [`OpcTeamAppServer`]
 //! (cheap `Clone` via the inner `Arc`); `serve` runs once per WS connection.
 
-use openbitfun_agent_runtime::sdk::{AgentEventSource, AgentRuntime};
-use openbitfun_app_server::{OpcTeamAppRuntime, OpcTeamAppServer};
+use opc_agent_runtime::sdk::{AgentEventSource, AgentRuntime};
+use opc_app_server::{OpcTeamAppRuntime, OpcTeamAppServer};
 use std::sync::Arc;
 
 /// Build the in-process `OpcTeamAppServer` for the Server Host.
@@ -30,7 +30,7 @@ use std::sync::Arc;
 pub(crate) fn build(
     runtime: AgentRuntime,
     event_source: AgentEventSource,
-    product_search: Arc<openbitfun_core::product_runtime::CoreAgentRuntimeCompatibility>,
+    product_search: Arc<opc_core::product_runtime::CoreAgentRuntimeCompatibility>,
 ) -> OpcTeamAppServer {
     let app_runtime =
         OpcTeamAppRuntime::new(runtime, event_source).with_product_search(product_search);

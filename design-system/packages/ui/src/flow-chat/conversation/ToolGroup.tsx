@@ -19,7 +19,7 @@ export const ToolGroup = forwardRef<HTMLDivElement, ToolGroupProps>(function Too
   const component = variant === 'context' ? 'context-load-group' : 'explore-group';
   return <FlowGroup {...props} ref={ref} onExpandedChange={onToggle}
     leading={<Icon name={variant === 'context' ? 'layers-plus' : 'route'} size="sm" />}
-    data-openbitfun-component={component} data-testid={`chat-${component}`}
+    data-opc-component={component} data-testid={`chat-${component}`}
     data-group-kind={variant === 'context' ? 'context' : kind}
     itemCount={itemCount ?? counts.read + counts.search + counts.command}
     data-read-count={variant === 'explore' ? String(counts.read) : undefined}

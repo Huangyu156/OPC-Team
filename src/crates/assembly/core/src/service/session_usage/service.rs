@@ -18,7 +18,7 @@ use chrono::Utc;
 use std::collections::{BTreeSet, HashMap, HashSet};
 use std::path::Path;
 
-pub use openbitfun_runtime_ports::AgentSessionUsageRequest as SessionUsageReportRequest;
+pub use opc_runtime_ports::AgentSessionUsageRequest as SessionUsageReportRequest;
 
 pub async fn generate_session_usage_report(
     persistence_manager: &PersistenceManager,
@@ -1987,7 +1987,7 @@ mod tests {
         let request = test_request(None);
         let tool = test_tool_item_with_input(
             "tool-deferred",
-            openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME,
+            opc_agent_tools::CALL_DEFERRED_TOOL_NAME,
             Some(true),
             120,
             serde_json::json!({

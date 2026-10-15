@@ -1,5 +1,5 @@
 //! OS consent adapters. All probes are read-only; only request() may prompt.
-use openbitfun_agent_tools::computer_use_permissions::{
+use opc_agent_tools::computer_use_permissions::{
     ComputerPermission, ComputerPermissionKind as Kind, ComputerPermissionReceipt,
     ComputerPermissionState as State, ComputerPermissions,
 };

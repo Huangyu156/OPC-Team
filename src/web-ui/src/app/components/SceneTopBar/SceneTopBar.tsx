@@ -22,7 +22,7 @@ function blocksWindowChromeInteraction(
   }
 
   // The whole tab, including item padding, belongs to tab interaction.
-  if (target.closest('[data-openbitfun-component="tab-group"] [data-openbitfun-part="item"]')) {
+  if (target.closest('[data-opc-component="tab-group"] [data-opc-part="item"]')) {
     return true;
   }
   return target.closest(INTERACTIVE_SELECTOR) !== null;
@@ -64,26 +64,26 @@ const SceneTopBar: React.FC<SceneTopBarProps> = ({
   return (
     <Toolbar
       bordered={hasTabs}
-      className={`openbitfun-scene-top-bar ${className}`.trim()}
+      className={`opc-scene-top-bar ${className}`.trim()}
       onMouseDown={handleMouseDown}
       onDoubleClick={handleDoubleClick}
-      data-openbitfun-scene="workbench"
-      data-openbitfun-part="topBar"
+      data-opc-scene="workbench"
+      data-opc-part="topBar"
       leading={<SceneBar />}
       size="md"
       trailing={<>
         <SceneChromeHost
-          className="openbitfun-scene-top-bar__actions"
-          data-openbitfun-scene="workbench"
-          data-openbitfun-part="sceneActions"
+          className="opc-scene-top-bar__actions"
+          data-opc-scene="workbench"
+          data-opc-part="sceneActions"
         />
         {hasWindowControls ? (
           <>
-            <ToolbarSeparator className="openbitfun-scene-top-bar__actions-divider" />
+            <ToolbarSeparator className="opc-scene-top-bar__actions-divider" />
             <div
-              className="openbitfun-scene-top-bar__window-controls"
-              data-openbitfun-component="scene-bar"
-              data-openbitfun-part="controls"
+              className="opc-scene-top-bar__window-controls"
+              data-opc-component="scene-bar"
+              data-opc-part="controls"
             >
               <WindowControls
                 onMinimize={onMinimize!}

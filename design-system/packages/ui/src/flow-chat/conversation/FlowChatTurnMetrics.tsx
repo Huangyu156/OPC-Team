@@ -69,9 +69,9 @@ export function FlowChatTurnMetrics({
   if (!hasTokenUsage && rateValue === null) return null;
 
   return <div className={styles.root} role="group" aria-label={label}
-    data-openbitfun-component="flow-chat-turn-metrics" data-openbitfun-part="root">
+    data-opc-component="flow-chat-turn-metrics" data-opc-part="root">
       {hasTokenUsage && <FlowChatMetric content={tokenDetails ?? tokenDescription} description={tokenDescription} focusable={focusable}
-        data-openbitfun-component="flow-chat-turn-metrics" data-openbitfun-part="tokens">
+        data-opc-component="flow-chat-turn-metrics" data-opc-part="tokens">
         <span className={styles.gauge} aria-hidden="true" data-cache-state={ratio === null ? 'unknown' : 'reported'}>
           <Icon glyph={Circle} size="sm" className={styles.track} />
           {ratio !== null && ratio > 0 && <Icon glyph={Circle} size="sm" className={styles.cacheFill}
@@ -80,7 +80,7 @@ export function FlowChatTurnMetrics({
         {tokenValue !== null && <span>{tokenValue}</span>}
       </FlowChatMetric>}
       {rateValue !== null && <FlowChatMetric content={rateDetails ?? rateDescription} description={rateDescription} focusable={focusable}
-        data-openbitfun-component="flow-chat-turn-metrics" data-openbitfun-part="speed">
+        data-opc-component="flow-chat-turn-metrics" data-opc-part="speed">
         {speedGlyph && <span className={styles.gauge} aria-hidden="true" data-speed-level={speedLevel}>
           <Icon glyph={Signal} size="sm" className={styles.track} />
           <Icon glyph={speedGlyph} size="sm" className={styles.speedFill} />

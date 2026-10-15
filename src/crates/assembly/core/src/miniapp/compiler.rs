@@ -1,6 +1,6 @@
 //! MiniApp compiler compatibility facade.
 
-pub use openbitfun_product_domains::miniapp::compiler::{
+pub use opc_product_domains::miniapp::compiler::{
     MiniAppCompileError, MiniAppCompileRequest, MiniAppCompileResult,
 };
 
@@ -16,7 +16,7 @@ pub fn compile(
     workspace_dir: &str,
     appearance_mode: &str,
 ) -> OpcTeamResult<String> {
-    openbitfun_product_domains::miniapp::compiler::compile(
+    opc_product_domains::miniapp::compiler::compile(
         source,
         permissions,
         app_id,
@@ -32,12 +32,8 @@ pub fn compile_with_request(
     permissions: &MiniAppPermissions,
     request: &MiniAppCompileRequest,
 ) -> OpcTeamResult<String> {
-    openbitfun_product_domains::miniapp::compiler::compile_with_request(
-        source,
-        permissions,
-        request,
-    )
-    .map_err(|e| OpcTeamError::validation(e.to_string()))
+    opc_product_domains::miniapp::compiler::compile_with_request(source, permissions, request)
+        .map_err(|e| OpcTeamError::validation(e.to_string()))
 }
 
 pub fn compile_market_with_request(
@@ -45,7 +41,7 @@ pub fn compile_market_with_request(
     permissions: &MiniAppPermissions,
     request: &MiniAppCompileRequest,
 ) -> OpcTeamResult<String> {
-    openbitfun_product_domains::miniapp::compiler::compile_market_with_request(
+    opc_product_domains::miniapp::compiler::compile_market_with_request(
         source,
         permissions,
         request,

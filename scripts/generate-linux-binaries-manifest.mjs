@@ -78,7 +78,7 @@ const manifest = {
       key,
       {
         target,
-        cli: asset(`openbitfun-cli-${version}-${target}.tar.gz`),
+        cli: asset(`opc-cli-${version}-${target}.tar.gz`),
         relay: asset(`openbitfun-relay-server-${target}.tar.gz`),
       },
     ])

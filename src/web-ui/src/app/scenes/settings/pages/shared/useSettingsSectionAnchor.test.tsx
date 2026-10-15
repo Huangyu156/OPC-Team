@@ -29,11 +29,11 @@ it('aligns a deep link after sibling loads and yields scroll control on user int
   const root = createRoot(container);
   useSettingsStore.getState().openDestination({ pageId: 'application.input', sectionId: 'shortcuts' });
   try {
-    act(() => root.render(<div className="openbitfun-config-page-layout"><div className="openbitfun-config-page-content__inner"><Section /></div></div>));
+    act(() => root.render(<div className="opc-config-page-layout"><div className="opc-config-page-content__inner"><Section /></div></div>));
     expect(scroll).toHaveBeenCalledTimes(1);
     resize();
     expect(scroll).toHaveBeenCalledTimes(2);
-    container.querySelector('.openbitfun-config-page-layout')!.dispatchEvent(new Event('wheel'));
+    container.querySelector('.opc-config-page-layout')!.dispatchEvent(new Event('wheel'));
     resize();
     expect(scroll).toHaveBeenCalledTimes(2);
     expect(disconnect).toHaveBeenCalled();

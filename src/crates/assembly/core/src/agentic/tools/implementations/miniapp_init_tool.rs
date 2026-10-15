@@ -11,7 +11,7 @@ use async_trait::async_trait;
 use serde_json::{json, Value};
 
 const SKELETON_HTML: &str = r#"<!DOCTYPE html>
-<html data-openbitfun-appearance-mode="dark">
+<html data-opc-appearance-mode="dark">
 <head><meta charset="utf-8"></head>
 <body>
   <div id="app"></div>

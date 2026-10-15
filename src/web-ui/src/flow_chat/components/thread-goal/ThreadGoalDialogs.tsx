@@ -67,7 +67,7 @@ function statusBadgeClass(status: string): string {
     'complete',
   ]);
   const key = known.has(status) ? status : 'active';
-  return `openbitfun-thread-goal-menu__status-badge openbitfun-thread-goal-menu__status-badge--${key}`;
+  return `opc-thread-goal-menu__status-badge opc-thread-goal-menu__status-badge--${key}`;
 }
 
 export interface ThreadGoalDialogsProps {
@@ -153,70 +153,70 @@ export const ThreadGoalDialogs: React.FC<ThreadGoalDialogsProps> = ({
           </DialogHeading>
           <DialogClose />
         </DialogHeader>
-        <DialogBody className="openbitfun-thread-goal-modal__body" inset="none">
+        <DialogBody className="opc-thread-goal-modal__body" inset="none">
         {goal ? (
           <div
-            className="openbitfun-thread-goal-menu"
-            data-openbitfun-component="thread-goal-dialogs"
-            data-openbitfun-part="menu"
+            className="opc-thread-goal-menu"
+            data-opc-component="thread-goal-dialogs"
+            data-opc-part="menu"
           >
-            <div data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="header" className="openbitfun-thread-goal-menu__header">
+            <div data-opc-component="thread-goal-dialogs" data-opc-part="header" className="opc-thread-goal-menu__header">
               <span className={statusBadgeClass(goal.status)}>
                 <Icon glyph={Target} size="sm" aria-hidden />
                 {statusLabel}
               </span>
               {usageLine ? (
-                <p className="openbitfun-thread-goal-menu__usage">{usageLine}</p>
+                <p className="opc-thread-goal-menu__usage">{usageLine}</p>
               ) : null}
             </div>
 
-            <section data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="section" className="openbitfun-thread-goal-menu__section" aria-labelledby="thread-goal-objective">
-              <h3 id="thread-goal-objective" className="openbitfun-thread-goal-menu__section-title">
+            <section data-opc-component="thread-goal-dialogs" data-opc-part="section" className="opc-thread-goal-menu__section" aria-labelledby="thread-goal-objective">
+              <h3 id="thread-goal-objective" className="opc-thread-goal-menu__section-title">
                 {t('threadGoal.objectiveLabel')}
               </h3>
-              <p data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="objective" className="openbitfun-thread-goal-menu__objective">{goal.objective}</p>
+              <p data-opc-component="thread-goal-dialogs" data-opc-part="objective" className="opc-thread-goal-menu__objective">{goal.objective}</p>
             </section>
 
             {showWorkflow ? (
               <section
-                className="openbitfun-thread-goal-menu__section"
+                className="opc-thread-goal-menu__section"
                 aria-labelledby="thread-goal-workflow"
               >
-                <h3 id="thread-goal-workflow" className="openbitfun-thread-goal-menu__section-title">
+                <h3 id="thread-goal-workflow" className="opc-thread-goal-menu__section-title">
                   {t('threadGoal.workflow.title')}
                 </h3>
-                <ol data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="workflow" className="openbitfun-thread-goal-menu__workflow">
+                <ol data-opc-component="thread-goal-dialogs" data-opc-part="workflow" className="opc-thread-goal-menu__workflow">
                   {workflowSteps.map(step => (
                     <li
-                      data-openbitfun-component="thread-goal-dialogs"
-                      data-openbitfun-part="workflowItem"
+                      data-opc-component="thread-goal-dialogs"
+                      data-opc-part="workflowItem"
                       key={step.id}
                       className={[
-                        'openbitfun-thread-goal-menu__workflow-step',
-                        `openbitfun-thread-goal-menu__workflow-step--${step.state}`,
+                        'opc-thread-goal-menu__workflow-step',
+                        `opc-thread-goal-menu__workflow-step--${step.state}`,
                       ].join(' ')}
                     >
                       <span
                         className={[
-                          'openbitfun-thread-goal-menu__workflow-marker',
-                          `openbitfun-thread-goal-menu__workflow-marker--${step.state}`,
+                          'opc-thread-goal-menu__workflow-marker',
+                          `opc-thread-goal-menu__workflow-marker--${step.state}`,
                         ].join(' ')}
                         aria-hidden
                       />
-                      <span className="openbitfun-thread-goal-menu__workflow-text">
+                      <span className="opc-thread-goal-menu__workflow-text">
                         {t(`threadGoal.workflow.steps.${step.id}`)}
                       </span>
                     </li>
                   ))}
                 </ol>
                 {workflowNote ? (
-                  <p className="openbitfun-thread-goal-menu__workflow-note">{workflowNote}</p>
+                  <p className="opc-thread-goal-menu__workflow-note">{workflowNote}</p>
                 ) : null}
               </section>
             ) : null}
 
-            <div data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="footer" className="openbitfun-thread-goal-menu__footer">
-              <div data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="actions" className="openbitfun-thread-goal-menu__actions">
+            <div data-opc-component="thread-goal-dialogs" data-opc-part="footer" className="opc-thread-goal-menu__footer">
+              <div data-opc-component="thread-goal-dialogs" data-opc-part="actions" className="opc-thread-goal-menu__actions">
                 {controller.availableActions.map(action => (
                   <Button
                     key={action}
@@ -231,18 +231,18 @@ export const ThreadGoalDialogs: React.FC<ThreadGoalDialogsProps> = ({
                   </Button>
                 ))}
               </div>
-              <p data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="hint" className="openbitfun-thread-goal-menu__hint">{commandHint}</p>
+              <p data-opc-component="thread-goal-dialogs" data-opc-part="hint" className="opc-thread-goal-menu__hint">{commandHint}</p>
             </div>
           </div>
         ) : (
           <div
-            className="openbitfun-thread-goal-menu openbitfun-thread-goal-menu--empty"
-            data-openbitfun-component="thread-goal-dialogs"
-            data-openbitfun-part="menu"
-            data-openbitfun-state="empty"
+            className="opc-thread-goal-menu opc-thread-goal-menu--empty"
+            data-opc-component="thread-goal-dialogs"
+            data-opc-part="menu"
+            data-opc-state="empty"
           >
-            <p data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="hint" className="openbitfun-thread-goal-menu__hint">{t('threadGoal.menuEmpty')}</p>
-            <div data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="actions" className="openbitfun-thread-goal-menu__actions">
+            <p data-opc-component="thread-goal-dialogs" data-opc-part="hint" className="opc-thread-goal-menu__hint">{t('threadGoal.menuEmpty')}</p>
+            <div data-opc-component="thread-goal-dialogs" data-opc-part="actions" className="opc-thread-goal-menu__actions">
               <Button
                 type="button"
                 variant="primary"
@@ -271,13 +271,13 @@ export const ThreadGoalDialogs: React.FC<ThreadGoalDialogsProps> = ({
           </DialogHeading>
           <DialogClose />
         </DialogHeader>
-        <DialogBody className="openbitfun-thread-goal-modal__body" inset="none">
+        <DialogBody className="opc-thread-goal-modal__body" inset="none">
         <div
-          className="openbitfun-thread-goal-edit"
-          data-openbitfun-component="thread-goal-dialogs"
-          data-openbitfun-part="edit"
+          className="opc-thread-goal-edit"
+          data-opc-component="thread-goal-dialogs"
+          data-opc-part="edit"
         >
-          <p className="openbitfun-thread-goal-edit__hint">{t('threadGoal.editHint')}</p>
+          <p className="opc-thread-goal-edit__hint">{t('threadGoal.editHint')}</p>
           <Textarea
             value={draft}
             onChange={e => setDraft(e.target.value)}
@@ -286,7 +286,7 @@ export const ThreadGoalDialogs: React.FC<ThreadGoalDialogsProps> = ({
             disabled={disabled}
             placeholder={t('threadGoal.editPlaceholder')}
           />
-          <div data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="actions" className="openbitfun-thread-goal-edit__actions">
+          <div data-opc-component="thread-goal-dialogs" data-opc-part="actions" className="opc-thread-goal-edit__actions">
             <Button type="button" variant="fill" size="sm" onClick={controller.closeEdit}>
               {t('threadGoal.editCancel')}
             </Button>
@@ -315,17 +315,17 @@ export const ThreadGoalDialogs: React.FC<ThreadGoalDialogsProps> = ({
           </DialogHeading>
           <DialogClose />
         </DialogHeader>
-        <DialogBody className="openbitfun-thread-goal-modal__body" inset="none">
+        <DialogBody className="opc-thread-goal-modal__body" inset="none">
         <div
-          className="openbitfun-thread-goal-resume"
-          data-openbitfun-component="thread-goal-dialogs"
-          data-openbitfun-part="resume"
+          className="opc-thread-goal-resume"
+          data-opc-component="thread-goal-dialogs"
+          data-opc-part="resume"
         >
-          <p className="openbitfun-thread-goal-resume__subtitle">
+          <p className="opc-thread-goal-resume__subtitle">
             {t('threadGoal.resumeSubtitle', { objective: goal?.objective ?? '' })}
           </p>
-          <p className="openbitfun-thread-goal-resume__hint">{t('threadGoal.resumeHint')}</p>
-          <div data-openbitfun-component="thread-goal-dialogs" data-openbitfun-part="actions" className="openbitfun-thread-goal-resume__actions">
+          <p className="opc-thread-goal-resume__hint">{t('threadGoal.resumeHint')}</p>
+          <div data-opc-component="thread-goal-dialogs" data-opc-part="actions" className="opc-thread-goal-resume__actions">
             <Button
               type="button"
               variant="fill"

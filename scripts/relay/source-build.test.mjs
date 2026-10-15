@@ -10,9 +10,9 @@ const shell = `
 set -euo pipefail
 source "$RELEASE_SCRIPT"
 source "$SOURCE_SCRIPT"
-openbitfun_relay_native_platform() { echo linux/amd64; }
-openbitfun_image_docker_with_timeout() { shift; openbitfun_image_docker "$@"; }
-openbitfun_image_docker() {
+opc_relay_native_platform() { echo linux/amd64; }
+opc_image_docker_with_timeout() { shift; opc_image_docker "$@"; }
+opc_image_docker() {
   printf '%s\\n' "$*" >> "$CALLS"
   case "$1" in
     pull) [[ "$SCENARIO" = image_* ]] ;;
@@ -38,12 +38,12 @@ openbitfun_image_docker() {
     *) return 0 ;;
   esac
 }
-openbitfun_deploy_with_source_fallback "$MODE" "$SOURCE_ROOT"
+opc_deploy_with_source_fallback "$MODE" "$SOURCE_ROOT"
 echo RELAY_TASK_DONE
 `;
 
 function runScenario(t, scenario, mode = 'image') {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-source-build-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-source-build-'));
   t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
   const upstream = path.join(temp, 'upstream');
   fs.mkdirSync(path.join(upstream, 'src/apps/relay-server'), { recursive: true });
@@ -96,7 +96,7 @@ for (const mode of ['source', 'image']) {
     const result = runScenario(t, 'source_ok', mode);
     assert.equal(result.status, 0, result.stderr);
     assert.match(result.stdout, /falling back to a source build/);
-    assert.ok(result.calls.indexOf('build ') < result.calls.indexOf('stop openbitfun-relay'));
+    assert.ok(result.calls.indexOf('build ') < result.calls.indexOf('stop opc-relay'));
     assert.match(result.calls, new RegExp(`--build-arg RELAY_GIT_COMMIT=${result.revision}`));
     assert.match(result.calls, /--build-arg CARGO_BUILD_JOBS=1/);
     assert.match(result.calls, /-v relay-server_relay-db:\/app\/data/);
@@ -117,8 +117,8 @@ for (const scenario of ['build_failed', 'download_failed', 'cancelled']) {
 test('source health failure restores the previous container and reports failure', (t) => {
   const result = runScenario(t, 'health_failed', 'source');
   assert.notEqual(result.status, 0);
-  assert.match(result.calls, /rename openbitfun-relay-before-image-\d+ openbitfun-relay/);
-  assert.match(result.calls, /start openbitfun-relay/);
+  assert.match(result.calls, /rename opc-relay-before-image-\d+ opc-relay/);
+  assert.match(result.calls, /start opc-relay/);
   assert.doesNotMatch(result.stdout, /RELAY_TASK_DONE/);
 });
 
@@ -126,7 +126,7 @@ for (const scenario of ['image_start_failed', 'image_health_failed']) {
   test(`${scenario}: restore service before attempting the source fallback`, (t) => {
     const result = runScenario(t, scenario);
     assert.equal(result.status, 0, result.stderr);
-    const restoration = result.calls.indexOf('start openbitfun-relay');
+    const restoration = result.calls.indexOf('start opc-relay');
     assert.ok(restoration >= 0 && restoration < result.calls.indexOf('build '));
     assert.match(result.stdout, /RELAY_TASK_DONE/);
   });

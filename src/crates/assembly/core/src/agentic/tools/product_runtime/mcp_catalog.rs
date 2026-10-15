@@ -223,7 +223,7 @@ mod tests {
         let catalog = project_chat_mcp_catalog(&snapshot, &allowed, &context)
             .await
             .unwrap();
-        let manifest = openbitfun_agent_tools::resolve_contextual_tool_manifest(
+        let manifest = opc_agent_tools::resolve_contextual_tool_manifest(
             &snapshot,
             &allowed,
             &Default::default(),

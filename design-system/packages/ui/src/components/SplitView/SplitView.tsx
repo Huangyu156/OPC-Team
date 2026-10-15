@@ -10,7 +10,7 @@ export type SplitViewMode = 'split' | 'primary' | 'secondary';
 /** Absolutely positioned primary content that stays clear of the secondary overlay. */
 export function SplitViewPrimaryDock({ className, children, ...props }: HTMLAttributes<HTMLDivElement>) {
   return <div {...props} className={classNames(styles.primaryDock, className)}
-    data-openbitfun-component="split-view" data-openbitfun-part="primaryDock">{children}</div>;
+    data-opc-component="split-view" data-opc-part="primaryDock">{children}</div>;
 }
 
 export interface SplitViewProps extends Omit<HTMLAttributes<HTMLDivElement>, 'children'> {
@@ -134,7 +134,7 @@ export function SplitView({
       ref={rootRef}
       className={classNames(styles.root, className)}
       style={{ ...style, '--_split-view-right-size': `${resolvedSize}px` } as CSSProperties}
-      data-openbitfun-component="split-view" data-openbitfun-part="root"
+      data-opc-component="split-view" data-opc-part="root"
       data-mode={mode} data-layout={layout} data-secondary-side={secondarySide} data-resizing={resizing || undefined}
       onKeyDown={event => {
         onKeyDown?.(event);
@@ -151,12 +151,12 @@ export function SplitView({
     >
       <div {...primaryPaneProps} ref={primaryRef} id={primaryId} tabIndex={-1}
         className={classNames(styles.pane, styles.primary, primaryPaneProps?.className)}
-        data-openbitfun-component="split-view" data-openbitfun-part="primary" hidden={mode === 'secondary'}>
+        data-opc-component="split-view" data-opc-part="primary" hidden={mode === 'secondary'}>
         {primary}
       </div>
-      <div ref={dividerRef} className={styles.divider} data-openbitfun-component="split-view" data-openbitfun-part="divider" hidden={mode !== 'split'}>
+      <div ref={dividerRef} className={styles.divider} data-opc-component="split-view" data-opc-part="divider" hidden={mode !== 'split'}>
         <div className={styles.resizeHandle} role="separator" tabIndex={mode === 'split' ? 0 : -1}
-          data-openbitfun-component="split-view" data-openbitfun-part="resizeHandle"
+          data-opc-component="split-view" data-opc-part="resizeHandle"
           aria-label={dividerLabel} aria-orientation="vertical" aria-controls={layout === 'overlay' || secondarySide === 'right' ? secondaryId : primaryId}
           aria-valuemin={Math.round(bounds.min)} aria-valuemax={Math.round(bounds.max)} aria-valuenow={Math.round(resolvedSize)}
           onPointerDown={event => {
@@ -200,11 +200,11 @@ export function SplitView({
             onRightSizeChange(Math.min(bounds.max, Math.max(bounds.min, next)));
           }}
         />
-        {dividerActions && <div className={styles.actions} data-openbitfun-component="split-view" data-openbitfun-part="actions">{dividerActions}</div>}
+        {dividerActions && <div className={styles.actions} data-opc-component="split-view" data-opc-part="actions">{dividerActions}</div>}
       </div>
       <div {...secondaryPaneProps} ref={secondaryRef} id={secondaryId} tabIndex={-1}
         className={classNames(styles.pane, styles.secondary, secondaryPaneProps?.className)}
-        data-openbitfun-component="split-view" data-openbitfun-part="secondary" hidden={mode === 'primary'}>
+        data-opc-component="split-view" data-opc-part="secondary" hidden={mode === 'primary'}>
         {secondary}
       </div>
     </div>

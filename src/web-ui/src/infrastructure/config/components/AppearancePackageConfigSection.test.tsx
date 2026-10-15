@@ -86,19 +86,19 @@ describe('AppearancePackageConfigSection', () => {
     expect(html.match(/data-testid="appearance-package-card"/g)).toHaveLength(2);
     expect(html).toContain('data-appearance-id="system"');
     expect(html).toContain('data-appearance-id="sample.appearance"');
-    expect(html).toContain('data-openbitfun-package-type="native"');
-    expect(html).toContain('data-openbitfun-package-type="imported"');
+    expect(html).toContain('data-opc-package-type="native"');
+    expect(html).toContain('data-opc-package-type="imported"');
     expect(html).toContain('data-testid="appearance-builtin-theme-select"');
     expect(html.match(/data-testid="appearance-builtin-theme-option"/g)).toHaveLength(3);
     expect(html.match(/class="appearance-package-config__selected-mark"/g)).toHaveLength(1);
     expect(html).toContain('aria-label="package.export"');
     expect(html).toContain('aria-label="package.delete"');
-    expect(html).toContain('data-openbitfun-part="packageSection"');
-    expect(html).toContain('data-openbitfun-part="packageActions"');
-    expect(html).toContain('data-openbitfun-component="icon-button"');
-    expect(html).toContain('openbitfun-config-page-section');
+    expect(html).toContain('data-opc-part="packageSection"');
+    expect(html).toContain('data-opc-part="packageActions"');
+    expect(html).toContain('data-opc-component="icon-button"');
+    expect(html).toContain('opc-config-page-section');
     expect(html).not.toContain('appearance-package-config__action-button');
-    expect(html).not.toContain('.openbitfun-skin');
+    expect(html).not.toContain('.opc-skin');
   });
 
   it('hides the Skin market and appearance package import entry points', () => {
@@ -117,7 +117,7 @@ describe('AppearancePackageConfigSection', () => {
 
     const html = renderToStaticMarkup(<AppearancePackageConfigSection />);
 
-    expect(html).toContain('src="/assets/appearance/openbitfun-default-preview@4x.png"');
+    expect(html).toContain('src="/assets/appearance/opc-default-preview@4x.png"');
     expect(html).toContain('appearance-package-config__card-preview--builtin');
     expect(html).toContain('appearance-package-config__card-body--inline');
     expect(html.match(/class="appearance-package-config__selected-mark"/g)).toHaveLength(1);
@@ -168,7 +168,7 @@ describe('AppearancePackageConfigSection', () => {
       const largerPreview = document.querySelector<HTMLImageElement>(
         '[data-testid="appearance-package-preview-popover"] img',
       );
-      expect(largerPreview?.getAttribute('src')).toBe('/assets/appearance/openbitfun-default-preview@4x.png');
+      expect(largerPreview?.getAttribute('src')).toBe('/assets/appearance/opc-default-preview@4x.png');
       expect(getPreviewAssetMock).not.toHaveBeenCalledWith('system');
     } finally {
       act(() => root.unmount());
@@ -253,7 +253,7 @@ describe('AppearancePackageConfigSection', () => {
         importedCard?.click();
         await Promise.resolve();
       });
-      expect(importedCard?.closest('[data-openbitfun-component="action-card"]')).not.toBeNull();
+      expect(importedCard?.closest('[data-opc-component="action-card"]')).not.toBeNull();
       expect(selectAppearanceMock.mock.calls).toEqual([['openbitfun-light'], ['sample.appearance']]);
     } finally {
       act(() => root.unmount());

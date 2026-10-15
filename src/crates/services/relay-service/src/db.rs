@@ -2575,7 +2575,7 @@ mod tests {
     #[tokio::test]
     async fn legacy_global_device_schema_is_migrated_without_ambiguous_tokens() {
         let db_path = std::env::temp_dir().join(format!(
-            "openbitfun-relay-device-migration-{}-{}.db",
+            "opc-relay-device-migration-{}-{}.db",
             std::process::id(),
             rand::random::<u64>()
         ));
@@ -2883,7 +2883,7 @@ mod tests {
     #[tokio::test]
     async fn reopening_a_database_keeps_the_device_kind_column_and_its_values() {
         let db_path = std::env::temp_dir().join(format!(
-            "openbitfun-relay-device-kind-migration-{}-{}.db",
+            "opc-relay-device-kind-migration-{}-{}.db",
             std::process::id(),
             rand::random::<u64>()
         ));
@@ -2916,7 +2916,7 @@ mod tests {
     #[tokio::test]
     async fn legacy_pages_receive_nonempty_authorization_generations() {
         let db_path = std::env::temp_dir().join(format!(
-            "openbitfun-relay-page-generation-migration-{}-{}.db",
+            "opc-relay-page-generation-migration-{}-{}.db",
             std::process::id(),
             rand::random::<u64>()
         ));

@@ -90,7 +90,7 @@ function renderToken(
     : renderToken(token.content, 0);
 
   return (
-    <span data-openbitfun-component="inline-diff-preview" data-openbitfun-part="lineContent" key={key} className={classNames.join(' ')} style={style}>
+    <span data-opc-component="inline-diff-preview" data-opc-part="lineContent" key={key} className={classNames.join(' ')} style={style}>
       {children}
     </span>
   );
@@ -293,8 +293,8 @@ export const InlineDiffPreview: React.FC<InlineDiffPreviewProps> = memo(({
 
   if (!originalContent && !modifiedContent) {
     return (
-      <div data-openbitfun-component="inline-diff-preview" data-openbitfun-part="root" data-openbitfun-state="empty" className={`inline-diff-preview inline-diff-preview--empty ${className}`}>
-        <span className="inline-diff-preview__placeholder" data-openbitfun-component="inline-diff-preview" data-openbitfun-part="placeholder">No content</span>
+      <div data-opc-component="inline-diff-preview" data-opc-part="root" data-opc-state="empty" className={`inline-diff-preview inline-diff-preview--empty ${className}`}>
+        <span className="inline-diff-preview__placeholder" data-opc-component="inline-diff-preview" data-opc-part="placeholder">No content</span>
       </div>
     );
   }
@@ -313,8 +313,8 @@ export const InlineDiffPreview: React.FC<InlineDiffPreviewProps> = memo(({
     showLineNumbers && (
       <span
         className={`diff-line__gutter${lineNumberMode === 'single' ? ' diff-line__gutter--single' : ''}`}
-        data-openbitfun-component="inline-diff-preview"
-        data-openbitfun-part="gutter"
+        data-opc-component="inline-diff-preview"
+        data-opc-part="gutter"
         aria-hidden="true"
       >
         {lineNumberMode === 'single' ? (
@@ -331,14 +331,14 @@ export const InlineDiffPreview: React.FC<InlineDiffPreviewProps> = memo(({
 
   return (
     <div
-      data-openbitfun-component="inline-diff-preview"
-      data-openbitfun-part="root"
+      data-opc-component="inline-diff-preview"
+      data-opc-part="root"
       data-line-numbers={showLineNumbers ? 'visible' : 'hidden'}
       className={`inline-diff-preview ${className}`}
       style={{ '--_diff-number-digits': lineNumberDigits } as CSSProperties}
     >
       {truncated.truncated && (
-        <div className="inline-diff-preview__truncation-notice" data-openbitfun-component="inline-diff-preview" data-openbitfun-part="notice">
+        <div className="inline-diff-preview__truncation-notice" data-opc-component="inline-diff-preview" data-opc-part="notice">
           Content too large; showing first and last portions{truncated.omittedLines === null ? '.' : ` (${truncated.omittedLines} lines omitted).`}
         </div>
       )}
@@ -349,8 +349,8 @@ export const InlineDiffPreview: React.FC<InlineDiffPreviewProps> = memo(({
         edgeFade={edgeFade}
         scrollbarVisibility={scrollbarVisibility}
         overscrollBehaviorY="auto"
-        data-openbitfun-component="inline-diff-preview"
-        data-openbitfun-part="content"
+        data-opc-component="inline-diff-preview"
+        data-opc-part="content"
         style={{ maxHeight: `${maxHeight}px` }}
         tabIndex={0}
       >
@@ -366,7 +366,7 @@ export const InlineDiffPreview: React.FC<InlineDiffPreviewProps> = memo(({
 
             if (line.type === 'context-separator') {
               return (
-                <div data-openbitfun-component="inline-diff-preview" data-openbitfun-part="line"
+                <div data-opc-component="inline-diff-preview" data-opc-part="line"
                   key={virtualRow.key}
                   ref={virtualizer.measureElement}
                   className="diff-line diff-line--separator"
@@ -397,7 +397,7 @@ export const InlineDiffPreview: React.FC<InlineDiffPreviewProps> = memo(({
             const lineTokens = getTokensForLine(line);
 
             return (
-              <div data-openbitfun-component="inline-diff-preview" data-openbitfun-part="line"
+              <div data-opc-component="inline-diff-preview" data-opc-part="line"
                 key={virtualRow.key}
                 ref={virtualizer.measureElement}
                 className={lineClass}
@@ -414,13 +414,13 @@ export const InlineDiffPreview: React.FC<InlineDiffPreviewProps> = memo(({
                 {renderGutter(line.originalLineNumber ?? '', line.modifiedLineNumber ?? '', line.type === 'removed')}
                 <span
                   className={`diff-line__prefix${showPrefix ? '' : ' diff-line__prefix--hidden'}`}
-                  data-openbitfun-component="inline-diff-preview"
-                  data-openbitfun-part="prefix"
+                  data-opc-component="inline-diff-preview"
+                  data-opc-part="prefix"
                 >{prefix}</span>
                 <span
                   className="diff-line__content"
-                  data-openbitfun-component="inline-diff-preview"
-                  data-openbitfun-part="lineContent"
+                  data-opc-component="inline-diff-preview"
+                  data-opc-part="lineContent"
                 >
                   {renderTokenLine(lineTokens)}
                 </span>

@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-declare module 'virtual:openbitfun-canvas-runtime-bundle' {
+declare module 'virtual:opc-canvas-runtime-bundle' {
   const bundle: {
     js: string;
     css: string;

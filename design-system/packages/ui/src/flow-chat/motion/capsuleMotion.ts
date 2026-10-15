@@ -30,7 +30,7 @@ export function useCapsuleMotion(rootRef: RefObject<HTMLElement>) {
     const skin = root.querySelector<HTMLElement>('[data-capsule-skin]');
     const fromTransform = skin ? view.getComputedStyle(skin).transform : 'none';
     const body = root.dataset.toolCapsule === 'true'
-      ? root.querySelector<HTMLElement>('[data-openbitfun-part="collapseInner"]') : null;
+      ? root.querySelector<HTMLElement>('[data-opc-part="collapseInner"]') : null;
     const bodyStyle = body && running.current ? view.getComputedStyle(body) : null;
     const fromBody = bodyStyle ? { transform: bodyStyle.transform, opacity: bodyStyle.opacity } : null;
     cancel();
@@ -126,7 +126,7 @@ function soften(motion: MotionScope, duration: number, strength = 1) {
 export const receiveCapsule: MotionRecipe = motion => soften(motion, 180, 0.55);
 
 const recallCapsule: MotionRecipe = motion => {
-  const body = motion.root.querySelector<HTMLElement>('[data-openbitfun-part="collapseInner"]');
+  const body = motion.root.querySelector<HTMLElement>('[data-opc-part="collapseInner"]');
   if (body) motion.animate(body, [
     { transform: motion.fromBody?.transform ?? 'none', opacity: motion.fromBody?.opacity ?? 1, transformOrigin: 'center top' },
     { transform: 'translateY(-8px) scaleY(0.94)', opacity: 0, transformOrigin: 'center top' },
@@ -135,7 +135,7 @@ const recallCapsule: MotionRecipe = motion => {
 };
 
 const releaseCapsule: MotionRecipe = motion => {
-  const body = motion.root.querySelector<HTMLElement>('[data-openbitfun-part="collapseInner"]');
+  const body = motion.root.querySelector<HTMLElement>('[data-opc-part="collapseInner"]');
   if (body && motion.fromBody) motion.animate(body, [motion.fromBody, { transform: 'none', opacity: 1 }], 180);
   receiveCapsule(motion);
 };

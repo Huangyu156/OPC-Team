@@ -164,7 +164,7 @@ async fn app_server_stdio_initializes_and_advertises_only_served_capabilities() 
     assert!(initialize.get("error").is_none(), "{initialize}");
     assert_eq!(
         initialize.pointer("/result/server/name"),
-        Some(&json!("openbitfun-app-server"))
+        Some(&json!("opc-app-server"))
     );
     assert_eq!(
         initialize.pointer("/result/limits/maxFrameBytes"),

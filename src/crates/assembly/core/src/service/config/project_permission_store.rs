@@ -2,8 +2,8 @@
 
 use crate::infrastructure::get_path_manager_arc;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_core_types::product_identity::hidden_data_directory;
-use openbitfun_runtime_ports::{PermissionRule, WorkspaceFileSystem};
+use opc_core_types::product_identity::hidden_data_directory;
+use opc_runtime_ports::{PermissionRule, WorkspaceFileSystem};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::path::{Path, PathBuf};
@@ -90,7 +90,7 @@ mod tests {
         deserialize_project_permission_config, hidden_data_directory,
         project_permission_file_path_for_remote,
     };
-    use openbitfun_runtime_ports::{PermissionEffect, PermissionRule};
+    use opc_runtime_ports::{PermissionEffect, PermissionRule};
 
     #[test]
     fn parses_object_permission_config() {
@@ -106,7 +106,7 @@ mod tests {
     }
 
     #[test]
-    fn rejects_pre_openbitfun_array_permission_config() {
+    fn rejects_pre_opc_array_permission_config() {
         let error = deserialize_project_permission_config(
             r#"[{"action":"read","resource":"secrets/*","effect":"deny"}]"#,
         )

@@ -36,14 +36,14 @@ describe('ACP Agent settings presentation', () => {
     expect(source).toContain('function CapabilityStatusPill');
     expect(source).toContain('function AgentStatusPill');
     expect(source.match(/<CapabilityStatusPill/g)).toHaveLength(2);
-    expect(source).toContain('openbitfun-acp-agents__registry-row--remote');
+    expect(source).toContain('opc-acp-agents__registry-row--remote');
     expect(source).toContain('<Spinner size="xs" />');
     expect(source).not.toContain('LoaderCircle');
     expect(stylesheet).not.toContain('&__capability {');
     expect(stylesheet).not.toContain('&__status {');
     expect(stylesheet).not.toContain('&__summary-pill {');
     expect(stylesheet).not.toContain('border-radius: 999px;');
-    expect(stylesheet).not.toContain('@keyframes openbitfun-acp-spin');
+    expect(stylesheet).not.toContain('@keyframes opc-acp-spin');
   });
 
   it('separates local, SSH, and advanced JSON views with scoped draft guards', () => {

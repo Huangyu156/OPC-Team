@@ -115,7 +115,7 @@ impl ViewImageTool {
         let local_path = Path::new(input_path);
         if !context.is_some_and(|ctx| ctx.is_remote())
             && local_path.is_absolute()
-            && !crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri(input_path)
+            && !crate::agentic::tools::workspace_paths::is_opc_tool_uri(input_path)
         {
             return Ok(ResolvedImagePath::Local(local_path.to_path_buf()));
         }
@@ -527,7 +527,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -556,7 +556,7 @@ mod tests {
             "remote-session".to_string(),
             session_identity,
         ));
-        context.runtime_handles = openbitfun_runtime_ports::ToolRuntimeHandles::new(
+        context.runtime_handles = opc_runtime_ports::ToolRuntimeHandles::new(
             Some(WorkspaceServices {
                 fs: Arc::new(FakeRemoteFs),
                 shell: Arc::new(FakeShell),

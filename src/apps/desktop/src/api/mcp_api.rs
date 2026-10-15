@@ -2,13 +2,13 @@
 
 use crate::api::app_state::AppState;
 use crate::startup_trace::DesktopStartupTrace;
-use openbitfun_core::service::mcp::auth::MCPRemoteOAuthSessionSnapshot;
-use openbitfun_core::service::mcp::config::MCPConfigService;
-use openbitfun_core::service::mcp::protocol::{
+use opc_core::service::mcp::auth::MCPRemoteOAuthSessionSnapshot;
+use opc_core::service::mcp::config::MCPConfigService;
+use opc_core::service::mcp::protocol::{
     MCPPrompt, MCPResource, PromptsGetResult, ResourcesReadResult,
 };
-use openbitfun_core::service::mcp::MCPServerType;
-use openbitfun_core::service::runtime::{RuntimeManager, RuntimeSource};
+use opc_core::service::mcp::MCPServerType;
+use opc_core::service::runtime::{RuntimeManager, RuntimeSource};
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::time::Instant;
@@ -18,7 +18,7 @@ use tauri::State;
 #[serde(rename_all = "camelCase")]
 pub struct MCPServerInfo {
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub import_origin: Option<openbitfun_core::service::mcp::server::MCPImportOrigin>,
+    pub import_origin: Option<opc_core::service::mcp::server::MCPImportOrigin>,
     pub id: String,
     pub name: String,
     pub status: String,
@@ -84,7 +84,7 @@ pub struct GetMCPPromptRequest {
 }
 
 async fn load_mcp_resources(
-    mcp_service: &openbitfun_core::service::mcp::MCPService,
+    mcp_service: &opc_core::service::mcp::MCPService,
     server_id: &str,
     refresh: bool,
 ) -> Result<Vec<MCPResource>, String> {
@@ -104,7 +104,7 @@ async fn load_mcp_resources(
 }
 
 async fn load_mcp_prompts(
-    mcp_service: &openbitfun_core::service::mcp::MCPService,
+    mcp_service: &opc_core::service::mcp::MCPService,
     server_id: &str,
     refresh: bool,
 ) -> Result<Vec<MCPPrompt>, String> {
@@ -124,7 +124,7 @@ async fn load_mcp_prompts(
 }
 
 async fn ensure_unscoped_host_mcp_access(
-    manager: &openbitfun_core::service::mcp::MCPServerManager,
+    manager: &opc_core::service::mcp::MCPServerManager,
     server_id: &str,
 ) -> Result<(), String> {
     manager
@@ -224,7 +224,7 @@ pub async fn get_mcp_servers(state: State<'_, AppState>) -> Result<Vec<MCPServer
         };
 
         let (command, command_available, command_source, command_resolved_path) =
-            if transport == openbitfun_core::service::mcp::MCPServerTransport::Stdio {
+            if transport == opc_core::service::mcp::MCPServerTransport::Stdio {
                 if let Some(command) = config.command.clone() {
                     let capability = runtime_manager
                         .as_ref()
@@ -286,10 +286,16 @@ pub async fn get_mcp_servers(state: State<'_, AppState>) -> Result<Vec<MCPServer
                 .settings
                 .get("_openbitfunImport")
                 .cloned()
-                .and_then(|value| serde_json::from_value::<openbitfun_core::service::mcp::server::MCPImportOrigin>(value).ok())
+                .and_then(|value| {
+                    serde_json::from_value::<opc_core::service::mcp::server::MCPImportOrigin>(value)
+                        .ok()
+                })
                 .map(|mut origin| {
                     if origin.source_id.is_none() {
-                        origin.source_id = openbitfun_core::external_sources::ecosystem_for_imported_mcp_candidate(&origin.source_candidate_id);
+                        origin.source_id =
+                            opc_core::external_sources::ecosystem_for_imported_mcp_candidate(
+                                &origin.source_candidate_id,
+                            );
                     }
                     origin
                 }),
@@ -490,7 +496,7 @@ pub async fn get_mcp_server_status(
 #[tauri::command]
 pub async fn load_mcp_json_config(
     state: State<'_, AppState>,
-) -> Result<openbitfun_core::service::mcp::config::MCPJsonConfigSnapshot, String> {
+) -> Result<opc_core::service::mcp::config::MCPJsonConfigSnapshot, String> {
     let mcp_service = state
         .mcp_service
         .as_ref()
@@ -617,7 +623,7 @@ pub async fn get_mcp_tool_ui_uri(
     _state: State<'_, AppState>,
     tool_name: String,
 ) -> Result<Option<String>, String> {
-    let registry = openbitfun_core::agentic::tools::registry::get_global_tool_registry();
+    let registry = opc_core::agentic::tools::registry::get_global_tool_registry();
     let guard = registry.read().await;
     let is_mcp_tool = guard
         .get_dynamic_tool_info(&tool_name)

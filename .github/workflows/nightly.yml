@@ -115,14 +115,14 @@ jobs:
       - name: Download bundled artifacts
         uses: actions/download-artifact@v7
         with:
-          pattern: openbitfun-nightly-*-bundle
+          pattern: opc-nightly-*-bundle
           path: release-assets
           merge-multiple: true
 
       - name: Download Linux binary artifacts
         uses: actions/download-artifact@v7
         with:
-          pattern: openbitfun-linux-nightly-*
+          pattern: opc-linux-nightly-*
           path: linux-release-assets
           merge-multiple: true
 
@@ -321,10 +321,10 @@ jobs:
             release-manual-assets/*.exe
             release-manual-assets/*.exe.sig
             release-assets/minisign.pub
-            release-assets/**/openbitfun-cli-*-apple-darwin.tar.gz
-            release-assets/**/openbitfun-cli-*-apple-darwin.tar.gz.sha256
-            linux-release-assets/openbitfun-cli-*.tar.gz
-            linux-release-assets/openbitfun-cli-*.tar.gz.sha256
+            release-assets/**/opc-cli-*-apple-darwin.tar.gz
+            release-assets/**/opc-cli-*-apple-darwin.tar.gz.sha256
+            linux-release-assets/opc-cli-*.tar.gz
+            linux-release-assets/opc-cli-*.tar.gz.sha256
             linux-release-assets/openbitfun-relay-server-*.tar.gz
             linux-release-assets/openbitfun-relay-server-*.tar.gz.sha256
             linux-release-assets/*.tar.gz.sig
@@ -368,7 +368,7 @@ jobs:
           ASSET_VERSION="${NIGHTLY_VERSION%%+*}"
           RELEASE_ROOT="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/releases/download/${{ env.NIGHTLY_TAG }}"
           for target in aarch64-apple-darwin x86_64-apple-darwin; do
-            archive="${RELEASE_ROOT}/openbitfun-cli-${ASSET_VERSION}-${target}.tar.gz"
+            archive="${RELEASE_ROOT}/opc-cli-${ASSET_VERSION}-${target}.tar.gz"
             curl -fsSL --retry 5 --retry-delay 3 "$archive" -o /dev/null
             curl -fsSL --retry 5 --retry-delay 3 "${archive}.sha256" -o /dev/null
             curl -fsSL --retry 5 --retry-delay 3 "${archive}.sig" -o /dev/null

@@ -130,8 +130,8 @@ function TerminalSection() {
   }
 
   return (
-    <div className="openbitfun-terminal-config" data-openbitfun-component="application-settings" data-openbitfun-part="terminal">
-      <div className="openbitfun-terminal-config__content">
+    <div className="opc-terminal-config" data-opc-component="application-settings" data-opc-part="terminal">
+      <div className="opc-terminal-config__content">
         <ConfigMessage message={message} />
 
         <ConfigPageSection
@@ -155,7 +155,7 @@ function TerminalSection() {
                 disabled={saving}
               />
             ) : (
-              <div className="openbitfun-terminal-config__no-shells">{t('terminal.controls.noShells')}</div>
+              <div className="opc-terminal-config__no-shells">{t('terminal.controls.noShells')}</div>
             )}
           </ConfigPageRow>
 
@@ -166,6 +166,6 @@ function TerminalSection() {
 }
 const TerminalSettingsPage: React.FC = () => {
 
-  return <SettingsPage pageId="development.terminal" data-openbitfun-component="application-settings" data-openbitfun-part="root"><TerminalSection /></SettingsPage>;
+  return <SettingsPage pageId="development.terminal" data-opc-component="application-settings" data-opc-part="root"><TerminalSection /></SettingsPage>;
 };
 export default TerminalSettingsPage;

@@ -889,9 +889,9 @@ fn render_friction_categories(categories: &[FrictionCategory], l: &HtmlLabels) -
 fn render_suggestions(suggestions: &InsightsSuggestions, l: &HtmlLabels) -> String {
     let mut sections = Vec::new();
 
-    if !suggestions.openbitfun_md_additions.is_empty() {
+    if !suggestions.opc_md_additions.is_empty() {
         let items: Vec<String> = suggestions
-            .openbitfun_md_additions
+            .opc_md_additions
             .iter()
             .enumerate()
             .map(|(i, md)| {

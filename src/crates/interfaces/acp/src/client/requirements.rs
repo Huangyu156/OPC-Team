@@ -4,8 +4,8 @@ use std::ffi::{OsStr, OsString};
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
-use openbitfun_core::service::remote_ssh::{SSHCommandOptions, SSHConnectionManager};
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::service::remote_ssh::{SSHCommandOptions, SSHConnectionManager};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use tokio::process::Command;
 
 use super::builtin_clients::builtin_acp_client_preset;
@@ -413,7 +413,7 @@ where
     I: IntoIterator<Item = S>,
     S: AsRef<OsStr>,
 {
-    let mut command = openbitfun_core::util::process_manager::create_tokio_command(program);
+    let mut command = opc_core::util::process_manager::create_tokio_command(program);
     command.args(args);
     apply_command_environment(&mut command, None);
     match tokio::time::timeout(timeout, command.output()).await {
@@ -681,37 +681,31 @@ mod tests {
     #[test]
     fn command_search_paths_keep_configured_path_first() {
         let configured_paths = env::join_paths([
-            PathBuf::from("/tmp/openbitfun-acp-first"),
-            PathBuf::from("/tmp/openbitfun-acp-second"),
+            PathBuf::from("/tmp/opc-acp-first"),
+            PathBuf::from("/tmp/opc-acp-second"),
         ])
         .expect("test paths should be joinable");
 
         let paths = command_search_paths(Some(&configured_paths));
 
-        assert_eq!(
-            paths.first(),
-            Some(&PathBuf::from("/tmp/openbitfun-acp-first"))
-        );
-        assert_eq!(
-            paths.get(1),
-            Some(&PathBuf::from("/tmp/openbitfun-acp-second"))
-        );
+        assert_eq!(paths.first(), Some(&PathBuf::from("/tmp/opc-acp-first")));
+        assert_eq!(paths.get(1), Some(&PathBuf::from("/tmp/opc-acp-second")));
     }
 
     #[test]
     fn find_executable_uses_configured_path() {
-        let test_dir = env::temp_dir().join(format!("openbitfun-acp-{}", uuid::Uuid::new_v4()));
+        let test_dir = env::temp_dir().join(format!("opc-acp-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&test_dir).expect("test dir should be created");
 
         #[cfg(windows)]
-        let file_name = "openbitfun-test-tool.EXE";
+        let file_name = "opc-test-tool.EXE";
         #[cfg(not(windows))]
-        let file_name = "openbitfun-test-tool";
+        let file_name = "opc-test-tool";
 
         let executable = test_dir.join(file_name);
         std::fs::write(&executable, b"").expect("test executable should be written");
 
-        let found = find_executable_with_path("openbitfun-test-tool", Some(test_dir.as_os_str()));
+        let found = find_executable_with_path("opc-test-tool", Some(test_dir.as_os_str()));
 
         let _ = std::fs::remove_dir_all(&test_dir);
         assert_eq!(found, Some(executable));
@@ -729,7 +723,7 @@ mod tests {
 
     #[test]
     fn probe_npm_adapter_skips_npm_probe_when_npx_is_available() {
-        let test_dir = env::temp_dir().join(format!("openbitfun-acp-{}", uuid::Uuid::new_v4()));
+        let test_dir = env::temp_dir().join(format!("opc-acp-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&test_dir).expect("test dir should be created");
         let npm_marker = test_dir.join("npm-was-run");
 

@@ -55,21 +55,21 @@ describe('GenerativeWidgetFrame shell', () => {
     const completedCode = '<p>Complete</p><script>window.executionCount = (window.executionCount || 0) + 1;</script>';
     const update = (html: string, runScripts: boolean) => {
       dom.window.dispatchEvent(new dom.window.MessageEvent('message', {
-        data: { type: 'openbitfun-widget:update', widgetId: 'widget_1', html, runScripts },
+        data: { type: 'opc-widget:update', widgetId: 'widget_1', html, runScripts },
       }));
     };
     try {
-      expect(postMessage.mock.calls.map(([message]) => message.type)).toEqual(['openbitfun-widget:ready']);
+      expect(postMessage.mock.calls.map(([message]) => message.type)).toEqual(['opc-widget:ready']);
       update(streamedCode, false);
       expect(dom.window.document.querySelector('#root')?.textContent).toBe('Partial');
       expect(postMessage).toHaveBeenLastCalledWith({
-        source: 'openbitfun-widget', type: 'openbitfun-widget:rendered',
+        source: 'opc-widget', type: 'opc-widget:rendered',
         widgetId: 'widget_1', widgetCode: streamedCode,
       }, '*');
       update(completedCode, true);
       expect(dom.window.document.querySelector('#root > p')?.textContent).toBe('Complete');
       expect(postMessage).toHaveBeenLastCalledWith({
-        source: 'openbitfun-widget', type: 'openbitfun-widget:rendered',
+        source: 'opc-widget', type: 'opc-widget:rendered',
         widgetId: 'widget_1', widgetCode: completedCode,
       }, '*');
       update(completedCode, true);
@@ -99,6 +99,6 @@ describe('GenerativeWidgetFrame shell', () => {
     expect(iframe.getAttribute('src')).toBe('about:blank');
     expect(iframe.getAttribute('srcdoc')).toBeNull();
     expect(iframe.getAttribute('sandbox')).toContain('allow-same-origin');
-    expect(iframe.contentDocument?.documentElement.outerHTML).toContain('openbitfun-widget');
+    expect(iframe.contentDocument?.documentElement.outerHTML).toContain('opc-widget');
   });
 });

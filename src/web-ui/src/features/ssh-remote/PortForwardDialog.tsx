@@ -251,13 +251,13 @@ export const PortForwardDialog: React.FC<PortForwardDialogProps> = ({
         <div className="port-forward-dialog__modal">
       <div
         className="port-forward-dialog"
-        data-openbitfun-component="ssh-remote"
-        data-openbitfun-part="portForward"
+        data-opc-component="ssh-remote"
+        data-opc-part="portForward"
       >
         <div
           className="port-forward-dialog__intro"
-          data-openbitfun-component="ssh-remote"
-          data-openbitfun-part="portForwardIntro"
+          data-opc-component="ssh-remote"
+          data-opc-part="portForwardIntro"
         >
           <Network size={18} aria-hidden="true" />
           <p>{t('ssh.portForward.intro')}</p>
@@ -267,8 +267,8 @@ export const PortForwardDialog: React.FC<PortForwardDialogProps> = ({
           <div
             className="port-forward-dialog__error"
             role="alert"
-            data-openbitfun-component="ssh-remote"
-            data-openbitfun-part="portForwardError"
+            data-opc-component="ssh-remote"
+            data-opc-part="portForwardError"
           >
             <AlertTriangle size={16} aria-hidden="true" />
             <span>{error}</span>
@@ -337,8 +337,8 @@ export const PortForwardDialog: React.FC<PortForwardDialogProps> = ({
 
         <FormSection
           className="port-forward-dialog__section"
-          data-openbitfun-component="ssh-remote"
-          data-openbitfun-part="portForwardTable"
+          data-opc-component="ssh-remote"
+          data-opc-part="portForwardTable"
           title={t('ssh.portForward.activeTitle')}
         >
 
@@ -443,8 +443,8 @@ export const PortForwardDialog: React.FC<PortForwardDialogProps> = ({
               appearance="plain"
               dividers={false}
               className="port-forward-dialog__form"
-              data-openbitfun-component="ssh-remote"
-              data-openbitfun-part="portForwardForm"
+              data-opc-component="ssh-remote"
+              data-opc-part="portForwardForm"
             >
               <label className="port-forward-dialog__field">
                 <span>{t('ssh.portForward.remotePortLabel')}</span>

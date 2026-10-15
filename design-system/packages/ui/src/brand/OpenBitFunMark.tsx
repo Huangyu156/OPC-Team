@@ -24,6 +24,6 @@ export function OpenBitFunMark({ label, size, motion = "none", active = true, cl
   return <span {...props} ref={ref} className={classNames(styles.mark, className)}
     style={{ width: size, height: size, ...style }} role={label ? "img" : undefined}
     aria-label={label} aria-hidden={label ? undefined : true}
-    data-openbitfun-component="openbitfun-mark" data-openbitfun-part="root"
-    data-openbitfun-motion={motion} data-openbitfun-active={active} />;
+    data-opc-component="openbitfun-mark" data-opc-part="root"
+    data-opc-motion={motion} data-opc-active={active} />;
 }

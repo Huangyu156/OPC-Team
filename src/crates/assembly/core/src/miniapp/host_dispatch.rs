@@ -1,13 +1,13 @@
 //! Compatibility adapter for MiniApp host primitive dispatch.
 //!
-//! Concrete fs/shell/net/os dispatch lives in `openbitfun-services-integrations`.
+//! Concrete fs/shell/net/os dispatch lives in `opc-services-integrations`.
 
 use crate::miniapp::types::MiniAppPermissions;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use serde_json::Value;
 use std::path::{Path, PathBuf};
 
-pub use openbitfun_services_integrations::miniapp::host_dispatch::is_host_primitive;
+pub use opc_services_integrations::miniapp::host_dispatch::is_host_primitive;
 
 pub async fn dispatch_host(
     perms: &MiniAppPermissions,
@@ -18,7 +18,7 @@ pub async fn dispatch_host(
     method: &str,
     params: Value,
 ) -> OpcTeamResult<Value> {
-    openbitfun_services_integrations::miniapp::host_dispatch::dispatch_host(
+    opc_services_integrations::miniapp::host_dispatch::dispatch_host(
         perms,
         app_id,
         app_data_dir,
@@ -32,9 +32,9 @@ pub async fn dispatch_host(
 }
 
 fn map_host_dispatch_error(
-    err: openbitfun_services_integrations::miniapp::host_dispatch::MiniAppHostDispatchError,
+    err: opc_services_integrations::miniapp::host_dispatch::MiniAppHostDispatchError,
 ) -> OpcTeamError {
-    use openbitfun_services_integrations::miniapp::host_dispatch::MiniAppHostDispatchErrorKind;
+    use opc_services_integrations::miniapp::host_dispatch::MiniAppHostDispatchErrorKind;
 
     match err.kind() {
         MiniAppHostDispatchErrorKind::Parse => OpcTeamError::parse(err.message().to_string()),

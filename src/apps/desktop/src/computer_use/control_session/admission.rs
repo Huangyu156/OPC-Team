@@ -1,7 +1,7 @@
 //! Deterministic resource admission. No OS handles, threads, timers or IO.
 //! Native cleanup is performed by the desktop facade using the returned epoch.
 
-use openbitfun_agent_tools::computer_use_control::{
+use opc_agent_tools::computer_use_control::{
     ControlActionPolicy, ControlMode, ControlSharing, ControlSnapshot, SharingPhase,
 };
 

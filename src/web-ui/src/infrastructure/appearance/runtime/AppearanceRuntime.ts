@@ -12,7 +12,7 @@ import type {
 } from '../types';
 
 const log = createLogger('AppearanceRuntime');
-const STYLE_ATTRIBUTE = 'data-openbitfun-appearance-runtime';
+const STYLE_ATTRIBUTE = 'data-opc-appearance-runtime';
 
 interface PreparedRendererTransaction {
   id: AppearanceRendererId;
@@ -116,9 +116,9 @@ export class AppearanceRuntime {
     this.activeAssetRevision = null;
     const root = document.documentElement;
     root.removeAttribute('data-openbitfun-appearance');
-    root.removeAttribute('data-openbitfun-appearance-mode');
-    root.removeAttribute('data-openbitfun-appearance-revision');
-    root.removeAttribute('data-openbitfun-appearance-root');
+    root.removeAttribute('data-opc-appearance-mode');
+    root.removeAttribute('data-opc-appearance-revision');
+    root.removeAttribute('data-opc-appearance-root');
     this.snapshot = null;
     this.emit();
   }
@@ -169,11 +169,11 @@ export class AppearanceRuntime {
     }
 
     const root = document.documentElement;
-    root.setAttribute('data-openbitfun-appearance-root', 'true');
+    root.setAttribute('data-opc-appearance-root', 'true');
     root.setAttribute('data-openbitfun-appearance', next.id);
-    root.setAttribute('data-openbitfun-appearance-mode', next.mode);
+    root.setAttribute('data-opc-appearance-mode', next.mode);
     // Revision is the activation switch because every generated selector is revision-scoped.
-    root.setAttribute('data-openbitfun-appearance-revision', String(next.revision));
+    root.setAttribute('data-opc-appearance-revision', String(next.revision));
     document.querySelectorAll<HTMLStyleElement>(`style[${STYLE_ATTRIBUTE}]`).forEach(node => {
       if (node !== nextStyle) node.remove();
     });
@@ -253,8 +253,8 @@ export class AppearanceRuntime {
         return adapter.apply(next?.mermaid, previous?.mermaid, context);
       case 'generative-widget':
         return adapter.apply(next?.['generative-widget'], previous?.['generative-widget'], context);
-      case 'openbitfun-canvas':
-        return adapter.apply(next?.['openbitfun-canvas'], previous?.['openbitfun-canvas'], context);
+      case 'opc-canvas':
+        return adapter.apply(next?.['opc-canvas'], previous?.['opc-canvas'], context);
     }
   }
 
@@ -304,7 +304,7 @@ export class AppearanceRuntime {
       declarations.setProperty(`--opcteam-appearance-asset-${id.replace(/\./g, '-')}`, `url("${asset.url}")`);
     });
     if (!declarations.cssText) return '';
-    return `:root[data-openbitfun-appearance="${appearanceId}"][data-openbitfun-appearance-revision="${revision}"]{${declarations.cssText}}`;
+    return `:root[data-openbitfun-appearance="${appearanceId}"][data-opc-appearance-revision="${revision}"]{${declarations.cssText}}`;
   }
 
   private revokeAssetUrls(urls: ReadonlyMap<string, string>): void {

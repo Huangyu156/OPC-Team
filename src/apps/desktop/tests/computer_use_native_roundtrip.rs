@@ -34,7 +34,7 @@ fn main() {
                 .enable_all()
                 .build()
                 .unwrap()
-                .block_on(openbitfun_desktop_lib::run_native_computer_use_roundtrip_fixture());
+                .block_on(opc_desktop_lib::run_native_computer_use_roundtrip_fixture());
         });
         let _ = sender.send(result.is_ok());
     });

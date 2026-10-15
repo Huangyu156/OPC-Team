@@ -9,14 +9,14 @@ use crate::agentic::agents::{
 use crate::agentic::deep_review_policy::{
     is_review_worker_agent_type, CODE_REVIEW_AGENT_TYPE, REVIEW_JUDGE_AGENT_TYPE,
 };
-pub(super) use openbitfun_agent_runtime::agents::SubagentOverrideState;
-pub use openbitfun_agent_runtime::agents::{
+pub(super) use opc_agent_runtime::agents::SubagentOverrideState;
+pub use opc_agent_runtime::agents::{
     BuiltinAgentCategory as AgentCategory, SubAgentSource, SubagentListScope, SubagentQueryContext,
     SubagentStateReason,
 };
-use openbitfun_agent_runtime::custom_agent::CustomAgentLevel;
-use openbitfun_agent_runtime::prompt_cache::prompt_cache_scope_key;
-use openbitfun_runtime_ports::PermissionConstraintLayer;
+use opc_agent_runtime::custom_agent::CustomAgentLevel;
+use opc_agent_runtime::prompt_cache::prompt_cache_scope_key;
+use opc_runtime_ports::PermissionConstraintLayer;
 use serde::{Deserialize, Serialize};
 use std::sync::Arc;
 

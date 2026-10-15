@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{anyhow, bail, Result};
 use chrono::{DateTime, Duration, Utc};
-use openbitfun_services_core::json_store::JsonFileCrossProcessLock;
+use opc_services_core::json_store::JsonFileCrossProcessLock;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use tokio::fs;
@@ -613,7 +613,7 @@ fn validate_setup_audit_event(event: &Value) -> Result<()> {
         .get("action")
         .and_then(Value::as_str)
         .is_none_or(|action| {
-            !openbitfun_services_core::dispatch_contract::dispatch_supported_setup_audit_actions()
+            !opc_services_core::dispatch_contract::dispatch_supported_setup_audit_actions()
                 .any(|supported| supported == action)
         })
         || object

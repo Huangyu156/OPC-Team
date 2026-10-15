@@ -41,12 +41,12 @@ test('mobile-web lifecycle prepares its generated design-system package entries'
  * the single changed design-system input under test.
  */
 async function createInputChangeFixture(changedInput) {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'openbitfun-mobile-web-build-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'opc-mobile-web-build-'));
   const mobileWebDir = path.join(root, 'src/mobile-web');
   const output = write(root, 'src/mobile-web/dist/index.html', '<main>old</main>');
   const marker = write(
     root,
-    'src/mobile-web/node_modules/.cache/openbitfun-mobile-web-build-marker',
+    'src/mobile-web/node_modules/.cache/opc-mobile-web-build-marker',
     'old build\n',
   );
   const changedFile = write(root, changedInput, '{}\n');
@@ -104,13 +104,13 @@ test('requests a mobile-web rebuild when the shared design-system tsconfig chang
 });
 
 test('reuses mobile-web output when only generated design-system output is newer', async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'openbitfun-mobile-web-build-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'opc-mobile-web-build-'));
   const mobileWebDir = path.join(root, 'src/mobile-web');
   const mobileSource = write(root, 'src/mobile-web/src/main.tsx', 'export {};\n');
   const output = write(root, 'src/mobile-web/dist/index.html', '<main>current</main>');
   const marker = write(
     root,
-    'src/mobile-web/node_modules/.cache/openbitfun-mobile-web-build-marker',
+    'src/mobile-web/node_modules/.cache/opc-mobile-web-build-marker',
     'current build\n',
   );
   const generatedTheme = write(
@@ -145,7 +145,7 @@ test('reuses mobile-web output when only generated design-system output is newer
 });
 
 test('cleans stale mobile-web resources from native and explicit target profiles', async () => {
-  const root = await mkdtemp(path.join(os.tmpdir(), 'openbitfun-mobile-web-clean-'));
+  const root = await mkdtemp(path.join(os.tmpdir(), 'opc-mobile-web-clean-'));
   const native = write(root, 'target/release/mobile-web/dist/index.html', 'native');
   const targeted = write(
     root,

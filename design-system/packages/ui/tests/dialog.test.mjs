@@ -30,7 +30,7 @@ test("Dialog and Sheet compose the shared overlay kernel and compound anatomy", 
     "body",
     "footer",
   ]) {
-    assert.match(source, new RegExp(`data-openbitfun-part=\\"${part}\\"`));
+    assert.match(source, new RegExp(`data-opc-part=\\"${part}\\"`));
   }
   assert.match(source, /aria-describedby=\{ariaDescribedBy \?\? \(hasDescription \? descriptionId : undefined\)\}/);
   assert.match(source, /aria-labelledby=\{ariaLabelledBy \?\? \(!ariaLabel && hasTitle \? titleId : undefined\)\}/);

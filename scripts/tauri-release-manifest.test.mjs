@@ -26,11 +26,11 @@ test('mobile release metadata rejects drift within the mobile group', () => {
 });
 
 test('prepares a versioned custom Windows installer asset', () => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-manual-installer-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-manual-installer-'));
   const assets = path.join(temp, 'assets', 'nested');
   const out = path.join(temp, 'manual');
   fs.mkdirSync(assets, { recursive: true });
-  fs.writeFileSync(path.join(assets, 'openbitfun-installer.exe'), 'installer');
+  fs.writeFileSync(path.join(assets, 'opc-installer.exe'), 'installer');
 
   const result = run('scripts/prepare-windows-installer-asset.mjs', [
     '--assets-dir', path.join(temp, 'assets'),
@@ -45,7 +45,7 @@ test('prepares a versioned custom Windows installer asset', () => {
 });
 
 test('1.0.0-beta manifest keeps the updater URL separate from the manual installer URL', () => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-latest-manual-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-latest-manual-'));
   const updater = path.join(temp, 'updater');
   const manual = path.join(temp, 'manual');
   const out = path.join(temp, 'latest-v1.json');
@@ -88,7 +88,7 @@ test('1.0.0-beta manifest keeps the updater URL separate from the manual install
 });
 
 test('updater manifest carries the version release notes for the update prompt', () => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-release-notes-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-release-notes-'));
   const updater = path.join(temp, 'updater');
   const out = path.join(temp, 'latest-v1.json');
   const notes = path.join(temp, '1.0.3.md');
@@ -114,7 +114,7 @@ test('updater manifest carries the version release notes for the update prompt',
 });
 
 test('manifest declares the signed macOS .dmg installers next to the .app.tar.gz updater packages', (t) => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-latest-dmg-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-latest-dmg-'));
   t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
   const updater = path.join(temp, 'updater');
   const manual = path.join(temp, 'manual');
@@ -198,7 +198,7 @@ test('manifest declares the signed macOS .dmg installers next to the .app.tar.gz
 // AppImage under the bare linux-x86_64 key and every deb install failed in-app
 // updates with "invalid updater binary format".
 test('deb and rpm installs get bundle-type Linux updater keys through collect + generate', () => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-deb-updater-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-deb-updater-'));
   const collected = path.join(temp, 'collected');
   const out = path.join(temp, 'latest-v1.json');
   const assets = [
@@ -271,7 +271,7 @@ test('deb and rpm installs get bundle-type Linux updater keys through collect + 
 });
 
 test('stages GitHub release assets in a flat directory', () => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-release-assets-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-release-assets-'));
   const first = path.join(temp, 'updater', 'latest.json');
   const second = path.join(temp, 'manual', 'installer.exe');
   const out = path.join(temp, 'staged');
@@ -292,7 +292,7 @@ test('stages GitHub release assets in a flat directory', () => {
 });
 
 test('rejects duplicate GitHub release asset names before upload', () => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-release-duplicates-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-release-duplicates-'));
   const first = path.join(temp, 'macos-x64', 'OpenBitFun.app.tar.gz.sig');
   const second = path.join(temp, 'macos-arm64', 'OpenBitFun.app.tar.gz.sig');
   const out = path.join(temp, 'staged');
@@ -315,7 +315,7 @@ test('rejects duplicate GitHub release asset names before upload', () => {
 
 for (const version of ['1.0.0-beta', '1.0.0-beta.3']) {
 test(`${version} Linux CLI and Relay manifests keep signed assets on the versioned repository release`, (t) => {
-  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-beta-linux-'));
+  const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-beta-linux-'));
   t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
   const tag = `v${version}`;
   const assets = [];

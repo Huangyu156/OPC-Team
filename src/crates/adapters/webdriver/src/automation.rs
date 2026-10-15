@@ -2,7 +2,7 @@
 //!
 //! This module translates browser-engine primitives only. Snapshot refs,
 //! selector resolution, click guards, waits, and every other product action
-//! remain in `openbitfun-core::BrowserActions` and are therefore identical for
+//! remain in `opc-core::BrowserActions` and are therefore identical for
 //! CDP and built-in browser targets.
 
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
@@ -230,7 +230,7 @@ impl EmbeddedWebviewAutomation {
             .round() as i64;
         let actions = match event_type {
             "mousePressed" => json!([{
-                "type": "pointer", "id": "openbitfun-mouse",
+                "type": "pointer", "id": "opc-mouse",
                 "parameters": { "pointerType": "mouse" },
                 "actions": [
                     { "type": "pointerMove", "x": x, "y": y, "duration": 0, "origin": "viewport" },
@@ -238,7 +238,7 @@ impl EmbeddedWebviewAutomation {
                 ]
             }]),
             "mouseReleased" => json!([{
-                "type": "pointer", "id": "openbitfun-mouse",
+                "type": "pointer", "id": "opc-mouse",
                 "parameters": { "pointerType": "mouse" },
                 "actions": [
                     { "type": "pointerMove", "x": x, "y": y, "duration": 0, "origin": "viewport" },
@@ -246,14 +246,14 @@ impl EmbeddedWebviewAutomation {
                 ]
             }]),
             "mouseMoved" => json!([{
-                "type": "pointer", "id": "openbitfun-mouse",
+                "type": "pointer", "id": "opc-mouse",
                 "parameters": { "pointerType": "mouse" },
                 "actions": [
                     { "type": "pointerMove", "x": x, "y": y, "duration": 0, "origin": "viewport" }
                 ]
             }]),
             "mouseWheel" => json!([{
-                "type": "wheel", "id": "openbitfun-wheel",
+                "type": "wheel", "id": "opc-wheel",
                 "actions": [{
                     "type": "scroll", "x": x, "y": y,
                     "deltaX": params.get("deltaX").and_then(Value::as_i64).unwrap_or(0),
@@ -277,7 +277,7 @@ impl EmbeddedWebviewAutomation {
             other => return Err(format!("Unsupported key event type: {other}")),
         };
         self.perform_actions(json!([{
-            "type": "key", "id": "openbitfun-keyboard",
+            "type": "key", "id": "opc-keyboard",
             "actions": [{ "type": action_type, "value": value }]
         }]))
         .await?;

@@ -342,9 +342,9 @@ export const SessionFileModificationsBar: React.FC<SessionFileModificationsBarPr
   }
 
   return (
-    <div data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="root" data-openbitfun-layout={compact ? 'compact' : 'default'} data-openbitfun-state={isExpanded ? 'expanded' : undefined} className={`session-file-modifications-bar ${compact ? 'session-file-modifications-bar--compact' : ''}`}>
-      <div data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="header" className="session-file-modifications-bar__header">
-        <div data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="summary" className="header-info">
+    <div data-opc-component="session-file-modifications-bar" data-opc-part="root" data-opc-layout={compact ? 'compact' : 'default'} data-opc-state={isExpanded ? 'expanded' : undefined} className={`session-file-modifications-bar ${compact ? 'session-file-modifications-bar--compact' : ''}`}>
+      <div data-opc-component="session-file-modifications-bar" data-opc-part="header" className="session-file-modifications-bar__header">
+        <div data-opc-component="session-file-modifications-bar" data-opc-part="summary" className="header-info">
           <span className="file-count">{t('sessionFileModificationsBar.filesCount', { count: fileStats.size })}</span>
           <span className="total-stats">
             {totalStats.totalAdditions > 0 && (
@@ -361,8 +361,8 @@ export const SessionFileModificationsBar: React.FC<SessionFileModificationsBarPr
           placement="top"
         >
           <button
-            data-openbitfun-component="session-file-modifications-bar"
-            data-openbitfun-part="toggle"
+            data-opc-component="session-file-modifications-bar"
+            data-opc-part="toggle"
             className="expand-toggle-btn"
             onClick={() => setIsExpanded(!isExpanded)}
             disabled={loadingStats}
@@ -377,24 +377,24 @@ export const SessionFileModificationsBar: React.FC<SessionFileModificationsBarPr
       </div>
 
       {isExpanded && (
-        <div data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="list" className="session-file-modifications-bar__list">
+        <div data-opc-component="session-file-modifications-bar" data-opc-part="list" className="session-file-modifications-bar__list">
           {Array.from(fileStats.values()).map((stat) => (
             <Tooltip key={`${stat.sourceSessionId}:${stat.filePath}`} content={stat.filePath} placement="left">
               <div data-overflow-trigger
-                data-openbitfun-component="session-file-modifications-bar"
-                data-openbitfun-part="file"
-                data-openbitfun-operation={stat.operationType}
-                data-openbitfun-state={stat.error ? 'error' : undefined}
+                data-opc-component="session-file-modifications-bar"
+                data-opc-part="file"
+                data-opc-operation={stat.operationType}
+                data-opc-state={stat.error ? 'error' : undefined}
                 className={`file-row file-row--${stat.operationType} ${stat.error ? 'file-row--error' : ''}`}
                 onClick={() => !stat.error && handleFileClick(stat)}
               >
-                <span data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="fileIcon" className="file-row__icon">
+                <span data-opc-component="session-file-modifications-bar" data-opc-part="fileIcon" className="file-row__icon">
                   {getOperationIcon(stat.operationType)}
                 </span>
 
-                <OverflowText data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="fileName" className="file-row__name">{stat.fileName}</OverflowText>
+                <OverflowText data-opc-component="session-file-modifications-bar" data-opc-part="fileName" className="file-row__name">{stat.fileName}</OverflowText>
                 {stat.sourceKind !== 'parent' ? (
-                  <span data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="fileSource" className="file-row__source">
+                  <span data-opc-component="session-file-modifications-bar" data-opc-part="fileSource" className="file-row__source">
                     {stat.sourceKind === 'deep_review'
                       ? t('sessionFileModificationsBar.deepReviewSource')
                       : t('sessionFileModificationsBar.reviewSource')}
@@ -402,9 +402,9 @@ export const SessionFileModificationsBar: React.FC<SessionFileModificationsBarPr
                 ) : null}
 
                 {stat.error ? (
-                  <span data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="fileError" className="file-row__error">{stat.error}</span>
+                  <span data-opc-component="session-file-modifications-bar" data-opc-part="fileError" className="file-row__error">{stat.error}</span>
                 ) : (
-                  <span data-openbitfun-component="session-file-modifications-bar" data-openbitfun-part="fileStats" className="file-row__stats">
+                  <span data-opc-component="session-file-modifications-bar" data-opc-part="fileStats" className="file-row__stats">
                     {stat.additions > 0 && (
                       <span className="stat-add">+{stat.additions}</span>
                     )}

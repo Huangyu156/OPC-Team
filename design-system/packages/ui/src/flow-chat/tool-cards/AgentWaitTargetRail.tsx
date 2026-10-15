@@ -53,15 +53,15 @@ export function AgentWaitTargetRail({ items, previousLabel, nextLabel }: AgentWa
     }
   };
 
-  return <span className={styles.root} role="group" aria-label={items.map(item => item.name).join(', ')} data-openbitfun-part="agentWaitAvatars">
+  return <span className={styles.root} role="group" aria-label={items.map(item => item.name).join(', ')} data-opc-part="agentWaitAvatars">
     {scroll.overflow && <IconButton variant="quiet" size="sm" className={styles.scrollButton}
       data-agent-wait-scroll="previous" icon={<Icon name="chevron-left" size="sm" />}
       aria-label={previousLabel} title={previousLabel} disabled={!scroll.previous} onClick={event => scrollPage(-1, event)} />}
-    <span className={styles.viewport} ref={viewportRef} onScroll={updateScroll} data-openbitfun-part="agentWaitAvatarViewport">
+    <span className={styles.viewport} ref={viewportRef} onScroll={updateScroll} data-opc-part="agentWaitAvatarViewport">
       <span className={styles.track} ref={trackRef}>
         {items.map(item => <button key={item.id} type="button" className={styles.target} disabled={!item.onOpen}
-          data-agent-capsule-trigger={item.onOpen ? 'true' : undefined} data-openbitfun-part="agentWaitAvatarTrigger"
-          data-openbitfun-affordance={item.onOpen ? 'open-panel-right' : undefined}
+          data-agent-capsule-trigger={item.onOpen ? 'true' : undefined} data-opc-part="agentWaitAvatarTrigger"
+          data-opc-affordance={item.onOpen ? 'open-panel-right' : undefined}
           data-overflow-trigger aria-label={item.onOpen ? `${item.name} · ${item.openLabel}` : item.name}
           onClick={event => { event.stopPropagation(); item.onOpen?.(event); }}>
           <ToolCardParticipantLabel label={item.name} icon={item.avatar} />

@@ -31,13 +31,13 @@ export function collectForwardedFlowGroupParts(ast, ownerAst) {
       const parameter = node.parameters[0]?.name;
       const identity = parameter && ts.isObjectBindingPattern(parameter)
         ? parameter.elements.find(element => element.propertyName && ts.isStringLiteral(element.propertyName)
-          && element.propertyName.text === 'data-openbitfun-component')?.name
+          && element.propertyName.text === 'data-opc-component')?.name
         : undefined;
       if (!identity || !ts.isIdentifier(identity)) return;
       const readPart = child => {
         if (ts.isJsxOpeningElement(child) || ts.isJsxSelfClosingElement(child)) {
-          const component = findDomAttribute(child, 'data-openbitfun-component')?.initializer;
-          const part = findDomAttribute(child, 'data-openbitfun-part')?.initializer;
+          const component = findDomAttribute(child, 'data-opc-component')?.initializer;
+          const part = findDomAttribute(child, 'data-opc-part')?.initializer;
           if (component && ts.isJsxExpression(component) && component.expression
             && ts.isIdentifier(component.expression) && component.expression.text === identity.text
             && part && ts.isStringLiteral(part)) parts.push(child);
@@ -56,8 +56,8 @@ export function collectForwardedFlowGroupParts(ast, ownerAst) {
     if ((ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node))
       && ts.isIdentifier(node.tagName) && names.has(node.tagName.text)) {
       const attributes = node.attributes.properties;
-      const identity = findDomAttribute(node, 'data-openbitfun-component');
-      const part = findDomAttribute(node, 'data-openbitfun-part')?.initializer;
+      const identity = findDomAttribute(node, 'data-opc-component');
+      const part = findDomAttribute(node, 'data-opc-part')?.initializer;
       if (identity?.initializer && ts.isStringLiteral(identity.initializer)
         && part && ts.isStringLiteral(part) && part.text === 'root'
         && !attributes.slice(attributes.indexOf(identity) + 1).some(ts.isJsxSpreadAttribute)) {
@@ -138,12 +138,12 @@ export function collectForwardedTabProps(ast) {
 
 export function findDomAttribute(node, name) {
   if (overlayPropNodes.has(node) && [
-    'data-openbitfun-component', 'data-openbitfun-part',
-    'data-openbitfun-native-webview-occlusion', 'data-placement', 'data-state',
+    'data-opc-component', 'data-opc-part',
+    'data-opc-native-webview-occlusion', 'data-placement', 'data-state',
   ].includes(name)) return undefined;
   // TabGroup writes these after the spread, so caller values are not DOM evidence.
   if (ts.isObjectLiteralExpression(node)
-    && (name === 'data-openbitfun-part' || name === 'data-openbitfun-value')) return undefined;
+    && (name === 'data-opc-part' || name === 'data-opc-value')) return undefined;
   return ts.isObjectLiteralExpression(node)
     ? property(node, name)
     : node.attributes.properties.find(candidate => ts.isJsxAttribute(candidate) && candidate.name.text === name);

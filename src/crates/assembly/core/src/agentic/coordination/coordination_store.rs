@@ -2,7 +2,7 @@ use crate::service::coordination_persistence::{
     initialize_coordination_schema, validate_coordination_agent_id,
 };
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_core_types::agent_identity::{canonical_agent_id, HarnessId};
+use opc_core_types::agent_identity::{canonical_agent_id, HarnessId};
 use rusqlite::{params, Connection, OptionalExtension, Transaction, TransactionBehavior};
 use std::path::PathBuf;
 use std::sync::{Arc, Mutex};
@@ -1146,7 +1146,7 @@ fn unix_time_ms() -> u64 {
 mod tests {
     use super::*;
     use crate::service::coordination_persistence::initialize_coordination_schema;
-    use openbitfun_services_core::coordination_persistence::coordination_table_has_column;
+    use opc_services_core::coordination_persistence::coordination_table_has_column;
 
     fn test_tempdir() -> tempfile::TempDir {
         if let Some(root) = std::env::var_os("OPENBITFUN_TEST_TMPDIR") {

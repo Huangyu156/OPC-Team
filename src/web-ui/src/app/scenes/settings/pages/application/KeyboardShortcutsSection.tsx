@@ -605,14 +605,14 @@ const KeyboardShortcutsSection: React.FC = () => {
   });
 
   return (
-    <div id={sectionAnchor} data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="root">
+    <div id={sectionAnchor} data-opc-component="keyboard-shortcuts" data-opc-part="root">
       <ConfigPageSection title={t('keyboard.title')} description={t('keyboard.description')} bodySurface={false}>
         {/* Search + actions bar */}
-        <div className="kb-shortcuts__toolbar" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="toolbar">
+        <div className="kb-shortcuts__toolbar" data-opc-component="keyboard-shortcuts" data-opc-part="toolbar">
           <SearchField
             className="kb-shortcuts__search"
-            data-openbitfun-component="keyboard-shortcuts"
-            data-openbitfun-part="search"
+            data-opc-component="keyboard-shortcuts"
+            data-opc-part="search"
             size="sm"
             value={searchQuery}
             onValueChange={setSearchQuery}
@@ -622,7 +622,7 @@ const KeyboardShortcutsSection: React.FC = () => {
             clearLabel={searchQuery ? tComponents('search.clear') : undefined}
             onClear={searchQuery ? () => setSearchQuery('') : undefined}
           />
-          <div className="kb-shortcuts__actions" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="actions">
+          <div className="kb-shortcuts__actions" data-opc-component="keyboard-shortcuts" data-opc-part="actions">
             {hasPendingChanges || saving || saveError ? (
               <ConfigFieldStatus
                 status={saveError ? 'error' : saving ? 'saving' : 'unsaved'}
@@ -651,19 +651,19 @@ const KeyboardShortcutsSection: React.FC = () => {
         </div>
 
         {hasBlockingConflicts && (
-          <div role="alert" className="kb-shortcuts__error" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="error">
+          <div role="alert" className="kb-shortcuts__error" data-opc-component="keyboard-shortcuts" data-opc-part="error">
             {t('keyboard.conflictBlocking')}
           </div>
         )}
 
         <FieldGroup appearance="subtle" fieldSurface="ambient" dividers={false}>
-          <div className="kb-shortcuts__list" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="list">
+          <div className="kb-shortcuts__list" data-opc-component="keyboard-shortcuts" data-opc-part="list">
             {mergedTabSwitchRowVisible && (
               <ConfigPageRow
                 align="center"
-                data-openbitfun-component="keyboard-shortcuts"
-                data-openbitfun-part="item"
-                data-openbitfun-state={[
+                data-opc-component="keyboard-shortcuts"
+                data-opc-part="item"
+                data-opc-state={[
                   recordingId === MERGED_TAB_RECORD_ID && 'recording',
                   mergedTabConflict && 'conflict',
                   mergedTabPending && 'modified',
@@ -678,7 +678,7 @@ const KeyboardShortcutsSection: React.FC = () => {
                   .join(' ')}
                 key="tab-switch-merged"
                 label={(
-                  <OverflowText className="kb-shortcuts__item-name" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="label">
+                  <OverflowText className="kb-shortcuts__item-name" data-opc-component="keyboard-shortcuts" data-opc-part="label">
                     {t('keyboard.shortcuts.tab.switchMerged')}
                   </OverflowText>
                 )}
@@ -693,7 +693,7 @@ const KeyboardShortcutsSection: React.FC = () => {
                   </>
                 )}
               >
-                <div className="kb-shortcuts__item-key" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="key">
+                <div className="kb-shortcuts__item-key" data-opc-component="keyboard-shortcuts" data-opc-part="key">
                   <Tooltip content={t('keyboard.clickToRecord')} placement="top">
                     <Button
                       aria-pressed={recordingId === MERGED_TAB_RECORD_ID}
@@ -730,9 +730,9 @@ const KeyboardShortcutsSection: React.FC = () => {
             {mergedSceneRowVisible && (
               <ConfigPageRow
                 align="center"
-                data-openbitfun-component="keyboard-shortcuts"
-                data-openbitfun-part="item"
-                data-openbitfun-state={[
+                data-opc-component="keyboard-shortcuts"
+                data-opc-part="item"
+                data-opc-state={[
                   recordingId === MERGED_SCENE_RECORD_ID && 'recording',
                   mergedSceneConflict && 'conflict',
                   mergedScenePending && 'modified',
@@ -747,7 +747,7 @@ const KeyboardShortcutsSection: React.FC = () => {
                   .join(' ')}
                 key="scene-focus-merged"
                 label={(
-                  <OverflowText className="kb-shortcuts__item-name" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="label">
+                  <OverflowText className="kb-shortcuts__item-name" data-opc-component="keyboard-shortcuts" data-opc-part="label">
                     {t('keyboard.shortcuts.scene.focusMerged')}
                   </OverflowText>
                 )}
@@ -762,7 +762,7 @@ const KeyboardShortcutsSection: React.FC = () => {
                   </>
                 )}
               >
-                <div className="kb-shortcuts__item-key" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="key">
+                <div className="kb-shortcuts__item-key" data-opc-component="keyboard-shortcuts" data-opc-part="key">
                   <Tooltip content={t('keyboard.clickToRecord')} placement="top">
                     <Button
                       aria-pressed={recordingId === MERGED_SCENE_RECORD_ID}
@@ -806,9 +806,9 @@ const KeyboardShortcutsSection: React.FC = () => {
               return (
                 <ConfigPageRow
                   align="center"
-                  data-openbitfun-component="keyboard-shortcuts"
-                  data-openbitfun-part="item"
-                  data-openbitfun-state={[
+                  data-opc-component="keyboard-shortcuts"
+                  data-opc-part="item"
+                  data-opc-state={[
                     isRecording && 'recording',
                     conflict && 'conflict',
                     pending && 'modified',
@@ -821,7 +821,7 @@ const KeyboardShortcutsSection: React.FC = () => {
                     pending ? 'kb-shortcuts__item--modified' : '',
                   ].filter(Boolean).join(' ')}
                   label={(
-                    <OverflowText className="kb-shortcuts__item-name" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="label">
+                    <OverflowText className="kb-shortcuts__item-name" data-opc-component="keyboard-shortcuts" data-opc-part="label">
                       {displayName}
                     </OverflowText>
                   )}
@@ -831,7 +831,7 @@ const KeyboardShortcutsSection: React.FC = () => {
                     </span>
                   ) : undefined}
                 >
-                  <div className="kb-shortcuts__item-key" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="key">
+                  <div className="kb-shortcuts__item-key" data-opc-component="keyboard-shortcuts" data-opc-part="key">
                     <Tooltip content={t('keyboard.clickToRecord')} placement="top">
                       <Button
                         aria-pressed={isRecording}
@@ -869,7 +869,7 @@ const KeyboardShortcutsSection: React.FC = () => {
           </div>
 
           {displayRegistrations.length > 0 && !hasAnyVisibleShortcut && (
-            <div className="kb-shortcuts__empty" data-openbitfun-component="keyboard-shortcuts" data-openbitfun-part="empty">
+            <div className="kb-shortcuts__empty" data-opc-component="keyboard-shortcuts" data-opc-part="empty">
               {t('keyboard.noResults')}
             </div>
           )}

@@ -26,8 +26,8 @@ use tokio::task::JoinHandle;
 use uuid::Uuid;
 
 const DEFAULT_YIELD_TIME_MS: u64 = 10_000;
-pub(crate) const EXEC_TERMINAL_SIZE: openbitfun_runtime_ports::ExecTerminalSize =
-    openbitfun_runtime_ports::ExecTerminalSize { cols: 80, rows: 24 };
+pub(crate) const EXEC_TERMINAL_SIZE: opc_runtime_ports::ExecTerminalSize =
+    opc_runtime_ports::ExecTerminalSize { cols: 80, rows: 24 };
 const MAX_RETAINED_OUTPUT_BYTES: usize = 1024 * 1024;
 const MAX_EXEC_SESSIONS: usize = 64;
 const MAX_COMPLETED_EXEC_SESSIONS: usize = 64;
@@ -1851,7 +1851,7 @@ mod tests {
         let manager = ExecProcessManager::default();
         let response = manager
             .exec_command(ExecCommandRequest {
-                argv: shell_argv("echo openbitfun_exec_test"),
+                argv: shell_argv("echo opc_exec_test"),
                 cwd: std::env::current_dir().expect("current dir"),
                 env: HashMap::new(),
                 tty: false,
@@ -1865,7 +1865,7 @@ mod tests {
 
         assert_eq!(response.exit_code, Some(0));
         assert!(response.session_id.is_none());
-        assert!(response.output.contains("openbitfun_exec_test"));
+        assert!(response.output.contains("opc_exec_test"));
     }
 
     #[tokio::test]
@@ -2295,8 +2295,8 @@ mod tests {
                 .expect("system time should be after unix epoch")
                 .as_nanos()
         );
-        let pid_file = std::env::temp_dir().join(format!("openbitfun-exec-child-{unique}.pid"));
-        let tick_file = std::env::temp_dir().join(format!("openbitfun-exec-child-{unique}.tick"));
+        let pid_file = std::env::temp_dir().join(format!("opc-exec-child-{unique}.pid"));
+        let tick_file = std::env::temp_dir().join(format!("opc-exec-child-{unique}.tick"));
         let pid_path = pid_file.to_string_lossy();
         let tick_path = tick_file.to_string_lossy();
         let script = format!(

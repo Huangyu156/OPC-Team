@@ -45,14 +45,14 @@ const SkillCard: React.FC<SkillCardProps> = ({
   ...rootProps
 }) => {
   return (
-    <div data-openbitfun-component="skill-card" data-openbitfun-part="root"
+    <div data-opc-component="skill-card" data-opc-part="root"
       {...rootProps}
       className={['skill-card', className].filter(Boolean).join(' ')}
       style={{
         ...style,
         '--surface-stagger-index': index,
       } as React.CSSProperties}
-      data-openbitfun-variant={iconKind}
+      data-opc-variant={iconKind}
       data-overflow-trigger
     >
       <Card appearance="subtle" padding="md" gap="md" className="skill-card__surface">
@@ -68,51 +68,51 @@ const SkillCard: React.FC<SkillCardProps> = ({
           align="center"
           className="skill-card__header"
           leading={(
-            <div className="skill-card__icon-area" data-openbitfun-component="skill-card" data-openbitfun-part="iconArea">
-              <div className="skill-card__icon" data-openbitfun-component="skill-card" data-openbitfun-part="icon">
+            <div className="skill-card__icon-area" data-opc-component="skill-card" data-opc-part="iconArea">
+              <div className="skill-card__icon" data-opc-component="skill-card" data-opc-part="icon">
                 <Icon name="book-open" size="md" />
               </div>
             </div>
           )}
           title={(
-            <div className="skill-card__title-row" data-openbitfun-component="skill-card" data-openbitfun-part="titleRow">
-              <span className="skill-card__name" data-openbitfun-component="skill-card" data-openbitfun-part="name">
+            <div className="skill-card__title-row" data-opc-component="skill-card" data-opc-part="titleRow">
+              <span className="skill-card__name" data-opc-component="skill-card" data-opc-part="name">
                 <OverflowText>{name}</OverflowText>
               </span>
-              {badges && <div className="skill-card__badges" data-openbitfun-component="skill-card" data-openbitfun-part="badges">{badges}</div>}
+              {badges && <div className="skill-card__badges" data-opc-component="skill-card" data-opc-part="badges">{badges}</div>}
             </div>
           )}
           description={source?.trim() ? (
-            <span className="skill-card__source" data-openbitfun-component="skill-card" data-openbitfun-part="source">
+            <span className="skill-card__source" data-opc-component="skill-card" data-opc-part="source">
               <OverflowText>{source.trim()}</OverflowText>
             </span>
           ) : undefined}
-          data-openbitfun-component="skill-card"
-          data-openbitfun-part="header"
+          data-opc-component="skill-card"
+          data-opc-part="header"
         />
 
-        <CardBody data-openbitfun-component="skill-card" data-openbitfun-part="body">
+        <CardBody data-opc-component="skill-card" data-opc-part="body">
           {description?.trim() && (
-            <OverflowText as="p" lines={2} className="skill-card__desc" data-openbitfun-component="skill-card" data-openbitfun-part="description">{description.trim()}</OverflowText>
+            <OverflowText as="p" lines={2} className="skill-card__desc" data-opc-component="skill-card" data-opc-part="description">{description.trim()}</OverflowText>
           )}
         </CardBody>
 
         {(meta || actions.length > 0) && (
-          <CardFooter align="between" className="skill-card__footer" data-openbitfun-component="skill-card" data-openbitfun-part="footer">
+          <CardFooter align="between" className="skill-card__footer" data-opc-component="skill-card" data-opc-part="footer">
             {meta && (
-              <div className="skill-card__meta" data-openbitfun-component="skill-card" data-openbitfun-part="meta">
+              <div className="skill-card__meta" data-opc-component="skill-card" data-opc-part="meta">
                 {meta}
               </div>
             )}
-            <div className="skill-card__actions" data-openbitfun-component="skill-card" data-openbitfun-part="actions">
+            <div className="skill-card__actions" data-opc-component="skill-card" data-opc-part="actions">
               {actions.map((action) => (
                 <span
                   key={action.id}
                   className="skill-card__action"
-                  data-openbitfun-component="skill-card"
-                  data-openbitfun-part="action"
-                  data-openbitfun-tone={action.tone}
-                  data-openbitfun-state={action.disabled || action.loading ? 'disabled' : undefined}
+                  data-opc-component="skill-card"
+                  data-opc-part="action"
+                  data-opc-tone={action.tone}
+                  data-opc-state={action.disabled || action.loading ? 'disabled' : undefined}
                 >
                   <Button
                     size="sm"

@@ -39,18 +39,18 @@ export const StatusPill = forwardRef<HTMLSpanElement, StatusPillProps>(
       <span
         {...props}
         className={classNames(styles.root, className)}
-        data-openbitfun-component="status-pill"
+        data-opc-component="status-pill"
         data-tone={tone}
         data-shape={shape}
         data-emphasis={emphasis ? "true" : "false"}
         ref={ref}
       >
         {leading !== undefined && leading !== null && (
-          <span aria-hidden="true" className={styles.leading} data-openbitfun-icon-slot="true" data-openbitfun-part="leading">
+          <span aria-hidden="true" className={styles.leading} data-opc-icon-slot="true" data-opc-part="leading">
             {leading}
           </span>
         )}
-        <OverflowText className={styles.label} data-openbitfun-part="label">{children}</OverflowText>
+        <OverflowText className={styles.label} data-opc-part="label">{children}</OverflowText>
       </span>
     );
   },

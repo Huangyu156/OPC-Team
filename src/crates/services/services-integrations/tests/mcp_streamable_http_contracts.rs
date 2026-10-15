@@ -3,8 +3,8 @@ use std::sync::atomic::{AtomicBool, AtomicI32, AtomicU64, Ordering};
 use std::sync::Arc;
 use std::time::Duration;
 
-use openbitfun_services_integrations::mcp::config::ConfigLocation;
-use openbitfun_services_integrations::mcp::server::{
+use opc_services_integrations::mcp::config::ConfigLocation;
+use opc_services_integrations::mcp::server::{
     MCPConnection, MCPProcessStartContext, MCPRuntimeErrorKind, MCPServerConfig,
     MCPServerRuntimeState, MCPServerStatus, MCPServerTimeouts, MCPServerTransport, MCPServerType,
 };

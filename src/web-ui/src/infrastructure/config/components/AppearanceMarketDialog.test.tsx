@@ -265,7 +265,7 @@ describe('AppearanceMarketDialog', () => {
     expect(container.querySelector('[data-testid="shared-market-account-controls"]')).not.toBeNull();
     expect(container.querySelector('h2')?.textContent).toBe('package.market.title');
     const accountControls = container.querySelector('[data-testid="shared-market-account-controls"]')!;
-    const headerActions = accountControls.closest('[data-openbitfun-part="header-actions"]');
+    const headerActions = accountControls.closest('[data-opc-part="header-actions"]');
     expect(headerActions).not.toBeNull();
     expect(headerActions?.querySelector('button[aria-label="Close"]')).not.toBeNull();
     expect(container.textContent).toContain('package.market.updateAvailable');
@@ -303,7 +303,7 @@ describe('AppearanceMarketDialog', () => {
     expect(container.textContent).toContain('package.market.noAutoApply');
     const browse = container.querySelector<HTMLButtonElement>('.appearance-market__nav [aria-current="page"]')!;
     expect(browse.textContent).toBe('package.market.views.browse');
-    await act(async () => browse.querySelector<HTMLElement>('[data-openbitfun-part="label"]')!.click());
+    await act(async () => browse.querySelector<HTMLElement>('[data-opc-part="label"]')!.click());
     expect(container.querySelector('.appearance-market__detail')).toBeNull();
     expect(container.querySelector('.appearance-market__browse')).not.toBeNull();
   });
@@ -418,7 +418,7 @@ describe('AppearanceMarketDialog', () => {
 
     const submissionsTab = [...container.querySelectorAll('button')]
       .find(button => button.textContent === 'package.market.views.submissions');
-    await act(async () => submissionsTab?.querySelector<HTMLElement>('[data-openbitfun-part="label"]')?.click());
+    await act(async () => submissionsTab?.querySelector<HTMLElement>('[data-opc-part="label"]')?.click());
     await vi.waitFor(() => expect(container.textContent).toContain('Tokyo Night candidate'));
     expect(mocks.listSubmissions).toHaveBeenCalledOnce();
     expect(submissionsTab?.getAttribute('aria-current')).toBe('page');
@@ -434,7 +434,7 @@ describe('AppearanceMarketDialog', () => {
     expect(container.textContent).toContain('package.market.review.approve');
     expect(container.textContent).toContain('package.market.review.reject');
     const manifest = container.querySelector<HTMLDetailsElement>('.appearance-market__review-manifest')!;
-    expect(manifest.getAttribute('data-openbitfun-component')).toBe('disclosure');
+    expect(manifest.getAttribute('data-opc-component')).toBe('disclosure');
     expect(manifest.open).toBe(false);
     const preview = manifest.querySelector('pre')!;
     expect(JSON.parse(preview.textContent!)).toEqual({ id: 'community.tokyo-night' });
@@ -460,7 +460,7 @@ describe('AppearanceMarketDialog', () => {
     const nav = container.querySelector('nav')!;
     const buttons = nav.querySelectorAll('button');
     expect(buttons).toHaveLength(count);
-    expect(nav.querySelectorAll('[data-openbitfun-component="action-item"]')).toHaveLength(count);
+    expect(nav.querySelectorAll('[data-opc-component="action-item"]')).toHaveLength(count);
     expect(nav.querySelectorAll('[aria-current="page"]')).toHaveLength(1);
     expect(nav.querySelector('[role="tab"]')).toBeNull();
     expect(nav.querySelector('[data-overflow-behavior]')).toBeNull();

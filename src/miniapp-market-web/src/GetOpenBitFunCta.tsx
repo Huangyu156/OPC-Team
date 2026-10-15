@@ -15,20 +15,20 @@ export function GetOpenBitFunCta({
 }) {
   return (
     <a
-      className={`get-openbitfun get-openbitfun-${placement}`}
+      className={`get-openbitfun get-opc-${placement}`}
       href={OPENBITFUN_DOWNLOAD_URL}
       target="_blank"
       rel="noreferrer"
     >
-      <span className="get-openbitfun-icon">
+      <span className="get-opc-icon">
         <DownloadSimple size={18} aria-hidden="true" />
       </span>
-      <span className="get-openbitfun-copy">
+      <span className="get-opc-copy">
         <strong>{t('getOpenBitFunTitle')}</strong>
         <span>
           {t(placement === 'listing' ? 'getOpenBitFunListingNote' : 'getOpenBitFunCatalogNote')}
         </span>
-        <span className="get-openbitfun-action">
+        <span className="get-opc-action">
           {t('getOpenBitFunAction')}
           <ArrowRight size={18} aria-hidden="true" />
         </span>

@@ -4,11 +4,11 @@ import QuickActionsSettingsSection from './QuickActionsSettingsSection';
 
 export default function AutomationSettingsPage() {
   return (
-    <SettingsPage pageId="tools.automation" data-openbitfun-component="automation-settings-page" data-openbitfun-part="root">
-      <div data-openbitfun-component="automation-settings-page" data-openbitfun-part="quickActions">
+    <SettingsPage pageId="tools.automation" data-opc-component="automation-settings-page" data-opc-part="root">
+      <div data-opc-component="automation-settings-page" data-opc-part="quickActions">
         <QuickActionsSettingsSection />
       </div>
-      <div data-openbitfun-component="automation-settings-page" data-openbitfun-part="hooks">
+      <div data-opc-component="automation-settings-page" data-opc-part="hooks">
         <HooksSettingsSection />
       </div>
     </SettingsPage>

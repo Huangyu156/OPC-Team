@@ -43,7 +43,7 @@ beforeEach(() => {
 });
 afterEach(async () => { await act(async () => root.unmount()); container.remove(); vi.useRealTimers(); vi.unstubAllGlobals(); });
 function preview() {
-  const element = container.querySelector<HTMLElement>('[data-openbitfun-part="preview"]')!;
+  const element = container.querySelector<HTMLElement>('[data-opc-part="preview"]')!;
   element.getBoundingClientRect = () => ({ left: 20, top: 30, width: 200, height: 200, x: 20, y: 30, right: 220, bottom: 230, toJSON: () => ({}) });
   return element;
 }

@@ -16,7 +16,7 @@ if (version['short-bundle-version'] !== '1.2') {
 }
 run(process.execPath, [join(ROOT, 'scripts/generate-brand-assets.mjs'), '--macos-source-only']);
 
-const temp = await mkdtemp(join(tmpdir(), 'openbitfun-macos-icons-'));
+const temp = await mkdtemp(join(tmpdir(), 'opc-macos-icons-'));
 try {
   const { canvasSize, artworkBounds: bounds } = JSON.parse(await readFile(join(MACOS_ICON_DIR, 'legacy-canvas.json'), 'utf8'));
   const iconset = join(temp, 'openbitfun.iconset');

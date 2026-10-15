@@ -6,7 +6,7 @@ use crate::agentic::tools::frontend_workbench_host::{
 };
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_runtime::remote_file_delivery::TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY;
+use opc_agent_runtime::remote_file_delivery::TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY;
 use serde_json::{json, Value};
 
 pub struct FrontendWorkbenchTool;
@@ -106,7 +106,7 @@ This tool is unavailable for remote workspaces, remote-control turns, and non-de
 
         let resource = if action == "invoke" {
             format!(
-                "openbitfun-creation:command:{}",
+                "opc-creation:command:{}",
                 input
                     .get("command_id")
                     .and_then(Value::as_str)
@@ -116,10 +116,10 @@ This tool is unavailable for remote workspaces, remote-control turns, and non-de
             input
                 .get("draft_id")
                 .and_then(Value::as_str)
-                .map(|id| format!("openbitfun-frontend:draft:{id}"))
-                .unwrap_or_else(|| "openbitfun-frontend:draft:<missing>".to_string())
+                .map(|id| format!("opc-frontend:draft:{id}"))
+                .unwrap_or_else(|| "opc-frontend:draft:<missing>".to_string())
         } else {
-            "openbitfun-frontend:previous-confirmed-revision".to_string()
+            "opc-frontend:previous-confirmed-revision".to_string()
         };
         let mut intent = PermissionIntent::new("frontend_workbench", vec![resource]);
         intent.save_resources.clear();
@@ -249,7 +249,7 @@ mod tests {
             "connection-1".to_string(),
             "Remote".to_string(),
             crate::service::remote_ssh::workspace_state::WorkspaceSessionIdentity {
-                workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+                workspace_kind: opc_core_types::WorkspaceKind::Remote,
                 hostname: "remote.example".to_string(),
                 logical_workspace_path: "/srv/project".to_string(),
                 remote_connection_id: Some("connection-1".to_string()),
@@ -330,7 +330,7 @@ mod tests {
             .unwrap();
         assert_eq!(
             intents[0].resources,
-            ["openbitfun-creation:command:counter.increment"]
+            ["opc-creation:command:counter.increment"]
         );
         assert!(intents[0].save_resources.is_empty());
         assert_eq!(intents[0].display_metadata["requiresFreshApproval"], true);

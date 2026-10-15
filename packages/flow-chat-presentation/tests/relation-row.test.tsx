@@ -25,13 +25,13 @@ describe('relationship element interactions', () => {
     let bubbled = 0;
     act(() => root.render(<div onClick={() => { bubbled++; }}><ToolRelationRow interaction={relationship}
       result="Sent 1 message" status="completed" details="Keep the original message body" resultLabel="View the message" /></div>));
-    const row = container.querySelector<HTMLElement>('[data-openbitfun-component="tool-relation-row"]')!;
+    const row = container.querySelector<HTMLElement>('[data-opc-component="tool-relation-row"]')!;
     expect(row.getAttribute('role')).toBeNull();
     expect(row.querySelector('[aria-expanded]')).toBeNull();
     act(() => row.click());
     expect(document.querySelector('[role="dialog"]')).toBeNull();
     const before = bubbled;
-    click('[data-openbitfun-part="result"]');
+    click('[data-opc-part="result"]');
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('Keep the original message body');
     expect(bubbled).toBe(before);
     expect(row.querySelector('[aria-expanded]')).toBeNull();
@@ -42,7 +42,7 @@ describe('relationship element interactions', () => {
     const targets = ['A', 'B'].map(id => ({ id, label: id, kind: 'agent' as const, onOpen: () => opened.push(id) }));
     act(() => root.render(<ToolRelationRow interaction={{ ...relationship, operation: 'receive', targets }}
       result="Received 2 results" status="completed" details="Actual returned results" />));
-    const buttons = container.querySelectorAll<HTMLButtonElement>('[data-openbitfun-part="target"]');
+    const buttons = container.querySelectorAll<HTMLButtonElement>('[data-opc-part="target"]');
     expect(buttons).toHaveLength(2);
     act(() => buttons[1].click());
     expect(opened).toEqual(['B']);
@@ -53,12 +53,12 @@ describe('relationship element interactions', () => {
 
   it('keeps unavailable nodes disabled and opens their recorded details only through the outcome', () => {
     act(() => root.render(<ToolRelationRow interaction={relationship} result="Deleted" status="completed" details="Deletion record" />));
-    const target = container.querySelector<HTMLButtonElement>('[data-openbitfun-part="target"]')!;
+    const target = container.querySelector<HTMLButtonElement>('[data-opc-part="target"]')!;
     expect(target.disabled).toBe(true);
     expect(target.hasAttribute('aria-haspopup')).toBe(false);
-    click('[data-openbitfun-part="target"]');
+    click('[data-opc-part="target"]');
     expect(document.querySelector('[role="dialog"]')).toBeNull();
-    click('[data-openbitfun-part="result"]');
+    click('[data-opc-part="result"]');
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('Deletion record');
   });
 });
@@ -78,16 +78,16 @@ describe('process relationship records', () => {
       toolCall: { input: { session_id: 24, chars: 'continue\n' } }, _progressMessage: 'running output' });
     expect(expanded()).toBe(false);
     expect(container.querySelector('[aria-expanded]')).toBeNull();
-    click('[data-openbitfun-part="target"]');
+    click('[data-opc-part="target"]');
     expect(document.querySelector('[role="dialog"]')).toBeNull();
-    click('[data-openbitfun-part="result"]');
+    click('[data-opc-part="result"]');
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('continue\n');
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('running output');
   });
   it('shows missing processes as errors rather than successful termination', () => {
     render({ id: 'stop', toolName: 'ExecControl', status: 'completed', toolCall: { input: { session_id: 24, action: 'terminate' } },
       toolResult: { success: true, result: JSON.stringify({ status: 'session_not_found', requested_session_id: 24 }) } });
-    expect(container.querySelector('[data-openbitfun-status="error"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-status="error"]')).not.toBeNull();
     expect(container.textContent).toContain('toolCards.execProcess.sessionNotFound');
     expect(container.textContent).not.toContain('toolCards.interaction.terminated');
   });

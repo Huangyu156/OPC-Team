@@ -48,12 +48,12 @@ Use this as the release entrypoint. `pnpm run tauri:build` does not prepare vali
 pnpm run installer:build:only
 ```
 
-`installer:build:only` requires an existing `target/release/openbitfun-desktop.exe`
+`installer:build:only` requires an existing `target/release/opc-desktop.exe`
 and its adjacent runtime directories. It never falls back to `release-fast` or
 `debug`. For an explicit Cargo target, pass the exact executable:
 
 ```powershell
-$env:OPENBITFUN_INSTALLER_APP_EXE = "target/x86_64-pc-windows-msvc/release/openbitfun-desktop.exe"
+$env:OPENBITFUN_INSTALLER_APP_EXE = "target/x86_64-pc-windows-msvc/release/opc-desktop.exe"
 pnpm run installer:build:only
 ```
 
@@ -218,13 +218,13 @@ pnpm run installer:build:only:fast
 Default release output:
 
 ```text
-src-tauri/target/release/openbitfun-installer.exe
+src-tauri/target/release/opc-installer.exe
 ```
 
 Fast build output:
 
 ```text
-src-tauri/target/release-fast/openbitfun-installer.exe
+src-tauri/target/release-fast/opc-installer.exe
 ```
 
 ## Customization guide
@@ -271,7 +271,7 @@ reduced-motion preference.
 ### Adding Installer Payload
 
 Place the built OPC-Team application files in `src-tauri/payload/` before building the installer. The build script handles this automatically.
-During `cargo build`, the payload directory is packed into an embedded zip inside `openbitfun-installer.exe`.
+During `cargo build`, the payload directory is packed into an embedded zip inside `opc-installer.exe`.
 
 ## Integration with CI/CD
 
@@ -299,5 +299,5 @@ Add to your GitHub Actions workflow:
   uses: actions/upload-artifact@v6
   with:
     name: OpenBitFun-Installer-Exe
-    path: OpenBitFun-Installer/src-tauri/target/release/openbitfun-installer.exe
+    path: OpenBitFun-Installer/src-tauri/target/release/opc-installer.exe
 ```

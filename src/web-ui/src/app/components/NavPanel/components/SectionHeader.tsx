@@ -9,10 +9,10 @@ interface SectionHeaderProps {
 }
 
 const SectionHeader: React.FC<SectionHeaderProps> = ({ label, actions }) => (
-  <div className="openbitfun-nav-panel__section-header">
-    <OverflowText className="openbitfun-nav-panel__section-label">{label}</OverflowText>
+  <div className="opc-nav-panel__section-header">
+    <OverflowText className="opc-nav-panel__section-label">{label}</OverflowText>
     {actions ? (
-      <div className="openbitfun-nav-panel__section-actions">
+      <div className="opc-nav-panel__section-actions">
         {actions}
       </div>
     ) : null}

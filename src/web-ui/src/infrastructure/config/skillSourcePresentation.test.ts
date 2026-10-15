@@ -42,7 +42,7 @@ function modeSkill(overrides: Partial<ModeSkillInfo> = {}): ModeSkillInfo {
 
 describe('skill source presentation', () => {
   it('keeps legacy native and imported copies while excluding external identities from native management', () => {
-    expect(isOpenBitFunManagedSkill(skill({ sourceId: undefined, sourceSlot: 'openbitfun-user' }))).toBe(true);
+    expect(isOpenBitFunManagedSkill(skill({ sourceId: undefined, sourceSlot: 'opc-user' }))).toBe(true);
     expect(isOpenBitFunManagedSkill(skill({ installationSource: 'github:example/external-skill' }))).toBe(true);
     expect(isOpenBitFunManagedSkill(skill({ sourceId: undefined, sourceSlot: 'home.codex' }))).toBe(false);
     expect(isOpenBitFunManagedSkill(skill({ sourceId: 'claude-code', sourceLabel: 'OPC-Team' }))).toBe(false);
@@ -56,7 +56,7 @@ describe('skill source presentation', () => {
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'home.pi' }))).toBe('pi');
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'home.agents' }))).toBe('agent-skills');
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'config.opencode.custom-root' }))).toBe('opencode');
-    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'openbitfun-system' }))).toBe('openbitfun');
+    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'opc-system' }))).toBe('openbitfun');
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: '' }))).toBe('openbitfun');
     expect(getSkillSourceId(skill({ sourceId: 'future-agent', sourceLabel: 'Codex' }))).toBe('future-agent');
   });
@@ -67,7 +67,7 @@ describe('skill source presentation', () => {
     expect(getSkillSourceLabel(skill({ sourceLabel: '', sourceId: 'deepseek-harness' }))).toBe('DeepSeek Harness');
     expect(getSkillSourceLabel(skill({ sourceLabel: '', sourceId: '', sourceSlot: 'home.pi' }))).toBe('PI');
     expect(getSkillSourceLabel(skill({ sourceLabel: '', sourceId: '', sourceSlot: 'home.codex' }))).toBe('Codex');
-    expect(getSkillSourceLabel(skill({ sourceLabel: '', sourceId: '', sourceSlot: 'openbitfun-system' }))).toBe('OPC-Team');
+    expect(getSkillSourceLabel(skill({ sourceLabel: '', sourceId: '', sourceSlot: 'opc-system' }))).toBe('OPC-Team');
     expect(getSkillSourceLabel(skill({ sourceLabel: '', sourceId: '', sourceSlot: 'future' }), '其他来源')).toBe('其他来源');
     expect(getSkillSourceLabelFromIdentity('', '', 'home.codex')).toBe('Codex');
   });
@@ -75,7 +75,7 @@ describe('skill source presentation', () => {
   it('only allows OPC-Team-owned non-builtin skills to be deleted', () => {
     expect(canDeleteSkill(skill())).toBe(true);
     expect(canDeleteSkill(skill({ isBuiltin: true }))).toBe(false);
-    expect(canDeleteSkill(skill({ sourceId: 'openbitfun-system', isBuiltin: false }))).toBe(true);
+    expect(canDeleteSkill(skill({ sourceId: 'opc-system', isBuiltin: false }))).toBe(true);
     expect(canDeleteSkill(skill({ sourceId: 'opencode' }))).toBe(false);
     expect(canDeleteSkill(skill({ sourceId: '', sourceSlot: 'home.codex' }))).toBe(false);
     expect(canDeleteSkill(skill({ sourceId: '', sourceSlot: 'future' }))).toBe(false);

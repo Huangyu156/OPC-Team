@@ -14,10 +14,10 @@ export interface ToolCardSectionProps extends Omit<HTMLAttributes<HTMLElement>, 
 /** A subordinate section. The card shell owns the outer inset. */
 export function ToolCardSection({ label, actions, children, className, ...props }: ToolCardSectionProps) {
   return (
-    <section data-openbitfun-part="section" {...props} className={classNames(styles.section, className)} data-tool-card-action-scope>
+    <section data-opc-part="section" {...props} className={classNames(styles.section, className)} data-tool-card-action-scope>
       {(label || actions) && (
         <div className={styles.heading} data-tool-card-action-heading>
-          {label && <div className={styles.label} data-openbitfun-part="sectionLabel">{label}</div>}
+          {label && <div className={styles.label} data-opc-part="sectionLabel">{label}</div>}
           {actions && <ToolCardActions className={styles.actions} revealOnHover>{actions}</ToolCardActions>}
         </div>
       )}
@@ -42,15 +42,15 @@ export function ToolCardDisclosure({
       contentInnerClassName={classNames(styles.disclosureContent, contentInnerClassName)}
       summary={summary}
       renderHeader={(triggerProps) => (
-        <div className={styles.heading} data-openbitfun-part="header" data-tool-card-action-scope>
+        <div className={styles.heading} data-opc-part="header" data-tool-card-action-scope>
           <button {...triggerProps} className={styles.disclosureTrigger}>
-            <span className={styles.disclosureIndicator} aria-hidden="true" data-openbitfun-part="indicator" data-openbitfun-icon-slot="true">
+            <span className={styles.disclosureIndicator} aria-hidden="true" data-opc-part="indicator" data-opc-icon-slot="true">
               <Icon name="chevron-right" size="sm" />
             </span>
-            <span className={styles.disclosureHeading} data-openbitfun-part="heading">
-              <span className={styles.label} data-openbitfun-part="summary">{summary}</span>
+            <span className={styles.disclosureHeading} data-opc-part="heading">
+              <span className={styles.label} data-opc-part="summary">{summary}</span>
               {description !== undefined && description !== null && (
-                <span className={styles.description} data-openbitfun-part="description">{description}</span>
+                <span className={styles.description} data-opc-part="description">{description}</span>
               )}
             </span>
           </button>
@@ -80,7 +80,7 @@ export function ToolCardFields({ fields, className, ...props }: ToolCardFieldsPr
   return (
     <dl {...props} className={classNames(styles.fields, className)}>
       {fields.map((field, index) => (
-        <div className={styles.field} data-openbitfun-part="field" key={index}>
+        <div className={styles.field} data-opc-part="field" key={index}>
           <dt className={styles.fieldLabel}>{field.label}</dt>
           <dd className={styles.fieldValue} data-tool-card-action-scope>
             {field.actions ? <ToolCardSubject actions={field.actions}>{field.value}</ToolCardSubject> : field.value}

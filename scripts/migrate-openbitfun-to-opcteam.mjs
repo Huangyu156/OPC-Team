@@ -53,7 +53,7 @@ const SSH_DATA_DIRECTORY_NAME = 'OpenBitFun';
 
 const SKIPPED_SAMPLE_LIMIT = 10;
 
-const USAGE = `Usage: node scripts/migrate-openbitfun-to-opcteam.mjs [options]
+const USAGE = `Usage: node scripts/migrate-opc-to-opcteam.mjs [options]
 
 Copies pre-rename data directories to the OPC-Team identity. Nothing is written
 without --apply.
@@ -425,7 +425,7 @@ export function migrate({
   backupFactory = createBackup,
 }) {
   const report = {
-    tool: 'migrate-openbitfun-to-opcteam',
+    tool: 'migrate-opc-to-opcteam',
     mode: apply ? 'apply' : 'dry-run',
     force: Boolean(force),
     roots: [],

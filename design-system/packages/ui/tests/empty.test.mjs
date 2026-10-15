@@ -13,11 +13,11 @@ test("Empty exposes media, copy, and action anatomy", () => {
     title: "No items yet",
   }));
 
-  assert.match(markup, /data-openbitfun-component="empty"/);
-  assert.match(markup, /data-openbitfun-part="media"/);
-  assert.match(markup, /data-openbitfun-part="title">No items yet/);
-  assert.match(markup, /data-openbitfun-part="description">Created items will appear here\./);
-  assert.match(markup, /data-openbitfun-part="actions"/);
+  assert.match(markup, /data-opc-component="empty"/);
+  assert.match(markup, /data-opc-part="media"/);
+  assert.match(markup, /data-opc-part="title">No items yet/);
+  assert.match(markup, /data-opc-part="description">Created items will appear here\./);
+  assert.match(markup, /data-opc-part="actions"/);
 });
 
 test("Empty keeps decorative media and copy on the quiet content hierarchy", async () => {

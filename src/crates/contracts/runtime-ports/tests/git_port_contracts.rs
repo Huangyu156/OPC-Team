@@ -1,6 +1,6 @@
 #![cfg(feature = "git-port")]
 
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     WorkspaceDiffContent, WorkspaceDiffFile, WorkspaceDiffFileStatus, WorkspaceDiffSnapshot,
 };
 

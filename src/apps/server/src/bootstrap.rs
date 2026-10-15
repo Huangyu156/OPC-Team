@@ -2,14 +2,14 @@
 //!
 //! Mirrors the Desktop app's init sequence without any Tauri dependency.
 
-use openbitfun_core::agentic::{agents, coordination, system, tools};
-use openbitfun_core::infrastructure::ai::AIClientFactory;
-use openbitfun_core::infrastructure::try_get_path_manager_arc;
-use openbitfun_core::product_runtime::{
+use opc_core::agentic::{agents, coordination, system, tools};
+use opc_core::infrastructure::ai::AIClientFactory;
+use opc_core::infrastructure::try_get_path_manager_arc;
+use opc_core::product_runtime::{
     ensure_product_dialog_scheduler, CoreProductEventQueueOwner, CoreRuntimeServicesProvider,
 };
-use openbitfun_core::runtime_ownership::CoreRuntimeOwnership;
-use openbitfun_core::service::{config, filesystem, mcp, token_usage, workspace};
+use opc_core::runtime_ownership::CoreRuntimeOwnership;
+use opc_core::service::{config, filesystem, mcp, token_usage, workspace};
 use std::sync::Arc;
 use tokio::sync::RwLock;
 
@@ -54,8 +54,7 @@ pub(crate) async fn initialize(workspace: Option<String>) -> anyhow::Result<Arc<
     // Initialize the global I18nService so server-mode bot/remote-connect
     // consumers observe the same runtime locale lifecycle as Desktop.
     if let Err(e) =
-        openbitfun_core::service::i18n::initialize_global_i18n_service(Some(config_service.clone()))
-            .await
+        opc_core::service::i18n::initialize_global_i18n_service(Some(config_service.clone())).await
     {
         log::warn!(
             "Failed to initialize global I18nService in server mode: {}",
@@ -92,23 +91,22 @@ pub(crate) async fn initialize(workspace: Option<String>) -> anyhow::Result<Arc<
     let token_usage_service = agentic_system.token_usage_service.clone();
 
     // Cron service
-    let cron_service = openbitfun_core::service::cron::CronService::new(
+    let cron_service = opc_core::service::cron::CronService::new(
         path_manager.clone(),
         coordinator.clone(),
         scheduler.clone(),
     )
     .await?;
-    openbitfun_core::service::cron::set_global_cron_service(cron_service.clone());
+    opc_core::service::cron::set_global_cron_service(cron_service.clone());
     coordinator.subscribe_internal(
         "cron_jobs".to_string(),
-        openbitfun_core::service::cron::CronEventSubscriber::new(cron_service.clone()),
+        opc_core::service::cron::CronEventSubscriber::new(cron_service.clone()),
     );
     cron_service.start();
 
     // Function agents
-    let _ = openbitfun_core::function_agents::git_func_agent::GitFunctionAgent::new(
-        ai_client_factory.clone(),
-    );
+    let _ =
+        opc_core::function_agents::git_func_agent::GitFunctionAgent::new(ai_client_factory.clone());
     // 4. Services
     let workspace_service = Arc::new(workspace::WorkspaceService::new().await?);
     workspace::set_global_workspace_service(workspace_service.clone());
@@ -155,12 +153,12 @@ pub(crate) async fn initialize(workspace: Option<String>) -> anyhow::Result<Arc<
         workspace_service.get_current_workspace().await
     };
 
-    if let Err(error) = openbitfun_core::plugin_host::initialize_configured_plugin_host(
-        openbitfun_core::plugin_host::PluginHostLaunchPolicy::Enabled,
+    if let Err(error) = opc_core::plugin_host::initialize_configured_plugin_host(
+        opc_core::plugin_host::PluginHostLaunchPolicy::Enabled,
     )
     .await
     {
-        openbitfun_core::plugin_host::report_configured_plugin_activation_failure(
+        opc_core::plugin_host::report_configured_plugin_activation_failure(
             "server startup",
             initial_workspace.as_ref().map(|record| record.id.as_str()),
             error,
@@ -168,13 +166,13 @@ pub(crate) async fn initialize(workspace: Option<String>) -> anyhow::Result<Arc<
         .await;
     }
     if let Some(workspace) = initial_workspace.as_ref() {
-        if let Err(error) = openbitfun_core::plugin_host::ensure_configured_plugin_instance(
-            openbitfun_core::plugin_host::PluginHostLaunchPolicy::Enabled,
+        if let Err(error) = opc_core::plugin_host::ensure_configured_plugin_instance(
+            opc_core::plugin_host::PluginHostLaunchPolicy::Enabled,
             &workspace.id,
         )
         .await
         {
-            openbitfun_core::plugin_host::report_configured_plugin_activation_failure(
+            opc_core::plugin_host::report_configured_plugin_activation_failure(
                 "server workspace activation",
                 Some(workspace.id.as_str()),
                 error,

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import unittest
 
-import openbitfun_appearance as appearance
+import opc_appearance as appearance
 import sync_registry as registry_sync
 
 

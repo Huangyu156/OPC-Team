@@ -26,7 +26,7 @@ function createTestRoot({
   sherpaOnnx = null,
   virtualStoreEntries = null,
 } = {}) {
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-build-prereqs-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-build-prereqs-'));
 
   if (nodeModules) {
     mkdirSync(path.join(root, 'node_modules'), { recursive: true });
@@ -80,7 +80,7 @@ function createTestRoot({
 }
 
 function createFakePnpm() {
-  const binDir = mkdtempSync(path.join(tmpdir(), 'openbitfun-fake-pnpm-'));
+  const binDir = mkdtempSync(path.join(tmpdir(), 'opc-fake-pnpm-'));
   const fakePnpmPath = path.join(binDir, 'fake-pnpm.cjs');
   writeFileSync(
     fakePnpmPath,

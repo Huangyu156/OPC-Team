@@ -16,7 +16,7 @@ use state::{CachedInteractiveView, CachedVisualMarkView};
 use async_trait::async_trait;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 use log::debug;
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_core::agentic::tools::computer_use_host::{
     ActionRecord, AppInfo, AppSelector, AppShortcutsSnapshot, AppStateSnapshot, AppWaitPredicate,
     ComputerScreenshot, ComputerUseDisplayInfo, ComputerUseHost, ComputerUseInteractionState,
     ComputerUseLastMutationKind, ComputerUsePermissionSnapshot, ComputerUseScreenshotParams,
@@ -26,10 +26,10 @@ use openbitfun_core::agentic::tools::computer_use_host::{
     VisualActionResult, VisualClickParams, VisualMarkView, VisualMarkViewOpts,
 };
 #[cfg(any(target_os = "macos", target_os = "windows"))]
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_core::agentic::tools::computer_use_host::{
     ComputerUseForegroundApplication, ComputerUsePointerGlobal,
 };
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 #[cfg(any(target_os = "windows", target_os = "linux"))]
 use screenshots::display_info::DisplayInfo;
 use screenshots::Screen;
@@ -74,7 +74,7 @@ const OSASCRIPT_TIMEOUT_MS: u64 = 10_000;
 fn run_osascript_bounded(script: &str, timeout_ms: u64) -> std::io::Result<std::process::Output> {
     use std::process::Stdio;
 
-    let mut child = openbitfun_core::util::process_manager::create_command("/usr/bin/osascript")
+    let mut child = opc_core::util::process_manager::create_command("/usr/bin/osascript")
         .args(["-e", script])
         .stdin(Stdio::null())
         .stdout(Stdio::piped())
@@ -126,7 +126,7 @@ mod visual_grid_tests {
     use super::*;
     use image::codecs::jpeg::JpegEncoder;
     use image::{DynamicImage, Rgb, RgbImage};
-    use openbitfun_core::agentic::tools::computer_use_host::ComputerUseImageContentRect;
+    use opc_core::agentic::tools::computer_use_host::ComputerUseImageContentRect;
 
     #[test]
     fn detects_regular_grid_rect_from_synthetic_screenshot() {
@@ -375,7 +375,7 @@ impl Default for DesktopComputerUseHost {
 impl DesktopComputerUseHost {
     fn state_for_scope(
         &self,
-        scope: &openbitfun_agent_tools::computer_use_control::ObservationScope,
+        scope: &opc_agent_tools::computer_use_control::ObservationScope,
     ) -> OpcTeamResult<std::sync::MutexGuard<'_, ComputerUseSessionMutableState>> {
         crate::computer_use::control_session::validate_observation_scope(scope)
             .map_err(OpcTeamError::tool)?;
@@ -456,11 +456,11 @@ impl DesktopComputerUseHost {
     fn open_app_macos(
         name: String,
         background: bool,
-    ) -> OpcTeamResult<openbitfun_core::agentic::tools::computer_use_host::OpenAppResult> {
+    ) -> OpcTeamResult<opc_core::agentic::tools::computer_use_host::OpenAppResult> {
         use crate::computer_use::macos_bg_input::{
             pid_for_bundle_id_macos, running_app_identity_macos,
         };
-        use openbitfun_core::agentic::tools::computer_use_host::OpenAppResult;
+        use opc_core::agentic::tools::computer_use_host::OpenAppResult;
 
         let failure = |err: String| OpenAppResult {
             app_name: name.clone(),
@@ -513,8 +513,7 @@ impl DesktopComputerUseHost {
 
         crate::computer_use::control_session::input_allowed().map_err(OpcTeamError::tool)?;
         let opened = if background {
-            let mut command =
-                openbitfun_core::util::process_manager::create_command("/usr/bin/open");
+            let mut command = opc_core::util::process_manager::create_command("/usr/bin/open");
             command.arg("-g");
             if std::path::Path::new(&name).is_absolute() {
                 // A caller-provided app path stays authoritative even before
@@ -571,8 +570,7 @@ Inspect its process and current application state before choosing another operat
             if let Some(bid) = bundle_id.as_deref() {
                 crate::computer_use::control_session::input_allowed()
                     .map_err(OpcTeamError::tool)?;
-                let mut command =
-                    openbitfun_core::util::process_manager::create_command("/usr/bin/open");
+                let mut command = opc_core::util::process_manager::create_command("/usr/bin/open");
                 if background {
                     command.arg("-g");
                 }
@@ -886,7 +884,7 @@ impl ComputerUseHost for DesktopComputerUseHost {
     async fn dispatch_app_input(
         &self,
         app: AppSelector,
-        action: openbitfun_core::agentic::tools::computer_use_host::AppInputAction,
+        action: opc_core::agentic::tools::computer_use_host::AppInputAction,
     ) -> OpcTeamResult<()> {
         self.dispatch_app_input_impl(app, action).await
     }
@@ -978,20 +976,19 @@ impl ComputerUseHost for DesktopComputerUseHost {
     async fn start_control(
         &self,
         owner: &str,
-        request: openbitfun_core::agentic::tools::computer_use_host::ControlStartRequest,
-    ) -> OpcTeamResult<openbitfun_core::agentic::tools::computer_use_host::ControlSnapshot> {
+        request: opc_core::agentic::tools::computer_use_host::ControlStartRequest,
+    ) -> OpcTeamResult<opc_core::agentic::tools::computer_use_host::ControlSnapshot> {
         let snapshot = crate::computer_use::control_session::start(owner, request.mode)
             .map_err(OpcTeamError::tool)?;
         let scope =
-            openbitfun_agent_tools::computer_use_control::ObservationScope::from_control(&snapshot);
+            opc_agent_tools::computer_use_control::ObservationScope::from_control(&snapshot);
         drop(self.state_for_scope(&scope)?);
         // Background AT-SPI actions need no portal or window picker. The
         // compositor's consent is required only for a portal capture/seat session.
         #[cfg(target_os = "linux")]
-        if request.mode != openbitfun_agent_tools::computer_use_control::ControlMode::Background {
+        if request.mode != opc_agent_tools::computer_use_control::ControlMode::Background {
             if let Err(error) = crate::computer_use::linux_control::start_session(
-                request.mode
-                    == openbitfun_agent_tools::computer_use_control::ControlMode::Foreground,
+                request.mode == opc_agent_tools::computer_use_control::ControlMode::Foreground,
             )
             .await
             {
@@ -1006,15 +1003,13 @@ impl ComputerUseHost for DesktopComputerUseHost {
         Ok(crate::computer_use::control_session::snapshot())
     }
 
-    fn control_snapshot(
-        &self,
-    ) -> openbitfun_core::agentic::tools::computer_use_host::ControlSnapshot {
+    fn control_snapshot(&self) -> opc_core::agentic::tools::computer_use_host::ControlSnapshot {
         crate::computer_use::control_session::snapshot()
     }
     async fn stop_control(
         &self,
         owner: &str,
-    ) -> OpcTeamResult<openbitfun_core::agentic::tools::computer_use_host::ControlSnapshot> {
+    ) -> OpcTeamResult<opc_core::agentic::tools::computer_use_host::ControlSnapshot> {
         crate::computer_use::control_session::stop(Some(owner), "user_stopped")
             .map_err(OpcTeamError::tool)
     }
@@ -1022,7 +1017,7 @@ impl ComputerUseHost for DesktopComputerUseHost {
         &self,
         owner: &str,
         generation: u64,
-    ) -> OpcTeamResult<openbitfun_core::agentic::tools::computer_use_host::ControlSnapshot> {
+    ) -> OpcTeamResult<opc_core::agentic::tools::computer_use_host::ControlSnapshot> {
         crate::computer_use::control_session::stop_checked(
             Some(owner),
             Some(generation),
@@ -1035,11 +1030,10 @@ impl ComputerUseHost for DesktopComputerUseHost {
         owner: &str,
         action: &str,
     ) -> OpcTeamResult<
-        Option<Box<dyn openbitfun_core::agentic::tools::computer_use_host::ComputerUseActionLease>>,
+        Option<Box<dyn opc_core::agentic::tools::computer_use_host::ComputerUseActionLease>>,
     > {
-        let policy =
-            openbitfun_agent_tools::computer_use_control::ControlActionPolicy::for_action(action)
-                .ok_or_else(|| {
+        let policy = opc_agent_tools::computer_use_control::ControlActionPolicy::for_action(action)
+            .ok_or_else(|| {
                 OpcTeamError::tool(format!(
                     "[CONTROL_ACTION_INVALID] Unknown ComputerUse action: {action}"
                 ))
@@ -1053,7 +1047,7 @@ impl ComputerUseHost for DesktopComputerUseHost {
     }
 
     async fn permission_snapshot(&self) -> OpcTeamResult<ComputerUsePermissionSnapshot> {
-        use openbitfun_agent_tools::computer_use_permissions::ComputerPermissionKind as Kind;
+        use opc_agent_tools::computer_use_permissions::ComputerPermissionKind as Kind;
         let status = crate::computer_use::permissions::status().await;
         Ok(ComputerUsePermissionSnapshot {
             accessibility_granted: status.usable(Kind::Accessibility),
@@ -1157,15 +1151,15 @@ impl ComputerUseHost for DesktopComputerUseHost {
 
     async fn read_screen_text(
         &self,
-    ) -> OpcTeamResult<Vec<openbitfun_core::agentic::tools::computer_use_host::OcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<opc_core::agentic::tools::computer_use_host::OcrTextMatch>> {
         self.read_screen_text_impl().await
     }
 
     async fn ocr_find_text_matches(
         &self,
         text_query: &str,
-        region_native: Option<openbitfun_core::agentic::tools::computer_use_host::OcrRegionNative>,
-    ) -> OpcTeamResult<Vec<openbitfun_core::agentic::tools::computer_use_host::OcrTextMatch>> {
+        region_native: Option<opc_core::agentic::tools::computer_use_host::OcrRegionNative>,
+    ) -> OpcTeamResult<Vec<opc_core::agentic::tools::computer_use_host::OcrTextMatch>> {
         self.ocr_find_text_matches_impl(text_query, region_native)
             .await
     }
@@ -1174,9 +1168,8 @@ impl ComputerUseHost for DesktopComputerUseHost {
         &self,
         gx: f64,
         gy: f64,
-    ) -> OpcTeamResult<
-        Option<openbitfun_core::agentic::tools::computer_use_host::OcrAccessibilityHit>,
-    > {
+    ) -> OpcTeamResult<Option<opc_core::agentic::tools::computer_use_host::OcrAccessibilityHit>>
+    {
         #[cfg(target_os = "macos")]
         {
             let pid = resolve_pid_macos(self, &AppSelector::default()).await?;
@@ -1302,12 +1295,12 @@ impl ComputerUseHost for DesktopComputerUseHost {
     async fn open_app(
         &self,
         app_name: &str,
-    ) -> OpcTeamResult<openbitfun_core::agentic::tools::computer_use_host::OpenAppResult> {
-        use openbitfun_core::agentic::tools::computer_use_host::OpenAppResult;
+    ) -> OpcTeamResult<opc_core::agentic::tools::computer_use_host::OpenAppResult> {
+        use opc_core::agentic::tools::computer_use_host::OpenAppResult;
         let name = app_name.to_string();
         crate::computer_use::control_session::input_allowed().map_err(OpcTeamError::tool)?;
         let background = crate::computer_use::control_session::snapshot().mode
-            == openbitfun_agent_tools::computer_use_control::ControlMode::Background;
+            == opc_agent_tools::computer_use_control::ControlMode::Background;
 
         #[cfg(target_os = "macos")]
         {
@@ -1336,11 +1329,11 @@ impl ComputerUseHost for DesktopComputerUseHost {
             }
             let result = crate::computer_use::control_session::spawn_blocking(
                 move || -> OpcTeamResult<OpenAppResult> {
-                    let output = openbitfun_core::util::process_manager::create_command("xdg-open")
+                    let output = opc_core::util::process_manager::create_command("xdg-open")
                         .arg(&name)
                         .output()
                         .or_else(|_| {
-                            openbitfun_core::util::process_manager::create_command(&name).output()
+                            opc_core::util::process_manager::create_command(&name).output()
                         })
                         .map_err(|e| OpcTeamError::tool(format!("open_app: {}", e)))?;
                     Ok(OpenAppResult {
@@ -1889,7 +1882,7 @@ async fn resolve_pid_macos(host: &DesktopComputerUseHost, app: &AppSelector) -> 
             return Ok(p);
         }
         // 2) Exact match against the bundle id's last segment (e.g. user
-        //    asks for "OpenBitFun" but `list_apps` returned name="openbitfun-desktop"
+        //    asks for "OpenBitFun" but `list_apps` returned name="opc-desktop"
         //    with bundle_id="ai.openbitfun.desktop"). This keeps us aligned with
         //    Codex, which is robust to "Cursor" vs "com.todesktop....Cursor".
         if let Some(p) = apps

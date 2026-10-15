@@ -8,8 +8,8 @@ use core_foundation::dictionary::CFDictionary;
 use core_foundation::number::CFNumber;
 use core_foundation::string::CFString;
 use objc2_app_kit::{NSApplicationActivationPolicy, NSWorkspace};
-use openbitfun_core::agentic::tools::computer_use_host::AppInfo;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::computer_use_host::AppInfo;
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::collections::HashSet;
 use std::ffi::c_void;
 
@@ -30,7 +30,7 @@ fn number(dictionary: &Dictionary, key: &str) -> Option<f64> {
 }
 
 pub(super) fn list_share_targets(
-) -> OpcTeamResult<Vec<openbitfun_agent_tools::computer_use_control::ShareTarget>> {
+) -> OpcTeamResult<Vec<opc_agent_tools::computer_use_control::ShareTarget>> {
     #[link(name = "CoreGraphics", kind = "framework")]
     unsafe extern "C" {
         fn CGWindowListCopyWindowInfo(
@@ -77,7 +77,7 @@ pub(super) fn list_share_targets(
                     .filter(|value| unsafe { CFGetTypeID(*value) } == CFString::type_id())
                     .map(|value| unsafe { CFString::wrap_under_get_rule(value.cast()) }.to_string())
             };
-            targets.push(openbitfun_agent_tools::computer_use_control::ShareTarget {
+            targets.push(opc_agent_tools::computer_use_control::ShareTarget {
                 selection_id: String::new(),
                 unavailable_reason: None,
                 id: format!("pid:{}/window:{}", pid as i32, id as u64),

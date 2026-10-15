@@ -119,7 +119,7 @@ export const VirtualItemRenderer = React.memo<VirtualItemRendererProps>(
 
         case 'image-analyzing':
           return (
-            <div data-openbitfun-component="virtual-item" data-openbitfun-part="imageAnalyzing" className="model-round-item model-round-item--streaming">
+            <div data-opc-component="virtual-item" data-opc-part="imageAnalyzing" className="model-round-item model-round-item--streaming">
               <AmbientToolCard
                 status="running"
                 header={
@@ -133,7 +133,7 @@ export const VirtualItemRenderer = React.memo<VirtualItemRendererProps>(
           );
 
         default:
-          return <div data-openbitfun-component="virtual-item" data-openbitfun-part="placeholder" style={{ minHeight: '1px' }} />;
+          return <div data-opc-component="virtual-item" data-opc-part="placeholder" style={{ minHeight: '1px' }} />;
       }
     })();
     
@@ -144,9 +144,9 @@ export const VirtualItemRenderer = React.memo<VirtualItemRendererProps>(
       <div
         {...turnInteraction}
         ref={rowRef}
-        data-openbitfun-component="virtual-item"
-        data-openbitfun-part="root"
-        data-openbitfun-state={[isSearchMatch && 'searchMatch', isSearchCurrent && 'searchCurrent'].filter(Boolean).join(' ')}
+        data-opc-component="virtual-item"
+        data-opc-part="root"
+        data-opc-state={[isSearchMatch && 'searchMatch', isSearchCurrent && 'searchCurrent'].filter(Boolean).join(' ')}
         className="virtual-item-wrapper"
         data-testid="flowchat-message-item"
         data-turn-id={item.turnId}
@@ -166,8 +166,8 @@ export const VirtualItemRenderer = React.memo<VirtualItemRendererProps>(
           aria-hidden="true"
           hidden={!searchLine}
           className="flowchat-search-line"
-          data-openbitfun-component="virtual-item"
-          data-openbitfun-part="searchLine"
+          data-opc-component="virtual-item"
+          data-opc-part="searchLine"
           style={searchLine ?? undefined}
         />
       </div>

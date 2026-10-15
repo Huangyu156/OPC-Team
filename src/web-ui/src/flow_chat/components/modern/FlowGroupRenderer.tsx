@@ -52,22 +52,22 @@ interface FlowGroupView {
 const flowGroupViews = {
   'file-edit': {
     render: (props, context) => <FileEditGroupView {...props} {...context} />,
-    Item: props => <div {...props} data-openbitfun-component="file-edit-group" data-openbitfun-part="item" />,
+    Item: props => <div {...props} data-opc-component="file-edit-group" data-opc-part="item" />,
   },
   explore: {
     render: props => <FlowGroup {...props} leading={<Icon name="route" size="sm" />}
-      data-openbitfun-component="explore-group" data-openbitfun-part="root" data-testid="chat-explore-group" />,
-    Item: props => <div {...props} data-openbitfun-component="explore-group" data-openbitfun-part="item" />,
+      data-opc-component="explore-group" data-opc-part="root" data-testid="chat-explore-group" />,
+    Item: props => <div {...props} data-opc-component="explore-group" data-opc-part="item" />,
   },
   context: {
     render: props => <FlowGroup {...props} leading={<Icon name="layers-plus" size="sm" />}
-      data-openbitfun-component="context-load-group" data-openbitfun-part="root" data-testid="chat-context-load-group" />,
-    Item: props => <div {...props} data-openbitfun-component="context-load-group" data-openbitfun-part="item" />,
+      data-opc-component="context-load-group" data-opc-part="root" data-testid="chat-context-load-group" />,
+    Item: props => <div {...props} data-opc-component="context-load-group" data-opc-part="item" />,
   },
   interface: {
     render: props => <FlowGroup {...props} leading={<Icon name="scan-eye" size="sm" />}
-      data-openbitfun-component="interface-observation-group" data-openbitfun-part="root" data-testid="chat-interface-observation-group" />,
-    Item: props => <div {...props} data-openbitfun-component="interface-observation-group" data-openbitfun-part="item" />,
+      data-opc-component="interface-observation-group" data-opc-part="root" data-testid="chat-interface-observation-group" />,
+    Item: props => <div {...props} data-opc-component="interface-observation-group" data-opc-part="item" />,
   },
 } satisfies Record<FlowGroupCategory, FlowGroupView>;
 

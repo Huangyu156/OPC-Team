@@ -53,7 +53,7 @@ const ScheduledJobsModal: React.FC<ScheduledJobsModalProps> = ({
         <DialogClose />
       </DialogHeader>
       <DialogBody inset="none">
-      <div data-openbitfun-component="scheduled-jobs-modal" data-openbitfun-part="body" className="scheduled-jobs-modal__body">
+      <div data-opc-component="scheduled-jobs-modal" data-opc-part="body" className="scheduled-jobs-modal__body">
         <ScheduledJobsView
           workspaceId={workspaceId}
           workspaceKind={workspaceKind}

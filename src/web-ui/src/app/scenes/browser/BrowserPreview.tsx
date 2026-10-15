@@ -6,8 +6,8 @@ export function BrowserPreview({ src, bounds }: { src: string | null; bounds: Br
   return src && bounds ? (
     <img
       className="browser-preview"
-      data-openbitfun-component="browser-preview"
-      data-openbitfun-part="image"
+      data-opc-component="browser-preview"
+      data-opc-part="image"
       src={src}
       style={bounds}
       alt=""

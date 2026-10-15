@@ -2,7 +2,7 @@ use crate::local_source_paths::{
     find_project_root, local_source_plan, local_source_watch_roots, LocalConfigDirectoryKind,
     LocalConfigDocument, LocalConfigDocumentKind, LocalSourcePlanItem, OpenCodeLocalConfigOptions,
 };
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     EcosystemId, ExternalSourceAssetKind, ExternalSourceContext, ExternalSourceDiagnostic,
     ExternalSourceHealth, ExternalSourceProviderError, ExternalSourceRecord, ExternalSourceScope,
     ExternalWatchRoot, PromptCommandAvailability, PromptCommandDefinition,
@@ -10,12 +10,12 @@ use openbitfun_product_domains::external_sources::{
     PromptCommandProviderSnapshot, PromptCommandShellExpansion, PromptCommandShellInvocation,
     PromptCommandShellPreference, PromptCommandSourceProvider, SourceKey, SourceQualifiedCommandId,
 };
-pub(crate) use openbitfun_services_core::jsonc::strip_jsonc;
-use openbitfun_services_core::markdown::{
+pub(crate) use opc_services_core::jsonc::strip_jsonc;
+use opc_services_core::markdown::{
     parse_prompt_shell_directives, prompt_template_expansion_upper_bound, FrontMatterMarkdown,
 };
-use openbitfun_services_core::workspace_text::normalize_workspace_relative_path;
-use openbitfun_static_hook_support::{
+use opc_services_core::workspace_text::normalize_workspace_relative_path;
+use opc_static_hook_support::{
     collect_bounded_regular_files, read_bounded_text, BoundedDirectoryWalkError,
     BoundedDirectoryWalkLimits, BoundedTextRead,
 };

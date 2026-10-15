@@ -109,7 +109,7 @@ export const WebFetchCard: React.FC<ToolCardProps> = ({
   };
 
   return (
-    <div data-openbitfun-adapter="web-fetch" ref={cardRootRef} data-tool-card-id={toolId ?? ''}>
+    <div data-opc-adapter="web-fetch" ref={cardRootRef} data-tool-card-id={toolId ?? ''}>
       <WebFetchToolCardView
         status={status}
         isExpanded={isExpanded}

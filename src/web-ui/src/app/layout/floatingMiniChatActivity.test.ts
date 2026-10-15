@@ -23,7 +23,7 @@ describe('floating MiniApp chat activity', () => {
   it('uses the design-system launcher to open the conversation dock', () => {
     const component = readSource('./FloatingMiniChat.tsx');
     expect(component).toContain('<LauncherButton');
-    expect(component).toContain('className="openbitfun-fmc__button"');
+    expect(component).toContain('className="opc-fmc__button"');
     expect(component).toContain('aria-expanded={dock.open}');
     expect(component).toContain("aria-label={t('dock.open')}");
     expect(component).not.toContain('leadingIcon=');
@@ -38,7 +38,7 @@ describe('floating MiniApp chat activity', () => {
     expect(component).toMatch(/<div\b[^>]*role="dialog"[^>]*data-motion="presence"/);
     expect(stylesheet).not.toContain('--opcteam-color-control-launcher');
     expect(stylesheet).not.toContain('--opcteam-color-control-highlight');
-    expect(stylesheet).toMatch(/\.openbitfun-fmc__button\s*\{[\s\S]*?\.openbitfun-fmc--open &[\s\S]*?visibility: hidden;[\s\S]*?pointer-events: none;/);
+    expect(stylesheet).toMatch(/\.opc-fmc__button\s*\{[\s\S]*?\.opc-fmc--open &[\s\S]*?visibility: hidden;[\s\S]*?pointer-events: none;/);
     expect(stylesheet).toContain('transition-behavior: allow-discrete;');
   });
 

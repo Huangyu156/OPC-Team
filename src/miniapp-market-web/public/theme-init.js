@@ -1,5 +1,5 @@
 (function () {
-  var storageKey = 'openbitfun-market-theme';
+  var storageKey = 'opc-market-theme';
   var storedTheme = null;
 
   try {

@@ -26,11 +26,11 @@ export function WeixinLoginProgress({ phase }: { phase: WeixinLoginPhase }) {
       : t('remoteConnect.botWeixinStartingHint');
 
   return (
-    <div className="openbitfun-remote-connect__weixin-progress" role="status" aria-live="polite" aria-atomic="true">
+    <div className="opc-remote-connect__weixin-progress" role="status" aria-live="polite" aria-atomic="true">
       <StatusPill tone="neutral" leading={<Spinner size="xs" />}>{label}</StatusPill>
-      <p className="openbitfun-remote-connect__hint">{description}</p>
+      <p className="opc-remote-connect__hint">{description}</p>
       {slowPhase === phase && (
-        <p className="openbitfun-remote-connect__hint">
+        <p className="opc-remote-connect__hint">
           {phase === 'starting'
             ? t('remoteConnect.botWeixinStartingSlow')
             : t('remoteConnect.botWeixinSyncSlow')}

@@ -203,17 +203,17 @@ const WorkspaceManager: React.FC<WorkspaceManagerProps> = ({
         <DialogClose />
       </DialogHeader>
       <DialogBody>
-      <ScrollArea className="workspace-manager" data-openbitfun-component="workspace-tool" data-openbitfun-part="root">
+      <ScrollArea className="workspace-manager" data-opc-component="workspace-tool" data-opc-part="root">
         {error && (
-          <div className="error-message" data-openbitfun-component="workspace-tool" data-openbitfun-part="error">
+          <div className="error-message" data-opc-component="workspace-tool" data-opc-part="error">
             <span>Error: {error}</span>
           </div>
         )}
 
-        <div className="current-workspace-section" data-openbitfun-component="workspace-tool" data-openbitfun-part="currentSection">
+        <div className="current-workspace-section" data-opc-component="workspace-tool" data-opc-part="currentSection">
           <h3>Current Workspace</h3>
           {currentWorkspace ? (
-            <div className="workspace-card current" data-openbitfun-component="workspace-tool" data-openbitfun-part="currentCard">
+            <div className="workspace-card current" data-opc-component="workspace-tool" data-opc-part="currentCard">
               <div className="workspace-header">
                 <div className={`workspace-icon${currentWorkspace.workspaceKind === WorkspaceKind.Assistant ? ' is-assistant' : ''}`}>
                   {getWorkspaceIcon(currentWorkspace)}
@@ -276,14 +276,14 @@ const WorkspaceManager: React.FC<WorkspaceManagerProps> = ({
               )}
             </div>
           ) : (
-            <div className="no-workspace" data-openbitfun-component="workspace-tool" data-openbitfun-part="empty">
+            <div className="no-workspace" data-opc-component="workspace-tool" data-opc-part="empty">
               <FolderOpen size={48} />
               <p>No workspace is currently open</p>
             </div>
           )}
         </div>
 
-        <div className="recent-workspaces-section" data-openbitfun-component="workspace-tool" data-openbitfun-part="recentSection">
+        <div className="recent-workspaces-section" data-opc-component="workspace-tool" data-opc-part="recentSection">
           <h3>Recent Workspaces</h3>
           {recentWorkspaces.length > 0 ? (
             <div className="workspace-list">
@@ -296,7 +296,7 @@ const WorkspaceManager: React.FC<WorkspaceManagerProps> = ({
                   aria-label={getWorkspaceDisplayName(workspace)}
                   onClick={() => void handleWorkspaceSelect(workspace)}
                   onKeyDown={(event) => handleWorkspaceCardKeyDown(event, workspace)}
-                 data-openbitfun-component="workspace-tool" data-openbitfun-part="recentCard">
+                 data-opc-component="workspace-tool" data-opc-part="recentCard">
                   <div className="workspace-header">
                     <div className={`workspace-icon${workspace.workspaceKind === WorkspaceKind.Assistant ? ' is-assistant' : ''}`}>
                       {getWorkspaceIcon(workspace)}
@@ -339,7 +339,7 @@ const WorkspaceManager: React.FC<WorkspaceManagerProps> = ({
           )}
         </div>
 
-        <div className="recent-workspaces-section" data-openbitfun-component="workspace-tool" data-openbitfun-part="recentSection">
+        <div className="recent-workspaces-section" data-opc-component="workspace-tool" data-opc-part="recentSection">
           <h3>Personal Assistants</h3>
           {otherAssistantWorkspaces.length > 0 ? (
             <div className="workspace-list">
@@ -352,7 +352,7 @@ const WorkspaceManager: React.FC<WorkspaceManagerProps> = ({
                   aria-label={getWorkspaceDisplayName(workspace)}
                   onClick={() => void handleWorkspaceSelect(workspace)}
                   onKeyDown={(event) => handleWorkspaceCardKeyDown(event, workspace)}
-                 data-openbitfun-component="workspace-tool" data-openbitfun-part="assistantCard">
+                 data-opc-component="workspace-tool" data-opc-part="assistantCard">
                   <div className="workspace-header">
                     <div className="workspace-icon is-assistant">
                       {getWorkspaceIcon(workspace)}

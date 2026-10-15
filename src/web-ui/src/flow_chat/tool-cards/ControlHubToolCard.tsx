@@ -88,7 +88,7 @@ export const ControlHubToolCard: React.FC<ToolCardProps> = ({ toolItem, onExpand
   const output = model.hasRecordList && model.records.length === 0 ? t('toolCards.controlHub.emptyResults') : model.output;
   const hasSemanticResult = model.capabilities.length > 0 || Boolean(model.route);
   const resultText = output ?? (hasSemanticResult ? undefined : isExpanded ? formatRuntimeToolValue(model.fallback) : undefined);
-  return <div ref={cardRootRef} data-openbitfun-adapter="control-hub" data-tool-card-id={toolItem.id}>
+  return <div ref={cardRootRef} data-opc-adapter="control-hub" data-tool-card-id={toolItem.id}>
     <ControlHubToolCardView status={model.status} attention={model.attention} domain={domain}
       action={Object.prototype.hasOwnProperty.call(actions, model.action) ? actions[model.action] : (model.action || t('toolCards.controlHub.title'))}
       summary={model.attention === 'ambient' ? model.target || domainLabel

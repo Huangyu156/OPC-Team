@@ -11,16 +11,16 @@ export const APP_INFO = {
 
 
 export const STORAGE_KEYS = {
-  LANGUAGE: 'openbitfun-language',
-  LEFT_PANEL_WIDTH: 'openbitfun-left-panel-width',
-  LEFT_PANEL_COLLAPSED: 'openbitfun-left-panel-collapsed',
-  RIGHT_PANEL_COLLAPSED: 'openbitfun-right-panel-collapsed',
-  RECENT_WORKSPACES: 'openbitfun-recent-workspaces',
-  USER_PREFERENCES: 'openbitfun-user-preferences',
-  MODEL_CONFIGS: 'openbitfun-model-configs',
-  CHAT_HISTORY: 'openbitfun-chat-history',
-  DIFF_CLOSE_WARNING_DISABLED: 'openbitfun-diff-close-warning-disabled',
-  MANUAL_TERMINAL_PROFILES: 'openbitfun-manual-terminal-profiles'
+  LANGUAGE: 'opc-language',
+  LEFT_PANEL_WIDTH: 'opc-left-panel-width',
+  LEFT_PANEL_COLLAPSED: 'opc-left-panel-collapsed',
+  RIGHT_PANEL_COLLAPSED: 'opc-right-panel-collapsed',
+  RECENT_WORKSPACES: 'opc-recent-workspaces',
+  USER_PREFERENCES: 'opc-user-preferences',
+  MODEL_CONFIGS: 'opc-model-configs',
+  CHAT_HISTORY: 'opc-chat-history',
+  DIFF_CLOSE_WARNING_DISABLED: 'opc-diff-close-warning-disabled',
+  MANUAL_TERMINAL_PROFILES: 'opc-manual-terminal-profiles'
 } as const;
 
 

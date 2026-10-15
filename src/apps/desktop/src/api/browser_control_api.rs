@@ -1,11 +1,11 @@
 //! Browser control API — Tauri commands for CDP-based browser control.
 
-use openbitfun_core::agentic::tools::browser_control::browser_launcher::{
+use opc_core::agentic::tools::browser_control::browser_launcher::{
     BrowserKind, BrowserLauncher, LaunchResult, DEFAULT_CDP_PORT,
 };
-use openbitfun_core::agentic::tools::browser_control::cdp_client::CdpClient;
-use openbitfun_core::agentic::tools::implementations::control_hub_tool::disconnect_external_browser;
-use openbitfun_core::service::config::{get_global_config_service, GlobalConfig};
+use opc_core::agentic::tools::browser_control::cdp_client::CdpClient;
+use opc_core::agentic::tools::implementations::control_hub_tool::disconnect_external_browser;
+use opc_core::service::config::{get_global_config_service, GlobalConfig};
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize)]

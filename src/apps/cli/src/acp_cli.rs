@@ -1,9 +1,9 @@
 use anyhow::{anyhow, bail, Context, Result};
 use clap::ValueEnum;
-use openbitfun_acp::client::{
+use opc_acp::client::{
     AcpClientConfig, AcpClientInfo, AcpClientPermissionMode, AcpClientRequirementProbe,
 };
-use openbitfun_acp::AcpClientService;
+use opc_acp::AcpClientService;
 use serde_json::{json, Value};
 use std::collections::{BTreeMap, HashMap};
 use std::sync::Arc;
@@ -121,15 +121,15 @@ pub(crate) async fn print_doctor(command: &str) -> Result<bool> {
             .map_err(|error| error.to_string()),
     ));
 
-    let core_config = openbitfun_core::service::config::initialize_global_config()
+    let core_config = opc_core::service::config::initialize_global_config()
         .await
         .map(|_| "initialized".to_string())
         .map_err(|error| error.to_string());
     checks.push(check_result("Core config service", core_config));
 
-    let ai_check = match openbitfun_core::service::config::get_global_config_service().await {
+    let ai_check = match opc_core::service::config::get_global_config_service().await {
         Ok(service) => {
-            let ai_config: openbitfun_core::service::config::types::AIConfig =
+            let ai_config: opc_core::service::config::types::AIConfig =
                 service.get_config(Some("ai")).await.unwrap_or_default();
             let enabled_models = ai_config
                 .models
@@ -422,13 +422,13 @@ pub(crate) async fn run_external_client(
 }
 
 async fn create_client_service() -> Result<Arc<AcpClientService>> {
-    openbitfun_core::service::config::initialize_global_config()
+    opc_core::service::config::initialize_global_config()
         .await
         .map_err(|error| anyhow!(error.to_string()))?;
-    let config_service = openbitfun_core::service::config::get_global_config_service()
+    let config_service = opc_core::service::config::get_global_config_service()
         .await
         .map_err(|error| anyhow!(error.to_string()))?;
-    let path_manager = openbitfun_core::infrastructure::try_get_path_manager_arc()
+    let path_manager = opc_core::infrastructure::try_get_path_manager_arc()
         .map_err(|error| anyhow!(error.to_string()))?;
     let service = AcpClientService::new(config_service, path_manager)
         .map_err(|error| anyhow!(error.to_string()))?;
@@ -550,7 +550,7 @@ fn print_requirement_probe(probe: &AcpClientRequirementProbe) {
     }
 }
 
-fn print_requirement_item(label: &str, item: &openbitfun_acp::client::AcpRequirementProbeItem) {
+fn print_requirement_item(label: &str, item: &opc_acp::client::AcpRequirementProbeItem) {
     let installed = if item.installed {
         "installed"
     } else {

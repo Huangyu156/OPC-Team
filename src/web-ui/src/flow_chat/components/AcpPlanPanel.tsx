@@ -13,14 +13,14 @@ export interface AcpPlanPanelProps {
 function statusIcon(status: string): React.ReactNode {
   switch (status) {
     case 'completed':
-      return <Icon name="check-line" size="sm" className="openbitfun-acp-plan__icon openbitfun-acp-plan__icon--done" />;
+      return <Icon name="check-line" size="sm" className="opc-acp-plan__icon opc-acp-plan__icon--done" />;
     case 'in_progress':
       return (
-        <Icon name="progress-25" size="sm" className="openbitfun-acp-plan__icon openbitfun-acp-plan__icon--active" />
+        <Icon name="progress-25" size="sm" className="opc-acp-plan__icon opc-acp-plan__icon--active" />
       );
     default:
       return (
-        <Icon glyph={CircleDashed} size="sm" className="openbitfun-acp-plan__icon openbitfun-acp-plan__icon--pending" />
+        <Icon glyph={CircleDashed} size="sm" className="opc-acp-plan__icon opc-acp-plan__icon--pending" />
       );
   }
 }
@@ -32,24 +32,24 @@ export const AcpPlanPanel: React.FC<AcpPlanPanelProps> = ({ entries }) => {
   const done = entries.filter((entry) => entry.status === 'completed').length;
 
   return (
-    <div data-openbitfun-component="acp-plan-panel" data-openbitfun-part="root" className="openbitfun-acp-plan" data-testid="acp-plan-panel">
-      <div data-openbitfun-component="acp-plan-panel" data-openbitfun-part="header" className="openbitfun-acp-plan__header">
-        <span data-openbitfun-component="acp-plan-panel" data-openbitfun-part="title" className="openbitfun-acp-plan__title">{t('chatInput.acpPlan.title')}</span>
-        <span data-openbitfun-component="acp-plan-panel" data-openbitfun-part="progress" className="openbitfun-acp-plan__progress">
+    <div data-opc-component="acp-plan-panel" data-opc-part="root" className="opc-acp-plan" data-testid="acp-plan-panel">
+      <div data-opc-component="acp-plan-panel" data-opc-part="header" className="opc-acp-plan__header">
+        <span data-opc-component="acp-plan-panel" data-opc-part="title" className="opc-acp-plan__title">{t('chatInput.acpPlan.title')}</span>
+        <span data-opc-component="acp-plan-panel" data-opc-part="progress" className="opc-acp-plan__progress">
           {done}/{entries.length}
         </span>
       </div>
-      <ul data-openbitfun-component="acp-plan-panel" data-openbitfun-part="list" className="openbitfun-acp-plan__list">
+      <ul data-opc-component="acp-plan-panel" data-opc-part="list" className="opc-acp-plan__list">
         {entries.map((entry, index) => (
           <li
             key={`${index}-${entry.content}`}
-            data-openbitfun-component="acp-plan-panel"
-            data-openbitfun-part="item"
-            data-openbitfun-status={entry.status}
-            className={`openbitfun-acp-plan__item openbitfun-acp-plan__item--${entry.status}`}
+            data-opc-component="acp-plan-panel"
+            data-opc-part="item"
+            data-opc-status={entry.status}
+            className={`opc-acp-plan__item opc-acp-plan__item--${entry.status}`}
           >
             {statusIcon(entry.status)}
-            <span data-openbitfun-component="acp-plan-panel" data-openbitfun-part="content" className="openbitfun-acp-plan__content">{entry.content}</span>
+            <span data-opc-component="acp-plan-panel" data-opc-part="content" className="opc-acp-plan__content">{entry.content}</span>
           </li>
         ))}
       </ul>

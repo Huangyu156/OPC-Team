@@ -106,13 +106,13 @@ describe('ChatInputBoostSubmenu', () => {
 
     const trigger = container.querySelector<HTMLElement>('[role="menuitem"]');
     expect(trigger?.getAttribute('aria-expanded')).toBe('false');
-    expect(document.body.querySelector('.openbitfun-chat-input__boost-submenu-panel')).toBeNull();
+    expect(document.body.querySelector('.opc-chat-input__boost-submenu-panel')).toBeNull();
 
     await act(async () => {
       trigger?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(trigger?.getAttribute('aria-expanded')).toBe('true');
-    expect(document.body.querySelector('.openbitfun-chat-input__boost-submenu-panel')).not.toBeNull();
+    expect(document.body.querySelector('.opc-chat-input__boost-submenu-panel')).not.toBeNull();
 
     await act(async () => {
       trigger?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
@@ -173,7 +173,7 @@ describe('ChatInputBoostSubmenu', () => {
 
       expect(triggers.map(item => item.getAttribute('aria-expanded')))
         .toEqual(triggers.map(item => item === trigger ? 'true' : 'false'));
-      const panels = document.querySelectorAll('.openbitfun-chat-input__boost-submenu-panel, .openbitfun-harness-selector__menu');
+      const panels = document.querySelectorAll('.opc-chat-input__boost-submenu-panel, .opc-harness-selector__menu');
       expect(panels).toHaveLength(1);
       expect(panels[0].id).toBe(trigger.getAttribute('aria-controls'));
       if (trigger === harness) {
@@ -185,7 +185,7 @@ describe('ChatInputBoostSubmenu', () => {
 
     act(() => modes.click());
     expect(modes.getAttribute('aria-expanded')).toBe('false');
-    expect(document.querySelector('.openbitfun-chat-input__boost-submenu-panel')).toBeNull();
+    expect(document.querySelector('.opc-chat-input__boost-submenu-panel')).toBeNull();
   });
 
   it.each(['Escape', 'ArrowLeft'])('closes only the active flyout with %s and returns focus', key => {
@@ -193,11 +193,11 @@ describe('ChatInputBoostSubmenu', () => {
     const trigger = container.querySelector<HTMLButtonElement>('[data-testid="skills"] [aria-haspopup="menu"]')!;
     act(() => trigger.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true })));
     act(() => vi.advanceTimersByTime(20));
-    const panel = document.querySelector<HTMLElement>('.openbitfun-chat-input__boost-submenu-panel')!;
+    const panel = document.querySelector<HTMLElement>('.opc-chat-input__boost-submenu-panel')!;
     expect(panel.contains(document.activeElement)).toBe(true);
     act(() => document.activeElement!.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true })));
     act(() => vi.advanceTimersByTime(20));
-    expect(document.querySelector('.openbitfun-chat-input__boost-submenu-panel')).toBeNull();
+    expect(document.querySelector('.opc-chat-input__boost-submenu-panel')).toBeNull();
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
     expect(document.activeElement).toBe(trigger);
     expect(container.querySelector('[role="menu"]')).not.toBeNull();
@@ -206,9 +206,9 @@ describe('ChatInputBoostSubmenu', () => {
   it('removes portalled flyouts when the parent menu unmounts', () => {
     act(() => root.render(<SiblingMenus />));
     act(() => container.querySelector<HTMLButtonElement>('[data-testid="skills"] [aria-haspopup="menu"]')!.click());
-    expect(document.querySelector('.openbitfun-chat-input__boost-submenu-panel')).not.toBeNull();
+    expect(document.querySelector('.opc-chat-input__boost-submenu-panel')).not.toBeNull();
     act(() => root.render(null));
-    expect(document.querySelector('.openbitfun-chat-input__boost-submenu-panel')).toBeNull();
+    expect(document.querySelector('.opc-chat-input__boost-submenu-panel')).toBeNull();
     act(() => root.render(<SiblingMenus />));
     expect(container.querySelector('[aria-expanded="true"]')).toBeNull();
   });
@@ -219,22 +219,22 @@ describe('ChatInputBoostSubmenu', () => {
     clickWithPointer(document.querySelector<HTMLElement>('[data-testid="harness-profile-other"]')!);
 
     expect(document.querySelector('[data-testid="add-menu"]')).not.toBeNull();
-    expect(document.querySelector('.openbitfun-harness-selector__menu')?.getAttribute('data-openbitfun-page'))
+    expect(document.querySelector('.opc-harness-selector__menu')?.getAttribute('data-opc-page'))
       .toBe('agents');
 
     clickWithPointer(document.querySelector<HTMLElement>('[data-testid="harness-agent-back"]')!);
-    expect(document.querySelector('.openbitfun-harness-selector__menu')?.getAttribute('data-openbitfun-page'))
+    expect(document.querySelector('.opc-harness-selector__menu')?.getAttribute('data-opc-page'))
       .toBe('profiles');
     clickWithPointer(document.querySelector<HTMLElement>('[data-testid="harness-profile-other"]')!);
     clickWithPointer(document.querySelector<HTMLElement>('[data-testid="harness-agent-research"]')!);
     expect(document.querySelector('[data-testid="add-menu"]')).toBeNull();
-    expect(document.querySelector('.openbitfun-harness-selector__menu')).toBeNull();
+    expect(document.querySelector('.opc-harness-selector__menu')).toBeNull();
   });
 
   it.each(['modes', 'skills'])('keeps the %s flyout mounted until its item receives the click', id => {
     act(() => root.render(<PortalledAddMenu />));
     clickWithPointer(document.querySelector<HTMLElement>(`[data-testid="${id}"] [aria-haspopup="menu"]`)!);
-    const item = document.querySelector<HTMLElement>('.openbitfun-chat-input__boost-submenu-panel [role="menuitem"]')!;
+    const item = document.querySelector<HTMLElement>('.opc-chat-input__boost-submenu-panel [role="menuitem"]')!;
 
     act(() => item.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })));
     act(() => item.dispatchEvent(new MouseEvent('mousedown', { bubbles: true })));

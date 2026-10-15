@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "02844ee40fe0d16b8b6a1cc7f2c6c78b04a25a70a7b4c70848db5ffc5072db58",
+  "catalogDigest": "33df04a443269396ce39aec76d99aa36badb2f05bf85095dd79091dd49cf2bde",
   "count": 216,
   "reasonCounts": {
     "externalAuth": 4,
@@ -1470,7 +1470,7 @@
         "sceneId": "session"
       },
       "evidence": [
-        "source:src/web-ui/src/tools/openbitfun-canvas/OpenBitFunCanvasPanel.tsx#createCanvasElementContext"
+        "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#createCanvasElementContext"
       ]
     },
     {
@@ -1487,7 +1487,7 @@
       },
       "evidence": [
         "command:report_canvas_runtime_error",
-        "source:src/web-ui/src/tools/openbitfun-canvas/OpenBitFunCanvasPanel.tsx#canvas-runtime-auto-repair"
+        "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#canvas-runtime-auto-repair"
       ]
     },
     {
@@ -1503,7 +1503,7 @@
         "sceneId": "session"
       },
       "evidence": [
-        "source:src/web-ui/src/tools/openbitfun-canvas/canvasHtmlExportService.ts#export async function exportCanvasHtml"
+        "source:src/web-ui/src/tools/opc-canvas/canvasHtmlExportService.ts#export async function exportCanvasHtml"
       ]
     },
     {

@@ -12,7 +12,7 @@ use crate::agentic::core::{InternalReminderKind, Message};
 use crate::agentic::session::SessionManager;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::{info, warn};
-pub use openbitfun_agent_runtime::thread_goal::{
+pub use opc_agent_runtime::thread_goal::{
     billable_tokens_from_counts, build_objective_updated_plan, build_thread_goal_continuation_plan,
     clear_thread_goal_patch, completion_budget_report, continuation_prompt,
     effective_subagent_timeout_seconds, goal_continuation_submit_retry_delay_ms,
@@ -21,10 +21,10 @@ pub use openbitfun_agent_runtime::thread_goal::{
     thread_goal_status_is_resumable, ThreadGoalContinuationFacts, ThreadGoalRuntime,
     GOAL_CONTINUATION_SUBMIT_RETRY_BASE_DELAY_MS, GOAL_CONTINUATION_SUBMIT_RETRY_MAX_DELAY_MS,
 };
-use openbitfun_agent_runtime::thread_goal::{
+use opc_agent_runtime::thread_goal::{
     build_set_thread_goal_result, is_usage_limit_message, SetThreadGoalRequest,
 };
-pub use openbitfun_runtime_ports::{
+pub use opc_runtime_ports::{
     validate_thread_goal_objective, SetThreadGoalResult, ThreadGoal, ThreadGoalContinuationPlan,
     ThreadGoalStatus, ThreadGoalToolResponse, GOAL_MODE_METADATA_KEY, MAX_CONTEXT_SUMMARY_CHARS,
     MAX_GOAL_CONTINUATIONS, MAX_THREAD_GOAL_AUTO_CONTINUATIONS, MAX_THREAD_GOAL_OBJECTIVE_CHARS,
@@ -51,7 +51,7 @@ pub fn now_epoch_seconds() -> i64 {
 pub fn thread_goal_from_custom_metadata(
     custom_metadata: Option<&serde_json::Value>,
 ) -> Option<ThreadGoal> {
-    openbitfun_agent_runtime::thread_goal::thread_goal_from_custom_metadata(
+    opc_agent_runtime::thread_goal::thread_goal_from_custom_metadata(
         custom_metadata,
         Uuid::new_v4().to_string(),
         now_epoch_seconds(),
@@ -146,10 +146,10 @@ impl<'a> ThreadGoalStore<'a> {
             new_goal_id: Uuid::new_v4().to_string(),
         })
         .map_err(|error| match error {
-            openbitfun_agent_runtime::thread_goal::ThreadGoalRuntimeError::Validation(message) => {
+            opc_agent_runtime::thread_goal::ThreadGoalRuntimeError::Validation(message) => {
                 OpcTeamError::Validation(message)
             }
-            openbitfun_agent_runtime::thread_goal::ThreadGoalRuntimeError::NotFound(message) => {
+            opc_agent_runtime::thread_goal::ThreadGoalRuntimeError::NotFound(message) => {
                 OpcTeamError::NotFound(message)
             }
         })?;

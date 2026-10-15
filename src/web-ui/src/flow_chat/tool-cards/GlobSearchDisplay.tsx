@@ -106,7 +106,7 @@ export const GlobSearchDisplay: React.FC<ToolCardProps> = ({
   }
 
   return (
-    <div ref={cardRootRef} data-openbitfun-adapter="glob-search" data-tool-card-id={toolId ?? ''}>
+    <div ref={cardRootRef} data-opc-adapter="glob-search" data-tool-card-id={toolId ?? ''}>
       <GlobSearchToolCard
         action={t('toolCards.globSearch.searchFile')}
         status={status}

@@ -1,5 +1,5 @@
 ---
-name: openbitfun-canvas
+name: opc-canvas
 description: >-
   A OPC-Team Canvas is a live React app that the user can open beside the chat.
   You MUST use a canvas when the agent produces a standalone analytical artifact
@@ -94,7 +94,7 @@ Before returning canvas code, verify:
 
 ## Introducing the canvas
 
-The `openbitfun-canvas://...` artifact reference is an internal resource identifier. **Never copy it into the chat response or format it as a link.** OPC-Team automatically collects successful Canvas tool results and renders openable Canvas cards below the completed response. Keep the returned reference only for subsequent `ReadCanvas`, `PatchCanvas`, or `UpdateCanvas` calls.
+The `opc-canvas://...` artifact reference is an internal resource identifier. **Never copy it into the chat response or format it as a link.** OPC-Team automatically collects successful Canvas tool results and renders openable Canvas cards below the completed response. Keep the returned reference only for subsequent `ReadCanvas`, `PatchCanvas`, or `UpdateCanvas` calls.
 
 When you create a canvas, add a short note in your chat response telling the user they can open it from the Canvas card below:
 

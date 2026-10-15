@@ -21,10 +21,10 @@ export function RealtimeVoiceCallPanel({ onClose, onBack, embedded = false }: Re
 
   return <VoiceCallPanel
     presentation={embedded ? 'embedded' : 'card'}
-    data-openbitfun-product-component="realtime-voice-call"
-    data-openbitfun-product-part="root"
-    data-openbitfun-phase={controller.phase}
-    data-openbitfun-state={[controller.phase, controller.taskPhase?.replace(/_/g, '-')].filter(Boolean).join(' ')}
+    data-opc-product-component="realtime-voice-call"
+    data-opc-product-part="root"
+    data-opc-phase={controller.phase}
+    data-opc-state={[controller.phase, controller.taskPhase?.replace(/_/g, '-')].filter(Boolean).join(' ')}
     aria-description={controller.status}
     title={t('voiceCall.call.title')}
     labels={{

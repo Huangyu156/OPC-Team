@@ -17,8 +17,8 @@ use core_foundation::array::{CFArray, CFArrayRef};
 use core_foundation::base::{CFGetTypeID, CFTypeRef, TCFType};
 use core_foundation::boolean::{CFBooleanGetTypeID, CFBooleanRef};
 use core_foundation::string::{CFString, CFStringRef};
-use openbitfun_core::agentic::tools::computer_use_host::AppMenuShortcut;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::computer_use_host::AppMenuShortcut;
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::ffi::c_void;
 
 type CFNumberRef = *const c_void;

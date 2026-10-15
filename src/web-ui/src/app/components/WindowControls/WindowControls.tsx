@@ -55,9 +55,9 @@ export const WindowControls: React.FC<WindowControlsProps> = ({
     <div
       {...props}
       className={['window-controls', isWindows && 'window-controls--windows', className].filter(Boolean).join(' ')}
-      data-openbitfun-component="window-controls"
-      data-openbitfun-part="root"
-      data-openbitfun-state={[disabled && 'disabled', maximized && 'maximized'].filter(Boolean).join(' ') || undefined}
+      data-opc-component="window-controls"
+      data-opc-part="root"
+      data-opc-state={[disabled && 'disabled', maximized && 'maximized'].filter(Boolean).join(' ') || undefined}
     >
       <Tooltip content={t('window.minimize')} placement="bottom">
         <button

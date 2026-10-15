@@ -2,7 +2,7 @@
 pub use crate::agentic::tools::tool_context_runtime::ToolUseContext;
 use crate::util::errors::OpcTeamResult;
 use async_trait::async_trait;
-pub use openbitfun_agent_tools::{
+pub use opc_agent_tools::{
     build_tool_path_policy_denial_message, build_tool_runtime_artifact_reference,
     build_tool_session_runtime_artifact_reference, is_tool_path_allowed_by_resolved_roots,
     resolve_tool_path_with_context, resolve_tool_path_with_context_roots,

@@ -90,10 +90,10 @@ export const InitMiniAppDisplay: React.FC<ToolCardProps> = ({ toolItem }) => {
       icon={<span className="miniapp-icon"><Icon name="mini-app" size="md" /></span>}
       action={`${t('toolCards.initMiniApp.title')}:`}
       content={
-        <span data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="info" className="miniapp-tool-info">
+        <span data-opc-component="mini-app-tool-display" data-opc-part="info" className="miniapp-tool-info">
           <OverflowText
-            data-openbitfun-component="mini-app-tool-display"
-            data-openbitfun-part="command"
+            data-opc-component="mini-app-tool-display"
+            data-opc-part="command"
             className="command-text"
             data-testid="chat-miniapp-title"
             data-app-id={appId || ''}
@@ -105,24 +105,24 @@ export const InitMiniAppDisplay: React.FC<ToolCardProps> = ({ toolItem }) => {
       extra={
         <>
           {success && appId && status === 'completed' && (
-            <OverflowText data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="output" className="output-summary">
+            <OverflowText data-opc-component="mini-app-tool-display" data-opc-part="output" className="output-summary">
               {t('toolCards.initMiniApp.skeletonReady')}
             </OverflowText>
           )}
           {(status === 'cancelled' || status === 'rejected') && (
-            <span data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="operation" className="operation-tag">
+            <span data-opc-component="mini-app-tool-display" data-opc-part="operation" className="operation-tag">
               {status === 'cancelled' ? t('toolCards.default.cancelled') : t('toolCards.default.rejected')}
             </span>
           )}
           {isFailed && (
-            <div data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="errorIndicator" className="error-indicator">
+            <div data-opc-component="mini-app-tool-display" data-opc-part="errorIndicator" className="error-indicator">
               <span className="error-text">{t('toolCards.initMiniApp.failed')}</span>
             </div>
           )}
         </>
       }
       actions={success && !isFailed && appId && status === 'completed' ? (
-        <span data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="actions">
+        <span data-opc-component="mini-app-tool-display" data-opc-part="actions">
           <IconButton
             variant="quiet" size="sm" icon={<Icon name="arrow-up-right" size="sm" />}
             data-testid="chat-miniapp-open-btn" data-app-id={appId}
@@ -139,25 +139,25 @@ export const InitMiniAppDisplay: React.FC<ToolCardProps> = ({ toolItem }) => {
   const renderExpandedSuccess = () => {
     if (!appId) return null;
     return (
-      <div data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="result" className="miniapp-result-container">
-        <div data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="rows" className="miniapp-result-rows" data-testid="chat-miniapp-file-list">
-          <div data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="row" className="miniapp-result-row">
-            <span data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="label" className="miniapp-result-label">{t('toolCards.initMiniApp.labelAppId')}</span>
-            <OverflowText data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="value" className="miniapp-result-value" title={appId}>
+      <div data-opc-component="mini-app-tool-display" data-opc-part="result" className="miniapp-result-container">
+        <div data-opc-component="mini-app-tool-display" data-opc-part="rows" className="miniapp-result-rows" data-testid="chat-miniapp-file-list">
+          <div data-opc-component="mini-app-tool-display" data-opc-part="row" className="miniapp-result-row">
+            <span data-opc-component="mini-app-tool-display" data-opc-part="label" className="miniapp-result-label">{t('toolCards.initMiniApp.labelAppId')}</span>
+            <OverflowText data-opc-component="mini-app-tool-display" data-opc-part="value" className="miniapp-result-value" title={appId}>
               {appId}
             </OverflowText>
           </div>
           {miniAppFiles.map((filePath, index) => (
             <div
               key={filePath}
-              data-openbitfun-component="mini-app-tool-display"
-              data-openbitfun-part="row"
+              data-opc-component="mini-app-tool-display"
+              data-opc-part="row"
               className="miniapp-result-row"
               data-testid="chat-miniapp-file-row"
               data-path={filePath}
             >
-              <span data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="label" className="miniapp-result-label">{index === 0 ? t('toolCards.initMiniApp.labelPath') : null}</span>
-              <span data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="value" className="miniapp-result-value" title={filePath}>
+              <span data-opc-component="mini-app-tool-display" data-opc-part="label" className="miniapp-result-label">{index === 0 ? t('toolCards.initMiniApp.labelPath') : null}</span>
+              <span data-opc-component="mini-app-tool-display" data-opc-part="value" className="miniapp-result-value" title={filePath}>
                 {filePath}
               </span>
             </div>
@@ -168,7 +168,7 @@ export const InitMiniAppDisplay: React.FC<ToolCardProps> = ({ toolItem }) => {
   };
 
   const renderExpandedError = () => (
-    <div data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="error" className="error-content">
+    <div data-opc-component="mini-app-tool-display" data-opc-part="error" className="error-content">
       <div className="error-message">{getErrorMessage()}</div>
       {name ? (
         <div className="error-meta">
@@ -189,8 +189,8 @@ export const InitMiniAppDisplay: React.FC<ToolCardProps> = ({ toolItem }) => {
   };
 
   return (
-    <div data-openbitfun-component="mini-app-tool-display" data-openbitfun-part="root"
-      data-openbitfun-state={[isExpanded && 'expanded', isFailed && 'failed', isLoading && 'loading'].filter(Boolean).join(' ')}
+    <div data-opc-component="mini-app-tool-display" data-opc-part="root"
+      data-opc-state={[isExpanded && 'expanded', isFailed && 'failed', isLoading && 'loading'].filter(Boolean).join(' ')}
       ref={cardRootRef}
       data-testid="chat-miniapp-card"
       data-tool-card-id={toolId ?? ''}

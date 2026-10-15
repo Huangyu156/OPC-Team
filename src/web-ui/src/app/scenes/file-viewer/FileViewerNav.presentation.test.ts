@@ -49,20 +49,20 @@ function declarations(rules: CSSStyleRule[], selector: string): CSSStyleDeclarat
 describe('FileViewerNav surface ownership', () => {
   it('hosts the files panel inside the shared NavigationPanel shell', () => {
     expect(navSource).toContain('<NavigationPanel');
-    expect(navSource).toContain('className="openbitfun-file-viewer-nav"');
+    expect(navSource).toContain('className="opc-file-viewer-nav"');
     expect(navSource).toMatch(
       /<NavigationPanelContent[^>]*>[\s\S]*?<FilesPanel[\s\S]*?<\/NavigationPanelContent>/,
     );
-    expect(declarations(navRules, '.openbitfun-file-viewer-nav').background).toBe('transparent');
+    expect(declarations(navRules, '.opc-file-viewer-nav').background).toBe('transparent');
   });
 
   it('lets tree and search containers inherit the navigation background', () => {
     for (const selector of [
-      '.openbitfun-files-panel',
-      '.openbitfun-files-panel__content',
-      '.openbitfun-files-panel__explorer',
-      '.openbitfun-files-panel__search-results.openbitfun-search-results',
-      '.openbitfun-files-panel__search-results.openbitfun-search-results .openbitfun-search-results__header',
+      '.opc-files-panel',
+      '.opc-files-panel__content',
+      '.opc-files-panel__explorer',
+      '.opc-files-panel__search-results.opc-search-results',
+      '.opc-files-panel__search-results.opc-search-results .opc-search-results__header',
     ]) {
       expect(declarations(filesPanelRules, selector).background).toBe('transparent');
     }
@@ -71,41 +71,41 @@ describe('FileViewerNav surface ownership', () => {
   it('insets the divider above both resource sections evenly', () => {
     const sectionDivider = declarations(
       navRules,
-      '.openbitfun-file-viewer-nav__section::before',
+      '.opc-file-viewer-nav__section::before',
     );
 
     expect(sectionDivider.getPropertyValue('inset-inline')).toBe('var(--opcteam-space-2)');
     expect(sectionDivider.height).toBe('1px');
     expect(sectionDivider.background).toBe('var(--opcteam-color-border-default)');
-    expect(declarations(navRules, '.openbitfun-file-viewer-nav__workspace').borderBottomWidth)
+    expect(declarations(navRules, '.opc-file-viewer-nav__workspace').borderBottomWidth)
       .toBe('');
     expect(navSource).toContain(
-      'className="openbitfun-file-viewer-nav__section openbitfun-file-viewer-nav__section--terminals"',
+      'className="opc-file-viewer-nav__section opc-file-viewer-nav__section--terminals"',
     );
   });
 
   it('insets the divider above search main content at each panel width', () => {
     expect(filesPanelSource).toContain(
-      "viewMode === 'search' ? ' openbitfun-files-panel__main-content--search' : ''",
+      "viewMode === 'search' ? ' opc-files-panel__main-content--search' : ''",
     );
 
     const searchDivider = declarations(
       filesPanelRules,
-      '.openbitfun-files-panel__main-content--search::before',
+      '.opc-files-panel__main-content--search::before',
     );
     expect(searchDivider.getPropertyValue('inset-inline')).toBe('var(--opcteam-space-2)');
     expect(searchDivider.height).toBe('1px');
     expect(searchDivider.background).toBe('var(--opcteam-color-border-default)');
 
-    const searchContainer = declarations(filesPanelRules, '.openbitfun-files-panel__search');
+    const searchContainer = declarations(filesPanelRules, '.opc-files-panel__search');
     expect(searchContainer.borderBottomWidth).toBe('');
   });
 
   it('uses the same divider treatment for search controls, results, and terminals', () => {
     const dividers = [
-      declarations(filesPanelRules, '.openbitfun-files-panel__main-content--search::before'),
-      declarations(searchResultsRules, '.openbitfun-search-results__header::after'),
-      declarations(navRules, '.openbitfun-file-viewer-nav__section::before'),
+      declarations(filesPanelRules, '.opc-files-panel__main-content--search::before'),
+      declarations(searchResultsRules, '.opc-search-results__header::after'),
+      declarations(navRules, '.opc-file-viewer-nav__section::before'),
     ];
 
     for (const divider of dividers) {
@@ -120,7 +120,7 @@ describe('FileViewerNav surface ownership', () => {
   it('compensates the bottom-pinned terminal divider for fractional pixel scaling', () => {
     const terminalDivider = declarations(
       navRules,
-      '.openbitfun-file-viewer-nav__section--terminals::before',
+      '.opc-file-viewer-nav__section--terminals::before',
     );
 
     expect(terminalDivider.height).toBe('0.5px');

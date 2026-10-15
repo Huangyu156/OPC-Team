@@ -56,12 +56,12 @@ use crate::util::sanitize_plain_model_output;
 use crate::util::timing::elapsed_ms_u64;
 use dashmap::{mapref::entry::Entry, DashMap};
 use log::{debug, error, info, warn};
-use openbitfun_core_types::SessionExecutionTarget;
-pub use openbitfun_runtime_ports::SessionViewRestoreTiming;
-use openbitfun_runtime_ports::{
+use opc_core_types::SessionExecutionTarget;
+pub use opc_runtime_ports::SessionViewRestoreTiming;
+use opc_runtime_ports::{
     AgentTurnSettlementResult, PermissionMode, SessionStoragePathRequest, SessionStorePort,
 };
-use openbitfun_services_core::session::{
+use opc_services_core::session::{
     apply_session_lineage, collect_hidden_subagent_cascade as collect_hidden_subagent_cascade_ids,
     merge_session_custom_metadata as merge_session_custom_metadata_value,
     set_deep_review_run_manifest, set_review_target_evidence, set_session_relationship,
@@ -474,7 +474,7 @@ impl SessionManager {
         &self,
         session_id: &str,
     ) -> OpcTeamResult<KeyedAsyncLockGuard> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         Ok(self.lock_session_mutation(session_id).await)
     }
 
@@ -552,7 +552,7 @@ impl SessionManager {
         requested_path: &Path,
         allow_existing_same_path: bool,
     ) -> OpcTeamResult<bool> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let requested_path = Self::normalize_session_storage_path(requested_path);
         match self
             .session_storage_path_index
@@ -671,7 +671,7 @@ impl SessionManager {
         session_id: &str,
         requested_path: &Path,
     ) -> OpcTeamResult<()> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let requested_path = Self::normalize_session_storage_path(requested_path);
         let Some(binding) = self.session_storage_path_index.get(session_id) else {
             return Ok(());
@@ -693,7 +693,7 @@ impl SessionManager {
         storage_path: &Path,
         session_id: &str,
     ) -> OpcTeamResult<bool> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         if !self.sessions.contains_key(session_id) {
             return Ok(false);
         }
@@ -1196,7 +1196,7 @@ impl SessionManager {
         &self,
         session_id: &str,
     ) -> OpcTeamResult<PathBuf> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         if let Some(path) =
             Self::committed_session_storage_path(&self.session_storage_path_index, session_id)
         {
@@ -1320,11 +1320,10 @@ impl SessionManager {
         reference: &SessionReferenceLocator,
         reference_artifact_stem: &str,
     ) -> OpcTeamResult<MaterializedSessionReference> {
-        openbitfun_core_types::validate_session_id(source_session_id)
+        opc_core_types::validate_session_id(source_session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(&reference.session_id)
             .map_err(OpcTeamError::Validation)?;
-        openbitfun_core_types::validate_session_id(&reference.session_id)
-            .map_err(OpcTeamError::Validation)?;
-        openbitfun_core_types::validate_session_id(reference_artifact_stem)
+        opc_core_types::validate_session_id(reference_artifact_stem)
             .map_err(OpcTeamError::Validation)?;
         let workspace_id = reference
             .workspace_id
@@ -4687,7 +4686,7 @@ impl SessionManager {
         workspace_path: &Path,
         session_id: &str,
     ) -> OpcTeamResult<()> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let _mutation_guard = self.lock_session_mutation(session_id).await;
         self.delete_session_locked(workspace_path, session_id).await
     }
@@ -4717,7 +4716,7 @@ impl SessionManager {
     }
 
     pub(crate) async fn delete_session_by_id(&self, session_id: &str) -> OpcTeamResult<()> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let _mutation_guard = self.lock_session_mutation(session_id).await;
         let session_storage_path = self.require_session_storage_path(session_id).await?;
         self.validate_session_storage_path_binding(session_id, &session_storage_path)?;
@@ -4745,7 +4744,7 @@ impl SessionManager {
         remote_ssh_host: Option<&str>,
         session_id: &str,
     ) -> OpcTeamResult<bool> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let Some(root) = self.get_session(session_id) else {
             return Ok(false);
         };
@@ -4793,7 +4792,7 @@ impl SessionManager {
         remote_ssh_host: Option<&str>,
         session_id: &str,
     ) -> OpcTeamResult<Vec<String>> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let Some(root) = self.get_session(session_id) else {
             return Ok(Vec::new());
         };
@@ -4936,7 +4935,7 @@ impl SessionManager {
     /// Callers must quiesce scheduler execution before unloading. A processing
     /// session is rejected so close/failure compensation cannot detach live work.
     pub(crate) async fn unload_session_from_memory(&self, session_id: &str) -> OpcTeamResult<bool> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let _mutation_guard = self.lock_session_mutation(session_id).await;
         let Some(session) = self.get_session(session_id) else {
             return Ok(false);
@@ -5510,7 +5509,7 @@ impl SessionManager {
         usize,
         SessionViewRestoreTiming,
     )> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let restore_started_at = Instant::now();
         let resolve_storage_path_duration_ms = 0;
         debug!(
@@ -9929,14 +9928,14 @@ mod tests {
     use crate::service::WorkspaceRuntimeService;
     use crate::util::errors::OpcTeamError;
     use dashmap::{try_result::TryResult, DashMap};
-    use openbitfun_core_types::{
+    use opc_core_types::{
         ReasoningCatalogBinding, ReasoningConfig, ReasoningPreset, ReasoningPresetAction,
         SessionExecutionTarget,
     };
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         AgentTurnSettlementResult, AgentTurnSettlementStatus, SessionStoragePathRequest,
     };
-    use openbitfun_services_core::session::SessionBranchBoundary;
+    use opc_services_core::session::SessionBranchBoundary;
     use serde_json::json;
     use std::collections::HashSet;
     use std::path::{Path, PathBuf};
@@ -10028,10 +10027,8 @@ mod tests {
         /// The path is canonical so IO projections written back from the
         /// record compare equal on hosts with symlinked temp roots.
         fn new() -> Self {
-            let path = std::env::temp_dir().join(format!(
-                "openbitfun-session-restore-test-{}",
-                Uuid::new_v4()
-            ));
+            let path =
+                std::env::temp_dir().join(format!("opc-session-restore-test-{}", Uuid::new_v4()));
             std::fs::create_dir_all(&path).expect("test workspace should be created");
             let path = dunce::canonicalize(&path).expect("test workspace should canonicalize");
             let record =
@@ -10204,7 +10201,7 @@ mod tests {
             String::new(),
             vec![ToolCall {
                 tool_id: "tool-1".to_string(),
-                tool_name: openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
+                tool_name: opc_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
                 arguments: json!({
                     "tool_name": "WebFetch",
                     "args": { "url": "https://example.test" }
@@ -10220,7 +10217,7 @@ mod tests {
         .with_round_id("round-1".to_string());
         let result = Message::tool_result(ToolResult {
             tool_id: "tool-1".to_string(),
-            tool_name: openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
+            tool_name: opc_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
             effective_tool_name: Some("WebFetch".to_string()),
             result: json!({ "content": "external content" }),
             result_for_assistant: Some("external content".to_string()),
@@ -10238,7 +10235,7 @@ mod tests {
         let provider_result: crate::util::types::Message = (&persisted_messages[1]).into();
         assert_eq!(
             provider_result.name.as_deref(),
-            Some(openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME)
+            Some(opc_agent_tools::CALL_DEFERRED_TOOL_NAME)
         );
 
         let rounds =
@@ -10247,10 +10244,7 @@ mod tests {
         assert_eq!(rounds.len(), 1);
         assert_eq!(rounds[0].tool_items.len(), 1);
         let tool = &rounds[0].tool_items[0];
-        assert_eq!(
-            tool.tool_name,
-            openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME
-        );
+        assert_eq!(tool.tool_name, opc_agent_tools::CALL_DEFERRED_TOOL_NAME);
         assert_eq!(
             tool.tool_call.input,
             json!({
@@ -10488,10 +10482,8 @@ mod tests {
     }
 
     fn test_path_manager() -> Arc<PathManager> {
-        let root = std::env::temp_dir().join(format!(
-            "openbitfun-session-manager-test-{}",
-            Uuid::new_v4()
-        ));
+        let root =
+            std::env::temp_dir().join(format!("opc-session-manager-test-{}", Uuid::new_v4()));
         Arc::new(PathManager::with_user_root_for_tests(
             root.join("user-root"),
         ))
@@ -15168,9 +15160,7 @@ mod tests {
 
     #[tokio::test]
     async fn core_session_store_port_resolves_local_storage_to_sessions_dir() {
-        use openbitfun_runtime_ports::{
-            SessionStorageKind, SessionStoragePathRequest, SessionStorePort,
-        };
+        use opc_runtime_ports::{SessionStorageKind, SessionStoragePathRequest, SessionStorePort};
 
         let workspace = TestWorkspace::new();
         let path_manager = workspace.path_manager();
@@ -15209,9 +15199,7 @@ mod tests {
     #[tokio::test]
     async fn core_session_store_port_keeps_colliding_local_and_ssh_owners_separate() {
         use crate::service::workspace::legacy_compat::register_remote_fixture;
-        use openbitfun_runtime_ports::{
-            SessionStorageKind, SessionStoragePathRequest, SessionStorePort,
-        };
+        use opc_runtime_ports::{SessionStorageKind, SessionStoragePathRequest, SessionStorePort};
 
         let workspace = TestWorkspace::new();
         // Saved remote roots always use POSIX syntax, so a controller drive path
@@ -15272,7 +15260,7 @@ mod tests {
 
     #[tokio::test]
     async fn core_session_store_port_legacy_worktree_uses_its_registered_project_storage() {
-        use openbitfun_runtime_ports::{SessionStoragePathRequest, SessionStorePort};
+        use opc_runtime_ports::{SessionStoragePathRequest, SessionStorePort};
         let project = TestWorkspace::new();
         let execution = project.path().join("worktree");
         std::fs::create_dir_all(&execution).unwrap();
@@ -15485,7 +15473,7 @@ mod tests {
     #[cfg(feature = "remote-workspace")]
     #[tokio::test]
     async fn core_session_store_port_resolves_unresolved_remote_storage_path() {
-        use openbitfun_runtime_ports::{
+        use opc_runtime_ports::{
             PortErrorKind, SessionStorageKind, SessionStoragePathRequest, SessionStorePort,
         };
 
@@ -15514,7 +15502,7 @@ mod tests {
         // Sessions already persisted under a legacy `_unresolved` mirror stay
         // readable: the resolved sessions dir passes through with its kind.
         let legacy_unresolved_dir =
-            openbitfun_services_core::workspace_identity::unresolved_remote_session_storage_dir(
+            opc_services_core::workspace_identity::unresolved_remote_session_storage_dir(
                 path_manager.remote_ssh_mirror_root_dir(),
                 "conn-1",
                 "/remote/project",
@@ -15540,9 +15528,7 @@ mod tests {
     #[tokio::test]
     async fn core_session_store_port_resolved_remote_sessions_dir_passes_through_only_sessions_root(
     ) {
-        use openbitfun_runtime_ports::{
-            SessionStorageKind, SessionStoragePathRequest, SessionStorePort,
-        };
+        use opc_runtime_ports::{SessionStorageKind, SessionStoragePathRequest, SessionStorePort};
 
         let workspace = TestWorkspace::new();
         let path_manager = workspace.path_manager();

@@ -20,7 +20,7 @@ if (process.argv.includes("--worker")) {
 }
 
 async function runParent() {
-  const isolatedRoot = await mkdtemp(join(tmpdir(), "openbitfun-sdk-real-host-"));
+  const isolatedRoot = await mkdtemp(join(tmpdir(), "opc-sdk-real-host-"));
   const workspace = join(isolatedRoot, "workspace");
   const userRoot = join(isolatedRoot, "user-root");
   const home = join(isolatedRoot, "home");
@@ -31,7 +31,7 @@ async function runParent() {
     ),
   );
 
-  const apiKey = `openbitfun-sdk-${randomBytes(24).toString("hex")}`;
+  const apiKey = `opc-sdk-${randomBytes(24).toString("hex")}`;
   let requestCount = 0;
   const requestTraces = [];
   let fixtureFailure;
@@ -143,7 +143,7 @@ async function runWorker() {
   const apiKey = await readApiKeyFromStdin();
   const workspace = requiredEnvironment("OPENBITFUN_SDK_SMOKE_WORKSPACE");
   const baseUrl = requiredEnvironment("OPENBITFUN_SDK_SMOKE_BASE_URL");
-  const missingHost = join(workspace, "missing-openbitfun-sdk-host");
+  const missingHost = join(workspace, "missing-opc-sdk-host");
 
   const validModel = {
     provider: "openai",

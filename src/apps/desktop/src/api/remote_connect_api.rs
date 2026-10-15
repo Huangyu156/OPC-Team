@@ -2,26 +2,26 @@
 
 use crate::embedded_relay_host::DesktopEmbeddedRelayHost;
 use base64::{engine::general_purpose::STANDARD as BASE64, Engine as _};
-use openbitfun_core::agentic::tools::account_login_capability::set_account_login_available;
-use openbitfun_core::agentic::tools::page_deploy_host::set_page_deploy_handler;
-use openbitfun_core::agentic::tools::page_publish_host::set_page_publish_handler;
-use openbitfun_core::service::dispatch::{
+use opc_core::agentic::tools::account_login_capability::set_account_login_available;
+use opc_core::agentic::tools::page_deploy_host::set_page_deploy_handler;
+use opc_core::agentic::tools::page_publish_host::set_page_publish_handler;
+use opc_core::service::dispatch::{
     DispatchAccountDaemonIdentity, DispatchAccountDaemonProvisionRequest,
     DISPATCH_ACCOUNT_DAEMON_PROVISIONING_SCHEMA_VERSION,
 };
-use openbitfun_core::service::remote_connect::session_store::{
+use opc_core::service::remote_connect::session_store::{
     clear_credential_hint, load_credential_hint, save_credential_hint, AccountHint,
 };
-use openbitfun_core::service::remote_connect::{
+use opc_core::service::remote_connect::{
     bot::{self, weixin, BotConfig},
     lan, session_store, AccountClient, AccountSession, ConnectionMethod, ConnectionResult,
     DeviceIdentity, RemoteConnectConfig, RemoteConnectService,
 };
-use openbitfun_events::AI_MODEL_CATALOG_UPDATED_EVENT;
-use openbitfun_services_integrations::remote_connect::account::{
+use opc_events::AI_MODEL_CATALOG_UPDATED_EVENT;
+use opc_services_integrations::remote_connect::account::{
     error_indicates_expired_token, validate_relay_base_url, DEVICE_KIND_DESKTOP,
 };
-use openbitfun_services_integrations::remote_connect::{
+use opc_services_integrations::remote_connect::{
     deploy_page_version_on_relay, join_relay_url, list_pages_from_relay,
     publish_page_content_on_relay,
 };
@@ -197,13 +197,11 @@ async fn begin_account_transition_if_current(
 /// Global handle to the DialogScheduler, set during app startup. Used by the
 /// device-routing background task to execute commands received from peer
 /// devices (ExecuteOnDevice).
-static DIALOG_SCHEDULER: OnceLock<Arc<openbitfun_core::agentic::coordination::DialogScheduler>> =
+static DIALOG_SCHEDULER: OnceLock<Arc<opc_core::agentic::coordination::DialogScheduler>> =
     OnceLock::new();
 
 /// Set the global scheduler handle. Called once during app startup.
-pub fn set_dialog_scheduler(
-    scheduler: Arc<openbitfun_core::agentic::coordination::DialogScheduler>,
-) {
+pub fn set_dialog_scheduler(scheduler: Arc<opc_core::agentic::coordination::DialogScheduler>) {
     let _ = DIALOG_SCHEDULER.set(scheduler);
 }
 
@@ -313,7 +311,7 @@ async fn finish_device_routing_event_loop(owner: &DeviceRoutingOwner) {
 
 /// Host streams served to controllers while this device's routing is alive.
 pub(crate) async fn host_stream_hub(
-) -> Option<Arc<openbitfun_core::service::remote_connect::host_stream::HostStreamHub>> {
+) -> Option<Arc<opc_core::service::remote_connect::host_stream::HostStreamHub>> {
     let service = get_service_holder().read().await;
     match service.as_ref() {
         Some(service) => service.host_stream_hub().await,
@@ -326,14 +324,13 @@ pub(crate) async fn host_stream_hub(
 /// reads content back over RPC, so the relay forwards nothing it could store.
 struct DesktopHostStreamNotifier;
 
-impl openbitfun_core::service::remote_connect::host_stream::HostStreamNotifier
+impl opc_core::service::remote_connect::host_stream::HostStreamNotifier
     for DesktopHostStreamNotifier
 {
     fn notify(&self, target_device_id: &str, payload: serde_json::Value) {
         send_peer_device_event_to(
             target_device_id.to_owned(),
-            openbitfun_core::service::remote_connect::host_stream::HOST_STREAM_CHANGED_EVENT
-                .to_owned(),
+            opc_core::service::remote_connect::host_stream::HOST_STREAM_CHANGED_EVENT.to_owned(),
             payload,
         );
     }
@@ -425,11 +422,11 @@ async fn fanout_peer_device_event_current(item: PeerEventFanoutItem) {
     {
         return;
     }
-    use openbitfun_core::service::remote_connect::remote_server::RemoteCommand;
+    use opc_core::service::remote_connect::remote_server::RemoteCommand;
     let mut payload = item.payload;
-    if let Err(error) = openbitfun_core_types::agent_identity_wire::translate_agent_identity_fields(
+    if let Err(error) = opc_core_types::agent_identity_wire::translate_agent_identity_fields(
         &mut payload,
-        openbitfun_core_types::agent_identity_wire::AgentIdentityDialect::Legacy,
+        opc_core_types::agent_identity_wire::AgentIdentityDialect::Legacy,
     ) {
         log::warn!("Peer event contains conflicting Agent profiles; preserving records: {error}");
     }
@@ -486,8 +483,8 @@ fn should_fanout_peer_ui_event(event: &str) -> bool {
             | "backend-event-toolcallconfirmation"
             | "permission://event"
             | AI_MODEL_CATALOG_UPDATED_EVENT
-            | openbitfun_core::service::workspace::WORKSPACE_CATALOG_CHANGED_EVENT
-            | openbitfun_core::service::cron::CRON_JOBS_CHANGED_EVENT
+            | opc_core::service::workspace::WORKSPACE_CATALOG_CHANGED_EVENT
+            | opc_core::service::cron::CRON_JOBS_CHANGED_EVENT
     )
 }
 
@@ -509,17 +506,17 @@ pub fn maybe_fanout_peer_ui_event(event: &str, payload: serde_json::Value) {
 
 /// EventEmitter wrapper that mirrors selected UI events to Peer Mode controllers.
 pub struct PeerAwareEmitter {
-    inner: Arc<dyn openbitfun_core::infrastructure::events::EventEmitter>,
+    inner: Arc<dyn opc_core::infrastructure::events::EventEmitter>,
 }
 
 impl PeerAwareEmitter {
-    pub fn new(inner: Arc<dyn openbitfun_core::infrastructure::events::EventEmitter>) -> Self {
+    pub fn new(inner: Arc<dyn opc_core::infrastructure::events::EventEmitter>) -> Self {
         Self { inner }
     }
 }
 
 #[async_trait::async_trait]
-impl openbitfun_core::infrastructure::events::EventEmitter for PeerAwareEmitter {
+impl opc_core::infrastructure::events::EventEmitter for PeerAwareEmitter {
     async fn emit(&self, event_name: &str, payload: serde_json::Value) -> anyhow::Result<()> {
         // Only clone the payload when a peer fanout will actually happen;
         // otherwise move it into the inner emitter zero-copy.
@@ -534,8 +531,8 @@ impl openbitfun_core::infrastructure::events::EventEmitter for PeerAwareEmitter 
 }
 
 pub fn wrap_peer_aware_emitter(
-    inner: Arc<dyn openbitfun_core::infrastructure::events::EventEmitter>,
-) -> Arc<dyn openbitfun_core::infrastructure::events::EventEmitter> {
+    inner: Arc<dyn opc_core::infrastructure::events::EventEmitter>,
+) -> Arc<dyn opc_core::infrastructure::events::EventEmitter> {
     Arc::new(PeerAwareEmitter::new(inner))
 }
 
@@ -853,7 +850,7 @@ pub(crate) async fn provision_dispatch_account_device(
     };
     let request_id = uuid::Uuid::new_v4();
     let target_secret =
-        openbitfun_services_integrations::remote_connect::device_crypto::provisioning_secret(
+        opc_services_integrations::remote_connect::device_crypto::provisioning_secret(
             &session.master_key,
             &identity.device_id,
             &request_id.to_string(),
@@ -984,12 +981,12 @@ fn record_control_ping_if_owner(
     owner: &DeviceRoutingOwner,
     generation: u64,
     now: std::time::Instant,
-    client: Option<&openbitfun_services_integrations::remote_connect::RemoteControlClient>,
+    client: Option<&opc_services_integrations::remote_connect::RemoteControlClient>,
 ) {
     with_device_routing_state(|state| {
         if state.owner.as_ref() == Some(owner) && state.control_ping_generation == generation {
             // Leases use receipt time, not the completion time of queued replies.
-            use openbitfun_services_integrations::remote_connect::relay_client::RELAY_INBOUND_IDLE_TIMEOUT;
+            use opc_services_integrations::remote_connect::relay_client::RELAY_INBOUND_IDLE_TIMEOUT;
             state.control_clients.retain(|_, (_, last)| {
                 now.saturating_duration_since(*last) < RELAY_INBOUND_IDLE_TIMEOUT
             });
@@ -1037,10 +1034,10 @@ fn has_recent_control_ping(owner: &DeviceRoutingOwner, now: std::time::Instant) 
 }
 
 fn is_successful_control_ping(
-    command: &openbitfun_core::service::remote_connect::remote_server::RemoteCommand,
+    command: &opc_core::service::remote_connect::remote_server::RemoteCommand,
     response: &serde_json::Value,
 ) -> bool {
-    use openbitfun_core::service::remote_connect::remote_server::RemoteCommand;
+    use opc_core::service::remote_connect::remote_server::RemoteCommand;
     // The mobile/browser connection-health loop pings its selected target.
     // `peer_mode_ping` is also used before attaching or switching a device;
     // accepting that capability probe would manufacture a mobile connection.
@@ -1052,10 +1049,10 @@ fn account_control_clients(
     owner: &DeviceRoutingOwner,
     now: std::time::Instant,
 ) -> (
-    Vec<openbitfun_services_integrations::remote_connect::RemoteControlClient>,
+    Vec<opc_services_integrations::remote_connect::RemoteControlClient>,
     bool,
 ) {
-    use openbitfun_services_integrations::remote_connect::{
+    use opc_services_integrations::remote_connect::{
         relay_client::RELAY_INBOUND_IDLE_TIMEOUT, RemoteControlClient,
     };
     with_device_routing_state(|state| {
@@ -1084,7 +1081,7 @@ async fn account_control_snapshot(
     now: std::time::Instant,
 ) -> Option<(
     String,
-    Vec<openbitfun_services_integrations::remote_connect::RemoteControlClient>,
+    Vec<opc_services_integrations::remote_connect::RemoteControlClient>,
     bool,
 )> {
     let generation = account_context_generation();
@@ -1265,7 +1262,7 @@ pub fn set_mobile_web_resource_path(path: PathBuf) {
 async fn register_delegated_identity_providers() {
     // Global provider for IM bots.
     let account_context = get_account_context().clone();
-    openbitfun_core::service::remote_connect::bot::set_delegated_identity_provider(move || {
+    opc_core::service::remote_connect::bot::set_delegated_identity_provider(move || {
         let account_context = account_context.clone();
         Box::pin(async move {
             let generation = account_context_generation();
@@ -1319,14 +1316,21 @@ pub fn init_on_startup() {
                         return;
                     }
                 };
-                if openbitfun_services_integrations::remote_connect::account::is_retired_official_relay(&relay_url) {
+                if opc_services_integrations::remote_connect::account::is_retired_official_relay(
+                    &relay_url,
+                ) {
                     if let Some(device_id) = loaded.device_id.as_deref() {
                         if let Err(error) = DeviceIdentity::adopt_account_device_id(device_id) {
                             log::warn!("Failed to adopt migrating account device id: {error}");
                             return;
                         }
                     }
-                    match login_account_on_relay_for_generation(openbitfun_product_domains::account::DEFAULT_RELAY_URL.to_string(), Some(startup_generation)).await {
+                    match login_account_on_relay_for_generation(
+                        opc_product_domains::account::DEFAULT_RELAY_URL.to_string(),
+                        Some(startup_generation),
+                    )
+                    .await
+                    {
                         Ok(_) => {
                             if let Err(error) = account_connect_devices_with_retry().await {
                                 log::warn!("New Relay routing failed: {error}");
@@ -1335,7 +1339,9 @@ pub fn init_on_startup() {
                         }
                         Err(error) => {
                             sync_account_login_capability(false);
-                            log::warn!("New Relay sign-in required; previous credential retained: {error}");
+                            log::warn!(
+                                "New Relay sign-in required; previous credential retained: {error}"
+                            );
                             if let Err(error) = ensure_service().await {
                                 log::warn!("Remote connect startup init failed: {error}");
                             }
@@ -1442,7 +1448,7 @@ fn new_remote_connect_service(config: RemoteConnectConfig) -> anyhow::Result<Rem
 
 /// Restore any bot connections that were previously saved to disk.
 async fn restore_saved_bots() {
-    use openbitfun_core::service::remote_connect::bot;
+    use opc_core::service::remote_connect::bot;
 
     let generation = account_context_generation();
     let Ok(_account_guard) = lock_account_operation(generation).await else {
@@ -1585,7 +1591,7 @@ pub struct RemoteConnectStatusResponse {
     pub relay_connected: bool,
     pub relay_url: Option<String>,
     pub active_method: Option<ConnectionMethod>,
-    pub clients: Vec<openbitfun_services_integrations::remote_connect::RemoteControlClient>,
+    pub clients: Vec<opc_services_integrations::remote_connect::RemoteControlClient>,
     pub bot_connected: Option<String>,
     pub bot_verbose_mode: bool,
 }
@@ -1622,7 +1628,7 @@ pub struct LanNetworkInfo {
 fn detect_default_gateway_ip() -> Option<String> {
     #[cfg(target_os = "macos")]
     {
-        let output = openbitfun_core::util::process_manager::create_command("route")
+        let output = opc_core::util::process_manager::create_command("route")
             .args(["-n", "get", "default"])
             .output()
             .ok()?;
@@ -1638,7 +1644,7 @@ fn detect_default_gateway_ip() -> Option<String> {
 
     #[cfg(target_os = "linux")]
     {
-        let output = openbitfun_core::util::process_manager::create_command("ip")
+        let output = opc_core::util::process_manager::create_command("ip")
             .args(["route", "show", "default"])
             .output()
             .ok()?;
@@ -1654,7 +1660,7 @@ fn detect_default_gateway_ip() -> Option<String> {
 
     #[cfg(target_os = "windows")]
     {
-        let output = openbitfun_core::util::process_manager::create_command("route")
+        let output = opc_core::util::process_manager::create_command("route")
             .args(["print", "-4"])
             .output()
             .ok()?;
@@ -1684,7 +1690,7 @@ fn detect_interface_gateways() -> HashMap<String, String> {
 
     #[cfg(target_os = "macos")]
     {
-        if let Ok(output) = openbitfun_core::util::process_manager::create_command("netstat")
+        if let Ok(output) = opc_core::util::process_manager::create_command("netstat")
             .args(["-rn", "-f", "inet"])
             .output()
         {
@@ -1708,7 +1714,7 @@ fn detect_interface_gateways() -> HashMap<String, String> {
 
     #[cfg(target_os = "linux")]
     {
-        if let Ok(output) = openbitfun_core::util::process_manager::create_command("ip")
+        if let Ok(output) = opc_core::util::process_manager::create_command("ip")
             .args(["route", "show", "default"])
             .output()
         {
@@ -1739,7 +1745,7 @@ fn detect_interface_gateways() -> HashMap<String, String> {
 
     #[cfg(target_os = "windows")]
     {
-        if let Ok(output) = openbitfun_core::util::process_manager::create_command("route")
+        if let Ok(output) = opc_core::util::process_manager::create_command("route")
             .args(["print", "-4"])
             .output()
         {
@@ -1840,7 +1846,7 @@ pub async fn remote_connect_get_methods() -> Result<Vec<ConnectionMethodInfo>, S
                 description: "Same local network".into(),
             },
             ConnectionMethod::OpcTeamServer => ConnectionMethodInfo {
-                id: "openbitfun_server".into(),
+                id: "opc_server".into(),
                 name: "OPC-Team Server".into(),
                 available: true,
                 description: "Official OPC-Team relay".into(),
@@ -1877,7 +1883,7 @@ fn parse_connection_method(
         "lan" => Ok(ConnectionMethod::Lan {
             ip: lan_ip.filter(|s| !s.is_empty()),
         }),
-        "openbitfun_server" => Ok(ConnectionMethod::OpcTeamServer),
+        "opc_server" => Ok(ConnectionMethod::OpcTeamServer),
         "bot_feishu" => Ok(ConnectionMethod::BotFeishu),
         "bot_telegram" => Ok(ConnectionMethod::BotTelegram),
         "bot_weixin" => Ok(ConnectionMethod::BotWeixin),
@@ -2158,7 +2164,7 @@ async fn persist_account_session(device_id: Option<&str>) -> Result<(), String> 
 
 #[tauri::command]
 pub async fn account_login(_request: AccountAuthRequest) -> Result<AccountLoginResult, String> {
-    login_account_on_relay(openbitfun_product_domains::account::DEFAULT_RELAY_URL.to_string()).await
+    login_account_on_relay(opc_product_domains::account::DEFAULT_RELAY_URL.to_string()).await
 }
 
 async fn login_account_on_relay(relay_url: String) -> Result<AccountLoginResult, String> {
@@ -2209,8 +2215,7 @@ async fn login_account_on_relay_for_generation(
     stop_and_clear_device_routing("Account changed").await;
     if let Ok((previous, _)) = read_account_context_raw().await {
         if let Err(error) =
-            openbitfun_core::service::filesystem::upload::retire_account_uploads(&previous.user_id)
-                .await
+            opc_core::service::filesystem::upload::retire_account_uploads(&previous.user_id).await
         {
             log::warn!("Failed to clean up retired account uploads: {error}");
         }
@@ -2318,8 +2323,7 @@ async fn clear_account_login_state(revoke_relay_token: bool) {
     stop_and_clear_device_routing("Account logged out").await;
     if let Ok((previous, _)) = read_account_context_raw().await {
         if let Err(error) =
-            openbitfun_core::service::filesystem::upload::retire_account_uploads(&previous.user_id)
-                .await
+            opc_core::service::filesystem::upload::retire_account_uploads(&previous.user_id).await
         {
             log::warn!("Failed to clean up retired account uploads: {error}");
         }
@@ -2348,8 +2352,10 @@ async fn clear_account_login_state(revoke_relay_token: bool) {
 
 #[tauri::command]
 pub async fn account_logout(app: tauri::AppHandle) -> Result<(), String> {
-    let mut identity = openbitfun_services_integrations::account_identity::AccountIdentityClient::from_environment()
-        .await.map_err(|error| error.to_string())?;
+    let mut identity =
+        opc_services_integrations::account_identity::AccountIdentityClient::from_environment()
+            .await
+            .map_err(|error| error.to_string())?;
     identity.logout().await.map_err(|error| error.to_string())?;
     clear_account_login(true).await;
     super::account_identity_api::emit_identity_changed(&app, "signed-out");
@@ -2359,7 +2365,7 @@ pub async fn account_logout(app: tauri::AppHandle) -> Result<(), String> {
 
 // ── P2: Device routing commands ──────────────────────────────────────────
 
-pub use openbitfun_core::service::remote_connect::relay_client::DevicePresenceEntry as OnlineDeviceInfo;
+pub use opc_core::service::remote_connect::relay_client::DevicePresenceEntry as OnlineDeviceInfo;
 
 const STARTUP_DEVICE_CONNECT_MAX_ATTEMPTS: usize = 5;
 
@@ -2500,7 +2506,7 @@ pub async fn account_connect_devices() -> Result<Vec<OnlineDeviceInfo>, String> 
     let event_session = session.clone();
     let event_owner = routing_owner.clone();
     tokio::spawn(async move {
-        use openbitfun_core::service::remote_connect::relay_client::RelayEvent;
+        use opc_core::service::remote_connect::relay_client::RelayEvent;
         'routing_events: while let Some(event) = event_rx.recv().await {
             if !device_routing_owner_is_current(&event_owner).await {
                 break;
@@ -2565,7 +2571,7 @@ pub async fn account_connect_devices() -> Result<Vec<OnlineDeviceInfo>, String> 
                         .await
                     {
                         Ok(plaintext) => {
-                            use openbitfun_core::service::remote_connect::remote_server::RemoteCommand;
+                            use opc_core::service::remote_connect::remote_server::RemoteCommand;
                             match serde_json::from_str::<RemoteCommand>(&plaintext) {
                                 Ok(RemoteCommand::DeviceEvent { event, payload }) => {
                                     let Some(_routing_effect) =
@@ -2611,7 +2617,7 @@ pub async fn account_connect_devices() -> Result<Vec<OnlineDeviceInfo>, String> 
                                         content.len()
                                     );
                                     if let Some(scheduler) = DIALOG_SCHEDULER.get() {
-                                        use openbitfun_core::agentic::coordination::{
+                                        use opc_core::agentic::coordination::{
                                             DialogSubmissionPolicy, DialogTriggerSource,
                                         };
                                         let session_id = session_id
@@ -2702,7 +2708,7 @@ pub async fn account_connect_devices() -> Result<Vec<OnlineDeviceInfo>, String> 
                                         // memory for the requesting device; every
                                         // other command goes to the local dispatcher.
                                         let hub = host_stream_hub().await;
-                                        let execution = match openbitfun_core::service::remote_connect::handle_host_stream_command(
+                                        let execution = match opc_core::service::remote_connect::handle_host_stream_command(
                                             hub.as_ref(),
                                             &source_device_id,
                                             &cmd,
@@ -2889,7 +2895,7 @@ pub async fn account_execute_on_device(
     let account_generation = account_context_generation();
     let (session, relay_url) = read_account_context_for_generation(account_generation).await?;
 
-    use openbitfun_core::service::remote_connect::remote_server::RemoteCommand;
+    use opc_core::service::remote_connect::remote_server::RemoteCommand;
     let envelope = serde_json::to_string(&RemoteCommand::ExecuteOnDevice {
         session_id,
         content,
@@ -3108,9 +3114,9 @@ fn resolve_requested_local_workspace_path(workspace_path: Option<&str>) -> Resul
 /// Execute a RemoteCommand locally (for RPC requests from other devices).
 /// Returns the RemoteResponse serialized as JSON to be encrypted and sent back.
 async fn execute_local_remote_command(
-    cmd: &openbitfun_core::service::remote_connect::remote_server::RemoteCommand,
+    cmd: &opc_core::service::remote_connect::remote_server::RemoteCommand,
 ) -> anyhow::Result<serde_json::Value> {
-    use openbitfun_core::service::remote_connect::remote_server::{RemoteCommand, RemoteResponse};
+    use opc_core::service::remote_connect::remote_server::{RemoteCommand, RemoteResponse};
 
     match cmd {
         RemoteCommand::HostInvoke { command, args } => {
@@ -3194,7 +3200,7 @@ async fn execute_local_remote_command(
             // manual coordinator access. The dummy shared secret is irrelevant
             // because we call dispatch() directly (encryption is handled at the
             // RPC envelope level, not here).
-            let server = openbitfun_core::service::remote_connect::RemoteServer::new([0u8; 32]);
+            let server = opc_core::service::remote_connect::RemoteServer::new([0u8; 32]);
             let response = server.dispatch(other).await;
             serde_json::to_value(&response).map_err(|e| anyhow::anyhow!("serialize response: {e}"))
         }
@@ -3213,7 +3219,7 @@ mod sync_state_tests {
 
     #[test]
     fn account_control_clients_deduplicate_expire_and_fence_disconnects() {
-        use openbitfun_services_integrations::remote_connect::{
+        use opc_services_integrations::remote_connect::{
             relay_client::RELAY_INBOUND_IDLE_TIMEOUT, RemoteControlClient,
         };
         let _test_guard = ACCOUNT_CONTEXT_TEST_LOCK.blocking_lock();
@@ -3252,7 +3258,7 @@ mod sync_state_tests {
 
     #[test]
     fn account_control_ping_requires_a_successful_control_response() {
-        use openbitfun_core::service::remote_connect::remote_server::RemoteCommand;
+        use opc_core::service::remote_connect::remote_server::RemoteCommand;
         assert!(is_successful_control_ping(
             &RemoteCommand::Ping { client: None },
             &serde_json::json!({"resp": "pong"})
@@ -3285,7 +3291,7 @@ mod sync_state_tests {
 
     #[test]
     fn account_control_ping_expires_disconnects_and_fences_replaced_routes() {
-        use openbitfun_services_integrations::remote_connect::relay_client::RELAY_INBOUND_IDLE_TIMEOUT;
+        use opc_services_integrations::remote_connect::relay_client::RELAY_INBOUND_IDLE_TIMEOUT;
         let _test_guard = ACCOUNT_CONTEXT_TEST_LOCK.blocking_lock();
         let first = new_device_routing_owner(1, "first", 1);
         let second = new_device_routing_owner(2, "second", 2);
@@ -3332,7 +3338,7 @@ mod sync_state_tests {
 
     #[tokio::test(flavor = "current_thread")]
     async fn account_control_status_uses_its_own_route_without_a_room_invitation() {
-        use openbitfun_services_integrations::remote_connect::relay_client::RELAY_INBOUND_IDLE_TIMEOUT;
+        use opc_services_integrations::remote_connect::relay_client::RELAY_INBOUND_IDLE_TIMEOUT;
         let _test_guard = ACCOUNT_CONTEXT_TEST_LOCK.lock().await;
         let relay_url = "https://relay.example/base/";
         *get_account_context().write().await = Some(AccountContextState {
@@ -3382,7 +3388,7 @@ mod sync_state_tests {
     fn relay_status_has_one_account_device_contract_for_both_endpoints() {
         for (method, endpoint) in [
             (
-                serde_json::json!("openbitfun_server"),
+                serde_json::json!("opc_server"),
                 "https://remote.openbitfun.com/v/1.0.2",
             ),
             (
@@ -3604,7 +3610,7 @@ static SESSION_SUBSCRIPTIONS: OnceLock<
     std::sync::Mutex<
         std::collections::HashMap<
             String,
-            openbitfun_core::service::remote_connect::host_stream_subscriber::HostStreamSubscriber,
+            opc_core::service::remote_connect::host_stream_subscriber::HostStreamSubscriber,
         >,
     >,
 > = OnceLock::new();
@@ -3650,7 +3656,7 @@ pub async fn account_subscribe_session(request: SubscribeSessionRequest) -> Resu
     let error_source = source.clone();
     let error_session_id = request.session_id.clone();
     let subscriber =
-        openbitfun_core::service::remote_connect::host_stream_subscriber::HostStreamSubscriber::start(
+        opc_core::service::remote_connect::host_stream_subscriber::HostStreamSubscriber::start(
             session,
             relay,
             request.target_device_id,

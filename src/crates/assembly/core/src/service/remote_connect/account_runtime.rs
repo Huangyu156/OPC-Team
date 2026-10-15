@@ -13,8 +13,8 @@ use anyhow::{anyhow, Result};
 use async_trait::async_trait;
 use tokio::sync::{Mutex, MutexGuard, RwLock};
 
-use openbitfun_services_integrations::remote_connect::account::{AccountClient, AccountSession};
-use openbitfun_services_integrations::remote_connect::{session_store, DeviceIdentity};
+use opc_services_integrations::remote_connect::account::{AccountClient, AccountSession};
+use opc_services_integrations::remote_connect::{session_store, DeviceIdentity};
 
 use super::validate_relay_base_url;
 
@@ -63,7 +63,7 @@ pub trait AccountRuntimeHost: Send + Sync {
 }
 
 pub enum AccountLoginProgress {
-    Authorization(openbitfun_product_domains::account::GitHubAuthStart),
+    Authorization(opc_product_domains::account::GitHubAuthStart),
     Waiting,
     Complete(AccountLoginResult),
 }
@@ -223,7 +223,7 @@ impl AccountRuntime {
 
     pub async fn try_restore_session(self: &Arc<Self>) -> Option<String> {
         if let Ok(Some(loaded)) = session_store::load_session_detailed() {
-            if openbitfun_services_integrations::remote_connect::account::is_retired_official_relay(
+            if opc_services_integrations::remote_connect::account::is_retired_official_relay(
                 &loaded.relay_url,
             ) {
                 if let Some(device_id) = loaded.device_id.as_deref() {
@@ -320,7 +320,7 @@ impl AccountRuntime {
                 }
             }
         } else {
-            let mut identity = openbitfun_services_integrations::account_identity::AccountIdentityClient::from_environment().await?;
+            let mut identity = opc_services_integrations::account_identity::AccountIdentityClient::from_environment().await?;
             if identity.me().await?.is_none() {
                 return Ok(AccountLoginProgress::Authorization(
                     self.start_github_auth().await?,
@@ -332,27 +332,23 @@ impl AccountRuntime {
         ))
     }
 
-    pub async fn start_github_auth(
-        &self,
-    ) -> Result<openbitfun_product_domains::account::GitHubAuthStart> {
-        Ok(openbitfun_services_integrations::account_identity::start_auth_flow().await?)
+    pub async fn start_github_auth(&self) -> Result<opc_product_domains::account::GitHubAuthStart> {
+        Ok(opc_services_integrations::account_identity::start_auth_flow().await?)
     }
 
     pub async fn poll_github_auth(
         &self,
         transaction_id: String,
-    ) -> Result<openbitfun_product_domains::account::GitHubAuthPollResponse> {
-        Ok(
-            openbitfun_services_integrations::account_identity::poll_auth_flow(
-                openbitfun_product_domains::account::GitHubAuthPollRequest { transaction_id },
-            )
-            .await?,
+    ) -> Result<opc_product_domains::account::GitHubAuthPollResponse> {
+        Ok(opc_services_integrations::account_identity::poll_auth_flow(
+            opc_product_domains::account::GitHubAuthPollRequest { transaction_id },
         )
+        .await?)
     }
 
     pub async fn login_with_identity(self: &Arc<Self>) -> Result<AccountLoginResult> {
         let _login_guard = self.account_login_lock.lock().await;
-        let relay_url = openbitfun_product_domains::account::DEFAULT_RELAY_URL.to_string();
+        let relay_url = opc_product_domains::account::DEFAULT_RELAY_URL.to_string();
         let expected_generation = self.account_context_generation();
         if !self.account_context_is_current(expected_generation) {
             return Err(anyhow!("account context changed"));
@@ -455,7 +451,9 @@ impl AccountRuntime {
     }
 
     pub async fn logout(&self) -> Result<()> {
-        let mut identity = openbitfun_services_integrations::account_identity::AccountIdentityClient::from_environment().await?;
+        let mut identity =
+            opc_services_integrations::account_identity::AccountIdentityClient::from_environment()
+                .await?;
         identity.logout().await?;
         let transition = self.begin_account_transition().await;
         self.host.stop_device_routing().await;

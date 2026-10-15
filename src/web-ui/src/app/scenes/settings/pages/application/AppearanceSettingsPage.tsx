@@ -16,15 +16,15 @@ const AppearanceSettingsPage: React.FC = () => {
 
   return (
     <ConfigPageLayout
-      className="openbitfun-appearance-settings"
-      data-openbitfun-component="appearance-settings"
-      data-openbitfun-part="root"
+      className="opc-appearance-settings"
+      data-opc-component="appearance-settings"
+      data-opc-part="root"
     >
       <ConfigPageHeader title={t('title')} subtitle={t('subtitle')} />
       <ConfigPageContent
-        className="openbitfun-appearance-settings__content"
-        data-openbitfun-component="appearance-settings"
-        data-openbitfun-part="content"
+        className="opc-appearance-settings__content"
+        data-opc-component="appearance-settings"
+        data-opc-part="content"
       >
         <ConfigPageSectionStack data-testid="appearance-settings">
           <AppearancePackageConfigSection />

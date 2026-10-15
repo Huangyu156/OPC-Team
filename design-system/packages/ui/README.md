@@ -44,7 +44,7 @@ reservation shrinks to half the available width. Dock contents stay mounted
 when visibility or placement changes.
 
 Floating dialog/sheet overlays, menu popovers, select/combobox popups and tooltips declare
-`data-openbitfun-native-webview-occlusion` on their rendered floating surface.
+`data-opc-native-webview-occlusion` on their rendered floating surface.
 Native hosts use its visible bounds to temporarily hide overlapping child views;
 the components do not call platform APIs. Custom product popovers should declare
 the same marker on the floating element, including while its exit animation runs.
@@ -105,7 +105,7 @@ existing wrapping or inline composition without adding clipping, a marquee,
 or an automatic overflow tooltip. Static labels inherit the button's whitespace
 and line height; button variants, sizes, loading, and disabled behavior stay the
 same. An explicitly composed OverflowText child retains its own behavior.
-The public `data-openbitfun-part` slots are `root`, `content`, `label`,
+The public `data-opc-part` slots are `root`, `content`, `label`,
 `leading-icon`, `trailing-icon`, and `progress`; use them for scoped product
 layout instead of private CSS module classes.
 

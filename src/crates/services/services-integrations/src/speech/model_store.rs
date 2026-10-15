@@ -12,7 +12,7 @@ use std::path::{Component, Path, PathBuf};
 use tokio::fs;
 use tokio::io::AsyncReadExt;
 
-const INSTALL_RECORD_FILE: &str = "openbitfun-model-install.json";
+const INSTALL_RECORD_FILE: &str = "opc-model-install.json";
 
 #[derive(Deserialize)]
 struct SpeechModelInstallEnvelope {
@@ -365,7 +365,7 @@ mod tests {
     #[tokio::test]
     async fn verify_model_detects_same_size_file_corruption() {
         let root = std::env::temp_dir().join(format!(
-            "openbitfun-speech-model-verify-test-{}",
+            "opc-speech-model-verify-test-{}",
             Uuid::new_v4().simple()
         ));
         let paths = SpeechStoragePaths::new(

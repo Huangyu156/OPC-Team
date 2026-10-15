@@ -51,7 +51,7 @@ export function MobileActionSheet({
       ) : undefined}
       onOpenChange={onOpenChange}
     >
-      <div className={styles.actions} data-openbitfun-component="mobile-action-sheet" data-openbitfun-part="actions">
+      <div className={styles.actions} data-opc-component="mobile-action-sheet" data-opc-part="actions">
         {actions.map((action) => (
           <MobileListRow
             appearance="plain"

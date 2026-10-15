@@ -12,8 +12,8 @@ use crate::service::config::types::{
     AgentProfileConfig, AgentProfileView, ParentSubagentOverrideConfig,
 };
 use crate::util::errors::*;
-use openbitfun_agent_runtime::skills::normalize_user_mode_skill_overrides;
-use openbitfun_runtime_ports::PermissionRule;
+use opc_agent_runtime::skills::normalize_user_mode_skill_overrides;
+use opc_runtime_ports::PermissionRule;
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 use std::collections::{HashMap, HashSet};
@@ -365,10 +365,8 @@ pub async fn get_agent_profile_configs() -> OpcTeamResult<HashMap<String, AgentP
     let config_service = GlobalConfigManager::get_service().await?;
     let raw = config_service.get_config(Some("ai.agent_profiles")).await?;
     let mut migrated =
-        openbitfun_config_contracts::agent_identity_migration::canonicalize_agent_profile_keys(
-            &raw,
-        )
-        .map_err(OpcTeamError::config)?;
+        opc_config_contracts::agent_identity_migration::canonicalize_agent_profile_keys(&raw)
+            .map_err(OpcTeamError::config)?;
     migrated.retain(|_, value| !value.is_null());
     let mut profiles: HashMap<String, AgentProfileConfig> =
         serde_json::from_value(Value::Object(migrated))?;
@@ -399,7 +397,7 @@ pub async fn get_agent_profile_views() -> OpcTeamResult<HashMap<String, AgentPro
 }
 
 pub async fn get_agent_profile_view(agent_id: &str) -> OpcTeamResult<AgentProfileView> {
-    let agent_id = openbitfun_core_types::agent_identity::canonical_agent_id(agent_id);
+    let agent_id = opc_core_types::agent_identity::canonical_agent_id(agent_id);
     let views = get_agent_profile_views().await?;
     views
         .get(agent_id)
@@ -408,7 +406,7 @@ pub async fn get_agent_profile_view(agent_id: &str) -> OpcTeamResult<AgentProfil
 }
 
 pub async fn persist_agent_profile_from_value(agent_id: &str, config: Value) -> OpcTeamResult<()> {
-    let agent_id = openbitfun_core_types::agent_identity::canonical_agent_id(agent_id);
+    let agent_id = opc_core_types::agent_identity::canonical_agent_id(agent_id);
     let config_service = GlobalConfigManager::get_service().await?;
     let agent_defaults = get_agent_defaults().await;
     let default_tools = agent_defaults
@@ -584,7 +582,7 @@ pub async fn canonicalize_agent_profile_configs(
         .update_config(
             "ai.agent_profiles",
             |raw_agent_profiles: &mut Map<String, Value>| {
-                let migrated = openbitfun_config_contracts::agent_identity_migration::canonicalize_agent_profile_keys(raw_agent_profiles)
+                let migrated = opc_config_contracts::agent_identity_migration::canonicalize_agent_profile_keys(raw_agent_profiles)
                     .map_err(OpcTeamError::config)?;
                 let mut rewritten_agent_profiles = Map::new();
                 let mut updated_profiles = Vec::new();
@@ -657,7 +655,7 @@ mod tests {
     };
     use crate::agentic::agents::get_agent_registry;
     use crate::service::config::types::AgentSubagentOverrideState;
-    use openbitfun_runtime_ports::{PermissionEffect, PermissionRule};
+    use opc_runtime_ports::{PermissionEffect, PermissionRule};
     use serde_json::Value;
     use std::collections::HashSet;
 
@@ -709,24 +707,18 @@ mod tests {
     fn normalize_skill_override_lists_removes_duplicates_and_conflicts() {
         let (disabled, enabled) = normalize_skill_override_lists(
             vec![
-                "user::openbitfun-system::ppt-design".to_string(),
-                "user::openbitfun-system::ppt-design".to_string(),
+                "user::opc-system::ppt-design".to_string(),
+                "user::opc-system::ppt-design".to_string(),
             ],
             vec![
-                "user::openbitfun-system::ppt-design".to_string(),
-                "user::openbitfun-system::agent-browser".to_string(),
-                "user::openbitfun-system::agent-browser".to_string(),
+                "user::opc-system::ppt-design".to_string(),
+                "user::opc-system::agent-browser".to_string(),
+                "user::opc-system::agent-browser".to_string(),
             ],
         );
 
-        assert_eq!(
-            disabled,
-            vec!["user::openbitfun-system::ppt-design".to_string()]
-        );
-        assert_eq!(
-            enabled,
-            vec!["user::openbitfun-system::agent-browser".to_string()]
-        );
+        assert_eq!(disabled, vec!["user::opc-system::ppt-design".to_string()]);
+        assert_eq!(enabled, vec!["user::opc-system::agent-browser".to_string()]);
     }
 
     #[test]
@@ -737,7 +729,7 @@ mod tests {
             added_tools: Vec::new(),
             removed_tools: Vec::new(),
             disabled_user_skills: Vec::new(),
-            enabled_user_skills: vec!["user::openbitfun-system::ppt-design".to_string()],
+            enabled_user_skills: vec!["user::opc-system::ppt-design".to_string()],
             subagent_overrides: Default::default(),
             tool_permission_rules: Vec::new(),
             default_tools: &[],
@@ -748,7 +740,7 @@ mod tests {
         assert_eq!(stored.profile_id, "Standard");
         assert_eq!(
             stored.enabled_user_skills,
-            vec!["user::openbitfun-system::ppt-design".to_string()]
+            vec!["user::opc-system::ppt-design".to_string()]
         );
         assert!(stored.disabled_user_skills.is_empty());
     }

@@ -1,7 +1,7 @@
 //! Stable on-disk envelope for in-flight Session runtime events.
 
 use crate::storage_error::{StorageError as OpcTeamError, StorageResult as OpcTeamResult};
-use openbitfun_events::AgenticEvent;
+use opc_events::AgenticEvent;
 use std::collections::BTreeSet;
 use std::io::{BufRead, BufReader};
 use std::path::Path;
@@ -100,7 +100,7 @@ mod tests {
             .unwrap_or_else(std::env::temp_dir);
         fs::create_dir_all(&root).unwrap();
         let temp = tempfile::Builder::new()
-            .prefix("openbitfun-runtime-event-")
+            .prefix("opc-runtime-event-")
             .tempdir_in(root)
             .unwrap();
         let path = temp.path().join("session-1.jsonl");

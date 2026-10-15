@@ -52,21 +52,21 @@ export const ChatInputBoostSubmenu: React.FC<ChatInputBoostSubmenuProps> = ({
     setOpen(true);
     if (focusFirstItem) {
       requestAnimationFrame(() => {
-        submenuRef.current?.querySelector<HTMLButtonElement>('[data-openbitfun-menu-item]')?.focus();
+        submenuRef.current?.querySelector<HTMLButtonElement>('[data-opc-menu-item]')?.focus();
       });
     }
   }, [setOpen]);
 
   return (
     <div
-      className="openbitfun-chat-input__boost-submenu-host"
+      className="opc-chat-input__boost-submenu-host"
       data-testid={testId}
     >
       <MenuItem
         ref={triggerRef}
-        data-openbitfun-component="chat-input"
-        data-openbitfun-part="boostSubmenuTrigger"
-        data-openbitfun-state={open ? 'open' : undefined}
+        data-opc-component="chat-input"
+        data-opc-part="boostSubmenuTrigger"
+        data-opc-state={open ? 'open' : undefined}
         aria-haspopup="menu"
         aria-expanded={open}
         aria-controls={panelId}
@@ -97,11 +97,11 @@ export const ChatInputBoostSubmenu: React.FC<ChatInputBoostSubmenuProps> = ({
         <Menu
           ref={submenuRef}
           id={panelId}
-          className="openbitfun-chat-input__boost-submenu-panel"
-          data-openbitfun-component="chat-input"
-          data-openbitfun-part="boostSubmenuPanel"
-          data-openbitfun-state="open"
-          data-openbitfun-placement={layout ? `${layout.placement}-${layout.alignment}` : 'right-start'}
+          className="opc-chat-input__boost-submenu-panel"
+          data-opc-component="chat-input"
+          data-opc-part="boostSubmenuPanel"
+          data-opc-state="open"
+          data-opc-placement={layout ? `${layout.placement}-${layout.alignment}` : 'right-start'}
           style={{
             top: layout?.top ?? 0,
             left: layout?.left ?? 0,

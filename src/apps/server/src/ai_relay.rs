@@ -12,7 +12,7 @@
 //! ```
 //!
 //! Usage:
-//! 1. Start AI Relay on local machine: `openbitfun-server --ai-relay --port 9090`
+//! 1. Start AI Relay on local machine: `opc-server --ai-relay --port 9090`
 //! 2. SSH to remote with reverse tunnel: `ssh -R 9090:localhost:9090 user@remote`
 //! 3. Configure remote OPC-Team to use proxy: `proxy_url = "http://localhost:9090"`
 
@@ -41,9 +41,7 @@ pub fn create_relay_router() -> Router {
 
     let state = Arc::new(RelayState { client });
 
-    Router::new()
-        .fallback(handle_proxy)
-        .with_state(state)
+    Router::new().fallback(handle_proxy).with_state(state)
 }
 
 /// Handle all incoming requests and proxy them
@@ -57,11 +55,7 @@ async fn handle_proxy(
     // Reconstruct the target URL
     let target_url = reconstruct_target_url(&uri)?;
 
-    log::info!(
-        "AI Relay: proxying {} {}",
-        req.method(),
-        target_url
-    );
+    log::info!("AI Relay: proxying {} {}", req.method(), target_url);
 
     // Remove hop-by-hop headers
     let mut headers = req.headers().clone();
@@ -70,7 +64,7 @@ async fn handle_proxy(
     // Build the proxied request
     let method = reqwest::Method::from_bytes(req.method().as_str().as_bytes())
         .unwrap_or(reqwest::Method::GET);
-    
+
     let mut builder = state.client.request(method, &target_url);
 
     // Add headers
@@ -95,10 +89,7 @@ async fn handle_proxy(
         .await
         .map_err(|e| ProxyError::UpstreamError(format!("Failed to connect to upstream: {}", e)))?;
 
-    log::info!(
-        "AI Relay: received response status {}",
-        response.status()
-    );
+    log::info!("AI Relay: received response status {}", response.status());
 
     // Build response
     let status = response.status();
@@ -132,9 +123,9 @@ fn reconstruct_target_url(uri: &Uri) -> Result<String, ProxyError> {
     let path = uri.path();
 
     // Skip the leading slash and extract scheme
-    let path = path.strip_prefix('/').ok_or_else(|| {
-        ProxyError::InvalidRequest("Invalid path format".to_string())
-    })?;
+    let path = path
+        .strip_prefix('/')
+        .ok_or_else(|| ProxyError::InvalidRequest("Invalid path format".to_string()))?;
 
     let parts: Vec<&str> = path.splitn(3, '/').collect();
     if parts.is_empty() {
@@ -144,9 +135,9 @@ fn reconstruct_target_url(uri: &Uri) -> Result<String, ProxyError> {
     }
 
     let scheme = *parts.get(0).unwrap_or(&"https");
-    let host = parts.get(1).ok_or_else(|| {
-        ProxyError::InvalidRequest("Missing host in path".to_string())
-    })?;
+    let host = parts
+        .get(1)
+        .ok_or_else(|| ProxyError::InvalidRequest("Missing host in path".to_string()))?;
     let rest = parts.get(2).unwrap_or(&"");
 
     // Build the target URL
@@ -198,9 +189,7 @@ impl IntoResponse for ProxyError {
             ProxyError::InvalidRequest(msg) => (StatusCode::BAD_REQUEST, msg),
             ProxyError::RequestError(msg) => (StatusCode::BAD_REQUEST, msg),
             ProxyError::UpstreamError(msg) => (StatusCode::BAD_GATEWAY, msg),
-            ProxyError::ResponseError(msg) => {
-                (StatusCode::INTERNAL_SERVER_ERROR, msg)
-            }
+            ProxyError::ResponseError(msg) => (StatusCode::INTERNAL_SERVER_ERROR, msg),
         };
 
         let body = serde_json::json!({
@@ -223,9 +212,7 @@ mod tests {
         assert_eq!(result, "https://api.openai.com/v1/chat/completions");
 
         // Test with query string
-        let uri: Uri = "/https/api.openai.com/v1/models?limit=10"
-            .parse()
-            .unwrap();
+        let uri: Uri = "/https/api.openai.com/v1/models?limit=10".parse().unwrap();
         let result = reconstruct_target_url(&uri).unwrap();
         assert_eq!(result, "https://api.openai.com/v1/models?limit=10");
 

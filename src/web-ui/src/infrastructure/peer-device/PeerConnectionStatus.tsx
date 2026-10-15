@@ -33,13 +33,13 @@ export const PeerConnectionStatus: React.FC = () => {
   return (
     <div
       className="peer-connection-status"
-      data-openbitfun-component="peer-device"
-      data-openbitfun-part="connectionStatus"
+      data-opc-component="peer-device"
+      data-opc-part="connectionStatus"
     >
       <div
         className="peer-connection-status__content"
-        data-openbitfun-component="peer-device"
-        data-openbitfun-part="connectionStatusContent"
+        data-opc-component="peer-device"
+        data-opc-part="connectionStatusContent"
       >
         <Tooltip content={t('peerConnection.reconnecting', { name: peer.peerMode.deviceName })}>
           <span className="peer-connection-status__label" role="status" aria-live="polite">

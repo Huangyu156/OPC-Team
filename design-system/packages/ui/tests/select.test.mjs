@@ -18,7 +18,7 @@ test("Select exposes a select-only combobox and preserves native form semantics"
     value: "ask",
   }));
 
-  assert.match(markup, /data-openbitfun-component="select"/);
+  assert.match(markup, /data-opc-component="select"/);
   assert.match(markup, /<select/);
   assert.match(markup, /aria-hidden="true"/);
   assert.match(markup, /aria-label="Mode"/);
@@ -29,7 +29,7 @@ test("Select exposes a select-only combobox and preserves native form semantics"
   assert.match(markup, /<optgroup label="Advanced">/);
   assert.match(markup, /value="3">Agent<\/option>/);
   assert.match(markup, /<button[^>]*aria-expanded="false"[^>]*role="combobox"/);
-  assert.match(markup, /data-openbitfun-part="value"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>Ask<\/span><\/span>/);
+  assert.match(markup, /data-opc-part="value"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>Ask<\/span><\/span>/);
 });
 
 test("Select exposes size, invalid, disabled, and leading regions independently", () => {
@@ -46,8 +46,8 @@ test("Select exposes size, invalid, disabled, and leading regions independently"
   assert.match(markup, /data-disabled="true"/);
   assert.match(markup, /data-invalid="true"/);
   assert.match(markup, /aria-invalid="true"/);
-  assert.match(markup, /data-openbitfun-part="leading"/);
-  assert.match(markup, /data-openbitfun-part="indicator"/);
+  assert.match(markup, /data-opc-part="leading"/);
+  assert.match(markup, /data-opc-part="indicator"/);
 });
 
 test("Select styling owns one token-driven surface for the expanded header and listbox", async () => {
@@ -84,12 +84,12 @@ test("Select styling owns one token-driven surface for the expanded header and l
   assert.match(source, /useDismissibleLayer/);
   assert.match(source, /useAnchoredLayer\(\{/);
   assert.match(source, /overlapAnchor:\s*true/);
-  assert.match(source, /data-openbitfun-part="header"/);
-  assert.match(source, /data-openbitfun-part="divider"/);
-  assert.match(source, /data-openbitfun-part="options"/);
+  assert.match(source, /data-opc-part="header"/);
+  assert.match(source, /data-opc-part="divider"/);
+  assert.match(source, /data-opc-part="options"/);
   assert.ok(
-    source.indexOf('data-openbitfun-part="header"')
-      < source.indexOf('data-openbitfun-part="options"'),
+    source.indexOf('data-opc-part="header"')
+      < source.indexOf('data-opc-part="options"'),
   );
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}/i);
 });

@@ -145,8 +145,8 @@ describe('BranchQuickSwitch', () => {
       root.render(<Harness onSwitchSuccess={vi.fn()} />);
     });
 
-    const searchField = document.querySelector('[data-openbitfun-component="search-field"]');
-    const fieldSurface = searchField?.querySelector('[data-openbitfun-component="input"]');
+    const searchField = document.querySelector('[data-opc-component="search-field"]');
+    const fieldSurface = searchField?.querySelector('[data-opc-component="input"]');
     const input = searchField?.querySelector<HTMLInputElement>('input[type="search"]');
 
     expect(searchField).not.toBeNull();

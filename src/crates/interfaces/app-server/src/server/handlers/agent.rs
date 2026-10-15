@@ -1,8 +1,8 @@
 use std::sync::Arc;
 
 use agent_client_protocol::{Builder, HandleDispatchFrom};
-use openbitfun_agent_runtime::sdk::{AgentUserAnswersRequest, DialogSteerOutcome};
-use openbitfun_app_server_protocol::agent::{
+use opc_agent_runtime::sdk::{AgentUserAnswersRequest, DialogSteerOutcome};
+use opc_app_server_protocol::agent::{
     ListAgentModesRequest, RunUserShellCommandRequest, RunUserShellCommandResponse,
     SteerTurnRequest, SteerTurnResponse, SubmitUserAnswersRequest, SubmitUserAnswersResponse,
 };

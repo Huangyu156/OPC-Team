@@ -1,6 +1,6 @@
 use anyhow::{anyhow, Result};
 use clap::ValueEnum;
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     ExternalMcpImportApplyOutcomeV1, ExternalMcpImportApplyRequestV1,
     ExternalMcpImportDispositionV1, ExternalMcpImportPlanV1, ExternalMcpImportSelectionV1,
     EXTERNAL_MCP_IMPORT_SCHEMA_V1,
@@ -26,7 +26,7 @@ pub(crate) async fn execute(command: McpImportCommand) -> Result<()> {
             .await?
             .id,
     );
-    let plan = openbitfun_core::external_mcp_import::plan_external_mcp_import(workspace.clone())
+    let plan = opc_core::external_mcp_import::plan_external_mcp_import(workspace.clone())
         .await
         .map_err(operation_error)?;
     if !command.apply {
@@ -38,7 +38,7 @@ pub(crate) async fn execute(command: McpImportCommand) -> Result<()> {
             "No eligible external MCP servers are available to import"
         ));
     }
-    let result = openbitfun_core::external_mcp_import::apply_external_mcp_import(
+    let result = opc_core::external_mcp_import::apply_external_mcp_import(
         workspace,
         ExternalMcpImportApplyRequestV1 {
             schema_version: EXTERNAL_MCP_IMPORT_SCHEMA_V1,
@@ -68,14 +68,13 @@ fn selections(
     if native_id.is_some() && requested.len() != 1 {
         return Err(anyhow!("--native-id requires exactly one --candidate"));
     }
-    let eligible =
-        |item: &&openbitfun_product_domains::external_sources::ExternalMcpImportPlanItemV1| {
-            matches!(
-                item.disposition,
-                ExternalMcpImportDispositionV1::Eligible
-                    | ExternalMcpImportDispositionV1::AutomaticRename
-            )
-        };
+    let eligible = |item: &&opc_product_domains::external_sources::ExternalMcpImportPlanItemV1| {
+        matches!(
+            item.disposition,
+            ExternalMcpImportDispositionV1::Eligible
+                | ExternalMcpImportDispositionV1::AutomaticRename
+        )
+    };
     if requested.is_empty() {
         return Ok(plan
             .items
@@ -165,7 +164,7 @@ fn print_value(
 }
 
 fn operation_error(
-    error: openbitfun_product_domains::external_sources::ExternalSourceOperationError,
+    error: opc_product_domains::external_sources::ExternalSourceOperationError,
 ) -> anyhow::Error {
     anyhow!("{}: {}", error.code.as_str(), error.detail)
 }
@@ -173,7 +172,7 @@ fn operation_error(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::external_sources::{
+    use opc_product_domains::external_sources::{
         ExternalMcpImportPlanItemV1, ExternalMcpTransportKind,
     };
 

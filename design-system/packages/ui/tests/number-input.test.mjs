@@ -22,7 +22,7 @@ test("NumberInput exposes a decimal input, unit, and labelled step controls", ()
   assert.match(markup, /aria-label="Less"/);
   assert.match(markup, /aria-label="More"/);
   assert.match(markup, />%<\/span>/);
-  assert.match(markup, /data-openbitfun-component="number-input"/);
+  assert.match(markup, /data-opc-component="number-input"/);
 });
 
 test("NumberInput exposes canonical size names", () => {

@@ -340,14 +340,14 @@ const AssistantConfigPage: React.FC = () => {
   // ── Right panel: identity info ──────────────────────────────────────────
 
   const renderInfoPanel = () => (
-    <div className="acp-right-info" data-openbitfun-component="assistant-config-page" data-openbitfun-part="details">
+    <div className="acp-right-info" data-opc-component="assistant-config-page" data-opc-part="details">
       <Card className="acp-right-shell" appearance="subtle" radius="md" clip>
         {/* Persona docs */}
         <div className="acp-section acp-section--nested">
           <div className="acp-section__head">
             <PageHeader size="sm" level={3} title={t('nursery.assistant.personaDocsTitle')} />
           </div>
-          <div className="acp-persona-doc-list" data-openbitfun-component="assistant-config-page" data-openbitfun-part="personaList">
+          <div className="acp-persona-doc-list" data-opc-component="assistant-config-page" data-opc-part="personaList">
             {PERSONA_DOC_FILES.map((fileName) => {
               const selected = personaDoc?.fileName === fileName && rightView === 'personaDoc';
               const labelKey = fileName.replace(/\.md$/i, '') as 'SOUL' | 'USER' | 'IDENTITY';
@@ -355,9 +355,9 @@ const AssistantConfigPage: React.FC = () => {
                 <div
                   key={fileName}
                   className="acp-persona-doc-row"
-                  data-openbitfun-component="assistant-config-page"
-                  data-openbitfun-part="persona"
-                  data-openbitfun-state={selected ? 'selected' : undefined}
+                  data-opc-component="assistant-config-page"
+                  data-opc-part="persona"
+                  data-opc-state={selected ? 'selected' : undefined}
                 >
                   <ActionCard
                     className="acp-persona-doc-row__control"
@@ -386,7 +386,7 @@ const AssistantConfigPage: React.FC = () => {
             ) : (
               <Suspense
                 fallback={(
-                  <div className="acp-loading" data-openbitfun-component="assistant-config-page" data-openbitfun-part="loading">
+                  <div className="acp-loading" data-opc-component="assistant-config-page" data-opc-part="loading">
                     <Spinner size="sm" />
                   </div>
                 )}
@@ -416,10 +416,10 @@ const AssistantConfigPage: React.FC = () => {
     const usesHybridEditor = sections.hasFrontmatter;
     const usesSourceBodyEditor = bodyEditability.mode === 'unsafe';
     return (
-      <div className="acp-right-info" data-openbitfun-component="assistant-config-page" data-openbitfun-part="details">
+      <div className="acp-right-info" data-opc-component="assistant-config-page" data-opc-part="details">
         <Card className="acp-right-shell acp-right-shell--editor" appearance="subtle" radius="md" clip>
-          <div className="acp-persona-editor" data-openbitfun-component="assistant-config-page" data-openbitfun-part="editor">
-            <div className="acp-persona-editor__head" data-openbitfun-component="assistant-config-page" data-openbitfun-part="editorHeader">
+          <div className="acp-persona-editor" data-opc-component="assistant-config-page" data-opc-part="editor">
+            <div className="acp-persona-editor__head" data-opc-component="assistant-config-page" data-opc-part="editorHeader">
               <PageHeader
                 className="acp-persona-editor__heading"
                 size="sm"
@@ -439,13 +439,13 @@ const AssistantConfigPage: React.FC = () => {
                 )}
               />
             </div>
-            <div className="acp-persona-editor__body" data-openbitfun-component="assistant-config-page" data-openbitfun-part="editorBody">
-              {error && <p className="acp-persona-editor__error" data-openbitfun-component="assistant-config-page" data-openbitfun-part="error">{t('nursery.assistant.personaDocLoadFailed')}: {error}</p>}
+            <div className="acp-persona-editor__body" data-opc-component="assistant-config-page" data-opc-part="editorBody">
+              {error && <p className="acp-persona-editor__error" data-opc-component="assistant-config-page" data-opc-part="error">{t('nursery.assistant.personaDocLoadFailed')}: {error}</p>}
               {loading ? (
-                <div className="acp-loading" data-openbitfun-component="assistant-config-page" data-openbitfun-part="loading"><Spinner size="sm" /></div>
+                <div className="acp-loading" data-opc-component="assistant-config-page" data-opc-part="loading"><Spinner size="sm" /></div>
               ) : usesHybridEditor ? (
                 <div className="acp-persona-editor__hybrid">
-                  <section className="acp-persona-editor__frontmatter" data-openbitfun-component="assistant-config-page" data-openbitfun-part="frontmatter">
+                  <section className="acp-persona-editor__frontmatter" data-opc-component="assistant-config-page" data-opc-part="frontmatter">
                     <AutoResizeTextarea
                       key={`${fileName}-frontmatter`}
                       value={sections.frontmatter}
@@ -453,7 +453,7 @@ const AssistantConfigPage: React.FC = () => {
                     />
                   </section>
                   <div className="acp-persona-editor__divider" aria-hidden="true" />
-                  <section className="acp-persona-editor__body-editor" data-openbitfun-component="assistant-config-page" data-openbitfun-part="bodyEditor">
+                  <section className="acp-persona-editor__body-editor" data-opc-component="assistant-config-page" data-opc-part="bodyEditor">
                       {usesSourceBodyEditor ? (
                         <EditArea
                           key={`${fileName}-body-source`}
@@ -500,10 +500,10 @@ const AssistantConfigPage: React.FC = () => {
   return (
     <div
       className="nursery-page acp-page"
-      data-openbitfun-component="assistant-config-page"
-      data-openbitfun-part="root"
+      data-opc-component="assistant-config-page"
+      data-opc-part="root"
     >
-      <header className="nursery-page__header" data-openbitfun-component="assistant-config-page" data-openbitfun-part="toolbar">
+      <header className="nursery-page__header" data-opc-component="assistant-config-page" data-opc-part="toolbar">
         <PageHeader
           className="nursery-page__heading"
           level={2}
@@ -513,8 +513,8 @@ const AssistantConfigPage: React.FC = () => {
               <IconButton
                 type="button"
                 size="sm"
-                data-openbitfun-component="assistant-config-page"
-                data-openbitfun-part="back"
+                data-opc-component="assistant-config-page"
+                data-opc-part="back"
                 onClick={openGallery}
                 aria-label={t('nursery.backToGallery')}
                 icon={<Icon name="arrow-left" size="sm" />}
@@ -525,11 +525,11 @@ const AssistantConfigPage: React.FC = () => {
       </header>
 
       {/* Two-column layout */}
-      <div className="acp-layout" data-openbitfun-component="assistant-config-page" data-openbitfun-part="layout">
+      <div className="acp-layout" data-opc-component="assistant-config-page" data-opc-part="layout">
         {/* Left: identity header + quick input + sessions */}
         <div className="acp-layout__left">
           {/* Identity header above the input */}
-          <div className="acp-left-header" data-openbitfun-component="assistant-config-page" data-openbitfun-part="identity">
+          <div className="acp-left-header" data-opc-component="assistant-config-page" data-opc-part="identity">
             <AssistantAvatarPicker
               presetValue={displayIdentity.avatar}
               value={displayIdentity.emoji}
@@ -617,7 +617,7 @@ const AssistantConfigPage: React.FC = () => {
             workspaceId={workspace?.id}
             assistantName={identityName}
           />
-          <ScrollArea className="acp-sessions-area" data-openbitfun-component="assistant-config-page" data-openbitfun-part="sessions">
+          <ScrollArea className="acp-sessions-area" data-opc-component="assistant-config-page" data-opc-part="sessions">
             <PageHeader className="acp-sessions-area__title" size="sm" level={3} title={t('nursery.assistant.sessionsSectionTitle')} />
             <SessionsSection
               workspaceId={workspace?.id}

@@ -810,7 +810,7 @@ class ManifestValidator:
             return self.validate_mermaid(settings)
         if renderer_id == "generative-widget":
             return self.validate_widget(settings)
-        if renderer_id == "openbitfun-canvas":
+        if renderer_id == "opc-canvas":
             return self.validate_canvas(settings)
         return [f"Unsupported renderer: {renderer_id}"]
 

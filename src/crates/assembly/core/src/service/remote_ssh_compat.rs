@@ -2,7 +2,7 @@
 //!
 //! The concrete SSH facade is compiled only by `remote-workspace`. Local Agent
 //! Runtime code still shares the stable workspace/session identity helpers
-//! owned by `openbitfun-services-core`.
+//! owned by `opc-services-core`.
 //!
 //! This build cannot execute against a remote workspace. Callers that hold a
 //! remote marker must refuse instead of reading the controller filesystem;
@@ -26,7 +26,7 @@ pub mod workspace_state {
 
     pub use super::RemoteWorkspaceSupport;
 
-    pub use openbitfun_services_core::workspace_identity::{
+    pub use opc_services_core::workspace_identity::{
         canonicalize_local_workspace_root, local_workspace_roots_equal,
         local_workspace_stable_storage_id, normalize_local_workspace_root_for_stable_id,
         normalize_remote_workspace_path, remote_root_to_mirror_subpath,
@@ -62,7 +62,7 @@ pub mod workspace_state {
         connection_id: &str,
         workspace_path_norm: &str,
     ) -> PathBuf {
-        openbitfun_services_core::workspace_identity::unresolved_remote_session_storage_dir(
+        opc_services_core::workspace_identity::unresolved_remote_session_storage_dir(
             crate::infrastructure::get_path_manager_arc().remote_ssh_mirror_root_dir(),
             connection_id,
             workspace_path_norm,

@@ -15,7 +15,7 @@ use crate::agentic::tools::ToolRuntimeRestrictions;
 use crate::agentic::WorkspaceBinding;
 use crate::service::remote_ssh::workspace_state::WorkspaceSessionIdentity;
 use async_trait::async_trait;
-use openbitfun_runtime_ports::DelegationPolicy;
+use opc_runtime_ports::DelegationPolicy;
 use serde_json::json;
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -98,7 +98,7 @@ fn test_tool_context(agent_type: &str) -> ToolUseContext {
         custom_data: HashMap::new(),
         computer_use_host: None,
         runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-        runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+        runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
     }
 }
 
@@ -385,7 +385,7 @@ async fn adaptive_review_delegation_is_hidden_for_remote_workspaces() {
         "connection-1".to_string(),
         "remote".to_string(),
         WorkspaceSessionIdentity {
-            workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+            workspace_kind: opc_core_types::WorkspaceKind::Remote,
             hostname: "remote.example".to_string(),
             logical_workspace_path: "/workspace/project".to_string(),
             remote_connection_id: Some("connection-1".to_string()),
@@ -949,7 +949,7 @@ async fn call_impl_rejects_nested_subagent_delegation() {
         ]),
         computer_use_host: None,
         runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-        runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+        runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
     };
 
     let error = AgentExecutionTool::new()
@@ -1088,7 +1088,7 @@ async fn description_with_context_filters_restricted_subagents_by_parent_agent()
         custom_data: HashMap::new(),
         computer_use_host: None,
         runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-        runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+        runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
     };
     let deep_review_context = ToolUseContext {
         agent_type: Some("DeepReview".to_string()),
@@ -1125,7 +1125,7 @@ async fn prompt_stability_description_with_context_renders_available_agents_in_s
         custom_data: HashMap::new(),
         computer_use_host: None,
         runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-        runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+        runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
     };
 
     let builtin_a = "AAAPromptOrderBuiltin";

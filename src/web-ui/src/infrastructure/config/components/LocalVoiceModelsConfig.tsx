@@ -307,8 +307,8 @@ const LocalVoiceModelsConfig: React.FC<LocalVoiceModelsConfigProps> = ({
     content = (
       <div
         className="voice-input-config__model-list"
-        data-openbitfun-component="voice-input-config"
-        data-openbitfun-part="modelList"
+        data-opc-component="voice-input-config"
+        data-opc-part="modelList"
       >
         {models.map(model => {
           const isUsable = model.state === 'installed';
@@ -328,8 +328,8 @@ const LocalVoiceModelsConfig: React.FC<LocalVoiceModelsConfigProps> = ({
           return (
             <div
               className={`voice-input-config__model-card${isSelected ? ' voice-input-config__model-card--selected' : ''}`}
-              data-openbitfun-component="voice-input-config"
-              data-openbitfun-part="modelCard"
+              data-opc-component="voice-input-config"
+              data-opc-part="modelCard"
               key={model.modelId}
             >
               <div className="voice-input-config__model-copy">
@@ -363,8 +363,8 @@ const LocalVoiceModelsConfig: React.FC<LocalVoiceModelsConfigProps> = ({
 
               <div
                 className="voice-input-config__model-actions"
-                data-openbitfun-component="voice-input-config"
-                data-openbitfun-part="modelActions"
+                data-opc-component="voice-input-config"
+                data-opc-part="modelActions"
               >
                 {isUsable && !isSelected ? (
                   <Button
@@ -408,8 +408,8 @@ const LocalVoiceModelsConfig: React.FC<LocalVoiceModelsConfigProps> = ({
                     <IconButton
                       aria-label={t('model.more')}
                       size="sm"
-                      data-openbitfun-component="voice-input-config"
-                      data-openbitfun-part="modelMore"
+                      data-opc-component="voice-input-config"
+                      data-opc-part="modelMore"
                       onClick={event => openMaintenanceMenu(event, model)}
                       icon={<Icon name="more" size="sm" />}
                     />
@@ -440,8 +440,8 @@ const LocalVoiceModelsConfig: React.FC<LocalVoiceModelsConfigProps> = ({
         <div className="voice-input-config__model-dialog-content">
       <div
         className="voice-input-config__model-dialog"
-        data-openbitfun-component="voice-input-config"
-        data-openbitfun-part="modelDialog"
+        data-opc-component="voice-input-config"
+        data-opc-part="modelDialog"
       >
         <div className="voice-input-config__model-dialog-intro">
           <span>{t('localModels.description')}</span>

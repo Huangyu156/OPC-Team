@@ -16,7 +16,7 @@ use crate::infrastructure::events::event_system::{
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::event::BackgroundCommandLifecycleInfo;
 use async_trait::async_trait;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     RemoteExecCommandRequest, RemoteExecOneShotCommandRequest, RemoteExecPort,
     RemoteExecProcessLifecycleEvent, RemoteExecProcessLifecycleStatus, TerminalExecCommandRequest,
     TerminalExecProcessLifecycleEvent, TerminalExecProcessLifecycleStatus,
@@ -939,23 +939,22 @@ mod tests {
     #[derive(Debug)]
     struct ShellProbeRemoteExecPort {
         probes: std::sync::atomic::AtomicUsize,
-        response: openbitfun_runtime_ports::RemoteExecOneShotCommandResponse,
+        response: opc_runtime_ports::RemoteExecOneShotCommandResponse,
     }
 
-    impl openbitfun_runtime_ports::RuntimeServicePort for ShellProbeRemoteExecPort {
-        fn capability(&self) -> openbitfun_runtime_ports::RuntimeServiceCapability {
-            openbitfun_runtime_ports::RuntimeServiceCapability::RemoteExec
+    impl opc_runtime_ports::RuntimeServicePort for ShellProbeRemoteExecPort {
+        fn capability(&self) -> opc_runtime_ports::RuntimeServiceCapability {
+            opc_runtime_ports::RuntimeServiceCapability::RemoteExec
         }
     }
 
     #[async_trait::async_trait]
-    impl openbitfun_runtime_ports::RemoteExecPort for ShellProbeRemoteExecPort {
+    impl opc_runtime_ports::RemoteExecPort for ShellProbeRemoteExecPort {
         async fn exec_command_once(
             &self,
-            _request: openbitfun_runtime_ports::RemoteExecOneShotCommandRequest,
-        ) -> openbitfun_runtime_ports::PortResult<
-            openbitfun_runtime_ports::RemoteExecOneShotCommandResponse,
-        > {
+            _request: opc_runtime_ports::RemoteExecOneShotCommandRequest,
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::RemoteExecOneShotCommandResponse>
+        {
             self.probes
                 .fetch_add(1, std::sync::atomic::Ordering::SeqCst);
             Ok(self.response.clone())
@@ -963,50 +962,45 @@ mod tests {
 
         async fn exec_command(
             &self,
-            _request: openbitfun_runtime_ports::RemoteExecCommandRequest,
-        ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::RemoteExecCommandResponse>
-        {
+            _request: opc_runtime_ports::RemoteExecCommandRequest,
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::RemoteExecCommandResponse> {
             panic!("shell probe must not use managed remote exec sessions");
         }
 
         async fn exec_command_streaming(
             &self,
-            _request: openbitfun_runtime_ports::RemoteExecCommandRequest,
-            _output_sink: openbitfun_runtime_ports::RemoteExecStreamingOutputSink,
-        ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::RemoteExecCommandResponse>
-        {
+            _request: opc_runtime_ports::RemoteExecCommandRequest,
+            _output_sink: opc_runtime_ports::RemoteExecStreamingOutputSink,
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::RemoteExecCommandResponse> {
             panic!("shell probe must not use managed remote exec sessions");
         }
 
         async fn write_stdin(
             &self,
-            _request: openbitfun_runtime_ports::RemoteWriteStdinRequest,
-        ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::RemoteExecCommandResponse>
-        {
+            _request: opc_runtime_ports::RemoteWriteStdinRequest,
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::RemoteExecCommandResponse> {
             panic!("shell probe must not write stdin");
         }
 
         async fn write_stdin_streaming(
             &self,
-            _request: openbitfun_runtime_ports::RemoteWriteStdinRequest,
-            _output_sink: openbitfun_runtime_ports::RemoteExecStreamingOutputSink,
-        ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::RemoteExecCommandResponse>
-        {
+            _request: opc_runtime_ports::RemoteWriteStdinRequest,
+            _output_sink: opc_runtime_ports::RemoteExecStreamingOutputSink,
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::RemoteExecCommandResponse> {
             panic!("shell probe must not write stdin");
         }
 
         async fn send_stdin(
             &self,
-            _request: openbitfun_runtime_ports::RemoteSendStdinRequest,
-        ) -> openbitfun_runtime_ports::PortResult<()> {
+            _request: opc_runtime_ports::RemoteSendStdinRequest,
+        ) -> opc_runtime_ports::PortResult<()> {
             panic!("shell probe must not send stdin");
         }
 
         async fn control_session(
             &self,
-            _request: openbitfun_runtime_ports::RemoteExecControlRequest,
-        ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::RemoteExecCommandResponse>
-        {
+            _request: opc_runtime_ports::RemoteExecControlRequest,
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::RemoteExecCommandResponse> {
             panic!("shell probe must not control managed sessions");
         }
     }
@@ -1015,7 +1009,7 @@ mod tests {
     async fn complete_shell_remote_selection_is_reused_until_dispatch() {
         let port = Arc::new(ShellProbeRemoteExecPort {
             probes: Default::default(),
-            response: openbitfun_runtime_ports::RemoteExecOneShotCommandResponse {
+            response: opc_runtime_ports::RemoteExecOneShotCommandResponse {
                 stdout: "/bin/zsh\n".into(),
                 stderr: String::new(),
                 exit_code: 0,
@@ -1054,7 +1048,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -1079,7 +1073,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -1266,14 +1260,13 @@ mod tests {
             &ShellType::Bash,
         );
 
-        assert!(wrapper
-            .contains("setsid \"$__openbitfun_shell\" -o pipefail -lc \"$__openbitfun_cmd\" &"));
-        assert!(wrapper.contains("trap '__openbitfun_stop INT 130 2' INT"));
-        assert!(wrapper.contains("trap '__openbitfun_stop KILL 137 0' TERM"));
-        assert!(wrapper.contains("__openbitfun_grace=${3:-2}"));
-        assert!(wrapper.contains("sleep \"$__openbitfun_grace\""));
-        assert!(wrapper.contains("kill -KILL \"-$__openbitfun_pgid\""));
-        assert!(wrapper.contains("__openbitfun_cmd='python3 -c '\\''print(1)'\\'''"));
+        assert!(wrapper.contains("setsid \"$__opc_shell\" -o pipefail -lc \"$__opc_cmd\" &"));
+        assert!(wrapper.contains("trap '__opc_stop INT 130 2' INT"));
+        assert!(wrapper.contains("trap '__opc_stop KILL 137 0' TERM"));
+        assert!(wrapper.contains("__opc_grace=${3:-2}"));
+        assert!(wrapper.contains("sleep \"$__opc_grace\""));
+        assert!(wrapper.contains("kill -KILL \"-$__opc_pgid\""));
+        assert!(wrapper.contains("__opc_cmd='python3 -c '\\''print(1)'\\'''"));
     }
 
     #[test]
@@ -1300,10 +1293,10 @@ mod tests {
 
     #[tokio::test]
     async fn remote_shell_probe_uses_stdout_only() {
-        let remote_exec_port: Arc<dyn openbitfun_runtime_ports::RemoteExecPort> =
+        let remote_exec_port: Arc<dyn opc_runtime_ports::RemoteExecPort> =
             Arc::new(ShellProbeRemoteExecPort {
                 probes: Default::default(),
-                response: openbitfun_runtime_ports::RemoteExecOneShotCommandResponse {
+                response: opc_runtime_ports::RemoteExecOneShotCommandResponse {
                     stdout: "/bin/bash\n".to_string(),
                     stderr: "/tmp/not-a-shell-from-stderr\n".to_string(),
                     exit_code: 0,
@@ -1361,7 +1354,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         };
         let workdir = std::env::current_dir().expect("test workdir should exist");
 

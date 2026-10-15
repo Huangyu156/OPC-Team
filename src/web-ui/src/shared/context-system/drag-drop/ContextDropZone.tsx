@@ -261,10 +261,10 @@ export const ContextDropZone: React.FC<ContextDropZoneProps> = ({
     <div
       ref={dropZoneRef}
       className={`
-        openbitfun-context-drop-zone
-        ${isDragOver ? 'openbitfun-context-drop-zone--drag-over' : ''}
-        ${canAccept ? 'openbitfun-context-drop-zone--can-accept' : ''}
-        ${!canAccept && isDragOver ? 'openbitfun-context-drop-zone--cannot-accept' : ''}
+        opc-context-drop-zone
+        ${isDragOver ? 'opc-context-drop-zone--drag-over' : ''}
+        ${canAccept ? 'opc-context-drop-zone--can-accept' : ''}
+        ${!canAccept && isDragOver ? 'opc-context-drop-zone--cannot-accept' : ''}
         ${className}
       `.trim()}
       
@@ -273,9 +273,9 @@ export const ContextDropZone: React.FC<ContextDropZoneProps> = ({
       onDragLeave={handleDragLeave}
       onDrop={handleDrop}
       data-dropzone="context-drop-zone"
-      data-openbitfun-component="context-list"
-      data-openbitfun-part="dropZone"
-      data-openbitfun-state={`${isDragOver ? 'drag-over ' : ''}${canAccept ? 'can-accept' : ''}`.trim() || undefined}
+      data-opc-component="context-list"
+      data-opc-part="dropZone"
+      data-opc-state={`${isDragOver ? 'drag-over ' : ''}${canAccept ? 'can-accept' : ''}`.trim() || undefined}
     >
       {children}
     </div>

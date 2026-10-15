@@ -50,31 +50,31 @@ afterEach(() => { act(() => root.unmount()); container.remove(); });
 function render(Component: typeof SessionMessageToolCard | typeof SessionControlToolCard | typeof AgentDeleteToolCard, call: FlowToolItem) {
   act(() => root.render(<Component toolItem={call} config={getToolItemCardConfig(call)} sessionId="current" />));
 }
-function click(part: string) { act(() => container.querySelector<HTMLButtonElement>(`[data-openbitfun-part="${part}"]`)!.click()); }
+function click(part: string) { act(() => container.querySelector<HTMLButtonElement>(`[data-opc-part="${part}"]`)!.click()); }
 
 describe('session relationship records', () => {
   it('keeps the current-session label after hydration while preserving the target name', () => {
     render(SessionMessageToolCard, item('SessionMessage', { session_id: 'target', message: 'Inspect the release' }));
-    expect(container.querySelector('[data-openbitfun-part="source"]')?.textContent).toBe('Current session');
-    expect(container.querySelector('[data-openbitfun-part="target"]')?.textContent).toBe('Release review');
+    expect(container.querySelector('[data-opc-part="source"]')?.textContent).toBe('Current session');
+    expect(container.querySelector('[data-opc-part="target"]')?.textContent).toBe('Release review');
     act(() => {
       state.sessions.set('current', session('current', 'A renamed conversation'));
       state.listeners.forEach(listener => listener());
     });
-    expect(container.querySelector('[data-openbitfun-part="source"]')?.textContent).toBe('Current session');
+    expect(container.querySelector('[data-opc-part="source"]')?.textContent).toBe('Current session');
     expect(container.textContent).not.toContain('A renamed conversation');
   });
 
   it('navigates through the recipient and opens the sent message through the result', async () => {
     render(SessionMessageToolCard, item('SessionMessage', { session_id: 'target', message: 'Inspect the release' }));
-    expect(container.querySelector('[data-openbitfun-name="arrow-right"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-name="arrow-right"]')).not.toBeNull();
     click('target');
     await vi.waitFor(() => expect(state.openMainSession).toHaveBeenCalledWith('target', expect.objectContaining({ isCurrent: expect.any(Function) })));
     expect(document.querySelector('[role="dialog"]')).toBeNull();
     click('result');
     const dialog = document.querySelector('[role="dialog"]');
     expect(dialog?.textContent).toContain('Inspect the release');
-    expect(dialog?.querySelector('[data-openbitfun-part="field"]')).toBeNull();
+    expect(dialog?.querySelector('[data-opc-part="field"]')).toBeNull();
     expect(dialog?.textContent).not.toContain('Sent 1 message');
     expect(container.querySelector('[aria-expanded]')).toBeNull();
   });
@@ -103,7 +103,7 @@ describe('session relationship records', () => {
   it('enables an unresolved session node after hydration without using a dialog fallback', async () => {
     state.sessions.delete('target');
     render(SessionMessageToolCard, item('SessionMessage', { session_id: 'target', message: 'Inspect the release' }));
-    const target = container.querySelector<HTMLButtonElement>('[data-openbitfun-part="target"]')!;
+    const target = container.querySelector<HTMLButtonElement>('[data-opc-part="target"]')!;
     expect(target.disabled).toBe(true);
     click('target');
     expect(document.querySelector('[role="dialog"]')).toBeNull();
@@ -111,7 +111,7 @@ describe('session relationship records', () => {
       state.sessions.set('target', session('target', 'Release review'));
       state.listeners.forEach(listener => listener());
     });
-    expect(container.querySelector('[data-openbitfun-part="target"]')).toBe(target);
+    expect(container.querySelector('[data-opc-part="target"]')).toBe(target);
     expect(target.disabled).toBe(false);
     click('target');
     await vi.waitFor(() => expect(state.openMainSession).toHaveBeenCalledWith('target', expect.any(Object)));
@@ -123,7 +123,7 @@ describe('session relationship records', () => {
     render(SessionControlToolCard, item('SessionControl', { action: 'delete', session_id: 'target', session_name: 'Release review' }));
     click('target');
     expect(document.querySelector('[role="dialog"]')).toBeNull();
-    expect(container.querySelector<HTMLButtonElement>('[data-openbitfun-part="target"]')?.disabled).toBe(true);
+    expect(container.querySelector<HTMLButtonElement>('[data-opc-part="target"]')?.disabled).toBe(true);
     click('result');
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('Release review');
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('Deleted the session');
@@ -132,15 +132,15 @@ describe('session relationship records', () => {
 
   it('distinguishes no active turn from an interruption request', () => {
     render(SessionControlToolCard, item('SessionControl', { action: 'cancel', session_id: 'target' }, { status: 'no_active_turn' }));
-    expect(container.querySelector('[data-openbitfun-part="result"]')?.textContent).toBe('No active work');
+    expect(container.querySelector('[data-opc-part="result"]')?.textContent).toBe('No active work');
     render(SessionControlToolCard, item('SessionControl', { action: 'cancel', session_id: 'target' }, { status: 'cancel_requested' }));
-    expect(container.querySelector('[data-openbitfun-part="result"]')?.textContent).toBe('Requested interruption');
+    expect(container.querySelector('[data-opc-part="result"]')?.textContent).toBe('Requested interruption');
   });
 
   it('keeps deleted agent nodes noninteractive while the result opens the deletion record', () => {
     render(AgentDeleteToolCard, item('AgentDelete', { agent_ids: ['worker-a', 'worker-b'] }, { agent_ids: ['worker-a'], deleted_agents: 1 }));
-    expect(container.querySelectorAll('[data-openbitfun-part="target"]')).toHaveLength(2);
-    expect(container.querySelector('[data-openbitfun-part="result"]')?.textContent).toBe('Agents deleted: 1');
+    expect(container.querySelectorAll('[data-opc-part="target"]')).toHaveLength(2);
+    expect(container.querySelector('[data-opc-part="result"]')?.textContent).toBe('Agents deleted: 1');
     click('target');
     expect(document.querySelector('[role="dialog"]')).toBeNull();
     click('result');

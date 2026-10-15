@@ -94,8 +94,8 @@ function ExportImagePreview({ expandThinking }: { expandThinking: boolean }) {
   return (
     <svg
       className="export-image-preview"
-      data-openbitfun-product-component="export-image"
-      data-openbitfun-product-part="optionPreview"
+      data-opc-product-component="export-image"
+      data-opc-product-part="optionPreview"
       data-preview-thinking={expandThinking ? 'expanded' : 'collapsed'}
       viewBox="0 0 180 112"
       aria-hidden="true"
@@ -144,25 +144,25 @@ export const ExportContent: React.FC<ExportContentProps> = ({ dialogTurn, expand
   const presentation = parseComposerPresentation(dialogTurn.userMessage?.metadata?.composerPresentation);
 
   return (
-    <div data-openbitfun-product-component="export-image" data-openbitfun-product-part="root" className="export-content">
-      <div className="export-content__header" data-openbitfun-product-component="export-image" data-openbitfun-product-part="header">
+    <div data-opc-product-component="export-image" data-opc-product-part="root" className="export-content">
+      <div className="export-content__header" data-opc-product-component="export-image" data-opc-product-part="header">
         {/* Placeholder reserves space for the logo. The actual logo is drawn
             onto the final image via canvas compositing to avoid issues with
             embedding <img>/data URLs inside an SVG foreignObject. */}
         <div
           className={`export-content__logo ${LOGO_PLACEHOLDER_CLASS}`}
-          data-openbitfun-product-component="export-image"
-          data-openbitfun-product-part="logo"
+          data-opc-product-component="export-image"
+          data-opc-product-part="logo"
           aria-label="OPC-Team"
         />
-        <div className="export-content__title" data-openbitfun-product-component="export-image" data-openbitfun-product-part="title">OPC-Team</div>
-        <div className="export-content__timestamp" data-openbitfun-product-component="export-image" data-openbitfun-product-part="timestamp">
+        <div className="export-content__title" data-opc-product-component="export-image" data-opc-product-part="title">OPC-Team</div>
+        <div className="export-content__timestamp" data-opc-product-component="export-image" data-opc-product-part="timestamp">
           {i18nService.formatDate(new Date())}
         </div>
       </div>
 
       {dialogTurn.userMessage?.content && (
-        <div className="export-content__user-section" data-openbitfun-product-component="export-image" data-openbitfun-product-part="user">
+        <div className="export-content__user-section" data-opc-product-component="export-image" data-opc-product-part="user">
           <div className="export-content__user-bubble">
             {hasComposerPresentationReferences(presentation)
               ? <UserMessagePresentationContent presentation={presentation} />
@@ -171,10 +171,10 @@ export const ExportContent: React.FC<ExportContentProps> = ({ dialogTurn, expand
         </div>
       )}
 
-      <div className="export-content__ai-section" data-openbitfun-product-component="export-image" data-openbitfun-product-part="assistant">
+      <div className="export-content__ai-section" data-opc-product-component="export-image" data-opc-product-part="assistant">
         
         {dialogTurn.modelRounds.map((modelRound) => (
-          <div key={modelRound.id} className="export-content__model-round" data-openbitfun-product-component="export-image" data-openbitfun-product-part="round">
+          <div key={modelRound.id} className="export-content__model-round" data-opc-product-component="export-image" data-opc-product-part="round">
             {[...modelRound.items]
               .sort((a, b) => a.timestamp - b.timestamp)
               .map((item) => {
@@ -182,7 +182,7 @@ export const ExportContent: React.FC<ExportContentProps> = ({ dialogTurn, expand
                   const textItem = item as FlowTextItem;
                   if (textItem.content && textItem.content.trim()) {
                     return (
-                      <div data-openbitfun-product-component="export-image" data-openbitfun-product-part="text" key={item.id} className="export-content__text-item">
+                      <div data-opc-product-component="export-image" data-opc-product-part="text" key={item.id} className="export-content__text-item">
                         <FlowTextBlock 
                           textItem={{
                             ...textItem,
@@ -196,7 +196,7 @@ export const ExportContent: React.FC<ExportContentProps> = ({ dialogTurn, expand
                   if (!expandThinking) return null;
                   const thinkingItem = item as FlowThinkingItem;
                   return (
-                    <div data-openbitfun-product-component="export-image" data-openbitfun-product-part="thinking" key={item.id} className="export-content__thinking-item export-content__thinking-item--expanded">
+                    <div data-opc-product-component="export-image" data-opc-product-part="thinking" key={item.id} className="export-content__thinking-item export-content__thinking-item--expanded">
                       <ModelThinkingDisplay
                         thinkingItem={{
                           ...thinkingItem,
@@ -211,7 +211,7 @@ export const ExportContent: React.FC<ExportContentProps> = ({ dialogTurn, expand
                 } else if (item.type === 'tool') {
                   const toolItem = item as FlowToolItem;
                   return (
-                    <div data-openbitfun-product-component="export-image" data-openbitfun-product-part="tool" key={item.id} className="export-content__tool-item">
+                    <div data-opc-product-component="export-image" data-opc-product-part="tool" key={item.id} className="export-content__tool-item">
                       <FlowToolCard toolItem={toolItem} />
                     </div>
                   );
@@ -222,7 +222,7 @@ export const ExportContent: React.FC<ExportContentProps> = ({ dialogTurn, expand
         ))}
       </div>
 
-      <div className="export-content__footer" data-openbitfun-product-component="export-image" data-openbitfun-product-part="footer">
+      <div className="export-content__footer" data-opc-product-component="export-image" data-opc-product-part="footer">
         <span>{i18nService.t('flow-chat:exportImage.poweredBy')}</span>
         <span className="export-content__footer-brand">OPC-Team</span>
       </div>
@@ -318,8 +318,8 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
             // Cache-bust to avoid stale decoded copies when re-exporting.
             const colorScheme = document.documentElement.getAttribute('data-color-scheme');
             const logoPath = colorScheme === 'dark'
-              ? '/brand/openbitfun-mark-light.png'
-              : '/brand/openbitfun-mark-dark.png';
+              ? '/brand/opc-mark-light.png'
+              : '/brand/opc-mark-dark.png';
             img.src = `${logoPath}?t=${Date.now()}`;
           }),
           3_000,
@@ -337,7 +337,7 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
 
       // Measure the actual chat pane width so the exported image uses the
       // exact same text-wrap width as the live chat. Fallback to 1200px.
-      const chatPane = document.querySelector('.openbitfun-chat-pane__content');
+      const chatPane = document.querySelector('.opc-chat-pane__content');
       const chatWidth = chatPane?.getBoundingClientRect().width || 1200;
 
       wrapper.style.cssText = `
@@ -422,8 +422,8 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
           if (node.classList?.contains('tool-card__actions')) return false;
           if (
             node.matches?.(
-              '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="actionRegion"], '
-              + '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="expanded"]',
+              '[data-opc-component="flow-chat-tool-card"][data-opc-part="actionRegion"], '
+              + '[data-opc-component="flow-chat-tool-card"][data-opc-part="expanded"]',
             )
           ) return false;
         }
@@ -631,9 +631,9 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
           <IconButton
             ref={buttonRef}
             className={`model-round-item__action-btn model-round-item__export-btn ${className}`}
-            data-openbitfun-product-component="export-image"
-            data-openbitfun-product-part="trigger"
-            data-openbitfun-state={isExporting ? 'exporting' : undefined}
+            data-opc-product-component="export-image"
+            data-opc-product-part="trigger"
+            data-opc-state={isExporting ? 'exporting' : undefined}
             onClick={openExportDialog}
             loading={isExporting}
             aria-haspopup="dialog"
@@ -660,8 +660,8 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
         <DialogBody>
           <div
             className="export-image-options"
-            data-openbitfun-product-component="export-image"
-            data-openbitfun-product-part="options"
+            data-opc-product-component="export-image"
+            data-opc-product-part="options"
             role="group"
             aria-label={t('exportImage.exportToImage')}
             onKeyDown={event => {
@@ -679,8 +679,8 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
               className="export-image-option-card"
               appearance="neutral"
               padding="sm"
-              data-openbitfun-product-component="export-image"
-              data-openbitfun-product-part="optionCard"
+              data-opc-product-component="export-image"
+              data-opc-product-part="optionCard"
               onClick={() => {
                 setExpandThinking(false);
                 compactOptionRef.current?.focus({ preventScroll: true });
@@ -695,17 +695,17 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
                   data-testid="export-image-compact"
                 />
               )} />
-              <CardBody align="center" className="export-image-option-content" data-openbitfun-product-component="export-image" data-openbitfun-product-part="optionContent">
+              <CardBody align="center" className="export-image-option-content" data-opc-product-component="export-image" data-opc-product-part="optionContent">
                 <ExportImagePreview expandThinking={false} />
-                <span className="export-image-option-label" data-openbitfun-product-component="export-image" data-openbitfun-product-part="optionLabel">{t('exportImage.collapsedThinking')}</span>
+                <span className="export-image-option-label" data-opc-product-component="export-image" data-opc-product-part="optionLabel">{t('exportImage.collapsedThinking')}</span>
               </CardBody>
             </Card>
             <Card
               className="export-image-option-card"
               appearance="neutral"
               padding="sm"
-              data-openbitfun-product-component="export-image"
-              data-openbitfun-product-part="optionCard"
+              data-opc-product-component="export-image"
+              data-opc-product-part="optionCard"
               onClick={() => {
                 setExpandThinking(true);
                 thinkingOptionRef.current?.focus({ preventScroll: true });
@@ -720,9 +720,9 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
                   data-testid="export-image-thinking"
                 />
               )} />
-              <CardBody align="center" className="export-image-option-content" data-openbitfun-product-component="export-image" data-openbitfun-product-part="optionContent">
+              <CardBody align="center" className="export-image-option-content" data-opc-product-component="export-image" data-opc-product-part="optionContent">
                 <ExportImagePreview expandThinking />
-                <span className="export-image-option-label" data-openbitfun-product-component="export-image" data-openbitfun-product-part="optionLabel">{t('exportImage.expandedThinking')}</span>
+                <span className="export-image-option-label" data-opc-product-component="export-image" data-opc-product-part="optionLabel">{t('exportImage.expandedThinking')}</span>
               </CardBody>
             </Card>
           </div>

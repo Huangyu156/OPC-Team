@@ -1,5 +1,5 @@
-const STARTUP_OVERLAY_ID = 'openbitfun-startup-overlay';
-const EXIT_CLASS = 'openbitfun-startup-overlay--exiting';
+const STARTUP_OVERLAY_ID = 'opc-startup-overlay';
+const EXIT_CLASS = 'opc-startup-overlay--exiting';
 const EXIT_FALLBACK_MS = 350;
 
 declare global {

@@ -38,7 +38,7 @@ vi.mock('@/shared/notification-system', () => ({
 
 function density(scope: ParentNode): number {
   const mark = scope.querySelector<HTMLElement>(
-    '.openbitfun-harness-selector__density-mark',
+    '.opc-harness-selector__density-mark',
   );
   return Number(mark?.dataset.harnessDensity ?? 0);
 }
@@ -58,7 +58,7 @@ describe('HarnessProfileSelector', () => {
   afterEach(() => {
     act(() => root.unmount());
     container.remove();
-    document.querySelector('.openbitfun-harness-selector__menu')?.remove();
+    document.querySelector('.opc-harness-selector__menu')?.remove();
     vi.clearAllMocks();
   });
 
@@ -75,7 +75,7 @@ describe('HarnessProfileSelector', () => {
     const trigger = container.querySelector<HTMLButtonElement>(
       '[data-testid="harness-profile-selector"]',
     );
-    expect(trigger?.querySelector('.openbitfun-harness-selector__density-mark')).toBeNull();
+    expect(trigger?.querySelector('.opc-harness-selector__density-mark')).toBeNull();
     expect(trigger?.textContent).toBe('chatInput.harness.profiles.Standard.name');
     expect(trigger?.dataset.harnessPending).toBeUndefined();
     expect(
@@ -91,7 +91,7 @@ describe('HarnessProfileSelector', () => {
     const trigger = container.querySelector<HTMLButtonElement>(
       '[data-testid="harness-profile-selector"]',
     );
-    expect(trigger?.querySelector('.openbitfun-harness-selector__density-mark')).toBeNull();
+    expect(trigger?.querySelector('.opc-harness-selector__density-mark')).toBeNull();
     expect(trigger?.dataset.harnessPending).toBeUndefined();
     expect(
       container.querySelector('[data-testid="harness-profile-pending-dot"]'),
@@ -108,7 +108,7 @@ describe('HarnessProfileSelector', () => {
     const trigger = container.querySelector<HTMLButtonElement>(
       '[data-testid="harness-profile-selector"]',
     );
-    expect(trigger?.querySelector('.openbitfun-harness-selector__density-mark')).toBeNull();
+    expect(trigger?.querySelector('.opc-harness-selector__density-mark')).toBeNull();
     expect(trigger?.textContent).toContain('chatInput.harness.unsupportedProfile');
   });
 
@@ -148,22 +148,22 @@ describe('HarnessProfileSelector', () => {
     });
 
     const selectorRoot = container.querySelector<HTMLElement>(
-      '[data-openbitfun-component="harness-selector"][data-openbitfun-part="root"]',
+      '[data-opc-component="harness-selector"][data-opc-part="root"]',
     );
     const trigger = container.querySelector<HTMLButtonElement>(
       '[data-testid="harness-profile-selector"]',
     );
     expect(selectorRoot?.dataset.openbitfunPresentation).toBe('menu-item');
     expect(selectorRoot?.dataset.openbitfunProfile).toBe('Standard');
-    expect(trigger?.querySelector('.openbitfun-harness-selector__trigger-chevron')).not.toBeNull();
+    expect(trigger?.querySelector('.opc-harness-selector__trigger-chevron')).not.toBeNull();
     const triggerMark = trigger?.querySelector<HTMLElement>(
-      '.openbitfun-harness-selector__density-mark',
+      '.opc-harness-selector__density-mark',
     );
     expect(triggerMark?.dataset.harnessProfile).toBe('Standard');
     expect(triggerMark?.dataset.harnessDensity).toBe('2');
-    expect(triggerMark?.querySelector('[data-openbitfun-name="standard"][data-size="md"]')).not.toBeNull();
+    expect(triggerMark?.querySelector('[data-opc-name="standard"][data-size="md"]')).not.toBeNull();
     expect(
-      trigger?.querySelector('[data-openbitfun-part="label"]')?.textContent,
+      trigger?.querySelector('[data-opc-part="label"]')?.textContent,
     ).toBe('chatInput.harness.profiles.Standard.name');
     expect(trigger?.textContent).not.toContain('chatInput.harness.menuLabel');
     expect(trigger?.textContent).not.toContain('chatInput.current');
@@ -173,7 +173,7 @@ describe('HarnessProfileSelector', () => {
       trigger?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const menu = document.querySelector<HTMLElement>('.openbitfun-harness-selector__menu');
+    const menu = document.querySelector<HTMLElement>('.opc-harness-selector__menu');
     expect(menu).not.toBeNull();
     expect(menu?.dataset.openbitfunPlacement).toBe('side');
     expect(menu?.id).toBe(trigger?.getAttribute('aria-controls'));
@@ -196,7 +196,7 @@ describe('HarnessProfileSelector', () => {
     });
     expect(menu?.dataset.openbitfunPage).toBe('agents');
     expect(
-      menu?.querySelector('[data-testid="harness-agent-DeepResearch"] [data-openbitfun-name="user"][data-size="md"]'),
+      menu?.querySelector('[data-testid="harness-agent-DeepResearch"] [data-opc-name="user"][data-size="md"]'),
     ).not.toBeNull();
     expect(onSelectionComplete).not.toHaveBeenCalled();
 
@@ -206,7 +206,7 @@ describe('HarnessProfileSelector', () => {
     });
     expect(onSelectAgent).toHaveBeenCalledWith('DeepResearch');
     expect(onSelectionComplete).toHaveBeenCalledTimes(1);
-    expect(document.querySelector('.openbitfun-harness-selector__menu')).toBeNull();
+    expect(document.querySelector('.opc-harness-selector__menu')).toBeNull();
   });
 
   it('opens the menu-item picker with Right Arrow and returns focus with Left Arrow', async () => {
@@ -227,14 +227,14 @@ describe('HarnessProfileSelector', () => {
       trigger?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }));
     });
     expect(trigger?.getAttribute('aria-expanded')).toBe('true');
-    const menu = document.querySelector<HTMLElement>('.openbitfun-harness-selector__menu');
+    const menu = document.querySelector<HTMLElement>('.opc-harness-selector__menu');
     expect(menu).not.toBeNull();
 
     await act(async () => {
       menu?.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft', bubbles: true }));
       await new Promise<void>(resolve => requestAnimationFrame(() => resolve()));
     });
-    expect(document.querySelector('.openbitfun-harness-selector__menu')).toBeNull();
+    expect(document.querySelector('.opc-harness-selector__menu')).toBeNull();
     expect(document.activeElement).toBe(trigger);
   });
 
@@ -257,9 +257,9 @@ describe('HarnessProfileSelector', () => {
         ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const menu = document.querySelector<HTMLElement>('.openbitfun-harness-selector__menu');
+    const menu = document.querySelector<HTMLElement>('.opc-harness-selector__menu');
     expect(menu).not.toBeNull();
-    const rows = Array.from(menu!.querySelectorAll<HTMLElement>('[data-openbitfun-part="profile"]'));
+    const rows = Array.from(menu!.querySelectorAll<HTMLElement>('[data-opc-part="profile"]'));
     expect(rows.map(row => row.dataset.openbitfunProfile)).toEqual([
       'Minimal',
       'Standard',
@@ -269,18 +269,18 @@ describe('HarnessProfileSelector', () => {
     ]);
     expect(rows.map(row => density(row))).toEqual([1, 2, 3, 0, 0]);
     expect(rows.slice(0, 4).map(row => row.querySelector<HTMLElement>(
-      '.openbitfun-harness-selector__density-mark [data-openbitfun-component="icon"]',
+      '.opc-harness-selector__density-mark [data-opc-component="icon"]',
     )?.dataset.openbitfunName)).toEqual(['minimal', 'standard', 'ultimate', 'creative']);
-    expect(menu?.querySelector('.openbitfun-harness-selector__density-core')).toBeNull();
-    expect(menu?.querySelector('.openbitfun-harness-selector__profile-promise')).toBeNull();
+    expect(menu?.querySelector('.opc-harness-selector__density-core')).toBeNull();
+    expect(menu?.querySelector('.opc-harness-selector__profile-promise')).toBeNull();
     const creative = rows[3];
-    expect(creative?.querySelector('.openbitfun-harness-selector__density-core')).toBeNull();
-    expect(creative?.querySelector('[data-openbitfun-name="creative"][data-size="md"]')).not.toBeNull();
+    expect(creative?.querySelector('.opc-harness-selector__density-core')).toBeNull();
+    expect(creative?.querySelector('[data-opc-name="creative"][data-size="md"]')).not.toBeNull();
     expect(creative?.dataset.openbitfunState).toBe('available');
     const other = rows[4];
-    expect(other?.querySelector('.openbitfun-harness-selector__density-core')).toBeNull();
-    expect(other?.querySelector('[data-openbitfun-name="user"][data-size="md"]')).not.toBeNull();
-    expect(other?.querySelector('.openbitfun-harness-selector__agent-count')?.textContent).toBe('3');
+    expect(other?.querySelector('.opc-harness-selector__density-core')).toBeNull();
+    expect(other?.querySelector('[data-opc-name="user"][data-size="md"]')).not.toBeNull();
+    expect(other?.querySelector('.opc-harness-selector__agent-count')?.textContent).toBe('3');
     expect(rows[1]?.dataset.openbitfunState).toBe('current');
   });
 
@@ -309,9 +309,9 @@ describe('HarnessProfileSelector', () => {
         ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
 
-    const menu = document.querySelector<HTMLElement>('.openbitfun-harness-selector__menu');
+    const menu = document.querySelector<HTMLElement>('.opc-harness-selector__menu');
     expect(menu?.dataset.openbitfunPage).toBe('agents');
-    expect(Array.from(menu!.querySelectorAll<HTMLElement>('[data-openbitfun-part="agent"]')).map(
+    expect(Array.from(menu!.querySelectorAll<HTMLElement>('[data-opc-part="agent"]')).map(
       row => row.dataset.openbitfunAgentId,
     )).toEqual(['DeepResearch', 'Cowork', 'Plan']);
 
@@ -320,7 +320,7 @@ describe('HarnessProfileSelector', () => {
         ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
     expect(onSelectAgent).toHaveBeenCalledWith('DeepResearch');
-    expect(document.querySelector('.openbitfun-harness-selector__menu')).toBeNull();
+    expect(document.querySelector('.opc-harness-selector__menu')).toBeNull();
 
     await act(async () => {
       root.render(
@@ -377,7 +377,7 @@ describe('HarnessProfileSelector', () => {
     expect(onSelectProfile).toHaveBeenCalledTimes(3);
     expect(onSelectProfile).toHaveBeenLastCalledWith('Minimal');
     expect(onSelectProfile).toHaveBeenCalledWith('Minimal');
-    expect(document.querySelector('.openbitfun-harness-selector__menu')).toBeNull();
+    expect(document.querySelector('.opc-harness-selector__menu')).toBeNull();
   });
 
   it('confirms a new Session after a profile choice in a started Session', async () => {
@@ -406,7 +406,7 @@ describe('HarnessProfileSelector', () => {
     await act(async () => {
       trigger?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    const menu = document.querySelector<HTMLElement>('.openbitfun-harness-selector__menu');
+    const menu = document.querySelector<HTMLElement>('.opc-harness-selector__menu');
     expect(menu).not.toBeNull();
     expect(menu?.dataset.openbitfunPage).toBe('profiles');
     expect(menu?.querySelector('[data-testid="harness-new-session-notice"]')).toBeNull();
@@ -434,7 +434,7 @@ describe('HarnessProfileSelector', () => {
     expect(onStartNewSession).toHaveBeenCalledWith(
       { kind: 'profile', id: 'Minimal' },
     );
-    expect(document.querySelector('.openbitfun-harness-selector__menu')).toBeNull();
+    expect(document.querySelector('.opc-harness-selector__menu')).toBeNull();
   });
 
   it('creates a new Session from a different main Agent without mutating the current Agent', async () => {
@@ -460,7 +460,7 @@ describe('HarnessProfileSelector', () => {
       container.querySelector<HTMLButtonElement>('[data-testid="harness-profile-selector"]')
         ?.dispatchEvent(new MouseEvent('click', { bubbles: true }));
     });
-    expect(document.querySelector('.openbitfun-harness-selector__menu')?.getAttribute('data-openbitfun-page'))
+    expect(document.querySelector('.opc-harness-selector__menu')?.getAttribute('data-opc-page'))
       .toBe('profiles');
     await act(async () => {
       document.querySelector<HTMLButtonElement>('[data-testid="harness-profile-other"]')
@@ -514,7 +514,7 @@ describe('HarnessProfileSelector', () => {
 
     expect(confirmation.dialog).toHaveBeenCalledTimes(1);
     expect(onStartNewSession).not.toHaveBeenCalled();
-    expect(document.querySelector('.openbitfun-harness-selector__menu')).toBeNull();
+    expect(document.querySelector('.opc-harness-selector__menu')).toBeNull();
   });
 
   it.each(['Creative'] as const)(

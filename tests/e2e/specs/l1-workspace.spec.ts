@@ -26,7 +26,7 @@ describe('L1 Workspace Management', () => {
     });
 
     it('header should be visible in both states', async () => {
-      const headerSelectors = ['.openbitfun-nav-panel', '.openbitfun-scene-bar', '.openbitfun-nav-bar', '[data-testid="header-container"]', '.openbitfun-header', 'header'];
+      const headerSelectors = ['.opc-nav-panel', '.opc-scene-bar', '.opc-nav-bar', '[data-testid="header-container"]', '.opc-header', 'header'];
       
       let headerVisible = false;
       for (const selector of headerSelectors) {
@@ -65,7 +65,7 @@ describe('L1 Workspace Management', () => {
       const welcomeSelectors = [
         '.welcome-scene--first-time',
         '.welcome-scene',
-        '.openbitfun-scene-viewport--welcome',
+        '.opc-scene-viewport--welcome',
       ];
 
       let isStartup = false;
@@ -96,7 +96,7 @@ describe('L1 Workspace Management', () => {
 
       const chatInputSelectors = [
         '[data-testid="chat-input-container"]',
-        '.openbitfun-chat-input',
+        '.opc-chat-input',
         '.chat-input-container',
         '.chat-input',
       ];

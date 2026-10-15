@@ -120,9 +120,9 @@ describe('L0 Appearance', () => {
       return browser.execute(() => {
         const root = document.documentElement;
         return document.readyState === 'complete'
-          && root.getAttribute('data-openbitfun-appearance-root') === 'true'
+          && root.getAttribute('data-opc-appearance-root') === 'true'
           && root.getAttribute('data-openbitfun-appearance') !== null
-          && root.getAttribute('data-openbitfun-appearance-mode') !== null;
+          && root.getAttribute('data-opc-appearance-mode') !== null;
       });
     }, {
       timeout: 20000,
@@ -139,9 +139,9 @@ describe('L0 Appearance', () => {
       const root = document.documentElement;
       return {
         id: root.getAttribute('data-openbitfun-appearance'),
-        mode: root.getAttribute('data-openbitfun-appearance-mode'),
-        revision: root.getAttribute('data-openbitfun-appearance-revision'),
-        isRoot: root.getAttribute('data-openbitfun-appearance-root'),
+        mode: root.getAttribute('data-opc-appearance-mode'),
+        revision: root.getAttribute('data-opc-appearance-revision'),
+        isRoot: root.getAttribute('data-opc-appearance-root'),
       };
     });
 
@@ -238,16 +238,16 @@ describe('L0 Appearance', () => {
       };
       const buttonRule = styleRules.find(rule => hasSelector(
         rule,
-        '.openbitfun-nav-panel__utility-action:hover',
+        '.opc-nav-panel__utility-action:hover',
       ));
       const iconRule = styleRules.find(rule => hasSelector(
         rule,
-        '.openbitfun-nav-panel__utility-action:hover > svg',
+        '.opc-nav-panel__utility-action:hover > svg',
       ));
       const rootStyle = window.getComputedStyle(document.documentElement);
 
       return {
-        appearanceMode: document.documentElement.getAttribute('data-openbitfun-appearance-mode'),
+        appearanceMode: document.documentElement.getAttribute('data-opc-appearance-mode'),
         textPrimary: rootStyle.getPropertyValue('--opcteam-color-content-primary').trim(),
         scene: rootStyle.getPropertyValue('--opcteam-color-surface-scene').trim(),
         buttonBackground: buttonRule?.style.background ?? null,
@@ -270,13 +270,13 @@ describe('L0 Appearance', () => {
 
   it('should lift only the scene viewport above the light navigation shell', async () => {
     await selectAppearance('openbitfun-light');
-    await waitForDisplayed('.openbitfun-workspace-body__scene-area');
-    await waitForDisplayed('.openbitfun-scene-viewport');
+    await waitForDisplayed('.opc-workspace-body__scene-area');
+    await waitForDisplayed('.opc-scene-viewport');
 
     const sceneSurface = await browser.execute(() => {
-      const workbench = document.querySelector<HTMLElement>('.openbitfun-workspace-body');
-      const sceneArea = document.querySelector<HTMLElement>('.openbitfun-workspace-body__scene-area');
-      const viewport = document.querySelector<HTMLElement>('.openbitfun-scene-viewport');
+      const workbench = document.querySelector<HTMLElement>('.opc-workspace-body');
+      const sceneArea = document.querySelector<HTMLElement>('.opc-workspace-body__scene-area');
+      const viewport = document.querySelector<HTMLElement>('.opc-scene-viewport');
 
       if (!workbench || !sceneArea || !viewport) {
         return null;
@@ -320,42 +320,42 @@ describe('L0 Appearance', () => {
     await selectAppearance('openbitfun-light');
 
     const navBack = await waitForDisplayed(
-      '[data-openbitfun-component="nav-bar"][data-openbitfun-part="back"]:not(.is-inactive)',
+      '[data-opc-component="nav-bar"][data-opc-part="back"]:not(.is-inactive)',
     );
     await navBack.click();
 
     const miniAppsEntry = await waitForDisplayed('[data-testid="nav-miniapps-entry"]');
     await miniAppsEntry.click();
-    await waitForDisplayed('[data-openbitfun-scene="miniapp-gallery"]');
-    await waitForDisplayed('.miniapp-gallery-scene__tabs .openbitfun-tabs__tab--active');
-    await waitForDisplayed('[data-openbitfun-component="mini-app-card"]', 20000);
+    await waitForDisplayed('[data-opc-scene="miniapp-gallery"]');
+    await waitForDisplayed('.miniapp-gallery-scene__tabs .opc-tabs__tab--active');
+    await waitForDisplayed('[data-opc-component="mini-app-card"]', 20000);
 
     const miniAppPresentation = await browser.execute(() => {
       const selectedNavigation = document.querySelector<HTMLElement>('[data-testid="nav-miniapps-entry"]');
       const selectedTab = document.querySelector<HTMLElement>(
-        '.miniapp-gallery-scene__tabs .openbitfun-tabs__tab--active',
+        '.miniapp-gallery-scene__tabs .opc-tabs__tab--active',
       );
       const tabsNav = document.querySelector<HTMLElement>(
-        '.miniapp-gallery-scene__tabs > .openbitfun-tabs__nav',
+        '.miniapp-gallery-scene__tabs > .opc-tabs__nav',
       );
-      const tabsNavList = tabsNav?.querySelector<HTMLElement>('.openbitfun-tabs__nav-list') ?? null;
+      const tabsNavList = tabsNav?.querySelector<HTMLElement>('.opc-tabs__nav-list') ?? null;
       const tabButtons = Array.from(
-        tabsNavList?.querySelectorAll<HTMLElement>('.openbitfun-tabs__tab-button') ?? [],
+        tabsNavList?.querySelectorAll<HTMLElement>('.opc-tabs__tab-button') ?? [],
       );
       const tabsContent = document.querySelector<HTMLElement>(
-        '.miniapp-gallery-scene__tabs > .openbitfun-tabs__content',
+        '.miniapp-gallery-scene__tabs > .opc-tabs__content',
       );
       const tabsContentView = tabsContent?.querySelector<HTMLElement>(
-        ':scope > .openbitfun-tabs__content-view',
+        ':scope > .opc-tabs__content-view',
       ) ?? null;
       const galleryScroller = document.querySelector<HTMLElement>(
         '.miniapp-gallery .gallery-layout__body',
       );
-      const scene = document.querySelector<HTMLElement>('[data-openbitfun-scene="miniapp-gallery"]');
+      const scene = document.querySelector<HTMLElement>('[data-opc-scene="miniapp-gallery"]');
       const pageHeader = document.querySelector<HTMLElement>('.miniapp-gallery .gallery-page-header');
       const pageHeaderTitle = pageHeader?.querySelector<HTMLElement>('.gallery-page-header__title') ?? null;
       const pageHeaderActions = pageHeader?.querySelector<HTMLElement>('.gallery-page-header__actions') ?? null;
-      const card = document.querySelector<HTMLElement>('[data-openbitfun-component="mini-app-card"]');
+      const card = document.querySelector<HTMLElement>('[data-opc-component="mini-app-card"]');
       const cardFooter = card?.querySelector<HTMLElement>('.miniapp-card__footer') ?? null;
       const cardIcon = card?.querySelector<HTMLElement>('.miniapp-card__icon-area') ?? null;
       const cardDescription = card?.querySelector<HTMLElement>('.miniapp-card__desc') ?? null;
@@ -575,11 +575,11 @@ describe('L0 Appearance', () => {
     expect(miniAppPresentation.card!.actionsBottomGap).toBeLessThanOrEqual(16.5);
 
     await saveElementScreenshot(
-      '[data-openbitfun-component="mini-app-card"]',
+      '[data-opc-component="mini-app-card"]',
       'l0-appearance-light-miniapp-card',
     );
     await saveElementScreenshot(
-      '[data-openbitfun-scene="miniapp-gallery"]',
+      '[data-opc-scene="miniapp-gallery"]',
       'l0-appearance-light-miniapp-upper-layout',
     );
     await saveStepScreenshot('l0-appearance-light-miniapps');
@@ -717,7 +717,7 @@ describe('L0 Appearance', () => {
   });
 
   it('should render monochrome structural chrome against a white workspace', async () => {
-    await selectAppearance('openbitfun-monochrome');
+    await selectAppearance('opc-monochrome');
     await browser.execute(() => {
       if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur();
@@ -725,28 +725,28 @@ describe('L0 Appearance', () => {
     });
     await waitForDisplayed('[data-testid="nav-panel"]');
     await waitForDisplayed('[data-testid="settings-nav"]');
-    await waitForDisplayed('.openbitfun-scene-bar');
-    await waitForDisplayed('.openbitfun-scene-viewport');
+    await waitForDisplayed('.opc-scene-bar');
+    await waitForDisplayed('.opc-scene-viewport');
 
     const contrastPresentation = await browser.execute(() => {
       const rootStyles = window.getComputedStyle(document.documentElement);
       const bodyStyles = window.getComputedStyle(document.body);
-      const workbench = document.querySelector<HTMLElement>('.openbitfun-workspace-body');
+      const workbench = document.querySelector<HTMLElement>('.opc-workspace-body');
       const navPanel = document.querySelector<HTMLElement>('[data-testid="nav-panel"]');
-      const settingsTitle = document.querySelector<HTMLElement>('.openbitfun-settings-nav__title');
-      const settingsActiveItem = document.querySelector<HTMLElement>('.openbitfun-settings-nav__item.is-active');
+      const settingsTitle = document.querySelector<HTMLElement>('.opc-settings-nav__title');
+      const settingsActiveItem = document.querySelector<HTMLElement>('.opc-settings-nav__item.is-active');
       const settingsSectionBody = document.querySelector<HTMLElement>(
-        '[data-testid="appearance-settings-section"] .openbitfun-config-page-section__body',
+        '[data-testid="appearance-settings-section"] .opc-config-page-section__body',
       );
       const settingsRows = document.querySelectorAll<HTMLElement>(
-        '[data-testid="appearance-settings-section"] .openbitfun-config-page-row',
+        '[data-testid="appearance-settings-section"] .opc-config-page-row',
       );
       const settingsRowDivider = settingsRows.item(1);
       const appearanceSelect = document.querySelector<HTMLElement>(
         '[data-testid="appearance-palette-select"]',
       );
-      const sceneBar = document.querySelector<HTMLElement>('.openbitfun-scene-bar');
-      const viewport = document.querySelector<HTMLElement>('.openbitfun-scene-viewport');
+      const sceneBar = document.querySelector<HTMLElement>('.opc-scene-bar');
+      const viewport = document.querySelector<HTMLElement>('.opc-scene-viewport');
 
       if (
         !workbench ||
@@ -769,7 +769,7 @@ describe('L0 Appearance', () => {
 
       return {
         appearanceId: document.documentElement.getAttribute('data-openbitfun-appearance'),
-        appearanceMode: document.documentElement.getAttribute('data-openbitfun-appearance-mode'),
+        appearanceMode: document.documentElement.getAttribute('data-opc-appearance-mode'),
         contentBackgroundToken: rootStyles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
         contentTextToken: rootStyles.getPropertyValue('--opcteam-color-content-primary').trim(),
         contentSecondaryTextToken: rootStyles.getPropertyValue('--opcteam-color-content-secondary').trim(),
@@ -801,7 +801,7 @@ describe('L0 Appearance', () => {
     });
 
     expect(contrastPresentation).toEqual({
-      appearanceId: 'openbitfun-monochrome',
+      appearanceId: 'opc-monochrome',
       appearanceMode: 'light',
       contentBackgroundToken: '#ffffff',
       contentTextToken: '#1c1c1f',
@@ -845,11 +845,11 @@ describe('L0 Appearance', () => {
 
   it('should keep the Skin market and appearance package import entry points hidden', async () => {
     await openAppearanceSettings();
-    await waitForDisplayed('[data-openbitfun-part="packageSection"]');
+    await waitForDisplayed('[data-opc-part="packageSection"]');
 
     const packageEntryPoints = await browser.execute(() => ({
       actionButtons: Array.from(document.querySelectorAll<HTMLElement>(
-        '[data-openbitfun-part="packageActions"] [data-openbitfun-component="button"]',
+        '[data-opc-part="packageActions"] [data-opc-component="button"]',
       )).map(button => button.textContent?.trim() ?? ''),
       fileInputs: document.querySelectorAll('.appearance-package-config__file-input').length,
     }));
@@ -858,7 +858,7 @@ describe('L0 Appearance', () => {
     expect(packageEntryPoints.fileInputs).toBe(0);
 
     await saveElementScreenshot(
-      '[data-openbitfun-part="packageSection"]',
+      '[data-opc-part="packageSection"]',
       'l0-appearance-package-entry-points-hidden',
     );
   });
@@ -868,7 +868,7 @@ describe('L0 Appearance', () => {
 
     const before = await browser.execute(() => ({
       id: document.documentElement.getAttribute('data-openbitfun-appearance'),
-      revision: document.documentElement.getAttribute('data-openbitfun-appearance-revision'),
+      revision: document.documentElement.getAttribute('data-opc-appearance-revision'),
     }));
 
     const picker = await $('[data-testid="appearance-palette-select"]');
@@ -910,8 +910,8 @@ describe('L0 Appearance', () => {
       const styles = window.getComputedStyle(root);
       return {
         id: root.getAttribute('data-openbitfun-appearance'),
-        mode: root.getAttribute('data-openbitfun-appearance-mode'),
-        revision: root.getAttribute('data-openbitfun-appearance-revision'),
+        mode: root.getAttribute('data-opc-appearance-mode'),
+        revision: root.getAttribute('data-opc-appearance-revision'),
         background: styles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
       };
     });

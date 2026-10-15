@@ -1,10 +1,10 @@
-use openbitfun_legacy_migration::{
+use opc_legacy_migration::{
     atomic_write_json, export_failure_diagnostics, probe_legacy_source, snapshot_sqlite_read_only,
     CancellationToken, CrashInjector, CrashPoint, DomainContext, DomainScan, LegacyDomainAdapter,
     LegacyMigrationError, LegacyMigrationResult, MigrationEngine, MigrationLayout, MigrationLock,
     MigrationRoots, NoCrashInjection, ProbeLimits,
 };
-use openbitfun_product_domains::legacy_migration::{
+use opc_product_domains::legacy_migration::{
     FindingSeverity, MigrationDiagnostic, MigrationDomainId, MigrationDomainResult,
     MigrationDomainState, MigrationGroupId, MigrationJournalEvent, MigrationPhase,
     MigrationReleaseObservation, MigrationRunReport, MigrationRunStatus, MigrationSelection,

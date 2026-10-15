@@ -34,7 +34,7 @@ async fn handshake_accepts_matching_token_and_returns_cache_directory() {
         .await
         .expect("test listener should bind");
     let address = listener.local_addr().expect("listener should have address");
-    let cache_directory = std::env::temp_dir().join("openbitfun-plugin-host-test-cache");
+    let cache_directory = std::env::temp_dir().join("opc-plugin-host-test-cache");
     let expected_cache_directory = cache_directory.to_string_lossy().into_owned();
     let host = tokio::spawn(async move {
         let mut stream = TcpStream::connect(address)

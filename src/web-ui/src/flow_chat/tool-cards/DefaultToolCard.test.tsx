@@ -94,7 +94,7 @@ describe('DefaultToolCard', () => {
     for (const [index, expanded] of [false, true, false].entries()) {
       expect(container.textContent).not.toContain('TOOL');
       const button = container.querySelector<HTMLButtonElement>(
-        '[data-openbitfun-part="iconAffordanceButton"]',
+        '[data-opc-part="iconAffordanceButton"]',
       );
       expect(button).not.toBeNull();
       expect(button?.getAttribute('aria-expanded')).toBe(String(expanded));
@@ -137,7 +137,7 @@ describe('DefaultToolCard', () => {
     act(() => root.render(<DefaultToolCard toolItem={completedWebFetchItem({ title: 'Hidden result' })}
       config={{ ...config, resultDisplayType: 'hidden' }} />));
     expect(container.textContent).not.toContain('Hidden result');
-    expect(container.querySelector('[data-openbitfun-part="resultSummary"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="resultSummary"]')).toBeNull();
   });
 
   it('stringifies detailed result payloads after the card is expanded', () => {
@@ -160,7 +160,7 @@ describe('DefaultToolCard', () => {
     });
 
     const card = container.querySelector(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="surface"][data-openbitfun-attention="ambient"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="surface"][data-opc-attention="ambient"]',
     );
     expect(card).not.toBeNull();
 

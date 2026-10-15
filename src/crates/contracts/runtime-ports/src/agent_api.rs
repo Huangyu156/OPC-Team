@@ -2,7 +2,7 @@ use super::*;
 
 /// Reserved turn metadata/context key used to carry a provider-neutral JSON
 /// output schema through persistence and interrupted-turn recovery.
-pub const OUTPUT_SCHEMA_CONTEXT_KEY: &str = "openbitfun_output_schema";
+pub const OUTPUT_SCHEMA_CONTEXT_KEY: &str = "opc_output_schema";
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]
@@ -91,7 +91,7 @@ pub struct AgentWorkspaceCatalogEntry {
     pub workspace_id: String,
     pub project_workspace_id: Option<String>,
     pub name: String,
-    pub kind: openbitfun_core_types::WorkspaceKind,
+    pub kind: opc_core_types::WorkspaceKind,
     pub root_path: String,
     /// Last recorded workspace access, as Unix milliseconds.
     pub last_accessed_at_ms: i64,
@@ -509,7 +509,7 @@ pub struct AgentSessionWorkspaceRequest {
 #[serde(rename_all = "camelCase")]
 pub struct AgentSessionWorkspaceBinding {
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub workspace_kind: Option<openbitfun_core_types::WorkspaceKind>,
+    pub workspace_kind: Option<opc_core_types::WorkspaceKind>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub project_workspace_id: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -1910,7 +1910,7 @@ pub trait AgentSessionUsagePort: Send + Sync {
     async fn generate_session_usage(
         &self,
         request: AgentSessionUsageRequest,
-    ) -> PortResult<openbitfun_core_types::SessionUsageReport>;
+    ) -> PortResult<opc_core_types::SessionUsageReport>;
 }
 
 #[async_trait::async_trait]
@@ -2192,7 +2192,7 @@ mod tests {
             serde_json::from_value(current.clone()).unwrap();
         assert_eq!(
             binding.workspace_kind,
-            Some(openbitfun_core_types::WorkspaceKind::Normal)
+            Some(opc_core_types::WorkspaceKind::Normal)
         );
         assert_eq!(serde_json::to_value(binding).unwrap(), current);
     }
@@ -3107,7 +3107,7 @@ mod tests {
         let contract = CompressionContract {
             touched_files: vec!["src/lib.rs".to_string()],
             verification_commands: vec![CompressionContractItem {
-                target: "cargo test -p openbitfun-runtime-ports".to_string(),
+                target: "cargo test -p opc-runtime-ports".to_string(),
                 status: "passed".to_string(),
                 summary: "runtime ports contract tests passed".to_string(),
                 error_kind: None,
@@ -3127,7 +3127,7 @@ mod tests {
         assert!(rendered.contains("Touched files:"));
         assert!(rendered.contains("- src/lib.rs"));
         assert!(rendered.contains(
-            "- cargo test -p openbitfun-runtime-ports [passed]: runtime ports contract tests passed"
+            "- cargo test -p opc-runtime-ports [passed]: runtime ports contract tests passed"
         ));
         assert!(
             rendered.contains("- cargo check [failed]: compile error before migration (compile)")

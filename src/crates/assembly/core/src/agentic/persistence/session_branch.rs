@@ -4,12 +4,12 @@ use crate::agentic::session::{EvidenceLedgerEvent, SessionPromptCache};
 use crate::agentic::skill_agent_snapshot::TurnSkillAgentSnapshot;
 use crate::service::session::DialogTurnData;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_services_core::session::SessionBranchBoundary;
-use openbitfun_services_core::session::{
+use opc_services_core::session::SessionBranchBoundary;
+use opc_services_core::session::{
     build_branched_session_metadata, format_branch_session_name, resolve_branch_session_lineage,
     BranchSessionMetadataFacts,
 };
-pub use openbitfun_services_core::session::{SessionBranchRequest, SessionBranchResult};
+pub use opc_services_core::session::{SessionBranchRequest, SessionBranchResult};
 use std::path::Path;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -59,7 +59,7 @@ impl PersistenceManager {
         request: &SessionBranchRequest,
         transient_source: Option<TransientSessionBranchSource>,
     ) -> OpcTeamResult<SessionBranchResult> {
-        openbitfun_core_types::validate_session_id(&request.source_session_id)
+        opc_core_types::validate_session_id(&request.source_session_id)
             .map_err(OpcTeamError::Validation)?;
         let branch_allocation_lock = self
             .get_session_branch_allocation_lock(workspace_path)
@@ -366,8 +366,8 @@ mod tests {
 
     impl TestWorkspace {
         fn new() -> Self {
-            let path = std::env::temp_dir()
-                .join(format!("openbitfun-session-branch-test-{}", Uuid::new_v4()));
+            let path =
+                std::env::temp_dir().join(format!("opc-session-branch-test-{}", Uuid::new_v4()));
             std::fs::create_dir_all(&path).expect("test workspace should be created");
             // Sessions only exist inside registered workspaces; register the
             // fixture directory like a host that opened this folder. Keep the

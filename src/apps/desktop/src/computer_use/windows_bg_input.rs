@@ -30,7 +30,7 @@ use std::ffi::c_void;
 use std::thread::sleep;
 use std::time::Duration;
 
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::Win32::Foundation::{HWND, LPARAM, POINT, WPARAM};
 use windows::Win32::Graphics::Gdi::{ClientToScreen, ScreenToClient};
 use windows::Win32::UI::WindowsAndMessaging::{

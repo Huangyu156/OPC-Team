@@ -67,8 +67,8 @@ describe('ViewImageToolCard', () => {
     expect(html).toContain('aria-expanded="false"');
     expect(html).toContain('preview.png');
     expect(html).not.toContain('toolCards.viewImage.viewedImages');
-    expect(html).toContain('data-openbitfun-tool-card="view-image"');
-    expect(html).not.toContain('data-openbitfun-part="imagePreview"');
+    expect(html).toContain('data-opc-tool-card="view-image"');
+    expect(html).not.toContain('data-opc-part="imagePreview"');
   });
 
   it('preserves manual disclosure when an image arrives or updates', () => {

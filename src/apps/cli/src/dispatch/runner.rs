@@ -50,7 +50,7 @@ fn spawn_detached_action(action: &str, job_id: &str, description: &str) -> Resul
     }
 
     let executable = std::env::current_exe().context("resolve OPC-Team executable")?;
-    let mut command = openbitfun_services_core::process_manager::create_command(executable);
+    let mut command = opc_services_core::process_manager::create_command(executable);
     command
         .arg("dispatch")
         .arg(action)
@@ -444,7 +444,7 @@ mod tests {
 
         let ready_dir = tempfile::tempdir().expect("ready directory");
         let ready_path = ready_dir.path().join("hup-resistant-child-ready");
-        let mut command = openbitfun_services_core::process_manager::create_command("/bin/sh");
+        let mut command = opc_services_core::process_manager::create_command("/bin/sh");
         command
             .arg("-c")
             // Keep the leader alive until the child has installed its HUP

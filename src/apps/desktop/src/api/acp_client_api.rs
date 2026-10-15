@@ -2,14 +2,14 @@
 
 use crate::api::app_state::AppState;
 use crate::startup_trace::DesktopStartupTrace;
-use openbitfun_acp::client::{
+use opc_acp::client::{
     AcpAvailableCommand, AcpClientInfo, AcpClientPermissionResponse, AcpClientRequirementProbe,
     AcpClientStreamEvent, AcpSessionOptions, CreateAcpFlowSessionRecordResponse,
     SetAcpSessionConfigOptionRequest, SetAcpSessionModelRequest,
     SubmitAcpPermissionResponseRequest,
 };
-use openbitfun_core::service::workspace::WorkspaceInfo;
-use openbitfun_runtime_ports::SessionStorePort;
+use opc_core::service::workspace::WorkspaceInfo;
+use opc_runtime_ports::SessionStorePort;
 use serde::{Deserialize, Serialize};
 use std::path::PathBuf;
 use std::time::Instant;
@@ -28,12 +28,11 @@ struct AcpWorkspaceScope {
 
 impl AcpWorkspaceScope {
     async fn from_workspace(workspace: WorkspaceInfo) -> Result<Self, String> {
-        let session_storage_path =
-            openbitfun_core::agentic::session::CoreSessionStorePort::default()
-                .resolve_workspace_storage(&workspace.id)
-                .await
-                .map(|resolution| resolution.effective_storage_path)
-                .map_err(|error| error.to_string())?;
+        let session_storage_path = opc_core::agentic::session::CoreSessionStorePort::default()
+            .resolve_workspace_storage(&workspace.id)
+            .await
+            .map(|resolution| resolution.effective_storage_path)
+            .map_err(|error| error.to_string())?;
         let remote_ssh_host = workspace
             .metadata
             .get("sshHost")
@@ -211,7 +210,7 @@ fn emit_acp_model_round_completed(
     turn_id: &str,
     round_id: String,
     has_tool_calls: bool,
-) -> Result<(), openbitfun_core::util::errors::OpcTeamError> {
+) -> Result<(), opc_core::util::errors::OpcTeamError> {
     app_handle
         .emit(
             "agentic://model-round-completed",
@@ -222,7 +221,7 @@ fn emit_acp_model_round_completed(
                 "hasToolCalls": has_tool_calls,
             }),
         )
-        .map_err(|e| openbitfun_core::util::errors::OpcTeamError::service(e.to_string()))
+        .map_err(|e| opc_core::util::errors::OpcTeamError::service(e.to_string()))
 }
 
 #[tauri::command]
@@ -473,14 +472,12 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::AgentText(text) => {
                             let round_id = current_round_id.clone().ok_or_else(|| {
-                                openbitfun_core::util::errors::OpcTeamError::service(
+                                opc_core::util::errors::OpcTeamError::service(
                                     "ACP text arrived before model round start".to_string(),
                                 )
                             })?;
@@ -496,14 +493,12 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::AgentThought(text) => {
                             let round_id = current_round_id.clone().ok_or_else(|| {
-                                openbitfun_core::util::errors::OpcTeamError::service(
+                                opc_core::util::errors::OpcTeamError::service(
                                     "ACP thought arrived before model round start".to_string(),
                                 )
                             })?;
@@ -521,14 +516,12 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::ToolEvent(tool_event) => {
                             let round_id = current_round_id.clone().ok_or_else(|| {
-                                openbitfun_core::util::errors::OpcTeamError::service(
+                                opc_core::util::errors::OpcTeamError::service(
                                     "ACP tool event arrived before model round start".to_string(),
                                 )
                             })?;
@@ -545,9 +538,7 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::ContextUsageUpdated(usage) => {
@@ -565,9 +556,7 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::AvailableCommandsUpdated(commands) => {
@@ -581,9 +570,7 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::PlanUpdated(entries) => {
@@ -598,9 +585,7 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::ConfigOptionsUpdated(_) => {
@@ -613,9 +598,7 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::Completed => {
@@ -639,9 +622,7 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                         AcpClientStreamEvent::Cancelled => {
@@ -664,9 +645,7 @@ pub async fn start_acp_dialog_turn(
                                     }),
                                 )
                                 .map_err(|e| {
-                                    openbitfun_core::util::errors::OpcTeamError::service(
-                                        e.to_string(),
-                                    )
+                                    opc_core::util::errors::OpcTeamError::service(e.to_string())
                                 })?;
                         }
                     }

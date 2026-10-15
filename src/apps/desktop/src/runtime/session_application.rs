@@ -9,32 +9,32 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use async_trait::async_trait;
-use openbitfun_agent_runtime::sdk::{
+use opc_agent_runtime::sdk::{
     AgentLocalCommandTurnRecordRequest, AgentRuntime, AgentSessionArchiveStateRequest,
     AgentSessionDeleteRequest, AgentSessionForkAtTurnRequest, AgentSessionForkRequest,
     AgentSessionLineageRequest, AgentSessionLineageSnapshot, AgentSessionRenameRequest,
     AgentSessionUsageRequest, PortErrorKind, RuntimeError, SessionEventBackfill,
     SessionEventJournal, SessionEventProjectionSnapshot, SessionInteractionSnapshot,
 };
-use openbitfun_core::agentic::coordination::{ConversationCoordinator, DialogScheduler};
-use openbitfun_core::agentic::core::Session;
-use openbitfun_core::agentic::persistence::{SessionBranchResult, SessionMetadataPage};
-use openbitfun_core::agentic::session::SessionViewRestoreTiming;
-use openbitfun_core::product_runtime::{CoreAgentRuntimeCompatibility, CoreProductAgentRuntime};
+use opc_core::agentic::coordination::{ConversationCoordinator, DialogScheduler};
+use opc_core::agentic::core::Session;
+use opc_core::agentic::persistence::{SessionBranchResult, SessionMetadataPage};
+use opc_core::agentic::session::SessionViewRestoreTiming;
+use opc_core::product_runtime::{CoreAgentRuntimeCompatibility, CoreProductAgentRuntime};
 #[cfg(test)]
-use openbitfun_core::service::remote_ssh::workspace_state::get_effective_session_path;
-use openbitfun_core::service::remote_ssh::SSHConnectionManager;
-use openbitfun_core::service::session::{
+use opc_core::service::remote_ssh::workspace_state::get_effective_session_path;
+use opc_core::service::remote_ssh::SSHConnectionManager;
+use opc_core::service::session::{
     DialogTurnData, DialogTurnKind, SessionContextUsage, SessionMetadata, SessionStatus,
     SessionTranscriptExport, SessionTranscriptExportOptions, SessionTurnCatalog,
     SessionTurnWindowResponse,
 };
-use openbitfun_core::service::session_usage::SessionUsageReport;
-use openbitfun_core::service::token_usage::TokenUsageService;
-use openbitfun_core::service::workspace::WorkspaceService;
-use openbitfun_core::util::errors::OpcTeamError;
-use openbitfun_product_domains::product_search::SessionContentSearchResponse;
-use openbitfun_runtime_ports::{AgentContextReloadRequest, SessionTurnWindowRequest};
+use opc_core::service::session_usage::SessionUsageReport;
+use opc_core::service::token_usage::TokenUsageService;
+use opc_core::service::workspace::WorkspaceService;
+use opc_core::util::errors::OpcTeamError;
+use opc_product_domains::product_search::SessionContentSearchResponse;
+use opc_runtime_ports::{AgentContextReloadRequest, SessionTurnWindowRequest};
 use serde::{Deserialize, Serialize};
 use tokio::sync::RwLock;
 
@@ -193,13 +193,13 @@ impl DesktopSessionScopeResolver {
                 })
         }
         .map_err(desktop_core_session_error)?;
-        use openbitfun_runtime_ports::SessionStorePort;
-        let storage = openbitfun_core::agentic::session::CoreSessionStorePort::default()
+        use opc_runtime_ports::SessionStorePort;
+        let storage = opc_core::agentic::session::CoreSessionStorePort::default()
             .resolve_workspace_storage(&workspace.id)
             .await
             .map_err(|error| DesktopSessionApplicationError::Core(error.to_string()))?;
         let remote =
-            workspace.workspace_kind == openbitfun_core::service::workspace::WorkspaceKind::Remote;
+            workspace.workspace_kind == opc_core::service::workspace::WorkspaceKind::Remote;
         let remote_connection_id = if remote {
             workspace.remote_ssh_connection_id().map(str::to_owned)
         } else {
@@ -287,9 +287,8 @@ impl DesktopSessionApplication {
 
     pub(crate) async fn rollback_session_to_turn(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionRollbackToTurnRequest,
-    ) -> DesktopSessionApplicationResult<openbitfun_runtime_ports::AgentSessionRollbackToTurnOutcome>
-    {
+        request: opc_runtime_ports::AgentSessionRollbackToTurnRequest,
+    ) -> DesktopSessionApplicationResult<opc_runtime_ports::AgentSessionRollbackToTurnOutcome> {
         self.agent_runtime
             .rollback_session_to_turn(request)
             .await
@@ -346,7 +345,7 @@ impl DesktopSessionApplication {
         let scope = self.resolved_scope(request).await?;
         self.ensure_runtime_ownership(&scope)?;
         if scope.remote_connection_id.is_some() {
-            if !openbitfun_core::plugin_host::configured_plugins_present()
+            if !opc_core::plugin_host::configured_plugins_present()
                 .await
                 .map_err(|error| DesktopSessionApplicationError::Core(error.to_string()))?
             {
@@ -357,7 +356,7 @@ impl DesktopSessionApplication {
                 scope.workspace_path
             )));
         }
-        openbitfun_core::plugin_host::ensure_configured_plugin_instance(
+        opc_core::plugin_host::ensure_configured_plugin_instance(
             crate::PLUGIN_HOST_LAUNCH_POLICY,
             &scope.workspace_id,
         )
@@ -1004,27 +1003,27 @@ fn merge_ui_owned_session_metadata(
         current.review_action_state = incoming.review_action_state.clone();
     }
     if fields.contains(&UiSessionMetadataField::UnreadCompletion) {
-        openbitfun_core::service::session::apply_session_unread_completion(current, incoming);
+        opc_core::service::session::apply_session_unread_completion(current, incoming);
     }
     if fields.contains(&UiSessionMetadataField::NeedsUserAttention) {
         current.needs_user_attention = incoming.needs_user_attention.clone();
     }
     if fields.contains(&UiSessionMetadataField::TitleMetadata) {
-        openbitfun_core::service::session::apply_session_title_metadata(current, incoming);
+        opc_core::service::session::apply_session_title_metadata(current, incoming);
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_agent_runtime::sdk::{
+    use opc_agent_runtime::sdk::{
         AgentRuntimeBuilder, AgentSessionCreateRequest, AgentSessionCreateResult,
         AgentSessionForkPort, AgentSessionForkRequest, AgentSessionForkResult,
         AgentSessionListRequest, AgentSessionManagementPort, AgentSessionSummary,
         AgentSessionWorkspaceBinding, AgentSessionWorkspaceRequest, AgentSubmissionPort,
         AgentSubmissionRequest, AgentSubmissionResult, PortError, PortErrorKind, PortResult,
     };
-    use openbitfun_core::service::session::{
+    use opc_core::service::session::{
         SessionContextUsage, SessionContextUsageSource, SessionKind, SessionMemoryMode,
     };
     use serde_json::json;
@@ -1033,7 +1032,7 @@ mod tests {
     #[test]
     fn session_writer_conflict_keeps_a_stable_desktop_transport_code() {
         let error =
-            desktop_core_session_error(openbitfun_core::util::errors::OpcTeamError::SessionInUse {
+            desktop_core_session_error(opc_core::util::errors::OpcTeamError::SessionInUse {
                 session_id: "session-1".to_string(),
             });
 
@@ -1084,7 +1083,7 @@ mod tests {
             2,
             "session-1".to_string(),
             None,
-            openbitfun_core::service::session::UserMessageData {
+            opc_core::service::session::UserMessageData {
                 id: "local-usage-user-report-1".to_string(),
                 content: "# Usage".to_string(),
                 timestamp: 42,
@@ -1235,7 +1234,7 @@ mod tests {
 
         async fn fork_session_at_turn(
             &self,
-            _request: openbitfun_agent_runtime::sdk::AgentSessionForkAtTurnRequest,
+            _request: opc_agent_runtime::sdk::AgentSessionForkAtTurnRequest,
         ) -> PortResult<AgentSessionForkResult> {
             self.calls.lock().unwrap().push("through_turn");
             Ok(AgentSessionForkResult {
@@ -1308,16 +1307,16 @@ mod tests {
             Default::default(),
         );
         let mut live = restored.clone();
-        live.state = openbitfun_core::agentic::core::SessionState::Processing {
+        live.state = opc_core::agentic::core::SessionState::Processing {
             current_turn_id: "turn-1".to_string(),
-            phase: openbitfun_core::agentic::core::ProcessingPhase::Streaming,
+            phase: opc_core::agentic::core::ProcessingPhase::Streaming,
         };
 
         overlay_live_session_state(&mut restored, Some(live));
 
         assert!(matches!(
             restored.state,
-            openbitfun_core::agentic::core::SessionState::Processing {
+            opc_core::agentic::core::SessionState::Processing {
                 ref current_turn_id,
                 ..
             } if current_turn_id == "turn-1"
@@ -1337,14 +1336,14 @@ mod tests {
 
         assert!(matches!(
             restored.state,
-            openbitfun_core::agentic::core::SessionState::Idle
+            opc_core::agentic::core::SessionState::Idle
         ));
     }
 
     #[tokio::test]
     async fn local_session_storage_identity_survives_workspace_removal() {
         let root = std::env::temp_dir().join(format!(
-            "openbitfun-desktop-session-path-test-{}",
+            "opc-desktop-session-path-test-{}",
             uuid::Uuid::new_v4()
         ));
         let workspace_path = root.join("project");

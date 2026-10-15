@@ -35,8 +35,8 @@ export function useSettingsScrollRestoration(
     const events = ['wheel', 'pointerdown', 'touchstart', 'keydown'] as const;
     const resize = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(restore);
     const attach = () => {
-      const next = container.querySelector<HTMLElement>('.openbitfun-config-page-layout');
-      if (!next || next.closest('[data-openbitfun-part="loading"]') || viewport === next) return;
+      const next = container.querySelector<HTMLElement>('.opc-config-page-layout');
+      if (!next || next.closest('[data-opc-part="loading"]') || viewport === next) return;
       viewport?.removeEventListener('scroll', save);
       resize?.disconnect();
       viewport = next;

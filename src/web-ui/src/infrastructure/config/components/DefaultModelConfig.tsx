@@ -45,11 +45,11 @@ export const DefaultModelConfig: React.FC<DefaultModelConfigProps> = ({
   const { buildModelOption } = useModelSelectPresentation();
   const controlsDisabled = loading || disabled || models.length === 0;
   const pendingPlaceholder = loading ? (
-    <span data-openbitfun-component="default-model-config" data-openbitfun-part="loading" data-openbitfun-state="loading">
+    <span data-opc-component="default-model-config" data-opc-part="loading" data-opc-state="loading">
       {t('loading')}
     </span>
   ) : disabled ? t('messages.loadFailed') : models.length === 0 ? (
-    <span data-openbitfun-component="default-model-config" data-openbitfun-part="empty" data-openbitfun-state="empty">
+    <span data-opc-component="default-model-config" data-opc-part="empty" data-opc-state="empty">
       {t('empty.noModels')}
     </span>
   ) : undefined;
@@ -138,7 +138,7 @@ export const DefaultModelConfig: React.FC<DefaultModelConfigProps> = ({
   ));
 
   return (
-    <div className={`default-model-config${compact ? ' default-model-config--compact' : ''}`} data-openbitfun-component="default-model-config" data-openbitfun-part="root" aria-busy={loading}>
+    <div className={`default-model-config${compact ? ' default-model-config--compact' : ''}`} data-opc-component="default-model-config" data-opc-part="root" aria-busy={loading}>
       <ConfigPageRow
         label={renderSlotLabel(t('core.primary.label'), t('core.primary.description'))}
         required
@@ -148,8 +148,8 @@ export const DefaultModelConfig: React.FC<DefaultModelConfigProps> = ({
         <Combobox
           aria-required="true"
           aria-label={t('core.primary.label')}
-          data-openbitfun-component="default-model-config"
-          data-openbitfun-part="primaryModel"
+          data-opc-component="default-model-config"
+          data-opc-part="primaryModel"
           value={defaultModels.primary || ''}
           onValueChange={(value) => handleDefaultModelChange('primary', normalizeSelectValue(value))}
           placeholder={pendingPlaceholder ?? t('core.primary.placeholder')}
@@ -166,8 +166,8 @@ export const DefaultModelConfig: React.FC<DefaultModelConfigProps> = ({
       >
         <Combobox
           aria-label={t('core.fast.label')}
-          data-openbitfun-component="default-model-config"
-          data-openbitfun-part="lightweightModel"
+          data-opc-component="default-model-config"
+          data-opc-part="lightweightModel"
           value={defaultModels.fast || ''}
           onValueChange={(value) => handleDefaultModelChange('fast', normalizeSelectValue(value))}
           placeholder={pendingPlaceholder ?? t('core.fast.placeholder')}
@@ -190,8 +190,8 @@ export const DefaultModelConfig: React.FC<DefaultModelConfigProps> = ({
       >
         <Combobox
           aria-label={t('optional.capabilities.image_understanding.label')}
-          data-openbitfun-component="default-model-config"
-          data-openbitfun-part="embeddingModel"
+          data-opc-component="default-model-config"
+          data-opc-part="embeddingModel"
           value={defaultModels.image_understanding || ''}
           onValueChange={(value) => handleDefaultModelChange('image_understanding', normalizeSelectValue(value))}
           placeholder={pendingPlaceholder ?? t('optional.selectModel')}

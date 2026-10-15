@@ -147,16 +147,12 @@ mod tests {
     fn sha256_sidecar_requires_a_well_formed_digest_and_matching_bytes() {
         let digest = format!("{:x}", Sha256::digest(FIXTURE_DATA));
         assert_eq!(
-            parse_sha256(
-                &format!("{digest}  openbitfun-cli.tar.gz\n"),
-                "openbitfun-cli.tar.gz"
-            )
-            .unwrap(),
+            parse_sha256(&format!("{digest}  opc-cli.tar.gz\n"), "opc-cli.tar.gz").unwrap(),
             digest
         );
-        verify_sha256(FIXTURE_DATA, &digest, "openbitfun-cli.tar.gz").unwrap();
-        assert!(verify_sha256(FIXTURE_DATA, &"0".repeat(64), "openbitfun-cli.tar.gz").is_err());
-        assert!(parse_sha256("not-a-digest", "openbitfun-cli.tar.gz").is_err());
+        verify_sha256(FIXTURE_DATA, &digest, "opc-cli.tar.gz").unwrap();
+        assert!(verify_sha256(FIXTURE_DATA, &"0".repeat(64), "opc-cli.tar.gz").is_err());
+        assert!(parse_sha256("not-a-digest", "opc-cli.tar.gz").is_err());
     }
 
     #[test]

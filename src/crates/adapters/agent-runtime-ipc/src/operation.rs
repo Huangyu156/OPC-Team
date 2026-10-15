@@ -1,5 +1,5 @@
-use openbitfun_product_domains::tool_permissions::{PermissionReply, PermissionRequest};
-use openbitfun_runtime_ports::{
+use opc_product_domains::tool_permissions::{PermissionReply, PermissionRequest};
+use opc_runtime_ports::{
     AgentContextReloadRequest, AgentDialogSteerRequest, AgentDialogTurnRequest,
     AgentMessageWorkspaceReferencesRequest, AgentSessionCompactionRequest,
     AgentSessionCreateRequest, AgentSessionCreateResult, AgentSessionLineageCancellationRequest,
@@ -419,7 +419,7 @@ pub enum RuntimeIpcOperationResult {
 #[cfg(test)]
 mod tests {
     use super::{RuntimeIpcOperation, RuntimeIpcSessionRequirement, RuntimeSessionRestoreRequest};
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         AgentContextReloadRequest, AgentContextReloadTarget, AgentDialogSteerRequest,
         AgentSessionLineageCancellationRequest, AgentSessionLineageRequest,
         AgentSessionLineageTranscriptRequest,

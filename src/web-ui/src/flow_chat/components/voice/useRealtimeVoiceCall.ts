@@ -144,10 +144,10 @@ interface ActiveVoiceTask {
 }
 
 function parseFunctionCall(call: SpeechRealtimeFunctionCall): VoiceFunctionCommand {
-  if (call.name === 'get_openbitfun_client_context') {
+  if (call.name === 'get_opc_client_context') {
     return { kind: 'get_client_context' };
   }
-  if (call.name === 'stop_openbitfun_task') {
+  if (call.name === 'stop_opc_task') {
     return { kind: 'stop_task' };
   }
   const rawArguments = JSON.parse(call.arguments || '{}') as unknown;
@@ -158,13 +158,13 @@ function parseFunctionCall(call: SpeechRealtimeFunctionCall): VoiceFunctionComma
     workspace_id?: unknown;
     activate_workspace?: unknown;
   };
-  if (call.name === 'switch_openbitfun_workspace') {
+  if (call.name === 'switch_opc_workspace') {
     if (typeof parsed.workspace_id !== 'string' || !parsed.workspace_id.trim()) {
       throw new Error('Workspace switch did not include an exact workspace_id');
     }
     return { kind: 'switch_workspace', workspaceReference: parsed.workspace_id.trim() };
   }
-  if (call.name !== 'run_openbitfun_task') {
+  if (call.name !== 'run_opc_task') {
     throw new Error(`Unsupported realtime voice function: ${call.name}`);
   }
   if (!parsed || typeof parsed.task !== 'string' || !parsed.task.trim()) {

@@ -57,7 +57,7 @@ vi.mock('react-i18next', async () => {
 
 vi.mock('@openbitfun/ui', async importOriginal => ({
   ...await importOriginal<typeof import('@openbitfun/ui')>(),
-  Icon: ({ name }: { name: string }) => <span data-openbitfun-component="icon" data-openbitfun-name={name} />,
+  Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   Button: ({
     children,
     disabled,
@@ -1165,9 +1165,9 @@ describeWithJsdom('DeepReviewActionBar', () => {
 
     const customToggle = container.querySelector<HTMLButtonElement>('.deep-review-action-bar__custom-toggle')!;
     await act(async () => customToggle.click());
-    const input = container.querySelector<HTMLTextAreaElement>('textarea[data-openbitfun-product-part="customInput"]')!;
+    const input = container.querySelector<HTMLTextAreaElement>('textarea[data-opc-product-part="customInput"]')!;
     expect(input.rows).toBe(2);
-    expect(input.getAttribute('data-openbitfun-part')).toBe('input');
+    expect(input.getAttribute('data-opc-part')).toBe('input');
     expect(input.parentElement?.getAttribute('data-auto-resize')).toBe('false');
     expect(input.parentElement?.getAttribute('data-resize')).toBe('vertical');
     const instructions = 'Keep existing data.\n保留兼容行为。';
@@ -1199,7 +1199,7 @@ describeWithJsdom('DeepReviewActionBar', () => {
       .registerComponent(deepReviewActionBarAppearanceDescriptor)).compile(restored, 1);
     expect(JSON.stringify(restored)).toBe(serialized);
     document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
-    document.documentElement.setAttribute('data-openbitfun-appearance-revision', String(snapshot.revision));
+    document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
     const style = document.createElement('style');
     style.textContent = snapshot.cssText;
     document.head.appendChild(style);
@@ -1244,7 +1244,7 @@ describeWithJsdom('DeepReviewActionBar', () => {
     const stagedPathButton = Array.from(container.querySelectorAll<HTMLButtonElement>('.deep-review-action-bar__decision-gate-option'))
       .find((button) => button.textContent?.includes('Staged path'));
     expect(stagedPathButton).toBeTruthy();
-    expect(stagedPathButton?.closest('[data-openbitfun-component="action-card"]')).not.toBeNull();
+    expect(stagedPathButton?.closest('[data-opc-component="action-card"]')).not.toBeNull();
     expect(container.querySelector('.deep-review-action-bar__decision-gate-options [role="radio"]')).toBeNull();
 
     await act(async () => {

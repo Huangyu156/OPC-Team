@@ -97,9 +97,9 @@ export const ThinkingBlock = forwardRef<HTMLDivElement, ThinkingBlockProps>(func
     : onOpenDetails ?? onToggle;
 
   return <div {...props} ref={setRootRef}
-    data-openbitfun-component="model-thinking-display" data-openbitfun-part="root"
-    data-openbitfun-context={context}
-    data-openbitfun-state={[expanded && 'expanded', visuallyStreaming && 'streaming'].filter(Boolean).join(' ')}
+    data-opc-component="model-thinking-display" data-opc-part="root"
+    data-opc-context={context}
+    data-opc-state={[expanded && 'expanded', visuallyStreaming && 'streaming'].filter(Boolean).join(' ')}
     data-testid="chat-thinking-panel" data-status={status}
     data-streaming={streaming ? 'true' : 'false'} data-expanded={expanded ? 'true' : 'false'}
     data-streaming-expanded={hasStreamingDisclosure && expanded ? String(streamingExpanded) : undefined}
@@ -114,7 +114,7 @@ export const ThinkingBlock = forwardRef<HTMLDivElement, ThinkingBlockProps>(func
     className={`flow-thinking-item ${reasoningKind} ${expanded ? 'expanded' : 'collapsed'} ${className}`.trim()}
   >
     <div className="thinking-header-slot">
-      <div data-openbitfun-component="model-thinking-display" data-openbitfun-part="header"
+      <div data-opc-component="model-thinking-display" data-opc-part="header"
         className="thinking-collapsed-header"
       >
         {/* Keep one tooltip owner across docking; retained click focus must not
@@ -128,7 +128,7 @@ export const ThinkingBlock = forwardRef<HTMLDivElement, ThinkingBlockProps>(func
             aria-expanded={hasStreamingDisclosure ? streamingExpanded : !onOpenDetails && onToggle ? expanded : undefined}
             aria-controls={hasStreamingDisclosure || (!onOpenDetails && onToggle) ? contentId : undefined}
             onClick={onActivate}
-            icon={<span className="thinking-leading-icon" data-openbitfun-component="model-thinking-display" data-openbitfun-part="leadingIcon">
+            icon={<span className="thinking-leading-icon" data-opc-component="model-thinking-display" data-opc-part="leadingIcon">
               <ThinkingIndicator active={streaming} size="sm"
                 className={onOpenDetails || streaming ? undefined : 'thinking-leading-icon__default'} />
               {!onOpenDetails && !streaming && <>
@@ -140,7 +140,7 @@ export const ThinkingBlock = forwardRef<HTMLDivElement, ThinkingBlockProps>(func
         </Tooltip>
         <span className="thinking-annotation-line thinking-annotation-line--after" aria-hidden="true" />
         <label data-overflow-trigger className="thinking-label-target" htmlFor={toggleId}>
-          <OverflowText data-openbitfun-component="model-thinking-display" data-openbitfun-part="label"
+          <OverflowText data-opc-component="model-thinking-display" data-opc-part="label"
             className="thinking-label" title={docked ? '' : reasoningKind === 'summary' && !expanded ? label : undefined}>{handoff.label}</OverflowText>
         </label>
       </div>
@@ -148,11 +148,11 @@ export const ThinkingBlock = forwardRef<HTMLDivElement, ThinkingBlockProps>(func
     <div id={contentId} aria-hidden={!expanded} {...{ inert: !expanded ? '' : undefined }}
       ref={expandContainerRef}
       className={`thinking-expand-container${expanded ? ' thinking-expand-container--open' : ''}`}
-      data-openbitfun-component="model-thinking-display" data-openbitfun-part="expandContainer">
+      data-opc-component="model-thinking-display" data-opc-part="expandContainer">
       {mountContent && <div className={`thinking-content-wrapper ${scrollState.hasScroll ? 'has-scroll' : ''} ${scrollState.atTop ? 'at-top' : ''} ${scrollState.atBottom ? 'at-bottom' : ''}`}
-        data-openbitfun-component="model-thinking-display" data-openbitfun-part="contentWrapper">
-        <div {...contentProps} ref={contentRef} data-openbitfun-component="model-thinking-display"
-          data-openbitfun-part="content" data-testid="chat-thinking-content" data-status={status}
+        data-opc-component="model-thinking-display" data-opc-part="contentWrapper">
+        <div {...contentProps} ref={contentRef} data-opc-component="model-thinking-display"
+          data-opc-part="content" data-testid="chat-thinking-content" data-status={status}
           aria-hidden={compactViewport || undefined} {...{ inert: compactViewport ? '' : undefined }}
           data-streaming={streaming ? 'true' : 'false'} className={`thinking-content expanded ${contentProps?.className ?? ''}`.trim()}>
           <div className="thinking-content-body">{children}</div>

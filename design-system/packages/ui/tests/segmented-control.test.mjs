@@ -19,16 +19,16 @@ test("SegmentedControl exposes radiogroup semantics with a roving selected segme
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="segmented-control"/);
+  assert.match(markup, /data-opc-component="segmented-control"/);
   assert.match(markup, /role="radiogroup"/);
   assert.match(markup, /aria-label="Conversation mode"/);
   assert.equal((markup.match(/role="radio"/g) ?? []).length, 2);
-  assert.match(markup, /aria-checked="false"[^>]*data-openbitfun-value="chat"/);
-  assert.match(markup, /aria-checked="true"[^>]*data-openbitfun-value="agent"/);
+  assert.match(markup, /aria-checked="false"[^>]*data-opc-value="chat"/);
+  assert.match(markup, /aria-checked="true"[^>]*data-opc-value="agent"/);
   assert.match(markup, /aria-checked="true"[^>]*tabindex="0"/);
   assert.match(markup, /aria-checked="false"[^>]*tabindex="-1"/);
-  assert.match(markup, /data-openbitfun-part="icon"/);
-  assert.match(markup, /data-openbitfun-part="label"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>Chat<\/span><\/span>/);
+  assert.match(markup, /data-opc-part="icon"/);
+  assert.match(markup, /data-opc-part="label"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>Chat<\/span><\/span>/);
 });
 
 test("SegmentedControl falls back to the first enabled option when the candidate is disabled", () => {
@@ -42,8 +42,8 @@ test("SegmentedControl falls back to the first enabled option when the candidate
     }),
   );
 
-  assert.match(markup, /aria-checked="true"[^>]*data-openbitfun-value="chat"/);
-  assert.match(markup, /aria-checked="false"[^>]*data-openbitfun-value="agent"[^>]*disabled=""/);
+  assert.match(markup, /aria-checked="true"[^>]*data-opc-value="chat"/);
+  assert.match(markup, /aria-checked="false"[^>]*data-opc-value="agent"[^>]*disabled=""/);
 });
 
 test("SegmentedControl disables every segment as one contract", () => {

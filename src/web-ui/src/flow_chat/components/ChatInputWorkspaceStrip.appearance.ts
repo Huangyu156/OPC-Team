@@ -16,14 +16,14 @@ export const chatInputWorkspaceStripAppearanceDescriptor: AppearanceSurfaceDescr
     { id: 'goalRun' }, { id: 'goalClear' },
   ],
   states: [
-    { id: 'open', selector: { kind: 'self', suffix: '[data-openbitfun-state~="open"]' } },
-    { id: 'selected', selector: { kind: 'self', suffix: '[data-openbitfun-state~="selected"]' } },
-    { id: 'active', selector: { kind: 'self', suffix: '[data-openbitfun-state~="active"]' } },
+    { id: 'open', selector: { kind: 'self', suffix: '[data-opc-state~="open"]' } },
+    { id: 'selected', selector: { kind: 'self', suffix: '[data-opc-state~="selected"]' } },
+    { id: 'active', selector: { kind: 'self', suffix: '[data-opc-state~="active"]' } },
     // The goal control carries its tone as its state, so these three exist as
     // states of the track rather than as classes that skins must guess at.
-    { id: 'paused', selector: { kind: 'self', suffix: '[data-openbitfun-state~="paused"]' } },
-    { id: 'blocked', selector: { kind: 'self', suffix: '[data-openbitfun-state~="blocked"]' } },
-    { id: 'complete', selector: { kind: 'self', suffix: '[data-openbitfun-state~="complete"]' } },
-    { id: 'armed', selector: { kind: 'self', suffix: '[data-openbitfun-state~="armed"]' } },
+    { id: 'paused', selector: { kind: 'self', suffix: '[data-opc-state~="paused"]' } },
+    { id: 'blocked', selector: { kind: 'self', suffix: '[data-opc-state~="blocked"]' } },
+    { id: 'complete', selector: { kind: 'self', suffix: '[data-opc-state~="complete"]' } },
+    { id: 'armed', selector: { kind: 'self', suffix: '[data-opc-state~="armed"]' } },
   ],
 };

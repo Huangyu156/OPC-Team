@@ -1,7 +1,7 @@
 use crate::agentic::agents::{PromptBuilder, PromptBuilderContext, UserContextPolicy};
 use crate::agentic::session::SystemPromptCacheIdentity;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_agent_runtime::custom_agent::{
+use opc_agent_runtime::custom_agent::{
     custom_agent_save_markdown_file, CustomAgentDefinition, CustomAgentKind, CustomAgentLevel,
 };
 use sha2::{Digest, Sha256};

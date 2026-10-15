@@ -93,7 +93,7 @@ where
 
         Agent
             .builder()
-            .name("openbitfun-acp")
+            .name("opc-acp")
             .on_receive_request(
                 {
                     let runtime = runtime.clone();

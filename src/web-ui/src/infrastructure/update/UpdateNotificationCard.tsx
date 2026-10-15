@@ -55,10 +55,10 @@ function UpdateNoticeCard({ notice }: { notice: UpdateNotice }) {
   return (
     <div
       ref={cardRef}
-      className="openbitfun-update-notice"
+      className="opc-update-notice"
       data-testid="app-update-notice"
-      data-openbitfun-component="update"
-      data-openbitfun-part="notice"
+      data-opc-component="update"
+      data-opc-part="notice"
       onKeyDown={event => {
         if (event.key === 'Escape') {
           event.stopPropagation();
@@ -67,9 +67,9 @@ function UpdateNoticeCard({ notice }: { notice: UpdateNotice }) {
       }}
     >
       <Card appearance="raised" padding="md" gap="md" radius="md"
-        className="openbitfun-update-notice__surface" data-openbitfun-native-webview-occlusion>
-        <div data-openbitfun-component="update" data-openbitfun-part="availableRoot" data-openbitfun-variant="daily">
-          <div data-openbitfun-component="update" data-openbitfun-part="lead">
+        className="opc-update-notice__surface" data-opc-native-webview-occlusion>
+        <div data-opc-component="update" data-opc-part="availableRoot" data-opc-variant="daily">
+          <div data-opc-component="update" data-opc-part="lead">
             <CardHeader
               align="center"
               actions={(
@@ -77,71 +77,71 @@ function UpdateNoticeCard({ notice }: { notice: UpdateNotice }) {
                   aria-label={t('actions.close')} onClick={state.dismissNotice} />
               )}
             >
-              <span className="openbitfun-update-notice__heading"
-                data-openbitfun-component="update" data-openbitfun-part="noticeTitle">
-                <ActionItem className="openbitfun-update-notice__title"
+              <span className="opc-update-notice__heading"
+                data-opc-component="update" data-opc-part="noticeTitle">
+                <ActionItem className="opc-update-notice__title"
                   aria-label={t('update.openReleaseNotes', { title })}
                   aria-haspopup="dialog" data-testid="app-update-release-notes"
                   metadata={<Icon name="chevron-right" size="xs" />}
                   onClick={state.openReleaseNotes}>
-                  <OverflowText className="openbitfun-update-notice__title-text">{title}</OverflowText>
+                  <OverflowText className="opc-update-notice__title-text">{title}</OverflowText>
                 </ActionItem>
               </span>
             </CardHeader>
           </div>
         </div>
-        <CardBody className="openbitfun-update-notice__body">
+        <CardBody className="opc-update-notice__body">
           {introduction ? (
-            <OverflowText as="p" lines={notice === 'error' ? 1 : 3} className="openbitfun-update-notice__introduction"
+            <OverflowText as="p" lines={notice === 'error' ? 1 : 3} className="opc-update-notice__introduction"
               data-testid="app-update-introduction"
-              data-openbitfun-component="update" data-openbitfun-part="subtitle">
+              data-opc-component="update" data-opc-part="subtitle">
               {introduction}
             </OverflowText>
           ) : (
-            <div className="openbitfun-update-notice__empty-introduction" aria-hidden="true"
+            <div className="opc-update-notice__empty-introduction" aria-hidden="true"
               data-testid="app-update-release-artwork"
-              data-openbitfun-component="update" data-openbitfun-part="releaseArtwork">
-              <OpenBitFunMark className="openbitfun-update-notice__brand-mark" />
+              data-opc-component="update" data-opc-part="releaseArtwork">
+              <OpenBitFunMark className="opc-update-notice__brand-mark" />
             </div>
           )}
-          {notice === 'error' && <div className="openbitfun-update-notice__feedback">
-            <p className="openbitfun-update-notice__message" role="status" aria-live="polite"
-              data-openbitfun-component="update" data-openbitfun-part="subtitle">
-              <span className="openbitfun-update-notice__status-icon" aria-hidden="true"
-                data-openbitfun-component="update" data-openbitfun-part="leadIcon">
+          {notice === 'error' && <div className="opc-update-notice__feedback">
+            <p className="opc-update-notice__message" role="status" aria-live="polite"
+              data-opc-component="update" data-opc-part="subtitle">
+              <span className="opc-update-notice__status-icon" aria-hidden="true"
+                data-opc-component="update" data-opc-part="leadIcon">
                 <Icon name="info" size="sm" tone="danger" />
               </span>
               <OverflowText lines={2}>{message}</OverflowText>
             </p>
           </div>}
           {notice === 'downloading' && (
-            <div className="openbitfun-update-progress__bar openbitfun-update-notice__progress"
+            <div className="opc-update-progress__bar opc-update-notice__progress"
               role="progressbar" aria-label={t('update.downloadingTitle')}
               aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent ?? undefined}
-              data-openbitfun-component="update" data-openbitfun-part="progressBar">
+              data-opc-component="update" data-opc-part="progressBar">
               <div
-                className={'openbitfun-update-progress__fill' + (percent == null ? ' openbitfun-update-progress__fill--indeterminate' : '')}
+                className={'opc-update-progress__fill' + (percent == null ? ' opc-update-progress__fill--indeterminate' : '')}
                 style={percent == null ? undefined : { transform: `scaleX(${percent / 100})` }}
-                data-openbitfun-component="update" data-openbitfun-part="progressFill"
-                data-openbitfun-state={percent == null ? 'indeterminate' : undefined} />
+                data-opc-component="update" data-opc-part="progressFill"
+                data-opc-state={percent == null ? 'indeterminate' : undefined} />
             </div>
           )}
         </CardBody>
         {notice !== 'downloading' && (
-          <div className="openbitfun-update-notice__footer" data-openbitfun-component="update" data-openbitfun-part="actions">
-            <CardFooter align={notice === 'available' ? 'between' : 'end'} className="openbitfun-update-notice__actions">
+          <div className="opc-update-notice__footer" data-opc-component="update" data-opc-part="actions">
+            <CardFooter align={notice === 'available' ? 'between' : 'end'} className="opc-update-notice__actions">
               {notice === 'available' && version && (
-                <Button data-testid="app-update-skip" className="openbitfun-update-notice__action" size="sm" variant="outline" onClick={() => state.skipVersion(version)}>
+                <Button data-testid="app-update-skip" className="opc-update-notice__action" size="sm" variant="outline" onClick={() => state.skipVersion(version)}>
                   {t('update.skipVersion')}
                 </Button>
               )}
-              {notice === 'available' && <Button data-testid="app-update-later" className="openbitfun-update-notice__action" size="sm" variant="fill" onClick={state.dismissNotice}>
+              {notice === 'available' && <Button data-testid="app-update-later" className="opc-update-notice__action" size="sm" variant="fill" onClick={state.dismissNotice}>
                 {t('update.restartLater')}
               </Button>}
-              {notice === 'available' && <Button data-testid="app-update-download" className="openbitfun-update-notice__action" size="sm" variant="primary" onClick={event => startDownload(event, Boolean(state.version), version ?? undefined)}>
+              {notice === 'available' && <Button data-testid="app-update-download" className="opc-update-notice__action" size="sm" variant="primary" onClick={event => startDownload(event, Boolean(state.version), version ?? undefined)}>
                 {t('update.downloadUpdate')}
               </Button>}
-              {notice === 'error' && <Button className="openbitfun-update-notice__action" size="sm" variant="primary" onClick={event => {
+              {notice === 'error' && <Button className="opc-update-notice__action" size="sm" variant="primary" onClick={event => {
                 if (isUpdateVersionChangedError(state.error)) {
                   state.openDetails();
                   void state.checkForUpdates();

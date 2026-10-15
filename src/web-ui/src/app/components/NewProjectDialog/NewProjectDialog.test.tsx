@@ -62,7 +62,7 @@ describe('NewProjectDialog composition', () => {
     await act(async () => { button('newProject.select').click(); });
     expect(pickDirectory).toHaveBeenCalledWith({ title: 'newProject.selectParentDirectory', defaultPath: '/srv' });
     enterName('project');
-    expect(document.querySelector('[data-openbitfun-part="preview"]')?.textContent).toContain('/srv/remote workspace/project');
+    expect(document.querySelector('[data-opc-part="preview"]')?.textContent).toContain('/srv/remote workspace/project');
     await act(async () => { button('newProject.create').click(); });
     expect(confirm).toHaveBeenCalledWith('/srv/remote workspace', 'project');
     expect(close).toHaveBeenCalledTimes(1);

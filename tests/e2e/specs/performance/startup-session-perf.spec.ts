@@ -1040,7 +1040,7 @@ async function readLongSessionViewportState(expectedLatestTurnId?: string | null
       ) ?? [])
       : [];
     const scrollerRect = scroller?.getBoundingClientRect() ?? null;
-    const inputOverlay = document.querySelector<HTMLElement>('.openbitfun-chat-input-drop-zone');
+    const inputOverlay = document.querySelector<HTMLElement>('.opc-chat-input-drop-zone');
     const inputOverlayRect = inputOverlay?.getBoundingClientRect() ?? null;
     const historyPlaceholder = document.querySelector<HTMLElement>(
       '.modern-flowchat-container__messages .history-session-placeholder',
@@ -1426,8 +1426,8 @@ async function startLongSessionViewportTimelineRecorder(
     const LOADING_SURFACE_SELECTORS = [
       '.modern-flowchat-container__history-overlay',
       '.history-session-placeholder',
-      '.openbitfun-scene-viewport__lazy-fallback',
-      '.openbitfun-assistant-scene__loading',
+      '.opc-scene-viewport__lazy-fallback',
+      '.opc-assistant-scene__loading',
       '[role="status"][aria-busy="true"]',
     ];
     const OBSERVED_MUTATION_SELECTOR = [
@@ -1556,8 +1556,8 @@ async function startLongSessionViewportTimelineRecorder(
       Boolean(
         element.closest('.modern-flowchat-container__history-overlay') ||
         element.closest('.history-session-placeholder') ||
-        element.closest('.openbitfun-scene-viewport__lazy-fallback') ||
-        element.closest('.openbitfun-assistant-scene__loading') ||
+        element.closest('.opc-scene-viewport__lazy-fallback') ||
+        element.closest('.opc-assistant-scene__loading') ||
         element.closest('[role="status"][aria-busy="true"]'),
       );
 
@@ -1630,7 +1630,7 @@ async function startLongSessionViewportTimelineRecorder(
         };
       }
 
-      if (element.closest('.openbitfun-chat-input-drop-zone')) {
+      if (element.closest('.opc-chat-input-drop-zone')) {
         return {
           category: 'input-overlay',
           itemType: null,
@@ -1822,7 +1822,7 @@ async function startLongSessionViewportTimelineRecorder(
       const atMs = performance.now();
       const messages = document.querySelector<HTMLElement>('.modern-flowchat-container__messages');
       const container = document.querySelector<HTMLElement>('.modern-flowchat-container');
-      const inputOverlay = document.querySelector<HTMLElement>('.openbitfun-chat-input-drop-zone');
+      const inputOverlay = document.querySelector<HTMLElement>('.opc-chat-input-drop-zone');
       const placeholders = Array.from(
         messages?.querySelectorAll<HTMLElement>('.history-session-placeholder') ?? []
       );
@@ -1974,7 +1974,7 @@ async function startLongSessionViewportTimelineRecorder(
           style.animationPlayState,
         ].join(':'))
         .join(',');
-      const inputOverlay = document.querySelector<HTMLElement>('.openbitfun-chat-input-drop-zone');
+      const inputOverlay = document.querySelector<HTMLElement>('.opc-chat-input-drop-zone');
       const scrollerRect = scroller?.getBoundingClientRect() ?? null;
       const inputOverlayRect = inputOverlay?.getBoundingClientRect() ?? null;
       const historyPlaceholderRect = placeholders[0]?.getBoundingClientRect() ?? null;
@@ -2353,7 +2353,7 @@ async function startLongSessionViewportTimelineRecorder(
       const scroller = root?.querySelector<HTMLElement>(
         '[data-flowchat-scroller]',
       ) ?? null;
-      const inputOverlay = document.querySelector<HTMLElement>('.openbitfun-chat-input-drop-zone');
+      const inputOverlay = document.querySelector<HTMLElement>('.opc-chat-input-drop-zone');
       const scrollerRect = scroller?.getBoundingClientRect() ?? null;
       const inputOverlayRect = inputOverlay?.getBoundingClientRect() ?? null;
       const historyPlaceholder = document.querySelector<HTMLElement>(
@@ -3942,7 +3942,7 @@ async function readActiveSessionNavId(): Promise<string | null> {
     const active = document.querySelector<HTMLElement>(
       '[data-testid="session-nav-item"].is-active, ' +
       '[data-testid="nav-session-item"].is-active, ' +
-      '.openbitfun-nav-panel__inline-item.is-active[data-session-id]',
+      '.opc-nav-panel__inline-item.is-active[data-session-id]',
     );
     return active?.getAttribute('data-session-id') ?? null;
   });
@@ -4512,7 +4512,7 @@ async function clearLongSessionPendingQueue(sessionId: string): Promise<void> {
 
   await browser.waitUntil(async () => {
     const pendingQueueCount = await browser.execute(() =>
-      document.querySelectorAll('[data-testid="pending-queue-panel"] .openbitfun-pending-queue-panel__item').length
+      document.querySelectorAll('[data-testid="pending-queue-panel"] .opc-pending-queue-panel__item').length
     );
     return pendingQueueCount === 0;
   }, {
@@ -4527,7 +4527,7 @@ async function setLongSessionChatInputValue(message: string): Promise<void> {
     const input = document.querySelector<HTMLElement>(
       '.rich-text-input[contenteditable="true"], ' +
       '[data-testid="chat-input-textarea"], ' +
-      '.openbitfun-chat-input [contenteditable="true"]',
+      '.opc-chat-input [contenteditable="true"]',
     );
     if (!input) {
       throw new Error('Chat input was not found');
@@ -4550,7 +4550,7 @@ async function setLongSessionChatInputValue(message: string): Promise<void> {
   }, message);
 
   await browser.waitUntil(async () => {
-    const button = await $('[data-testid="chat-input-send-btn"], button.openbitfun-chat-input__send-button');
+    const button = await $('[data-testid="chat-input-send-btn"], button.opc-chat-input__send-button');
     if (!await button.isExisting()) {
       return false;
     }
@@ -4565,7 +4565,7 @@ async function setLongSessionChatInputValue(message: string): Promise<void> {
 }
 
 async function clickLongSessionSendButton(): Promise<void> {
-  const button = await $('[data-testid="chat-input-send-btn"], button.openbitfun-chat-input__send-button');
+  const button = await $('[data-testid="chat-input-send-btn"], button.opc-chat-input__send-button');
   await button.waitForExist({ timeout: 3000 });
   await button.click();
   await browser.execute(() => {

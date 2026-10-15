@@ -218,16 +218,16 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
       <div
         {...props}
         className={classNames(styles.root, styles.statusOnly, className)}
-        data-openbitfun-component="ask-user"
-        data-openbitfun-part="root"
-        data-openbitfun-state={state}
+        data-opc-component="ask-user"
+        data-opc-part="root"
+        data-opc-state={state}
         ref={ref}
         role={state === "error" ? "alert" : "status"}
       >
-        <span className={styles.statusIcon} data-openbitfun-icon-slot="true" data-openbitfun-part="status-icon">
+        <span className={styles.statusIcon} data-opc-icon-slot="true" data-opc-part="status-icon">
           <StatusIcon state={state} />
         </span>
-        <span className={styles.statusText} data-openbitfun-part="status-label">
+        <span className={styles.statusText} data-opc-part="status-label">
           {statusLabel}
         </span>
       </div>
@@ -239,24 +239,24 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
       <div
         {...props}
         className={classNames(styles.answerMessage, className)}
-        data-openbitfun-component="ask-user"
-        data-openbitfun-part="root"
-        data-openbitfun-state={state}
+        data-opc-component="ask-user"
+        data-opc-part="root"
+        data-opc-state={state}
         ref={ref}
       >
-        <dl className={styles.answerList} data-openbitfun-part="answers">
+        <dl className={styles.answerList} data-opc-part="answers">
           {questions.map((question) => (
-            <div className={styles.answerPair} data-openbitfun-part="answer-pair" key={question.id}>
-              <dt className={styles.answeredQuestion} data-openbitfun-part="answered-question">
+            <div className={styles.answerPair} data-opc-part="answer-pair" key={question.id}>
+              <dt className={styles.answeredQuestion} data-opc-part="answered-question">
                 {question.prompt}
               </dt>
-              <dd className={styles.answer} data-openbitfun-part="answer">
+              <dd className={styles.answer} data-opc-part="answer">
                 {(answers[question.id] ?? []).map((value) => {
                   const answer = value === question.customOption?.value
                     ? customAnswers[question.id]?.trim()
                     : question.options.find((option) => option.value === value)?.label ?? value;
                   if (answer === undefined || answer === null || answer === "") return null;
-                  return <div data-openbitfun-part="answer-value" key={value}>{answer}</div>;
+                  return <div data-opc-part="answer-value" key={value}>{answer}</div>;
                 })}
               </dd>
             </div>
@@ -276,7 +276,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
   const headerIcon = (
     <Icon
       className={classNames(styles.headerIcon, disclosure?.skipped && styles.skippedIcon)}
-      data-openbitfun-part="header-icon"
+      data-opc-part="header-icon"
       name="message-circle-question"
       size="md"
     />
@@ -286,12 +286,12 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
     <div
       {...props}
       className={classNames(styles.root, className)}
-      data-openbitfun-component="ask-user"
-      data-openbitfun-expanded={resolvedExpanded ? "true" : "false"}
-      data-openbitfun-has-summary={hasSummary ? "true" : "false"}
-      data-openbitfun-paginated={paginated ? "true" : "false"}
-      data-openbitfun-part="root"
-      data-openbitfun-state={state}
+      data-opc-component="ask-user"
+      data-opc-expanded={resolvedExpanded ? "true" : "false"}
+      data-opc-has-summary={hasSummary ? "true" : "false"}
+      data-opc-paginated={paginated ? "true" : "false"}
+      data-opc-part="root"
+      data-opc-state={state}
       data-disabled={disabled ? "true" : "false"}
       ref={ref}
     >
@@ -300,7 +300,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
           aria-controls={detailsId}
           aria-expanded={false}
           className={styles.summaryButton}
-          data-openbitfun-part="disclosure"
+          data-opc-part="disclosure"
           onClick={() => setExpanded(true)}
           type="button"
         >
@@ -308,7 +308,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
             {headerIcon}
             <OverflowText>{disclosure.label}</OverflowText>
           </span>
-          <span className={styles.summaryAction} data-openbitfun-icon-slot="true">
+          <span className={styles.summaryAction} data-opc-icon-slot="true">
             <Icon name="chevron-down" size="md" />
           </span>
         </button>
@@ -317,55 +317,55 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
           aria-controls={detailsId}
           aria-expanded={resolvedExpanded}
           className={styles.summaryButton}
-          data-openbitfun-part="summary"
+          data-opc-part="summary"
           onClick={() => setExpanded(!resolvedExpanded)}
           type="button"
         >
           <span className={styles.summaryLeading}>
-            <span className={styles.summaryIcon} data-openbitfun-icon-slot="true" data-openbitfun-part="summary-icon">
+            <span className={styles.summaryIcon} data-opc-icon-slot="true" data-opc-part="summary-icon">
               <Icon name="check-circle" size="md" />
             </span>
             <span className={styles.summaryCopy}>
-              <span className={styles.summaryLabel} data-openbitfun-part="summary-label">
+              <span className={styles.summaryLabel} data-opc-part="summary-label">
                 {summaryLabel}
               </span>
               {summaryDetail !== undefined && summaryDetail !== null && (
                 <>
                   <span aria-hidden="true" className={styles.summaryArrow}>→</span>
-                  <OverflowText className={styles.summaryDetail} data-openbitfun-part="summary-detail">
+                  <OverflowText className={styles.summaryDetail} data-opc-part="summary-detail">
                     {summaryDetail}
                   </OverflowText>
                 </>
               )}
             </span>
           </span>
-          <span className={styles.summaryAction} data-openbitfun-icon-slot="true" data-openbitfun-part="summary-action">
+          <span className={styles.summaryAction} data-opc-icon-slot="true" data-opc-part="summary-action">
             {resolvedExpanded
               ? <Icon name="chevron-up" size="md" />
               : <Icon name="chevron-down" size="md" />}
           </span>
         </button>
       ) : paginated && navigation ? (
-        <div className={styles.navigation} data-openbitfun-part="navigation">
-          <div className={styles.header} data-disclosure={disclosure ? "true" : undefined} data-openbitfun-part="header">
+        <div className={styles.navigation} data-opc-part="navigation">
+          <div className={styles.header} data-disclosure={disclosure ? "true" : undefined} data-opc-part="header">
             {disclosure && (
               <button
                 aria-controls={detailsId}
                 aria-expanded={true}
                 aria-label={disclosure.collapseLabel}
                 className={styles.headerToggle}
-                data-openbitfun-part="collapse"
+                data-opc-part="collapse"
                 onClick={() => setExpanded(false)}
                 type="button"
               />
             )}
             <span className={styles.headerLeading}>
               {headerIcon}
-              <span className={styles.questionCount} data-openbitfun-part="question-count" id={`${instanceId}-progress`}>
+              <span className={styles.questionCount} data-opc-part="question-count" id={`${instanceId}-progress`}>
                 {navigation.progressLabel(activeQuestionIndex + 1, questions.length)}
               </span>
               {activeQuestion?.label !== undefined && activeQuestion.label !== null && activeQuestion.label !== "" && (
-                <OverflowText className={styles.headerSubject} data-openbitfun-part="question-label">
+                <OverflowText className={styles.headerSubject} data-opc-part="question-label">
                   {activeQuestion.label}
                 </OverflowText>
               )}
@@ -373,7 +373,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
             <span className={styles.headerTrailing}>
               {headerTrailing}
               {activeQuestionIndex > 0 && (
-                <span data-openbitfun-part="back">
+                <span data-opc-part="back">
                   <Button
                     disabled={interactionDisabled}
                     leadingIcon={<Icon name="arrow-left" size="sm" />}
@@ -386,7 +386,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
                 </span>
               )}
               {disclosure && (
-                <span className={styles.summaryAction} data-openbitfun-icon-slot="true">
+                <span className={styles.summaryAction} data-opc-icon-slot="true">
                   <Icon name="chevron-up" size="md" />
                 </span>
               )}
@@ -395,20 +395,20 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
           <progress
             aria-labelledby={`${instanceId}-progress`}
             className={styles.progress}
-            data-openbitfun-part="progress"
+            data-opc-part="progress"
             max={questions.length}
             value={activeQuestionIndex + 1}
           />
         </div>
       ) : header !== undefined && header !== null || disclosure ? (
-        <div className={styles.header} data-disclosure={disclosure ? "true" : undefined} data-openbitfun-part="header">
+        <div className={styles.header} data-disclosure={disclosure ? "true" : undefined} data-opc-part="header">
           {disclosure && (
             <button
               aria-controls={detailsId}
               aria-expanded={true}
               aria-label={disclosure.collapseLabel}
               className={styles.headerToggle}
-              data-openbitfun-part="collapse"
+              data-opc-part="collapse"
               onClick={() => setExpanded(false)}
               type="button"
             />
@@ -419,7 +419,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
           </span>
           {headerTrailing !== undefined && <span className={styles.headerTrailing}>{headerTrailing}</span>}
           {disclosure && (
-            <span className={styles.summaryAction} data-openbitfun-icon-slot="true">
+            <span className={styles.summaryAction} data-opc-icon-slot="true">
               <Icon name="chevron-up" size="md" />
             </span>
           )}
@@ -429,13 +429,13 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
       <div
         aria-hidden={hasSummary && !resolvedExpanded ? true : undefined}
         className={styles.details}
-        data-openbitfun-part="details"
+        data-opc-part="details"
         hidden={Boolean(disclosure && !resolvedExpanded)}
         id={detailsId}
       >
         {(!disclosure || resolvedExpanded) && (
         <div className={styles.detailsInner}>
-          <div className={styles.body} data-openbitfun-part="body">
+          <div className={styles.body} data-opc-part="body">
             {questions.map((question, questionIndex) => {
               if (paginated && questionIndex !== activeQuestionIndex) return null;
               const multiple = question.selectionMode === "multiple";
@@ -450,24 +450,24 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
                 <fieldset
                   aria-describedby={question.description ? `${instanceId}-${questionIndex}-hint` : undefined}
                   className={styles.question}
-                  data-openbitfun-part="question"
+                  data-opc-part="question"
                   disabled={interactionDisabled}
                   key={question.id}
                 >
                   <legend
                     className={styles.prompt}
-                    data-openbitfun-part="prompt"
+                    data-opc-part="prompt"
                     ref={paginated ? promptRef : undefined}
                     tabIndex={paginated ? -1 : undefined}
                   >
                     {question.prompt}
                   </legend>
                   {question.description && (
-                    <div className={styles.questionDescription} data-openbitfun-part="question-description" id={`${instanceId}-${questionIndex}-hint`}>
+                    <div className={styles.questionDescription} data-opc-part="question-description" id={`${instanceId}-${questionIndex}-hint`}>
                       {question.description}
                     </div>
                   )}
-                  <div className={styles.options} data-openbitfun-part="options">
+                  <div className={styles.options} data-opc-part="options">
                     {question.options.map((option, optionIndex) => {
                       const optionId = `${instanceId}-${questionIndex}-${optionIndex}`;
                       const selected = selectedValues.includes(option.value);
@@ -475,7 +475,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
                       return (
                         <div
                           className={styles.option}
-                          data-openbitfun-part="option"
+                          data-opc-part="option"
                           data-selected={selected ? "true" : "false"}
                           key={option.value}
                         >
@@ -495,11 +495,11 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
                             value={option.value}
                           >
                             <span className={styles.optionCopy}>
-                              <span className={styles.optionLabel} data-openbitfun-part="label">
+                              <span className={styles.optionLabel} data-opc-part="label">
                                 {option.label}
                               </span>
                               {option.description !== undefined && option.description !== null && (
-                                <span className={styles.optionDescription} data-openbitfun-part="description">
+                                <span className={styles.optionDescription} data-opc-part="description">
                                   {option.description}
                                 </span>
                               )}
@@ -519,7 +519,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
                       return (
                         <div
                           className={styles.option}
-                          data-openbitfun-part="option"
+                          data-opc-part="option"
                           data-custom="true"
                           data-selected={customSelected ? "true" : "false"}
                         >
@@ -539,20 +539,20 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
                             value={customOption.value}
                           >
                             <span className={styles.optionCopy}>
-                              <span className={styles.optionLabel} data-openbitfun-part="label">
+                              <span className={styles.optionLabel} data-opc-part="label">
                                 {customOption.label}
                               </span>
                               {!customSelected
                                 && customOption.description !== undefined
                                 && customOption.description !== null && (
-                                  <span className={styles.optionDescription} data-openbitfun-part="description">
+                                  <span className={styles.optionDescription} data-opc-part="description">
                                     {customOption.description}
                                   </span>
                                 )}
                             </span>
                           </SelectionControl>
                           {customSelected && (
-                            <span className={styles.customInput} data-openbitfun-part="custom-input">
+                            <span className={styles.customInput} data-opc-part="custom-input">
                               <Input
                                 aria-label={inputLabel}
                                 autoFocus={!interactionDisabled}
@@ -598,13 +598,13 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
           {showFeedback && (
             <div
               className={styles.feedback}
-              data-openbitfun-part="feedback"
+              data-opc-part="feedback"
               role={state === "error" ? "alert" : "status"}
             >
-              <span className={styles.statusIcon} data-openbitfun-icon-slot="true" data-openbitfun-part="status-icon">
+              <span className={styles.statusIcon} data-opc-icon-slot="true" data-opc-part="status-icon">
                 <StatusIcon state={state} />
               </span>
-              <span className={styles.statusText} data-openbitfun-part="status-label">
+              <span className={styles.statusText} data-opc-part="status-label">
                 {statusLabel}
               </span>
             </div>
@@ -614,9 +614,9 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
       </div>
 
       {showFooter && resolvedExpanded && (
-        <div className={styles.footer} data-openbitfun-part="footer">
+        <div className={styles.footer} data-opc-part="footer">
           {paginated && navigation && activeQuestion?.selectionMode === "multiple" && (
-            <span aria-live="polite" className={styles.counter} data-openbitfun-part="selection-count">
+            <span aria-live="polite" className={styles.counter} data-opc-part="selection-count">
               {navigation.selectionLabel(
                 selectedCount,
                 activeQuestion.options.length + (activeQuestion.customOption ? 1 : 0),
@@ -624,17 +624,17 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
             </span>
           )}
           {statusLabel !== undefined && statusLabel !== null && !showFeedback && (
-            <span className={styles.status} data-openbitfun-part="status" role="status">
-              <span className={styles.statusIcon} data-openbitfun-icon-slot="true" data-openbitfun-part="status-icon">
+            <span className={styles.status} data-opc-part="status" role="status">
+              <span className={styles.statusIcon} data-opc-icon-slot="true" data-opc-part="status-icon">
                 <StatusIcon state={state} />
               </span>
-              <span className={styles.statusText} data-openbitfun-part="status-label">
+              <span className={styles.statusText} data-opc-part="status-label">
                 {statusLabel}
               </span>
             </span>
           )}
           {paginated && navigation && !isLastQuestion ? (
-            <span className={styles.submit} data-openbitfun-part="next">
+            <span className={styles.submit} data-opc-part="next">
               <Button
                 disabled={interactionDisabled || !currentAnswered}
                 onClick={() => goToQuestion(activeQuestionIndex + 1)}
@@ -645,7 +645,7 @@ export const AskUser = forwardRef<HTMLDivElement, AskUserProps>(function AskUser
               </Button>
             </span>
           ) : submitLabel !== undefined && submitLabel !== null && (
-            <span className={styles.submit} data-openbitfun-part="submit">
+            <span className={styles.submit} data-opc-part="submit">
               <Button
                 disabled={interactionDisabled || submitDisabled}
                 loading={state === "submitting"}

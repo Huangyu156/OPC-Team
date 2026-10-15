@@ -1534,7 +1534,7 @@ mod review_path_tests {
     use std::{fs, path::Path};
 
     fn git(root: &Path, args: &[&str], commit_date: Option<&str>) {
-        let mut command = openbitfun_services_core::process_manager::create_command("git");
+        let mut command = opc_services_core::process_manager::create_command("git");
         command.current_dir(root).args(args);
         if let Some(commit_date) = commit_date {
             command

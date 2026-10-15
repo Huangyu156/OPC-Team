@@ -288,7 +288,7 @@ fn derive_legacy_v2_key(
 }
 
 fn derive_current_key(binding: &MachineBinding, local_secret: &[u8; 32]) -> [u8; 32] {
-    let product_id = openbitfun_services_core::product_identity::product_id();
+    let product_id = opc_services_core::product_identity::product_id();
     derive_machine_domain_key(
         binding,
         format!("{product_id}::session_store::v1|").as_bytes(),

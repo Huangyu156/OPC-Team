@@ -24,7 +24,7 @@
 //   All imports are resolved and inlined by esbuild in a single pass.
 //
 // After rebuilding, bump the version in meta.json, bundle.json, and builtin.rs
-// (all three must match), then run `cargo check -p openbitfun-product-domains`.
+// (all three must match), then run `cargo check -p opc-product-domains`.
 // Restart desktop:dev to pick up the new bundle (Rust include_str! re-reads on
 // recompile, which desktop:dev triggers automatically for .rs changes — but
 // since only the embedded JS content changed, a touch to builtin.rs or a Rust

@@ -22,10 +22,10 @@ use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::{Local, SecondsFormat, TimeZone, Utc};
 use log::{debug, error, info, warn};
-use openbitfun_agent_runtime::scheduled_job::ScheduledJobEnqueueFailureAction;
-use openbitfun_agent_runtime::sdk::AgentRuntime;
-use openbitfun_runtime_ports::{AgentDialogPrependedReminder, AgentDialogTurnRequest};
-use openbitfun_services_core::exclusive_file_lease::{ExclusiveFileLease, ExclusiveFileLeaseError};
+use opc_agent_runtime::scheduled_job::ScheduledJobEnqueueFailureAction;
+use opc_agent_runtime::sdk::AgentRuntime;
+use opc_runtime_ports::{AgentDialogPrependedReminder, AgentDialogTurnRequest};
+use opc_services_core::exclusive_file_lease::{ExclusiveFileLease, ExclusiveFileLeaseError};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -1344,7 +1344,7 @@ fn cron_enqueue_error_is_missing_session(error: &str) -> bool {
 mod tests {
     use super::*;
     use crate::service::cron::{CronJobState, CRON_JOBS_VERSION};
-    use openbitfun_core_types::product_identity::hidden_data_directory;
+    use opc_core_types::product_identity::hidden_data_directory;
 
     fn sample_job(schedule: CronSchedule) -> CronJob {
         CronJob {

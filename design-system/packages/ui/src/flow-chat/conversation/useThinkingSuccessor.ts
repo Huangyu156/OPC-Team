@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect, useRef, useState, type RefObject } from 're
 import type { ThinkingContinuationResolver } from './useThinkingAnnotation';
 
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
-const PRIORITY = '[data-thinking-handoff-priority="immediate"], [data-openbitfun-status="error"], [data-openbitfun-status="pending_confirmation"], [role="alert"], [role="alertdialog"]';
+const PRIORITY = '[data-thinking-handoff-priority="immediate"], [data-opc-status="error"], [data-opc-status="pending_confirmation"], [role="alert"], [role="alertdialog"]';
 type Phase = 'holding' | 'closing' | 'released';
 
 interface Options {
@@ -107,7 +107,7 @@ export function useThinkingSuccessor(rootRef: RefObject<HTMLDivElement>, options
       observer.disconnect();
       if (latest.current.visuallyStreaming || armed || held) {
         observer.observe(parent, { childList: true, subtree: true, attributes: true,
-          attributeFilter: ['hidden', 'inert', 'data-thinking-handoff-priority', 'data-openbitfun-status', 'role'] });
+          attributeFilter: ['hidden', 'inert', 'data-thinking-handoff-priority', 'data-opc-status', 'role'] });
         // A collection can close above a memoized member without rendering it.
         for (let ancestor = parent.parentElement; ancestor; ancestor = ancestor.parentElement) {
           observer.observe(ancestor, { attributes: true, attributeFilter: ['hidden', 'inert'] });
@@ -117,7 +117,7 @@ export function useThinkingSuccessor(rootRef: RefObject<HTMLDivElement>, options
         }
         if (resolved?.observeSubtree && resolved.observeSubtree !== parent) {
           observer.observe(resolved.observeSubtree, { childList: true, subtree: true, attributes: true,
-            attributeFilter: ['hidden', 'data-thinking-handoff-priority', 'data-openbitfun-status', 'role'] });
+            attributeFilter: ['hidden', 'data-thinking-handoff-priority', 'data-opc-status', 'role'] });
         }
       }
       if (next !== target) bypass = false;

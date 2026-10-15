@@ -12,7 +12,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
 use chrono::{DateTime, Utc};
-use openbitfun_services_core::json_store::{JsonFileStore, JsonFileStoreError};
+use opc_services_core::json_store::{JsonFileStore, JsonFileStoreError};
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use thiserror::Error;
@@ -44,7 +44,7 @@ pub use device_controller::{
     submit_device as submit_device_dispatch, sync_device_result as sync_device_dispatch_result,
     DeviceDispatchRpc,
 };
-pub use openbitfun_services_core::dispatch_contract::{
+pub use opc_services_core::dispatch_contract::{
     DispatchAccountDaemonIdentity, DispatchAccountDaemonProvisionRequest,
     DISPATCH_ACCOUNT_DAEMON_PROVISIONING_SCHEMA_VERSION,
 };
@@ -79,9 +79,7 @@ struct DispatchTargetJobEntry {
     workspace_path: String,
     title: String,
     #[serde(default)]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     agent_type: Option<String>,
     #[serde(default)]
     approval_policy: Option<String>,
@@ -107,9 +105,7 @@ pub struct OutboundDispatchRecord {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub title: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub agent_type: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub approval_policy: Option<String>,
@@ -740,7 +736,7 @@ async fn adopt_target_jobs(
         ) {
             anyhow::bail!("dispatch target returned an invalid job state");
         }
-        openbitfun_agent_runtime::session_control::validate_session_id(&entry.session_id)
+        opc_agent_runtime::session_control::validate_session_id(&entry.session_id)
             .map_err(anyhow::Error::msg)?;
         let workspace_path = entry.workspace_path.trim();
         if !target_workspace_path_is_absolute(workspace_path) {

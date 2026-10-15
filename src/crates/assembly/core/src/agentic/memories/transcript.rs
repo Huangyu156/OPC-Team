@@ -549,7 +549,7 @@ mod tests {
         let mut round = base_round();
         round.tool_items.push(ToolItemData {
             id: "tool_1".to_string(),
-            tool_name: openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
+            tool_name: opc_agent_tools::CALL_DEFERRED_TOOL_NAME.to_string(),
             tool_call: ToolCallData {
                 id: "call_1".to_string(),
                 input: json!({
@@ -599,7 +599,7 @@ mod tests {
         .unwrap();
 
         assert!(transcript.contains("\"function\":{\"name\":\"WebFetch\""));
-        assert!(!transcript.contains(openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME));
+        assert!(!transcript.contains(opc_agent_tools::CALL_DEFERRED_TOOL_NAME));
         assert!(transcript.contains("https://example.test/preferences"));
         assert!(transcript.contains("\"content\":\"[external tool result cleared]\""));
         assert!(

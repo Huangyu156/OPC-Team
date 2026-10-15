@@ -1,6 +1,6 @@
 use std::sync::{Arc, Barrier};
 
-use openbitfun_services_core::runtime_ownership::{
+use opc_services_core::runtime_ownership::{
     RuntimeDeployment, RuntimeOwnershipKey, WorkspaceRuntimeOwnership,
 };
 use tempfile::tempdir;

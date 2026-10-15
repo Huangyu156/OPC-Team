@@ -1,15 +1,15 @@
 //! Weixin iLink bot orchestration for Remote Connect.
 //!
-//! Provider HTTP/CDN/QR/message parsing lives in `openbitfun-services-integrations`.
+//! Provider HTTP/CDN/QR/message parsing lives in `opc-services-integrations`.
 //! This module keeps product pairing, command routing, persistence, and agent
 //! turn orchestration.
 
 use anyhow::{anyhow, Result};
 use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
 use log::{debug, error, info, warn};
-use openbitfun_services_integrations::remote_connect::bot::weixin as weixin_provider;
-use openbitfun_services_integrations::remote_connect::bot::weixin::WeixinProviderClient;
-pub use openbitfun_services_integrations::remote_connect::bot::weixin::{
+use opc_services_integrations::remote_connect::bot::weixin as weixin_provider;
+use opc_services_integrations::remote_connect::bot::weixin::WeixinProviderClient;
+pub use opc_services_integrations::remote_connect::bot::weixin::{
     WeixinConfig, WeixinQrPollResponse, WeixinQrPollStatus, WeixinQrStartResponse,
     MAX_INBOUND_IMAGES, MAX_WEIXIN_FILE_BYTES, WEIXIN_SESSION_EXPIRED_ERRCODE,
 };
@@ -30,7 +30,7 @@ use super::{
 use crate::agentic::coordination::get_global_coordinator;
 use crate::agentic::events::{AgenticEvent, EventSubscriber};
 use crate::service::remote_connect::remote_server::ImageAttachment;
-use openbitfun_agent_runtime::event_bus::EventSubscriberResult;
+use opc_agent_runtime::event_bus::EventSubscriberResult;
 
 const LONG_POLL_TIMEOUT_SECS: u64 = 36;
 
@@ -87,7 +87,7 @@ fn pending_matches_binding(state: &BotChatState, item: &PendingOutbound) -> bool
 }
 
 fn append_remote_push_notice(result: &mut HandleResult, language: super::BotLanguage) {
-    let notice = openbitfun_services_integrations::remote_connect::bot::strings_for(language)
+    let notice = opc_services_integrations::remote_connect::bot::strings_for(language)
         .weixin_remote_push_unsupported;
     result.reply.push_str("\n\n");
     result.reply.push_str(notice);
@@ -151,9 +151,8 @@ fn settled_turn_text(mut poll: Value, turn_id: &str) -> Option<String> {
     // a partial overlay until its own subscriber sees the persistence fence.
     // Prefer the persisted record regardless of subscriber execution order.
     poll["active_turn"] = Value::Null;
-    let turn = openbitfun_services_integrations::remote_connect::bot::remote_turn::observe_turn(
-        &poll, turn_id,
-    )?;
+    let turn =
+        opc_services_integrations::remote_connect::bot::remote_turn::observe_turn(&poll, turn_id)?;
     (matches!(turn.status.as_str(), "done" | "completed") && turn.error.is_none())
         .then_some(turn.text)
 }
@@ -491,7 +490,7 @@ impl WeixinBot {
     /// Reads the assistant text of `turn_id` through the replay-safe turn
     /// projection the inbound reply path already relies on.
     async fn read_turn_text(&self, session_id: &str, turn_id: &str) -> String {
-        use openbitfun_services_integrations::remote_connect::{
+        use opc_services_integrations::remote_connect::{
             handle_remote_poll_command, RemoteCommand,
         };
 
@@ -1729,9 +1728,8 @@ mod tests {
                 menu: super::super::MenuView::plain("Device selected"),
             };
             append_remote_push_notice(&mut result, language);
-            let notice =
-                openbitfun_services_integrations::remote_connect::bot::strings_for(language)
-                    .weixin_remote_push_unsupported;
+            let notice = opc_services_integrations::remote_connect::bot::strings_for(language)
+                .weixin_remote_push_unsupported;
             assert!(result.reply.contains(notice));
             assert!(result.menu.render_plain_text(language).contains(notice));
         }

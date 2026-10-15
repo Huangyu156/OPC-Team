@@ -13,9 +13,9 @@ use agent_client_protocol::{Client, ConnectionTo, Error, Result};
 use async_trait::async_trait;
 use dashmap::mapref::entry::Entry;
 use dashmap::DashMap;
-use openbitfun_agent_runtime::sdk::{AgentRuntime, PortErrorKind, RuntimeError};
-use openbitfun_core::product_runtime::CoreAgentRuntimeCompatibility;
-use openbitfun_core::util::errors::OpcTeamError;
+use opc_agent_runtime::sdk::{AgentRuntime, PortErrorKind, RuntimeError};
+use opc_core::product_runtime::CoreAgentRuntimeCompatibility;
+use opc_core::util::errors::OpcTeamError;
 
 use crate::server::{AcpRuntime, AcpServer};
 
@@ -39,7 +39,7 @@ pub struct OpcTeamAcpRuntime {
 #[derive(Clone)]
 pub(crate) struct AcpSessionState {
     pub(crate) acp_session_id: String,
-    pub(crate) openbitfun_session_id: String,
+    pub(crate) opc_session_id: String,
     /// Owning workspace record ID; the authoritative session workspace.
     pub(crate) workspace_id: String,
     /// ACP `cwd` operand, kept as the storage/IO projection of that workspace.
@@ -229,7 +229,7 @@ impl AcpRuntime for OpcTeamAcpRuntime {
                     ),
             )
             .agent_info(
-                Implementation::new("openbitfun-acp", env!("CARGO_PKG_VERSION")).title("OPC-Team"),
+                Implementation::new("opc-acp", env!("CARGO_PKG_VERSION")).title("OPC-Team"),
             ))
     }
 
@@ -291,8 +291,8 @@ impl AcpRuntime for OpcTeamAcpRuntime {
 mod tests {
     use agent_client_protocol::schema::ErrorCode;
     use dashmap::DashMap;
-    use openbitfun_agent_runtime::sdk::{PortError, PortErrorKind, RuntimeError};
-    use openbitfun_core::util::errors::OpcTeamError;
+    use opc_agent_runtime::sdk::{PortError, PortErrorKind, RuntimeError};
+    use opc_core::util::errors::OpcTeamError;
 
     use super::{AcpSessionTransition, OpcTeamAcpRuntime};
 

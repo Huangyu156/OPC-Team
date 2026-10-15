@@ -736,7 +736,7 @@ export function useFlowChatVirtualizer<T>({
     const changed = () => setFontRevision(value => value + 1);
     document.fonts?.addEventListener('loadingdone', changed);
     const observer = new MutationObserver(changed);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class', 'data-openbitfun-appearance-revision'] });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['style', 'class', 'data-opc-appearance-revision'] });
     return () => { observer.disconnect(); document.fonts?.removeEventListener('loadingdone', changed); };
   }, []);
   const layoutSignature = `${estimateContext?.availableWidthPx ?? ''}:${fontRevision}`;

@@ -133,7 +133,7 @@ describe('ModelThinkingDisplay reasoning summary', () => {
     expect(latestReasoningSummaryPreview).not.toHaveBeenCalled();
     await act(async () => root.render(<ModelThinkingDisplay thinkingItem={item} isLastItem={false} />));
     expect(latestReasoningSummaryPreview).toHaveBeenCalledWith(item.content);
-    expect(container.querySelector('[data-openbitfun-part="label"]')?.textContent).toBe('Latest summary');
+    expect(container.querySelector('[data-opc-part="label"]')?.textContent).toBe('Latest summary');
   });
 
   it('defaults to a collapsed single-line preview of the latest summary part', async () => {
@@ -144,7 +144,7 @@ describe('ModelThinkingDisplay reasoning summary', () => {
     });
 
     const panel = container.querySelector('[data-testid="chat-thinking-panel"]');
-    const label = container.querySelector('[data-openbitfun-part="label"]');
+    const label = container.querySelector('[data-opc-part="label"]');
     expect(panel?.getAttribute('data-expanded')).toBe('false');
     expect(label?.textContent).toBe('Preparing the repair');
     expect(label?.textContent).not.toContain('characters');
@@ -180,7 +180,7 @@ describe('ModelThinkingDisplay reasoning summary', () => {
         finish = resolve;
         cancel = () => reject(new Error('Transition cancelled'));
       });
-      const expandContainer = container.querySelector('[data-openbitfun-part="expandContainer"]') as HTMLElement;
+      const expandContainer = container.querySelector('[data-opc-part="expandContainer"]') as HTMLElement;
       Object.defineProperty(expandContainer, 'getAnimations', {
         value: () => [{ transitionProperty: 'grid-template-rows', finished }],
       });
@@ -198,11 +198,11 @@ describe('ModelThinkingDisplay reasoning summary', () => {
       root.render(<ModelThinkingDisplay thinkingItem={item} />);
     });
 
-    const leadingIcon = container.querySelector('[data-openbitfun-part="leadingIcon"]');
-    const indicator = leadingIcon?.querySelector('[data-openbitfun-component="thinking-indicator"]');
+    const leadingIcon = container.querySelector('[data-opc-part="leadingIcon"]');
+    const indicator = leadingIcon?.querySelector('[data-opc-component="thinking-indicator"]');
     expect(indicator?.getAttribute('data-active')).toBe('true');
-    expect(leadingIcon?.querySelector('[data-openbitfun-name="chevron-right"]')).toBeNull();
-    expect(leadingIcon?.querySelector('[data-openbitfun-name="chevron-down"]')).toBeNull();
+    expect(leadingIcon?.querySelector('[data-opc-name="chevron-right"]')).toBeNull();
+    expect(leadingIcon?.querySelector('[data-opc-name="chevron-down"]')).toBeNull();
     expect(container.querySelector('[data-testid="chat-thinking-toggle"]')?.hasAttribute('aria-haspopup')).toBe(false);
     expect(container.querySelector('[data-testid="chat-thinking-toggle"]')?.getAttribute('aria-expanded')).toBe('false');
 
@@ -210,7 +210,7 @@ describe('ModelThinkingDisplay reasoning summary', () => {
     revealState.isRevealing = true;
     await act(async () => root.render(<ModelThinkingDisplay
       thinkingItem={{ ...item, isStreaming: false, status: 'completed' }} />));
-    expect(container.querySelector('[data-openbitfun-component="thinking-indicator"]')).toBe(indicator);
+    expect(container.querySelector('[data-opc-component="thinking-indicator"]')).toBe(indicator);
     expect(indicator?.getAttribute('data-active')).toBe('false');
   });
 
@@ -268,14 +268,14 @@ describe('ModelThinkingDisplay reasoning summary', () => {
     await act(async () => {
       root.render(<ModelThinkingDisplay thinkingItem={summaryItem('**First part**')} />);
     });
-    expect(container.querySelector('[data-openbitfun-part="label"]')?.textContent).toBe('First part');
+    expect(container.querySelector('[data-opc-part="label"]')?.textContent).toBe('First part');
 
     await act(async () => {
       root.render(<ModelThinkingDisplay thinkingItem={summaryItem(
         '**First part**\n\n**Second part**',
       )} />);
     });
-    expect(container.querySelector('[data-openbitfun-part="label"]')?.textContent).toBe('Second part');
+    expect(container.querySelector('[data-opc-part="label"]')?.textContent).toBe('Second part');
   });
 
   it('toggles a live summary inline and restores its single-line preview', async () => {
@@ -289,7 +289,7 @@ describe('ModelThinkingDisplay reasoning summary', () => {
     await act(async () => toggle.click());
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
     expect(container.querySelector('[data-testid="thinking-markdown"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="label"]')?.textContent).toBe('Second part');
+    expect(container.querySelector('[data-opc-part="label"]')?.textContent).toBe('Second part');
   });
 
   it.each([
@@ -369,8 +369,8 @@ describe('ModelThinkingDisplay reasoning summary', () => {
         <div data-turn-id="source-turn"><ModelThinkingDisplay thinkingItem={item} /></div>
       </FlowChatContext.Provider>);
     });
-    const leadingIcon = container.querySelector('[data-openbitfun-part="leadingIcon"]');
-    const label = container.querySelector('[data-openbitfun-part="label"]');
+    const leadingIcon = container.querySelector('[data-opc-part="leadingIcon"]');
+    const label = container.querySelector('[data-opc-part="label"]');
 
     await act(async () => {
       (container.querySelector('.thinking-label-target') as HTMLElement).click();
@@ -383,11 +383,11 @@ describe('ModelThinkingDisplay reasoning summary', () => {
     expect(document.querySelector('[role="dialog"]')).toBeNull();
     expect(container.querySelector('[data-testid="chat-thinking-panel"]')
       ?.getAttribute('data-expanded')).toBe('false');
-    expect(container.querySelector('[data-openbitfun-part="label"]')?.textContent)
+    expect(container.querySelector('[data-opc-part="label"]')?.textContent)
       .toBe('Second part');
     expect(container.querySelector('[data-testid="thinking-markdown"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="leadingIcon"]')).toBe(leadingIcon);
-    expect(container.querySelector('[data-openbitfun-part="label"]')).toBe(label);
+    expect(container.querySelector('[data-opc-part="leadingIcon"]')).toBe(leadingIcon);
+    expect(container.querySelector('[data-opc-part="label"]')).toBe(label);
 
     await act(async () => {
       root.render(<FlowChatContext.Provider value={{ sessionId: 'source-session' }}>
@@ -396,9 +396,9 @@ describe('ModelThinkingDisplay reasoning summary', () => {
     });
     expect(container.querySelector('[data-testid="chat-thinking-panel"]')
       ?.getAttribute('data-expanded')).toBe('false');
-    expect(container.querySelector('[data-openbitfun-part="label"]')?.textContent).toBe('Third part');
+    expect(container.querySelector('[data-opc-part="label"]')?.textContent).toBe('Third part');
     expect(openThinkingPanel).toHaveBeenCalledTimes(1);
-    expect(container.querySelector('[data-openbitfun-part="leadingIcon"]')).toBe(leadingIcon);
+    expect(container.querySelector('[data-opc-part="leadingIcon"]')).toBe(leadingIcon);
   });
 
   it('keeps projected reasoning bound to its child stream and locates its parent task', async () => {
@@ -572,16 +572,16 @@ describe('ModelThinkingDisplay side completion', () => {
     expect(toggle.querySelector('.thinking-capsule-label')).toBeNull();
     expect(toggle.tagName).toBe('BUTTON');
     expect(toggle.getAttribute('type')).toBe('button');
-    expect(toggle.getAttribute('data-openbitfun-component')).toBe('icon-button');
-    expect(toggle.getAttribute('data-openbitfun-variant')).toBe('quiet');
-    expect(toggle.getAttribute('data-openbitfun-shape')).toBe('square');
+    expect(toggle.getAttribute('data-opc-component')).toBe('icon-button');
+    expect(toggle.getAttribute('data-opc-variant')).toBe('quiet');
+    expect(toggle.getAttribute('data-opc-shape')).toBe('square');
     expect(toggle.getAttribute('data-size')).toBe('xs');
     expect(toggle.closest('[role="button"]')).toBeNull();
     expect(container.querySelector('[data-thinking-continuation]')?.getAttribute('style')).toBeNull();
     expect(toggle.tabIndex).toBe(0);
     expect(toggle.hasAttribute('aria-haspopup')).toBe(false);
     expect(toggle.hasAttribute('aria-expanded')).toBe(false);
-    expect(container.querySelector('[data-openbitfun-part="expandContainer"]')?.hasAttribute('inert')).toBe(true);
+    expect(container.querySelector('[data-opc-part="expandContainer"]')?.hasAttribute('inert')).toBe(true);
   });
 
   it('keeps the reasoning count in the accessible icon name, including Unicode and summaries', () => {
@@ -648,7 +648,7 @@ describe('ModelThinkingDisplay side completion', () => {
       status="completed" isExpanded preview={<pre>File changes</pre>} onToggle={() => {}}
     /> }) as HTMLElement;
     const successor = container.querySelector<HTMLElement>('[data-thinking-continuation]')!;
-    const header = successor.querySelector<HTMLElement>('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="surface"]')!;
+    const header = successor.querySelector<HTMLElement>('[data-opc-component="flow-chat-tool-card"][data-opc-part="surface"]')!;
     let headerHeight = 36;
     let cardHeight = 44;
     vi.spyOn(successor, 'getBoundingClientRect').mockImplementation(() => ({ top: 100, height: cardHeight } as DOMRect));
@@ -691,7 +691,7 @@ describe('ModelThinkingDisplay side completion', () => {
     const toggle = container.querySelector(toggleSelector);
     const oldSuccessor = container.querySelector<HTMLElement>('[data-card="read"]')!;
     const successor = container.querySelector<HTMLElement>('[data-card="edit"]')!;
-    const header = successor.querySelector<HTMLElement>('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="surface"]')!;
+    const header = successor.querySelector<HTMLElement>('[data-opc-component="flow-chat-tool-card"][data-opc-part="surface"]')!;
     vi.spyOn(successor, 'getBoundingClientRect').mockReturnValue({ top: 100, height: 44 } as DOMRect);
     vi.spyOn(header, 'getBoundingClientRect').mockReturnValue({ top: 108, height: 36 } as DOMRect);
     expect(resizeCallbacks.has(oldSuccessor)).toBe(true);

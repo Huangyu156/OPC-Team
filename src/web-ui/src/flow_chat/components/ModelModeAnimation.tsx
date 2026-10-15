@@ -47,7 +47,7 @@ function SmartStarfield() {
   const skyId = useId();
 
   return (
-    <g className="openbitfun-model-mode__sky" mask={`url(#${skyId}-text-space)`}>
+    <g className="opc-model-mode__sky" mask={`url(#${skyId}-text-space)`}>
       <defs>
         <radialGradient id={`${skyId}-glow`}>
           <stop offset="0%" stopColor="currentColor" stopOpacity="0.5" />
@@ -66,11 +66,11 @@ function SmartStarfield() {
         </mask>
       </defs>
       {smartStarLayers.map(({ depth, stars }) => (
-        <g key={depth} className={`openbitfun-model-mode__sky-layer openbitfun-model-mode__sky-layer--${depth}`}>
+        <g key={depth} className={`opc-model-mode__sky-layer opc-model-mode__sky-layer--${depth}`}>
           {stars.map((star, index) => (
             <g key={index} transform={`translate(${star.x} ${star.y})`}>
               <g
-                className={`openbitfun-model-mode__sky-star${depth === 'near' ? ' openbitfun-model-mode__sky-star--near' : ''}`}
+                className={`opc-model-mode__sky-star${depth === 'near' ? ' opc-model-mode__sky-star--near' : ''}`}
                 style={{
                   '--_model-star-opacity': star.opacity,
                   '--_model-star-duration': star.duration,
@@ -78,9 +78,9 @@ function SmartStarfield() {
                 } as StarStyle}
               >
                 {depth === 'near' && (
-                  <circle className="openbitfun-model-mode__sky-glow" r={star.radius * 3} fill={`url(#${skyId}-glow)`} />
+                  <circle className="opc-model-mode__sky-glow" r={star.radius * 3} fill={`url(#${skyId}-glow)`} />
                 )}
-                <circle className="openbitfun-model-mode__sky-core" r={star.radius} />
+                <circle className="opc-model-mode__sky-core" r={star.radius} />
               </g>
             </g>
           ))}
@@ -94,7 +94,7 @@ function ModeNebula() {
   const nebulaId = useId();
 
   return (
-    <g className="openbitfun-model-mode__nebula">
+    <g className="opc-model-mode__nebula">
       <defs>
         <filter id={`${nebulaId}-cloud`} x="0" y="0" width="100%" height="100%">
           <feTurbulence type="fractalNoise" baseFrequency="0.035 0.04" numOctaves="3" seed="8" result="noise" />
@@ -107,7 +107,7 @@ function ModeNebula() {
           <feComposite in="SourceGraphic" in2="cloud" operator="in" />
         </filter>
       </defs>
-      <rect className="openbitfun-model-mode__nebula-field" width="280" height="128" filter={`url(#${nebulaId}-cloud)`} />
+      <rect className="opc-model-mode__nebula-field" width="280" height="128" filter={`url(#${nebulaId}-cloud)`} />
     </g>
   );
 }
@@ -116,19 +116,19 @@ function BatteryMaterial() {
   const batteryId = useId();
 
   return (
-    <g className="openbitfun-model-mode__battery-silhouettes">
+    <g className="opc-model-mode__battery-silhouettes">
       <defs>
-        <linearGradient className="openbitfun-model-mode__battery-glass" id={`${batteryId}-glass`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient className="opc-model-mode__battery-glass" id={`${batteryId}-glass`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="currentColor" stopOpacity="0.22" />
           <stop offset="48%" stopColor="currentColor" stopOpacity="0.09" />
           <stop offset="100%" stopColor="currentColor" stopOpacity="0.16" />
         </linearGradient>
-        <radialGradient className="openbitfun-model-mode__battery-light" id={`${batteryId}-energy`} cx="50%" cy="88%" r="82%">
+        <radialGradient className="opc-model-mode__battery-light" id={`${batteryId}-energy`} cx="50%" cy="88%" r="82%">
           <stop offset="0%" stopColor="currentColor" stopOpacity="0.55" />
           <stop offset="45%" stopColor="currentColor" stopOpacity="0.22" />
           <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
         </radialGradient>
-        <linearGradient className="openbitfun-model-mode__battery-rim" id={`${batteryId}-rim`} x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient className="opc-model-mode__battery-rim" id={`${batteryId}-rim`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor="currentColor" stopOpacity="0.42" />
           <stop offset="52%" stopColor="currentColor" stopOpacity="0.36" />
           <stop offset="100%" stopColor="currentColor" stopOpacity="0.4" />
@@ -165,7 +165,7 @@ function BatteryMaterial() {
           style={{ '--_model-star-cell-phase': (cellIndex - 3) / 3 } as StarStyle}
         >
           <rect
-            className="openbitfun-model-mode__battery-shell"
+            className="opc-model-mode__battery-shell"
             x="-34" y="-52" width="68" height="104" rx="14"
             fill={`url(#${batteryId}-glass)`}
             filter={`url(#${batteryId}-soften)`}
@@ -175,15 +175,15 @@ function BatteryMaterial() {
             mask={cellIndex === 1 ? `url(#${batteryId}-text-space)` : undefined}
           >
             <rect
-              className="openbitfun-model-mode__battery-energy"
+              className="opc-model-mode__battery-energy"
               x="-34" y="-52" width="68" height="104" rx="14"
               fill={`url(#${batteryId}-energy)`}
             />
-            <g className="openbitfun-model-mode__battery-particles">
+            <g className="opc-model-mode__battery-particles">
               {batteryStars[cellIndex].map((star, index) => (
                 <g
                   key={index}
-                  className="openbitfun-model-mode__battery-particle"
+                  className="opc-model-mode__battery-particle"
                   style={{
                     '--_model-star-opacity': star.opacity,
                     '--_model-star-delay': `${-(index * 0.73 + cellIndex * 1.17)}s`,
@@ -196,7 +196,7 @@ function BatteryMaterial() {
                     <circle cx={star.x} cy={star.y} r={star.radius * 3.4} fill={`url(#${batteryId}-glow)`} />
                   )}
                   <circle
-                    className={index % 6 === 0 ? 'openbitfun-model-mode__battery-spark' : undefined}
+                    className={index % 6 === 0 ? 'opc-model-mode__battery-spark' : undefined}
                     cx={star.x} cy={star.y} r={star.radius}
                   />
                 </g>
@@ -204,7 +204,7 @@ function BatteryMaterial() {
             </g>
           </g>
           <rect
-            className={`openbitfun-model-mode__battery-outline${cellIndex === 2 ? ' openbitfun-model-mode__battery-outline--right' : ''}`}
+            className={`opc-model-mode__battery-outline${cellIndex === 2 ? ' opc-model-mode__battery-outline--right' : ''}`}
             x="-34" y="-52" width="68" height="104" rx="14"
             fill="none"
             stroke={`url(#${batteryId}-rim)`}
@@ -218,9 +218,9 @@ function BatteryMaterial() {
 /** Ambient material only; battery silhouettes do not represent live capacity. */
 export const ModelModeAnimation: React.FC<ModelModeAnimationProps> = ({ mode }) => (
   <svg
-    className="openbitfun-model-mode"
-    data-openbitfun-component="model-selector"
-    data-openbitfun-part="modeMaterial"
+    className="opc-model-mode"
+    data-opc-component="model-selector"
+    data-opc-part="modeMaterial"
     data-mode={mode}
     viewBox="0 0 280 128"
     preserveAspectRatio="none"

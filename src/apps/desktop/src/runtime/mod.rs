@@ -1,12 +1,12 @@
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 
-use openbitfun_agent_runtime::sdk::SessionEventJournal;
-use openbitfun_agent_runtime::sdk::{AgentRuntime, PermissionRequestEvent};
-use openbitfun_core::agentic::coordination::{ConversationCoordinator, DialogScheduler};
-use openbitfun_core::service::remote_ssh::SSHConnectionManager;
-use openbitfun_core::service::token_usage::TokenUsageService;
-use openbitfun_core::service::workspace::WorkspaceService;
+use opc_agent_runtime::sdk::SessionEventJournal;
+use opc_agent_runtime::sdk::{AgentRuntime, PermissionRequestEvent};
+use opc_core::agentic::coordination::{ConversationCoordinator, DialogScheduler};
+use opc_core::service::remote_ssh::SSHConnectionManager;
+use opc_core::service::token_usage::TokenUsageService;
+use opc_core::service::workspace::WorkspaceService;
 use tokio::sync::RwLock;
 
 mod session_application;
@@ -37,7 +37,7 @@ impl DesktopRuntimeContext {
         token_usage_service: Arc<TokenUsageService>,
         workspace_service: Arc<WorkspaceService>,
         ssh_manager: Arc<RwLock<Option<SSHConnectionManager>>>,
-        acp_client_service: Option<Arc<openbitfun_acp::AcpClientService>>,
+        acp_client_service: Option<Arc<opc_acp::AcpClientService>>,
         session_event_journal: Arc<SessionEventJournal>,
     ) -> Result<Self, String> {
         let host_effects = Arc::new(ProductionDesktopSessionHostEffects::new(acp_client_service));
@@ -67,7 +67,7 @@ impl DesktopRuntimeContext {
     pub(crate) fn start_permission_event_forwarding(
         &self,
         app: tauri::AppHandle,
-    ) -> Result<(), openbitfun_agent_runtime::sdk::RuntimeError> {
+    ) -> Result<(), opc_agent_runtime::sdk::RuntimeError> {
         if self.permission_events_started.swap(true, Ordering::AcqRel) {
             return Ok(());
         }

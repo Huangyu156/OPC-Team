@@ -215,10 +215,10 @@ export function VoiceInputDiagnostics({
   return (
     <div
       className="voice-input-config__diagnostics"
-      data-openbitfun-component="voice-input-diagnostics"
-      data-openbitfun-part="root"
-      data-openbitfun-phase={phase}
-      data-openbitfun-state={[
+      data-opc-component="voice-input-diagnostics"
+      data-opc-part="root"
+      data-opc-phase={phase}
+      data-opc-state={[
         testingRecognition && 'testing-recognition',
         error && 'error',
       ].filter(Boolean).join(' ')}
@@ -228,10 +228,10 @@ export function VoiceInputDiagnostics({
         description={t('diagnostics.microphone.description')}
         align="center"
       >
-        <div className="voice-input-config__device-control" data-openbitfun-component="voice-input-diagnostics" data-openbitfun-part="deviceControl">
+        <div className="voice-input-config__device-control" data-opc-component="voice-input-diagnostics" data-opc-part="deviceControl">
           <Select
-            data-openbitfun-component="voice-input-diagnostics"
-            data-openbitfun-part="deviceSelect"
+            data-opc-component="voice-input-diagnostics"
+            data-opc-part="deviceSelect"
             value={settings.microphone_device_id}
             onValueChange={value => void onDeviceChange(String(value))}
             onPointerDown={() => void loadMicrophones()}
@@ -247,7 +247,7 @@ export function VoiceInputDiagnostics({
         align="start"
         className="voice-input-config__balanced-row"
       >
-        <div className="voice-input-config__diagnostic-action" data-openbitfun-component="voice-input-diagnostics" data-openbitfun-part="diagnosticAction">
+        <div className="voice-input-config__diagnostic-action" data-opc-component="voice-input-diagnostics" data-opc-part="diagnosticAction">
           {phase === 'recording' ? (
             <div className="voice-input-config__waveform" aria-hidden="true">
               {WAVEFORM_BAR_WEIGHTS.map((weight, index) => (
@@ -286,18 +286,18 @@ export function VoiceInputDiagnostics({
 
       <div
         className="voice-input-config__recognition-feedback"
-        data-openbitfun-component="voice-input-diagnostics"
-        data-openbitfun-part="feedback"
+        data-opc-component="voice-input-diagnostics"
+        data-opc-part="feedback"
         aria-live="polite"
       >
         {result?.text.trim() ? (
-          <div className="voice-input-config__recognition-result" data-openbitfun-component="voice-input-diagnostics" data-openbitfun-part="result">
+          <div className="voice-input-config__recognition-result" data-opc-component="voice-input-diagnostics" data-opc-part="result">
             <span>{result.text.trim()}</span>
             <small>{t('diagnostics.recognition.timing', { duration: result.durationMs })}</small>
           </div>
         ) : null}
         {error ? (
-          <span className="voice-input-config__diagnostic-error" data-openbitfun-component="voice-input-diagnostics" data-openbitfun-part="error">{error}</span>
+          <span className="voice-input-config__diagnostic-error" data-opc-component="voice-input-diagnostics" data-opc-part="error">{error}</span>
         ) : null}
       </div>
     </div>

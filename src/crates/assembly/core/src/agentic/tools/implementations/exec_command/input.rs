@@ -1,5 +1,5 @@
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     RemoteExecPort, RemoteSendStdinRequest, TerminalPort, TerminalSendStdinRequest,
 };
 use std::sync::Arc;

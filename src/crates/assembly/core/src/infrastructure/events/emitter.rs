@@ -1,1 +1,1 @@
-pub use openbitfun_events::EventEmitter;
+pub use opc_events::EventEmitter;

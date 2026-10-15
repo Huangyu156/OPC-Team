@@ -6,7 +6,7 @@ use crate::local_source_paths::{
     LocalConfigDirectoryKind, LocalConfigDocument, LocalConfigDocumentKind, LocalSourcePlanItem,
     OpenCodeLocalConfigOptions,
 };
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     EcosystemId, ExternalMcpDiscoveryInput, ExternalMcpProviderIdentity,
     ExternalMcpProviderSnapshot, ExternalMcpServerDefinition, ExternalMcpSourceProvider,
     ExternalMcpStaticStatus, ExternalMcpTimeouts, ExternalMcpTransportKind,
@@ -16,8 +16,8 @@ use openbitfun_product_domains::external_sources::{
     PreparedExternalMcpTransport, SecretValue, SourceKey, SourceQualifiedMcpServerId,
     MAX_EXTERNAL_MCP_TIMEOUT_MS,
 };
-use openbitfun_services_core::jsonc::strip_jsonc;
-use openbitfun_static_hook_support::BoundedTextRead;
+use opc_services_core::jsonc::strip_jsonc;
+use opc_static_hook_support::BoundedTextRead;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
@@ -395,7 +395,7 @@ struct MaterializedServer {
 
 fn materialize_server(
     context: &ExternalSourceContext,
-    revision_key: &openbitfun_product_domains::external_sources::ExternalMcpRevisionKey,
+    revision_key: &opc_product_domains::external_sources::ExternalMcpRevisionKey,
     effective_source: SourceKey,
     provenance: Vec<SourceKey>,
     name: String,
@@ -570,7 +570,7 @@ fn materialize_local_server(
             provenance,
             name,
             transport: ExternalMcpTransportKind::LocalStdio,
-            command_preview: Some(openbitfun_static_hook_support::redacted_executable_preview(
+            command_preview: Some(opc_static_hook_support::redacted_executable_preview(
                 &command,
             )),
             argument_count: args.len(),
@@ -1072,7 +1072,7 @@ struct ParsedConfigLayer {
 }
 
 fn parse_config_layer(
-    revision_key: &openbitfun_product_domains::external_sources::ExternalMcpRevisionKey,
+    revision_key: &opc_product_domains::external_sources::ExternalMcpRevisionKey,
     document: &LocalConfigDocument,
 ) -> ParsedConfigLayer {
     match document.read_bounded(MAX_CONFIG_FILE_BYTES) {
@@ -1192,7 +1192,7 @@ fn deep_merge(current: &mut Value, patch: Value) {
 }
 
 fn behavior_version(
-    revision_key: &openbitfun_product_domains::external_sources::ExternalMcpRevisionKey,
+    revision_key: &opc_product_domains::external_sources::ExternalMcpRevisionKey,
     name: &str,
     value: &Value,
 ) -> String {
@@ -1204,7 +1204,7 @@ fn behavior_version(
 }
 
 fn content_version(
-    revision_key: &openbitfun_product_domains::external_sources::ExternalMcpRevisionKey,
+    revision_key: &opc_product_domains::external_sources::ExternalMcpRevisionKey,
     identity: &[u8],
     content: &[u8],
 ) -> String {

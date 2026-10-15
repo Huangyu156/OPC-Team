@@ -201,13 +201,13 @@ describeWithJsdom('AgentControlToolCard', () => {
         config={{ ...config, toolName }} sessionId="parent-session" />,
     ));
     render('AgentSpawn', 'receiving');
-    expect(container.querySelector('[data-openbitfun-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('incubating');
-    expect(container.querySelector('[data-openbitfun-part="agentSummary"]')?.textContent).toBe('toolCards.interaction.unknownAgent');
+    expect(container.querySelector('[data-opc-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('incubating');
+    expect(container.querySelector('[data-opc-part="agentSummary"]')?.textContent).toBe('toolCards.interaction.unknownAgent');
     render('AgentSpawn', 'error');
-    expect(container.querySelector('[data-openbitfun-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('stopped');
+    expect(container.querySelector('[data-opc-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('stopped');
     render('AgentSendInput', 'running');
-    expect(container.querySelector('[data-openbitfun-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('stopped');
-    expect(container.querySelector('[data-openbitfun-part="target"] [data-overflow-content]')?.textContent).toBe('toolCards.interaction.unknownAgent');
+    expect(container.querySelector('[data-opc-component="subagent-hatch"]')?.getAttribute('data-phase')).toBe('stopped');
+    expect(container.querySelector('[data-opc-part="target"] [data-overflow-content]')?.textContent).toBe('toolCards.interaction.unknownAgent');
     expect(container.querySelector('.lucide-bot')).toBeNull();
   });
 
@@ -217,18 +217,18 @@ describeWithJsdom('AgentControlToolCard', () => {
       await act(async () => root.render(
         <AgentControlToolCard toolItem={agentToolItem(toolName)} config={{ ...config, toolName }} sessionId="parent-session" />,
       ));
-      const card = container.querySelector('[data-openbitfun-tool-card="agent-control"]')!;
+      const card = container.querySelector('[data-opc-tool-card="agent-control"]')!;
       const button = card.querySelector<HTMLButtonElement>('[data-agent-capsule-trigger]')!;
       expect(button.disabled).toBe(false);
       expect(button.hasAttribute('aria-expanded')).toBe(false);
-      expect(card.querySelector('[data-openbitfun-part="expandedCollapse"]')).toBeNull();
+      expect(card.querySelector('[data-opc-part="expandedCollapse"]')).toBeNull();
       expect(card.querySelectorAll('button')).toHaveLength(1);
       const nameId = resolveSubagentNameKey('child-session').split('.').at(-1) as keyof typeof flowChatEn.subagentIdentity.names;
       expect(card.textContent).toContain(flowChatEn.subagentIdentity.names[nameId]);
-      expect(card.querySelector('[data-openbitfun-part="agentStatus"]')?.getAttribute('data-status')).toBe('running');
+      expect(card.querySelector('[data-opc-part="agentStatus"]')?.getAttribute('data-status')).toBe('running');
       expect(button.getAttribute('aria-label')).toContain('Running');
       expect(card.textContent).not.toContain('Inspect the parser flow');
-      expect(card.querySelector('[data-openbitfun-part="processing"]')).toBeNull();
+      expect(card.querySelector('[data-opc-part="processing"]')).toBeNull();
       await act(async () => button.click());
       expect(mocks.openBtwSessionInAuxPane).toHaveBeenCalledWith(expect.objectContaining({
         childSessionId: 'child-session',
@@ -239,7 +239,7 @@ describeWithJsdom('AgentControlToolCard', () => {
         remoteSshHost: 'host-1',
         includeInternal: true,
       }));
-      expect(card.querySelector('[data-openbitfun-part="expandedCollapse"]')).toBeNull();
+      expect(card.querySelector('[data-opc-part="expandedCollapse"]')).toBeNull();
     },
   );
 
@@ -247,7 +247,7 @@ describeWithJsdom('AgentControlToolCard', () => {
     await act(async () => root.render(
       <AgentControlToolCard toolItem={agentToolItem('AgentSpawn')} config={config} sessionId="parent-session" />,
     ));
-    const highlight = () => container.querySelector('[data-openbitfun-component="shimmer-text"]');
+    const highlight = () => container.querySelector('[data-opc-component="shimmer-text"]');
     const publish = () => act(() => { mocks.listeners.forEach(listener => listener()); });
 
     expect(highlight()?.textContent).toBe('Running');
@@ -266,7 +266,7 @@ describeWithJsdom('AgentControlToolCard', () => {
     mocks.childTurnStatus = 'completed';
     publish();
     expect(highlight()).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="agentStatus"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="agentStatus"]')).toBeNull();
   });
 
   it('can open a historical child before its session is hydrated', async () => {
@@ -274,8 +274,8 @@ describeWithJsdom('AgentControlToolCard', () => {
     await act(async () => root.render(
       <AgentControlToolCard toolItem={agentToolItem('AgentSpawn')} config={config} sessionId="parent-session" />,
     ));
-    const avatar = container.querySelector('[data-openbitfun-component="subagent-avatar"]');
-    expect(avatar?.getAttribute('data-openbitfun-avatar-id')).toBe(resolveSubagentAvatarPresentation('child-session').avatarId);
+    const avatar = container.querySelector('[data-opc-component="subagent-avatar"]');
+    expect(avatar?.getAttribute('data-opc-avatar-id')).toBe(resolveSubagentAvatarPresentation('child-session').avatarId);
     expect(avatar?.querySelector('[data-subagent-motion-art] svg')).not.toBeNull();
     expect(avatar?.querySelector('.subagent-avatar__status')).toBeNull();
     await act(async () => container.querySelector<HTMLButtonElement>('[data-agent-capsule-trigger]')!.click());
@@ -296,9 +296,9 @@ describeWithJsdom('AgentControlToolCard', () => {
     mocks.includeChildSession = true;
     await act(async () => { for (const listener of mocks.listeners) listener(); });
     expect(button.getAttribute('aria-disabled')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-avatar-id]')?.getAttribute('data-openbitfun-avatar-id'))
+    expect(container.querySelector('[data-opc-avatar-id]')?.getAttribute('data-opc-avatar-id'))
       .toBe(resolveSubagentAvatarPresentation('child-session').avatarId);
-    expect(container.querySelector('[data-openbitfun-part="agentSummary"]')?.textContent)
+    expect(container.querySelector('[data-opc-part="agentSummary"]')?.textContent)
       .toBe(flowChatEn.subagentIdentity.names.cloudHopper);
   });
 
@@ -308,21 +308,21 @@ describeWithJsdom('AgentControlToolCard', () => {
     await act(async () => root.render(
       <AgentControlToolCard toolItem={item} config={config} sessionId="parent-session" />,
     ));
-    const card = container.querySelector('[data-openbitfun-tool-card="session-message"]')!;
-    expect(card.getAttribute('data-openbitfun-status')).toBe('completed');
+    const card = container.querySelector('[data-opc-tool-card="session-message"]')!;
+    expect(card.getAttribute('data-opc-status')).toBe('completed');
     expect(card.getAttribute('data-operation')).toBe('send');
-    expect(card.querySelector('[data-openbitfun-part="source"]')?.textContent).toBe('toolCards.interaction.currentSession');
-    expect(card.querySelector('[data-openbitfun-part="target"] [data-overflow-content]')?.textContent).toBe(flowChatEn.subagentIdentity.names.cloudHopper);
-    expect(card.querySelector('[data-openbitfun-part="target"] [data-openbitfun-avatar-id]')).not.toBeNull();
-    expect(card.querySelector('[data-openbitfun-part="processing"]')).toBeNull();
+    expect(card.querySelector('[data-opc-part="source"]')?.textContent).toBe('toolCards.interaction.currentSession');
+    expect(card.querySelector('[data-opc-part="target"] [data-overflow-content]')?.textContent).toBe(flowChatEn.subagentIdentity.names.cloudHopper);
+    expect(card.querySelector('[data-opc-part="target"] [data-opc-avatar-id]')).not.toBeNull();
+    expect(card.querySelector('[data-opc-part="processing"]')).toBeNull();
     expect(card.textContent).not.toContain('Continue with the parser fix');
-    await act(async () => card.querySelector<HTMLButtonElement>('[data-openbitfun-part="target"]')!.click());
+    await act(async () => card.querySelector<HTMLButtonElement>('[data-opc-part="target"]')!.click());
     expect(mocks.openBtwSessionInAuxPane).toHaveBeenCalledWith(expect.objectContaining({
       childSessionId: 'child-session', remoteConnectionId: 'remote-1', remoteSshHost: 'host-1',
     }));
-    expect(card.hasAttribute('data-openbitfun-expandable')).toBe(false);
+    expect(card.hasAttribute('data-opc-expandable')).toBe(false);
     expect(card.querySelector('[aria-expanded]')).toBeNull();
-    await act(async () => card.querySelector<HTMLButtonElement>('[data-openbitfun-part="result"]')!.click());
+    await act(async () => card.querySelector<HTMLButtonElement>('[data-opc-part="result"]')!.click());
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('Continue with the parser fix');
   });
 
@@ -331,11 +331,11 @@ describeWithJsdom('AgentControlToolCard', () => {
       await act(async () => root.render(
         <AgentControlToolCard toolItem={agentToolItem('AgentSendInput', { status })} config={config} sessionId="parent-session" />,
       ));
-      const card = container.querySelector('[data-openbitfun-tool-card="session-message"]')!;
-      expect(card.getAttribute('data-openbitfun-status')).toBe(status);
-      expect(card.querySelector('[data-openbitfun-part="interactionStatus"]')).toBeNull();
-      expect(card.querySelector('[data-openbitfun-part="target"]')?.hasAttribute('data-tone')).toBe(false);
-      expect(card.querySelector('[data-openbitfun-part="result"]')?.textContent)
+      const card = container.querySelector('[data-opc-tool-card="session-message"]')!;
+      expect(card.getAttribute('data-opc-status')).toBe(status);
+      expect(card.querySelector('[data-opc-part="interactionStatus"]')).toBeNull();
+      expect(card.querySelector('[data-opc-part="target"]')?.hasAttribute('data-tone')).toBe(false);
+      expect(card.querySelector('[data-opc-part="result"]')?.textContent)
         .toContain(`toolCards.default.${status === 'error' ? 'failed' : status}`);
     }
   });
@@ -344,11 +344,11 @@ describeWithJsdom('AgentControlToolCard', () => {
     const toolItem = { ...agentToolItem('AgentSendInput'), toolName: 'AgentInterrupt',
       toolResult: { success: true, result: { agent_id: 'worker', interrupted_background_tasks: 0 } } };
     await act(async () => root.render(<AgentControlToolCard toolItem={toolItem} config={config} sessionId="parent-session" />));
-    const card = container.querySelector('[data-openbitfun-tool-card="session-message"]')!;
-    expect(card.getAttribute('data-openbitfun-status')).toBe('completed');
+    const card = container.querySelector('[data-opc-tool-card="session-message"]')!;
+    expect(card.getAttribute('data-opc-status')).toBe('completed');
     expect(card.getAttribute('data-operation')).toBe('interrupt');
-    expect(card.querySelector('[data-openbitfun-part="source"]')).not.toBeNull();
-    expect(card.querySelector('[data-openbitfun-part="result"]')?.textContent).toBe('toolCards.interaction.noActiveRuns');
+    expect(card.querySelector('[data-opc-part="source"]')).not.toBeNull();
+    expect(card.querySelector('[data-opc-part="result"]')?.textContent).toBe('toolCards.interaction.noActiveRuns');
   });
 
   it('shows only the current language and keeps the same name through history hydration', async () => {
@@ -357,7 +357,7 @@ describeWithJsdom('AgentControlToolCard', () => {
       <AgentControlToolCard toolItem={agentToolItem('AgentSpawn')} config={config} sessionId="parent-session" />,
     ));
     await renderCard();
-    const name = () => container.querySelector('[data-openbitfun-part="agentSummary"]')?.textContent;
+    const name = () => container.querySelector('[data-opc-part="agentSummary"]')?.textContent;
     expect(name()).toBe(flowChatEn.subagentIdentity.names.cloudHopper);
     mocks.includeChildSession = true;
     await act(async () => { for (const listener of mocks.listeners) listener(); });
@@ -377,17 +377,17 @@ describeWithJsdom('AgentControlToolCard', () => {
       <AgentControlToolCard toolItem={item} config={config} sessionId="parent-session" />,
     ));
     expect(container.textContent).not.toContain(description);
-    expect(container.querySelector('[data-openbitfun-part="agentType"]')?.textContent).toBe('SwarmWorker');
-    expect(container.querySelector('[data-openbitfun-part="agentModel"]')?.textContent).toBe('Test model');
+    expect(container.querySelector('[data-opc-part="agentType"]')?.textContent).toBe('SwarmWorker');
+    expect(container.querySelector('[data-opc-part="agentModel"]')?.textContent).toBe('Test model');
     expect(container.querySelector('[title]')).toBeNull();
     const popup = await revealPreview();
     expect(document.querySelectorAll('[role="tooltip"]')).toHaveLength(1);
     expect(popup.dataset.openbitfunInteractive).toBe('true');
-    expect(popup.querySelector('[data-openbitfun-part="previewName"]')?.textContent).toBe(flowChatEn.subagentIdentity.names.cloudHopper);
-    expect(popup.querySelector('[data-openbitfun-component="subagent-avatar"]')).toBeTruthy();
-    expect(popup.querySelector('[data-openbitfun-part="previewAgentType"]')?.textContent).toBe('SwarmWorker');
-    expect(popup.querySelector('[data-openbitfun-part="previewModel"]')?.textContent).toBe('Test model');
-    expect(popup.querySelector('[data-openbitfun-part="previewDescription"]')?.textContent).toBe(description.trim());
+    expect(popup.querySelector('[data-opc-part="previewName"]')?.textContent).toBe(flowChatEn.subagentIdentity.names.cloudHopper);
+    expect(popup.querySelector('[data-opc-component="subagent-avatar"]')).toBeTruthy();
+    expect(popup.querySelector('[data-opc-part="previewAgentType"]')?.textContent).toBe('SwarmWorker');
+    expect(popup.querySelector('[data-opc-part="previewModel"]')?.textContent).toBe('Test model');
+    expect(popup.querySelector('[data-opc-part="previewDescription"]')?.textContent).toBe(description.trim());
     const button = container.querySelector<HTMLButtonElement>('[data-agent-capsule-trigger]')!;
     await act(async () => {
       button.dispatchEvent(new dom.window.MouseEvent('mouseout', { bubbles: true, relatedTarget: popup }));
@@ -397,8 +397,8 @@ describeWithJsdom('AgentControlToolCard', () => {
     expect(document.querySelector('[role="tooltip"]')).toBe(popup);
     mocks.modelName = 'Updated model';
     await act(async () => { for (const listener of mocks.listeners) listener(); });
-    expect(container.querySelector('[data-openbitfun-part="agentModel"]')?.textContent).toBe('Updated model');
-    expect(popup.querySelector('[data-openbitfun-part="previewModel"]')?.textContent).toBe('Updated model');
+    expect(container.querySelector('[data-opc-part="agentModel"]')?.textContent).toBe('Updated model');
+    expect(popup.querySelector('[data-opc-part="previewModel"]')?.textContent).toBe('Updated model');
     await act(async () => popup.click());
     expect(mocks.openBtwSessionInAuxPane).not.toHaveBeenCalled();
     await act(async () => button.click());

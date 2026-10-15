@@ -36,7 +36,7 @@ export const AgentInteractionToolCard: React.FC<ToolCardProps> = ({ toolItem, se
   const summary = interactionOutcome(status, t, completed,
     stopping ? t('toolCards.interaction.stopping') : t('toolCards.interaction.sendingMessage'));
 
-  return <div data-openbitfun-adapter="agent-interaction" data-tool-card-id={toolItem.id}>
+  return <div data-opc-adapter="agent-interaction" data-tool-card-id={toolItem.id}>
     <SessionMessageToolCardView status={status} action={action}
       interaction={{ operation: stopping ? 'interrupt' : 'send', source, target }}
       summary={summary} resultLabel={stopping ? t('toolCards.interaction.inspectResult') : t('toolCards.interaction.inspectMessage')}

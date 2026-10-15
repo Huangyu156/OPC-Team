@@ -8,9 +8,9 @@ export function ConversationExcerptQuote({ excerpt, action }: { excerpt: Convers
   const quote = excerptText(excerpt).replace(/\s+/g, ' ').trim();
   return <div className="conversation-excerpt__source">
     <div className="conversation-excerpt__quote"
-      data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="quote">
+      data-opc-product-component="conversation-excerpt" data-opc-product-part="quote">
       <span className="conversation-excerpt__quote-text"
-        data-openbitfun-product-component="conversation-excerpt" data-openbitfun-product-part="quoteText">{quote}</span>
+        data-opc-product-component="conversation-excerpt" data-opc-product-part="quoteText">{quote}</span>
     </div>
     {action}
   </div>;

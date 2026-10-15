@@ -65,11 +65,11 @@ const outputs = [
     content: formatRust(generateRust()),
   },
   {
-    path: 'src/web-ui/src/tools/openbitfun-canvas/runtime/sdk/contract.generated.ts',
+    path: 'src/web-ui/src/tools/opc-canvas/runtime/sdk/contract.generated.ts',
     content: generateTypeScript(),
   },
   {
-    path: 'src/crates/assembly/core/builtin_skills/openbitfun-canvas/sdk/sdk-contract.generated.json',
+    path: 'src/crates/assembly/core/builtin_skills/opc-canvas/sdk/sdk-contract.generated.json',
     content: `${JSON.stringify({ ...contract, runtimeExports }, null, 2)}\n`,
   },
 ];

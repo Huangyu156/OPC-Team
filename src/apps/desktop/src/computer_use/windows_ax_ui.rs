@@ -27,11 +27,11 @@
 
 use super::ax_snapshot_digest::compute_digest;
 use crate::computer_use::ui_locate_common;
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_core::agentic::tools::computer_use_host::{
     AppInfo, AppStateSnapshot, AxNode, OcrAccessibilityHit, UiElementLocateQuery,
     UiElementLocateResult,
 };
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::core::Interface;
 use windows::Win32::Foundation::HWND;
 use windows::Win32::System::Com::{
@@ -1127,7 +1127,7 @@ enum UiaRequest {
 }
 struct ObservedWindow {
     hwnd: isize,
-    scope: openbitfun_agent_tools::computer_use_control::ObservationScope,
+    scope: opc_agent_tools::computer_use_control::ObservationScope,
     pid: u32,
     nodes: Vec<UiaNode>,
 }
@@ -1720,7 +1720,7 @@ mod control_native_tests {
         let owner = "windows-native-uia-test";
         super::super::control_session::start(
             owner,
-            openbitfun_agent_tools::computer_use_control::ControlMode::Background,
+            opc_agent_tools::computer_use_control::ControlMode::Background,
         )
         .unwrap();
         super::super::control_session::bind_target(format!(

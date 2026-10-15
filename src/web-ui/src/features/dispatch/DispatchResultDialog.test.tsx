@@ -23,7 +23,7 @@ vi.mock('@/infrastructure/i18n', () => ({
 
 vi.mock('@openbitfun/ui', async (importOriginal) => ({
   Disclosure: (await importOriginal<typeof import('@openbitfun/ui')>()).Disclosure,
-  Icon: ({ name }: { name: string }) => <span data-openbitfun-component="icon" data-openbitfun-name={name} />,
+  Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   Alert: ({ message }: { message: string }) => <div role="alert">{message}</div>,
   ScrollArea: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{children}</div>,
   Button: ({
@@ -107,7 +107,7 @@ describe('DispatchResultDialog Git sync', () => {
 
     expect(container.textContent).toContain('openbitfun/dispatch/job-1');
     expect(container.textContent).toContain('/home/me/.openbitfun/worktrees/repo/dispatch-job-1');
-    expect(container.querySelector('[data-openbitfun-component="disclosure"] button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
+    expect(container.querySelector('[data-opc-component="disclosure"] button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
     expect(mocks.syncResult).not.toHaveBeenCalled();
 
     await act(async () => {

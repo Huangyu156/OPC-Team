@@ -2,7 +2,7 @@
 
 A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh)
 plugin bundle that lets a dsh agent **use OPC-Team**: it bridges dsh tools to the
-OPC-Team Agent SDK Host (`openbitfun-sdk-host`), the standalone local JSON-RPC-over-stdio
+OPC-Team Agent SDK Host (`opc-sdk-host`), the standalone local JSON-RPC-over-stdio
 entry point of the OPC-Team Agent Runtime
 ([protocol](../../src/crates/interfaces/sdk-host/), [app](../../src/apps/sdk-host/)).
 
@@ -14,7 +14,7 @@ The plugin registers one dsh tool:
 
 ## How it works
 
-- The plugin spawns one `openbitfun-sdk-host` process lazily per resolved binary and
+- The plugin spawns one `opc-sdk-host` process lazily per resolved binary and
   speaks the SDK Host protocol: `initialize`, `session/create`, `query/start`,
   `query/event` (streamed assistant text), `query/result` (terminal status),
   `query/cancel`, `session/close`, `shutdown`.
@@ -30,13 +30,13 @@ The host binary is located per call in this order:
 2. the `OPENBITFUN_SDK_HOST` environment variable,
 3. `target/debug` / `target/release` walking up from the dsh session cwd
    (a OPC-Team checkout-local build),
-4. `openbitfun-sdk-host` on `PATH`.
+4. `opc-sdk-host` on `PATH`.
 
 ## Build the SDK Host
 
 ```bash
-cargo build -p openbitfun-sdk-host-app
-# binary: target/debug/openbitfun-sdk-host[.exe]
+cargo build -p opc-sdk-host-app
+# binary: target/debug/opc-sdk-host[.exe]
 ```
 
 The SDK Host reuses the OPC-Team user config (provider/model) of the local
@@ -59,7 +59,7 @@ Custom host binary or caps (in the profile's `cordis.patch.yml`):
 ```yaml
 - id: openbitfun
   config:
-    hostPath: '/absolute/path/to/openbitfun-sdk-host'
+    hostPath: '/absolute/path/to/opc-sdk-host'
     maxSessions: 8
     queryTimeoutMs: 1800000
     requestTimeoutMs: 30000

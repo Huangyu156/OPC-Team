@@ -192,9 +192,9 @@ export const ComputerUseToolCard: React.FC<ToolCardProps> = ({ toolItem, onExpan
   const renderExpandedContent = () => {
     if (status === 'error') {
       return (
-        <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="content" className="compact-result-content computer-use-tool-card__content">
+        <div data-opc-component="computer-use-tool-card" data-opc-part="content" className="compact-result-content computer-use-tool-card__content">
           {permissionDenied ? (
-            <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="permissionDenied" className="computer-use-tool-card__permission-denied">
+            <div data-opc-component="computer-use-tool-card" data-opc-part="permissionDenied" className="computer-use-tool-card__permission-denied">
               <p>{t('toolCards.computerUse.permissionDeniedHint')}</p>
               <Button
                 type="button"
@@ -215,25 +215,25 @@ export const ComputerUseToolCard: React.FC<ToolCardProps> = ({ toolItem, onExpan
     }
 
     return (
-      <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="expanded" className="computer-use-tool-card__expanded">
-        <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="row" className="computer-use-tool-card__row">
+      <div data-opc-component="computer-use-tool-card" data-opc-part="expanded" className="computer-use-tool-card__expanded">
+        <div data-opc-component="computer-use-tool-card" data-opc-part="row" className="computer-use-tool-card__row">
           <span className="computer-use-tool-card__row-label">{t('toolCards.computerUse.actionLabel')}</span>
           <code>{parsed.action}</code>
         </div>
         {parsed.appName && (
-          <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="row" className="computer-use-tool-card__row">
+          <div data-opc-component="computer-use-tool-card" data-opc-part="row" className="computer-use-tool-card__row">
             <span className="computer-use-tool-card__row-label">{t('toolCards.computerUse.appLabel')}</span>
             <span>{parsed.appName}</span>
           </div>
         )}
         {parsed.target && (
-          <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="row" className="computer-use-tool-card__row">
+          <div data-opc-component="computer-use-tool-card" data-opc-part="row" className="computer-use-tool-card__row">
             <span className="computer-use-tool-card__row-label">{t('toolCards.computerUse.targetLabel')}</span>
             <span>{parsed.target}</span>
           </div>
         )}
         {parsed.loopWarningSuggestion && (
-          <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="loopWarning" className="computer-use-tool-card__loop-warning">
+          <div data-opc-component="computer-use-tool-card" data-opc-part="loopWarning" className="computer-use-tool-card__loop-warning">
             <Icon glyph={AlertTriangle} size="xs" />
             <span>{parsed.loopWarningSuggestion}</span>
           </div>
@@ -243,7 +243,7 @@ export const ComputerUseToolCard: React.FC<ToolCardProps> = ({ toolItem, onExpan
   };
 
   return (
-    <div data-openbitfun-component="computer-use-tool-card" data-openbitfun-part="root" data-openbitfun-state={[isExpanded && 'expanded', status === 'error' && 'failed'].filter(Boolean).join(' ')} ref={cardRootRef} data-tool-card-id={toolId ?? ''}>
+    <div data-opc-component="computer-use-tool-card" data-opc-part="root" data-opc-state={[isExpanded && 'expanded', status === 'error' && 'failed'].filter(Boolean).join(' ')} ref={cardRootRef} data-tool-card-id={toolId ?? ''}>
       <AmbientToolCard
         status={status}
         isExpanded={isExpanded}

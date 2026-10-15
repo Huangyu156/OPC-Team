@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url';
 
 const repo = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../..');
 const suspendedPaint = process.argv.includes('--suspended-paint');
-const root = await mkdtemp(path.join(tmpdir(), 'openbitfun-creation-e2e-'));
+const root = await mkdtemp(path.join(tmpdir(), 'opc-creation-e2e-'));
 const userRoot = path.join(root, 'user');
 const productHome = path.join(root, 'home');
 const workbench = path.join(userRoot, 'data/frontend-workbench');
@@ -46,8 +46,8 @@ if (suspendedPaint) {
 await mkdir(overlay, { recursive: true });
 await mkdir(productHome, { recursive: true });
 await writeFile(path.join(overlay, '.creation-overlay.json'), JSON.stringify({ apiVersion: 1 }));
-await writeFile(path.join(overlay, 'openbitfun-creation.css'), '[data-testid="creation-native-output"] { white-space: pre-wrap; }');
-await writeFile(path.join(overlay, 'openbitfun-creation.js'), `
+await writeFile(path.join(overlay, 'opc-creation.css'), '[data-testid="creation-native-output"] { white-space: pre-wrap; }');
+await writeFile(path.join(overlay, 'opc-creation.js'), `
 export default function activate(ui) {
   const root = ui.mount('sidebar-footer');
   const output = document.createElement('pre');
@@ -104,7 +104,7 @@ const probe = createServer(); probe.listen(0, '127.0.0.1'); await once(probe, 'l
 const port = probe.address().port; await new Promise(resolve => probe.close(resolve));
 const endpoint = 'http://127.0.0.1:' + port;
 const log = await open(path.join(root, 'desktop.log'), 'w');
-const app = spawn(path.join(repo, 'target/debug/openbitfun-desktop' + (process.platform === 'win32' ? '.exe' : '')), [], {
+const app = spawn(path.join(repo, 'target/debug/opc-desktop' + (process.platform === 'win32' ? '.exe' : '')), [], {
   cwd: repo, windowsHide: true, stdio: ['ignore', log.fd, log.fd],
   env: { ...process.env, OPENBITFUN_USER_ROOT: userRoot, OPENBITFUN_E2E_USER_ROOT: userRoot,
     OPENBITFUN_HOME: productHome, OPENBITFUN_E2E_HOME: productHome, OPENBITFUN_E2E_STORAGE_GUARD: '1',
@@ -154,7 +154,7 @@ try {
   await request('/session/' + session + '/timeouts', { script: 5000 });
   const initial = JSON.parse(await until(readOutput, 'packaged customization activation'));
   const url = await execute('() => location.href');
-  assert.match(url, /openbitfun-ui/);
+  assert.match(url, /opc-ui/);
   assert.equal(initial.counter, 0);
   assert.ok(initial.snapshot.commands.some(command => command.id === 'test.increment'));
   await resumePaint();
@@ -181,7 +181,7 @@ try {
   console.log(JSON.stringify(report));
 } catch (error) {
   if (session) {
-    const diagnostics = await execute('() => ({ url: location.href, ready: document.readyState, text: document.body?.innerText.slice(0, 3000), scripts: [...document.scripts].map(script => script.src), creationStyles: document.querySelectorAll("[data-openbitfun-creation]").length, startup: window.__OPENBITFUN_STARTUP_TRACE__?.snapshot() })').catch(String);
+    const diagnostics = await execute('() => ({ url: location.href, ready: document.readyState, text: document.body?.innerText.slice(0, 3000), scripts: [...document.scripts].map(script => script.src), creationStyles: document.querySelectorAll("[data-opc-creation]").length, startup: window.__OPENBITFUN_STARTUP_TRACE__?.snapshot() })').catch(String);
     await writeFile(path.join(root, 'failure.json'), JSON.stringify(diagnostics, null, 2));
     const browserLogs = await request('/session/' + session + '/se/log', { type: 'browser' }).catch(String);
     await writeFile(path.join(root, 'browser-errors.json'), JSON.stringify(browserLogs, null, 2));

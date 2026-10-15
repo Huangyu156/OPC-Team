@@ -164,7 +164,7 @@ describe('ModelSelector provider levels', () => {
 
   const modeChoices = () => document.body.querySelector<HTMLElement>('[data-testid="chat-model-selector-mode-choices"]');
   const modeOption = (mode: 'manual' | 'smart' | 'pool') => modeChoices()?.querySelector<HTMLButtonElement>(
-    `[data-openbitfun-value="${mode}"]`,
+    `[data-opc-value="${mode}"]`,
   ) ?? null;
   const modeTooltip = (mode: 'manual' | 'smart' | 'pool') => modeOption(mode)?.querySelector('[data-tooltip]')?.getAttribute('data-tooltip');
 
@@ -186,7 +186,7 @@ describe('ModelSelector provider levels', () => {
   );
 
   const sharedPanelItems = () => optionsPanel()?.querySelector<HTMLElement>(
-    '[data-openbitfun-part="section-items"]',
+    '[data-opc-part="section-items"]',
   ) ?? null;
 
   const renderSelector = async (
@@ -293,7 +293,7 @@ describe('ModelSelector provider levels', () => {
     const loadingState = () => menu.querySelector('[data-testid="chat-model-selector-loading"]');
     expect(loadingState()?.getAttribute('role')).toBe('status');
     expect(loadingState()?.textContent).toContain('modelSelector.status.loading');
-    expect(loadingState()?.querySelector('[data-openbitfun-component="spinner"]')).not.toBeNull();
+    expect(loadingState()?.querySelector('[data-opc-component="spinner"]')).not.toBeNull();
     expect(menu.querySelector('[data-testid="chat-model-selector-settings-model"]')).toBeNull();
     expect(document.activeElement).toBe(trigger);
 
@@ -390,9 +390,9 @@ describe('ModelSelector provider levels', () => {
     expect(settings?.querySelector(
       '[data-testid="chat-model-selector-settings-model"]',
     )?.textContent).toContain('umbra-main-native');
-    expect(settings?.querySelector('.openbitfun-model-selector__model-provider')?.textContent)
+    expect(settings?.querySelector('.opc-model-selector__model-provider')?.textContent)
       .toBe('Umbra');
-    const providerLabel = settings?.querySelector<HTMLElement>('.openbitfun-model-selector__model-provider');
+    const providerLabel = settings?.querySelector<HTMLElement>('.opc-model-selector__model-provider');
     expect(providerLabel?.closest('button')).toBe(settings?.querySelector(
       '[data-testid="chat-model-selector-settings-provider"]',
     ));
@@ -401,10 +401,10 @@ describe('ModelSelector provider levels', () => {
       '[data-testid="chat-model-selector-settings-reasoning"]',
     )?.textContent).toContain('reasoningSelector.levels.high');
     expect(settings?.querySelectorAll('button[role="menuitem"]')).toHaveLength(4);
-    expect(settings?.querySelector('.openbitfun-model-selector__mode-footer')?.contains(modeTrigger())).toBe(true);
-    expect(settings?.querySelector('.openbitfun-reasoning-control')?.contains(modeTrigger())).toBe(false);
+    expect(settings?.querySelector('.opc-model-selector__mode-footer')?.contains(modeTrigger())).toBe(true);
+    expect(settings?.querySelector('.opc-reasoning-control')?.contains(modeTrigger())).toBe(false);
     expect(modeTrigger().textContent).toBe('modelSelector.modes.manual');
-    expect(settings?.querySelector('.openbitfun-reasoning-control__title')).toBeNull();
+    expect(settings?.querySelector('.opc-reasoning-control__title')).toBeNull();
     expect(settings?.textContent).not.toContain('modelSelector.fastMode');
     expect(settings?.querySelector(
       '[data-testid="chat-model-selector-settings-reset"]',
@@ -507,7 +507,7 @@ describe('ModelSelector provider levels', () => {
       .toEqual(['auto', 'preset:off', 'preset:low', 'preset:medium', 'preset:high']);
     expect(options.find(option => option.dataset.openbitfunValue === 'unavailable:xhigh')).toBeUndefined();
     expect(options.every(option => (
-      option.querySelector('.openbitfun-model-selector__option-desc') === null
+      option.querySelector('.opc-model-selector__option-desc') === null
     ))).toBe(true);
     expect(options.every(option => option.querySelector('svg') === null)).toBe(true);
     expect(options.find(option => option.dataset.openbitfunValue === 'auto')?.getAttribute('aria-pressed'))
@@ -544,7 +544,7 @@ describe('ModelSelector provider levels', () => {
     await act(async () => reasoningRow?.click());
     await act(async () => {
       document.body.querySelector<HTMLButtonElement>(
-        '[data-openbitfun-value="preset:high"]',
+        '[data-opc-value="preset:high"]',
       )?.click();
     });
 
@@ -574,9 +574,9 @@ describe('ModelSelector provider levels', () => {
     expect(modeOption('manual')?.getAttribute('aria-pressed')).toBe('true');
     expect(modeOption('manual')?.textContent).toBe('modelSelector.modes.manual');
     expect(modeTooltip('manual')).toBe('umbra-main-native');
-    expect(document.body.querySelector('.openbitfun-model-selector__model-summary[aria-hidden="true"][inert]')).not.toBeNull();
+    expect(document.body.querySelector('.opc-model-selector__model-summary[aria-hidden="true"][inert]')).not.toBeNull();
     expect(document.body.querySelector('[data-testid="chat-model-selector-reasoning-status"]')).toBeNull();
-    expect(document.body.querySelector('.openbitfun-model-selector__mode-footer[aria-hidden="true"][inert]')).not.toBeNull();
+    expect(document.body.querySelector('.opc-model-selector__mode-footer[aria-hidden="true"][inert]')).not.toBeNull();
     expect(document.body.querySelector('[data-testid="chat-model-selector-menu"]')?.getAttribute('data-menu-level')).toBe('settings');
     expect(modelOption('primary')).toBeNull();
     const trigger = container.querySelector<HTMLButtonElement>('[data-testid="chat-model-selector-btn"]')!;
@@ -600,9 +600,9 @@ describe('ModelSelector provider levels', () => {
     expect(document.body.querySelector('[data-testid="chat-model-selector-settings-reasoning"]')).toBeNull();
     const settings = document.body.querySelector('[data-testid="chat-model-selector-settings"]')!;
     expect(settings.textContent).toBe(`modelSelector.modes.${mode}`);
-    expect(settings.querySelector('.openbitfun-model-selector__model-provider')).toBeNull();
-    expect(settings.querySelector('.openbitfun-model-selector__model-name')).toBeNull();
-    expect(modeTrigger().closest('.openbitfun-model-selector__mode-summary')).not.toBeNull();
+    expect(settings.querySelector('.opc-model-selector__model-provider')).toBeNull();
+    expect(settings.querySelector('.opc-model-selector__model-name')).toBeNull();
+    expect(modeTrigger().closest('.opc-model-selector__mode-summary')).not.toBeNull();
     await act(async () => settings.click());
     expect(optionsPanel()).toBeNull();
     await act(async () => modeTrigger().click());
@@ -777,10 +777,10 @@ describe('ModelSelector provider levels', () => {
     });
     await renderSelector(CATALOG_MODELS, 'acme-fast');
     await openSettingsMenu();
-    const sky = document.body.querySelector('[data-openbitfun-part="reasoningSliderSky"]');
+    const sky = document.body.querySelector('[data-opc-part="reasoningSliderSky"]');
     expect(sky).not.toBeNull();
     await act(async () => modeTrigger().click());
-    expect(document.body.querySelector('[data-openbitfun-part="reasoningSliderSky"]')).toBe(sky);
+    expect(document.body.querySelector('[data-opc-part="reasoningSliderSky"]')).toBe(sky);
     let finish!: () => void;
     vi.mocked(configManager.setConfig).mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
     await act(async () => modeOption('smart')!.click());
@@ -826,9 +826,9 @@ describe('ModelSelector provider levels', () => {
 
     await openReasoning();
     expect(document.body.querySelectorAll('[data-testid="chat-model-selector-reasoning-options"] [aria-pressed="true"]')).toHaveLength(1);
-    expect(document.body.querySelector('[data-openbitfun-value="auto"]')?.getAttribute('aria-pressed')).toBe('true');
+    expect(document.body.querySelector('[data-opc-value="auto"]')?.getAttribute('aria-pressed')).toBe('true');
     await act(async () => document.body.querySelector<HTMLButtonElement>(
-      '[data-openbitfun-value="preset:high"]',
+      '[data-opc-value="preset:high"]',
     )!.click());
     expect(container.querySelector('[data-testid="chat-model-selector-btn"]')?.getAttribute('aria-expanded')).toBe('true');
     expect(slider()).toBeNull();
@@ -838,11 +838,11 @@ describe('ModelSelector provider levels', () => {
     expect(manualRow.querySelector('[data-testid="chat-model-selector-settings-reasoning"]')?.textContent)
       .toBe('reasoningSelector.thinking · reasoningSelector.levels.high');
     expect(manualRow.querySelectorAll('[data-testid="chat-model-selector-settings-reasoning"]')).toHaveLength(1);
-    expect(document.body.querySelector('[data-reasoning-mode="manual"] [data-openbitfun-name="reasoning-auto"]')).toBeNull();
+    expect(document.body.querySelector('[data-reasoning-mode="manual"] [data-opc-name="reasoning-auto"]')).toBeNull();
     await openReasoning();
     expect(getRecentReasoningPreset('acme-fast')).toBe('high');
     await act(async () => {
-      document.body.querySelector<HTMLButtonElement>('[data-openbitfun-value="preset:off"]')!.click();
+      document.body.querySelector<HTMLButtonElement>('[data-opc-value="preset:off"]')!.click();
     });
     expect(getRecentReasoningPreset('acme-fast')).toBe('off');
     expect(slider()).toBeNull();
@@ -852,7 +852,7 @@ describe('ModelSelector provider levels', () => {
 
     await openReasoning();
     await act(async () => document.body.querySelector<HTMLButtonElement>(
-      '[data-openbitfun-value="auto"]',
+      '[data-opc-value="auto"]',
     )!.click());
     expect(container.querySelector('[data-testid="chat-model-selector-btn"]')?.getAttribute('aria-expanded')).toBe('true');
     expect(slider()).toBeNull();
@@ -1033,9 +1033,9 @@ describe('ModelSelector provider levels', () => {
     const selectedProvider = providerRows().find(
       row => row.dataset.providerKey === 'provider-umbra',
     );
-    expect(selectedProvider?.querySelector('[data-openbitfun-part="optionMain"]')?.textContent).toBe('Umbra');
+    expect(selectedProvider?.querySelector('[data-opc-part="optionMain"]')?.textContent).toBe('Umbra');
     expect(selectedProvider?.querySelector('[data-testid="chat-model-selector-provider-selected-check"]')).not.toBeNull();
-    expect(selectedProvider?.querySelector('[data-openbitfun-part="metadata"]')?.textContent).toBe('1');
+    expect(selectedProvider?.querySelector('[data-opc-part="metadata"]')?.textContent).toBe('1');
     expect(selectedProvider?.textContent).not.toContain('umbra-main-native');
     const currentSelection = document.body.querySelector<HTMLElement>('[data-testid="chat-model-selector-current-selection"]');
     expect(currentSelection?.textContent).toBe('umbra-main-native');

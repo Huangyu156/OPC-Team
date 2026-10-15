@@ -71,8 +71,8 @@ export function FontPreferencePanel() {
   return (
     <div
       data-testid="appearance-font-section"
-      data-openbitfun-component="font-preference"
-      data-openbitfun-part="root"
+      data-opc-component="font-preference"
+      data-opc-part="root"
     >
       <ConfigPageSection
         className="font-pref-panel__section"
@@ -97,8 +97,8 @@ export function FontPreferencePanel() {
             <div
               className="font-pref-panel__custom-controls"
               data-testid="appearance-ui-font-custom-controls"
-              data-openbitfun-component="font-preference"
-              data-openbitfun-part="customControls"
+              data-opc-component="font-preference"
+              data-opc-part="customControls"
             >
               <NumberInput
                 value={parseInt(customInput, 10) || 14}
@@ -119,8 +119,8 @@ export function FontPreferencePanel() {
         <ConfigPageRow label={t('appearance.fontSize.previewLabel')} multiline>
           <div
             className="font-pref-panel__preview"
-            data-openbitfun-component="font-preference"
-            data-openbitfun-part="preview"
+            data-opc-component="font-preference"
+            data-opc-part="preview"
           >
             <Input
               className="font-pref-panel__preview-input"

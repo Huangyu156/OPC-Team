@@ -189,7 +189,7 @@ Claude 适配将 `Bash` 匹配到 `ExecCommand`，并双向转换 `command/cmd`�
         "hooks": [
           {
             "type": "command",
-            "command": "jq -r '.tool_input.command' >> ~/openbitfun-commands.log"
+            "command": "jq -r '.tool_input.command' >> ~/opc-commands.log"
           }
         ]
       }
@@ -199,7 +199,7 @@ Claude 适配将 `Bash` 匹配到 `ExecCommand`，并双向转换 `command/cmd`�
 ```
 
 新建一个会话，让 Agent 执行一条 shell 命令，它执行的每条命令都会追加到
-`~/openbitfun-commands.log`。
+`~/opc-commands.log`。
 
 一个会阻止操作的 Hook —— 这里拒绝修改 `migrations/` 下的文件：
 

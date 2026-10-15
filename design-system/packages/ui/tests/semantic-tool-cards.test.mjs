@@ -10,7 +10,7 @@ test('raw-only historical cards retain an accessible expansion affordance before
       status: 'completed', action: 'Read goal', attention, detailsAvailable: true, onToggle() {},
     }));
     assert.match(html, /aria-expanded="false"/);
-    assert.match(html, /data-openbitfun-icon="target"|lucide-target/);
+    assert.match(html, /data-opc-icon="target"|lucide-target/);
   }
 });
 
@@ -36,7 +36,7 @@ test('network endpoints remain distinct and ordered record lists preserve semant
     status: 'completed', action: 'Forward port', isExpanded: true, onToggle() {}, ordered: true,
     connection: { from: 'remote:3000', to: '127.0.0.1:5174' }, records: [{ key: '1', title: 'Recorded listener' }],
   }));
-  assert.match(html, /data-openbitfun-part="connection"/); assert.match(html, /remote:3000/); assert.match(html, /127\.0\.0\.1:5174/);
+  assert.match(html, /data-opc-part="connection"/); assert.match(html, /remote:3000/); assert.match(html, /127\.0\.0\.1:5174/);
   assert.match(html, /<ol\b/); assert.match(html, /<li\b/);
 });
 

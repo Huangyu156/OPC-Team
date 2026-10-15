@@ -12,7 +12,7 @@ describe('composeAppearancePackage', () => {
     const payload = JSON.stringify(original);
     const resolved = composeAppearancePackage(JSON.parse(payload));
     const tokens = resolved.renderers!['theme-tokens']!.settings.tokens;
-    const defaults = getBuiltinAppearanceThemeTokens(`openbitfun-${mode}`);
+    const defaults = getBuiltinAppearanceThemeTokens(`opc-${mode}`);
     for (const name of APPEARANCE_THEME_TOKEN_NAMES.filter(name => name.startsWith('--opcteam-domain-subagent-'))) {
       expect(tokens[name as keyof typeof tokens]).toBe(defaults[name as keyof typeof defaults]);
     }
@@ -248,7 +248,7 @@ describe('composeAppearancePackage', () => {
     expect(resolved.renderers?.xterm).toBeDefined();
     expect(resolved.renderers?.mermaid).toBeDefined();
     expect(resolved.renderers?.['generative-widget']).toBeDefined();
-    expect(resolved.renderers?.['openbitfun-canvas']).toBeDefined();
+    expect(resolved.renderers?.['opc-canvas']).toBeDefined();
     expect(Object.keys(resolved.renderers?.['theme-tokens']?.settings.tokens ?? {})).toEqual(
       expect.arrayContaining(APPEARANCE_THEME_TOKEN_NAMES),
     );

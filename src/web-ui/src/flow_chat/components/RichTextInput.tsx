@@ -682,7 +682,7 @@ export const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps
             kind: 'inline-token',
             token,
             tokenType: 'skill',
-            label: element.querySelector('[data-openbitfun-part="tagText"]')?.textContent || skill.skillName,
+            label: element.querySelector('[data-opc-part="tagText"]')?.textContent || skill.skillName,
           });
           return;
         }
@@ -1266,7 +1266,7 @@ export const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps
 
     const body = document.createElement('div');
     body.appendChild(range.cloneContents());
-    body.querySelectorAll('[data-openbitfun-part="tagRemove"]').forEach(node => node.remove());
+    body.querySelectorAll('[data-opc-part="tagRemove"]').forEach(node => node.remove());
 
     const sanitizedText = sanitizeText(readComposerDomText(body));
     const tokens = sanitizedText.startsWith('/')
@@ -1740,9 +1740,9 @@ export const RichTextInput = React.forwardRef<HTMLDivElement, RichTextInputProps
   return (
     <>
       <div
-        data-openbitfun-component="rich-text-input"
-        data-openbitfun-part="root"
-        data-openbitfun-state={[isFocused ? 'focused' : '', disabled ? 'disabled' : ''].filter(Boolean).join(' ') || undefined}
+        data-opc-component="rich-text-input"
+        data-opc-part="root"
+        data-opc-state={[isFocused ? 'focused' : '', disabled ? 'disabled' : ''].filter(Boolean).join(' ') || undefined}
         {...restProps}
         ref={internalRef}
         className={`rich-text-input ${isFocused ? 'rich-text-input--focused' : ''} ${className}`}

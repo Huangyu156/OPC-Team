@@ -1,11 +1,11 @@
 use agent_client_protocol::Error;
-use openbitfun_app_server_protocol::app::CapabilityAvailability;
-use openbitfun_app_server_protocol::error::{AppServerErrorData, AppServerErrorKind};
-use openbitfun_app_server_protocol::external_source::ExternalSourceErrorData;
-use openbitfun_app_server_protocol::worktree::{
+use opc_app_server_protocol::app::CapabilityAvailability;
+use opc_app_server_protocol::error::{AppServerErrorData, AppServerErrorKind};
+use opc_app_server_protocol::external_source::ExternalSourceErrorData;
+use opc_app_server_protocol::worktree::{
     WorktreeErrorCode, WorktreeErrorData, WorktreeOperationError,
 };
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     ExternalSourceOperationError, ExternalSourceOperationErrorCode,
 };
 

@@ -414,7 +414,7 @@ test('website, global search, and agent control consume generated semantic proje
   const searchProviders = await read('src/web-ui/src/app/global-search/providers/index.ts');
   const controlBridge = await read('src/web-ui/src/app/global-search/openBitFunControlBridge.ts');
   const controlTool = await read(
-    'src/crates/assembly/core/src/agentic/tools/implementations/openbitfun_control_tool.rs',
+    'src/crates/assembly/core/src/agentic/tools/implementations/opc_control_tool.rs',
   );
 
   assert.match(websiteBuild, /docs\/interactive-capabilities\/capabilities\.json/u);
@@ -429,18 +429,18 @@ test('website, global search, and agent control consume generated semantic proje
 });
 
 test('Desktop and Web UI share the OpenBitFunControl transport contract', async () => {
-  const host = await read('src/apps/desktop/src/openbitfun_control_host.rs');
+  const host = await read('src/apps/desktop/src/opc_control_host.rs');
   const bridge = await read('src/web-ui/src/app/global-search/openBitFunControlBridge.ts');
   const desktopRegistration = await read('src/apps/desktop/src/lib.rs');
 
   for (const source of [host, bridge]) {
-    assert.match(source, /agentic:\/\/openbitfun-control-request/u);
+    assert.match(source, /agentic:\/\/opc-control-request/u);
   }
   assert.match(host, /#\[serde\(rename_all = "camelCase"\)\]/u);
-  assert.match(bridge, /api\.invoke\('mark_openbitfun_control_surface_ready',\s*\{\s*request:\s*\{\s*creationApiVersion:\s*1\s*\}\s*\}\)/u);
-  assert.match(bridge, /api\.invoke\('report_openbitfun_control_result'/u);
-  assert.match(desktopRegistration, /openbitfun_control_host::mark_openbitfun_control_surface_ready/u);
-  assert.match(desktopRegistration, /openbitfun_control_host::report_openbitfun_control_result/u);
+  assert.match(bridge, /api\.invoke\('mark_opc_control_surface_ready',\s*\{\s*request:\s*\{\s*creationApiVersion:\s*1\s*\}\s*\}\)/u);
+  assert.match(bridge, /api\.invoke\('report_opc_control_result'/u);
+  assert.match(desktopRegistration, /opc_control_host::mark_opc_control_surface_ready/u);
+  assert.match(desktopRegistration, /opc_control_host::report_opc_control_result/u);
 });
 
 test('GUI, Agent, CLI, and Peer config writes converge on the ProductControl executors', async () => {
@@ -454,12 +454,12 @@ test('GUI, Agent, CLI, and Peer config writes converge on the ProductControl exe
   );
   const sleepHost = await read('src/apps/desktop/src/sleep_prevention.rs');
   const desktopConfigApi = await read('src/apps/desktop/src/api/config_api.rs');
-  const desktopHost = await read('src/apps/desktop/src/openbitfun_control_host.rs');
+  const desktopHost = await read('src/apps/desktop/src/opc_control_host.rs');
   const sharedExecutor = await read(
-    'src/crates/assembly/core/src/agentic/tools/openbitfun_control_config.rs',
+    'src/crates/assembly/core/src/agentic/tools/opc_control_config.rs',
   );
   const controlTool = await read(
-    'src/crates/assembly/core/src/agentic/tools/implementations/openbitfun_control_tool.rs',
+    'src/crates/assembly/core/src/agentic/tools/implementations/opc_control_tool.rs',
   );
   const cliConfigHost = await read('src/apps/cli/src/peer_host/commands/config.rs');
   const cliProductControlHost = await read(

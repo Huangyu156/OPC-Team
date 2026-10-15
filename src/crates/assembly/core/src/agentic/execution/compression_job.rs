@@ -4,7 +4,7 @@
 use super::*;
 use crate::agentic::session::CompressionPlan;
 use crate::util::timing::elapsed_ms_u64;
-use openbitfun_agent_runtime::compression_prefetch::{CompressionPrefetch, PrefetchClaim};
+use opc_agent_runtime::compression_prefetch::{CompressionPrefetch, PrefetchClaim};
 
 // Logging-only scope: it must not inspect/consume the publication channel or
 // change the failure-at-claim semantics.

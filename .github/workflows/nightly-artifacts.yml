@@ -217,7 +217,7 @@ jobs:
           CARGO_INCREMENTAL: "0"
           CARGO_PROFILE_DEV_DEBUG: "0"
           CARGO_PROFILE_TEST_DEBUG: "0"
-        run: cargo test --locked -p openbitfun-cli --test terminal_process_contracts -- --test-threads=1
+        run: cargo test --locked -p opc-cli --test terminal_process_contracts -- --test-threads=1
 
       - name: Select Xcode for macOS Icon Composer assets
         if: runner.os == 'macOS'
@@ -267,7 +267,7 @@ jobs:
         run: |
           set -euo pipefail
           ASSET_VERSION="${NIGHTLY_VERSION%%+*}"
-          cargo build --release --target "$TARGET" -p openbitfun-cli
+          cargo build --release --target "$TARGET" -p opc-cli
           bash scripts/cli/package-unix.sh "$ASSET_VERSION" "$TARGET"
 
       - name: Sign macOS CLI archive and checksum
@@ -338,13 +338,13 @@ jobs:
               find_bundle_dir '*.app'
               find_bundle_file '*.dmg'
               shopt -s nullglob
-              cli_archives=(openbitfun-cli-*-"${PACKAGE_TARGET}".tar.gz)
+              cli_archives=(opc-cli-*-"${PACKAGE_TARGET}".tar.gz)
               [[ ${#cli_archives[@]} -eq 1 ]]
               test -s "${cli_archives[0]}"
               test -s "${cli_archives[0]}.sha256"
               ;;
             windows-x64)
-              test -s OpenBitFun-Installer/src-tauri/target/release/openbitfun-installer.exe
+              test -s OpenBitFun-Installer/src-tauri/target/release/opc-installer.exe
               ;;
             *)
               echo "Unsupported package platform: ${{ matrix.platform }}" >&2
@@ -356,18 +356,18 @@ jobs:
         if: ${{ inputs.upload_artifacts }}
         uses: actions/upload-artifact@v6
         with:
-          name: openbitfun-${{ inputs.artifact_prefix }}-${{ matrix.platform }}-bundle
+          name: opc-${{ inputs.artifact_prefix }}-${{ matrix.platform }}-bundle
           if-no-files-found: error
           retention-days: ${{ inputs.artifact_retention_days }}
           path: |
             target/*/release/bundle
             target/release/bundle
             src/apps/desktop/target/release/bundle
-            OpenBitFun-Installer/src-tauri/target/release/openbitfun-installer.exe
-            openbitfun-cli-*-apple-darwin.tar.gz
-            openbitfun-cli-*-apple-darwin.tar.gz.sha256
-            openbitfun-cli-*-apple-darwin.tar.gz.sig
-            openbitfun-cli-*-apple-darwin.tar.gz.sha256.sig
+            OpenBitFun-Installer/src-tauri/target/release/opc-installer.exe
+            opc-cli-*-apple-darwin.tar.gz
+            opc-cli-*-apple-darwin.tar.gz.sha256
+            opc-cli-*-apple-darwin.tar.gz.sig
+            opc-cli-*-apple-darwin.tar.gz.sha256.sig
 
   linux-binaries:
     name: Linux CLI and Relay Server

@@ -95,7 +95,7 @@ function formatNearPairDecisionKey(row) {
 }
 
 function createFixture(files) {
-  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-theme-audit-'));
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-theme-audit-'));
   const sourceRoot = path.join(dir, 'src', 'web-ui', 'src');
   for (const [relativePath, content] of Object.entries(files)) {
     writeText(path.join(sourceRoot, relativePath), content);

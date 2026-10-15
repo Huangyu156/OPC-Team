@@ -136,7 +136,7 @@ describe('overflow text full-content access', () => {
   it('uses solid ellipsis for long commands and keeps the tooltip open across portal entry', () => {
     render(<CommandToolCard action="Run" command={longLabel} emptyCommand="Empty" isExpanded={false} status="completed" />);
     expect(host.querySelector('[title]')).toBeNull();
-    const label = host.querySelector('[data-openbitfun-part="command"] [data-overflow]')!;
+    const label = host.querySelector('[data-opc-part="command"] [data-overflow]')!;
     expect(label.getAttribute('data-overflow-style')).toBe('ellipsis');
     const trigger = label.closest('[data-overflow-trigger]') ?? label;
     hover(trigger);
@@ -158,11 +158,11 @@ describe('overflow text full-content access', () => {
     const onToggle = vi.fn();
     render(<CommandToolCard action="Run" command={longLabel} emptyCommand="Empty"
       isExpanded={false} status="completed" output="Output" onToggle={onToggle} />);
-    const label = host.querySelector<HTMLElement>('[data-openbitfun-part="command"] [data-overflow]')!;
+    const label = host.querySelector<HTMLElement>('[data-opc-part="command"] [data-overflow]')!;
     hover(label.closest('[data-overflow-trigger]') ?? label);
     reveal();
     const popup = tooltip()!;
-    act(() => popup.querySelector<HTMLElement>('[data-openbitfun-part="body"]')!.click());
+    act(() => popup.querySelector<HTMLElement>('[data-opc-part="body"]')!.click());
     expect(onToggle).not.toHaveBeenCalled();
     expect(tooltip()).toBe(popup);
     act(() => label.click());
@@ -308,7 +308,7 @@ describe('overflow text full-content access', () => {
 
   it('covers both the settings Select value and its portalled options', () => {
     render(<Select size="sm" aria-label="Task concurrency" options={[{ label: longLabel, value: 'parallel' }]} />);
-    const trigger = host.querySelector<HTMLButtonElement>('[data-openbitfun-part="trigger"]')!;
+    const trigger = host.querySelector<HTMLButtonElement>('[data-opc-part="trigger"]')!;
     hover(trigger);
     reveal();
     expect(tooltip()?.textContent).toBe(longLabel);

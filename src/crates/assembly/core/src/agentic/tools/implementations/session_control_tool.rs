@@ -13,8 +13,8 @@ use crate::service::workspace::{get_global_workspace_service, WorkspaceService};
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_runtime::sdk::AgentRuntime;
-use openbitfun_agent_runtime::session_control::{
+use opc_agent_runtime::sdk::AgentRuntime;
+use opc_agent_runtime::session_control::{
     render_session_control_tool_use_message, resolve_session_control_cancel_route,
     session_control_agent_type_or_default, session_control_cancel_result_message,
     session_control_cancel_status, session_control_created_result_message,
@@ -24,13 +24,13 @@ use openbitfun_agent_runtime::session_control::{
     SessionControlCancelRoute, SessionControlInput, SessionControlValidationContext,
     SessionControlValidationResult,
 };
-use openbitfun_core_types::SessionExecutionTarget;
-use openbitfun_runtime_ports::{
+use opc_core_types::SessionExecutionTarget;
+use opc_runtime_ports::{
     AgentSessionCreateRequest, AgentSessionDeleteRequest, AgentSessionListRequest,
     AgentSessionRenameRequest, AgentSessionSummary, AgentSessionWorkspaceBinding,
     AgentSessionWorkspaceRequest, AgentSubmissionSource, AgentTurnCancellationRequest,
 };
-use openbitfun_services_core::workspace_identity::normalize_remote_workspace_path;
+use opc_services_core::workspace_identity::normalize_remote_workspace_path;
 use serde_json::{json, Value};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
@@ -825,10 +825,8 @@ mod tests {
     use crate::agentic::tools::framework::ToolUseContext;
     use crate::agentic::WorkspaceBinding;
     use crate::service::workspace::{WorkspaceActivityMode, WorkspaceCreateOptions, WorkspaceKind};
-    use openbitfun_agent_runtime::sdk::AgentRuntimeBuilder;
-    use openbitfun_core_types::{
-        SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
-    };
+    use opc_agent_runtime::sdk::AgentRuntimeBuilder;
+    use opc_core_types::{SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle};
     use serde_json::json;
     use std::collections::HashMap;
     use std::fs;
@@ -848,7 +846,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -889,7 +887,7 @@ mod tests {
             PathBuf::from(path),
             connection.into(),
             "remote.example".into(),
-            openbitfun_services_core::workspace_identity::WorkspaceSessionIdentity {
+            opc_services_core::workspace_identity::WorkspaceSessionIdentity {
                 workspace_kind: WorkspaceKind::Remote,
                 hostname: "remote.example".into(),
                 logical_workspace_path: path.into(),
@@ -905,37 +903,35 @@ mod tests {
     }
 
     #[async_trait]
-    impl openbitfun_runtime_ports::AgentSubmissionPort for SessionsPort {
+    impl opc_runtime_ports::AgentSubmissionPort for SessionsPort {
         async fn create_session(
             &self,
             _request: AgentSessionCreateRequest,
-        ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult>
-        {
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSessionCreateResult> {
             unreachable!("workspace resolution must not create sessions")
         }
 
         async fn submit_message(
             &self,
-            _request: openbitfun_runtime_ports::AgentSubmissionRequest,
-        ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSubmissionResult>
-        {
+            _request: opc_runtime_ports::AgentSubmissionRequest,
+        ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSubmissionResult> {
             unreachable!("workspace resolution must not submit messages")
         }
 
         async fn resolve_session_agent_type(
             &self,
             _session_id: &str,
-        ) -> openbitfun_runtime_ports::PortResult<Option<String>> {
+        ) -> opc_runtime_ports::PortResult<Option<String>> {
             Ok(None)
         }
     }
 
     #[async_trait]
-    impl openbitfun_runtime_ports::AgentSessionManagementPort for SessionsPort {
+    impl opc_runtime_ports::AgentSessionManagementPort for SessionsPort {
         async fn list_sessions(
             &self,
             request: AgentSessionListRequest,
-        ) -> openbitfun_runtime_ports::PortResult<Vec<AgentSessionSummary>> {
+        ) -> opc_runtime_ports::PortResult<Vec<AgentSessionSummary>> {
             self.requests.lock().unwrap().push(request);
             Ok(Vec::new())
         }
@@ -943,14 +939,14 @@ mod tests {
         async fn delete_session(
             &self,
             _request: AgentSessionDeleteRequest,
-        ) -> openbitfun_runtime_ports::PortResult<()> {
+        ) -> opc_runtime_ports::PortResult<()> {
             unreachable!("workspace resolution must not delete sessions")
         }
 
         async fn resolve_session_workspace_binding(
             &self,
             request: AgentSessionWorkspaceRequest,
-        ) -> openbitfun_runtime_ports::PortResult<Option<AgentSessionWorkspaceBinding>> {
+        ) -> opc_runtime_ports::PortResult<Option<AgentSessionWorkspaceBinding>> {
             assert_eq!(request.session_id, "target-session");
             Ok(self.binding.clone())
         }
@@ -1441,7 +1437,7 @@ mod tests {
     #[tokio::test]
     async fn validate_list_rejects_session_id() {
         let tool = SessionControlTool::new();
-        let workspace = TestTempDir::new("openbitfun-session-control-tool-test");
+        let workspace = TestTempDir::new("opc-session-control-tool-test");
 
         let validation = tool
             .validate_input(

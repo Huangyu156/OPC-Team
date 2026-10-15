@@ -10,7 +10,7 @@ use super::{
     SESSION_STORAGE_SCHEMA_VERSION,
 };
 use crate::json_store::{JsonFileStore, JsonFileStoreError};
-use openbitfun_core_types::validate_session_id;
+use opc_core_types::validate_session_id;
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
 use thiserror::Error;
@@ -211,7 +211,7 @@ mod tests {
             .unwrap_or_else(std::env::temp_dir);
         fs::create_dir_all(&temp_root).unwrap();
         let temp = tempfile::Builder::new()
-            .prefix("openbitfun-offline-session-")
+            .prefix("opc-offline-session-")
             .tempdir_in(temp_root)
             .unwrap();
         let store = OfflineSessionImportStore::new(temp.path());

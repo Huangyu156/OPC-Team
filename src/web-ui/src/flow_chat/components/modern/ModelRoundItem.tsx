@@ -84,15 +84,15 @@ function RetryHistoryCard({
     <div
       ref={cardRootRef}
       className="model-round-item__retry-history"
-      data-openbitfun-product-component="model-round-item"
-      data-openbitfun-product-part="retryHistory"
+      data-opc-product-component="model-round-item"
+      data-opc-product-part="retryHistory"
     >
       {nested ? (
         <Disclosure
           className="model-round-item__retry-toggle"
-          data-openbitfun-product-component="model-round-item"
-          data-openbitfun-product-part="retryToggle"
-          data-openbitfun-state={isExpanded ? 'expanded' : undefined}
+          data-opc-product-component="model-round-item"
+          data-opc-product-part="retryToggle"
+          data-opc-state={isExpanded ? 'expanded' : undefined}
           open={isExpanded}
           onOpenChange={expanded => applyExpandedState(isExpanded, expanded, onExpandedChange)}
           summary={label}
@@ -104,8 +104,8 @@ function RetryHistoryCard({
       ) : (
         <AmbientToolCard
           className="model-round-item__retry-toggle"
-          data-openbitfun-product-component="model-round-item"
-          data-openbitfun-product-part="retryToggle"
+          data-opc-product-component="model-round-item"
+          data-opc-product-part="retryToggle"
           status="completed"
           isExpanded={isExpanded}
           onClick={() => applyExpandedState(isExpanded, !isExpanded, onExpandedChange)}
@@ -250,9 +250,9 @@ const RetryAttemptSection: React.FC<{
         size="xs"
         variant="quiet"
         className="model-round-item__attempt-diagnostic-copy"
-        data-openbitfun-product-component="model-round-item"
-        data-openbitfun-product-part="action"
-        data-openbitfun-state={copiedValue === valueKey ? 'copied' : undefined}
+        data-opc-product-component="model-round-item"
+        data-opc-product-part="action"
+        data-opc-state={copiedValue === valueKey ? 'copied' : undefined}
         onClick={() => void copyValue(value, valueKey)}
         aria-label={t('modelRound.attemptDiagnostics.copy')}
         icon={copiedValue === valueKey ? <Icon name="check-line" size="sm" /> : <Icon name="duplicate" size="sm" />}
@@ -261,7 +261,7 @@ const RetryAttemptSection: React.FC<{
   );
 
   const attemptLabel = (
-    <span className="model-round-item__retry-attempt-label" data-openbitfun-product-component="model-round-item" data-openbitfun-product-part="attemptLabel">
+    <span className="model-round-item__retry-attempt-label" data-opc-product-component="model-round-item" data-opc-product-part="attemptLabel">
       {label}
     </span>
   );
@@ -270,8 +270,8 @@ const RetryAttemptSection: React.FC<{
     <div
       ref={cardRootRef}
       className="model-round-item__retry-attempt"
-      data-openbitfun-product-component="model-round-item"
-      data-openbitfun-product-part="retryAttempt"
+      data-opc-product-component="model-round-item"
+      data-opc-product-part="retryAttempt"
     >
       <ToolCardSection label={diagnostic ? undefined : attemptLabel}>
         {diagnostic && (
@@ -281,9 +281,9 @@ const RetryAttemptSection: React.FC<{
             variant="text"
             labelBehavior="static"
             className="model-round-item__attempt-diagnostic-toggle"
-            data-openbitfun-product-component="model-round-item"
-            data-openbitfun-product-part="diagnosticToggle"
-            data-openbitfun-state={isOpen ? 'expanded' : undefined}
+            data-opc-product-component="model-round-item"
+            data-opc-product-part="diagnosticToggle"
+            data-opc-state={isOpen ? 'expanded' : undefined}
             onClick={() => applyExpandedState(isOpen, !isOpen, setIsOpen)}
             aria-expanded={isOpen}
             aria-controls={detailsId}
@@ -296,13 +296,13 @@ const RetryAttemptSection: React.FC<{
           <ToolCardSection
             id={detailsId}
             className="model-round-item__attempt-diagnostic-details"
-            data-openbitfun-product-component="model-round-item"
-            data-openbitfun-product-part="diagnosticDetails"
+            data-opc-product-component="model-round-item"
+            data-opc-product-part="diagnosticDetails"
             label={(
               <span
                 className="model-round-item__attempt-diagnostic-category"
-                data-openbitfun-product-component="model-round-item"
-                data-openbitfun-product-part="diagnosticSection"
+                data-opc-product-component="model-round-item"
+                data-opc-product-part="diagnosticSection"
               >
                 {attemptDiagnosticCategoryLabel(diagnostic, t)}
               </span>
@@ -311,8 +311,8 @@ const RetryAttemptSection: React.FC<{
             {diagnostic.rawError && (
               <ToolCardSection
                 className="model-round-item__attempt-diagnostic-section"
-                data-openbitfun-product-component="model-round-item"
-                data-openbitfun-product-part="diagnosticSection"
+                data-opc-product-component="model-round-item"
+                data-opc-product-part="diagnosticSection"
                 label={t('modelRound.attemptDiagnostics.providerError')}
                 actions={renderCopyButton(diagnostic.rawError, 'raw-error')}
               >
@@ -326,8 +326,8 @@ const RetryAttemptSection: React.FC<{
                 <ToolCardSection
                   key={`${toolCall.toolId ?? toolCall.toolName ?? 'tool'}:${index}`}
                   className="model-round-item__attempt-diagnostic-section"
-                  data-openbitfun-product-component="model-round-item"
-                  data-openbitfun-product-part="diagnosticSection"
+                  data-opc-product-component="model-round-item"
+                  data-opc-product-part="diagnosticSection"
                   label={t('modelRound.attemptDiagnostics.toolArguments', { name: toolLabel })}
                 >
                   {toolCall.rawArguments && (
@@ -589,11 +589,11 @@ export const ModelRoundItem = React.memo<ModelRoundItemProps>(
         className={getModelRoundItemClassName({
           isVisuallyStreaming,
         })}
-        data-openbitfun-product-component="model-round-item"
-        data-openbitfun-product-part="root"
+        data-opc-product-component="model-round-item"
+        data-opc-product-part="root"
         data-flow-item-stack=""
-        data-openbitfun-status={round.status}
-        data-openbitfun-state={isVisuallyStreaming ? 'streaming' : undefined}
+        data-opc-status={round.status}
+        data-opc-state={isVisuallyStreaming ? 'streaming' : undefined}
         data-testid="chat-assistant-message"
         data-turn-id={turnId}
         data-round-id={round.id}
@@ -734,8 +734,8 @@ export const ModelRoundItem = React.memo<ModelRoundItemProps>(
         {canvasArtifactItems.length > 0 && (
           <div
             className="model-round-item__canvas-attachments"
-            data-openbitfun-product-component="model-round-item"
-            data-openbitfun-product-part="canvasAttachments"
+            data-opc-product-component="model-round-item"
+            data-opc-product-part="canvasAttachments"
           >
             {canvasArtifactItems.map((item, index) => (
               <FlowItemRenderer
@@ -759,14 +759,14 @@ export const ModelRoundItem = React.memo<ModelRoundItemProps>(
               {durationMetaItem && (
                 <div
                   className="model-round-item__meta"
-                  data-openbitfun-product-component="model-round-item"
-                  data-openbitfun-product-part="meta"
+                  data-opc-product-component="model-round-item"
+                  data-opc-product-part="meta"
                   aria-label={t('modelRound.meta.label')}
                 >
                   <span
                     className="model-round-item__meta-item"
-                    data-openbitfun-product-component="model-round-item"
-                    data-openbitfun-product-part="metaItem"
+                    data-opc-product-component="model-round-item"
+                    data-opc-product-part="metaItem"
                   >
                     <FlowChatMetric
                       focusable={shouldRevealFooter}
@@ -796,7 +796,7 @@ export const ModelRoundItem = React.memo<ModelRoundItemProps>(
                         aria-expanded={isCopyMenuOpen}
                         aria-label={isExporting ? t('exportImage.exporting') : copied ? t('modelRound.copiedDialog') : t('modelRound.copyDialog')}
                         data-testid="model-round-copy-btn"
-                        data-openbitfun-product-component="model-round-item" data-openbitfun-product-part="action" data-openbitfun-state={copied ? 'copied' : undefined}
+                        data-opc-product-component="model-round-item" data-opc-product-part="action" data-opc-state={copied ? 'copied' : undefined}
                         icon={<Icon name={copied ? 'check-line' : 'duplicate'} size="sm" />}
                       />
                     </Tooltip>
@@ -806,7 +806,7 @@ export const ModelRoundItem = React.memo<ModelRoundItemProps>(
                         ref={copyMenuRef}
                         className="model-round-item__copy-menu"
                         data-testid="model-round-copy-menu"
-                        data-openbitfun-placement={copyMenuLayout?.placement ?? 'top'}
+                        data-opc-placement={copyMenuLayout?.placement ?? 'top'}
                         style={{
                           top: `${copyMenuLayout?.top ?? 0}px`,
                           left: `${copyMenuLayout?.left ?? 0}px`,
@@ -924,7 +924,7 @@ const FlowItemRenderer: React.FC<FlowItemRendererProps> = ({
 
       return (
         <>
-          <div className="flowchat-flow-item" data-thinking-continuation="" data-flow-item-id={item.id} data-flow-item-type="tool" data-openbitfun-product-component="model-round-item" data-openbitfun-product-part="toolItem">
+          <div className="flowchat-flow-item" data-thinking-continuation="" data-flow-item-id={item.id} data-flow-item-type="tool" data-opc-product-component="model-round-item" data-opc-product-part="toolItem">
             <FlowToolCard
               toolItem={toolItem}
               parallel={capsuleRow !== undefined}

@@ -33,7 +33,7 @@ export function ImageLightbox({ image, onClose }: {
       className="image-lightbox-surface"
       overlayProps={{
         className: 'image-lightbox',
-        'data-openbitfun-native-webview-occlusion': true,
+        'data-opc-native-webview-occlusion': true,
       }}
       autoFocus={false}
       restoreFocus={false}
@@ -46,8 +46,8 @@ export function ImageLightbox({ image, onClose }: {
       <img
         src={image.source}
         alt={image.alt ?? ''}
-        data-openbitfun-component="image-lightbox"
-        data-openbitfun-part="image"
+        data-opc-component="image-lightbox"
+        data-opc-part="image"
       />
     </Dialog>
   );

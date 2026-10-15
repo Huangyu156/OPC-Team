@@ -98,7 +98,7 @@ describe('Desktop FlowChat with recorded sessions', () => {
     await browser.saveScreenshot(join(evidence, 'failure.png'));
     const state = await browser.execute(() => {
       const scroller = document.querySelector<HTMLElement>('[data-flowchat-scroller]');
-      const source = document.querySelector<HTMLElement>('.virtual-item-wrapper[data-openbitfun-state~="searchCurrent"] .thinking-markdown');
+      const source = document.querySelector<HTMLElement>('.virtual-item-wrapper[data-opc-state~="searchCurrent"] .thinking-markdown');
       const ranges: unknown[] = [];
       if (source) {
         const walker = document.createTreeWalker(source, NodeFilter.SHOW_TEXT);
@@ -137,7 +137,7 @@ describe('Desktop FlowChat with recorded sessions', () => {
     await header.waitForExist({ timeout: 10000 });
     const group = await header.getAttribute('data-timeline-group-id');
     const groupSelector = `[data-timeline-kind="group-header"][data-timeline-group-id="${group}"]`;
-    const toggleSelector = `${groupSelector} [data-openbitfun-part="header"][role="button"]`;
+    const toggleSelector = `${groupSelector} [data-opc-part="header"][role="button"]`;
     const finishProfile = await profileExpansion();
     await browser.execute((selector: string) => {
       const toggle = document.querySelector<HTMLElement>(selector)!;
@@ -175,22 +175,22 @@ describe('Desktop FlowChat with recorded sessions', () => {
     const countBefore = (await page.sample('filter-cleared')).mountedTools;
     // Open a real recorded card through its native surface.
     const card = await browser.execute(() => {
-      const button = document.querySelector<HTMLElement>('.flow-tool-card-wrapper [data-openbitfun-part="surface"][data-openbitfun-expandable="true"]');
+      const button = document.querySelector<HTMLElement>('.flow-tool-card-wrapper [data-opc-part="surface"][data-opc-expandable="true"]');
       return button?.closest<HTMLElement>('.flow-tool-card-wrapper')?.dataset.toolCardId;
     });
     expect(card).toBeTruthy();
     const cardSelector = `.flow-tool-card-wrapper[data-tool-card-id="${card}"]`;
-    const cardToggle = `${cardSelector} [data-openbitfun-part="surface"][data-openbitfun-expandable="true"]`;
-    const cardShell = `${cardSelector} [data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="root"]`;
+    const cardToggle = `${cardSelector} [data-opc-part="surface"][data-opc-expandable="true"]`;
+    const cardShell = `${cardSelector} [data-opc-component="flow-chat-tool-card"][data-opc-part="root"]`;
     await $(cardToggle).click();
     await page.settle();
-    await expect($(cardShell)).toHaveAttribute('data-openbitfun-expanded-shell', 'true');
+    await expect($(cardShell)).toHaveAttribute('data-opc-expanded-shell', 'true');
     await browser.execute(() => (document.activeElement as HTMLElement)?.blur());
     await page.scroll(10000000);
     await page.sample('tail');
     await page.scroll(0);
     await expect($(toggleSelector)).toHaveAttribute('aria-expanded', 'true');
-    await expect($(cardShell)).toHaveAttribute('data-openbitfun-expanded-shell', 'true');
+    await expect($(cardShell)).toHaveAttribute('data-opc-expanded-shell', 'true');
     await $(cardToggle).click();
     await page.settle();
     expect((await page.sample('returned')).mountedTools).toBe(countBefore);
@@ -202,7 +202,7 @@ describe('Desktop FlowChat with recorded sessions', () => {
 
   it('restores the session reader state after switching away and keeps search usable', async () => {
     await page.openSession(ids[0]); await page.scroll(0);
-    const toggle = $('[data-timeline-kind="group-header"] [data-openbitfun-part="header"][role="button"]');
+    const toggle = $('[data-timeline-kind="group-header"] [data-opc-part="header"][role="button"]');
     if ((await toggle.getAttribute('aria-expanded')) !== 'true') await toggle.click();
     await page.settle();
     await page.scroll(1800);
@@ -221,7 +221,7 @@ describe('Desktop FlowChat with recorded sessions', () => {
     await search.setValue('src');
     await page.settle();
     await browser.waitUntil(() => browser.execute(() => {
-      const line = document.querySelector<HTMLElement>('.virtual-item-wrapper[data-openbitfun-state~="searchCurrent"] .flowchat-search-line:not([hidden])');
+      const line = document.querySelector<HTMLElement>('.virtual-item-wrapper[data-opc-state~="searchCurrent"] .flowchat-search-line:not([hidden])');
       const scroller = document.querySelector<HTMLElement>('[data-flowchat-scroller]');
       if (!line || !scroller) return false;
       const a = line.getBoundingClientRect(), b = scroller.getBoundingClientRect();

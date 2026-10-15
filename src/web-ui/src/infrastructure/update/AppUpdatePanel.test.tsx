@@ -68,9 +68,9 @@ it('shows explicit release details without the general manual-check action', asy
   expect(state().notice).toBeNull();
   expect(state().promptOpen).toBe(false);
   expect(container.querySelector('[role="dialog"]')).not.toBeNull();
-  const actions = container.querySelector('[data-openbitfun-part="updateActions"]');
-  expect(actions?.closest('[data-openbitfun-part="footer"]')).not.toBeNull();
-  expect(actions?.closest('[data-openbitfun-part="body"]')).toBeNull();
+  const actions = container.querySelector('[data-opc-part="updateActions"]');
+  expect(actions?.closest('[data-opc-part="footer"]')).not.toBeNull();
+  expect(actions?.closest('[data-opc-part="body"]')).toBeNull();
 
   expect(Array.from(container.querySelectorAll('button')).some(button => button.textContent === common.update.checkForUpdates)).toBe(false);
   act(() => useUpdateInstallStore.setState({ error: 'network offline', status: 'error', downloadVersion: '2.0.0' }));
@@ -121,15 +121,15 @@ it('keeps a manual check of a skipped release quiet and offers an explicit resto
 
 it('keeps release notes directly readable from both details entry points', async () => {
   await act(async () => state().checkForUpdates());
-  const notes = container.querySelector('[data-openbitfun-part="notes"]');
+  const notes = container.querySelector('[data-opc-part="notes"]');
   expect(notes?.textContent).toContain('Release changes');
   expect(container.querySelector('details')).toBeNull();
   act(() => state().openReleaseNotes());
-  expect(container.querySelector('[data-openbitfun-part="notes"]')).toBe(notes);
+  expect(container.querySelector('[data-opc-part="notes"]')).toBe(notes);
   act(() => state().closeDetails());
   expect(state().releaseNotesOpen).toBe(false);
   act(() => state().openDetails());
-  expect(container.querySelector('[data-openbitfun-part="notes"]')).toBe(notes);
+  expect(container.querySelector('[data-opc-part="notes"]')).toBe(notes);
   expect(notes?.textContent).toContain('Release changes');
 });
 

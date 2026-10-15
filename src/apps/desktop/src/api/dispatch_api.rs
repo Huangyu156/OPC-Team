@@ -7,8 +7,8 @@
 use std::sync::Arc;
 
 use async_trait::async_trait;
-use openbitfun_core::infrastructure::PathManager;
-use openbitfun_core::service::dispatch::{
+use opc_core::infrastructure::PathManager;
+use opc_core::service::dispatch::{
     answer_device_dispatch, answer_dispatch, append_device_dispatch, append_dispatch,
     cancel_device_dispatch, cancel_dispatch, cancel_dispatch_cli_install,
     continue_device_dispatch_job, continue_dispatch_job, get_device_dispatch_status,
@@ -24,7 +24,7 @@ use openbitfun_core::service::dispatch::{
     DispatchSubmitRequest, DispatchSyncResultRequest, DispatchTarget, DispatchTargetOption,
     DispatchTargetRequest, DispatchTranscriptRequest, OutboundDispatchStore,
 };
-use openbitfun_core::service::remote_ssh::dispatch_ssh::{
+use opc_core::service::remote_ssh::dispatch_ssh::{
     self, DispatchInstallPoll, DispatchInstallStart, DispatchSshProbe,
 };
 use serde::{Deserialize, Serialize};
@@ -38,7 +38,7 @@ struct AccountDeviceDispatchRpc;
 #[async_trait]
 impl DeviceDispatchRpc for AccountDeviceDispatchRpc {
     async fn invoke(&self, device_id: &str, command: &str, args: Value) -> anyhow::Result<Value> {
-        use openbitfun_core_types::agent_identity_wire::{
+        use opc_core_types::agent_identity_wire::{
             translate_agent_identity_command, translate_agent_identity_response,
             AgentIdentityDialect,
         };

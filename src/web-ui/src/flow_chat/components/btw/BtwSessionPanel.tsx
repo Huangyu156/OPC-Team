@@ -1050,8 +1050,8 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
 
   if (!childSessionId || !childSession) {
     return (
-      <div className="btw-session-panel btw-session-panel--empty" data-openbitfun-component="btw-session-panel" data-openbitfun-part="root" data-openbitfun-view="empty">
-        <div className="btw-session-panel__empty-state" data-openbitfun-component="btw-session-panel" data-openbitfun-part="empty">
+      <div className="btw-session-panel btw-session-panel--empty" data-opc-component="btw-session-panel" data-opc-part="root" data-opc-view="empty">
+        <div className="btw-session-panel__empty-state" data-opc-component="btw-session-panel" data-opc-part="empty">
           {t('btw.emptyThreadLabel', { label: t('btw.threadLabel') })}
         </div>
       </div>
@@ -1065,14 +1065,14 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
       <div
         className={`btw-session-panel${retainsReviewActionBarLayout ? ' btw-session-panel--has-action-bar' : ''}`}
         onKeyDown={handlePanelKeyDown}
-        data-openbitfun-component="btw-session-panel"
-        data-openbitfun-part="root"
-        data-openbitfun-view="session"
-        data-openbitfun-state={retainsReviewActionBarLayout ? 'hasActionBar' : undefined}
+        data-opc-component="btw-session-panel"
+        data-opc-part="root"
+        data-opc-view="session"
+        data-opc-state={retainsReviewActionBarLayout ? 'hasActionBar' : undefined}
       >
-        <div className="btw-session-panel__header" data-openbitfun-component="btw-session-panel" data-openbitfun-part="header">
+        <div className="btw-session-panel__header" data-opc-component="btw-session-panel" data-opc-part="header">
           <Toolbar size="sm" leading={(
-            <div className="btw-session-panel__header-left" data-openbitfun-component="btw-session-panel" data-openbitfun-part="headerMain">
+            <div className="btw-session-panel__header-left" data-opc-component="btw-session-panel" data-opc-part="headerMain">
               {childKind === 'subagent' ? (
                 <SubagentAvatar
                   sessionId={childSessionId}
@@ -1082,13 +1082,13 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
                   showStatus={false}
                 />
               ) : null}
-              <OverflowText className="btw-session-panel__title" data-openbitfun-component="btw-session-panel" data-openbitfun-part="title">
+              <OverflowText className="btw-session-panel__title" data-opc-component="btw-session-panel" data-opc-part="title">
                 {headerTitle}
               </OverflowText>
               {headerModelName && <OverflowText className="btw-session-panel__model">{headerModelName}</OverflowText>}
             </div>
           )} trailing={(
-            <div data-openbitfun-component="btw-session-panel" data-openbitfun-part="actions">
+            <div data-opc-component="btw-session-panel" data-opc-part="actions">
               <ToolbarGroup>
                 {childKind === 'btw' && childSession.isTransient && (
                   <Tooltip content={t('btw.temporaryHint')}>
@@ -1096,7 +1096,7 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
                   </Tooltip>
                 )}
                 {childKind === 'btw' && parentMetadata && (
-                  <OverflowText className="btw-session-panel__origin" data-openbitfun-component="btw-session-panel" data-openbitfun-part="meta">
+                  <OverflowText className="btw-session-panel__origin" data-opc-component="btw-session-panel" data-opc-part="meta">
                     {childOriginLabel} {resolveSessionTitle(parentMetadata, t('btw.parent'))}
                   </OverflowText>
                 )}
@@ -1153,8 +1153,8 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
           data-flowchat-parent-session-id={parentSessionId}
           tabIndex={-1}
           className="btw-session-panel__body"
-          data-openbitfun-component="btw-session-panel"
-          data-openbitfun-part="body"
+          data-opc-component="btw-session-panel"
+          data-opc-part="body"
           style={{
             paddingTop: 0,
             overflowAnchor: 'none',
@@ -1166,8 +1166,8 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
             {isReviewDetail && reviewDetailNotices.length > 0 && (
               <div
                 className={`btw-session-panel__empty-state${virtualItems.length > 0 ? ' btw-session-panel__empty-state--with-content' : ''}`}
-                data-openbitfun-component="btw-session-panel"
-                data-openbitfun-part="empty"
+                data-opc-component="btw-session-panel"
+                data-opc-part="empty"
                 role={reviewDetailNotices.some(({ state }) =>
                   state === 'load-failed' || state === 'failed' || state === 'timed-out')
                   ? 'alert'
@@ -1191,7 +1191,7 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
           </div>
           {virtualItems.length === 0 ? (
             !isReviewDetail || reviewDetailNotices.length === 0 ? (
-              <div className="btw-session-panel__empty-state" data-openbitfun-component="btw-session-panel" data-openbitfun-part="empty">{t('session.empty')}</div>
+              <div className="btw-session-panel__empty-state" data-opc-component="btw-session-panel" data-opc-part="empty">{t('session.empty')}</div>
             ) : null
           ) : (
             <BtwVirtualSessionList
@@ -1222,14 +1222,14 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
           onClick={handleScrollToBottom}
           focusReturnRef={scrollContainerRef}
           className="btw-session-panel__scroll-to-bottom"
-          data-openbitfun-component="btw-session-panel"
-          data-openbitfun-part="scrollToBottom"
+          data-opc-component="btw-session-panel"
+          data-opc-part="scrollToBottom"
         />
         <div
           className="btw-session-panel__minimized-indicator"
-          data-openbitfun-component="btw-session-panel"
-          data-openbitfun-part="minimized"
-          data-openbitfun-state={showMinimizedIndicator ? 'minimized' : 'hidden'}
+          data-opc-component="btw-session-panel"
+          data-opc-part="minimized"
+          data-opc-state={showMinimizedIndicator ? 'minimized' : 'hidden'}
           aria-hidden={!showMinimizedIndicator}
           {...(!showMinimizedIndicator ? { inert: '' } : {})}
         >
@@ -1257,8 +1257,8 @@ const BtwSessionPanelContent: React.FC<BtwSessionPanelProps & { viewState: BtwPa
           <div
             ref={actionBarRef}
             className="btw-session-panel__action-bar-wrapper"
-            data-openbitfun-component="btw-session-panel"
-            data-openbitfun-part="actionBar"
+            data-opc-component="btw-session-panel"
+            data-opc-part="actionBar"
             data-visible={showReviewActionBar ? 'true' : 'false'}
             aria-hidden={!showReviewActionBar}
             {...(!showReviewActionBar ? { inert: '' } : {})}

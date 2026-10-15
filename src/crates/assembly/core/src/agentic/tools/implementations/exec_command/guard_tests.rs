@@ -5,7 +5,7 @@ use crate::agentic::execution::edit_constraint_guard::{
     ExtractedConstraint,
 };
 use crate::agentic::WorkspaceBinding;
-use openbitfun_runtime_ports::*;
+use opc_runtime_ports::*;
 use std::sync::atomic::{AtomicUsize, Ordering};
 use std::sync::Mutex as StdMutex;
 
@@ -53,7 +53,7 @@ impl TerminalPort for FixtureTerminal {
     ) -> PortResult<TerminalExecCommandResponse> {
         self.calls.fetch_add(1, Ordering::SeqCst);
         self.requests.lock().unwrap().push(r.clone());
-        let out = openbitfun_services_core::process_manager::create_command(&r.argv[0])
+        let out = opc_services_core::process_manager::create_command(&r.argv[0])
             .args(&r.argv[1..])
             .current_dir(&r.cwd)
             .envs(&r.env)
@@ -149,7 +149,7 @@ async fn complete_shell_tool_executes_original_bytes_and_preserves_redirection_o
         assert_eq!(r.cwd, scratch);
         assert_eq!(r.tty, n == 1);
     }
-    let version = openbitfun_services_core::process_manager::create_command(
+    let version = opc_services_core::process_manager::create_command(
         std::env::var("OPENBITFUN_SHELL_TEST_BASH").unwrap_or_else(|_| "/bin/bash".into()),
     )
     .arg("--version")

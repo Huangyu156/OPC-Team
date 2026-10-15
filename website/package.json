@@ -1,5 +1,5 @@
 {
-  "name": "openbitfun-playbook",
+  "name": "opc-playbook",
   "private": true,
   "type": "module",
   "dependencies": {

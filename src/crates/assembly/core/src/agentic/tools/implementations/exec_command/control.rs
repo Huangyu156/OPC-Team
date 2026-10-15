@@ -2,7 +2,7 @@ use super::completion::{exec_command_local_completion, exec_command_remote_compl
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext, ValidationResult};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PortErrorKind, RemoteExecControlAction, RemoteExecControlOrigin, RemoteExecControlRequest,
     RemoteExecPort, TerminalExecControlAction, TerminalExecControlOrigin,
     TerminalExecControlRequest, TerminalPort,
@@ -382,7 +382,7 @@ mod tests {
         ExecCommandControlOrigin, ExecCommandControlRequest, ExecControlTool,
     };
     use crate::agentic::tools::framework::ToolResult;
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         PortError, PortErrorKind, PortResult, RemoteExecCommandRequest, RemoteExecCommandResponse,
         RemoteExecControlRequest, RemoteExecOneShotCommandRequest,
         RemoteExecOneShotCommandResponse, RemoteExecPort, RemoteExecStreamingOutputSink,
@@ -559,7 +559,7 @@ mod tests {
 
     #[tokio::test]
     async fn control_exec_command_session_returns_structured_session_not_found() {
-        let terminal_port: std::sync::Arc<dyn openbitfun_runtime_ports::TerminalPort> =
+        let terminal_port: std::sync::Arc<dyn opc_runtime_ports::TerminalPort> =
             std::sync::Arc::new(MissingSessionTerminalPort);
         let error = control_exec_command_session(
             ExecCommandControlRequest {
@@ -583,7 +583,7 @@ mod tests {
 
     #[tokio::test]
     async fn control_exec_command_session_returns_structured_remote_session_not_found() {
-        let remote_exec_port: std::sync::Arc<dyn openbitfun_runtime_ports::RemoteExecPort> =
+        let remote_exec_port: std::sync::Arc<dyn opc_runtime_ports::RemoteExecPort> =
             std::sync::Arc::new(MissingSessionRemoteExecPort);
         let error = control_exec_command_session(
             ExecCommandControlRequest {

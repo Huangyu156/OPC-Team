@@ -37308,7 +37308,7 @@ function exportFormatTone(formatId) {
 }
 
 // src/crates/contracts/product-domains/src/miniapp/builtin/assets/ppt-live/src/agent-prompt.js
-var PPT_DESIGN_SKILL_KEY = "user::openbitfun-system::ppt-design";
+var PPT_DESIGN_SKILL_KEY = "user::opc-system::ppt-design";
 function serializeInput(input) {
   try {
     return JSON.stringify(input ?? {}, null, 2);
@@ -37429,7 +37429,7 @@ ${prompt}`;
   return prompt;
 }
 
-// src/crates/contracts/product-domains/src/miniapp/builtin/assets/ppt-live/src/openbitfun-backend-adapter.js
+// src/crates/contracts/product-domains/src/miniapp/builtin/assets/ppt-live/src/opc-backend-adapter.js
 var EVENT_LISTENERS = /* @__PURE__ */ new Set();
 function emitEvent(event) {
   EVENT_LISTENERS.forEach((listener) => {
@@ -41070,7 +41070,7 @@ function resolveAppearanceMode(mode) {
   return "light";
 }
 function getHostAppearanceMode() {
-  const attributeMode = document.documentElement.getAttribute("data-openbitfun-appearance-mode");
+  const attributeMode = document.documentElement.getAttribute("data-opc-appearance-mode");
   if (attributeMode === "dark" || attributeMode === "light") return attributeMode;
   const runtimeMode = runtime().appearanceMode;
   if (runtimeMode === "dark" || runtimeMode === "light") return runtimeMode;
@@ -41079,7 +41079,7 @@ function getHostAppearanceMode() {
 function applyAppearanceMode(mode) {
   const resolved = resolveAppearanceMode(mode);
   const root = document.documentElement;
-  root.setAttribute("data-openbitfun-appearance-mode", resolved);
+  root.setAttribute("data-opc-appearance-mode", resolved);
   root.style.colorScheme = resolved;
   ensureCanvasFitted();
   rerender();

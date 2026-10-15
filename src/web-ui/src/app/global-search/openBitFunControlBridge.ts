@@ -9,9 +9,9 @@ import { activateProductAction } from './productActionActivator';
 import { getInteractiveCapability, getInteractiveControlDefinition } from './interactiveCapabilityCatalog';
 
 const log = createLogger('OpenBitFunControlBridge');
-const REQUEST_EVENT = 'agentic://openbitfun-control-request';
-const APPLIED_EVENT = 'agentic://openbitfun-control-applied';
-const EFFECT_EVENT = 'agentic://openbitfun-control-effect';
+const REQUEST_EVENT = 'agentic://opc-control-request';
+const APPLIED_EVENT = 'agentic://opc-control-applied';
+const EFFECT_EVENT = 'agentic://opc-control-effect';
 
 type OpenBitFunControlAction = 'list' | 'search' | 'get' | 'open' | 'execute' | 'configure';
 
@@ -96,7 +96,7 @@ export async function executeOpenBitFunPresentationRequest(
 }
 
 async function reportResponse(response: OpenBitFunControlResponse): Promise<void> {
-  await api.invoke('report_openbitfun_control_result', { request: response });
+  await api.invoke('report_opc_control_result', { request: response });
 }
 
 async function handleRequest(request: OpenBitFunControlRequest): Promise<void> {
@@ -189,7 +189,7 @@ async function handleAppliedEvent(event: OpenBitFunControlAppliedEvent): Promise
 }
 
 function markSurfaceDetached(): void {
-  void api.invoke('mark_openbitfun_control_surface_unready').catch(error => {
+  void api.invoke('mark_opc_control_surface_unready').catch(error => {
     log.debug('ProductControl surface was already detached', { error });
   });
 }
@@ -211,7 +211,7 @@ export async function initializeOpenBitFunControlBridge(): Promise<void> {
     detachListenerInstalled = true;
   }
   try {
-    await api.invoke('mark_openbitfun_control_surface_ready', { request: { creationApiVersion: 1 } });
+    await api.invoke('mark_opc_control_surface_ready', { request: { creationApiVersion: 1 } });
   } catch (error) {
     creationUnlisten?.();
     creationUnlisten = null;

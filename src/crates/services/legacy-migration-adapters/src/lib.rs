@@ -14,10 +14,10 @@ mod settings;
 mod workspace_sessions;
 pub use workspace_sessions::{workspace_report_counts, MigrationItemCounts, WorkspaceReportCounts};
 
-use openbitfun_legacy_migration::{
+use opc_legacy_migration::{
     DomainContext, DomainScan, LegacyDomainAdapter, LegacyMigrationResult, MigrationRoots,
 };
-use openbitfun_product_domains::legacy_migration::{
+use opc_product_domains::legacy_migration::{
     FindingSeverity, MigrationDomainId, MigrationDomainResult, MigrationDomainState,
     MigrationGroupId, MigrationSelection, ScanFinding,
 };
@@ -73,7 +73,7 @@ pub fn adapters_for_groups(selection: &MigrationSelection) -> Vec<Box<dyn Legacy
 /// Fail closed before any domain writes when the destination belongs to an
 /// unknown product/schema. Empty destinations are initialized by the adapters.
 pub fn validate_target(roots: &MigrationRoots) -> LegacyMigrationResult<()> {
-    use openbitfun_legacy_migration::LegacyMigrationError;
+    use opc_legacy_migration::LegacyMigrationError;
     let path = roots.target_user_root.join("config/app.json");
     let bytes = match std::fs::read(&path) {
         Ok(bytes) => bytes,
@@ -82,7 +82,7 @@ pub fn validate_target(roots: &MigrationRoots) -> LegacyMigrationResult<()> {
     };
     let value = serde_json::from_slice(&bytes)
         .map_err(|source| LegacyMigrationError::Json { path, source })?;
-    openbitfun_config_contracts::validate_current_config_value(&value, "migration destination")
+    opc_config_contracts::validate_current_config_value(&value, "migration destination")
         .map_err(LegacyMigrationError::UnsupportedTarget)
 }
 

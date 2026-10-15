@@ -45,19 +45,17 @@ impl ConnectionEventState {
 
     pub(super) fn cursor(
         &self,
-        stream: openbitfun_app_server_protocol::event::EventStream,
-    ) -> openbitfun_app_server_protocol::event::EventCursor {
+        stream: opc_app_server_protocol::event::EventStream,
+    ) -> opc_app_server_protocol::event::EventCursor {
         let sequence = match stream {
-            openbitfun_app_server_protocol::event::EventStream::Agent => &self.agent_sequence,
-            openbitfun_app_server_protocol::event::EventStream::Permission => {
-                &self.permission_sequence
-            }
-            openbitfun_app_server_protocol::event::EventStream::Config => &self.config_sequence,
-            openbitfun_app_server_protocol::event::EventStream::ExternalSource => {
+            opc_app_server_protocol::event::EventStream::Agent => &self.agent_sequence,
+            opc_app_server_protocol::event::EventStream::Permission => &self.permission_sequence,
+            opc_app_server_protocol::event::EventStream::Config => &self.config_sequence,
+            opc_app_server_protocol::event::EventStream::ExternalSource => {
                 &self.external_source_sequence
             }
         };
-        openbitfun_app_server_protocol::event::EventCursor {
+        opc_app_server_protocol::event::EventCursor {
             connection_id: self.id.clone(),
             stream,
             sequence: sequence.load(Ordering::Acquire),
@@ -66,19 +64,17 @@ impl ConnectionEventState {
 
     pub(super) fn next_cursor(
         &self,
-        stream: openbitfun_app_server_protocol::event::EventStream,
-    ) -> openbitfun_app_server_protocol::event::EventCursor {
+        stream: opc_app_server_protocol::event::EventStream,
+    ) -> opc_app_server_protocol::event::EventCursor {
         let sequence = match stream {
-            openbitfun_app_server_protocol::event::EventStream::Agent => &self.agent_sequence,
-            openbitfun_app_server_protocol::event::EventStream::Permission => {
-                &self.permission_sequence
-            }
-            openbitfun_app_server_protocol::event::EventStream::Config => &self.config_sequence,
-            openbitfun_app_server_protocol::event::EventStream::ExternalSource => {
+            opc_app_server_protocol::event::EventStream::Agent => &self.agent_sequence,
+            opc_app_server_protocol::event::EventStream::Permission => &self.permission_sequence,
+            opc_app_server_protocol::event::EventStream::Config => &self.config_sequence,
+            opc_app_server_protocol::event::EventStream::ExternalSource => {
                 &self.external_source_sequence
             }
         };
-        openbitfun_app_server_protocol::event::EventCursor {
+        opc_app_server_protocol::event::EventCursor {
             connection_id: self.id.clone(),
             stream,
             sequence: sequence.fetch_add(1, Ordering::AcqRel) + 1,
@@ -159,7 +155,7 @@ impl OpcTeamAppServer {
 
         AppServer
             .builder()
-            .name("openbitfun-app-server")
+            .name("opc-app-server")
             .with_connection_builder(host_policy::builder(host_policy.clone()))
             .with_connection_builder(handlers::app::builder(
                 runtime.clone(),

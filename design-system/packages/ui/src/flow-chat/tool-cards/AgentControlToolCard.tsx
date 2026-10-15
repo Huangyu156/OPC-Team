@@ -69,25 +69,25 @@ export function AgentControlToolCard({
   const label = [action, title, preview?.agentType, preview?.model, preview && summary, statusLabel, openAgentLabel]
     .filter(value => typeof value === 'string').join(' · ');
   const tooltipContent = preview ? (
-    <div className={styles.preview} data-openbitfun-part="agentPreview">
+    <div className={styles.preview} data-opc-part="agentPreview">
       <div className={styles.previewHeader}>
-        <span className={styles.previewAvatar} data-openbitfun-icon-slot="true" aria-hidden="true">
+        <span className={styles.previewAvatar} data-opc-icon-slot="true" aria-hidden="true">
           {preview.avatar ?? avatar ?? <Icon glyph={UserRound} size="lg" />}
         </span>
         <div className={styles.previewTitle}>
-          <strong className={styles.previewName} data-openbitfun-part="previewName">{agentName}</strong>
+          <strong className={styles.previewName} data-opc-part="previewName">{agentName}</strong>
           {statusLabel && <span className={styles.previewCaption}>{statusLabel}</span>}
         </div>
       </div>
       <dl className={styles.previewMetadata}>
         <dt>{preview.labels.agentType}</dt>
-        <dd data-openbitfun-part="previewAgentType">{preview.agentType}</dd>
+        <dd data-opc-part="previewAgentType">{preview.agentType}</dd>
         <dt>{preview.labels.model}</dt>
-        <dd data-openbitfun-part="previewModel">{preview.model}</dd>
+        <dd data-opc-part="previewModel">{preview.model}</dd>
       </dl>
       <div className={styles.previewTask}>
         <span className={styles.previewCaption}>{preview.labels.description}</span>
-        <p className={styles.previewDescription} data-openbitfun-part="previewDescription">{summary}</p>
+        <p className={styles.previewDescription} data-opc-part="previewDescription">{summary}</p>
       </div>
     </div>
   ) : label || title;
@@ -99,13 +99,13 @@ export function AgentControlToolCard({
         className={classNames(styles.root, className)}
         style={{ '--_agent-accent-color': accentColor, ...style } as CSSProperties}
         data-agent-capsule="true"
-        data-openbitfun-tool-card="agent-control"
-        data-openbitfun-component="flow-chat-tool-card"
-        data-openbitfun-part="root"
-        data-openbitfun-attention="prominent"
-        data-openbitfun-status={status}
-        data-openbitfun-state={state}
-        data-openbitfun-expandable="false"
+        data-opc-tool-card="agent-control"
+        data-opc-component="flow-chat-tool-card"
+        data-opc-part="root"
+        data-opc-attention="prominent"
+        data-opc-status={status}
+        data-opc-state={state}
+        data-opc-expandable="false"
       >
         <Tooltip content={tooltipContent} interactive={Boolean(preview)} placement="bottom" trigger="hover-focus">
         <button
@@ -116,45 +116,45 @@ export function AgentControlToolCard({
           onClick={onOpenAgent}
           aria-label={label || openAgentLabel}
           data-agent-capsule-trigger="true"
-          data-openbitfun-component="flow-chat-tool-card"
-          data-openbitfun-part="surface"
-          data-openbitfun-affordance="open-panel-right"
-          data-openbitfun-attention="prominent"
-          data-openbitfun-interactive={onOpenAgent ? 'true' : 'false'}
-          data-openbitfun-state={state}
-          data-openbitfun-status={status}
+          data-opc-component="flow-chat-tool-card"
+          data-opc-part="surface"
+          data-opc-affordance="open-panel-right"
+          data-opc-attention="prominent"
+          data-opc-interactive={onOpenAgent ? 'true' : 'false'}
+          data-opc-state={state}
+          data-opc-status={status}
           data-overflow-trigger
           data-testid={openAgentTestId}
         >
           <span className={styles.content}>
-            <span className={styles.avatar} data-openbitfun-icon-slot="true" data-openbitfun-part="avatar" aria-hidden="true">
+            <span className={styles.avatar} data-opc-icon-slot="true" data-opc-part="avatar" aria-hidden="true">
               {avatar ?? <Icon glyph={UserRound} size="lg" />}
             </span>
             <span className={styles.details}>
               <span className={styles.name}>
-                <OverflowText className={styles.title} data-openbitfun-part="agentSummary">{displayTitle}</OverflowText>
+                <OverflowText className={styles.title} data-opc-part="agentSummary">{displayTitle}</OverflowText>
                 {statusLabel && running ? (
                   <OverflowText className={classNames(styles.status, styles.runningStatus)}
-                    behavior="marquee" data-openbitfun-part="agentStatus" data-status={status}>
+                    behavior="marquee" data-opc-part="agentStatus" data-status={status}>
                     <ShimmerText>{statusLabel}</ShimmerText>
                   </OverflowText>
                 ) : statusLabel && preview ? (
-                  <span className={styles.statusDot} data-openbitfun-part="agentStatus"
+                  <span className={styles.statusDot} data-opc-part="agentStatus"
                     data-tone={tone} data-status={status} aria-hidden="true" />
                 ) : statusLabel ? (
-                  <OverflowText className={styles.status} data-openbitfun-part="agentStatus" data-tone={tone}>
+                  <OverflowText className={styles.status} data-opc-part="agentStatus" data-tone={tone}>
                     {statusLabel}
                   </OverflowText>
                 ) : !['completed', 'confirmed', 'cancelled', 'rejected'].includes(status) ? (
                   <ToolCardStatusSlot size={12} status={status} />
                 ) : null}
-                <Icon name="arrow-up-right" size="xs" className={styles.openIcon} data-openbitfun-icon="open-panel-right" />
+                <Icon name="arrow-up-right" size="xs" className={styles.openIcon} data-opc-icon="open-panel-right" />
               </span>
               {preview && (
                 <span className={styles.metadata}>
-                  <OverflowText className={styles.agentType} data-openbitfun-part="agentType"
+                  <OverflowText className={styles.agentType} data-opc-part="agentType"
                     aria-label={preview.labels.agentType}>{preview.agentType}</OverflowText>
-                  <OverflowText className={styles.model} data-openbitfun-part="agentModel"
+                  <OverflowText className={styles.model} data-opc-part="agentModel"
                     aria-label={preview.labels.model}>{preview.model}</OverflowText>
                 </span>
               )}

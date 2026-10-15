@@ -2,16 +2,16 @@
 //!
 //! Provide unified error types and handling for the whole application
 
-use openbitfun_core_types::errors::{
+use opc_core_types::errors::{
     ai_error_detail_from_message, classify_ai_error_message, AiErrorDetail, AiProviderError,
     ErrorCategory,
 };
 use serde::Serialize;
 use thiserror::Error;
 
-impl From<openbitfun_services_core::storage_error::StorageError> for OpcTeamError {
-    fn from(error: openbitfun_services_core::storage_error::StorageError) -> Self {
-        use openbitfun_services_core::storage_error::StorageError;
+impl From<opc_services_core::storage_error::StorageError> for OpcTeamError {
+    fn from(error: opc_services_core::storage_error::StorageError) -> Self {
+        use opc_services_core::storage_error::StorageError;
         match error {
             StorageError::Config(message) => Self::config(message),
             StorageError::Validation(message) => Self::validation(message),
@@ -37,7 +37,7 @@ pub enum OpcTeamError {
     #[error("{message}")]
     ClassifiedTool {
         message: String,
-        detail: openbitfun_core_types::errors::ToolErrorDetail,
+        detail: opc_core_types::errors::ToolErrorDetail,
     },
 
     #[error("AI client error: {0}")]
@@ -144,7 +144,7 @@ where
 }
 
 impl OpcTeamError {
-    pub fn tool_error_detail(&self) -> Option<&openbitfun_core_types::errors::ToolErrorDetail> {
+    pub fn tool_error_detail(&self) -> Option<&opc_core_types::errors::ToolErrorDetail> {
         match self {
             Self::ClassifiedTool { detail, .. } => Some(detail),
             _ => None,
@@ -232,36 +232,34 @@ impl OpcTeamError {
 }
 
 #[cfg(feature = "agent-runtime")]
-impl From<openbitfun_agent_stream::StreamProcessorError> for OpcTeamError {
-    fn from(error: openbitfun_agent_stream::StreamProcessorError) -> Self {
+impl From<opc_agent_stream::StreamProcessorError> for OpcTeamError {
+    fn from(error: opc_agent_stream::StreamProcessorError) -> Self {
         match error {
-            openbitfun_agent_stream::StreamProcessorError::AiClient(msg) => Self::AIClient(msg),
-            openbitfun_agent_stream::StreamProcessorError::AiProvider(error) => {
-                Self::AIProvider(error)
-            }
-            openbitfun_agent_stream::StreamProcessorError::Cancelled(msg) => Self::Cancelled(msg),
+            opc_agent_stream::StreamProcessorError::AiClient(msg) => Self::AIClient(msg),
+            opc_agent_stream::StreamProcessorError::AiProvider(error) => Self::AIProvider(error),
+            opc_agent_stream::StreamProcessorError::Cancelled(msg) => Self::Cancelled(msg),
         }
     }
 }
 
 #[cfg(feature = "agent-runtime")]
-impl From<openbitfun_agent_runtime::event_bus::EventBusError> for OpcTeamError {
-    fn from(error: openbitfun_agent_runtime::event_bus::EventBusError) -> Self {
+impl From<opc_agent_runtime::event_bus::EventBusError> for OpcTeamError {
+    fn from(error: opc_agent_runtime::event_bus::EventBusError) -> Self {
         Self::Agent(error.to_string())
     }
 }
 
 #[cfg(feature = "agent-runtime")]
-impl From<openbitfun_agent_tools::computer_use::ComputerUseContractError> for OpcTeamError {
-    fn from(error: openbitfun_agent_tools::computer_use::ComputerUseContractError) -> Self {
+impl From<opc_agent_tools::computer_use::ComputerUseContractError> for OpcTeamError {
+    fn from(error: opc_agent_tools::computer_use::ComputerUseContractError) -> Self {
         Self::Tool(error.to_string())
     }
 }
 
 #[cfg(feature = "mcp-runtime")]
-impl From<openbitfun_services_integrations::mcp::MCPRuntimeError> for OpcTeamError {
-    fn from(error: openbitfun_services_integrations::mcp::MCPRuntimeError) -> Self {
-        use openbitfun_services_integrations::mcp::MCPRuntimeErrorKind;
+impl From<opc_services_integrations::mcp::MCPRuntimeError> for OpcTeamError {
+    fn from(error: opc_services_integrations::mcp::MCPRuntimeError) -> Self {
+        use opc_services_integrations::mcp::MCPRuntimeErrorKind;
 
         let message = error.message().to_string();
         match error.kind() {

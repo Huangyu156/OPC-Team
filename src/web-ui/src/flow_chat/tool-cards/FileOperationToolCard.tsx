@@ -653,7 +653,7 @@ const GenericFileOperationToolCard: React.FC<FileOperationToolCardProps> = ({
   return (
     <div
       ref={cardRootRef}
-      data-openbitfun-adapter="file-operation-tool-card"
+      data-opc-adapter="file-operation-tool-card"
       data-testid="chat-file-change-card"
       data-tool-card-id={toolId ?? ''}
       data-status={status}

@@ -14,13 +14,11 @@ use super::{DesktopComputerUseHost, PointerMap};
 use enigo::{Axis, Button, Coordinate, Direction, Enigo, Key, Keyboard, Mouse, Settings};
 use log::debug;
 #[cfg(target_os = "windows")]
-use openbitfun_core::agentic::tools::computer_use_host::AppSelector;
+use opc_core::agentic::tools::computer_use_host::AppSelector;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
-use openbitfun_core::agentic::tools::computer_use_host::ClickTarget;
-use openbitfun_core::agentic::tools::computer_use_host::{
-    ComputerUseHost, ComputerUseLastMutationKind,
-};
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::computer_use_host::ClickTarget;
+use opc_core::agentic::tools::computer_use_host::{ComputerUseHost, ComputerUseLastMutationKind};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::time::Duration;
 
 impl DesktopComputerUseHost {

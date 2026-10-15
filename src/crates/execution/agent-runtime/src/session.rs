@@ -1,10 +1,10 @@
 use crate::session_state::SessionState;
-pub use openbitfun_core_types::SessionKind;
-pub use openbitfun_core_types::{
+pub use opc_core_types::SessionKind;
+pub use opc_core_types::{
     SessionAgentRouteOwner, SessionContinuationPolicy, SessionExecutionTarget,
     SessionModelBindingPolicy,
 };
-pub use openbitfun_runtime_ports::PermissionMode;
+pub use opc_runtime_ports::PermissionMode;
 use serde::{Deserialize, Serialize};
 use std::time::SystemTime;
 use uuid::Uuid;
@@ -21,7 +21,7 @@ pub struct Session {
     /// This is the mode the next dialog turn should run with by default. It is
     /// not required to match either the last surviving history turn or the last
     /// message submission accepted by the scheduler.
-    #[serde(deserialize_with = "openbitfun_core_types::agent_identity::deserialize_agent_id")]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_agent_id")]
     pub agent_type: String,
     /// Cached mode of the last surviving user dialog turn in history.
     ///
@@ -29,9 +29,7 @@ pub struct Session {
     /// first-entry vs ongoing mode prompts follow the surviving transcript
     /// after rollbacks or turn truncation.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_user_dialog_agent_type: Option<String>,
     /// Mode of the most recent user submission accepted by the scheduler.
     ///
@@ -39,9 +37,7 @@ pub struct Session {
     /// history rollback. It tracks session-level prompt-cache compatibility for
     /// the next accepted submission.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_submitted_agent_type: Option<String>,
     #[serde(
         default,
@@ -97,8 +93,7 @@ impl CompressionState {
 
 impl Session {
     pub fn new(session_name: String, agent_type: String, config: SessionConfig) -> Self {
-        let agent_type =
-            openbitfun_core_types::agent_identity::canonical_agent_id(&agent_type).to_owned();
+        let agent_type = opc_core_types::agent_identity::canonical_agent_id(&agent_type).to_owned();
         let now = SystemTime::now();
         Self {
             session_id: Uuid::new_v4().to_string(),
@@ -125,8 +120,7 @@ impl Session {
         agent_type: String,
         config: SessionConfig,
     ) -> Self {
-        let agent_type =
-            openbitfun_core_types::agent_identity::canonical_agent_id(&agent_type).to_owned();
+        let agent_type = opc_core_types::agent_identity::canonical_agent_id(&agent_type).to_owned();
         let now = SystemTime::now();
         Self {
             session_id,
@@ -160,7 +154,7 @@ impl Session {
     }
 }
 
-impl From<Session> for openbitfun_runtime_ports::AgentSessionCreateResult {
+impl From<Session> for opc_runtime_ports::AgentSessionCreateResult {
     fn from(session: Session) -> Self {
         let mut result = Self::new(session.session_id, session.session_name, session.agent_type);
         result.model_id = session.config.model_id;
@@ -211,7 +205,7 @@ pub struct SessionConfig {
     pub project_workspace_id: Option<String>,
     /// Projection of the owning workspace record; legacy sessions resolve this on load.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub workspace_kind: Option<openbitfun_core_types::WorkspaceKind>,
+    pub workspace_kind: Option<opc_core_types::WorkspaceKind>,
     /// Saved connection projected from the workspace record. `workspace_kind`
     /// determines locality; absence of credentials must never select local I/O.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -234,7 +228,7 @@ pub struct SessionConfig {
     /// persisted session state. See `deserialize_optional_permission_mode`.
     #[serde(
         default,
-        deserialize_with = "openbitfun_runtime_ports::deserialize_optional_permission_mode",
+        deserialize_with = "opc_runtime_ports::deserialize_optional_permission_mode",
         skip_serializing_if = "Option::is_none"
     )]
     pub permission_mode: Option<PermissionMode>,
@@ -324,7 +318,7 @@ pub struct SessionSummary {
     pub session_id: String,
     pub session_name: String,
     /// Current/default mode selection for the session.
-    #[serde(deserialize_with = "openbitfun_core_types::agent_identity::deserialize_agent_id")]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_agent_id")]
     pub agent_type: String,
     /// Runtime-owned model selector currently bound to the session.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -335,15 +329,11 @@ pub struct SessionSummary {
     pub reasoning_preset: Option<String>,
     /// Mode of the last surviving user dialog turn in the session history.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_user_dialog_agent_type: Option<String>,
     /// Mode of the most recent user submission accepted by the scheduler.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_submitted_agent_type: Option<String>,
     #[serde(
         default,
@@ -372,17 +362,13 @@ pub struct PersistedSessionStateFile {
     /// Derived runtime cache for reminder semantics. The source of truth lives
     /// on persisted dialog turns via `DialogTurnData.agent_type`.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_user_dialog_agent_type: Option<String>,
     /// Session-level prompt-cache guard state. This records the most recent user
     /// submission accepted by the scheduler and intentionally does not rewind on
     /// history rollback.
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    #[serde(
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
-    )]
+    #[serde(deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id")]
     pub last_submitted_agent_type: Option<String>,
     pub compression_state: CompressionState,
     pub runtime_state: SessionState,
@@ -479,10 +465,8 @@ mod tests {
             Some("root-session")
         );
     }
-    use openbitfun_core_types::{
-        SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
-    };
-    use openbitfun_runtime_ports::AgentSessionCreateResult;
+    use opc_core_types::{SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle};
+    use opc_runtime_ports::AgentSessionCreateResult;
     use serde_json::json;
 
     #[test]
@@ -716,6 +700,6 @@ mod tests {
 
 impl SessionConfig {
     pub fn is_remote_workspace(&self) -> bool {
-        self.workspace_kind == Some(openbitfun_core_types::WorkspaceKind::Remote)
+        self.workspace_kind == Some(opc_core_types::WorkspaceKind::Remote)
     }
 }

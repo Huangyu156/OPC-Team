@@ -21,7 +21,7 @@ describe('model tag editing', () => {
   const add = () => button(copy('pool.addTags'));
   const edit = (tag: string) => button(copy('pool.editTag', { tag }));
   const remove = (tag: string) => button(copy('pool.removeTag', { tag }));
-  const input = () => document.querySelector<HTMLInputElement>('.openbitfun-model-settings__tag-editor input')!;
+  const input = () => document.querySelector<HTMLInputElement>('.opc-model-settings__tag-editor input')!;
   const click = (element: HTMLElement) => act(() => element.click());
   const key = (value: string, isComposing = false) => act(() => {
     input().dispatchEvent(new KeyboardEvent('keydown', { key: value, isComposing, bubbles: true, cancelable: true }));
@@ -54,12 +54,12 @@ describe('model tag editing', () => {
     expect(document.querySelector('[role="combobox"]')).toBeNull();
     expect(edit('planning')).toBeDefined();
     const addButton = add();
-    const capsules = document.querySelector('.openbitfun-model-settings__tag-list')!;
+    const capsules = document.querySelector('.opc-model-settings__tag-list')!;
     click(addButton);
     expect(document.activeElement).toBe(input());
     expect(capsules.lastElementChild?.contains(input())).toBe(true);
     expect(capsules.children).toHaveLength(2);
-    expect(input().closest('[data-openbitfun-component="input"]')?.getAttribute('data-shape')).toBe('pill');
+    expect(input().closest('[data-opc-component="input"]')?.getAttribute('data-shape')).toBe('pill');
     expect(add()).toBe(addButton);
     expect(addButton.disabled).toBe(true);
     expect(capsules.contains(addButton)).toBe(false);
@@ -69,7 +69,7 @@ describe('model tag editing', () => {
     expect(input()).toBeNull();
     expect(document.querySelector('[role="listbox"]')).toBeNull();
     await act(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
-    expect(document.activeElement?.closest('.openbitfun-model-settings__model-capsule')).toBeNull();
+    expect(document.activeElement?.closest('.opc-model-settings__model-capsule')).toBeNull();
 
     click(add());
     type('execution');
@@ -80,14 +80,14 @@ describe('model tag editing', () => {
     type('review');
     act(() => input().blur());
     expect(changes.at(-1)).toEqual(['review', 'execution']);
-    expect(document.querySelector('[data-openbitfun-component="status-pill"]')?.textContent).toBe('recommended');
+    expect(document.querySelector('[data-opc-component="status-pill"]')?.textContent).toBe('recommended');
 
     click(edit('review'));
     type('final');
     key('Enter');
     await act(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
     expect(changes.at(-1)).toEqual(['final', 'execution']);
-    expect(document.activeElement?.closest('.openbitfun-model-settings__model-capsule')).toBeNull();
+    expect(document.activeElement?.closest('.opc-model-settings__model-capsule')).toBeNull();
   });
 
   it('keeps composition and Escape inside the tag editor without dismissing the dialog', () => {
@@ -113,7 +113,7 @@ describe('model tag editing', () => {
   it('preserves legacy tags above the limit while allowing removal before another addition', () => {
     act(() => root.render(<Editor initialTags={['one', 'two', 'three', 'four']} />));
     expect(add().disabled).toBe(true);
-    expect(document.querySelectorAll('.openbitfun-model-settings__tag-editor .openbitfun-model-settings__model-capsule')).toHaveLength(4);
+    expect(document.querySelectorAll('.opc-model-settings__tag-editor .opc-model-settings__model-capsule')).toHaveLength(4);
     click(remove('four'));
     expect(changes.at(-1)).toEqual(['one', 'two', 'three']);
     expect(add().disabled).toBe(true);

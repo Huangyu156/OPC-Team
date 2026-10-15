@@ -71,22 +71,22 @@ export function GitToolCard({
 }: GitToolCardProps) {
   const hasDetails = Boolean(stdout || stderr || error || footerItems.length > 0);
   const body = hasDetails ? (
-    <div className={styles.output} data-openbitfun-part="details">
-      {stdout && <pre className={styles.outputBlock} data-openbitfun-part="stdout">{stdout}</pre>}
+    <div className={styles.output} data-opc-part="details">
+      {stdout && <pre className={styles.outputBlock} data-opc-part="stdout">{stdout}</pre>}
       {stderr && (
-        <div className={styles.outputGroup} data-openbitfun-part="stderr" data-tone={stderrTone}>
+        <div className={styles.outputGroup} data-opc-part="stderr" data-tone={stderrTone}>
           {stderrLabel && <span className={styles.outputLabel}>{stderrLabel}</span>}
           <pre className={styles.outputBlock}>{stderr}</pre>
         </div>
       )}
       {error && (
-        <div className={styles.error} data-openbitfun-part="error">
+        <div className={styles.error} data-opc-part="error">
           {error}
           {errorMeta && <div className={styles.errorMeta}>{errorMeta}</div>}
         </div>
       )}
       {footerItems.length > 0 && (
-        <div className={styles.footer} data-openbitfun-part="footer">
+        <div className={styles.footer} data-opc-part="footer">
           {footerItems.map((item, index) => (
             <span
               className={styles.footerItem}
@@ -106,7 +106,7 @@ export function GitToolCard({
   return (
     <ProminentToolCard
       {...props}
-      data-openbitfun-tool-card="git"
+      data-opc-tool-card="git"
       allowExpandedWhenFailed
       expandedContent={body}
       summary={(
@@ -161,7 +161,7 @@ export function FileDiffToolCard({
   ...props
 }: FileDiffToolCardProps) {
   const body = preview || textPreview || message ? (
-    <div className={styles.diffBody} data-openbitfun-part="details">
+    <div className={styles.diffBody} data-opc-part="details">
       {message && <div className={styles.message}>{message}</div>}
       {preview}
       {textPreview && <ToolCardText className={styles.textPreview}>{textPreview}</ToolCardText>}
@@ -170,7 +170,7 @@ export function FileDiffToolCard({
   return (
     <ProminentToolCard
       {...props}
-      data-openbitfun-tool-card="file-diff"
+      data-opc-tool-card="file-diff"
       allowExpandedWhenFailed
       collapsibleErrorContent
       errorContent={error ? <div className={styles.error}>{error}</div> : undefined}
@@ -183,7 +183,7 @@ export function FileDiffToolCard({
             <OverflowText
               className={styles.diffPath}
               data-path={path}
-              data-openbitfun-part="path"
+              data-opc-part="path"
               title={path}
             >
               {pathLabel}
@@ -237,10 +237,10 @@ export function ReviewSummaryToolCard({
     <ProminentToolCard
       {...props}
       allowExpandedWhenFailed
-      data-openbitfun-tool-card="review-summary"
-      data-openbitfun-review-kind={kind}
+      data-opc-tool-card="review-summary"
+      data-opc-review-kind={kind}
       expandedContent={(
-        <div className={styles.reviewDetails} data-openbitfun-part="details">
+        <div className={styles.reviewDetails} data-opc-part="details">
           <p className={styles.reviewSummary}>{summary}</p>
           {changedFiles.length > 0 && (
             <ToolCardSection label={filesLabel}>
@@ -258,7 +258,7 @@ export function ReviewSummaryToolCard({
           action={title}
           actions={action}
           extra={changedFiles.length > 0 && fileCountLabel ? (
-            <span className={styles.fileCount} data-openbitfun-icon-slot="true"><Icon name="file-text" size="sm" />{fileCountLabel}</span>
+            <span className={styles.fileCount} data-opc-icon-slot="true"><Icon name="file-text" size="sm" />{fileCountLabel}</span>
           ) : undefined}
           icon={<Icon glyph={SearchCheck} size="sm" />}
           statusIcon={loading ? <ToolProcessingDots size={16} /> : undefined}
@@ -307,7 +307,7 @@ function PageLifecycleToolCardBase({
 }: PageLifecycleToolCardBaseProps) {
   const hasDetails = fields.length > 0 || Boolean(error);
   const body = hasDetails ? (
-    <div className={styles.lifecycleDetails} data-openbitfun-part="details">
+    <div className={styles.lifecycleDetails} data-opc-part="details">
       {fields.length > 0 && <ToolCardFields fields={fields} />}
       {error && <div className={styles.error}>{error}</div>}
     </div>
@@ -315,7 +315,7 @@ function PageLifecycleToolCardBase({
   return (
     <ProminentToolCard
       {...props}
-      data-openbitfun-tool-card={toolCard}
+      data-opc-tool-card={toolCard}
       allowExpandedWhenFailed
       expandedContent={body}
       summary={(

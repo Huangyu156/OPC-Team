@@ -86,7 +86,7 @@ describe('DispatchTargetPicker overlay', () => {
 
   afterEach(() => {
     act(() => root.unmount());
-    document.querySelector('[data-openbitfun-overlay-host="true"]')?.remove();
+    document.querySelector('[data-opc-overlay-host="true"]')?.remove();
     container.remove();
     vi.restoreAllMocks();
   });
@@ -109,7 +109,7 @@ describe('DispatchTargetPicker overlay', () => {
     await act(async () => trigger?.click());
 
     const menu = document.querySelector<HTMLElement>('[data-testid="dispatch-target-menu"]');
-    expect(menu?.closest('[data-openbitfun-overlay-host]')?.getAttribute('data-openbitfun-overlay-host')).toBe('true');
+    expect(menu?.closest('[data-opc-overlay-host]')?.getAttribute('data-opc-overlay-host')).toBe('true');
     expect(menu?.style.visibility).toBe('visible');
     expect(menu?.style.left).toBe('240px');
     expect(menu?.style.top).toBe('293px');
@@ -213,7 +213,7 @@ describe('DispatchTargetPicker overlay', () => {
     await act(async () => trigger?.click());
 
     const option = Array.from(
-      document.querySelectorAll<HTMLButtonElement>('[data-openbitfun-menu-item]'),
+      document.querySelectorAll<HTMLButtonElement>('[data-opc-menu-item]'),
     ).find(node => node.textContent?.includes('Old build'));
     expect(option).toBeDefined();
     // The device is visible with its reason but cannot be selected.

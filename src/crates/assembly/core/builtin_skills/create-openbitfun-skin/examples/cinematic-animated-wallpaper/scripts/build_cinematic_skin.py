@@ -60,7 +60,7 @@ class BuildOptions:
     dialog_size: str
     palette: Path
     surface_plan: Path
-    openbitfun_repo: Path | None
+    opc_repo: Path | None
     allow_warnings: bool
     force: bool
 
@@ -159,8 +159,8 @@ def build_skin(options: BuildOptions) -> dict[str, Any]:
     options.output = options.output.resolve()
     options.palette = options.palette.resolve()
     options.surface_plan = options.surface_plan.resolve()
-    if options.openbitfun_repo is not None:
-        options.openbitfun_repo = options.openbitfun_repo.resolve()
+    if options.opc_repo is not None:
+        options.opc_repo = options.opc_repo.resolve()
     if not options.source.is_file():
         raise FileNotFoundError(f"Source does not exist: {options.source}")
 
@@ -189,9 +189,9 @@ def build_skin(options: BuildOptions) -> dict[str, Any]:
 
     host_report: dict[str, Any] | None = None
     report_path = options.output / "host-verification.json"
-    if options.openbitfun_repo is not None:
+    if options.opc_repo is not None:
         host_report = build.verify_host(
-            options.openbitfun_repo,
+            options.opc_repo,
             archive,
             report=report_path,
             strict_warnings=not options.allow_warnings,
@@ -251,7 +251,7 @@ def build_skin(options: BuildOptions) -> dict[str, Any]:
         },
         "registry": build.registry_provenance(),
         "host": {
-            "repo": str(options.openbitfun_repo) if options.openbitfun_repo else None,
+            "repo": str(options.opc_repo) if options.opc_repo else None,
             "strictWarnings": not options.allow_warnings,
         },
         "outputs": {
@@ -329,7 +329,7 @@ def options_from_config(output: Path, repo_override: Path | None) -> BuildOption
         dialog_size=assets["dialogSize"],
         palette=output / config["inputs"]["palette"]["path"],
         surface_plan=output / config["inputs"]["surfacePlan"]["path"],
-        openbitfun_repo=host_repo,
+        opc_repo=host_repo,
         allow_warnings=not config["host"].get("strictWarnings", True),
         force=True,
     )
@@ -356,9 +356,9 @@ def check_skin(output: Path, repo_override: Path | None, skip_host: bool) -> dic
     if build.sha256(archive) != config["outputs"]["archive"]["sha256"]:
         issues.append("archive hash mismatch")
 
-    if not skip_host and options.openbitfun_repo is not None:
+    if not skip_host and options.opc_repo is not None:
         build.verify_host(
-            options.openbitfun_repo,
+            options.opc_repo,
             archive,
             strict_warnings=not options.allow_warnings,
         )
@@ -464,9 +464,9 @@ def main() -> None:
         elif args.command == "build":
             build_skin(namespace_to_options(args))
         elif args.command == "rebuild":
-            build_skin(options_from_config(args.output.resolve(), args.openbitfun_repo))
+            build_skin(options_from_config(args.output.resolve(), args.opc_repo))
         else:
-            check_skin(args.output, args.openbitfun_repo, args.skip_host_verify)
+            check_skin(args.output, args.opc_repo, args.skip_host_verify)
     except (
         CinematicContractError,
         build.BuildSupportError,

@@ -1,5 +1,5 @@
 [package]
-name = "openbitfun-agent-runtime"
+name = "opc-agent-runtime"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -7,7 +7,7 @@ description = "Agent runtime contracts and owner decisions for OPC-Team"
 autotests = false
 
 [lib]
-name = "openbitfun_agent_runtime"
+name = "opc_agent_runtime"
 crate-type = ["rlib"]
 
 [[example]]
@@ -19,7 +19,7 @@ required-features = ["agent-runtime"]
 default = []
 definition-contracts = [
     "native-hook-settings",
-    "dep:openbitfun-core-types",
+    "dep:opc-core-types",
     "dep:regex",
     "dep:serde",
     "dep:serde_json",
@@ -46,12 +46,12 @@ agent-runtime = [
     "definition-contracts",
     "native-hook-runtime",
     "dep:async-trait",
-    "dep:openbitfun-agent-stream",
-    "dep:openbitfun-agent-tools",
-    "dep:openbitfun-core-types",
-    "dep:openbitfun-events",
-    "dep:openbitfun-runtime-ports",
-    "dep:openbitfun-runtime-services",
+    "dep:opc-agent-stream",
+    "dep:opc-agent-tools",
+    "dep:opc-core-types",
+    "dep:opc-events",
+    "dep:opc-runtime-ports",
+    "dep:opc-runtime-services",
     "dep:dashmap",
     "dep:hex",
     "dep:log",
@@ -71,12 +71,12 @@ agent-runtime = [
 
 [dependencies]
 async-trait = { workspace = true, optional = true }
-openbitfun-agent-stream = { path = "../agent-stream", optional = true }
-openbitfun-agent-tools = { path = "../tool-contracts", optional = true }
-openbitfun-core-types = { path = "../../contracts/core-types", optional = true }
-openbitfun-events = { path = "../../contracts/events", optional = true }
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", optional = true, features = ["agent-api", "git-port", "permission", "plugin-runtime", "remote-workspace-ports", "runtime-event-port", "terminal-port", "workspace-ports"] }
-openbitfun-runtime-services = { path = "../runtime-services", optional = true }
+opc-agent-stream = { path = "../agent-stream", optional = true }
+opc-agent-tools = { path = "../tool-contracts", optional = true }
+opc-core-types = { path = "../../contracts/core-types", optional = true }
+opc-events = { path = "../../contracts/events", optional = true }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", optional = true, features = ["agent-api", "git-port", "permission", "plugin-runtime", "remote-workspace-ports", "runtime-event-port", "terminal-port", "workspace-ports"] }
+opc-runtime-services = { path = "../runtime-services", optional = true }
 dashmap = { workspace = true, optional = true }
 hex = { workspace = true, optional = true }
 log = { workspace = true, optional = true }

@@ -209,8 +209,8 @@ export const AgentCompanionDesktopPet: React.FC = () => {
 
   useEffect(() => {
     let disposed = false;
-    document.documentElement.classList.add('openbitfun-agent-companion-window-root');
-    document.body.classList.add('openbitfun-agent-companion-window-body');
+    document.documentElement.classList.add('opc-agent-companion-window-root');
+    document.body.classList.add('opc-agent-companion-window-body');
 
     const hidePetWindowForInactiveSettings = () => {
       void getCurrentWindow().hide().catch(error => {
@@ -297,8 +297,8 @@ export const AgentCompanionDesktopPet: React.FC = () => {
       disposed = true;
       removeTauriListener?.();
       removeActivityListener?.();
-      document.documentElement.classList.remove('openbitfun-agent-companion-window-root');
-      document.body.classList.remove('openbitfun-agent-companion-window-body');
+      document.documentElement.classList.remove('opc-agent-companion-window-root');
+      document.body.classList.remove('opc-agent-companion-window-body');
     };
   }, []);
 
@@ -560,7 +560,7 @@ export const AgentCompanionDesktopPet: React.FC = () => {
         return;
       }
       const dock = dockRef.current;
-      const hitbox = dock?.querySelector<HTMLElement>('.openbitfun-agent-companion-window__pet-hitbox') ?? null;
+      const hitbox = dock?.querySelector<HTMLElement>('.opc-agent-companion-window__pet-hitbox') ?? null;
       cachedHitboxRect = hitbox?.getBoundingClientRect() ?? null;
       cachedBubbleRects = visibleTaskCountRef.current > 0
         ? Array.from(
@@ -999,21 +999,21 @@ export const AgentCompanionDesktopPet: React.FC = () => {
 
   return (
     <main
-      className={`openbitfun-agent-companion-window${isMenuOverlay ? ' openbitfun-agent-companion-window--menu-open' : ''}${IS_WINDOWS_WEBVIEW ? ' openbitfun-agent-companion-window--native-hover' : ''}`}
+      className={`opc-agent-companion-window${isMenuOverlay ? ' opc-agent-companion-window--menu-open' : ''}${IS_WINDOWS_WEBVIEW ? ' opc-agent-companion-window--native-hover' : ''}`}
       onContextMenu={onContextMenu}
-      data-openbitfun-component="agent-companion-desktop-pet"
-      data-openbitfun-part="root"
+      data-opc-component="agent-companion-desktop-pet"
+      data-opc-part="root"
     >
       {overlay && (
         <div
-          className="openbitfun-agent-companion-window__backdrop"
+          className="opc-agent-companion-window__backdrop"
           onPointerDown={closeOverlay}
         />
       )}
       {menuItems.length > 0 && (
         <Menu
           ref={menuRef}
-          className="openbitfun-agent-companion-window__overlay openbitfun-agent-companion-window__overlay--anchored"
+          className="opc-agent-companion-window__overlay opc-agent-companion-window__overlay--anchored"
           style={{
             right: `${menuPosition?.right ?? MENU_EDGE_MARGIN}px`,
             bottom: `${menuPosition?.bottom ?? MENU_EDGE_MARGIN}px`,
@@ -1032,29 +1032,29 @@ export const AgentCompanionDesktopPet: React.FC = () => {
           ))}
         </Menu>
       )}
-      <div className="openbitfun-agent-companion-window__stack" style={dockVars}>
+      <div className="opc-agent-companion-window__stack" style={dockVars}>
         <div
           ref={dockRef}
-          className="openbitfun-agent-companion-window__dock"
-         data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="dock">
+          className="opc-agent-companion-window__dock"
+         data-opc-component="agent-companion-desktop-pet" data-opc-part="dock">
           {visibleTasks.length > 0 && (
             <ScrollArea
               ref={bubblesRef}
-              className={`openbitfun-agent-companion-window__bubbles${isSingleTask ? ' openbitfun-agent-companion-window__bubbles--single' : ''}`}
+              className={`opc-agent-companion-window__bubbles${isSingleTask ? ' opc-agent-companion-window__bubbles--single' : ''}`}
               aria-live="polite"
               onDoubleClick={event => event.stopPropagation()}
-             data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="bubbles">
+             data-opc-component="agent-companion-desktop-pet" data-opc-part="bubbles">
               {displayTasks.map(task => {
                 const isComposingTask = overlay?.kind === 'composer'
                   && overlay.sessionId === task.sessionId;
                 const isHoveredTask = hoveredBubbleSessionId === task.sessionId;
-                const bubbleClassName = `openbitfun-agent-companion-window__bubble openbitfun-agent-companion-window__bubble--${task.state}${isSingleTask ? ' openbitfun-agent-companion-window__bubble--single' : ''}${isComposingTask ? ' openbitfun-agent-companion-window__bubble--composing' : ''}`;
+                const bubbleClassName = `opc-agent-companion-window__bubble opc-agent-companion-window__bubble--${task.state}${isSingleTask ? ' opc-agent-companion-window__bubble--single' : ''}${isComposingTask ? ' opc-agent-companion-window__bubble--composing' : ''}`;
                 const bubbleBody = (
                   <>
-                    <OverflowText className="openbitfun-agent-companion-window__bubble-title" data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="bubbleTitle">
+                    <OverflowText className="opc-agent-companion-window__bubble-title" data-opc-component="agent-companion-desktop-pet" data-opc-part="bubbleTitle">
                       {task.title}
                     </OverflowText>
-                    <OverflowText className="openbitfun-agent-companion-window__bubble-status" data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="bubbleStatus">
+                    <OverflowText className="opc-agent-companion-window__bubble-status" data-opc-component="agent-companion-desktop-pet" data-opc-part="bubbleStatus">
                       {t(task.labelKey, { defaultValue: task.defaultLabel })}
                     </OverflowText>
                     {isSingleTask && task.latestOutput && (() => {
@@ -1073,8 +1073,8 @@ export const AgentCompanionDesktopPet: React.FC = () => {
                               outputRefs.current.delete(sessionId);
                             }
                           }}
-                          className={`openbitfun-agent-companion-window__bubble-output${isTyping ? ' openbitfun-agent-companion-window__bubble-output--typing' : ''}`}
-                         data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="bubbleOutput" data-openbitfun-state={isTyping ? 'typing' : undefined}>
+                          className={`opc-agent-companion-window__bubble-output${isTyping ? ' opc-agent-companion-window__bubble-output--typing' : ''}`}
+                         data-opc-component="agent-companion-desktop-pet" data-opc-part="bubbleOutput" data-opc-state={isTyping ? 'typing' : undefined}>
                           {visibleOutput}
                         </span>
                       );
@@ -1086,19 +1086,19 @@ export const AgentCompanionDesktopPet: React.FC = () => {
                   <div
                     key={task.sessionId}
                     data-agent-companion-session-id={task.sessionId}
-                    className={`openbitfun-agent-companion-window__bubble-shell${isSingleTask ? ' openbitfun-agent-companion-window__bubble-shell--single' : ''}${isHoveredTask ? ' openbitfun-agent-companion-window__bubble-shell--hovered' : ''}`}
+                    className={`opc-agent-companion-window__bubble-shell${isSingleTask ? ' opc-agent-companion-window__bubble-shell--single' : ''}${isHoveredTask ? ' opc-agent-companion-window__bubble-shell--hovered' : ''}`}
                     onContextMenu={event => onBubbleContextMenu(event, task.sessionId)}
                   >
                     {isComposingTask ? (
                       // The bubble itself becomes the composer: no extra panel,
                       // and the window keeps its size.
-                      <div className={bubbleClassName} data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="bubble">
+                      <div className={bubbleClassName} data-opc-component="agent-companion-desktop-pet" data-opc-part="bubble">
                         {bubbleBody}
-                        <div className="openbitfun-agent-companion-window__bubble-composer">
+                        <div className="opc-agent-companion-window__bubble-composer">
                           <input
                             ref={composerInputRef}
                             type="text"
-                            className="openbitfun-agent-companion-window__bubble-composer-input"
+                            className="opc-agent-companion-window__bubble-composer-input"
                             value={composerValue}
                             placeholder={t('agentCompanion.composer.placeholder')}
                             aria-label={t('agentCompanion.composer.ariaLabel')}
@@ -1113,7 +1113,7 @@ export const AgentCompanionDesktopPet: React.FC = () => {
                           />
                           <button
                             type="button"
-                            className="openbitfun-agent-companion-window__bubble-composer-cancel"
+                            className="opc-agent-companion-window__bubble-composer-cancel"
                             title={t('agentCompanion.composer.cancel')}
                             aria-label={t('agentCompanion.composer.cancel')}
                             onClick={cancelBubbleComposer}
@@ -1122,7 +1122,7 @@ export const AgentCompanionDesktopPet: React.FC = () => {
                           </button>
                           <button
                             type="button"
-                            className="openbitfun-agent-companion-window__bubble-composer-send"
+                            className="opc-agent-companion-window__bubble-composer-send"
                             title={t('agentCompanion.composer.send')}
                             aria-label={t('agentCompanion.composer.send')}
                             disabled={!composerValue.trim() || isSendingComposer}
@@ -1137,8 +1137,8 @@ export const AgentCompanionDesktopPet: React.FC = () => {
                         type="button"
                         className={bubbleClassName}
                         onClick={() => void openTaskSession(task)}
-                        data-openbitfun-component="agent-companion-desktop-pet"
-                        data-openbitfun-part="bubble"
+                        data-opc-component="agent-companion-desktop-pet"
+                        data-opc-part="bubble"
                       >
                         {bubbleBody}
                       </button>
@@ -1146,7 +1146,7 @@ export const AgentCompanionDesktopPet: React.FC = () => {
                     {task.canReply !== false && !isComposingTask && (
                       <button
                         type="button"
-                        className="openbitfun-agent-companion-window__bubble-compose"
+                        className="opc-agent-companion-window__bubble-compose"
                         title={t('agentCompanion.composer.openTitle')}
                         aria-label={t('agentCompanion.composer.openTitle')}
                         onClick={() => openBubbleComposer(task.sessionId)}
@@ -1160,7 +1160,7 @@ export const AgentCompanionDesktopPet: React.FC = () => {
             </ScrollArea>
           )}
           <div
-            className={`openbitfun-agent-companion-window__pet-hitbox${hasAttentionTask ? ' openbitfun-agent-companion-window__pet-hitbox--needs-attention' : ''}`}
+            className={`opc-agent-companion-window__pet-hitbox${hasAttentionTask ? ' opc-agent-companion-window__pet-hitbox--needs-attention' : ''}`}
             onPointerEnter={() => setIsHoveringPet(true)}
             onPointerLeave={() => setIsHoveringPet(false)}
             onPointerDown={onPetPointerDown}
@@ -1169,7 +1169,7 @@ export const AgentCompanionDesktopPet: React.FC = () => {
             onPointerCancel={onPetPointerCancel}
             onLostPointerCapture={onPetPointerCancel}
             onContextMenu={onPetContextMenu}
-           data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="hitbox" data-openbitfun-state={hasAttentionTask ? 'attention' : undefined}>
+           data-opc-component="agent-companion-desktop-pet" data-opc-part="hitbox" data-opc-state={hasAttentionTask ? 'attention' : undefined}>
             <AgentCompanionPet
               mood={displayMood}
               dragDirection={dragDirection}
@@ -1181,8 +1181,8 @@ export const AgentCompanionDesktopPet: React.FC = () => {
               nativePetdexSize
               petdexScale={PETDEX_DESKTOP_SCALE}
               onPetFrameSizeChange={handlePetFrameSizeChange}
-              className="openbitfun-agent-companion-window__pet"
-             data-openbitfun-component="agent-companion-desktop-pet" data-openbitfun-part="pet"/>
+              className="opc-agent-companion-window__pet"
+             data-opc-component="agent-companion-desktop-pet" data-opc-part="pet"/>
           </div>
         </div>
       </div>

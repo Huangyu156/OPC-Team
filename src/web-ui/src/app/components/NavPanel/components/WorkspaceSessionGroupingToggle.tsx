@@ -22,7 +22,7 @@ const WorkspaceSessionGroupingToggle: React.FC = () => {
       followCursor
     >
       <IconButton
-        className="openbitfun-nav-panel__section-action openbitfun-nav-panel__session-view-toggle"
+        className="opc-nav-panel__section-action opc-nav-panel__session-view-toggle"
         aria-label={actionTooltip}
         aria-pressed={isAll}
         icon={(
@@ -34,10 +34,10 @@ const WorkspaceSessionGroupingToggle: React.FC = () => {
         )}
         size="xs"
         variant="quiet"
-        data-openbitfun-action="toggle-session-view"
-        data-openbitfun-component="session-navigation"
-        data-openbitfun-part="viewToggle"
-        data-openbitfun-state={grouping}
+        data-opc-action="toggle-session-view"
+        data-opc-component="session-navigation"
+        data-opc-part="viewToggle"
+        data-opc-state={grouping}
         data-testid="nav-workspace-session-view-toggle"
         data-view-mode={grouping}
         onClick={() => setGrouping(getNextWorkspaceSessionGrouping(grouping))}

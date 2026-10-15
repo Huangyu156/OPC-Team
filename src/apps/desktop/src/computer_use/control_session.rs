@@ -1,8 +1,8 @@
 //! Desktop GUI resource admission. Runtime remains the task/permission owner.
-use openbitfun_agent_tools::computer_use_control::{
+use opc_agent_tools::computer_use_control::{
     ControlClick, ControlMode, ControlPointer, ControlSnapshot, ObservationScope,
 };
-use openbitfun_core::agentic::tools::computer_use_host::ComputerUseActionLease;
+use opc_core::agentic::tools::computer_use_host::ComputerUseActionLease;
 use std::cell::Cell;
 use std::sync::{Mutex, OnceLock};
 
@@ -305,7 +305,7 @@ pub(crate) fn capture_allowed() -> Result<(), String> {
 }
 pub(crate) fn record_background_observation(
     scope: &ObservationScope,
-    evidence: openbitfun_agent_tools::computer_use_control::BackgroundObservation,
+    evidence: opc_agent_tools::computer_use_control::BackgroundObservation,
 ) {
     if let Ok(mut r) = locked() {
         if active(&r) && ObservationScope::from_control(&r.admission.snapshot) == *scope {

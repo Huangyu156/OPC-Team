@@ -9,11 +9,11 @@ use image::codecs::jpeg::JpegEncoder;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 use image::DynamicImage;
 use image::RgbImage;
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_core::agentic::tools::computer_use_host::{
     ComputerScreenshot, ComputerUseDisplayInfo, ComputerUseImageContentRect,
     ComputerUseImageGlobalBounds, ComputerUseScreenshotParams, OcrRegionNative, OcrTextMatch,
 };
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use screenshots::Screen;
 
 #[cfg(any(test, target_os = "macos", target_os = "windows"))]
@@ -30,7 +30,7 @@ fn bound_window_identity(target: &str) -> OpcTeamResult<(i32, isize)> {
 
 /// One validated image-to-surface transform shared by all native backends.
 #[derive(Clone, Copy, Debug, PartialEq)]
-pub(super) struct PointerMap(openbitfun_agent_tools::computer_use_geometry::CaptureGeometry);
+pub(super) struct PointerMap(opc_agent_tools::computer_use_geometry::CaptureGeometry);
 
 impl PointerMap {
     fn from_screenshot(shot: &ComputerScreenshot) -> OpcTeamResult<Self> {
@@ -42,7 +42,7 @@ impl PointerMap {
                 "[COORDINATES_UNAVAILABLE] Capture has no authoritative surface bounds",
             )
         })?;
-        openbitfun_agent_tools::computer_use_geometry::CaptureGeometry::new(
+        opc_agent_tools::computer_use_geometry::CaptureGeometry::new(
             shot.image_width,
             shot.image_height,
             content,
@@ -503,7 +503,7 @@ impl DesktopComputerUseHost {
     pub(super) async fn ocr_find_text_matches_impl(
         &self,
         text_query: &str,
-        region_native: Option<openbitfun_core::agentic::tools::computer_use_host::OcrRegionNative>,
+        region_native: Option<opc_core::agentic::tools::computer_use_host::OcrRegionNative>,
     ) -> OpcTeamResult<Vec<OcrTextMatch>> {
         let shot = self.control_ocr_capture(region_native).await?;
         let query = text_query.to_string();
@@ -527,7 +527,7 @@ impl DesktopComputerUseHost {
         Ok(desktop_matches
             .into_iter()
             .map(
-                |m| openbitfun_core::agentic::tools::computer_use_host::OcrTextMatch {
+                |m| opc_core::agentic::tools::computer_use_host::OcrTextMatch {
                     text: m.text,
                     confidence: m.confidence,
                     center_x: m.center_x,
@@ -559,7 +559,7 @@ mod window_projection_tests {
     use super::DesktopComputerUseHost;
     use super::{bound_window_identity, PointerMap};
     #[cfg(target_os = "macos")]
-    use openbitfun_core::agentic::tools::computer_use_host::ComputerUseHost;
+    use opc_core::agentic::tools::computer_use_host::ComputerUseHost;
 
     #[test]
     fn native_capture_identity_never_accepts_an_unbound_or_partial_target() {
@@ -580,7 +580,7 @@ mod window_projection_tests {
 
     fn capture_map() -> PointerMap {
         PointerMap(
-            openbitfun_agent_tools::computer_use_geometry::CaptureGeometry::new(
+            opc_agent_tools::computer_use_geometry::CaptureGeometry::new(
                 900,
                 600,
                 &super::ComputerUseImageContentRect {
@@ -645,7 +645,7 @@ mod window_projection_tests {
             .at_window_bounds([f64::NAN, 40.0, 1800.0, 1200.0])
             .is_err());
         let resampled = PointerMap(
-            openbitfun_agent_tools::computer_use_geometry::CaptureGeometry::new(
+            opc_agent_tools::computer_use_geometry::CaptureGeometry::new(
                 450,
                 300,
                 &super::ComputerUseImageContentRect {

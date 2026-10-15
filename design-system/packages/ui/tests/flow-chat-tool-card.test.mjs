@@ -83,7 +83,7 @@ test('ambient headers distinguish plain targets, recorded results and icon-only 
       }) }),
     ));
     assert.match(html, /data-variant="plain"/);
-    assert.match(html, /data-openbitfun-part="resultSummary"[^>]*>.*?>0<\/span>/);
+    assert.match(html, /data-opc-part="resultSummary"[^>]*>.*?>0<\/span>/);
     assert.ok(html.includes(`${expected}</span>`));
     assert.doesNotMatch(html, /Search::|搜索：：/);
   }
@@ -95,7 +95,7 @@ test('ambient headers distinguish plain targets, recorded results and icon-only 
   }));
   assert.match(failed, /aria-label="Access denied" role="img" tabindex="0"/);
   assert.match(failed, /report\.md/);
-  assert.doesNotMatch(failed, /data-openbitfun-part="extra"|>Access denied</);
+  assert.doesNotMatch(failed, /data-opc-part="extra"|>Access denied</);
 });
 
 test('unresolved agent identities use static hatch artwork without inventing navigation', () => {
@@ -103,9 +103,9 @@ test('unresolved agent identities use static hatch artwork without inventing nav
     status: 'completed', action: 'Send',
     interaction: { operation: 'send', target: { label: 'Agent', kind: 'agent' } },
   }));
-  assert.match(html, /data-openbitfun-component="subagent-hatch"/);
+  assert.match(html, /data-opc-component="subagent-hatch"/);
   assert.match(html, /data-phase="stopped"/);
-  assert.doesNotMatch(html, /lucide-bot|data-openbitfun-affordance="open-panel-right"/);
+  assert.doesNotMatch(html, /lucide-bot|data-opc-affordance="open-panel-right"/);
 });
 
 test('interaction identities retain host avatars and direction without status badges', () => {
@@ -119,8 +119,8 @@ test('interaction identities retain host avatars and direction without status ba
   assert.match(html, /Current chat/);
   assert.match(html, /Curious Otter/);
   assert.match(html, /data-avatar="otter"/);
-  assert.match(html, /data-openbitfun-name="arrow-right"/);
-  assert.doesNotMatch(html, /data-openbitfun-component="status-pill"|data-tone="danger"/);
+  assert.match(html, /data-opc-name="arrow-right"/);
+  assert.doesNotMatch(html, /data-opc-component="status-pill"|data-tone="danger"/);
 });
 
 test('Grep excerpts separate file paths, line numbers and escaped code while retaining raw notices', () => {
@@ -139,11 +139,11 @@ test('Grep excerpts separate file paths, line numbers and escaped code while ret
       { kind: 'text', text: 'Output truncated for session preview' },
     ],
   }));
-  assert.equal((html.match(/data-openbitfun-part="grepFilePath"/g) ?? []).length, 1);
-  assert.equal((html.match(/data-openbitfun-part="grepLineNumber"/g) ?? []).length, 3);
+  assert.equal((html.match(/data-opc-part="grepFilePath"/g) ?? []).length, 1);
+  assert.equal((html.match(/data-opc-part="grepLineNumber"/g) ?? []).length, 3);
   assert.match(html, /data-kind="context"/);
   assert.match(html, /data-gap-before="true"/);
-  assert.match(html, /data-openbitfun-part="grepLineContent">  &lt;needle value=&quot;a:12:b&quot; \/&gt;<\/pre>/);
+  assert.match(html, /data-opc-part="grepLineContent">  &lt;needle value=&quot;a:12:b&quot; \/&gt;<\/pre>/);
   assert.match(html, /Output truncated for session preview/);
   assert.doesNotMatch(html, /legacy fallback/);
   assert.doesNotMatch(html, /src\/app\.ts:9:/);
@@ -152,7 +152,7 @@ test('Grep excerpts separate file paths, line numbers and escaped code while ret
     status: 'completed', summary: 'needle', isExpanded: true,
     resultText: 'src/app.ts:12', onToggle() {},
   }));
-  assert.match(fallback, /data-openbitfun-part="resultText">src\/app\.ts:12<\/pre>/);
+  assert.match(fallback, /data-opc-part="resultText">src\/app\.ts:12<\/pre>/);
 });
 
 test('Grep shares the widest line-number track across files and preserves a minimum gutter', () => {
@@ -165,10 +165,10 @@ test('Grep shares the widest line-number track across files and preserves a mini
         { kind: 'file', path: 'src/last.ts', lines: [{ kind: 'match', lineNumber: lastLine, text: 'last' }] },
       ],
     }));
-    const sharedResults = html.match(/<div[^>]+data-openbitfun-part="grepResults"[^>]*>/)[0];
+    const sharedResults = html.match(/<div[^>]+data-opc-part="grepResults"[^>]*>/)[0];
     assert.ok(sharedResults.includes(`--_grep-line-number-width:${width}ch`));
     assert.equal((html.match(/--_grep-line-number-width:/g) ?? []).length, 1);
-    assert.equal((html.match(/data-openbitfun-part="grepFile"/g) ?? []).length, 2);
+    assert.equal((html.match(/data-opc-part="grepFile"/g) ?? []).length, 2);
   }
 });
 
@@ -177,10 +177,10 @@ test('ambient commands keep failures accessible from the icon and expand the err
     emptyCommand: 'No command', isExpanded: false, status: 'completed',
     output: createElement('pre', null, 'output'), onToggle() {} };
   const closed = renderToStaticMarkup(createElement(CommandToolCard, props));
-  assert.match(closed, /data-openbitfun-attention="ambient"/);
-  assert.match(closed, /data-openbitfun-expanded-shell="false"/);
+  assert.match(closed, /data-opc-attention="ambient"/);
+  assert.match(closed, /data-opc-expanded-shell="false"/);
   assert.match(closed, /aria-expanded="false"/);
-  assert.doesNotMatch(closed, /data-tool-capsule="true"|data-openbitfun-attention="prominent"/);
+  assert.doesNotMatch(closed, /data-tool-capsule="true"|data-opc-attention="prominent"/);
   const failed = renderToStaticMarkup(createElement(CommandToolCard, { ...props, status: 'error', error: 'Command failed' }));
   assert.match(failed, /Command failed/);
   assert.doesNotMatch(failed, />Command failed</);
@@ -189,10 +189,10 @@ test('ambient commands keep failures accessible from the icon and expand the err
   assert.match(expanded, /<pre>output<\/pre>/);
   const approval = renderToStaticMarkup(createElement(CommandToolCard, { ...props,
     requiresConfirmation: true, status: 'pending_confirmation' }));
-  assert.match(approval, /data-openbitfun-attention="ambient"/);
-  assert.match(approval, /data-openbitfun-state="confirmation"/);
+  assert.match(approval, /data-opc-attention="ambient"/);
+  assert.match(approval, /data-opc-state="confirmation"/);
   assert.match(approval, /data-default-icon="tool"/);
-  assert.doesNotMatch(approval, /data-openbitfun-attention="prominent"/);
+  assert.doesNotMatch(approval, /data-opc-attention="prominent"/);
 });
 
 test('capsules retain a type icon, expose an accessible button and reveal actual failures', () => {
@@ -262,21 +262,21 @@ test("flow-chat entry publishes the ambient and prominent framework anatomy", ()
     }),
   );
 
-  assert.match(ambientMarkup, /data-openbitfun-attention="ambient"/);
-  assert.match(ambientMarkup, /data-openbitfun-part="surface"/);
-  assert.match(ambientMarkup, /data-openbitfun-part="iconAffordanceButton"/);
+  assert.match(ambientMarkup, /data-opc-attention="ambient"/);
+  assert.match(ambientMarkup, /data-opc-part="surface"/);
+  assert.match(ambientMarkup, /data-opc-part="iconAffordanceButton"/);
   assert.match(ambientMarkup, /aria-label="Expand details"/);
-  assert.match(prominentMarkup, /data-openbitfun-attention="prominent"/);
-  assert.match(prominentMarkup, /data-openbitfun-part="summary"/);
-  assert.doesNotMatch(prominentMarkup, /data-openbitfun-part="header"/);
-  assert.match(prominentMarkup, /data-openbitfun-part="extra"/);
-  assert.match(prominentMarkup, /data-openbitfun-part="changeSummary"/);
-  assert.match(prominentMarkup, /data-openbitfun-change="added">\+6/);
-  assert.match(prominentMarkup, /data-openbitfun-change="removed">-0/);
-  assert.match(prominentMarkup, /data-openbitfun-part="actionRegion"/);
-  assert.match(prominentMarkup, /data-openbitfun-part="actions"/);
-  assert.match(prominentMarkup, /data-openbitfun-part="copyButton"/);
-  assert.match(prominentMarkup, /data-openbitfun-part="affordanceButton"/);
+  assert.match(prominentMarkup, /data-opc-attention="prominent"/);
+  assert.match(prominentMarkup, /data-opc-part="summary"/);
+  assert.doesNotMatch(prominentMarkup, /data-opc-part="header"/);
+  assert.match(prominentMarkup, /data-opc-part="extra"/);
+  assert.match(prominentMarkup, /data-opc-part="changeSummary"/);
+  assert.match(prominentMarkup, /data-opc-change="added">\+6/);
+  assert.match(prominentMarkup, /data-opc-change="removed">-0/);
+  assert.match(prominentMarkup, /data-opc-part="actionRegion"/);
+  assert.match(prominentMarkup, /data-opc-part="actions"/);
+  assert.match(prominentMarkup, /data-opc-part="copyButton"/);
+  assert.match(prominentMarkup, /data-opc-part="affordanceButton"/);
   assert.match(prominentMarkup, /aria-expanded="false"/);
   assert.doesNotMatch(prominentMarkup, /lucide-chevron-down/);
 });
@@ -291,13 +291,13 @@ test("panel-open actions stay in the trailing action region after metadata", () 
         actions: createElement("button", { type: "button" }, "Export"),
       }),
     }));
-    const open = markup.indexOf('data-openbitfun-part="affordanceButton"');
-    const actions = markup.indexOf('data-openbitfun-part="actionRegion"');
-    const extra = markup.indexOf('data-openbitfun-part="extra"');
+    const open = markup.indexOf('data-opc-part="affordanceButton"');
+    const actions = markup.indexOf('data-opc-part="actionRegion"');
+    const extra = markup.indexOf('data-opc-part="extra"');
     assert.ok(markup.indexOf(content ?? "Canvas") < extra);
     assert.ok(extra < actions && actions < open);
-    assert.doesNotMatch(markup, /data-openbitfun-part="contentActions"/);
-    assert.equal((markup.match(/data-openbitfun-part="affordanceButton"/g) ?? []).length, 1);
+    assert.doesNotMatch(markup, /data-opc-part="contentActions"/);
+    assert.equal((markup.match(/data-opc-part="affordanceButton"/g) ?? []).length, 1);
     assert.doesNotMatch(markup, /aria-expanded=/);
   }
 });
@@ -313,9 +313,9 @@ test("tool-card pointer cursors are limited to interactive surfaces and buttons"
   );
 
   assert.match(styles, /\.prominentSurface\s*\{[^}]*cursor:\s*default;/s);
-  assert.match(styles, /\.prominentSurface\[data-openbitfun-interactive="true"\]\s*\{\s*cursor:\s*pointer;/s);
+  assert.match(styles, /\.prominentSurface\[data-opc-interactive="true"\]\s*\{\s*cursor:\s*pointer;/s);
   assert.match(styles, /\.ambientSurface\s*\{[^}]*cursor:\s*default;/s);
-  assert.match(styles, /\.ambientSurface\[data-openbitfun-interactive="true"\]\s*\{\s*cursor:\s*pointer;/s);
+  assert.match(styles, /\.ambientSurface\[data-opc-interactive="true"\]\s*\{\s*cursor:\s*pointer;/s);
   assert.match(iconButtonStyles, /\.button\s*\{[^}]*cursor:\s*pointer;/s);
 });
 
@@ -342,11 +342,11 @@ test("tool-card change summaries use the same markers as the code diff", async (
 
   assert.match(
     styles,
-    /\.changeSummary \[data-openbitfun-change="added"\]\s*\{\s*color: var\(--opcteam-color-code-diff-added-marker\);/,
+    /\.changeSummary \[data-opc-change="added"\]\s*\{\s*color: var\(--opcteam-color-code-diff-added-marker\);/,
   );
   assert.match(
     styles,
-    /\.changeSummary \[data-openbitfun-change="removed"\]\s*\{\s*color: var\(--opcteam-color-code-diff-removed-marker\);/,
+    /\.changeSummary \[data-opc-change="removed"\]\s*\{\s*color: var\(--opcteam-color-code-diff-removed-marker\);/,
   );
 });
 
@@ -359,9 +359,9 @@ test("prominent error status opens error content without a separate failure flag
     }),
   );
 
-  assert.match(markup, /data-openbitfun-state="failed"/);
-  assert.match(markup, /data-openbitfun-part="errorCollapse"[^>]+data-open="true"/);
-  assert.match(markup, /data-openbitfun-part="error"/);
+  assert.match(markup, /data-opc-state="failed"/);
+  assert.match(markup, /data-opc-part="errorCollapse"[^>]+data-open="true"/);
+  assert.match(markup, /data-opc-part="error"/);
   assert.match(markup, /Command failed/);
 });
 
@@ -378,12 +378,12 @@ test("prominent error status can opt into expandable supporting details", () => 
     }),
   );
 
-  assert.match(markup, /data-openbitfun-state="expanded failed"/);
-  assert.match(markup, /data-openbitfun-expandable="true"/);
+  assert.match(markup, /data-opc-state="expanded failed"/);
+  assert.match(markup, /data-opc-expandable="true"/);
   assert.match(markup, /aria-expanded="true"/);
-  assert.match(markup, /data-openbitfun-part="expandedCollapse"[^>]+data-open="true"/);
+  assert.match(markup, /data-opc-part="expandedCollapse"[^>]+data-open="true"/);
   assert.match(markup, /Invocation input/);
-  assert.match(markup, /data-openbitfun-part="errorCollapse"[^>]+data-open="true"/);
+  assert.match(markup, /data-opc-part="errorCollapse"[^>]+data-open="true"/);
   assert.match(markup, /Command failed/);
 });
 
@@ -420,8 +420,8 @@ test("cancelled and rejected tool cards rely on status copy instead of a duplica
       }),
     );
 
-    assert.match(agentMarkup, new RegExp(`data-openbitfun-part="agentStatus"[^>]*><span[^>]*>${statusLabel}<`));
-    assert.doesNotMatch(agentMarkup, /data-openbitfun-part="status"/);
+    assert.match(agentMarkup, new RegExp(`data-opc-part="agentStatus"[^>]*><span[^>]*>${statusLabel}<`));
+    assert.doesNotMatch(agentMarkup, /data-opc-part="status"/);
     assert.doesNotMatch(agentMarkup, /lucide-x/);
   }
 
@@ -435,10 +435,10 @@ test("cancelled and rejected tool cards rely on status copy instead of a duplica
     }),
   );
 
-  assert.match(ambientMarkup, /data-openbitfun-part="statusSlot"[^>]+data-default-icon="tool"/);
-  assert.match(ambientMarkup, /data-openbitfun-part="toolIconLayer"/);
+  assert.match(ambientMarkup, /data-opc-part="statusSlot"[^>]+data-default-icon="tool"/);
+  assert.match(ambientMarkup, /data-opc-part="toolIconLayer"/);
   assert.match(ambientMarkup, /data-icon="custom-tool"/);
-  assert.doesNotMatch(ambientMarkup, /data-openbitfun-part="statusLayer"|lucide-x/);
+  assert.doesNotMatch(ambientMarkup, /data-opc-part="statusLayer"|lucide-x/);
 });
 
 test("default tool cards replace legacy text icons with a semantic fallback", () => {
@@ -488,17 +488,17 @@ test("file-operation failures stay collapsed and use the warning emphasis status
     "utf8",
   );
 
-  assert.match(collapsedMarkup, /data-openbitfun-state="failed"/);
-  assert.match(collapsedMarkup, /data-openbitfun-expandable="true"/);
+  assert.match(collapsedMarkup, /data-opc-state="failed"/);
+  assert.match(collapsedMarkup, /data-opc-expandable="true"/);
   assert.match(collapsedMarkup, /aria-expanded="false"/);
-  assert.match(collapsedMarkup, /data-openbitfun-icon="warning"/);
-  assert.match(collapsedMarkup, /data-openbitfun-part="errorCollapse"[^>]+data-open="false"/);
+  assert.match(collapsedMarkup, /data-opc-icon="warning"/);
+  assert.match(collapsedMarkup, /data-opc-part="errorCollapse"[^>]+data-open="false"/);
   assert.match(collapsedMarkup, /src\/index\.ts/);
   assert.doesNotMatch(collapsedMarkup, /Detailed failure/);
   assert.doesNotMatch(collapsedMarkup, /The target text was not found\./);
-  assert.match(expandedMarkup, /data-openbitfun-state="expanded failed"/);
+  assert.match(expandedMarkup, /data-opc-state="expanded failed"/);
   assert.match(expandedMarkup, /aria-expanded="true"/);
-  assert.match(expandedMarkup, /data-openbitfun-part="errorCollapse"[^>]+data-open="true"/);
+  assert.match(expandedMarkup, /data-opc-part="errorCollapse"[^>]+data-open="true"/);
   assert.match(expandedMarkup, /Detailed failure/);
   assert.match(expandedMarkup, /The target text was not found\./);
   assert.match(
@@ -507,14 +507,14 @@ test("file-operation failures stay collapsed and use the warning emphasis status
   );
   assert.match(
     styles,
-    /\.errorTitle > :where\(svg, img, \[data-openbitfun-component="icon"\]\)\s*\{[^}]*inline-size: var\(--opcteam-font-size-xl\);[^}]*block-size: var\(--opcteam-font-size-xl\);/s,
+    /\.errorTitle > :where\(svg, img, \[data-opc-component="icon"\]\)\s*\{[^}]*inline-size: var\(--opcteam-font-size-xl\);[^}]*block-size: var\(--opcteam-font-size-xl\);/s,
   );
 });
 
 test("auxiliary actions reveal on hover or keyboard focus and remain available without hover", async () => {
   const styles = await readFile(new URL("../src/flow-chat/tool-cards/FlowChatToolCard.module.css", import.meta.url), "utf8");
 
-  assert.match(styles, /data-openbitfun-preview-state="hover"/);
+  assert.match(styles, /data-opc-preview-state="hover"/);
   assert.match(styles, /:has\(:focus-visible\)/);
   assert.match(styles, /@media \(hover: none\), \(pointer: coarse\)/);
   assert.match(styles, /opacity:\s*0/);
@@ -760,9 +760,9 @@ test("ambient card cursors distinguish static traces from interactive cards", as
   );
   assert.match(
     styles,
-    /ambientSurface[^}]*\[data-openbitfun-interactive=["']?true["']?\][^{]*\{[^}]*cursor:\s*pointer/s,
+    /ambientSurface[^}]*\[data-opc-interactive=["']?true["']?\][^{]*\{[^}]*cursor:\s*pointer/s,
   );
-  assert.match(staticMarkup, /data-openbitfun-interactive="false"/);
+  assert.match(staticMarkup, /data-opc-interactive="false"/);
   assert.doesNotMatch(staticMarkup, /role="button"/);
   assert.doesNotMatch(staticMarkup, /tabindex="0"/);
 });
@@ -828,39 +828,39 @@ test("standard FlowChat tool views publish their concrete component contracts", 
     }),
   );
 
-  assert.match(readMarkup, /data-openbitfun-tool-card="read-file"/);
+  assert.match(readMarkup, /data-opc-tool-card="read-file"/);
   assert.match(readMarkup, /lucide-file-text/);
   assert.match(readMarkup, /data-default-icon="tool"/);
-  assert.match(readMarkup, /data-openbitfun-attention="ambient"/);
-  assert.match(readMarkup, /data-openbitfun-direct-action="true"/);
+  assert.match(readMarkup, /data-opc-attention="ambient"/);
+  assert.match(readMarkup, /data-opc-direct-action="true"/);
   assert.match(readMarkup, /role="button"/);
   assert.match(readMarkup, /tabindex="0"/);
   assert.match(readMarkup, /aria-label="Open src\/index\.ts"/);
-  assert.match(contextMarkup, /data-openbitfun-component="context-compression-tool-card"/);
-  assert.match(contextMarkup, /data-openbitfun-part="summary"/);
+  assert.match(contextMarkup, /data-opc-component="context-compression-tool-card"/);
+  assert.match(contextMarkup, /data-opc-part="summary"/);
   assert.match(contextMarkup, /Compressed context length 31k \(compression ratio 75%\)/);
-  assert.doesNotMatch(contextMarkup, /data-openbitfun-part="(?:savings|meta|tokenChange)"/);
-  assert.match(commandMarkup, /data-openbitfun-component="command-tool-card"/);
-  assert.match(commandMarkup, /data-openbitfun-part="outputFrame"/);
+  assert.doesNotMatch(contextMarkup, /data-opc-part="(?:savings|meta|tokenChange)"/);
+  assert.match(commandMarkup, /data-opc-component="command-tool-card"/);
+  assert.match(commandMarkup, /data-opc-part="outputFrame"/);
   assert.match(commandMarkup, /57 tests passed/);
-  assert.match(deleteMarkup, /data-openbitfun-operation="delete"/);
-  assert.match(deleteMarkup, /data-openbitfun-attention="prominent"/);
-  assert.match(deleteMarkup, /data-openbitfun-part="action"><span[^>]*data-overflow="false"[^>]*><span[^>]*data-overflow-content="">Delete file<\/span><\/span><\/span>/);
-  assert.match(deleteMarkup, /data-openbitfun-part="content">/);
-  assert.match(editMarkup, /data-openbitfun-operation="edit"/);
-  assert.match(editMarkup, /data-openbitfun-attention="prominent"/);
+  assert.match(deleteMarkup, /data-opc-operation="delete"/);
+  assert.match(deleteMarkup, /data-opc-attention="prominent"/);
+  assert.match(deleteMarkup, /data-opc-part="action"><span[^>]*data-overflow="false"[^>]*><span[^>]*data-overflow-content="">Delete file<\/span><\/span><\/span>/);
+  assert.match(deleteMarkup, /data-opc-part="content">/);
+  assert.match(editMarkup, /data-opc-operation="edit"/);
+  assert.match(editMarkup, /data-opc-attention="prominent"/);
   assert.match(editMarkup, /\+ migrated view/);
-  assert.match(editMarkup, /data-openbitfun-part="changeSummary"/);
-  assert.match(editMarkup, /data-openbitfun-part="affordanceButton"/);
-  assert.match(editMarkup, /data-openbitfun-part="actionRegion"/);
-  assert.doesNotMatch(editMarkup, /data-openbitfun-part="(?:trailingActions|contentActions)"/);
-  assert.match(editMarkup, /data-openbitfun-part="openPanelButton"/);
-  assert.match(editMarkup, /data-openbitfun-affordance="open-panel-right"/);
-  assert.match(editMarkup, /data-openbitfun-icon="open-panel-right"/);
+  assert.match(editMarkup, /data-opc-part="changeSummary"/);
+  assert.match(editMarkup, /data-opc-part="affordanceButton"/);
+  assert.match(editMarkup, /data-opc-part="actionRegion"/);
+  assert.doesNotMatch(editMarkup, /data-opc-part="(?:trailingActions|contentActions)"/);
+  assert.match(editMarkup, /data-opc-part="openPanelButton"/);
+  assert.match(editMarkup, /data-opc-affordance="open-panel-right"/);
+  assert.match(editMarkup, /data-opc-icon="open-panel-right"/);
   assert.equal((editMarkup.match(/<button\b/g) ?? []).length, 2);
   assert.ok(
-    editMarkup.indexOf('data-openbitfun-part="changeSummary"')
-      < editMarkup.indexOf('data-openbitfun-part="actionRegion"'),
+    editMarkup.indexOf('data-opc-part="changeSummary"')
+      < editMarkup.indexOf('data-opc-part="actionRegion"'),
   );
   assert.doesNotMatch(editMarkup, /lucide-file-diff|lucide-chevron-right|lucide-chevron-down/);
 });
@@ -872,14 +872,14 @@ test("file deletion retains prominent approval and expandable error information"
   const failed = renderToStaticMarkup(createElement(FileOperationToolCard, {
     ...props, status: "error", isExpanded: true, onToggle() {}, error: { message: "Access denied" },
   }));
-  assert.match(failed, /data-openbitfun-attention="prominent"/);
-  assert.match(failed, /data-openbitfun-status="error"/);
+  assert.match(failed, /data-opc-attention="prominent"/);
+  assert.match(failed, /data-opc-status="error"/);
   assert.match(failed, /report\.md/);
   assert.match(failed, /Access denied/);
   const pending = renderToStaticMarkup(createElement(FileOperationToolCard, {
     ...props, status: "pending_confirmation", requiresConfirmation: true,
   }));
-  assert.match(pending, /data-openbitfun-state="confirmation"/);
+  assert.match(pending, /data-opc-state="confirmation"/);
 });
 
 test("every migrated FlowChat tool view publishes a stable concrete card identity", () => {
@@ -1007,13 +1007,13 @@ test("every migrated FlowChat tool view publishes a stable concrete card identit
 
   for (const [identity, card] of cards) {
     const markup = renderToStaticMarkup(card);
-    assert.match(markup, new RegExp(`data-openbitfun-tool-card="${identity}"`), identity);
+    assert.match(markup, new RegExp(`data-opc-tool-card="${identity}"`), identity);
     if (identity === "skill") {
       assert.match(markup, /lucide-book-open/);
-      assert.match(markup, /data-openbitfun-part="statusSlot"[^>]*data-default-icon="tool"/);
+      assert.match(markup, /data-opc-part="statusSlot"[^>]*data-default-icon="tool"/);
     }
-    assert.match(markup, /data-openbitfun-component="flow-chat-tool-card"/, identity);
-    assert.match(markup, /data-openbitfun-status="(?:completed|running)"/, identity);
+    assert.match(markup, /data-opc-component="flow-chat-tool-card"/, identity);
+    assert.match(markup, /data-opc-status="(?:completed|running)"/, identity);
   }
 
   const leadingIcons = {
@@ -1037,7 +1037,7 @@ test("every migrated FlowChat tool view publishes a stable concrete card identit
     assert.ok(card, identity);
     const markup = renderToStaticMarkup(card);
     assert.match(markup, new RegExp(`lucide-${icon}`), identity);
-    assert.match(markup, /data-openbitfun-part="statusSlot"[^>]*data-default-icon="tool"/, identity);
+    assert.match(markup, /data-opc-part="statusSlot"[^>]*data-default-icon="tool"/, identity);
   }
 });
 
@@ -1056,14 +1056,14 @@ test("file diff summary matches the compact file-operation information hierarchy
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
   const pathRule = styles.match(/\.[_a-zA-Z0-9-]*diffPath[_a-zA-Z0-9-]*\{([^}]*)\}/)?.[1];
 
-  assert.match(markup, /data-path="src\/index\.ts"[^>]*data-openbitfun-part="path"[^>]*data-overflow-text="src\/index\.ts"/);
+  assert.match(markup, /data-path="src\/index\.ts"[^>]*data-opc-part="path"[^>]*data-overflow-text="src\/index\.ts"/);
   assert.doesNotMatch(markup, /\stitle=/);
   assert.match(markup, />index\.ts<\/span>/);
-  assert.match(markup, /data-openbitfun-part="changeSummary"/);
+  assert.match(markup, /data-opc-part="changeSummary"/);
   assert.match(markup, /aria-label="12 additions and 0 deletions"/);
-  assert.match(markup, /data-openbitfun-change="added">\+12/);
-  assert.match(markup, /data-openbitfun-change="removed">-0/);
-  assert.doesNotMatch(markup, /Git HEAD|data-openbitfun-part="diffType"/);
+  assert.match(markup, /data-opc-change="added">\+12/);
+  assert.match(markup, /data-opc-change="removed">-0/);
+  assert.doesNotMatch(markup, /Git HEAD|data-opc-part="diffType"/);
   assert.ok(pathRule, "file-diff path rule should exist");
   assert.match(pathRule, /var\(--opcteam-color-content-secondary\)/);
   assert.doesNotMatch(pathRule, /font-(?:family|size|weight):/);
@@ -1085,21 +1085,21 @@ test("todo rows identify the task list with a shared icon and expose progress wh
   const collapsed = renderToStaticMarkup(createElement(TodoToolCard, props));
   const compact = renderToStaticMarkup(createElement(TodoToolCard, { ...props, mode: "compact" }));
 
-  assert.match(collapsed, /data-openbitfun-attention="prominent"/);
+  assert.match(collapsed, /data-opc-attention="prominent"/);
 
   for (const markup of [collapsed, compact]) {
-    assert.match(markup, /data-openbitfun-name="list-todo"/);
+    assert.match(markup, /data-opc-name="list-todo"/);
     assert.match(markup, /aria-label="Tasks"/);
     assert.match(markup, /stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
     assert.match(markup, /Migrate FlowChat adapter/);
     assert.doesNotMatch(markup, /role="progressbar"/);
   }
-  assert.doesNotMatch(collapsed, /data-openbitfun-part="action"/);
+  assert.doesNotMatch(collapsed, /data-opc-part="action"/);
 
   const complete = renderToStaticMarkup(createElement(TodoToolCard, {
     ...props, completedCount: 3, summary: "All tasks completed",
   }));
-  assert.match(complete, /data-openbitfun-name="list-todo"/);
+  assert.match(complete, /data-opc-name="list-todo"/);
   assert.match(complete, /All tasks completed/);
 
   const expanded = renderToStaticMarkup(createElement(TodoToolCard, { ...props, isExpanded: true }));
@@ -1143,16 +1143,16 @@ test("concrete tool views expose semantic parts instead of legacy CSS selectors"
     statusText: "Viewed image",
   }));
 
-  assert.match(agentMarkup, /data-openbitfun-part="agentSummary"/);
-  assert.match(agentMarkup, /data-openbitfun-part="agentStatus"/);
-  assert.match(agentMarkup, /data-openbitfun-component="shimmer-text"[^>]*>Running<\/span>/);
+  assert.match(agentMarkup, /data-opc-part="agentSummary"/);
+  assert.match(agentMarkup, /data-opc-part="agentStatus"/);
+  assert.match(agentMarkup, /data-opc-component="shimmer-text"[^>]*>Running<\/span>/);
   assert.match(agentMarkup, /data-agent-capsule-trigger="true"/);
-  assert.match(agentMarkup, /data-openbitfun-affordance="open-panel-right"/);
+  assert.match(agentMarkup, /data-opc-affordance="open-panel-right"/);
   assert.doesNotMatch(agentMarkup, /aria-expanded|expandedCollapse|interruptAgentButton|lucide-chevron-down/);
-  assert.doesNotMatch(agentMarkup, /data-openbitfun-part="statusSlot"|data-openbitfun-part="processing"/);
-  assert.match(fetchMarkup, /data-openbitfun-part="sourceLink"/);
-  assert.match(fetchMarkup, /data-openbitfun-part="detail"/);
-  assert.match(imageMarkup, /data-openbitfun-part="imagePreview"/);
+  assert.doesNotMatch(agentMarkup, /data-opc-part="statusSlot"|data-opc-part="processing"/);
+  assert.match(fetchMarkup, /data-opc-part="sourceLink"/);
+  assert.match(fetchMarkup, /data-opc-part="detail"/);
+  assert.match(imageMarkup, /data-opc-part="imagePreview"/);
 });
 
 test("failed commands retain partial output as well as the error", () => {

@@ -1,6 +1,4 @@
-use openbitfun_core_types::agent_identity::{
-    canonical_agent_config_id, canonical_agent_id, HarnessId,
-};
+use opc_core_types::agent_identity::{canonical_agent_config_id, canonical_agent_id, HarnessId};
 
 #[test]
 fn legacy_harness_ids_read_as_canonical_and_write_only_canonical_ids() {
@@ -40,7 +38,7 @@ fn unknown_and_source_qualified_agent_identity_survives_normalization() {
 
 #[test]
 fn peer_wire_round_trip_changes_only_product_identity_fields() {
-    use openbitfun_core_types::agent_identity_wire::{
+    use opc_core_types::agent_identity_wire::{
         translate_agent_identity_command, AgentIdentityDialect,
     };
     let current = serde_json::json!({"request": {
@@ -87,7 +85,7 @@ fn peer_wire_round_trip_changes_only_product_identity_fields() {
 
 #[test]
 fn scoped_config_wire_contract_matches_all_surfaces() {
-    use openbitfun_core_types::agent_identity_wire::{
+    use opc_core_types::agent_identity_wire::{
         translate_agent_identity_command, translate_agent_identity_response, AgentIdentityDialect,
     };
     let fixtures: Vec<serde_json::Value> = serde_json::from_str(include_str!(concat!(
@@ -123,7 +121,7 @@ fn scoped_config_wire_contract_matches_all_surfaces() {
 
 #[test]
 fn conflicting_profile_aliases_fail_before_dispatch() {
-    use openbitfun_core_types::agent_identity_wire::{
+    use opc_core_types::agent_identity_wire::{
         translate_agent_identity_command, AgentIdentityDialect,
     };
     let request = serde_json::json!({"request": {"path":"ai.agent_profiles", "value": {

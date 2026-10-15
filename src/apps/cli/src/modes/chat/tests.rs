@@ -42,13 +42,13 @@ mod tests {
     use crate::ui::command_menu::{ExternalCommandProjection, NativeCommandCollisionProjection};
     use crate::ui::theme::Theme;
     use crossterm::event::Event;
-    use openbitfun_events::{AgenticEvent, ToolEventData};
-    use openbitfun_product_domains::external_hook_catalog::{
+    use opc_events::{AgenticEvent, ToolEventData};
+    use opc_product_domains::external_hook_catalog::{
         ExternalHookCatalogEntry, ExternalHookCatalogSnapshotV1, ExternalHookHandlerKind,
         ExternalHookMatcherSummary, ExternalHookNativeActivation, ExternalHookProjectionStatus,
     };
-    use openbitfun_product_domains::external_source_control::ExternalSourceControlSnapshotV1;
-    use openbitfun_product_domains::external_sources::{
+    use opc_product_domains::external_source_control::ExternalSourceControlSnapshotV1;
+    use opc_product_domains::external_sources::{
         native_prompt_command_conflict_key, ExternalSourceAssetKind,
         ExternalSourceCatalogSnapshot as RawExternalSourceCatalogSnapshot,
         ExternalSourceDiagnostic, ExternalSourceDiagnosticSeverity, ExternalSourceOperationError,
@@ -56,15 +56,15 @@ mod tests {
         ExternalSourcePublicSnapshot as ExternalSourceCatalogSnapshot, ExternalSourceScope,
         ExternalToolActivationState,
     };
-    use openbitfun_product_domains::external_subagents::{
+    use opc_product_domains::external_subagents::{
         ExternalSubagentActivationState, ExternalSubagentModelBindingTarget,
     };
-    use openbitfun_product_domains::native_hooks::{
+    use opc_product_domains::native_hooks::{
         NativeHookFileSummary as NativeHookFileView,
         NativeHookHandlerSummary as NativeHookHandlerView, NativeHookOverview,
         NativeHookRuleSummary as NativeHookRuleView,
     };
-    use openbitfun_runtime_ports::AgentContextReloadTarget;
+    use opc_runtime_ports::AgentContextReloadTarget;
     use std::collections::{BTreeMap, BTreeSet};
 
     fn public_external_source_snapshot(value: serde_json::Value) -> ExternalSourceCatalogSnapshot {
@@ -284,7 +284,7 @@ mod tests {
 
         let mut permission_needed = control.clone();
         permission_needed.sources[0].effective_status =
-            openbitfun_product_domains::external_source_control::ExternalSourceEffectiveStatus::ReviewRequired;
+            opc_product_domains::external_source_control::ExternalSourceEffectiveStatus::ReviewRequired;
         let permission_text = external_control_status_text(&permission_needed);
         assert!(permission_text.contains("Needs permission"));
         assert!(permission_text.contains("Manage permissions: /tools, /agent, /mcp, or /hooks"));
@@ -956,7 +956,7 @@ mod tests {
                     scope: "project".to_string(),
                     location: format!(
                         "<workspace>/{}/config/hooks.json",
-                        openbitfun_core_types::product_identity::hidden_data_directory()
+                        opc_core_types::product_identity::hidden_data_directory()
                     ),
                     exists: true,
                     loaded: false,
@@ -1376,7 +1376,7 @@ mod tests {
     }
 
     #[test]
-    fn discovery_pending_does_not_block_known_openbitfun_commands() {
+    fn discovery_pending_does_not_block_known_opc_commands() {
         assert_eq!(
             command_route(true, None, true, false),
             CommandRoute::Builtin
@@ -2395,9 +2395,9 @@ mod tests {
 
         let mut inherited = external_agent_review_snapshot();
         inherited.subagents[0].requested_model =
-            openbitfun_product_domains::external_subagents::ExternalSubagentModelRequest::Inherit;
+            opc_product_domains::external_subagents::ExternalSubagentModelRequest::Inherit;
         inherited.subagents[0].model_binding_method =
-            openbitfun_product_domains::external_subagents::ExternalSubagentModelBindingMethod::Inherit;
+            opc_product_domains::external_subagents::ExternalSubagentModelBindingMethod::Inherit;
         inherited.subagents[0].model_binding_key = None;
         inherited.subagents[0].effective_model_label = None;
         let inherited_summary = external_agent_review_text(Some(&inherited));
@@ -2561,7 +2561,7 @@ mod tests {
             parse_external_agent_review_action("choose 1 0", Some(&snapshot), None).unwrap(),
             ExternalAgentReviewAction::Choose {
                 conflict_key: "conflict-v1".to_string(),
-                candidate_id: "__openbitfun_disabled__".to_string(),
+                candidate_id: "__opc_disabled__".to_string(),
                 approve_external: false,
                 expected_subagent_generation: 4,
                 expected_preference_revision: 7,
@@ -2737,12 +2737,12 @@ mod tests {
         let mut referenced = plain.clone();
         referenced
             .workspace_references
-            .push(openbitfun_runtime_ports::AgentWorkspaceReference {
+            .push(opc_runtime_ports::AgentWorkspaceReference {
                 path: "src/lib.rs".to_string(),
-                kind: openbitfun_runtime_ports::AgentWorkspaceReferenceKind::File,
+                kind: opc_runtime_ports::AgentWorkspaceReferenceKind::File,
                 start_line: None,
                 end_line: None,
-                source: openbitfun_runtime_ports::AgentWorkspaceReferenceSourceRange {
+                source: opc_runtime_ports::AgentWorkspaceReferenceSourceRange {
                     start: 0,
                     end: 11,
                     value: "@src/lib.rs".to_string(),

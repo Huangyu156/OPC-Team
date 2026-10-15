@@ -4,7 +4,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 use std::time::{SystemTime, UNIX_EPOCH};
 
-use openbitfun_services_integrations::function_agents::FunctionAgentGitService;
+use opc_services_integrations::function_agents::FunctionAgentGitService;
 
 struct TestTempDir {
     path: PathBuf,
@@ -17,7 +17,7 @@ impl TestTempDir {
             .unwrap()
             .as_nanos();
         let path = std::env::temp_dir().join(format!(
-            "openbitfun-function-agent-service-{}-{}-{}",
+            "opc-function-agent-service-{}-{}-{}",
             label,
             std::process::id(),
             suffix
@@ -73,7 +73,7 @@ fn git(repo: &Path, args: &[&str]) {
 }
 
 fn git_with_env(repo: &Path, args: &[&str], envs: &[(&str, &str)]) {
-    let mut command = openbitfun_services_core::process_manager::create_command("git");
+    let mut command = opc_services_core::process_manager::create_command("git");
     command.args(args).current_dir(repo);
     for (key, value) in envs {
         command.env(key, value);

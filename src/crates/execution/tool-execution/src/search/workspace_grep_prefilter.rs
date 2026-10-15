@@ -48,28 +48,28 @@ pub(super) fn literal_alternatives(pattern: &str, case_insensitive: bool) -> Opt
 /// Only the intentionally invalid probe operand suppresses expected stderr.
 pub(super) fn grep_probe_command() -> &'static str {
     r#"command -v grep >/dev/null 2>&1 || exit 127
-openbitfun_search_bom_le=$(printf '\377\376') || exit 127
-openbitfun_search_bom_be=$(printf '\376\377') || exit 127
+opc_search_bom_le=$(printf '\377\376') || exit 127
+opc_search_bom_be=$(printf '\376\377') || exit 127
 if ! printf 'prefix\000ignored\nliteral.marker\n' | LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -e 'literal.marker' -- >/dev/null; then
     exit 127
 fi
 if printf 'literalXmarker\n' | LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -e 'literal.marker' -- >/dev/null; then
     exit 127
 else
-    openbitfun_search_status=$?
-    [ "$openbitfun_search_status" -eq 1 ] || exit 127
+    opc_search_status=$?
+    [ "$opc_search_status" -eq 1 ] || exit 127
 fi
-if ! printf '\377\376\000\n' | LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -e "$openbitfun_search_bom_le" -e "$openbitfun_search_bom_be" -- >/dev/null; then
+if ! printf '\377\376\000\n' | LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -e "$opc_search_bom_le" -e "$opc_search_bom_be" -- >/dev/null; then
     exit 127
 fi
-if ! printf '\376\377\000\n' | LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -e "$openbitfun_search_bom_le" -e "$openbitfun_search_bom_be" -- >/dev/null; then
+if ! printf '\376\377\000\n' | LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -e "$opc_search_bom_le" -e "$opc_search_bom_be" -- >/dev/null; then
     exit 127
 fi
-if LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -- /dev/null/openbitfun-grep-probe >/dev/null 2>&1; then
+if LC_ALL=C GREP_OPTIONS= command grep -a -F -q -e 'not-present' -- /dev/null/opc-grep-probe >/dev/null 2>&1; then
     exit 127
 else
-    openbitfun_search_status=$?
-    [ "$openbitfun_search_status" -gt 1 ] || exit 127
+    opc_search_status=$?
+    [ "$opc_search_status" -gt 1 ] || exit 127
 fi
 exit 0"#
 }
@@ -79,17 +79,16 @@ exit 0"#
 /// uses its own grep process so status and filename framing remain unambiguous.
 pub(super) fn grep_batch_command(literals: &[&str], paths: &[String]) -> String {
     let mut command = String::from(
-        r#"openbitfun_search_bom_le=$(printf '\377\376') || exit 2
-openbitfun_search_bom_be=$(printf '\376\377') || exit 2
+        r#"opc_search_bom_le=$(printf '\377\376') || exit 2
+opc_search_bom_be=$(printf '\376\377') || exit 2
 set --"#,
     );
     for path in paths {
         command.push(' ');
         command.push_str(&shell_single_quote(path));
     }
-    command.push_str(
-        "\nfor openbitfun_search_path do\n    if LC_ALL=C GREP_OPTIONS= command grep -a -F -q",
-    );
+    command
+        .push_str("\nfor opc_search_path do\n    if LC_ALL=C GREP_OPTIONS= command grep -a -F -q");
     for literal in literals {
         command.push_str(" -e ");
         command.push_str(&shell_single_quote(literal));
@@ -97,13 +96,13 @@ set --"#,
     // A BOM anywhere conservatively retains the file. This can over-select a
     // binary file but cannot lose a match created by UTF-16 BOM transcoding.
     command.push_str(
-        r#" -e "$openbitfun_search_bom_le" -e "$openbitfun_search_bom_be" -- "$openbitfun_search_path" >/dev/null; then
+        r#" -e "$opc_search_bom_le" -e "$opc_search_bom_be" -- "$opc_search_path" >/dev/null; then
         printf '1'
     else
-        openbitfun_search_status=$?
-        case "$openbitfun_search_status" in
+        opc_search_status=$?
+        case "$opc_search_status" in
             1) printf '0' ;;
-            *) exit "$openbitfun_search_status" ;;
+            *) exit "$opc_search_status" ;;
         esac
     fi
 done
@@ -182,9 +181,9 @@ mod tests {
         );
         assert!(command.contains("set -- '/repo/a'\\''\n\\b' '/repo/$(touch injected)'\n"));
         assert!(command.contains(" -e 'quote'\\'' and ; shell' -e '$(printf injected)'"));
-        assert!(command.contains("-- \"$openbitfun_search_path\" >/dev/null"));
-        assert!(!command.contains("< \"$openbitfun_search_path\""));
-        assert!(command.contains("*) exit \"$openbitfun_search_status\""));
+        assert!(command.contains("-- \"$opc_search_path\" >/dev/null"));
+        assert!(!command.contains("< \"$opc_search_path\""));
+        assert!(command.contains("*) exit \"$opc_search_status\""));
         assert_eq!(
             command.matches("$(printf").count(),
             3,
@@ -237,7 +236,7 @@ mod tests {
         assert!(command.contains("literalXmarker"));
         assert!(command.contains("\\377\\376\\000"));
         assert!(command.contains("\\376\\377\\000"));
-        assert!(command.contains("-- /dev/null/openbitfun-grep-probe"));
-        assert!(command.contains("[ \"$openbitfun_search_status\" -gt 1 ] || exit 127"));
+        assert!(command.contains("-- /dev/null/opc-grep-probe"));
+        assert!(command.contains("[ \"$opc_search_status\" -gt 1 ] || exit 127"));
     }
 }

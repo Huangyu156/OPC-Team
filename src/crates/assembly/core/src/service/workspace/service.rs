@@ -30,8 +30,8 @@ use crate::service::workspace_runtime::{
 };
 use crate::util::errors::*;
 use log::{info, warn};
-use openbitfun_core_types::product_identity::product_id;
-use openbitfun_services_core::workspace_identity::{
+use opc_core_types::product_identity::product_id;
+use opc_services_core::workspace_identity::{
     canonicalize_local_workspace_root, local_workspace_roots_equal,
     normalize_remote_workspace_path, remote_workspace_stable_id,
 };
@@ -202,7 +202,7 @@ impl WorkspaceService {
         if let Err(e) = ensure_workspace_gitignore_ignores_openbitfun(&workspace.root_path).await {
             warn!(
                 "Failed to ensure workspace .gitignore ignores {}: workspace_path={} trigger={} error={}",
-                openbitfun_core_types::product_identity::hidden_data_directory(),
+                opc_core_types::product_identity::hidden_data_directory(),
                 workspace.root_path.display(),
                 trigger,
                 e
@@ -2456,10 +2456,8 @@ mod tests {
 
     impl TestEnvironment {
         fn new() -> Self {
-            let root = std::env::temp_dir().join(format!(
-                "openbitfun-workspace-service-test-{}",
-                Uuid::new_v4()
-            ));
+            let root =
+                std::env::temp_dir().join(format!("opc-workspace-service-test-{}", Uuid::new_v4()));
             std::fs::create_dir_all(&root).expect("test root should be created");
 
             let path_manager = Arc::new(PathManager::with_user_root_for_tests(
@@ -3531,7 +3529,7 @@ mod tests {
 
         let error = service
             .upgrade_legacy_workspace_open(
-                PathBuf::from("/openbitfun-tests/unknown-remote-path"),
+                PathBuf::from("/opc-tests/unknown-remote-path"),
                 None,
                 None,
             )

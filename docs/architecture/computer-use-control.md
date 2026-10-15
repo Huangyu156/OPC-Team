@@ -602,7 +602,7 @@ ComputerUse tool tests, two browser connection-hint tests, 163 Desktop Computer
 Use tests, 33 control/permission contract tests, eight prompt-catalog tests,
 64 isolated production-source context tests and 27 frontend settings/control
 tests. Nine Desktop native tests and one isolated browser test are ignored in
-those unit commands. `cargo build -p openbitfun-desktop`, `check:web`, the Web
+those unit commands. `cargo build -p opc-desktop`, `check:web`, the Web
 production build, changed-page ESLint, generated capabilities, repository hygiene
 and core boundaries passed. These suite counts overlap.
 

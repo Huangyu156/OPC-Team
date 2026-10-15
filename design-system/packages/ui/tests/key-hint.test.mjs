@@ -13,11 +13,11 @@ test("KeyHint preserves keyboard semantics and optional icon anatomy", () => {
   );
 
   assert.match(markup, /^<kbd/);
-  assert.match(markup, /data-openbitfun-component="key-hint"/);
-  assert.match(markup, /data-openbitfun-part="icon"/);
+  assert.match(markup, /data-opc-component="key-hint"/);
+  assert.match(markup, /data-opc-part="icon"/);
   assert.match(markup, /aria-hidden="true"/);
   assert.match(markup, /data-icon="command"/);
-  assert.match(markup, /data-openbitfun-part="label">K<\/span>/);
+  assert.match(markup, /data-opc-part="label">K<\/span>/);
 });
 
 test("KeyHint preserves textual platform modifiers in the icon slot", () => {
@@ -25,8 +25,8 @@ test("KeyHint preserves textual platform modifiers in the icon slot", () => {
     createElement(KeyHint, { icon: "Ctrl" }, "K"),
   );
 
-  assert.match(markup, /data-openbitfun-part="icon">Ctrl<\/span>/);
-  assert.match(markup, /data-openbitfun-part="label">K<\/span>/);
+  assert.match(markup, /data-opc-part="icon">Ctrl<\/span>/);
+  assert.match(markup, /data-opc-part="label">K<\/span>/);
 });
 
 test("KeyHint styles use the shared micro typography role", async () => {

@@ -55,7 +55,7 @@ export const MobileRadioGroup = forwardRef<HTMLDivElement, MobileRadioGroupProps
         {...props}
         className={classNames(styles.root, className)}
         data-appearance={appearance}
-        data-openbitfun-component="mobile-radio-group"
+        data-opc-component="mobile-radio-group"
         ref={ref}
         role="radiogroup"
       >
@@ -67,7 +67,7 @@ export const MobileRadioGroup = forwardRef<HTMLDivElement, MobileRadioGroupProps
               className={styles.option}
               data-checked={checked ? "true" : "false"}
               data-disabled={disabled ? "true" : "false"}
-              data-openbitfun-part="option"
+              data-opc-part="option"
               key={option.value}
             >
               <span className={styles.control}>
@@ -80,18 +80,18 @@ export const MobileRadioGroup = forwardRef<HTMLDivElement, MobileRadioGroupProps
                   type="radio"
                   value={option.value}
                 />
-                <span aria-hidden="true" className={styles.circle} data-openbitfun-part="circle">
-                  <span className={styles.dot} data-openbitfun-part="dot" />
+                <span aria-hidden="true" className={styles.circle} data-opc-part="circle">
+                  <span className={styles.dot} data-opc-part="dot" />
                 </span>
               </span>
-              <span className={styles.copy} data-openbitfun-part="copy">
-                <span className={styles.label} data-openbitfun-part="label">{option.label}</span>
+              <span className={styles.copy} data-opc-part="copy">
+                <span className={styles.label} data-opc-part="label">{option.label}</span>
                 {option.description !== undefined && option.description !== null && (
-                  <span className={styles.description} data-openbitfun-part="description">{option.description}</span>
+                  <span className={styles.description} data-opc-part="description">{option.description}</span>
                 )}
               </span>
               {option.leading !== undefined && option.leading !== null && (
-                <span className={styles.leading} data-openbitfun-part="leading">{option.leading}</span>
+                <span className={styles.leading} data-opc-part="leading">{option.leading}</span>
               )}
             </label>
           );

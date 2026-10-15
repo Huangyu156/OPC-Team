@@ -16,7 +16,7 @@ const __dirname = dirname(__filename);
  * Resolve the macOS `.app` bundle executable.
  *
  * Tauri names the bundle after `productName` (`OPC-Team.app`) while the
- * executable inside it keeps `mainBinaryName` (`openbitfun-desktop`). Bundles
+ * executable inside it keeps `mainBinaryName` (`opc-desktop`). Bundles
  * built before the product rename still use the OpenBitFun names for both.
  *
  * `tauri build` writes the real bundle to `target/<profile>/bundle/macos`, so
@@ -25,13 +25,13 @@ const __dirname = dirname(__filename);
 function getMacApplicationPath(): string {
   const root = path.resolve(__dirname, '..', '..', '..', 'target', 'debug');
   const candidates = [
-    path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'opc-desktop'),
     path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-    path.join(root, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'opc-desktop'),
     path.join(root, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
-    path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'opc-desktop'),
     path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-    path.join(root, 'OpenBitFun.app', 'Contents', 'MacOS', 'openbitfun-desktop'),
+    path.join(root, 'OpenBitFun.app', 'Contents', 'MacOS', 'opc-desktop'),
     path.join(root, 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
   ];
 
@@ -49,7 +49,7 @@ export function getApplicationPath(): string {
     return getMacApplicationPath();
   }
 
-  const appName = isWindows ? 'openbitfun-desktop.exe' : 'openbitfun-desktop';
+  const appName = isWindows ? 'opc-desktop.exe' : 'opc-desktop';
 
   return path.resolve(__dirname, '..', '..', '..', 'target', 'debug', appName);
 }

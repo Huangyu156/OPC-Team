@@ -3,8 +3,8 @@ use std::sync::Arc;
 
 use agent_client_protocol::schema::{McpServer, McpServerSse, McpServerStdio};
 use agent_client_protocol::{Error, Result};
-use openbitfun_core::service::config::get_global_config_service;
-use openbitfun_core::service::mcp::{
+use opc_core::service::config::get_global_config_service;
+use opc_core::service::mcp::{
     get_global_mcp_service, set_global_mcp_service, ConfigLocation, MCPServerConfig,
     MCPServerManager, MCPServerTransport, MCPServerType, MCPService,
 };

@@ -1,5 +1,5 @@
-use openbitfun_core_types::SessionKind;
-use openbitfun_services_core::session::{
+use opc_core_types::SessionKind;
+use opc_services_core::session::{
     build_session_metadata_page, SessionMetadata, SessionRelationship, SessionRelationshipKind,
     SessionStatus,
 };

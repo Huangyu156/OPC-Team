@@ -20,7 +20,7 @@ def main():
     parser.add_argument('--device')
     args = parser.parse_args()
     command = [args.hdc] + (['-t', args.device] if args.device else [])
-    output = Path(tempfile.mkdtemp(prefix='openbitfun-rollback-isolation-'))
+    output = Path(tempfile.mkdtemp(prefix='opc-rollback-isolation-'))
     contract = Path(__file__).resolve().parent.parent / 'entry/src/main/ets/services/HarmonyUpgradeIdentityContract.ets'
     bundle = re.search(r"APP_BUNDLE:\s*string\s*=\s*'([^']+)'", contract.read_text()).group(1)
     print(f'Evidence: {output}', flush=True)

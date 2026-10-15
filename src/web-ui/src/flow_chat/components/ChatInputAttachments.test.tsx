@@ -70,10 +70,10 @@ describe('numbered composer attachments', () => {
   });
   const dialog = () => document.querySelector<HTMLDivElement>('[role="dialog"][data-state="open"]');
   const click = (node: HTMLElement) => { act(() => node.click()); flushFrames(); };
-  const chip = () => container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="attachment"]')!;
+  const chip = () => container.querySelector<HTMLButtonElement>('[data-opc-product-part="attachment"]')!;
   const trigger = (number: number) => {
-    if (!document.querySelector('[data-openbitfun-product-part="details"]')) click(chip());
-    return document.querySelector<HTMLButtonElement>(`[data-openbitfun-product-part="details"] button[aria-label="Annotation ${number}"]`)!;
+    if (!document.querySelector('[data-opc-product-part="details"]')) click(chip());
+    return document.querySelector<HTMLButtonElement>(`[data-opc-product-part="details"] button[aria-label="Annotation ${number}"]`)!;
   };
   const action = (key: string) => [...dialog()!.querySelectorAll('button')]
     .find(button => button.getAttribute('aria-label') === key || button.textContent === key)!;
@@ -96,20 +96,20 @@ describe('numbered composer attachments', () => {
   });
   afterEach(() => {
     act(() => root.unmount()); container.remove();
-    document.querySelectorAll('[data-openbitfun-overlay-host]').forEach(host => host.remove());
+    document.querySelectorAll('[data-opc-overlay-host]').forEach(host => host.remove());
     vi.unstubAllGlobals();
   });
 
   it('groups annotations in a capsule, previews on hover, and removes only the chosen detail', () => {
     act(() => root.render(<Composer />));
-    const strip = container.querySelector('[data-openbitfun-part="imageStrip"]')!;
+    const strip = container.querySelector('[data-opc-part="imageStrip"]')!;
     expect(strip.querySelector('img')?.alt).toBe('Photo.png');
     expect(strip.contains(chip())).toBe(true);
-    expect(document.querySelector('[data-openbitfun-product-part="details"]')).toBeNull();
+    expect(document.querySelector('[data-opc-product-part="details"]')).toBeNull();
     act(() => chip().dispatchEvent(new MouseEvent('mouseover', { bubbles: true })));
     flushFrames();
-    expect(document.querySelector('[data-openbitfun-product-part="details"]')?.textContent).toContain(excerpt.fragments[0].text);
-    expect(document.querySelector('[data-openbitfun-product-part="details"]')?.textContent).toContain('First comment');
+    expect(document.querySelector('[data-opc-product-part="details"]')?.textContent).toContain(excerpt.fragments[0].text);
+    expect(document.querySelector('[data-opc-product-part="details"]')?.textContent).toContain('First comment');
     click(document.querySelector<HTMLButtonElement>('[aria-label="Remove Annotation 1"]')!);
     expect(callbacks.remove).toHaveBeenCalledWith('annotation-1');
     expect(trigger(1)).toBeNull();
@@ -124,7 +124,7 @@ describe('numbered composer attachments', () => {
     const textarea = dialog()!.querySelector('textarea')!;
     expect(textarea.value).toBe('First comment');
     expect(document.activeElement).toBe(textarea);
-    const quote = dialog()!.querySelector('[data-openbitfun-product-part="quote"]')!;
+    const quote = dialog()!.querySelector('[data-opc-product-part="quote"]')!;
     expect(quote.textContent).toBe(excerpt.fragments[0].text);
     expect(dialog()!.querySelector('label')).toBeNull();
     expect(textarea.getAttribute('placeholder')).toBe('selection.annotationPlaceholder');
@@ -156,7 +156,7 @@ describe('numbered composer attachments', () => {
     expect(document.activeElement?.getAttribute('aria-label')).toBe('Annotation 1');
     act(() => document.activeElement!.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
     expect(document.activeElement).toBe(chip());
-    expect(document.querySelector('[data-openbitfun-product-part="details"]')).toBeNull();
+    expect(document.querySelector('[data-opc-product-part="details"]')).toBeNull();
     click(container.querySelector<HTMLButtonElement>('[aria-label="selection.remove"]')!);
     expect(callbacks.remove.mock.calls).toEqual([['annotation-1'], ['annotation-2']]);
     expect(chip()).toBeNull();
@@ -173,10 +173,10 @@ describe('numbered composer attachments', () => {
     for (const trigger of triggers) {
       click(trigger);
       expect(dialog()!.querySelector('textarea, input, [contenteditable="true"]')).toBeNull();
-      const comment = dialog()!.querySelector<HTMLElement>('[data-openbitfun-product-part="comment"]')!;
+      const comment = dialog()!.querySelector<HTMLElement>('[data-opc-product-part="comment"]')!;
       expect(comment.textContent).toBe('First comment');
-      expect(dialog()!.querySelector('[data-openbitfun-product-part="quote"]')!.textContent).toBe(excerpt.fragments[0].text);
-      expect(dialog()!.querySelector('[data-openbitfun-part="footer"]')).toBeNull();
+      expect(dialog()!.querySelector('[data-opc-product-part="quote"]')!.textContent).toBe(excerpt.fragments[0].text);
+      expect(dialog()!.querySelector('[data-opc-part="footer"]')).toBeNull();
       act(() => comment.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', ctrlKey: true, bubbles: true })));
       expect(dialog()).not.toBeNull();
       click(action('selection.locate'));
@@ -197,12 +197,12 @@ describe('numbered composer attachments', () => {
         onUpdate={callbacks.update} onRemove={callbacks.remove} />
     </>));
     click(container.querySelector<HTMLButtonElement>('button[aria-label="Annotation 1"]')!);
-    expect(dialog()!.querySelector('[data-openbitfun-product-part="comment"]')!.textContent).toBe('First comment');
+    expect(dialog()!.querySelector('[data-opc-product-part="comment"]')!.textContent).toBe('First comment');
     expect(dialog()!.querySelector('textarea')).toBeNull();
     click(action('selection.locate'));
     expect(callbacks.locate).toHaveBeenCalledExactlyOnceWith(excerpt, expect.any(Function));
     expect(useContextStore.getState().contexts).toEqual([draft]);
-    click(container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="attachment"]')!);
+    click(container.querySelector<HTMLButtonElement>('[data-opc-product-part="attachment"]')!);
     click(trigger(1));
     expect(dialog()!.querySelector('textarea')!.value).toBe('Unsent draft revision');
     typeComment('Continue editing draft');
@@ -213,8 +213,8 @@ describe('numbered composer attachments', () => {
   it('shows only the source quote and locate action for a sent annotation without a comment', () => {
     act(() => root.render(<ConversationExcerptPreview excerpt={{ ...excerpt, comment: undefined }} />));
     click(container.querySelector<HTMLButtonElement>('button[aria-label="Annotation 1"]')!);
-    expect(dialog()!.querySelector('textarea, input, [data-openbitfun-product-part="comment"]')).toBeNull();
-    expect(dialog()!.querySelector('[data-openbitfun-product-part="quote"]')!.textContent).toBe(excerpt.fragments[0].text);
+    expect(dialog()!.querySelector('textarea, input, [data-opc-product-part="comment"]')).toBeNull();
+    expect(dialog()!.querySelector('[data-opc-product-part="quote"]')!.textContent).toBe(excerpt.fragments[0].text);
     expect(action('selection.locate')).toBeDefined();
   });
 
@@ -222,8 +222,8 @@ describe('numbered composer attachments', () => {
     useContextStore.getState().replaceContexts([excerpt]);
     sessionComposerStore.getState().setContexts('main', [excerpt]);
     act(() => root.render(<LinkedComposer />));
-    const source = container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="superscript"]')!;
-    const attachment = () => container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="attachment"]')!;
+    const source = container.querySelector<HTMLButtonElement>('[data-opc-product-part="superscript"]')!;
+    const attachment = () => container.querySelector<HTMLButtonElement>('[data-opc-product-part="attachment"]')!;
     click(source);
     const actions = [...dialog()!.querySelectorAll('button')].map(button => button.textContent);
     expect(dialog()!.dataset.openbitfunProductPart).toBe('dialog');
@@ -262,7 +262,7 @@ describe('numbered composer attachments', () => {
     useContextStore.getState().replaceContexts([image, excerpt, second]);
     sessionComposerStore.getState().setContexts('main', [image, excerpt, second]);
     act(() => root.render(<LinkedComposer />));
-    click(container.querySelector<HTMLButtonElement>('[data-openbitfun-product-part="superscript"]')!);
+    click(container.querySelector<HTMLButtonElement>('[data-opc-product-part="superscript"]')!);
     typeComment('Do not save this edit');
     click(action('selection.remove'));
     expect(dialog()).toBeNull();

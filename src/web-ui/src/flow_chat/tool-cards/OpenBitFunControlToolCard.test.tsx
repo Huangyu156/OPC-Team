@@ -28,10 +28,10 @@ function render(action: string, result: unknown, status: FlowToolItem['status'] 
 
 describe('OpenBitFun control card content', () => {
   it('uses real shared card frameworks for discovery and control', () => {
-    expect(render('list', { items: [] })).toContain('data-openbitfun-attention="ambient"');
+    expect(render('list', { items: [] })).toContain('data-opc-attention="ambient"');
     const html = render('configure', { configured: true, effectiveValue: false });
-    expect(html).toContain('data-openbitfun-tool-card="openbitfun-control"');
-    expect(html).toContain('data-openbitfun-attention="prominent"');
+    expect(html).toContain('data-opc-tool-card="opc-control"');
+    expect(html).toContain('data-opc-attention="prominent"');
     expect(html).toContain('Change setting');
     expect(html).toContain('peer.feature');
     expect(html).toContain('Applied value: False');
@@ -47,25 +47,25 @@ describe('OpenBitFun control card content', () => {
       expect(discovery).toContain('data-default-icon="tool"');
       expect(discovery).not.toContain('lucide-book-search');
     }
-    expect(html).not.toContain('data-openbitfun-part="extra"');
+    expect(html).not.toContain('data-opc-part="extra"');
     expect(html).not.toContain('Tool: OpenBitFunControl');
   });
 
   it('does not render a success glyph for an unconfirmed result or pending approval', () => {
     for (const html of [render('open', { futureField: true }), render('open', undefined, 'pending_confirmation')]) {
-      expect(html).not.toContain('data-openbitfun-part="statusLayer"');
+      expect(html).not.toContain('data-opc-part="statusLayer"');
       expect(html).not.toContain('>Opened<');
     }
-    expect(render('get', { capability: { id: 'peer.feature' } })).not.toContain('data-openbitfun-part="extra"');
-    expect(render('list', { items: [] })).not.toContain('data-openbitfun-part="extra"');
+    expect(render('get', { capability: { id: 'peer.feature' } })).not.toContain('data-opc-part="extra"');
+    expect(render('list', { items: [] })).not.toContain('data-opc-part="extra"');
   });
 
   it('shows rejection and failed acknowledgements distinctly', () => {
-    expect(render('execute', { executed: false }, 'rejected')).toContain('data-openbitfun-status="rejected"');
+    expect(render('execute', { executed: false }, 'rejected')).toContain('data-opc-status="rejected"');
     const failed = render('execute', { executed: false });
-    expect(failed).toContain('data-openbitfun-status="error"');
+    expect(failed).toContain('data-opc-status="error"');
     expect(failed).not.toContain('>Executed<');
     expect(render('configure', { configured: true, presentationSync: { status: 'notAttached' } }))
-      .not.toContain('data-openbitfun-part="extra"');
+      .not.toContain('data-opc-part="extra"');
   });
 });

@@ -567,7 +567,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .unwrap_or_default()
             .as_nanos();
-        let dir = std::env::temp_dir().join(format!("openbitfun-glob-tool-{name}-{unique}"));
+        let dir = std::env::temp_dir().join(format!("opc-glob-tool-{name}-{unique}"));
         fs::create_dir_all(&dir).unwrap();
         dir
     }
@@ -597,7 +597,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -652,7 +652,7 @@ mod tests {
 
     #[test]
     fn does_not_expand_walk_root_outside_search_path() {
-        let root = std::env::temp_dir().join("openbitfun-glob-root");
+        let root = std::env::temp_dir().join("opc-glob-root");
         let (walk_root, relative_pattern) = derive_walk_root(&root, "../*.rs");
 
         assert_eq!(walk_root, root);
@@ -873,9 +873,9 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn workspace_io_glob_preserves_static_scope_and_openbitfun_hidden_exception() {
+    async fn workspace_io_glob_preserves_static_scope_and_opc_hidden_exception() {
         let root = make_temp_dir("workspace-io-scope");
-        let product_directory = openbitfun_core_types::product_identity::hidden_data_directory();
+        let product_directory = opc_core_types::product_identity::hidden_data_directory();
         fs::create_dir_all(root.join("src/deep")).unwrap();
         fs::create_dir_all(root.join(product_directory)).unwrap();
         fs::write(root.join("src/lib.rs"), "").unwrap();
@@ -954,7 +954,7 @@ mod tests {
     #[tokio::test]
     async fn escaped_glob_directories_keep_native_and_workspace_searches_in_scope() {
         use crate::agentic::workspace::{LocalWorkspaceFs, LocalWorkspaceShell};
-        use openbitfun_runtime_ports::WorkspaceShell;
+        use opc_runtime_ports::WorkspaceShell;
         use tool_runtime::search::glob_search::{
             build_remote_rg_command, collect_remote_glob_result, validate_remote_glob_exit,
         };
@@ -1003,7 +1003,7 @@ mod tests {
     #[cfg(unix)]
     #[tokio::test]
     async fn remote_glob_without_rg_executes_the_workspace_io_fallback() {
-        use openbitfun_runtime_ports::{
+        use opc_runtime_ports::{
             ToolRuntimeHandles, WorkspaceCommandOptions, WorkspaceCommandResult, WorkspaceServices,
             WorkspaceShell,
         };

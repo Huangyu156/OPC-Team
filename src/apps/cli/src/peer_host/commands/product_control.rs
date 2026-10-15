@@ -4,8 +4,8 @@
 //! Shared setting reads and mutations execute in the same process-level
 //! handler used by OpcTeamControl in the CLI Agent loop.
 
-use openbitfun_core::agentic::tools::openbitfun_control_config::global_shared_product_control_executor;
-use openbitfun_product_domains::product_control::{
+use opc_core::agentic::tools::opc_control_config::global_shared_product_control_executor;
+use opc_product_domains::product_control::{
     discover, ProductControlAction, ProductControlDeliveryProfile, ProductControlRequest,
     ProductControlSource,
 };

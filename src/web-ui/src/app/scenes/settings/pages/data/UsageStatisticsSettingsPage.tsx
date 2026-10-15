@@ -123,7 +123,7 @@ function DistributionRows({
             description={`${display.secondary ? `${display.secondary} · ` : ''}${kind === 'endpoint' ? `${t('distributions.byEndpoint')} · ` : ''}${t('table.requestsCount', { count: formatNumber(entry.requests) })}`}
             align="center"
           >
-            <span className="openbitfun-usage-stats__metric-value">
+            <span className="opc-usage-stats__metric-value">
               <strong>{formatTokens(entry.tokens, formatNumber)}</strong>
               <small>{t('table.shareValue', { share: formatNumber(share, { style: 'percent', maximumFractionDigits: 1 }) })}</small>
             </span>
@@ -171,8 +171,8 @@ function UsageDistribution({ stats }: { stats: UsageStatistics }) {
           }))}
         />
       )}
-      data-openbitfun-component="usage-statistics-config"
-      data-openbitfun-part="distributions"
+      data-opc-component="usage-statistics-config"
+      data-opc-part="distributions"
     >
       <ConfigPageRow label={t('filter.inputLabel')} align="center">
         <Input
@@ -283,13 +283,13 @@ function TrendChart({ stats, timeZone }: { stats: UsageStatistics; timeZone: str
   const tickIndexes = Array.from(new Set([0, Math.floor((points.length - 1) / 2), points.length - 1]));
 
   return (
-    <div ref={chartRef} className="openbitfun-usage-stats__trend">
-      <p className="openbitfun-usage-stats__trend-range">
+    <div ref={chartRef} className="opc-usage-stats__trend">
+      <p className="opc-usage-stats__trend-range">
         {t('trend.range', { start: firstLabel, end: lastLabel })}
         {partial && ` · ${t('trend.partial')}`}
       </p>
       <svg
-        className="openbitfun-usage-stats__trend-svg"
+        className="opc-usage-stats__trend-svg"
         viewBox={`0 0 ${width} ${TREND_HEIGHT}`}
         role="img"
         aria-labelledby={titleId}
@@ -299,8 +299,8 @@ function TrendChart({ stats, timeZone }: { stats: UsageStatistics; timeZone: str
           const y = baseY - fraction * plotHeight;
           return (
             <g key={fraction}>
-              <line x1={TREND_PAD_LEFT} y1={y} x2={width - TREND_PAD_RIGHT} y2={y} className="openbitfun-usage-stats__trend-grid" />
-              <text x={TREND_PAD_LEFT - 8} y={y + 4} textAnchor="end" className="openbitfun-usage-stats__trend-axis">
+              <line x1={TREND_PAD_LEFT} y1={y} x2={width - TREND_PAD_RIGHT} y2={y} className="opc-usage-stats__trend-grid" />
+              <text x={TREND_PAD_LEFT - 8} y={y + 4} textAnchor="end" className="opc-usage-stats__trend-axis">
                 {formatTokens(maxTokens * fraction, formatNumber)}
               </text>
             </g>
@@ -313,22 +313,22 @@ function TrendChart({ stats, timeZone }: { stats: UsageStatistics; timeZone: str
           return (
             <g key={point.bucket}>
               <title>{`${labelFor(point.bucket)} · ${t('trend.legend.input')} ${formatTokens(point.inputTokens, formatNumber)} · ${t('trend.legend.output')} ${formatTokens(point.outputTokens, formatNumber)}`}</title>
-              <rect x={x} y={baseY - inputHeight} width={barWidth} height={inputHeight} className="openbitfun-usage-stats__trend-input" />
-              <rect x={x} y={baseY - inputHeight - outputHeight} width={barWidth} height={outputHeight} className="openbitfun-usage-stats__trend-output" />
+              <rect x={x} y={baseY - inputHeight} width={barWidth} height={inputHeight} className="opc-usage-stats__trend-input" />
+              <rect x={x} y={baseY - inputHeight - outputHeight} width={barWidth} height={outputHeight} className="opc-usage-stats__trend-output" />
             </g>
           );
         })}
         {tickIndexes.map(index => (
-          <text key={index} x={TREND_PAD_LEFT + (index + 0.5) * slotWidth} y={TREND_HEIGHT - 8} textAnchor="middle" className="openbitfun-usage-stats__trend-axis">
+          <text key={index} x={TREND_PAD_LEFT + (index + 0.5) * slotWidth} y={TREND_HEIGHT - 8} textAnchor="middle" className="opc-usage-stats__trend-axis">
             {labelFor(points[index].bucket)}
           </text>
         ))}
       </svg>
-      <div className="openbitfun-usage-stats__trend-legend" aria-hidden="true">
-        <span><i className="openbitfun-usage-stats__trend-key openbitfun-usage-stats__trend-key--input" />{t('trend.legend.input')}</span>
-        <span><i className="openbitfun-usage-stats__trend-key openbitfun-usage-stats__trend-key--output" />{t('trend.legend.output')}</span>
+      <div className="opc-usage-stats__trend-legend" aria-hidden="true">
+        <span><i className="opc-usage-stats__trend-key opc-usage-stats__trend-key--input" />{t('trend.legend.input')}</span>
+        <span><i className="opc-usage-stats__trend-key opc-usage-stats__trend-key--output" />{t('trend.legend.output')}</span>
       </div>
-      <table className="openbitfun-sr-only">
+      <table className="opc-sr-only">
         <caption>{t('trend.dataTableCaption')}</caption>
         <thead><tr><th scope="col">{t('trend.time')}</th><th scope="col">{t('trend.legend.input')}</th><th scope="col">{t('trend.legend.output')}</th></tr></thead>
         <tbody>{points.map(point => (
@@ -352,23 +352,23 @@ function UsageDetails({ stats, timeZone }: { stats: UsageStatistics; timeZone: s
   return (
     <ConfigPageSection
       title={t('details.title')}
-      data-openbitfun-component="usage-statistics-config"
-      data-openbitfun-part="details"
+      data-opc-component="usage-statistics-config"
+      data-opc-part="details"
     >
       {stats.trend.length > 0 && (
         <ConfigPageRow label={t('trend.title')} description={t('trend.summary')} multiline>
-          <div data-openbitfun-component="usage-statistics-config" data-openbitfun-part="trendPanel">
+          <div data-opc-component="usage-statistics-config" data-opc-part="trendPanel">
             <TrendChart stats={stats} timeZone={timeZone} />
           </div>
         </ConfigPageRow>
       )}
       <ConfigPageRow label={t('summary.cacheHitRate')} description={t('cache.note')} align="center">
-        <span className="openbitfun-usage-stats__metric-value">
+        <span className="opc-usage-stats__metric-value">
           <strong>{cacheHitRate === null ? t('cache.unavailable') : formatHitRate(cacheHitRate, formatNumber)}</strong>
         </span>
       </ConfigPageRow>
       <ConfigPageRow label={t('summary.cachedTokens')} align="center">
-        <span className="openbitfun-usage-stats__metric-value">
+        <span className="opc-usage-stats__metric-value">
           <strong>{formatTokens(stats.totalCachedTokens, formatNumber)}</strong>
         </span>
       </ConfigPageRow>
@@ -444,9 +444,9 @@ const UsageStatisticsSettingsPage: React.FC = () => {
 
   return (
     <ConfigPageLayout
-      className="openbitfun-usage-stats"
-      data-openbitfun-component="usage-statistics-config"
-      data-openbitfun-part="root"
+      className="opc-usage-stats"
+      data-opc-component="usage-statistics-config"
+      data-opc-part="root"
     >
       <ConfigPageHeader
         title={t('title')}
@@ -467,8 +467,8 @@ const UsageStatisticsSettingsPage: React.FC = () => {
           <ConfigPageSection
             title={t('overview.title')}
             description={t('overview.description', { timeZone })}
-            data-openbitfun-component="usage-statistics-config"
-            data-openbitfun-part="overview"
+            data-opc-component="usage-statistics-config"
+            data-opc-part="overview"
           >
             <ConfigPageRow label={t('timeRange.label')} align="center">
               <Select
@@ -480,11 +480,11 @@ const UsageStatisticsSettingsPage: React.FC = () => {
                 disabled={loading}
               />
             </ConfigPageRow>
-            <ConfigMessage className="openbitfun-usage-stats__message" message={message} />
+            <ConfigMessage className="opc-usage-stats__message" message={message} />
             {loading ? (
               <ConfigLoadingState label={t('loading')} variant="statistics" />
             ) : empty ? (
-              <div data-openbitfun-component="usage-statistics-config" data-openbitfun-part="empty">
+              <div data-opc-component="usage-statistics-config" data-opc-part="empty">
                 <Empty
                   icon={<BarChart3 aria-hidden />}
                   title={t(timeRange === 'all' ? 'empty.title' : 'empty.periodTitle')}
@@ -495,21 +495,21 @@ const UsageStatisticsSettingsPage: React.FC = () => {
               <>
                 <ConfigPageRow label={t('summary.tokens')} align="center">
                   <span
-                    className="openbitfun-usage-stats__metric-value"
-                    data-openbitfun-component="usage-statistics-config"
-                    data-openbitfun-part="summary"
+                    className="opc-usage-stats__metric-value"
+                    data-opc-component="usage-statistics-config"
+                    data-opc-part="summary"
                   >
                     <strong>{formatTokens(visibleStats.totalTokens, formatNumber)}</strong>
                   </span>
                 </ConfigPageRow>
                 <ConfigPageRow label={t('summary.inputTokens')} align="center">
-                  <span className="openbitfun-usage-stats__metric-value"><strong>{formatTokens(visibleStats.totalInputTokens, formatNumber)}</strong></span>
+                  <span className="opc-usage-stats__metric-value"><strong>{formatTokens(visibleStats.totalInputTokens, formatNumber)}</strong></span>
                 </ConfigPageRow>
                 <ConfigPageRow label={t('summary.outputTokens')} align="center">
-                  <span className="openbitfun-usage-stats__metric-value"><strong>{formatTokens(visibleStats.totalOutputTokens, formatNumber)}</strong></span>
+                  <span className="opc-usage-stats__metric-value"><strong>{formatTokens(visibleStats.totalOutputTokens, formatNumber)}</strong></span>
                 </ConfigPageRow>
                 <ConfigPageRow label={t('summary.requests')} align="center">
-                  <span className="openbitfun-usage-stats__metric-value"><strong>{formatNumber(visibleStats.totalRequests)}</strong></span>
+                  <span className="opc-usage-stats__metric-value"><strong>{formatNumber(visibleStats.totalRequests)}</strong></span>
                 </ConfigPageRow>
               </>
             ) : null}

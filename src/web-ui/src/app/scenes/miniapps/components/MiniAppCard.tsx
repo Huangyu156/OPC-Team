@@ -69,7 +69,7 @@ const MiniAppCard: React.FC<MiniAppCardProps> = ({
   };
 
   return (
-    <div data-overflow-trigger data-openbitfun-component="mini-app-card" data-openbitfun-part="root" data-miniapp-id={app.id}
+    <div data-overflow-trigger data-opc-component="mini-app-card" data-opc-part="root" data-miniapp-id={app.id}
       className={[
         'miniapp-card',
         isRunning && 'miniapp-card--running',
@@ -87,15 +87,15 @@ const MiniAppCard: React.FC<MiniAppCardProps> = ({
       aria-label={localizedName}
     >
       <div className="miniapp-card__main">
-        <div className="miniapp-card__header" data-openbitfun-component="mini-app-card" data-openbitfun-part="header">
-          <div className="miniapp-card__icon-area" data-openbitfun-component="mini-app-card" data-openbitfun-part="iconArea">
-            <div className="miniapp-card__icon" data-openbitfun-component="mini-app-card" data-openbitfun-part="icon">
+        <div className="miniapp-card__header" data-opc-component="mini-app-card" data-opc-part="header">
+          <div className="miniapp-card__icon-area" data-opc-component="mini-app-card" data-opc-part="iconArea">
+            <div className="miniapp-card__icon" data-opc-component="mini-app-card" data-opc-part="icon">
               {renderMiniAppIcon(app.icon || 'box', 40)}
             </div>
           </div>
           <div className="miniapp-card__header-actions">
             {(isRunning || isCustomizing) && (
-              <span className="miniapp-card__status-dots" data-openbitfun-component="mini-app-card" data-openbitfun-part="status" aria-hidden="true">
+              <span className="miniapp-card__status-dots" data-opc-component="mini-app-card" data-opc-part="status" aria-hidden="true">
                 {isRunning && <span className="miniapp-card__run-dot" />}
                 {isCustomizing && <span className="miniapp-card__customize-dot" />}
               </span>
@@ -111,22 +111,22 @@ const MiniAppCard: React.FC<MiniAppCardProps> = ({
         </div>
 
         <div className="miniapp-card__content">
-          <div className="miniapp-card__title-group" data-openbitfun-component="mini-app-card" data-openbitfun-part="title">
-            <OverflowText className="miniapp-card__name" data-openbitfun-component="mini-app-card" data-openbitfun-part="name">{localizedName}</OverflowText>
+          <div className="miniapp-card__title-group" data-opc-component="mini-app-card" data-opc-part="title">
+            <OverflowText className="miniapp-card__name" data-opc-component="mini-app-card" data-opc-part="name">{localizedName}</OverflowText>
           </div>
 
-          <div className="miniapp-card__body" data-openbitfun-component="mini-app-card" data-openbitfun-part="body">
+          <div className="miniapp-card__body" data-opc-component="mini-app-card" data-opc-part="body">
             {localizedDescription ? (
-              <div className="miniapp-card__desc" data-openbitfun-component="mini-app-card" data-openbitfun-part="description">
+              <div className="miniapp-card__desc" data-opc-component="mini-app-card" data-opc-part="description">
                 <OverflowText lines={3} className="miniapp-card__desc-inner">{localizedDescription}</OverflowText>
               </div>
             ) : null}
           </div>
         </div>
 
-        <div className="miniapp-card__footer" data-openbitfun-component="mini-app-card" data-openbitfun-part="footer">
-          <div className="miniapp-card__tags" data-openbitfun-component="mini-app-card" data-openbitfun-part="tags">
-            <span className="miniapp-card__tag" data-openbitfun-component="mini-app-card" data-openbitfun-part="version"><OverflowText>
+        <div className="miniapp-card__footer" data-opc-component="mini-app-card" data-opc-part="footer">
+          <div className="miniapp-card__tags" data-opc-component="mini-app-card" data-opc-part="tags">
+            <span className="miniapp-card__tag" data-opc-component="mini-app-card" data-opc-part="version"><OverflowText>
               V{marketReleaseNumber ?? app.version}
             </OverflowText></span>
             {displayedTags.map((tag) => (
@@ -142,7 +142,7 @@ const MiniAppCard: React.FC<MiniAppCardProps> = ({
               </OverflowText></span>
             ) : null}
           </div>
-          <div className="miniapp-card__actions" data-openbitfun-component="mini-app-card" data-openbitfun-part="actions" onClick={(event) => event.stopPropagation()}>
+          <div className="miniapp-card__actions" data-opc-component="mini-app-card" data-opc-part="actions" onClick={(event) => event.stopPropagation()}>
             {isRunning && onStop ? (
               <IconButton
                 aria-label={t('card.stop')}

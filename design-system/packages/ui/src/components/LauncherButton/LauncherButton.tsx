@@ -27,17 +27,17 @@ export const LauncherButton = forwardRef<
     <button data-overflow-trigger
       {...props}
       className={classNames(styles.root, className)}
-      data-openbitfun-component="launcher-button"
-      data-openbitfun-part="root"
+      data-opc-component="launcher-button"
+      data-opc-part="root"
       ref={ref}
       type={type}
     >
       {leadingIcon !== undefined && leadingIcon !== null && (
-        <span aria-hidden="true" className={styles.icon} data-openbitfun-icon-slot="true" data-openbitfun-part="icon">
+        <span aria-hidden="true" className={styles.icon} data-opc-icon-slot="true" data-opc-part="icon">
           {leadingIcon}
         </span>
       )}
-      <OverflowText className={styles.label} data-openbitfun-part="label">
+      <OverflowText className={styles.label} data-opc-part="label">
         {children}
       </OverflowText>
     </button>

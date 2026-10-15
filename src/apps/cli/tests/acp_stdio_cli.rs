@@ -16,7 +16,7 @@ struct AcpProcess {
 
 impl AcpProcess {
     async fn spawn(environment: &CliTestEnvironment) -> Self {
-        let mut command = openbitfun_services_core::process_manager::create_tokio_command(env!(
+        let mut command = opc_services_core::process_manager::create_tokio_command(env!(
             "CARGO_BIN_EXE_openbitfun"
         ));
         command
@@ -166,7 +166,7 @@ async fn acp_stdio_preserves_mode_and_history_across_restart_then_closes_active_
     );
     assert_eq!(
         initialize.pointer("/result/agentInfo/name"),
-        Some(&json!("openbitfun-acp"))
+        Some(&json!("opc-acp"))
     );
     assert_eq!(
         initialize.pointer("/result/agentCapabilities/sessionCapabilities/close"),
@@ -284,7 +284,7 @@ async fn acp_stdio_preserves_mode_and_history_across_restart_then_closes_active_
                 "cwd": environment.workspace().to_string_lossy(),
                 "mcpServers": [{
                     "name": "must-not-start",
-                    "command": "openbitfun-command-that-must-not-run",
+                    "command": "opc-command-that-must-not-run",
                     "args": [],
                     "env": []
                 }]

@@ -6,18 +6,18 @@ use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_runtime::sdk::RuntimeError;
-use openbitfun_agent_runtime::thread_goal_tools::{
+use opc_agent_runtime::sdk::RuntimeError;
+use opc_agent_runtime::thread_goal_tools::{
     build_goal_tool_result, parse_create_goal_args, parse_update_goal_args,
     parse_update_goal_status, CREATE_GOAL_TOOL_NAME, GET_GOAL_TOOL_NAME, UPDATE_GOAL_TOOL_NAME,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     AgentThreadGoalCreateRequest, AgentThreadGoalGetRequest, AgentThreadGoalUpdateStatusRequest,
     PortError, PortErrorKind, ThreadGoalStatus,
 };
 use serde_json::{json, Value};
 
-fn require_agent_runtime() -> OpcTeamResult<openbitfun_agent_runtime::sdk::AgentRuntime> {
+fn require_agent_runtime() -> OpcTeamResult<opc_agent_runtime::sdk::AgentRuntime> {
     let coordinator = get_global_coordinator()
         .ok_or_else(|| OpcTeamError::Validation("coordinator is unavailable".to_string()))?;
     CoreServiceAgentRuntime::agent_runtime(coordinator).map_err(OpcTeamError::tool)

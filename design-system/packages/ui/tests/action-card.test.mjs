@@ -22,12 +22,12 @@ test("ActionCard keeps its native trigger and sibling actions independent", () =
   const triggerEnd = markup.indexOf("</button>");
   const siblingAction = markup.indexOf("<button", markup.indexOf("<button") + 1);
 
-  assert.match(markup, /data-openbitfun-component="action-card"/);
+  assert.match(markup, /data-opc-component="action-card"/);
   assert.match(markup, /data-selected="true"/);
   assert.match(markup, /data-size="md"/);
-  assert.match(markup, /data-openbitfun-part="leading"/);
-  assert.match(markup, /data-openbitfun-part="title"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>New session<\/span><\/span>/);
-  assert.match(markup, /data-openbitfun-part="description"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>Start a conversation<\/span><\/span>/);
+  assert.match(markup, /data-opc-part="leading"/);
+  assert.match(markup, /data-opc-part="title"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>New session<\/span><\/span>/);
+  assert.match(markup, /data-opc-part="description"[^>]*data-overflow-behavior="marquee"[^>]*><span[^>]*>Start a conversation<\/span><\/span>/);
   assert.equal((markup.match(/<button/g) ?? []).length, 3);
   assert.ok(triggerEnd < siblingAction);
 });

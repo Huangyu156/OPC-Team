@@ -135,7 +135,7 @@ const AssistantAvatarPicker: React.FC<AssistantAvatarPickerProps> = ({
           className="acp-avatar-picker__popover"
           role="region"
           aria-labelledby={titleId}
-          data-openbitfun-placement={popoverLayout?.placement ?? 'bottom'}
+          data-opc-placement={popoverLayout?.placement ?? 'bottom'}
           style={{
             top: `${popoverLayout?.top ?? 0}px`,
             left: `${popoverLayout?.left ?? 0}px`,

@@ -20,7 +20,7 @@ export function createGenerativeWidgetHtml({
   doc.documentElement.lang = language;
   if (appearance) {
     doc.documentElement.setAttribute('data-openbitfun-appearance', appearance.id);
-    doc.documentElement.setAttribute('data-openbitfun-appearance-mode', appearance.mode);
+    doc.documentElement.setAttribute('data-opc-appearance-mode', appearance.mode);
     Object.entries(appearance.vars).forEach(([name, value]) => {
       doc.documentElement.style.setProperty(name, value);
     });
@@ -50,7 +50,7 @@ export function createGenerativeWidgetHtml({
       window.sendPrompt = unsupported;
       document.addEventListener('click', function (event) {
         var target = event.target && event.target.closest
-          ? event.target.closest('[data-file-path], [data-openbitfun-open-file]') : null;
+          ? event.target.closest('[data-file-path], [data-opc-open-file]') : null;
         if (!target) return;
         event.preventDefault();
         event.stopPropagation();

@@ -1,6 +1,6 @@
 //! Agentic Events Definition
-pub use openbitfun_core_types::errors::{AiErrorDetail, ErrorCategory};
-use openbitfun_core_types::{
+pub use opc_core_types::errors::{AiErrorDetail, ErrorCategory};
+use opc_core_types::{
     ReasoningContentKind, SessionContinuationPolicy, SessionExecutionTarget, ToolImageAttachment,
 };
 use serde::{Deserialize, Deserializer, Serialize};
@@ -582,7 +582,7 @@ pub enum ToolEventData {
         identity: ToolEventIdentity,
         error: String,
         #[serde(default, skip_serializing_if = "Option::is_none")]
-        error_detail: Option<openbitfun_core_types::errors::ToolErrorDetail>,
+        error_detail: Option<opc_core_types::errors::ToolErrorDetail>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
         duration_ms: Option<u64>,
         #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -1008,7 +1008,7 @@ mod tests {
             identity: ToolEventIdentity::direct("tool-image-1", "view_image"),
             result: serde_json::json!({ "path": "preview.png" }),
             result_for_assistant: Some("Image attached".to_string()),
-            image_attachments: Some(vec![openbitfun_core_types::ToolImageAttachment {
+            image_attachments: Some(vec![opc_core_types::ToolImageAttachment {
                 mime_type: "image/png".to_string(),
                 data_base64: "AAAA".to_string(),
             }]),

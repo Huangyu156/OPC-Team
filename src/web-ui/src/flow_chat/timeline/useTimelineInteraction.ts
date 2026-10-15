@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type RefObject } from 'react';
 import type { FlowChatReaderState } from './readerState';
 
-const DISCLOSURE_SELECTOR = '[aria-expanded], summary, [data-openbitfun-expandable="true"]';
+const DISCLOSURE_SELECTOR = '[aria-expanded], summary, [data-opc-expandable="true"]';
 const FIELD_SELECTOR = 'input, select, textarea, [contenteditable]:not([contenteditable="false"])';
 export type TimelineReaderInteraction = 'disclosure' | 'field' | 'selection';
 

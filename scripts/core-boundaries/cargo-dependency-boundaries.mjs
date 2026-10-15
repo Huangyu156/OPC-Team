@@ -15,6 +15,7 @@ const SKIPPED_DIRECTORIES = new Set([
   '.claude',
   '.cursor',
   '.git',
+  '.rivet',
   '.targets',
   '.tmp',
   '.worktrees',
@@ -314,44 +315,44 @@ function reqwestDependencyFeatureReferences(references) {
 }
 
 const REQWEST_PACKAGE_PROFILES = new Map([
-  ['openbitfun-core', { dependencyFeatures: [], optional: true }],
-  ['openbitfun-services-integrations', {
+  ['opc-core', { dependencyFeatures: [], optional: true }],
+  ['opc-services-integrations', {
     dependencyFeatures: ['http2'],
     optional: true,
     servicesOwners: true,
   }],
-  ['openbitfun-ai-adapters', {
+  ['opc-ai-adapters', {
     dependencyFeatures: ['http2', 'json', 'rustls-no-provider', 'socks', 'stream'],
     optional: false,
     allowedPackageFeatureRefs: new Set(['reqwest/form']),
     requiredPackageFeatureRefs: new Map([
       ['subscription-auth', new Set(['reqwest/form'])],
     ]),
-    tlsProviderDependency: 'openbitfun-services-core',
+    tlsProviderDependency: 'opc-services-core',
   }],
-  ['openbitfun-cli', {
+  ['opc-cli', {
     dependencyFeatures: ['http2', 'rustls-no-provider', 'stream'],
     optional: false,
-    tlsProviderDependency: 'openbitfun-services-core',
+    tlsProviderDependency: 'opc-services-core',
   }],
-  ['openbitfun-desktop', {
+  ['opc-desktop', {
     dependencyFeatures: ['http2', 'json', 'query', 'rustls-no-provider', 'stream'],
     optional: false,
   }],
-  ['openbitfun-miniapp-market-service', {
+  ['opc-miniapp-market-service', {
     dependencyFeatures: ['form', 'http2', 'json', 'rustls-no-provider'],
     optional: false,
-    tlsProviderDependency: 'openbitfun-services-core',
+    tlsProviderDependency: 'opc-services-core',
   }],
   // Relay verifies global identity over bounded JSON HTTPS; no streaming or form API.
-  ['openbitfun-relay-service', {
+  ['opc-relay-service', {
     dependencyFeatures: ['json', 'rustls-no-provider'],
     optional: false,
   }],
-  ['openbitfun-skin-market-service', {
+  ['opc-skin-market-service', {
     dependencyFeatures: ['http2', 'json', 'rustls-no-provider'],
     optional: false,
-    tlsProviderDependency: 'openbitfun-services-core',
+    tlsProviderDependency: 'opc-services-core',
   }],
 ]);
 
@@ -515,27 +516,27 @@ const THIRD_PARTY_CAPABILITY_PROFILES = new Map([
   ['axum', {
     label: 'Axum',
     packages: new Map([
-      ['openbitfun-ai-adapters', dependencyProfile(['json'], { kind: 'dev' })],
-      ['openbitfun-core', dependencyProfile(['json'], { optional: true })],
-      ['openbitfun-desktop', dependencyProfile(['json'])],
-      ['openbitfun-miniapp-market-server', dependencyProfile(['json'])],
-      ['openbitfun-miniapp-market-service', dependencyProfile(['json'])],
-      ['openbitfun-relay-server', dependencyProfile([])],
-      ['openbitfun-relay-service', dependencyProfile(['json', 'ws'])],
-      ['openbitfun-server', dependencyProfile(['json', 'ws'])],
-      ['openbitfun-skin-market-server', dependencyProfile(['json'])],
-      ['openbitfun-skin-market-service', dependencyProfile(['json'])],
-      ['openbitfun-webdriver', dependencyProfile(['json'])],
+      ['opc-ai-adapters', dependencyProfile(['json'], { kind: 'dev' })],
+      ['opc-core', dependencyProfile(['json'], { optional: true })],
+      ['opc-desktop', dependencyProfile(['json'])],
+      ['opc-miniapp-market-server', dependencyProfile(['json'])],
+      ['opc-miniapp-market-service', dependencyProfile(['json'])],
+      ['opc-relay-server', dependencyProfile([])],
+      ['opc-relay-service', dependencyProfile(['json', 'ws'])],
+      ['opc-server', dependencyProfile(['json', 'ws'])],
+      ['opc-skin-market-server', dependencyProfile(['json'])],
+      ['opc-skin-market-service', dependencyProfile(['json'])],
+      ['opc-webdriver', dependencyProfile(['json'])],
     ]),
   }],
   ['git2', {
     label: 'Git2',
     packages: new Map([
-      ['openbitfun-services-core', dependencyProfile(['vendored-libgit2'], {
+      ['opc-services-core', dependencyProfile(['vendored-libgit2'], {
         optional: true,
         useDefaultFeatures: false,
       })],
-      ['openbitfun-services-integrations', dependencyProfile(['vendored-libgit2'], {
+      ['opc-services-integrations', dependencyProfile(['vendored-libgit2'], {
         optional: true,
         useDefaultFeatures: false,
       })],
@@ -544,29 +545,29 @@ const THIRD_PARTY_CAPABILITY_PROFILES = new Map([
   ['image', {
     label: 'Image',
     packages: new Map([
-      ['openbitfun-services-core', dependencyProfile([], {
+      ['opc-services-core', dependencyProfile([], {
         optional: true,
         useDefaultFeatures: false,
         ownerFeatureCapabilities: new Map([
           ['pet-packages', ['gif', 'jpeg', 'png', 'webp']],
         ]),
       })],
-      ['openbitfun-cli', dependencyProfile(['gif', 'jpeg', 'png', 'webp'], {
+      ['opc-cli', dependencyProfile(['gif', 'jpeg', 'png', 'webp'], {
         useDefaultFeatures: false,
       })],
-      ['openbitfun-core', dependencyProfile(['bmp', 'gif', 'jpeg', 'png', 'webp'], {
+      ['opc-core', dependencyProfile(['bmp', 'gif', 'jpeg', 'png', 'webp'], {
         optional: true,
         useDefaultFeatures: false,
       })],
       // Desktop owns bounded controller-local drag thumbnail decoding.
       // Keep only its raster input formats and PNG/JPEG output codecs.
-      ['openbitfun-desktop', dependencyProfile(['bmp', 'gif', 'jpeg', 'png', 'webp'], {
+      ['opc-desktop', dependencyProfile(['bmp', 'gif', 'jpeg', 'png', 'webp'], {
         useDefaultFeatures: false,
       })],
-      ['openbitfun-miniapp-market-service', dependencyProfile(['jpeg', 'png', 'webp'], {
+      ['opc-miniapp-market-service', dependencyProfile(['jpeg', 'png', 'webp'], {
         useDefaultFeatures: false,
       })],
-      ['openbitfun-services-integrations', dependencyProfile([], {
+      ['opc-services-integrations', dependencyProfile([], {
         allowDependencyFeatureAlias: true,
         optional: true,
         useDefaultFeatures: false,
@@ -575,11 +576,11 @@ const THIRD_PARTY_CAPABILITY_PROFILES = new Map([
           ['remote-connect', ['bmp', 'gif', 'jpeg', 'png', 'webp']],
         ]),
       })],
-      ['openbitfun-skin-market-service', dependencyProfile(['gif', 'jpeg', 'png', 'webp'], {
+      ['opc-skin-market-service', dependencyProfile(['gif', 'jpeg', 'png', 'webp'], {
         useDefaultFeatures: false,
       })],
       // The embedded bridge captures PNG and encodes JPEG previews itself.
-      ['openbitfun-webdriver', dependencyProfile(['jpeg', 'png'], {
+      ['opc-webdriver', dependencyProfile(['jpeg', 'png'], {
         useDefaultFeatures: false,
       })],
     ]),
@@ -587,16 +588,16 @@ const THIRD_PARTY_CAPABILITY_PROFILES = new Map([
   ['tokio-tungstenite', {
     label: 'Tokio Tungstenite',
     packages: new Map([
-      ['openbitfun-core', { ...dependencyProfile([], { optional: true }),
+      ['opc-core', { ...dependencyProfile([], { optional: true }),
         devProfile: dependencyProfile([], { kind: 'dev' }),
       }],
       // Loopback WebSocket lifecycle regressions only; the relay runtime is
       // an Axum server and does not acquire a TLS/client capability.
-      ['openbitfun-relay-service', dependencyProfile(['connect', 'handshake'], {
+      ['opc-relay-service', dependencyProfile(['connect', 'handshake'], {
         kind: 'dev',
         useDefaultFeatures: false,
       })],
-      ['openbitfun-services-integrations', dependencyProfile([], {
+      ['opc-services-integrations', dependencyProfile([], {
         optional: true,
         ownerFeatureCapabilities: new Map([
           ['remote-connect', ['rustls-tls-native-roots']],
@@ -608,13 +609,13 @@ const THIRD_PARTY_CAPABILITY_PROFILES = new Map([
   ['tower-http', {
     label: 'Tower HTTP',
     packages: new Map([
-      ['openbitfun-core', dependencyProfile(['cors'], { optional: true })],
-      ['openbitfun-desktop', dependencyProfile(['fs'])],
-      ['openbitfun-miniapp-market-service', dependencyProfile(['fs', 'set-header', 'trace'])],
-      ['openbitfun-relay-server', dependencyProfile(['fs'])],
-      ['openbitfun-relay-service', dependencyProfile(['cors'])],
-      ['openbitfun-server', dependencyProfile(['cors'])],
-      ['openbitfun-skin-market-service', dependencyProfile(['fs'])],
+      ['opc-core', dependencyProfile(['cors'], { optional: true })],
+      ['opc-desktop', dependencyProfile(['fs'])],
+      ['opc-miniapp-market-service', dependencyProfile(['fs', 'set-header', 'trace'])],
+      ['opc-relay-server', dependencyProfile(['fs'])],
+      ['opc-relay-service', dependencyProfile(['cors'])],
+      ['opc-server', dependencyProfile(['cors'])],
+      ['opc-skin-market-service', dependencyProfile(['fs'])],
     ]),
   }],
 ]);
@@ -932,9 +933,9 @@ export function findRuntimeServicesTestSupportFeatureViolations(packages) {
   };
 
   for (const pkg of packages) {
-    const runtimeServiceAliases = new Set(['openbitfun-runtime-services']);
+    const runtimeServiceAliases = new Set(['opc-runtime-services']);
     for (const dependency of pkg.dependencies ?? []) {
-      if (dependency.name !== 'openbitfun-runtime-services') {
+      if (dependency.name !== 'opc-runtime-services') {
         continue;
       }
       runtimeServiceAliases.add(dependency.rename ?? dependency.name);
@@ -946,7 +947,7 @@ export function findRuntimeServicesTestSupportFeatureViolations(packages) {
           path: pkg.manifest_path,
           line: 1,
           message:
-            `${pkg.name} must not enable openbitfun-runtime-services/test-support for its `
+            `${pkg.name} must not enable opc-runtime-services/test-support for its `
             + dependencyDescription(dependency),
         });
       }
@@ -966,12 +967,12 @@ export function findRuntimeServicesTestSupportFeatureViolations(packages) {
         path: pkg.manifest_path,
         line: 1,
         message:
-          `${pkg.name}:${featureName} must not expose openbitfun-runtime-services/test-support `
+          `${pkg.name}:${featureName} must not expose opc-runtime-services/test-support `
           + 'through a package feature',
       });
     }
 
-    if (pkg.name === 'openbitfun-runtime-services') {
+    if (pkg.name === 'opc-runtime-services') {
       for (const featureName of Object.keys(pkg.features ?? {})) {
         if (featureName === 'test-support') {
           continue;
@@ -984,7 +985,7 @@ export function findRuntimeServicesTestSupportFeatureViolations(packages) {
           path: pkg.manifest_path,
           line: 1,
           message:
-            `openbitfun-runtime-services:${featureName} must not expose test-support; `
+            `opc-runtime-services:${featureName} must not expose test-support; `
             + `reachable via ${path.join(' -> ')}`,
         });
       }
@@ -1100,11 +1101,11 @@ export function findServicesIntegrationsReqwestFeatureViolations(pkg) {
         message: `${pkg.name}:${featureName} is missing reqwest/rustls-no-provider`,
       });
     }
-    if (!references.includes('openbitfun-services-core/tls-provider')) {
+    if (!references.includes('opc-services-core/tls-provider')) {
       violations.push({
         path: pkg.manifest_path,
         line: 1,
-        message: `${pkg.name}:${featureName} is missing openbitfun-services-core/tls-provider`,
+        message: `${pkg.name}:${featureName} is missing opc-services-core/tls-provider`,
       });
     }
     for (const reference of ownerFeatureReferences.get(featureName) ?? []) {
@@ -1172,7 +1173,7 @@ export function findServicesCorePlatformDependencyFeatureViolations(packages) {
   const violations = [];
 
   for (const pkg of packages) {
-    if (pkg.name !== 'openbitfun-services-core') {
+    if (pkg.name !== 'opc-services-core') {
       continue;
     }
     for (const dependency of pkg.dependencies ?? []) {
@@ -1199,7 +1200,7 @@ export function findServicesIntegrationsPlatformDependencyFeatureViolations(pack
   const violations = [];
 
   for (const pkg of packages) {
-    if (pkg.name !== 'openbitfun-services-integrations') {
+    if (pkg.name !== 'opc-services-integrations') {
       continue;
     }
     const dependencies = (pkg.dependencies ?? []).filter(
@@ -1262,16 +1263,16 @@ export function findTokioDependencyFeatureViolations(packages) {
         });
       }
       const featureOwnedIntegrationRuntime =
-        pkg.name === 'openbitfun-services-integrations'
+        pkg.name === 'opc-services-integrations'
         && (dependency.kind ?? null) === null;
       const featureOwnedServicesCoreRuntime =
-        pkg.name === 'openbitfun-services-core'
+        pkg.name === 'opc-services-core'
         && (dependency.kind ?? null) === null;
       const featureOwnedCoreRuntime =
-        pkg.name === 'openbitfun-core'
+        pkg.name === 'opc-core'
         && (dependency.kind ?? null) === null;
       const featureOwnedAgentRuntime =
-        pkg.name === 'openbitfun-agent-runtime'
+        pkg.name === 'opc-agent-runtime'
         && (dependency.kind ?? null) === null;
       if (
         featureOwnedIntegrationRuntime
@@ -1308,20 +1309,20 @@ export function findTokioDependencyFeatureViolations(packages) {
       }
     }
 
-    if (pkg.name === 'openbitfun-services-integrations') {
+    if (pkg.name === 'opc-services-integrations') {
       violations.push(...findServicesIntegrationsTokioFeatureViolations(pkg));
     }
-    if (pkg.name === 'openbitfun-services-core') {
+    if (pkg.name === 'opc-services-core') {
       violations.push(...findServicesCoreTokioFeatureViolations(pkg));
     }
-    if (pkg.name === 'openbitfun-core') {
+    if (pkg.name === 'opc-core') {
       violations.push(...findOwnedTokioFeatureViolations(
         pkg,
         CORE_TOKIO_FEATURES,
         CORE_TOKIO_AGGREGATES,
       ));
     }
-    if (pkg.name === 'openbitfun-agent-runtime') {
+    if (pkg.name === 'opc-agent-runtime') {
       violations.push(...findOwnedTokioFeatureViolations(
         pkg,
         AGENT_RUNTIME_TOKIO_FEATURES,
@@ -1449,7 +1450,7 @@ export function findProductEntrypointCoreFeatureViolations(
   ];
   const CORE_TEST_SUPPORT_FEATURE = 'test-support';
   const reviewedCoreFeatureClosures = new Map([
-    ['openbitfun-cli', [
+    ['opc-cli', [
       'tools-pages',
       ...coreCompatibilityReviewedFeatures,
       'product-search',
@@ -1458,17 +1459,17 @@ export function findProductEntrypointCoreFeatureViolations(
       'opencode-plugin-host',
       'ssh-remote',
     ]],
-    ['openbitfun-acp', [...new Set([...acpClientCoreFeatures, ...acpServerCoreFeatures])]],
-    ['openbitfun-app-server', [
+    ['opc-acp', [...new Set([...acpClientCoreFeatures, ...acpServerCoreFeatures])]],
+    ['opc-app-server', [
       'external-sources',
       'git',
       'i18n-runtime',
       'remote-connect',
       'web-tools',
     ]],
-    ['openbitfun-sdk-host-app', coreCompatibilityReviewedFeatures],
+    ['opc-sdk-host-app', coreCompatibilityReviewedFeatures],
   ]);
-  const fullProductCoreEntrypoints = new Set(['openbitfun-desktop', 'openbitfun-server']);
+  const fullProductCoreEntrypoints = new Set(['opc-desktop', 'opc-server']);
   const fullProductCoreEntrypointsFound = new Set();
   const coreCompatibilityActiveFeatures = [
     'agent-runtime',
@@ -1515,7 +1516,7 @@ export function findProductEntrypointCoreFeatureViolations(
     'ssh-remote',
   ];
   const reviewedActiveCoreFeatureClosures = new Map([
-    ['openbitfun-cli', [
+    ['opc-cli', [
       'tools-pages',
       ...acpActiveCoreFeatures,
       'i18n-runtime',
@@ -1524,9 +1525,9 @@ export function findProductEntrypointCoreFeatureViolations(
       'opencode-plugin-host',
       'remote-connect',
     ]],
-    ['openbitfun-acp', acpActiveCoreFeatures],
-    ['openbitfun-sdk-host-app', coreCompatibilityActiveFeatures],
-    ['openbitfun-app-server', [
+    ['opc-acp', acpActiveCoreFeatures],
+    ['opc-sdk-host-app', coreCompatibilityActiveFeatures],
+    ['opc-app-server', [
       'agent-runtime',
       'ai-adapter-runtime',
       'external-sources',
@@ -1556,16 +1557,16 @@ export function findProductEntrypointCoreFeatureViolations(
     ]],
   ]);
   const reviewedForbiddenDependencyOwnerFeatures = new Map([
-    ['openbitfun-sdk-host-app', new Map([
-      ['openbitfun-services-integrations', [
+    ['opc-sdk-host-app', new Map([
+      ['opc-services-integrations', [
         'function-agents',
         'product-full',
         'remote-connect',
         'remote-ssh',
         'remote-ssh-concrete',
       ]],
-      ['openbitfun-product-domains', ['function-agents', 'product-full']],
-      ['openbitfun-services-core', ['dispatch-workspace']],
+      ['opc-product-domains', ['function-agents', 'product-full']],
+      ['opc-services-core', ['dispatch-workspace']],
     ])],
   ]);
   const packageByManifest = new Map(
@@ -1574,16 +1575,16 @@ export function findProductEntrypointCoreFeatureViolations(
   const violations = [];
 
   const reviewedAcpRoleSelections = new Map([
-    ['openbitfun-cli', {
+    ['opc-cli', {
       label: 'CLI',
       requiredFeatures: ['client', 'server'],
     }],
-    ['openbitfun-desktop', {
+    ['opc-desktop', {
       label: 'Desktop',
       requiredFeatures: ['client'],
     }],
   ]);
-  const acpPackage = packages.find((pkg) => pkg.name === 'openbitfun-acp');
+  const acpPackage = packages.find((pkg) => pkg.name === 'opc-acp');
   if (acpPackage) {
     const reviewedConsumersFound = new Set();
     for (const sourcePackage of packages) {
@@ -1593,7 +1594,7 @@ export function findProductEntrypointCoreFeatureViolations(
         }
         return packageByManifest.get(
           normalizedPath(join(candidate.path, 'Cargo.toml')),
-        )?.name === 'openbitfun-acp';
+        )?.name === 'opc-acp';
       });
       const normalDependencies = declaredDependencies.filter(
         (dependency) => dependency.kind === null,
@@ -1604,7 +1605,7 @@ export function findProductEntrypointCoreFeatureViolations(
           violations.push({
             path: sourcePackage.manifest_path,
             line: 1,
-            message: `openbitfun-acp consumer ${sourcePackage.name} must register an explicit role selection`,
+            message: `opc-acp consumer ${sourcePackage.name} must register an explicit role selection`,
           });
         }
         continue;
@@ -1620,14 +1621,14 @@ export function findProductEntrypointCoreFeatureViolations(
         violations.push({
           path: sourcePackage.manifest_path,
           line: 1,
-          message: `${rule.label} ACP role selection must keep an unconditional normal openbitfun-acp dependency`,
+          message: `${rule.label} ACP role selection must keep an unconditional normal opc-acp dependency`,
         });
       }
       if (declaredDependencies.some((dependency) => dependency.optional === true)) {
         violations.push({
           path: sourcePackage.manifest_path,
           line: 1,
-          message: `${rule.label} ACP role selection must not make a openbitfun-acp dependency optional`,
+          message: `${rule.label} ACP role selection must not make a opc-acp dependency optional`,
         });
       }
       if (declaredDependencies.some((dependency) => dependency.uses_default_features !== false)) {
@@ -1670,7 +1671,7 @@ export function findProductEntrypointCoreFeatureViolations(
         violations.push({
           path: sourcePackage.manifest_path,
           line: 1,
-          message: `${rule.label} ACP role selection must keep the openbitfun-acp dependency`,
+          message: `${rule.label} ACP role selection must keep the opc-acp dependency`,
         });
       }
     }
@@ -1692,13 +1693,13 @@ export function findProductEntrypointCoreFeatureViolations(
       const targetPackage = packageByManifest.get(
         normalizedPath(join(dependency.path, 'Cargo.toml')),
       );
-      if (targetPackage?.name !== 'openbitfun-core') {
+      if (targetPackage?.name !== 'opc-core') {
         continue;
       }
       const roleOwnedAcpDependency =
-        sourcePackage.name === 'openbitfun-acp' && dependency.optional === true;
+        sourcePackage.name === 'opc-acp' && dependency.optional === true;
       if (dependency.kind === 'dev') {
-        // A `[dev-dependencies]` edge on openbitfun-core only widens the test
+        // A `[dev-dependencies]` edge on opc-core only widens the test
         // build. It may switch on Core test-support constructors (isolated
         // workspace catalogs for in-process fixtures) and nothing else; the
         // product capability closure is owned by the normal dependency edge.
@@ -1707,7 +1708,7 @@ export function findProductEntrypointCoreFeatureViolations(
           violations.push({
             path: sourcePackage.manifest_path,
             line: 1,
-            message: `${sourcePackage.name} openbitfun-core dev-dependency may select only ${CORE_TEST_SUPPORT_FEATURE}, not [${devSelectedFeatures.join(', ')}]`,
+            message: `${sourcePackage.name} opc-core dev-dependency may select only ${CORE_TEST_SUPPORT_FEATURE}, not [${devSelectedFeatures.join(', ')}]`,
           });
         }
         continue;
@@ -1719,7 +1720,7 @@ export function findProductEntrypointCoreFeatureViolations(
         violations.push({
           path: sourcePackage.manifest_path,
           line: 1,
-          message: `product entrypoint ${sourcePackage.name} must select at least one explicit feature for its openbitfun-core ${dependencyDescription(dependency)}`,
+          message: `product entrypoint ${sourcePackage.name} must select at least one explicit feature for its opc-core ${dependencyDescription(dependency)}`,
         });
       }
       if (fullProductCoreEntrypoints.has(sourcePackage.name)) {
@@ -1759,7 +1760,7 @@ export function findProductEntrypointCoreFeatureViolations(
       }
     }
   }
-  for (const sourceName of packages.some((pkg) => pkg.name === 'openbitfun-core')
+  for (const sourceName of packages.some((pkg) => pkg.name === 'opc-core')
     ? fullProductCoreEntrypoints
     : []) {
     const sourcePackage = packages.find((pkg) => pkg.name === sourceName);
@@ -1767,12 +1768,12 @@ export function findProductEntrypointCoreFeatureViolations(
       violations.push({
         path: sourcePackage.manifest_path,
         line: 1,
-        message: `${sourceName} Core capability closure must keep the openbitfun-core dependency`,
+        message: `${sourceName} Core capability closure must keep the opc-core dependency`,
       });
     }
   }
 
-  const corePackage = packages.find((pkg) => pkg.name === 'openbitfun-core');
+  const corePackage = packages.find((pkg) => pkg.name === 'opc-core');
   if (corePackage) {
     const forbiddenCoreFeatures = [
       'product-full',
@@ -1791,10 +1792,10 @@ export function findProductEntrypointCoreFeatureViolations(
       const rootSelectedFeatures = Object.keys(rootPackage.features ?? {})
         .filter((feature) => feature !== 'default');
       const rootLabel = new Map([
-        ['openbitfun-cli', 'CLI'],
-        ['openbitfun-acp', 'ACP'],
-        ['openbitfun-app-server', 'App Server'],
-        ['openbitfun-sdk-host-app', 'SDK Host'],
+        ['opc-cli', 'CLI'],
+        ['opc-acp', 'ACP'],
+        ['opc-app-server', 'App Server'],
+        ['opc-sdk-host-app', 'SDK Host'],
       ]).get(rootName) ?? rootName;
       const forbiddenOwnerFeatures =
         reviewedForbiddenDependencyOwnerFeatures.get(rootName);
@@ -1915,7 +1916,7 @@ export function findProductEntrypointCoreFeatureViolations(
             targetPath,
           );
 
-          if (targetPackage.name === 'openbitfun-core') {
+          if (targetPackage.name === 'opc-core') {
             const activeCoreFeatures = targetState.featureState.active;
             const unexpected = forbiddenCoreFeatures.find((feature) =>
               activeCoreFeatures.has(feature))

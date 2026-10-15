@@ -164,8 +164,8 @@ const PersistentFooterActions: React.FC = () => {
   return (
     <>
       <PeerConnectionStatus />
-      <div className="openbitfun-nav-panel__footer" data-openbitfun-component="nav-panel" data-openbitfun-part="footer">
-        <div className="openbitfun-nav-panel__footer-left">
+      <div className="opc-nav-panel__footer" data-opc-component="nav-panel" data-opc-part="footer">
+        <div className="opc-nav-panel__footer-left">
           <DeviceStatusControl
             open={deviceOverviewOpen}
             onOpenChange={handleDeviceOverviewOpenChange}
@@ -173,9 +173,9 @@ const PersistentFooterActions: React.FC = () => {
           />
         </div>
 
-        <div className="openbitfun-nav-panel__footer-right">
+        <div className="opc-nav-panel__footer-right">
           <UpdateDownloadIndicator />
-          <div className="openbitfun-nav-panel__footer-menu-wrap">
+          <div className="opc-nav-panel__footer-menu-wrap">
             <Tooltip
               content={hasAppUpdate ? t('update.availableVersion', { version: updateVersion }) : t('actions.more')}
               placement="right"
@@ -184,16 +184,16 @@ const PersistentFooterActions: React.FC = () => {
             >
               <IconButton
                 ref={menuTriggerRef}
-                className={`openbitfun-nav-panel__footer-btn openbitfun-nav-panel__footer-btn--icon${menuOpen ? ' is-active' : ''}`}
+                className={`opc-nav-panel__footer-btn opc-nav-panel__footer-btn--icon${menuOpen ? ' is-active' : ''}`}
                 aria-label={hasAppUpdate ? t('update.moreAttention') : t('actions.more')}
                 aria-expanded={menuOpen}
                 aria-haspopup="menu"
                 onClick={toggleMenu}
                 data-testid="nav-footer-settings-item"
-                data-openbitfun-component="nav-panel"
-                data-openbitfun-part="settingsEntry"
-                data-openbitfun-state={menuOpen ? 'open' : undefined}
-                icon={<span className="openbitfun-update-indicator-anchor"><Icon name="gear" size="sm" aria-hidden="true" /><UpdateIndicator /></span>}
+                data-opc-component="nav-panel"
+                data-opc-part="settingsEntry"
+                data-opc-state={menuOpen ? 'open' : undefined}
+                icon={<span className="opc-update-indicator-anchor"><Icon name="gear" size="sm" aria-hidden="true" /><UpdateIndicator /></span>}
                 size="sm"
                 variant="quiet"
               />
@@ -202,12 +202,12 @@ const PersistentFooterActions: React.FC = () => {
             {menuOpen && createOverlayPortal(
               <>
                 <div
-                  className="openbitfun-nav-panel__footer-backdrop"
+                  className="opc-nav-panel__footer-backdrop"
                   onClick={closeMenu}
                 />
                 <Menu
                   ref={menuPopoverRef}
-                  className={`openbitfun-nav-panel__footer-menu${menuClosing ? ' is-closing' : ''}`}
+                  className={`opc-nav-panel__footer-menu${menuClosing ? ' is-closing' : ''}`}
                   inlineSize="content"
                   aria-label={t('actions.more')}
                   data-testid="nav-settings-menu"

@@ -1,4 +1,4 @@
-use openbitfun_product_domains::appearance_market::{
+use opc_product_domains::appearance_market::{
     AppearanceAdminSubmissionDetail, AppearanceCursorPage, AppearanceMarketListingDetail,
     AppearanceMarketListingSummary, AppearanceMarketSort, AppearanceMarketSubmission,
     AppearanceMarketSubmissionDraftRequest, AppearanceMarketSubmissionStatus,

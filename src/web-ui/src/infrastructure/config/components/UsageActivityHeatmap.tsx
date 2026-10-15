@@ -78,17 +78,17 @@ export function UsageActivityHeatmap({ refreshKey }: UsageActivityHeatmapProps) 
   return (
     <ConfigPageSection
       title={t('activity.title')}
-      extra={<span className="openbitfun-usage-stats__activity-period">{t('activity.description', { timeZone })}</span>}
-      data-openbitfun-component="usage-statistics-config"
-      data-openbitfun-part="activityPanel"
+      extra={<span className="opc-usage-stats__activity-period">{t('activity.description', { timeZone })}</span>}
+      data-opc-component="usage-statistics-config"
+      data-opc-part="activityPanel"
     >
-      {message && <ConfigMessage className="openbitfun-usage-stats__activity-message" message={message} />}
+      {message && <ConfigMessage className="opc-usage-stats__activity-message" message={message} />}
       {!activity ? (message ? null : (
         <ConfigLoadingState label={t('loading')} variant="statistics" rows={1} />
       )) : (
-        <div className="openbitfun-usage-stats__activity">
+        <div className="opc-usage-stats__activity">
           <div
-            className="openbitfun-usage-stats__activity-grid"
+            className="opc-usage-stats__activity-grid"
             role="group"
             aria-label={t('activity.title')}
             style={{ gridTemplateColumns: `max-content repeat(${activity.weekCount}, minmax(0, 1fr))` }}
@@ -102,7 +102,7 @@ export function UsageActivityHeatmap({ refreshKey }: UsageActivityHeatmapProps) 
               return (
                 <span
                   key={`month-${day.key}`}
-                  className="openbitfun-usage-stats__activity-month"
+                  className="opc-usage-stats__activity-month"
                   aria-hidden="true"
                   style={{ gridColumn: `${column + 2} / span 3`, gridRow: 1 }}
                 >
@@ -113,7 +113,7 @@ export function UsageActivityHeatmap({ refreshKey }: UsageActivityHeatmapProps) 
             {[0, 2, 4, 6].map(weekday => (
               <span
                 key={weekday}
-                className="openbitfun-usage-stats__activity-weekday"
+                className="opc-usage-stats__activity-weekday"
                 aria-hidden="true"
                 style={{ gridColumn: 1, gridRow: weekday + 2 }}
               >
@@ -134,7 +134,7 @@ export function UsageActivityHeatmap({ refreshKey }: UsageActivityHeatmapProps) 
                       else dayRefs.current.delete(day.key);
                     }}
                     type="button"
-                    className="openbitfun-usage-stats__activity-day"
+                    className="opc-usage-stats__activity-day"
                     data-level={day.level}
                     aria-label={label}
                     tabIndex={tabStop === day.key ? 0 : -1}
@@ -147,12 +147,12 @@ export function UsageActivityHeatmap({ refreshKey }: UsageActivityHeatmapProps) 
               );
             })}
           </div>
-          <div className="openbitfun-usage-stats__activity-footer">
+          <div className="opc-usage-stats__activity-footer">
             <span>{t('activity.total', { tokens: formatTokenCount(activity.totalTokens, formatNumber) })}</span>
-            <div className="openbitfun-usage-stats__activity-legend" aria-hidden="true">
+            <div className="opc-usage-stats__activity-legend" aria-hidden="true">
               <span>{t('activity.less')}</span>
               {[0, 1, 2, 3, 4].map(level => (
-                <span key={level} className="openbitfun-usage-stats__activity-day" data-level={level} />
+                <span key={level} className="opc-usage-stats__activity-day" data-level={level} />
               ))}
               <span>{t('activity.more')}</span>
             </div>

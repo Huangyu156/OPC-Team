@@ -1,22 +1,22 @@
 #![cfg(feature = "mcp")]
 
 use async_trait::async_trait;
-use openbitfun_services_integrations::mcp::auth::rmcp_compat::{
+use opc_services_integrations::mcp::auth::rmcp_compat::{
     AuthorizationManager, CredentialStore, StoredCredentials,
 };
-use openbitfun_services_integrations::mcp::auth::{
+use opc_services_integrations::mcp::auth::{
     MCPRemoteOAuthCredentialStore, MCPRemoteOAuthCredentialVault, MCPRemoteOAuthSessionSnapshot,
     MCPRemoteOAuthStatus,
 };
-use openbitfun_services_integrations::mcp::config::ConfigLocation;
-use openbitfun_services_integrations::mcp::config::{
+use opc_services_integrations::mcp::config::ConfigLocation;
+use opc_services_integrations::mcp::config::{
     config_to_cursor_format, format_mcp_json_config_value, get_mcp_remote_authorization_source,
     get_mcp_remote_authorization_value, has_mcp_remote_authorization, has_mcp_remote_oauth,
     has_mcp_remote_xaa, merge_mcp_server_config_sources, normalize_mcp_authorization_value,
     parse_cursor_format, remove_mcp_authorization_keys, validate_mcp_json_config, MCPConfigService,
     MCPConfigStore, MCPImportError, MCPImportServer, MCPImportTransport,
 };
-use openbitfun_services_integrations::mcp::protocol::{
+use opc_services_integrations::mcp::protocol::{
     create_initialize_request, create_mcp_client_info, create_ping_request,
     create_tools_call_request, create_tools_list_request, default_protocol_version,
     map_rmcp_initialize_result, map_rmcp_prompt, map_rmcp_prompt_message, map_rmcp_resource,
@@ -25,14 +25,14 @@ use openbitfun_services_integrations::mcp::protocol::{
     MCPRequest, MCPResource, MCPResourceContent, MCPTool, MCPToolAnnotations, MCPToolResult,
     MCPToolResultContent,
 };
-use openbitfun_services_integrations::mcp::server::{
+use opc_services_integrations::mcp::server::{
     compute_mcp_backoff_delay, detect_mcp_list_changed_kind, is_mcp_auth_error_message,
     mcp_reconnect_runtime_decision, mcp_server_is_running, mcp_should_start_after_config_update,
     MCPCatalogCache, MCPConnectionPool, MCPListChangedKind, MCPProcessStartContext,
     MCPReconnectRuntimeDecision, MCPRuntimeErrorKind, MCPRuntimeResult, MCPServerConfig,
     MCPServerRuntimeState, MCPServerStatus, MCPServerTimeouts, MCPServerTransport, MCPServerType,
 };
-use openbitfun_services_integrations::mcp::{
+use opc_services_integrations::mcp::{
     build_mcp_tool_descriptor, build_mcp_tool_name, normalize_name_for_mcp,
     render_mcp_tool_result_for_assistant, MCPContextEnhancer, MCPContextEnhancerConfig,
     MCPDynamicToolProvider, MCPToolCatalogClient, McpDynamicToolDescriptor, McpToolInfo,
@@ -125,7 +125,7 @@ struct FailingMCPConfigStore;
 impl MCPConfigStore for FailingMCPConfigStore {
     async fn get_config_value(&self, key: &str) -> MCPRuntimeResult<Option<serde_json::Value>> {
         Err(
-            openbitfun_services_integrations::mcp::MCPRuntimeError::configuration(format!(
+            opc_services_integrations::mcp::MCPRuntimeError::configuration(format!(
                 "backend unavailable for {key}"
             )),
         )
@@ -133,7 +133,7 @@ impl MCPConfigStore for FailingMCPConfigStore {
 
     async fn set_config_value(&self, key: &str, _value: serde_json::Value) -> MCPRuntimeResult<()> {
         Err(
-            openbitfun_services_integrations::mcp::MCPRuntimeError::configuration(format!(
+            opc_services_integrations::mcp::MCPRuntimeError::configuration(format!(
                 "backend unavailable for {key}"
             )),
         )
@@ -146,7 +146,7 @@ impl MCPConfigStore for FailingMCPConfigStore {
         _replacement: serde_json::Value,
     ) -> MCPRuntimeResult<bool> {
         Err(
-            openbitfun_services_integrations::mcp::MCPRuntimeError::configuration(format!(
+            opc_services_integrations::mcp::MCPRuntimeError::configuration(format!(
                 "backend unavailable for {key}"
             )),
         )
@@ -1089,7 +1089,7 @@ async fn external_mcp_import_options_survive_load_save_and_legacy_round_trip() {
     let service = MCPConfigService::new(store.clone());
     let directory = tempfile::tempdir().unwrap();
     let cwd = directory.path().to_string_lossy().into_owned();
-    let timeouts = openbitfun_services_integrations::mcp::MCPServerTimeouts {
+    let timeouts = opc_services_integrations::mcp::MCPServerTimeouts {
         startup_ms: Some(1250),
         catalog_ms: Some(2500),
         execution_ms: Some(60_000),
@@ -2056,7 +2056,7 @@ async fn mcp_oauth_credential_vault_uses_injected_data_dir_and_roundtrips_creden
         .unwrap()
         .as_nanos();
     let data_dir = std::env::temp_dir().join(format!(
-        "openbitfun-mcp-oauth-vault-contract-{}-{}",
+        "opc-mcp-oauth-vault-contract-{}-{}",
         std::process::id(),
         unique
     ));

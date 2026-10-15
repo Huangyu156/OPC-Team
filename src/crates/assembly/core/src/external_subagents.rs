@@ -21,11 +21,11 @@ use crate::infrastructure::ai::reasoning_catalog::{
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::{model_runtime_binding_fingerprint, AIConfig, AIModelConfig};
 use crate::util::OpcTeamError;
-use openbitfun_ai_adapters::models_dev::ModelsDevCatalog;
-use openbitfun_external_sources::ExternalSubagentCoordinatorSnapshot;
-use openbitfun_product_domains::external_sources::EcosystemId;
-use openbitfun_product_domains::external_sources::{ExternalSourceScope, ProviderId, SourceKey};
-use openbitfun_product_domains::external_subagents::{
+use opc_ai_adapters::models_dev::ModelsDevCatalog;
+use opc_external_sources::ExternalSubagentCoordinatorSnapshot;
+use opc_product_domains::external_sources::EcosystemId;
+use opc_product_domains::external_sources::{ExternalSourceScope, ProviderId, SourceKey};
+use opc_product_domains::external_subagents::{
     external_subagent_approval_key, external_subagent_conflict_key,
     external_subagent_model_binding_key, ExternalSubagentActivationState,
     ExternalSubagentCompatibilityState, ExternalSubagentConflict,
@@ -41,7 +41,7 @@ use std::path::Path;
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
 
-pub(super) const DISABLED_SUBAGENT_CONFLICT_CHOICE: &str = "__openbitfun_disabled__";
+pub(super) const DISABLED_SUBAGENT_CONFLICT_CHOICE: &str = "__opc_disabled__";
 static MODEL_CONFIG_UNAVAILABLE_LOGGED: AtomicBool = AtomicBool::new(false);
 
 pub(super) struct ExternalSubagentDecisions<'a> {
@@ -520,9 +520,7 @@ fn configured_reasoning_effort(
     resolve_default_reasoning_preset(&project_model_reasoning_catalog(model, models_dev))
         .and_then(|preset| {
             preset.actions.iter().rev().find_map(|action| match action {
-                openbitfun_core_types::ReasoningPresetAction::Effort { value } => {
-                    Some(value.clone())
-                }
+                opc_core_types::ReasoningPresetAction::Effort { value } => Some(value.clone()),
                 _ => None,
             })
         })
@@ -963,10 +961,7 @@ fn resolve_external_candidate(
     workspace_root: Option<&Path>,
     execution_domain_id: &str,
     definition: &ExternalSubagentDefinition,
-    sources: &BTreeMap<
-        SourceKey,
-        &openbitfun_product_domains::external_sources::ExternalSourceRecord,
-    >,
+    sources: &BTreeMap<SourceKey, &opc_product_domains::external_sources::ExternalSourceRecord>,
     provider_labels: &BTreeMap<ProviderId, String>,
     facts: &ProductFacts,
     model_bindings: &BTreeMap<String, ExternalSubagentModelBindingTarget>,
@@ -1506,11 +1501,11 @@ mod tests {
             std::sync::OnceLock::new();
         BINDINGS.get_or_init(BTreeMap::new)
     }
-    use openbitfun_product_domains::external_sources::{
+    use opc_product_domains::external_sources::{
         EcosystemId, ExecutionDomainId, ExternalSourceCatalogEntry, ExternalSourceHealth,
         ExternalSourceLifecycleState, ExternalSourceRecord,
     };
-    use openbitfun_product_domains::external_subagents::{
+    use opc_product_domains::external_subagents::{
         ExternalSubagentBehaviorVersion, ExternalSubagentCandidateId,
         ExternalSubagentContributionId, ExternalSubagentContributionRole, ExternalSubagentLocalId,
         ExternalSubagentMode, ExternalSubagentModelBindingMethod,
@@ -1518,7 +1513,7 @@ mod tests {
         ExternalSubagentProvenanceRef, ExternalSubagentToolCapability, ExternalSubagentToolRequest,
         ExternalSubagentToolSelector, SecretText,
     };
-    use openbitfun_product_domains::tool_permissions::{
+    use opc_product_domains::tool_permissions::{
         PermissionConstraintLayer, PermissionEffect, PermissionRule,
     };
 
@@ -1833,7 +1828,7 @@ mod tests {
             model_name: "fast-model".to_string(),
             base_url: "https://api.fake.example/v1".to_string(),
             reasoning: Some(crate::service::config::types::ReasoningConfig {
-                catalog: openbitfun_core_types::ReasoningCatalogBinding::ModelsDev {
+                catalog: opc_core_types::ReasoningCatalogBinding::ModelsDev {
                     provider: "fake".to_string(),
                     model: "fast-model".to_string(),
                 },
@@ -2253,7 +2248,7 @@ mod tests {
     }
 
     #[test]
-    fn unavailable_openbitfun_model_config_is_recoverable_without_claiming_model_mismatch() {
+    fn unavailable_opc_model_config_is_recoverable_without_claiming_model_mismatch() {
         let empty_set = BTreeSet::new();
         let empty_map = BTreeMap::new();
         let definition_snapshot = snapshot("behavior-v1", "catalog-v1");
@@ -2374,7 +2369,7 @@ mod tests {
     }
 
     #[test]
-    fn executable_and_file_mutation_capabilities_use_openbitfun_builtin_tools() {
+    fn executable_and_file_mutation_capabilities_use_opc_builtin_tools() {
         assert_eq!(
             host_tool_name(ExternalSubagentToolCapability::ExecuteCommand),
             "ExecCommand"

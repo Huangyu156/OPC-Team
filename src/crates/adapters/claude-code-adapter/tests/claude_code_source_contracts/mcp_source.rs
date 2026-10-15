@@ -1,5 +1,5 @@
-use openbitfun_claude_code_adapter::{ClaudeCodeMcpProvider, ClaudeCodeMcpProviderOptions};
-use openbitfun_product_domains::external_sources::{
+use opc_claude_code_adapter::{ClaudeCodeMcpProvider, ClaudeCodeMcpProviderOptions};
+use opc_product_domains::external_sources::{
     ExecutionDomainId, ExternalMcpDiscoveryInput, ExternalMcpRevisionKey,
     ExternalMcpSourceProvider, ExternalMcpStaticStatus, ExternalMcpTransportKind,
     ExternalSourceContext, ExternalSourceScope, PreparedExternalMcpImportTransport,

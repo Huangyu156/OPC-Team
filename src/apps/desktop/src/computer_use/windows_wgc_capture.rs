@@ -4,7 +4,7 @@
 
 #![allow(dead_code)]
 
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::time::{Duration, Instant};
 use windows::core::Interface;
 use windows::Graphics::Capture::{Direct3D11CaptureFramePool, GraphicsCaptureItem};
@@ -217,7 +217,7 @@ enum CaptureCommand {
 fn ensure_stream(
     active: &mut Option<(
         usize,
-        openbitfun_agent_tools::computer_use_control::ObservationScope,
+        opc_agent_tools::computer_use_control::ObservationScope,
         WgcCaptureSession,
     )>,
     handle: usize,
@@ -262,7 +262,7 @@ fn capture_worker() -> &'static std::sync::mpsc::Sender<CaptureCommand> {
             let initialized = unsafe { CoInitializeEx(None, COINIT_MULTITHREADED) }.is_ok();
             let mut active: Option<(
                 usize,
-                openbitfun_agent_tools::computer_use_control::ObservationScope,
+                opc_agent_tools::computer_use_control::ObservationScope,
                 WgcCaptureSession,
             )> = None;
             while let Ok(command) = rx.recv() {

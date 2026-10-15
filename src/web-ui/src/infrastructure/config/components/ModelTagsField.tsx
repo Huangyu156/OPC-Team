@@ -60,7 +60,7 @@ export default function ModelTagsField({ tags, recommendedTags, disabled, layout
       autoFocus
       size="xs"
       shape="pill"
-      className="openbitfun-model-settings__tag-input"
+      className="opc-model-settings__tag-input"
       aria-label={tagDraft.originalTag === null
         ? t('pool.addTags')
         : t('pool.editTag', { tag: tagDraft.originalTag })}
@@ -87,14 +87,14 @@ export default function ModelTagsField({ tags, recommendedTags, disabled, layout
   ) : null;
 
   const tagEditor = (
-    <div className="openbitfun-model-settings__tag-editor" role="group" aria-label={t('pool.tagsLabel')}>
-      <div className="openbitfun-model-settings__tag-list">
+    <div className="opc-model-settings__tag-editor" role="group" aria-label={t('pool.tagsLabel')}>
+      <div className="opc-model-settings__tag-list">
         {tags.map(tag => (
-          <Capsule size="xs" className="openbitfun-model-settings__model-capsule" key={tag}
+          <Capsule size="xs" className="opc-model-settings__model-capsule" key={tag}
             action={tagDraft?.originalTag === tag ? undefined : (
               <Tooltip content={t('pool.removeTag', { tag })}>
                 <IconButton
-                  className="openbitfun-model-settings__model-capsule-dismiss"
+                  className="opc-model-settings__model-capsule-dismiss"
                   size="xs"
                   shape="circle"
                   variant="quiet"
@@ -116,7 +116,7 @@ export default function ModelTagsField({ tags, recommendedTags, disabled, layout
                 }}
                 variant="outline"
                 size="xs"
-                className="openbitfun-model-settings__model-capsule-edit"
+                className="opc-model-settings__model-capsule-edit"
                 aria-label={t('pool.editTag', { tag })}
                 disabled={disabled || tags.length > MAX_MODEL_USER_TAGS}
                 onClick={() => updateTagDraft({ originalTag: tag, value: tag })}
@@ -127,7 +127,7 @@ export default function ModelTagsField({ tags, recommendedTags, disabled, layout
           </Capsule>
         ))}
         {tagDraft?.originalTag === null && (
-          <Capsule size="xs" className="openbitfun-model-settings__model-capsule">
+          <Capsule size="xs" className="opc-model-settings__model-capsule">
             {tagInput}
           </Capsule>
         )}
@@ -135,7 +135,7 @@ export default function ModelTagsField({ tags, recommendedTags, disabled, layout
       <Tooltip content={atTagLimit ? t('pool.tagsLimitReached', { max: MAX_MODEL_USER_TAGS }) : t('pool.addTags')}>
         <IconButton
           ref={addButtonRef}
-          className="openbitfun-model-settings__tag-add"
+          className="opc-model-settings__tag-add"
           size="xs"
           variant="quiet"
           aria-label={t('pool.addTags')}
@@ -147,7 +147,7 @@ export default function ModelTagsField({ tags, recommendedTags, disabled, layout
     </div>
   );
   const recommendationTags = (
-    <div className="openbitfun-model-settings__pool-tags">
+    <div className="opc-model-settings__pool-tags">
       {recommendations.map(tag => <StatusPill tone="neutral" key={tag}>{tag}</StatusPill>)}
     </div>
   );
@@ -169,7 +169,7 @@ export default function ModelTagsField({ tags, recommendedTags, disabled, layout
   }
 
   return (
-    <div className="openbitfun-model-settings__selected-model-tags">
+    <div className="opc-model-settings__selected-model-tags">
       <Field label={t('pool.tagsLabel')}
         labelAction={t('pool.tagsCount', { count: tags.length, max: MAX_MODEL_USER_TAGS })}
         description={atTagLimit

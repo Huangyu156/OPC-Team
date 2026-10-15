@@ -2,7 +2,7 @@ import type { ModeSkillInfo, SkillInfo } from './types';
 
 const SOURCE_LABEL_BY_ID: Record<string, string> = {
   openbitfun: 'OPC-Team',
-  'openbitfun-system': 'OPC-Team',
+  'opc-system': 'OPC-Team',
   'claude-code': 'Claude Code',
   claude: 'Claude Code',
   codex: 'Codex',
@@ -61,7 +61,7 @@ export function getSkillSourceId(skill: SkillInfo): string {
   if (identity === 'claude') return 'claude-code';
   if (identity === 'dsh') return 'deepseek-harness';
   if (identity === 'agents') return 'agent-skills';
-  if (identity === 'openbitfun-system' || identity === 'openbitfun-user') return 'openbitfun';
+  if (identity === 'opc-system' || identity === 'opc-user') return 'openbitfun';
   if (identity.startsWith('opencode.')) return 'opencode';
   return identity;
 }
@@ -85,7 +85,7 @@ export function canDeleteSkill(skill: SkillInfo): boolean {
 
   const sourceId = skill.sourceId?.trim().toLowerCase();
   if (sourceId) {
-    return sourceId === 'openbitfun' || sourceId === 'openbitfun-system';
+    return sourceId === 'openbitfun' || sourceId === 'opc-system';
   }
 
   return skill.sourceSlot?.trim().toLowerCase().startsWith('openbitfun') ?? false;

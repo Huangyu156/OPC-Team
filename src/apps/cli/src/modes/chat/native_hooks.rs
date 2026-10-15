@@ -63,10 +63,10 @@ fn native_hook_location(
 }
 
 fn project_native_hook_overview(
-    overview: openbitfun_core::native_hooks::NativeHookOverview,
+    overview: opc_core::native_hooks::NativeHookOverview,
     workspace: &std::path::Path,
 ) -> NativeHookOverview {
-    let user_hooks_file = openbitfun_core::infrastructure::try_get_path_manager_arc()
+    let user_hooks_file = opc_core::infrastructure::try_get_path_manager_arc()
         .ok()
         .map(|manager| manager.user_hooks_file());
     let path_labels = overview
@@ -101,20 +101,20 @@ fn project_native_hook_overview(
             .files
             .into_iter()
             .zip(path_labels.iter())
-            .map(|(file, (_, location))| {
-                openbitfun_product_domains::native_hooks::NativeHookFileSummary {
+            .map(
+                |(file, (_, location))| opc_product_domains::native_hooks::NativeHookFileSummary {
                     scope: file.scope.to_string(),
                     location: location.clone(),
                     exists: file.exists,
                     loaded: file.loaded,
-                }
-            })
+                },
+            )
             .collect(),
         rules: overview
             .rules
             .into_iter()
             .map(
-                |rule| openbitfun_product_domains::native_hooks::NativeHookRuleSummary {
+                |rule| opc_product_domains::native_hooks::NativeHookRuleSummary {
                     event: rule.event.to_string(),
                     matcher: rule.matcher,
                     matcher_is_valid: rule.matcher_is_valid,
@@ -127,7 +127,7 @@ fn project_native_hook_overview(
                                 &handler.command,
                                 MAX_TUI_NATIVE_HOOK_COMMAND_CHARS,
                             );
-                            openbitfun_product_domains::native_hooks::NativeHookHandlerSummary {
+                            opc_product_domains::native_hooks::NativeHookHandlerSummary {
                                 command_summary,
                                 command_truncated,
                                 timeout_seconds: handler.timeout_seconds,
@@ -329,8 +329,8 @@ mod remote_hook_projection_tests {
 
     fn core_overview(
         remote_workspace_unsupported: bool,
-    ) -> openbitfun_core::native_hooks::NativeHookOverview {
-        openbitfun_core::native_hooks::NativeHookOverview {
+    ) -> opc_core::native_hooks::NativeHookOverview {
+        opc_core::native_hooks::NativeHookOverview {
             enabled: true,
             project_hooks_enabled: false,
             files: Vec::new(),

@@ -13,7 +13,7 @@ if (check) args.shift();
 if (process.platform !== 'win32' && !check) {
   throw new Error('Native tests require Windows. Use --check --target x86_64-pc-windows-msvc for a compile-only check.');
 }
-const dir = await mkdtemp(join(tmpdir(), 'openbitfun-windows-native-'));
+const dir = await mkdtemp(join(tmpdir(), 'opc-windows-native-'));
 const source = (path) => JSON.stringify(resolve(root, path));
 try {
   const host = await readFile(join(root, 'src/crates/assembly/core/src/agentic/tools/computer_use_host.rs'), 'utf8');
@@ -51,8 +51,8 @@ windows = { version = "0.61", features = [
   // Only the error-category constructors are adapted to the portable error
   // envelope. Every native API, DTO, cache, lease and algorithm is production code.
   await writeFile(join(dir, 'lib.rs'), `#![allow(dead_code, unused_imports)]
-extern crate self as openbitfun_core;
-extern crate self as openbitfun_agent_tools;
+extern crate self as opc_core;
+extern crate self as opc_agent_tools;
 #[path = ${source('src/crates/execution/tool-contracts/src/computer_use.rs')}]
 pub mod computer_use_contract;
 #[path = ${source('src/crates/execution/tool-contracts/src/computer_use_control.rs')}]

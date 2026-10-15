@@ -145,15 +145,15 @@ describe('UsageStatisticsSettingsPage', () => {
 
   it('retains the same chart and heatmap nodes during refresh and a failed refresh', async () => {
     await render();
-    const heatmap = container.querySelector('.openbitfun-usage-stats__activity');
+    const heatmap = container.querySelector('.opc-usage-stats__activity');
     expect(heatmap).not.toBeNull();
     const rejects: Array<(reason: Error) => void> = [];
     getStatisticsMock.mockImplementation(() => new Promise((_resolve, reject) => rejects.push(reject)));
     await act(async () => container.querySelector<HTMLButtonElement>('[data-testid="usage-refresh"]')!.click());
-    expect(container.querySelector('.openbitfun-usage-stats__activity')).toBe(heatmap);
+    expect(container.querySelector('.opc-usage-stats__activity')).toBe(heatmap);
     expect(container.querySelector('[data-testid="usage-loading"]')).toBeNull();
     await act(async () => rejects.forEach(reject => reject(new Error('offline'))));
-    expect(container.querySelector('.openbitfun-usage-stats__activity')).toBe(heatmap);
+    expect(container.querySelector('.opc-usage-stats__activity')).toBe(heatmap);
     expect(container.textContent).toContain('loadFailed');
   });
 
@@ -162,7 +162,7 @@ describe('UsageStatisticsSettingsPage', () => {
     act(() => root.render(null));
     getStatisticsMock.mockImplementation(() => new Promise(() => {}));
     act(() => root.render(<UsageStatisticsSettingsPage />));
-    expect(container.querySelector('.openbitfun-usage-stats__activity')).not.toBeNull();
+    expect(container.querySelector('.opc-usage-stats__activity')).not.toBeNull();
     expect(container.querySelector('[data-testid="usage-loading"]')).toBeNull();
   });
 
@@ -175,13 +175,13 @@ describe('UsageStatisticsSettingsPage', () => {
     expect(getStatisticsMock).toHaveBeenCalledWith(expect.objectContaining({
       timeRange: 'custom', granularity: 'day', timeZone: 'UTC', includeSubagent: true,
     }));
-    const sections = container.querySelectorAll('.openbitfun-config-page-section');
-    expect(sections[0]?.getAttribute('data-openbitfun-part')).toBe('activityPanel');
-    expect(sections[1]?.getAttribute('data-openbitfun-part')).toBe('overview');
-    expect(container.querySelector('[data-openbitfun-part="summary"]')?.textContent).toContain('4.8M');
-    expect(sections[1]?.querySelectorAll('.openbitfun-config-page-row')).toHaveLength(5);
-    expect(sections[1]?.querySelector('[data-openbitfun-part="summary"]')?.closest('.openbitfun-config-page-row__control')).not.toBeNull();
-    expect(container.querySelectorAll('button.openbitfun-usage-stats__activity-day').length).toBeGreaterThanOrEqual(181);
+    const sections = container.querySelectorAll('.opc-config-page-section');
+    expect(sections[0]?.getAttribute('data-opc-part')).toBe('activityPanel');
+    expect(sections[1]?.getAttribute('data-opc-part')).toBe('overview');
+    expect(container.querySelector('[data-opc-part="summary"]')?.textContent).toContain('4.8M');
+    expect(sections[1]?.querySelectorAll('.opc-config-page-row')).toHaveLength(5);
+    expect(sections[1]?.querySelector('[data-opc-part="summary"]')?.closest('.opc-config-page-row__control')).not.toBeNull();
+    expect(container.querySelectorAll('button.opc-usage-stats__activity-day').length).toBeGreaterThanOrEqual(181);
   });
 
   it('changes only the selected-period query when the time range changes', async () => {
@@ -209,7 +209,7 @@ describe('UsageStatisticsSettingsPage', () => {
       ],
     });
     await render();
-    const rows = container.querySelectorAll('[data-openbitfun-part="distributions"] [role="tabpanel"] .openbitfun-config-page-row');
+    const rows = container.querySelectorAll('[data-opc-part="distributions"] [role="tabpanel"] .opc-config-page-row');
     expect(rows).toHaveLength(3);
     expect(rows[0]?.textContent).toContain('Provider A');
     expect(rows[1]?.textContent).toContain('Provider B');
@@ -221,25 +221,25 @@ describe('UsageStatisticsSettingsPage', () => {
       nativeSet?.call(input, 'Provider B');
       input.dispatchEvent(new Event('input', { bubbles: true }));
     });
-    expect(container.querySelectorAll('[data-openbitfun-part="distributions"] [role="tabpanel"] .openbitfun-config-page-row')).toHaveLength(1);
-    expect(container.querySelector('[data-openbitfun-part="summary"]')?.textContent).toContain('4.8M');
+    expect(container.querySelectorAll('[data-opc-part="distributions"] [role="tabpanel"] .opc-config-page-row')).toHaveLength(1);
+    expect(container.querySelector('[data-opc-part="summary"]')?.textContent).toContain('4.8M');
     expect(getStatisticsMock).toHaveBeenCalledTimes(2);
   });
 
   it('shows trend, cache, and endpoint data without a disclosure control', async () => {
     await render();
-    const details = container.querySelector('[data-openbitfun-part="details"]')!;
+    const details = container.querySelector('[data-opc-part="details"]')!;
     expect(details.querySelector('button[aria-expanded]')).toBeNull();
-    expect(details.querySelector('.openbitfun-usage-stats__trend-svg')).not.toBeNull();
-    expect(details.querySelectorAll('.openbitfun-config-page-row').length).toBeGreaterThanOrEqual(4);
+    expect(details.querySelector('.opc-usage-stats__trend-svg')).not.toBeNull();
+    expect(details.querySelectorAll('.opc-config-page-row').length).toBeGreaterThanOrEqual(4);
     expect(details.textContent).toContain('trend.partial');
   });
 
   it('distinguishes an empty selected period from all-time empty data', async () => {
     getStatisticsMock.mockResolvedValue({ ...SAMPLE_STATS, totalRequests: 0, byModel: [], byGroup: [], byEndpoint: [], trend: [] });
     await render();
-    expect(container.querySelector('[data-openbitfun-part="empty"]')?.textContent).toContain('empty.periodTitle');
-    expect(container.querySelector('[data-openbitfun-part="details"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="empty"]')?.textContent).toContain('empty.periodTitle');
+    expect(container.querySelector('[data-opc-part="details"]')).toBeNull();
   });
 
   it('surfaces unsupported hosts without leaving duplicate sections', async () => {
@@ -248,6 +248,6 @@ describe('UsageStatisticsSettingsPage', () => {
     const messages = container.querySelectorAll('[data-testid="usage-message"]');
     expect(messages).toHaveLength(1);
     expect(messages[0]?.getAttribute('data-message-type')).toBe('info');
-    expect(container.querySelector('[data-openbitfun-part="activityPanel"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="activityPanel"]')).toBeNull();
   });
 });

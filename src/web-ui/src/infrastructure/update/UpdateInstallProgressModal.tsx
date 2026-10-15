@@ -74,12 +74,12 @@ export const UpdateInstallProgressModal: React.FC<UpdateInstallProgressModalProp
   let body: React.ReactNode = null;
   if (errorMessage && !installed) {
     body = (
-      <div data-openbitfun-component="update" data-openbitfun-part="alert">
+      <div data-opc-component="update" data-opc-part="alert">
         <Alert
           tone="error"
           message={errorMessage}
           showIcon
-          className="openbitfun-update-progress__alert"
+          className="opc-update-progress__alert"
         />
       </div>
     );
@@ -87,25 +87,25 @@ export const UpdateInstallProgressModal: React.FC<UpdateInstallProgressModalProp
     body = (
       <>
         <div
-          className="openbitfun-update-progress__ready"
-          data-openbitfun-component="update"
-          data-openbitfun-part="alert"
+          className="opc-update-progress__ready"
+          data-opc-component="update"
+          data-opc-part="alert"
           role="status"
         >
-          <span className="openbitfun-update-progress__status-icon" aria-hidden="true">
+          <span className="opc-update-progress__status-icon" aria-hidden="true">
             <Icon name="check-circle" size="md" tone="success" />
           </span>
-          <div className="openbitfun-update-progress__summary">
-            <p className="openbitfun-update-progress__version">
+          <div className="opc-update-progress__summary">
+            <p className="opc-update-progress__version">
               {t('update.readyVersion', { version: version ?? '' })}
             </p>
-            <div data-openbitfun-component="update" data-openbitfun-part="restartHint">
+            <div data-opc-component="update" data-opc-part="restartHint">
               <DialogDescription>{t('update.installWarning')}</DialogDescription>
             </div>
           </div>
         </div>
         {errorMessage ? (
-          <div data-openbitfun-component="update" data-openbitfun-part="alert">
+          <div data-opc-component="update" data-opc-part="alert">
             <Alert tone="error" message={errorMessage} showIcon />
           </div>
         ) : null}
@@ -115,33 +115,33 @@ export const UpdateInstallProgressModal: React.FC<UpdateInstallProgressModalProp
     body = (
       <>
         <div
-          className="openbitfun-update-progress__bar"
+          className="opc-update-progress__bar"
           role="progressbar"
           aria-valuemin={0}
           aria-valuemax={100}
           aria-valuenow={pct ?? undefined}
           aria-label={t('update.downloadingTitle')}
-          data-openbitfun-component="update"
-          data-openbitfun-part="progressBar"
+          data-opc-component="update"
+          data-opc-part="progressBar"
         >
           <div
             className={
               pct != null
-                ? 'openbitfun-update-progress__fill'
-                : 'openbitfun-update-progress__fill openbitfun-update-progress__fill--indeterminate'
+                ? 'opc-update-progress__fill'
+                : 'opc-update-progress__fill opc-update-progress__fill--indeterminate'
             }
             style={pct != null ? { transform: `scaleX(${pct / 100})` } : undefined}
-            data-openbitfun-component="update"
-            data-openbitfun-part="progressFill"
-            data-openbitfun-state={pct == null ? 'indeterminate' : undefined}
+            data-opc-component="update"
+            data-opc-part="progressFill"
+            data-opc-state={pct == null ? 'indeterminate' : undefined}
           />
         </div>
-        <p className="openbitfun-update-progress__hint" data-openbitfun-component="update" data-openbitfun-part="progressHint">
+        <p className="opc-update-progress__hint" data-opc-component="update" data-opc-part="progressHint">
           {pct != null
             ? t('update.progressPercent', { percent: String(pct) })
             : t('update.progressUnknown')}
         </p>
-        <p className="openbitfun-update-progress__restart" data-openbitfun-component="update" data-openbitfun-part="restartHint">{t('update.restartHint')}</p>
+        <p className="opc-update-progress__restart" data-opc-component="update" data-opc-part="restartHint">{t('update.restartHint')}</p>
       </>
     );
   }
@@ -163,10 +163,10 @@ export const UpdateInstallProgressModal: React.FC<UpdateInstallProgressModalProp
       </DialogHeader>
       <DialogBody>
         <div
-          className="openbitfun-update-progress"
-          data-openbitfun-component="update"
-          data-openbitfun-part="progressRoot"
-          data-openbitfun-status={error ? 'error' : installed ? 'installed' : 'downloading'}
+          className="opc-update-progress"
+          data-opc-component="update"
+          data-opc-part="progressRoot"
+          data-opc-status={error ? 'error' : installed ? 'installed' : 'downloading'}
         >
           {body}
         </div>
@@ -174,9 +174,9 @@ export const UpdateInstallProgressModal: React.FC<UpdateInstallProgressModalProp
       {installed ? (
         <DialogFooter>
           <div
-            className="openbitfun-update-progress__actions"
-            data-openbitfun-component="update"
-            data-openbitfun-part="actions"
+            className="opc-update-progress__actions"
+            data-opc-component="update"
+            data-opc-part="actions"
           >
             {errorMessage && onDownloadAgain ? (
               <Button variant="outline" size="md" disabled={installing} onClick={onDownloadAgain}>

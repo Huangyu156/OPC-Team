@@ -2,7 +2,7 @@ use super::{OpcTeamError, OpcTeamResult, SpeechService};
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use base64::Engine;
 use futures_util::{SinkExt, StreamExt};
-use openbitfun_core_types::speech::{
+use opc_core_types::speech::{
     SpeechAppendRealtimeAudioRequest, SpeechRealtimeEvent, SpeechRealtimeEventKind,
     SpeechRealtimeFunctionCall, SpeechRealtimeSession, SpeechRealtimeSessionRequest,
     SpeechRealtimeSpeakRequest, SpeechRealtimeToolResultRequest,
@@ -35,9 +35,9 @@ const MAX_CLIENT_CONTEXT_CHARS: usize = 16 * 1024;
 
 const OPENBITFUN_VOICE_INSTRUCTIONS: &str = r#"You are the voice interface of the OPC-Team conversation identified by voice_call_target. Reply naturally and concisely in the user's language. Text and voice share that conversation's persistent public history. The call stays bound to this conversation even when the user switches tabs. kind=control is the product-control Agent; kind=session uses the existing session's Agent; kind=miniapp uses that MiniApp's domain workflow.
 
-Use get_openbitfun_client_context before answering references to earlier conversation, new text messages, client state, open workspaces, visible sessions or running tasks. Its history is a bounded snapshot of public user and assistant text, not the complete history; when history_truncated is true, ask the bound Agent to inspect earlier context instead of guessing. Never guess a resource id. Use switch_openbitfun_workspace for navigation-only requests. For work or product actions, call run_openbitfun_task. With kind=control or kind=session this continues the bound Agent using the user's final transcript and its full canonical context; workspace_id does not retarget that conversation. With kind=miniapp, omit workspace_id for MiniApp work. An explicit workspace_id overrides only MiniApp routing and starts a normal workspace task. Without a bound target, select the intended opened workspace. Set activate_workspace=true for a requested foreground workspace task and false for explicit background work. Keep acknowledgements brief; do not invent results.
+Use get_opc_client_context before answering references to earlier conversation, new text messages, client state, open workspaces, visible sessions or running tasks. Its history is a bounded snapshot of public user and assistant text, not the complete history; when history_truncated is true, ask the bound Agent to inspect earlier context instead of guessing. Never guess a resource id. Use switch_opc_workspace for navigation-only requests. For work or product actions, call run_opc_task. With kind=control or kind=session this continues the bound Agent using the user's final transcript and its full canonical context; workspace_id does not retarget that conversation. With kind=miniapp, omit workspace_id for MiniApp work. An explicit workspace_id overrides only MiniApp routing and starts a normal workspace task. Without a bound target, select the intended opened workspace. Set activate_workspace=true for a requested foreground workspace task and false for explicit background work. Keep acknowledgements brief; do not invent results.
 
-If the user asks to stop, cancel, abort, or interrupt the OPC-Team task currently running through this client voice assistant, call stop_openbitfun_task immediately. A stop request is a control operation, not a new task: never pass it to run_openbitfun_task and never claim the task stopped before the stop_openbitfun_task result confirms it. Do not claim that work is complete before the tool result arrives. OPC-Team will speak brief public progress summaries while the Agent task is running; do not expose private reasoning, raw logs, or tool payloads. OPC-Team also speaks a concise final outcome itself. When a task tool result contains outcome_spoken=true, do not repeat that outcome; wait for the user's next request. If outcome_spoken is false or absent, summarize the outcome clearly and mention any user action still required. Never invent client state or task results."#;
+If the user asks to stop, cancel, abort, or interrupt the OPC-Team task currently running through this client voice assistant, call stop_opc_task immediately. A stop request is a control operation, not a new task: never pass it to run_opc_task and never claim the task stopped before the stop_opc_task result confirms it. Do not claim that work is complete before the tool result arrives. OPC-Team will speak brief public progress summaries while the Agent task is running; do not expose private reasoning, raw logs, or tool payloads. OPC-Team also speaks a concise final outcome itself. When a task tool result contains outcome_spoken=true, do not repeat that outcome; wait for the user's next request. If outcome_spoken is false or absent, summarize the outcome clearly and mention any user action still required. Never invent client state or task results."#;
 
 #[derive(Debug, Clone)]
 pub struct VolcengineRealtimeSpeechConfig {
@@ -341,7 +341,7 @@ async fn run_realtime_actor(
     ready_sender: oneshot::Sender<Result<(), String>>,
     on_event: RealtimeEventHandler,
 ) {
-    openbitfun_services_core::tls_provider::ensure_ring_crypto_provider();
+    opc_services_core::tls_provider::ensure_ring_crypto_provider();
     let mut request = match VOLCENGINE_REALTIME_URL.into_client_request() {
         Ok(request) => request,
         Err(error) => {
@@ -577,7 +577,7 @@ fn session_create_payload(
 ) -> Value {
     let instructions = match config.client_context.as_deref() {
         Some(context) => format!(
-            "{OPENBITFUN_VOICE_INSTRUCTIONS}\n\nCLIENT CONTEXT SNAPSHOT AT CALL START (JSON; refresh with get_openbitfun_client_context before relying on changing state):\n{context}"
+            "{OPENBITFUN_VOICE_INSTRUCTIONS}\n\nCLIENT CONTEXT SNAPSHOT AT CALL START (JSON; refresh with get_opc_client_context before relying on changing state):\n{context}"
         ),
         None => OPENBITFUN_VOICE_INSTRUCTIONS.to_string(),
     };
@@ -602,7 +602,7 @@ fn session_create_payload(
             // This is the provider-hosted Voice model's client control-plane
             // tool list. It is intentionally independent from the tool registry
             // assembled for a normal OPC-Team Agent session. In particular,
-            // `run_openbitfun_task` delegates one complete user intent either to a
+            // `run_opc_task` delegates one complete user intent either to a
             // newly created workspace Agent session or, when the call target
             // says so, through an Agentic MiniApp's existing chat contract.
             // Voice never receives, mirrors, or proxies that Agent session's
@@ -623,7 +623,7 @@ fn session_create_payload(
             "tools": [
                 {
                     "type": "function",
-                    "name": "get_openbitfun_client_context",
+                    "name": "get_opc_client_context",
                     "description": "Return fresh client state and recent public text/voice history of the bound conversation. Call before answering references to earlier conversation, new text messages, changing client state, or workspace names.",
                     "parameters": {
                         "type": "object",
@@ -633,15 +633,15 @@ fn session_create_payload(
                 },
                 {
                     "type": "function",
-                    "name": "switch_openbitfun_workspace",
-                    "description": "Activate one currently opened OPC-Team workspace in the client. Obtain the exact workspace_id from get_openbitfun_client_context and never guess it.",
+                    "name": "switch_opc_workspace",
+                    "description": "Activate one currently opened OPC-Team workspace in the client. Obtain the exact workspace_id from get_opc_client_context and never guess it.",
                     "parameters": {
                         "type": "object",
                         "additionalProperties": false,
                         "properties": {
                             "workspace_id": {
                                 "type": "string",
-                                "description": "Exact id of an opened workspace from get_openbitfun_client_context."
+                                "description": "Exact id of an opened workspace from get_opc_client_context."
                             }
                         },
                         "required": ["workspace_id"]
@@ -649,7 +649,7 @@ fn session_create_payload(
                 },
                 {
                     "type": "function",
-                    "name": "run_openbitfun_task",
+                    "name": "run_opc_task",
                     "description": "Continue the Agent in the bound control/session conversation and return its result. For a MiniApp, omit workspace_id to use its domain workflow; only an explicit MiniApp workspace override creates a workspace task. Without a target, run in the intended opened workspace.",
                     "parameters": {
                         "type": "object",
@@ -673,7 +673,7 @@ fn session_create_payload(
                 },
                 {
                     "type": "function",
-                    "name": "stop_openbitfun_task",
+                    "name": "stop_opc_task",
                     "description": "Stop the OPC-Team Agent task currently owned by this client-level voice assistant. Use this for any user request to stop, cancel, abort, or interrupt the current task.",
                     "parameters": {
                         "type": "object",
@@ -906,7 +906,7 @@ mod tests {
     }
 
     #[test]
-    fn session_create_uses_documented_pcm_contract_and_openbitfun_tool() {
+    fn session_create_uses_documented_pcm_contract_and_opc_tool() {
         let payload = session_create_payload(&config(), "local-session");
         assert_eq!(
             payload.pointer("/session/id"),
@@ -923,19 +923,19 @@ mod tests {
         );
         assert_eq!(
             payload.pointer("/session/tools/0/name"),
-            Some(&json!("get_openbitfun_client_context"))
+            Some(&json!("get_opc_client_context"))
         );
         assert_eq!(
             payload.pointer("/session/tools/1/name"),
-            Some(&json!("switch_openbitfun_workspace"))
+            Some(&json!("switch_opc_workspace"))
         );
         assert_eq!(
             payload.pointer("/session/tools/2/name"),
-            Some(&json!("run_openbitfun_task"))
+            Some(&json!("run_opc_task"))
         );
         assert_eq!(
             payload.pointer("/session/tools/3/name"),
-            Some(&json!("stop_openbitfun_task"))
+            Some(&json!("stop_opc_task"))
         );
         let instructions = payload
             .pointer("/session/instructions")
@@ -971,7 +971,7 @@ mod tests {
                 "type": "response.function_call_arguments.done",
                 "items": [{
                     "call_id": "call-1",
-                    "name": "run_openbitfun_task",
+                    "name": "run_opc_task",
                     "arguments": "{\"task\":\"run tests\"}"
                 }]
             }),
@@ -993,7 +993,7 @@ mod tests {
                 "items": {
                     "call_id": "call-2",
                     "function": {
-                        "name": "run_openbitfun_task",
+                        "name": "run_opc_task",
                         "arguments": {"task": "inspect the workspace"}
                     }
                 }

@@ -68,7 +68,7 @@ describe('ReasoningIntensityControl', () => {
   it('leaves the entire background non-interactive and expands only advertised choices in place', async () => {
     await render([preset('medium'), preset('xhigh')]);
     expect(container.querySelector('input[type="range"]')).toBeNull();
-    const sky = container.querySelector<HTMLElement>('[data-openbitfun-part="reasoningSliderSky"]')!;
+    const sky = container.querySelector<HTMLElement>('[data-opc-part="reasoningSliderSky"]')!;
     await act(async () => {
       sky.dispatchEvent(new Event('pointerdown', { bubbles: true }));
       sky.dispatchEvent(new Event('pointerup', { bubbles: true }));
@@ -126,11 +126,11 @@ describe('ReasoningIntensityControl', () => {
     expect(option('preset:xhigh').getAttribute('aria-pressed')).toBe('false');
     await hover('preset:off');
     expect(control().dataset.reasoningState).toBe('off');
-    expect(control().querySelector('.openbitfun-reasoning-control__nebula')).not.toBeNull();
-    expect(control().querySelector('.openbitfun-reasoning-control__stars')).toBeNull();
+    expect(control().querySelector('.opc-reasoning-control__nebula')).not.toBeNull();
+    expect(control().querySelector('.opc-reasoning-control__stars')).toBeNull();
     await hover('auto');
     expect(control().dataset.reasoningState).toBe('auto');
-    expect(control().querySelector('.openbitfun-reasoning-control__stars')).not.toBeNull();
+    expect(control().querySelector('.opc-reasoning-control__stars')).not.toBeNull();
     await act(async () => option('auto').dispatchEvent(new MouseEvent('pointerout', {
       bubbles: true, relatedTarget: container,
     })));
@@ -143,9 +143,9 @@ describe('ReasoningIntensityControl', () => {
     const off = { ...preset('off'), id: 'effort-off' };
     await render([off, preset('on')], 'effort-off');
     expect(control().dataset.reasoningState).toBe('off');
-    expect(control().querySelector('.openbitfun-reasoning-control__field')).not.toBeNull();
-    expect(control().querySelector('.openbitfun-reasoning-control__nebula')).not.toBeNull();
-    expect(control().querySelector('.openbitfun-reasoning-control__stars')).toBeNull();
+    expect(control().querySelector('.opc-reasoning-control__field')).not.toBeNull();
+    expect(control().querySelector('.opc-reasoning-control__nebula')).not.toBeNull();
+    expect(control().querySelector('.opc-reasoning-control__stars')).toBeNull();
     expect(onSelect).not.toHaveBeenCalled();
   });
 

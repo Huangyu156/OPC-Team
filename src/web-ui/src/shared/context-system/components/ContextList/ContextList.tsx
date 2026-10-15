@@ -97,13 +97,13 @@ export const ContextList: React.FC<ContextListProps> = ({
   
   if (renderedContexts.length === 0) {
     return (
-      <div className={`openbitfun-context-list openbitfun-context-list--empty ${className}`} data-openbitfun-component="context-list" data-openbitfun-part="root" data-openbitfun-state="empty">
-        <div className="openbitfun-context-list__empty-state" data-openbitfun-component="context-list" data-openbitfun-part="empty">
-          <AlertCircle size={24} className="openbitfun-context-list__empty-icon" />
-          <p className="openbitfun-context-list__empty-text">
+      <div className={`opc-context-list opc-context-list--empty ${className}`} data-opc-component="context-list" data-opc-part="root" data-opc-state="empty">
+        <div className="opc-context-list__empty-state" data-opc-component="context-list" data-opc-part="empty">
+          <AlertCircle size={24} className="opc-context-list__empty-icon" />
+          <p className="opc-context-list__empty-text">
             {t('contextSystem.contextList.emptyTitle')}
           </p>
-          <p className="openbitfun-context-list__empty-hint">
+          <p className="opc-context-list__empty-hint">
             {t('contextSystem.contextList.emptyHint')}
           </p>
         </div>
@@ -112,12 +112,12 @@ export const ContextList: React.FC<ContextListProps> = ({
   }
   
   return (
-    <div className={`openbitfun-context-list ${className}`} data-openbitfun-component="context-list" data-openbitfun-part="root">
+    <div className={`opc-context-list ${className}`} data-opc-component="context-list" data-opc-part="root">
       
-      <div className="openbitfun-context-list__header" data-openbitfun-component="context-list" data-openbitfun-part="header">
-        <div className="openbitfun-context-list__title" data-openbitfun-component="context-list" data-openbitfun-part="title">
+      <div className="opc-context-list__header" data-opc-component="context-list" data-opc-part="header">
+        <div className="opc-context-list__title" data-opc-component="context-list" data-opc-part="title">
           {t('contextSystem.contextList.title')}
-          <span className="openbitfun-context-list__count" data-openbitfun-component="context-list" data-openbitfun-part="count">
+          <span className="opc-context-list__count" data-opc-component="context-list" data-opc-part="count">
             {contexts.length}
           </span>
         </div>
@@ -137,23 +137,23 @@ export const ContextList: React.FC<ContextListProps> = ({
       
       
       <ScrollArea 
-        className="openbitfun-context-list__items"
+        className="opc-context-list__items"
         style={{ maxHeight }}
-        data-openbitfun-component="context-list"
-        data-openbitfun-part="items"
+        data-opc-component="context-list"
+        data-opc-part="items"
       >
         {renderedContexts.map(({ context, exiting }) => (
           <div
             key={context.id}
-            className="openbitfun-context-list__item"
+            className="opc-context-list__item"
             data-exiting={exiting ? 'true' : 'false'}
             aria-hidden={exiting || undefined}
             {...(exiting ? { inert: '' } : {})}
             onClick={exiting ? undefined : () => handleCardClick(context.id)}
-            data-openbitfun-component="context-list"
-            data-openbitfun-part="item"
+            data-opc-component="context-list"
+            data-opc-part="item"
           >
-            <div className="openbitfun-context-list__item-inner">
+            <div className="opc-context-list__item-inner">
               <ContextCard
                 context={context}
                 onRemove={exiting ? undefined : handleRemove}

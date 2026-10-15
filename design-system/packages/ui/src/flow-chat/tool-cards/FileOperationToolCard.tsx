@@ -103,7 +103,7 @@ export function FileOperationToolCard({
   const errorContent = error ? (
     <div className={styles.error} data-guidance={error.guidance ? "true" : "false"}>
       {error.title != null && (
-        <div className={styles.errorTitle} data-openbitfun-icon-slot="true">
+        <div className={styles.errorTitle} data-opc-icon-slot="true">
           {error.guidance ? <Icon name="info" size="sm" /> : <Icon glyph={XCircle} size="sm" />}
           <span>{error.title}</span>
         </div>
@@ -118,10 +118,10 @@ export function FileOperationToolCard({
     <div
       {...props}
       className={classNames(styles.root, className)}
-      data-openbitfun-component="file-operation-tool-card"
-      data-openbitfun-operation={operation}
-      data-openbitfun-part="root"
-      data-openbitfun-status={status}
+      data-opc-component="file-operation-tool-card"
+      data-opc-operation={operation}
+      data-opc-part="root"
+      data-opc-status={status}
     >
       <ProminentToolCard
         collapsibleErrorContent
@@ -136,9 +136,9 @@ export function FileOperationToolCard({
               <ToolCardActions>
                 <IconButton
                   aria-label={onOpenFile.label}
-                  data-openbitfun-affordance="open-panel-right"
-                  data-openbitfun-part="openPanelButton"
-                  icon={<Icon name="arrow-up-right" size="sm" data-openbitfun-icon="open-panel-right" />}
+                  data-opc-affordance="open-panel-right"
+                  data-opc-part="openPanelButton"
+                  icon={<Icon name="arrow-up-right" size="sm" data-opc-icon="open-panel-right" />}
                   onClick={onOpenFile.onPress}
                   size="sm"
                   data-testid={onOpenFile.testId}
@@ -153,7 +153,7 @@ export function FileOperationToolCard({
               <OverflowText
                 behavior="marquee"
                 className={styles.path}
-                data-openbitfun-operation={operation}
+                data-opc-operation={operation}
                 data-path={path}
                 data-testid={pathTestId}
                 title={path}
@@ -179,7 +179,7 @@ export function FileOperationToolCard({
                   glyph={TriangleAlert}
                   size="sm"
                   className={styles.warningStatusIcon}
-                  data-openbitfun-icon="warning"
+                  data-opc-icon="warning"
                 />
               )
               : undefined}

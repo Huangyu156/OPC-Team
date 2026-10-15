@@ -29,7 +29,7 @@ test("Listbox exposes grouped single- and multi-select option semantics", () => 
     ),
   );
 
-  assert.match(markup, /data-openbitfun-component="listbox"/);
+  assert.match(markup, /data-opc-component="listbox"/);
   assert.match(markup, /role="listbox"/);
   assert.match(markup, /aria-multiselectable="true"/);
   assert.match(markup, /aria-selected="true"[^>]+role="option"/);
@@ -54,7 +54,7 @@ test("Listbox styling uses public menu, action, content, and focus tokens", asyn
 test("selection popovers inherit row spacing from Listbox instead of patching its private lists", async () => {
   for (const component of ["Select", "Combobox"]) {
     const styles = await readFile(new URL(`../src/components/${component}/${component}.module.css`, import.meta.url), "utf8");
-    assert.doesNotMatch(styles, /\[data-openbitfun-part="(?:list|group-options|group)"\][^{]*\{[^}]*\bgap:/);
+    assert.doesNotMatch(styles, /\[data-opc-part="(?:list|group-options|group)"\][^{]*\{[^}]*\bgap:/);
   }
 });
 
@@ -64,7 +64,7 @@ test("Listbox owns direct-option roving focus and standard navigation keys", asy
     "utf8",
   );
 
-  assert.match(source, /querySelectorAll<HTMLButtonElement>\("\[data-openbitfun-listbox-option\]"\)/);
+  assert.match(source, /querySelectorAll<HTMLButtonElement>\("\[data-opc-listbox-option\]"\)/);
   assert.match(source, /option\.closest\('\[role="listbox"\]'\) === root/);
   assert.match(source, /case "ArrowDown"/);
   assert.match(source, /case "ArrowUp"/);

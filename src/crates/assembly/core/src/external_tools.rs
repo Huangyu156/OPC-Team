@@ -8,8 +8,8 @@ use crate::agentic::tools::registry::get_global_tool_registry;
 use crate::agentic::workspace::workspace_route_key;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_external_sources::{ExternalSourceControlPlane, ExternalToolCoordinatorSnapshot};
-use openbitfun_product_domains::external_sources::{
+use opc_external_sources::{ExternalSourceControlPlane, ExternalToolCoordinatorSnapshot};
+use opc_product_domains::external_sources::{
     external_tool_approval_key, external_tool_conflict_key, external_tool_decision_key,
     EcosystemId, ExternalSourceAssetKind, ExternalSourceDiagnostic,
     ExternalSourceDiagnosticSeverity, ExternalSourceScope, ExternalToolActivationState,
@@ -17,11 +17,11 @@ use openbitfun_product_domains::external_sources::{
     ExternalToolConflictCandidate, ExternalToolConflictCandidateKind, ExternalToolDefinition,
     ExternalToolStaticStatus, PreparedExternalToolTarget, SourceQualifiedToolTargetId,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PortErrorKind, ScriptToolDescriptor, ScriptToolExpectedExport, ScriptToolInvokeRequest,
     ScriptToolLoadRequest, ScriptToolRuntime, ScriptToolRuntimeAvailability,
 };
-use openbitfun_services_integrations::script_tool::NodeScriptToolRuntime;
+use opc_services_integrations::script_tool::NodeScriptToolRuntime;
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet, HashMap};
@@ -151,8 +151,8 @@ pub(super) fn project_external_tools_read_only(
     state
 }
 
-pub(super) const UNRESOLVED_TOOL_CONFLICT_CHOICE: &str = "__openbitfun_unresolved__";
-pub(super) const TOOL_CONFLICT_RESELECTION_REQUIRED: &str = "__openbitfun_reselection_required__";
+pub(super) const UNRESOLVED_TOOL_CONFLICT_CHOICE: &str = "__opc_unresolved__";
+pub(super) const TOOL_CONFLICT_RESELECTION_REQUIRED: &str = "__opc_reselection_required__";
 
 fn external_tool_permission_intent(provider_id: &str, tool_name: &str) -> PermissionIntent {
     PermissionIntent::new("custom_tool", vec![format!("{provider_id}:{tool_name}")])
@@ -2412,7 +2412,7 @@ fn runtime_target_id(workspace_key: &str, target: &SourceQualifiedToolTargetId) 
 fn tool_diagnostic(
     code: impl Into<String>,
     message: impl Into<String>,
-    source: Option<openbitfun_product_domains::external_sources::SourceKey>,
+    source: Option<opc_product_domains::external_sources::SourceKey>,
 ) -> ExternalSourceDiagnostic {
     ExternalSourceDiagnostic {
         severity: ExternalSourceDiagnosticSeverity::Warning,
@@ -2424,10 +2424,10 @@ fn tool_diagnostic(
 }
 
 pub(super) fn merge_tool_state(
-    mut snapshot: openbitfun_product_domains::external_sources::ExternalSourceCatalogSnapshot,
+    mut snapshot: opc_product_domains::external_sources::ExternalSourceCatalogSnapshot,
     tool_snapshot: &ExternalToolCoordinatorSnapshot,
     state: ExternalToolProductState,
-) -> openbitfun_product_domains::external_sources::ExternalSourceCatalogSnapshot {
+) -> opc_product_domains::external_sources::ExternalSourceCatalogSnapshot {
     snapshot.generation = snapshot.generation.max(tool_snapshot.generation);
     snapshot.discovery_pending |= tool_snapshot.discovery_pending;
     snapshot.sources.extend(tool_snapshot.sources.clone());
@@ -2864,7 +2864,7 @@ mod tests {
 
     #[tokio::test]
     async fn live_plugin_conflict_preserves_builtin_until_selected() {
-        use openbitfun_product_domains::external_sources::{
+        use opc_product_domains::external_sources::{
             ExecutionDomainId, ExternalMcpRevisionKey, ExternalSourceContext,
         };
 
@@ -3346,7 +3346,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         };
 
         assert!(!mux

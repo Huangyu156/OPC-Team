@@ -2246,9 +2246,9 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       data-editor-id={`editor-${filePath.replace(/[^a-zA-Z0-9]/g, '-')}`}
       data-file-path={filePath}
       data-readonly={readOnly ? 'true' : 'false'}
-      data-openbitfun-component="editor-tool"
-      data-openbitfun-part="root"
-      data-openbitfun-state={[
+      data-opc-component="editor-tool"
+      data-opc-part="root"
+      data-opc-state={[
         loading && showLoadingOverlay && 'loading',
         error && 'error',
         largeFileMode && 'large-file',
@@ -2264,7 +2264,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
         />
       )}
       
-      <div className="code-editor-tool__content" data-shortcut-scope="editor" data-openbitfun-component="editor-tool" data-openbitfun-part="content">
+      <div className="code-editor-tool__content" data-shortcut-scope="editor" data-opc-component="editor-tool" data-opc-part="content">
         <div 
           ref={containerRef} 
           style={{ 
@@ -2278,13 +2278,13 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       </div>
 
       {loading && showLoadingOverlay && (
-        <div className="code-editor-tool__loading-overlay" data-openbitfun-component="editor-tool" data-openbitfun-part="loading">
+        <div className="code-editor-tool__loading-overlay" data-opc-component="editor-tool" data-opc-part="loading">
           <LoadingState size="md">{loadingOverlayText}</LoadingState>
         </div>
       )}
 
       {error && (
-        <div className="code-editor-tool__error-overlay" data-openbitfun-component="editor-tool" data-openbitfun-part="error">
+        <div className="code-editor-tool__error-overlay" data-opc-component="editor-tool" data-opc-part="error">
           <AlertCircle className="code-editor-tool__error-icon" />
           <p className="code-editor-tool__error-message">{error}</p>
           <Button
@@ -2298,7 +2298,7 @@ const CodeEditor: React.FC<CodeEditorProps> = ({
       )}
 
       {saving && (
-        <div className="code-editor-tool__saving-indicator" data-openbitfun-component="editor-tool" data-openbitfun-part="saving">
+        <div className="code-editor-tool__saving-indicator" data-opc-component="editor-tool" data-opc-part="saving">
           {t('editor.codeEditor.saving')}
         </div>
       )}

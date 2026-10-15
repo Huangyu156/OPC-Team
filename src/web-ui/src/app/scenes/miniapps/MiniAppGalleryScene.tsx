@@ -39,7 +39,7 @@ const MiniAppGalleryScene: React.FC = () => {
   );
 
   return (
-    <div className="miniapp-gallery-scene" data-openbitfun-scene="miniapp-gallery" data-openbitfun-part="root">
+    <div className="miniapp-gallery-scene" data-opc-scene="miniapp-gallery" data-opc-part="root">
       <div className="miniapp-gallery-scene__content">
         <Suspense fallback={null}>
           {activeTab === 'apps' && <MiniAppLibraryView tabs={tabs} />}

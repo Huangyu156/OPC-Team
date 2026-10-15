@@ -1,19 +1,19 @@
 [package]
-name = "openbitfun-agent-stream"
+name = "opc-agent-stream"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
 description = "Lightweight agent stream processing for OPC-Team"
 
 [lib]
-name = "openbitfun_agent_stream"
+name = "opc_agent_stream"
 crate-type = ["rlib"]
 
 [dependencies]
 anyhow = { workspace = true }
 async-trait = { workspace = true }
-openbitfun-events = { path = "../../contracts/events" }
-openbitfun-core-types = { path = "../../contracts/core-types" }
+opc-events = { path = "../../contracts/events" }
+opc-core-types = { path = "../../contracts/core-types" }
 futures = { workspace = true }
 jsonrepair-rs = { workspace = true }
 log = { workspace = true }
@@ -24,7 +24,7 @@ tokio-util = { workspace = true }
 uuid = { workspace = true }
 
 [dev-dependencies]
-openbitfun-agent-tools = { path = "../tool-contracts" }
+opc-agent-tools = { path = "../tool-contracts" }
 tokio-stream = { workspace = true }
 
 [lints]

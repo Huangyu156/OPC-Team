@@ -128,7 +128,7 @@ function CommandPreview({ children, empty, testId }: {
   return (
     <div
       className={styles.commandPreview}
-      data-openbitfun-part="commandPreview"
+      data-opc-part="commandPreview"
       data-overflow={overflowing ? "true" : "false"}
       data-expanded={expanded ? "true" : "false"}
       role={overflowing ? "button" : undefined}
@@ -152,7 +152,7 @@ function CommandPreview({ children, empty, testId }: {
       <code
         ref={commandRef}
         className={classNames(styles.command, styles.expandedCommand)}
-        data-openbitfun-part="command"
+        data-opc-part="command"
         data-empty={empty ? "true" : "false"}
         data-testid={testId}
       >
@@ -248,11 +248,11 @@ export function CommandToolCard({
   };
 
   const details = hasDetails ? (
-    <div className={styles.details} data-openbitfun-part="details">
+    <div className={styles.details} data-opc-part="details">
       {(hasCommand || hasOutputFrame) && (
         <div className={styles.contentSection}>
           {hasCommand && (
-            <div className={styles.commandRow} data-openbitfun-part="commandRow" data-tool-card-action-scope>
+            <div className={styles.commandRow} data-opc-part="commandRow" data-tool-card-action-scope>
               <CommandPreview empty={!resolvedCommand} testId={expanded ? commandTestId : undefined}>
                 {resolvedCommand ?? emptyCommand}
               </CommandPreview>
@@ -267,20 +267,20 @@ export function CommandToolCard({
             <ToolCardSection label={outputLabel} actions={outputAction}>
               <div
                 className={styles.outputFrame}
-                data-openbitfun-part="outputFrame"
+                data-opc-part="outputFrame"
                 data-density={outputDensity}
                 data-sizing={outputSizing}
               >
                 {output
-                  ? <div className={styles.output} data-openbitfun-part="output">{output}</div>
-                  : <div className={styles.waiting} data-openbitfun-part="waiting">{waitingContent}</div>}
+                  ? <div className={styles.output} data-opc-part="output">{output}</div>
+                  : <div className={styles.waiting} data-opc-part="waiting">{waitingContent}</div>}
               </div>
             </ToolCardSection>
           )}
         </div>
       )}
       {hasFooter && (
-        <div className={styles.footer} data-openbitfun-part="footer">
+        <div className={styles.footer} data-opc-part="footer">
           <div className={styles.footerRow}>
             {footerItems.map((item, index) => (
               <span
@@ -311,7 +311,7 @@ export function CommandToolCard({
   const commandContent = (
     <code
       className={styles.command}
-      data-openbitfun-part="command"
+      data-opc-part="command"
       data-empty={resolvedCommand ? "false" : "true"}
       data-testid={commandTestId}
     ><OverflowText overflowStyle="ellipsis">
@@ -319,10 +319,10 @@ export function CommandToolCard({
     </OverflowText></code>
   );
   const statusContent = (statusSummary || statusLabel) ? (
-    <span className={styles.statusSummary} data-openbitfun-part="statusSummary">
+    <span className={styles.statusSummary} data-opc-part="statusSummary">
       {statusSummary}
       {statusLabel && (
-        <span className={styles.statusLabel} data-openbitfun-part="statusLabel" data-tone={statusTone}>
+        <span className={styles.statusLabel} data-opc-part="statusLabel" data-tone={statusTone}>
           {statusTone === "success" && <Icon className={styles.resultIcon} glyph={Check} size="sm" />}
           {statusLabel}
         </span>
@@ -338,9 +338,9 @@ export function CommandToolCard({
     <div
       {...props}
       className={classNames(styles.root, className)}
-      data-openbitfun-component="command-tool-card"
-      data-openbitfun-part="root"
-      data-openbitfun-status={status}
+      data-opc-component="command-tool-card"
+      data-opc-part="root"
+      data-opc-status={status}
     >
       {ambient ? (
         <>

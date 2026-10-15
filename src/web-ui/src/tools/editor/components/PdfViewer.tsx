@@ -279,10 +279,10 @@ const PdfPageCanvas: React.FC<PdfPageCanvasProps> = ({
   return (
     <div
       ref={setPageElement}
-      className="openbitfun-pdf-viewer__page"
-      data-openbitfun-component="pdf-viewer"
-      data-openbitfun-part="page"
-      data-openbitfun-state={rendering ? 'rendering' : undefined}
+      className="opc-pdf-viewer__page"
+      data-opc-component="pdf-viewer"
+      data-opc-part="page"
+      data-opc-state={rendering ? 'rendering' : undefined}
       data-page-number={pageNumber}
       style={{ width: displaySize.width, height: displaySize.height }}
     >
@@ -295,9 +295,9 @@ const PdfPageCanvas: React.FC<PdfPageCanvasProps> = ({
           />
           <div
             ref={textLayerContainerRef}
-            className="openbitfun-pdf-viewer__text-layer"
-            data-openbitfun-component="pdf-viewer"
-            data-openbitfun-part="textLayer"
+            className="opc-pdf-viewer__text-layer"
+            data-opc-component="pdf-viewer"
+            data-opc-part="textLayer"
             onCopy={copyAllowed ? undefined : event => event.preventDefault()}
           />
         </>
@@ -685,19 +685,19 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ isActiveTab = true,
 
   return (
     <div
-      className={`openbitfun-pdf-viewer ${className}`}
-      data-openbitfun-component="pdf-viewer"
-      data-openbitfun-part="root"
+      className={`opc-pdf-viewer ${className}`}
+      data-opc-component="pdf-viewer"
+      data-opc-part="root"
     >
       <Toolbar
-        className="openbitfun-pdf-viewer__toolbar"
+        className="opc-pdf-viewer__toolbar"
         leading={
-          <div className="openbitfun-pdf-viewer__info" data-openbitfun-component="pdf-viewer" data-openbitfun-part="info">
+          <div className="opc-pdf-viewer__info" data-opc-component="pdf-viewer" data-opc-part="info">
             {pageCount > 0 && (
-              <span className="openbitfun-pdf-viewer__page-label">
+              <span className="opc-pdf-viewer__page-label">
                 <Input
                   aria-label={t('editor.pdfViewer.currentPage')}
-                  className="openbitfun-pdf-viewer__page-input"
+                  className="opc-pdf-viewer__page-input"
                   disabled={loading}
                   inputMode="numeric"
                   onBlur={() => setPageNumberInput(String(pageNumber))}
@@ -722,7 +722,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ isActiveTab = true,
                   value={pageNumberInput}
                 />
                 <span aria-hidden="true">/</span>
-                <span className="openbitfun-pdf-viewer__page-total">{formatNumber(pageCount)}</span>
+                <span className="opc-pdf-viewer__page-total">{formatNumber(pageCount)}</span>
                 <span className="sr-only" aria-live="polite">{pageLabel}</span>
               </span>
             )}
@@ -756,7 +756,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ isActiveTab = true,
             <ToolbarGroup>
               <Select
                 aria-label={t('editor.pdfViewer.zoomLevel')}
-                className="openbitfun-pdf-viewer__zoom-display"
+                className="opc-pdf-viewer__zoom-display"
                 disabled={loading}
                 onValueChange={selectZoom}
                 options={zoomOptions}
@@ -803,21 +803,21 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ isActiveTab = true,
 
       <div
         ref={containerRef}
-        className="openbitfun-pdf-viewer__container"
-        data-openbitfun-component="pdf-viewer"
-        data-openbitfun-part="container"
+        className="opc-pdf-viewer__container"
+        data-opc-component="pdf-viewer"
+        data-opc-part="container"
       >
         {loading && (
-          <div className="openbitfun-pdf-viewer__status" data-openbitfun-component="pdf-viewer" data-openbitfun-part="loading">
-            <div className="openbitfun-pdf-viewer__spinner" />
+          <div className="opc-pdf-viewer__status" data-opc-component="pdf-viewer" data-opc-part="loading">
+            <div className="opc-pdf-viewer__spinner" />
             <p>{t('editor.pdfViewer.loading')}</p>
           </div>
         )}
 
         {error && (
-          <div className="openbitfun-pdf-viewer__status openbitfun-pdf-viewer__status--error" data-openbitfun-component="pdf-viewer" data-openbitfun-part="error">
+          <div className="opc-pdf-viewer__status opc-pdf-viewer__status--error" data-opc-component="pdf-viewer" data-opc-part="error">
             <p>{error}</p>
-            <p className="openbitfun-pdf-viewer__error-path">{filePath}</p>
+            <p className="opc-pdf-viewer__error-path">{filePath}</p>
             <Button variant="outline" size="sm" onClick={() => void loadDocument()}>
               {t('editor.common.retry')}
             </Button>
@@ -825,7 +825,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ isActiveTab = true,
         )}
 
         {!loading && !error && document && (
-          <div className="openbitfun-pdf-viewer__pages">
+          <div className="opc-pdf-viewer__pages">
             {pageSizes.map((size, index) => {
               const number = index + 1;
               const label = t('editor.pdfViewer.pageCount', {

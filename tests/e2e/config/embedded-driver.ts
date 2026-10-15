@@ -70,11 +70,11 @@ type E2eBuildType = 'debug' | 'release' | 'release-fast';
 function executableCandidates(buildType: E2eBuildType): string[] {
   const root = projectRoot();
   const suffix = process.platform === 'win32' ? '.exe' : '';
-  const binaryName = `openbitfun-desktop${suffix}`;
+  const binaryName = `opc-desktop${suffix}`;
 
   if (process.platform === 'darwin') {
     // Tauri names the macOS bundle after `productName` (`OPC-Team.app`) while the
-    // executable inside it keeps `mainBinaryName` (`openbitfun-desktop`). Bundles
+    // executable inside it keeps `mainBinaryName` (`opc-desktop`). Bundles
     // built before the product rename still use the OpenBitFun names for both.
     // The real `tauri build` bundle lives in `target/<profile>/bundle/macos`, so it
     // is listed before the legacy top-level `.app` layout. The raw executable stays
@@ -201,10 +201,10 @@ async function probeDocumentReady(sessionId: string): Promise<boolean> {
     body: JSON.stringify({
       script: `() => {
         const root = document.getElementById('root');
-        const appLayout = document.querySelector('[data-testid="app-layout"], .openbitfun-app-layout');
-        const mainContent = document.querySelector('[data-testid="app-main-content"], .openbitfun-app-main-workspace');
+        const appLayout = document.querySelector('[data-testid="app-layout"], .opc-app-layout');
+        const mainContent = document.querySelector('[data-testid="app-main-content"], .opc-app-main-workspace');
         const shell = document.querySelector(
-          '.openbitfun-nav-panel, .openbitfun-scene-bar, .openbitfun-nav-bar, .welcome-scene'
+          '.opc-nav-panel, .opc-scene-bar, .opc-nav-bar, .welcome-scene'
         );
         const splashVisible = Boolean(document.querySelector('.splash-screen'));
         const tauriReady =
@@ -432,7 +432,7 @@ async function startOpenBitFunApp(): Promise<void> {
   if (!fs.existsSync(appPath)) {
     console.error(`Application not found at: ${appPath}`);
     console.error('Please build the selected application first. Common commands:');
-    console.error('cargo build -p openbitfun-desktop');
+    console.error('cargo build -p opc-desktop');
     console.error('pnpm run desktop:build:release-fast');
     throw new Error('Application not built');
   }
@@ -456,15 +456,15 @@ async function startOpenBitFunApp(): Promise<void> {
   });
 
   openbitfunApp.stdout?.on('data', (data: Buffer) => {
-    console.log(`[openbitfun-app] ${data.toString().trim()}`);
+    console.log(`[opc-app] ${data.toString().trim()}`);
   });
 
   openbitfunApp.stderr?.on('data', (data: Buffer) => {
-    console.error(`[openbitfun-app] ${data.toString().trim()}`);
+    console.error(`[opc-app] ${data.toString().trim()}`);
   });
 
   openbitfunApp.on('exit', (code, signal) => {
-    console.log(`[openbitfun-app] exited (code=${code ?? 'null'}, signal=${signal ?? 'null'})`);
+    console.log(`[opc-app] exited (code=${code ?? 'null'}, signal=${signal ?? 'null'})`);
   });
 
   await waitForEmbeddedDriverReady();
@@ -559,7 +559,7 @@ export function createEmbeddedConfig(specs: string[], label: string): Options.Te
       if (!fs.existsSync(appPath)) {
         console.error(`Application not found at: ${appPath}`);
         console.error('Please build the selected application first. Common commands:');
-        console.error('cargo build -p openbitfun-desktop');
+        console.error('cargo build -p opc-desktop');
         console.error('pnpm run desktop:build:release-fast');
         throw new Error('Application not built');
       }

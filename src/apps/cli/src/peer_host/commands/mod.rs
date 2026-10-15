@@ -443,9 +443,7 @@ mod tests {
 
     #[test]
     fn handled_commands_match_registry() {
-        use openbitfun_product_domains::remote_surface::{
-            cli_handled_commands, soft_empty_commands,
-        };
+        use opc_product_domains::remote_surface::{cli_handled_commands, soft_empty_commands};
         let registry_handled: BTreeSet<String> = cli_handled_commands()
             .into_iter()
             .map(String::from)

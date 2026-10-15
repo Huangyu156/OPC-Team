@@ -55,26 +55,26 @@ export function HostPendingQueuePanel({ queue, onRestore }: { queue: HostDialogQ
   const items = (view.snapshot?.items ?? []).filter(item => item.status === 'blocked' || !projected.has(item.turnId));
   const visibleError = error || (view.error?.includes('Session is not loaded') ? null : view.error);
   if (!items.length && !view.pending.length && !visibleError) return null;
-  return <ChatComposerQueue data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="root" className="host-pending-queue" aria-label={t('hostQueue.title')}>
-    <ChatComposerQueueHeader data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="header">
+  return <ChatComposerQueue data-opc-product-component="pending-queue-panel" data-opc-product-part="root" className="host-pending-queue" aria-label={t('hostQueue.title')}>
+    <ChatComposerQueueHeader data-opc-product-component="pending-queue-panel" data-opc-product-part="header">
       <Button variant="text" size="xs" className="host-pending-queue__toggle" aria-expanded={expanded} aria-controls={listId}
         onClick={() => setExpanded(value => !value)} trailingIcon={<Icon name={expanded ? 'chevron-down' : 'chevron-up'} />}>
-        <ChatComposerQueueTitle data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="title" count={items.length + view.pending.length}>{t('hostQueue.title')}</ChatComposerQueueTitle>
+        <ChatComposerQueueTitle data-opc-product-component="pending-queue-panel" data-opc-product-part="title" count={items.length + view.pending.length}>{t('hostQueue.title')}</ChatComposerQueueTitle>
       </Button>
       <Tooltip content={t('hostQueue.about')}><IconButton size="xs" aria-label={t('hostQueue.about')} aria-expanded={showHelp}
         icon={<Icon name="info" />} onClick={() => setShowHelp(value => !value)} /></Tooltip>
     </ChatComposerQueueHeader>
-    {showHelp && <p data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="status" className="host-pending-queue__note">{t('hostQueue.memoryNotice')}</p>}
-    {visibleError && <div data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="status" role="alert" className="host-pending-queue__error">{visibleError}<Button size="xs" variant="text" disabled={busy} onClick={() => void run(() => queue.refresh())}>{t('hostQueue.refresh')}</Button></div>}
-    <ChatComposerQueueList data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="list" id={listId} hidden={!expanded}>
-      {items.map(item => <ChatComposerQueueItem data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="item" key={item.turnId} state={item.status === 'blocked' ? 'failed' : item.status === 'steering_pending' ? 'sending' : 'default'}>
-        <ChatComposerQueueItemContent data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="content">
+    {showHelp && <p data-opc-product-component="pending-queue-panel" data-opc-product-part="status" className="host-pending-queue__note">{t('hostQueue.memoryNotice')}</p>}
+    {visibleError && <div data-opc-product-component="pending-queue-panel" data-opc-product-part="status" role="alert" className="host-pending-queue__error">{visibleError}<Button size="xs" variant="text" disabled={busy} onClick={() => void run(() => queue.refresh())}>{t('hostQueue.refresh')}</Button></div>}
+    <ChatComposerQueueList data-opc-product-component="pending-queue-panel" data-opc-product-part="list" id={listId} hidden={!expanded}>
+      {items.map(item => <ChatComposerQueueItem data-opc-product-component="pending-queue-panel" data-opc-product-part="item" key={item.turnId} state={item.status === 'blocked' ? 'failed' : item.status === 'steering_pending' ? 'sending' : 'default'}>
+        <ChatComposerQueueItemContent data-opc-product-component="pending-queue-panel" data-opc-product-part="content">
           <OverflowText title={item.displayContent}>{item.displayContent || t('pendingQueue.emptyPlaceholder')}</OverflowText>
           {item.status !== 'queued' && <span className="host-pending-queue__status">{item.status === 'blocked' ? t('hostQueue.blocked') : t('hostQueue.steeringPending')}</span>}
           {item.attachmentCount > 0 && <span className="host-pending-queue__status">{t('hostQueue.attachments', { count: item.attachmentCount })}</span>}
           {item.reason && <OverflowText className="host-pending-queue__status" title={item.reason}>{item.reason}</OverflowText>}
         </ChatComposerQueueItemContent>
-        <ChatComposerQueueItemActions data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="actions">
+        <ChatComposerQueueItemActions data-opc-product-component="pending-queue-panel" data-opc-product-part="actions">
           <Tooltip content={t('hostQueue.edit')}><IconButton size="xs" aria-label={t('hostQueue.edit')} icon={<Icon name="edit" />} disabled={busy || !!view.error || item.status === 'steering_pending'} onClick={() => void run(async () => {
             const saved = await queue.savedDraft(item.turnId);
             if (!saved || saved.request.action !== 'submit') throw new Error(t('hostQueue.noDraft'));
@@ -84,11 +84,11 @@ export function HostPendingQueuePanel({ queue, onRestore }: { queue: HostDialogQ
           <Tooltip content={t('hostQueue.cancel')}><IconButton size="xs" aria-label={t('hostQueue.cancel')} icon={<Icon name="xmark" />} disabled={busy || !!view.error || item.status === 'steering_pending'} onClick={() => void run(() => queue.act(item, 'cancel'))} /></Tooltip>
         </ChatComposerQueueItemActions>
       </ChatComposerQueueItem>)}
-      {view.pending.map(record => <ChatComposerQueueItem data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="item" key={record.key} state="failed">
-        <ChatComposerQueueItemContent data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="content"><OverflowText className="host-pending-queue__status" title={t('hostQueue.unknown')}>{t('hostQueue.unknown')}</OverflowText>
+      {view.pending.map(record => <ChatComposerQueueItem data-opc-product-component="pending-queue-panel" data-opc-product-part="item" key={record.key} state="failed">
+        <ChatComposerQueueItemContent data-opc-product-component="pending-queue-panel" data-opc-product-part="content"><OverflowText className="host-pending-queue__status" title={t('hostQueue.unknown')}>{t('hostQueue.unknown')}</OverflowText>
           {record.request.action === 'submit' && <OverflowText title={record.request.message.displayContent ?? record.request.message.content}>{record.request.message.displayContent ?? record.request.message.content}</OverflowText>}
         </ChatComposerQueueItemContent>
-        <ChatComposerQueueItemActions data-openbitfun-product-component="pending-queue-panel" data-openbitfun-product-part="actions">
+        <ChatComposerQueueItemActions data-opc-product-component="pending-queue-panel" data-opc-product-part="actions">
           {record.restoreIntent && record.request.action === 'submit'
             ? <IconButton size="xs" aria-label={t('hostQueue.edit')} title={t('hostQueue.edit')} icon={<Icon name="edit" />} disabled={busy} onClick={() => void run(() => restoreDraft(record))} />
             : <IconButton size="xs" aria-label={t('hostQueue.checkRetry')} title={t('hostQueue.checkRetry')} icon={<Icon glyph={RotateCw} />} disabled={busy} onClick={() => void run(() => queue.retry(record))} />}

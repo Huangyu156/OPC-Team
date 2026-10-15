@@ -17,7 +17,7 @@ export function SubagentHatch({ phase, size, active = true, label, children, cla
   useSubagentHatchMotion(ref, phase, active);
   return <span {...props} ref={ref} className={classNames(styles.root, className)}
     style={{ width: size, height: size, ...style }}
-    data-openbitfun-component="subagent-hatch" data-openbitfun-part="root" data-phase={phase}
+    data-opc-component="subagent-hatch" data-opc-part="root" data-phase={phase}
     role={label ? 'img' : undefined} aria-label={label} aria-hidden={label ? undefined : true}>
     <span className={styles.avatar} data-hatch-part="avatar" aria-hidden="true">{children}</span>
     <span className={styles.shell} data-hatch-part="shell" aria-hidden="true" dangerouslySetInnerHTML={{ __html: egg }} />

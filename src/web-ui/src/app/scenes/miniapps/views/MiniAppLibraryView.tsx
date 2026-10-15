@@ -765,8 +765,8 @@ const MiniAppLibraryContent: React.FC<MiniAppLibraryViewProps> = ({ tabs }) => {
 
   return (
     <GalleryLayout
-      data-openbitfun-component="miniapp-gallery-view"
-      data-openbitfun-part="root"
+      data-opc-component="miniapp-gallery-view"
+      data-opc-part="root"
       className="miniapp-gallery-pane miniapp-gallery"
     >
       <GalleryPageHeader
@@ -844,12 +844,12 @@ const MiniAppLibraryContent: React.FC<MiniAppLibraryViewProps> = ({ tabs }) => {
       {tabs}
 
       <div
-        data-openbitfun-component="miniapp-gallery-view"
-        data-openbitfun-part="content"
+        data-opc-component="miniapp-gallery-view"
+        data-opc-part="content"
         className="gallery-zones"
       >
         <section className="gallery-zone" aria-label={t('allApps')}>
-          <div className="miniapp-gallery__filters" data-openbitfun-component="miniapp-gallery-view" data-openbitfun-part="tools">
+          <div className="miniapp-gallery__filters" data-opc-component="miniapp-gallery-view" data-opc-part="tools">
             <SearchField
               className="miniapp-gallery__search"
               leadingIcon={<Icon name="search" size="sm" aria-hidden />}
@@ -862,7 +862,7 @@ const MiniAppLibraryContent: React.FC<MiniAppLibraryViewProps> = ({ tabs }) => {
               size="sm"
               value={query}
             />
-            <div data-openbitfun-component="miniapp-gallery-view" data-openbitfun-part="categoryFilters">
+            <div data-opc-component="miniapp-gallery-view" data-opc-part="categoryFilters">
               <Select
                 className="miniapp-gallery__categories"
                 options={CATEGORIES.map((value) => ({ label: categoryLabel(value, t), value }))}
@@ -895,8 +895,8 @@ const MiniAppLibraryContent: React.FC<MiniAppLibraryViewProps> = ({ tabs }) => {
             <div
               className="miniapp-gallery__market-error"
               role="alert"
-              data-openbitfun-component="miniapp-gallery-view"
-              data-openbitfun-part="error"
+              data-opc-component="miniapp-gallery-view"
+              data-opc-part="error"
             >
               <AlertTriangle size={16} aria-hidden="true" />
               <span>{t('market.library.marketUnavailable')}</span>
@@ -999,8 +999,8 @@ const MiniAppLibraryContent: React.FC<MiniAppLibraryViewProps> = ({ tabs }) => {
         {detail ? (
           <div
             className="miniapp-market-detail"
-            data-openbitfun-component="miniapp-gallery-view"
-            data-openbitfun-part="detail"
+            data-opc-component="miniapp-gallery-view"
+            data-opc-part="detail"
           >
             {detail.screenshotUrls.length ? (
               <div className="miniapp-market-detail__screenshots">

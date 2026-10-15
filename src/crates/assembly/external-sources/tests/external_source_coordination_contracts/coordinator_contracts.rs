@@ -1,5 +1,5 @@
-use openbitfun_external_sources::ExternalSourceCoordinator;
-use openbitfun_product_domains::external_sources::{
+use opc_external_sources::ExternalSourceCoordinator;
+use opc_product_domains::external_sources::{
     EcosystemId, ExecutionDomainId, ExternalSourceContext, ExternalSourceHealth,
     ExternalSourceLifecycleState, ExternalSourceProviderError, ExternalSourceRecord,
     ExternalSourceScope, ExternalWatchRoot, PromptCommandAvailability, PromptCommandDefinition,

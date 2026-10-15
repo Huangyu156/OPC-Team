@@ -11,7 +11,7 @@
 #![allow(dead_code)]
 
 use image::{Rgba, RgbaImage};
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::io::Cursor;
 
 /// Half-length of each crosshair arm in pixels (arm spans ±`ARM_LEN`).

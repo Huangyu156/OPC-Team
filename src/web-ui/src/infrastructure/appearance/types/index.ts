@@ -384,7 +384,7 @@ export type AppearanceRendererId =
   | 'xterm'
   | 'mermaid'
   | 'generative-widget'
-  | 'openbitfun-canvas';
+  | 'opc-canvas';
 
 export type AppearanceThemeTokenName =
   | `--opcteam-color-${string}`
@@ -509,7 +509,7 @@ export interface AppearanceRendererSettingsMap {
   xterm: XtermAppearanceSettings;
   mermaid: MermaidAppearanceSettings;
   'generative-widget': WidgetAppearanceSettings;
-  'openbitfun-canvas': CanvasAppearanceSettings;
+  'opc-canvas': CanvasAppearanceSettings;
 }
 
 export type AppearanceRendererSettings = AppearanceRendererSettingsMap[AppearanceRendererId];
@@ -577,7 +577,7 @@ export interface AppearancePartDescriptor {
 
 export interface AppearanceFacetDescriptor {
   id: string;
-  attribute: `data-openbitfun-${string}`;
+  attribute: `data-opc-${string}`;
   values: readonly string[];
 }
 
@@ -592,7 +592,7 @@ export interface AppearanceSurfaceDescriptor {
   id: string;
   /** Current DOM surface id used when this descriptor reads a legacy persisted id. */
   hostSelectorId?: string;
-  componentAttribute?: 'data-openbitfun-component' | 'data-openbitfun-product-component';
+  componentAttribute?: 'data-opc-component' | 'data-opc-product-component';
   parts: readonly AppearancePartDescriptor[];
   facets?: readonly AppearanceFacetDescriptor[];
   states?: readonly AppearanceStateDescriptor[];

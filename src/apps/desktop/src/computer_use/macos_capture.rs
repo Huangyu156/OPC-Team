@@ -57,7 +57,7 @@ pub(super) struct CaptureFrame {
     pub height: u32,
     pub window_id: u32,
     pub bounds: [f64; 4],
-    pub scope: openbitfun_agent_tools::computer_use_control::ObservationScope,
+    pub scope: opc_agent_tools::computer_use_control::ObservationScope,
 }
 
 struct CaptureSession {
@@ -146,7 +146,7 @@ impl CaptureSession {
             height,
             window_id,
             bounds,
-            scope: openbitfun_agent_tools::computer_use_control::ObservationScope {
+            scope: opc_agent_tools::computer_use_control::ObservationScope {
                 generation: self.generation,
                 target_revision: self.target_revision,
                 target: Some(format!("pid:{}/window:{}", self.pid, window_id)),

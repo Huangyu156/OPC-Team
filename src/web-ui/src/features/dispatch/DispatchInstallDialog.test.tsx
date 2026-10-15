@@ -259,7 +259,7 @@ describe('DispatchInstallDialog target preparation', () => {
     expect(container.textContent).toContain('dispatch.oneClickDeploy');
     expect(container.textContent).toContain('1.2.3');
     expect(container.textContent).toContain('abc123');
-    expect(container.querySelector('[data-openbitfun-component="disclosure"] button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
+    expect(container.querySelector('[data-opc-component="disclosure"] button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
     expect(container.textContent).not.toContain('dispatch.installAutomaticDescription');
     expect(mocks.dialogLifecycleProps).toEqual({
       closeOnPointerOutside: true,

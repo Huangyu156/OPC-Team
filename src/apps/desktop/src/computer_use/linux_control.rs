@@ -60,7 +60,7 @@ async fn proxy<'a>(
 
 fn token() -> String {
     format!(
-        "openbitfun_{}_{}",
+        "opc_{}_{}",
         std::process::id(),
         TOKEN.fetch_add(1, Ordering::Relaxed)
     )
@@ -866,7 +866,7 @@ mod native_tests {
     #[test]
     fn portal_scope_does_not_rebind_app_targets_or_accept_stale_authorization() {
         use super::super::control_session as control;
-        use openbitfun_agent_tools::computer_use_control::ControlMode;
+        use opc_agent_tools::computer_use_control::ControlMode;
         let owner = "portal-scope-fixture";
         let initial = control::start(owner, ControlMode::Observe).unwrap();
         let token = control::capture_token().unwrap();
@@ -895,7 +895,7 @@ mod native_tests {
     #[tokio::test]
     #[ignore = "requires a real desktop portal and interactive consent for the dedicated fixture window"]
     async fn portal_observe_lifecycle() {
-        use openbitfun_agent_tools::computer_use_control::ControlMode;
+        use opc_agent_tools::computer_use_control::ControlMode;
         super::super::control_session::start("native-linux-portal-fixture", ControlMode::Observe)
             .unwrap();
         start_session(false)

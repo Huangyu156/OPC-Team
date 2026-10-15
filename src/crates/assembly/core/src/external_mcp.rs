@@ -3,14 +3,14 @@ use crate::service::mcp::{
     MCPServerTransport, MCPServerType,
 };
 use async_trait::async_trait;
-use openbitfun_external_sources::ExternalMcpCoordinatorSnapshot;
-use openbitfun_product_domains::external_sources::{
+use opc_external_sources::ExternalMcpCoordinatorSnapshot;
+use opc_product_domains::external_sources::{
     external_mcp_approval_key, external_mcp_conflict_key, EcosystemId, ExternalMcpActivationState,
     ExternalMcpApprovalRequest, ExternalMcpCatalogEntry, ExternalMcpConflict,
     ExternalMcpConflictCandidate, ExternalMcpServerDefinition, ExternalMcpStaticStatus,
     ExternalSourceDiagnostic, PreparedExternalMcpServer, PreparedExternalMcpTransport,
 };
-use openbitfun_services_integrations::mcp::server::MCPServerStartFailure;
+use opc_services_integrations::mcp::server::MCPServerStartFailure;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
@@ -565,7 +565,7 @@ fn build_conflict(
     execution_domain_id: &str,
     workspace_key: &str,
     group: &CandidateGroup<'_>,
-    source_names: &BTreeMap<openbitfun_product_domains::external_sources::SourceKey, String>,
+    source_names: &BTreeMap<opc_product_domains::external_sources::SourceKey, String>,
     conflict_choices: &BTreeMap<String, String>,
 ) -> ExternalMcpConflict {
     let server_name = group

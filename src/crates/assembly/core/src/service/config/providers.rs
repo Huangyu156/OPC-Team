@@ -14,9 +14,9 @@ use crate::util::errors::*;
 use async_trait::async_trait;
 use log::{error, info};
 #[cfg(any(feature = "ai-adapter-runtime", test))]
-use openbitfun_core_types::ReasoningCatalogBinding;
+use opc_core_types::ReasoningCatalogBinding;
 #[cfg(test)]
-use openbitfun_core_types::{ReasoningConfig, ReasoningPreset, ReasoningPresetAction};
+use opc_core_types::{ReasoningConfig, ReasoningPreset, ReasoningPresetAction};
 use std::collections::HashMap;
 
 fn serialize_default_config(section: &str, value: impl serde::Serialize) -> serde_json::Value {
@@ -181,7 +181,7 @@ impl ConfigProvider for AIConfigProvider {
             }
 
             for (index, model) in ai_config.models.iter().enumerate() {
-                openbitfun_config_contracts::normalization::validate_model_config(model, index)
+                opc_config_contracts::normalization::validate_model_config(model, index)
                     .map_err(OpcTeamError::validation)?;
                 if !model.enabled {
                     continue;

@@ -91,7 +91,7 @@ export const GrepSearchDisplay: React.FC<ToolCardProps> = ({
   }
 
   return (
-    <div ref={cardRootRef} data-openbitfun-adapter="grep-search" data-tool-card-id={toolId ?? ''}>
+    <div ref={cardRootRef} data-opc-adapter="grep-search" data-tool-card-id={toolId ?? ''}>
       <GrepSearchToolCard
         action={t('toolCards.grepSearch.searchText')}
         status={status}

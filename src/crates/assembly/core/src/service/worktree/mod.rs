@@ -12,13 +12,13 @@ use crate::service::workspace::{
     get_global_workspace_service, WorkspaceActivityMode, WorkspaceCreateOptions, WorkspaceKind,
 };
 use crate::service::workspace_runtime::get_workspace_runtime_service_arc;
-use openbitfun_core_types::{
+use opc_core_types::{
     product_identity::hidden_data_directory, SessionExecutionTarget, SessionExecutionTargetKind,
     WorktreeError, WorktreeErrorCode, WorktreeLifecycle, WorktreeSessionSummary, WorktreeSettings,
     WorktreeSummary,
 };
-use openbitfun_services_core::json_store::JsonFileStore;
-use openbitfun_services_core::session::{SessionMetadata, SessionMetadataStore, SessionStatus};
+use opc_services_core::json_store::JsonFileStore;
+use opc_services_core::session::{SessionMetadata, SessionMetadataStore, SessionStatus};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::{HashMap, HashSet};
@@ -1026,7 +1026,7 @@ impl WorktreeService {
 
     async fn acquire_repository_process_lock(
         context: &RepositoryContext,
-    ) -> Result<openbitfun_services_core::json_store::JsonFileCrossProcessLock, WorktreeError> {
+    ) -> Result<opc_services_core::json_store::JsonFileCrossProcessLock, WorktreeError> {
         JsonFileStore
             .acquire_cross_process_lock(&context.registry_path)
             .await
@@ -2085,9 +2085,7 @@ mod tests {
     };
     use crate::infrastructure::PathManager;
     use crate::service::git::GitError;
-    use openbitfun_core_types::{
-        WorktreeErrorCode, WorktreeLifecycle, WorktreeSettings, WorktreeSummary,
-    };
+    use opc_core_types::{WorktreeErrorCode, WorktreeLifecycle, WorktreeSettings, WorktreeSummary};
     use std::path::Path;
 
     fn removable_summary() -> WorktreeSummary {
@@ -2282,12 +2280,12 @@ mod tests {
 
     #[test]
     fn windows_style_default_root_uses_the_managed_path_contract() {
-        let user_root = std::env::temp_dir().join("openbitfun-worktree-root-test");
+        let user_root = std::env::temp_dir().join("opc-worktree-root-test");
         let path_manager = PathManager::with_user_root_for_tests(user_root);
         let settings = WorktreeSettings {
             root_path: format!(
                 r"~\{}\worktrees",
-                openbitfun_core_types::product_identity::hidden_data_directory()
+                opc_core_types::product_identity::hidden_data_directory()
             ),
             ..WorktreeSettings::default()
         };

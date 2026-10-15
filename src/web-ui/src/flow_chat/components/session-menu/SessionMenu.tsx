@@ -94,10 +94,10 @@ export const SessionMenu: React.FC<SessionMenuProps> = ({ onOpenChange }) => {
   return (
     <div
       ref={rootRef}
-      className="openbitfun-session-menu"
-      data-openbitfun-component="session-menu"
-      data-openbitfun-part="root"
-      data-openbitfun-state={isMenuOpen ? 'open' : undefined}
+      className="opc-session-menu"
+      data-opc-component="session-menu"
+      data-opc-part="root"
+      data-opc-state={isMenuOpen ? 'open' : undefined}
       onKeyDown={handleKeyDown}
     >
       <Tooltip content={t('toolCards.toolbar.openSessionMenu')}>
@@ -105,11 +105,11 @@ export const SessionMenu: React.FC<SessionMenuProps> = ({ onOpenChange }) => {
           ref={triggerRef}
           type="button"
           className={[
-            'openbitfun-session-menu__trigger',
-            isMenuOpen ? 'openbitfun-session-menu__trigger--open' : '',
+            'opc-session-menu__trigger',
+            isMenuOpen ? 'opc-session-menu__trigger--open' : '',
           ].filter(Boolean).join(' ')}
-          data-openbitfun-component="session-menu"
-          data-openbitfun-part="trigger"
+          data-opc-component="session-menu"
+          data-opc-part="trigger"
           onClick={toggleMenu}
           aria-expanded={isMenuOpen}
           aria-haspopup="listbox"
@@ -120,10 +120,10 @@ export const SessionMenu: React.FC<SessionMenuProps> = ({ onOpenChange }) => {
 
       {isMenuOpen && createOverlayPortal(
         <Menu
-          className="openbitfun-session-menu__dropdown"
-          data-openbitfun-component="session-menu"
-          data-openbitfun-part="dropdown"
-          data-openbitfun-placement={dropdownLayout?.placement ?? 'bottom'}
+          className="opc-session-menu__dropdown"
+          data-opc-component="session-menu"
+          data-opc-part="dropdown"
+          data-opc-placement={dropdownLayout?.placement ?? 'bottom'}
           ref={dropdownRef}
           style={{
             top: `${dropdownLayout?.top ?? 0}px`,
@@ -132,36 +132,36 @@ export const SessionMenu: React.FC<SessionMenuProps> = ({ onOpenChange }) => {
           }}
           onMouseDown={(e) => e.stopPropagation()}
         >
-          <MenuList className="openbitfun-session-menu__actions" data-openbitfun-component="session-menu" data-openbitfun-part="actions">
+          <MenuList className="opc-session-menu__actions" data-opc-component="session-menu" data-opc-part="actions">
             <MenuItem data-overflow-trigger
               type="button"
-              className="openbitfun-session-menu__item-row openbitfun-session-menu__item-row--new openbitfun-session-menu__item--new"
-              data-openbitfun-component="session-menu"
-              data-openbitfun-part="item"
-              data-openbitfun-item-kind="create"
-              data-openbitfun-session-kind="unified"
+              className="opc-session-menu__item-row opc-session-menu__item-row--new opc-session-menu__item--new"
+              data-opc-component="session-menu"
+              data-opc-part="item"
+              data-opc-item-kind="create"
+              data-opc-session-kind="unified"
               onMouseDown={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
                 createSession();
               }}
               leading={(
-                <span className="openbitfun-session-menu__item-icon" data-openbitfun-component="session-menu" data-openbitfun-part="itemIcon">
+                <span className="opc-session-menu__item-icon" data-opc-component="session-menu" data-opc-part="itemIcon">
                   <Icon name="plus" size="sm" />
                 </span>
               )}
             >
-              <OverflowText className="openbitfun-session-menu__item-label" data-openbitfun-component="session-menu" data-openbitfun-part="itemLabel">
+              <OverflowText className="opc-session-menu__item-label" data-opc-component="session-menu" data-opc-part="itemLabel">
                 {t('toolCards.toolbar.newSessionItem')}
               </OverflowText>
             </MenuItem>
-            <MenuSeparator className="openbitfun-session-menu__divider" data-openbitfun-component="session-menu" data-openbitfun-part="divider" />
+            <MenuSeparator className="opc-session-menu__divider" data-opc-component="session-menu" data-opc-part="divider" />
           </MenuList>
 
           <MenuList
-            className="openbitfun-session-menu__scroll"
-            data-openbitfun-component="session-menu"
-            data-openbitfun-part="scroll"
+            className="opc-session-menu__scroll"
+            data-opc-component="session-menu"
+            data-opc-part="scroll"
             aria-label={t('session.switchSession')}
           >
             {sessions.map((session) => {
@@ -173,13 +173,13 @@ export const SessionMenu: React.FC<SessionMenuProps> = ({ onOpenChange }) => {
                   role="menuitemradio"
                   checked={session.sessionId === activeSessionId}
                   className={[
-                    'openbitfun-session-menu__item-row',
-                    session.sessionId === activeSessionId ? 'openbitfun-session-menu__item-row--active' : '',
+                    'opc-session-menu__item-row',
+                    session.sessionId === activeSessionId ? 'opc-session-menu__item-row--active' : '',
                   ].filter(Boolean).join(' ')}
-                  data-openbitfun-component="session-menu"
-                  data-openbitfun-part="item"
-                  data-openbitfun-item-kind="session"
-                  data-openbitfun-state={session.sessionId === activeSessionId ? 'active' : undefined}
+                  data-opc-component="session-menu"
+                  data-opc-part="item"
+                  data-opc-item-kind="session"
+                  data-opc-state={session.sessionId === activeSessionId ? 'active' : undefined}
                   // Root cause: the index used to be a MenuItem child, which ActionItem
                   // nests inside the label's own overflow slot. That slot is a block box,
                   // so a wider index wrapped onto its own line and jammed against the row

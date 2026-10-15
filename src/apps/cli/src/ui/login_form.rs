@@ -12,7 +12,7 @@ use ratatui::{
 };
 
 use crate::ui::theme::{StyleKind, Theme};
-use openbitfun_product_domains::account::{AccountDevice, AccountInfo, GitHubAuthStart};
+use opc_product_domains::account::{AccountDevice, AccountInfo, GitHubAuthStart};
 
 /// Action returned after handling a key event.
 #[derive(Debug, Clone)]

@@ -4,7 +4,7 @@
 //! a profile launcher, and a profile is just a directory under
 //! `$DSH_HOME/profiles/`. So instead of publishing the bridge to a registry, we
 //! copy the built profile next to the harness the user already installed and
-//! launch it with `dsh --profile openbitfun-acp`. Every `@deepseek-ai/dsh-*` row in
+//! launch it with `dsh --profile opc-acp`. Every `@deepseek-ai/dsh-*` row in
 //! that profile resolves out of the user's own installation through the flat
 //! `profiles/node_modules` fallback the launcher maintains, so nothing here
 //! installs a second harness, and the user's model and credentials — which live
@@ -21,8 +21,8 @@ use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::time::Duration;
 
-use openbitfun_core::service::remote_ssh::SSHConnectionManager;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::service::remote_ssh::SSHConnectionManager;
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use serde::Deserialize;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
@@ -40,7 +40,7 @@ const SOURCE_DIR_ENV: &str = "OPENBITFUN_DSH_PROFILE_DIR";
 const DSH_HOME_ENV: &str = "DSH_HOME";
 
 /// Basename of the build stamp `scripts/build-profile.mjs` writes.
-const STAMP_FILENAME: &str = ".openbitfun-bridge.json";
+const STAMP_FILENAME: &str = ".opc-bridge.json";
 
 /// Directories the build owns end to end, replaced rather than merged.
 ///
@@ -655,8 +655,7 @@ mod tests {
     use super::*;
 
     fn scratch_directory(label: &str) -> PathBuf {
-        let path =
-            std::env::temp_dir().join(format!("openbitfun-dsh-{label}-{}", uuid::Uuid::new_v4()));
+        let path = std::env::temp_dir().join(format!("opc-dsh-{label}-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&path).expect("scratch directory should be created");
         path
     }
@@ -668,7 +667,7 @@ mod tests {
         std::fs::write(
             root.join(STAMP_FILENAME),
             format!(
-                r#"{{"bridge":"0.0.1","content":"{content}","minDshVersion":"0.1.0-rc.6","profile":"openbitfun-acp"}}"#
+                r#"{{"bridge":"0.0.1","content":"{content}","minDshVersion":"0.1.0-rc.6","profile":"opc-acp"}}"#
             ),
         )
         .expect("stamp should be written");
@@ -719,7 +718,7 @@ mod tests {
             .expect("stamp should be present");
         assert_eq!(stamp.content, "digest");
         assert_eq!(stamp.min_dsh_version, "0.1.0-rc.6");
-        assert_eq!(profile_name_of(&source).as_deref(), Some("openbitfun-acp"));
+        assert_eq!(profile_name_of(&source).as_deref(), Some("opc-acp"));
 
         let empty = scratch_directory("stamp-empty");
         assert!(read_stamp(&empty)
@@ -752,7 +751,7 @@ mod tests {
             Some(source.to_string_lossy().as_ref()),
             || {
                 assert_eq!(
-                    bundled_profile_source("openbitfun-acp").as_deref(),
+                    bundled_profile_source("opc-acp").as_deref(),
                     Some(source.as_path())
                 );
             },
@@ -766,7 +765,7 @@ mod tests {
 
     #[test]
     fn the_remote_probe_answers_every_question_in_one_round_trip() {
-        let script = remote_probe_script("openbitfun-acp", "dsh", "");
+        let script = remote_probe_script("opc-acp", "dsh", "");
 
         // $DSH_HOME is resolved on the far side: reading it here would point at
         // the developer's own install, not the workspace's.
@@ -839,7 +838,7 @@ mod tests {
 
     #[test]
     fn the_remote_install_replaces_exactly_what_the_local_one_replaces() {
-        let script = remote_install_script("openbitfun-acp", "export DSH_HOME=/opt/dsh\n");
+        let script = remote_install_script("opc-acp", "export DSH_HOME=/opt/dsh\n");
 
         assert!(script.starts_with("set -e\n"));
         assert!(script.contains("export DSH_HOME=/opt/dsh"));

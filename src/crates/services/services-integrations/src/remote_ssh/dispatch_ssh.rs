@@ -13,7 +13,7 @@
 
 use anyhow::{anyhow, Context, Result};
 use base64::Engine as _;
-use openbitfun_services_core::dispatch_contract::{
+use opc_services_core::dispatch_contract::{
     DispatchAccountDaemonIdentity, DispatchAccountDaemonProvisionRequest,
     DispatchAccountDaemonProvisionResponse, DISPATCH_ACCOUNT_DAEMON_PROVISIONING_CAPABILITY,
 };
@@ -93,7 +93,7 @@ impl Drop for UnverifiedResultBundle {
 /// `scripts/ci/check-glibc-floor.sh`, which enforces it at release time.
 const GLIBC_FLOOR: &str = "2.35";
 const DISPATCH_PROTOCOL_VERSION: u64 =
-    openbitfun_services_core::dispatch_contract::DISPATCH_PROTOCOL_VERSION as u64;
+    opc_services_core::dispatch_contract::DISPATCH_PROTOCOL_VERSION as u64;
 /// First stable release whose CLI is known to contain every capability below.
 ///
 /// Development builds can require capabilities before their next stable
@@ -105,8 +105,7 @@ const FIRST_COMPATIBLE_STABLE_DISPATCH_RELEASE: (u64, u64, u64) = (1, 0, 0);
 /// plus the platform-conditional detached worker.
 static REQUIRED_DISPATCH_CAPABILITIES: std::sync::LazyLock<Vec<&'static str>> =
     std::sync::LazyLock::new(|| {
-        openbitfun_services_core::dispatch_contract::dispatch_required_target_capabilities()
-            .collect()
+        opc_services_core::dispatch_contract::dispatch_required_target_capabilities().collect()
     });
 
 fn install_state_relative_dir() -> String {
@@ -440,7 +439,7 @@ fn dispatch_protocol_is_compatible(protocol: &Value) -> bool {
 /// complete dispatch surface. Submission may validate only the selected
 /// unattended approval behavior in addition to the transport invariants.
 pub fn validate_dispatch_protocol(protocol: &Value, approval_policy: Option<&str>) -> Result<()> {
-    let expected_product_id = openbitfun_services_core::product_identity::product_id();
+    let expected_product_id = opc_services_core::product_identity::product_id();
     let product_id = protocol
         .get("productId")
         .and_then(Value::as_str)
@@ -451,7 +450,7 @@ pub fn validate_dispatch_protocol(protocol: &Value, approval_policy: Option<&str
         ));
     }
 
-    let expected_data_namespace = openbitfun_services_core::product_identity::data_namespace();
+    let expected_data_namespace = opc_services_core::product_identity::data_namespace();
     let data_namespace = protocol
         .get("dataNamespace")
         .and_then(Value::as_str)
@@ -547,7 +546,7 @@ pub async fn install_cli_start(
     let script_path = format!("{dir}/{INSTALL_STEM}.sh");
     let install_token = format!(
         "{}-install-{}",
-        openbitfun_services_core::product_identity::data_namespace(),
+        opc_services_core::product_identity::data_namespace(),
         uuid::Uuid::new_v4().as_simple()
     );
 
@@ -1263,7 +1262,7 @@ pub async fn sync_model_config(
         ),
     )
     .await?;
-    let data_namespace = openbitfun_services_core::product_identity::data_namespace();
+    let data_namespace = opc_services_core::product_identity::data_namespace();
     let staging_path = format!("{config_path}.{data_namespace}-sync.tmp");
     manager
         .sftp_write(connection_id, &staging_path, merged.as_bytes())
@@ -1342,7 +1341,7 @@ fn merge_model_config(
 /// namespace is refused as incompatible. A hardcoded product directory made the
 /// sync read and write a path the target never consults.
 fn locate_target_config_script() -> String {
-    let namespace = shell_quote_posix(openbitfun_services_core::product_identity::data_namespace());
+    let namespace = shell_quote_posix(opc_services_core::product_identity::data_namespace());
     format!(
         r#"
 LC_ALL=C
@@ -2049,7 +2048,7 @@ async fn invoke_json_at_path(
     verb: &'static str,
     request: &Value,
 ) -> Result<Value> {
-    use openbitfun_core_types::agent_identity_wire::{
+    use opc_core_types::agent_identity_wire::{
         translate_agent_identity_command, translate_agent_identity_response, AgentIdentityDialect,
     };
     let request =
@@ -2265,7 +2264,7 @@ async fn resolve_release(os: &str, arch: &str) -> Result<ResolvedRelease> {
     let target = release_target(os, arch)?;
     let client = release_http_client()?;
     let version = fetch_latest_release_version(&client).await?;
-    let filename = format!("openbitfun-cli-{version}-{target}.tar.gz");
+    let filename = format!("opc-cli-{version}-{target}.tar.gz");
     let sources = release_sources(&version, &filename);
     let (sha256, checksum_signature_verified) =
         resolve_release_digest(&client, &sources, pubkey, &filename).await?;
@@ -2638,7 +2637,7 @@ fn extend_bounded_archive(archive: &mut Vec<u8>, chunk: &[u8], limit: usize) -> 
 /// every signed release installation.
 fn install_preamble_fragment(dir: &str, expected_version: &str) -> String {
     let product_home = product_home_shell_path(&[]);
-    let hidden_data_directory = openbitfun_services_core::product_identity::hidden_data_directory();
+    let hidden_data_directory = opc_services_core::product_identity::hidden_data_directory();
     format!(
         r#"#!/bin/bash
 set -euo pipefail
@@ -2692,8 +2691,8 @@ chmod 700 "{product_home}" "$STAGE"
 ///
 /// `post_commit` runs once the swap has succeeded, for path-specific cleanup.
 fn install_commit_fragment(post_commit: &str) -> String {
-    let product_id = openbitfun_services_core::product_identity::product_id();
-    let data_namespace = openbitfun_services_core::product_identity::data_namespace();
+    let product_id = opc_services_core::product_identity::product_id();
+    let data_namespace = opc_services_core::product_identity::data_namespace();
     format!(
         r#"cp "$BINARY" "$NEW"
 chmod 755 "$NEW"
@@ -2779,7 +2778,7 @@ for candidate in "$TMP"/*/openbitfun; do
   [ -z "$BINARY" ] || {{ echo "ERROR: archive contains multiple openbitfun binaries" >&2; exit 1; }}
   BINARY="$candidate"
 done
-for candidate in "$TMP"/*/openbitfun-cli; do
+for candidate in "$TMP"/*/opc-cli; do
   [ ! -e "$candidate" ] || {{ echo "ERROR: archive contains an unsupported legacy CLI entrypoint" >&2; exit 1; }}
 done
 [ -n "$BINARY" ] || {{ echo "ERROR: archive contains no openbitfun binary" >&2; exit 1; }}
@@ -3160,7 +3159,7 @@ mod tests {
         let driver = install_driver_script(
             &install_dir,
             &managed_install_path("install-cli-body.sh"),
-            "openbitfun-install-test-token",
+            "opc-install-test-token",
         );
         for (name, script) in [("body", body), ("driver", driver)] {
             let script = to_unix_script(&script);
@@ -3174,8 +3173,8 @@ mod tests {
     }
 
     fn test_release(checksum_signature_verified: bool) -> ResolvedRelease {
-        let github_url = "https://github.example.invalid/openbitfun-cli.tar.gz";
-        let mirror_url = "https://mirror.example.invalid/openbitfun-cli.tar.gz";
+        let github_url = "https://github.example.invalid/opc-cli.tar.gz";
+        let mirror_url = "https://mirror.example.invalid/opc-cli.tar.gz";
         ResolvedRelease {
             public: DispatchCliRelease {
                 version: "1.2.3".to_string(),
@@ -3183,7 +3182,7 @@ mod tests {
                 url: github_url.to_string(),
                 sha256: "a".repeat(64),
             },
-            filename: "openbitfun-cli.tar.gz".to_string(),
+            filename: "opc-cli.tar.gz".to_string(),
             sources: [
                 (ReleaseOrigin::GitHub, github_url),
                 (ReleaseOrigin::OpenBitFun, mirror_url),
@@ -3455,8 +3454,8 @@ mod tests {
     }
 
     #[test]
-    fn latest_cli_sources_are_github_then_the_versioned_openbitfun_mirror() {
-        let filename = "openbitfun-cli-1.2.3-x86_64-unknown-linux-gnu.tar.gz";
+    fn latest_cli_sources_are_github_then_the_versioned_opc_mirror() {
+        let filename = "opc-cli-1.2.3-x86_64-unknown-linux-gnu.tar.gz";
         let sources = release_sources("1.2.3", filename);
         assert_eq!(sources[0].origin, ReleaseOrigin::GitHub);
         assert_eq!(
@@ -3622,7 +3621,7 @@ mod tests {
     }
 
     #[test]
-    fn install_body_stages_only_the_openbitfun_binary_under_its_real_name() {
+    fn install_body_stages_only_the_opc_binary_under_its_real_name() {
         let body = install_body_script(
             &managed_install_dir(),
             &managed_install_path("archive.tar.gz"),
@@ -3643,11 +3642,11 @@ mod tests {
         );
         assert!(body.contains(&format!(
             r#""productId":"{}""#,
-            openbitfun_services_core::product_identity::product_id()
+            opc_services_core::product_identity::product_id()
         )));
         assert!(body.contains(&format!(
             r#""dataNamespace":"{}""#,
-            openbitfun_services_core::product_identity::data_namespace()
+            opc_services_core::product_identity::data_namespace()
         )));
     }
 
@@ -3661,8 +3660,8 @@ mod tests {
              exit 0\n\
              fi\n\
              echo \"openbitfun 1.2.3\"\n",
-            openbitfun_services_core::product_identity::product_id(),
-            openbitfun_services_core::product_identity::data_namespace(),
+            opc_services_core::product_identity::product_id(),
+            opc_services_core::product_identity::data_namespace(),
             DISPATCH_PROTOCOL_VERSION,
         )
     }
@@ -3730,7 +3729,7 @@ mod tests {
         let home = temp.path().to_path_buf();
         let install_dir = home.join(install_state_relative_dir());
         std::fs::create_dir_all(&install_dir).expect("install dir");
-        let pkg = temp.path().join("pkg/openbitfun-cli-1.2.3-test");
+        let pkg = temp.path().join("pkg/opc-cli-1.2.3-test");
         std::fs::create_dir_all(&pkg).expect("package dir");
         std::fs::write(pkg.join("openbitfun"), primary).expect("write binary");
         std::fs::set_permissions(
@@ -3744,7 +3743,7 @@ mod tests {
             .arg(&archive)
             .arg("-C")
             .arg(temp.path().join("pkg"))
-            .arg("openbitfun-cli-1.2.3-test")
+            .arg("opc-cli-1.2.3-test")
             .status()
             .expect("run tar")
             .success());
@@ -3769,7 +3768,7 @@ mod tests {
 
     #[cfg(unix)]
     #[test]
-    fn install_body_installs_only_openbitfun_onto_a_bare_host() {
+    fn install_body_installs_only_opc_onto_a_bare_host() {
         let binary = dispatch_capable_binary("[\"dispatch_worker_cli_profile\"]");
         let (output, temp) = run_install_body_fixture(&binary);
         let home = temp.path();
@@ -3816,7 +3815,7 @@ mod tests {
             install_driver_script(
                 &managed_install_dir(),
                 &managed_install_path("install-cli-body.sh"),
-                "openbitfun-install-test-token",
+                "opc-install-test-token",
             ),
             target_download_script(
                 RemoteDownloader::Curl,
@@ -3921,7 +3920,7 @@ mod tests {
         std::fs::create_dir_all(&state_dir).expect("install state dir");
         let body_path = state_dir.join(format!("{INSTALL_STEM}-body.sh"));
         std::fs::write(&body_path, "sleep 30\n").expect("installer body");
-        let token = "openbitfun-install-test-token";
+        let token = "opc-install-test-token";
         let mut installer = std::process::Command::new("bash")
             .arg(&body_path)
             .arg(token)
@@ -3969,7 +3968,7 @@ mod tests {
             format!("touch {}\n", shell_quote_posix(&sentinel.to_string_lossy())),
         )
         .expect("installer body");
-        let token = "openbitfun-install-cancelled-before-driver";
+        let token = "opc-install-cancelled-before-driver";
         let driver = install_driver_script(
             &state_dir.to_string_lossy(),
             &body_path.to_string_lossy(),
@@ -4088,7 +4087,7 @@ mod tests {
     #[test]
     fn target_config_lookup_tracks_the_compiled_data_namespace() {
         let script = locate_target_config_script();
-        let namespace = openbitfun_services_core::product_identity::data_namespace();
+        let namespace = opc_services_core::product_identity::data_namespace();
 
         assert!(script.contains(&format!("NAMESPACE={}", shell_quote_posix(namespace))));
         // Both platform branches must append the data namespace to the OS config
@@ -4192,24 +4191,24 @@ mod tests {
     fn incompatible_dispatch_protocols_require_an_upgrade() {
         let capabilities = REQUIRED_DISPATCH_CAPABILITIES.clone();
         let compatible = serde_json::json!({
-            "productId": openbitfun_services_core::product_identity::product_id(),
-            "dataNamespace": openbitfun_services_core::product_identity::data_namespace(),
+            "productId": opc_services_core::product_identity::product_id(),
+            "dataNamespace": opc_services_core::product_identity::data_namespace(),
             "protocolVersion": DISPATCH_PROTOCOL_VERSION,
             "capabilities": capabilities,
         });
         assert!(dispatch_protocol_is_compatible(&compatible));
 
         let old = serde_json::json!({
-            "productId": openbitfun_services_core::product_identity::product_id(),
-            "dataNamespace": openbitfun_services_core::product_identity::data_namespace(),
+            "productId": opc_services_core::product_identity::product_id(),
+            "dataNamespace": opc_services_core::product_identity::data_namespace(),
             "protocolVersion": DISPATCH_PROTOCOL_VERSION - 1,
             "capabilities": capabilities,
         });
         assert!(!dispatch_protocol_is_compatible(&old));
 
         let missing = serde_json::json!({
-            "productId": openbitfun_services_core::product_identity::product_id(),
-            "dataNamespace": openbitfun_services_core::product_identity::data_namespace(),
+            "productId": opc_services_core::product_identity::product_id(),
+            "dataNamespace": opc_services_core::product_identity::data_namespace(),
             "protocolVersion": DISPATCH_PROTOCOL_VERSION,
             "capabilities": ["persistent_jobs", "cursor_events"],
         });
@@ -4234,8 +4233,8 @@ mod tests {
             .collect();
         reject_capabilities.push("approval_reject_and_report");
         let reject_only = serde_json::json!({
-            "productId": openbitfun_services_core::product_identity::product_id(),
-            "dataNamespace": openbitfun_services_core::product_identity::data_namespace(),
+            "productId": opc_services_core::product_identity::product_id(),
+            "dataNamespace": opc_services_core::product_identity::data_namespace(),
             "protocolVersion": DISPATCH_PROTOCOL_VERSION,
             "capabilities": reject_capabilities,
         });
@@ -4252,8 +4251,8 @@ mod tests {
             .collect();
         unsafe_capabilities.push("approval_reject_and_report");
         let unsafe_worker = serde_json::json!({
-            "productId": openbitfun_services_core::product_identity::product_id(),
-            "dataNamespace": openbitfun_services_core::product_identity::data_namespace(),
+            "productId": opc_services_core::product_identity::product_id(),
+            "dataNamespace": opc_services_core::product_identity::data_namespace(),
             "protocolVersion": DISPATCH_PROTOCOL_VERSION,
             "capabilities": unsafe_capabilities,
         });

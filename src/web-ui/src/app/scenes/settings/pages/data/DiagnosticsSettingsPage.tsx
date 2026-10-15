@@ -177,8 +177,8 @@ function LoggingSection() {
   }
 
   return (
-    <div className="openbitfun-logging-config" data-openbitfun-component="application-settings" data-openbitfun-part="logging">
-      <div className="openbitfun-logging-config__content">
+    <div className="opc-logging-config" data-opc-component="application-settings" data-opc-part="logging">
+      <div className="opc-logging-config__content">
         <ConfigMessage message={message} />
 
         {runtimeInfo?.previousUnexpectedExit?.detected && runtimeInfo.previousUnexpectedExit.category === 'crash' && (
@@ -226,9 +226,9 @@ function LoggingSection() {
             description={t('logging.path.description')}
             multiline
           >
-            <div className="openbitfun-logging-config__path-row" data-openbitfun-component="application-settings" data-openbitfun-part="logPath">
+            <div className="opc-logging-config__path-row" data-opc-component="application-settings" data-opc-part="logPath">
               <Input
-                className="openbitfun-logging-config__path-box"
+                className="opc-logging-config__path-box"
                 aria-label={t('logging.sections.path')}
                 title={runtimeInfo?.sessionLogDir || undefined}
                 value={runtimeInfo?.sessionLogDir || '-'}
@@ -286,6 +286,6 @@ function LoggingSection() {
 }
 const DiagnosticsSettingsPage: React.FC = () => {
 
-  return <SettingsPage pageId="data.diagnostics" data-openbitfun-component="application-settings" data-openbitfun-part="root"><LoggingSection /></SettingsPage>;
+  return <SettingsPage pageId="data.diagnostics" data-opc-component="application-settings" data-opc-part="root"><LoggingSection /></SettingsPage>;
 };
 export default DiagnosticsSettingsPage;

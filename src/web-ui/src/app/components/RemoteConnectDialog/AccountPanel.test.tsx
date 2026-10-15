@@ -168,7 +168,7 @@ it('offers a retry when the Relay is temporarily unavailable', async () => {
   const retryButtons = Array.from(container.querySelectorAll('button'))
     .filter(node => node.textContent === 'accountLogin.retryConnect');
   expect(retryButtons).toHaveLength(1);
-  expect(retryButtons[0]!.closest('[data-openbitfun-part="error"]')).not.toBeNull();
+  expect(retryButtons[0]!.closest('[data-opc-part="error"]')).not.toBeNull();
 });
 
 async function retryConnection() {
@@ -294,7 +294,7 @@ it('marks each row with the system it reported, a server for a CLI host, and the
   await act(async () => { root.render(<AccountPanel onCloseDialog={() => {}} />); });
 
   const rowFor = (name: string) => Array.from(
-    container.querySelectorAll('[data-openbitfun-part="deviceCard"]'),
+    container.querySelectorAll('[data-opc-part="deviceCard"]'),
   ).find(row => row.textContent?.includes(name));
 
   expect(rowFor('lwb_winpc')?.querySelector('[data-system]')?.getAttribute('data-system')).toBe('windows');
@@ -460,9 +460,9 @@ it('groups the account and its devices into titled sections with fixed row colum
   const titles = Array.from(container.querySelectorAll('.account-panel__section-title')).map(node => node.textContent);
   expect(titles).toEqual(['accountLogin.accountSectionTitle', 'accountLogin.linkedDevices']);
   const statuses = Array.from(container.querySelectorAll('.account-panel__device-status'))
-    .map(node => node.getAttribute('data-openbitfun-state'));
+    .map(node => node.getAttribute('data-opc-state'));
   expect(statuses).toEqual(['online', 'offline']);
-  for (const row of container.querySelectorAll('[data-openbitfun-part="deviceCard"]')) {
+  for (const row of container.querySelectorAll('[data-opc-part="deviceCard"]')) {
     const children = Array.from(row.children).map(node => node.className);
     expect(children).toEqual([
       'account-panel__device-select',
@@ -477,5 +477,5 @@ it('shows the sign-in action inside the account section when signed out', async 
   mocks.accountStatus.mockReset().mockResolvedValue({ logged_in: false });
   await act(async () => { root.render(<AccountPanel onCloseDialog={() => {}} />); });
   expect(container.querySelector('.account-panel__section-title')?.textContent).toBe('accountLogin.accountSectionTitle');
-  expect(container.querySelector('[data-openbitfun-part="form"]')?.textContent).toContain('accountLogin.login');
+  expect(container.querySelector('[data-opc-part="form"]')?.textContent).toContain('accountLogin.login');
 });

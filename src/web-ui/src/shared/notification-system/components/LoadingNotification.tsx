@@ -38,9 +38,9 @@ export const LoadingNotification: React.FC<LoadingNotificationProps> = ({ notifi
   return (
     <div
       className={`loading-notification loading-notification--${status || 'active'}`}
-      data-openbitfun-component="notification"
-      data-openbitfun-part="loadingItem"
-      data-openbitfun-state={status || undefined}
+      data-opc-component="notification"
+      data-opc-part="loadingItem"
+      data-opc-state={status || undefined}
     >
       
       <div className="loading-notification__icon">

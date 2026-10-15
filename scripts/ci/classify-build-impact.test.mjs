@@ -324,7 +324,7 @@ test('keeps nested Markdown fail-closed because it may be a compile-time input',
 });
 
 test('uses a merge-base range for pull requests and emits every workflow output', (t) => {
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-build-impact-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-build-impact-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   git(root, ['init', '--initial-branch=main']);
   writeFileSync(path.join(root, 'README.md'), 'baseline\n');
@@ -377,7 +377,7 @@ test('fails closed when paths or event ranges are invalid or unavailable', (t) =
     assert.equal(result.dshProfileRequired, true);
   }
 
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-build-impact-range-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-build-impact-range-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   git(root, ['init', '--initial-branch=main']);
   writeFileSync(path.join(root, 'README.md'), 'baseline\n');
@@ -396,7 +396,7 @@ test('fails closed when paths or event ranges are invalid or unavailable', (t) =
 });
 
 test('rejects tracked Rust sources that reference the Web UI source tree', (t) => {
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-build-impact-boundary-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-build-impact-boundary-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   git(root, ['init', '--initial-branch=main']);
   writeFileSync(path.join(root, 'README.md'), 'baseline\n');

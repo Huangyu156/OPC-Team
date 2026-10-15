@@ -197,7 +197,7 @@ export function buildBuiltinWorkflowCard(context: BuiltinCardContext): void {
       field('slug', data.slug ?? input.slug);
       field('package', data.package_id ?? input.package_path);
       field('license', input.license_spdx ?? input.license ?? input.custom_license_url);
-      field('minimumVersion', input.min_openbitfun_version);
+      field('minimumVersion', input.min_opc_version);
       section('changelog', input.changelog);
       if (data.status === 'sign_in_required') {
         outcome('signIn', 'warning');

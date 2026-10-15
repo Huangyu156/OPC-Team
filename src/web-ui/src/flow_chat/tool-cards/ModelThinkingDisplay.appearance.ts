@@ -7,9 +7,9 @@ export const modelThinkingDisplayAppearanceDescriptor: AppearanceSurfaceDescript
     { id: 'expandContainer' }, { id: 'contentWrapper' }, { id: 'content' },
     { id: 'details' }, { id: 'detailsActions' },
   ],
-  facets: [{ id: 'context', attribute: 'data-openbitfun-context', values: ['default', 'subagent-projection'] }],
+  facets: [{ id: 'context', attribute: 'data-opc-context', values: ['default', 'subagent-projection'] }],
   states: [
-    { id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } },
-    { id: 'streaming', selector: { kind: 'self', suffix: '[data-openbitfun-state~="streaming"]' } },
+    { id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } },
+    { id: 'streaming', selector: { kind: 'self', suffix: '[data-opc-state~="streaming"]' } },
   ],
 };

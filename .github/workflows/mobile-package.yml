@@ -95,7 +95,7 @@ jobs:
 
       - uses: actions/upload-artifact@v6
         with:
-          name: openbitfun-mobile-${{ needs.prepare.outputs.tag_name }}-android
+          name: opc-mobile-${{ needs.prepare.outputs.tag_name }}-android
           path: mobile-release-assets/*
           if-no-files-found: error
           retention-days: 7
@@ -111,7 +111,7 @@ jobs:
 
       - uses: actions/download-artifact@v7
         with:
-          name: openbitfun-mobile-${{ needs.prepare.outputs.tag_name }}-android
+          name: opc-mobile-${{ needs.prepare.outputs.tag_name }}-android
           path: mobile-release-assets
 
       - name: Create mobile release

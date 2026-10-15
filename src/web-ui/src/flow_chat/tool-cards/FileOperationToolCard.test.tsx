@@ -188,7 +188,7 @@ describe('FileOperationToolCard', () => {
       toolResult: { success: true, result: { snapshot_recorded: recorded } },
     } as FlowToolItem));
   }
-  const groupHeader = () => container.querySelector('[data-openbitfun-component="file-edit-group"][data-openbitfun-part="header"]');
+  const groupHeader = () => container.querySelector('[data-opc-component="file-edit-group"][data-opc-part="header"]');
   async function renderFileGroup(items: FlowToolItem[], expanded = false, sessionId = 'session') {
     await act(async () => root.render(<FileEditGroupView items={items} sessionId={sessionId}
       expanded={expanded} summary="2 edits" itemCount={items.length}
@@ -205,11 +205,11 @@ describe('FileOperationToolCard', () => {
     await renderFileGroup(items);
     expect(mocks.getOperationSummary.mock.calls).toEqual([['session', 'one'], ['session', 'two']]);
     expect(container.querySelectorAll('[data-testid="chat-file-change-card"]')).toHaveLength(0);
-    expect(groupHeader()?.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+9');
-    expect(groupHeader()?.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-4');
+    expect(groupHeader()?.querySelector('[data-opc-change="added"]')?.textContent).toBe('+9');
+    expect(groupHeader()?.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-4');
     await renderFileGroup(items, true);
-    expect(container.querySelector('[data-tool-card-id="one"] [data-openbitfun-change="added"]')?.textContent).toBe('+7');
-    expect(container.querySelector('[data-tool-card-id="two"] [data-openbitfun-change="removed"]')?.textContent).toBe('-1');
+    expect(container.querySelector('[data-tool-card-id="one"] [data-opc-change="added"]')?.textContent).toBe('+7');
+    expect(container.querySelector('[data-tool-card-id="two"] [data-opc-change="removed"]')?.textContent).toBe('-1');
     expect(mocks.getOperationSummary).toHaveBeenCalledTimes(2);
   });
 
@@ -218,8 +218,8 @@ describe('FileOperationToolCard', () => {
     mocks.snapshotsAvailable = false;
     try {
       await renderFileGroup(groupItems(mocks.dispatchSession));
-      expect(groupHeader()?.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+2');
-      expect(groupHeader()?.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-2');
+      expect(groupHeader()?.querySelector('[data-opc-change="added"]')?.textContent).toBe('+2');
+      expect(groupHeader()?.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-2');
       expect(mocks.getOperationSummary).not.toHaveBeenCalled();
     } finally {
       mocks.dispatchSession = false;
@@ -235,8 +235,8 @@ describe('FileOperationToolCard', () => {
     mocks.snapshotsAvailable = false;
     await renderFileGroup(items, false, 'other-session');
     await act(async () => resolveSummary({ linesAdded: 99, linesRemoved: 99 }));
-    expect(groupHeader()?.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+2');
-    expect(groupHeader()?.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-2');
+    expect(groupHeader()?.querySelector('[data-opc-change="added"]')?.textContent).toBe('+2');
+    expect(groupHeader()?.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-2');
   });
 
   it('uses the shared revision label while retaining the target and native open action', async () => {
@@ -252,8 +252,8 @@ describe('FileOperationToolCard', () => {
     expect(container.querySelector('[data-testid="chat-file-change-action"]')?.textContent).toBe('Edit 2');
     expect(container.querySelector('[data-testid="chat-file-change-path"]')?.textContent).toBe('');
     expect(container.querySelector('[data-testid="chat-file-change-card"]')?.getAttribute('data-path')).toBe('/target/file.ts');
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+7');
-    expect(container.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-3');
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+7');
+    expect(container.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-3');
     expect(mocks.getOperationSummary).not.toHaveBeenCalled();
     await act(async () => container.querySelector<HTMLButtonElement>('[data-testid="chat-file-change-open-file"]')?.click());
     expect(mocks.getOperationDiff).toHaveBeenCalledWith('session', '/target/file.ts', 'revision-call');
@@ -304,8 +304,8 @@ describe('FileOperationToolCard', () => {
 
     expect(mocks.getOperationSummary).not.toHaveBeenCalled();
     expect(mocks.emitSnapshotEvent).not.toHaveBeenCalled();
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+2');
-    expect(container.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-1');
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+2');
+    expect(container.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-1');
     const openButton = container.querySelector('[data-testid="chat-file-change-open-file"]');
     expect(openButton).not.toBeNull();
     await act(async () => {
@@ -616,11 +616,11 @@ describe('FileOperationToolCard', () => {
     expect(container.textContent).toContain('toolCards.file.failed');
     expect(container.textContent).toContain('newFile.ts');
     expect(container.textContent).not.toContain('Arguments are invalid JSON.');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="error"]')).toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="error"]')).toBeNull();
 
     const toggle = container.querySelector(
-      '[data-openbitfun-part="affordanceButton"]',
+      '[data-opc-part="affordanceButton"]',
     ) as HTMLButtonElement | null;
     expect(toggle?.getAttribute('aria-expanded')).toBe('false');
 
@@ -629,7 +629,7 @@ describe('FileOperationToolCard', () => {
     });
 
     expect(container.querySelector('[data-testid="chat-file-change-card"]')?.getAttribute('data-expanded')).toBe('true');
-    expect(container.querySelector('[data-openbitfun-part="error"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="error"]')).not.toBeNull();
     expect(container.textContent).toContain('Arguments are invalid JSON.');
   });
 
@@ -681,9 +681,9 @@ describe('FileOperationToolCard', () => {
     });
 
     expect(container.querySelector('[data-testid="chat-file-change-card"]')?.getAttribute('data-expanded')).toBe('true');
-    expect(container.querySelector('[data-openbitfun-part="error"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="error"]')).not.toBeNull();
     expect(container.textContent).toContain('The target text was not found.');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).not.toBeNull();
   });
 
   it('opens completed write cards with the resolved result path', async () => {
@@ -795,23 +795,23 @@ describe('FileOperationToolCard', () => {
     });
 
     const contentRegion = container.querySelector(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="content"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="content"]',
     );
     const extraRegion = container.querySelector(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="extra"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="extra"]',
     );
     const changeSummary = container.querySelector(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="changeSummary"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="changeSummary"]',
     );
     expect(contentRegion?.querySelector('[data-testid="chat-file-change-path"]')).not.toBeNull();
-    expect(contentRegion?.querySelector('[data-openbitfun-part="changeSummary"]')).toBeNull();
+    expect(contentRegion?.querySelector('[data-opc-part="changeSummary"]')).toBeNull();
     expect(extraRegion?.contains(changeSummary)).toBe(true);
-    expect(changeSummary?.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+1');
-    expect(changeSummary?.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-0');
+    expect(changeSummary?.querySelector('[data-opc-change="added"]')?.textContent).toBe('+1');
+    expect(changeSummary?.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-0');
     expect(changeSummary?.querySelector('svg')).toBeNull();
 
     const actionRegion = container.querySelector(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="actionRegion"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="actionRegion"]',
     );
     const actionButtons = Array.from(actionRegion?.querySelectorAll('button') ?? []);
     const openButton = container.querySelector(
@@ -821,12 +821,12 @@ describe('FileOperationToolCard', () => {
     expect(container.querySelector('[data-testid="chat-file-change-open-diff"]')).toBeNull();
     expect(actionButtons).toEqual([openButton]);
     expect(container.querySelector('.lucide-chevron-down')).toBeNull();
-    expect(openButton?.getAttribute('data-openbitfun-affordance')).toBe('open-panel-right');
-    expect(openButton?.querySelector('[data-openbitfun-icon="open-panel-right"]')).not.toBeNull();
+    expect(openButton?.getAttribute('data-opc-affordance')).toBe('open-panel-right');
+    expect(openButton?.querySelector('[data-opc-icon="open-panel-right"]')).not.toBeNull();
     expect(contentRegion?.querySelector('button')).toBeNull();
     expect(actionRegion?.previousElementSibling).toBe(extraRegion);
     expect(actionRegion?.parentElement?.lastElementChild).toBe(actionRegion);
-    expect(openButton?.closest('[data-openbitfun-part="actionRegion"]')).toBe(actionRegion);
+    expect(openButton?.closest('[data-opc-part="actionRegion"]')).toBe(actionRegion);
 
     await act(async () => {
       openButton?.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
@@ -876,14 +876,14 @@ describe('FileOperationToolCard', () => {
       );
     });
 
-    const contentRegion = container.querySelector('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="content"]');
-    const extraRegion = container.querySelector('[data-openbitfun-part="extra"]');
-    const changeSummary = extraRegion?.querySelector('[data-openbitfun-part="changeSummary"]');
+    const contentRegion = container.querySelector('[data-opc-component="flow-chat-tool-card"][data-opc-part="content"]');
+    const extraRegion = container.querySelector('[data-opc-part="extra"]');
+    const changeSummary = extraRegion?.querySelector('[data-opc-part="changeSummary"]');
 
     expect(contentRegion?.textContent).toContain('styles.css');
-    expect(contentRegion?.querySelector('[data-openbitfun-part="changeSummary"]')).toBeNull();
-    expect(changeSummary?.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+2');
-    expect(changeSummary?.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-1');
+    expect(contentRegion?.querySelector('[data-opc-part="changeSummary"]')).toBeNull();
+    expect(changeSummary?.querySelector('[data-opc-change="added"]')?.textContent).toBe('+2');
+    expect(changeSummary?.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-1');
     expect(changeSummary?.querySelector('svg')).toBeNull();
     expect(container.querySelector('[data-testid="chat-file-change-open-diff"]')).toBeNull();
   });
@@ -979,25 +979,25 @@ describe('FileOperationToolCard', () => {
     });
 
     expect(container.textContent).not.toContain('toolCards.file.guidanceHint');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).toBeNull();
     expect(container.textContent).not.toContain('toolCards.file.failed');
     expect(container.textContent).toContain('report.md');
     expect(container.textContent).not.toContain(
       'Use Read to load the current contents of docs/report.md before calling Write on it.',
     );
-    expect(container.querySelector('[data-openbitfun-part="error"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="error"]')).toBeNull();
 
     await act(async () => {
-      container.querySelector('[data-openbitfun-part="affordanceButton"]')
+      container.querySelector('[data-opc-part="affordanceButton"]')
         ?.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
     });
 
     expect(container.textContent).toContain(
       'Use Read to load the current contents of docs/report.md before calling Write on it.',
     );
-    expect(container.querySelector('[data-openbitfun-part="error"] [data-guidance="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="error"] [data-guidance="true"]')).not.toBeNull();
     expect(container.textContent).not.toContain('toolCards.file.guidanceTitle');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).toBeNull();
   });
 
   it('renders edit guardrail blocks as guidance instead of hard failure', async () => {
@@ -1043,25 +1043,25 @@ describe('FileOperationToolCard', () => {
     });
 
     expect(container.textContent).not.toContain('toolCards.file.guidanceHint');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).toBeNull();
     expect(container.textContent).not.toContain('toolCards.file.failed');
     expect(container.textContent).toContain('main.rs');
     expect(container.textContent).not.toContain(
       'Use Read to load the current contents of src/main.rs before calling Edit on it.',
     );
-    expect(container.querySelector('[data-openbitfun-part="error"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="error"]')).toBeNull();
 
     await act(async () => {
-      container.querySelector('[data-openbitfun-part="affordanceButton"]')
+      container.querySelector('[data-opc-part="affordanceButton"]')
         ?.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
     });
 
     expect(container.textContent).toContain(
       'Use Read to load the current contents of src/main.rs before calling Edit on it.',
     );
-    expect(container.querySelector('[data-openbitfun-part="error"] [data-guidance="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="error"] [data-guidance="true"]')).not.toBeNull();
     expect(container.textContent).not.toContain('toolCards.file.guidanceTitle');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).toBeNull();
   });
 
   it.each(['edit_no_change', 'edit_target_not_found', 'edit_target_ambiguous'])('renders structured %s quietly even when the outer status is completed', async (code) => {
@@ -1108,25 +1108,25 @@ describe('FileOperationToolCard', () => {
     });
 
     expect(container.textContent).not.toContain('toolCards.file.guidanceHint');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).toBeNull();
     expect(container.textContent).not.toContain('toolCards.file.failed');
     expect(container.textContent).toContain('main.rs');
     expect(container.textContent).not.toContain(
       'Edit inputs need correction.',
     );
-    expect(container.querySelector('[data-openbitfun-part="error"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="error"]')).toBeNull();
 
     await act(async () => {
-      container.querySelector('[data-openbitfun-part="affordanceButton"]')
+      container.querySelector('[data-opc-part="affordanceButton"]')
         ?.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
     });
 
     expect(container.textContent).toContain(
       'Edit inputs need correction.',
     );
-    expect(container.querySelector('[data-openbitfun-part="error"] [data-guidance="true"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="error"] [data-guidance="true"]')).not.toBeNull();
     expect(container.textContent).not.toContain('toolCards.file.guidanceTitle');
-    expect(container.querySelector('[data-openbitfun-icon="warning"]')).toBeNull();
+    expect(container.querySelector('[data-opc-icon="warning"]')).toBeNull();
   });
 
   it('shows receiving content label while write content streams before file_path', async () => {
@@ -1274,7 +1274,7 @@ describe('FileOperationToolCard', () => {
       autoScrollToBottom: false,
     });
     // Summary counts use received lines, independently of typewriter progress.
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+3');
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+3');
   });
 
   it.each(['Write', 'Edit'] as const)('keeps %s compact with live line counts and preserves manual disclosure', async toolName => {
@@ -1294,17 +1294,17 @@ describe('FileOperationToolCard', () => {
     await render(item(9));
     expect(card().getAttribute('data-expanded')).toBe('false');
     expect(mocks.codePreviewProps).toHaveLength(0);
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+9');
-    expect(container.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe(toolName === 'Edit' ? '-1' : '-0');
-    const shimmer = container.querySelector('[data-openbitfun-component="shimmer-text"][data-active="true"]')!;
-    expect(shimmer.querySelector('[data-openbitfun-part="action"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+9');
+    expect(container.querySelector('[data-opc-change="removed"]')?.textContent).toBe(toolName === 'Edit' ? '-1' : '-0');
+    const shimmer = container.querySelector('[data-opc-component="shimmer-text"][data-active="true"]')!;
+    expect(shimmer.querySelector('[data-opc-part="action"]')).not.toBeNull();
     expect(shimmer.querySelector('[data-path="src/file.ts"]')?.textContent).toBe('file.ts');
-    expect(shimmer.querySelector('[data-openbitfun-part="changeSummary"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="icon"] [data-openbitfun-part="processing"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="status"] [data-openbitfun-part="processing"]')).toBeNull();
+    expect(shimmer.querySelector('[data-opc-part="changeSummary"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="icon"] [data-opc-part="processing"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="status"] [data-opc-part="processing"]')).toBeNull();
     await render(item(10));
     expect(card().getAttribute('data-expanded')).toBe('false');
-    expect(container.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+10');
+    expect(container.querySelector('[data-opc-change="added"]')?.textContent).toBe('+10');
     await act(async () => toggle().click());
     await render(item(11));
     expect(mocks.codePreviewProps.at(-1)).toMatchObject({ content: content(11), isStreaming: true, maxHeight: 88 });
@@ -1313,10 +1313,10 @@ describe('FileOperationToolCard', () => {
     await render(completed, false);
     expect(card().getAttribute('data-expanded')).toBe('true');
     expect(mocks.inlineDiffPreviewProps.at(-1)).toMatchObject({ modifiedContent: content(11), maxHeight: 330 });
-    expect(container.querySelector('[data-openbitfun-component="shimmer-text"][data-active="true"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-component="shimmer-text"]')).toBe(shimmer);
-    expect(container.querySelector('[data-openbitfun-part="processing"]')).toBeNull();
-    expect(container.querySelector(`[data-openbitfun-part="icon"] .lucide-${toolName === 'Write' ? 'file-pen-line' : 'file-pen'}`)).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="shimmer-text"][data-active="true"]')).toBeNull();
+    expect(container.querySelector('[data-opc-component="shimmer-text"]')).toBe(shimmer);
+    expect(container.querySelector('[data-opc-part="processing"]')).toBeNull();
+    expect(container.querySelector(`[data-opc-part="icon"] .lucide-${toolName === 'Write' ? 'file-pen-line' : 'file-pen'}`)).not.toBeNull();
     await act(async () => toggle().click());
     await render(item(12));
     expect(card().getAttribute('data-expanded')).toBe('false');
@@ -1369,12 +1369,12 @@ describe('FileOperationToolCard', () => {
     mocks.inlineDiffPreviewProps = [];
 
     const summary = container.querySelector(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="summary"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="summary"]',
     ) as HTMLDivElement | null;
-    const toggle = summary?.querySelector<HTMLButtonElement>('[data-openbitfun-part="affordanceButton"]');
+    const toggle = summary?.querySelector<HTMLButtonElement>('[data-opc-part="affordanceButton"]');
     expect(toggle?.tagName).toBe('BUTTON');
     expect(toggle?.getAttribute('aria-expanded')).toBe('false');
-    expect(summary?.querySelector('[data-openbitfun-part="actionRegion"] [data-openbitfun-affordance="expand"]')).toBeNull();
+    expect(summary?.querySelector('[data-opc-part="actionRegion"] [data-opc-affordance="expand"]')).toBeNull();
 
     await act(async () => {
       summary?.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));

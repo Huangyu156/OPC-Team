@@ -165,26 +165,26 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
   );
 
   const handleWidgetEvent = useCallback((event: WidgetMessage) => {
-    if (event.type === 'openbitfun-widget:context-menu') {
+    if (event.type === 'opc-widget:context-menu') {
       setMenuSelectionActive(true);
       openPromptMenu(event as WidgetContextMenuMessage, previewRef.current);
       return;
     }
-    if (event.type === 'openbitfun-widget:selection-cleared') {
+    if (event.type === 'opc-widget:selection-cleared') {
       setMenuSelectionActive(false);
       hideMenu();
       return;
     }
-    if (event.type === 'openbitfun-widget:ready') {
+    if (event.type === 'opc-widget:ready') {
       return;
     }
-    if (event.type === 'openbitfun-widget:rendered') {
+    if (event.type === 'opc-widget:rendered') {
       setReadyCode(event.widgetCode);
       return;
     }
     if (
-      event.type === 'openbitfun-widget:resize' ||
-      event.type === 'openbitfun-widget:clear-selection'
+      event.type === 'opc-widget:resize' ||
+      event.type === 'opc-widget:clear-selection'
     ) {
       return;
     }
@@ -280,12 +280,12 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
       onAffordanceClick={isClickable ? handleOpenPanel : undefined}
       icon={<span className="generative-widget-card__icon"><Icon name="panels-top-left" size="md" /></span>}
       action={t('toolCards.generativeUI.action')}
-      content={<span data-openbitfun-component="generative-widget-tool-card" data-openbitfun-part="title" className="generative-widget-card__title">{title}</span>}
+      content={<span data-opc-component="generative-widget-tool-card" data-opc-part="title" className="generative-widget-card__title">{title}</span>}
       extra={(
-        <div data-openbitfun-component="generative-widget-tool-card" data-openbitfun-part="extra" className="generative-widget-card__extra">
+        <div data-opc-component="generative-widget-tool-card" data-opc-part="extra" className="generative-widget-card__extra">
           <span
-            data-openbitfun-component="generative-widget-tool-card"
-            data-openbitfun-part="status"
+            data-opc-component="generative-widget-tool-card"
+            data-opc-part="status"
             className={`generative-widget-card__status ${isFailed ? 'generative-widget-card__status--error' : ''}`.trim()}
           >
             {statusText}
@@ -301,9 +301,9 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
             >
               <span
                 className="generative-widget-card__export-action"
-                data-openbitfun-component="generative-widget-tool-card"
-                data-openbitfun-part="exportAction"
-                data-openbitfun-state={isExporting ? 'exporting' : undefined}
+                data-opc-component="generative-widget-tool-card"
+                data-opc-part="exportAction"
+                data-opc-state={isExporting ? 'exporting' : undefined}
               >
                 <IconButton
                   onClick={handleExportImage}
@@ -322,9 +322,9 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
           >
             <span
               className="generative-widget-card__export-action"
-              data-openbitfun-component="generative-widget-tool-card"
-              data-openbitfun-part="htmlExportAction"
-              data-openbitfun-state={isExportingHtml ? 'exporting' : undefined}
+              data-opc-component="generative-widget-tool-card"
+              data-opc-part="htmlExportAction"
+              data-opc-state={isExportingHtml ? 'exporting' : undefined}
             >
               <IconButton
                 onClick={handleExportHtml}
@@ -343,11 +343,11 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
   );
 
   const previewInner = isFailed ? (
-    <div data-openbitfun-component="generative-widget-tool-card" data-openbitfun-part="placeholder" data-openbitfun-state="failed" className="generative-widget-card__placeholder generative-widget-card__placeholder--error">
+    <div data-opc-component="generative-widget-tool-card" data-opc-part="placeholder" data-opc-state="failed" className="generative-widget-card__placeholder generative-widget-card__placeholder--error">
       {toolResult?.error || t('toolCards.generativeUI.renderFailed')}
     </div>
   ) : widgetCode.trim().length > 0 ? (
-    <div data-openbitfun-component="generative-widget-tool-card" data-openbitfun-part="preview" ref={previewRef} className="generative-widget-card__preview">
+    <div data-opc-component="generative-widget-tool-card" data-opc-part="preview" ref={previewRef} className="generative-widget-card__preview">
       <GenerativeWidgetFrame
         widgetId={widgetId}
         title={title}
@@ -358,13 +358,13 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
       />
     </div>
   ) : (
-    <div data-openbitfun-component="generative-widget-tool-card" data-openbitfun-part="placeholder" className="generative-widget-card__placeholder">
+    <div data-opc-component="generative-widget-tool-card" data-opc-part="placeholder" className="generative-widget-card__placeholder">
       {t('toolCards.generativeUI.waitingForContent')}
     </div>
   );
 
   const expandedBody = (
-    <div data-openbitfun-component="generative-widget-tool-card" data-openbitfun-part="captureRoot" ref={captureRootRef} className="generative-widget-card__capture-root">
+    <div data-opc-component="generative-widget-tool-card" data-opc-part="captureRoot" ref={captureRootRef} className="generative-widget-card__capture-root">
       {previewInner}
     </div>
   );
@@ -373,7 +373,7 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
     <>
       <div ref={cardRootRef} data-flowchat-retain-instance={retainInstance && isCardExpanded ? 'true' : undefined}
         onPointerDownCapture={() => setRetainInstance(true)} onFocusCapture={() => setRetainInstance(true)}
-        data-tool-card-id={toolItem.id ?? toolCall?.id ?? ''} data-openbitfun-component="generative-widget-tool-card" data-openbitfun-part="root" data-openbitfun-state={isFailed ? 'failed' : undefined}>
+        data-tool-card-id={toolItem.id ?? toolCall?.id ?? ''} data-opc-component="generative-widget-tool-card" data-opc-part="root" data-opc-state={isFailed ? 'failed' : undefined}>
         <ProminentToolCard
         status={isFailed ? 'error' : status}
         isExpanded={isCardExpanded}
@@ -390,8 +390,8 @@ export const GenerativeWidgetToolCard: React.FC<ToolCardProps> = ({ toolItem, se
       {shouldRenderExportClone && hasRenderableWidget && (
         <div
           className="generative-widget-card__export-stage"
-          data-openbitfun-component="generative-widget-tool-card"
-          data-openbitfun-part="exportStage"
+          data-opc-component="generative-widget-tool-card"
+          data-opc-part="exportStage"
         >
           <div
             ref={exportPreviewRef}

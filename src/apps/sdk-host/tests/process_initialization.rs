@@ -1,6 +1,6 @@
 #[test]
 fn sdk_host_process_installs_a_rustls_crypto_provider() {
-    openbitfun_sdk_host_app::initialize_process_runtime().expect("initialize SDK Host process");
+    opc_sdk_host_app::initialize_process_runtime().expect("initialize SDK Host process");
 
     assert!(
         rustls::crypto::CryptoProvider::get_default().is_some(),
@@ -20,9 +20,9 @@ fn sdk_host_process_job_reclaims_descendants_when_host_exits() {
             std::thread::sleep(std::time::Duration::from_secs(1));
         },
         Ok("owner") => {
-            openbitfun_sdk_host_app::initialize_process_runtime()
+            opc_sdk_host_app::initialize_process_runtime()
                 .expect("initialize owned SDK Host process");
-            let descendant = openbitfun_services_core::process_manager::create_command(
+            let descendant = opc_services_core::process_manager::create_command(
                 std::env::current_exe().unwrap(),
             )
             .args(["--exact", TEST_NAME, "--nocapture"])
@@ -48,7 +48,7 @@ fn sdk_host_process_job_reclaims_descendants_when_host_exits() {
     let directory = tempfile::tempdir().expect("create job test directory");
     let pid_file = directory.path().join("descendant.pid");
     let status =
-        openbitfun_services_core::process_manager::create_command(std::env::current_exe().unwrap())
+        opc_services_core::process_manager::create_command(std::env::current_exe().unwrap())
             .args(["--exact", TEST_NAME, "--nocapture"])
             .env(MODE_ENV, "owner")
             .env(PID_FILE_ENV, &pid_file)
@@ -61,7 +61,7 @@ fn sdk_host_process_job_reclaims_descendants_when_host_exits() {
         .to_string();
     std::thread::sleep(std::time::Duration::from_millis(200));
 
-    let cleanup = openbitfun_services_core::process_manager::create_command("taskkill.exe")
+    let cleanup = opc_services_core::process_manager::create_command("taskkill.exe")
         .args(["/pid", &descendant_pid, "/t", "/f"])
         .output()
         .expect("probe descendant process");
@@ -74,11 +74,11 @@ fn sdk_host_process_job_reclaims_descendants_when_host_exits() {
 #[test]
 fn sdk_host_process_uses_the_reviewed_worker_stack_contract() {
     let caller = std::thread::current().id();
-    let worker = openbitfun_sdk_host_app::spawn_sdk_host_worker(|| std::thread::current().id())
+    let worker = opc_sdk_host_app::spawn_sdk_host_worker(|| std::thread::current().id())
         .expect("spawn SDK Host worker");
 
     assert_eq!(
-        openbitfun_sdk_host_app::SDK_HOST_WORKER_STACK_BYTES,
+        opc_sdk_host_app::SDK_HOST_WORKER_STACK_BYTES,
         16 * 1024 * 1024
     );
     assert_ne!(worker.join().expect("join SDK Host worker"), caller);
@@ -98,7 +98,7 @@ fn sdk_host_delegates_process_tree_ownership_to_services_core() {
     let bootstrap = include_str!("../src/lib.rs");
 
     assert!(
-        manifest.contains("openbitfun-services-core"),
+        manifest.contains("opc-services-core"),
         "SDK Host must depend on the reusable process lifecycle owner"
     );
     assert!(
@@ -106,8 +106,7 @@ fn sdk_host_delegates_process_tree_ownership_to_services_core() {
         "SDK Host must not own a second Windows Job Object implementation"
     );
     assert!(
-        bootstrap
-            .contains("openbitfun_services_core::process_manager::contain_current_process_tree"),
+        bootstrap.contains("opc_services_core::process_manager::contain_current_process_tree"),
         "SDK Host bootstrap must delegate process-tree containment to services-core"
     );
 }

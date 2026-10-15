@@ -20,12 +20,12 @@ export const requiredContentRules = [
   {
     path: 'src/crates/adapters/agent-runtime-ipc/Cargo.toml',
     reason:
-      'agent-runtime-ipc must keep the exact feature-free openbitfun-transport dependency',
+      'agent-runtime-ipc must keep the exact feature-free opc-transport dependency',
     patterns: [
       {
-        regex: /^openbitfun-transport = \{ path = "\.\.\/transport" \}$/m,
+        regex: /^opc-transport = \{ path = "\.\.\/transport" \}$/m,
         message:
-          'openbitfun-transport must stay feature-free and use the reviewed sibling path',
+          'opc-transport must stay feature-free and use the reviewed sibling path',
       },
     ],
   },
@@ -302,7 +302,7 @@ export const requiredContentRules = [
         message: 'missing CleanupCategory compatibility re-export',
       },
       {
-        regex: /\bopenbitfun_services_core::storage_cleanup\b/,
+        regex: /\bopc_services_core::storage_cleanup\b/,
         message: 'missing services-core cleanup owner delegation',
       },
     ],
@@ -313,7 +313,7 @@ export const requiredContentRules = [
       'core token usage service must stay a compatibility wrapper over services-core',
     patterns: [
       {
-        regex: /\bopenbitfun_services_core::token_usage::TokenUsageService\b/,
+        regex: /\bopc_services_core::token_usage::TokenUsageService\b/,
         message: 'missing services-core token usage delegation',
       },
       {
@@ -675,11 +675,11 @@ export const requiredContentRules = [
         message: 'missing current SDK compatibility entrypoint',
       },
       {
-        regex: /\bpub use openbitfun_agent_tools::\{/,
+        regex: /\bpub use opc_agent_tools::\{/,
         message: 'missing SDK tool registry re-exports',
       },
       {
-        regex: /\bpub use openbitfun_runtime_services::\{/,
+        regex: /\bpub use opc_runtime_services::\{/,
         message: 'missing SDK runtime-services re-exports',
       },
       {
@@ -791,7 +791,7 @@ export const requiredContentRules = [
         message: 'missing session summary fact',
       },
       {
-        regex: /\bpub use openbitfun_core_types::SessionKind\b/,
+        regex: /\bpub use opc_core_types::SessionKind\b/,
         message: 'missing session kind compatibility export',
       },
       {
@@ -852,7 +852,7 @@ export const requiredContentRules = [
       'agent-runtime SDK must keep a minimal external embedder example that uses the sdk facade without core',
     patterns: [
       {
-        regex: /\buse openbitfun_agent_runtime::sdk::\{/,
+        regex: /\buse opc_agent_runtime::sdk::\{/,
         message: 'SDK example must import through the public sdk facade',
       },
       {
@@ -1435,7 +1435,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/product-capabilities/tests/product_capability_contracts/product_sdk_assembly.rs',
     reason:
-      'product-capabilities must prove product runtime parts can feed the SDK runtime without openbitfun-core',
+      'product-capabilities must prove product runtime parts can feed the SDK runtime without opc-core',
     patterns: [
       {
         regex: /\bproduct_runtime_parts_can_build_agent_runtime_sdk_without_core\b/,
@@ -1443,7 +1443,7 @@ export const requiredContentRules = [
       },
       {
         regex:
-          /\bsdk_delivery_profile_builds_shared_runtime_owner_ceiling_without_openbitfun_core\b/,
+          /\bsdk_delivery_profile_builds_shared_runtime_owner_ceiling_without_opc_core\b/,
         message: 'missing SDK delivery profile identity and shared runtime-owner ceiling smoke',
       },
       {
@@ -1716,7 +1716,7 @@ export const requiredContentRules = [
     patterns: [
       {
         regex:
-          /\bcustom_subagent_discovery_preserves_openbitfun_priority_and_ignores_foreign_agent_dirs\b/,
+          /\bcustom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_dirs\b/,
         message: 'missing custom subagent discovery priority/foreign-dir regression',
       },
       {
@@ -2328,7 +2328,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/service/cron/types.rs',
     reason:
-      'core cron types must preserve old import and wire paths while openbitfun-agent-runtime owns scheduled-job runtime state',
+      'core cron types must preserve old import and wire paths while opc-agent-runtime owns scheduled-job runtime state',
     patterns: [
       {
         regex: /ScheduledJobRuntimeState as CronJobState/,
@@ -2436,7 +2436,7 @@ export const requiredContentRules = [
       'core DeepReview policy path must stay a compatibility facade over agent-runtime while core keeps product config loading',
     patterns: [
       {
-        regex: /pub use openbitfun_agent_runtime::deep_review::/,
+        regex: /pub use opc_agent_runtime::deep_review::/,
         message: 'missing DeepReview agent-runtime compatibility re-export',
       },
       {
@@ -2537,7 +2537,7 @@ export const requiredContentRules = [
         message: 'missing TaskTool DeepReview retry guidance facade call',
       },
       {
-        regex: /openbitfun_agent_runtime::subagent_task::subagent_task_completion_result/,
+        regex: /opc_agent_runtime::subagent_task::subagent_task_completion_result/,
         message: 'missing TaskTool provider-neutral completion result owner call',
       },
       {
@@ -2629,7 +2629,7 @@ export const requiredContentRules = [
       'core custom subagent path must stay a compatibility facade over agent-runtime custom-agent schema/default and markdown IO decisions',
     patterns: [
       {
-        regex: /pub use openbitfun_agent_runtime::custom_subagent::CustomSubagentKind/,
+        regex: /pub use opc_agent_runtime::custom_subagent::CustomSubagentKind/,
         message: 'missing custom subagent kind compatibility re-export',
       },
       {
@@ -2710,7 +2710,7 @@ export const requiredContentRules = [
       'core execution types must preserve legacy import path while agent-runtime owns finish-reason event facts',
     patterns: [
       {
-        regex: /openbitfun_agent_runtime::events::FinishReason/,
+        regex: /opc_agent_runtime::events::FinishReason/,
         message: 'missing finish-reason compatibility re-export',
       },
     ],
@@ -2721,7 +2721,7 @@ export const requiredContentRules = [
       'core event types must preserve legacy import path while agent-runtime owns session-state labels',
     patterns: [
       {
-        regex: /openbitfun_agent_runtime::session_state::session_state_label_for_state/,
+        regex: /opc_agent_runtime::session_state::session_state_label_for_state/,
         message: 'missing session-state label owner delegation',
       },
     ],
@@ -2771,7 +2771,7 @@ export const requiredContentRules = [
       'core session state manager path must preserve legacy imports while agent-runtime owns the implementation',
     patterns: [
       {
-        regex: /pub use openbitfun_agent_runtime::session_state_manager::SessionStateManager;/,
+        regex: /pub use opc_agent_runtime::session_state_manager::SessionStateManager;/,
         message: 'missing SessionStateManager compatibility re-export',
       },
     ],
@@ -2782,7 +2782,7 @@ export const requiredContentRules = [
       'core prompt_builder user_context path must stay a compatibility facade over agent-runtime',
     patterns: [
       {
-        regex: /pub use openbitfun_agent_runtime::prompt::\{UserContextPolicy, UserContextSection\};/,
+        regex: /pub use opc_agent_runtime::prompt::\{UserContextPolicy, UserContextSection\};/,
         message: 'missing agent-runtime user-context compatibility re-export',
       },
     ],
@@ -2793,7 +2793,7 @@ export const requiredContentRules = [
       'core prompt_cache path must stay a compatibility facade over agent-runtime',
     patterns: [
       {
-        regex: /pub use openbitfun_agent_runtime::prompt_cache::\*;/,
+        regex: /pub use opc_agent_runtime::prompt_cache::\*;/,
         message: 'missing agent-runtime prompt-cache compatibility re-export',
       },
     ],
@@ -2858,7 +2858,7 @@ export const requiredContentRules = [
       'core review_read_receipt path must stay a compatibility facade over agent-runtime',
     patterns: [
       {
-        regex: /openbitfun_agent_runtime::review_read_receipt::\{/,
+        regex: /opc_agent_runtime::review_read_receipt::\{/,
         message: 'missing agent-runtime review read receipt compatibility re-export',
       },
       {
@@ -2873,7 +2873,7 @@ export const requiredContentRules = [
       'core evidence_ledger path must stay a compatibility facade over agent-runtime',
     patterns: [
       {
-        regex: /pub use openbitfun_agent_runtime::evidence_ledger::\*;/,
+        regex: /pub use opc_agent_runtime::evidence_ledger::\*;/,
         message: 'missing agent-runtime evidence ledger compatibility re-export',
       },
     ],
@@ -2885,7 +2885,7 @@ export const requiredContentRules = [
     patterns: [
       {
         regex:
-          /pub use openbitfun_agent_runtime::skill_agent_snapshot::TurnSkillAgentSnapshotStore;/,
+          /pub use opc_agent_runtime::skill_agent_snapshot::TurnSkillAgentSnapshotStore;/,
         message: 'missing agent-runtime turn skill/agent snapshot store compatibility re-export',
       },
     ],
@@ -3092,7 +3092,7 @@ export const requiredContentRules = [
       'core session branch persistence must keep IO orchestration and old import compatibility while services-core owns branch metadata shaping',
     patterns: [
       {
-        regex: /pub use openbitfun_services_core::session::\{SessionBranchRequest,\s*SessionBranchResult\};/,
+        regex: /pub use opc_services_core::session::\{SessionBranchRequest,\s*SessionBranchResult\};/,
         message: 'missing session branch compatibility re-export',
       },
       {
@@ -3111,7 +3111,7 @@ export const requiredContentRules = [
       'core agent mode module must keep old import paths while agent-runtime owns shared mode profile facts',
     patterns: [
       {
-        regex: /pub use openbitfun_agent_runtime::agents::\{[\s\S]*mode_presentation_rank[\s\S]*resolve_mode_config_profile_id[\s\S]*standard_harness_user_context_policy[\s\S]*STANDARD_HARNESS_PROMPT_TEMPLATE[\s\S]*\};/,
+        regex: /pub use opc_agent_runtime::agents::\{[\s\S]*mode_presentation_rank[\s\S]*resolve_mode_config_profile_id[\s\S]*standard_harness_user_context_policy[\s\S]*STANDARD_HARNESS_PROMPT_TEMPLATE[\s\S]*\};/,
         message: 'missing agent-runtime shared mode profile compatibility re-export',
       },
     ],
@@ -3672,30 +3672,30 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/Cargo.toml',
     reason:
-      'openbitfun-core product-full must explicitly aggregate owner crate feature groups instead of forcing them through dependency declarations',
+      'opc-core product-full must explicitly aggregate owner crate feature groups instead of forcing them through dependency declarations',
     patterns: [
       {
         regex:
-          /openbitfun-tool-packs = \{ path = "\.\.\/\.\.\/execution\/tool-provider-groups", optional = true \}/,
-        message: 'openbitfun-tool-packs dependency must stay optional and not force product-full outside the core feature graph',
+          /opc-tool-packs = \{ path = "\.\.\/\.\.\/execution\/tool-provider-groups", optional = true \}/,
+        message: 'opc-tool-packs dependency must stay optional and not force product-full outside the core feature graph',
       },
       {
         regex:
-          /openbitfun-services-integrations = \{ path = "\.\.\/\.\.\/services\/services-integrations", optional = true \}/,
+          /opc-services-integrations = \{ path = "\.\.\/\.\.\/services\/services-integrations", optional = true \}/,
         message:
-          'openbitfun-services-integrations dependency must stay optional so local workspace profiles do not compile remote integrations',
+          'opc-services-integrations dependency must stay optional so local workspace profiles do not compile remote integrations',
       },
       {
         regex:
-          /openbitfun-ai-adapters = \{ path = "\.\.\/\.\.\/adapters\/ai-adapters", optional = true \}/,
-        message: 'openbitfun-ai-adapters dependency must stay optional for no-default core builds',
+          /opc-ai-adapters = \{ path = "\.\.\/\.\.\/adapters\/ai-adapters", optional = true \}/,
+        message: 'opc-ai-adapters dependency must stay optional for no-default core builds',
       },
       {
-        regex: /"dep:openbitfun-ai-adapters"/,
+        regex: /"dep:opc-ai-adapters"/,
         message: 'core ai-adapter-runtime feature must explicitly enable the optional dependency',
       },
       {
-        regex: /subscription-auth = \["openbitfun-ai-adapters\?\/subscription-auth"\]/,
+        regex: /subscription-auth = \["opc-ai-adapters\?\/subscription-auth"\]/,
         message: 'core subscription-auth modifier must not activate the optional AI adapter runtime by itself',
       },
       {
@@ -3707,7 +3707,7 @@ export const requiredContentRules = [
         message: 'core agent-runtime assembly must explicitly opt into AI adapter runtime',
       },
       {
-        regex: /agent-runtime = \[[^\]]*"openbitfun-product-domains\/external-sources"[^\]]*\]/,
+        regex: /agent-runtime = \[[^\]]*"opc-product-domains\/external-sources"[^\]]*\]/,
         message: 'core agent-runtime must select only the external-subagent contract slice it uses',
       },
       {
@@ -3715,59 +3715,59 @@ export const requiredContentRules = [
         message: 'core function-agent facade must explicitly opt into AI adapter runtime while concrete AI adapters remain optional',
       },
       {
-        regex: /function-agents = \[[^\]]*"openbitfun-services-integrations\/function-agents"[^\]]*\]/,
+        regex: /function-agents = \[[^\]]*"opc-services-integrations\/function-agents"[^\]]*\]/,
         message: 'core function-agent facade must enable the function-agent service owner feature it imports',
       },
       {
-        regex: /tools-miniapp = \[[^\]]*"openbitfun-services-integrations\/miniapp-runtime"[^\]]*\]/,
+        regex: /tools-miniapp = \[[^\]]*"opc-services-integrations\/miniapp-runtime"[^\]]*\]/,
         message: 'core MiniApp tool owner must enable the MiniApp runtime service feature it imports',
       },
       {
-        regex: /tools-miniapp = \[[^\]]*"openbitfun-product-domains\/miniapp"[^\]]*\]/,
+        regex: /tools-miniapp = \[[^\]]*"opc-product-domains\/miniapp"[^\]]*\]/,
         message: 'core MiniApp tool owner must select its product-domain slice explicitly',
       },
       {
-        regex: /canvas-runtime = \[[^\]]*"openbitfun-services-integrations\/canvas-runtime"[^\]]*\]/,
+        regex: /canvas-runtime = \[[^\]]*"opc-services-integrations\/canvas-runtime"[^\]]*\]/,
         message:
           'core canvas-runtime facade must enable the Canvas service owner feature it imports',
       },
       {
         regex:
-          /canvas-runtime = \[[\s\S]*"dep:openbitfun-product-domains"[\s\S]*"openbitfun-services-integrations\/canvas-runtime"[\s\S]*\]/,
+          /canvas-runtime = \[[\s\S]*"dep:opc-product-domains"[\s\S]*"opc-services-integrations\/canvas-runtime"[\s\S]*\]/,
         message:
           'core canvas-runtime feature must explicitly aggregate the domain contract and canvas service owner',
       },
       {
         regex:
-          /openbitfun-product-domains = \{ path = "\.\.\/\.\.\/contracts\/product-domains", optional = true \}/,
+          /opc-product-domains = \{ path = "\.\.\/\.\.\/contracts\/product-domains", optional = true \}/,
         message:
-          'openbitfun-product-domains dependency must stay optional and not force product-full outside the core feature graph',
+          'opc-product-domains dependency must stay optional and not force product-full outside the core feature graph',
       },
       {
         regex:
-          /openbitfun-product-capabilities = \{ path = "\.\.\/product-capabilities", optional = true \}/,
+          /opc-product-capabilities = \{ path = "\.\.\/product-capabilities", optional = true \}/,
         message:
-          'openbitfun-product-capabilities dependency must stay optional and not force product-full outside the core feature graph',
+          'opc-product-capabilities dependency must stay optional and not force product-full outside the core feature graph',
       },
       {
-        regex: /"dep:openbitfun-tool-packs"/,
+        regex: /"dep:opc-tool-packs"/,
         message: 'core tool-packs feature must explicitly enable the optional dependency',
       },
       {
-        regex: /tools-basic = \[[^\]]*"openbitfun-tool-packs\/basic"[^\]]*\]/,
+        regex: /tools-basic = \[[^\]]*"opc-tool-packs\/basic"[^\]]*\]/,
         message: 'core basic tools owner must explicitly enable the matching tool pack feature',
       },
       {
-        regex: /"dep:openbitfun-product-domains"/,
+        regex: /"dep:opc-product-domains"/,
         message: 'core capability owners must explicitly enable the optional product-domain dependency',
       },
       {
-        regex: /"dep:openbitfun-product-capabilities"/,
+        regex: /"dep:opc-product-capabilities"/,
         message:
           'core product-capabilities feature must explicitly enable the optional dependency',
       },
       {
-        regex: /"openbitfun-product-domains\/function-agents"/,
+        regex: /"opc-product-domains\/function-agents"/,
         message: 'core function-agent owner must explicitly select its product-domain slice',
       },
     ],
@@ -3775,7 +3775,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/lib.rs',
     reason:
-      'no-default openbitfun-core must keep product runtime surfaces behind explicit features',
+      'no-default opc-core must keep product runtime surfaces behind explicit features',
     patterns: [
       {
         regex: /#\[cfg\(feature = "agent-runtime"\)\]\s*pub mod agentic\b/s,
@@ -3848,11 +3848,11 @@ export const requiredContentRules = [
     reason: 'legacy AI implementation DTO re-exports must not force AI adapters into no-default core builds',
     patterns: [
       {
-        regex: /pub use openbitfun_core_types::\{ConnectionTestMessageCode, ConnectionTestResult, RemoteModelInfo\};/s,
+        regex: /pub use opc_core_types::\{ConnectionTestMessageCode, ConnectionTestResult, RemoteModelInfo\};/s,
         message: 'stable AI DTOs must be re-exported from core-types',
       },
       {
-        regex: /#\[cfg\(feature = "ai-adapter-runtime"\)\]\s*pub use openbitfun_ai_adapters::types::\{GeminiResponse, GeminiUsage\};/s,
+        regex: /#\[cfg\(feature = "ai-adapter-runtime"\)\]\s*pub use opc_ai_adapters::types::\{GeminiResponse, GeminiUsage\};/s,
         message: 'legacy Gemini implementation DTOs must stay behind ai-adapter-runtime',
       },
     ],
@@ -3863,15 +3863,15 @@ export const requiredContentRules = [
       'service integration and agent-runtime surfaces must not compile in no-default core builds',
     patterns: [
       {
-        regex: /#\[cfg\(feature = "file-watch"\)\]\s*pub use openbitfun_services_integrations::file_watch\b/s,
+        regex: /#\[cfg\(feature = "file-watch"\)\]\s*pub use opc_services_integrations::file_watch\b/s,
         message: 'file-watch facade must stay behind its exact feature',
       },
       {
-        regex: /#\[cfg\(feature = "diagnostics"\)\]\s*pub use openbitfun_services_core::diagnostics\b/s,
+        regex: /#\[cfg\(feature = "diagnostics"\)\]\s*pub use opc_services_core::diagnostics\b/s,
         message: 'diagnostics compatibility facade must stay behind diagnostics',
       },
       {
-        regex: /#\[cfg\(feature = "diff"\)\]\s*pub use openbitfun_services_core::diff\b/s,
+        regex: /#\[cfg\(feature = "diff"\)\]\s*pub use opc_services_core::diff\b/s,
         message: 'diff compatibility facade must stay behind diff',
       },
       {
@@ -4431,7 +4431,7 @@ export const requiredContentRules = [
       'core remote SSH compatibility facade must keep concrete SSH surfaces behind the ssh-remote feature and re-export services-owned disabled stubs for lightweight builds',
     patterns: [
       {
-        regex: /#\[cfg\(not\(feature = "ssh-remote"\)\)\]\s*pub use openbitfun_services_integrations::remote_ssh::\{/s,
+        regex: /#\[cfg\(not\(feature = "ssh-remote"\)\)\]\s*pub use opc_services_integrations::remote_ssh::\{/s,
         message: 'missing services-owned disabled remote SSH re-export for no-default builds',
       },
       {
@@ -5232,7 +5232,7 @@ export const requiredContentRules = [
       'core subagent runtime must preserve legacy import path while runtime-ports owns portable subagent contracts',
     patterns: [
       {
-        regex: /pub\(crate\) use openbitfun_runtime_ports::\{DelegationPolicy, SubagentContextMode\};/,
+        regex: /pub\(crate\) use opc_runtime_ports::\{DelegationPolicy, SubagentContextMode\};/,
         message: 'missing core compatibility re-export for subagent runtime contracts',
       },
     ],
@@ -5732,19 +5732,19 @@ export const requiredContentRules = [
       'core must keep current coordinator port adapters and attachment guard until remote runtime migration is reviewed',
     patterns: [
       {
-        regex: /impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator/,
+        regex: /impl opc_runtime_ports::AgentSubmissionPort for ConversationCoordinator/,
         message: 'missing agent submission port adapter',
       },
       {
-        regex: /impl openbitfun_runtime_ports::SessionTranscriptReader for ConversationCoordinator/,
+        regex: /impl opc_runtime_ports::SessionTranscriptReader for ConversationCoordinator/,
         message: 'missing session transcript reader adapter',
       },
       {
-        regex: /impl openbitfun_runtime_ports::AgentTurnCancellationPort for ConversationCoordinator/,
+        regex: /impl opc_runtime_ports::AgentTurnCancellationPort for ConversationCoordinator/,
         message: 'missing turn cancellation port adapter',
       },
       {
-        regex: /impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordinator/,
+        regex: /impl opc_runtime_ports::AgentSessionManagementPort for ConversationCoordinator/,
         message: 'missing session management port adapter',
       },
       {
@@ -5756,7 +5756,7 @@ export const requiredContentRules = [
         message: 'missing runtime session summary contract binding',
       },
       {
-        regex: /impl openbitfun_runtime_ports::RemoteControlStatePort for ConversationCoordinator/,
+        regex: /impl opc_runtime_ports::RemoteControlStatePort for ConversationCoordinator/,
         message: 'missing remote control state port adapter',
       },
       {
@@ -5764,11 +5764,11 @@ export const requiredContentRules = [
         message: 'missing generic attachment guard on agent submission port',
       },
       {
-        regex: /pub use openbitfun_runtime_ports::DialogTriggerSource;/,
+        regex: /pub use opc_runtime_ports::DialogTriggerSource;/,
         message: 'missing dialog trigger source compatibility re-export',
       },
       {
-        regex: /openbitfun_agent_runtime::subagent_task::subagent_task_completion_result/,
+        regex: /opc_agent_runtime::subagent_task::subagent_task_completion_result/,
         message: 'missing delegated command provider-neutral Task result formatting',
       },
     ],
@@ -5780,17 +5780,17 @@ export const requiredContentRules = [
     patterns: [
       {
         regex:
-          /pub use openbitfun_runtime_ports::\{[\s\S]*AgentSessionReplyRoute[\s\S]*DialogQueuePriority[\s\S]*DialogSteerOutcome[\s\S]*DialogSubmissionPolicy[\s\S]*DialogSubmitOutcome[\s\S]*\};/,
+          /pub use opc_runtime_ports::\{[\s\S]*AgentSessionReplyRoute[\s\S]*DialogQueuePriority[\s\S]*DialogSteerOutcome[\s\S]*DialogSubmissionPolicy[\s\S]*DialogSubmitOutcome[\s\S]*\};/,
         message: 'missing dialog submission policy compatibility re-export',
       },
       {
         regex:
-          /use openbitfun_runtime_ports::\{(?=[\s\S]*DialogSessionStateFact)(?=[\s\S]*DialogSubmitQueueAction)(?=[\s\S]*DialogSubmitQueueFacts)(?=[\s\S]*resolve_dialog_submit_queue_action)[\s\S]*\};/,
+          /use opc_runtime_ports::\{(?=[\s\S]*DialogSessionStateFact)(?=[\s\S]*DialogSubmitQueueAction)(?=[\s\S]*DialogSubmitQueueFacts)(?=[\s\S]*resolve_dialog_submit_queue_action)[\s\S]*\};/,
         message: 'missing dialog scheduler decision contract import',
       },
       {
         regex:
-          /use openbitfun_agent_runtime::scheduler::\{(?=[\s\S]*ActiveDialogTurn)(?=[\s\S]*ActiveDialogTurnStore)(?=[\s\S]*AgentSessionReplyAction)(?=[\s\S]*AgentSessionReplyPlan)(?=[\s\S]*BackgroundDeliveryAction)(?=[\s\S]*BackgroundDeliveryFacts)(?=[\s\S]*BackgroundInjectionKind)(?=[\s\S]*DialogReplySuppressionSet)(?=[\s\S]*DialogSteeringAction)(?=[\s\S]*DialogTurnQueue)(?=[\s\S]*SessionAbortFlags)(?=[\s\S]*resolve_agent_session_reply_action)(?=[\s\S]*resolve_background_delivery_action)(?=[\s\S]*resolve_background_delivery_injection)(?=[\s\S]*resolve_dialog_steering_action)[\s\S]*\};/,
+          /use opc_agent_runtime::scheduler::\{(?=[\s\S]*ActiveDialogTurn)(?=[\s\S]*ActiveDialogTurnStore)(?=[\s\S]*AgentSessionReplyAction)(?=[\s\S]*AgentSessionReplyPlan)(?=[\s\S]*BackgroundDeliveryAction)(?=[\s\S]*BackgroundDeliveryFacts)(?=[\s\S]*BackgroundInjectionKind)(?=[\s\S]*DialogReplySuppressionSet)(?=[\s\S]*DialogSteeringAction)(?=[\s\S]*DialogTurnQueue)(?=[\s\S]*SessionAbortFlags)(?=[\s\S]*resolve_agent_session_reply_action)(?=[\s\S]*resolve_background_delivery_action)(?=[\s\S]*resolve_background_delivery_injection)(?=[\s\S]*resolve_dialog_steering_action)[\s\S]*\};/,
         message: 'missing agent-runtime scheduler owner imports',
       },
       {
@@ -5806,12 +5806,12 @@ export const requiredContentRules = [
     patterns: [
       {
         regex:
-          /pub use openbitfun_agent_runtime::scheduler::\{[\s\S]*DialogRoundInjectionInterrupt[\s\S]*SessionRoundInjectionBuffer[\s\S]*\};/,
+          /pub use opc_agent_runtime::scheduler::\{[\s\S]*DialogRoundInjectionInterrupt[\s\S]*SessionRoundInjectionBuffer[\s\S]*\};/,
         message: 'missing agent-runtime round-boundary state compatibility re-export',
       },
       {
         regex:
-          /pub use openbitfun_runtime_ports::\{[\s\S]*DialogRoundInjectionSource[\s\S]*RoundInjection[\s\S]*RoundInjectionKind[\s\S]*RoundInjectionTarget[\s\S]*\};/,
+          /pub use opc_runtime_ports::\{[\s\S]*DialogRoundInjectionSource[\s\S]*RoundInjection[\s\S]*RoundInjectionKind[\s\S]*RoundInjectionTarget[\s\S]*\};/,
         message: 'missing round injection compatibility re-export',
       },
     ],
@@ -5823,12 +5823,12 @@ export const requiredContentRules = [
     patterns: [
       {
         regex:
-          /pub use openbitfun_runtime_ports::\{[\s\S]*SetThreadGoalResult[\s\S]*ThreadGoal[\s\S]*ThreadGoalContinuationPlan[\s\S]*ThreadGoalStatus[\s\S]*ThreadGoalToolResponse[\s\S]*GOAL_MODE_METADATA_KEY[\s\S]*MAX_CONTEXT_SUMMARY_CHARS[\s\S]*MAX_THREAD_GOAL_OBJECTIVE_CHARS[\s\S]*THREAD_GOAL_METADATA_KEY[\s\S]*\};/,
+          /pub use opc_runtime_ports::\{[\s\S]*SetThreadGoalResult[\s\S]*ThreadGoal[\s\S]*ThreadGoalContinuationPlan[\s\S]*ThreadGoalStatus[\s\S]*ThreadGoalToolResponse[\s\S]*GOAL_MODE_METADATA_KEY[\s\S]*MAX_CONTEXT_SUMMARY_CHARS[\s\S]*MAX_THREAD_GOAL_OBJECTIVE_CHARS[\s\S]*THREAD_GOAL_METADATA_KEY[\s\S]*\};/,
         message: 'missing thread goal compatibility re-export',
       },
       {
         regex:
-          /pub use openbitfun_agent_runtime::thread_goal::\{[\s\S]*build_thread_goal_continuation_plan[\s\S]*goal_tool_response[\s\S]*should_skip_goal_for_turn[\s\S]*ThreadGoalRuntime[\s\S]*\};/,
+          /pub use opc_agent_runtime::thread_goal::\{[\s\S]*build_thread_goal_continuation_plan[\s\S]*goal_tool_response[\s\S]*should_skip_goal_for_turn[\s\S]*ThreadGoalRuntime[\s\S]*\};/,
         message: 'missing thread goal runtime owner compatibility re-export',
       },
     ],
@@ -5839,7 +5839,7 @@ export const requiredContentRules = [
       'core message model must preserve legacy compression contract import path while runtime-ports owns portable compaction facts',
     patterns: [
       {
-        regex: /pub use openbitfun_runtime_ports::\{CompressionContract, CompressionContractItem\};/,
+        regex: /pub use opc_runtime_ports::\{CompressionContract, CompressionContractItem\};/,
         message: 'missing compression contract compatibility re-export',
       },
     ],
@@ -5850,7 +5850,7 @@ export const requiredContentRules = [
       'core workspace manager must preserve legacy related-path import path while runtime-ports owns portable request-context facts',
     patterns: [
       {
-        regex: /pub use openbitfun_runtime_ports::RelatedPath;/,
+        regex: /pub use opc_runtime_ports::RelatedPath;/,
         message: 'missing related path compatibility re-export',
       },
     ],
@@ -6807,23 +6807,23 @@ export const requiredContentRules = [
       'core remote-connect root keeps compatibility re-exports while services-integrations owns device, pairing, encryption, QR, and relay primitives',
     patterns: [
       {
-        regex: /\bpub mod device\s*\{[\s\S]*openbitfun_services_integrations::remote_connect::device::\*/m,
+        regex: /\bpub mod device\s*\{[\s\S]*opc_services_integrations::remote_connect::device::\*/m,
         message: 'missing device compatibility re-export module',
       },
       {
-        regex: /\bpub mod encryption\s*\{[\s\S]*openbitfun_services_integrations::remote_connect::encryption::\*/m,
+        regex: /\bpub mod encryption\s*\{[\s\S]*opc_services_integrations::remote_connect::encryption::\*/m,
         message: 'missing encryption compatibility re-export module',
       },
       {
-        regex: /\bpub mod pairing\s*\{[\s\S]*openbitfun_services_integrations::remote_connect::pairing::\*/m,
+        regex: /\bpub mod pairing\s*\{[\s\S]*opc_services_integrations::remote_connect::pairing::\*/m,
         message: 'missing pairing compatibility re-export module',
       },
       {
-        regex: /\bpub mod qr_generator\s*\{[\s\S]*openbitfun_services_integrations::remote_connect::qr_generator::\*/m,
+        regex: /\bpub mod qr_generator\s*\{[\s\S]*opc_services_integrations::remote_connect::qr_generator::\*/m,
         message: 'missing QR compatibility re-export module',
       },
       {
-        regex: /\bpub mod relay_client\s*\{[\s\S]*openbitfun_services_integrations::remote_connect::relay_client::\*/m,
+        regex: /\bpub mod relay_client\s*\{[\s\S]*opc_services_integrations::remote_connect::relay_client::\*/m,
         message: 'missing relay client compatibility re-export module',
       },
     ],
@@ -7705,7 +7705,7 @@ export const requiredContentRules = [
         message: 'missing DeepResearch post-process runtime gate',
       },
       {
-        regex: /\bopenbitfun_services_integrations::deep_research::run_for_session_workspace\b/,
+        regex: /\bopc_services_integrations::deep_research::run_for_session_workspace\b/,
         message: 'missing DeepResearch report IO owner delegation',
       },
     ],
@@ -7736,7 +7736,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/agentic/agents/registry/availability.rs',
     reason:
-      'core agent registry must adapt config and AgentEntry facts while openbitfun-agent-runtime owns mode-scoped subagent availability decisions',
+      'core agent registry must adapt config and AgentEntry facts while opc-agent-runtime owns mode-scoped subagent availability decisions',
     patterns: [
       {
         regex: /\bfn resolve_availability\b/,
@@ -7763,14 +7763,14 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/agentic/agents/registry/types.rs',
     reason:
-      'core agent registry must preserve legacy DTO fields while openbitfun-agent-runtime owns query scope and availability reason contracts',
+      'core agent registry must preserve legacy DTO fields while opc-agent-runtime owns query scope and availability reason contracts',
     patterns: [
       {
         regex: /\bSubagentOverrideState\b/,
         message: 'missing agent-runtime subagent override contract',
       },
       {
-        regex: /pub use openbitfun_agent_runtime::agents::\{[\s\S]*SubAgentSource[\s\S]*SubagentListScope[\s\S]*SubagentQueryContext[\s\S]*SubagentStateReason[\s\S]*\};/,
+        regex: /pub use opc_agent_runtime::agents::\{[\s\S]*SubAgentSource[\s\S]*SubagentListScope[\s\S]*SubagentQueryContext[\s\S]*SubagentStateReason[\s\S]*\};/,
         message: 'missing agent-runtime subagent registry contract re-export',
       },
       {
@@ -7827,7 +7827,7 @@ export const requiredContentRules = [
         message: 'missing builtin agent definition catalog owner',
       },
       {
-        regex: /builtin_agent_spec\(\s*"GeneralPurpose",\s*SubAgent,\s*"primary"/,
+        regex: /builtin_agent_spec\(\s*"GeneralPurpose",\s*SubAgent,\s*"(?:primary|fast)"/,
         message: 'missing GeneralPurpose runtime default model mapping',
       },
       {
@@ -7907,7 +7907,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/agentic/coordination/scheduler.rs',
     reason:
-      'core scheduler keeps concrete background delivery entry points while openbitfun-agent-runtime owns running-turn injection construction',
+      'core scheduler keeps concrete background delivery entry points while opc-agent-runtime owns running-turn injection construction',
     patterns: [
       {
         regex: /\bdeliver_background_result\b/,
@@ -8637,7 +8637,7 @@ export const requiredContentRules = [
         message: 'missing MiniApp host dispatch entry',
       },
       {
-        regex: /\bopenbitfun_services_integrations::miniapp::host_dispatch::dispatch_host\b/,
+        regex: /\bopc_services_integrations::miniapp::host_dispatch::dispatch_host\b/,
         message: 'missing MiniApp host dispatch integrations owner delegation',
       },
       {
@@ -9468,7 +9468,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/services/services-integrations/src/function_agents.rs',
     reason:
-      'services-integrations must own function-agent concrete Git snapshots without depending on openbitfun-core',
+      'services-integrations must own function-agent concrete Git snapshots without depending on opc-core',
     patterns: [
       {
         regex: /\bpub struct FunctionAgentGitService\b/,
@@ -9699,7 +9699,7 @@ export const requiredContentRules = [
       'core MiniApp runtime detection must be a compatibility facade over product-domain runtime detection',
     patterns: [
       {
-        regex: /\bpub use openbitfun_product_domains::miniapp::runtime::\{/,
+        regex: /\bpub use opc_product_domains::miniapp::runtime::\{/,
         message: 'missing product-domain MiniApp runtime facade re-export',
       },
       {
@@ -9741,7 +9741,7 @@ export const requiredContentRules = [
       'core MiniApp JS worker path must stay a compatibility re-export over the integrations owner',
     patterns: [
       {
-        regex: /\bpub use openbitfun_services_integrations::miniapp::worker::\{/,
+        regex: /\bpub use opc_services_integrations::miniapp::worker::\{/,
         message: 'missing services-owned MiniApp JS worker facade re-export',
       },
       {
@@ -9909,7 +9909,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/service/mod.rs',
     reason:
-      'openbitfun-core service facades must compile only when their explicit capability profile is selected',
+      'opc-core service facades must compile only when their explicit capability profile is selected',
     patterns: [
       {
         regex: /#\[cfg\(feature = "dispatch-store"\)\]\s*pub mod dispatch\b/s,
@@ -9949,7 +9949,7 @@ export const requiredContentRules = [
       'remote SSH must preserve its public path while delegating stable workspace identity to services-core',
     patterns: [
       {
-        regex: /pub use openbitfun_services_core::workspace_identity::\*/,
+        regex: /pub use opc_services_core::workspace_identity::\*/,
         message: 'remote SSH path compatibility module must re-export the services-core owner',
       },
     ],
@@ -9960,7 +9960,7 @@ export const requiredContentRules = [
       'local workspace profiles must use stable service-owned identity and fail closed for unavailable remote runtime behavior',
     patterns: [
       {
-        regex: /use openbitfun_services_core::workspace_identity::\{/,
+        regex: /use opc_services_core::workspace_identity::\{/,
         message: 'workspace service must consume the services-core identity owner directly',
       },
       {

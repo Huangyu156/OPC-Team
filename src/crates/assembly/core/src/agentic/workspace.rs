@@ -1,18 +1,16 @@
 use crate::agentic::core::SessionConfig;
 use crate::service::workspace_runtime::WorkspaceRuntimeService;
-use openbitfun_core_types::SessionExecutionTarget;
-pub use openbitfun_runtime_ports::{
+use opc_core_types::SessionExecutionTarget;
+pub use opc_runtime_ports::{
     WorkspaceCommandOptions, WorkspaceCommandResult, WorkspaceDirEntry, WorkspaceFileSystem,
     WorkspaceServices, WorkspaceShell,
 };
-pub use openbitfun_services_core::workspace::{
+pub use opc_services_core::workspace::{
     local_workspace_services, LocalWorkspaceFs, LocalWorkspaceShell,
 };
-use openbitfun_services_core::workspace_identity::{
-    WorkspaceSessionIdentity, LOCAL_WORKSPACE_SSH_HOST,
-};
+use opc_services_core::workspace_identity::{WorkspaceSessionIdentity, LOCAL_WORKSPACE_SSH_HOST};
 #[cfg(feature = "remote-workspace")]
-pub use openbitfun_services_integrations::remote_ssh::{
+pub use opc_services_integrations::remote_ssh::{
     remote_workspace_services, RemoteWorkspaceFs, RemoteWorkspaceShell,
 };
 use std::path::{Path, PathBuf};
@@ -97,7 +95,7 @@ impl WorkspaceBinding {
     pub fn new(workspace_id: Option<String>, root_path: PathBuf) -> Self {
         let logical_workspace_path = root_path.to_string_lossy().to_string();
         let session_identity = WorkspaceSessionIdentity {
-            workspace_kind: openbitfun_core_types::WorkspaceKind::Normal,
+            workspace_kind: opc_core_types::WorkspaceKind::Normal,
             hostname: LOCAL_WORKSPACE_SSH_HOST.to_string(),
             logical_workspace_path,
             remote_connection_id: None,
@@ -197,7 +195,7 @@ impl WorkspaceBinding {
         if self.is_remote() {
             if self.session_identity.hostname == "_unresolved" {
                 if let Some(connection_id) = self.session_identity.remote_connection_id.as_deref() {
-                    return openbitfun_services_core::workspace_identity::unresolved_remote_session_storage_dir(
+                    return opc_services_core::workspace_identity::unresolved_remote_session_storage_dir(
                         crate::infrastructure::get_path_manager_arc().remote_ssh_mirror_root_dir(),
                         connection_id,
                         self.session_identity.logical_workspace_path(),
@@ -222,10 +220,8 @@ impl WorkspaceBinding {
 mod tests {
     use super::{WorkspaceBackend, WorkspaceBinding};
     use crate::service::workspace_runtime::WorkspaceRuntimeService;
-    use openbitfun_core_types::{
-        SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
-    };
-    use openbitfun_services_core::workspace_identity::workspace_session_identity;
+    use opc_core_types::{SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle};
+    use opc_services_core::workspace_identity::workspace_session_identity;
     use std::path::PathBuf;
 
     #[test]
@@ -255,8 +251,8 @@ mod tests {
 
     #[test]
     fn worktree_binding_executes_in_worktree_but_persists_in_project() {
-        let project_root = PathBuf::from("/tmp/openbitfun-project");
-        let worktree_root = PathBuf::from("/tmp/openbitfun-worktrees/wt-1");
+        let project_root = PathBuf::from("/tmp/opc-project");
+        let worktree_root = PathBuf::from("/tmp/opc-worktrees/wt-1");
         let execution_target = SessionExecutionTarget {
             kind: SessionExecutionTargetKind::ManagedWorktree,
             worktree_id: Some("wt-1".to_string()),
@@ -283,7 +279,7 @@ mod tests {
     }
 }
 
-// Workspace-level I/O contracts are owned by openbitfun-runtime-ports and the
+// Workspace-level I/O contracts are owned by opc-runtime-ports and the
 // concrete providers are re-exported from their service owner crates above.
 
 /// Resolve old and new session configs against the owning host's workspace

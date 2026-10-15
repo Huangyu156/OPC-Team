@@ -208,7 +208,7 @@ vi.mock('../../../../../infrastructure/config/components/common', () => ({
     </header>
   ),
   ConfigPageLayout: ({ children }: { children: React.ReactNode }) => (
-    <main className="openbitfun-config-page-layout">{children}</main>
+    <main className="opc-config-page-layout">{children}</main>
   ),
   ConfigPageRow: ({
     children,
@@ -330,7 +330,7 @@ describe('WorktreeSettingsSection', () => {
 
   it('adds safe auto-delete defaults and renders workspace worktrees with sessions', async () => {
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -355,7 +355,7 @@ describe('WorktreeSettingsSection', () => {
       });
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -378,7 +378,7 @@ describe('WorktreeSettingsSection', () => {
 
   it('saves the auto-delete policy with the existing worktree settings', async () => {
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -416,7 +416,7 @@ describe('WorktreeSettingsSection', () => {
     setConfigMock.mockReturnValueOnce(saveRequest.promise);
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -458,7 +458,7 @@ describe('WorktreeSettingsSection', () => {
     }]);
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -490,7 +490,7 @@ describe('WorktreeSettingsSection', () => {
     }]);
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -525,7 +525,7 @@ describe('WorktreeSettingsSection', () => {
     }]);
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -544,7 +544,7 @@ describe('WorktreeSettingsSection', () => {
 
   it('restores an archived associated conversation before opening it', async () => {
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -570,7 +570,7 @@ describe('WorktreeSettingsSection', () => {
     }>>();
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
     listProjectsMock.mockReturnValueOnce(refresh.promise);
@@ -579,7 +579,7 @@ describe('WorktreeSettingsSection', () => {
       .find(button => button.textContent === 'refresh');
     act(() => refreshButton?.click());
 
-    const results = container.querySelector('.openbitfun-worktree-settings__results');
+    const results = container.querySelector('.opc-worktree-settings__results');
     expect(results?.getAttribute('aria-busy')).toBe('true');
     expect(container.textContent).toContain('/managed/OpenBitFun-wt-1');
 
@@ -603,12 +603,12 @@ describe('WorktreeSettingsSection', () => {
     }>>();
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
     listProjectsMock.mockReturnValueOnce(refresh.promise);
 
-    const layout = container.querySelector<HTMLElement>('.openbitfun-config-page-layout');
+    const layout = container.querySelector<HTMLElement>('.opc-config-page-layout');
     expect(layout).not.toBeNull();
     if (layout) {
       layout.scrollTop = 420;
@@ -626,9 +626,9 @@ describe('WorktreeSettingsSection', () => {
       await Promise.resolve();
     });
 
-    const results = container.querySelector('.openbitfun-worktree-settings__results');
+    const results = container.querySelector('.opc-worktree-settings__results');
     expect(results?.getAttribute('aria-busy')).toBe('true');
-    expect(container.querySelector('.openbitfun-worktree-settings__skeleton')).toBeNull();
+    expect(container.querySelector('.opc-worktree-settings__skeleton')).toBeNull();
     expect(layout?.scrollTop).toBe(420);
 
     await act(async () => {
@@ -654,7 +654,7 @@ describe('WorktreeSettingsSection', () => {
     }]);
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 
@@ -689,7 +689,7 @@ describe('WorktreeSettingsSection', () => {
     }]);
 
     await act(async () => {
-      root.render(<div className="openbitfun-config-page-layout"><WorktreeSettingsSection /></div>);
+      root.render(<div className="opc-config-page-layout"><WorktreeSettingsSection /></div>);
     });
     await flushPromises();
 

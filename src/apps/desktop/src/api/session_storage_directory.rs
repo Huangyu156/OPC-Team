@@ -1,9 +1,9 @@
 //! Desktop-only access to host-owned Session storage, including remote mirrors.
 
 use super::app_state::AppState;
-use openbitfun_core::agentic::session::CoreSessionStorePort;
-use openbitfun_core::service::session::SessionStorageLayout;
-use openbitfun_runtime_ports::SessionStorePort;
+use opc_core::agentic::session::CoreSessionStorePort;
+use opc_core::service::session::SessionStorageLayout;
+use opc_runtime_ports::SessionStorePort;
 use serde::Deserialize;
 use std::path::{Path, PathBuf};
 use tauri::State;
@@ -20,7 +20,7 @@ async fn prepare_storage_directory(
     session_id: Option<&str>,
 ) -> Result<PathBuf, String> {
     if let Some(session_id) = session_id {
-        openbitfun_core_types::validate_session_id(session_id)?;
+        opc_core_types::validate_session_id(session_id)?;
         let directory =
             SessionStorageLayout::new(sessions_root.to_path_buf()).session_dir(session_id);
         if !directory.is_dir() {

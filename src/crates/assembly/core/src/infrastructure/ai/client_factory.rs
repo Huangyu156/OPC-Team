@@ -24,7 +24,7 @@ use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::AIConfig;
 use anyhow::{anyhow, Result};
 use log::{debug, info, warn};
-use openbitfun_ai_adapters::resolve_required_model_selector;
+use opc_ai_adapters::resolve_required_model_selector;
 use std::collections::HashMap;
 use std::sync::{Arc, OnceLock, RwLock};
 
@@ -35,7 +35,7 @@ pub struct AIClientFactory {
 
 struct CachedAIClient {
     configuration_fingerprint: String,
-    default_reasoning_preset: Option<openbitfun_core_types::ReasoningPresetDescriptor>,
+    default_reasoning_preset: Option<opc_core_types::ReasoningPresetDescriptor>,
     client: Arc<AIClient>,
     /// Unix seconds when the resolved subscription credential expires.
     #[cfg(feature = "subscription-auth")]
@@ -506,7 +506,7 @@ pub async fn apply_subscription_auth(
 async fn apply_configured_auth(
     auth: &AuthConfig,
     ai_config: &mut AIConfig,
-    proxy_config: Option<openbitfun_core_types::ProxyConfig>,
+    proxy_config: Option<opc_core_types::ProxyConfig>,
     skip_ssl_verify: bool,
 ) -> Result<Option<i64>> {
     let options = SubscriptionHttpOptions::new(proxy_config, skip_ssl_verify);
@@ -517,7 +517,7 @@ async fn apply_configured_auth(
 async fn apply_configured_auth(
     auth: &AuthConfig,
     ai_config: &mut AIConfig,
-    _proxy_config: Option<openbitfun_core_types::ProxyConfig>,
+    _proxy_config: Option<opc_core_types::ProxyConfig>,
     _skip_ssl_verify: bool,
 ) -> Result<Option<i64>> {
     apply_subscription_auth(auth, ai_config).await
@@ -603,7 +603,7 @@ mod tests {
     };
     use crate::service::config::{ConfigManagerSettings, ConfigService};
     use crate::util::types::AIConfig;
-    use openbitfun_ai_adapters::{
+    use opc_ai_adapters::{
         classify_model_selector, resolve_required_model_selector, ModelSelectorKind,
     };
 

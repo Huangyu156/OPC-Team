@@ -56,7 +56,7 @@
         "name": "Light",
         "description": "Light appearance - Crisp white surfaces, soft neutral grays, and deep navy actions"
       },
-      "openbitfun-monochrome": {
+      "opc-monochrome": {
         "name": "Black & White",
         "description": "Black-and-white contrast appearance - Deep black chrome, bright white workspace, and soft neutral blocks"
       },

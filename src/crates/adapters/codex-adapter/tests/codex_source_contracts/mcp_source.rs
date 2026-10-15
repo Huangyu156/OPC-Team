@@ -1,5 +1,5 @@
-use openbitfun_codex_adapter::{CodexMcpProvider, CodexMcpProviderOptions};
-use openbitfun_product_domains::external_sources::{
+use opc_codex_adapter::{CodexMcpProvider, CodexMcpProviderOptions};
+use opc_product_domains::external_sources::{
     ExecutionDomainId, ExternalMcpDiscoveryInput, ExternalMcpRevisionKey,
     ExternalMcpSourceProvider, ExternalMcpStaticStatus, ExternalMcpTransportKind,
     ExternalSourceContext, ExternalSourceScope, PreparedExternalMcpImportTransport,

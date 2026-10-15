@@ -47,7 +47,7 @@ afterEach(() => {
 });
 
 function sprite() {
-  return container.querySelector<HTMLElement>('[data-openbitfun-part="petdex"]')!;
+  return container.querySelector<HTMLElement>('[data-opc-part="petdex"]')!;
 }
 
 describe('pet sprite renderer', () => {
@@ -55,7 +55,7 @@ describe('pet sprite renderer', () => {
     const bitblob = { ...pet, id: 'bitblob' };
     for (const mood of ['rest', 'hover', 'working', 'waiting', 'analyzing', 'dragging'] as const) {
       await act(async () => root.render(<AgentCompanionPet pet={bitblob} mood={mood} />));
-      expect(sprite().style.animationName).toBe('openbitfun-petdex-walk');
+      expect(sprite().style.animationName).toBe('opc-petdex-walk');
       expect(sprite().style.imageRendering).toBe('auto');
     }
     await act(async () => root.render(<AgentCompanionPet pet={bitblob} mood="rest" action="jumping" />));

@@ -3,15 +3,15 @@ use super::common::{
     relative_display, restore_unverified_file, stage_domain_dir, validate_regular_file,
     MAX_JSON_BYTES,
 };
-use openbitfun_legacy_migration::{
+use opc_legacy_migration::{
     atomic_write_json, DomainContext, DomainScan, LegacyDomainAdapter, LegacyMigrationError,
     LegacyMigrationResult, MigrationRoots,
 };
-use openbitfun_product_domains::legacy_migration::{
+use opc_product_domains::legacy_migration::{
     ConflictResolution, FindingSeverity, MigrationConflict, MigrationDiagnostic, MigrationDomainId,
     MigrationDomainResult, MigrationDomainState, ScanFinding,
 };
-use openbitfun_services_integrations::remote_persistence as owner;
+use opc_services_integrations::remote_persistence as owner;
 use owner::{
     AccountHintRecord, AccountSessionRecord, BotChatStateRecord, BotConfigRecord,
     BotPersistenceRecord, LegacyAccountSessionKeyDomains, MachineBinding,
@@ -1168,11 +1168,11 @@ fn source_file_exists(
 mod tests {
     use super::*;
     use crate::adapters_for_groups;
-    use openbitfun_legacy_migration::{
+    use opc_legacy_migration::{
         probe_legacy_source, CancellationToken, CrashInjector, CrashPoint, LegacyMigrationError,
         MigrationEngine, NoCrashInjection, ProbeLimits,
     };
-    use openbitfun_product_domains::legacy_migration::{
+    use opc_product_domains::legacy_migration::{
         MigrationGroupId, MigrationRunStatus, MigrationSelection,
     };
     use std::sync::atomic::{AtomicBool, Ordering};
@@ -1454,7 +1454,7 @@ mod tests {
 
     fn run_remote_group(
         roots: &MigrationRoots,
-    ) -> openbitfun_product_domains::legacy_migration::MigrationRunReport {
+    ) -> opc_product_domains::legacy_migration::MigrationRunReport {
         let source = probe_legacy_source(roots, ProbeLimits::default())
             .unwrap()
             .expect("legacy source");

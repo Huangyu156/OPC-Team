@@ -54,16 +54,16 @@ describe('startup performance contract', () => {
 
     expect(source).toContain('<link rel="icon" type="image/png" href="/brand/openbitfun-app-icon.png" />');
     expect(source).not.toContain('rel="preload" as="image"');
-    expect(source).toContain('class="openbitfun-preload__logo"');
+    expect(source).toContain('class="opc-preload__logo"');
     expect(source).toContain("url('/brand/openbitfun-mark.svg')");
-    expect(source).not.toContain('src="/brand/openbitfun-mark-dark-128.png"');
-    expect(source).not.toContain('src="/brand/openbitfun-mark-light-128.png"');
+    expect(source).not.toContain('src="/brand/opc-mark-dark-128.png"');
+    expect(source).not.toContain('src="/brand/opc-mark-light-128.png"');
     expect(source).not.toContain('Loading workspace...');
-    expect(source).not.toContain('openbitfun-preload__spinner');
+    expect(source).not.toContain('opc-preload__spinner');
     expect(source).not.toContain('aria-live="polite"');
 
     expect(source.indexOf('<script type="module" src="/src/main.tsx"></script>')).toBeLessThan(
-      source.indexOf('class="openbitfun-preload__logo"'),
+      source.indexOf('class="opc-preload__logo"'),
     );
   });
 
@@ -98,7 +98,7 @@ describe('startup performance contract', () => {
     const appSource = readSource('../App.tsx');
 
     expect(appSource).toContain('const MIN_SPLASH_MS = 650;');
-    expect(source).toContain('animation: openbitfun-startup-overlay-exit 0.24s ease-in-out both;');
+    expect(source).toContain('animation: opc-startup-overlay-exit 0.24s ease-in-out both;');
   });
 
   it('keeps editor and tool infrastructure out of the first startup module', () => {
@@ -573,7 +573,7 @@ describe('startup performance contract', () => {
     const source = readSource('../App.tsx');
 
     expect(source).toContain('userCloseRequestedRef');
-    expect(source).toContain("listen('openbitfun_main_window_close_requested'");
+    expect(source).toContain("listen('opc_main_window_close_requested'");
     expect(source).toContain('user-close-requested');
     expect(source).toContain('startup-complete');
     expect(source).toContain('startup-watchdog');

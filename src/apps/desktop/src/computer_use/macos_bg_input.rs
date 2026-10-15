@@ -11,7 +11,7 @@ use core_graphics::event_source::{CGEventSource, CGEventSourceStateID};
 use core_graphics::geometry::CGPoint;
 use foreign_types::ForeignType;
 use log::{debug, info, warn};
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::ffi::c_void;
 use std::thread;
 use std::time::{Duration, Instant};
@@ -1672,7 +1672,7 @@ mod tests {
             .unwrap()
             .location();
         let frontmost = frontmost_pid_macos();
-        use openbitfun_agent_tools::computer_use_control::ControlMode;
+        use opc_agent_tools::computer_use_control::ControlMode;
         crate::computer_use::control_session::start(
             "native-input-fixture",
             ControlMode::Background,
@@ -1773,7 +1773,7 @@ mod tests {
             "fixture must start behind observer"
         );
         let mut raised = false;
-        use openbitfun_agent_tools::computer_use_control::ControlMode;
+        use opc_agent_tools::computer_use_control::ControlMode;
         super::super::control_session::start("native-controls-fixture", ControlMode::Background)
             .unwrap();
         let lease =

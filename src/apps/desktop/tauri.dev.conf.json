@@ -32,14 +32,14 @@
           "libgtk-3-0"
         ],
         "files": {
-          "/usr/share/icons/hicolor/16x16/apps/openbitfun-desktop.png": "icons/hicolor/16x16/apps/openbitfun-desktop.png",
-          "/usr/share/icons/hicolor/32x32/apps/openbitfun-desktop.png": "icons/hicolor/32x32/apps/openbitfun-desktop.png",
-          "/usr/share/icons/hicolor/48x48/apps/openbitfun-desktop.png": "icons/hicolor/48x48/apps/openbitfun-desktop.png",
-          "/usr/share/icons/hicolor/64x64/apps/openbitfun-desktop.png": "icons/hicolor/64x64/apps/openbitfun-desktop.png",
-          "/usr/share/icons/hicolor/96x96/apps/openbitfun-desktop.png": "icons/hicolor/96x96/apps/openbitfun-desktop.png",
-          "/usr/share/icons/hicolor/128x128/apps/openbitfun-desktop.png": "icons/hicolor/128x128/apps/openbitfun-desktop.png",
-          "/usr/share/icons/hicolor/256x256/apps/openbitfun-desktop.png": "icons/hicolor/256x256/apps/openbitfun-desktop.png",
-          "/usr/share/icons/hicolor/512x512/apps/openbitfun-desktop.png": "icons/hicolor/512x512/apps/openbitfun-desktop.png"
+          "/usr/share/icons/hicolor/16x16/apps/opc-desktop.png": "icons/hicolor/16x16/apps/opc-desktop.png",
+          "/usr/share/icons/hicolor/32x32/apps/opc-desktop.png": "icons/hicolor/32x32/apps/opc-desktop.png",
+          "/usr/share/icons/hicolor/48x48/apps/opc-desktop.png": "icons/hicolor/48x48/apps/opc-desktop.png",
+          "/usr/share/icons/hicolor/64x64/apps/opc-desktop.png": "icons/hicolor/64x64/apps/opc-desktop.png",
+          "/usr/share/icons/hicolor/96x96/apps/opc-desktop.png": "icons/hicolor/96x96/apps/opc-desktop.png",
+          "/usr/share/icons/hicolor/128x128/apps/opc-desktop.png": "icons/hicolor/128x128/apps/opc-desktop.png",
+          "/usr/share/icons/hicolor/256x256/apps/opc-desktop.png": "icons/hicolor/256x256/apps/opc-desktop.png",
+          "/usr/share/icons/hicolor/512x512/apps/opc-desktop.png": "icons/hicolor/512x512/apps/opc-desktop.png"
         },
         "postInstallScript": "scripts/post-install-icons.sh"
       },

@@ -12,7 +12,7 @@ agent-facing tool surface.
 
 ## Guardrails
 
-- Do not depend on `openbitfun-core`, app crates, Tauri, product-domain crates,
+- Do not depend on `opc-core`, app crates, Tauri, product-domain crates,
   transport adapters, or AI providers.
 - Keep this crate focused on reusable execution primitives and pure utilities.
   Product-specific tool exposure, prompt-visible manifests, `GetToolSpec`,
@@ -58,9 +58,9 @@ agent-facing tool surface.
   cannot prove that mutation input was never submitted, so they must not authorize
   automatic input replay. Host APIs, permissions, captures, OCR, accessibility,
   and OS input remain in host adapters.
-- Provider-neutral contracts belong in `tool-contracts` (`openbitfun-agent-tools`);
+- Provider-neutral contracts belong in `tool-contracts` (`opc-agent-tools`);
   product provider grouping belongs in `tool-provider-groups`
-  (`openbitfun-tool-packs`).
+  (`opc-tool-packs`).
 - `shell-analysis` owns non-executing syntax facts for complete ExecCommand
   inputs. Core's Agent Runtime selects it for task constraints; session state,
   path IO and permission decisions stay in Core. Keep the default empty;
@@ -76,9 +76,9 @@ cargo test -p tool-runtime --lib fs::read_file::tests::
 cargo test -p tool-runtime --no-default-features --lib search::
 cargo test -p tool-runtime --no-default-features --test tool_io_contracts
 # Production LocalWorkspaceFs and bound remote-provider conformance fixtures:
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib grep_tool::tests::workspace_io
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib glob_tool::tests
-cargo test -p openbitfun-core --no-default-features --features agent-runtime,git --lib ls_tool::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib grep_tool::tests::workspace_io
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib glob_tool::tests
+cargo test -p opc-core --no-default-features --features agent-runtime,git --lib ls_tool::tests
 cargo test -p tool-runtime --features document-read --lib fs::document
 cargo test -p tool-runtime --features web-readable web
 node scripts/check-core-boundaries.mjs

@@ -69,10 +69,10 @@ describe('model discovery capsules', () => {
     act(() => root.render(<Picker />));
     expect(popup()).toBeNull();
     expect(trigger().textContent).toBe(copy('providerSelection.quickAdd'));
-    expect(trigger().getAttribute('data-openbitfun-variant')).toBe('primary');
+    expect(trigger().getAttribute('data-opc-variant')).toBe('primary');
     click(trigger());
     expect(popup()!.getAttribute('aria-modal')).toBe('true');
-    expect(popup()!.getAttribute('data-openbitfun-component')).toBe('dialog');
+    expect(popup()!.getAttribute('data-opc-component')).toBe('dialog');
     expect(popup()!.textContent).toContain(copy('providerSelection.fetchedModels', { count: '3' }));
     expect(capsules().map(button => button.textContent)).toEqual(['alpha', 'beta', 'gamma']);
     expect(capsules()[0].getAttribute('aria-pressed')).toBe('true');
@@ -117,7 +117,7 @@ describe('model discovery capsules', () => {
     const other = document.querySelector<HTMLButtonElement>('[data-testid="other-field"]')!;
     act(() => other.focus());
     expect(popup()!.contains(document.activeElement)).toBe(true);
-    const backdrop = popup()!.closest<HTMLElement>('[data-openbitfun-part="overlay"]')!;
+    const backdrop = popup()!.closest<HTMLElement>('[data-opc-part="overlay"]')!;
     act(() => backdrop.dispatchEvent(new MouseEvent('pointerdown', { bubbles: true })));
     expect(popup()).toBeNull();
     expect(editorClosures).toEqual([]);

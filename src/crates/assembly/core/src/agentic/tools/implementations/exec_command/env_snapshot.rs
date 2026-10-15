@@ -1,5 +1,5 @@
 use super::shell_kind::exec_command_shell_kind;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     RemoteExecCommandRequest, RemoteExecControlAction, RemoteExecControlOrigin,
     RemoteExecControlRequest, RemoteExecPort,
 };

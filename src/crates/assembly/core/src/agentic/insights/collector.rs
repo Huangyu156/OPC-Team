@@ -15,7 +15,7 @@ use crate::service::snapshot::get_snapshot_manager_for_workspace;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::{DateTime, Local, Utc};
 use log::{debug, warn};
-use openbitfun_agent_tools::ResolvedToolInvocation;
+use opc_agent_tools::ResolvedToolInvocation;
 use std::collections::{HashMap, HashSet};
 use std::path::Path;
 #[cfg(test)]

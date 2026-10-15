@@ -35,25 +35,25 @@ const CoreAgentCard: React.FC<CoreAgentCardProps> = ({
     <AgentCatalogCard
       agent={agent}
       onOpenDetails={onOpenDetails}
-      data-openbitfun-product-component="core-agent-card"
-      data-openbitfun-product-part="root"
+      data-opc-product-component="core-agent-card"
+      data-opc-product-part="root"
     >
       <CardHeader
         align="center"
         className="agent-catalog-card__header"
-        data-openbitfun-product-component="core-agent-card"
-        data-openbitfun-product-part="header"
+        data-opc-product-component="core-agent-card"
+        data-opc-product-part="header"
         title={(
-          <div className="agent-catalog-card__title" data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="headerInfo">
+          <div className="agent-catalog-card__title" data-opc-product-component="core-agent-card" data-opc-product-part="headerInfo">
             <div className="agent-catalog-card__title-row">
-              <OverflowText className="agent-catalog-card__name" data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="name" data-testid="agent-list-item-title">
+              <OverflowText className="agent-catalog-card__name" data-opc-product-component="core-agent-card" data-opc-product-part="name" data-testid="agent-list-item-title">
                 {agent.name}
               </OverflowText>
               <span className="agent-catalog-card__identity">
-                <span className="agent-catalog-card__icon" data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="icon" aria-hidden="true">
+                <span className="agent-catalog-card__icon" data-opc-product-component="core-agent-card" data-opc-product-part="icon" aria-hidden="true">
                   <Icon {...agentIcon} size="sm" />
                 </span>
-                <OverflowText data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="role">
+                <OverflowText data-opc-product-component="core-agent-card" data-opc-product-part="role">
                   {meta.role}
                 </OverflowText>
               </span>
@@ -61,18 +61,18 @@ const CoreAgentCard: React.FC<CoreAgentCardProps> = ({
           </div>
         )}
       />
-      <CardBody data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="body">
-        <OverflowText as="p" lines={2} className="agent-catalog-card__description" data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="description" data-testid="agent-list-item-description">
+      <CardBody data-opc-product-component="core-agent-card" data-opc-product-part="body">
+        <OverflowText as="p" lines={2} className="agent-catalog-card__description" data-opc-product-component="core-agent-card" data-opc-product-part="description" data-testid="agent-list-item-description">
           {getAgentDescription(t, agent)}
         </OverflowText>
       </CardBody>
-      <CardFooter align="between" className="agent-catalog-card__footer" data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="footer">
-        <AgentCatalogMetrics {...metrics} agent={agent} data-openbitfun-product-component="core-agent-card" data-openbitfun-product-part="meta" />
+      <CardFooter align="between" className="agent-catalog-card__footer" data-opc-product-component="core-agent-card" data-opc-product-part="footer">
+        <AgentCatalogMetrics {...metrics} agent={agent} data-opc-product-component="core-agent-card" data-opc-product-part="meta" />
         <span
           className="agent-catalog-card__status"
-          data-openbitfun-product-component="core-agent-card"
-          data-openbitfun-product-part="status"
-          data-openbitfun-state={disabledReason ? 'disabled' : 'connected'}
+          data-opc-product-component="core-agent-card"
+          data-opc-product-part="status"
+          data-opc-state={disabledReason ? 'disabled' : 'connected'}
           title={statusLabel}
         >
           <Icon className="agent-catalog-card__status-icon" name="unselected" size="2xs" />

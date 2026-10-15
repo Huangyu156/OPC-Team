@@ -42,18 +42,18 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(functio
       aria-busy={loading || undefined}
       aria-label={ariaLabel}
       className={classNames(styles.button, resolvedVariant === "glass" && glassStyles.surface, className)}
-      data-openbitfun-component="icon-button"
-      data-openbitfun-shape={floating ? "circle" : shape}
-      data-openbitfun-tone={tone}
-      data-openbitfun-variant={resolvedVariant}
+      data-opc-component="icon-button"
+      data-opc-shape={floating ? "circle" : shape}
+      data-opc-tone={tone}
+      data-opc-variant={resolvedVariant}
       data-loading={loading ? "true" : "false"}
       data-size={floating ? "xs" : size}
       disabled={disabled || loading}
       ref={ref}
       type={type}
     >
-      <span aria-hidden="true" className={styles.progress} data-openbitfun-part="progress" />
-      <span aria-hidden="true" className={styles.icon} data-openbitfun-icon-slot="true" data-openbitfun-part="icon">{icon}</span>
+      <span aria-hidden="true" className={styles.progress} data-opc-part="progress" />
+      <span aria-hidden="true" className={styles.icon} data-opc-icon-slot="true" data-opc-part="icon">{icon}</span>
     </button>
   );
 });

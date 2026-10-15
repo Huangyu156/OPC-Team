@@ -21,7 +21,7 @@
       "styleNotes": "Light appearance - Crisp white surfaces, soft neutral grays, deep navy actions"
     },
     {
-      "id": "openbitfun-monochrome",
+      "id": "opc-monochrome",
       "mode": "light",
       "bgPrimary": "#ffffff",
       "bgSecondary": "#ffffff",

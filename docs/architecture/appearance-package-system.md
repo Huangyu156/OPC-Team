@@ -1,7 +1,7 @@
 # OPC-Team Appearance 外观包系统
 
 本文定义 Web UI 的唯一外观运行时。原 `ThemeService + SkinService + DeepSkinComponents.scss`
-双系统已经废弃；`openbitfun.skin`、`.openbitfun-skin`、旧 IndexedDB 数据和旧 manifest 均不兼容、
+双系统已经废弃；`openbitfun.skin`、`.opc-skin`、旧 IndexedDB 数据和旧 manifest 均不兼容、
 不迁移。
 
 ## 目标
@@ -247,11 +247,11 @@ Appearance 契约按“可见 surface owner”而不是按 React 文件数量划
 
 ```tsx
 <button
-  data-openbitfun-component="button"
-  data-openbitfun-part="root"
-  data-openbitfun-variant={variant}
-  data-openbitfun-size={size}
-  data-openbitfun-state={state}
+  data-opc-component="button"
+  data-opc-part="root"
+  data-opc-variant={variant}
+  data-opc-size={size}
+  data-opc-state={state}
 />
 ```
 
@@ -289,12 +289,12 @@ states: [
 
 ```css
 :root[data-openbitfun-appearance="example.aurora"]
-  [data-openbitfun-component="button"][data-openbitfun-part="root"][data-openbitfun-variant="primary"]:hover:not(:disabled) { ... }
+  [data-opc-component="button"][data-opc-part="root"][data-opc-variant="primary"]:hover:not(:disabled) { ... }
 ```
 
 产品控件复用组件库时，可在 descriptor 中声明
-`componentAttribute: 'data-openbitfun-product-component'`，由编译器匹配
-`data-openbitfun-product-component` / `data-openbitfun-product-part`，避免覆盖库组件自己的标识。
+`componentAttribute: 'data-opc-product-component'`，由编译器匹配
+`data-opc-product-component` / `data-opc-product-part`，避免覆盖库组件自己的标识。
 模型轮次、图片导出、紧凑工具栏和消息定位控件使用这一映射；外观包仍使用
 `model-round-item`、`export-image`、`toolbar-mode`、`scroll-to-latest-bar`、
 `scroll-to-turn-header-button` 及原有
@@ -332,7 +332,7 @@ CSS。超过 25% 的 part 使用 override 时，validator 会产生 `EXCESSIVE_O
 的祖先目录中不能通过审计，也禁止恢复目录级 ownership 规则。
 
 descriptor 只建立源码所有权还不够：所有需要独立定制的可见部件必须同时暴露稳定
-`data-openbitfun-component` / `data-openbitfun-scene` 与 `data-openbitfun-part` DOM 契约。审计同时验证 descriptor、
+`data-opc-component` / `data-opc-scene` 与 `data-opc-part` DOM 契约。审计同时验证 descriptor、
 DOM 和 registry 三者闭合。
 
 审计逐个 JSX 节点验证 component/scene 与 part 必须在同一真实 DOM 节点成对出现，ID 必须是
@@ -341,7 +341,7 @@ DOM 和 registry 三者闭合。
 
 ## Scene 与 Portal
 
-Scene 使用与组件相同的规则，但稳定根属性是 `data-openbitfun-scene`。每个场景必须登记自己的
+Scene 使用与组件相同的规则，但稳定根属性是 `data-opc-scene`。每个场景必须登记自己的
 canvas、navigation、toolbar、content、emptyState 等可见 part。
 
 Portal 必须挂载到统一 `AppearanceOverlayHost`，Portal 内组件仍使用普通 component/part
@@ -390,8 +390,8 @@ flowchart LR
 
 每次成功提交都会增加单调 revision，并原子更新：
 
-- `<style data-openbitfun-appearance-runtime="revision">`；
-- `data-openbitfun-appearance`、`data-openbitfun-appearance-mode`、`data-openbitfun-appearance-revision`；
+- `<style data-opc-appearance-runtime="revision">`；
+- `data-openbitfun-appearance`、`data-opc-appearance-mode`、`data-opc-appearance-revision`；
 - `ResolvedAppearance`；
 - renderer adapter 状态；
 - 当前包的 blob URL 生命周期。
@@ -433,8 +433,8 @@ Skin runtime、manifest 或文件格式。公网入口固定为 `market.openbitf
 `/skin/api/v1`，下载物仍是 `.openbitfun-appearance`，根 manifest 仍是 `appearance.json` 和
 `schema: openbitfun.appearance`。
 
-市场稳定 DTO 和发布状态机由 `openbitfun-product-domains::appearance_market` 拥有。独立
-`openbitfun-skin-market` 服务使用自己的 SQLite、content-addressed package/preview artifacts、审核日志、
+市场稳定 DTO 和发布状态机由 `opc-product-domains::appearance_market` 拥有。独立
+`opc-skin-market` 服务使用自己的 SQLite、content-addressed package/preview artifacts、审核日志、
 retention 和备份；不与 MiniApp listing/release/submission 表共用 namespace。公开 Web 站只读。
 Desktop 投稿复用 MiniApp 市场凭据存储中的 GitHub Desktop token；macOS 使用应用数据目录下的
 本地加密文件，避免系统钥匙串授权提示，Windows/Linux 仍使用各自的原生凭据存储。Skin 服务只把 Bearer token
@@ -485,7 +485,7 @@ DOM 属性或旧 CSS token 兼容层。内置外观与导入包使用同一个 p
 storage 和激活事务；Monaco、xterm、Mermaid、Canvas、Widget 与 CSS token projection 全部通过正式
 renderer adapter 接入。
 
-每个可见 owner 使用专属 surface 或明确的共享组件 surface。`data-openbitfun-kind`、按源码路径生成的 kind
+每个可见 owner 使用专属 surface 或明确的共享组件 surface。`data-opc-kind`、按源码路径生成的 kind
 数组，以及 `workbench.item` / `flow-chat.item` 聚合契约均被禁止。复杂 owner 的审计依据是样式表中
 实际被 TSX 使用的视觉 class 与 TSX AST 中的 styled DOM 结构，不使用源码行数阈值。
 

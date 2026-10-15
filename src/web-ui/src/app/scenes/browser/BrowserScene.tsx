@@ -31,16 +31,16 @@ const BrowserScene: React.FC = () => {
     <div
       className="browser-scene"
       data-testid="browser-panel"
-      data-openbitfun-scene="browser"
-      data-openbitfun-part="root"
-      data-openbitfun-state={browser.isLoading ? 'loading' : undefined}
+      data-opc-scene="browser"
+      data-opc-part="root"
+      data-opc-state={browser.isLoading ? 'loading' : undefined}
     >
       <form
         className="browser-scene__toolbar"
         onSubmit={handleSubmit}
         data-testid="browser-panel-title"
-        data-openbitfun-scene="browser"
-        data-openbitfun-part="toolbar"
+        data-opc-scene="browser"
+        data-opc-part="toolbar"
       >
         <IconButton
           type="button"
@@ -84,13 +84,13 @@ const BrowserScene: React.FC = () => {
       </form>
 
       {browser.error ? (
-        <div className="browser-scene__error" data-testid="browser-error-message" data-openbitfun-scene="browser" data-openbitfun-part="error">
+        <div className="browser-scene__error" data-testid="browser-error-message" data-opc-scene="browser" data-opc-part="error">
           <AlertTriangle size={16} />
           <span>{browser.error}</span>
         </div>
       ) : null}
 
-      <div className="browser-scene__content" data-testid="browser-page-frame" data-openbitfun-scene="browser" data-openbitfun-part="content">
+      <div className="browser-scene__content" data-testid="browser-page-frame" data-opc-scene="browser" data-opc-part="content">
         {!browser.isTauri ? (
           <iframe
             className="browser-scene__iframe"

@@ -1,6 +1,6 @@
 //! Core Agent Runtime compatibility adapter boundary.
 //!
-//! Product runtime assembly facts live in `openbitfun-product-capabilities`. Core
+//! Product runtime assembly facts live in `opc-product-capabilities`. Core
 //! keeps only compatibility exports and adapter wiring that still depends on
 //! existing concrete core paths.
 
@@ -13,8 +13,8 @@ use std::sync::Arc;
 use std::sync::OnceLock;
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
-use openbitfun_agent_runtime::permission::PermissionRequestManager;
-use openbitfun_agent_runtime::sdk::{
+use opc_agent_runtime::permission::PermissionRequestManager;
+use opc_agent_runtime::sdk::{
     AgentEventReceiver, AgentEventSource, AgentRuntime, AgentSessionForkAtTurnRequest,
     AgentSessionForkBeforeTurnRequest, AgentSessionForkPort, AgentSessionForkRequest,
     AgentSessionForkResult, AgentSessionLifecycleStatus, AgentSessionLineageCancellationRequest,
@@ -24,30 +24,30 @@ use openbitfun_agent_runtime::sdk::{
     AgentTurnSettlementPort, AgentTurnSettlementRequest, AgentTurnSettlementResult,
     AgentTurnSettlementStatus, SessionTranscript,
 };
-use openbitfun_core_types::{SESSION_PROVIDER_ACP, SESSION_PROVIDER_METADATA_KEY};
+use opc_core_types::{SESSION_PROVIDER_ACP, SESSION_PROVIDER_METADATA_KEY};
 #[cfg(feature = "product-search")]
-use openbitfun_product_domains::product_search::{
+use opc_product_domains::product_search::{
     SessionContentSearchRequest, SessionContentSearchResponse, SessionSearchDiagnostic,
     SessionSearchDiagnosticCode, SessionSearchSessionDocument, SessionSearchTurnDocument,
     MAX_SESSION_CONTENT_SEARCH_QUERY_CHARS,
 };
 #[cfg(feature = "product-search")]
-use openbitfun_runtime_ports::ProductSearchPort;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::ProductSearchPort;
+use opc_runtime_ports::{
     AgentContextReloadPort, AgentContextReloadRequest, ClockPort, LocalWorkspaceSnapshotPort,
     LocalWorkspaceSnapshotSessionRequest, LocalWorkspaceSnapshotStats,
     LocalWorkspaceSnapshotTurnRequest, PortError, PortErrorKind, PortResult,
     RuntimeServiceCapability, RuntimeServicePort, SessionStoragePathRequest, SessionStorePort,
     SessionTranscriptRequest, SessionTurnWindowRequest, SessionViewRestoreTiming,
 };
-use openbitfun_runtime_services::RuntimeServices;
-use openbitfun_services_core::permission_store::ProjectPermissionSqliteStore;
-use openbitfun_services_core::session::{
+use opc_runtime_services::RuntimeServices;
+use opc_services_core::permission_store::ProjectPermissionSqliteStore;
+use opc_services_core::session::{
     build_session_lineage_snapshot, normalized_session_relationship, SessionBranchBoundary,
     SessionRelationshipKind,
 };
 #[cfg(feature = "product-search")]
-use openbitfun_services_core::session_search::{SessionSearchIndexError, SessionSearchSqliteIndex};
+use opc_services_core::session_search::{SessionSearchIndexError, SessionSearchSqliteIndex};
 
 use crate::agentic::coordination::{
     runtime_transcript_messages_from_turns, validate_required_lineage_turns_settled,
@@ -93,7 +93,7 @@ use crate::service::token_usage::TokenUsageService;
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 
-pub use openbitfun_product_capabilities::ProductRuntimeAssembly as CoreProductRuntimeAssembly;
+pub use opc_product_capabilities::ProductRuntimeAssembly as CoreProductRuntimeAssembly;
 pub use runtime_services::{build_local_runtime_services, CoreRuntimeServicesProvider};
 
 fn projected_turn_save_would_overwrite_runtime_state(
@@ -244,7 +244,7 @@ impl CoreProductEventQueueOwner {
 ///
 /// First-party hosts must retain [`CoreProductEventQueueOwner`] and subscribe
 /// through `AgentRuntime`. This wrapper remains only to avoid silently breaking
-/// existing `openbitfun-core` consumers during the migration.
+/// existing `opc-core` consumers during the migration.
 #[deprecated(note = "use CoreProductEventQueueOwner and subscribe through AgentRuntime instead")]
 #[derive(Clone)]
 pub struct CoreProductAgentEventSource {
@@ -321,9 +321,9 @@ pub fn core_permission_request_manager() -> Result<Arc<PermissionRequestManager>
     let store = Arc::new(ProjectPermissionSqliteStore::new(
         path_manager.user_data_dir().join("permissions"),
     ));
-    let audit_store: Arc<dyn openbitfun_runtime_ports::PermissionAuditStorePort> = store.clone();
-    let reply_store: Arc<dyn openbitfun_runtime_ports::PermissionReplyStorePort> = store.clone();
-    let grant_store: Arc<dyn openbitfun_runtime_ports::PermissionGrantStorePort> = store;
+    let audit_store: Arc<dyn opc_runtime_ports::PermissionAuditStorePort> = store.clone();
+    let reply_store: Arc<dyn opc_runtime_ports::PermissionReplyStorePort> = store.clone();
+    let grant_store: Arc<dyn opc_runtime_ports::PermissionGrantStorePort> = store;
     let manager = Arc::new(
         PermissionRequestManager::new(audit_store, reply_store, Arc::new(SystemPermissionClock))
             .with_grant_store(grant_store),
@@ -364,7 +364,7 @@ pub struct CoreSessionMaintenancePermit {
 }
 
 fn validate_persisted_session_id(session_id: &str) -> OpcTeamResult<()> {
-    openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)
+    opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)
 }
 
 fn validate_session_workspace_identity(
@@ -507,7 +507,7 @@ async fn load_visible_persisted_session_turns(
 }
 
 fn runtime_lineage_snapshot(
-    snapshot: openbitfun_services_core::session::SessionLineageSnapshot,
+    snapshot: opc_services_core::session::SessionLineageSnapshot,
     remote_connection_id: Option<&str>,
     remote_ssh_host: Option<&str>,
 ) -> AgentSessionLineageSnapshot {
@@ -524,13 +524,13 @@ fn runtime_lineage_snapshot(
                     agent_type: metadata.agent_type,
                     created_at_ms: metadata.created_at,
                     status: match metadata.status {
-                        openbitfun_services_core::session::SessionStatus::Active => {
+                        opc_services_core::session::SessionStatus::Active => {
                             AgentSessionLifecycleStatus::Active
                         }
-                        openbitfun_services_core::session::SessionStatus::Archived => {
+                        opc_services_core::session::SessionStatus::Archived => {
                             AgentSessionLifecycleStatus::Archived
                         }
-                        openbitfun_services_core::session::SessionStatus::Completed => {
+                        opc_services_core::session::SessionStatus::Completed => {
                             AgentSessionLifecycleStatus::Completed
                         }
                     },
@@ -799,7 +799,7 @@ impl CoreProductAgentRuntime {
         coordinator: Arc<ConversationCoordinator>,
         scheduler: Arc<DialogScheduler>,
         token_usage_service: Arc<TokenUsageService>,
-        event_journal: Arc<openbitfun_agent_runtime::sdk::SessionEventJournal>,
+        event_journal: Arc<opc_agent_runtime::sdk::SessionEventJournal>,
     ) -> Result<AgentRuntime, String> {
         Self::build_session_surface(coordinator, scheduler, token_usage_service)
             .map(|runtime| runtime.with_session_event_journal(event_journal))
@@ -956,7 +956,7 @@ impl CoreAgentRuntimeCompatibility {
     pub fn session_permission_mode(
         &self,
         session_id: &str,
-    ) -> Option<openbitfun_runtime_ports::PermissionMode> {
+    ) -> Option<opc_runtime_ports::PermissionMode> {
         self.coordinator
             .get_session_manager()
             .session_permission_mode(session_id)
@@ -965,7 +965,7 @@ impl CoreAgentRuntimeCompatibility {
     pub async fn update_session_permission_mode(
         &self,
         session_id: &str,
-        mode: Option<openbitfun_runtime_ports::PermissionMode>,
+        mode: Option<opc_runtime_ports::PermissionMode>,
     ) -> OpcTeamResult<()> {
         self.coordinator
             .get_session_manager()
@@ -977,7 +977,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         session_id: &str,
         turn_id: &str,
-    ) -> Option<openbitfun_runtime_ports::PermissionMode> {
+    ) -> Option<opc_runtime_ports::PermissionMode> {
         self.coordinator
             .get_session_manager()
             .active_turn_permission_mode(session_id, turn_id)
@@ -987,7 +987,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         session_id: &str,
         turn_id: &str,
-        mode: openbitfun_runtime_ports::PermissionMode,
+        mode: opc_runtime_ports::PermissionMode,
     ) -> bool {
         self.coordinator
             .get_session_manager()
@@ -1279,8 +1279,8 @@ impl CoreAgentRuntimeCompatibility {
         session_ids: Option<&[String]>,
     ) -> OpcTeamResult<SessionMetadataPage> {
         use futures::StreamExt;
-        use openbitfun_agent_runtime::session_state::SessionState;
-        use openbitfun_services_core::session::page::{
+        use opc_agent_runtime::session_state::SessionState;
+        use opc_services_core::session::page::{
             empty_session_metadata_page, SessionActivitySummary,
         };
 
@@ -1323,8 +1323,8 @@ impl CoreAgentRuntimeCompatibility {
             }
         }
         let manager = self.coordinator.get_session_manager();
-        let questions = openbitfun_agent_runtime::user_questions::get_user_input_manager()
-            .pending_question_counts();
+        let questions =
+            opc_agent_runtime::user_questions::get_user_input_manager().pending_question_counts();
         let selected = futures::stream::iter(selected)
             .map(|metadata| {
                 let manager = &manager;
@@ -2021,12 +2021,12 @@ impl AgentContextReloadPort for CoreAgentRuntimeCompatibility {
     async fn reload_session_context(
         &self,
         request: AgentContextReloadRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
+    ) -> opc_runtime_ports::PortResult<()> {
         CoreAgentRuntimeCompatibility::reload_session_context(self, request)
             .await
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })
@@ -2894,15 +2894,15 @@ mod tests {
     use std::time::Duration;
 
     use crate::service::session::SessionTranscriptExportOptions;
-    use openbitfun_agent_runtime::sdk::{
+    use opc_agent_runtime::sdk::{
         AgentEventSource, AgentRuntime, AgentTurnSettlementPort, AgentTurnSettlementRequest,
         AgentTurnSettlementResult, AgentTurnSettlementStatus,
     };
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         AgentContextReloadRequest, AgentContextReloadTarget, LocalWorkspaceSnapshotSessionRequest,
         LocalWorkspaceSnapshotTurnRequest,
     };
-    use openbitfun_runtime_services::RuntimeServices;
+    use opc_runtime_services::RuntimeServices;
     use uuid::Uuid;
 
     #[allow(deprecated)]
@@ -2942,11 +2942,11 @@ mod tests {
         set_workspace_runtime_service_for_current_test, WorkspaceRuntimeService,
     };
     use crate::util::errors::OpcTeamError;
-    use openbitfun_agent_runtime::sdk::{
+    use opc_agent_runtime::sdk::{
         AgentSessionForkAtTurnRequest, AgentSessionForkBeforeTurnRequest, AgentSessionForkPort,
         AgentSessionForkRequest, AgentSessionUsagePort, AgentSessionUsageRequest, PortErrorKind,
     };
-    use openbitfun_events::AgenticEvent;
+    use opc_events::AgenticEvent;
     use tokio::sync::RwLock as TokioRwLock;
 
     #[cfg(feature = "product-search")]
@@ -2954,7 +2954,7 @@ mod tests {
     fn product_search_index_errors_do_not_cross_the_runtime_boundary() {
         let private_backend_detail = "C:\\Users\\private\\product-search-v1.sqlite";
         let error = session_search_index_error(
-            openbitfun_services_core::session_search::SessionSearchIndexError::Backend(
+            opc_services_core::session_search::SessionSearchIndexError::Backend(
                 private_backend_detail.to_string(),
             ),
         );
@@ -2968,7 +2968,7 @@ mod tests {
     #[test]
     fn product_search_query_length_is_bounded_before_storage_access() {
         let oversized = "x".repeat(
-            openbitfun_product_domains::product_search::MAX_SESSION_CONTENT_SEARCH_QUERY_CHARS + 1,
+            opc_product_domains::product_search::MAX_SESSION_CONTENT_SEARCH_QUERY_CHARS + 1,
         );
 
         assert_eq!(
@@ -2989,7 +2989,7 @@ mod tests {
     impl TestWorkspace {
         fn new() -> Self {
             let path = std::env::temp_dir().join(format!(
-                "openbitfun-product-runtime-compatibility-test-{}",
+                "opc-product-runtime-compatibility-test-{}",
                 Uuid::new_v4()
             ));
             std::fs::create_dir_all(&path).expect("test workspace should be created");
@@ -4572,7 +4572,7 @@ mod tests {
             Arc::new(
                 crate::runtime_ownership::CoreRuntimeOwnership::embedded_with_facts(
                     std::env::temp_dir().join(format!(
-                        "openbitfun-product-runtime-ownership-test-{}",
+                        "opc-product-runtime-ownership-test-{}",
                         uuid::Uuid::new_v4()
                     )),
                     "openbitfun".to_string(),
@@ -5063,7 +5063,7 @@ mod tests {
             Arc::new(
                 crate::runtime_ownership::CoreRuntimeOwnership::embedded_with_facts(
                     std::env::temp_dir().join(format!(
-                        "openbitfun-product-runtime-ownership-test-{}",
+                        "opc-product-runtime-ownership-test-{}",
                         uuid::Uuid::new_v4()
                     )),
                     "openbitfun".to_string(),

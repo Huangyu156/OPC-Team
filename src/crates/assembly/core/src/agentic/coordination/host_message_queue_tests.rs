@@ -1,4 +1,4 @@
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     DialogQueueAction as Action, DialogQueueMessage, DialogQueueRequest,
     DialogQueueStatus as Status,
 };
@@ -41,7 +41,7 @@ async fn fixture() -> (
 
 #[tokio::test]
 async fn host_queue_subagent_conversation_admission_precedes_receipts_and_queue_mutation() {
-    use openbitfun_core_types::{SessionContinuationPolicy, SessionKind};
+    use opc_core_types::{SessionContinuationPolicy, SessionKind};
     for policy in [
         SessionContinuationPolicy::FreshOnly,
         SessionContinuationPolicy::Reusable,

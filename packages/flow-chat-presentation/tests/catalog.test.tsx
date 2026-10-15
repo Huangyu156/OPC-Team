@@ -71,10 +71,10 @@ describe.each(['en-US', 'zh-CN', 'zh-TW'] as const)('public component fixture co
         const html = renderToString(<I18nContext.Provider value={{ locale, setLocale: () => {}, t: (key, params) => translateFromCatalog(messages, locale, key, params) }}>
           <FlowChatComponentPreview componentName={component.name} state={state} specimen={definition.specimens[0]} />
         </I18nContext.Provider>);
-        expect(html).toContain('data-openbitfun-');
+        expect(html).toContain('data-opc-');
         expect(html).not.toContain('undefined');
         if (component.name === 'CommandToolCard' && state === 'hover') {
-          expect(html).toContain('data-openbitfun-preview-state="hover"');
+          expect(html).toContain('data-opc-preview-state="hover"');
         }
       } finally { spy.mockRestore(); }
     });

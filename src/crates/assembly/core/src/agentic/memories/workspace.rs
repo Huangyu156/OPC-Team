@@ -2,12 +2,12 @@ use crate::agentic::memories::db::MemoryRow;
 use crate::infrastructure::get_path_manager_arc;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::{DateTime, Utc};
-pub use openbitfun_services_core::memory_store::{
+pub use opc_services_core::memory_store::{
     AD_HOC_EXTENSION_NAME, AD_HOC_NOTES_DIR_NAME, MEMORY_EXTENSIONS_DIR_NAME, MEMORY_FILE_NAME,
     MEMORY_SUMMARY_FILE_NAME,
 };
-use openbitfun_services_core::session::MemoryWorkspaceGitError;
-pub use openbitfun_services_core::session::{
+use opc_services_core::session::MemoryWorkspaceGitError;
+pub use opc_services_core::session::{
     MemoryWorkspaceChange, MemoryWorkspaceChangeStatus, MemoryWorkspaceDiff,
 };
 use std::collections::HashSet;
@@ -228,7 +228,7 @@ pub async fn prepare_memory_workspace(root: &Path) -> OpcTeamResult<()> {
     ensure_memory_workspace(root).await?;
     seed_ad_hoc_memory_extension(root).await?;
     remove_phase2_workspace_diff(root).await?;
-    openbitfun_services_core::session::ensure_memory_workspace_git_baseline(root)
+    opc_services_core::session::ensure_memory_workspace_git_baseline(root)
         .await
         .map_err(map_memory_workspace_baseline_error)
 }
@@ -284,7 +284,7 @@ pub async fn seed_ad_hoc_memory_extension(root: &Path) -> OpcTeamResult<()> {
 
 pub async fn memory_workspace_diff(root: &Path) -> OpcTeamResult<MemoryWorkspaceDiff> {
     remove_phase2_workspace_diff(root).await?;
-    openbitfun_services_core::session::memory_workspace_diff(root)
+    opc_services_core::session::memory_workspace_diff(root)
         .await
         .map_err(map_memory_workspace_diff_error)
 }
@@ -294,14 +294,14 @@ pub async fn write_workspace_diff(root: &Path, diff: &MemoryWorkspaceDiff) -> Op
     let path = phase2_workspace_diff_file(root);
     write_text_file_if_changed(
         &path,
-        &openbitfun_services_core::session::render_memory_workspace_diff_file(diff),
+        &opc_services_core::session::render_memory_workspace_diff_file(diff),
     )
     .await
 }
 
 pub async fn reset_memory_workspace_baseline(root: &Path) -> OpcTeamResult<()> {
     remove_phase2_workspace_diff(root).await?;
-    openbitfun_services_core::session::reset_memory_workspace_git_baseline(root)
+    opc_services_core::session::reset_memory_workspace_git_baseline(root)
         .await
         .map_err(map_memory_workspace_baseline_error)
 }
@@ -610,7 +610,7 @@ mod tests {
         assert!(raw.contains("cwd: /workspace"));
         assert!(raw.contains(&format!("rollout_path: {session_a_rollout_path}")));
         assert!(!raw.contains("workspace_path:"));
-        assert!(!raw.contains("rollout_path: openbitfun-session:session-a"));
+        assert!(!raw.contains("rollout_path: opc-session:session-a"));
         assert!(raw.contains("updated_at: 1970-01-01T00:03:20+00:00"));
         assert!(raw.contains(&format!("rollout_summary_file: {session_a_summary_file}")));
         assert!(raw.contains(&format!("rollout_summary_file: {session_b_summary_file}")));
@@ -624,7 +624,7 @@ mod tests {
         assert!(summary_a.contains("cwd: /workspace"));
         assert!(summary_a.contains(&format!("rollout_path: {session_a_rollout_path}")));
         assert!(!summary_a.contains("workspace_path:"));
-        assert!(!summary_a.contains("rollout_path: openbitfun-session:session-a"));
+        assert!(!summary_a.contains("rollout_path: opc-session:session-a"));
         assert!(summary_a.contains("summary for session-a"));
         assert!(ad_hoc_notes_dir(root).exists());
         assert!(ad_hoc_instructions_file(root).exists());

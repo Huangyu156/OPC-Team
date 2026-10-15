@@ -1,5 +1,5 @@
 fn is_runtime_goal_prompt(input: &str) -> bool {
-    openbitfun_core::agentic::goal_mode::goal_objective_from_prompt(input).is_some()
+    opc_core::agentic::goal_mode::goal_objective_from_prompt(input).is_some()
 }
 
 fn is_local_slash_command(input: &str) -> bool {
@@ -26,8 +26,8 @@ fn steering_unsupported_reason(draft: &crate::ui::composer::ComposerDraft) -> Op
 
 fn parse_reload_target(
     arguments: &str,
-) -> std::result::Result<openbitfun_runtime_ports::AgentContextReloadTarget, &'static str> {
-    use openbitfun_runtime_ports::AgentContextReloadTarget;
+) -> std::result::Result<opc_runtime_ports::AgentContextReloadTarget, &'static str> {
+    use opc_runtime_ports::AgentContextReloadTarget;
 
     match arguments.trim().to_ascii_lowercase().as_str() {
         "" => Ok(AgentContextReloadTarget::All),
@@ -40,13 +40,13 @@ fn parse_reload_target(
 fn parse_reload_invocation(
     command_name: &str,
     arguments: &str,
-) -> Option<std::result::Result<openbitfun_runtime_ports::AgentContextReloadTarget, &'static str>> {
+) -> Option<std::result::Result<opc_runtime_ports::AgentContextReloadTarget, &'static str>> {
     if command_name.eq_ignore_ascii_case("reload") {
         return Some(parse_reload_target(arguments));
     }
     if command_name.eq_ignore_ascii_case("reload-skills") {
         return Some(if arguments.trim().is_empty() {
-            Ok(openbitfun_runtime_ports::AgentContextReloadTarget::Skills)
+            Ok(opc_runtime_ports::AgentContextReloadTarget::Skills)
         } else {
             Err("Usage: /reload-skills (or /reload skills)")
         });
@@ -438,7 +438,7 @@ impl ChatMode {
         let mut external = self.external_command_projection(command_name);
         let authoritative_preferences = tokio::task::block_in_place(|| {
             rt_handle.block_on(async {
-                openbitfun_core::external_sources::external_source_conflict_choices()
+                opc_core::external_sources::external_source_conflict_choices()
                     .await
                     .map(ExternalSourceConflictPreferences::from)
             })
@@ -621,10 +621,7 @@ impl ChatMode {
 
     fn handle_reload_invocation(
         &mut self,
-        target: std::result::Result<
-            openbitfun_runtime_ports::AgentContextReloadTarget,
-            &'static str,
-        >,
+        target: std::result::Result<opc_runtime_ports::AgentContextReloadTarget, &'static str>,
         chat_view: &mut ChatView,
         chat_state: &mut ChatState,
         rt_handle: &tokio::runtime::Handle,
@@ -723,7 +720,7 @@ impl ChatMode {
             rt_handle.block_on(async {
                 let workspace = self.agent.workspace_id();
                 let conflicts =
-                    openbitfun_core::external_sources::set_native_prompt_command_conflict_choice(
+                    opc_core::external_sources::set_native_prompt_command_conflict_choice(
                         workspace.as_deref(),
                         native_commands,
                         candidate_id,
@@ -731,13 +728,13 @@ impl ChatMode {
                     )
                     .await
                     .map_err(
-                        openbitfun_core::external_sources::sanitize_external_source_operation_error,
+                        opc_core::external_sources::sanitize_external_source_operation_error,
                     )?;
-                let preferences = openbitfun_core::external_sources::external_source_conflict_choices()
+                let preferences = opc_core::external_sources::external_source_conflict_choices()
                     .await
                     .map(ExternalSourceConflictPreferences::from)
                     .map_err(
-                        openbitfun_core::external_sources::sanitize_external_source_operation_error,
+                        opc_core::external_sources::sanitize_external_source_operation_error,
                     )?;
                 Ok::<_, ExternalSourceOperationError>((conflicts, preferences))
             })
@@ -789,16 +786,14 @@ impl ChatMode {
             let snapshot = tokio::task::block_in_place(|| {
                 rt_handle.block_on(async {
                     let workspace = self.agent.workspace_id();
-                    openbitfun_core::external_sources::set_external_prompt_command_conflict_choice(
+                    opc_core::external_sources::set_external_prompt_command_conflict_choice(
                         workspace.as_deref(),
                         provider_conflict_key,
                         &projection.candidate_id,
                         expected_preference_revision,
                     )
                     .await
-                    .map_err(
-                        openbitfun_core::external_sources::sanitize_external_source_operation_error,
-                    )
+                    .map_err(opc_core::external_sources::sanitize_external_source_operation_error)
                     .map(ExternalSourceCatalogSnapshot::from)
                 })
             });
@@ -910,7 +905,7 @@ impl ChatMode {
         let expanded = tokio::task::block_in_place(|| {
             rt_handle.block_on(async {
                 let workspace = self.agent.workspace_id();
-                openbitfun_core::external_sources::expand_external_prompt_command(
+                opc_core::external_sources::expand_external_prompt_command(
                     workspace.as_deref(),
                     &invocation.command_name,
                     &invocation.arguments,
@@ -922,9 +917,7 @@ impl ChatMode {
                     shell_review_decision.as_ref(),
                 )
                 .await
-                .map_err(
-                    openbitfun_core::external_sources::sanitize_external_source_operation_error,
-                )
+                .map_err(opc_core::external_sources::sanitize_external_source_operation_error)
             })
         });
         match expanded {
@@ -1064,7 +1057,7 @@ impl ChatMode {
                         if self.agent.is_remote_workspace() {
                             anyhow::bail!("Model management is unavailable for a Remote workspace")
                         }
-                        let catalog = openbitfun_core::get_ai_model_catalog()
+                        let catalog = opc_core::get_ai_model_catalog()
                             .await
                             .map_err(anyhow::Error::msg)?;
                         Ok::<_, anyhow::Error>(crate::model_selection::model_catalog_projection(
@@ -1115,7 +1108,7 @@ impl ChatMode {
             }
             ActionHandler::Reload => {
                 self.reload_context(
-                    openbitfun_runtime_ports::AgentContextReloadTarget::All,
+                    opc_runtime_ports::AgentContextReloadTarget::All,
                     chat_view,
                     chat_state,
                     rt_handle,
@@ -1229,7 +1222,7 @@ impl ChatMode {
                     self.displayed_chat_state(chat_state),
                     transcript::MarkdownTranscriptOptions::default(),
                 );
-                let provider = openbitfun_services_core::system::LocalSystemProvider::new();
+                let provider = opc_services_core::system::LocalSystemProvider::new();
                 match tokio::task::block_in_place(|| {
                     rt_handle.block_on(provider.clipboard_write_text(&markdown))
                 }) {

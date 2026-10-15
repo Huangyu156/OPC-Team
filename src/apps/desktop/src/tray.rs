@@ -20,9 +20,9 @@ use tauri::menu::{CheckMenuItemBuilder, MenuBuilder, MenuItemBuilder};
 use tauri::tray::{MouseButton, MouseButtonState, TrayIconBuilder, TrayIconEvent};
 use tauri::{AppHandle, Emitter, Manager};
 
-use openbitfun_core::service::config::app_language::get_app_language;
-use openbitfun_core::service::config::types::AIExperienceConfig;
-use openbitfun_core::service::i18n::LocaleId;
+use opc_core::service::config::app_language::get_app_language;
+use opc_core::service::config::types::AIExperienceConfig;
+use opc_core::service::i18n::LocaleId;
 
 use crate::api::app_state::AppState;
 use crate::startup_trace::DesktopStartupTrace;

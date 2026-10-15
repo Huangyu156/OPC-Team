@@ -2,7 +2,7 @@ pub(super) fn script() -> &'static str {
     r####"
     const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf";
     const SHADOW_KEY = "shadow-6066-11e4-a52e-4f735466cecf";
-    const EVENT_NAME = "openbitfun_webdriver_result";
+    const EVENT_NAME = "opc_webdriver_result";
     const STORE_KEY = "__openbitfunWdElements";
     const LOG_KEY = "__openbitfunWdLogs";
     const consolePatchedKey = "__openbitfunWdConsolePatched";

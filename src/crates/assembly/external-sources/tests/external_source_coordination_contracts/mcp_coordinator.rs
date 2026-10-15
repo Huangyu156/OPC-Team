@@ -1,5 +1,5 @@
-use openbitfun_external_sources::ExternalMcpCoordinator;
-use openbitfun_product_domains::external_sources::{
+use opc_external_sources::ExternalMcpCoordinator;
+use opc_product_domains::external_sources::{
     EcosystemId, ExecutionDomainId, ExternalMcpDiscoveryInput, ExternalMcpProviderIdentity,
     ExternalMcpProviderSnapshot, ExternalMcpRevisionKey, ExternalMcpServerDefinition,
     ExternalMcpSourceProvider, ExternalMcpStaticStatus, ExternalMcpTransportKind,

@@ -1,4 +1,4 @@
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     EcosystemId, ExternalSourceAssetKind, ExternalSourceContext, ExternalSourceDiagnostic,
     ExternalSourceHealth, ExternalSourceProviderError, ExternalSourceRecord, ExternalSourceScope,
     ExternalWatchRoot, PromptCommandAvailability, PromptCommandDefinition, PromptCommandExpansion,
@@ -6,12 +6,12 @@ use openbitfun_product_domains::external_sources::{
     PromptCommandShellInvocation, PromptCommandShellPreference, PromptCommandSourceProvider,
     SourceKey, SourceQualifiedCommandId,
 };
-use openbitfun_services_core::markdown::{
+use opc_services_core::markdown::{
     expand_prompt_template_arguments, parse_prompt_shell_directives,
     prompt_template_expansion_upper_bound, FrontMatterMarkdown,
 };
-use openbitfun_services_core::workspace_text::normalize_workspace_relative_path;
-use openbitfun_static_hook_support::{
+use opc_services_core::workspace_text::normalize_workspace_relative_path;
+use opc_static_hook_support::{
     collect_bounded_regular_files, read_bounded_text, BoundedDirectoryWalkError,
     BoundedDirectoryWalkLimits, BoundedTextRead,
 };

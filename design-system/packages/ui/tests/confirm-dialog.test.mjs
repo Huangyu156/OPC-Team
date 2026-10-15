@@ -14,10 +14,10 @@ test("ConfirmDialog composes semantic content and actions on Dialog", async () =
   assert.match(source, /<DialogTitle>\{title\}<\/DialogTitle>/);
   assert.match(source, /<DialogBody>/);
   assert.match(source, /<DialogFooter>/);
-  assert.match(source, /data-openbitfun-component="confirm-dialog" data-openbitfun-part="content"/);
-  assert.match(source, /data-openbitfun-part="messageRow"/);
-  assert.match(source, /data-openbitfun-part="preview"/);
-  assert.match(source, /data-openbitfun-status=\{type === "error" \? "danger" : type\}/);
+  assert.match(source, /data-opc-component="confirm-dialog" data-opc-part="content"/);
+  assert.match(source, /data-opc-part="messageRow"/);
+  assert.match(source, /data-opc-part="preview"/);
+  assert.match(source, /data-opc-status=\{type === "error" \? "danger" : type\}/);
   assert.match(source, /tone=\{confirmDanger \|\| type === "error" \? "danger" : "neutral"\}/);
 });
 

@@ -5,7 +5,7 @@ use crate::{
     PluginInstanceOpenRequest, PluginPrepareRequest, StreamDescriptor, DEFAULT_MAX_FRAME_BYTES,
 };
 use async_trait::async_trait;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     HookFunctionGeneration, HookFunctionRegistrationBatch, HookFunctionRegistrationSink,
     HookFunctionReverseAsk, HookFunctionReverseMetadata, HookFunctionReverseReply,
     HookFunctionReverseSink, HookFunctionStartRequest, HookFunctionToolContext,
@@ -397,10 +397,7 @@ async fn client_opens_a_typed_plugin_instance() {
             .expect("instance open request should be readable");
         assert_eq!(request["method"], "host.instance.open");
         assert_eq!(request["params"]["instanceID"], "openbitfun:test-instance");
-        assert_eq!(
-            request["params"]["plugins"][0]["spec"],
-            "openbitfun-demo-echo"
-        );
+        assert_eq!(request["params"]["plugins"][0]["spec"], "opc-demo-echo");
         write_frame(
             &mut host_stream,
             &json!({
@@ -429,7 +426,7 @@ async fn client_opens_a_typed_plugin_instance() {
                 directory: "C:/workspace".to_string(),
                 worktree: "C:/workspace".to_string(),
                 plugins: vec![PluginDeclaration {
-                    spec: "openbitfun-demo-echo".to_string(),
+                    spec: "opc-demo-echo".to_string(),
                     options: None,
                     base_directory: None,
                 }],
@@ -460,10 +457,7 @@ async fn client_prepares_typed_plugins() {
             request["params"]["configurationFingerprint"],
             "fixture-prewarm"
         );
-        assert_eq!(
-            request["params"]["plugins"][0]["spec"],
-            "openbitfun-demo-echo"
-        );
+        assert_eq!(request["params"]["plugins"][0]["spec"], "opc-demo-echo");
         write_frame(
             &mut host_stream,
             &json!({
@@ -472,19 +466,19 @@ async fn client_prepares_typed_plugins() {
                 "result": {
                     "reviewDigest": "0".repeat(64),
                     "reviewed": [{
-                        "spec": "openbitfun-demo-echo",
+                        "spec": "opc-demo-echo",
                         "source": "npm",
-                        "identity": "npm:openbitfun-demo-echo",
-                        "canonicalSource": "openbitfun-demo-echo",
+                        "identity": "npm:opc-demo-echo",
+                        "canonicalSource": "opc-demo-echo",
                         "baseDirectory": "C:/workspace",
                         "optionsDigest": "1".repeat(64)
                     }],
                     "prepared": [{
-                        "spec": "openbitfun-demo-echo",
-                        "identity": "npm:openbitfun-demo-echo",
+                        "spec": "opc-demo-echo",
+                        "identity": "npm:opc-demo-echo",
                         "source": "npm",
-                        "target": "openbitfun-demo-echo",
-                        "entry": "C:/cache/openbitfun-demo-echo/index.js",
+                        "target": "opc-demo-echo",
+                        "entry": "C:/cache/opc-demo-echo/index.js",
                         "cache": "hit",
                         "contentHash": "2".repeat(64)
                     }],
@@ -502,7 +496,7 @@ async fn client_prepares_typed_plugins() {
         .prepare_plugins(
             PluginPrepareRequest {
                 plugins: vec![PluginDeclaration {
-                    spec: "openbitfun-demo-echo".to_string(),
+                    spec: "opc-demo-echo".to_string(),
                     options: None,
                     base_directory: None,
                 }],
@@ -519,7 +513,7 @@ async fn client_prepares_typed_plugins() {
     assert_eq!(result.reviewed_count, 1);
     assert_eq!(result.failed_count, 0);
     assert_eq!(
-        result.content_digests.get("npm:openbitfun-demo-echo"),
+        result.content_digests.get("npm:opc-demo-echo"),
         Some(&"2".repeat(64))
     );
     host.await.expect("fake host should finish");

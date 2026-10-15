@@ -22,13 +22,13 @@ use dashmap::mapref::entry::Entry;
 use dashmap::DashMap;
 use futures::io::{AsyncRead as FuturesAsyncRead, AsyncWrite as FuturesAsyncWrite};
 use log::{debug, info, warn};
-use openbitfun_agent_tools::ACP_TOOL_PREFIX;
-use openbitfun_core::agentic::tools::registry::get_global_tool_registry;
-use openbitfun_core::infrastructure::events::{emit_global_event, BackendEvent};
-use openbitfun_core::infrastructure::PathManager;
-use openbitfun_core::service::config::ConfigService;
-use openbitfun_core::service::remote_ssh::workspace_state::get_remote_workspace_manager;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_agent_tools::ACP_TOOL_PREFIX;
+use opc_core::agentic::tools::registry::get_global_tool_registry;
+use opc_core::infrastructure::events::{emit_global_event, BackendEvent};
+use opc_core::infrastructure::PathManager;
+use opc_core::service::config::ConfigService;
+use opc_core::service::remote_ssh::workspace_state::get_remote_workspace_manager;
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use tokio::process::{Child, Command};
@@ -548,11 +548,11 @@ impl AcpClientService {
     pub async fn start_client_for_session(
         self: &Arc<Self>,
         client_id: &str,
-        openbitfun_session_id: &str,
+        opc_session_id: &str,
         workspace_path: Option<&str>,
         remote_connection_id: Option<&str>,
     ) -> OpcTeamResult<()> {
-        let connection_id = session_client_connection_id(client_id, openbitfun_session_id);
+        let connection_id = session_client_connection_id(client_id, opc_session_id);
         self.start_client_connection(
             &connection_id,
             client_id,
@@ -664,7 +664,7 @@ impl AcpClientService {
         let connect_task = tokio::spawn(async move {
             let result = Client
                 .builder()
-                .name("openbitfun-acp-client")
+                .name("opc-acp-client")
                 .on_receive_notification(
                     handle_transport_closed,
                     agent_client_protocol::on_receive_notification!(),
@@ -688,7 +688,7 @@ impl AcpClientService {
                     let init = InitializeRequest::new(ProtocolVersion::V1)
                         .client_capabilities(ClientCapabilities::new())
                         .client_info(Implementation::new(
-                            "openbitfun-desktop",
+                            "opc-desktop",
                             env!("CARGO_PKG_VERSION"),
                         ));
                     let initialize_response = cx.send_request(init).block_task().await?;
@@ -796,8 +796,8 @@ impl AcpClientService {
         Ok(())
     }
 
-    pub async fn release_openbitfun_session(self: &Arc<Self>, openbitfun_session_id: &str) -> bool {
-        let session_key_prefix = format!("{}:", openbitfun_session_id);
+    pub async fn release_opc_session(self: &Arc<Self>, opc_session_id: &str) -> bool {
+        let session_key_prefix = format!("{}:", opc_session_id);
         let clients = self
             .clients
             .iter()
@@ -888,10 +888,10 @@ impl AcpClientService {
     pub async fn delete_flow_session_record(
         &self,
         session_storage_path: &Path,
-        openbitfun_session_id: &str,
+        opc_session_id: &str,
     ) -> OpcTeamResult<()> {
         self.session_persistence
-            .delete_flow_session_record(session_storage_path, openbitfun_session_id)
+            .delete_flow_session_record(session_storage_path, opc_session_id)
             .await
     }
 
@@ -947,14 +947,14 @@ impl AcpClientService {
         workspace_path: Option<String>,
         remote_connection_id: Option<String>,
         session_storage_path: Option<PathBuf>,
-        openbitfun_session_id: String,
+        opc_session_id: String,
     ) -> OpcTeamResult<AcpSessionOptions> {
         let resolved = self
             .resolve_or_create_client_session(
                 client_id,
                 workspace_path,
                 remote_connection_id.as_deref(),
-                &openbitfun_session_id,
+                &opc_session_id,
             )
             .await?;
 
@@ -963,7 +963,7 @@ impl AcpClientService {
             &resolved.client,
             &resolved.session_key,
             &resolved.cwd,
-            &openbitfun_session_id,
+            &opc_session_id,
             session_storage_path.as_deref(),
             &mut session,
         )
@@ -982,14 +982,14 @@ impl AcpClientService {
         workspace_path: Option<String>,
         remote_connection_id: Option<String>,
         session_storage_path: Option<PathBuf>,
-        openbitfun_session_id: String,
+        opc_session_id: String,
     ) -> OpcTeamResult<Vec<AcpAvailableCommand>> {
         let resolved = self
             .resolve_or_create_client_session(
                 client_id,
                 workspace_path,
                 remote_connection_id.as_deref(),
-                &openbitfun_session_id,
+                &opc_session_id,
             )
             .await?;
 
@@ -998,7 +998,7 @@ impl AcpClientService {
             &resolved.client,
             &resolved.session_key,
             &resolved.cwd,
-            &openbitfun_session_id,
+            &opc_session_id,
             session_storage_path.as_deref(),
             &mut session,
         )
@@ -1171,7 +1171,7 @@ impl AcpClientService {
         prompt: String,
         workspace_path: Option<String>,
         remote_connection_id: Option<String>,
-        openbitfun_session_id: String,
+        opc_session_id: String,
         session_storage_path: Option<PathBuf>,
         timeout_seconds: Option<u64>,
     ) -> OpcTeamResult<String> {
@@ -1180,7 +1180,7 @@ impl AcpClientService {
                 client_id,
                 workspace_path,
                 remote_connection_id.as_deref(),
-                &openbitfun_session_id,
+                &opc_session_id,
             )
             .await?;
 
@@ -1190,7 +1190,7 @@ impl AcpClientService {
                 &resolved.client,
                 &resolved.session_key,
                 &resolved.cwd,
-                &openbitfun_session_id,
+                &opc_session_id,
                 session_storage_path.as_deref(),
                 &mut session,
             )
@@ -1222,7 +1222,7 @@ impl AcpClientService {
         prompt: String,
         workspace_path: Option<String>,
         remote_connection_id: Option<String>,
-        openbitfun_session_id: String,
+        opc_session_id: String,
         session_storage_path: Option<PathBuf>,
         timeout_seconds: Option<u64>,
         mut on_event: F,
@@ -1235,7 +1235,7 @@ impl AcpClientService {
                 client_id,
                 workspace_path,
                 remote_connection_id.as_deref(),
-                &openbitfun_session_id,
+                &opc_session_id,
             )
             .await?;
 
@@ -1245,7 +1245,7 @@ impl AcpClientService {
                 &resolved.client,
                 &resolved.session_key,
                 &resolved.cwd,
-                &openbitfun_session_id,
+                &opc_session_id,
                 session_storage_path.as_deref(),
                 &mut session,
             )
@@ -1322,9 +1322,9 @@ impl AcpClientService {
         self: &Arc<Self>,
         client_id: &str,
         workspace_path: Option<String>,
-        openbitfun_session_id: String,
+        opc_session_id: String,
     ) -> OpcTeamResult<()> {
-        let connection_id = session_client_connection_id(client_id, &openbitfun_session_id);
+        let connection_id = session_client_connection_id(client_id, &opc_session_id);
         let client = self
             .clients
             .get(&connection_id)
@@ -1337,7 +1337,7 @@ impl AcpClientService {
             .map(PathBuf::from)
             .or_else(|| std::env::current_dir().ok())
             .ok_or_else(|| OpcTeamError::validation("Workspace path is required".to_string()))?;
-        let session_key = build_session_key(&openbitfun_session_id, client_id, &cwd);
+        let session_key = build_session_key(&opc_session_id, client_id, &cwd);
         let handle = client.cancel_handles.get(&session_key).ok_or_else(|| {
             OpcTeamError::NotFound(format!(
                 "ACP session is not active for client '{}' in workspace '{}'",
@@ -1353,11 +1353,8 @@ impl AcpClientService {
         Ok(())
     }
 
-    pub async fn cancel_openbitfun_session(
-        self: &Arc<Self>,
-        openbitfun_session_id: &str,
-    ) -> OpcTeamResult<bool> {
-        let session_key_prefix = format!("{}:", openbitfun_session_id);
+    pub async fn cancel_opc_session(self: &Arc<Self>, opc_session_id: &str) -> OpcTeamResult<bool> {
+        let session_key_prefix = format!("{}:", opc_session_id);
         for client in self.clients.iter().map(|entry| entry.value().clone()) {
             let handle = client
                 .cancel_handles
@@ -1382,9 +1379,9 @@ impl AcpClientService {
         client_id: &str,
         workspace_path: Option<String>,
         remote_connection_id: Option<&str>,
-        openbitfun_session_id: &str,
+        opc_session_id: &str,
     ) -> OpcTeamResult<(Arc<AcpClientConnection>, PathBuf, String)> {
-        let connection_id = session_client_connection_id(client_id, openbitfun_session_id);
+        let connection_id = session_client_connection_id(client_id, opc_session_id);
         self.start_client_connection(
             &connection_id,
             client_id,
@@ -1404,7 +1401,7 @@ impl AcpClientService {
             .map(PathBuf::from)
             .or_else(|| std::env::current_dir().ok())
             .ok_or_else(|| OpcTeamError::validation("Workspace path is required".to_string()))?;
-        let session_key = build_session_key(openbitfun_session_id, client_id, &cwd);
+        let session_key = build_session_key(opc_session_id, client_id, &cwd);
         Ok((client, cwd, session_key))
     }
 
@@ -1413,14 +1410,14 @@ impl AcpClientService {
         client_id: &str,
         workspace_path: Option<String>,
         remote_connection_id: Option<&str>,
-        openbitfun_session_id: &str,
+        opc_session_id: &str,
     ) -> OpcTeamResult<ResolvedClientSession> {
         let (client, cwd, session_key) = self
             .resolve_client_session(
                 client_id,
                 workspace_path,
                 remote_connection_id,
-                openbitfun_session_id,
+                opc_session_id,
             )
             .await?;
         let session = client
@@ -1441,7 +1438,7 @@ impl AcpClientService {
         client: &Arc<AcpClientConnection>,
         session_key: &str,
         cwd: &Path,
-        openbitfun_session_id: &str,
+        opc_session_id: &str,
         session_storage_path: Option<&Path>,
         session: &mut AcpRemoteSession,
     ) -> OpcTeamResult<()> {
@@ -1452,7 +1449,7 @@ impl AcpClientService {
         let cx = client.connection().await?;
         let persisted_remote_session_id = if let Some(session_storage_path) = session_storage_path {
             self.session_persistence
-                .load_remote_session_id(session_storage_path, openbitfun_session_id)
+                .load_remote_session_id(session_storage_path, opc_session_id)
                 .await?
         } else {
             None
@@ -1542,7 +1539,7 @@ impl AcpClientService {
             self.attach_remote_session(
                 client,
                 session_key,
-                openbitfun_session_id,
+                opc_session_id,
                 session_storage_path,
                 session,
                 response,
@@ -1586,7 +1583,7 @@ impl AcpClientService {
         &self,
         client: &Arc<AcpClientConnection>,
         session_key: &str,
-        openbitfun_session_id: &str,
+        opc_session_id: &str,
         session_storage_path: Option<&Path>,
         session: &mut AcpRemoteSession,
         response: NewSessionResponse,
@@ -1613,7 +1610,7 @@ impl AcpClientService {
             self.session_persistence
                 .update_remote_session_state(
                     session_storage_path,
-                    openbitfun_session_id,
+                    opc_session_id,
                     &remote_session_id,
                     strategy.as_str(),
                     last_resume_error,
@@ -1657,7 +1654,7 @@ impl AcpClientService {
             .filter(|(_, config)| config.enabled && config.subagent.enabled)
             .map(|(id, config)| {
                 Arc::new(AcpAgentTool::new(id.clone(), config.clone(), self.clone()))
-                    as Arc<dyn openbitfun_core::agentic::tools::framework::Tool>
+                    as Arc<dyn opc_core::agentic::tools::framework::Tool>
             })
             .collect::<Vec<_>>();
 
@@ -1756,7 +1753,7 @@ impl AcpClientService {
         }
 
         let program = resolve_configured_command(&config.command, &config.env);
-        let mut command = openbitfun_core::util::process_manager::create_tokio_command(&program);
+        let mut command = opc_core::util::process_manager::create_tokio_command(&program);
         command
             .args(&config.args)
             .stdin(Stdio::piped())
@@ -2089,17 +2086,12 @@ fn parse_config_value(value: serde_json::Value) -> OpcTeamResult<AcpClientConfig
     Ok(config)
 }
 
-fn build_session_key(openbitfun_session_id: &str, client_id: &str, cwd: &Path) -> String {
-    format!(
-        "{}:{}:{}",
-        openbitfun_session_id,
-        client_id,
-        cwd.to_string_lossy()
-    )
+fn build_session_key(opc_session_id: &str, client_id: &str, cwd: &Path) -> String {
+    format!("{}:{}:{}", opc_session_id, client_id, cwd.to_string_lossy())
 }
 
-fn session_client_connection_id(client_id: &str, openbitfun_session_id: &str) -> String {
-    format!("{}::session::{}", client_id, openbitfun_session_id)
+fn session_client_connection_id(client_id: &str, opc_session_id: &str) -> String {
+    format!("{}::session::{}", client_id, opc_session_id)
 }
 
 fn aggregate_client_status(statuses: &[AcpClientStatus]) -> AcpClientStatus {
@@ -2144,7 +2136,7 @@ async fn terminate_child_process_tree(client_id: &str, mut child: Child) {
     #[cfg(unix)]
     if let Some(pid) = pid {
         let process_group = format!("-{}", pid);
-        match openbitfun_core::util::process_manager::create_tokio_command("kill")
+        match opc_core::util::process_manager::create_tokio_command("kill")
             .arg("-TERM")
             .arg(&process_group)
             .status()
@@ -2176,7 +2168,7 @@ async fn terminate_child_process_tree(client_id: &str, mut child: Child) {
             Err(_) => {}
         }
 
-        if let Err(error) = openbitfun_core::util::process_manager::create_tokio_command("kill")
+        if let Err(error) = opc_core::util::process_manager::create_tokio_command("kill")
             .arg("-KILL")
             .arg(&process_group)
             .status()
@@ -2193,7 +2185,7 @@ async fn terminate_child_process_tree(client_id: &str, mut child: Child) {
 
     #[cfg(windows)]
     if let Some(pid) = pid {
-        match openbitfun_core::util::process_manager::create_tokio_command("taskkill")
+        match opc_core::util::process_manager::create_tokio_command("taskkill")
             .arg("/PID")
             .arg(pid.to_string())
             .arg("/T")
@@ -2965,7 +2957,7 @@ mod tests {
         // A remote workspace resolves the same launch as a local one, and both
         // transports materialize the profile first, so the command finds it
         // there either way.
-        assert_eq!(resolved.args, vec!["--profile", "openbitfun-acp"]);
+        assert_eq!(resolved.args, vec!["--profile", "opc-acp"]);
         assert!(resolved.enabled);
     }
 }

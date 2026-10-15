@@ -12,9 +12,9 @@
  *   without content, and nested tools fail with a confusing "Cannot find
  *   module .../bin/<tool>" error, for example
  *   ".../design-system/packages/ui/node_modules/typescript/bin/tsc"
- * - src/mobile-web/dist missing → cargo check -p openbitfun-desktop and
+ * - src/mobile-web/dist missing → cargo check -p opc-desktop and
  *   cargo check --workspace fail with "resource path '../../mobile-web/dist'
- *   doesn't exist" in the openbitfun-desktop build script
+ *   doesn't exist" in the opc-desktop build script
  * - OpenCode extension Host dist missing → Desktop, CLI, and app-server
  *   builds cannot bundle or launch the Bun plugin Host resources
  * - sherpa-onnx prebuilt libs missing → sherpa-onnx-sys build script attempts
@@ -140,12 +140,12 @@ function runChecks(rootDir) {
     });
   }
 
-  // --- Check 3: mobile-web dist (required by openbitfun-desktop build script) ---
+  // --- Check 3: mobile-web dist (required by opc-desktop build script) ---
   if (!existsSync(join(rootDir, 'src', 'mobile-web', 'dist', 'index.html'))) {
     errors.push({
       name: 'mobile-web dist',
       message:
-        "src/mobile-web/dist is missing. The openbitfun-desktop Tauri build script references '../../mobile-web/dist' as a resource, so 'cargo check -p openbitfun-desktop' and 'cargo check --workspace' will fail with \"resource path doesn't exist\".",
+        "src/mobile-web/dist is missing. The opc-desktop Tauri build script references '../../mobile-web/dist' as a resource, so 'cargo check -p opc-desktop' and 'cargo check --workspace' will fail with \"resource path doesn't exist\".",
       fix: ['pnpm', 'run', 'prepare:mobile-web'],
     });
   }

@@ -97,8 +97,8 @@ export const AnchorZone: React.FC<AnchorZoneProps> = ({
   }
 
   return (
-    <div data-openbitfun-component="content-canvas" data-openbitfun-part="anchor" data-openbitfun-position={position}
-      data-openbitfun-state={[isResizing && 'resizing', isCollapsed && 'collapsed', isMaximized && 'maximized'].filter(Boolean).join(' ')}
+    <div data-opc-component="content-canvas" data-opc-part="anchor" data-opc-position={position}
+      data-opc-state={[isResizing && 'resizing', isCollapsed && 'collapsed', isMaximized && 'maximized'].filter(Boolean).join(' ')}
       ref={containerRef}
       className={`canvas-anchor-zone canvas-anchor-zone--${position} ${
         isResizing ? 'is-resizing' : ''
@@ -111,8 +111,8 @@ export const AnchorZone: React.FC<AnchorZoneProps> = ({
       <Tooltip content={t('canvas.dragToResize')}>
         <div
           className="canvas-anchor-zone__resizer"
-          data-openbitfun-component="content-canvas"
-          data-openbitfun-part="anchorResizer"
+          data-opc-component="content-canvas"
+          data-opc-part="anchorResizer"
           onMouseDown={handleResizeStart}
           onDoubleClick={handleDoubleClick}
         >
@@ -121,13 +121,13 @@ export const AnchorZone: React.FC<AnchorZoneProps> = ({
       </Tooltip>
 
       {/* Header */}
-      <div className="canvas-anchor-zone__header" data-openbitfun-component="content-canvas" data-openbitfun-part="anchorHeader">
-        <div className="canvas-anchor-zone__title" data-openbitfun-component="content-canvas" data-openbitfun-part="anchorTitle">
+      <div className="canvas-anchor-zone__header" data-opc-component="content-canvas" data-opc-part="anchorHeader">
+        <div className="canvas-anchor-zone__title" data-opc-component="content-canvas" data-opc-part="anchorTitle">
           <Icon name="terminal" size="sm" />
           <span>{t('canvas.terminal')}</span>
         </div>
 
-        <div className="canvas-anchor-zone__actions" data-openbitfun-component="content-canvas" data-openbitfun-part="anchorActions">
+        <div className="canvas-anchor-zone__actions" data-opc-component="content-canvas" data-opc-part="anchorActions">
           {/* Collapse/expand */}
           <Tooltip content={isCollapsed ? t('tooltip.expand') : t('tooltip.collapse')}>
             <button
@@ -168,7 +168,7 @@ export const AnchorZone: React.FC<AnchorZoneProps> = ({
 
       {/* Content */}
       {!isCollapsed && (
-        <div className="canvas-anchor-zone__content" data-openbitfun-component="content-canvas" data-openbitfun-part="anchorContent">
+        <div className="canvas-anchor-zone__content" data-opc-component="content-canvas" data-opc-part="anchorContent">
           {children}
         </div>
       )}

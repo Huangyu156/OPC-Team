@@ -21,7 +21,7 @@ test('design-system brand masters and packaged icons agree with native projectio
     assert.deepEqual(readFileSync(`${componentAssets}/${master}`), readFileSync(`assets/brand/source/${master}`));
   }
   for (const size of [16, 32, 128, 256, 512]) {
-    const name = `openbitfun-app-icon-${size}.png`;
+    const name = `opc-app-icon-${size}.png`;
     assert.deepEqual(readFileSync(`${componentAssets}/${name}`), readFileSync(`assets/brand/exports/${name}`));
   }
 });
@@ -104,18 +104,18 @@ test('desktop and installer retain independent Windows/Linux icons alongside the
   }
   for (const iconDir of ['src/apps/desktop/icons', 'OpenBitFun-Installer/src-tauri/icons']) {
     assert.deepEqual(readFileSync(`${iconDir}/openbitfun-app-icon.png`),
-      readFileSync('assets/brand/exports/openbitfun-app-icon-1024.png'));
+      readFileSync('assets/brand/exports/opc-app-icon-1024.png'));
   }
   for (const size of [16, 32, 48, 64, 96, 128, 256, 512]) {
-    assert.deepEqual(readFileSync(`src/apps/desktop/icons/hicolor/${size}x${size}/apps/openbitfun-desktop.png`),
-      readFileSync(`assets/brand/exports/openbitfun-app-icon-${size}.png`));
+    assert.deepEqual(readFileSync(`src/apps/desktop/icons/hicolor/${size}x${size}/apps/opc-desktop.png`),
+      readFileSync(`assets/brand/exports/opc-app-icon-${size}.png`));
   }
 });
 
 test('application icons preserve the submitted artwork independently from the startup Logo', async () => {
   const applicationMark = readFileSync('assets/brand/source/openbitfun-app-mark.png');
-  const startupMark = readFileSync('assets/brand/source/openbitfun-mark-light.png');
-  const generatedIcon = readFileSync('assets/brand/exports/openbitfun-app-icon-512.png');
+  const startupMark = readFileSync('assets/brand/source/opc-mark-light.png');
+  const generatedIcon = readFileSync('assets/brand/exports/opc-app-icon-512.png');
 
   assert.equal(
     createHash('sha256').update(applicationMark).digest('hex'),
@@ -145,7 +145,7 @@ test('brand exports provide decodable transparent PNGs at every advertised size'
   const sizes = [16, 24, 32, 48, 64, 96, 128, 192, 256, 512, 1024, 2048];
   for (const size of sizes) {
     for (const treatment of ['mark-dark', 'mark-light', 'app-icon']) {
-      const image = sharp(`assets/brand/exports/openbitfun-${treatment}-${size}.png`);
+      const image = sharp(`assets/brand/exports/opc-${treatment}-${size}.png`);
       const metadata = await image.metadata();
       assert.equal(metadata.width, size);
       assert.equal(metadata.height, size);
@@ -183,7 +183,7 @@ test('Windows ICO frames contain the size-specific app PNGs', async () => {
     const offset = ico.readUInt32LE(entry + 12);
     assert.ok(offset + length <= ico.length);
     const frame = ico.subarray(offset, offset + length);
-    assert.deepEqual(frame, readFileSync(`assets/brand/exports/openbitfun-app-icon-${size}.png`));
+    assert.deepEqual(frame, readFileSync(`assets/brand/exports/opc-app-icon-${size}.png`));
     const metadata = await sharp(frame).metadata();
     assert.equal(metadata.width, size);
     assert.equal(metadata.height, size);
@@ -195,7 +195,7 @@ test('Windows ICO frames contain the size-specific app PNGs', async () => {
 
 test('small icons retain a bright rim around the entire silhouette', async () => {
   for (const size of [16, 24, 32, 48, 64]) {
-    const { data, info } = await sharp(`assets/brand/exports/openbitfun-app-icon-${size}.png`)
+    const { data, info } = await sharp(`assets/brand/exports/opc-app-icon-${size}.png`)
       .raw().toBuffer({ resolveWithObject: true });
     const sectors = Array(12).fill(0);
     for (let y = 0; y < size; y++) {
@@ -216,7 +216,7 @@ test('desktop tray uses a macOS template and the application icon on other platf
   const source = readFileSync('src/apps/desktop/src/tray.rs', 'utf8');
   assert.match(source, /#\[cfg\(target_os = "macos"\)\]\s*let icon = macos_tray_icon\(\)\?/);
   assert.match(source, /#\[cfg\(not\(target_os = "macos"\)\)\]\s*let icon = app\s*\.default_window_icon\(\)/);
-  assert.doesNotMatch(source, /openbitfun-tray-template/);
+  assert.doesNotMatch(source, /opc-tray-template/);
   assert.match(source, /\.icon_as_template\(cfg!\(target_os = "macos"\)\)/);
   // The unread badge is gone, so the mark is built once and never swapped:
   // nothing may re-apply the icon or write a numeric tray title afterwards.
@@ -233,7 +233,7 @@ test('browser entry points reference generated application favicons', () => {
     const html = readFileSync(htmlPath, 'utf8');
     for (const size of [16, 32]) {
       assert.ok(html.includes(`sizes="${size}x${size}"`));
-      const name = `openbitfun-app-icon-${size}.png`;
+      const name = `opc-app-icon-${size}.png`;
       assert.ok(html.includes(name));
       assert.deepEqual(readFileSync(`${assetDir}/${name}`), readFileSync(`assets/brand/exports/${name}`));
     }
@@ -254,9 +254,9 @@ test('HarmonyOS generated media use valid resource identifiers', () => {
 
   const appConfig = readFileSync('src/apps/mobile/harmonyos/AppScope/app.json5', 'utf8');
   const moduleConfig = readFileSync('src/apps/mobile/harmonyos/entry/src/main/module.json5', 'utf8');
-  assert.match(appConfig, /\$media:openbitfun_app_icon/);
-  assert.match(moduleConfig, /\$media:openbitfun_app_icon/);
-  assert.match(moduleConfig, /\$media:openbitfun_start_window/);
+  assert.match(appConfig, /\$media:opc_app_icon/);
+  assert.match(moduleConfig, /\$media:opc_app_icon/);
+  assert.match(moduleConfig, /\$media:opc_start_window/);
 });
 
 test('ICNS canonicalization rejects malformed containers', () => {
@@ -270,7 +270,7 @@ test('ICNS canonicalization rejects malformed containers', () => {
 });
 
 test('verification email reuses the current mark and the OpenBitFun reference palette', () => {
-  const emailMark = readFileSync('src/miniapp-market-web/public/assets/openbitfun-email-app-icon.png');
+  const emailMark = readFileSync('src/miniapp-market-web/public/assets/opc-email-app-icon.png');
   assert.deepEqual(emailMark, readFileSync('src/web-ui/public/brand/openbitfun-app-icon.png'));
   assert.deepEqual(emailMark, readFileSync('src/crates/services/miniapp-market-service/src/email/app-icon.png'));
   const html = readFileSync('src/crates/services/miniapp-market-service/src/email/sign-in.html', 'utf8');

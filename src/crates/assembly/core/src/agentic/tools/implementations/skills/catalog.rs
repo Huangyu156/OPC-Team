@@ -1,8 +1,8 @@
 //! Compatibility re-export for skill catalog facts.
 //!
-//! The provider-neutral owner lives in `openbitfun-agent-runtime`.
+//! The provider-neutral owner lives in `opc-agent-runtime`.
 
-pub use openbitfun_agent_runtime::skills::builtin_skill_group_key;
+pub use opc_agent_runtime::skills::builtin_skill_group_key;
 
 #[cfg(test)]
 mod tests {
@@ -26,7 +26,7 @@ mod tests {
         assert_eq!(builtin_skill_group_key("plan"), Some("planning"));
         assert_eq!(builtin_skill_group_key("miniapp-dev"), Some("miniapp"));
         assert_eq!(
-            builtin_skill_group_key("openbitfun-frontend-dev"),
+            builtin_skill_group_key("opc-frontend-dev"),
             Some("creation")
         );
         assert_eq!(builtin_skill_group_key("writing-skills"), Some("meta"));

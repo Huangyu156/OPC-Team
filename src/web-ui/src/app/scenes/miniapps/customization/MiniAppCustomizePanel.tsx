@@ -403,13 +403,13 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
   return (
     <aside
       className="miniapp-customize-panel"
-      data-openbitfun-component="miniapp-customize-panel"
-      data-openbitfun-part="root"
-      data-openbitfun-stage={state.stage}
-      data-openbitfun-state={[busy && 'busy', state.error && 'error', previewOpen && 'preview-open'].filter(Boolean).join(' ')}
+      data-opc-component="miniapp-customize-panel"
+      data-opc-part="root"
+      data-opc-stage={state.stage}
+      data-opc-state={[busy && 'busy', state.error && 'error', previewOpen && 'preview-open'].filter(Boolean).join(' ')}
       aria-label={t('customize.title')}
     >
-      <div className="miniapp-customize-panel__header" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="header">
+      <div className="miniapp-customize-panel__header" data-opc-component="miniapp-customize-panel" data-opc-part="header">
         <div>
           <h3>{t('customize.title')}</h3>
           <OverflowText className="miniapp-customize-panel__app-name">{appName}</OverflowText>
@@ -425,7 +425,7 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
         </Tooltip>
       </div>
 
-      <div className="miniapp-customize-panel__notice" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="notice">
+      <div className="miniapp-customize-panel__notice" data-opc-component="miniapp-customize-panel" data-opc-part="notice">
         <AlertTriangle size={18} />
         <div>
           <strong>{t('customize.riskTitle')}</strong>
@@ -434,13 +434,13 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
       </div>
 
       {builtinUpdateNotice && (
-        <div className="miniapp-customize-panel__notice miniapp-customize-panel__notice--update" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="notice">
+        <div className="miniapp-customize-panel__notice miniapp-customize-panel__notice--update" data-opc-component="miniapp-customize-panel" data-opc-part="notice">
           <AlertTriangle size={18} />
           <div>
             <strong>{t('customize.builtinUpdateTitle', { version: builtinUpdateNotice.builtinVersion })}</strong>
             <p>{t('customize.builtinUpdateBody')}</p>
             {builtinUpdateNotice.sourceHash && (
-              <div className="miniapp-customize-panel__notice-actions" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="noticeActions">
+              <div className="miniapp-customize-panel__notice-actions" data-opc-component="miniapp-customize-panel" data-opc-part="noticeActions">
                 <Button
                   variant="outline"
                   size="sm"
@@ -458,7 +458,7 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
         </div>
       )}
 
-      <label className="miniapp-customize-panel__request" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="request">
+      <label className="miniapp-customize-panel__request" data-opc-component="miniapp-customize-panel" data-opc-part="request">
         <span>{t('customize.requestLabel')}</span>
         <Textarea
           value={userRequest}
@@ -476,7 +476,7 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
         />
       </label>
 
-      <div className="miniapp-customize-panel__actions" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="actions">
+      <div className="miniapp-customize-panel__actions" data-opc-component="miniapp-customize-panel" data-opc-part="actions">
         <Button
           variant="primary"
           size="sm"
@@ -515,23 +515,23 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
       </div>
 
       {state.error && (
-        <div className="miniapp-customize-panel__error" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="error" role="alert">
+        <div className="miniapp-customize-panel__error" data-opc-component="miniapp-customize-panel" data-opc-part="error" role="alert">
           {state.error}
         </div>
       )}
 
       {editorStatus && (
-        <div className="miniapp-customize-panel__status" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="status">
+        <div className="miniapp-customize-panel__status" data-opc-component="miniapp-customize-panel" data-opc-part="status">
           <Icon name="check-line" size="sm" />
           <span>{editorStatus}</span>
         </div>
       )}
 
       {state.customizationSessionId && (
-        <div className="miniapp-customize-panel__chat" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="chat">
+        <div className="miniapp-customize-panel__chat" data-opc-component="miniapp-customize-panel" data-opc-part="chat">
           <React.Suspense
             fallback={(
-              <div className="miniapp-customize-panel__chat-loading" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="chatLoading">
+              <div className="miniapp-customize-panel__chat-loading" data-opc-component="miniapp-customize-panel" data-opc-part="chatLoading">
                 <Loader2 size={16} className="miniapp-scene__spinning" />
                 <span>{t('customize.chatLoading')}</span>
               </div>
@@ -546,7 +546,7 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
         </div>
       )}
 
-      <div className="miniapp-customize-panel__footer" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="footer">
+      <div className="miniapp-customize-panel__footer" data-opc-component="miniapp-customize-panel" data-opc-part="footer">
         <Button
           variant="fill"
           size="sm"
@@ -570,7 +570,7 @@ export const MiniAppCustomizePanel: React.FC<MiniAppCustomizePanelProps> = ({
       </div>
 
       {state.stage === 'applying' && (
-        <div className="miniapp-customize-panel__busy" data-openbitfun-component="miniapp-customize-panel" data-openbitfun-part="busy">
+        <div className="miniapp-customize-panel__busy" data-opc-component="miniapp-customize-panel" data-opc-part="busy">
           <Loader2 size={16} className="miniapp-scene__spinning" />
           <span>{t('customize.applying')}</span>
         </div>

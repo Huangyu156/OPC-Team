@@ -26,18 +26,18 @@ pub use definitions::subagents::{
     SwarmReviewerAgent, SwarmWorkerAgent,
 };
 use indexmap::IndexMap;
-pub use openbitfun_agent_runtime::agents::{
+pub use opc_agent_runtime::agents::{
     is_swarm_delegate_agent_type, is_swarm_planner_agent_type, mode_config_profile_label,
     mode_config_profile_member_mode_ids, mode_presentation_rank, resolve_mode_config_profile_id,
     standard_harness_user_context_policy, STANDARD_HARNESS_CONFIG_ID,
     STANDARD_HARNESS_CONFIG_LABEL, STANDARD_HARNESS_CONFIG_MEMBERS,
     STANDARD_HARNESS_PROMPT_TEMPLATE, SWARM_DELEGATE_AGENT_TYPES, SWARM_PLANNER_AGENT_TYPES,
 };
-pub use openbitfun_agent_runtime::custom_agent::{
+pub use opc_agent_runtime::custom_agent::{
     custom_agent_model_or_default, custom_agent_review_writable_tools, default_custom_agent_tools,
     default_custom_agent_user_context_policy, CustomAgentKind, CustomAgentLevel,
 };
-use openbitfun_runtime_ports::PermissionConstraintLayer;
+use opc_runtime_ports::PermissionConstraintLayer;
 pub use prompt_builder::{
     build_prompt_context_for_workspace, render_direct_tool_listing_body, PrependedPromptReminders,
     PromptBuilder, PromptBuilderContext, RemoteExecutionHints, RuntimeContextNeeds,
@@ -63,17 +63,17 @@ pub use registry::{
 };
 use std::any::Any;
 
-pub use openbitfun_agent_content::EMBEDDED_PROMPTS;
+pub use opc_agent_content::EMBEDDED_PROMPTS;
 
 /// Returns a built-in Agent prompt by its stable compatibility key.
 pub fn get_embedded_prompt(prompt_name: &str) -> Option<&'static str> {
-    openbitfun_agent_content::agent_prompt(prompt_name)
+    opc_agent_content::agent_prompt(prompt_name)
 }
 
 /// Returns all built-in Agent prompt keys.
 #[allow(dead_code)]
 pub fn get_all_embedded_prompt_names() -> Vec<&'static str> {
-    openbitfun_agent_content::agent_prompt_names()
+    opc_agent_content::agent_prompt_names()
 }
 
 pub type AgentToolPolicyOverrides = IndexMap<String, ToolExposure>;

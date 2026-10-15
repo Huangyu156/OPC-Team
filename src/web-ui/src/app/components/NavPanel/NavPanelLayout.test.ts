@@ -35,7 +35,7 @@ function extractBlock(stylesheet: string, selector: string): string {
 describe('NavPanel layout styles', () => {
   it('allows navigation list wrappers to shrink instead of inheriting long item widths', () => {
     const stylesheet = readNavPanelStylesheet();
-    const rootBlock = extractBlock(stylesheet, '.openbitfun-nav-panel');
+    const rootBlock = extractBlock(stylesheet, '.opc-nav-panel');
     const contentBlock = extractBlock(stylesheet, '&__content');
     const mainLayerBlock = extractBlock(stylesheet, '&--main');
     const itemsBlock = extractBlock(stylesheet, '&__items');
@@ -56,7 +56,7 @@ describe('NavPanel layout styles', () => {
     const sectionHeaderBlock = extractBlock(stylesheet, '&__section-header');
     const itemsBlock = extractBlock(stylesheet, '&__items');
     const topActionExpandBlock = extractBlock(stylesheet, '&__top-action-expand');
-    const topActionSublistBlock = extractBlock(stylesheet, '.openbitfun-nav-panel__top-action-sublist-inner');
+    const topActionSublistBlock = extractBlock(stylesheet, '.opc-nav-panel__top-action-sublist-inner');
 
     expect(itemsBlock).toContain('padding: 2px var(--opcteam-space-1);');
     expect(itemsBlock).toContain('gap: calc(var(--opcteam-space-1) / 2);');
@@ -117,7 +117,7 @@ describe('NavPanel layout styles', () => {
 
     expect(sectionHeaderBlock).not.toContain('&--interactive');
     expect(sectionHeaderBlock).not.toContain('cursor: pointer;');
-    expect(stylesheet).not.toContain('.openbitfun-nav-panel__section-header--interactive:hover');
+    expect(stylesheet).not.toContain('.opc-nav-panel__section-header--interactive:hover');
     expect(stylesheet).not.toContain('&__collapsible');
   });
 
@@ -153,7 +153,7 @@ describe('NavPanel layout styles', () => {
   it('centers footer actions with symmetric vertical padding', () => {
     const stylesheet = readNavPanelStylesheet();
     const footerBlocks = [...stylesheet.matchAll(
-      /\.openbitfun-nav-panel__footer\s*\{(?<body>[\s\S]*?)\n\s*\}/g,
+      /\.opc-nav-panel__footer\s*\{(?<body>[\s\S]*?)\n\s*\}/g,
     )].map(match => match.groups?.body ?? '');
 
     expect(footerBlocks).toHaveLength(2);
@@ -163,7 +163,7 @@ describe('NavPanel layout styles', () => {
 
   it('keeps the compact settings button while using a more legible gear icon', () => {
     const stylesheet = readNavPanelStylesheet();
-    const settingsButtonBlock = extractBlock(stylesheet, '.openbitfun-nav-panel__footer-btn--icon');
+    const settingsButtonBlock = extractBlock(stylesheet, '.opc-nav-panel__footer-btn--icon');
 
     expect(settingsButtonBlock).toContain('width: 28px;');
     expect(settingsButtonBlock).toContain('height: 28px;');
@@ -175,13 +175,13 @@ describe('NavPanel layout styles', () => {
     const stylesheet = readNavPanelStylesheet();
 
     expect(stylesheet).toContain(
-      '.openbitfun-nav-panel__top-action-btn:hover {\n' +
+      '.opc-nav-panel__top-action-btn:hover {\n' +
       '    transform: none;\n' +
       '    box-shadow: none;\n' +
       '  }',
     );
     expect(stylesheet).not.toContain(
-      '&:not(.openbitfun-nav-panel__top-action-btn--sub):hover .openbitfun-nav-panel__top-action-icon-slot {\n' +
+      '&:not(.opc-nav-panel__top-action-btn--sub):hover .opc-nav-panel__top-action-icon-slot {\n' +
       '    transform: scale(1.07);',
     );
   });
@@ -190,15 +190,15 @@ describe('NavPanel layout styles', () => {
     const stylesheet = readNavPanelStylesheet();
 
     expect(stylesheet).toContain(
-      '> .openbitfun-nav-panel__top-action-expand-icon-default,\n' +
-      '  > .openbitfun-nav-panel__top-action-expand-icon-chevron {',
+      '> .opc-nav-panel__top-action-expand-icon-default,\n' +
+      '  > .opc-nav-panel__top-action-expand-icon-chevron {',
     );
     expect(stylesheet).toContain('inset-block-start: 50%;');
     expect(stylesheet).toContain('inset-inline-start: 50%;');
     expect(stylesheet).toContain('transform: translate(-50%, -50%);');
     expect(stylesheet).not.toContain('translate(calc(-50% + 1px), -50%)');
     expect(stylesheet).not.toContain(
-      '.openbitfun-nav-panel__top-action-expand-icons {\n' +
+      '.opc-nav-panel__top-action-expand-icons {\n' +
       '  position: relative;\n' +
       '  width: 22px;',
     );
@@ -208,19 +208,19 @@ describe('NavPanel layout styles', () => {
     const stylesheet = readNavPanelStylesheet();
 
     expect(stylesheet).toContain(
-      ".openbitfun-nav-panel__top-action-btn,\n" +
-      ".openbitfun-nav-panel__miniapp-entry {\n" +
-      "  > [data-openbitfun-part='leading'] {\n" +
+      ".opc-nav-panel__top-action-btn,\n" +
+      ".opc-nav-panel__miniapp-entry {\n" +
+      "  > [data-opc-part='leading'] {\n" +
       '    flex: 0 0 var(--_nav-icon-slot-size);\n' +
       '    inline-size: var(--_nav-icon-slot-size);\n' +
       '    block-size: var(--_nav-icon-slot-size);',
     );
     expect(stylesheet).toContain(
-      "> [data-openbitfun-part='label'] {\n" +
+      "> [data-opc-part='label'] {\n" +
       '    flex: 1;',
     );
     expect(stylesheet).not.toContain(
-      '> span:not([data-overflow-content]):not(.openbitfun-nav-panel__top-action-icon-circle)',
+      '> span:not([data-overflow-content]):not(.opc-nav-panel__top-action-icon-circle)',
     );
   });
 
@@ -229,7 +229,7 @@ describe('NavPanel layout styles', () => {
     const itemBlock = extractBlock(stylesheet, '&__miniapp-item');
     const trailingBlock = extractBlock(
       stylesheet,
-      "&__miniapp-item > [data-openbitfun-part='actions']",
+      "&__miniapp-item > [data-opc-part='actions']",
     );
 
     // The row paints its hover/selected pill on the ActionItem trigger, so the

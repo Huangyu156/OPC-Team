@@ -48,19 +48,19 @@ export function ListModelsToolCard({
 }: ListModelsToolCardProps) {
   const hasDetails = Boolean(query || models.length || emptyContent || resultText || error || hasResult);
   return (
-    <AmbientToolCard {...props} data-openbitfun-tool-card="list-models"
+    <AmbientToolCard {...props} data-opc-tool-card="list-models"
       status={status} requiresConfirmation={requiresConfirmation}
       isExpanded={isExpanded && hasDetails} onClick={hasDetails ? onToggle : undefined}
       header={<AmbientToolCardHeader action={action} content={summary} result={resultSummary} statusDescription={statusDescription}
         icon={<ToolCardStatusSlot status={status} toolIcon={<Icon glyph={Cpu} size="sm" />} />} />}
       expandedContent={hasDetails ? (
-        <div className={styles.details} data-openbitfun-part="details">
-          {error && <ToolCardText className={styles.error} variant="prose" data-openbitfun-part="error">{error}</ToolCardText>}
+        <div className={styles.details} data-opc-part="details">
+          {error && <ToolCardText className={styles.error} variant="prose" data-opc-part="error">{error}</ToolCardText>}
           {query && <ToolCardFields fields={[{ label: queryLabel, value: query }]} />}
           {(models.length > 0 || emptyContent) && <ToolCardSection label={modelsLabel}>
             {models.length > 0 ? <ScrollArea className={styles.viewport} edgeFade="vertical" overscrollBehaviorY="auto">
-              <ul className={styles.list} data-openbitfun-part="modelList">
-                {models.map(model => <li className={styles.model} key={model.key} data-openbitfun-part="model" data-overflow-trigger>
+              <ul className={styles.list} data-opc-part="modelList">
+                {models.map(model => <li className={styles.model} key={model.key} data-opc-part="model" data-overflow-trigger>
                   <div className={styles.identity}>
                     <OverflowText className={styles.name}>{model.name}</OverflowText>
                     {model.provider && <OverflowText className={styles.secondary}>{model.provider}</OverflowText>}
@@ -117,13 +117,13 @@ export function ControlHubToolCard({
       : domain === "browser" ? <Icon name="browser" size="sm" />
         : <Icon name="mouse-pointer" size="sm" />;
   const icon = <ToolCardStatusSlot status={status} toolIcon={toolIcon} />;
-  const details = hasDetails ? <div className={styles.details} data-openbitfun-part="details">
-    {error && <ToolCardText variant="prose" className={styles.error} data-openbitfun-part="error">{error}</ToolCardText>}
+  const details = hasDetails ? <div className={styles.details} data-opc-part="details">
+    {error && <ToolCardText variant="prose" className={styles.error} data-opc-part="error">{error}</ToolCardText>}
     {fields.length > 0 && <ToolCardFields fields={fields} />}
     {records.length > 0 && <ToolCardSection label={resultLabel}>
       <ScrollArea className={styles.viewport} edgeFade="vertical" overscrollBehaviorY="auto">
-        <ul className={styles.list} data-openbitfun-part="resultList">
-          {records.map(record => <li key={record.key} className={styles.record} data-openbitfun-part="result" data-overflow-trigger>
+        <ul className={styles.list} data-opc-part="resultList">
+          {records.map(record => <li key={record.key} className={styles.record} data-opc-part="result" data-overflow-trigger>
             <OverflowText className={styles.name}>{record.title}</OverflowText>
             {record.description && <span className={styles.description}>{record.description}</span>}
             {record.fields && record.fields.length > 0 && <ToolCardFields fields={record.fields} />}
@@ -132,21 +132,21 @@ export function ControlHubToolCard({
       </ScrollArea>
     </ToolCardSection>}
     {resultText && <ToolCardSection label={resultLabel}>
-      <ToolCardText variant={resultVariant} data-openbitfun-part="output">{resultText}</ToolCardText>
+      <ToolCardText variant={resultVariant} data-opc-part="output">{resultText}</ToolCardText>
     </ToolCardSection>}
-    {images.map((image, index) => <img className={styles.image} key={index} src={image.src} alt={image.alt} loading="lazy" data-openbitfun-part="image" />)}
+    {images.map((image, index) => <img className={styles.image} key={index} src={image.src} alt={image.alt} loading="lazy" data-opc-part="image" />)}
     {notices.length > 0 && <ToolCardSection label={noticesLabel}>
-      <ToolCardText variant="prose" data-openbitfun-part="notices">{notices.join("\n\n")}</ToolCardText>
+      <ToolCardText variant="prose" data-opc-part="notices">{notices.join("\n\n")}</ToolCardText>
     </ToolCardSection>}
     {resultDetailsText && <ToolCardDisclosure summary={resultDetailsLabel} onOpenChange={onParamsOpenChange}>
-      <ToolCardText data-openbitfun-part="resultDetails">{resultDetailsText}</ToolCardText>
+      <ToolCardText data-opc-part="resultDetails">{resultDetailsText}</ToolCardText>
     </ToolCardDisclosure>}
     {paramsText && <ToolCardDisclosure summary={paramsLabel} onOpenChange={onParamsOpenChange}>
-      <ToolCardText data-openbitfun-part="params">{paramsText}</ToolCardText>
+      <ToolCardText data-opc-part="params">{paramsText}</ToolCardText>
     </ToolCardDisclosure>}
   </div> : undefined;
   const common = {
-    ...props, "data-openbitfun-tool-card": "control-hub", status, requiresConfirmation,
+    ...props, "data-opc-tool-card": "control-hub", status, requiresConfirmation,
     isExpanded: isExpanded && hasDetails, expandedContent: details,
   };
   return attention === "ambient"

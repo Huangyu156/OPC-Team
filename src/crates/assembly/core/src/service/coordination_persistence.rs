@@ -1,5 +1,5 @@
 use crate::util::errors::OpcTeamResult;
-use openbitfun_services_core::coordination_persistence as storage;
+use opc_services_core::coordination_persistence as storage;
 use rusqlite::Connection;
 
 pub(crate) fn initialize_coordination_schema(connection: &Connection) -> OpcTeamResult<()> {

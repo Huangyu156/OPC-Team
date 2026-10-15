@@ -174,7 +174,7 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
   const placeholder = placeholderProp ?? designSystem.messages.selectPlaceholder;
   const options = optionsProp;
   const generatedId = useId();
-  const id = providedId ?? `openbitfun-${multiple ? "multi-select" : "combobox"}-${generatedId}`;
+  const id = providedId ?? `opc-${multiple ? "multi-select" : "combobox"}-${generatedId}`;
   const labelId = `${id}-label`;
   const listboxId = `${id}-listbox`;
   const errorId = `${id}-error`;
@@ -514,9 +514,9 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
   const popover = resolvedOpen ? (
     <div
       className={styles.popover}
-      data-openbitfun-component={multiple ? "multi-select-popup" : "combobox-popup"}
-      data-openbitfun-part="popover"
-      data-openbitfun-native-webview-occlusion
+      data-opc-component={multiple ? "multi-select-popup" : "combobox-popup"}
+      data-opc-part="popover"
+      data-opc-native-webview-occlusion
       data-keyboard-open={keyboardOpen ? "true" : "false"}
       data-invalid={invalid ? "true" : "false"}
       data-placement={layout?.placement ?? placement}
@@ -524,7 +524,7 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
       ref={popoverRef}
       style={layout?.style ?? { position: "fixed", visibility: "hidden" }}
     >
-      <div className={styles.search} data-openbitfun-part="search">
+      <div className={styles.search} data-opc-part="search">
         <SearchField
           aria-activedescendant={activeDescendant}
           aria-autocomplete="list"
@@ -562,15 +562,15 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
         <IconButton
           aria-label={designSystem.messages.dialogClose}
           className={styles.collapse}
-          data-openbitfun-part="collapse"
+          data-opc-part="collapse"
           icon={<Icon name="chevron-up" />}
           onClick={() => closeListbox(true)}
           size="xs"
           variant="quiet"
         />
       </div>
-      <div aria-hidden="true" className={styles.divider} data-openbitfun-part="divider" />
-      <div className={styles.options} data-openbitfun-part="options">
+      <div aria-hidden="true" className={styles.divider} data-opc-part="divider" />
+      <div className={styles.options} data-opc-part="options">
         <Listbox
           aria-label={ariaLabel ?? (typeof label === "string" ? label : "Options")}
           className={styles.listbox}
@@ -635,7 +635,7 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
     <div
       {...divProps}
       className={classNames(styles.root, className)}
-      data-openbitfun-component={multiple ? "multi-select" : "combobox"}
+      data-opc-component={multiple ? "multi-select" : "combobox"}
       data-disabled={disabled ? "true" : "false"}
       data-field-surface={fieldSurface}
       data-invalid={invalid ? "true" : "false"}
@@ -644,20 +644,20 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
       ref={setRootRef}
     >
       {label !== undefined && label !== null && (
-        <label className={styles.visibleLabel} data-openbitfun-part="label" htmlFor={id} id={labelId}>
+        <label className={styles.visibleLabel} data-opc-part="label" htmlFor={id} id={labelId}>
           {label}
         </label>
       )}
       <div
         aria-hidden={resolvedOpen || undefined}
         className={styles.control}
-        data-openbitfun-part="control"
+        data-opc-part="control"
         data-tags={showTags ? "true" : "false"}
       >
         {showTags && (
-          <span className={styles.tags} data-openbitfun-part="tags">
+          <span className={styles.tags} data-opc-part="tags">
             {selectedOptions.slice(0, Math.max(1, maxVisibleTags)).map((option) => (
-              <Capsule size="xs" data-openbitfun-part="tag" key={`${typeof option.value}:${option.value}`} action={(
+              <Capsule size="xs" data-opc-part="tag" key={`${typeof option.value}:${option.value}`} action={(
                 <IconButton
                   aria-label={`${designSystem.messages.clearSelection}: ${option.label}`}
                   disabled={disabled}
@@ -692,7 +692,7 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
           aria-required={required || undefined}
           aria-busy={loading || undefined}
           className={styles.trigger}
-          data-openbitfun-part="trigger"
+          data-opc-part="trigger"
           disabled={disabled}
           id={resolvedOpen ? undefined : id}
           onClick={() => {
@@ -705,7 +705,7 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
           tabIndex={resolvedOpen ? -1 : undefined}
           type="button"
         >
-          <span className={styles.value} data-openbitfun-part="value">
+          <span className={styles.value} data-opc-part="value">
             {!hasValue ? (
               <OverflowText className={styles.placeholder}>{placeholder}</OverflowText>
             ) : multiple ? (
@@ -713,7 +713,7 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
             ) : (
               <span className={styles.singleValue}>
                 {singleOption?.leading && (
-                  <span aria-hidden="true" className={styles.valueLeading} data-openbitfun-icon-slot="true">{singleOption.leading}</span>
+                  <span aria-hidden="true" className={styles.valueLeading} data-opc-icon-slot="true">{singleOption.leading}</span>
                 )}
                 <OverflowText className={styles.valueLabel}>{singleOption?.label}</OverflowText>
               </span>
@@ -735,12 +735,12 @@ const CollectionPicker = forwardRef<HTMLDivElement, PickerProps>(function Collec
             variant="quiet"
           />
         )}
-        <span aria-hidden="true" className={styles.indicator} data-openbitfun-icon-slot="true" data-openbitfun-part="indicator">
+        <span aria-hidden="true" className={styles.indicator} data-opc-icon-slot="true" data-opc-part="indicator">
           <Icon name="chevron-down" />
         </span>
       </div>
       {errorMessage ? (
-        <span className={styles.error} data-openbitfun-part="message" id={errorId}>
+        <span className={styles.error} data-opc-part="message" id={errorId}>
           {errorMessage}
         </span>
       ) : null}

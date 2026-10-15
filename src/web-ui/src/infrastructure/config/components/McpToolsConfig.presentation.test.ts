@@ -15,7 +15,7 @@ describe('MCP settings presentation', () => {
     const editorStart = stylesheet.indexOf('&__json-editor {');
     const editorEnd = stylesheet.indexOf('&__json-editor-header', editorStart);
 
-    expect(stylesheet).not.toContain('.openbitfun-config-page-row {');
+    expect(stylesheet).not.toContain('.opc-config-page-row {');
     expect(stylesheet.slice(editorStart, editorEnd)).toContain('padding: var(--opcteam-space-4);');
   });
 

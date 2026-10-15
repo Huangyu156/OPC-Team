@@ -26,9 +26,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onClose, toolbarActions,
   }, [onClose]);
 
   return (
-    <div data-openbitfun-component="content-canvas" data-openbitfun-part="empty" data-openbitfun-state="empty" className="canvas-empty-state">
+    <div data-opc-component="content-canvas" data-opc-part="empty" data-opc-state="empty" className="canvas-empty-state">
       {(toolbarActions !== undefined || onClose) && (
-        <div className="canvas-empty-state__toolbar" data-openbitfun-component="content-canvas" data-openbitfun-part="emptyToolbar">
+        <div className="canvas-empty-state__toolbar" data-opc-component="content-canvas" data-opc-part="emptyToolbar">
           {toolbarActions !== undefined ? toolbarActions : <Tooltip content={t('tabs.close')}>
             <button
               className="canvas-empty-state__close-btn"
@@ -41,8 +41,8 @@ export const EmptyState: React.FC<EmptyStateProps> = ({ onClose, toolbarActions,
       )}
       <div
         className={`canvas-empty-state__content${hasEmbeddedContent ? ' canvas-empty-state__content--embedded' : ''}`}
-        data-openbitfun-component="content-canvas"
-        data-openbitfun-part="emptyContent"
+        data-opc-component="content-canvas"
+        data-opc-part="emptyContent"
       >
         {hasEmbeddedContent ? children : (
           <div className="canvas-empty-state__message">

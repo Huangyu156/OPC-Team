@@ -108,7 +108,7 @@ describe('native fullscreen chrome timing', () => {
 
   it('keeps native buttons suppressed until movement finishes and the reserved layout paints', async () => {
     document.body.append(container);
-    container.className = 'openbitfun-nav-bar--macos';
+    container.className = 'opc-nav-bar--macos';
     let finish!: () => void;
     const finished = new Promise<void>(resolve => { finish = resolve; });
     const animations = vi.fn().mockReturnValue([{ transitionProperty: 'padding-left', finished }]);

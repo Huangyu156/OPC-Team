@@ -8,7 +8,7 @@
 use core_graphics::event::{CGEvent, CGEventFlags, CGEventType, CGMouseButton};
 use core_graphics::geometry::CGPoint;
 use foreign_types::ForeignType;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::sync::Mutex;
 use std::time::Duration;
 

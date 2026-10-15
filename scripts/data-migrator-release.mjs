@@ -33,15 +33,15 @@ function stage(platform) {
   const target = resolve(ROOT, process.env.CARGO_TARGET_DIR || 'target', metadata.target, 'release');
   const output = join(ROOT, 'target/data-migrator-release', platform);
   mkdirSync(output, { recursive: true });
-  const asset = `openbitfun-data-migrator-v${version}-${platform}.${metadata.extension}`;
+  const asset = `opc-data-migrator-v${version}-${platform}.${metadata.extension}`;
   const destination = join(output, asset);
   if (platform === 'windows-x64') {
     const portable = join(ROOT, 'target/data-migrator-portable', version);
     mkdirSync(portable, { recursive: true });
-    copyFileSync(join(target, 'openbitfun-data-migrator.exe'), join(portable, 'openbitfun-data-migrator.exe'));
+    copyFileSync(join(target, 'opc-data-migrator.exe'), join(portable, 'opc-data-migrator.exe'));
     for (const file of ['README.md', 'README.zh-CN.md']) copyFileSync(join(ROOT, 'src/apps/data-migrator', file), join(portable, file));
     copyFileSync(join(ROOT, 'THIRD_PARTY_NOTICES.md'), join(portable, 'THIRD_PARTY_NOTICES.md'));
-    const result = spawnSync('tar', ['-a', '-cf', destination, '-C', portable, 'openbitfun-data-migrator.exe', 'README.md', 'README.zh-CN.md', 'THIRD_PARTY_NOTICES.md'], { stdio: 'inherit', windowsHide: true });
+    const result = spawnSync('tar', ['-a', '-cf', destination, '-C', portable, 'opc-data-migrator.exe', 'README.md', 'README.zh-CN.md', 'THIRD_PARTY_NOTICES.md'], { stdio: 'inherit', windowsHide: true });
     if (result.error) throw result.error;
     if (result.status !== 0) throw new Error('Could not archive the portable migrator');
   } else {

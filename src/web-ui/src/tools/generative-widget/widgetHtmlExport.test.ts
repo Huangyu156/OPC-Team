@@ -28,10 +28,10 @@ describe('standalone generative widget HTML', () => {
     expect(doc.documentElement.style.getPropertyValue('--opcteam-color-content-primary')).toBe('#eeeeee');
     expect(doc.documentElement.style.colorScheme).toBe('dark');
     expect(doc.head.querySelectorAll('script')).toHaveLength(0);
-    expect(doc.head.textContent).toContain('.openbitfun-card');
+    expect(doc.head.textContent).toContain('.opc-card');
     expect(doc.head.textContent).toContain('overflow-y: auto');
     expect(doc.getElementById('root')?.innerHTML).toBe('<p>Widget</p>');
-    expect(html).not.toContain('openbitfun-widget:update');
+    expect(html).not.toContain('opc-widget:update');
     expect(html).not.toContain('morphdom');
   });
 

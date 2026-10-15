@@ -1,16 +1,16 @@
 //! Network providers for built-in web tools.
 
 mod exa_search_api;
-mod openbitfun_search_http;
+mod opc_search_http;
 mod tavily;
 
 pub use exa_search_api::ExaSearchApiProvider;
-pub use openbitfun_search_http::{OpcTeamSearchHttpAuth, OpcTeamSearchHttpProvider};
+pub use opc_search_http::{OpcTeamSearchHttpAuth, OpcTeamSearchHttpProvider};
 pub use tavily::TavilySearchProvider;
 
 use async_trait::async_trait;
 use chrono::{DateTime, NaiveDate};
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     WebSearchError, WebSearchErrorKind, WebSearchProvider, WebSearchProviderId, WebSearchRequest,
     WebSearchResponse, WebSearchResult,
 };
@@ -832,7 +832,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn openbitfun_http_protocol_uses_v1_media_type_and_camel_case_body() {
+    async fn opc_http_protocol_uses_v1_media_type_and_camel_case_body() {
         let response_body = r#"{"results":[{"title":"One","url":"https://example.com/one","publishedAt":"2026-08-30T00:00:00Z","author":"A"}]}"#;
         let (endpoint, request_task) = serve_once(format!(
             "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.openbitfun.web-search.v1+json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
@@ -864,11 +864,11 @@ mod tests {
         assert!(request_lower.contains("accept: application/vnd.openbitfun.web-search.v1+json"));
         assert!(request_lower.contains("x-search-key: http-secret"));
         assert!(request.ends_with(r#"{"query":"rust async","maxResults":5}"#));
-        assert_eq!(response.provider.as_str(), "openbitfun_search_http");
+        assert_eq!(response.provider.as_str(), "opc_search_http");
     }
 
     #[test]
-    fn openbitfun_http_protocol_rejects_unsafe_endpoint_and_managed_headers() {
+    fn opc_http_protocol_rejects_unsafe_endpoint_and_managed_headers() {
         assert!(OpcTeamSearchHttpProvider::new(
             "http://example.com/search",
             OpcTeamSearchHttpAuth::None
@@ -885,7 +885,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn openbitfun_http_protocol_does_not_follow_redirects() {
+    async fn opc_http_protocol_does_not_follow_redirects() {
         let (endpoint, request_task) = serve_once(
             "HTTP/1.1 302 Found\r\nLocation: https://example.com/other\r\nContent-Length: 0\r\nConnection: close\r\n\r\n"
                 .to_string(),
@@ -906,7 +906,7 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn openbitfun_http_protocol_maps_error_envelope_code_and_retry_after() {
+    async fn opc_http_protocol_maps_error_envelope_code_and_retry_after() {
         let response_body =
             r#"{"error":{"code":"rate_limited","message":"Slow down","retryAfterSeconds":17}}"#;
         let (endpoint, request_task) = serve_once(format!(

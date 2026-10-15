@@ -2,11 +2,11 @@
 use super::ConversationCoordinator;
 use crate::agentic::core::SessionConfig;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_services_core::json_store::JsonFileStore;
+use opc_services_core::json_store::JsonFileStore;
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
 
-const CONTROL_SESSION_ID: &str = "openbitfun-control";
+const CONTROL_SESSION_ID: &str = "opc-control";
 static ENSURE_CONTROL: Mutex<()> = Mutex::const_new(());
 
 fn legacy_session_id() -> String {
@@ -128,7 +128,7 @@ impl ConversationCoordinator {
             .unwrap_or_default();
         let create_new = expected_session_id.is_some_and(|id| id == state.session_id);
         let session_id = if create_new {
-            format!("openbitfun-control-{}", uuid::Uuid::new_v4())
+            format!("opc-control-{}", uuid::Uuid::new_v4())
         } else {
             state.session_id.clone()
         };
@@ -198,7 +198,8 @@ mod tests {
     fn legacy_selection_and_future_fields_round_trip() {
         let legacy: ControlConversationState = serde_json::from_str("{}").unwrap();
         assert_eq!(legacy.session_id, CONTROL_SESSION_ID);
-        let payload = serde_json::json!({"sessionId": "openbitfun-control-new", "futureField": {"keep": true}});
+        let payload =
+            serde_json::json!({"sessionId": "opc-control-new", "futureField": {"keep": true}});
         let state: ControlConversationState = serde_json::from_value(payload.clone()).unwrap();
         assert_eq!(serde_json::to_value(state).unwrap(), payload);
     }

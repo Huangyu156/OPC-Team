@@ -6,7 +6,7 @@ pub use credentials::{
     StoredMarketCredentials,
 };
 pub use flow::{poll_auth_flow, start_auth_flow};
-use openbitfun_product_domains::account::GitHubUser;
+use opc_product_domains::account::GitHubUser;
 use reqwest::{RequestBuilder, Response, StatusCode};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};

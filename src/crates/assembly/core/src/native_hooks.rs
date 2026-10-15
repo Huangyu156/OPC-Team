@@ -1,7 +1,7 @@
 //! Product wiring for native OPC-Team agent hooks.
 //!
 //! This module connects the portable hook engine
-//! (`openbitfun_agent_runtime::native_hooks`) to OPC-Team configuration and the
+//! (`opc_agent_runtime::native_hooks`) to OPC-Team configuration and the
 //! agent runtime dispatch sites:
 //!
 //! - Settings discovery: user scope `~/.config/opcteam/config/hooks.json`
@@ -24,15 +24,15 @@ use async_trait::async_trait;
 use dashmap::DashMap;
 use log::{debug, info, warn};
 #[cfg(feature = "opencode-plugin-host")]
-use openbitfun_agent_runtime::native_hooks::PluginHookDispatchResult;
-use openbitfun_agent_runtime::native_hooks::{
+use opc_agent_runtime::native_hooks::PluginHookDispatchResult;
+use opc_agent_runtime::native_hooks::{
     AgentHookEngine, AgentHookEvent, AgentHookEventPayload, AgentHookMatcher, AgentHookOutcome,
     AgentHookPayload, AgentHookPayloadCommon, AgentHookPermissionMode, AgentHookPermissionOutcome,
     AgentHookScope, AgentHookSettings, AgentHookSettingsLayer, BuiltinHookExecutor, HookCall,
     HookCallPayload, HookHandler, HookHandlerResult, RuntimeHookKind, RuntimeHookPlan,
     RuntimeHookRegistration, RuntimeHookRegistry, RuntimeHookSource, MAX_HOOKS_FILE_BYTES,
 };
-use openbitfun_agent_runtime::post_call_hooks::{
+use opc_agent_runtime::post_call_hooks::{
     resolve_deep_review_shared_context_tool_use, DeepReviewSharedContextToolUseFacts,
 };
 use serde_json::Value;
@@ -72,11 +72,11 @@ pub(crate) fn plugin_hook_registry(_workspace_scope: &str) -> RuntimeHookRegistr
 #[cfg(feature = "opencode-plugin-host")]
 pub(crate) async fn dispatch_plugin_hook(
     workspace_scope: &str,
-    generation: Option<&openbitfun_agent_runtime::native_hooks::PluginHookGenerationIdentity>,
+    generation: Option<&opc_agent_runtime::native_hooks::PluginHookGenerationIdentity>,
     hook_name: &str,
     input: Value,
     output: Value,
-) -> openbitfun_agent_runtime::native_hooks::PluginHookDispatchResult {
+) -> opc_agent_runtime::native_hooks::PluginHookDispatchResult {
     AgentHookEngine::with_registry(plugin_hook_registry(workspace_scope))
         .dispatch_plugin_hook_for_generation(
             Some(workspace_scope),
@@ -243,7 +243,7 @@ impl PluginToolAfterOutput {
 #[cfg(all(test, feature = "opencode-plugin-host"))]
 mod plugin_tool_output_tests {
     use super::{plugin_tool_after_output, plugin_tool_before_output};
-    use openbitfun_agent_runtime::native_hooks::PluginHookDispatchResult;
+    use opc_agent_runtime::native_hooks::PluginHookDispatchResult;
     use serde_json::{json, Value};
 
     fn dispatch_result(output: Value, executed_handlers: usize) -> PluginHookDispatchResult {
@@ -752,7 +752,7 @@ fn publish_command_registrations(
     workspace_scope: Option<&str>,
     manual_settings: AgentHookSettings,
     imported_settings: AgentHookSettings,
-) -> Result<(), openbitfun_agent_runtime::native_hooks::RuntimeHookRegistryError> {
+) -> Result<(), opc_agent_runtime::native_hooks::RuntimeHookRegistryError> {
     let manual = manual_settings.registrations();
     let user_entries = manual
         .iter()
@@ -1230,13 +1230,13 @@ mod cache_tests {
         first.set_source_activation_for_workspace(
             RuntimeHookSource::Plugin,
             Some(&workspace_scope),
-            openbitfun_agent_runtime::native_hooks::RuntimeHookActivation::Ready,
+            opc_agent_runtime::native_hooks::RuntimeHookActivation::Ready,
         );
 
         assert_eq!(
             second
                 .source_activation_for_workspace(RuntimeHookSource::Plugin, Some(&workspace_scope)),
-            openbitfun_agent_runtime::native_hooks::RuntimeHookActivation::Ready
+            opc_agent_runtime::native_hooks::RuntimeHookActivation::Ready
         );
         second.clear_source_workspace(RuntimeHookSource::Plugin, &workspace_scope);
     }

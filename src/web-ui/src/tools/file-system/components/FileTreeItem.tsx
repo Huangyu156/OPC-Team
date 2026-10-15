@@ -21,7 +21,7 @@ const RenameInput: React.FC<RenameInputProps> = ({ node, onRename, onCancel }) =
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      const input = document.querySelector('.openbitfun-file-explorer__rename-input-wrapper input') as HTMLInputElement | null;
+      const input = document.querySelector('.opc-file-explorer__rename-input-wrapper input') as HTMLInputElement | null;
       if (!input) {
         return;
       }
@@ -73,9 +73,9 @@ const RenameInput: React.FC<RenameInputProps> = ({ node, onRename, onCancel }) =
   };
 
   return (
-    <div className="openbitfun-file-explorer__rename-input-wrapper" onClick={(event) => event.stopPropagation()}>
+    <div className="opc-file-explorer__rename-input-wrapper" onClick={(event) => event.stopPropagation()}>
       <Input
-        className="openbitfun-file-explorer__rename-input"
+        className="opc-file-explorer__rename-input"
         type="text"
         size="sm"
         value={value}
@@ -183,7 +183,7 @@ export const FileTreeItem: React.FC<FileTreeItemProps> = ({
 
   return (
     <div data-overflow-trigger
-      className={`openbitfun-file-explorer__node-content ${isSelected ? 'openbitfun-file-explorer__node-content--selected' : ''} ${node.isDirectory ? 'openbitfun-file-explorer__node-content--directory' : ''} ${isCompressed ? 'openbitfun-file-explorer__node-content--compressed' : ''} ${className}`}
+      className={`opc-file-explorer__node-content ${isSelected ? 'opc-file-explorer__node-content--selected' : ''} ${node.isDirectory ? 'opc-file-explorer__node-content--directory' : ''} ${isCompressed ? 'opc-file-explorer__node-content--compressed' : ''} ${className}`}
       style={{ paddingLeft: `${indentPx}px` }}
       onClick={handleClick}
       title={tooltip}
@@ -199,9 +199,9 @@ export const FileTreeItem: React.FC<FileTreeItemProps> = ({
       aria-selected={isSelected}
     >
       {node.isDirectory ? (
-        <span className={`openbitfun-file-explorer__expand-icon ${isExpanded ? 'openbitfun-file-explorer__expand-icon--expanded' : ''}`} onClick={handleExpandClick}>
+        <span className={`opc-file-explorer__expand-icon ${isExpanded ? 'opc-file-explorer__expand-icon--expanded' : ''}`} onClick={handleExpandClick}>
           {isLoading ? (
-            <Loader2 size={16} className="openbitfun-file-explorer__loading-icon" />
+            <Loader2 size={16} className="opc-file-explorer__loading-icon" />
           ) : (
             <Icon name="chevron-right" size="md" />
           )}
@@ -221,13 +221,13 @@ export const FileTreeItem: React.FC<FileTreeItemProps> = ({
       ) : renderContent ? (
         renderContent(node, level)
       ) : (
-        <OverflowText className={`openbitfun-file-explorer__node-name ${isCompressed ? 'openbitfun-file-explorer__compressed-path' : ''}`}>
+        <OverflowText className={`opc-file-explorer__node-name ${isCompressed ? 'opc-file-explorer__compressed-path' : ''}`}>
           {node.name}
         </OverflowText>
       )}
 
       {renderActions ? (
-        <div className="openbitfun-file-explorer__node-actions" onClick={(event) => event.stopPropagation()}>
+        <div className="opc-file-explorer__node-actions" onClick={(event) => event.stopPropagation()}>
           {renderActions(node)}
         </div>
       ) : null}

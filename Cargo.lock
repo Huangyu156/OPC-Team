@@ -5897,18 +5897,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "c08d65885ee38876c4f86fa503fb49d7b507c2b62552df7c70b2fce627e06381"
 
 [[package]]
-name = "open"
-version = "5.4.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a0b3d059e795d52b8a72fef45658620edd4d9c359b338564aa14391ffa511ed5"
-dependencies = [
- "dunce",
- "is-wsl",
- "libc",
-]
-
-[[package]]
-name = "openbitfun-acp"
+name = "opc-acp"
 version = "1.0.5"
 dependencies = [
  "agent-client-protocol",
@@ -5918,11 +5907,11 @@ dependencies = [
  "dirs 6.0.0",
  "futures",
  "log",
- "openbitfun-agent-runtime",
- "openbitfun-agent-tools",
- "openbitfun-core",
- "openbitfun-core-types",
- "openbitfun-events",
+ "opc-agent-runtime",
+ "opc-agent-tools",
+ "opc-core",
+ "opc-core-types",
+ "opc-events",
  "semver",
  "serde",
  "serde_json",
@@ -5934,23 +5923,23 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-agent-content"
+name = "opc-agent-content"
 version = "1.0.5"
 
 [[package]]
-name = "openbitfun-agent-runtime"
+name = "opc-agent-runtime"
 version = "1.0.5"
 dependencies = [
  "async-trait",
  "dashmap",
  "hex",
  "log",
- "openbitfun-agent-stream",
- "openbitfun-agent-tools",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-runtime-ports",
- "openbitfun-runtime-services",
+ "opc-agent-stream",
+ "opc-agent-tools",
+ "opc-core-types",
+ "opc-events",
+ "opc-runtime-ports",
+ "opc-runtime-services",
  "regex",
  "serde",
  "serde_json",
@@ -5963,16 +5952,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-agent-runtime-ipc"
+name = "opc-agent-runtime-ipc"
 version = "1.0.5"
 dependencies = [
  "async-trait",
  "dunce",
  "fs2",
- "openbitfun-events",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
- "openbitfun-transport",
+ "opc-events",
+ "opc-product-domains",
+ "opc-runtime-ports",
+ "opc-transport",
  "serde",
  "serde_json",
  "sha2",
@@ -5984,7 +5973,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-agent-stream"
+name = "opc-agent-stream"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -5992,9 +5981,9 @@ dependencies = [
  "futures",
  "jsonrepair-rs",
  "log",
- "openbitfun-agent-tools",
- "openbitfun-core-types",
- "openbitfun-events",
+ "opc-agent-tools",
+ "opc-core-types",
+ "opc-events",
  "serde",
  "serde_json",
  "tokio",
@@ -6004,27 +5993,27 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-agent-tools"
+name = "opc-agent-tools"
 version = "1.0.5"
 dependencies = [
  "async-trait",
  "indexmap 2.14.0",
- "openbitfun-core-types",
- "openbitfun-runtime-ports",
+ "opc-core-types",
+ "opc-runtime-ports",
  "serde",
  "serde_json",
  "tokio",
 ]
 
 [[package]]
-name = "openbitfun-agent-workflows"
+name = "opc-agent-workflows"
 version = "1.0.5"
 dependencies = [
  "regex",
 ]
 
 [[package]]
-name = "openbitfun-ai-adapters"
+name = "opc-ai-adapters"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -6040,10 +6029,10 @@ dependencies = [
  "keyring-core",
  "libc",
  "log",
- "openbitfun-agent-stream",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-services-core",
+ "opc-agent-stream",
+ "opc-core-types",
+ "opc-events",
+ "opc-services-core",
  "reqwest",
  "serde",
  "serde_json",
@@ -6058,7 +6047,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-app-server"
+name = "opc-app-server"
 version = "1.0.5"
 dependencies = [
  "agent-client-protocol",
@@ -6066,12 +6055,12 @@ dependencies = [
  "async-trait",
  "dunce",
  "log",
- "openbitfun-agent-runtime",
- "openbitfun-app-server-client",
- "openbitfun-app-server-protocol",
- "openbitfun-core",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
+ "opc-agent-runtime",
+ "opc-app-server-client",
+ "opc-app-server-protocol",
+ "opc-core",
+ "opc-product-domains",
+ "opc-runtime-ports",
  "serde",
  "serde_json",
  "tokio",
@@ -6080,41 +6069,41 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-app-server-client"
+name = "opc-app-server-client"
 version = "1.0.5"
 dependencies = [
  "agent-client-protocol",
  "anyhow",
- "openbitfun-app-server-protocol",
+ "opc-app-server-protocol",
  "serde_json",
  "tokio",
 ]
 
 [[package]]
-name = "openbitfun-app-server-protocol"
+name = "opc-app-server-protocol"
 version = "1.0.5"
 dependencies = [
  "agent-client-protocol",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
+ "opc-core-types",
+ "opc-events",
+ "opc-product-domains",
+ "opc-runtime-ports",
  "serde",
  "serde_json",
  "ts-rs",
 ]
 
 [[package]]
-name = "openbitfun-claude-code-adapter"
+name = "opc-claude-code-adapter"
 version = "1.0.5"
 dependencies = [
  "dirs 6.0.0",
  "dunce",
  "hex",
  "log",
- "openbitfun-product-domains",
- "openbitfun-services-core",
- "openbitfun-static-hook-support",
+ "opc-product-domains",
+ "opc-services-core",
+ "opc-static-hook-support",
  "regex",
  "serde_json",
  "serde_yaml",
@@ -6124,7 +6113,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-cli"
+name = "opc-cli"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -6144,18 +6133,18 @@ dependencies = [
  "libc",
  "minisign-verify",
  "once_cell",
- "openbitfun-acp",
- "openbitfun-agent-runtime",
- "openbitfun-agent-runtime-ipc",
- "openbitfun-agent-tools",
- "openbitfun-app-server",
- "openbitfun-core",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
- "openbitfun-runtime-services",
- "openbitfun-services-core",
+ "opc-acp",
+ "opc-agent-runtime",
+ "opc-agent-runtime-ipc",
+ "opc-agent-tools",
+ "opc-app-server",
+ "opc-core",
+ "opc-core-types",
+ "opc-events",
+ "opc-product-domains",
+ "opc-runtime-ports",
+ "opc-runtime-services",
+ "opc-services-core",
  "portable-pty 0.8.1",
  "portable-pty 0.9.0",
  "pulldown-cmark",
@@ -6183,15 +6172,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-codex-adapter"
+name = "opc-codex-adapter"
 version = "1.0.5"
 dependencies = [
  "dirs 6.0.0",
  "dunce",
  "hex",
- "openbitfun-product-domains",
- "openbitfun-services-core",
- "openbitfun-static-hook-support",
+ "opc-product-domains",
+ "opc-services-core",
+ "opc-static-hook-support",
  "serde_json",
  "sha2",
  "tempfile",
@@ -6200,14 +6189,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-config-contracts"
+name = "opc-config-contracts"
 version = "1.0.5"
 dependencies = [
  "chrono",
  "hex",
  "log",
- "openbitfun-core-types",
- "openbitfun-product-domains",
+ "opc-core-types",
+ "opc-product-domains",
  "serde",
  "serde_json",
  "sha2",
@@ -6215,7 +6204,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-core"
+name = "opc-core"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -6240,31 +6229,31 @@ dependencies = [
  "log",
  "md5",
  "notify",
- "openbitfun-agent-content",
- "openbitfun-agent-runtime",
- "openbitfun-agent-stream",
- "openbitfun-agent-tools",
- "openbitfun-agent-workflows",
- "openbitfun-ai-adapters",
- "openbitfun-claude-code-adapter",
- "openbitfun-codex-adapter",
- "openbitfun-config-contracts",
- "openbitfun-core-types",
- "openbitfun-dsh-adapter",
- "openbitfun-events",
- "openbitfun-external-sources",
- "openbitfun-legacy-migration-adapters",
- "openbitfun-opencode-adapter",
- "openbitfun-opencode-plugin-host",
- "openbitfun-pi-adapter",
- "openbitfun-plugin-runtime-client",
- "openbitfun-product-capabilities",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
- "openbitfun-runtime-services",
- "openbitfun-services-core",
- "openbitfun-services-integrations",
- "openbitfun-tool-packs",
+ "opc-agent-content",
+ "opc-agent-runtime",
+ "opc-agent-stream",
+ "opc-agent-tools",
+ "opc-agent-workflows",
+ "opc-ai-adapters",
+ "opc-claude-code-adapter",
+ "opc-codex-adapter",
+ "opc-config-contracts",
+ "opc-core-types",
+ "opc-dsh-adapter",
+ "opc-events",
+ "opc-external-sources",
+ "opc-legacy-migration-adapters",
+ "opc-opencode-adapter",
+ "opc-opencode-plugin-host",
+ "opc-pi-adapter",
+ "opc-plugin-runtime-client",
+ "opc-product-capabilities",
+ "opc-product-domains",
+ "opc-runtime-ports",
+ "opc-runtime-services",
+ "opc-services-core",
+ "opc-services-integrations",
+ "opc-tool-packs",
  "regex",
  "reqwest",
  "rusqlite",
@@ -6288,7 +6277,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-core-types"
+name = "opc-core-types"
 version = "1.0.5"
 dependencies = [
  "serde",
@@ -6297,13 +6286,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-data-migrator"
+name = "opc-data-migrator"
 version = "0.1.2"
 dependencies = [
- "openbitfun-core-types",
- "openbitfun-legacy-migration",
- "openbitfun-legacy-migration-adapters",
- "openbitfun-product-domains",
+ "opc-core-types",
+ "opc-legacy-migration",
+ "opc-legacy-migration-adapters",
+ "opc-product-domains",
  "serde",
  "serde_json",
  "tauri",
@@ -6313,7 +6302,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-desktop"
+name = "opc-desktop"
 version = "1.0.5"
 dependencies = [
  "alloc-no-stdlib",
@@ -6353,19 +6342,19 @@ dependencies = [
  "objc2-app-kit",
  "objc2-foundation",
  "objc2-vision",
- "openbitfun-acp",
- "openbitfun-agent-runtime",
- "openbitfun-agent-tools",
- "openbitfun-core",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-product-domains",
- "openbitfun-relay-service",
- "openbitfun-runtime-ports",
- "openbitfun-services-core",
- "openbitfun-services-integrations",
- "openbitfun-transport",
- "openbitfun-webdriver",
+ "opc-acp",
+ "opc-agent-runtime",
+ "opc-agent-tools",
+ "opc-core",
+ "opc-core-types",
+ "opc-events",
+ "opc-product-domains",
+ "opc-relay-service",
+ "opc-runtime-ports",
+ "opc-services-core",
+ "opc-services-integrations",
+ "opc-transport",
+ "opc-webdriver",
  "regex",
  "reqwest",
  "resvg",
@@ -6404,16 +6393,16 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-dsh-adapter"
+name = "opc-dsh-adapter"
 version = "1.0.5"
 dependencies = [
  "async-trait",
  "dirs 6.0.0",
  "hex",
- "openbitfun-plugin-runtime-client",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
- "openbitfun-static-hook-support",
+ "opc-plugin-runtime-client",
+ "opc-product-domains",
+ "opc-runtime-ports",
+ "opc-static-hook-support",
  "serde",
  "serde_json",
  "serde_yaml",
@@ -6425,31 +6414,31 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-events"
+name = "opc-events"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "async-trait",
  "chrono",
  "log",
- "openbitfun-core-types",
+ "opc-core-types",
  "serde",
  "serde_json",
  "uuid",
 ]
 
 [[package]]
-name = "openbitfun-external-sources"
+name = "opc-external-sources"
 version = "1.0.5"
 dependencies = [
  "futures",
  "log",
- "openbitfun-product-domains",
+ "opc-product-domains",
  "tokio",
 ]
 
 [[package]]
-name = "openbitfun-legacy-migration"
+name = "opc-legacy-migration"
 version = "1.0.5"
 dependencies = [
  "chrono",
@@ -6457,8 +6446,8 @@ dependencies = [
  "fs2",
  "hex",
  "libc",
- "openbitfun-product-domains",
- "openbitfun-services-core",
+ "opc-product-domains",
+ "opc-services-core",
  "rusqlite",
  "semver",
  "serde",
@@ -6471,20 +6460,20 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-legacy-migration-adapters"
+name = "opc-legacy-migration-adapters"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "chrono",
  "dunce",
  "hex",
- "openbitfun-agent-runtime",
- "openbitfun-config-contracts",
- "openbitfun-core-types",
- "openbitfun-legacy-migration",
- "openbitfun-product-domains",
- "openbitfun-services-core",
- "openbitfun-services-integrations",
+ "opc-agent-runtime",
+ "opc-config-contracts",
+ "opc-core-types",
+ "opc-legacy-migration",
+ "opc-product-domains",
+ "opc-services-core",
+ "opc-services-integrations",
  "rusqlite",
  "serde",
  "serde_json",
@@ -6495,19 +6484,19 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-miniapp-market-server"
+name = "opc-miniapp-market-server"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "axum",
- "openbitfun-miniapp-market-service",
+ "opc-miniapp-market-service",
  "tokio",
  "tracing",
  "tracing-subscriber",
 ]
 
 [[package]]
-name = "openbitfun-miniapp-market-service"
+name = "opc-miniapp-market-service"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -6518,8 +6507,8 @@ dependencies = [
  "hmac",
  "image 0.25.10",
  "lettre",
- "openbitfun-product-domains",
- "openbitfun-services-core",
+ "opc-product-domains",
+ "opc-services-core",
  "rand 0.8.7",
  "reqwest",
  "semver",
@@ -6540,7 +6529,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-opencode-adapter"
+name = "opc-opencode-adapter"
 version = "1.0.5"
 dependencies = [
  "async-trait",
@@ -6549,12 +6538,12 @@ dependencies = [
  "globset",
  "hex",
  "log",
- "openbitfun-plugin-runtime-client",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
- "openbitfun-services-core",
- "openbitfun-services-integrations",
- "openbitfun-static-hook-support",
+ "opc-plugin-runtime-client",
+ "opc-product-domains",
+ "opc-runtime-ports",
+ "opc-services-core",
+ "opc-services-integrations",
+ "opc-static-hook-support",
  "oxc",
  "regex",
  "serde",
@@ -6569,14 +6558,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-opencode-plugin-host"
+name = "opc-opencode-plugin-host"
 version = "1.0.5"
 dependencies = [
  "async-trait",
  "base64 0.22.1",
  "log",
- "openbitfun-runtime-ports",
- "openbitfun-services-core",
+ "opc-runtime-ports",
+ "opc-services-core",
  "rand 0.8.7",
  "serde",
  "serde_json",
@@ -6588,7 +6577,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-page-function-runtime"
+name = "opc-page-function-runtime"
 version = "1.0.5"
 dependencies = [
  "rquickjs",
@@ -6598,40 +6587,40 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-pi-adapter"
+name = "opc-pi-adapter"
 version = "1.0.5"
 dependencies = [
  "dirs 6.0.0",
- "openbitfun-product-domains",
- "openbitfun-static-hook-support",
+ "opc-product-domains",
+ "opc-static-hook-support",
  "oxc",
  "serde_json",
  "tempfile",
 ]
 
 [[package]]
-name = "openbitfun-plugin-runtime-client"
+name = "opc-plugin-runtime-client"
 version = "1.0.5"
 dependencies = [
  "async-trait",
- "openbitfun-runtime-ports",
+ "opc-runtime-ports",
  "tokio",
 ]
 
 [[package]]
-name = "openbitfun-product-capabilities"
+name = "opc-product-capabilities"
 version = "1.0.5"
 dependencies = [
  "async-trait",
- "openbitfun-agent-runtime",
- "openbitfun-runtime-ports",
- "openbitfun-runtime-services",
- "openbitfun-tool-packs",
+ "opc-agent-runtime",
+ "opc-runtime-ports",
+ "opc-runtime-services",
+ "opc-tool-packs",
  "tokio",
 ]
 
 [[package]]
-name = "openbitfun-product-domains"
+name = "opc-product-domains"
 version = "1.0.5"
 dependencies = [
  "dirs 6.0.0",
@@ -6649,14 +6638,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-relay-server"
+name = "opc-relay-server"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "axum",
  "chrono",
  "clap",
- "openbitfun-relay-service",
+ "opc-relay-service",
  "rpassword",
  "serde_json",
  "tokio",
@@ -6666,7 +6655,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-relay-service"
+name = "opc-relay-service"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -6676,7 +6665,7 @@ dependencies = [
  "dashmap",
  "futures-util",
  "libsqlite3-sys",
- "openbitfun-page-function-runtime",
+ "opc-page-function-runtime",
  "rand 0.8.7",
  "reqwest",
  "rusqlite",
@@ -6697,13 +6686,13 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-runtime-ports"
+name = "opc-runtime-ports"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "async-trait",
- "openbitfun-core-types",
- "openbitfun-product-domains",
+ "opc-core-types",
+ "opc-product-domains",
  "serde",
  "serde_json",
  "tokio",
@@ -6712,14 +6701,14 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-runtime-services"
+name = "opc-runtime-services"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "async-trait",
  "log",
- "openbitfun-events",
- "openbitfun-runtime-ports",
+ "opc-events",
+ "opc-runtime-ports",
  "serde",
  "serde_json",
  "thiserror 2.0.19",
@@ -6727,15 +6716,15 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-sdk-host"
+name = "opc-sdk-host"
 version = "1.0.5"
 dependencies = [
  "async-trait",
  "futures-util",
- "openbitfun-agent-runtime",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-runtime-ports",
+ "opc-agent-runtime",
+ "opc-core-types",
+ "opc-events",
+ "opc-runtime-ports",
  "serde",
  "serde_json",
  "tokio",
@@ -6746,17 +6735,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-sdk-host-app"
+name = "opc-sdk-host-app"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "async-trait",
  "futures-util",
- "openbitfun-agent-runtime",
- "openbitfun-core",
- "openbitfun-sdk-host",
- "openbitfun-services-core",
- "openbitfun-transport",
+ "opc-agent-runtime",
+ "opc-core",
+ "opc-sdk-host",
+ "opc-services-core",
+ "opc-transport",
  "rustls",
  "serde_json",
  "tempfile",
@@ -6768,7 +6757,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-server"
+name = "opc-server"
 version = "1.0.5"
 dependencies = [
  "agent-client-protocol",
@@ -6781,10 +6770,10 @@ dependencies = [
  "futures",
  "futures-util",
  "log",
- "openbitfun-agent-runtime",
- "openbitfun-app-server",
- "openbitfun-core",
- "openbitfun-events",
+ "opc-agent-runtime",
+ "opc-app-server",
+ "opc-core",
+ "opc-events",
  "serde",
  "serde_json",
  "tokio",
@@ -6794,7 +6783,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-services-core"
+name = "opc-services-core"
 version = "1.0.5"
 dependencies = [
  "aes-gcm",
@@ -6812,10 +6801,10 @@ dependencies = [
  "image 0.25.10",
  "libc",
  "log",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
+ "opc-core-types",
+ "opc-events",
+ "opc-product-domains",
+ "opc-runtime-ports",
  "rand 0.8.7",
  "regex",
  "rusqlite",
@@ -6836,7 +6825,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-services-integrations"
+name = "opc-services-integrations"
 version = "1.0.5"
 dependencies = [
  "aes",
@@ -6864,14 +6853,14 @@ dependencies = [
  "md5",
  "minisign-verify",
  "notify",
- "openbitfun-agent-runtime",
- "openbitfun-agent-tools",
- "openbitfun-agent-workflows",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-product-domains",
- "openbitfun-runtime-ports",
- "openbitfun-services-core",
+ "opc-agent-runtime",
+ "opc-agent-tools",
+ "opc-agent-workflows",
+ "opc-core-types",
+ "opc-events",
+ "opc-product-domains",
+ "opc-runtime-ports",
+ "opc-services-core",
  "oxc",
  "pulldown-cmark",
  "qrcode",
@@ -6914,19 +6903,19 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-skin-market-server"
+name = "opc-skin-market-server"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "axum",
- "openbitfun-skin-market-service",
+ "opc-skin-market-service",
  "tokio",
  "tracing",
  "tracing-subscriber",
 ]
 
 [[package]]
-name = "openbitfun-skin-market-service"
+name = "opc-skin-market-service"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -6936,8 +6925,8 @@ dependencies = [
  "hex",
  "hmac",
  "image 0.25.10",
- "openbitfun-product-domains",
- "openbitfun-services-core",
+ "opc-product-domains",
+ "opc-services-core",
  "reqwest",
  "semver",
  "serde",
@@ -6956,12 +6945,12 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-static-hook-support"
+name = "opc-static-hook-support"
 version = "1.0.5"
 dependencies = [
  "hex",
- "openbitfun-product-domains",
- "openbitfun-services-core",
+ "opc-product-domains",
+ "opc-services-core",
  "serde_json",
  "sha2",
  "tempfile",
@@ -6969,17 +6958,17 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-tool-packs"
+name = "opc-tool-packs"
 version = "1.0.5"
 
 [[package]]
-name = "openbitfun-transport"
+name = "opc-transport"
 version = "1.0.5"
 dependencies = [
  "anyhow",
  "async-trait",
  "log",
- "openbitfun-events",
+ "opc-events",
  "serde",
  "serde_json",
  "tauri",
@@ -6987,7 +6976,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "openbitfun-webdriver"
+name = "opc-webdriver"
 version = "1.0.5"
 dependencies = [
  "anyhow",
@@ -7012,6 +7001,17 @@ dependencies = [
  "webview2-com",
  "windows 0.61.3",
  "windows-core 0.61.2",
+]
+
+[[package]]
+name = "open"
+version = "5.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a0b3d059e795d52b8a72fef45658620edd4d9c359b338564aa14391ffa511ed5"
+dependencies = [
+ "dunce",
+ "is-wsl",
+ "libc",
 ]
 
 [[package]]
@@ -10880,7 +10880,7 @@ dependencies = [
  "futures",
  "libc",
  "log",
- "openbitfun-runtime-ports",
+ "opc-runtime-ports",
  "portable-pty 0.8.1",
  "portable-pty 0.9.0",
  "rand 0.8.7",
@@ -11327,10 +11327,10 @@ dependencies = [
  "ignore",
  "legible",
  "log",
- "openbitfun-agent-tools",
- "openbitfun-core-types",
- "openbitfun-events",
- "openbitfun-runtime-ports",
+ "opc-agent-tools",
+ "opc-core-types",
+ "opc-events",
+ "opc-runtime-ports",
  "pdf-inspector",
  "readability-js",
  "regex",

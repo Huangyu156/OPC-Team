@@ -10,8 +10,8 @@ use crate::mcp::protocol::{InitializeResult, MCPMessage, MCPServerInfo, MCPTrans
 use crate::mcp::server::is_mcp_auth_error_message;
 use crate::mcp::{MCPRuntimeError, MCPRuntimeResult};
 use log::{debug, error, info, warn};
-use openbitfun_services_core::process_manager;
-use openbitfun_services_core::process_tree::ProcessTreeChild;
+use opc_services_core::process_manager;
+use opc_services_core::process_tree::ProcessTreeChild;
 use std::path::PathBuf;
 use std::sync::Arc;
 use std::time::{Duration, Instant};

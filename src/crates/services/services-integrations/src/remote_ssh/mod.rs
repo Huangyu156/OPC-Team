@@ -1,6 +1,6 @@
 //! Remote SSH service contracts.
 //!
-//! `openbitfun-core::service::remote_ssh` remains as the compatibility facade for
+//! `opc-core::service::remote_ssh` remains as the compatibility facade for
 //! the legacy public path.
 
 mod file_name_search;

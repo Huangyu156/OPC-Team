@@ -1,7 +1,7 @@
 //! User-selected native sharing, built on the same capture and input provider
 //! as ComputerUse. No separate browser, input loop or permission owner.
 use super::*;
-use openbitfun_agent_tools::computer_use_control::{ControlMode, ControlSnapshot, ShareTarget};
+use opc_agent_tools::computer_use_control::{ControlMode, ControlSnapshot, ShareTarget};
 
 async fn native_targets() -> Result<Vec<ShareTarget>, String> {
     #[cfg(target_os = "macos")]

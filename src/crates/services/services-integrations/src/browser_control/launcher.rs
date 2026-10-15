@@ -3,7 +3,7 @@
 use anyhow::{anyhow, Result};
 #[allow(unused_imports)]
 use log::{debug, info};
-use openbitfun_services_core::process_manager;
+use opc_services_core::process_manager;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
@@ -1111,7 +1111,7 @@ mod tests {
 
     #[test]
     fn managed_user_data_dir_sanitizes_unknown_browser_name() {
-        let root = PathBuf::from("/tmp/openbitfun-test");
+        let root = PathBuf::from("/tmp/opc-test");
         let dir = BrowserLauncher::managed_user_data_dir(
             &root,
             &BrowserKind::Unknown("Custom Browser!".to_string()),

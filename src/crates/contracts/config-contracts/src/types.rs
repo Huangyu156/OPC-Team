@@ -2,9 +2,9 @@
 //!
 //! Defines all configuration-related types shared between backend and frontend.
 
-use openbitfun_core_types::{product_identity, WorktreeSettings};
-pub use openbitfun_core_types::{ReasoningConfig, ReasoningPreset, ReasoningPresetAction};
-use openbitfun_product_domains::tool_permissions::{PermissionRule, ToolPermissionConfig};
+use opc_core_types::{product_identity, WorktreeSettings};
+pub use opc_core_types::{ReasoningConfig, ReasoningPreset, ReasoningPresetAction};
+use opc_product_domains::tool_permissions::{PermissionRule, ToolPermissionConfig};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::collections::HashMap;
@@ -419,13 +419,13 @@ pub struct AppFlowChatConfig {
     /// Optional fixed ChatInput mode id.
     #[serde(
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
+        deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id"
     )]
     pub default_mode_id: Option<String>,
     /// Most recent mode explicitly selected from the ChatInput Harness control.
     #[serde(
         skip_serializing_if = "Option::is_none",
-        deserialize_with = "openbitfun_core_types::agent_identity::deserialize_optional_agent_id"
+        deserialize_with = "opc_core_types::agent_identity::deserialize_optional_agent_id"
     )]
     pub last_mode_id: Option<String>,
     /// Whether the chat input exposes the global permission-mode shortcut.
@@ -1201,8 +1201,8 @@ fn default_tavily_credential_id() -> String {
     "tavily-search-api".to_string()
 }
 
-fn default_openbitfun_search_http_credential_id() -> String {
-    "openbitfun-search-http".to_string()
+fn default_opc_search_http_credential_id() -> String {
+    "opc-search-http".to_string()
 }
 
 /// Non-secret WebSearch settings that are safe to persist and synchronize.
@@ -1234,7 +1234,7 @@ impl Default for WebSearchConfig {
 pub struct WebSearchProviderConfigs {
     pub exa_search_api: WebSearchCredentialProviderConfig,
     pub tavily: WebSearchCredentialProviderConfig,
-    pub openbitfun_search_http: OpcTeamSearchHttpConfig,
+    pub opc_search_http: OpcTeamSearchHttpConfig,
     #[serde(flatten)]
     pub unknown: serde_json::Map<String, serde_json::Value>,
 }
@@ -1250,7 +1250,7 @@ impl Default for WebSearchProviderConfigs {
                 credential_id: default_tavily_credential_id(),
                 unknown: serde_json::Map::new(),
             },
-            openbitfun_search_http: OpcTeamSearchHttpConfig::default(),
+            opc_search_http: OpcTeamSearchHttpConfig::default(),
             unknown: serde_json::Map::new(),
         }
     }
@@ -1308,7 +1308,7 @@ impl Default for OpcTeamSearchHttpAuthConfig {
     fn default() -> Self {
         Self {
             mode: "none".to_string(),
-            credential_id: default_openbitfun_search_http_credential_id(),
+            credential_id: default_opc_search_http_credential_id(),
             header_name: String::new(),
             unknown: serde_json::Map::new(),
         }
@@ -1798,7 +1798,7 @@ pub enum AuthConfig {
     },
 }
 
-pub use openbitfun_core_types::ProxyConfig;
+pub use opc_core_types::ProxyConfig;
 
 /// Configuration change event.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -2321,7 +2321,7 @@ mod tests {
         NotificationConfig, OpenCodePlan, SubagentBatchExecutionPolicy, SubagentModelSelection,
         SubscriptionProvider, UserSkillGroupsConfig, UserToolGroupsConfig, WebSearchConfig,
     };
-    use openbitfun_product_domains::tool_permissions::ToolPermissionConfig;
+    use opc_product_domains::tool_permissions::ToolPermissionConfig;
 
     fn current_global_config_with(overrides: serde_json::Value) -> serde_json::Value {
         let mut value =
@@ -3980,7 +3980,7 @@ fn config_validation_message(message: String) -> String {
     message
 }
 
-pub fn validate_openbitfun_product_identity(
+pub fn validate_opc_product_identity(
     persisted_product_id: &str,
     context: &str,
 ) -> Result<(), String> {
@@ -4029,7 +4029,7 @@ pub fn validate_current_config_value(value: &Value, context: &str) -> Result<(),
             "{context} is missing required field 'last_modified'"
         )));
     }
-    validate_openbitfun_product_identity(product_id, context)?;
+    validate_opc_product_identity(product_id, context)?;
     reject_retired_config_fields(root, context)
 }
 

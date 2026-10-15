@@ -46,7 +46,7 @@ export function WindowedCodeContent({ content, language, scrollerRef, startingLi
     observer.observe(source); measure();
     return () => observer.disconnect();
   }, [scrollerRef]);
-  return <pre ref={rootRef} className="code-preview__plain" data-openbitfun-component="code-preview" data-openbitfun-part="plain"
+  return <pre ref={rootRef} className="code-preview__plain" data-opc-component="code-preview" data-opc-part="plain"
     style={{ minHeight: virtualizer.getTotalSize(), position: 'relative', width: 'max-content', minWidth: '100%' }}
     onClick={event => {
       if (!window.getSelection()?.isCollapsed) return;
@@ -59,7 +59,7 @@ export function WindowedCodeContent({ content, language, scrollerRef, startingLi
       {virtualizer.getVirtualItems().map(row => {
       const number = startingLineNumber + row.index;
       return <span key={row.key} className={`code-preview__plain-line${highlightedLine === number ? ' code-preview__plain-line--highlighted' : ''}`}
-        data-code-line={row.index} data-openbitfun-component="code-preview" data-openbitfun-part="line"
+        data-code-line={row.index} data-opc-component="code-preview" data-opc-part="line"
         style={{ position: 'absolute', insetInlineStart: 0, top: row.start, height: lineHeight }}>
         {showLineNumbers && <span className="code-preview__plain-line-number" aria-hidden="true">{number}</span>}
         <span className="code-preview__plain-line-content">{lines[row.index]?.map(tokenNode) ?? plain[row.index] ?? ''}</span>

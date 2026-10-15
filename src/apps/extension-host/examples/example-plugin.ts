@@ -34,15 +34,15 @@ const ExamplePlugin: Plugin = async (input) => {
         Cowork: {
           mode: "primary",
           description: "Demo agent for exercising the OpenBitFun OpenCode plugin bridge",
-          prompt: "Use the openbitfun_demo_echo tool when the user asks you to echo text.",
+          prompt: "Use the opc_demo_echo tool when the user asks you to echo text.",
           permission: {
-            openbitfun_demo_echo: "allow",
+            opc_demo_echo: "allow",
           },
         },
       }
     },
     tool: {
-      openbitfun_demo_echo: tool({
+      opc_demo_echo: tool({
         description: "Echo text from the OpenBitFun OpenCode plugin demo",
         args: {
           text: z.string().describe("Text to echo"),
@@ -53,7 +53,7 @@ const ExamplePlugin: Plugin = async (input) => {
             metadata: { phase: "before-ask" },
           })
           await context.ask({
-            permission: "openbitfun_demo_echo",
+            permission: "opc_demo_echo",
             patterns: ["demo-echo"],
             always: ["demo-echo"],
             metadata: {

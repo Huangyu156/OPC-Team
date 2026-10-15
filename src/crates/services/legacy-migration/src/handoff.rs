@@ -1,7 +1,7 @@
 use crate::{
     atomic_write_json, LegacyMigrationError, LegacyMigrationResult, MigrationLayout, MigrationRoots,
 };
-use openbitfun_product_domains::legacy_migration::{
+use opc_product_domains::legacy_migration::{
     MigrationPlan, MigratorHandoffRequest, MigratorProtocolCapabilities, MigratorRequestMode,
 };
 use serde::{Deserialize, Serialize};
@@ -677,11 +677,11 @@ const WRITER_EXECUTABLE_NAMES: &[&str] = &[
     "bitfun",
     "bitfun-desktop",
     "openbitfun.exe",
-    "openbitfun-desktop.exe",
-    "openbitfun-agent-runtime.exe",
+    "opc-desktop.exe",
+    "opc-agent-runtime.exe",
     "openbitfun",
-    "openbitfun-desktop",
-    "openbitfun-agent-runtime",
+    "opc-desktop",
+    "opc-agent-runtime",
 ];
 
 pub fn blocking_writer_processes(
@@ -822,7 +822,7 @@ fn platform_process_entries() -> LegacyMigrationResult<Vec<ProcessEntry>> {
     // macOS has no /proc. Use the system ps with unlimited output width so
     // application bundle paths (including spaces) cannot truncate writer names.
     // `comm` excludes arguments, which may contain user content or credentials.
-    let output = openbitfun_services_core::process_manager::create_command("/bin/ps")
+    let output = opc_services_core::process_manager::create_command("/bin/ps")
         .args(["-ww", "-axo", "pid=,comm="])
         .env("LC_ALL", "C")
         .stdin(std::process::Stdio::null())
@@ -938,17 +938,16 @@ pub fn launch_trusted_executable(
     executable: &TrustedExecutable,
     arguments: &[&OsStr],
 ) -> LegacyMigrationResult<u32> {
-    let initial_spawn = openbitfun_services_core::process_manager::create_detached_command(
-        executable.target_executable(),
-    )
-    .args(arguments)
-    .spawn();
+    let initial_spawn =
+        opc_services_core::process_manager::create_detached_command(executable.target_executable())
+            .args(arguments)
+            .spawn();
 
     #[cfg(windows)]
     let child = match initial_spawn {
         Ok(child) => child,
         Err(error) if allow_inherited_job_dev_retry(&error) => {
-            openbitfun_services_core::process_manager::create_inherited_job_process_group_command(
+            opc_services_core::process_manager::create_inherited_job_process_group_command(
                 executable.target_executable(),
             )
             .args(arguments)
@@ -1036,7 +1035,7 @@ fn reject_linked_executable(path: &Path) -> LegacyMigrationResult<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::legacy_migration::{
+    use opc_product_domains::legacy_migration::{
         MigrationSelection, MigratorProtocolCapability, MigratorRequestOrigin,
         CURRENT_MIGRATION_FORMAT_VERSION, CURRENT_MIGRATOR_PROTOCOL_VERSION,
     };
@@ -1045,10 +1044,10 @@ mod tests {
     #[test]
     fn macos_inventory_preserves_bundle_names_and_writer_classification() {
         let entries = parse_macos_process_entries(
-            "   42 /Users/test/Development Projects/target/debug/openbitfun-desktop\n\
+            "   42 /Users/test/Development Projects/target/debug/opc-desktop\n\
               43 /Applications/BitFun.app/Contents/MacOS/BitFun\n\
               44 /Applications/Custom Product.app/Contents/MacOS/Custom Product\n\
-              45 /Applications/OpenBitFun.app/Contents/MacOS/openbitfun-data-migrator\n\
+              45 /Applications/OpenBitFun.app/Contents/MacOS/opc-data-migrator\n\
               46 /usr/bin/unrelated\n",
         )
         .expect("parse process inventory");
@@ -1245,7 +1244,7 @@ mod tests {
             },
             ProcessEntry {
                 process_id: 42,
-                executable_name: "openbitfun-data-migrator.exe".into(),
+                executable_name: "opc-data-migrator.exe".into(),
             },
             ProcessEntry {
                 process_id: 81,
@@ -1275,7 +1274,7 @@ mod tests {
             },
             ProcessEntry {
                 process_id: 13,
-                executable_name: "openbitfun-data-migrator.exe".to_string(),
+                executable_name: "opc-data-migrator.exe".to_string(),
             },
         ];
         let blockers = classify_writer_processes(&processes, 10, 13, &[]);
@@ -1308,17 +1307,17 @@ mod tests {
         let temporary = tempfile::tempdir().expect("temporary directory");
         let current = temporary
             .path()
-            .join(platform_binary_filename("openbitfun-data-migrator"));
+            .join(platform_binary_filename("opc-data-migrator"));
         let target = temporary
             .path()
-            .join(platform_binary_filename("openbitfun-desktop"));
+            .join(platform_binary_filename("opc-desktop"));
         fs::write(&current, b"migrator").expect("write current executable");
         fs::write(&target, b"desktop").expect("write target executable");
 
         let resolved = TrustedInstallationResolver::resolve_sibling(
             &current,
-            "openbitfun-data-migrator",
-            "openbitfun-desktop",
+            "opc-data-migrator",
+            "opc-desktop",
         )
         .expect("resolve trusted sibling");
         assert_eq!(
@@ -1327,7 +1326,7 @@ mod tests {
         );
         assert!(TrustedInstallationResolver::resolve_sibling(
             &current,
-            "openbitfun-data-migrator",
+            "opc-data-migrator",
             "../attacker",
         )
         .is_err());

@@ -1,17 +1,17 @@
 //! Snapshot Service API
 
 use log::{info, warn};
-use openbitfun_core::agentic::workspace::WorkspaceBinding;
-use openbitfun_core::product_runtime::{
+use opc_core::agentic::workspace::WorkspaceBinding;
+use opc_core::product_runtime::{
     CoreSessionMaintenancePermit, CoreSessionMutationPermit, CoreSessionReadPermit,
 };
-use openbitfun_core::service::snapshot::{
+use opc_core::service::snapshot::{
     ensure_snapshot_manager_for_workspace, get_snapshot_manager_for_workspace,
     initialize_snapshot_manager_for_workspace, open_snapshot_history_for_workspace,
     open_snapshot_manager_for_view, FileChangeEntry, OperationType, SnapshotManager,
 };
-use openbitfun_core::service::workspace::WorkspaceKind;
-use openbitfun_runtime_ports::{AgentSessionWorkspaceLocation, SessionStorePort};
+use opc_core::service::workspace::WorkspaceKind;
+use opc_runtime_ports::{AgentSessionWorkspaceLocation, SessionStorePort};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeSet;
 use std::{path::PathBuf, sync::Arc};
@@ -52,7 +52,7 @@ async fn resolve_snapshot_scope(
     path: &mut String,
     scope: &mut SnapshotRemoteScope,
 ) -> Result<(), String> {
-    let service = openbitfun_core::service::workspace::get_global_workspace_service()
+    let service = opc_core::service::workspace::get_global_workspace_service()
         .ok_or("Workspace service is unavailable")?;
     let workspace = if let Some(id) = scope.workspace_id.as_deref() {
         service
@@ -407,7 +407,7 @@ async fn begin_snapshot_history_read_for_scope(
             .map_err(|error| format!("Failed to open snapshot view: {error}"))?;
     }
     let compatibility = runtime.session_application().compatibility();
-    let storage_path = openbitfun_core::agentic::session::CoreSessionStorePort::default()
+    let storage_path = opc_core::agentic::session::CoreSessionStorePort::default()
         .resolve_workspace_storage(remote_scope.id()?)
         .await
         .map_err(|e| e.to_string())?
@@ -434,7 +434,7 @@ async fn begin_snapshot_history_mutation(
     session_id: &str,
 ) -> Result<SnapshotHistoryMutation, String> {
     let compatibility = runtime.session_application().compatibility();
-    let storage_path = openbitfun_core::agentic::session::CoreSessionStorePort::default()
+    let storage_path = opc_core::agentic::session::CoreSessionStorePort::default()
         .resolve_workspace_storage(remote_scope.id()?)
         .await
         .map_err(|e| e.to_string())?
@@ -509,9 +509,9 @@ pub async fn rollback_session(
 #[tauri::command]
 pub async fn rollback_session_to_turn(
     runtime: State<'_, DesktopRuntimeContext>,
-    mut request: openbitfun_runtime_ports::AgentSessionRollbackToTurnRequest,
-) -> Result<openbitfun_runtime_ports::AgentSessionRollbackToTurnOutcome, String> {
-    let service = openbitfun_core::service::workspace::get_global_workspace_service()
+    mut request: opc_runtime_ports::AgentSessionRollbackToTurnRequest,
+) -> Result<opc_runtime_ports::AgentSessionRollbackToTurnOutcome, String> {
+    let service = opc_core::service::workspace::get_global_workspace_service()
         .ok_or("Workspace service is unavailable")?;
     let workspace = if let Some(id) = request.workspace_id.as_deref() {
         service
@@ -531,7 +531,7 @@ pub async fn rollback_session_to_turn(
             .ok_or("Legacy rollback workspace cannot be resolved")?
     };
     let location =
-        if workspace.workspace_kind == openbitfun_core::service::workspace::WorkspaceKind::Remote {
+        if workspace.workspace_kind == opc_core::service::workspace::WorkspaceKind::Remote {
             AgentSessionWorkspaceLocation::Remote
         } else {
             request.remote_connection_id = None;
@@ -1323,7 +1323,7 @@ mod tests {
 
     #[test]
     fn targeted_rollback_request_preserves_stable_identity_and_remote_facts() {
-        let request: openbitfun_runtime_ports::AgentSessionRollbackToTurnRequest =
+        let request: opc_runtime_ports::AgentSessionRollbackToTurnRequest =
             serde_json::from_value(serde_json::json!({
                 "sessionId": "remote-session",
                 "targetTurnId": "turn-7",

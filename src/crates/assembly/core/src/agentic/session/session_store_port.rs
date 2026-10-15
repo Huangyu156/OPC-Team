@@ -1,7 +1,7 @@
 use std::path::{Component, Path, PathBuf};
 use std::sync::Arc;
 
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PortError, PortErrorKind, PortResult, RuntimeServiceCapability, RuntimeServicePort,
     SessionStorageKind, SessionStoragePathRequest, SessionStoragePathResolution, SessionStorePort,
 };
@@ -351,7 +351,7 @@ mod tests {
 
     fn test_port() -> (CoreSessionStorePort, PathBuf) {
         let test_root =
-            std::env::temp_dir().join(format!("openbitfun-session-store-port-{}", Uuid::new_v4()));
+            std::env::temp_dir().join(format!("opc-session-store-port-{}", Uuid::new_v4()));
         let path_manager = Arc::new(PathManager::with_user_root_for_tests(
             test_root.join("user"),
         ));

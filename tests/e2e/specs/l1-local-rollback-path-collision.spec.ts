@@ -74,7 +74,7 @@ describe('L1 Local rollback workspace identity', () => {
 
   before(() => {
     fixtureRoot = fs.realpathSync(
-      fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-rollback-collision-e2e-')),
+      fs.mkdtempSync(path.join(os.tmpdir(), 'opc-rollback-collision-e2e-')),
     );
   });
 
@@ -157,7 +157,7 @@ describe('L1 Local rollback workspace identity', () => {
 
     if (
       fixtureRoot
-      && path.basename(fixtureRoot).startsWith('openbitfun-rollback-collision-e2e-')
+      && path.basename(fixtureRoot).startsWith('opc-rollback-collision-e2e-')
       && fs.existsSync(fixtureRoot)
     ) {
       fs.rmSync(fixtureRoot, { recursive: true, force: true });

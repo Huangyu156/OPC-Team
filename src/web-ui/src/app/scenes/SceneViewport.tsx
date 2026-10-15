@@ -211,18 +211,18 @@ const SceneViewport: React.FC<SceneViewportProps> = ({ workspacePath, isEntering
 
   return (
     <div
-      className="openbitfun-scene-viewport"
+      className="opc-scene-viewport"
       data-testid="scene-viewport"
-      data-openbitfun-scene="workbench"
-      data-openbitfun-part="viewport"
-      data-openbitfun-state={activeRenderedSceneId === EMPTY_SCENE_ID ? 'empty' : undefined}
+      data-opc-scene="workbench"
+      data-opc-part="viewport"
+      data-opc-state={activeRenderedSceneId === EMPTY_SCENE_ID ? 'empty' : undefined}
     >
       <div
-        className="openbitfun-scene-viewport__clip"
+        className="opc-scene-viewport__clip"
         data-testid="scene-viewport-clip"
         data-scene-motion-phase={pendingTransition?.phase}
-        data-openbitfun-scene="workbench"
-        data-openbitfun-part="viewportClip"
+        data-opc-scene="workbench"
+        data-opc-part="viewportClip"
       >
         {renderedTabIds.map(tabId => {
           const isEmpty = tabId === EMPTY_SCENE_ID;
@@ -236,12 +236,12 @@ const SceneViewport: React.FC<SceneViewportProps> = ({ workspacePath, isEntering
             <div
               key={tabId}
               className={[
-                'openbitfun-scene-viewport__scene',
-                isEmpty && 'openbitfun-scene-viewport__scene--empty',
-                isActive && 'openbitfun-scene-viewport__scene--active',
-                isVisible && 'openbitfun-scene-viewport__scene--visible',
-                isIncoming && 'openbitfun-scene-viewport__scene--incoming',
-                isOutgoing && 'openbitfun-scene-viewport__scene--outgoing',
+                'opc-scene-viewport__scene',
+                isEmpty && 'opc-scene-viewport__scene--empty',
+                isActive && 'opc-scene-viewport__scene--active',
+                isVisible && 'opc-scene-viewport__scene--visible',
+                isIncoming && 'opc-scene-viewport__scene--incoming',
+                isOutgoing && 'opc-scene-viewport__scene--outgoing',
               ].filter(Boolean).join(' ')}
               aria-hidden={!isActive || !isVisible}
               {...(!isActive || !isVisible ? { inert: '' } : {})}
@@ -249,21 +249,21 @@ const SceneViewport: React.FC<SceneViewportProps> = ({ workspacePath, isEntering
               data-scene-id={tabId}
               data-shortcut-scope={String(tabId).startsWith('content:') ? 'canvas' : undefined}
               data-scene-active={isActive ? 'true' : 'false'}
-              data-openbitfun-scene="workbench"
-              data-openbitfun-part="scene"
-              data-openbitfun-scene-id={isEmpty ? 'welcome' : tabId.startsWith('content:') ? 'content' : tabId.startsWith('miniapp:') ? 'miniapp' : tabId}
-              data-openbitfun-state={[
+              data-opc-scene="workbench"
+              data-opc-part="scene"
+              data-opc-scene-id={isEmpty ? 'welcome' : tabId.startsWith('content:') ? 'content' : tabId.startsWith('miniapp:') ? 'miniapp' : tabId}
+              data-opc-state={[
                 isActive && 'active',
                 isEmpty && 'empty',
               ].filter(Boolean).join(' ') || undefined}
             >
               {isEmpty ? (
                 <div
-                  className="openbitfun-scene-viewport__empty"
+                  className="opc-scene-viewport__empty"
                   data-testid="scene-viewport-empty"
-                  data-openbitfun-scene="workbench"
-                  data-openbitfun-part="empty"
-                  data-openbitfun-state="empty"
+                  data-opc-scene="workbench"
+                  data-opc-part="empty"
+                  data-opc-state="empty"
                 >
                   <WelcomeScene />
                 </div>
@@ -272,12 +272,12 @@ const SceneViewport: React.FC<SceneViewportProps> = ({ workspacePath, isEntering
                   fallback={
                     isActive ? (
                       <div
-                        className="openbitfun-scene-viewport__lazy-fallback"
+                        className="opc-scene-viewport__lazy-fallback"
                         role="status"
                         aria-busy="true"
                         aria-label={t('loading.scenes')}
-                        data-openbitfun-scene="workbench"
-                        data-openbitfun-part="loading"
+                        data-opc-scene="workbench"
+                        data-opc-part="loading"
                       >
                         <Spinner size="md" />
                       </div>

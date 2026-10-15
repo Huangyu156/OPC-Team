@@ -7,7 +7,7 @@ use crate::service::mcp::protocol::{MCPResource, MCPResourceContent};
 use crate::service::mcp::server::MCPServerManager;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::{debug, info, warn};
-use openbitfun_services_integrations::mcp::adapter::{
+use opc_services_integrations::mcp::adapter::{
     MCPContextEnhancer as ContextEnhancer, MCPContextEnhancerConfig as ContextEnhancerConfig,
 };
 use serde_json::{json, Value};

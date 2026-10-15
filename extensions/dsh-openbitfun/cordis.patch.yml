@@ -4,7 +4,7 @@
 #
 #   - id: openbitfun
 #     config:
-#       hostPath: '/absolute/path/to/openbitfun-sdk-host'
+#       hostPath: '/absolute/path/to/opc-sdk-host'
 #       queryTimeoutMs: 1800000
 #
 - insert:

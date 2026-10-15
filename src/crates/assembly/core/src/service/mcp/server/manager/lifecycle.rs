@@ -1,5 +1,5 @@
 use super::*;
-use openbitfun_services_integrations::mcp::server::{
+use opc_services_integrations::mcp::server::{
     mcp_server_is_running, mcp_should_start_after_config_update, MCPProcessStartContext,
     MCPProcessStartOutcome,
 };

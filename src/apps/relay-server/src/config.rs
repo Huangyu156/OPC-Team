@@ -32,8 +32,8 @@ impl Default for RelayConfig {
             heartbeat_timeout_secs: 90,
             static_dir: None,
             // Also stores published OpenBitFun Pages under `{asset_dir}/pages/{user_id}/{slug}/`.
-            asset_dir: "/tmp/openbitfun-room-web".to_string(),
-            asset_store_max_bytes: openbitfun_relay_service::DEFAULT_DISK_ASSET_STORE_MAX_BYTES,
+            asset_dir: "/tmp/opc-room-web".to_string(),
+            asset_store_max_bytes: opc_relay_service::DEFAULT_DISK_ASSET_STORE_MAX_BYTES,
             cors_allow_origins: Vec::new(),
             page_public_base_url: None,
             page_auth_base_url: None,

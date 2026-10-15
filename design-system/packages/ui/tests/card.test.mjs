@@ -36,22 +36,22 @@ test("Card keeps media, header, body, and footer regions independent", () => {
     )),
   );
 
-  assert.match(markup, /data-openbitfun-component="card"/);
+  assert.match(markup, /data-opc-component="card"/);
   assert.match(markup, /data-appearance="raised"/);
   assert.match(markup, /data-clip="true"/);
   assert.match(markup, /data-gap="md"/);
   assert.match(markup, /data-radius="lg"/);
-  assert.match(markup, /data-openbitfun-part="media"/);
-  assert.match(markup, /data-openbitfun-part="header"/);
+  assert.match(markup, /data-opc-part="media"/);
+  assert.match(markup, /data-opc-part="header"/);
   assert.match(markup, /data-content-align="center"/);
-  assert.match(markup, /data-openbitfun-part="header-content"/);
-  assert.match(markup, /data-openbitfun-part="leading"/);
-  assert.match(markup, /data-openbitfun-part="title">Projects/);
-  assert.match(markup, /data-openbitfun-part="description">One item/);
-  assert.match(markup, /data-openbitfun-part="actions"/);
-  assert.match(markup, /data-openbitfun-part="body"/);
-  assert.match(markup, /data-align="end"[^>]+data-openbitfun-part="body"/);
-  assert.match(markup, /data-openbitfun-part="footer"/);
+  assert.match(markup, /data-opc-part="header-content"/);
+  assert.match(markup, /data-opc-part="leading"/);
+  assert.match(markup, /data-opc-part="title">Projects/);
+  assert.match(markup, /data-opc-part="description">One item/);
+  assert.match(markup, /data-opc-part="actions"/);
+  assert.match(markup, /data-opc-part="body"/);
+  assert.match(markup, /data-align="end"[^>]+data-opc-part="body"/);
+  assert.match(markup, /data-opc-part="footer"/);
   assert.match(markup, /data-align="between"/);
 });
 

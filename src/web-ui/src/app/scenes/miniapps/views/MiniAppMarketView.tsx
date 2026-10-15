@@ -273,8 +273,8 @@ const MiniAppMarketView: React.FC<MiniAppMarketViewProps> = ({ tabs }) => {
         actions={(
           <div
             className="miniapp-market-native__header-actions"
-            data-openbitfun-component="miniapp-market-view"
-            data-openbitfun-part="headerActions"
+            data-opc-component="miniapp-market-view"
+            data-opc-part="headerActions"
           >
             <SearchField
               leadingIcon={<Icon name="search" size="lg" aria-hidden />}
@@ -296,8 +296,8 @@ const MiniAppMarketView: React.FC<MiniAppMarketViewProps> = ({ tabs }) => {
 
       <div
         className="gallery-zones"
-        data-openbitfun-component="miniapp-market-view"
-        data-openbitfun-part="root"
+        data-opc-component="miniapp-market-view"
+        data-opc-part="root"
       >
         <GalleryZone
           title={t('market.catalog')}
@@ -363,8 +363,8 @@ const MiniAppMarketView: React.FC<MiniAppMarketViewProps> = ({ tabs }) => {
                       <button data-overflow-trigger
                         type="button"
                         className="miniapp-market-card__trigger"
-                        data-openbitfun-component="miniapp-market-view"
-                        data-openbitfun-part="card"
+                        data-opc-component="miniapp-market-view"
+                        data-opc-part="card"
                         onClick={() => void openDetail(item)}
                       >
                         <CardMedia className="miniapp-market-card__visual">
@@ -484,8 +484,8 @@ const MiniAppMarketView: React.FC<MiniAppMarketViewProps> = ({ tabs }) => {
         {detail ? (
               <div
                 className="miniapp-market-detail"
-                data-openbitfun-component="miniapp-market-view"
-                data-openbitfun-part="detail"
+                data-opc-component="miniapp-market-view"
+                data-opc-part="detail"
               >
             {detail.screenshotUrls.length ? (
               <div className="miniapp-market-detail__screenshots">

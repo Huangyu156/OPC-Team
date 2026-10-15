@@ -162,10 +162,7 @@ impl SkillInfo {
         } else {
             self.source_id.trim()
         };
-        matches!(
-            source,
-            "" | "openbitfun" | "openbitfun-system" | "openbitfun-user"
-        )
+        matches!(source, "" | "openbitfun" | "opc-system" | "opc-user")
     }
 
     pub fn parser_source_slot(&self) -> &str {

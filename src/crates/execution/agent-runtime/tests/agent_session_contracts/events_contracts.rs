@@ -1,8 +1,8 @@
-use openbitfun_agent_runtime::events::{
+use opc_agent_runtime::events::{
     session_state_label, turn_outcome_kind, turn_outcome_status_kind, FinishReason,
 };
-use openbitfun_agent_runtime::scheduler::{TurnOutcome, TurnOutcomeStatus};
-use openbitfun_runtime_ports::{DialogSessionStateFact, DialogTurnOutcomeKind};
+use opc_agent_runtime::scheduler::{TurnOutcome, TurnOutcomeStatus};
+use opc_runtime_ports::{DialogSessionStateFact, DialogTurnOutcomeKind};
 
 #[test]
 fn finish_reason_display_preserves_wire_labels() {

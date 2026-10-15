@@ -1,12 +1,12 @@
 //! Local process owner for provider-neutral JavaScript tool workers.
 
 use async_trait::async_trait;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PortError, PortErrorKind, PortResult, ScriptToolInvokeRequest, ScriptToolInvokeResponse,
     ScriptToolLoadRequest, ScriptToolLoadResponse, ScriptToolRuntime,
     ScriptToolRuntimeAvailability,
 };
-use openbitfun_services_core::process_tree::ProcessTreeChild;
+use opc_services_core::process_tree::ProcessTreeChild;
 use serde::Deserialize;
 use serde_json::{Map, Value};
 use std::collections::HashMap;
@@ -110,7 +110,7 @@ function moduleContext() {
   };
   sandbox.global = sandbox;
   sandbox.globalThis = sandbox;
-  return vm.createContext(sandbox, { name: "openbitfun-script-tool" });
+  return vm.createContext(sandbox, { name: "opc-script-tool" });
 }
 
 function normalizeSchema(rawSchema, path) {
@@ -1085,7 +1085,7 @@ async fn probe_node_version(executable: &PathBuf) -> Result<String, String> {
 #[cfg(test)]
 mod tests {
     use super::{CachedNodeAvailability, NodeScriptToolRuntime};
-    use openbitfun_runtime_ports::{ScriptToolRuntime, ScriptToolRuntimeAvailability};
+    use opc_runtime_ports::{ScriptToolRuntime, ScriptToolRuntimeAvailability};
     use std::path::PathBuf;
     use tokio::sync::{Mutex, RwLock};
 

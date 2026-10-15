@@ -282,8 +282,8 @@ const TerminalOutputRendererComponent = forwardRef<TerminalOutputRendererHandle,
   return (
     <div
       className={`terminal-output-renderer ${className} ${hasScrollableBuffer ? 'terminal-output-renderer--scrollable' : 'terminal-output-renderer--no-scroll'}`}
-      data-openbitfun-component="terminal-tool"
-      data-openbitfun-part="output"
+      data-opc-component="terminal-tool"
+      data-opc-part="output"
       data-terminal-id={terminalId}
       data-readonly="true"
       data-surface={surface}

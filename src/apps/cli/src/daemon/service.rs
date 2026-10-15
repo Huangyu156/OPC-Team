@@ -313,7 +313,7 @@ pub(crate) fn install_service() -> Result<()> {
 }
 
 fn ensure_persisted_account_session() -> Result<()> {
-    match openbitfun_core::service::remote_connect::session_store::load_session() {
+    match opc_core::service::remote_connect::session_store::load_session() {
         Ok(Some(_)) => Ok(()),
         Ok(None) => {
             Err(anyhow!(

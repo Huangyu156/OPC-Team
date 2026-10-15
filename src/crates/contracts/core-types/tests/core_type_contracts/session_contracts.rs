@@ -1,4 +1,4 @@
-use openbitfun_core_types::SessionKind;
+use opc_core_types::SessionKind;
 
 #[test]
 fn session_kind_preserves_default_and_serialized_shape() {

@@ -3,7 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import { build, type Plugin } from 'vite';
 
-const VIRTUAL_MODULE_ID = 'virtual:openbitfun-canvas-runtime-bundle';
+const VIRTUAL_MODULE_ID = 'virtual:opc-canvas-runtime-bundle';
 const RESOLVED_VIRTUAL_MODULE_ID = `\0${VIRTUAL_MODULE_ID}`;
 
 interface RuntimeBundleCache {
@@ -14,7 +14,7 @@ interface RuntimeBundleCache {
 export function openbitfunCanvasRuntimeBundlePlugin(): Plugin {
   let cache: RuntimeBundleCache | null = null;
   const webUiRoot = path.resolve(__dirname);
-  const runtimeRoot = path.resolve(webUiRoot, 'src/tools/openbitfun-canvas/runtime');
+  const runtimeRoot = path.resolve(webUiRoot, 'src/tools/opc-canvas/runtime');
   const entry = path.resolve(runtimeRoot, 'entry.tsx');
 
   function collectRuntimeFiles(dir: string): string[] {
@@ -88,7 +88,7 @@ export function openbitfunCanvasRuntimeBundlePlugin(): Plugin {
   }
 
   return {
-    name: 'openbitfun-canvas-runtime-bundle',
+    name: 'opc-canvas-runtime-bundle',
     enforce: 'pre',
     watchChange(id) {
       if (path.resolve(id).startsWith(runtimeRoot)) {

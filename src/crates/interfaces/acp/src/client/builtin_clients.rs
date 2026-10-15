@@ -28,7 +28,7 @@ pub(crate) struct BuiltinAcpClientPreset {
 
 /// The profile directory OPC-Team materializes for DeepSeek Harness. See
 /// `dsh_profile.rs`: the bridge ships with OPC-Team, the harness does not.
-pub(crate) const DSH_BUNDLED_PROFILE: &str = "openbitfun-acp";
+pub(crate) const DSH_BUNDLED_PROFILE: &str = "opc-acp";
 
 const BUILTIN_ACP_CLIENT_PRESETS: &[BuiltinAcpClientPreset] = &[
     BuiltinAcpClientPreset {
@@ -181,7 +181,7 @@ mod tests {
     }
 
     #[test]
-    fn dsh_preset_launches_the_openbitfun_profile() {
+    fn dsh_preset_launches_the_opc_profile() {
         let preset = builtin_acp_client_preset("dsh").expect("dsh preset registered");
         assert_eq!(preset.command, "dsh");
         assert_eq!(preset.tool_command, "dsh");

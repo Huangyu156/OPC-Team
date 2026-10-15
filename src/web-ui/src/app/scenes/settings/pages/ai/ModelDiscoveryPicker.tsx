@@ -71,7 +71,7 @@ export function ModelDiscoveryPicker({
   const selected = new Set(value.map(name => name.trim().toLowerCase()));
 
   return (
-    <div className="openbitfun-model-settings__model-picker-row">
+    <div className="opc-model-settings__model-picker-row">
       <Button
         variant="primary"
         size="xs"
@@ -90,7 +90,7 @@ export function ModelDiscoveryPicker({
         open={open}
         onOpenChange={onOpenChange}
         initialFocusRef={searchRef}
-        className="openbitfun-model-settings__model-discovery-dialog"
+        className="opc-model-settings__model-discovery-dialog"
         data-testid="settings-model-discovery-dialog"
       >
         <DialogHeader>
@@ -112,7 +112,7 @@ export function ModelDiscoveryPicker({
             <DialogClose />
           </DialogHeaderActions>
         </DialogHeader>
-        <DialogBody className="openbitfun-model-settings__model-discovery-body">
+        <DialogBody className="opc-model-settings__model-discovery-body">
           {options.length > 0 && (
             <SearchField
               ref={searchRef}
@@ -124,12 +124,12 @@ export function ModelDiscoveryPicker({
             />
           )}
           {hint && (
-            <small role="status" className={`openbitfun-model-settings__model-fetch-hint ${error ? 'openbitfun-model-settings__json-status--error' : ''}`}>
+            <small role="status" className={`opc-model-settings__model-fetch-hint ${error ? 'opc-model-settings__json-status--error' : ''}`}>
               {hint}
             </small>
           )}
-          <ScrollArea className="openbitfun-model-settings__model-discovery-results" aria-busy={loading}>
-            <div className="openbitfun-model-settings__model-discovery-list">
+          <ScrollArea className="opc-model-settings__model-discovery-results" aria-busy={loading}>
+            <div className="opc-model-settings__model-discovery-list">
               {visibleOptions.map(option => {
                 const modelName = String(option.value);
                 const lookupKey = modelName.trim().toLowerCase();
@@ -155,7 +155,7 @@ export function ModelDiscoveryPicker({
                 );
               })}
               {visibleOptions.length === 0 && !loading && (options.length > 0 || !hint) && (
-                <small role="status" className="openbitfun-model-settings__model-fetch-hint">
+                <small role="status" className="opc-model-settings__model-fetch-hint">
                   {t(options.length > 0 ? 'pool.noMatches' : 'providerSelection.noPresetModels')}
                 </small>
               )}

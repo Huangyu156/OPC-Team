@@ -129,7 +129,7 @@ test('Pi Skill discovery may use bounded static-source support without opening o
   assert.ok(rule);
   const sourcePath = 'src/crates/adapters/pi-adapter/src/skill_source.rs';
   const source = await readFile(new URL(`../${sourcePath}`, import.meta.url), 'utf8');
-  assert.match(source, /use openbitfun_static_hook_support::/);
+  assert.match(source, /use opc_static_hook_support::/);
   assert.deepEqual(findForbiddenContentMatches(source, rule.patterns, sourcePath), []);
   for (const rejectedPath of [
     'src/crates/adapters/pi-adapter/src/unreviewed_source.rs',
@@ -141,7 +141,7 @@ test('Pi Skill discovery may use bounded static-source support without opening o
 });
 
 test('Cargo manifest discovery ignores nested local-agent worktrees', async (t) => {
-  const root = await mkdtemp(join(tmpdir(), 'openbitfun-core-boundaries-'));
+  const root = await mkdtemp(join(tmpdir(), 'opc-core-boundaries-'));
   t.after(() => rm(root, { recursive: true, force: true }));
   await Promise.all([
     mkdir(join(root, 'src', 'crate'), { recursive: true }),
@@ -166,7 +166,7 @@ test('App Server TypeScript capability is owned by the protocol crate and indepe
       && rule.featureName === 'ts',
   );
   assert.deepEqual(appServerTs?.requiredFeatureRefs, [
-    'openbitfun-app-server-protocol/ts',
+    'opc-app-server-protocol/ts',
   ]);
   assert.equal(appServerTs?.exact, true);
 
@@ -196,9 +196,9 @@ test('App Server TypeScript capability is owned by the protocol crate and indepe
 
   const protocolTs = protocolProfiles.get('ts');
   assert.deepEqual(protocolTs?.requiredFeatureRefs, [
-    'openbitfun-core-types/ts',
-    'openbitfun-product-domains/ts',
-    'openbitfun-runtime-ports/ts',
+    'opc-core-types/ts',
+    'opc-product-domains/ts',
+    'opc-runtime-ports/ts',
     'dep:ts-rs',
   ]);
   assert.equal(protocolTs?.exact, true);
@@ -206,9 +206,9 @@ test('App Server TypeScript capability is owned by the protocol crate and indepe
 
 test('Agent Runtime leaf capabilities have one managed feature and source contract', async () => {
   const rule = capabilityContractDependencyRules.find(
-    (candidate) => candidate.packageName === 'openbitfun-agent-runtime',
+    (candidate) => candidate.packageName === 'opc-agent-runtime',
   );
-  assert.ok(rule, 'openbitfun-agent-runtime must be a managed capability target');
+  assert.ok(rule, 'opc-agent-runtime must be a managed capability target');
   assert.deepEqual(Object.keys(rule.featureProfiles).sort(), [
     'agent-runtime',
     'default',
@@ -217,7 +217,7 @@ test('Agent Runtime leaf capabilities have one managed feature and source contra
     'native-hook-settings',
   ]);
   assert.equal(rule.consumers.size, 11);
-  assert.ok(rule.consumers.has('openbitfun-legacy-migration-adapters'));
+  assert.ok(rule.consumers.has('opc-legacy-migration-adapters'));
   assert.ok(
     guardedEmptyInternalDefaultManifestPaths.includes(
       'src/crates/execution/agent-runtime/Cargo.toml',
@@ -230,7 +230,7 @@ test('Agent Runtime leaf capabilities have one managed feature and source contra
   const publicApiRule = publicApiAllowlistRules.find(
     (sourceRule) => sourceRule.path === 'src/crates/execution/agent-runtime/src/lib.rs',
   );
-  assert.ok(publicApiRule, 'openbitfun-agent-runtime root must have a closed public module allowlist');
+  assert.ok(publicApiRule, 'opc-agent-runtime root must have a closed public module allowlist');
   assert.deepEqual(
     new Set(publicApiRule.allowedSymbols),
     new Set(agentRuntimeRootPublicModules),
@@ -239,7 +239,7 @@ test('Agent Runtime leaf capabilities have one managed feature and source contra
     (sourceRule) => sourceRule.path === 'src/crates/execution/agent-runtime/src/lib.rs'
       && sourceRule.reason.includes('flat feature-owned module wrapper'),
   );
-  assert.ok(flatRootRule, 'openbitfun-agent-runtime root must reject non-wrapper source lines');
+  assert.ok(flatRootRule, 'opc-agent-runtime root must reject non-wrapper source lines');
   const rootSource = await readFile(
     new URL('../src/crates/execution/agent-runtime/src/lib.rs', import.meta.url),
     'utf8',
@@ -448,10 +448,10 @@ test('portable contract crates expose only capability-local feature slices', asy
       'workspace-ports',
     ]),
   );
-  assert.deepEqual(runtimePortFeatures['agent-api'], ['dep:openbitfun-core-types']);
+  assert.deepEqual(runtimePortFeatures['agent-api'], ['dep:opc-core-types']);
   assert.deepEqual(runtimePortFeatures['hook-function-runtime'], []);
   assert.deepEqual(runtimePortFeatures['plugin-runtime'], []);
-  assert.deepEqual(runtimePortFeatures['product-search'], ['dep:openbitfun-product-domains']);
+  assert.deepEqual(runtimePortFeatures['product-search'], ['dep:opc-product-domains']);
   assert.deepEqual(runtimePortFeatures['script-tool-runtime'], []);
   assert.deepEqual(runtimePortFeatures['web-search-port'], []);
   // Workspace byte readers expose AsyncRead/AsyncSeek without selecting a
@@ -542,7 +542,7 @@ test('Core feature-free dependencies stay attached to their exact runtime owners
   assert.deepEqual(ownersByDependency.get('futures'), new Set(['agent-runtime']));
   assert.deepEqual(ownersByDependency.get('regex'), new Set(['agent-runtime']));
   assert.deepEqual(
-    ownersByDependency.get('openbitfun-agent-tools'),
+    ownersByDependency.get('opc-agent-tools'),
     new Set(['agent-runtime', 'local-storage', 'mcp-runtime']),
   );
   assert.deepEqual(ownersByDependency.get('fluent-bundle'), new Set(['i18n-runtime']));
@@ -627,7 +627,7 @@ function removeFeatureValue(manifest, feature, value) {
 
 function servicesIntegrationsPackage(manifest) {
   return {
-    name: 'openbitfun-services-integrations',
+    name: 'opc-services-integrations',
     manifest_path: join(TEST_ROOT, 'src', 'crates', 'services', 'services-integrations', 'Cargo.toml'),
     features: parseManifestFeatures(manifest),
   };
@@ -657,12 +657,12 @@ function pathDependency(repoCratePath, options = {}) {
 
 const RUNTIME_PORT_FEATURE_PROFILES = {
   default: [],
-  'agent-api': ['dep:openbitfun-core-types'],
+  'agent-api': ['dep:opc-core-types'],
   'git-port': [],
   'hook-function-runtime': [],
-  permission: ['dep:openbitfun-product-domains'],
+  permission: ['dep:opc-product-domains'],
   'plugin-runtime': [],
-  'product-search': ['dep:openbitfun-product-domains'],
+  'product-search': ['dep:opc-product-domains'],
   'remote-exec-port': ['dep:tokio'],
   'remote-workspace-ports': [],
   'runtime-event-port': [],
@@ -673,8 +673,8 @@ const RUNTIME_PORT_FEATURE_PROFILES = {
     'dep:ts-rs',
     'agent-api',
     'permission',
-    'openbitfun-core-types/ts',
-    'openbitfun-product-domains?/ts',
+    'opc-core-types/ts',
+    'opc-product-domains?/ts',
   ],
   'web-search-port': [],
   'workspace-ports': ['dep:anyhow', 'dep:tokio-util', 'dep:tokio', 'tokio/io-util'],
@@ -698,12 +698,12 @@ function capabilityPackage(name, repoManifestPath, featureProfiles) {
 function agentToolsCapabilityPackage() {
   return {
     ...capabilityPackage(
-      'openbitfun-agent-tools',
+      'opc-agent-tools',
       'src/crates/execution/tool-contracts/Cargo.toml',
       AGENT_TOOL_FEATURE_PROFILES,
     ),
     dependencies: [pathDependency('src/crates/contracts/runtime-ports', {
-      name: 'openbitfun-runtime-ports',
+      name: 'opc-runtime-ports',
       usesDefaultFeatures: false,
     })],
   };
@@ -766,13 +766,13 @@ test('runtime-services test support stays dev-only across dependency and feature
   const packages = [
     packageAt('normal-consumer', 'src/apps/normal/Cargo.toml', [
       pathDependency(runtimeServicesPath, {
-        name: 'openbitfun-runtime-services',
+        name: 'opc-runtime-services',
         features: ['test-support'],
       }),
     ]),
     packageAt('build-consumer', 'src/apps/build/Cargo.toml', [
       pathDependency(runtimeServicesPath, {
-        name: 'openbitfun-runtime-services',
+        name: 'opc-runtime-services',
         kind: 'build',
         features: ['test-support'],
       }),
@@ -780,19 +780,19 @@ test('runtime-services test support stays dev-only across dependency and feature
     {
       ...packageAt('feature-forwarder', 'src/apps/forwarder/Cargo.toml'),
       features: {
-        preview: ['openbitfun-runtime-services/test-support'],
+        preview: ['opc-runtime-services/test-support'],
       },
     },
     {
       ...packageAt('weak-forwarder', 'src/apps/weak/Cargo.toml'),
       features: {
-        preview: ['openbitfun-runtime-services?/test-support'],
+        preview: ['opc-runtime-services?/test-support'],
       },
     },
     {
       ...packageAt('renamed-forwarder', 'src/apps/renamed/Cargo.toml', [{
         ...pathDependency(runtimeServicesPath, {
-          name: 'openbitfun-runtime-services',
+          name: 'opc-runtime-services',
           optional: true,
         }),
         rename: 'runtime_services',
@@ -803,7 +803,7 @@ test('runtime-services test support stays dev-only across dependency and feature
     },
     {
       ...packageAt(
-        'openbitfun-runtime-services',
+        'opc-runtime-services',
         'src/crates/execution/runtime-services/Cargo.toml',
       ),
       features: {
@@ -813,7 +813,7 @@ test('runtime-services test support stays dev-only across dependency and feature
     },
     packageAt('test-consumer', 'src/apps/test/Cargo.toml', [
       pathDependency(runtimeServicesPath, {
-        name: 'openbitfun-runtime-services',
+        name: 'opc-runtime-services',
         kind: 'dev',
         features: ['test-support'],
       }),
@@ -828,13 +828,13 @@ test('runtime-services test support stays dev-only across dependency and feature
   assert.match(violations[2].message, /feature-forwarder:preview/);
   assert.match(violations[3].message, /weak-forwarder:preview/);
   assert.match(violations[4].message, /renamed-forwarder:preview/);
-  assert.match(violations[5].message, /openbitfun-runtime-services:default/);
+  assert.match(violations[5].message, /opc-runtime-services:default/);
 });
 
 test('runtime-services feature aliases cannot hide test support from default builds', () => {
   const owner = {
     ...packageAt(
-      'openbitfun-runtime-services',
+      'opc-runtime-services',
       'src/crates/execution/runtime-services/Cargo.toml',
     ),
     features: {
@@ -848,9 +848,9 @@ test('runtime-services feature aliases cannot hide test support from default bui
     .map((violation) => violation.message)
     .join('\n');
 
-  assert.match(messages, /openbitfun-runtime-services:default/);
+  assert.match(messages, /opc-runtime-services:default/);
   assert.match(messages, /default -> testing -> test-support/);
-  assert.match(messages, /openbitfun-runtime-services:testing/);
+  assert.match(messages, /opc-runtime-services:testing/);
 });
 
 test('CLI integration tests keep the reviewed four-target topology', () => {
@@ -1279,11 +1279,11 @@ test('multiple crate feature gates combine as required feature AND conditions', 
   assert.match(violations[0].message, /second/);
 });
 
-test('product entrypoints may inherit the guarded empty openbitfun-core default', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+test('product entrypoints may inherit the guarded empty opc-core default', () => {
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   const app = packageAt('entry', 'src/apps/example/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       features: ['plugin-source'],
     }),
   ]);
@@ -1303,14 +1303,14 @@ test('Core Agent Runtime baseline excludes concrete capability unions', () => {
   assert.ok(agentRuntime, 'agent-runtime closed profile must exist');
 
   for (const forbidden of [
-    'openbitfun-services-integrations/browser-control',
-    'openbitfun-services-integrations/deep-research',
-    'openbitfun-services-integrations/mcp',
-    'openbitfun-services-integrations/models-dev',
-    'openbitfun-services-integrations/remote-connect',
-    'openbitfun-services-integrations/script-tool-runtime',
-    'openbitfun-services-integrations/web-tools',
-    'openbitfun-services-integrations/workspace-search',
+    'opc-services-integrations/browser-control',
+    'opc-services-integrations/deep-research',
+    'opc-services-integrations/mcp',
+    'opc-services-integrations/models-dev',
+    'opc-services-integrations/remote-connect',
+    'opc-services-integrations/script-tool-runtime',
+    'opc-services-integrations/web-tools',
+    'opc-services-integrations/workspace-search',
     'dep:cron',
     'dep:semver',
     'dep:tokio-tungstenite',
@@ -1332,10 +1332,10 @@ test('Core optional document and subscription capabilities have independent modi
     'tool-runtime?/document-read',
   ]);
   assert.deepEqual(ruleByFeature.get('subscription-auth')?.requiredFeatureRefs, [
-    'openbitfun-ai-adapters?/subscription-auth',
+    'opc-ai-adapters?/subscription-auth',
   ]);
   assert.deepEqual(ruleByFeature.get('ai-adapter-runtime')?.requiredFeatureRefs, [
-    'dep:openbitfun-ai-adapters',
+    'dep:opc-ai-adapters',
   ]);
   assert.ok(
     !ruleByFeature.get('tools-basic')?.requiredFeatureRefs.includes('tool-runtime/document-read'),
@@ -1374,13 +1374,13 @@ test('Core product-full explicitly assembles service and tool capability owners'
   }
 });
 
-test('product entrypoints must select explicit openbitfun-core features', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+test('product entrypoints must select explicit opc-core features', () => {
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   const interfacePackage = packageAt(
     'interface',
     'src/crates/interfaces/acp/Cargo.toml',
     [pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
     })],
   );
@@ -1394,8 +1394,8 @@ test('product entrypoints must select explicit openbitfun-core features', () => 
   assert.match(violations[0].message, /at least one explicit feature/);
 });
 
-test('explicit product entrypoint openbitfun-core feature selections pass', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+test('explicit product entrypoint opc-core feature selections pass', () => {
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   const consumers = [
     packageAt('app', 'src/apps/example/Cargo.toml'),
     packageAt('interface', 'src/crates/interfaces/acp/Cargo.toml'),
@@ -1403,7 +1403,7 @@ test('explicit product entrypoint openbitfun-core feature selections pass', () =
   ].map((pkg) => ({
     ...pkg,
     dependencies: [pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ['plugin-source'],
     })],
@@ -1419,15 +1419,15 @@ test('explicit product entrypoint openbitfun-core feature selections pass', () =
 });
 
 test('Desktop and Server must retain the full product Core capability closure', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
 
   for (const [name, manifestPath] of [
-    ['openbitfun-desktop', 'src/apps/desktop/Cargo.toml'],
-    ['openbitfun-server', 'src/apps/server/Cargo.toml'],
+    ['opc-desktop', 'src/apps/desktop/Cargo.toml'],
+    ['opc-server', 'src/apps/server/Cargo.toml'],
   ]) {
     const product = packageAt(name, manifestPath, [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         usesDefaultFeatures: false,
         features: ['i18n-runtime'],
       }),
@@ -1444,10 +1444,10 @@ test('Desktop and Server must retain the full product Core capability closure', 
 });
 
 test('Desktop and Server must retain their Core product dependency', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   for (const [name, manifestPath] of [
-    ['openbitfun-desktop', 'src/apps/desktop/Cargo.toml'],
-    ['openbitfun-server', 'src/apps/server/Cargo.toml'],
+    ['opc-desktop', 'src/apps/desktop/Cargo.toml'],
+    ['opc-server', 'src/apps/server/Cargo.toml'],
   ]) {
     const product = packageAt(name, manifestPath);
     assert.deepEqual(
@@ -1455,23 +1455,23 @@ test('Desktop and Server must retain their Core product dependency', () => {
         [product, core],
         { root: TEST_ROOT, crateLayoutRules },
       ).map((violation) => violation.message),
-      [`${name} Core capability closure must keep the openbitfun-core dependency`],
+      [`${name} Core capability closure must keep the opc-core dependency`],
     );
   }
 });
 
 test('Desktop must select only the ACP client role', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: {
       default: ['client', 'server'],
       client: [],
       server: [],
     },
   };
-  const desktop = packageAt('openbitfun-desktop', 'src/apps/desktop/Cargo.toml', [
+  const desktop = packageAt('opc-desktop', 'src/apps/desktop/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       usesDefaultFeatures: false,
       features: ['client', 'server'],
     }),
@@ -1488,12 +1488,12 @@ test('Desktop must select only the ACP client role', () => {
 
 test('ACP consumers must disable compatibility default roles', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: { default: ['client', 'server'], client: [], server: [] },
   };
-  const desktop = packageAt('openbitfun-desktop', 'src/apps/desktop/Cargo.toml', [
+  const desktop = packageAt('opc-desktop', 'src/apps/desktop/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       usesDefaultFeatures: true,
       features: ['client'],
     }),
@@ -1510,16 +1510,16 @@ test('ACP consumers must disable compatibility default roles', () => {
 
 test('CLI must select both ACP roles explicitly', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: {
       default: ['client', 'server'],
       client: [],
       server: [],
     },
   };
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       usesDefaultFeatures: false,
       features: ['client'],
     }),
@@ -1536,16 +1536,16 @@ test('CLI must select both ACP roles explicitly', () => {
 
 test('new product entrypoints must register an explicit ACP role selection', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: {
       default: ['client', 'server'],
       client: [],
       server: [],
     },
   };
-  const newHost = packageAt('openbitfun-new-host', 'src/apps/new-host/Cargo.toml', [
+  const newHost = packageAt('opc-new-host', 'src/apps/new-host/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       usesDefaultFeatures: false,
       features: ['client'],
     }),
@@ -1562,16 +1562,16 @@ test('new product entrypoints must register an explicit ACP role selection', () 
 
 test('ACP roles must be selected by an unconditional normal dependency', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: {
       default: ['client', 'server'],
       client: [],
       server: [],
     },
   };
-  const desktop = packageAt('openbitfun-desktop', 'src/apps/desktop/Cargo.toml', [
+  const desktop = packageAt('opc-desktop', 'src/apps/desktop/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       kind: 'dev',
       usesDefaultFeatures: false,
       features: ['client'],
@@ -1586,18 +1586,18 @@ test('ACP roles must be selected by an unconditional normal dependency', () => {
   assert.equal(violations.length, 1);
   assert.match(
     violations[0].message,
-    /Desktop ACP role selection must keep an unconditional normal openbitfun-acp dependency/,
+    /Desktop ACP role selection must keep an unconditional normal opc-acp dependency/,
   );
 });
 
 test('reviewed ACP roles require an unconditional normal dependency', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: { default: ['client', 'server'], client: [], server: [] },
   };
-  const desktop = packageAt('openbitfun-desktop', 'src/apps/desktop/Cargo.toml', [
+  const desktop = packageAt('opc-desktop', 'src/apps/desktop/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       target: 'cfg(windows)',
       usesDefaultFeatures: false,
       features: ['client'],
@@ -1610,22 +1610,22 @@ test('reviewed ACP roles require an unconditional normal dependency', () => {
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /must keep an unconditional normal openbitfun-acp dependency/);
+  assert.match(violations[0].message, /must keep an unconditional normal opc-acp dependency/);
 });
 
 test('target-specific ACP edges cannot expand a reviewed product role', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: { default: ['client', 'server'], client: [], server: [] },
   };
-  const desktop = packageAt('openbitfun-desktop', 'src/apps/desktop/Cargo.toml', [
+  const desktop = packageAt('opc-desktop', 'src/apps/desktop/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       usesDefaultFeatures: false,
       features: ['client'],
     }),
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       target: 'cfg(windows)',
       usesDefaultFeatures: false,
       features: ['server'],
@@ -1643,19 +1643,19 @@ test('target-specific ACP edges cannot expand a reviewed product role', () => {
 
 test('dev and build ACP edges cannot expand a reviewed product role', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: { default: ['client', 'server'], client: [], server: [] },
   };
 
   for (const kind of ['dev', 'build']) {
-    const desktop = packageAt('openbitfun-desktop', 'src/apps/desktop/Cargo.toml', [
+    const desktop = packageAt('opc-desktop', 'src/apps/desktop/Cargo.toml', [
       pathDependency('src/crates/interfaces/acp', {
-        name: 'openbitfun-acp',
+        name: 'opc-acp',
         usesDefaultFeatures: false,
         features: ['client'],
       }),
       pathDependency('src/crates/interfaces/acp', {
-        name: 'openbitfun-acp',
+        name: 'opc-acp',
         kind,
         usesDefaultFeatures: false,
         features: ['server'],
@@ -1674,12 +1674,12 @@ test('dev and build ACP edges cannot expand a reviewed product role', () => {
 
 test('reviewed ACP product dependencies must not become optional', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: { default: ['client', 'server'], client: [], server: [] },
   };
-  const desktop = packageAt('openbitfun-desktop', 'src/apps/desktop/Cargo.toml', [
+  const desktop = packageAt('opc-desktop', 'src/apps/desktop/Cargo.toml', [
     pathDependency('src/crates/interfaces/acp', {
-      name: 'openbitfun-acp',
+      name: 'opc-acp',
       optional: true,
       usesDefaultFeatures: false,
       features: ['client'],
@@ -1692,13 +1692,13 @@ test('reviewed ACP product dependencies must not become optional', () => {
   );
 
   assert.equal(violations.length, 2);
-  assert.match(violations[0].message, /must keep an unconditional normal openbitfun-acp dependency/);
-  assert.match(violations[1].message, /must not make a openbitfun-acp dependency optional/);
+  assert.match(violations[0].message, /must keep an unconditional normal opc-acp dependency/);
+  assert.match(violations[1].message, /must not make a opc-acp dependency optional/);
 });
 
 test('target, dev, and build ACP consumers must still register their role selection', () => {
   const acp = {
-    ...packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml'),
+    ...packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml'),
     features: { default: ['client', 'server'], client: [], server: [] },
   };
   for (const dependency of [
@@ -1706,9 +1706,9 @@ test('target, dev, and build ACP consumers must still register their role select
     { kind: 'dev' },
     { kind: 'build' },
   ]) {
-    const newHost = packageAt('openbitfun-new-host', 'src/apps/new-host/Cargo.toml', [
+    const newHost = packageAt('opc-new-host', 'src/apps/new-host/Cargo.toml', [
       pathDependency('src/crates/interfaces/acp', {
-        name: 'openbitfun-acp',
+        name: 'opc-acp',
         ...dependency,
         usesDefaultFeatures: false,
         features: ['client'],
@@ -1772,12 +1772,12 @@ test('OpenCode Plugin Host keeps retired LSP outside its feature closure', () =>
 });
 
 test('SDK Host Core capability closure keeps every reviewed owner', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   const sdkHost = packageAt(
-    'openbitfun-sdk-host-app',
+    'opc-sdk-host-app',
     'src/apps/sdk-host/Cargo.toml',
     [pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: SDK_HOST_REVIEWED_CORE_FEATURES.filter(
         (feature) => feature !== 'external-sources',
@@ -1791,24 +1791,24 @@ test('SDK Host Core capability closure keeps every reviewed owner', () => {
   );
 
   assert.deepEqual(violations.map((violation) => violation.message), [
-    'openbitfun-sdk-host-app Core capability closure must include external-sources',
+    'opc-sdk-host-app Core capability closure must include external-sources',
   ]);
 });
 
 test('SDK Host closure rejects unreviewed capability owners below Core', () => {
   const cases = [
-    ['openbitfun-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'remote-connect'],
-    ['openbitfun-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'remote-ssh'],
-    ['openbitfun-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'remote-ssh-concrete'],
-    ['openbitfun-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'function-agents'],
-    ['openbitfun-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'product-full'],
-    ['openbitfun-product-domains', 'src/crates/contracts/product-domains/Cargo.toml', 'function-agents'],
-    ['openbitfun-product-domains', 'src/crates/contracts/product-domains/Cargo.toml', 'product-full'],
-    ['openbitfun-services-core', 'src/crates/services/services-core/Cargo.toml', 'dispatch-workspace'],
+    ['opc-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'remote-connect'],
+    ['opc-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'remote-ssh'],
+    ['opc-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'remote-ssh-concrete'],
+    ['opc-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'function-agents'],
+    ['opc-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', 'product-full'],
+    ['opc-product-domains', 'src/crates/contracts/product-domains/Cargo.toml', 'function-agents'],
+    ['opc-product-domains', 'src/crates/contracts/product-domains/Cargo.toml', 'product-full'],
+    ['opc-services-core', 'src/crates/services/services-core/Cargo.toml', 'dispatch-workspace'],
   ];
 
   for (const [ownerName, ownerManifest, forbiddenFeature] of cases) {
-    const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+    const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
     const owner = {
       ...packageAt(ownerName, ownerManifest),
       features: { [forbiddenFeature]: [] },
@@ -1821,11 +1821,11 @@ test('SDK Host closure rejects unreviewed capability owners below Core', () => {
       }),
     ]);
     const sdkHost = packageAt(
-      'openbitfun-sdk-host-app',
+      'opc-sdk-host-app',
       'src/apps/sdk-host/Cargo.toml',
       [
         pathDependency('src/crates/assembly/core', {
-          name: 'openbitfun-core',
+          name: 'opc-core',
           usesDefaultFeatures: false,
           features: SDK_HOST_REVIEWED_CORE_FEATURES,
         }),
@@ -1851,27 +1851,27 @@ test('SDK Host closure inspects lower owners forwarded by reviewed Core features
   const ownerManifest = 'src/crates/services/services-integrations/Cargo.toml';
   const core = {
     ...packageAt(
-      'openbitfun-core',
+      'opc-core',
       'src/crates/assembly/core/Cargo.toml',
       [pathDependency('src/crates/services/services-integrations', {
-        name: 'openbitfun-services-integrations',
+        name: 'opc-services-integrations',
         optional: true,
         usesDefaultFeatures: false,
       })],
     ),
     features: {
-      'external-sources': ['openbitfun-services-integrations/remote-connect'],
+      'external-sources': ['opc-services-integrations/remote-connect'],
     },
   };
   const owner = {
-    ...packageAt('openbitfun-services-integrations', ownerManifest),
+    ...packageAt('opc-services-integrations', ownerManifest),
     features: { 'remote-connect': [] },
   };
   const sdkHost = packageAt(
-    'openbitfun-sdk-host-app',
+    'opc-sdk-host-app',
     'src/apps/sdk-host/Cargo.toml',
     [pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: SDK_HOST_REVIEWED_CORE_FEATURES,
     })],
@@ -1885,17 +1885,17 @@ test('SDK Host closure inspects lower owners forwarded by reviewed Core features
   assert.equal(violations.length, 1);
   assert.match(
     violations[0].message,
-    /openbitfun-services-integrations\/remote-connect/,
+    /opc-services-integrations\/remote-connect/,
   );
 });
 
 test('App Server Core capability closure keeps its production Git owner', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   const appServer = packageAt(
-    'openbitfun-app-server',
+    'opc-app-server',
     'src/crates/interfaces/app-server/Cargo.toml',
     [pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: APP_SERVER_REVIEWED_CORE_FEATURES.filter((feature) => feature !== 'git'),
     })],
@@ -1907,17 +1907,17 @@ test('App Server Core capability closure keeps its production Git owner', () => 
   );
 
   assert.deepEqual(violations.map((violation) => violation.message), [
-    'openbitfun-app-server Core capability closure must include git',
+    'opc-app-server Core capability closure must include git',
   ]);
 });
 
 test('App Server Core capability closure keeps its backend i18n runtime', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   const appServer = packageAt(
-    'openbitfun-app-server',
+    'opc-app-server',
     'src/crates/interfaces/app-server/Cargo.toml',
     [pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: APP_SERVER_REVIEWED_CORE_FEATURES.filter(
         (feature) => feature !== 'i18n-runtime',
@@ -1931,17 +1931,17 @@ test('App Server Core capability closure keeps its backend i18n runtime', () => 
   );
 
   assert.deepEqual(violations.map((violation) => violation.message), [
-    'openbitfun-app-server Core capability closure must include i18n-runtime',
+    'opc-app-server Core capability closure must include i18n-runtime',
   ]);
 });
 
 test('App Server reviewed Core capability closure remains independently valid', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
   const appServer = packageAt(
-    'openbitfun-app-server',
+    'opc-app-server',
     'src/crates/interfaces/app-server/Cargo.toml',
     [pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: APP_SERVER_REVIEWED_CORE_FEATURES,
     })],
@@ -1957,10 +1957,10 @@ test('App Server reviewed Core capability closure remains independently valid', 
 });
 
 test('ACP Core capability closure rejects the Canvas product tool owner', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
-  const acp = packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml', [
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
+  const acp = packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: [...ACP_REVIEWED_CORE_FEATURES, 'tools-canvas'],
     }),
@@ -1976,10 +1976,10 @@ test('ACP Core capability closure rejects the Canvas product tool owner', () => 
 });
 
 test('ACP Core capability closure validation cannot be disabled by removing an owner', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
-  const acp = packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml', [
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
+  const acp = packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ACP_REVIEWED_CORE_FEATURES.filter((feature) => feature !== 'agent-runtime'),
     }),
@@ -1991,15 +1991,15 @@ test('ACP Core capability closure validation cannot be disabled by removing an o
   );
 
   assert.deepEqual(violations.map((violation) => violation.message), [
-    'openbitfun-acp Core capability closure must include agent-runtime',
+    'opc-acp Core capability closure must include agent-runtime',
   ]);
 });
 
 test('CLI Core capability closure requires every reviewed owner', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: CLI_REVIEWED_CORE_FEATURES.filter((feature) => feature !== 'plugin-runtime'),
     }),
@@ -2014,16 +2014,16 @@ test('CLI Core capability closure requires every reviewed owner', () => {
   assert.match(violations[0].message, /must include plugin-runtime/);
 });
 
-test('CLI openbitfun-core dev-dependency may select only test-support', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+test('CLI opc-core dev-dependency may select only test-support', () => {
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: CLI_REVIEWED_CORE_FEATURES,
     }),
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       kind: 'dev',
       usesDefaultFeatures: false,
       features: ['test-support'],
@@ -2039,16 +2039,16 @@ test('CLI openbitfun-core dev-dependency may select only test-support', () => {
   );
 });
 
-test('CLI openbitfun-core dev-dependency cannot widen the product capability closure', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+test('CLI opc-core dev-dependency cannot widen the product capability closure', () => {
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: CLI_REVIEWED_CORE_FEATURES,
     }),
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       kind: 'dev',
       usesDefaultFeatures: false,
       features: ['test-support', 'tools-canvas'],
@@ -2063,15 +2063,15 @@ test('CLI openbitfun-core dev-dependency cannot widen the product capability clo
   assert.equal(violations.length, 1);
   assert.match(
     violations[0].message,
-    /openbitfun-core dev-dependency may select only test-support, not \[test-support, tools-canvas\]/,
+    /opc-core dev-dependency may select only test-support, not \[test-support, tools-canvas\]/,
   );
 });
 
 test('CLI entrypoint must not select the product-full Core feature', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ['product-full'],
     }),
@@ -2083,21 +2083,21 @@ test('CLI entrypoint must not select the product-full Core feature', () => {
   );
 
   assert.ok(violations.some((violation) =>
-    /openbitfun-cli -> openbitfun-core\/product-full/.test(violation.message)));
+    /opc-cli -> opc-core\/product-full/.test(violation.message)));
 });
 
 test('CLI entrypoint must not reach product-full through a Core owner feature', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: {
       'agent-runtime': ['runtime-services', 'product-full'],
-      'runtime-services': ['dep:openbitfun-runtime-services'],
-      'product-full': ['dep:openbitfun-agent-runtime'],
+      'runtime-services': ['dep:opc-runtime-services'],
+      'product-full': ['dep:opc-agent-runtime'],
     },
   };
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ['agent-runtime'],
     }),
@@ -2109,20 +2109,20 @@ test('CLI entrypoint must not reach product-full through a Core owner feature', 
   );
 
   assert.ok(violations.some((violation) =>
-    /openbitfun-cli -> openbitfun-core\/product-full/.test(violation.message)));
+    /opc-cli -> opc-core\/product-full/.test(violation.message)));
 });
 
 test('CLI dependency closure must not re-enable product-full through an interface crate', () => {
-  const core = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml');
-  const acp = packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml', [
+  const core = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml');
+  const acp = packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ['product-full'],
     }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
-    pathDependency('src/crates/interfaces/acp', { name: 'openbitfun-acp' }),
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
+    pathDependency('src/crates/interfaces/acp', { name: 'opc-acp' }),
   ]);
 
   const violations = findProductEntrypointCoreFeatureViolations(
@@ -2131,18 +2131,18 @@ test('CLI dependency closure must not re-enable product-full through an interfac
   );
 
   assert.ok(violations.some((violation) =>
-    /openbitfun-cli -> openbitfun-acp -> openbitfun-core\/product-full/.test(violation.message)));
+    /opc-cli -> opc-acp -> opc-core\/product-full/.test(violation.message)));
 });
 
 test('CLI dependency closure rejects indirect Core default features', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { default: ['product-full'], 'product-full': [] },
   };
   const bridge = packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
-    pathDependency('src/crates/assembly/core', { name: 'openbitfun-core' }),
+    pathDependency('src/crates/assembly/core', { name: 'opc-core' }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/bridge', { name: 'bridge' }),
   ]);
 
@@ -2152,28 +2152,28 @@ test('CLI dependency closure rejects indirect Core default features', () => {
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-cli -> bridge -> openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-cli -> bridge -> opc-core\/product-full/);
 });
 
 test('CLI dependency closure resolves active intermediate feature forwarding', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { default: ['product-full'], 'product-full': [] },
   };
   const bridge = {
     ...packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         optional: true,
         usesDefaultFeatures: false,
       }),
     ]),
     features: {
       default: ['full'],
-      full: ['dep:openbitfun-core', 'openbitfun-core/product-full'],
+      full: ['dep:opc-core', 'opc-core/product-full'],
     },
   };
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/bridge', { name: 'bridge' }),
   ]);
 
@@ -2183,18 +2183,18 @@ test('CLI dependency closure resolves active intermediate feature forwarding', (
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-cli -> bridge -> openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-cli -> bridge -> opc-core\/product-full/);
 });
 
 test('CLI dependency closure resolves renamed optional dependency forwarding', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { 'product-full': [] },
   };
   const bridge = {
     ...packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         rename: 'core-alias',
         optional: true,
         usesDefaultFeatures: false,
@@ -2204,7 +2204,7 @@ test('CLI dependency closure resolves renamed optional dependency forwarding', (
       full: ['dep:core-alias', 'core-alias/product-full'],
     },
   };
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/bridge', {
       name: 'bridge',
       usesDefaultFeatures: false,
@@ -2218,25 +2218,25 @@ test('CLI dependency closure resolves renamed optional dependency forwarding', (
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('CLI dependency closure unions weak forwarding and optional activation per package', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { 'product-full': [] },
   };
   const bridge = {
     ...packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         optional: true,
         usesDefaultFeatures: false,
       }),
     ]),
     features: {
-      forward: ['openbitfun-core?/product-full'],
-      activate: ['dep:openbitfun-core'],
+      forward: ['opc-core?/product-full'],
+      activate: ['dep:opc-core'],
     },
   };
   const left = packageAt('left', 'src/crates/assembly/left/Cargo.toml', [
@@ -2253,7 +2253,7 @@ test('CLI dependency closure unions weak forwarding and optional activation per 
       features: ['activate'],
     }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/left', { name: 'left' }),
     pathDependency('src/crates/assembly/right', { name: 'right' }),
   ]);
@@ -2264,25 +2264,25 @@ test('CLI dependency closure unions weak forwarding and optional activation per 
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('CLI dependency closure keeps normal and build feature unions separate', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { 'product-full': [] },
   };
   const bridge = {
     ...packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         optional: true,
         usesDefaultFeatures: false,
       }),
     ]),
     features: {
-      forward: ['openbitfun-core?/product-full'],
-      activate: ['dep:openbitfun-core'],
+      forward: ['opc-core?/product-full'],
+      activate: ['dep:opc-core'],
     },
   };
   const normalParent = packageAt('normal-parent', 'src/crates/assembly/normal-parent/Cargo.toml', [
@@ -2299,7 +2299,7 @@ test('CLI dependency closure keeps normal and build feature unions separate', ()
       features: ['activate'],
     }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/normal-parent', { name: 'normal-parent' }),
     pathDependency('src/crates/assembly/build-parent', {
       name: 'build-parent',
@@ -2318,20 +2318,20 @@ test('CLI dependency closure keeps normal and build feature unions separate', ()
 
 test('CLI dependency closure keeps proc-macro and normal feature unions separate', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { 'product-full': [] },
   };
   const shared = {
     ...packageAt('shared', 'src/crates/assembly/shared/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         optional: true,
         usesDefaultFeatures: false,
       }),
     ]),
     features: {
-      forward: ['openbitfun-core?/product-full'],
-      activate: ['dep:openbitfun-core'],
+      forward: ['opc-core?/product-full'],
+      activate: ['dep:opc-core'],
     },
   };
   const normalParent = packageAt('normal-parent', 'src/crates/assembly/normal-parent/Cargo.toml', [
@@ -2351,7 +2351,7 @@ test('CLI dependency closure keeps proc-macro and normal feature unions separate
     ]),
     targets: [{ kind: ['proc-macro'] }],
   };
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/normal-parent', { name: 'normal-parent' }),
     pathDependency('src/crates/assembly/macro-parent', { name: 'macro-parent' }),
   ]);
@@ -2367,23 +2367,23 @@ test('CLI dependency closure keeps proc-macro and normal feature unions separate
 
 test('CLI dependency architecture closure cannot hide features behind target cfgs', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { 'product-full': [] },
   };
   const bridge = {
     ...packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         optional: true,
         usesDefaultFeatures: false,
       }),
     ]),
     features: {
-      forward: ['openbitfun-core?/product-full'],
-      activate: ['dep:openbitfun-core'],
+      forward: ['opc-core?/product-full'],
+      activate: ['dep:opc-core'],
     },
   };
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/bridge', {
       name: 'bridge',
       target: 'cfg(windows)',
@@ -2404,28 +2404,28 @@ test('CLI dependency architecture closure cannot hide features behind target cfg
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('CLI dependency architecture closure unions unconditional and target-specific declarations', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { 'product-full': [] },
   };
   const bridge = {
     ...packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         optional: true,
         usesDefaultFeatures: false,
       }),
     ]),
     features: {
-      forward: ['openbitfun-core?/product-full'],
-      activate: ['dep:openbitfun-core'],
+      forward: ['opc-core?/product-full'],
+      activate: ['dep:opc-core'],
     },
   };
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/bridge', {
       name: 'bridge',
       usesDefaultFeatures: false,
@@ -2445,11 +2445,11 @@ test('CLI dependency architecture closure unions unconditional and target-specif
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 function reviewedCoreFeaturesFor(rootName) {
-  return rootName === 'openbitfun-cli'
+  return rootName === 'opc-cli'
     ? CLI_REVIEWED_CORE_FEATURES
     : ACP_REVIEWED_CORE_FEATURES;
 }
@@ -2457,7 +2457,7 @@ function reviewedCoreFeaturesFor(rootName) {
 function targetedWeakForwardingGraph(rootName, forwardTarget, activateTarget, reverse = false) {
   const reviewedFeatures = reviewedCoreFeaturesFor(rootName);
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: Object.fromEntries([
       ...reviewedFeatures.map((feature) => [feature, []]),
       ['product-full', []],
@@ -2466,21 +2466,21 @@ function targetedWeakForwardingGraph(rootName, forwardTarget, activateTarget, re
   const bridge = {
     ...packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         optional: true,
         usesDefaultFeatures: false,
       }),
     ]),
     features: {
-      forward: ['openbitfun-core?/product-full'],
-      activate: ['dep:openbitfun-core'],
+      forward: ['opc-core?/product-full'],
+      activate: ['dep:opc-core'],
     },
   };
-  const root = packageAt(rootName, rootName === 'openbitfun-cli'
+  const root = packageAt(rootName, rootName === 'opc-cli'
     ? 'src/apps/cli/Cargo.toml'
     : 'src/crates/interfaces/acp/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: reviewedFeatures,
     }),
@@ -2504,7 +2504,7 @@ function targetedWeakForwardingGraph(rootName, forwardTarget, activateTarget, re
 test('CLI dependency architecture closure ignores Windows target spelling differences', () => {
   for (const reverse of [false, true]) {
     const { root, bridge, core } = targetedWeakForwardingGraph(
-      'openbitfun-cli',
+      'opc-cli',
       'cfg(windows)',
       'cfg(target_os = "windows")',
       reverse,
@@ -2515,14 +2515,14 @@ test('CLI dependency architecture closure ignores Windows target spelling differ
     );
 
     assert.equal(violations.length, 1);
-    assert.match(violations[0].message, /openbitfun-core\/product-full/);
+    assert.match(violations[0].message, /opc-core\/product-full/);
   }
 });
 
 test('CLI dependency architecture closure includes Unix and not-Windows declarations', () => {
   for (const reverse of [false, true]) {
     const { root, bridge, core } = targetedWeakForwardingGraph(
-      'openbitfun-cli',
+      'opc-cli',
       'cfg(not(windows))',
       'cfg(unix)',
       reverse,
@@ -2533,14 +2533,14 @@ test('CLI dependency architecture closure includes Unix and not-Windows declarat
     );
 
     assert.equal(violations.length, 1);
-    assert.match(violations[0].message, /openbitfun-core\/product-full/);
+    assert.match(violations[0].message, /opc-core\/product-full/);
   }
 });
 
 test('CLI dependency architecture closure includes nested target-specific declarations', () => {
-  const reviewedFeatures = reviewedCoreFeaturesFor('openbitfun-cli');
+  const reviewedFeatures = reviewedCoreFeaturesFor('opc-cli');
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: Object.fromEntries([
       ...reviewedFeatures.map((feature) => [feature, []]),
       ['product-full', []],
@@ -2548,15 +2548,15 @@ test('CLI dependency architecture closure includes nested target-specific declar
   };
   const bridge = packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       target: 'cfg(unix)',
       usesDefaultFeatures: false,
       features: ['product-full'],
     }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: reviewedFeatures,
     }),
@@ -2572,13 +2572,13 @@ test('CLI dependency architecture closure includes nested target-specific declar
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('CLI dependency architecture closure includes target-specific build dependencies', () => {
-  const reviewedFeatures = reviewedCoreFeaturesFor('openbitfun-cli');
+  const reviewedFeatures = reviewedCoreFeaturesFor('opc-cli');
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: Object.fromEntries([
       ...reviewedFeatures.map((feature) => [feature, []]),
       ['product-full', []],
@@ -2586,16 +2586,16 @@ test('CLI dependency architecture closure includes target-specific build depende
   };
   const bridge = packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       kind: 'build',
       target: 'cfg(unix)',
       usesDefaultFeatures: false,
       features: ['product-full'],
     }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: reviewedFeatures,
     }),
@@ -2611,13 +2611,13 @@ test('CLI dependency architecture closure includes target-specific build depende
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('CLI dependency closure inspects non-default root features', () => {
-  const reviewedFeatures = reviewedCoreFeaturesFor('openbitfun-cli');
+  const reviewedFeatures = reviewedCoreFeaturesFor('opc-cli');
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: Object.fromEntries([
       ...reviewedFeatures.map((feature) => [feature, []]),
       ['product-full', []],
@@ -2625,15 +2625,15 @@ test('CLI dependency closure inspects non-default root features', () => {
   };
   const bridge = packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ['product-full'],
     }),
   ]);
   const cli = {
-    ...packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+    ...packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
       pathDependency('src/crates/assembly/core', {
-        name: 'openbitfun-core',
+        name: 'opc-core',
         usesDefaultFeatures: false,
         features: reviewedFeatures,
       }),
@@ -2654,13 +2654,13 @@ test('CLI dependency closure inspects non-default root features', () => {
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('ACP dependency closure rejects indirect unreviewed Core features', () => {
-  const reviewedFeatures = reviewedCoreFeaturesFor('openbitfun-acp');
+  const reviewedFeatures = reviewedCoreFeaturesFor('opc-acp');
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: Object.fromEntries([
       ...reviewedFeatures.map((feature) => [feature, []]),
       ['product-full', []],
@@ -2668,14 +2668,14 @@ test('ACP dependency closure rejects indirect unreviewed Core features', () => {
   };
   const bridge = packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ['product-full'],
     }),
   ]);
-  const acp = packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml', [
+  const acp = packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: reviewedFeatures,
     }),
@@ -2688,22 +2688,22 @@ test('ACP dependency closure rejects indirect unreviewed Core features', () => {
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('ACP active closure cannot be expanded by a reviewed owner definition', () => {
-  const reviewedFeatures = reviewedCoreFeaturesFor('openbitfun-acp');
+  const reviewedFeatures = reviewedCoreFeaturesFor('opc-acp');
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: {
       ...Object.fromEntries(reviewedFeatures.map((feature) => [feature, []])),
       'tools-git': ['plugin-runtime'],
       'plugin-runtime': [],
     },
   };
-  const acp = packageAt('openbitfun-acp', 'src/crates/interfaces/acp/Cargo.toml', [
+  const acp = packageAt('opc-acp', 'src/crates/interfaces/acp/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: reviewedFeatures,
     }),
@@ -2715,12 +2715,12 @@ test('ACP active closure cannot be expanded by a reviewed owner definition', () 
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/plugin-runtime/);
+  assert.match(violations[0].message, /opc-core\/plugin-runtime/);
 });
 
 test('CLI dependency closure includes build dependencies and excluded capabilities', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: {
       'cli-everything': ['product-full'],
       'product-full': [],
@@ -2728,13 +2728,13 @@ test('CLI dependency closure includes build dependencies and excluded capabiliti
   };
   const bridge = packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       kind: 'build',
       usesDefaultFeatures: false,
       features: ['cli-everything'],
     }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/bridge', { name: 'bridge' }),
   ]);
 
@@ -2744,22 +2744,22 @@ test('CLI dependency closure includes build dependencies and excluded capabiliti
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/product-full/);
+  assert.match(violations[0].message, /opc-core\/product-full/);
 });
 
 test('CLI dependency closure excludes the Core dispatch store', () => {
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml'),
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml'),
     features: { 'dispatch-store': [] },
   };
   const bridge = packageAt('bridge', 'src/crates/assembly/bridge/Cargo.toml', [
     pathDependency('src/crates/assembly/core', {
-      name: 'openbitfun-core',
+      name: 'opc-core',
       usesDefaultFeatures: false,
       features: ['dispatch-store'],
     }),
   ]);
-  const cli = packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [
+  const cli = packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [
     pathDependency('src/crates/assembly/bridge', { name: 'bridge' }),
   ]);
 
@@ -2769,7 +2769,7 @@ test('CLI dependency closure excludes the Core dispatch store', () => {
   );
 
   assert.equal(violations.length, 1);
-  assert.match(violations[0].message, /openbitfun-core\/dispatch-store/);
+  assert.match(violations[0].message, /opc-core\/dispatch-store/);
 });
 
 test('cargo layer checker rejects reverse edges across dependency kinds', () => {
@@ -2820,7 +2820,7 @@ test('workspace Tokio capabilities stay crate-owned', async () => {
   const packages = collectCargoMetadataPackages({ root: repositoryRoot });
   assert.deepEqual(findTokioDependencyFeatureViolations(packages), []);
 
-  const integrations = packages.find((pkg) => pkg.name === 'openbitfun-services-integrations');
+  const integrations = packages.find((pkg) => pkg.name === 'opc-services-integrations');
   const mutatedPackages = packages.map((pkg) => pkg === integrations
     ? {
         ...pkg,
@@ -2832,7 +2832,7 @@ test('workspace Tokio capabilities stay crate-owned', async () => {
     : pkg);
   assert.ok(
     findTokioDependencyFeatureViolations(mutatedPackages).some((violation) =>
-      violation.message === 'openbitfun-services-integrations has unexpected base Tokio capabilities: net'),
+      violation.message === 'opc-services-integrations has unexpected base Tokio capabilities: net'),
   );
 });
 
@@ -2890,19 +2890,19 @@ test('every services integrations Reqwest owner activates the reviewed TLS provi
   const mutated = removeFeatureValue(
     manifest,
     'review-platform',
-    'openbitfun-services-core/tls-provider',
+    'opc-services-core/tls-provider',
   );
   assert.notEqual(mutated, manifest, 'review-platform must own the TLS provider in the fixture');
 
   const messages = findServicesIntegrationsReqwestFeatureViolations(
     servicesIntegrationsPackage(mutated),
   ).map((violation) => violation.message).join('\n');
-  assert.match(messages, /review-platform.*missing openbitfun-services-core\/tls-provider/);
+  assert.match(messages, /review-platform.*missing opc-services-core\/tls-provider/);
 });
 
 test('direct Reqwest clients reject extra decoded dependency and package features', () => {
   const pkg = {
-    ...packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [{
+    ...packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [{
       name: 'reqwest',
       kind: null,
       optional: false,
@@ -2920,21 +2920,21 @@ test('direct Reqwest clients reject extra decoded dependency and package feature
   const messages = findReqwestDependencyFeatureViolations([pkg])
     .map((violation) => violation.message)
     .join('\n');
-  assert.match(messages, /openbitfun-cli.*unexpected dependency features: __native-tls/);
-  assert.match(messages, /openbitfun-cli:default.*unreviewed Reqwest feature reference reqwest\?\/http3/);
+  assert.match(messages, /opc-cli.*unexpected dependency features: __native-tls/);
+  assert.match(messages, /opc-cli:default.*unreviewed Reqwest feature reference reqwest\?\/http3/);
 
   const installerMessages = findReqwestDependencyFeatureViolations([{
     ...pkg,
-    name: 'openbitfun-installer',
+    name: 'opc-installer',
     manifest_path: join(TEST_ROOT, 'OpenBitFun-Installer', 'src-tauri', 'Cargo.toml'),
   }]).map((violation) => violation.message).join('\n');
-  assert.match(installerMessages, /openbitfun-installer.*missing a reviewed owner profile/);
+  assert.match(installerMessages, /opc-installer.*missing a reviewed owner profile/);
 });
 
 test('AI adapters Reqwest profile owns the supported SOCKS transport', () => {
   const baseFeatures = ['http2', 'json', 'stream'];
   const valid = {
-    ...packageAt('openbitfun-ai-adapters', 'src/crates/adapters/ai-adapters/Cargo.toml', [
+    ...packageAt('opc-ai-adapters', 'src/crates/adapters/ai-adapters/Cargo.toml', [
       {
         name: 'reqwest',
         kind: null,
@@ -2943,7 +2943,7 @@ test('AI adapters Reqwest profile owns the supported SOCKS transport', () => {
         features: [...baseFeatures, 'rustls-no-provider', 'socks'],
       },
       {
-        name: 'openbitfun-services-core',
+        name: 'opc-services-core',
         kind: null,
         optional: false,
         features: ['tls-provider'],
@@ -2953,7 +2953,7 @@ test('AI adapters Reqwest profile owns the supported SOCKS transport', () => {
   };
   const missingSocks = {
     ...packageAt(
-    'openbitfun-ai-adapters',
+    'opc-ai-adapters',
     'src/crates/adapters/ai-adapters/Cargo.toml',
     [
       {
@@ -2964,7 +2964,7 @@ test('AI adapters Reqwest profile owns the supported SOCKS transport', () => {
         features: [...baseFeatures, 'rustls-no-provider'],
       },
       {
-        name: 'openbitfun-services-core',
+        name: 'opc-services-core',
         kind: null,
         optional: false,
         features: ['tls-provider'],
@@ -2978,13 +2978,13 @@ test('AI adapters Reqwest profile owns the supported SOCKS transport', () => {
   const messages = findReqwestDependencyFeatureViolations([missingSocks])
     .map((violation) => violation.message)
     .join('\n');
-  assert.match(messages, /openbitfun-ai-adapters.*missing features: socks/);
+  assert.match(messages, /opc-ai-adapters.*missing features: socks/);
 });
 
 test('Reqwest metadata policy covers URL-only and future dependency owners', () => {
   const coreFeatures = [];
   const core = {
-    ...packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml', [{
+    ...packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml', [{
       name: 'reqwest',
       kind: null,
       optional: true,
@@ -3001,7 +3001,7 @@ test('Reqwest metadata policy covers URL-only and future dependency owners', () 
     features: ['http2', 'rustls', 'stream'],
   }]);
   const duplicate = packageAt(
-    'openbitfun-services-integrations',
+    'opc-services-integrations',
     'src/crates/services/services-integrations/Cargo.toml',
     [
       {
@@ -3026,9 +3026,9 @@ test('Reqwest metadata policy covers URL-only and future dependency owners', () 
   const messages = findReqwestDependencyFeatureViolations([core, future, duplicate])
     .map((violation) => violation.message)
     .join('\n');
-  assert.match(messages, /openbitfun-core:product.*reqwest\/__native-tls/);
+  assert.match(messages, /opc-core:product.*reqwest\/__native-tls/);
   assert.match(messages, /future-client.*missing a reviewed owner profile/);
-  assert.match(messages, /openbitfun-services-integrations.*exactly one normal Reqwest dependency/);
+  assert.match(messages, /opc-services-integrations.*exactly one normal Reqwest dependency/);
 });
 
 test('Reqwest consumers inherit the workspace version without duplicating feature rules', async () => {
@@ -3052,35 +3052,35 @@ test('Reqwest consumers inherit the workspace version without duplicating featur
 
 test('third-party capability profiles reject ambient feature unions and unreviewed owners', () => {
   const validPackages = [
-    packageAt('openbitfun-cli', 'src/apps/cli/Cargo.toml', [{
+    packageAt('opc-cli', 'src/apps/cli/Cargo.toml', [{
       name: 'image',
       kind: null,
       optional: false,
       uses_default_features: false,
       features: ['gif', 'jpeg', 'png', 'webp'],
     }]),
-    packageAt('openbitfun-server', 'src/apps/server/Cargo.toml', [{
+    packageAt('opc-server', 'src/apps/server/Cargo.toml', [{
       name: 'axum',
       kind: null,
       optional: false,
       uses_default_features: true,
       features: ['json', 'ws'],
     }]),
-    packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml', [{
+    packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml', [{
       name: 'tokio-tungstenite',
       kind: null,
       optional: true,
       uses_default_features: true,
       features: [],
     }]),
-    packageAt('openbitfun-services-core', 'src/crates/services/services-core/Cargo.toml', [{
+    packageAt('opc-services-core', 'src/crates/services/services-core/Cargo.toml', [{
       name: 'git2',
       kind: null,
       optional: true,
       uses_default_features: false,
       features: ['vendored-libgit2'],
     }]),
-    packageAt('openbitfun-webdriver', 'src/crates/adapters/webdriver/Cargo.toml', [{
+    packageAt('opc-webdriver', 'src/crates/adapters/webdriver/Cargo.toml', [{
       name: 'image', kind: null, optional: false, uses_default_features: false,
       features: ['jpeg', 'png'],
     }]),
@@ -3106,18 +3106,18 @@ test('third-party capability profiles reject ambient feature unions and unreview
   const messages = findThirdPartyCapabilityFeatureViolations(mutatedPackages)
     .map((violation) => violation.message)
     .join('\n');
-  assert.match(messages, /openbitfun-cli Image dependency has unexpected features: bmp/);
-  assert.match(messages, /openbitfun-server Axum dependency missing features: ws/);
-  assert.match(messages, /openbitfun-core Tokio Tungstenite dependency has unexpected features: rustls-tls-native-roots/);
-  assert.match(messages, /openbitfun-services-core Git2 dependency has unexpected features: https/);
-  assert.match(messages, /openbitfun-services-core Git2 dependency does not match its reviewed owner shape/);
-  assert.match(messages, /openbitfun-webdriver Image dependency missing features: jpeg/);
-  assert.match(messages, /openbitfun-webdriver Image dependency has unexpected features: webp/);
+  assert.match(messages, /opc-cli Image dependency has unexpected features: bmp/);
+  assert.match(messages, /opc-server Axum dependency missing features: ws/);
+  assert.match(messages, /opc-core Tokio Tungstenite dependency has unexpected features: rustls-tls-native-roots/);
+  assert.match(messages, /opc-services-core Git2 dependency has unexpected features: https/);
+  assert.match(messages, /opc-services-core Git2 dependency does not match its reviewed owner shape/);
+  assert.match(messages, /opc-webdriver Image dependency missing features: jpeg/);
+  assert.match(messages, /opc-webdriver Image dependency has unexpected features: webp/);
   assert.match(messages, /future-image-owner Image dependency is missing a reviewed owner profile/);
 });
 
 test('relay WebSocket lifecycle client stays test-only without TLS or defaults', () => {
-  const pkg = packageAt('openbitfun-relay-service', 'src/crates/services/relay-service/Cargo.toml', [{
+  const pkg = packageAt('opc-relay-service', 'src/crates/services/relay-service/Cargo.toml', [{
     name: 'tokio-tungstenite', kind: 'dev', optional: false, uses_default_features: false,
     features: ['connect', 'handshake'],
   }]);
@@ -3134,7 +3134,7 @@ test('relay WebSocket lifecycle client stays test-only without TLS or defaults',
 
 test('services integrations image codecs stay attached to exact product owners', () => {
   const pkg = {
-    ...packageAt('openbitfun-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', [{
+    ...packageAt('opc-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', [{
       name: 'image',
       kind: null,
       optional: true,
@@ -3174,7 +3174,7 @@ test('services integrations image codecs stay attached to exact product owners',
 
 test('services integrations WebSocket TLS stays attached to reviewed realtime owners', () => {
   const pkg = {
-    ...packageAt('openbitfun-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', [{
+    ...packageAt('opc-services-integrations', 'src/crates/services/services-integrations/Cargo.toml', [{
       name: 'tokio-tungstenite',
       kind: null,
       optional: true,
@@ -3422,11 +3422,11 @@ test('Cargo metadata Tokio policy catches table-style and renamed full dependenc
 
   const installerViolations = findTokioDependencyFeatureViolations([{
     ...pkg,
-    name: 'openbitfun-installer',
+    name: 'opc-installer',
     manifest_path: join(TEST_ROOT, 'OpenBitFun-Installer', 'src-tauri', 'Cargo.toml'),
   }]);
   assert.equal(installerViolations.length, 1);
-  assert.match(installerViolations[0].message, /openbitfun-installer must not enable tokio\/full/);
+  assert.match(installerViolations[0].message, /opc-installer must not enable tokio\/full/);
 });
 
 test('cargo layer checker allows documented downward and peer dependencies', () => {
@@ -3800,9 +3800,9 @@ test('embedded relay concrete lifecycle stays desktop-owned', async () => {
     ),
   ]);
 
-  assert.doesNotMatch(coreManifest, /openbitfun-relay-service/);
+  assert.doesNotMatch(coreManifest, /opc-relay-service/);
   assert.doesNotMatch(corePort, /\b(?:axum|TcpListener|ServeDir|build_relay_router)\b/);
-  assert.match(desktopManifest, /openbitfun-relay-service/);
+  assert.match(desktopManifest, /opc-relay-service/);
   assert.match(desktopHost, /impl EmbeddedRelayHost for DesktopEmbeddedRelayHost/);
   assert.match(desktopHost, /TcpListener::bind/);
   assert.match(desktopHost, /ServeDir::new/);
@@ -3939,7 +3939,7 @@ test('services-core capability profiles keep heavy owners out of the empty profi
     'dep:base64',
     'dep:chrono',
     'dep:ignore',
-    'dep:openbitfun-core-types',
+    'dep:opc-core-types',
     'dep:regex',
     'dep:sha2',
     'dep:tokio',
@@ -3947,7 +3947,7 @@ test('services-core capability profiles keep heavy owners out of the empty profi
     'tokio/rt',
     'tokio/sync',
   ]);
-  assert.deepEqual(profiles.get('product-identity'), ['dep:openbitfun-core-types']);
+  assert.deepEqual(profiles.get('product-identity'), ['dep:opc-core-types']);
   assert.deepEqual(profiles.get('json-io'), [
     'dep:fs2',
     'dep:tokio',
@@ -3960,8 +3960,8 @@ test('services-core capability profiles keep heavy owners out of the empty profi
     'windows/Win32_Storage_FileSystem',
   ]);
   assert.deepEqual(profiles.get('local-storage'), [
-    'dep:openbitfun-core-types',
-    'dep:openbitfun-events',
+    'dep:opc-core-types',
+    'dep:opc-events',
     'dep:chrono',
     'dep:fs2',
     'dep:libc',
@@ -4004,9 +4004,9 @@ test('services-core capability profiles keep heavy owners out of the empty profi
   assert.deepEqual(profiles.get('workspace-runtime'), [
     'dep:anyhow',
     'dep:async-trait',
-    'dep:openbitfun-runtime-ports',
-    'openbitfun-runtime-ports/runtime-event-port',
-    'openbitfun-runtime-ports/workspace-ports',
+    'dep:opc-runtime-ports',
+    'opc-runtime-ports/runtime-event-port',
+    'opc-runtime-ports/workspace-ports',
     'dep:dunce',
     // The concrete local provider restores modification times through WorkspaceFS.
     'dep:filetime',
@@ -4021,8 +4021,8 @@ test('services-core capability profiles keep heavy owners out of the empty profi
   );
   for (const dependency of [
     'base64',
-    'openbitfun-core-types',
-    'openbitfun-events',
+    'opc-core-types',
+    'opc-events',
     'chrono',
     'fs2',
     'globset',
@@ -4071,7 +4071,7 @@ test('services-core capability profiles keep heavy owners out of the empty profi
 
 test('services-core Tokio capabilities stay owner-scoped', () => {
   const invalidPackage = {
-    name: 'openbitfun-services-core',
+    name: 'opc-services-core',
     manifest_path: 'src/crates/services/services-core/Cargo.toml',
     dependencies: [
       {
@@ -4106,7 +4106,7 @@ test('services-core Tokio capabilities stay owner-scoped', () => {
 
 test('Services Core accepts only the reviewed feature-owned Tokio runtime graph', () => {
   const validPackage = {
-    name: 'openbitfun-services-core',
+    name: 'opc-services-core',
     manifest_path: 'src/crates/services/services-core/Cargo.toml',
     dependencies: [
       {
@@ -4155,7 +4155,7 @@ test('Services Core accepts only the reviewed feature-owned Tokio runtime graph'
 
 test('Services Core Tokio owners cannot be hidden behind an unreviewed alias', () => {
   const invalidPackage = {
-    name: 'openbitfun-services-core',
+    name: 'opc-services-core',
     manifest_path: 'src/crates/services/services-core/Cargo.toml',
     dependencies: [
       {
@@ -4201,16 +4201,16 @@ test('Services Core Tokio owners cannot be hidden behind an unreviewed alias', (
     (violation) => violation.message,
   );
   assert.ok(
-    messages.includes('openbitfun-services-core:sneaky Tokio capabilities require an explicit owner contract'),
+    messages.includes('opc-services-core:sneaky Tokio capabilities require an explicit owner contract'),
   );
   assert.ok(
-    messages.includes('openbitfun-services-core:sneaky-weak Tokio capabilities require an explicit owner contract'),
+    messages.includes('opc-services-core:sneaky-weak Tokio capabilities require an explicit owner contract'),
   );
 });
 
 test('Core feature-free Tokio capabilities stay limited to baseline path and state IO', () => {
   const invalidPackage = {
-    name: 'openbitfun-core',
+    name: 'opc-core',
     manifest_path: 'src/crates/assembly/core/Cargo.toml',
     dependencies: [
       {
@@ -4234,7 +4234,7 @@ test('Core feature-free Tokio capabilities stay limited to baseline path and sta
 
 test('Core Tokio capabilities cannot hide behind an unreviewed owner feature', () => {
   const invalidPackage = {
-    name: 'openbitfun-core',
+    name: 'opc-core',
     manifest_path: 'src/crates/assembly/core/Cargo.toml',
     dependencies: [
       {
@@ -4257,13 +4257,13 @@ test('Core Tokio capabilities cannot hide behind an unreviewed owner feature', (
     (violation) => violation.message,
   );
   assert.deepEqual(messages, [
-    'openbitfun-core:sneaky Tokio capabilities require an explicit owner contract',
+    'opc-core:sneaky Tokio capabilities require an explicit owner contract',
   ]);
 });
 
 test('reviewed Tokio aggregates cannot declare runtime capabilities directly', () => {
   const invalidPackage = {
-    name: 'openbitfun-core',
+    name: 'opc-core',
     manifest_path: 'src/crates/assembly/core/Cargo.toml',
     dependencies: [{ name: 'tokio', kind: null, optional: false, features: ['fs', 'sync'] }],
     features: {
@@ -4279,7 +4279,7 @@ test('reviewed Tokio aggregates cannot declare runtime capabilities directly', (
     (violation) => violation.message,
   );
   assert.deepEqual(messages, [
-    'openbitfun-core:product-full Tokio aggregate must compose reviewed owners instead of declaring Tokio capabilities directly',
+    'opc-core:product-full Tokio aggregate must compose reviewed owners instead of declaring Tokio capabilities directly',
   ]);
 });
 
@@ -4293,7 +4293,7 @@ test('services-core Windows API capabilities stay feature-owned', async () => {
     'Cargo boundary checker must expose the services-core platform dependency policy',
   );
   const packageWithAmbientWindowsApis = {
-    name: 'openbitfun-services-core',
+    name: 'opc-services-core',
     manifest_path: 'src/crates/services/services-core/Cargo.toml',
     dependencies: [
       {
@@ -4328,7 +4328,7 @@ test('services-core Windows API capabilities stay feature-owned', async () => {
 
 test('services-integrations Windows dependency keeps only APIs used by its owners', () => {
   const pkg = packageAt(
-    'openbitfun-services-integrations',
+    'opc-services-integrations',
     'src/crates/services/services-integrations/Cargo.toml',
     [{
       name: 'windows',
@@ -4382,7 +4382,7 @@ test('closed feature profiles reject product-full hidden behind a child feature'
     [
       'file-watch',
       {
-        refs: ['openbitfun-services-integrations/file-watch', 'product-full'],
+        refs: ['opc-services-integrations/file-watch', 'product-full'],
         line: 2,
       },
     ],
@@ -4415,17 +4415,17 @@ test('capability contract consumers may inherit empty defaults but must select r
   );
 
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
   const agentTools = agentToolsCapabilityPackage();
   const pluginRuntimeClient = packageAt(
-    'openbitfun-plugin-runtime-client',
+    'opc-plugin-runtime-client',
     'src/crates/execution/plugin-runtime-client/Cargo.toml',
     [
       pathDependency('src/crates/contracts/runtime-ports', {
-        name: 'openbitfun-runtime-ports',
+        name: 'opc-runtime-ports',
       }),
     ],
   );
@@ -4448,16 +4448,16 @@ test('capability contract consumers may inherit empty defaults but must select r
     'src/crates/execution/tool-execution/Cargo.toml',
     [
       pathDependency('src/crates/contracts/runtime-ports', {
-        name: 'openbitfun-runtime-ports',
+        name: 'opc-runtime-ports',
         features: ['workspace-ports'],
       }),
       pathDependency('src/crates/execution/tool-contracts', {
-        name: 'openbitfun-agent-tools',
+        name: 'opc-agent-tools',
       }),
     ],
   );
   const ioContractRules = capabilityContractDependencyRules.filter(
-    ({ packageName }) => ['openbitfun-runtime-ports', 'openbitfun-agent-tools'].includes(packageName),
+    ({ packageName }) => ['opc-runtime-ports', 'opc-agent-tools'].includes(packageName),
   );
   assert.deepEqual(findTestCapabilityViolations(
     cargoBoundaries.findCapabilityContractConsumerViolations,
@@ -4477,7 +4477,7 @@ test('capability contract consumers may inherit empty defaults but must select r
       [runtimePorts, agentTools, mutatedConsumer],
       ioContractRules,
     );
-    assert.ok(violations.some(({ message }) => /tool-runtime.*openbitfun-runtime-ports/.test(message)),
+    assert.ok(violations.some(({ message }) => /tool-runtime.*opc-runtime-ports/.test(message)),
       `tool-runtime must retain exactly workspace-ports, not ${features.join(', ') || 'an empty edge'}`);
   }
 });
@@ -4487,7 +4487,7 @@ test('unreviewed consumers cannot add capability contract dependency edges', asy
     './core-boundaries/cargo-dependency-boundaries.mjs'
   );
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
@@ -4497,7 +4497,7 @@ test('unreviewed consumers cannot add capability contract dependency edges', asy
     'src/apps/unreviewed-host/Cargo.toml',
     [
       pathDependency('src/crates/contracts/runtime-ports', {
-        name: 'openbitfun-runtime-ports',
+        name: 'opc-runtime-ports',
         target: 'cfg(windows)',
         usesDefaultFeatures: false,
         features: ['agent-api'],
@@ -4521,12 +4521,12 @@ test('capability contract edge policy rejects alias, weak, optional, and non-nor
     './core-boundaries/cargo-dependency-boundaries.mjs'
   );
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
   const validDependency = pathDependency('src/crates/contracts/runtime-ports', {
-    name: 'openbitfun-runtime-ports',
+    name: 'opc-runtime-ports',
     usesDefaultFeatures: false,
     features: ['plugin-runtime'],
   });
@@ -4542,7 +4542,7 @@ test('capability contract edge policy rejects alias, weak, optional, and non-nor
   for (const mutation of mutations) {
     const consumer = {
       ...packageAt(
-        'openbitfun-plugin-runtime-client',
+        'opc-plugin-runtime-client',
         'src/crates/execution/plugin-runtime-client/Cargo.toml',
         [mutation.dependency],
       ),
@@ -4566,7 +4566,7 @@ test('capability contract targets require an explicit empty default feature', as
     './core-boundaries/cargo-dependency-boundaries.mjs'
   );
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
@@ -4587,14 +4587,14 @@ test('capability contract optional activators reject unreviewed dep aliases', as
   );
   const agentTools = agentToolsCapabilityPackage();
   const dependency = pathDependency('src/crates/execution/tool-contracts', {
-    name: 'openbitfun-agent-tools',
+    name: 'opc-agent-tools',
     rename: 'tools_contract',
     optional: true,
     usesDefaultFeatures: false,
   });
   const consumer = {
     ...packageAt(
-      'openbitfun-acp',
+      'opc-acp',
       'src/crates/interfaces/acp/Cargo.toml',
       [dependency],
     ),
@@ -4620,16 +4620,16 @@ test('capability contract consumers cannot remove reviewed forwarding or activat
     './core-boundaries/cargo-dependency-boundaries.mjs'
   );
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
   const integrations = {
     ...packageAt(
-      'openbitfun-services-integrations',
+      'opc-services-integrations',
       'src/crates/services/services-integrations/Cargo.toml',
       [pathDependency('src/crates/contracts/runtime-ports', {
-        name: 'openbitfun-runtime-ports',
+        name: 'opc-runtime-ports',
         optional: true,
         usesDefaultFeatures: false,
       })],
@@ -4637,24 +4637,24 @@ test('capability contract consumers cannot remove reviewed forwarding or activat
     features: {
       git: [],
       'remote-connect': [
-        'openbitfun-runtime-ports/agent-api',
-        'openbitfun-runtime-ports/remote-workspace-ports',
+        'opc-runtime-ports/agent-api',
+        'opc-runtime-ports/remote-workspace-ports',
       ],
       'remote-ssh': [
-        'openbitfun-runtime-ports/remote-exec-port',
-        'openbitfun-runtime-ports/remote-workspace-ports',
-        'openbitfun-runtime-ports/workspace-ports',
+        'opc-runtime-ports/remote-exec-port',
+        'opc-runtime-ports/remote-workspace-ports',
+        'opc-runtime-ports/workspace-ports',
       ],
-      'remote-ssh-concrete': ['dep:openbitfun-runtime-ports'],
-      'script-tool-runtime': ['openbitfun-runtime-ports/script-tool-runtime'],
+      'remote-ssh-concrete': ['dep:opc-runtime-ports'],
+      'script-tool-runtime': ['opc-runtime-ports/script-tool-runtime'],
     },
   };
   const servicesCore = {
     ...packageAt(
-      'openbitfun-services-core',
+      'opc-services-core',
       'src/crates/services/services-core/Cargo.toml',
       [pathDependency('src/crates/contracts/runtime-ports', {
-        name: 'openbitfun-runtime-ports',
+        name: 'opc-runtime-ports',
         optional: true,
         usesDefaultFeatures: false,
       })],
@@ -4662,9 +4662,9 @@ test('capability contract consumers cannot remove reviewed forwarding or activat
     features: {
       permission: [],
       'workspace-runtime': [
-        'dep:openbitfun-runtime-ports',
-        'openbitfun-runtime-ports/runtime-event-port',
-        'openbitfun-runtime-ports/workspace-ports',
+        'dep:opc-runtime-ports',
+        'opc-runtime-ports/runtime-event-port',
+        'opc-runtime-ports/workspace-ports',
       ],
     },
   };
@@ -4675,8 +4675,8 @@ test('capability contract consumers cannot remove reviewed forwarding or activat
     servicesCore,
   ]).map((violation) => violation.message);
 
-  assert.ok(messages.some((message) => /openbitfun-services-integrations:git.*missing reviewed.*git-port forwarding/.test(message)));
-  assert.ok(messages.some((message) => /openbitfun-services-core:permission.*missing reviewed.*activation/.test(message)));
+  assert.ok(messages.some((message) => /opc-services-integrations:git.*missing reviewed.*git-port forwarding/.test(message)));
+  assert.ok(messages.some((message) => /opc-services-core:permission.*missing reviewed.*activation/.test(message)));
 });
 
 test('capability contract targets cannot be removed or replaced by a same-name package', async () => {
@@ -4684,10 +4684,10 @@ test('capability contract targets cannot be removed or replaced by a same-name p
     './core-boundaries/cargo-dependency-boundaries.mjs'
   );
   const reviewedConsumer = packageAt(
-    'openbitfun-plugin-runtime-client',
+    'opc-plugin-runtime-client',
     'src/crates/execution/plugin-runtime-client/Cargo.toml',
     [pathDependency('src/crates/contracts/runtime-ports', {
-      name: 'openbitfun-runtime-ports',
+      name: 'opc-runtime-ports',
       usesDefaultFeatures: false,
       features: ['plugin-runtime'],
     })],
@@ -4698,10 +4698,10 @@ test('capability contract targets cannot be removed or replaced by a same-name p
     [reviewedConsumer],
   ).map((violation) => violation.message);
   assert.ok(missingTargetMessages.some((message) =>
-    /openbitfun-runtime-ports managed target.*missing/.test(message)));
+    /opc-runtime-ports managed target.*missing/.test(message)));
 
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
@@ -4746,7 +4746,7 @@ test('capability contract target feature graphs stay exact', async () => {
     './core-boundaries/cargo-dependency-boundaries.mjs'
   );
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
@@ -4768,18 +4768,18 @@ test('unreviewed local feature aliases cannot wrap reviewed capability owners', 
   const agentTools = agentToolsCapabilityPackage();
   const acp = {
     ...packageAt(
-      'openbitfun-acp',
+      'opc-acp',
       'src/crates/interfaces/acp/Cargo.toml',
       [pathDependency('src/crates/execution/tool-contracts', {
-        name: 'openbitfun-agent-tools',
+        name: 'opc-agent-tools',
         optional: true,
         usesDefaultFeatures: false,
       })],
     ),
     features: {
       default: ['client', 'server'],
-      client: ['openbitfun-agent-tools/acp-bridge'],
-      server: ['dep:openbitfun-agent-tools'],
+      client: ['opc-agent-tools/acp-bridge'],
+      server: ['dep:opc-agent-tools'],
       sneakyClient: ['client'],
       sneakyServer: ['server'],
     },
@@ -4801,19 +4801,19 @@ test('capability contract consumers cannot remove reviewed dependency edges', as
     './core-boundaries/cargo-dependency-boundaries.mjs'
   );
   const runtimePorts = capabilityPackage(
-    'openbitfun-runtime-ports',
+    'opc-runtime-ports',
     'src/crates/contracts/runtime-ports/Cargo.toml',
     RUNTIME_PORT_FEATURE_PROFILES,
   );
   const pluginRuntimeClient = packageAt(
-    'openbitfun-plugin-runtime-client',
+    'opc-plugin-runtime-client',
     'src/crates/execution/plugin-runtime-client/Cargo.toml',
   );
   const opencodeAdapter = packageAt(
-    'openbitfun-opencode-adapter',
+    'opc-opencode-adapter',
     'src/crates/adapters/opencode-adapter/Cargo.toml',
     [pathDependency('src/crates/contracts/runtime-ports', {
-      name: 'openbitfun-runtime-ports',
+      name: 'opc-runtime-ports',
       usesDefaultFeatures: false,
       features: ['plugin-runtime'],
     })],
@@ -4824,8 +4824,8 @@ test('capability contract consumers cannot remove reviewed dependency edges', as
     pluginRuntimeClient,
     opencodeAdapter,
   ]).map((violation) => violation.message);
-  assert.ok(messages.some((message) => /openbitfun-plugin-runtime-client.*missing reviewed.*normal.*edge/.test(message)));
-  assert.ok(messages.some((message) => /openbitfun-opencode-adapter.*missing reviewed.*dev.*edge/.test(message)));
+  assert.ok(messages.some((message) => /opc-plugin-runtime-client.*missing reviewed.*normal.*edge/.test(message)));
+  assert.ok(messages.some((message) => /opc-opencode-adapter.*missing reviewed.*dev.*edge/.test(message)));
 });
 
 test('vendored Engine.IO remains in resolved feature audits without becoming a product owner', () => {
@@ -4868,7 +4868,7 @@ test('vendored Tao is external only at its reviewed version and stays in feature
 
 test('workspace transfer admits IO without process or networking capabilities', () => {
   const pkg = {
-    name: 'openbitfun-services-core',
+    name: 'opc-services-core',
     manifest_path: 'src/crates/services/services-core/Cargo.toml',
     dependencies: [{ name: 'tokio', kind: null, optional: true, features: [] }],
     features: {
@@ -4885,7 +4885,7 @@ test('workspace transfer admits IO without process or networking capabilities', 
 test('core loopback WebSocket fixture cannot broaden the runtime dependency', () => {
   const runtime = { name: 'tokio-tungstenite', kind: null, optional: true, uses_default_features: true, features: [] };
   const development = { ...runtime, kind: 'dev', optional: false };
-  const pkg = packageAt('openbitfun-core', 'src/crates/assembly/core/Cargo.toml', [runtime, development]);
+  const pkg = packageAt('opc-core', 'src/crates/assembly/core/Cargo.toml', [runtime, development]);
   assert.deepEqual(findThirdPartyCapabilityFeatureViolations([pkg]), []);
   for (const dependencies of [
     [{ ...runtime, optional: false }, development],

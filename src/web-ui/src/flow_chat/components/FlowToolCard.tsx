@@ -126,9 +126,9 @@ export const FlowToolCard: React.FC<FlowToolCardProps> = React.memo(({
     <div
       ref={cardRootRef}
       className={`flow-tool-card-wrapper ${permissionPending ? 'flow-tool-card-wrapper--permission-pending' : ''} ${className}`.trim()}
-      data-openbitfun-component="flow-tool-card"
-      data-openbitfun-part="root"
-      data-openbitfun-state={permissionPending ? 'permission-pending' : undefined}
+      data-opc-component="flow-tool-card"
+      data-opc-part="root"
+      data-opc-state={permissionPending ? 'permission-pending' : undefined}
       data-thinking-handoff-priority={permissionPending || effectiveToolItem.status === 'error'
         || effectiveToolItem.toolResult?.success === false ? 'immediate' : undefined}
       data-testid={toolCardTestId}
@@ -138,8 +138,8 @@ export const FlowToolCard: React.FC<FlowToolCardProps> = React.memo(({
       data-capsule-expanded={capsuleEligible ? String(staticAgentWaitCapsule ? false : capsuleExpanded) : undefined}
       data-capsule-parallel={capsuleEligible && !staticAgentWaitCapsule && parallel ? 'true' : undefined}
       data-capsule-row={capsuleEligible && !staticAgentWaitCapsule && !capsuleExpanded && !interruptionNote && !['error', 'cancelled', 'rejected'].includes(effectiveToolItem.status) ? 'true' : undefined}
-      data-openbitfun-attention={config.attention}
-      data-openbitfun-presentation={config.presentation}
+      data-opc-attention={config.attention}
+      data-opc-presentation={config.presentation}
     >
       <FlowChatCardReaderProvider itemKey={capsuleKey}>
       <FlowToolCardErrorBoundary
@@ -170,8 +170,8 @@ export const FlowToolCard: React.FC<FlowToolCardProps> = React.memo(({
       {interruptionNote && !cardHandlesInterruptionNote && (
         <div
           className="flow-tool-card-note"
-          data-openbitfun-component="flow-tool-card"
-          data-openbitfun-part="note"
+          data-opc-component="flow-tool-card"
+          data-opc-part="note"
           role="note"
         >
           {interruptionNote}

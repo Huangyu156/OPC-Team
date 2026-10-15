@@ -37,7 +37,7 @@ async fn ensure_markdown_placeholder(path: &Path, content: &str) -> OpcTeamResul
 }
 
 fn gitignore_already_ignores_openbitfun(content: &str) -> bool {
-    let directory = openbitfun_core_types::product_identity::hidden_data_directory();
+    let directory = opc_core_types::product_identity::hidden_data_directory();
     content.lines().any(|line| {
         let entry = line.trim();
         !entry.starts_with('#')
@@ -52,9 +52,9 @@ pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
     workspace_root: &Path,
 ) -> OpcTeamResult<bool> {
     let gitignore_path = workspace_root.join(".gitignore");
-    let openbitfun_entry = format!(
+    let opc_entry = format!(
         "{}/",
-        openbitfun_core_types::product_identity::hidden_data_directory()
+        opc_core_types::product_identity::hidden_data_directory()
     );
 
     let content = match fs::read_to_string(&gitignore_path).await {
@@ -88,34 +88,34 @@ pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
     if !updated.is_empty() && !updated.ends_with('\n') && !updated.ends_with('\r') {
         updated.push_str(line_ending);
     }
-    updated.push_str(&openbitfun_entry);
+    updated.push_str(&opc_entry);
     updated.push_str(line_ending);
 
     fs::write(&gitignore_path, updated).await.map_err(|e| {
         OpcTeamError::service(format!(
             "Failed to update {} for {}: {}",
             gitignore_path.display(),
-            openbitfun_core_types::product_identity::hidden_data_directory(),
+            opc_core_types::product_identity::hidden_data_directory(),
             e
         ))
     })?;
 
     debug!(
         "Added workspace .gitignore entry for {}: path={}",
-        openbitfun_core_types::product_identity::hidden_data_directory(),
+        opc_core_types::product_identity::hidden_data_directory(),
         gitignore_path.display(),
     );
 
     Ok(true)
 }
 
-async fn ensure_workspace_gitignore_ignores_openbitfun_best_effort(workspace_root: &Path) -> bool {
+async fn ensure_workspace_gitignore_ignores_opc_best_effort(workspace_root: &Path) -> bool {
     match ensure_workspace_gitignore_ignores_openbitfun(workspace_root).await {
         Ok(updated) => updated,
         Err(e) => {
             warn!(
                 "Failed to ensure workspace .gitignore ignores {}: workspace={}, error={}",
-                openbitfun_core_types::product_identity::hidden_data_directory(),
+                opc_core_types::product_identity::hidden_data_directory(),
                 workspace_root.display(),
                 e
             );
@@ -126,7 +126,7 @@ async fn ensure_workspace_gitignore_ignores_openbitfun_best_effort(workspace_roo
 
 pub(crate) async fn initialize_workspace_persona_files(workspace_root: &Path) -> OpcTeamResult<()> {
     let gitignore_updated =
-        ensure_workspace_gitignore_ignores_openbitfun_best_effort(workspace_root).await;
+        ensure_workspace_gitignore_ignores_opc_best_effort(workspace_root).await;
     let bootstrap_path = workspace_root.join(BOOTSTRAP_FILE_NAME);
     let soul_path = workspace_root.join(SOUL_FILE_NAME);
     let user_path = workspace_root.join(USER_FILE_NAME);
@@ -161,7 +161,7 @@ pub(crate) async fn ensure_workspace_persona_files_for_prompt(
     workspace_root: &Path,
 ) -> OpcTeamResult<()> {
     let gitignore_updated =
-        ensure_workspace_gitignore_ignores_openbitfun_best_effort(workspace_root).await;
+        ensure_workspace_gitignore_ignores_opc_best_effort(workspace_root).await;
     let bootstrap_path = workspace_root.join(BOOTSTRAP_FILE_NAME);
     let soul_path = workspace_root.join(SOUL_FILE_NAME);
     let user_path = workspace_root.join(USER_FILE_NAME);
@@ -360,8 +360,8 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn ensure_workspace_gitignore_ignores_openbitfun_skips_when_gitignore_missing() {
-        let workspace_root = unique_workspace("openbitfun-gitignore-missing");
+    async fn ensure_workspace_gitignore_ignores_opc_skips_when_gitignore_missing() {
+        let workspace_root = unique_workspace("opc-gitignore-missing");
         fs::create_dir_all(&workspace_root)
             .await
             .expect("Failed to create temp workspace");
@@ -382,8 +382,8 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn ensure_workspace_gitignore_ignores_openbitfun_appends_without_clobbering() {
-        let workspace_root = unique_workspace("openbitfun-gitignore-append");
+    async fn ensure_workspace_gitignore_ignores_opc_appends_without_clobbering() {
+        let workspace_root = unique_workspace("opc-gitignore-append");
         fs::create_dir_all(&workspace_root)
             .await
             .expect("Failed to create temp workspace");
@@ -402,7 +402,7 @@ mod tests {
             content,
             format!(
                 "target/\n.env\n{}/\n",
-                openbitfun_core_types::product_identity::hidden_data_directory()
+                opc_core_types::product_identity::hidden_data_directory()
             )
         );
 
@@ -412,8 +412,8 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn ensure_workspace_gitignore_ignores_openbitfun_is_idempotent() {
-        let workspace_root = unique_workspace("openbitfun-gitignore-idempotent");
+    async fn ensure_workspace_gitignore_ignores_opc_is_idempotent() {
+        let workspace_root = unique_workspace("opc-gitignore-idempotent");
         fs::create_dir_all(&workspace_root)
             .await
             .expect("Failed to create temp workspace");
@@ -421,7 +421,7 @@ mod tests {
             workspace_root.join(".gitignore"),
             format!(
                 "target/\n{}/\n",
-                openbitfun_core_types::product_identity::hidden_data_directory()
+                opc_core_types::product_identity::hidden_data_directory()
             ),
         )
         .await
@@ -438,7 +438,7 @@ mod tests {
             content,
             format!(
                 "target/\n{}/\n",
-                openbitfun_core_types::product_identity::hidden_data_directory()
+                opc_core_types::product_identity::hidden_data_directory()
             )
         );
 
@@ -449,7 +449,7 @@ mod tests {
 
     #[tokio::test]
     async fn initialize_workspace_persona_files_creates_all_four_files() {
-        let workspace_root = unique_workspace("openbitfun-bootstrap-init");
+        let workspace_root = unique_workspace("opc-bootstrap-init");
 
         fs::create_dir_all(&workspace_root)
             .await
@@ -479,7 +479,7 @@ mod tests {
 
     #[tokio::test]
     async fn ensure_workspace_persona_files_for_prompt_preserves_completed_bootstrap() {
-        let workspace_root = unique_workspace("openbitfun-bootstrap-preserve");
+        let workspace_root = unique_workspace("opc-bootstrap-preserve");
 
         fs::create_dir_all(&workspace_root)
             .await

@@ -89,8 +89,7 @@ impl MemoryPhase2Consolidator for InternalAgentMemoryPhase2Consolidator {
             model_id: model_id.clone(),
             created_by: Some("memory-phase2".to_string()),
             context: HashMap::new(),
-            delegation_policy: openbitfun_runtime_ports::DelegationPolicy::top_level()
-                .spawn_child(),
+            delegation_policy: opc_runtime_ports::DelegationPolicy::top_level().spawn_child(),
             runtime_tool_restrictions: memory_phase2_tool_restrictions(memory_root),
             session_kind: SessionKind::EphemeralChild,
             emit_lifecycle_events: false,

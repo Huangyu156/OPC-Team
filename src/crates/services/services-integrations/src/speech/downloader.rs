@@ -429,7 +429,7 @@ mod tests {
             ]
         );
         assert_eq!(status.state, SpeechModelInstallState::Installed);
-        assert!(final_dir.join("openbitfun-model-install.json").is_file());
+        assert!(final_dir.join("opc-model-install.json").is_file());
     }
 
     #[tokio::test]
@@ -449,7 +449,7 @@ mod tests {
 
         let final_dir = store.model_dir(&manifest);
         let staging = final_dir.parent().unwrap().join(".installing-test");
-        fs::create_dir_all(staging.join("openbitfun-model-install.json"))
+        fs::create_dir_all(staging.join("opc-model-install.json"))
             .await
             .unwrap();
         fs::write(staging.join("model.onnx"), b"model-data")

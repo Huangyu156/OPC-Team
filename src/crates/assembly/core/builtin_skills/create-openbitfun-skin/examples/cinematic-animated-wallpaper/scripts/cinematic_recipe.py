@@ -13,7 +13,7 @@ DEFAULT_PALETTE = REFERENCES / "default-palette.json"
 DEFAULT_SURFACE_PLAN = REFERENCES / "surface-plan.json"
 sys.path.insert(0, str(SKILL_ROOT / "scripts"))
 
-import openbitfun_appearance as appearance  # noqa: E402
+import opc_appearance as appearance  # noqa: E402
 from build_support import atomic_write_json, read_json  # noqa: E402
 
 
@@ -357,7 +357,7 @@ def build_renderers(colors: Mapping[str, str], appearance_id: str) -> dict[str, 
                 "vars": widget_tokens,
             },
         },
-        "openbitfun-canvas": {
+        "opc-canvas": {
             "version": 1,
             "settings": {
                 "id": appearance_id,

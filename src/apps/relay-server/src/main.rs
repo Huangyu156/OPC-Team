@@ -10,7 +10,7 @@ use tracing::info;
 mod config;
 
 use config::RelayConfig;
-use openbitfun_relay_service::DiskAssetStore;
+use opc_relay_service::DiskAssetStore;
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
@@ -32,7 +32,7 @@ async fn main() -> anyhow::Result<()> {
     let start_time = std::time::Instant::now();
 
     let db = if let Some(path) = &cfg.db_path {
-        let pool = openbitfun_relay_service::db::connect(path)
+        let pool = opc_relay_service::db::connect(path)
             .await
             .with_context(|| {
                 format!("failed to initialize configured account database at {path}")
@@ -51,7 +51,7 @@ async fn main() -> anyhow::Result<()> {
         cfg.page_auth_base_url.as_deref(),
     ) {
         (Some(public_base_url), Some(auth_base_url)) => Some(
-            openbitfun_relay_service::PageBrowserAuthConfig::new(public_base_url, auth_base_url)
+            opc_relay_service::PageBrowserAuthConfig::new(public_base_url, auth_base_url)
                 .map_err(anyhow::Error::msg)?,
         ),
         (None, None) => {
@@ -70,7 +70,7 @@ async fn main() -> anyhow::Result<()> {
 
     let pages_enabled = page_browser_auth.is_some();
     let page_data_dir = std::path::PathBuf::from(&cfg.asset_dir).join("page-data");
-    let mut app = openbitfun_relay_service::build_relay_router_with_page_data_origins_and_page_auth(
+    let mut app = opc_relay_service::build_relay_router_with_page_data_origins_and_page_auth(
         asset_store,
         start_time,
         db,
@@ -118,7 +118,7 @@ async fn host_security_headers(
     next: axum::middleware::Next,
 ) -> axum::response::Response {
     let controller_document = matches!(request.uri().path(), "/" | "/index.html");
-    let mut response = openbitfun_relay_service::relay_security_headers(request, next).await;
+    let mut response = opc_relay_service::relay_security_headers(request, next).await;
     if controller_document {
         response.headers_mut().insert(
             "permissions-policy",

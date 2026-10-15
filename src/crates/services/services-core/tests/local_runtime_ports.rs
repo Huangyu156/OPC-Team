@@ -1,7 +1,7 @@
 #![cfg(feature = "workspace-runtime")]
 
-use openbitfun_runtime_ports::{RuntimeEventEnvelope, RuntimeEventType, RuntimeServiceCapability};
-use openbitfun_services_core::local_runtime_ports::LocalRuntimePorts;
+use opc_runtime_ports::{RuntimeEventEnvelope, RuntimeEventType, RuntimeServiceCapability};
+use opc_services_core::local_runtime_ports::LocalRuntimePorts;
 
 #[tokio::test]
 async fn local_runtime_ports_bind_one_canonical_workspace_and_runtime_facts() {

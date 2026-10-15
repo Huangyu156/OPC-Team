@@ -110,19 +110,19 @@ function SemanticToolCard({
   const primaryActions = actions.filter(item => item.intent === "primary");
   const controls = auxiliaryActions.length > 0 ? <Actions actions={auxiliaryActions} /> : undefined;
   const primaryControls = primaryActions.length > 0 ? <Actions actions={primaryActions} /> : undefined;
-  const details = hasDetails ? <div className={styles.details} data-openbitfun-part="details">
-    {error && <ToolCardText variant="prose" className={styles.error} data-openbitfun-part="error">{error}</ToolCardText>}
-    {notice && <ToolCardText variant="prose" data-openbitfun-part="notice">{notice}</ToolCardText>}
-    {connection && <div className={styles.connection} data-openbitfun-part="connection">
+  const details = hasDetails ? <div className={styles.details} data-opc-part="details">
+    {error && <ToolCardText variant="prose" className={styles.error} data-opc-part="error">{error}</ToolCardText>}
+    {notice && <ToolCardText variant="prose" data-opc-part="notice">{notice}</ToolCardText>}
+    {connection && <div className={styles.connection} data-opc-part="connection">
       <span className={styles.endpoint}>{connection.from}</span><Icon name="arrow-right" size="sm" />
       <span className={styles.endpoint}>{connection.to}</span>
     </div>}
-    {media && <div className={styles.media} data-openbitfun-part="media">{media}</div>}
+    {media && <div className={styles.media} data-opc-part="media">{media}</div>}
     {fields.length > 0 && <ToolCardFields fields={recordFields(fields)} />}
     {(records.length > 0 || emptyContent) && <ToolCardSection label={recordsLabel}>
       {records.length > 0 ? <ScrollArea className={styles.viewport} edgeFade="vertical" overscrollBehaviorY="auto">
-        <List className={styles.records} data-ordered={ordered || undefined} data-openbitfun-part="records">
-          {records.map(record => <li className={styles.record} key={record.key} data-openbitfun-part="record">
+        <List className={styles.records} data-ordered={ordered || undefined} data-opc-part="records">
+          {records.map(record => <li className={styles.record} key={record.key} data-opc-part="record">
             <div className={styles.identity} data-overflow-trigger data-tool-card-action-scope>
               {record.leading && <span className={styles.leading}>{record.leading}</span>}
               <ToolCardSubject actions={record.actions && record.actions.length > 0 ? <Actions actions={record.actions} /> : undefined}>
@@ -134,19 +134,19 @@ function SemanticToolCard({
             {record.fields && record.fields.length > 0 && <ToolCardFields fields={recordFields(record.fields)} />}
           </li>)}
         </List>
-      </ScrollArea> : <ToolCardText variant="prose" data-openbitfun-part="empty">{emptyContent}</ToolCardText>}
+      </ScrollArea> : <ToolCardText variant="prose" data-opc-part="empty">{emptyContent}</ToolCardText>}
     </ToolCardSection>}
     {sections.map(section => <ToolCardSection key={section.key} label={section.label}>
       <ToolCardText variant={section.variant ?? "prose"}>{section.content}</ToolCardText>
     </ToolCardSection>)}
     {resultText && <ToolCardDisclosure summary={resultLabel} onOpenChange={onDetailsChange}>
-      <ToolCardText data-openbitfun-part="result">{resultText}</ToolCardText>
+      <ToolCardText data-opc-part="result">{resultText}</ToolCardText>
     </ToolCardDisclosure>}
     {paramsText && <ToolCardDisclosure summary={paramsLabel} onOpenChange={onDetailsChange}>
-      <ToolCardText data-openbitfun-part="params">{paramsText}</ToolCardText>
+      <ToolCardText data-opc-part="params">{paramsText}</ToolCardText>
     </ToolCardDisclosure>}
   </div> : undefined;
-  const common = { ...props, "data-openbitfun-tool-card": identity, status, requiresConfirmation,
+  const common = { ...props, "data-opc-tool-card": identity, status, requiresConfirmation,
     isExpanded: isExpanded && hasDetails, expandedContent: details };
   return attention === "prominent"
     ? <ProminentToolCard {...common} allowExpandedWhenFailed onToggle={hasDetails ? onToggle : undefined}

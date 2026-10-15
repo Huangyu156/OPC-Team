@@ -3,7 +3,7 @@
 
 use super::types::{ServerInfo, WslDistributions, WslWorkspaceConfig};
 use anyhow::{anyhow, Context};
-use openbitfun_services_core::process_manager;
+use opc_services_core::process_manager;
 use std::process::{Output, Stdio};
 use std::time::Duration;
 
@@ -338,7 +338,7 @@ mod tests {
         assert!(result.success);
         assert_eq!(result.server_info.unwrap().os_type, "Linux");
         manager.save_connection(&config).await.unwrap();
-        let remote_path = format!("/tmp/openbitfun-wsl-{}", uuid::Uuid::new_v4());
+        let remote_path = format!("/tmp/opc-wsl-{}", uuid::Uuid::new_v4());
         let bytes = b"binary\0payload\n\xff\xfe";
         manager
             .container_write_file(&config.id, &remote_path, bytes)

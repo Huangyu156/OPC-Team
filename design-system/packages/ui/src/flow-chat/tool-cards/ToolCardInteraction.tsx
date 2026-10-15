@@ -29,7 +29,7 @@ export function ToolCardParticipantLabel({ label, icon, part }: {
   part?: 'source' | 'target';
 }) {
   return (
-    <span className={styles.participant} data-openbitfun-part={part}>
+    <span className={styles.participant} data-opc-part={part}>
       <span className={styles.participantIcon} aria-hidden="true">{icon}</span>
       <OverflowText>{label}</OverflowText>
     </span>
@@ -50,11 +50,11 @@ export function ToolCardInteractionSummary({ interaction, targetContent }: {
   );
 
   return (
-    <span className={styles.root} data-openbitfun-part="interaction" data-operation={interaction.operation}>
+    <span className={styles.root} data-opc-part="interaction" data-operation={interaction.operation}>
       {interaction.source && <>
         {participant(interaction.source, 'source')}
         <Icon name={receiving ? 'arrow-left' : 'arrow-right'} size="sm" className={styles.direction}
-          data-openbitfun-part="direction" aria-hidden="true" />
+          data-opc-part="direction" aria-hidden="true" />
       </>}
       {targetContent ?? participant(interaction.target, 'target')}
     </span>

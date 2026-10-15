@@ -1,8 +1,8 @@
 //! Compatibility re-export for skill availability resolution.
 //!
-//! The provider-neutral owner lives in `openbitfun-agent-runtime`.
+//! The provider-neutral owner lives in `opc-agent-runtime`.
 
-pub use openbitfun_agent_runtime::skills::{
+pub use opc_agent_runtime::skills::{
     normalize_user_mode_skill_overrides, resolve_skill_default_enabled_for_mode,
     resolve_skill_state_for_mode, ModeSkillState,
 };
@@ -18,12 +18,12 @@ mod tests {
 
     fn builtin_skill(dir_name: &str) -> SkillInfo {
         SkillInfo {
-            key: format!("user::openbitfun-system::{}", dir_name),
+            key: format!("user::opc-system::{}", dir_name),
             name: dir_name.to_string(),
             description: String::new(),
             path: format!("/tmp/{}", dir_name),
             level: SkillLocation::User,
-            source_slot: "openbitfun-system".to_string(),
+            source_slot: "opc-system".to_string(),
             source_id: "openbitfun".to_string(),
             source_label: "OPC-Team".to_string(),
             installation_source: None,
@@ -126,7 +126,7 @@ mod tests {
 
     #[test]
     fn canvas_skill_can_be_explicitly_enabled() {
-        let canvas = builtin_skill("openbitfun-canvas");
+        let canvas = builtin_skill("opc-canvas");
         let mut overrides = UserModeSkillOverrides::default();
         let disabled_project = HashSet::new();
 

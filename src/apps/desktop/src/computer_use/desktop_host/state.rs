@@ -1,9 +1,9 @@
 //! Host-local observations and interaction feedback; control authority lives in control_session.
 use super::PointerMap;
-use openbitfun_core::agentic::tools::computer_use_host::ComputerUseLastMutationKind;
+use opc_core::agentic::tools::computer_use_host::ComputerUseLastMutationKind;
 #[cfg(any(target_os = "macos", target_os = "windows"))]
-use openbitfun_core::agentic::tools::computer_use_host::VisualMark;
-use openbitfun_core::agentic::tools::computer_use_optimizer::ComputerUseOptimizer;
+use opc_core::agentic::tools::computer_use_host::VisualMark;
+use opc_core::agentic::tools::computer_use_optimizer::ComputerUseOptimizer;
 
 /// Unified mutable session state for computer use — one mutex instead of five.
 /// State transitions are applied centrally after each action (screenshot, pointer move, click, etc.).
@@ -43,8 +43,7 @@ pub(super) struct ComputerUseSessionMutableState {
 pub(super) struct CachedInteractiveView {
     pub(super) digest: String,
     /// `i` → `node_idx` map (dense, indexed by `i`).
-    pub(super) elements:
-        Vec<openbitfun_core::agentic::tools::computer_use_host::InteractiveElement>,
+    pub(super) elements: Vec<opc_core::agentic::tools::computer_use_host::InteractiveElement>,
 }
 
 #[derive(Debug, Clone)]
@@ -58,7 +57,7 @@ pub(super) struct CachedVisualMarkView {
 impl ComputerUseSessionMutableState {
     pub(super) fn synchronize(
         &mut self,
-        scope: &openbitfun_agent_tools::computer_use_control::ObservationScope,
+        scope: &opc_agent_tools::computer_use_control::ObservationScope,
     ) {
         if self.observations.synchronize(scope) {
             self.clear_derived_state();

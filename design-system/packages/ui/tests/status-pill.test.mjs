@@ -8,10 +8,10 @@ import { Icon, StatusPill } from "../dist/index.js";
 test("StatusPill exposes semantic tone and independent label anatomy", () => {
   const markup = renderToStaticMarkup(createElement(StatusPill, { tone: "warning" }, "Review"));
 
-  assert.match(markup, /data-openbitfun-component="status-pill"/);
+  assert.match(markup, /data-opc-component="status-pill"/);
   assert.match(markup, /data-tone="warning"/);
   assert.match(markup, /data-emphasis="false"/);
-  assert.match(markup, /data-openbitfun-part="label"/);
+  assert.match(markup, /data-opc-part="label"/);
   assert.match(markup, /data-overflow-behavior="marquee"/);
   assert.match(markup, />Review</);
 });
@@ -31,7 +31,7 @@ test("StatusPill keeps its optional leading indicator decorative", () => {
 
   assert.match(markup, /data-tone="success"/);
   assert.match(markup, /data-emphasis="true"/);
-  assert.match(markup, /data-openbitfun-part="leading"/);
+  assert.match(markup, /data-opc-part="leading"/);
   assert.match(markup, /aria-hidden="true"/);
 });
 

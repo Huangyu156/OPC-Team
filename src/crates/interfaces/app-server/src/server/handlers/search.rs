@@ -1,11 +1,11 @@
 use std::sync::Arc;
 
 use agent_client_protocol::{Builder, Error, HandleDispatchFrom};
-use openbitfun_app_server_protocol::error::AppServerErrorKind;
-use openbitfun_app_server_protocol::search::{
+use opc_app_server_protocol::error::AppServerErrorKind;
+use opc_app_server_protocol::search::{
     SearchSessionContentMessage, SearchSessionContentResponse, PRODUCT_SEARCH_CAPABILITY_ID,
 };
-use openbitfun_runtime_ports::{PortError, PortErrorKind};
+use opc_runtime_ports::{PortError, PortErrorKind};
 
 use crate::agent::OpcTeamAppRuntime;
 use crate::role::{AppClient, AppServer};

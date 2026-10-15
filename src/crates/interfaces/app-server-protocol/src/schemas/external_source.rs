@@ -5,19 +5,19 @@
 
 #[cfg(feature = "rpc")]
 use agent_client_protocol::{JsonRpcNotification, JsonRpcRequest, JsonRpcResponse};
-use openbitfun_product_domains::external_source_control::{
+use opc_product_domains::external_source_control::{
     ExternalSourceControlRequestV1, ExternalSourceControlSnapshotV1,
     ExternalSourceSurfaceSnapshotV1,
 };
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     ExternalSourceOperationError, ExternalSourcePublicSnapshot,
     NativePromptCommandConflictSnapshot, NativePromptCommandDescriptor,
     PromptCommandInvocationOutcome, PromptCommandShellReviewDecision,
 };
-use openbitfun_product_domains::external_subagents::ExternalSubagentModelBindingTarget;
+use opc_product_domains::external_subagents::ExternalSubagentModelBindingTarget;
 use serde::{Deserialize, Serialize};
 
-pub use openbitfun_product_domains::external_sources::ExternalSourceConflictPreferences;
+pub use opc_product_domains::external_sources::ExternalSourceConflictPreferences;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "rpc", derive(JsonRpcRequest))]

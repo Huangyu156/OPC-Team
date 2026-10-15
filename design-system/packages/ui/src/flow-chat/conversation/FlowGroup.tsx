@@ -71,7 +71,7 @@ export interface FlowGroupProps extends Omit<HTMLAttributes<HTMLDivElement>, 'ch
   /** A shared file identity with bound revision pages instead of a capsule. */
   fileRevision?: FlowGroupFileRevision;
   /** Stable anatomy identity for semantic presets and installed Appearance packages. */
-  'data-openbitfun-component'?: string;
+  'data-opc-component'?: string;
   'data-testid'?: string;
   'data-group-kind'?: string;
 }
@@ -81,7 +81,7 @@ export const FlowGroup = forwardRef<HTMLDivElement, FlowGroupProps>(function Flo
   children, expanded, onExpandedChange, leading, summary, summaryItems, summaryDescription,
   itemCount = 0, placement = 'standalone', streaming = false, bounded = false,
   receiveFeedback, contentRef, onContentScroll, contentProps, browser, fileRevision, externalContent = false, className = '',
-  'data-openbitfun-component': component = 'flow-group',
+  'data-opc-component': component = 'flow-group',
   'data-testid': testId = 'chat-flow-group', 'data-group-kind': kind,
   ...props
 }, ref) {
@@ -113,8 +113,8 @@ export const FlowGroup = forwardRef<HTMLDivElement, FlowGroupProps>(function Flo
   };
 
   return <div {...props} ref={bindRoot}
-    data-openbitfun-component={component} data-openbitfun-part="root" data-flow-group=""
-    data-openbitfun-state={expanded ? 'expanded' : undefined} data-testid={testId}
+    data-opc-component={component} data-opc-part="root" data-flow-group=""
+    data-opc-state={expanded ? 'expanded' : undefined} data-testid={testId}
     data-group-kind={kind} data-placement={placement} data-expanded={expanded ? 'true' : 'false'}
     data-file-revisions={fileRevision ? 'true' : undefined}
     data-collected={itemCount > 1 ? 'true' : 'false'} data-item-count={itemCount}
@@ -125,7 +125,7 @@ export const FlowGroup = forwardRef<HTMLDivElement, FlowGroupProps>(function Flo
       description={[summaryDescription ?? summary, fileRevision.statusLabel, fileRevision.changeSummary?.label].filter(Boolean).join(' · ')} component={component} testId={testId} />
       : <div className={`explore-region__toolbar${expanded && browser ? ' explore-region__toolbar--browsable' : ''}`}>
       <Tooltip content={summaryDescription ?? summary} disabled={!summaryDescription}>
-        <div data-openbitfun-component={component} data-openbitfun-part="header" className="explore-region__header"
+        <div data-opc-component={component} data-opc-part="header" className="explore-region__header"
           data-overflow-trigger onClick={handleToggle} role={onExpandedChange ? 'button' : undefined}
           tabIndex={onExpandedChange ? 0 : undefined} aria-label={onExpandedChange ? summaryDescription ?? summary : undefined}
           aria-expanded={onExpandedChange ? expanded : undefined} aria-controls={onExpandedChange ? contentId : undefined}
@@ -143,7 +143,7 @@ export const FlowGroup = forwardRef<HTMLDivElement, FlowGroupProps>(function Flo
                 <Icon name="chevron-down" size="sm" className="explore-region__leading-icon--expanded" />
               </span>
             }>
-              <span data-openbitfun-component={component} data-openbitfun-part="summary" className="explore-region__summary">
+              <span data-opc-component={component} data-opc-part="summary" className="explore-region__summary">
                 {summaryItems?.length ? summaryItems.map((item, index) => <Fragment key={index}>
                   {index > 0 && <span aria-hidden="true" className="explore-region__separator"> · </span>}
                   <span className="explore-region__summary-item">{item.label}{' '}<span className="explore-region__count">{item.count}</span></span>
@@ -153,18 +153,18 @@ export const FlowGroup = forwardRef<HTMLDivElement, FlowGroupProps>(function Flo
           </span>
         </div>
       </Tooltip>
-      {expanded && browser && <div data-openbitfun-component={component} data-openbitfun-part="controls"
+      {expanded && browser && <div data-opc-component={component} data-opc-part="controls"
         className="explore-region__controls" onFocusCapture={browser.onInteract}>
         <FlowGroupBrowser browser={browser} />
       </div>}
     </div>}
     {!externalContent && <FlowChatCollapse isOpen={expanded} id={contentId}
-      data-openbitfun-component={component} data-openbitfun-part="contentWrapper"
+      data-opc-component={component} data-opc-part="contentWrapper"
       className="explore-region__content-wrapper"
       innerClassName="explore-region__content-inner">
       <Content {...contentProps} ref={contentRef}
         {...(bounded ? { edgeFade: 'vertical' as const, overscrollBehaviorY: 'auto' as const } : {})}
-        data-openbitfun-component={component} data-openbitfun-part="content"
+        data-opc-component={component} data-opc-part="content"
         className="explore-region__content" onScroll={onContentScroll ?? contentProps?.onScroll}
         data-testid={`${testId}-content`} data-group-kind={kind} data-expanded={expanded ? 'true' : 'false'}>
         {browser?.empty && <div className="explore-region__empty">{browser.emptyLabel}</div>}

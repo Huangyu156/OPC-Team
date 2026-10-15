@@ -76,7 +76,7 @@ export const AcpPermissionActions: React.FC<AcpPermissionActionsProps> = ({
   }
 
   return (
-    <span data-openbitfun-component="acp-permission-actions" data-openbitfun-part="root" data-openbitfun-presentation={presentation} className={`acp-permission-actions acp-permission-actions--${presentation} ${className}`}>
+    <span data-opc-component="acp-permission-actions" data-opc-part="root" data-opc-presentation={presentation} className={`acp-permission-actions acp-permission-actions--${presentation} ${className}`}>
       {options.map((option) => {
         const approve = isApprovalKind(option.kind);
         const label = fallbackLabel(option.kind, t);
@@ -100,7 +100,7 @@ export const AcpPermissionActions: React.FC<AcpPermissionActionsProps> = ({
               variant={approve ? 'primary' : 'fill'}
               size="sm"
               leadingIcon={optionIcon(option.kind)}
-              data-openbitfun-decision={approve ? 'allow' : 'reject'}
+              data-opc-decision={approve ? 'allow' : 'reject'}
               onClick={handleClick}
               disabled={disabled}
               title={tooltip}
@@ -114,9 +114,9 @@ export const AcpPermissionActions: React.FC<AcpPermissionActionsProps> = ({
         return (
           <Tooltip key={option.optionId} content={tooltip}>
             <IconButton
-              data-openbitfun-component="acp-permission-actions"
-              data-openbitfun-part="action"
-              data-openbitfun-decision={approve ? 'allow' : 'reject'}
+              data-opc-component="acp-permission-actions"
+              data-opc-part="action"
+              data-opc-decision={approve ? 'allow' : 'reject'}
               className={`tool-card-header-action acp-permission-actions__icon-button acp-permission-actions__icon-button--${option.kind}`}
               variant={approve ? 'primary' : 'fill'}
               tone={approve ? 'neutral' : 'danger'}

@@ -44,7 +44,7 @@ export const ChatComposerActionButton = forwardRef<
     <IconButton
       {...props}
       className={classNames(styles.actionButton, className)}
-      data-openbitfun-role="composer-action"
+      data-opc-role="composer-action"
       ref={ref}
       shape="circle"
       size="sm"
@@ -140,38 +140,38 @@ export const ChatComposer = forwardRef<HTMLDivElement, ChatComposerProps>(
         {...props}
         aria-busy={busy ? true : ariaBusy}
         className={classNames(styles.root, className)}
-        data-openbitfun-component="chat-composer"
-        data-openbitfun-state={state}
+        data-opc-component="chat-composer"
+        data-opc-state={state}
         data-has-context={contextVisible ? "true" : "false"}
         ref={ref}
       >
         {contextVisible && (
-          <div className={styles.context} data-openbitfun-part="contextBar">
+          <div className={styles.context} data-opc-part="contextBar">
             {contextBar}
           </div>
         )}
-        <div className={styles.body} data-openbitfun-part="body">
+        <div className={styles.body} data-opc-part="body">
           {hasSlot(queue) && (
-            <div className={styles.queue} data-openbitfun-part="queue">
+            <div className={styles.queue} data-opc-part="queue">
               {queue}
             </div>
           )}
           <div
             aria-disabled={disabled || undefined}
             className={styles.surface}
-            data-openbitfun-layout={layout}
-            data-openbitfun-part="surface"
+            data-opc-layout={layout}
+            data-opc-part="surface"
           >
             {hasSlot(resolvedStartActions) && (
-              <div className={styles.startActions} data-openbitfun-part="startActions">
+              <div className={styles.startActions} data-opc-part="startActions">
                 {resolvedStartActions}
               </div>
             )}
-            <div className={styles.content} data-openbitfun-part="content">
+            <div className={styles.content} data-opc-part="content">
               {compoundSlots.content}
             </div>
             {hasSlot(resolvedEndActions) && (
-              <div className={styles.endActions} data-openbitfun-part="endActions">
+              <div className={styles.endActions} data-opc-part="endActions">
                 {resolvedEndActions}
               </div>
             )}

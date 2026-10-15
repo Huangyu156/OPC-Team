@@ -29,7 +29,7 @@ test("TabGroup exposes a single selected tab with native button behavior", () =>
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="tab-group"/);
+  assert.match(markup, /data-opc-component="tab-group"/);
   assert.match(markup, /role="tablist"/);
   assert.match(markup, /aria-orientation="horizontal"/);
   assert.equal((markup.match(/role="tab"/g) ?? []).length, 2);
@@ -45,18 +45,18 @@ test("TabGroup exposes a single selected tab with native button behavior", () =>
 test("tab presentation props reach the button without replacing its owned semantics", () => {
   const markup = renderToStaticMarkup(createElement(TabGroup, {
     items: [{ ...items[0], id: "product-tab", tabProps: {
-      className: "product-tab", "data-openbitfun-product-component": "product",
-      "data-openbitfun-product-part": "tab", title: "Full title",
+      className: "product-tab", "data-opc-product-component": "product",
+      "data-opc-product-part": "tab", title: "Full title",
       "aria-describedby": "help", style: { opacity: 0.8 },
       // Untyped callers must not override component-owned interaction/identity.
       role: "button", type: "submit", tabIndex: 8, id: "wrong-id",
-      "aria-selected": false, "aria-controls": "wrong-panel", "data-openbitfun-part": "wrong-part",
+      "aria-selected": false, "aria-controls": "wrong-panel", "data-opc-part": "wrong-part",
     } }],
   }));
   const button = markup.match(/<button\b[^>]*>/)?.[0] ?? "";
   assert.match(button, /class="[^" ]+ product-tab"/);
-  assert.match(button, /data-openbitfun-product-component="product"/);
-  assert.match(button, /data-openbitfun-product-part="tab"/);
+  assert.match(button, /data-opc-product-component="product"/);
+  assert.match(button, /data-opc-product-part="tab"/);
   assert.match(button, /aria-describedby="help"/);
   assert.match(button, /style="opacity:0.8"/);
   assert.match(button, /title="Full title"/);
@@ -66,7 +66,7 @@ test("tab presentation props reach the button without replacing its owned semant
   assert.match(button, /tabindex="0"/);
   assert.match(button, /aria-selected="true"/);
   assert.match(button, /aria-controls="welcome-panel"/);
-  assert.match(button, /data-openbitfun-part="tab"/);
+  assert.match(button, /data-opc-part="tab"/);
 });
 
 test("controlled value and disabled items preserve selection and focus contracts", () => {
@@ -102,15 +102,15 @@ test("product wrappers preserve the standard tablist, selection and end-action a
   assert.equal((markup.match(/role="tab"/g) ?? []).length, 2);
   assert.equal((markup.match(/aria-selected="true"/g) ?? []).length, 1);
   assert.match(markup, /data-document="settings" data-index="1" draggable="true"/);
-  assert.match(markup, /<\/button><span[^>]+data-openbitfun-part="endAction"[^>]*><button/);
+  assert.match(markup, /<\/button><span[^>]+data-opc-part="endAction"[^>]*><button/);
 });
 
 test("label metadata remains inside the accessible tab and outside rolling text", () => {
   const markup = renderToStaticMarkup(createElement(TabGroup, {
     items: [{ value: "session", label: "New Session", labelTransitionKey: "session-2", labelSuffix: "02" }],
   }));
-  assert.match(markup, /data-openbitfun-component="rolling-text"/);
-  assert.match(markup, /<span[^>]*data-openbitfun-part="labelSuffix">02<\/span><\/button>/);
+  assert.match(markup, /data-opc-component="rolling-text"/);
+  assert.match(markup, /<span[^>]*data-opc-part="labelSuffix">02<\/span><\/button>/);
   assert.equal((markup.match(/role="tab"/g) ?? []).length, 1);
 });
 
@@ -158,12 +158,12 @@ test("end actions are rendered beside tabs instead of nesting interactive contro
     }),
   );
 
-  assert.equal((markup.match(/data-openbitfun-part="item"/g) ?? []).length, 2);
+  assert.equal((markup.match(/data-opc-part="item"/g) ?? []).length, 2);
   assert.equal((markup.match(/data-has-end-action="true"/g) ?? []).length, 1);
   assert.equal((markup.match(/data-has-icon="true"/g) ?? []).length, 1);
   assert.equal((markup.match(/data-has-icon="false"/g) ?? []).length, 1);
-  assert.match(markup, /data-openbitfun-part="endAction"/);
-  assert.match(markup, /<\/button><span[^>]+data-openbitfun-part="endAction"[^>]*><button/);
+  assert.match(markup, /data-opc-part="endAction"/);
+  assert.match(markup, /<\/button><span[^>]+data-opc-part="endAction"[^>]*><button/);
   assert.equal((markup.match(/type="button"/g) ?? []).length, 3);
 });
 

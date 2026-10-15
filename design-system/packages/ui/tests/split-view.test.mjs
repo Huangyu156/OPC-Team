@@ -13,7 +13,7 @@ test('SplitView publishes a stable primary dock without changing the transcript 
       createElement(SplitViewPrimaryDock, null, createElement('textarea', { defaultValue: 'Draft' }))),
     secondary: createElement('iframe', { title: 'Browser' }),
   }));
-  assert.match(markup, /data-openbitfun-part="primaryDock"><textarea>Draft<\/textarea>/);
+  assert.match(markup, /data-opc-part="primaryDock"><textarea>Draft<\/textarea>/);
   assert.match(markup, /<section data-transcript="true">History<\/section>/);
 });
 

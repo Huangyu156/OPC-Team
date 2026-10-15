@@ -19,7 +19,7 @@ pub const MASTER_KEY_LEN: usize = 32;
 /// Every official release lives under `https://remote.openbitfun.com/v/<version>`;
 /// any such endpoint other than the one this build targets is retired.
 pub fn is_retired_official_relay(value: &str) -> bool {
-    let current = reqwest::Url::parse(openbitfun_product_domains::account::DEFAULT_RELAY_URL)
+    let current = reqwest::Url::parse(opc_product_domains::account::DEFAULT_RELAY_URL)
         .expect("official relay endpoint is a valid URL");
     reqwest::Url::parse(value).is_ok_and(|url| {
         url.scheme() == "https"
@@ -303,8 +303,8 @@ fn login_request_body(
         "device_kind": device_kind,
         "public_key": public_key,
         "request_id": request_id,
-        "clientVersion": openbitfun_product_domains::account::client_version(),
-        "clientProtocol": openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION,
+        "clientVersion": opc_product_domains::account::client_version(),
+        "clientProtocol": opc_product_domains::account::CLIENT_PROTOCOL_VERSION,
     })
 }
 
@@ -348,10 +348,7 @@ impl AccountClient {
         relay_url: &str,
         device: &DeviceIdentity,
         device_kind: &str,
-    ) -> Result<(
-        AccountSession,
-        openbitfun_product_domains::account::GitHubUser,
-    )> {
+    ) -> Result<(AccountSession, opc_product_domains::account::GitHubUser)> {
         let mut identity =
             crate::account_identity::AccountIdentityClient::from_environment().await?;
         let profile = identity
@@ -919,11 +916,11 @@ mod tests {
         );
         assert_eq!(
             body["clientProtocol"].as_u64(),
-            Some(openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION as u64)
+            Some(opc_product_domains::account::CLIENT_PROTOCOL_VERSION as u64)
         );
         assert_eq!(
             body["clientVersion"].as_str(),
-            Some(openbitfun_product_domains::account::client_version())
+            Some(opc_product_domains::account::client_version())
         );
         assert_eq!(body["device_id"], device.device_id);
         assert_eq!(body["request_id"], "req-1");
@@ -1163,7 +1160,7 @@ mod tests {
 
     #[test]
     fn retired_official_endpoint_does_not_capture_custom_relays() {
-        let current = openbitfun_product_domains::account::DEFAULT_RELAY_URL;
+        let current = opc_product_domains::account::DEFAULT_RELAY_URL;
         assert_eq!(current, "https://remote.openbitfun.com/v/1.0.2");
         for old in [
             ["https://remote.openbitfun.com", "/v/1.0.0"].concat(),

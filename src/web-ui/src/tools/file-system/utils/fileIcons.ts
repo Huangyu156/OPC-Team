@@ -88,11 +88,11 @@ export function getFileIcon(node: FileSystemNode, isExpanded?: boolean): React.R
 
 export function getFileIconClass(node: FileSystemNode, isExpanded?: boolean): string {
   if (node.isDirectory) {
-    return `openbitfun-file-explorer__icon openbitfun-file-explorer__icon--folder${isExpanded ? ' openbitfun-file-explorer__icon--folder-open' : ''}`;
+    return `opc-file-explorer__icon opc-file-explorer__icon--folder${isExpanded ? ' opc-file-explorer__icon--folder-open' : ''}`;
   }
   
   const iconType = getFileIconType(node);
-  return `openbitfun-file-explorer__icon openbitfun-file-explorer__icon--${iconType}`;
+  return `opc-file-explorer__icon opc-file-explorer__icon--${iconType}`;
 }
 
 export function isImageFile(node: FileSystemNode): boolean {

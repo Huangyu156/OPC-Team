@@ -47,7 +47,7 @@ function canvasToolItem(toolName: string): FlowToolItem {
       success: true,
       result: {
         action: toolName,
-        artifactReference: 'openbitfun-canvas://session/test/canvas/canvas_123',
+        artifactReference: 'opc-canvas://session/test/canvas/canvas_123',
         compiled: true,
         canvas: {
           status: 'compiled',
@@ -120,12 +120,12 @@ describe('CanvasToolCard', () => {
     });
 
     const subject = container.querySelector<HTMLElement>(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="content"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="content"]',
     );
     const actionRegion = container.querySelector<HTMLElement>(
-      '[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="actionRegion"]',
+      '[data-opc-component="flow-chat-tool-card"][data-opc-part="actionRegion"]',
     );
-    const openButton = actionRegion?.querySelector<HTMLButtonElement>('[data-openbitfun-affordance="open-panel-right"]');
+    const openButton = actionRegion?.querySelector<HTMLButtonElement>('[data-opc-affordance="open-panel-right"]');
     expect(subject?.textContent).toContain('Architecture Map');
     expect(subject?.querySelector('button')).toBeNull();
     expect(openButton).not.toBeNull();
@@ -134,7 +134,7 @@ describe('CanvasToolCard', () => {
 
     expect(mocks.openCanvasArtifactTab).toHaveBeenCalledTimes(1);
     expect(mocks.openCanvasArtifactTab).toHaveBeenCalledWith(expect.objectContaining({
-      artifactReference: 'openbitfun-canvas://session/test/canvas/canvas_123',
+      artifactReference: 'opc-canvas://session/test/canvas/canvas_123',
       title: 'Architecture Map',
       sourceMetadata: expect.objectContaining({
         type: 'tool-call',
@@ -151,8 +151,8 @@ describe('CanvasToolCard', () => {
     expect(container.textContent).not.toContain('Canvas compilation failed');
     expect(container.textContent).not.toContain('Preview ready');
     expect(container.textContent).not.toContain('Saved');
-    expect(container.querySelector('[data-openbitfun-status="error"]')).not.toBeNull();
-    act(() => container.querySelector<HTMLButtonElement>('[data-openbitfun-affordance="expand"][aria-expanded]')!.click());
+    expect(container.querySelector('[data-opc-status="error"]')).not.toBeNull();
+    act(() => container.querySelector<HTMLButtonElement>('[data-opc-affordance="expand"][aria-expanded]')!.click());
     expect(container.textContent).toContain('Canvas compilation failed');
   });
 
@@ -160,13 +160,13 @@ describe('CanvasToolCard', () => {
     const completed = canvasToolItem('CreateCanvas');
     completed.toolCall.input.source = 'export default function App() { return <div>Canvas</div>; }';
     const render = (item: FlowToolItem) => act(() => root.render(<CanvasToolCard toolItem={item} config={{} as ToolCardConfig} />));
-    const toggle = () => container.querySelector<HTMLButtonElement>('[data-openbitfun-affordance="expand"][aria-expanded]')!;
+    const toggle = () => container.querySelector<HTMLButtonElement>('[data-opc-affordance="expand"][aria-expanded]')!;
     render({ ...completed, status: 'running', toolResult: undefined });
     expect(toggle().getAttribute('aria-expanded')).toBe('false');
     act(() => toggle().click());
     render(completed);
     expect(toggle().getAttribute('aria-expanded')).toBe('true');
-    expect(container.querySelector('[data-openbitfun-part="sourcePreview"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="sourcePreview"]')).not.toBeNull();
     render({ ...completed, status: 'error', toolResult: { success: false, error: 'Render failed' } });
     expect(toggle().getAttribute('aria-expanded')).toBe('true');
     expect(container.textContent).toContain('Render failed');

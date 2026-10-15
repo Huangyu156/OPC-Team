@@ -100,36 +100,36 @@ export function ConversationModeSurface({
   return (
     <div
       className={[
-        'openbitfun-conversation-mode-surface',
+        'opc-conversation-mode-surface',
         className,
-        integrated && 'openbitfun-conversation-mode-surface--integrated',
+        integrated && 'opc-conversation-mode-surface--integrated',
       ].filter(Boolean).join(' ')}
-      data-openbitfun-component="conversation-mode-surface"
-      data-openbitfun-part="root"
-      data-openbitfun-state={isVoiceMode ? 'voice' : 'chat'}
+      data-opc-component="conversation-mode-surface"
+      data-opc-part="root"
+      data-opc-state={isVoiceMode ? 'voice' : 'chat'}
     >
       {!isVoiceMode && renderHeader?.(integrated ? null : <IconButton
         size="sm"
         data-testid={switchTestId}
-        icon={<OpenBitFunMark className="openbitfun-conversation-mode-surface__logo" aria-hidden="true" />}
+        icon={<OpenBitFunMark className="opc-conversation-mode-surface__logo" aria-hidden="true" />}
         aria-label={t(isVoiceMode ? 'voiceCall.call.switchToChat' : 'voiceCall.call.switchToVoice')}
         aria-pressed={isVoiceMode}
         title={t(isVoiceMode ? 'voiceCall.call.switchToChat' : 'voiceCall.call.switchToVoice')}
         disabled={!ownsCall && (voiceStartDisabled || phase !== 'idle')}
         onClick={handleModeSwitch}
       />)}
-      {integrated && <div ref={voiceHeaderRef} className="openbitfun-conversation-mode-surface__voice-header" aria-hidden={!isVoiceMode}
-        data-openbitfun-component="conversation-mode-surface" data-openbitfun-part="voiceHeader">
-        <div className="openbitfun-conversation-mode-surface__voice-header-content">
+      {integrated && <div ref={voiceHeaderRef} className="opc-conversation-mode-surface__voice-header" aria-hidden={!isVoiceMode}
+        data-opc-component="conversation-mode-surface" data-opc-part="voiceHeader">
+        <div className="opc-conversation-mode-surface__voice-header-content">
           <VoiceCallHeader title={t('voiceCall.call.title')} phase={phase === 'idle' ? 'live' : phase}
             labels={{ back: t('voiceCall.call.switchToChat'), close: t('voiceCall.call.close') }}
             onBack={() => setShowVoice(false)} onClose={onCloseVoice ?? controller.end} />
         </div>
       </div>}
       <div
-        className="openbitfun-conversation-mode-surface__body"
-        data-openbitfun-component="conversation-mode-surface"
-        data-openbitfun-part="body"
+        className="opc-conversation-mode-surface__body"
+        data-opc-component="conversation-mode-surface"
+        data-opc-part="body"
       >
         {integrated && <VoiceCallIdentity expanded={isVoiceMode} active={active && ownsCall && phase === 'live'}
           leading={headerAction}
@@ -147,25 +147,25 @@ export function ConversationModeSurface({
             unmute: t('voiceCall.call.unmute'), settings: t('voiceCall.call.settings'), end: t('voiceCall.call.hangUp') }}
           onToggleMute={controller.toggleMute} onOpenSettings={controller.openSettings} onEnd={controller.end} />}
         <ConversationTextVisibilityContext.Provider value={!isVoiceMode}>
-          {integrated ? <div ref={composerRef} className="openbitfun-conversation-mode-surface__composer" aria-hidden={isVoiceMode}
-            data-openbitfun-component="conversation-mode-surface" data-openbitfun-part="composer">
-            <div className="openbitfun-conversation-mode-surface__composer-content">{children}</div>
+          {integrated ? <div ref={composerRef} className="opc-conversation-mode-surface__composer" aria-hidden={isVoiceMode}
+            data-opc-component="conversation-mode-surface" data-opc-part="composer">
+            <div className="opc-conversation-mode-surface__composer-content">{children}</div>
           </div> : <div hidden={isVoiceMode} style={{ display: isVoiceMode ? 'none' : 'contents' }}>{children}</div>}
         </ConversationTextVisibilityContext.Provider>
       </div>
 
       {showModeSwitch && !integrated ? (
         <footer
-          className="openbitfun-conversation-mode-surface__switch"
-          data-openbitfun-component="conversation-mode-surface"
-          data-openbitfun-part="modeSwitch"
+          className="opc-conversation-mode-surface__switch"
+          data-opc-component="conversation-mode-surface"
+          data-opc-part="modeSwitch"
         >
           <button data-overflow-trigger
             type="button"
-            className="openbitfun-conversation-mode-surface__switch-button"
+            className="opc-conversation-mode-surface__switch-button"
             data-testid={switchTestId}
-            data-openbitfun-component="conversation-mode-surface"
-            data-openbitfun-part="modeSwitchButton"
+            data-opc-component="conversation-mode-surface"
+            data-opc-part="modeSwitchButton"
             disabled={!ownsCall && (voiceStartDisabled || phase !== 'idle')}
             onClick={handleModeSwitch}
           >

@@ -60,8 +60,8 @@ export function ToolCardStatusSlot({
   // A capsule's glyph communicates its type; status lives beside its label.
   if (capsule && hasToolIcon) {
     return <span aria-hidden="true" className={classNames(styles.root, className)}
-      data-openbitfun-component="flow-chat-tool-card" data-openbitfun-part="statusSlot" data-default-icon="tool">
-      <span className={styles.iconLayer} data-openbitfun-icon-slot="true" data-openbitfun-component="flow-chat-tool-card" data-openbitfun-part="toolIconLayer">{toolIcon}</span>
+      data-opc-component="flow-chat-tool-card" data-opc-part="statusSlot" data-default-icon="tool">
+      <span className={styles.iconLayer} data-opc-icon-slot="true" data-opc-component="flow-chat-tool-card" data-opc-part="toolIconLayer">{toolIcon}</span>
     </span>;
   }
 
@@ -78,16 +78,16 @@ export function ToolCardStatusSlot({
   return (
     <span
       className={classNames(styles.root, className)}
-      data-openbitfun-component="flow-chat-tool-card"
-      data-openbitfun-part="statusSlot"
+      data-opc-component="flow-chat-tool-card"
+      data-opc-part="statusSlot"
       data-default-icon={resolvedDefaultIcon}
     >
       {hasStatusGlyph && (
         <span
           className={styles.statusLayer}
-          data-openbitfun-icon-slot="true"
-          data-openbitfun-component="flow-chat-tool-card"
-          data-openbitfun-part="statusLayer"
+          data-opc-icon-slot="true"
+          data-opc-component="flow-chat-tool-card"
+          data-opc-part="statusLayer"
         >
           <StatusGlyph size={size} status={status} />
         </span>
@@ -96,9 +96,9 @@ export function ToolCardStatusSlot({
         <span
           aria-hidden="true"
           className={styles.iconLayer}
-          data-openbitfun-icon-slot="true"
-          data-openbitfun-component="flow-chat-tool-card"
-          data-openbitfun-part="toolIconLayer"
+          data-opc-icon-slot="true"
+          data-opc-component="flow-chat-tool-card"
+          data-opc-part="toolIconLayer"
         >
           {toolIcon}
         </span>

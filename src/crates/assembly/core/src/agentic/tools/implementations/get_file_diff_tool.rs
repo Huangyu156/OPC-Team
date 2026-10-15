@@ -1,7 +1,7 @@
 use crate::agentic::tools::framework::{
     Tool, ToolExposure, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
-use crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri;
+use crate::agentic::tools::workspace_paths::is_opc_tool_uri;
 use crate::service::git::git_service::GitService;
 use crate::service::git::git_types::GitDiffParams;
 use crate::service::git::git_utils::get_repository_root;
@@ -13,7 +13,7 @@ use crate::service::snapshot::manager::get_snapshot_manager_for_workspace;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use log::{debug, warn};
-use openbitfun_agent_runtime::deep_review::{
+use opc_agent_runtime::deep_review::{
     admit_review_provider_diff_acquisition, record_review_diff_limitation, record_review_diff_page,
     record_review_target_stale, review_diff_budget_exhausted, review_diff_page_was_returned,
     ReviewDiffBudgetAdmission, ReviewTargetEvidence, ReviewTargetEvidenceSource,
@@ -310,7 +310,7 @@ impl GetFileDiffTool {
         }
         let Some((base, head)) = evidence.diff_revisions_for_path(relative_path) else {
             if evidence.source()
-                != openbitfun_agent_runtime::deep_review::ReviewTargetEvidenceSource::Workspace
+                != opc_agent_runtime::deep_review::ReviewTargetEvidenceSource::Workspace
             {
                 return Err(OpcTeamError::tool(
                     "Prepared Review target does not provide a consumable exact diff for this file; preserve limited coverage"
@@ -1336,7 +1336,7 @@ Usage:
                     };
                 }
                 None => {
-                    if is_openbitfun_tool_uri(file_path) {
+                    if is_opc_tool_uri(file_path) {
                         return ValidationResult {
                             result: false,
                             message: Some(
@@ -2276,9 +2276,7 @@ mod tests {
         );
         let (parent_turn_id, _) = GetFileDiffTool::review_budget_identity(&context)
             .expect("review budget identity should be available");
-        for _ in
-            0..openbitfun_agent_runtime::deep_review::REVIEW_PROVIDER_DIFF_MAX_ACQUISITIONS_PER_TURN
-        {
+        for _ in 0..opc_agent_runtime::deep_review::REVIEW_PROVIDER_DIFF_MAX_ACQUISITIONS_PER_TURN {
             assert!(admit_review_provider_diff_acquisition(parent_turn_id));
         }
         let evidence = GetFileDiffTool::target_evidence(&context)
@@ -2690,7 +2688,7 @@ mod tests {
             "connection-id".to_string(),
             "Remote".to_string(),
             crate::service::remote_ssh::workspace_state::WorkspaceSessionIdentity {
-                workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+                workspace_kind: opc_core_types::WorkspaceKind::Remote,
                 hostname: "example.test".to_string(),
                 logical_workspace_path: "/workspace".to_string(),
                 remote_connection_id: Some("connection-id".to_string()),

@@ -4,7 +4,7 @@ use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use chrono::Utc;
-use openbitfun_product_domains::canvas::{
+use opc_product_domains::canvas::{
     parse_canvas_artifact_ref, CanvasArtifact, CanvasArtifactRef, CanvasId, CanvasRevision,
     CanvasScope, CanvasSessionId, CanvasSnapshot, CanvasSource, CanvasStatus, CanvasStoragePort,
     CanvasWorkspaceId, OPENBITFUN_CANVAS_SDK_VERSION,
@@ -87,7 +87,7 @@ Rules:
 - Do not use relative imports, dynamic imports, npm packages, network fetches, or helper files.
 - The source must include `export default`.
 
-Returns a stable `openbitfun-canvas://...` artifact reference for subsequent Canvas tool calls. The client presents the artifact as an openable card automatically; do not copy the internal reference into user-facing prose. Use ReadCanvas to inspect it, PatchCanvas for small targeted revisions, and UpdateCanvas for full-source rewrites."#
+Returns a stable `opc-canvas://...` artifact reference for subsequent Canvas tool calls. The client presents the artifact as an openable card automatically; do not copy the internal reference into user-facing prose. Use ReadCanvas to inspect it, PatchCanvas for small targeted revisions, and UpdateCanvas for full-source rewrites."#
             .to_string())
     }
 
@@ -209,7 +209,7 @@ Provide either `artifact_reference` returned by CreateCanvas/PatchCanvas/UpdateC
             "properties": {
                 "artifact_reference": {
                     "type": "string",
-                    "description": "Stable openbitfun-canvas:// artifact reference."
+                    "description": "Stable opc-canvas:// artifact reference."
                 },
                 "canvas_id": {
                     "type": "string",
@@ -289,7 +289,7 @@ Provide either `artifact_reference` or `canvas_id`, plus one complete replacemen
             "properties": {
                 "artifact_reference": {
                     "type": "string",
-                    "description": "Stable openbitfun-canvas:// artifact reference."
+                    "description": "Stable opc-canvas:// artifact reference."
                 },
                 "canvas_id": {
                     "type": "string",
@@ -367,7 +367,7 @@ Use this for small, targeted edits such as changing a label, number, style prop,
             "properties": {
                 "artifact_reference": {
                     "type": "string",
-                    "description": "Stable openbitfun-canvas:// artifact reference."
+                    "description": "Stable opc-canvas:// artifact reference."
                 },
                 "canvas_id": {
                     "type": "string",
@@ -802,7 +802,7 @@ fn now_millis() -> i64 {
     Utc::now().timestamp_millis()
 }
 
-fn canvas_port_error(error: openbitfun_product_domains::canvas::CanvasPortError) -> OpcTeamError {
+fn canvas_port_error(error: opc_product_domains::canvas::CanvasPortError) -> OpcTeamError {
     OpcTeamError::tool(error.to_string())
 }
 
@@ -812,7 +812,7 @@ mod tests {
     use crate::agentic::tools::framework::Tool;
     use crate::agentic::tools::ToolRuntimeRestrictions;
     use crate::agentic::WorkspaceBinding;
-    use openbitfun_runtime_ports::ToolRuntimeHandles;
+    use opc_runtime_ports::ToolRuntimeHandles;
     use std::collections::HashMap;
 
     fn test_context(session_id: &str) -> ToolUseContext {
@@ -823,7 +823,7 @@ mod tests {
             dialog_turn_id: Some("turn_1".to_string()),
             workspace: Some(WorkspaceBinding::new(
                 Some(format!("workspace_{session_id}")),
-                std::env::temp_dir().join(format!("openbitfun-canvas-tool-test-{}", uuid_short())),
+                std::env::temp_dir().join(format!("opc-canvas-tool-test-{}", uuid_short())),
             )),
             loaded_deferred_tool_specs: Vec::new(),
             primary_model_facts: tool_runtime::context::PrimaryModelFacts::default(),
@@ -864,7 +864,7 @@ mod tests {
         let reference = data["artifactReference"]
             .as_str()
             .expect("reference should be returned");
-        assert!(reference.starts_with("openbitfun-canvas://session/"));
+        assert!(reference.starts_with("opc-canvas://session/"));
         assert_eq!(
             data["compiledPayload"]["html"],
             Value::Null,

@@ -1,6 +1,6 @@
 #![cfg(feature = "runtime-ownership")]
 
-use openbitfun_services_core::runtime_ownership::{
+use opc_services_core::runtime_ownership::{
     RuntimeDeployment, RuntimeOwnershipError, RuntimeOwnershipKey, WorkspaceRuntimeOwnership,
 };
 use std::path::PathBuf;
@@ -60,9 +60,8 @@ fn ownership_key_is_stable_and_scoped_by_workspace_and_product() {
         .expect("normalize same workspace");
     let other_workspace = RuntimeOwnershipKey::for_workspace(second_workspace.path(), "openbitfun")
         .expect("create second ownership key");
-    let other_product =
-        RuntimeOwnershipKey::for_workspace(first_workspace.path(), "openbitfun-preview")
-            .expect("create product-scoped ownership key");
+    let other_product = RuntimeOwnershipKey::for_workspace(first_workspace.path(), "opc-preview")
+        .expect("create product-scoped ownership key");
 
     assert_eq!(first, same);
     assert_ne!(first, other_workspace);

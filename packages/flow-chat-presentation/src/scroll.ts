@@ -2,7 +2,7 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react
 import type React from 'react';
 import { nextEasedScrollTopPx, shouldEaseTailFollow } from './tailEase';
 
-const REVEAL_RANGE_EVENT = 'openbitfun-contained-range-reveal';
+const REVEAL_RANGE_EVENT = 'opc-contained-range-reveal';
 
 /** Reveal nested text without ever moving the transcript viewport or the page. */
 export function revealContainedRange(range: Range, boundary: HTMLElement): void {

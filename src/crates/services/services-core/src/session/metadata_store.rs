@@ -15,7 +15,7 @@ use super::SessionMetadataPage;
 use crate::file_lock::{FileLock, FileLockError, FileLockMode};
 use crate::json_store::{JsonFileStore, JsonFileStoreError};
 use log::warn;
-use openbitfun_core_types::validate_session_id;
+use opc_core_types::validate_session_id;
 use std::collections::HashMap;
 use std::path::{Path, PathBuf};
 use std::sync::{Arc, OnceLock};
@@ -839,7 +839,7 @@ mod tests {
                     &mut saved,
                     &metadata("slot-a", 1),
                 ),
-                "child" => saved.session_kind = openbitfun_core_types::SessionKind::Subagent,
+                "child" => saved.session_kind = opc_core_types::SessionKind::Subagent,
                 _ => unreachable!(),
             }
             store.save_metadata(&saved).await.unwrap();
@@ -1298,7 +1298,7 @@ mod tests {
             .expect("save visible metadata");
 
         let mut hidden = metadata("hidden", 30);
-        hidden.session_kind = openbitfun_core_types::SessionKind::Subagent;
+        hidden.session_kind = opc_core_types::SessionKind::Subagent;
         store
             .save_metadata(&hidden)
             .await
@@ -1327,7 +1327,7 @@ mod tests {
         let dir = tempdir().expect("tempdir");
         let store = SessionMetadataStore::new(dir.path());
         let mut hidden = metadata("hidden", 30);
-        hidden.session_kind = openbitfun_core_types::SessionKind::Subagent;
+        hidden.session_kind = opc_core_types::SessionKind::Subagent;
         hidden.status = SessionStatus::Active;
         hidden.relationship = Some(crate::session::SessionRelationship {
             kind: Some(crate::session::SessionRelationshipKind::Subagent),

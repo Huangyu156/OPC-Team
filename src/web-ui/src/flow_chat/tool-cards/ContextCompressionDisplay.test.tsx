@@ -73,13 +73,13 @@ describe('ContextCompressionDisplay', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="action"]')?.textContent).toBe('Compress context:');
-    expect(container.querySelector('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="content"]')?.textContent).toBe(
+    expect(container.querySelector('[data-opc-part="action"]')?.textContent).toBe('Compress context:');
+    expect(container.querySelector('[data-opc-component="flow-chat-tool-card"][data-opc-part="content"]')?.textContent).toBe(
       '124,000 → 31,000 tokens',
     );
-    expect(container.querySelector('[data-openbitfun-part="tokenChange"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="savings"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="meta"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="tokenChange"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="savings"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="meta"]')).toBeNull();
     expect(container.textContent).not.toContain('75%');
     expect(container.textContent).not.toContain('Compression #3');
   });
@@ -91,7 +91,7 @@ describe('ContextCompressionDisplay', () => {
     const failed = { ...item, status: 'error' as const, toolResult: { success: false, error: 'Provider unavailable' } };
     act(() => root.render(<ContextCompressionDisplay toolItem={failed} />));
     expect(container.textContent).not.toContain('Provider unavailable');
-    const toggle = container.querySelector<HTMLButtonElement>('[data-openbitfun-part="affordanceButton"]')!;
+    const toggle = container.querySelector<HTMLButtonElement>('[data-opc-part="affordanceButton"]')!;
     expect(toggle.getAttribute('aria-expanded')).toBe('false');
     act(() => toggle.click());
     expect(container.textContent).toContain('Provider unavailable');

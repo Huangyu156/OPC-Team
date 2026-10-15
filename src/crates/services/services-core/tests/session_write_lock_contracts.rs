@@ -1,6 +1,6 @@
 #![cfg(feature = "local-storage")]
 
-use openbitfun_services_core::session::{SessionWriteLock, SessionWriteLockError};
+use opc_services_core::session::{SessionWriteLock, SessionWriteLockError};
 use std::process::{Command, Stdio};
 use std::time::{Duration, Instant};
 use tempfile::tempdir;

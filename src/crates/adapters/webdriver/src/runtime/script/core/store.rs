@@ -9,7 +9,7 @@ pub(super) fn script() -> &'static str {
 
     const nextElementId = () => {
       window.__openbitfunWdElementCounter = (window.__openbitfunWdElementCounter || 0) + 1;
-      return `openbitfun-el-${window.__openbitfunWdElementCounter}`;
+      return `opc-el-${window.__openbitfunWdElementCounter}`;
     };
 
     const storeElement = (element) => {

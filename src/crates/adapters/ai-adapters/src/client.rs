@@ -22,12 +22,12 @@ use crate::types::*;
 use anyhow::Result;
 use format::ApiFormat;
 use log::warn;
-use openbitfun_core_types::errors::AiProviderError;
+use opc_core_types::errors::AiProviderError;
 use reqwest::Client;
 use std::time::Duration;
 use tokio::sync::mpsc;
 
-const SEND_MESSAGE_STREAM_ATTEMPTS: usize = openbitfun_agent_stream::retry::MAX_MODEL_ATTEMPTS;
+const SEND_MESSAGE_STREAM_ATTEMPTS: usize = opc_agent_stream::retry::MAX_MODEL_ATTEMPTS;
 const TEST_CONNECTION_STREAM_ATTEMPTS: usize = 5;
 
 /// Streamed response result with the parsed stream and optional raw SSE receiver.
@@ -604,7 +604,7 @@ fn send_message_retry_delay_ms_with_provider(
     error_message: &str,
     provider_error: Option<&AiProviderError>,
 ) -> u64 {
-    openbitfun_agent_stream::retry::delay_ms(attempt_index, error_message, provider_error)
+    opc_agent_stream::retry::delay_ms(attempt_index, error_message, provider_error)
 }
 
 async fn complete_aggregated_trace(
@@ -796,7 +796,7 @@ mod tests {
             label: id.to_string(),
             order: 0,
             actions,
-            source: openbitfun_core_types::ReasoningPresetSource::ModelConfig,
+            source: opc_core_types::ReasoningPresetSource::ModelConfig,
             effective_effort: None,
             execution_provider: None,
             execution_model: None,
@@ -814,7 +814,7 @@ mod tests {
             label: id.to_string(),
             order: 0,
             actions,
-            source: openbitfun_core_types::ReasoningPresetSource::ModelsDev,
+            source: opc_core_types::ReasoningPresetSource::ModelsDev,
             effective_effort: None,
             execution_provider: Some(execution_provider.to_string()),
             execution_model: Some(execution_model.to_string()),
@@ -830,7 +830,7 @@ mod tests {
             label: id.to_string(),
             order: 0,
             actions,
-            source: openbitfun_core_types::ReasoningPresetSource::AdapterFallback,
+            source: opc_core_types::ReasoningPresetSource::AdapterFallback,
             effective_effort: None,
             execution_provider: Some(GENERIC_REASONING_PROVIDER_ID.to_string()),
             execution_model: Some("unlisted-model".to_string()),
@@ -1504,7 +1504,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_openai_request_body_adds_glm_52_reasoning_effort() {
+    fn build_opc_openai_request_body_adds_glm_52_reasoning_effort() {
         let mut client = make_test_client("openai", None);
         client.config.name = "openbitfun".to_string();
         client.config.base_url = "https://api.openbitfun.com/v1".to_string();
@@ -1533,7 +1533,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_openai_request_body_disables_glm_52_reasoning() {
+    fn build_opc_openai_request_body_disables_glm_52_reasoning() {
         let mut client = make_test_client("openai", None);
         client.config.name = "openbitfun".to_string();
         client.config.base_url = "https://api.openbitfun.com/v1".to_string();
@@ -1560,7 +1560,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_openai_request_body_preserves_deepseek_flash_low_effort() {
+    fn build_opc_openai_request_body_preserves_deepseek_flash_low_effort() {
         let mut client = make_test_client("openai", None);
         client.config.name = "openbitfun".to_string();
         client.config.base_url = "https://api.openbitfun.com/v1".to_string();
@@ -1588,7 +1588,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_openai_request_body_maps_deepseek_pro_xhigh_to_max() {
+    fn build_opc_openai_request_body_maps_deepseek_pro_xhigh_to_max() {
         let mut client = make_test_client("openai", None);
         client.config.name = "openbitfun".to_string();
         client.config.base_url = "https://api.openbitfun.com/v1".to_string();
@@ -1616,7 +1616,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_openai_request_body_disables_deepseek_reasoning() {
+    fn build_opc_openai_request_body_disables_deepseek_reasoning() {
         let mut client = make_test_client("openai", None);
         client.config.name = "openbitfun".to_string();
         client.config.base_url = "https://api.openbitfun.com/v1".to_string();
@@ -1993,7 +1993,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_anthropic_request_body_adds_glm_52_reasoning_effort() {
+    fn build_opc_anthropic_request_body_adds_glm_52_reasoning_effort() {
         let client = AIClient::new(AIConfig {
             name: "openbitfun".to_string(),
             base_url: "https://api.openbitfun.com".to_string(),
@@ -2035,7 +2035,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_anthropic_request_body_disables_glm_52_reasoning() {
+    fn build_opc_anthropic_request_body_disables_glm_52_reasoning() {
         let client = AIClient::new(AIConfig {
             name: "openbitfun".to_string(),
             base_url: "https://api.openbitfun.com".to_string(),
@@ -2153,7 +2153,7 @@ mod tests {
     }
 
     #[test]
-    fn build_openbitfun_anthropic_request_body_preserves_deepseek_flash_low_effort() {
+    fn build_opc_anthropic_request_body_preserves_deepseek_flash_low_effort() {
         let client = AIClient::new(AIConfig {
             name: "openbitfun".to_string(),
             base_url: "https://api.openbitfun.com".to_string(),

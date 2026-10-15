@@ -221,8 +221,8 @@ listener alone recovers an interaction emitted before attachment.
     to the controller. Definitions that need a native provider or a live UI
     additionally declare `product_control_native_v1` or
     `product_control_presentation_v1`; the CLI host advertises neither and
-    returns a typed unsupported result. `mark_openbitfun_control_surface_ready`,
-    `mark_openbitfun_control_surface_unready`, and `report_openbitfun_control_result`
+    returns a typed unsupported result. `mark_opc_control_surface_ready`,
+    `mark_opc_control_surface_unready`, and `report_opc_control_result`
     describe or acknowledge the controller window's live Web UI and therefore
     remain `LOCAL_ONLY` in the frontend, Desktop host, and CLI host lists. A
     peer executes the same owner handler and uses its own attached presentation

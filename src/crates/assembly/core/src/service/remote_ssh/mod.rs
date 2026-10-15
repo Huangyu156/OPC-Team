@@ -14,12 +14,12 @@ pub mod types;
 pub mod workspace_state;
 
 #[cfg(feature = "ssh-remote")]
-pub use openbitfun_services_integrations::remote_ssh::dispatch_ssh;
-pub use openbitfun_services_integrations::remote_ssh::{
+pub use opc_services_integrations::remote_ssh::dispatch_ssh;
+pub use opc_services_integrations::remote_ssh::{
     build_remote_git_command, search_remote_file_names, shell_quote_posix, RemoteFileNameSearch,
 };
 #[cfg(not(feature = "ssh-remote"))]
-pub use openbitfun_services_integrations::remote_ssh::{
+pub use opc_services_integrations::remote_ssh::{
     get_global_remote_exec_process_manager, global_port_forward_manager,
     list_remote_listening_ports, KnownHostEntry, PTYSession, PortForwardManager,
     RemoteExecCommandRequest, RemoteExecCommandResponse, RemoteExecControlAction,
@@ -31,7 +31,7 @@ pub use openbitfun_services_integrations::remote_ssh::{
     SessionStatus,
 };
 #[cfg(feature = "ssh-remote")]
-pub use openbitfun_services_integrations::remote_ssh::{
+pub use opc_services_integrations::remote_ssh::{
     get_global_remote_exec_process_manager, RemoteExecCommandRequest, RemoteExecCommandResponse,
     RemoteExecControlAction, RemoteExecControlOrigin, RemoteExecControlRequest, RemoteExecError,
     RemoteExecProcessLifecycleEvent, RemoteExecProcessLifecycleStatus, RemoteExecProcessManager,
@@ -39,7 +39,7 @@ pub use openbitfun_services_integrations::remote_ssh::{
     RemoteExecSessionCompletionStatus, RemoteSendStdinRequest, RemoteWriteStdinRequest,
 };
 #[cfg(feature = "ssh-remote")]
-pub use openbitfun_services_integrations::remote_ssh::{
+pub use opc_services_integrations::remote_ssh::{
     global_port_forward_manager, list_remote_listening_ports, KnownHostEntry, PTYSession,
     PortForwardManager, SSHConnectionManager,
 };

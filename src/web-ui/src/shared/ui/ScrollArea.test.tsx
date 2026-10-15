@@ -91,7 +91,7 @@ describe('shared ScrollArea edge fades', () => {
     metrics.offsetWidth = 210;
     metrics.offsetHeight = 114;
     const onScroll = vi.fn();
-    render({ onScroll, 'data-openbitfun-component': 'inline-diff-preview', 'data-openbitfun-part': 'content' });
+    render({ onScroll, 'data-opc-component': 'inline-diff-preview', 'data-opc-part': 'content' });
     expect(host.firstElementChild).toBe(viewport);
     expect(viewport?.children).toHaveLength(1);
     expect(viewport?.dataset.openbitfunComponent).toBe('inline-diff-preview');

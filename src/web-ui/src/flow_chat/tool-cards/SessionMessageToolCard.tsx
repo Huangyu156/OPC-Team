@@ -53,7 +53,7 @@ export const SessionMessageToolCard: React.FC<ToolCardProps> = React.memo(({
     : t('toolCards.interaction.messageAccepted'), t('toolCards.interaction.sendingMessage'));
 
   return (
-    <div data-openbitfun-adapter="session-message" data-tool-card-id={toolId ?? ''}>
+    <div data-opc-adapter="session-message" data-tool-card-id={toolId ?? ''}>
       <SessionMessageToolCardView
         status={status}
         action={t('toolCards.interaction.send')}

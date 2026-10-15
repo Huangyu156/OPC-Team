@@ -89,19 +89,17 @@ use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use dashmap::DashMap;
 use log::{debug, error, info, warn};
-use openbitfun_agent_runtime::deep_review::FocusedReviewAssignment;
-use openbitfun_agent_runtime::permission::{
-    AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY,
-};
-use openbitfun_agent_runtime::remote_file_delivery::{
+use opc_agent_runtime::deep_review::FocusedReviewAssignment;
+use opc_agent_runtime::permission::{AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY};
+use opc_agent_runtime::remote_file_delivery::{
     needs_computer_links_for_source, remote_file_delivery_reminder,
     TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY,
 };
-use openbitfun_agent_runtime::sdk::PermissionReply;
-use openbitfun_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
-use openbitfun_events::{ToolEventData, ToolEventIdentity};
-use openbitfun_product_domains::external_sources::EcosystemId;
-use openbitfun_runtime_ports::{
+use opc_agent_runtime::sdk::PermissionReply;
+use opc_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
+use opc_events::{ToolEventData, ToolEventIdentity};
+use opc_product_domains::external_sources::EcosystemId;
+use opc_runtime_ports::{
     agent_workspace_references_from_metadata, resolve_permission_mode,
     AgentMessageWorkspaceReferencesRequest, AgentSessionComposerUpdate,
     AgentSessionWorkspaceBinding, AgentThreadGoalDeliveryKind, AgentThreadGoalDeliveryRequest,
@@ -113,8 +111,8 @@ use openbitfun_runtime_ports::{
     SessionStoragePathResolution, SessionStorePort, SubagentContextMode, TerminalPort, ThreadGoal,
     ThreadGoalContinuationPlan, ThreadGoalStatus, OUTPUT_SCHEMA_CONTEXT_KEY,
 };
-use openbitfun_services_core::filesystem::{FileSearchOptions, FileSystemService, FileTreeNode};
-use openbitfun_services_core::workspace_text::{
+use opc_services_core::filesystem::{FileSearchOptions, FileSystemService, FileTreeNode};
+use opc_services_core::workspace_text::{
     normalize_workspace_relative_path, resolve_workspace_relative_entry, WorkspaceEntryKind,
     WorkspaceTextReadError,
 };
@@ -805,7 +803,7 @@ impl HiddenSubagentExecutionRequest {
     }
 }
 
-pub use openbitfun_runtime_ports::DialogTriggerSource;
+pub use opc_runtime_ports::DialogTriggerSource;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum AssistantBootstrapSkipReason {
@@ -1041,7 +1039,7 @@ fn delegation_policy_for_agent_turn(
             Ok(DelegationPolicy {
                 allow_subagent_spawn: true,
                 nesting_depth,
-                scope: openbitfun_runtime_ports::DelegationScope::Swarm,
+                scope: opc_runtime_ports::DelegationScope::Swarm,
             })
         }
         _ => Ok(DelegationPolicy::top_level()),
@@ -1143,14 +1141,14 @@ fn lineage_session_is_settling_without_active_state(
 pub(crate) fn validate_required_lineage_turns_settled(
     turns: &[DialogTurnData],
     required_settled_turn_ids: &[String],
-) -> openbitfun_runtime_ports::PortResult<()> {
+) -> opc_runtime_ports::PortResult<()> {
     for required_turn_id in required_settled_turn_ids {
         let settled = turns
             .iter()
             .any(|turn| turn.turn_id == *required_turn_id && turn.status != TurnStatus::InProgress);
         if !settled {
-            return Err(openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
+            return Err(opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::OutcomeUnknown,
                 format!(
                     "Required terminal Turn is not yet durable in the authoritative transcript: turn_id={required_turn_id}"
                 ),
@@ -1273,7 +1271,7 @@ pub struct ConversationCoordinator {
     thread_goal_operations: crate::agentic::keyed_lock::KeyedAsyncLock,
     terminal_port: OnceLock<Arc<dyn TerminalPort>>,
     remote_exec_port: OnceLock<Arc<dyn RemoteExecPort>>,
-    hook_registry: openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry,
+    hook_registry: opc_agent_runtime::native_hooks::RuntimeHookRegistry,
 }
 
 impl ConversationCoordinator {
@@ -1345,8 +1343,8 @@ impl ConversationCoordinator {
         if config.is_remote_workspace() {
             let connection_id = config.remote_connection_id.clone()?;
             let host = config.remote_ssh_host.clone()?;
-            let identity = openbitfun_services_core::workspace_identity::WorkspaceSessionIdentity {
-                workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+            let identity = opc_services_core::workspace_identity::WorkspaceSessionIdentity {
+                workspace_kind: opc_core_types::WorkspaceKind::Remote,
                 hostname: host.clone(),
                 logical_workspace_path: crate::service::remote_ssh::normalize_remote_workspace_path(
                     &path.to_string_lossy(),
@@ -1451,7 +1449,7 @@ impl ConversationCoordinator {
         if agent_type.trim().is_empty() {
             "Standard".to_string()
         } else {
-            openbitfun_core_types::agent_identity::canonical_agent_id(agent_type.trim()).to_string()
+            opc_core_types::agent_identity::canonical_agent_id(agent_type.trim()).to_string()
         }
     }
 
@@ -2169,9 +2167,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         }
     }
 
-    pub(crate) fn hook_registry(
-        &self,
-    ) -> &openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry {
+    pub(crate) fn hook_registry(&self) -> &opc_agent_runtime::native_hooks::RuntimeHookRegistry {
         &self.hook_registry
     }
 
@@ -4132,8 +4128,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         logical_id: String,
     ) -> futures::future::BoxFuture<'_, OpcTeamResult<()>> {
         Box::pin(async move {
-            openbitfun_core_types::validate_session_id(&session_id)
-                .map_err(OpcTeamError::Validation)?;
+            opc_core_types::validate_session_id(&session_id).map_err(OpcTeamError::Validation)?;
             if prompt.trim().is_empty() {
                 return Err(OpcTeamError::Validation(
                     "External subagent delegation prompt must not be empty".to_string(),
@@ -4443,8 +4438,8 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                         let child_session_id = result.session_id().map(str::to_string);
                         let delegate_target_label = format!("subagent '{}'", logical_id);
                         let (data, assistant_text) =
-                            openbitfun_agent_runtime::subagent_task::subagent_task_completion_result(
-                                openbitfun_agent_runtime::subagent_task::SubagentTaskCompletionResultInput {
+                            opc_agent_runtime::subagent_task::subagent_task_completion_result(
+                                opc_agent_runtime::subagent_task::SubagentTaskCompletionResultInput {
                                     delegate_target_label: &delegate_target_label,
                                     result_text: &result.text,
                                     context_mode: SubagentContextMode::Fresh.as_str(),
@@ -5513,7 +5508,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     }
 
     pub async fn emit_thread_goal_updated(&self, session_id: &str, goal: Option<ThreadGoal>) {
-        let goal = openbitfun_agent_runtime::thread_goal::thread_goal_event_payload(goal);
+        let goal = opc_agent_runtime::thread_goal::thread_goal_event_payload(goal);
         self.emit_event(AgenticEvent::ThreadGoalUpdated {
             session_id: session_id.to_string(),
             goal,
@@ -5538,11 +5533,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         prompt: &str,
     ) -> OpcTeamResult<Option<ThreadGoal>> {
         let _goal_guard = self.lock_thread_goal_operation(session_id).await;
-        use openbitfun_agent_runtime::thread_goal::goal_objective_from_prompt;
+        use opc_agent_runtime::thread_goal::goal_objective_from_prompt;
         let Some(objective) = goal_objective_from_prompt(prompt) else {
             return Ok(None);
         };
-        openbitfun_runtime_ports::validate_thread_goal_objective(objective)
+        opc_runtime_ports::validate_thread_goal_objective(objective)
             .map_err(OpcTeamError::Validation)?;
         if !self.session_manager.should_persist_session_id(session_id) {
             return Err(OpcTeamError::Validation(
@@ -5622,7 +5617,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .load_active_thread_goal(session_id)
             .await?
             .is_some_and(|goal| {
-                openbitfun_agent_runtime::thread_goal::goal_continuation_matches(&goal, metadata)
+                opc_agent_runtime::thread_goal::goal_continuation_matches(&goal, metadata)
             }))
     }
 
@@ -5715,8 +5710,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: String,
         requested_turn_id: Option<String>,
     ) -> OpcTeamResult<ManualCompactionTask> {
-        openbitfun_core_types::validate_session_id(&session_id)
-            .map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(&session_id).map_err(OpcTeamError::Validation)?;
         if requested_turn_id
             .as_deref()
             .is_some_and(|turn_id| turn_id.trim().is_empty())
@@ -7248,11 +7242,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     /// append another user message, or allocate another dialog turn.
     pub async fn recover_interrupted_dialog_turn(
         &self,
-        request: &openbitfun_runtime_ports::AgentDialogTurnRecoveryRequest,
-    ) -> OpcTeamResult<openbitfun_runtime_ports::AgentDialogTurnRecoveryOutcome> {
-        openbitfun_core_types::validate_session_id(&request.session_id)
+        request: &opc_runtime_ports::AgentDialogTurnRecoveryRequest,
+    ) -> OpcTeamResult<opc_runtime_ports::AgentDialogTurnRecoveryOutcome> {
+        opc_core_types::validate_session_id(&request.session_id)
             .map_err(OpcTeamError::Validation)?;
-        openbitfun_core_types::validate_session_id(&request.turn_id)
+        opc_core_types::validate_session_id(&request.turn_id)
             .map_err(|message| OpcTeamError::Validation(format!("Invalid turn_id: {message}")))?;
         self.ensure_session_runtime_ownership(&request.session_id, None)?;
 
@@ -7760,7 +7754,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .await;
         });
 
-        Ok(openbitfun_runtime_ports::AgentDialogTurnRecoveryOutcome {
+        Ok(opc_runtime_ports::AgentDialogTurnRecoveryOutcome {
             session_id: plan.session_id,
             turn_id: plan.turn_id,
             execution_generation: plan.execution_generation,
@@ -8881,7 +8875,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_storage_path: &Path,
         session_id: &str,
     ) -> OpcTeamResult<()> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         self.session_manager
             .validate_session_storage_path_binding(session_id, session_storage_path)?;
         if let Some(state) = self
@@ -11347,7 +11341,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         parent_dialog_turn_id: Option<&str>,
         parent_turn_index: Option<usize>,
         user_message_metadata: Option<serde_json::Value>,
-        initial_model_selection: Option<openbitfun_runtime_ports::AgentSessionModelSelection>,
+        initial_model_selection: Option<opc_runtime_ports::AgentSessionModelSelection>,
     ) -> OpcTeamResult<String> {
         if request_id.trim().is_empty() {
             return Err(OpcTeamError::Validation(
@@ -12810,8 +12804,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let mut request = self
             .prepare_hidden_subagent_execution_request(request)
             .await?;
-        let is_swarm =
-            request.delegation_policy.scope == openbitfun_runtime_ports::DelegationScope::Swarm;
+        let is_swarm = request.delegation_policy.scope == opc_runtime_ports::DelegationScope::Swarm;
         if tool_cancellation_token
             .as_ref()
             .is_some_and(CancellationToken::is_cancelled)
@@ -13482,9 +13475,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     }
 }
 
-fn resolve_agent_submission_turn_id(
-    request: &openbitfun_runtime_ports::AgentSubmissionRequest,
-) -> String {
+fn resolve_agent_submission_turn_id(request: &opc_runtime_ports::AgentSubmissionRequest) -> String {
     request
         .turn_id
         .as_deref()
@@ -13512,23 +13503,20 @@ fn resolve_agent_session_create_created_by(
         .map(ToOwned::to_owned)
 }
 
-fn runtime_port_backend_error(error: OpcTeamError) -> openbitfun_runtime_ports::PortError {
-    openbitfun_runtime_ports::PortError::new(
-        openbitfun_runtime_ports::PortErrorKind::Backend,
-        error.to_string(),
-    )
+fn runtime_port_backend_error(error: OpcTeamError) -> opc_runtime_ports::PortError {
+    opc_runtime_ports::PortError::new(opc_runtime_ports::PortErrorKind::Backend, error.to_string())
 }
 
 async fn create_agent_session_from_runtime_request(
     coordinator: &ConversationCoordinator,
     session_id: Option<String>,
-    request: openbitfun_runtime_ports::AgentSessionCreateRequest,
+    request: opc_runtime_ports::AgentSessionCreateRequest,
     transient: bool,
-    map_core_error: fn(OpcTeamError) -> openbitfun_runtime_ports::PortError,
-) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult> {
+    map_core_error: fn(OpcTeamError) -> opc_runtime_ports::PortError,
+) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSessionCreateResult> {
     let workspace_path = request.workspace_path.clone().ok_or_else(|| {
-        openbitfun_runtime_ports::PortError::new(
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+        opc_runtime_ports::PortError::new(
+            opc_runtime_ports::PortErrorKind::InvalidRequest,
             "workspace_path is required to create an agent session",
         )
     })?;
@@ -13560,12 +13548,11 @@ async fn create_agent_session_from_runtime_request(
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
     async fn create_session(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionCreateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult>
-    {
+        request: opc_runtime_ports::AgentSessionCreateRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSessionCreateResult> {
         create_agent_session_from_runtime_request(
             self,
             None,
@@ -13579,10 +13566,9 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
     async fn create_session_with_id(
         &self,
         session_id: String,
-        request: openbitfun_runtime_ports::AgentSessionCreateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult>
-    {
-        openbitfun_core_types::validate_session_id(&session_id).map_err(|message| {
+        request: opc_runtime_ports::AgentSessionCreateRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSessionCreateResult> {
+        opc_core_types::validate_session_id(&session_id).map_err(|message| {
             runtime_port_error_preserving_message(OpcTeamError::Validation(message))
         })?;
         create_agent_session_from_runtime_request(
@@ -13598,10 +13584,9 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
     async fn create_transient_session_with_id(
         &self,
         session_id: String,
-        request: openbitfun_runtime_ports::AgentSessionCreateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult>
-    {
-        openbitfun_core_types::validate_session_id(&session_id).map_err(|message| {
+        request: opc_runtime_ports::AgentSessionCreateRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSessionCreateResult> {
+        opc_core_types::validate_session_id(&session_id).map_err(|message| {
             runtime_port_error_preserving_message(OpcTeamError::Validation(message))
         })?;
         create_agent_session_from_runtime_request(
@@ -13616,11 +13601,11 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
 
     async fn submit_message(
         &self,
-        request: openbitfun_runtime_ports::AgentSubmissionRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSubmissionResult> {
+        request: opc_runtime_ports::AgentSubmissionRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSubmissionResult> {
         if !request.attachments.is_empty() {
-            return Err(openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+            return Err(opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 "agent submission port does not yet accept generic attachments",
             ));
         }
@@ -13629,8 +13614,8 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
             .get_session_manager()
             .get_session(&request.session_id)
             .ok_or_else(|| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::NotFound,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::NotFound,
                     format!("session not found: {}", request.session_id),
                 )
             })?;
@@ -13658,13 +13643,13 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
         )
         .await
         .map_err(|error| {
-            openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::Backend,
+            opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::Backend,
                 error.to_string(),
             )
         })?;
 
-        Ok(openbitfun_runtime_ports::AgentSubmissionResult {
+        Ok(opc_runtime_ports::AgentSubmissionResult {
             turn_id,
             accepted: true,
         })
@@ -13673,7 +13658,7 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
     async fn resolve_session_agent_type(
         &self,
         session_id: &str,
-    ) -> openbitfun_runtime_ports::PortResult<Option<String>> {
+    ) -> opc_runtime_ports::PortResult<Option<String>> {
         if let Some(session) = self.get_session_manager().get_session(session_id) {
             return Ok(Some(session.agent_type.clone()));
         }
@@ -13700,8 +13685,8 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
             .await
             .map(|session| Some(session.agent_type))
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })
@@ -13716,7 +13701,7 @@ fn runtime_session_time_ms(time: std::time::SystemTime) -> u64 {
 
 fn runtime_transcript_message_from_message(
     message: Message,
-) -> openbitfun_runtime_ports::TranscriptMessage {
+) -> opc_runtime_ports::TranscriptMessage {
     let role = match message.role {
         crate::agentic::core::MessageRole::User => "user",
         crate::agentic::core::MessageRole::Assistant => "assistant",
@@ -13726,9 +13711,9 @@ fn runtime_transcript_message_from_message(
     .to_string();
 
     let content = match message.content {
-        MessageContent::Text(text) => openbitfun_runtime_ports::TranscriptContent::Text(text),
+        MessageContent::Text(text) => opc_runtime_ports::TranscriptContent::Text(text),
         MessageContent::Multimodal { text, images } => {
-            openbitfun_runtime_ports::TranscriptContent::Multimodal {
+            opc_runtime_ports::TranscriptContent::Multimodal {
                 text,
                 image_count: images.len(),
             }
@@ -13740,7 +13725,7 @@ fn runtime_transcript_message_from_message(
             result,
             is_error,
             ..
-        } => openbitfun_runtime_ports::TranscriptContent::ToolResult {
+        } => opc_runtime_ports::TranscriptContent::ToolResult {
             tool_id,
             tool_name,
             effective_tool_name,
@@ -13751,12 +13736,12 @@ fn runtime_transcript_message_from_message(
             reasoning_content,
             text,
             tool_calls,
-        } => openbitfun_runtime_ports::TranscriptContent::Mixed {
+        } => opc_runtime_ports::TranscriptContent::Mixed {
             reasoning_content,
             text,
             tool_calls: tool_calls
                 .into_iter()
-                .map(|tool_call| openbitfun_runtime_ports::TranscriptToolCall {
+                .map(|tool_call| opc_runtime_ports::TranscriptToolCall {
                     tool_id: tool_call.tool_id,
                     tool_name: tool_call.tool_name,
                     arguments: tool_call.arguments,
@@ -13765,7 +13750,7 @@ fn runtime_transcript_message_from_message(
         },
     };
 
-    openbitfun_runtime_ports::TranscriptMessage {
+    opc_runtime_ports::TranscriptMessage {
         id: Some(message.id),
         role,
         turn_id: message.metadata.turn_id,
@@ -13777,7 +13762,7 @@ fn runtime_transcript_message_from_message(
 pub(crate) fn runtime_transcript_messages_from_turns(
     turns: &[DialogTurnData],
     requested_turn_id: Option<&str>,
-) -> Vec<openbitfun_runtime_ports::TranscriptMessage> {
+) -> Vec<opc_runtime_ports::TranscriptMessage> {
     let mut messages = Vec::new();
     for turn in turns.iter().filter(|turn| {
         turn.kind.is_transcript_visible()
@@ -13790,15 +13775,15 @@ pub(crate) fn runtime_transcript_messages_from_turns(
             .and_then(|metadata| metadata.get("images"))
             .and_then(serde_json::Value::as_array)
             .map_or(0, Vec::len);
-        messages.push(openbitfun_runtime_ports::TranscriptMessage {
+        messages.push(opc_runtime_ports::TranscriptMessage {
             id: Some(turn.user_message.id.clone()),
             role: "user".to_string(),
             turn_id: Some(turn.turn_id.clone()),
             timestamp_ms: Some(turn.user_message.timestamp),
             content: if image_count == 0 {
-                openbitfun_runtime_ports::TranscriptContent::Text(turn.user_message.content.clone())
+                opc_runtime_ports::TranscriptContent::Text(turn.user_message.content.clone())
             } else {
-                openbitfun_runtime_ports::TranscriptContent::Multimodal {
+                opc_runtime_ports::TranscriptContent::Multimodal {
                     text: turn.user_message.content.clone(),
                     image_count,
                 }
@@ -13833,19 +13818,19 @@ pub(crate) fn runtime_transcript_messages_from_turns(
             let tool_calls = round
                 .tool_items
                 .iter()
-                .map(|item| openbitfun_runtime_ports::TranscriptToolCall {
+                .map(|item| opc_runtime_ports::TranscriptToolCall {
                     tool_id: item.tool_call.id.clone(),
                     tool_name: item.effective_name().to_string(),
                     arguments: item.effective_input().clone(),
                 })
                 .collect::<Vec<_>>();
             if !text.is_empty() || !reasoning_content.is_empty() || !tool_calls.is_empty() {
-                messages.push(openbitfun_runtime_ports::TranscriptMessage {
+                messages.push(opc_runtime_ports::TranscriptMessage {
                     id: Some(round.id.clone()),
                     role: "assistant".to_string(),
                     turn_id: Some(turn.turn_id.clone()),
                     timestamp_ms: Some(round.timestamp),
-                    content: openbitfun_runtime_ports::TranscriptContent::Mixed {
+                    content: opc_runtime_ports::TranscriptContent::Mixed {
                         reasoning_content: (!reasoning_content.is_empty())
                             .then_some(reasoning_content),
                         text,
@@ -13866,12 +13851,12 @@ pub(crate) fn runtime_transcript_messages_from_turns(
                         "error": tool_result.error.as_deref().unwrap_or("Tool execution failed")
                     })
                 };
-                messages.push(openbitfun_runtime_ports::TranscriptMessage {
+                messages.push(opc_runtime_ports::TranscriptMessage {
                     id: Some(format!("{}-result", item.id)),
                     role: "tool".to_string(),
                     turn_id: Some(turn.turn_id.clone()),
                     timestamp_ms: item.end_time.or(Some(item.start_time)),
-                    content: openbitfun_runtime_ports::TranscriptContent::ToolResult {
+                    content: opc_runtime_ports::TranscriptContent::ToolResult {
                         tool_id: item.tool_call.id.clone(),
                         tool_name: item.tool_name.clone(),
                         effective_tool_name: (effective_name != item.tool_name)
@@ -13886,10 +13871,8 @@ pub(crate) fn runtime_transcript_messages_from_turns(
     messages
 }
 
-fn runtime_session_summary(
-    session: SessionSummary,
-) -> openbitfun_runtime_ports::AgentSessionSummary {
-    openbitfun_runtime_ports::AgentSessionSummary {
+fn runtime_session_summary(session: SessionSummary) -> opc_runtime_ports::AgentSessionSummary {
+    opc_runtime_ports::AgentSessionSummary {
         session_id: session.session_id,
         session_name: session.session_name,
         agent_type: session.agent_type,
@@ -13920,44 +13903,30 @@ fn runtime_session_workspace_binding(binding: WorkspaceBinding) -> AgentSessionW
     }
 }
 
-fn runtime_port_error_from_openbitfun(error: OpcTeamError) -> openbitfun_runtime_ports::PortError {
+fn runtime_port_error_from_openbitfun(error: OpcTeamError) -> opc_runtime_ports::PortError {
     let (kind, message) = match error {
-        OpcTeamError::Validation(message) => (
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
-            message,
-        ),
-        OpcTeamError::NotFound(message) => {
-            (openbitfun_runtime_ports::PortErrorKind::NotFound, message)
+        OpcTeamError::Validation(message) => {
+            (opc_runtime_ports::PortErrorKind::InvalidRequest, message)
         }
-        OpcTeamError::Cancelled(message) => {
-            (openbitfun_runtime_ports::PortErrorKind::Cancelled, message)
-        }
-        OpcTeamError::Timeout(message) => {
-            (openbitfun_runtime_ports::PortErrorKind::Timeout, message)
-        }
+        OpcTeamError::NotFound(message) => (opc_runtime_ports::PortErrorKind::NotFound, message),
+        OpcTeamError::Cancelled(message) => (opc_runtime_ports::PortErrorKind::Cancelled, message),
+        OpcTeamError::Timeout(message) => (opc_runtime_ports::PortErrorKind::Timeout, message),
         OpcTeamError::SessionInUse { session_id } => (
-            openbitfun_runtime_ports::PortErrorKind::SessionInUse,
+            opc_runtime_ports::PortErrorKind::SessionInUse,
             format!("Session is already open for writing: {session_id}"),
         ),
-        OpcTeamError::OutcomeUnknown(message) => (
-            openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
-            message,
-        ),
-        OpcTeamError::NotImplemented(message) => (
-            openbitfun_runtime_ports::PortErrorKind::NotAvailable,
-            message,
-        ),
-        other => (
-            openbitfun_runtime_ports::PortErrorKind::Backend,
-            other.to_string(),
-        ),
+        OpcTeamError::OutcomeUnknown(message) => {
+            (opc_runtime_ports::PortErrorKind::OutcomeUnknown, message)
+        }
+        OpcTeamError::NotImplemented(message) => {
+            (opc_runtime_ports::PortErrorKind::NotAvailable, message)
+        }
+        other => (opc_runtime_ports::PortErrorKind::Backend, other.to_string()),
     };
-    openbitfun_runtime_ports::PortError::new(kind, message)
+    opc_runtime_ports::PortError::new(kind, message)
 }
 
-fn runtime_port_error_preserving_message(
-    error: OpcTeamError,
-) -> openbitfun_runtime_ports::PortError {
+fn runtime_port_error_preserving_message(error: OpcTeamError) -> opc_runtime_ports::PortError {
     let message = error.to_string();
     let mut port_error = runtime_port_error_from_openbitfun(error);
     port_error.message = message;
@@ -13965,26 +13934,25 @@ fn runtime_port_error_preserving_message(
 }
 
 fn user_input_port_error(
-    error: openbitfun_agent_runtime::user_questions::UserInputSendError,
-) -> openbitfun_runtime_ports::PortError {
+    error: opc_agent_runtime::user_questions::UserInputSendError,
+) -> opc_runtime_ports::PortError {
     let kind = match &error {
-        openbitfun_agent_runtime::user_questions::UserInputSendError::MissingChannel { .. } => {
-            openbitfun_runtime_ports::PortErrorKind::NotFound
+        opc_agent_runtime::user_questions::UserInputSendError::MissingChannel { .. } => {
+            opc_runtime_ports::PortErrorKind::NotFound
         }
-        openbitfun_agent_runtime::user_questions::UserInputSendError::ChannelClosed { .. } => {
-            openbitfun_runtime_ports::PortErrorKind::Cancelled
+        opc_agent_runtime::user_questions::UserInputSendError::ChannelClosed { .. } => {
+            opc_runtime_ports::PortErrorKind::Cancelled
         }
     };
-    openbitfun_runtime_ports::PortError::new(kind, format!("Tool error: {error}"))
+    opc_runtime_ports::PortError::new(kind, format!("Tool error: {error}"))
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentSessionManagementPort for ConversationCoordinator {
     async fn list_sessions(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionListRequest,
-    ) -> openbitfun_runtime_ports::PortResult<Vec<openbitfun_runtime_ports::AgentSessionSummary>>
-    {
+        request: opc_runtime_ports::AgentSessionListRequest,
+    ) -> opc_runtime_ports::PortResult<Vec<opc_runtime_ports::AgentSessionSummary>> {
         let effective_storage_path = self
             .session_storage_for_reference(
                 request.workspace_id.as_deref(),
@@ -13994,8 +13962,8 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
             )
             .await
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })?;
@@ -14009,8 +13977,8 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
                     .collect::<Vec<_>>()
             })
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })
@@ -14018,11 +13986,11 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
 
     async fn delete_session(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionDeleteRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
-        openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
-            openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+        request: opc_runtime_ports::AgentSessionDeleteRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
+        opc_core_types::validate_session_id(&request.session_id).map_err(|message| {
+            opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 message,
             )
         })?;
@@ -14035,8 +14003,8 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
             )
             .await
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })?;
@@ -14044,8 +14012,8 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
         self.delete_session(&effective_storage_path, &request.session_id)
             .await
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })
@@ -14053,11 +14021,11 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
 
     async fn rename_session(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionRenameRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
-        openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
-            openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+        request: opc_runtime_ports::AgentSessionRenameRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
+        opc_core_types::validate_session_id(&request.session_id).map_err(|message| {
+            opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 message,
             )
         })?;
@@ -14088,11 +14056,11 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
 
     async fn archive_session(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionArchiveRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
-        openbitfun_runtime_ports::AgentSessionManagementPort::set_session_archived(
+        request: opc_runtime_ports::AgentSessionArchiveRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
+        opc_runtime_ports::AgentSessionManagementPort::set_session_archived(
             self,
-            openbitfun_runtime_ports::AgentSessionArchiveStateRequest {
+            opc_runtime_ports::AgentSessionArchiveStateRequest {
                 workspace_id: request.workspace_id,
                 workspace_path: request.workspace_path,
                 session_id: request.session_id,
@@ -14106,11 +14074,11 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
 
     async fn set_session_archived(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionArchiveStateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
-        openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
-            openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+        request: opc_runtime_ports::AgentSessionArchiveStateRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
+        opc_core_types::validate_session_id(&request.session_id).map_err(|message| {
+            opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 message,
             )
         })?;
@@ -14147,10 +14115,9 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
 
     async fn resolve_session_workspace_binding(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionWorkspaceRequest,
-    ) -> openbitfun_runtime_ports::PortResult<
-        Option<openbitfun_runtime_ports::AgentSessionWorkspaceBinding>,
-    > {
+        request: opc_runtime_ports::AgentSessionWorkspaceRequest,
+    ) -> opc_runtime_ports::PortResult<Option<opc_runtime_ports::AgentSessionWorkspaceBinding>>
+    {
         Ok(self
             .get_session_manager()
             .resolve_session_workspace_binding(&request.session_id)
@@ -14160,14 +14127,14 @@ impl openbitfun_runtime_ports::AgentSessionManagementPort for ConversationCoordi
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoordinator {
+impl opc_runtime_ports::AgentWorkspaceReferencePort for ConversationCoordinator {
     async fn search_workspace_references(
         &self,
         request: AgentWorkspaceReferenceSearchRequest,
-    ) -> openbitfun_runtime_ports::PortResult<AgentWorkspaceReferenceSearchResult> {
-        openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
-            openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+    ) -> opc_runtime_ports::PortResult<AgentWorkspaceReferenceSearchResult> {
+        opc_core_types::validate_session_id(&request.session_id).map_err(|message| {
+            opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 message,
             )
         })?;
@@ -14176,14 +14143,14 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
             .resolve_session_workspace_binding(&request.session_id)
             .await
             .ok_or_else(|| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::NotFound,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::NotFound,
                     "Session workspace binding was not found",
                 )
             })?;
         if binding.is_remote() {
-            return Err(openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::NotAvailable,
+            return Err(opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::NotAvailable,
                 "Workspace reference search is unavailable for remote workspaces",
             ));
         }
@@ -14197,8 +14164,8 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
                 .split('/')
                 .any(|part| part == ".." || part.contains(':'))
         {
-            return Err(openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+            return Err(opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 "Workspace reference search requires a safe workspace-relative query",
             ));
         }
@@ -14219,8 +14186,8 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
                     });
                 }
                 Err(error) => {
-                    return Err(openbitfun_runtime_ports::PortError::new(
-                        openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+                    return Err(opc_runtime_ports::PortError::new(
+                        opc_runtime_ports::PortErrorKind::InvalidRequest,
                         error.to_string(),
                     ));
                 }
@@ -14241,8 +14208,8 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
                 .get_directory_contents(&search_root.to_string_lossy())
                 .await
                 .map_err(|error| {
-                    openbitfun_runtime_ports::PortError::new(
-                        openbitfun_runtime_ports::PortErrorKind::Backend,
+                    opc_runtime_ports::PortError::new(
+                        opc_runtime_ports::PortErrorKind::Backend,
                         error.to_string(),
                     )
                 })?
@@ -14267,8 +14234,8 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
                 )
                 .await
                 .map_err(|error| {
-                    openbitfun_runtime_ports::PortError::new(
-                        openbitfun_runtime_ports::PortErrorKind::Backend,
+                    opc_runtime_ports::PortError::new(
+                        opc_runtime_ports::PortErrorKind::Backend,
                         error.to_string(),
                     )
                 })?
@@ -14331,10 +14298,10 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
     async fn workspace_references_for_message(
         &self,
         request: AgentMessageWorkspaceReferencesRequest,
-    ) -> openbitfun_runtime_ports::PortResult<Vec<AgentWorkspaceReference>> {
-        openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
-            openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+    ) -> opc_runtime_ports::PortResult<Vec<AgentWorkspaceReference>> {
+        opc_core_types::validate_session_id(&request.session_id).map_err(|message| {
+            opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 message,
             )
         })?;
@@ -14348,8 +14315,8 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
             .effective_session_storage_path(&request.session_id)
             .await
             .ok_or_else(|| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::NotFound,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::NotFound,
                     "Session storage binding was not found",
                 )
             })?;
@@ -14366,8 +14333,8 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
             .iter()
             .find(|turn| turn.user_message.id == request.message_id)
             .ok_or_else(|| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::NotFound,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::NotFound,
                     "User message was not found in the session transcript",
                 )
             })?;
@@ -14377,11 +14344,11 @@ impl openbitfun_runtime_ports::AgentWorkspaceReferencePort for ConversationCoord
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentSessionModelPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentSessionModelPort for ConversationCoordinator {
     async fn update_session_model(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionModelUpdateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
+        request: opc_runtime_ports::AgentSessionModelUpdateRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
         self.update_session_model(&request.session_id, &request.model_id)
             .await
             .map_err(runtime_port_error_preserving_message)
@@ -14389,8 +14356,8 @@ impl openbitfun_runtime_ports::AgentSessionModelPort for ConversationCoordinator
 
     async fn update_session_model_selection(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionModelSelectionUpdateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
+        request: opc_runtime_ports::AgentSessionModelSelectionUpdateRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
         self.update_session_model_selection(
             &request.session_id,
             &request.selection.model_id,
@@ -14402,11 +14369,11 @@ impl openbitfun_runtime_ports::AgentSessionModelPort for ConversationCoordinator
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentSessionModePort for ConversationCoordinator {
+impl opc_runtime_ports::AgentSessionModePort for ConversationCoordinator {
     async fn update_session_mode(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionModeUpdateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
+        request: opc_runtime_ports::AgentSessionModeUpdateRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
         self.update_session_mode_with_route(
             &request.session_id,
             &request.mode_id,
@@ -14419,16 +14386,14 @@ impl openbitfun_runtime_ports::AgentSessionModePort for ConversationCoordinator 
 
 #[async_trait::async_trait]
 #[async_trait::async_trait]
-impl openbitfun_agent_runtime::sdk::AgentSessionRestorePort for ConversationCoordinator {
+impl opc_agent_runtime::sdk::AgentSessionRestorePort for ConversationCoordinator {
     async fn restore_session(
         &self,
-        request: openbitfun_agent_runtime::sdk::AgentSessionRestoreRequest,
-    ) -> openbitfun_runtime_ports::PortResult<
-        openbitfun_agent_runtime::sdk::AgentSessionRestoreResult,
-    > {
-        openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
-            openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
+        request: opc_agent_runtime::sdk::AgentSessionRestoreRequest,
+    ) -> opc_runtime_ports::PortResult<opc_agent_runtime::sdk::AgentSessionRestoreResult> {
+        opc_core_types::validate_session_id(&request.session_id).map_err(|message| {
+            opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::InvalidRequest,
                 message,
             )
         })?;
@@ -14450,8 +14415,8 @@ impl openbitfun_agent_runtime::sdk::AgentSessionRestorePort for ConversationCoor
         }
         .map_err(runtime_port_error_preserving_message)?;
 
-        Ok(openbitfun_agent_runtime::sdk::AgentSessionRestoreResult {
-            session: openbitfun_runtime_ports::AgentSessionSummary {
+        Ok(opc_agent_runtime::sdk::AgentSessionRestoreResult {
+            session: opc_runtime_ports::AgentSessionSummary {
                 session_id: session.session_id,
                 session_name: session.session_name,
                 agent_type: session.agent_type,
@@ -14469,13 +14434,11 @@ impl openbitfun_agent_runtime::sdk::AgentSessionRestorePort for ConversationCoor
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentLocalCommandTurnPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentLocalCommandTurnPort for ConversationCoordinator {
     async fn record_completed_local_command_turn(
         &self,
-        request: openbitfun_runtime_ports::AgentLocalCommandTurnRecordRequest,
-    ) -> openbitfun_runtime_ports::PortResult<
-        openbitfun_runtime_ports::AgentLocalCommandTurnRecordResult,
-    > {
+        request: opc_runtime_ports::AgentLocalCommandTurnRecordRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentLocalCommandTurnRecordResult> {
         self.ensure_session_runtime_ownership(&request.session_id, None)
             .map_err(runtime_port_error_preserving_message)?;
         let mutation_guard = self
@@ -14515,7 +14478,7 @@ impl openbitfun_runtime_ports::AgentLocalCommandTurnPort for ConversationCoordin
         drop(mutation_guard);
         result
             .map(
-                |turn| openbitfun_runtime_ports::AgentLocalCommandTurnRecordResult {
+                |turn| opc_runtime_ports::AgentLocalCommandTurnRecordResult {
                     turn_id: turn.turn_id,
                     storage_turn_index: turn.turn_index,
                 },
@@ -14525,11 +14488,10 @@ impl openbitfun_runtime_ports::AgentLocalCommandTurnPort for ConversationCoordin
 }
 
 fn validate_user_shell_command_request(
-    request: &openbitfun_runtime_ports::AgentUserShellCommandRequest,
+    request: &opc_runtime_ports::AgentUserShellCommandRequest,
 ) -> OpcTeamResult<()> {
-    openbitfun_core_types::validate_session_id(&request.session_id)
-        .map_err(OpcTeamError::Validation)?;
-    openbitfun_core_types::validate_session_id(&request.turn_id)
+    opc_core_types::validate_session_id(&request.session_id).map_err(OpcTeamError::Validation)?;
+    opc_core_types::validate_session_id(&request.turn_id)
         .map_err(|message| OpcTeamError::Validation(format!("Invalid turn_id: {message}")))?;
     if request.command.trim().is_empty() {
         return Err(OpcTeamError::Validation(
@@ -14860,12 +14822,11 @@ impl ConversationCoordinator {
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentUserShellCommandPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentUserShellCommandPort for ConversationCoordinator {
     async fn run_user_shell_command(
         &self,
-        request: openbitfun_runtime_ports::AgentUserShellCommandRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentUserShellCommandResult>
-    {
+        request: opc_runtime_ports::AgentUserShellCommandRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentUserShellCommandResult> {
         validate_user_shell_command_request(&request)
             .map_err(runtime_port_error_preserving_message)?;
         self.ensure_session_runtime_ownership(&request.session_id, None)
@@ -14968,7 +14929,7 @@ impl openbitfun_runtime_ports::AgentUserShellCommandPort for ConversationCoordin
         // normal caller while remaining cancellation-safe for IPC timeouts.
         let _ = started_rx.await;
 
-        Ok(openbitfun_runtime_ports::AgentUserShellCommandResult {
+        Ok(opc_runtime_ports::AgentUserShellCommandResult {
             session_id: request.session_id,
             turn_id,
         })
@@ -14976,11 +14937,11 @@ impl openbitfun_runtime_ports::AgentUserShellCommandPort for ConversationCoordin
 }
 
 #[async_trait::async_trait]
-impl openbitfun_agent_runtime::sdk::AgentInteractionResponsePort for ConversationCoordinator {
+impl opc_agent_runtime::sdk::AgentInteractionResponsePort for ConversationCoordinator {
     async fn submit_user_answers(
         &self,
-        request: openbitfun_agent_runtime::sdk::AgentUserAnswersRequest,
-    ) -> openbitfun_runtime_ports::PortResult<()> {
+        request: opc_agent_runtime::sdk::AgentUserAnswersRequest,
+    ) -> opc_runtime_ports::PortResult<()> {
         crate::agentic::tools::user_input_manager::get_user_input_manager()
             .send_answer(&request.tool_id, request.answers)
             .map_err(user_input_port_error)
@@ -14988,12 +14949,12 @@ impl openbitfun_agent_runtime::sdk::AgentInteractionResponsePort for Conversatio
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentThreadGoalManagementPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentThreadGoalManagementPort for ConversationCoordinator {
     async fn get_thread_goal(
         &self,
-        request: openbitfun_runtime_ports::AgentThreadGoalGetRequest,
-    ) -> openbitfun_runtime_ports::PortResult<Option<ThreadGoal>> {
-        openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
+        request: opc_runtime_ports::AgentThreadGoalGetRequest,
+    ) -> opc_runtime_ports::PortResult<Option<ThreadGoal>> {
+        opc_core_types::validate_session_id(&request.session_id).map_err(|message| {
             runtime_port_error_preserving_message(OpcTeamError::Validation(message))
         })?;
         let uses_default_workspace = request.workspace_path == "."
@@ -15036,8 +14997,8 @@ impl openbitfun_runtime_ports::AgentThreadGoalManagementPort for ConversationCoo
 
     async fn create_thread_goal(
         &self,
-        request: openbitfun_runtime_ports::AgentThreadGoalCreateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<ThreadGoal> {
+        request: opc_runtime_ports::AgentThreadGoalCreateRequest,
+    ) -> opc_runtime_ports::PortResult<ThreadGoal> {
         self.ensure_session_runtime_ownership(
             &request.session_id,
             Some(Path::new(&request.workspace_path)),
@@ -15055,8 +15016,8 @@ impl openbitfun_runtime_ports::AgentThreadGoalManagementPort for ConversationCoo
 
     async fn update_thread_goal_status(
         &self,
-        request: openbitfun_runtime_ports::AgentThreadGoalUpdateStatusRequest,
-    ) -> openbitfun_runtime_ports::PortResult<ThreadGoal> {
+        request: opc_runtime_ports::AgentThreadGoalUpdateStatusRequest,
+    ) -> opc_runtime_ports::PortResult<ThreadGoal> {
         self.ensure_session_runtime_ownership(
             &request.session_id,
             Some(Path::new(&request.workspace_path)),
@@ -15074,12 +15035,11 @@ impl openbitfun_runtime_ports::AgentThreadGoalManagementPort for ConversationCoo
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentSessionCompactionPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentSessionCompactionPort for ConversationCoordinator {
     async fn start_session_compaction(
         &self,
-        request: openbitfun_runtime_ports::AgentSessionCompactionRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCompactionResult>
-    {
+        request: opc_runtime_ports::AgentSessionCompactionRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentSessionCompactionResult> {
         let session_id = request.session_id;
         let task = self
             .start_manual_compaction_task(session_id.clone(), Some(request.turn_id))
@@ -15087,7 +15047,7 @@ impl openbitfun_runtime_ports::AgentSessionCompactionPort for ConversationCoordi
             .map_err(runtime_port_error_preserving_message)?;
         let turn_id = task.turn_id.clone();
         drop(task.completion);
-        Ok(openbitfun_runtime_ports::AgentSessionCompactionResult {
+        Ok(opc_runtime_ports::AgentSessionCompactionResult {
             session_id,
             turn_id,
         })
@@ -15095,24 +15055,23 @@ impl openbitfun_runtime_ports::AgentSessionCompactionPort for ConversationCoordi
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::AgentTurnCancellationPort for ConversationCoordinator {
+impl opc_runtime_ports::AgentTurnCancellationPort for ConversationCoordinator {
     async fn cancel_turn(
         &self,
-        request: openbitfun_runtime_ports::AgentTurnCancellationRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentTurnCancellationResult>
-    {
+        request: opc_runtime_ports::AgentTurnCancellationRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentTurnCancellationResult> {
         let session_id = request.session_id;
         if let Some(turn_id) = request.turn_id {
             self.cancel_dialog_turn(&session_id, &turn_id)
                 .await
                 .map_err(|error| {
-                    openbitfun_runtime_ports::PortError::new(
-                        openbitfun_runtime_ports::PortErrorKind::Backend,
+                    opc_runtime_ports::PortError::new(
+                        opc_runtime_ports::PortErrorKind::Backend,
                         error.to_string(),
                     )
                 })?;
 
-            return Ok(openbitfun_runtime_ports::AgentTurnCancellationResult {
+            return Ok(opc_runtime_ports::AgentTurnCancellationResult {
                 session_id,
                 turn_id: Some(turn_id),
                 requested: true,
@@ -15128,14 +15087,14 @@ impl openbitfun_runtime_ports::AgentTurnCancellationPort for ConversationCoordin
             )
             .await
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::Backend,
+                opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::Backend,
                     error.to_string(),
                 )
             })?;
         let requested = cancelled_turn_id.is_some();
 
-        Ok(openbitfun_runtime_ports::AgentTurnCancellationResult {
+        Ok(opc_runtime_ports::AgentTurnCancellationResult {
             session_id,
             turn_id: cancelled_turn_id,
             requested,
@@ -15144,27 +15103,24 @@ impl openbitfun_runtime_ports::AgentTurnCancellationPort for ConversationCoordin
 
     async fn interrupt_turn(
         &self,
-        request: openbitfun_runtime_ports::AgentTurnInterruptionRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentTurnInterruptionResult>
-    {
+        request: opc_runtime_ports::AgentTurnInterruptionRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::AgentTurnInterruptionResult> {
         let wait_timeout = Duration::from_millis(request.wait_timeout_ms.unwrap_or(30_000));
         self.interrupt_dialog_turn(&request.session_id, &request.turn_id, wait_timeout)
             .await
             .map_err(|error| {
-                openbitfun_runtime_ports::PortError::new(
+                opc_runtime_ports::PortError::new(
                     match error {
                         OpcTeamError::Validation(_) => {
-                            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
+                            opc_runtime_ports::PortErrorKind::InvalidRequest
                         }
-                        OpcTeamError::NotFound(_) => {
-                            openbitfun_runtime_ports::PortErrorKind::NotFound
-                        }
-                        _ => openbitfun_runtime_ports::PortErrorKind::Backend,
+                        OpcTeamError::NotFound(_) => opc_runtime_ports::PortErrorKind::NotFound,
+                        _ => opc_runtime_ports::PortErrorKind::Backend,
                     },
                     error.to_string(),
                 )
             })?;
-        Ok(openbitfun_runtime_ports::AgentTurnInterruptionResult {
+        Ok(opc_runtime_ports::AgentTurnInterruptionResult {
             session_id: request.session_id,
             turn_id: request.turn_id,
             requested: true,
@@ -15173,23 +15129,18 @@ impl openbitfun_runtime_ports::AgentTurnCancellationPort for ConversationCoordin
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::RemoteControlStatePort for ConversationCoordinator {
+impl opc_runtime_ports::RemoteControlStatePort for ConversationCoordinator {
     async fn read_remote_control_state(
         &self,
-        request: openbitfun_runtime_ports::RemoteControlStateRequest,
-    ) -> openbitfun_runtime_ports::PortResult<
-        Option<openbitfun_runtime_ports::RemoteControlStateSnapshot>,
-    > {
+        request: opc_runtime_ports::RemoteControlStateRequest,
+    ) -> opc_runtime_ports::PortResult<Option<opc_runtime_ports::RemoteControlStateSnapshot>> {
         let Some(session) = self.get_session_manager().get_session(&request.session_id) else {
             return Ok(None);
         };
 
         let mut metadata = serde_json::Map::new();
         let (state, active_turn_id) = match session.state {
-            SessionState::Idle => (
-                openbitfun_runtime_ports::RemoteControlSessionState::Idle,
-                None,
-            ),
+            SessionState::Idle => (opc_runtime_ports::RemoteControlSessionState::Idle, None),
             SessionState::Processing {
                 current_turn_id,
                 phase,
@@ -15199,7 +15150,7 @@ impl openbitfun_runtime_ports::RemoteControlStatePort for ConversationCoordinato
                     serde_json::Value::String(format!("{:?}", phase)),
                 );
                 (
-                    openbitfun_runtime_ports::RemoteControlSessionState::Processing,
+                    opc_runtime_ports::RemoteControlSessionState::Processing,
                     Some(current_turn_id),
                 )
             }
@@ -15209,14 +15160,11 @@ impl openbitfun_runtime_ports::RemoteControlStatePort for ConversationCoordinato
                     "recoverable".to_string(),
                     serde_json::Value::Bool(recoverable),
                 );
-                (
-                    openbitfun_runtime_ports::RemoteControlSessionState::Error,
-                    None,
-                )
+                (opc_runtime_ports::RemoteControlSessionState::Error, None)
             }
         };
 
-        Ok(Some(openbitfun_runtime_ports::RemoteControlStateSnapshot {
+        Ok(Some(opc_runtime_ports::RemoteControlStateSnapshot {
             session_id: request.session_id,
             state,
             active_turn_id,
@@ -15229,13 +15177,11 @@ impl openbitfun_runtime_ports::RemoteControlStatePort for ConversationCoordinato
 impl ConversationCoordinator {
     async fn read_session_transcript_with_turn_status_locked(
         &self,
-        request: openbitfun_runtime_ports::SessionTranscriptRequest,
+        request: opc_runtime_ports::SessionTranscriptRequest,
         status_turn_id: Option<&str>,
         required_settled_turn_ids: &[String],
-    ) -> openbitfun_runtime_ports::PortResult<(
-        openbitfun_runtime_ports::SessionTranscript,
-        Option<TurnStatus>,
-    )> {
+    ) -> opc_runtime_ports::PortResult<(opc_runtime_ports::SessionTranscript, Option<TurnStatus>)>
+    {
         let (messages, turn_status) = match self
             .session_manager
             .load_persisted_transcript_turns_locked(&request.session_id)
@@ -15256,8 +15202,8 @@ impl ConversationCoordinator {
             }
             None => {
                 if !required_settled_turn_ids.is_empty() {
-                    return Err(openbitfun_runtime_ports::PortError::new(
-                        openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
+                    return Err(opc_runtime_ports::PortError::new(
+                        opc_runtime_ports::PortErrorKind::OutcomeUnknown,
                         "Required terminal Turns are not yet durable in the authoritative transcript",
                     ));
                 }
@@ -15279,7 +15225,7 @@ impl ConversationCoordinator {
         };
 
         Ok((
-            openbitfun_runtime_ports::SessionTranscript {
+            opc_runtime_ports::SessionTranscript {
                 session_id: request.session_id,
                 messages,
             },
@@ -15289,8 +15235,8 @@ impl ConversationCoordinator {
 
     pub(crate) async fn read_session_transcript_locked(
         &self,
-        request: openbitfun_runtime_ports::SessionTranscriptRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::SessionTranscript> {
+        request: opc_runtime_ports::SessionTranscriptRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::SessionTranscript> {
         self.read_session_transcript_with_turn_status_locked(request, None, &[])
             .await
             .map(|(transcript, _)| transcript)
@@ -15299,11 +15245,10 @@ impl ConversationCoordinator {
     pub(crate) async fn inspect_loaded_lineage_session_in_storage(
         &self,
         storage_path: &Path,
-        request: openbitfun_runtime_ports::SessionTranscriptRequest,
+        request: opc_runtime_ports::SessionTranscriptRequest,
         required_settled_turn_ids: &[String],
-    ) -> openbitfun_runtime_ports::PortResult<
-        Option<openbitfun_runtime_ports::AgentSessionLineageInspection>,
-    > {
+    ) -> opc_runtime_ports::PortResult<Option<opc_runtime_ports::AgentSessionLineageInspection>>
+    {
         let _mutation_guard = self
             .session_manager
             .acquire_session_mutation(&request.session_id)
@@ -15349,8 +15294,8 @@ impl ConversationCoordinator {
                 .iter()
                 .any(|observed| observed == turn_id)
         }) {
-            return Err(openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
+            return Err(opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::OutcomeUnknown,
                 "Session still reports an observed terminal turn as active; retry the inspection",
             ));
         }
@@ -15358,8 +15303,8 @@ impl ConversationCoordinator {
             candidate_active_turn_id.as_deref(),
             in_flight_execution_count,
         ) {
-            return Err(openbitfun_runtime_ports::PortError::new(
-                openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
+            return Err(opc_runtime_ports::PortError::new(
+                opc_runtime_ports::PortErrorKind::OutcomeUnknown,
                 "Session turn is still settling after its active state changed; retry the inspection",
             ));
         }
@@ -15391,17 +15336,15 @@ impl ConversationCoordinator {
                 .as_ref()
                 .is_none_or(|status| *status == TurnStatus::InProgress)
             {
-                return Err(openbitfun_runtime_ports::PortError::new(
-                    openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
+                return Err(opc_runtime_ports::PortError::new(
+                    opc_runtime_ports::PortErrorKind::OutcomeUnknown,
                     "Session turn settlement changed while its transcript was being inspected; retry the inspection",
                 ));
             }
-            return Ok(Some(
-                openbitfun_runtime_ports::AgentSessionLineageInspection {
-                    transcript: settled_transcript,
-                    active_turn_id: None,
-                },
-            ));
+            return Ok(Some(opc_runtime_ports::AgentSessionLineageInspection {
+                transcript: settled_transcript,
+                active_turn_id: None,
+            }));
         }
         let active_turn_id = lineage_active_turn_after_transcript(
             candidate_active_turn_id,
@@ -15409,21 +15352,19 @@ impl ConversationCoordinator {
             persisted_turn_status.as_ref(),
         );
 
-        Ok(Some(
-            openbitfun_runtime_ports::AgentSessionLineageInspection {
-                transcript,
-                active_turn_id,
-            },
-        ))
+        Ok(Some(opc_runtime_ports::AgentSessionLineageInspection {
+            transcript,
+            active_turn_id,
+        }))
     }
 }
 
 #[async_trait::async_trait]
-impl openbitfun_runtime_ports::SessionTranscriptReader for ConversationCoordinator {
+impl opc_runtime_ports::SessionTranscriptReader for ConversationCoordinator {
     async fn read_session_transcript(
         &self,
-        request: openbitfun_runtime_ports::SessionTranscriptRequest,
-    ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::SessionTranscript> {
+        request: opc_runtime_ports::SessionTranscriptRequest,
+    ) -> opc_runtime_ports::PortResult<opc_runtime_ports::SessionTranscript> {
         let _mutation = self
             .session_manager
             .acquire_session_mutation(&request.session_id)
@@ -15450,8 +15391,8 @@ impl openbitfun_runtime_ports::SessionTranscriptReader for ConversationCoordinat
                         .get_session(&request.session_id)
                         .is_none()
                     {
-                        return Err(openbitfun_runtime_ports::PortError::new(
-                            openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
+                        return Err(opc_runtime_ports::PortError::new(
+                            opc_runtime_ports::PortErrorKind::OutcomeUnknown,
                             "Session transcript is unavailable until the unfinished undo transition is restored",
                         ));
                     }
@@ -15679,10 +15620,10 @@ mod tests {
     use crate::agentic::TurnSkillAgentSnapshot;
     use crate::infrastructure::PathManager;
     use crate::util::errors::OpcTeamError;
-    use openbitfun_agent_runtime::permission::PermissionRequestManager;
-    use openbitfun_runtime_ports::AgentTurnSettlementStatus;
-    use openbitfun_runtime_services::test_support::FakeRuntimePort;
-    use openbitfun_services_core::permission_store::ProjectPermissionSqliteStore;
+    use opc_agent_runtime::permission::PermissionRequestManager;
+    use opc_runtime_ports::AgentTurnSettlementStatus;
+    use opc_runtime_services::test_support::FakeRuntimePort;
+    use opc_services_core::permission_store::ProjectPermissionSqliteStore;
 
     #[test]
     fn interrupted_turn_intent_commit_wins_over_timeout_revocation() {
@@ -15912,19 +15853,13 @@ mod tests {
             .expect("Ultimate should start a Swarm tree");
         assert!(ultra.allow_subagent_spawn);
         assert_eq!(ultra.nesting_depth, 0);
-        assert_eq!(
-            ultra.scope,
-            openbitfun_runtime_ports::DelegationScope::Swarm
-        );
+        assert_eq!(ultra.scope, opc_runtime_ports::DelegationScope::Swarm);
 
         let planner = delegation_policy_for_agent_turn("SwarmPlanner", Some(2))
             .expect("a persisted planner should recover its tree depth");
         assert!(planner.allow_subagent_spawn);
         assert_eq!(planner.nesting_depth, 2);
-        assert_eq!(
-            planner.scope,
-            openbitfun_runtime_ports::DelegationScope::Swarm
-        );
+        assert_eq!(planner.scope, opc_runtime_ports::DelegationScope::Swarm);
 
         let worker = delegation_policy_for_agent_turn("SwarmWorker", Some(2))
             .expect("workers use the standard non-recursive turn policy");
@@ -15998,10 +15933,7 @@ mod tests {
         for required in ["turn-active", "turn-missing"] {
             let error = validate_required_lineage_turns_settled(&turns, &[required.to_string()])
                 .expect_err("non-terminal or absent turns must keep the read uncertain");
-            assert_eq!(
-                error.kind,
-                openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown
-            );
+            assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::OutcomeUnknown);
         }
     }
 
@@ -16140,7 +16072,7 @@ mod tests {
 
     #[test]
     fn runtime_session_list_preserves_the_runtime_owned_model_selector() {
-        let summary = runtime_session_summary(openbitfun_agent_runtime::session::SessionSummary {
+        let summary = runtime_session_summary(opc_agent_runtime::session::SessionSummary {
             session_id: "session".to_string(),
             session_name: "Session".to_string(),
             agent_type: "Standard".to_string(),
@@ -16153,7 +16085,7 @@ mod tests {
             turn_count: 0,
             created_at: std::time::UNIX_EPOCH,
             last_activity_at: std::time::UNIX_EPOCH,
-            state: openbitfun_agent_runtime::session_state::SessionState::Idle,
+            state: opc_agent_runtime::session_state::SessionState::Idle,
         });
 
         assert_eq!(summary.model_id.as_deref(), Some("fast"));
@@ -16169,11 +16101,9 @@ mod tests {
     };
     #[cfg(feature = "remote-workspace")]
     use crate::service::workspace::WorkspaceKind;
-    use openbitfun_agent_runtime::permission::AUTO_APPROVE_ASK_CONTEXT_KEY;
-    use openbitfun_core_types::{
-        SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
-    };
-    use openbitfun_runtime_ports::{
+    use opc_agent_runtime::permission::AUTO_APPROVE_ASK_CONTEXT_KEY;
+    use opc_core_types::{SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle};
+    use opc_runtime_ports::{
         AgentLocalCommandTurnPort, AgentLocalCommandTurnRecordRequest, AgentSessionArchiveRequest,
         AgentSessionCreateRequest, AgentSessionManagementPort, AgentSessionRenameRequest,
         AgentSubmissionPort, AgentSubmissionRequest, AgentSubmissionSource,
@@ -16360,8 +16290,8 @@ mod tests {
                 std::path::PathBuf::from("/remote/workspace"),
                 "remote-child-host".to_string(),
                 "Remote host".to_string(),
-                openbitfun_services_core::workspace_identity::WorkspaceSessionIdentity {
-                    workspace_kind: openbitfun_core_types::WorkspaceKind::Remote,
+                opc_services_core::workspace_identity::WorkspaceSessionIdentity {
+                    workspace_kind: opc_core_types::WorkspaceKind::Remote,
                     hostname: "remote-host".to_string(),
                     logical_workspace_path: "/remote/workspace".to_string(),
                     remote_connection_id: Some("remote-child-host".to_string()),
@@ -16596,7 +16526,7 @@ mod tests {
         assert_eq!(transcript[0].role, "user");
         assert_eq!(transcript[0].turn_id.as_deref(), Some("compact-turn"));
         match &transcript[1].content {
-            openbitfun_runtime_ports::TranscriptContent::Mixed { tool_calls, .. } => {
+            opc_runtime_ports::TranscriptContent::Mixed { tool_calls, .. } => {
                 assert_eq!(tool_calls.len(), 1);
                 assert_eq!(tool_calls[0].tool_id, "compression-1");
                 assert_eq!(tool_calls[0].tool_name, "ContextCompression");
@@ -16604,7 +16534,7 @@ mod tests {
             other => panic!("expected restored tool call, got {other:?}"),
         }
         match &transcript[2].content {
-            openbitfun_runtime_ports::TranscriptContent::ToolResult {
+            opc_runtime_ports::TranscriptContent::ToolResult {
                 tool_id,
                 result,
                 is_error,
@@ -16622,7 +16552,7 @@ mod tests {
             Some("Manual compaction was applied, but terminal persistence failed".to_string());
         let failed_transcript = runtime_transcript_messages_from_turns(&[turn.clone()], None);
         match &failed_transcript[1].content {
-            openbitfun_runtime_ports::TranscriptContent::Mixed { text, .. } => {
+            opc_runtime_ports::TranscriptContent::Mixed { text, .. } => {
                 assert_eq!(
                     text,
                     "[Error: Manual compaction was applied, but terminal persistence failed]"
@@ -16634,7 +16564,7 @@ mod tests {
         turn.status = TurnStatus::Cancelled;
         let cancelled_transcript = runtime_transcript_messages_from_turns(&[turn], None);
         match &cancelled_transcript[1].content {
-            openbitfun_runtime_ports::TranscriptContent::Mixed { text, .. } => {
+            opc_runtime_ports::TranscriptContent::Mixed { text, .. } => {
                 assert!(
                     text.is_empty(),
                     "cancelled turns must not restore their internal failure marker"
@@ -16870,7 +16800,7 @@ mod tests {
 
     #[test]
     fn submission_permission_mode_prefers_turn_then_session_then_global() {
-        use openbitfun_runtime_ports::PermissionModeSource;
+        use opc_runtime_ports::PermissionModeSource;
 
         let global_only = resolve_submission_permission_mode(None, None, PermissionMode::Ask);
         assert_eq!(global_only.mode, PermissionMode::Ask);
@@ -17099,24 +17029,18 @@ mod tests {
             crate::util::errors::OpcTeamError::Validation("invalid session id".to_string()),
         );
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::InvalidRequest);
         assert_eq!(error.message, "Validation error: invalid session id");
     }
 
     #[tokio::test]
     async fn interaction_response_port_uses_user_question_owner_and_typed_stale_errors() {
-        use openbitfun_agent_runtime::sdk::{
-            AgentInteractionResponsePort, AgentUserAnswersRequest,
-        };
+        use opc_agent_runtime::sdk::{AgentInteractionResponsePort, AgentUserAnswersRequest};
 
         let (coordinator, _) = test_coordinator();
         let answer_tool_id = format!("answer-{}", uuid::Uuid::new_v4());
-        let (sender, receiver) = tokio::sync::oneshot::channel::<
-            openbitfun_agent_runtime::user_questions::UserInputResponse,
-        >();
+        let (sender, receiver) =
+            tokio::sync::oneshot::channel::<opc_agent_runtime::user_questions::UserInputResponse>();
         crate::agentic::tools::user_input_manager::get_user_input_manager()
             .register_channel(answer_tool_id.clone(), sender);
 
@@ -17145,7 +17069,7 @@ mod tests {
         .expect_err("consumed answer channel must be reported as stale");
         assert_eq!(
             stale_answer.kind,
-            openbitfun_runtime_ports::PortErrorKind::NotFound
+            opc_runtime_ports::PortErrorKind::NotFound
         );
         assert_eq!(
             stale_answer.message,
@@ -17155,9 +17079,7 @@ mod tests {
 
     #[tokio::test]
     async fn session_model_port_preserves_core_not_found_errors() {
-        use openbitfun_agent_runtime::sdk::{
-            AgentSessionModelPort, AgentSessionModelUpdateRequest,
-        };
+        use opc_agent_runtime::sdk::{AgentSessionModelPort, AgentSessionModelUpdateRequest};
 
         let (coordinator, _) = test_coordinator();
         let error = AgentSessionModelPort::update_session_model(
@@ -17170,16 +17092,13 @@ mod tests {
         .await
         .expect_err("missing session must remain a typed not-found error");
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::NotFound
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::NotFound);
         assert!(error.message.contains("missing-session"));
     }
 
     #[tokio::test]
     async fn session_mode_port_preserves_core_not_found_errors() {
-        use openbitfun_agent_runtime::sdk::{AgentSessionModePort, AgentSessionModeUpdateRequest};
+        use opc_agent_runtime::sdk::{AgentSessionModePort, AgentSessionModeUpdateRequest};
 
         let (coordinator, _) = test_coordinator();
         let error = AgentSessionModePort::update_session_mode(
@@ -17193,20 +17112,17 @@ mod tests {
         .await
         .expect_err("missing session must remain a typed not-found error");
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::NotFound
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::NotFound);
         assert!(error.message.contains("missing-session"));
     }
 
     #[tokio::test]
     async fn session_mode_port_rejects_blank_mode_for_active_session() {
-        use openbitfun_agent_runtime::sdk::{AgentSessionModePort, AgentSessionModeUpdateRequest};
+        use opc_agent_runtime::sdk::{AgentSessionModePort, AgentSessionModeUpdateRequest};
 
         let (coordinator, _) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-session-mode-validation-test-{}",
+            "opc-session-mode-validation-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -17240,20 +17156,17 @@ mod tests {
         .await
         .expect_err("blank mode must remain a typed invalid request");
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::InvalidRequest);
         let _ = std::fs::remove_dir_all(workspace_path);
     }
 
     #[tokio::test]
     async fn session_mode_port_rejects_unknown_mode_for_active_session() {
-        use openbitfun_agent_runtime::sdk::{AgentSessionModePort, AgentSessionModeUpdateRequest};
+        use opc_agent_runtime::sdk::{AgentSessionModePort, AgentSessionModeUpdateRequest};
 
         let (coordinator, _) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-session-mode-validation-test-{}",
+            "opc-session-mode-validation-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -17287,21 +17200,18 @@ mod tests {
         .await
         .expect_err("unknown mode must remain a typed invalid request");
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::InvalidRequest);
         let _ = std::fs::remove_dir_all(workspace_path);
     }
 
     #[tokio::test]
     async fn session_mode_runtime_updates_the_real_core_session() {
-        use openbitfun_agent_runtime::sdk::{AgentRuntimeBuilder, AgentSessionModeUpdateRequest};
+        use opc_agent_runtime::sdk::{AgentRuntimeBuilder, AgentSessionModeUpdateRequest};
 
         let (coordinator, session_manager) = test_coordinator();
         let coordinator = Arc::new(coordinator);
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-session-mode-runtime-test-{}",
+            "opc-session-mode-runtime-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -17350,12 +17260,12 @@ mod tests {
 
     #[tokio::test]
     async fn session_model_runtime_updates_the_real_core_session() {
-        use openbitfun_agent_runtime::sdk::{AgentRuntimeBuilder, AgentSessionModelUpdateRequest};
+        use opc_agent_runtime::sdk::{AgentRuntimeBuilder, AgentSessionModelUpdateRequest};
 
         let (coordinator, session_manager) = test_coordinator();
         let coordinator = Arc::new(coordinator);
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-session-model-runtime-test-{}",
+            "opc-session-model-runtime-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -17500,10 +17410,7 @@ mod tests {
     ) -> (ConversationCoordinator, Arc<SessionManager>) {
         let event_queue = Arc::new(EventQueue::new(EventQueueConfig::default()));
         let coordination_database_file = std::env::temp_dir()
-            .join(format!(
-                "openbitfun-coordinator-test-{}",
-                uuid::Uuid::new_v4()
-            ))
+            .join(format!("opc-coordinator-test-{}", uuid::Uuid::new_v4()))
             .join("coordination.sqlite");
         let session_manager = Arc::new(SessionManager::new(
             Arc::new(SessionContextStore::new()),
@@ -17549,10 +17456,10 @@ mod tests {
             runtime_ownership,
         );
         coordinator.set_terminal_port(
-            openbitfun_runtime_services::test_support::FakeRuntimeServicesProvider::terminal_port(),
+            opc_runtime_services::test_support::FakeRuntimeServicesProvider::terminal_port(),
         );
         coordinator.set_remote_exec_port(
-            openbitfun_runtime_services::test_support::FakeRuntimeServicesProvider::remote_exec_port(),
+            opc_runtime_services::test_support::FakeRuntimeServicesProvider::remote_exec_port(),
         );
 
         (coordinator, session_manager)
@@ -17577,7 +17484,7 @@ mod tests {
         enable_persistence: bool,
     ) -> (ConversationCoordinator, Arc<SessionManager>) {
         let ownership_root = std::env::temp_dir().join(format!(
-            "openbitfun-runtime-ownership-test-{}",
+            "opc-runtime-ownership-test-{}",
             uuid::Uuid::new_v4()
         ));
         test_coordinator_with_config_and_ownership(
@@ -17605,7 +17512,7 @@ mod tests {
         tool: Arc<dyn Tool>,
     ) -> (ConversationCoordinator, Arc<SessionManager>) {
         let ownership_root = std::env::temp_dir().join(format!(
-            "openbitfun-runtime-ownership-test-{}",
+            "opc-runtime-ownership-test-{}",
             uuid::Uuid::new_v4()
         ));
         let mut registry = ToolRegistry::new();
@@ -17618,7 +17525,7 @@ mod tests {
                 permission_store.clone(),
                 permission_store.clone(),
                 Arc::new(FakeRuntimePort::new(
-                    openbitfun_runtime_ports::RuntimeServiceCapability::Clock,
+                    opc_runtime_ports::RuntimeServiceCapability::Clock,
                 )),
             )
             .with_grant_store(permission_store),
@@ -17657,7 +17564,7 @@ mod tests {
             .select_control_conversation_in_workspace(workspace.path(), None)
             .await
             .unwrap();
-        assert_eq!(original.session_id, "openbitfun-control");
+        assert_eq!(original.session_id, "opc-control");
         assert!(!original.workspace_id.is_empty());
         assert_eq!(
             manager
@@ -18548,9 +18455,9 @@ mod tests {
         let reader = coordinator.clone();
         let read_session_id = session_id.clone();
         let transcript_task = tokio::spawn(async move {
-            openbitfun_runtime_ports::SessionTranscriptReader::read_session_transcript(
+            opc_runtime_ports::SessionTranscriptReader::read_session_transcript(
                 reader.as_ref(),
-                openbitfun_runtime_ports::SessionTranscriptRequest {
+                opc_runtime_ports::SessionTranscriptRequest {
                     session_id: read_session_id,
                     turn_id: None,
                 },
@@ -18610,9 +18517,9 @@ mod tests {
 
         let transcript = tokio::time::timeout(
             Duration::from_secs(1),
-            openbitfun_runtime_ports::SessionTranscriptReader::read_session_transcript(
+            opc_runtime_ports::SessionTranscriptReader::read_session_transcript(
                 &coordinator,
-                openbitfun_runtime_ports::SessionTranscriptRequest {
+                opc_runtime_ports::SessionTranscriptRequest {
                     session_id: session.session_id,
                     turn_id: None,
                 },
@@ -18625,7 +18532,7 @@ mod tests {
         assert_eq!(transcript.messages.len(), 1);
         assert!(matches!(
             &transcript.messages[0].content,
-            openbitfun_runtime_ports::TranscriptContent::Text(text)
+            opc_runtime_ports::TranscriptContent::Text(text)
                 if text == "visible transient context"
         ));
     }
@@ -18635,18 +18542,17 @@ mod tests {
         let ownership_root = tempfile::tempdir().expect("ownership root");
         let workspace = tempfile::tempdir().expect("workspace");
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
-        let key = openbitfun_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
+        let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
             "openbitfun",
         )
         .expect("ownership key");
-        let _shared =
-            openbitfun_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
-                ownership_root.path(),
-                &key,
-                openbitfun_services_core::runtime_ownership::RuntimeDeployment::Shared,
-            )
-            .expect("shared owner");
+        let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
+            ownership_root.path(),
+            &key,
+            opc_services_core::runtime_ownership::RuntimeDeployment::Shared,
+        )
+        .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
             "openbitfun".to_string(),
@@ -18766,18 +18672,17 @@ mod tests {
         let ownership_root = tempfile::tempdir().expect("ownership root");
         let workspace = tempfile::tempdir().expect("workspace");
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
-        let key = openbitfun_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
+        let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
             "openbitfun",
         )
         .expect("ownership key");
-        let _shared =
-            openbitfun_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
-                ownership_root.path(),
-                &key,
-                openbitfun_services_core::runtime_ownership::RuntimeDeployment::Shared,
-            )
-            .expect("shared owner");
+        let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
+            ownership_root.path(),
+            &key,
+            opc_services_core::runtime_ownership::RuntimeDeployment::Shared,
+        )
+        .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
             "openbitfun".to_string(),
@@ -18844,10 +18749,8 @@ mod tests {
         let workspace_service =
             crate::service::workspace::WorkspaceService::new_for_test_path_manager(path_manager)
                 .await;
-        let remote_path = PathBuf::from(format!(
-            "/openbitfun-tests/known-remote-{}",
-            uuid::Uuid::new_v4()
-        ));
+        let remote_path =
+            PathBuf::from(format!("/opc-tests/known-remote-{}", uuid::Uuid::new_v4()));
         workspace_service
             .track_workspace_activity(
                 remote_path.clone(),
@@ -19006,18 +18909,17 @@ mod tests {
         let ownership_root = tempfile::tempdir().expect("ownership root");
         let workspace = tempfile::tempdir().expect("workspace");
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
-        let key = openbitfun_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
+        let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
             "openbitfun",
         )
         .expect("ownership key");
-        let _shared =
-            openbitfun_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
-                ownership_root.path(),
-                &key,
-                openbitfun_services_core::runtime_ownership::RuntimeDeployment::Shared,
-            )
-            .expect("shared owner");
+        let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
+            ownership_root.path(),
+            &key,
+            opc_services_core::runtime_ownership::RuntimeDeployment::Shared,
+        )
+        .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
             "openbitfun".to_string(),
@@ -19068,18 +18970,17 @@ mod tests {
         let ownership_root = tempfile::tempdir().expect("ownership root");
         let workspace = tempfile::tempdir().expect("workspace");
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
-        let key = openbitfun_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
+        let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
             "openbitfun",
         )
         .expect("ownership key");
-        let _shared =
-            openbitfun_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
-                ownership_root.path(),
-                &key,
-                openbitfun_services_core::runtime_ownership::RuntimeDeployment::Shared,
-            )
-            .expect("shared owner");
+        let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
+            ownership_root.path(),
+            &key,
+            opc_services_core::runtime_ownership::RuntimeDeployment::Shared,
+        )
+        .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
             "openbitfun".to_string(),
@@ -19115,20 +19016,19 @@ mod tests {
             .expect_err("Runtime attach must honor ownership before reading persistence");
         assert!(restore_error.to_string().contains("ownership"));
 
-        let archive_error =
-            openbitfun_runtime_ports::AgentSessionManagementPort::set_session_archived(
-                &coordinator,
-                openbitfun_runtime_ports::AgentSessionArchiveStateRequest {
-                    workspace_id: None,
-                    workspace_path,
-                    session_id: "missing-session".to_string(),
-                    archived: true,
-                    remote_connection_id: None,
-                    remote_ssh_host: None,
-                },
-            )
-            .await
-            .expect_err("Metadata mutation must honor ownership before touching persistence");
+        let archive_error = opc_runtime_ports::AgentSessionManagementPort::set_session_archived(
+            &coordinator,
+            opc_runtime_ports::AgentSessionArchiveStateRequest {
+                workspace_id: None,
+                workspace_path,
+                session_id: "missing-session".to_string(),
+                archived: true,
+                remote_connection_id: None,
+                remote_ssh_host: None,
+            },
+        )
+        .await
+        .expect_err("Metadata mutation must honor ownership before touching persistence");
         assert!(archive_error.message.contains("ownership"));
         assert!(session_manager
             .get_session("hidden-ownership-conflict")
@@ -19157,8 +19057,8 @@ mod tests {
 
     #[test]
     fn conversation_coordinator_exposes_remote_runtime_ports() {
-        fn assert_cancellation_port<T: openbitfun_runtime_ports::AgentTurnCancellationPort>() {}
-        fn assert_state_port<T: openbitfun_runtime_ports::RemoteControlStatePort>() {}
+        fn assert_cancellation_port<T: opc_runtime_ports::AgentTurnCancellationPort>() {}
+        fn assert_state_port<T: opc_runtime_ports::RemoteControlStatePort>() {}
 
         assert_cancellation_port::<ConversationCoordinator>();
         assert_state_port::<ConversationCoordinator>();
@@ -19272,7 +19172,7 @@ mod tests {
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
         let permission_path = workspace
             .path()
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("config")
             .join("tool_permissions.json");
         tokio::fs::create_dir_all(permission_path.parent().expect("permission parent"))
@@ -19431,9 +19331,9 @@ mod tests {
         let session_id_for_cancel = session.session_id.clone();
         let turn_id_for_cancel = turn_id.clone();
         let cancel_task = tokio::spawn(async move {
-            openbitfun_runtime_ports::AgentTurnCancellationPort::cancel_turn(
+            opc_runtime_ports::AgentTurnCancellationPort::cancel_turn(
                 coordinator_for_cancel.as_ref(),
-                openbitfun_runtime_ports::AgentTurnCancellationRequest {
+                opc_runtime_ports::AgentTurnCancellationRequest {
                     session_id: session_id_for_cancel,
                     turn_id: Some(turn_id_for_cancel),
                     source: None,
@@ -20166,7 +20066,7 @@ mod tests {
     async fn agent_submission_create_session_preserves_creator_metadata() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-agent-session-port-test-{}",
+            "opc-agent-session-port-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -20218,7 +20118,7 @@ mod tests {
     async fn agent_session_management_port_renames_and_sets_persisted_archive_state() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-agent-session-management-port-test-{}",
+            "opc-agent-session-management-port-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -20308,7 +20208,7 @@ mod tests {
 
         AgentSessionManagementPort::set_session_archived(
             &coordinator,
-            openbitfun_runtime_ports::AgentSessionArchiveStateRequest {
+            opc_runtime_ports::AgentSessionArchiveStateRequest {
                 workspace_id: None,
                 workspace_path: workspace.clone(),
                 session_id: created.session_id.clone(),
@@ -20353,14 +20253,14 @@ mod tests {
         .await
         .expect_err("v1 create should preserve its backend error classification");
 
-        assert_eq!(error.kind, openbitfun_runtime_ports::PortErrorKind::Backend);
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::Backend);
     }
 
     #[tokio::test]
     async fn agent_submission_create_session_preserves_requested_session_id() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-agent-session-fixed-id-port-test-{}",
+            "opc-agent-session-fixed-id-port-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -20422,7 +20322,7 @@ mod tests {
         .expect_err("duplicate fixed session id should be rejected");
         assert_eq!(
             duplicate_error.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
+            opc_runtime_ports::PortErrorKind::InvalidRequest
         );
         assert!(duplicate_error.message.starts_with("Validation error:"));
         assert!(duplicate_error.message.contains("already exists"));
@@ -20475,10 +20375,7 @@ mod tests {
         .await
         .expect_err("invalid session id should be rejected");
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::InvalidRequest);
         assert!(error.message.starts_with("Validation error:"));
     }
 
@@ -20660,7 +20557,7 @@ mod tests {
         .expect_err("a loaded session must not read another remote workspace");
         assert_eq!(
             cross_workspace_error.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
+            opc_runtime_ports::PortErrorKind::InvalidRequest
         );
         assert!(cross_workspace_error
             .message
@@ -20711,7 +20608,7 @@ mod tests {
 
         let created = AgentThreadGoalManagementPort::create_thread_goal(
             &coordinator,
-            openbitfun_runtime_ports::AgentThreadGoalCreateRequest {
+            opc_runtime_ports::AgentThreadGoalCreateRequest {
                 session_id: session_id.clone(),
                 workspace_path: logical_workspace_path.clone(),
                 objective: "Keep remote ownership structured".to_string(),
@@ -20722,7 +20619,7 @@ mod tests {
         .expect("remote goal creation must not acquire a local workspace lock");
         let updated = AgentThreadGoalManagementPort::update_thread_goal_status(
             &coordinator,
-            openbitfun_runtime_ports::AgentThreadGoalUpdateStatusRequest {
+            opc_runtime_ports::AgentThreadGoalUpdateStatusRequest {
                 session_id: session_id.clone(),
                 workspace_path: logical_workspace_path,
                 status: ThreadGoalStatus::Complete,
@@ -20764,7 +20661,7 @@ mod tests {
             .unwrap()
             .unwrap();
         assert_eq!(retried.goal_id, activated.goal_id);
-        let invalid = "x".repeat(openbitfun_runtime_ports::MAX_THREAD_GOAL_OBJECTIVE_CHARS + 1);
+        let invalid = "x".repeat(opc_runtime_ports::MAX_THREAD_GOAL_OBJECTIVE_CHARS + 1);
         assert!(coordinator
             .thread_goal_store()
             .set_thread_goal(
@@ -20810,7 +20707,7 @@ mod tests {
     async fn normal_sessions_keep_the_mode_default_snapshotted_at_creation() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-normal-session-model-snapshot-test-{}",
+            "opc-normal-session-model-snapshot-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -20901,7 +20798,7 @@ mod tests {
     async fn transient_session_port_never_persists_or_discards_a_durable_identity() {
         let (coordinator, session_manager) = test_coordinator_with_config(100, true);
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-agent-transient-session-port-test-{}",
+            "opc-agent-transient-session-port-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -21028,7 +20925,7 @@ mod tests {
         .expect_err("transient Session must not shadow persisted durable identity");
         assert_eq!(
             collision.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
+            opc_runtime_ports::PortErrorKind::InvalidRequest
         );
 
         let _ = std::fs::remove_dir_all(storage_path);
@@ -21058,10 +20955,7 @@ mod tests {
         .await
         .expect_err("invalid fixed session id should be rejected");
 
-        assert_eq!(
-            error.kind,
-            openbitfun_runtime_ports::PortErrorKind::InvalidRequest
-        );
+        assert_eq!(error.kind, opc_runtime_ports::PortErrorKind::InvalidRequest);
         assert!(error.message.starts_with("Validation error:"));
     }
 
@@ -21097,7 +20991,7 @@ mod tests {
     async fn fresh_subagent_request_can_explicitly_inherit_parent_model() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-fresh-subagent-inherit-test-{}",
+            "opc-fresh-subagent-inherit-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -21292,7 +21186,7 @@ mod tests {
     async fn fresh_subagent_inherits_transient_parent_persistence_boundary() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-fresh-subagent-transient-test-{}",
+            "opc-fresh-subagent-transient-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -21438,8 +21332,7 @@ mod tests {
     #[tokio::test]
     async fn computer_use_handoff_fresh_reuse_and_fork_preserve_original_source() {
         let (coordinator, manager) = test_coordinator();
-        let workspace =
-            std::env::temp_dir().join(format!("openbitfun-handoff-{}", uuid::Uuid::new_v4()));
+        let workspace = std::env::temp_dir().join(format!("opc-handoff-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&workspace).unwrap();
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(&workspace);
         let config = SessionConfig {
@@ -21528,7 +21421,7 @@ mod tests {
     async fn reused_subagent_send_input_updates_requested_and_inherited_model() {
         let (coordinator, session_manager) = test_persistent_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-reused-subagent-model-test-{}",
+            "opc-reused-subagent-model-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -21692,10 +21585,8 @@ mod tests {
     #[tokio::test]
     async fn fork_subagent_request_allows_requested_model_override() {
         let (coordinator, session_manager) = test_coordinator();
-        let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-fork-model-test-{}",
-            uuid::Uuid::new_v4()
-        ));
+        let workspace_path =
+            std::env::temp_dir().join(format!("opc-fork-model-test-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(&workspace_path);
         struct TempWorkspaceGuard(std::path::PathBuf);
@@ -21804,7 +21695,7 @@ mod tests {
     async fn hidden_agent_session_uses_requested_ephemeral_kind() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-hidden-agent-kind-test-{}",
+            "opc-hidden-agent-kind-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -21846,7 +21737,7 @@ mod tests {
     async fn reused_subagent_input_is_added_to_runtime_context() {
         let (coordinator, session_manager) = test_coordinator();
         let workspace_path = std::env::temp_dir().join(format!(
-            "openbitfun-reused-subagent-input-context-test-{}",
+            "opc-reused-subagent-input-context-test-{}",
             uuid::Uuid::new_v4()
         ));
         std::fs::create_dir_all(&workspace_path).expect("workspace dir should exist");
@@ -22211,12 +22102,12 @@ mod tests {
 
     #[test]
     fn workspace_reference_source_validation_uses_unicode_character_offsets() {
-        let reference = openbitfun_runtime_ports::AgentWorkspaceReference {
+        let reference = opc_runtime_ports::AgentWorkspaceReference {
             path: "src/你.rs".to_string(),
-            kind: openbitfun_runtime_ports::AgentWorkspaceReferenceKind::File,
+            kind: opc_runtime_ports::AgentWorkspaceReferenceKind::File,
             start_line: Some(2),
             end_line: Some(8),
-            source: openbitfun_runtime_ports::AgentWorkspaceReferenceSourceRange {
+            source: opc_runtime_ports::AgentWorkspaceReferenceSourceRange {
                 start: 3,
                 end: 16,
                 value: "@src/你.rs#2-8".to_string(),
@@ -22231,12 +22122,12 @@ mod tests {
 
     #[test]
     fn workspace_reference_source_validation_rejects_stale_text_and_invalid_ranges() {
-        let mut reference = openbitfun_runtime_ports::AgentWorkspaceReference {
+        let mut reference = opc_runtime_ports::AgentWorkspaceReference {
             path: "src/lib.rs".to_string(),
-            kind: openbitfun_runtime_ports::AgentWorkspaceReferenceKind::File,
+            kind: opc_runtime_ports::AgentWorkspaceReferenceKind::File,
             start_line: None,
             end_line: None,
-            source: openbitfun_runtime_ports::AgentWorkspaceReferenceSourceRange {
+            source: opc_runtime_ports::AgentWorkspaceReferenceSourceRange {
                 start: 4,
                 end: 15,
                 value: "@src/lib.rs".to_string(),

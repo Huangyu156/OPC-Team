@@ -14,7 +14,7 @@ use crate::review_platform_http::{
     ReviewHttpHeaders, ReviewHttpRequest, ReviewJsonResponse, ReviewTextResponse,
 };
 use futures::{stream, StreamExt};
-use openbitfun_services_core::process_manager;
+use opc_services_core::process_manager;
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
@@ -7933,7 +7933,7 @@ mod tests {
             .expect("system clock should be after unix epoch")
             .as_nanos();
         std::env::temp_dir().join(format!(
-            "openbitfun-review-platform-{name}-{}-{id}.json",
+            "opc-review-platform-{name}-{}-{id}.json",
             std::process::id()
         ))
     }
@@ -8141,13 +8141,13 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn pre_openbitfun_github_token_is_rejected_without_modifying_store() {
-        let path = temp_token_store_path("pre-openbitfun-github-token");
+    async fn pre_opc_github_token_is_rejected_without_modifying_store() {
+        let path = temp_token_store_path("pre-opc-github-token");
         let original = serde_json::to_vec(&json!({
             "schemaVersion": 1,
             "tokens": {
                 "github:github.com": {
-                    "token": "pre-openbitfun-github-token",
+                    "token": "pre-opc-github-token",
                     "updatedAt": "2026-07-14T00:00:00Z"
                 },
                 "gitlab:gitlab.com": {
@@ -8585,7 +8585,7 @@ mod tests {
     #[tokio::test]
     async fn repository_root_accepts_nested_and_file_paths() {
         let root = std::env::temp_dir().join(format!(
-            "openbitfun-review-platform-git-root-{}-{}",
+            "opc-review-platform-git-root-{}-{}",
             std::process::id(),
             SystemTime::now()
                 .duration_since(UNIX_EPOCH)

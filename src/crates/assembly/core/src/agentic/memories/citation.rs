@@ -1,10 +1,10 @@
 use serde::{Deserialize, Serialize};
 
 use crate::agentic::core::message::{MemoryCitation, MemoryCitationEntry};
-use openbitfun_agent_stream::{HiddenTextStreamParser, HiddenTextTag};
+use opc_agent_stream::{HiddenTextStreamParser, HiddenTextTag};
 
-const OPENBITFUN_MEMORY_CITATION_OPEN: &str = "<openbitfun-mem-citation>";
-const OPENBITFUN_MEMORY_CITATION_CLOSE: &str = "</openbitfun-mem-citation>";
+const OPENBITFUN_MEMORY_CITATION_OPEN: &str = "<opc-mem-citation>";
+const OPENBITFUN_MEMORY_CITATION_CLOSE: &str = "</opc-mem-citation>";
 const CITATION_ENTRIES_OPEN: &str = "<citation_entries>";
 const CITATION_ENTRIES_CLOSE: &str = "</citation_entries>";
 const ROLLOUT_IDS_OPEN: &str = "<rollout_ids>";
@@ -24,12 +24,12 @@ pub struct OpcTeamMemoryCitationEntry {
     pub note: Option<String>,
 }
 
-pub fn parse_openbitfun_memory_citation(text: &str) -> Option<OpcTeamMemoryCitation> {
-    let (_, payloads) = strip_openbitfun_memory_citations(text);
-    parse_openbitfun_memory_citation_payloads(payloads)
+pub fn parse_opc_memory_citation(text: &str) -> Option<OpcTeamMemoryCitation> {
+    let (_, payloads) = strip_opc_memory_citations(text);
+    parse_opc_memory_citation_payloads(payloads)
 }
 
-pub fn parse_openbitfun_memory_citation_payloads<I, S>(payloads: I) -> Option<OpcTeamMemoryCitation>
+pub fn parse_opc_memory_citation_payloads<I, S>(payloads: I) -> Option<OpcTeamMemoryCitation>
 where
     I: IntoIterator<Item = S>,
     S: AsRef<str>,
@@ -59,7 +59,7 @@ where
     }
 }
 
-pub fn strip_openbitfun_memory_citations(text: &str) -> (String, Vec<String>) {
+pub fn strip_opc_memory_citations(text: &str) -> (String, Vec<String>) {
     let mut parser = HiddenTextStreamParser::new(vec![HiddenTextTag::new(
         "memory_citation",
         OPENBITFUN_MEMORY_CITATION_OPEN,
@@ -137,9 +137,9 @@ mod tests {
     use super::*;
 
     #[test]
-    fn parse_openbitfun_memory_citation_extracts_entries_and_rollout_ids() {
-        let parsed = parse_openbitfun_memory_citation(
-            "hello<openbitfun-mem-citation><citation_entries>\nMEMORY.md:1-2|note=[x]\nrollout_summaries/foo.md:3-4|note=[y]\n</citation_entries>\n<rollout_ids>\nrollout-1\nrollout-2\nrollout-1\n</rollout_ids></openbitfun-mem-citation>world",
+    fn parse_opc_memory_citation_extracts_entries_and_rollout_ids() {
+        let parsed = parse_opc_memory_citation(
+            "hello<opc-mem-citation><citation_entries>\nMEMORY.md:1-2|note=[x]\nrollout_summaries/foo.md:3-4|note=[y]\n</citation_entries>\n<rollout_ids>\nrollout-1\nrollout-2\nrollout-1\n</rollout_ids></opc-mem-citation>world",
         )
         .expect("citation should parse");
 
@@ -152,18 +152,17 @@ mod tests {
     }
 
     #[test]
-    fn strip_openbitfun_memory_citations_removes_citation_blocks() {
-        let (visible, payloads) = strip_openbitfun_memory_citations(
-            "a<openbitfun-mem-citation>one</openbitfun-mem-citation>b",
-        );
+    fn strip_opc_memory_citations_removes_citation_blocks() {
+        let (visible, payloads) =
+            strip_opc_memory_citations("a<opc-mem-citation>one</opc-mem-citation>b");
 
         assert_eq!(visible, "ab");
         assert_eq!(payloads, vec!["one".to_string()]);
     }
 
     #[test]
-    fn parse_openbitfun_memory_citation_payloads_merges_blocks() {
-        let parsed = parse_openbitfun_memory_citation_payloads(vec![
+    fn parse_opc_memory_citation_payloads_merges_blocks() {
+        let parsed = parse_opc_memory_citation_payloads(vec![
             "<citation_entries>\nMEMORY.md:1-2|note=[x]\n</citation_entries>\n<rollout_ids>\na\n</rollout_ids>",
             "<citation_entries>\nrollout_summaries/foo.md:3-4|note=[y]\n</citation_entries>\n<rollout_ids>\na\nb\n</rollout_ids>",
         ])
@@ -175,9 +174,8 @@ mod tests {
     }
 
     #[test]
-    fn strip_openbitfun_memory_citations_auto_closes_unterminated_block() {
-        let (visible, payloads) =
-            strip_openbitfun_memory_citations("a<openbitfun-mem-citation>one");
+    fn strip_opc_memory_citations_auto_closes_unterminated_block() {
+        let (visible, payloads) = strip_opc_memory_citations("a<opc-mem-citation>one");
 
         assert_eq!(visible, "a");
         assert_eq!(payloads, vec!["one".to_string()]);

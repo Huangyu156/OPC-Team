@@ -1,7 +1,7 @@
 use crate::service::snapshot::types::{SnapshotError, SnapshotResult};
 use crate::service::workspace_runtime::{WorkspaceRuntimeContext, WorkspaceRuntimeTarget};
 use log::info;
-use openbitfun_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
+use opc_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -81,7 +81,7 @@ impl IsolationManager {
             {
                 return Err(SnapshotError::GitIsolationFailure(format!(
                     "Found Git-related file in {} directory: {}",
-                    openbitfun_core_types::product_identity::hidden_data_directory(),
+                    opc_core_types::product_identity::hidden_data_directory(),
                     file_name_str
                 )));
             }
@@ -135,7 +135,7 @@ impl IsolationManager {
     }
 
     /// Returns the snapshot runtime directory path.
-    pub fn get_openbitfun_dir(&self) -> &Path {
+    pub fn get_opc_dir(&self) -> &Path {
         &self.runtime_context.runtime_root
     }
 
@@ -324,7 +324,7 @@ fn path_starts_with_scope(path: &Path, root: &Path) -> bool {
 mod tests {
     use super::IsolationManager;
     use crate::service::workspace_runtime::{WorkspaceRuntimeContext, WorkspaceRuntimeTarget};
-    use openbitfun_core_types::product_identity::hidden_data_directory;
+    use opc_core_types::product_identity::hidden_data_directory;
     use std::path::{Path, PathBuf};
 
     fn manager(workspace_dir: PathBuf, runtime_root: PathBuf) -> IsolationManager {

@@ -127,10 +127,10 @@ describe('ReasoningPresetSelector', () => {
     });
 
     const auto = document.body.querySelector<HTMLButtonElement>(
-      '.openbitfun-reasoning-preset-selector__auto-row [data-openbitfun-part="trigger"]',
+      '.opc-reasoning-preset-selector__auto-row [data-opc-part="trigger"]',
     );
     const options = Array.from(document.body.querySelectorAll<HTMLButtonElement>(
-      '.openbitfun-reasoning-preset-selector__options [data-preset-id]',
+      '.opc-reasoning-preset-selector__options [data-preset-id]',
     ));
     expect(auto?.textContent).toBe('Auto');
     expect(options.map(option => option.textContent)).toEqual(['Low', 'Low', 'High']);
@@ -165,7 +165,7 @@ describe('ReasoningPresetSelector', () => {
     );
     expect(trigger?.textContent).toBe('');
     expect(trigger?.getAttribute('aria-label')).toBe('Thinking: auto (Medium)');
-    expect(trigger?.querySelector('[data-openbitfun-name="reasoning-auto"]')).not.toBeNull();
+    expect(trigger?.querySelector('[data-opc-name="reasoning-auto"]')).not.toBeNull();
 
     for (const [presetId, label] of [
       ['low', 'Low'],
@@ -182,7 +182,7 @@ describe('ReasoningPresetSelector', () => {
         );
       });
       expect(trigger?.textContent).toBe(label);
-      expect(trigger?.querySelector('[data-openbitfun-component="icon"]')).toBeNull();
+      expect(trigger?.querySelector('[data-opc-component="icon"]')).toBeNull();
     }
 
     expect(
@@ -218,13 +218,13 @@ describe('ReasoningPresetSelector', () => {
 
     const options = Array.from(
       document.body.querySelectorAll<HTMLButtonElement>(
-        '.openbitfun-reasoning-preset-selector__options [data-preset-id]',
+        '.opc-reasoning-preset-selector__options [data-preset-id]',
       ),
     );
     expect(options.map(option => option.dataset.presetId))
       .toEqual(['low', 'medium', 'high', 'xhigh']);
     expect(options.map(option => option.querySelector(
-      '.openbitfun-reasoning-preset-selector__option-label',
+      '.opc-reasoning-preset-selector__option-label',
     )?.textContent))
       .toEqual(['Low', 'Medium', 'High', 'Extra high']);
     expect(options.every(option => option.querySelector('small, svg') === null)).toBe(true);
@@ -261,13 +261,13 @@ describe('ReasoningPresetSelector', () => {
 
     const options = Array.from(
       document.body.querySelectorAll<HTMLButtonElement>(
-        '.openbitfun-reasoning-preset-selector__options [data-preset-id]',
+        '.opc-reasoning-preset-selector__options [data-preset-id]',
       ),
     );
     expect(options.map(option => option.dataset.presetId))
       .toEqual(['off', 'low', 'high', 'max']);
     expect(options.map(option => option.querySelector(
-      '.openbitfun-reasoning-preset-selector__option-label',
+      '.opc-reasoning-preset-selector__option-label',
     )?.textContent))
       .toEqual(['Off', 'Low', 'High', 'Maximum']);
     expect(options.every(option => option.querySelector('small, svg') === null)).toBe(true);
@@ -277,7 +277,7 @@ describe('ReasoningPresetSelector', () => {
     );
     expect(trigger?.getAttribute('aria-label')).toBe('Thinking: Auto');
     expect(options.find(option => option.dataset.presetId === 'low')?.getAttribute('aria-checked')).toBe('false');
-    expect(document.body.querySelector('.openbitfun-reasoning-preset-selector__auto-row [aria-checked="true"]')).not.toBeNull();
+    expect(document.body.querySelector('.opc-reasoning-preset-selector__auto-row [aria-checked="true"]')).not.toBeNull();
     expect(onSelect).not.toHaveBeenCalled();
 
     for (const [label, presetId] of [['Low', 'low'], ['Off', 'off']] as const) {

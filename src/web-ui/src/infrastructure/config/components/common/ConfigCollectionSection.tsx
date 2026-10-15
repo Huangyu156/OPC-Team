@@ -27,25 +27,25 @@ export const ConfigCollectionSection: React.FC<ConfigCollectionSectionProps> = (
     <ConfigPageSection
       title={title}
       description={description}
-      className={`openbitfun-config-collection-section ${hasEditor ? 'openbitfun-config-collection-section--with-editor' : ''} ${className}`}
+      className={`opc-config-collection-section ${hasEditor ? 'opc-config-collection-section--with-editor' : ''} ${className}`}
     >
-      <div className="openbitfun-config-collection-section__content" data-openbitfun-component="config" data-openbitfun-part="collectionSection">
+      <div className="opc-config-collection-section__content" data-opc-component="config" data-opc-part="collectionSection">
         {toolbar && (
-          <div className="openbitfun-config-collection-section__toolbar" data-openbitfun-component="config" data-openbitfun-part="collectionToolbar">
+          <div className="opc-config-collection-section__toolbar" data-opc-component="config" data-opc-part="collectionToolbar">
             {toolbar}
           </div>
         )}
         {editor && (
-          <div className="openbitfun-config-collection-section__editor" data-openbitfun-component="config" data-openbitfun-part="collectionEditor">
+          <div className="opc-config-collection-section__editor" data-opc-component="config" data-opc-part="collectionEditor">
             {editor}
           </div>
         )}
         {filters && (
-          <div className="openbitfun-config-collection-section__filters" data-openbitfun-component="config" data-openbitfun-part="collectionFilters">
+          <div className="opc-config-collection-section__filters" data-opc-component="config" data-opc-part="collectionFilters">
             {filters}
           </div>
         )}
-        <div className="openbitfun-config-collection-section__list" data-openbitfun-component="config" data-openbitfun-part="collectionList">
+        <div className="opc-config-collection-section__list" data-opc-component="config" data-opc-part="collectionList">
           {children}
         </div>
       </div>

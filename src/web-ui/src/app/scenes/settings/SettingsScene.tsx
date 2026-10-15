@@ -23,7 +23,7 @@ import type { SettingsPageId } from './settingsTypes';
 function SettingsSceneLoading({ pageId }: { pageId: SettingsPageId }) {
   const { t } = useTranslation('common');
   return (
-    <SettingsPage pageId={pageId} data-openbitfun-scene="settings" data-openbitfun-part="loading">
+    <SettingsPage pageId={pageId} data-opc-scene="settings" data-opc-part="loading">
       <ConfigLoadingState label={t('app.loading')} rows={5} />
     </SettingsPage>
   );
@@ -65,20 +65,20 @@ const SettingsScene: React.FC<SettingsSceneProps> = ({ isActive = true }) => {
 
   return (
     <div
-      className="openbitfun-settings-scene"
+      className="opc-settings-scene"
       data-testid="settings-scene"
       data-settings-page={activePageId}
-      data-openbitfun-scene="settings"
-      data-openbitfun-part="root"
-      data-openbitfun-page={activePageId}
+      data-opc-scene="settings"
+      data-opc-part="root"
+      data-opc-page={activePageId}
     >
-      <div ref={contentRef} className="openbitfun-settings-scene__content-wrapper">
+      <div ref={contentRef} className="opc-settings-scene__content-wrapper">
         <div
           key={`${scope.epoch}:${activePageId}`}
           data-testid="settings-scene-content"
-          data-openbitfun-scene="settings"
-          data-openbitfun-part="content"
-          data-openbitfun-page={activePageId}
+          data-opc-scene="settings"
+          data-opc-part="content"
+          data-opc-page={activePageId}
         >
           {failed ? (
             <SettingsPage pageId={activePageId}>
@@ -110,7 +110,7 @@ const SettingsScene: React.FC<SettingsSceneProps> = ({ isActive = true }) => {
             count: pendingNavigation?.resourceLabels.length ?? 0,
           })}
         preview={pendingNavigation?.resourceLabels.length ? (
-          <ul className="openbitfun-settings-scene__draft-list">
+          <ul className="opc-settings-scene__draft-list">
             {pendingNavigation.resourceLabels.map((label, index) => (
               <li key={`${label}:${index}`}>{label}</li>
             ))}

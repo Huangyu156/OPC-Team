@@ -21,7 +21,7 @@ use crate::agentic::tools::restrictions::{
     is_local_path_within_root, is_remote_posix_path_within_root, ToolPathOperation,
 };
 use crate::agentic::tools::workspace_paths::{
-    build_openbitfun_runtime_uri, is_openbitfun_tool_uri, normalize_runtime_relative_path,
+    build_opc_runtime_uri, is_opc_tool_uri, normalize_runtime_relative_path,
 };
 use crate::agentic::tools::ToolRuntimeRestrictions;
 use crate::agentic::workspace::WorkspaceServices;
@@ -35,28 +35,26 @@ use crate::util::errors::{OpcTeamError, OpcTeamResult};
 #[cfg(feature = "git")]
 use log::warn;
 #[cfg(feature = "git")]
-use openbitfun_agent_runtime::checkpoint::GitStatusCheckpointFacts;
-use openbitfun_agent_runtime::checkpoint::{
+use opc_agent_runtime::checkpoint::GitStatusCheckpointFacts;
+use opc_agent_runtime::checkpoint::{
     build_light_checkpoint as build_runtime_light_checkpoint, LightCheckpointWorkspaceFacts,
 };
-use openbitfun_agent_runtime::permission::{
-    AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY,
-};
-use openbitfun_agent_runtime::remote_file_delivery::TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY;
-use openbitfun_agent_runtime::user_questions::{
+use opc_agent_runtime::permission::{AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY};
+use opc_agent_runtime::remote_file_delivery::TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY;
+use opc_agent_runtime::user_questions::{
     UserQuestionController, USER_INPUT_AVAILABLE_CONTEXT_KEY, USER_INPUT_MODEL_ROUND_CONTEXT_KEY,
     USER_INPUT_PARENT_CONTEXT_KEY,
 };
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     LoadedDeferredToolSpec, PortableToolContextProvider, ToolContextFacts, ToolWorkspaceKind,
 };
 #[cfg(feature = "canvas-runtime")]
-use openbitfun_product_domains::canvas::CanvasStoragePort;
-use openbitfun_runtime_ports::{
+use opc_product_domains::canvas::CanvasStoragePort;
+use opc_runtime_ports::{
     DelegationPolicy, PermissionMode, RemoteExecPort, TerminalPort, ToolRuntimeHandles,
 };
 #[cfg(feature = "canvas-runtime")]
-use openbitfun_services_integrations::canvas::CanvasService;
+use opc_services_integrations::canvas::CanvasService;
 use serde_json::Value;
 #[cfg(feature = "git")]
 use sha2::{Digest, Sha256};
@@ -680,7 +678,7 @@ impl ToolUseContext {
         #[cfg(test)]
         if let Some(path) = self
             .custom_data
-            .get("__openbitfun_test_runtime_root")
+            .get("__opc_test_runtime_root")
             .and_then(|value| value.as_str())
             .filter(|path| !path.trim().is_empty())
         {
@@ -728,7 +726,7 @@ impl ToolUseContext {
         let scope = self
             .current_workspace_scope()
             .unwrap_or_else(|| "current".to_string());
-        build_openbitfun_runtime_uri(&scope, &normalize_runtime_relative_path(relative_path)?)
+        build_opc_runtime_uri(&scope, &normalize_runtime_relative_path(relative_path)?)
     }
 
     pub fn build_runtime_artifact_reference(&self, relative_path: &str) -> OpcTeamResult<String> {
@@ -793,7 +791,7 @@ impl ToolUseContext {
     }
 
     pub fn resolve_tool_path(&self, path: &str) -> OpcTeamResult<ToolPathResolution> {
-        if is_openbitfun_tool_uri(path) {
+        if is_opc_tool_uri(path) {
             let workspace_scope = self.current_workspace_scope();
             let runtime_root = if self.workspace.is_some() {
                 Some(self.current_workspace_runtime_root()?)
@@ -845,7 +843,7 @@ impl ToolUseContext {
 
 #[cfg(feature = "git")]
 fn git_relative_path(workspace_root: &Path, path: &str) -> Option<String> {
-    if is_openbitfun_tool_uri(path) {
+    if is_opc_tool_uri(path) {
         return None;
     }
 
@@ -867,7 +865,7 @@ mod context_facts_tests {
     };
     use crate::agentic::WorkspaceBinding;
     use crate::service::remote_ssh::workspace_state::workspace_session_identity;
-    use openbitfun_agent_tools::LoadedDeferredToolSpec;
+    use opc_agent_tools::LoadedDeferredToolSpec;
     use std::collections::{BTreeSet, HashMap};
     use std::path::PathBuf;
     use tool_runtime::context::PrimaryModelFacts;
@@ -891,7 +889,7 @@ mod context_facts_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -914,7 +912,7 @@ mod context_facts_tests {
                 path_policy: Default::default(),
                 miniapp_context_scope: None,
             },
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         };
 
         let facts = context.to_tool_context_facts();
@@ -962,7 +960,7 @@ mod context_facts_tests {
                 path_policy: Default::default(),
                 miniapp_context_scope: None,
             },
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::new(
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::new(
                 None,
                 Some(tokio_util::sync::CancellationToken::new()),
             ),
@@ -1021,7 +1019,7 @@ mod context_facts_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         };
 
         let facts = context.to_tool_context_facts();
@@ -1074,7 +1072,7 @@ mod path_resolution_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -1098,15 +1096,14 @@ mod path_resolution_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
     #[cfg(unix)]
     #[tokio::test]
     async fn file_system_selection_never_reads_local_files_for_unavailable_remote_workspace() {
-        let root =
-            std::env::temp_dir().join(format!("openbitfun-fs-route-{}", uuid::Uuid::new_v4()));
+        let root = std::env::temp_dir().join(format!("opc-fs-route-{}", uuid::Uuid::new_v4()));
         std::fs::create_dir_all(&root).unwrap();
         let file = root.join("sentinel.txt");
         std::fs::write(&file, "controller-only").unwrap();
@@ -1138,8 +1135,7 @@ mod path_resolution_tests {
         let mut context = remote_context("/remote/workspace", None);
         let services = crate::agentic::workspace::local_workspace_services("/unused".into());
         let provider = Arc::clone(&services.fs);
-        context.runtime_handles =
-            openbitfun_runtime_ports::ToolRuntimeHandles::new(Some(services), None);
+        context.runtime_handles = opc_runtime_ports::ToolRuntimeHandles::new(Some(services), None);
         let workspace_file = context.resolve_tool_path("source.txt").unwrap();
         assert!(Arc::ptr_eq(
             &provider,
@@ -1148,8 +1144,8 @@ mod path_resolution_tests {
 
         context.session_id = Some("route-test".into());
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".into(),
-            serde_json::json!(std::env::temp_dir().join("openbitfun-route-artifacts")),
+            "__opc_test_runtime_root".into(),
+            serde_json::json!(std::env::temp_dir().join("opc-route-artifacts")),
         );
         let artifact = context
             .resolve_tool_path("openbitfun://current-session/artifacts/output.txt")
@@ -1182,7 +1178,7 @@ mod path_resolution_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -1239,7 +1235,7 @@ mod path_resolution_tests {
         let mut context = local_context("/repo/project");
         context.session_id = Some("session-1".to_string());
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".to_string(),
+            "__opc_test_runtime_root".to_string(),
             serde_json::Value::String(runtime_root.to_string_lossy().to_string()),
         );
 
@@ -1270,7 +1266,7 @@ mod path_resolution_tests {
             remote_context("/home/wsp/projects/test", Some("workspace-123".to_string()));
         context.session_id = Some("session-remote".to_string());
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".to_string(),
+            "__opc_test_runtime_root".to_string(),
             serde_json::Value::String(runtime_root.to_string_lossy().to_string()),
         );
 
@@ -1294,7 +1290,7 @@ mod path_resolution_tests {
         let runtime_root = PathBuf::from("/runtime/project");
         let mut context = local_context("/repo/project");
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".to_string(),
+            "__opc_test_runtime_root".to_string(),
             serde_json::Value::String(runtime_root.to_string_lossy().to_string()),
         );
 
@@ -1357,10 +1353,8 @@ mod path_resolution_tests {
 
     #[test]
     fn path_policy_allows_only_configured_local_roots() {
-        let temp_root = std::env::temp_dir().join(format!(
-            "openbitfun-tool-context-policy-{}",
-            uuid::Uuid::new_v4()
-        ));
+        let temp_root =
+            std::env::temp_dir().join(format!("opc-tool-context-policy-{}", uuid::Uuid::new_v4()));
         let allowed_root = temp_root.join("allowed");
         std::fs::create_dir_all(&allowed_root).expect("create allowed root");
         let context = context_with_restrictions(
@@ -1469,7 +1463,7 @@ mod call_runtime_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::new(
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::new(
                 None,
                 Some(cancellation_token),
             ),
@@ -1506,7 +1500,7 @@ mod call_runtime_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         };
 
         let result: OpcTeamResult<Vec<ToolResult>> =
@@ -1547,7 +1541,7 @@ mod call_runtime_tests {
             custom_data,
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         };
         let tool = MeasurementReadTool;
 
@@ -1633,13 +1627,13 @@ mod task_context_tests {
         SubagentParentInfo, ToolExecutionContext, ToolExecutionOptions, ToolTask,
     };
     use crate::agentic::tools::ToolRuntimeRestrictions;
-    use openbitfun_agent_runtime::permission::AUTO_APPROVE_ASK_CONTEXT_KEY;
-    use openbitfun_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
-    use openbitfun_agent_runtime::user_questions::{
+    use opc_agent_runtime::permission::AUTO_APPROVE_ASK_CONTEXT_KEY;
+    use opc_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
+    use opc_agent_runtime::user_questions::{
         USER_INPUT_AVAILABLE_CONTEXT_KEY, USER_INPUT_MODEL_ROUND_CONTEXT_KEY,
     };
-    use openbitfun_agent_tools::LoadedDeferredToolSpec;
-    use openbitfun_runtime_ports::DelegationPolicy;
+    use opc_agent_tools::LoadedDeferredToolSpec;
+    use opc_runtime_ports::DelegationPolicy;
     use serde_json::json;
     use std::collections::{BTreeSet, HashMap};
     use tokio_util::sync::CancellationToken;
@@ -1738,7 +1732,7 @@ mod task_context_tests {
         let mut task = task_with_context_vars();
         task.context.subagent_parent_info = None;
         task.context.permission_delegation =
-            Some(openbitfun_agent_runtime::sdk::PermissionDelegationContext {
+            Some(opc_agent_runtime::sdk::PermissionDelegationContext {
                 parent_session_id: "restored-parent".into(),
                 parent_dialog_turn_id: None,
                 parent_tool_call_id: "parent-tool".into(),
@@ -1746,8 +1740,7 @@ mod task_context_tests {
             });
         let context = build_tool_use_context_for_task(&task, None, CancellationToken::new());
         assert_eq!(
-            context.custom_data
-                [openbitfun_agent_runtime::user_questions::USER_INPUT_PARENT_CONTEXT_KEY],
+            context.custom_data[opc_agent_runtime::user_questions::USER_INPUT_PARENT_CONTEXT_KEY],
             json!({
                 "session_id": "restored-parent", "dialog_turn_id": null,
             })
@@ -1809,8 +1802,7 @@ mod task_context_tests {
             json!("parent_tool")
         );
         assert_eq!(
-            context.custom_data
-                [openbitfun_agent_runtime::user_questions::USER_INPUT_PARENT_CONTEXT_KEY],
+            context.custom_data[opc_agent_runtime::user_questions::USER_INPUT_PARENT_CONTEXT_KEY],
             json!({
                 "session_id": "parent_session", "dialog_turn_id": "parent_turn"
             })

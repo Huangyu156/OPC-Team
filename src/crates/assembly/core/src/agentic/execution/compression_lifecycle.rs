@@ -156,8 +156,8 @@ impl ExecutionEngine {
             )
             .await;
             let candidate = match claim {
-                Some(openbitfun_agent_runtime::compression_prefetch::PrefetchClaim::Ready(candidate)) => Some(candidate),
-                Some(openbitfun_agent_runtime::compression_prefetch::PrefetchClaim::Waiting(task)) => {
+                Some(opc_agent_runtime::compression_prefetch::PrefetchClaim::Ready(candidate)) => Some(candidate),
+                Some(opc_agent_runtime::compression_prefetch::PrefetchClaim::Waiting(task)) => {
                     Some(task.wait().await.map_err(|_| OpcTeamError::AIClient(
                         "Compression prefetch worker stopped before publishing a result".into()
                     ))??)

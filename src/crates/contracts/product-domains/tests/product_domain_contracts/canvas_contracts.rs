@@ -1,4 +1,4 @@
-use openbitfun_product_domains::canvas::{
+use opc_product_domains::canvas::{
     parse_canvas_artifact_ref, validate_canvas_imports, validate_canvas_source_policy,
     CanvasArtifact, CanvasArtifactRef, CanvasDiagnostic, CanvasDiagnosticCategory,
     CanvasDiagnosticSeverity, CanvasId, CanvasImportPolicyDiagnosticKind, CanvasRevision,
@@ -27,10 +27,7 @@ fn canvas_artifact_ref_uses_logical_uri_not_path() {
 
     let uri = reference.to_uri();
 
-    assert_eq!(
-        uri,
-        "openbitfun-canvas://session/session%201/canvas/canvas%201"
-    );
+    assert_eq!(uri, "opc-canvas://session/session%201/canvas/canvas%201");
     assert!(!uri.contains("/Users/"));
     assert!(!uri.contains("\\"));
 
@@ -41,10 +38,10 @@ fn canvas_artifact_ref_uses_logical_uri_not_path() {
 #[test]
 fn canvas_artifact_ref_rejects_unsafe_path_segments() {
     for uri in [
-        "openbitfun-canvas://session/..%2Fother/canvas/canvas_1",
-        "openbitfun-canvas://session/../canvas/canvas_1",
-        "openbitfun-canvas://session/session_1/canvas/canvas%2Fwith%2Fslash",
-        "openbitfun-canvas://session/session%5C1/canvas/canvas_1",
+        "opc-canvas://session/..%2Fother/canvas/canvas_1",
+        "opc-canvas://session/../canvas/canvas_1",
+        "opc-canvas://session/session_1/canvas/canvas%2Fwith%2Fslash",
+        "opc-canvas://session/session%5C1/canvas/canvas_1",
     ] {
         assert!(
             parse_canvas_artifact_ref(uri).is_err(),

@@ -98,7 +98,7 @@ export const LSDisplay: React.FC<ToolCardProps> = ({
   }
 
   return (
-    <div ref={cardRootRef} data-openbitfun-adapter="directory-list" data-tool-card-id={toolId ?? ''}>
+    <div ref={cardRootRef} data-opc-adapter="directory-list" data-tool-card-id={toolId ?? ''}>
       <DirectoryListToolCard
         action={t('toolCards.ls.listDirectory')}
         status={status}

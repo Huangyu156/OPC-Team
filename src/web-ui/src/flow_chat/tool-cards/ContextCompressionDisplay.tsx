@@ -79,7 +79,7 @@ export const ContextCompressionDisplay: React.FC<ContextCompressionDisplayProps>
         : active ? undefined : t('toolCards.default.completed');
 
   return (
-    <div ref={cardRootRef} data-openbitfun-adapter="context-compression" data-tool-card-id={toolItem?.id ?? ''}>
+    <div ref={cardRootRef} data-opc-adapter="context-compression" data-tool-card-id={toolItem?.id ?? ''}>
       <ContextCompressionToolCard
         isExpanded={isExpanded}
         onToggle={() => applyExpandedState(isExpanded, !isExpanded, setIsExpanded)}

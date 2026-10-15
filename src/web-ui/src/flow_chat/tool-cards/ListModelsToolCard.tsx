@@ -14,7 +14,7 @@ export const ListModelsToolCard: React.FC<ToolCardProps> = ({ toolItem, onExpand
   const { cardRootRef, applyExpandedState } = useToolCardHeightContract({ toolId: toolItem.id, toolName: 'ListModels' });
   const needsConfirmation = runtimeToolNeedsConfirmation(toolItem, model.status);
   const fallback = model.fallback !== undefined || Boolean(toolItem.toolResult?.resultForAssistant && !model.hasModelList);
-  return <div ref={cardRootRef} data-openbitfun-adapter="list-models" data-tool-card-id={toolItem.id}>
+  return <div ref={cardRootRef} data-opc-adapter="list-models" data-tool-card-id={toolItem.id}>
     <ListModelsToolCardView status={model.status} action={t('toolCards.listModels.title')}
       summary={model.query || t('toolCards.listModels.models')}
       resultSummary={model.status === 'completed' && model.hasModelList

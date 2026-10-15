@@ -15,8 +15,8 @@ use crate::service::worktree::{
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_agent_runtime::session_control::session_control_creator_marker;
-use openbitfun_runtime_ports::{
+use opc_agent_runtime::session_control::session_control_creator_marker;
+use opc_runtime_ports::{
     AgentSessionCreateRequest, AgentSessionListRequest, AgentSessionWorkspaceRequest,
 };
 use serde::Deserialize;

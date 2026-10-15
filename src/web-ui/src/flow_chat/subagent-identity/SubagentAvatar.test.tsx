@@ -42,11 +42,11 @@ describe('SubagentAvatar', () => {
       );
     });
 
-    const avatar = container.querySelector('[data-openbitfun-component="subagent-avatar"]');
+    const avatar = container.querySelector('[data-opc-component="subagent-avatar"]');
     const presentation = resolveSubagentAvatarPresentation('child');
-    expect(avatar?.getAttribute('data-openbitfun-avatar-id')).toBe(presentation.avatarId);
-    expect(avatar?.hasAttribute('data-openbitfun-avatar-color-id')).toBe(false);
-    expect(avatar?.getAttribute('data-openbitfun-state')).toBe('running');
+    expect(avatar?.getAttribute('data-opc-avatar-id')).toBe(presentation.avatarId);
+    expect(avatar?.hasAttribute('data-opc-avatar-color-id')).toBe(false);
+    expect(avatar?.getAttribute('data-opc-state')).toBe('running');
     expect(avatar?.getAttribute('style')).toContain('28px');
     expect(container.querySelector('img')?.getAttribute('src')).toBe(
       getSubagentAvatarDefinition(presentation.avatarId).src,
@@ -64,12 +64,12 @@ describe('SubagentAvatar', () => {
       );
     });
 
-    const avatar = container.querySelector('[data-openbitfun-component="subagent-avatar"]');
+    const avatar = container.querySelector('[data-opc-component="subagent-avatar"]');
     const presentation = resolveSubagentAvatarPresentation('restored-child-session');
-    expect(avatar?.getAttribute('data-openbitfun-avatar-id')).toBe(presentation.avatarId);
+    expect(avatar?.getAttribute('data-opc-avatar-id')).toBe(presentation.avatarId);
     expect(avatar?.getAttribute('style')).toContain('--subagent-avatar-size: 22px');
     expect(avatar?.getAttribute('style')).not.toContain('hue-shift');
-    expect(avatar?.hasAttribute('data-openbitfun-name-id')).toBe(false);
+    expect(avatar?.hasAttribute('data-opc-name-id')).toBe(false);
   });
 
   it('animates live completion once, without replaying it on a historical mount', () => {

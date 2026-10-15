@@ -11,7 +11,7 @@ use crate::remote_ssh::types::{
 };
 use anyhow::{anyhow, Context};
 use async_trait::async_trait;
-use openbitfun_services_core::{process_manager, product_identity::hidden_data_directory};
+use opc_services_core::{process_manager, product_identity::hidden_data_directory};
 use russh::client::{DisconnectReason, Handle, Handler, Msg};
 use russh::Sig;
 use russh_keys::key::{KeyPair, PublicKey};
@@ -2049,8 +2049,8 @@ fn parse_container_file_output(
 
 fn parse_workspace_stat_output(
     output: &str,
-) -> anyhow::Result<openbitfun_runtime_ports::WorkspaceMetadata> {
-    use openbitfun_runtime_ports::{WorkspaceMetadata, WorkspacePathKind};
+) -> anyhow::Result<opc_runtime_ports::WorkspaceMetadata> {
+    use opc_runtime_ports::{WorkspaceMetadata, WorkspacePathKind};
     let fields = output.split_whitespace().collect::<Vec<_>>();
     if fields.len() != 5 || !matches!(fields[0], "hex" | "oct") {
         anyhow::bail!("Container stat returned malformed workspace metadata");
@@ -5129,7 +5129,7 @@ impl SSHConnectionManager {
         &self,
         connection_id: &str,
         path: &str,
-    ) -> anyhow::Result<openbitfun_runtime_ports::WorkspaceWriter> {
+    ) -> anyhow::Result<opc_runtime_ports::WorkspaceWriter> {
         let path = self.resolve_sftp_path(connection_id, path).await?;
         if self.is_shell_workspace(connection_id).await {
             anyhow::bail!("Streaming upload requires an SFTP workspace provider");
@@ -5165,7 +5165,7 @@ impl SSHConnectionManager {
         &self,
         connection_id: &str,
         path: &str,
-    ) -> anyhow::Result<openbitfun_runtime_ports::WorkspaceReader> {
+    ) -> anyhow::Result<opc_runtime_ports::WorkspaceReader> {
         let path = self.resolve_sftp_path(connection_id, path).await?;
         if self.is_shell_workspace(connection_id).await {
             let command = format!(
@@ -5766,7 +5766,7 @@ impl SSHConnectionManager {
         connection_id: &str,
         path: &str,
         follow_symlinks: bool,
-    ) -> anyhow::Result<Option<openbitfun_runtime_ports::WorkspaceMetadata>> {
+    ) -> anyhow::Result<Option<opc_runtime_ports::WorkspaceMetadata>> {
         let mut path = self.resolve_sftp_path(connection_id, path).await?;
         let follow = if follow_symlinks { "-L " } else { "" };
         // Query stat itself: `test -e` also returns false for inaccessible
@@ -5794,9 +5794,7 @@ impl SSHConnectionManager {
                 );
             }
             let metadata = parse_workspace_stat_output(std::str::from_utf8(&stdout)?)?;
-            if !follow_symlinks
-                || metadata.kind != openbitfun_runtime_ports::WorkspacePathKind::Symlink
-            {
+            if !follow_symlinks || metadata.kind != opc_runtime_ports::WorkspacePathKind::Symlink {
                 return Ok(Some(metadata));
             }
             // BSD stat -L silently falls back to lstat when the referent
@@ -7818,7 +7816,7 @@ mod tests {
     #[cfg(unix)]
     #[tokio::test]
     async fn workspace_container_metadata_preserves_errors_and_follows_links() {
-        use openbitfun_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
+        use opc_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
         use std::os::unix::fs::{symlink, PermissionsExt};
         let temp = tempfile::tempdir().unwrap();
         let (_manager, provider) = shell_workspace_provider_fixture(temp.path()).await;
@@ -7924,7 +7922,7 @@ mod tests {
     #[cfg(unix)]
     #[tokio::test]
     async fn workspace_container_write_preserves_inode_links_and_modes_without_changing_uploads() {
-        use openbitfun_runtime_ports::WorkspaceFileSystem;
+        use opc_runtime_ports::WorkspaceFileSystem;
         use std::os::unix::fs::{symlink, MetadataExt, PermissionsExt};
         let temp = tempfile::tempdir().unwrap();
         let (manager, provider) = shell_workspace_provider_fixture(temp.path()).await;
@@ -7985,7 +7983,7 @@ mod tests {
         use tokio::io::{AsyncReadExt, AsyncWriteExt};
         let temp = tempfile::tempdir().unwrap();
         let target = temp.path().join("target");
-        let staged = temp.path().join(".openbitfun-upload-test.tmp");
+        let staged = temp.path().join(".opc-upload-test.tmp");
         std::fs::write(&target, b"preserved").unwrap();
         let command = container_workspace_write_command(
             target.to_str().unwrap(),
@@ -8066,7 +8064,7 @@ mod tests {
         use tokio::io::{AsyncReadExt, AsyncWriteExt};
         let temp = tempfile::tempdir().unwrap();
         let target = temp.path().join("target");
-        let staged = temp.path().join(".openbitfun-upload-test.tmp");
+        let staged = temp.path().join(".opc-upload-test.tmp");
         let wc = temp.path().join("wc");
         std::fs::write(&target, b"preserved").unwrap();
         // wc is called only after staging is complete. Signal the writing
@@ -8109,7 +8107,7 @@ mod tests {
 
     #[test]
     fn workspace_metadata_parses_permissions_and_rejects_malformed_stat() {
-        use openbitfun_runtime_ports::WorkspacePathKind;
+        use opc_runtime_ports::WorkspacePathKind;
         let gnu = parse_workspace_stat_output("hex 81a4 7 1700000000 644\n").unwrap();
         let bsd = parse_workspace_stat_output("oct 100644 7 1700000000 644\n").unwrap();
         assert_eq!(gnu, bsd);
@@ -8200,7 +8198,7 @@ mod tests {
             .unwrap()
             .as_nanos();
         std::env::temp_dir().join(format!(
-            "openbitfun-remote-ssh-manager-{}-{}-{}",
+            "opc-remote-ssh-manager-{}-{}-{}",
             name,
             std::process::id(),
             nanos
@@ -8471,7 +8469,7 @@ mod tests {
         let wrapped = supervised_container_command_with_pid_file(
             &container,
             "printf 'compatible'",
-            "/dev/null/openbitfun-exec.pid",
+            "/dev/null/opc-exec.pid",
         );
         let output = std::process::Command::new("sh")
             .args(["-lc", &wrapped])
@@ -8604,7 +8602,7 @@ mod tests {
                     passphrase: None,
                     certificate_path: None,
                 },
-                default_workspace: Some("/tmp/openbitfun-remote-workspace".to_string()),
+                default_workspace: Some("/tmp/opc-remote-workspace".to_string()),
                 proxy_jump: None,
                 container: Some(ContainerWorkspaceConfig {
                     name: container_name,
@@ -8645,7 +8643,7 @@ mod tests {
         }
 
         manager
-            .container_mkdir(connection_id, "/tmp/openbitfun-remote-workspace", true)
+            .container_mkdir(connection_id, "/tmp/opc-remote-workspace", true)
             .await
             .unwrap();
         let cancellation = tokio_util::sync::CancellationToken::new();
@@ -8657,7 +8655,7 @@ mod tests {
         let cancelled_command = manager
             .execute_command_with_options(
                 connection_id,
-                "trap '' INT; sleep 30; touch /tmp/openbitfun-remote-workspace/cancel-leaked",
+                "trap '' INT; sleep 30; touch /tmp/opc-remote-workspace/cancel-leaked",
                 SSHCommandOptions {
                     timeout_ms: Some(5_000),
                     cancellation_token: Some(cancellation),
@@ -8669,10 +8667,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(200)).await;
         assert!(
             !manager
-                .container_exists(
-                    connection_id,
-                    "/tmp/openbitfun-remote-workspace/cancel-leaked"
-                )
+                .container_exists(connection_id, "/tmp/opc-remote-workspace/cancel-leaked")
                 .await
                 .unwrap(),
             "cancelled Docker command must not continue inside the container"
@@ -8681,14 +8676,14 @@ mod tests {
         manager
             .container_write_file(
                 connection_id,
-                "/tmp/openbitfun-remote-workspace/source.bin",
+                "/tmp/opc-remote-workspace/source.bin",
                 original,
             )
             .await
             .unwrap();
         assert_eq!(
             manager
-                .container_read_file(connection_id, "/tmp/openbitfun-remote-workspace/source.bin")
+                .container_read_file(connection_id, "/tmp/opc-remote-workspace/source.bin")
                 .await
                 .unwrap(),
             original
@@ -8696,7 +8691,7 @@ mod tests {
         manager
             .container_write_file(
                 connection_id,
-                "/tmp/openbitfun-remote-workspace/atomic.bin",
+                "/tmp/opc-remote-workspace/atomic.bin",
                 original,
             )
             .await
@@ -8705,7 +8700,7 @@ mod tests {
         let cancelled = manager
             .container_write_file_with_progress(
                 connection_id,
-                "/tmp/openbitfun-remote-workspace/atomic.bin",
+                "/tmp/opc-remote-workspace/atomic.bin",
                 &replacement,
                 &mut |written, _| written < 262_144,
             )
@@ -8714,7 +8709,7 @@ mod tests {
         tokio::time::sleep(Duration::from_millis(200)).await;
         assert_eq!(
             manager
-                .container_read_file(connection_id, "/tmp/openbitfun-remote-workspace/atomic.bin")
+                .container_read_file(connection_id, "/tmp/opc-remote-workspace/atomic.bin")
                 .await
                 .unwrap(),
             original,
@@ -8723,22 +8718,19 @@ mod tests {
         manager
             .container_rename(
                 connection_id,
-                "/tmp/openbitfun-remote-workspace/source.bin",
-                "/tmp/openbitfun-remote-workspace/renamed.bin",
+                "/tmp/opc-remote-workspace/source.bin",
+                "/tmp/opc-remote-workspace/renamed.bin",
             )
             .await
             .unwrap();
         let entries = manager
-            .container_read_dir(connection_id, "/tmp/openbitfun-remote-workspace")
+            .container_read_dir(connection_id, "/tmp/opc-remote-workspace")
             .await
             .unwrap();
         assert!(entries.iter().any(|entry| entry.name == "renamed.bin"));
         assert_eq!(
             manager
-                .container_stat(
-                    connection_id,
-                    "/tmp/openbitfun-remote-workspace/renamed.bin"
-                )
+                .container_stat(connection_id, "/tmp/opc-remote-workspace/renamed.bin")
                 .await
                 .unwrap()
                 .and_then(|entry| entry.size),
@@ -8747,16 +8739,13 @@ mod tests {
         manager
             .container_remove(
                 connection_id,
-                "/tmp/openbitfun-remote-workspace/renamed.bin",
+                "/tmp/opc-remote-workspace/renamed.bin",
                 false,
             )
             .await
             .unwrap();
         assert!(!manager
-            .container_exists(
-                connection_id,
-                "/tmp/openbitfun-remote-workspace/renamed.bin"
-            )
+            .container_exists(connection_id, "/tmp/opc-remote-workspace/renamed.bin")
             .await
             .unwrap());
 

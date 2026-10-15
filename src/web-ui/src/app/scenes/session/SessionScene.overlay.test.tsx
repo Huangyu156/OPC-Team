@@ -34,13 +34,13 @@ globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 describe('session overlay layout integration', () => {
   let container: HTMLDivElement;
   let root: Root;
-  const split = () => container.querySelector<HTMLElement>('[data-openbitfun-component="split-view"][data-openbitfun-part="root"]')!;
+  const split = () => container.querySelector<HTMLElement>('[data-opc-component="split-view"][data-opc-part="root"]')!;
 
   beforeEach(() => {
     sessionPaneLayoutStore.setState(sessionPaneLayoutStore.getInitialState());
     vi.stubGlobal('ResizeObserver', class { observe() {} disconnect() {} });
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
-      return { width: this.getAttribute('data-openbitfun-part') === 'divider' ? 1 : 1201 } as DOMRect;
+      return { width: this.getAttribute('data-opc-part') === 'divider' ? 1 : 1201 } as DOMRect;
     });
     container = document.createElement('div');
     document.body.appendChild(container);
@@ -69,7 +69,7 @@ describe('session overlay layout integration', () => {
     expect(split().style.getPropertyValue('--_split-view-right-size')).toBe('600px');
 
     act(() => mocks.selectLayout!('overlay'));
-    expect(container.querySelector('.openbitfun-session-scene--overlay')).not.toBeNull();
+    expect(container.querySelector('.opc-session-scene--overlay')).not.toBeNull();
     expect(split().getAttribute('data-layout')).toBe('overlay');
     expect(split().style.getPropertyValue('--_split-view-right-size')).toBe('700px');
     const handle = container.querySelector<HTMLElement>('[role="separator"]')!;

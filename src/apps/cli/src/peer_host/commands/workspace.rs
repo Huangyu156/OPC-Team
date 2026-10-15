@@ -2,10 +2,10 @@
 
 use std::path::PathBuf;
 
-use openbitfun_core::service::workspace::{
+use opc_core::service::workspace::{
     remote_workspace_connection_conflict_message, RemoteConnectionRebind,
 };
-use openbitfun_runtime_ports::SessionStoragePathRequest;
+use opc_runtime_ports::SessionStoragePathRequest;
 use serde_json::{json, Value};
 
 use crate::peer_host::args::{get_string, optional_bool, optional_string, request_value};
@@ -73,7 +73,7 @@ pub(crate) async fn set_active_workspace(
 pub(crate) async fn open_workspace(state: &PeerHostState, args: &Value) -> Result<Value, String> {
     let request = request_value(args);
     if let Some(id) = crate::peer_host::args::optional_string(request, "workspaceId") {
-        let coordinator = openbitfun_core::agentic::coordination::get_global_coordinator()
+        let coordinator = opc_core::agentic::coordination::get_global_coordinator()
             .ok_or("Conversation coordinator is unavailable")?;
         let info = coordinator
             .select_workspace_with_runtime_ownership(&state.workspace_service, &id)
@@ -122,7 +122,7 @@ pub(crate) async fn open_remote_workspace(
     } else {
         RemoteConnectionRebind::Reject
     };
-    let coordinator = openbitfun_core::agentic::coordination::get_global_coordinator()
+    let coordinator = opc_core::agentic::coordination::get_global_coordinator()
         .ok_or("Conversation coordinator is unavailable")?;
     let info = coordinator
         .create_remote_workspace_with_runtime_ownership(
@@ -143,7 +143,7 @@ pub(crate) async fn open_remote_workspace(
 }
 
 pub(crate) async fn reload_config() -> Result<Value, String> {
-    openbitfun_core::service::config::reload_global_config()
+    opc_core::service::config::reload_global_config()
         .await
         .map_err(|e| format!("Failed to reload config: {e}"))?;
     Ok(json!("Configuration reloaded successfully"))
@@ -160,8 +160,7 @@ pub(crate) async fn cleanup_invalid_workspaces(state: &PeerHostState) -> Result<
 
 pub(crate) async fn ssh_list_saved_connections() -> Result<Value, String> {
     let state =
-        openbitfun_core::service::remote_ssh::workspace_state::ensure_saved_connection_services()
-            .await?;
+        opc_core::service::remote_ssh::workspace_state::ensure_saved_connection_services().await?;
     let ssh = state
         .get_ssh_manager()
         .await

@@ -365,32 +365,32 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
       <button data-overflow-trigger
         ref={triggerRef}
         type="button"
-        className={`openbitfun-nav-panel__footer-device-status${open ? ' is-open' : ''}`}
+        className={`opc-nav-panel__footer-device-status${open ? ' is-open' : ''}`}
         aria-label={accessibleSummary}
         aria-expanded={open}
         aria-haspopup="dialog"
         onClick={() => onOpenChange(!open)}
         data-testid="nav-footer-device-status"
-        data-openbitfun-component="nav-panel"
-        data-openbitfun-part="deviceStatus"
-        data-openbitfun-state={overview.mode}
+        data-opc-component="nav-panel"
+        data-opc-part="deviceStatus"
+        data-opc-state={overview.mode}
       >
         {/* The label names a device, and this mark says which system that device
             is: the machine the window works on, whichever end of the connection
             it sits on. */}
         <DeviceMark device={overview.primaryDevice} size="sm" />
-        <OverflowText className="openbitfun-nav-panel__footer-device-status-label">
+        <OverflowText className="opc-nav-panel__footer-device-status-label">
           {overview.currentWorkDeviceName}
         </OverflowText>
         {attachedGroups.length > 0 && (
           <span
-            className="openbitfun-nav-panel__footer-device-status-attached"
+            className="opc-nav-panel__footer-device-status-attached"
             aria-hidden="true"
           >
             {attachedGroups.map(group => (
               <span
-                className="openbitfun-nav-panel__footer-device-status-attached-group"
-                data-openbitfun-device-kind={group.kind}
+                className="opc-nav-panel__footer-device-status-attached-group"
+                data-opc-device-kind={group.kind}
                 key={group.kind}
               >
                 {group.kind === 'desktop' ? (
@@ -415,7 +415,7 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
                   />
                 )}
                 {group.count > 1 && (
-                  <span className="openbitfun-nav-panel__footer-device-status-attached-count">
+                  <span className="opc-nav-panel__footer-device-status-attached-count">
                     {group.count}
                   </span>
                 )}
@@ -428,24 +428,24 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
       {open && createOverlayPortal(
         <>
           <div
-            className="openbitfun-nav-panel__footer-backdrop"
+            className="opc-nav-panel__footer-backdrop"
             onMouseDown={() => onOpenChange(false)}
             data-testid="nav-device-status-backdrop"
           />
           <Card
             ref={popoverRef}
             appearance="raised"
-            className="openbitfun-device-overview"
+            className="opc-device-overview"
             gap="none"
             padding="none"
             radius="lg"
             role="dialog"
             aria-label={t('deviceOverview.title')}
             data-testid="nav-device-status-popover"
-            data-openbitfun-product-component="device-overview"
-            data-openbitfun-product-part="root"
-            data-openbitfun-state={overview.mode}
-            data-openbitfun-placement={popoverLayout?.placement ?? 'top'}
+            data-opc-product-component="device-overview"
+            data-opc-product-part="root"
+            data-opc-state={overview.mode}
+            data-opc-placement={popoverLayout?.placement ?? 'top'}
             style={{
               top: `${popoverLayout?.top ?? 0}px`,
               left: `${popoverLayout?.left ?? 0}px`,
@@ -453,27 +453,27 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
             }}
           >
             <CardHeader
-              className="openbitfun-device-overview__header"
+              className="opc-device-overview__header"
               contentAlign="center"
-              title={<h2 className="openbitfun-device-overview__title">{t('deviceOverview.title')}</h2>}
+              title={<h2 className="opc-device-overview__title">{t('deviceOverview.title')}</h2>}
             />
-            <ScrollArea className="openbitfun-device-overview__scroll">
-            <CardBody className="openbitfun-device-overview__body">
+            <ScrollArea className="opc-device-overview__scroll">
+            <CardBody className="opc-device-overview__body">
               {overview.mode === 'connected' && (
                 <>
                   <section
-                    className="openbitfun-device-overview__device-group"
+                    className="opc-device-overview__device-group"
                     data-testid="nav-device-status-connected-devices"
                   >
-                    <div className="openbitfun-device-overview__device-rows">
+                    <div className="opc-device-overview__device-rows">
                       {overview.connectedDevices.map(device => (
                         <div
-                          className="openbitfun-device-overview__device-row"
+                          className="opc-device-overview__device-row"
                           key={device.id}
-                          data-openbitfun-device-kind={device.kind}
-                          data-openbitfun-activities={device.activities.join(' ')}
+                          data-opc-device-kind={device.kind}
+                          data-opc-activities={device.activities.join(' ')}
                         >
-                          <span className="openbitfun-device-overview__device-icon" aria-hidden="true">
+                          <span className="opc-device-overview__device-icon" aria-hidden="true">
                             <DeviceMark
                               device={device}
                               identity={`${device.id} ${device.name}`}
@@ -488,18 +488,18 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
                   </section>
                 </>
               )}
-              <div className="openbitfun-device-overview__summary" data-testid="nav-device-status-summary">
-                <div className="openbitfun-device-overview__carousel-viewport">
-                  <div className="openbitfun-device-overview__carousel-track"
+              <div className="opc-device-overview__summary" data-testid="nav-device-status-summary">
+                <div className="opc-device-overview__carousel-viewport">
+                  <div className="opc-device-overview__carousel-track"
                     style={{ transform: `translateX(-${previewIndex * 100}%)` }}>
                     {previewDevices.map((device, index) => {
                       return (
-                      <div className="openbitfun-device-overview__carousel-slide" key={availableTargets?.devices[index]?.device_id ?? device.id}
+                      <div className="opc-device-overview__carousel-slide" key={availableTargets?.devices[index]?.device_id ?? device.id}
                         aria-hidden={index !== previewIndex}>
-                        <div className="openbitfun-device-overview__device-switcher">
+                        <div className="opc-device-overview__device-switcher">
                           <DeviceArtwork device={device} />
                         </div>
-                        <OverflowText className="openbitfun-device-overview__device-name" title={device.name}>
+                        <OverflowText className="opc-device-overview__device-name" title={device.name}>
                           {device.name}
                         </OverflowText>
                       </div>
@@ -509,9 +509,9 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
                 </div>
                 {/* Reserve one action row when showing current-device status so
                     browsing peers keeps the artwork and name in place. */}
-                <div className="openbitfun-device-overview__connect-action">
+                <div className="opc-device-overview__connect-action">
                   {!isPreviewing && (
-                    <span className="openbitfun-device-overview__activity">
+                    <span className="opc-device-overview__activity">
                       {previewIncompatible ? previewIncompatibleNotice : deviceActivity(overview.primaryDevice)}
                     </span>
                   )}
@@ -521,7 +521,7 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
                     size="sm"
                     // A device cannot connect to itself, so this machine's button
                     // is inert and invisible while still laying the row out.
-                    className={isPreviewing ? undefined : 'openbitfun-device-overview__connect-reserved'}
+                    className={isPreviewing ? undefined : 'opc-device-overview__connect-reserved'}
                     disabled={!isPreviewing || previewIncompatible || switchingDevice || returningLocal}
                     aria-hidden={isPreviewing ? undefined : true}
                     tabIndex={isPreviewing ? undefined : -1}
@@ -532,7 +532,7 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
                     {previewIncompatible ? previewIncompatibleNotice : t('deviceOverview.connectDevice')}
                   </Button>
                 </div>
-                <div className="openbitfun-device-overview__carousel-controls">
+                <div className="opc-device-overview__carousel-controls">
                   <IconButton
                     variant="quiet" size="xs" shape="circle"
                     aria-label={t('deviceOverview.previousDevice')}
@@ -557,7 +557,7 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
                   variant="outline"
                   size="sm"
                   leadingIcon={<Icon name="refresh" size="sm" />}
-                  className="openbitfun-device-overview__notice"
+                  className="opc-device-overview__notice"
                   onClick={() => { void refresh(); }}
                 >
                   {t('deviceOverview.statusUnavailable')}
@@ -566,9 +566,9 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
             </CardBody>
             </ScrollArea>
 
-            <CardFooter align="center" className="openbitfun-device-overview__actions">
+            <CardFooter align="center" className="opc-device-overview__actions">
               <Button
-                className="openbitfun-device-overview__action"
+                className="opc-device-overview__action"
                 variant="primary"
                 size="sm"
                 leadingIcon={<Icon name="link" size="sm" />}
@@ -579,7 +579,7 @@ const DeviceStatusControl: React.FC<DeviceStatusControlProps> = ({
               </Button>
               {overview.peerActive && (
                 <Button
-                  className="openbitfun-device-overview__action"
+                  className="opc-device-overview__action"
                   variant="outline"
                   size="sm"
                   leadingIcon={<Icon glyph={Undo2} size="sm" />}

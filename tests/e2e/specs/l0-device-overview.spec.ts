@@ -42,7 +42,7 @@ async function openLocalOverview(): Promise<WebdriverIO.Element> {
   const trigger = await $('[data-testid="nav-footer-device-status"]');
   await trigger.waitForDisplayed({ timeout: 15_000 });
   await browser.waitUntil(
-    async () => (await trigger.getAttribute('data-openbitfun-state')) === 'local',
+    async () => (await trigger.getAttribute('data-opc-state')) === 'local',
     {
       timeout: 15_000,
       timeoutMsg: 'The isolated Desktop profile did not settle into local device mode',
@@ -95,7 +95,7 @@ describe('L0 Device Overview', () => {
     expect(await settings.$('.lucide-chevron-up').isExisting()).toBe(false);
 
     const popover = await openLocalOverview();
-    expect(await popover.getAttribute('data-openbitfun-state')).toBe('local');
+    expect(await popover.getAttribute('data-opc-state')).toBe('local');
     expect(await $('[data-testid="nav-device-status-summary"]').isDisplayed()).toBe(true);
     expect(await $('[data-testid="nav-device-connection-service"]').isExisting()).toBe(false);
     expect(await $('[data-testid="nav-device-status-connected-devices"]').isExisting()).toBe(false);
@@ -150,17 +150,17 @@ describe('L0 Device Overview', () => {
       await agreeDisclaimer.click();
     }
 
-    const dialog = await $('[data-openbitfun-component="remote-connect-dialog"][data-openbitfun-part="root"]');
+    const dialog = await $('[data-opc-component="remote-connect-dialog"][data-opc-part="root"]');
     await dialog.waitForDisplayed({
       timeout: 10_000,
       timeoutMsg: 'The full Remote Connect dialog did not open',
     });
     await expectPopupCloseContract(
-      '[data-openbitfun-component="remote-connect-dialog"][data-openbitfun-part="root"]',
+      '[data-opc-component="remote-connect-dialog"][data-opc-part="root"]',
     );
     expect(await $('[data-testid="nav-device-status-popover"]').isExisting()).toBe(false);
 
-    const groupTabs = await $$('[data-openbitfun-component="remote-connect-dialog"][data-openbitfun-part="groupTab"]');
+    const groupTabs = await $$('[data-opc-component="remote-connect-dialog"][data-opc-part="groupTab"]');
     expect(groupTabs).toHaveLength(3);
     expect(await $('#remote-connect-group-network').isDisplayed()).toBe(true);
     expect(await $('#remote-connect-group-bot').isDisplayed()).toBe(true);
@@ -168,7 +168,7 @@ describe('L0 Device Overview', () => {
 
     expect(await $('#remote-connect-network-tab-lan').isDisplayed()).toBe(true);
     expect(await $('#remote-connect-network-tab-ngrok').isDisplayed()).toBe(true);
-    expect(await $('#remote-connect-network-tab-openbitfun_server').isDisplayed()).toBe(true);
+    expect(await $('#remote-connect-network-tab-opc_server').isDisplayed()).toBe(true);
     expect(await $('#remote-connect-network-tab-custom_server').isDisplayed()).toBe(true);
 
     await $('#remote-connect-group-bot').click();
@@ -177,21 +177,21 @@ describe('L0 Device Overview', () => {
     expect(await $('#remote-connect-bot-tab-weixin').isDisplayed()).toBe(true);
 
     await $('#remote-connect-group-account').click();
-    const accountPanel = await $('[data-openbitfun-component="remote-account-panel"]');
+    const accountPanel = await $('[data-opc-component="remote-account-panel"]');
     await accountPanel.waitForDisplayed({ timeout: 10_000 });
-    const accountView = await accountPanel.getAttribute('data-openbitfun-view');
+    const accountView = await accountPanel.getAttribute('data-opc-view');
     if (accountView === 'login') {
       expect(await accountPanel.$('input[type="url"]').isDisplayed()).toBe(true);
       expect(await accountPanel.$('.account-panel__deploy-entry').isDisplayed()).toBe(true);
     } else {
       expect(accountView).toBe('devices');
-      expect(await accountPanel.$('[data-openbitfun-part="server"]').isDisplayed()).toBe(true);
+      expect(await accountPanel.$('[data-opc-part="server"]').isDisplayed()).toBe(true);
     }
 
     expect((await dialog.getText()).toLowerCase()).not.toContain('ssh');
 
     await saveElementScreenshot(
-      '[data-openbitfun-component="remote-connect-dialog"][data-openbitfun-part="root"]',
+      '[data-opc-component="remote-connect-dialog"][data-opc-part="root"]',
       'l0-device-overview-full-connect-dialog',
     );
     await saveStepScreenshot('l0-device-overview-full-connect-dialog');

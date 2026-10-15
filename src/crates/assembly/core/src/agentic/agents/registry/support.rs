@@ -10,7 +10,7 @@ use std::collections::HashMap;
 /// Tool-name prefixes of the tool families that are registered dynamically at
 /// runtime and therefore cannot appear in an Agent's static tool manifest.
 ///
-/// These mirror `openbitfun_agent_tools::{ACP_TOOL_PREFIX, MCP_TOOL_PREFIX}`, but
+/// These mirror `opc_agent_tools::{ACP_TOOL_PREFIX, MCP_TOOL_PREFIX}`, but
 /// are declared locally on purpose: both of those constants sit behind that
 /// crate's `acp-bridge` / `mcp-bridge` cargo features, while this module also
 /// compiles under `agent-runtime` alone, where neither feature is enabled.

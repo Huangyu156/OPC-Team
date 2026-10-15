@@ -7,7 +7,7 @@ use std::{io::Write, path::Path, sync::OnceLock};
 use tauri::{AppHandle, Emitter, Manager};
 use tauri_plugin_updater::{Update, UpdaterBuilder, UpdaterExt};
 
-const PROGRESS_EVENT: &str = "openbitfun-update-progress";
+const PROGRESS_EVENT: &str = "opc-update-progress";
 const RECORD_NAME: &str = "pending.json";
 
 // Serialize downloads and installs at the host, including calls from multiple windows.
@@ -84,7 +84,7 @@ fn platform() -> String {
 
 fn cache_dir(app: &AppHandle) -> Result<std::path::PathBuf, String> {
     if crate::e2e_storage_guard_enabled() {
-        return Ok(openbitfun_core::infrastructure::get_path_manager_arc()
+        return Ok(opc_core::infrastructure::get_path_manager_arc()
             .user_data_dir()
             .join("app-updates"));
     }

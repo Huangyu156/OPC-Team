@@ -3,7 +3,7 @@
 use super::{decode_data_url, ImageContextData};
 use crate::agentic::tools::framework::{build_tool_runtime_artifact_reference, ToolUseContext};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_services_core::json_store::JsonFileStore;
+use opc_services_core::json_store::JsonFileStore;
 use sha2::{Digest, Sha256};
 use std::path::Path;
 
@@ -149,8 +149,7 @@ mod tests {
         assert_eq!(images[0].image_path, images[1].image_path);
         assert_ne!(images[0].id, images[1].id);
         let parsed =
-            crate::agentic::tools::workspace_paths::parse_openbitfun_runtime_uri(reference)
-                .unwrap();
+            crate::agentic::tools::workspace_paths::parse_opc_runtime_uri(reference).unwrap();
         assert!(root.path().join(parsed.relative_path).is_file());
     }
 

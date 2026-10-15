@@ -10,7 +10,7 @@ const designSystemDirectory = path.resolve(labDirectory, "../..");
 const uiSourceDirectory = path.join(designSystemDirectory, "packages/ui/src");
 const flowChatPresentationDirectory = path.resolve(designSystemDirectory, "../packages/flow-chat-presentation");
 const brandExportsDirectory = path.resolve(designSystemDirectory, "../assets/brand/exports");
-const brandWordmarkFile = path.resolve(designSystemDirectory, "../png/openbitfun-wordmark.png");
+const brandWordmarkFile = path.resolve(designSystemDirectory, "../png/opc-wordmark.png");
 const subagentIdentityDirectory = path.resolve(designSystemDirectory, "../src/web-ui/src/flow_chat/subagent-identity");
 const subagentArtworkDirectory = path.resolve(designSystemDirectory, "../src/web-ui/src/flow_chat/assets/subagent-avatars");
 

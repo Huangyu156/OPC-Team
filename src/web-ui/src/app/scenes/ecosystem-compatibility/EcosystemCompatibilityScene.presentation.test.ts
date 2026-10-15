@@ -23,7 +23,7 @@ describe('ecosystem compatibility scene presentation contract', () => {
     expect(mainNav).toContain("activateProductAction('surface.ecosystemCompatibility.open')");
     expect(mainNav).not.toContain("activateProductAction('settings.external-sources.open')");
     expect(mainNav).toContain('useExternalAppAwareness(');
-    expect(mainNav).toContain('openbitfun-nav-panel__top-action-unseen');
+    expect(mainNav).toContain('opc-nav-panel__top-action-unseen');
     expect(activator).toContain("case 'surface.ecosystemCompatibility.open':");
     expect(activator).toContain('openEcosystemCompatibility();');
     expect(navigation).toContain("openScene('ecosystem-compatibility')");

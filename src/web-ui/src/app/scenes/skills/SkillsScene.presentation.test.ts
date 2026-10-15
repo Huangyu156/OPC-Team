@@ -84,8 +84,8 @@ describe('Skills scene presentation', () => {
     const stylesheet = readSibling('./SkillsScene.scss');
 
     expect(source).toContain('className="skills-card__actions"');
-    expect(source).toContain('data-openbitfun-part="installedCardDetails"');
-    expect(source).toContain('data-openbitfun-part="installedCardDelete"');
+    expect(source).toContain('data-opc-part="installedCardDetails"');
+    expect(source).toContain('data-opc-part="installedCardDelete"');
     expect(stylesheet).toContain('minmax(120px, 0.85fr) 64px;');
     expect(stylesheet).toContain('.skills-card__actions {');
   });

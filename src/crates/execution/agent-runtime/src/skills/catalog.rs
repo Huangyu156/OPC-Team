@@ -47,7 +47,7 @@ pub(super) const BUILTIN_SKILL_SPECS: &[BuiltinSkillSpec] = &[
         group: BuiltinSkillGroup::Canvas,
     },
     BuiltinSkillSpec {
-        dir_name: "openbitfun-canvas",
+        dir_name: "opc-canvas",
         group: BuiltinSkillGroup::Canvas,
     },
     BuiltinSkillSpec {
@@ -83,7 +83,7 @@ pub(super) const BUILTIN_SKILL_SPECS: &[BuiltinSkillSpec] = &[
         group: BuiltinSkillGroup::MiniApp,
     },
     BuiltinSkillSpec {
-        dir_name: "openbitfun-frontend-dev",
+        dir_name: "opc-frontend-dev",
         group: BuiltinSkillGroup::Creation,
     },
     BuiltinSkillSpec {

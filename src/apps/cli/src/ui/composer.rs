@@ -2,7 +2,7 @@ use std::fmt;
 use std::sync::Arc;
 
 use base64::Engine as _;
-use openbitfun_agent_runtime::sdk::{AgentInputAttachment, AgentWorkspaceReference};
+use opc_agent_runtime::sdk::{AgentInputAttachment, AgentWorkspaceReference};
 
 pub(crate) const MAX_COMPOSER_IMAGES: usize = 5;
 
@@ -451,9 +451,7 @@ fn replace_char_range(text: &mut String, start: usize, end: usize, replacement: 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_agent_runtime::sdk::{
-        AgentWorkspaceReferenceKind, AgentWorkspaceReferenceSourceRange,
-    };
+    use opc_agent_runtime::sdk::{AgentWorkspaceReferenceKind, AgentWorkspaceReferenceSourceRange};
     use std::sync::Arc;
 
     fn reference(start: usize) -> AgentWorkspaceReference {

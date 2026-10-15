@@ -10,12 +10,12 @@ impl ChatMode {
 
     fn reload_context(
         &self,
-        target: openbitfun_runtime_ports::AgentContextReloadTarget,
+        target: opc_runtime_ports::AgentContextReloadTarget,
         chat_view: &mut ChatView,
         chat_state: &mut ChatState,
         rt_handle: &tokio::runtime::Handle,
     ) {
-        use openbitfun_runtime_ports::{AgentContextReloadRequest, AgentContextReloadTarget};
+        use opc_runtime_ports::{AgentContextReloadRequest, AgentContextReloadTarget};
 
         let request = AgentContextReloadRequest {
             session_id: chat_state.core_session_id.clone(),
@@ -61,10 +61,9 @@ impl ChatMode {
                     .workspace_id()
                     .ok_or_else(|| anyhow::anyhow!("Workspace ID is unavailable"))?;
                 let workspace =
-                    openbitfun_core::agentic::workspace::WorkspaceBinding::resolve(&workspace_id)
-                        .await?;
+                    opc_core::agentic::workspace::WorkspaceBinding::resolve(&workspace_id).await?;
                 let registry =
-                    openbitfun_core::agentic::tools::implementations::skills::get_skill_registry();
+                    opc_core::agentic::tools::implementations::skills::get_skill_registry();
                 let skills = registry
                     .get_user_invocable_skills_for_workspace(
                         Some(&workspace),
@@ -119,13 +118,13 @@ impl ChatMode {
                     .workspace_id()
                     .ok_or_else(|| anyhow::anyhow!("Workspace ID is unavailable"))?;
                 let workspace =
-                    openbitfun_core::agentic::workspace::WorkspaceBinding::resolve(&workspace_id)
+                    opc_core::agentic::workspace::WorkspaceBinding::resolve(&workspace_id)
                         .await?;
                 let registry =
-                    openbitfun_core::agentic::tools::implementations::skills::get_skill_registry();
+                    opc_core::agentic::tools::implementations::skills::get_skill_registry();
                 let skills = registry
                     .get_mode_skill_infos_for_workspace(
-                        openbitfun_core::agentic::tools::implementations::skills::mode_overrides::SkillPolicyWorkspace::from_binding(&workspace),
+                        opc_core::agentic::tools::implementations::skills::mode_overrides::SkillPolicyWorkspace::from_binding(&workspace),
                         &self.agent_type,
                     )
                     .await;
@@ -207,21 +206,21 @@ impl ChatMode {
                 let workspace = std::path::PathBuf::from(self.agent.workspace_path_string());
                 match skill.level.as_str() {
                     "user" => {
-                        openbitfun_core::agentic::tools::implementations::skills::mode_overrides::set_user_mode_skill_state(
+                        opc_core::agentic::tools::implementations::skills::mode_overrides::set_user_mode_skill_state(
                             &mode_id, &skill.key, enabled, skill.default_enabled,
                         )
                         .await
                         .map_err(|error| anyhow::anyhow!(error.to_string()))?;
                     }
                     "project" => {
-                        let mut document = openbitfun_core::agentic::tools::implementations::skills::mode_overrides::load_project_mode_skills_document_local(&workspace)
+                        let mut document = opc_core::agentic::tools::implementations::skills::mode_overrides::load_project_mode_skills_document_local(&workspace)
                             .await
                             .map_err(|error| anyhow::anyhow!(error.to_string()))?;
-                        openbitfun_core::agentic::tools::implementations::skills::mode_overrides::set_mode_skill_disabled_in_document(
+                        opc_core::agentic::tools::implementations::skills::mode_overrides::set_mode_skill_disabled_in_document(
                             &mut document, &mode_id, &skill.key, !enabled,
                         )
                         .map_err(|error| anyhow::anyhow!(error.to_string()))?;
-                        openbitfun_core::agentic::tools::implementations::skills::mode_overrides::save_project_mode_skills_document_local(
+                        opc_core::agentic::tools::implementations::skills::mode_overrides::save_project_mode_skills_document_local(
                             &workspace, &document,
                         )
                         .await
@@ -289,17 +288,14 @@ impl ChatMode {
                     .agent
                     .workspace_id()
                     .ok_or_else(|| anyhow::anyhow!("Workspace ID is unavailable"))?;
-                let values = openbitfun_core::agentic::agents::get_agent_registry()
-                    .get_subagents_for_query(
-                        &openbitfun_core::agentic::agents::SubagentQueryContext {
-                            parent_agent_type: Some(&self.agent_type),
-                            workspace_id: Some(&workspace_id),
-                            list_scope:
-                                openbitfun_core::agentic::agents::SubagentListScope::TaskVisible,
-                            include_disabled: false,
-                            external_sources_supported: true,
-                        },
-                    )
+                let values = opc_core::agentic::agents::get_agent_registry()
+                    .get_subagents_for_query(&opc_core::agentic::agents::SubagentQueryContext {
+                        parent_agent_type: Some(&self.agent_type),
+                        workspace_id: Some(&workspace_id),
+                        list_scope: opc_core::agentic::agents::SubagentListScope::TaskVisible,
+                        include_disabled: false,
+                        external_sources_supported: true,
+                    })
                     .await;
                 Ok::<_, anyhow::Error>((
                     values.into_iter().map(subagent_summary).collect::<Vec<_>>(),
@@ -347,27 +343,30 @@ impl ChatMode {
                 if self.agent.is_remote_workspace() {
                     anyhow::bail!("Subagent management is unavailable for a Remote workspace")
                 }
-                let workspace_id = self.agent.workspace_id().ok_or_else(|| anyhow::anyhow!("Workspace ID is unavailable"))?;
-                let values = openbitfun_core::agentic::agents::get_agent_registry()
-                    .get_subagents_for_query(&openbitfun_core::agentic::agents::SubagentQueryContext {
+                let workspace_id = self
+                    .agent
+                    .workspace_id()
+                    .ok_or_else(|| anyhow::anyhow!("Workspace ID is unavailable"))?;
+                let values = opc_core::agentic::agents::get_agent_registry()
+                    .get_subagents_for_query(&opc_core::agentic::agents::SubagentQueryContext {
                         parent_agent_type: Some(&self.agent_type),
                         workspace_id: Some(&workspace_id),
                         list_scope:
-                            openbitfun_core::agentic::agents::SubagentListScope::RegistryManagement,
+                            opc_core::agentic::agents::SubagentListScope::RegistryManagement,
                         include_disabled: true,
                         external_sources_supported: true,
                     })
                     .await;
                 let has_external = values.iter().any(|info| {
                     info.subagent_source
-                        == Some(openbitfun_core::agentic::agents::SubAgentSource::External)
+                        == Some(opc_core::agentic::agents::SubAgentSource::External)
                 });
                 Ok::<_, anyhow::Error>((
                     values
                         .into_iter()
                         .filter(|info| {
                             info.subagent_source
-                                != Some(openbitfun_core::agentic::agents::SubAgentSource::External)
+                                != Some(opc_core::agentic::agents::SubAgentSource::External)
                         })
                         .map(subagent_summary)
                         .collect::<Vec<_>>(),
@@ -453,7 +452,7 @@ impl ChatMode {
                     .agent
                     .workspace_id()
                     .ok_or_else(|| anyhow::anyhow!("Workspace ID is unavailable"))?;
-                openbitfun_core::agentic::agents::get_agent_registry()
+                opc_core::agentic::agents::get_agent_registry()
                     .update_subagent_override(&mode_id, &subagent.id, enabled, Some(&workspace_id))
                     .await
                     .map_err(|error| anyhow::anyhow!(error.to_string()))?;
@@ -488,7 +487,7 @@ impl ChatMode {
 }
 
 fn skill_summary(
-    info: openbitfun_core::agentic::tools::implementations::skills::SkillInfo,
+    info: opc_core::agentic::tools::implementations::skills::SkillInfo,
 ) -> SkillSummary {
     SkillSummary {
         key: info.key,
@@ -507,7 +506,7 @@ fn skill_summary(
 }
 
 fn mode_skill_summary(
-    info: openbitfun_core::agentic::tools::implementations::skills::ModeSkillInfo,
+    info: opc_core::agentic::tools::implementations::skills::ModeSkillInfo,
 ) -> SkillSummary {
     let skill = info.skill;
     SkillSummary {
@@ -526,9 +525,9 @@ fn mode_skill_summary(
     }
 }
 
-fn subagent_summary(info: openbitfun_core::agentic::agents::AgentInfo) -> SubagentSummary {
+fn subagent_summary(info: opc_core::agentic::agents::AgentInfo) -> SubagentSummary {
     let is_external =
-        info.subagent_source == Some(openbitfun_core::agentic::agents::SubAgentSource::External);
+        info.subagent_source == Some(opc_core::agentic::agents::SubAgentSource::External);
     SubagentSummary {
         key: info.key,
         id: info.id,
@@ -537,7 +536,7 @@ fn subagent_summary(info: openbitfun_core::agentic::agents::AgentInfo) -> Subage
         source: format!(
             "{:?}",
             info.subagent_source
-                .unwrap_or(openbitfun_core::agentic::agents::SubAgentSource::Builtin)
+                .unwrap_or(opc_core::agentic::agents::SubAgentSource::Builtin)
         )
         .to_ascii_lowercase(),
         enabled: info.effective_enabled,

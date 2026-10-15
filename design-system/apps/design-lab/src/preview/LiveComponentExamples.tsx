@@ -13,11 +13,11 @@ export function NavigationExample({ name, state, size = "sm" }: { name: string; 
   ];
   return <div className="design-navigation-example">
     {name === "TabGroup" ? <TabGroup aria-label={t("components.preview.tabGroupLabel")} value={value} onValueChange={setValue} size={size}
-      data-openbitfun-preview-state={state === "hover" || state === "active" ? state : undefined}
+      data-opc-preview-state={state === "hover" || state === "active" ? state : undefined}
       items={options.map(option => ({ ...option, id: `${id}-${option.value}`, panelId: `${id}-${option.value}-panel` }))} />
       : name === "MobileSegmentedControl" ? <MobileSegmentedControl aria-label={t("components.preview.segmentedLabel")} value={value} onChange={setValue} options={options} />
         : <SegmentedControl aria-label={t("components.preview.segmentedLabel")} value={value} onValueChange={setValue} options={options} disabled={state === "disabled"}
-          data-openbitfun-preview-state={state === "hover" || state === "active" ? state : undefined} />}
+          data-opc-preview-state={state === "hover" || state === "active" ? state : undefined} />}
     {options.map(option => <section className="design-navigation-content" key={option.value} hidden={value !== option.value}
       id={`${id}-${option.value}-panel`} role={name === "TabGroup" ? "tabpanel" : undefined}
       aria-labelledby={name === "TabGroup" ? `${id}-${option.value}` : undefined} data-selected-content={option.value}>
@@ -29,7 +29,7 @@ export function NavigationExample({ name, state, size = "sm" }: { name: string; 
 export function MobileDisclosureExample({ state }: { state: string }) {
   const { t } = useI18n();
   const [open, setOpen] = useState(state === "open");
-  return <MobileDisclosure data-openbitfun-preview-state={state === "hover" ? "hover" : undefined} disabled={state === "disabled"} onToggle={() => setOpen(value => !value)} open={open} title={t("components.preview.appearance")}>
+  return <MobileDisclosure data-opc-preview-state={state === "hover" ? "hover" : undefined} disabled={state === "disabled"} onToggle={() => setOpen(value => !value)} open={open} title={t("components.preview.appearance")}>
     {t("components.preview.appearanceDescription")}
   </MobileDisclosure>;
 }

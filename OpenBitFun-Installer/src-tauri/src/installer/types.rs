@@ -56,8 +56,8 @@ pub(crate) struct RemoteModelInfo {
     pub display_name: Option<String>,
 }
 
-impl From<openbitfun_ai_adapters::types::RemoteModelInfo> for RemoteModelInfo {
-    fn from(value: openbitfun_ai_adapters::types::RemoteModelInfo) -> Self {
+impl From<opc_ai_adapters::types::RemoteModelInfo> for RemoteModelInfo {
+    fn from(value: opc_ai_adapters::types::RemoteModelInfo) -> Self {
         Self {
             id: value.id,
             display_name: value.display_name,
@@ -75,24 +75,20 @@ pub(crate) enum ConnectionTestMessageCode {
     NetworkIssue,
 }
 
-impl From<openbitfun_ai_adapters::types::ConnectionTestMessageCode> for ConnectionTestMessageCode {
-    fn from(value: openbitfun_ai_adapters::types::ConnectionTestMessageCode) -> Self {
+impl From<opc_ai_adapters::types::ConnectionTestMessageCode> for ConnectionTestMessageCode {
+    fn from(value: opc_ai_adapters::types::ConnectionTestMessageCode) -> Self {
         match value {
-            openbitfun_ai_adapters::types::ConnectionTestMessageCode::ToolCallsNotDetected => {
+            opc_ai_adapters::types::ConnectionTestMessageCode::ToolCallsNotDetected => {
                 Self::ToolCallsNotDetected
             }
-            openbitfun_ai_adapters::types::ConnectionTestMessageCode::ImageInputCheckFailed => {
+            opc_ai_adapters::types::ConnectionTestMessageCode::ImageInputCheckFailed => {
                 Self::ImageInputCheckFailed
             }
-            openbitfun_ai_adapters::types::ConnectionTestMessageCode::TlsOrCertificateIssue => {
+            opc_ai_adapters::types::ConnectionTestMessageCode::TlsOrCertificateIssue => {
                 Self::TlsOrCertificateIssue
             }
-            openbitfun_ai_adapters::types::ConnectionTestMessageCode::ProxyIssue => {
-                Self::ProxyIssue
-            }
-            openbitfun_ai_adapters::types::ConnectionTestMessageCode::NetworkIssue => {
-                Self::NetworkIssue
-            }
+            opc_ai_adapters::types::ConnectionTestMessageCode::ProxyIssue => Self::ProxyIssue,
+            opc_ai_adapters::types::ConnectionTestMessageCode::NetworkIssue => Self::NetworkIssue,
         }
     }
 }
@@ -110,8 +106,8 @@ pub(crate) struct ConnectionTestResult {
     pub error_details: Option<String>,
 }
 
-impl From<openbitfun_ai_adapters::types::ConnectionTestResult> for ConnectionTestResult {
-    fn from(value: openbitfun_ai_adapters::types::ConnectionTestResult) -> Self {
+impl From<opc_ai_adapters::types::ConnectionTestResult> for ConnectionTestResult {
+    fn from(value: opc_ai_adapters::types::ConnectionTestResult) -> Self {
         Self {
             success: value.success,
             response_time_ms: value.response_time_ms,

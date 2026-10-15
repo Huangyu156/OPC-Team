@@ -90,7 +90,7 @@ describe('selection toolbar and annotation dialog lifecycle', () => {
     window.removeEventListener(FLOWCHAT_EXCERPT_ACTION, receive);
     window.getSelection()?.removeAllRanges();
     container.remove();
-    document.querySelectorAll('[data-openbitfun-overlay-host]').forEach(host => host.remove());
+    document.querySelectorAll('[data-opc-overlay-host]').forEach(host => host.remove());
     vi.useRealTimers();
     vi.restoreAllMocks();
     vi.unstubAllGlobals();
@@ -323,7 +323,7 @@ describe('selection toolbar and annotation dialog lifecycle', () => {
     const second = first.cloneRange(); second.setStart(text.firstChild!, 1);
     const releaseSecond = highlightExcerptRange(second);
     releaseFirst();
-    expect([...highlights.get('openbitfun-flowchat-excerpt')!]).toEqual([second]);
+    expect([...highlights.get('opc-flowchat-excerpt')!]).toEqual([second]);
     expect(text.hasAttribute('data-flowchat-highlight-excerpt')).toBe(true);
     releaseSecond();
     expect(highlights.size).toBe(0);
@@ -334,7 +334,7 @@ describe('selection toolbar and annotation dialog lifecycle', () => {
     const surface = await openAnnotation();
     const textarea = enterComment('Keep this note');
     expect(document.activeElement).toBe(textarea);
-    expect(surface.querySelector('[data-openbitfun-product-part="quote"]')?.textContent).toBe('Selected source text');
+    expect(surface.querySelector('[data-opc-product-part="quote"]')?.textContent).toBe('Selected source text');
     expect(surface.querySelector('label')).toBeNull();
     expect(textarea.getAttribute('placeholder')).toBe('selection.annotationPlaceholder');
     act(() => {

@@ -3,19 +3,19 @@
 use crate::api::workspace_activation::{
     spawn_restored_workspace_auto_index, spawn_workspace_background_warmup,
 };
-use openbitfun_core::agentic::side_question::SideQuestionRuntime;
-use openbitfun_core::agentic::{agents, tools};
-use openbitfun_core::infrastructure::ai::{AIClient, AIClientFactory};
-use openbitfun_core::miniapp::{
+use opc_core::agentic::side_question::SideQuestionRuntime;
+use opc_core::agentic::{agents, tools};
+use opc_core::infrastructure::ai::{AIClient, AIClientFactory};
+use opc_core::miniapp::{
     initialize_global_miniapp_manager, seed_builtin_miniapps, JsWorkerPool, MiniAppManager,
 };
-use openbitfun_core::service::remote_ssh::{
+use opc_core::service::remote_ssh::{
     global_port_forward_manager, init_remote_workspace_manager, PortForwardManager,
     RemoteFileService, RemoteTerminalManager, SSHConnectionManager,
 };
-use openbitfun_core::service::{config, filesystem, mcp, search, token_usage, workspace};
-use openbitfun_core::util::errors::*;
-use openbitfun_services_integrations::speech::{SpeechService, SpeechStoragePaths};
+use opc_core::service::{config, filesystem, mcp, search, token_usage, workspace};
+use opc_core::util::errors::*;
+use opc_services_integrations::speech::{SpeechService, SpeechStoragePaths};
 
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, HashSet};
@@ -76,7 +76,7 @@ pub struct AppState {
     pub speech_service: Arc<SpeechService>,
     pub agent_registry: Arc<agents::AgentRegistry>,
     pub mcp_service: Option<Arc<mcp::MCPService>>,
-    pub acp_client_service: Option<Arc<openbitfun_acp::AcpClientService>>,
+    pub acp_client_service: Option<Arc<opc_acp::AcpClientService>>,
     pub token_usage_service: Arc<token_usage::TokenUsageService>,
     pub miniapp_manager: Arc<MiniAppManager>,
     pub js_worker_pool: Option<Arc<JsWorkerPool>>,
@@ -144,10 +144,11 @@ impl AppState {
         };
         let path_manager = workspace_service.path_manager().clone();
         let acp_client_service = Some(
-            openbitfun_acp::AcpClientService::new(config_service.clone(), path_manager.clone())
-                .map_err(|e| {
+            opc_acp::AcpClientService::new(config_service.clone(), path_manager.clone()).map_err(
+                |e| {
                     OpcTeamError::service(format!("Failed to initialize ACP client service: {}", e))
-                })?,
+                },
+            )?,
         );
 
         let miniapp_manager = Arc::new(MiniAppManager::new(path_manager.clone()));
@@ -441,7 +442,7 @@ impl AppState {
 
         // Persist to SSHConnectionManager for restoration on restart
         if let Ok(manager) = self.get_ssh_manager_async().await {
-            let core_workspace = openbitfun_core::service::remote_ssh::RemoteWorkspace {
+            let core_workspace = opc_core::service::remote_ssh::RemoteWorkspace {
                 connection_id: workspace.connection_id.clone(),
                 remote_path: workspace.remote_path.clone(),
                 connection_name: workspace.connection_name.clone(),
@@ -497,15 +498,13 @@ impl AppState {
 
     /// Remove one remote workspace from persistence + registry (`connection_id` + `remote_path`).
     pub async fn unregister_remote_workspace_entry(&self, connection_id: &str, remote_path: &str) {
-        let rp = openbitfun_core::service::remote_ssh::normalize_remote_workspace_path(remote_path);
+        let rp = opc_core::service::remote_ssh::normalize_remote_workspace_path(remote_path);
         if let Ok(manager) = self.get_ssh_manager_async().await {
             if let Err(e) = manager.remove_remote_workspace(connection_id, &rp).await {
                 log::warn!("Failed to remove persisted remote workspace: {}", e);
             }
         }
-        if let Some(state_manager) =
-            openbitfun_core::service::remote_ssh::get_remote_workspace_manager()
-        {
+        if let Some(state_manager) = opc_core::service::remote_ssh::get_remote_workspace_manager() {
             state_manager
                 .unregister_remote_workspace(connection_id, &rp)
                 .await;
@@ -515,14 +514,14 @@ impl AppState {
             .as_ref()
             .map(|w| {
                 w.connection_id == connection_id
-                    && openbitfun_core::service::remote_ssh::normalize_remote_workspace_path(
+                    && opc_core::service::remote_ssh::normalize_remote_workspace_path(
                         &w.remote_path,
                     ) == rp
             })
             .unwrap_or(false);
         if clear_slot {
             *slot = None;
-            if let Some(m) = openbitfun_core::service::remote_ssh::get_remote_workspace_manager() {
+            if let Some(m) = opc_core::service::remote_ssh::get_remote_workspace_manager() {
                 m.set_active_connection_hint(None).await;
             }
         }

@@ -91,7 +91,7 @@ export const PageDeployDisplay: React.FC<ToolCardProps> = ({ toolItem }) => {
   return (
     <div
       ref={cardRootRef}
-      data-openbitfun-adapter="page-deploy"
+      data-opc-adapter="page-deploy"
       data-testid="chat-page-deploy-card"
       data-tool-card-id={toolId ?? ''}
       data-status={status}

@@ -77,7 +77,7 @@
       "facets": [
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "info",
             "warning",
@@ -125,14 +125,14 @@
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         },
         {
           "id": "maximized",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"maximized\"]"
+            "suffix": "[data-opc-state~=\"maximized\"]"
           }
         }
       ]
@@ -232,28 +232,28 @@
           "id": "fallback",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fallback\"]"
+            "suffix": "[data-opc-state~=\"fallback\"]"
           }
         },
         {
           "id": "streaming",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"streaming\"]"
+            "suffix": "[data-opc-state~=\"streaming\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -425,7 +425,7 @@
       "facets": [
         {
           "id": "target",
-          "attribute": "data-openbitfun-target",
+          "attribute": "data-opc-target",
           "values": [
             "main",
             "btw"
@@ -433,7 +433,7 @@
         },
         {
           "id": "command",
-          "attribute": "data-openbitfun-command",
+          "attribute": "data-opc-command",
           "values": [
             "actions",
             "all",
@@ -443,7 +443,7 @@
         },
         {
           "id": "commandItemKind",
-          "attribute": "data-openbitfun-command-item-kind",
+          "attribute": "data-opc-command-item-kind",
           "values": [
             "action",
             "mode",
@@ -453,7 +453,7 @@
         },
         {
           "id": "action",
-          "attribute": "data-openbitfun-action",
+          "attribute": "data-opc-action",
           "values": [
             "cancel",
             "continue-interrupted",
@@ -464,7 +464,7 @@
         },
         {
           "id": "boostItemKind",
-          "attribute": "data-openbitfun-boost-item-kind",
+          "attribute": "data-opc-boost-item-kind",
           "values": [
             "directive",
             "agent",
@@ -482,7 +482,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"processing\"]"
+            "suffix": "[data-opc-state~=\"processing\"]"
           }
         },
         {
@@ -490,56 +490,56 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"multiline\"]"
+            "suffix": "[data-opc-state~=\"multiline\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "current",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"current\"]"
+            "suffix": "[data-opc-state~=\"current\"]"
           }
         },
         {
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         },
         {
           "id": "pending",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"pending\"]"
+            "suffix": "[data-opc-state~=\"pending\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -571,7 +571,7 @@
       "facets": [
         {
           "id": "presentation",
-          "attribute": "data-openbitfun-presentation",
+          "attribute": "data-opc-presentation",
           "values": [
             "standalone",
             "menu-item"
@@ -579,7 +579,7 @@
         },
         {
           "id": "profile",
-          "attribute": "data-openbitfun-profile",
+          "attribute": "data-opc-profile",
           "values": [
             "Minimal",
             "Standard",
@@ -594,42 +594,42 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "fixed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fixed\"]"
+            "suffix": "[data-opc-state~=\"fixed\"]"
           }
         },
         {
           "id": "current",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"current\"]"
+            "suffix": "[data-opc-state~=\"current\"]"
           }
         },
         {
           "id": "available",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"available\"]"
+            "suffix": "[data-opc-state~=\"available\"]"
           }
         },
         {
           "id": "unavailable",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"unavailable\"]"
+            "suffix": "[data-opc-state~=\"unavailable\"]"
           }
         },
         {
           "id": "comingSoon",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"coming-soon\"]"
+            "suffix": "[data-opc-state~=\"coming-soon\"]"
           }
         }
       ]
@@ -685,7 +685,7 @@
       "facets": [
         {
           "id": "phase",
-          "attribute": "data-openbitfun-phase",
+          "attribute": "data-opc-phase",
           "values": [
             "idle",
             "setup",
@@ -697,7 +697,7 @@
         },
         {
           "id": "action",
-          "attribute": "data-openbitfun-action",
+          "attribute": "data-opc-action",
           "values": [
             "install",
             "dismiss",
@@ -713,7 +713,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
@@ -721,14 +721,14 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"low-volume\"]"
+            "suffix": "[data-opc-state~=\"low-volume\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         }
       ]
@@ -780,7 +780,7 @@
       "facets": [
         {
           "id": "tab",
-          "attribute": "data-openbitfun-tab",
+          "attribute": "data-opc-tab",
           "values": [
             "overview",
             "models",
@@ -796,14 +796,14 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "fallback",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fallback\"]"
+            "suffix": "[data-opc-state~=\"fallback\"]"
           }
         }
       ]
@@ -835,7 +835,7 @@
       "facets": [
         {
           "id": "contextType",
-          "attribute": "data-openbitfun-context-type",
+          "attribute": "data-opc-context-type",
           "values": [
             "file",
             "directory",
@@ -861,14 +861,14 @@
           "id": "focused",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"focused\"]"
+            "suffix": "[data-opc-state~=\"focused\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         }
       ]
@@ -936,7 +936,7 @@
       "facets": [
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "pending",
             "queued",
@@ -958,28 +958,28 @@
           "id": "streaming",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"streaming\"]"
+            "suffix": "[data-opc-state~=\"streaming\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "pending",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"pending\"]"
+            "suffix": "[data-opc-state~=\"pending\"]"
           }
         },
         {
           "id": "copied",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"copied\"]"
+            "suffix": "[data-opc-state~=\"copied\"]"
           }
         }
       ]
@@ -1027,7 +1027,7 @@
       "facets": [
         {
           "id": "phase",
-          "attribute": "data-openbitfun-phase",
+          "attribute": "data-opc-phase",
           "values": [
             "review_running",
             "review_completed",
@@ -1046,7 +1046,7 @@
         },
         {
           "id": "variant",
-          "attribute": "data-openbitfun-variant",
+          "attribute": "data-opc-variant",
           "values": [
             "success",
             "warning",
@@ -1061,7 +1061,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -1195,21 +1195,21 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -1249,7 +1249,7 @@
       "facets": [
         {
           "id": "presentation",
-          "attribute": "data-openbitfun-presentation",
+          "attribute": "data-opc-presentation",
           "values": [
             "meter",
             "label"
@@ -1261,14 +1261,14 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -1307,14 +1307,14 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -1426,7 +1426,7 @@
       "facets": [
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "running",
             "finishing",
@@ -1443,56 +1443,56 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "collapsed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
+            "suffix": "[data-opc-state~=\"collapsed\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "cancelling",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"cancelling\"]"
+            "suffix": "[data-opc-state~=\"cancelling\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "unavailable",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"unavailable\"]"
+            "suffix": "[data-opc-state~=\"unavailable\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -1535,14 +1535,14 @@
           "id": "current",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"current\"]"
+            "suffix": "[data-opc-state~=\"current\"]"
           }
         },
         {
           "id": "visible",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"visible\"]"
+            "suffix": "[data-opc-state~=\"visible\"]"
           }
         }
       ]
@@ -1606,7 +1606,7 @@
       "facets": [
         {
           "id": "operation",
-          "attribute": "data-openbitfun-operation",
+          "attribute": "data-opc-operation",
           "values": [
             "create",
             "modify",
@@ -1619,28 +1619,28 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -1711,7 +1711,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -1798,21 +1798,21 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -1867,21 +1867,21 @@
           "id": "recording",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"recording\"]"
+            "suffix": "[data-opc-state~=\"recording\"]"
           }
         },
         {
           "id": "conflict",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"conflict\"]"
+            "suffix": "[data-opc-state~=\"conflict\"]"
           }
         },
         {
           "id": "modified",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"modified\"]"
+            "suffix": "[data-opc-state~=\"modified\"]"
           }
         }
       ]
@@ -1904,7 +1904,7 @@
           "id": "failed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"failed\"]"
+            "suffix": "[data-opc-state~=\"failed\"]"
           }
         }
       ]
@@ -1983,7 +1983,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "preview",
             "markdown",
@@ -1997,14 +1997,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -2067,21 +2067,21 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -2117,7 +2117,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"fullscreen\"]"
+            "suffix": "[data-opc-state~=\"fullscreen\"]"
           }
         },
         {
@@ -2125,7 +2125,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"toolbar\"]"
+            "suffix": "[data-opc-state~=\"toolbar\"]"
           }
         }
       ]
@@ -2188,7 +2188,7 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -2279,14 +2279,14 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -2365,7 +2365,7 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -2464,42 +2464,42 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         },
         {
           "id": "covered",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"covered\"]"
+            "suffix": "[data-opc-state~=\"covered\"]"
           }
         },
         {
           "id": "collapsed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
+            "suffix": "[data-opc-state~=\"collapsed\"]"
           }
         },
         {
           "id": "unavailable",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"unavailable\"]"
+            "suffix": "[data-opc-state~=\"unavailable\"]"
           }
         },
         {
           "id": "changed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"changed\"]"
+            "suffix": "[data-opc-state~=\"changed\"]"
           }
         }
       ]
@@ -2558,21 +2558,21 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -2664,7 +2664,7 @@
       "facets": [
         {
           "id": "contentKind",
-          "attribute": "data-openbitfun-content-kind",
+          "attribute": "data-opc-content-kind",
           "values": [
             "text",
             "tool",
@@ -2678,7 +2678,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
@@ -2686,7 +2686,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"processing\"]"
+            "suffix": "[data-opc-state~=\"processing\"]"
           }
         },
         {
@@ -2694,7 +2694,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
@@ -2702,21 +2702,21 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"confirm\"]"
+            "suffix": "[data-opc-state~=\"confirm\"]"
           }
         },
         {
           "id": "streaming",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"streaming\"]"
+            "suffix": "[data-opc-state~=\"streaming\"]"
           }
         },
         {
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         }
       ]
@@ -2775,21 +2775,21 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -2856,28 +2856,28 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "installed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"installed\"]"
+            "suffix": "[data-opc-state~=\"installed\"]"
           }
         },
         {
           "id": "covered",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"covered\"]"
+            "suffix": "[data-opc-state~=\"covered\"]"
           }
         }
       ]
@@ -2920,14 +2920,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -3013,14 +3013,14 @@
           "id": "attention",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"attention\"]"
+            "suffix": "[data-opc-state~=\"attention\"]"
           }
         },
         {
           "id": "typing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"typing\"]"
+            "suffix": "[data-opc-state~=\"typing\"]"
           }
         }
       ]
@@ -3099,7 +3099,7 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -3146,7 +3146,7 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -3233,7 +3233,7 @@
           "id": "exporting",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"exporting\"]"
+            "suffix": "[data-opc-state~=\"exporting\"]"
           }
         }
       ]
@@ -3292,21 +3292,21 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "failed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"failed\"]"
+            "suffix": "[data-opc-state~=\"failed\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -3369,14 +3369,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "fallback",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fallback\"]"
+            "suffix": "[data-opc-state~=\"fallback\"]"
           }
         }
       ]
@@ -3438,14 +3438,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -3468,7 +3468,7 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -3636,7 +3636,7 @@
       "facets": [
         {
           "id": "packageType",
-          "attribute": "data-openbitfun-package-type",
+          "attribute": "data-opc-package-type",
           "values": [
             "native",
             "imported"
@@ -3655,21 +3655,21 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -3831,7 +3831,7 @@
       "facets": [
         {
           "id": "align",
-          "attribute": "data-openbitfun-align",
+          "attribute": "data-opc-align",
           "values": [
             "start",
             "center"
@@ -3839,7 +3839,7 @@
         },
         {
           "id": "layout",
-          "attribute": "data-openbitfun-layout",
+          "attribute": "data-opc-layout",
           "values": [
             "default",
             "multiline",
@@ -3849,7 +3849,7 @@
         },
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "unsaved",
             "saving",
@@ -3922,7 +3922,7 @@
       "facets": [
         {
           "id": "mode",
-          "attribute": "data-openbitfun-mode",
+          "attribute": "data-opc-mode",
           "values": [
             "dropdown",
             "inline",
@@ -3935,14 +3935,14 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "changing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"changing\"]"
+            "suffix": "[data-opc-state~=\"changing\"]"
           }
         }
       ]
@@ -4057,28 +4057,28 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
@@ -4092,28 +4092,28 @@
           "id": "remote",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"remote\"]"
+            "suffix": "[data-opc-state~=\"remote\"]"
           }
         },
         {
           "id": "local",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"local\"]"
+            "suffix": "[data-opc-state~=\"local\"]"
           }
         },
         {
           "id": "busy",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"busy\"]"
+            "suffix": "[data-opc-state~=\"busy\"]"
           }
         },
         {
           "id": "offline",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"offline\"]"
+            "suffix": "[data-opc-state~=\"offline\"]"
           }
         }
       ]
@@ -4247,7 +4247,7 @@
       "facets": [
         {
           "id": "variant",
-          "attribute": "data-openbitfun-variant",
+          "attribute": "data-opc-variant",
           "values": [
             "daily",
             "manual"
@@ -4255,7 +4255,7 @@
         },
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "downloading",
             "error",
@@ -4268,14 +4268,14 @@
           "id": "highlight",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"highlight\"]"
+            "suffix": "[data-opc-state~=\"highlight\"]"
           }
         },
         {
           "id": "indeterminate",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"indeterminate\"]"
+            "suffix": "[data-opc-state~=\"indeterminate\"]"
           }
         }
       ]
@@ -4294,35 +4294,35 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "running",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"running\"]"
+            "suffix": "[data-opc-state~=\"running\"]"
           }
         },
         {
           "id": "attention",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"attention\"]"
+            "suffix": "[data-opc-state~=\"attention\"]"
           }
         },
         {
           "id": "unread",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"unread\"]"
+            "suffix": "[data-opc-state~=\"unread\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -4339,7 +4339,7 @@
       "facets": [
         {
           "id": "placement",
-          "attribute": "data-openbitfun-placement",
+          "attribute": "data-opc-placement",
           "values": [
             "top",
             "bottom"
@@ -4351,14 +4351,14 @@
           "id": "local",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"local\"]"
+            "suffix": "[data-opc-state~=\"local\"]"
           }
         },
         {
           "id": "connected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"connected\"]"
+            "suffix": "[data-opc-state~=\"connected\"]"
           }
         }
       ]
@@ -4375,7 +4375,7 @@
       "facets": [
         {
           "id": "action",
-          "attribute": "data-openbitfun-action",
+          "attribute": "data-opc-action",
           "values": [
             "toggle-session-view"
           ]
@@ -4386,14 +4386,14 @@
           "id": "grouped",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"grouped\"]"
+            "suffix": "[data-opc-state~=\"grouped\"]"
           }
         },
         {
           "id": "all",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"all\"]"
+            "suffix": "[data-opc-state~=\"all\"]"
           }
         }
       ]
@@ -4410,7 +4410,7 @@
       "facets": [
         {
           "id": "profile",
-          "attribute": "data-openbitfun-profile",
+          "attribute": "data-opc-profile",
           "values": [
             "Minimal",
             "Standard",
@@ -4435,49 +4435,49 @@
           "id": "running",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"running\"]"
+            "suffix": "[data-opc-state~=\"running\"]"
           }
         },
         {
           "id": "finishing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"finishing\"]"
+            "suffix": "[data-opc-state~=\"finishing\"]"
           }
         },
         {
           "id": "waiting",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"waiting\"]"
+            "suffix": "[data-opc-state~=\"waiting\"]"
           }
         },
         {
           "id": "completed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"completed\"]"
+            "suffix": "[data-opc-state~=\"completed\"]"
           }
         },
         {
           "id": "cancelled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"cancelled\"]"
+            "suffix": "[data-opc-state~=\"cancelled\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "idle",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"idle\"]"
+            "suffix": "[data-opc-state~=\"idle\"]"
           }
         }
       ]
@@ -4524,14 +4524,14 @@
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         },
         {
           "id": "submenuActive",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"submenu-active\"]"
+            "suffix": "[data-opc-state~=\"submenu-active\"]"
           }
         }
       ]
@@ -4598,35 +4598,35 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "valid",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"valid\"]"
+            "suffix": "[data-opc-state~=\"valid\"]"
           }
         },
         {
           "id": "invalid",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"invalid\"]"
+            "suffix": "[data-opc-state~=\"invalid\"]"
           }
         },
         {
           "id": "dragOver",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"drag-over\"]"
+            "suffix": "[data-opc-state~=\"drag-over\"]"
           }
         },
         {
           "id": "canAccept",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"can-accept\"]"
+            "suffix": "[data-opc-state~=\"can-accept\"]"
           }
         }
       ]
@@ -4713,28 +4713,28 @@
           "id": "success",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"success\"]"
+            "suffix": "[data-opc-state~=\"success\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "unread",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"unread\"]"
+            "suffix": "[data-opc-state~=\"unread\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -4797,7 +4797,7 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -4860,7 +4860,7 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -4903,28 +4903,28 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "largeFile",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"large-file\"]"
+            "suffix": "[data-opc-state~=\"large-file\"]"
           }
         },
         {
           "id": "fullscreen",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fullscreen\"]"
+            "suffix": "[data-opc-state~=\"fullscreen\"]"
           }
         }
       ]
@@ -4959,7 +4959,7 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -5002,21 +5002,21 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -5076,28 +5076,28 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "running",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"running\"]"
+            "suffix": "[data-opc-state~=\"running\"]"
           }
         },
         {
           "id": "exited",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"exited\"]"
+            "suffix": "[data-opc-state~=\"exited\"]"
           }
         }
       ]
@@ -5155,7 +5155,7 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -5191,7 +5191,7 @@
           "id": "collapsed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
+            "suffix": "[data-opc-state~=\"collapsed\"]"
           }
         }
       ]
@@ -5222,7 +5222,7 @@
           "id": "exiting",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"exiting\"]"
+            "suffix": "[data-opc-state~=\"exiting\"]"
           }
         }
       ]
@@ -5432,7 +5432,7 @@
       "facets": [
         {
           "id": "variant",
-          "attribute": "data-openbitfun-variant",
+          "attribute": "data-opc-variant",
           "values": [
             "skill",
             "market"
@@ -5440,7 +5440,7 @@
         },
         {
           "id": "tone",
-          "attribute": "data-openbitfun-tone",
+          "attribute": "data-opc-tone",
           "values": [
             "primary",
             "danger",
@@ -5468,7 +5468,7 @@
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         }
       ]
@@ -5587,7 +5587,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"running\"]"
+            "suffix": "[data-opc-state~=\"running\"]"
           }
         },
         {
@@ -5595,7 +5595,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"customizing\"]"
+            "suffix": "[data-opc-state~=\"customizing\"]"
           }
         }
       ]
@@ -5713,14 +5713,14 @@
           "id": "connected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"connected\"]"
+            "suffix": "[data-opc-state~=\"connected\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         }
       ]
@@ -5766,7 +5766,7 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -5942,14 +5942,14 @@
           "id": "heroTitle",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"heroTitle\"]"
+            "suffix": "[data-opc-state~=\"heroTitle\"]"
           }
         },
         {
           "id": "stableHeight",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"stableHeight\"]"
+            "suffix": "[data-opc-state~=\"stableHeight\"]"
           }
         }
       ]
@@ -6132,28 +6132,28 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "signedOut",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"signed-out\"]"
+            "suffix": "[data-opc-state~=\"signed-out\"]"
           }
         },
         {
           "id": "signedIn",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"signed-in\"]"
+            "suffix": "[data-opc-state~=\"signed-in\"]"
           }
         },
         {
           "id": "authorizing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"authorizing\"]"
+            "suffix": "[data-opc-state~=\"authorizing\"]"
           }
         }
       ]
@@ -6371,7 +6371,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "updateCard",
-            "suffix": "[data-openbitfun-state~=\"checking\"]"
+            "suffix": "[data-opc-state~=\"checking\"]"
           }
         },
         {
@@ -6379,7 +6379,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "updateCard",
-            "suffix": "[data-openbitfun-state~=\"latest\"]"
+            "suffix": "[data-opc-state~=\"latest\"]"
           }
         },
         {
@@ -6387,7 +6387,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "updateCard",
-            "suffix": "[data-openbitfun-state~=\"downloading\"]"
+            "suffix": "[data-opc-state~=\"downloading\"]"
           }
         },
         {
@@ -6395,7 +6395,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "updateCard",
-            "suffix": "[data-openbitfun-state~=\"installed\"]"
+            "suffix": "[data-opc-state~=\"installed\"]"
           }
         },
         {
@@ -6403,7 +6403,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "updateCard",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -6535,7 +6535,7 @@
       "facets": [
         {
           "id": "layer",
-          "attribute": "data-openbitfun-layer",
+          "attribute": "data-opc-layer",
           "values": [
             "main",
             "scene"
@@ -6543,7 +6543,7 @@
         },
         {
           "id": "action",
-          "attribute": "data-openbitfun-action",
+          "attribute": "data-opc-action",
           "values": [
             "new-session",
             "smart-members",
@@ -6559,7 +6559,7 @@
         },
         {
           "id": "section",
-          "attribute": "data-openbitfun-section",
+          "attribute": "data-opc-section",
           "values": [
             "smart-members",
             "workspace",
@@ -6572,63 +6572,63 @@
           "id": "scene",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"scene\"]"
+            "suffix": "[data-opc-state~=\"scene\"]"
           }
         },
         {
           "id": "split",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"split\"]"
+            "suffix": "[data-opc-state~=\"split\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "closing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"closing\"]"
+            "suffix": "[data-opc-state~=\"closing\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "stuck",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"stuck\"]"
+            "suffix": "[data-opc-state~=\"stuck\"]"
           }
         },
         {
           "id": "local",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"local\"]"
+            "suffix": "[data-opc-state~=\"local\"]"
           }
         },
         {
           "id": "connected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"connected\"]"
+            "suffix": "[data-opc-state~=\"connected\"]"
           }
         }
       ]
@@ -6687,35 +6687,35 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "editing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"editing\"]"
+            "suffix": "[data-opc-state~=\"editing\"]"
           }
         },
         {
           "id": "menuOpen",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"menuOpen\"]"
+            "suffix": "[data-opc-state~=\"menuOpen\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "partial",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"partial\"]"
+            "suffix": "[data-opc-state~=\"partial\"]"
           }
         }
       ]
@@ -6859,7 +6859,7 @@
       "facets": [
         {
           "id": "mode",
-          "attribute": "data-openbitfun-mode",
+          "attribute": "data-opc-mode",
           "values": [
             "agent",
             "project",
@@ -6869,7 +6869,7 @@
         },
         {
           "id": "direction",
-          "attribute": "data-openbitfun-direction",
+          "attribute": "data-opc-direction",
           "values": [
             "horizontal",
             "vertical"
@@ -6877,7 +6877,7 @@
         },
         {
           "id": "position",
-          "attribute": "data-openbitfun-position",
+          "attribute": "data-opc-position",
           "values": [
             "left",
             "right",
@@ -6892,49 +6892,49 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "maximized",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"maximized\"]"
+            "suffix": "[data-opc-state~=\"maximized\"]"
           }
         },
         {
           "id": "resizing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"resizing\"]"
+            "suffix": "[data-opc-state~=\"resizing\"]"
           }
         },
         {
           "id": "collapsed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
+            "suffix": "[data-opc-state~=\"collapsed\"]"
           }
         },
         {
           "id": "dragging",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dragging\"]"
+            "suffix": "[data-opc-state~=\"dragging\"]"
           }
         },
         {
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -6990,7 +6990,7 @@
       "facets": [
         {
           "id": "searchMode",
-          "attribute": "data-openbitfun-search-mode",
+          "attribute": "data-opc-search-mode",
           "values": [
             "content",
             "filenames"
@@ -7178,7 +7178,7 @@
       "facets": [
         {
           "id": "layout",
-          "attribute": "data-openbitfun-layout",
+          "attribute": "data-opc-layout",
           "values": [
             "full",
             "detail"
@@ -7186,7 +7186,7 @@
         },
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "list",
             "detail"
@@ -7198,7 +7198,7 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -7278,7 +7278,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "overview",
             "network",
@@ -7288,7 +7288,7 @@
         },
         {
           "id": "group",
-          "attribute": "data-openbitfun-group",
+          "attribute": "data-opc-group",
           "values": [
             "network",
             "bot",
@@ -7301,21 +7301,21 @@
           "id": "authenticated",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"authenticated\"]"
+            "suffix": "[data-opc-state~=\"authenticated\"]"
           }
         },
         {
           "id": "connected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"connected\"]"
+            "suffix": "[data-opc-state~=\"connected\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         }
       ]
@@ -7359,7 +7359,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "login",
             "devices"
@@ -7371,21 +7371,21 @@
           "id": "offline",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"offline\"]"
+            "suffix": "[data-opc-state~=\"offline\"]"
           }
         },
         {
           "id": "current",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"current\"]"
+            "suffix": "[data-opc-state~=\"current\"]"
           }
         },
         {
           "id": "syncing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"syncing\"]"
+            "suffix": "[data-opc-state~=\"syncing\"]"
           }
         }
       ]
@@ -7469,7 +7469,7 @@
       "facets": [
         {
           "id": "target",
-          "attribute": "data-openbitfun-target",
+          "attribute": "data-opc-target",
           "values": [
             "session",
             "workspace"
@@ -7477,7 +7477,7 @@
         },
         {
           "id": "schedule",
-          "attribute": "data-openbitfun-schedule",
+          "attribute": "data-opc-schedule",
           "values": [
             "at",
             "every",
@@ -7490,14 +7490,14 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -7516,7 +7516,7 @@
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -7551,14 +7551,14 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "today",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"today\"]"
+            "suffix": "[data-opc-state~=\"today\"]"
           }
         }
       ]
@@ -7661,14 +7661,14 @@
           "id": "needsFix",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"needsFix\"]"
+            "suffix": "[data-opc-state~=\"needsFix\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -7724,7 +7724,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "empty",
             "session"
@@ -7736,21 +7736,21 @@
           "id": "hasActionBar",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"hasActionBar\"]"
+            "suffix": "[data-opc-state~=\"hasActionBar\"]"
           }
         },
         {
           "id": "minimized",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"minimized\"]"
+            "suffix": "[data-opc-state~=\"minimized\"]"
           }
         },
         {
           "id": "hidden",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"hidden\"]"
+            "suffix": "[data-opc-state~=\"hidden\"]"
           }
         }
       ]
@@ -7911,21 +7911,21 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "preparing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"preparing\"]"
+            "suffix": "[data-opc-state~=\"preparing\"]"
           }
         },
         {
           "id": "unavailable",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"unavailable\"]"
+            "suffix": "[data-opc-state~=\"unavailable\"]"
           }
         }
       ]
@@ -8073,7 +8073,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "selection",
             "settings"
@@ -8081,7 +8081,7 @@
         },
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "starting",
             "pending",
@@ -8102,14 +8102,14 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         }
       ]
@@ -8219,7 +8219,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -8450,7 +8450,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "local",
             "ssh",
@@ -8527,7 +8527,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "pet",
             "permissions",
@@ -8541,14 +8541,14 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -8647,7 +8647,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "list",
             "json"
@@ -8777,28 +8777,28 @@
           "id": "pending",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"pending\"]"
+            "suffix": "[data-opc-state~=\"pending\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "muted",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"muted\"]"
+            "suffix": "[data-opc-state~=\"muted\"]"
           }
         },
         {
           "id": "stale",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"stale\"]"
+            "suffix": "[data-opc-state~=\"stale\"]"
           }
         }
       ]
@@ -8838,7 +8838,7 @@
       "facets": [
         {
           "id": "phase",
-          "attribute": "data-openbitfun-phase",
+          "attribute": "data-opc-phase",
           "values": [
             "idle",
             "preparing",
@@ -8853,7 +8853,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"testing-recognition\"]"
+            "suffix": "[data-opc-state~=\"testing-recognition\"]"
           }
         },
         {
@@ -8861,7 +8861,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -8929,7 +8929,7 @@
       "facets": [
         {
           "id": "primary",
-          "attribute": "data-openbitfun-primary",
+          "attribute": "data-opc-primary",
           "values": [
             "true",
             "false"
@@ -8942,7 +8942,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"busy\"]"
+            "suffix": "[data-opc-state~=\"busy\"]"
           }
         }
       ]
@@ -9002,7 +9002,7 @@
       "facets": [
         {
           "id": "stage",
-          "attribute": "data-openbitfun-stage",
+          "attribute": "data-opc-stage",
           "values": [
             "idle",
             "notice",
@@ -9019,7 +9019,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"busy\"]"
+            "suffix": "[data-opc-state~=\"busy\"]"
           }
         },
         {
@@ -9027,7 +9027,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
@@ -9035,7 +9035,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"preview-open\"]"
+            "suffix": "[data-opc-state~=\"preview-open\"]"
           }
         }
       ]
@@ -9063,7 +9063,7 @@
       "facets": [
         {
           "id": "mode",
-          "attribute": "data-openbitfun-mode",
+          "attribute": "data-opc-mode",
           "values": [
             "rich",
             "plain"
@@ -9071,7 +9071,7 @@
         },
         {
           "id": "action",
-          "attribute": "data-openbitfun-action",
+          "attribute": "data-opc-action",
           "values": [
             "cancel",
             "submit"
@@ -9084,7 +9084,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"submitting\"]"
+            "suffix": "[data-opc-state~=\"submitting\"]"
           }
         }
       ]
@@ -9233,28 +9233,28 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "child",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"child\"]"
+            "suffix": "[data-opc-state~=\"child\"]"
           }
         }
       ]
@@ -9309,7 +9309,7 @@
           "id": "collapsed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
+            "suffix": "[data-opc-state~=\"collapsed\"]"
           }
         }
       ]
@@ -9425,14 +9425,14 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -9521,14 +9521,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -9588,7 +9588,7 @@
       "facets": [
         {
           "id": "mood",
-          "attribute": "data-openbitfun-mood",
+          "attribute": "data-opc-mood",
           "values": [
             "rest",
             "analyzing",
@@ -9600,7 +9600,7 @@
         },
         {
           "id": "layout",
-          "attribute": "data-openbitfun-layout",
+          "attribute": "data-opc-layout",
           "values": [
             "default",
             "center",
@@ -9649,14 +9649,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -9699,14 +9699,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -9762,7 +9762,7 @@
       "facets": [
         {
           "id": "layout",
-          "attribute": "data-openbitfun-layout",
+          "attribute": "data-opc-layout",
           "values": [
             "default",
             "compact"
@@ -9770,7 +9770,7 @@
         },
         {
           "id": "operation",
-          "attribute": "data-openbitfun-operation",
+          "attribute": "data-opc-operation",
           "values": [
             "write",
             "delete",
@@ -9783,14 +9783,14 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -9841,14 +9841,14 @@
           "id": "chat",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"chat\"]"
+            "suffix": "[data-opc-state~=\"chat\"]"
           }
         },
         {
           "id": "voice",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"voice\"]"
+            "suffix": "[data-opc-state~=\"voice\"]"
           }
         }
       ]
@@ -9864,7 +9864,7 @@
       "facets": [
         {
           "id": "phase",
-          "attribute": "data-openbitfun-phase",
+          "attribute": "data-opc-phase",
           "values": [
             "connecting",
             "live",
@@ -9878,84 +9878,84 @@
           "id": "idle",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"idle\"]"
+            "suffix": "[data-opc-state~=\"idle\"]"
           }
         },
         {
           "id": "connecting",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"connecting\"]"
+            "suffix": "[data-opc-state~=\"connecting\"]"
           }
         },
         {
           "id": "live",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"live\"]"
+            "suffix": "[data-opc-state~=\"live\"]"
           }
         },
         {
           "id": "ending",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"ending\"]"
+            "suffix": "[data-opc-state~=\"ending\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "starting",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"starting\"]"
+            "suffix": "[data-opc-state~=\"starting\"]"
           }
         },
         {
           "id": "working",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"working\"]"
+            "suffix": "[data-opc-state~=\"working\"]"
           }
         },
         {
           "id": "usingTools",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"using-tools\"]"
+            "suffix": "[data-opc-state~=\"using-tools\"]"
           }
         },
         {
           "id": "waitingApproval",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"waiting-approval\"]"
+            "suffix": "[data-opc-state~=\"waiting-approval\"]"
           }
         },
         {
           "id": "needsInput",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"needs-input\"]"
+            "suffix": "[data-opc-state~=\"needs-input\"]"
           }
         },
         {
           "id": "finishing",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"finishing\"]"
+            "suffix": "[data-opc-state~=\"finishing\"]"
           }
         },
         {
           "id": "stopping",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"stopping\"]"
+            "suffix": "[data-opc-state~=\"stopping\"]"
           }
         }
       ]
@@ -10002,7 +10002,7 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -10077,28 +10077,28 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -10181,21 +10181,21 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -10258,14 +10258,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -10344,7 +10344,7 @@
       "facets": [
         {
           "id": "kind",
-          "attribute": "data-openbitfun-popover",
+          "attribute": "data-opc-popover",
           "values": [
             "line",
             "indent",
@@ -10424,7 +10424,7 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -10519,7 +10519,7 @@
       "facets": [
         {
           "id": "mode",
-          "attribute": "data-openbitfun-mode",
+          "attribute": "data-opc-mode",
           "values": [
             "chat",
             "miniapp"
@@ -10527,7 +10527,7 @@
         },
         {
           "id": "communicationMode",
-          "attribute": "data-openbitfun-communication-mode",
+          "attribute": "data-opc-communication-mode",
           "values": [
             "chat",
             "voice"
@@ -10540,7 +10540,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         }
       ]
@@ -10682,21 +10682,21 @@
           "id": "current",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"current\"]"
+            "suffix": "[data-opc-state~=\"current\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -10856,14 +10856,14 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -10923,7 +10923,7 @@
       "facets": [
         {
           "id": "group",
-          "attribute": "data-openbitfun-group",
+          "attribute": "data-opc-group",
           "values": [
             "primary",
             "secondary",
@@ -10936,14 +10936,14 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -10981,7 +10981,7 @@
       "facets": [
         {
           "id": "group",
-          "attribute": "data-openbitfun-group",
+          "attribute": "data-opc-group",
           "values": [
             "primary",
             "secondary",
@@ -10994,42 +10994,42 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "dirty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dirty\"]"
+            "suffix": "[data-opc-state~=\"dirty\"]"
           }
         },
         {
           "id": "dragging",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dragging\"]"
+            "suffix": "[data-opc-state~=\"dragging\"]"
           }
         },
         {
           "id": "deleted",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"deleted\"]"
+            "suffix": "[data-opc-state~=\"deleted\"]"
           }
         },
         {
           "id": "pinned",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"pinned\"]"
+            "suffix": "[data-opc-state~=\"pinned\"]"
           }
         },
         {
           "id": "preview",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"preview\"]"
+            "suffix": "[data-opc-state~=\"preview\"]"
           }
         }
       ]
@@ -11074,7 +11074,7 @@
       "facets": [
         {
           "id": "group",
-          "attribute": "data-openbitfun-group",
+          "attribute": "data-opc-group",
           "values": [
             "primary",
             "secondary",
@@ -11087,7 +11087,7 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -11162,49 +11162,49 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "paused",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"paused\"]"
+            "suffix": "[data-opc-state~=\"paused\"]"
           }
         },
         {
           "id": "blocked",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"blocked\"]"
+            "suffix": "[data-opc-state~=\"blocked\"]"
           }
         },
         {
           "id": "complete",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"complete\"]"
+            "suffix": "[data-opc-state~=\"complete\"]"
           }
         },
         {
           "id": "armed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"armed\"]"
+            "suffix": "[data-opc-state~=\"armed\"]"
           }
         }
       ]
@@ -11251,21 +11251,21 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "streaming",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"streaming\"]"
+            "suffix": "[data-opc-state~=\"streaming\"]"
           }
         },
         {
           "id": "highlighted",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"highlighted\"]"
+            "suffix": "[data-opc-state~=\"highlighted\"]"
           }
         }
       ]
@@ -11308,7 +11308,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -11351,7 +11351,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -11394,7 +11394,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -11437,7 +11437,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -11480,7 +11480,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -11535,14 +11535,14 @@
           "id": "sending",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"sending\"]"
+            "suffix": "[data-opc-state~=\"sending\"]"
           }
         },
         {
           "id": "failed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"failed\"]"
+            "suffix": "[data-opc-state~=\"failed\"]"
           }
         }
       ]
@@ -11585,7 +11585,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -11657,7 +11657,7 @@
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -11758,7 +11758,7 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         }
       ]
@@ -11813,14 +11813,14 @@
           "id": "failed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"failed\"]"
+            "suffix": "[data-opc-state~=\"failed\"]"
           }
         },
         {
           "id": "exporting",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"exporting\"]"
+            "suffix": "[data-opc-state~=\"exporting\"]"
           }
         }
       ]
@@ -11887,7 +11887,7 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -11950,28 +11950,28 @@
           "id": "streaming",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"streaming\"]"
+            "suffix": "[data-opc-state~=\"streaming\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         },
         {
           "id": "copied",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"copied\"]"
+            "suffix": "[data-opc-state~=\"copied\"]"
           }
         }
       ]
@@ -12010,14 +12010,14 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -12131,7 +12131,7 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -12205,7 +12205,7 @@
           "id": "fullscreen",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fullscreen\"]"
+            "suffix": "[data-opc-state~=\"fullscreen\"]"
           }
         }
       ]
@@ -12249,7 +12249,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "page",
-            "suffix": "[data-openbitfun-state~=\"rendering\"]"
+            "suffix": "[data-opc-state~=\"rendering\"]"
           }
         }
       ]
@@ -12307,14 +12307,14 @@
           "id": "dragging",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dragging\"]"
+            "suffix": "[data-opc-state~=\"dragging\"]"
           }
         },
         {
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         }
       ]
@@ -12382,7 +12382,7 @@
       "facets": [
         {
           "id": "variant",
-          "attribute": "data-openbitfun-variant",
+          "attribute": "data-opc-variant",
           "values": [
             "workspace",
             "assistant"
@@ -12395,7 +12395,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
@@ -12403,7 +12403,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"dragging\"]"
+            "suffix": "[data-opc-state~=\"dragging\"]"
           }
         },
         {
@@ -12411,7 +12411,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
+            "suffix": "[data-opc-state~=\"collapsed\"]"
           }
         },
         {
@@ -12419,14 +12419,14 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"remote\"]"
+            "suffix": "[data-opc-state~=\"remote\"]"
           }
         },
         {
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         }
       ]
@@ -12497,7 +12497,7 @@
       "facets": [
         {
           "id": "layout",
-          "attribute": "data-openbitfun-layout",
+          "attribute": "data-opc-layout",
           "values": [
             "none",
             "horizontal",
@@ -12535,7 +12535,7 @@
       "facets": [
         {
           "id": "group",
-          "attribute": "data-openbitfun-group",
+          "attribute": "data-opc-group",
           "values": [
             "primary",
             "secondary",
@@ -12548,7 +12548,7 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -12600,7 +12600,7 @@
       "facets": [
         {
           "id": "group",
-          "attribute": "data-openbitfun-group",
+          "attribute": "data-opc-group",
           "values": [
             "primary",
             "secondary",
@@ -12613,35 +12613,35 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "dirty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dirty\"]"
+            "suffix": "[data-opc-state~=\"dirty\"]"
           }
         },
         {
           "id": "deleted",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"deleted\"]"
+            "suffix": "[data-opc-state~=\"deleted\"]"
           }
         },
         {
           "id": "pinned",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"pinned\"]"
+            "suffix": "[data-opc-state~=\"pinned\"]"
           }
         },
         {
           "id": "preview",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"preview\"]"
+            "suffix": "[data-opc-state~=\"preview\"]"
           }
         }
       ]
@@ -12672,28 +12672,28 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "dirty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dirty\"]"
+            "suffix": "[data-opc-state~=\"dirty\"]"
           }
         },
         {
           "id": "deleted",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"deleted\"]"
+            "suffix": "[data-opc-state~=\"deleted\"]"
           }
         }
       ]
@@ -12751,7 +12751,7 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -12869,7 +12869,7 @@
       "facets": [
         {
           "id": "attention",
-          "attribute": "data-openbitfun-attention",
+          "attribute": "data-opc-attention",
           "values": [
             "ambient",
             "prominent"
@@ -12877,7 +12877,7 @@
         },
         {
           "id": "presentation",
-          "attribute": "data-openbitfun-presentation",
+          "attribute": "data-opc-presentation",
           "values": [
             "standard",
             "dedicated",
@@ -12890,7 +12890,7 @@
           "id": "permissionPending",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"permission-pending\"]"
+            "suffix": "[data-opc-state~=\"permission-pending\"]"
           }
         }
       ]
@@ -12918,7 +12918,7 @@
       "facets": [
         {
           "id": "mode",
-          "attribute": "data-openbitfun-mode",
+          "attribute": "data-opc-mode",
           "values": [
             "markdown",
             "text"
@@ -12930,7 +12930,7 @@
           "id": "streaming",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"streaming\"]"
+            "suffix": "[data-opc-state~=\"streaming\"]"
           }
         }
       ]
@@ -12973,14 +12973,14 @@
           "id": "responding",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"responding\"]"
+            "suffix": "[data-opc-state~=\"responding\"]"
           }
         },
         {
           "id": "error",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"error\"]"
+            "suffix": "[data-opc-state~=\"error\"]"
           }
         }
       ]
@@ -13031,21 +13031,21 @@
           "id": "clickable",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"clickable\"]"
+            "suffix": "[data-opc-state~=\"clickable\"]"
           }
         },
         {
           "id": "failed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"failed\"]"
+            "suffix": "[data-opc-state~=\"failed\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -13084,20 +13084,20 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "failed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"failed\"]"
+            "suffix": "[data-opc-state~=\"failed\"]"
           }
         }
       ]
     },
     {
-      "id": "openbitfun-control-tool-card",
+      "id": "opc-control-tool-card",
       "parts": [
         {
           "id": "details",
@@ -13209,21 +13209,21 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "failed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"failed\"]"
+            "suffix": "[data-opc-state~=\"failed\"]"
           }
         },
         {
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -13271,7 +13271,7 @@
       "facets": [
         {
           "id": "context",
-          "attribute": "data-openbitfun-context",
+          "attribute": "data-opc-context",
           "values": [
             "default",
             "subagent-projection"
@@ -13283,14 +13283,14 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         },
         {
           "id": "streaming",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"streaming\"]"
+            "suffix": "[data-opc-state~=\"streaming\"]"
           }
         }
       ]
@@ -13334,7 +13334,7 @@
       "facets": [
         {
           "id": "mode",
-          "attribute": "data-openbitfun-mode",
+          "attribute": "data-opc-mode",
           "values": [
             "completed",
             "live"
@@ -13346,21 +13346,21 @@
           "id": "warning",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"warning\"]"
+            "suffix": "[data-opc-state~=\"warning\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         },
         {
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         }
       ]
@@ -13380,7 +13380,7 @@
       "facets": [
         {
           "id": "presentation",
-          "attribute": "data-openbitfun-presentation",
+          "attribute": "data-opc-presentation",
           "values": [
             "icon",
             "text"
@@ -13388,7 +13388,7 @@
         },
         {
           "id": "decision",
-          "attribute": "data-openbitfun-decision",
+          "attribute": "data-opc-decision",
           "values": [
             "allow",
             "reject"
@@ -13440,7 +13440,7 @@
       "facets": [
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "completed",
             "in_progress",
@@ -13488,14 +13488,14 @@
           "id": "sending",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"sending\"]"
+            "suffix": "[data-opc-state~=\"sending\"]"
           }
         },
         {
           "id": "masked",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"masked\"]"
+            "suffix": "[data-opc-state~=\"masked\"]"
           }
         }
       ]
@@ -13534,7 +13534,7 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -13553,7 +13553,7 @@
           "id": "copied",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"copied\"]"
+            "suffix": "[data-opc-state~=\"copied\"]"
           }
         }
       ]
@@ -13588,7 +13588,7 @@
           "id": "copied",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"copied\"]"
+            "suffix": "[data-opc-state~=\"copied\"]"
           }
         }
       ]
@@ -13718,7 +13718,7 @@
       "facets": [
         {
           "id": "status",
-          "attribute": "data-openbitfun-status",
+          "attribute": "data-opc-status",
           "values": [
             "analyzing",
             "completed",
@@ -13731,7 +13731,7 @@
           "id": "expanded",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+            "suffix": "[data-opc-state~=\"expanded\"]"
           }
         }
       ]
@@ -13778,7 +13778,7 @@
       "facets": [
         {
           "id": "input",
-          "attribute": "data-openbitfun-input",
+          "attribute": "data-opc-input",
           "values": [
             "active",
             "expanded",
@@ -13814,7 +13814,7 @@
           "id": "visible",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"visible\"]"
+            "suffix": "[data-opc-state~=\"visible\"]"
           }
         }
       ]
@@ -13846,7 +13846,7 @@
       "facets": [
         {
           "id": "level",
-          "attribute": "data-openbitfun-level",
+          "attribute": "data-opc-level",
           "values": [
             "normal",
             "warning",
@@ -13905,7 +13905,7 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -13995,7 +13995,7 @@
       "facets": [
         {
           "id": "itemKind",
-          "attribute": "data-openbitfun-item-kind",
+          "attribute": "data-opc-item-kind",
           "values": [
             "create",
             "session"
@@ -14003,7 +14003,7 @@
         },
         {
           "id": "sessionKind",
-          "attribute": "data-openbitfun-session-kind",
+          "attribute": "data-opc-session-kind",
           "values": [
             "code",
             "cowork",
@@ -14017,14 +14017,14 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -14199,7 +14199,7 @@
       "facets": [
         {
           "id": "tone",
-          "attribute": "data-openbitfun-tone",
+          "attribute": "data-opc-tone",
           "values": [
             "error",
             "info",
@@ -14279,14 +14279,14 @@
           "id": "open",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"open\"]"
+            "suffix": "[data-opc-state~=\"open\"]"
           }
         },
         {
           "id": "copied",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"copied\"]"
+            "suffix": "[data-opc-state~=\"copied\"]"
           }
         }
       ]
@@ -14317,14 +14317,14 @@
           "id": "searchMatch",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"searchMatch\"]"
+            "suffix": "[data-opc-state~=\"searchMatch\"]"
           }
         },
         {
           "id": "searchCurrent",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"searchCurrent\"]"
+            "suffix": "[data-opc-state~=\"searchCurrent\"]"
           }
         }
       ]
@@ -14395,7 +14395,7 @@
       "facets": [
         {
           "id": "sceneId",
-          "attribute": "data-openbitfun-scene-id",
+          "attribute": "data-opc-scene-id",
           "values": [
             "welcome",
             "session",
@@ -14423,35 +14423,35 @@
           "id": "fullscreen",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fullscreen\"]"
+            "suffix": "[data-opc-state~=\"fullscreen\"]"
           }
         },
         {
           "id": "toolbar",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"toolbar\"]"
+            "suffix": "[data-opc-state~=\"toolbar\"]"
           }
         },
         {
           "id": "collapsed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
+            "suffix": "[data-opc-state~=\"collapsed\"]"
           }
         },
         {
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         }
       ]
@@ -14511,7 +14511,7 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         }
       ]
@@ -14588,7 +14588,7 @@
           "id": "loading",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"loading\"]"
+            "suffix": "[data-opc-state~=\"loading\"]"
           }
         }
       ]
@@ -14616,7 +14616,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "hidden",
             "repository",
@@ -14682,7 +14682,7 @@
           "selector": {
             "kind": "ancestorPart",
             "part": "root",
-            "suffix": "[data-openbitfun-state~=\"customizing\"]"
+            "suffix": "[data-opc-state~=\"customizing\"]"
           }
         }
       ]
@@ -14718,7 +14718,7 @@
       "facets": [
         {
           "id": "view",
-          "attribute": "data-openbitfun-view",
+          "attribute": "data-opc-view",
           "values": [
             "list",
             "report"
@@ -14813,14 +14813,14 @@
           "id": "dragging",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dragging\"]"
+            "suffix": "[data-opc-state~=\"dragging\"]"
           }
         },
         {
           "id": "terminalBottom",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"terminal-bottom\"]"
+            "suffix": "[data-opc-state~=\"terminal-bottom\"]"
           }
         }
       ]
@@ -14849,7 +14849,7 @@
       "facets": [
         {
           "id": "page",
-          "attribute": "data-openbitfun-page",
+          "attribute": "data-opc-page",
           "values": [
             "application.general",
             "application.appearance",
@@ -15175,7 +15175,7 @@
       "facets": [
         {
           "id": "tab",
-          "attribute": "data-openbitfun-tab",
+          "attribute": "data-opc-tab",
           "values": [
             "installed",
             "discover"
@@ -15183,7 +15183,7 @@
         },
         {
           "id": "category",
-          "attribute": "data-openbitfun-category",
+          "attribute": "data-opc-category",
           "values": [
             "all",
             "builtin",
@@ -15194,7 +15194,7 @@
         },
         {
           "id": "level",
-          "attribute": "data-openbitfun-level",
+          "attribute": "data-opc-level",
           "values": [
             "user",
             "project"
@@ -15227,49 +15227,49 @@
           "id": "active",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
+            "suffix": "[data-opc-state~=\"active\"]"
           }
         },
         {
           "id": "empty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
+            "suffix": "[data-opc-state~=\"empty\"]"
           }
         },
         {
           "id": "shadowed",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"shadowed\"]"
+            "suffix": "[data-opc-state~=\"shadowed\"]"
           }
         },
         {
           "id": "builtin",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"builtin\"]"
+            "suffix": "[data-opc-state~=\"builtin\"]"
           }
         },
         {
           "id": "enabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"enabled\"]"
+            "suffix": "[data-opc-state~=\"enabled\"]"
           }
         },
         {
           "id": "dirty",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"dirty\"]"
+            "suffix": "[data-opc-state~=\"dirty\"]"
           }
         },
         {
           "id": "covered",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"covered\"]"
+            "suffix": "[data-opc-state~=\"covered\"]"
           }
         }
       ]
@@ -15292,7 +15292,7 @@
           "id": "inactive",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"inactive\"]"
+            "suffix": "[data-opc-state~=\"inactive\"]"
           }
         }
       ]
@@ -15435,35 +15435,35 @@
           "id": "selected",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
+            "suffix": "[data-opc-state~=\"selected\"]"
           }
         },
         {
           "id": "today",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"today\"]"
+            "suffix": "[data-opc-state~=\"today\"]"
           }
         },
         {
           "id": "outside",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"outside\"]"
+            "suffix": "[data-opc-state~=\"outside\"]"
           }
         },
         {
           "id": "overdue",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"overdue\"]"
+            "suffix": "[data-opc-state~=\"overdue\"]"
           }
         },
         {
           "id": "disabled",
           "selector": {
             "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"disabled\"]"
+            "suffix": "[data-opc-state~=\"disabled\"]"
           }
         }
       ]
@@ -15475,7 +15475,7 @@
     "xterm",
     "mermaid",
     "generative-widget",
-    "openbitfun-canvas"
+    "opc-canvas"
   ],
   "defaultForceableProperties": [
     "backgroundColor",

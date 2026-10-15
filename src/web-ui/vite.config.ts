@@ -38,7 +38,7 @@ export function createWebFontProfilePlugin(
   }
 
   return {
-    name: 'openbitfun-web-font-profile',
+    name: 'opc-web-font-profile',
     transformIndexHtml: {
       order: 'pre',
       handler(html) {
@@ -48,11 +48,11 @@ export function createWebFontProfilePlugin(
         return html
           .replace(
             FONT_PROFILE_STYLESHEET_MARKER,
-            `<link rel="stylesheet" href="${stylesheetPath}" data-openbitfun-font-profile-stylesheet="${profile}" />`,
+            `<link rel="stylesheet" href="${stylesheetPath}" data-opc-font-profile-stylesheet="${profile}" />`,
           )
           .replace(
             '<html lang="zh-CN">',
-            `<html lang="zh-CN" data-openbitfun-font-profile="${profile}">`,
+            `<html lang="zh-CN" data-opc-font-profile="${profile}">`,
           );
       },
     },

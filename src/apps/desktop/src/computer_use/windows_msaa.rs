@@ -43,7 +43,7 @@
 
 use std::ptr::null_mut;
 
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::core::Interface;
 use windows::Win32::Foundation::HWND;
 use windows::Win32::System::Com::{CoInitializeEx, COINIT_APARTMENTTHREADED};

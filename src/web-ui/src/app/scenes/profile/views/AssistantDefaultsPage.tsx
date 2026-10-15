@@ -660,9 +660,9 @@ const AssistantDefaultsPage: React.FC = () => {
           key={row.id}
           role="row"
           className={rowClassName}
-          data-openbitfun-component="assistant-defaults-page"
-          data-openbitfun-part="skill"
-          data-openbitfun-state={rowState}
+          data-opc-component="assistant-defaults-page"
+          data-opc-part="skill"
+          data-opc-state={rowState}
         >
           {rowContent}
         </div>
@@ -674,9 +674,9 @@ const AssistantDefaultsPage: React.FC = () => {
         key={row.id}
         role="row"
         className={rowClassName}
-        data-openbitfun-component="assistant-defaults-page"
-        data-openbitfun-part="tool"
-        data-openbitfun-state={rowState}
+        data-opc-component="assistant-defaults-page"
+        data-opc-part="tool"
+        data-opc-state={rowState}
       >
         {rowContent}
       </div>
@@ -684,7 +684,7 @@ const AssistantDefaultsPage: React.FC = () => {
   };
 
   const renderListHeader = () => (
-    <div role="row" className="assistant-defaults-list__header" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="listHeader">
+    <div role="row" className="assistant-defaults-list__header" data-opc-component="assistant-defaults-page" data-opc-part="listHeader">
       <div role="columnheader">{t('nursery.template.columns.name')}</div>
       <div role="columnheader">{t('nursery.template.columns.source')}</div>
       <div role="columnheader" aria-label={t('nursery.template.columns.actions')} />
@@ -692,7 +692,7 @@ const AssistantDefaultsPage: React.FC = () => {
   );
 
   const renderEmptyState = (message: string) => (
-    <div data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="empty">
+    <div data-opc-component="assistant-defaults-page" data-opc-part="empty">
       <Empty
         icon={<Icon name="search" />}
         description={message}
@@ -742,11 +742,11 @@ const AssistantDefaultsPage: React.FC = () => {
             <section
               key={group.id}
               className="assistant-defaults-group"
-              data-openbitfun-component="assistant-defaults-page"
-              data-openbitfun-part="group"
-              data-openbitfun-state={collapsed ? 'collapsed' : undefined}
+              data-opc-component="assistant-defaults-page"
+              data-opc-part="group"
+              data-opc-state={collapsed ? 'collapsed' : undefined}
             >
-              <div className="assistant-defaults-group__header" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="groupHeader">
+              <div className="assistant-defaults-group__header" data-opc-component="assistant-defaults-page" data-opc-part="groupHeader">
                 <IconButton
                   type="button"
                   size="sm"
@@ -844,8 +844,8 @@ const AssistantDefaultsPage: React.FC = () => {
 
   const renderDetailDialog = (title: string, kindLabel: string, children: React.ReactNode) => (
     <Dialog open={detailOpen} onOpenChange={setDetailOpen} size="lg">
-      <div className="assistant-defaults-detail" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="detail">
-        <div className="assistant-defaults-detail__header" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="detailHeader">
+      <div className="assistant-defaults-detail" data-opc-component="assistant-defaults-page" data-opc-part="detail">
+        <div className="assistant-defaults-detail__header" data-opc-component="assistant-defaults-page" data-opc-part="detailHeader">
           <DialogHeader>
             <DialogHeading>
               <DialogTitle>{title}</DialogTitle>
@@ -858,7 +858,7 @@ const AssistantDefaultsPage: React.FC = () => {
           </DialogHeader>
         </div>
         <DialogBody>
-          <div className="assistant-defaults-detail__body" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="detailBody">
+          <div className="assistant-defaults-detail__body" data-opc-component="assistant-defaults-page" data-opc-part="detailBody">
             {children}
           </div>
         </DialogBody>
@@ -997,9 +997,9 @@ const AssistantDefaultsPage: React.FC = () => {
   const activeCategoryLabel = tabs.find((tab) => tab.id === activeTab)?.label;
 
   return (
-    <div data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="root" className="nursery-page nursery-page--assistant-defaults">
-      <div className="assistant-defaults" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="content">
-        <header className="nursery-page__header assistant-defaults__header" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="header">
+    <div data-opc-component="assistant-defaults-page" data-opc-part="root" className="nursery-page nursery-page--assistant-defaults">
+      <div className="assistant-defaults" data-opc-component="assistant-defaults-page" data-opc-part="content">
+        <header className="nursery-page__header assistant-defaults__header" data-opc-component="assistant-defaults-page" data-opc-part="header">
           <PageHeader
             className="nursery-page__heading"
             level={2}
@@ -1016,7 +1016,7 @@ const AssistantDefaultsPage: React.FC = () => {
               </Tooltip>
             )}
           />
-          <div className="assistant-defaults__toolbar" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="toolbar">
+          <div className="assistant-defaults__toolbar" data-opc-component="assistant-defaults-page" data-opc-part="toolbar">
             <StatusPill tone="neutral">{t('nursery.template.scopeLabel')}</StatusPill>
             <div className="assistant-defaults__header-actions">
               {renderSaveStatus()}
@@ -1036,13 +1036,13 @@ const AssistantDefaultsPage: React.FC = () => {
         </header>
 
         {loading ? (
-          <div className="assistant-defaults__loading" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="loading">
+          <div className="assistant-defaults__loading" data-opc-component="assistant-defaults-page" data-opc-part="loading">
             <Spinner size="md" />
             <span>{t('nursery.template.loading')}</span>
           </div>
         ) : (
-          <div className="assistant-defaults__workspace" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="shell">
-            <ScrollArea className="assistant-defaults__main" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="main">
+          <div className="assistant-defaults__workspace" data-opc-component="assistant-defaults-page" data-opc-part="shell">
+            <ScrollArea className="assistant-defaults__main" data-opc-component="assistant-defaults-page" data-opc-part="main">
               {loadWarning ? (
                 <Alert
                   className="assistant-defaults__warning"
@@ -1061,7 +1061,7 @@ const AssistantDefaultsPage: React.FC = () => {
                 />
               ) : null}
 
-              <div className="assistant-defaults-tabs" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="tabs">
+              <div className="assistant-defaults-tabs" data-opc-component="assistant-defaults-page" data-opc-part="tabs">
                 <SegmentedControl
                   className="assistant-defaults-tabs__control"
                   aria-label={t('nursery.template.categoryLabel')}
@@ -1079,7 +1079,7 @@ const AssistantDefaultsPage: React.FC = () => {
               </div>
 
               <div role="region" id={categoryPanelId} aria-label={activeCategoryLabel}>
-                <section className="assistant-defaults-controls" aria-label={t('nursery.template.filterLabel')} data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="filters">
+                <section className="assistant-defaults-controls" aria-label={t('nursery.template.filterLabel')} data-opc-component="assistant-defaults-page" data-opc-part="filters">
                   <SearchField
                     className="assistant-defaults-search"
                     value={searchQuery}
@@ -1102,15 +1102,15 @@ const AssistantDefaultsPage: React.FC = () => {
                   />
                 </section>
 
-                <section className="assistant-defaults-list" role="table" aria-label={activeCategoryLabel} data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="list">
+                <section className="assistant-defaults-list" role="table" aria-label={activeCategoryLabel} data-opc-component="assistant-defaults-page" data-opc-part="list">
                   {renderListHeader()}
                   {activeTab === 'mcp' ? renderMcpGroups() : visibleFlatRows.length > 0 ? (
                     activeTab === 'skills' ? (
-                      <div role="rowgroup" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="skillList">
+                      <div role="rowgroup" data-opc-component="assistant-defaults-page" data-opc-part="skillList">
                         {visibleFlatRows.map(renderCapabilityRow)}
                       </div>
                     ) : (
-                      <div role="rowgroup" data-openbitfun-component="assistant-defaults-page" data-openbitfun-part="toolList">
+                      <div role="rowgroup" data-opc-component="assistant-defaults-page" data-opc-part="toolList">
                         {visibleFlatRows.map(renderCapabilityRow)}
                       </div>
                     )

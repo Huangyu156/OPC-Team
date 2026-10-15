@@ -26,6 +26,6 @@ export const FileEditGroupView = React.forwardRef<HTMLDivElement, FlowGroupProps
   return <FileEditGroupContext.Provider value={context}>
     <FlowGroup {...props} ref={ref} fileRevision={fileRevision && { ...fileRevision,
       changeSummary: { additions, deletions, label: t('toolCards.file.changeSummary', { additions, deletions }) },
-    }} data-openbitfun-component="file-edit-group" data-openbitfun-part="root" data-testid="chat-file-edit-group" />
+    }} data-opc-component="file-edit-group" data-opc-part="root" data-testid="chat-file-edit-group" />
   </FileEditGroupContext.Provider>;
 });

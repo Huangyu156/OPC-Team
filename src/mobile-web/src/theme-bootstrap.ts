@@ -4,7 +4,7 @@ import { themes } from '@openbitfun/theme-openbitfun';
 // light/dark flash without requiring an inline script under the mobile CSP.
 let initialTheme: 'dark' | 'light' = 'dark';
 try {
-  const savedTheme = localStorage.getItem('openbitfun-mobile-theme');
+  const savedTheme = localStorage.getItem('opc-mobile-theme');
   if (savedTheme === 'dark' || savedTheme === 'light') {
     initialTheme = savedTheme;
   }

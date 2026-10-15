@@ -50,7 +50,7 @@ export function dataMigratorEnvironment(environment = process.env) {
     OPENBITFUN_PRODUCT_ID: 'opcteam',
     OPENBITFUN_DATA_NAMESPACE: 'opcteam',
     OPENBITFUN_HIDDEN_DATA_DIRECTORY: '.opcteam',
-    OPENBITFUN_PRODUCT_BINARY_NAME: 'openbitfun-data-migrator',
+    OPENBITFUN_PRODUCT_BINARY_NAME: 'opc-data-migrator',
     OPENBITFUN_PRODUCT_DISPLAY_NAME: 'OPC-Team Data Migrator',
   };
 }

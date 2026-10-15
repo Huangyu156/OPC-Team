@@ -147,24 +147,24 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
       aria-modal="true"
       aria-hidden={!visible}
       {...(!visible ? { inert: '' } : {})}
-      data-openbitfun-component="peer-device"
-      data-openbitfun-part="overlay"
+      data-opc-component="peer-device"
+      data-opc-part="overlay"
     >
       <div
         className="peer-directory-browser"
         data-testid="peer-directory-browser"
-        data-openbitfun-component="peer-device"
-        data-openbitfun-part="dialog"
+        data-opc-component="peer-device"
+        data-opc-part="dialog"
       >
         <div
           className="peer-directory-browser__header"
-          data-openbitfun-component="peer-device"
-          data-openbitfun-part="header"
+          data-opc-component="peer-device"
+          data-opc-part="header"
         >
           <h2
             className="peer-directory-browser__header-title"
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="title"
+            data-opc-component="peer-device"
+            data-opc-part="title"
           >{title}</h2>
           <IconButton
             className="peer-directory-browser__close-btn"
@@ -172,15 +172,15 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
             size="md"
             aria-label={t('peerDirectoryPicker.cancel')}
             onClick={onCancel}
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="closeButton"
+            data-opc-component="peer-device"
+            data-opc-part="closeButton"
           />
         </div>
 
         <div
           className="peer-directory-browser__toolbar"
-          data-openbitfun-component="peer-device"
-          data-openbitfun-part="toolbar"
+          data-opc-component="peer-device"
+          data-opc-part="toolbar"
         >
           <button
             type="button"
@@ -188,8 +188,8 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
             disabled={!parentPath || loading}
             onClick={handleGoParent}
             title={t('peerDirectoryPicker.parent')}
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="toolButton"
+            data-opc-component="peer-device"
+            data-opc-part="toolButton"
           >
             <Icon name="arrow-left" size="sm" />
           </button>
@@ -199,8 +199,8 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
             disabled={loading}
             onClick={handleGoHome}
             title={t('peerDirectoryPicker.home')}
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="toolButton"
+            data-opc-component="peer-device"
+            data-opc-part="toolButton"
           >
             <Home size={14} />
           </button>
@@ -210,18 +210,18 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
             disabled={loading || !currentPath}
             onClick={handleRefresh}
             title={t('peerDirectoryPicker.refresh')}
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="toolButton"
+            data-opc-component="peer-device"
+            data-opc-part="toolButton"
           >
             <Icon name="refresh" size="sm" />
           </button>
           <div
             className="peer-directory-browser__path"
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="path"
+            data-opc-component="peer-device"
+            data-opc-part="path"
           >
             {/* Retain the appearance part for existing user styles around the editable field. */}
-            <div data-openbitfun-component="peer-device" data-openbitfun-part="pathDisplay">
+            <div data-opc-component="peer-device" data-opc-part="pathDisplay">
               <Input
                 className="peer-directory-browser__path-input-field"
                 size="sm"
@@ -254,8 +254,8 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
                 onCompositionEnd={() => {
                   pathInputCompositionActiveRef.current = false;
                 }}
-                data-openbitfun-component="peer-device"
-                data-openbitfun-part="pathInput"
+                data-opc-component="peer-device"
+                data-opc-part="pathInput"
               />
             </div>
           </div>
@@ -263,15 +263,15 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
 
         <ScrollArea
           className="peer-directory-browser__body"
-          data-openbitfun-component="peer-device"
-          data-openbitfun-part="body"
+          data-opc-component="peer-device"
+          data-opc-part="body"
         >
           {loading ? (
             <div
               className="peer-directory-browser__state"
-              data-openbitfun-component="peer-device"
-              data-openbitfun-part="status"
-              data-openbitfun-state="loading"
+              data-opc-component="peer-device"
+              data-opc-part="status"
+              data-opc-state="loading"
             >
               <Loader2 size={16} className="peer-directory-browser__spinner" />
               <span>{t('peerDirectoryPicker.loading')}</span>
@@ -279,26 +279,26 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
           ) : error ? (
             <div
               className="peer-directory-browser__state peer-directory-browser__state--error"
-              data-openbitfun-component="peer-device"
-              data-openbitfun-part="status"
-              data-openbitfun-state="error"
+              data-opc-component="peer-device"
+              data-opc-part="status"
+              data-opc-state="error"
             >
               <span>{error}</span>
             </div>
           ) : entries.length === 0 ? (
             <div
               className="peer-directory-browser__state"
-              data-openbitfun-component="peer-device"
-              data-openbitfun-part="status"
-              data-openbitfun-state="empty"
+              data-opc-component="peer-device"
+              data-opc-part="status"
+              data-opc-state="empty"
             >
               <span>{t('peerDirectoryPicker.empty')}</span>
             </div>
           ) : (
             <ul
               className="peer-directory-browser__list"
-              data-openbitfun-component="peer-device"
-              data-openbitfun-part="list"
+              data-opc-component="peer-device"
+              data-opc-part="list"
             >
               {entries.map((entry) => (
                 <li key={entry.path}>
@@ -309,9 +309,9 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
                     }`}
                     onClick={() => setSelectedPath(entry.path)}
                     onDoubleClick={() => handleOpenEntry(entry)}
-                    data-openbitfun-component="peer-device"
-                    data-openbitfun-part="item"
-                    data-openbitfun-state={selectedPath === entry.path ? 'selected' : undefined}
+                    data-opc-component="peer-device"
+                    data-opc-part="item"
+                    data-opc-state={selectedPath === entry.path ? 'selected' : undefined}
                   >
                     <Icon name="folder" size="sm" />
                     <span>{entry.name}</span>
@@ -324,21 +324,21 @@ export const PeerDirectoryBrowser: React.FC<PeerDirectoryBrowserProps> = ({
 
         <div
           className="peer-directory-browser__footer"
-          data-openbitfun-component="peer-device"
-          data-openbitfun-part="footer"
+          data-opc-component="peer-device"
+          data-opc-part="footer"
         >
           <div
             className="peer-directory-browser__selected"
             title={selectedPath || currentPath}
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="selection"
+            data-opc-component="peer-device"
+            data-opc-part="selection"
           ><OverflowText>
             {t('peerDirectoryPicker.selected', { path: selectedPath || currentPath })}
           </OverflowText></div>
           <div
             className="peer-directory-browser__actions"
-            data-openbitfun-component="peer-device"
-            data-openbitfun-part="actions"
+            data-opc-component="peer-device"
+            data-opc-part="actions"
           >
             <Button type="button" variant="fill" size="sm" onClick={onCancel}>
               {t('peerDirectoryPicker.cancel')}

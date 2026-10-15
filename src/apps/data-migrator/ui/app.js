@@ -314,11 +314,11 @@ document.getElementById('apply-locations').addEventListener('click', async () =>
 });
 document.getElementById('resume-task').addEventListener('click', () => call('resume_migration_task', { runId: document.getElementById('saved-task').value }));
 document.getElementById('new-task').addEventListener('click', () => call('new_migration_task'));
-document.getElementById('preview-reset').addEventListener('click', () => call('preview_openbitfun_reset'));
+document.getElementById('preview-reset').addEventListener('click', () => call('preview_opc_reset'));
 document.getElementById('reset-confirmation').addEventListener('input', () => { if (current) render(current); });
 document.getElementById('reset-data').addEventListener('click', () => {
   if (!current?.resetPreview) return;
-  call('reset_openbitfun_data', {
+  call('reset_opc_data', {
     confirmationId: current.resetPreview.confirmationId,
     confirmation: document.getElementById('reset-confirmation').value,
   });

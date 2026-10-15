@@ -18,7 +18,7 @@ use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::{SecondsFormat, Utc};
 use futures::future::BoxFuture;
 use log::{debug, error, info, warn};
-use openbitfun_ai_adapters::Message;
+use opc_ai_adapters::Message;
 use std::path::Path;
 use std::sync::Arc;
 use std::time::{Instant, SystemTime, UNIX_EPOCH};
@@ -35,7 +35,7 @@ const ROLLOUT_SUMMARY_BEGIN_MARKER: &str = "<<<ROLLOUT_SUMMARY_BEGIN>>>";
 const ROLLOUT_SUMMARY_END_MARKER: &str = "<<<ROLLOUT_SUMMARY_END>>>";
 const ROLLOUT_SLUG_BEGIN_MARKER: &str = "<<<ROLLOUT_SLUG_BEGIN>>>";
 const ROLLOUT_SLUG_END_MARKER: &str = "<<<ROLLOUT_SLUG_END>>>";
-const PHASE1_SYSTEM_PROMPT: &str = openbitfun_agent_content::memories::PHASE1_SYSTEM;
+const PHASE1_SYSTEM_PROMPT: &str = opc_agent_content::memories::PHASE1_SYSTEM;
 const CLAW_PERSONA_MEMORY_RULES: &str = "\
 assistant_persona_memory_rules:\n\
 - This rollout is from an assistant-persona session. `BOOTSTRAP.md`, `IDENTITY.md`, `USER.md`, and `SOUL.md` are assistant-local persona/profile setup files.\n\
@@ -434,7 +434,7 @@ struct MemoryPhase1CandidateCollection {
 async fn process_single_session(
     db: Arc<MemoryDatabase>,
     persistence: Arc<PersistenceManager>,
-    ai_client: Arc<openbitfun_ai_adapters::AIClient>,
+    ai_client: Arc<opc_ai_adapters::AIClient>,
     claimed: ClaimedMemorySourceSession,
     config: MemoryPhase1RuntimeConfig,
 ) -> OpcTeamResult<bool> {
@@ -633,7 +633,7 @@ fn current_unix_secs() -> i64 {
         .as_secs() as i64
 }
 
-fn stage_one_rollout_token_limit(config: &openbitfun_ai_adapters::AIConfig) -> usize {
+fn stage_one_rollout_token_limit(config: &opc_ai_adapters::AIConfig) -> usize {
     let context_window = config.context_window as usize;
     if context_window == 0 {
         return DEFAULT_ROLLOUT_TOKEN_LIMIT;
@@ -648,7 +648,7 @@ fn stage_one_rollout_token_limit(config: &openbitfun_ai_adapters::AIConfig) -> u
     (input_window * STAGE_ONE_CONTEXT_WINDOW_PERCENT / 100).max(1)
 }
 
-fn stage_one_output_max_tokens(config: &openbitfun_ai_adapters::AIConfig) -> usize {
+fn stage_one_output_max_tokens(config: &opc_ai_adapters::AIConfig) -> usize {
     config
         .max_tokens
         .map(|tokens| tokens as usize)
@@ -733,7 +733,7 @@ fn is_candidate_agent_type(agent_type: &str) -> bool {
 }
 
 async fn run_phase1_extraction_attempts(
-    stage_one_client: &openbitfun_ai_adapters::AIClient,
+    stage_one_client: &opc_ai_adapters::AIClient,
     source: &MemorySourceSession,
     transcript: &str,
     prompt: &str,
@@ -756,7 +756,7 @@ async fn run_phase1_extraction_attempts_with_request<'a, F>(
     mut send_request: F,
 ) -> OpcTeamResult<MemoryExtractionRecord>
 where
-    F: FnMut() -> BoxFuture<'a, anyhow::Result<openbitfun_ai_adapters::GeminiResponse>>,
+    F: FnMut() -> BoxFuture<'a, anyhow::Result<opc_ai_adapters::GeminiResponse>>,
 {
     let mut last_error = None;
     for attempt_index in 0..PHASE1_EXTRACTION_MAX_ATTEMPTS {
@@ -985,7 +985,7 @@ async fn record_failure(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_ai_adapters::AIConfig;
+    use opc_ai_adapters::AIConfig;
     use std::collections::VecDeque;
     use std::sync::atomic::{AtomicUsize, Ordering};
     use std::sync::Mutex;
@@ -1136,8 +1136,8 @@ mod tests {
         assert!(!phase1_memory_mode_gate_skips(&metadata));
     }
 
-    fn gemini_response(text: &str) -> openbitfun_ai_adapters::GeminiResponse {
-        openbitfun_ai_adapters::GeminiResponse {
+    fn gemini_response(text: &str) -> opc_ai_adapters::GeminiResponse {
+        opc_ai_adapters::GeminiResponse {
             text: text.to_string(),
             reasoning_content: None,
             tool_calls: None,

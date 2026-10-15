@@ -10,7 +10,7 @@ function Page({ pageId, epoch, section = false, ready = true }: {
 }) {
   const root = useRef<HTMLDivElement>(null);
   useSettingsScrollRestoration(root, pageId, epoch, ready, section ? 'hooks' : null, 0);
-  return <div ref={root}><div key={pageId} className="openbitfun-config-page-layout"><div /></div></div>;
+  return <div ref={root}><div key={pageId} className="opc-config-page-layout"><div /></div></div>;
 }
 
 describe('settings scroll restoration', () => {
@@ -18,7 +18,7 @@ describe('settings scroll restoration', () => {
   let root: Root;
   let epoch = 0;
   let resize: () => void;
-  const viewport = () => container.querySelector<HTMLElement>('.openbitfun-config-page-layout')!;
+  const viewport = () => container.querySelector<HTMLElement>('.opc-config-page-layout')!;
   const render = (pageId: SettingsPageId, section = false, ready = true) => act(() => {
     root.render(<Page pageId={pageId} epoch={epoch} section={section} ready={ready} />);
   });

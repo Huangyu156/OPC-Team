@@ -7,7 +7,7 @@ use crate::service::instruction_context::{
 };
 use crate::util::errors::OpcTeamResult;
 use log::warn;
-use openbitfun_services_core::workspace_instructions::{
+use opc_services_core::workspace_instructions::{
     WorkspaceInstructionFile, WorkspaceInstructionPathMatcher,
 };
 use std::collections::HashSet;
@@ -224,7 +224,7 @@ mod tests {
     use crate::agentic::WorkspaceBinding;
     #[cfg(feature = "external-sources")]
     use crate::instruction_sources::test_support::{lock_environment, EnvironmentGuard};
-    use openbitfun_services_core::workspace_instructions::WorkspaceInstructionFile;
+    use opc_services_core::workspace_instructions::WorkspaceInstructionFile;
     use serde_json::json;
 
     fn conditional_file(name: &str, patterns: &[&str], content: &str) -> WorkspaceInstructionFile {

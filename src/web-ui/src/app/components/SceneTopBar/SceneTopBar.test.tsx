@@ -76,24 +76,24 @@ describe('SceneTopBar', () => {
     const maximize = vi.fn();
     try {
       act(() => root.render(<SceneTopBar onMinimize={vi.fn()} onMaximize={maximize} onClose={vi.fn()} />));
-      const toolbar = host.querySelector('[data-openbitfun-component="toolbar"]')!;
-      expect(toolbar.getAttribute('data-openbitfun-part')).toBe('topBar');
+      const toolbar = host.querySelector('[data-opc-component="toolbar"]')!;
+      expect(toolbar.getAttribute('data-opc-part')).toBe('topBar');
       expect(toolbar.getAttribute('data-size')).toBe('md');
       expect(toolbar.getAttribute('data-bordered')).toBe('true');
-      expect(toolbar.querySelector(':scope > [data-openbitfun-part="leading"] [role="tablist"]')).not.toBeNull();
-      const trailing = toolbar.querySelector(':scope > [data-openbitfun-part="trailing"]')!;
-      const actions = trailing.querySelector('[data-openbitfun-part="sceneActions"]')!;
-      const divider = trailing.querySelector('.openbitfun-scene-top-bar__actions-divider')!;
-      const controls = trailing.querySelector('[data-openbitfun-part="controls"]')!;
+      expect(toolbar.querySelector(':scope > [data-opc-part="leading"] [role="tablist"]')).not.toBeNull();
+      const trailing = toolbar.querySelector(':scope > [data-opc-part="trailing"]')!;
+      const actions = trailing.querySelector('[data-opc-part="sceneActions"]')!;
+      const divider = trailing.querySelector('.opc-scene-top-bar__actions-divider')!;
+      const controls = trailing.querySelector('[data-opc-part="controls"]')!;
       expect(actions.nextElementSibling).toBe(divider);
-      expect(divider.getAttribute('data-openbitfun-part')).toBe('separator');
+      expect(divider.getAttribute('data-opc-part')).toBe('separator');
       expect(divider.getAttribute('aria-hidden')).toBe('true');
       expect(divider.nextElementSibling).toBe(controls);
       expect(controls.querySelector('button')).not.toBeNull();
       expect(stylesheet).toContain('&__actions:empty + &__actions-divider');
       act(() => toolbar.dispatchEvent(new MouseEvent('dblclick', { bubbles: true })));
       expect(maximize).toHaveBeenCalledOnce();
-      act(() => toolbar.querySelector('[data-openbitfun-part="sceneActions"] button')!.dispatchEvent(new MouseEvent('dblclick', { bubbles: true })));
+      act(() => toolbar.querySelector('[data-opc-part="sceneActions"] button')!.dispatchEvent(new MouseEvent('dblclick', { bubbles: true })));
       expect(maximize).toHaveBeenCalledOnce();
     } finally {
       act(() => root.unmount());
@@ -108,7 +108,7 @@ describe('SceneTopBar', () => {
     const root = createRoot(host);
     try {
       act(() => root.render(<SceneTopBar />));
-      expect(host.querySelector('[data-openbitfun-component="toolbar"]')?.getAttribute('data-bordered'))
+      expect(host.querySelector('[data-opc-component="toolbar"]')?.getAttribute('data-bordered'))
         .toBe('false');
     } finally {
       act(() => root.unmount());
@@ -136,7 +136,7 @@ describe('SceneTopBar', () => {
     function renderBar(tabCount = 1) {
       sceneState.openTabs = Array.from({ length: tabCount }, () => ({}));
       act(() => root.render(<SceneTopBar onMinimize={vi.fn()} onMaximize={maximize} onClose={vi.fn()} />));
-      return host.querySelector<HTMLElement>('[data-openbitfun-component="toolbar"]')!;
+      return host.querySelector<HTMLElement>('[data-opc-component="toolbar"]')!;
     }
 
     async function mouseDown(target: Element, options: MouseEventInit = {}) {
@@ -155,7 +155,7 @@ describe('SceneTopBar', () => {
     it.each([0, 1, 2, 8])('allows dragging and maximizing empty chrome with %i open tabs', async tabCount => {
       const toolbar = renderBar(tabCount);
       const tabList = toolbar.querySelector('[role="tablist"]')!;
-      const leading = toolbar.querySelector(':scope > [data-openbitfun-part="leading"]')!;
+      const leading = toolbar.querySelector(':scope > [data-opc-part="leading"]')!;
       expect(leading.children).toHaveLength(1);
       expect(leading.firstElementChild).toBe(tabList);
 
@@ -171,8 +171,8 @@ describe('SceneTopBar', () => {
       for (const tabCount of [1, 2, 1]) {
         const toolbar = renderBar(tabCount);
         const tab = toolbar.querySelector('[role="tab"]')!;
-        const label = tab.querySelector('[data-openbitfun-part="label"] span')!;
-        const item = tab.closest('[data-openbitfun-part="item"]')!;
+        const label = tab.querySelector('[data-opc-part="label"] span')!;
+        const item = tab.closest('[data-opc-part="item"]')!;
         for (const target of [tab, label, item]) {
           await mouseDown(target);
           doubleClick(target);
@@ -184,8 +184,8 @@ describe('SceneTopBar', () => {
 
     it('leaves multi-tab labels and item padding to tab interaction', async () => {
       const toolbar = renderBar(2);
-      const tab = toolbar.querySelector<HTMLButtonElement>('[role="tab"][data-openbitfun-value="1"]')!;
-      for (const target of [tab, tab.querySelector('span')!, tab.closest('[data-openbitfun-part="item"]')!]) {
+      const tab = toolbar.querySelector<HTMLButtonElement>('[role="tab"][data-opc-value="1"]')!;
+      for (const target of [tab, tab.querySelector('span')!, tab.closest('[data-opc-part="item"]')!]) {
         await mouseDown(target);
         doubleClick(target);
       }

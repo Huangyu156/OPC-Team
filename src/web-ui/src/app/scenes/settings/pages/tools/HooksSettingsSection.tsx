@@ -451,7 +451,7 @@ const HooksSettingsSection: React.FC = () => {
               {importSnapshot.imports.length === 0
                 && corruptDiagnostics.length === 0 ? (
                 <ConfigPageRow
-                  className="openbitfun-hooks-config__empty"
+                  className="opc-hooks-config__empty"
                   label={<span data-hooks-empty="true">{t('imports.empty')}</span>}
                   multiline
                 >

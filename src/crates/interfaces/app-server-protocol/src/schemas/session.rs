@@ -2,9 +2,9 @@
 
 #[cfg(feature = "rpc")]
 use agent_client_protocol::{JsonRpcRequest, JsonRpcResponse};
-use openbitfun_core_types::SessionUsageReport;
-use openbitfun_product_domains::tool_permissions::PermissionRequest;
-use openbitfun_runtime_ports::{
+use opc_core_types::SessionUsageReport;
+use opc_product_domains::tool_permissions::PermissionRequest;
+use opc_runtime_ports::{
     AgentContextReloadRequest, AgentSessionArchiveStateRequest, AgentSessionCompactionRequest,
     AgentSessionCompactionResult, AgentSessionForkAtTurnRequest, AgentSessionForkBeforeTurnRequest,
     AgentSessionForkRequest, AgentSessionForkResult, AgentSessionLineageCancellationRequest,

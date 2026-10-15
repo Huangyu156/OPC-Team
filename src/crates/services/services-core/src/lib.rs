@@ -59,7 +59,7 @@ pub mod workspace_records;
     feature = "local-storage",
     feature = "product-identity"
 ))]
-pub use openbitfun_core_types::product_identity;
+pub use opc_core_types::product_identity;
 #[cfg(feature = "runtime-ownership")]
 pub mod runtime_ownership;
 #[cfg(feature = "local-storage")]

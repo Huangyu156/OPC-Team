@@ -86,7 +86,7 @@ export const CoworkExampleCards: React.FC<CoworkExampleCardsProps> = ({
       return (
         <ActionCard
           key={example.id}
-          className="openbitfun-cowork-example-cards__card"
+          className="opc-cowork-example-cards__card"
           description={description}
           leading={example.icon}
           size="md"
@@ -99,10 +99,10 @@ export const CoworkExampleCards: React.FC<CoworkExampleCardsProps> = ({
   }, [onSelectPrompt, selected, t]);
 
   return (
-    <div data-openbitfun-component="cowork-example-cards" data-openbitfun-part="root" className="openbitfun-cowork-example-cards">
-      <div data-openbitfun-component="cowork-example-cards" data-openbitfun-part="header" className="openbitfun-cowork-example-cards__header">
-        <div data-openbitfun-component="cowork-example-cards" data-openbitfun-part="title" className="openbitfun-cowork-example-cards__title">{t('coworkExamples.title')}</div>
-        <div data-openbitfun-component="cowork-example-cards" data-openbitfun-part="actions" className="openbitfun-cowork-example-cards__header-actions">
+    <div data-opc-component="cowork-example-cards" data-opc-part="root" className="opc-cowork-example-cards">
+      <div data-opc-component="cowork-example-cards" data-opc-part="header" className="opc-cowork-example-cards__header">
+        <div data-opc-component="cowork-example-cards" data-opc-part="title" className="opc-cowork-example-cards__title">{t('coworkExamples.title')}</div>
+        <div data-opc-component="cowork-example-cards" data-opc-part="actions" className="opc-cowork-example-cards__header-actions">
           {onAddPlugin && (
             <Tooltip content={t('coworkExamples.addPlugin')}>
               <IconButton
@@ -133,7 +133,7 @@ export const CoworkExampleCards: React.FC<CoworkExampleCardsProps> = ({
           )}
         </div>
       </div>
-      <div data-openbitfun-component="cowork-example-cards" data-openbitfun-part="grid" className="openbitfun-cowork-example-cards__grid">
+      <div data-opc-component="cowork-example-cards" data-opc-part="grid" className="opc-cowork-example-cards__grid">
         {cards}
       </div>
     </div>

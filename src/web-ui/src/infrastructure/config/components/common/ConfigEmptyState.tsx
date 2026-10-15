@@ -20,10 +20,10 @@ export const ConfigEmptyState: React.FC<ConfigEmptyStateProps> = ({
   ...props
 }) => (
   <div
-    data-openbitfun-component="config"
-    data-openbitfun-part="emptyState"
+    data-opc-component="config"
+    data-opc-part="emptyState"
     {...props}
-    className={`openbitfun-config-empty-state ${className}`.trim()}
+    className={`opc-config-empty-state ${className}`.trim()}
   >
     <Empty icon={icon} title={formatStandaloneUiCopy(title)} description={formatStandaloneUiCopy(description)} actions={actions} />
   </div>

@@ -205,10 +205,10 @@ function ExecCommandPresentation({
   )));
 
   return (
-    <div ref={rootRef} data-openbitfun-adapter="exec-process-tool-card" data-tool-card-id={toolId ?? ''}>
+    <div ref={rootRef} data-opc-adapter="exec-process-tool-card" data-tool-card-id={toolId ?? ''}>
       <CommandToolCard
         attention={attention}
-        data-openbitfun-preview-state={previewState}
+        data-opc-preview-state={previewState}
         action={model.actionLabel}
         command={model.primaryText}
         interaction={model.interaction}
@@ -219,7 +219,7 @@ function ExecCommandPresentation({
           label: t('toolCards.execProcess.copyPrimary'),
           onPress: onCopyPrimary,
         }}
-        data-openbitfun-state={rejectedOrCancelled ? 'cancelled' : status === 'completed' ? 'completed' : 'active'}
+        data-opc-state={rejectedOrCancelled ? 'cancelled' : status === 'completed' ? 'completed' : 'active'}
         emptyCommand={model.emptyText}
         error={status === 'error'
           ? toolItem.toolResult?.error || t('toolCards.terminal.executionFailed')

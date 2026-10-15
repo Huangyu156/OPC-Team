@@ -1,4 +1,4 @@
-use openbitfun_product_domains::tool_permissions::{
+use opc_product_domains::tool_permissions::{
     merge_permission_rule_layers, resolve_child_permission_policy, resolve_permission_policy,
     wildcard_matches, ChildPermissionPolicyLayers, PermissionConstraintLayer,
     PermissionDelegationContext, PermissionEffect, PermissionEvaluator, PermissionPolicyConfig,
@@ -7,7 +7,7 @@ use openbitfun_product_domains::tool_permissions::{
     PermissionRequestSourceKind, PermissionResourceCaseSensitivity, PermissionRule,
     PermissionRuntimeCeiling, ResolvedPermissionPolicy, ToolPermissionConfig,
 };
-use openbitfun_product_domains::tool_permissions::{
+use opc_product_domains::tool_permissions::{
     resolve_permission_mode, PermissionMode, PermissionModeLayers, PermissionModeSource,
 };
 use serde_json::json;
@@ -863,7 +863,7 @@ fn omitted_mode_keeps_the_stored_global_preset() {
 struct PersistedModeCarrier {
     #[serde(
         default,
-        deserialize_with = "openbitfun_product_domains::tool_permissions::deserialize_optional_permission_mode",
+        deserialize_with = "opc_product_domains::tool_permissions::deserialize_optional_permission_mode",
         skip_serializing_if = "Option::is_none"
     )]
     permission_mode: Option<PermissionMode>,

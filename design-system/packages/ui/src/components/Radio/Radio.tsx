@@ -40,13 +40,13 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio({
   return (
     <label
       className={classNames(styles.root, className)}
-      data-openbitfun-component="radio"
+      data-opc-component="radio"
       data-disabled={disabled ? "true" : "false"}
       data-invalid={invalid ? "true" : "false"}
       data-readonly={readOnly ? "true" : "false"}
       data-size={size}
     >
-      <span className={styles.control} data-openbitfun-part="control">
+      <span className={styles.control} data-opc-part="control">
         <input
           {...props}
           aria-invalid={invalid || undefined}
@@ -61,12 +61,12 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio({
           ref={ref}
           type="radio"
         />
-        <span aria-hidden="true" className={styles.circle} data-openbitfun-part="circle">
+        <span aria-hidden="true" className={styles.circle} data-opc-part="circle">
           <span className={styles.dot} />
         </span>
       </span>
       {hasContent && (
-        <span className={styles.content} data-openbitfun-part="content">
+        <span className={styles.content} data-opc-part="content">
           {label !== undefined && <span className={styles.label}>{label}</span>}
           {description !== undefined && <span className={styles.description}>{description}</span>}
           {children}

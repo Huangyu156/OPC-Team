@@ -6,16 +6,16 @@ import { $ } from '@wdio/globals';
 
 export class Header extends BasePage {
   private selectors = {
-    container: '.openbitfun-nav-panel, .openbitfun-scene-bar, .openbitfun-nav-bar, [data-testid="header-container"], .openbitfun-header, header',
-    homeBtn: '[data-testid="header-home-btn"], .openbitfun-nav-bar__logo-button, .openbitfun-header__home',
-    minimizeBtn: '[data-testid="header-minimize-btn"], .openbitfun-title-bar__minimize, .window-controls__btn--minimize, button[aria-label*="Minimize"], button[aria-label*="最小化"]',
-    maximizeBtn: '[data-testid="header-maximize-btn"], .openbitfun-title-bar__maximize, .window-controls__btn--maximize, button[aria-label*="Maximize"], button[aria-label*="最大化"], button[aria-label*="Restore"], button[aria-label*="还原"]',
-    closeBtn: '[data-testid="header-close-btn"], .openbitfun-title-bar__close, .window-controls__btn--close, button[aria-label*="Close"], button[aria-label*="关闭"]',
-    leftPanelToggle: '[data-testid="header-left-panel-toggle"], .openbitfun-nav-bar__panel-toggle',
+    container: '.opc-nav-panel, .opc-scene-bar, .opc-nav-bar, [data-testid="header-container"], .opc-header, header',
+    homeBtn: '[data-testid="header-home-btn"], .opc-nav-bar__logo-button, .opc-header__home',
+    minimizeBtn: '[data-testid="header-minimize-btn"], .opc-title-bar__minimize, .window-controls__btn--minimize, button[aria-label*="Minimize"], button[aria-label*="最小化"]',
+    maximizeBtn: '[data-testid="header-maximize-btn"], .opc-title-bar__maximize, .window-controls__btn--maximize, button[aria-label*="Maximize"], button[aria-label*="最大化"], button[aria-label*="Restore"], button[aria-label*="还原"]',
+    closeBtn: '[data-testid="header-close-btn"], .opc-title-bar__close, .window-controls__btn--close, button[aria-label*="Close"], button[aria-label*="关闭"]',
+    leftPanelToggle: '[data-testid="header-left-panel-toggle"], .opc-nav-bar__panel-toggle',
     rightPanelToggle: '[data-testid="header-right-panel-toggle"]',
     newSessionBtn: '[data-testid="header-new-session-btn"]',
-    title: '[data-testid="header-title"], .openbitfun-nav-bar__menu-item-main, .openbitfun-header__title',
-    configBtn: '[data-testid="header-config-btn"], .openbitfun-header-right button',
+    title: '[data-testid="header-title"], .opc-nav-bar__menu-item-main, .opc-header__title',
+    configBtn: '[data-testid="header-config-btn"], .opc-header-right button',
   };
 
   private async findExistingElement(selectors: string[]): Promise<WebdriverIO.Element | null> {
@@ -34,7 +34,7 @@ export class Header extends BasePage {
   }
 
   async isVisible(): Promise<boolean> {
-    const selectors = ['.openbitfun-nav-panel', '.openbitfun-scene-bar', '.openbitfun-nav-bar', '[data-testid="header-container"]', '.openbitfun-header', 'header'];
+    const selectors = ['.opc-nav-panel', '.opc-scene-bar', '.opc-nav-bar', '[data-testid="header-container"]', '.opc-header', 'header'];
     for (const selector of selectors) {
       try {
         const element = await $(selector);
@@ -50,7 +50,7 @@ export class Header extends BasePage {
   }
 
   async waitForLoad(): Promise<void> {
-    const selectors = ['.openbitfun-nav-panel', '.openbitfun-scene-bar', '.openbitfun-nav-bar', '[data-testid="header-container"]', '.openbitfun-header', 'header'];
+    const selectors = ['.opc-nav-panel', '.opc-scene-bar', '.opc-nav-bar', '[data-testid="header-container"]', '.opc-header', 'header'];
     for (const selector of selectors) {
       try {
         const element = await $(selector);
@@ -77,7 +77,7 @@ export class Header extends BasePage {
   async clickMinimize(): Promise<void> {
     const element = await this.findExistingElement([
       '[data-testid="header-minimize-btn"]',
-      '.openbitfun-title-bar__minimize',
+      '.opc-title-bar__minimize',
       '.window-controls__btn--minimize',
       'button[aria-label*="Minimize"]',
       'button[aria-label*="最小化"]',
@@ -96,7 +96,7 @@ export class Header extends BasePage {
   async isMinimizeButtonVisible(): Promise<boolean> {
     return (await this.findExistingElement([
       '[data-testid="header-minimize-btn"]',
-      '.openbitfun-title-bar__minimize',
+      '.opc-title-bar__minimize',
       '.window-controls__btn--minimize',
       'button[aria-label*="Minimize"]',
       'button[aria-label*="最小化"]',
@@ -107,7 +107,7 @@ export class Header extends BasePage {
   async clickMaximize(): Promise<void> {
     const element = await this.findExistingElement([
       '[data-testid="header-maximize-btn"]',
-      '.openbitfun-title-bar__maximize',
+      '.opc-title-bar__maximize',
       '.window-controls__btn--maximize',
       'button[aria-label*="Maximize"]',
       'button[aria-label*="最大化"]',
@@ -128,7 +128,7 @@ export class Header extends BasePage {
   async isMaximizeButtonVisible(): Promise<boolean> {
     return (await this.findExistingElement([
       '[data-testid="header-maximize-btn"]',
-      '.openbitfun-title-bar__maximize',
+      '.opc-title-bar__maximize',
       '.window-controls__btn--maximize',
       'button[aria-label*="Maximize"]',
       'button[aria-label*="最大化"]',
@@ -141,7 +141,7 @@ export class Header extends BasePage {
   async clickClose(): Promise<void> {
     const element = await this.findExistingElement([
       '[data-testid="header-close-btn"]',
-      '.openbitfun-title-bar__close',
+      '.opc-title-bar__close',
       '.window-controls__btn--close',
       'button[aria-label*="Close"]',
       'button[aria-label*="关闭"]',
@@ -160,7 +160,7 @@ export class Header extends BasePage {
   async isCloseButtonVisible(): Promise<boolean> {
     return (await this.findExistingElement([
       '[data-testid="header-close-btn"]',
-      '.openbitfun-title-bar__close',
+      '.opc-title-bar__close',
       '.window-controls__btn--close',
       'button[aria-label*="Close"]',
       'button[aria-label*="关闭"]',
@@ -200,7 +200,7 @@ export class Header extends BasePage {
   async areWindowControlsVisible(): Promise<boolean> {
     const controlsContainer = await this.findExistingElement([
       '.window-controls',
-      '.openbitfun-header-right .window-controls',
+      '.opc-header-right .window-controls',
     ]);
 
     if (controlsContainer) {

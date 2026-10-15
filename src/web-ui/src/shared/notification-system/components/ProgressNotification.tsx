@@ -54,15 +54,15 @@ export const ProgressNotification: React.FC<ProgressNotificationProps> = ({ noti
   return (
     <div
       className={`progress-notification progress-notification--${status || 'active'} ${mode === 'text-only' ? 'progress-notification--text-only' : ''}`}
-      data-openbitfun-component="notification"
-      data-openbitfun-part="progressItem"
-      data-openbitfun-state={status || undefined}
+      data-opc-component="notification"
+      data-opc-part="progressItem"
+      data-opc-state={status || undefined}
     >
       
       <div
         className="progress-notification__icon"
-        data-openbitfun-component="notification"
-        data-openbitfun-part="progressIcon"
+        data-opc-component="notification"
+        data-opc-part="progressIcon"
       >
         {getStatusIcon()}
       </div>
@@ -83,11 +83,11 @@ export const ProgressNotification: React.FC<ProgressNotificationProps> = ({ noti
 
         
         {shouldShowProgressBar && (
-          <div className="progress-notification__progress-bar" data-openbitfun-component="notification" data-openbitfun-part="progressBar">
+          <div className="progress-notification__progress-bar" data-opc-component="notification" data-opc-part="progressBar">
             <div
               className="progress-notification__progress-fill"
-              data-openbitfun-component="notification"
-              data-openbitfun-part="progressFill"
+              data-opc-component="notification"
+              data-opc-part="progressFill"
               style={{ transform: `scaleX(${Math.max(0, Math.min(100, progress)) / 100})` }}
             />
           </div>

@@ -14,7 +14,7 @@ function isSafeCanvasArtifactSegment(value: string): boolean {
 }
 
 export function parseCanvasArtifactReference(reference: string): CanvasArtifactReferenceParts | null {
-  const match = /^openbitfun-canvas:\/\/session\/([^/?#]+)\/canvas\/([^/?#]+)$/.exec(reference.trim());
+  const match = /^opc-canvas:\/\/session\/([^/?#]+)\/canvas\/([^/?#]+)$/.exec(reference.trim());
   if (!match) return null;
 
   try {

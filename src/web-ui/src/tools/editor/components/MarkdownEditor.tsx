@@ -635,7 +635,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
   if (loading) {
     return (
-      <div className={`openbitfun-markdown-editor-loading ${className}`} data-openbitfun-product-component="markdown-editor" data-openbitfun-product-part="loading" data-openbitfun-state="loading">
+      <div className={`opc-markdown-editor-loading ${className}`} data-opc-product-component="markdown-editor" data-opc-product-part="loading" data-opc-state="loading">
         <LoadingState size="md">{t('editor.markdownEditor.loadingFile')}</LoadingState>
       </div>
     );
@@ -643,7 +643,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
 
   if (error) {
     return (
-      <div className={`openbitfun-markdown-editor-error ${className}`} data-openbitfun-product-component="markdown-editor" data-openbitfun-product-part="error" data-openbitfun-state="error">
+      <div className={`opc-markdown-editor-error ${className}`} data-opc-product-component="markdown-editor" data-opc-product-part="error" data-opc-state="error">
         <Empty
           role="alert"
           imageSize="sm"
@@ -660,15 +660,15 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
   }
 
   return (
-    <div className={`openbitfun-markdown-editor ${className}`} data-openbitfun-product-component="markdown-editor" data-openbitfun-product-part="root" data-openbitfun-view={viewMode}>
+    <div className={`opc-markdown-editor ${className}`} data-opc-product-component="markdown-editor" data-opc-product-part="root" data-opc-view={viewMode}>
       <Toolbar
-        className="openbitfun-markdown-editor__mode-toolbar"
-        data-openbitfun-product-component="markdown-editor"
-        data-openbitfun-product-part="toolbar"
+        className="opc-markdown-editor__mode-toolbar"
+        data-opc-product-component="markdown-editor"
+        data-opc-product-part="toolbar"
         size="sm"
         leading={(
           <SegmentedControl
-            className="openbitfun-markdown-editor__mode-toggle"
+            className="opc-markdown-editor__mode-toggle"
             aria-label={t('editor.markdownEditor.viewModeLabel')}
             size="sm"
             tone="neutral"
@@ -684,7 +684,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           />
         )}
         trailing={(
-          <ToolbarGroup data-openbitfun-product-component="markdown-editor" data-openbitfun-product-part="actions">
+          <ToolbarGroup data-opc-product-component="markdown-editor" data-opc-product-part="actions">
             <IconButton
               type="button"
               size="sm"
@@ -700,7 +700,7 @@ const MarkdownEditor: React.FC<MarkdownEditorProps> = ({
           </ToolbarGroup>
         )}
       />
-      <div className="openbitfun-markdown-editor__body" data-openbitfun-product-component="markdown-editor" data-openbitfun-product-part="body">
+      <div className="opc-markdown-editor__body" data-opc-product-component="markdown-editor" data-opc-product-part="body">
         <MEditor
           ref={editorRef}
           value={content}

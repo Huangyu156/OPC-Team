@@ -30,8 +30,8 @@ Read README.md for its user-facing contract.
 ## Focused verification
 
 ```bash
-cargo test -p openbitfun-data-migrator -p openbitfun-legacy-migration-adapters -p openbitfun-legacy-migration --lib
-cargo test -p openbitfun-legacy-migration --test migration_engine_contracts
+cargo test -p opc-data-migrator -p opc-legacy-migration-adapters -p opc-legacy-migration --lib
+cargo test -p opc-legacy-migration --test migration_engine_contracts
 node --test scripts/data-migrator-tauri-build.test.mjs
 node --check src/apps/data-migrator/ui/app.js
 node --test scripts/data-migrator-report.test.mjs

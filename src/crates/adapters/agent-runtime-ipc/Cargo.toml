@@ -1,5 +1,5 @@
 [package]
-name = "openbitfun-agent-runtime-ipc"
+name = "opc-agent-runtime-ipc"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -7,15 +7,15 @@ publish = false
 description = "Private pre-integration IPC seam for a shared OPC-Team Agent Runtime"
 
 [lib]
-name = "openbitfun_agent_runtime_ipc"
+name = "opc_agent_runtime_ipc"
 crate-type = ["rlib"]
 
 [dependencies]
 async-trait = { workspace = true }
-openbitfun-transport = { path = "../transport" }
-openbitfun-events = { path = "../../contracts/events" }
-openbitfun-product-domains = { path = "../../contracts/product-domains" }
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", features = ["agent-api", "git-port"] }
+opc-transport = { path = "../transport" }
+opc-events = { path = "../../contracts/events" }
+opc-product-domains = { path = "../../contracts/product-domains" }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", features = ["agent-api", "git-port"] }
 dunce = { workspace = true }
 fs2 = { workspace = true }
 serde = { workspace = true }

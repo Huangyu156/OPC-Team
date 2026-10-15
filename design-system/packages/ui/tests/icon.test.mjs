@@ -43,8 +43,8 @@ test("Icon exposes the complete named catalog without duplicate names", () => {
 test("Icon is decorative by default and renders the named Lucide glyph", () => {
   const markup = renderToStaticMarkup(createElement(Icon, { name: "search" }));
 
-  assert.match(markup, /data-openbitfun-component="icon"/);
-  assert.match(markup, /data-openbitfun-name="search"/);
+  assert.match(markup, /data-opc-component="icon"/);
+  assert.match(markup, /data-opc-name="search"/);
   assert.match(markup, /data-size="lg"/);
   assert.match(markup, /aria-hidden="true"/);
   assert.match(markup, /lucide-search/);
@@ -64,7 +64,7 @@ test("Icon exposes semantic size, tone, and accessible label independently", () 
   assert.match(markup, /aria-label="Successful"/);
   assert.doesNotMatch(markup.match(/^<span[^>]*>/)?.[0] ?? "", /aria-hidden/);
   assert.match(markup, /data-size="sm"/);
-  assert.match(markup, /data-openbitfun-tone="success"/);
+  assert.match(markup, /data-opc-tone="success"/);
 });
 
 test("Icon normalizes Lucide fallbacks without exposing product-owned line weight", () => {
@@ -75,10 +75,10 @@ test("Icon normalizes Lucide fallbacks without exposing product-owned line weigh
     tone: "secondary",
   }));
 
-  assert.match(markup, /data-openbitfun-component="icon"/);
-  assert.match(markup, /data-openbitfun-source="line"/);
+  assert.match(markup, /data-opc-component="icon"/);
+  assert.match(markup, /data-opc-source="line"/);
   assert.match(markup, /data-size="sm"/);
-  assert.match(markup, /data-openbitfun-tone="secondary"/);
+  assert.match(markup, /data-opc-tone="secondary"/);
   assert.match(markup, /role="img"/);
   assert.match(markup, /aria-label="Network"/);
   assert.match(markup, /<svg[^>]*stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
@@ -94,7 +94,7 @@ test("Icon styles consume only public geometry and semantic color tokens", async
   assert.match(styles, /--opcteam-color-content-primary/);
   assert.match(styles, /--opcteam-color-status-success-content/);
   assert.match(styles, /mask-size:contain/);
-  assert.match(styles, /data-openbitfun-source=line/);
+  assert.match(styles, /data-opc-source=line/);
 });
 
 test("Icon mask assets are color-agnostic", async () => {
@@ -178,6 +178,6 @@ test("published Icon masks contain the current asset attributes for every catalo
 test("Combobox constrains catalog glyphs in both value and indicator slots", async () => {
   const source = await readFile(new URL("../src/components/Combobox/Combobox.module.css", import.meta.url), "utf8");
   for (const slot of ["valueLeading", "indicator"]) {
-    assert.match(source, new RegExp(`\\.${slot} > \\[data-openbitfun-component="icon"\\]\\s*\\{\\s*inline-size: 100%;\\s*block-size: 100%;`));
+    assert.match(source, new RegExp(`\\.${slot} > \\[data-opc-component="icon"\\]\\s*\\{\\s*inline-size: 100%;\\s*block-size: 100%;`));
   }
 });

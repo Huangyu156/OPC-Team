@@ -45,9 +45,9 @@ export function TimelineContentBlock({ item }: { item: Extract<VirtualItem, { ty
         <div className={[group ? 'explore-region__content' : getModelRoundItemClassName({ isVisuallyStreaming: item.data.isStreaming || gate.isAnyRevealing }),
           block.layout === 'agent-cards' && 'flowchat-agent-card-grid'].filter(Boolean).join(' ')}
           data-agent-card-grid={block.layout === 'agent-cards' ? '' : undefined}
-          data-flow-item-stack="" data-openbitfun-product-component="model-round-item" data-openbitfun-product-part="root"
+          data-flow-item-stack="" data-opc-product-component="model-round-item" data-opc-product-part="root"
           data-testid="chat-assistant-message" data-turn-id={item.turnId} data-round-id={item.data.id}
-          data-status={item.data.status} data-openbitfun-status={item.data.status}
+          data-status={item.data.status} data-opc-status={item.data.status}
           data-model-config-id={item.data.modelConfigId || ''} data-effective-model-name={item.data.effectiveModelName || ''}
           data-streaming={item.data.isStreaming || gate.isAnyRevealing ? 'true' : 'false'}>
           {item.data.items.map((member, index) => <FlowGroupItemRenderer key={member.id} item={member}

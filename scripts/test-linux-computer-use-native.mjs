@@ -10,7 +10,7 @@ if (process.platform !== 'linux') {
   throw new Error('This harness requires Linux and the GStreamer development packages.');
 }
 const root = fileURLToPath(new URL('../', import.meta.url));
-const dir = await mkdtemp(join(tmpdir(), 'openbitfun-linux-native-'));
+const dir = await mkdtemp(join(tmpdir(), 'opc-linux-native-'));
 const source = (path) => JSON.stringify(resolve(root, path));
 try {
   // Extract the actual lease trait rather than maintaining a replacement contract.
@@ -42,8 +42,8 @@ image = { version = "0.25", default-features = false, features = ["jpeg", "png"]
 `);
   await copyFile(join(root, 'Cargo.lock'), join(dir, 'Cargo.lock'));
   await writeFile(join(dir, 'lib.rs'), `#![allow(dead_code, unused_imports)]
-extern crate self as openbitfun_core;
-extern crate self as openbitfun_agent_tools;
+extern crate self as opc_core;
+extern crate self as opc_agent_tools;
 #[path = ${source('src/crates/execution/tool-contracts/src/computer_use.rs')}]
 pub mod computer_use_contract;
 #[path = ${source('src/crates/execution/tool-contracts/src/computer_use_control.rs')}]

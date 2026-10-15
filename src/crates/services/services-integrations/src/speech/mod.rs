@@ -28,7 +28,7 @@ use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use base64::Engine;
 pub use error::{SpeechError, SpeechResult};
 use error::{SpeechError as OpcTeamError, SpeechResult as OpcTeamResult};
-pub use openbitfun_core_types::speech::*;
+pub use opc_core_types::speech::*;
 #[cfg(feature = "speech-realtime")]
 pub use realtime::VolcengineRealtimeSpeechConfig;
 use std::collections::HashMap;
@@ -381,10 +381,8 @@ mod tests {
 
     #[tokio::test]
     async fn append_audio_chunk_truncates_at_recording_limit() {
-        let root = std::env::temp_dir().join(format!(
-            "openbitfun-speech-limit-test-{}",
-            Uuid::new_v4().simple()
-        ));
+        let root =
+            std::env::temp_dir().join(format!("opc-speech-limit-test-{}", Uuid::new_v4().simple()));
         let service = SpeechService::new(SpeechStoragePaths::new(
             root.join("models"),
             root.join("downloads"),

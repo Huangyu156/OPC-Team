@@ -1,16 +1,16 @@
 [package]
-name = "openbitfun-transport"
+name = "opc-transport"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
 description = "OPC-Team Transport Layer - Cross-platform communication adapters"
 
 [lib]
-name = "openbitfun_transport"
+name = "opc_transport"
 
 [dependencies]
 # Events layer
-openbitfun-events = { path = "../../contracts/events" }
+opc-events = { path = "../../contracts/events" }
 
 # Inherited from workspace
 async-trait = { workspace = true }

@@ -77,8 +77,8 @@ const MiniAppLibraryRow: React.FC<MiniAppLibraryRowProps> = ({
       role="listitem"
       data-market-key={itemKey}
       data-action={action}
-      data-openbitfun-component="miniapp-gallery-view"
-      data-openbitfun-part="item"
+      data-opc-component="miniapp-gallery-view"
+      data-opc-part="item"
     >
       <button data-overflow-trigger
         type="button"
@@ -88,8 +88,8 @@ const MiniAppLibraryRow: React.FC<MiniAppLibraryRowProps> = ({
       >
         <span
           className="miniapp-library-row__showcase"
-          data-openbitfun-component="miniapp-gallery-view"
-          data-openbitfun-part="showcase"
+          data-opc-component="miniapp-gallery-view"
+          data-opc-part="showcase"
         >
           {!showcaseUnavailable && showcaseUrl ? (
             <MarketImage
@@ -116,13 +116,13 @@ const MiniAppLibraryRow: React.FC<MiniAppLibraryRowProps> = ({
 
         <span
           className="miniapp-library-row__summary"
-          data-openbitfun-component="miniapp-gallery-view"
-          data-openbitfun-part="summary"
+          data-opc-component="miniapp-gallery-view"
+          data-opc-part="summary"
         >
           <span
             className="miniapp-library-row__title-row"
-            data-openbitfun-component="miniapp-gallery-view"
-            data-openbitfun-part="title"
+            data-opc-component="miniapp-gallery-view"
+            data-opc-part="title"
           >
             <strong className="miniapp-library-row__name"><OverflowText>{name}</OverflowText></strong>
             <StatusPill className="miniapp-library-row__category" tone="neutral">
@@ -132,8 +132,8 @@ const MiniAppLibraryRow: React.FC<MiniAppLibraryRowProps> = ({
           <span className="miniapp-library-row__description">{description}</span>
           <span
             className="miniapp-library-row__meta"
-            data-openbitfun-component="miniapp-gallery-view"
-            data-openbitfun-part="meta"
+            data-opc-component="miniapp-gallery-view"
+            data-opc-part="meta"
             role="group"
             aria-label={[version, metaLabel].filter(Boolean).join(', ')}
           >
@@ -171,14 +171,14 @@ const MiniAppLibraryRow: React.FC<MiniAppLibraryRowProps> = ({
 
       <div
         className="miniapp-library-row__actions"
-        data-openbitfun-component="miniapp-gallery-view"
-        data-openbitfun-part="actions"
+        data-opc-component="miniapp-gallery-view"
+        data-opc-part="actions"
       >
         {statuses.length > 0 ? (
           <div
             className="miniapp-library-row__status-rail"
-            data-openbitfun-component="miniapp-gallery-view"
-            data-openbitfun-part="status"
+            data-opc-component="miniapp-gallery-view"
+            data-opc-part="status"
           >
             {statuses.map((status) => (
               <StatusPill

@@ -169,7 +169,7 @@ describe('MCPToolDisplay', () => {
     expect(input?.textContent).toContain('"query": "OpenBitFun"');
     expect(input?.textContent).toContain('"limit": 5');
     expect(input?.textContent).not.toContain('_early_detection');
-    expect(container.querySelector('[data-openbitfun-component="mcp-tool-display"]')?.getAttribute('data-openbitfun-state')).toContain('expanded');
+    expect(container.querySelector('[data-opc-component="mcp-tool-display"]')?.getAttribute('data-opc-state')).toContain('expanded');
   });
 
   it('can expand a completed call that has parameters but no result content', () => {
@@ -188,7 +188,7 @@ describe('MCPToolDisplay', () => {
       root.render(<MCPToolDisplay toolItem={item} config={config} />);
     });
 
-    const toggle = container.querySelector<HTMLButtonElement>('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="affordanceButton"]');
+    const toggle = container.querySelector<HTMLButtonElement>('[data-opc-component="flow-chat-tool-card"][data-opc-part="affordanceButton"]');
     expect(toggle).not.toBeNull();
 
     act(() => {
@@ -265,15 +265,15 @@ describe('MCPToolDisplay', () => {
 
     expect(container.querySelector('.mcp-input-code')).toBeNull();
     expect(container.textContent).not.toContain('MCP server rejected the request');
-    expect(container.querySelector('[data-openbitfun-component="mcp-tool-display"]')?.getAttribute('data-openbitfun-state')).toBe('error');
+    expect(container.querySelector('[data-opc-component="mcp-tool-display"]')?.getAttribute('data-opc-state')).toBe('error');
 
     act(() => {
-      container.querySelector<HTMLButtonElement>('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="affordanceButton"]')?.dispatchEvent(
+      container.querySelector<HTMLButtonElement>('[data-opc-component="flow-chat-tool-card"][data-opc-part="affordanceButton"]')?.dispatchEvent(
         new dom.window.MouseEvent('click', { bubbles: true })
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-component="mcp-tool-display"]')?.getAttribute('data-openbitfun-state')).toContain('expanded');
+    expect(container.querySelector('[data-opc-component="mcp-tool-display"]')?.getAttribute('data-opc-state')).toContain('expanded');
     expect(container.textContent).toContain('MCP server rejected the request');
     expect(container.querySelector('.mcp-input-code')).toBeNull();
 
@@ -297,7 +297,7 @@ describe('MCPToolDisplay', () => {
       root.render(<MCPToolDisplay toolItem={item} config={config} />);
     });
 
-    expect(container.querySelector('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="affordanceButton"]')).toBeNull();
+    expect(container.querySelector('[data-opc-component="flow-chat-tool-card"][data-opc-part="affordanceButton"]')).toBeNull();
     expect(container.querySelector('.mcp-input-code')).toBeNull();
   });
 
@@ -335,12 +335,12 @@ describe('MCPToolDisplay', () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    const cardRoot = container.querySelector('[data-openbitfun-component="mcp-tool-display"]');
+    const cardRoot = container.querySelector('[data-opc-component="mcp-tool-display"]');
     expect(container.querySelector('.mcp-app-iframe')).toBeNull();
-    expect(cardRoot?.getAttribute('data-openbitfun-state') ?? '').not.toContain('expanded');
+    expect(cardRoot?.getAttribute('data-opc-state') ?? '').not.toContain('expanded');
     act(() => container.querySelector<HTMLButtonElement>('[data-testid="mcp-tool-card-toggle"]')!.click());
     expect(container.querySelector('.mcp-app-iframe')).not.toBeNull();
-    expect(cardRoot?.getAttribute('data-openbitfun-state')).toContain('expanded');
+    expect(cardRoot?.getAttribute('data-opc-state')).toContain('expanded');
     expect(container.querySelector<HTMLButtonElement>('.mcp-input-disclosure button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
     expect(container.querySelector('.mcp-input-code')).toBeNull();
 
@@ -350,25 +350,25 @@ describe('MCPToolDisplay', () => {
       );
     });
 
-    expect(cardRoot?.getAttribute('data-openbitfun-state')).toContain('expanded');
+    expect(cardRoot?.getAttribute('data-opc-state')).toContain('expanded');
     expect(container.querySelector<HTMLButtonElement>('.mcp-input-disclosure button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('true');
     expect(container.querySelector('.mcp-input-code')).not.toBeNull();
 
     act(() => {
-      container.querySelector<HTMLButtonElement>('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="affordanceButton"]')?.dispatchEvent(
+      container.querySelector<HTMLButtonElement>('[data-opc-component="flow-chat-tool-card"][data-opc-part="affordanceButton"]')?.dispatchEvent(
         new dom.window.MouseEvent('click', { bubbles: true })
       );
     });
 
-    expect(cardRoot?.getAttribute('data-openbitfun-state') ?? '').not.toContain('expanded');
+    expect(cardRoot?.getAttribute('data-opc-state') ?? '').not.toContain('expanded');
 
     act(() => {
-      container.querySelector<HTMLButtonElement>('[data-openbitfun-component="flow-chat-tool-card"][data-openbitfun-part="affordanceButton"]')?.dispatchEvent(
+      container.querySelector<HTMLButtonElement>('[data-opc-component="flow-chat-tool-card"][data-opc-part="affordanceButton"]')?.dispatchEvent(
         new dom.window.MouseEvent('click', { bubbles: true })
       );
     });
 
-    expect(cardRoot?.getAttribute('data-openbitfun-state')).toContain('expanded');
+    expect(cardRoot?.getAttribute('data-opc-state')).toContain('expanded');
     expect(container.querySelector<HTMLButtonElement>('.mcp-input-disclosure button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
     expect(container.querySelector('.mcp-input-code')).toBeNull();
   });
@@ -395,7 +395,7 @@ describe('MCPToolDisplay', () => {
 
     const trigger = container.querySelector<HTMLButtonElement>('.image-content-preview');
     expect(trigger).not.toBeNull();
-    expect(container.querySelector('.image-content')?.getAttribute('data-openbitfun-part')).toBe('image');
+    expect(container.querySelector('.image-content')?.getAttribute('data-opc-part')).toBe('image');
 
     act(() => {
       trigger?.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }));
@@ -403,9 +403,9 @@ describe('MCPToolDisplay', () => {
 
     const overlay = dom.window.document.querySelector<HTMLElement>('.image-lightbox');
     expect(overlay).not.toBeNull();
-    expect(overlay?.getAttribute('data-openbitfun-native-webview-occlusion')).toBe('true');
+    expect(overlay?.getAttribute('data-opc-native-webview-occlusion')).toBe('true');
     expect(overlay?.querySelector('img')?.getAttribute('src')).toBe('data:image/png;base64,aW1n');
-    expect(container.querySelector('[data-openbitfun-component="mcp-tool-display"]')?.getAttribute('data-openbitfun-state')).toContain('expanded');
+    expect(container.querySelector('[data-opc-component="mcp-tool-display"]')?.getAttribute('data-opc-state')).toContain('expanded');
 
     act(() => {
       dom.window.document.querySelector<HTMLButtonElement>('.image-lightbox-close')?.dispatchEvent(

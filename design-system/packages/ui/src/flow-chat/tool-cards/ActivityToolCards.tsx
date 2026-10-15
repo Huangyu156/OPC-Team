@@ -51,18 +51,18 @@ function ActivityToolCardBase({
   ...props
 }: ActivityToolCardBaseProps) {
   const summaryContent = summary !== undefined && summary !== null ? (
-    <OverflowText className={styles.summary} data-openbitfun-part="summary"
+    <OverflowText className={styles.summary} data-opc-part="summary"
       title={summaryTitle}>
       {summary}
     </OverflowText>
   ) : undefined;
-  if (interaction) return <ToolRelationRow {...props} data-openbitfun-tool-card={toolCard}
+  if (interaction) return <ToolRelationRow {...props} data-opc-tool-card={toolCard}
     interaction={interaction} status={status} result={resultSummary ?? summary ?? action}
     details={details} detailsTitle={detailsTitle ?? action} resultLabel={resultLabel} />;
   return (
     <AmbientToolCard
       {...props}
-      data-openbitfun-tool-card={toolCard}
+      data-opc-tool-card={toolCard}
       header={(
         <AmbientToolCardHeader
           action={action}

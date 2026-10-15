@@ -211,7 +211,7 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
   const sectionAnchor = useSettingsSectionAnchor('pet', !isLoading);
 
   return (
-    <div id={sectionAnchor} className="openbitfun-runtime-settings" data-openbitfun-component="runtime-settings" data-openbitfun-part="root" data-openbitfun-view="pet">
+    <div id={sectionAnchor} className="opc-runtime-settings" data-opc-component="runtime-settings" data-opc-part="root" data-opc-view="pet">
       <ConfigPageSectionStack>
         {loadError ? (
           <ConfigRetryState message={t('loading.failed')} retryLabel={t('loading.retry')} onRetry={() => void loadPageData()} />
@@ -223,7 +223,7 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
             description={t('features.pet.subtitle')}
           >
             <ConfigPageRow label={t('features.pet.enable')} align="center">
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <Switch
                   checked={settings.enable_agent_companion}
                   onChange={(e) => updateSetting('enable_agent_companion', e.target.checked)}
@@ -232,17 +232,17 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
             </ConfigPageRow>
 
             <div
-              className="openbitfun-runtime-settings__pet-picker"
-              data-openbitfun-component="runtime-settings"
-              data-openbitfun-part="petPicker"
+              className="opc-runtime-settings__pet-picker"
+              data-opc-component="runtime-settings"
+              data-opc-part="petPicker"
             >
               <div
-                className="openbitfun-runtime-settings__pet-chooser"
-                data-openbitfun-component="runtime-settings"
-                data-openbitfun-part="petChooser"
+                className="opc-runtime-settings__pet-chooser"
+                data-opc-component="runtime-settings"
+                data-opc-part="petChooser"
               >
                 <Disclosure
-                  contentInnerClassName="openbitfun-runtime-settings__pet-expanded-content"
+                  contentInnerClassName="opc-runtime-settings__pet-expanded-content"
                   summary={t('features.pet.petLabel')}
                   open={isActive && companionPetListExpanded}
                   onOpenChange={setCompanionPetListExpanded}
@@ -250,21 +250,21 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
                     <button
                       {...triggerProps}
                       data-overflow-trigger
-                      className="openbitfun-runtime-settings__pet-summary"
-                      data-openbitfun-component="runtime-settings"
-                      data-openbitfun-part="petSummary"
+                      className="opc-runtime-settings__pet-summary"
+                      data-opc-component="runtime-settings"
+                      data-opc-part="petSummary"
                       aria-label={`${t('features.pet.petLabel')}: ${getPetLabel(selectedCompanionPetReference)}`}
                     >
-                      <span className="openbitfun-runtime-settings__pet-current-preview" aria-hidden>
+                      <span className="opc-runtime-settings__pet-current-preview" aria-hidden>
                         {selectedCompanionPet?.previewSrc ? (
                           <span
-                            className="openbitfun-runtime-settings__pet-preview-sprite"
+                            className="opc-runtime-settings__pet-preview-sprite"
                             style={getPetPreviewStyle(selectedCompanionPet)}
                           />
                         ) : <Icon name="image" size="lg" />}
                       </span>
-                      <span className="openbitfun-runtime-settings__pet-current-copy">
-                        <OverflowText className="openbitfun-runtime-settings__pet-caption">
+                      <span className="opc-runtime-settings__pet-current-copy">
+                        <OverflowText className="opc-runtime-settings__pet-caption">
                           {selectedCompanionPet?.previewSrc
                             ? t('features.pet.current')
                             : t('features.pet.previewUnavailable')}
@@ -273,15 +273,15 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
                       </span>
                       {companionPetStack.length > 0 && (
                         <span
-                          className="openbitfun-runtime-settings__pet-stack"
-                          data-openbitfun-component="runtime-settings"
-                          data-openbitfun-part="petStack"
+                          className="opc-runtime-settings__pet-stack"
+                          data-opc-component="runtime-settings"
+                          data-opc-part="petStack"
                           aria-hidden
                         >
                           {companionPetStack.map(pet => (
-                            <span key={pet.packagePath} className="openbitfun-runtime-settings__pet-stack-card">
+                            <span key={pet.packagePath} className="opc-runtime-settings__pet-stack-card">
                               <span
-                                className="openbitfun-runtime-settings__pet-preview-sprite"
+                                className="opc-runtime-settings__pet-preview-sprite"
                                 style={getPetPreviewStyle(pet)}
                               />
                             </span>
@@ -292,11 +292,11 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
                   )}
                 >
                   <div
-                    className="openbitfun-runtime-settings__pet-actions"
-                    data-openbitfun-component="runtime-settings"
-                    data-openbitfun-part="petActions"
+                    className="opc-runtime-settings__pet-actions"
+                    data-opc-component="runtime-settings"
+                    data-opc-part="petActions"
                   >
-                    <span className="openbitfun-runtime-settings__pet-hint">{t('features.pet.petDescription')}</span>
+                    <span className="opc-runtime-settings__pet-hint">{t('features.pet.petDescription')}</span>
                     <Button
                       size="sm"
                       variant="secondary"
@@ -308,9 +308,9 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
                     </Button>
                   </div>
                   <div
-                    className="openbitfun-runtime-settings__pet-gallery"
-                    data-openbitfun-component="runtime-settings"
-                    data-openbitfun-part="petList"
+                    className="opc-runtime-settings__pet-gallery"
+                    data-opc-component="runtime-settings"
+                    data-opc-part="petList"
                     role="radiogroup"
                     aria-label={t('features.pet.petLabel')}
                   >
@@ -327,43 +327,43 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
                       return (
                         <article
                           key={pet.packagePath}
-                          className="openbitfun-runtime-settings__pet-card"
+                          className="opc-runtime-settings__pet-card"
                           data-testid="companion-pet-card"
                           data-pet-id={pet.id}
-                          data-openbitfun-component="runtime-settings"
-                          data-openbitfun-part="petOption"
-                          data-openbitfun-state={isSelected ? 'selected' : undefined}
+                          data-opc-component="runtime-settings"
+                          data-opc-part="petOption"
+                          data-opc-state={isSelected ? 'selected' : undefined}
                         >
                           <button data-overflow-trigger
                             type="button"
-                            className="openbitfun-runtime-settings__pet-card-select"
-                            data-openbitfun-component="runtime-settings"
-                            data-openbitfun-part="petTrigger"
-                            data-openbitfun-state={isSelected ? 'selected' : undefined}
+                            className="opc-runtime-settings__pet-card-select"
+                            data-opc-component="runtime-settings"
+                            data-opc-part="petTrigger"
+                            data-opc-state={isSelected ? 'selected' : undefined}
                             role="radio"
                             aria-checked={isSelected}
                             aria-label={label}
                             disabled={isDisabled}
                             onClick={() => void handleCompanionPetChange(pet.packagePath)}
                           >
-                            <span className="openbitfun-runtime-settings__pet-card-preview" aria-hidden>
+                            <span className="opc-runtime-settings__pet-card-preview" aria-hidden>
                               <span
-                                className="openbitfun-runtime-settings__pet-preview-sprite"
+                                className="opc-runtime-settings__pet-preview-sprite"
                                 style={getPetPreviewStyle(pet)}
                               />
                               {isSelected && (
-                                <span className="openbitfun-runtime-settings__pet-selected-mark">
+                                <span className="opc-runtime-settings__pet-selected-mark">
                                   <Icon name="check-line" size="xs" />
                                 </span>
                               )}
                             </span>
                             <span
-                              className="openbitfun-runtime-settings__pet-card-body"
-                              data-openbitfun-component="runtime-settings"
-                              data-openbitfun-part="petOptionMain"
+                              className="opc-runtime-settings__pet-card-body"
+                              data-opc-component="runtime-settings"
+                              data-opc-part="petOptionMain"
                             >
                               <strong><OverflowText>{label}</OverflowText></strong>
-                              <OverflowText data-openbitfun-component="runtime-settings" data-openbitfun-part="petGroup">
+                              <OverflowText data-opc-component="runtime-settings" data-opc-part="petGroup">
                                 {sourceLabel}
                               </OverflowText>
                             </span>
@@ -374,7 +374,7 @@ const PetSettingsSection: React.FC<{ isActive?: boolean }> = ({ isActive = true 
                                 type="button"
                                 size="sm"
                                 tone="danger"
-                                className="openbitfun-runtime-settings__pet-card-delete"
+                                className="opc-runtime-settings__pet-card-delete"
                                 disabled={isDeleting}
                                 aria-label={`${t('features.pet.delete')}: ${label}`}
                                 onClick={(event) => void handleDeleteCompanionPet(event, pet)}

@@ -23,7 +23,7 @@ impl SessionHistoryTool {
     }
 
     fn validate_session_id(session_id: &str) -> Result<(), String> {
-        openbitfun_core_types::validate_session_id(session_id)
+        opc_core_types::validate_session_id(session_id)
     }
 
     fn resolve_session_id(&self, session_id: &str) -> OpcTeamResult<String> {

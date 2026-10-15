@@ -10,7 +10,7 @@ test("Switch exposes native checkbox and switch semantics", () => {
     createElement(Switch, { "aria-label": "Notifications" }),
   );
 
-  assert.match(markup, /data-openbitfun-component="switch"/);
+  assert.match(markup, /data-opc-component="switch"/);
   assert.match(markup, /aria-label="Notifications"/);
   assert.match(markup, /role="switch"/);
   assert.match(markup, /type="checkbox"/);

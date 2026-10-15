@@ -96,26 +96,26 @@ const WelcomeScene: React.FC = () => {
     <section
       className="welcome-scene"
       data-testid="welcome-scene"
-      data-openbitfun-scene="welcome"
-      data-openbitfun-part="root"
+      data-opc-scene="welcome"
+      data-opc-part="root"
       aria-labelledby="welcome-scene-title"
     >
-      <div className="welcome-scene__content" data-openbitfun-scene="welcome" data-openbitfun-part="content">
+      <div className="welcome-scene__content" data-opc-scene="welcome" data-opc-part="content">
         <div
           className="welcome-scene__greeting"
-          data-openbitfun-scene="welcome"
-          data-openbitfun-part="greeting"
+          data-opc-scene="welcome"
+          data-opc-part="greeting"
         >
           <h1
             id="welcome-scene-title"
             className="welcome-scene__brand"
-            data-openbitfun-scene="welcome"
-            data-openbitfun-part="title"
+            data-opc-scene="welcome"
+            data-opc-part="title"
           >
             <span
               className="welcome-scene__logo"
-              data-openbitfun-scene="welcome"
-              data-openbitfun-part="logo"
+              data-opc-scene="welcome"
+              data-opc-part="logo"
               aria-hidden="true"
             >
               <OpenBitFunMark style={{ width: '100%', height: '100%' }} />
@@ -126,8 +126,8 @@ const WelcomeScene: React.FC = () => {
           </h1>
           <h2
             className="welcome-scene__tagline"
-            data-openbitfun-scene="welcome"
-            data-openbitfun-part="subtitle"
+            data-opc-scene="welcome"
+            data-opc-part="subtitle"
             aria-label={phrases[YOUR_WORD_INDEX]}
           >
             <span className="welcome-scene__phrase-slot" aria-hidden="true">

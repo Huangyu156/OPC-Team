@@ -37,7 +37,7 @@ beforeEach(() => {
   Object.defineProperty(Element.prototype, 'animate', { configurable: true, value: function (this: Element) {
     let resolve!: () => void;
     const finished = new Promise<void>(done => { resolve = done; });
-    if (this.closest('[data-openbitfun-component="openbitfun-brand-motion"]')) {
+    if (this.closest('[data-opc-component="opc-brand-motion"]')) {
       return { finished, cancel: resolve, startTime: null };
     }
     const record = { target: this, cancelled: false, finish: resolve };

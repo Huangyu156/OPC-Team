@@ -20,13 +20,13 @@ use crate::util::elapsed_ms_u64;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use futures::future::join_all;
 use log::{debug, error, info, warn};
-use openbitfun_agent_runtime::permission::{
+use opc_agent_runtime::permission::{
     plan_permission_intents, PendingPermissionReceiver, PermissionIntentPlan,
     PermissionRequestManager, PermissionWaitOutcome,
 };
-use openbitfun_agent_runtime::sdk::PermissionReplySource;
-use openbitfun_agent_stream::ToolArgumentRepairKind;
-use openbitfun_agent_tools::{
+use opc_agent_runtime::sdk::PermissionReplySource;
+use opc_agent_stream::ToolArgumentRepairKind;
+use opc_agent_tools::{
     build_invalid_tool_call_error_message, build_normal_tool_json_repair_notice,
     build_permission_denied_tool_presentation, build_tool_execution_error_presentation,
     build_tool_execution_timeout_presentation,
@@ -37,7 +37,7 @@ use openbitfun_agent_tools::{
     ToolExecutionErrorPresentation, GET_TOOL_SPEC_TOOL_NAME, SUBAGENT_LAUNCH_TOOL_NAMES,
     USER_STEERING_INTERRUPTED_MESSAGE,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PermissionReply, PermissionRequest, PermissionRequestSource, PermissionRequestSourceKind,
     PermissionResourceCaseSensitivity, RoundInjectionToolPreemption,
 };
@@ -530,12 +530,12 @@ enum PermissionPlanDraft {
 }
 
 pub fn permission_project_id_for_workspace_identity(
-    identity: &openbitfun_services_core::workspace_identity::WorkspaceSessionIdentity,
+    identity: &opc_services_core::workspace_identity::WorkspaceSessionIdentity,
     is_remote: bool,
 ) -> OpcTeamResult<String> {
     if !is_remote {
         return Ok(
-            openbitfun_services_core::workspace_identity::local_workspace_stable_storage_id(
+            opc_services_core::workspace_identity::local_workspace_stable_storage_id(
                 identity.logical_workspace_path(),
             ),
         );
@@ -547,16 +547,15 @@ pub fn permission_project_id_for_workspace_identity(
                 "Unresolved remote workspace permission identity has no connection id".to_string(),
             )
         })?;
-        let key =
-            openbitfun_services_core::workspace_identity::unresolved_remote_session_storage_key(
-                connection_id,
-                identity.logical_workspace_path(),
-            );
+        let key = opc_services_core::workspace_identity::unresolved_remote_session_storage_key(
+            connection_id,
+            identity.logical_workspace_path(),
+        );
         return Ok(format!("remote_unresolved_{key}"));
     }
 
     Ok(
-        openbitfun_services_core::workspace_identity::remote_workspace_stable_id(
+        opc_services_core::workspace_identity::remote_workspace_stable_id(
             &identity.hostname,
             identity.logical_workspace_path(),
         ),
@@ -581,7 +580,7 @@ fn permission_project_path(context: &ToolUseContext) -> OpcTeamResult<String> {
 }
 
 const ACCOUNT_PERMISSION_SCOPE: &str = "account";
-const ACCOUNT_PERMISSION_PROJECT_ID: &str = "__openbitfun_account_actions__";
+const ACCOUNT_PERMISSION_PROJECT_ID: &str = "__opc_account_actions__";
 const ACCOUNT_PERMISSION_PROJECT_PATH: &str = "GitHub account";
 
 fn permission_scope(
@@ -863,7 +862,7 @@ impl ToolPipeline {
                     .reply(
                         &request.request_id,
                         PermissionReply::Once,
-                        openbitfun_runtime_ports::PermissionReplySource::AutoApprove,
+                        opc_runtime_ports::PermissionReplySource::AutoApprove,
                     )
                     .await
                 {
@@ -887,7 +886,7 @@ impl ToolPipeline {
         &self,
         task: &ToolTask,
         updated_input: &serde_json::Value,
-    ) -> Option<openbitfun_agent_tools::ValidationResult> {
+    ) -> Option<opc_agent_tools::ValidationResult> {
         if updated_input == &task.original_effective_arguments {
             return None;
         }
@@ -2694,7 +2693,7 @@ impl ToolPipeline {
 
                 // Send StreamChunk event
                 let _event_data = ToolEventData::StreamChunk {
-                    identity: openbitfun_events::ToolEventIdentity::resolved(
+                    identity: opc_events::ToolEventIdentity::resolved(
                         task.tool_call.tool_id.clone(),
                         task.invocation.wire_tool_name.clone(),
                         task.effective_tool_name().to_string(),
@@ -2922,10 +2921,10 @@ mod tests {
     use crate::agentic::tools::ToolRuntimeRestrictions;
     use crate::agentic::WorkspaceBinding;
     use async_trait::async_trait;
-    use openbitfun_agent_tools::{
+    use opc_agent_tools::{
         LoadedDeferredToolSpec, CALL_DEFERRED_TOOL_NAME, USER_REJECTED_TOOL_MESSAGE,
     };
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         ClockPort, PermissionAuditEvent, PermissionAuditRecord, PermissionAuditStorePort,
         PermissionConstraintLayer, PermissionEffect, PermissionGrant, PermissionGrantKey,
         PermissionGrantStorePort, PermissionReplyStorePort, PermissionRule, PortResult,
@@ -3174,7 +3173,7 @@ mod tests {
 
     #[cfg(unix)]
     struct HookActivatingTestTool {
-        skill: openbitfun_agent_runtime::skills::SkillData,
+        skill: opc_agent_runtime::skills::SkillData,
     }
 
     #[cfg(unix)]
@@ -3216,8 +3215,8 @@ mod tests {
     }
 
     #[cfg(unix)]
-    fn test_skill_hooks(command: &str) -> openbitfun_agent_runtime::skills::SkillData {
-        use openbitfun_agent_runtime::skills::{SkillData, SkillLocation};
+    fn test_skill_hooks(command: &str) -> opc_agent_runtime::skills::SkillData {
+        use opc_agent_runtime::skills::{SkillData, SkillLocation};
         let mut skill = SkillData::from_markdown_for_source_slot(
             "/skills/test".into(),
             "---\nname: test\ndescription: Test skill\n---\nTest",
@@ -3227,7 +3226,7 @@ mod tests {
         )
         .unwrap();
         skill.key = "user::claude::test".into();
-        skill.hooks=Some(openbitfun_agent_runtime::skills::SkillHooks::from_yaml(&serde_yaml::to_value(json!({"PreToolUse":[{"matcher":"Capture","hooks":[{"type":"command","command":command}]}]})).unwrap()).unwrap());
+        skill.hooks=Some(opc_agent_runtime::skills::SkillHooks::from_yaml(&serde_yaml::to_value(json!({"PreToolUse":[{"matcher":"Capture","hooks":[{"type":"command","command":command}]}]})).unwrap()).unwrap());
         skill
     }
 
@@ -3395,7 +3394,7 @@ mod tests {
             "permission_denied"
         );
         assert!(manager.pending_requests().is_empty());
-        let veto = openbitfun_agent_runtime::skills::SkillHooks::from_yaml(&serde_yaml::from_str("PermissionRequest: [{matcher: Capture, hooks: [{type: command, command: 'echo approval-veto >&2; exit 2'}]}]").unwrap()).unwrap();
+        let veto = opc_agent_runtime::skills::SkillHooks::from_yaml(&serde_yaml::from_str("PermissionRequest: [{matcher: Capture, hooks: [{type: command, command: 'echo approval-veto >&2; exit 2'}]}]").unwrap()).unwrap();
         native_hooks::runtime_hook_registry()
             .register_session_skill(
                 &context.session_id,
@@ -3781,7 +3780,7 @@ mod tests {
             context_vars: HashMap::new(),
             subagent_parent_info: None,
             permission_delegation: None,
-            delegation_policy: openbitfun_runtime_ports::DelegationPolicy::top_level(),
+            delegation_policy: opc_runtime_ports::DelegationPolicy::top_level(),
             deferred_tools: Vec::new(),
             loaded_deferred_tool_specs: Vec::new(),
             allowed_tools: Vec::new(),
@@ -3939,7 +3938,7 @@ mod tests {
         let mut context = test_tool_execution_context();
         context.workspace = Some(WorkspaceBinding::new(
             None,
-            std::env::temp_dir().join("openbitfun-permission-test"),
+            std::env::temp_dir().join("opc-permission-test"),
         ));
         context
     }
@@ -4018,7 +4017,7 @@ mod tests {
 
     async fn wait_for_permission_request(
         manager: &PermissionRequestManager,
-    ) -> openbitfun_runtime_ports::PermissionRequest {
+    ) -> opc_runtime_ports::PermissionRequest {
         for _ in 0..100 {
             if let Some(request) = manager.pending_requests().into_iter().next() {
                 return request;
@@ -4031,7 +4030,7 @@ mod tests {
     async fn wait_for_permission_request_count(
         manager: &PermissionRequestManager,
         expected: usize,
-    ) -> Vec<openbitfun_runtime_ports::PermissionRequest> {
+    ) -> Vec<opc_runtime_ports::PermissionRequest> {
         for _ in 0..100 {
             let requests = manager.pending_requests();
             if requests.len() >= expected {
@@ -4702,7 +4701,7 @@ mod tests {
         let requests = wait_for_permission_request_count(&manager, 2).await;
         assert_eq!(requests.len(), 2);
         let expected_project_path = std::env::temp_dir()
-            .join("openbitfun-permission-test")
+            .join("opc-permission-test")
             .to_string_lossy()
             .to_string();
         assert_eq!(
@@ -4721,7 +4720,7 @@ mod tests {
         .zip(requests.iter())
         {
             match event {
-                openbitfun_runtime_ports::PermissionRequestEvent::Asked { request } => {
+                opc_runtime_ports::PermissionRequestEvent::Asked { request } => {
                     assert_eq!(request.request_id, expected_request.request_id);
                 }
                 other => panic!("expected asked event, got {other:?}"),
@@ -4740,7 +4739,7 @@ mod tests {
             .reply(
                 &rejected_request.request_id,
                 PermissionReply::Reject { feedback: None },
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("reject one tool");
@@ -4757,7 +4756,7 @@ mod tests {
             .reply(
                 &sibling_request.request_id,
                 PermissionReply::Once,
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("allow sibling tool");
@@ -4811,7 +4810,7 @@ mod tests {
                 PermissionReply::Reject {
                     feedback: Some("Use a read-only path".to_string()),
                 },
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("reject request with feedback");
@@ -4880,7 +4879,7 @@ mod tests {
             .reply(
                 &request.request_id,
                 PermissionReply::Once,
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("allow child request");
@@ -4910,13 +4909,12 @@ mod tests {
         let mut context = permission_test_context();
         context.session_id = "subagent-session".to_string();
         context.agent_type = "Explore".to_string();
-        context.permission_delegation =
-            Some(openbitfun_runtime_ports::PermissionDelegationContext {
-                parent_session_id: "parent-session".to_string(),
-                parent_dialog_turn_id: None,
-                parent_tool_call_id: "parent-task-call".to_string(),
-                subagent_type: "Explore".to_string(),
-            });
+        context.permission_delegation = Some(opc_runtime_ports::PermissionDelegationContext {
+            parent_session_id: "parent-session".to_string(),
+            parent_dialog_turn_id: None,
+            parent_tool_call_id: "parent-task-call".to_string(),
+            subagent_type: "Explore".to_string(),
+        });
 
         let running_pipeline = pipeline.clone();
         let execution = tokio::spawn(async move {
@@ -4942,7 +4940,7 @@ mod tests {
             .reply(
                 &request.request_id,
                 PermissionReply::Once,
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("allow child request");
@@ -4986,7 +4984,7 @@ mod tests {
             .reply(
                 &request.request_id,
                 PermissionReply::Once,
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("once reply");
@@ -5008,7 +5006,7 @@ mod tests {
             .reply(
                 &request.request_id,
                 PermissionReply::Always,
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("always reply");
@@ -5037,7 +5035,7 @@ mod tests {
         let mut other_project_context = permission_test_context();
         other_project_context.workspace = Some(WorkspaceBinding::new(
             None,
-            std::env::temp_dir().join("openbitfun-permission-other-project"),
+            std::env::temp_dir().join("opc-permission-other-project"),
         ));
         let other_pipeline = pipeline.clone();
         let other_project = tokio::spawn(async move {
@@ -5063,7 +5061,7 @@ mod tests {
             .reply(
                 &other_request.request_id,
                 PermissionReply::Reject { feedback: None },
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("reject other project request");
@@ -5111,7 +5109,7 @@ mod tests {
             .reply(
                 &remote_request.request_id,
                 PermissionReply::Reject { feedback: None },
-                openbitfun_runtime_ports::PermissionReplySource::User,
+                opc_runtime_ports::PermissionReplySource::User,
             )
             .await
             .expect("reject remote project request");
@@ -5191,7 +5189,7 @@ mod tests {
             audit[1].event,
             PermissionAuditEvent::Replied {
                 reply: PermissionReply::Once,
-                source: openbitfun_runtime_ports::PermissionReplySource::AutoApprove,
+                source: opc_runtime_ports::PermissionReplySource::AutoApprove,
             }
         ));
         assert!(matches!(
@@ -5505,7 +5503,7 @@ mod tests {
     fn classified_edit_failure_preserves_model_error_and_persisted_detail() {
         let error = OpcTeamError::ClassifiedTool {
             message: "[guidance] new_string must be different from old_string".into(),
-            detail: openbitfun_core_types::errors::ToolErrorDetail {
+            detail: opc_core_types::errors::ToolErrorDetail {
                 code: "edit_no_change".into(),
                 kind: "guidance".into(),
             },
@@ -5902,7 +5900,7 @@ mod tests {
         use crate::agentic::core::message::Message;
         use crate::agentic::tools::implementations::computer_use_presentation::complete_model_results;
         use crate::util::types::Message as AIMessage;
-        use openbitfun_agent_tools::ToolImageAttachment;
+        use opc_agent_tools::ToolImageAttachment;
 
         // These deliberately have the brief summaries that previously hid the
         // entire app list and AX tree from the model. Check the final provider

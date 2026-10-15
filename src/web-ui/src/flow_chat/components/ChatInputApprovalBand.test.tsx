@@ -97,7 +97,7 @@ describe('ChatInputApprovalBand', () => {
   };
 
   const scopeOption = (value: 'this' | 'all') => container.querySelector<HTMLButtonElement>(
-    `[data-testid="chat-input-approval-scope"] [role="radio"][data-openbitfun-value="${value}"]`,
+    `[data-testid="chat-input-approval-scope"] [role="radio"][data-opc-value="${value}"]`,
   );
 
   it('says what is being asked for and who is asking', async () => {
@@ -126,7 +126,7 @@ describe('ChatInputApprovalBand', () => {
     expect(band?.textContent).toContain('Explore subagent');
     const resource = band?.querySelector('code');
     expect(resource?.textContent).toBe(resources.join('\n'));
-    expect(resource?.querySelector('[data-openbitfun-component="overflow-text"]')).toBeNull();
+    expect(resource?.querySelector('[data-opc-component="overflow-text"]')).toBeNull();
   });
 
   it('keeps the risk on its own line so it cannot be answered unread', async () => {
@@ -147,7 +147,7 @@ describe('ChatInputApprovalBand', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="risk"]')?.textContent).toBe(
+    expect(container.querySelector('[data-opc-part="risk"]')?.textContent).toBe(
       'Save status as permission.visibility.public without deploying.',
     );
   });
@@ -290,10 +290,10 @@ describe('ChatInputApprovalBand', () => {
     });
 
     await click('chat-input-approval-allow');
-    expect(container.querySelector('[data-openbitfun-part="error"]')?.textContent).toBe(
+    expect(container.querySelector('[data-opc-part="error"]')?.textContent).toBe(
       'The reply could not be delivered.',
     );
-    expect(container.querySelector('[data-openbitfun-part="risk"]')?.textContent).toBe(
+    expect(container.querySelector('[data-opc-part="risk"]')?.textContent).toBe(
       'This changes project files.',
     );
     expect(
@@ -349,7 +349,7 @@ describe('ChatInputApprovalBand', () => {
     expect(container.querySelector('[data-testid="chat-input-approval-allow-always"]')?.textContent).toBe(
       'Always allow this scope',
     );
-    expect(container.querySelector('[data-openbitfun-part="grantScope"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="grantScope"]')).toBeNull();
   });
 
   it('copies the complete command without repeating the tool name or answering permission', async () => {
@@ -370,7 +370,7 @@ describe('ChatInputApprovalBand', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="request"]')?.textContent).toBe('Run command');
+    expect(container.querySelector('[data-opc-part="request"]')?.textContent).toBe('Run command');
     await click('chat-input-approval-copy');
     expect(copyTextToClipboard).toHaveBeenCalledWith(resources.join('\n'));
     expect(container.querySelector('[data-testid="chat-input-approval-copy"]')?.getAttribute('aria-label')).toBe('Copied');
@@ -397,7 +397,7 @@ describe('ChatInputApprovalBand', () => {
     const allow = container.querySelector<HTMLButtonElement>('[data-testid="chat-input-approval-allow"]');
     expect(allow?.getAttribute('aria-busy')).toBe('true');
     const approvalButtons = container.querySelectorAll<HTMLButtonElement>(
-      '[data-openbitfun-component="permission-request-panel"][data-openbitfun-part="actions"] button',
+      '[data-opc-component="permission-request-panel"][data-opc-part="actions"] button',
     );
     expect(Array.from(approvalButtons).every(button => button.disabled)).toBe(true);
     expect(container.querySelector<HTMLButtonElement>('[data-testid="chat-input-approval-copy"]')?.disabled).toBe(false);

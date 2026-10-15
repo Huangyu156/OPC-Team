@@ -1,14 +1,14 @@
 use crate::agentic::core::message::MemoryCitation;
 use crate::infrastructure::PathManager;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_services_core::memory_store::{
+use opc_services_core::memory_store::{
     decode_memory_job, decode_memory_record, initialize_memory_schema, upsert_memory_record,
 };
-pub use openbitfun_services_core::memory_store::{
+pub use opc_services_core::memory_store::{
     MemoryJobRecord as MemoryJobRow, MemoryRecord as MemoryRow,
 };
 #[cfg(test)]
-use openbitfun_services_core::memory_store::{EXPECTED_JOBS_COLUMNS, EXPECTED_STAGE1_COLUMNS};
+use opc_services_core::memory_store::{EXPECTED_JOBS_COLUMNS, EXPECTED_STAGE1_COLUMNS};
 use rusqlite::{params, Connection, OptionalExtension, Transaction, TransactionBehavior};
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};

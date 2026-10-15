@@ -1,6 +1,6 @@
 //! Literal Shell launch with an explicit activation policy; no cmd.exe parsing.
-use openbitfun_core::agentic::tools::computer_use_host::OpenAppResult;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::computer_use_host::OpenAppResult;
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::core::{w, HSTRING};
 use windows::Win32::Foundation::RPC_E_CHANGED_MODE;
 use windows::Win32::System::Com::{

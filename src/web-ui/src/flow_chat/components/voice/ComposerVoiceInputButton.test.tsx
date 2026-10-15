@@ -58,14 +58,14 @@ describe('ComposerVoiceInputButton', () => {
       root.render(<ComposerVoiceInputButton controller={createRecordingController()} />);
     });
 
-    const cancel = container.querySelector<HTMLButtonElement>('[data-openbitfun-action="cancel"] button');
-    const transcribe = container.querySelector<HTMLButtonElement>('[data-openbitfun-action="transcribe"] button');
-    const send = container.querySelector<HTMLButtonElement>('[data-openbitfun-action="send"] button');
-    const actionShells = container.querySelectorAll<HTMLElement>('[data-openbitfun-part="action"]');
+    const cancel = container.querySelector<HTMLButtonElement>('[data-opc-action="cancel"] button');
+    const transcribe = container.querySelector<HTMLButtonElement>('[data-opc-action="transcribe"] button');
+    const send = container.querySelector<HTMLButtonElement>('[data-opc-action="send"] button');
+    const actionShells = container.querySelectorAll<HTMLElement>('[data-opc-part="action"]');
 
     expect(actionShells).toHaveLength(3);
     actionShells.forEach((actionShell) => {
-      expect(actionShell.classList.contains('openbitfun-chat-input__voice-pill-action-shell')).toBe(true);
+      expect(actionShell.classList.contains('opc-chat-input__voice-pill-action-shell')).toBe(true);
     });
 
     expect(cancel).toMatchObject({

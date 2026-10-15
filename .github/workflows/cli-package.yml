@@ -138,14 +138,14 @@ jobs:
           set -euo pipefail
           cargo build --release \
             --target ${{ matrix.platform.target }} \
-            -p openbitfun-cli
+            -p opc-cli
 
       - name: Build CLI (Windows)
         if: runner.os == 'Windows'
         shell: pwsh
         env:
           RUSTFLAGS: -C target-feature=+crt-static
-        run: cargo build --release --target ${{ matrix.platform.target }} -p openbitfun-cli
+        run: cargo build --release --target ${{ matrix.platform.target }} -p opc-cli
 
       - name: Test installer (Unix)
         if: runner.os != 'Windows'
@@ -199,13 +199,13 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-artifact@v6
         with:
-          name: openbitfun-cli-${{ needs.prepare.outputs.release_tag }}-${{ matrix.platform.name }}
+          name: opc-cli-${{ needs.prepare.outputs.release_tag }}-${{ matrix.platform.name }}
           if-no-files-found: error
           path: |
             ${{ steps.stage.outputs.archive || steps.stage-windows.outputs.archive }}
             ${{ steps.stage.outputs.checksum || steps.stage-windows.outputs.checksum }}
-            openbitfun-cli-*.tar.gz.sig
-            openbitfun-cli-*.tar.gz.sha256.sig
+            opc-cli-*.tar.gz.sig
+            opc-cli-*.tar.gz.sha256.sig
 
   # ── Aggregate and upload to GitHub Release ─────────────────────────
   upload-release-assets:
@@ -220,7 +220,7 @@ jobs:
       - name: Download CLI artifacts
         uses: actions/download-artifact@v7
         with:
-          pattern: openbitfun-cli-${{ needs.prepare.outputs.release_tag }}-*
+          pattern: opc-cli-${{ needs.prepare.outputs.release_tag }}-*
           path: cli-release-assets
           merge-multiple: true
 
@@ -241,7 +241,7 @@ jobs:
           # contents deterministic rather than dependent on cross-workflow timing.
           mapfile -t archives < <(
             find . -maxdepth 1 -type f \
-              \( -name 'openbitfun-cli-*.tar.gz' -o -name 'openbitfun-cli-*.zip' \) \
+              \( -name 'opc-cli-*.tar.gz' -o -name 'opc-cli-*.zip' \) \
               -printf '%f\n' | sort
           )
           [[ "${#archives[@]}" -gt 0 ]]
@@ -255,12 +255,12 @@ jobs:
         with:
           tag_name: ${{ needs.prepare.outputs.release_tag }}
           files: |
-            cli-release-assets/openbitfun-cli-*.tar.gz
-            cli-release-assets/openbitfun-cli-*.tar.gz.sha256
-            cli-release-assets/openbitfun-cli-*.tar.gz.sig
-            cli-release-assets/openbitfun-cli-*.tar.gz.sha256.sig
-            cli-release-assets/openbitfun-cli-*.zip
-            cli-release-assets/openbitfun-cli-*.zip.sha256
+            cli-release-assets/opc-cli-*.tar.gz
+            cli-release-assets/opc-cli-*.tar.gz.sha256
+            cli-release-assets/opc-cli-*.tar.gz.sig
+            cli-release-assets/opc-cli-*.tar.gz.sha256.sig
+            cli-release-assets/opc-cli-*.zip
+            cli-release-assets/opc-cli-*.zip.sha256
             cli-release-assets/SHA256SUMS
           fail_on_unmatched_files: true
 
@@ -283,9 +283,9 @@ jobs:
             exit 0
           fi
 
-          echo "Dispatching openbitfun-release-published for ${RELEASE_TAG} to GCWing/homebrew-tap"
+          echo "Dispatching opc-release-published for ${RELEASE_TAG} to GCWing/homebrew-tap"
           PAYLOAD="$(jq -cn --arg tag_name "${RELEASE_TAG}" '{
-            event_type: "openbitfun-release-published",
+            event_type: "opc-release-published",
             client_payload: {
               tag_name: $tag_name,
               primary_binary: "openbitfun"

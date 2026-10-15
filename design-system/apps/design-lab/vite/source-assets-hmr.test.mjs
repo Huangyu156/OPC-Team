@@ -30,7 +30,7 @@ function geometry(svg) {
 }
 
 test("editing an external UI SVG invalidates its inline module without a restart", async () => {
-  const fixture = await mkdtemp(path.join(tmpdir(), "openbitfun-ui-asset-hmr-"));
+  const fixture = await mkdtemp(path.join(tmpdir(), "opc-ui-asset-hmr-"));
   let server;
   try {
     const root = path.join(fixture, "app");

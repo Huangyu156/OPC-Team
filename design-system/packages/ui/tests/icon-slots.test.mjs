@@ -60,7 +60,7 @@ test("sized slots apply the same geometry to SVG and catalog icons, regardless o
     const css = await readFile(new URL(`../src/components/${component}/${component}.module.css`, import.meta.url), "utf8");
     // Class + attribute specificity beats Icon's class-only dimensions, even if
     // the Icon stylesheet loads later during source HMR or a production build.
-    const selector = `.${slot} > [data-openbitfun-component="icon"]`;
+    const selector = `.${slot} > [data-opc-component="icon"]`;
     const rule = [...css.matchAll(/([^{}]+)\{([^{}]+)\}/g)].find(([, selectors]) => selectors.includes(selector));
     assert.ok(rule, `${component}.${slot} must directly size catalog icons`);
     assert.match(rule[1], /svg/, `${component}.${slot} must retain SVG support`);
@@ -79,8 +79,8 @@ test("buttons route native and default-size catalog icons through identical slot
     ]) {
       const markup = renderToStaticMarkup(createElement(Component, { ...props, size }));
       assert.match(markup, new RegExp(`data-size="${size}"`));
-      assert.match(markup, /<span[^>]*class="[^"]*_icon_[^"]*"[^>]*><span[^>]*data-openbitfun-component="icon"/);
-      assert.match(markup, /data-openbitfun-name="settings"[^>]*data-size="lg"/);
+      assert.match(markup, /<span[^>]*class="[^"]*_icon_[^"]*"[^>]*><span[^>]*data-opc-component="icon"/);
+      assert.match(markup, /data-opc-name="settings"[^>]*data-size="lg"/);
     }
   }
 });
@@ -92,8 +92,8 @@ test("buttons constrain normalized line fallbacks through the same icon slot", (
     [IconButton, { "aria-label": "Network", icon: lineIcon }],
   ]) {
     const markup = renderToStaticMarkup(createElement(Component, props));
-    assert.match(markup, /data-openbitfun-component="icon"/);
-    assert.match(markup, /data-openbitfun-source="line"/);
+    assert.match(markup, /data-opc-component="icon"/);
+    assert.match(markup, /data-opc-source="line"/);
     assert.match(markup, /<svg[^>]*stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
   }
 });
@@ -101,7 +101,7 @@ test("buttons constrain normalized line fallbacks through the same icon slot", (
 test("public icon slots normalize default Lucide weight without changing custom artwork", async () => {
   const layers = await readFile(new URL("../src/styles/layers.css", import.meta.url), "utf8");
   const rule = [...layers.matchAll(/([^{}]+)\{([^{}]+)\}/g)]
-    .find(([, selectors]) => selectors.includes('[data-openbitfun-icon-slot="true"]'));
+    .find(([, selectors]) => selectors.includes('[data-opc-icon-slot="true"]'));
 
   assert.ok(rule, "shared icon-slot normalization rule must exist");
   assert.match(rule[1], /svg\.lucide\[stroke-width="2"\]/);
@@ -114,7 +114,7 @@ test("public icon slots normalize default Lucide weight without changing custom 
   ]) {
     const markup = renderToStaticMarkup(createElement(Component, props));
     const svg = markup.match(/<svg[^>]*>/)?.[0] ?? "";
-    assert.match(markup, /data-openbitfun-icon-slot="true"/);
+    assert.match(markup, /data-opc-icon-slot="true"/);
     assert.match(svg, /class="lucide lucide-network"/);
     assert.match(svg, /stroke-width="2"/);
   }
@@ -129,7 +129,7 @@ test("public icon slots normalize default Lucide weight without changing custom 
 test("every public sized icon wrapper opts into the shared slot contract", async () => {
   for (const [file, expectedCount] of markedSlotSources) {
     const source = await readFile(new URL(`../src/components/${file}`, import.meta.url), "utf8");
-    const count = source.match(/data-openbitfun-icon-slot="true"/g)?.length ?? 0;
+    const count = source.match(/data-opc-icon-slot="true"/g)?.length ?? 0;
     assert.equal(count, expectedCount, file);
   }
 });
@@ -144,9 +144,9 @@ test("tabs keep native session icons and catalog scene icons in the same sized r
       { value: "assistant", label: "Assistant", icon: createElement(Icon, { name: "user" }) },
     ],
   }));
-  assert.equal((markup.match(/data-openbitfun-part="icon"/g) ?? []).length, 3);
-  assert.match(markup, /data-openbitfun-part="icon"[^>]*><svg/);
-  assert.match(markup, /data-openbitfun-part="icon"[^>]*><span[^>]*data-openbitfun-component="icon"/);
+  assert.equal((markup.match(/data-opc-part="icon"/g) ?? []).length, 3);
+  assert.match(markup, /data-opc-part="icon"[^>]*><svg/);
+  assert.match(markup, /data-opc-part="icon"[^>]*><span[^>]*data-opc-component="icon"/);
 });
 
 test("standalone catalog sizes are retained instead of globally shrinking every icon", () => {
@@ -196,9 +196,9 @@ test("FlowChat glyphs keep the shared line-weight contract through status and di
         checkedGlyphs++;
         // IconButton and Icon each own a public slot around the actual glyph.
         if (stack.some(ancestor => ancestor.startsWith('<button')
-          && ancestor.includes('data-openbitfun-part="affordanceButton"'))) checkedPanelActions++;
+          && ancestor.includes('data-opc-part="affordanceButton"'))) checkedPanelActions++;
         const usesIconToken = tag.includes('stroke-width="var(--opcteam-control-icon-stroke-width)"');
-        assert.ok(usesIconToken || stack.at(-1)?.includes('data-openbitfun-icon-slot="true"'),
+        assert.ok(usesIconToken || stack.at(-1)?.includes('data-opc-icon-slot="true"'),
           `Unnormalized glyph: ${tag}`);
       }
       if (!/\/$/.test(tag.slice(0, -1)) && !['input', 'br', 'hr', 'img'].includes(name)) stack.push(tag);

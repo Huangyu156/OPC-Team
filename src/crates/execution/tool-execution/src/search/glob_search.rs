@@ -3,7 +3,7 @@ use crate::util::string::shell_single_quote;
 use globset::GlobBuilder;
 use ignore::{WalkBuilder, WalkState};
 use log::{info, warn};
-use openbitfun_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
+use opc_runtime_ports::{WorkspaceFileSystem, WorkspacePathKind};
 use std::cmp::Ordering;
 use std::collections::BinaryHeap;
 use std::path::{Component, Path, PathBuf};
@@ -271,7 +271,7 @@ pub fn derive_remote_walk_root(search_dir: &str, pattern: &str) -> (String, Stri
 }
 
 pub fn resolve_glob_config(pattern: &str) -> (bool, bool) {
-    let hidden_directory = openbitfun_core_types::product_identity::hidden_data_directory();
+    let hidden_directory = opc_core_types::product_identity::hidden_data_directory();
     let is_whitelisted = pattern.starts_with(hidden_directory)
         || pattern.contains(&format!("/{hidden_directory}"))
         || pattern.contains(&format!("\\{hidden_directory}"));
@@ -657,7 +657,7 @@ mod tests {
             .duration_since(UNIX_EPOCH)
             .expect("time went backwards")
             .as_nanos();
-        let dir = std::env::temp_dir().join(format!("openbitfun-glob-search-{name}-{unique}"));
+        let dir = std::env::temp_dir().join(format!("opc-glob-search-{name}-{unique}"));
         fs::create_dir_all(&dir).expect("temp dir should be created");
         TempTree { root: dir }
     }
@@ -742,7 +742,7 @@ mod tests {
             vec![PathBuf::from("public.rs")]
         );
 
-        let product_directory = openbitfun_core_types::product_identity::hidden_data_directory();
+        let product_directory = opc_core_types::product_identity::hidden_data_directory();
         fs::create_dir(root.join(product_directory)).unwrap();
         fs::write(root.join(product_directory).join(".rgignore"), "*.rs\n").unwrap();
         fs::write(root.join(product_directory).join(".secret.rs"), "").unwrap();

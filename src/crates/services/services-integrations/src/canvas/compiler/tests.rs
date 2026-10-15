@@ -1,7 +1,7 @@
 #[cfg(feature = "canvas-runtime")]
 use super::*;
 #[cfg(feature = "canvas-runtime")]
-use openbitfun_product_domains::canvas::types::{CanvasId, CanvasRevision};
+use opc_product_domains::canvas::types::{CanvasId, CanvasRevision};
 
 #[cfg(feature = "canvas-runtime")]
 mod enabled {
@@ -42,14 +42,14 @@ export default function Canvas() {
         assert!(html.contains("h(Stack"));
         assert!(html.contains("rows.map"));
         assert!(html.contains("h(Text"));
-        assert!(html.contains("openbitfun-canvas-save-state"));
-        assert!(html.contains("openbitfun-canvas-state"));
-        assert!(html.contains("openbitfun-canvas-appearance"));
+        assert!(html.contains("opc-canvas-save-state"));
+        assert!(html.contains("opc-canvas-state"));
+        assert!(html.contains("opc-canvas-appearance"));
         assert!(html.contains("applyHostAppearance"));
-        assert!(html.contains("openbitfun-canvas-design-mode"));
-        assert!(html.contains("openbitfun-canvas-element-selected"));
-        assert!(html.contains("data-openbitfun-canvas-node"));
-        assert!(html.contains("openbitfun-canvas-action-result"));
+        assert!(html.contains("opc-canvas-design-mode"));
+        assert!(html.contains("opc-canvas-element-selected"));
+        assert!(html.contains("data-opc-canvas-node"));
+        assert!(html.contains("opc-canvas-action-result"));
         assert!(html.contains("pendingActions"));
         assert!(html.contains("stack: error?.stack ? String(error.stack) : undefined"));
         assert!(html.contains("connect-src 'none'"));

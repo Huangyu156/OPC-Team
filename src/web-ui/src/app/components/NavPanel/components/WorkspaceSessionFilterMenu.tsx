@@ -197,7 +197,7 @@ const WorkspaceSessionFilterMenu: React.FC = () => {
     openSubmenuNow(submenu);
     if (focusFirstItem) {
       requestAnimationFrame(() => {
-        submenuRef.current?.querySelector<HTMLButtonElement>('[data-openbitfun-menu-item]')?.focus();
+        submenuRef.current?.querySelector<HTMLButtonElement>('[data-opc-menu-item]')?.focus();
       });
     }
   }, [openSubmenuNow]);
@@ -205,12 +205,12 @@ const WorkspaceSessionFilterMenu: React.FC = () => {
   const row = (submenu: Submenu, value?: string, active = false) => (
     <MenuItem
       data-submenu-id={submenu}
-      data-openbitfun-state={activeSubmenu === submenu ? 'open' : undefined}
+      data-opc-state={activeSubmenu === submenu ? 'open' : undefined}
       aria-haspopup="menu"
       aria-expanded={activeSubmenu === submenu}
       metadata={(
-        <span className="openbitfun-nav-panel__session-filter-menu-value">
-          {active ? <span className="openbitfun-nav-panel__session-filter-active-dot" aria-hidden="true" /> : null}
+        <span className="opc-nav-panel__session-filter-menu-value">
+          {active ? <span className="opc-nav-panel__session-filter-active-dot" aria-hidden="true" /> : null}
           {value ? t(`nav.sessions.viewMenu.${submenu}.${value}`) : null}
           <Icon name="chevron-right" size="sm" aria-hidden="true" />
         </span>
@@ -235,7 +235,7 @@ const WorkspaceSessionFilterMenu: React.FC = () => {
     <>
       <Menu
         ref={menuRef}
-        className="openbitfun-nav-panel__session-filter-menu"
+        className="opc-nav-panel__session-filter-menu"
         inlineSize="content"
         style={menuPosition}
         autoFocusFirstItem
@@ -284,7 +284,7 @@ const WorkspaceSessionFilterMenu: React.FC = () => {
       {activeSubmenu && definition ? (
         <Menu
           ref={submenuRef}
-          className="openbitfun-nav-panel__session-filter-submenu"
+          className="opc-nav-panel__session-filter-submenu"
           inlineSize="content"
           style={{
             top: submenuPosition.top,
@@ -337,9 +337,9 @@ const WorkspaceSessionFilterMenu: React.FC = () => {
       <Tooltip content={t('nav.sessions.viewMenu.tooltip')} placement="right" followCursor disabled={open}>
         <IconButton
           ref={buttonRef}
-          className={`openbitfun-nav-panel__section-action${open || isCustomized ? ' is-active' : ''}`}
-          data-openbitfun-action="session-filter"
-          data-openbitfun-state={[open && 'open', isCustomized && 'filtered'].filter(Boolean).join(' ') || undefined}
+          className={`opc-nav-panel__section-action${open || isCustomized ? ' is-active' : ''}`}
+          data-opc-action="session-filter"
+          data-opc-state={[open && 'open', isCustomized && 'filtered'].filter(Boolean).join(' ') || undefined}
           aria-label={t('nav.sessions.viewMenu.tooltip')}
           aria-haspopup="menu"
           aria-expanded={open}

@@ -93,7 +93,7 @@ describe('AccountIdentityControls', () => {
   afterEach(() => {
     act(() => root.unmount());
     container.remove();
-    document.querySelector('[data-openbitfun-overlay-host="true"]')?.remove();
+    document.querySelector('[data-opc-overlay-host="true"]')?.remove();
   });
 
   it('opens the shared GitHub login dialog and starts the vault-backed flow', async () => {
@@ -133,7 +133,7 @@ describe('AccountIdentityControls', () => {
     const trigger = container.querySelector<HTMLButtonElement>('[aria-haspopup="menu"]');
     await act(async () => trigger?.click());
     const menu = document.querySelector<HTMLElement>('[role="menu"]');
-    expect(menu?.closest('[data-openbitfun-overlay-host]')?.getAttribute('data-openbitfun-overlay-host')).toBe('true');
+    expect(menu?.closest('[data-opc-overlay-host]')?.getAttribute('data-opc-overlay-host')).toBe('true');
     const logout = menu?.querySelector<HTMLButtonElement>('[role="menuitem"]');
     expect(logout?.textContent).toContain('market.signOut');
     await act(async () => logout?.click());

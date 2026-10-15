@@ -107,7 +107,7 @@ export function useSceneTabNavigation({
     observer.observe(region);
     observer.observe(tabs);
     getTabElements().forEach((tab) => {
-      observer.observe(tab.closest<HTMLElement>('[data-openbitfun-part="item"]') ?? tab);
+      observer.observe(tab.closest<HTMLElement>('[data-opc-part="item"]') ?? tab);
     });
     return () => observer.disconnect();
   }, [getTabElements, tabOrderKey, updateScrollState]);
@@ -115,7 +115,7 @@ export function useSceneTabNavigation({
   useLayoutEffect(() => {
     const tabs = tabsRef.current;
     const activeTab = getTabElements().find(tab => tab.dataset.openbitfunValue === activeTabId);
-    const activeItem = activeTab?.closest<HTMLElement>('[data-openbitfun-part="item"]') ?? activeTab;
+    const activeItem = activeTab?.closest<HTMLElement>('[data-opc-part="item"]') ?? activeTab;
     if (!tabs || !activeItem) return;
 
     const visibleStart = tabs.scrollLeft;

@@ -191,9 +191,8 @@ impl CliTestEnvironment {
         std::fs::create_dir_all(&config_dir).expect("create model config directory");
         let base_url = format!("{}/v1", server_base_url.trim_end_matches('/'));
         let request_url = format!("{base_url}/chat/completions");
-        let mut config =
-            serde_json::to_value(openbitfun_core::service::config::GlobalConfig::default())
-                .expect("serialize default CLI config");
+        let mut config = serde_json::to_value(opc_core::service::config::GlobalConfig::default())
+            .expect("serialize default CLI config");
         config["app"]["ai_experience"]["enable_session_title_generation"] = json!(false);
         config["ai"]["models"] = json!([{
             "id": "cli-e2e-model",
@@ -233,9 +232,8 @@ impl CliTestEnvironment {
     }
 
     pub(crate) fn std_command(&self) -> Command {
-        let mut command = openbitfun_services_core::process_manager::create_command(env!(
-            "CARGO_BIN_EXE_openbitfun"
-        ));
+        let mut command =
+            opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"));
         command.current_dir(&self.workspace);
         self.apply_std_environment(&mut command);
         command
@@ -291,7 +289,7 @@ impl CliTestEnvironment {
     }
 
     fn run_git(&self, args: &[&str]) {
-        let output = openbitfun_services_core::process_manager::create_command("git")
+        let output = opc_services_core::process_manager::create_command("git")
             .args(args)
             .current_dir(&self.workspace)
             .output()

@@ -11,7 +11,7 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use agent_client_protocol::{Builder, ConnectionTo, Dispatch, Error, HandleDispatchFrom, Handled};
-use openbitfun_app_server_protocol::error::{AppServerErrorData, AppServerErrorKind};
+use opc_app_server_protocol::error::{AppServerErrorData, AppServerErrorKind};
 use serde_json::Value;
 
 use crate::role::{AppClient, AppServer};

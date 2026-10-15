@@ -122,7 +122,7 @@ export const NewProjectDialog: React.FC<NewProjectDialogProps> = ({
     >
       <DialogHeader>
         <DialogHeading>
-          <DialogTitle data-openbitfun-component="new-project-dialog" data-openbitfun-part="title">
+          <DialogTitle data-opc-component="new-project-dialog" data-opc-part="title">
             {t('newProject.title')}
           </DialogTitle>
           <DialogDescription>{t('newProject.subtitle')}</DialogDescription>
@@ -132,8 +132,8 @@ export const NewProjectDialog: React.FC<NewProjectDialogProps> = ({
       <DialogBody>
         <form
           id={formId}
-          data-openbitfun-component="new-project-dialog"
-          data-openbitfun-part="root"
+          data-opc-component="new-project-dialog"
+          data-opc-part="root"
           className="new-project-dialog"
           aria-busy={isCreating}
           onSubmit={(event) => {
@@ -141,9 +141,9 @@ export const NewProjectDialog: React.FC<NewProjectDialogProps> = ({
             void handleConfirm();
           }}
         >
-          <div data-openbitfun-component="new-project-dialog" data-openbitfun-part="content" className="new-project-dialog__content">
-            <div data-openbitfun-component="new-project-dialog" data-openbitfun-part="field" className="new-project-dialog__field">
-              <div data-openbitfun-component="new-project-dialog" data-openbitfun-part="pathSelector">
+          <div data-opc-component="new-project-dialog" data-opc-part="content" className="new-project-dialog__content">
+            <div data-opc-component="new-project-dialog" data-opc-part="field" className="new-project-dialog__field">
+              <div data-opc-component="new-project-dialog" data-opc-part="pathSelector">
                 <Field
                   label={t('newProject.parentDirectory')}
                   controlWidth="fill"
@@ -172,7 +172,7 @@ export const NewProjectDialog: React.FC<NewProjectDialogProps> = ({
                 </Field>
               </div>
             </div>
-            <div data-openbitfun-component="new-project-dialog" data-openbitfun-part="field" className="new-project-dialog__field">
+            <div data-opc-component="new-project-dialog" data-opc-part="field" className="new-project-dialog__field">
               <Field label={t('newProject.projectName')} controlWidth="fill">
                 <Input
                   size="sm"
@@ -186,21 +186,21 @@ export const NewProjectDialog: React.FC<NewProjectDialogProps> = ({
               </Field>
             </div>
             {fullPath && (
-              <div data-openbitfun-component="new-project-dialog" data-openbitfun-part="preview" className="new-project-dialog__preview">
+              <div data-opc-component="new-project-dialog" data-opc-part="preview" className="new-project-dialog__preview">
                 <span className="new-project-dialog__preview-label">{t('newProject.fullPath')}</span>
                 <span className="new-project-dialog__preview-path">{fullPath}</span>
               </div>
             )}
           </div>
           {error && (
-            <div role="alert" data-openbitfun-component="new-project-dialog" data-openbitfun-part="error" className="new-project-dialog__error">
+            <div role="alert" data-opc-component="new-project-dialog" data-opc-part="error" className="new-project-dialog__error">
               <Icon name="info" size="sm" />
               <span>{error}</span>
             </div>
           )}
         </form>
       </DialogBody>
-      <DialogFooter data-openbitfun-component="new-project-dialog" data-openbitfun-part="footer">
+      <DialogFooter data-opc-component="new-project-dialog" data-opc-part="footer">
         <Button type="button" variant="fill" size="sm" onClick={handleCancel} disabled={isCreating}>
           {t('newProject.cancel')}
         </Button>

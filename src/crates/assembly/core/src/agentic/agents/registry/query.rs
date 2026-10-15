@@ -12,9 +12,7 @@ use crate::agentic::agents::{
 use crate::agentic::deep_review_policy::canonical_review_worker_agent_type;
 use crate::agentic::tools::get_all_registered_tool_names;
 use crate::service::config::mode_config_canonicalizer::resolve_effective_tools;
-use openbitfun_agent_runtime::agents::{
-    subagent_source_presentation_rank, BuiltinSubagentExposure,
-};
+use opc_agent_runtime::agents::{subagent_source_presentation_rank, BuiltinSubagentExposure};
 use std::collections::HashSet;
 
 /// Append the dynamically registered tool families a mode Agent may use.

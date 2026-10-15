@@ -9,11 +9,11 @@
 //! runtime client.
 
 use async_trait::async_trait;
-use openbitfun_plugin_runtime_client::PluginRuntimeAdapter;
-use openbitfun_product_domains::plugin_source::{
+use opc_plugin_runtime_client::PluginRuntimeAdapter;
+use opc_product_domains::plugin_source::{
     PluginActivationAuthority, PluginPackageInput, PluginPackageSourceIdentity,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PluginAuditRef, PluginConfigValidationIssue, PluginConfigValidationState,
     PluginConfigValidationStatus, PluginDiagnostic, PluginDiagnosticDetail,
     PluginDiagnosticSeverity, PluginDispatchEnvelope, PluginManifestRef, PluginResponseEnvelope,
@@ -313,10 +313,10 @@ pub fn load_dsh_package_adapter(
     Vec<(
         PluginSourceRef,
         String,
-        openbitfun_runtime_ports::PluginCapabilityRef,
+        opc_runtime_ports::PluginCapabilityRef,
         Vec<(
-            openbitfun_runtime_ports::PluginTargetRef,
-            openbitfun_runtime_ports::PluginRiskLevel,
+            opc_runtime_ports::PluginTargetRef,
+            opc_runtime_ports::PluginRiskLevel,
         )>,
     )>,
 )> {

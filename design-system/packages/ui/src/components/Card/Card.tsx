@@ -61,7 +61,7 @@ export const Card = forwardRef<HTMLDivElement, CardProps>(function Card({
       {...props}
       className={classNames(styles.root, className)}
       data-appearance={appearance}
-      data-openbitfun-component="card"
+      data-opc-component="card"
       data-clip={clip ? "true" : "false"}
       data-gap={gap}
       data-padding={padding}
@@ -91,31 +91,31 @@ export const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>(
         {...props}
         className={classNames(styles.header, className)}
         data-align={align}
-        data-openbitfun-part="header"
+        data-opc-part="header"
         data-content-align={contentAlign}
         data-padding={padding}
         ref={ref}
       >
         {leading !== undefined && leading !== null && (
-          <div className={styles.leading} data-openbitfun-part="leading">{leading}</div>
+          <div className={styles.leading} data-opc-part="leading">{leading}</div>
         )}
         <div
           className={styles.headerContent}
           data-align={contentAlign}
-          data-openbitfun-part="header-content"
+          data-opc-part="header-content"
         >
           {title !== undefined && title !== null && (
-            <div className={styles.title} data-openbitfun-part="title">{title}</div>
+            <div className={styles.title} data-opc-part="title">{title}</div>
           )}
           {description !== undefined && description !== null && (
-            <div className={styles.description} data-openbitfun-part="description">
+            <div className={styles.description} data-opc-part="description">
               {description}
             </div>
           )}
           {children}
         </div>
         {actions !== undefined && actions !== null && (
-          <div className={styles.actions} data-openbitfun-part="actions">{actions}</div>
+          <div className={styles.actions} data-opc-part="actions">{actions}</div>
         )}
       </div>
     );
@@ -129,7 +129,7 @@ export const CardBody = forwardRef<HTMLDivElement, CardBodyProps>(
         {...props}
         className={classNames(styles.body, className)}
         data-align={align}
-        data-openbitfun-part="body"
+        data-opc-part="body"
         data-padding={padding}
         ref={ref}
       >
@@ -145,7 +145,7 @@ export const CardMedia = forwardRef<HTMLDivElement, CardMediaProps>(
       <div
         {...props}
         className={classNames(styles.media, className)}
-        data-openbitfun-part="media"
+        data-opc-part="media"
         ref={ref}
       >
         {children}
@@ -167,7 +167,7 @@ export const CardFooter = forwardRef<HTMLDivElement, CardFooterProps>(
         {...props}
         className={classNames(styles.footer, className)}
         data-align={align}
-        data-openbitfun-part="footer"
+        data-opc-part="footer"
         data-padding={padding}
         ref={ref}
       >

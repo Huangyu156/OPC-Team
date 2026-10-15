@@ -162,9 +162,9 @@ export const SessionTitleSection: React.FC = () => {
   if (loadError) {
     return (
       <ConfigPageSection
-        className="openbitfun-runtime-settings"
-        data-openbitfun-component="session-title-config"
-        data-openbitfun-part="root"
+        className="opc-runtime-settings"
+        data-opc-component="session-title-config"
+        data-opc-part="root"
         title={t('sessionTitle.title')}
         description={t('sessionTitle.subtitle')}
       >
@@ -180,9 +180,9 @@ export const SessionTitleSection: React.FC = () => {
   return (
     <>
       <ConfigPageSection
-        className="openbitfun-runtime-settings"
-        data-openbitfun-component="session-title-config"
-        data-openbitfun-part="root"
+        className="opc-runtime-settings"
+        data-opc-component="session-title-config"
+        data-opc-part="root"
         title={t('sessionTitle.title')}
         description={t('sessionTitle.subtitle')}
       >
@@ -191,9 +191,9 @@ export const SessionTitleSection: React.FC = () => {
           align="center"
         >
           <div
-            className="openbitfun-runtime-settings__appearance-host"
-            data-openbitfun-component="session-title-config"
-            data-openbitfun-part="enableControl"
+            className="opc-runtime-settings__appearance-host"
+            data-opc-component="session-title-config"
+            data-opc-part="enableControl"
           >
             <Switch
               checked={settings?.enable_session_title_generation ?? false}
@@ -210,9 +210,9 @@ export const SessionTitleSection: React.FC = () => {
             align="center"
           >
             <div
-              className="openbitfun-runtime-settings__appearance-host"
-              data-openbitfun-component="session-title-config"
-              data-openbitfun-part="modelControl"
+              className="opc-runtime-settings__appearance-host"
+              data-opc-component="session-title-config"
+              data-opc-part="modelControl"
             >
               <Combobox
                 size="sm"

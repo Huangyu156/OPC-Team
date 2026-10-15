@@ -196,15 +196,15 @@ const SessionScene: React.FC<SessionSceneProps> = ({ workspacePath, isEntering =
   return (
     <div ref={containerRef}
       className={[
-        'openbitfun-session-scene', isDragging && 'openbitfun-session-scene--dragging',
-        isDraggingBottom && 'openbitfun-session-scene--dragging-bottom',
-        pane.displayMode === 'overlay' && 'openbitfun-session-scene--overlay',
-        isTerminalDockedBottom && 'openbitfun-session-scene--terminal-bottom', isEntering && 'layout-entering',
+        'opc-session-scene', isDragging && 'opc-session-scene--dragging',
+        isDraggingBottom && 'opc-session-scene--dragging-bottom',
+        pane.displayMode === 'overlay' && 'opc-session-scene--overlay',
+        isTerminalDockedBottom && 'opc-session-scene--terminal-bottom', isEntering && 'layout-entering',
       ].filter(Boolean).join(' ')}
-      data-testid="session-scene" data-openbitfun-scene="session" data-openbitfun-part="root"
-      data-openbitfun-state={[isDragging && 'dragging', isTerminalDockedBottom && 'terminal-bottom'].filter(Boolean).join(' ') || undefined}
+      data-testid="session-scene" data-opc-scene="session" data-opc-part="root"
+      data-opc-state={[isDragging && 'dragging', isTerminalDockedBottom && 'terminal-bottom'].filter(Boolean).join(' ') || undefined}
     >
-      <div className="openbitfun-session-scene__main-row" data-openbitfun-scene="session" data-openbitfun-part="main">
+      <div className="opc-session-scene__main-row" data-opc-scene="session" data-opc-part="main">
         <SplitView
           mode={pane.mode === 'chat-only' ? 'primary' : pane.mode === 'content-only' ? 'secondary' : 'split'}
           layout={pane.displayMode}
@@ -226,16 +226,16 @@ const SessionScene: React.FC<SessionSceneProps> = ({ workspacePath, isEntering =
             </Tooltip>
           }
           primary={
-            <div className="openbitfun-session-scene__chat-pane" data-testid="session-chat-pane"
-              data-openbitfun-scene="session" data-openbitfun-part="chat">
+            <div className="opc-session-scene__chat-pane" data-testid="session-chat-pane"
+              data-opc-scene="session" data-opc-part="chat">
               <ChatPane width={0} isFullscreen={false} isSceneActive={isActive && !isContentOnly}
                 isDragging={isDragging} workspacePath={workspacePath} showChatInput
                 isRightPanelOpen={pane.mode !== 'chat-only'} onToggleRightPanel={pane.toggleContent} />
             </div>
           }
           secondary={
-            <div className="openbitfun-session-scene__aux-pane" data-testid="session-aux-pane"
-              data-openbitfun-scene="session" data-openbitfun-part="auxiliary">
+            <div className="opc-session-scene__aux-pane" data-testid="session-aux-pane"
+              data-opc-scene="session" data-opc-part="auxiliary">
               <AuxPane workspacePath={workspacePath} isSceneActive={isActive && pane.mode !== 'chat-only'}
                 isFullscreen={isContentOnly} onToggleFullscreen={pane.toggleMaximized}
                 terminalResizeSuspended={isContentSettling || isDraggingContent} />
@@ -246,8 +246,8 @@ const SessionScene: React.FC<SessionSceneProps> = ({ workspacePath, isEntering =
       {isTerminalDockedBottom && <>
         <div
           className={[
-            'openbitfun-bottom-pane-resizer', isBottomHidden && 'openbitfun-bottom-pane-resizer--collapsed',
-            isDraggingBottom && 'openbitfun-bottom-pane-resizer--dragging', isHoveringBottom && 'openbitfun-bottom-pane-resizer--hovering',
+            'opc-bottom-pane-resizer', isBottomHidden && 'opc-bottom-pane-resizer--collapsed',
+            isDraggingBottom && 'opc-bottom-pane-resizer--dragging', isHoveringBottom && 'opc-bottom-pane-resizer--hovering',
           ].filter(Boolean).join(' ')}
           onMouseDown={handleMouseDownBottomResizer} onDoubleClick={handleBottomDoubleClick}
           onMouseEnter={() => setIsHoveringBottom(true)} onMouseLeave={() => setIsHoveringBottom(false)}
@@ -256,16 +256,16 @@ const SessionScene: React.FC<SessionSceneProps> = ({ workspacePath, isEntering =
           aria-valuemin={BOTTOM_TERMINAL_PANEL_CONFIG.COMPACT_WIDTH} aria-valuemax={BOTTOM_TERMINAL_PANEL_CONFIG.MAX_WIDTH}
           title={t('layout.resizer.title', { mode: panelModeLabels[bottomTerminalPanelMode] })}
         >
-          <div className="openbitfun-bottom-pane-resizer__line" />
-          <div className="openbitfun-bottom-pane-resizer__handle"><GripHorizontal width="16" height="16" className="openbitfun-bottom-pane-resizer__icon" aria-hidden="true" /></div>
+          <div className="opc-bottom-pane-resizer__line" />
+          <div className="opc-bottom-pane-resizer__handle"><GripHorizontal width="16" height="16" className="opc-bottom-pane-resizer__icon" aria-hidden="true" /></div>
         </div>
         <div ref={bottomTerminalPaneElementRef}
           className={[
-            'openbitfun-session-scene__bottom-terminal-pane', isBottomHidden && 'openbitfun-session-scene__bottom-terminal-pane--collapsed',
-            isDraggingBottom && 'openbitfun-session-scene__bottom-terminal-pane--dragging',
+            'opc-session-scene__bottom-terminal-pane', isBottomHidden && 'opc-session-scene__bottom-terminal-pane--collapsed',
+            isDraggingBottom && 'opc-session-scene__bottom-terminal-pane--dragging',
           ].filter(Boolean).join(' ')}
           style={{ height: isBottomHidden ? undefined : `${currentBottomHeight}px` }}
-          data-mode={bottomTerminalPanelMode} data-openbitfun-scene="session" data-openbitfun-part="terminal"
+          data-mode={bottomTerminalPanelMode} data-opc-scene="session" data-opc-part="terminal"
           aria-hidden={isBottomHidden}
           onTransitionEnd={event => {
             if (event.currentTarget === event.target && event.propertyName === 'height') stopBottomPanelTransition();

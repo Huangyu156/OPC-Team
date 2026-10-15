@@ -1,11 +1,11 @@
 use anyhow::{anyhow, Result};
 use clap::{Subcommand, ValueEnum};
-use openbitfun_product_domains::external_hook_import::{
+use opc_product_domains::external_hook_import::{
     ExternalHookImportApplyRequestV1, ExternalHookImportDependencyV1,
     ExternalHookImportMutationRequestV1, ExternalHookImportMutationV1, ExternalHookImportPlanV1,
     ExternalHookImportSnapshotV1, EXTERNAL_HOOK_IMPORT_SCHEMA_V1,
 };
-use openbitfun_product_domains::external_sources::{
+use opc_product_domains::external_sources::{
     ExternalSourceOperationError, ExternalSourceScope, SourceKey,
 };
 use serde::Serialize;
@@ -87,7 +87,7 @@ pub(crate) async fn run(action: Option<HookAction>) -> Result<()> {
         format: HookImportOutputFormat::Text,
     }) {
         HookAction::List { refresh, format } => {
-            let snapshot = openbitfun_core::external_hook_import::external_hook_import_snapshot(
+            let snapshot = opc_core::external_hook_import::external_hook_import_snapshot(
                 workspace.as_deref(),
                 refresh,
             )
@@ -109,7 +109,7 @@ pub(crate) async fn run(action: Option<HookAction>) -> Result<()> {
             confirm,
             format,
         } => {
-            let snapshot = openbitfun_core::external_hook_import::external_hook_import_snapshot(
+            let snapshot = opc_core::external_hook_import::external_hook_import_snapshot(
                 workspace.as_deref(),
                 false,
             )
@@ -190,14 +190,13 @@ async fn preview_or_apply(
     confirm: Option<String>,
     format: HookImportOutputFormat,
 ) -> Result<()> {
-    let plan =
-        openbitfun_core::external_hook_import::plan_external_hook_import(workspace, source.clone())
-            .await
-            .map_err(operation_error)?;
+    let plan = opc_core::external_hook_import::plan_external_hook_import(workspace, source.clone())
+        .await
+        .map_err(operation_error)?;
     let Some(plan_fingerprint) = confirm else {
         return print_value(format, &plan, render_plan(&plan));
     };
-    let result = openbitfun_core::external_hook_import::apply_external_hook_import(
+    let result = opc_core::external_hook_import::apply_external_hook_import(
         workspace,
         ExternalHookImportApplyRequestV1 {
             schema_version: EXTERNAL_HOOK_IMPORT_SCHEMA_V1,
@@ -208,13 +207,13 @@ async fn preview_or_apply(
     .await
     .map_err(operation_error)?;
     let text = match &result.outcome {
-        openbitfun_product_domains::external_hook_import::ExternalHookImportApplyOutcomeV1::Applied {
+        opc_product_domains::external_hook_import::ExternalHookImportApplyOutcomeV1::Applied {
             snapshot,
         } => completed_import_status(snapshot, &source, true).to_string(),
-        openbitfun_product_domains::external_hook_import::ExternalHookImportApplyOutcomeV1::Unchanged {
+        opc_product_domains::external_hook_import::ExternalHookImportApplyOutcomeV1::Unchanged {
             snapshot,
         } => completed_import_status(snapshot, &source, false).to_string(),
-        openbitfun_product_domains::external_hook_import::ExternalHookImportApplyOutcomeV1::Stale {
+        opc_product_domains::external_hook_import::ExternalHookImportApplyOutcomeV1::Stale {
             refreshed_plan,
         } => format!(
             "The Hook source changed; nothing was written. Review the refreshed plan:\n{}",
@@ -252,9 +251,8 @@ pub(crate) async fn mutate(
     action: ExternalHookImportMutationV1,
 ) -> std::result::Result<ExternalHookImportSnapshotV1, ExternalSourceOperationError> {
     let snapshot =
-        openbitfun_core::external_hook_import::external_hook_import_snapshot(workspace, false)
-            .await?;
-    openbitfun_core::external_hook_import::mutate_external_hook_import(
+        opc_core::external_hook_import::external_hook_import_snapshot(workspace, false).await?;
+    opc_core::external_hook_import::mutate_external_hook_import(
         workspace,
         ExternalHookImportMutationRequestV1 {
             schema_version: EXTERNAL_HOOK_IMPORT_SCHEMA_V1,
@@ -383,13 +381,13 @@ fn escape(value: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::external_hook_catalog::{
+    use opc_product_domains::external_hook_catalog::{
         ExternalHookCatalogSnapshotV1, ExternalHookSource, ExternalHookSourceKind,
     };
-    use openbitfun_product_domains::external_hook_import::{
+    use opc_product_domains::external_hook_import::{
         ExternalHookImportDispositionV1, ImportedHookSourceSnapshotV1, ImportedHookSourceStateV1,
     };
-    use openbitfun_product_domains::external_sources::{
+    use opc_product_domains::external_sources::{
         EcosystemId, ExternalSourceHealth, ExternalSourceScope,
     };
 

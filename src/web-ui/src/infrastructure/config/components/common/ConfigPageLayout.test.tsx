@@ -61,23 +61,23 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const contentInner = container.querySelector('.openbitfun-config-page-content__inner');
+    const contentInner = container.querySelector('.opc-config-page-content__inner');
     const stack = container.querySelector('[data-testid="section-stack"]');
 
     expect(contentInner?.children).toHaveLength(1);
     expect(contentInner?.firstElementChild).toBe(stack);
-    expect(stack?.classList.contains('openbitfun-config-page-section-stack')).toBe(true);
-    expect(stack?.querySelectorAll(':scope > .openbitfun-config-page-section')).toHaveLength(2);
+    expect(stack?.classList.contains('opc-config-page-section-stack')).toBe(true);
+    expect(stack?.querySelectorAll(':scope > .opc-config-page-section')).toHaveLength(2);
   });
 
   it('uses the public PageHeader while preserving appearance extension targets', () => {
     act(() => root.render(<ConfigPageHeader title="Models" subtitle="Provider configuration" extra={<button>Import</button>} />));
-    const header = container.querySelector('[data-openbitfun-component="page-header"]');
+    const header = container.querySelector('[data-opc-component="page-header"]');
     expect(header?.getAttribute('data-size')).toBe('md');
     expect(header?.querySelector('h2')?.textContent).toBe('Models');
-    expect(header?.querySelector('[data-openbitfun-part="pageHeaderTitle"]')?.textContent).toBe('Models');
-    expect(header?.querySelector('[data-openbitfun-part="pageHeaderSubtitle"]')?.textContent).toBe('Provider configuration');
-    expect(container.querySelector('[data-openbitfun-part="pageHeaderExtra"] button')?.textContent).toBe('Import');
+    expect(header?.querySelector('[data-opc-part="pageHeaderTitle"]')?.textContent).toBe('Models');
+    expect(header?.querySelector('[data-opc-part="pageHeaderSubtitle"]')?.textContent).toBe('Provider configuration');
+    expect(container.querySelector('[data-opc-part="pageHeaderExtra"] button')?.textContent).toBe('Import');
   });
 
   it('removes sentence periods from standalone copy while preserving ellipses', () => {
@@ -94,11 +94,11 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="pageHeaderSubtitle"]')?.textContent)
+    expect(container.querySelector('[data-opc-part="pageHeaderSubtitle"]')?.textContent)
       .toBe('Configure model providers');
-    expect(container.querySelector('[data-openbitfun-part="sectionDescription"]')?.textContent)
+    expect(container.querySelector('[data-opc-part="sectionDescription"]')?.textContent)
       .toBe('选择界面外观');
-    expect(container.querySelector('[data-openbitfun-part="rowDescription"]')?.textContent)
+    expect(container.querySelector('[data-opc-part="rowDescription"]')?.textContent)
       .toBe('Loading...');
   });
 
@@ -111,7 +111,7 @@ describe('ConfigPageLayout', () => {
     expect(layout).toContain('--config-page-section-gap: 36px;');
     expect(layout).toContain('--row-grid-cols: minmax(0, 1fr) minmax(0, 150px);');
     expect(layout).toContain('gap: 40px;');
-    const sectionBodyRule = layout.match(/\.openbitfun-config-page-section__body\s*\{([\s\S]*?)\}/)?.[1];
+    const sectionBodyRule = layout.match(/\.opc-config-page-section__body\s*\{([\s\S]*?)\}/)?.[1];
     expect(sectionBodyRule?.trim()).toBe('min-width: 0;');
     expect(layout).not.toContain('--opcteam-component-config-page-section-background');
     expect(header).toContain('margin-bottom: 36px;');
@@ -133,15 +133,15 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const controls = container.querySelectorAll('.openbitfun-config-page-row__control');
-    const switchRoot = controls[0]?.querySelector('[data-openbitfun-component="switch"]');
-    const inputRoot = controls[1]?.querySelector('[data-openbitfun-component="input"]');
+    const controls = container.querySelectorAll('.opc-config-page-row__control');
+    const switchRoot = controls[0]?.querySelector('[data-opc-component="switch"]');
+    const inputRoot = controls[1]?.querySelector('[data-opc-component="input"]');
 
     expect(controls[0]?.firstElementChild).toBe(switchRoot);
     expect(controls[1]?.firstElementChild).toBe(inputRoot);
-    expect(layout).toContain("[data-openbitfun-component='input']");
-    expect(layout).toContain("[data-openbitfun-component='number-input']");
-    expect(layout).not.toContain("[data-openbitfun-component='switch']");
+    expect(layout).toContain("[data-opc-component='input']");
+    expect(layout).toContain("[data-opc-component='number-input']");
+    expect(layout).not.toContain("[data-opc-component='switch']");
     expect(layout).not.toContain('> :where(span, div)');
   });
 
@@ -178,38 +178,38 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const rows = container.querySelectorAll<HTMLElement>('.openbitfun-config-page-row');
+    const rows = container.querySelectorAll<HTMLElement>('.opc-config-page-row');
     const standardControlRules = layout.match(
-      /\/\/ Ordinary single-field rows[\s\S]*?(?=\.openbitfun-config-page-section__extra)/,
+      /\/\/ Ordinary single-field rows[\s\S]*?(?=\.opc-config-page-section__extra)/,
     )?.[0] ?? '';
 
     expect(rows).toHaveLength(7);
-    expect(rows[1]?.classList.contains('openbitfun-config-page-row--balanced')).toBe(true);
-    expect(rows[5]?.classList.contains('openbitfun-config-page-row--balanced')).toBe(true);
-    expect(rows[6]?.classList.contains('openbitfun-config-page-row--wide')).toBe(true);
+    expect(rows[1]?.classList.contains('opc-config-page-row--balanced')).toBe(true);
+    expect(rows[5]?.classList.contains('opc-config-page-row--balanced')).toBe(true);
+    expect(rows[6]?.classList.contains('opc-config-page-row--wide')).toBe(true);
     expect(rows[1]?.style.gridTemplateColumns).toBe('');
     expect(rows[6]?.style.gridTemplateColumns).toBe('');
-    expect(container.querySelector('[data-openbitfun-component="select"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-component="combobox"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-component="multi-select"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-component="input"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-component="search-field"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-component="number-input"]')).not.toBeNull();
-    expect(standardControlRules).toContain('.openbitfun-config-page-row--wide');
+    expect(container.querySelector('[data-opc-component="select"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="combobox"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="multi-select"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="input"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="search-field"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="number-input"]')).not.toBeNull();
+    expect(standardControlRules).toContain('.opc-config-page-row--wide');
     expect(standardControlRules).toContain(':only-child');
-    expect(standardControlRules).toContain("[data-openbitfun-component='input']");
-    expect(standardControlRules).toContain("[data-openbitfun-component='search-field']");
-    expect(standardControlRules).toContain("[data-openbitfun-component='number-input']");
-    expect(standardControlRules).toContain("[data-openbitfun-component='select']");
-    expect(standardControlRules).toContain("[data-openbitfun-component='combobox']");
-    expect(standardControlRules).toContain("[data-openbitfun-component='multi-select']");
-    expect(standardControlRules).not.toContain("[data-openbitfun-component='textarea']");
+    expect(standardControlRules).toContain("[data-opc-component='input']");
+    expect(standardControlRules).toContain("[data-opc-component='search-field']");
+    expect(standardControlRules).toContain("[data-opc-component='number-input']");
+    expect(standardControlRules).toContain("[data-opc-component='select']");
+    expect(standardControlRules).toContain("[data-opc-component='combobox']");
+    expect(standardControlRules).toContain("[data-opc-component='multi-select']");
+    expect(standardControlRules).not.toContain("[data-opc-component='textarea']");
     expect(standardControlRules).toContain('var(--opcteam-overlay-menu-inline-size)');
     expect(layout).toMatch(
-      /\.openbitfun-config-page-section__extra > :where\([\s\S]*?max-inline-size:\s*var\(--opcteam-overlay-menu-inline-size\);/,
+      /\.opc-config-page-section__extra > :where\([\s\S]*?max-inline-size:\s*var\(--opcteam-overlay-menu-inline-size\);/,
     );
     expect(layout).toMatch(
-      /@container config-panel \(max-width: 520px\)[\s\S]*?\.openbitfun-config-page-section__extra > :where\([\s\S]*?inline-size:\s*100%;[\s\S]*?max-inline-size:\s*none;/,
+      /@container config-panel \(max-width: 520px\)[\s\S]*?\.opc-config-page-section__extra > :where\([\s\S]*?inline-size:\s*100%;[\s\S]*?max-inline-size:\s*none;/,
     );
   });
 
@@ -224,16 +224,16 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const row = container.querySelector('.openbitfun-config-page-row');
-    const marker = row?.querySelector('[data-openbitfun-part="required"]');
+    const row = container.querySelector('.opc-config-page-row');
+    const marker = row?.querySelector('[data-opc-part="required"]');
     const input = row?.querySelector('input');
 
     expect(row?.getAttribute('data-required')).toBe('true');
     expect(marker?.textContent).toBe('*');
     expect(marker?.getAttribute('aria-hidden')).toBe('true');
-    expect(marker?.getAttribute('data-openbitfun-component')).toBe('config');
+    expect(marker?.getAttribute('data-opc-component')).toBe('config');
     expect(input?.required).toBe(true);
-    expect(layout).toMatch(/\.openbitfun-config-page-row__required\s*\{[\s\S]*?--opcteam-color-content-required-indicator/);
+    expect(layout).toMatch(/\.opc-config-page-row__required\s*\{[\s\S]*?--opcteam-color-content-required-indicator/);
   });
 
   it('strips the body surface chrome when the section opts out of the standard surface', () => {
@@ -245,10 +245,10 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const section = container.querySelector('.openbitfun-config-page-section');
-    const body = container.querySelector('.openbitfun-config-page-section__body');
+    const section = container.querySelector('.opc-config-page-section');
+    const body = container.querySelector('.opc-config-page-section__body');
 
-    expect(body?.classList.contains('openbitfun-config-page-section__body--flush')).toBe(true);
+    expect(body?.classList.contains('opc-config-page-section__body--flush')).toBe(true);
     expect(body?.getAttribute('data-appearance')).toBe('plain');
     expect(body?.getAttribute('data-field-surface')).toBe('default');
     // The prop drives styling only; it must never leak onto the DOM node.
@@ -264,10 +264,10 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const body = container.querySelector('.openbitfun-config-page-section__body');
-    expect(body?.classList.contains('openbitfun-config-page-section__body--flush')).toBe(false);
+    const body = container.querySelector('.opc-config-page-section__body');
+    expect(body?.classList.contains('opc-config-page-section__body--flush')).toBe(false);
     expect(body?.getAttribute('data-appearance')).toBe('subtle');
-    expect(body?.getAttribute('data-openbitfun-component')).toBe('field-group');
+    expect(body?.getAttribute('data-opc-component')).toBe('field-group');
     expect(body?.getAttribute('data-field-surface')).toBe('ambient');
   });
 
@@ -280,8 +280,8 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const body = container.querySelector('.openbitfun-config-page-section__body');
-    const input = container.querySelector('[data-openbitfun-component="input"]');
+    const body = container.querySelector('.opc-config-page-section__body');
+    const input = container.querySelector('[data-opc-component="input"]');
 
     expect(body?.getAttribute('data-appearance')).toBe('subtle');
     expect(body?.getAttribute('data-field-surface')).toBe('default');
@@ -297,9 +297,9 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="sectionTitle"]')?.textContent).toBe('Search provider');
-    expect(container.querySelector('.openbitfun-config-page-section__extra button')?.textContent).toBe('Exa');
-    expect(container.querySelector('.openbitfun-config-page-section__body')).toBeNull();
+    expect(container.querySelector('[data-opc-part="sectionTitle"]')?.textContent).toBe('Search provider');
+    expect(container.querySelector('.opc-config-page-section__extra button')?.textContent).toBe('Exa');
+    expect(container.querySelector('.opc-config-page-section__body')).toBeNull();
   });
 
   it('forwards inline summaries without merging descriptions into the heading', () => {
@@ -311,11 +311,11 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-component="form-section"]')?.getAttribute('data-description-layout')).toBe('inline');
+    expect(container.querySelector('[data-opc-component="form-section"]')?.getAttribute('data-description-layout')).toBe('inline');
     expect(container.querySelector('h3')?.textContent).toBe('Memory processing');
-    expect(container.querySelector('[data-openbitfun-part="sectionDescription"]')?.textContent).toBe('Limit session scope');
-    expect(container.querySelector('.openbitfun-config-page-section__extra button')?.textContent).toBe('Expand');
-    expect(container.querySelector('.openbitfun-config-page-section__body')).toBeNull();
+    expect(container.querySelector('[data-opc-part="sectionDescription"]')?.textContent).toBe('Limit session scope');
+    expect(container.querySelector('.opc-config-page-section__extra button')?.textContent).toBe('Expand');
+    expect(container.querySelector('.opc-config-page-section__body')).toBeNull();
   });
 
   it('lets copy use the full row when there is no control', () => {
@@ -327,13 +327,13 @@ describe('ConfigPageLayout', () => {
       );
     });
 
-    const row = container.querySelector('.openbitfun-config-page-row');
-    expect(row?.classList.contains('openbitfun-config-page-row--no-control')).toBe(true);
+    const row = container.querySelector('.opc-config-page-row');
+    expect(row?.classList.contains('opc-config-page-row--no-control')).toBe(true);
     expect((row as HTMLElement | null)?.style.gridTemplateColumns).toBe('');
     expect(readStyleFixture('ConfigPageLayout.scss')).toMatch(
-      /\.openbitfun-config-page-row--no-control\s*{[\s\S]*?--row-grid-cols:\s*minmax\(0, 1fr\);/,
+      /\.opc-config-page-row--no-control\s*{[\s\S]*?--row-grid-cols:\s*minmax\(0, 1fr\);/,
     );
-    expect(row?.querySelector('.openbitfun-config-page-row__control')).toBeNull();
+    expect(row?.querySelector('.opc-config-page-row__control')).toBeNull();
   });
 
   it('forwards feature-owned layout contracts while preserving nested design-system ownership', () => {
@@ -341,19 +341,19 @@ describe('ConfigPageLayout', () => {
       root.render(
         <ConfigPageLayout
           data-testid="feature-root"
-          data-openbitfun-component="model-settings"
-          data-openbitfun-part="root"
+          data-opc-component="model-settings"
+          data-opc-part="root"
         >
           <ConfigPageContent
             data-testid="feature-content"
-            data-openbitfun-component="model-settings"
-            data-openbitfun-part="providerSelection"
+            data-opc-component="model-settings"
+            data-opc-part="providerSelection"
           >
             <ConfigPageSection
               title="Models"
               data-testid="feature-section"
-              data-openbitfun-component="model-settings"
-              data-openbitfun-part="providerGroup"
+              data-opc-component="model-settings"
+              data-opc-part="providerGroup"
             >
               <div>Body</div>
             </ConfigPageSection>
@@ -366,11 +366,11 @@ describe('ConfigPageLayout', () => {
     const contentElement = container.querySelector('[data-testid="feature-content"]');
     const sectionElement = container.querySelector('[data-testid="feature-section"]');
 
-    expect(rootElement?.getAttribute('data-openbitfun-component')).toBe('model-settings');
-    expect(rootElement?.getAttribute('data-openbitfun-part')).toBe('root');
-    expect(contentElement?.getAttribute('data-openbitfun-component')).toBe('model-settings');
-    expect(contentElement?.getAttribute('data-openbitfun-part')).toBe('providerSelection');
-    expect(sectionElement?.getAttribute('data-openbitfun-component')).toBe('form-section');
-    expect(sectionElement?.getAttribute('data-openbitfun-part')).toBe('providerGroup');
+    expect(rootElement?.getAttribute('data-opc-component')).toBe('model-settings');
+    expect(rootElement?.getAttribute('data-opc-part')).toBe('root');
+    expect(contentElement?.getAttribute('data-opc-component')).toBe('model-settings');
+    expect(contentElement?.getAttribute('data-opc-part')).toBe('providerSelection');
+    expect(sectionElement?.getAttribute('data-opc-component')).toBe('form-section');
+    expect(sectionElement?.getAttribute('data-opc-part')).toBe('providerGroup');
   });
 });

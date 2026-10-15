@@ -14,7 +14,7 @@ use crate::trace::ModelExchangeTraceConfig;
 use crate::types::{Message, RemoteModelInfo, ToolDefinition};
 use anyhow::{anyhow, Context, Result};
 use log::{debug, warn};
-use openbitfun_core_types::errors::AiProviderError;
+use opc_core_types::errors::AiProviderError;
 use reqwest::RequestBuilder;
 use serde::Deserialize;
 use std::path::{Path, PathBuf};

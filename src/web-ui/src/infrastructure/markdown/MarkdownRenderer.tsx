@@ -48,7 +48,7 @@ import { rehypeWindowsDrivePaths } from './rehypeWindowsDrivePaths';
 const log = createLogger('Markdown');
 const COMPUTER_LINK_PREFIX = 'computer://';
 const FILE_LINK_PREFIX = 'file://';
-const CANVAS_LINK_PREFIX = 'openbitfun-canvas://';
+const CANVAS_LINK_PREFIX = 'opc-canvas://';
 const WORKSPACE_FOLDER_PLACEHOLDER = '{{workspaceFolder}}';
 
 const MarkdownMathRenderer = lazyWithRecovery(() => import('./MarkdownMathRenderer'));
@@ -158,13 +158,13 @@ function mayNeedWorkspacePathForMarkdownLinks(content: string): boolean {
   // while false negatives could make relative local links display poorly.
   if (
     hasMarkdownLinkSyntax &&
-    /!?\[[^\]]+\]\(\s*(?!https?:|mailto:|data:|asset:|tauri:|visualization:|tab:|openbitfun-canvas:|#)[^)]+\)/i.test(content)
+    /!?\[[^\]]+\]\(\s*(?!https?:|mailto:|data:|asset:|tauri:|visualization:|tab:|opc-canvas:|#)[^)]+\)/i.test(content)
   ) {
     return true;
   }
 
   return hasRawAnchorSyntax &&
-    /<a\s+[^>]*href=["']\s*(?!https?:|mailto:|visualization:|tab:|openbitfun-canvas:|#)[^"']+["']/i.test(content);
+    /<a\s+[^>]*href=["']\s*(?!https?:|mailto:|visualization:|tab:|opc-canvas:|#)[^"']+["']/i.test(content);
 }
 
 function mayContainMarkdownMath(content: string): boolean {
@@ -203,7 +203,7 @@ class MarkdownErrorBoundary extends Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="markdown-renderer markdown-renderer--fallback" style={{ whiteSpace: 'pre-wrap' }} data-openbitfun-component="markdown" data-openbitfun-part="fallback" data-openbitfun-state="fallback">
+        <div className="markdown-renderer markdown-renderer--fallback" style={{ whiteSpace: 'pre-wrap' }} data-opc-component="markdown" data-opc-part="fallback" data-opc-state="fallback">
           {this.props.fallbackContent}
         </div>
       );
@@ -283,7 +283,7 @@ const sanitizeSchema = {
   },
   protocols: {
     ...defaultSchema.protocols,
-    href: [...(defaultSchema.protocols?.href || []), 'openbitfun-canvas', 'computer', 'file', 'tab', 'visualization', 'openbitfun'],
+    href: [...(defaultSchema.protocols?.href || []), 'opc-canvas', 'computer', 'file', 'tab', 'visualization', 'openbitfun'],
     src: [...(defaultSchema.protocols?.src || []), 'asset', 'data', 'http', 'https', 'tauri', 'computer', 'file', 'openbitfun'],
   },
 };
@@ -311,7 +311,7 @@ function remarkAutolinkInternalLinks() {
         return;
       }
 
-      const re = /(computer:\/\/|file:\/\/|openbitfun-canvas:\/\/)[^\s<>()]+/g;
+      const re = /(computer:\/\/|file:\/\/|opc-canvas:\/\/)[^\s<>()]+/g;
       let match: RegExpExecArray | null;
       let lastIndex = 0;
       const nextChildren: any[] = [];
@@ -675,8 +675,8 @@ const ScopedMarkdownImage: React.FC<MarkdownImageProps & { scope: SurfaceScope }
     return (
       <span
         className="markdown-image-fallback"
-        data-openbitfun-component="markdown"
-        data-openbitfun-part="imageFallback"
+        data-opc-component="markdown"
+        data-opc-part="imageFallback"
         title={typeof alt === 'string' && alt ? alt : undefined}
       >
         {typeof alt === 'string' ? alt : null}
@@ -822,13 +822,13 @@ const CodeBlockFallback: React.FC<FlowCodeBlockFallbackProps> = ({
     <pre
       className={`language-${language} code-block-fallback`}
       style={bodyStyle}
-      data-openbitfun-component="markdown"
-      data-openbitfun-part="codePre"
+      data-opc-component="markdown"
+      data-opc-part="codePre"
     >
       <code
         style={codeTagStyle}
-        data-openbitfun-component="markdown"
-        data-openbitfun-part="codeContent"
+        data-opc-component="markdown"
+        data-opc-part="codeContent"
       >
         {code}
       </code>
@@ -1114,7 +1114,7 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
     }
 
     return Boolean(
-      targetElement.closest('.openbitfun-session-scene') &&
+      targetElement.closest('.opc-session-scene') &&
       targetElement.closest('.modern-flowchat-container, .flow-chat-container')
     );
   }, []);
@@ -1338,8 +1338,8 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
         color: syntaxThemeRef.current['code[class*="language-"]']?.color,
       };
       return (
-        <div className={`code-block-wrapper${hasMultipleLines ? '' : ' code-block-wrapper--single-line'}`} data-openbitfun-component="markdown" data-openbitfun-part="codeBlock" data-openbitfun-state={streaming ? 'streaming' : undefined}>
-          <div className="code-block-toolbar" data-openbitfun-component="markdown" data-openbitfun-part="codeToolbar">
+        <div className={`code-block-wrapper${hasMultipleLines ? '' : ' code-block-wrapper--single-line'}`} data-opc-component="markdown" data-opc-part="codeBlock" data-opc-state={streaming ? 'streaming' : undefined}>
+          <div className="code-block-toolbar" data-opc-component="markdown" data-opc-part="codeToolbar">
             <span className="code-block-lang">{formatCodeLanguageLabel(normalizedLang)}</span>
             <CopyButton code={code} />
           </div>
@@ -1435,8 +1435,8 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
           const fileLinkButton = (
             <button
               className="file-link"
-              data-openbitfun-component="markdown"
-              data-openbitfun-part="fileLink"
+              data-opc-component="markdown"
+              data-opc-part="fileLink"
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
@@ -1475,8 +1475,8 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
         return (
           <button
             className="canvas-link"
-            data-openbitfun-component="markdown"
-            data-openbitfun-part="canvasLink"
+            data-opc-component="markdown"
+            data-opc-part="canvasLink"
             onClick={(event) => {
               event.preventDefault();
               event.stopPropagation();
@@ -1506,8 +1506,8 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
         return (
           <button
             className="visualization-link"
-            data-openbitfun-component="markdown"
-            data-openbitfun-part="visualizationLink"
+            data-opc-component="markdown"
+            data-opc-part="visualizationLink"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -1531,8 +1531,8 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
         return (
           <button
             className="tab-link"
-            data-openbitfun-component="markdown"
-            data-openbitfun-part="tabLink"
+            data-opc-component="markdown"
+            data-opc-part="tabLink"
             onClick={(e) => {
               e.preventDefault();
               e.stopPropagation();
@@ -1607,7 +1607,7 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
     
     table({ children }: any) {
       return (
-        <div className="table-wrapper" data-openbitfun-component="markdown" data-openbitfun-part="table">
+        <div className="table-wrapper" data-opc-component="markdown" data-opc-part="table">
           <table>{children}</table>
         </div>
       );
@@ -1634,8 +1634,8 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
         return (
           <span
             className="markdown-image-fallback"
-            data-openbitfun-component="markdown"
-            data-openbitfun-part="imageFallback"
+            data-opc-component="markdown"
+            data-opc-part="imageFallback"
             title={label}
           >
             {props.alt ? `${props.alt} — ${label}` : label}
@@ -1654,7 +1654,7 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
     },
     
     blockquote({ children }: any) {
-      return <blockquote className="custom-blockquote" data-openbitfun-component="markdown" data-openbitfun-part="blockquote">{children}</blockquote>;
+      return <blockquote className="custom-blockquote" data-opc-component="markdown" data-opc-part="blockquote">{children}</blockquote>;
     },
     
     ul({ children, ...props }: any) {
@@ -1768,7 +1768,7 @@ const MarkdownSurface = React.memo<MarkdownRendererProps & { thinking?: boolean;
   );
 
   return (
-    <div ref={textRevealRef} className={wrapperClassName} data-openbitfun-component="markdown" data-openbitfun-part="root" data-openbitfun-state={isStreaming ? 'streaming' : undefined}>
+    <div ref={textRevealRef} className={wrapperClassName} data-opc-component="markdown" data-opc-part="root" data-opc-state={isStreaming ? 'streaming' : undefined}>
       {renderTraceEnabled && renderTraceStartedAtMs !== null && (
         <MarkdownRenderTrace
           startedAtMs={renderTraceStartedAtMs}

@@ -1,6 +1,6 @@
 //! First-party product assembly for local Agent Runtime ownership.
 //!
-//! The reusable lock primitive lives in `openbitfun-services-core`. This owner
+//! The reusable lock primitive lives in `opc-services-core`. This owner
 //! selects one deployment for the process, retains acquired workspace leases,
 //! and keeps that deployment fact out of Agent Runtime SDK and wire contracts.
 
@@ -9,9 +9,9 @@ use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 
 use log::{info, warn};
-use openbitfun_services_core::product_identity::product_id;
-pub use openbitfun_services_core::runtime_ownership::RuntimeDeployment;
-use openbitfun_services_core::runtime_ownership::{
+use opc_services_core::product_identity::product_id;
+pub use opc_services_core::runtime_ownership::RuntimeDeployment;
+use opc_services_core::runtime_ownership::{
     RuntimeOwnershipError, RuntimeOwnershipKey, WorkspaceRuntimeOwnership,
 };
 

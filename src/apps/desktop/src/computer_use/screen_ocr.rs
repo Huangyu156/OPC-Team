@@ -1,7 +1,7 @@
 use log::{info, warn};
-use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-use openbitfun_core::infrastructure::try_get_path_manager_arc;
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::agentic::tools::computer_use_host::ComputerScreenshot;
+use opc_core::infrastructure::try_get_path_manager_arc;
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::fs;
 use std::io::Write;
 use std::path::PathBuf;
@@ -44,7 +44,7 @@ mod native_fixture_tests {
     }
 }
 
-pub(super) use openbitfun_core::agentic::tools::computer_use_host::OcrTextMatch;
+pub(super) use opc_core::agentic::tools::computer_use_host::OcrTextMatch;
 
 /// Read the best recognized text for every visible region. No search query,
 /// candidate ranking, or debug pixel persistence is involved.
@@ -136,15 +136,15 @@ fn computer_use_ocr_debug_dir() -> PathBuf {
     if let Ok(pm) = try_get_path_manager_arc() {
         return pm
             .default_assistant_workspace_dir(None)
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("computer_use_debug");
     }
     dirs::home_dir()
         .map(|h| {
-            h.join(openbitfun_core_types::product_identity::hidden_data_directory())
+            h.join(opc_core_types::product_identity::hidden_data_directory())
                 .join("personal_assistant")
                 .join("workspace")
-                .join(openbitfun_core_types::product_identity::hidden_data_directory())
+                .join(opc_core_types::product_identity::hidden_data_directory())
                 .join("computer_use_debug")
         })
         .unwrap_or_else(|| std::env::temp_dir().join("computer_use_debug"))
@@ -231,8 +231,8 @@ mod macos {
         VNRecognizeTextRequestRevision3, VNRecognizedTextObservation, VNRequest,
         VNRequestTextRecognitionLevel,
     };
-    use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-    use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+    use opc_core::agentic::tools::computer_use_host::ComputerScreenshot;
+    use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 
     /// Top-N candidates per observation; Chinese matches often appear below rank 1.
     const TOP_CANDIDATES_MAX: usize = 10;
@@ -453,8 +453,8 @@ mod windows_backend {
         filter_and_rank, fuzzy_text_matches_query, image_box_to_global_match,
         image_content_rect_or_full, normalize_for_match, OcrTextMatch,
     };
-    use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-    use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+    use opc_core::agentic::tools::computer_use_host::ComputerScreenshot;
+    use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
     use windows::core::HSTRING;
     use windows::Graphics::Imaging::BitmapDecoder;
     use windows::Media::Ocr::{OcrEngine, OcrWord};
@@ -665,8 +665,8 @@ mod linux_backend {
     };
     use leptess::capi::TessPageIteratorLevel_RIL_WORD;
     use leptess::{leptonica, tesseract::TessApi};
-    use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-    use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+    use opc_core::agentic::tools::computer_use_host::ComputerScreenshot;
+    use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 
     pub(super) fn read_text(shot: &ComputerScreenshot) -> OpcTeamResult<Vec<OcrTextMatch>> {
         recognize(shot, None)

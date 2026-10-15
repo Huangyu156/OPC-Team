@@ -64,7 +64,7 @@ impl AnalyzeImageTool {
     ) -> OpcTeamResult<ResolvedImagePath> {
         let local_path = Path::new(input_path);
         if local_path.is_absolute()
-            && !crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri(input_path)
+            && !crate::agentic::tools::workspace_paths::is_opc_tool_uri(input_path)
             && !context.is_some_and(|ctx| ctx.is_remote())
         {
             return Ok(ResolvedImagePath::Local(local_path.to_path_buf()));
@@ -505,7 +505,7 @@ mod image_path_tests {
         );
         context
             .custom_data
-            .insert("__openbitfun_test_runtime_root".into(), json!(root.path()));
+            .insert("__opc_test_runtime_root".into(), json!(root.path()));
         let mut images = vec![crate::agentic::image_analysis::attachments::test_image()];
         let expected =
             crate::agentic::image_analysis::decode_data_url(images[0].data_url.as_deref().unwrap())

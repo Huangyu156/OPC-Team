@@ -2,14 +2,14 @@
 //!
 //! The CLI has no i18n, so its copy stays in English. The raw transport detail
 //! is never rendered: it stays in `tracing::{warn,debug}`. Classification is
-//! owned by `openbitfun_core::service::remote_connect::relay_failure`, so this
+//! owned by `opc_core::service::remote_connect::relay_failure`, so this
 //! module only turns one failure into a single user-facing sentence plus an
 //! optional second line that is shown only when it adds information.
 //!
 //! This must stay free of HTTP statuses and exception text: the user only ever
 //! reads what they can act on (retry, check the network, or update OPC-Team).
 
-use openbitfun_core::service::remote_connect::relay_failure::{
+use opc_core::service::remote_connect::relay_failure::{
     classify_relay_endpoint, classify_relay_failure, RelayFailureKind,
 };
 
@@ -76,7 +76,7 @@ fn guidance_for(kind: RelayFailureKind) -> (&'static str, Option<&'static str>) 
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::account::DEFAULT_RELAY_URL;
+    use opc_product_domains::account::DEFAULT_RELAY_URL;
 
     #[test]
     fn a_retired_version_points_at_an_update() {

@@ -823,15 +823,15 @@ describe('BtwSessionPanel review action bar integration', () => {
     });
 
     const avatar = container.querySelector<HTMLElement>(
-      '[data-openbitfun-component="subagent-avatar"][data-openbitfun-avatar-id]',
+      '[data-opc-component="subagent-avatar"][data-opc-avatar-id]',
     );
     expect(avatar).toBeTruthy();
-    expect(avatar?.hasAttribute('data-openbitfun-name-id')).toBe(false);
-    expect(container.querySelector('[data-openbitfun-part="subagentName"]')).toBeNull();
-    const header = container.querySelector('[data-openbitfun-component="btw-session-panel"][data-openbitfun-part="header"]');
-    expect(header?.querySelector('[data-openbitfun-component="toolbar"]')).toBeTruthy();
+    expect(avatar?.hasAttribute('data-opc-name-id')).toBe(false);
+    expect(container.querySelector('[data-opc-part="subagentName"]')).toBeNull();
+    const header = container.querySelector('[data-opc-component="btw-session-panel"][data-opc-part="header"]');
+    expect(header?.querySelector('[data-opc-component="toolbar"]')).toBeTruthy();
     expect(header?.querySelector('.subagent-avatar__status')).toBeNull();
-    expect(header?.querySelector('[data-openbitfun-component="btw-session-panel"][data-openbitfun-part="badge"]')).toBeNull();
+    expect(header?.querySelector('[data-opc-component="btw-session-panel"][data-opc-part="badge"]')).toBeNull();
     expect(header?.textContent).toContain(resolveSubagentNameKey('review-check-child'));
     expect(header?.textContent).toContain('gpt-5.5');
     expect(header?.textContent).not.toContain('Investigate a long task description');
@@ -1055,7 +1055,7 @@ describe('BtwSessionPanel review action bar integration', () => {
     });
 
     expect(container.textContent).toContain('childSession.reviewDetail.partialTimedOut');
-    const header = container.querySelector('[data-openbitfun-component="btw-session-panel"][data-openbitfun-part="header"]');
+    const header = container.querySelector('[data-opc-component="btw-session-panel"][data-opc-part="header"]');
     expect(header?.textContent).toContain('toolCards.taskTool.reviewCoverageLabel');
     expect(header?.textContent).not.toContain('Checking a specific concern');
     expect(container.textContent).not.toContain('Internal reviewer title');

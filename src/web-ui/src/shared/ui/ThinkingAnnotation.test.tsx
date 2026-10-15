@@ -92,7 +92,7 @@ describe('thinking page-margin annotation', () => {
   function render(content: React.ReactNode = <p>First line and last line🙂</p>, virtualized = false) {
     const activate = vi.fn();
     act(() => root.render(<DesignSystemProvider nativeTooltipPolicy="application">
-      <div data-geometry="scroller" style={{ overflowY: 'auto' }} data-openbitfun-viewport-inset-bottom="120">
+      <div data-geometry="scroller" style={{ overflowY: 'auto' }} data-opc-viewport-inset-bottom="120">
         <div data-geometry={nested ? 'nested' : undefined} style={{ overflowY: nested ? 'auto' : 'visible' }}>
           <ThinkingBlock virtualized={virtualized} expanded={false} collapseIntoNext label="Thinking" capsuleLabel="Thought 24 characters" onOpenDetails={activate} />
           <div data-thinking-continuation="">{content}</div>
@@ -139,7 +139,7 @@ describe('thinking page-margin annotation', () => {
     render();
     enter(successor, 200, 600);
     expect(center()).toBe(430); // Inner viewport is 200..460.
-    await act(async () => scroller.setAttribute('data-openbitfun-viewport-inset-bottom', '300'));
+    await act(async () => scroller.setAttribute('data-opc-viewport-inset-bottom', '300'));
     frame();
     expect(center()).toBe(400); // Both clips: 200..400.
   });
@@ -150,7 +150,7 @@ describe('thinking page-margin annotation', () => {
     enter(successor);
     expect(center()).toBe(13);
     expect(panel.dataset.thinkingAnnotation).toBe('compact');
-    render(<div><div data-openbitfun-component="flow-chat-tool-card" data-openbitfun-part="surface">File</div><pre>Long diff</pre></div>);
+    render(<div><div data-opc-component="flow-chat-tool-card" data-opc-part="surface">File</div><pre>Long diff</pre></div>);
     enter(successor);
     expect(center()).toBe(26);
     expect(panel.dataset.thinkingAnnotation).toBe('compact');

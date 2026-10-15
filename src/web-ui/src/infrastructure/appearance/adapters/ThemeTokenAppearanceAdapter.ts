@@ -16,8 +16,8 @@ import type {
 
 const ROOT_ALLOWED_TOKEN_NAMES = new Set<string>(APPEARANCE_ROOT_TOKEN_NAMES);
 const SCOPED_ALLOWED_TOKEN_NAMES = new Set<string>(APPEARANCE_SCOPED_TOKEN_NAMES);
-const SCOPE_STYLE_ATTRIBUTE = 'data-openbitfun-appearance-theme-scopes';
-const HIGHLIGHT_STYLE_ATTRIBUTE = 'data-openbitfun-appearance-highlight-paint';
+const SCOPE_STYLE_ATTRIBUTE = 'data-opc-appearance-theme-scopes';
+const HIGHLIGHT_STYLE_ATTRIBUTE = 'data-opc-appearance-highlight-paint';
 const ROOT_BACKGROUND_VARIABLE = themeCssVariables['color.surface.chrome'];
 const FORBIDDEN_VALUE = /(?:url\s*\(|var\s*\(|expression\s*\(|[;{}<>])/i;
 const HIGHLIGHT_COLOR_TOKENS = new Set([
@@ -122,8 +122,8 @@ export const themeTokenAppearanceAdapter: AppearanceRendererAdapter<'theme-token
         const style = document.createElement('style');
         style.setAttribute(HIGHLIGHT_STYLE_ATTRIBUTE, 'true');
         style.textContent = `@media (forced-colors: none) {
-          [data-flowchat-highlight-excerpt]::highlight(openbitfun-flowchat-excerpt),
-          [data-flowchat-highlight-annotations]::highlight(openbitfun-flowchat-annotations) {
+          [data-flowchat-highlight-excerpt]::highlight(opc-flowchat-excerpt),
+          [data-flowchat-highlight-annotations]::highlight(opc-flowchat-annotations) {
             background-color: ${paint.background}; color: ${paint.foreground};
           }
         }`;
@@ -139,7 +139,7 @@ export const themeTokenAppearanceAdapter: AppearanceRendererAdapter<'theme-token
     }
     // Native material is advertised by the local desktop window bootstrap.
     // Keep this independent of the active peer/runtime and of theme changes.
-    const background = document.documentElement.getAttribute('data-openbitfun-native-material') === 'sidebar'
+    const background = document.documentElement.getAttribute('data-opc-native-material') === 'sidebar'
       ? 'transparent'
       : `var(${ROOT_BACKGROUND_VARIABLE})`;
     rootStyle.backgroundColor = background;

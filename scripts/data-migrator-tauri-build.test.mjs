@@ -42,7 +42,7 @@ test('Desktop package generation has no migrator payload or build hook', () => {
 
 test('migrator dependency and command closure exclude the main app and restart handshake', () => {
   const manifest = readFileSync(join(APP, 'Cargo.toml'), 'utf8');
-  assert.doesNotMatch(manifest, /^openbitfun-core\s*=|product-full|product-capabilities|plugin-runtime/m);
+  assert.doesNotMatch(manifest, /^opc-core\s*=|product-full|product-capabilities|plugin-runtime/m);
   const source = readFileSync(join(APP, 'src/app_state.rs'), 'utf8');
   assert.doesNotMatch(source, /HandoffStore|MigrationOnboardingStore|restart_desktop|TrustedInstallationResolver/);
   const capability = readFileSync(join(APP, 'capabilities/migrator.json'), 'utf8');

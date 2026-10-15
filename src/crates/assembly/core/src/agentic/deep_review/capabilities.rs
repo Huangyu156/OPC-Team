@@ -4,7 +4,7 @@ use crate::agentic::agents::{
 use crate::agentic::tools::framework::ToolUseContext;
 use crate::agentic::tools::implementations::skills::get_skill_registry;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_agent_runtime::skills::{SkillData, SkillInfo};
+use opc_agent_runtime::skills::{SkillData, SkillInfo};
 use sha2::{Digest, Sha256};
 
 const CAPABILITY_CATALOG_LIMIT: usize = 24;
@@ -448,7 +448,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -460,7 +460,7 @@ mod tests {
             .expect("discovered review skill");
         import_copy_as(
             source,
-            root.join(openbitfun_core_types::product_identity::hidden_data_directory())
+            root.join(opc_core_types::product_identity::hidden_data_directory())
                 .join("skills"),
             None,
         )
@@ -586,7 +586,7 @@ mod tests {
         );
         assert!(!temp
             .path()
-            .join(openbitfun_core_types::product_identity::hidden_data_directory())
+            .join(opc_core_types::product_identity::hidden_data_directory())
             .join("skills")
             .exists());
         let imported = import_review_skill(temp.path(), source_key).await;

@@ -1,7 +1,7 @@
 use std::collections::{BTreeMap, BTreeSet};
 
-use openbitfun_ai_adapters::models_dev::{ModelsDevCatalog, ModelsDevModelFacts};
-use openbitfun_core_types::{
+use opc_ai_adapters::models_dev::{ModelsDevCatalog, ModelsDevModelFacts};
+use opc_core_types::{
     ProviderCatalog, ProviderCatalogEndpoint, ProviderCatalogModel,
     ProviderCatalogModelCapabilities, ProviderCatalogModelSource, ProviderCatalogProvider,
     ProviderCatalogSource, ProviderCatalogUpstreamProvider,
@@ -143,7 +143,7 @@ fn promoted_catalog_source(
 
 fn resolved_catalog_revision(source_revision: &str) -> String {
     let mut digest = Sha256::new();
-    digest.update(b"openbitfun-provider-catalog-v1\0");
+    digest.update(b"opc-provider-catalog-v1\0");
     digest.update(BUILTIN_PROVIDER_OVERLAY.as_bytes());
     digest.update(b"\0models-dev\0");
     digest.update(source_revision.as_bytes());
@@ -576,10 +576,10 @@ fn normalize_base_url(url: &str) -> String {
 
 #[cfg(test)]
 mod tests {
-    use openbitfun_core_types::{ProviderCatalogModelSource, ProviderCatalogSource};
+    use opc_core_types::{ProviderCatalogModelSource, ProviderCatalogSource};
 
     use super::{parse_overlay, resolve_builtin_provider_catalog, trusted_models_dev_binding};
-    use openbitfun_ai_adapters::models_dev::ModelsDevCatalog;
+    use opc_ai_adapters::models_dev::ModelsDevCatalog;
 
     #[test]
     fn trusted_urls_allow_distinct_protocols_only_within_one_provider() {

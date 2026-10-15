@@ -27,9 +27,9 @@ async function findSessionItem(sessionId: string) {
 
 async function readInputLayout() {
   return browser.execute(() => {
-    const pane = document.querySelector('.openbitfun-chat-pane__content');
+    const pane = document.querySelector('.opc-chat-pane__content');
     const input = document.querySelector('[data-testid="chat-input-container"]');
-    const dropZone = document.querySelector('.openbitfun-chat-input-drop-zone');
+    const dropZone = document.querySelector('.opc-chat-input-drop-zone');
     const welcomePanel = document.querySelector('.welcome-panel');
     const historyPlaceholder = document.querySelector('.history-session-placeholder');
 

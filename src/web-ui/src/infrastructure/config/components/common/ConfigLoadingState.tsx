@@ -39,22 +39,22 @@ export const ConfigLoadingState: React.FC<ConfigLoadingStateProps> = ({
 
   return (
     <div
-      className={['openbitfun-config-loading-state', className].filter(Boolean).join(' ')}
+      className={['opc-config-loading-state', className].filter(Boolean).join(' ')}
       aria-busy="true"
       aria-label={label}
       data-loading-variant={variant}
-      data-openbitfun-component="config"
-      data-openbitfun-part="loadingState"
+      data-opc-component="config"
+      data-opc-part="loadingState"
     >
-      <div className="openbitfun-config-loading-state__skeleton" aria-hidden="true">
+      <div className="opc-config-loading-state__skeleton" aria-hidden="true">
         {Array.from({ length: rows }, (_, index) => (
-          <div className="openbitfun-config-loading-state__row" key={index}>
-            <span className="openbitfun-config-loading-state__copy" />
-            <span className="openbitfun-config-loading-state__control" />
+          <div className="opc-config-loading-state__row" key={index}>
+            <span className="opc-config-loading-state__copy" />
+            <span className="opc-config-loading-state__control" />
           </div>
         ))}
       </div>
-      <div className="openbitfun-config-loading-state__status" role="status" aria-live="polite">
+      <div className="opc-config-loading-state__status" role="status" aria-live="polite">
         {visible ? <LoadingState size="sm">{label}</LoadingState> : null}
       </div>
     </div>

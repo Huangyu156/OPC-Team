@@ -11,7 +11,7 @@ const ROOT = resolve(import.meta.dirname, '..');
 const ACME = join(ROOT, 'products', 'fixtures', 'acme', 'product.jsonc');
 
 test('CLI stages only the supported plugin Host entry', (t) => {
-  const root = mkdtempSync(join(tmpdir(), 'openbitfun-cli-plugin-host-'));
+  const root = mkdtempSync(join(tmpdir(), 'opc-cli-plugin-host-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const source = join(root, 'source');
   const destination = join(root, 'destination');

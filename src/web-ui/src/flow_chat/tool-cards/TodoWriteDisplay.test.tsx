@@ -81,7 +81,7 @@ describe('TodoWriteDisplay expansion', () => {
     document.body.append(container);
     root = createRoot(container);
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
-      const height = (this as HTMLElement).querySelector?.('[data-openbitfun-part="todoList"]') ? 320 : 64;
+      const height = (this as HTMLElement).querySelector?.('[data-opc-part="todoList"]') ? 320 : 64;
       return {
         bottom: height,
         height,
@@ -108,22 +108,22 @@ describe('TodoWriteDisplay expansion', () => {
     act(() => {
       root.render(<TodoWriteDisplay toolItem={createTodoWriteItem('pending')} config={config} />);
     });
-    expect(container.querySelector('[data-openbitfun-part="todoList"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="todoList"]')).toBeNull();
 
     act(() => {
       root.render(<TodoWriteDisplay toolItem={createTodoWriteItem('in_progress')} config={config} />);
     });
-    expect(container.querySelector('[data-openbitfun-part="todoList"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="todoList"]')).toBeNull();
 
     act(() => {
       container.querySelector<HTMLElement>('[data-testid="todo-tool-card-toggle"]')?.click();
     });
-    expect(container.querySelector('[data-openbitfun-part="todoList"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="todoList"]')).not.toBeNull();
 
     act(() => {
       root.render(<TodoWriteDisplay toolItem={createTodoWriteItem('pending')} config={config} />);
     });
-    expect(container.querySelector('[data-openbitfun-part="todoList"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="todoList"]')).not.toBeNull();
 
     act(() => {
       container.querySelector<HTMLElement>('[data-testid="todo-tool-card-toggle"]')?.click();
@@ -131,7 +131,7 @@ describe('TodoWriteDisplay expansion', () => {
     act(() => {
       vi.advanceTimersByTime(FLOWCHAT_COLLAPSE_DURATION_MS);
     });
-    expect(container.querySelector('[data-openbitfun-part="todoList"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="todoList"]')).toBeNull();
   });
 
   it('shows the first task when all tasks are pending', () => {
@@ -147,7 +147,7 @@ describe('TodoWriteDisplay expansion', () => {
       );
     });
 
-    const summary = container.querySelector('[data-openbitfun-tool-card="todo"] [data-openbitfun-part="summary"]');
+    const summary = container.querySelector('[data-opc-tool-card="todo"] [data-opc-part="summary"]');
     expect(summary?.textContent).toContain('First task');
     expect(summary?.textContent).not.toContain('Second task');
   });
@@ -161,21 +161,21 @@ describe('TodoWriteDisplay expansion', () => {
     act(() => {
       root.render(<TodoWriteDisplay toolItem={toolItem} config={config} />);
     });
-    const summary = container.querySelector('[data-openbitfun-part="summary"]');
+    const summary = container.querySelector('[data-opc-part="summary"]');
     expect(summary?.textContent).toBe('Next task · 1/2');
-    expect(container.querySelector('[data-openbitfun-component="icon"][data-openbitfun-name="list-todo"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-component="icon"][data-opc-name="list-todo"]')).not.toBeNull();
     expect(getToolCardConfig('TodoWrite').attention).toBe('prominent');
-    expect(container.querySelector('[data-openbitfun-tool-card="todo"]')?.getAttribute('data-openbitfun-attention')).toBe('prominent');
+    expect(container.querySelector('[data-opc-tool-card="todo"]')?.getAttribute('data-opc-attention')).toBe('prominent');
 
     act(() => {
       root.render(<TodoWriteDisplay toolItem={toolItem} config={{ ...config, displayMode: 'compact' }} />);
     });
-    expect(container.querySelector('[data-openbitfun-view="compact"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="summary"]')?.textContent).toBe('Next task · 1/2');
+    expect(container.querySelector('[data-opc-view="compact"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="summary"]')?.textContent).toBe('Next task · 1/2');
     act(() => {
       container.querySelector<HTMLElement>('[data-testid="todo-tool-card-toggle"]')?.click();
     });
-    expect(container.querySelectorAll('[data-openbitfun-part="todoItem"]')).toHaveLength(2);
-    expect(container.querySelector('[data-openbitfun-part="todoProgress"]')?.getAttribute('aria-valuenow')).toBe('1');
+    expect(container.querySelectorAll('[data-opc-part="todoItem"]')).toHaveLength(2);
+    expect(container.querySelector('[data-opc-part="todoProgress"]')?.getAttribute('aria-valuenow')).toBe('1');
   });
 });

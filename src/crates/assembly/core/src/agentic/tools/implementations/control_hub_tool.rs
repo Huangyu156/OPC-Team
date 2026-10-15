@@ -31,7 +31,7 @@ use crate::service::config::{get_global_config_service, GlobalConfig};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::ToolImageAttachment;
 use async_trait::async_trait;
-use openbitfun_services_core::system::{truncate_with_marker, LocalSystemProvider};
+use opc_services_core::system::{truncate_with_marker, LocalSystemProvider};
 use serde_json::{json, Value};
 use std::sync::Arc;
 
@@ -3525,7 +3525,7 @@ mod control_hub_tests {
             custom_data: std::collections::HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -3724,8 +3724,7 @@ mod control_hub_tests {
     async fn browser_wait_is_interrupted_by_cancellation() {
         let token = tokio_util::sync::CancellationToken::new();
         let mut ctx = empty_context();
-        ctx.runtime_handles =
-            openbitfun_runtime_ports::ToolRuntimeHandles::new(None, Some(token.clone()));
+        ctx.runtime_handles = opc_runtime_ports::ToolRuntimeHandles::new(None, Some(token.clone()));
 
         let started = std::time::Instant::now();
         // Driven through `call_impl` so this also covers the envelope layer,
@@ -3851,7 +3850,7 @@ mod control_hub_tests {
     }
 
     #[tokio::test]
-    async fn route_hint_uses_openbitfun_control_for_surface_only_browser_intent() {
+    async fn route_hint_uses_opc_control_for_surface_only_browser_intent() {
         let tool = ControlHubTool::new();
         let results = tool
             .dispatch(
@@ -4409,7 +4408,7 @@ mod control_hub_tests {
         let results = tool
             .handle_system(
                 "open_file",
-                &json!({ "path": "/definitely/does/not/exist/openbitfun-test.xyz" }),
+                &json!({ "path": "/definitely/does/not/exist/opc-test.xyz" }),
                 &ctx,
             )
             .await
@@ -4572,7 +4571,7 @@ mod control_hub_tests {
     #[tokio::test]
     async fn terminal_list_sessions_without_singleton_returns_clean_error() {
         // The TerminalApi singleton is initialized only inside the desktop /
-        // server runtimes, so in `cargo test -p openbitfun-core` it must surface
+        // server runtimes, so in `cargo test -p opc-core` it must surface
         // a structured error rather than panicking.
         let tool = ControlHubTool::new();
         let ctx = empty_context();

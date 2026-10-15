@@ -190,7 +190,7 @@ describe('L1 managed Worktree workflow', () => {
   let createdWorktrees: WorktreeSummary[] = [];
 
   before(async () => {
-    fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-worktree-e2e-'));
+    fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-worktree-e2e-'));
     repositoryPath = path.join(fixtureRoot, 'repository');
     fs.mkdirSync(repositoryPath);
     // Desktop canonicalizes local workspace paths. On macOS, os.tmpdir()
@@ -199,7 +199,7 @@ describe('L1 managed Worktree workflow', () => {
     repositoryPath = fs.realpathSync(repositoryPath);
     git(repositoryPath, ['init']);
     git(repositoryPath, ['config', 'user.name', 'OPC-Team E2E']);
-    git(repositoryPath, ['config', 'user.email', 'openbitfun-e2e@example.invalid']);
+    git(repositoryPath, ['config', 'user.email', 'opc-e2e@example.invalid']);
     fs.writeFileSync(path.join(repositoryPath, 'shared.txt'), 'base\n');
     git(repositoryPath, ['add', 'shared.txt']);
     git(repositoryPath, ['commit', '-m', 'base']);
@@ -409,7 +409,7 @@ describe('L1 managed Worktree workflow', () => {
 
     if (
       fixtureRoot
-      && path.basename(fixtureRoot).startsWith('openbitfun-worktree-e2e-')
+      && path.basename(fixtureRoot).startsWith('opc-worktree-e2e-')
     ) {
       fs.rmSync(fixtureRoot, { recursive: true, force: true });
     }

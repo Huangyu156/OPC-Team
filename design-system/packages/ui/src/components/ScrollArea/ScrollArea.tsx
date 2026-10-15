@@ -8,8 +8,8 @@ export type ScrollAreaEdgeFade = "none" | "vertical";
 export type ScrollAreaOverscrollBehaviorY = "auto" | "contain";
 
 export interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
-  "data-openbitfun-component"?: string;
-  "data-openbitfun-part"?: string;
+  "data-opc-component"?: string;
+  "data-opc-part"?: string;
   orientation?: ScrollAreaOrientation;
   /** Fade only the vertical edges with more content beyond the viewport. */
   edgeFade?: ScrollAreaEdgeFade;
@@ -22,8 +22,8 @@ export interface ScrollAreaProps extends HTMLAttributes<HTMLDivElement> {
 export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
   function ScrollArea({
     className,
-    "data-openbitfun-component": component = "scroll-area",
-    "data-openbitfun-part": part = "viewport",
+    "data-opc-component": component = "scroll-area",
+    "data-opc-part": part = "viewport",
     edgeFade = "none",
     orientation = "vertical",
     overscrollBehaviorY = "contain",
@@ -101,12 +101,12 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
       <div
         {...props}
         className={classNames(styles.root, className)}
-        data-openbitfun-component={component}
-        data-openbitfun-edge-fade={edgeFade}
-        data-openbitfun-orientation={orientation}
-        data-openbitfun-overscroll-behavior-y={overscrollBehaviorY}
-        data-openbitfun-part={part}
-        data-openbitfun-scrollbar-visibility={scrollbarVisibility}
+        data-opc-component={component}
+        data-opc-edge-fade={edgeFade}
+        data-opc-orientation={orientation}
+        data-opc-overscroll-behavior-y={overscrollBehaviorY}
+        data-opc-part={part}
+        data-opc-scrollbar-visibility={scrollbarVisibility}
         ref={setViewportRef}
       />
     );

@@ -212,8 +212,8 @@ const NurseryGallery: React.FC = () => {
   return (
     <GalleryLayout
       className="nursery-gallery"
-      data-openbitfun-component="nursery-gallery"
-      data-openbitfun-part="root"
+      data-opc-component="nursery-gallery"
+      data-opc-part="root"
     >
       <PageHeader
         className="nursery-gallery__header"
@@ -241,10 +241,10 @@ const NurseryGallery: React.FC = () => {
         )}
       />
 
-      <div className="gallery-zones" data-openbitfun-component="nursery-gallery" data-openbitfun-part="content">
-        <section className="nursery-defaults" aria-labelledby="nursery-defaults-title" data-openbitfun-component="nursery-gallery" data-openbitfun-part="defaults">
+      <div className="gallery-zones" data-opc-component="nursery-gallery" data-opc-part="content">
+        <section className="nursery-defaults" aria-labelledby="nursery-defaults-title" data-opc-component="nursery-gallery" data-opc-part="defaults">
           <Card className="nursery-defaults__surface" appearance="subtle" padding="md" radius="md" gap="md">
-            <div className="nursery-defaults__content" data-openbitfun-component="nursery-gallery" data-openbitfun-part="defaultsContent">
+            <div className="nursery-defaults__content" data-opc-component="nursery-gallery" data-opc-part="defaultsContent">
               <div className="nursery-defaults__title-row">
                 <h3 className="nursery-defaults__title" id="nursery-defaults-title">
                   {t('nursery.template.title')}
@@ -255,8 +255,8 @@ const NurseryGallery: React.FC = () => {
 
               <div
                 className="nursery-defaults__stats"
-                data-openbitfun-component="nursery-gallery"
-                data-openbitfun-part="stats"
+                data-opc-component="nursery-gallery"
+                data-opc-part="stats"
                 aria-live="polite"
                 aria-busy={templateStatsStatus === 'loading'}
               >

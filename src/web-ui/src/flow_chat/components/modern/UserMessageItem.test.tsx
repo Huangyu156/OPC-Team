@@ -287,9 +287,9 @@ describe('UserMessageItem steering tag', () => {
     const thumbnail = container.querySelector<HTMLElement>('.user-message-item__image-thumb')!;
     act(() => thumbnail.click());
     const dialog = document.querySelector<HTMLElement>('.user-message-item__lightbox-surface')!;
-    expect(dialog.getAttribute('data-openbitfun-component')).toBe('dialog');
-    expect(dialog.parentElement?.getAttribute('data-openbitfun-product-part')).toBe('lightbox');
-    expect(dialog.parentElement?.getAttribute('data-openbitfun-native-webview-occlusion')).toBe('true');
+    expect(dialog.getAttribute('data-opc-component')).toBe('dialog');
+    expect(dialog.parentElement?.getAttribute('data-opc-product-part')).toBe('lightbox');
+    expect(dialog.parentElement?.getAttribute('data-opc-native-webview-occlusion')).toBe('true');
     act(() => dialog.querySelector('img')!.click());
     expect(dialog.isConnected).toBe(true);
     act(() => document.dispatchEvent(new dom.window.KeyboardEvent('keydown', { key: 'Escape', bubbles: true })));
@@ -650,7 +650,7 @@ describe('UserMessageItem steering tag', () => {
     const item = write.mock.calls[0][0][0] as { items: Record<string, Blob> };
     expect(await item.items['text/plain'].text()).toBe('[Skill: pdf] summarize it');
     const html = await item.items['text/html'].text();
-    expect(html).toContain('data-openbitfun-composer-clipboard-tokens="[$pdf] summarize it"');
+    expect(html).toContain('data-opc-composer-clipboard-tokens="[$pdf] summarize it"');
   });
 
   it('restores persisted references and images from a failed message to the input', () => {
@@ -794,7 +794,7 @@ describe('UserMessageItem steering tag', () => {
     expect(trigger?.getAttribute('aria-label')).toBe('message.editAndRollback');
     expect(trigger?.getAttribute('aria-haspopup')).toBe('menu');
     expect(trigger?.getAttribute('aria-expanded')).toBe('true');
-    expect(trigger?.querySelector('[data-openbitfun-component="icon"][data-openbitfun-name="edit"]')).not.toBeNull();
+    expect(trigger?.querySelector('[data-opc-component="icon"][data-opc-name="edit"]')).not.toBeNull();
     expect(getMessageAction('edit')).not.toBeNull();
     expect(getMessageAction('rollback')).not.toBeNull();
     expect(rollbackServiceMock.rollbackSessionToTurn).not.toHaveBeenCalled();

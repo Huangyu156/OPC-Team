@@ -1,8 +1,8 @@
 //! Real Tool -> desktop host -> native capture/input regression, opt-in only.
 use super::desktop_host::DesktopComputerUseHost;
-use openbitfun_core::agentic::tools::computer_use_host::ComputerUseHost;
-use openbitfun_core::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
-use openbitfun_core::agentic::tools::implementations::ComputerUseTool;
+use opc_core::agentic::tools::computer_use_host::ComputerUseHost;
+use opc_core::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
+use opc_core::agentic::tools::implementations::ComputerUseTool;
 use serde_json::{json, Value};
 use std::sync::Arc;
 
@@ -10,7 +10,7 @@ const OWNER: &str = "native-control-roundtrip-fixture";
 async fn select_and_grant_fixture(host: &DesktopComputerUseHost, pid: i32, window: Option<u64>) {
     let pending = crate::computer_use::control_session::request_share(
         OWNER,
-        openbitfun_agent_tools::computer_use_control::ControlMode::Background,
+        opc_agent_tools::computer_use_control::ControlMode::Background,
     )
     .unwrap();
     assert_eq!(pending.state, "awaiting_share");
@@ -30,13 +30,13 @@ async fn select_and_grant_fixture(host: &DesktopComputerUseHost, pid: i32, windo
         .share_selected_target(
             pending.generation,
             &target.selection_id,
-            openbitfun_agent_tools::computer_use_control::ControlMode::Background,
+            opc_agent_tools::computer_use_control::ControlMode::Background,
         )
         .await
         .unwrap();
     assert_eq!(
         shared.mode,
-        openbitfun_agent_tools::computer_use_control::ControlMode::Observe
+        opc_agent_tools::computer_use_control::ControlMode::Observe
     );
     assert!(crate::computer_use::control_session::acquire(OWNER, "app_click").is_err());
     use crate::computer_use::shared_preview::{self, SharedInputRequest, SharedPreviewRequest};
@@ -51,7 +51,7 @@ async fn select_and_grant_fixture(host: &DesktopComputerUseHost, pid: i32, windo
         && !frame.screenshot_id.is_empty()));
     let denied = shared_preview::input(SharedInputRequest {
         scope: preview_scope(),
-        input: openbitfun_core::agentic::tools::computer_use_host::AppInputAction::KeyChord {
+        input: opc_core::agentic::tools::computer_use_host::AppInputAction::KeyChord {
             keys: vec!["escape".into()],
             focus_idx: None,
         },
@@ -694,7 +694,7 @@ async fn run_covered_semantic() {
     shared_preview::observe(scope()).await.unwrap();
     shared_preview::input(SharedInputRequest {
         scope: scope(),
-        input: openbitfun_core::agentic::tools::computer_use_host::AppInputAction::KeyChord {
+        input: opc_core::agentic::tools::computer_use_host::AppInputAction::KeyChord {
             keys: vec!["escape".into()],
             focus_idx: None,
         },
@@ -712,7 +712,7 @@ async fn run_covered_semantic() {
     .unwrap();
     assert!(shared_preview::input(SharedInputRequest {
         scope: scope(),
-        input: openbitfun_core::agentic::tools::computer_use_host::AppInputAction::KeyChord {
+        input: opc_core::agentic::tools::computer_use_host::AppInputAction::KeyChord {
             keys: vec!["escape".into()],
             focus_idx: None,
         },

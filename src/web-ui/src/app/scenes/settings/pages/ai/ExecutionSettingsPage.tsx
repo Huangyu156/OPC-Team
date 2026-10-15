@@ -310,7 +310,7 @@ const ExecutionSettingsPage: React.FC = () => {
     });
   }
   return (
-    <SettingsPage pageId="ai.execution" className="openbitfun-runtime-settings" data-openbitfun-component="runtime-settings" data-openbitfun-part="root" data-openbitfun-view="execution">
+    <SettingsPage pageId="ai.execution" className="opc-runtime-settings" data-opc-component="runtime-settings" data-opc-part="root" data-opc-view="execution">
       {loadError ? (
         <ConfigRetryState message={t('loading.failed')} retryLabel={t('loading.retry')} onRetry={() => void loadPageData()} />
       ) : isLoading ? (
@@ -327,7 +327,7 @@ const ExecutionSettingsPage: React.FC = () => {
               description={!enableDeferredToolLoading ? t('deferredToolLoading.warning') : undefined}
               align="center"
             >
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <Switch
                   checked={enableDeferredToolLoading}
                   onChange={(event) => handleDeferredToolLoadingChange(event.target.checked)}
@@ -347,7 +347,7 @@ const ExecutionSettingsPage: React.FC = () => {
               description={tTools('config.executionTimeoutDesc')}
               align="center"
             >
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <NumberInput
                   value={executionTimeout === '' ? 0 : parseInt(executionTimeout, 10)}
                   onValueChange={(val) => handleToolTimeoutChange(val === 0 ? '' : String(val))}
@@ -366,7 +366,7 @@ const ExecutionSettingsPage: React.FC = () => {
               description={tTools('config.userQuestionTimeoutDesc')}
               align="center"
             >
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <NumberInput
                   value={userQuestionTimeout === '' ? 0 : parseInt(userQuestionTimeout, 10)}
                   onValueChange={(val) => void handleUserQuestionTimeoutChange(val === 0 ? '0' : String(val))}
@@ -387,15 +387,15 @@ const ExecutionSettingsPage: React.FC = () => {
             description={tTools('section.subagents.description')}
           >
             <ConfigPageRow
-              className="openbitfun-runtime-settings__subagent-model-row"
+              className="opc-runtime-settings__subagent-model-row"
               label={
-                <span className="openbitfun-runtime-settings__subagent-model-label">
+                <span className="opc-runtime-settings__subagent-model-label">
                   {tTools('config.subagentDefaultModel')}
                   <Tooltip content={tTools('config.subagentModelSettings')}>
                     <IconButton
                       type="button"
                       size="sm"
-                      className="openbitfun-runtime-settings__subagent-model-settings"
+                      className="opc-runtime-settings__subagent-model-settings"
                       aria-label={tTools('config.subagentModelSettings')}
                       icon={<Icon name="settings" size="sm" />}
                       onClick={() => useSceneStore.getState().openScene('agents')}
@@ -406,7 +406,7 @@ const ExecutionSettingsPage: React.FC = () => {
               description={tTools('config.subagentDefaultModelDesc')}
               align="center"
             >
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <Combobox
                   value={subagentModelValue}
                   options={subagentModelOptions}
@@ -420,7 +420,7 @@ const ExecutionSettingsPage: React.FC = () => {
               label={tTools('config.subagentBatchPolicy.label')}
               align="center"
             >
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <Select
                   value={subagentBatchExecutionPolicy}
                   options={subagentBatchExecutionPolicyOptions.map(option => ({
@@ -441,7 +441,7 @@ const ExecutionSettingsPage: React.FC = () => {
               description={tTools('config.subagentMaxConcurrencyDesc')}
               align="center"
             >
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <NumberInput
                   value={subagentMaxConcurrency}
                   onValueChange={(val) => void handleSubagentMaxConcurrencyChange(val)}
@@ -459,7 +459,7 @@ const ExecutionSettingsPage: React.FC = () => {
               description={tTools('config.swarmMaxConcurrencyDesc')}
               align="center"
             >
-              <div className="openbitfun-runtime-settings__row-control" data-openbitfun-component="runtime-settings" data-openbitfun-part="control">
+              <div className="opc-runtime-settings__row-control" data-opc-component="runtime-settings" data-opc-part="control">
                 <NumberInput
                   value={swarmMaxConcurrency}
                   onValueChange={(val) => void handleSwarmMaxConcurrencyChange(val)}

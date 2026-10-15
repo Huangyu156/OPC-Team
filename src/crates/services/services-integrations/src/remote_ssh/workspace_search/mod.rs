@@ -294,7 +294,7 @@ mod tests {
 
     #[test]
     fn remote_workspace_search_paths_preserve_current_contract() {
-        let product_directory = openbitfun_services_core::product_identity::hidden_data_directory();
+        let product_directory = opc_services_core::product_identity::hidden_data_directory();
         assert_eq!(
             remote_flashgrep_install_dir("/home/wgq/workspace/bot_detection"),
             format!("/home/wgq/workspace/bot_detection/{product_directory}/bin")

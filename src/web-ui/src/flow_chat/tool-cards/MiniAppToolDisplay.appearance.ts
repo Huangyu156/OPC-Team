@@ -9,8 +9,8 @@ export const miniAppToolDisplayAppearanceDescriptor: AppearanceSurfaceDescriptor
     { id: 'error' },
   ],
   states: [
-    { id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } },
-    { id: 'failed', selector: { kind: 'self', suffix: '[data-openbitfun-state~="failed"]' } },
-    { id: 'loading', selector: { kind: 'self', suffix: '[data-openbitfun-state~="loading"]' } },
+    { id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } },
+    { id: 'failed', selector: { kind: 'self', suffix: '[data-opc-state~="failed"]' } },
+    { id: 'loading', selector: { kind: 'self', suffix: '[data-opc-state~="loading"]' } },
   ],
 };

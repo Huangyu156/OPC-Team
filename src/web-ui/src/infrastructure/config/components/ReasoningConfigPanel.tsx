@@ -115,14 +115,14 @@ export const ReasoningConfigPanel: React.FC<ReasoningConfigPanelProps> = ({
 
   return (
     <div
-      className="openbitfun-reasoning-config-panel"
-      data-openbitfun-component="reasoning-config-panel"
-      data-openbitfun-part="root"
+      className="opc-reasoning-config-panel"
+      data-opc-component="reasoning-config-panel"
+      data-opc-part="root"
     >
       <ScrollArea
-        className="openbitfun-reasoning-config-panel__body"
-        data-openbitfun-component="reasoning-config-panel"
-        data-openbitfun-part="body"
+        className="opc-reasoning-config-panel__body"
+        data-opc-component="reasoning-config-panel"
+        data-opc-part="body"
       >
         <ReasoningPresetEditor
           value={draft}
@@ -134,15 +134,15 @@ export const ReasoningConfigPanel: React.FC<ReasoningConfigPanelProps> = ({
         />
       </ScrollArea>
       <div
-        className="openbitfun-reasoning-config-panel__footer"
-        data-openbitfun-component="reasoning-config-panel"
-        data-openbitfun-part="footer"
+        className="opc-reasoning-config-panel__footer"
+        data-opc-component="reasoning-config-panel"
+        data-opc-part="footer"
       >
         {invalid && (
           <div
-            className="openbitfun-reasoning-config-panel__error"
-            data-openbitfun-component="reasoning-config-panel"
-            data-openbitfun-part="error"
+            className="opc-reasoning-config-panel__error"
+            data-opc-component="reasoning-config-panel"
+            data-opc-part="error"
             role="alert"
           >
             <AlertTriangle size={14} aria-hidden="true" />
@@ -150,9 +150,9 @@ export const ReasoningConfigPanel: React.FC<ReasoningConfigPanelProps> = ({
           </div>
         )}
         <div
-          className="openbitfun-reasoning-config-panel__actions"
-          data-openbitfun-component="reasoning-config-panel"
-          data-openbitfun-part="actions"
+          className="opc-reasoning-config-panel__actions"
+          data-opc-component="reasoning-config-panel"
+          data-opc-part="actions"
         >
           <Button variant="fill" onClick={onCancel}>
             {t('actions.cancel')}

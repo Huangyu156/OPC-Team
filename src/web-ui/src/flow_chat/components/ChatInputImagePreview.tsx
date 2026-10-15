@@ -48,19 +48,19 @@ export function ChatInputImagePreview({ image, surfaceEpoch }: {
     <>
       <button
         type="button"
-        className="openbitfun-chat-input__image-chip-preview"
+        className="opc-chat-input__image-chip-preview"
         aria-label={i18nService.t('components:imageLightbox.label')}
         onClick={() => setPreview({ source, alt: image.imageName })}
       >
-        <img className="openbitfun-chat-input__image-chip-thumb"
-          data-openbitfun-component="chat-input" data-openbitfun-part="imagePreview"
+        <img className="opc-chat-input__image-chip-thumb"
+          data-opc-component="chat-input" data-opc-part="imagePreview"
           src={source} alt={image.imageName} onError={() => setError(image.imageName)} />
       </button>
       <ImageLightbox image={preview} onClose={() => setPreview(null)} />
     </>
   ) : (
-    <div className="openbitfun-chat-input__image-chip-thumb openbitfun-chat-input__image-chip-thumb--placeholder"
-      data-openbitfun-component="chat-input" data-openbitfun-part="imagePreview"
+    <div className="opc-chat-input__image-chip-thumb opc-chat-input__image-chip-thumb--placeholder"
+      data-opc-component="chat-input" data-opc-part="imagePreview"
       role={error ? 'img' : undefined}
       aria-label={error ? t('editor.imageViewer.loadImageFailedWithMessage', { message: error }) : undefined}
       title={error ? t('editor.imageViewer.loadImageFailedWithMessage', { message: error }) : image.imageName}>

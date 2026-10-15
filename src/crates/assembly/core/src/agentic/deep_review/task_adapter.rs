@@ -24,14 +24,14 @@ use crate::agentic::deep_review_policy::{
 };
 use crate::agentic::events::{DeepReviewQueueStatus, ErrorCategory};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_agent_runtime::deep_review::task_execution as runtime_task_execution;
-pub(crate) use openbitfun_agent_runtime::deep_review::task_execution::{
+use opc_agent_runtime::deep_review::task_execution as runtime_task_execution;
+pub(crate) use opc_agent_runtime::deep_review::task_execution::{
     attach_deep_review_cache, deep_review_incremental_cache_hit_for_task,
     deep_review_incremental_cache_hit_result, deep_review_launch_batch_for_task,
     ensure_deep_review_retry_coverage, prompt_with_deep_review_retry_scope,
     DeepReviewProviderCapacityRetryDecision, DeepReviewProviderCapacityRetryRuntime,
 };
-pub(crate) use openbitfun_agent_runtime::deep_review::{
+pub(crate) use opc_agent_runtime::deep_review::{
     DeepReviewLaunchBatchInfo, DeepReviewQueueWaitSkipReason,
 };
 use serde_json::Value;

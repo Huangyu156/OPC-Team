@@ -1,5 +1,5 @@
 [package]
-name = "openbitfun-dsh-adapter"
+name = "opc-dsh-adapter"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -7,16 +7,16 @@ description = "DeepSeek Harness (dsh) bundle source projection adapter for OPC-T
 autotests = false
 
 [lib]
-name = "openbitfun_dsh_adapter"
+name = "opc_dsh_adapter"
 crate-type = ["rlib"]
 
 [dependencies]
 async-trait = { workspace = true }
-openbitfun-plugin-runtime-client = { path = "../../execution/plugin-runtime-client" }
-openbitfun-product-domains = { path = "../../contracts/product-domains", features = ["plugin-source", "external-sources"] }
-openbitfun-static-hook-support = { path = "../static-hook-support" }
+opc-plugin-runtime-client = { path = "../../execution/plugin-runtime-client" }
+opc-product-domains = { path = "../../contracts/product-domains", features = ["plugin-source", "external-sources"] }
+opc-static-hook-support = { path = "../static-hook-support" }
 dirs = { workspace = true }
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", features = ["plugin-runtime"] }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", features = ["plugin-runtime"] }
 hex = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }

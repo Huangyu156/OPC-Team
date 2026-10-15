@@ -11,7 +11,7 @@ use crate::agentic::tools::computer_use_host::{
 };
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_services_core::system::{
+use opc_services_core::system::{
     truncate_with_marker, LocalSystemActionError, LocalSystemProvider, RunScriptRequest,
 };
 use serde_json::{json, Value};

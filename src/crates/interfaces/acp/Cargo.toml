@@ -1,5 +1,5 @@
 [package]
-name = "openbitfun-acp"
+name = "opc-acp"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -8,45 +8,45 @@ description = "OPC-Team Agent Client Protocol surface"
 [features]
 default = ["client", "server"]
 client = [
-    "openbitfun-agent-tools/acp-bridge",
+    "opc-agent-tools/acp-bridge",
     "dep:futures",
     "dep:serde",
     "dep:dirs",
     "dep:semver",
     "dep:tar",
-    "dep:openbitfun-core",
-    "openbitfun-core/agent-runtime",
-    "openbitfun-core/ssh-remote",
+    "dep:opc-core",
+    "opc-core/agent-runtime",
+    "opc-core/ssh-remote",
 ]
 server = [
-    "dep:openbitfun-agent-tools",
-    "dep:openbitfun-agent-runtime",
-    "openbitfun-agent-runtime/agent-runtime",
-    "dep:openbitfun-core-types",
-    "dep:openbitfun-core",
+    "dep:opc-agent-tools",
+    "dep:opc-agent-runtime",
+    "opc-agent-runtime/agent-runtime",
+    "dep:opc-core-types",
+    "dep:opc-core",
     "dep:sha2",
-    "openbitfun-core/agent-runtime",
-    "openbitfun-core/document-read",
-    "openbitfun-core/subscription-auth",
-    "openbitfun-core/external-sources",
-    "openbitfun-core/tools-basic",
-    "openbitfun-core/tools-git",
-    "openbitfun-core/tools-mcp",
-    "openbitfun-core/tools-browser-web",
-    "openbitfun-core/tools-computer-use",
-    "openbitfun-core/tools-image-analysis",
-    "openbitfun-core/tools-agent-control",
+    "opc-core/agent-runtime",
+    "opc-core/document-read",
+    "opc-core/subscription-auth",
+    "opc-core/external-sources",
+    "opc-core/tools-basic",
+    "opc-core/tools-git",
+    "opc-core/tools-mcp",
+    "opc-core/tools-browser-web",
+    "opc-core/tools-computer-use",
+    "opc-core/tools-image-analysis",
+    "opc-core/tools-agent-control",
 ]
 
 [lib]
-name = "openbitfun_acp"
+name = "opc_acp"
 
 [dependencies]
-openbitfun-core = { path = "../../assembly/core", optional = true }
-openbitfun-agent-runtime = { path = "../../execution/agent-runtime", optional = true }
-openbitfun-agent-tools = { path = "../../execution/tool-contracts", optional = true }
-openbitfun-events = { path = "../../contracts/events" }
-openbitfun-core-types = { path = "../../contracts/core-types", optional = true }
+opc-core = { path = "../../assembly/core", optional = true }
+opc-agent-runtime = { path = "../../execution/agent-runtime", optional = true }
+opc-agent-tools = { path = "../../execution/tool-contracts", optional = true }
+opc-events = { path = "../../contracts/events" }
+opc-core-types = { path = "../../contracts/core-types", optional = true }
 
 agent-client-protocol = { workspace = true }
 tokio = { workspace = true, features = ["fs", "io-std", "io-util", "macros", "process", "rt", "sync", "time"] }

@@ -92,7 +92,7 @@ class NativeGiteePage {
   async ready() {
     await this.filter('all').waitForDisplayed({ timeout: 45000 });
     await $('[data-testid="review-platform-list-loading"]').waitForExist({ reverse: true, timeout: 45000 });
-    const error = $('[data-openbitfun-component="review-platform"][data-openbitfun-part="errorState"]');
+    const error = $('[data-opc-component="review-platform"][data-opc-part="errorState"]');
     expect(await error.isExisting()).toBe(false);
   }
   async select(state: State) {
@@ -123,7 +123,7 @@ class NativeGiteePage {
   async assertInitialStatistics() {
     const second = (await this.rows)[1];
     expect(Number(await second.getAttribute('data-pr-number'))).toBe(expected.get('merged:1')!.items[1].number);
-    await expect(second).not.toHaveAttribute('data-openbitfun-state', 'selected');
+    await expect(second).not.toHaveAttribute('data-opc-state', 'selected');
     const values = [`${expectedStatistics.files} files`, `+${expectedStatistics.additions}`, `-${expectedStatistics.deletions}`];
     const actual: string[] = [];
     for (const [index, field] of ['files', 'additions', 'deletions'].entries()) {
@@ -210,12 +210,12 @@ describe('Gitee repository filters in the native desktop', () => {
     await page.assertInitialStatistics();
     await page.capture('merged-statistics-before-selection');
     await second.click();
-    await expect(second).toHaveAttribute('data-openbitfun-state', 'selected');
-    await $('[data-openbitfun-component="review-platform"][data-openbitfun-part="loadingState"]')
+    await expect(second).toHaveAttribute('data-opc-state', 'selected');
+    await $('[data-opc-component="review-platform"][data-opc-part="loadingState"]')
       .waitForExist({ reverse: true, timeout: 45000 });
     expect(await $('.review-platform__detail-error').isExisting()).toBe(false);
     await expect($('[data-testid="review-platform-detail-state"]')).toHaveText('Merged');
-    await expect($('[data-openbitfun-part="detailMeta"]')).toHaveText(
+    await expect($('[data-opc-part="detailMeta"]')).toHaveText(
       expect.stringContaining(`#${expected.get('merged:1')!.items[1].number}`));
     // Let the earlier real All refresh finish, then check that it did not replace Merged.
     await browser.waitUntil(async () => (await page.snapshotRequests())!.count > beforeRefresh.count, { timeout: 45000 });
@@ -223,7 +223,7 @@ describe('Gitee repository filters in the native desktop', () => {
     await page.assertPage('merged');
     const actualStatistics: Record<string, string[]> = {};
     for (const prefix of ['pr', 'detail']) {
-      const owner = prefix === 'pr' ? second : $('[data-openbitfun-component="review-platform"]');
+      const owner = prefix === 'pr' ? second : $('[data-opc-component="review-platform"]');
       const values = [`${expectedStatistics.files} files`, `+${expectedStatistics.additions}`, `-${expectedStatistics.deletions}`];
       actualStatistics[prefix] = [];
       for (const [index, field] of ['files', 'additions', 'deletions'].entries()) {

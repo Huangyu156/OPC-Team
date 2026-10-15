@@ -916,9 +916,9 @@ const Terminal = forwardRef<TerminalRef, TerminalProps>(({
 
   return (
     <div 
-      className={`openbitfun-terminal ${className}`}
-      data-openbitfun-component="terminal-tool"
-      data-openbitfun-part="root"
+      className={`opc-terminal ${className}`}
+      data-opc-component="terminal-tool"
+      data-opc-part="root"
       data-shortcut-scope="terminal"
       data-terminal-id={terminalId}
       data-session-id={sessionId}
@@ -927,9 +927,9 @@ const Terminal = forwardRef<TerminalRef, TerminalProps>(({
     >
       <div 
         ref={containerRef} 
-        className="openbitfun-terminal__container"
-        data-openbitfun-component="terminal-tool"
-        data-openbitfun-part="terminal"
+        className="opc-terminal__container"
+        data-opc-component="terminal-tool"
+        data-opc-part="terminal"
         data-testid="shell-command-output"
       />
     </div>

@@ -4,7 +4,7 @@
 
 use crate::remote_ssh::types::{RemoteDirEntry, RemoteFileEntry, RemoteTreeNode};
 use anyhow::anyhow;
-use openbitfun_services_core::product_identity::hidden_data_directory;
+use opc_services_core::product_identity::hidden_data_directory;
 use std::sync::Arc;
 
 /// Names skipped when listing workspace root for system-prompt preview (still lazy: no descent).
@@ -91,7 +91,7 @@ impl RemoteFileService {
         &self,
         connection_id: &str,
         path: &str,
-    ) -> anyhow::Result<openbitfun_runtime_ports::WorkspaceWriter> {
+    ) -> anyhow::Result<opc_runtime_ports::WorkspaceWriter> {
         self.get_manager(connection_id)
             .await?
             .open_workspace_file_write_new(connection_id, path)
@@ -114,7 +114,7 @@ impl RemoteFileService {
         &self,
         connection_id: &str,
         path: &str,
-    ) -> anyhow::Result<openbitfun_runtime_ports::WorkspaceReader> {
+    ) -> anyhow::Result<opc_runtime_ports::WorkspaceReader> {
         self.get_manager(connection_id)
             .await?
             .open_workspace_file_read(connection_id, path)
@@ -126,7 +126,7 @@ impl RemoteFileService {
         connection_id: &str,
         path: &str,
         follow_symlinks: bool,
-    ) -> anyhow::Result<Option<openbitfun_runtime_ports::WorkspaceMetadata>> {
+    ) -> anyhow::Result<Option<opc_runtime_ports::WorkspaceMetadata>> {
         let manager = self.get_manager(connection_id).await?;
         if manager.is_shell_workspace(connection_id).await {
             return manager
@@ -142,7 +142,7 @@ impl RemoteFileService {
             Err(error) if is_sftp_not_found(&error) => return Ok(None),
             Err(error) => return Err(error),
         };
-        use openbitfun_runtime_ports::{WorkspaceMetadata, WorkspacePathKind};
+        use opc_runtime_ports::{WorkspaceMetadata, WorkspacePathKind};
         let file_type = attrs.file_type();
         let kind = if file_type.is_symlink() {
             WorkspacePathKind::Symlink
@@ -363,7 +363,7 @@ impl RemoteFileService {
             .workspace_metadata(connection_id, path, true)
             .await?
             .is_some_and(|metadata| {
-                metadata.kind == openbitfun_runtime_ports::WorkspacePathKind::Directory
+                metadata.kind == opc_runtime_ports::WorkspacePathKind::Directory
             }))
     }
 
@@ -596,10 +596,10 @@ impl RemoteFileService {
             .await?
             .map(|metadata| metadata.kind)
         {
-            Some(openbitfun_runtime_ports::WorkspacePathKind::Symlink) => {
+            Some(opc_runtime_ports::WorkspacePathKind::Symlink) => {
                 return self.remove_file(connection_id, path).await
             }
-            Some(openbitfun_runtime_ports::WorkspacePathKind::Directory) => {}
+            Some(opc_runtime_ports::WorkspacePathKind::Directory) => {}
             Some(_) => anyhow::bail!("Remote path is not a directory: {path}"),
             None => anyhow::bail!("Remote directory does not exist: {path}"),
         }

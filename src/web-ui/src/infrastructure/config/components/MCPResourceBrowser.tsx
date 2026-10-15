@@ -125,10 +125,10 @@ export const MCPResourceBrowser: React.FC<MCPResourceBrowserProps> = ({ serverId
   };
 
   return (
-    <div className="mcp-resource-browser" data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="root">
-      <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="header" className="browser-header">
+    <div className="mcp-resource-browser" data-opc-component="mcp-resource-browser" data-opc-part="root">
+      <div data-opc-component="mcp-resource-browser" data-opc-part="header" className="browser-header">
         <h2>{t('resourceBrowser.title')}</h2>
-        <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="headerActions" className="header-actions">
+        <div data-opc-component="mcp-resource-browser" data-opc-part="headerActions" className="header-actions">
           <Button
             variant="outline"
             size="sm"
@@ -148,7 +148,7 @@ export const MCPResourceBrowser: React.FC<MCPResourceBrowserProps> = ({ serverId
         </div>
       </div>
 
-      <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="search" className="browser-search">
+      <div data-opc-component="mcp-resource-browser" data-opc-part="search" className="browser-search">
         <SearchField
           className="browser-search-field"
           leadingIcon={<Icon name="search" size="sm" />}
@@ -158,12 +158,12 @@ export const MCPResourceBrowser: React.FC<MCPResourceBrowserProps> = ({ serverId
         />
       </div>
 
-      <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="content" className="browser-content">
-        <ScrollArea data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="list" className="resources-list">
+      <div data-opc-component="mcp-resource-browser" data-opc-part="content" className="browser-content">
+        <ScrollArea data-opc-component="mcp-resource-browser" data-opc-part="list" className="resources-list">
           {loading ? (
-            <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="loading" className="loading-state">{t('resourceBrowser.loading.resources')}</div>
+            <div data-opc-component="mcp-resource-browser" data-opc-part="loading" className="loading-state">{t('resourceBrowser.loading.resources')}</div>
           ) : filteredResources.length === 0 ? (
-            <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="empty" className="empty-state">
+            <div data-opc-component="mcp-resource-browser" data-opc-part="empty" className="empty-state">
               <div className="empty-icon">
                 <Icon name="search" size="lg" />
               </div>
@@ -172,15 +172,15 @@ export const MCPResourceBrowser: React.FC<MCPResourceBrowserProps> = ({ serverId
           ) : (
             filteredResources.map((resource) => (
               <div data-overflow-trigger
-                data-openbitfun-component="mcp-resource-browser"
-                data-openbitfun-part="resource"
-                data-openbitfun-state={selectedResource?.uri === resource.uri ? 'selected' : undefined}
+                data-opc-component="mcp-resource-browser"
+                data-opc-part="resource"
+                data-opc-state={selectedResource?.uri === resource.uri ? 'selected' : undefined}
                 key={resource.uri}
                 className={`resource-item ${selectedResource?.uri === resource.uri ? 'selected' : ''}`}
                 onClick={() => loadResourceContent(resource)}
               >
-                <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="resourceIcon" className="resource-icon">{getMimeTypeIcon(resource.mimeType)}</div>
-                <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="resourceInfo" className="resource-info">
+                <div data-opc-component="mcp-resource-browser" data-opc-part="resourceIcon" className="resource-icon">{getMimeTypeIcon(resource.mimeType)}</div>
+                <div data-opc-component="mcp-resource-browser" data-opc-part="resourceInfo" className="resource-info">
                   <div className="resource-name"><OverflowText>{resource.name}</OverflowText></div>
                   {resource.description && (
                     <OverflowText as="div" lines={2} className="resource-description">{resource.description}</OverflowText>
@@ -192,10 +192,10 @@ export const MCPResourceBrowser: React.FC<MCPResourceBrowserProps> = ({ serverId
           )}
         </ScrollArea>
 
-        <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="viewer" className="resource-viewer">
+        <div data-opc-component="mcp-resource-browser" data-opc-part="viewer" className="resource-viewer">
           {selectedResource ? (
             <>
-              <div data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="viewerHeader" className="viewer-header">
+              <div data-opc-component="mcp-resource-browser" data-opc-part="viewerHeader" className="viewer-header">
                 <div className="viewer-title">
                   <span className="viewer-icon">{getMimeTypeIcon(selectedResource.mimeType)}</span>
                   <OverflowText className="viewer-name">{selectedResource.title || selectedResource.name}</OverflowText>
@@ -204,7 +204,7 @@ export const MCPResourceBrowser: React.FC<MCPResourceBrowserProps> = ({ serverId
                   <div className="viewer-mime-type">{selectedResource.mimeType}</div>
                 )}
               </div>
-              <ScrollArea data-openbitfun-component="mcp-resource-browser" data-openbitfun-part="viewerContent" className="viewer-content">
+              <ScrollArea data-opc-component="mcp-resource-browser" data-opc-part="viewerContent" className="viewer-content">
                 {loadingContent ? (
                   <div className="loading-content">{t('resourceBrowser.loading.content')}</div>
                 ) : resourceContent ? (

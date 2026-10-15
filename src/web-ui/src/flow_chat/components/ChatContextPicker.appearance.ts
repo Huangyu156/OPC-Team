@@ -8,8 +8,8 @@ export const chatContextPickerAppearanceDescriptor: AppearanceSurfaceDescriptor 
     { id: 'skillDescription' }, { id: 'footer' },
   ],
   states: [
-    { id: 'loading', selector: { kind: 'self', suffix: '[data-openbitfun-state~="loading"]' } },
-    { id: 'error', selector: { kind: 'self', suffix: '[data-openbitfun-state~="error"]' } },
+    { id: 'loading', selector: { kind: 'self', suffix: '[data-opc-state~="loading"]' } },
+    { id: 'error', selector: { kind: 'self', suffix: '[data-opc-state~="error"]' } },
   ],
 };
 
@@ -23,7 +23,7 @@ export const legacyFileMentionPickerAppearanceDescriptor: AppearanceSurfaceDescr
     { id: 'skillDescription' }, { id: 'footer' },
   ],
   states: [
-    { id: 'loading', selector: { kind: 'self', suffix: '[data-openbitfun-state~="loading"]' } },
-    { id: 'error', selector: { kind: 'self', suffix: '[data-openbitfun-state~="error"]' } },
+    { id: 'loading', selector: { kind: 'self', suffix: '[data-opc-state~="loading"]' } },
+    { id: 'error', selector: { kind: 'self', suffix: '[data-opc-state~="error"]' } },
   ],
 };

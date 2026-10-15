@@ -5,15 +5,15 @@ use crate::agentic::tools::framework::{PermissionIntent, Tool, ToolResult, ToolU
 use crate::infrastructure::events::{emit_global_event, BackendEvent};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_product_domains::appearance_market::{
+use opc_product_domains::appearance_market::{
     validate_appearance_market_slug, AppearanceMarketLicense,
     AppearanceMarketSubmissionDraftRequest,
 };
-use openbitfun_services_integrations::appearance_market::{
+use opc_services_integrations::appearance_market::{
     resolve_appearance_release_target, submit_appearance_package, suggest_appearance_slug,
     AppearanceMarketClient, AppearanceReleaseTarget,
 };
-use openbitfun_services_integrations::miniapp_market::DesktopAuthPollRequest;
+use opc_services_integrations::miniapp_market::DesktopAuthPollRequest;
 use serde_json::{json, Value};
 use std::path::{Path, PathBuf};
 use std::time::{Duration, SystemTime, UNIX_EPOCH};
@@ -82,7 +82,7 @@ This is an outward-facing publication action. Use it only when the user explicit
                     "type": "string",
                     "description": "Optional public HTTPS repository URL for the Skin source."
                 },
-                "min_openbitfun_version": {
+                "min_opc_version": {
                     "type": "string",
                     "description": "Minimum compatible OPC-Team semantic version. Defaults to this running client version."
                 }
@@ -137,7 +137,7 @@ This is an outward-facing publication action. Use it only when the user explicit
             .filter(|value| !value.is_empty())
             .unwrap_or("<none>");
         let min_version = input
-            .get("min_openbitfun_version")
+            .get("min_opc_version")
             .and_then(Value::as_str)
             .map(str::trim)
             .filter(|value| !value.is_empty())
@@ -327,21 +327,21 @@ This is an outward-facing publication action. Use it only when the user explicit
                 "changelog must be no longer than 2,000 bytes.",
             ));
         }
-        let min_openbitfun_version = input
-            .get("min_openbitfun_version")
+        let min_opc_version = input
+            .get("min_opc_version")
             .and_then(Value::as_str)
             .map(str::trim)
             .filter(|value| !value.is_empty())
             .unwrap_or(crate::VERSION)
             .to_string();
-        semver::Version::parse(&min_openbitfun_version).map_err(|_| {
-            OpcTeamError::validation("min_openbitfun_version must use semantic version syntax.")
+        semver::Version::parse(&min_opc_version).map_err(|_| {
+            OpcTeamError::validation("min_opc_version must use semantic version syntax.")
         })?;
         let draft = AppearanceMarketSubmissionDraftRequest {
             listing_id,
             slug: slug.clone(),
             release_number,
-            min_openbitfun_version,
+            min_opc_version,
             changelog,
             license,
             repository_url,
@@ -511,7 +511,7 @@ mod tests {
                     "slug": "calm-skin",
                     "license_spdx": "MIT",
                     "repository_url": "https://example.com/calm",
-                    "min_openbitfun_version": "1.2.3",
+                    "min_opc_version": "1.2.3",
                     "changelog": "Initial release"
                 }),
                 &context,

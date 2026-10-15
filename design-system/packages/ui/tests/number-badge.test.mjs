@@ -8,7 +8,7 @@ import { NumberBadge, ToolbarBadge } from "../dist/index.js";
 test("NumberBadge renders caller-owned values, including zero and long counts", () => {
   for (const value of [0, 18, 1234, "99+"]) {
     const markup = renderToStaticMarkup(createElement(NumberBadge, { value, "aria-label": `${value} items` }));
-    assert.match(markup, /data-openbitfun-component="number-badge"/);
+    assert.match(markup, /data-opc-component="number-badge"/);
     assert.ok(markup.includes(`>${value}</span>`));
     assert.ok(markup.includes(`aria-label="${value} items"`));
     assert.doesNotMatch(markup, /aria-hidden/);
@@ -17,10 +17,10 @@ test("NumberBadge renders caller-owned values, including zero and long counts", 
 
 test("ToolbarBadge preserves its slot hook and delegates to NumberBadge", () => {
   const markup = renderToStaticMarkup(createElement(ToolbarBadge, { className: "product-count", title: "Items" }, 18));
-  assert.match(markup, /data-openbitfun-part="badge"/);
-  assert.match(markup, /data-openbitfun-component="number-badge"/);
+  assert.match(markup, /data-opc-part="badge"/);
+  assert.match(markup, /data-opc-component="number-badge"/);
   assert.match(markup, /product-count/);
-  assert.match(markup, /data-openbitfun-part="value">18<\/span>/);
+  assert.match(markup, /data-opc-part="value">18<\/span>/);
 });
 
 test("NumberBadge uses a 24px filled surface and 11px control typography without clipping", async () => {

@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import girlManifest from '../../../../public/agent-companion-pets/openbitfun-girl/pet.json';
+import girlManifest from '../../../../public/agent-companion-pets/opc-girl/pet.json';
 import bitblobManifest from '../../../../public/agent-companion-pets/bitblob/pet.json';
 
 const invoke = vi.fn();
@@ -67,7 +67,7 @@ describe('AgentCompanionPetService built-in presets', () => {
     const girl = pets[2];
 
     expect(pets.slice(0, 4).map(pet => pet.id)).toEqual([
-      'bitblob', 'blue-golden', 'openbitfun-girl', 'deepseek-goldwhale',
+      'bitblob', 'blue-golden', 'opc-girl', 'deepseek-goldwhale',
     ]);
     expect(girl).toMatchObject({
       ...girlManifest,

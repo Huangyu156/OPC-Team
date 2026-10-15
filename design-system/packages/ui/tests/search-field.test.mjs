@@ -15,7 +15,7 @@ test("SearchField composes search semantics with icon and shortcut slots", () =>
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="search-field"/);
+  assert.match(markup, /data-opc-component="search-field"/);
   assert.match(markup, /type="search"/);
   assert.match(markup, /data-icon="search"/);
   assert.match(markup, /Ctrl K/);
@@ -39,7 +39,7 @@ test("SearchField supports embedded composition without leaking its variant onto
     size: "sm",
     variant: "embedded",
   }));
-  assert.match(markup, /data-openbitfun-component="search-field" data-variant="embedded"/);
+  assert.match(markup, /data-opc-component="search-field" data-variant="embedded"/);
   assert.doesNotMatch(markup, /<input[^>]*variant=/);
   assert.match(markup, /type="search"/);
 
@@ -77,14 +77,14 @@ test("SearchField only exposes its footer in the panel variant and preserves inp
     value: "device",
   };
   const panel = renderToStaticMarkup(createElement(SearchField, { ...props, variant: "panel" }));
-  assert.match(panel, /data-openbitfun-component="search-field" data-variant="panel"/);
+  assert.match(panel, /data-opc-component="search-field" data-variant="panel"/);
   assert.match(panel, /<input[^>]*aria-label="Search messages"[^>]*type="search"[^>]*value="device"/);
-  assert.match(panel, /data-openbitfun-part="footer"><span role="status">1 \/ 7 results<\/span>/);
+  assert.match(panel, /data-opc-part="footer"><span role="status">1 \/ 7 results<\/span>/);
   assert.doesNotMatch(panel, /<input[^>]*(?:footer|variant)=/);
 
   for (const variant of ["default", "embedded"]) {
     const markup = renderToStaticMarkup(createElement(SearchField, { ...props, variant }));
-    assert.doesNotMatch(markup, /data-openbitfun-part="footer"|1 \/ 7 results/);
+    assert.doesNotMatch(markup, /data-opc-part="footer"|1 \/ 7 results/);
   }
 });
 
@@ -99,8 +99,8 @@ test("SearchField sizes both row and panel while retaining tooltip-wrapped termi
           createElement(IconButton, { "aria-label": "Close", icon: "X", size: "xs", shape: "square" })),
         clearLabel: "Clear", onClear() {},
       }));
-      assert.match(markup, new RegExp(`data-openbitfun-component="search-field" data-variant="${variant}" data-size="${size}"`));
-      assert.match(markup, new RegExp(`data-openbitfun-component="input"[^>]*data-size="${size}"`));
+      assert.match(markup, new RegExp(`data-opc-component="search-field" data-variant="${variant}" data-size="${size}"`));
+      assert.match(markup, new RegExp(`data-opc-component="input"[^>]*data-size="${size}"`));
       assert.ok(markup.indexOf("Matches") < markup.indexOf("Ctrl K"));
       assert.ok(markup.indexOf("Ctrl K") < markup.indexOf('aria-label="Close"'));
       assert.ok(markup.indexOf('aria-label="Close"') < markup.indexOf('aria-label="Clear"'));
@@ -131,8 +131,8 @@ test("SearchField exposes a labeled clear action without hiding it from assistiv
   );
 
   assert.match(markup, /aria-label="Clear search"/);
-  assert.match(markup, /data-openbitfun-component="icon-button"/);
-  assert.match(markup, /data-openbitfun-shape="square"/);
+  assert.match(markup, /data-opc-component="icon-button"/);
+  assert.match(markup, /data-opc-shape="square"/);
   assert.match(markup, /data-size="xs"/);
 });
 
@@ -146,7 +146,7 @@ test("SearchField keeps its clear action quiet and focus-preserving", async () =
     const markup = renderToStaticMarkup(createElement(SearchField, {
       "aria-label": "Search", clearLabel: "Clear", onClear() {}, ...state,
     }));
-    assert.match(markup, /data-openbitfun-variant="quiet"/);
+    assert.match(markup, /data-opc-variant="quiet"/);
     assert.equal(/<button[^>]*disabled=""/.test(markup), Boolean(state.disabled || state.readOnly));
   }
 });

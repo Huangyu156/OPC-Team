@@ -200,7 +200,7 @@ describe('FlowToolCard deferred identity', () => {
     act(() => root.render(<FlowToolCard toolItem={tool} />));
     expect(container.querySelector('[data-selected-card="AgentWait"]')?.getAttribute('data-capsule-has-fallback')).toBe('false');
     expect(container.querySelector('.flow-tool-card-wrapper')?.getAttribute('data-capsule-expanded')).toBeNull();
-    expect(container.querySelector('.flow-tool-card-wrapper')?.getAttribute('data-openbitfun-presentation')).toBe('relation');
+    expect(container.querySelector('.flow-tool-card-wrapper')?.getAttribute('data-opc-presentation')).toBe('relation');
   });
 
   it.each(['Read', 'Grep', 'Glob', 'LS', 'WebSearch', 'WebFetch', 'view_image', 'Skill', 'GetToolSpec'])('uses the native %s card for direct and deferred calls', toolName => {

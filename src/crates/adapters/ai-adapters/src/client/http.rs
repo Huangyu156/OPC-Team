@@ -8,7 +8,7 @@ pub(crate) fn create_http_client(
     proxy_config: Option<ProxyConfig>,
     skip_ssl_verify: bool,
 ) -> Client {
-    openbitfun_services_core::tls_provider::ensure_ring_crypto_provider();
+    opc_services_core::tls_provider::ensure_ring_crypto_provider();
     let mut builder = Client::builder()
         .tls_backend_rustls()
         .connect_timeout(std::time::Duration::from_secs(

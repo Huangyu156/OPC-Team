@@ -2,16 +2,16 @@ use super::common::{
     backup_domain_dir, io_error, read_bounded_json, read_optional_bounded_json, stage_domain_dir,
     validate_regular_file,
 };
-use openbitfun_legacy_migration::{
+use opc_legacy_migration::{
     atomic_write_bytes, atomic_write_json, snapshot_sqlite_read_only, validate_sqlite,
     DomainContext, DomainScan, LegacyDomainAdapter, LegacyMigrationError, LegacyMigrationResult,
     MigrationRoots,
 };
-use openbitfun_product_domains::legacy_migration::{
+use opc_product_domains::legacy_migration::{
     ConflictResolution, FindingSeverity, MigrationConflict, MigrationDiagnostic, MigrationDomainId,
     MigrationDomainResult, MigrationDomainState, ScanFinding,
 };
-use openbitfun_services_core::memory_store::{
+use opc_services_core::memory_store::{
     classify_memory_workspace_file, decode_memory_record, initialize_memory_schema,
     read_memory_store_snapshot, upsert_memory_record, MemoryRecord, MemoryStoreSnapshot,
     MemoryWorkspaceFileKind, MEMORY_STORE_SCHEMA,
@@ -1476,11 +1476,11 @@ fn owner_error(error: impl std::fmt::Display) -> LegacyMigrationError {
 mod tests {
     use super::*;
     use crate::adapters_for_groups;
-    use openbitfun_legacy_migration::{
+    use opc_legacy_migration::{
         probe_legacy_source, CancellationToken, CrashInjector, CrashPoint, MigrationEngine,
         NoCrashInjection, ProbeLimits,
     };
-    use openbitfun_product_domains::legacy_migration::{
+    use opc_product_domains::legacy_migration::{
         MigrationGroupId, MigrationRunStatus, MigrationSelection,
     };
     use std::io::Read;

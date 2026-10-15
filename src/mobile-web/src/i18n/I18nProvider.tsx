@@ -20,7 +20,7 @@ interface I18nContextValue {
   formatRelativeTime: (date: Date | number) => string;
 }
 
-const STORAGE_KEY = 'openbitfun-mobile-language';
+const STORAGE_KEY = 'opc-mobile-language';
 
 function getByPath(source: unknown, path: string): string | null {
   const segments = path.split('.');

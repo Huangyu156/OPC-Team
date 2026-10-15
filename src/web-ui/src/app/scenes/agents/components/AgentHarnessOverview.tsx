@@ -41,7 +41,7 @@ function HarnessStrategyRoute({ profile }: { profile: HarnessStrategyId }) {
   const route = STRATEGY_ROUTES[profile];
 
   return (
-    <div className="openbitfun-agents-scene__harness-route" aria-hidden="true">
+    <div className="opc-agents-scene__harness-route" aria-hidden="true">
       <svg viewBox="0 0 320 44" preserveAspectRatio="none" focusable="false">
         {route.paths.map(path => (
           <path key={path} d={path} vectorEffect="non-scaling-stroke" />
@@ -50,14 +50,14 @@ function HarnessStrategyRoute({ profile }: { profile: HarnessStrategyId }) {
       {route.nodes.map(([x, y]) => (
         <span
           key={`${x}-${y}`}
-          className="openbitfun-agents-scene__harness-route-node"
+          className="opc-agents-scene__harness-route-node"
           style={{ left: `${x / 320 * 100}%`, top: `${y / 44 * 100}%` }}
         >
           <Icon name="unselected" size="2xs" style={{ width: 9, height: 9 }} />
         </span>
       ))}
       {profile === 'Minimal' && (
-        <span className="openbitfun-agents-scene__harness-route-arrow">
+        <span className="opc-agents-scene__harness-route-arrow">
           <Icon name="arrow-right" size="2xs" />
         </span>
       )}
@@ -72,20 +72,20 @@ const AgentHarnessOverview: React.FC<{
   const { t } = useI18n('scenes/agents');
 
   return (
-    <div className="openbitfun-agents-scene__harness">
+    <div className="opc-agents-scene__harness">
       <GalleryZone
         id="harness-zone"
-        className="openbitfun-agents-scene__harness-zone"
+        className="opc-agents-scene__harness-zone"
         data-testid="agents-harness-zone"
         title={t('harnessZone.title')}
         subtitle={t('harnessZone.subtitle')}
       >
         <ul
-          className="openbitfun-agents-scene__harness-presentation"
+          className="opc-agents-scene__harness-presentation"
           role="list"
           aria-label={t('harnessZone.title')}
-          data-openbitfun-scene="agents"
-          data-openbitfun-part="harnessPresentation"
+          data-opc-scene="agents"
+          data-opc-part="harnessPresentation"
         >
           {HARNESS_STRATEGIES.map(({ id, icon, gear }) => {
             const agent = agents.find(candidate => candidate.id === id);
@@ -93,24 +93,24 @@ const AgentHarnessOverview: React.FC<{
             return (
               <li
                 key={id}
-                className="openbitfun-agents-scene__harness-profile-item"
+                className="opc-agents-scene__harness-profile-item"
               >
                 <button
                   type="button"
                   disabled={!agent}
                   onClick={() => { if (agent) onOpenDetails(agent); }}
-                  className="openbitfun-agents-scene__harness-profile"
-                  data-openbitfun-component="harness-profile-step"
-                  data-openbitfun-part="root"
-                  data-openbitfun-profile={id}
+                  className="opc-agents-scene__harness-profile"
+                  data-opc-component="harness-profile-step"
+                  data-opc-part="root"
+                  data-opc-profile={id}
                   data-harness-gear={gear}
                   data-testid={`agents-harness-${id}`}
                 >
-                  <Icon name={icon} size="lg" className="openbitfun-agents-scene__harness-profile-icon" />
-                  <strong className="openbitfun-agents-scene__harness-profile-name">
+                  <Icon name={icon} size="lg" className="opc-agents-scene__harness-profile-icon" />
+                  <strong className="opc-agents-scene__harness-profile-name">
                     {t(`harnessZone.profiles.${id}.name`)}
                   </strong>
-                  <span className="openbitfun-agents-scene__harness-profile-purpose">
+                  <span className="opc-agents-scene__harness-profile-purpose">
                     {t(`harnessZone.profiles.${id}.purpose`)}
                   </span>
                   <HarnessStrategyRoute profile={id} />

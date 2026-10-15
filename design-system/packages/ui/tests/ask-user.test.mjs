@@ -43,10 +43,10 @@ test("AskUser replaces the completed form and legacy summary with only the quest
     summaryLabel: "1 question answered",
   }));
 
-  assert.match(markup, /data-openbitfun-component="ask-user"/);
-  assert.match(markup, /data-openbitfun-state="completed"/);
+  assert.match(markup, /data-opc-component="ask-user"/);
+  assert.match(markup, /data-opc-state="completed"/);
   assert.match(markup, /<dt[^>]*>OPC-Team has three versions — which would you like me to pull\?/);
-  assert.match(markup, /data-openbitfun-part="answer-value">v0\.2\.19-beta\.1 \(Recommended\)/);
+  assert.match(markup, /data-opc-part="answer-value">v0\.2\.19-beta\.1 \(Recommended\)/);
   assert.doesNotMatch(markup, /<(?:button|input|fieldset|progress|svg)\b/);
   assert.doesNotMatch(markup, /1 question answered|Choose version:|v0\.2\.18|basic testing/);
 });
@@ -66,11 +66,11 @@ test("AskUser shows all submitted questions, multiple selections, and custom ans
     submitLabel: "Submit",
   }));
 
-  assert.equal((markup.match(/data-openbitfun-part="answer-pair"/g) ?? []).length, 2);
-  assert.match(markup, /data-openbitfun-part="answer-value">v0\.2\.19-beta\.1 \(Recommended\)/);
-  assert.match(markup, /data-openbitfun-part="answer-value">v0\.2\.17/);
+  assert.equal((markup.match(/data-opc-part="answer-pair"/g) ?? []).length, 2);
+  assert.match(markup, /data-opc-part="answer-value">v0\.2\.19-beta\.1 \(Recommended\)/);
+  assert.match(markup, /data-opc-part="answer-value">v0\.2\.17/);
   assert.match(markup, /<dt[^>]*>Anything else\?/);
-  assert.match(markup, /data-openbitfun-part="answer-value">First line\nSecond line/);
+  assert.match(markup, /data-opc-part="answer-value">First line\nSecond line/);
   assert.doesNotMatch(markup, /<(?:button|input|fieldset|progress|svg)\b|Other|Submit|Question header/);
 });
 
@@ -92,15 +92,15 @@ test("AskUser renders a controlled custom answer with an accessible text field",
   }));
 
   assert.match(markup, /data-custom="true" data-selected="true"/);
-  assert.match(markup, /data-openbitfun-part="custom-input"/);
-  assert.match(markup, /data-openbitfun-part="question-count"[^>]*>Question 1 of 1/);
-  assert.match(markup, /data-openbitfun-name="message-circle-question"/);
-  assert.match(markup, /data-openbitfun-part="question-label"[^>]*>.*Choose version/);
+  assert.match(markup, /data-opc-part="custom-input"/);
+  assert.match(markup, /data-opc-part="question-count"[^>]*>Question 1 of 1/);
+  assert.match(markup, /data-opc-name="message-circle-question"/);
+  assert.match(markup, /data-opc-part="question-label"[^>]*>.*Choose version/);
   assert.doesNotMatch(markup, /title="Latest Beta|title="The stable release/);
   assert.match(markup, /aria-label="Custom version"/);
   assert.match(markup, /value="v0.2.17"/);
-  assert.match(markup, /data-openbitfun-part="submit"/);
-  assert.match(markup, /data-openbitfun-component="button"[^>]+data-openbitfun-variant="primary"/);
+  assert.match(markup, /data-opc-part="submit"/);
+  assert.match(markup, /data-opc-component="button"[^>]+data-opc-variant="primary"/);
 });
 
 test("AskUser disclosure hides editable controls until expanded and retains the questionnaire footer", () => {
@@ -111,14 +111,14 @@ test("AskUser disclosure hides editable controls until expanded and retains the 
   };
   const collapsed = renderToStaticMarkup(createElement(AskUser, props));
   assert.match(collapsed, /aria-expanded="false"/);
-  assert.match(collapsed, /data-openbitfun-name="message-circle-question"/);
-  assert.doesNotMatch(collapsed, /<(?:input|fieldset)\b|data-openbitfun-part="footer"/);
+  assert.match(collapsed, /data-opc-name="message-circle-question"/);
+  assert.doesNotMatch(collapsed, /<(?:input|fieldset)\b|data-opc-part="footer"/);
   const expanded = renderToStaticMarkup(createElement(AskUser, { ...props, expanded: true }));
   assert.match(expanded, /aria-expanded="true"/);
   assert.match(expanded, /aria-label="Collapse questions"/);
-  assert.match(expanded, /data-openbitfun-name="message-circle-question"/);
+  assert.match(expanded, /data-opc-name="message-circle-question"/);
   assert.match(expanded, /<fieldset\b/);
-  assert.match(expanded, /data-openbitfun-part="footer"/);
+  assert.match(expanded, /data-opc-part="footer"/);
 });
 
 test("AskUser styles use public semantic and component geometry tokens", async () => {

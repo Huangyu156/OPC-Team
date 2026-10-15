@@ -27,19 +27,19 @@ it.each([
 ] as const)('%s shares collection anatomy and retains controlled disclosure', (component, Component) => {
   const View = Component as ComponentType<FlowGroupProps>;
   act(() => root.render(<View expanded={false} summary="Collected 2" itemCount={2}><span>Native details</span></View>));
-  const node = container.querySelector(`[data-openbitfun-component="${component}"][data-flow-group]`)!;
+  const node = container.querySelector(`[data-opc-component="${component}"][data-flow-group]`)!;
   expect(node.getAttribute('data-item-count')).toBe('2');
   expect(container.textContent).not.toContain('Native details');
   act(() => root.render(<View expanded summary="Collected 2" itemCount={2}><span>Native details</span></View>));
   expect(container.querySelector('[data-flow-group]')).toBe(node);
   expect(container.textContent).toContain('Native details');
   for (const part of ['root', 'header', 'summary', 'contentWrapper', 'content']) {
-    expect(container.querySelector(`[data-openbitfun-part="${part}"]`)?.getAttribute('data-openbitfun-component')).toBe(component);
+    expect(container.querySelector(`[data-opc-part="${part}"]`)?.getAttribute('data-opc-component')).toBe(component);
   }
   expect(node.classList.contains('explore-region--bounded')).toBe(false);
-  expect(container.querySelector('[data-openbitfun-part="content"]')?.hasAttribute('data-openbitfun-edge-fade')).toBe(false);
+  expect(container.querySelector('[data-opc-part="content"]')?.hasAttribute('data-opc-edge-fade')).toBe(false);
   act(() => root.render(<View expanded={false} summary="Collected 2" itemCount={2}><span>Native details</span></View>));
-  expect(container.querySelector('[data-openbitfun-part="contentWrapper"]')?.hasAttribute('inert')).toBe(true);
+  expect(container.querySelector('[data-opc-part="contentWrapper"]')?.hasAttribute('inert')).toBe(true);
   act(() => vi.advanceTimersByTime(400));
   expect(container.textContent).not.toContain('Native details');
 });
@@ -47,7 +47,7 @@ it.each([
 it('supports keyboard disclosure while leaving state with the host', () => {
   const change = vi.fn();
   act(() => root.render(<FlowGroup expanded={false} summary="Operations" summaryDescription="Two completed operations" onExpandedChange={change} />));
-  const header = container.querySelector<HTMLElement>('[data-openbitfun-part="header"]')!;
+  const header = container.querySelector<HTMLElement>('[data-opc-part="header"]')!;
   expect(header.getAttribute('aria-label')).toBe('Two completed operations');
   expect(document.getElementById(header.getAttribute('aria-controls')!)).not.toBeNull();
   for (const key of ['Enter', ' ']) act(() => header.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true })));
@@ -65,14 +65,14 @@ it('shares one file identity and keeps open-file independent from revision discl
       changeSummary: { additions: 18, deletions: 6, label: '18 lines added, 6 lines removed' },
       openFile: { label: 'Open file', onPress: open } }}><button>Revision details</button></FlowGroup>));
   render(false);
-  const header = container.querySelector('[data-openbitfun-part="header"]');
+  const header = container.querySelector('[data-opc-part="header"]');
   const disclosure = container.querySelector<HTMLButtonElement>('[aria-expanded]')!;
   expect(disclosure.tagName).toBe('BUTTON');
   expect(disclosure.getAttribute('aria-label')).toContain('/remote/src/App.tsx');
   expect(container.querySelectorAll('[data-layer]')).toHaveLength(2);
-  expect(container.querySelector('[data-openbitfun-part="summary"]')?.textContent).toBe('3 edits: App.tsx');
-  expect(header?.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+18');
-  expect(header?.querySelector('[data-openbitfun-change="removed"]')?.textContent).toBe('-6');
+  expect(container.querySelector('[data-opc-part="summary"]')?.textContent).toBe('3 edits: App.tsx');
+  expect(header?.querySelector('[data-opc-change="added"]')?.textContent).toBe('+18');
+  expect(header?.querySelector('[data-opc-change="removed"]')?.textContent).toBe('-6');
   const openButton = container.querySelector<HTMLButtonElement>('[aria-label="Open file"]')!;
   act(() => openButton.click());
   expect(open).toHaveBeenCalledOnce();
@@ -80,19 +80,19 @@ it('shares one file identity and keeps open-file independent from revision discl
   act(() => disclosure.click());
   expect(toggle).toHaveBeenCalledWith(true);
   render(true);
-  expect(container.querySelector('[data-openbitfun-part="header"]')).toBe(header);
-  expect(header?.querySelector('[data-openbitfun-part="summary"]')?.textContent).toBe('File edits: App.tsx');
-  expect(header?.querySelector('[data-openbitfun-part="changeSummary"]')).toBeNull();
+  expect(container.querySelector('[data-opc-part="header"]')).toBe(header);
+  expect(header?.querySelector('[data-opc-part="summary"]')?.textContent).toBe('File edits: App.tsx');
+  expect(header?.querySelector('[data-opc-part="changeSummary"]')).toBeNull();
   expect(header?.querySelector('[aria-label="Open file"]')).toBe(openButton);
   expect(disclosure.getAttribute('aria-expanded')).toBe('true');
   expect(container.textContent).toContain('Revision details');
   expect(container.querySelector('[data-file-revisions]')).not.toBeNull();
   expect(container.querySelector('.explore-region--bounded')).toBeNull();
   render(false, 2);
-  expect(header?.querySelector('[data-openbitfun-part="summary"]')?.textContent).toBe('3 edits: App.tsx');
-  expect(header?.querySelector('[data-openbitfun-change="added"]')?.textContent).toBe('+18');
+  expect(header?.querySelector('[data-opc-part="summary"]')?.textContent).toBe('3 edits: App.tsx');
+  expect(header?.querySelector('[data-opc-change="added"]')?.textContent).toBe('+18');
   expect(container.querySelectorAll('[data-layer]')).toHaveLength(1);
-  expect(container.querySelector('[data-openbitfun-part="contentWrapper"]')?.hasAttribute('inert')).toBe(true);
+  expect(container.querySelector('[data-opc-part="contentWrapper"]')?.hasAttribute('inert')).toBe(true);
 });
 
 function BrowserHarness({ expanded = true, toggle, initialQuery = '' }: {
@@ -126,9 +126,9 @@ function pickFilter(category: string, value: string) {
 it('keeps independent menu filtering and standard search alongside the disclosure', () => {
   const toggle = vi.fn();
   act(() => root.render(<BrowserHarness toggle={toggle} />));
-  const controls = container.querySelector('[data-openbitfun-part="controls"]')!;
-  const header = container.querySelector('[data-openbitfun-part="header"]')!;
-  const body = container.querySelector('[data-openbitfun-part="contentWrapper"]')!;
+  const controls = container.querySelector('[data-opc-part="controls"]')!;
+  const header = container.querySelector('[data-opc-part="header"]')!;
+  const body = container.querySelector('[data-opc-part="contentWrapper"]')!;
   expect(header.parentElement).toBe(controls.parentElement);
   expect(header.contains(controls)).toBe(false);
   expect(body.contains(controls)).toBe(false);
@@ -140,7 +140,7 @@ it('keeps independent menu filtering and standard search alongside the disclosur
   act(() => input.focus());
   expect(document.activeElement).toBe(input);
   expect(controls.querySelector('[role="radiogroup"]')).toBeNull();
-  expect(controls.querySelector('[data-openbitfun-component="search-field"]')?.getAttribute('data-variant')).toBe('default');
+  expect(controls.querySelector('[data-opc-component="search-field"]')?.getAttribute('data-variant')).toBe('default');
   expect(controls.querySelector('button[aria-label="Search group"]')).toBeNull();
   expect(controls.querySelector('button[aria-label="Close search"]')).toBeNull();
   act(() => {
@@ -169,8 +169,8 @@ it('offers tool and status filters in the shared menu and releases it on collaps
   const toggle = vi.fn();
   act(() => root.render(<BrowserHarness toggle={toggle} />));
   const filter = container.querySelector<HTMLButtonElement>('button[aria-label="Filter tools and status"]')!;
-  expect(filter.closest('[data-openbitfun-component="search-field"]')).toBe(
-    container.querySelector('[data-openbitfun-component="search-field"]'),
+  expect(filter.closest('[data-opc-component="search-field"]')).toBe(
+    container.querySelector('[data-opc-component="search-field"]'),
   );
   for (const [category, value] of [['status', 'active'], ['tools', 'Read']]) {
     clickButton('Filter tools and status');
@@ -195,7 +195,7 @@ it('offers tool and status filters in the shared menu and releases it on collaps
   expect(toggle).not.toHaveBeenCalled();
   clickButton('Filter tools and status');
   act(() => root.render(<BrowserHarness expanded={false} toggle={toggle} />));
-  expect(container.querySelector('[data-openbitfun-part="controls"]')).toBeNull();
+  expect(container.querySelector('[data-opc-part="controls"]')).toBeNull();
   expect(document.querySelector('[role="menu"]')).toBeNull();
 });
 

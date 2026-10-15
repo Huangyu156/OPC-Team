@@ -69,15 +69,15 @@ const TodoItemRow: React.FC<TodoItemRowProps> = ({
   return (
     <div data-overflow-trigger
       className={[
-        'openbitfun-todos__row',
-        isRunning ? 'openbitfun-todos__row--running' : '',
-        isOverdue ? 'openbitfun-todos__row--overdue' : '',
-        job.enabled ? '' : 'openbitfun-todos__row--disabled',
-        isSelected ? 'openbitfun-todos__row--selected' : '',
+        'opc-todos__row',
+        isRunning ? 'opc-todos__row--running' : '',
+        isOverdue ? 'opc-todos__row--overdue' : '',
+        job.enabled ? '' : 'opc-todos__row--disabled',
+        isSelected ? 'opc-todos__row--selected' : '',
       ].filter(Boolean).join(' ')}
-      data-openbitfun-scene="todos"
-      data-openbitfun-part="row"
-      data-openbitfun-state={rowState || undefined}
+      data-opc-scene="todos"
+      data-opc-part="row"
+      data-opc-state={rowState || undefined}
       data-testid="todos-row"
       role="group"
       tabIndex={0}
@@ -90,60 +90,60 @@ const TodoItemRow: React.FC<TodoItemRowProps> = ({
         }
       }}
     >
-      <div className="openbitfun-todos__row-icon" data-openbitfun-scene="todos" data-openbitfun-part="rowIcon">
+      <div className="opc-todos__row-icon" data-opc-scene="todos" data-opc-part="rowIcon">
         <CalendarClock size={19} aria-hidden="true" />
       </div>
 
-      <div className="openbitfun-todos__row-body" data-openbitfun-scene="todos" data-openbitfun-part="rowBody">
-        <div className="openbitfun-todos__row-title-line">
-          <OverflowText className="openbitfun-todos__row-name">{job.name}</OverflowText>
+      <div className="opc-todos__row-body" data-opc-scene="todos" data-opc-part="rowBody">
+        <div className="opc-todos__row-title-line">
+          <OverflowText className="opc-todos__row-name">{job.name}</OverflowText>
           {isRunning ? (
             <span
-              className="openbitfun-todos__row-badge openbitfun-todos__row-badge--running"
-              data-openbitfun-scene="todos"
-              data-openbitfun-part="rowBadge"
+              className="opc-todos__row-badge opc-todos__row-badge--running"
+              data-opc-scene="todos"
+              data-opc-part="rowBadge"
             >
               {t('shared:statuses.running')}
             </span>
           ) : isNextRun ? (
-            <span className="openbitfun-todos__row-badge" data-openbitfun-scene="todos" data-openbitfun-part="rowBadge">
+            <span className="opc-todos__row-badge" data-opc-scene="todos" data-opc-part="rowBadge">
               {t('badges.nextRun')}
             </span>
           ) : null}
           {isOverdue ? (
             <span
-              className="openbitfun-todos__row-badge openbitfun-todos__row-badge--warn"
-              data-openbitfun-scene="todos"
-              data-openbitfun-part="rowBadge"
+              className="opc-todos__row-badge opc-todos__row-badge--warn"
+              data-opc-scene="todos"
+              data-opc-part="rowBadge"
             >
               {t('badges.overdue')}
             </span>
           ) : null}
         </div>
-        <div className="openbitfun-todos__row-meta"><OverflowText behavior="marquee">
+        <div className="opc-todos__row-meta"><OverflowText behavior="marquee">
           <span>{resolveJobWorkspaceLabel(job, workspaces)}</span>
-          <span className="openbitfun-todos__row-meta-sep" aria-hidden="true">·</span>
+          <span className="opc-todos__row-meta-sep" aria-hidden="true">·</span>
           <span>{formatScheduleSummary(job.schedule, t, formatDate)}</span>
-          <span className="openbitfun-todos__row-meta-sep" aria-hidden="true">·</span>
+          <span className="opc-todos__row-meta-sep" aria-hidden="true">·</span>
           <span>{formatJobTargetLabel(job, t)}</span>
           {relativeLabel ? (
             <>
-              <span className="openbitfun-todos__row-meta-sep" aria-hidden="true">·</span>
+              <span className="opc-todos__row-meta-sep" aria-hidden="true">·</span>
               <span title={timeLabel ?? undefined}>{relativeLabel}</span>
             </>
           ) : null}
         </OverflowText></div>
         {job.state.lastError ? (
-          <p className="openbitfun-todos__row-error" data-openbitfun-scene="todos" data-openbitfun-part="rowError">
+          <p className="opc-todos__row-error" data-opc-scene="todos" data-opc-part="rowError">
             {job.state.lastError}
           </p>
         ) : null}
       </div>
 
       <div
-        className="openbitfun-todos__row-actions"
-        data-openbitfun-scene="todos"
-        data-openbitfun-part="rowActions"
+        className="opc-todos__row-actions"
+        data-opc-scene="todos"
+        data-opc-part="rowActions"
         onClick={(event) => event.stopPropagation()}
         role="presentation"
       >
@@ -152,7 +152,7 @@ const TodoItemRow: React.FC<TodoItemRowProps> = ({
           aria-label={t('actions.toggleEnabled')}
           onChange={(event) => onToggleEnabled(job, event.currentTarget.checked)}
         />
-        <div className="openbitfun-todos__row-action-buttons">
+        <div className="opc-todos__row-action-buttons">
           <Tooltip content={t('actions.edit')}>
             <IconButton
               type="button"

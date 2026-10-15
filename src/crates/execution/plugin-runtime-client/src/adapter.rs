@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PluginDispatchEnvelope, PluginResponseEnvelope, PluginRuntimeAvailability,
     PluginRuntimeReadRequest, PluginRuntimeReadResponse, PortResult,
 };

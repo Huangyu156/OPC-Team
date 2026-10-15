@@ -4,7 +4,7 @@
 
 use super::types::*;
 
-pub use openbitfun_services_integrations::mcp::protocol::{
+pub use opc_services_integrations::mcp::protocol::{
     create_initialize_request, create_ping_request, create_prompts_get_request,
     create_prompts_list_request, create_resources_list_request, create_resources_read_request,
     create_tools_call_request, create_tools_list_request,

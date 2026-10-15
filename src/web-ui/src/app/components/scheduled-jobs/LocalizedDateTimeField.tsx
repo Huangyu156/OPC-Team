@@ -119,10 +119,10 @@ const LocalizedDateTimeField: React.FC<LocalizedDateTimeFieldProps> = ({
   return (
     <div
       ref={anchorRef}
-      className={['openbitfun-datetime-field', className ?? ''].filter(Boolean).join(' ')}
-      data-openbitfun-component="localized-datetime-field"
-      data-openbitfun-part="root"
-      data-openbitfun-state={error ? 'error' : undefined}
+      className={['opc-datetime-field', className ?? ''].filter(Boolean).join(' ')}
+      data-opc-component="localized-datetime-field"
+      data-opc-part="root"
+      data-opc-state={error ? 'error' : undefined}
     >
       <Input
         value={text}
@@ -131,7 +131,7 @@ const LocalizedDateTimeField: React.FC<LocalizedDateTimeFieldProps> = ({
         inputMode="numeric"
         placeholder={dateTimeFormatHint(order)}
         aria-label={ariaLabel ?? t('dateTimeField.label')}
-        className="openbitfun-datetime-field__input"
+        className="opc-datetime-field__input"
         onFocus={() => { editingRef.current = true; }}
         onChange={event => commitText(event.currentTarget.value)}
         onBlur={handleBlur}

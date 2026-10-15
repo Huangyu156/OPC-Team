@@ -2,7 +2,7 @@
 //!
 //! This is the Phase 2 wiring point: [`OpcTeamAppRuntime`] holds an externally
 //! assembled [`AgentRuntime`] (built by product assembly from `AgenticSystem`,
-//! the same way `openbitfun_acp::OpcTeamAcpRuntime` receives its runtime) and exposes
+//! the same way `opc_acp::OpcTeamAcpRuntime` receives its runtime) and exposes
 //! the agent kernel operations the JSON-RPC handlers delegate to. Like the ACP
 //! runtime boundary, this crate does not own product assembly or the
 //! compatibility facade; the host injects a ready runtime.
@@ -10,9 +10,9 @@
 use std::sync::Arc;
 
 use agent_client_protocol::{Error, Result};
-use openbitfun_agent_runtime::sdk::{AgentEventSource, AgentRuntime, PortErrorKind, RuntimeError};
-use openbitfun_core::service::git::GitError;
-use openbitfun_runtime_ports::{AgentContextReloadPort, ProductSearchPort};
+use opc_agent_runtime::sdk::{AgentEventSource, AgentRuntime, PortErrorKind, RuntimeError};
+use opc_core::service::git::GitError;
+use opc_runtime_ports::{AgentContextReloadPort, ProductSearchPort};
 
 /// Host-injected OPC-Team agent runtime exposed over the app-server surface.
 ///
@@ -118,7 +118,7 @@ pub fn runtime_call<T>(result: std::result::Result<T, RuntimeError>) -> Result<T
     result.map_err(OpcTeamAppRuntime::runtime_error)
 }
 
-/// Map a `openbitfun_core::service::git::GitError` onto a JSON-RPC `Error`. Mirrors
+/// Map a `opc_core::service::git::GitError` onto a JSON-RPC `Error`. Mirrors
 /// the runtime boundary's intent: argument/path problems surface as
 /// `invalid_params`, everything else as `internal_error` with the message in
 /// `data`. Used by the `git/*` schema handlers.
@@ -132,9 +132,7 @@ pub fn git_service_error(error: GitError) -> Error {
             ref repository_path,
             ..
         } => Error::invalid_params().data(serde_json::json!(
-            openbitfun_core::service::git::trust::untrusted_repository_error_message(
-                repository_path
-            )
+            opc_core::service::git::trust::untrusted_repository_error_message(repository_path)
         )),
         GitError::RepositoryNotFound(_)
         | GitError::InvalidPath(_)
@@ -145,13 +143,13 @@ pub fn git_service_error(error: GitError) -> Error {
     }
 }
 
-/// Map a `openbitfun_core::OpcTeamError` (the unified core error type) onto a
+/// Map a `opc_core::OpcTeamError` (the unified core error type) onto a
 /// JSON-RPC `Error`. `OpcTeamError` already derives `Serialize`, so the whole
 /// enum is attached as `data` (carrying the variant + message) for the client
 /// to inspect; the human-readable `Display` form goes into the message. Used
 /// by host-service handlers (`config/*`, and the upcoming `workspace/*`,
-/// `snapshot/*` batches) that call into `openbitfun-core` service singletons.
-pub fn openbitfun_error(error: openbitfun_core::OpcTeamError) -> Error {
+/// `snapshot/*` batches) that call into `opc-core` service singletons.
+pub fn opc_error(error: opc_core::OpcTeamError) -> Error {
     Error::internal_error().data(serde_json::to_value(&error).unwrap_or(serde_json::Value::Null))
 }
 
@@ -161,7 +159,7 @@ pub fn openbitfun_error(error: openbitfun_core::OpcTeamError) -> Error {
 /// The frontend `ConfigAPI.getConfig` swallows the error and returns
 /// `undefined` only when `error.message` (lowercased) contains the substrings
 /// `not found:`, `config path`, and `'<path>'` -- it does not inspect `data`.
-/// [`openbitfun_error`] leaves `message` as the static `"Internal error"`, so the
+/// [`opc_error`] leaves `message` as the static `"Internal error"`, so the
 /// substring match never hits on a path-not-found. This helper instead puts
 /// the human-readable `OpcTeamError` Display text into the JSON-RPC `message`
 /// for the `NotFound` case, mirroring the desktop host's
@@ -170,15 +168,15 @@ pub fn openbitfun_error(error: openbitfun_core::OpcTeamError) -> Error {
 /// `Not found: {0}`) byte-for-byte, so the frontend substring match works in
 /// web mode the same way it does on desktop. The structured `OpcTeamError` is
 /// still attached as `data` for callers that inspect it. Other config errors
-/// fall back to the generic [`openbitfun_error`] shape.
-pub fn config_get_error(error: openbitfun_core::OpcTeamError) -> Error {
+/// fall back to the generic [`opc_error`] shape.
+pub fn config_get_error(error: opc_core::OpcTeamError) -> Error {
     match &error {
-        openbitfun_core::OpcTeamError::NotFound(_) => Error::new(
+        opc_core::OpcTeamError::NotFound(_) => Error::new(
             agent_client_protocol::ErrorCode::InternalError.into(),
             format!("Failed to get config: {}", error),
         )
         .data(serde_json::to_value(&error).unwrap_or(serde_json::Value::Null)),
-        _ => openbitfun_error(error),
+        _ => opc_error(error),
     }
 }
 
@@ -202,8 +200,7 @@ mod tests {
             .as_ref()
             .and_then(serde_json::Value::as_str)
             .expect("ownership rejections carry their code in data");
-        assert!(data
-            .starts_with(openbitfun_core::service::git::trust::REPOSITORY_UNTRUSTED_ERROR_PREFIX));
+        assert!(data.starts_with(opc_core::service::git::trust::REPOSITORY_UNTRUSTED_ERROR_PREFIX));
         assert!(data.contains("/srv/shared/repo"));
         assert_eq!(mapped.code, Error::invalid_params().code);
     }
@@ -216,8 +213,7 @@ mod tests {
     #[test]
     fn config_get_error_not_found_message_matches_frontend_substrings() {
         let path = "ai.review_teams.default";
-        let error =
-            openbitfun_core::OpcTeamError::NotFound(format!("Config path '{}' not found", path));
+        let error = opc_core::OpcTeamError::NotFound(format!("Config path '{}' not found", path));
         let mapped = config_get_error(error);
 
         let message = mapped.message.to_lowercase();
@@ -241,13 +237,13 @@ mod tests {
         );
     }
 
-    /// Non-`NotFound` config errors must fall back to the generic `openbitfun_error`
+    /// Non-`NotFound` config errors must fall back to the generic `opc_error`
     /// shape (`message = "Internal error"`, structured enum in `data`), so they
     /// are NOT swallowed by the frontend substring match -- they surface as
     /// real errors.
     #[test]
     fn config_get_error_non_not_found_falls_back_to_internal_error_message() {
-        let error = openbitfun_core::OpcTeamError::config("something else broke");
+        let error = opc_core::OpcTeamError::config("something else broke");
         let mapped = config_get_error(error);
 
         assert_eq!(

@@ -581,20 +581,20 @@ const EcosystemCompatibilityScene: React.FC = () => {
     <div
       className="ecosystem-compatibility"
       data-testid="ecosystem-compatibility-scene"
-      data-openbitfun-scene="ecosystem-compatibility"
-      data-openbitfun-part="root"
+      data-opc-scene="ecosystem-compatibility"
+      data-opc-part="root"
     >
       <NavigationPanel
         className="ecosystem-compatibility__sidebar"
         aria-label={t('sidebar.label')}
-        data-openbitfun-scene="ecosystem-compatibility"
-        data-openbitfun-part="sidebar"
+        data-opc-scene="ecosystem-compatibility"
+        data-opc-part="sidebar"
       >
         <NavigationPanelHeader className="ecosystem-compatibility__sidebar-header">
           <header
             className="ecosystem-compatibility__navigation-header"
-            data-openbitfun-scene="ecosystem-compatibility"
-            data-openbitfun-part="header"
+            data-opc-scene="ecosystem-compatibility"
+            data-opc-part="header"
           >
             <strong>{t('title')}</strong>
             <div className="ecosystem-compatibility__navigation-scope">
@@ -632,8 +632,8 @@ const EcosystemCompatibilityScene: React.FC = () => {
         <NavigationPanelBody>
           <div
             className="ecosystem-compatibility__product-groups"
-            data-openbitfun-scene="ecosystem-compatibility"
-            data-openbitfun-part="productList"
+            data-opc-scene="ecosystem-compatibility"
+            data-opc-part="productList"
           >
             <NavigationPanelContent>
               {GROUP_ORDER.map((group) => {
@@ -687,14 +687,14 @@ const EcosystemCompatibilityScene: React.FC = () => {
 
       <main
         className="ecosystem-compatibility__main"
-        data-openbitfun-scene="ecosystem-compatibility"
-        data-openbitfun-part="main"
+        data-opc-scene="ecosystem-compatibility"
+        data-opc-part="main"
       >
         <ScrollArea
           ref={contentRef}
           className="ecosystem-compatibility__content"
-          data-openbitfun-scene="ecosystem-compatibility"
-          data-openbitfun-part="content"
+          data-opc-scene="ecosystem-compatibility"
+          data-opc-part="content"
         >
           <header
             className="ecosystem-compatibility__product-header"

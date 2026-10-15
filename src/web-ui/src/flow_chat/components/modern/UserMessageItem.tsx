@@ -606,7 +606,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
 
     // Avoid zero-size errors by rendering a placeholder instead of null.
     if (!message) {
-      return <div data-openbitfun-product-component="user-message-item" data-openbitfun-product-part="root" style={{ minHeight: '1px' }} />;
+      return <div data-opc-product-component="user-message-item" data-opc-product-part="root" style={{ minHeight: '1px' }} />;
     }
 
     if (isUsageReportMessage) {
@@ -623,7 +623,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
 
     if (isGoalLoadingMessage) {
       return (
-        <div data-openbitfun-product-component="user-message-item" data-openbitfun-product-part="loading" data-openbitfun-state="loading" className="session-usage-report-card session-usage-report-card--loading" aria-live="polite">
+        <div data-opc-product-component="user-message-item" data-opc-product-part="loading" data-opc-state="loading" className="session-usage-report-card session-usage-report-card--loading" aria-live="polite">
           <div className="session-usage-report-card__loading-main">
             <ToolProcessingDots className="session-usage-report-card__loading-dots" size={12} />
             <div>
@@ -637,8 +637,8 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
     const messageImageGallery = messageImages.length > 0 ? (
       <div
         className="user-message-item__images"
-        data-openbitfun-product-component="user-message-item"
-        data-openbitfun-product-part="images"
+        data-opc-product-component="user-message-item"
+        data-opc-product-part="images"
       >
         {messageImages.map(img => (
           <UserMessageImage key={img.id} image={img} onPreview={setLightboxImage} />
@@ -651,9 +651,9 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
         {messageImageGallery}
 
         <div
-          data-openbitfun-product-component="user-message-item"
-          data-openbitfun-product-part="root"
-          data-openbitfun-state={[expanded && 'expanded', isFailed && 'failed', submissionPhase].filter(Boolean).join(' ') || undefined}
+          data-opc-product-component="user-message-item"
+          data-opc-product-part="root"
+          data-opc-state={[expanded && 'expanded', isFailed && 'failed', submissionPhase].filter(Boolean).join(' ') || undefined}
           ref={containerRef}
           className={`user-message-item ${expanded ? 'user-message-item--expanded' : ''}${isFailed ? ' user-message-item--failed' : ''}${isEditing ? ' user-message-item--editing' : ''}${submissionPhase === 'forming' ? ' user-message-item--forming' : ''}${submissionPhase === 'failed' ? ' user-message-item--submission-failed' : ''}`}
           data-testid="chat-user-message"
@@ -684,7 +684,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
             />
           </div>
         ) : (
-          <div className="user-message-item__main" data-openbitfun-product-component="user-message-item" data-openbitfun-product-part="main">
+          <div className="user-message-item__main" data-opc-product-component="user-message-item" data-opc-product-part="main">
           <div
             className={
               isFailed
@@ -697,8 +697,8 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
                 <div
                   ref={contentRef}
                   className="user-message-item__content"
-                  data-openbitfun-product-component="user-message-item"
-                  data-openbitfun-product-part="content"
+                  data-opc-product-component="user-message-item"
+                  data-opc-product-part="content"
                   data-testid="chat-user-message-content"
                   data-turn-id={turnId}
                   onClick={handleToggleExpand}
@@ -712,7 +712,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
                   ) : <UserMessageTextContent text={displayText} />}
                 </div>
                 {steeringTag && (
-                  <div className={`user-message-item__steering-tag ${steeringTag.className}`} data-openbitfun-product-component="user-message-item" data-openbitfun-product-part="steeringTag">
+                  <div className={`user-message-item__steering-tag ${steeringTag.className}`} data-opc-product-component="user-message-item" data-opc-product-part="steeringTag">
                     {steeringTag.label}
                   </div>
                 )}
@@ -722,8 +722,8 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
                 <div
                   ref={contentRef}
                   className="user-message-item__content"
-                  data-openbitfun-product-component="user-message-item"
-                  data-openbitfun-product-part="content"
+                  data-opc-product-component="user-message-item"
+                  data-opc-product-part="content"
                   data-testid="chat-user-message-content"
                   data-turn-id={turnId}
                   onClick={handleToggleExpand}
@@ -737,7 +737,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
                   ) : <UserMessageTextContent text={displayText} />}
                 </div>
                 {steeringTag && (
-                  <div className={`user-message-item__steering-tag ${steeringTag.className}`} data-openbitfun-product-component="user-message-item" data-openbitfun-product-part="steeringTag">
+                  <div className={`user-message-item__steering-tag ${steeringTag.className}`} data-opc-product-component="user-message-item" data-opc-product-part="steeringTag">
                     {steeringTag.label}
                   </div>
                 )}
@@ -756,9 +756,9 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
               className="user-message-item__lightbox-surface"
               overlayProps={{
                 className: 'user-message-item__lightbox',
-                'data-openbitfun-native-webview-occlusion': true,
-                'data-openbitfun-product-component': 'user-message-item',
-                'data-openbitfun-product-part': 'lightbox',
+                'data-opc-native-webview-occlusion': true,
+                'data-opc-product-component': 'user-message-item',
+                'data-opc-product-part': 'lightbox',
               }}
               autoFocus={false}
               restoreFocus={false}
@@ -783,12 +783,12 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
             </Button>
           </div>
         )}
-        {!submissionPhase && <div className="user-message-item__meta" data-openbitfun-product-component="user-message-item" data-openbitfun-product-part="meta">
+        {!submissionPhase && <div className="user-message-item__meta" data-opc-product-component="user-message-item" data-opc-product-part="meta">
           {!isEditing && sentTime && sentAtLabel && sentTimestamp !== null && (
             <time
               className="user-message-item__timestamp"
-              data-openbitfun-product-component="user-message-item"
-              data-openbitfun-product-part="timestamp"
+              data-opc-product-component="user-message-item"
+              data-opc-product-part="timestamp"
               data-testid="chat-user-message-timestamp"
               dateTime={new Date(sentTimestamp).toISOString()}
               title={sentAtLabel}
@@ -798,7 +798,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
             </time>
           )}
           {!isEditing && (
-            <div className="user-message-item__actions" data-menu-open={actionMenuOpen || undefined} data-openbitfun-product-component="user-message-item" data-openbitfun-product-part="actions">
+            <div className="user-message-item__actions" data-menu-open={actionMenuOpen || undefined} data-opc-product-component="user-message-item" data-opc-product-part="actions">
               <Tooltip content={copied ? t('message.copied') : t('message.copy')}>
                 <IconButton
                   type="button"

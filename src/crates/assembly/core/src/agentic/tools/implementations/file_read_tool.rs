@@ -11,7 +11,7 @@ use crate::agentic::tools::review_read_receipt_runtime::{
     file_revision, get_review_read_coverage, record_review_read_receipt,
     review_read_receipts_enabled,
 };
-use crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri;
+use crate::agentic::tools::workspace_paths::is_opc_tool_uri;
 use crate::agentic::tools::ToolPathOperation;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::timing::elapsed_ms_u64;
@@ -489,7 +489,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
                 }
             }
             None => {
-                if is_openbitfun_tool_uri(file_path) {
+                if is_opc_tool_uri(file_path) {
                     return ValidationResult {
                         result: false,
                         message: Some(
@@ -589,7 +589,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
                     meta: None,
                 };
             };
-            if metadata.kind != openbitfun_runtime_ports::WorkspacePathKind::File {
+            if metadata.kind != opc_runtime_ports::WorkspacePathKind::File {
                 return ValidationResult {
                     result: false,
                     message: Some(format!("Path is not a file: {}", resolved.logical_path)),
@@ -931,8 +931,8 @@ mod tests {
         publish_agent_context_snapshot, remove_agent_context_snapshot, MiniAppAgentContextInput,
     };
     use async_trait::async_trait;
-    use openbitfun_runtime_ports::ToolRuntimeHandles;
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::ToolRuntimeHandles;
+    use opc_runtime_ports::{
         WorkspaceCommandOptions, WorkspaceCommandResult, WorkspaceDirEntry, WorkspaceFileSystem,
         WorkspaceServices, WorkspaceShell,
     };
@@ -1032,7 +1032,7 @@ mod tests {
         async fn open_read(
             &self,
             _path: &str,
-        ) -> anyhow::Result<openbitfun_runtime_ports::WorkspaceReader> {
+        ) -> anyhow::Result<opc_runtime_ports::WorkspaceReader> {
             Ok(Box::new(std::io::Cursor::new(self.bytes.clone())))
         }
 
@@ -1040,9 +1040,9 @@ mod tests {
             &self,
             _path: &str,
             _follow_symlinks: bool,
-        ) -> anyhow::Result<Option<openbitfun_runtime_ports::WorkspaceMetadata>> {
-            Ok(Some(openbitfun_runtime_ports::WorkspaceMetadata {
-                kind: openbitfun_runtime_ports::WorkspacePathKind::File,
+        ) -> anyhow::Result<Option<opc_runtime_ports::WorkspaceMetadata>> {
+            Ok(Some(opc_runtime_ports::WorkspaceMetadata {
+                kind: opc_runtime_ports::WorkspacePathKind::File,
                 size: Some(self.bytes.len() as u64),
                 modified: None,
                 permissions: None,

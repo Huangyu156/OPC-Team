@@ -10,7 +10,7 @@ const scriptDirectory = path.dirname(fileURLToPath(import.meta.url));
 const e2eDirectory = path.resolve(scriptDirectory, '..');
 const manifestPath = path.join(
   os.tmpdir(),
-  `openbitfun-worktree-restart-manifest-${process.pid}-${randomUUID()}.json`,
+  `opc-worktree-restart-manifest-${process.pid}-${randomUUID()}.json`,
 );
 const pnpmCommand = process.platform === 'win32' ? 'pnpm.cmd' : 'pnpm';
 
@@ -79,7 +79,7 @@ function cleanupAbandonedFixture() {
     if (
       typeof manifest.fixtureRoot === 'string'
       && path.basename(manifest.fixtureRoot).startsWith(
-        'openbitfun-worktree-restart-e2e-',
+        'opc-worktree-restart-e2e-',
       )
     ) {
       fs.rmSync(manifest.fixtureRoot, { recursive: true, force: true });

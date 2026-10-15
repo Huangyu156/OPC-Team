@@ -1,4 +1,4 @@
-pub use openbitfun_core_types::{
+pub use opc_core_types::{
     SessionUsageReport, UsageCacheCoverage, UsageCompressionBreakdown, UsageCoverage,
     UsageCoverageKey, UsageCoverageLevel, UsageErrorBreakdown, UsageErrorExample,
     UsageFileBreakdown, UsageFileRow, UsageFileScope, UsageModelBreakdown, UsagePrivacy,
@@ -63,7 +63,7 @@ pub(crate) fn test_report() -> SessionUsageReport {
     }];
     report.tools = vec![UsageToolBreakdown {
         tool_name: "read_file".to_string(),
-        category: openbitfun_core_types::UsageToolCategory::File,
+        category: opc_core_types::UsageToolCategory::File,
         call_count: 1,
         success_count: 1,
         error_count: 0,

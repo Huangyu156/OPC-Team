@@ -55,7 +55,7 @@ import { contextMenuAppearanceDescriptor } from '@/shared/context-menu-system/ap
 import { contextListAppearanceDescriptor } from '@/shared/context-system/appearance';
 import { notificationAppearanceDescriptor } from '@/shared/notification-system/appearance';
 import { imageLightboxAppearanceDescriptor } from '@/shared/ui/ImageLightbox.appearance';
-import { canvasToolAppearanceDescriptor } from '@/tools/openbitfun-canvas/appearance';
+import { canvasToolAppearanceDescriptor } from '@/tools/opc-canvas/appearance';
 import { generativeWidgetAppearanceDescriptor } from '@/tools/generative-widget/appearance';
 import { editorToolAppearanceDescriptor } from '@/tools/editor/appearance';
 import { fileSystemAppearanceDescriptor } from '@/tools/file-system/appearance';

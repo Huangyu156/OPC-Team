@@ -141,7 +141,7 @@ Installing beta replaces stable; side-by-side installation is not supported.
 The mirror script defaults to stable. Run a separate beta sync with:
 
 ```bash
-OPENBITFUN_RELEASE_CHANNEL=beta scripts/openbitfun-release-sync.sh
+OPENBITFUN_RELEASE_CHANNEL=beta scripts/opc-release-sync.sh
 ```
 
 The beta invocation writes below `/release/beta` and intentionally skips the
@@ -149,7 +149,7 @@ stable-only CLI and Relay floating manifests.
 
 Production cron must run this in-repo script from the OPC-Team checkout. Do not
 create a detached copy. Host paths, Nginx, and the rest of the origin restore
-steps live in [`deploy/openbitfun-host/README.md`](../../deploy/openbitfun-host/README.md).
+steps live in [`deploy/opc-host/README.md`](../../deploy/opc-host/README.md).
 The sync resolves the exact release directory from the updater manifest once;
 Relay and Linux metadata use that same directory to avoid mixed-version reads
 when GitHub's latest-release pointer changes. Publication also compares the

@@ -6,10 +6,10 @@
 
 use anyhow::{anyhow, Result};
 use log::{error, info, warn};
-use openbitfun_services_integrations::remote_connect::bot::feishu::{
+use opc_services_integrations::remote_connect::bot::feishu::{
     self as feishu_provider, FeishuBotApi,
 };
-pub use openbitfun_services_integrations::remote_connect::bot::feishu::{
+pub use opc_services_integrations::remote_connect::bot::feishu::{
     FeishuConfig, MAX_FEISHU_FILE_BYTES,
 };
 use std::collections::HashMap;

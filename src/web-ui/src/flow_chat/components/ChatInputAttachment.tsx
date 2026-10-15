@@ -12,19 +12,19 @@ export function ChatInputAttachment({ children, label, removeLabel, onRemove, ki
 }) {
   const remove = (event: MouseEvent<HTMLButtonElement>) => { event.stopPropagation(); onRemove(); };
   // Keep the existing image Appearance parts while sharing layout and behavior.
-  if (kind === 'image') return <div className="openbitfun-chat-input__attachment" title={label}
-    data-openbitfun-component="chat-input" data-openbitfun-part="image">
+  if (kind === 'image') return <div className="opc-chat-input__attachment" title={label}
+    data-opc-component="chat-input" data-opc-part="image">
     {children}
-    <button type="button" className="openbitfun-chat-input__attachment-remove"
-      data-openbitfun-component="chat-input" data-openbitfun-part="imageRemove" aria-label={removeLabel} onClick={remove}>
+    <button type="button" className="opc-chat-input__attachment-remove"
+      data-opc-component="chat-input" data-opc-part="imageRemove" aria-label={removeLabel} onClick={remove}>
       <Icon name="xmark" size="xs" />
     </button>
   </div>;
-  return <div className="openbitfun-chat-input__attachment" title={label}
-    data-openbitfun-component="chat-input" data-openbitfun-part="attachment">
+  return <div className="opc-chat-input__attachment" title={label}
+    data-opc-component="chat-input" data-opc-part="attachment">
     {children}
-    <button type="button" className="openbitfun-chat-input__attachment-remove"
-      data-openbitfun-component="chat-input" data-openbitfun-part="attachmentRemove" aria-label={removeLabel} onClick={remove}>
+    <button type="button" className="opc-chat-input__attachment-remove"
+      data-opc-component="chat-input" data-opc-part="attachmentRemove" aria-label={removeLabel} onClick={remove}>
       <Icon name="xmark" size="xs" />
     </button>
   </div>;

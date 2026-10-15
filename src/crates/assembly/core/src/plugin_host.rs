@@ -1,10 +1,10 @@
-use openbitfun_agent_runtime::native_hooks::RuntimeHookCommitToken;
-use openbitfun_opencode_plugin_host::{
+use opc_agent_runtime::native_hooks::RuntimeHookCommitToken;
+use opc_opencode_plugin_host::{
     BackendDiagnostic, BackendDiagnosticError, BackendDiagnosticEvent, BackendDiagnosticSeverity,
     PluginDeclaration, PluginHost, PluginHostConfig, PluginHostShutdownPolicy,
     PluginHostShutdownReport, PluginPrepareRequest, GENERATION_FENCING_V1,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     HookFunctionDisposeRequest, HookFunctionGeneration, HookFunctionPluginDeclaration,
     HookFunctionRegistrationBatch, HookFunctionRegistrationSink, HookFunctionRuntime,
     HookFunctionStartRequest, PortError, PortErrorKind, PortResult,
@@ -566,7 +566,7 @@ pub async fn ensure_configured_plugin_instance(
                     "Reusable plugin instance is missing its typed registration batch".to_string(),
                 )
             })?;
-            let projection = openbitfun_opencode_adapter::project_plugin_config(
+            let projection = opc_opencode_adapter::project_plugin_config(
                 &canonical_directory,
                 &initial_config,
                 registration_batch,
@@ -738,7 +738,7 @@ pub async fn ensure_configured_plugin_instance(
             return Err(error);
         }
     };
-    let projected_config = openbitfun_opencode_adapter::project_plugin_config(
+    let projected_config = opc_opencode_adapter::project_plugin_config(
         &canonical_directory,
         &initial_config,
         &registration_batch,
@@ -900,7 +900,7 @@ pub async fn ensure_configured_plugin_instance(
 }
 
 async fn discard_opening_plugin_instance(
-    client: &openbitfun_opencode_plugin_host::PluginHostClient,
+    client: &opc_opencode_plugin_host::PluginHostClient,
     runtime: Arc<dyn HookFunctionRuntime>,
     instances: &Mutex<HashMap<String, PluginHostInstance>>,
     instance_key: &str,
@@ -923,7 +923,7 @@ async fn discard_opening_plugin_instance(
 }
 
 async fn retire_workspace_instances_before_open(
-    client: &openbitfun_opencode_plugin_host::PluginHostClient,
+    client: &opc_opencode_plugin_host::PluginHostClient,
     runtime: Arc<dyn HookFunctionRuntime>,
     instances: &Mutex<HashMap<String, PluginHostInstance>>,
     workspace_scope: &str,
@@ -1112,7 +1112,7 @@ async fn withdraw_faulted_plugin_host_generation(workspace_scope: &str, expected
     }
 }
 
-fn start_plugin_host_health_monitor(client: openbitfun_opencode_plugin_host::PluginHostClient) {
+fn start_plugin_host_health_monitor(client: opc_opencode_plugin_host::PluginHostClient) {
     tokio::spawn(async move {
         loop {
             tokio::time::sleep(std::time::Duration::from_millis(500)).await;
@@ -1177,7 +1177,7 @@ fn start_plugin_host_health_monitor(client: openbitfun_opencode_plugin_host::Plu
 }
 
 async fn retire_superseded_plugin_instances(
-    client: &openbitfun_opencode_plugin_host::PluginHostClient,
+    client: &opc_opencode_plugin_host::PluginHostClient,
     runtime: Arc<dyn HookFunctionRuntime>,
     instances: &Mutex<HashMap<String, PluginHostInstance>>,
     active_key: &str,
@@ -1231,7 +1231,7 @@ async fn retire_superseded_plugin_instances(
 }
 
 fn schedule_plugin_instance_retirement(
-    client: openbitfun_opencode_plugin_host::PluginHostClient,
+    client: opc_opencode_plugin_host::PluginHostClient,
     runtime: Arc<dyn HookFunctionRuntime>,
     instance_key: String,
 ) {
@@ -1289,7 +1289,7 @@ fn schedule_plugin_instance_retirement(
 }
 
 async fn retire_plugin_instance(
-    client: &openbitfun_opencode_plugin_host::PluginHostClient,
+    client: &opc_opencode_plugin_host::PluginHostClient,
     runtime: Arc<dyn HookFunctionRuntime>,
     instance: PluginHostInstance,
     workspace_scope: &str,
@@ -1337,7 +1337,7 @@ async fn retire_plugin_instance(
 }
 
 async fn dispose_plugin_generation(
-    client: &openbitfun_opencode_plugin_host::PluginHostClient,
+    client: &opc_opencode_plugin_host::PluginHostClient,
     runtime: Arc<dyn HookFunctionRuntime>,
     generation: &HookFunctionGeneration,
     reason: &str,
@@ -1387,7 +1387,7 @@ pub(crate) async fn plugin_host_instance_by_id(instance_id: &str) -> Option<Plug
 pub(crate) async fn plugin_hook_generation_for_agent(
     workspace_scope: &str,
     runtime_agent_key: &str,
-) -> Option<openbitfun_agent_runtime::native_hooks::PluginHookGenerationIdentity> {
+) -> Option<opc_agent_runtime::native_hooks::PluginHookGenerationIdentity> {
     let instances = PLUGIN_HOST_INSTANCES.get()?;
     instances
         .lock()
@@ -1402,7 +1402,7 @@ pub(crate) async fn plugin_hook_generation_for_agent(
                     .any(|key| key == runtime_agent_key)
         })
         .map(
-            |instance| openbitfun_agent_runtime::native_hooks::PluginHookGenerationIdentity {
+            |instance| opc_agent_runtime::native_hooks::PluginHookGenerationIdentity {
                 instance_id: instance.instance_id.clone(),
                 generation_key: instance.generation_key.clone(),
                 revision: instance.revision.clone(),
@@ -1812,7 +1812,7 @@ async fn register_plugin_tools(
     let mut prepared = Vec::new();
     let mut seen_ids = std::collections::BTreeSet::new();
     for tool in tools {
-        let tool_ref = openbitfun_opencode_adapter::project_plugin_tool_ref(tool)
+        let tool_ref = opc_opencode_adapter::project_plugin_tool_ref(tool)
             .map_err(|error| crate::OpcTeamError::Validation(error.to_string()))?;
         let allowed_runtime_agent_keys = projection.allowed_runtime_agent_keys_for_tool(&tool_ref);
         if !seen_ids.insert(tool.id.clone()) {
@@ -2019,7 +2019,7 @@ mod tests {
     }
 
     #[test]
-    fn development_host_entry_is_owned_by_the_openbitfun_repository() {
+    fn development_host_entry_is_owned_by_the_opc_repository() {
         let spec = PluginHostLaunchSpec::bun();
         let entry = development_host_entry(spec).expect("OPC-Team repository root");
 
@@ -2035,7 +2035,7 @@ mod tests {
     #[test]
     fn bundled_host_entry_supports_desktop_platform_layouts() {
         let entries = bundled_host_entry_candidates(
-            Path::new("product/bin/openbitfun-desktop"),
+            Path::new("product/bin/opc-desktop"),
             PluginHostLaunchSpec::bun(),
         );
 

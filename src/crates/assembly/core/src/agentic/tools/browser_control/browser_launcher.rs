@@ -1,11 +1,11 @@
 //! Compatibility facade for browser CDP launch and detection.
 //!
 //! Platform browser detection and launch process handling live in
-//! `openbitfun-services-integrations`. Core keeps this module to preserve the
+//! `opc-services-integrations`. Core keeps this module to preserve the
 //! existing product/tool import path and to inject OPC-Team's managed profile
 //! directory.
 
-use openbitfun_services_integrations::browser_control::launcher as provider;
+use opc_services_integrations::browser_control::launcher as provider;
 pub use provider::{
     BrowserDebugEndpoint, BrowserInfo, BrowserKind, BrowserLaunchOptions, LaunchResult,
     DEFAULT_CDP_PORT,
@@ -123,7 +123,7 @@ mod tests {
     use std::path::PathBuf;
 
     #[test]
-    fn launch_options_injects_openbitfun_managed_profile_root() {
+    fn launch_options_injects_opc_managed_profile_root() {
         let options = BrowserLauncher::launch_options(None);
 
         assert_eq!(options.user_data_dir, None);

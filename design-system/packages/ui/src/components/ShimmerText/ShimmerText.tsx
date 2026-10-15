@@ -13,8 +13,8 @@ export function ShimmerText({ active = true, children, className, ...props }: Sh
     <span
       {...props}
       className={classNames(styles.root, className)}
-      data-openbitfun-component="shimmer-text"
-      data-openbitfun-part="root"
+      data-opc-component="shimmer-text"
+      data-opc-part="root"
       data-active={active ? "true" : "false"}
     >
       {children}

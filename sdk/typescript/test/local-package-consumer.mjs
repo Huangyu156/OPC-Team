@@ -6,7 +6,7 @@ import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
-const isolatedRoot = await mkdtemp(join(tmpdir(), "openbitfun-sdk-consumer-"));
+const isolatedRoot = await mkdtemp(join(tmpdir(), "opc-sdk-consumer-"));
 const packedRoot = join(isolatedRoot, "packed");
 const consumerRoot = join(isolatedRoot, "consumer");
 const workspace = join(isolatedRoot, "workspace");

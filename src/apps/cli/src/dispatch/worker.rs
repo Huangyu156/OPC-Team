@@ -3,17 +3,15 @@ use std::path::Path;
 use std::time::Duration;
 
 use anyhow::{anyhow, bail, Context, Result};
-use openbitfun_agent_runtime::sdk::{
+use opc_agent_runtime::sdk::{
     AgentDialogSteerRequest, AgentDialogTurnRequest, AgentSessionCreateRequest,
     AgentSessionModelSelection, AgentSessionModelSelectionUpdateRequest,
     AgentSessionRestoreRequest, AgentTurnCancellationRequest, AgentTurnSettlementRequest,
     PermissionReply, PermissionReplySource, PermissionRequest, PermissionRequestEvent,
 };
-use openbitfun_agent_runtime::thread_goal::{ThreadGoalRunDisposition, ThreadGoalRunTracker};
-use openbitfun_events::{project_agentic_frontend_event, AgenticEvent};
-use openbitfun_runtime_ports::{
-    AgentSubmissionSource, DialogSubmissionPolicy, SessionExecutionTarget,
-};
+use opc_agent_runtime::thread_goal::{ThreadGoalRunDisposition, ThreadGoalRunTracker};
+use opc_events::{project_agentic_frontend_event, AgenticEvent};
+use opc_runtime_ports::{AgentSubmissionSource, DialogSubmissionPolicy, SessionExecutionTarget};
 
 use crate::{shutdown_mcp_servers, BootstrapProfile};
 
@@ -229,7 +227,7 @@ async fn run_inner(store: &DispatchStore, job_id: &str) -> Result<()> {
 
     let mut goal_run = ThreadGoalRunTracker::new(
         agent_runtime
-            .get_thread_goal(openbitfun_agent_runtime::sdk::AgentThreadGoalGetRequest {
+            .get_thread_goal(opc_agent_runtime::sdk::AgentThreadGoalGetRequest {
                 session_id: job.request.session_id.clone(),
                 workspace_path: workspace_path.clone(),
                 remote_connection_id: None,
@@ -461,7 +459,7 @@ async fn run_inner(store: &DispatchStore, job_id: &str) -> Result<()> {
 async fn handle_permission(
     store: &DispatchStore,
     job_id: &str,
-    runtime: &openbitfun_agent_runtime::sdk::AgentRuntime,
+    runtime: &opc_agent_runtime::sdk::AgentRuntime,
     session_id: &str,
     turn_id: &str,
     request: PermissionRequest,
@@ -508,7 +506,7 @@ async fn handle_permission(
 async fn process_mailboxes(
     store: &DispatchStore,
     job_id: &str,
-    runtime: &openbitfun_agent_runtime::sdk::AgentRuntime,
+    runtime: &opc_agent_runtime::sdk::AgentRuntime,
     session_id: &str,
     turn_id: &str,
 ) -> Result<Option<(DispatchJobState, Option<String>)>> {
@@ -571,7 +569,7 @@ async fn process_mailboxes(
 }
 
 async fn cancel_turn(
-    runtime: &openbitfun_agent_runtime::sdk::AgentRuntime,
+    runtime: &opc_agent_runtime::sdk::AgentRuntime,
     session_id: &str,
     turn_id: &str,
     reason: &str,
@@ -594,11 +592,11 @@ async fn cancel_turn(
 
 fn runtime_attachments(
     attachments: &[super::protocol::DispatchAttachment],
-) -> Vec<openbitfun_runtime_ports::AgentInputAttachment> {
+) -> Vec<opc_runtime_ports::AgentInputAttachment> {
     attachments
         .iter()
         .map(|attachment| {
-            openbitfun_runtime_ports::AgentInputAttachment::remote_image(
+            opc_runtime_ports::AgentInputAttachment::remote_image(
                 attachment.id.clone(),
                 attachment
                     .name

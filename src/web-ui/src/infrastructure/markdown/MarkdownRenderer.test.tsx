@@ -223,7 +223,7 @@ describe('Markdown file links', () => {
     const toolbar = container.querySelector('.code-block-toolbar');
     expect(image).not.toBeNull();
     expect(toolbar?.querySelector('button')).not.toBeNull();
-    expect(container.querySelector('.code-block-wrapper')?.getAttribute('data-openbitfun-state')).toBe('streaming');
+    expect(container.querySelector('.code-block-wrapper')?.getAttribute('data-opc-state')).toBe('streaming');
     const lightweight = container.querySelector('pre.code-block-fallback');
     expect(lightweight).not.toBeNull();
     const preview = container.querySelector('.thinking-markdown-preview')!;
@@ -235,7 +235,7 @@ describe('Markdown file links', () => {
     await renderThinking('compact', content + '```', false);
     expect(container.querySelector('img')).toBe(image);
     expect(container.querySelector('.code-block-toolbar')).toBe(toolbar);
-    expect(container.querySelector('.code-block-wrapper')?.hasAttribute('data-openbitfun-state')).toBe(false);
+    expect(container.querySelector('.code-block-wrapper')?.hasAttribute('data-opc-state')).toBe(false);
     expect(container.querySelector('pre')).toBe(lightweight);
     expect(container.querySelector('pre code')?.textContent).toBe('const value = 1;');
     expect(mocks.renderHighlighter).not.toHaveBeenCalled();
@@ -274,7 +274,7 @@ describe('Markdown file links', () => {
       const code = 'const value = 1;\n  value + 1;';
       await act(async () => root.render(<MarkdownRenderer content={`\`\`\`ts\n${code}\n\`\`\``} />));
       const button = container.querySelector<HTMLButtonElement>('.code-block-toolbar button');
-      expect(button?.getAttribute('data-openbitfun-component')).toBe('icon-button');
+      expect(button?.getAttribute('data-opc-component')).toBe('icon-button');
       expect(button?.getAttribute('aria-label')).toBe('components:markdown.copyCode');
       expect(button?.type).toBe('button');
 
@@ -426,8 +426,8 @@ Second paragraph.
   });
 
   it.each([
-    '[Open Canvas](openbitfun-canvas://session/session_1/canvas/canvas_1)',
-    'openbitfun-canvas://session/session_1/canvas/canvas_1',
+    '[Open Canvas](opc-canvas://session/session_1/canvas/canvas_1)',
+    'opc-canvas://session/session_1/canvas/canvas_1',
   ])('opens Canvas artifact links in the Canvas panel: %s', async (content) => {
     openSessionHost({
       workspaceId: SESSION_WORKSPACE.id,
@@ -457,10 +457,10 @@ Second paragraph.
 
       expect(useAgentCanvasStore.getState().primaryGroup.tabs).toHaveLength(1);
       expect(useAgentCanvasStore.getState().primaryGroup.tabs[0].content).toMatchObject({
-        type: 'openbitfun-canvas',
+        type: 'opc-canvas',
         title: 'OPC-Team Canvas',
         data: {
-          artifactReference: 'openbitfun-canvas://session/session_1/canvas/canvas_1',
+          artifactReference: 'opc-canvas://session/session_1/canvas/canvas_1',
           workspaceId: SESSION_WORKSPACE.id,
           workspacePath: '/srv/project',
           remoteConnectionId: 'remote-connection-1',
@@ -468,7 +468,7 @@ Second paragraph.
           _source: { type: 'markdown-link' },
         },
         metadata: {
-          artifactReference: 'openbitfun-canvas://session/session_1/canvas/canvas_1',
+          artifactReference: 'opc-canvas://session/session_1/canvas/canvas_1',
           fromMarkdown: true,
         },
 
@@ -480,7 +480,7 @@ Second paragraph.
   });
 
   it('opens chat http links in the built-in browser by default', async () => {
-    container.className = 'openbitfun-session-scene modern-flowchat-container';
+    container.className = 'opc-session-scene modern-flowchat-container';
     openSessionHost();
 
     try {
@@ -510,7 +510,7 @@ Second paragraph.
   });
 
   it('commits a browser view and explicitly reveals its inline host', async () => {
-    container.className = 'openbitfun-session-scene modern-flowchat-container';
+    container.className = 'opc-session-scene modern-flowchat-container';
     openSessionHost();
 
     try {
@@ -536,7 +536,7 @@ Second paragraph.
   });
 
   it('opens modified chat link clicks in the external browser', async () => {
-    container.className = 'openbitfun-session-scene modern-flowchat-container';
+    container.className = 'opc-session-scene modern-flowchat-container';
 
 
     try {
@@ -565,7 +565,7 @@ Second paragraph.
   });
 
   it('adds source, integrated browser, and system browser actions to FlowChat HTML file links', async () => {
-    container.className = 'openbitfun-session-scene modern-flowchat-container';
+    container.className = 'opc-session-scene modern-flowchat-container';
 
     await act(async () => {
       root.render(
@@ -637,7 +637,7 @@ Second paragraph.
   });
 
   it('keeps system-browser opening disabled for remote FlowChat HTML links', async () => {
-    container.className = 'openbitfun-session-scene modern-flowchat-container';
+    container.className = 'opc-session-scene modern-flowchat-container';
 
     await act(async () => {
       root.render(
@@ -672,7 +672,7 @@ Second paragraph.
   });
 
   it('routes detached HTML and unknown file types through the target callback and disables host actions', async () => {
-    container.className = 'openbitfun-session-scene modern-flowchat-container';
+    container.className = 'opc-session-scene modern-flowchat-container';
     await act(async () => {
       root.render(<MarkdownRenderer content={'[Preview](page.html) [Binary](result.bin)'} basePath="/target" fileActionsViaCallbackOnly onFileViewRequest={onFileViewRequest} />);
     });
@@ -1058,7 +1058,7 @@ Second paragraph.
     });
 
     expect(container.querySelector('img[alt="Missing diagram"]')).toBeNull();
-    const fallback = container.querySelector('[data-openbitfun-part="imageFallback"]');
+    const fallback = container.querySelector('[data-opc-part="imageFallback"]');
     expect(fallback?.textContent).toBe('Missing diagram');
 
     await act(async () => {
@@ -1072,7 +1072,7 @@ Second paragraph.
       await Promise.resolve();
     });
 
-    expect(container.querySelector('[data-openbitfun-part="imageFallback"]')).toBe(fallback);
+    expect(container.querySelector('[data-opc-part="imageFallback"]')).toBe(fallback);
     expect(mocks.readFileContent).toHaveBeenCalledTimes(1);
   });
 
@@ -1090,7 +1090,7 @@ Second paragraph.
     });
 
     expect(container.querySelector('img[alt="Unavailable chart"]')).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="imageFallback"]')?.textContent)
+    expect(container.querySelector('[data-opc-part="imageFallback"]')?.textContent)
       .toBe('Unavailable chart');
   });
 
@@ -1172,11 +1172,11 @@ Second paragraph.
 
     const overlay = document.querySelector<HTMLElement>('.image-lightbox');
     expect(overlay).not.toBeNull();
-    expect(overlay?.getAttribute('data-openbitfun-native-webview-occlusion')).toBe('true');
+    expect(overlay?.getAttribute('data-opc-native-webview-occlusion')).toBe('true');
     // The preview shows the bytes the inline image resolved, not the raw path.
     const preview = overlay?.querySelector<HTMLImageElement>('img');
     expect(preview?.getAttribute('src')).toBe('data:image/png;base64,cmVsdS1wbmc=');
-    expect(preview?.getAttribute('data-openbitfun-part')).toBe('image');
+    expect(preview?.getAttribute('data-opc-part')).toBe('image');
     const surface = overlay?.querySelector<HTMLElement>('.image-lightbox-surface');
     expect(surface?.getAttribute('aria-label')).toBe('ReLU 图像');
 

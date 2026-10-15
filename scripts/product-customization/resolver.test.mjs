@@ -17,7 +17,7 @@ test('default and custom members resolve through one deterministic contract', ()
   assert.equal(defaultProduct.assembly.productId, 'opcteam');
   assert.equal(defaultProduct.assembly.dataNamespace, 'opcteam');
   // Install and upgrade identity stays on the published OpenBitFun values.
-  assert.equal(defaultProduct.assembly.binaryName, 'openbitfun-desktop');
+  assert.equal(defaultProduct.assembly.binaryName, 'opc-desktop');
   assert.equal(defaultProduct.assembly.bundleId, 'com.openbitfun.desktop');
   assert.equal(desktop.assembly.bundleId, 'com.acme.desktop');
   assert.equal(cli.assembly.binaryName, 'acme');
@@ -38,7 +38,7 @@ test('localized names are validated against the shared locale contract', () => {
 });
 
 test('schema version one rejects future owner sections instead of pretending to support them', () => {
-  const directory = mkdtempSync(join(tmpdir(), 'openbitfun-product-c0a-'));
+  const directory = mkdtempSync(join(tmpdir(), 'opc-product-c0a-'));
   const source = readFileSync(ACME, 'utf8').replace(
     /\n}\s*$/,
     ',\n  "assets": { "desktopAppIcon": "icon.png" }\n}\n',
@@ -53,7 +53,7 @@ test('schema version one rejects future owner sections instead of pretending to 
 });
 
 test('locale paths cannot escape the product definition directory', () => {
-  const directory = mkdtempSync(join(tmpdir(), 'openbitfun-product-c0a-'));
+  const directory = mkdtempSync(join(tmpdir(), 'opc-product-c0a-'));
   const source = readFileSync(ACME, 'utf8').replace('"./locales"', '"../"');
   const config = join(directory, 'product.jsonc');
   writeFileSync(config, source, 'utf8');
@@ -70,7 +70,7 @@ test('invalid member and unsafe binary identity fail with stable codes', () => {
     (error) => error instanceof ProductDefinitionError && error.code === 'invalid_member',
   );
 
-  const directory = mkdtempSync(join(tmpdir(), 'openbitfun-product-c0a-'));
+  const directory = mkdtempSync(join(tmpdir(), 'opc-product-c0a-'));
   cpSync(join(ROOT, 'products', 'fixtures', 'acme', 'locales'), join(directory, 'locales'), {
     recursive: true,
   });
@@ -84,7 +84,7 @@ test('invalid member and unsafe binary identity fail with stable codes', () => {
 });
 
 test('product and data identities reject display names and path fragments', () => {
-  const directory = mkdtempSync(join(tmpdir(), 'openbitfun-product-identity-'));
+  const directory = mkdtempSync(join(tmpdir(), 'opc-product-identity-'));
   cpSync(join(ROOT, 'products', 'fixtures', 'acme', 'locales'), join(directory, 'locales'), {
     recursive: true,
   });

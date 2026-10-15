@@ -1,5 +1,5 @@
 [package]
-name = "openbitfun-product-capabilities"
+name = "opc-product-capabilities"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -7,7 +7,7 @@ description = "OPC-Team product capability pack contracts"
 autotests = false
 
 [lib]
-name = "openbitfun_product_capabilities"
+name = "opc_product_capabilities"
 crate-type = ["rlib"]
 
 [[test]]
@@ -18,15 +18,15 @@ path = "tests/product_capability_contracts.rs"
 default = []
 
 [dependencies]
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", features = ["plugin-runtime"] }
-openbitfun-runtime-services = { path = "../../execution/runtime-services" }
-openbitfun-tool-packs = { path = "../../execution/tool-provider-groups" }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", features = ["plugin-runtime"] }
+opc-runtime-services = { path = "../../execution/runtime-services" }
+opc-tool-packs = { path = "../../execution/tool-provider-groups" }
 
 [dev-dependencies]
 async-trait = { workspace = true }
-openbitfun-agent-runtime = { path = "../../execution/agent-runtime", features = ["agent-runtime"] }
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", features = ["agent-api"] }
-openbitfun-runtime-services = { path = "../../execution/runtime-services", features = ["test-support"] }
+opc-agent-runtime = { path = "../../execution/agent-runtime", features = ["agent-runtime"] }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", features = ["agent-api"] }
+opc-runtime-services = { path = "../../execution/runtime-services", features = ["test-support"] }
 tokio = { workspace = true, features = ["macros", "rt"] }
 
 [lints]

@@ -1,8 +1,8 @@
 //! Compatibility re-exports for round-boundary injection state.
 
-pub use openbitfun_agent_runtime::scheduler::{
+pub use opc_agent_runtime::scheduler::{
     DialogRoundInjectionInterrupt, NoopDialogRoundInjectionSource, SessionRoundInjectionBuffer,
 };
-pub use openbitfun_runtime_ports::{
+pub use opc_runtime_ports::{
     DialogRoundInjectionSource, RoundInjection, RoundInjectionKind, RoundInjectionTarget,
 };

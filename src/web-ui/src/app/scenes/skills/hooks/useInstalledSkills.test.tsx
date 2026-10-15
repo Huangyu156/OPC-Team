@@ -153,7 +153,7 @@ describe('useInstalledSkills', () => {
   it('does not repeat unchanged scan warnings on refresh, but reports changes and recurrence', async () => {
     diagnosticsMock.items = [
       { path: '/skills/first', sourceId: 'openbitfun', message: 'missing target' },
-      { path: '/skills/second', sourceId: 'openbitfun-user', message: 'permission denied' },
+      { path: '/skills/second', sourceId: 'opc-user', message: 'permission denied' },
     ];
     await act(async () => root.render(<Harness enabled />));
     expect(notificationMocks.warning).toHaveBeenCalledTimes(1);
@@ -314,7 +314,7 @@ describe('useInstalledSkills', () => {
         description: '',
         path: 'D:/skills/test',
         level: 'user',
-        sourceSlot: 'openbitfun-user',
+        sourceSlot: 'opc-user',
         sourceId: 'openbitfun',
         dirName: 'test',
         isBuiltin: false,
@@ -339,7 +339,7 @@ describe('useInstalledSkills', () => {
       description: '',
       path: 'D:/skills/test',
       level: 'user',
-      sourceSlot: 'openbitfun-user',
+      sourceSlot: 'opc-user',
       sourceId: 'openbitfun',
       dirName: 'test',
       isBuiltin: false,

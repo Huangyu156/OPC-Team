@@ -20,30 +20,30 @@ export const ConfigPageHeader: React.FC<ConfigPageHeaderProps> = ({
   ...props
 }) => {
   return (
-    <div className={`openbitfun-config-page-header ${className}`} data-openbitfun-component="config" data-openbitfun-part="pageHeader" {...props}>
-      <div className="openbitfun-config-page-header__inner" data-openbitfun-component="config" data-openbitfun-part="pageHeaderInner">
-        <div className="openbitfun-config-page-header__left">
-          <div className="openbitfun-config-page-header__info" data-openbitfun-component="config" data-openbitfun-part="pageHeaderInfo">
+    <div className={`opc-config-page-header ${className}`} data-opc-component="config" data-opc-part="pageHeader" {...props}>
+      <div className="opc-config-page-header__inner" data-opc-component="config" data-opc-part="pageHeaderInner">
+        <div className="opc-config-page-header__left">
+          <div className="opc-config-page-header__info" data-opc-component="config" data-opc-part="pageHeaderInfo">
             <PageHeader
               level={2}
               size="md"
               title={(
                 <span
-                  className="openbitfun-config-page-header__title"
-                  data-openbitfun-component="config"
-                  data-openbitfun-part="pageHeaderTitle"
+                  className="opc-config-page-header__title"
+                  data-opc-component="config"
+                  data-opc-part="pageHeaderTitle"
                 >
                   {title}
                 </span>
               )}
               description={subtitle ? (
-                <span className="openbitfun-config-page-header__subtitle" data-openbitfun-component="config" data-openbitfun-part="pageHeaderSubtitle">{formatStandaloneUiText(subtitle)}</span>
+                <span className="opc-config-page-header__subtitle" data-opc-component="config" data-opc-part="pageHeaderSubtitle">{formatStandaloneUiText(subtitle)}</span>
               ) : undefined}
             />
           </div>
         </div>
         {extra && (
-          <div className="openbitfun-config-page-header__extra" data-openbitfun-component="config" data-openbitfun-part="pageHeaderExtra">
+          <div className="opc-config-page-header__extra" data-opc-component="config" data-opc-part="pageHeaderExtra">
             {extra}
           </div>
         )}

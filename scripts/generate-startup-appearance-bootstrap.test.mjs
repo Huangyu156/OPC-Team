@@ -37,7 +37,7 @@ test('startup appearance generation uses its isolated SSR config', () => {
 });
 
 test('the real generator server leaves product config and optimized dependencies untouched', async () => {
-  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-appearance-vite-'));
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-appearance-vite-'));
   const depsDir = path.join(root, 'node_modules/.vite/deps');
   fs.mkdirSync(depsDir, { recursive: true });
   fs.mkdirSync(path.join(root, 'src'));

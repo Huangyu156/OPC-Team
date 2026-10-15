@@ -1,4 +1,4 @@
-use openbitfun_agent_runtime::custom_agent::{
+use opc_agent_runtime::custom_agent::{
     custom_agent_possible_dirs, custom_agent_read_markdown_file, custom_agent_read_markdown_str,
     custom_agent_review_writable_tools, custom_agent_save_markdown_file,
     default_custom_agent_tools, default_custom_agent_user_context_policy,
@@ -7,7 +7,7 @@ use openbitfun_agent_runtime::custom_agent::{
     CustomAgentModelFallback, CustomAgentValidationContext, ParsedCustomAgentDefinition,
     DEFAULT_CUSTOM_MODE_MODEL, DEFAULT_CUSTOM_MODE_READONLY,
 };
-use openbitfun_agent_runtime::prompt::UserContextPolicy;
+use opc_agent_runtime::prompt::UserContextPolicy;
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -123,7 +123,7 @@ fn custom_mode_rejects_review_flag() {
 
 #[test]
 fn custom_mode_markdown_save_omits_default_fields() {
-    let dir = TestTempDir::new("openbitfun-runtime-custom-mode-defaults");
+    let dir = TestTempDir::new("opc-runtime-custom-mode-defaults");
     let path = dir.join("planner.md");
     let definition = build_mode_definition(BuildModeDefinitionInput(
         Some("PlannerPlus"),
@@ -157,7 +157,7 @@ fn custom_mode_markdown_save_omits_default_fields() {
 
 #[test]
 fn custom_mode_markdown_save_round_trips_custom_policy_and_model() {
-    let dir = TestTempDir::new("openbitfun-runtime-custom-mode-custom");
+    let dir = TestTempDir::new("opc-runtime-custom-mode-custom");
     let path = dir.join("planner.md");
     let policy = UserContextPolicy::empty().with_workspace_instructions();
     let definition = build_mode_definition(BuildModeDefinitionInput(
@@ -191,7 +191,7 @@ fn custom_mode_markdown_save_round_trips_custom_policy_and_model() {
 
 #[test]
 fn custom_mode_markdown_save_round_trips_empty_custom_policy() {
-    let dir = TestTempDir::new("openbitfun-runtime-custom-mode-empty-policy");
+    let dir = TestTempDir::new("opc-runtime-custom-mode-empty-policy");
     let path = dir.join("planner.md");
     let policy = UserContextPolicy::empty();
     let definition = build_mode_definition(BuildModeDefinitionInput(
@@ -242,11 +242,11 @@ Act as a focused project specialist.
 
 #[test]
 fn custom_mode_discovery_rejects_project_scoped_modes_without_dropping_valid_agents() {
-    let workspace = TestTempDir::new("openbitfun-runtime-custom-mode-workspace");
-    let user_root = TestTempDir::new("openbitfun-runtime-custom-mode-user");
+    let workspace = TestTempDir::new("opc-runtime-custom-mode-workspace");
+    let user_root = TestTempDir::new("opc-runtime-custom-mode-user");
     let project_agents_dir = workspace
         .path
-        .join(openbitfun_core_types::product_identity::hidden_data_directory())
+        .join(opc_core_types::product_identity::hidden_data_directory())
         .join("agents");
     let user_agents_dir = user_root.path.join("agents");
     fs::create_dir_all(&project_agents_dir).expect("project agents dir should be created");
@@ -270,7 +270,7 @@ fn custom_mode_discovery_rejects_project_scoped_modes_without_dropping_valid_age
 
     let report = load_custom_agent_definitions(&CustomAgentDiscoveryRoots {
         workspace_root: Some(workspace.path.clone()),
-        openbitfun_user_agents_dir: Some(user_agents_dir),
+        opc_user_agents_dir: Some(user_agents_dir),
         home_dir: None,
     });
 
@@ -382,13 +382,13 @@ fn custom_agent_validation_forces_review_subagents_to_readonly_tools() {
 }
 
 #[test]
-fn custom_agent_discovery_ignores_non_openbitfun_agent_dirs() {
-    let workspace = TestTempDir::new("openbitfun-runtime-custom-agent-workspace");
-    let user_root = TestTempDir::new("openbitfun-runtime-custom-agent-user");
-    let home = TestTempDir::new("openbitfun-runtime-custom-agent-home");
+fn custom_agent_discovery_ignores_non_opc_agent_dirs() {
+    let workspace = TestTempDir::new("opc-runtime-custom-agent-workspace");
+    let user_root = TestTempDir::new("opc-runtime-custom-agent-user");
+    let home = TestTempDir::new("opc-runtime-custom-agent-home");
     let project_openbitfun = workspace
         .path
-        .join(openbitfun_core_types::product_identity::hidden_data_directory())
+        .join(opc_core_types::product_identity::hidden_data_directory())
         .join("agents");
     let project_claude = workspace.path.join(".claude").join("agents");
     let user_agents = user_root.path.join("agents");
@@ -422,7 +422,7 @@ fn custom_agent_discovery_ignores_non_openbitfun_agent_dirs() {
 
     let roots = CustomAgentDiscoveryRoots {
         workspace_root: Some(workspace.path.clone()),
-        openbitfun_user_agents_dir: Some(user_agents.clone()),
+        opc_user_agents_dir: Some(user_agents.clone()),
         home_dir: Some(home.path.clone()),
     };
 

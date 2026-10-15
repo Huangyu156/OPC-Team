@@ -33,7 +33,7 @@ mod tests {
     };
     use crate::agentic::tools::tool_context_runtime::ToolUseContext;
     use crate::agentic::tools::ToolRuntimeRestrictions;
-    use openbitfun_agent_tools::GET_TOOL_SPEC_TOOL_NAME;
+    use opc_agent_tools::GET_TOOL_SPEC_TOOL_NAME;
     use std::collections::HashMap;
 
     fn tool_context() -> ToolUseContext {
@@ -48,7 +48,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: ToolRuntimeRestrictions::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 

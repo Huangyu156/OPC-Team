@@ -29,7 +29,7 @@
   const scheme = matchMedia('(prefers-color-scheme: dark)');
   const applyAppearance = () => {
     const mode = scheme.matches ? 'dark' : 'light';
-    document.documentElement.setAttribute('data-openbitfun-appearance-mode', mode);
+    document.documentElement.setAttribute('data-opc-appearance-mode', mode);
     document.documentElement.style.colorScheme = mode;
   };
   applyAppearance();

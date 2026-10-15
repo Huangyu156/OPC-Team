@@ -1,12 +1,12 @@
 //! Tauri commands for Computer use (permissions + settings deep links).
 
 use crate::api::app_state::AppState;
-use openbitfun_agent_tools::computer_use_permissions::{
+use opc_agent_tools::computer_use_permissions::{
     ComputerPermissionKind, ComputerPermissionReceipt, ComputerPermissionRequest,
     ComputerPermissions,
 };
-use openbitfun_core::service::config::types::AIConfig;
-use openbitfun_core::util::process_manager;
+use opc_core::service::config::types::AIConfig;
+use opc_core::util::process_manager;
 use serde::{Deserialize, Serialize};
 use tauri::State;
 
@@ -124,7 +124,7 @@ pub async fn computer_use_open_system_settings(
 /// Resource state is owned by the executing Desktop, not a newly constructed host.
 #[tauri::command]
 pub async fn computer_use_control_status(
-) -> Result<openbitfun_agent_tools::computer_use_control::ControlSnapshot, String> {
+) -> Result<opc_agent_tools::computer_use_control::ControlSnapshot, String> {
     Ok(crate::computer_use::control_session::snapshot())
 }
 #[derive(Debug, Deserialize)]
@@ -134,7 +134,7 @@ pub struct ComputerUseControlRequest {
 #[tauri::command]
 pub async fn computer_use_control_stop(
     request: ComputerUseControlRequest,
-) -> Result<openbitfun_agent_tools::computer_use_control::ControlSnapshot, String> {
+) -> Result<opc_agent_tools::computer_use_control::ControlSnapshot, String> {
     tokio::task::spawn_blocking(move || {
         crate::computer_use::control_session::stop_checked(
             None,
@@ -157,7 +157,7 @@ pub struct ComputerUseShareStartRequest {
     pub generation: u64,
     pub target: String,
     #[serde(default)]
-    pub mode: openbitfun_agent_tools::computer_use_control::ControlMode,
+    pub mode: opc_agent_tools::computer_use_control::ControlMode,
 }
 #[derive(Debug, Deserialize)]
 pub struct ComputerUseShareControlRequest {
@@ -170,14 +170,14 @@ pub struct ComputerUseShareControlRequest {
 }
 #[tauri::command]
 pub async fn computer_use_share_targets(
-) -> Result<Vec<openbitfun_agent_tools::computer_use_control::ShareTarget>, String> {
+) -> Result<Vec<opc_agent_tools::computer_use_control::ShareTarget>, String> {
     crate::computer_use::share_targets().await
 }
 #[tauri::command]
 pub async fn computer_use_share_start(
     state: State<'_, AppState>,
     request: ComputerUseShareStartRequest,
-) -> Result<openbitfun_agent_tools::computer_use_control::ControlSnapshot, String> {
+) -> Result<opc_agent_tools::computer_use_control::ControlSnapshot, String> {
     let snapshot = crate::computer_use::shared_preview::host()
         .share_selected_target(request.generation, &request.target, request.mode)
         .await?;
@@ -188,7 +188,7 @@ pub async fn computer_use_share_start(
 pub async fn computer_use_share_control(
     state: State<'_, AppState>,
     request: ComputerUseShareControlRequest,
-) -> Result<openbitfun_agent_tools::computer_use_control::ControlSnapshot, String> {
+) -> Result<opc_agent_tools::computer_use_control::ControlSnapshot, String> {
     let snapshot = crate::computer_use::control_session::set_share_control(
         request.generation,
         request.target_revision,
@@ -217,12 +217,12 @@ pub struct ComputerUseShareRequest {
     #[serde(default)]
     pub owner: Option<String>,
     #[serde(default)]
-    pub mode: openbitfun_agent_tools::computer_use_control::ControlMode,
+    pub mode: opc_agent_tools::computer_use_control::ControlMode,
 }
 #[tauri::command]
 pub async fn computer_use_share_request(
     request: ComputerUseShareRequest,
-) -> Result<openbitfun_agent_tools::computer_use_control::ControlSnapshot, String> {
+) -> Result<opc_agent_tools::computer_use_control::ControlSnapshot, String> {
     // Manual shares have an explicit owner. An Agent cannot silently adopt it.
     crate::computer_use::control_session::request_share(
         request.owner.as_deref().unwrap_or("user:manual-sharing"),
@@ -258,6 +258,6 @@ pub async fn computer_use_share_observe(
 #[tauri::command]
 pub async fn computer_use_share_input(
     request: crate::computer_use::shared_preview::SharedInputRequest,
-) -> Result<openbitfun_agent_tools::computer_use_control::ControlSnapshot, String> {
+) -> Result<opc_agent_tools::computer_use_control::ControlSnapshot, String> {
     crate::computer_use::shared_preview::input(request).await
 }

@@ -3,7 +3,7 @@
 //! Browser webviews are created as native child webviews by this desktop
 //! adapter so stream-specific initialization can run before page scripts.
 
-use openbitfun_core::agentic::tools::browser_control::BuiltInBrowserTarget;
+use opc_core::agentic::tools::browser_control::BuiltInBrowserTarget;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::sync::{Mutex, OnceLock};
@@ -427,7 +427,7 @@ pub async fn browser_webview_capture_preview(
 ) -> Result<WebviewPreviewResponse, String> {
     validate_browser_label(&request.label)?;
     let webview = find_browser_webview(&app, &request.label)?;
-    let png = match openbitfun_webdriver::platform::take_screenshot(webview, 1000).await {
+    let png = match opc_webdriver::platform::take_screenshot(webview, 1000).await {
         Ok(png) => png,
         Err(error) if error.error == "unsupported operation" => {
             return Ok(WebviewPreviewResponse::Unsupported {

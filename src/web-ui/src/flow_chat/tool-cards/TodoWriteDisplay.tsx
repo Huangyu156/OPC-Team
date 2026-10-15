@@ -104,7 +104,7 @@ export const TodoWriteDisplay: React.FC<ToolCardProps> = ({
   const hasTodos = todosToDisplay.length > 0;
 
   return (
-    <div data-openbitfun-adapter="todo-write"
+    <div data-opc-adapter="todo-write"
       ref={cardRootRef}
       data-tool-card-id={toolId ?? ''}
     >

@@ -31,7 +31,7 @@ it('docks only the composer and forwards resize suspension without remounting th
     act(() => root.render(<ChatPane width={0} isFullscreen={false} showChatInput />));
     const transcript = container.querySelector('[data-testid="transcript"]')!;
     const composer = container.querySelector<HTMLTextAreaElement>('[data-testid="composer"]')!;
-    const dock = container.querySelector('[data-openbitfun-part="primaryDock"]')!;
+    const dock = container.querySelector('[data-opc-part="primaryDock"]')!;
     expect(dock.contains(composer)).toBe(true);
     expect(dock.contains(transcript)).toBe(false);
     composer.value = 'unsent';

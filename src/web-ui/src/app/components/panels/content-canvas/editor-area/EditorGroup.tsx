@@ -243,7 +243,7 @@ export const EditorGroup: React.FC<EditorGroupProps> = ({
   const isDragging = draggingTabId !== null;
 
   return (
-    <div data-openbitfun-component="canvas-editor-group" data-openbitfun-part="root" data-openbitfun-group={groupId} data-openbitfun-state={isActive ? 'active' : ''}
+    <div data-opc-component="canvas-editor-group" data-opc-part="root" data-opc-group={groupId} data-opc-state={isActive ? 'active' : ''}
       className={`canvas-editor-group ${isActive ? 'is-active' : ''}`}
       onClick={onGroupFocus}
     >
@@ -274,15 +274,15 @@ export const EditorGroup: React.FC<EditorGroupProps> = ({
         splitMode={splitMode}
         onDrop={onDrop}
       >
-        <div data-openbitfun-component="canvas-editor-group" data-openbitfun-part="content" className="canvas-editor-group__content">
+        <div data-opc-component="canvas-editor-group" data-opc-part="content" className="canvas-editor-group__content">
           {/* Render cached tabs (active shown, others hidden) for instant switching */}
           {tabsToRender.length > 0 ? (
             tabsToRender.map((tab) => (
               <div
                 key={tab.id}
                 ref={effectiveActiveTabId === tab.id ? activeTabContentRef : undefined}
-                data-openbitfun-component="canvas-editor-group"
-                data-openbitfun-part="tabContent"
+                data-opc-component="canvas-editor-group"
+                data-opc-part="tabContent"
                 className="canvas-editor-group__tab-content"
                 style={{ display: effectiveActiveTabId === tab.id ? 'flex' : 'none' }}
               >
@@ -304,8 +304,8 @@ export const EditorGroup: React.FC<EditorGroupProps> = ({
               </div>
             ))
           ) : visibleTabs.length === 0 ? (
-            <div data-openbitfun-component="canvas-editor-group" data-openbitfun-part="empty" className="canvas-editor-group__empty">
-              <div data-openbitfun-component="canvas-editor-group" data-openbitfun-part="emptyContent" className="canvas-editor-group__empty-content">
+            <div data-opc-component="canvas-editor-group" data-opc-part="empty" className="canvas-editor-group__empty">
+              <div data-opc-component="canvas-editor-group" data-opc-part="emptyContent" className="canvas-editor-group__empty-content">
                 <span>{t('canvas.dragTabHere')}</span>
               </div>
             </div>

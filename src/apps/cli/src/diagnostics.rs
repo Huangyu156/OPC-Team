@@ -2,8 +2,8 @@
 
 use std::path::Path;
 
-use openbitfun_agent_runtime::sdk::{PortErrorKind, RuntimeError};
-use openbitfun_agent_runtime_ipc::{RuntimeIpcClientError, RuntimeIpcErrorCode};
+use opc_agent_runtime::sdk::{PortErrorKind, RuntimeError};
+use opc_agent_runtime_ipc::{RuntimeIpcClientError, RuntimeIpcErrorCode};
 
 pub(crate) const EXIT_LINE_PREFIX: &str = "OPENBITFUN_EXIT: ";
 pub(crate) const DETAIL_MAX_LEN: usize = 500;
@@ -117,10 +117,8 @@ pub(crate) fn emit_exit_diagnostic(kind: ExitKind, detail: &str, ctx: &ExitConte
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_agent_runtime::sdk::{PortError, PortErrorKind, RuntimeError};
-    use openbitfun_agent_runtime_ipc::{
-        RuntimeIpcClientError, RuntimeIpcError, RuntimeIpcErrorCode,
-    };
+    use opc_agent_runtime::sdk::{PortError, PortErrorKind, RuntimeError};
+    use opc_agent_runtime_ipc::{RuntimeIpcClientError, RuntimeIpcError, RuntimeIpcErrorCode};
 
     #[test]
     fn format_exit_line_uses_stable_prefix_and_kind() {

@@ -8,7 +8,7 @@ import { createEmbeddedConfig } from './embedded-driver';
 const recorded = process.env.OPENBITFUN_FLOWCHAT_RECORDED_SESSIONS;
 const ids = process.env.OPENBITFUN_FLOWCHAT_SESSION_IDS?.split(',').filter(Boolean) ?? [];
 if (!recorded || ids.length < 2) throw new Error('Set OPENBITFUN_FLOWCHAT_RECORDED_SESSIONS and at least two OPENBITFUN_FLOWCHAT_SESSION_IDS.');
-const root = process.env.OPENBITFUN_FLOWCHAT_E2E_ROOT ?? mkdtempSync(join(tmpdir(), 'openbitfun-flowchat-e2e-'));
+const root = process.env.OPENBITFUN_FLOWCHAT_E2E_ROOT ?? mkdtempSync(join(tmpdir(), 'opc-flowchat-e2e-'));
 const home = join(root, 'home');
 const destination = join(home, 'projects', basename(resolve(recorded, '..')), 'sessions');
 mkdirSync(destination, { recursive: true });

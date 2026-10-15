@@ -31,15 +31,15 @@ test("Composer exposes independent context, editor, and toolbar regions", () => 
     ),
   );
 
-  assert.match(markup, /data-openbitfun-component="composer"/);
+  assert.match(markup, /data-opc-component="composer"/);
   assert.match(markup, /<fieldset/);
   assert.match(markup, /data-has-context="true"/);
-  assert.match(markup, /data-openbitfun-part="context"/);
-  assert.match(markup, /data-openbitfun-part="context-bar"/);
-  assert.match(markup, /data-openbitfun-part="surface"/);
-  assert.match(markup, /data-openbitfun-part="editor"/);
-  assert.match(markup, /data-openbitfun-part="toolbar"/);
-  assert.match(markup, /data-openbitfun-part="toolbar-bar"/);
+  assert.match(markup, /data-opc-part="context"/);
+  assert.match(markup, /data-opc-part="context-bar"/);
+  assert.match(markup, /data-opc-part="surface"/);
+  assert.match(markup, /data-opc-part="editor"/);
+  assert.match(markup, /data-opc-part="toolbar"/);
+  assert.match(markup, /data-opc-part="toolbar-bar"/);
   assert.match(markup, /<textarea placeholder="How can I help\?"><\/textarea>/);
 });
 
@@ -63,7 +63,7 @@ test("ComposerDivider is decorative and follows the composer separator contract"
   const markup = renderToStaticMarkup(createElement(ComposerDivider));
 
   assert.match(markup, /aria-hidden="true"/);
-  assert.match(markup, /data-openbitfun-part="divider"/);
+  assert.match(markup, /data-opc-part="divider"/);
 });
 
 test("Composer styling uses only shared public token layers", async () => {

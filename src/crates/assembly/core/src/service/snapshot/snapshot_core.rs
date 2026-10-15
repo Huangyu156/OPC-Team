@@ -6,7 +6,7 @@ use crate::service::snapshot::types::{
 };
 use crate::service::workspace_runtime::WorkspaceRuntimeContext;
 use log::{debug, info, warn};
-use openbitfun_services_core::json_store::JsonFileStore;
+use opc_services_core::json_store::JsonFileStore;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::ffi::OsString;
@@ -1550,11 +1550,8 @@ mod tests {
     }
 
     async fn make_test_runtime(name: &str) -> TestRuntime {
-        let root = std::env::temp_dir().join(format!(
-            "openbitfun_snapshot_core_{}_{}",
-            name,
-            Uuid::new_v4()
-        ));
+        let root =
+            std::env::temp_dir().join(format!("opc_snapshot_core_{}_{}", name, Uuid::new_v4()));
         let workspace = root.join("workspace");
         let runtime_root = root.join("runtime");
         fs::create_dir_all(&workspace).unwrap();

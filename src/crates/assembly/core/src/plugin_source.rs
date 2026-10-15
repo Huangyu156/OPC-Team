@@ -3,21 +3,21 @@
 //! Product assembly supplies OPC-Team path ownership. Concrete discovery,
 //! integrity checks, locking, and trust persistence are service concerns.
 
-use openbitfun_services_integrations::plugin_source::ManagedPluginSourceService;
+use opc_services_integrations::plugin_source::ManagedPluginSourceService;
 use std::path::Path;
 
 pub type ManagedPluginTrustLevel =
-    openbitfun_services_integrations::plugin_source::ManagedPluginTrustLevel;
+    opc_services_integrations::plugin_source::ManagedPluginTrustLevel;
 pub type ManagedPluginTrustDecision =
-    openbitfun_services_integrations::plugin_source::ManagedPluginTrustDecision;
+    opc_services_integrations::plugin_source::ManagedPluginTrustDecision;
 pub type ManagedPluginPackageView =
-    openbitfun_services_integrations::plugin_source::ManagedPluginPackageView;
+    opc_services_integrations::plugin_source::ManagedPluginPackageView;
 pub type ManagedPluginSourceIssue =
-    openbitfun_services_integrations::plugin_source::ManagedPluginSourceIssue;
+    opc_services_integrations::plugin_source::ManagedPluginSourceIssue;
 pub type ManagedPluginSourceSnapshot =
-    openbitfun_services_integrations::plugin_source::ManagedPluginSourceSnapshot;
+    opc_services_integrations::plugin_source::ManagedPluginSourceSnapshot;
 pub type ManagedPluginSourceError =
-    openbitfun_services_integrations::plugin_source::ManagedPluginSourceError;
+    opc_services_integrations::plugin_source::ManagedPluginSourceError;
 
 /// Refresh OPC-Team-managed user and workspace package roots.
 pub async fn refresh_managed_plugin_sources(

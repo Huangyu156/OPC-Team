@@ -87,7 +87,7 @@ export function PatternsPage({ colorScheme, contrast, density, tokenOverrides }:
           }))} />
 
         <PatternSection description={t("patterns.settings.description")} id="settings" active={pattern === "settings"} title={t("patterns.settings.title")}>
-          <Card appearance="raised" className="pattern-settings" data-openbitfun-pattern="settings-form" padding="md" radius="md">
+          <Card appearance="raised" className="pattern-settings" data-opc-pattern="settings-form" padding="md" radius="md">
             <PageHeader description={t("components.preview.appearanceDescription")} level={3} size="md" title={t("components.preview.appearance")} />
             <CardBody>
               <FormSection description={t("patterns.settings.description")} headingAs="h4" title={t("components.preview.appearance")}>
@@ -125,7 +125,7 @@ export function PatternsPage({ colorScheme, contrast, density, tokenOverrides }:
 
 
         <PatternSection description={t("patterns.navigation.description")} id="navigation" active={pattern === "navigation"} title={t("patterns.navigation.title")}>
-          <div className="pattern-navigation-stage" data-openbitfun-pattern="navigation-panel">
+          <div className="pattern-navigation-stage" data-opc-pattern="navigation-panel">
             <NavigationPanel
               aria-label={t("patterns.navigation.title")}
             >
@@ -160,7 +160,7 @@ export function PatternsPage({ colorScheme, contrast, density, tokenOverrides }:
         </PatternSection>
 
         <PatternSection description={t("patterns.search.description")} id="search" active={pattern === "search"} title={t("patterns.search.title")}>
-          <Card appearance="raised" className="pattern-command" data-openbitfun-pattern="search-command-surface" gap="lg" padding="md" radius="lg">
+          <Card appearance="raised" className="pattern-command" data-opc-pattern="search-command-surface" gap="lg" padding="md" radius="lg">
             <div className="pattern-command-header">
               <div className="pattern-command-query"><SearchField size="sm" aria-label={t("patterns.search.searchPlaceholder")} clearLabel={t("components.preview.close")} leadingIcon={<Icon name="search" />} onClear={() => setQuery("")} onValueChange={setQuery} placeholder={t("patterns.search.searchPlaceholder")} shortcut={<KeyHint>Ctrl K</KeyHint>} value={query} /></div>
               <TabGroup size="sm" onValueChange={setScope} items={[{ label: t("patterns.search.all"), value: "all" }, { label: t("patterns.search.files"), value: "files" }, { label: t("patterns.search.commands"), value: "commands" }]} value={scope} />
@@ -180,7 +180,7 @@ export function PatternsPage({ colorScheme, contrast, density, tokenOverrides }:
         </PatternSection>
 
         <PatternSection description={t("patterns.device.description")} id="device" active={pattern === "device"} title={t("patterns.device.title")}>
-          <Card appearance="subtle" className="pattern-device-card" data-openbitfun-pattern="device-card" gap="md" padding="md" radius="md">
+          <Card appearance="subtle" className="pattern-device-card" data-opc-pattern="device-card" gap="md" padding="md" radius="md">
             <CardHeader actions={<IconButton aria-label={t("patterns.device.refresh")} icon={<Icon name="refresh" />} size="sm" variant="quiet" />} description="macOS · 127.0.0.1" leading={<span className="pattern-device-icon"><Icon name="device-mac" size="lg" /></span>} title="MacBook Pro" />
             <CardBody><StatusPill leading={<Icon name="unselected" />} tone="success">{t("patterns.device.online")}</StatusPill></CardBody>
             <Button leadingIcon={<Icon name="link" />} size="sm" variant="primary">{t("patterns.device.connect")}</Button>

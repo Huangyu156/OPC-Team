@@ -934,7 +934,7 @@ mod tests {
         WorkspaceSearchMatch, WorkspaceSearchMatchLocation, WorkspaceSearchRepoPhase,
         WorkspaceSearchRepoStatus,
     };
-    use openbitfun_runtime_ports::ToolRuntimeHandles;
+    use opc_runtime_ports::ToolRuntimeHandles;
     use serde_json::json;
     use std::collections::HashMap;
     use tool_runtime::search::grep_search::relativize_result_text;
@@ -1279,15 +1279,15 @@ mod tests {
                 repo_path: "/repo".to_string(),
                 storage_root: format!(
                     "/repo/{}/search/flashgrep-index",
-                    openbitfun_core_types::product_identity::hidden_data_directory()
+                    opc_core_types::product_identity::hidden_data_directory()
                 ),
                 base_snapshot_root: format!(
                     "/repo/{}/search/flashgrep-index/base-snapshot",
-                    openbitfun_core_types::product_identity::hidden_data_directory()
+                    opc_core_types::product_identity::hidden_data_directory()
                 ),
                 workspace_overlay_root: format!(
                     "/repo/{}/search/flashgrep-index/workspace-overlay",
-                    openbitfun_core_types::product_identity::hidden_data_directory()
+                    opc_core_types::product_identity::hidden_data_directory()
                 ),
                 phase: WorkspaceSearchRepoPhase::Ready,
                 snapshot_key: None,
@@ -1366,15 +1366,15 @@ mod tests {
                 repo_path: "/repo".to_string(),
                 storage_root: format!(
                     "/repo/{}/search/flashgrep-index",
-                    openbitfun_core_types::product_identity::hidden_data_directory()
+                    opc_core_types::product_identity::hidden_data_directory()
                 ),
                 base_snapshot_root: format!(
                     "/repo/{}/search/flashgrep-index/base-snapshot",
-                    openbitfun_core_types::product_identity::hidden_data_directory()
+                    opc_core_types::product_identity::hidden_data_directory()
                 ),
                 workspace_overlay_root: format!(
                     "/repo/{}/search/flashgrep-index/workspace-overlay",
-                    openbitfun_core_types::product_identity::hidden_data_directory()
+                    opc_core_types::product_identity::hidden_data_directory()
                 ),
                 phase: WorkspaceSearchRepoPhase::Ready,
                 snapshot_key: None,
@@ -1510,7 +1510,7 @@ mod tests {
 
     mod workspace_io {
         use crate::agentic::workspace::{LocalWorkspaceFs, LocalWorkspaceShell};
-        use openbitfun_runtime_ports::{
+        use opc_runtime_ports::{
             WorkspaceCommandOptions, WorkspaceCommandResult, WorkspaceDirEntry,
             WorkspaceFileSystem, WorkspaceMetadata, WorkspaceReader, WorkspaceShell,
         };
@@ -1571,7 +1571,7 @@ mod tests {
 
         const UNFILTERED_FILES: &[&str] = &[
             "known.py",
-            "custom.openbitfun_custom_ext",
+            "custom.opc_custom_ext",
             "opaque_workspace_notes",
             "src/lib.rs",
             "other.rs",
@@ -2295,7 +2295,7 @@ mod tests {
         #[tokio::test]
         async fn remote_tool_uses_shared_options_results_and_no_rg_io_provider() {
             use super::*;
-            use openbitfun_runtime_ports::WorkspaceServices;
+            use opc_runtime_ports::WorkspaceServices;
             let dir = fixture();
             let root = dir.path().to_string_lossy().into_owned();
             let identity = crate::service::remote_ssh::workspace_state::workspace_session_identity(

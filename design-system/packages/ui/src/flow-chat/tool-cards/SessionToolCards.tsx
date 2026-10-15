@@ -82,7 +82,7 @@ function SessionToolCardBase({
 }: SessionToolCardBaseProps) {
   const hasDetails = fields.length > 0 || records.length > 0 || sessions.length > 0 || Boolean(emptyState || message || error || interaction && summary);
   const expandedContent = hasDetails ? (
-    <div className={styles.details} data-openbitfun-part="details">
+    <div className={styles.details} data-opc-part="details">
       {interaction && summary && <ToolCardText variant="prose">{summary}</ToolCardText>}
       {fields.length > 0 && <ToolCardFields fields={fields} />}
 
@@ -97,9 +97,9 @@ function SessionToolCardBase({
       )}
 
       {sessions.length > 0 && (
-        <ScrollArea className={styles.sessionList} data-openbitfun-part="sessionList" edgeFade="vertical" overscrollBehaviorY="auto">
+        <ScrollArea className={styles.sessionList} data-opc-part="sessionList" edgeFade="vertical" overscrollBehaviorY="auto">
           {sessions.map((session) => (
-            <div className={styles.session} data-openbitfun-part="session" key={session.key}>
+            <div className={styles.session} data-opc-part="session" key={session.key}>
               {session.name && <OverflowText className={styles.sessionName}>{session.name}</OverflowText>}
               <span className={styles.sessionId}>{session.id}</span>
               {session.agentType && <span className={styles.sessionAgent}>{session.agentType}</span>}
@@ -109,24 +109,24 @@ function SessionToolCardBase({
       )}
 
       {message && (
-        <ToolCardSection label={messageLabel} data-openbitfun-part="messageSection">
-          <ToolCardText variant="prose" data-openbitfun-part="message">{message}</ToolCardText>
+        <ToolCardSection label={messageLabel} data-opc-part="messageSection">
+          <ToolCardText variant="prose" data-opc-part="message">{message}</ToolCardText>
         </ToolCardSection>
       )}
 
-      {emptyState && <div className={styles.empty} data-openbitfun-part="empty">{emptyState}</div>}
-      {error && <div className={styles.error} data-openbitfun-part="error">{error}</div>}
+      {emptyState && <div className={styles.empty} data-opc-part="empty">{emptyState}</div>}
+      {error && <div className={styles.error} data-opc-part="error">{error}</div>}
     </div>
   ) : undefined;
 
   if (interaction) {
-    const relationDetails = <div className={styles.details} data-openbitfun-part="details">
-      {message && <ToolCardText variant="prose" data-openbitfun-part="message">{message}</ToolCardText>}
+    const relationDetails = <div className={styles.details} data-opc-part="details">
+      {message && <ToolCardText variant="prose" data-opc-part="message">{message}</ToolCardText>}
       {fields.length > 0 && <ToolCardFields fields={fields} />}
-      {error && <ToolCardText variant="prose" data-openbitfun-part="error">{error}</ToolCardText>}
+      {error && <ToolCardText variant="prose" data-opc-part="error">{error}</ToolCardText>}
       {!message && !error && fields.length === 0 && <ToolCardText variant="prose">{summary}</ToolCardText>}
     </div>;
-    return <ToolRelationRow {...props} data-openbitfun-tool-card={toolCard}
+    return <ToolRelationRow {...props} data-opc-tool-card={toolCard}
       interaction={{ ...interaction, target: openAction ? { ...interaction.target,
         onOpen: openAction.onPress, openLabel: openAction.label } : interaction.target }}
       status={status} result={statusLabel ?? resultSummary ?? summary}
@@ -136,7 +136,7 @@ function SessionToolCardBase({
   return (
     <AmbientToolCard
       {...props}
-      data-openbitfun-tool-card={toolCard}
+      data-opc-tool-card={toolCard}
       expandedContent={expandedContent}
       header={(
         <AmbientToolCardHeader

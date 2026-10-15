@@ -33,19 +33,19 @@ export function MobileToolbar({
       aria-label={label}
       className={classNames(styles.root, className)}
       data-appearance={appearance}
-      data-openbitfun-component="mobile-toolbar"
+      data-opc-component="mobile-toolbar"
       data-safe-area={safeArea ? "true" : "false"}
       data-sticky={sticky ? "true" : "false"}
       role={label ? "toolbar" : undefined}
     >
       {leading !== undefined && leading !== null && (
-        <span className={styles.leading} data-openbitfun-part="leading">{leading}</span>
+        <span className={styles.leading} data-opc-part="leading">{leading}</span>
       )}
       {children !== undefined && children !== null && (
-        <span className={styles.content} data-openbitfun-part="content">{children}</span>
+        <span className={styles.content} data-opc-part="content">{children}</span>
       )}
       {trailing !== undefined && trailing !== null && (
-        <span className={styles.trailing} data-openbitfun-part="trailing">{trailing}</span>
+        <span className={styles.trailing} data-opc-part="trailing">{trailing}</span>
       )}
     </div>
   );

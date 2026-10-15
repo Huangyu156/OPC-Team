@@ -1,5 +1,5 @@
-use openbitfun_services_core::persistence::{PersistenceService, StorageOptions};
-use openbitfun_services_core::storage_cleanup::{CleanupPolicy, CleanupRoots, CleanupService};
+use opc_services_core::persistence::{PersistenceService, StorageOptions};
+use opc_services_core::storage_cleanup::{CleanupPolicy, CleanupRoots, CleanupService};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use std::fs;
@@ -167,10 +167,9 @@ async fn cleanup_service_trims_oldest_cache_files_when_size_exceeds_policy() {
 #[tokio::test]
 async fn token_usage_service_persists_records_and_filters_subagents_by_default() {
     let temp = tempfile::tempdir().expect("tempdir");
-    let service =
-        openbitfun_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
-            .await
-            .expect("service");
+    let service = opc_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
+        .await
+        .expect("service");
 
     service
         .record_usage(
@@ -202,10 +201,10 @@ async fn token_usage_service_persists_records_and_filters_subagents_by_default()
         .expect("record subagent");
 
     let summary = service
-        .get_summary(openbitfun_services_core::token_usage::TokenUsageQuery {
+        .get_summary(opc_services_core::token_usage::TokenUsageQuery {
             model_id: Some("model-a".to_string()),
             session_id: None,
-            time_range: openbitfun_services_core::token_usage::TimeRange::All,
+            time_range: opc_services_core::token_usage::TimeRange::All,
             time_zone: None,
             limit: None,
             offset: None,
@@ -220,7 +219,7 @@ async fn token_usage_service_persists_records_and_filters_subagents_by_default()
     assert_eq!(summary.total_cache_write, 12);
 
     let reloaded =
-        openbitfun_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
+        opc_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
             .await
             .expect("reloaded");
     let stats = reloaded
@@ -234,10 +233,9 @@ async fn token_usage_service_persists_records_and_filters_subagents_by_default()
 #[tokio::test]
 async fn token_usage_clear_does_not_replay_cached_record_batches() {
     let temp = tempfile::tempdir().expect("tempdir");
-    let service =
-        openbitfun_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
-            .await
-            .expect("service");
+    let service = opc_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
+        .await
+        .expect("service");
 
     service
         .record_usage(
@@ -270,10 +268,10 @@ async fn token_usage_clear_does_not_replay_cached_record_batches() {
         .expect("record new usage");
 
     let summary = service
-        .get_summary(openbitfun_services_core::token_usage::TokenUsageQuery {
+        .get_summary(opc_services_core::token_usage::TokenUsageQuery {
             model_id: None,
             session_id: None,
-            time_range: openbitfun_services_core::token_usage::TimeRange::All,
+            time_range: opc_services_core::token_usage::TimeRange::All,
             time_zone: None,
             limit: None,
             offset: None,
@@ -298,10 +296,9 @@ async fn token_usage_clear_does_not_replay_cached_record_batches() {
 #[tokio::test]
 async fn token_usage_all_range_ignores_non_date_record_files() {
     let temp = tempfile::tempdir().expect("tempdir");
-    let service =
-        openbitfun_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
-            .await
-            .expect("service");
+    let service = opc_services_core::token_usage::TokenUsageService::new(temp.path().to_path_buf())
+        .await
+        .expect("service");
 
     service
         .record_usage(
@@ -326,10 +323,10 @@ async fn token_usage_all_range_ignores_non_date_record_files() {
     .expect("write stray record file");
 
     let summary = service
-        .get_summary(openbitfun_services_core::token_usage::TokenUsageQuery {
+        .get_summary(opc_services_core::token_usage::TokenUsageQuery {
             model_id: None,
             session_id: None,
-            time_range: openbitfun_services_core::token_usage::TimeRange::All,
+            time_range: opc_services_core::token_usage::TimeRange::All,
             time_zone: None,
             limit: None,
             offset: None,

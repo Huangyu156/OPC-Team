@@ -1,11 +1,11 @@
-use openbitfun_legacy_migration::{
+use opc_legacy_migration::{
     atomic_write_json, blocking_writer_processes, export_failure_diagnostics, list_tasks,
     load_task, probe_legacy_source, save_task, CancellationToken, LegacyMigrationError,
     LegacyMigrationResult, MigrationEngine, MigrationLayout, MigrationRoots, NoCrashInjection,
     ProbeLimits, ResetDirectory, SavedMigrationTask, TargetResetResult, WriterProcess,
 };
-use openbitfun_legacy_migration_adapters::adapters_for_groups;
-use openbitfun_product_domains::legacy_migration::{
+use opc_legacy_migration_adapters::adapters_for_groups;
+use opc_product_domains::legacy_migration::{
     FindingSeverity, LegacySourceDescriptor, MigrationPhase, MigrationPlan, MigrationProgressEvent,
     MigrationRunReport, MigrationRunStatus, MigrationSelection, ScanFinding,
 };
@@ -167,7 +167,7 @@ pub(crate) struct MigratorView {
     pub findings: Vec<ScanFinding>,
     pub plan: Option<MigrationPlan>,
     pub report: Option<MigrationRunReport>,
-    pub workspace_counts: Option<openbitfun_legacy_migration_adapters::WorkspaceReportCounts>,
+    pub workspace_counts: Option<opc_legacy_migration_adapters::WorkspaceReportCounts>,
     pub progress: Option<MigrationProgressEvent>,
     pub blockers: Vec<WriterProcess>,
     pub status: MigrationRunStatus,
@@ -345,7 +345,7 @@ impl MigratorCoordinator {
             return Err(CommandError::operation_in_progress());
         }
         let protected = reset_protected_directories(&session.settings_path)?;
-        let directories = openbitfun_legacy_migration::plan_target_reset(&session.roots, &protected)
+        let directories = opc_legacy_migration::plan_target_reset(&session.roots, &protected)
             .map_err(|_| CommandError::new("unsafe_reset_locations", "Reset refused: a destination overlaps source data, a protected directory, or a linked path. Check the selected locations.", false))?;
         session.reset_preview = Some(ResetPreviewView {
             confirmation_id: uuid::Uuid::new_v4().to_string(),
@@ -394,7 +394,7 @@ impl MigratorCoordinator {
             (session.roots.clone(), preview, protected)
         };
         let coordinator = self.clone();
-        self.spawn_worker("openbitfun-data-reset", move || {
+        self.spawn_worker("opc-data-reset", move || {
             coordinator.reset_background(roots, preview, protected);
         })
     }
@@ -407,15 +407,15 @@ impl MigratorCoordinator {
     ) {
         let mut blockers = Vec::new();
         let result = (|| {
-            blockers = openbitfun_legacy_migration::blocking_writer_processes_for_product(
+            blockers = opc_legacy_migration::blocking_writer_processes_for_product(
                 0,
-                &["openbitfun-data-migrator"],
+                &["opc-data-migrator"],
             )
             .map_err(|error| CommandError::from_legacy(&error))?;
             if !blockers.is_empty() {
                 return Err(CommandError::new("reset_writers_running", "Close BitFun, OPC-Team, their CLI/background writers, and other Data Migrator instances, then retry reset.", true));
             }
-            openbitfun_legacy_migration::reset_target_data(&roots, &preview.directories, &protected)
+            opc_legacy_migration::reset_target_data(&roots, &preview.directories, &protected)
                 .map_err(|_| CommandError::new("reset_scope_changed", "Reset stopped because the directories failed revalidation. Review the paths again; some data may already have been removed.", true))
         })();
         self.finish_reset(roots, result, blockers);
@@ -903,7 +903,7 @@ fn migration_engine(
     selection: &MigrationSelection,
 ) -> LegacyMigrationResult<MigrationEngine> {
     crate::locations::validate(&roots)?;
-    openbitfun_legacy_migration_adapters::validate_target(&roots)?;
+    opc_legacy_migration_adapters::validate_target(&roots)?;
     MigrationEngine::new(roots, adapters_for_groups(selection))
 }
 
@@ -954,7 +954,7 @@ fn snapshot(session: &MigratorSession) -> MigratorView {
     let plan = session.plan.as_ref().map(redact_plan_for_ui);
     let report = session.report.as_ref().map(redact_report_for_ui);
     let workspace_counts = session.report.as_ref().and_then(|report| {
-        openbitfun_legacy_migration_adapters::workspace_report_counts(&session.roots, report).ok()
+        opc_legacy_migration_adapters::workspace_report_counts(&session.roots, report).ok()
     });
     MigratorView {
         tool_version: env!("CARGO_PKG_VERSION").to_string(),
@@ -1151,12 +1151,9 @@ mod tests {
         fs::write(roots.target_user_root.join("keep"), "target").unwrap();
         let preview = coordinator.preview_reset().unwrap().reset_preview.unwrap();
         let protected = reset_protected_directories(&settings).unwrap();
-        let result = openbitfun_legacy_migration::reset_target_data(
-            &roots,
-            &preview.directories,
-            &protected,
-        )
-        .unwrap();
+        let result =
+            opc_legacy_migration::reset_target_data(&roots, &preview.directories, &protected)
+                .unwrap();
         coordinator.finish_reset(roots.clone(), Ok(result), Vec::new());
         let view = coordinator.snapshot();
         assert!(view.reset_result.unwrap().failed.is_empty());
@@ -1234,18 +1231,18 @@ mod tests {
     #[test]
     fn report_failure_errors_use_sanitized_domain_diagnostics() {
         let report = MigrationRunReport {
-            diagnostics: vec![
-                openbitfun_product_domains::legacy_migration::MigrationDiagnostic {
-                    code: "domain_io_permission_denied".to_string(),
-                    severity: FindingSeverity::Blocking,
-                    domain: Some(
-                        openbitfun_product_domains::legacy_migration::MigrationDomainId::WorkspaceSessions,
-                    ),
-                    relative_path: Some("C:/Users/private/session-state.json".to_string()),
-                    message: "A migration-owned file or directory denied access.".to_string(),
-                    action: Some("Close programs using the data, check permissions, and retry.".to_string()),
-                },
-            ],
+            diagnostics: vec![opc_product_domains::legacy_migration::MigrationDiagnostic {
+                code: "domain_io_permission_denied".to_string(),
+                severity: FindingSeverity::Blocking,
+                domain: Some(
+                    opc_product_domains::legacy_migration::MigrationDomainId::WorkspaceSessions,
+                ),
+                relative_path: Some("C:/Users/private/session-state.json".to_string()),
+                message: "A migration-owned file or directory denied access.".to_string(),
+                action: Some(
+                    "Close programs using the data, check permissions, and retry.".to_string(),
+                ),
+            }],
             ..MigrationRunReport::default()
         };
 

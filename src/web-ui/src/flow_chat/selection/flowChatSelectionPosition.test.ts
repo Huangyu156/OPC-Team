@@ -59,7 +59,7 @@ describe('native selection endpoint geometry', () => {
   beforeEach(() => {
     root = document.createElement('div');
     root.dataset.flowchatSelectionRoot = 'session';
-    root.innerHTML = '<div data-flowchat-scroller="true" data-openbitfun-viewport-inset-bottom="100" style="overflow: auto">'
+    root.innerHTML = '<div data-flowchat-scroller="true" data-opc-viewport-inset-bottom="100" style="overflow: auto">'
       + '<div data-turn-id="turn"><div data-flow-item-id="text"><p>first <strong>bold</strong></p><p>last</p></div></div></div>';
     document.body.append(root);
     scroller = root.firstElementChild as HTMLElement;

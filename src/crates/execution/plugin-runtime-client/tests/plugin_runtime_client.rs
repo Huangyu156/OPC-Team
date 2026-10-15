@@ -1,6 +1,6 @@
 use async_trait::async_trait;
-use openbitfun_plugin_runtime_client::{DefaultPluginRuntimeClient, PluginRuntimeAdapter};
-use openbitfun_runtime_ports::{
+use opc_plugin_runtime_client::{DefaultPluginRuntimeClient, PluginRuntimeAdapter};
+use opc_runtime_ports::{
     PermissionPromptDenyState, PermissionPromptDescriptor, PermissionPromptEffectKind,
     PluginAuditRef, PluginCapabilityRef, PluginDataClassification, PluginDispatchEnvelope,
     PluginEffectCandidate, PluginEffectCandidatePayload, PluginManifestRef, PluginOwnerKind,

@@ -66,10 +66,10 @@ fn forward_subagent_invocation_context(
     context: &ToolUseContext,
     subagent_context: &mut HashMap<String, String>,
 ) {
-    use openbitfun_agent_runtime::permission::{
+    use opc_agent_runtime::permission::{
         AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY,
     };
-    use openbitfun_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
+    use opc_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
 
     for key in [
         USER_INPUT_AVAILABLE_CONTEXT_KEY,
@@ -95,7 +95,7 @@ fn forward_subagent_invocation_context(
         .custom_data
         .get(PERMISSION_MODE_CONTEXT_KEY)
         .and_then(Value::as_str)
-        .and_then(openbitfun_runtime_ports::PermissionMode::parse)
+        .and_then(opc_runtime_ports::PermissionMode::parse)
     {
         subagent_context.insert(
             PERMISSION_MODE_CONTEXT_KEY.to_string(),
@@ -132,12 +132,12 @@ async fn child_delegation_policy(
     coordinator: &crate::agentic::coordination::ConversationCoordinator,
     subagent_type: Option<&str>,
     target_session_id: Option<&str>,
-) -> OpcTeamResult<openbitfun_runtime_ports::DelegationPolicy> {
+) -> OpcTeamResult<opc_runtime_ports::DelegationPolicy> {
     let target_type = target_session_id
         .and_then(|session_id| coordinator.get_session_manager().get_session(session_id))
         .map(|session| session.agent_type);
     let parent_policy = context.delegation_policy();
-    if parent_policy.scope == openbitfun_runtime_ports::DelegationScope::Swarm {
+    if parent_policy.scope == opc_runtime_ports::DelegationScope::Swarm {
         if let Some(target_type) = target_type.as_deref() {
             let target_depth = match target_session_id {
                 Some(session_id) => coordinator
@@ -150,10 +150,10 @@ async fn child_delegation_policy(
                     })?,
                 None => parent_policy.nesting_depth,
             };
-            return Ok(openbitfun_runtime_ports::DelegationPolicy {
+            return Ok(opc_runtime_ports::DelegationPolicy {
                 allow_subagent_spawn: target_type == "SwarmPlanner",
                 nesting_depth: target_depth,
-                scope: openbitfun_runtime_ports::DelegationScope::Swarm,
+                scope: opc_runtime_ports::DelegationScope::Swarm,
             });
         }
     }
@@ -1289,8 +1289,8 @@ impl AgentExecutionTool {
         };
 
         let (mut data, mut result_for_assistant) =
-            openbitfun_agent_runtime::subagent_task::subagent_task_completion_result(
-                openbitfun_agent_runtime::subagent_task::SubagentTaskCompletionResultInput {
+            opc_agent_runtime::subagent_task::subagent_task_completion_result(
+                opc_agent_runtime::subagent_task::SubagentTaskCompletionResultInput {
                     delegate_target_label: &delegate_target_label,
                     result_text: &result.text,
                     context_mode: context_mode.as_str(),
@@ -1329,11 +1329,9 @@ impl AgentExecutionTool {
 #[cfg(test)]
 mod target_context_tests {
     use super::*;
-    use openbitfun_agent_runtime::deep_review::{
-        append_tool_use_context_data, ReviewTargetEvidence,
-    };
-    use openbitfun_agent_runtime::permission::AUTO_APPROVE_ASK_CONTEXT_KEY;
-    use openbitfun_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
+    use opc_agent_runtime::deep_review::{append_tool_use_context_data, ReviewTargetEvidence};
+    use opc_agent_runtime::permission::AUTO_APPROVE_ASK_CONTEXT_KEY;
+    use opc_agent_runtime::user_questions::USER_INPUT_AVAILABLE_CONTEXT_KEY;
 
     fn parent_tool_context() -> ToolUseContext {
         ToolUseContext {
@@ -1347,7 +1345,7 @@ mod target_context_tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -1470,7 +1468,7 @@ mod target_context_tests {
 
     #[test]
     fn child_context_inherits_the_parent_resolved_permission_mode() {
-        use openbitfun_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
+        use opc_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
 
         let mut parent = parent_tool_context();
         parent.custom_data.insert(
@@ -1486,7 +1484,7 @@ mod target_context_tests {
 
     #[test]
     fn child_context_rejects_an_unparseable_permission_mode() {
-        use openbitfun_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
+        use opc_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
 
         let mut parent = parent_tool_context();
         parent.custom_data.insert(
@@ -1504,7 +1502,7 @@ mod target_context_tests {
 
     #[test]
     fn child_context_leaves_unset_permission_mode_for_global_fallback() {
-        use openbitfun_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
+        use opc_agent_runtime::permission::PERMISSION_MODE_CONTEXT_KEY;
 
         let parent = parent_tool_context();
         let mut child = HashMap::new();

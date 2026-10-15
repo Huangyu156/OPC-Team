@@ -17,17 +17,17 @@ use crate::api::search_api::{
 use crate::api::workspace_activation::spawn_workspace_background_warmup;
 use crate::startup_trace::DesktopStartupTrace;
 use log::{debug, error, info, warn};
-use openbitfun_core::infrastructure::{
+use opc_core::infrastructure::{
     BatchedFileSearchProgressSink, FileSearchResult, FileSearchResultGroup, FileTreeNode,
     SearchMatchType,
 };
-use openbitfun_core::service::file_watch;
-use openbitfun_core::service::remote_ssh::get_remote_workspace_manager;
-use openbitfun_core::service::remote_ssh::{
+use opc_core::service::file_watch;
+use opc_core::service::remote_ssh::get_remote_workspace_manager;
+use opc_core::service::remote_ssh::{
     search_remote_file_names, shell_quote_posix, RemoteFileNameSearch,
 };
-use openbitfun_core::service::workspace::{ScanOptions, WorkspaceInfo, WorkspaceKind};
-use openbitfun_core_types::product_identity::hidden_data_directory;
+use opc_core::service::workspace::{ScanOptions, WorkspaceInfo, WorkspaceKind};
+use opc_core_types::product_identity::hidden_data_directory;
 use serde::{Deserialize, Serialize};
 use std::io::{Read, Write};
 use std::path::{Path, PathBuf};
@@ -68,7 +68,7 @@ fn remote_workspace_from_info(info: &WorkspaceInfo) -> Option<crate::api::Remote
         .and_then(|v| v.as_str())
         .unwrap_or(&cid)
         .to_string();
-    let rp = openbitfun_core::service::remote_ssh::normalize_remote_workspace_path(
+    let rp = opc_core::service::remote_ssh::normalize_remote_workspace_path(
         &info.root_path.to_string_lossy(),
     );
     let ssh_host = info
@@ -349,7 +349,7 @@ struct SearchCommandResponse {
 }
 
 fn serialize_search_response(
-    outcome: openbitfun_core::infrastructure::FileSearchOutcome,
+    outcome: opc_core::infrastructure::FileSearchOutcome,
     limit: usize,
     search_metadata: Option<SearchMetadataResponse>,
 ) -> serde_json::Value {
@@ -461,17 +461,17 @@ pub struct UpdateWorkspaceInfoRequest {
     pub description: Option<String>,
     pub tags: Option<Vec<String>>,
     #[serde(default)]
-    pub related_paths: Option<Vec<openbitfun_core::service::workspace::RelatedPath>>,
+    pub related_paths: Option<Vec<opc_core::service::workspace::RelatedPath>>,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct TestAIConfigConnectionRequest {
-    pub config: openbitfun_core::service::config::types::AIModelConfig,
+    pub config: opc_core::service::config::types::AIModelConfig,
 }
 
 #[derive(Debug, Deserialize)]
 pub struct ListAIModelsByConfigRequest {
-    pub config: openbitfun_core::service::config::types::AIModelConfig,
+    pub config: opc_core::service::config::types::AIModelConfig,
 }
 
 #[derive(Debug, Deserialize)]
@@ -507,7 +507,7 @@ pub struct DeleteAgentCompanionPetPackageRequest {
     pub package_path: String,
 }
 
-pub use openbitfun_services_core::pet_packages::PetPackage as AgentCompanionPetPackageDto;
+pub use opc_services_core::pet_packages::PetPackage as AgentCompanionPetPackageDto;
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -525,7 +525,7 @@ pub struct ListAgentCompanionPetsResponse {
     pub import_operations_version: u32,
     pub builtin_import_version: u32,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub external: Option<openbitfun_services_core::pet_packages::PetCatalog>,
+    pub external: Option<opc_services_core::pet_packages::PetCatalog>,
 }
 
 #[derive(Debug, Deserialize)]
@@ -892,7 +892,7 @@ async fn clear_active_workspace_context(
 async fn apply_active_workspace_context(
     state: &State<'_, AppState>,
     app: &AppHandle,
-    workspace_info: &openbitfun_core::service::workspace::manager::WorkspaceInfo,
+    workspace_info: &opc_core::service::workspace::manager::WorkspaceInfo,
     startup_trace: Option<&DesktopStartupTrace>,
 ) {
     #[cfg(not(target_os = "macos"))]
@@ -1053,7 +1053,7 @@ pub async fn test_ai_connection(state: State<'_, AppState>) -> Result<bool, Stri
 #[tauri::command]
 pub async fn initialize_ai(state: State<'_, AppState>) -> Result<String, String> {
     let config_service = &state.config_service;
-    let global_config: openbitfun_core::service::config::GlobalConfig = config_service
+    let global_config: opc_core::service::config::GlobalConfig = config_service
         .get_config(None)
         .await
         .map_err(|e| format!("Failed to get configuration: {}", e))?;
@@ -1087,21 +1087,21 @@ pub async fn initialize_ai(state: State<'_, AppState>) -> Result<String, String>
 
 async fn create_transient_ai_client_for_config(
     state: &State<'_, AppState>,
-    model_config: openbitfun_core::service::config::types::AIModelConfig,
-) -> Result<openbitfun_core::infrastructure::ai::AIClient, String> {
+    model_config: opc_core::service::config::types::AIModelConfig,
+) -> Result<opc_core::infrastructure::ai::AIClient, String> {
     let auth = model_config.auth.clone();
 
-    let global_config: openbitfun_core::service::config::GlobalConfig = state
+    let global_config: opc_core::service::config::GlobalConfig = state
         .config_service
         .get_config(None)
         .await
         .map_err(|e| format!("Failed to get configuration: {}", e))?;
-    let stream_options = openbitfun_core::infrastructure::ai::build_stream_options_for_model(
+    let stream_options = opc_core::infrastructure::ai::build_stream_options_for_model(
         &global_config.ai,
         Some(&model_config),
     );
 
-    let mut ai_config: openbitfun_core::util::types::AIConfig = model_config
+    let mut ai_config: opc_core::util::types::AIConfig = model_config
         .try_into()
         .map_err(|e| format!("Failed to convert configuration: {}", e))?;
     let skip_ssl_verify = ai_config.skip_ssl_verify;
@@ -1112,12 +1112,12 @@ async fn create_transient_ai_client_for_config(
         None
     };
     let subscription_options =
-        openbitfun_core::infrastructure::subscription_auth::SubscriptionHttpOptions::new(
+        opc_core::infrastructure::subscription_auth::SubscriptionHttpOptions::new(
             proxy_config.clone(),
             skip_ssl_verify,
         );
 
-    openbitfun_core::infrastructure::ai::client_factory::apply_subscription_auth_with_options(
+    opc_core::infrastructure::ai::client_factory::apply_subscription_auth_with_options(
         &auth,
         &mut ai_config,
         &subscription_options,
@@ -1126,9 +1126,9 @@ async fn create_transient_ai_client_for_config(
     .map_err(|e| format!("Failed to resolve subscription auth: {}", e))?;
 
     Ok(
-        openbitfun_core::infrastructure::ai::client_factory::apply_subscription_request_profile(
+        opc_core::infrastructure::ai::client_factory::apply_subscription_request_profile(
             &auth,
-            openbitfun_core::infrastructure::ai::AIClient::new_with_runtime_options(
+            opc_core::infrastructure::ai::AIClient::new_with_runtime_options(
                 ai_config,
                 proxy_config,
                 stream_options,
@@ -1141,16 +1141,16 @@ async fn create_transient_ai_client_for_config(
 pub async fn test_ai_config_connection(
     state: State<'_, AppState>,
     request: TestAIConfigConnectionRequest,
-) -> Result<openbitfun_core::util::types::ConnectionTestResult, String> {
+) -> Result<opc_core::util::types::ConnectionTestResult, String> {
     let model_name = request.config.name.clone();
     let supports_image_input = request.config.capabilities.iter().any(|cap| {
         matches!(
             cap,
-            openbitfun_core::service::config::types::ModelCapability::ImageUnderstanding
+            opc_core::service::config::types::ModelCapability::ImageUnderstanding
         )
     }) || matches!(
         request.config.category,
-        openbitfun_core::service::config::types::ModelCategory::Multimodal
+        opc_core::service::config::types::ModelCategory::Multimodal
     );
 
     let ai_client = create_transient_ai_client_for_config(&state, request.config)
@@ -1177,7 +1177,7 @@ pub async fn test_ai_config_connection(
                             result.response_time_ms + image_result.response_time_ms;
 
                         if !image_result.success {
-                            let merged = openbitfun_core::util::types::ConnectionTestResult {
+                            let merged = opc_core::util::types::ConnectionTestResult {
                                 success: false,
                                 response_time_ms,
                                 model_response: image_result
@@ -1193,7 +1193,7 @@ pub async fn test_ai_config_connection(
                             return Ok(merged);
                         }
 
-                        let merged = openbitfun_core::util::types::ConnectionTestResult {
+                        let merged = opc_core::util::types::ConnectionTestResult {
                             success: true,
                             response_time_ms,
                             model_response: image_result.model_response.or(result.model_response),
@@ -1236,7 +1236,7 @@ pub async fn test_ai_config_connection(
 pub async fn list_ai_models_by_config(
     state: State<'_, AppState>,
     request: ListAIModelsByConfigRequest,
-) -> Result<Vec<openbitfun_core::util::types::RemoteModelInfo>, String> {
+) -> Result<Vec<opc_core::util::types::RemoteModelInfo>, String> {
     let config_name = request.config.name.clone();
     let ai_client = create_transient_ai_client_for_config(&state, request.config).await?;
 
@@ -1345,9 +1345,9 @@ pub async fn open_remote_workspace(
     app: tauri::AppHandle,
     request: OpenRemoteWorkspaceRequest,
 ) -> Result<WorkspaceInfoDto, String> {
-    use openbitfun_core::service::remote_ssh::normalize_remote_workspace_path;
-    use openbitfun_core::service::remote_ssh::workspace_state::remote_workspace_stable_id;
-    use openbitfun_core::service::workspace::{
+    use opc_core::service::remote_ssh::normalize_remote_workspace_path;
+    use opc_core::service::remote_ssh::workspace_state::remote_workspace_stable_id;
+    use opc_core::service::workspace::{
         remote_workspace_connection_conflict_message, RemoteConnectionRebind,
         WorkspaceCreateOptions,
     };
@@ -1761,7 +1761,7 @@ pub async fn reset_assistant_workspace(
 
     clear_directory_contents(&workspace_info.root_path).await?;
 
-    openbitfun_core::service::reset_workspace_persona_files_to_default(&workspace_info.root_path)
+    opc_core::service::reset_workspace_persona_files_to_default(&workspace_info.root_path)
         .await
         .map_err(|e| format!("Failed to restore assistant workspace persona files: {}", e))?;
 
@@ -1899,7 +1899,7 @@ pub async fn update_workspace_info(
     app: tauri::AppHandle,
     request: UpdateWorkspaceInfoRequest,
 ) -> Result<WorkspaceInfoDto, String> {
-    let updates = openbitfun_core::service::workspace::WorkspaceInfoUpdates {
+    let updates = opc_core::service::workspace::WorkspaceInfoUpdates {
         name: request.name,
         description: request.description,
         tags: request.tags,
@@ -2239,7 +2239,7 @@ pub async fn scan_workspace_info(
             .await
             .and_then(|record| {
                 record.ok_or_else(|| {
-                    openbitfun_core::OpcTeamError::service("Workspace ID is required for scanning")
+                    opc_core::OpcTeamError::service("Workspace ID is required for scanning")
                 })
             })
     }
@@ -2258,7 +2258,7 @@ async fn ensure_directory_request_path(
     use std::path::Path;
 
     if let Some(id) = remote_connection_id.filter(|id| !id.trim().is_empty()) {
-        openbitfun_core::service::filesystem::path_operations::resolve_explicit_path_connection(
+        opc_core::service::filesystem::path_operations::resolve_explicit_path_connection(
             path,
             id.trim(),
         )
@@ -2427,7 +2427,7 @@ async fn get_directory_children_paginated_response(
         .await
     {
         Ok(mut nodes) => {
-            openbitfun_core::service::filesystem::sort_directory_nodes(
+            opc_core::service::filesystem::sort_directory_nodes(
                 &mut nodes,
                 request.sort_by.as_deref(),
                 request.sort_order.as_deref(),
@@ -2611,13 +2611,12 @@ mod pet_package_tests {
     #[ignore = "Imports installed Codex pets into an isolated temporary directory"]
     fn installed_builtin_pets_can_be_previewed_and_imported() {
         let temp = tempfile::tempdir().unwrap();
-        let sources =
-            openbitfun_core::external_sources::external_builtin_pet_sources("codex", None);
+        let sources = opc_core::external_sources::external_builtin_pet_sources("codex", None);
         assert!(sources.diagnostics.is_empty(), "{:?}", sources.diagnostics);
         assert!(!sources.pets.is_empty());
         for source in sources.pets {
             let identity = format!("codex:builtin:{}", source.id);
-            let candidate = openbitfun_services_core::pet_packages::candidate_from_bytes(
+            let candidate = opc_services_core::pet_packages::candidate_from_bytes(
                 temp.path(),
                 &identity,
                 &source.archive_path,
@@ -2771,22 +2770,22 @@ pub async fn list_agent_companion_pets(
         .is_some_and(|r| r.builtin_import_version == Some(1));
     let mut response = list_agent_companion_pets_impl(&state).await?;
     if request.is_some_and(|r| r.include_external) {
-        let source_root = openbitfun_core::external_sources::external_pet_source_root("codex")
+        let source_root = opc_core::external_sources::external_pet_source_root("codex")
             .ok_or("Pet source is unavailable")?;
         let installed_root = companion_user_packages_dir(&state);
         response.external = Some(
             tokio::task::spawn_blocking(move || {
                 let mut catalog =
-                    openbitfun_services_core::pet_packages::catalog(&source_root, &installed_root);
+                    opc_services_core::pet_packages::catalog(&source_root, &installed_root);
                 if !include_builtins {
                     return catalog;
                 }
                 let bundled =
-                    openbitfun_core::external_sources::external_builtin_pet_sources("codex", None);
+                    opc_core::external_sources::external_builtin_pet_sources("codex", None);
                 catalog.diagnostics.extend(bundled.diagnostics);
                 for source in bundled.pets {
                     let identity = format!("codex:builtin:{}", source.id);
-                    match openbitfun_services_core::pet_packages::candidate_from_bytes(
+                    match opc_services_core::pet_packages::candidate_from_bytes(
                         &installed_root,
                         &identity,
                         &source.archive_path,
@@ -2844,7 +2843,7 @@ fn import_pet_request(
             .as_deref()
             .ok_or("Built-in pet import requires a reviewed fingerprint")?;
         let mut catalog =
-            openbitfun_core::external_sources::external_builtin_pet_sources("codex", Some(&id));
+            opc_core::external_sources::external_builtin_pet_sources("codex", Some(&id));
         let source = catalog.pets.pop().ok_or_else(|| {
             if catalog.diagnostics.is_empty() {
                 "Built-in pet is unavailable".to_string()
@@ -2852,7 +2851,7 @@ fn import_pet_request(
                 catalog.diagnostics.join("; ")
             }
         })?;
-        return openbitfun_services_core::pet_packages::import_bytes(
+        return opc_services_core::pet_packages::import_bytes(
             &root,
             &format!("codex:builtin:{id}"),
             &source.manifest,
@@ -2860,7 +2859,7 @@ fn import_pet_request(
             expected,
         );
     }
-    openbitfun_services_core::pet_packages::import(
+    opc_services_core::pet_packages::import(
         &root,
         Path::new(&request.path),
         request.expected_fingerprint.as_deref(),
@@ -2874,7 +2873,7 @@ pub(crate) async fn import_agent_companion_pet_package_impl(
     let root = companion_user_packages_dir(state);
     let source_path = source_path.to_string();
     tokio::task::spawn_blocking(move || {
-        openbitfun_services_core::pet_packages::import(&root, Path::new(&source_path), None)
+        opc_services_core::pet_packages::import(&root, Path::new(&source_path), None)
     })
     .await
     .map_err(|e| e.to_string())?
@@ -2936,7 +2935,7 @@ pub async fn write_file_content(
         request.workspace_id.as_deref(),
     )
     .await?;
-    use openbitfun_core::service::filesystem::path_operations::{
+    use opc_core::service::filesystem::path_operations::{
         write_local_text_checked, write_text_checked,
     };
     match target {
@@ -3010,7 +3009,7 @@ pub async fn reset_workspace_persona_files(
         ));
     }
 
-    openbitfun_core::service::reset_workspace_persona_files_to_default(&workspace.root_path)
+    opc_core::service::reset_workspace_persona_files_to_default(&workspace.root_path)
         .await
         .map_err(|e| {
             error!(
@@ -3132,7 +3131,7 @@ pub async fn export_local_file_to_path(request: ExportLocalFileRequest) -> Resul
         ("source", request.source_path.as_str()),
         ("destination", request.destination_path.as_str()),
     ] {
-        if openbitfun_core::service::workspace::remote_io_for_legacy_or_id(
+        if opc_core::service::workspace::remote_io_for_legacy_or_id(
             request.workspace_id.as_deref(),
             request.controller_local,
             path.trim(),
@@ -4590,7 +4589,7 @@ pub(crate) fn reveal_local_path_in_explorer(
     {
         if is_directory {
             let normalized_path = path_str.replace("/", "\\");
-            openbitfun_core::util::process_manager::create_command("explorer")
+            opc_core::util::process_manager::create_command("explorer")
                 .arg(&normalized_path)
                 .spawn()
                 .map_err(|e| format!("Failed to open explorer: {}", e))?;
@@ -4606,12 +4605,12 @@ pub(crate) fn reveal_local_path_in_explorer(
     #[cfg(target_os = "macos")]
     {
         if is_directory {
-            openbitfun_core::util::process_manager::create_command("open")
+            opc_core::util::process_manager::create_command("open")
                 .arg(&path_str)
                 .spawn()
                 .map_err(|e| format!("Failed to open finder: {}", e))?;
         } else {
-            openbitfun_core::util::process_manager::create_command("open")
+            opc_core::util::process_manager::create_command("open")
                 .args(["-R", &path_str])
                 .spawn()
                 .map_err(|e| format!("Failed to open finder: {}", e))?;
@@ -4621,7 +4620,7 @@ pub(crate) fn reveal_local_path_in_explorer(
     #[cfg(target_os = "linux")]
     {
         if is_directory {
-            openbitfun_core::util::process_manager::create_command("xdg-open")
+            opc_core::util::process_manager::create_command("xdg-open")
                 .arg(&path_str)
                 .spawn()
                 .map_err(|e| format!("Failed to open file manager: {}", e))?;
@@ -4640,7 +4639,7 @@ pub(crate) fn reveal_local_path_in_explorer(
                 .collect::<Vec<_>>()
                 .join("/");
             let file_uri = format!("file://{}", encoded_path);
-            let dbus_ok = match openbitfun_core::util::process_manager::create_command("dbus-send")
+            let dbus_ok = match opc_core::util::process_manager::create_command("dbus-send")
                 .args([
                     "--session",
                     "--print-reply",
@@ -4660,7 +4659,7 @@ pub(crate) fn reveal_local_path_in_explorer(
                 let parent = path
                     .parent()
                     .ok_or_else(|| "Failed to get parent directory".to_string())?;
-                openbitfun_core::util::process_manager::create_command("xdg-open")
+                opc_core::util::process_manager::create_command("xdg-open")
                     .arg(parent)
                     .spawn()
                     .map_err(|e| format!("Failed to open file manager: {}", e))?;
@@ -4676,7 +4675,7 @@ pub async fn search_files(
     state: State<'_, AppState>,
     mut request: SearchFilesRequest,
 ) -> Result<serde_json::Value, String> {
-    use openbitfun_core::service::filesystem::FileSearchOptions;
+    use opc_core::service::filesystem::FileSearchOptions;
     let workspace = crate::api::search_api::resolve_search_workspace(
         &state,
         request.workspace_id.as_deref(),
@@ -4867,7 +4866,7 @@ pub async fn search_filenames(
     state: State<'_, AppState>,
     mut request: SearchFilenamesRequest,
 ) -> Result<serde_json::Value, String> {
-    use openbitfun_core::service::filesystem::FileSearchOptions;
+    use opc_core::service::filesystem::FileSearchOptions;
     let workspace = crate::api::search_api::resolve_search_workspace(
         &state,
         request.workspace_id.as_deref(),
@@ -4920,10 +4919,11 @@ pub async fn search_filenames(
                 progress_sink: None,
             })
             .await
-            .map_err(openbitfun_core::util::errors::OpcTeamError::service),
-            Err(error) => Err(openbitfun_core::util::errors::OpcTeamError::service(
-                format!("Remote file service not available: {}", error),
-            )),
+            .map_err(opc_core::util::errors::OpcTeamError::service),
+            Err(error) => Err(opc_core::util::errors::OpcTeamError::service(format!(
+                "Remote file service not available: {}",
+                error
+            ))),
         },
         Ok(DesktopPathTarget::Local { .. }) => {
             state
@@ -4931,7 +4931,7 @@ pub async fn search_filenames(
                 .search_file_names(&request.root_path, &request.pattern, options, cancel_flag)
                 .await
         }
-        Err(error) => Err(openbitfun_core::util::errors::OpcTeamError::service(error)),
+        Err(error) => Err(opc_core::util::errors::OpcTeamError::service(error)),
     };
     unregister_search(&state, search_id.as_deref());
 
@@ -4962,7 +4962,7 @@ pub async fn search_file_contents(
     state: State<'_, AppState>,
     mut request: SearchFileContentsRequest,
 ) -> Result<serde_json::Value, String> {
-    use openbitfun_core::service::filesystem::FileSearchOptions;
+    use opc_core::service::filesystem::FileSearchOptions;
     let workspace = crate::api::search_api::resolve_search_workspace(
         &state,
         request.workspace_id.as_deref(),
@@ -5045,7 +5045,7 @@ pub async fn start_search_filenames_stream(
     state: State<'_, AppState>,
     mut request: SearchFilenamesRequest,
 ) -> Result<serde_json::Value, String> {
-    use openbitfun_core::service::filesystem::FileSearchOptions;
+    use opc_core::service::filesystem::FileSearchOptions;
     let workspace = crate::api::search_api::resolve_search_workspace(
         &state,
         request.workspace_id.as_deref(),
@@ -5140,7 +5140,7 @@ pub async fn start_search_filenames_stream(
                 progress_sink: Some(progress_sink),
             })
             .await
-            .map_err(openbitfun_core::util::errors::OpcTeamError::service)
+            .map_err(opc_core::util::errors::OpcTeamError::service)
         } else {
             filesystem_service
                 .search_file_names_with_progress(
@@ -5204,7 +5204,7 @@ pub async fn start_search_file_contents_stream(
     state: State<'_, AppState>,
     mut request: SearchFileContentsRequest,
 ) -> Result<serde_json::Value, String> {
-    use openbitfun_core::service::filesystem::FileSearchOptions;
+    use opc_core::service::filesystem::FileSearchOptions;
     let workspace = crate::api::search_api::resolve_search_workspace(
         &state,
         request.workspace_id.as_deref(),
@@ -5292,18 +5292,16 @@ pub async fn start_search_file_contents_stream(
                     .is_some_and(|flag| flag.load(Ordering::Relaxed))
                 {
                     for group in group_search_results(outcome.results.clone()) {
-                        openbitfun_core::infrastructure::FileSearchProgressSink::report(
+                        opc_core::infrastructure::FileSearchProgressSink::report(
                             progress_sink.as_ref(),
                             group,
                         );
                     }
-                    openbitfun_core::infrastructure::FileSearchProgressSink::flush(
-                        progress_sink.as_ref(),
-                    );
+                    opc_core::infrastructure::FileSearchProgressSink::flush(progress_sink.as_ref());
                 }
             }
             result.map_err(|error| {
-                openbitfun_core::util::errors::OpcTeamError::service(format!(
+                opc_core::util::errors::OpcTeamError::service(format!(
                     "Failed to search file contents via workspace search: {}",
                     error
                 ))
@@ -5383,7 +5381,7 @@ pub async fn cancel_search(
 
 #[tauri::command]
 pub async fn get_global_config_status() -> Result<bool, String> {
-    Ok(openbitfun_core::service::config::GlobalConfigManager::is_initialized())
+    Ok(opc_core::service::config::GlobalConfigManager::is_initialized())
 }
 
 #[tauri::command]
@@ -5414,40 +5412,39 @@ pub async fn get_model_configs(
 /// catalog, which every host refreshes for itself, and only Model Settings reads
 /// them — through `get_local_models_dev_catalogs`, which stays on this machine.
 #[tauri::command]
-pub async fn get_ai_model_catalog() -> Result<openbitfun_core::AIModelCatalog, String> {
-    openbitfun_core::get_remote_model_catalog().await
+pub async fn get_ai_model_catalog() -> Result<opc_core::AIModelCatalog, String> {
+    opc_core::get_remote_model_catalog().await
 }
 
 /// This machine's own models.dev projections, for a controller rendering the
 /// Model Settings surface while a peer is selected. Declared controller-local in
 /// the Product Operation Registry, so it never reaches a peer host.
 #[tauri::command]
-pub async fn get_local_models_dev_catalogs(
-) -> Result<openbitfun_core::LocalModelsDevCatalogs, String> {
-    openbitfun_core::get_local_models_dev_catalogs().await
+pub async fn get_local_models_dev_catalogs() -> Result<opc_core::LocalModelsDevCatalogs, String> {
+    opc_core::get_local_models_dev_catalogs().await
 }
 
 #[tauri::command]
 pub async fn project_ai_model_reasoning_catalog(
-    request: openbitfun_core_types::ReasoningCatalogProjectionRequest,
-) -> openbitfun_core_types::ReasoningCatalogProjection {
-    openbitfun_core::project_ai_model_reasoning_catalog(request).await
+    request: opc_core_types::ReasoningCatalogProjectionRequest,
+) -> opc_core_types::ReasoningCatalogProjection {
+    opc_core::project_ai_model_reasoning_catalog(request).await
 }
 
 #[tauri::command]
-pub async fn get_models_dev_catalog_status() -> openbitfun_core_types::ModelsDevCatalogStatus {
-    openbitfun_core::get_models_dev_catalog_status().await
+pub async fn get_models_dev_catalog_status() -> opc_core_types::ModelsDevCatalogStatus {
+    opc_core::get_models_dev_catalog_status().await
 }
 
 #[tauri::command]
 pub async fn refresh_models_dev_catalog_now(
-) -> Result<openbitfun_core_types::ModelsDevRefreshResult, String> {
-    openbitfun_core::refresh_models_dev_catalog_now().await
+) -> Result<opc_core_types::ModelsDevRefreshResult, String> {
+    opc_core::refresh_models_dev_catalog_now().await
 }
 
 #[tauri::command]
 pub async fn reveal_models_dev_cache_directory() -> Result<(), String> {
-    let status = openbitfun_core::get_models_dev_catalog_status().await;
+    let status = opc_core::get_models_dev_catalog_status().await;
     let cache_path = std::path::PathBuf::from(&status.cache_path);
     let directory = cache_path
         .parent()
@@ -5552,22 +5549,22 @@ pub async fn get_watched_paths() -> Result<Vec<String>, String> {
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SubscriptionProviderRequest {
-    pub provider: openbitfun_core::infrastructure::subscription_auth::SubscriptionProvider,
+    pub provider: opc_core::infrastructure::subscription_auth::SubscriptionProvider,
 }
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct SubscriptionLoginRequest {
-    pub provider: openbitfun_core::infrastructure::subscription_auth::SubscriptionProvider,
+    pub provider: opc_core::infrastructure::subscription_auth::SubscriptionProvider,
     pub session_id: String,
     #[serde(default)]
-    pub method: Option<openbitfun_core::infrastructure::subscription_auth::SubscriptionLoginMethod>,
+    pub method: Option<opc_core::infrastructure::subscription_auth::SubscriptionLoginMethod>,
 }
 
 async fn configured_ai_proxy(
     state: &State<'_, AppState>,
-) -> Result<Option<openbitfun_core::service::config::types::ProxyConfig>, String> {
-    let global_config: openbitfun_core::service::config::GlobalConfig = state
+) -> Result<Option<opc_core::service::config::types::ProxyConfig>, String> {
+    let global_config: opc_core::service::config::GlobalConfig = state
         .config_service
         .get_config(None)
         .await
@@ -5582,21 +5579,21 @@ async fn configured_ai_proxy(
 
 #[tauri::command]
 pub async fn list_subscription_accounts(
-) -> Result<Vec<openbitfun_core::infrastructure::subscription_auth::SubscriptionAccount>, String> {
-    Ok(openbitfun_core::infrastructure::subscription_auth::list_accounts().await)
+) -> Result<Vec<opc_core::infrastructure::subscription_auth::SubscriptionAccount>, String> {
+    Ok(opc_core::infrastructure::subscription_auth::list_accounts().await)
 }
 
 #[tauri::command]
 pub async fn start_subscription_login(
     state: State<'_, AppState>,
     request: SubscriptionLoginRequest,
-) -> Result<openbitfun_core::infrastructure::subscription_auth::LoginStartResult, String> {
+) -> Result<opc_core::infrastructure::subscription_auth::LoginStartResult, String> {
     let proxy_config = configured_ai_proxy(&state).await?;
-    let options = openbitfun_core::infrastructure::subscription_auth::SubscriptionHttpOptions::new(
+    let options = opc_core::infrastructure::subscription_auth::SubscriptionHttpOptions::new(
         proxy_config,
         false,
     );
-    openbitfun_core::infrastructure::subscription_auth::start_login_with_method_and_options(
+    opc_core::infrastructure::subscription_auth::start_login_with_method_and_options(
         request.provider,
         request.session_id,
         request.method,
@@ -5609,30 +5606,24 @@ pub async fn start_subscription_login(
 #[tauri::command]
 pub async fn get_subscription_login_status(
     request: SubscriptionLoginRequest,
-) -> Result<openbitfun_core::infrastructure::subscription_auth::LoginSessionSnapshot, String> {
-    openbitfun_core::infrastructure::subscription_auth::login_status(
-        request.provider,
-        &request.session_id,
-    )
-    .await
-    .map_err(|e| format!("Failed to get subscription login status: {e:#}"))
+) -> Result<opc_core::infrastructure::subscription_auth::LoginSessionSnapshot, String> {
+    opc_core::infrastructure::subscription_auth::login_status(request.provider, &request.session_id)
+        .await
+        .map_err(|e| format!("Failed to get subscription login status: {e:#}"))
 }
 
 #[tauri::command]
 pub async fn cancel_subscription_login(request: SubscriptionLoginRequest) -> Result<(), String> {
-    openbitfun_core::infrastructure::subscription_auth::cancel_login(
-        request.provider,
-        &request.session_id,
-    )
-    .await
-    .map_err(|e| format!("Failed to cancel subscription login: {e:#}"))
+    opc_core::infrastructure::subscription_auth::cancel_login(request.provider, &request.session_id)
+        .await
+        .map_err(|e| format!("Failed to cancel subscription login: {e:#}"))
 }
 
 #[tauri::command]
 pub async fn logout_subscription_account(
     request: SubscriptionProviderRequest,
-) -> Result<openbitfun_core::infrastructure::subscription_auth::SubscriptionLogoutResult, String> {
-    openbitfun_core::infrastructure::subscription_auth::logout(request.provider)
+) -> Result<opc_core::infrastructure::subscription_auth::SubscriptionLogoutResult, String> {
+    opc_core::infrastructure::subscription_auth::logout(request.provider)
         .await
         .map_err(|e| format!("Failed to logout subscription account: {e:#}"))
 }
@@ -5641,13 +5632,13 @@ pub async fn logout_subscription_account(
 pub async fn refresh_subscription_account(
     state: State<'_, AppState>,
     request: SubscriptionProviderRequest,
-) -> Result<openbitfun_core::infrastructure::subscription_auth::SubscriptionAccount, String> {
+) -> Result<opc_core::infrastructure::subscription_auth::SubscriptionAccount, String> {
     let proxy_config = configured_ai_proxy(&state).await?;
-    let options = openbitfun_core::infrastructure::subscription_auth::SubscriptionHttpOptions::new(
+    let options = opc_core::infrastructure::subscription_auth::SubscriptionHttpOptions::new(
         proxy_config,
         false,
     );
-    openbitfun_core::infrastructure::subscription_auth::refresh_account_with_options(
+    opc_core::infrastructure::subscription_auth::refresh_account_with_options(
         request.provider,
         &options,
     )
@@ -5661,7 +5652,7 @@ mod remote_guard_tests {
         ensure_workspace_watch_supported, export_local_file_to_path, CheckPathExistsRequest,
         ExportLocalFileRequest, GetFileMetadataRequest, OpenWorkspaceRequest, SearchFilesRequest,
     };
-    use openbitfun_core::service::remote_ssh::workspace_state::init_remote_workspace_manager;
+    use opc_core::service::remote_ssh::workspace_state::init_remote_workspace_manager;
 
     /// Registers a uniquely named remote root in the process-wide registry so the guards under
     /// test see a real remote workspace, and removes it again when the guard returns.
@@ -5700,7 +5691,7 @@ mod remote_guard_tests {
     }
 
     fn controller_sentinel(name: &str) -> std::path::PathBuf {
-        let path = std::env::temp_dir().join(format!("openbitfun-remote-audit-{name}"));
+        let path = std::env::temp_dir().join(format!("opc-remote-audit-{name}"));
         let _ = std::fs::remove_file(&path);
         let _ = std::fs::remove_dir_all(&path);
         path
@@ -5823,15 +5814,14 @@ mod remote_guard_tests {
 
 #[tauri::command]
 pub async fn workspace_file_upload(
-    request: openbitfun_core::service::filesystem::upload::WorkspaceUploadRequest,
+    request: opc_core::service::filesystem::upload::WorkspaceUploadRequest,
 ) -> Result<serde_json::Value, String> {
     let account = crate::api::remote_connect_api::account_status()
         .await?
         .user_id
         .ok_or("Sign in to use workspace transfers")?;
     let status =
-        openbitfun_core::service::filesystem::upload::workspace_file_upload(account, request)
-            .await?;
+        opc_core::service::filesystem::upload::workspace_file_upload(account, request).await?;
     serde_json::to_value(status).map_err(|error| error.to_string())
 }
 
@@ -5846,7 +5836,7 @@ mod file_workspace_id_contract_tests {
         assert_eq!(write.workspace_id.as_deref(), Some("workspace-1"));
         assert!(write.workspace_path.is_empty());
         let read: super::ReadFileContentRequest = serde_json::from_value(serde_json::json!({
-            "workspaceId":"workspace-1", "filePath":"openbitfun-runtime://current/plans/plan.md"
+            "workspaceId":"workspace-1", "filePath":"opc-runtime://current/plans/plan.md"
         }))
         .unwrap();
         assert_eq!(read.workspace_id.as_deref(), Some("workspace-1"));

@@ -11,7 +11,7 @@ The artwork was created with AI image generation from the character illustration
 the official brand mark, and the requested short-legged proportions.
 
 The built-in picker lists this pet immediately after the default blue-golden
-cat. Fangling keeps the `openbitfun-girl` package ID and paths so saved selections
+cat. Fangling keeps the `opc-girl` package ID and paths so saved selections
 continue to work after the display-name change. The earlier OpenBitFun Bifang
 mascot remains a separate preset.
 

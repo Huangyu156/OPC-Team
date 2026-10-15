@@ -217,7 +217,7 @@ describe('ReasoningPresetEditor', () => {
       'OpenAI (chat/completions)',
     );
 
-    const warning = activeContainer?.querySelector('[data-openbitfun-part="unavailableWarning"]');
+    const warning = activeContainer?.querySelector('[data-opc-part="unavailableWarning"]');
     expect(warning?.textContent).toContain('reasoningPresets.unavailableTitle');
     expect(warning?.textContent).toContain('OpenAI (chat/completions)');
     expect(warning?.textContent).toContain('Low, High');
@@ -452,7 +452,7 @@ describe('ReasoningPresetEditor', () => {
       'textarea[aria-label="reasoningPresets.settingPatch"]',
     );
     expect(textarea?.value).toContain('"effort": "low"');
-    expect(activeContainer?.querySelector('[data-openbitfun-part="actionControls"]')).toBeNull();
+    expect(activeContainer?.querySelector('[data-opc-part="actionControls"]')).toBeNull();
     expect(textarea?.placeholder).toContain('OpenAI (responses)');
 
     act(() => {
@@ -490,7 +490,7 @@ describe('ReasoningPresetEditor', () => {
 
     expect(textarea?.value).toBe('');
     expect(textarea?.placeholder).toBe('reasoningPresets.patchPlaceholder: Gemini');
-    expect(activeContainer?.querySelector('.openbitfun-reasoning-preset-editor__row-preview')).toBeNull();
+    expect(activeContainer?.querySelector('.opc-reasoning-preset-editor__row-preview')).toBeNull();
   });
 
   it('preserves legacy actions until the user explicitly replaces them', () => {
@@ -511,7 +511,7 @@ describe('ReasoningPresetEditor', () => {
     act(() => activeContainer
       ?.querySelector<HTMLButtonElement>('button[aria-label="Legacy"]')
       ?.click());
-    const legacyActions = activeContainer?.querySelectorAll('[data-openbitfun-part="action"]');
+    const legacyActions = activeContainer?.querySelectorAll('[data-opc-part="action"]');
     expect(legacyActions).toHaveLength(3);
     expect(activeContainer?.textContent).toContain('reasoningPresets.legacyTitle');
     expect(activeContainer?.textContent).toContain('high');

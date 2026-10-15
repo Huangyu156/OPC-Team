@@ -123,7 +123,7 @@ const WorkspaceAcpSessionSubmenu = forwardRef<HTMLDivElement, WorkspaceAcpSessio
 
     const focusFirstSubmenuItem = useCallback(() => {
       submenuRef.current
-        ?.querySelector<HTMLButtonElement>('[data-openbitfun-menu-item]:not(:disabled)')
+        ?.querySelector<HTMLButtonElement>('[data-opc-menu-item]:not(:disabled)')
         ?.focus();
     }, []);
 
@@ -170,7 +170,7 @@ const WorkspaceAcpSessionSubmenu = forwardRef<HTMLDivElement, WorkspaceAcpSessio
       <>
         <MenuItem
           ref={triggerRef}
-          className={`openbitfun-nav-panel__workspace-acp-menu-trigger${open ? ' is-open' : ''}`}
+          className={`opc-nav-panel__workspace-acp-menu-trigger${open ? ' is-open' : ''}`}
           leading={<Icon name="user" size="sm" />}
           shortcut={<Icon name="chevron-right" size="sm" aria-hidden="true" />}
           aria-haspopup="menu"
@@ -185,7 +185,7 @@ const WorkspaceAcpSessionSubmenu = forwardRef<HTMLDivElement, WorkspaceAcpSessio
         {open && createOverlayPortal(
           <Menu
             ref={setSubmenuRef}
-            className="openbitfun-nav-panel__workspace-item-menu-popover openbitfun-nav-panel__workspace-acp-submenu"
+            className="opc-nav-panel__workspace-item-menu-popover opc-nav-panel__workspace-acp-submenu"
             inlineSize="content"
             aria-label={label}
             data-placement={layout?.placement}
@@ -198,7 +198,7 @@ const WorkspaceAcpSessionSubmenu = forwardRef<HTMLDivElement, WorkspaceAcpSessio
             }}
           >
             {loading ? (
-              <MenuItem leading={<Loader2 className="openbitfun-nav-panel__menu-loading-icon" aria-hidden="true" />} disabled>
+              <MenuItem leading={<Loader2 className="opc-nav-panel__menu-loading-icon" aria-hidden="true" />} disabled>
                 {t('app.loading')}
               </MenuItem>
             ) : clients.map(client => {

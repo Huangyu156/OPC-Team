@@ -2,7 +2,7 @@
 //!
 //! This module owns provider-neutral managed-runtime command discovery. Product
 //! crates supply the managed runtime root; command lookup and PATH merging stay
-//! reusable and testable without `openbitfun-core`.
+//! reusable and testable without `opc-core`.
 
 use crate::system;
 use serde::{Deserialize, Serialize};
@@ -350,7 +350,7 @@ mod tests {
     fn temp_runtime_root() -> PathBuf {
         let mut p = std::env::temp_dir();
         let id = format!(
-            "openbitfun-runtime-test-{}-{}",
+            "opc-runtime-test-{}-{}",
             std::process::id(),
             std::time::SystemTime::now()
                 .duration_since(std::time::UNIX_EPOCH)

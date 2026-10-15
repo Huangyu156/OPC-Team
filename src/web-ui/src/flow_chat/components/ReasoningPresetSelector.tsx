@@ -124,23 +124,23 @@ export const ReasoningPresetSelector: React.FC<ReasoningPresetSelectorProps> = (
   return (
     <div
       ref={rootRef}
-      className="openbitfun-reasoning-preset-selector"
-      data-openbitfun-component="reasoning-preset-selector"
-      data-openbitfun-part="root"
-      data-openbitfun-state={open ? 'open' : undefined}
-      data-openbitfun-presentation={showLabel ? 'label' : 'meter'}
+      className="opc-reasoning-preset-selector"
+      data-opc-component="reasoning-preset-selector"
+      data-opc-part="root"
+      data-opc-state={open ? 'open' : undefined}
+      data-opc-presentation={showLabel ? 'label' : 'meter'}
     >
       <Tooltip content={tooltip} disabled={open}>
         <button data-overflow-trigger
           ref={triggerRef}
           type="button"
           className={[
-            'openbitfun-reasoning-preset-selector__trigger',
-            open && 'openbitfun-reasoning-preset-selector__trigger--open',
+            'opc-reasoning-preset-selector__trigger',
+            open && 'opc-reasoning-preset-selector__trigger--open',
           ].filter(Boolean).join(' ')}
-          data-openbitfun-component="reasoning-preset-selector"
-          data-openbitfun-part="trigger"
-          data-openbitfun-state={open ? 'open' : undefined}
+          data-opc-component="reasoning-preset-selector"
+          data-opc-part="trigger"
+          data-opc-state={open ? 'open' : undefined}
           data-testid="chat-reasoning-preset-selector-btn"
           aria-label={tooltip}
           aria-haspopup="menu"
@@ -168,7 +168,7 @@ export const ReasoningPresetSelector: React.FC<ReasoningPresetSelectorProps> = (
           }}
         >
           {showLabel ? (
-            <OverflowText className="openbitfun-reasoning-preset-selector__trigger-label">
+            <OverflowText className="opc-reasoning-preset-selector__trigger-label">
               {statusLabel}
             </OverflowText>
           ) : (
@@ -183,9 +183,9 @@ export const ReasoningPresetSelector: React.FC<ReasoningPresetSelectorProps> = (
           id={menuId}
           ref={menuRef}
           autoFocusFirstItem={keyboardOpen}
-          className="openbitfun-reasoning-preset-selector__menu"
-          data-openbitfun-component="reasoning-preset-selector"
-          data-openbitfun-part="menu"
+          className="opc-reasoning-preset-selector__menu"
+          data-opc-component="reasoning-preset-selector"
+          data-opc-part="menu"
           data-placement={resolvedPlacement}
           data-open={open ? 'true' : 'false'}
           data-keyboard-open={keyboardOpen ? 'true' : 'false'}
@@ -197,30 +197,30 @@ export const ReasoningPresetSelector: React.FC<ReasoningPresetSelectorProps> = (
           onKeyDown={handleMenuKeyDown}
         >
           <div
-            className="openbitfun-reasoning-preset-selector__header"
-            data-openbitfun-component="reasoning-preset-selector"
-            data-openbitfun-part="header"
+            className="opc-reasoning-preset-selector__header"
+            data-opc-component="reasoning-preset-selector"
+            data-opc-part="header"
           >
-            <span className="openbitfun-reasoning-preset-selector__title">
+            <span className="opc-reasoning-preset-selector__title">
               {t('reasoningSelector.title')}
             </span>
             <MenuItem
               type="button"
               role="menuitemradio"
               checked={automatic}
-              className="openbitfun-reasoning-preset-selector__auto-row"
-              data-openbitfun-component="reasoning-preset-selector"
-              data-openbitfun-part="auto"
-              data-openbitfun-state={automatic ? 'selected' : undefined}
+              className="opc-reasoning-preset-selector__auto-row"
+              data-opc-component="reasoning-preset-selector"
+              data-opc-part="auto"
+              data-opc-state={automatic ? 'selected' : undefined}
               onClick={() => select(automaticValue)}
             >
               <span>{t('reasoningSelector.auto')}</span>
             </MenuItem>
           </div>
           <MenuList
-            className="openbitfun-reasoning-preset-selector__options"
-            data-openbitfun-component="reasoning-preset-selector"
-            data-openbitfun-part="options"
+            className="opc-reasoning-preset-selector__options"
+            data-opc-component="reasoning-preset-selector"
+            data-opc-part="options"
           >
             {orderedPresets.map((preset, index) => {
               const isSelected = selected?.id === preset.id;
@@ -232,13 +232,13 @@ export const ReasoningPresetSelector: React.FC<ReasoningPresetSelectorProps> = (
                   role="menuitemradio"
                   checked={isSelected}
                   data-preset-id={preset.id}
-                  className="openbitfun-reasoning-preset-selector__option-row"
-                  data-openbitfun-component="reasoning-preset-selector"
-                  data-openbitfun-part="option"
-                  data-openbitfun-state={isSelected ? 'selected' : undefined}
+                  className="opc-reasoning-preset-selector__option-row"
+                  data-opc-component="reasoning-preset-selector"
+                  data-opc-part="option"
+                  data-opc-state={isSelected ? 'selected' : undefined}
                   onClick={() => select(preset.id)}
                 >
-                  <OverflowText className="openbitfun-reasoning-preset-selector__option-label">
+                  <OverflowText className="opc-reasoning-preset-selector__option-label">
                     {label}
                   </OverflowText>
                 </MenuItem>

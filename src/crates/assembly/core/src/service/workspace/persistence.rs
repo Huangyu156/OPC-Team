@@ -1,6 +1,6 @@
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_services_core::workspace_persistence as storage;
-pub(crate) use openbitfun_services_core::workspace_persistence::{
+use opc_services_core::workspace_persistence as storage;
+pub(crate) use opc_services_core::workspace_persistence::{
     WorkspacePersistenceData, WORKSPACE_PERSISTENCE_FORMAT_VERSION,
 };
 use std::path::Path;

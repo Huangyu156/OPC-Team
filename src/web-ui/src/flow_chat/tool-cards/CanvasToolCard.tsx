@@ -12,7 +12,7 @@ import { useReportTypewriterReveal } from '../hooks/typewriterRevealGateContext'
 import { useI18n } from '@/infrastructure/i18n';
 import { openCanvasArtifactTab } from '@/shared/utils/tabUtils';
 import { createLogger } from '@/shared/utils/logger';
-import { CanvasPreflight, type CanvasPreflightStatus } from '@/tools/openbitfun-canvas/CanvasPreflight';
+import { CanvasPreflight, type CanvasPreflightStatus } from '@/tools/opc-canvas/CanvasPreflight';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 import './CanvasToolCard.scss';
 
@@ -204,22 +204,22 @@ export const CanvasToolCard: React.FC<ToolCardProps> = ({ toolItem, sessionId, o
     <ProminentToolCardSummary
       icon={<span className="canvas-tool-card__icon"><Icon name="panels-top-left" size="md" /></span>}
       action={toolDisplayName}
-      content={<span data-openbitfun-component="canvas-tool-card" data-openbitfun-part="title" className="canvas-tool-card__title">{title}</span>}
+      content={<span data-opc-component="canvas-tool-card" data-opc-part="title" className="canvas-tool-card__title">{title}</span>}
       contentActions={isOpenable ? (
         <IconButton size="sm" variant="quiet" aria-label={t('toolCards.canvas.read')}
-          data-openbitfun-affordance="open-panel-right"
+          data-opc-affordance="open-panel-right"
           icon={<Icon name="arrow-up-right" size="sm" />}
           onClick={event => { event.stopPropagation(); handleOpenPanel(); }} />
       ) : undefined}
       extra={(
-        <div data-openbitfun-component="canvas-tool-card" data-openbitfun-part="extra" className="canvas-tool-card__extra">
+        <div data-opc-component="canvas-tool-card" data-opc-part="extra" className="canvas-tool-card__extra">
           {diagnostics.length > 0 && (
-            <span data-openbitfun-component="canvas-tool-card" data-openbitfun-part="diagnostics" className="canvas-tool-card__diagnostics">
+            <span data-opc-component="canvas-tool-card" data-opc-part="diagnostics" className="canvas-tool-card__diagnostics">
               <Icon glyph={AlertTriangle} size="sm" />
               {diagnostics.length}
             </span>
           )}
-          <span data-openbitfun-component="canvas-tool-card" data-openbitfun-part="status" className="canvas-tool-card__status">
+          <span data-opc-component="canvas-tool-card" data-opc-part="status" className="canvas-tool-card__status">
             {status === 'cancelled' ? t('toolCards.default.cancelled')
               : status === 'rejected' ? t('toolCards.default.rejected')
                 : isFailed ? t('toolCards.default.failed')
@@ -239,9 +239,9 @@ export const CanvasToolCard: React.FC<ToolCardProps> = ({ toolItem, sessionId, o
   );
 
   const body = (
-    <div data-openbitfun-component="canvas-tool-card" data-openbitfun-part="body" className="canvas-tool-card__body">
+    <div data-opc-component="canvas-tool-card" data-opc-part="body" className="canvas-tool-card__body">
       {showSourcePreview && (
-        <div data-openbitfun-component="canvas-tool-card" data-openbitfun-part="sourcePreview" className="canvas-tool-card__source-preview">
+        <div data-opc-component="canvas-tool-card" data-opc-part="sourcePreview" className="canvas-tool-card__source-preview">
           <CodePreview
             content={sourceDisplayContent}
             language="tsx"
@@ -252,11 +252,11 @@ export const CanvasToolCard: React.FC<ToolCardProps> = ({ toolItem, sessionId, o
           />
         </div>
       )}
-      <div data-openbitfun-component="canvas-tool-card" data-openbitfun-part="meta" className="canvas-tool-card__meta"><OverflowText behavior="marquee">
+      <div data-opc-component="canvas-tool-card" data-opc-part="meta" className="canvas-tool-card__meta"><OverflowText behavior="marquee">
         <span>{metaText}</span>
       </OverflowText></div>
       {(diagnostics.length > 0 || isFailed) && (
-        <ul data-openbitfun-component="canvas-tool-card" data-openbitfun-part="diagnosticList" className="canvas-tool-card__diagnostic-list">
+        <ul data-opc-component="canvas-tool-card" data-opc-part="diagnosticList" className="canvas-tool-card__diagnostic-list">
           {isFailed && <li>{toolResult?.error || t('toolCards.default.failed')}</li>}
           {diagnostics.slice(0, 3).map((diagnostic, index) => (
             <li key={`${diagnostic.code || diagnostic.message || 'diagnostic'}-${index}`}>
@@ -272,9 +272,9 @@ export const CanvasToolCard: React.FC<ToolCardProps> = ({ toolItem, sessionId, o
     <div
       ref={cardRootRef}
       data-tool-card-id={toolItem.id ?? toolCall?.id ?? ''}
-      data-openbitfun-component="canvas-tool-card"
-      data-openbitfun-part="root"
-      data-openbitfun-state={[isOpenable && 'clickable', isFailed && 'failed', isLoading && 'loading'].filter(Boolean).join(' ')}
+      data-opc-component="canvas-tool-card"
+      data-opc-part="root"
+      data-opc-state={[isOpenable && 'clickable', isFailed && 'failed', isLoading && 'loading'].filter(Boolean).join(' ')}
     >
       {status === 'completed' && resultData?.compiled && !renderValidated && artifactReference ? (
         <CanvasPreflight

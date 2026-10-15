@@ -50,25 +50,25 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
   return (
     <div
       className={`notification-item notification-item--${type}${closable ? ' notification-item--closable' : ''}${isExiting ? ' notification-item--exiting' : ''}`}
-      data-openbitfun-component="notification"
-      data-openbitfun-part="item"
+      data-opc-component="notification"
+      data-opc-part="item"
       role={isAssertive ? 'alert' : 'status'}
       aria-live={isAssertive ? 'assertive' : 'polite'}
       aria-atomic="true"
     >
       
-      <div className="notification-item__icon" data-openbitfun-component="notification" data-openbitfun-part="itemIcon">
+      <div className="notification-item__icon" data-opc-component="notification" data-opc-part="itemIcon">
         {getIcon()}
       </div>
 
       
-      <div className="notification-item__content" data-openbitfun-component="notification" data-openbitfun-part="itemContent">
-        <div className="notification-item__title" data-openbitfun-component="notification" data-openbitfun-part="itemTitle">{title}</div>
-        <div className="notification-item__message" data-openbitfun-component="notification" data-openbitfun-part="itemMessage">{messageNode ?? message}</div>
+      <div className="notification-item__content" data-opc-component="notification" data-opc-part="itemContent">
+        <div className="notification-item__title" data-opc-component="notification" data-opc-part="itemTitle">{title}</div>
+        <div className="notification-item__message" data-opc-component="notification" data-opc-part="itemMessage">{messageNode ?? message}</div>
 
         
         {actions && actions.length > 0 && (
-          <div className="notification-item__actions" data-openbitfun-component="notification" data-openbitfun-part="itemActions">
+          <div className="notification-item__actions" data-opc-component="notification" data-opc-part="itemActions">
             {actions.map((action, index) => (
               <Button
                 key={index}
@@ -88,8 +88,8 @@ export const NotificationItem: React.FC<NotificationItemProps> = ({ notification
       {closable && (
         <span
           className="notification-item__close"
-          data-openbitfun-component="notification"
-          data-openbitfun-part="itemClose"
+          data-opc-component="notification"
+          data-opc-part="itemClose"
         >
           <IconButton
             shape="circle"

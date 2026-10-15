@@ -49,7 +49,7 @@ export const MobileCheckbox = forwardRef<HTMLInputElement, MobileCheckboxProps>(
     const resolved = controlled ? checked : uncontrolled;
     /* Focus and press states belong to the hidden input, but the row is what changes. The Lab drives
        the row through a root attribute, so lift that hook off the input onto the label. */
-    const previewState = (props as Record<string, unknown>)["data-openbitfun-preview-state"];
+    const previewState = (props as Record<string, unknown>)["data-opc-preview-state"];
 
     // `indeterminate` has no HTML attribute: it only exists as a DOM property, and it also
     // decides which glyph the box draws, which is why it is mirrored into a data attribute.
@@ -73,8 +73,8 @@ export const MobileCheckbox = forwardRef<HTMLInputElement, MobileCheckboxProps>(
         data-disabled={disabled ? "true" : "false"}
         data-indeterminate={indeterminate ? "true" : "false"}
         data-invalid={invalid ? "true" : "false"}
-        data-openbitfun-component="mobile-checkbox"
-        data-openbitfun-preview-state={typeof previewState === "string" ? previewState : undefined}
+        data-opc-component="mobile-checkbox"
+        data-opc-preview-state={typeof previewState === "string" ? previewState : undefined}
       >
         <span className={styles.control}>
           <input
@@ -88,14 +88,14 @@ export const MobileCheckbox = forwardRef<HTMLInputElement, MobileCheckboxProps>(
             ref={inputRef}
             type="checkbox"
           />
-          <span aria-hidden="true" className={styles.box} data-openbitfun-part="box">
+          <span aria-hidden="true" className={styles.box} data-opc-part="box">
             {indeterminate ? <Minus className={styles.icon} /> : <Check className={styles.icon} />}
           </span>
         </span>
-        <span className={styles.copy} data-openbitfun-part="copy">
-          <span className={styles.label} data-openbitfun-part="label">{label}</span>
+        <span className={styles.copy} data-opc-part="copy">
+          <span className={styles.label} data-opc-part="label">{label}</span>
           {description !== undefined && description !== null && (
-            <span className={styles.description} data-openbitfun-part="description">{description}</span>
+            <span className={styles.description} data-opc-part="description">{description}</span>
           )}
         </span>
       </label>

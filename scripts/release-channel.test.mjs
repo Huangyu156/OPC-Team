@@ -67,7 +67,7 @@ test('release public key export accepts raw and legacy base64 values', () => {
 });
 
 test('build version projection and verification work without npm workspace lockfiles', () => {
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-build-version-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-build-version-'));
   const jsonFiles = [
     'package.json',
     'OpenBitFun-Installer/package.json',

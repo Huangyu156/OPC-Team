@@ -3,7 +3,7 @@
 List registered renderer adapters with:
 
 ```powershell
-python scripts/openbitfun_appearance.py contract list renderers
+python scripts/opc_appearance.py contract list renderers
 ```
 
 Renderer entries use this shape:
@@ -26,7 +26,7 @@ Renderer entries use this shape:
 theme-token set. Query accepted root token names with:
 
 ```powershell
-python scripts/openbitfun_appearance.py contract tokens theme
+python scripts/opc_appearance.py contract tokens theme
 ```
 
 ## monaco
@@ -46,10 +46,10 @@ Accepted settings: `mode` and `palette`. The validator reports unsupported or mi
 Accepted settings: `id`, `mode`, and `vars`. Query accepted variable names with:
 
 ```powershell
-python scripts/openbitfun_appearance.py contract tokens widget
+python scripts/opc_appearance.py contract tokens widget
 ```
 
-## openbitfun-canvas
+## opc-canvas
 
 Accepted settings: `id`, `mode`, `bg`, `panel`, `fg`, `muted`, `border`, `accent`, `success`, `warning`, `danger`, and `info`.
 

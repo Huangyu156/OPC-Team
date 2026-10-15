@@ -108,7 +108,7 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
 
   const previewTarget = (target: EventTarget) => {
     if (!expanded || locked || !(target instanceof Element)) return;
-    const button = target.closest<HTMLButtonElement>('button[data-openbitfun-value]');
+    const button = target.closest<HTMLButtonElement>('button[data-opc-value]');
     if (button && !button.disabled) setPreviewValue(button.dataset.openbitfunValue ?? null);
   };
 
@@ -156,28 +156,28 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
 
   return (
     <div
-      className="openbitfun-reasoning-control"
+      className="opc-reasoning-control"
       data-testid="chat-model-selector-intensity-control"
-      data-openbitfun-component="model-selector"
-      data-openbitfun-part="reasoningSlider"
+      data-opc-component="model-selector"
+      data-opc-part="reasoningSlider"
       data-reasoning-state={visualState}
       data-intensity={visualTier}
       data-expanded={expanded ? 'true' : 'false'}
       data-disabled={locked ? 'true' : undefined}
     >
       <div
-        className="openbitfun-reasoning-control__value"
-        data-openbitfun-component="model-selector"
-        data-openbitfun-part="reasoningSliderValue"
+        className="opc-reasoning-control__value"
+        data-opc-component="model-selector"
+        data-opc-part="reasoningSliderValue"
       >
         <div
-          className="openbitfun-reasoning-control__summary"
+          className="opc-reasoning-control__summary"
           aria-hidden={expanded}
           {...(expanded ? { inert: '' } : {})}
         >
           <MenuItem
             ref={triggerRef}
-            className="openbitfun-reasoning-control__trigger"
+            className="opc-reasoning-control__trigger"
             data-testid="chat-model-selector-settings-reasoning"
             aria-label={`${t('reasoningSelector.title')}: ${label}`}
             aria-expanded={expanded}
@@ -197,16 +197,16 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
         <FlowChatCollapse
           isOpen={expanded}
           durationMs={reasoningTransitionMs}
-          className="openbitfun-reasoning-control__options"
-          innerClassName="openbitfun-reasoning-control__options-content"
+          className="opc-reasoning-control__options"
+          innerClassName="opc-reasoning-control__options-content"
         >
           <div
             id={choicesId}
             ref={choicesRef}
-            className="openbitfun-reasoning-control__choices"
+            className="opc-reasoning-control__choices"
             data-testid="chat-model-selector-reasoning-options"
-            data-openbitfun-component="model-selector"
-            data-openbitfun-part="reasoningSliderInput"
+            data-opc-component="model-selector"
+            data-opc-part="reasoningSliderInput"
             aria-busy={pending || undefined}
             onKeyDown={handleChoiceKeyDown}
             onPointerOver={event => previewTarget(event.target)}
@@ -217,7 +217,7 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
             }}
           >
             <SegmentedControl
-              className="openbitfun-reasoning-control__segments"
+              className="opc-reasoning-control__segments"
               data-wrap={choices.length > 5 ? 'true' : undefined}
               style={choices.length > 5 ? {
                 gridTemplateColumns: `repeat(${Math.min(4, Math.ceil(choices.length / 2))}, minmax(0, 1fr))`,
@@ -234,17 +234,17 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
           </div>
         </FlowChatCollapse>
       </div>
-      <div className="openbitfun-reasoning-control__backdrop" aria-hidden="true">
+      <div className="opc-reasoning-control__backdrop" aria-hidden="true">
         <span
-          className="openbitfun-reasoning-control__sky"
-          data-openbitfun-component="model-selector"
-          data-openbitfun-part="reasoningSliderSky"
+          className="opc-reasoning-control__sky"
+          data-opc-component="model-selector"
+          data-opc-part="reasoningSliderSky"
         >
-          <span className="openbitfun-reasoning-control__field">
+          <span className="opc-reasoning-control__field">
             <svg
-              className="openbitfun-reasoning-control__nebula"
-              data-openbitfun-component="model-selector"
-              data-openbitfun-part="reasoningSliderNebula"
+              className="opc-reasoning-control__nebula"
+              data-opc-component="model-selector"
+              data-opc-part="reasoningSliderNebula"
               viewBox="0 0 280 56"
               preserveAspectRatio="none"
               focusable="false"
@@ -265,14 +265,14 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
             </svg>
           </span>
           <span
-            className="openbitfun-reasoning-control__aurora"
-            data-openbitfun-component="model-selector"
-            data-openbitfun-part="reasoningSliderAurora"
+            className="opc-reasoning-control__aurora"
+            data-opc-component="model-selector"
+            data-opc-part="reasoningSliderAurora"
           />
-          {visualState !== 'off' && <span className="openbitfun-reasoning-control__stars">
+          {visualState !== 'off' && <span className="opc-reasoning-control__stars">
             {stars.map(index => (
-              <span key={index} className="openbitfun-reasoning-control__star-slot">
-                <span className="openbitfun-reasoning-control__star" />
+              <span key={index} className="opc-reasoning-control__star-slot">
+                <span className="opc-reasoning-control__star" />
               </span>
             ))}
           </span>}

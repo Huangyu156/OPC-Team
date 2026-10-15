@@ -408,34 +408,34 @@ pub fn remote_exec_non_tty_control_wrapper(
     let escaped_cmd = exec_command_shell_escape(cmd);
     let shell_args = remote_exec_shell_login_args(&shell_kind).join(" ");
     format!(
-        r#"__openbitfun_shell={escaped_shell}
-__openbitfun_cmd={escaped_cmd}
+        r#"__opc_shell={escaped_shell}
+__opc_cmd={escaped_cmd}
 if command -v setsid >/dev/null 2>&1; then
-  setsid "$__openbitfun_shell" {shell_args} "$__openbitfun_cmd" &
+  setsid "$__opc_shell" {shell_args} "$__opc_cmd" &
 else
-  "$__openbitfun_shell" {shell_args} "$__openbitfun_cmd" &
+  "$__opc_shell" {shell_args} "$__opc_cmd" &
 fi
-__openbitfun_child=$!
-__openbitfun_pgid=$__openbitfun_child
-__openbitfun_stop() {{
-  __openbitfun_signal=${{1:-INT}}
-  __openbitfun_exit=${{2:-130}}
-  __openbitfun_grace=${{3:-{REMOTE_NON_TTY_INTERRUPT_GRACE_SECONDS}}}
+__opc_child=$!
+__opc_pgid=$__opc_child
+__opc_stop() {{
+  __opc_signal=${{1:-INT}}
+  __opc_exit=${{2:-130}}
+  __opc_grace=${{3:-{REMOTE_NON_TTY_INTERRUPT_GRACE_SECONDS}}}
   trap - INT TERM
-  kill -"$__openbitfun_signal" "-$__openbitfun_pgid" 2>/dev/null || kill -"$__openbitfun_signal" "$__openbitfun_child" 2>/dev/null || true
-  if [ "$__openbitfun_grace" -gt 0 ]; then
-    sleep "$__openbitfun_grace"
+  kill -"$__opc_signal" "-$__opc_pgid" 2>/dev/null || kill -"$__opc_signal" "$__opc_child" 2>/dev/null || true
+  if [ "$__opc_grace" -gt 0 ]; then
+    sleep "$__opc_grace"
   fi
-  kill -KILL "-$__openbitfun_pgid" 2>/dev/null || kill -KILL "$__openbitfun_child" 2>/dev/null || true
-  wait "$__openbitfun_child" 2>/dev/null || true
-  exit "$__openbitfun_exit"
+  kill -KILL "-$__opc_pgid" 2>/dev/null || kill -KILL "$__opc_child" 2>/dev/null || true
+  wait "$__opc_child" 2>/dev/null || true
+  exit "$__opc_exit"
 }}
-trap '__openbitfun_stop INT 130 {REMOTE_NON_TTY_INTERRUPT_GRACE_SECONDS}' INT
-trap '__openbitfun_stop KILL 137 0' TERM
-wait "$__openbitfun_child"
-__openbitfun_status=$?
+trap '__opc_stop INT 130 {REMOTE_NON_TTY_INTERRUPT_GRACE_SECONDS}' INT
+trap '__opc_stop KILL 137 0' TERM
+wait "$__opc_child"
+__opc_status=$?
 trap - INT TERM
-exit "$__openbitfun_status""#
+exit "$__opc_status""#
     )
 }
 
@@ -1307,13 +1307,12 @@ mod tests {
             ExecCommandShellKind::Bash,
         );
 
-        assert!(wrapper
-            .contains("setsid \"$__openbitfun_shell\" -o pipefail -lc \"$__openbitfun_cmd\" &"));
-        assert!(wrapper.contains("trap '__openbitfun_stop INT 130 2' INT"));
-        assert!(wrapper.contains("trap '__openbitfun_stop KILL 137 0' TERM"));
-        assert!(wrapper.contains("__openbitfun_grace=${3:-2}"));
-        assert!(wrapper.contains("kill -KILL \"-$__openbitfun_pgid\""));
-        assert!(wrapper.contains("__openbitfun_cmd='python3 -c '\\''print(1)'\\'''"));
+        assert!(wrapper.contains("setsid \"$__opc_shell\" -o pipefail -lc \"$__opc_cmd\" &"));
+        assert!(wrapper.contains("trap '__opc_stop INT 130 2' INT"));
+        assert!(wrapper.contains("trap '__opc_stop KILL 137 0' TERM"));
+        assert!(wrapper.contains("__opc_grace=${3:-2}"));
+        assert!(wrapper.contains("kill -KILL \"-$__opc_pgid\""));
+        assert!(wrapper.contains("__opc_cmd='python3 -c '\\''print(1)'\\'''"));
     }
 
     #[test]

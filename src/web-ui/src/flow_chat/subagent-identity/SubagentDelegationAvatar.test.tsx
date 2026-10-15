@@ -51,7 +51,7 @@ describe('SubagentDelegationAvatar lifecycle', () => {
 
   const hatchTracks = () => tracks.filter(track => track.part);
   const reveals = () => hatchTracks().filter(track => track.duration === 720);
-  const phase = () => container.querySelector('[data-openbitfun-component="subagent-hatch"]')?.getAttribute('data-phase');
+  const phase = () => container.querySelector('[data-opc-component="subagent-hatch"]')?.getAttribute('data-phase');
   const render = (pending: boolean, sessionId?: string) => act(() => root.render(
     <SubagentDelegationAvatar pending={pending} sessionId={sessionId} status="running" showStatus={false} />,
   ));
@@ -63,13 +63,13 @@ describe('SubagentDelegationAvatar lifecycle', () => {
     expect(phase()).toBe('incubating');
     expect(incubation.length).toBeGreaterThan(0);
     expect(host?.getAttribute('style')).toContain('width: 32px; height: 32px');
-    expect(container.querySelector('[data-openbitfun-avatar-id]')).toBeNull();
+    expect(container.querySelector('[data-opc-avatar-id]')).toBeNull();
 
     render(false, 'actual-child');
     expect(container.firstElementChild).toBe(host);
     expect(phase()).toBe('ready');
     expect(incubation.every(track => track.cancel.mock.calls.length > 0)).toBe(true);
-    expect(container.querySelector('[data-openbitfun-avatar-id]')?.getAttribute('data-openbitfun-avatar-id'))
+    expect(container.querySelector('[data-opc-avatar-id]')?.getAttribute('data-opc-avatar-id'))
       .toBe(resolveSubagentAvatarPresentation('actual-child').avatarId);
     const reveal = reveals();
     expect(reveal.some(track => track.part === 'avatar')).toBe(true);
@@ -133,7 +133,7 @@ describe('SubagentDelegationAvatar lifecycle', () => {
       }
     });
     const visibility = (value: boolean) => act(() => observers.filter(observer => (
-      observer.target?.getAttribute('data-openbitfun-component') === 'subagent-hatch'
+      observer.target?.getAttribute('data-opc-component') === 'subagent-hatch'
     )).at(-1)!.callback(
       [{ isIntersecting: value }] as IntersectionObserverEntry[], {} as IntersectionObserver,
     ));

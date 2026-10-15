@@ -5,12 +5,12 @@ use crate::agentic::deep_review_policy::{
     CODE_REVIEW_AGENT_TYPE, DEEP_REVIEW_AGENT_TYPE, REVIEW_FIXER_AGENT_TYPE,
 };
 use log::{debug, warn};
-use openbitfun_agent_runtime::prompt_cache::prompt_cache_scope_key;
-use openbitfun_core_types::{
+use opc_agent_runtime::prompt_cache::prompt_cache_scope_key;
+use opc_core_types::{
     SessionAgentRouteOwner, SessionContinuationPolicy, SessionModelBindingPolicy,
 };
-use openbitfun_product_domains::external_sources::EcosystemId;
-use openbitfun_product_domains::external_subagents::ExternalSubagentMode;
+use opc_product_domains::external_sources::EcosystemId;
+use opc_product_domains::external_subagents::ExternalSubagentMode;
 use std::collections::{BTreeMap, HashMap, HashSet};
 use std::sync::{Arc, RwLock, Weak};
 

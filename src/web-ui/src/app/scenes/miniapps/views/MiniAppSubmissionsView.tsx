@@ -299,13 +299,13 @@ const MiniAppSubmissionsView: React.FC<MiniAppSubmissionsViewProps> = ({ tabs })
 
       <div
         className="miniapp-submissions__workspace"
-        data-openbitfun-component="miniapp-submissions-view"
-        data-openbitfun-part="root"
+        data-opc-component="miniapp-submissions-view"
+        data-opc-part="root"
       >
         <form
           className="miniapp-submissions__form"
-          data-openbitfun-component="miniapp-submissions-view"
-          data-openbitfun-part="form"
+          data-opc-component="miniapp-submissions-view"
+          data-opc-part="form"
           onSubmit={(event) => void submit(event)}
         >
           <header className="miniapp-submissions__section-heading">
@@ -559,8 +559,8 @@ const MiniAppSubmissionsView: React.FC<MiniAppSubmissionsViewProps> = ({ tabs })
 
         <section
           className="miniapp-submissions__history"
-          data-openbitfun-component="miniapp-submissions-view"
-          data-openbitfun-part="history"
+          data-opc-component="miniapp-submissions-view"
+          data-opc-part="history"
         >
           <header className="miniapp-submissions__section-heading">
             <h3>
@@ -574,8 +574,8 @@ const MiniAppSubmissionsView: React.FC<MiniAppSubmissionsViewProps> = ({ tabs })
               {submissions.map((submission) => (
                 <article
                   key={submission.submissionId}
-                  data-openbitfun-component="miniapp-submissions-view"
-                  data-openbitfun-part="item"
+                  data-opc-component="miniapp-submissions-view"
+                  data-opc-part="item"
                 >
                   <div className="miniapp-submissions__list-head">
                     <span className="miniapp-submissions__app-icon">

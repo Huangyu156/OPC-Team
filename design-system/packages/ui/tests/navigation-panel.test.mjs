@@ -23,7 +23,7 @@ test("NavigationPanelItem forwards static labels and keeps native navigation sem
   assert.match(markup, /<button[^>]+aria-current="page"/);
   assert.match(markup, /data-active="true"/);
   assert.match(markup, /type="button"/);
-  assert.match(markup, /data-openbitfun-part="label">My submitted appearance packages<\/span>/);
+  assert.match(markup, /data-opc-part="label">My submitted appearance packages<\/span>/);
   assert.doesNotMatch(markup, /data-overflow-behavior|data-overflow-content|labelBehavior/);
   const defaultMarkup = renderToStaticMarkup(createElement(NavigationPanelItem, null, "Navigation"));
   assert.match(defaultMarkup, /data-overflow-behavior="marquee"/);
@@ -60,11 +60,11 @@ test("NavigationPanel composes independent header, grouped body, and footer regi
   );
 
   assert.match(markup, /<nav[^>]+aria-label="Application navigation"/);
-  assert.match(markup, /data-openbitfun-component="navigation-panel"/);
-  assert.match(markup, /data-openbitfun-part="header"/);
-  assert.match(markup, /data-openbitfun-part="content"/);
-  assert.match(markup, /data-openbitfun-part="footer"/);
-  assert.match(markup, /data-openbitfun-scrollbar-visibility="always"/);
+  assert.match(markup, /data-opc-component="navigation-panel"/);
+  assert.match(markup, /data-opc-part="header"/);
+  assert.match(markup, /data-opc-part="content"/);
+  assert.match(markup, /data-opc-part="footer"/);
+  assert.match(markup, /data-opc-scrollbar-visibility="always"/);
   assert.match(markup, /aria-labelledby="[^"]+"/);
   assert.match(markup, /aria-current="page"/);
   assert.match(markup, /disabled=""/);
@@ -104,10 +104,10 @@ test("NavigationPanel separates group captions, destinations, and the selected d
   assert.match(heading, /font-size: var\(--opcteam-type-label-xs-font-size\)/);
   assert.match(heading, /font-weight: var\(--opcteam-type-label-xs-font-weight\)/);
   assert.match(heading, /line-height: var\(--opcteam-type-label-xs-line-height\)/);
-  assert.match(styles, /\.item\[data-openbitfun-tone="neutral"\]:not\(\[data-disabled="true"\]\)\s*\{\s*color: var\(--opcteam-color-content-primary\)/);
+  assert.match(styles, /\.item\[data-opc-tone="neutral"\]:not\(\[data-disabled="true"\]\)\s*\{\s*color: var\(--opcteam-color-content-primary\)/);
   assert.match(actionStyles, /\.label\s*\{[^}]*font-size: var\(--opcteam-type-label-md-font-size\)/);
   assert.match(actionStyles, /\.label\s*\{[^}]*font-weight: var\(--opcteam-type-label-md-font-weight\)/);
-  assert.match(styles, /\.item > \[data-openbitfun-part="trigger"\]\[aria-current\] > \[data-openbitfun-part="label"\]\s*\{\s*font-weight: var\(--opcteam-type-label-selected-font-weight\)/);
+  assert.match(styles, /\.item > \[data-opc-part="trigger"\]\[aria-current\] > \[data-opc-part="label"\]\s*\{\s*font-weight: var\(--opcteam-type-label-selected-font-weight\)/);
   assert.match(styles, /@media \(prefers-contrast: more\)[\s\S]*?color: var\(--opcteam-color-content-muted\)/);
   assert.match(styles, /:global\(\[data-contrast="high"\]\) \.headingLabel\s*\{\s*color: var\(--opcteam-color-content-muted\)/);
   assert.match(styles, /@media \(forced-colors: active\)[\s\S]*?color: CanvasText/);

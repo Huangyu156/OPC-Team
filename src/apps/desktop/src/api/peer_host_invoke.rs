@@ -3,7 +3,7 @@
 //! Commands are executed through the same frontend invoke surface as local UI
 //! (peer webview → `invoke`), so handler signatures stay single-sourced.
 //! Which commands may run here on a controller's behalf is decided by the
-//! Product Operation Registry (`openbitfun_product_domains::remote_surface`); this
+//! Product Operation Registry (`opc_product_domains::remote_surface`); this
 //! module only applies its verdict before any bridge call. The frontend and
 //! the CLI peer host derive their tables from the same registry, so the three
 //! surfaces cannot drift apart. See `docs/architecture/remote-surface-contract.md`.
@@ -13,7 +13,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Mutex, OnceLock};
 use std::time::Duration;
 
-use openbitfun_product_domains::remote_surface::{
+use opc_product_domains::remote_surface::{
     capability_map, digest as remote_surface_digest, peer_host_verdict, peer_stance,
     retired_reason, PeerHostKind, PeerHostVerdict, PeerStance,
 };
@@ -150,14 +150,12 @@ pub fn disconnect_controllers() -> Vec<String> {
     state.permission_request_ids.drain().collect()
 }
 
-pub fn track_permission_event(
-    event: &openbitfun_agent_runtime::sdk::PermissionRequestEvent,
-) -> bool {
+pub fn track_permission_event(event: &opc_agent_runtime::sdk::PermissionRequestEvent) -> bool {
     let Ok(mut state) = peer_control_state().lock() else {
         return false;
     };
     match event {
-        openbitfun_agent_runtime::sdk::PermissionRequestEvent::Asked { request } => {
+        opc_agent_runtime::sdk::PermissionRequestEvent::Asked { request } => {
             if !state.controllers.is_empty() {
                 state
                     .permission_request_ids
@@ -167,8 +165,8 @@ pub fn track_permission_event(
                 false
             }
         }
-        openbitfun_agent_runtime::sdk::PermissionRequestEvent::Replied { request_id, .. }
-        | openbitfun_agent_runtime::sdk::PermissionRequestEvent::Cancelled { request_id, .. } => {
+        opc_agent_runtime::sdk::PermissionRequestEvent::Replied { request_id, .. }
+        | opc_agent_runtime::sdk::PermissionRequestEvent::Cancelled { request_id, .. } => {
             let was_tracked = state.permission_request_ids.remove(request_id);
             was_tracked && !state.controllers.is_empty()
         }
@@ -189,7 +187,7 @@ pub async fn fail_closed_permission_requests(
     if request_ids.is_empty() {
         return Ok(());
     }
-    let manager = openbitfun_core::product_runtime::core_permission_request_manager()?;
+    let manager = opc_core::product_runtime::core_permission_request_manager()?;
     let mut failures = Vec::new();
     for request_id in request_ids {
         if let Err(error) = manager
@@ -322,7 +320,7 @@ pub async fn dispatch(command: &str, args: Value) -> HostInvokeBridgeResult {
         }
     };
 
-    use openbitfun_core_types::agent_identity_wire::{
+    use opc_core_types::agent_identity_wire::{
         translate_agent_identity_command, translate_agent_identity_response, AgentIdentityDialect,
     };
     let args =
@@ -482,7 +480,7 @@ mod tests {
         );
         assert_eq!(
             capabilities.len(),
-            openbitfun_product_domains::remote_surface::advertised_by(PeerHostKind::Desktop).len()
+            opc_product_domains::remote_surface::advertised_by(PeerHostKind::Desktop).len()
         );
         assert!(value
             .get("surface_registry_digest")
@@ -564,9 +562,9 @@ mod tests {
     #[test]
     fn product_control_presentation_callbacks_stay_with_the_controller_window() {
         for command in [
-            "mark_openbitfun_control_surface_ready",
-            "mark_openbitfun_control_surface_unready",
-            "report_openbitfun_control_result",
+            "mark_opc_control_surface_ready",
+            "mark_opc_control_surface_unready",
+            "report_opc_control_result",
         ] {
             assert!(is_local_only_command(command), "{command}");
         }
@@ -587,7 +585,7 @@ mod tests {
     /// host and the frontend derive the same control plane.
     #[test]
     fn control_plane_commands_are_host_control_plane_in_registry() {
-        use openbitfun_product_domains::remote_surface::operation;
+        use opc_product_domains::remote_surface::operation;
         for command in [
             "peer_control_attach",
             "peer_control_detach",
@@ -633,7 +631,7 @@ mod tests {
 
     #[tokio::test]
     async fn unknown_commands_report_a_host_version_mismatch() {
-        let result = dispatch("not_an_openbitfun_command", serde_json::json!({})).await;
+        let result = dispatch("not_an_opc_command", serde_json::json!({})).await;
         assert!(!result.ok);
         let error = result.error.unwrap_or_default();
         assert!(

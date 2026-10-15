@@ -185,15 +185,15 @@ mod tests {
     fn recognizes_plan_artifact_paths_case_insensitively() {
         assert!(is_plan_artifact_path(&format!(
             "{}/plans/example.plan.md",
-            openbitfun_core_types::product_identity::hidden_data_directory()
+            opc_core_types::product_identity::hidden_data_directory()
         )));
         assert!(is_plan_artifact_path(&format!(
             r"E:\workspace\{}\plans\EXAMPLE.PLAN.MD",
-            openbitfun_core_types::product_identity::hidden_data_directory()
+            opc_core_types::product_identity::hidden_data_directory()
         )));
         assert!(!is_plan_artifact_path(&format!(
             "{}/plans/example.plan.md.bak",
-            openbitfun_core_types::product_identity::hidden_data_directory()
+            opc_core_types::product_identity::hidden_data_directory()
         )));
     }
 

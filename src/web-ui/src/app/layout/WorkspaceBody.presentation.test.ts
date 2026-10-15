@@ -61,7 +61,7 @@ describe('WorkspaceBody presentation contract', () => {
     expect(stylesheet).toContain(`$_nav-bar-height: ${sharedHeight};`);
     expect(stylesheet).toContain('padding: 0 var(--opcteam-space-4);');
     expect(stylesheet).toMatch(
-      /\.openbitfun-workspace-body__scene-surface\s*\{[^}]*gap:\s*0;/s,
+      /\.opc-workspace-body__scene-surface\s*\{[^}]*gap:\s*0;/s,
     );
     expect(navBarStylesheet).toContain(`height: ${sharedHeight};`);
     expect(sceneTopBarStylesheet).toContain(`height: ${sharedHeight};`);

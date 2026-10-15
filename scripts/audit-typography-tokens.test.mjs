@@ -350,7 +350,7 @@ test('rejects retired FlowChat typography in the distributed Appearance registry
 });
 
 test('rejects typography in the standalone Appearance validator but allows Monaco fontStyle', () => {
-  const path = 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/scripts/openbitfun_appearance.py';
+  const path = 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/scripts/opc_appearance.py';
   const valid = auditTypographyFileContractText(`
     font_style = rule.get("fontStyle")
   `, path);

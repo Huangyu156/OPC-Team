@@ -94,7 +94,7 @@ describe('builtin appearance preset output', () => {
   });
   it('uses the public Button palette in default appearances without changing shared action colors', () => {
     for (const mode of ['light', 'dark'] as const) {
-      const appearance = getBuiltinAppearance(`openbitfun-${mode}`);
+      const appearance = getBuiltinAppearance(`opc-${mode}`);
       const settings = appearance?.renderers?.['theme-tokens']?.settings;
       for (const [name, value] of Object.entries(themes[mode])) {
         if (!name.startsWith('component.button.')) continue;
@@ -325,10 +325,10 @@ describe('builtin appearance preset output', () => {
 
   it('keeps monochrome content readable while projecting inverse structural chrome', () => {
     const monochrome = builtinAppearancePalettes.find(
-      appearance => appearance.id === 'openbitfun-monochrome',
+      appearance => appearance.id === 'opc-monochrome',
     );
-    const monochromePackage = getBuiltinAppearance('openbitfun-monochrome');
-    const tokens = getBuiltinAppearanceThemeTokens('openbitfun-monochrome');
+    const monochromePackage = getBuiltinAppearance('opc-monochrome');
+    const tokens = getBuiltinAppearanceThemeTokens('opc-monochrome');
     const chromeTokens = monochromePackage?.renderers?.['theme-tokens']?.settings.scopes?.chrome;
 
     expect(monochrome).toMatchObject({
@@ -456,7 +456,7 @@ describe('builtin appearance preset output', () => {
         },
         {
           "hash": "1ef7644b2681a148d4c1aed88853d1733051f57ba31c7beee2db9293b07850ed",
-          "id": "openbitfun-monochrome",
+          "id": "opc-monochrome",
           "type": "light",
         },
         {

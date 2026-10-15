@@ -1,5 +1,5 @@
 use super::*;
-use openbitfun_services_integrations::mcp::server::{
+use opc_services_integrations::mcp::server::{
     mcp_reconnect_runtime_decision, MCPReconnectRuntimeDecision,
 };
 

@@ -313,8 +313,8 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
 
   if (loading) {
     return (
-      <div className={`git-branch-history-view git-branch-history-view--loading ${className}`} data-openbitfun-component="git-branch-history" data-openbitfun-part="root" data-openbitfun-state="loading">
-        <div data-openbitfun-component="git-branch-history" data-openbitfun-part="loading" className="git-branch-history-view__loading">
+      <div className={`git-branch-history-view git-branch-history-view--loading ${className}`} data-opc-component="git-branch-history" data-opc-part="root" data-opc-state="loading">
+        <div data-opc-component="git-branch-history" data-opc-part="loading" className="git-branch-history-view__loading">
           <div className="git-branch-history-view__spinner" />
           <p>{t('branchHistory.loading', { branch: branchName })}</p>
         </div>
@@ -324,8 +324,8 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
 
   if (error) {
     return (
-      <div className={`git-branch-history-view git-branch-history-view--error ${className}`} data-openbitfun-component="git-branch-history" data-openbitfun-part="root" data-openbitfun-state="error">
-        <div data-openbitfun-component="git-branch-history" data-openbitfun-part="error" className="git-branch-history-view__error">
+      <div className={`git-branch-history-view git-branch-history-view--error ${className}`} data-opc-component="git-branch-history" data-opc-part="root" data-opc-state="error">
+        <div data-opc-component="git-branch-history" data-opc-part="error" className="git-branch-history-view__error">
           <p>{t('branchHistory.loadFailedWithMessage', { error })}</p>
           <Button variant="outline" size="sm" onClick={loadCommits}>
             {t('branchHistory.retry')}
@@ -336,9 +336,9 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
   }
 
   return (
-    <div className={`git-branch-history-view ${className}`} data-openbitfun-component="git-branch-history" data-openbitfun-part="root">
-      <div data-openbitfun-component="git-branch-history" data-openbitfun-part="header" className="git-branch-history-view__header">
-        <div data-openbitfun-component="git-branch-history" data-openbitfun-part="headerLeft" className="git-branch-history-view__header-left">
+    <div className={`git-branch-history-view ${className}`} data-opc-component="git-branch-history" data-opc-part="root">
+      <div data-opc-component="git-branch-history" data-opc-part="header" className="git-branch-history-view__header">
+        <div data-opc-component="git-branch-history" data-opc-part="headerLeft" className="git-branch-history-view__header-left">
           {canCherryPick && (
             <div 
               className="git-branch-history-view__select-all"
@@ -362,8 +362,8 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
           )}
           
           <SearchField
-            data-openbitfun-component="git-branch-history"
-            data-openbitfun-part="search"
+            data-opc-component="git-branch-history"
+            data-opc-part="search"
             value={searchQuery}
             onValueChange={setSearchQuery}
             leadingIcon={<Icon name="search" size="sm" aria-hidden />}
@@ -390,7 +390,7 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
           )}
         </div>
         
-        <div data-openbitfun-component="git-branch-history" data-openbitfun-part="headerRight" className="git-branch-history-view__header-right">
+        <div data-opc-component="git-branch-history" data-opc-part="headerRight" className="git-branch-history-view__header-right">
           {canCherryPick && (
             <Button
               size="sm"
@@ -416,28 +416,28 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
         </div>
       </div>
 
-      <ScrollArea data-openbitfun-component="git-branch-history" data-openbitfun-part="content" className="git-branch-history-view__content">
+      <ScrollArea data-opc-component="git-branch-history" data-opc-part="content" className="git-branch-history-view__content">
         {filteredCommits.length === 0 ? (
-          <div data-openbitfun-component="git-branch-history" data-openbitfun-part="empty" className="git-branch-history-view__empty">
+          <div data-opc-component="git-branch-history" data-opc-part="empty" className="git-branch-history-view__empty">
             <p>{searchQuery ? t('empty.noMatchingCommits') : t('empty.noCommits')}</p>
           </div>
         ) : (
-          <div data-openbitfun-component="git-branch-history" data-openbitfun-part="commits" className="git-branch-history-view__commits">
+          <div data-opc-component="git-branch-history" data-opc-part="commits" className="git-branch-history-view__commits">
             {filteredCommits.map((commit, index) => {
               const isExpanded = expandedCommits.has(commit.hash);
               const isSelected = selectedCommits.has(commit.hash);
               
               return (
                 <div 
-                  data-openbitfun-component="git-branch-history"
-                  data-openbitfun-part="commit"
-                  data-openbitfun-state={[isExpanded && 'expanded', isSelected && 'selected'].filter(Boolean).join(' ') || undefined}
+                  data-opc-component="git-branch-history"
+                  data-opc-part="commit"
+                  data-opc-state={[isExpanded && 'expanded', isSelected && 'selected'].filter(Boolean).join(' ') || undefined}
                   key={commit.hash}
                   className={`git-branch-history-view__commit ${isExpanded ? 'git-branch-history-view__commit--expanded' : ''} ${isSelected ? 'git-branch-history-view__commit--selected' : ''}`}
                 >
                   <div data-overflow-trigger
-                    data-openbitfun-component="git-branch-history"
-                    data-openbitfun-part="commitMain"
+                    data-opc-component="git-branch-history"
+                    data-opc-part="commitMain"
                     className="git-branch-history-view__commit-main"
                     onClick={() => toggleCommitExpand(commit.hash)}
                   >
@@ -454,7 +454,7 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
                       </div>
                     )}
                     
-                    <div data-openbitfun-component="git-branch-history" data-openbitfun-part="timeline" className="git-branch-history-view__timeline">
+                    <div data-opc-component="git-branch-history" data-opc-part="timeline" className="git-branch-history-view__timeline">
                       <div className="git-branch-history-view__timeline-node" title={commit.author}>
                         {commit.author.charAt(0).toUpperCase()}
                       </div>
@@ -463,7 +463,7 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
                       )}
                     </div>
                     
-                    <div data-openbitfun-component="git-branch-history" data-openbitfun-part="commitInfo" className="git-branch-history-view__commit-info">
+                    <div data-opc-component="git-branch-history" data-opc-part="commitInfo" className="git-branch-history-view__commit-info">
                       <div className="git-branch-history-view__commit-message"><OverflowText>
                         {commit.message}
                       </OverflowText></div>
@@ -494,7 +494,7 @@ export const GitBranchHistoryView: React.FC<GitBranchHistoryViewProps> = ({
                   </div>
                   
                   {isExpanded && (
-                    <div data-openbitfun-component="git-branch-history" data-openbitfun-part="commitDetails" className="git-branch-history-view__commit-details">
+                    <div data-opc-component="git-branch-history" data-opc-part="commitDetails" className="git-branch-history-view__commit-details">
                       <div className="git-branch-history-view__detail-row">
                         <span className="git-branch-history-view__detail-label">
                           {t('branchHistory.details.fullHash')}

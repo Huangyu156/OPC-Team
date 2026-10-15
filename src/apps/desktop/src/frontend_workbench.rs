@@ -8,7 +8,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex, OnceLock};
 use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 
-use openbitfun_core::agentic::tools::frontend_workbench_host::{
+use opc_core::agentic::tools::frontend_workbench_host::{
     set_frontend_workbench_handler, FrontendWorkbenchHostRequest,
 };
 use serde::{Deserialize, Serialize};
@@ -18,8 +18,8 @@ use tauri::{Manager, Url, WebviewUrl, WebviewWindowBuilder};
 use tokio::sync::Notify;
 use uuid::Uuid;
 
-pub const FRONTEND_PROTOCOL_SCHEME: &str = "openbitfun-ui";
-pub const FRONTEND_URL: &str = "openbitfun-ui://localhost/index.html";
+pub const FRONTEND_PROTOCOL_SCHEME: &str = "opc-ui";
+pub const FRONTEND_URL: &str = "opc-ui://localhost/index.html";
 const CONFIRM_WINDOW_LABEL: &str = "frontend-update-confirm";
 const CONFIRM_TIMEOUT: Duration = Duration::from_secs(15);
 const CANDIDATE_READY_TIMEOUT: Duration = Duration::from_secs(15);
@@ -355,7 +355,7 @@ impl FrontendWorkbenchManager {
             "prepare" => self.prepare(),
             "status" => self.status(),
             "inspect" | "invoke" => {
-                let runtime = crate::openbitfun_control_host::dispatch_creation_runtime(
+                let runtime = crate::opc_control_host::dispatch_creation_runtime(
                     &request.action,
                     request.command_id,
                     request.arguments,
@@ -426,7 +426,7 @@ impl FrontendWorkbenchManager {
         fs::write(
             draft_path.join("CREATION.md"),
             format!(
-                "# OPC-Team UI customization\n\nDraft id: `{draft_id}`\nBase revision: `{active_revision}`\n\nRead `openbitfun-creation-api.md`. Edit `openbitfun-creation.css` and `openbitfun-creation.js`; put optional modules/assets under `creation-assets/`. JavaScript exports a default activation function receiving the versioned UI API, and may return cleanup. The host loads it after the real shell is ready and loads CSS last. No repository, Node.js, package installation, build, or index.html edit is needed. Preserve existing customizations unless asked to replace them. Apply with `FrontendWorkbench` and this draft id. The host waits for activation, then provides 15 seconds to keep or roll back.\n"
+                "# OPC-Team UI customization\n\nDraft id: `{draft_id}`\nBase revision: `{active_revision}`\n\nRead `opc-creation-api.md`. Edit `opc-creation.css` and `opc-creation.js`; put optional modules/assets under `creation-assets/`. JavaScript exports a default activation function receiving the versioned UI API, and may return cleanup. The host loads it after the real shell is ready and loads CSS last. No repository, Node.js, package installation, build, or index.html edit is needed. Preserve existing customizations unless asked to replace them. Apply with `FrontendWorkbench` and this draft id. The host waits for activation, then provides 15 seconds to keep or roll back.\n"
             ),
         )
         .map_err(io_error("write draft instructions"))?;
@@ -1442,8 +1442,8 @@ fn same_main_navigation_target(left: &Url, right: &Url) -> bool {
 
 fn main_navigation_key(url: &Url) -> String {
     let is_native_custom_protocol = url.scheme() == FRONTEND_PROTOCOL_SCHEME;
-    let is_windows_custom_protocol = matches!(url.scheme(), "http" | "https")
-        && url.host_str() == Some("openbitfun-ui.localhost");
+    let is_windows_custom_protocol =
+        matches!(url.scheme(), "http" | "https") && url.host_str() == Some("opc-ui.localhost");
     if is_native_custom_protocol || is_windows_custom_protocol {
         let mut key = format!("{FRONTEND_PROTOCOL_SCHEME}://localhost{}", url.path());
         if let Some(query) = url.query() {
@@ -1795,10 +1795,7 @@ mod tests {
             b"product v2"
         );
         assert_eq!(
-            upgraded
-                .read_protocol_asset("/openbitfun-creation.css")
-                .unwrap()
-                .0,
+            upgraded.read_protocol_asset("/opc-creation.css").unwrap().0,
             b"/* user design */"
         );
         assert!(upgraded.revision_dir(revision).is_dir());
@@ -2386,10 +2383,10 @@ mod tests {
 
     #[test]
     fn custom_frontend_navigation_matches_the_windows_protocol_projection() {
-        let native = "openbitfun-ui://localhost/index.html?openbitfunFrontendRevision=creative-1&openbitfunFrontendTransaction=tx"
+        let native = "opc-ui://localhost/index.html?openbitfunFrontendRevision=creative-1&openbitfunFrontendTransaction=tx"
             .parse::<Url>()
             .expect("native URL");
-        let windows = "http://openbitfun-ui.localhost/index.html?openbitfunFrontendRevision=creative-1&openbitfunFrontendTransaction=tx"
+        let windows = "http://opc-ui.localhost/index.html?openbitfunFrontendRevision=creative-1&openbitfunFrontendTransaction=tx"
             .parse::<Url>()
             .expect("Windows URL");
 
@@ -2401,7 +2398,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("tempdir");
         let manager = FrontendWorkbenchManager::new(temp.path());
         let request = tauri::http::Request::builder()
-            .uri("openbitfun-ui://localhost/index.html")
+            .uri("opc-ui://localhost/index.html")
             .body(Vec::new())
             .expect("request");
 
@@ -2434,7 +2431,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("tempdir");
         let manager = FrontendWorkbenchManager::new(temp.path());
         let request = tauri::http::Request::builder()
-            .uri("openbitfun-ui://localhost/frontend-update-confirm.html?transactionId=probe")
+            .uri("opc-ui://localhost/frontend-update-confirm.html?transactionId=probe")
             .body(Vec::new())
             .expect("request");
 
@@ -2453,7 +2450,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("tempdir");
         let manager = FrontendWorkbenchManager::new(temp.path());
         let request = tauri::http::Request::builder()
-            .uri("openbitfun-ui://localhost/bootstrap-theme.css")
+            .uri("opc-ui://localhost/bootstrap-theme.css")
             .body(Vec::new())
             .expect("request");
 

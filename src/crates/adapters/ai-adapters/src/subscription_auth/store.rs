@@ -810,7 +810,7 @@ fn store_path() -> Result<PathBuf> {
     }
     let base = dirs::config_dir().ok_or_else(|| anyhow!("system config directory unavailable"))?;
     Ok(base
-        .join(openbitfun_core_types::product_identity::data_namespace())
+        .join(opc_core_types::product_identity::data_namespace())
         .join("data")
         .join("subscription_auth.json"))
 }
@@ -944,9 +944,9 @@ fn open_native_keyring_entry(entry_name: &str) -> std::result::Result<keyring_co
 #[cfg(target_os = "macos")]
 fn macos_credential_vault(
     metadata_path: &Path,
-) -> openbitfun_services_core::credential_vault::CredentialVault {
+) -> opc_services_core::credential_vault::CredentialVault {
     let parent = metadata_path.parent().unwrap_or_else(|| Path::new("."));
-    openbitfun_services_core::credential_vault::CredentialVault::new(
+    opc_services_core::credential_vault::CredentialVault::new(
         parent.join(".subscription_auth_vault.key"),
         parent.join("subscription_auth_vault.json"),
     )
@@ -1669,10 +1669,7 @@ mod file_lock_tests {
 
     fn temporary_metadata_path(label: &str) -> PathBuf {
         std::env::temp_dir()
-            .join(format!(
-                "openbitfun-subauth-lock-{label}-{}",
-                uuid::Uuid::new_v4()
-            ))
+            .join(format!("opc-subauth-lock-{label}-{}", uuid::Uuid::new_v4()))
             .join("subscription_auth.json")
     }
 
@@ -1827,7 +1824,7 @@ mod file_lock_tests {
         )
         .await
         .expect("stage cleanup intent before vault write and metadata commit");
-        let mut child = openbitfun_services_core::process_manager::create_command(
+        let mut child = opc_services_core::process_manager::create_command(
             std::env::current_exe().expect("test binary"),
         )
         .arg("--exact")

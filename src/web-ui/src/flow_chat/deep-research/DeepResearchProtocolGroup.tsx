@@ -92,8 +92,8 @@ const PhaseGroup: React.FC<{ markers: PhaseMarker[] }> = ({ markers }) => {
   return (
     <div
       className="deep-research-protocol__phase-list"
-      data-openbitfun-component="deep-research-protocol"
-      data-openbitfun-part="phaseList"
+      data-opc-component="deep-research-protocol"
+      data-opc-part="phaseList"
     >
       {markers.map((marker, index) => {
         const presentation = PHASE_PRESENTATION[marker.phaseId];
@@ -148,21 +148,21 @@ const SubquestionGroup: React.FC<{ markers: SubquestionMarker[] }> = ({ markers 
         <ol
           aria-label={t('deepResearchProtocol.subquestions.title')}
           className="deep-research-protocol__list"
-          data-openbitfun-component="deep-research-protocol"
-          data-openbitfun-part="list"
+          data-opc-component="deep-research-protocol"
+          data-opc-part="list"
         >
           {markers.map(marker => (
             <li
               className="deep-research-protocol__list-item"
-              data-openbitfun-component="deep-research-protocol"
-              data-openbitfun-part="listItem"
+              data-opc-component="deep-research-protocol"
+              data-opc-part="listItem"
               key={marker.id}
             >
               <StatusPill tone="neutral">{marker.id}</StatusPill>
               <span
                 className="deep-research-protocol__item-title"
-                data-openbitfun-component="deep-research-protocol"
-                data-openbitfun-part="itemTitle"
+                data-opc-component="deep-research-protocol"
+                data-opc-part="itemTitle"
               >
                 {marker.title}
               </span>
@@ -196,8 +196,8 @@ const CitationGroup: React.FC<{ markers: CitationMarker[] }> = ({ markers }) => 
           extra={(
             <span
               className="deep-research-protocol__summary"
-              data-openbitfun-component="deep-research-protocol"
-              data-openbitfun-part="summary"
+              data-opc-component="deep-research-protocol"
+              data-opc-part="summary"
             >
               {corroborated && <span>{corroborated}</span>}
               <StatusPill tone="info">{t('deepResearchProtocol.citations.count', { count })}</StatusPill>
@@ -230,14 +230,14 @@ const VerdictGroup: React.FC<{ markers: VerdictMarker[] }> = ({ markers }) => {
         <ul
           aria-label={t('deepResearchProtocol.verdicts.title')}
           className="deep-research-protocol__list"
-          data-openbitfun-component="deep-research-protocol"
-          data-openbitfun-part="list"
+          data-opc-component="deep-research-protocol"
+          data-opc-part="list"
         >
           {markers.map(marker => (
             <li
               className="deep-research-protocol__list-item"
-              data-openbitfun-component="deep-research-protocol"
-              data-openbitfun-part="listItem"
+              data-opc-component="deep-research-protocol"
+              data-opc-part="listItem"
               key={marker.subquestionId}
             >
               <StatusPill tone="neutral">{marker.subquestionId}</StatusPill>
@@ -246,8 +246,8 @@ const VerdictGroup: React.FC<{ markers: VerdictMarker[] }> = ({ markers }) => {
               </StatusPill>
               <span
                 className="deep-research-protocol__confidence"
-                data-openbitfun-component="deep-research-protocol"
-                data-openbitfun-part="confidence"
+                data-opc-component="deep-research-protocol"
+                data-opc-part="confidence"
               >
                 {t('deepResearchProtocol.verdicts.confidence', {
                   value: formatNumber(marker.confidence, {
@@ -288,8 +288,8 @@ export const DeepResearchProtocolGroup: React.FC<DeepResearchProtocolGroupProps>
   return (
     <div
       className="deep-research-protocol__group"
-      data-openbitfun-component="deep-research-protocol"
-      data-openbitfun-part="root"
+      data-opc-component="deep-research-protocol"
+      data-opc-part="root"
     >
       {content}
     </div>

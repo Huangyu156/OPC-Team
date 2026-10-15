@@ -1,6 +1,6 @@
 use crate::agentic::tools::framework::ToolUseContext;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_agent_runtime::deep_review::{
+use opc_agent_runtime::deep_review::{
     FocusedReviewAssignment, FocusedReviewPathAccess, ReviewTargetEvidence,
 };
 use serde_json::Value;

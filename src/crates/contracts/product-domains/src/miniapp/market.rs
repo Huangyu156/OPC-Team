@@ -72,7 +72,7 @@ pub struct MarketListingSummary {
     pub owner: MarketUserSummary,
     pub latest_release: u32,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub permissions: MiniAppPermissions,
     pub screenshot_urls: Vec<String>,
     pub rating_average: f64,
@@ -107,7 +107,7 @@ pub struct MarketRelease {
     pub listing_id: String,
     pub release_number: u32,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub changelog: String,
     pub package_sha256: String,
     pub package_size: u64,
@@ -152,7 +152,7 @@ pub struct MarketSubmission {
     pub category: String,
     pub tags: Vec<String>,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub changelog: String,
     pub license: MarketLicense,
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -184,7 +184,7 @@ pub struct MarketSubmissionDraftRequest {
     #[serde(default)]
     pub tags: Vec<String>,
     #[serde(rename = "minOpenBitFunVersion")]
-    pub min_openbitfun_version: String,
+    pub min_opc_version: String,
     pub changelog: String,
     pub license: MarketLicense,
     #[serde(skip_serializing_if = "Option::is_none")]

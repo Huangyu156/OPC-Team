@@ -155,8 +155,8 @@ jobs:
         run: |
           cargo build --locked --release \
             --target ${{ matrix.platform.target }} \
-            -p openbitfun-cli \
-            -p openbitfun-relay-server \
+            -p opc-cli \
+            -p opc-relay-server \
             --bins
 
       # A binary above this floor cannot start on older distributions, and the
@@ -168,7 +168,7 @@ jobs:
         run: |
           rel="target/${{ matrix.platform.target }}/release"
           bash scripts/ci/check-glibc-floor.sh 2.35 \
-            "$rel/openbitfun-relay-server" \
+            "$rel/opc-relay-server" \
             "$rel/relay-admin" \
             "$rel/openbitfun" \
             "$rel/openbitfun"
@@ -260,7 +260,7 @@ jobs:
         if: ${{ inputs.upload_artifacts }}
         uses: actions/upload-artifact@v6
         with:
-          name: openbitfun-linux-${{ inputs.artifact_prefix }}-${{ matrix.platform.name }}
+          name: opc-linux-${{ inputs.artifact_prefix }}-${{ matrix.platform.name }}
           if-no-files-found: error
           retention-days: ${{ inputs.artifact_retention_days }}
           path: |

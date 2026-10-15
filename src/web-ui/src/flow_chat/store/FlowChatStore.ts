@@ -2065,9 +2065,9 @@ export class FlowChatStore {
   private clearOldStorage(): void {
     try {
       const keysToRemove = [
-        'openbitfun-flow-chat-state',
-        'openbitfun-flow-chat-global',
-        'openbitfun-session-ids'
+        'opc-flow-chat-state',
+        'opc-flow-chat-global',
+        'opc-session-ids'
       ];
       
       keysToRemove.forEach(key => {
@@ -2077,7 +2077,7 @@ export class FlowChatStore {
       });
 
       Object.keys(localStorage).forEach(key => {
-        if (key.startsWith('openbitfun-session-')) {
+        if (key.startsWith('opc-session-')) {
           localStorage.removeItem(key);
         }
       });

@@ -203,7 +203,7 @@ const AgentSpawnCard: React.FC<ToolCardProps> = ({
 
   return (
     <div
-      data-openbitfun-adapter="agent-control-tool-card"
+      data-opc-adapter="agent-control-tool-card"
       data-tool-card-id={toolId ?? ''}
     >
       <AgentControlToolCardView

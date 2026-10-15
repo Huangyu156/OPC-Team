@@ -93,7 +93,7 @@ function LaunchAtLoginSetting() {
         description={t('launchAtLogin.toggleDescription')}
         align="center"
       >
-        <div data-openbitfun-component="application-settings" data-openbitfun-part="launchAtLogin">
+        <div data-opc-component="application-settings" data-opc-part="launchAtLogin">
           <Switch
             checked={enabled}
             onChange={(e) => {
@@ -188,7 +188,7 @@ function AutoUpdateSetting() {
         description={t('autoUpdate.toggleDescription')}
         align="center"
       >
-        <div data-openbitfun-component="application-settings" data-openbitfun-part="autoUpdate">
+        <div data-opc-component="application-settings" data-opc-part="autoUpdate">
           <Switch
             checked={enabled}
             onChange={(e) => {
@@ -283,7 +283,7 @@ function PreventSleepSetting() {
         description={t('preventSleep.toggleDescription')}
         align="center"
       >
-        <div data-openbitfun-component="application-settings" data-openbitfun-part="preventSleep">
+        <div data-opc-component="application-settings" data-opc-part="preventSleep">
           <Switch
             checked={enabled}
             onChange={(event) => {
@@ -389,7 +389,7 @@ function WindowBehaviorSetting() {
         description={t('windowBehavior.closeButtonDescription')}
         align="center"
       >
-        <div data-openbitfun-component="application-settings" data-openbitfun-part="windowBehavior">
+        <div data-opc-component="application-settings" data-opc-part="windowBehavior">
           <Select
             size="sm"
             value={behavior}
@@ -483,7 +483,7 @@ function NotificationSettings() {
         description={t('notifications.dialogCompletion.description')}
         align="center"
       >
-        <div data-openbitfun-component="application-settings" data-openbitfun-part="notifications">
+        <div data-opc-component="application-settings" data-opc-part="notifications">
           <Switch
             checked={dialogNotify}
             onChange={(e) => { void handleDialogNotifyToggle(e.target.checked); }}
@@ -509,7 +509,7 @@ const GeneralSettingsPage: React.FC = () => {
   const { t } = useTranslation('settings/application');
   const isTauri = typeof window !== 'undefined' && '__TAURI__' in window;
   return (
-    <SettingsPage pageId="application.general" data-openbitfun-component="application-settings" data-openbitfun-part="root">
+    <SettingsPage pageId="application.general" data-opc-component="application-settings" data-opc-part="root">
       <LanguageSettingsSection />
       {isTauri && (
         <ConfigPageSection title={t('applicationGroups.startupAndUpdates.title')} description={t('applicationGroups.startupAndUpdates.description')}>

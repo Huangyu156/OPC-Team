@@ -51,7 +51,7 @@ export function MobileTabBar({
       aria-label={label}
       className={classNames(styles.root, className)}
       data-appearance={appearance}
-      data-openbitfun-component="mobile-tab-bar"
+      data-opc-component="mobile-tab-bar"
       data-safe-area={safeArea ? "true" : "false"}
     >
       {items.map(item => {
@@ -60,20 +60,20 @@ export function MobileTabBar({
           <button
             aria-current={selected ? "page" : undefined}
             className={styles.item}
-            data-openbitfun-part="item"
+            data-opc-part="item"
             data-selected={selected ? "true" : "false"}
             disabled={item.disabled}
             key={item.value}
             onClick={() => select(item.value)}
             type="button"
           >
-            <span className={styles.icon} data-openbitfun-part="icon">
+            <span className={styles.icon} data-opc-part="icon">
               {item.icon}
               {item.badge !== undefined && item.badge !== null && (
-                <span className={styles.badge} data-openbitfun-part="badge">{item.badge}</span>
+                <span className={styles.badge} data-opc-part="badge">{item.badge}</span>
               )}
             </span>
-            <span className={styles.label} data-openbitfun-part="label">{item.label}</span>
+            <span className={styles.label} data-opc-part="label">{item.label}</span>
           </button>
         );
       })}

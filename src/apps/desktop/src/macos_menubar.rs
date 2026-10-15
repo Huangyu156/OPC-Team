@@ -25,15 +25,15 @@ pub const MENU_ID_EDIT_SELECT_ALL: &str = "openbitfun.edit.select_all";
 
 pub fn menu_event_name_for_id(id: &str) -> Option<&'static str> {
     match id {
-        "openbitfun.open_project" => Some("openbitfun_menu_open_project"),
-        "openbitfun.new_project" => Some("openbitfun_menu_new_project"),
-        "openbitfun.about" => Some("openbitfun_menu_about"),
-        MENU_ID_EDIT_UNDO => Some("openbitfun_menu_edit_undo"),
-        MENU_ID_EDIT_REDO => Some("openbitfun_menu_edit_redo"),
-        MENU_ID_EDIT_CUT => Some("openbitfun_menu_edit_cut"),
-        MENU_ID_EDIT_COPY => Some("openbitfun_menu_edit_copy"),
-        MENU_ID_EDIT_PASTE => Some("openbitfun_menu_edit_paste"),
-        MENU_ID_EDIT_SELECT_ALL => Some("openbitfun_menu_edit_select_all"),
+        "openbitfun.open_project" => Some("opc_menu_open_project"),
+        "openbitfun.new_project" => Some("opc_menu_new_project"),
+        "openbitfun.about" => Some("opc_menu_about"),
+        MENU_ID_EDIT_UNDO => Some("opc_menu_edit_undo"),
+        MENU_ID_EDIT_REDO => Some("opc_menu_edit_redo"),
+        MENU_ID_EDIT_CUT => Some("opc_menu_edit_cut"),
+        MENU_ID_EDIT_COPY => Some("opc_menu_edit_copy"),
+        MENU_ID_EDIT_PASTE => Some("opc_menu_edit_paste"),
+        MENU_ID_EDIT_SELECT_ALL => Some("opc_menu_edit_select_all"),
         _ => None,
     }
 }

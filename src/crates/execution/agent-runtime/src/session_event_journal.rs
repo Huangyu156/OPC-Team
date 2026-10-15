@@ -6,7 +6,7 @@
 //! smallest reconstructable projection of the current Turn, independently of
 //! any client subscription or client-written persistence checkpoint.
 
-use openbitfun_events::{AgenticEvent, ToolEventData};
+use opc_events::{AgenticEvent, ToolEventData};
 use serde::{Deserialize, Serialize};
 use std::collections::{HashMap, VecDeque};
 use std::sync::{Arc, Mutex, MutexGuard};
@@ -687,8 +687,8 @@ mod tests {
         SessionEventJournal, SessionEventProjectionStore, StoredSessionEvents,
         MAX_REPLAYABLE_TAIL_EVENTS, MAX_RETAINED_TERMINAL_SESSION_PROJECTIONS,
     };
-    use openbitfun_core_types::ReasoningContentKind;
-    use openbitfun_events::{AgenticEvent, ToolEventData, ToolEventIdentity};
+    use opc_core_types::ReasoningContentKind;
+    use opc_events::{AgenticEvent, ToolEventData, ToolEventIdentity};
     use std::collections::HashMap;
     use std::sync::{Arc, Mutex};
 

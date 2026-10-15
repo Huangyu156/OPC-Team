@@ -986,7 +986,7 @@ mod tests {
         ] {
             assert_eq!(
                 super::is_write_like_tool_name(tool_name),
-                openbitfun_agent_tools::is_write_like_tool_name(tool_name),
+                opc_agent_tools::is_write_like_tool_name(tool_name),
                 "tool_name={tool_name}"
             );
         }

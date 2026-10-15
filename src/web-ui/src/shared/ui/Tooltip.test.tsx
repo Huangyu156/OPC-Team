@@ -32,7 +32,7 @@ describe('shared tooltip visibility', () => {
   });
   afterEach(() => {
     act(() => root.unmount()); host.remove();
-    document.querySelectorAll('[data-openbitfun-overlay-host]').forEach(element => element.remove());
+    document.querySelectorAll('[data-opc-overlay-host]').forEach(element => element.remove());
     vi.unstubAllGlobals(); vi.useRealTimers();
   });
 
@@ -128,7 +128,7 @@ describe('shared tooltip visibility', () => {
     // scrollbar drag inside the preview must not dismiss the preview.
     act(() => card.dispatchEvent(new Event('scroll')));
     expect(popup()).toBe(card);
-    act(() => card.querySelector('[data-openbitfun-part="content"]')!.dispatchEvent(new Event('scroll')));
+    act(() => card.querySelector('[data-opc-part="content"]')!.dispatchEvent(new Event('scroll')));
     expect(popup()).toBe(card);
     // A scroll owned by the surface behind the trigger still dismisses it.
     act(() => host.dispatchEvent(new Event('scroll')));

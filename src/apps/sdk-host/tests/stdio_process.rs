@@ -6,7 +6,7 @@ use tokio::io::{AsyncBufReadExt, AsyncReadExt, AsyncWriteExt, BufReader};
 
 #[tokio::test]
 async fn standalone_sdk_host_negotiates_and_shuts_down_without_cli() {
-    const FIXTURE_KEY: &str = "openbitfun-sdk-fixture-key-7f6b1d";
+    const FIXTURE_KEY: &str = "opc-sdk-fixture-key-7f6b1d";
     let temp = tempfile::tempdir().expect("isolated SDK Host environment");
     let workspace = temp.path().join("workspace");
     let user_root = temp.path().join("user-root");
@@ -16,7 +16,7 @@ async fn standalone_sdk_host_negotiates_and_shuts_down_without_cli() {
         std::fs::create_dir_all(path).expect("SDK Host fixture directory");
     }
 
-    let mut child = openbitfun_services_core::process_manager::create_tokio_command(env!(
+    let mut child = opc_services_core::process_manager::create_tokio_command(env!(
         "CARGO_BIN_EXE_openbitfun-sdk-host"
     ))
     .current_dir(&workspace)

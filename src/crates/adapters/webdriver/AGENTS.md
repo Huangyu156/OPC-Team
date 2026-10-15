@@ -2,7 +2,7 @@
 
 Scope: this guide applies to `src/crates/adapters/webdriver`.
 
-`openbitfun-webdriver` owns the embedded desktop WebDriver bridge. It is a
+`opc-webdriver` owns the embedded desktop WebDriver bridge. It is a
 platform-integration crate, not a product runtime or tool-policy owner.
 
 ## Guardrails
@@ -18,7 +18,7 @@ platform-integration crate, not a product runtime or tool-policy owner.
 ## Verification
 
 ```bash
-cargo check -p openbitfun-webdriver
+cargo check -p opc-webdriver
 ```
 
 The crate selects Tauri's raw WebView access and the PNG/JPEG codecs it uses;

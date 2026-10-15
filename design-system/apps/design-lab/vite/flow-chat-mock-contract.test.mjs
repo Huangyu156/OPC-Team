@@ -54,7 +54,7 @@ test('conversation reading column, metadata and composer follow their applicatio
     assert.ok(layout.includes(`var(--opcteam-control-flow-chat-${name})`));
   }
   const composer = block(lab, '.flow-chat-mock__composer');
-  assert.ok(property(composer, 'inline-size').includes(property(block(input, '.openbitfun-context-drop-zone.openbitfun-chat-input-drop-zone'), 'max-width')));
+  assert.ok(property(composer, 'inline-size').includes(property(block(input, '.opc-context-drop-zone.opc-chat-input-drop-zone'), 'max-width')));
   for (const name of ['height', 'padding', 'border-radius', 'font-size', 'font-weight', 'letter-spacing', 'opacity']) {
     assert.equal(property(block(lab, '.flow-chat-mock__model'), name), property(block(model, '&__trigger'), name), name);
   }

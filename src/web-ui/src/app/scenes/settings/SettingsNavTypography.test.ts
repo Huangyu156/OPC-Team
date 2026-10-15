@@ -49,8 +49,8 @@ describe('SettingsNav typography and layout ownership', () => {
   });
 
   it('keeps search and body separated by the navigation spacing token', () => {
-    const root = declarations('.openbitfun-settings-nav');
-    const header = declarations('.openbitfun-settings-nav__panel-header');
+    const root = declarations('.opc-settings-nav');
+    const header = declarations('.opc-settings-nav__panel-header');
     expect(root.getPropertyValue('gap')).toBe('var(--opcteam-layout-navigation-panel-content-gap)');
     expect(header.getPropertyValue('display')).toBe('flex');
     expect(header.getPropertyValue('flex-direction')).toBe('column');
@@ -61,14 +61,14 @@ describe('SettingsNav typography and layout ownership', () => {
   });
 
   it('resolves shared navigation text against the current chrome instead of secondary action ink', () => {
-    const root = declarations('.openbitfun-settings-nav');
+    const root = declarations('.opc-settings-nav');
     expect(root.getPropertyValue('--opcteam-color-content-primary')).toBe('var(--opcteam-color-content-primary)');
     expect(root.getPropertyValue('--opcteam-color-action-neutral-content')).toBe('');
   });
 
   it('leaves group spacing, heading typography, and item states to NavigationPanel while indenting child items', () => {
-    const content = declarations('.openbitfun-settings-nav__content');
-    const item = declarations('.openbitfun-settings-nav__item');
+    const content = declarations('.opc-settings-nav__content');
+    const item = declarations('.opc-settings-nav__item');
     expect(content.getPropertyValue('padding')).toBe('0px');
     expect(content.getPropertyValue('padding-inline-end')).toBe('var(--opcteam-space-2)');
     expect(content.getPropertyValue('gap')).toBe('');
@@ -78,25 +78,25 @@ describe('SettingsNav typography and layout ownership', () => {
     expect(readSettingsNavStylesheet()).not.toContain(
       'padding-inline-start: calc(var(--opcteam-layout-navigation-panel-item-padding-inline) + 30px)',
     );
-    expect(rules.some((rule) => rule.selectorText.includes('.openbitfun-settings-nav__category'))).toBe(false);
+    expect(rules.some((rule) => rule.selectorText.includes('.opc-settings-nav__category'))).toBe(false);
     expect(readSettingsNavStylesheet()).not.toContain('element-bg-soft');
   });
 
   it('keeps adjacent navigation interaction surfaces separated by the shared compact rhythm', () => {
-    expect(declarations('.openbitfun-settings-nav__items').getPropertyValue('gap')).toBe(
+    expect(declarations('.opc-settings-nav__items').getPropertyValue('gap')).toBe(
       'calc(var(--opcteam-space-1) / 2)',
     );
-    expect(declarations('.openbitfun-settings-nav__search-results').getPropertyValue('gap')).toBe(
+    expect(declarations('.opc-settings-nav__search-results').getPropertyValue('gap')).toBe(
       'calc(var(--opcteam-space-1) / 2)',
     );
   });
 
   it('stacks search copy inside the shared label without overriding the selected item', () => {
-    const label = declarations('.openbitfun-settings-nav__search-result-copy');
+    const label = declarations('.opc-settings-nav__search-result-copy');
     expect(label.getPropertyValue('display')).toBe('flex');
     expect(label.getPropertyValue('flex-direction')).toBe('column');
     expect(label.getPropertyValue('gap')).toBe('2px');
-    expect(declarations('.openbitfun-settings-nav__search-result-item').getPropertyValue('background')).toBe('');
+    expect(declarations('.opc-settings-nav__search-result-item').getPropertyValue('background')).toBe('');
     const highlight = rules.find((rule) => rule.selectorText.includes('.is-highlighted'));
     expect(highlight?.selectorText).toContain('.is-highlighted:not(.is-active)');
     expect(highlight?.style.getPropertyValue('background')).toBe('var(--opcteam-color-action-neutral-surface)');

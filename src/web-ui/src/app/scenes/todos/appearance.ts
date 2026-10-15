@@ -37,10 +37,10 @@ export const todosSceneAppearanceDescriptor: AppearanceSurfaceDescriptor = {
     { id: 'warning' },
   ],
   states: [
-    { id: 'selected', selector: { kind: 'self', suffix: '[data-openbitfun-state~="selected"]' } },
-    { id: 'today', selector: { kind: 'self', suffix: '[data-openbitfun-state~="today"]' } },
-    { id: 'outside', selector: { kind: 'self', suffix: '[data-openbitfun-state~="outside"]' } },
-    { id: 'overdue', selector: { kind: 'self', suffix: '[data-openbitfun-state~="overdue"]' } },
-    { id: 'disabled', selector: { kind: 'self', suffix: '[data-openbitfun-state~="disabled"]' } },
+    { id: 'selected', selector: { kind: 'self', suffix: '[data-opc-state~="selected"]' } },
+    { id: 'today', selector: { kind: 'self', suffix: '[data-opc-state~="today"]' } },
+    { id: 'outside', selector: { kind: 'self', suffix: '[data-opc-state~="outside"]' } },
+    { id: 'overdue', selector: { kind: 'self', suffix: '[data-opc-state~="overdue"]' } },
+    { id: 'disabled', selector: { kind: 'self', suffix: '[data-opc-state~="disabled"]' } },
   ],
 };

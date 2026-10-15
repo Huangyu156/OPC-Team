@@ -1,4 +1,4 @@
-use openbitfun_services_integrations::remote_ssh::{
+use opc_services_integrations::remote_ssh::{
     dispatch_ssh::{
         self, DispatchCliRelease, DispatchInstallPoll, DispatchInstallStart, DispatchSshProbe,
     },
@@ -21,7 +21,7 @@ use super::{
 };
 
 pub(super) const DISPATCH_PROTOCOL_VERSION: u64 =
-    openbitfun_services_core::dispatch_contract::DISPATCH_PROTOCOL_VERSION as u64;
+    opc_services_core::dispatch_contract::DISPATCH_PROTOCOL_VERSION as u64;
 pub(super) const MAX_DISPATCH_TEXT_BYTES: usize = 32 * 1024;
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -172,12 +172,12 @@ pub struct DispatchAppendRequest {
 
 /// The wire shape and structural limits come from the shared contract; the
 /// controller only adds transport-owned policy (the device inline budget).
-pub(super) use openbitfun_services_core::dispatch_contract::DispatchAttachment as DispatchAttachmentPayload;
+pub(super) use opc_services_core::dispatch_contract::DispatchAttachment as DispatchAttachmentPayload;
 
 pub(super) fn validate_attachment_payloads(
     attachments: &[DispatchAttachmentPayload],
 ) -> anyhow::Result<()> {
-    openbitfun_services_core::dispatch_contract::validate_dispatch_attachments(attachments)
+    opc_services_core::dispatch_contract::validate_dispatch_attachments(attachments)
         .map_err(|error| anyhow::anyhow!(error))
 }
 
@@ -188,9 +188,7 @@ pub(super) fn validate_device_attachment_budget(
         .iter()
         .map(|attachment| attachment.data_url.len())
         .sum();
-    if total
-        > openbitfun_services_core::dispatch_contract::MAX_DEVICE_DISPATCH_ATTACHMENTS_TOTAL_BYTES
-    {
+    if total > opc_services_core::dispatch_contract::MAX_DEVICE_DISPATCH_ATTACHMENTS_TOTAL_BYTES {
         anyhow::bail!(
             "Device dispatch carries at most 192 KiB of inline images; use an SSH target for larger screenshots"
         );
@@ -209,7 +207,7 @@ pub struct DispatchQueryJobRequest {
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub file_path: Option<String>,
     #[serde(default, skip_serializing_if = "Option::is_none")]
-    pub file_chunk: Option<openbitfun_services_core::dispatch_contract::DispatchFileChunkRequest>,
+    pub file_chunk: Option<opc_services_core::dispatch_contract::DispatchFileChunkRequest>,
 }
 
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
@@ -819,7 +817,7 @@ async fn append_model_sync_audit(
             &format!("{attempt}:model-sync:{sequence}"),
             json!({
                 "timestamp": chrono::Utc::now().to_rfc3339(),
-                "action": openbitfun_services_core::dispatch_contract::DISPATCH_MODEL_SYNC_SETUP_AUDIT_ACTION,
+                "action": opc_services_core::dispatch_contract::DISPATCH_MODEL_SYNC_SETUP_AUDIT_ACTION,
                 "details": {
                     "stage": stage,
                     // Never the synced payload itself: it carries API keys.
@@ -846,7 +844,7 @@ fn setup_audit_for_target(events: Vec<Value>, protocol: &Value) -> Vec<Value> {
                 .get("action")
                 .and_then(Value::as_str)
                 .is_some_and(|action| {
-                    openbitfun_services_core::dispatch_contract::
+                    opc_services_core::dispatch_contract::
                         dispatch_target_accepts_setup_audit_action(action, &capabilities)
                 })
         })
@@ -1123,9 +1121,9 @@ pub(super) fn validate_file_query_capability(
     kind: &str,
 ) -> anyhow::Result<()> {
     let required = if kind == "readFileChunk" {
-        openbitfun_services_core::dispatch_contract::DISPATCH_FILE_CHUNKS_CAPABILITY
+        opc_services_core::dispatch_contract::DISPATCH_FILE_CHUNKS_CAPABILITY
     } else {
-        openbitfun_services_core::dispatch_contract::DISPATCH_READ_FILE_CAPABILITY
+        opc_services_core::dispatch_contract::DISPATCH_READ_FILE_CAPABILITY
     };
     let supported = protocol
         .and_then(|value| value.get("capabilities"))
@@ -1166,8 +1164,7 @@ pub(super) fn validate_query_request(request: &DispatchQueryJobRequest) -> anyho
             .as_ref()
             .ok_or_else(|| anyhow::anyhow!("Dispatch chunk query requires fileChunk"))?;
         if chunk.limit == 0
-            || chunk.limit
-                > openbitfun_services_core::dispatch_contract::DISPATCH_FILE_CHUNK_MAX_BYTES
+            || chunk.limit > opc_services_core::dispatch_contract::DISPATCH_FILE_CHUNK_MAX_BYTES
         {
             anyhow::bail!("Invalid dispatch output chunk size");
         }

@@ -1,15 +1,15 @@
 #![cfg(feature = "remote-connect")]
 
-use openbitfun_core_types::{
+use opc_core_types::{
     ModelsDevCatalogSource, ModelsDevReasoningCatalog, ModelsDevReasoningModel,
     ModelsDevReasoningProvider, ReasoningCapabilityStatus, ReasoningCatalogProjection,
     ReasoningPresetAction, ReasoningPresetDescriptor, ReasoningPresetSource,
 };
-use openbitfun_events::{AgenticEvent, ToolEventData};
-use openbitfun_runtime_ports::{
+use opc_events::{AgenticEvent, ToolEventData};
+use opc_runtime_ports::{
     AgentSubmissionSource, RemoteControlSessionState, RemoteControlStateSnapshot,
 };
-use openbitfun_services_integrations::remote_connect::{
+use opc_services_integrations::remote_connect::{
     agent_input_attachment_from_remote_image_context, build_lan_relay_url_with_ip,
     build_remote_chat_messages, build_remote_image_attachment, build_remote_image_contexts,
     build_remote_image_submission_request, build_remote_model_catalog,
@@ -66,7 +66,7 @@ fn relay_invitations_and_authentication_use_the_same_protocol_for_all_endpoints(
             format!("{endpoint}/#/pair?did=desktop-1")
         );
     }
-    use openbitfun_services_integrations::remote_connect::realtime_client::account_auth_payload;
+    use opc_services_integrations::remote_connect::realtime_client::account_auth_payload;
     // Every handshake reports the build string and control-contract protocol
     // number, including on reconnect.
     assert_eq!(
@@ -74,8 +74,8 @@ fn relay_invitations_and_authentication_use_the_same_protocol_for_all_endpoints(
         serde_json::json!({
             "token":"test-token",
             "clientType":"machine-scoped",
-            "clientVersion": openbitfun_product_domains::account::client_version(),
-            "clientProtocol": openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION,
+            "clientVersion": opc_product_domains::account::client_version(),
+            "clientProtocol": opc_product_domains::account::CLIENT_PROTOCOL_VERSION,
         })
     );
     assert_eq!(
@@ -83,8 +83,8 @@ fn relay_invitations_and_authentication_use_the_same_protocol_for_all_endpoints(
         serde_json::json!({
             "token":"test-token",
             "clientType":"user-scoped",
-            "clientVersion": openbitfun_product_domains::account::client_version(),
-            "clientProtocol": openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION,
+            "clientVersion": opc_product_domains::account::client_version(),
+            "clientProtocol": opc_product_domains::account::CLIENT_PROTOCOL_VERSION,
         })
     );
 }
@@ -412,7 +412,7 @@ fn remote_chat_projection_owner_recovers_pixels_behind_an_attachment_path() {
 
 #[test]
 fn relay_records_carry_attachment_pixels_on_the_turn_record_alone() {
-    let turn: openbitfun_services_core::session::DialogTurnData = serde_json::from_value(
+    let turn: opc_services_core::session::DialogTurnData = serde_json::from_value(
         serde_json::json!({
             "turnId": "turn-1",
             "turnIndex": 0,
@@ -451,12 +451,11 @@ fn relay_records_carry_attachment_pixels_on_the_turn_record_alone() {
         "/Users/dev/Pictures/dropped.png" => Some(TINY_PNG.to_vec()),
         _ => None,
     };
-    let records =
-        openbitfun_services_integrations::remote_connect::session_records::records_from_turns(
-            std::slice::from_ref(&turn),
-            &read_pixels,
-        )
-        .expect("records build");
+    let records = opc_services_integrations::remote_connect::session_records::records_from_turns(
+        std::slice::from_ref(&turn),
+        &read_pixels,
+    )
+    .expect("records build");
 
     let images_of = |record: &serde_json::Value| {
         record["turn"]["userMessage"]["metadata"]["images"]
@@ -1736,7 +1735,7 @@ fn remote_connect_file_transfer_policy_preserves_name_fallback() {
 
 fn make_temp_remote_workspace() -> (PathBuf, PathBuf, PathBuf) {
     let base = std::env::temp_dir().join(format!(
-        "openbitfun-remote-connect-contract-{}",
+        "opc-remote-connect-contract-{}",
         uuid::Uuid::new_v4()
     ));
     let workspace = base.join("workspace");
@@ -3312,9 +3311,9 @@ async fn remote_connect_tracker_broadcasts_tool_and_turn_events() {
         attempt_id: None,
         attempt_index: None,
         tool_event: ToolEventData::Started {
-            identity: openbitfun_events::ToolEventIdentity::resolved(
+            identity: opc_events::ToolEventIdentity::resolved(
                 "tool-1",
-                openbitfun_agent_tools::CALL_DEFERRED_TOOL_NAME,
+                opc_agent_tools::CALL_DEFERRED_TOOL_NAME,
                 "AskUserQuestion",
             ),
             params: serde_json::json!({
@@ -3638,7 +3637,7 @@ fn remote_connect_tool_preview_slimming_keeps_short_fields_and_drops_large_strin
 
 #[test]
 fn control_ping_accepts_legacy_and_additive_client_identity() {
-    use openbitfun_services_integrations::remote_connect::RemoteCommand;
+    use opc_services_integrations::remote_connect::RemoteCommand;
     let legacy = serde_json::json!({ "cmd": "ping" });
     let old: RemoteCommand = serde_json::from_value(legacy.clone()).unwrap();
     assert_eq!(old, RemoteCommand::Ping { client: None });

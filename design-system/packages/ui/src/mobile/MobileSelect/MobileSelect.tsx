@@ -83,13 +83,13 @@ export function MobileSelect({
       data-disabled={disabled ? "true" : "false"}
       data-invalid={invalid ? "true" : "false"}
       data-open={open ? "true" : "false"}
-      data-openbitfun-component="mobile-select"
+      data-opc-component="mobile-select"
     >
       {label !== undefined && label !== null && (
-        <span className={styles.copy} data-openbitfun-part="copy">
-          <span className={styles.label} data-openbitfun-part="label">{label}</span>
+        <span className={styles.copy} data-opc-part="copy">
+          <span className={styles.label} data-opc-part="label">{label}</span>
           {description !== undefined && description !== null && (
-            <span className={styles.description} data-openbitfun-part="description">{description}</span>
+            <span className={styles.description} data-opc-part="description">{description}</span>
           )}
         </span>
       )}
@@ -99,12 +99,12 @@ export function MobileSelect({
         aria-haspopup="dialog"
         aria-invalid={invalid || undefined}
         className={styles.field}
-        data-openbitfun-part="field"
+        data-opc-part="field"
         disabled={disabled}
         onClick={() => setSheetOpen(true)}
         type="button"
       >
-        <span className={styles.value} data-openbitfun-part="value" data-placeholder={selectedOption ? "false" : "true"}>
+        <span className={styles.value} data-opc-part="value" data-placeholder={selectedOption ? "false" : "true"}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
         <ChevronDown aria-hidden="true" className={styles.chevron} />

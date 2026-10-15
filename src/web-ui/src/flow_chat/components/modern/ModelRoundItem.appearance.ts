@@ -3,7 +3,7 @@ import type { AppearanceSurfaceDescriptor } from '@/infrastructure/appearance';
 export const modelRoundItemAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   id: 'model-round-item',
   // Persisted package names stay stable; product hooks coexist with IconButton.
-  componentAttribute: 'data-openbitfun-product-component',
+  componentAttribute: 'data-opc-product-component',
   parts: [
     { id: 'root' },
     { id: 'retryHistory' },
@@ -23,14 +23,14 @@ export const modelRoundItemAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   facets: [
     {
       id: 'status',
-      attribute: 'data-openbitfun-status',
+      attribute: 'data-opc-status',
       values: ['pending', 'queued', 'waiting', 'preparing', 'streaming', 'receiving', 'running', 'completed', 'error', 'cancelled', 'rejected', 'analyzing'],
     },
   ],
   states: [
-    { id: 'streaming', selector: { kind: 'self', suffix: '[data-openbitfun-state~="streaming"]' } },
-    { id: 'expanded', selector: { kind: 'self', suffix: '[data-openbitfun-state~="expanded"]' } },
-    { id: 'pending', selector: { kind: 'self', suffix: '[data-openbitfun-state~="pending"]' } },
-    { id: 'copied', selector: { kind: 'self', suffix: '[data-openbitfun-state~="copied"]' } },
+    { id: 'streaming', selector: { kind: 'self', suffix: '[data-opc-state~="streaming"]' } },
+    { id: 'expanded', selector: { kind: 'self', suffix: '[data-opc-state~="expanded"]' } },
+    { id: 'pending', selector: { kind: 'self', suffix: '[data-opc-state~="pending"]' } },
+    { id: 'copied', selector: { kind: 'self', suffix: '[data-opc-state~="copied"]' } },
   ],
 };

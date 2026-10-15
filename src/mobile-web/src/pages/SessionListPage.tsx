@@ -67,8 +67,8 @@ import {
   type WorkspaceReference,
 } from '../services/workspaceIdentity';
 import { useTheme } from '../theme';
-import logoMarkDark from '../assets/openbitfun-mark-dark.png';
-import logoMarkLight from '../assets/openbitfun-mark-light.png';
+import logoMarkDark from '../assets/opc-mark-dark.png';
+import logoMarkLight from '../assets/opc-mark-light.png';
 import {
   isAccountIdentityChangedError,
   type RelayHttpClient,

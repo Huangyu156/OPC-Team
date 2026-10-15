@@ -1,10 +1,10 @@
-use openbitfun_codex_adapter::{CodexHookProvider, CodexHookProviderOptions};
-use openbitfun_product_domains::external_hook_catalog::{
+use opc_codex_adapter::{CodexHookProvider, CodexHookProviderOptions};
+use opc_product_domains::external_hook_catalog::{
     ExternalHookHandlerKind, ExternalHookNativeActivation, ExternalHookProjectionStatus,
     ExternalHookSourceProvider,
 };
-use openbitfun_product_domains::external_hook_contributions::ExternalHookPoint;
-use openbitfun_product_domains::external_sources::{ExecutionDomainId, ExternalSourceContext};
+use opc_product_domains::external_hook_contributions::ExternalHookPoint;
+use opc_product_domains::external_sources::{ExecutionDomainId, ExternalSourceContext};
 use std::fs;
 use tempfile::tempdir;
 

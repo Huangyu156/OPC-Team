@@ -1,6 +1,6 @@
 # OPC-Team Server (Web App Backend)
 
-This directory contains the `openbitfun-server` application, which serves the web backend runtime for OPC-Team.
+This directory contains the `opc-server` application, which serves the web backend runtime for OPC-Team.
 
 > **Deprecated:** This Web Server was already deprecated before the current App Server refactor. Changes made here
 > during that refactor are intended to validate protocol and host boundaries; they do not promise feature completeness,

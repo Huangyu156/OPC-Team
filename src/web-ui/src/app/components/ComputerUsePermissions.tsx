@@ -43,7 +43,7 @@ export function ComputerUsePermissions({ showGrants = false }: { showGrants?: bo
     setReceipt(next);
     await refresh();
   });
-  return <div className="computer-control-card__permissions" data-openbitfun-component="computer-control" data-openbitfun-part="permissions">
+  return <div className="computer-control-card__permissions" data-opc-component="computer-control" data-opc-part="permissions">
     <div className="computer-control-card__row">
       <strong>{t('computerSharing.permissions')}</strong>
       <Button size="sm" variant="outline" disabled={busy} onClick={() => void perform(refresh)}>{t('computerSharing.refresh')}</Button>

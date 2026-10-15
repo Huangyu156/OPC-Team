@@ -91,7 +91,7 @@ export function remotePairingFailureReason(
 }
 
 export type RemoteConnectionMethod =
-  | 'openbitfun_server' | 'bot_feishu' | 'bot_telegram' | 'bot_weixin'
+  | 'opc_server' | 'bot_feishu' | 'bot_telegram' | 'bot_weixin'
   | { lan: { ip: string | null } };
 
 export interface ConnectionResult {

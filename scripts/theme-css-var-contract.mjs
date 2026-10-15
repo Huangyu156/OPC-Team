@@ -47,14 +47,14 @@ export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
     ),
   }),
   // Legacy compatibility aliases emitted by the theme build (themes.css): skins
-  // authored before the OPC-Team rename reference --openbitfun-* names.
+  // authored before the OPC-Team rename reference --opc-* names.
   Object.freeze({
     owner: 'design-system/packages/theme-openbitfun/scripts/build.mjs',
     packageName: '@openbitfun/theme-openbitfun',
     variables: Object.freeze(
       Object.keys(openbitfunThemeTokens)
         .filter(name => publicThemePrefixes.some(prefix => name.startsWith(prefix)))
-        .map(name => `--openbitfun-${tokenNameToCssVariable(name).slice('--opcteam-'.length)}`),
+        .map(name => `--opc-${tokenNameToCssVariable(name).slice('--opcteam-'.length)}`),
     ),
   }),
 ]);
@@ -126,7 +126,7 @@ export const CONTRACT_VAR_DEFINITION_PATH_PARTS = [
   'design-system/packages/theme-openbitfun/src',
   'infrastructure/appearance',
   'src/mobile-web/src/styles/global.scss',
-  'tools/openbitfun-canvas/runtime/styles',
+  'tools/opc-canvas/runtime/styles',
   'tools/generative-widget/appearancePayload.ts',
 ];
 
@@ -184,7 +184,7 @@ export const COLOR_DOMAIN_RULES = [
   {
     key: 'openbitfunCanvas',
     label: 'OpenBitFun Canvas',
-    pathParts: ['tools/openbitfun-canvas'],
+    pathParts: ['tools/opc-canvas'],
   },
   {
     key: 'mermaid',
@@ -280,7 +280,7 @@ export const COLOR_DOMAIN_CONTRACTS = [
   },
   {
     key: 'openbitfunCanvas',
-    owner: 'src/web-ui/src/tools/openbitfun-canvas',
+    owner: 'src/web-ui/src/tools/opc-canvas',
     reason: 'OpenBitFun Canvas renders generated TSX inside a dedicated iframe runtime with an SDK palette that must stay isolated from app chrome tokens.',
     mergePolicy: 'Keep Canvas iframe and SDK colors in the Canvas Appearance contract; promote only reusable host chrome roles to shared app tokens.',
   },
@@ -350,7 +350,7 @@ export const DYNAMIC_VAR_FAMILY_CONTRACTS = [
   },
   {
     prefix: '--opcteam-canvas-',
-    owner: 'src/web-ui/src/tools/openbitfun-canvas/runtime/canvasRuntimeInstaller.ts; src/web-ui/src/tools/openbitfun-canvas/runtime/styles/canvas-runtime.scss',
+    owner: 'src/web-ui/src/tools/opc-canvas/runtime/canvasRuntimeInstaller.ts; src/web-ui/src/tools/opc-canvas/runtime/styles/canvas-runtime.scss',
     reason: 'OpenBitFun Canvas iframe runtime receives host Appearance values through a scoped CSS variable family that must stay isolated from app root tokens.',
   },
   {

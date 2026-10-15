@@ -1,3 +1,3 @@
 //! Compatibility export for MCP dynamic-tool metadata.
 
-pub use openbitfun_agent_tools::McpToolBridgeToolInfo as McpToolInfo;
+pub use opc_agent_tools::McpToolBridgeToolInfo as McpToolInfo;

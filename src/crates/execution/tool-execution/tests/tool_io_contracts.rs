@@ -26,7 +26,7 @@ fn make_temp_dir(name: &str) -> PathBuf {
     let sequence = NEXT_TEMP_DIR_ID.fetch_add(1, Ordering::Relaxed);
     let process_id = std::process::id();
     let dir = std::env::temp_dir().join(format!(
-        "openbitfun-tool-io-{name}-{process_id}-{unique}-{sequence}"
+        "opc-tool-io-{name}-{process_id}-{unique}-{sequence}"
     ));
     fs::create_dir(&dir).expect("isolated temp dir should be created");
     dir
@@ -319,12 +319,12 @@ fn remote_glob_commands_preprocess_static_pattern_prefix() {
     assert!(!rg_command.contains("--hidden"));
     assert!(!rg_command.contains("--sort"));
 
-    let product_directory = openbitfun_core_types::product_identity::hidden_data_directory();
-    let openbitfun_rg_command =
+    let product_directory = opc_core_types::product_identity::hidden_data_directory();
+    let opc_rg_command =
         build_remote_rg_command("/home/user/repo", &format!("{product_directory}/**/*.json"));
-    assert!(openbitfun_rg_command.contains("--no-ignore"));
-    assert!(openbitfun_rg_command.contains("--hidden"));
-    assert!(!openbitfun_rg_command.contains("--sort"));
+    assert!(opc_rg_command.contains("--no-ignore"));
+    assert!(opc_rg_command.contains("--hidden"));
+    assert!(!opc_rg_command.contains("--sort"));
 }
 
 #[test]

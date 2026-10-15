@@ -4,7 +4,7 @@ use super::{
     control_session,
     grants::{GrantIdentity, GrantRecord, GrantStore},
 };
-use openbitfun_agent_tools::computer_use_control::{ControlMode, ControlSnapshot};
+use opc_agent_tools::computer_use_control::{ControlMode, ControlSnapshot};
 use std::path::PathBuf;
 // Serializes preference intentions across windows/controllers. Forget revokes
 // input before waiting; a pending remember cannot reinsert it afterwards.

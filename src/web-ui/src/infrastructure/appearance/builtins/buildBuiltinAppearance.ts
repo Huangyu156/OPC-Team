@@ -517,7 +517,7 @@ export function buildBuiltinAppearance(palette: AppearancePalette): AppearancePa
       monaco: {
         version: 1,
         settings: {
-          id: `openbitfun-appearance-${palette.id}`,
+          id: `opc-appearance-${palette.id}`,
           base: monaco?.base ?? (palette.type === 'dark' ? 'vs-dark' : 'vs'),
           inherit: monaco?.inherit ?? true,
           rules: monaco?.rules ?? [],
@@ -592,7 +592,7 @@ export function buildBuiltinAppearance(palette: AppearancePalette): AppearancePa
           vars: createWidgetAppearanceVars(themeTokens),
         },
       },
-      'openbitfun-canvas': {
+      'opc-canvas': {
         version: 1,
         settings: {
           id: `builtin.${palette.id}`,

@@ -14,10 +14,10 @@ import { useI18n, type MessageKey } from "../i18n";
 import { SUBAGENT_AVATAR_CATALOG } from "../assets/subagentAvatars";
 import silverUrl from "../../../../packages/ui/src/brand/assets/openbitfun-app-mark.png?url";
 import outlineUrl from "../../../../packages/ui/src/brand/assets/openbitfun-mark.svg?url";
-import appPngUrl from "../../../../../assets/brand/exports/openbitfun-app-icon-512.png?url";
+import appPngUrl from "../../../../../assets/brand/exports/opc-app-icon-512.png?url";
 import appIcoUrl from "../../../../../assets/brand/exports/openbitfun-app-icon.ico?url";
 import appIcnsUrl from "../../../../../assets/brand/exports/openbitfun-app-icon.icns?url";
-import wordmarkUrl from "../../../../../png/openbitfun-wordmark.png?url";
+import wordmarkUrl from "../../../../../png/opc-wordmark.png?url";
 import "./BrandPage.css";
 
 type BrandResource = {
@@ -33,13 +33,13 @@ export const brandResources: readonly BrandResource[] = [
   {
     name: "OpenBitFunSolidMark", label: "design.silverMark",
     description: "brandAssets.silverDescription", specification: "PNG · 512 × 512",
-    downloads: [{ label: "PNG", url: silverUrl, filename: "openbitfun-silver-mark.png" }],
+    downloads: [{ label: "PNG", url: silverUrl, filename: "opc-silver-mark.png" }],
   },
   {
     name: "OpenBitFunAppIcon", label: "design.appIcon",
     description: "brandAssets.appDescription", specification: "PNG · 512 × 512 / ICO / ICNS",
     downloads: [
-      { label: "PNG", url: appPngUrl, filename: "openbitfun-app-icon-512.png" },
+      { label: "PNG", url: appPngUrl, filename: "opc-app-icon-512.png" },
       { label: "ICO", url: appIcoUrl, filename: "openbitfun-app-icon.ico" },
       { label: "ICNS", url: appIcnsUrl, filename: "openbitfun-app-icon.icns" },
     ],
@@ -52,7 +52,7 @@ export const brandResources: readonly BrandResource[] = [
   {
     name: "wordmark", label: "design.wordmark",
     description: "brandAssets.wordmarkDescription", specification: "PNG · 2172 × 724",
-    downloads: [{ label: "PNG", url: wordmarkUrl, filename: "openbitfun-wordmark.png" }],
+    downloads: [{ label: "PNG", url: wordmarkUrl, filename: "opc-wordmark.png" }],
   },
   {
     name: "OpenBitFunBrandMotion", label: "design.aboutMotion", motion: true,

@@ -228,7 +228,7 @@ const VoiceSettingsSection: React.FC = () => {
 
   if (!speechRuntimeSupported) {
     return (
-      <div id={sectionAnchor} className="voice-input-config" data-openbitfun-component="voice-input-config" data-openbitfun-part="root">
+      <div id={sectionAnchor} className="voice-input-config" data-opc-component="voice-input-config" data-opc-part="root">
         <ConfigPageSectionStack>
           <ConfigMessage message={{ type: 'info', text: t('messages.unsupported') }} />
         </ConfigPageSectionStack>
@@ -238,7 +238,7 @@ const VoiceSettingsSection: React.FC = () => {
 
   if (modelsLoading || settingsLoading) {
     return (
-      <div id={sectionAnchor} className="voice-input-config" data-openbitfun-component="voice-input-config" data-openbitfun-part="root">
+      <div id={sectionAnchor} className="voice-input-config" data-opc-component="voice-input-config" data-opc-part="root">
         <ConfigPageSectionStack>
           <ConfigLoadingState label={t('loading')} />
         </ConfigPageSectionStack>
@@ -248,7 +248,7 @@ const VoiceSettingsSection: React.FC = () => {
 
   if (!settings || !voiceInput) {
     return (
-      <div id={sectionAnchor} className="voice-input-config" data-openbitfun-component="voice-input-config" data-openbitfun-part="root">
+      <div id={sectionAnchor} className="voice-input-config" data-opc-component="voice-input-config" data-opc-part="root">
         <ConfigPageSectionStack>
           <ConfigRetryState
             message={t('messages.loadFailed')}
@@ -295,7 +295,7 @@ const VoiceSettingsSection: React.FC = () => {
       : <HardDrive size={18} />;
 
   return (
-    <div id={sectionAnchor} className="voice-input-config" data-openbitfun-component="voice-input-config" data-openbitfun-part="root">
+    <div id={sectionAnchor} className="voice-input-config" data-opc-component="voice-input-config" data-opc-part="root">
       <ConfigPageSectionStack className="voice-input-config__content">
         {settingsError && <ConfigMessage message={{ type: 'error', text: t('messages.loadFailed') }} />}
         <ConfigPageSection
@@ -325,9 +325,9 @@ const VoiceSettingsSection: React.FC = () => {
                 <div className="voice-input-config__status-panel">
                   <div
                     className={`voice-input-config__status-card voice-input-config__status-card--${status}`}
-                    data-openbitfun-component="voice-input-config"
-                    data-openbitfun-part="statusCard"
-                    data-openbitfun-status={status}
+                    data-opc-component="voice-input-config"
+                    data-opc-part="statusCard"
+                    data-opc-status={status}
                   >
                     {statusIcon ? (
                       <div className="voice-input-config__status-icon" aria-hidden="true">{statusIcon}</div>
@@ -378,8 +378,8 @@ const VoiceSettingsSection: React.FC = () => {
                     </div>
                     <div
                       className="voice-input-config__status-actions"
-                      data-openbitfun-component="voice-input-config"
-                      data-openbitfun-part="statusActions"
+                      data-opc-component="voice-input-config"
+                      data-opc-part="statusActions"
                     >
                       {status === 'unavailable' ? (
                         <Button

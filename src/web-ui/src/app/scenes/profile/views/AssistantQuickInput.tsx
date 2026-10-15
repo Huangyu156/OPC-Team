@@ -99,7 +99,7 @@ const AssistantQuickInput: React.FC<AssistantQuickInputProps> = ({
     : t('input.placeholder');
 
   return (
-    <div data-openbitfun-component="assistant-quick-input" data-openbitfun-part="root" className="aqi">
+    <div data-opc-component="assistant-quick-input" data-opc-part="root" className="aqi">
       <Composer
         aria-label={placeholder}
         className="aqi__composer"
@@ -109,14 +109,14 @@ const AssistantQuickInput: React.FC<AssistantQuickInputProps> = ({
             leading={(
               <div
                 className="aqi__footer-left"
-                data-openbitfun-component="assistant-quick-input"
-                data-openbitfun-part="footerLeft"
+                data-opc-component="assistant-quick-input"
+                data-opc-part="footerLeft"
               >
                 <ModelSelector currentMode="Claw" className="aqi__model" />
                 <OverflowText
                   className="aqi__hint"
-                  data-openbitfun-component="assistant-quick-input"
-                  data-openbitfun-part="hint"
+                  data-opc-component="assistant-quick-input"
+                  data-opc-part="hint"
                 >
                   {t('input.sendHint')}
                 </OverflowText>

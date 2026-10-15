@@ -2481,42 +2481,42 @@ const ModelSettingsPage: React.FC = () => {
 
   if (creationMode === 'selection') {
     return (
-      <ConfigPageLayout className="openbitfun-model-settings" data-openbitfun-component="model-settings" data-openbitfun-part="root" data-openbitfun-view="selection">
+      <ConfigPageLayout className="opc-model-settings" data-opc-component="model-settings" data-opc-part="root" data-opc-view="selection">
         <ConfigPageHeader
           title={t('providerSelection.title')}
           subtitle={t('providerSelection.subtitle')}
         />
 
-        <ConfigPageContent className="openbitfun-model-settings__content openbitfun-model-settings__content--selection">
-          <div className="openbitfun-model-settings__provider-selection" data-openbitfun-component="model-settings" data-openbitfun-part="providerSelection">
+        <ConfigPageContent className="opc-model-settings__content opc-model-settings__content--selection">
+          <div className="opc-model-settings__provider-selection" data-opc-component="model-settings" data-opc-part="providerSelection">
 
             <button
               type="button"
               data-testid="settings-model-custom-config-btn"
               data-provider-id="custom"
-              className="openbitfun-model-settings__custom-option"
+              className="opc-model-settings__custom-option"
               onClick={handleSelectCustom}
             >
-              <div className="openbitfun-model-settings__custom-option-content" data-openbitfun-component="model-settings" data-openbitfun-part="customOption">
+              <div className="opc-model-settings__custom-option-content" data-opc-component="model-settings" data-opc-part="customOption">
                 <Icon name="settings" size="lg" />
                 <div>
-                  <div className="openbitfun-model-settings__custom-option-title" data-openbitfun-component="model-settings" data-openbitfun-part="customOptionTitle">{t('providerSelection.customTitle')}</div>
-                  <div className="openbitfun-model-settings__custom-option-description" data-openbitfun-component="model-settings" data-openbitfun-part="customOptionDescription">{t('providerSelection.customDescription')}</div>
+                  <div className="opc-model-settings__custom-option-title" data-opc-component="model-settings" data-opc-part="customOptionTitle">{t('providerSelection.customTitle')}</div>
+                  <div className="opc-model-settings__custom-option-description" data-opc-component="model-settings" data-opc-part="customOptionDescription">{t('providerSelection.customDescription')}</div>
                 </div>
               </div>
             </button>
 
-            <div className="openbitfun-model-settings__selection-divider" data-openbitfun-component="model-settings" data-openbitfun-part="selectionDivider">
+            <div className="opc-model-settings__selection-divider" data-opc-component="model-settings" data-opc-part="selectionDivider">
               <span>{t('providerSelection.orSelectProvider')}</span>
             </div>
 
             <SearchField
               leadingIcon={<Icon name="search" size="lg" aria-hidden />}
               size="sm"
-              className="openbitfun-model-settings__provider-search"
+              className="opc-model-settings__provider-search"
               data-testid="settings-model-provider-search"
-              data-openbitfun-component="model-settings"
-              data-openbitfun-part="providerSearch"
+              data-opc-component="model-settings"
+              data-opc-part="providerSearch"
               value={providerQuery}
               placeholder={t('providerSelection.searchProviders')}
               aria-label={t('providerSelection.searchProviders')}
@@ -2527,34 +2527,34 @@ const ModelSettingsPage: React.FC = () => {
               }}
             />
 
-            <div className="openbitfun-model-settings__provider-list" data-openbitfun-component="model-settings" data-openbitfun-part="providerList">
+            <div className="opc-model-settings__provider-list" data-opc-component="model-settings" data-opc-part="providerList">
               {visibleProviders.map(provider => (
                 // The help link is a sibling of the select button, not a child:
                 // a button may not contain interactive content.
                 <div
                   key={provider.id}
-                  className="openbitfun-model-settings__provider-row"
-                  data-openbitfun-component="model-settings"
-                  data-openbitfun-part="providerRow"
+                  className="opc-model-settings__provider-row"
+                  data-opc-component="model-settings"
+                  data-opc-part="providerRow"
                 >
                   <button
                     type="button"
                     data-testid="settings-model-provider-option"
                     data-provider-id={provider.id}
-                    className="openbitfun-model-settings__provider-select"
-                    data-openbitfun-component="model-settings"
-                    data-openbitfun-part="providerSelect"
+                    className="opc-model-settings__provider-select"
+                    data-opc-component="model-settings"
+                    data-opc-part="providerSelect"
                     onClick={() => handleSelectProvider(provider.id)}
                   >
-                    <span className="openbitfun-model-settings__provider-name" data-openbitfun-component="model-settings" data-openbitfun-part="providerName">{provider.name}</span>
-                    <span className="openbitfun-model-settings__provider-description" data-openbitfun-component="model-settings" data-openbitfun-part="providerDescription">{provider.description}</span>
+                    <span className="opc-model-settings__provider-name" data-opc-component="model-settings" data-opc-part="providerName">{provider.name}</span>
+                    <span className="opc-model-settings__provider-description" data-opc-component="model-settings" data-opc-part="providerDescription">{provider.description}</span>
                   </button>
                   {provider.helpUrl && (
                     <a
                       href={provider.helpUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="openbitfun-model-settings__provider-help-link"
+                      className="opc-model-settings__provider-help-link"
                       onClick={async (e) => {
                         e.preventDefault();
                         e.stopPropagation();
@@ -2569,12 +2569,12 @@ const ModelSettingsPage: React.FC = () => {
                       {t('providerSelection.getApiKey')}
                     </a>
                   )}
-                  <Icon name="chevron-right" size="sm" className="openbitfun-model-settings__provider-chevron" aria-hidden="true" />
+                  <Icon name="chevron-right" size="sm" className="opc-model-settings__provider-chevron" aria-hidden="true" />
                 </div>
               ))}
 
               {visibleProviders.length === 0 && (
-                <div className="openbitfun-model-settings__provider-empty" data-openbitfun-component="model-settings" data-openbitfun-part="providerEmpty">
+                <div className="opc-model-settings__provider-empty" data-opc-component="model-settings" data-opc-part="providerEmpty">
                   {t('providerSelection.noProviderMatches')}
                 </div>
               )}
@@ -2583,9 +2583,9 @@ const ModelSettingsPage: React.FC = () => {
                 <button
                   type="button"
                   data-testid="settings-model-provider-expand-btn"
-                  className="openbitfun-model-settings__provider-more"
-                  data-openbitfun-component="model-settings"
-                  data-openbitfun-part="providerMore"
+                  className="opc-model-settings__provider-more"
+                  data-opc-component="model-settings"
+                  data-opc-part="providerMore"
                   onClick={() => setShowAllProviders(previous => !previous)}
                 >
                   {isProviderListCollapsed
@@ -2596,7 +2596,7 @@ const ModelSettingsPage: React.FC = () => {
               )}
             </div>
 
-            <div className="openbitfun-model-settings__selection-actions" data-openbitfun-component="model-settings" data-openbitfun-part="selectionActions">
+            <div className="opc-model-settings__selection-actions" data-opc-component="model-settings" data-opc-part="selectionActions">
               <Button variant="fill" size="sm" onClick={() => setCreationMode(null)}>
                 {t('actions.cancel')}
               </Button>
@@ -2682,7 +2682,7 @@ const ModelSettingsPage: React.FC = () => {
     const apiKeySuffix = (
       <IconButton
         type="button"
-        className="openbitfun-model-settings__input-visibility-toggle"
+        className="opc-model-settings__input-visibility-toggle"
         onClick={() => setShowApiKey(prev => !prev)}
         aria-label={apiKeyVisibilityLabel}
         title={apiKeyVisibilityLabel}
@@ -2740,7 +2740,7 @@ const ModelSettingsPage: React.FC = () => {
       return (
         <ConfigPageRow
           label={labelAction ? (
-            <span className="openbitfun-model-settings__inline-header-main">{label}{labelAction}</span>
+            <span className="opc-model-settings__inline-header-main">{label}{labelAction}</span>
           ) : label}
           description={options.description}
           className={options.className}
@@ -2765,7 +2765,7 @@ const ModelSettingsPage: React.FC = () => {
         ) : undefined);
       const manualFormat = draft.manualRequestFormat || editingConfig.provider || 'openai';
       const contextWarning = draft.contextWindowEdited && draft.contextWindow > LONG_CONTEXT_WARNING_THRESHOLD_TOKENS ? (
-        <span role="status" id={`model-context-warning-${draft.key}`} className="openbitfun-model-settings__warning-inline openbitfun-model-settings__context-window-warning">
+        <span role="status" id={`model-context-warning-${draft.key}`} className="opc-model-settings__warning-inline opc-model-settings__context-window-warning">
           <AlertTriangle size={14} />
           <span>{t('form.contextWindowLongWarning')}</span>
         </span>
@@ -2806,7 +2806,7 @@ const ModelSettingsPage: React.FC = () => {
               onValueChange={value => updateModelDraft(draft.key, { category: value as ModelCategory })}
               options={categoryOptions}
               size="sm"
-              className="openbitfun-model-settings__selected-model-category-select"
+              className="opc-model-settings__selected-model-category-select"
             />,
           )}
           {renderModelField(
@@ -2814,7 +2814,7 @@ const ModelSettingsPage: React.FC = () => {
             <NumberInput
               aria-label={t('form.contextWindow')}
               aria-describedby={contextWarning ? `model-context-warning-${draft.key}` : undefined}
-              className="openbitfun-model-settings__selected-model-context-input"
+              className="opc-model-settings__selected-model-context-input"
               value={draft.contextWindow}
               formatValue={value => i18nService.formatNumber(value, { useGrouping: true, maximumFractionDigits: 0 })}
               onValueChange={value => updateModelDraft(draft.key, { contextWindow: value, contextWindowEdited: true })}
@@ -2827,12 +2827,12 @@ const ModelSettingsPage: React.FC = () => {
             {
               hint: t('form.contextWindowHint'),
               description: contextWarning,
-              className: 'openbitfun-model-settings__context-window-row',
+              className: 'opc-model-settings__context-window-row',
             },
           )}
           {automaticOpenCodeRouting && (modelRoute || canEditManualRoute) && renderModelField(
             t('form.resolvedUrlLabel'),
-            <span className="openbitfun-model-settings__resolved-url-value">
+            <span className="opc-model-settings__resolved-url-value">
               {modelRoute?.request_url || resolveRequestUrl(editingConfig.base_url || '', manualFormat, draft.modelName)}
             </span>,
           )}
@@ -2865,13 +2865,13 @@ const ModelSettingsPage: React.FC = () => {
     const renderSelectedModelRows = () => {
       return (
         <div
-          className="openbitfun-model-settings__selected-models-list"
+          className="opc-model-settings__selected-models-list"
           data-testid="settings-model-selected-list"
           data-selected-count={selectedModelDrafts.length}
         >
           {selectedModelDrafts.length === 0 && !isAddingCustomModel && (
             <small
-              className="openbitfun-model-settings__selected-models-empty"
+              className="opc-model-settings__selected-models-empty"
               data-testid="settings-model-selected-list-empty"
               data-selected-count="0"
             >
@@ -2882,7 +2882,7 @@ const ModelSettingsPage: React.FC = () => {
             <Capsule
               size="xs"
               key={draft.key}
-              className="openbitfun-model-settings__model-capsule"
+              className="opc-model-settings__model-capsule"
               data-testid="settings-model-selected-row"
               data-model-id={draft.modelName}
               data-model-name={draft.modelName}
@@ -2891,7 +2891,7 @@ const ModelSettingsPage: React.FC = () => {
               action={(
                 <Tooltip content={t('providerSelection.removeModel')}>
                   <IconButton
-                    className="openbitfun-model-settings__model-capsule-dismiss"
+                    className="opc-model-settings__model-capsule-dismiss"
                     aria-label={t('providerSelection.removeModelByName', { name: draft.modelName })}
                     data-testid="settings-model-selected-remove-btn"
                     data-model-id={draft.modelName}
@@ -2913,7 +2913,7 @@ const ModelSettingsPage: React.FC = () => {
                 }}
                 variant="outline"
                 size="xs"
-                className="openbitfun-model-settings__model-capsule-edit"
+                className="opc-model-settings__model-capsule-edit"
                 data-testid="settings-model-capsule-edit"
                 aria-label={t('providerSelection.editModelSettings', { name: draft.modelName })}
                 onClick={() => openModelPanel(draft)}
@@ -2928,7 +2928,7 @@ const ModelSettingsPage: React.FC = () => {
               autoFocus
               size="xs"
               shape="pill"
-              className="openbitfun-model-settings__manual-model-input"
+              className="opc-model-settings__manual-model-input"
               data-testid="settings-model-manual-name-input"
               aria-label={t('providerSelection.addCustomModel')}
               placeholder={t('providerSelection.inputModelName')}
@@ -3014,7 +3014,7 @@ const ModelSettingsPage: React.FC = () => {
     const renderAuthRow = () => (
       <ConfigPageRow label={t('subscriptionAuth.label')} align="center" wide>
         {providerIdentityLocked ? (
-          <span className="openbitfun-model-settings__connection-value" data-testid="settings-model-auth-readonly">
+          <span className="opc-model-settings__connection-value" data-testid="settings-model-auth-readonly">
             {t(authIsSubscription ? 'subscriptionAuth.accountAuthentication' : 'subscriptionAuth.options.apiKey')}
           </span>
         ) : (
@@ -3050,18 +3050,18 @@ const ModelSettingsPage: React.FC = () => {
     );
 
     const renderSubscriptionAccountRow = () => (
-      <div className="openbitfun-model-settings__connection-row openbitfun-model-settings__connection-row--single openbitfun-model-settings__subscription-account-row">
+      <div className="opc-model-settings__connection-row opc-model-settings__connection-row--single opc-model-settings__subscription-account-row">
         <ConfigPageRow label={t('subscriptionAuth.accountLabel')} align="center" wide>
-          <div className="openbitfun-model-settings__subscription-account" data-testid="settings-model-subscription-account">
-            <div className="openbitfun-model-settings__subscription-account-heading" aria-live="polite" aria-busy={isLoadingSubscriptions}>
-              <OverflowText className="openbitfun-model-settings__subscription-account-name">
+          <div className="opc-model-settings__subscription-account" data-testid="settings-model-subscription-account">
+            <div className="opc-model-settings__subscription-account-heading" aria-live="polite" aria-busy={isLoadingSubscriptions}>
+              <OverflowText className="opc-model-settings__subscription-account-name">
                 {subscriptionAccountLabel}
               </OverflowText>
               <StatusPill tone={subscriptionState === 'connected' ? 'success' : subscriptionState === 'loading' ? 'neutral' : 'warning'}>
                 {subscriptionStatusLabels[subscriptionState]}
               </StatusPill>
             </div>
-            <div className="openbitfun-model-settings__subscription-account-actions">
+            <div className="opc-model-settings__subscription-account-actions">
               <Tooltip content={t('subscriptionAuth.rescan')}>
                 <IconButton
                   size="sm"
@@ -3086,7 +3086,7 @@ const ModelSettingsPage: React.FC = () => {
           </div>
         </ConfigPageRow>
         {subscriptionAccountHint && (
-          <div className="openbitfun-model-settings__subscription-account-hint" aria-live="polite">
+          <div className="opc-model-settings__subscription-account-hint" aria-live="polite">
             {subscriptionAccountHint}
           </div>
         )}
@@ -3147,9 +3147,9 @@ const ModelSettingsPage: React.FC = () => {
           summary={t('advancedSettings.title')}
           description={isProviderScopedEditing ? t('advancedSettings.description') : undefined}
           className={isProviderScopedEditing
-            ? 'openbitfun-model-settings__advanced-settings'
-            : 'openbitfun-model-settings__single-model-advanced'}
-          contentInnerClassName={isProviderScopedEditing ? undefined : 'openbitfun-model-settings__single-model-advanced-content'}
+            ? 'opc-model-settings__advanced-settings'
+            : 'opc-model-settings__single-model-advanced'}
+          contentInnerClassName={isProviderScopedEditing ? undefined : 'opc-model-settings__single-model-advanced-content'}
           open={showAdvancedSettings}
           onOpenChange={setShowAdvancedSettings}
         >
@@ -3160,7 +3160,7 @@ const ModelSettingsPage: React.FC = () => {
                   label={t('advancedSettings.inlineThinkInText.label')}
                   description={t('advancedSettings.inlineThinkInText.hint')}
                   align="center"
-                  className="openbitfun-model-settings__toggle-row"
+                  className="opc-model-settings__toggle-row"
                 >
                   <Switch
                     checked={requestSettings.inline_think_in_text ?? true}
@@ -3171,13 +3171,13 @@ const ModelSettingsPage: React.FC = () => {
               <ConfigPageRow
                 label={t('advancedSettings.skipSslVerify.label')}
                 description={requestSettings.skip_ssl_verify ? (
-                  <span className="openbitfun-model-settings__warning-inline">
+                  <span className="opc-model-settings__warning-inline">
                     <AlertTriangle size={14} />
                     <span>{t('advancedSettings.skipSslVerify.warning')}</span>
                   </span>
                 ) : undefined}
                 align="center"
-                className="openbitfun-model-settings__toggle-row"
+                className="opc-model-settings__toggle-row"
               >
                 <Switch
                   checked={requestSettings.skip_ssl_verify || false}
@@ -3186,12 +3186,12 @@ const ModelSettingsPage: React.FC = () => {
               </ConfigPageRow>
               <ConfigPageRow
                 label={(
-                  <span className="openbitfun-model-settings__inline-header">
-                    <span className="openbitfun-model-settings__inline-header-main">
+                  <span className="opc-model-settings__inline-header">
+                    <span className="opc-model-settings__inline-header-main">
                       <span>{t('advancedSettings.customHeaders.label')}</span>
                       <Tooltip
                         content={(
-                          <span className="openbitfun-model-settings__header-tooltip">
+                          <span className="opc-model-settings__header-tooltip">
                             <span>{t('advancedSettings.customHeaders.hint')}</span>
                             <span>
                               {(requestSettings.custom_headers_mode || 'merge') === 'replace'
@@ -3203,7 +3203,7 @@ const ModelSettingsPage: React.FC = () => {
                         placement="top"
                       >
                         <span
-                          className="openbitfun-model-settings__inline-header-info"
+                          className="opc-model-settings__inline-header-info"
                           role="button"
                           tabIndex={0}
                           aria-label={t('advancedSettings.customHeaders.hint')}
@@ -3212,13 +3212,13 @@ const ModelSettingsPage: React.FC = () => {
                         </span>
                       </Tooltip>
                     </span>
-                    <span className="openbitfun-model-settings__inline-header-actions">
+                    <span className="opc-model-settings__inline-header-actions">
                       <Tooltip content={t('advancedSettings.customHeaders.modeMergeHint')} placement="top">
                         <Button
                           type="button"
                           variant={(requestSettings.custom_headers_mode || 'merge') === 'merge' ? 'fill' : 'outline'}
                           size="sm"
-                          className="openbitfun-model-settings__mode-button"
+                          className="opc-model-settings__mode-button"
                           onClick={() => updateRequestSettings({ custom_headers_mode: 'merge' })}
                         >
                           {t('advancedSettings.customHeaders.modeMerge')}
@@ -3229,7 +3229,7 @@ const ModelSettingsPage: React.FC = () => {
                           type="button"
                           variant={requestSettings.custom_headers_mode === 'replace' ? 'fill' : 'outline'}
                           size="sm"
-                          className="openbitfun-model-settings__mode-button"
+                          className="opc-model-settings__mode-button"
                           onClick={() => updateRequestSettings({ custom_headers_mode: 'replace' })}
                         >
                           {t('advancedSettings.customHeaders.modeReplace')}
@@ -3239,24 +3239,24 @@ const ModelSettingsPage: React.FC = () => {
                   </span>
                 )}
                 multiline
-                className="openbitfun-model-settings__custom-headers-row"
+                className="opc-model-settings__custom-headers-row"
               >
-                <div className="openbitfun-model-settings__row-control--stack">
-                  <div className="openbitfun-model-settings__custom-headers">
+                <div className="opc-model-settings__row-control--stack">
+                  <div className="opc-model-settings__custom-headers">
                     {Object.entries(requestSettings.custom_headers || {}).map(([key, value], index) => (
-                      <div key={index} className="openbitfun-model-settings__header-row">
+                      <div key={index} className="opc-model-settings__header-row">
                         <Input
                           value={key}
                           onChange={(e) => { const nh = { ...requestSettings.custom_headers }; const ov = nh[key]; delete nh[key]; if (e.target.value) nh[e.target.value] = ov; updateRequestSettings({ custom_headers: nh }); }}
                           placeholder={t('advancedSettings.customHeaders.keyPlaceholder')}
-                          className="openbitfun-model-settings__header-key"
+                          className="opc-model-settings__header-key"
                           size="sm"
                         />
                         <Input
                           value={value}
                           onChange={(e) => { const nh = { ...requestSettings.custom_headers }; nh[key] = e.target.value; updateRequestSettings({ custom_headers: nh }); }}
                           placeholder={t('advancedSettings.customHeaders.valuePlaceholder')}
-                          className="openbitfun-model-settings__header-value"
+                          className="opc-model-settings__header-value"
                           size="sm"
                         />
                         <Tooltip content={t('actions.delete')}>
@@ -3269,18 +3269,18 @@ const ModelSettingsPage: React.FC = () => {
                         </Tooltip>
                       </div>
                     ))}
-                    <Button type="button" variant="outline" size="sm" onClick={() => updateRequestSettings({ custom_headers: { ...requestSettings.custom_headers, '': '' } })} className="openbitfun-model-settings__add-header-btn" leadingIcon={<Icon name="plus" size="sm" />}>{t('advancedSettings.customHeaders.addHeader')}</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => updateRequestSettings({ custom_headers: { ...requestSettings.custom_headers, '': '' } })} className="opc-model-settings__add-header-btn" leadingIcon={<Icon name="plus" size="sm" />}>{t('advancedSettings.customHeaders.addHeader')}</Button>
                   </div>
                 </div>
               </ConfigPageRow>
               <ConfigPageRow
                 label={(
-                  <span className="openbitfun-model-settings__inline-header">
-                    <span className="openbitfun-model-settings__inline-header-main">
+                  <span className="opc-model-settings__inline-header">
+                    <span className="opc-model-settings__inline-header-main">
                       <span>{t('advancedSettings.customRequestBody.label')}</span>
                       <Tooltip
                         content={(
-                          <span className="openbitfun-model-settings__header-tooltip">
+                          <span className="opc-model-settings__header-tooltip">
                             <span>{t('advancedSettings.customRequestBody.hint')}</span>
                             <span>{getCustomRequestBodyModeHint(editingConfig.provider, requestSettings.custom_request_body_mode)}</span>
                           </span>
@@ -3288,7 +3288,7 @@ const ModelSettingsPage: React.FC = () => {
                         placement="top"
                       >
                         <span
-                          className="openbitfun-model-settings__inline-header-info"
+                          className="opc-model-settings__inline-header-info"
                           role="button"
                           tabIndex={0}
                           aria-label={t('advancedSettings.customRequestBody.hint')}
@@ -3297,13 +3297,13 @@ const ModelSettingsPage: React.FC = () => {
                         </span>
                       </Tooltip>
                     </span>
-                    <span className="openbitfun-model-settings__inline-header-actions">
+                    <span className="opc-model-settings__inline-header-actions">
                       <Tooltip content={t('advancedSettings.customRequestBody.modeMergeHint')} placement="top">
                         <Button
                           type="button"
                           variant={(requestSettings.custom_request_body_mode || 'merge') === 'merge' ? 'fill' : 'outline'}
                           size="sm"
-                          className="openbitfun-model-settings__mode-button"
+                          className="opc-model-settings__mode-button"
                           onClick={() => updateRequestSettings({ custom_request_body_mode: 'merge' })}
                         >
                           {t('advancedSettings.customRequestBody.modeMerge')}
@@ -3314,7 +3314,7 @@ const ModelSettingsPage: React.FC = () => {
                           type="button"
                           variant={requestSettings.custom_request_body_mode === 'trim' ? 'fill' : 'outline'}
                           size="sm"
-                          className="openbitfun-model-settings__mode-button"
+                          className="opc-model-settings__mode-button"
                           onClick={() => updateRequestSettings({ custom_request_body_mode: 'trim' })}
                         >
                           {t('advancedSettings.customRequestBody.modeTrim')}
@@ -3324,13 +3324,13 @@ const ModelSettingsPage: React.FC = () => {
                   </span>
                 )}
                 multiline
-                className="openbitfun-model-settings__custom-request-body-row"
+                className="opc-model-settings__custom-request-body-row"
               >
-                <div className="openbitfun-model-settings__row-control--stack">
+                <div className="opc-model-settings__row-control--stack">
                   <Textarea value={requestSettings.custom_request_body || ''} onChange={(e) => updateRequestSettings({ custom_request_body: e.target.value })} placeholder={t('advancedSettings.customRequestBody.placeholder')} rows={8} style={{ fontFamily: 'var(--opcteam-type-code-md-font-family)', fontSize: 'var(--opcteam-type-code-md-font-size)' }} />
                   {requestSettings.custom_request_body && requestSettings.custom_request_body.trim() !== '' && (() => {
-                    try { JSON.parse(requestSettings.custom_request_body); return <small className="openbitfun-model-settings__json-status openbitfun-model-settings__json-status--success">{t('advancedSettings.customRequestBody.validJson')}</small>; }
-                    catch { return <small className="openbitfun-model-settings__json-status openbitfun-model-settings__json-status--error">{t('advancedSettings.customRequestBody.invalidJson')}</small>; }
+                    try { JSON.parse(requestSettings.custom_request_body); return <small className="opc-model-settings__json-status opc-model-settings__json-status--success">{t('advancedSettings.customRequestBody.validJson')}</small>; }
+                    catch { return <small className="opc-model-settings__json-status opc-model-settings__json-status--error">{t('advancedSettings.customRequestBody.invalidJson')}</small>; }
                   })()}
                 </div>
               </ConfigPageRow>
@@ -3343,27 +3343,27 @@ const ModelSettingsPage: React.FC = () => {
     return (
       <>
         <div className={[
-          'openbitfun-model-settings__form openbitfun-model-settings__form--modal',
-          !isProviderScopedEditing && 'openbitfun-model-settings__form--single-model',
-        ].filter(Boolean).join(' ')} data-openbitfun-component="model-settings" data-openbitfun-part="form">
-          <div className="openbitfun-model-settings__form-content" data-openbitfun-component="model-settings" data-openbitfun-part="formBody">
+          'opc-model-settings__form opc-model-settings__form--modal',
+          !isProviderScopedEditing && 'opc-model-settings__form--single-model',
+        ].filter(Boolean).join(' ')} data-opc-component="model-settings" data-opc-part="form">
+          <div className="opc-model-settings__form-content" data-opc-component="model-settings" data-opc-part="formBody">
             {isProviderScopedEditing && (
               <ConfigPageSection
                 title={t('editProviderSettingsTitle')}
                 description={t(authIsSubscription
                   ? 'subscriptionAuth.editorDescription'
                   : providerIdentityLocked ? 'editConfiguredProviderSubtitle' : 'editProviderSubtitle')}
-                className="openbitfun-model-settings__edit-section openbitfun-model-settings__connection-section"
+                className="opc-model-settings__edit-section opc-model-settings__connection-section"
                 fieldSurface="default"
               >
                 <div className={[
-                  'openbitfun-model-settings__connection-row',
-                  showSubscriptionAuthTag && 'openbitfun-model-settings__connection-row--single',
+                  'opc-model-settings__connection-row',
+                  showSubscriptionAuthTag && 'opc-model-settings__connection-row--single',
                 ].filter(Boolean).join(' ')}>
                   <ConfigPageRow label={t('form.configName')} required={!providerIdentityLocked} align="center" wide>
                     {providerIdentityLocked ? (
-                      <div className="openbitfun-model-settings__provider-identity">
-                        <OverflowText className="openbitfun-model-settings__connection-value" data-testid="settings-model-provider-readonly">
+                      <div className="opc-model-settings__provider-identity">
+                        <OverflowText className="opc-model-settings__connection-value" data-testid="settings-model-provider-readonly">
                           {configuredProvider ? getProviderDisplayName(configuredProvider) : editingConfig.name}
                         </OverflowText>
                         {showSubscriptionAuthTag && (
@@ -3389,7 +3389,7 @@ const ModelSettingsPage: React.FC = () => {
                 {authIsSubscription && renderSubscriptionAccountRow()}
                 {!authIsSubscription && (
                   <>
-                    <div className={`openbitfun-model-settings__connection-row${automaticOpenCodeRouting ? ' openbitfun-model-settings__connection-row--single' : ''}`}>
+                    <div className={`opc-model-settings__connection-row${automaticOpenCodeRouting ? ' opc-model-settings__connection-row--single' : ''}`}>
                       {renderApiKeyRow(t('form.apiKey'))}
                       {!automaticOpenCodeRouting && (
                         <ConfigPageRow label={t('form.provider')} align="center" wide>
@@ -3412,9 +3412,9 @@ const ModelSettingsPage: React.FC = () => {
                         </ConfigPageRow>
                       )}
                     </div>
-                    <ConfigPageRow label={t('form.baseUrl')} required wide className="openbitfun-model-settings__endpoint-row">
-                      <div className="openbitfun-model-settings__control-stack">
-                        <div className="openbitfun-model-settings__endpoint-inputs">
+                    <ConfigPageRow label={t('form.baseUrl')} required wide className="opc-model-settings__endpoint-row">
+                      <div className="opc-model-settings__control-stack">
+                        <div className="opc-model-settings__endpoint-inputs">
                           {isFromTemplate && currentTemplate?.baseUrlOptions && currentTemplate.baseUrlOptions.length > 0 && (
                             <Combobox
                               invalid={showModelValidation && missingModelFields.baseUrl}
@@ -3458,9 +3458,9 @@ const ModelSettingsPage: React.FC = () => {
                           />
                         </div>
                         {editingConfig.base_url && !automaticOpenCodeRouting && (
-                          <div className="openbitfun-model-settings__resolved-url">
-                            <span className="openbitfun-model-settings__resolved-url-label">{t('form.resolvedUrlLabel')}</span>
-                            <span className="openbitfun-model-settings__resolved-url-value">
+                          <div className="opc-model-settings__resolved-url">
+                            <span className="opc-model-settings__resolved-url-label">{t('form.resolvedUrlLabel')}</span>
+                            <span className="opc-model-settings__resolved-url-value">
                               {previewRequestUrl(editingConfig.base_url, editingConfig.provider || 'openai', selectedModelDrafts.length === 1 ? selectedModelDrafts[0].modelName : undefined)}
                             </span>
                           </div>
@@ -3475,12 +3475,12 @@ const ModelSettingsPage: React.FC = () => {
             {isProviderScopedEditing ? (
               <ConfigPageSection
                 title={t('title')}
-                className="openbitfun-model-settings__edit-section"
+                className="opc-model-settings__edit-section"
                 fieldSurface="default"
               >
-                <ConfigPageRow label={t('form.modelSelection')} required wide className="openbitfun-model-settings__model-selection-row">
-                  <div className="openbitfun-model-settings__control-stack">
-                    <div className="openbitfun-model-settings__model-selection-actions">
+                <ConfigPageRow label={t('form.modelSelection')} required wide className="opc-model-settings__model-selection-row">
+                  <div className="opc-model-settings__control-stack">
+                    <div className="opc-model-settings__model-selection-actions">
                       <ModelDiscoveryPicker
                         open={modelPickerOpen}
                         onOpenChange={handleModelSelectionOpenChange}
@@ -3533,11 +3533,11 @@ const ModelSettingsPage: React.FC = () => {
           <ConfigRetryState message={t('acquisition.loadFailed')} retryLabel={t('messages.retry')}
             loading={isLoadingSubscriptions} onRetry={() => void refreshSubscriptionAccounts()} />
         )}
-        {isLoadingSubscriptions && <p className="openbitfun-model-settings__dialog-status" role="status">{t('messages.loading')}</p>}
+        {isLoadingSubscriptions && <p className="opc-model-settings__dialog-status" role="status">{t('messages.loading')}</p>}
         {!isLoadingSubscriptions && !subscriptionLoadError && accounts.length === 0 && (
           <ConfigEmptyState icon={<Wifi aria-hidden="true" />} description={t(provider ? 'subscriptionAuth.serviceUnavailable' : 'acquisition.noServices')} />
         )}
-        <div className="openbitfun-model-settings__cli-discovery" data-openbitfun-component="model-settings" data-openbitfun-part="subscriptionArea">
+        <div className="opc-model-settings__cli-discovery" data-opc-component="model-settings" data-opc-part="subscriptionArea">
           {accounts.map((account) => {
             const descriptionParts: string[] = [];
             if (account.connected && account.account) {
@@ -3578,15 +3578,15 @@ const ModelSettingsPage: React.FC = () => {
                   description={descriptionParts.map((part) => (
                     <span
                       key={part}
-                      className="openbitfun-model-settings__cli-description-line"
+                      className="opc-model-settings__cli-description-line"
                     >
                       {part}
                     </span>
                   ))}
-                  className="openbitfun-model-settings__cli-account"
+                  className="opc-model-settings__cli-account"
                   align="center"
                 >
-                  <div className="openbitfun-model-settings__cli-actions">
+                  <div className="opc-model-settings__cli-actions">
                     {account.connected ? (
                       <>
                         <Button
@@ -3655,13 +3655,13 @@ const ModelSettingsPage: React.FC = () => {
 
                 {loginPanel && (
                   <div
-                    className={`openbitfun-model-settings__subscription-login-panel openbitfun-model-settings__subscription-login-panel--${loginPanel.status}`}
-                    data-openbitfun-component="model-settings"
-                    data-openbitfun-part="subscriptionPanel"
-                    data-openbitfun-status={loginPanel.status}
+                    className={`opc-model-settings__subscription-login-panel opc-model-settings__subscription-login-panel--${loginPanel.status}`}
+                    data-opc-component="model-settings"
+                    data-opc-part="subscriptionPanel"
+                    data-opc-status={loginPanel.status}
                     role={loginPanel.status === 'failed' ? 'alert' : undefined}
                   >
-                    <div className="openbitfun-model-settings__subscription-login-summary" data-openbitfun-component="model-settings" data-openbitfun-part="subscriptionSummary">
+                    <div className="opc-model-settings__subscription-login-summary" data-opc-component="model-settings" data-opc-part="subscriptionSummary">
                       <strong>
                         {loginPanel.status === 'failed'
                           ? t('subscriptionAuth.loginNeedsRetry')
@@ -3685,14 +3685,14 @@ const ModelSettingsPage: React.FC = () => {
                     </div>
 
                     {loginPanel.status === 'pending' && loginPanel.userCode && (
-                      <div className="openbitfun-model-settings__subscription-code" data-openbitfun-component="model-settings" data-openbitfun-part="subscriptionCode">
+                      <div className="opc-model-settings__subscription-code" data-opc-component="model-settings" data-opc-part="subscriptionCode">
                         <span>{t('subscriptionAuth.verificationCode')}</span>
                         <code>{loginPanel.userCode}</code>
                       </div>
                     )}
 
                     {loginPanel.status === 'pending' && (
-                      <div className="openbitfun-model-settings__subscription-login-actions" data-openbitfun-component="model-settings" data-openbitfun-part="subscriptionActions">
+                      <div className="opc-model-settings__subscription-login-actions" data-opc-component="model-settings" data-opc-part="subscriptionActions">
                         {loginPanel.userCode && (
                           <Button
                             size="sm"
@@ -3738,9 +3738,9 @@ const ModelSettingsPage: React.FC = () => {
     const badge = (
       <>
         {presentation === 'row' && <span
-          className="openbitfun-model-settings__meta-tag"
-          data-openbitfun-component="model-settings"
-          data-openbitfun-part="modelMeta"
+          className="opc-model-settings__meta-tag"
+          data-opc-component="model-settings"
+          data-opc-part="modelMeta"
         >
           {t(`category.${config.category}`)}
         </span>}
@@ -3751,7 +3751,7 @@ const ModelSettingsPage: React.FC = () => {
             data-model-id={config.model_name}
             data-model-name={config.model_name}
             data-status={isTesting ? 'testing' : testResult?.success ? 'success' : 'error'}
-            className={`openbitfun-model-settings__status-dot ${isTesting ? 'is-testing' : testResult?.success ? 'is-success' : 'is-error'}`}
+            className={`opc-model-settings__status-dot ${isTesting ? 'is-testing' : testResult?.success ? 'is-success' : 'is-error'}`}
             role="status"
             aria-live="polite"
             aria-label={testStatusLabel}
@@ -3763,37 +3763,37 @@ const ModelSettingsPage: React.FC = () => {
 
     const details = (
       <div
-        className="openbitfun-model-settings__details"
-        data-openbitfun-component="model-settings"
-        data-openbitfun-part="modelDetails"
+        className="opc-model-settings__details"
+        data-opc-component="model-settings"
+        data-opc-part="modelDetails"
       >
-        <div className="openbitfun-model-settings__details-section">
-          <div className="openbitfun-model-settings__details-section-title">
+        <div className="opc-model-settings__details-section">
+          <div className="opc-model-settings__details-section-title">
             {t('details.basicInfo')}
           </div>
-          <div className="openbitfun-model-settings__details-grid">
-            <div className="openbitfun-model-settings__details-item">
-              <span className="openbitfun-model-settings__details-label">{t('form.configName')}</span>
-              <span className="openbitfun-model-settings__details-value">{providerDisplayName}</span>
+          <div className="opc-model-settings__details-grid">
+            <div className="opc-model-settings__details-item">
+              <span className="opc-model-settings__details-label">{t('form.configName')}</span>
+              <span className="opc-model-settings__details-value">{providerDisplayName}</span>
             </div>
-            <div className="openbitfun-model-settings__details-item">
-              <span className="openbitfun-model-settings__details-label">{t('details.modelName')}</span>
-              <span className="openbitfun-model-settings__details-value">{config.model_name}</span>
+            <div className="opc-model-settings__details-item">
+              <span className="opc-model-settings__details-label">{t('details.modelName')}</span>
+              <span className="opc-model-settings__details-value">{config.model_name}</span>
             </div>
-            <div className="openbitfun-model-settings__details-item">
-              <span className="openbitfun-model-settings__details-label">{t('details.contextWindow')}</span>
-              <span className="openbitfun-model-settings__details-value">{config.context_window != null ? i18nService.formatNumber(config.context_window) : '128,000'}</span>
+            <div className="opc-model-settings__details-item">
+              <span className="opc-model-settings__details-label">{t('details.contextWindow')}</span>
+              <span className="opc-model-settings__details-value">{config.context_window != null ? i18nService.formatNumber(config.context_window) : '128,000'}</span>
             </div>
-            <div className="openbitfun-model-settings__details-item openbitfun-model-settings__details-item--wide">
-              <span className="openbitfun-model-settings__details-label">{t('details.apiUrl')}</span>
-              <span className="openbitfun-model-settings__details-value">{config.base_url}</span>
+            <div className="opc-model-settings__details-item opc-model-settings__details-item--wide">
+              <span className="opc-model-settings__details-label">{t('details.apiUrl')}</span>
+              <span className="opc-model-settings__details-value">{config.base_url}</span>
             </div>
             {config.capabilities && config.capabilities.length > 0 && (
-              <div className="openbitfun-model-settings__details-item openbitfun-model-settings__details-item--wide">
-                <span className="openbitfun-model-settings__details-label">{t('details.capabilities')}</span>
-                <div className="openbitfun-model-settings__details-tags">
+              <div className="opc-model-settings__details-item opc-model-settings__details-item--wide">
+                <span className="opc-model-settings__details-label">{t('details.capabilities')}</span>
+                <div className="opc-model-settings__details-tags">
                   {config.capabilities.map(capability => (
-                    <span key={capability} className="openbitfun-model-settings__details-tag">
+                    <span key={capability} className="opc-model-settings__details-tag">
                       {t(`capabilities.${capability}`, { defaultValue: capability })}
                     </span>
                   ))}
@@ -3803,11 +3803,11 @@ const ModelSettingsPage: React.FC = () => {
           </div>
         </div>
         {testResult && (
-          <div className="openbitfun-model-settings__details-section">
-            <div className="openbitfun-model-settings__details-section-title">
+          <div className="opc-model-settings__details-section">
+            <div className="opc-model-settings__details-section-title">
               {t('actions.test')}
             </div>
-            <div className={`openbitfun-model-settings__test-result ${testResult.success ? 'success' : 'error'}`}>
+            <div className={`opc-model-settings__test-result ${testResult.success ? 'success' : 'error'}`}>
               {testResult.message}
             </div>
           </div>
@@ -3817,7 +3817,7 @@ const ModelSettingsPage: React.FC = () => {
 
     const control = (
       <>
-        <span className="openbitfun-model-settings__model-enable">
+        <span className="opc-model-settings__model-enable">
           <Switch
             aria-label={t('pool.enableModel', { model: modelLabel })}
             checked={config.enabled}
@@ -3827,9 +3827,9 @@ const ModelSettingsPage: React.FC = () => {
           />
         </span>
         <div
-          className="openbitfun-model-settings__model-actions"
-          data-openbitfun-component="model-settings"
-          data-openbitfun-part="modelActions"
+          className="opc-model-settings__model-actions"
+          data-opc-component="model-settings"
+          data-opc-part="modelActions"
         >
           <Tooltip content={connectionTestSupported
             ? t('actions.test')
@@ -3869,20 +3869,20 @@ const ModelSettingsPage: React.FC = () => {
       const roleLabels = new Set(roles.map(role => role.label));
       const tags = getModelTags(config).filter(tag => !roleLabels.has(tag));
       return (
-        <div key={config.id} className="openbitfun-model-settings__pool-item"
-          data-openbitfun-component="model-settings" data-openbitfun-part="modelItem"
-          data-openbitfun-state={!config.enabled ? 'disabled' : undefined}
+        <div key={config.id} className="opc-model-settings__pool-item"
+          data-opc-component="model-settings" data-opc-part="modelItem"
+          data-opc-state={!config.enabled ? 'disabled' : undefined}
           data-testid="settings-model-row" data-config-id={config.id || ''}
           data-model-id={config.model_name} data-model-name={config.model_name}>
-          <Card appearance="subtle" padding="md" gap="sm" className="openbitfun-model-settings__pool-card">
+          <Card appearance="subtle" padding="md" gap="sm" className="opc-model-settings__pool-card">
             <CardHeader
-              className="openbitfun-model-settings__pool-card-header"
+              className="opc-model-settings__pool-card-header"
               contentAlign="start"
               title={(
-                <div className="openbitfun-model-settings__pool-card-title">
+                <div className="opc-model-settings__pool-card-title">
                   <OverflowText>{modelLabel}</OverflowText>
                   {(roles.length > 0 || tags.length > 0) && (
-                    <div className="openbitfun-model-settings__pool-tags">
+                    <div className="opc-model-settings__pool-tags">
                       {roles.map(role => <StatusPill key={role.label} tone="neutral">{role.label}</StatusPill>)}
                       {tags.map(tag => <StatusPill key={tag} tone="neutral">{tag}</StatusPill>)}
                     </div>
@@ -3891,8 +3891,8 @@ const ModelSettingsPage: React.FC = () => {
                 </div>
               )}
             />
-            <CardFooter align="between" className="openbitfun-model-settings__pool-card-footer">
-              <OverflowText className="openbitfun-model-settings__pool-card-source">
+            <CardFooter align="between" className="opc-model-settings__pool-card-footer">
+              <OverflowText className="opc-model-settings__pool-card-source">
                 {providerDisplayName}
               </OverflowText>
               <ModelPoolCardActions
@@ -3927,19 +3927,19 @@ const ModelSettingsPage: React.FC = () => {
         data-config-id={config.id || ''}
         data-model-id={config.model_name}
         data-model-name={config.model_name}
-        data-openbitfun-component="model-settings"
-        data-openbitfun-part="modelItem"
-        data-openbitfun-state={[isExpanded && 'expanded', !config.enabled && 'disabled'].filter(Boolean).join(' ') || undefined}
+        data-opc-component="model-settings"
+        data-opc-part="modelItem"
+        data-opc-state={[isExpanded && 'expanded', !config.enabled && 'disabled'].filter(Boolean).join(' ') || undefined}
       />
     );
   };
 
   const streamTtftTimeoutLabel = (
-    <span className="openbitfun-model-settings__inline-header-main">
+    <span className="opc-model-settings__inline-header-main">
       <span>{t('streamTtftTimeout.label')}</span>
       <Tooltip content={t('streamTtftTimeout.hint')} placement="top">
         <span
-          className="openbitfun-model-settings__inline-header-info"
+          className="opc-model-settings__inline-header-info"
           role="button"
           tabIndex={0}
           aria-label={t('streamTtftTimeout.hint')}
@@ -3951,11 +3951,11 @@ const ModelSettingsPage: React.FC = () => {
   );
 
   const streamIdleTimeoutLabel = (
-    <span className="openbitfun-model-settings__inline-header-main">
+    <span className="opc-model-settings__inline-header-main">
       <span>{t('streamIdleTimeout.label')}</span>
       <Tooltip content={t('streamIdleTimeout.hint')} placement="top">
         <span
-          className="openbitfun-model-settings__inline-header-info"
+          className="opc-model-settings__inline-header-info"
           role="button"
           tabIndex={0}
           aria-label={t('streamIdleTimeout.hint')}
@@ -4018,7 +4018,7 @@ const ModelSettingsPage: React.FC = () => {
       })
       : t('modelsDevCatalog.noCache');
   const pendingConfigSummary = (
-    <span className="openbitfun-model-settings__pool-caption" role="status">
+    <span className="opc-model-settings__pool-caption" role="status">
       {isConfigLoading ? t('messages.loading') : tDefault('messages.loadFailed')}
     </span>
   );
@@ -4038,21 +4038,21 @@ const ModelSettingsPage: React.FC = () => {
     : proxyLoadState === 'error' ? tDefault('messages.loadFailed') : undefined;
 
   return (
-    <ConfigPageLayout className="openbitfun-model-settings" data-openbitfun-component="model-settings" data-openbitfun-part="root" data-openbitfun-view="settings">
+    <ConfigPageLayout className="opc-model-settings" data-opc-component="model-settings" data-opc-part="root" data-opc-view="settings">
       <ConfigPageHeader
         title={t('title')}
         subtitle={t('subtitle')}
       />
 
-      <ConfigPageContent className="openbitfun-model-settings__content">
+      <ConfigPageContent className="opc-model-settings__content">
         <ConfigPageSection title={t('sections.acquisition')}>
-          <ConfigPageRow multiline className="openbitfun-model-settings__acquisition-row"
+          <ConfigPageRow multiline className="opc-model-settings__acquisition-row"
             label={(
-              <div className="openbitfun-model-settings__import-row">
-                <div className="openbitfun-model-settings__import-heading">
+              <div className="opc-model-settings__import-row">
+                <div className="opc-model-settings__import-heading">
                   <span>{t('acquisition.api')}</span>
                   {modelConfigReady && apiProviderGroups.length > 0 && (
-                    <span className="openbitfun-model-settings__pool-caption">
+                    <span className="opc-model-settings__pool-caption">
                       {t('acquisition.configuredSummary', {
                         providers: i18nService.formatNumber(apiProviderGroups.length),
                         models: i18nService.formatNumber(aiModels.length - subscriptionModelCount),
@@ -4067,13 +4067,13 @@ const ModelSettingsPage: React.FC = () => {
             )}
           >
             {!modelConfigReady ? pendingConfigSummary : apiProviderGroups.length > 0 ? (
-              <ul className="openbitfun-model-settings__import-summary" aria-label={t('acquisition.api')}>
+              <ul className="opc-model-settings__import-summary" aria-label={t('acquisition.api')}>
                 {apiProviderGroups.map(group => (
-                  <li key={group.key} className="openbitfun-model-settings__import-item">
+                  <li key={group.key} className="opc-model-settings__import-item">
                     <Capsule size="sm" action={(
                       <Tooltip content={t('actions.deleteProvider')} trigger="hover-focus">
                         <IconButton
-                          className="openbitfun-model-settings__source-pill-delete"
+                          className="opc-model-settings__source-pill-delete"
                           aria-label={`${t('actions.deleteProvider')}: ${group.providerName}`}
                           size="xs"
                           shape="circle"
@@ -4085,7 +4085,7 @@ const ModelSettingsPage: React.FC = () => {
                       </Tooltip>
                     )}>
                       <Tooltip content={group.models[0].base_url} trigger="hover-focus">
-                        <Button size="sm" variant="outline" className="openbitfun-model-settings__source-pill"
+                        <Button size="sm" variant="outline" className="opc-model-settings__source-pill"
                           aria-label={t('acquisition.configureProvider', { provider: group.providerName })}
                           onClick={() => handleEditProvider(group.models[0])}>
                           {group.providerName}
@@ -4095,15 +4095,15 @@ const ModelSettingsPage: React.FC = () => {
                   </li>
                 ))}
               </ul>
-            ) : <span className="openbitfun-model-settings__pool-caption">{t('acquisition.noneConfigured')}</span>}
+            ) : <span className="opc-model-settings__pool-caption">{t('acquisition.noneConfigured')}</span>}
           </ConfigPageRow>
-          <ConfigPageRow multiline className="openbitfun-model-settings__acquisition-row"
+          <ConfigPageRow multiline className="opc-model-settings__acquisition-row"
             label={(
-              <div className="openbitfun-model-settings__import-row">
-                <div className="openbitfun-model-settings__import-heading">
+              <div className="opc-model-settings__import-row">
+                <div className="opc-model-settings__import-heading">
                   <span>{t('acquisition.subscriptions')}</span>
                   {modelConfigReady && subscriptionProviderGroups.length > 0 && (
-                    <span className="openbitfun-model-settings__pool-caption">
+                    <span className="opc-model-settings__pool-caption">
                       {t('acquisition.importedSummary', {
                         providers: i18nService.formatNumber(subscriptionProviderGroups.length),
                         models: i18nService.formatNumber(subscriptionModelCount),
@@ -4118,13 +4118,13 @@ const ModelSettingsPage: React.FC = () => {
             )}
           >
             {!modelConfigReady ? pendingConfigSummary : subscriptionProviderGroups.length > 0 ? (
-              <ul className="openbitfun-model-settings__import-summary" aria-label={t('acquisition.subscriptions')}>
+              <ul className="opc-model-settings__import-summary" aria-label={t('acquisition.subscriptions')}>
                 {subscriptionProviderGroups.map(group => (
-                  <li key={group.key} className="openbitfun-model-settings__import-item">
+                  <li key={group.key} className="opc-model-settings__import-item">
                     <Capsule size="sm" action={(
                       <Tooltip content={t('actions.deleteProvider')} trigger="hover-focus">
                         <IconButton
-                          className="openbitfun-model-settings__source-pill-delete"
+                          className="opc-model-settings__source-pill-delete"
                           aria-label={`${t('actions.deleteProvider')}: ${group.providerName}`}
                           size="xs"
                           shape="circle"
@@ -4135,7 +4135,7 @@ const ModelSettingsPage: React.FC = () => {
                         />
                       </Tooltip>
                     )}>
-                      <Button size="sm" variant="outline" className="openbitfun-model-settings__source-pill"
+                      <Button size="sm" variant="outline" className="opc-model-settings__source-pill"
                         aria-label={t('acquisition.configureProvider', { provider: group.providerName })}
                         onClick={() => handleEditProvider(group.models[0])}>
                         {group.providerName}
@@ -4144,15 +4144,15 @@ const ModelSettingsPage: React.FC = () => {
                   </li>
                 ))}
               </ul>
-            ) : <span className="openbitfun-model-settings__pool-caption">{t('acquisition.noneImported')}</span>}
+            ) : <span className="opc-model-settings__pool-caption">{t('acquisition.noneImported')}</span>}
           </ConfigPageRow>
         </ConfigPageSection>
 
         <ConfigPageSection title={t('sections.selectionModes')}>
-          <ConfigPageRow className="openbitfun-model-settings__mode-row" label={t('selectionModes.smart')} description={t('selectionModes.smartHint')} align="center">
+          <ConfigPageRow className="opc-model-settings__mode-row" label={t('selectionModes.smart')} description={t('selectionModes.smartHint')} align="center">
             <StatusPill tone="neutral">{t('selectionModes.unavailable')}</StatusPill>
           </ConfigPageRow>
-          <ConfigPageRow className="openbitfun-model-settings__mode-row" label={t('selectionModes.battery')} description={t('selectionModes.batteryHint')} align="center">
+          <ConfigPageRow className="opc-model-settings__mode-row" label={t('selectionModes.battery')} description={t('selectionModes.batteryHint')} align="center">
             <StatusPill tone="neutral">{t('selectionModes.unavailable')}</StatusPill>
           </ConfigPageRow>
         </ConfigPageSection>
@@ -4188,7 +4188,7 @@ const ModelSettingsPage: React.FC = () => {
                 )}
               </>
             )}>
-            <div className="openbitfun-model-settings__pool-slots">
+            <div className="opc-model-settings__pool-slots">
               <DefaultModelConfig compact models={aiModels} defaultModels={poolDefaults}
                 loading={isConfigLoading} disabled={configLoadError} onDefaultModelsChange={setPoolDefaults} />
             </div>
@@ -4197,7 +4197,7 @@ const ModelSettingsPage: React.FC = () => {
                 saveLabel={t('draftClose.continueEditing')} discardLabel={t('draftClose.discardDraft')}
                 onSave={() => setIsEditing(true)} onDiscard={closeEditingModal} />
             )}
-            <div className="openbitfun-model-settings__pool-toolbar">
+            <div className="opc-model-settings__pool-toolbar">
               <SearchField size="sm" value={poolQuery}
                 onChange={event => setPoolQuery(event.target.value)} placeholder={t('pool.search')}
                 aria-label={t('pool.search')} />
@@ -4220,8 +4220,8 @@ const ModelSettingsPage: React.FC = () => {
             ) : aiModels.length > 0 ? (
               <>
                 {visiblePoolModels.length > 0 ? (
-                  <div className="openbitfun-model-settings__pool-grid" data-openbitfun-component="model-settings"
-                    data-openbitfun-part="collection" data-testid="settings-model-pool">
+                  <div className="opc-model-settings__pool-grid" data-opc-component="model-settings"
+                    data-opc-part="collection" data-testid="settings-model-pool">
                     {visiblePoolModels.map(config => renderModelCollectionItem(config, 'card'))}
                   </div>
                 ) : (
@@ -4230,16 +4230,16 @@ const ModelSettingsPage: React.FC = () => {
                 )}
               </>
             ) : (
-              <ConfigEmptyState data-openbitfun-component="model-settings" data-openbitfun-part="empty"
+              <ConfigEmptyState data-opc-component="model-settings" data-opc-part="empty"
                 icon={<Wifi aria-hidden="true" />} description={t('pool.empty')}
                 actions={<Button size="sm" onClick={() => setShowSubscriptionManager(true)}>{t('acquisition.import')}</Button>} />
             )}
           </ConfigPageSection>
         </div>
 
-        <Disclosure summary={t('sections.more')} className="openbitfun-model-settings__more-settings"
-          contentInnerClassName="openbitfun-model-settings__more-content">
-          <div className="openbitfun-model-settings__advanced-sections">
+        <Disclosure summary={t('sections.more')} className="opc-model-settings__more-settings"
+          contentInnerClassName="opc-model-settings__more-content">
+          <div className="opc-model-settings__advanced-sections">
             <ConfigPageSection
               title={t('streamIdleTimeout.title')}
               description={t('streamIdleTimeout.effectiveNextRound')}
@@ -4295,7 +4295,7 @@ const ModelSettingsPage: React.FC = () => {
                 {proxyLoadState === 'ready' ? <Switch
                   checked={proxyConfig.enabled}
                   onChange={(e) => setProxyConfig(prev => ({ ...prev, enabled: e.target.checked }))}
-                /> : <span className="openbitfun-model-settings__loading">{proxyPlaceholder}</span>}
+                /> : <span className="opc-model-settings__loading">{proxyPlaceholder}</span>}
               </ConfigPageRow>
               <ConfigPageRow label={t('proxy.url')} description={t('proxy.urlHint')} align="center">
                 <Input
@@ -4368,7 +4368,7 @@ const ModelSettingsPage: React.FC = () => {
         </DialogHeader>
         <DialogBody>
           <ConfigPageSection
-            className="openbitfun-model-settings__models-section"
+            className="opc-model-settings__models-section"
             bodySurface={false}
             title={tDefault('sections.providers')}
             description={t('providersDescription')}
@@ -4395,8 +4395,8 @@ const ModelSettingsPage: React.FC = () => {
             )}
             {aiModels.length === 0 ? (
               <ConfigEmptyState
-                data-openbitfun-component="model-settings"
-                data-openbitfun-part="empty"
+                data-opc-component="model-settings"
+                data-opc-part="empty"
                 icon={<Wifi aria-hidden="true" />}
                 description={t('empty.noModels')}
                 actions={(
@@ -4406,27 +4406,27 @@ const ModelSettingsPage: React.FC = () => {
                 )}
               />
             ) : (
-              <div className="openbitfun-model-settings__collection" data-openbitfun-component="model-settings" data-openbitfun-part="collection" data-testid="settings-model-list">
+              <div className="opc-model-settings__collection" data-opc-component="model-settings" data-opc-part="collection" data-testid="settings-model-list">
                 {providerGroups.map(group => {
                   const isExpanded = expandedProviderGroupKeys.has(group.key);
 
                   return (
                     <div
                       key={group.key}
-                      className="openbitfun-model-settings__provider-group"
-                      data-openbitfun-component="model-settings"
-                      data-openbitfun-part="providerGroup"
-                      data-openbitfun-state={isExpanded ? 'expanded' : undefined}
+                      className="opc-model-settings__provider-group"
+                      data-opc-component="model-settings"
+                      data-opc-part="providerGroup"
+                      data-opc-state={isExpanded ? 'expanded' : undefined}
                     >
                       <div
-                        className="openbitfun-model-settings__provider-group-header"
-                        data-openbitfun-component="model-settings"
-                        data-openbitfun-part="providerGroupHeader"
+                        className="opc-model-settings__provider-group-header"
+                        data-opc-component="model-settings"
+                        data-opc-part="providerGroupHeader"
                         data-expanded={isExpanded ? 'true' : 'false'}
                       >
                         <button
                           type="button"
-                          className="openbitfun-model-settings__provider-group-toggle"
+                          className="opc-model-settings__provider-group-toggle"
                           aria-expanded={isExpanded}
                           aria-label={`${tComponents(isExpanded ? 'tooltip.collapse' : 'tooltip.expand')} ${group.providerName}`}
                           onClick={() => toggleProviderGroup(group.key)}
@@ -4434,18 +4434,18 @@ const ModelSettingsPage: React.FC = () => {
                           <Icon
                             name={isExpanded ? 'chevron-down' : 'chevron-right'}
                             size="sm"
-                            className="openbitfun-model-settings__provider-group-chevron"
+                            className="opc-model-settings__provider-group-chevron"
                             aria-hidden="true"
                           />
-                          <span className="openbitfun-model-settings__provider-group-title" data-openbitfun-component="model-settings" data-openbitfun-part="providerGroupTitle">
+                          <span className="opc-model-settings__provider-group-title" data-opc-component="model-settings" data-opc-part="providerGroupTitle">
                             <span>{group.providerName}</span>
-                            <span className="openbitfun-model-settings__provider-group-count">{group.models.length}</span>
-                            <span className="openbitfun-model-settings__meta-tag">
+                            <span className="opc-model-settings__provider-group-count">{group.models.length}</span>
+                            <span className="opc-model-settings__meta-tag">
                               {requestFormatLabelMap[group.models[0]?.provider || 'openai'] || (group.models[0]?.provider || 'openai')}
                             </span>
                           </span>
                         </button>
-                        <div className="openbitfun-model-settings__provider-group-actions" data-openbitfun-component="model-settings" data-openbitfun-part="providerGroupActions">
+                        <div className="opc-model-settings__provider-group-actions" data-opc-component="model-settings" data-opc-part="providerGroupActions">
                           <Tooltip content={t('actions.edit')}>
                             <IconButton
                               aria-label={t('actions.edit')}
@@ -4466,7 +4466,7 @@ const ModelSettingsPage: React.FC = () => {
                         </div>
                       </div>
                       {isExpanded && (
-                        <div className="openbitfun-model-settings__provider-group-list" data-openbitfun-component="model-settings" data-openbitfun-part="providerGroupList">
+                        <div className="opc-model-settings__provider-group-list" data-opc-component="model-settings" data-opc-part="providerGroupList">
                           {group.models.map(config => renderModelCollectionItem(config))}
                         </div>
                       )}
@@ -4507,12 +4507,12 @@ const ModelSettingsPage: React.FC = () => {
           <DialogClose />
         </DialogHeader>
         <DialogBody inset="none">
-          <div className="openbitfun-model-settings__catalog-details">
+          <div className="opc-model-settings__catalog-details">
             <ConfigPageRow label={t('modelsDevCatalog.activeSource')} align="center">
-              <span className="openbitfun-model-settings__catalog-status-value">{modelsDevSourceLabel}</span>
+              <span className="opc-model-settings__catalog-status-value">{modelsDevSourceLabel}</span>
             </ConfigPageRow>
             <ConfigPageRow label={t('modelsDevCatalog.catalogSize')} align="center">
-              <span className="openbitfun-model-settings__catalog-status-value">
+              <span className="opc-model-settings__catalog-status-value">
                 {modelsDevStatus
                   ? t('modelsDevCatalog.catalogSizeValue', {
                     providers: i18nService.formatNumber(modelsDevStatus.provider_count),
@@ -4522,10 +4522,10 @@ const ModelSettingsPage: React.FC = () => {
               </span>
             </ConfigPageRow>
             <ConfigPageRow label={t('modelsDevCatalog.cacheUpdatedAt')} align="center">
-              <span className="openbitfun-model-settings__catalog-status-value">{modelsDevUpdatedAt}</span>
+              <span className="opc-model-settings__catalog-status-value">{modelsDevUpdatedAt}</span>
             </ConfigPageRow>
             <ConfigPageRow label={t('modelsDevCatalog.cachePath')} align="center" wide>
-              <div className="openbitfun-model-settings__catalog-path">
+              <div className="opc-model-settings__catalog-path">
                 <code title={modelsDevStatus?.cache_path}><OverflowText>{modelsDevStatus?.cache_path || '—'}</OverflowText></code>
                 <Tooltip content={t('modelsDevCatalog.reveal')}>
                   <IconButton
@@ -4543,16 +4543,16 @@ const ModelSettingsPage: React.FC = () => {
               </div>
             </ConfigPageRow>
             <ConfigPageRow label={t('modelsDevCatalog.revision')} align="center">
-              <code className="openbitfun-model-settings__catalog-revision" title={modelsDevStatus?.revision}>
+              <code className="opc-model-settings__catalog-revision" title={modelsDevStatus?.revision}>
                 {modelsDevStatus?.revision ? `${modelsDevStatus.revision.slice(0, 12)}…` : '—'}
               </code>
             </ConfigPageRow>
-            <div className="openbitfun-model-settings__catalog-offline-help" role="note">
+            <div className="opc-model-settings__catalog-offline-help" role="note">
               <Icon name="info" size="sm" aria-hidden="true" />
               <div>
                 <strong>{t('modelsDevCatalog.offlineTitle')}</strong>
                 <p>{t('modelsDevCatalog.offlineDescription')}</p>
-                <div className="openbitfun-model-settings__catalog-offline-actions">
+                <div className="opc-model-settings__catalog-offline-actions">
                   <Button
                     variant="outline"
                     size="sm"
@@ -4596,7 +4596,7 @@ const ModelSettingsPage: React.FC = () => {
           <DialogClose />
         </DialogHeader>
         <DialogBody inset="none">
-          <div className="openbitfun-model-settings__subscription-logout-confirm" data-openbitfun-component="model-settings" data-openbitfun-part="logoutConfirm">
+          <div className="opc-model-settings__subscription-logout-confirm" data-opc-component="model-settings" data-opc-part="logoutConfirm">
             <p>
               {subscriptionLogoutRequest?.affectedModels.length
                 ? t('subscriptionAuth.logoutAffectedModels', {
@@ -4605,7 +4605,7 @@ const ModelSettingsPage: React.FC = () => {
                 : t('subscriptionAuth.logoutNoAffectedModels')}
             </p>
             {!!subscriptionLogoutRequest?.affectedModels.length && (
-              <ScrollArea className="openbitfun-model-settings__subscription-logout-list">
+              <ScrollArea className="opc-model-settings__subscription-logout-list">
                 <ul>
                   {subscriptionLogoutRequest.affectedModels.map((model) => (
                     <li key={model.id}>{model.name} · {model.model_name}</li>
@@ -4644,14 +4644,14 @@ const ModelSettingsPage: React.FC = () => {
             requestCloseEditingModal();
           }
         }}
-        className="openbitfun-model-settings__editor-dialog"
+        className="opc-model-settings__editor-dialog"
         size={editingConfig?.id ? 'lg' : 'xl'}
       >
         <DialogHeader className={modelPanelDraft && !reasoningPanelDraft
-          ? 'openbitfun-model-settings__model-editor-header'
+          ? 'opc-model-settings__model-editor-header'
           : undefined}>
           <ToolbarGroup
-            className="openbitfun-model-settings__editor-heading-group"
+            className="opc-model-settings__editor-heading-group"
             gap={modelPanelDraft && !reasoningPanelDraft ? 'sm' : 'md'}
           >
             {(modelPanelDraft || managingSubscriptionProvider) && !reasoningPanelDraft && (
@@ -4706,7 +4706,7 @@ const ModelSettingsPage: React.FC = () => {
           {managingSubscriptionProvider ? (
             <div
               ref={subscriptionManagementRef}
-              className="openbitfun-model-settings__subscription-management"
+              className="opc-model-settings__subscription-management"
               role="region"
               aria-label={t('subscriptionAuth.manageAccount')}
               tabIndex={-1}

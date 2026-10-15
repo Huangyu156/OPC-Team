@@ -688,8 +688,8 @@ Risk and drift controls:
 
 Required verification before merging P0:
 
-- `cargo check -p openbitfun-core --no-default-features --features agent-runtime`
-- `cargo test -p openbitfun-core --no-default-features --features agent-runtime --lib session_usage -- --nocapture`
+- `cargo check -p opc-core --no-default-features --features agent-runtime`
+- `cargo test -p opc-core --no-default-features --features agent-runtime --lib session_usage -- --nocapture`
 - Focused CLI command tests or manual CLI smoke if no existing helper test harness exists.
 - `pnpm run lint:web`
 - `pnpm run type-check:web`
@@ -1037,8 +1037,8 @@ Risks and mitigations:
 
 Verification:
 
-- `cargo test -p openbitfun-core --no-default-features --features agent-runtime --lib session_usage -- --nocapture` once tests exist.
-- `cargo check -p openbitfun-core --no-default-features --features agent-runtime`.
+- `cargo test -p opc-core --no-default-features --features agent-runtime --lib session_usage -- --nocapture` once tests exist.
+- `cargo check -p opc-core --no-default-features --features agent-runtime`.
 - DTO tests for workspace identity, report scope, in-progress reports, cache-unavailable coverage, and redaction metadata.
 
 ### Task 2: Non-model-visible local report item

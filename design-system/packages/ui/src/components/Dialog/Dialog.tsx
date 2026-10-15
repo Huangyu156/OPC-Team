@@ -108,8 +108,8 @@ const OverlaySurface = forwardRef<HTMLDivElement, OverlaySurfaceProps>(function 
   const ownerDocument = resolvedPortalHost?.ownerDocument
     ?? (typeof document === "undefined" ? null : document);
   const surfaceRef = useRef<HTMLDivElement | null>(null);
-  const titleId = `openbitfun-dialog-title-${useId()}`;
-  const descriptionId = `openbitfun-dialog-description-${useId()}`;
+  const titleId = `opc-dialog-title-${useId()}`;
+  const descriptionId = `opc-dialog-description-${useId()}`;
   const { present, state } = usePresence(open, EXIT_DURATION_MS);
   const presentation = { children, className, overlayProps, placement, size, style };
   const lastOpenPresentation = useRef<typeof presentation | null>(null);
@@ -174,9 +174,9 @@ const OverlaySurface = forwardRef<HTMLDivElement, OverlaySurfaceProps>(function 
       <div
         {...rendered.overlayProps}
         className={classNames(styles.overlay, rendered.overlayProps?.className)}
-        data-openbitfun-component={kind}
-        data-openbitfun-part="overlay"
-        data-openbitfun-native-webview-occlusion
+        data-opc-component={kind}
+        data-opc-part="overlay"
+        data-opc-native-webview-occlusion
         data-placement={rendered.placement}
         data-state={exiting ? "exiting" : "open"}
       >
@@ -190,8 +190,8 @@ const OverlaySurface = forwardRef<HTMLDivElement, OverlaySurfaceProps>(function 
             aria-labelledby={ariaLabelledBy ?? (!ariaLabel && hasTitle ? titleId : undefined)}
             aria-modal="true"
             className={classNames(styles.surface, rendered.className)}
-            data-openbitfun-component={kind}
-            data-openbitfun-part="surface"
+            data-opc-component={kind}
+            data-opc-part="surface"
             data-placement={rendered.placement}
             data-size={rendered.size}
             data-state={exiting ? "exiting" : "open"}
@@ -248,13 +248,13 @@ export interface DialogHeaderProps extends HTMLAttributes<HTMLDivElement> {
 
 export const DialogHeader = forwardRef<HTMLDivElement, DialogHeaderProps>(
   function DialogHeader({ className, separator = false, ...props }, ref) {
-    return <header {...props} className={classNames(styles.header, className)} data-openbitfun-part="header" data-separator={separator} ref={ref} />;
+    return <header {...props} className={classNames(styles.header, className)} data-opc-part="header" data-separator={separator} ref={ref} />;
   },
 );
 
 export const DialogHeading = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function DialogHeading({ className, ...props }, ref) {
-    return <div {...props} className={classNames(styles.heading, className)} data-openbitfun-part="heading" ref={ref} />;
+    return <div {...props} className={classNames(styles.heading, className)} data-opc-part="heading" ref={ref} />;
   },
 );
 
@@ -262,7 +262,7 @@ export const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHea
   function DialogTitle({ children, className, id, ...props }, ref) {
     const context = useDialogContext("DialogTitle");
     return (
-      <h2 {...props} className={classNames(styles.title, className)} data-openbitfun-part="title" id={id ?? context.titleId} ref={ref}>
+      <h2 {...props} className={classNames(styles.title, className)} data-opc-part="title" id={id ?? context.titleId} ref={ref}>
         <OverflowText>{children}</OverflowText>
       </h2>
     );
@@ -272,13 +272,13 @@ export const DialogTitle = forwardRef<HTMLHeadingElement, HTMLAttributes<HTMLHea
 export const DialogDescription = forwardRef<HTMLParagraphElement, HTMLAttributes<HTMLParagraphElement>>(
   function DialogDescription({ className, id, ...props }, ref) {
     const context = useDialogContext("DialogDescription");
-    return <p {...props} className={classNames(styles.description, className)} data-openbitfun-part="description" id={id ?? context.descriptionId} ref={ref} />;
+    return <p {...props} className={classNames(styles.description, className)} data-opc-part="description" id={id ?? context.descriptionId} ref={ref} />;
   },
 );
 
 export const DialogHeaderActions = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   function DialogHeaderActions({ className, ...props }, ref) {
-    return <div {...props} className={classNames(styles.headerActions, className)} data-openbitfun-part="header-actions" ref={ref} />;
+    return <div {...props} className={classNames(styles.headerActions, className)} data-opc-part="header-actions" ref={ref} />;
   },
 );
 
@@ -297,7 +297,7 @@ export const DialogClose = forwardRef<HTMLButtonElement, DialogCloseProps>(
         {...props}
         aria-label={ariaLabel ?? designSystem.messages.dialogClose}
         className={classNames(styles.close, className)}
-        data-openbitfun-part="close"
+        data-opc-part="close"
         icon={icon ?? <Icon name="xmark" />}
         onClick={() => context.close("close-button")}
         ref={ref}
@@ -318,7 +318,7 @@ export const DialogBody = forwardRef<HTMLDivElement, DialogBodyProps>(
       <div
         {...props}
         className={classNames(styles.body, className)}
-        data-openbitfun-part="body"
+        data-opc-part="body"
         data-inset={inset}
         ref={ref}
       />
@@ -339,7 +339,7 @@ export const DialogFooter = forwardRef<HTMLElement, DialogFooterProps>(
         className={classNames(styles.footer, className)}
         data-appearance={appearance}
         data-separator={separator}
-        data-openbitfun-part="footer"
+        data-opc-part="footer"
         ref={ref}
       />
     );

@@ -1,8 +1,8 @@
-//! Host abstraction for desktop automation (implemented in `openbitfun-desktop`).
+//! Host abstraction for desktop automation (implemented in `opc-desktop`).
 
 // Re-export optimizer types so downstream crates can import from computer_use_host.
 pub use crate::agentic::tools::computer_use_optimizer::{ActionRecord, LoopDetectionResult};
-pub use openbitfun_agent_tools::computer_use::{
+pub use opc_agent_tools::computer_use::{
     clamp_point_crop_half_extent, parse_windows_accelerator_display,
     suggested_point_crop_half_extent_from_native_bounds, AppClickParams, AppInfo, AppInputAction,
     AppMenuShortcut, AppSelector, AppShortcutsSnapshot, AppStateSnapshot, AppWaitPredicate, AxNode,
@@ -23,7 +23,7 @@ pub use openbitfun_agent_tools::computer_use::{
 
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-pub use openbitfun_agent_tools::computer_use_control::{
+pub use opc_agent_tools::computer_use_control::{
     ControlMode, ControlSnapshot, ControlStartRequest,
 };
 

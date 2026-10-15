@@ -1,13 +1,13 @@
-use openbitfun_opencode_adapter::{OpenCodeToolProvider, OpenCodeToolProviderOptions};
-use openbitfun_product_domains::external_sources::{
+use opc_opencode_adapter::{OpenCodeToolProvider, OpenCodeToolProviderOptions};
+use opc_product_domains::external_sources::{
     ExecutionDomainId, ExternalSourceContext, ExternalSourceScope, ExternalToolSourceProvider,
     ExternalToolStaticStatus,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     ScriptToolExpectedExport, ScriptToolInvokeRequest, ScriptToolLoadRequest, ScriptToolRuntime,
     ScriptToolRuntimeAvailability,
 };
-use openbitfun_services_integrations::script_tool::NodeScriptToolRuntime;
+use opc_services_integrations::script_tool::NodeScriptToolRuntime;
 use serde_json::json;
 use std::fs;
 use std::path::PathBuf;

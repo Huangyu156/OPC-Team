@@ -79,10 +79,10 @@ describe('SessionControlToolCard', () => {
       );
     });
 
-    expect(container.querySelector('[data-openbitfun-part="target"]')?.textContent).toBe('Release review');
+    expect(container.querySelector('[data-opc-part="target"]')?.textContent).toBe('Release review');
     expect(container.textContent).toContain('toolCards.interaction.renamed');
     expect(container.querySelector('[aria-expanded]')).toBeNull();
-    act(() => container.querySelector<HTMLElement>('[data-openbitfun-part="result"]')!.click());
+    act(() => container.querySelector<HTMLElement>('[data-opc-part="result"]')!.click());
     expect(document.querySelector('[role="dialog"]')?.textContent).not.toContain('worker-1');
     expect(document.querySelector('[role="dialog"]')?.textContent).toContain('Release review');
     expect(container.textContent).not.toContain('toolCards.sessionControl.listedSessions');

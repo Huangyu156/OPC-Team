@@ -26,7 +26,7 @@ export function useFullscreenChrome(isFullscreen: boolean) {
       if (disposed) return;
       while (!disposed) {
         const controls = document.querySelectorAll<HTMLElement>(
-          '.openbitfun-nav-bar--macos, .openbitfun-scene-top-bar',
+          '.opc-nav-bar--macos, .opc-scene-top-bar',
         );
         const movement = [...controls].flatMap(control => control.getAnimations())
           .filter(animation => animation.playState !== 'finished' && animation.playState !== 'idle' &&

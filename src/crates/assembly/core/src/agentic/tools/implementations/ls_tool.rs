@@ -5,7 +5,7 @@
 use crate::agentic::tools::framework::{
     Tool, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
-use crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri;
+use crate::agentic::tools::workspace_paths::is_opc_tool_uri;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use chrono::{DateTime, Local};
@@ -131,7 +131,7 @@ Usage:
                     };
                 }
                 None => {
-                    if is_openbitfun_tool_uri(path) {
+                    if is_opc_tool_uri(path) {
                         return ValidationResult {
                             result: false,
                             message: Some(
@@ -193,7 +193,7 @@ Usage:
                 };
                 if !matches!(
                     validation,
-                    Ok(Some(openbitfun_runtime_ports::WorkspacePathKind::Directory))
+                    Ok(Some(opc_runtime_ports::WorkspacePathKind::Directory))
                 ) {
                     return ValidationResult {
                         result: false,
@@ -304,7 +304,7 @@ Usage:
 mod tests {
     use super::*;
     use crate::agentic::WorkspaceBinding;
-    use openbitfun_runtime_ports::{
+    use opc_runtime_ports::{
         ToolRuntimeHandles, WorkspaceCommandOptions, WorkspaceCommandResult, WorkspaceDirEntry,
         WorkspaceFileSystem, WorkspacePathKind, WorkspaceServices, WorkspaceShell,
     };
@@ -455,7 +455,7 @@ mod tests {
                 "/remote/workspace".to_string()
             } else {
                 std::env::temp_dir()
-                    .join("openbitfun-ls-fixture")
+                    .join("opc-ls-fixture")
                     .to_string_lossy()
                     .into_owned()
             };

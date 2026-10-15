@@ -14,9 +14,9 @@ export const MessageReferenceCapsule: React.FC<{
   return (
     <span
       className={`message-reference-capsule message-reference-capsule--${type} user-message-item__reference user-message-item__reference--${type} ${className}`.trim()}
-      data-openbitfun-product-component="user-message-item"
-      data-openbitfun-product-part="content"
-      data-openbitfun-state={type}
+      data-opc-product-component="user-message-item"
+      data-opc-product-part="content"
+      data-opc-state={type}
       title={title ?? label}
     >
       {children ?? (type === 'skill' || type === 'widget'

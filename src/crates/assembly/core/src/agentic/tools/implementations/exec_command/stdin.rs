@@ -3,7 +3,7 @@ use super::progress::ExecOutputProgressBridge;
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext, ValidationResult};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_runtime_ports::{PortErrorKind, RemoteWriteStdinRequest, TerminalWriteStdinRequest};
+use opc_runtime_ports::{PortErrorKind, RemoteWriteStdinRequest, TerminalWriteStdinRequest};
 use serde_json::{json, Value};
 use tool_runtime::exec_command::{
     render_write_stdin_response_for_assistant, write_stdin_input_from_input,

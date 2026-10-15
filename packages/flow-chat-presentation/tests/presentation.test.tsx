@@ -9,7 +9,7 @@ import { defaultThinkingExpanded, useThinkingDisclosure, type ThinkingDisclosure
 import { formatExploreSummary } from '../src/explore';
 
 const t = (key: string, values?: Record<string, unknown>) => `${key}${values ? ` ${Object.values(values).join(' ')}` : ''}`;
-const expandedSurface = '[data-openbitfun-part="surface"][data-openbitfun-state~="expanded"]';
+const expandedSurface = '[data-opc-part="surface"][data-opc-state~="expanded"]';
 let container: HTMLDivElement;
 let root: Root;
 
@@ -43,7 +43,7 @@ function player(attention: 'ambient' | 'prominent' = 'prominent') {
       renderOutput={output} renderOutputAction={() => null} renderStatus={(props) => <ToolDuration {...props} />} />));
   }
   function toggle() {
-    act(() => container.querySelector<HTMLElement>('[data-openbitfun-part="surface"][data-openbitfun-attention]')!.click());
+    act(() => container.querySelector<HTMLElement>('[data-opc-part="surface"][data-opc-attention]')!.click());
   }
   return { clock, output, render, toggle, change, copy };
 }
@@ -53,16 +53,16 @@ describe('shared raw-input scenario playback', () => {
     const p = player('ambient');
     const steps = execScenarios.find(({ id }) => id === 'ExecCommand-lifecycle')!.steps;
     p.render(steps.at(-1)!);
-    const surface = container.querySelector('[data-openbitfun-part="surface"][data-openbitfun-attention="ambient"]');
+    const surface = container.querySelector('[data-opc-part="surface"][data-opc-attention="ambient"]');
     expect(surface).not.toBeNull();
-    const control = surface!.querySelector<HTMLButtonElement>('[data-openbitfun-part="iconAffordanceButton"]')!;
+    const control = surface!.querySelector<HTMLButtonElement>('[data-opc-part="iconAffordanceButton"]')!;
     expect(control.getAttribute('aria-expanded')).toBe('false');
     act(() => control.click());
     expect(control.getAttribute('aria-expanded')).toBe('true');
-    expect(container.querySelector('[data-openbitfun-part="outputFrame"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="outputFrame"]')).not.toBeNull();
     expect(surface!.textContent).not.toContain('toolCards.terminal.exitCode');
-    expect(container.querySelector('[data-openbitfun-part="footer"]')?.textContent).toContain('toolCards.terminal.exitCode 0');
-    expect(container.querySelector('[data-openbitfun-part="surface"][data-openbitfun-attention="ambient"]')).toBe(surface);
+    expect(container.querySelector('[data-opc-part="footer"]')?.textContent).toContain('toolCards.terminal.exitCode 0');
+    expect(container.querySelector('[data-opc-part="surface"][data-opc-attention="ambient"]')).toBe(surface);
     p.toggle();
     expect(control.getAttribute('aria-expanded')).toBe('false');
     expect(p.change.mock.calls.map(([open]) => open)).toEqual([true, false]);
@@ -74,14 +74,14 @@ describe('shared raw-input scenario playback', () => {
     let first: Element | null = null;
     for (const step of scenario.steps) {
       p.render(step);
-      const current = container.querySelector('[data-openbitfun-adapter="exec-process-tool-card"]');
+      const current = container.querySelector('[data-opc-adapter="exec-process-tool-card"]');
       expect(current).not.toBeNull();
       if (first) expect(current).toBe(first);
       first = current;
       expect(current?.getAttribute('data-tool-card-id')).toBe(step.item.id);
       const viewModel = model(step.item);
       if (viewModel.interaction) {
-        expect(container.querySelector('[data-openbitfun-part="target"]')?.textContent).toBe(viewModel.interaction.target.label);
+        expect(container.querySelector('[data-opc-part="target"]')?.textContent).toBe(viewModel.interaction.target.label);
         expect(container.querySelector('[aria-expanded]')).toBeNull();
       } else {
         expect(container.textContent).toContain(viewModel.primaryText);
@@ -100,8 +100,8 @@ describe('shared raw-input scenario playback', () => {
     const p = player('ambient');
     p.render(execScenarios.find(({ id }) => id === 'ExecCommand-lifecycle')!.steps.at(-1)!);
     p.toggle();
-    const preview = container.querySelector<HTMLElement>('[data-openbitfun-part="commandPreview"]')!;
-    const command = preview.querySelector<HTMLElement>('[data-openbitfun-part="command"]')!;
+    const preview = container.querySelector<HTMLElement>('[data-opc-part="commandPreview"]')!;
+    const command = preview.querySelector<HTMLElement>('[data-opc-part="command"]')!;
     const text = command.firstElementChild!;
     const fullCommand = command.textContent;
     // jsdom supplies no layout: dimensions exercise disclosure behavior only.
@@ -120,8 +120,8 @@ describe('shared raw-input scenario playback', () => {
     act(measure);
     expect(preview.getAttribute('role')).toBe('button');
     expect(preview.getAttribute('aria-expanded')).toBe('false');
-    const copyButton = container.querySelector<HTMLButtonElement>('[data-openbitfun-part="commandRow"] [data-openbitfun-part="copyButton"]')!;
-    expect(container.querySelector('[data-openbitfun-part="surface"] [data-openbitfun-part="copyButton"]')).toBeNull();
+    const copyButton = container.querySelector<HTMLButtonElement>('[data-opc-part="commandRow"] [data-opc-part="copyButton"]')!;
+    expect(container.querySelector('[data-opc-part="surface"] [data-opc-part="copyButton"]')).toBeNull();
     act(() => copyButton.click());
     expect(p.copy).toHaveBeenCalledOnce();
     expect(preview.getAttribute('aria-expanded')).toBe('false');
@@ -155,12 +155,12 @@ describe('shared raw-input scenario playback', () => {
     for (const step of steps.slice(0, 3)) {
       p.render(step);
       expect(container.querySelector(expandedSurface)).toBeNull();
-      expect(container.querySelector('[data-openbitfun-part="icon"] [data-openbitfun-part="processing"]')).not.toBeNull();
-      expect(container.querySelector('[data-openbitfun-part="statusIcon"]')).toBeNull();
+      expect(container.querySelector('[data-opc-part="icon"] [data-opc-part="processing"]')).not.toBeNull();
+      expect(container.querySelector('[data-opc-part="statusIcon"]')).toBeNull();
     }
     p.render(steps[3]);
     expect(container.querySelector(expandedSurface)).toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="processing"]')).toBeNull();
+    expect(container.querySelector('[data-opc-part="processing"]')).toBeNull();
     expect(p.change).not.toHaveBeenCalled();
     p.toggle();
     expect(p.output.mock.lastCall?.[0].maxRows).toBe(15);
@@ -196,7 +196,7 @@ describe('shared raw-input scenario playback', () => {
     expect(container.textContent).not.toContain('toolCards.terminal.exitCode');
     p.toggle();
     expect(container.textContent).toContain('toolCards.terminal.exitCode 1');
-    const exitStatus = [...container.querySelectorAll('[data-openbitfun-part="footer"] [data-tone]')]
+    const exitStatus = [...container.querySelectorAll('[data-opc-part="footer"] [data-tone]')]
       .find((item) => item.textContent?.includes('toolCards.terminal.exitCode 1'));
     expect(exitStatus?.textContent).toContain('toolCards.terminal.exitCode 1');
     expect(exitStatus?.getAttribute('data-tone')).toBe('neutral');
@@ -204,8 +204,8 @@ describe('shared raw-input scenario playback', () => {
     expect(container.querySelector(expandedSurface)?.textContent).not.toContain('toolCards.terminal.exitCode');
     expect(container.textContent).toContain('/workspace/project');
     expect(container.textContent).toContain('toolCards.execProcess.remote');
-    expect(container.querySelector('[data-openbitfun-state="completed"]')).not.toBeNull();
-    expect(container.querySelector('[data-openbitfun-part="error"]')).toBeNull();
+    expect(container.querySelector('[data-opc-state="completed"]')).not.toBeNull();
+    expect(container.querySelector('[data-opc-part="error"]')).toBeNull();
     p.toggle();
     expect(container.textContent).not.toContain('toolCards.terminal.exitCode');
   });

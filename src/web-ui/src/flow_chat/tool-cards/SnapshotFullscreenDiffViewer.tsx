@@ -122,10 +122,10 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
   };
 
   const fullscreenContent = (
-    <div data-overflow-trigger data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="overlay" className="snapshot-fullscreen-overlay" onClick={handleBackdropClick}>
-      <div ref={surfaceRef} role="dialog" aria-modal="true" aria-label={t('toolCards.snapshot.fileDiff')} tabIndex={-1} data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="root" className="snapshot-fullscreen-container">
-        <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="header" className="snapshot-fullscreen-header">
-          <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="sessionInfo" className="session-info">
+    <div data-overflow-trigger data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="overlay" className="snapshot-fullscreen-overlay" onClick={handleBackdropClick}>
+      <div ref={surfaceRef} role="dialog" aria-modal="true" aria-label={t('toolCards.snapshot.fileDiff')} tabIndex={-1} data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="root" className="snapshot-fullscreen-container">
+        <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="header" className="snapshot-fullscreen-header">
+          <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="sessionInfo" className="session-info">
             <div className="session-icon">
               <Icon name="file-text" size="md" />
             </div>
@@ -139,7 +139,7 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
             </div>
           </div>
 
-          <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="headerActions" className="header-actions">
+          <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="headerActions" className="header-actions">
             <Tooltip content={t('toolCards.snapshot.acceptAllTooltip')}>
               <Button
                 type="button"
@@ -181,7 +181,7 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
         </div>
 
         {files.length > 1 && (
-          <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="navigation" className="file-navigation">
+          <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="navigation" className="file-navigation">
             <Tooltip content={t('toolCards.snapshot.prevFile')}>
               <IconButton
                 type="button"
@@ -193,11 +193,11 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
               />
             </Tooltip>
 
-            <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="tabs" className="file-tabs">
+            <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="tabs" className="file-tabs">
               {files.map((file, index) => {
                 const name = file.filePath.split(/[/\\]/).pop() || '';
                 return (
-                  <button data-overflow-trigger data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="tab" data-openbitfun-state={index === selectedFileIndex ? 'active' : undefined}
+                  <button data-overflow-trigger data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="tab" data-opc-state={index === selectedFileIndex ? 'active' : undefined}
                     key={index}
                     className={`file-tab ${index === selectedFileIndex ? 'active' : ''}`}
                     onClick={() => setSelectedFileIndex(index)}
@@ -227,8 +227,8 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
           </div>
         )}
 
-        <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="currentFile" className="current-file-header">
-          <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="fileInfo" className="file-info">
+        <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="currentFile" className="current-file-header">
+          <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="fileInfo" className="file-info">
             <div className="file-icon">
               <Icon glyph={LucideFile} size="md" aria-hidden="true" />
             </div>
@@ -238,7 +238,7 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
             </div>
           </div>
 
-          <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="fileActions" className="current-file-actions">
+          <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="fileActions" className="current-file-actions">
             <Tooltip content={t('toolCards.snapshot.acceptFileTooltip')}>
               <Button
                 type="button"
@@ -267,7 +267,7 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
           </div>
         </div>
 
-        <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="content" className="snapshot-fullscreen-content">
+        <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="content" className="snapshot-fullscreen-content">
           {currentFile && (
             <DiffEditor
               originalContent={currentFile.originalContent}
@@ -281,7 +281,7 @@ export const SnapshotFullscreenDiffViewer: React.FC<SnapshotFullscreenDiffViewer
         </div>
 
         {loading && (
-          <div data-openbitfun-component="snapshot-fullscreen-diff-viewer" data-openbitfun-part="loading" className="fullscreen-loading-overlay">
+          <div data-opc-component="snapshot-fullscreen-diff-viewer" data-opc-part="loading" className="fullscreen-loading-overlay">
             <div className="loading-spinner" />
             <span>{t('toolCards.snapshot.processing')}</span>
           </div>

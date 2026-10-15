@@ -8,18 +8,16 @@
 use crate::miniapp::manager::MiniAppManager;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::Utc;
-use openbitfun_product_domains::miniapp::builtin::{
+use opc_product_domains::miniapp::builtin::{
     seed_builtin_miniapps_with_host, BuiltinInstallMarker, BuiltinMiniAppSeedBundleRequest,
     BuiltinMiniAppSeedHost, BuiltinMiniAppSeedOutcome, BuiltinMiniAppSeedReport,
     BuiltinSeedArtifacts, BUILTIN_INSTALL_MARKER,
 };
-pub use openbitfun_product_domains::miniapp::builtin::{
-    BuiltinMiniAppBundle as BuiltinApp, BUILTIN_APPS,
-};
-use openbitfun_product_domains::miniapp::ports::{
+pub use opc_product_domains::miniapp::builtin::{BuiltinMiniAppBundle as BuiltinApp, BUILTIN_APPS};
+use opc_product_domains::miniapp::ports::{
     MiniAppPortError, MiniAppPortErrorKind, MiniAppPortFuture,
 };
-use openbitfun_services_integrations::miniapp::builtin_io as miniapp_builtin_io;
+use opc_services_integrations::miniapp::builtin_io as miniapp_builtin_io;
 use std::path::Path;
 use std::sync::Arc;
 
@@ -58,7 +56,7 @@ impl BuiltinMiniAppSeedHost for CoreBuiltinMiniAppSeedHost {
                 .join(BUILTIN_INSTALL_MARKER);
             read_builtin_install_marker(&marker_path)
                 .await
-                .map_err(map_openbitfun_error_to_miniapp_port_error)
+                .map_err(map_opc_error_to_miniapp_port_error)
         })
     }
 
@@ -90,7 +88,7 @@ impl BuiltinMiniAppSeedHost for CoreBuiltinMiniAppSeedHost {
             self.manager
                 .mark_builtin_update_available(app_id, version, &content_hash, now_ms)
                 .await
-                .map_err(map_openbitfun_error_to_miniapp_port_error)
+                .map_err(map_opc_error_to_miniapp_port_error)
         })
     }
 
@@ -98,7 +96,7 @@ impl BuiltinMiniAppSeedHost for CoreBuiltinMiniAppSeedHost {
         Box::pin(async move {
             prepare_builtin_seed_bundle(&self.manager, request)
                 .await
-                .map_err(map_openbitfun_error_to_miniapp_port_error)
+                .map_err(map_opc_error_to_miniapp_port_error)
         })
     }
 
@@ -111,7 +109,7 @@ impl BuiltinMiniAppSeedHost for CoreBuiltinMiniAppSeedHost {
             let app_dir = self.manager.path_manager().miniapp_dir(app_id);
             write_builtin_install_marker(&app_dir.join(BUILTIN_INSTALL_MARKER), &artifacts.marker)
                 .await
-                .map_err(map_openbitfun_error_to_miniapp_port_error)
+                .map_err(map_opc_error_to_miniapp_port_error)
         })
     }
 }
@@ -204,7 +202,7 @@ fn map_builtin_io_error(err: miniapp_builtin_io::MiniAppBuiltinIoError) -> OpcTe
     }
 }
 
-fn map_openbitfun_error_to_miniapp_port_error(error: OpcTeamError) -> MiniAppPortError {
+fn map_opc_error_to_miniapp_port_error(error: OpcTeamError) -> MiniAppPortError {
     let kind = match &error {
         OpcTeamError::NotFound(_) => MiniAppPortErrorKind::NotFound,
         OpcTeamError::Validation(_) => MiniAppPortErrorKind::InvalidInput,
@@ -226,10 +224,8 @@ fn map_openbitfun_error_to_miniapp_port_error(error: OpcTeamError) -> MiniAppPor
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::miniapp::builtin::{
-        builtin_content_hash, should_seed_builtin_app,
-    };
-    use openbitfun_product_domains::miniapp::customization::{
+    use opc_product_domains::miniapp::builtin::{builtin_content_hash, should_seed_builtin_app};
+    use opc_product_domains::miniapp::customization::{
         MiniAppCustomizationMetadata, MiniAppCustomizationOrigin, MiniAppCustomizationOriginKind,
     };
 
@@ -254,7 +250,7 @@ mod tests {
 
     fn test_manager() -> TestMiniAppManager {
         let root = std::env::temp_dir().join(format!(
-            "openbitfun-miniapp-builtin-customization-{}",
+            "opc-miniapp-builtin-customization-{}",
             uuid::Uuid::new_v4()
         ));
         let path_manager =

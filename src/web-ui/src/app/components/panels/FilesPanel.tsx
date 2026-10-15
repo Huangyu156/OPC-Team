@@ -762,7 +762,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
   // (the default when no text editor is focused) the menu tells the WebView to
   // perform a native paste, which surfaces as a DOM `paste` event. In
   // "Renderer" mode (when a Monaco editor was recently focused) the menu emits
-  // a Tauri `openbitfun_menu_edit_paste` event. We listen to both so file-tree
+  // a Tauri `opc_menu_edit_paste` event. We listen to both so file-tree
   // paste works regardless of which mode the menu is in.
   useEffect(() => {
     if (!workspacePath) return;
@@ -792,7 +792,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
       (async () => {
         try {
           const { listen } = await import('@tauri-apps/api/event');
-          const unsubscribe = await listen('openbitfun_menu_edit_paste', () => {
+          const unsubscribe = await listen('opc_menu_edit_paste', () => {
             if (isPanelFocused()) {
               handlePaste();
             }
@@ -1034,21 +1034,21 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
   }, [onExplorerToolbarApi]);
 
   return (
-    <div data-openbitfun-component="files-panel"
-      data-openbitfun-part="root"
+    <div data-opc-component="files-panel"
+      data-opc-part="root"
       ref={panelRef}
       data-resource-surface={resourceScope.surfaceId}
       data-resource-workspace-id={resourceScope.workspaceId}
       data-resource-workspace-path={resourceScope.workspacePath}
       data-resource-connection-id={resourceScope.remoteConnectionId}
-      className="openbitfun-files-panel"
+      className="opc-files-panel"
       tabIndex={-1}
       onFocus={() => {}}
     >
       {!hideHeader && (
         <PanelHeader
           title={t('title')}
-          className="openbitfun-files-panel__header"
+          className="opc-files-panel__header"
           actions={
             workspacePath && (
               <Tooltip content={viewMode === 'tree' ? t('actions.switchToSearch') : t('actions.switchToTree')} placement="bottom">
@@ -1064,9 +1064,9 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
         />
       )}
       
-      <div className="openbitfun-files-panel__content" data-openbitfun-component="files-panel" data-openbitfun-part="content">
+      <div className="opc-files-panel__content" data-opc-component="files-panel" data-opc-part="content">
         {workspacePath && viewMode === 'search' && (
-          <div className="openbitfun-files-panel__search" data-openbitfun-component="files-panel" data-openbitfun-part="search" data-openbitfun-search-mode={searchMode}>
+          <div className="opc-files-panel__search" data-opc-component="files-panel" data-opc-part="search" data-opc-search-mode={searchMode}>
             <SearchField
               placeholder={t('search.placeholder')}
               aria-label={t('search.placeholder')}
@@ -1076,12 +1076,12 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
               onClear={searchQuery ? handleClearSearch : undefined}
               size="sm"
               leadingIcon={isSearching
-                ? <Loader2 className="openbitfun-files-panel__search-spinner" size={14} aria-hidden />
+                ? <Loader2 className="opc-files-panel__search-spinner" size={14} aria-hidden />
                 : <Icon name="search" size="sm" aria-hidden />}
             />
-            <div className="openbitfun-files-panel__search-toolbar" data-openbitfun-component="files-panel" data-openbitfun-part="searchToolbar">
+            <div className="opc-files-panel__search-toolbar" data-opc-component="files-panel" data-opc-part="searchToolbar">
               <SegmentedControl
-                className="openbitfun-files-panel__search-modes"
+                className="opc-files-panel__search-modes"
                 interaction="buttons"
                 labelBehavior="static"
                 aria-label={t('search.placeholder')}
@@ -1092,11 +1092,11 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                   { value: 'filenames', label: t('search.modeFiles') },
                 ]}
               />
-              <div className="openbitfun-files-panel__search-options">
+              <div className="opc-files-panel__search-options">
                 <Tooltip content={t('options.caseSensitive')}>
                   <IconButton
                     type="button"
-                    className={`openbitfun-files-panel__search-option ${searchOptions.caseSensitive ? 'active' : ''}`}
+                    className={`opc-files-panel__search-option ${searchOptions.caseSensitive ? 'active' : ''}`}
                     onClick={() => setSearchOptions(prev => ({ ...prev, caseSensitive: !prev.caseSensitive }))}
                     aria-label={t('options.caseSensitive')}
                     icon={<CaseSensitive size={14} />}
@@ -1105,7 +1105,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                 <Tooltip content={t('options.wholeWord')}>
                   <IconButton
                     type="button"
-                    className={`openbitfun-files-panel__search-option ${searchOptions.wholeWord ? 'active' : ''}`}
+                    className={`opc-files-panel__search-option ${searchOptions.wholeWord ? 'active' : ''}`}
                     onClick={() => setSearchOptions(prev => ({ ...prev, wholeWord: !prev.wholeWord }))}
                     aria-label={t('options.wholeWord')}
                     icon={<WholeWord size={14} />}
@@ -1114,7 +1114,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                 <Tooltip content={t('options.useRegex')}>
                   <IconButton
                     type="button"
-                    className={`openbitfun-files-panel__search-option ${searchOptions.useRegex ? 'active' : ''}`}
+                    className={`opc-files-panel__search-option ${searchOptions.useRegex ? 'active' : ''}`}
                     onClick={() => setSearchOptions(prev => ({ ...prev, useRegex: !prev.useRegex }))}
                     aria-label={t('options.useRegex')}
                     icon={<Regex size={14} />}
@@ -1126,27 +1126,27 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
         )}
 
         <div
-          className={`openbitfun-files-panel__main-content${
-            fileDropHighlight ? ' openbitfun-files-panel__main-content--drop-target' : ''
+          className={`opc-files-panel__main-content${
+            fileDropHighlight ? ' opc-files-panel__main-content--drop-target' : ''
           }${
-            viewMode === 'search' ? ' openbitfun-files-panel__main-content--search' : ''
+            viewMode === 'search' ? ' opc-files-panel__main-content--search' : ''
           }`}
-          data-openbitfun-component="files-panel"
-          data-openbitfun-part="main"
+          data-opc-component="files-panel"
+          data-opc-part="main"
         >
         {!workspacePath ? (
-          <div className="openbitfun-files-panel__placeholder" data-openbitfun-component="files-panel" data-openbitfun-part="placeholder">
-            <div className="openbitfun-files-panel__placeholder-icon">
+          <div className="opc-files-panel__placeholder" data-opc-component="files-panel" data-opc-part="placeholder">
+            <div className="opc-files-panel__placeholder-icon">
               <LucideFileText width="32" height="32" stroke="currentColor" aria-hidden="true" />
             </div>
             <p>{t('empty.selectWorkspace')}</p>
           </div>
         ) : viewMode === 'search' ? (
           searchQuery ? (
-            <div className="openbitfun-files-panel__search-content">
+            <div className="opc-files-panel__search-content">
               {showContentSearchMetadata && contentSearchMetadata && (
-                <div className="openbitfun-files-panel__search-backend">
-                  <div className="openbitfun-files-panel__search-backend-badges">
+                <div className="opc-files-panel__search-backend">
+                  <div className="opc-files-panel__search-backend-badges">
                     <StatusPill tone={getSearchBackendBadgeVariant(contentSearchMetadata)}>
                       {contentSearchBackendLabel}
                     </StatusPill>
@@ -1168,7 +1168,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                       </StatusPill>
                     ) : null}
                   </div>
-                  <div className="openbitfun-files-panel__search-backend-summary">
+                  <div className="opc-files-panel__search-backend-summary">
                     {t('search.backendSummary', {
                       candidateDocs: contentSearchMetadata.candidateDocs,
                       matchedLines: contentSearchMetadata.matchedLines,
@@ -1179,7 +1179,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
               )}
 
               {searchError && (
-                <div className="openbitfun-files-panel__error" data-openbitfun-component="files-panel" data-openbitfun-part="error">
+                <div className="opc-files-panel__error" data-opc-component="files-panel" data-opc-part="error">
                   <p>❌ {searchError}</p>
                   <Button
                     variant="outline"
@@ -1200,12 +1200,12 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                   onFileSelect={handleSearchResultSelect}
                   onFolderNavigate={handleSearchFolderNavigate}
                   workspacePath={workspacePath}
-                  className="openbitfun-files-panel__search-results"
+                  className="opc-files-panel__search-results"
                 />
               ) : (
                 !isSearching && !searchError && (
-                  <div className="openbitfun-files-panel__placeholder" data-openbitfun-component="files-panel" data-openbitfun-part="placeholder">
-                    <div className="openbitfun-files-panel__placeholder-icon">
+                  <div className="opc-files-panel__placeholder" data-opc-component="files-panel" data-opc-part="placeholder">
+                    <div className="opc-files-panel__placeholder-icon">
                       <Icon name="search" size="lg" />
                     </div>
                     <p>{t('search.noResults')}</p>
@@ -1214,8 +1214,8 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
               )}
             </div>
           ) : (
-            <div className="openbitfun-files-panel__placeholder" data-openbitfun-component="files-panel" data-openbitfun-part="placeholder">
-              <div className="openbitfun-files-panel__placeholder-icon">
+            <div className="opc-files-panel__placeholder" data-opc-component="files-panel" data-opc-part="placeholder">
+              <div className="opc-files-panel__placeholder-icon">
                 <Icon name="search" size="lg" />
               </div>
               <p>{t('search.enterKeyword')}</p>
@@ -1223,11 +1223,11 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
           )
         ) : (
           loading && fileTree.length === 0 ? (
-            <div className="openbitfun-files-panel__loading">
+            <div className="opc-files-panel__loading">
               <LoadingState size="md">{t('status.loadingFileTree')}</LoadingState>
             </div>
           ) : error ? (
-            <div className="openbitfun-files-panel__error" data-openbitfun-component="files-panel" data-openbitfun-part="error">
+            <div className="opc-files-panel__error" data-opc-component="files-panel" data-opc-part="error">
               <p>❌ {error}</p>
               <Button
                 variant="outline"
@@ -1248,7 +1248,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
               onNodeExpand={handleNodeExpandLazy}
               onFileSelect={handleFileSelect}
               onFileDoubleClick={handleFileDoubleClick}
-              className="openbitfun-files-panel__explorer"
+              className="opc-files-panel__explorer"
               enablePathCompression={true}
               renamingPath={renamingPath}
               onRename={handleExecuteRename}
@@ -1265,11 +1265,11 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
       </div>
 
       {transfers.size > 0 && (
-        <ScrollArea className="openbitfun-files-panel__transfers" data-openbitfun-component="files-panel" data-openbitfun-part="transfers">
+        <ScrollArea className="opc-files-panel__transfers" data-opc-component="files-panel" data-opc-part="transfers">
           {Array.from(transfers.entries()).map(([id, tp]) => (
-            <div className="openbitfun-files-panel__transfer" data-openbitfun-component="files-panel" data-openbitfun-part="transfer" role="status" key={id}>
-              <div className="openbitfun-files-panel__transfer-label">
-                <OverflowText className="openbitfun-files-panel__transfer-label-text">
+            <div className="opc-files-panel__transfer" data-opc-component="files-panel" data-opc-part="transfer" role="status" key={id}>
+              <div className="opc-files-panel__transfer-label">
+                <OverflowText className="opc-files-panel__transfer-label-text">
                   {tp.phase === 'download'
                     ? t('transfer.downloading')
                     : t('transfer.uploading')}
@@ -1278,7 +1278,7 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                 {!tp.indeterminate &&
                 tp.bytesTotal &&
                 tp.bytesTotal > 0 ? (
-                  <span className="openbitfun-files-panel__transfer-stats">
+                  <span className="opc-files-panel__transfer-stats">
                     {Math.min(
                       100,
                       Math.round(
@@ -1292,16 +1292,16 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                 ) : null}
               </div>
               <div
-                className={`openbitfun-files-panel__transfer-track${
-                  tp.indeterminate ? ' openbitfun-files-panel__transfer-track--indeterminate' : ''
+                className={`opc-files-panel__transfer-track${
+                  tp.indeterminate ? ' opc-files-panel__transfer-track--indeterminate' : ''
                 }`}
-                data-openbitfun-component="files-panel"
-                data-openbitfun-part="transferTrack"
+                data-opc-component="files-panel"
+                data-opc-part="transferTrack"
               >
                 <div
-                  className="openbitfun-files-panel__transfer-fill"
-                  data-openbitfun-component="files-panel"
-                  data-openbitfun-part="transferFill"
+                  className="opc-files-panel__transfer-fill"
+                  data-opc-component="files-panel"
+                  data-opc-part="transferFill"
                   style={
                     tp.indeterminate || !tp.total
                       ? undefined
@@ -1314,11 +1314,11 @@ const FilesPanel: React.FC<FilesPanelProps> = ({
                   }
                 />
               </div>
-              <div className="openbitfun-files-panel__transfer-bottom">
+              <div className="opc-files-panel__transfer-bottom">
                 {!tp.indeterminate &&
                 tp.bytesTotal &&
                 tp.bytesTotal > 0 ? (
-                  <span className="openbitfun-files-panel__transfer-detail">
+                  <span className="opc-files-panel__transfer-detail">
                     {formatBytes(tp.bytesTransferred ?? 0)} /{' '}
                     {formatBytes(tp.bytesTotal)}
                   </span>

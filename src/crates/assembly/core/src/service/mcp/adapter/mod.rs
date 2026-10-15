@@ -8,7 +8,7 @@ mod resource;
 mod tool;
 
 pub use context::MCPContextProvider;
-pub use openbitfun_services_integrations::mcp::adapter::MCPContextEnhancer as ContextEnhancer;
+pub use opc_services_integrations::mcp::adapter::MCPContextEnhancer as ContextEnhancer;
 pub use prompt::PromptAdapter;
 pub use resource::ResourceAdapter;
 pub use tool::MCPToolAdapter;

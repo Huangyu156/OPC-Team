@@ -1,5 +1,5 @@
 use async_trait::async_trait;
-use openbitfun_opencode_plugin_host::{
+use opc_opencode_plugin_host::{
     BackendDiagnosticError, BackendDiagnosticEvent, BackendRouteFailure, BackendRouteRequest,
     OpenCodeBackendHandler, PluginHostBackendBridge, PluginHostClient,
 };
@@ -82,16 +82,14 @@ pub(crate) async fn register_plugin_host_backend_handlers(
             ));
         }
     }
-    let bridge = openbitfun_opencode_plugin_host::register_backend_handlers(
-        client,
-        Arc::new(CoreOpenCodeBackend),
-    )
-    .await
-    .map_err(|error| {
-        crate::OpcTeamError::ProcessError(format!(
-            "Failed to register plugin host backend handler: {error}"
-        ))
-    })?;
+    let bridge =
+        opc_opencode_plugin_host::register_backend_handlers(client, Arc::new(CoreOpenCodeBackend))
+            .await
+            .map_err(|error| {
+                crate::OpcTeamError::ProcessError(format!(
+                    "Failed to register plugin host backend handler: {error}"
+                ))
+            })?;
     *PLUGIN_HOST_BACKEND_BRIDGE
         .get_or_init(|| RwLock::new(None))
         .write()

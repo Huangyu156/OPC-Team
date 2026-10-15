@@ -40,7 +40,7 @@ export const SessionStatusIndicator = memo(function SessionStatusIndicator({
 
   if (!appearance && idleFallback) {
     return (
-      <span className="session-status-indicator openbitfun-nav-panel__inline-item-status">
+      <span className="session-status-indicator opc-nav-panel__inline-item-status">
         {idleFallback}
       </span>
     );
@@ -48,9 +48,9 @@ export const SessionStatusIndicator = memo(function SessionStatusIndicator({
 
   return appearance ? (
     <span
-      className="session-status-indicator openbitfun-nav-panel__inline-item-status"
-      data-openbitfun-component="sessions-section"
-      data-openbitfun-part="status"
+      className="session-status-indicator opc-nav-panel__inline-item-status"
+      data-opc-component="sessions-section"
+      data-opc-part="status"
       data-status={status.kind}
       role="img"
       aria-label={label}

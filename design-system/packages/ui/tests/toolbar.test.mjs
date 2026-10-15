@@ -25,14 +25,14 @@ test("Toolbar keeps leading, centered, and trailing regions independent", () => 
     }),
   );
 
-  assert.match(markup, /data-openbitfun-component="toolbar"/);
+  assert.match(markup, /data-opc-component="toolbar"/);
   assert.match(markup, /data-has-center="true"/);
-  assert.match(markup, /data-openbitfun-part="leading"/);
-  assert.match(markup, /data-openbitfun-part="center"/);
-  assert.match(markup, /data-openbitfun-part="trailing"/);
-  assert.match(markup, /data-openbitfun-part="badge"/);
-  assert.match(markup, /data-openbitfun-part="value">18<\/span>/);
-  assert.match(markup, /data-openbitfun-part="separator"/);
+  assert.match(markup, /data-opc-part="leading"/);
+  assert.match(markup, /data-opc-part="center"/);
+  assert.match(markup, /data-opc-part="trailing"/);
+  assert.match(markup, /data-opc-part="badge"/);
+  assert.match(markup, /data-opc-part="value">18<\/span>/);
+  assert.match(markup, /data-opc-part="separator"/);
   assert.match(markup, /aria-hidden="true"/);
 });
 

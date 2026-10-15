@@ -22,7 +22,7 @@ const requireFromWebUi = createRequire(
 const yaml = requireFromWebUi('yaml');
 
 function createRepo({ workflow, nodeVersionFile }) {
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-github-config-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-github-config-'));
   mkdirSync(path.join(root, '.github/workflows'), { recursive: true });
   writeFileSync(
     path.join(root, 'package.json'),
@@ -303,7 +303,7 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
   );
   assert.equal(
     cliJob.steps.find((step) => step.name === 'Run Windows CLI terminal contracts')?.run,
-    'cargo test --locked -p openbitfun-cli --test terminal_process_contracts -- --test-threads=1',
+    'cargo test --locked -p opc-cli --test terminal_process_contracts -- --test-threads=1',
   );
 
   const rustCache = rustJob.steps.find((step) =>
@@ -382,7 +382,7 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
   );
   assert.equal(
     commandByStep.get('Run subscription authentication tests'),
-    'cargo test --locked -p openbitfun-ai-adapters --features subscription-auth --lib subscription_auth',
+    'cargo test --locked -p opc-ai-adapters --features subscription-auth --lib subscription_auth',
   );
   const installerCheck = rustJob.steps.find(
     (step) => step.name === 'Check installer compilation',
@@ -399,7 +399,7 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
     (step) => step.name === 'Run full core library tests on Linux',
   );
   const coreLibraryTestSteps = rustJob.steps.filter(
-    (step) => /^cargo test --locked -p openbitfun-core\b.*\s--lib$/.test(step.run ?? ''),
+    (step) => /^cargo test --locked -p opc-core\b.*\s--lib$/.test(step.run ?? ''),
   );
   const desktopLibraryTests = rustJob.steps.find(
     (step) => step.name === 'Run desktop library tests',
@@ -416,7 +416,7 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
   );
   assert.equal(
     coreLibraryTests?.run,
-    'cargo test --locked -p openbitfun-core --lib',
+    'cargo test --locked -p opc-core --lib',
   );
   assert.equal(
     linuxFullCoreLibraryTests?.if,
@@ -424,18 +424,18 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
   );
   assert.equal(
     linuxFullCoreLibraryTests?.run,
-    'cargo test --locked -p openbitfun-core --features product-full --lib',
+    'cargo test --locked -p opc-core --features product-full --lib',
   );
   assert.deepEqual(
     coreLibraryTestSteps.map((step) => ({ if: step.if, run: step.run })),
     [
       {
         if: "runner.os != 'Linux'",
-        run: 'cargo test --locked -p openbitfun-core --lib',
+        run: 'cargo test --locked -p opc-core --lib',
       },
       {
         if: "runner.os == 'Linux'",
-        run: 'cargo test --locked -p openbitfun-core --features product-full --lib',
+        run: 'cargo test --locked -p opc-core --features product-full --lib',
       },
     ],
     'Core library validation must contain exactly the reviewed complementary steps',
@@ -443,13 +443,13 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
   assert.equal(desktopLibraryTests?.if, "runner.os != 'Windows'");
   assert.equal(
     desktopLibraryTests?.run,
-    'cargo test --locked -p openbitfun-desktop --lib',
+    'cargo test --locked -p opc-desktop --lib',
   );
   assert.equal(windowsDesktopProbe?.if, "runner.os == 'Windows'");
   assert.equal(windowsDesktopProbe?.shell, 'pwsh');
   assert.match(
     windowsDesktopProbe?.run ?? '',
-    /cargo test --locked -p openbitfun-desktop --lib 2>&1/,
+    /cargo test --locked -p opc-desktop --lib 2>&1/,
   );
   assert.match(windowsDesktopProbe?.run ?? '', /0xc0000139/);
   assert.match(windowsDesktopProbe?.run ?? '', /STATUS_ENTRYPOINT_NOT_FOUND/);
@@ -462,18 +462,18 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
   );
   assert.match(
     productControlContracts?.run ?? '',
-    /openbitfun-product-domains --no-default-features product_control/,
+    /opc-product-domains --no-default-features product_control/,
   );
   assert.match(
     productControlContracts?.run ?? '',
-    /openbitfun-product-capabilities every_agent_runtime_delivery_profile_includes_product_control_discovery/,
+    /opc-product-capabilities every_agent_runtime_delivery_profile_includes_product_control_discovery/,
   );
   const fileWatchContracts = rustJob.steps.find(
     (step) => step.name === 'Run file watch contract tests',
   );
   assert.equal(
     fileWatchContracts?.run,
-    'cargo test --locked -p openbitfun-services-integrations --no-default-features --features file-watch --test file_watch_contracts',
+    'cargo test --locked -p opc-services-integrations --no-default-features --features file-watch --test file_watch_contracts',
   );
   assert.equal(
     fileWatchContracts?.if,
@@ -810,7 +810,7 @@ test('nightly validates generated inputs and projected lockfiles before packagin
   assert.equal(rustCache?.with?.['cache-on-failure'], restoreOnlyOnPr);
   const upload = steps.find((step) => step.uses?.startsWith('actions/upload-artifact@'));
   const verifyOutputs = steps.find((step) => step.name === 'Verify package outputs');
-  assert.match(verifyOutputs?.run ?? '', /openbitfun-installer\.exe/);
+  assert.match(verifyOutputs?.run ?? '', /opc-installer\.exe/);
   assert.match(verifyOutputs?.run ?? '', /\*\.AppImage/);
   assert.ok(steps.indexOf(verifyOutputs) < steps.indexOf(upload));
   assert.equal(upload?.if, '${{ inputs.upload_artifacts }}');
@@ -857,7 +857,7 @@ test('nightly validates generated inputs and projected lockfiles before packagin
   );
   assert.equal(
     steps.find((step) => step.name === 'Run Windows CLI terminal contracts')?.run,
-    'cargo test --locked -p openbitfun-cli --test terminal_process_contracts -- --test-threads=1',
+    'cargo test --locked -p opc-cli --test terminal_process_contracts -- --test-threads=1',
   );
 });
 
@@ -1029,7 +1029,7 @@ test('nightly publishes and verifies the Relay image in the current repository o
 
   assert.match(
     metadata?.run ?? '',
-    /image=ghcr\.io\/\$\{GITHUB_REPOSITORY_OWNER,,\}\/openbitfun-relay-server/,
+    /image=ghcr\.io\/\$\{GITHUB_REPOSITORY_OWNER,,\}\/opc-relay-server/,
   );
   assert.equal(
     publish?.with?.tags,
@@ -1330,7 +1330,7 @@ test('stable and beta publication require every producer, while artifact-only ru
   }
   const stage = steps.find((step) => step.name === 'Stage release assets');
   for (const pattern of [
-    'linux-release-assets/openbitfun-cli-*.tar.gz',
+    'linux-release-assets/opc-cli-*.tar.gz',
     'linux-release-assets/openbitfun-relay-server-*.tar.gz',
     'linux-release-assets/*.tar.gz.sig', 'linux-release-assets/*.tar.gz.sha256.sig',
     'linux-release-assets/linux-binaries-v1.json', 'relay-image-assets/relay-image.json.sig',
@@ -1351,7 +1351,7 @@ test('Relay image rebuild resolves the release tag instead of the newer workflow
   const verification = jobs['upload-release-assets'].steps.find((entry) => entry.name === 'Verify published Relay image descriptor');
   assert.match(verification.run, /cmp relay-image-assets\/relay-image.json relay-image.published.json/);
   assert.match(verification.run, /cmp relay-image-assets\/relay-image.json.sig relay-image.published.json.sig/);
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-relay-rebuild-ref-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-relay-rebuild-ref-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const tagSha = 'a'.repeat(40);
   const headSha = 'b'.repeat(40);
@@ -1397,7 +1397,7 @@ test('Relay image tag selection keeps Beta and old stable backfills away from la
     path.join(repoRoot, '.github/workflows/desktop-package.yml'), 'utf8',
   ));
   const step = jobs['publish-relay-image'].steps.find((entry) => entry.name === 'Resolve image tags');
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-image-tags-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-image-tags-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   for (const scenario of [
     { channel: 'beta', version: '1.0.0-beta.3', imageOnly: 'false', latest: false },
@@ -1435,7 +1435,7 @@ test('beta channel readback retries stale content and fails if it never converge
     (entry) => entry.name === 'Publish beta channel manifest',
   );
   assert.equal(step.env.CANDIDATE_VERSION, '${{ steps.beta-channel.outputs.candidate_version }}');
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-beta-readback-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-beta-readback-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   const bin = path.join(root, 'bin');
   mkdirSync(bin);
@@ -1544,7 +1544,7 @@ test('public beta launch uses Latest while legacy updater feeds stay on the pinn
   assert.match(preserve.run, /notes/);
   // The pinned step downloads nothing, so the released version can never leak
   // into a legacy feed; the sandbox only proves the copy + guard behavior.
-  const cwd = mkdtempSync(path.join(tmpdir(), 'openbitfun-legacy-feed-'));
+  const cwd = mkdtempSync(path.join(tmpdir(), 'opc-legacy-feed-'));
   try {
     // The step reads its pinned manifests via a repo-root-relative path and
     // writes into release-upload-assets/, so mirror the CI working tree
@@ -1579,7 +1579,7 @@ test('public beta launch uses Latest while legacy updater feeds stay on the pinn
 test('release publication omits target overrides and uploads before publishing', (t) => {
   const workflow = yaml.parse(readFileSync(path.join(repoRoot, '.github/workflows/desktop-package.yml'), 'utf8'));
   const step = workflow.jobs['upload-release-assets'].steps.find((entry) => entry.name === 'Upload to release');
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-publish-api-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-publish-api-'));
   t.after(() => rmSync(root, { recursive: true, force: true }));
   for (const status of ['200', '404', '403']) {
     const cwd = path.join(root, status);

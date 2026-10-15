@@ -5,7 +5,7 @@ use crate::infrastructure::{
 use crate::util::elapsed_ms_u64;
 use crate::util::errors::*;
 use log::debug;
-use openbitfun_services_core::filesystem::FileSystemService as BaseFileSystemService;
+use opc_services_core::filesystem::FileSystemService as BaseFileSystemService;
 use std::sync::atomic::AtomicBool;
 use std::sync::Arc;
 
@@ -636,7 +636,7 @@ mod tests {
     async fn local_io_does_not_follow_a_same_path_remote_workspace() {
         let temp = tempfile::tempdir().expect("tempdir");
         let root = temp.path().to_string_lossy().to_string();
-        openbitfun_services_core::filesystem::FileSystemService::default()
+        opc_services_core::filesystem::FileSystemService::default()
             .write_text_file(
                 &temp.path().join("local.txt").to_string_lossy(),
                 "local bytes",
@@ -772,7 +772,7 @@ mod saved_directory_tests {
         let remote_root = "/srv/same-named-local-directory";
         let local_lookalike = temp.path().join("same-named-local-directory");
         std::fs::create_dir_all(&local_lookalike).unwrap();
-        openbitfun_services_core::filesystem::FileSystemService::default()
+        opc_services_core::filesystem::FileSystemService::default()
             .write_text_file(
                 &local_lookalike.join("private-local.txt").to_string_lossy(),
                 "local",

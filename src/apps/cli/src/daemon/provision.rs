@@ -9,10 +9,8 @@ use std::path::{Path, PathBuf};
 
 use anyhow::{anyhow, Context, Result};
 use base64::{engine::general_purpose::STANDARD as BASE64, Engine as _};
-use openbitfun_core::service::remote_connect::{
-    session_store, validate_relay_base_url, DeviceIdentity,
-};
-use openbitfun_services_core::dispatch_contract::{
+use opc_core::service::remote_connect::{session_store, validate_relay_base_url, DeviceIdentity};
+use opc_services_core::dispatch_contract::{
     DispatchAccountDaemonIdentity, DispatchAccountDaemonProvisionRequest,
     DispatchAccountDaemonProvisionResponse, DISPATCH_ACCOUNT_DAEMON_PROVISIONING_SCHEMA_VERSION,
 };

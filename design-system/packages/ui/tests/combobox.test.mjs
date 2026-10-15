@@ -36,7 +36,7 @@ test("MultiSelect exposes an explicit multi-value trigger contract", () => {
     "aria-label": "Models",
   }));
 
-  assert.match(markup, /data-openbitfun-component="multi-select"/);
+  assert.match(markup, /data-opc-component="multi-select"/);
   assert.match(markup, /role="combobox"/);
   assert.match(markup, /aria-expanded="false"/);
   assert.match(markup, /aria-label="Models"/);
@@ -97,8 +97,8 @@ test("Combobox embeds search and scrollable options in one token-driven surface"
   assert.match(source, /leadingIcon=\{<Icon name="search" size="sm" \/>\}/);
   assert.match(source, /variant="embedded"/);
   assert.match(source, /overlapAnchor: true/);
-  assert.match(source, /data-openbitfun-part="divider"/);
-  assert.match(source, /data-openbitfun-part="options"/);
+  assert.match(source, /data-opc-part="divider"/);
+  assert.match(source, /data-opc-part="options"/);
   assert.match(styles, /\.popover\s*\{[^}]*min-inline-size:\s*0[^}]*padding:\s*0/s);
   assert.match(
     styles,

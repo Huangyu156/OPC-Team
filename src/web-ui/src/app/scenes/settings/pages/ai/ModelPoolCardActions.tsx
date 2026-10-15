@@ -38,9 +38,9 @@ export function ModelPoolCardActions({
 
   return (
     <div
-      className="openbitfun-model-settings__pool-card-controls"
-      data-openbitfun-component="model-settings"
-      data-openbitfun-part="modelActions"
+      className="opc-model-settings__pool-card-controls"
+      data-opc-component="model-settings"
+      data-opc-part="modelActions"
       data-menu-open={menuOpen || undefined}
       role="group"
       aria-label={modelLabel}

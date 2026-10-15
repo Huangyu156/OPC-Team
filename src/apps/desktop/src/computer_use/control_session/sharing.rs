@@ -128,7 +128,7 @@ pub(crate) fn acquire_shared(
     if r.admission.snapshot.generation != generation
         || r.admission.snapshot.target_revision != target_revision
         || r.admission.snapshot.sharing.as_ref().is_none_or(|sharing| {
-            sharing.phase != openbitfun_agent_tools::computer_use_control::SharingPhase::Shared
+            sharing.phase != opc_agent_tools::computer_use_control::SharingPhase::Shared
                 || sharing.authorization_revision != authorization_revision
         })
     {

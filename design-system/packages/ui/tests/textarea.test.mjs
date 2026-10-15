@@ -16,7 +16,7 @@ test("Textarea keeps native semantics, labels, support text, and count", () => {
   assert.match(markup, /<textarea/);
   assert.match(markup, /Instructions/);
   assert.match(markup, /18 \/ 80/);
-  assert.match(markup, /data-openbitfun-component="textarea"/);
+  assert.match(markup, /data-opc-component="textarea"/);
 });
 
 test("Textarea owns required semantics and renders a decorative required marker", () => {
@@ -26,7 +26,7 @@ test("Textarea owns required semantics and renders a decorative required marker"
   }));
 
   assert.match(markup, /<textarea[^>]*required=""/);
-  assert.match(markup, /aria-hidden="true"[^>]*data-openbitfun-part="required"[^>]*>\*<\/span>/);
+  assert.match(markup, /aria-hidden="true"[^>]*data-opc-part="required"[^>]*>\*<\/span>/);
 });
 
 test("Textarea keeps required emphasis separate from validation danger", async () => {

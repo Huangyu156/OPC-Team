@@ -410,8 +410,8 @@ function forbiddenRuleTextForPath(path) {
 }
 
 function checkCargoManifest(crateDir) {
-  checkForbiddenManifestDeps(crateDir, ['openbitfun-core'], () => {
-    return 'extracted crate must not depend on openbitfun-core';
+  checkForbiddenManifestDeps(crateDir, ['opc-core'], () => {
+    return 'extracted crate must not depend on opc-core';
   });
 }
 
@@ -746,11 +746,11 @@ function checkRustImports(crateDir) {
     }
     const lines = readText(path).split(/\r?\n/);
     lines.forEach((line, index) => {
-      if (/\bopenbitfun_core::/.test(line)) {
+      if (/\bopc_core::/.test(line)) {
         failures.push({
           path,
           line: index + 1,
-          message: 'extracted crate must not import openbitfun_core',
+          message: 'extracted crate must not import opc_core',
         });
       }
     });
@@ -868,13 +868,18 @@ function checkForbiddenContent(repoPath, patterns) {
   const path = repoPathToFsPath(repoPath);
   const lines = readText(path).split(/\r?\n/);
   lines.forEach((line, index) => {
+    const trimmed = line.trim();
     for (const pattern of patterns) {
-      if (pattern.regex.test(line)) {
-        failures.push({
-          path,
-          line: index + 1,
-          message: pattern.message,
-        });
+      // allowLines mirrors isAllowedWholeFileMatch in source-content-checks.mjs:
+      // one exact line in one exact file is exempted from the pattern.
+      const allowed = pattern.regex.test(line)
+        && pattern.allowLines?.some(
+          (allowed) => allowed.path === repoPath && allowed.text === trimmed,
+        );
+      if (!allowed) {
+        if (pattern.regex.test(line)) {
+          failures.push({ path, line: index + 1, message: pattern.message });
+        }
       }
     }
   });

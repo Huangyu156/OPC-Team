@@ -1,17 +1,17 @@
 [package]
-name = "openbitfun-plugin-runtime-client"
+name = "opc-plugin-runtime-client"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
 description = "Default PluginRuntimeClient implementation for OPC-Team extension execution"
 
 [lib]
-name = "openbitfun_plugin_runtime_client"
+name = "opc_plugin_runtime_client"
 crate-type = ["rlib"]
 
 [dependencies]
 async-trait = { workspace = true }
-openbitfun-runtime-ports = { path = "../../contracts/runtime-ports", features = ["plugin-runtime"] }
+opc-runtime-ports = { path = "../../contracts/runtime-ports", features = ["plugin-runtime"] }
 tokio = { workspace = true, features = ["sync", "time"] }
 
 [dev-dependencies]

@@ -1,7 +1,7 @@
 import type { AppearanceSurfaceDescriptor } from '@/infrastructure/appearance';
 
 export const openBitFunControlToolCardAppearanceDescriptor: AppearanceSurfaceDescriptor = {
-  id: 'openbitfun-control-tool-card',
+  id: 'opc-control-tool-card',
   parts: [
     { id: 'details' }, { id: 'description' }, { id: 'fields' }, { id: 'field' },
     { id: 'label' }, { id: 'value' }, { id: 'notice' }, { id: 'error' },

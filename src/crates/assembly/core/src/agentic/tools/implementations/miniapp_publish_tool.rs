@@ -6,11 +6,11 @@ use crate::infrastructure::events::{emit_global_event, BackendEvent};
 use crate::miniapp::try_get_global_miniapp_manager;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_product_domains::miniapp::market::{
+use opc_product_domains::miniapp::market::{
     MarketLicense, MarketSubmissionDraftRequest, MARKET_CATEGORIES, MARKET_MAX_SCREENSHOTS,
 };
-use openbitfun_product_domains::miniapp::types::MiniAppMeta;
-use openbitfun_services_integrations::miniapp_market::{
+use opc_product_domains::miniapp::types::MiniAppMeta;
+use opc_services_integrations::miniapp_market::{
     map_local_category_to_market, resolve_release_target, submit_installed_app,
     suggest_market_slug, DesktopAuthPollRequest, MarketClient, ReleaseTarget,
 };
@@ -19,7 +19,7 @@ use std::time::{Duration, SystemTime, UNIX_EPOCH};
 
 const DEFAULT_LICENSE: &str = "MIT";
 
-fn default_min_openbitfun_version() -> &'static str {
+fn default_min_opc_version() -> &'static str {
     crate::VERSION
 }
 
@@ -397,7 +397,7 @@ Publishing is an outward-facing action: only call this when the user explicitly 
             icon: app.icon.clone(),
             category,
             tags,
-            min_openbitfun_version: default_min_openbitfun_version().to_string(),
+            min_opc_version: default_min_opc_version().to_string(),
             changelog,
             license: MarketLicense {
                 spdx_expression: Some(DEFAULT_LICENSE.to_string()),
@@ -531,10 +531,10 @@ fn unix_now() -> i64 {
 #[cfg(test)]
 mod tests {
     use super::{
-        default_min_openbitfun_version, find_apps_by_name, listing_image_paths, PublishMiniAppTool,
+        default_min_opc_version, find_apps_by_name, listing_image_paths, PublishMiniAppTool,
     };
     use crate::agentic::tools::framework::{Tool, ToolExposure, ToolUseContext};
-    use openbitfun_product_domains::miniapp::types::MiniAppMeta;
+    use opc_product_domains::miniapp::types::MiniAppMeta;
     use serde_json::json;
 
     #[test]
@@ -545,7 +545,7 @@ mod tests {
 
     #[test]
     fn publish_miniapp_defaults_to_current_client_version() {
-        assert_eq!(default_min_openbitfun_version(), crate::VERSION);
+        assert_eq!(default_min_opc_version(), crate::VERSION);
     }
 
     #[test]
@@ -613,7 +613,7 @@ mod tests {
     }
 
     fn meta(id: &str, name: &str, locale_name: Option<&str>) -> MiniAppMeta {
-        use openbitfun_product_domains::miniapp::types::{MiniAppI18n, MiniAppLocaleStrings};
+        use opc_product_domains::miniapp::types::{MiniAppI18n, MiniAppLocaleStrings};
         use std::collections::HashMap;
         MiniAppMeta {
             id: id.to_string(),

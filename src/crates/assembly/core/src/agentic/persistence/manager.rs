@@ -38,12 +38,10 @@ use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::timing::elapsed_ms_u64;
 use futures::{stream, StreamExt};
 use log::{debug, info, warn};
-use openbitfun_runtime_ports::{
-    SessionTurnLoadRequest, SessionTurnLoadTiming, SessionTurnWindowRequest,
-};
+use opc_runtime_ports::{SessionTurnLoadRequest, SessionTurnLoadTiming, SessionTurnWindowRequest};
 #[cfg(feature = "product-search")]
-use openbitfun_services_core::session_search::SessionSearchSqliteIndex;
-use openbitfun_services_core::{
+use opc_services_core::session_search::SessionSearchSqliteIndex;
+use opc_services_core::{
     json_store::{JsonFileStore, JsonFileStoreError},
     session::{
         build_session_metadata as build_persisted_session_metadata, empty_session_metadata_page,
@@ -65,7 +63,7 @@ use tokio::fs;
 use tokio::io::AsyncWriteExt;
 use tokio::sync::{Mutex, Semaphore};
 
-pub use openbitfun_services_core::session::SessionMetadataPage;
+pub use opc_services_core::session::SessionMetadataPage;
 
 const TRANSCRIPT_SCHEMA_VERSION: u32 = 1;
 const COMPRESSION_TRANSCRIPT_SCHEMA_VERSION: u32 = 1;
@@ -182,7 +180,7 @@ struct StoredTurnActivity {
     #[serde(default, alias = "recovery_epoch")]
     recovery_epoch: Option<u32>,
     #[serde(default)]
-    recovery: Option<openbitfun_services_core::session::DialogTurnRecoveryData>,
+    recovery: Option<opc_services_core::session::DialogTurnRecoveryData>,
 }
 
 struct ReadTurnPathsResult {
@@ -596,7 +594,7 @@ impl PersistenceManager {
     }
 
     fn validate_session_id(session_id: &str) -> OpcTeamResult<()> {
-        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)
+        opc_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)
     }
 
     /// Get PathManager reference
@@ -1423,7 +1421,7 @@ impl PersistenceManager {
                 recovery_pending: Some(turn.status == TurnStatus::Cancelled
                     && turn.finish_reason.as_deref() == Some("interrupted")
                     && turn.recovery.as_ref().is_some_and(|recovery|
-                        recovery.status == openbitfun_services_core::session::DialogTurnRecoveryStatus::Interrupted)),
+                        recovery.status == opc_services_core::session::DialogTurnRecoveryStatus::Interrupted)),
             });
             // Repair outcome only. Inferring a read receipt from old history
             // would revive notifications the user has already acknowledged.
@@ -4326,7 +4324,7 @@ impl PersistenceManager {
                 )));
             }
 
-            let uri = openbitfun_agent_tools::build_openbitfun_current_session_uri(&format!(
+            let uri = opc_agent_tools::build_opc_current_session_uri(&format!(
                 "artifacts/compression-transcripts/{}.txt",
                 stem
             ))
@@ -4817,8 +4815,8 @@ mod tests {
         SessionTurnWindowResponse, StoredSessionIndexFile, TextItemData, UserMessageData,
     };
     use crate::OpcTeamError;
-    use openbitfun_runtime_ports::SessionTurnWindowRequest;
-    use openbitfun_services_core::session::SessionWriteLock;
+    use opc_runtime_ports::SessionTurnWindowRequest;
+    use opc_services_core::session::SessionWriteLock;
     use std::collections::HashSet;
     use std::path::{Path, PathBuf};
     use std::process::{Command, Stdio};
@@ -4832,10 +4830,8 @@ mod tests {
 
     impl TestWorkspace {
         fn new() -> Self {
-            let path = std::env::temp_dir().join(format!(
-                "openbitfun-session-transcript-test-{}",
-                Uuid::new_v4()
-            ));
+            let path = std::env::temp_dir()
+                .join(format!("opc-session-transcript-test-{}", Uuid::new_v4()));
             std::fs::create_dir_all(&path).expect("test workspace should be created");
             // Sessions only exist inside registered workspaces; register the
             // fixture directory like a host that opened this folder. Keep the
@@ -5041,7 +5037,7 @@ mod tests {
         assert_eq!(restored.session_name, "Keep title");
         assert_eq!(
             restored.config.workspace_kind,
-            Some(openbitfun_core_types::WorkspaceKind::Normal)
+            Some(opc_core_types::WorkspaceKind::Normal)
         );
         assert!(restored.config.remote_ssh_host.is_none());
         assert!(!restored.config.is_remote_workspace());
@@ -6442,7 +6438,7 @@ mod tests {
     #[tokio::test]
     #[ignore = "local first-page performance comparison"]
     async fn history_page_benchmark_against_full_materialization() {
-        use openbitfun_services_integrations::remote_connect::{
+        use opc_services_integrations::remote_connect::{
             host_stream::{HistoryBatch, HostStreamHub, HostStreamNotifier, StreamReadRequest},
             session_records::records_from_turns,
         };
@@ -6529,7 +6525,7 @@ mod tests {
                 .unwrap();
             new_times.push(start.elapsed().as_micros());
             let content = |events: Vec<
-                openbitfun_services_integrations::remote_connect::host_stream::StreamEvent,
+                opc_services_integrations::remote_connect::host_stream::StreamEvent,
             >| {
                 events
                     .into_iter()
@@ -8198,7 +8194,7 @@ mod tests {
     #[tokio::test]
     async fn remote_sessions_dir_input_is_used_without_accepting_runtime_root() {
         let test_root =
-            std::env::temp_dir().join(format!("openbitfun-persistence-test-{}", Uuid::new_v4()));
+            std::env::temp_dir().join(format!("opc-persistence-test-{}", Uuid::new_v4()));
         let path_manager = Arc::new(PathManager::with_user_root_for_tests(
             test_root.join("user"),
         ));
@@ -8417,7 +8413,7 @@ mod image_persistence_tests {
             None,
         );
         context.custom_data.insert(
-            "__openbitfun_test_runtime_root".into(),
+            "__opc_test_runtime_root".into(),
             serde_json::json!(dir.path()),
         );
         let mut images = vec![attachments::test_image()];

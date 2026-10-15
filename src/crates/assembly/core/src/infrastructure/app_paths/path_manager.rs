@@ -4,8 +4,8 @@
 
 use crate::util::errors::*;
 use log::{debug, error, warn};
-use openbitfun_services_core::product_identity::{data_namespace, hidden_data_directory};
-use openbitfun_services_core::workspace_identity::{
+use opc_services_core::product_identity::{data_namespace, hidden_data_directory};
+use opc_services_core::workspace_identity::{
     local_workspace_runtime_key, remote_workspace_runtime_key, remote_workspace_runtime_root,
 };
 use serde::{Deserialize, Serialize};
@@ -647,7 +647,7 @@ impl PathManager {
     }
 
     pub(crate) fn build_project_runtime_slug(canonical: &str) -> String {
-        openbitfun_services_core::workspace_identity::build_project_runtime_slug(canonical)
+        opc_services_core::workspace_identity::build_project_runtime_slug(canonical)
     }
 
     #[cfg(unix)]
@@ -827,7 +827,7 @@ mod tests {
         hidden_data_directory, GlobalPathManagerState, PathManager,
         LEGACY_REMOTE_RUNTIME_DIRECTORIES,
     };
-    use openbitfun_services_core::workspace_identity::{
+    use opc_services_core::workspace_identity::{
         remote_workspace_runtime_key, remote_workspace_runtime_root,
     };
     use std::ffi::OsString;
@@ -838,7 +838,7 @@ mod tests {
 
     #[test]
     fn runtime_ownership_lives_under_the_agent_runtime_data_root() {
-        let user_root = std::env::temp_dir().join("openbitfun-runtime-ownership-path-test");
+        let user_root = std::env::temp_dir().join("opc-runtime-ownership-path-test");
         let path_manager = PathManager::with_user_root_for_tests(user_root);
 
         assert_eq!(
@@ -854,7 +854,7 @@ mod tests {
     fn strict_path_access_rejects_a_cached_temporary_fallback() {
         let state = GlobalPathManagerState::fallback(
             Arc::new(PathManager::with_user_root_for_tests(
-                std::env::temp_dir().join("openbitfun-fallback-test"),
+                std::env::temp_dir().join("opc-fallback-test"),
             )),
             "injected initialization failure",
         );
@@ -995,10 +995,8 @@ mod tests {
 
     #[test]
     fn project_runtime_root_lazily_migrates_legacy_directory() {
-        let base = std::env::temp_dir().join(format!(
-            "openbitfun-runtime-migration-{}",
-            uuid::Uuid::new_v4()
-        ));
+        let base =
+            std::env::temp_dir().join(format!("opc-runtime-migration-{}", uuid::Uuid::new_v4()));
         let workspace = base.join("workspace");
         std::fs::create_dir_all(&workspace).expect("workspace should exist");
         let pm = PathManager::with_user_root_for_tests(base.join("user"));
@@ -1027,13 +1025,13 @@ mod tests {
     #[test]
     fn remote_runtime_root_uses_compact_key_and_migrates_legacy_directory() {
         let base = std::env::temp_dir().join(format!(
-            "openbitfun-remote-runtime-migration-{}",
+            "opc-remote-runtime-migration-{}",
             uuid::Uuid::new_v4()
         ));
         let pm = PathManager::with_user_root_for_tests(base.join("user"));
         let host = "Example.COM";
         let remote_root = "/root/repo";
-        let legacy = openbitfun_services_core::workspace_identity::remote_workspace_runtime_root(
+        let legacy = opc_services_core::workspace_identity::remote_workspace_runtime_root(
             pm.remote_ssh_mirror_root_dir(),
             host,
             remote_root,
@@ -1066,25 +1064,23 @@ mod tests {
     #[test]
     fn remote_runtime_migration_does_not_move_nested_workspace_runtime() {
         let base = std::env::temp_dir().join(format!(
-            "openbitfun-remote-nested-runtime-migration-{}",
+            "opc-remote-nested-runtime-migration-{}",
             uuid::Uuid::new_v4()
         ));
         let pm = PathManager::with_user_root_for_tests(base.join("user"));
         let host = "Example.COM";
         let parent_root = "/home/project-A";
         let child_root = "/home/project-A/sub-project-B";
-        let parent_legacy =
-            openbitfun_services_core::workspace_identity::remote_workspace_runtime_root(
-                pm.remote_ssh_mirror_root_dir(),
-                host,
-                parent_root,
-            );
-        let child_legacy =
-            openbitfun_services_core::workspace_identity::remote_workspace_runtime_root(
-                pm.remote_ssh_mirror_root_dir(),
-                host,
-                child_root,
-            );
+        let parent_legacy = opc_services_core::workspace_identity::remote_workspace_runtime_root(
+            pm.remote_ssh_mirror_root_dir(),
+            host,
+            parent_root,
+        );
+        let child_legacy = opc_services_core::workspace_identity::remote_workspace_runtime_root(
+            pm.remote_ssh_mirror_root_dir(),
+            host,
+            child_root,
+        );
         std::fs::create_dir_all(parent_legacy.join("sessions"))
             .expect("parent legacy runtime should exist");
         std::fs::write(parent_legacy.join("sessions").join("parent"), b"parent")
@@ -1118,7 +1114,7 @@ mod tests {
     #[test]
     fn remote_runtime_migration_preserves_legacy_data_on_destination_conflict() {
         let base = std::env::temp_dir().join(format!(
-            "openbitfun-remote-runtime-conflict-{}",
+            "opc-remote-runtime-conflict-{}",
             uuid::Uuid::new_v4()
         ));
         let pm = PathManager::with_user_root_for_tests(base.join("user"));
@@ -1175,7 +1171,7 @@ mod tests {
             "OPENBITFUN_E2E_HOME",
             "OPENBITFUN_E2E_STORAGE_GUARD",
         ]);
-        let temp_root = std::env::temp_dir().join("openbitfun-e2e-path-manager-test");
+        let temp_root = std::env::temp_dir().join("opc-e2e-path-manager-test");
         let user_root = temp_root.join("user-root");
         let home_root = temp_root.join("home");
 

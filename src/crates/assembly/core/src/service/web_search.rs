@@ -4,12 +4,12 @@ use crate::infrastructure::try_get_path_manager_arc;
 use crate::service::config::types::{AIConfig, WebSearchConfig};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     WebSearchError, WebSearchErrorKind, WebSearchProvider, WebSearchProviderId, WebSearchRequest,
     WebSearchResponse,
 };
-use openbitfun_services_core::credential_vault::CredentialVault;
-use openbitfun_services_integrations::web_tools::{
+use opc_services_core::credential_vault::CredentialVault;
+use opc_services_integrations::web_tools::{
     ExaSearchApiProvider, FreeExaMcpProvider, OpcTeamSearchHttpAuth, OpcTeamSearchHttpProvider,
     TavilySearchProvider,
 };
@@ -138,7 +138,7 @@ async fn resolve_provider(config: &WebSearchConfig) -> Arc<dyn WebSearchProvider
                 Ok(Arc::new(TavilySearchProvider::new(secret)) as Arc<dyn WebSearchProvider>)
             }
             WebSearchProviderId::OPENBITFUN_SEARCH_HTTP => {
-                let http = &config.providers.openbitfun_search_http;
+                let http = &config.providers.opc_search_http;
                 if http.endpoint.trim().is_empty() {
                     return Err(OpcTeamError::config(
                         "OPC-Team Search HTTP endpoint is not configured".to_string(),
@@ -244,7 +244,7 @@ fn credential_id_for_provider<'a>(
         WebSearchProviderId::TAVILY => Ok(config.providers.tavily.credential_id.as_str()),
         WebSearchProviderId::OPENBITFUN_SEARCH_HTTP => {
             if matches!(
-                config.providers.openbitfun_search_http.auth.mode.trim(),
+                config.providers.opc_search_http.auth.mode.trim(),
                 "" | "none"
             ) {
                 return Err(OpcTeamError::validation(
@@ -252,12 +252,7 @@ fn credential_id_for_provider<'a>(
                         .to_string(),
                 ));
             }
-            Ok(config
-                .providers
-                .openbitfun_search_http
-                .auth
-                .credential_id
-                .as_str())
+            Ok(config.providers.opc_search_http.auth.credential_id.as_str())
         }
         _ => Err(OpcTeamError::validation(format!(
             "WebSearch provider '{provider}' does not accept a device credential"
@@ -353,7 +348,7 @@ pub async fn clear_web_search_credential(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_runtime_ports::WebSearchResult;
+    use opc_runtime_ports::WebSearchResult;
     use std::time::Duration;
     use tempfile::Builder;
     use tokio::sync::Notify;
@@ -471,7 +466,7 @@ mod tests {
     #[tokio::test]
     async fn device_local_credential_lifecycle_keeps_secret_out_of_config() {
         let directory = Builder::new()
-            .prefix("openbitfun-web-search-vault-")
+            .prefix("opc-web-search-vault-")
             .tempdir()
             .expect("create WebSearch test directory");
         let vault = credential_vault_in(directory.path());
@@ -512,7 +507,7 @@ mod tests {
     #[tokio::test]
     async fn credential_helpers_normalize_entry_id_without_changing_secret() {
         let directory = Builder::new()
-            .prefix("openbitfun-web-search-vault-normalization-")
+            .prefix("opc-web-search-vault-normalization-")
             .tempdir()
             .expect("create WebSearch test directory");
         let vault = credential_vault_in(directory.path());

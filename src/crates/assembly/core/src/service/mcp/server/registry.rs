@@ -1,5 +1,5 @@
 //! Compatibility re-export for MCP server registry.
 //!
-//! The reusable registry owner lives in `openbitfun-services-integrations`.
+//! The reusable registry owner lives in `opc-services-integrations`.
 
-pub use openbitfun_services_integrations::mcp::server::MCPServerRegistry;
+pub use opc_services_integrations::mcp::server::MCPServerRegistry;

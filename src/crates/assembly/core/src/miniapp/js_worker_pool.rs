@@ -5,15 +5,15 @@ use crate::miniapp::js_worker::{JsWorker, MiniAppWorkerEvent, MiniAppWorkerEvent
 use crate::miniapp::runtime_detect::DetectedRuntime;
 use crate::miniapp::types::{NodePermissions, NpmDep};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_product_domains::miniapp::ports::{
+use opc_product_domains::miniapp::ports::{
     MiniAppInstallDepsRequest, MiniAppPortError, MiniAppPortErrorKind, MiniAppPortFuture,
     MiniAppRuntimePort,
 };
-pub use openbitfun_product_domains::miniapp::worker::InstallResult;
-use openbitfun_services_integrations::miniapp::worker::{
+pub use opc_product_domains::miniapp::worker::InstallResult;
+use opc_services_integrations::miniapp::worker::{
     MiniAppWorkerEventSink, SharedMiniAppWorkerEventSink,
 };
-use openbitfun_services_integrations::miniapp::worker_pool::{
+use opc_services_integrations::miniapp::worker_pool::{
     JsWorkerPool as ServiceJsWorkerPool, MiniAppWorkerPoolError, MiniAppWorkerPoolErrorKind,
 };
 use serde_json::Value;
@@ -262,7 +262,7 @@ impl MiniAppWorkerEventSink for CoreMiniAppWorkerEventSink {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use openbitfun_product_domains::miniapp::runtime::RuntimeKind;
+    use opc_product_domains::miniapp::runtime::RuntimeKind;
     use std::fs;
 
     struct TestTempDir {
@@ -289,7 +289,7 @@ mod tests {
 
     #[tokio::test]
     async fn runtime_port_adapter_preserves_existing_runtime_and_noop_install() {
-        let root = TestTempDir::new("openbitfun-miniapp-runtime-port");
+        let root = TestTempDir::new("opc-miniapp-runtime-port");
         let path_manager = Arc::new(
             crate::infrastructure::PathManager::with_user_root_for_tests(root.path().to_path_buf()),
         );
@@ -329,7 +329,7 @@ mod tests {
 
     #[tokio::test]
     async fn install_deps_in_dir_noops_without_package_json() {
-        let root = TestTempDir::new("openbitfun-miniapp-runtime-draft-port");
+        let root = TestTempDir::new("opc-miniapp-runtime-draft-port");
         let path_manager = Arc::new(
             crate::infrastructure::PathManager::with_user_root_for_tests(root.path().to_path_buf()),
         );

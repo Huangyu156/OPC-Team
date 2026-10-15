@@ -75,14 +75,14 @@ describe('startup preload shell', () => {
     const hint = dom.window.document.querySelector('.splash-screen__message');
     expect(dom.window.document.documentElement.lang).toBe('zh-CN');
     expect(dom.window.document.getElementById('root')?.childElementCount).toBe(0);
-    expect(dom.window.document.getElementById('openbitfun-startup-overlay')).not.toBeNull();
+    expect(dom.window.document.getElementById('opc-startup-overlay')).not.toBeNull();
     expect(hint?.textContent).toBe('正在启动 OPC-Team...');
 
     const controls = dom.window.document.querySelector<HTMLElement>('[data-startup-window-controls]');
     expect(controls?.hidden).toBe(false);
     expect(controls?.classList.contains('window-controls')).toBe(true);
     expect(controls?.classList.contains('window-controls--windows')).toBe(true);
-    expect(controls?.getAttribute('data-openbitfun-component')).toBe('window-controls');
+    expect(controls?.getAttribute('data-opc-component')).toBe('window-controls');
     expect(dom.window.document.querySelector('.splash-screen')?.hasAttribute('aria-hidden')).toBe(false);
     await Promise.resolve();
 
@@ -95,7 +95,7 @@ describe('startup preload shell', () => {
     const visibleMaximizeGlyph = () => Array.from(maximizeButton?.querySelectorAll('svg') ?? [])
       .find(glyph => glyph.style.display !== 'none')
       ?.getAttribute('class');
-    expect(controls?.getAttribute('data-openbitfun-state')).toBe('maximized');
+    expect(controls?.getAttribute('data-opc-state')).toBe('maximized');
     expect(maximizeButton?.getAttribute('aria-label')).toBe('还原');
     expect(visibleMaximizeGlyph()).toContain('lucide-copy');
 
@@ -108,7 +108,7 @@ describe('startup preload shell', () => {
 
     maximizeButton?.click();
     await Promise.resolve();
-    expect(controls?.hasAttribute('data-openbitfun-state')).toBe(false);
+    expect(controls?.hasAttribute('data-opc-state')).toBe(false);
     expect(maximizeButton?.getAttribute('aria-label')).toBe('最大化');
     expect(visibleMaximizeGlyph()).toContain('lucide-square');
 
@@ -125,8 +125,8 @@ describe('startup preload shell', () => {
 
     const html = readIndexHtml();
     expect(html).toContain('href="/src/app/components/WindowControls/WindowControls.scss"');
-    expect(html).toContain('.window-controls.openbitfun-startup-window-controls');
-    expect(html).not.toContain('openbitfun-startup-window-controls__btn');
+    expect(html).toContain('.window-controls.opc-startup-window-controls');
+    expect(html).not.toContain('opc-startup-window-controls__btn');
     expect(readWindowControlsSource()).not.toContain("import './WindowControls.scss'");
     dom.window.close();
   });
@@ -182,7 +182,7 @@ describe('startup preload shell', () => {
     });
     const flush = () => new Promise(resolve => setTimeout(resolve, 0));
     const dragCalls = () => invoke.mock.calls.filter(([command]) => command === 'plugin:window|start_dragging');
-    const overlay = dom.window.document.getElementById('openbitfun-startup-overlay')!;
+    const overlay = dom.window.document.getElementById('opc-startup-overlay')!;
     const mouseDown = (target: Element, options: MouseEventInit = {}) => target.dispatchEvent(
       new dom.window.MouseEvent('mousedown', { bubbles: true, cancelable: true, button: 0, detail: 1, ...options }),
     );
@@ -233,12 +233,12 @@ describe('startup preload shell', () => {
       },
     });
 
-    expect(dom.window.document.body.classList.contains('openbitfun-pet-preload-body')).toBe(true);
-    expect(dom.window.document.getElementById('openbitfun-startup-overlay')).toBeNull();
-    expect(dom.window.document.querySelector('.openbitfun-pet-preload__sprite')).not.toBeNull();
+    expect(dom.window.document.body.classList.contains('opc-pet-preload-body')).toBe(true);
+    expect(dom.window.document.getElementById('opc-startup-overlay')).toBeNull();
+    expect(dom.window.document.querySelector('.opc-pet-preload__sprite')).not.toBeNull();
     expect(dom.window.document.querySelector('.splash-screen__logo')).toBeNull();
-    expect(dom.window.document.querySelector('.openbitfun-sr-only')?.textContent).toBe('Loading companion...');
-    const spriteCss = html.match(/\.openbitfun-pet-preload__sprite \{(?<css>[\s\S]*?)\n      \}/)?.groups?.css;
+    expect(dom.window.document.querySelector('.opc-sr-only')?.textContent).toBe('Loading companion...');
+    const spriteCss = html.match(/\.opc-pet-preload__sprite \{(?<css>[\s\S]*?)\n      \}/)?.groups?.css;
     expect(spriteCss).toBeDefined();
     expect(spriteCss).not.toContain('background:');
     expect(spriteCss).not.toContain('border:');

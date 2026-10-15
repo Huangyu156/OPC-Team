@@ -1,4 +1,4 @@
-export const PPT_DESIGN_SKILL_KEY = 'user::openbitfun-system::ppt-design';
+export const PPT_DESIGN_SKILL_KEY = 'user::opc-system::ppt-design';
 
 function serializeInput(input) {
   try {

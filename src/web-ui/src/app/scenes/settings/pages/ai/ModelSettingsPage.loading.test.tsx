@@ -176,7 +176,7 @@ describe('ModelSettingsPage loading and provider actions', () => {
         reads.get('ai.agent_model_defaults')!.resolve({});
       });
 
-      const deleteButton = [...container.querySelectorAll<HTMLButtonElement>('.openbitfun-model-settings__source-pill-delete')]
+      const deleteButton = [...container.querySelectorAll<HTMLButtonElement>('.opc-model-settings__source-pill-delete')]
         .find(element => element.getAttribute('aria-label')?.endsWith(`: ${model.name}`))!;
       expect(deleteButton.getAttribute('aria-label')).toContain(model.name);
       expect(deleteButton.parentElement?.closest('button')).toBeNull();
@@ -190,19 +190,19 @@ describe('ModelSettingsPage loading and provider actions', () => {
       expect(document.querySelectorAll('[role="dialog"]')).toHaveLength(0);
       expect(updateConfig).not.toHaveBeenCalled();
 
-      const cancel = dialog.querySelector<HTMLButtonElement>('button[data-openbitfun-variant="fill"]')!;
+      const cancel = dialog.querySelector<HTMLButtonElement>('button[data-opc-variant="fill"]')!;
       await act(async () => cancel.click());
       expect(updateConfig).not.toHaveBeenCalled();
       expect(savedModels).toHaveLength(3);
 
       await act(async () => deleteButton.click());
-      const confirm = document.querySelector<HTMLButtonElement>('[role="alertdialog"] button[data-openbitfun-tone="danger"]')!;
+      const confirm = document.querySelector<HTMLButtonElement>('[role="alertdialog"] button[data-opc-tone="danger"]')!;
       await act(async () => confirm.click());
       expect(updateConfig).toHaveBeenCalledTimes(1);
       expect(updateConfig).toHaveBeenCalledWith('ai.models', expect.any(Function));
       expect(savedModels).toEqual([otherModel]);
-      expect(container.querySelectorAll('.openbitfun-model-settings__source-pill')).toHaveLength(1);
-      expect(container.querySelector('.openbitfun-model-settings__source-pill')?.textContent).toBe(otherModel.name);
+      expect(container.querySelectorAll('.opc-model-settings__source-pill')).toHaveLength(1);
+      expect(container.querySelector('.opc-model-settings__source-pill')?.textContent).toBe(otherModel.name);
     },
   );
 });

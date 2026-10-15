@@ -61,21 +61,21 @@ export function MobileStepper({
       className={classNames(styles.root, className)}
       data-disabled={disabled ? "true" : "false"}
       data-invalid={invalid ? "true" : "false"}
-      data-openbitfun-component="mobile-stepper"
+      data-opc-component="mobile-stepper"
     >
       {(label !== undefined && label !== null) && (
-        <span className={styles.copy} data-openbitfun-part="copy">
-          <span className={styles.label} data-openbitfun-part="label">{label}</span>
+        <span className={styles.copy} data-opc-part="copy">
+          <span className={styles.label} data-opc-part="label">{label}</span>
           {description !== undefined && description !== null && (
-            <span className={styles.description} data-openbitfun-part="description">{description}</span>
+            <span className={styles.description} data-opc-part="description">{description}</span>
           )}
         </span>
       )}
-      <span className={styles.control} data-openbitfun-part="control">
+      <span className={styles.control} data-opc-part="control">
         <button
           aria-label={decrementLabel}
           className={styles.button}
-          data-openbitfun-part="decrement"
+          data-opc-part="decrement"
           disabled={disabled || atMin}
           onClick={() => commit(current - step)}
           type="button"
@@ -89,7 +89,7 @@ export function MobileStepper({
             aria-valuemin={min}
             aria-valuenow={current}
             className={styles.input}
-            data-openbitfun-part="value"
+            data-opc-part="value"
             disabled={disabled}
             inputMode="numeric"
             onChange={handleInput}
@@ -98,13 +98,13 @@ export function MobileStepper({
             value={current}
           />
           {unit !== undefined && unit !== null && (
-            <span className={styles.unit} data-openbitfun-part="unit">{unit}</span>
+            <span className={styles.unit} data-opc-part="unit">{unit}</span>
           )}
         </span>
         <button
           aria-label={incrementLabel}
           className={styles.button}
-          data-openbitfun-part="increment"
+          data-opc-part="increment"
           disabled={disabled || atMax}
           onClick={() => commit(current + step)}
           type="button"

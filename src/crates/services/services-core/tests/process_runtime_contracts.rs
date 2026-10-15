@@ -1,10 +1,10 @@
 #![cfg(feature = "process-runtime")]
 
-use openbitfun_services_core::system::check_command;
+use opc_services_core::system::check_command;
 
 #[test]
 fn system_check_command_preserves_missing_command_shape() {
-    let result = check_command("__openbitfun_missing_command_for_services_core_test__");
+    let result = check_command("__opc_missing_command_for_services_core_test__");
 
     assert!(!result.exists);
     assert_eq!(result.path, None);
@@ -12,10 +12,10 @@ fn system_check_command_preserves_missing_command_shape() {
 
 #[cfg(windows)]
 mod windows_process_cleanup {
-    use openbitfun_services_core::process_manager::{
+    use opc_services_core::process_manager::{
         cleanup_all_processes, contain_current_process_tree, create_command,
     };
-    use openbitfun_services_core::process_tree::ProcessTreeChild;
+    use opc_services_core::process_tree::ProcessTreeChild;
     use std::path::Path;
     use std::process::Stdio;
     use std::time::{Duration, Instant};

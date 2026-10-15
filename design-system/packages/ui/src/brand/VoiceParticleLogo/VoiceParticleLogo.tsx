@@ -103,7 +103,7 @@ export function VoiceParticleLogo({ readAudio, active = true, formation = 1, cla
       if (event.propertyName === "color" && event.target instanceof Element && event.target.contains(canvas)) updateTheme();
     };
     for (let ancestor: HTMLElement | null = canvas; ancestor; ancestor = ancestor.parentElement) {
-      theme.observe(ancestor, { attributes: true, attributeFilter: ["style", "class", "data-color-scheme", "data-contrast", "data-openbitfun-state", "data-openbitfun-communication-mode"] });
+      theme.observe(ancestor, { attributes: true, attributeFilter: ["style", "class", "data-color-scheme", "data-contrast", "data-opc-state", "data-opc-communication-mode"] });
     }
     const updateProjection = () => {
       renderer.resize(width, height, window.devicePixelRatio || 1);
@@ -134,5 +134,5 @@ export function VoiceParticleLogo({ readAudio, active = true, formation = 1, cla
   }, [active, formation]);
 
   return <canvas {...props} ref={canvasRef} className={classNames(styles.root, className)}
-    data-openbitfun-component="voice-particle-logo" data-openbitfun-part="root" aria-hidden="true" />;
+    data-opc-component="voice-particle-logo" data-opc-part="root" aria-hidden="true" />;
 }

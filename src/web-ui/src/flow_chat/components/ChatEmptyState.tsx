@@ -33,11 +33,11 @@ export const ChatEmptyState: React.FC = () => {
   const loading = !!currentWorkspace?.id && !isRepository && !currentBranch;
 
   return (
-    <div data-openbitfun-component="chat-empty-state" data-openbitfun-part="root" data-openbitfun-state={loading ? 'loading' : ''} className="fc-chat-empty">
-      <div data-openbitfun-component="chat-empty-state" data-openbitfun-part="container" className="fc-chat-empty__container">
+    <div data-opc-component="chat-empty-state" data-opc-part="root" data-opc-state={loading ? 'loading' : ''} className="fc-chat-empty">
+      <div data-opc-component="chat-empty-state" data-opc-part="container" className="fc-chat-empty__container">
         {!loading && currentWorkspace && (
           <>
-            <div data-openbitfun-component="chat-empty-state" data-openbitfun-part="greeting" className="fc-chat-empty__greeting">
+            <div data-opc-component="chat-empty-state" data-opc-part="greeting" className="fc-chat-empty__greeting">
               <p>{t('emptyState.welcomeBack')}</p>
               <p>
                 {currentBranch ? (
@@ -63,9 +63,9 @@ export const ChatEmptyState: React.FC = () => {
               </p>
             </div>
 
-            <div data-openbitfun-component="chat-empty-state" data-openbitfun-part="divider" className="fc-chat-empty__divider" />
+            <div data-opc-component="chat-empty-state" data-opc-part="divider" className="fc-chat-empty__divider" />
 
-            <div data-openbitfun-component="chat-empty-state" data-openbitfun-part="prompt" className="fc-chat-empty__prompt">
+            <div data-opc-component="chat-empty-state" data-opc-part="prompt" className="fc-chat-empty__prompt">
               <p>{t('emptyState.capabilities')}</p>
               <p>{t('emptyState.capabilities2')}</p>
               <p className="fc-chat-empty__prompt-hint">{t('emptyState.readyToHelp')}</p>
@@ -74,7 +74,7 @@ export const ChatEmptyState: React.FC = () => {
         )}
 
         {!loading && !currentWorkspace && (
-          <div data-openbitfun-component="chat-empty-state" data-openbitfun-part="noWorkspace" className="fc-chat-empty__no-workspace">
+          <div data-opc-component="chat-empty-state" data-opc-part="noWorkspace" className="fc-chat-empty__no-workspace">
             <p>{t('emptyState.noWorkspace')}</p>
             <p className="fc-chat-empty__hint">{t('emptyState.openProject')}</p>
           </div>

@@ -1,12 +1,12 @@
 use agent_client_protocol::{Builder, Error, HandleDispatchFrom};
-use openbitfun_app_server_protocol::app::{
+use opc_app_server_protocol::app::{
     CapabilityAvailability, CapabilityDescriptor, HealthRequest, HealthResponse, HealthStatus,
     InitializeRequest, InitializeResponse, ServerInfo, TransportLimits,
 };
-use openbitfun_app_server_protocol::error::{AppServerErrorData, AppServerErrorKind};
-use openbitfun_app_server_protocol::event::{SyncEventsRequest, SyncEventsResponse};
-use openbitfun_app_server_protocol::{MIN_PROTOCOL_VERSION, PROTOCOL_VERSION};
-use openbitfun_product_domains::product_search::PRODUCT_SEARCH_CAPABILITY_ID;
+use opc_app_server_protocol::error::{AppServerErrorData, AppServerErrorKind};
+use opc_app_server_protocol::event::{SyncEventsRequest, SyncEventsResponse};
+use opc_app_server_protocol::{MIN_PROTOCOL_VERSION, PROTOCOL_VERSION};
+use opc_product_domains::product_search::PRODUCT_SEARCH_CAPABILITY_ID;
 
 use crate::management::EXTERNAL_SOURCES_CAPABILITY;
 use crate::role::{AppClient, AppServer};
@@ -50,7 +50,7 @@ pub(in crate::server) fn builder(
                 }
                 responder.respond_with_result(Ok(InitializeResponse::new(
                     ServerInfo {
-                        name: "openbitfun-app-server".to_string(),
+                        name: "opc-app-server".to_string(),
                         version: env!("CARGO_PKG_VERSION").to_string(),
                     },
                     capabilities.clone(),

@@ -528,7 +528,7 @@ mod tests {
         DeepReviewQueueReason, DeepReviewQueueState, DeepReviewQueueStatus,
         ModelRoundAttemptDiagnostic,
     };
-    use openbitfun_core_types::{
+    use opc_core_types::{
         ReasoningContentKind, SessionExecutionTarget, SessionExecutionTargetKind, WorktreeLifecycle,
     };
 
@@ -654,7 +654,7 @@ mod tests {
             agent_type: Some("Explore".to_string()),
             model_id: Some("fast".to_string()),
             focused_review_display_label: Some("Authentication boundary".to_string()),
-            continuation_policy: Some(openbitfun_core_types::SessionContinuationPolicy::FreshOnly),
+            continuation_policy: Some(opc_core_types::SessionContinuationPolicy::FreshOnly),
         })
         .expect("projected");
 

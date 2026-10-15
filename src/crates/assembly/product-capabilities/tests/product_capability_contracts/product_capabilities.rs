@@ -1,4 +1,4 @@
-use openbitfun_product_capabilities::{
+use opc_product_capabilities::{
     agent_runtime_baseline_tool_plan, default_product_assembly_plan,
     default_product_capability_assembly, default_product_capability_registry,
     product_assembly_plan_for_profile, product_delivery_profile_entries, DeliveryProfile,
@@ -7,13 +7,13 @@ use openbitfun_product_capabilities::{
     ProductCoreDependencyMode, ProductFeatureGroup, ProductRuntimeAssembly,
     ProductServiceCapabilityRequirement, ProductServiceCapabilityStatus,
 };
-use openbitfun_runtime_ports::{
+use opc_runtime_ports::{
     PluginDispatchEnvelope, PluginResponseEnvelope, PluginRuntimeAvailability,
     PluginRuntimeBinding, PluginRuntimeClient, PluginRuntimeUnavailableReason, PortResult,
     RuntimeServiceCapability,
 };
-use openbitfun_runtime_services::test_support::FakeRuntimeServicesProvider;
-use openbitfun_runtime_services::{
+use opc_runtime_services::test_support::FakeRuntimeServicesProvider;
+use opc_runtime_services::{
     RuntimeServiceMarkerPort, RuntimeServicesBuilder, RuntimeServicesProvider,
 };
 use std::sync::Arc;

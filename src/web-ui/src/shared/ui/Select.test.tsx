@@ -24,7 +24,7 @@ describe('public Select product integration', () => {
       {...props}
     />,
   ));
-  const trigger = () => host.querySelector<HTMLButtonElement>('[data-openbitfun-part="trigger"]')!;
+  const trigger = () => host.querySelector<HTMLButtonElement>('[data-opc-part="trigger"]')!;
   const activeCombobox = () => document.querySelector<HTMLButtonElement>('button[role="combobox"]')!;
   const key = (element: Element, value: string) => act(() => {
     element.dispatchEvent(new KeyboardEvent('keydown', { bubbles: true, key: value }));
@@ -49,23 +49,23 @@ describe('public Select product integration', () => {
     const comboboxId = anchor.id;
     act(() => anchor.click());
 
-    const popup = document.querySelector<HTMLElement>('[data-openbitfun-component="select-popup"]')!;
-    const header = popup.querySelector<HTMLButtonElement>('[data-openbitfun-part="header"]')!;
+    const popup = document.querySelector<HTMLElement>('[data-opc-component="select-popup"]')!;
+    const header = popup.querySelector<HTMLButtonElement>('[data-opc-part="header"]')!;
     const listbox = document.querySelector<HTMLElement>('[role="listbox"]')!;
     const selected = listbox.querySelector<HTMLElement>('[role="option"][aria-selected="true"]')!;
-    const layer = popup.closest('[data-openbitfun-overlay-layer]');
+    const layer = popup.closest('[data-opc-overlay-layer]');
     expect(layer).not.toBeNull();
-    expect(layer?.parentElement).toBe(document.querySelector('[data-openbitfun-overlay-host="true"]'));
+    expect(layer?.parentElement).toBe(document.querySelector('[data-opc-overlay-host="true"]'));
     expect(layer?.parentElement?.parentElement).toBe(document.body);
     expect(host.querySelector('[role="listbox"]')).toBeNull();
     expect(popup.contains(header)).toBe(true);
     expect(popup.contains(listbox)).toBe(true);
     expect(popup.children[0]).toBe(header);
-    expect(popup.children[1]?.getAttribute('data-openbitfun-part')).toBe('divider');
-    expect(popup.children[2]?.getAttribute('data-openbitfun-part')).toBe('options');
+    expect(popup.children[1]?.getAttribute('data-opc-part')).toBe('divider');
+    expect(popup.children[2]?.getAttribute('data-opc-part')).toBe('options');
     expect(listbox.querySelectorAll('[role="group"]')).toHaveLength(2);
     expect(selected.textContent).toContain('Ask');
-    expect(selected.querySelector('[data-openbitfun-part="indicator"]')).not.toBeNull();
+    expect(selected.querySelector('[data-opc-part="indicator"]')).not.toBeNull();
     expect(anchor.getAttribute('aria-hidden')).toBe('true');
     expect(anchor.getAttribute('role')).toBeNull();
     expect(anchor.id).toBe('');
@@ -97,7 +97,7 @@ describe('public Select product integration', () => {
     const content = [...anchor.childNodes];
 
     act(() => anchor.click());
-    const popup = document.querySelector<HTMLElement>('[data-openbitfun-component="select-popup"]')!;
+    const popup = document.querySelector<HTMLElement>('[data-opc-component="select-popup"]')!;
     expect(field.dataset.size).toBe(size);
     expect(popup.dataset.size).toBe(size);
     expect([...anchor.childNodes]).toEqual(content);
@@ -105,7 +105,7 @@ describe('public Select product integration', () => {
     expect(anchor.tabIndex).toBe(-1);
 
     key(document.activeElement!, 'Escape');
-    expect(document.querySelector('[data-openbitfun-component="select-popup"]')).toBeNull();
+    expect(document.querySelector('[data-opc-component="select-popup"]')).toBeNull();
     expect([...anchor.childNodes]).toEqual(content);
     expect(field.dataset.size).toBe(size);
     expect(document.activeElement).toBe(anchor);
@@ -153,8 +153,8 @@ describe('public Select product integration', () => {
     expect(button.getAttribute('aria-describedby')).not.toBeNull();
 
     act(() => button.click());
-    const popup = document.querySelector<HTMLElement>('[data-openbitfun-component="select-popup"]')!;
-    const header = popup.querySelector<HTMLButtonElement>('[data-openbitfun-part="header"]')!;
+    const popup = document.querySelector<HTMLElement>('[data-opc-component="select-popup"]')!;
+    const header = popup.querySelector<HTMLButtonElement>('[data-opc-part="header"]')!;
     expect(popup.style.left).toBe('40px');
     expect(popup.style.top).toBe('20px');
     expect(popup.style.width).toBe('240px');

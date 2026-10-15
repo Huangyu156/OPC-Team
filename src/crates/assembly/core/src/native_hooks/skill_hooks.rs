@@ -3,8 +3,8 @@
 use super::{hooks_config, runtime_hook_registry, AgentHooksConfig};
 use crate::agentic::tools::framework::ToolUseContext;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry;
-use openbitfun_agent_runtime::skills::{SkillData, SkillLocation};
+use opc_agent_runtime::native_hooks::RuntimeHookRegistry;
+use opc_agent_runtime::skills::{SkillData, SkillLocation};
 
 pub(crate) async fn activate_skill_hooks(
     skill: &SkillData,
@@ -83,7 +83,7 @@ fn activate(
 mod tests {
     use super::*;
     use crate::agentic::workspace::WorkspaceBinding;
-    use openbitfun_agent_runtime::native_hooks::{AgentHookEngine, AgentHookEvent};
+    use opc_agent_runtime::native_hooks::{AgentHookEngine, AgentHookEvent};
 
     fn guarded_skill() -> SkillData {
         let mut skill = SkillData::from_markdown_for_source_slot("/skills/guard".into(),
@@ -163,7 +163,7 @@ mod tests {
     async fn session_end_runs_registered_hooks_then_clears_state() {
         let temp = tempfile::tempdir().unwrap();
         let session = uuid::Uuid::new_v4().to_string();
-        let hooks = openbitfun_agent_runtime::skills::SkillHooks::from_yaml(
+        let hooks = opc_agent_runtime::skills::SkillHooks::from_yaml(
             &serde_yaml::from_str(
                 "SessionEnd: [{hooks: [{type: command, command: 'touch ended'}]}]",
             )

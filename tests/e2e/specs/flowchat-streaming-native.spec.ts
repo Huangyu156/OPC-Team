@@ -29,7 +29,7 @@ class StreamingFlowChatPage {
         probe.inputs.push({ t: performance.now(), phase: probe.phase, type: event.type, trusted: event.isTrusted,
           deltaY: (event as WheelEvent).deltaY, key: (event as KeyboardEvent).key,
           target: (event.target as Element)?.className, tag: (event.target as Element)?.tagName,
-          part: (event.target as Element)?.getAttribute?.('data-openbitfun-part') });
+          part: (event.target as Element)?.getAttribute?.('data-opc-part') });
       };
       const inputTypes = ['wheel', 'pointerdown', 'pointerup', 'keydown', 'focusin'];
       inputTypes.forEach(type => document.addEventListener(type, input, true));
@@ -54,7 +54,7 @@ class StreamingFlowChatPage {
             anchor: probe.anchor?.isConnected ? probe.anchor.getBoundingClientRect().top : null,
             collapseTop: collapseRow ? collapseRow.getBoundingClientRect().top - box.top : null,
             tail: (last?.getBoundingClientRect().bottom ?? box.top) - box.top, rows: rows.length,
-            agents: [...node.querySelectorAll('[data-openbitfun-tool-card="agent-control"]')]
+            agents: [...node.querySelectorAll('[data-opc-tool-card="agent-control"]')]
               .filter(card => card.closest<HTMLElement>('.virtual-item-wrapper')?.dataset.turnId === probe.sentTurnId).length,
             userTop: user ? user.getBoundingClientRect().top - box.top : null,
             line: 8 + Math.max(0, node.clientHeight - footer - 8) * 0.618,
@@ -263,7 +263,7 @@ describe('Desktop FlowChat real streaming', () => {
     await page.newSession();
     await page.startProbe();
     await page.send('Read-only UI interaction check: use file reading tools to inspect the first 30 lines of README.md and CONTRIBUTING.md in this workspace. Do not edit files, run shell commands, or delegate work. Then write 25 numbered short paragraphs explaining what these two documents cover, directly in the reply.');
-    const header = $('[data-timeline-kind="group-header"] [data-openbitfun-part="header"][role="button"]');
+    const header = $('[data-timeline-kind="group-header"] [data-opc-part="header"][role="button"]');
     await header.waitForExist({ timeout: 120000 });
     // User takes over while the tool group is still present; choose a manual
     // expanded state, even when the running group was already auto-expanded.
@@ -323,21 +323,21 @@ describe('Desktop FlowChat real streaming', () => {
     await page.openRecordedSession();
     await page.startProbe();
     await page.send('Read-only UI interaction check. Do not continue the previous task. First use AskUserQuestion to ask one short question "Which garden?" with two short options "Quiet" and "Bright", without descriptions. After my answer, launch one subagent solely to read README.md and summarize it briefly; it must not edit files. Then write a substantial practical English essay about designing a garden in that style, covering soil, drainage, planting, pruning, watering, wildlife and seasonal care in depth. Start the prose directly, with blank lines between paragraphs and no numbering or length calculations. Do not use other tools or modify files.');
-    const askSelector = '[data-flowchat-scroller] [data-openbitfun-component="ask-user"][data-openbitfun-state="asking"]';
+    const askSelector = '[data-flowchat-scroller] [data-opc-component="ask-user"][data-opc-state="asking"]';
     await $(askSelector).waitForExist({ timeout: 120000 });
     await browser.pause(600);
     await page.phase('answering-live-question');
-    await page.clickVisible(`${askSelector} [data-openbitfun-part="option"][data-custom="true"] input`);
-    await browser.waitUntil(async () => browser.execute(() => !!document.activeElement?.closest('[data-openbitfun-part="custom-input"]')), { timeout: 5000 });
+    await page.clickVisible(`${askSelector} [data-opc-part="option"][data-custom="true"] input`);
+    await browser.waitUntil(async () => browser.execute(() => !!document.activeElement?.closest('[data-opc-part="custom-input"]')), { timeout: 5000 });
     await browser.keys('Quiet');
     await browser.keys('Tab');
-    expect(await browser.execute(() => !!document.activeElement?.closest('[data-openbitfun-part="submit"]'))).toBe(true);
+    expect(await browser.execute(() => !!document.activeElement?.closest('[data-opc-part="submit"]'))).toBe(true);
     // The embedded driver dispatches Space but does not synthesize a native
     // button's default click. Exercise key ownership, then activate the visible
     // button through pointer actions. Neither may repair lost follow intent.
     await browser.keys(' ');
-    await page.clickVisible(`${askSelector} [data-openbitfun-part="submit"] button`);
-    await $('[data-flowchat-scroller] [data-openbitfun-component="ask-user"] [data-openbitfun-part="answers"]').waitForExist({ timeout: 30000 });
+    await page.clickVisible(`${askSelector} [data-opc-part="submit"] button`);
+    await $('[data-flowchat-scroller] [data-opc-component="ask-user"] [data-opc-part="answers"]').waitForExist({ timeout: 30000 });
     await page.phase('answer-follow');
     await page.waitForGrowth(1200);
     await page.phase('answer-continued-output');
@@ -372,17 +372,17 @@ describe('Desktop FlowChat real streaming', () => {
     await page.openRecordedSession();
     await page.startProbe();
     await page.send('UI check only: use AskUserQuestion to ask "Which landscape?" with four options, each described in two detailed sentences. No other tools or actions. After my answer reply only "Noted."');
-    const ask = $('[data-openbitfun-component="ask-user"][data-openbitfun-part="root"][data-openbitfun-state="asking"]');
+    const ask = $('[data-opc-component="ask-user"][data-opc-part="root"][data-opc-state="asking"]');
     await ask.waitForExist({ timeout: 120000 });
     await browser.pause(600);
     await page.phase('ask-tall'); await browser.pause(400);
     const expanded = await browser.execute(() => (window as any).flowchatStreamProbe.frames.at(-1)) as Frame;
     expect(expanded.tail - (expanded.userTop ?? 8)).toBeGreaterThan(expanded.line);
-    await page.clickVisible('[data-openbitfun-component="ask-user"][data-openbitfun-state="asking"] [data-openbitfun-part="option"] input');
-    const beforeCollapse = await page.captureCollapse('[data-openbitfun-component="ask-user"][data-openbitfun-state="asking"]', 'ask-answer');
-    const submitSelector = '[data-openbitfun-component="ask-user"][data-openbitfun-state="asking"] [data-openbitfun-part="submit"] button';
+    await page.clickVisible('[data-opc-component="ask-user"][data-opc-state="asking"] [data-opc-part="option"] input');
+    const beforeCollapse = await page.captureCollapse('[data-opc-component="ask-user"][data-opc-state="asking"]', 'ask-answer');
+    const submitSelector = '[data-opc-component="ask-user"][data-opc-state="asking"] [data-opc-part="submit"] button';
     await page.clickVisible(submitSelector);
-    await $('[data-openbitfun-component="ask-user"] [data-openbitfun-part="answers"]').waitForExist({ timeout: 30000 });
+    await $('[data-opc-component="ask-user"] [data-opc-part="answers"]').waitForExist({ timeout: 30000 });
     await $('[data-testid="chat-input-cancel-btn"]').waitForExist({ reverse: true, timeout: 120000 });
     await browser.pause(800);
     await page.phase('ask-compact'); await browser.pause(800);
@@ -416,8 +416,8 @@ describe('Desktop FlowChat real streaming', () => {
     await page.newSession();
     await page.startProbe();
     await page.send('Read-only UI check: call Read ten times on README.md, separately at offsets 1, 6, 11, 16, 21, 26, 31, 36, 41, 46, limit 5 each. No other tools, shell, edits or delegation. After all calls reply only "Done."');
-    const header = $('[data-timeline-kind="group-header"] [data-openbitfun-part="header"][role="button"]');
-    const headerSelector = '[data-timeline-kind="group-header"] [data-openbitfun-part="header"][role="button"]';
+    const header = $('[data-timeline-kind="group-header"] [data-opc-part="header"][role="button"]');
+    const headerSelector = '[data-timeline-kind="group-header"] [data-opc-part="header"][role="button"]';
     const leadingOffsets: number[] = [];
     await header.waitForExist({ timeout: 120000 });
     await $('[data-testid="chat-input-cancel-btn"]').waitForExist({ reverse: true, timeout: 120000 });

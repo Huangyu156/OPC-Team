@@ -13,7 +13,7 @@ describe('shared SplitView interaction contract', () => {
   let resized: () => void;
   let changed: ReturnType<typeof vi.fn>;
   let resizing: ReturnType<typeof vi.fn>;
-  const part = (name: string) => container.querySelector<HTMLElement>(`[data-openbitfun-component="split-view"][data-openbitfun-part="${name}"]`)!;
+  const part = (name: string) => container.querySelector<HTMLElement>(`[data-opc-component="split-view"][data-opc-part="${name}"]`)!;
   const render = (props: Partial<SplitViewProps> = {}) => act(() => root.render(<SplitView
     primary={<SplitViewPrimaryDock><textarea aria-label="Draft" defaultValue="unsent" /></SplitViewPrimaryDock>}
     secondary={<iframe title="Content" />}
@@ -36,7 +36,7 @@ describe('shared SplitView interaction contract', () => {
     vi.stubGlobal('cancelAnimationFrame', (id: number) => clearTimeout(id));
     vi.stubGlobal('ResizeObserver', class { constructor(callback: () => void) { resized = callback; } observe() {} disconnect() {} });
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function () {
-      return { width: this.getAttribute('data-openbitfun-part') === 'divider' ? 1 : width } as DOMRect;
+      return { width: this.getAttribute('data-opc-part') === 'divider' ? 1 : width } as DOMRect;
     });
     container = document.createElement('div'); document.body.appendChild(container); root = createRoot(container);
   });

@@ -40,7 +40,7 @@ function UserTurn({ children, newTurn = false }: { children: string; newTurn?: b
 }
 
 function AmbientItem({ children }: { children: ReactNode }) {
-  return <div className="flowchat-flow-item"><div className="flow-tool-card-wrapper" data-openbitfun-attention="ambient">{children}</div></div>;
+  return <div className="flowchat-flow-item"><div className="flow-tool-card-wrapper" data-opc-attention="ambient">{children}</div></div>;
 }
 
 function MockThinking({ active = false, summary = false }: { active?: boolean; summary?: boolean }) {

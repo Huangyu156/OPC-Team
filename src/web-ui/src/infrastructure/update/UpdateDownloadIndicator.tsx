@@ -40,21 +40,21 @@ export function UpdateDownloadIndicator() {
   const installLabel = t('update.installAndRestart');
 
   return (
-    <div className="openbitfun-update-download" data-testid="nav-update-download"
-      data-openbitfun-component="update" data-openbitfun-part="downloadControl" data-download-status={status}>
+    <div className="opc-update-download" data-testid="nav-update-download"
+      data-opc-component="update" data-opc-part="downloadControl" data-download-status={status}>
       <Tooltip content={status === 'ready' ? installLabel : label} placement="top">
-        <IconButton ref={buttonRef} size="sm" shape="circle" variant="quiet" className="openbitfun-update-download__button"
+        <IconButton ref={buttonRef} size="sm" shape="circle" variant="quiet" className="opc-update-download__button"
           aria-label={status === 'ready' ? installLabel : t('update.openDownloadDetails', { status: label })} aria-haspopup="dialog"
           disabled={status === 'installing'} onClick={status === 'ready' ? state.requestInstall : state.showNotice}
           data-testid="nav-update-download-button"
           icon={(
-            <span ref={vesselRef} className="openbitfun-update-download__vessel" data-download-status={status}
-              data-openbitfun-component="update" data-openbitfun-part="downloadVessel">
-              {status === 'downloading' && <span className="openbitfun-update-download__fill"
+            <span ref={vesselRef} className="opc-update-download__vessel" data-download-status={status}
+              data-opc-component="update" data-opc-part="downloadVessel">
+              {status === 'downloading' && <span className="opc-update-download__fill"
                 style={fraction == null ? undefined : { transform: `translateY(${(1 - fraction) * 100}%)` }}
-                data-openbitfun-component="update" data-openbitfun-part="downloadFill"
-                data-openbitfun-state={fraction == null ? 'indeterminate' : undefined} />}
-              {(status === 'ready' || status === 'installing') && <Icon name="check-line" size="xs" className="openbitfun-update-download__complete" />}
+                data-opc-component="update" data-opc-part="downloadFill"
+                data-opc-state={fraction == null ? 'indeterminate' : undefined} />}
+              {(status === 'ready' || status === 'installing') && <Icon name="check-line" size="xs" className="opc-update-download__complete" />}
             </span>
           )} />
       </Tooltip>
@@ -63,8 +63,8 @@ export function UpdateDownloadIndicator() {
           aria-valuemin={0} aria-valuemax={100} aria-valuenow={percent ?? undefined} aria-valuetext={label} />
       ) : <span className="sr-only" role="status">{label}</span>}
       {status === 'downloading' && createOverlayPortal(
-        <span ref={setTransferElement} className="openbitfun-update-download__transfer" aria-hidden="true"
-          data-openbitfun-component="update" data-openbitfun-part="downloadTransfer" />,
+        <span ref={setTransferElement} className="opc-update-download__transfer" aria-hidden="true"
+          data-opc-component="update" data-opc-part="downloadTransfer" />,
         getAppearanceOverlayHost(),
         state.startedAt,
         { passive: true, ownerRef: transferOwnerRef },

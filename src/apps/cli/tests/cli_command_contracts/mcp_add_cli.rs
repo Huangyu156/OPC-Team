@@ -3,7 +3,7 @@ use std::process::Output;
 
 fn run_cli(workspace: &Path, user_root: &Path, home_root: &Path, args: &[&str]) -> Output {
     let config_root = user_root.join("host-config");
-    openbitfun_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
+    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
         .args(args)
         .current_dir(workspace)
         .env_remove("OPENBITFUN_USER_ROOT")

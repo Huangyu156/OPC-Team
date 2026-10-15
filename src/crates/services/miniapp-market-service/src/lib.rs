@@ -28,8 +28,8 @@ use tower_http::services::{ServeDir, ServeFile};
 
 pub use error::{MarketError, MarketResult};
 pub use package::{
-    validate_market_package, validate_min_openbitfun_version, validate_screenshot,
-    ValidatedMarketPackage, ValidatedScreenshot,
+    validate_market_package, validate_min_opc_version, validate_screenshot, ValidatedMarketPackage,
+    ValidatedScreenshot,
 };
 
 pub async fn build_market_router(config: MarketConfig) -> anyhow::Result<Router> {

@@ -12,7 +12,7 @@ function extractShellCss(html: string): string {
   const css = match?.[1] ?? '';
   return css.replace(
     /^(\s*):root\s*\{/m,
-    '$1.openbitfun-generative-widget-static-renderer {',
+    '$1.opc-generative-widget-static-renderer {',
   );
 }
 
@@ -90,13 +90,13 @@ export const GenerativeWidgetStaticRenderer: React.FC<GenerativeWidgetStaticRend
 
   return (
     <div
-      className={`openbitfun-generative-widget-static-renderer ${className}`.trim()}
+      className={`opc-generative-widget-static-renderer ${className}`.trim()}
       style={appearanceStyle}
       data-openbitfun-appearance={appearancePayload?.id ?? 'unknown'}
-      data-openbitfun-appearance-mode={appearancePayload?.mode ?? 'dark'}
+      data-opc-appearance-mode={appearancePayload?.mode ?? 'dark'}
     >
       <style>{shellCss}</style>
-      <div ref={rootRef} className="openbitfun-generative-widget-static-renderer__root" />
+      <div ref={rootRef} className="opc-generative-widget-static-renderer__root" />
     </div>
   );
 };

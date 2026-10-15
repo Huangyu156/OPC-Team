@@ -30,7 +30,7 @@ use crate::util::timing::elapsed_ms_u64;
 use async_trait::async_trait;
 use input::{TaskAction, TaskInvocation};
 use log::{debug, warn};
-use openbitfun_runtime_ports::{PermissionRuntimeCeiling, SubagentContextMode};
+use opc_runtime_ports::{PermissionRuntimeCeiling, SubagentContextMode};
 use serde_json::{json, Map, Value};
 use std::collections::HashMap;
 use std::time::Instant;

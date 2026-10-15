@@ -116,14 +116,14 @@ const ArchivedRow: React.FC<ArchivedRowProps> = ({
   const dateStr = formatDateTime(session.lastActiveAt);
 
   return (
-    <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="row" className="archived-sessions-config__row">
-      <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="rowInfo" className="archived-sessions-config__row-info">
+    <div data-opc-component="archived-sessions-config" data-opc-part="row" className="archived-sessions-config__row">
+      <div data-opc-component="archived-sessions-config" data-opc-part="rowInfo" className="archived-sessions-config__row-info">
         <OverflowText className="archived-sessions-config__row-name">{displayName}</OverflowText>
         {dateStr && (
           <span className="archived-sessions-config__row-date">{dateStr}</span>
         )}
       </div>
-      <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="rowActions" className="archived-sessions-config__row-actions">
+      <div data-opc-component="archived-sessions-config" data-opc-part="rowActions" className="archived-sessions-config__row-actions">
         <Button
           size="sm"
           variant="outline"
@@ -454,7 +454,7 @@ const ArchivedSessionsSettingsPage: React.FC = () => {
   const hasEntries = entries.length > 0;
 
   const headerExtra = (
-    <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="headerActions" className="archived-sessions-config__header-actions">
+    <div data-opc-component="archived-sessions-config" data-opc-part="headerActions" className="archived-sessions-config__header-actions">
       <ConfigRefreshButton
         tooltip={t('actions.refresh')}
         onClick={() => { void loadArchived(true); }}
@@ -477,7 +477,7 @@ const ArchivedSessionsSettingsPage: React.FC = () => {
   );
 
   return (
-    <ConfigPageLayout data-openbitfun-component="archived-sessions-config" data-openbitfun-part="root" className="archived-sessions-config">
+    <ConfigPageLayout data-opc-component="archived-sessions-config" data-opc-part="root" className="archived-sessions-config">
       <ConfigPageHeader
         title={t('nav.sessions.archivedSessions')}
         subtitle={t('nav.sessions.archivedSessionsDescription')}
@@ -501,11 +501,11 @@ const ArchivedSessionsSettingsPage: React.FC = () => {
             />
           ))}
           {loading ? (
-            <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="loading" className="archived-sessions-config__loading">
+            <div data-opc-component="archived-sessions-config" data-opc-part="loading" className="archived-sessions-config__loading">
               <ConfigLoadingState label={t('nav.sessions.loading')} variant="list" />
             </div>
           ) : !hasEntries && loadFailures.length === 0 ? (
-            <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="empty" className="archived-sessions-config__empty">
+            <div data-opc-component="archived-sessions-config" data-opc-part="empty" className="archived-sessions-config__empty">
               <Empty
                 icon={<Inbox aria-hidden />}
                 title={t('nav.sessions.noArchivedSessions')}
@@ -516,11 +516,11 @@ const ArchivedSessionsSettingsPage: React.FC = () => {
               {Array.from(grouped.entries()).map(([workspaceKey, group]) => {
                 const isCollapsed = collapsedWorkspaces.has(workspaceKey);
                 return (
-                  <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="group" data-openbitfun-state={isCollapsed ? 'collapsed' : undefined} key={workspaceKey} className="archived-sessions-config__group">
+                  <div data-opc-component="archived-sessions-config" data-opc-part="group" data-opc-state={isCollapsed ? 'collapsed' : undefined} key={workspaceKey} className="archived-sessions-config__group">
                     <button data-overflow-trigger
                       type="button"
-                      data-openbitfun-component="archived-sessions-config"
-                      data-openbitfun-part="groupHeader"
+                      data-opc-component="archived-sessions-config"
+                      data-opc-part="groupHeader"
                       className="archived-sessions-config__group-header"
                       onClick={() => toggleWorkspace(workspaceKey)}
                       aria-expanded={!isCollapsed}
@@ -536,7 +536,7 @@ const ArchivedSessionsSettingsPage: React.FC = () => {
                       </span>
                     </button>
                     {!isCollapsed && (
-                      <div data-openbitfun-component="archived-sessions-config" data-openbitfun-part="groupList" className="archived-sessions-config__group-list">
+                      <div data-opc-component="archived-sessions-config" data-opc-part="groupList" className="archived-sessions-config__group-list">
                         {group.entries.map(entry => (
                           <ArchivedRow
                             key={archivedEntryIdentityKey(entry)}

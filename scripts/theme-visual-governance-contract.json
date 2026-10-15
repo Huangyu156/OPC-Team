@@ -7,7 +7,7 @@
       "owner": "src/web-ui/src/app/layout; src/web-ui/src/app/components/NavPanel",
       "platforms": ["desktop-webview", "web"],
       "formFactors": ["desktop", "narrow"],
-      "themes": ["dark", "light", "system", "openbitfun-monochrome"],
+      "themes": ["dark", "light", "system", "opc-monochrome"],
       "states": ["default", "hover", "focus", "selected", "disabled"],
       "tokenFamilies": ["--opcteam-color-surface-*", "--opcteam-color-content-*", "--opcteam-color-border-*", "--opcteam-color-action-*", "--opcteam-component-scene-*", "--opcteam-nav-*"],
       "evidence": [
@@ -31,7 +31,7 @@
       "owner": "src/web-ui/src/flow_chat; src/web-ui/src/app/scenes/session",
       "platforms": ["desktop-webview", "web"],
       "formFactors": ["desktop", "narrow"],
-      "themes": ["dark", "light", "system", "openbitfun-monochrome"],
+      "themes": ["dark", "light", "system", "opc-monochrome"],
       "states": ["default", "streaming", "hover", "focus", "selected", "error", "empty"],
       "tokenFamilies": ["--opcteam-color-surface-*", "--opcteam-color-content-*", "--opcteam-color-accent-*", "--opcteam-color-action-*", "--opcteam-color-status-*", "--opcteam-domain-tool-*"],
       "evidence": [
@@ -175,7 +175,7 @@
       "owner": "src/web-ui/src/app/scenes/settings; src/web-ui/src/infrastructure/appearance",
       "platforms": ["desktop-webview", "web"],
       "formFactors": ["desktop", "narrow"],
-      "themes": ["dark", "light", "system", "openbitfun-monochrome"],
+      "themes": ["dark", "light", "system", "opc-monochrome"],
       "states": ["default", "selected", "hover", "focus", "imported-appearance", "system-appearance"],
       "tokenFamilies": ["--opcteam-color-*", "--opcteam-shadow-*", "--opcteam-effect-*", "--opcteam-opacity-*", "--opcteam-component-config-page-*", "--opcteam-domain-*"],
       "evidence": [

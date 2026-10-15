@@ -56,15 +56,15 @@ const UserMessageEditActions: React.FC<UserMessageEditActionsProps> = ({
 }) => (
   <ComposerToolbar
     className="user-message-edit-composer__actions"
-    data-openbitfun-product-component="user-message-edit-composer"
-    data-openbitfun-product-part="actions"
+    data-opc-product-component="user-message-edit-composer"
+    data-opc-product-part="actions"
     trailing={(
       <>
         <Button
           aria-label={cancelLabel}
-          data-openbitfun-action="cancel"
-          data-openbitfun-product-component="user-message-edit-composer"
-          data-openbitfun-product-part="action"
+          data-opc-action="cancel"
+          data-opc-product-component="user-message-edit-composer"
+          data-opc-product-part="action"
           disabled={isSubmitting}
           onClick={onCancel}
           size="sm"
@@ -74,9 +74,9 @@ const UserMessageEditActions: React.FC<UserMessageEditActionsProps> = ({
         </Button>
         <Button
           aria-label={submitLabel}
-          data-openbitfun-action="submit"
-          data-openbitfun-product-component="user-message-edit-composer"
-          data-openbitfun-product-part="action"
+          data-opc-action="submit"
+          data-opc-product-component="user-message-edit-composer"
+          data-opc-product-part="action"
           disabled={!canSubmit}
           loading={isSubmitting}
           onClick={onSubmit}
@@ -198,10 +198,10 @@ const RichUserMessageEditComposer: React.FC<RichUserMessageEditComposerProps> = 
   return (
     <Composer
       className="user-message-edit-composer"
-      data-openbitfun-product-component="user-message-edit-composer"
-      data-openbitfun-product-part="root"
-      data-openbitfun-mode="rich"
-      data-openbitfun-state={isSubmitting ? 'submitting' : undefined}
+      data-opc-product-component="user-message-edit-composer"
+      data-opc-product-part="root"
+      data-opc-mode="rich"
+      data-opc-state={isSubmitting ? 'submitting' : undefined}
       disabled={isSubmitting}
       onMouseDown={handleComposerMouseDown}
       toolbar={(
@@ -218,8 +218,8 @@ const RichUserMessageEditComposer: React.FC<RichUserMessageEditComposerProps> = 
       <div
         ref={contextPickerAnchorRef}
         className="user-message-edit-composer__rich-input"
-        data-openbitfun-product-component="user-message-edit-composer"
-        data-openbitfun-product-part="input"
+        data-opc-product-component="user-message-edit-composer"
+        data-opc-product-part="input"
       >
         <ConversationExcerptAttachments contexts={contexts} onRemove={handleRemoveContext}
           onUpdate={(id, comment) => setContexts(current => current.map(context =>
@@ -342,10 +342,10 @@ export const UserMessageEditComposer: React.FC<UserMessageEditComposerProps> = (
   return (
     <Composer
       className="user-message-edit-composer"
-      data-openbitfun-product-component="user-message-edit-composer"
-      data-openbitfun-product-part="root"
-      data-openbitfun-mode="plain"
-      data-openbitfun-state={isSubmitting ? 'submitting' : undefined}
+      data-opc-product-component="user-message-edit-composer"
+      data-opc-product-part="root"
+      data-opc-mode="plain"
+      data-opc-state={isSubmitting ? 'submitting' : undefined}
       disabled={isSubmitting}
       onMouseDown={handleComposerMouseDown}
       toolbar={(
@@ -360,8 +360,8 @@ export const UserMessageEditComposer: React.FC<UserMessageEditComposerProps> = (
       )}
     >
       <textarea
-        data-openbitfun-product-component="user-message-edit-composer"
-        data-openbitfun-product-part="input"
+        data-opc-product-component="user-message-edit-composer"
+        data-opc-product-part="input"
         ref={textareaRef}
         value={value}
         onChange={(event) => onChange(event.target.value)}

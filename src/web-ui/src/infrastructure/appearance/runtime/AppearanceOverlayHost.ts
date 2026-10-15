@@ -10,7 +10,7 @@
 import { getOverlayHost } from '@openbitfun/ui';
 import './AppearanceOverlayHost.scss';
 
-const OVERLAY_HOST_ID = 'openbitfun-appearance-overlay-host';
+const OVERLAY_HOST_ID = 'opc-appearance-overlay-host';
 
 export function getAppearanceOverlayHost(): HTMLDivElement {
   const host = getOverlayHost(document);

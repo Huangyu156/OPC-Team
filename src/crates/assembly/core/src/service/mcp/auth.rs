@@ -1,6 +1,6 @@
 //! OAuth support for remote MCP servers.
 //!
-//! The owner implementation lives in `openbitfun-services-integrations`. This
+//! The owner implementation lives in `opc-services-integrations`. This
 //! module keeps the legacy core entrypoints and injects the product data directory.
 
 use async_trait::async_trait;
@@ -9,11 +9,11 @@ use std::path::PathBuf;
 use crate::infrastructure::try_get_path_manager_arc;
 use crate::service::mcp::server::MCPServerConfig;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use openbitfun_services_integrations::mcp::auth::rmcp_compat::{
+use opc_services_integrations::mcp::auth::rmcp_compat::{
     AuthError, AuthorizationManager, CredentialStore, StoredCredentials,
 };
 
-pub use openbitfun_services_integrations::mcp::auth::{
+pub use opc_services_integrations::mcp::auth::{
     MCPRemoteOAuthSessionSnapshot, MCPRemoteOAuthStatus, PreparedMCPRemoteOAuthAuthorization,
 };
 
@@ -27,17 +27,17 @@ pub fn map_auth_error(error: impl ToString) -> OpcTeamError {
 
 #[deprecated(
     since = "0.2.12",
-    note = "use openbitfun_services_integrations::mcp::auth::MCPRemoteOAuthCredentialVault with an injected data directory"
+    note = "use opc_services_integrations::mcp::auth::MCPRemoteOAuthCredentialVault with an injected data directory"
 )]
 pub struct MCPRemoteOAuthCredentialVault {
-    inner: openbitfun_services_integrations::mcp::auth::MCPRemoteOAuthCredentialVault,
+    inner: opc_services_integrations::mcp::auth::MCPRemoteOAuthCredentialVault,
 }
 
 #[allow(deprecated)]
 impl MCPRemoteOAuthCredentialVault {
     pub fn new() -> OpcTeamResult<Self> {
         Ok(Self {
-            inner: openbitfun_services_integrations::mcp::auth::MCPRemoteOAuthCredentialVault::new(
+            inner: opc_services_integrations::mcp::auth::MCPRemoteOAuthCredentialVault::new(
                 oauth_data_dir()?,
             ),
         })
@@ -63,7 +63,7 @@ impl MCPRemoteOAuthCredentialVault {
 #[derive(Clone)]
 #[deprecated(
     since = "0.2.12",
-    note = "use openbitfun_services_integrations::mcp::auth::MCPRemoteOAuthCredentialStore with an injected data directory"
+    note = "use opc_services_integrations::mcp::auth::MCPRemoteOAuthCredentialStore with an injected data directory"
 )]
 pub struct MCPRemoteOAuthCredentialStore {
     server_id: String,
@@ -107,16 +107,13 @@ impl CredentialStore for MCPRemoteOAuthCredentialStore {
 }
 
 pub async fn has_stored_oauth_credentials(server_id: &str) -> OpcTeamResult<bool> {
-    openbitfun_services_integrations::mcp::auth::has_stored_oauth_credentials(
-        oauth_data_dir()?,
-        server_id,
-    )
-    .await
-    .map_err(map_auth_error)
+    opc_services_integrations::mcp::auth::has_stored_oauth_credentials(oauth_data_dir()?, server_id)
+        .await
+        .map_err(map_auth_error)
 }
 
 pub async fn clear_stored_oauth_credentials(server_id: &str) -> OpcTeamResult<()> {
-    openbitfun_services_integrations::mcp::auth::clear_stored_oauth_credentials(
+    opc_services_integrations::mcp::auth::clear_stored_oauth_credentials(
         oauth_data_dir()?,
         server_id,
     )
@@ -128,7 +125,7 @@ pub async fn build_authorization_manager(
     server_id: &str,
     server_url: &str,
 ) -> OpcTeamResult<(AuthorizationManager, bool)> {
-    openbitfun_services_integrations::mcp::auth::build_authorization_manager(
+    opc_services_integrations::mcp::auth::build_authorization_manager(
         oauth_data_dir()?,
         server_id,
         server_url,
@@ -140,7 +137,7 @@ pub async fn build_authorization_manager(
 pub async fn prepare_remote_oauth_authorization(
     config: &MCPServerConfig,
 ) -> OpcTeamResult<PreparedMCPRemoteOAuthAuthorization> {
-    openbitfun_services_integrations::mcp::auth::prepare_remote_oauth_authorization(
+    opc_services_integrations::mcp::auth::prepare_remote_oauth_authorization(
         oauth_data_dir()?,
         config,
     )

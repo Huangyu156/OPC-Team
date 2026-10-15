@@ -1,5 +1,5 @@
 // Protocol smoke test for the dsh-openbitfun bridge: drives a real
-// `openbitfun-sdk-host` process through initialize -> session/create ->
+// `opc-sdk-host` process through initialize -> session/create ->
 // query/start -> query/event* -> query/result and asserts a completed turn
 // with non-empty assistant text. No dsh is required.
 //
@@ -12,7 +12,7 @@ import process from 'node:process';
 import { fileURLToPath } from 'node:url';
 
 const PACKAGE_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
-const HOST_BINARY_BASE = process.platform === 'win32' ? 'openbitfun-sdk-host.exe' : 'openbitfun-sdk-host';
+const HOST_BINARY_BASE = process.platform === 'win32' ? 'opc-sdk-host.exe' : 'opc-sdk-host';
 
 function resolveHost() {
   const explicit = process.argv[2] ?? process.env.OPENBITFUN_SDK_HOST;
@@ -130,7 +130,7 @@ function request(method, params, timeoutMs = 60_000) {
 try {
   const init = await request('initialize', {
     protocolVersion: 1,
-    clientInfo: { name: 'dsh-openbitfun-smoke', version: '0.1.0' },
+    clientInfo: { name: 'dsh-opc-smoke', version: '0.1.0' },
     capabilities: { serverNotifications: true },
   });
   console.log(`initialized: protocol ${init.protocolVersion}, runtime ${init.runtimeVersion}`);

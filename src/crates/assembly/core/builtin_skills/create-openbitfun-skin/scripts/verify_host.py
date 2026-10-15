@@ -12,7 +12,7 @@ import zipfile
 from pathlib import Path
 from typing import Any, Sequence
 
-import openbitfun_appearance as appearance
+import opc_appearance as appearance
 import media_support
 import sync_registry as registry_sync
 
@@ -50,7 +50,7 @@ def verify_video_assets(source: Path, manifest: dict[str, Any]) -> dict[str, dic
     kind = appearance.source_kind(source)
     results: dict[str, dict[str, Any]] = {}
     try:
-        with tempfile.TemporaryDirectory(prefix="openbitfun-host-media-") as temporary:
+        with tempfile.TemporaryDirectory(prefix="opc-host-media-") as temporary:
             root = Path(temporary)
             archive = zipfile.ZipFile(source) if kind == "archive" else None
             try:
@@ -123,7 +123,7 @@ try {
   await server.close();
 }
 """
-    with tempfile.TemporaryDirectory(prefix="openbitfun-host-appearance-") as temporary:
+    with tempfile.TemporaryDirectory(prefix="opc-host-appearance-") as temporary:
         manifest_path = Path(temporary) / appearance.MANIFEST_NAME
         manifest_path.write_bytes(appearance.manifest_bytes(manifest))
         raw = run(["node", "--input-type=module", "--eval", node_source, str(manifest_path)], web_ui)

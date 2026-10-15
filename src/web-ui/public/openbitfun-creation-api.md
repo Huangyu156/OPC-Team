@@ -6,8 +6,8 @@ for existing settings and actions; use these files for persistent custom UI.
 
 ## Files and activation
 
-- `openbitfun-creation.css`: loaded after the packaged stylesheet.
-- `openbitfun-creation.js`: browser ES module. Export a default function `activate(ui)`.
+- `opc-creation.css`: loaded after the packaged stylesheet.
+- `opc-creation.js`: browser ES module. Export a default function `activate(ui)`.
 - `creation-assets/`: optional local ES modules, images and other assets. Import
   modules relatively, e.g. `./creation-assets/panel.js`.
 
@@ -113,11 +113,11 @@ export default function activate(ui) {
 
 ```css
 /* Sidebar layout; adapt values to the user's requested design. */
-[data-openbitfun-scene="workbench"][data-openbitfun-part="navArea"] { }
-[data-openbitfun-scene="workbench"][data-openbitfun-part="sceneArea"] { }
-[data-openbitfun-component="app-layout"][data-openbitfun-part="root"] { }
-[data-openbitfun-component="scene-bar"][data-openbitfun-part="root"] { }
-[data-openbitfun-creation-slot="sidebar-footer"] { }
+[data-opc-scene="workbench"][data-opc-part="navArea"] { }
+[data-opc-scene="workbench"][data-opc-part="sceneArea"] { }
+[data-opc-component="app-layout"][data-opc-part="root"] { }
+[data-opc-component="scene-bar"][data-opc-part="root"] { }
+[data-opc-creation-slot="sidebar-footer"] { }
 ```
 
 Use existing theme variables for colors and typography. Scope new styles to your

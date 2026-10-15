@@ -213,7 +213,7 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
 
   useEffect(() => {
     const items = listRef.current?.querySelectorAll<HTMLElement>(
-      '[data-openbitfun-part="option"]',
+      '[data-opc-part="option"]',
     );
     const selectedItem = items?.[selectedIndex];
     if (typeof selectedItem?.scrollIntoView === 'function') {
@@ -446,8 +446,8 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
       id={id}
       ref={panelRef}
       className="branch-quick-switch"
-      data-openbitfun-product-component="branch-quick-switch"
-      data-openbitfun-product-part="root"
+      data-opc-product-component="branch-quick-switch"
+      data-opc-product-part="root"
       data-testid="branch-quick-switch"
       data-motion="presence"
       role="dialog"
@@ -457,8 +457,8 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
     >
       <div
         className="branch-quick-switch__search"
-        data-openbitfun-product-component="branch-quick-switch"
-        data-openbitfun-product-part="search"
+        data-opc-product-component="branch-quick-switch"
+        data-opc-product-part="search"
       >
         <SearchField
           ref={inputRef}
@@ -470,8 +470,8 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
           onValueChange={setSearchTerm}
           onCompositionStart={() => setInputCompositionActive(true)}
           onCompositionEnd={() => setInputCompositionActive(false)}
-          data-openbitfun-product-component="branch-quick-switch"
-          data-openbitfun-product-part="input"
+          data-opc-product-component="branch-quick-switch"
+          data-opc-product-part="input"
         />
         <IconButton
           ref={refreshButtonRef}
@@ -498,8 +498,8 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
         {isLoading && branches.length === 0 ? (
           <ListboxEmpty
             className="branch-quick-switch__loading"
-            data-openbitfun-product-component="branch-quick-switch"
-            data-openbitfun-product-part="loading"
+            data-opc-product-component="branch-quick-switch"
+            data-opc-product-part="loading"
           >
             <Loader2 size={16} className="branch-quick-switch__spinner" aria-hidden />
             <span>{t('quickSwitch.loading')}</span>
@@ -507,8 +507,8 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
         ) : loadFailed && branches.length === 0 ? (
           <ListboxEmpty
             className="branch-quick-switch__empty"
-            data-openbitfun-product-component="branch-quick-switch"
-            data-openbitfun-product-part="empty"
+            data-opc-product-component="branch-quick-switch"
+            data-opc-product-part="empty"
             aria-live="polite"
           >
             {t('quickSwitch.errors.loadFailed')}
@@ -516,8 +516,8 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
         ) : filteredBranches.length === 0 ? (
           <ListboxEmpty
             className="branch-quick-switch__empty"
-            data-openbitfun-product-component="branch-quick-switch"
-            data-openbitfun-product-part="empty"
+            data-opc-product-component="branch-quick-switch"
+            data-opc-product-part="empty"
           >
             {searchTerm ? t('empty.noMatchingBranches') : t('empty.noBranches')}
           </ListboxEmpty>
@@ -527,7 +527,7 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
               active={index === selectedIndex}
               className="branch-quick-switch__item"
               data-index={index}
-              data-openbitfun-state={branch.current ? 'current' : undefined}
+              data-opc-state={branch.current ? 'current' : undefined}
               data-testid={`branch-quick-switch-option-${branch.name}`}
               disabled={isSwitching}
               indicator={switchingBranch === branch.name
@@ -553,8 +553,8 @@ export const BranchQuickSwitch: React.FC<BranchQuickSwitchProps> = ({
         <div
           ref={layerRef}
           className="branch-quick-switch__layer"
-          data-openbitfun-native-webview-occlusion
-          data-openbitfun-placement={popoverLayout?.placement ?? 'top'}
+          data-opc-native-webview-occlusion
+          data-opc-placement={popoverLayout?.placement ?? 'top'}
           data-state={phase}
           data-motion="presence"
           aria-hidden={!isOpen || undefined}

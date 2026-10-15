@@ -25,7 +25,7 @@ vi.mock('react-i18next', () => ({
 }));
 
 vi.mock('@openbitfun/ui', () => ({
-  Icon: ({ name }: { name: string }) => <span data-openbitfun-component="icon" data-openbitfun-name={name} />,
+  Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   OverflowText: ({ children, behavior: _behavior, marqueeActive: _marqueeActive, ...props }: any) => <span {...props}>{children}</span>,
   IconButton: ({ icon, loading: _loading, size: _size, variant: _variant, ...props }: ButtonHTMLAttributes<HTMLButtonElement> & {
     icon?: ReactNode;
@@ -144,8 +144,8 @@ describe('PendingQueuePanel', () => {
       );
     });
 
-    const title = container.querySelector('[data-openbitfun-part="title"]');
-    const attachmentBadge = container.querySelector('[data-openbitfun-part="attachmentCount"]');
+    const title = container.querySelector('[data-opc-part="title"]');
+    const attachmentBadge = container.querySelector('[data-opc-part="attachmentCount"]');
 
     expect(title?.textContent).toBe('pendingQueue.title1');
     expect(attachmentBadge?.textContent).toBe('3');
@@ -199,7 +199,7 @@ describe('PendingQueuePanel', () => {
     });
 
     const preview = container.querySelector<HTMLElement>(
-      '.openbitfun-pending-queue-panel__preview',
+      '.opc-pending-queue-panel__preview',
     );
     expect(preview).not.toBeNull();
     expect(preview?.getAttribute('role')).toBeNull();

@@ -8,11 +8,11 @@ export const sessionMenuAppearanceDescriptor: AppearanceSurfaceDescriptor = {
     { id: 'itemLabel' },
   ],
   facets: [
-    { id: 'itemKind', attribute: 'data-openbitfun-item-kind', values: ['create', 'session'] },
-    { id: 'sessionKind', attribute: 'data-openbitfun-session-kind', values: ['code', 'cowork', 'unified'] },
+    { id: 'itemKind', attribute: 'data-opc-item-kind', values: ['create', 'session'] },
+    { id: 'sessionKind', attribute: 'data-opc-session-kind', values: ['code', 'cowork', 'unified'] },
   ],
   states: [
-    { id: 'open', selector: { kind: 'ancestorPart', part: 'root', suffix: '[data-openbitfun-state~="open"]' } },
-    { id: 'active', selector: { kind: 'self', suffix: '[data-openbitfun-state~="active"]' } },
+    { id: 'open', selector: { kind: 'ancestorPart', part: 'root', suffix: '[data-opc-state~="open"]' } },
+    { id: 'active', selector: { kind: 'self', suffix: '[data-opc-state~="active"]' } },
   ],
 };

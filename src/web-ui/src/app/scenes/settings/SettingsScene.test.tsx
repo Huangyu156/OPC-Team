@@ -154,11 +154,11 @@ describe('SettingsScene canonical page routing', () => {
   });
   it('never mounts loading UI while switching between prepared pages', async () => {
     await act(async () => root.render(<SettingsScene />));
-    const frame = container.querySelector('.openbitfun-settings-scene__content-wrapper');
+    const frame = container.querySelector('.opc-settings-scene__content-wrapper');
     await act(async () => useSettingsStore.getState().openPage('application.appearance', 'pointer'));
     await act(async () => useSettingsStore.getState().openPage('application.general', 'pointer'));
     expect(preparation.loading).not.toHaveBeenCalled();
-    expect(container.querySelector('.openbitfun-settings-scene__content-wrapper')).toBe(frame);
+    expect(container.querySelector('.opc-settings-scene__content-wrapper')).toBe(frame);
     expect(container.querySelectorAll('[data-testid="settings-scene-content"]')).toHaveLength(1);
   });
 

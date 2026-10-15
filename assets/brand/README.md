@@ -8,8 +8,8 @@ highlights are intentionally absent from static files. The SVG uses
 
 The generator also maintains the existing transparent PNG paths:
 
-- `openbitfun-mark-dark.png` is the dark mark for light surfaces.
-- `openbitfun-mark-light.png` is the light mark for dark surfaces.
+- `opc-mark-dark.png` is the dark mark for light surfaces.
+- `opc-mark-light.png` is the light mark for dark surfaces.
 
 `source/openbitfun-app-mark.png` preserves the originally submitted silver
 hexagonal application mark. Application, window, taskbar, Dock, tray, browser,
@@ -110,7 +110,7 @@ bundling checks also run `scripts/macos-icon-bundle.test.mjs`.
 
 Verification emails use the silver application mark on its black rounded-square
 background, generated at
-`src/miniapp-market-web/public/assets/openbitfun-email-app-icon.png`. The market build
+`src/miniapp-market-web/public/assets/opc-email-app-icon.png`. The market build
 publishes this stable anonymous image path for email clients; it contains no
 recipient or verification data and does not require authentication.
 

@@ -1,8 +1,8 @@
-use openbitfun_product_domains::canvas::types::{
+use opc_product_domains::canvas::types::{
     CanvasDiagnostic, CanvasDiagnosticCategory, CanvasDiagnosticSeverity,
 };
 #[cfg(feature = "canvas-runtime")]
-use openbitfun_product_domains::canvas::{
+use opc_product_domains::canvas::{
     canvas_appearance_token_group_allows as generated_appearance_token_group_allows,
     canvas_sdk_component_props as generated_component_props, CANVAS_SDK_COMMON_PROPS,
 };

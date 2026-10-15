@@ -188,7 +188,7 @@ async function cleanupFixture(manifest: Partial<RestartManifest>): Promise<void>
 
   if (
     manifest.fixtureRoot
-    && path.basename(manifest.fixtureRoot).startsWith('openbitfun-worktree-restart-e2e-')
+    && path.basename(manifest.fixtureRoot).startsWith('opc-worktree-restart-e2e-')
   ) {
     fs.rmSync(manifest.fixtureRoot, { recursive: true, force: true });
   }
@@ -208,7 +208,7 @@ describe('L1 managed Worktree desktop restart recovery', () => {
 
     it('persists a managed Worktree and session before Desktop exits', async () => {
       const fixtureRoot = fs.mkdtempSync(
-        path.join(os.tmpdir(), 'openbitfun-worktree-restart-e2e-'),
+        path.join(os.tmpdir(), 'opc-worktree-restart-e2e-'),
       );
       const createdRepositoryPath = path.join(fixtureRoot, 'repository');
       fs.mkdirSync(createdRepositoryPath);
@@ -217,7 +217,7 @@ describe('L1 managed Worktree desktop restart recovery', () => {
 
       git(repositoryPath, ['init']);
       git(repositoryPath, ['config', 'user.name', 'OPC-Team E2E']);
-      git(repositoryPath, ['config', 'user.email', 'openbitfun-e2e@example.invalid']);
+      git(repositoryPath, ['config', 'user.email', 'opc-e2e@example.invalid']);
       fs.writeFileSync(path.join(repositoryPath, 'shared.txt'), 'restart baseline\n');
       git(repositoryPath, ['add', 'shared.txt']);
       git(repositoryPath, ['commit', '-m', 'restart baseline']);

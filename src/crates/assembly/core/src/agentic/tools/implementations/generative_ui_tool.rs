@@ -55,20 +55,20 @@ impl GenerativeUITool {
         "Architecture/codebase widget reminder: if the widget is a repo map, README architecture view, or module diagram, clickable nodes must carry verified file metadata on the clickable element itself. Use `data-file-path` for a REAL existing file and `data-line` for the exact definition line when the node represents code. Do not attach file metadata to abstract grouping nodes, package containers, or directories. If a node is conceptual or cannot be verified, leave it non-clickable."
     }
 
-    fn openbitfun_design_system_reminder() -> &'static str {
-        "OPC-Team design-system reminder: when the widget should feel native to the host OPC-Team app, compose the provided `openbitfun-*` scaffold classes first and use host-projected canonical tokens instead of hard-coded design values. Prefer CSS variables such as `var(--opcteam-color-surface-canvas)`, `var(--opcteam-color-surface-panel)`, `var(--opcteam-color-surface-scene)`, `var(--opcteam-color-surface-raised)`, `var(--opcteam-color-content-primary)`, `var(--opcteam-color-content-secondary)`, `var(--opcteam-color-content-muted)`, `var(--opcteam-color-accent-default)`, `var(--opcteam-color-accent-hover)`, `var(--opcteam-color-border-subtle)`, `var(--opcteam-color-border-default)`, `var(--opcteam-color-border-strong)`, `var(--opcteam-color-action-neutral-surface)`, `var(--opcteam-color-action-neutral-surface-hover)`, `var(--opcteam-color-action-quiet-hover)`, `var(--opcteam-shadow-*)`, `var(--opcteam-motion-duration-*)`, `var(--opcteam-motion-easing-*)`, `var(--opcteam-font-family-sans)`, and `var(--opcteam-font-family-mono)`. Radius, spacing, font-size, and font-weight variables are iframe-local scaffold values rather than host appearance extension points. Support both `openbitfun-dark` and `openbitfun-light`; do not assume dark-only, purple-only, or landing-page styling. Favor compact desktop workbench layouts, panel/card surfaces, strong information hierarchy, and reusable OPC-Team component patterns. Avoid hard-coded colors, arbitrary spacing, giant hero sections, fake mobile chrome, and full marketing-page shells; prefer understated, premium UI with layered surfaces, restrained contrast, subtle borders, and do not use thick left-accent emphasis blocks."
+    fn opc_design_system_reminder() -> &'static str {
+        "OPC-Team design-system reminder: when the widget should feel native to the host OPC-Team app, compose the provided `opc-*` scaffold classes first and use host-projected canonical tokens instead of hard-coded design values. Prefer CSS variables such as `var(--opcteam-color-surface-canvas)`, `var(--opcteam-color-surface-panel)`, `var(--opcteam-color-surface-scene)`, `var(--opcteam-color-surface-raised)`, `var(--opcteam-color-content-primary)`, `var(--opcteam-color-content-secondary)`, `var(--opcteam-color-content-muted)`, `var(--opcteam-color-accent-default)`, `var(--opcteam-color-accent-hover)`, `var(--opcteam-color-border-subtle)`, `var(--opcteam-color-border-default)`, `var(--opcteam-color-border-strong)`, `var(--opcteam-color-action-neutral-surface)`, `var(--opcteam-color-action-neutral-surface-hover)`, `var(--opcteam-color-action-quiet-hover)`, `var(--opcteam-shadow-*)`, `var(--opcteam-motion-duration-*)`, `var(--opcteam-motion-easing-*)`, `var(--opcteam-font-family-sans)`, and `var(--opcteam-font-family-mono)`. Radius, spacing, font-size, and font-weight variables are iframe-local scaffold values rather than host appearance extension points. Support both `openbitfun-dark` and `openbitfun-light`; do not assume dark-only, purple-only, or landing-page styling. Favor compact desktop workbench layouts, panel/card surfaces, strong information hierarchy, and reusable OPC-Team component patterns. Avoid hard-coded colors, arbitrary spacing, giant hero sections, fake mobile chrome, and full marketing-page shells; prefer understated, premium UI with layered surfaces, restrained contrast, subtle borders, and do not use thick left-accent emphasis blocks."
     }
 
-    fn openbitfun_widget_scaffold_reminder() -> &'static str {
-        "OPC-Team widget scaffold reminder: the host iframe already provides reusable utility classes. Prefer these host classes before inventing a new visual language: `openbitfun-root`, `openbitfun-stack`, `openbitfun-row`, `openbitfun-row-wrap`, `openbitfun-toolbar`, `openbitfun-section`, `openbitfun-section-header`, `openbitfun-title`, `openbitfun-subtitle`, `openbitfun-eyebrow`, `openbitfun-card`, `openbitfun-panel`, `openbitfun-card-accent`, `openbitfun-grid`, `openbitfun-kpi`, `openbitfun-kpi-label`, `openbitfun-kpi-value`, `openbitfun-kpi-meta`, `openbitfun-badge`, `openbitfun-badge-accent`, `openbitfun-badge-success`, `openbitfun-badge-warning`, `openbitfun-badge-error`, `openbitfun-button`, `openbitfun-button-primary`, `openbitfun-input`, `openbitfun-textarea`, `openbitfun-select`, `openbitfun-list`, `openbitfun-list-item`, `openbitfun-table-wrap`, `openbitfun-table`, `openbitfun-empty`, `openbitfun-divider`, `openbitfun-code`, and `openbitfun-mono`. Generate markup that composes these classes first, and only add small local CSS when the scaffold is insufficient."
+    fn opc_widget_scaffold_reminder() -> &'static str {
+        "OPC-Team widget scaffold reminder: the host iframe already provides reusable utility classes. Prefer these host classes before inventing a new visual language: `opc-root`, `opc-stack`, `opc-row`, `opc-row-wrap`, `opc-toolbar`, `opc-section`, `opc-section-header`, `opc-title`, `opc-subtitle`, `opc-eyebrow`, `opc-card`, `opc-panel`, `opc-card-accent`, `opc-grid`, `opc-kpi`, `opc-kpi-label`, `opc-kpi-value`, `opc-kpi-meta`, `opc-badge`, `opc-badge-accent`, `opc-badge-success`, `opc-badge-warning`, `opc-badge-error`, `opc-button`, `opc-button-primary`, `opc-input`, `opc-textarea`, `opc-select`, `opc-list`, `opc-list-item`, `opc-table-wrap`, `opc-table`, `opc-empty`, `opc-divider`, `opc-code`, and `opc-mono`. Generate markup that composes these classes first, and only add small local CSS when the scaffold is insufficient."
     }
 
     fn combined_reminder() -> String {
         format!(
             "{} {} {}",
             Self::architecture_widget_reminder(),
-            Self::openbitfun_design_system_reminder(),
-            Self::openbitfun_widget_scaffold_reminder()
+            Self::opc_design_system_reminder(),
+            Self::opc_widget_scaffold_reminder()
         )
     }
 
@@ -212,8 +212,8 @@ Input rules:
 26. For mockups, use compact spacing and clear hierarchy. Avoid building full app chrome unless the chrome itself is the point.
 27. For lightweight generative art, prefer SVG and keep the output deterministic and performant.
 28. If the widget is meant to match OPC-Team's product UI, apply these reminders strictly: {} {}"#,
-            Self::openbitfun_design_system_reminder(),
-            Self::openbitfun_widget_scaffold_reminder()
+            Self::opc_design_system_reminder(),
+            Self::opc_widget_scaffold_reminder()
         ))
     }
 
@@ -254,7 +254,7 @@ Input rules:
                 "widget_code": {
                     "type": "string",
                     "description": format!(
-                        "Raw HTML fragment or raw SVG. No Markdown code fences. For HTML: no <!DOCTYPE>, <html>, <head>, or <body>. The 260-line / 28KB guideline is a soft reliability threshold. For larger widgets, use data-driven loops, shared CSS classes, and simpler markup rather than truncating required behavior. {} If the widget should match OPC-Team, rely on `openbitfun-*` scaffold classes plus host-projected color, surface, status, border, shadow, motion, and font-family variables instead of hard-coded colors or custom chrome. Treat radius, spacing, font-size, and font-weight variables as iframe-local scaffold values, not host appearance extension points. If the user asked for file navigation, do not finish this field until each clickable node has verified file metadata or is intentionally non-clickable.",
+                        "Raw HTML fragment or raw SVG. No Markdown code fences. For HTML: no <!DOCTYPE>, <html>, <head>, or <body>. The 260-line / 28KB guideline is a soft reliability threshold. For larger widgets, use data-driven loops, shared CSS classes, and simpler markup rather than truncating required behavior. {} If the widget should match OPC-Team, rely on `opc-*` scaffold classes plus host-projected color, surface, status, border, shadow, motion, and font-family variables instead of hard-coded colors or custom chrome. Treat radius, spacing, font-size, and font-weight variables as iframe-local scaffold values, not host appearance extension points. If the user asked for file navigation, do not finish this field until each clickable node has verified file metadata or is intentionally non-clickable.",
                         Self::combined_reminder()
                     )
                 },
@@ -289,16 +289,16 @@ Input rules:
         let appearance_context = self.build_appearance_prompt_context().await;
         if let Some(obj) = schema.as_object_mut() {
             obj.insert(
-                "x-openbitfun-reminder".to_string(),
+                "x-opc-reminder".to_string(),
                 Value::String(Self::combined_reminder()),
             );
             obj.insert(
-                "x-openbitfun-design-system".to_string(),
-                Value::String(Self::openbitfun_design_system_reminder().to_string()),
+                "x-opc-design-system".to_string(),
+                Value::String(Self::opc_design_system_reminder().to_string()),
             );
             if let Some(appearance_context) = appearance_context {
                 obj.insert(
-                    "x-openbitfun-appearance-context".to_string(),
+                    "x-opc-appearance-context".to_string(),
                     Value::String(appearance_context.clone()),
                 );
                 if let Some(description) = obj

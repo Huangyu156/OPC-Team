@@ -54,10 +54,10 @@ const HtmlPreviewPanel: React.FC<HtmlPreviewPanelProps> = ({
   }, [filePath, workspaceId]);
 
   if (error) {
-    return <div className="openbitfun-html-preview__error"><AlertTriangle size={16} /><span>{error}</span></div>;
+    return <div className="opc-html-preview__error"><AlertTriangle size={16} /><span>{error}</span></div>;
   }
   if (!url) {
-    return <div className="openbitfun-html-preview__loading"><LoadingState size="md">{t('loading.scenes')}</LoadingState></div>;
+    return <div className="opc-html-preview__loading"><LoadingState size="md">{t('loading.scenes')}</LoadingState></div>;
   }
   return <BrowserPanel isActive={isActive} initialUrl={url} />;
 };

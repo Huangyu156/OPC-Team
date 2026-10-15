@@ -50,19 +50,19 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
   }, [isExiting, handleExited]);
 
   return (
-    <div data-openbitfun-component="splash-screen" data-openbitfun-part="root" data-openbitfun-state={isExiting ? 'exiting' : ''}
+    <div data-opc-component="splash-screen" data-opc-part="root" data-opc-state={isExiting ? 'exiting' : ''}
       className={`splash-screen${isExiting ? ' splash-screen--exiting' : ''}`}
       aria-hidden={!showDelayedMessage}
     >
-      <div className="splash-screen__center" data-openbitfun-component="splash-screen" data-openbitfun-part="center">
-        <div className="splash-screen__logo-wrap" data-openbitfun-component="splash-screen" data-openbitfun-part="logo">
+      <div className="splash-screen__center" data-opc-component="splash-screen" data-opc-part="center">
+        <div className="splash-screen__logo-wrap" data-opc-component="splash-screen" data-opc-part="logo">
           <OpenBitFunMark className="splash-screen__logo" motion="breathe" active={!isExiting} />
         </div>
         {showDelayedMessage && delayedMessage && !isExiting && (
           <div
             className="splash-screen__message splash-screen__message--visible"
-            data-openbitfun-component="splash-screen"
-            data-openbitfun-part="message"
+            data-opc-component="splash-screen"
+            data-opc-part="message"
             role="status"
             aria-live="polite"
           >

@@ -17,10 +17,10 @@
 #![allow(dead_code)]
 
 use crate::computer_use::windows_ax_ui::build_updated_cache_with_retry;
-use openbitfun_core::agentic::tools::computer_use_host::{
+use opc_core::agentic::tools::computer_use_host::{
     parse_windows_accelerator_display, AppMenuShortcut,
 };
-use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
+use opc_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::Win32::Foundation::HWND;
 use windows::Win32::System::Com::{
     CoCreateInstance, CoInitializeEx, CLSCTX_INPROC_SERVER, COINIT_APARTMENTTHREADED,

@@ -139,14 +139,14 @@ async function readAboutLayoutEvidence(): Promise<AboutLayoutEvidence> {
   const evidence = await browser.execute(() => {
     const modal = document.querySelector<HTMLElement>('[data-testid="about-dialog-modal"]');
     const root = document.querySelector<HTMLElement>(
-      '[data-openbitfun-component="about-dialog"][data-openbitfun-part="root"]',
+      '[data-opc-component="about-dialog"][data-opc-part="root"]',
     );
-    const brand = document.querySelector<HTMLElement>('.openbitfun-about-dialog__brand');
-    const metadata = document.querySelector<HTMLElement>('.openbitfun-about-dialog__metadata');
+    const brand = document.querySelector<HTMLElement>('.opc-about-dialog__brand');
+    const metadata = document.querySelector<HTMLElement>('.opc-about-dialog__metadata');
     const header = modal?.querySelector<HTMLElement>('.modal__header-shell');
     const headerTitle = modal?.querySelector<HTMLElement>('.modal__title');
-    const closeButton = modal?.querySelector<HTMLElement>('[data-openbitfun-role="popup-close"]');
-    const title = document.querySelector<HTMLElement>('.openbitfun-about-dialog__title');
+    const closeButton = modal?.querySelector<HTMLElement>('[data-opc-role="popup-close"]');
+    const title = document.querySelector<HTMLElement>('.opc-about-dialog__title');
     const branch = document.querySelector<HTMLElement>('[data-testid="about-branch-value"]');
     const dotMatrix = document.querySelector<HTMLElement>('[data-testid="about-dot-matrix"]');
     const starButton = document.querySelector<HTMLElement>('[data-testid="about-github-star"]');
@@ -235,7 +235,7 @@ describe('L0 Popup Surface Consistency', () => {
     expect(await readBackgroundAlpha('[data-testid="about-dialog-modal"]')).toBe(255);
 
     const contentChrome = await readPopupChrome(
-      '[data-openbitfun-component="about-dialog"][data-openbitfun-part="root"]',
+      '[data-opc-component="about-dialog"][data-opc-part="root"]',
     );
     expect(contentChrome.backgroundColor).toBe('rgba(0, 0, 0, 0)');
     expect(contentChrome.borderTopWidth).toBe('0px');

@@ -316,7 +316,7 @@ function FrameworkPreview({
     return (
       <div className="flow-chat-tool-card-preview" data-preview-kind="ambient">
         <AmbientToolCard
-          data-openbitfun-preview-state={previewState}
+          data-opc-preview-state={previewState}
           expandedContent={expandedContent}
           header={(
             <AmbientToolCardHeader
@@ -354,7 +354,7 @@ function FrameworkPreview({
   return (
     <div className="flow-chat-tool-card-preview" data-preview-kind="prominent">
       <ProminentToolCard
-        data-openbitfun-preview-state={previewState}
+        data-opc-preview-state={previewState}
         errorContent={t("components.preview.flowChat.commandFailed")}
         expandedContent={expandedContent}
         summary={(
@@ -401,7 +401,7 @@ function ReadFilePreview({ interactive, state }: PreviewProps) {
         accessibleLabel={t("components.preview.flowChat.readFile")}
         action={action}
         content={content}
-        data-openbitfun-preview-state={state === "hover" ? "hover" : undefined}
+        data-opc-preview-state={state === "hover" ? "hover" : undefined}
         interactive={interactive}
         onOpen={interactive ? () => undefined : undefined}
         status={status}
@@ -417,7 +417,7 @@ function ContextCompressionPreview({ state }: PreviewProps) {
   return (
     <div className="flow-chat-tool-card-preview">
       <ContextCompressionToolCard
-        data-openbitfun-preview-state={state === "hover" ? "hover" : undefined}
+        data-opc-preview-state={state === "hover" ? "hover" : undefined}
         error={state === "error"
           ? t("components.preview.flowChat.contextError")
           : undefined}
@@ -482,7 +482,7 @@ function FileOperationPreview({ interactive, specimen, state }: PreviewProps) {
           deletions: operation === "write" ? 0 : 4,
           label: t("components.preview.flowChat.fileChangeSummary"),
         }}
-        data-openbitfun-preview-state={state === "hover" ? "hover" : undefined}
+        data-opc-preview-state={state === "hover" ? "hover" : undefined}
         error={state === "error" ? {
           message: t("components.preview.flowChat.fileErrorMessage"),
           title: t("components.preview.flowChat.fileErrorTitle"),
@@ -516,7 +516,7 @@ function ActivityPreview({
   const { t } = useI18n();
   const status = resolveStatus(state);
   const shared = {
-    "data-openbitfun-preview-state": state === "hover" ? "hover" : undefined,
+    "data-opc-preview-state": state === "hover" ? "hover" : undefined,
     status,
     summary: state === "error"
       ? t("components.preview.flowChat.failed")
@@ -569,7 +569,7 @@ function SearchPreview({
     <div className="flow-chat-tool-card-preview">
       <Component
         action={kind === "grep" ? "Search text:" : kind === "glob" ? "Search files:" : "Search:"}
-        data-openbitfun-preview-state={state === "hover" ? "hover" : undefined}
+        data-opc-preview-state={state === "hover" ? "hover" : undefined}
         details={[
           { label: "Scope", value: "src/flow_chat" },
           { label: "Results", value: "3" },
@@ -608,7 +608,7 @@ function SessionPreview({
   const [isExpanded, setIsExpanded] = useState(state === "expanded");
   const status = resolveStatus(state);
   const common = {
-    "data-openbitfun-preview-state": state === "hover" ? "hover" : undefined,
+    "data-opc-preview-state": state === "hover" ? "hover" : undefined,
     action: kind === "control" ? "SessionControl" : "SessionMessage",
     error: state === "error" ? t("components.preview.flowChat.failed") : undefined,
     fields: [
@@ -655,7 +655,7 @@ function StandardAmbientPreview({
   const [isExpanded, setIsExpanded] = useState(state === "expanded");
   const status = resolveStatus(state);
   const common = {
-    "data-openbitfun-preview-state": state === "hover" ? "hover" : undefined,
+    "data-opc-preview-state": state === "hover" ? "hover" : undefined,
     isExpanded,
     onToggle: interactive ? () => setIsExpanded((value) => !value) : undefined,
     status,
@@ -783,7 +783,7 @@ function ConcreteProminentPreview({
   const [isExpanded, setIsExpanded] = useState(state === "expanded");
   const status = resolveStatus(state);
   const common = {
-    "data-openbitfun-preview-state": state === "hover" ? "hover" : undefined,
+    "data-opc-preview-state": state === "hover" ? "hover" : undefined,
     isExpanded,
     onToggle: interactive ? () => setIsExpanded((value) => !value) : undefined,
     status,

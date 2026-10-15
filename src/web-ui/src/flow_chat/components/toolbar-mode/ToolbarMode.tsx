@@ -148,7 +148,7 @@ export const ToolbarMode: React.FC = () => {
       if (headerOverflowRef.current?.contains(target)) {
         return;
       }
-      if (target.closest?.('.openbitfun-toolbar-mode__overflow-trigger')) {
+      if (target.closest?.('.opc-toolbar-mode__overflow-trigger')) {
         return;
       }
       setShowHeaderOverflowMenu(false);
@@ -168,9 +168,9 @@ export const ToolbarMode: React.FC = () => {
   const handleStartDrag = useCallback(async (e: React.MouseEvent) => {
     const target = e.target as HTMLElement;
     // Avoid dragging when interacting with UI controls.
-    const isCallHeader = target.closest?.('[data-openbitfun-component="voice-call-panel"] [data-openbitfun-part="header"]');
+    const isCallHeader = target.closest?.('[data-opc-component="voice-call-panel"] [data-opc-part="header"]');
     if (target.closest?.('button, input') || (!isCallHeader && target.closest?.(
-      'button, input, .openbitfun-session-menu, .openbitfun-toolbar-mode__overflow-menu, .openbitfun-toolbar-mode__stream-content, .openbitfun-toolbar-mode__session-surface'
+      'button, input, .opc-session-menu, .opc-toolbar-mode__overflow-menu, .opc-toolbar-mode__stream-content, .opc-toolbar-mode__session-surface'
     ))) {
       return;
     }
@@ -226,45 +226,45 @@ export const ToolbarMode: React.FC = () => {
   }
 
   const containerClassName = [
-    'openbitfun-toolbar-mode',
-    isExpanded && 'openbitfun-toolbar-mode--expanded',
-    currentStreamState.isStreaming && 'openbitfun-toolbar-mode--processing',
-    toolbarState.hasError && 'openbitfun-toolbar-mode--error',
-    toolbarState.hasPendingConfirmation && 'openbitfun-toolbar-mode--confirm',
-    isMacOS && 'openbitfun-toolbar-mode--macos',
+    'opc-toolbar-mode',
+    isExpanded && 'opc-toolbar-mode--expanded',
+    currentStreamState.isStreaming && 'opc-toolbar-mode--processing',
+    toolbarState.hasError && 'opc-toolbar-mode--error',
+    toolbarState.hasPendingConfirmation && 'opc-toolbar-mode--confirm',
+    isMacOS && 'opc-toolbar-mode--macos',
   ].filter(Boolean).join(' ');
 
   return (
-    <div data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="root" data-openbitfun-communication-mode={isExpanded && isVoiceMode ? 'voice' : 'chat'} data-openbitfun-state={[
+    <div data-opc-product-component="toolbar-mode" data-opc-product-part="root" data-opc-communication-mode={isExpanded && isVoiceMode ? 'voice' : 'chat'} data-opc-state={[
       isExpanded && 'expanded',
       currentStreamState.isStreaming && 'processing',
       toolbarState.hasError && 'error',
       toolbarState.hasPendingConfirmation && 'confirm',
     ].filter(Boolean).join(' ') || undefined} className={containerClassName} onMouseDown={handleStartDrag}>
-      {!(isExpanded && isVoiceMode) && <div className="openbitfun-toolbar-mode__header" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="header">
-        <div className="openbitfun-toolbar-mode__header-left" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="headerLeft">
+      {!(isExpanded && isVoiceMode) && <div className="opc-toolbar-mode__header" data-opc-product-component="toolbar-mode" data-opc-product-part="header">
+        <div className="opc-toolbar-mode__header-left" data-opc-product-component="toolbar-mode" data-opc-product-part="headerLeft">
           {isExpanded ? <SessionMenu onOpenChange={handleSessionMenuOpenChange} /> : null}
         </div>
 
-        <div className="openbitfun-toolbar-mode__title-wrapper" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="title">
-          <div className="openbitfun-toolbar-mode__title-display" title={surfaceTitle}>
-            <OverflowText className="openbitfun-toolbar-mode__title-text">{surfaceTitle}</OverflowText>
+        <div className="opc-toolbar-mode__title-wrapper" data-opc-product-component="toolbar-mode" data-opc-product-part="title">
+          <div className="opc-toolbar-mode__title-display" title={surfaceTitle}>
+            <OverflowText className="opc-toolbar-mode__title-text">{surfaceTitle}</OverflowText>
           </div>
         </div>
 
-        <div className="openbitfun-toolbar-mode__header-right" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="headerActions">
-          <div className="openbitfun-toolbar-mode__header-drag-area" aria-hidden="true" />
-          <div className="openbitfun-toolbar-mode__header-overflow">
+        <div className="opc-toolbar-mode__header-right" data-opc-product-component="toolbar-mode" data-opc-product-part="headerActions">
+          <div className="opc-toolbar-mode__header-drag-area" aria-hidden="true" />
+          <div className="opc-toolbar-mode__header-overflow">
             {isExpanded ? (
               <>
                 <Tooltip content={t('toolCards.toolbar.moreMenu')}>
                   <IconButton
                     ref={headerOverflowTriggerRef}
                     type="button"
-                    className="toolbar-btn toolbar-btn--overflow openbitfun-toolbar-mode__overflow-trigger"
-                    data-openbitfun-product-component="toolbar-mode"
-                    data-openbitfun-product-part="overflowTrigger"
-                    data-openbitfun-state={showHeaderOverflowMenu ? 'open' : undefined}
+                    className="toolbar-btn toolbar-btn--overflow opc-toolbar-mode__overflow-trigger"
+                    data-opc-product-component="toolbar-mode"
+                    data-opc-product-part="overflowTrigger"
+                    data-opc-state={showHeaderOverflowMenu ? 'open' : undefined}
                     onClick={toggleHeaderOverflowMenu}
                     aria-expanded={showHeaderOverflowMenu}
                     aria-haspopup="menu"
@@ -275,11 +275,11 @@ export const ToolbarMode: React.FC = () => {
                 {showHeaderOverflowMenu && createOverlayPortal(
                   <Menu
                     ref={headerOverflowRef}
-                    className="openbitfun-toolbar-mode__overflow-menu"
-                    data-openbitfun-product-component="toolbar-mode"
-                    data-openbitfun-product-part="overflowMenu"
-                    data-openbitfun-state="open"
-                    data-openbitfun-placement={headerOverflowLayout?.placement ?? 'bottom'}
+                    className="opc-toolbar-mode__overflow-menu"
+                    data-opc-product-component="toolbar-mode"
+                    data-opc-product-part="overflowMenu"
+                    data-opc-state="open"
+                    data-opc-placement={headerOverflowLayout?.placement ?? 'bottom'}
                     style={{
                       top: `${headerOverflowLayout?.top ?? 0}px`,
                       left: `${headerOverflowLayout?.left ?? 0}px`,
@@ -290,8 +290,8 @@ export const ToolbarMode: React.FC = () => {
                     <MenuItem
                       type="button"
                       leading={<PanelTopClose size={14} />}
-                      data-openbitfun-product-component="toolbar-mode"
-                      data-openbitfun-product-part="overflowItem"
+                      data-opc-product-component="toolbar-mode"
+                      data-opc-product-part="overflowItem"
                       onClick={() => {
                         void handleToggleExpanded();
                         setShowHeaderOverflowMenu(false);
@@ -302,8 +302,8 @@ export const ToolbarMode: React.FC = () => {
                     <MenuItem
                       type="button"
                       leading={<Maximize2 size={14} />}
-                      data-openbitfun-product-component="toolbar-mode"
-                      data-openbitfun-product-part="overflowItem"
+                      data-opc-product-component="toolbar-mode"
+                      data-opc-product-part="overflowItem"
                       onClick={() => {
                         void handleExpand();
                         setShowHeaderOverflowMenu(false);
@@ -316,7 +316,7 @@ export const ToolbarMode: React.FC = () => {
                 )}
               </>
             ) : (
-              <div className="openbitfun-toolbar-mode__header-collapsed-actions" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="collapsedActions">
+              <div className="opc-toolbar-mode__header-collapsed-actions" data-opc-product-component="toolbar-mode" data-opc-product-part="collapsedActions">
                 <Tooltip content={t('toolCards.toolbar.expandChat')}>
                   <IconButton
                     type="button"
@@ -345,9 +345,9 @@ export const ToolbarMode: React.FC = () => {
         /* ConversationModeSurface is also used by the Hello bubble. It owns
            text/voice mode while ChatPane remains the one shared chat surface. */
         <div
-          className="openbitfun-toolbar-mode__session-surface"
-          data-openbitfun-product-component="toolbar-mode"
-          data-openbitfun-product-part="sessionSurface"
+          className="opc-toolbar-mode__session-surface"
+          data-opc-product-component="toolbar-mode"
+          data-opc-product-part="sessionSurface"
         >
           <ConversationModeSurface onCloseVoice={handleToggleExpanded} switchTestId="toolbar-realtime-voice-mode-switch">
             <ChatPane
@@ -360,30 +360,30 @@ export const ToolbarMode: React.FC = () => {
           </ConversationModeSurface>
         </div>
       ) : (
-        <div className="openbitfun-toolbar-mode__content-row" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="content">
-          <div data-overflow-trigger className="openbitfun-toolbar-mode__stream-content" onClick={() => void handleToggleExpanded()} data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="stream" data-openbitfun-content-kind={currentStreamState.toolName ? 'tool' : toolbarState.todoProgress && toolbarState.todoProgress.total > 0 ? 'todo' : 'text'} data-openbitfun-state={currentStreamState.isStreaming ? 'streaming' : undefined}>
+        <div className="opc-toolbar-mode__content-row" data-opc-product-component="toolbar-mode" data-opc-product-part="content">
+          <div data-overflow-trigger className="opc-toolbar-mode__stream-content" onClick={() => void handleToggleExpanded()} data-opc-product-component="toolbar-mode" data-opc-product-part="stream" data-opc-content-kind={currentStreamState.toolName ? 'tool' : toolbarState.todoProgress && toolbarState.todoProgress.total > 0 ? 'todo' : 'text'} data-opc-state={currentStreamState.isStreaming ? 'streaming' : undefined}>
             {currentStreamState.toolName ? (
-              <div className="openbitfun-toolbar-mode__tool" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="tool">
-                <span className="openbitfun-toolbar-mode__tool-name" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="toolName">{currentStreamState.toolName}</span>
-                <OverflowText className="openbitfun-toolbar-mode__tool-summary" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="toolSummary">{currentStreamState.content || t('toolCards.toolbar.executing')}</OverflowText>
+              <div className="opc-toolbar-mode__tool" data-opc-product-component="toolbar-mode" data-opc-product-part="tool">
+                <span className="opc-toolbar-mode__tool-name" data-opc-product-component="toolbar-mode" data-opc-product-part="toolName">{currentStreamState.toolName}</span>
+                <OverflowText className="opc-toolbar-mode__tool-summary" data-opc-product-component="toolbar-mode" data-opc-product-part="toolSummary">{currentStreamState.content || t('toolCards.toolbar.executing')}</OverflowText>
               </div>
             ) : toolbarState.todoProgress && toolbarState.todoProgress.total > 0 ? (
-              <div className="openbitfun-toolbar-mode__todo" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="todo">
-                <span className="openbitfun-toolbar-mode__todo-progress" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="todoProgress">
+              <div className="opc-toolbar-mode__todo" data-opc-product-component="toolbar-mode" data-opc-product-part="todo">
+                <span className="opc-toolbar-mode__todo-progress" data-opc-product-component="toolbar-mode" data-opc-product-part="todoProgress">
                   {toolbarState.todoProgress.completed}/{toolbarState.todoProgress.total}
                 </span>
-                <OverflowText className="openbitfun-toolbar-mode__todo-current" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="todoCurrent">
+                <OverflowText className="opc-toolbar-mode__todo-current" data-opc-product-component="toolbar-mode" data-opc-product-part="todoCurrent">
                   {toolbarState.todoProgress.current || currentStreamState.content}
                 </OverflowText>
               </div>
             ) : (
-              <OverflowText className={`openbitfun-toolbar-mode__text ${currentStreamState.isStreaming ? 'openbitfun-toolbar-mode__text--streaming' : ''}`} data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="streamText">
+              <OverflowText className={`opc-toolbar-mode__text ${currentStreamState.isStreaming ? 'opc-toolbar-mode__text--streaming' : ''}`} data-opc-product-component="toolbar-mode" data-opc-product-part="streamText">
                 {currentStreamState.content || (currentStreamState.isStreaming ? t('toolCards.toolbar.processing') : (lastMessageContent || t('toolCards.toolbar.startNewChat')))}
               </OverflowText>
             )}
           </div>
 
-          <div className="openbitfun-toolbar-mode__controls" data-openbitfun-product-component="toolbar-mode" data-openbitfun-product-part="controls">
+          <div className="opc-toolbar-mode__controls" data-opc-product-component="toolbar-mode" data-opc-product-part="controls">
             {toolbarState.hasPendingConfirmation && (
               <>
                 <Tooltip content={t('toolCards.common.confirm')}>

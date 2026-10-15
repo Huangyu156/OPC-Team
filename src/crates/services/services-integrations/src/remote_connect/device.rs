@@ -73,7 +73,7 @@ impl DeviceIdentity {
 /// Unsupported or failed probes are omitted, never sent as destructive nulls.
 pub async fn local_device_metadata() -> serde_json::Value {
     async fn probe(program: &str, args: &[&str]) -> Option<String> {
-        let mut command = openbitfun_services_core::process_manager::create_tokio_command(program);
+        let mut command = opc_services_core::process_manager::create_tokio_command(program);
         command.args(args).kill_on_drop(true);
         let output = tokio::time::timeout(std::time::Duration::from_secs(5), command.output())
             .await
@@ -278,7 +278,7 @@ mod tests {
     fn with_temp_identity_path<F: FnOnce()>(f: F) {
         let _guard = TEST_LOCK.lock().unwrap();
         let path = std::env::temp_dir().join(format!(
-            "openbitfun-device-identity-{}-{}.json",
+            "opc-device-identity-{}-{}.json",
             std::process::id(),
             uuid_like()
         ));

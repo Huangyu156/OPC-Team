@@ -1,5 +1,5 @@
 use crate::{LegacyMigrationError, LegacyMigrationResult};
-use openbitfun_services_core::product_identity::{data_namespace, hidden_data_directory};
+use opc_services_core::product_identity::{data_namespace, hidden_data_directory};
 use std::env;
 use std::path::{Path, PathBuf};
 

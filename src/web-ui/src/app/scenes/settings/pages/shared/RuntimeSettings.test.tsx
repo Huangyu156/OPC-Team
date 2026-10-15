@@ -75,7 +75,7 @@ beforeEach(() => {
 });
 
 describe('Tool execution concurrency settings', () => {
-  const concurrencyInput = (label: string) => Array.from(container.querySelectorAll('[data-openbitfun-part="row"]'))
+  const concurrencyInput = (label: string) => Array.from(container.querySelectorAll('[data-opc-part="row"]'))
     .find(row => row.textContent?.includes(label))!.querySelector('input')!;
 
   async function editAndBlur(input: HTMLInputElement, value: string) {
@@ -133,7 +133,7 @@ describe('Browser and desktop control settings', () => {
       : original(command, ...args));
     await render();
     for (const label of ['computerUse.enable', 'computerUse.accessibility', 'computerUse.screenCapture']) {
-      expect(Array.from(container.querySelectorAll('[data-openbitfun-part="row"]'))
+      expect(Array.from(container.querySelectorAll('[data-opc-part="row"]'))
         .some(row => row.textContent?.includes(label))).toBe(true);
     }
     expect(container.textContent).not.toContain('computerSharing');
@@ -147,7 +147,7 @@ describe('Browser and desktop control settings', () => {
   it('offers system setup only for the missing permission without selecting an app', async () => {
     await render();
     const setup = button('computerUse.openSettings');
-    expect(setup.closest('[data-openbitfun-part="row"]')?.textContent).toContain('computerUse.screenCapture');
+    expect(setup.closest('[data-opc-part="row"]')?.textContent).toContain('computerUse.screenCapture');
     expect(Array.from(container.querySelectorAll('button')).filter(el => el.textContent === 'computerUse.openSettings')).toHaveLength(1);
     await act(async () => setup.click());
     expect(mocks.invoke).toHaveBeenCalledWith('computer_use_open_system_settings', { request: { pane: 'screen_capture' } });
@@ -172,7 +172,7 @@ describe('Browser and desktop control settings', () => {
     await render();
     expect(container.querySelector('option')?.textContent).toBe('browserControl.defaultBrowser');
     const connect = button('browserControl.connect');
-    expect(connect.closest('[data-openbitfun-part="row"]')?.textContent).toContain('browserControl.status');
+    expect(connect.closest('[data-opc-part="row"]')?.textContent).toContain('browserControl.status');
     expect(container.textContent).toContain('browserControl.readyNotConnected');
     expect(Array.from(container.querySelectorAll('button')).filter(el => el.textContent === 'browserControl.connect')).toHaveLength(1);
     await act(async () => connect.click());
@@ -202,7 +202,7 @@ describe('Browser and desktop control settings', () => {
     await render();
     mocks.invoke.mockRejectedValue(new Error('Host is offline'));
     await act(async () => button('browserControl.refreshStatus').click());
-    const connectionRow = button('browserControl.disconnect').closest('[data-openbitfun-part="row"]');
+    const connectionRow = button('browserControl.disconnect').closest('[data-opc-part="row"]');
     expect(connectionRow?.textContent).toContain('browserControl.statusUnavailable');
     expect(connectionRow?.textContent).not.toContain('browserControl.connected');
     expect(button('browserControl.disconnect').disabled).toBe(true);

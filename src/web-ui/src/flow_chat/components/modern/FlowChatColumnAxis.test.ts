@@ -26,7 +26,7 @@ describe('FlowChat transcript column axis', () => {
     const transcriptLayout = readSource('../../_transcript-layout.scss');
 
     expect(chatInput).toMatch(
-      /\.openbitfun-context-drop-zone\.openbitfun-chat-input-drop-zone \{[\s\S]*?left: 50%;[\s\S]*?transform: translateX\(-50%\);[\s\S]*?max-width: var\(--opcteam-control-flow-chat-transcript-max-width\);/,
+      /\.opc-context-drop-zone\.opc-chat-input-drop-zone \{[\s\S]*?left: 50%;[\s\S]*?transform: translateX\(-50%\);[\s\S]*?max-width: var\(--opcteam-control-flow-chat-transcript-max-width\);/,
     );
     expect(transcriptLayout).toMatch(
       /@mixin reading-column \{[\s\S]*?max-width: var\(--opcteam-control-flow-chat-transcript-max-width\);/,

@@ -38,7 +38,7 @@ describe('application-only title tooltips', () => {
   afterEach(() => {
     act(() => root.unmount());
     host.remove();
-    document.querySelectorAll('[data-openbitfun-overlay-host]').forEach(element => element.remove());
+    document.querySelectorAll('[data-opc-overlay-host]').forEach(element => element.remove());
     vi.unstubAllGlobals();
     vi.useRealTimers();
   });

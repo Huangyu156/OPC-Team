@@ -52,7 +52,7 @@ describe('related directory dialog', () => {
     mocks.references.mockResolvedValue({ references: [], diagnostics: [{ code: 'source.unavailable' }] });
     await act(async () => root.render(<WorkspaceRelatedPathsDialog workspace={workspace} isOpen onClose={() => undefined} />));
     expect(mocks.references).toHaveBeenCalledExactlyOnceWith('workspace-1');
-    const details = container.querySelector<HTMLDetailsElement>('details[data-openbitfun-component="disclosure"]')!;
+    const details = container.querySelector<HTMLDetailsElement>('details[data-opc-component="disclosure"]')!;
     expect(details).not.toBeNull();
     expect(details.open).toBe(false);
     const diagnostic = details.querySelector('li')!;
@@ -83,7 +83,7 @@ describe('related directory dialog', () => {
         onClose={onClose}
       />,
     ));
-    const field = container.querySelector('[data-openbitfun-component="textarea"]')!;
+    const field = container.querySelector('[data-opc-component="textarea"]')!;
     const input = field.querySelector('textarea')!;
     expect(field.getAttribute('data-layout')).toBe('fill');
     expect(field.getAttribute('data-resize')).toBe('none');

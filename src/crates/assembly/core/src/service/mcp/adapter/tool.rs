@@ -11,13 +11,13 @@ use crate::service::mcp::server::MCPConnection;
 use crate::util::errors::OpcTeamResult;
 use async_trait::async_trait;
 use log::{debug, error, info, warn};
-use openbitfun_agent_tools::{
+use opc_agent_tools::{
     build_mcp_tool_bridge_result, mcp_tool_bridge_dynamic_tool_info,
     mcp_tool_bridge_short_description, render_mcp_tool_bridge_rejected_message,
     render_mcp_tool_bridge_result_message, render_mcp_tool_bridge_use_message,
     validate_mcp_tool_bridge_input,
 };
-use openbitfun_services_integrations::mcp::adapter::{
+use opc_services_integrations::mcp::adapter::{
     render_mcp_tool_result_for_assistant, MCPDynamicToolProvider, McpDynamicToolDescriptor,
 };
 use serde_json::Value;

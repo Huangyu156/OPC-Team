@@ -21,7 +21,7 @@ export const MobileTextarea = forwardRef<HTMLTextAreaElement, MobileTextareaProp
     return (
       <div
         className={styles.root}
-        data-openbitfun-component="mobile-textarea"
+        data-opc-component="mobile-textarea"
         data-disabled={disabled ? "true" : "false"}
         data-invalid={resolvedInvalid ? "true" : "false"}
       >

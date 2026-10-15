@@ -27,9 +27,9 @@ export const AgentCapabilityOption = forwardRef<HTMLSpanElement, AgentCapability
         {...props}
         ref={ref}
         className={['agent-capability-option', className].filter(Boolean).join(' ')}
-        data-openbitfun-component="agent-capability-option"
-        data-openbitfun-part="root"
-        data-openbitfun-state={checked ? 'selected' : undefined}
+        data-opc-component="agent-capability-option"
+        data-opc-part="root"
+        data-opc-state={checked ? 'selected' : undefined}
         data-overflow-trigger
       >
         <Checkbox

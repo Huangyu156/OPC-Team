@@ -16,8 +16,8 @@ use crate::service_agent_runtime::CoreServiceAgentRuntime;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use chrono::{DateTime, Local, SecondsFormat, TimeZone};
-use openbitfun_agent_runtime::sdk::AgentRuntime;
-use openbitfun_runtime_ports::{
+use opc_agent_runtime::sdk::AgentRuntime;
+use opc_runtime_ports::{
     AgentSessionListRequest, AgentSessionWorkspaceBinding, AgentSessionWorkspaceRequest,
 };
 use serde::{Deserialize, Serialize};
@@ -35,7 +35,7 @@ impl CronTool {
     }
 
     fn validate_session_id(session_id: &str) -> Result<(), String> {
-        openbitfun_core_types::validate_session_id(session_id)
+        opc_core_types::validate_session_id(session_id)
     }
 
     fn validate_job_id(job_id: &str) -> Result<(), String> {
@@ -1323,7 +1323,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 
@@ -1351,7 +1351,7 @@ mod tests {
             custom_data: HashMap::new(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::default(),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::default(),
         }
     }
 

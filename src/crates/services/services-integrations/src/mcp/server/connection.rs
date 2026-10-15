@@ -659,7 +659,7 @@ mod tests {
 
     #[tokio::test]
     async fn local_catalog_and_execution_timeouts_remove_pending_requests() {
-        let mut child = openbitfun_services_core::process_manager::create_tokio_command(
+        let mut child = opc_services_core::process_manager::create_tokio_command(
             std::env::current_exe().unwrap(),
         )
         .arg("--exact")

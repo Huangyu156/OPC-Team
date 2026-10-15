@@ -140,7 +140,7 @@ describe('FlowChat semantic typography roles', () => {
 
     expectRole(chatInput, '&__target-tab {', 'control');
     expectRole(chatInput, '&__slash-command-name {', 'control');
-    expectRole(harness, '.openbitfun-harness-selector__trigger {', 'control');
+    expectRole(harness, '.opc-harness-selector__trigger {', 'control');
     expectRole(model, '&__trigger {', 'control');
     // MenuItem now owns the model row's label through ActionItem; the product
     // wrapper must inherit that public role rather than recreate its sizing.

@@ -82,7 +82,7 @@ It does not test Tauri, relay, SSH, peer transport, or detached dispatch.
 For actual desktop integration, build the current desktop and frontend, then run:
 
 ```bash
-cargo build -p openbitfun-desktop
+cargo build -p opc-desktop
 pnpm run build:web
 pnpm --dir tests/e2e exec wdio run ./config/wdio.markdown-native.ts
 ```

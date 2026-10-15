@@ -19,7 +19,7 @@ use std::time::{Duration, Instant};
 
 use anyhow::{bail, Context, Result};
 use base64::Engine as _;
-use openbitfun_services_core::dispatch_workspace::sha256_file;
+use opc_services_core::dispatch_workspace::sha256_file;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -1573,7 +1573,7 @@ fn commit_exists(repo: &Path, commit: &str) -> Result<bool> {
 }
 
 fn git_command(dir: &Path) -> Command {
-    let mut command = openbitfun_services_core::process_manager::create_command("git");
+    let mut command = opc_services_core::process_manager::create_command("git");
     command
         .current_dir(dir)
         // A detached dispatch worker has nobody to answer a credential or
@@ -2365,9 +2365,9 @@ mod tests {
     #[test]
     fn completed_clean_sync_poll_returns_the_durable_result() {
         const CHILD_ENV: &str = "OPENBITFUN_DISPATCH_CLEAN_SYNC_POLL_CHILD";
-        if let Some(openbitfun_home) = std::env::var_os(CHILD_ENV) {
+        if let Some(opc_home) = std::env::var_os(CHILD_ENV) {
             let store = DispatchStore::open_default().expect("open isolated default store");
-            let source = PathBuf::from(openbitfun_home).join("source");
+            let source = PathBuf::from(opc_home).join("source");
             let base_commit = init_source_repository(&source);
             provision_from_bundle(&store, &source, &base_commit);
 
@@ -2418,9 +2418,9 @@ mod tests {
         }
 
         let dir = tempfile::tempdir().expect("tempdir");
-        let openbitfun_home = dir.path().join("openbitfun-home");
+        let opc_home = dir.path().join("openbitfun-home");
         let user_root = dir.path().join("user-root");
-        let output = openbitfun_services_core::process_manager::create_command(
+        let output = opc_services_core::process_manager::create_command(
             std::env::current_exe().expect("test executable"),
         )
         .args([
@@ -2428,8 +2428,8 @@ mod tests {
             "dispatch::workspace::tests::completed_clean_sync_poll_returns_the_durable_result",
             "--nocapture",
         ])
-        .env(CHILD_ENV, &openbitfun_home)
-        .env("OPENBITFUN_HOME", &openbitfun_home)
+        .env(CHILD_ENV, &opc_home)
+        .env("OPENBITFUN_HOME", &opc_home)
         .env("OPENBITFUN_USER_ROOT", &user_root)
         .env("OPENBITFUN_E2E_STORAGE_GUARD", "1")
         .env_remove("OPENBITFUN_E2E_HOME")

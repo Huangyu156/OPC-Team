@@ -374,9 +374,9 @@ export class ShortcutManager {
     }
 
     if (
-      target.classList.contains('openbitfun-chat-input') ||
+      target.classList.contains('opc-chat-input') ||
       target.classList.contains('rich-text-input') ||
-      target.closest('.openbitfun-chat-input') !== null ||
+      target.closest('.opc-chat-input') !== null ||
       target.closest('.rich-text-input') !== null
     ) {
       return true;

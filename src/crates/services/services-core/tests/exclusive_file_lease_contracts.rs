@@ -1,6 +1,6 @@
 #![cfg(feature = "local-storage")]
 
-use openbitfun_services_core::exclusive_file_lease::{ExclusiveFileLease, ExclusiveFileLeaseError};
+use opc_services_core::exclusive_file_lease::{ExclusiveFileLease, ExclusiveFileLeaseError};
 use std::path::Path;
 use std::process::{Command, Stdio};
 use std::time::{Duration, Instant};

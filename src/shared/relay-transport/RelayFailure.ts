@@ -1,7 +1,7 @@
 /**
  * One vocabulary for "the account Relay could not be used", shared by every
  * surface (desktop, mobile web, and the mirrored Rust classifier in
- * `openbitfun_services_integrations::remote_connect::relay_failure`).
+ * `opc_services_integrations::remote_connect::relay_failure`).
  *
  * Surfaces must explain a failure the same way and offer the same next step;
  * the raw transport detail stays in the log. The classification is deliberately

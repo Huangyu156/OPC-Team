@@ -8,13 +8,13 @@ use super::types::*;
 use crate::infrastructure::{try_get_path_manager_arc, PathManager};
 use crate::util::errors::*;
 use log::{debug, info, warn};
-use openbitfun_core_types::{
+use opc_core_types::{
     installer_config_handoff::{
         InstallerConfigHandoff, InstallerModelHandoff, INSTALLER_CONFIG_HANDOFF_FILE_NAME,
     },
     product_identity,
 };
-use openbitfun_services_core::json_store::JsonFileStore;
+use opc_services_core::json_store::JsonFileStore;
 
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -32,16 +32,13 @@ fn invalid_config_error(context: &str, result: &ConfigValidationResult) -> OpcTe
     OpcTeamError::validation(format!("{context}: {messages}"))
 }
 
-pub(crate) fn validate_openbitfun_product_identity(
-    value: &str,
-    context: &str,
-) -> OpcTeamResult<()> {
-    openbitfun_config_contracts::validate_openbitfun_product_identity(value, context)
+pub(crate) fn validate_opc_product_identity(value: &str, context: &str) -> OpcTeamResult<()> {
+    opc_config_contracts::validate_opc_product_identity(value, context)
         .map_err(OpcTeamError::validation)
 }
 
 pub(crate) fn validate_current_config_value(value: &Value, context: &str) -> OpcTeamResult<()> {
-    openbitfun_config_contracts::validate_current_config_value(value, context)
+    opc_config_contracts::validate_current_config_value(value, context)
         .map_err(OpcTeamError::validation)
 }
 
@@ -257,7 +254,7 @@ impl ConfigManager {
         manager.load_or_create_config().await?;
         #[cfg(feature = "ai-adapter-runtime")]
         {
-            openbitfun_ai_adapters::diagnostics::set_include_sensitive_diagnostics(
+            opc_ai_adapters::diagnostics::set_include_sensitive_diagnostics(
                 manager.config.app.logging.include_sensitive_diagnostics,
             );
         }
@@ -408,7 +405,7 @@ impl ConfigManager {
             OpcTeamError::config(format!("Failed to deserialize config file: {error}"))
         })?;
         let mut diagnostics =
-            openbitfun_config_contracts::normalization::recover_persisted_config(&mut config);
+            opc_config_contracts::normalization::recover_persisted_config(&mut config);
         let validation_result = self
             .validate_recovered_config(&mut config, &mut diagnostics)
             .await?;
@@ -961,7 +958,7 @@ impl ConfigManager {
 
             #[cfg(feature = "ai-adapter-runtime")]
             {
-                openbitfun_ai_adapters::diagnostics::set_include_sensitive_diagnostics(new_include);
+                opc_ai_adapters::diagnostics::set_include_sensitive_diagnostics(new_include);
             }
 
             use super::global::{ConfigUpdateEvent, GlobalConfigManager};
@@ -993,7 +990,7 @@ mod tests {
     };
     use crate::infrastructure::PathManager;
     use crate::service::config::types::GlobalConfig;
-    use openbitfun_core_types::installer_config_handoff::{
+    use opc_core_types::installer_config_handoff::{
         InstallerConfigHandoff, InstallerModelHandoff, INSTALLER_CONFIG_HANDOFF_FILE_NAME,
     };
     use std::sync::Arc;
@@ -1049,7 +1046,7 @@ mod tests {
     }
 
     #[test]
-    fn current_config_contract_requires_openbitfun_identity_and_format() {
+    fn current_config_contract_requires_opc_identity_and_format() {
         let current = serde_json::to_value(GlobalConfig::default()).unwrap();
         validate_current_config_value(&current, "test config").unwrap();
 
@@ -1297,7 +1294,7 @@ mod tests {
     fn persistence_keeps_only_non_default_web_search_fields_and_unknown_extensions() {
         let mut config = GlobalConfig::default();
         let web_search = &mut config.ai.web_search;
-        web_search.provider = "openbitfun_search_http".to_string();
+        web_search.provider = "opc_search_http".to_string();
         web_search
             .unknown
             .insert("selectionRevision".to_string(), serde_json::json!(7));
@@ -1305,7 +1302,7 @@ mod tests {
             "future_search".to_string(),
             serde_json::json!({ "endpoint": "https://future.example/search" }),
         );
-        let http = &mut web_search.providers.openbitfun_search_http;
+        let http = &mut web_search.providers.opc_search_http;
         http.endpoint = "https://search.example.com/search".to_string();
         http.auth.mode = "header".to_string();
         http.auth.header_name = "X-Search-Key".to_string();
@@ -1318,9 +1315,9 @@ mod tests {
         assert_eq!(
             value["ai"].get("web_search"),
             Some(&serde_json::json!({
-                "provider": "openbitfun_search_http",
+                "provider": "opc_search_http",
                 "providers": {
-                    "openbitfun_search_http": {
+                    "opc_search_http": {
                         "endpoint": "https://search.example.com/search",
                         "auth": {
                             "mode": "header",

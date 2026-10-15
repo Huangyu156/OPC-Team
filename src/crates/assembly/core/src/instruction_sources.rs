@@ -1,13 +1,11 @@
 //! External-source composition for local user instruction adapters.
 
-use openbitfun_claude_code_adapter::{
+use opc_claude_code_adapter::{
     load_claude_code_user_instructions, ClaudeCodeInstructionSourceOptions,
 };
-use openbitfun_codex_adapter::{load_codex_user_instructions, CodexInstructionSourceOptions};
-use openbitfun_opencode_adapter::{
-    load_opencode_user_instructions, OpenCodeInstructionSourceOptions,
-};
-use openbitfun_services_core::local_instructions::{LocalInstructionFile, LocalInstructionFiles};
+use opc_codex_adapter::{load_codex_user_instructions, CodexInstructionSourceOptions};
+use opc_opencode_adapter::{load_opencode_user_instructions, OpenCodeInstructionSourceOptions};
+use opc_services_core::local_instructions::{LocalInstructionFile, LocalInstructionFiles};
 use std::path::Path;
 
 pub(crate) struct LocalUserInstructionFiles {
@@ -108,14 +106,26 @@ async fn load_user_sources(
 pub async fn instruction_source_catalog(workspace_root: Option<&Path>) -> InstructionSourceCatalog {
     let (user, mut catalog) = load_user_sources(workspace_root).await;
     if let Some(root) = workspace_root {
-        match openbitfun_services_core::workspace_instructions::read_workspace_instruction_source_catalog(root).await {
+        match opc_services_core::workspace_instructions::read_workspace_instruction_source_catalog(
+            root,
+        )
+        .await
+        {
             Ok(report) => {
-                catalog.failed_ecosystems.extend(report.incomplete_ecosystems.into_iter().map(str::to_string));
-                let mut seen = user.files.iter().map(|file| file.canonical_path.clone()).collect::<std::collections::HashSet<_>>();
+                catalog
+                    .failed_ecosystems
+                    .extend(report.incomplete_ecosystems.into_iter().map(str::to_string));
+                let mut seen = user
+                    .files
+                    .iter()
+                    .map(|file| file.canonical_path.clone())
+                    .collect::<std::collections::HashSet<_>>();
                 for source in report.sources {
                     let path = root.join(&source.file.name);
                     if let Ok(canonical) = std::fs::canonicalize(&path) {
-                        if !seen.insert(canonical) { continue; }
+                        if !seen.insert(canonical) {
+                            continue;
+                        }
                     }
                     catalog.entries.push(InstructionSourceEntry {
                         ecosystem_id: source.ecosystem_id.into(),
@@ -126,7 +136,9 @@ pub async fn instruction_source_catalog(workspace_root: Option<&Path>) -> Instru
                     });
                 }
             }
-            Err(_) => { catalog.failed_ecosystems.push("shared".into()); }
+            Err(_) => {
+                catalog.failed_ecosystems.push("shared".into());
+            }
         }
     }
     catalog
@@ -169,7 +181,7 @@ fn deduplicate_user_instruction_files(files: &mut Vec<LocalInstructionFile>) {
 #[cfg(test)]
 mod tests {
     use super::deduplicate_user_instruction_files;
-    use openbitfun_services_core::local_instructions::LocalInstructionFile;
+    use opc_services_core::local_instructions::LocalInstructionFile;
     use std::path::PathBuf;
 
     #[test]

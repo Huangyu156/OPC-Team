@@ -16,47 +16,47 @@ mod permission_publication;
 pub mod remote_server;
 
 pub mod device {
-    pub use openbitfun_services_integrations::remote_connect::device::*;
+    pub use opc_services_integrations::remote_connect::device::*;
 }
 
 pub mod encryption {
-    pub use openbitfun_services_integrations::remote_connect::encryption::*;
+    pub use opc_services_integrations::remote_connect::encryption::*;
 }
 
 pub mod pairing {
-    pub use openbitfun_services_integrations::remote_connect::pairing::*;
+    pub use opc_services_integrations::remote_connect::pairing::*;
 }
 
 pub mod qr_generator {
-    pub use openbitfun_services_integrations::remote_connect::qr_generator::*;
+    pub use opc_services_integrations::remote_connect::qr_generator::*;
 }
 
 pub mod relay_client {
-    pub use openbitfun_services_integrations::remote_connect::relay_client::*;
+    pub use opc_services_integrations::remote_connect::relay_client::*;
 }
 
 pub mod relay_failure {
-    pub use openbitfun_services_integrations::remote_connect::relay_failure::*;
+    pub use opc_services_integrations::remote_connect::relay_failure::*;
 }
 
 pub mod account {
-    pub use openbitfun_services_integrations::remote_connect::account::*;
+    pub use opc_services_integrations::remote_connect::account::*;
 }
 
 pub mod host_stream {
-    pub use openbitfun_services_integrations::remote_connect::host_stream::*;
+    pub use opc_services_integrations::remote_connect::host_stream::*;
 }
 
 pub mod host_stream_subscriber {
-    pub use openbitfun_services_integrations::remote_connect::host_stream_subscriber::*;
+    pub use opc_services_integrations::remote_connect::host_stream_subscriber::*;
 }
 
 pub mod session_records {
-    pub use openbitfun_services_integrations::remote_connect::session_records::*;
+    pub use opc_services_integrations::remote_connect::session_records::*;
 }
 
 pub mod session_store {
-    pub use openbitfun_services_integrations::remote_connect::session_store::*;
+    pub use opc_services_integrations::remote_connect::session_store::*;
 }
 
 pub use account::{validate_relay_base_url, AccountClient, AccountSession, DelegateToken};
@@ -83,7 +83,7 @@ pub enum ConnectionMethod {
     Lan {
         ip: Option<String>,
     },
-    #[serde(rename = "openbitfun_server")]
+    #[serde(rename = "opc_server")]
     OpcTeamServer,
     BotFeishu,
     BotTelegram,
@@ -94,7 +94,7 @@ pub enum ConnectionMethod {
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct RemoteConnectConfig {
     pub lan_port: u16,
-    pub openbitfun_server_url: String,
+    pub opc_server_url: String,
     pub bot_feishu: Option<bot::BotConfig>,
     pub bot_telegram: Option<bot::BotConfig>,
     pub bot_weixin: Option<bot::BotConfig>,
@@ -105,8 +105,7 @@ impl Default for RemoteConnectConfig {
     fn default() -> Self {
         Self {
             lan_port: 9700,
-            openbitfun_server_url: openbitfun_product_domains::account::DEFAULT_RELAY_URL
-                .to_string(),
+            opc_server_url: opc_product_domains::account::DEFAULT_RELAY_URL.to_string(),
             bot_feishu: None,
             bot_telegram: None,
             bot_weixin: None,
@@ -228,8 +227,7 @@ impl RemoteConnectService {
 
     pub async fn clear_bot_delegated_identities(&self) {
         self.set_bot_account(None).await;
-        openbitfun_services_integrations::remote_connect::bot::clear_persisted_bot_account_contexts(
-        );
+        opc_services_integrations::remote_connect::bot::clear_persisted_bot_account_contexts();
     }
 
     pub fn device_identity(&self) -> &DeviceIdentity {
@@ -282,7 +280,7 @@ impl RemoteConnectService {
                 Some(ip) => lan::build_lan_relay_url_with_ip(self.config.lan_port, ip)?,
                 None => lan::build_lan_relay_url(self.config.lan_port)?,
             },
-            ConnectionMethod::OpcTeamServer => self.config.openbitfun_server_url.clone(),
+            ConnectionMethod::OpcTeamServer => self.config.opc_server_url.clone(),
             _ => anyhow::bail!("connection method does not use a relay"),
         };
         self.stop_relay_inner().await;
@@ -1275,8 +1273,8 @@ fn start_host_catalog_publication(hub: &Arc<host_stream::HostStreamHub>) {
 
 /// Live session-list state is runtime-owned but not always a metadata write.
 /// Only semantic lifecycle facts invalidate the catalog; output chunks do not.
-pub fn notify_session_catalog_event(event: &openbitfun_events::AgenticEvent) {
-    use openbitfun_events::AgenticEvent;
+pub fn notify_session_catalog_event(event: &opc_events::AgenticEvent) {
+    use opc_events::AgenticEvent;
     if matches!(
         event,
         AgenticEvent::SessionCreated { .. }

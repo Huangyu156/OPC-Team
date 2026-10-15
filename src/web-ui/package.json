@@ -18,7 +18,7 @@
     "pretype-check": "pnpm run prepare:design-system:build",
     "dev": "vite",
     "dev:force": "vite --force",
-    "gen:types": "node scripts/gen-api-barrel.mjs --clean && cargo test --locked --package openbitfun-app-server-protocol --no-default-features --features ts --lib export -- --nocapture && node scripts/gen-api-barrel.mjs",
+    "gen:types": "node scripts/gen-api-barrel.mjs --clean && cargo test --locked --package opc-app-server-protocol --no-default-features --features ts --lib export -- --nocapture && node scripts/gen-api-barrel.mjs",
     "build": "vite build",
     "build:desktop": "vite build --mode desktop",
     "build:web": "vite build --mode web",

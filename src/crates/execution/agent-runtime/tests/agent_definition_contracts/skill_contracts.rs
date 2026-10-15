@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 use std::path::PathBuf;
 
-use openbitfun_agent_runtime::skills::{
+use opc_agent_runtime::skills::{
     annotate_shadowed_skills, build_mode_skill_infos, builtin_skill_group_key,
     filter_candidates_for_mode, filter_implicitly_invocable_skills, filter_user_invocable_skills,
     is_skill_globally_enabled, render_loaded_skill_for_assistant, resolve_builtin_default_enabled,
@@ -13,16 +13,16 @@ use openbitfun_agent_runtime::skills::{
     PROJECT_SKILL_KEY_PREFIX, PROJECT_SKILL_ROOTS, USER_CONFIG_SKILL_ROOTS, USER_HOME_SKILL_ROOTS,
     USER_SKILL_KEY_PREFIX,
 };
-use openbitfun_core_types::product_identity::hidden_data_directory;
+use opc_core_types::product_identity::hidden_data_directory;
 
 fn builtin_skill(dir_name: &str) -> SkillInfo {
     SkillInfo {
-        key: format!("user::openbitfun-system::{}", dir_name),
+        key: format!("user::opc-system::{}", dir_name),
         name: dir_name.to_string(),
         description: String::new(),
         path: format!("/tmp/{}", dir_name),
         level: SkillLocation::User,
-        source_slot: "openbitfun-system".to_string(),
+        source_slot: "opc-system".to_string(),
         source_id: "openbitfun".to_string(),
         source_label: "OPC-Team".to_string(),
         installation_source: None,
@@ -83,7 +83,7 @@ fn import_origin_round_trips_without_changing_native_ownership_or_legacy_payload
     assert!(legacy.get("importOrigin").is_none());
     let mut skill: SkillInfo = serde_json::from_value(legacy.clone()).unwrap();
     assert_eq!(serde_json::to_value(&skill).unwrap(), legacy);
-    skill.import_origin = Some(openbitfun_agent_runtime::skills::SkillImportOrigin {
+    skill.import_origin = Some(opc_agent_runtime::skills::SkillImportOrigin {
         schema_version: 1,
         import_id: "import-1".into(),
         source_key: "user::home.claude::demo".into(),
@@ -117,7 +117,7 @@ fn native_ownership_rejects_discovery_sources_and_honors_legacy_slots() {
     }
     for (slot, expected) in [
         ("openbitfun", true),
-        ("openbitfun-system", true),
+        ("opc-system", true),
         ("home.claude", false),
         ("codex", false),
     ] {
@@ -259,7 +259,7 @@ fn claude_skill_rejects_unavailable_runtime_semantics() {
             error,
             SkillParseError::UnsupportedClaudeField(field.split_once(':').unwrap().0.into())
         );
-        let diagnostic = openbitfun_agent_runtime::skills::SkillScanDiagnostic::from_parse_error(
+        let diagnostic = opc_agent_runtime::skills::SkillScanDiagnostic::from_parse_error(
             "/workspace/.claude/skills/unsafe/SKILL.md",
             "claude-code",
             &error,
@@ -476,7 +476,7 @@ fn builtin_skill_catalog_and_mode_policy_are_runtime_owned() {
     assert_eq!(builtin_skill_group_key("find-skills"), Some("meta"));
     assert_eq!(builtin_skill_group_key("miniapp-dev"), Some("miniapp"));
     assert_eq!(
-        builtin_skill_group_key("openbitfun-frontend-dev"),
+        builtin_skill_group_key("opc-frontend-dev"),
         Some("creation")
     );
     assert_eq!(
@@ -484,7 +484,7 @@ fn builtin_skill_catalog_and_mode_policy_are_runtime_owned() {
         Some("computer-use")
     );
     assert_eq!(builtin_skill_group_key("agent-eval-canvas"), Some("canvas"));
-    assert_eq!(builtin_skill_group_key("openbitfun-canvas"), Some("canvas"));
+    assert_eq!(builtin_skill_group_key("opc-canvas"), Some("canvas"));
     assert_eq!(builtin_skill_group_key("pr-review-canvas"), Some("canvas"));
     assert_eq!(builtin_skill_group_key("docs-canvas"), Some("canvas"));
     assert_eq!(builtin_skill_group_key("multitask"), Some("coordination"));
@@ -536,11 +536,11 @@ fn builtin_skill_catalog_and_mode_policy_are_runtime_owned() {
         Some(true)
     );
     assert_eq!(
-        resolve_builtin_default_enabled("openbitfun-frontend-dev", "Creative"),
+        resolve_builtin_default_enabled("opc-frontend-dev", "Creative"),
         Some(true)
     );
     assert_eq!(
-        resolve_builtin_default_enabled("openbitfun-frontend-dev", "Standard"),
+        resolve_builtin_default_enabled("opc-frontend-dev", "Standard"),
         Some(false)
     );
     assert_eq!(
@@ -598,7 +598,7 @@ fn builtin_skill_catalog_and_mode_policy_are_runtime_owned() {
     for skill in [
         "agent-eval-canvas",
         "docs-canvas",
-        "openbitfun-canvas",
+        "opc-canvas",
         "pr-review-canvas",
     ] {
         for mode_id in [
@@ -624,7 +624,7 @@ fn skill_discovery_root_facts_are_runtime_owned() {
     assert_eq!(USER_SKILL_KEY_PREFIX, "user");
     assert_eq!(PROJECT_SKILL_KEY_PREFIX, "project");
     assert_eq!(OPENBITFUN_USER_SKILL_SLOT, "openbitfun");
-    assert_eq!(OPENBITFUN_SYSTEM_SKILL_SLOT, "openbitfun-system");
+    assert_eq!(OPENBITFUN_SYSTEM_SKILL_SLOT, "opc-system");
     assert_eq!(OPENBITFUN_SYSTEM_SKILL_DIR, ".system");
 
     let project_roots = PROJECT_SKILL_ROOTS
@@ -801,7 +801,7 @@ fn skill_resolution_applies_builtin_and_user_override_rules() {
 
 #[test]
 fn user_mode_skill_overrides_share_key_normalization_rules() {
-    let overrides = openbitfun_agent_runtime::skills::normalize_user_mode_skill_overrides(
+    let overrides = opc_agent_runtime::skills::normalize_user_mode_skill_overrides(
         vec![
             " user::openbitfun::pdf ".to_string(),
             String::new(),
@@ -1064,7 +1064,7 @@ description: Design presentation slides.
 Use the presentation workflow.
 "#;
     let data = SkillData::from_markdown(
-        "/tmp/openbitfun-system/ppt-design".to_string(),
+        "/tmp/opc-system/ppt-design".to_string(),
         markdown,
         SkillLocation::User,
         false,
@@ -1072,7 +1072,7 @@ Use the presentation workflow.
     .expect("valid built-in skill markdown should parse");
     let candidate = SkillCandidate::from_data(
         data,
-        "openbitfun-system",
+        "opc-system",
         "openbitfun",
         "OPC-Team",
         "user",
@@ -1080,8 +1080,8 @@ Use the presentation workflow.
         true,
     );
 
-    assert_eq!(candidate.info.key, "user::openbitfun-system::ppt-design");
-    assert_eq!(candidate.info.source_slot, "openbitfun-system");
+    assert_eq!(candidate.info.key, "user::opc-system::ppt-design");
+    assert_eq!(candidate.info.source_slot, "opc-system");
     assert_eq!(candidate.info.group_key.as_deref(), Some("office"));
 
     let project_presentation = SkillCandidate {
@@ -1098,7 +1098,7 @@ Use the presentation workflow.
     ]));
     let user_presentation = annotated
         .iter()
-        .find(|skill| skill.key == "user::openbitfun-system::ppt-design")
+        .find(|skill| skill.key == "user::opc-system::ppt-design")
         .expect("user built-in skill should be present");
     assert!(user_presentation.is_shadowed);
     assert_eq!(
@@ -1335,7 +1335,7 @@ fn explicit_invocation_requires_an_agent_and_resolves_default_hidden_builtin() {
         Some("Standard"),
     ) {
         ExplicitSkillInvocationResolution::Found(skill) => {
-            assert_eq!(skill.key, "user::openbitfun-system::agent-browser");
+            assert_eq!(skill.key, "user::opc-system::agent-browser");
         }
         other => panic!("expected hidden built-in fallback, got {other:?}"),
     }
@@ -1379,7 +1379,7 @@ fn explicit_invocation_reaches_default_hidden_agent_browser() {
             Some(mode_id),
         ) {
             ExplicitSkillInvocationResolution::Found(skill) => {
-                assert_eq!(skill.key, "user::openbitfun-system::agent-browser");
+                assert_eq!(skill.key, "user::opc-system::agent-browser");
             }
             other => {
                 panic!("expected hidden agent-browser fallback for mode {mode_id}, got {other:?}")
@@ -1390,7 +1390,7 @@ fn explicit_invocation_reaches_default_hidden_agent_browser() {
 
 #[test]
 fn skill_scan_reports_tolerate_older_shapes_and_escape_diagnostics() {
-    use openbitfun_agent_runtime::skills::{SkillScanDiagnostic, SkillScanReport};
+    use opc_agent_runtime::skills::{SkillScanDiagnostic, SkillScanReport};
     let legacy = serde_json::json!({"skills": ["pdf"]});
     let report: SkillScanReport<String> = serde_json::from_value(legacy.clone()).unwrap();
     assert!(report.diagnostics.is_empty());
@@ -1461,7 +1461,7 @@ fn workspace_skill_disable_blocks_all_modes_without_reclassifying_the_source() {
 
 #[test]
 fn claude_skill_hooks_validate_whole_declaration_without_execution() {
-    use openbitfun_agent_runtime::skills::SkillHooks;
+    use opc_agent_runtime::skills::SkillHooks;
     let valid = r#"PreToolUse:
   - matcher: "Bash|Edit|Write"
     hooks:

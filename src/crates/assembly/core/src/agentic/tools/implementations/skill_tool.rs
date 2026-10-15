@@ -9,7 +9,7 @@ use crate::agentic::tools::framework::{
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use log::debug;
-use openbitfun_services_core::markdown::expand_prompt_template_arguments_with_names;
+use opc_services_core::markdown::expand_prompt_template_arguments_with_names;
 use serde_json::{json, Value};
 
 // Use skills module
@@ -36,7 +36,7 @@ How to use skills:
 - Examples:
   - `command: "writing-skills"` - invoke the writing-skills skill
   - `command: "review", arguments: "src/main.rs carefully"` - invoke a skill with arguments
-  - `command: "user::openbitfun-system::ppt-design"` - invoke a specific built-in skill by stable key
+  - `command: "user::opc-system::ppt-design"` - invoke a specific built-in skill by stable key
 
 Important:
 - Only use skills listed in the current skill listing's <available_skills> section, unless a trusted host task explicitly supplies an exact stable key
@@ -136,7 +136,7 @@ impl Tool for SkillTool {
             "properties": {
                 "command": {
                     "type": "string",
-                    "description": "The skill name or stable key. E.g., \"writing-skills\" or \"user::openbitfun-system::ppt-design\""
+                    "description": "The skill name or stable key. E.g., \"writing-skills\" or \"user::opc-system::ppt-design\""
                 },
                 "arguments": {
                     "type": "string",
@@ -364,7 +364,7 @@ mod tests {
     use crate::agentic::WorkspaceBinding;
     use crate::service::remote_ssh::workspace_state::workspace_session_identity;
     use async_trait::async_trait;
-    use openbitfun_core_types::product_identity::hidden_data_directory;
+    use opc_core_types::product_identity::hidden_data_directory;
     use serde_json::json;
     use std::fs;
     use std::path::PathBuf;
@@ -485,9 +485,7 @@ Use the remote project skill.
                         .to_string(),
                 );
             }
-            if self.imported
-                && path == format!("{product_root}/remote-review/.openbitfun-import.json")
-            {
+            if self.imported && path == format!("{product_root}/remote-review/.opc-import.json") {
                 return Ok(json!({ "schemaVersion": 1, "importId": "remote-import", "sourceKey": "project::claude::remote-review", "sourcePath": "/remote/project/.claude/skills/remote-review", "sourceId": "claude-code", "sourceLabel": "Claude Code", "sourceSlot": "claude", "fingerprint": "fixture" }).to_string());
             }
             anyhow::bail!("not found: {}", path)
@@ -507,8 +505,7 @@ Use the remote project skill.
             Ok(path == format!("{claude_root}/remote-review/SKILL.md")
                 || (self.imported
                     && (path == format!("{product_root}/remote-review/SKILL.md")
-                        || path
-                            == format!("{product_root}/remote-review/.openbitfun-import.json"))))
+                        || path == format!("{product_root}/remote-review/.opc-import.json"))))
         }
 
         async fn is_dir(&self, path: &str) -> anyhow::Result<bool> {
@@ -548,7 +545,7 @@ Use the remote project skill.
             custom_data: Default::default(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::new(None, None),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::new(None, None),
         }
     }
 
@@ -1087,7 +1084,7 @@ Use the remote project skill.
             custom_data: Default::default(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::new(
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::new(
                 Some(WorkspaceServices {
                     fs: Arc::new(FakeRemoteFs),
                     shell: Arc::new(FakeShell),
@@ -1129,7 +1126,7 @@ Use the remote project skill.
             custom_data: Default::default(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::new(
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::new(
                 Some(WorkspaceServices {
                     fs: Arc::new(FakeRemoteFs),
                     shell: Arc::new(FakeShell),
@@ -1177,12 +1174,12 @@ Use the remote project skill.
             custom_data: Default::default(),
             computer_use_host: None,
             runtime_tool_restrictions: Default::default(),
-            runtime_handles: openbitfun_runtime_ports::ToolRuntimeHandles::new(None, None),
+            runtime_handles: opc_runtime_ports::ToolRuntimeHandles::new(None, None),
         };
 
         let results = SkillTool::new()
             .call_impl(
-                &json!({ "command": "user::openbitfun-system::ppt-design" }),
+                &json!({ "command": "user::opc-system::ppt-design" }),
                 &context,
             )
             .await
@@ -1197,8 +1194,8 @@ Use the remote project skill.
             panic!("expected result payload");
         };
         assert_eq!(data["skill_name"], "ppt-design");
-        assert_eq!(data["skill_key"], "user::openbitfun-system::ppt-design");
-        assert_eq!(data["source_slot"], "openbitfun-system");
+        assert_eq!(data["skill_key"], "user::opc-system::ppt-design");
+        assert_eq!(data["source_slot"], "opc-system");
         assert_eq!(data["source_id"], "openbitfun");
         assert_eq!(data["source_label"], "OPC-Team");
         assert!(data["content"]
@@ -1206,7 +1203,7 @@ Use the remote project skill.
             .unwrap_or_default()
             .contains("references/editable-pptx.md"));
         let assistant = result_for_assistant.as_deref().unwrap_or_default();
-        assert!(assistant.contains("from stable key 'user::openbitfun-system::ppt-design'"));
+        assert!(assistant.contains("from stable key 'user::opc-system::ppt-design'"));
         assert!(assistant.contains("<skill_content>\n"));
         assert!(assistant.contains("\n</skill_content>"));
         assert!(assistant.contains("references/editable-pptx.md"));

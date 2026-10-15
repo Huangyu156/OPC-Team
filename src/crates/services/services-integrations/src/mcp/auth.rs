@@ -1,7 +1,7 @@
 //! Remote MCP OAuth runtime support.
 //!
 //! This module owns the file-backed credential store and OAuth bootstrap logic.
-//! `openbitfun-core` injects the product data directory and maps errors to its
+//! `opc-core` injects the product data directory and maps errors to its
 //! compatibility error type.
 
 use crate::mcp::server::{MCPServerConfig, MCPServerOAuthConfig};

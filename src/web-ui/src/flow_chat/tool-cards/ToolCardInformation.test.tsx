@@ -50,7 +50,7 @@ describe('collapsed tool information', () => {
     const call = { ...item('ComputerUse', { action: 'open_url', url: 'https://example.com' }), status };
     const html = render(ComputerUseToolCard, call);
     expect(html).toContain('https://example.com');
-    expect(html).toContain(`data-openbitfun-status="${status}"`);
+    expect(html).toContain(`data-opc-status="${status}"`);
     expect(html).not.toContain('Action completed');
     expect(html).not.toContain('Controlling');
   });
@@ -81,7 +81,7 @@ describe('collapsed tool information', () => {
     call.status = 'cancelled';
     call.toolResult = { success: false, error: 'Access denied' };
     const html = render(ReadFileDisplay, call);
-    expect(html).toContain('data-openbitfun-status="cancelled"');
+    expect(html).toContain('data-opc-status="cancelled"');
     expect(html).toContain('report.md');
     expect(html).toContain('aria-label="Cancelled');
     expect(html).not.toContain('report.md · Cancelled');
@@ -91,7 +91,7 @@ describe('collapsed tool information', () => {
     const call = item('ComputerUse', { action: 'open_url', url: 'https://example.com' });
     call.toolResult = { success: false, error: 'Access denied' };
     const html = render(ComputerUseToolCard, call);
-    expect(html).toContain('data-openbitfun-status="error"');
+    expect(html).toContain('data-opc-status="error"');
     expect(html).toContain('https://example.com');
     expect(html).toContain('aria-label="Access denied. Expand details"');
     expect(html).not.toContain('https://example.com · Access denied');
@@ -101,7 +101,7 @@ describe('collapsed tool information', () => {
   it.each([SessionControlToolCard, SessionMessageToolCard])('honors nested session failures after transport completion', Component => {
     const call = item('SessionControl', { action: 'create', session_name: 'Release review', session_id: 'target' }, { success: false });
     const html = render(Component, call);
-    expect(html).toContain('data-openbitfun-status="error"');
+    expect(html).toContain('data-opc-status="error"');
     expect(html).toContain('Release review');
     expect(html).not.toContain('Created session');
     expect(html).not.toContain('Message accepted');

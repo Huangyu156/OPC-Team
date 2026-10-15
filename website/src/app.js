@@ -2,8 +2,8 @@ import { matchingItems, queryTokens, scoreCapability } from './search.js';
 
 const root = document.querySelector('#app');
 const pageData = JSON.parse(document.querySelector('#page-data')?.textContent ?? '{}');
-const THEME_STORAGE_KEY = 'openbitfun-playbook-theme';
-const SIDEBAR_SCROLL_STORAGE_KEY = 'openbitfun-playbook-sidebar-scroll';
+const THEME_STORAGE_KEY = 'opc-playbook-theme';
+const SIDEBAR_SCROLL_STORAGE_KEY = 'opc-playbook-sidebar-scroll';
 const THEME_CHOICES = ['system', 'light', 'dark'];
 
 function readPreference(key) {
@@ -45,7 +45,7 @@ function storedTheme() {
 
 const state = {
   catalog: null,
-  language: readPreference('openbitfun-playbook-language')
+  language: readPreference('opc-playbook-language')
     ?? (navigator.language.startsWith('zh') ? 'zh' : 'en'),
   query: new URLSearchParams(location.search).get('q') ?? '',
   kind: 'all',
@@ -603,7 +603,7 @@ function bindCommonEvents() {
     saveSidebarScroll();
     document.body.classList.remove('sidebar-open');
     state.language = state.language === 'zh' ? 'en' : 'zh';
-    writePreference('openbitfun-playbook-language', state.language);
+    writePreference('opc-playbook-language', state.language);
     render();
   });
   document.querySelectorAll('[data-theme-choice]').forEach((button) => {

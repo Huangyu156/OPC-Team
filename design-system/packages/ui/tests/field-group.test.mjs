@@ -40,20 +40,20 @@ test("form grouping composes semantic sections, grouped surfaces, and independen
     )),
   );
 
-  assert.match(markup, /<section[^>]+data-openbitfun-component="form-section"/);
+  assert.match(markup, /<section[^>]+data-opc-component="form-section"/);
   assert.match(markup, /data-description-layout="stacked"/);
-  assert.match(markup, /<h3[^>]+data-openbitfun-part="title"[^>]*>Provider<\/h3>/);
-  assert.match(markup, /data-openbitfun-part="heading-region"/);
-  assert.match(markup, /data-openbitfun-part="leading"[^>]*><svg aria-hidden="true"><\/svg>/);
-  assert.match(markup, /data-openbitfun-part="description"[^>]*>Connection settings/);
-  assert.match(markup, /data-openbitfun-part="actions"[^>]*><button[^>]*>Reset/);
-  assert.match(markup, /data-openbitfun-component="field-group"/);
+  assert.match(markup, /<h3[^>]+data-opc-part="title"[^>]*>Provider<\/h3>/);
+  assert.match(markup, /data-opc-part="heading-region"/);
+  assert.match(markup, /data-opc-part="leading"[^>]*><svg aria-hidden="true"><\/svg>/);
+  assert.match(markup, /data-opc-part="description"[^>]*>Connection settings/);
+  assert.match(markup, /data-opc-part="actions"[^>]*><button[^>]*>Reset/);
+  assert.match(markup, /data-opc-component="field-group"/);
   assert.match(markup, /data-appearance="subtle"/);
   assert.match(markup, /data-dividers="true"/);
   assert.match(markup, /data-field-surface="ambient"/);
-  assert.match(markup, /data-openbitfun-component="input"[^>]+data-field-surface="ambient"/);
-  assert.match(markup, /data-align="center"[^>]+data-openbitfun-part="row"[^>]+data-padding="md"/);
-  assert.match(markup, /data-align="start"[^>]+data-openbitfun-part="row"[^>]+data-padding="none"/);
+  assert.match(markup, /data-opc-component="input"[^>]+data-field-surface="ambient"/);
+  assert.match(markup, /data-align="center"[^>]+data-opc-part="row"[^>]+data-padding="md"/);
+  assert.match(markup, /data-align="start"[^>]+data-opc-part="row"[^>]+data-padding="none"/);
   assert.match(markup, /data-control-width="fill"/);
 });
 
@@ -69,10 +69,10 @@ test("inline summaries preserve separate headings, descriptions, and actions", (
   );
 
   assert.match(markup, /data-description-layout="inline"/);
-  assert.match(markup, /<h3[^>]+data-openbitfun-part="title"[^>]*>Provider<\/h3>/);
-  assert.match(markup, /data-openbitfun-part="description"/);
+  assert.match(markup, /<h3[^>]+data-opc-part="title"[^>]*>Provider<\/h3>/);
+  assert.match(markup, /data-opc-part="description"/);
   assert.match(markup, /Connection settings/);
-  assert.match(markup, /data-openbitfun-part="actions"[^>]*><button[^>]*aria-expanded="false"/);
+  assert.match(markup, /data-opc-part="actions"[^>]*><button[^>]*aria-expanded="false"/);
   assert.doesNotMatch(markup, /<h3[^>]*>[\s\S]*Connection settings[\s\S]*<\/h3>/);
 });
 
@@ -99,7 +99,7 @@ test("field surface context reaches canonical field shells and resets for nested
     const markup = renderToStaticMarkup(
       createElement(FieldGroup, { fieldSurface: "ambient" }, control),
     );
-    assert.match(markup, new RegExp(`data-openbitfun-component="${component}"[^>]+data-field-surface="ambient"`));
+    assert.match(markup, new RegExp(`data-opc-component="${component}"[^>]+data-field-surface="ambient"`));
   });
 
   const nestedMarkup = renderToStaticMarkup(
@@ -107,7 +107,7 @@ test("field surface context reaches canonical field shells and resets for nested
       createElement(FieldGroup, { fieldSurface: "default" }, createElement(Input)),
     ),
   );
-  assert.match(nestedMarkup, /data-openbitfun-component="input"[^>]+data-field-surface="default"/);
+  assert.match(nestedMarkup, /data-opc-component="input"[^>]+data-field-surface="default"/);
 });
 
 test("ambient field groups preserve opaque overlays while field shells reuse the group surface", async () => {

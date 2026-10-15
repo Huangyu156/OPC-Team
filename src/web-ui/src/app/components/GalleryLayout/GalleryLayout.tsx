@@ -9,13 +9,13 @@ interface GalleryLayoutProps extends React.HTMLAttributes<HTMLDivElement> {
 
 const GalleryLayout: React.FC<GalleryLayoutProps> = ({ children, className, ...rootProps }) => (
   <div
-    data-openbitfun-component="gallery-layout"
-    data-openbitfun-part="root"
+    data-opc-component="gallery-layout"
+    data-opc-part="root"
     {...rootProps}
     className={['gallery-layout', className].filter(Boolean).join(' ')}
   >
-    <ScrollArea className="gallery-layout__body" data-openbitfun-component="gallery-layout" data-openbitfun-part="body">
-      <div className="gallery-layout__body-inner" data-openbitfun-component="gallery-layout" data-openbitfun-part="content">
+    <ScrollArea className="gallery-layout__body" data-opc-component="gallery-layout" data-opc-part="body">
+      <div className="gallery-layout__body-inner" data-opc-component="gallery-layout" data-opc-part="content">
         {children}
       </div>
     </ScrollArea>

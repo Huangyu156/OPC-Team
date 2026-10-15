@@ -60,7 +60,7 @@ jobs:
           node scripts/data-migrator-release.mjs --check-version
           node --test scripts/data-migrator-tauri-build.test.mjs
       - name: Check offline data compatibility
-        run: cargo test --locked -p openbitfun-data-migrator -p openbitfun-legacy-migration-adapters -p openbitfun-legacy-migration -p openbitfun-config-contracts --lib --test migration_engine_contracts
+        run: cargo test --locked -p opc-data-migrator -p opc-legacy-migration-adapters -p opc-legacy-migration -p opc-config-contracts --lib --test migration_engine_contracts
       - name: Build independent package
         run: pnpm run data-migrator:build -- --target ${{ matrix.target }} ${{ matrix.bundles }}
       - name: Stage package and checksum

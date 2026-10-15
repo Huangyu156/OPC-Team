@@ -79,7 +79,7 @@ async function openGitScene(): Promise<void> {
   await browser.execute(() => {
     window.dispatchEvent(new CustomEvent('scene:open', { detail: { sceneId: 'git' } }));
   });
-  await $('.openbitfun-git-scene-working-copy__diff-area').waitForExist({ timeout: 15000 });
+  await $('.opc-git-scene-working-copy__diff-area').waitForExist({ timeout: 15000 });
 }
 
 async function triggerCodeEditor(filePath: string, fileName: string): Promise<number> {

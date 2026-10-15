@@ -203,7 +203,7 @@ mod tests {
         #[cfg(windows)]
         {
             // Junctions exercise reparse safety without requiring symlink privilege.
-            let output = openbitfun_services_core::process_manager::create_command("cmd.exe")
+            let output = opc_services_core::process_manager::create_command("cmd.exe")
                 .args(["/C", "mklink", "/J"])
                 .arg(link)
                 .arg(target)

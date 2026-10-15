@@ -11,31 +11,31 @@ import './GenerativeWidgetFrame.scss';
 
 export type WidgetMessage =
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:event';
+      source: 'opc-widget';
+      type: 'opc-widget:event';
       widgetId?: string;
       payload?: unknown;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:prompt';
+      source: 'opc-widget';
+      type: 'opc-widget:prompt';
       widgetId?: string;
       text?: string;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:ready';
+      source: 'opc-widget';
+      type: 'opc-widget:ready';
       widgetId?: string;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:rendered';
+      source: 'opc-widget';
+      type: 'opc-widget:rendered';
       widgetId?: string;
       widgetCode: string;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:open-file';
+      source: 'opc-widget';
+      type: 'opc-widget:open-file';
       widgetId?: string;
       filePath?: string;
       line?: number;
@@ -44,24 +44,24 @@ export type WidgetMessage =
       nodeType?: string;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:resize';
+      source: 'opc-widget';
+      type: 'opc-widget:resize';
       widgetId?: string;
       height?: number;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:clear-selection';
+      source: 'opc-widget';
+      type: 'opc-widget:clear-selection';
       widgetId?: string;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:selection-cleared';
+      source: 'opc-widget';
+      type: 'opc-widget:selection-cleared';
       widgetId?: string;
     }
   | {
-      source: 'openbitfun-widget';
-      type: 'openbitfun-widget:context-menu';
+      source: 'opc-widget';
+      type: 'opc-widget:context-menu';
       widgetId?: string;
       clientX?: number;
       clientY?: number;
@@ -75,7 +75,7 @@ export type WidgetMessage =
 
 export type WidgetContextMenuMessage = Extract<
   WidgetMessage,
-  { type: 'openbitfun-widget:context-menu' }
+  { type: 'opc-widget:context-menu' }
 >;
 
 export interface GenerativeWidgetFrameProps {
@@ -152,20 +152,20 @@ ${createWidgetAppearanceFallbackCss()}
       color: var(--opcteam-color-accent-hover);
     }
     [data-file-path],
-    [data-openbitfun-open-file] {
+    [data-opc-open-file] {
       cursor: pointer;
     }
-    .openbitfun-root,
-    .openbitfun-stack,
-    .openbitfun-section,
-    .openbitfun-card,
-    .openbitfun-panel,
-    .openbitfun-empty,
-    .openbitfun-list,
-    .openbitfun-table-wrap {
+    .opc-root,
+    .opc-stack,
+    .opc-section,
+    .opc-card,
+    .opc-panel,
+    .opc-empty,
+    .opc-list,
+    .opc-table-wrap {
       min-width: 0;
     }
-    .openbitfun-root {
+    .opc-root {
       width: 100%;
       max-width: 100%;
       display: flex;
@@ -173,25 +173,25 @@ ${createWidgetAppearanceFallbackCss()}
       gap: var(--opcteam-space-4);
       color: var(--opcteam-color-content-primary);
     }
-    .openbitfun-stack {
+    .opc-stack {
       display: flex;
       flex-direction: column;
       gap: var(--opcteam-space-3);
     }
-    .openbitfun-row {
+    .opc-row {
       display: flex;
       align-items: center;
       gap: var(--opcteam-space-3);
       min-width: 0;
     }
-    .openbitfun-row-wrap {
+    .opc-row-wrap {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       gap: var(--opcteam-space-3);
       min-width: 0;
     }
-    .openbitfun-toolbar {
+    .opc-toolbar {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -203,19 +203,19 @@ ${createWidgetAppearanceFallbackCss()}
       border: 1px solid var(--opcteam-color-border-subtle);
       box-shadow: var(--opcteam-shadow-xs);
     }
-    .openbitfun-section {
+    .opc-section {
       display: flex;
       flex-direction: column;
       gap: var(--opcteam-space-3);
     }
-    .openbitfun-section-header {
+    .opc-section-header {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
       justify-content: space-between;
       gap: var(--opcteam-space-3);
     }
-    .openbitfun-title {
+    .opc-title {
       margin: 0;
       font-size: var(--opcteam-type-body-lg-font-size);
       font-weight: var(--opcteam-type-label-selected-font-weight);
@@ -223,13 +223,13 @@ ${createWidgetAppearanceFallbackCss()}
       color: var(--opcteam-color-content-primary);
       letter-spacing: var(--opcteam-type-flow-title-letter-spacing);
     }
-    .openbitfun-subtitle {
+    .opc-subtitle {
       margin: 0;
       font-size: var(--opcteam-type-label-sm-font-size);
       color: var(--opcteam-color-content-muted);
       line-height: var(--opcteam-type-body-sm-line-height);
     }
-    .openbitfun-eyebrow {
+    .opc-eyebrow {
       margin: 0;
       font-size: var(--opcteam-type-meta-font-size);
       font-weight: var(--opcteam-type-label-sm-font-weight);
@@ -237,8 +237,8 @@ ${createWidgetAppearanceFallbackCss()}
       text-transform: uppercase;
       color: var(--opcteam-color-content-muted);
     }
-    .openbitfun-card,
-    .openbitfun-panel {
+    .opc-card,
+    .opc-panel {
       position: relative;
       display: flex;
       flex-direction: column;
@@ -251,11 +251,11 @@ ${createWidgetAppearanceFallbackCss()}
       box-shadow: var(--opcteam-shadow-sm);
       overflow: hidden;
     }
-    .openbitfun-panel {
+    .opc-panel {
       background: color-mix(in srgb, var(--opcteam-color-surface-panel) 74%, var(--opcteam-color-surface-subtle));
     }
-    [data-openbitfun-prompt-selected="true"],
-    [data-openbitfun-context-selected="true"] {
+    [data-opc-prompt-selected="true"],
+    [data-opc-context-selected="true"] {
       position: relative;
       outline: 2px solid var(--opcteam-color-accent-default);
       outline-offset: 2px;
@@ -266,18 +266,18 @@ ${createWidgetAppearanceFallbackCss()}
       transition: outline-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
       transform: translateY(-1px);
     }
-    .openbitfun-card-accent {
+    .opc-card-accent {
       background: color-mix(in srgb, var(--opcteam-color-accent-default) 10%, var(--opcteam-color-surface-panel));
       border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 30%, var(--opcteam-color-border-subtle));
     }
-    .openbitfun-grid {
+    .opc-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
       gap: var(--opcteam-space-3);
       width: 100%;
       min-width: 0;
     }
-    .openbitfun-kpi {
+    .opc-kpi {
       display: flex;
       flex-direction: column;
       gap: 6px;
@@ -287,24 +287,24 @@ ${createWidgetAppearanceFallbackCss()}
       background: var(--opcteam-color-action-neutral-surface);
       border: 1px solid var(--opcteam-color-border-subtle);
     }
-    .openbitfun-kpi-label {
+    .opc-kpi-label {
       font-size: var(--opcteam-type-meta-font-size);
       font-weight: var(--opcteam-type-label-sm-font-weight);
       text-transform: uppercase;
       letter-spacing: var(--opcteam-type-modifier-tracking-widest-letter-spacing);
       color: var(--opcteam-color-content-muted);
     }
-    .openbitfun-kpi-value {
+    .opc-kpi-value {
       font-size: var(--opcteam-type-flow-section-title-font-size);
       font-weight: var(--opcteam-type-label-selected-font-weight);
       line-height: var(--opcteam-type-display-sm-line-height);
       color: var(--opcteam-color-content-primary);
     }
-    .openbitfun-kpi-meta {
+    .opc-kpi-meta {
       font-size: var(--opcteam-type-label-sm-font-size);
       color: var(--opcteam-color-content-secondary);
     }
-    .openbitfun-badge {
+    .opc-badge {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -319,27 +319,27 @@ ${createWidgetAppearanceFallbackCss()}
       color: var(--opcteam-color-content-secondary);
       white-space: nowrap;
     }
-    .openbitfun-badge-accent {
+    .opc-badge-accent {
       background: color-mix(in srgb, var(--opcteam-color-accent-default) 14%, transparent);
       border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 28%, var(--opcteam-color-border-subtle));
       color: var(--opcteam-color-accent-default);
     }
-    .openbitfun-badge-success {
+    .opc-badge-success {
       background: color-mix(in srgb, var(--opcteam-color-status-success-content) 14%, transparent);
       border-color: color-mix(in srgb, var(--opcteam-color-status-success-content) 28%, var(--opcteam-color-border-subtle));
       color: var(--opcteam-color-status-success-content);
     }
-    .openbitfun-badge-warning {
+    .opc-badge-warning {
       background: color-mix(in srgb, var(--opcteam-color-status-warning-content) 14%, transparent);
       border-color: color-mix(in srgb, var(--opcteam-color-status-warning-content) 28%, var(--opcteam-color-border-subtle));
       color: var(--opcteam-color-status-warning-content);
     }
-    .openbitfun-badge-error {
+    .opc-badge-error {
       background: color-mix(in srgb, var(--opcteam-color-status-danger-content) 14%, transparent);
       border-color: color-mix(in srgb, var(--opcteam-color-status-danger-content) 28%, var(--opcteam-color-border-subtle));
       color: var(--opcteam-color-status-danger-content);
     }
-    .openbitfun-button {
+    .opc-button {
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -360,25 +360,25 @@ ${createWidgetAppearanceFallbackCss()}
         color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
         box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
     }
-    .openbitfun-button:hover {
+    .opc-button:hover {
       background: var(--opcteam-color-action-neutral-surface-hover);
       color: var(--opcteam-color-content-primary);
       border-color: var(--opcteam-color-field-border-hover);
     }
-    .openbitfun-button-primary {
+    .opc-button-primary {
       background: var(--opcteam-color-accent-default);
       color: var(--opcteam-color-content-on-dark);
       border-color: transparent;
       box-shadow: var(--opcteam-shadow-xs);
     }
-    .openbitfun-button-primary:hover {
+    .opc-button-primary:hover {
       background: var(--opcteam-color-accent-hover);
       color: var(--opcteam-color-content-on-dark);
       border-color: transparent;
     }
-    .openbitfun-input,
-    .openbitfun-textarea,
-    .openbitfun-select {
+    .opc-input,
+    .opc-textarea,
+    .opc-select {
       width: 100%;
       max-width: 100%;
       min-width: 0;
@@ -393,34 +393,34 @@ ${createWidgetAppearanceFallbackCss()}
         color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
         box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
     }
-    .openbitfun-input,
-    .openbitfun-select {
+    .opc-input,
+    .opc-select {
       min-height: 34px;
     }
-    .openbitfun-textarea {
+    .opc-textarea {
       min-height: 96px;
       padding-top: 10px;
       padding-bottom: 10px;
       resize: vertical;
     }
-    .openbitfun-input::placeholder,
-    .openbitfun-textarea::placeholder {
+    .opc-input::placeholder,
+    .opc-textarea::placeholder {
       color: color-mix(in srgb, var(--opcteam-color-content-muted) 55%, transparent);
     }
-    .openbitfun-input:focus,
-    .openbitfun-textarea:focus,
-    .openbitfun-select:focus {
+    .opc-input:focus,
+    .opc-textarea:focus,
+    .opc-select:focus {
       outline: none;
       border-color: var(--opcteam-color-accent-default);
       background: var(--opcteam-color-action-quiet-hover);
     }
-    .openbitfun-list {
+    .opc-list {
       display: flex;
       flex-direction: column;
       gap: 8px;
       width: 100%;
     }
-    .openbitfun-list-item {
+    .opc-list-item {
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
@@ -430,27 +430,27 @@ ${createWidgetAppearanceFallbackCss()}
       background: var(--opcteam-color-surface-subtle);
       border: 1px solid transparent;
     }
-    .openbitfun-list-item[data-file-path]:hover,
-    .openbitfun-list-item[data-openbitfun-open-file]:hover,
-    .openbitfun-card[data-file-path]:hover,
-    .openbitfun-panel[data-file-path]:hover {
+    .opc-list-item[data-file-path]:hover,
+    .opc-list-item[data-opc-open-file]:hover,
+    .opc-card[data-file-path]:hover,
+    .opc-panel[data-file-path]:hover {
       border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 35%, var(--opcteam-color-border-subtle));
       background: color-mix(in srgb, var(--opcteam-color-action-neutral-surface) 76%, var(--opcteam-color-accent-default));
     }
-    .openbitfun-table-wrap {
+    .opc-table-wrap {
       width: 100%;
       overflow-x: auto;
       border: 1px solid var(--opcteam-color-border-subtle);
       border-radius: var(--opcteam-radius-base);
       background: var(--opcteam-color-surface-panel);
     }
-    .openbitfun-table {
+    .opc-table {
       width: 100%;
       border-collapse: collapse;
       table-layout: fixed;
     }
-    .openbitfun-table th,
-    .openbitfun-table td {
+    .opc-table th,
+    .opc-table td {
       padding: 10px 12px;
       text-align: left;
       vertical-align: top;
@@ -459,14 +459,14 @@ ${createWidgetAppearanceFallbackCss()}
       font-size: var(--opcteam-type-label-md-font-size);
       word-break: break-word;
     }
-    .openbitfun-table th {
+    .opc-table th {
       font-size: var(--opcteam-type-label-sm-font-size);
       font-weight: var(--opcteam-type-label-sm-font-weight);
       color: var(--opcteam-color-content-muted);
       text-transform: uppercase;
       letter-spacing: var(--opcteam-type-modifier-tracking-wider-letter-spacing);
     }
-    .openbitfun-empty {
+    .opc-empty {
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -480,14 +480,14 @@ ${createWidgetAppearanceFallbackCss()}
       color: var(--opcteam-color-content-muted);
       text-align: center;
     }
-    .openbitfun-divider {
+    .opc-divider {
       width: 100%;
       height: 1px;
       background: var(--opcteam-color-border-subtle);
       border: 0;
       margin: 0;
     }
-    .openbitfun-code {
+    .opc-code {
       padding: 2px 6px;
       border-radius: 6px;
       background: var(--opcteam-color-action-neutral-surface);
@@ -495,29 +495,29 @@ ${createWidgetAppearanceFallbackCss()}
       font-family: var(--opcteam-type-code-md-font-family);
       font-size: var(--opcteam-type-label-sm-font-size);
     }
-    .openbitfun-mono {
+    .opc-mono {
       font-family: var(--opcteam-type-code-md-font-family);
     }
     @media (max-width: 560px) {
-      .openbitfun-card,
-      .openbitfun-panel,
-      .openbitfun-toolbar {
+      .opc-card,
+      .opc-panel,
+      .opc-toolbar {
         padding: var(--opcteam-space-3);
       }
-      .openbitfun-grid {
+      .opc-grid {
         grid-template-columns: 1fr;
       }
-      .openbitfun-title {
+      .opc-title {
         font-size: var(--opcteam-type-body-md-font-size);
       }
     }
     @media (prefers-reduced-motion: reduce) {
-      .openbitfun-button,
-      .openbitfun-input,
-      .openbitfun-textarea,
-      .openbitfun-select,
-      [data-openbitfun-prompt-selected="true"],
-      [data-openbitfun-context-selected="true"] {
+      .opc-button,
+      .opc-input,
+      .opc-textarea,
+      .opc-select,
+      [data-opc-prompt-selected="true"],
+      [data-opc-context-selected="true"] {
         transition: none;
       }
     }
@@ -536,7 +536,7 @@ ${createWidgetAppearanceFallbackCss()}
 
       function send(type, payload) {
         parent.postMessage({
-          source: 'openbitfun-widget',
+          source: 'opc-widget',
           type: type,
           widgetId: currentWidgetId,
           payload: payload
@@ -560,7 +560,7 @@ ${createWidgetAppearanceFallbackCss()}
 
       function clearPromptTargetSelection() {
         if (!selectedPromptTarget) return;
-        selectedPromptTarget.removeAttribute('data-openbitfun-prompt-selected');
+        selectedPromptTarget.removeAttribute('data-opc-prompt-selected');
         selectedPromptTarget = null;
       }
 
@@ -572,7 +572,7 @@ ${createWidgetAppearanceFallbackCss()}
         if (selectedPromptTarget === element) return;
         clearPromptTargetSelection();
         selectedPromptTarget = element;
-        selectedPromptTarget.setAttribute('data-openbitfun-prompt-selected', 'true');
+        selectedPromptTarget.setAttribute('data-opc-prompt-selected', 'true');
       }
 
       function findPromptTarget(target) {
@@ -580,7 +580,7 @@ ${createWidgetAppearanceFallbackCss()}
         while (node && node !== document.body) {
           if (
             node.hasAttribute('data-file-path') ||
-            node.hasAttribute('data-openbitfun-open-file') ||
+            node.hasAttribute('data-opc-open-file') ||
             node.hasAttribute('data-prompt-target') ||
             node.hasAttribute('data-section-title')
           ) {
@@ -642,8 +642,8 @@ ${createWidgetAppearanceFallbackCss()}
             tag === 'article' ||
             role === 'region' ||
             role === 'group' ||
-            node.classList.contains('openbitfun-card') ||
-            node.classList.contains('openbitfun-panel')
+            node.classList.contains('opc-card') ||
+            node.classList.contains('opc-panel')
           ) {
             var heading = node.querySelector('h1, h2, h3, h4, h5, h6, [data-section-title]');
             var headingText = truncateText(
@@ -677,8 +677,8 @@ ${createWidgetAppearanceFallbackCss()}
         resizeFrame = window.requestAnimationFrame(function () {
           resizeFrame = null;
           sendMessage({
-            source: 'openbitfun-widget',
-            type: 'openbitfun-widget:resize',
+            source: 'opc-widget',
+            type: 'opc-widget:resize',
             widgetId: currentWidgetId,
             height: measureHeight()
           });
@@ -737,7 +737,7 @@ ${createWidgetAppearanceFallbackCss()}
         var root = document.documentElement;
         if (!root) return;
         if (appearance.id) root.setAttribute('data-openbitfun-appearance', String(appearance.id));
-        if (appearance.mode) root.setAttribute('data-openbitfun-appearance-mode', String(appearance.mode));
+        if (appearance.mode) root.setAttribute('data-opc-appearance-mode', String(appearance.mode));
         var vars = appearance.vars || {};
         Object.keys(vars).forEach(function (name) {
           root.style.setProperty(name, String(vars[name]));
@@ -758,7 +758,7 @@ ${createWidgetAppearanceFallbackCss()}
 
       var bridge = {
         send: function (data) {
-          send('openbitfun-widget:event', data);
+          send('opc-widget:event', data);
         }
       };
 
@@ -766,8 +766,8 @@ ${createWidgetAppearanceFallbackCss()}
       window.glimpse = bridge;
       window.sendPrompt = function (text) {
         parent.postMessage({
-          source: 'openbitfun-widget',
-          type: 'openbitfun-widget:prompt',
+          source: 'opc-widget',
+          type: 'opc-widget:prompt',
           widgetId: currentWidgetId,
           text: String(text || '')
         }, '*');
@@ -775,9 +775,9 @@ ${createWidgetAppearanceFallbackCss()}
 
       document.addEventListener('click', function (event) {
         var target = event.target;
-        var fileTarget = target && target.closest ? target.closest('[data-file-path], [data-openbitfun-open-file]') : null;
+        var fileTarget = target && target.closest ? target.closest('[data-file-path], [data-opc-open-file]') : null;
         if (fileTarget) {
-          var filePath = fileTarget.getAttribute('data-file-path') || fileTarget.getAttribute('data-openbitfun-open-file') || '';
+          var filePath = fileTarget.getAttribute('data-file-path') || fileTarget.getAttribute('data-opc-open-file') || '';
           if (filePath) {
             var lineValue = Number(fileTarget.getAttribute('data-line') || '');
             var columnValue = Number(fileTarget.getAttribute('data-column') || '');
@@ -785,8 +785,8 @@ ${createWidgetAppearanceFallbackCss()}
             event.preventDefault();
             event.stopPropagation();
             sendMessage({
-              source: 'openbitfun-widget',
-              type: 'openbitfun-widget:open-file',
+              source: 'opc-widget',
+              type: 'opc-widget:open-file',
               widgetId: currentWidgetId,
               filePath: filePath,
               line: Number.isFinite(lineValue) && lineValue > 0 ? lineValue : undefined,
@@ -813,8 +813,8 @@ ${createWidgetAppearanceFallbackCss()}
         if (selectedPromptTarget.contains && selectedPromptTarget.contains(target)) return;
         clearPromptTargetSelection();
         sendMessage({
-          source: 'openbitfun-widget',
-          type: 'openbitfun-widget:selection-cleared',
+          source: 'opc-widget',
+          type: 'opc-widget:selection-cleared',
           widgetId: currentWidgetId
         });
       }, true);
@@ -831,7 +831,7 @@ ${createWidgetAppearanceFallbackCss()}
 
         var filePath = normalizeSpace(
           promptTarget && promptTarget.getAttribute
-            ? promptTarget.getAttribute('data-file-path') || promptTarget.getAttribute('data-openbitfun-open-file')
+            ? promptTarget.getAttribute('data-file-path') || promptTarget.getAttribute('data-opc-open-file')
             : ''
         );
         var lineValue = Number(
@@ -841,8 +841,8 @@ ${createWidgetAppearanceFallbackCss()}
         event.preventDefault();
         event.stopPropagation();
         sendMessage({
-          source: 'openbitfun-widget',
-          type: 'openbitfun-widget:context-menu',
+          source: 'opc-widget',
+          type: 'opc-widget:context-menu',
           widgetId: currentWidgetId,
           clientX: Number(event.clientX) || 0,
           clientY: Number(event.clientY) || 0,
@@ -856,20 +856,20 @@ ${createWidgetAppearanceFallbackCss()}
       window.addEventListener('message', function (event) {
         var data = event.data;
         if (!data) return;
-        if (data.type === 'openbitfun-widget:clear-selection') {
+        if (data.type === 'opc-widget:clear-selection') {
           if (!data.widgetId || data.widgetId === currentWidgetId) {
             clearPromptTargetSelection();
           }
           return;
         }
-        if (data.type !== 'openbitfun-widget:update') return;
+        if (data.type !== 'opc-widget:update') return;
         currentWidgetId = data.widgetId || currentWidgetId || '';
         applyAppearance(data.appearance);
         setContent(String(data.html || ''), Boolean(data.runScripts));
         // Acknowledge the applied content, not only the initial empty shell.
         sendMessage({
-          source: 'openbitfun-widget',
-          type: 'openbitfun-widget:rendered',
+          source: 'opc-widget',
+          type: 'opc-widget:rendered',
           widgetId: currentWidgetId,
           widgetCode: String(data.html || '')
         });
@@ -886,8 +886,8 @@ ${createWidgetAppearanceFallbackCss()}
       }
 
       sendMessage({
-        source: 'openbitfun-widget',
-        type: 'openbitfun-widget:ready',
+        source: 'opc-widget',
+        type: 'opc-widget:ready',
         widgetId: currentWidgetId
       });
       scheduleResize();
@@ -920,10 +920,10 @@ export const GenerativeWidgetFrame: React.FC<GenerativeWidgetFrameProps> = ({
     const handleMessage = (event: MessageEvent<WidgetMessage>) => {
       const data = event.data;
       if (event.source !== iframeRef.current?.contentWindow) return;
-      if (!data || data.source !== 'openbitfun-widget') return;
+      if (!data || data.source !== 'opc-widget') return;
       if (data.widgetId && data.widgetId !== widgetId) return;
 
-      if (data.type === 'openbitfun-widget:resize') {
+      if (data.type === 'opc-widget:resize') {
         const nextHeight = Math.max(120, Math.ceil(Number(data.height) || 0));
         setFrameHeight((prev) => {
           if (Math.abs(prev - nextHeight) <= 1) return prev;
@@ -933,7 +933,7 @@ export const GenerativeWidgetFrame: React.FC<GenerativeWidgetFrameProps> = ({
         return;
       }
 
-      if (data.type === 'openbitfun-widget:context-menu') {
+      if (data.type === 'opc-widget:context-menu') {
         const iframeRect = iframeRef.current?.getBoundingClientRect();
         onWidgetEvent?.({
           ...data,
@@ -1012,7 +1012,7 @@ export const GenerativeWidgetFrame: React.FC<GenerativeWidgetFrameProps> = ({
 
     iframeRef.current.contentWindow.postMessage(
       {
-        type: 'openbitfun-widget:update',
+        type: 'opc-widget:update',
         widgetId,
         title,
         html: normalizedCode,
@@ -1034,7 +1034,7 @@ export const GenerativeWidgetFrame: React.FC<GenerativeWidgetFrameProps> = ({
 
     iframeRef.current.contentWindow.postMessage(
       {
-        type: 'openbitfun-widget:clear-selection',
+        type: 'opc-widget:clear-selection',
         widgetId,
       },
       '*',
@@ -1043,17 +1043,17 @@ export const GenerativeWidgetFrame: React.FC<GenerativeWidgetFrameProps> = ({
 
   return (
     <div
-      className={`openbitfun-generative-widget-frame ${className}`.trim()}
-      data-openbitfun-component="generative-widget"
-      data-openbitfun-part="frame"
+      className={`opc-generative-widget-frame ${className}`.trim()}
+      data-opc-component="generative-widget"
+      data-opc-part="frame"
       style={{ height: `${frameHeight}px` }}
     >
       <iframe
         ref={iframeRef}
         title={title || 'Generative widget'}
-        className={`openbitfun-generative-widget-frame__iframe${isLoaded ? ' openbitfun-generative-widget-frame__iframe--loaded' : ''}`}
-        data-openbitfun-component="generative-widget"
-        data-openbitfun-part="iframe"
+        className={`opc-generative-widget-frame__iframe${isLoaded ? ' opc-generative-widget-frame__iframe--loaded' : ''}`}
+        data-opc-component="generative-widget"
+        data-opc-part="iframe"
         style={{ width: '100%', minWidth: '100%' }}
         sandbox="allow-scripts allow-same-origin allow-forms allow-modals allow-popups"
         src="about:blank"

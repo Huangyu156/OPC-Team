@@ -84,7 +84,7 @@ server.listen(port, host, () => {
 async function isOpenBitFunPreview(target) {
   try {
     const response = await fetch(target, { signal: AbortSignal.timeout(1500) });
-    if (response.headers.get('x-openbitfun-mobile-preview') === '1') return true;
+    if (response.headers.get('x-opc-mobile-preview') === '1') return true;
     return (await response.text()).includes('<title>OpenBitFun Mobile Parity Bench</title>');
   } catch {
     return false;

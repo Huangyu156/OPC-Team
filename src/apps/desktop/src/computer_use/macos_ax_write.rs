@@ -118,8 +118,8 @@ pub(super) fn try_ax_set_value(target: AxRef, value: &str) -> AxWriteOutcome {
 pub(super) fn insert_selected_text(
     target: AxRef,
     text: &str,
-) -> openbitfun_core::util::errors::OpcTeamResult<bool> {
-    use openbitfun_core::util::errors::OpcTeamError;
+) -> opc_core::util::errors::OpcTeamResult<bool> {
+    use opc_core::util::errors::OpcTeamError;
     if !can_write(target) {
         return Err(OpcTeamError::tool(
             "[CONTROL_TARGET_CHANGED] Text target is outside the active capture",

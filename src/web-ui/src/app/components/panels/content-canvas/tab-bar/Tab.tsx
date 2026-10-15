@@ -327,9 +327,9 @@ export const Tab: React.FC<TabProps> = ({
 
   return (
     <Tooltip content={tooltipText} placement="bottom">
-      <div data-openbitfun-product-component="canvas-tab" data-openbitfun-product-part="root" data-openbitfun-group={groupId}
+      <div data-opc-product-component="canvas-tab" data-opc-product-part="root" data-opc-group={groupId}
         data-overflow-trigger
-        data-openbitfun-state={[
+        data-opc-state={[
           isActive && 'active',
           isDragging && 'dragging',
           tab.isDirty && 'dirty',
