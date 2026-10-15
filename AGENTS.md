@@ -374,3 +374,17 @@ document a command only when a real workflow needs it.
 ## Agent-doc priority
 
 Prefer the nearest matching `AGENTS.md` / `AGENTS-CN.md` for the directory you are changing. If local guidance conflicts with this file, follow the more specific, nearer document.
+
+## Agent skills
+
+### Issue tracker
+
+Issues live in this repo's GitHub Issues, driven through the `gh` CLI. See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+The five canonical triage roles use their default label strings (`needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`). See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context layout: one root `CONTEXT.md` (created lazily) plus `docs/adr/` for architecture decisions. See `docs/agents/domain.md`.
