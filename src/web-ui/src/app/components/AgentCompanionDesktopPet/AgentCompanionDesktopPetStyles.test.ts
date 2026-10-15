@@ -42,16 +42,16 @@ describe('AgentCompanionDesktopPet styles', () => {
     const output = extractBlock(stylesheet, '&__bubble-output');
     const composerInput = extractBlock(stylesheet, '&__bubble-composer-input');
 
-    expect(bubble).toContain('background-color: var(--openbitfun-color-surface-raised);');
-    expect(bubble).toContain('color: var(--openbitfun-color-content-primary);');
-    expect(status).toContain('color: var(--openbitfun-color-content-secondary);');
-    expect(output).toContain('color: var(--openbitfun-color-content-secondary);');
-    expect(composerInput).toContain('background: var(--openbitfun-color-field-background);');
-    expect(composerInput).toContain('color: var(--openbitfun-color-content-primary);');
-    expect(stylesheet).toContain('background: var(--openbitfun-color-surface-raised);');
+    expect(bubble).toContain('background-color: var(--opcteam-color-surface-raised);');
+    expect(bubble).toContain('color: var(--opcteam-color-content-primary);');
+    expect(status).toContain('color: var(--opcteam-color-content-secondary);');
+    expect(output).toContain('color: var(--opcteam-color-content-secondary);');
+    expect(composerInput).toContain('background: var(--opcteam-color-field-background);');
+    expect(composerInput).toContain('color: var(--opcteam-color-content-primary);');
+    expect(stylesheet).toContain('background: var(--opcteam-color-surface-raised);');
 
-    expect(stylesheet).not.toContain('--openbitfun-color-content-on-light');
-    expect(stylesheet).not.toContain('--openbitfun-color-content-on-dark');
+    expect(stylesheet).not.toContain('--opcteam-color-content-on-light');
+    expect(stylesheet).not.toContain('--opcteam-color-content-on-dark');
     expect(stylesheet).not.toMatch(
       /&__bubble--(?:attention|waiting|completed|error|interrupted)\s+&__bubble-status/,
     );
@@ -61,10 +61,10 @@ describe('AgentCompanionDesktopPet styles', () => {
     const stylesheet = readStylesheet();
 
     for (const [selector, surfaceToken] of [
-      ['&__bubble--attention', '--openbitfun-color-status-warning-surface'],
-      ['&__bubble--waiting', '--openbitfun-color-status-warning-surface'],
-      ['&__bubble--completed', '--openbitfun-color-status-success-surface'],
-      ['&__bubble--error,\n  &__bubble--interrupted', '--openbitfun-color-status-danger-surface'],
+      ['&__bubble--attention', '--opcteam-color-status-warning-surface'],
+      ['&__bubble--waiting', '--opcteam-color-status-warning-surface'],
+      ['&__bubble--completed', '--opcteam-color-status-success-surface'],
+      ['&__bubble--error,\n  &__bubble--interrupted', '--opcteam-color-status-danger-surface'],
     ] as const) {
       const state = extractBlock(stylesheet, selector);
       expect(state).toContain('background-image: linear-gradient(');
@@ -88,8 +88,8 @@ describe('AgentCompanionDesktopPet styles', () => {
     expect(source).not.toContain('triggerClassName');
     expect(overlay).not.toMatch(/\b(?:color|background|border|box-shadow|backdrop-filter)\s*:/);
     expect(menuItem).toBe('');
-    expect(actionItemStyles).toContain('color: var(--openbitfun-color-action-neutral-content);');
-    expect(hover).toContain('background: var(--openbitfun-color-action-neutral-surface-hover);');
-    expect(pressed).toContain('background: var(--openbitfun-color-action-neutral-surface-hover);');
+    expect(actionItemStyles).toContain('color: var(--opcteam-color-action-neutral-content);');
+    expect(hover).toContain('background: var(--opcteam-color-action-neutral-surface-hover);');
+    expect(pressed).toContain('background: var(--opcteam-color-action-neutral-surface-hover);');
   });
 });

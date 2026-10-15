@@ -514,7 +514,7 @@ const ConnectedTerminal: React.FC<ConnectedTerminalProps> = memo(({
               title="Send Ctrl+C"
               aria-label="Send Ctrl+C"
               data-testid="shell-command-rerun"
-              icon={<span style={{ fontSize: 'var(--openbitfun-type-micro-font-size)', fontWeight: 'var(--openbitfun-type-heading-page-font-weight)' }}>^C</span>}
+              icon={<span style={{ fontSize: 'var(--opcteam-type-micro-font-size)', fontWeight: 'var(--opcteam-type-heading-page-font-weight)' }}>^C</span>}
             />
             <IconButton
               className={`openbitfun-terminal__toolbar-btn${closeBehavior === 'terminate' ? ' openbitfun-terminal__toolbar-btn--danger' : ''}`}

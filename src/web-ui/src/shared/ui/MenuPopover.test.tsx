@@ -49,7 +49,7 @@ describe('public MenuPopover', () => {
 
   it('portals inside the theme scope, supports typeahead and dispatches after focus return', async () => {
     const trigger = open();
-    expect(host.querySelector('[role="menu"]')?.closest('[data-openbitfun-design-system-root]')).not.toBeNull();
+    expect(host.querySelector('[role="menu"]')?.closest('[data-opcteam-design-system-root]')).not.toBeNull();
     expect(document.activeElement?.textContent).toBe('Copy');
     key('s'); expect(document.activeElement?.textContent).toBe('Share');
     key('Home'); key('Enter', true); expect(selected).not.toHaveBeenCalled();

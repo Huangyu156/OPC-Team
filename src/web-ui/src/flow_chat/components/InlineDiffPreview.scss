@@ -5,20 +5,20 @@
   width: 100%;
   min-width: 0;
   overflow: hidden;
-  color: var(--openbitfun-color-code-diff-foreground);
-  background: var(--openbitfun-color-surface-panel);
-  font-family: var(--openbitfun-type-flow-code-font-family);
-  font-size: var(--openbitfun-type-flow-code-font-size);
-  font-weight: var(--openbitfun-type-flow-code-font-weight);
-  line-height: var(--openbitfun-type-flow-code-line-height);
+  color: var(--opcteam-color-code-diff-foreground);
+  background: var(--opcteam-color-surface-panel);
+  font-family: var(--opcteam-type-flow-code-font-family);
+  font-size: var(--opcteam-type-flow-code-font-size);
+  font-weight: var(--opcteam-type-flow-code-font-weight);
+  line-height: var(--opcteam-type-flow-code-line-height);
   font-synthesis: none;
   text-shadow: none;
 
   &[data-line-numbers="hidden"] .diff-line__content {
     // The full-width change rail is separate from the shared text inset.
     padding-inline-start: calc(
-      var(--openbitfun-control-flow-chat-card-padding-inline)
-      - var(--openbitfun-space-1)
+      var(--opcteam-control-flow-chat-card-padding-inline)
+      - var(--opcteam-space-1)
     );
   }
 
@@ -27,7 +27,7 @@
     scrollbar-gutter: auto;
 
     &:focus-visible {
-      outline: 1px solid var(--openbitfun-color-focus-ring);
+      outline: 1px solid var(--opcteam-color-focus-ring);
       outline-offset: -2px;
     }
   }
@@ -56,26 +56,26 @@
   }
 
   &__placeholder {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     font-style: italic;
   }
 
   &__truncation-notice {
-    padding: var(--openbitfun-space-1) var(--openbitfun-control-flow-chat-card-padding-inline);
-    font-size: var(--openbitfun-type-flow-support-font-size);
-    color: var(--openbitfun-color-content-muted);
-    background: var(--openbitfun-color-surface-tertiary);
-    border-bottom: 1px solid var(--openbitfun-color-border-subtle);
+    padding: var(--opcteam-space-1) var(--opcteam-control-flow-chat-card-padding-inline);
+    font-size: var(--opcteam-type-flow-support-font-size);
+    color: var(--opcteam-color-content-muted);
+    background: var(--opcteam-color-surface-tertiary);
+    border-bottom: 1px solid var(--opcteam-color-border-subtle);
   }
 
   .diff-line {
-    --_diff-line-background: var(--openbitfun-color-surface-panel);
-    --_diff-gutter-background: var(--openbitfun-color-surface-panel);
+    --_diff-line-background: var(--opcteam-color-surface-panel);
+    --_diff-gutter-background: var(--opcteam-color-surface-panel);
     display: flex;
     align-items: center;
     min-height: 22px;
     background: var(--_diff-line-background);
-    font-weight: var(--openbitfun-type-flow-code-font-weight);
+    font-weight: var(--opcteam-type-flow-code-font-weight);
 
     // Solid additions and striped deletions remain distinguishable without color.
     &::before {
@@ -84,14 +84,14 @@
       left: 0;
       z-index: 2;
       align-self: stretch;
-      flex: 0 0 var(--openbitfun-space-1);
+      flex: 0 0 var(--opcteam-space-1);
       pointer-events: none;
     }
 
     &--added {
-      --_diff-change-color: var(--openbitfun-color-code-diff-added-marker);
-      --_diff-line-background: var(--openbitfun-color-code-diff-added-line);
-      --_diff-gutter-background: var(--openbitfun-color-code-diff-added-gutter);
+      --_diff-change-color: var(--opcteam-color-code-diff-added-marker);
+      --_diff-line-background: var(--opcteam-color-code-diff-added-line);
+      --_diff-gutter-background: var(--opcteam-color-code-diff-added-gutter);
 
       &::before {
         background: var(--_diff-change-color);
@@ -99,9 +99,9 @@
     }
 
     &--removed {
-      --_diff-change-color: var(--openbitfun-color-code-diff-removed-marker);
-      --_diff-line-background: var(--openbitfun-color-code-diff-removed-line);
-      --_diff-gutter-background: var(--openbitfun-color-code-diff-removed-gutter);
+      --_diff-change-color: var(--opcteam-color-code-diff-removed-marker);
+      --_diff-line-background: var(--opcteam-color-code-diff-removed-line);
+      --_diff-gutter-background: var(--opcteam-color-code-diff-removed-gutter);
 
       &::before {
         background: repeating-linear-gradient(
@@ -121,11 +121,11 @@
     }
 
     &--highlighted {
-      box-shadow: inset 0 0 0 1px var(--openbitfun-color-content-muted);
+      box-shadow: inset 0 0 0 1px var(--opcteam-color-content-muted);
     }
 
     &--separator {
-      --_diff-line-background: var(--openbitfun-color-surface-tertiary);
+      --_diff-line-background: var(--opcteam-color-surface-tertiary);
       cursor: default;
 
       .diff-line__gutter--separator {
@@ -133,14 +133,14 @@
       }
 
       .diff-line__content--separator {
-        color: var(--openbitfun-color-content-muted);
-        font-size: var(--openbitfun-type-flow-support-font-size);
+        color: var(--opcteam-color-content-muted);
+        font-size: var(--opcteam-type-flow-support-font-size);
       }
     }
 
     &__gutter {
       position: sticky;
-      left: var(--openbitfun-space-1);
+      left: var(--opcteam-space-1);
       z-index: 1;
       display: flex;
       align-items: center;
@@ -148,9 +148,9 @@
       flex-shrink: 0;
       gap: 8px;
       padding: 0 10px;
-      color: var(--openbitfun-color-code-diff-line-number);
+      color: var(--opcteam-color-code-diff-line-number);
       background: var(--_diff-gutter-background);
-      box-shadow: inset -1px 0 var(--openbitfun-color-code-diff-gutter-border);
+      box-shadow: inset -1px 0 var(--opcteam-color-code-diff-gutter-border);
       user-select: none;
       font-variant-numeric: tabular-nums;
     }
@@ -166,7 +166,7 @@
       justify-content: center;
       width: 18px;
       flex-shrink: 0;
-      color: var(--openbitfun-color-content-muted);
+      color: var(--opcteam-color-content-muted);
       user-select: none;
 
       &--hidden {
@@ -181,7 +181,7 @@
 
     &__content {
       flex: 1 0 auto;
-      padding: 1px var(--openbitfun-control-flow-chat-card-padding-inline) 1px var(--openbitfun-space-2);
+      padding: 1px var(--opcteam-control-flow-chat-card-padding-inline) 1px var(--opcteam-space-2);
       white-space: pre;
       tab-size: 4;
 
@@ -191,7 +191,7 @@
         border: 0;
         font-family: inherit;
         font-size: inherit;
-        font-weight: var(--openbitfun-type-flow-code-font-weight) !important;
+        font-weight: var(--opcteam-type-flow-code-font-weight) !important;
         text-shadow: none;
       }
     }

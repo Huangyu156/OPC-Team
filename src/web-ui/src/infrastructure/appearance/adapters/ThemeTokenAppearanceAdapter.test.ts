@@ -14,7 +14,7 @@ afterEach(async () => {
 });
 
 describe('annotation highlight paint colors', () => {
-  const accent = '--openbitfun-component-conversation-excerpt-accent';
+  const accent = '--opcteam-component-conversation-excerpt-accent';
   const paintStyle = () => document.querySelector<HTMLStyleElement>('style[data-openbitfun-appearance-highlight-paint]');
   const background = () => /background-color: ([^;]+);/.exec(paintStyle()?.textContent ?? '')?.[1] ?? '';
   it.each([
@@ -67,9 +67,9 @@ describe('annotation highlight paint colors', () => {
     vi.spyOn(window, 'getComputedStyle').mockReturnValue({ color: 'color(srgb 0 0.5 1 / 0.25)' } as CSSStyleDeclaration);
     const value = 'color-mix(in srgb, #0080ff 25%, transparent)';
     const tokens = {
-      '--openbitfun-color-accent-border-subtle': value,
-      '--openbitfun-color-selection-surface': value,
-      '--openbitfun-color-action-secondary-pressed': value,
+      '--opcteam-color-accent-border-subtle': value,
+      '--opcteam-color-selection-surface': value,
+      '--opcteam-color-action-secondary-pressed': value,
     };
     const settings = { tokens, scopes: { chrome: tokens } };
     const before = JSON.stringify(settings);
@@ -100,7 +100,7 @@ describe('theme root background', () => {
   it('preserves the opaque theme background in browsers and older desktop hosts', async () => {
     const settings = builtinAppearancePackages[0].renderers?.['theme-tokens']?.settings;
     await themeTokenAppearanceAdapter.apply(settings, undefined, context);
-    expect(document.documentElement.style.backgroundColor).toBe('var(--openbitfun-color-surface-chrome)');
-    expect(document.body.style.backgroundColor).toBe('var(--openbitfun-color-surface-chrome)');
+    expect(document.documentElement.style.backgroundColor).toBe('var(--opcteam-color-surface-chrome)');
+    expect(document.body.style.backgroundColor).toBe('var(--opcteam-color-surface-chrome)');
   });
 });

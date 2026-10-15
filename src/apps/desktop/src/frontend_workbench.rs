@@ -2467,8 +2467,8 @@ mod tests {
                 "text/css; charset=utf-8"
             ))
         );
-        assert!(body.contains("--openbitfun-color-surface-canvas"));
-        assert!(body.contains("--openbitfun-color-status-danger-content"));
-        assert!(!body.contains("--openbitfun-appearance-token-"));
+        assert!(body.contains("--opcteam-color-surface-canvas"));
+        assert!(body.contains("--opcteam-color-status-danger-content"));
+        assert!(!body.contains("--opcteam-appearance-token-"));
     }
 }

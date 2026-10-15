@@ -1,15 +1,15 @@
 @use './remote-connect-surface' as surface;
 
 .openbitfun-remote-connect-dialog {
-  block-size: min(620px, calc(100vh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter)));
-  min-block-size: min(620px, calc(100vh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter)));
-  max-block-size: min(620px, calc(100vh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter)));
+  block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)));
+  min-block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)));
+  max-block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)));
 }
 
 .openbitfun-remote-connect-dialog__header {
   position: absolute;
   inset-block-start: surface.$page-block-start;
-  inset-inline-end: var(--openbitfun-space-6);
+  inset-inline-end: var(--opcteam-space-6);
   z-index: 12;
   min-block-size: 0;
   padding: 0;
@@ -32,7 +32,7 @@
   min-width: 0;
   min-height: 0;
   height: 100%;
-  color: var(--openbitfun-color-content-secondary);
+  color: var(--opcteam-color-content-secondary);
 }
 
 .openbitfun-remote-connect__visually-hidden {
@@ -51,10 +51,10 @@
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: var(--openbitfun-space-5);
-  padding: surface.$page-block-start var(--openbitfun-space-3) var(--openbitfun-space-4);
+  gap: var(--opcteam-space-5);
+  padding: surface.$page-block-start var(--opcteam-space-3) var(--opcteam-space-4);
   border-inline-end: surface.$divider;
-  background: var(--openbitfun-color-surface-panel);
+  background: var(--opcteam-color-surface-panel);
 }
 
 .openbitfun-remote-connect__sidebar-brand {
@@ -62,14 +62,14 @@
   min-width: 0;
   min-block-size: 30px;
   align-items: center;
-  gap: var(--openbitfun-space-2);
-  padding-inline: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-2);
+  padding-inline: var(--opcteam-space-3);
 }
 
 .openbitfun-remote-connect__sidebar-icon {
   display: inline-flex;
   flex-shrink: 0;
-  color: var(--openbitfun-color-content-primary);
+  color: var(--opcteam-color-content-primary);
 }
 
 .openbitfun-remote-connect__sidebar-title {
@@ -81,7 +81,7 @@
 .openbitfun-remote-connect__navigation {
   display: flex;
   flex-direction: column;
-  gap: var(--openbitfun-space-1);
+  gap: var(--opcteam-space-1);
 }
 
 .openbitfun-remote-connect__navigation-item {
@@ -89,38 +89,38 @@
   min-width: 0;
   min-height: 36px;
   align-items: center;
-  gap: var(--openbitfun-space-2);
-  padding: 0 var(--openbitfun-space-3);
+  gap: var(--opcteam-space-2);
+  padding: 0 var(--opcteam-space-3);
   border: 0;
-  border-radius: var(--openbitfun-radius-base);
+  border-radius: var(--opcteam-radius-base);
   background: transparent;
-  color: var(--openbitfun-color-content-secondary);
-  font-family: var(--openbitfun-type-body-sm-font-family);
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  font-weight: var(--openbitfun-type-body-sm-font-weight);
-  line-height: var(--openbitfun-type-modifier-leading-ui-line-height);
+  color: var(--opcteam-color-content-secondary);
+  font-family: var(--opcteam-type-body-sm-font-family);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  font-weight: var(--opcteam-type-body-sm-font-weight);
+  line-height: var(--opcteam-type-modifier-leading-ui-line-height);
   text-align: start;
   cursor: pointer;
-  transition: background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+  transition: background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
   &:hover {
-    background: var(--openbitfun-color-action-neutral-surface);
-    color: var(--openbitfun-color-content-primary);
+    background: var(--opcteam-color-action-neutral-surface);
+    color: var(--opcteam-color-content-primary);
   }
 
   &:active {
-    background: var(--openbitfun-color-action-neutral-surface-pressed);
+    background: var(--opcteam-color-action-neutral-surface-pressed);
   }
 
   &:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: calc(0px - var(--openbitfun-focus-width));
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: calc(0px - var(--opcteam-focus-width));
   }
 
   &[aria-current] {
-    background: var(--openbitfun-color-action-neutral-surface);
-    color: var(--openbitfun-color-content-primary);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    background: var(--opcteam-color-action-neutral-surface);
+    color: var(--opcteam-color-content-primary);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 }
 
@@ -142,13 +142,13 @@
 
 .openbitfun-remote-connect__sidebar-footer {
   margin-top: auto;
-  padding-inline: var(--openbitfun-space-1);
+  padding-inline: var(--opcteam-space-1);
 
   .openbitfun-remote-connect__disclaimer-trigger {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
 
     &:hover {
-      color: var(--openbitfun-color-content-primary);
+      color: var(--opcteam-color-content-primary);
     }
   }
 }
@@ -161,14 +161,14 @@
   min-height: 0;
   flex-direction: column;
   overflow: hidden;
-  background: var(--openbitfun-color-surface-panel);
+  background: var(--opcteam-color-surface-panel);
 }
 
 .openbitfun-remote-connect__view-header {
   display: flex;
   flex-shrink: 0;
   flex-direction: column;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
   padding: surface.$page-block-start surface.$page-inline 0;
 }
 
@@ -179,7 +179,7 @@
 
 .openbitfun-remote-connect__view-page-header {
   max-width: 600px;
-  padding-inline-end: var(--openbitfun-space-10);
+  padding-inline-end: var(--opcteam-space-10);
 
   [data-openbitfun-part='heading'] {
     @include surface.page-title;
@@ -187,7 +187,7 @@
 
   [data-openbitfun-part='description'] {
     max-width: 60ch;
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
   }
 }
 
@@ -197,8 +197,8 @@
   max-width: 100%;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--openbitfun-space-2);
-  margin: var(--openbitfun-space-5) surface.$page-inline 0;
+  gap: var(--opcteam-space-2);
+  margin: var(--opcteam-space-5) surface.$page-inline 0;
 }
 
 .openbitfun-remote-connect__tab-group {
@@ -212,15 +212,15 @@
 .openbitfun-remote-connect__tab-marker {
   display: inline-flex;
   align-items: center;
-  margin-inline-start: var(--openbitfun-space-1);
+  margin-inline-start: var(--opcteam-space-1);
 }
 
 .openbitfun-remote-connect__dot-sm {
   inline-size: 6px;
   block-size: 6px;
   flex-shrink: 0;
-  border-radius: var(--openbitfun-radius-pill);
-  background: var(--openbitfun-color-status-success-content);
+  border-radius: var(--opcteam-radius-pill);
+  background: var(--opcteam-color-status-success-content);
 }
 
 .openbitfun-remote-connect [data-openbitfun-part='panel'] {
@@ -241,8 +241,8 @@
 .openbitfun-remote-connect__body {
   display: flex;
   flex-direction: column;
-  gap: var(--openbitfun-space-4);
-  padding: var(--openbitfun-space-5) surface.$page-inline surface.$page-block-start;
+  gap: var(--opcteam-space-4);
+  padding: var(--opcteam-space-5) surface.$page-inline surface.$page-block-start;
 }
 
 // ==================== Overview ====================
@@ -268,7 +268,7 @@
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: var(--openbitfun-space-1);
+  gap: var(--opcteam-space-1);
 }
 
 .openbitfun-remote-connect__overview-section-title {
@@ -303,12 +303,12 @@
   }
 
   &:hover:not(:disabled) .openbitfun-remote-connect__overview-action-chevron {
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   &:disabled {
     cursor: not-allowed;
-    opacity: var(--openbitfun-opacity-disabled);
+    opacity: var(--opcteam-opacity-disabled);
   }
 
   @include surface.interactive-row;
@@ -345,7 +345,7 @@
 
 .openbitfun-remote-connect__overview-action-chevron {
   @include surface.chevron;
-  transition: color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+  transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 }
 
 // ==================== Cards ====================
@@ -366,7 +366,7 @@
 
 .openbitfun-remote-connect__bot-identity-icon {
   @include surface.icon-slot;
-  color: var(--openbitfun-color-content-primary);
+  color: var(--opcteam-color-content-primary);
 }
 
 .openbitfun-remote-connect__card-header-copy,
@@ -395,7 +395,7 @@
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: var(--openbitfun-space-4);
+  gap: var(--opcteam-space-4);
   padding: surface.$row-block surface.$row-inline;
   @include surface.card-divider;
 }
@@ -434,10 +434,10 @@
   display: grid;
   grid-template-columns: 16px minmax(0, 1fr);
   align-items: start;
-  gap: var(--openbitfun-space-2);
-  padding: var(--openbitfun-space-3) var(--openbitfun-space-4);
-  border-radius: var(--openbitfun-radius-base);
-  background: var(--openbitfun-color-status-danger-surface);
+  gap: var(--opcteam-space-2);
+  padding: var(--opcteam-space-3) var(--opcteam-space-4);
+  border-radius: var(--opcteam-radius-base);
+  background: var(--opcteam-color-status-danger-surface);
 
   > [data-openbitfun-component='icon'] {
     margin-top: 2px;
@@ -446,10 +446,10 @@
 
 .openbitfun-remote-connect__error {
   margin: 0;
-  color: var(--openbitfun-color-status-danger-content);
-  font-family: var(--openbitfun-type-body-sm-font-family);
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  line-height: var(--openbitfun-type-body-sm-line-height);
+  color: var(--opcteam-color-status-danger-content);
+  font-family: var(--opcteam-type-body-sm-font-family);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  line-height: var(--opcteam-type-body-sm-line-height);
   overflow-wrap: anywhere;
 }
 
@@ -465,7 +465,7 @@
 .openbitfun-remote-connect__field-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--openbitfun-space-3) var(--openbitfun-space-4);
+  gap: var(--opcteam-space-3) var(--opcteam-space-4);
 }
 
 // ==================== Setup steps ====================
@@ -474,7 +474,7 @@
   display: flex;
   min-width: 0;
   flex-direction: column;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
 }
 
 .openbitfun-remote-connect__setup-heading {
@@ -483,7 +483,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 .openbitfun-remote-connect__setup-title {
@@ -494,7 +494,7 @@
 .openbitfun-remote-connect__steps {
   display: flex;
   flex-direction: column;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -504,11 +504,11 @@
   display: grid;
   grid-template-columns: 20px minmax(0, 1fr);
   align-items: start;
-  gap: var(--openbitfun-space-3);
-  color: var(--openbitfun-color-content-secondary);
-  font-family: var(--openbitfun-type-body-sm-font-family);
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  line-height: var(--openbitfun-type-body-sm-line-height);
+  gap: var(--opcteam-space-3);
+  color: var(--opcteam-color-content-secondary);
+  font-family: var(--opcteam-type-body-sm-font-family);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  line-height: var(--opcteam-type-body-sm-line-height);
 }
 
 .openbitfun-remote-connect__step-index {
@@ -517,13 +517,13 @@
   block-size: 20px;
   align-items: center;
   justify-content: center;
-  border-radius: var(--openbitfun-radius-pill);
-  background: var(--openbitfun-color-action-neutral-surface);
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-micro-font-family);
-  font-size: var(--openbitfun-type-micro-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  line-height: var(--openbitfun-type-modifier-leading-none-line-height);
+  border-radius: var(--opcteam-radius-pill);
+  background: var(--opcteam-color-action-neutral-surface);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-micro-font-family);
+  font-size: var(--opcteam-type-micro-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  line-height: var(--opcteam-type-modifier-leading-none-line-height);
   font-variant-numeric: tabular-nums;
 }
 
@@ -538,19 +538,19 @@
   padding: 0;
   border: 0;
   background: transparent;
-  color: var(--openbitfun-color-link-default);
+  color: var(--opcteam-color-link-default);
   font: inherit;
   text-decoration: underline;
   text-underline-offset: 2px;
   cursor: pointer;
 
   &:hover {
-    color: var(--openbitfun-color-link-hover);
+    color: var(--opcteam-color-link-hover);
   }
 
   &:focus-visible {
-    border-radius: var(--openbitfun-radius-xs);
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
+    border-radius: var(--opcteam-radius-xs);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
     outline-offset: 2px;
   }
 }
@@ -562,7 +562,7 @@
   min-width: 0;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--openbitfun-space-5);
+  gap: var(--opcteam-space-5);
 
   &--compact {
     grid-template-columns: minmax(0, 1fr);
@@ -578,7 +578,7 @@
   min-width: 0;
   flex-direction: column;
   align-items: center;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
 }
 
 .openbitfun-remote-connect__qr-box {
@@ -590,17 +590,17 @@
   justify-content: center;
   padding: 6px;
   border: surface.$divider;
-  border-radius: var(--openbitfun-radius-lg);
-  background: var(--openbitfun-color-content-on-dark);
+  border-radius: var(--opcteam-radius-lg);
+  background: var(--opcteam-color-content-on-dark);
   cursor: pointer;
-  transition: border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+  transition: border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
   &:hover {
-    border-color: var(--openbitfun-color-border-default);
+    border-color: var(--opcteam-color-border-default);
   }
 
   &:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
     outline-offset: 3px;
   }
 
@@ -612,15 +612,15 @@
 
 .openbitfun-remote-connect__pairing-code {
   max-width: 100%;
-  padding: var(--openbitfun-space-3) var(--openbitfun-space-5);
+  padding: var(--opcteam-space-3) var(--opcteam-space-5);
   border: surface.$divider;
-  border-radius: var(--openbitfun-radius-base);
-  background: var(--openbitfun-color-surface-canvas);
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-code-md-font-family);
-  font-size: var(--openbitfun-type-heading-dialog-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  line-height: var(--openbitfun-type-heading-dialog-line-height);
+  border-radius: var(--opcteam-radius-base);
+  background: var(--opcteam-color-surface-canvas);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-code-md-font-family);
+  font-size: var(--opcteam-type-heading-dialog-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  line-height: var(--opcteam-type-heading-dialog-line-height);
   font-variant-numeric: tabular-nums;
   overflow-wrap: anywhere;
   user-select: all;
@@ -631,13 +631,13 @@
   min-width: 0;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 .openbitfun-remote-connect__pairing-status {
   display: flex;
   max-width: 100%;
-  margin-bottom: var(--openbitfun-space-2);
+  margin-bottom: var(--opcteam-space-2);
 }
 
 .openbitfun-remote-connect__pairing-label {
@@ -649,7 +649,7 @@
   width: 100%;
   min-width: 0;
   align-items: flex-start;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 
   > button {
     flex-shrink: 0;
@@ -659,11 +659,11 @@
 .openbitfun-remote-connect__pairing-url {
   flex: 1;
   min-width: 0;
-  padding-top: var(--openbitfun-space-1);
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-code-md-font-family);
-  font-size: var(--openbitfun-type-code-md-font-size);
-  line-height: var(--openbitfun-type-code-md-line-height);
+  padding-top: var(--opcteam-space-1);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-code-md-font-family);
+  font-size: var(--opcteam-type-code-md-font-size);
+  line-height: var(--opcteam-type-code-md-line-height);
   overflow-wrap: anywhere;
   user-select: text;
 }
@@ -679,7 +679,7 @@
   min-width: 0;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
-  gap: var(--openbitfun-space-5);
+  gap: var(--opcteam-space-5);
 
   &--progress {
     grid-template-columns: minmax(0, 1fr);
@@ -696,15 +696,15 @@
   display: block;
   max-width: 168px;
   height: auto;
-  border-radius: var(--openbitfun-radius-lg);
+  border-radius: var(--opcteam-radius-lg);
 }
 
 .openbitfun-remote-connect__weixin-qr-svg-wrap {
   display: inline-flex;
   padding: 2px;
   border: surface.$divider;
-  border-radius: var(--openbitfun-radius-lg);
-  background: var(--openbitfun-color-content-on-dark);
+  border-radius: var(--opcteam-radius-lg);
+  background: var(--opcteam-color-content-on-dark);
 
   svg {
     display: block;
@@ -716,19 +716,19 @@
   min-width: 0;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 // ==================== Connected clients ====================
 
 .openbitfun-remote-connect__connections {
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 .openbitfun-remote-connect__connections-heading {
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 .openbitfun-remote-connect__connections-title {
@@ -742,14 +742,14 @@
   block-size: 20px;
   align-items: center;
   justify-content: center;
-  padding-inline: var(--openbitfun-space-1);
-  border-radius: var(--openbitfun-radius-pill);
-  background: var(--openbitfun-color-action-neutral-surface);
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-meta-font-family);
-  font-size: var(--openbitfun-type-meta-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  line-height: var(--openbitfun-type-modifier-leading-none-line-height);
+  padding-inline: var(--opcteam-space-1);
+  border-radius: var(--opcteam-radius-pill);
+  background: var(--opcteam-color-action-neutral-surface);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-meta-font-family);
+  font-size: var(--opcteam-type-meta-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  line-height: var(--opcteam-type-modifier-leading-none-line-height);
   font-variant-numeric: tabular-nums;
 }
 
@@ -768,7 +768,7 @@
   min-width: 0;
   align-items: center;
   gap: surface.$row-gap;
-  padding-block: var(--openbitfun-space-2);
+  padding-block: var(--opcteam-space-2);
 
   & + & {
     @include surface.card-divider;
@@ -782,10 +782,10 @@
 .openbitfun-remote-connect__client-name {
   flex: 1;
   min-width: 0;
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-body-sm-font-family);
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  line-height: var(--openbitfun-type-body-sm-line-height);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-body-sm-font-family);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  line-height: var(--opcteam-type-body-sm-line-height);
   overflow-wrap: anywhere;
 }
 
@@ -802,14 +802,14 @@
 
 @media (max-width: 760px) {
   .openbitfun-remote-connect-dialog {
-    block-size: calc(100dvh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter));
-    min-block-size: calc(100dvh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter));
-    max-block-size: calc(100dvh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter));
+    block-size: calc(100dvh - 2 * var(--opcteam-overlay-dialog-viewport-gutter));
+    min-block-size: calc(100dvh - 2 * var(--opcteam-overlay-dialog-viewport-gutter));
+    max-block-size: calc(100dvh - 2 * var(--opcteam-overlay-dialog-viewport-gutter));
   }
 
   .openbitfun-remote-connect-dialog__header {
-    inset-block-start: var(--openbitfun-space-3);
-    inset-inline-end: var(--openbitfun-space-4);
+    inset-block-start: var(--opcteam-space-3);
+    inset-inline-end: var(--opcteam-space-4);
   }
 
   .openbitfun-remote-connect {
@@ -820,8 +820,8 @@
   .openbitfun-remote-connect__sidebar {
     flex-direction: row;
     align-items: center;
-    gap: var(--openbitfun-space-2);
-    padding: var(--openbitfun-space-3) var(--openbitfun-space-12) var(--openbitfun-space-3) var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-space-3) var(--opcteam-space-12) var(--opcteam-space-3) var(--opcteam-space-2);
     border-inline-end: 0;
     border-block-end: surface.$divider;
   }
@@ -836,7 +836,7 @@
   }
 
   .openbitfun-remote-connect__view-header {
-    padding: var(--openbitfun-space-5) surface.$page-inline-compact 0;
+    padding: var(--opcteam-space-5) surface.$page-inline-compact 0;
   }
 
   .openbitfun-remote-connect__back {
@@ -852,11 +852,11 @@
   }
 
   .openbitfun-remote-connect__overview {
-    padding: var(--openbitfun-space-5) surface.$page-inline-compact;
+    padding: var(--opcteam-space-5) surface.$page-inline-compact;
   }
 
   .openbitfun-remote-connect__body {
-    padding: var(--openbitfun-space-5) surface.$page-inline-compact;
+    padding: var(--opcteam-space-5) surface.$page-inline-compact;
   }
 
   .openbitfun-remote-connect__overview-action {
@@ -917,11 +917,11 @@
   .openbitfun-remote-connect__bot-identity,
   .openbitfun-remote-connect__card-section,
   .openbitfun-remote-connect__setting-row {
-    padding-inline: var(--openbitfun-space-4);
+    padding-inline: var(--opcteam-space-4);
   }
 
   .openbitfun-remote-connect__card-actions {
-    padding-inline: var(--openbitfun-space-4);
+    padding-inline: var(--opcteam-space-4);
   }
 }
 

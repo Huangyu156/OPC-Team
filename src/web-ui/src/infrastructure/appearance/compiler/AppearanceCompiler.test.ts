@@ -48,7 +48,7 @@ describe('AppearanceCompiler', () => {
 
     expect(snapshot.id).toBe(openBitFunDarkPalette.id);
     expect(snapshot.revision).toBe(3);
-    expect(snapshot.cssText).toContain('--openbitfun-appearance-colors-bg-primary');
+    expect(snapshot.cssText).toContain('--opcteam-appearance-colors-bg-primary');
     expect(snapshot.cssText).not.toContain('[data-openbitfun-component="card"]');
     expect(snapshot.cssText).not.toContain('@layer');
     expect(snapshot.cssText).not.toContain(' !important;');
@@ -607,7 +607,7 @@ describe('AppearanceCompiler', () => {
 
     const snapshot = new AppearanceCompiler(createDefaultAppearanceRegistry()).compile(pkg, 1);
     expect(snapshot.cssText).toContain(
-      'background-image:var(--openbitfun-appearance-asset-ornament, none), var(--openbitfun-appearance-asset-texture, none), var(--openbitfun-appearance-asset-backdrop, none);',
+      'background-image:var(--opcteam-appearance-asset-ornament, none), var(--opcteam-appearance-asset-texture, none), var(--opcteam-appearance-asset-backdrop, none);',
     );
     expect(snapshot.cssText).toContain('background-size:96px auto, 256px auto, cover;');
     expect(snapshot.cssText).toContain('background-position:100% 100%, 0% 0%, 65% 50%;');

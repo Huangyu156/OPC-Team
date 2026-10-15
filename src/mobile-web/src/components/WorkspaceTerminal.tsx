@@ -31,7 +31,7 @@ export function WorkspaceTerminal({ manager, workspace }: { manager: RemoteSessi
     const terminal = new Terminal({
       cursorBlink: true,
       scrollback: 5000,
-      fontSize: Number.parseFloat(typography.getPropertyValue('--openbitfun-type-body-md-font-size')),
+      fontSize: Number.parseFloat(typography.getPropertyValue('--opcteam-type-body-md-font-size')),
       convertEol: false,
     });
     const fit = new FitAddon(); terminal.loadAddon(fit); terminal.open(container.current);

@@ -85,12 +85,12 @@ test("IconButton styles consume shared action and geometry tokens", async () => 
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
   assert.match(styles, /\[data-openbitfun-variant=primary\]/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface-hover/);
-  assert.match(styles, /--openbitfun-color-action-primary-background/);
-  assert.match(styles, /--openbitfun-control-height-sm/);
-  assert.match(styles, /--openbitfun-control-icon-button-xs-size/);
-  assert.match(styles, /--openbitfun-radius-sm/);
-  assert.match(styles, /--openbitfun-radius-pill/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface-hover/);
+  assert.match(styles, /--opcteam-color-action-primary-background/);
+  assert.match(styles, /--opcteam-control-height-sm/);
+  assert.match(styles, /--opcteam-control-icon-button-xs-size/);
+  assert.match(styles, /--opcteam-radius-sm/);
+  assert.match(styles, /--opcteam-radius-pill/);
 });
 
 test("quiet IconButtons are transparent at rest while emphasized variants retain an opaque surface", async () => {
@@ -109,11 +109,11 @@ test("quiet IconButtons are transparent at rest while emphasized variants retain
   );
   assert.match(
     styles,
-    /\.button\[data-openbitfun-variant="fill"\],\s*\.button\[data-openbitfun-variant="primary"\]\s*\{[^}]*background:\s*var\(--openbitfun-color-surface-tertiary\)/s,
+    /\.button\[data-openbitfun-variant="fill"\],\s*\.button\[data-openbitfun-variant="primary"\]\s*\{[^}]*background:\s*var\(--opcteam-color-surface-tertiary\)/s,
   );
   assert.doesNotMatch(styles, /--_icon-button-background-(?:hover|active):\s*transparent/);
   for (const state of ["hover", "active"]) {
     assert.ok(styles.includes(`:is(:${state}, [data-openbitfun-preview-state="${state}"]):not(:disabled)::before`));
   }
-  assert.match(styles, /\.button:focus-visible\s*\{[^}]*outline:.*var\(--openbitfun-color-focus-ring\)/s);
+  assert.match(styles, /\.button:focus-visible\s*\{[^}]*outline:.*var\(--opcteam-color-focus-ring\)/s);
 });

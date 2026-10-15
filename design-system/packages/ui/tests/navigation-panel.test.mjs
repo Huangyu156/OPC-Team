@@ -78,11 +78,11 @@ test("NavigationPanel styling reuses shared action and scrollbar contracts", asy
     "utf8",
   );
 
-  assert.match(styles, /--openbitfun-layout-navigation-panel-inline-size/);
-  assert.match(styles, /--openbitfun-layout-navigation-panel-footer-height/);
-  assert.match(styles, /\.items\s*\{[^}]*gap: calc\(var\(--openbitfun-space-1\) \/ 2\)/);
-  assert.match(styles, /--openbitfun-color-surface-chrome/);
-  assert.match(styles, /--openbitfun-color-selection-surface/);
+  assert.match(styles, /--opcteam-layout-navigation-panel-inline-size/);
+  assert.match(styles, /--opcteam-layout-navigation-panel-footer-height/);
+  assert.match(styles, /\.items\s*\{[^}]*gap: calc\(var\(--opcteam-space-1\) \/ 2\)/);
+  assert.match(styles, /--opcteam-color-surface-chrome/);
+  assert.match(styles, /--opcteam-color-selection-surface/);
   assert.match(styles, /aria-current/);
   assert.match(styles, /scrollbar-gutter: stable/);
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}/i);
@@ -99,16 +99,16 @@ test("NavigationPanel separates group captions, destinations, and the selected d
   );
   const heading = styles.match(/\.headingLabel\s*\{([^}]+)\}/)?.[1];
   assert.ok(heading);
-  assert.match(heading, /color: var\(--openbitfun-color-content-caption\)/);
-  assert.match(heading, /font-family: var\(--openbitfun-type-label-xs-font-family\)/);
-  assert.match(heading, /font-size: var\(--openbitfun-type-label-xs-font-size\)/);
-  assert.match(heading, /font-weight: var\(--openbitfun-type-label-xs-font-weight\)/);
-  assert.match(heading, /line-height: var\(--openbitfun-type-label-xs-line-height\)/);
-  assert.match(styles, /\.item\[data-openbitfun-tone="neutral"\]:not\(\[data-disabled="true"\]\)\s*\{\s*color: var\(--openbitfun-color-content-primary\)/);
-  assert.match(actionStyles, /\.label\s*\{[^}]*font-size: var\(--openbitfun-type-label-md-font-size\)/);
-  assert.match(actionStyles, /\.label\s*\{[^}]*font-weight: var\(--openbitfun-type-label-md-font-weight\)/);
-  assert.match(styles, /\.item > \[data-openbitfun-part="trigger"\]\[aria-current\] > \[data-openbitfun-part="label"\]\s*\{\s*font-weight: var\(--openbitfun-type-label-selected-font-weight\)/);
-  assert.match(styles, /@media \(prefers-contrast: more\)[\s\S]*?color: var\(--openbitfun-color-content-muted\)/);
-  assert.match(styles, /:global\(\[data-contrast="high"\]\) \.headingLabel\s*\{\s*color: var\(--openbitfun-color-content-muted\)/);
+  assert.match(heading, /color: var\(--opcteam-color-content-caption\)/);
+  assert.match(heading, /font-family: var\(--opcteam-type-label-xs-font-family\)/);
+  assert.match(heading, /font-size: var\(--opcteam-type-label-xs-font-size\)/);
+  assert.match(heading, /font-weight: var\(--opcteam-type-label-xs-font-weight\)/);
+  assert.match(heading, /line-height: var\(--opcteam-type-label-xs-line-height\)/);
+  assert.match(styles, /\.item\[data-openbitfun-tone="neutral"\]:not\(\[data-disabled="true"\]\)\s*\{\s*color: var\(--opcteam-color-content-primary\)/);
+  assert.match(actionStyles, /\.label\s*\{[^}]*font-size: var\(--opcteam-type-label-md-font-size\)/);
+  assert.match(actionStyles, /\.label\s*\{[^}]*font-weight: var\(--opcteam-type-label-md-font-weight\)/);
+  assert.match(styles, /\.item > \[data-openbitfun-part="trigger"\]\[aria-current\] > \[data-openbitfun-part="label"\]\s*\{\s*font-weight: var\(--opcteam-type-label-selected-font-weight\)/);
+  assert.match(styles, /@media \(prefers-contrast: more\)[\s\S]*?color: var\(--opcteam-color-content-muted\)/);
+  assert.match(styles, /:global\(\[data-contrast="high"\]\) \.headingLabel\s*\{\s*color: var\(--opcteam-color-content-muted\)/);
   assert.match(styles, /@media \(forced-colors: active\)[\s\S]*?color: CanvasText/);
 });

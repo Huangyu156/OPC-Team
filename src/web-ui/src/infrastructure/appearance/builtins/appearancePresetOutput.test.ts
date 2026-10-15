@@ -51,7 +51,7 @@ describe('builtin appearance preset output', () => {
     for (const palette of builtinAppearancePalettes) {
       const tokens = getBuiltinAppearanceThemeTokens(palette.id);
       for (const character of avatarPalette.characters) {
-        const name = `--openbitfun-domain-subagent-${character.file.replace('.svg', '')}` as const;
+        const name = `--opcteam-domain-subagent-${character.file.replace('.svg', '')}` as const;
         const accent = tokens[name];
         expect(APPEARANCE_ROOT_TOKEN_NAMES).toContain(name);
         expect(accent).not.toBe(palette.colors.text.primary);
@@ -72,24 +72,24 @@ describe('builtin appearance preset output', () => {
         if (name.startsWith('color.field.') || name === 'color.actionCard.background' || name.startsWith('color.composer.')) expect(tokens?.[themeCssVariables[name as ThemeTokenName]]).toBe(value);
       }
     }
-    expect(settings?.tokens['--openbitfun-color-number-badge-background']).toBe(themes.light['color.numberBadge.background']);
-    expect(settings?.tokens['--openbitfun-color-key-hint-content']).toBe(themes.light['color.keyHint.content']);
-    expect(settings?.tokens['--openbitfun-color-scrollbar-thumb']).toBe(themes.light['color.scrollbar.thumb']);
-    expect(settings?.tokens['--openbitfun-color-field-border']).toBe('rgba(0, 0, 0, 0.08)');
-    expect(settings?.tokens['--openbitfun-color-field-border-hover']).toBe('rgba(0, 0, 0, 0.20)');
-    expect(settings?.tokens['--openbitfun-color-field-border-active']).toBe('rgba(0, 0, 0, 0.20)');
-    expect(settings?.tokens['--openbitfun-color-field-border-focus']).toBe(themes.light['color.field.borderFocus']);
-    expect(settings?.tokens['--openbitfun-color-field-group-background']).toBe('rgba(0, 0, 0, 0.03)');
-    expect(settings?.tokens['--openbitfun-color-field-placeholder']).toBe('rgba(0, 0, 0, 0.40)');
+    expect(settings?.tokens['--opcteam-color-number-badge-background']).toBe(themes.light['color.numberBadge.background']);
+    expect(settings?.tokens['--opcteam-color-key-hint-content']).toBe(themes.light['color.keyHint.content']);
+    expect(settings?.tokens['--opcteam-color-scrollbar-thumb']).toBe(themes.light['color.scrollbar.thumb']);
+    expect(settings?.tokens['--opcteam-color-field-border']).toBe('rgba(0, 0, 0, 0.08)');
+    expect(settings?.tokens['--opcteam-color-field-border-hover']).toBe('rgba(0, 0, 0, 0.20)');
+    expect(settings?.tokens['--opcteam-color-field-border-active']).toBe('rgba(0, 0, 0, 0.20)');
+    expect(settings?.tokens['--opcteam-color-field-border-focus']).toBe(themes.light['color.field.borderFocus']);
+    expect(settings?.tokens['--opcteam-color-field-group-background']).toBe('rgba(0, 0, 0, 0.03)');
+    expect(settings?.tokens['--opcteam-color-field-placeholder']).toBe('rgba(0, 0, 0, 0.40)');
     for (const palette of builtinAppearancePalettes) {
       if (palette.id === 'openbitfun-light') continue;
       const tokens = getBuiltinAppearanceThemeTokens(palette.id);
-      expect(tokens['--openbitfun-color-action-card-background']).toBe(palette.colors.element.base);
-      expect(tokens['--openbitfun-color-field-border']).toBe(palette.colors.border.base);
-      expect(tokens['--openbitfun-color-field-border-focus']).toBe(palette.colors.accent[500]);
-      expect(tokens['--openbitfun-color-field-border-active']).toBe(palette.colors.accent[500]);
-      expect(tokens['--openbitfun-color-field-group-background']).toBe(palette.colors.background.tertiary);
-      expect(tokens['--openbitfun-color-field-placeholder']).toBe(palette.colors.text.muted);
+      expect(tokens['--opcteam-color-action-card-background']).toBe(palette.colors.element.base);
+      expect(tokens['--opcteam-color-field-border']).toBe(palette.colors.border.base);
+      expect(tokens['--opcteam-color-field-border-focus']).toBe(palette.colors.accent[500]);
+      expect(tokens['--opcteam-color-field-border-active']).toBe(palette.colors.accent[500]);
+      expect(tokens['--opcteam-color-field-group-background']).toBe(palette.colors.background.tertiary);
+      expect(tokens['--opcteam-color-field-placeholder']).toBe(palette.colors.text.muted);
     }
   });
   it('uses the public Button palette in default appearances without changing shared action colors', () => {
@@ -102,30 +102,30 @@ describe('builtin appearance preset output', () => {
       }
     }
     const light = getBuiltinAppearanceThemeTokens('openbitfun-light');
-    expect(light['--openbitfun-component-button-content']).toBe('rgba(0, 0, 0, 0.80)');
-    expect(light['--openbitfun-component-button-text-content']).toBe('#059cb0');
-    expect(light['--openbitfun-color-action-primary-background']).toBe('#101a27');
-    expect(light['--openbitfun-color-action-neutral-content']).toBe('rgba(0, 0, 0, 0.80)');
+    expect(light['--opcteam-component-button-content']).toBe('rgba(0, 0, 0, 0.80)');
+    expect(light['--opcteam-component-button-text-content']).toBe('#059cb0');
+    expect(light['--opcteam-color-action-primary-background']).toBe('#101a27');
+    expect(light['--opcteam-color-action-neutral-content']).toBe('rgba(0, 0, 0, 0.80)');
   });
 
   it('preserves the action colors of branded presets through the Button contract', () => {
     for (const palette of builtinAppearancePalettes) {
       if (palette.id === 'openbitfun-light' || palette.id === 'openbitfun-dark') continue;
       const tokens = getBuiltinAppearanceThemeTokens(palette.id);
-      expect(tokens['--openbitfun-component-button-primary-background']).toBe(tokens['--openbitfun-color-action-primary-background']);
-      expect(tokens['--openbitfun-component-button-text-content']).toBe(tokens['--openbitfun-color-accent-default']);
-      expect(tokens['--openbitfun-component-button-content']).toBe(tokens['--openbitfun-color-action-neutral-content']);
+      expect(tokens['--opcteam-component-button-primary-background']).toBe(tokens['--opcteam-color-action-primary-background']);
+      expect(tokens['--opcteam-component-button-text-content']).toBe(tokens['--opcteam-color-accent-default']);
+      expect(tokens['--opcteam-component-button-content']).toBe(tokens['--opcteam-color-action-neutral-content']);
     }
   });
 
   it('keeps menu label and caption colors consistent between the public light theme and product portals', () => {
     const settings = getBuiltinAppearance('openbitfun-light')!.renderers!['theme-tokens']!.settings;
     for (const tokens of [settings.tokens, ...(settings.scopes?.chrome ? [settings.scopes.chrome] : [])]) {
-      expect(tokens['--openbitfun-color-action-neutral-content']).toBe(themes.light['color.action.neutral.content']);
-      expect(tokens['--openbitfun-color-content-caption']).toBe(themes.light['color.content.caption']);
+      expect(tokens['--opcteam-color-action-neutral-content']).toBe(themes.light['color.action.neutral.content']);
+      expect(tokens['--opcteam-color-content-caption']).toBe(themes.light['color.content.caption']);
     }
     for (const palette of builtinAppearancePalettes.filter(p => p.id !== 'openbitfun-light')) {
-      expect(getBuiltinAppearanceThemeTokens(palette.id)['--openbitfun-color-action-neutral-content']).toBe(palette.colors.text.secondary);
+      expect(getBuiltinAppearanceThemeTokens(palette.id)['--opcteam-color-action-neutral-content']).toBe(palette.colors.text.secondary);
     }
   });
 
@@ -147,7 +147,7 @@ describe('builtin appearance preset output', () => {
         expect(appearance.colors.semantic[`${key}Bg`]).toBe(values[`color.status.${tone}.surface`]);
         expect(appearance.colors.semantic[`${key}Border`]).toBe(values[`color.status.${tone}.border`]);
         for (const role of ['emphasis', 'content', 'surface', 'border'] as const) {
-          expect(tokens[`--openbitfun-color-status-${tone}-${role}`]).toBe(values[`color.status.${tone}.${role}`]);
+          expect(tokens[`--opcteam-color-status-${tone}-${role}`]).toBe(values[`color.status.${tone}.${role}`]);
         }
       }
       expect(appearance.colors.git).toMatchObject({
@@ -162,8 +162,8 @@ describe('builtin appearance preset output', () => {
       expect(createSemanticColors(mode)).toEqual(appearance.colors.semantic);
       const chromeTokens = getBuiltinAppearance(appearance.id)?.renderers?.['theme-tokens']?.settings.scopes?.chrome;
       for (const tone of ['info', 'success', 'warning', 'danger'] as const) {
-        const contentKey = `--openbitfun-color-status-${tone}-content` as const;
-        const surfaceKey = `--openbitfun-color-status-${tone}-surface` as const;
+        const contentKey = `--opcteam-color-status-${tone}-content` as const;
+        const surfaceKey = `--opcteam-color-status-${tone}-surface` as const;
         for (const background of Object.values(appearance.colors.background)) {
           expect(statusContrast(tokens[contentKey], tokens[surfaceKey], background), `${appearance.id} ${tone}`).toBeGreaterThanOrEqual(4.5);
         }
@@ -283,12 +283,12 @@ describe('builtin appearance preset output', () => {
       },
     });
     expect(tokens).toMatchObject({
-      '--openbitfun-color-surface-chrome': '#f8f8f9',
-      '--openbitfun-color-selection-surface': 'rgba(0, 0, 0, 0.08)',
-      '--openbitfun-component-config-page-section-background': '#f7f7f7',
-      '--openbitfun-component-config-page-section-border': 'rgba(16, 26, 39, 0.08)',
-      '--openbitfun-component-config-page-section-border-width': '1px',
-      '--openbitfun-component-config-page-divider': 'rgba(16, 26, 39, 0.08)',
+      '--opcteam-color-surface-chrome': '#f8f8f9',
+      '--opcteam-color-selection-surface': 'rgba(0, 0, 0, 0.08)',
+      '--opcteam-component-config-page-section-background': '#f7f7f7',
+      '--opcteam-component-config-page-section-border': 'rgba(16, 26, 39, 0.08)',
+      '--opcteam-component-config-page-section-border-width': '1px',
+      '--opcteam-component-config-page-divider': 'rgba(16, 26, 39, 0.08)',
     });
   });
 
@@ -299,16 +299,16 @@ describe('builtin appearance preset output', () => {
     const tokens = getBuiltinAppearanceThemeTokens('openbitfun-dark');
 
     expect(tokens).toMatchObject({
-      '--openbitfun-color-surface-scene': '#1c1c1f',
-      '--openbitfun-color-surface-tertiary': '#0e0e10',
-      '--openbitfun-color-action-quiet-hover': 'rgba(255, 255, 255, 0.06)',
-      '--openbitfun-color-action-neutral-surface': 'rgba(255, 255, 255, 0.1)',
-      '--openbitfun-component-config-page-row-hover-background': 'rgba(255, 255, 255, 0.1)',
+      '--opcteam-color-surface-scene': '#1c1c1f',
+      '--opcteam-color-surface-tertiary': '#0e0e10',
+      '--opcteam-color-action-quiet-hover': 'rgba(255, 255, 255, 0.06)',
+      '--opcteam-color-action-neutral-surface': 'rgba(255, 255, 255, 0.1)',
+      '--opcteam-component-config-page-row-hover-background': 'rgba(255, 255, 255, 0.1)',
     });
 
-    expect(tokens['--openbitfun-component-config-page-row-hover-background'])
+    expect(tokens['--opcteam-component-config-page-row-hover-background'])
       .toBe(darkAppearance?.colors.element.base);
-    expect(tokens['--openbitfun-component-config-page-row-hover-background'])
+    expect(tokens['--opcteam-component-config-page-row-hover-background'])
       .not.toBe(darkAppearance?.colors.element.soft);
 
     for (const appearance of builtinAppearancePalettes.filter(
@@ -316,7 +316,7 @@ describe('builtin appearance preset output', () => {
     )) {
       expect(
         getBuiltinAppearanceThemeTokens(appearance.id)[
-          '--openbitfun-component-config-page-row-hover-background'
+          '--opcteam-component-config-page-row-hover-background'
         ],
         appearance.id,
       ).toBe(appearance.colors.element.base);
@@ -395,25 +395,25 @@ describe('builtin appearance preset output', () => {
       },
     });
     expect(tokens).toMatchObject({
-      '--openbitfun-color-surface-canvas': '#ffffff',
-      '--openbitfun-color-content-primary': 'rgba(0, 0, 0, 0.80)',
-      '--openbitfun-color-content-secondary': 'rgba(0, 0, 0, 0.60)',
-      '--openbitfun-color-content-disabled': 'rgba(0, 0, 0, 0.30)',
-      '--openbitfun-color-border-subtle': 'rgba(16, 26, 39, 0.08)',
-      '--openbitfun-color-border-default': 'rgba(16, 26, 39, 0.15)',
-      '--openbitfun-color-surface-subtle': 'rgba(16, 26, 39, 0.03)',
-      '--openbitfun-color-action-quiet-hover': '#f3f3f5',
-      '--openbitfun-color-scrollbar-thumb': 'rgba(0, 0, 0, 0.2)',
-      '--openbitfun-component-config-page-section-background': '#f3f3f5',
-      '--openbitfun-component-config-page-section-border': 'transparent',
-      '--openbitfun-component-config-page-section-border-width': '0',
-      '--openbitfun-component-config-page-section-shadow': 'none',
-      '--openbitfun-component-config-page-divider': 'rgba(16, 26, 39, 0.08)',
+      '--opcteam-color-surface-canvas': '#ffffff',
+      '--opcteam-color-content-primary': 'rgba(0, 0, 0, 0.80)',
+      '--opcteam-color-content-secondary': 'rgba(0, 0, 0, 0.60)',
+      '--opcteam-color-content-disabled': 'rgba(0, 0, 0, 0.30)',
+      '--opcteam-color-border-subtle': 'rgba(16, 26, 39, 0.08)',
+      '--opcteam-color-border-default': 'rgba(16, 26, 39, 0.15)',
+      '--opcteam-color-surface-subtle': 'rgba(16, 26, 39, 0.03)',
+      '--opcteam-color-action-quiet-hover': '#f3f3f5',
+      '--opcteam-color-scrollbar-thumb': 'rgba(0, 0, 0, 0.2)',
+      '--opcteam-component-config-page-section-background': '#f3f3f5',
+      '--opcteam-component-config-page-section-border': 'transparent',
+      '--opcteam-component-config-page-section-border-width': '0',
+      '--opcteam-component-config-page-section-shadow': 'none',
+      '--opcteam-component-config-page-divider': 'rgba(16, 26, 39, 0.08)',
     });
     expect(chromeTokens).toMatchObject({
-      '--openbitfun-color-surface-canvas': '#1c1c1f',
-      '--openbitfun-color-content-primary': '#f3f3f5',
-      '--openbitfun-color-action-quiet-hover': 'rgba(255, 255, 255, 0.06)',
+      '--opcteam-color-surface-canvas': '#1c1c1f',
+      '--opcteam-color-content-primary': '#f3f3f5',
+      '--opcteam-color-action-quiet-hover': 'rgba(255, 255, 255, 0.06)',
     });
   });
 

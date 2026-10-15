@@ -12,9 +12,9 @@
   height: 100%;
   /* Keep short, long, and loading pages centered on the same available width. */
   scrollbar-gutter: stable both-edges;
-  background: var(--openbitfun-color-surface-scene);
-  color: var(--openbitfun-color-content-primary);
-  font-family:var(--openbitfun-type-body-sm-font-family);
+  background: var(--opcteam-color-surface-scene);
+  color: var(--opcteam-color-content-primary);
+  font-family:var(--opcteam-type-body-sm-font-family);
   /* Shared layout contract for settings pages in wide scenes. */
   --config-page-content-bottom-padding: 48px;
   /* Vertical gap between top-level sections (ConfigPageSection blocks) inside ConfigPageContent. */
@@ -65,14 +65,14 @@
 .openbitfun-config-page-section {
   display: flex;
   flex-direction: column;
-  gap: var(--openbitfun-space-4);
+  gap: var(--opcteam-space-4);
 }
 
 .openbitfun-config-page-section__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
 }
 
 .openbitfun-config-page-section__heading {
@@ -84,28 +84,28 @@
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
   min-width: 0;
 }
 
 .openbitfun-config-page-section__title {
   margin: 0;
-  font-size: var(--openbitfun-type-heading-section-font-size);
-  font-weight: var(--openbitfun-type-heading-section-font-weight);
-  color: var(--openbitfun-color-content-primary);
-  line-height: var(--openbitfun-type-heading-section-line-height);
-  letter-spacing: var(--openbitfun-type-heading-section-letter-spacing);
+  font-size: var(--opcteam-type-heading-section-font-size);
+  font-weight: var(--opcteam-type-heading-section-font-weight);
+  color: var(--opcteam-color-content-primary);
+  line-height: var(--opcteam-type-heading-section-line-height);
+  letter-spacing: var(--opcteam-type-heading-section-letter-spacing);
   overflow-wrap: break-word;
 }
 
 .openbitfun-config-page-section__description {
-  margin: var(--openbitfun-space-1) 0 0;
+  margin: var(--opcteam-space-1) 0 0;
   max-inline-size: var(--config-page-description-max-width);
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  font-weight: var(--openbitfun-type-body-sm-font-weight);
-  color: var(--openbitfun-color-content-primary);
-  line-height: var(--openbitfun-type-body-sm-line-height);
-  letter-spacing: var(--openbitfun-type-body-sm-letter-spacing);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  font-weight: var(--opcteam-type-body-sm-font-weight);
+  color: var(--opcteam-color-content-primary);
+  line-height: var(--opcteam-type-body-sm-line-height);
+  letter-spacing: var(--opcteam-type-body-sm-letter-spacing);
   overflow-wrap: break-word;
   text-wrap: pretty;
 }
@@ -123,7 +123,7 @@
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
 }
 
 .openbitfun-config-page-section__body {
@@ -144,16 +144,16 @@
   display: grid;
   grid-template-columns: var(--row-grid-cols);
   gap: 40px;
-  padding: var(--openbitfun-space-4) var(--openbitfun-space-5);
+  padding: var(--opcteam-space-4) var(--opcteam-space-5);
 }
 
 .openbitfun-config-page-row + .openbitfun-config-page-row {
-  border-top: 1px solid var(--openbitfun-component-config-page-divider);
+  border-top: 1px solid var(--opcteam-component-config-page-divider);
 }
 
 @media (hover: hover) and (pointer: fine) {
   .openbitfun-config-page-row:hover {
-    background: var(--openbitfun-component-config-page-row-hover-background);
+    background: var(--opcteam-component-config-page-row-hover-background);
   }
 }
 
@@ -174,7 +174,7 @@
 }
 
 .openbitfun-config-page-row--multiline {
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 
   .openbitfun-config-page-row__control {
     justify-content: flex-start;
@@ -232,7 +232,7 @@
 ) {
   --row-grid-cols: minmax(0, 1fr) minmax(
     0,
-    var(--openbitfun-overlay-menu-inline-size)
+    var(--opcteam-overlay-menu-inline-size)
   );
 }
 
@@ -244,9 +244,9 @@
   [data-openbitfun-component='combobox'],
   [data-openbitfun-component='multi-select']
 ) {
-  flex: 0 1 var(--openbitfun-overlay-menu-inline-size);
-  inline-size: min(100%, var(--openbitfun-overlay-menu-inline-size));
-  max-inline-size: var(--openbitfun-overlay-menu-inline-size);
+  flex: 0 1 var(--opcteam-overlay-menu-inline-size);
+  inline-size: min(100%, var(--opcteam-overlay-menu-inline-size));
+  max-inline-size: var(--opcteam-overlay-menu-inline-size);
 }
 
 .openbitfun-config-page-row__meta {
@@ -256,29 +256,29 @@
 
 .openbitfun-config-page-row__label {
   margin: 0;
-  font-size: var(--openbitfun-type-label-selected-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  color: var(--openbitfun-color-content-primary);
-  line-height: var(--openbitfun-type-label-selected-line-height);
-  letter-spacing: var(--openbitfun-type-label-selected-letter-spacing);
+  font-size: var(--opcteam-type-label-selected-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  color: var(--opcteam-color-content-primary);
+  line-height: var(--opcteam-type-label-selected-line-height);
+  letter-spacing: var(--opcteam-type-label-selected-letter-spacing);
   overflow-wrap: break-word;
 }
 
 .openbitfun-config-page-row__required {
-  margin-inline-start: var(--openbitfun-space-1);
-  color: var(--openbitfun-color-content-required-indicator);
-  font-size: var(--openbitfun-type-label-selected-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
+  margin-inline-start: var(--opcteam-space-1);
+  color: var(--opcteam-color-content-required-indicator);
+  font-size: var(--opcteam-type-label-selected-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
 }
 
 .openbitfun-config-page-row__description {
-  margin: var(--openbitfun-space-1) 0 0;
+  margin: var(--opcteam-space-1) 0 0;
   max-inline-size: var(--config-page-description-max-width);
-  font-size: var(--openbitfun-type-support-font-size);
-  font-weight: var(--openbitfun-type-support-font-weight);
-  color: var(--openbitfun-color-content-secondary);
-  line-height: var(--openbitfun-type-modifier-leading-support-line-height);
-  letter-spacing: var(--openbitfun-type-support-letter-spacing);
+  font-size: var(--opcteam-type-support-font-size);
+  font-weight: var(--opcteam-type-support-font-weight);
+  color: var(--opcteam-color-content-secondary);
+  line-height: var(--opcteam-type-modifier-leading-support-line-height);
+  letter-spacing: var(--opcteam-type-support-letter-spacing);
   overflow-wrap: break-word;
   text-wrap: pretty;
 }
@@ -350,7 +350,7 @@
 
 @container config-panel (max-width: 520px) {
   .openbitfun-config-page-section {
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
   }
 
   .openbitfun-config-page-section__header {
@@ -365,8 +365,8 @@
 
   .openbitfun-config-page-row {
     grid-template-columns: minmax(0, 1fr);
-    gap: var(--openbitfun-space-2);
-    padding: var(--openbitfun-space-4);
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-space-4);
   }
 
   .openbitfun-config-page-row__meta {

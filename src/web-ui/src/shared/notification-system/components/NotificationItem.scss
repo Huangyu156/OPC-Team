@@ -7,44 +7,44 @@
   box-sizing: border-box;
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-3);
-  width: min(300px, calc(100vw - var(--openbitfun-space-6)));
-  padding: var(--openbitfun-space-3) var(--openbitfun-space-4);
-  background: var(--openbitfun-color-surface-raised);
+  gap: var(--opcteam-space-3);
+  width: min(300px, calc(100vw - var(--opcteam-space-6)));
+  padding: var(--opcteam-space-3) var(--opcteam-space-4);
+  background: var(--opcteam-color-surface-raised);
   animation: openbitfun-notification-enter 180ms cubic-bezier(0.23, 1, 0.32, 1) both;
-  font-family: var(--openbitfun-type-body-sm-font-family);
+  font-family: var(--opcteam-type-body-sm-font-family);
 
   
   &--success {
     
     .notification-item__icon {
-      color: var(--openbitfun-color-status-success-emphasis);
+      color: var(--opcteam-color-status-success-emphasis);
     }
   }
 
   &--error {
     .notification-item__icon {
-      color: var(--openbitfun-color-status-danger-emphasis);
+      color: var(--opcteam-color-status-danger-emphasis);
     }
   }
 
   &--warning {
     .notification-item__icon {
-      color: var(--openbitfun-color-status-warning-emphasis);
+      color: var(--opcteam-color-status-warning-emphasis);
     }
   }
 
   &--info {
     .notification-item__icon {
-      color: var(--openbitfun-color-status-info-emphasis);
+      color: var(--opcteam-color-status-info-emphasis);
     }
   }
 
   
   &__icon {
-    flex: 0 0 var(--openbitfun-control-icon-size-lg);
-    width: var(--openbitfun-control-icon-size-lg);
-    height: var(--openbitfun-control-icon-size-lg);
+    flex: 0 0 var(--opcteam-control-icon-size-lg);
+    width: var(--opcteam-control-icon-size-lg);
+    height: var(--opcteam-control-icon-size-lg);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,38 +62,38 @@
     min-width: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   &__title {
-    font-family: var(--openbitfun-type-heading-card-font-family);
-    font-size: var(--openbitfun-type-heading-card-font-size);
-    font-weight: var(--openbitfun-type-heading-card-font-weight);
-    color: var(--openbitfun-color-content-primary);
-    line-height: var(--openbitfun-type-heading-card-line-height);
-    letter-spacing: var(--openbitfun-type-heading-card-letter-spacing);
+    font-family: var(--opcteam-type-heading-card-font-family);
+    font-size: var(--opcteam-type-heading-card-font-size);
+    font-weight: var(--opcteam-type-heading-card-font-weight);
+    color: var(--opcteam-color-content-primary);
+    line-height: var(--opcteam-type-heading-card-line-height);
+    letter-spacing: var(--opcteam-type-heading-card-letter-spacing);
   }
 
   &__message {
-    font-family: var(--openbitfun-type-body-xs-font-family);
-    font-size: var(--openbitfun-type-body-xs-font-size);
-    font-weight: var(--openbitfun-type-body-xs-font-weight);
-    color: var(--openbitfun-color-content-secondary);
-    line-height: var(--openbitfun-type-modifier-leading-ui-line-height);
-    letter-spacing: var(--openbitfun-type-body-xs-letter-spacing);
+    font-family: var(--opcteam-type-body-xs-font-family);
+    font-size: var(--opcteam-type-body-xs-font-size);
+    font-weight: var(--opcteam-type-body-xs-font-weight);
+    color: var(--opcteam-color-content-secondary);
+    line-height: var(--opcteam-type-modifier-leading-ui-line-height);
+    letter-spacing: var(--opcteam-type-body-xs-letter-spacing);
     word-break: break-word;
   }
 
   &--closable {
     .notification-item__title {
-      padding-inline-end: var(--openbitfun-space-6);
+      padding-inline-end: var(--opcteam-space-6);
     }
   }
 
   &__close {
     position: absolute;
-    top: var(--openbitfun-space-2);
-    right: var(--openbitfun-space-2);
+    top: var(--opcteam-space-2);
+    right: var(--opcteam-space-2);
     display: inline-flex;
   }
 
@@ -116,22 +116,22 @@
     border: none;
     background: none;
     font: inherit;
-    color: var(--openbitfun-color-accent-default);
+    color: var(--opcteam-color-accent-default);
     text-decoration: underline;
     text-align: left;
     cursor: pointer;
     word-break: break-all;
 
     &:hover {
-      color: var(--openbitfun-color-accent-default);
+      color: var(--opcteam-color-accent-default);
     }
   }
 
   
   &__actions {
     display: flex;
-    gap: var(--openbitfun-space-1);
-    margin-top: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
+    margin-top: var(--opcteam-space-1);
   }
 
   &--exiting {

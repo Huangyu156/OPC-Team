@@ -58,7 +58,7 @@ test("every Lab stylesheet consumes published tokens and has no empty selectors"
   for (const file of files) {
     const source = await readFile(new URL(file.replaceAll("\\", "/"), root), "utf8");
     assert.doesNotMatch(source, /^\s*\{/m, `${file} contains a rule without a selector`);
-    for (const [, variable] of source.matchAll(/var\((--openbitfun-[a-z0-9-]+)/g)) {
+    for (const [, variable] of source.matchAll(/var\((--opcteam-[a-z0-9-]+)/g)) {
       assert.ok(tokens.has(variable), `${file} references unpublished token ${variable}`);
     }
   }

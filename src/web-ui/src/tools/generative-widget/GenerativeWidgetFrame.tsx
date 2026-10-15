@@ -106,8 +106,8 @@ ${createWidgetAppearanceFallbackCss()}
       width: 100%;
       min-height: 0;
       background: transparent;
-      color: var(--openbitfun-color-content-primary);
-      font-family: var(--openbitfun-type-body-sm-font-family);
+      color: var(--opcteam-color-content-primary);
+      font-family: var(--opcteam-type-body-sm-font-family);
       overflow-x: hidden;
       overflow-y: hidden;
     }
@@ -135,21 +135,21 @@ ${createWidgetAppearanceFallbackCss()}
       word-break: break-word;
     }
     body {
-      font-size: var(--openbitfun-type-label-md-font-size);
-      line-height: var(--openbitfun-type-body-sm-line-height);
+      font-size: var(--opcteam-type-label-md-font-size);
+      line-height: var(--opcteam-type-body-sm-line-height);
     }
     body, button, input, textarea, select {
-      font-family: var(--openbitfun-type-body-sm-font-family);
+      font-family: var(--opcteam-type-body-sm-font-family);
     }
     button, input, textarea, select {
       font: inherit;
     }
     a {
-      color: var(--openbitfun-color-accent-default);
+      color: var(--opcteam-color-accent-default);
       text-decoration: none;
     }
     a:hover {
-      color: var(--openbitfun-color-accent-hover);
+      color: var(--opcteam-color-accent-hover);
     }
     [data-file-path],
     [data-openbitfun-open-file] {
@@ -170,25 +170,25 @@ ${createWidgetAppearanceFallbackCss()}
       max-width: 100%;
       display: flex;
       flex-direction: column;
-      gap: var(--openbitfun-space-4);
-      color: var(--openbitfun-color-content-primary);
+      gap: var(--opcteam-space-4);
+      color: var(--opcteam-color-content-primary);
     }
     .openbitfun-stack {
       display: flex;
       flex-direction: column;
-      gap: var(--openbitfun-space-3);
+      gap: var(--opcteam-space-3);
     }
     .openbitfun-row {
       display: flex;
       align-items: center;
-      gap: var(--openbitfun-space-3);
+      gap: var(--opcteam-space-3);
       min-width: 0;
     }
     .openbitfun-row-wrap {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: var(--openbitfun-space-3);
+      gap: var(--opcteam-space-3);
       min-width: 0;
     }
     .openbitfun-toolbar {
@@ -196,84 +196,84 @@ ${createWidgetAppearanceFallbackCss()}
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
-      gap: var(--openbitfun-space-3);
-      padding: var(--openbitfun-space-3) var(--openbitfun-space-4);
-      border-radius: var(--openbitfun-radius-lg);
-      background: color-mix(in srgb, var(--openbitfun-color-surface-panel) 82%, transparent);
-      border: 1px solid var(--openbitfun-color-border-subtle);
-      box-shadow: var(--openbitfun-shadow-xs);
+      gap: var(--opcteam-space-3);
+      padding: var(--opcteam-space-3) var(--opcteam-space-4);
+      border-radius: var(--opcteam-radius-lg);
+      background: color-mix(in srgb, var(--opcteam-color-surface-panel) 82%, transparent);
+      border: 1px solid var(--opcteam-color-border-subtle);
+      box-shadow: var(--opcteam-shadow-xs);
     }
     .openbitfun-section {
       display: flex;
       flex-direction: column;
-      gap: var(--openbitfun-space-3);
+      gap: var(--opcteam-space-3);
     }
     .openbitfun-section-header {
       display: flex;
       flex-wrap: wrap;
       align-items: flex-start;
       justify-content: space-between;
-      gap: var(--openbitfun-space-3);
+      gap: var(--opcteam-space-3);
     }
     .openbitfun-title {
       margin: 0;
-      font-size: var(--openbitfun-type-body-lg-font-size);
-      font-weight: var(--openbitfun-type-label-selected-font-weight);
-      line-height: var(--openbitfun-type-label-md-line-height);
-      color: var(--openbitfun-color-content-primary);
-      letter-spacing: var(--openbitfun-type-flow-title-letter-spacing);
+      font-size: var(--opcteam-type-body-lg-font-size);
+      font-weight: var(--opcteam-type-label-selected-font-weight);
+      line-height: var(--opcteam-type-label-md-line-height);
+      color: var(--opcteam-color-content-primary);
+      letter-spacing: var(--opcteam-type-flow-title-letter-spacing);
     }
     .openbitfun-subtitle {
       margin: 0;
-      font-size: var(--openbitfun-type-label-sm-font-size);
-      color: var(--openbitfun-color-content-muted);
-      line-height: var(--openbitfun-type-body-sm-line-height);
+      font-size: var(--opcteam-type-label-sm-font-size);
+      color: var(--opcteam-color-content-muted);
+      line-height: var(--opcteam-type-body-sm-line-height);
     }
     .openbitfun-eyebrow {
       margin: 0;
-      font-size: var(--openbitfun-type-meta-font-size);
-      font-weight: var(--openbitfun-type-label-sm-font-weight);
-      letter-spacing: var(--openbitfun-type-modifier-tracking-widest-letter-spacing);
+      font-size: var(--opcteam-type-meta-font-size);
+      font-weight: var(--opcteam-type-label-sm-font-weight);
+      letter-spacing: var(--opcteam-type-modifier-tracking-widest-letter-spacing);
       text-transform: uppercase;
-      color: var(--openbitfun-color-content-muted);
+      color: var(--opcteam-color-content-muted);
     }
     .openbitfun-card,
     .openbitfun-panel {
       position: relative;
       display: flex;
       flex-direction: column;
-      gap: var(--openbitfun-space-3);
+      gap: var(--opcteam-space-3);
       width: 100%;
-      padding: var(--openbitfun-space-4);
-      border-radius: var(--openbitfun-radius-lg);
-      background: var(--openbitfun-color-surface-panel);
-      border: 1px solid var(--openbitfun-color-border-subtle);
-      box-shadow: var(--openbitfun-shadow-sm);
+      padding: var(--opcteam-space-4);
+      border-radius: var(--opcteam-radius-lg);
+      background: var(--opcteam-color-surface-panel);
+      border: 1px solid var(--opcteam-color-border-subtle);
+      box-shadow: var(--opcteam-shadow-sm);
       overflow: hidden;
     }
     .openbitfun-panel {
-      background: color-mix(in srgb, var(--openbitfun-color-surface-panel) 74%, var(--openbitfun-color-surface-subtle));
+      background: color-mix(in srgb, var(--opcteam-color-surface-panel) 74%, var(--opcteam-color-surface-subtle));
     }
     [data-openbitfun-prompt-selected="true"],
     [data-openbitfun-context-selected="true"] {
       position: relative;
-      outline: 2px solid var(--openbitfun-color-accent-default);
+      outline: 2px solid var(--opcteam-color-accent-default);
       outline-offset: 2px;
       box-shadow:
-        0 0 0 4px color-mix(in srgb, var(--openbitfun-color-accent-default) 18%, transparent),
-        0 10px 24px color-mix(in srgb, var(--openbitfun-color-accent-default) 14%, transparent);
-      border-radius: min(var(--openbitfun-radius-base), 12px);
+        0 0 0 4px color-mix(in srgb, var(--opcteam-color-accent-default) 18%, transparent),
+        0 10px 24px color-mix(in srgb, var(--opcteam-color-accent-default) 14%, transparent);
+      border-radius: min(var(--opcteam-radius-base), 12px);
       transition: outline-color 120ms ease, box-shadow 120ms ease, transform 120ms ease;
       transform: translateY(-1px);
     }
     .openbitfun-card-accent {
-      background: color-mix(in srgb, var(--openbitfun-color-accent-default) 10%, var(--openbitfun-color-surface-panel));
-      border-color: color-mix(in srgb, var(--openbitfun-color-accent-default) 30%, var(--openbitfun-color-border-subtle));
+      background: color-mix(in srgb, var(--opcteam-color-accent-default) 10%, var(--opcteam-color-surface-panel));
+      border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 30%, var(--opcteam-color-border-subtle));
     }
     .openbitfun-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(180px, 100%), 1fr));
-      gap: var(--openbitfun-space-3);
+      gap: var(--opcteam-space-3);
       width: 100%;
       min-width: 0;
     }
@@ -282,27 +282,27 @@ ${createWidgetAppearanceFallbackCss()}
       flex-direction: column;
       gap: 6px;
       min-width: 0;
-      padding: var(--openbitfun-space-3);
-      border-radius: var(--openbitfun-radius-base);
-      background: var(--openbitfun-color-action-neutral-surface);
-      border: 1px solid var(--openbitfun-color-border-subtle);
+      padding: var(--opcteam-space-3);
+      border-radius: var(--opcteam-radius-base);
+      background: var(--opcteam-color-action-neutral-surface);
+      border: 1px solid var(--opcteam-color-border-subtle);
     }
     .openbitfun-kpi-label {
-      font-size: var(--openbitfun-type-meta-font-size);
-      font-weight: var(--openbitfun-type-label-sm-font-weight);
+      font-size: var(--opcteam-type-meta-font-size);
+      font-weight: var(--opcteam-type-label-sm-font-weight);
       text-transform: uppercase;
-      letter-spacing: var(--openbitfun-type-modifier-tracking-widest-letter-spacing);
-      color: var(--openbitfun-color-content-muted);
+      letter-spacing: var(--opcteam-type-modifier-tracking-widest-letter-spacing);
+      color: var(--opcteam-color-content-muted);
     }
     .openbitfun-kpi-value {
-      font-size: var(--openbitfun-type-flow-section-title-font-size);
-      font-weight: var(--openbitfun-type-label-selected-font-weight);
-      line-height: var(--openbitfun-type-display-sm-line-height);
-      color: var(--openbitfun-color-content-primary);
+      font-size: var(--opcteam-type-flow-section-title-font-size);
+      font-weight: var(--opcteam-type-label-selected-font-weight);
+      line-height: var(--opcteam-type-display-sm-line-height);
+      color: var(--opcteam-color-content-primary);
     }
     .openbitfun-kpi-meta {
-      font-size: var(--openbitfun-type-label-sm-font-size);
-      color: var(--openbitfun-color-content-secondary);
+      font-size: var(--opcteam-type-label-sm-font-size);
+      color: var(--opcteam-color-content-secondary);
     }
     .openbitfun-badge {
       display: inline-flex;
@@ -312,32 +312,32 @@ ${createWidgetAppearanceFallbackCss()}
       min-height: 24px;
       padding: 0 10px;
       border-radius: 999px;
-      background: var(--openbitfun-color-action-neutral-surface);
-      border: 1px solid var(--openbitfun-color-border-subtle);
-      font-size: var(--openbitfun-type-label-sm-font-size);
-      font-weight: var(--openbitfun-type-label-sm-font-weight);
-      color: var(--openbitfun-color-content-secondary);
+      background: var(--opcteam-color-action-neutral-surface);
+      border: 1px solid var(--opcteam-color-border-subtle);
+      font-size: var(--opcteam-type-label-sm-font-size);
+      font-weight: var(--opcteam-type-label-sm-font-weight);
+      color: var(--opcteam-color-content-secondary);
       white-space: nowrap;
     }
     .openbitfun-badge-accent {
-      background: color-mix(in srgb, var(--openbitfun-color-accent-default) 14%, transparent);
-      border-color: color-mix(in srgb, var(--openbitfun-color-accent-default) 28%, var(--openbitfun-color-border-subtle));
-      color: var(--openbitfun-color-accent-default);
+      background: color-mix(in srgb, var(--opcteam-color-accent-default) 14%, transparent);
+      border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 28%, var(--opcteam-color-border-subtle));
+      color: var(--opcteam-color-accent-default);
     }
     .openbitfun-badge-success {
-      background: color-mix(in srgb, var(--openbitfun-color-status-success-content) 14%, transparent);
-      border-color: color-mix(in srgb, var(--openbitfun-color-status-success-content) 28%, var(--openbitfun-color-border-subtle));
-      color: var(--openbitfun-color-status-success-content);
+      background: color-mix(in srgb, var(--opcteam-color-status-success-content) 14%, transparent);
+      border-color: color-mix(in srgb, var(--opcteam-color-status-success-content) 28%, var(--opcteam-color-border-subtle));
+      color: var(--opcteam-color-status-success-content);
     }
     .openbitfun-badge-warning {
-      background: color-mix(in srgb, var(--openbitfun-color-status-warning-content) 14%, transparent);
-      border-color: color-mix(in srgb, var(--openbitfun-color-status-warning-content) 28%, var(--openbitfun-color-border-subtle));
-      color: var(--openbitfun-color-status-warning-content);
+      background: color-mix(in srgb, var(--opcteam-color-status-warning-content) 14%, transparent);
+      border-color: color-mix(in srgb, var(--opcteam-color-status-warning-content) 28%, var(--opcteam-color-border-subtle));
+      color: var(--opcteam-color-status-warning-content);
     }
     .openbitfun-badge-error {
-      background: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 14%, transparent);
-      border-color: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 28%, var(--openbitfun-color-border-subtle));
-      color: var(--openbitfun-color-status-danger-content);
+      background: color-mix(in srgb, var(--opcteam-color-status-danger-content) 14%, transparent);
+      border-color: color-mix(in srgb, var(--opcteam-color-status-danger-content) 28%, var(--opcteam-color-border-subtle));
+      color: var(--opcteam-color-status-danger-content);
     }
     .openbitfun-button {
       display: inline-flex;
@@ -347,33 +347,33 @@ ${createWidgetAppearanceFallbackCss()}
       min-height: 32px;
       max-width: 100%;
       padding: 0 12px;
-      border: 1px solid var(--openbitfun-color-border-default);
-      border-radius: var(--openbitfun-radius-sm);
-      background: var(--openbitfun-color-action-neutral-surface);
-      color: var(--openbitfun-color-content-secondary);
+      border: 1px solid var(--opcteam-color-border-default);
+      border-radius: var(--opcteam-radius-sm);
+      background: var(--opcteam-color-action-neutral-surface);
+      color: var(--opcteam-color-content-secondary);
       text-decoration: none;
       white-space: nowrap;
       transition:
         transform 120ms cubic-bezier(0.23, 1, 0.32, 1),
-        background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-        border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-        color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-        box-shadow var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+        background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+        border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+        color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+        box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
     }
     .openbitfun-button:hover {
-      background: var(--openbitfun-color-action-neutral-surface-hover);
-      color: var(--openbitfun-color-content-primary);
-      border-color: var(--openbitfun-color-field-border-hover);
+      background: var(--opcteam-color-action-neutral-surface-hover);
+      color: var(--opcteam-color-content-primary);
+      border-color: var(--opcteam-color-field-border-hover);
     }
     .openbitfun-button-primary {
-      background: var(--openbitfun-color-accent-default);
-      color: var(--openbitfun-color-content-on-dark);
+      background: var(--opcteam-color-accent-default);
+      color: var(--opcteam-color-content-on-dark);
       border-color: transparent;
-      box-shadow: var(--openbitfun-shadow-xs);
+      box-shadow: var(--opcteam-shadow-xs);
     }
     .openbitfun-button-primary:hover {
-      background: var(--openbitfun-color-accent-hover);
-      color: var(--openbitfun-color-content-on-dark);
+      background: var(--opcteam-color-accent-hover);
+      color: var(--opcteam-color-content-on-dark);
       border-color: transparent;
     }
     .openbitfun-input,
@@ -383,15 +383,15 @@ ${createWidgetAppearanceFallbackCss()}
       max-width: 100%;
       min-width: 0;
       padding: 0 12px;
-      border-radius: var(--openbitfun-radius-sm);
-      border: 1px solid var(--openbitfun-color-border-default);
-      background: var(--openbitfun-color-surface-subtle);
-      color: var(--openbitfun-color-content-primary);
+      border-radius: var(--opcteam-radius-sm);
+      border: 1px solid var(--opcteam-color-border-default);
+      background: var(--opcteam-color-surface-subtle);
+      color: var(--opcteam-color-content-primary);
       transition:
-        background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-        border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-        color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-        box-shadow var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+        background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+        border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+        color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+        box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
     }
     .openbitfun-input,
     .openbitfun-select {
@@ -405,14 +405,14 @@ ${createWidgetAppearanceFallbackCss()}
     }
     .openbitfun-input::placeholder,
     .openbitfun-textarea::placeholder {
-      color: color-mix(in srgb, var(--openbitfun-color-content-muted) 55%, transparent);
+      color: color-mix(in srgb, var(--opcteam-color-content-muted) 55%, transparent);
     }
     .openbitfun-input:focus,
     .openbitfun-textarea:focus,
     .openbitfun-select:focus {
       outline: none;
-      border-color: var(--openbitfun-color-accent-default);
-      background: var(--openbitfun-color-action-quiet-hover);
+      border-color: var(--opcteam-color-accent-default);
+      background: var(--opcteam-color-action-quiet-hover);
     }
     .openbitfun-list {
       display: flex;
@@ -424,25 +424,25 @@ ${createWidgetAppearanceFallbackCss()}
       display: flex;
       align-items: flex-start;
       justify-content: space-between;
-      gap: var(--openbitfun-space-3);
-      padding: var(--openbitfun-space-3);
-      border-radius: var(--openbitfun-radius-base);
-      background: var(--openbitfun-color-surface-subtle);
+      gap: var(--opcteam-space-3);
+      padding: var(--opcteam-space-3);
+      border-radius: var(--opcteam-radius-base);
+      background: var(--opcteam-color-surface-subtle);
       border: 1px solid transparent;
     }
     .openbitfun-list-item[data-file-path]:hover,
     .openbitfun-list-item[data-openbitfun-open-file]:hover,
     .openbitfun-card[data-file-path]:hover,
     .openbitfun-panel[data-file-path]:hover {
-      border-color: color-mix(in srgb, var(--openbitfun-color-accent-default) 35%, var(--openbitfun-color-border-subtle));
-      background: color-mix(in srgb, var(--openbitfun-color-action-neutral-surface) 76%, var(--openbitfun-color-accent-default));
+      border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 35%, var(--opcteam-color-border-subtle));
+      background: color-mix(in srgb, var(--opcteam-color-action-neutral-surface) 76%, var(--opcteam-color-accent-default));
     }
     .openbitfun-table-wrap {
       width: 100%;
       overflow-x: auto;
-      border: 1px solid var(--openbitfun-color-border-subtle);
-      border-radius: var(--openbitfun-radius-base);
-      background: var(--openbitfun-color-surface-panel);
+      border: 1px solid var(--opcteam-color-border-subtle);
+      border-radius: var(--opcteam-radius-base);
+      background: var(--opcteam-color-surface-panel);
     }
     .openbitfun-table {
       width: 100%;
@@ -454,17 +454,17 @@ ${createWidgetAppearanceFallbackCss()}
       padding: 10px 12px;
       text-align: left;
       vertical-align: top;
-      border-bottom: 1px solid var(--openbitfun-color-border-subtle);
-      color: var(--openbitfun-color-content-secondary);
-      font-size: var(--openbitfun-type-label-md-font-size);
+      border-bottom: 1px solid var(--opcteam-color-border-subtle);
+      color: var(--opcteam-color-content-secondary);
+      font-size: var(--opcteam-type-label-md-font-size);
       word-break: break-word;
     }
     .openbitfun-table th {
-      font-size: var(--openbitfun-type-label-sm-font-size);
-      font-weight: var(--openbitfun-type-label-sm-font-weight);
-      color: var(--openbitfun-color-content-muted);
+      font-size: var(--opcteam-type-label-sm-font-size);
+      font-weight: var(--opcteam-type-label-sm-font-weight);
+      color: var(--opcteam-color-content-muted);
       text-transform: uppercase;
-      letter-spacing: var(--openbitfun-type-modifier-tracking-wider-letter-spacing);
+      letter-spacing: var(--opcteam-type-modifier-tracking-wider-letter-spacing);
     }
     .openbitfun-empty {
       display: flex;
@@ -473,42 +473,42 @@ ${createWidgetAppearanceFallbackCss()}
       justify-content: center;
       gap: 8px;
       min-height: 140px;
-      padding: var(--openbitfun-space-5);
-      border-radius: var(--openbitfun-radius-lg);
-      border: 1px dashed var(--openbitfun-color-border-default);
-      background: color-mix(in srgb, var(--openbitfun-color-surface-subtle) 80%, transparent);
-      color: var(--openbitfun-color-content-muted);
+      padding: var(--opcteam-space-5);
+      border-radius: var(--opcteam-radius-lg);
+      border: 1px dashed var(--opcteam-color-border-default);
+      background: color-mix(in srgb, var(--opcteam-color-surface-subtle) 80%, transparent);
+      color: var(--opcteam-color-content-muted);
       text-align: center;
     }
     .openbitfun-divider {
       width: 100%;
       height: 1px;
-      background: var(--openbitfun-color-border-subtle);
+      background: var(--opcteam-color-border-subtle);
       border: 0;
       margin: 0;
     }
     .openbitfun-code {
       padding: 2px 6px;
       border-radius: 6px;
-      background: var(--openbitfun-color-action-neutral-surface);
-      color: var(--openbitfun-color-content-primary);
-      font-family: var(--openbitfun-type-code-md-font-family);
-      font-size: var(--openbitfun-type-label-sm-font-size);
+      background: var(--opcteam-color-action-neutral-surface);
+      color: var(--opcteam-color-content-primary);
+      font-family: var(--opcteam-type-code-md-font-family);
+      font-size: var(--opcteam-type-label-sm-font-size);
     }
     .openbitfun-mono {
-      font-family: var(--openbitfun-type-code-md-font-family);
+      font-family: var(--opcteam-type-code-md-font-family);
     }
     @media (max-width: 560px) {
       .openbitfun-card,
       .openbitfun-panel,
       .openbitfun-toolbar {
-        padding: var(--openbitfun-space-3);
+        padding: var(--opcteam-space-3);
       }
       .openbitfun-grid {
         grid-template-columns: 1fr;
       }
       .openbitfun-title {
-        font-size: var(--openbitfun-type-body-md-font-size);
+        font-size: var(--opcteam-type-body-md-font-size);
       }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -744,14 +744,14 @@ ${createWidgetAppearanceFallbackCss()}
         });
         var body = document.body;
         if (body) {
-          body.style.background = vars['--openbitfun-color-surface-canvas'] || 'transparent';
+          body.style.background = vars['--opcteam-color-surface-canvas'] || 'transparent';
           body.style.color =
-            vars['--openbitfun-color-content-primary'] ||
-            getComputedStyle(root).getPropertyValue('--openbitfun-color-content-primary') ||
+            vars['--opcteam-color-content-primary'] ||
+            getComputedStyle(root).getPropertyValue('--opcteam-color-content-primary') ||
             body.style.color;
           body.style.fontFamily =
-            vars['--openbitfun-font-family-sans'] ||
-            getComputedStyle(root).getPropertyValue('--openbitfun-font-family-sans') ||
+            vars['--opcteam-font-family-sans'] ||
+            getComputedStyle(root).getPropertyValue('--opcteam-font-family-sans') ||
             body.style.fontFamily;
         }
       }

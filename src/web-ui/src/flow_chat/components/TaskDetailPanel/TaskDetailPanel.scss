@@ -7,8 +7,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background: var(--openbitfun-color-surface-scene);
-  color: var(--openbitfun-color-content-primary);
+  background: var(--opcteam-color-surface-scene);
+  color: var(--opcteam-color-content-primary);
 
   &--empty {
     .task-detail-panel__empty-content {
@@ -16,8 +16,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--openbitfun-color-content-muted);
-      font-size: var(--openbitfun-type-flow-control-font-size);
+      color: var(--opcteam-color-content-muted);
+      font-size: var(--opcteam-type-flow-control-font-size);
     }
   }
 
@@ -31,13 +31,13 @@
     align-items: center;
     flex: 1 1 auto;
     min-width: 0;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
   &__header-title {
-    font-size: var(--openbitfun-type-flow-control-font-size);
-    font-weight: var(--openbitfun-type-label-sm-font-weight);
-    color: var(--openbitfun-color-content-primary);
+    font-size: var(--opcteam-type-flow-control-font-size);
+    font-weight: var(--opcteam-type-label-sm-font-weight);
+    color: var(--opcteam-color-content-primary);
     flex: 0 1 auto;
     min-width: 0;
   }
@@ -46,8 +46,8 @@
     flex: 0 1 auto;
     min-width: 0;
     max-width: 50%;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-flow-support-font-size);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-flow-support-font-size);
   }
 
   &__error-banner {
@@ -55,21 +55,21 @@
     align-items: flex-start;
     gap: 8px;
     padding: 10px 16px;
-    background: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 10%, var(--openbitfun-color-surface-panel));
-    border-bottom: 1px solid color-mix(in srgb, var(--openbitfun-color-status-danger-content) 22%, transparent);
+    background: color-mix(in srgb, var(--opcteam-color-status-danger-content) 10%, var(--opcteam-color-surface-panel));
+    border-bottom: 1px solid color-mix(in srgb, var(--opcteam-color-status-danger-content) 22%, transparent);
     flex-shrink: 0;
 
     &-icon {
       flex-shrink: 0;
       margin-top: 1px;
-      color: var(--openbitfun-color-status-danger-content);
+      color: var(--opcteam-color-status-danger-content);
     }
 
     &-text {
       flex: 1;
-      font-size: var(--openbitfun-type-flow-control-font-size);
-      line-height: var(--openbitfun-type-flow-support-line-height);
-      color: var(--openbitfun-color-status-danger-content);
+      font-size: var(--opcteam-type-flow-control-font-size);
+      line-height: var(--opcteam-type-flow-support-line-height);
+      color: var(--opcteam-color-status-danger-content);
       word-break: break-word;
       user-select: text;
     }
@@ -96,12 +96,12 @@
 
   &__prompt-content {
     margin: 0;
-    padding-inline: var(--openbitfun-layout-disclosure-trigger-padding-inline);
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-flow-control-font-size);
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
-    line-height: var(--openbitfun-type-flow-support-line-height);
-    color: var(--openbitfun-color-content-secondary);
+    padding-inline: var(--opcteam-layout-disclosure-trigger-padding-inline);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-flow-control-font-size);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
+    line-height: var(--opcteam-type-flow-support-line-height);
+    color: var(--opcteam-color-content-secondary);
     background: transparent;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
@@ -114,18 +114,18 @@
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding-inline: var(--openbitfun-layout-disclosure-trigger-padding-inline);
-    font-size: var(--openbitfun-type-flow-control-font-size);
-    line-height: var(--openbitfun-type-flow-support-line-height);
+    padding-inline: var(--opcteam-layout-disclosure-trigger-padding-inline);
+    font-size: var(--opcteam-type-flow-control-font-size);
+    line-height: var(--opcteam-type-flow-support-line-height);
   }
 
   &__reviewer-role {
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
-    font-size: var(--openbitfun-type-flow-control-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
+    font-size: var(--opcteam-type-flow-control-font-size);
   }
 
   &__reviewer-desc {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 
   &__reviewer-responsibilities {
@@ -134,7 +134,7 @@
     list-style: disc;
 
     li {
-      color: var(--openbitfun-color-content-secondary);
+      color: var(--opcteam-color-content-secondary);
     }
   }
 
@@ -161,15 +161,15 @@
     justify-content: center;
     gap: 12px;
     padding: 40px 20px;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-flow-control-font-size);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-flow-control-font-size);
   }
 
   &__loading--inline {
     flex-direction: row;
     justify-content: center;
     padding: 10px 12px 4px;
-    font-size: var(--openbitfun-type-flow-control-font-size);
+    font-size: var(--opcteam-type-flow-control-font-size);
     flex-shrink: 0;
   }
 
@@ -179,10 +179,10 @@
     gap: 8px;
     padding: 10px 12px;
     border-radius: 6px;
-    font-size: var(--openbitfun-type-flow-control-font-size);
-    color: var(--openbitfun-color-status-danger-content);
-    background: var(--openbitfun-color-status-danger-surface);
-    border: 1px solid color-mix(in srgb, var(--openbitfun-color-status-danger-content) 20%, transparent);
+    font-size: var(--opcteam-type-flow-control-font-size);
+    color: var(--opcteam-color-status-danger-content);
+    background: var(--opcteam-color-status-danger-surface);
+    border: 1px solid color-mix(in srgb, var(--opcteam-color-status-danger-content) 20%, transparent);
     flex-shrink: 0;
 
     > :is(svg, [data-openbitfun-component='icon']) {

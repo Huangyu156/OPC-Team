@@ -301,7 +301,7 @@ export class AppearanceRuntime {
     const declarations = document.createElement('div').style;
     Object.entries(assets).forEach(([id, asset]) => {
       if (asset.definition.kind !== 'image' || !asset.url) return;
-      declarations.setProperty(`--openbitfun-appearance-asset-${id.replace(/\./g, '-')}`, `url("${asset.url}")`);
+      declarations.setProperty(`--opcteam-appearance-asset-${id.replace(/\./g, '-')}`, `url("${asset.url}")`);
     });
     if (!declarations.cssText) return '';
     return `:root[data-openbitfun-appearance="${appearanceId}"][data-openbitfun-appearance-revision="${revision}"]{${declarations.cssText}}`;

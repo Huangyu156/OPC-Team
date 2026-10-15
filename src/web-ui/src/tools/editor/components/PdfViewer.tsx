@@ -39,7 +39,7 @@ const PAGE_SIZE_CONCURRENCY = 8;
 const NEARBY_PAGE_DISTANCE = 2;
 const RENDER_ROOT_MARGIN = '150% 0px';
 const PDFJS_FONT_HEIGHT_PROPERTY = ['--font', 'height'].join('-');
-const PDF_GLYPH_HEIGHT_PROPERTY = '--openbitfun-pdf-glyph-height';
+const PDF_GLYPH_HEIGHT_PROPERTY = '--opcteam-pdf-glyph-height';
 
 GlobalWorkerOptions.workerSrc = pdfWorkerUrl;
 

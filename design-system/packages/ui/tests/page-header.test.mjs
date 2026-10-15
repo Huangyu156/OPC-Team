@@ -66,12 +66,12 @@ test("PageHeader omits the required marker by default", () => {
 test("PageHeader styles use shared typography and content tokens", async () => {
   const styles = await readFile(new URL("../src/components/PageHeader/PageHeader.module.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-type-heading-page-font-size/);
-  assert.match(styles, /--openbitfun-type-heading-section-font-size/);
-  assert.match(styles, /--openbitfun-type-heading-display-font-size/);
-  assert.match(styles, /--openbitfun-type-heading-welcome-font-size/);
-  assert.match(styles, /--openbitfun-type-body-lg-font-size/);
-  assert.match(styles, /--openbitfun-color-content-primary/);
-  assert.match(styles, /--openbitfun-color-content-muted/);
-  assert.match(styles, /--openbitfun-color-content-required-indicator/);
+  assert.match(styles, /--opcteam-type-heading-page-font-size/);
+  assert.match(styles, /--opcteam-type-heading-section-font-size/);
+  assert.match(styles, /--opcteam-type-heading-display-font-size/);
+  assert.match(styles, /--opcteam-type-heading-welcome-font-size/);
+  assert.match(styles, /--opcteam-type-body-lg-font-size/);
+  assert.match(styles, /--opcteam-color-content-primary/);
+  assert.match(styles, /--opcteam-color-content-muted/);
+  assert.match(styles, /--opcteam-color-content-required-indicator/);
 });

@@ -4,14 +4,14 @@
 .openbitfun-notification-btn {
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-1);
+  gap: var(--opcteam-space-1);
   border: none;
   background: transparent;
-  color: var(--openbitfun-color-content-muted);
+  color: var(--opcteam-color-content-muted);
   cursor: pointer;
   padding: 4px 6px;
-  border-radius: var(--openbitfun-radius-sm);
-  font-size: var(--openbitfun-type-label-sm-font-size);
+  border-radius: var(--opcteam-radius-sm);
+  font-size: var(--opcteam-type-label-sm-font-size);
   flex-shrink: 0;
   position: relative;
   transition:
@@ -20,12 +20,12 @@
     background 120ms ease;
 
   &:hover {
-    color: var(--openbitfun-color-content-primary);
-    background: var(--openbitfun-color-action-quiet-hover);
+    color: var(--opcteam-color-content-primary);
+    background: var(--opcteam-color-action-quiet-hover);
   }
 
   &:active {
-    background: var(--openbitfun-color-action-neutral-surface-hover);
+    background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
   svg {
@@ -33,7 +33,7 @@
   }
 
   &__icon--has-message {
-    color: color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent);
+    color: color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent);
   }
 
   // ── Progress state ──────────────────────────────
@@ -44,8 +44,8 @@
   }
 
   &__progress-text {
-    font-size: var(--openbitfun-type-label-sm-font-size);
-    color: var(--openbitfun-color-content-secondary);
+    font-size: var(--opcteam-type-label-sm-font-size);
+    color: var(--opcteam-color-content-secondary);
     white-space: nowrap;
   }
 
@@ -62,18 +62,18 @@
   &__menu-status,
   &__menu-count {
     flex-shrink: 0;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-label-sm-font-size);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-label-sm-font-size);
     font-variant-numeric: tabular-nums;
   }
 
   &__menu-count {
     min-width: 18px;
     padding: 1px 5px;
-    border-radius: var(--openbitfun-radius-pill);
-    background: var(--openbitfun-color-action-neutral-surface-hover);
-    color: var(--openbitfun-color-content-primary);
-    line-height: var(--openbitfun-type-label-md-line-height);
+    border-radius: var(--opcteam-radius-pill);
+    background: var(--opcteam-color-action-neutral-surface-hover);
+    color: var(--opcteam-color-content-primary);
+    line-height: var(--opcteam-type-label-md-line-height);
     text-align: center;
   }
 
@@ -84,18 +84,18 @@
     left: 50%;
     transform: translateX(-50%);
     pointer-events: none;
-    z-index: var(--openbitfun-layer-tooltip);
+    z-index: var(--opcteam-layer-tooltip);
     white-space: nowrap;
   }
 
   &__tooltip-content {
-    background: var(--openbitfun-color-surface-raised);
-    border: 1px solid var(--openbitfun-color-field-border-hover);
-    border-radius: var(--openbitfun-radius-sm);
+    background: var(--opcteam-color-surface-raised);
+    border: 1px solid var(--opcteam-color-field-border-hover);
+    border-radius: var(--opcteam-radius-sm);
     padding: 4px 8px;
-    font-size: var(--openbitfun-type-label-sm-font-size);
-    color: var(--openbitfun-color-content-primary);
-    box-shadow: var(--openbitfun-shadow-base);
+    font-size: var(--opcteam-type-label-sm-font-size);
+    color: var(--opcteam-color-content-primary);
+    box-shadow: var(--opcteam-shadow-base);
     max-width: 300px;
     white-space: normal;
     overflow-wrap: anywhere;

@@ -12,13 +12,13 @@ export function H1({ children, style, ...props }: CanvasHeadingProps) {
     <h1
       {...props}
       style={{
-        fontFamily: 'var(--openbitfun-type-heading-display-font-family)',
-        fontSize: 'var(--openbitfun-type-heading-display-font-size)',
-        lineHeight: 'var(--openbitfun-type-heading-display-line-height)',
+        fontFamily: 'var(--opcteam-type-heading-display-font-family)',
+        fontSize: 'var(--opcteam-type-heading-display-font-size)',
+        lineHeight: 'var(--opcteam-type-heading-display-line-height)',
         margin: 0,
-        fontWeight: 'var(--openbitfun-type-heading-display-font-weight)',
-        letterSpacing: 'var(--openbitfun-type-heading-display-letter-spacing)',
-        color: 'var(--openbitfun-color-content-primary)',
+        fontWeight: 'var(--opcteam-type-heading-display-font-weight)',
+        letterSpacing: 'var(--opcteam-type-heading-display-letter-spacing)',
+        color: 'var(--opcteam-color-content-primary)',
         ...style,
       }}
     >
@@ -32,13 +32,13 @@ export function H2({ children, style, ...props }: CanvasHeadingProps) {
     <h2
       {...props}
       style={{
-        fontFamily: 'var(--openbitfun-type-heading-page-font-family)',
-        fontSize: 'var(--openbitfun-type-heading-page-font-size)',
-        lineHeight: 'var(--openbitfun-type-heading-page-line-height)',
+        fontFamily: 'var(--opcteam-type-heading-page-font-family)',
+        fontSize: 'var(--opcteam-type-heading-page-font-size)',
+        lineHeight: 'var(--opcteam-type-heading-page-line-height)',
         margin: 0,
-        fontWeight: 'var(--openbitfun-type-heading-page-font-weight)',
-        letterSpacing: 'var(--openbitfun-type-heading-page-letter-spacing)',
-        color: 'var(--openbitfun-color-content-primary)',
+        fontWeight: 'var(--opcteam-type-heading-page-font-weight)',
+        letterSpacing: 'var(--opcteam-type-heading-page-letter-spacing)',
+        color: 'var(--opcteam-color-content-primary)',
         ...style,
       }}
     >
@@ -52,13 +52,13 @@ export function H3({ children, style, ...props }: CanvasHeadingProps) {
     <h3
       {...props}
       style={{
-        fontFamily: 'var(--openbitfun-type-heading-section-font-family)',
-        fontSize: 'var(--openbitfun-type-heading-section-font-size)',
-        lineHeight: 'var(--openbitfun-type-heading-section-line-height)',
+        fontFamily: 'var(--opcteam-type-heading-section-font-family)',
+        fontSize: 'var(--opcteam-type-heading-section-font-size)',
+        lineHeight: 'var(--opcteam-type-heading-section-line-height)',
         margin: 0,
-        fontWeight: 'var(--openbitfun-type-heading-section-font-weight)',
-        letterSpacing: 'var(--openbitfun-type-heading-section-letter-spacing)',
-        color: 'var(--openbitfun-color-content-primary)',
+        fontWeight: 'var(--opcteam-type-heading-section-font-weight)',
+        letterSpacing: 'var(--opcteam-type-heading-section-letter-spacing)',
+        color: 'var(--opcteam-color-content-primary)',
         ...style,
       }}
     >
@@ -155,7 +155,7 @@ export function Link({ children, style, ...props }: CanvasLinkProps) {
       target={props.target ?? '_blank'}
       rel={props.rel ?? 'noreferrer'}
       style={{
-        color: 'var(--openbitfun-color-accent-default)',
+        color: 'var(--opcteam-color-accent-default)',
         textDecoration: 'none',
         ...style,
       }}

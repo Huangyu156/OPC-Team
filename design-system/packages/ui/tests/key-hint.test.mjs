@@ -32,14 +32,14 @@ test("KeyHint preserves textual platform modifiers in the icon slot", () => {
 test("KeyHint styles use the shared micro typography role", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-color-key-hint-background/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface/);
-  assert.match(styles, /--openbitfun-color-key-hint-content/);
-  assert.match(styles, /--openbitfun-type-micro-font-family/);
-  assert.match(styles, /--openbitfun-type-micro-font-size/);
-  assert.match(styles, /--openbitfun-type-micro-letter-spacing/);
-  assert.match(styles, /--openbitfun-type-modifier-leading-none-line-height/);
-  assert.match(styles, /--openbitfun-radius-xs/);
-  assert.match(styles, /--openbitfun-radius-sm/);
+  assert.match(styles, /--opcteam-color-key-hint-background/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface/);
+  assert.match(styles, /--opcteam-color-key-hint-content/);
+  assert.match(styles, /--opcteam-type-micro-font-family/);
+  assert.match(styles, /--opcteam-type-micro-font-size/);
+  assert.match(styles, /--opcteam-type-micro-letter-spacing/);
+  assert.match(styles, /--opcteam-type-modifier-leading-none-line-height/);
+  assert.match(styles, /--opcteam-radius-xs/);
+  assert.match(styles, /--opcteam-radius-sm/);
   assert.match(styles, /flex:\s*0 0 auto/);
 });

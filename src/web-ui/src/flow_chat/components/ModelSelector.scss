@@ -33,15 +33,15 @@ $model-mode-dust-sizes: ();
   &__trigger {
     display: inline-flex;
     align-items: center;
-    gap: var(--openbitfun-space-1);
-    height: var(--openbitfun-space-5);
-    padding: 0 var(--openbitfun-space-2);
-    border-radius: var(--openbitfun-radius-pill);
+    gap: var(--opcteam-space-1);
+    height: var(--opcteam-space-5);
+    padding: 0 var(--opcteam-space-2);
+    border-radius: var(--opcteam-radius-pill);
     border: none;
     background: transparent;
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-flow-control-font-size);
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-flow-control-font-size);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
     cursor: pointer;
     transition:
       color 140ms ease,
@@ -50,9 +50,9 @@ $model-mode-dust-sizes: ();
       opacity 140ms ease,
       transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
     outline: none;
-    opacity: var(--openbitfun-control-flow-chat-model-idle-opacity);
+    opacity: var(--opcteam-control-flow-chat-model-idle-opacity);
     white-space: nowrap;
-    letter-spacing: var(--openbitfun-type-modifier-tracking-wide-letter-spacing);
+    letter-spacing: var(--opcteam-type-modifier-tracking-wide-letter-spacing);
 
     // More visible while input is focused
     .openbitfun-chat-input__box:focus-within & {
@@ -60,20 +60,20 @@ $model-mode-dust-sizes: ();
     }
 
     &:hover {
-      background: var(--openbitfun-color-action-neutral-surface-hover);
-      color: var(--openbitfun-color-content-primary);
+      background: var(--opcteam-color-action-neutral-surface-hover);
+      color: var(--opcteam-color-content-primary);
       opacity: 1;
     }
 
     &:focus-visible {
-      border-color: color-mix(in srgb, var(--openbitfun-color-accent-hover) 40%, transparent);
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--openbitfun-color-accent-default) 20%, transparent);
+      border-color: color-mix(in srgb, var(--opcteam-color-accent-hover) 40%, transparent);
+      box-shadow: 0 0 0 2px color-mix(in srgb, var(--opcteam-color-accent-default) 20%, transparent);
       opacity: 1;
     }
 
     &--open {
-      background: color-mix(in srgb, var(--openbitfun-color-accent-default) 15%, transparent);
-      color: var(--openbitfun-color-content-primary);
+      background: color-mix(in srgb, var(--opcteam-color-accent-default) 15%, transparent);
+      color: var(--opcteam-color-content-primary);
       opacity: 1;
     }
 
@@ -84,7 +84,7 @@ $model-mode-dust-sizes: ();
   }
 
   &__name {
-    max-width: var(--openbitfun-control-flow-chat-model-name-max-width);
+    max-width: var(--opcteam-control-flow-chat-model-name-max-width);
   }
 
   &__trigger-reasoning {
@@ -98,7 +98,7 @@ $model-mode-dust-sizes: ();
   }
 
   &__fast-icon {
-    color: var(--openbitfun-color-status-warning-emphasis);
+    color: var(--opcteam-color-status-warning-emphasis);
     flex-shrink: 0;
   }
 
@@ -108,12 +108,12 @@ $model-mode-dust-sizes: ();
     justify-content: center;
     padding: 1px 4px;
     border-radius: 3px;
-    background: color-mix(in srgb, var(--openbitfun-color-accent-default) 15%, transparent);
-    color: color-mix(in srgb, var(--openbitfun-color-accent-default) 90%, var(--openbitfun-color-content-primary));
-    font-size: var(--openbitfun-type-flow-meta-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
-    letter-spacing: var(--openbitfun-type-modifier-tracking-wider-letter-spacing);
-    line-height: var(--openbitfun-type-modifier-leading-none-line-height);
+    background: color-mix(in srgb, var(--opcteam-color-accent-default) 15%, transparent);
+    color: color-mix(in srgb, var(--opcteam-color-accent-default) 90%, var(--opcteam-color-content-primary));
+    font-size: var(--opcteam-type-flow-meta-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
+    letter-spacing: var(--opcteam-type-modifier-tracking-wider-letter-spacing);
+    line-height: var(--opcteam-type-modifier-leading-none-line-height);
   }
 
   &__tooltip {
@@ -130,13 +130,13 @@ $model-mode-dust-sizes: ();
   }
 
   &__tooltip-label {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     white-space: nowrap;
   }
 
   &__tooltip-value {
     min-width: 0;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
     text-align: right;
     overflow-wrap: anywhere;
   }
@@ -144,12 +144,12 @@ $model-mode-dust-sizes: ();
   &__tooltip-warning {
     margin-top: 3px;
     padding-top: 6px;
-    border-top: 1px solid var(--openbitfun-color-border-subtle);
-    color: var(--openbitfun-color-status-warning-content);
+    border-top: 1px solid var(--opcteam-color-border-subtle);
+    color: var(--opcteam-color-status-warning-content);
   }
 
   &__chevron {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     flex-shrink: 0;
     transition: transform 0.2s ease;
 
@@ -161,24 +161,24 @@ $model-mode-dust-sizes: ();
   // ==================== Dropdown menu ====================
 
   &__dropdown {
-    --openbitfun-model-dropdown-offset: -4px;
-    --openbitfun-overlay-menu-inline-size: min(280px, calc(100vw - 16px));
+    --opcteam-model-dropdown-offset: -4px;
+    --opcteam-overlay-menu-inline-size: min(280px, calc(100vw - 16px));
     // One geometry owner for manual, smart, pool and their loading state.
-    --_model-selector-card-height: calc(var(--openbitfun-space-16) * 2 + var(--openbitfun-space-2));
+    --_model-selector-card-height: calc(var(--opcteam-space-16) * 2 + var(--opcteam-space-2));
 
     // Non-row content uses the same typography as MenuItem's shared label slot.
-    font-family: var(--openbitfun-type-label-md-font-family);
-    font-size: var(--openbitfun-type-label-md-font-size);
-    font-weight: var(--openbitfun-type-label-md-font-weight);
-    line-height: var(--openbitfun-type-action-row-line-height);
-    letter-spacing: var(--openbitfun-type-label-md-letter-spacing);
+    font-family: var(--opcteam-type-label-md-font-family);
+    font-size: var(--opcteam-type-label-md-font-size);
+    font-weight: var(--opcteam-type-label-md-font-weight);
+    line-height: var(--opcteam-type-action-row-line-height);
+    letter-spacing: var(--opcteam-type-label-md-letter-spacing);
 
     position: fixed;
-    inline-size: var(--openbitfun-overlay-menu-inline-size);
+    inline-size: var(--opcteam-overlay-menu-inline-size);
     max-width: calc(100vw - 16px);
     border: 0;
-    border-radius: var(--openbitfun-radius-xl);
-    z-index: var(--openbitfun-layer-popover);
+    border-radius: var(--opcteam-radius-xl);
+    z-index: var(--opcteam-layer-popover);
     transform-origin: center top;
     transition:
       opacity 100ms ease,
@@ -187,12 +187,12 @@ $model-mode-dust-sizes: ();
     &[data-open='true']:not([data-keyboard-open='true']) {
       @starting-style {
         opacity: 0;
-        transform: translateY(var(--openbitfun-model-dropdown-offset)) scale(0.98);
+        transform: translateY(var(--opcteam-model-dropdown-offset)) scale(0.98);
       }
     }
 
     &[data-placement='top'] {
-      --openbitfun-model-dropdown-offset: 4px;
+      --opcteam-model-dropdown-offset: 4px;
       transform-origin: center bottom;
     }
 
@@ -210,24 +210,24 @@ $model-mode-dust-sizes: ();
 
     &[data-menu-level='settings'] {
       // All mode summaries share a borderless surface. Detail menus retain their insets.
-      --openbitfun-overlay-menu-surface-padding: 0px;
-      --openbitfun-overlay-menu-scrollbar-gap: 0px;
+      --opcteam-overlay-menu-surface-padding: 0px;
+      --opcteam-overlay-menu-scrollbar-gap: 0px;
 
       overflow: hidden;
       border: 0;
-      border-radius: var(--openbitfun-radius-lg);
-      background: var(--openbitfun-color-surface-raised);
-      box-shadow: var(--openbitfun-shadow-menu);
+      border-radius: var(--opcteam-radius-lg);
+      background: var(--opcteam-color-surface-raised);
+      box-shadow: var(--opcteam-shadow-menu);
 
       @supports (backdrop-filter: none) or (-webkit-backdrop-filter: none) {
         // Leave room for the nebula layers without hiding the blurred backdrop.
-        background: color-mix(in srgb, var(--openbitfun-color-surface-raised) 40%, transparent);
-        -webkit-backdrop-filter: var(--openbitfun-effect-blur-base);
-        backdrop-filter: var(--openbitfun-effect-blur-base);
+        background: color-mix(in srgb, var(--opcteam-color-surface-raised) 40%, transparent);
+        -webkit-backdrop-filter: var(--opcteam-effect-blur-base);
+        backdrop-filter: var(--opcteam-effect-blur-base);
       }
 
       @media (prefers-reduced-transparency: reduce) {
-        background: var(--openbitfun-color-surface-raised);
+        background: var(--opcteam-color-surface-raised);
         -webkit-backdrop-filter: none;
         backdrop-filter: none;
       }
@@ -239,36 +239,36 @@ $model-mode-dust-sizes: ();
     }
 
     &[data-model-mode='smart'][data-menu-level='settings'] {
-      --_model-mode-tint: color-mix(in oklch, var(--openbitfun-color-accent-secondary) 80%, var(--openbitfun-color-link-default));
+      --_model-mode-tint: color-mix(in oklch, var(--opcteam-color-accent-secondary) 80%, var(--opcteam-color-link-default));
       --_model-mode-sky: color-mix(
         in srgb,
-        var(--openbitfun-color-link-default) calc(12% * var(--_model-mode-sky-strength)),
-        var(--openbitfun-color-surface-raised)
+        var(--opcteam-color-link-default) calc(12% * var(--_model-mode-sky-strength)),
+        var(--opcteam-color-surface-raised)
       );
 
       @supports (color: oklch(from currentColor l c h)) {
         // Preserve the former peak reasoning sky's luminous blue-violet mixture.
         --_model-mode-tint: oklch(
-          from color-mix(in oklch, var(--openbitfun-color-accent-secondary) 80%, var(--openbitfun-color-link-default))
+          from color-mix(in oklch, var(--opcteam-color-accent-secondary) 80%, var(--opcteam-color-link-default))
           max(l, 0.65) max(c, 0.18) h
         );
       }
     }
 
     &[data-model-mode='pool'][data-menu-level='settings'] {
-      --_model-mode-tint: color-mix(in oklch, var(--openbitfun-color-status-success-emphasis) 72%, var(--openbitfun-color-link-default));
+      --_model-mode-tint: color-mix(in oklch, var(--opcteam-color-status-success-emphasis) 72%, var(--opcteam-color-link-default));
       --_model-mode-sky: color-mix(
         in srgb,
         var(--_model-mode-tint) calc(14% * var(--_model-mode-sky-strength)),
-        var(--openbitfun-color-surface-raised)
+        var(--opcteam-color-surface-raised)
       );
     }
 
     &[data-menu-level='settings']:is([data-model-mode='smart'], [data-model-mode='pool']) {
       --_model-mode-sky-strength: 1;
       --_model-mode-material-opacity: 40%;
-      --_model-mode-star: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 94%, var(--_model-mode-sky));
-      --_model-mode-star-soft: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 72%, transparent);
+      --_model-mode-star: color-mix(in srgb, var(--opcteam-color-content-on-dark) 94%, var(--_model-mode-sky));
+      --_model-mode-star-soft: color-mix(in srgb, var(--opcteam-color-content-on-dark) 72%, transparent);
 
       :where([data-color-scheme='dark']) & {
         --_model-mode-sky-strength: 0.38;
@@ -276,13 +276,13 @@ $model-mode-dust-sizes: ();
 
       isolation: isolate;
       overflow: hidden;
-      border-radius: var(--openbitfun-radius-lg);
+      border-radius: var(--opcteam-radius-lg);
       background-color: var(--_model-mode-sky);
       background-image:
         #{$model-mode-dust},
-        radial-gradient(ellipse at 18% 12%, color-mix(in srgb, var(--openbitfun-color-surface-panel) 18%, transparent), transparent 72%),
+        radial-gradient(ellipse at 18% 12%, color-mix(in srgb, var(--opcteam-color-surface-panel) 18%, transparent), transparent 72%),
         radial-gradient(ellipse at 86% 88%, color-mix(in srgb, var(--_model-mode-tint) calc(14% * var(--_model-mode-sky-strength)), transparent), transparent 76%),
-        linear-gradient(145deg, color-mix(in srgb, var(--openbitfun-color-surface-panel) 14%, transparent), transparent 48%, color-mix(in srgb, var(--_model-mode-tint) calc(10% * var(--_model-mode-sky-strength)), transparent));
+        linear-gradient(145deg, color-mix(in srgb, var(--opcteam-color-surface-panel) 14%, transparent), transparent 48%, color-mix(in srgb, var(--_model-mode-tint) calc(10% * var(--_model-mode-sky-strength)), transparent));
       background-size: #{$model-mode-dust-sizes}, auto, auto, auto;
       // The shared settings surface owns the soft menu shadow.
 
@@ -303,7 +303,7 @@ $model-mode-dust-sizes: ();
       &::after {
         content: '';
         position: absolute;
-        inset: calc(-1 * var(--openbitfun-space-6));
+        inset: calc(-1 * var(--opcteam-space-6));
         z-index: 0;
         pointer-events: none;
         background-repeat: no-repeat;
@@ -324,7 +324,7 @@ $model-mode-dust-sizes: ();
           radial-gradient(circle at 16% 87%, var(--_model-mode-star-soft) 0 0.45px, transparent 1px),
           radial-gradient(circle at 61% 91%, var(--_model-mode-star-soft) 0 0.45px, transparent 1px),
           radial-gradient(circle at 81% 12%, var(--_model-mode-star) 0 0.55px, transparent 1.2px),
-          radial-gradient(ellipse at 24% 36%, color-mix(in srgb, var(--openbitfun-color-surface-panel) 16%, transparent), transparent 72%);
+          radial-gradient(ellipse at 24% 36%, color-mix(in srgb, var(--opcteam-color-surface-panel) 16%, transparent), transparent 72%);
         animation:
           openbitfun-model-mode-drift 6s ease-in-out -0.6s infinite alternate,
           openbitfun-model-mode-twinkle 2.4s ease-in-out -0.25s infinite;
@@ -359,13 +359,13 @@ $model-mode-dust-sizes: ();
       :where([data-color-scheme='light']) & {
         // A luminous tinted base keeps the gray backdrop from dulling the moving clouds.
         --_model-mode-material-opacity: 84%;
-        --_model-mode-sky: color-mix(in oklch, var(--_model-mode-tint) 12%, var(--openbitfun-color-content-on-dark));
+        --_model-mode-sky: color-mix(in oklch, var(--_model-mode-tint) 12%, var(--opcteam-color-content-on-dark));
       }
 
       :where([data-color-scheme='dark']) & {
         // Give the moving color its own luminous base instead of a charcoal wash.
         --_model-mode-material-opacity: 78%;
-        --_model-mode-sky: color-mix(in oklch, var(--_model-mode-tint) 22%, var(--openbitfun-color-surface-raised));
+        --_model-mode-sky: color-mix(in oklch, var(--_model-mode-tint) 22%, var(--opcteam-color-surface-raised));
         --_model-mode-sky-strength: 0.52;
         --_model-mode-cloud-min-opacity: 0.2;
         --_model-mode-cloud-max-opacity: 0.62;
@@ -374,19 +374,19 @@ $model-mode-dust-sizes: ();
       // Multicolor clouds now identify Smart; reasoning uses one blue sky family.
       background-image:
         #{$model-mode-dust},
-        radial-gradient(ellipse 46% 70% at 50% 42%, color-mix(in srgb, var(--openbitfun-color-content-on-dark) calc(6% * var(--_model-mode-sky-strength)), transparent), transparent 80%),
-        radial-gradient(ellipse 58% 78% at 15% 100%, color-mix(in srgb, var(--openbitfun-color-link-default) calc(24% * var(--_model-mode-sky-strength)), transparent), transparent 76%),
+        radial-gradient(ellipse 46% 70% at 50% 42%, color-mix(in srgb, var(--opcteam-color-content-on-dark) calc(6% * var(--_model-mode-sky-strength)), transparent), transparent 80%),
+        radial-gradient(ellipse 58% 78% at 15% 100%, color-mix(in srgb, var(--opcteam-color-link-default) calc(24% * var(--_model-mode-sky-strength)), transparent), transparent 76%),
         linear-gradient(120deg,
           color-mix(in srgb, var(--_model-mode-tint) calc(56% * var(--_model-mode-sky-strength)), transparent),
-          color-mix(in srgb, var(--openbitfun-color-link-default) calc(44% * var(--_model-mode-sky-strength)), transparent) 48%,
+          color-mix(in srgb, var(--opcteam-color-link-default) calc(44% * var(--_model-mode-sky-strength)), transparent) 48%,
           color-mix(in srgb, var(--_model-mode-tint) calc(60% * var(--_model-mode-sky-strength)), transparent));
 
       &::before,
       &::after {
         inset: -26% -18%;
-        filter: var(--openbitfun-effect-blur-base);
+        filter: var(--opcteam-effect-blur-base);
         mask-image: radial-gradient(ellipse 42% 58% at 50% 44%,
-          transparent, var(--openbitfun-color-content-on-dark) 86%);
+          transparent, var(--opcteam-color-content-on-dark) 86%);
         opacity: calc(0.65 * var(--_model-mode-sky-strength));
         transform-origin: center;
         animation: openbitfun-model-smart-cloud 9s ease-in-out -3s infinite alternate;
@@ -394,8 +394,8 @@ $model-mode-dust-sizes: ();
 
       &::before {
         background-image:
-          radial-gradient(ellipse 44% 58% at 24% 62%, color-mix(in srgb, var(--openbitfun-color-link-default) 60%, transparent), transparent 76%),
-          radial-gradient(ellipse 36% 48% at 82% 22%, color-mix(in srgb, var(--openbitfun-color-link-default) 42%, transparent), transparent 78%);
+          radial-gradient(ellipse 44% 58% at 24% 62%, color-mix(in srgb, var(--opcteam-color-link-default) 60%, transparent), transparent 76%),
+          radial-gradient(ellipse 36% 48% at 82% 22%, color-mix(in srgb, var(--opcteam-color-link-default) 42%, transparent), transparent 78%);
       }
 
       &::after {
@@ -412,13 +412,13 @@ $model-mode-dust-sizes: ();
       // A light jade surface leaves translucency between the local clouds and cell reflections.
       --_model-mode-material-opacity: 64%;
       --_model-mode-sky-strength: 1;
-      --_model-mode-star: color-mix(in srgb, var(--_model-mode-tint) 72%, var(--openbitfun-color-content-on-dark));
+      --_model-mode-star: color-mix(in srgb, var(--_model-mode-tint) 72%, var(--opcteam-color-content-on-dark));
       --_model-mode-star-soft: color-mix(in srgb, var(--_model-mode-tint) 42%, transparent);
 
       :where([data-color-scheme='dark']) & {
         --_model-mode-sky-strength: 0.5;
-        --_model-mode-star: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 88%, var(--_model-mode-tint));
-        --_model-mode-star-soft: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 48%, transparent);
+        --_model-mode-star: color-mix(in srgb, var(--opcteam-color-content-on-dark) 88%, var(--_model-mode-tint));
+        --_model-mode-star-soft: color-mix(in srgb, var(--opcteam-color-content-on-dark) 48%, transparent);
       }
 
       // Broad color stays present between the cells; offset clouds keep the center quiet.
@@ -485,7 +485,7 @@ $model-mode-dust-sizes: ();
     padding: 0;
 
     &:not([data-model-mode]) {
-      padding-block-start: var(--openbitfun-space-1);
+      padding-block-start: var(--opcteam-space-1);
     }
 
     // Keep one layout while the reasoning control animates its content height in both directions.
@@ -555,8 +555,8 @@ $model-mode-dust-sizes: ();
     z-index: 2;
     display: grid;
     align-items: center;
-    padding-inline: var(--openbitfun-space-3);
-    transition: opacity 160ms var(--openbitfun-motion-easing-standard), transform 160ms var(--openbitfun-motion-easing-standard);
+    padding-inline: var(--opcteam-space-3);
+    transition: opacity 160ms var(--opcteam-motion-easing-standard), transform 160ms var(--opcteam-motion-easing-standard);
 
     @starting-style {
       opacity: 0;
@@ -564,25 +564,25 @@ $model-mode-dust-sizes: ();
     }
 
     [data-openbitfun-component='segmented-control'] {
-      gap: var(--openbitfun-space-1);
+      gap: var(--opcteam-space-1);
       padding: 0;
       background: transparent;
     }
 
     [data-openbitfun-part='segment'] {
-      block-size: var(--openbitfun-space-8);
-      padding-inline: var(--openbitfun-space-1);
-      color: var(--openbitfun-color-content-secondary);
-      font-weight: var(--openbitfun-type-label-md-font-weight);
+      block-size: var(--opcteam-space-8);
+      padding-inline: var(--opcteam-space-1);
+      color: var(--opcteam-color-content-secondary);
+      font-weight: var(--opcteam-type-label-md-font-weight);
 
       &:is(:hover, :focus-visible):not(:disabled),
       &[aria-pressed='true'] {
-        color: var(--openbitfun-color-content-primary);
-        background: var(--openbitfun-color-action-neutral-surface-hover);
+        color: var(--opcteam-color-content-primary);
+        background: var(--opcteam-color-action-neutral-surface-hover);
       }
 
       &:disabled {
-        color: var(--openbitfun-color-action-neutral-content-disabled);
+        color: var(--opcteam-color-action-neutral-content-disabled);
       }
     }
 
@@ -597,16 +597,16 @@ $model-mode-dust-sizes: ();
     inline-size: fit-content;
     min-inline-size: 0;
     max-inline-size: 100%;
-    min-block-size: calc(var(--openbitfun-space-6) + var(--openbitfun-space-1));
-    padding-inline: var(--openbitfun-space-2);
-    color: var(--openbitfun-color-content-primary);
+    min-block-size: calc(var(--opcteam-space-6) + var(--opcteam-space-1));
+    padding-inline: var(--opcteam-space-2);
+    color: var(--opcteam-color-content-primary);
 
     [data-openbitfun-part='label'] {
-      font-family: var(--openbitfun-type-heading-section-font-family);
-      font-size: var(--openbitfun-type-heading-section-font-size);
-      font-weight: var(--openbitfun-type-heading-section-font-weight);
-      line-height: var(--openbitfun-type-heading-section-line-height);
-      letter-spacing: var(--openbitfun-type-heading-section-letter-spacing);
+      font-family: var(--opcteam-type-heading-section-font-family);
+      font-size: var(--opcteam-type-heading-section-font-size);
+      font-weight: var(--opcteam-type-heading-section-font-weight);
+      line-height: var(--opcteam-type-heading-section-line-height);
+      letter-spacing: var(--opcteam-type-heading-section-letter-spacing);
     }
   }
 
@@ -617,10 +617,10 @@ $model-mode-dust-sizes: ();
     align-items: center;
     justify-content: center;
     // Identity and its secondary control form one compact information group.
-    gap: calc(var(--openbitfun-space-1) / 2);
+    gap: calc(var(--opcteam-space-1) / 2);
     min-inline-size: 0;
     min-block-size: 0;
-    padding: var(--openbitfun-space-2) var(--openbitfun-space-3) 0;
+    padding: var(--opcteam-space-2) var(--opcteam-space-3) 0;
   }
 
   &__model-field {
@@ -637,9 +637,9 @@ $model-mode-dust-sizes: ();
     inline-size: fit-content;
     min-inline-size: 0;
     max-inline-size: 100%;
-    min-block-size: var(--openbitfun-space-5);
-    padding-inline: var(--openbitfun-space-1);
-    color: var(--openbitfun-color-content-secondary);
+    min-block-size: var(--opcteam-space-5);
+    padding-inline: var(--opcteam-space-1);
+    color: var(--opcteam-color-content-secondary);
 
     [data-openbitfun-part='trigger'],
     [data-openbitfun-part='label'] {
@@ -680,7 +680,7 @@ $model-mode-dust-sizes: ();
     }
 
     .openbitfun-reasoning-control__value {
-      color: var(--openbitfun-color-content-secondary);
+      color: var(--opcteam-color-content-secondary);
     }
 
     .openbitfun-reasoning-control {
@@ -702,21 +702,21 @@ $model-mode-dust-sizes: ();
     align-items: center;
     justify-content: space-between;
     flex: 0 0 auto;
-    padding-block-end: var(--openbitfun-space-1);
-    padding-inline: var(--openbitfun-space-2);
+    padding-block-end: var(--opcteam-space-1);
+    padding-inline: var(--opcteam-space-2);
 
     .openbitfun-model-selector__mode-control,
     .openbitfun-model-selector__provider-control {
-      min-block-size: var(--openbitfun-space-5);
+      min-block-size: var(--opcteam-space-5);
       margin-inline-start: 0;
-      color: var(--openbitfun-color-content-secondary);
+      color: var(--opcteam-color-content-secondary);
 
       [data-openbitfun-part='label'] {
-        font-family: var(--openbitfun-type-label-sm-font-family);
-        font-size: var(--openbitfun-type-label-sm-font-size);
-        font-weight: var(--openbitfun-type-label-md-font-weight);
-        line-height: var(--openbitfun-type-label-sm-line-height);
-        letter-spacing: var(--openbitfun-type-label-sm-letter-spacing);
+        font-family: var(--opcteam-type-label-sm-font-family);
+        font-size: var(--opcteam-type-label-sm-font-size);
+        font-weight: var(--opcteam-type-label-md-font-weight);
+        line-height: var(--opcteam-type-label-sm-line-height);
+        letter-spacing: var(--opcteam-type-label-sm-letter-spacing);
       }
     }
 
@@ -754,15 +754,15 @@ $model-mode-dust-sizes: ();
     inline-size: fit-content;
     min-inline-size: 0;
     max-inline-size: 100%;
-    min-block-size: var(--openbitfun-overlay-menu-item-height);
-    margin-inline-start: calc(-1 * var(--openbitfun-space-1));
-    padding-inline: var(--openbitfun-space-1);
+    min-block-size: var(--opcteam-overlay-menu-item-height);
+    margin-inline-start: calc(-1 * var(--opcteam-space-1));
+    padding-inline: var(--opcteam-space-1);
   }
 
   &__option-main {
     display: flex;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
     min-width: 0;
     flex: 1;
   }
@@ -778,11 +778,11 @@ $model-mode-dust-sizes: ();
 
   &__option-selected-check {
     flex-shrink: 0;
-    color: var(--openbitfun-color-status-success-content);
+    color: var(--opcteam-color-status-success-content);
   }
 
   &__option-provider {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 
   &__option-meta {
@@ -793,8 +793,8 @@ $model-mode-dust-sizes: ();
   }
 
   &__option-subdesc {
-    font-size: var(--openbitfun-type-flow-support-font-size);
-    color: var(--openbitfun-color-content-muted);
+    font-size: var(--opcteam-type-flow-support-font-size);
+    color: var(--opcteam-color-content-muted);
     white-space: nowrap;
     overflow: hidden;
   }
@@ -815,11 +815,11 @@ $model-mode-dust-sizes: ();
 
 @keyframes openbitfun-model-mode-drift {
   from {
-    transform: translate3d(calc(-1 * var(--openbitfun-space-2)), var(--openbitfun-space-1), 0);
+    transform: translate3d(calc(-1 * var(--opcteam-space-2)), var(--opcteam-space-1), 0);
   }
 
   to {
-    transform: translate3d(var(--openbitfun-space-2), calc(-1 * var(--openbitfun-space-1)), 0);
+    transform: translate3d(var(--opcteam-space-2), calc(-1 * var(--opcteam-space-1)), 0);
   }
 }
 

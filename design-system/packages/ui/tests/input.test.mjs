@@ -59,19 +59,19 @@ test("Input supports compact capsule editing without leaking shape or size to th
   assert.match(markup, /<input[^>]*aria-label="Tag"/);
   assert.doesNotMatch(markup, /<input[^>]*\s(?:shape|size)=/);
   const styles = await readFile(new URL("../src/components/Input/Input.module.css", import.meta.url), "utf8");
-  assert.match(styles, /\[data-size="xs"\][\s\S]*?--_field-height: var\(--openbitfun-control-button-xs-height\)/);
-  assert.match(styles, /\[data-shape="pill"\][\s\S]*?border-radius: var\(--openbitfun-radius-pill\)/);
+  assert.match(styles, /\[data-size="xs"\][\s\S]*?--_field-height: var\(--opcteam-control-button-xs-height\)/);
+  assert.match(styles, /\[data-shape="pill"\][\s\S]*?border-radius: var\(--opcteam-radius-pill\)/);
 });
 
 test("Input styles consume semantic field and status tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-color-field-background/);
-  assert.match(styles, /--openbitfun-color-field-border-active/);
-  assert.match(styles, /--openbitfun-color-content-muted/);
-  assert.match(styles, /--openbitfun-color-status-danger-border/);
-  assert.match(styles, /--openbitfun-control-height-sm/);
-  assert.match(styles, /caret-color:var\(--openbitfun-color-accent-default\)/);
+  assert.match(styles, /--opcteam-color-field-background/);
+  assert.match(styles, /--opcteam-color-field-border-active/);
+  assert.match(styles, /--opcteam-color-content-muted/);
+  assert.match(styles, /--opcteam-color-status-danger-border/);
+  assert.match(styles, /--opcteam-control-height-sm/);
+  assert.match(styles, /caret-color:var\(--opcteam-color-accent-default\)/);
   assert.doesNotMatch(
     styles,
     /\.field\[data-disabled=(?:"true"|true)\]\{[^}]*opacity:/,

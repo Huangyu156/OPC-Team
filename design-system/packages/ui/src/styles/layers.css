@@ -1,35 +1,35 @@
-@layer openbitfun.tokens.system, openbitfun.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;
+@layer opcteam.tokens.system, opcteam.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;
 
 @layer openbitfun.reset {
-  [data-openbitfun-design-system-root],
-  [data-openbitfun-design-system-root] *,
-  [data-openbitfun-design-system-root] *::before,
-  [data-openbitfun-design-system-root] *::after {
+  [data-opcteam-design-system-root],
+  [data-opcteam-design-system-root] *,
+  [data-opcteam-design-system-root] *::before,
+  [data-opcteam-design-system-root] *::after {
     box-sizing: border-box;
   }
 
-  [data-openbitfun-design-system-root] button,
-  [data-openbitfun-design-system-root] input,
-  [data-openbitfun-design-system-root] textarea,
-  [data-openbitfun-design-system-root] select {
+  [data-opcteam-design-system-root] button,
+  [data-opcteam-design-system-root] input,
+  [data-opcteam-design-system-root] textarea,
+  [data-opcteam-design-system-root] select {
     font: inherit;
   }
 }
 
 @layer openbitfun.base {
-  [data-openbitfun-design-system-root] select option,
-  [data-openbitfun-design-system-root] select optgroup {
-    color: var(--openbitfun-color-content-primary);
-    background-color: var(--openbitfun-color-surface-panel);
+  [data-opcteam-design-system-root] select option,
+  [data-opcteam-design-system-root] select optgroup {
+    color: var(--opcteam-color-content-primary);
+    background-color: var(--opcteam-color-surface-panel);
   }
 
-  [data-openbitfun-design-system-root] select option:disabled {
-    color: var(--openbitfun-color-content-disabled);
+  [data-opcteam-design-system-root] select option:disabled {
+    color: var(--opcteam-color-content-disabled);
   }
 
   @media (forced-colors: active) {
-    [data-openbitfun-design-system-root] select option,
-    [data-openbitfun-design-system-root] select optgroup {
+    [data-opcteam-design-system-root] select option,
+    [data-opcteam-design-system-root] select optgroup {
       color: FieldText;
       background-color: Field;
     }
@@ -44,6 +44,6 @@
    */
   [data-openbitfun-icon-slot="true"] > :where(svg.lucide[stroke-width="2"]) {
     color: inherit;
-    stroke-width: var(--openbitfun-control-icon-stroke-width);
+    stroke-width: var(--opcteam-control-icon-stroke-width);
   }
 }

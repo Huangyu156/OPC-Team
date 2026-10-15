@@ -1,20 +1,20 @@
 @layer openbitfun.components {
   .prominentRoot,
   .ambientRoot {
-    --_tool-card-font-family: var(--openbitfun-type-body-sm-font-family);
-    --_tool-card-font-size: var(--openbitfun-type-body-sm-font-size);
-    --_tool-card-title-font-weight: var(--openbitfun-type-label-lg-font-weight);
-    --_tool-card-content-font-weight: var(--openbitfun-type-body-sm-font-weight);
-    --_tool-card-action-size: var(--openbitfun-space-6);
-    --_flow-chat-tool-card-icon-size: var(--openbitfun-font-size-xl);
-    --_tool-card-transition: var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    --_tool-card-font-family: var(--opcteam-type-body-sm-font-family);
+    --_tool-card-font-size: var(--opcteam-type-body-sm-font-size);
+    --_tool-card-title-font-weight: var(--opcteam-type-label-lg-font-weight);
+    --_tool-card-content-font-weight: var(--opcteam-type-body-sm-font-weight);
+    --_tool-card-action-size: var(--opcteam-space-6);
+    --_flow-chat-tool-card-icon-size: var(--opcteam-font-size-xl);
+    --_tool-card-transition: var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     box-sizing: border-box;
     display: flex;
     inline-size: 100%;
     min-inline-size: 0;
     flex-direction: column;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
     font-family: var(--_tool-card-font-family);
     font-size: var(--_tool-card-font-size);
     font-variant-numeric: proportional-nums;
@@ -22,12 +22,12 @@
   }
 
   .prominentRoot {
-    --_tool-card-action-size: var(--openbitfun-space-5);
+    --_tool-card-action-size: var(--opcteam-space-5);
     overflow: hidden;
     margin-block: 0;
-    border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-default);
-    border-radius: var(--openbitfun-control-activity-item-surface-radius);
-    background: var(--openbitfun-color-surface-panel);
+    border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-default);
+    border-radius: var(--opcteam-control-activity-item-surface-radius);
+    background: var(--opcteam-color-surface-panel);
     box-shadow: none;
     transition:
       border-color var(--_tool-card-transition),
@@ -37,16 +37,16 @@
   .prominentRoot:is(:hover, :focus-within),
   .prominentRoot[data-openbitfun-preview-state="hover"],
   :global([data-openbitfun-preview-state="hover"]) .prominentRoot {
-    border-color: var(--openbitfun-color-border-strong);
+    border-color: var(--opcteam-color-border-strong);
   }
 
   .prominentRoot[data-openbitfun-state~="confirmation"] {
-    border-color: var(--openbitfun-color-status-warning-border);
+    border-color: var(--opcteam-color-status-warning-border);
   }
 
   .prominentRoot[data-openbitfun-status="cancelled"],
   .prominentRoot[data-openbitfun-status="rejected"] {
-    opacity: var(--openbitfun-opacity-muted);
+    opacity: var(--opcteam-opacity-muted);
   }
 
   .surface {
@@ -81,11 +81,11 @@
     position: relative;
     /* The root owns the two border pixels; the summary owns a 20px line and
        9px padding at each edge. Larger user typography can still grow the row. */
-    min-block-size: calc(var(--openbitfun-control-activity-item-surface-height) - 2 * var(--openbitfun-border-width-default));
-    gap: var(--openbitfun-space-2);
-    padding-block: var(--openbitfun-control-activity-item-surface-padding-block);
-    padding-inline: var(--openbitfun-control-flow-chat-card-padding-inline);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    min-block-size: calc(var(--opcteam-control-activity-item-surface-height) - 2 * var(--opcteam-border-width-default));
+    gap: var(--opcteam-space-2);
+    padding-block: var(--opcteam-control-activity-item-surface-padding-block);
+    padding-inline: var(--opcteam-control-flow-chat-card-padding-inline);
+    line-height: var(--opcteam-type-body-sm-line-height);
   }
 
   /* The summary owns disclosure; its native keyboard target takes no row space
@@ -102,8 +102,8 @@
   }
 
   .summaryToggleButton:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: calc(-1 * var(--openbitfun-focus-width));
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: calc(-1 * var(--opcteam-focus-width));
   }
 
   .actionLabel,
@@ -136,7 +136,7 @@
     overflow: hidden;
     /* Preserve the action label; the adjacent content owns truncation. */
     flex: 0 0 auto;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
     font-weight: var(--_tool-card-title-font-weight);
     white-space: nowrap;
   }
@@ -148,8 +148,8 @@
     min-inline-size: 0;
     flex: 1 1 0;
     align-items: center;
-    gap: var(--openbitfun-space-2);
-    color: var(--openbitfun-color-content-secondary);
+    gap: var(--opcteam-space-2);
+    color: var(--opcteam-color-content-secondary);
     font-weight: var(--_tool-card-content-font-weight);
     white-space: nowrap;
   }
@@ -170,7 +170,7 @@
     flex: 0 1 auto;
     align-items: center;
     min-inline-size: 0;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
   .summaryText .content {
@@ -180,7 +180,7 @@
   /* Full-size button hit targets stay centered in the text line. Mounting or
      revealing actions must not add their control height to the summary. */
   .prominentSummary .actionRegion {
-    block-size: var(--openbitfun-space-5);
+    block-size: var(--opcteam-space-5);
     margin-inline-start: auto;
   }
 
@@ -188,7 +188,7 @@
      their keyboard targets mounted. Primary actions stay in the normal flow. */
   .prominentSummary .hoverActions {
     position: absolute;
-    inset-inline-end: var(--openbitfun-control-flow-chat-card-padding-inline);
+    inset-inline-end: var(--opcteam-control-flow-chat-card-padding-inline);
     pointer-events: none;
   }
 
@@ -214,9 +214,9 @@
     align-items: center;
     min-inline-size: 0;
     overflow: hidden;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
     margin-inline-start: auto;
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     font-weight: var(--_tool-card-content-font-weight);
   }
 
@@ -243,8 +243,8 @@
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
-    gap: var(--openbitfun-space-1);
-    color: var(--openbitfun-color-content-muted);
+    gap: var(--opcteam-space-1);
+    color: var(--opcteam-color-content-muted);
     font-family: var(--_tool-card-font-family);
     font-size: var(--_tool-card-font-size);
     font-weight: var(--_tool-card-content-font-weight);
@@ -252,15 +252,15 @@
   }
 
   .changeSummary [data-openbitfun-change="added"] {
-    color: var(--openbitfun-color-code-diff-added-marker);
+    color: var(--opcteam-color-code-diff-added-marker);
   }
 
   .changeSummary [data-openbitfun-change="removed"] {
-    color: var(--openbitfun-color-code-diff-removed-marker);
+    color: var(--opcteam-color-code-diff-removed-marker);
   }
 
   .actionRegion {
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   .subject {
@@ -269,7 +269,7 @@
     max-inline-size: 100%;
     flex: 0 1 auto;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   .subjectText {
@@ -286,7 +286,7 @@
   .toolCardActions[data-reveal="hover"] {
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .toolCardActions[data-reveal="hover"]:has(:focus-visible),
@@ -304,16 +304,16 @@
 
   .affordanceButton {
     display: inline-flex;
-    inline-size: var(--openbitfun-space-6);
-    block-size: var(--openbitfun-space-6);
+    inline-size: var(--opcteam-space-6);
+    block-size: var(--opcteam-space-6);
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: var(--openbitfun-radius-sm);
-    color: var(--openbitfun-color-content-muted);
+    border-radius: var(--opcteam-radius-sm);
+    color: var(--opcteam-color-content-muted);
     background: transparent;
     cursor: pointer;
     transition:
@@ -322,19 +322,19 @@
   }
 
   .affordanceButton:is(:hover, [data-openbitfun-preview-state="hover"]) {
-    color: var(--openbitfun-color-content-primary);
-    background: var(--openbitfun-color-action-neutral-surface);
+    color: var(--opcteam-color-content-primary);
+    background: var(--opcteam-color-action-neutral-surface);
   }
 
   .affordanceButton:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .affordanceButton > :where(svg, img, [data-openbitfun-component="icon"]) {
     display: block;
-    inline-size: var(--openbitfun-font-size-base);
-    block-size: var(--openbitfun-font-size-base);
+    inline-size: var(--opcteam-font-size-base);
+    block-size: var(--opcteam-font-size-base);
   }
 
   .affordanceButton[aria-expanded="true"] :global(svg) {
@@ -348,7 +348,7 @@
   .toolCardActions {
     display: inline-flex;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   .toolCardActions:empty {
@@ -362,9 +362,9 @@
   }
 
   .trailingActions[data-divider="true"] {
-    margin-inline-start: var(--openbitfun-space-1);
-    padding-inline-start: var(--openbitfun-space-2);
-    border-inline-start: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
+    margin-inline-start: var(--opcteam-space-1);
+    padding-inline-start: var(--opcteam-space-2);
+    border-inline-start: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   }
 
   .iconSlot {
@@ -377,12 +377,12 @@
     min-block-size: var(--_flow-chat-tool-card-icon-size);
     align-items: center;
     justify-content: center;
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
   }
 
   .iconSlot[data-divider="true"] {
-    margin-inline-end: var(--openbitfun-space-1);
-    border-inline-end: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
+    margin-inline-end: var(--opcteam-space-1);
+    border-inline-end: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   }
 
   .iconMarks {
@@ -418,7 +418,7 @@
   }
 
   .inlineAffordance {
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
     opacity: 0;
   }
 
@@ -445,37 +445,37 @@
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: var(--openbitfun-radius-sm);
+    border-radius: var(--opcteam-radius-sm);
     outline: 0;
     background: transparent;
     cursor: pointer;
   }
 
   .iconAffordanceHit:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .statusIcon {
-    inline-size: var(--openbitfun-font-size-lg);
-    block-size: var(--openbitfun-font-size-lg);
+    inline-size: var(--opcteam-font-size-lg);
+    block-size: var(--opcteam-font-size-lg);
     justify-content: center;
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 
   .statusIcon[data-divider="true"] {
     box-sizing: content-box;
-    margin-inline-start: var(--openbitfun-space-1);
-    padding-inline-start: var(--openbitfun-space-2);
-    border-inline-start: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
+    margin-inline-start: var(--opcteam-space-1);
+    padding-inline-start: var(--opcteam-space-2);
+    border-inline-start: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   }
 
   .prominentRoot[data-openbitfun-status="completed"] .statusIcon {
-    color: var(--openbitfun-color-status-success-emphasis);
+    color: var(--opcteam-color-status-success-emphasis);
   }
 
   .prominentRoot[data-openbitfun-status="error"] .statusIcon {
-    color: var(--openbitfun-color-status-danger-emphasis);
+    color: var(--opcteam-color-status-danger-emphasis);
   }
 
   .collapse {
@@ -484,8 +484,8 @@
     opacity: 0;
     visibility: hidden;
     transition:
-      grid-template-rows var(--_tool-card-collapse-duration) var(--openbitfun-motion-easing-standard),
-      opacity var(--_tool-card-collapse-duration) var(--openbitfun-motion-easing-standard),
+      grid-template-rows var(--_tool-card-collapse-duration) var(--opcteam-motion-easing-standard),
+      opacity var(--_tool-card-collapse-duration) var(--opcteam-motion-easing-standard),
       visibility 0s linear var(--_tool-card-collapse-duration);
   }
 
@@ -508,11 +508,11 @@
   .expanded,
   .error {
     box-sizing: border-box;
-    padding: var(--openbitfun-space-3) var(--openbitfun-control-flow-chat-card-padding-inline);
-    border-block-start: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-md-line-height);
+    padding: var(--opcteam-space-3) var(--opcteam-control-flow-chat-card-padding-inline);
+    border-block-start: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-md-line-height);
   }
 
   .expandedFlush {
@@ -520,37 +520,37 @@
   }
 
   .error {
-    color: var(--openbitfun-color-status-danger-content);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   .ambientRoot {
-    --_tool-card-confirmation-icon-color: var(--openbitfun-color-status-warning-emphasis);
+    --_tool-card-confirmation-icon-color: var(--opcteam-color-status-warning-emphasis);
     position: relative;
     gap: 0;
-    border-radius: var(--openbitfun-radius-md);
-    color: var(--openbitfun-color-content-muted);
+    border-radius: var(--opcteam-radius-md);
+    color: var(--opcteam-color-content-muted);
     background-color: transparent;
-    line-height: var(--openbitfun-type-body-md-line-height);
+    line-height: var(--opcteam-type-body-md-line-height);
     transition: background-color var(--_tool-card-transition);
   }
 
   .ambientRoot[data-openbitfun-direct-action="true"] {
-    border-radius: var(--openbitfun-radius-sm);
+    border-radius: var(--opcteam-radius-sm);
     cursor: pointer;
   }
 
   .ambientRoot[data-openbitfun-direct-action="true"]:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .ambientSurface {
     display: flex;
-    min-block-size: max(1lh, var(--openbitfun-control-tool-card-ambient-row-min-block-size));
+    min-block-size: max(1lh, var(--opcteam-control-tool-card-ambient-row-min-block-size));
     align-items: center;
-    gap: var(--openbitfun-control-flow-chat-row-icon-gap);
+    gap: var(--opcteam-control-flow-chat-row-icon-gap);
     padding-block: 0;
-    padding-inline: 0 var(--openbitfun-space-2);
+    padding-inline: 0 var(--opcteam-space-2);
     border: 0;
     background: transparent;
     box-shadow: none;
@@ -564,8 +564,8 @@
      Capsules retain their own control geometry. */
   .ambientRoot:not([data-tool-capsule="true"])
     > .ambientSurface .toolCardActions [data-openbitfun-component="icon-button"] {
-    inline-size: var(--openbitfun-control-tool-card-ambient-row-min-block-size);
-    block-size: var(--openbitfun-control-tool-card-ambient-row-min-block-size);
+    inline-size: var(--opcteam-control-tool-card-ambient-row-min-block-size);
+    block-size: var(--opcteam-control-tool-card-ambient-row-min-block-size);
   }
 
   .ambientSurface[data-openbitfun-interactive="true"] {
@@ -575,18 +575,18 @@
   .ambientSurface:is(:hover, :focus-within),
   .ambientRoot[data-openbitfun-preview-state="hover"] .ambientSurface,
   :global([data-openbitfun-preview-state="hover"]) .ambientRoot .ambientSurface {
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   .ambientSurface .iconSlot {
-    --_tool-card-action-size: var(--openbitfun-control-flow-chat-row-icon-size);
-    --_flow-chat-tool-card-icon-size: var(--openbitfun-control-flow-chat-row-icon-size);
+    --_tool-card-action-size: var(--opcteam-control-flow-chat-row-icon-size);
+    --_flow-chat-tool-card-icon-size: var(--opcteam-control-flow-chat-row-icon-size);
   }
 
   .iconSlot:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
-    border-radius: var(--openbitfun-radius-sm);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
+    border-radius: var(--opcteam-radius-sm);
   }
 
   /* Confirmation changes the leading icon, not the ambient card's frame.
@@ -626,7 +626,7 @@
   .ambientContent {
     display: flex;
     align-items: center;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
     min-inline-size: 0;
     flex: 0 1 auto;
     color: inherit;
@@ -651,9 +651,9 @@
 
   .ambientResult,
   .ambientSubject[data-variant="tinted"] {
-    padding-inline: var(--openbitfun-space-1);
-    border-radius: var(--openbitfun-radius-sm);
-    background: var(--openbitfun-color-action-neutral-surface);
+    padding-inline: var(--opcteam-space-1);
+    border-radius: var(--opcteam-radius-sm);
+    background: var(--opcteam-color-action-neutral-surface);
   }
 
   .ambientSubject > *,
@@ -677,17 +677,17 @@
   /* Expanded headers and evidence use the same content edges. Collapsed traces
      retain their conversation baseline; specialized shells own their header. */
   .ambientExpandedShell > .ambientSurface {
-    padding-inline: var(--openbitfun-control-flow-chat-card-padding-inline);
+    padding-inline: var(--opcteam-control-flow-chat-card-padding-inline);
   }
 
   /* Keep the gap inside the retained collapse, so closing leaves no empty
      space. Flush bodies still own their existing output and footer padding. */
   .ambientExpanded {
     overflow: hidden;
-    margin-block-start: var(--openbitfun-space-2);
+    margin-block-start: var(--opcteam-space-2);
     border-block-start: 0;
-    border-radius: var(--openbitfun-radius-md);
-    background: var(--openbitfun-color-surface-tertiary);
+    border-radius: var(--opcteam-radius-md);
+    background: var(--opcteam-color-surface-tertiary);
   }
 
   /* Ambient evidence shares one surface, including host-provided code fields.
@@ -702,7 +702,7 @@
 
   .prominentRoot[data-openbitfun-state~="loading"] .actionLabel,
   .prominentRoot[data-openbitfun-state~="loading"] .content {
-    animation: openbitfun-flow-chat-tool-loading var(--openbitfun-motion-duration-loop) var(--openbitfun-motion-easing-standard) infinite alternate;
+    animation: openbitfun-flow-chat-tool-loading var(--opcteam-motion-duration-loop) var(--opcteam-motion-easing-standard) infinite alternate;
   }
 
   .prominentRoot[data-openbitfun-state~="loading"] .summaryText[data-active="true"] :is(.actionLabel, .content) {
@@ -715,32 +715,32 @@
     }
 
     to {
-      opacity: var(--openbitfun-opacity-hover);
+      opacity: var(--opcteam-opacity-hover);
     }
   }
 
   .ambientRoot[data-tool-capsule="true"] {
-    inline-size: var(--openbitfun-control-flow-chat-capsule-inline-size);
+    inline-size: var(--opcteam-control-flow-chat-capsule-inline-size);
     max-inline-size: 100%;
-    border-radius: var(--openbitfun-radius-pill);
-    color: var(--openbitfun-color-content-secondary);
+    border-radius: var(--opcteam-radius-pill);
+    color: var(--opcteam-color-content-secondary);
   }
 
   .ambientRoot[data-tool-capsule="true"] .ambientSurface {
     position: relative;
-    z-index: var(--openbitfun-layer-content);
+    z-index: var(--opcteam-layer-content);
     isolation: isolate;
     min-inline-size: 0;
-    min-block-size: var(--openbitfun-control-height-sm);
+    min-block-size: var(--opcteam-control-height-sm);
     max-inline-size: 100%;
-    gap: var(--openbitfun-control-flow-chat-row-icon-gap);
-    padding: var(--openbitfun-space-1) var(--openbitfun-space-2);
-    border-radius: var(--openbitfun-radius-pill);
+    gap: var(--opcteam-control-flow-chat-row-icon-gap);
+    padding: var(--opcteam-space-1) var(--opcteam-space-2);
+    border-radius: var(--opcteam-radius-pill);
     background: transparent;
     color: inherit;
     font: inherit;
     text-align: start;
-    line-height: var(--openbitfun-type-flow-support-line-height);
+    line-height: var(--opcteam-type-flow-support-line-height);
   }
 
   .capsuleSkin {
@@ -748,17 +748,17 @@
     z-index: -1;
     inset: 0;
     border-radius: inherit;
-    background: var(--openbitfun-color-action-quiet-hover);
+    background: var(--opcteam-color-action-quiet-hover);
     pointer-events: none;
     transition: background-color var(--_tool-card-transition);
   }
 
   .ambientRoot[data-tool-capsule="true"] .ambientSurface[data-openbitfun-interactive="true"]:is(:hover, :focus-visible) > .capsuleSkin {
-    background: var(--openbitfun-color-action-quiet-pressed);
+    background: var(--opcteam-color-action-quiet-pressed);
   }
 
   .ambientRoot[data-tool-capsule="true"][data-openbitfun-status="error"]:not(.ambientExpandedShell) .ambientSurface {
-    border-radius: var(--openbitfun-radius-md);
+    border-radius: var(--opcteam-radius-md);
   }
 
   .ambientRoot[data-capsule-motion="failure"] {
@@ -766,8 +766,8 @@
   }
 
   .ambientRoot[data-tool-capsule="true"] .ambientSurface:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: calc(-1 * var(--openbitfun-focus-width));
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: calc(-1 * var(--opcteam-focus-width));
   }
 
   .ambientRoot[data-tool-capsule="true"] .ambientContent {
@@ -777,13 +777,13 @@
   }
 
   .ambientRoot[data-tool-capsule="true"] .ambientSurface .iconSlot {
-    --_tool-card-action-size: var(--openbitfun-control-flow-chat-row-icon-size);
-    --_flow-chat-tool-card-icon-size: var(--openbitfun-control-flow-chat-row-icon-size);
+    --_tool-card-action-size: var(--opcteam-control-flow-chat-row-icon-size);
+    --_flow-chat-tool-card-icon-size: var(--opcteam-control-flow-chat-row-icon-size);
   }
 
   .ambientRoot[data-tool-capsule="true"].ambientExpandedShell {
     inline-size: 100%;
-    border-radius: var(--openbitfun-radius-md);
+    border-radius: var(--opcteam-radius-md);
   }
 
   .ambientRoot[data-tool-capsule="true"] > .collapse {
@@ -796,7 +796,7 @@
   .ambientRoot[data-capsule-motion="recall"] > .collapse {
     /* The inner recall owns opacity; keep the outer collapse from fading twice. */
     opacity: 1;
-    transition-timing-function: var(--openbitfun-motion-easing-smooth);
+    transition-timing-function: var(--opcteam-motion-easing-smooth);
   }
 
   .ambientRoot[data-tool-capsule="true"]:not(.ambientExpandedShell) > .collapse .collapseInner {
@@ -806,8 +806,8 @@
   .capsuleStatus {
     display: inline-flex;
     flex: 0 0 auto;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-label-sm-font-size);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-label-sm-font-size);
   }
 
   .capsuleExtra {
@@ -819,16 +819,16 @@
 
   /* AgentWait shares the Subagent card's transparent leading edge. */
   .ambientRoot[data-tool-capsule="true"][data-openbitfun-tool-card="agent-wait"] {
-    border-radius: var(--openbitfun-radius-sm);
+    border-radius: var(--opcteam-radius-sm);
   }
 
   .ambientRoot[data-tool-capsule="true"][data-openbitfun-tool-card="agent-wait"] .ambientSurface {
     align-items: flex-end;
     align-items: last baseline;
-    gap: var(--openbitfun-control-flow-chat-row-icon-gap);
+    gap: var(--opcteam-control-flow-chat-row-icon-gap);
     padding-block: 0;
-    padding-inline: var(--openbitfun-space-1) var(--openbitfun-space-2);
-    border-radius: var(--openbitfun-radius-sm);
+    padding-inline: var(--opcteam-space-1) var(--opcteam-space-2);
+    border-radius: var(--opcteam-radius-sm);
   }
 
   .ambientRoot[data-tool-capsule="true"][data-openbitfun-tool-card="agent-wait"] .capsuleExtra {
@@ -840,12 +840,12 @@
   }
 
   .ambientRoot[data-tool-capsule="true"][data-openbitfun-status="error"] .capsuleStatus {
-    color: var(--openbitfun-color-status-danger-content);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   .capsuleChevron {
-    inline-size: var(--openbitfun-space-3);
-    block-size: var(--openbitfun-space-3);
+    inline-size: var(--opcteam-space-3);
+    block-size: var(--opcteam-space-3);
     flex: 0 0 auto;
     transition: transform var(--_tool-card-transition);
   }
@@ -856,27 +856,27 @@
 
   .capsuleDetails {
     display: grid;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
     min-inline-size: 0;
   }
 
   .capsuleDetailLabel {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 
   .capsuleDetails pre {
     max-block-size: 18rem;
     overflow: auto;
-    margin: var(--openbitfun-space-1) 0 0;
+    margin: var(--opcteam-space-1) 0 0;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
     font-family: inherit;
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
   @media (pointer: coarse) {
     .ambientRoot[data-tool-capsule="true"] .ambientSurface {
-      min-block-size: var(--openbitfun-control-height-lg);
+      min-block-size: var(--opcteam-control-height-lg);
     }
   }
 
@@ -923,8 +923,8 @@
     }
 
     .ambientRoot[data-tool-capsule="true"] .ambientSurface {
-      outline: var(--openbitfun-border-width-default) solid ButtonText;
-      outline-offset: calc(-1 * var(--openbitfun-border-width-default));
+      outline: var(--opcteam-border-width-default) solid ButtonText;
+      outline-offset: calc(-1 * var(--opcteam-border-width-default));
     }
 
     .prominentRoot {
@@ -934,8 +934,8 @@
     .ambientResult,
     .ambientSubject[data-variant="tinted"],
     .ambientExpanded {
-      outline: var(--openbitfun-border-width-default) solid CanvasText;
-      outline-offset: calc(-1 * var(--openbitfun-border-width-default));
+      outline: var(--opcteam-border-width-default) solid CanvasText;
+      outline-offset: calc(-1 * var(--opcteam-border-width-default));
     }
 
     .iconAffordanceHit:focus-visible {

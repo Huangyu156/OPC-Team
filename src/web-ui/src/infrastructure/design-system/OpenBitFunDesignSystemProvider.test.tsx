@@ -50,7 +50,7 @@ describe('OpenBitFunDesignSystemProvider', () => {
       );
     });
 
-    expect(document.documentElement.getAttribute('data-openbitfun-design-system-root')).toBe('');
+    expect(document.documentElement.getAttribute('data-opcteam-design-system-root')).toBe('');
     expect(document.documentElement.getAttribute('data-color-scheme')).toBe('dark');
     expect(document.documentElement.getAttribute('data-contrast')).toBe('standard');
     expect(document.documentElement.getAttribute('data-density')).toBe('compact');

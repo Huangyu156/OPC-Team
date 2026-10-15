@@ -1,7 +1,7 @@
 .tool-timeout-indicator {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-control-flow-chat-inline-gap);
+  gap: var(--opcteam-control-flow-chat-inline-gap);
   font: inherit;
   font-variant-numeric: proportional-nums;
 }
@@ -9,8 +9,8 @@
 .duration-text {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-control-flow-chat-inline-gap);
-  color: var(--openbitfun-color-content-secondary);
+  gap: var(--opcteam-control-flow-chat-inline-gap);
+  color: var(--opcteam-color-content-secondary);
   font: inherit;
   font-variant-numeric: proportional-nums;
 
@@ -22,48 +22,48 @@
 }
 
 .duration-text--live {
-  color: var(--openbitfun-color-content-muted);
+  color: var(--opcteam-color-content-muted);
 }
 
 .duration-text--warning {
-  color: var(--openbitfun-color-status-warning-content);
+  color: var(--opcteam-color-status-warning-content);
 
   > svg,
   > [data-openbitfun-component='icon'] {
-    color: var(--openbitfun-color-status-warning-emphasis);
+    color: var(--opcteam-color-status-warning-emphasis);
     opacity: 1;
   }
 }
 
 .duration-text--completed-success {
-  color: var(--openbitfun-color-code-change-added);
+  color: var(--opcteam-color-code-change-added);
 
   > svg,
   > [data-openbitfun-component='icon'] {
-    color: var(--openbitfun-color-status-success-emphasis);
+    color: var(--opcteam-color-status-success-emphasis);
     opacity: 1;
   }
 }
 
 .duration-text--completed-error,
 .duration-text--completed-cancelled {
-  color: var(--openbitfun-color-status-danger-content);
+  color: var(--opcteam-color-status-danger-content);
 
   > svg,
   > [data-openbitfun-component='icon'] {
-    color: var(--openbitfun-color-status-danger-emphasis);
+    color: var(--opcteam-color-status-danger-emphasis);
     opacity: 1;
   }
 }
 
 .duration-separator {
-  color: var(--openbitfun-color-content-muted);
+  color: var(--opcteam-color-content-muted);
   opacity: 0.5;
   margin: 0 1px;
 }
 
 .duration-timeout {
-  color: var(--openbitfun-color-content-muted);
+  color: var(--opcteam-color-content-muted);
   opacity: 0.7;
 }
 
@@ -78,6 +78,6 @@
 }
 
 .duration-timeout--warning {
-  color: var(--openbitfun-color-status-warning-content);
+  color: var(--opcteam-color-status-warning-content);
   opacity: 1;
 }

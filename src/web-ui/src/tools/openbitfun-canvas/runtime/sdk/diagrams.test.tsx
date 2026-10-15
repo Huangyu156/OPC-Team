@@ -131,7 +131,7 @@ describe('Canvas diagram helpers', () => {
 
     expect(markup).toContain('openbitfun-diagram');
     expect(markup).toContain('aria-label="Runtime"');
-    expect(markup).toContain('var(--openbitfun-color-surface-subtle)');
+    expect(markup).toContain('var(--opcteam-color-surface-subtle)');
     expect(markup).toContain('<path');
     expect(markup).toContain('width="4"');
     expect(markup).toContain('Shell');

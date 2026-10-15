@@ -557,18 +557,18 @@ test("semantic typography roles resolve to the canonical foundation", async () =
 test("generated CSS preserves semantic typography references", async () => {
   const css = await readFile(path.join(packageDirectory, "dist", "tokens.css"), "utf8");
 
-  assert.match(css, /--openbitfun-type-body-md-font-size: var\(--openbitfun-font-size-base\);/);
+  assert.match(css, /--opcteam-type-body-md-font-size: var\(--opcteam-font-size-base\);/);
   for (const role of ["code-sm", "code-md", "code-meta", "code-output", "flow-code"]) {
-    assert.ok(css.includes(`--openbitfun-type-${role}-font-family: var(--openbitfun-font-family-mono);`));
+    assert.ok(css.includes(`--opcteam-type-${role}-font-family: var(--opcteam-font-family-mono);`));
   }
-  assert.match(css, /--openbitfun-font-family-mono: 'Fira Code'.*var\(--openbitfun-font-family-sans\), monospace;/);
-  assert.match(css, /--openbitfun-type-flow-body-line-height: var\(--openbitfun-line-height-reading\);/);
-  assert.match(css, /--openbitfun-type-label-selected-font-weight: var\(--openbitfun-font-weight-semibold\);/);
-  assert.match(css, /--openbitfun-type-heading-compact-page-font-size: var\(--openbitfun-font-size-2xl-plus\);/);
-  assert.match(css, /--openbitfun-type-modifier-leading-ui-line-height: var\(--openbitfun-line-height-ui\);/);
-  assert.match(css, /--openbitfun-type-modifier-leading-support-line-height: var\(--openbitfun-line-height-support\);/);
-  assert.match(css, /--openbitfun-type-modifier-leading-balanced-line-height: var\(--openbitfun-line-height-balanced\);/);
-  assert.match(css, /--openbitfun-type-modifier-tracking-wider-letter-spacing: var\(--openbitfun-letter-spacing-wider\);/);
+  assert.match(css, /--opcteam-font-family-mono: 'Fira Code'.*var\(--opcteam-font-family-sans\), monospace;/);
+  assert.match(css, /--opcteam-type-flow-body-line-height: var\(--opcteam-line-height-reading\);/);
+  assert.match(css, /--opcteam-type-label-selected-font-weight: var\(--opcteam-font-weight-semibold\);/);
+  assert.match(css, /--opcteam-type-heading-compact-page-font-size: var\(--opcteam-font-size-2xl-plus\);/);
+  assert.match(css, /--opcteam-type-modifier-leading-ui-line-height: var\(--opcteam-line-height-ui\);/);
+  assert.match(css, /--opcteam-type-modifier-leading-support-line-height: var\(--opcteam-line-height-support\);/);
+  assert.match(css, /--opcteam-type-modifier-leading-balanced-line-height: var\(--opcteam-line-height-balanced\);/);
+  assert.match(css, /--opcteam-type-modifier-tracking-wider-letter-spacing: var\(--opcteam-letter-spacing-wider\);/);
 });
 
 test("runtime typography scaling uses the canonical complete size ladder", () => {
@@ -639,7 +639,7 @@ test("public token catalog exposes every system token in every density mode", ()
   assert.equal(tokenCatalog.length, Object.keys(tokens).length);
   assert.deepEqual(tokenModes, ["comfortable", "compact", "touch"]);
   for (const token of tokenCatalog) {
-    assert.equal(token.cssVariable.startsWith("--openbitfun-"), true);
+    assert.equal(token.cssVariable.startsWith("--opcteam-"), true);
     assert.deepEqual(Object.keys(token.values), tokenModes);
   }
 });

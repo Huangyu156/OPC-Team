@@ -1,6 +1,6 @@
 @layer openbitfun.components {
   .host {
-    --_floating-action-size: var(--openbitfun-control-icon-button-xs-size);
+    --_floating-action-size: var(--opcteam-control-icon-button-xs-size);
     position: relative;
   }
 
@@ -20,8 +20,8 @@
   .action > button {
     inline-size: 100%;
     block-size: 100%;
-    border-radius: var(--openbitfun-radius-pill);
-    transition: opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    border-radius: var(--opcteam-radius-pill);
+    transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   @media (hover: hover) and (pointer: fine) {

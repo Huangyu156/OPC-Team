@@ -58,11 +58,11 @@ describe('NavPanel layout styles', () => {
     const topActionExpandBlock = extractBlock(stylesheet, '&__top-action-expand');
     const topActionSublistBlock = extractBlock(stylesheet, '.openbitfun-nav-panel__top-action-sublist-inner');
 
-    expect(itemsBlock).toContain('padding: 2px var(--openbitfun-space-1);');
-    expect(itemsBlock).toContain('gap: calc(var(--openbitfun-space-1) / 2);');
-    expect(topActionExpandBlock).toContain('gap: calc(var(--openbitfun-space-1) / 2);');
-    expect(topActionSublistBlock).toContain('gap: calc(var(--openbitfun-space-1) / 2);');
-    expect(sectionHeaderBlock).toContain('margin: 0 var(--openbitfun-space-1);');
+    expect(itemsBlock).toContain('padding: 2px var(--opcteam-space-1);');
+    expect(itemsBlock).toContain('gap: calc(var(--opcteam-space-1) / 2);');
+    expect(topActionExpandBlock).toContain('gap: calc(var(--opcteam-space-1) / 2);');
+    expect(topActionSublistBlock).toContain('gap: calc(var(--opcteam-space-1) / 2);');
+    expect(sectionHeaderBlock).toContain('margin: 0 var(--opcteam-space-1);');
   });
 
   it('ends the section header actions on the workspace row action column', () => {
@@ -98,9 +98,9 @@ describe('NavPanel layout styles', () => {
     expect(workspaceActionsBlock).toContain('right: 4px;');
     expect(headerTrailing).toContain('margin: 0 6px;');
     expect(headerTrailing).toContain(
-      'padding-right: calc(var(--openbitfun-space-1) + var(--openbitfun-border-width-default));',
+      'padding-right: calc(var(--opcteam-space-1) + var(--opcteam-border-width-default));',
     );
-    expect(headerTrailing).not.toContain('padding-right: var(--openbitfun-space-2);');
+    expect(headerTrailing).not.toContain('padding-right: var(--opcteam-space-2);');
 
     // Matching trailing edges are not enough: the pitch has to match too, or the
     // first and second icons drift 2px and 4px off the row columns. Both clusters
@@ -143,10 +143,10 @@ describe('NavPanel layout styles', () => {
     const activeRowMixin = extractBlock(stylesheet, '@mixin nav-panel-text-row-active');
 
     expect(activeRowMixin).toContain(
-      'font-weight: var(--openbitfun-type-label-selected-font-weight);',
+      'font-weight: var(--opcteam-type-label-selected-font-weight);',
     );
     expect(activeRowMixin).not.toContain(
-      'font-weight: var(--openbitfun-type-label-sm-font-weight);',
+      'font-weight: var(--opcteam-type-label-sm-font-weight);',
     );
   });
 
@@ -157,7 +157,7 @@ describe('NavPanel layout styles', () => {
     )].map(match => match.groups?.body ?? '');
 
     expect(footerBlocks).toHaveLength(2);
-    expect(footerBlocks[0]).toContain('padding: 2px var(--openbitfun-space-2);');
+    expect(footerBlocks[0]).toContain('padding: 2px var(--opcteam-space-2);');
     expect(footerBlocks[1]).toContain('padding: 2px 6px;');
   });
 
@@ -167,8 +167,8 @@ describe('NavPanel layout styles', () => {
 
     expect(settingsButtonBlock).toContain('width: 28px;');
     expect(settingsButtonBlock).toContain('height: 28px;');
-    expect(settingsButtonBlock).toContain("inline-size: var(--openbitfun-control-icon-size-md);");
-    expect(settingsButtonBlock).toContain("block-size: var(--openbitfun-control-icon-size-md);");
+    expect(settingsButtonBlock).toContain("inline-size: var(--opcteam-control-icon-size-md);");
+    expect(settingsButtonBlock).toContain("block-size: var(--opcteam-control-icon-size-md);");
   });
 
   it('keeps category actions flat on hover', () => {
@@ -238,7 +238,7 @@ describe('NavPanel layout styles', () => {
     // left the pill short of the row's right edge.
     expect(itemBlock).toContain('position: relative;');
     expect(trailingBlock).toContain('position: absolute;');
-    expect(trailingBlock).toContain('inset-inline-end: var(--openbitfun-space-2);');
+    expect(trailingBlock).toContain('inset-inline-end: var(--opcteam-space-2);');
     expect(trailingBlock).not.toContain('margin-inline-end');
   });
 });

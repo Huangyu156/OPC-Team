@@ -74,14 +74,14 @@ test("Menu styling uses only public surface, geometry, action, and scrollbar tok
     "utf8",
   );
 
-  assert.match(styles, /--openbitfun-overlay-menu-inline-size/);
-  assert.match(styles, /--openbitfun-overlay-menu-item-height/);
-  assert.match(styles, /\.items\s*\{[^}]*gap: var\(--openbitfun-overlay-menu-row-gap\)/);
+  assert.match(styles, /--opcteam-overlay-menu-inline-size/);
+  assert.match(styles, /--opcteam-overlay-menu-item-height/);
+  assert.match(styles, /\.items\s*\{[^}]*gap: var\(--opcteam-overlay-menu-row-gap\)/);
   assert.doesNotMatch(styles, /\.list\s*\{[^}]*\bgap:/);
-  assert.match(styles, /\.separator\s*\{[^}]*margin-block: var\(--openbitfun-overlay-menu-section-gap\)/);
-  assert.match(styles, /--openbitfun-color-surface-panel/);
-  assert.match(styles, /--openbitfun-shadow-menu/);
-  assert.match(styles, /--openbitfun-overlay-menu-scrollbar-gap/);
+  assert.match(styles, /\.separator\s*\{[^}]*margin-block: var\(--opcteam-overlay-menu-section-gap\)/);
+  assert.match(styles, /--opcteam-color-surface-panel/);
+  assert.match(styles, /--opcteam-shadow-menu/);
+  assert.match(styles, /--opcteam-overlay-menu-scrollbar-gap/);
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}/i);
 });
 
@@ -115,9 +115,9 @@ test("section and separator spacing includes the row gap without doubling it", a
   const styles = await readFile(new URL("../src/components/Menu/Menu.module.css", import.meta.url), "utf8");
   for (const selector of [".section + .section", ".items > .separator:not(:first-child)", ".items > .separator:not(:last-child)"]) {
     const block = styles.slice(styles.indexOf(`${selector} {`)).split("}")[0];
-    assert.match(block, /margin-block-(?:start|end): max\(0px, calc\(var\(--openbitfun-overlay-menu-section-gap\) - var\(--openbitfun-overlay-menu-row-gap\)\)\)/);
+    assert.match(block, /margin-block-(?:start|end): max\(0px, calc\(var\(--opcteam-overlay-menu-section-gap\) - var\(--opcteam-overlay-menu-row-gap\)\)\)/);
   }
-  assert.match(styles, /\.separator\s*\{[^}]*margin-block: var\(--openbitfun-overlay-menu-section-gap\)/);
+  assert.match(styles, /\.separator\s*\{[^}]*margin-block: var\(--opcteam-overlay-menu-section-gap\)/);
 });
 
 test("Menu keeps focus rings inside items without adding a permanent gutter", async () => {
@@ -125,8 +125,8 @@ test("Menu keeps focus rings inside items without adding a permanent gutter", as
   const scrollStyles = await readFile(new URL("../src/components/ScrollArea/ScrollArea.module.css", import.meta.url), "utf8");
   const itemStyles = await readFile(new URL("../src/components/ActionItem/ActionItem.module.css", import.meta.url), "utf8");
   assert.match(styles, /\.list\s*\{[^}]*padding:\s*0/);
-  assert.match(itemStyles, /\.root:has\(\.trigger:focus-visible\)\s*\{[^}]*box-shadow:\s*0 0 0 var\(--openbitfun-focus-width\)/);
-  assert.match(styles, /\.item:has\(> \[data-openbitfun-part="trigger"\]:focus-visible\)\s*\{[^}]*box-shadow:\s*inset 0 0 0 var\(--openbitfun-focus-width\)/);
+  assert.match(itemStyles, /\.root:has\(\.trigger:focus-visible\)\s*\{[^}]*box-shadow:\s*0 0 0 var\(--opcteam-focus-width\)/);
+  assert.match(styles, /\.item:has\(> \[data-openbitfun-part="trigger"\]:focus-visible\)\s*\{[^}]*box-shadow:\s*inset 0 0 0 var\(--opcteam-focus-width\)/);
   // Keep clipping and scrolling; the item owns its focus indicator.
   assert.match(scrollStyles, /data-openbitfun-orientation="vertical"\]\s*\{[^}]*overflow-x:\s*hidden;[^}]*overflow-y:\s*auto/);
   assert.doesNotMatch(styles, /overflow[^:]*:\s*visible/);
@@ -135,11 +135,11 @@ test("Menu keeps focus rings inside items without adding a permanent gutter", as
 test("Menu keeps equal item insets while its scrollbar stays on the surface edge", async () => {
   const styles = await readFile(new URL("../src/components/Menu/Menu.module.css", import.meta.url), "utf8");
 
-  assert.match(styles, /\.root\s*\{[^}]*padding-inline:\s*var\(--openbitfun-overlay-menu-surface-padding\) 0/);
-  assert.match(styles, /\.viewport\s*\{[^}]*padding-inline-end:\s*var\(--openbitfun-overlay-menu-scrollbar-gap\);[^}]*scrollbar-gutter:\s*auto/);
+  assert.match(styles, /\.root\s*\{[^}]*padding-inline:\s*var\(--opcteam-overlay-menu-surface-padding\) 0/);
+  assert.match(styles, /\.viewport\s*\{[^}]*padding-inline-end:\s*var\(--opcteam-overlay-menu-scrollbar-gap\);[^}]*scrollbar-gutter:\s*auto/);
   assert.match(
     styles,
-    /\.list\s*\{[^}]*padding-inline-end:\s*calc\(\s*var\(--openbitfun-overlay-menu-surface-padding\)\s*- var\(--openbitfun-overlay-menu-scrollbar-gap\)\s*\)/,
+    /\.list\s*\{[^}]*padding-inline-end:\s*calc\(\s*var\(--opcteam-overlay-menu-surface-padding\)\s*- var\(--opcteam-overlay-menu-scrollbar-gap\)\s*\)/,
   );
   assert.doesNotMatch(styles, /scrollbar-gutter:\s*stable/);
 });
@@ -151,10 +151,10 @@ test("content-sized menus hug their widest row inside the shared menu bounds", a
 
   assert.notEqual(contentRule, "");
   assert.match(contentRule, /inline-size:\s*max-content/);
-  assert.match(contentRule, /min-inline-size:\s*var\(--openbitfun-overlay-menu-min-inline-size\)/);
-  assert.match(contentRule, /max-inline-size:\s*min\(var\(--openbitfun-overlay-menu-inline-size\), 100%\)/);
+  assert.match(contentRule, /min-inline-size:\s*var\(--opcteam-overlay-menu-min-inline-size\)/);
+  assert.match(contentRule, /max-inline-size:\s*min\(var\(--opcteam-overlay-menu-inline-size\), 100%\)/);
   // The default surface keeps the fixed token instead of hugging content.
-  assert.match(styles, /\.root\s*\{[^}]*inline-size:\s*var\(--openbitfun-overlay-menu-inline-size\)/);
+  assert.match(styles, /\.root\s*\{[^}]*inline-size:\s*var\(--opcteam-overlay-menu-inline-size\)/);
 
   const contentMarkup = renderToStaticMarkup(createElement(Menu, { inlineSize: "content" }, createElement(MenuItem, null, "Paste")));
   const defaultMarkup = renderToStaticMarkup(createElement(Menu, null, createElement(MenuItem, null, "Paste")));

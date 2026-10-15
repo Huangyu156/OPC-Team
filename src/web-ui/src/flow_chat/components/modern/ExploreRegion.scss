@@ -2,7 +2,7 @@
 
 // Desktop collection boundaries use the same rhythm as body paragraphs.
 .explore-region--collapsible {
-  margin-bottom: var(--openbitfun-control-flow-chat-paragraph-gap);
+  margin-bottom: var(--opcteam-control-flow-chat-paragraph-gap);
 }
 
 // Whole groups and deferred segments retain the same spacing as flat members.
@@ -10,7 +10,7 @@
 .explore-region--collapsible:not(.flowchat-timeline-members) {
   .explore-region__content {
     @include itemRhythm.spacing($enclosed: true);
-    padding-block-start: var(--openbitfun-control-flow-chat-paragraph-gap);
+    padding-block-start: var(--opcteam-control-flow-chat-paragraph-gap);
   }
 
   .flow-group-content-segment {

@@ -5,7 +5,7 @@
  */
 
 @mixin anchored-picker-inline-size($inline-size: 280px) {
-  --openbitfun-overlay-menu-inline-size: min(#{$inline-size}, calc(100vw - 16px));
+  --opcteam-overlay-menu-inline-size: min(#{$inline-size}, calc(100vw - 16px));
 
   inline-size: min(#{$inline-size}, calc(100vw - 16px));
 }

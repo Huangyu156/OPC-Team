@@ -333,7 +333,7 @@ describe('AppearanceService', () => {
         renderers: {
           'css-tokens': {
             version: 1,
-            settings: { tokens: { '--openbitfun-appearance-token-color-bg-primary': '#101820' } },
+            settings: { tokens: { '--opcteam-appearance-token-color-bg-primary': '#101820' } },
           },
         },
       },

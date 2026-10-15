@@ -8,11 +8,11 @@ interface ChatAppBrandIconProps {
 }
 
 const ICON_TOKEN_SIZE: Record<IconSize, string> = {
-  '2xs': 'var(--openbitfun-control-icon-size2xs)',
-  xs: 'var(--openbitfun-control-icon-size-xs)',
-  sm: 'var(--openbitfun-control-icon-size-sm)',
-  md: 'var(--openbitfun-control-icon-size-md)',
-  lg: 'var(--openbitfun-control-icon-size-lg)',
+  '2xs': 'var(--opcteam-control-icon-size2xs)',
+  xs: 'var(--opcteam-control-icon-size-xs)',
+  sm: 'var(--opcteam-control-icon-size-sm)',
+  md: 'var(--opcteam-control-icon-size-md)',
+  lg: 'var(--opcteam-control-icon-size-lg)',
 };
 
 /**

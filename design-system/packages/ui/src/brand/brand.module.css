@@ -2,7 +2,7 @@
   .artwork {
     display: block;
     flex: 0 0 auto;
-    width: var(--openbitfun-control-height-lg);
+    width: var(--opcteam-control-height-lg);
     max-width: 100%;
     height: auto;
     object-fit: contain;
@@ -42,14 +42,14 @@
      just above the resting strand width: wide enough to cover the strand it crosses, narrow
      enough not to smear past it into a blob. */
   .flowSheen {
-    stroke: var(--openbitfun-color-content-on-dark);
+    stroke: var(--opcteam-color-content-on-dark);
     stroke-width: 1.5;
     mix-blend-mode: screen;
   }
 
   .iconMotion {
     /* Match small Icon strokes, capped at the md size to keep double contours light. */
-    stroke-width: calc(var(--openbitfun-control-icon-stroke-width) * min(var(--_brand-motion-size), var(--openbitfun-control-icon-size-md)) / 24);
+    stroke-width: calc(var(--opcteam-control-icon-stroke-width) * min(var(--_brand-motion-size), var(--opcteam-control-icon-size-md)) / 24);
   }
 
   .counterRotor {

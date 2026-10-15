@@ -30,7 +30,7 @@ test("TabGroup opts plain labels into replacement without nesting overflow conta
 
 test("replacement uses shared spatial-motion tokens and reduced-motion styling", async () => {
   const styles = await readFile(new URL("../src/components/RollingText/RollingText.module.css", import.meta.url), "utf8");
-  assert.match(styles, /--openbitfun-motion-duration-content-swap/);
-  assert.match(styles, /--openbitfun-motion-easing-smooth/);
+  assert.match(styles, /--opcteam-motion-duration-content-swap/);
+  assert.match(styles, /--opcteam-motion-easing-smooth/);
   assert.match(styles, /prefers-reduced-motion: reduce/);
 });

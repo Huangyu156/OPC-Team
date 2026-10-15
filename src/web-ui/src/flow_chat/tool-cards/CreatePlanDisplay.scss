@@ -7,31 +7,31 @@
 .create-plan-display {
   display: flex;
   flex-direction: column;
-  background: var(--openbitfun-color-surface-scene);
-  border: 1px solid var(--openbitfun-color-border-default);
-  border-radius: var(--openbitfun-control-flow-chat-card-radius);
-  margin: var(--openbitfun-control-flow-chat-card-gap) 0;
+  background: var(--opcteam-color-surface-scene);
+  border: 1px solid var(--opcteam-color-border-default);
+  border-radius: var(--opcteam-control-flow-chat-card-radius);
+  margin: var(--opcteam-control-flow-chat-card-gap) 0;
   overflow: hidden;
   transition: border-color 180ms ease;
   box-sizing: border-box;
 
   &:hover {
-    border-color: var(--openbitfun-color-field-border-hover);
+    border-color: var(--opcteam-color-field-border-hover);
   }
 
   &--loading {
-    padding: var(--openbitfun-space-3) var(--openbitfun-control-flow-chat-card-padding-inline);
+    padding: var(--opcteam-space-3) var(--opcteam-control-flow-chat-card-padding-inline);
     /* Same chrome as the filled card when params are not ready yet (streaming start). */
-    border: 1px solid var(--openbitfun-color-border-default);
-    border-radius: var(--openbitfun-control-flow-chat-card-radius);
-    background: var(--openbitfun-color-surface-scene);
+    border: 1px solid var(--opcteam-color-border-default);
+    border-radius: var(--opcteam-control-flow-chat-card-radius);
+    background: var(--opcteam-color-surface-scene);
     box-sizing: border-box;
 
     .create-plan-header {
       justify-content: flex-start;
-      gap: var(--openbitfun-control-flow-chat-inline-gap);
-      color: var(--openbitfun-color-content-muted);
-      font-size: var(--openbitfun-type-flow-control-font-size);
+      gap: var(--opcteam-control-flow-chat-inline-gap);
+      color: var(--opcteam-color-content-muted);
+      font-size: var(--opcteam-type-flow-control-font-size);
       border-bottom: none;
     }
   }
@@ -44,10 +44,10 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--openbitfun-control-flow-chat-inline-gap);
-    padding: var(--openbitfun-space-3) var(--openbitfun-control-flow-chat-card-padding-inline);
+    gap: var(--opcteam-control-flow-chat-inline-gap);
+    padding: var(--opcteam-space-3) var(--opcteam-control-flow-chat-card-padding-inline);
     background: transparent;
-    border-bottom: 1px solid var(--openbitfun-color-border-default);
+    border-bottom: 1px solid var(--opcteam-color-border-default);
 
     .create-plan-header-main {
       display: flex;
@@ -75,7 +75,7 @@
 
       &:hover {
         .file-name {
-          color: var(--openbitfun-color-content-primary);
+          color: var(--opcteam-color-content-primary);
         }
       }
     }
@@ -84,29 +84,29 @@
       display: flex;
       align-items: center;
       min-width: 0;
-      gap: var(--openbitfun-control-flow-chat-inline-gap);
+      gap: var(--opcteam-control-flow-chat-inline-gap);
     }
 
     .file-icon-wrapper {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: var(--openbitfun-control-flow-chat-row-icon-size);
-      height: var(--openbitfun-control-flow-chat-row-icon-size);
+      width: var(--opcteam-control-flow-chat-row-icon-size);
+      height: var(--opcteam-control-flow-chat-row-icon-size);
       flex-shrink: 0;
       background: transparent;
       border-radius: 4px;
-      color: var(--openbitfun-color-content-secondary);
+      color: var(--opcteam-color-content-secondary);
 
       > :is(svg, [data-openbitfun-component='icon']) {
-        width: var(--openbitfun-control-icon-size-md);
-        height: var(--openbitfun-control-icon-size-md);
+        width: var(--opcteam-control-icon-size-md);
+        height: var(--opcteam-control-icon-size-md);
       }
     }
 
     .file-name {
-      font-size: var(--openbitfun-type-flow-support-font-size);
-      color: var(--openbitfun-color-content-secondary);
+      font-size: var(--opcteam-type-flow-support-font-size);
+      color: var(--opcteam-color-content-secondary);
       min-width: 0;
       overflow: hidden;
       white-space: nowrap;
@@ -121,7 +121,7 @@
       display: inline-flex;
       align-items: center;
       flex-shrink: 0;
-      gap: var(--openbitfun-control-flow-chat-inline-gap);
+      gap: var(--opcteam-control-flow-chat-inline-gap);
     }
 
     &--loading-shimmer {
@@ -134,8 +134,8 @@
   .create-plan-content {
     display: flex;
     align-items: flex-start;
-    gap: var(--openbitfun-control-flow-chat-card-gap);
-    padding: var(--openbitfun-space-3) var(--openbitfun-control-flow-chat-card-padding-inline);
+    gap: var(--opcteam-control-flow-chat-card-gap);
+    padding: var(--opcteam-space-3) var(--opcteam-control-flow-chat-card-padding-inline);
 
     .plan-content-left {
       flex: 1;
@@ -143,30 +143,30 @@
     }
 
     .plan-title {
-      margin: 0 0 var(--openbitfun-control-flow-chat-inline-gap) 0;
-      font-size: var(--openbitfun-type-flow-body-font-size);
-      font-weight: var(--openbitfun-type-label-selected-font-weight);
-      color: var(--openbitfun-color-content-primary);
-      line-height: var(--openbitfun-type-flow-support-line-height);
+      margin: 0 0 var(--opcteam-control-flow-chat-inline-gap) 0;
+      font-size: var(--opcteam-type-flow-body-font-size);
+      font-weight: var(--opcteam-type-label-selected-font-weight);
+      color: var(--opcteam-color-content-primary);
+      line-height: var(--opcteam-type-flow-support-line-height);
     }
 
     .plan-overview {
       margin: 0;
-      font-size: var(--openbitfun-type-flow-control-font-size);
-      color: var(--openbitfun-color-content-secondary);
-      line-height: var(--openbitfun-type-flow-support-line-height);
+      font-size: var(--opcteam-type-flow-control-font-size);
+      color: var(--opcteam-color-content-secondary);
+      line-height: var(--opcteam-type-flow-support-line-height);
     }
 
   }
 
   .create-plan-todos {
-    border-top: 1px solid var(--openbitfun-color-border-default);
-    padding: var(--openbitfun-space-3) var(--openbitfun-control-flow-chat-card-padding-inline);
+    border-top: 1px solid var(--opcteam-color-border-default);
+    padding: var(--opcteam-space-3) var(--opcteam-control-flow-chat-card-padding-inline);
 
     .todos-list {
       display: flex;
       flex-direction: column;
-      gap: var(--openbitfun-control-flow-chat-inline-gap);
+      gap: var(--opcteam-control-flow-chat-inline-gap);
       max-height: 200px;
       overflow-x: hidden;
       overflow-y: auto;
@@ -176,16 +176,16 @@
     .todo-item {
       display: flex;
       align-items: flex-start;
-      gap: var(--openbitfun-control-flow-chat-inline-gap);
-      padding-block: var(--openbitfun-space-2);
+      gap: var(--opcteam-control-flow-chat-inline-gap);
+      padding-block: var(--opcteam-space-2);
       min-inline-size: 0;
 
       .todo-icon-slot {
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        flex: 0 0 var(--openbitfun-control-flow-chat-row-icon-size);
-        inline-size: var(--openbitfun-control-flow-chat-row-icon-size);
+        flex: 0 0 var(--opcteam-control-flow-chat-row-icon-size);
+        inline-size: var(--opcteam-control-flow-chat-row-icon-size);
         block-size: 1lh;
       }
 
@@ -195,48 +195,48 @@
         height: 12px;
 
         &--pending {
-          color: var(--openbitfun-color-content-muted);
+          color: var(--opcteam-color-content-muted);
         }
 
         &--in-progress {
-          color: var(--openbitfun-color-status-info-content);
+          color: var(--opcteam-color-status-info-content);
         }
 
         &--completed {
-          color: var(--openbitfun-color-status-success-content);
+          color: var(--opcteam-color-status-success-content);
         }
 
         &--cancelled {
-          color: var(--openbitfun-color-status-danger-content);
+          color: var(--opcteam-color-status-danger-content);
         }
       }
 
       .todo-content {
         min-inline-size: 0;
         overflow-wrap: anywhere;
-        font-size: var(--openbitfun-type-flow-control-font-size);
-        line-height: var(--openbitfun-type-flow-support-line-height);
-        color: var(--openbitfun-color-content-secondary);
+        font-size: var(--opcteam-type-flow-control-font-size);
+        line-height: var(--opcteam-type-flow-support-line-height);
+        color: var(--opcteam-color-content-secondary);
       }
 
       &.status-pending {
         .todo-content {
-          color: var(--openbitfun-color-content-secondary);
+          color: var(--opcteam-color-content-secondary);
         }
       }
 
       &.status-in_progress {
 
         .todo-content {
-          color: var(--openbitfun-color-content-primary);
-          font-weight: var(--openbitfun-type-label-sm-font-weight);
+          color: var(--opcteam-color-content-primary);
+          font-weight: var(--opcteam-type-label-sm-font-weight);
         }
       }
 
       &.status-completed {
         .todo-content {
           text-decoration: line-through;
-          color: var(--openbitfun-color-content-muted);
+          color: var(--opcteam-color-content-muted);
         }
       }
 
@@ -244,7 +244,7 @@
 
         .todo-content {
           text-decoration: line-through;
-          color: var(--openbitfun-color-content-muted);
+          color: var(--opcteam-color-content-muted);
         }
       }
     }
@@ -255,9 +255,9 @@
     align-items: center;
     justify-content: flex-end;
     flex-wrap: wrap;
-    gap: var(--openbitfun-space-2);
-    padding: var(--openbitfun-space-3) var(--openbitfun-control-flow-chat-card-padding-inline);
-    border-top: 1px solid var(--openbitfun-color-border-default);
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-space-3) var(--opcteam-control-flow-chat-card-padding-inline);
+    border-top: 1px solid var(--opcteam-color-border-default);
     background: transparent;
 
     &--generating-only {

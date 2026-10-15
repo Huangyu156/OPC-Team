@@ -6,16 +6,16 @@
  */
 
 @mixin -chrome($background) {
-  border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-default);
-  border-radius: var(--openbitfun-radius-lg);
+  border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-default);
+  border-radius: var(--opcteam-radius-lg);
   background: $background;
-  box-shadow: var(--openbitfun-shadow-lg);
+  box-shadow: var(--opcteam-shadow-lg);
 }
 
 @mixin floating($backdrop-blur: true) {
   // Start from an opaque surface so unsupported filters never leave sharp
   // application content visible through the popup.
-  @include -chrome($background: var(--openbitfun-color-surface-raised));
+  @include -chrome($background: var(--opcteam-color-surface-raised));
 
   @if $backdrop-blur {
     // Blur tokens contain the complete filter list (for example
@@ -24,15 +24,15 @@
     @supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
       background: color-mix(
         in srgb,
-        var(--openbitfun-color-surface-raised) 94%,
+        var(--opcteam-color-surface-raised) 94%,
         transparent
       );
-      -webkit-backdrop-filter: var(--openbitfun-effect-blur-medium);
-      backdrop-filter: var(--openbitfun-effect-blur-medium);
+      -webkit-backdrop-filter: var(--opcteam-effect-blur-medium);
+      backdrop-filter: var(--opcteam-effect-blur-medium);
     }
 
     @media (prefers-reduced-transparency: reduce) {
-      background: var(--openbitfun-color-surface-raised);
+      background: var(--opcteam-color-surface-raised);
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
     }
@@ -40,5 +40,5 @@
 }
 
 @mixin dialog {
-  @include -chrome($background: var(--openbitfun-color-surface-raised));
+  @include -chrome($background: var(--opcteam-color-surface-raised));
 }

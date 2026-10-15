@@ -28,16 +28,16 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
   let renderComponent: any = null;
   let hostAppearance = makeAppearance({
     type: 'auto',
-    bg: 'var(--openbitfun-canvas-bg)',
-    panel: 'var(--openbitfun-canvas-panel)',
-    fg: 'var(--openbitfun-canvas-fg)',
-    muted: 'var(--openbitfun-canvas-muted)',
-    border: 'var(--openbitfun-canvas-border)',
-    accent: 'var(--openbitfun-canvas-accent)',
-    success: 'var(--openbitfun-canvas-success)',
-    warning: 'var(--openbitfun-canvas-warning)',
-    danger: 'var(--openbitfun-canvas-danger)',
-    info: 'var(--openbitfun-canvas-info)',
+    bg: 'var(--opcteam-canvas-bg)',
+    panel: 'var(--opcteam-canvas-panel)',
+    fg: 'var(--opcteam-canvas-fg)',
+    muted: 'var(--opcteam-canvas-muted)',
+    border: 'var(--opcteam-canvas-border)',
+    accent: 'var(--opcteam-canvas-accent)',
+    success: 'var(--opcteam-canvas-success)',
+    warning: 'var(--opcteam-canvas-warning)',
+    danger: 'var(--opcteam-canvas-danger)',
+    info: 'var(--opcteam-canvas-info)',
   });
   const sourceRevision = initialRevision;
   let hostStateValues: CanvasRuntimeRecord = {};
@@ -62,24 +62,24 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
   function makeAppearance(tokens: CanvasRuntimeRecord): CanvasRuntimeRecord {
     const readToken = (value: unknown, fallback: string): string =>
       value === undefined || value === null || value === '' ? fallback : String(value);
-    const bg = readToken(tokens.bg, 'var(--openbitfun-canvas-bg)');
-    const panel = readToken(tokens.panel, 'var(--openbitfun-canvas-panel)');
-    const fg = readToken(tokens.fg, 'var(--openbitfun-canvas-fg)');
-    const muted = readToken(tokens.muted, 'var(--openbitfun-canvas-muted)');
-    const border = readToken(tokens.border, 'var(--openbitfun-canvas-border)');
-    const accent = readToken(tokens.accent, 'var(--openbitfun-canvas-accent)');
-    const success = readToken(tokens.success, 'var(--openbitfun-canvas-success)');
-    const warning = readToken(tokens.warning, 'var(--openbitfun-canvas-warning)');
-    const danger = readToken(tokens.danger, 'var(--openbitfun-canvas-danger)');
-    const info = readToken(tokens.info, 'var(--openbitfun-canvas-info)');
+    const bg = readToken(tokens.bg, 'var(--opcteam-canvas-bg)');
+    const panel = readToken(tokens.panel, 'var(--opcteam-canvas-panel)');
+    const fg = readToken(tokens.fg, 'var(--opcteam-canvas-fg)');
+    const muted = readToken(tokens.muted, 'var(--opcteam-canvas-muted)');
+    const border = readToken(tokens.border, 'var(--opcteam-canvas-border)');
+    const accent = readToken(tokens.accent, 'var(--opcteam-canvas-accent)');
+    const success = readToken(tokens.success, 'var(--opcteam-canvas-success)');
+    const warning = readToken(tokens.warning, 'var(--opcteam-canvas-warning)');
+    const danger = readToken(tokens.danger, 'var(--opcteam-canvas-danger)');
+    const info = readToken(tokens.info, 'var(--opcteam-canvas-info)');
     const appearanceVars = tokens.vars && typeof tokens.vars === 'object' ? tokens.vars : {};
     const codeChangeAdded = readToken(
-      appearanceVars['--openbitfun-color-code-change-added'],
-      'var(--openbitfun-color-code-change-added)',
+      appearanceVars['--opcteam-color-code-change-added'],
+      'var(--opcteam-color-code-change-added)',
     );
     const codeChangeRemoved = readToken(
-      appearanceVars['--openbitfun-color-code-change-removed'],
-      'var(--openbitfun-color-code-change-removed)',
+      appearanceVars['--opcteam-color-code-change-removed'],
+      'var(--opcteam-color-code-change-removed)',
     );
     const token = (value: string, fields: CanvasRuntimeRecord = {}) =>
       Object.assign(new String(value), {
@@ -93,7 +93,7 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
       });
     const semanticBg = {
       editor: bg,
-      chrome: 'var(--openbitfun-color-surface-subtle)',
+      chrome: 'var(--opcteam-color-surface-subtle)',
       elevated: panel,
     };
     const semanticText = {
@@ -102,18 +102,18 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
       tertiary: muted,
       quaternary: muted,
       link: accent,
-      onAccent: 'var(--openbitfun-color-content-on-dark)',
+      onAccent: 'var(--opcteam-color-content-on-dark)',
     };
     const semanticFill = {
       primary: panel,
-      secondary: 'var(--openbitfun-color-action-neutral-surface)',
-      tertiary: 'var(--openbitfun-color-action-quiet-hover)',
-      quaternary: 'var(--openbitfun-color-surface-subtle)',
+      secondary: 'var(--opcteam-color-action-neutral-surface)',
+      tertiary: 'var(--opcteam-color-action-quiet-hover)',
+      quaternary: 'var(--opcteam-color-surface-subtle)',
     };
     const semanticStroke = {
       primary: border,
-      secondary: 'var(--openbitfun-color-border-default)',
-      tertiary: 'var(--openbitfun-color-border-subtle)',
+      secondary: 'var(--opcteam-color-border-default)',
+      tertiary: 'var(--opcteam-color-border-subtle)',
       focused: accent,
     };
     const semanticAccent = {
@@ -187,12 +187,12 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
     for (const key of allowed) {
       const value = nextAppearance[key];
       if (typeof value === 'string' && value.trim()) {
-        rootStyle.setProperty(`--openbitfun-canvas-${key}`, value.trim());
+        rootStyle.setProperty(`--opcteam-canvas-${key}`, value.trim());
       }
     }
     if (nextAppearance.type === 'dark' || nextAppearance.type === 'light') {
       document.documentElement.style.colorScheme = nextAppearance.type;
-      document.querySelectorAll('[data-openbitfun-design-system-root]').forEach(element => {
+      document.querySelectorAll('[data-opcteam-design-system-root]').forEach(element => {
         element.setAttribute('data-color-scheme', nextAppearance.type);
       });
     }
@@ -446,17 +446,17 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
   }
 
   function ErrorPanel({ error }: CanvasRuntimeRecord = {}) {
-    return React.createElement('main', { style: { maxWidth: 860, margin: '0 auto', padding: 12, border: '1px solid var(--openbitfun-color-border-default)', borderRadius: 8 } }, [
+    return React.createElement('main', { style: { maxWidth: 860, margin: '0 auto', padding: 12, border: '1px solid var(--opcteam-color-border-default)', borderRadius: 8 } }, [
       React.createElement('h1', {
         key: 'title',
         style: {
-          fontSize: 'var(--openbitfun-type-heading-page-font-size)',
-          fontWeight: 'var(--openbitfun-type-heading-page-font-weight)',
-          lineHeight: 'var(--openbitfun-type-heading-page-line-height)',
+          fontSize: 'var(--opcteam-type-heading-page-font-size)',
+          fontWeight: 'var(--opcteam-type-heading-page-font-weight)',
+          lineHeight: 'var(--opcteam-type-heading-page-line-height)',
           margin: '0 0 8px',
         },
       }, 'Canvas runtime error'),
-      React.createElement('pre', { key: 'error', style: { whiteSpace: 'pre-wrap', color: 'var(--openbitfun-canvas-danger)' } }, errorText(error)),
+      React.createElement('pre', { key: 'error', style: { whiteSpace: 'pre-wrap', color: 'var(--opcteam-canvas-danger)' } }, errorText(error)),
     ]);
   }
 
@@ -502,7 +502,7 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
   function reportRuntimeError(error: unknown): void {
     if (rootElement) {
       rootElement.innerHTML =
-        '<main style="max-width:860px;margin:0 auto;padding:12px;border:1px solid var(--openbitfun-color-border-default);border-radius:8px"><h1 style="font-size:var(--openbitfun-type-heading-page-font-size);font-weight:var(--openbitfun-type-heading-page-font-weight);line-height:var(--openbitfun-type-heading-page-line-height);margin:0 0 8px">Canvas runtime error</h1><pre style="white-space:pre-wrap;color:var(--openbitfun-canvas-danger)"></pre></main>';
+        '<main style="max-width:860px;margin:0 auto;padding:12px;border:1px solid var(--opcteam-color-border-default);border-radius:8px"><h1 style="font-size:var(--opcteam-type-heading-page-font-size);font-weight:var(--opcteam-type-heading-page-font-weight);line-height:var(--opcteam-type-heading-page-line-height);margin:0 0 8px">Canvas runtime error</h1><pre style="white-space:pre-wrap;color:var(--opcteam-canvas-danger)"></pre></main>';
       const pre = rootElement.querySelector('pre');
       if (pre) pre.textContent = errorText(error);
     }

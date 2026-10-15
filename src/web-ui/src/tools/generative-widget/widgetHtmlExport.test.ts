@@ -8,8 +8,8 @@ import { createGenerativeWidgetHtml, exportGenerativeWidgetHtml } from './widget
 const saveHtmlFile = vi.hoisted(() => vi.fn());
 vi.mock('@/infrastructure/file-export/saveHtmlFile', () => ({ saveHtmlFile }));
 const appearance = { id: 'test.widget', mode: 'dark', vars: {
-  '--openbitfun-color-content-primary': '#eeeeee',
-  '--openbitfun-color-surface-canvas': '#111111',
+  '--opcteam-color-content-primary': '#eeeeee',
+  '--opcteam-color-surface-canvas': '#111111',
 } };
 const options = {
   title: 'Chart <script>unsafe</script> & 比较', language: 'zh-CN',
@@ -25,7 +25,7 @@ describe('standalone generative widget HTML', () => {
     expect(html).toMatch(/^<!DOCTYPE html>/);
     expect(doc.title).toBe(options.title);
     expect(doc.documentElement.lang).toBe('zh-CN');
-    expect(doc.documentElement.style.getPropertyValue('--openbitfun-color-content-primary')).toBe('#eeeeee');
+    expect(doc.documentElement.style.getPropertyValue('--opcteam-color-content-primary')).toBe('#eeeeee');
     expect(doc.documentElement.style.colorScheme).toBe('dark');
     expect(doc.head.querySelectorAll('script')).toHaveLength(0);
     expect(doc.head.textContent).toContain('.openbitfun-card');
@@ -90,6 +90,6 @@ describe('standalone generative widget HTML', () => {
     expect(saved.title).toBe(options.title);
     expect(saved.dialogTitle).toBe('Export HTML');
     const doc = new DOMParser().parseFromString(saved.html, 'text/html');
-    expect(doc.documentElement.style.getPropertyValue('--openbitfun-color-surface-canvas')).toBe('#111111');
+    expect(doc.documentElement.style.getPropertyValue('--opcteam-color-surface-canvas')).toBe('#111111');
   });
 });

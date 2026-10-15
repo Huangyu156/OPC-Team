@@ -104,15 +104,15 @@ class ManifestValidatorTests(unittest.TestCase):
     def test_theme_token_renderer_accepts_only_canonical_root_and_scope_tokens(self) -> None:
         validator = appearance.ManifestValidator(self.registry)
         self.assertEqual([], validator.validate_theme_tokens({
-            "tokens": {"--openbitfun-color-surface-canvas": "#101820"},
-            "scopes": {"chrome": {"--openbitfun-color-content-primary": "#f5f7fa"}},
+            "tokens": {"--opcteam-color-surface-canvas": "#101820"},
+            "scopes": {"chrome": {"--opcteam-color-content-primary": "#f5f7fa"}},
         }))
 
         errors = validator.validate_theme_tokens({
-            "tokens": {"--openbitfun-appearance-token-color-bg-primary": "#101820"},
+            "tokens": {"--opcteam-appearance-token-color-bg-primary": "#101820"},
         })
         self.assertIn(
-            "Unsupported root token name: --openbitfun-appearance-token-color-bg-primary",
+            "Unsupported root token name: --opcteam-appearance-token-color-bg-primary",
             errors,
         )
 

@@ -5,8 +5,8 @@ export function withLegacyIndicatorTokens(
 ): Partial<Record<AppearanceThemeTokenName, string>> {
   const result = { ...tokens };
   for (const [next, previous] of [
-    ['--openbitfun-color-number-badge-background', '--openbitfun-color-action-neutral-surface'],
-    ['--openbitfun-color-key-hint-content', '--openbitfun-color-content-muted'],
+    ['--opcteam-color-number-badge-background', '--opcteam-color-action-neutral-surface'],
+    ['--opcteam-color-key-hint-content', '--opcteam-color-content-muted'],
   ] as const) {
     if (result[next] === undefined && tokens?.[previous] !== undefined) result[next] = tokens[previous];
   }

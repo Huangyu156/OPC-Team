@@ -55,5 +55,5 @@ test("NumberInput keeps numeric values, units, and step controls in a stable inl
   assert.match(numberInputStyles, /\.input \{[^}]*flex: 1 1 auto;[^}]*font-variant-numeric: tabular-nums;/s);
   assert.match(numberInputStyles, /\.unit \{[^}]*flex: 0 0 auto;[^}]*white-space: nowrap;/s);
   assert.match(numberInputStyles, /\.buttons \{[^}]*flex: 0 0 auto;/s);
-  assert.match(numberInputStyles, /\.root\[data-disabled="true"\] \.unit \{ color: var\(--openbitfun-color-content-disabled\); \}/);
+  assert.match(numberInputStyles, /\.root\[data-disabled="true"\] \.unit \{ color: var\(--opcteam-color-content-disabled\); \}/);
 });

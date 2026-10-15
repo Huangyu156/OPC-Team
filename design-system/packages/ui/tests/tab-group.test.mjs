@@ -176,22 +176,22 @@ test("end actions float over the label without reserving or clipping text", asyn
 test("TabGroup styling uses its geometry contract and Button semantic colors", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-control-tab-group-gap/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-gap/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-height/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-height-sm/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-icon-size/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-padding-inline/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-padding-block-sm/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-padding-inline-sm/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-action-size/);
-  assert.match(styles, /--openbitfun-control-tab-group-item-radius/);
-  assert.match(styles, /--openbitfun-color-action-neutral-border/);
-  assert.match(styles, /--openbitfun-color-action-neutral-content/);
-  assert.match(styles, /--openbitfun-color-content-primary/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface/);
-  assert.match(styles, /--openbitfun-type-label-md-font-weight/);
-  assert.match(styles, /--openbitfun-type-label-selected-font-weight/);
+  assert.match(styles, /--opcteam-control-tab-group-gap/);
+  assert.match(styles, /--opcteam-control-tab-group-item-gap/);
+  assert.match(styles, /--opcteam-control-tab-group-item-height/);
+  assert.match(styles, /--opcteam-control-tab-group-item-height-sm/);
+  assert.match(styles, /--opcteam-control-tab-group-item-icon-size/);
+  assert.match(styles, /--opcteam-control-tab-group-item-padding-inline/);
+  assert.match(styles, /--opcteam-control-tab-group-item-padding-block-sm/);
+  assert.match(styles, /--opcteam-control-tab-group-item-padding-inline-sm/);
+  assert.match(styles, /--opcteam-control-tab-group-item-action-size/);
+  assert.match(styles, /--opcteam-control-tab-group-item-radius/);
+  assert.match(styles, /--opcteam-color-action-neutral-border/);
+  assert.match(styles, /--opcteam-color-action-neutral-content/);
+  assert.match(styles, /--opcteam-color-content-primary/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface/);
+  assert.match(styles, /--opcteam-type-label-md-font-weight/);
+  assert.match(styles, /--opcteam-type-label-selected-font-weight/);
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}/i);
 });
 
@@ -203,7 +203,7 @@ test("tab labels and icons keep primary content across selection states", async 
 
   assert.match(
     styles,
-    /\.tab\s*\{[^}]*--_tab-content:\s*var\(--openbitfun-color-content-primary\);/s,
+    /\.tab\s*\{[^}]*--_tab-content:\s*var\(--opcteam-color-content-primary\);/s,
   );
   assert.doesNotMatch(
     styles,
@@ -211,7 +211,7 @@ test("tab labels and icons keep primary content across selection states", async 
   );
   assert.match(
     styles,
-    /\.label\s*\{[^}]*line-height:\s*var\(--openbitfun-type-label-md-line-height\);/s,
+    /\.label\s*\{[^}]*line-height:\s*var\(--opcteam-type-label-md-line-height\);/s,
   );
 });
 

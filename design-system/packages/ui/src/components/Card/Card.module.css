@@ -16,23 +16,23 @@
     display: flex;
     min-inline-size: 0;
     flex-direction: column;
-    border: var(--openbitfun-border-width-default) solid transparent;
-    color: var(--openbitfun-color-content-secondary);
+    border: var(--opcteam-border-width-default) solid transparent;
+    color: var(--opcteam-color-content-secondary);
     background: transparent;
   }
 
   .root[data-appearance="raised"] {
-    border-color: var(--openbitfun-color-border-subtle);
-    background: var(--openbitfun-color-surface-raised);
-    box-shadow: var(--openbitfun-shadow-overlay);
+    border-color: var(--opcteam-color-border-subtle);
+    background: var(--opcteam-color-surface-raised);
+    box-shadow: var(--opcteam-shadow-overlay);
   }
 
   .root[data-appearance="subtle"] {
-    background: var(--openbitfun-color-surface-tertiary);
+    background: var(--opcteam-color-surface-tertiary);
   }
 
   .root[data-appearance="neutral"] {
-    background: var(--openbitfun-color-action-neutral-surface);
+    background: var(--opcteam-color-action-neutral-surface);
   }
 
   .root[data-clip="true"] {
@@ -40,15 +40,15 @@
   }
 
   .root[data-gap="sm"] {
-    gap: var(--openbitfun-layout-card-gap-sm);
+    gap: var(--opcteam-layout-card-gap-sm);
   }
 
   .root[data-gap="md"] {
-    gap: var(--openbitfun-layout-card-gap-md);
+    gap: var(--opcteam-layout-card-gap-md);
   }
 
   .root[data-gap="lg"] {
-    gap: var(--openbitfun-layout-card-gap-lg);
+    gap: var(--opcteam-layout-card-gap-lg);
   }
 
   .root[data-radius="none"] {
@@ -56,36 +56,36 @@
   }
 
   .root[data-radius="sm"] {
-    border-radius: var(--openbitfun-layout-card-radius-sm);
+    border-radius: var(--opcteam-layout-card-radius-sm);
   }
 
   .root[data-radius="md"] {
-    border-radius: var(--openbitfun-layout-card-radius-md);
+    border-radius: var(--opcteam-layout-card-radius-md);
   }
 
   .root[data-radius="lg"] {
-    border-radius: var(--openbitfun-layout-card-radius-lg);
+    border-radius: var(--opcteam-layout-card-radius-lg);
   }
 
   .root[data-padding="sm"],
   .header[data-padding="sm"],
   .body[data-padding="sm"],
   .footer[data-padding="sm"] {
-    padding: var(--openbitfun-layout-card-padding-sm);
+    padding: var(--opcteam-layout-card-padding-sm);
   }
 
   .root[data-padding="md"],
   .header[data-padding="md"],
   .body[data-padding="md"],
   .footer[data-padding="md"] {
-    padding: var(--openbitfun-layout-card-padding-md);
+    padding: var(--opcteam-layout-card-padding-md);
   }
 
   .header {
     display: flex;
     align-items: flex-start;
     min-inline-size: 0;
-    gap: var(--openbitfun-layout-card-header-gap);
+    gap: var(--opcteam-layout-card-header-gap);
   }
 
   .header[data-align="center"] {
@@ -105,7 +105,7 @@
     flex: 1 1 auto;
     min-inline-size: 0;
     flex-direction: column;
-    gap: var(--openbitfun-layout-card-title-description-gap);
+    gap: var(--opcteam-layout-card-title-description-gap);
   }
 
   .headerContent[data-align="center"] {
@@ -126,23 +126,23 @@
   .title {
     min-inline-size: 0;
     overflow-wrap: anywhere;
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-heading-card-font-family);
-    font-size: var(--openbitfun-type-heading-card-font-size);
-    font-weight: var(--openbitfun-type-heading-card-font-weight);
-    line-height: var(--openbitfun-type-heading-card-line-height);
-    letter-spacing: var(--openbitfun-type-heading-card-letter-spacing);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-heading-card-font-family);
+    font-size: var(--opcteam-type-heading-card-font-size);
+    font-weight: var(--opcteam-type-heading-card-font-weight);
+    line-height: var(--opcteam-type-heading-card-line-height);
+    letter-spacing: var(--opcteam-type-heading-card-letter-spacing);
   }
 
   .description,
   .body {
     min-inline-size: 0;
-    color: var(--openbitfun-color-content-secondary);
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
-    line-height: var(--openbitfun-type-body-sm-line-height);
-    letter-spacing: var(--openbitfun-type-body-sm-letter-spacing);
+    color: var(--opcteam-color-content-secondary);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
+    line-height: var(--opcteam-type-body-sm-line-height);
+    letter-spacing: var(--opcteam-type-body-sm-letter-spacing);
   }
 
   .body[data-align="start"] {
@@ -172,10 +172,10 @@
   .media {
     display: grid;
     min-inline-size: 0;
-    min-block-size: var(--openbitfun-layout-card-media-min-block-size);
+    min-block-size: var(--opcteam-layout-card-media-min-block-size);
     overflow: hidden;
     place-items: center;
-    background: var(--openbitfun-color-surface-canvas);
+    background: var(--opcteam-color-surface-canvas);
   }
 
   .media > :where(img, video, picture) {
@@ -189,7 +189,7 @@
     display: flex;
     align-items: center;
     min-inline-size: 0;
-    gap: var(--openbitfun-layout-card-footer-gap);
+    gap: var(--opcteam-layout-card-footer-gap);
   }
 
   .footer[data-align="start"] {

@@ -3327,7 +3327,7 @@ const ModelSettingsPage: React.FC = () => {
                 className="openbitfun-model-settings__custom-request-body-row"
               >
                 <div className="openbitfun-model-settings__row-control--stack">
-                  <Textarea value={requestSettings.custom_request_body || ''} onChange={(e) => updateRequestSettings({ custom_request_body: e.target.value })} placeholder={t('advancedSettings.customRequestBody.placeholder')} rows={8} style={{ fontFamily: 'var(--openbitfun-type-code-md-font-family)', fontSize: 'var(--openbitfun-type-code-md-font-size)' }} />
+                  <Textarea value={requestSettings.custom_request_body || ''} onChange={(e) => updateRequestSettings({ custom_request_body: e.target.value })} placeholder={t('advancedSettings.customRequestBody.placeholder')} rows={8} style={{ fontFamily: 'var(--opcteam-type-code-md-font-family)', fontSize: 'var(--opcteam-type-code-md-font-size)' }} />
                   {requestSettings.custom_request_body && requestSettings.custom_request_body.trim() !== '' && (() => {
                     try { JSON.parse(requestSettings.custom_request_body); return <small className="openbitfun-model-settings__json-status openbitfun-model-settings__json-status--success">{t('advancedSettings.customRequestBody.validJson')}</small>; }
                     catch { return <small className="openbitfun-model-settings__json-status openbitfun-model-settings__json-status--error">{t('advancedSettings.customRequestBody.invalidJson')}</small>; }

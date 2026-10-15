@@ -101,25 +101,25 @@ function ExportImagePreview({ expandThinking }: { expandThinking: boolean }) {
       aria-hidden="true"
       focusable="false"
     >
-      <rect x="18" y="8" width="144" height="96" rx="8" fill="var(--openbitfun-color-surface-scene)" stroke="var(--openbitfun-color-border-default)" strokeWidth="var(--openbitfun-border-width-default)" />
+      <rect x="18" y="8" width="144" height="96" rx="8" fill="var(--opcteam-color-surface-scene)" stroke="var(--opcteam-color-border-default)" strokeWidth="var(--opcteam-border-width-default)" />
       <g fill="currentColor">
         <circle cx="34" cy="20" r="4" />
-        <rect x="43" y="18" width="44" height="3" rx="1.5" fill="var(--openbitfun-color-content-primary)" />
-        <rect x="118" y="20" width="32" height="2" rx="1" fill="var(--openbitfun-color-content-muted)" />
-        <rect x="91" y="35" width="59" height="12" rx="4" fill="var(--openbitfun-color-action-quiet-hover)" />
+        <rect x="43" y="18" width="44" height="3" rx="1.5" fill="var(--opcteam-color-content-primary)" />
+        <rect x="118" y="20" width="32" height="2" rx="1" fill="var(--opcteam-color-content-muted)" />
+        <rect x="91" y="35" width="59" height="12" rx="4" fill="var(--opcteam-color-action-quiet-hover)" />
         <rect x="99" y="39" width="43" height="2" rx="1" />
-        <rect x="99" y="43" width="30" height="2" rx="1" fill="var(--openbitfun-color-content-muted)" />
+        <rect x="99" y="43" width="30" height="2" rx="1" fill="var(--opcteam-color-content-muted)" />
         {expandThinking && (
           <g>
-            <rect x="30" y="51" width="120" height="32" rx="4" fill="var(--openbitfun-color-accent-surface)" stroke="var(--openbitfun-color-accent-border)" strokeWidth="var(--openbitfun-border-width-default)" />
-            <rect x="30" y="56" width="2" height="22" rx="1" fill="var(--openbitfun-color-accent-default)" />
-            <g fill="var(--openbitfun-color-accent-default)">
+            <rect x="30" y="51" width="120" height="32" rx="4" fill="var(--opcteam-color-accent-surface)" stroke="var(--opcteam-color-accent-border)" strokeWidth="var(--opcteam-border-width-default)" />
+            <rect x="30" y="56" width="2" height="22" rx="1" fill="var(--opcteam-color-accent-default)" />
+            <g fill="var(--opcteam-color-accent-default)">
               <circle cx="38" cy="57" r="1.5" />
               <circle cx="43" cy="57" r="1.5" />
               <circle cx="48" cy="57" r="1.5" />
             </g>
-            <rect x="56" y="56" width="38" height="2" rx="1" fill="var(--openbitfun-color-accent-default)" />
-            <g fill="var(--openbitfun-color-content-secondary)">
+            <rect x="56" y="56" width="38" height="2" rx="1" fill="var(--opcteam-color-accent-default)" />
+            <g fill="var(--opcteam-color-content-secondary)">
               <rect x="38" y="63" width="104" height="2" rx="1" />
               <rect x="38" y="69" width="94" height="2" rx="1" />
               <rect x="38" y="75" width="73" height="2" rx="1" />
@@ -127,7 +127,7 @@ function ExportImagePreview({ expandThinking }: { expandThinking: boolean }) {
           </g>
         )}
         <g transform={`translate(0 ${answerY})`}>
-          <rect x="30" width="48" height="3" rx="1.5" fill="var(--openbitfun-color-content-primary)" />
+          <rect x="30" width="48" height="3" rx="1.5" fill="var(--opcteam-color-content-primary)" />
           <rect x="30" y="6" width="120" height="2" rx="1" />
           <rect x="30" y="11" width="96" height="2" rx="1" />
           {!expandThinking && <g>
@@ -300,8 +300,8 @@ export const ExportImageButton: React.FC<ExportImageButtonProps> = ({
       
       // Read the resolved appearance background color.
       const computedStyle = getComputedStyle(document.documentElement);
-      const bgColor = computedStyle.getPropertyValue('--openbitfun-color-surface-scene').trim()
-        || getBuiltinAppearanceThemeToken('--openbitfun-color-surface-scene');
+      const bgColor = computedStyle.getPropertyValue('--opcteam-color-surface-scene').trim()
+        || getBuiltinAppearanceThemeToken('--opcteam-color-surface-scene');
 
       // Pre-load the logo as an HTMLImageElement. We do NOT try to embed it
       // inside the captured DOM (unreliable with <img>/data URLs inside an

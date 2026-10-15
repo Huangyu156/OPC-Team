@@ -75,22 +75,22 @@
   font-display: swap;
 }
 
-@layer openbitfun.tokens.system {
+@layer opcteam.tokens.system {
   /* This profile loads before package CSS; outrank its zero-specificity defaults. */
-  [data-openbitfun-design-system-root] {
-    --openbitfun-font-family-sans: "OpenBitFun HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
-    --openbitfun-font-family-control: "OpenBitFun HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
+  [data-opcteam-design-system-root] {
+    --opcteam-font-family-sans: "OpenBitFun HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
+    --opcteam-font-family-control: "OpenBitFun HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
     /* The design system owns the code stack and its localized body fallback. */
   }
 
-  :where([data-openbitfun-design-system-root]):lang(zh-CN) {
-    --openbitfun-font-family-sans: "OpenBitFun HarmonyOS Sans SC", "OpenBitFun HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
-    --openbitfun-font-family-control: "OpenBitFun HarmonyOS Sans SC", "OpenBitFun HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
+  :where([data-opcteam-design-system-root]):lang(zh-CN) {
+    --opcteam-font-family-sans: "OpenBitFun HarmonyOS Sans SC", "OpenBitFun HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
+    --opcteam-font-family-control: "OpenBitFun HarmonyOS Sans SC", "OpenBitFun HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
   }
 
   /* Traditional Chinese deliberately follows the platform's localized face. */
-  :where([data-openbitfun-design-system-root]):lang(zh-TW) {
-    --openbitfun-font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    --openbitfun-font-family-control: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  :where([data-opcteam-design-system-root]):lang(zh-TW) {
+    --opcteam-font-family-sans: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --opcteam-font-family-control: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 }

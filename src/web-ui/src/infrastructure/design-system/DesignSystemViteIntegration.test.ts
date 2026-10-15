@@ -96,7 +96,7 @@ describe('design-system Vite integration', () => {
     }
 
     const bootstrapLayerOrder =
-      '@layer openbitfun.tokens.system, openbitfun.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;';
+      '@layer opcteam.tokens.system, opcteam.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;';
     const bootstrapLayerOrderIndex = indexHtml.indexOf(bootstrapLayerOrder);
     const bootstrapResetIndex = indexHtml.indexOf('@layer openbitfun.reset {');
     const moduleEntryIndex = indexHtml.indexOf(

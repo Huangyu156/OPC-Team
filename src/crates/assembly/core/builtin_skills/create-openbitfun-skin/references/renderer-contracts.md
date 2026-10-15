@@ -21,7 +21,7 @@ Renderer entries use this shape:
 
 ## theme-tokens
 
-`settings.tokens` contains only canonical `--openbitfun-*` theme, component, and registered domain tokens. Optional
+`settings.tokens` contains only canonical `--opcteam-*` theme, component, and registered domain tokens. Optional
 `settings.scopes` contains a registered scope such as `chrome`, whose values are limited to the scoped canonical
 theme-token set. Query accepted root token names with:
 

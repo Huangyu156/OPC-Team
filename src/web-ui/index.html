@@ -93,13 +93,13 @@
         window.__OPENBITFUN_RESOLVE_BOOTSTRAP_LOCALE__ = resolveLocale;
         window.__OPENBITFUN_STARTUP_OVERLAY_STARTED_AT__ = performance.now();
         root.setAttribute('lang', resolveLocale());
-        root.setAttribute('data-openbitfun-design-system-root', '');
+        root.setAttribute('data-opcteam-design-system-root', '');
         if (!root.hasAttribute('data-color-scheme')) {
           root.setAttribute('data-color-scheme', m && m.matches ? 'dark' : 'light');
         }
         root.setAttribute('data-contrast', 'standard');
         root.setAttribute('data-density', 'compact');
-        var bg = root.style.backgroundColor || 'var(--openbitfun-color-surface-chrome)';
+        var bg = root.style.backgroundColor || 'var(--opcteam-color-surface-chrome)';
         root.style.backgroundColor = bg;
         function paintBody() {
           if (document.body) document.body.style.backgroundColor = bg;
@@ -117,7 +117,7 @@
     <link rel="stylesheet" href="/src/app/components/WindowControls/WindowControls.scss" />
     <!-- OPENBITFUN_FONT_PROFILE_STYLESHEET -->
     <style>
-      @layer openbitfun.tokens.system, openbitfun.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;
+      @layer opcteam.tokens.system, opcteam.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;
 
       @layer openbitfun.reset {
         *,
@@ -136,7 +136,7 @@
       }
       
       html {
-        background-color: var(--openbitfun-color-surface-chrome);
+        background-color: var(--opcteam-color-surface-chrome);
       }
       
       body {
@@ -179,20 +179,20 @@
         display: flex;
         align-items: center;
         justify-content: center;
-        background: color-mix(in srgb, var(--openbitfun-color-surface-chrome) 90%, transparent);
-        color: var(--openbitfun-color-content-muted);
-        font-family: var(--openbitfun-font-family-sans);
+        background: color-mix(in srgb, var(--opcteam-color-surface-chrome) 90%, transparent);
+        color: var(--opcteam-color-content-muted);
+        font-family: var(--opcteam-font-family-sans);
         font-size: 13px;
         pointer-events: none;
       }
 
       :root[data-contrast='high'] .splash-screen {
-        background: var(--openbitfun-color-surface-chrome);
+        background: var(--opcteam-color-surface-chrome);
       }
 
       @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
         .splash-screen {
-          background: var(--openbitfun-color-surface-chrome);
+          background: var(--opcteam-color-surface-chrome);
         }
       }
 
@@ -205,7 +205,7 @@
         top: 0;
         right: 0;
         z-index: 2;
-        height: var(--openbitfun-layout-toolbar-md-height);
+        height: var(--opcteam-layout-toolbar-md-height);
         pointer-events: auto;
       }
 
@@ -238,7 +238,7 @@
         left: 50%;
         width: 120px;
         height: 120px;
-        background-color: var(--openbitfun-color-content-on-light);
+        background-color: var(--opcteam-color-content-on-light);
         transform: translate(-50%, -50%);
         -webkit-mask: url('/brand/openbitfun-mark.svg') center / contain no-repeat;
         mask: url('/brand/openbitfun-mark.svg') center / contain no-repeat;
@@ -248,7 +248,7 @@
 
       [data-color-scheme="dark"] .splash-screen__logo,
       [data-color-scheme="dark"] .openbitfun-preload__logo {
-        background-color: var(--openbitfun-color-content-on-dark);
+        background-color: var(--opcteam-color-content-on-dark);
       }
 
       .splash-screen__message {
@@ -257,29 +257,29 @@
         left: 50%;
         min-width: 220px;
         max-width: min(360px, calc(100vw - 48px));
-        color: var(--openbitfun-color-content-secondary);
-        font-family: var(--openbitfun-type-label-md-font-family);
-        font-size: var(--openbitfun-type-label-md-font-size);
-        font-weight: var(--openbitfun-type-label-md-font-weight);
-        line-height: var(--openbitfun-type-label-md-line-height);
-        letter-spacing: var(--openbitfun-type-label-md-letter-spacing);
+        color: var(--opcteam-color-content-secondary);
+        font-family: var(--opcteam-type-label-md-font-family);
+        font-size: var(--opcteam-type-label-md-font-size);
+        font-weight: var(--opcteam-type-label-md-font-weight);
+        line-height: var(--opcteam-type-label-md-line-height);
+        letter-spacing: var(--opcteam-type-label-md-letter-spacing);
         text-align: center;
         opacity: 0;
         transform: translate(-50%, -2px);
         transition:
-          opacity var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-decelerate),
-          transform var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-decelerate);
+          opacity var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-decelerate),
+          transform var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-decelerate);
         pointer-events: none;
       }
 
       [data-color-scheme="dark"][data-contrast="standard"] .splash-screen__message {
-        color: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 60%, transparent);
+        color: color-mix(in srgb, var(--opcteam-color-content-on-dark) 60%, transparent);
       }
 
       .splash-screen__message--visible {
         opacity: 1;
         transform: translate(-50%, 0);
-        animation: splash-message-breathe 3.6s ease-in-out var(--openbitfun-motion-duration-base) infinite;
+        animation: splash-message-breathe 3.6s ease-in-out var(--opcteam-motion-duration-base) infinite;
       }
 
       @keyframes splash-message-breathe {

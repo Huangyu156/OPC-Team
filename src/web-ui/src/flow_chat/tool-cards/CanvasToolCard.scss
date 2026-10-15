@@ -3,7 +3,7 @@
 }
 
 .canvas-tool-card__icon {
-  color: var(--openbitfun-color-accent-default);
+  color: var(--opcteam-color-accent-default);
 }
 
 .canvas-tool-card__title {
@@ -15,31 +15,31 @@
 .canvas-tool-card__extra {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-control-flow-chat-control-gap);
+  gap: var(--opcteam-control-flow-chat-control-gap);
   min-width: 0;
 }
 
 .canvas-tool-card__status,
 .canvas-tool-card__meta {
-  color: var(--openbitfun-color-content-secondary);
-  font-size: var(--openbitfun-type-flow-control-font-size);
+  color: var(--opcteam-color-content-secondary);
+  font-size: var(--opcteam-type-flow-control-font-size);
 }
 
 .canvas-tool-card__diagnostics {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-space-1);
-  color: var(--openbitfun-color-status-warning-content);
-  font-size: var(--openbitfun-type-flow-control-font-size);
+  gap: var(--opcteam-space-1);
+  color: var(--opcteam-color-status-warning-content);
+  font-size: var(--opcteam-type-flow-control-font-size);
 }
 
 .canvas-tool-card__open-icon {
-  color: var(--openbitfun-color-content-muted);
+  color: var(--opcteam-color-content-muted);
 }
 
 .canvas-tool-card__body {
   display: grid;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 .canvas-tool-card__source-preview {
@@ -53,7 +53,7 @@
 
 .canvas-tool-card__diagnostic-list {
   margin: 0;
-  padding-left: var(--openbitfun-space-4);
-  color: var(--openbitfun-color-content-secondary);
-  font-size: var(--openbitfun-type-flow-control-font-size);
+  padding-left: var(--opcteam-space-4);
+  color: var(--opcteam-color-content-secondary);
+  font-size: var(--opcteam-type-flow-control-font-size);
 }

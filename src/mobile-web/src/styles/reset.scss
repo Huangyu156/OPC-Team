@@ -13,14 +13,14 @@
   button,
   input,
   textarea {
-    font-family: var(--openbitfun-type-body-md-font-family);
+    font-family: var(--opcteam-type-body-md-font-family);
   }
 
   button:focus-visible,
   input:focus-visible,
   textarea:focus-visible,
   [tabindex]:focus-visible {
-    outline: 2px solid var(--openbitfun-color-content-primary);
+    outline: 2px solid var(--opcteam-color-content-primary);
     outline-offset: 2px;
   }
 }

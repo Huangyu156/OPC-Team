@@ -2,14 +2,14 @@
   .overlay[data-openbitfun-component="mobile-sheet"] {
     position: fixed;
     inset: 0;
-    z-index: var(--openbitfun-layer-modal);
+    z-index: var(--opcteam-layer-modal);
     box-sizing: border-box;
     display: flex;
     align-items: flex-end;
     justify-content: center;
     padding: 0;
-    background: var(--openbitfun-color-overlay-scrim);
-    animation: openbitfun-mobile-sheet-overlay-enter var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-enter) both;
+    background: var(--opcteam-color-overlay-scrim);
+    animation: openbitfun-mobile-sheet-overlay-enter var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
   }
 
   .root {
@@ -23,13 +23,13 @@
     overflow: hidden;
     margin-inline: auto;
     padding-block-end: env(safe-area-inset-bottom, 0px);
-    border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
-    border-start-start-radius: var(--openbitfun-radius-2xl);
-    border-start-end-radius: var(--openbitfun-radius-2xl);
-    color: var(--openbitfun-color-content-primary);
-    background: var(--openbitfun-color-surface-panel);
-    box-shadow: var(--openbitfun-shadow-overlay);
-    animation: openbitfun-mobile-sheet-surface-enter var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-enter) both;
+    border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
+    border-start-start-radius: var(--opcteam-radius-2xl);
+    border-start-end-radius: var(--opcteam-radius-2xl);
+    color: var(--opcteam-color-content-primary);
+    background: var(--opcteam-color-surface-panel);
+    box-shadow: var(--opcteam-shadow-overlay);
+    animation: openbitfun-mobile-sheet-surface-enter var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
   }
 
   .handle {
@@ -37,9 +37,9 @@
     block-size: 4px;
     flex: 0 0 auto;
     align-self: center;
-    margin-block-start: var(--openbitfun-space-2);
-    border-radius: var(--openbitfun-radius-pill);
-    background: var(--openbitfun-color-border-strong);
+    margin-block-start: var(--opcteam-space-2);
+    border-radius: var(--opcteam-radius-pill);
+    background: var(--opcteam-color-border-strong);
   }
 
   .header,
@@ -52,10 +52,10 @@
   .header {
     display: grid;
     align-items: center;
-    grid-template-columns: minmax(var(--openbitfun-space-12), 1fr) minmax(0, auto) minmax(var(--openbitfun-space-12), 1fr);
-    gap: var(--openbitfun-space-3);
+    grid-template-columns: minmax(var(--opcteam-space-12), 1fr) minmax(0, auto) minmax(var(--opcteam-space-12), 1fr);
+    gap: var(--opcteam-space-3);
     flex: 0 0 auto;
-    padding: var(--openbitfun-space-3) var(--openbitfun-space-4) var(--openbitfun-space-2);
+    padding: var(--opcteam-space-3) var(--opcteam-space-4) var(--opcteam-space-2);
     text-align: center;
   }
 
@@ -66,20 +66,20 @@
     min-inline-size: 0;
     margin: 0;
     overflow: hidden;
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-body-lg-font-family);
-    font-size: var(--openbitfun-type-body-lg-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
-    line-height: var(--openbitfun-type-body-lg-line-height);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-body-lg-font-family);
+    font-size: var(--opcteam-type-body-lg-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
+    line-height: var(--opcteam-type-body-lg-line-height);
     white-space: normal;
     overflow-wrap: anywhere;
   }
 
   .description {
     margin: 0;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-sm-line-height);
   }
 
   .body {
@@ -87,9 +87,9 @@
     min-block-size: 0;
     flex: 1 1 auto;
     flex-direction: column;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
     overflow: auto;
-    padding: 0 var(--openbitfun-space-3) var(--openbitfun-space-2);
+    padding: 0 var(--opcteam-space-3) var(--opcteam-space-2);
     overscroll-behavior: contain;
   }
 
@@ -97,17 +97,17 @@
     display: flex;
     flex: 0 0 auto;
     flex-direction: column;
-    gap: var(--openbitfun-space-2);
-    padding: 0 var(--openbitfun-space-3) var(--openbitfun-space-3);
+    gap: var(--opcteam-space-2);
+    padding: 0 var(--opcteam-space-3) var(--opcteam-space-3);
   }
 
   .overlay[data-state="exiting"] {
     pointer-events: none;
-    animation: openbitfun-mobile-sheet-overlay-exit var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-exit) both;
+    animation: openbitfun-mobile-sheet-overlay-exit var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-exit) both;
   }
 
   .root[data-state="exiting"] {
-    animation: openbitfun-mobile-sheet-surface-exit var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-exit) both;
+    animation: openbitfun-mobile-sheet-surface-exit var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-exit) both;
   }
 
   @keyframes openbitfun-mobile-sheet-overlay-enter { from { opacity: 0; } to { opacity: 1; } }
@@ -117,15 +117,15 @@
 
   @media (min-width: 700px) {
     .root {
-      margin-block-end: var(--openbitfun-space-4);
-      border-radius: var(--openbitfun-radius-2xl);
+      margin-block-end: var(--opcteam-space-4);
+      border-radius: var(--opcteam-radius-2xl);
     }
   }
 
   @media (max-width: 359px) {
-    .header { padding-inline: var(--openbitfun-space-3); }
+    .header { padding-inline: var(--opcteam-space-3); }
     .body,
-    .footer { padding-inline: var(--openbitfun-space-2); }
+    .footer { padding-inline: var(--opcteam-space-2); }
   }
 
   @media (prefers-reduced-motion: reduce) {

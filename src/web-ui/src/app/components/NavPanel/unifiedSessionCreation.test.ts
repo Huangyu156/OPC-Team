@@ -71,7 +71,7 @@ describe('unified project session creation', () => {
     expect(helloLauncherStyles).toContain('right: 0;');
     expect(helloLauncherStyles).toContain('bottom: 0;');
     expect(helloLauncherStyles).toContain(
-      'z-index: calc(var(--openbitfun-layer-overlay) + 1);',
+      'z-index: calc(var(--opcteam-layer-overlay) + 1);',
     );
     expect(communicationSurfaceStyles).toContain(
       '.openbitfun-conversation-mode-surface__switch',

@@ -71,12 +71,12 @@ test("Combobox styling uses public field, overlay, action, and motion tokens", a
     "utf8",
   );
 
-  assert.match(styles, /--openbitfun-color-field-background/);
-  assert.match(styles, /--openbitfun-overlay-menu-surface-radius/);
-  assert.match(styles, /--openbitfun-color-surface-tertiary/);
-  assert.match(styles, /--openbitfun-shadow-menu/);
+  assert.match(styles, /--opcteam-color-field-background/);
+  assert.match(styles, /--opcteam-overlay-menu-surface-radius/);
+  assert.match(styles, /--opcteam-color-surface-tertiary/);
+  assert.match(styles, /--opcteam-shadow-menu/);
   assert.match(styles, /position:\s*fixed/);
-  assert.match(styles, /z-index:\s*var\(--openbitfun-layer-popover\)/);
+  assert.match(styles, /z-index:\s*var\(--opcteam-layer-popover\)/);
   assert.match(source, /className=\{styles\.searchField\}/);
   assert.match(styles, /\.searchField\s*\{[^}]*inline-size:\s*100%/);
   assert.doesNotMatch(styles, /data-popover-mode/);
@@ -104,8 +104,8 @@ test("Combobox embeds search and scrollable options in one token-driven surface"
     styles,
     /\.popover\[data-placement="top"\]\s*\{[^}]*flex-direction:\s*column-reverse/s,
   );
-  assert.match(styles, /\.search\s*\{[^}]*--_combobox-height[^}]*--openbitfun-border-width-default/s);
-  assert.match(styles, /\.options\s*\{[^}]*min-block-size:\s*0[^}]*--openbitfun-overlay-menu-surface-padding/s);
+  assert.match(styles, /\.search\s*\{[^}]*--_combobox-height[^}]*--opcteam-border-width-default/s);
+  assert.match(styles, /\.options\s*\{[^}]*min-block-size:\s*0[^}]*--opcteam-overlay-menu-surface-padding/s);
   assert.match(styles, /\.root\[data-open="true"\] \.control\s*\{[^}]*visibility:\s*hidden/s);
   assert.doesNotMatch(styles, /scale\(/);
 });
@@ -124,6 +124,6 @@ test("Combobox and MultiSelect keep the field height independent of text, tags, 
   assert.match(trigger, /min-block-size:\s*0/);
   assert.match(trigger, /padding-block:\s*0/);
   for (const size of ["sm", "md", "lg"]) {
-    assert.ok(styles.includes(`var(--openbitfun-control-height-${size})`));
+    assert.ok(styles.includes(`var(--opcteam-control-height-${size})`));
   }
 });

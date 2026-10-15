@@ -68,8 +68,8 @@ export const CoreProvider: React.FC<CoreProviderProps> = ({ children }) => {
         justifyContent: 'center', 
         alignItems: 'center', 
         height: '100vh',
-        background: 'var(--openbitfun-color-surface-canvas)',
-        color: 'var(--openbitfun-color-content-primary)'
+        background: 'var(--opcteam-color-surface-canvas)',
+        color: 'var(--opcteam-color-content-primary)'
       }}>
         <div>{tCommon('core.initializing')}</div>
       </div>
@@ -84,8 +84,8 @@ export const CoreProvider: React.FC<CoreProviderProps> = ({ children }) => {
         justifyContent: 'center', 
         alignItems: 'center', 
         height: '100vh',
-        background: 'var(--openbitfun-color-surface-canvas)',
-        color: 'var(--openbitfun-color-content-primary)'
+        background: 'var(--opcteam-color-surface-canvas)',
+        color: 'var(--opcteam-color-content-primary)'
       }}>
         <h2>{tErrors('core.initializationFailed')}</h2>
         <p>{error}</p>

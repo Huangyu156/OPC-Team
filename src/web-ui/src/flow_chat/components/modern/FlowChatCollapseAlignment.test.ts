@@ -42,10 +42,10 @@ describe('FlowChat collapse spacing', () => {
     const inlineExplore = extractBlock(exploreStyles, ".explore-region[data-placement='inline']");
     const thinkingContent = extractBlock(thinkingStyles, '.thinking-content');
 
-    expect(exploreContent).toContain('padding: var(--openbitfun-space-2) 0 0;');
+    expect(exploreContent).toContain('padding: var(--opcteam-space-2) 0 0;');
     expect(inlineExplore).toContain('padding-inline: 0;');
     expect(thinkingContent).toMatch(
-      /padding:\s*var\(--openbitfun-control-flow-chat-card-expanded-padding-block\)\s*var\(--openbitfun-control-flow-chat-card-expanded-padding-inline\)\s*0\s*0;/,
+      /padding:\s*var\(--opcteam-control-flow-chat-card-expanded-padding-block\)\s*var\(--opcteam-control-flow-chat-card-expanded-padding-inline\)\s*0\s*0;/,
     );
   });
 
@@ -67,7 +67,7 @@ describe('FlowChat collapse spacing', () => {
     expect(renderer).toContain('name="chevron-right" size="sm" className="explore-region__leading-icon--collapsed-hover"');
     expect(renderer).toContain('name="chevron-down" size="sm" className="explore-region__leading-icon--expanded"');
     expect(exploreStyles).toContain('background: transparent;');
-    expect(exploreStyles).not.toContain('background: var(--openbitfun-color-action-neutral-surface-hover);');
+    expect(exploreStyles).not.toContain('background: var(--opcteam-color-action-neutral-surface-hover);');
     expect(exploreStyles).not.toContain('transform: rotate(');
   });
 
@@ -77,18 +77,18 @@ describe('FlowChat collapse spacing', () => {
     const subagentProjectionStyles = readSource('../subagent/SubagentProjectionView.scss');
 
     expect(publicToolCardStyles).toMatch(
-      /\.expanded,\s*\.error\s*\{[\s\S]*?padding:\s*var\(--openbitfun-space-3\) var\(--openbitfun-control-flow-chat-card-padding-inline\);/,
+      /\.expanded,\s*\.error\s*\{[\s\S]*?padding:\s*var\(--opcteam-space-3\) var\(--opcteam-control-flow-chat-card-padding-inline\);/,
     );
     expect(extractBlock(flowToolCardStyles, '.flow-tool-card-note')).toContain(
       'margin-inline-start: 0;',
     );
     expect(extractBlock(subagentProjectionStyles, '.subagent-projection-container')).toContain(
-      'padding: var(--openbitfun-control-flow-chat-card-expanded-padding-block) var(--openbitfun-control-flow-chat-card-expanded-padding-inline);',
+      'padding: var(--opcteam-control-flow-chat-card-expanded-padding-block) var(--opcteam-control-flow-chat-card-expanded-padding-inline);',
     );
   });
 
   it('lets product-owned full-bleed footer surfaces consume the shared body inset', () => {
     const miniAppStyles = readSource('../../tool-cards/MiniAppToolDisplay.scss');
-    expect(miniAppStyles).not.toContain('margin-left: calc(-1 * var(--openbitfun-control-flow-chat-card-expanded-padding-inline))');
+    expect(miniAppStyles).not.toContain('margin-left: calc(-1 * var(--opcteam-control-flow-chat-card-expanded-padding-inline))');
   });
 });

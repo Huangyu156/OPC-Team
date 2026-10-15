@@ -31,22 +31,22 @@ describe('model service collapsed presentation', () => {
 
   it('includes the leading card inset in the provider toggle hit area', () => {
     expect(modelSettingsStyles).toMatch(
-      /&__provider-group-header\s*\{[\s\S]*?padding-inline:\s*0 var\(--openbitfun-space-4\)/,
+      /&__provider-group-header\s*\{[\s\S]*?padding-inline:\s*0 var\(--opcteam-space-4\)/,
     );
     expect(modelSettingsStyles).toMatch(
-      /&__provider-group-toggle\s*\{[\s\S]*?align-self:\s*stretch[\s\S]*?padding-inline-start:\s*var\(--openbitfun-space-4\)/,
+      /&__provider-group-toggle\s*\{[\s\S]*?align-self:\s*stretch[\s\S]*?padding-inline-start:\s*var\(--opcteam-space-4\)/,
     );
   });
 
   it('matches the subscription group radius without an outer border', () => {
     expect(modelSettingsStyles).toMatch(
-      /&__provider-group\s*\{[\s\S]*?border:\s*0;[\s\S]*?border-radius:\s*var\(--openbitfun-layout-field-group-radius\)/,
+      /&__provider-group\s*\{[\s\S]*?border:\s*0;[\s\S]*?border-radius:\s*var\(--opcteam-layout-field-group-radius\)/,
     );
   });
 
   it('keeps provider headers and models on one theme-adaptive grouped surface', () => {
     expect(modelSettingsStyles).toMatch(
-      /&__provider-group\s*\{[^}]*background:\s*var\(--openbitfun-color-surface-tertiary\)/,
+      /&__provider-group\s*\{[^}]*background:\s*var\(--opcteam-color-surface-tertiary\)/,
     );
     expect(modelSettingsStyles).toMatch(
       /&__provider-group-header\s*\{[^}]*background:\s*transparent/,
@@ -58,10 +58,10 @@ describe('model service collapsed presentation', () => {
 
   it('draws one consistent divider between provider headers and model rows', () => {
     expect(modelSettingsStyles).toMatch(
-      /&\[data-expanded='true'\]\s*\{[^}]*border-bottom:\s*1px solid var\(--openbitfun-color-border-subtle\)/,
+      /&\[data-expanded='true'\]\s*\{[^}]*border-bottom:\s*1px solid var\(--opcteam-color-border-subtle\)/,
     );
     expect(collectionItemStyles).toMatch(
-      /& \+ \.openbitfun-collection-item\s*\{[^}]*border-top:\s*1px solid var\(--openbitfun-color-border-subtle\)/,
+      /& \+ \.openbitfun-collection-item\s*\{[^}]*border-top:\s*1px solid var\(--opcteam-color-border-subtle\)/,
     );
     expect(modelSettingsStyles).not.toContain('&:not(:last-child)');
   });
@@ -99,7 +99,7 @@ describe('model service collapsed presentation', () => {
 
   it('uses the semantic highlight color for each provider model count', () => {
     expect(modelSettingsStyles).toMatch(
-      /&__provider-group-count\s*\{[\s\S]*?color:\s*var\(--openbitfun-color-content-required-indicator\)/,
+      /&__provider-group-count\s*\{[\s\S]*?color:\s*var\(--opcteam-color-content-required-indicator\)/,
     );
   });
 });

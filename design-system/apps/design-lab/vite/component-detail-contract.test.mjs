@@ -349,11 +349,11 @@ test("Input, KeyHint, and SearchField previews expose composable slot and state 
   const styles = await readFile(stylesSource, "utf8");
   const fieldFocus = styles.match(/\[data-openbitfun-component="input"\]\.lab-force-focus\s*\{([^}]+)\}/)?.[1];
   assert.ok(fieldFocus, "Input must retain its border-based preview focus treatment");
-  assert.match(fieldFocus, /border-color: var\(--openbitfun-color-field-border-active\)/);
+  assert.match(fieldFocus, /border-color: var\(--opcteam-color-field-border-active\)/);
   assert.match(fieldFocus, /box-shadow: none/);
-  assert.doesNotMatch(fieldFocus, /border-width:|outline:|--openbitfun-focus-width/);
+  assert.doesNotMatch(fieldFocus, /border-width:|outline:|--opcteam-focus-width/);
   assert.doesNotMatch(styles, /input\.lab-force-focus\s*\{/);
-  assert.match(styles, /\[data-openbitfun-component="search-field"\]\[data-variant="default"\]:is\(\.lab-force-hover, \.lab-force-focus\)[^{]+\{\s*outline-color: var\(--openbitfun-color-border-default\)/);
+  assert.match(styles, /\[data-openbitfun-component="search-field"\]\[data-variant="default"\]:is\(\.lab-force-hover, \.lab-force-focus\)[^{]+\{\s*outline-color: var\(--opcteam-color-border-default\)/);
 });
 
 test("ScrollArea preview exposes direction and native scrollbar visibility contracts", async () => {
@@ -516,7 +516,7 @@ test("form previews preserve specimen width and their simulated field states", a
   const styles = await readFile(stylesSource, "utf8");
   assert.match(styles, /\.component-field-group-example\s*\{[^}]*min-inline-size:\s*440px/);
   assert.match(styles, /\.component-textarea-example\s*\{[^}]*inline-size:\s*280px/);
-  assert.match(styles, /\.component-textarea-example\.lab-state-hover textarea[^{}]*\{[^}]*--openbitfun-color-field-border-hover/);
-  assert.match(styles, /\.component-textarea-example\.lab-state-focus-visible textarea[^{}]*\{[^}]*--openbitfun-color-focus-ring/);
+  assert.match(styles, /\.component-textarea-example\.lab-state-hover textarea[^{}]*\{[^}]*--opcteam-color-field-border-hover/);
+  assert.match(styles, /\.component-textarea-example\.lab-state-focus-visible textarea[^{}]*\{[^}]*--opcteam-color-focus-ring/);
   assert.match(styles, /\.component-preview-matrix\[data-state-count="7"\]\s*\{[^}]*repeat\(7,/);
 });

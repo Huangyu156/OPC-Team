@@ -106,11 +106,11 @@
     :not(:disabled):not([aria-disabled='true']):not([data-motion='none'])
   ) {
     transition:
-      background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      box-shadow var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+      background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   /**

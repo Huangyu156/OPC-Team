@@ -1,35 +1,35 @@
 /* ── Theme token aliases ────────────────────────────────────────────────────── */
-/* Map --openbitfun-* host variables to local names so every rule auto-adapts.    */
+/* Map --opcteam-* host variables to local names so every rule auto-adapts.    */
 :root {
-  --bg:           var(--openbitfun-bg);
-  --bg2:          var(--openbitfun-bg-secondary);
-  --bg3:          var(--openbitfun-bg-tertiary);
-  --bg-el:        var(--openbitfun-element-bg);
-  --bg-hover:     var(--openbitfun-element-hover);
-  --text:         var(--openbitfun-text);
-  --text2:        var(--openbitfun-text-secondary);
-  --text3:        var(--openbitfun-text-muted);
-  --accent:       var(--openbitfun-accent);
-  --accent2:      var(--openbitfun-accent-hover);
-  --success:      var(--openbitfun-success);
-  --warning:      var(--openbitfun-warning);
-  --danger:       var(--openbitfun-error);
-  --info:         var(--openbitfun-info);
-  --border:       var(--openbitfun-border);
-  --border2:      var(--openbitfun-border-subtle);
-  --radius:       var(--openbitfun-radius);
-  --radius-lg:    var(--openbitfun-radius-lg);
-  --font:         var(--openbitfun-font-sans);
-  --font-mono:    var(--openbitfun-font-mono);
-  --scrollbar:    var(--openbitfun-scrollbar-thumb);
+  --bg:           var(--opcteam-bg);
+  --bg2:          var(--opcteam-bg-secondary);
+  --bg3:          var(--opcteam-bg-tertiary);
+  --bg-el:        var(--opcteam-element-bg);
+  --bg-hover:     var(--opcteam-element-hover);
+  --text:         var(--opcteam-text);
+  --text2:        var(--opcteam-text-secondary);
+  --text3:        var(--opcteam-text-muted);
+  --accent:       var(--opcteam-accent);
+  --accent2:      var(--opcteam-accent-hover);
+  --success:      var(--opcteam-success);
+  --warning:      var(--opcteam-warning);
+  --danger:       var(--opcteam-error);
+  --info:         var(--opcteam-info);
+  --border:       var(--opcteam-border);
+  --border2:      var(--opcteam-border-subtle);
+  --radius:       var(--opcteam-radius);
+  --radius-lg:    var(--opcteam-radius-lg);
+  --font:         var(--opcteam-font-sans);
+  --font-mono:    var(--opcteam-font-mono);
+  --scrollbar:    var(--opcteam-scrollbar-thumb);
 
   /* Derived semantic tokens */
-  --on-accent:    var(--openbitfun-text-on-accent);
-  --on-danger:    var(--openbitfun-text-on-accent);
-  --on-success:   var(--openbitfun-text-on-accent);
+  --on-accent:    var(--opcteam-text-on-accent);
+  --on-danger:    var(--opcteam-text-on-accent);
+  --on-success:   var(--opcteam-text-on-accent);
 }
 
-/* On-accent and danger text use the registered --openbitfun-text-on-accent projection. */
+/* On-accent and danger text use the registered --opcteam-text-on-accent projection. */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 

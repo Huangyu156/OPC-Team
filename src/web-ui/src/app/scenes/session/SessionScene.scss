@@ -8,8 +8,8 @@
   height: 100%;
   overflow: hidden;
   position: relative;
-  background: var(--openbitfun-color-surface-scene);
-  color: var(--openbitfun-color-content-primary);
+  background: var(--opcteam-color-surface-scene);
+  color: var(--opcteam-color-content-primary);
 
   &--dragging { user-select: none; }
   &--dragging-bottom {
@@ -46,9 +46,9 @@
   overflow: hidden;
   position: relative;
   box-sizing: border-box;
-  border-top: 1px solid var(--openbitfun-color-border-subtle);
-  transition: height var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard),
-              opacity var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard);
+  border-top: 1px solid var(--opcteam-color-border-subtle);
+  transition: height var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard),
+              opacity var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
 
   &--collapsed {
     min-height: 0;
@@ -71,12 +71,12 @@
   position: relative;
   cursor: row-resize;
   user-select: none;
-  z-index: var(--openbitfun-layer-sticky);
-  background: var(--openbitfun-color-border-subtle);
+  z-index: var(--opcteam-layer-sticky);
+  background: var(--opcteam-color-border-subtle);
   transition:
-    background-color var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard),
-    height var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard),
-    opacity var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard);
+    background-color var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard),
+    height var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard),
+    opacity var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
 
   &::before {
     content: '';
@@ -108,11 +108,11 @@
     width: 72px;
     height: 2px;
     background: transparent;
-    border-radius: var(--openbitfun-radius-sm);
-    transition: opacity var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard),
-                background-color var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard),
-                box-shadow var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard),
-                transform var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard);
+    border-radius: var(--opcteam-radius-sm);
+    transition: opacity var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard),
+                background-color var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard),
+                box-shadow var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard),
+                transform var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
     opacity: 0;
     pointer-events: none;
   }
@@ -123,13 +123,13 @@
     left: 50%;
     transform: translate(-50%, -50%);
     opacity: 0;
-    transition: opacity var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard);
+    transition: opacity var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
     pointer-events: none;
   }
 
   &__icon {
-    color: color-mix(in srgb, var(--openbitfun-color-content-muted) 60%, transparent);
-    transition: color var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-standard);
+    color: color-mix(in srgb, var(--opcteam-color-content-muted) 60%, transparent);
+    transition: color var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
   }
 
   &:hover,
@@ -137,33 +137,33 @@
     .openbitfun-bottom-pane-resizer__line {
       background: linear-gradient(90deg,
         transparent 0%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 20%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 80%, transparent) 50%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 80%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 20%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 80%, transparent) 50%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 80%,
         transparent 100%
       );
       transform: translate(-50%, -50%) scaleX(1);
       opacity: 1;
     }
     .openbitfun-bottom-pane-resizer__handle { opacity: 1; }
-    .openbitfun-bottom-pane-resizer__icon { color: color-mix(in srgb, var(--openbitfun-color-accent-default) 90%, transparent); }
+    .openbitfun-bottom-pane-resizer__icon { color: color-mix(in srgb, var(--opcteam-color-accent-default) 90%, transparent); }
   }
 
   &--dragging {
     .openbitfun-bottom-pane-resizer__line {
       background: linear-gradient(90deg,
         transparent 0%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 60%, transparent) 20%,
-        var(--openbitfun-color-accent-default) 50%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 60%, transparent) 80%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 60%, transparent) 20%,
+        var(--opcteam-color-accent-default) 50%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 60%, transparent) 80%,
         transparent 100%
       );
-      box-shadow: 0 0 12px color-mix(in srgb, var(--openbitfun-color-accent-default) 50%, transparent);
+      box-shadow: 0 0 12px color-mix(in srgb, var(--opcteam-color-accent-default) 50%, transparent);
       transform: translate(-50%, -50%) scaleX(1.19);
       opacity: 1;
     }
     .openbitfun-bottom-pane-resizer__handle { opacity: 1; }
-    .openbitfun-bottom-pane-resizer__icon { color: var(--openbitfun-color-accent-default); }
+    .openbitfun-bottom-pane-resizer__icon { color: var(--opcteam-color-accent-default); }
   }
 
   &:focus {
@@ -171,12 +171,12 @@
     .openbitfun-bottom-pane-resizer__line {
       background: linear-gradient(90deg,
         transparent 0%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 50%, transparent) 20%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 90%, transparent) 50%,
-        color-mix(in srgb, var(--openbitfun-color-accent-default) 50%, transparent) 80%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 50%, transparent) 20%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 90%, transparent) 50%,
+        color-mix(in srgb, var(--opcteam-color-accent-default) 50%, transparent) 80%,
         transparent 100%
       );
-      box-shadow: 0 0 8px color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent);
+      box-shadow: 0 0 8px color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent);
       transform: translate(-50%, -50%) scaleX(1.11);
       opacity: 1;
     }
@@ -185,7 +185,7 @@
 
   &:focus-visible {
     .openbitfun-bottom-pane-resizer__line {
-      outline: 2px solid var(--openbitfun-color-focus-ring);
+      outline: 2px solid var(--opcteam-color-focus-ring);
       outline-offset: 2px;
     }
   }

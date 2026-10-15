@@ -76,13 +76,13 @@ test("Card supports a square surface when it joins a parent container", () => {
 test("Card styles use public surface, spacing, radius, and elevation tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-color-surface-raised/);
-  assert.match(styles, /--openbitfun-color-surface-tertiary/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface/);
-  assert.match(styles, /--openbitfun-shadow-overlay/);
-  assert.match(styles, /--openbitfun-layout-card-padding-sm/);
-  assert.match(styles, /--openbitfun-layout-card-radius-lg/);
+  assert.match(styles, /--opcteam-color-surface-raised/);
+  assert.match(styles, /--opcteam-color-surface-tertiary/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface/);
+  assert.match(styles, /--opcteam-shadow-overlay/);
+  assert.match(styles, /--opcteam-layout-card-padding-sm/);
+  assert.match(styles, /--opcteam-layout-card-radius-lg/);
   assert.match(styles, /data-radius=none[^}]*border-radius:0/);
-  assert.match(styles, /--openbitfun-layout-card-media-min-block-size/);
+  assert.match(styles, /--opcteam-layout-card-media-min-block-size/);
   assert.match(styles, /object-fit:cover/);
 });

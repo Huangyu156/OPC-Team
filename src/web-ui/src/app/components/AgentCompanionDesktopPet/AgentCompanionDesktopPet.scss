@@ -15,14 +15,14 @@
 }
 
 .openbitfun-agent-companion-window {
-  --openbitfun-agent-companion-gap: 8px;
-  --openbitfun-agent-companion-pet-width: 96px;
-  --openbitfun-agent-companion-pet-height: 96px;
+  --opcteam-agent-companion-gap: 8px;
+  --opcteam-agent-companion-pet-width: 96px;
+  --opcteam-agent-companion-pet-height: 96px;
   /* Room reserved above and below the dock, mirrored by WINDOW_VERTICAL_BUFFER
      in the component, which grows the host window to hold it. Without it a
      bubble that lifts (hover, attention pulse) is clipped by the bubble slot
      and by the window edge. */
-  --openbitfun-agent-companion-vertical-buffer: 3px;
+  --opcteam-agent-companion-vertical-buffer: 3px;
 
   width: 100vw;
   height: 100vh;
@@ -61,11 +61,11 @@
     flex-direction: row;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--openbitfun-agent-companion-gap);
+    gap: var(--opcteam-agent-companion-gap);
     /* The pet is centered in a slot one buffer taller than it, so it keeps the
        same clearance from the window edge as a bubble. */
     min-height: calc(
-      var(--openbitfun-agent-companion-pet-height) + var(--openbitfun-agent-companion-vertical-buffer) * 2
+      var(--opcteam-agent-companion-pet-height) + var(--opcteam-agent-companion-vertical-buffer) * 2
     );
     width: max-content;
     max-height: 100vh;
@@ -113,18 +113,18 @@
     height: 21px;
     box-sizing: border-box;
     padding: 2px 5px;
-    border: 1px solid var(--openbitfun-color-field-border);
+    border: 1px solid var(--opcteam-color-field-border);
     border-radius: 5px;
-    background: var(--openbitfun-color-field-background);
-    color: var(--openbitfun-color-content-primary);
+    background: var(--opcteam-color-field-background);
+    color: var(--opcteam-color-content-primary);
     font: inherit;
-    font-size: var(--openbitfun-type-micro-font-size);
-    line-height: var(--openbitfun-type-modifier-leading-snug-line-height);
+    font-size: var(--opcteam-type-micro-font-size);
+    line-height: var(--opcteam-type-modifier-leading-snug-line-height);
     user-select: text;
     -webkit-user-select: text;
 
     &::placeholder {
-      color: var(--openbitfun-color-content-muted);
+      color: var(--opcteam-color-content-muted);
     }
 
     &:focus,
@@ -144,14 +144,14 @@
     padding: 0;
     display: grid;
     place-items: center;
-    border: 1px solid var(--openbitfun-color-action-neutral-border);
+    border: 1px solid var(--opcteam-color-action-neutral-border);
     border-radius: 5px;
-    background: var(--openbitfun-color-action-neutral-surface);
-    color: var(--openbitfun-color-action-neutral-content);
+    background: var(--opcteam-color-action-neutral-surface);
+    color: var(--opcteam-color-action-neutral-content);
     cursor: pointer;
 
     &:hover:not(:disabled) {
-      background: var(--openbitfun-color-action-neutral-surface-hover);
+      background: var(--opcteam-color-action-neutral-surface-hover);
     }
 
     &:disabled {
@@ -160,24 +160,24 @@
     }
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, var(--openbitfun-color-accent-hover) 70%, transparent);
+      outline: 2px solid color-mix(in srgb, var(--opcteam-color-accent-hover) 70%, transparent);
       outline-offset: 1px;
     }
   }
 
   &__pet {
-    width: min(var(--openbitfun-agent-companion-pet-width), 100vw);
-    height: min(var(--openbitfun-agent-companion-pet-height), 100vh);
-    max-width: var(--openbitfun-agent-companion-pet-width);
-    max-height: var(--openbitfun-agent-companion-pet-height);
+    width: min(var(--opcteam-agent-companion-pet-width), 100vw);
+    height: min(var(--opcteam-agent-companion-pet-height), 100vh);
+    max-width: var(--opcteam-agent-companion-pet-width);
+    max-height: var(--opcteam-agent-companion-pet-height);
     transform-origin: center bottom;
   }
 
   &__pet-hitbox {
     position: relative;
     flex-shrink: 0;
-    width: min(var(--openbitfun-agent-companion-pet-width), 100vw);
-    height: min(var(--openbitfun-agent-companion-pet-height), 100vh);
+    width: min(var(--opcteam-agent-companion-pet-width), 100vw);
+    height: min(var(--opcteam-agent-companion-pet-height), 100vh);
     display: grid;
     place-items: center;
     cursor: grab;
@@ -196,8 +196,8 @@
       border-radius: 50%;
       background: radial-gradient(
         circle,
-        color-mix(in srgb, var(--openbitfun-color-status-warning-content) 28%, transparent) 0%,
-        color-mix(in srgb, var(--openbitfun-color-status-warning-content) 8%, transparent) 50%,
+        color-mix(in srgb, var(--opcteam-color-status-warning-content) 28%, transparent) 0%,
+        color-mix(in srgb, var(--opcteam-color-status-warning-content) 8%, transparent) 50%,
         transparent 75%
       );
       animation: openbitfun-agent-companion-pet-attention-glow 1.6s ease-in-out infinite !important;
@@ -220,7 +220,7 @@
     max-height: 100vh;
     /* The slot clips (`overflow: hidden`), so the buffer has to sit inside it:
        a bubble lifting out of its own box then keeps its border visible. */
-    padding-block: var(--openbitfun-agent-companion-vertical-buffer);
+    padding-block: var(--opcteam-agent-companion-vertical-buffer);
     display: flex;
     flex-direction: column;
     align-items: flex-end;
@@ -232,8 +232,8 @@
     &--single {
       height: min(
         calc(
-          var(--openbitfun-agent-companion-pet-height)
-          + var(--openbitfun-agent-companion-vertical-buffer) * 2
+          var(--opcteam-agent-companion-pet-height)
+          + var(--opcteam-agent-companion-vertical-buffer) * 2
         ),
         100vh
       );
@@ -251,7 +251,7 @@
     max-width: 100%;
 
     &--single {
-      height: min(var(--openbitfun-agent-companion-pet-height), 100vh);
+      height: min(var(--opcteam-agent-companion-pet-height), 100vh);
     }
   }
 
@@ -266,10 +266,10 @@
     padding: 0;
     display: grid;
     place-items: center;
-    border: 1px solid var(--openbitfun-color-border-default);
+    border: 1px solid var(--opcteam-color-border-default);
     border-radius: 50%;
-    background: var(--openbitfun-color-surface-raised);
-    color: var(--openbitfun-color-content-primary);
+    background: var(--opcteam-color-surface-raised);
+    color: var(--opcteam-color-content-primary);
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -279,11 +279,11 @@
     cursor: pointer;
 
     &:hover {
-      background: var(--openbitfun-color-surface-tertiary);
+      background: var(--opcteam-color-surface-tertiary);
     }
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, var(--openbitfun-color-accent-hover) 70%, transparent);
+      outline: 2px solid color-mix(in srgb, var(--opcteam-color-accent-hover) 70%, transparent);
       outline-offset: 1px;
     }
   }
@@ -304,10 +304,10 @@
     max-width: 100%;
     box-sizing: border-box;
     padding: 7px 10px;
-    border: 1px solid var(--openbitfun-color-border-default);
+    border: 1px solid var(--opcteam-color-border-default);
     border-radius: 10px 10px 2px 10px;
-    background-color: var(--openbitfun-color-surface-raised);
-    color: var(--openbitfun-color-content-primary);
+    background-color: var(--opcteam-color-surface-raised);
+    color: var(--opcteam-color-content-primary);
     backdrop-filter: blur(10px);
     cursor: pointer;
     position: relative;
@@ -318,12 +318,12 @@
     }
 
     &:focus-visible {
-      outline: 2px solid color-mix(in srgb, var(--openbitfun-color-accent-hover) 70%, transparent);
+      outline: 2px solid color-mix(in srgb, var(--opcteam-color-accent-hover) 70%, transparent);
       outline-offset: 2px;
     }
 
     &--single {
-      height: min(var(--openbitfun-agent-companion-pet-height), 100vh);
+      height: min(var(--opcteam-agent-companion-pet-height), 100vh);
       display: flex;
       flex-direction: column;
       overflow: hidden;
@@ -368,17 +368,17 @@
     box-sizing: border-box;
     max-width: 100%;
     padding-right: 8px;
-    font-size: var(--openbitfun-type-meta-font-size);
-    line-height: var(--openbitfun-type-modifier-leading-dense-line-height);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    font-size: var(--opcteam-type-meta-font-size);
+    line-height: var(--opcteam-type-modifier-leading-dense-line-height);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
     min-width: 0;
   }
 
   &__bubble-status {
     margin-top: 2px;
-    font-size: var(--openbitfun-type-micro-font-size);
-    line-height: var(--openbitfun-type-modifier-leading-dense-line-height);
-    color: var(--openbitfun-color-content-secondary);
+    font-size: var(--opcteam-type-micro-font-size);
+    line-height: var(--opcteam-type-modifier-leading-dense-line-height);
+    color: var(--opcteam-color-content-secondary);
   }
 
   &__bubble-output {
@@ -387,9 +387,9 @@
     min-height: 0;
     flex: 0 0 calc(12px * 4);
     height: calc(12px * 4);
-    font-size: var(--openbitfun-type-micro-font-size);
-    line-height: var(--openbitfun-type-label-md-line-height);
-    color: var(--openbitfun-color-content-secondary);
+    font-size: var(--opcteam-type-micro-font-size);
+    line-height: var(--opcteam-type-label-md-line-height);
+    color: var(--opcteam-color-content-secondary);
     white-space: pre-wrap;
     word-break: break-word;
     overflow-wrap: anywhere;
@@ -408,18 +408,18 @@
       height: 1em;
       margin-left: 2px;
       vertical-align: -0.12em;
-      background: var(--openbitfun-color-content-muted);
+      background: var(--opcteam-color-content-muted);
       animation: openbitfun-agent-companion-caret 920ms steps(2, start) infinite;
     }
   }
 
   &__bubble--attention {
-    border-color: var(--openbitfun-color-status-warning-border);
+    border-color: var(--opcteam-color-status-warning-border);
     background-image: linear-gradient(
-      var(--openbitfun-color-status-warning-surface),
-      var(--openbitfun-color-status-warning-surface)
+      var(--opcteam-color-status-warning-surface),
+      var(--opcteam-color-status-warning-surface)
     );
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--openbitfun-color-status-warning-content) 50%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--opcteam-color-status-warning-content) 50%, transparent);
     animation: openbitfun-agent-companion-attention-pulse 1.5s ease-in-out infinite !important;
 
     &::after {
@@ -430,40 +430,40 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--openbitfun-color-status-warning-content);
+      background: var(--opcteam-color-status-warning-content);
       animation: openbitfun-agent-companion-attention-dot 1.5s ease-in-out infinite;
     }
   }
 
   &__bubble--waiting {
-    border-color: var(--openbitfun-color-status-warning-border);
+    border-color: var(--opcteam-color-status-warning-border);
     background-image: linear-gradient(
-      var(--openbitfun-color-status-warning-surface),
-      var(--openbitfun-color-status-warning-surface)
+      var(--opcteam-color-status-warning-surface),
+      var(--opcteam-color-status-warning-surface)
     );
   }
 
   &__bubble--completed {
-    border-color: var(--openbitfun-color-status-success-border);
+    border-color: var(--opcteam-color-status-success-border);
     background-image: linear-gradient(
-      var(--openbitfun-color-status-success-surface),
-      var(--openbitfun-color-status-success-surface)
+      var(--opcteam-color-status-success-surface),
+      var(--opcteam-color-status-success-surface)
     );
   }
 
   &__bubble--error,
   &__bubble--interrupted {
-    border-color: var(--openbitfun-color-status-danger-border);
+    border-color: var(--opcteam-color-status-danger-border);
     background-image: linear-gradient(
-      var(--openbitfun-color-status-danger-surface),
-      var(--openbitfun-color-status-danger-surface)
+      var(--opcteam-color-status-danger-surface),
+      var(--opcteam-color-status-danger-surface)
     );
   }
 
   .openbitfun-agent-companion-pet {
-    --openbitfun-petdex-width: min(var(--openbitfun-agent-companion-pet-width), 100vw);
-    --openbitfun-petdex-height: min(var(--openbitfun-agent-companion-pet-height), 100vh);
-    --openbitfun-petdex-margin-top: 0;
+    --opcteam-petdex-width: min(var(--opcteam-agent-companion-pet-width), 100vw);
+    --opcteam-petdex-height: min(var(--opcteam-agent-companion-pet-height), 100vh);
+    --opcteam-petdex-margin-top: 0;
 
     pointer-events: none;
   }
@@ -484,7 +484,7 @@
 @keyframes openbitfun-agent-companion-attention-pulse {
   0%,
   100% {
-    box-shadow: 0 0 0 0 color-mix(in srgb, var(--openbitfun-color-status-warning-content) 50%, transparent);
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--opcteam-color-status-warning-content) 50%, transparent);
     transform: translateY(0);
   }
 

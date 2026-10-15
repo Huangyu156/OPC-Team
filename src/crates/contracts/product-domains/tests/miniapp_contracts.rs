@@ -643,7 +643,7 @@ fn miniapp_compiler_preserves_head_injection_contract() {
     assert!(out.contains("data-openbitfun-appearance-mode=\"dark\""));
     assert!(out.contains("*::-webkit-scrollbar-track-piece"));
     assert!(out.contains("scrollbar-width: auto !important"));
-    assert!(out.contains("scrollbar-color: var(--openbitfun-scrollbar-thumb) transparent"));
+    assert!(out.contains("scrollbar-color: var(--opcteam-scrollbar-thumb) transparent"));
     assert!(out.contains("<script type=\"module\">"));
     assert!(out.contains("console.log('ready')"));
 }

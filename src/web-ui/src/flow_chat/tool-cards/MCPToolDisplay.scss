@@ -14,16 +14,16 @@
     min-width: 0;
 
     .tool-name {
-      font-weight: var(--openbitfun-type-label-selected-font-weight);
-      color: var(--openbitfun-color-content-primary);
+      font-weight: var(--opcteam-type-label-selected-font-weight);
+      color: var(--opcteam-color-content-primary);
       white-space: nowrap;
       overflow: hidden;
     }
   }
 
   .content-summary {
-    font-size: var(--openbitfun-type-flow-control-font-size);
-    color: var(--openbitfun-color-content-secondary);
+    font-size: var(--opcteam-type-flow-control-font-size);
+    color: var(--opcteam-color-content-secondary);
     white-space: nowrap;
   }
 
@@ -32,16 +32,16 @@
     align-items: center;
 
     .error-text {
-      font-size: var(--openbitfun-type-flow-control-font-size);
-      color: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 90%, transparent);
-      font-weight: var(--openbitfun-type-label-selected-font-weight);
+      font-size: var(--opcteam-type-flow-control-font-size);
+      color: color-mix(in srgb, var(--opcteam-color-status-danger-content) 90%, transparent);
+      font-weight: var(--opcteam-type-label-selected-font-weight);
     }
   }
 
   .mcp-expanded-content {
     display: grid;
     min-inline-size: 0;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
 
     .content-item-input {
       display: flex;
@@ -73,39 +73,39 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: var(--openbitfun-control-flow-chat-control-gap);
-      padding: var(--openbitfun-space-6);
-      color: var(--openbitfun-color-content-secondary);
-      font-size: var(--openbitfun-type-flow-control-font-size);
+      gap: var(--opcteam-control-flow-chat-control-gap);
+      padding: var(--opcteam-space-6);
+      color: var(--opcteam-color-content-secondary);
+      font-size: var(--opcteam-type-flow-control-font-size);
     }
 
     .mcp-app-error {
-      color: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 90%, transparent);
+      color: color-mix(in srgb, var(--opcteam-color-status-danger-content) 90%, transparent);
     }
 
     .mcp-app-iframe {
       width: 100%;
       min-height: 320px;
-      border: 1px solid var(--openbitfun-color-border-subtle);
-      border-radius: var(--openbitfun-radius-sm);
-      background: var(--openbitfun-color-action-neutral-surface);
+      border: 1px solid var(--opcteam-color-border-subtle);
+      border-radius: var(--opcteam-radius-sm);
+      background: var(--opcteam-color-action-neutral-surface);
     }
 
     .resource-content {
       display: grid;
-      gap: var(--openbitfun-space-1);
+      gap: var(--opcteam-space-1);
       overflow-wrap: anywhere;
 
       .resource-name {
-        font-weight: var(--openbitfun-type-label-selected-font-weight);
-        color: var(--openbitfun-color-content-primary);
+        font-weight: var(--opcteam-type-label-selected-font-weight);
+        color: var(--opcteam-color-content-primary);
       }
 
       .resource-uri,
       .resource-description {
-        font-size: var(--openbitfun-type-flow-support-font-size);
-        line-height: var(--openbitfun-type-flow-support-line-height);
-        color: var(--openbitfun-color-content-secondary);
+        font-size: var(--opcteam-type-flow-support-font-size);
+        line-height: var(--opcteam-type-flow-support-line-height);
+        color: var(--opcteam-color-content-secondary);
       }
     }
   }
@@ -115,19 +115,19 @@
     overflow-wrap: anywhere;
 
     .error-message {
-      color: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 90%, transparent);
-      font-size: var(--openbitfun-type-flow-control-font-size);
+      color: color-mix(in srgb, var(--opcteam-color-status-danger-content) 90%, transparent);
+      font-size: var(--opcteam-type-flow-control-font-size);
     }
   }
 
   .icon-completed {
-    color: color-mix(in srgb, var(--openbitfun-color-status-success-content) 90%, transparent);
+    color: color-mix(in srgb, var(--opcteam-color-status-success-content) 90%, transparent);
   }
 
   .mcp-action-buttons {
     display: flex;
     align-items: center;
-    gap: var(--openbitfun-control-flow-chat-inline-gap);
+    gap: var(--opcteam-control-flow-chat-inline-gap);
   }
 
   .mcp-icon-button {
@@ -156,28 +156,28 @@
   }
 
   .mcp-confirm-btn {
-    color: color-mix(in srgb, var(--openbitfun-color-status-success-content) 80%, transparent);
+    color: color-mix(in srgb, var(--opcteam-color-status-success-content) 80%, transparent);
 
     &:hover:not(:disabled) {
-      background: var(--openbitfun-color-status-success-surface);
-      color: var(--openbitfun-color-status-success-content);
+      background: var(--opcteam-color-status-success-surface);
+      color: var(--opcteam-color-status-success-content);
     }
 
     &:active:not(:disabled) {
-      background: color-mix(in srgb, var(--openbitfun-color-status-success-content) 25%, transparent);
+      background: color-mix(in srgb, var(--opcteam-color-status-success-content) 25%, transparent);
     }
   }
 
   .mcp-reject-btn {
-    color: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 80%, transparent);
+    color: color-mix(in srgb, var(--opcteam-color-status-danger-content) 80%, transparent);
 
     &:hover:not(:disabled) {
-      background: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 15%, transparent);
-      color: var(--openbitfun-color-status-danger-content);
+      background: color-mix(in srgb, var(--opcteam-color-status-danger-content) 15%, transparent);
+      color: var(--opcteam-color-status-danger-content);
     }
 
     &:active:not(:disabled) {
-      background: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 25%, transparent);
+      background: color-mix(in srgb, var(--opcteam-color-status-danger-content) 25%, transparent);
     }
   }
 }

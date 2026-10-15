@@ -1,6 +1,6 @@
 @layer openbitfun.components {
   .root {
-    --_mobile-icon-button-size: var(--openbitfun-space-12);
+    --_mobile-icon-button-size: var(--opcteam-space-12);
     --_mobile-icon-size: 22px;
 
     position: relative;
@@ -12,23 +12,23 @@
     flex: 0 0 auto;
     margin: 0;
     padding: 0;
-    border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
-    border-radius: var(--openbitfun-radius-pill);
-    color: var(--openbitfun-color-action-neutral-content);
-    background: var(--openbitfun-color-surface-panel);
+    border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
+    border-radius: var(--opcteam-radius-pill);
+    color: var(--opcteam-color-action-neutral-content);
+    background: var(--opcteam-color-surface-panel);
     box-shadow: none;
     cursor: pointer;
     touch-action: manipulation;
     -webkit-tap-highlight-color: transparent;
     transition:
-      color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      box-shadow var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+      color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .root[data-size="sm"] {
-    --_mobile-icon-button-size: var(--openbitfun-space-12);
+    --_mobile-icon-button-size: var(--opcteam-space-12);
     --_mobile-icon-size: 20px;
   }
 
@@ -38,34 +38,34 @@
   }
 
   .root[data-appearance="floating"] {
-    box-shadow: var(--openbitfun-shadow-base);
+    box-shadow: var(--opcteam-shadow-base);
   }
 
   .root[data-selected="true"] {
-    border-color: var(--openbitfun-color-border-strong);
-    background: var(--openbitfun-color-action-neutral-surface);
+    border-color: var(--opcteam-color-border-strong);
+    background: var(--opcteam-color-action-neutral-surface);
   }
 
   @media (hover: hover) and (pointer: fine) {
     .root:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled) {
-      color: var(--openbitfun-color-content-primary);
-      background: var(--openbitfun-color-action-neutral-surface-hover);
-      box-shadow: var(--openbitfun-shadow-sm);
+      color: var(--opcteam-color-content-primary);
+      background: var(--opcteam-color-action-neutral-surface-hover);
+      box-shadow: var(--opcteam-shadow-sm);
     }
   }
 
   .root:is(:active, [data-openbitfun-preview-state="active"]):not(:disabled) {
-    color: var(--openbitfun-color-content-primary);
-    background: var(--openbitfun-color-action-neutral-surface-pressed);
+    color: var(--opcteam-color-content-primary);
+    background: var(--opcteam-color-action-neutral-surface-pressed);
   }
 
   .root:is(:focus-visible, [data-openbitfun-preview-state="focus-visible"]) {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .root:disabled {
-    color: var(--openbitfun-color-action-neutral-content-disabled);
+    color: var(--opcteam-color-action-neutral-content-disabled);
     cursor: not-allowed;
   }
 
@@ -87,7 +87,7 @@
   .spinner {
     border: 2px solid currentColor;
     border-inline-end-color: transparent;
-    border-radius: var(--openbitfun-radius-pill);
+    border-radius: var(--opcteam-radius-pill);
     opacity: 0;
   }
 
@@ -97,7 +97,7 @@
 
   .root[data-loading="true"] .spinner {
     opacity: 1;
-    animation: openbitfun-mobile-icon-button-spin var(--openbitfun-motion-duration-loop) linear infinite;
+    animation: openbitfun-mobile-icon-button-spin var(--opcteam-motion-duration-loop) linear infinite;
   }
 
   @keyframes openbitfun-mobile-icon-button-spin {
@@ -109,7 +109,7 @@
     .root[data-loading="true"] .spinner {
       animation: none;
       border-inline-end-color: currentColor;
-      opacity: var(--openbitfun-opacity-hover);
+      opacity: var(--opcteam-opacity-hover);
     }
   }
 

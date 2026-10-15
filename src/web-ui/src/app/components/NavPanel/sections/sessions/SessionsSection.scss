@@ -13,16 +13,16 @@
     // stylesheets that indent rows (see WorkspaceListSection's 30px icon
     // gutter) re-declare this so the toggle label can never drift off the rail
     // the session titles sit on.
-    --openbitfun-nav-session-rail: var(--openbitfun-space-1);
+    --opcteam-nav-session-rail: var(--opcteam-space-1);
 
     display: flex;
     flex-direction: column;
     min-width: 0;
     max-width: 100%;
-    padding: 2px var(--openbitfun-space-1) 2px;
-    gap: calc(var(--openbitfun-space-1) / 2);
+    padding: 2px var(--opcteam-space-1) 2px;
+    gap: calc(var(--opcteam-space-1) / 2);
     // No vertical margin: the list owns the separation between adjacent row surfaces.
-    margin: 0 var(--openbitfun-space-1) 0 calc(var(--openbitfun-space-1) + 4px);
+    margin: 0 var(--opcteam-space-1) 0 calc(var(--opcteam-space-1) + 4px);
 
     &.is-flat-workspace-view {
       margin: 0 6px;
@@ -37,9 +37,9 @@
   }
 
   &__inline-empty {
-    font-size: var(--openbitfun-type-label-sm-font-size);
-    color: var(--openbitfun-color-content-muted);
-    padding: 4px var(--openbitfun-space-1);
+    font-size: var(--opcteam-type-label-sm-font-size);
+    color: var(--opcteam-color-content-muted);
+    padding: 4px var(--opcteam-space-1);
     font-style: italic;
     text-align: center;
 
@@ -48,7 +48,7 @@
       min-width: 0;
       min-height: 40px;
       align-items: center;
-      gap: var(--openbitfun-space-2);
+      gap: var(--opcteam-space-2);
       font-style: normal;
     }
   }
@@ -59,14 +59,14 @@
     flex: 1;
     flex-direction: column;
     gap: 1px;
-    line-height: var(--openbitfun-type-label-md-line-height);
+    line-height: var(--opcteam-type-label-md-line-height);
   }
 
   &__inline-empty-name {
     overflow: hidden;
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-label-sm-font-size);
-    font-weight: var(--openbitfun-type-label-sm-font-weight);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-label-sm-font-size);
+    font-weight: var(--opcteam-type-label-sm-font-weight);
     white-space: nowrap;
   }
 
@@ -76,15 +76,15 @@
     gap: 5px;
     min-width: 0;
     height: 24px;
-    padding: 0 var(--openbitfun-space-1);
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-meta-font-size);
+    padding: 0 var(--opcteam-space-1);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-meta-font-size);
 
     .openbitfun-nav-panel__inline-loading-icon {
-      inline-size: var(--openbitfun-control-icon-size-xs);
-      block-size: var(--openbitfun-control-icon-size-xs);
-      color: var(--openbitfun-color-content-secondary);
-      opacity: var(--openbitfun-opacity-muted);
+      inline-size: var(--opcteam-control-icon-size-xs);
+      block-size: var(--opcteam-control-icon-size-xs);
+      color: var(--opcteam-color-content-secondary);
+      opacity: var(--opcteam-opacity-muted);
       flex: 0 0 auto;
       animation: openbitfun-nav-session-spin 1s linear infinite;
     }
@@ -103,74 +103,74 @@
     min-width: 0;
     max-width: 100%;
     height: 26px;
-    padding: 0 var(--openbitfun-space-1) 0 var(--openbitfun-nav-session-rail);
+    padding: 0 var(--opcteam-space-1) 0 var(--opcteam-nav-session-rail);
     border: none;
     border-radius: 4px;
     background: transparent;
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-label-md-font-size);
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-label-md-font-size);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
     cursor: pointer;
     width: 100%;
     overflow: hidden;
     text-align: left;
     overflow: hidden;
     position: relative;
-    transition: color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-                background var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+                background var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     &:hover {
-      color: var(--openbitfun-color-content-primary);
-      background: var(--openbitfun-color-action-quiet-hover);
+      color: var(--opcteam-color-content-primary);
+      background: var(--opcteam-color-action-quiet-hover);
     }
 
     &.is-active {
-      color: var(--openbitfun-color-content-primary);
-      background: var(--openbitfun-color-action-quiet-hover);
+      color: var(--opcteam-color-content-primary);
+      background: var(--opcteam-color-action-quiet-hover);
     }
 
     &.is-editing {
       cursor: default;
-      background: color-mix(in srgb, var(--openbitfun-color-action-quiet-hover) 82%, transparent);
+      background: color-mix(in srgb, var(--opcteam-color-action-quiet-hover) 82%, transparent);
     }
 
     &.is-assistant-session {
       height: 40px;
-      gap: var(--openbitfun-space-2);
+      gap: var(--opcteam-space-2);
       padding-block: 4px;
     }
 
     &:focus-visible {
-      outline: 1px solid var(--openbitfun-color-accent-default);
+      outline: 1px solid var(--opcteam-color-accent-default);
       outline-offset: -1px;
     }
 
     &.is-child {
       margin-top: 0;
       min-height: 24px;
-      font-size: var(--openbitfun-type-label-sm-font-size);
-      padding-left: calc(var(--openbitfun-nav-session-rail) + 14px);
+      font-size: var(--opcteam-type-label-sm-font-size);
+      padding-left: calc(var(--opcteam-nav-session-rail) + 14px);
       position: relative;
 
       &::before {
         content: '';
         position: absolute;
-        left: calc(var(--openbitfun-nav-session-rail) + 2px);
+        left: calc(var(--opcteam-nav-session-rail) + 2px);
         top: 0;
         width: 1px;
         height: 50%;
-        background: color-mix(in srgb, var(--openbitfun-color-border-subtle) 88%, transparent);
+        background: color-mix(in srgb, var(--opcteam-color-border-subtle) 88%, transparent);
         opacity: 0.95;
       }
 
       &::after {
         content: '';
         position: absolute;
-        left: calc(var(--openbitfun-nav-session-rail) + 2px);
+        left: calc(var(--opcteam-nav-session-rail) + 2px);
         top: 50%;
         width: 10px;
         height: 1px;
-        background: color-mix(in srgb, var(--openbitfun-color-border-subtle) 92%, transparent);
+        background: color-mix(in srgb, var(--opcteam-color-border-subtle) 92%, transparent);
         opacity: 0.95;
         transform: translateY(-50%);
       }
@@ -180,11 +180,11 @@
     &.is-btw-child {
       &:hover,
       &.is-active {
-        background: var(--openbitfun-color-action-quiet-hover);
+        background: var(--opcteam-color-action-quiet-hover);
       }
 
       &.is-active {
-        background: var(--openbitfun-color-action-quiet-hover);
+        background: var(--opcteam-color-action-quiet-hover);
       }
     }
   }
@@ -225,9 +225,9 @@
 
   &__inline-item-assistant-name {
     overflow: hidden;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-meta-font-size);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-meta-font-size);
+    line-height: var(--opcteam-type-body-sm-line-height);
     white-space: nowrap;
   }
 
@@ -236,9 +236,9 @@
     min-width: 0;
     margin-left: auto;
     overflow: hidden;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-meta-font-size);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-meta-font-size);
+    line-height: var(--opcteam-type-body-sm-line-height);
     white-space: nowrap;
 
     &:not([data-overflow='true']) {
@@ -250,10 +250,10 @@
   // Visibility changes never alter the title's available width.
   &__inline-item-trailing {
     display: grid;
-    flex: 0 0 var(--openbitfun-space-5);
+    flex: 0 0 var(--opcteam-space-5);
     place-items: center;
-    inline-size: var(--openbitfun-space-5);
-    block-size: var(--openbitfun-space-5);
+    inline-size: var(--opcteam-space-5);
+    block-size: var(--opcteam-space-5);
   }
 
   &__inline-item-status {
@@ -299,26 +299,26 @@
     height: 14px;
     padding: 0 5px;
     overflow: hidden;
-    border: 1px solid color-mix(in srgb, color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 38%, var(--openbitfun-color-border-subtle));
+    border: 1px solid color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 38%, var(--opcteam-color-border-subtle));
     border-radius: 999px;
-    background: color-mix(in srgb, color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 12%, var(--openbitfun-color-action-quiet-hover));
-    color: color-mix(in srgb, color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 76%, var(--openbitfun-color-content-primary));
-    font-size: var(--openbitfun-type-micro-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    background: color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 12%, var(--opcteam-color-action-quiet-hover));
+    color: color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 76%, var(--opcteam-color-content-primary));
+    font-size: var(--opcteam-type-micro-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
     white-space: nowrap;
 
     &[data-state='failed'],
     &[data-state='cancelled'],
     &[data-state='unreachable'] {
-      border-color: var(--openbitfun-color-status-danger-border);
-      background: var(--openbitfun-color-status-danger-surface);
-      color: var(--openbitfun-color-status-danger-content);
+      border-color: var(--opcteam-color-status-danger-border);
+      background: var(--opcteam-color-status-danger-surface);
+      color: var(--opcteam-color-status-danger-content);
     }
 
     &[data-state='succeeded'] {
-      border-color: var(--openbitfun-color-status-success-border);
-      background: var(--openbitfun-color-status-success-surface);
-      color: var(--openbitfun-color-status-success-content);
+      border-color: var(--opcteam-color-status-success-border);
+      background: var(--opcteam-color-status-success-surface);
+      color: var(--opcteam-color-status-success-content);
     }
   }
 
@@ -329,20 +329,20 @@
     gap: 3px;
     height: 14px;
     padding: 0 5px;
-    border: 1px solid color-mix(in srgb, color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 44%, var(--openbitfun-color-border-subtle));
+    border: 1px solid color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 44%, var(--opcteam-color-border-subtle));
     border-radius: 999px;
-    background: color-mix(in srgb, color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 18%, var(--openbitfun-color-action-quiet-hover));
-    color: color-mix(in srgb, color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent) 82%, var(--openbitfun-color-content-primary));
-    font-size: var(--openbitfun-type-micro-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
-    letter-spacing: var(--openbitfun-type-modifier-tracking-wide-letter-spacing);
+    background: color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 18%, var(--opcteam-color-action-quiet-hover));
+    color: color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 82%, var(--opcteam-color-content-primary));
+    font-size: var(--opcteam-type-micro-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
+    letter-spacing: var(--opcteam-type-modifier-tracking-wide-letter-spacing);
     white-space: nowrap;
 
     .openbitfun-nav-panel__inline-item-review-icon {
-      inline-size: var(--openbitfun-control-icon-size2xs);
-      block-size: var(--openbitfun-control-icon-size2xs);
-      color: var(--openbitfun-color-content-secondary);
-      opacity: var(--openbitfun-opacity-muted);
+      inline-size: var(--opcteam-control-icon-size2xs);
+      block-size: var(--opcteam-control-icon-size2xs);
+      color: var(--opcteam-color-content-secondary);
+      opacity: var(--opcteam-opacity-muted);
       animation: openbitfun-nav-session-spin 1s linear infinite;
     }
   }
@@ -353,18 +353,18 @@
     // the marker reads at a normal icon size without a label beside the title.
     display: inline-grid;
     place-items: center;
-    inline-size: var(--openbitfun-control-icon-size-md);
-    block-size: var(--openbitfun-control-icon-size-md);
-    border: 1px dashed var(--openbitfun-color-border-subtle);
+    inline-size: var(--opcteam-control-icon-size-md);
+    block-size: var(--opcteam-control-icon-size-md);
+    border: 1px dashed var(--opcteam-color-border-subtle);
     border-radius: 999px;
-    background: var(--openbitfun-color-action-quiet-hover);
-    color: var(--openbitfun-color-content-secondary);
+    background: var(--opcteam-color-action-quiet-hover);
+    color: var(--opcteam-color-content-secondary);
     // Kill the inline strut so the icon stays optically centered in the circle.
     line-height: 0;
 
     .openbitfun-nav-panel__inline-item-worktree-icon {
-      inline-size: var(--openbitfun-control-icon-size-xs);
-      block-size: var(--openbitfun-control-icon-size-xs);
+      inline-size: var(--opcteam-control-icon-size-xs);
+      block-size: var(--opcteam-control-icon-size-xs);
     }
   }
 
@@ -375,13 +375,13 @@
     place-items: center;
     justify-items: center;
     align-items: center;
-    width: var(--openbitfun-control-icon-size-md);
-    height: var(--openbitfun-control-icon-size-md);
+    width: var(--opcteam-control-icon-size-md);
+    height: var(--opcteam-control-icon-size-md);
     padding: 0;
-    border: 1px solid var(--openbitfun-color-status-success-border);
+    border: 1px solid var(--opcteam-color-status-success-border);
     border-radius: 999px;
-    background: color-mix(in srgb, var(--openbitfun-color-status-success-emphasis) 12%, var(--openbitfun-color-action-quiet-hover));
-    color: color-mix(in srgb, var(--openbitfun-color-status-success-content) 76%, var(--openbitfun-color-content-primary));
+    background: color-mix(in srgb, var(--opcteam-color-status-success-emphasis) 12%, var(--opcteam-color-action-quiet-hover));
+    color: color-mix(in srgb, var(--opcteam-color-status-success-content) 76%, var(--opcteam-color-content-primary));
     overflow: hidden;
     // Kill the inline strut so the 16x16 circle stays optically centered against the title.
     line-height: 0;
@@ -392,13 +392,13 @@
     grid-area: 1 / 1;
     place-self: center;
     display: block;
-    inline-size: var(--openbitfun-control-icon-size-xs);
-    block-size: var(--openbitfun-control-icon-size-xs);
-    color: var(--openbitfun-color-content-secondary);
-    opacity: var(--openbitfun-opacity-muted);
+    inline-size: var(--opcteam-control-icon-size-xs);
+    block-size: var(--opcteam-control-icon-size-xs);
+    color: var(--opcteam-color-content-secondary);
+    opacity: var(--opcteam-opacity-muted);
     flex-shrink: 0;
     transform-origin: center center;
-    transition: opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard), transform var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard), transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     &.is-agent {
       animation: openbitfun-nav-background-subagent-agent-cycle 3.6s ease-in-out infinite;
@@ -420,13 +420,13 @@
     gap: 3px;
     height: 14px;
     padding: 0 5px;
-    border: 1px solid var(--openbitfun-color-status-warning-border);
+    border: 1px solid var(--opcteam-color-status-warning-border);
     border-radius: 999px;
-    background: color-mix(in srgb, var(--openbitfun-color-status-warning-emphasis) 14%, transparent);
-    color: color-mix(in srgb, var(--openbitfun-color-status-warning-content) 80%, var(--openbitfun-color-content-primary));
-    font-size: var(--openbitfun-type-micro-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
-    letter-spacing: var(--openbitfun-type-modifier-tracking-wide-letter-spacing);
+    background: color-mix(in srgb, var(--opcteam-color-status-warning-emphasis) 14%, transparent);
+    color: color-mix(in srgb, var(--opcteam-color-status-warning-content) 80%, var(--opcteam-color-content-primary));
+    font-size: var(--opcteam-type-micro-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
+    letter-spacing: var(--opcteam-type-modifier-tracking-wide-letter-spacing);
     white-space: nowrap;
   }
 
@@ -438,17 +438,17 @@
   }
 
   &__inline-item-tooltip-title {
-    font-size: var(--openbitfun-type-label-sm-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
-    color: var(--openbitfun-color-content-primary);
-    line-height: var(--openbitfun-type-modifier-leading-ui-line-height);
+    font-size: var(--opcteam-type-label-sm-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
+    color: var(--opcteam-color-content-primary);
+    line-height: var(--opcteam-type-modifier-leading-ui-line-height);
     word-break: break-word;
   }
 
   &__inline-item-tooltip-meta {
-    font-size: var(--openbitfun-type-meta-font-size);
-    color: var(--openbitfun-color-content-secondary);
-    line-height: var(--openbitfun-type-modifier-leading-ui-line-height);
+    font-size: var(--opcteam-type-meta-font-size);
+    color: var(--opcteam-color-content-secondary);
+    line-height: var(--opcteam-type-modifier-leading-ui-line-height);
     word-break: break-word;
   }
 
@@ -479,21 +479,21 @@
     border: none;
     border-radius: 4px;
     background: transparent;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
     cursor: pointer;
-    transition: color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-                background var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+                background var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     &:hover,
     &.is-open {
-      color: var(--openbitfun-color-content-primary);
-      background: color-mix(in srgb, var(--openbitfun-color-content-primary) 10%, transparent);
+      color: var(--opcteam-color-content-primary);
+      background: color-mix(in srgb, var(--opcteam-color-content-primary) 10%, transparent);
     }
   }
 
   &__inline-item-menu-popover {
     position: fixed;
-    z-index: var(--openbitfun-layer-popover);
+    z-index: var(--opcteam-layer-popover);
   }
 
   &__inline-item-edit {
@@ -518,23 +518,23 @@
     justify-content: flex-start;
     gap: 5px;
     height: 22px;
-    padding: 0 var(--openbitfun-space-1) 0 var(--openbitfun-nav-session-rail);
+    padding: 0 var(--opcteam-space-1) 0 var(--opcteam-nav-session-rail);
     margin-top: 1px;
     border: none;
     border-radius: 4px;
     background: transparent;
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-meta-font-size);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-meta-font-size);
     text-align: left;
     cursor: pointer;
     width: 100%;
     min-width: 0;
-    transition: color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-                background var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+                background var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     &:hover {
-      color: var(--openbitfun-color-content-primary);
-      background: var(--openbitfun-color-action-quiet-hover);
+      color: var(--opcteam-color-content-primary);
+      background: var(--opcteam-color-action-quiet-hover);
     }
 
     &:disabled {
@@ -543,7 +543,7 @@
     }
 
     &.is-loading {
-      color: var(--openbitfun-color-content-secondary);
+      color: var(--opcteam-color-content-secondary);
     }
   }
 
@@ -553,17 +553,17 @@
   // its centre half a cell off the column the dots above and below it share.
   &__inline-toggle-trailing {
     display: grid;
-    flex: 0 0 var(--openbitfun-space-5);
+    flex: 0 0 var(--opcteam-space-5);
     place-items: center;
-    inline-size: var(--openbitfun-space-5);
+    inline-size: var(--opcteam-space-5);
   }
 
   &__inline-toggle-spinner {
     flex: 0 0 auto;
-    inline-size: var(--openbitfun-control-icon-size-xs);
-    block-size: var(--openbitfun-control-icon-size-xs);
-    color: var(--openbitfun-color-content-secondary);
-    opacity: var(--openbitfun-opacity-muted);
+    inline-size: var(--opcteam-control-icon-size-xs);
+    block-size: var(--opcteam-control-icon-size-xs);
+    color: var(--opcteam-color-content-secondary);
+    opacity: var(--opcteam-opacity-muted);
     animation: openbitfun-nav-session-spin 1s linear infinite;
   }
 
@@ -572,8 +572,8 @@
   &__inline-toggle-chevron {
     flex: 0 0 auto;
     opacity: 0.65;
-    transition: opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-                transform var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+                transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   // Grows to fill the row so the count chip and chevron ride the trailing edge,
@@ -594,14 +594,14 @@
     height: 15px;
     padding: 0 5px;
     border-radius: 999px;
-    background: color-mix(in srgb, var(--openbitfun-color-content-primary) 9%, transparent);
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-meta-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    background: color-mix(in srgb, var(--opcteam-color-content-primary) 9%, transparent);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-meta-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
     font-variant-numeric: tabular-nums;
-    line-height: var(--openbitfun-type-modifier-leading-none-line-height);
-    transition: background var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-                color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    line-height: var(--opcteam-type-modifier-leading-none-line-height);
+    transition: background var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+                color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   &__inline-toggle:hover &__inline-toggle-chevron,
@@ -617,8 +617,8 @@
 
   &__inline-toggle:hover &__inline-toggle-count,
   &__inline-toggle:focus-visible &__inline-toggle-count {
-    background: color-mix(in srgb, var(--openbitfun-color-accent-default) 22%, transparent);
-    color: var(--openbitfun-color-content-primary);
+    background: color-mix(in srgb, var(--opcteam-color-accent-default) 22%, transparent);
+    color: var(--opcteam-color-content-primary);
   }
 
   &__inline-item-edit-btn {
@@ -631,20 +631,20 @@
     border: none;
     border-radius: 4px;
     background: transparent;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
     cursor: pointer;
     flex-shrink: 0;
-    transition: color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-                background var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+                background var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     &.confirm:hover {
-      color: var(--openbitfun-color-status-success-content);
-      background: var(--openbitfun-color-status-success-surface);
+      color: var(--opcteam-color-status-success-content);
+      background: var(--opcteam-color-status-success-surface);
     }
 
     &.cancel:hover {
-      color: var(--openbitfun-color-content-primary);
-      background: color-mix(in srgb, var(--openbitfun-color-content-primary) 10%, transparent);
+      color: var(--opcteam-color-content-primary);
+      background: color-mix(in srgb, var(--opcteam-color-content-primary) 10%, transparent);
     }
   }
 
@@ -654,12 +654,12 @@
     border-radius: 50%;
 
     &.is-running {
-      color: var(--openbitfun-color-status-success-content);
+      color: var(--opcteam-color-status-success-content);
       fill: currentColor;
     }
 
     &.is-stopped {
-      color: var(--openbitfun-color-content-muted);
+      color: var(--opcteam-color-content-muted);
       fill: transparent;
       stroke: currentColor;
     }
@@ -668,13 +668,13 @@
   // Inline item badge (count / status text)
   &__inline-item-badge {
     flex-shrink: 0;
-    font-size: var(--openbitfun-type-micro-font-size);
-    line-height: var(--openbitfun-type-modifier-leading-none-line-height);
-    color: var(--openbitfun-color-content-muted);
+    font-size: var(--opcteam-type-micro-font-size);
+    line-height: var(--opcteam-type-modifier-leading-none-line-height);
+    color: var(--opcteam-color-content-muted);
     margin-left: auto;
     padding: 1px 4px;
     border-radius: 3px;
-    background: color-mix(in srgb, var(--openbitfun-color-content-muted) 12%, transparent);
+    background: color-mix(in srgb, var(--opcteam-color-content-muted) 12%, transparent);
 
     &--dim {
       opacity: 0.55;
@@ -691,13 +691,13 @@
     margin-left: auto;
 
     &.is-healthy {
-      background: var(--openbitfun-color-status-success-emphasis);
-      box-shadow: 0 0 4px color-mix(in srgb, var(--openbitfun-color-status-success-emphasis) 40%, transparent);
+      background: var(--opcteam-color-status-success-emphasis);
+      box-shadow: 0 0 4px color-mix(in srgb, var(--opcteam-color-status-success-emphasis) 40%, transparent);
     }
 
     &.is-error {
-      background: var(--openbitfun-color-status-warning-emphasis);
-      box-shadow: 0 0 4px color-mix(in srgb, var(--openbitfun-color-status-warning-emphasis) 40%, transparent);
+      background: var(--opcteam-color-status-warning-emphasis);
+      box-shadow: 0 0 4px color-mix(in srgb, var(--opcteam-color-status-warning-emphasis) 40%, transparent);
     }
   }
 
@@ -776,31 +776,31 @@
 // response. Running/attention motion remains because it communicates state.
 .openbitfun-nav-panel {
   &__inline-list {
-    margin: 0 6px 0 var(--openbitfun-space-3);
+    margin: 0 6px 0 var(--opcteam-space-3);
     padding: 2px 0;
   }
 
   &__inline-item {
     height: 28px;
-    padding: 0 6px 0 var(--openbitfun-nav-session-rail);
-    border-radius: var(--openbitfun-radius-sm);
+    padding: 0 6px 0 var(--opcteam-nav-session-rail);
+    border-radius: var(--opcteam-radius-sm);
     transition:
       background 120ms ease,
       color 120ms ease;
 
     &:active:not(.is-disabled) {
-      background: var(--openbitfun-color-action-neutral-surface-hover);
+      background: var(--opcteam-color-action-neutral-surface-hover);
     }
 
     &.is-active {
-      background: var(--openbitfun-color-action-quiet-hover);
+      background: var(--opcteam-color-action-quiet-hover);
       box-shadow: none;
     }
   }
 
   &__inline-item-action-btn,
   &__inline-item-edit-btn {
-    border-radius: var(--openbitfun-radius-sm);
+    border-radius: var(--opcteam-radius-sm);
     transition:
       background 120ms ease,
       color 120ms ease;
@@ -809,13 +809,13 @@
   // Press feedback matches a full-width row, not the 20px icon buttons: the
   // icon-button 0.94 squish travels far too much across the panel width.
   &__inline-toggle {
-    border-radius: var(--openbitfun-radius-sm);
+    border-radius: var(--opcteam-radius-sm);
     transition:
       background 120ms ease,
       color 120ms ease;
 
     &:active:not(:disabled) {
-      background: var(--openbitfun-color-action-neutral-surface-hover);
+      background: var(--opcteam-color-action-neutral-surface-hover);
     }
   }
 
@@ -823,7 +823,7 @@
 
 @media (hover: hover) and (pointer: fine) {
   .openbitfun-nav-panel__inline-item:hover {
-    background: var(--openbitfun-color-action-quiet-hover);
+    background: var(--opcteam-color-action-quiet-hover);
   }
 }
 
@@ -834,16 +834,16 @@
   &__inline-list {
     padding-block: 0;
     // Rail for this rhythm: rows previously hard-coded `padding: 0 6px`.
-    --openbitfun-nav-session-rail: 8px;
+    --opcteam-nav-session-rail: 8px;
   }
 
   &__inline-item {
     height: 30px;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
     // Trailing edge of the row, not the reading gutter: it has to match the
     // workspace rows and the group toggle so all trailing actions end on one column.
-    padding-right: var(--openbitfun-space-1);
-    border-radius: var(--openbitfun-radius-base);
+    padding-right: var(--opcteam-space-1);
+    border-radius: var(--opcteam-radius-base);
     @include nav-font.nav-panel-text-row;
 
     &:hover,
@@ -864,7 +864,7 @@
     &.is-child {
       height: 30px;
       margin-top: 0;
-      font-size: var(--openbitfun-type-label-md-font-size);
+      font-size: var(--opcteam-type-label-md-font-size);
     }
 
     &.is-assistant-session {
@@ -880,7 +880,7 @@
   }
 
   &__inline-item.is-active &__inline-item-label {
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
     font-weight: inherit;
   }
 
@@ -888,16 +888,16 @@
   &__inline-item-workspace-name {
     @include nav-font.nav-panel-text-meta;
 
-    font-size: var(--openbitfun-type-meta-font-size);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    font-size: var(--opcteam-type-meta-font-size);
+    line-height: var(--opcteam-type-body-sm-line-height);
   }
 
   &__inline-toggle {
     height: 32px;
     @include nav-font.nav-panel-text-meta;
 
-    font-size: var(--openbitfun-type-label-sm-font-size);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    font-size: var(--opcteam-type-label-sm-font-size);
+    line-height: var(--opcteam-type-body-sm-line-height);
 
     &:hover,
     &:focus-visible {

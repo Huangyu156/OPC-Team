@@ -12,32 +12,32 @@ export const usageColorSequence = [
 ] as const satisfies readonly CanvasColor[];
 
 export const categoryPaletteLight: Record<CanvasColor, string> = {
-  gray: 'var(--openbitfun-color-content-muted)',
-  purple: 'var(--openbitfun-color-accent-default)',
-  green: 'var(--openbitfun-color-status-success-content)',
-  yellow: 'var(--openbitfun-color-status-warning-content)',
-  cyan: 'var(--openbitfun-color-status-info-content)',
-  pink: 'var(--openbitfun-canvas-danger)',
-  blue: 'var(--openbitfun-color-accent-default)',
-  orange: 'var(--openbitfun-color-status-warning-content)',
+  gray: 'var(--opcteam-color-content-muted)',
+  purple: 'var(--opcteam-color-accent-default)',
+  green: 'var(--opcteam-color-status-success-content)',
+  yellow: 'var(--opcteam-color-status-warning-content)',
+  cyan: 'var(--opcteam-color-status-info-content)',
+  pink: 'var(--opcteam-canvas-danger)',
+  blue: 'var(--opcteam-color-accent-default)',
+  orange: 'var(--opcteam-color-status-warning-content)',
 };
 
 export const categoryPaletteDark = categoryPaletteLight;
 
 export const canvasTokensLight = {
-  bg: 'var(--openbitfun-color-surface-canvas)',
-  panel: 'var(--openbitfun-color-surface-panel)',
-  elevated: 'var(--openbitfun-color-surface-raised)',
-  chrome: 'var(--openbitfun-color-surface-chrome)',
-  text: 'var(--openbitfun-color-content-primary)',
-  textSecondary: 'var(--openbitfun-color-content-secondary)',
-  textMuted: 'var(--openbitfun-color-content-muted)',
-  border: 'var(--openbitfun-color-border-subtle)',
-  accent: 'var(--openbitfun-color-accent-default)',
-  success: 'var(--openbitfun-color-status-success-content)',
-  warning: 'var(--openbitfun-color-status-warning-content)',
-  danger: 'var(--openbitfun-color-status-danger-content)',
-  info: 'var(--openbitfun-canvas-info)',
+  bg: 'var(--opcteam-color-surface-canvas)',
+  panel: 'var(--opcteam-color-surface-panel)',
+  elevated: 'var(--opcteam-color-surface-raised)',
+  chrome: 'var(--opcteam-color-surface-chrome)',
+  text: 'var(--opcteam-color-content-primary)',
+  textSecondary: 'var(--opcteam-color-content-secondary)',
+  textMuted: 'var(--opcteam-color-content-muted)',
+  border: 'var(--opcteam-color-border-subtle)',
+  accent: 'var(--opcteam-color-accent-default)',
+  success: 'var(--opcteam-color-status-success-content)',
+  warning: 'var(--opcteam-color-status-warning-content)',
+  danger: 'var(--opcteam-color-status-danger-content)',
+  info: 'var(--opcteam-canvas-info)',
 };
 
 export const canvasTokens = canvasTokensLight;
@@ -126,29 +126,29 @@ export function flexJustify(value: unknown): React.CSSProperties['justifyContent
 export function sizeValue(size: unknown): string {
   if (typeof size === 'number') return `${size}px`;
   return size === 'small' || size === 'sm'
-    ? 'var(--openbitfun-type-body-xs-font-size)'
+    ? 'var(--opcteam-type-body-xs-font-size)'
     : size === 'lg'
-      ? 'var(--openbitfun-type-body-lg-font-size)'
+      ? 'var(--opcteam-type-body-lg-font-size)'
       : size === 'body' || size === 'md' || !size
-        ? 'var(--openbitfun-type-body-sm-font-size)'
+        ? 'var(--opcteam-type-body-sm-font-size)'
         : String(size);
 }
 
 export function weightValue(weight: unknown): number | string {
   return weight === 'medium'
-    ? 'var(--openbitfun-font-weight-medium)'
+    ? 'var(--opcteam-font-weight-medium)'
     : weight === 'semibold'
-      ? 'var(--openbitfun-font-weight-semibold)'
+      ? 'var(--opcteam-font-weight-semibold)'
       : weight === 'bold'
-        ? 'var(--openbitfun-font-weight-bold)'
-        : (weight as number | string | undefined) || 'var(--openbitfun-font-weight-regular)';
+        ? 'var(--opcteam-font-weight-bold)'
+        : (weight as number | string | undefined) || 'var(--opcteam-font-weight-regular)';
 }
 
 export function toneColor(tone: CanvasTone | undefined): string {
-  if (tone === 'success') return 'var(--openbitfun-canvas-success)';
-  if (tone === 'warning') return 'var(--openbitfun-canvas-warning)';
-  if (tone === 'danger' || tone === 'error') return 'var(--openbitfun-canvas-danger)';
-  if (tone === 'info') return 'var(--openbitfun-canvas-info)';
+  if (tone === 'success') return 'var(--opcteam-canvas-success)';
+  if (tone === 'warning') return 'var(--opcteam-canvas-warning)';
+  if (tone === 'danger' || tone === 'error') return 'var(--opcteam-canvas-danger)';
+  if (tone === 'info') return 'var(--opcteam-canvas-info)';
   if (
     tone === 'secondary' ||
     tone === 'tertiary' ||
@@ -156,7 +156,7 @@ export function toneColor(tone: CanvasTone | undefined): string {
     tone === 'muted' ||
     tone === 'neutral'
   ) {
-    return 'var(--openbitfun-color-content-muted)';
+    return 'var(--opcteam-color-content-muted)';
   }
-  return 'var(--openbitfun-color-content-primary)';
+  return 'var(--opcteam-color-content-primary)';
 }

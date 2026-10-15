@@ -17,14 +17,14 @@ export interface MiniAppAppearancePayload {
 }
 
 interface MiniAppAppearanceVariableContract {
-  readonly name: `--openbitfun-${string}`;
+  readonly name: `--opcteam-${string}`;
   readonly kind: 'theme' | 'system';
-  readonly source: `--openbitfun-${string}`;
+  readonly source: `--opcteam-${string}`;
 }
 
 const APPEARANCE_VARIABLES = miniAppAppearanceContract.variables as readonly MiniAppAppearanceVariableContract[];
 const SYSTEM_TOKEN_NAMES_BY_CSS_VARIABLE = new Map<string, SystemTokenName>(
-  (Object.entries(systemCssVariables) as [SystemTokenName, `--openbitfun-${string}`][])
+  (Object.entries(systemCssVariables) as [SystemTokenName, `--opcteam-${string}`][])
     .map(([name, cssVariable]) => [cssVariable, name]),
 );
 

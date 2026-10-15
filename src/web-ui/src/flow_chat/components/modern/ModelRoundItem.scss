@@ -20,10 +20,10 @@
   opacity: 1;
 
   &__continuation {
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-flow-meta-font-size);
-    line-height: var(--openbitfun-type-flow-meta-line-height);
-    margin-bottom: var(--openbitfun-space-1);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-flow-meta-font-size);
+    line-height: var(--opcteam-type-flow-meta-line-height);
+    margin-bottom: var(--opcteam-space-1);
   }
 
   // Streaming state
@@ -42,15 +42,15 @@
 .model-round-item__header {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: var(--openbitfun-control-flow-chat-inline-gap);
-  padding: 0 var(--openbitfun-control-flow-chat-control-gap);
+  margin-bottom: var(--opcteam-control-flow-chat-inline-gap);
+  padding: 0 var(--opcteam-control-flow-chat-control-gap);
 }
 
 // Action button container (bottom-right of last round).
 .model-round-item__footer {
   @include transcriptLayout.metadata-row;
-  padding: var(--openbitfun-space-1) 0;
-  margin-top: var(--openbitfun-space-1);
+  padding: var(--opcteam-space-1) 0;
+  margin-top: var(--opcteam-space-1);
 
   // Keep the measured footer slot and keyboard access when a historical turn rests.
   &[data-footer-reveal='hover'] {
@@ -84,7 +84,7 @@
   flex-wrap: wrap;
   justify-content: flex-end;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
   margin-inline-start: auto;
   min-inline-size: 0;
 }
@@ -93,14 +93,14 @@
   display: flex;
   flex: 0 0 auto;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
   min-width: 0;
-  color: var(--openbitfun-color-content-muted);
-  font-family: var(--openbitfun-type-flow-meta-font-family);
-  font-size: var(--openbitfun-type-flow-meta-font-size);
-  font-weight: var(--openbitfun-type-flow-meta-font-weight);
+  color: var(--opcteam-color-content-muted);
+  font-family: var(--opcteam-type-flow-meta-font-family);
+  font-size: var(--opcteam-type-flow-meta-font-size);
+  font-weight: var(--opcteam-type-flow-meta-font-weight);
   font-variant-numeric: tabular-nums;
-  line-height: var(--openbitfun-type-flow-meta-line-height);
+  line-height: var(--opcteam-type-flow-meta-line-height);
   white-space: nowrap;
 }
 
@@ -109,17 +109,17 @@
 }
 
 .model-round-item__history-loader {
-  color: var(--openbitfun-color-content-muted);
-  font-size: var(--openbitfun-type-flow-support-font-size);
-  line-height: var(--openbitfun-type-flow-support-line-height);
-  padding: var(--openbitfun-control-flow-chat-inline-gap) 0;
+  color: var(--opcteam-color-content-muted);
+  font-size: var(--opcteam-type-flow-support-font-size);
+  line-height: var(--opcteam-type-flow-support-line-height);
+  padding: var(--opcteam-control-flow-chat-inline-gap) 0;
 }
 
 .model-round-item__retry-history {
   display: flex;
   min-inline-size: 0;
   flex-direction: column;
-  margin-bottom: var(--openbitfun-control-flow-chat-flow-item-gap);
+  margin-bottom: var(--opcteam-control-flow-chat-flow-item-gap);
 }
 
 .model-round-item__retry-attempt {
@@ -129,14 +129,14 @@
 .model-round-item__attempt-diagnostic-toggle {
   inline-size: 100%;
   justify-content: flex-start;
-  color: var(--openbitfun-color-status-warning-content);
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  font-weight: var(--openbitfun-type-body-sm-font-weight);
+  color: var(--opcteam-color-status-warning-content);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  font-weight: var(--opcteam-type-body-sm-font-weight);
   text-align: start;
 }
 
 .model-round-item__attempt-diagnostic-details {
-  padding-inline: calc(var(--openbitfun-control-button-xs-padding-inline) + var(--openbitfun-border-width-default));
+  padding-inline: calc(var(--opcteam-control-button-xs-padding-inline) + var(--opcteam-border-width-default));
 }
 
 .model-round-item__retry-attempt-content {
@@ -155,7 +155,7 @@
 .model-round-item__action-btn {
   @include transcriptLayout.metadata-action;
   background: transparent;
-  color: var(--openbitfun-color-content-muted);
+  color: var(--opcteam-color-content-muted);
   cursor: pointer;
   transition:
     transform 120ms cubic-bezier(0.23, 1, 0.32, 1),
@@ -163,12 +163,12 @@
   opacity: 1;
 
   &:hover {
-    background: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 8%, transparent);
-    color: var(--openbitfun-color-content-primary);
+    background: color-mix(in srgb, var(--opcteam-color-content-on-dark) 8%, transparent);
+    color: var(--opcteam-color-content-primary);
   }
 
   &:focus-visible {
-    outline: 2px solid color-mix(in srgb, var(--openbitfun-color-accent-hover) 40%, transparent);
+    outline: 2px solid color-mix(in srgb, var(--opcteam-color-accent-hover) 40%, transparent);
     outline-offset: 1px;
   }
 
@@ -181,8 +181,8 @@
 // Copy button
 .model-round-item__copy-btn {
   &.copied {
-    color: var(--openbitfun-color-status-success-content);
-    background: var(--openbitfun-color-status-success-surface);
+    color: var(--opcteam-color-status-success-content);
+    background: var(--opcteam-color-status-success-surface);
   }
 }
 
@@ -194,7 +194,7 @@
 
 .model-round-item__copy-menu {
   position: fixed;
-  z-index: var(--openbitfun-layer-popover);
+  z-index: var(--opcteam-layer-popover);
 }
 
 .model-round-item__fork-btn {
@@ -229,13 +229,13 @@
     opacity: 1;
     transform: translateY(0);
     max-height: 96px;
-    margin-bottom: var(--openbitfun-control-flow-chat-flow-item-gap);
+    margin-bottom: var(--opcteam-control-flow-chat-flow-item-gap);
   }
   55% {
     opacity: 0.72;
     transform: translateY(-1px);
     max-height: 96px;
-    margin-bottom: var(--openbitfun-control-flow-chat-flow-item-gap);
+    margin-bottom: var(--opcteam-control-flow-chat-flow-item-gap);
   }
   100% {
     opacity: 0;

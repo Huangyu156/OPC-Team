@@ -23,14 +23,14 @@ function pieLegend(slices: PieSlice[]): Array<{ name: string; color: string }> {
 }
 
 const chartColors = [
-  'var(--openbitfun-color-accent-default)',
-  'var(--openbitfun-color-status-success-content)',
-  'var(--openbitfun-color-status-warning-content)',
-  'var(--openbitfun-color-status-info-content)',
-  'var(--openbitfun-color-accent-hover)',
-  'var(--openbitfun-color-status-danger-content)',
-  'var(--openbitfun-color-content-muted)',
-  'color-mix(in srgb, var(--openbitfun-color-accent-default) 40%, transparent)',
+  'var(--opcteam-color-accent-default)',
+  'var(--opcteam-color-status-success-content)',
+  'var(--opcteam-color-status-warning-content)',
+  'var(--opcteam-color-status-info-content)',
+  'var(--opcteam-color-accent-hover)',
+  'var(--opcteam-color-status-danger-content)',
+  'var(--opcteam-color-content-muted)',
+  'color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent)',
 ];
 
 function finiteNumber(value: unknown): number | null {
@@ -155,8 +155,8 @@ function chartGrid(left: number, top: number, plotWidth: number, plotHeight: num
     const label = Math.round((max * index) / 4);
     return (
       <g key={`grid-${index}`}>
-        <line x1={left} y1={y} x2={left + plotWidth} y2={y} stroke="var(--openbitfun-color-border-subtle)" strokeWidth={1} />
-        <text x={left - 8} y={y + 4} textAnchor="end" fill="var(--openbitfun-color-content-muted)" fontSize="var(--openbitfun-type-micro-font-size)">
+        <line x1={left} y1={y} x2={left + plotWidth} y2={y} stroke="var(--opcteam-color-border-subtle)" strokeWidth={1} />
+        <text x={left - 8} y={y + 4} textAnchor="end" fill="var(--opcteam-color-content-muted)" fontSize="var(--opcteam-type-micro-font-size)">
           {label}
         </text>
       </g>
@@ -194,7 +194,7 @@ export function BarChart(props: CanvasChartProps = {}) {
           }),
         )}
         {labels.map((label, index) => (
-          <text key={`label-${index}`} x={left + index * groupWidth + groupWidth / 2} y={height - 10} textAnchor="middle" fill="var(--openbitfun-color-content-muted)" fontSize="var(--openbitfun-type-micro-font-size)">
+          <text key={`label-${index}`} x={left + index * groupWidth + groupWidth / 2} y={height - 10} textAnchor="middle" fill="var(--opcteam-color-content-muted)" fontSize="var(--opcteam-type-micro-font-size)">
             <title>{String(label)}</title>
             {String(label).slice(0, 14)}
           </text>
@@ -229,11 +229,11 @@ export function LineChart(props: CanvasChartProps = {}) {
         })}
         {series.flatMap(item =>
           item.values.map((value, index) => (
-            <circle key={`point-${item.name}-${index}`} cx={xFor(index)} cy={yFor(value)} r={3} fill={item.color} stroke="var(--openbitfun-color-surface-panel)" strokeWidth={1.5} />
+            <circle key={`point-${item.name}-${index}`} cx={xFor(index)} cy={yFor(value)} r={3} fill={item.color} stroke="var(--opcteam-color-surface-panel)" strokeWidth={1.5} />
           )),
         )}
         {labels.map((label, index) => (
-          <text key={`label-${index}`} x={xFor(index)} y={height - 10} textAnchor="middle" fill="var(--openbitfun-color-content-muted)" fontSize="var(--openbitfun-type-micro-font-size)">
+          <text key={`label-${index}`} x={xFor(index)} y={height - 10} textAnchor="middle" fill="var(--opcteam-color-content-muted)" fontSize="var(--opcteam-type-micro-font-size)">
             <title>{String(label)}</title>
             {String(label).slice(0, 14)}
           </text>
@@ -296,7 +296,7 @@ export function PieChart(props: CanvasChartProps = {}) {
     const nextAngle = angle + (item.value / total) * Math.PI * 2;
     const path = arcPath(cx, cy, radius, angle, nextAngle);
     angle = nextAngle;
-    return <path key={item.label + index} d={path} fill={item.color} stroke="var(--openbitfun-color-surface-panel)" strokeWidth={1.5} />;
+    return <path key={item.label + index} d={path} fill={item.color} stroke="var(--opcteam-color-surface-panel)" strokeWidth={1.5} />;
   });
   return (
     <ChartShell title={props.title} legend={pieLegend(slices)} height={height} style={props.style}>
@@ -306,10 +306,10 @@ export function PieChart(props: CanvasChartProps = {}) {
           <g key={`label-${index}`} transform={`translate(225 ${52 + index * 23})`}>
             <title>{String(item.label)}</title>
             <rect x={0} y={-8} width={9} height={9} rx={2} fill={item.color} />
-            <text x={16} y={0} fill="var(--openbitfun-color-content-secondary)" fontSize="var(--openbitfun-type-meta-font-size)">
+            <text x={16} y={0} fill="var(--opcteam-color-content-secondary)" fontSize="var(--opcteam-type-meta-font-size)">
               {String(item.label).slice(0, 20)}
             </text>
-            <text x={118} y={0} fill="var(--openbitfun-color-content-muted)" fontSize="var(--openbitfun-type-meta-font-size)" textAnchor="end">
+            <text x={118} y={0} fill="var(--opcteam-color-content-muted)" fontSize="var(--opcteam-type-meta-font-size)" textAnchor="end">
               {Math.round((item.value / total) * 100)}%
             </text>
           </g>

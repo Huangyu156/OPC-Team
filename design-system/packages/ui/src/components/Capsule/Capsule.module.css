@@ -1,6 +1,6 @@
 @layer openbitfun.components {
   .root {
-    --_floating-action-host-height: var(--openbitfun-control-height-sm);
+    --_floating-action-host-height: var(--opcteam-control-height-sm);
     display: inline-flex;
     flex: 0 1 auto;
     align-items: center;
@@ -8,7 +8,7 @@
     max-inline-size: 100%;
   }
 
-  .root[data-size="xs"] { --_floating-action-host-height: var(--openbitfun-control-button-xs-height); }
-  .root[data-size="md"] { --_floating-action-host-height: var(--openbitfun-control-height-md); }
-  .root[data-size="lg"] { --_floating-action-host-height: var(--openbitfun-control-height-lg); }
+  .root[data-size="xs"] { --_floating-action-host-height: var(--opcteam-control-button-xs-height); }
+  .root[data-size="md"] { --_floating-action-host-height: var(--opcteam-control-height-md); }
+  .root[data-size="lg"] { --_floating-action-host-height: var(--opcteam-control-height-lg); }
 }

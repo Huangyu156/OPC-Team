@@ -58,11 +58,11 @@ test("Toolbar exposes compact sizing and leading overflow without imposing produ
 test("Toolbar styles bind geometry and overflow treatment to public tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-layout-toolbar-sm-height/);
-  assert.match(styles, /--openbitfun-layout-toolbar-md-height/);
-  assert.match(styles, /--openbitfun-layout-toolbar-content-gap/);
-  assert.match(styles, /--openbitfun-layout-toolbar-badge-size/);
-  assert.match(styles, /--openbitfun-layout-toolbar-overflow-fade-extent/);
+  assert.match(styles, /--opcteam-layout-toolbar-sm-height/);
+  assert.match(styles, /--opcteam-layout-toolbar-md-height/);
+  assert.match(styles, /--opcteam-layout-toolbar-content-gap/);
+  assert.match(styles, /--opcteam-layout-toolbar-badge-size/);
+  assert.match(styles, /--opcteam-layout-toolbar-overflow-fade-extent/);
   assert.match(styles, /overflow-x:auto/);
   assert.match(styles, /mask-image:linear-gradient/);
 });

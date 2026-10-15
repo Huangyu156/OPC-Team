@@ -548,11 +548,11 @@ export class AppearanceCompiler {
   }
 
   private referenceToVariable(path: string): string {
-    return `--openbitfun-appearance-${path.replace(/^globals\./, '').replace(/\./g, '-')}`;
+    return `--opcteam-appearance-${path.replace(/^globals\./, '').replace(/\./g, '-')}`;
   }
 
   private assetVariable(assetId: string): string {
-    return `--openbitfun-appearance-asset-${assetId.replace(/\./g, '-')}`;
+    return `--opcteam-appearance-asset-${assetId.replace(/\./g, '-')}`;
   }
 
   private serializeAssetReference(value: unknown, context: CompileContext): string {
@@ -624,7 +624,7 @@ export class AppearanceCompiler {
   }
 
   private resolveConcreteCssValue(value: string, context: CompileContext): string {
-    const match = /^var\((--openbitfun-appearance-[^)]+)\)$/.exec(value);
+    const match = /^var\((--opcteam-appearance-[^)]+)\)$/.exec(value);
     if (!match) return value;
     const path = [...context.globals.keys()].find(candidate => this.referenceToVariable(candidate) === match[1]);
     return path ? this.resolveConcreteReference(path, context, new Set()) : value;

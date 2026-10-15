@@ -54,15 +54,15 @@ const generated = [
   '  }',
   '  *::-webkit-scrollbar-thumb {',
   '    border-radius: 999px;',
-  '    background: var(--openbitfun-scrollbar-thumb);',
+  '    background: var(--opcteam-scrollbar-thumb);',
   '  }',
   '  *::-webkit-scrollbar-thumb:hover {',
-  '    background: var(--openbitfun-scrollbar-thumb-hover);',
+  '    background: var(--opcteam-scrollbar-thumb-hover);',
   '  }',
   '  @supports (scrollbar-color: transparent transparent) {',
   '    * {',
   '      scrollbar-width: thin;',
-  '      scrollbar-color: var(--openbitfun-scrollbar-thumb) transparent;',
+  '      scrollbar-color: var(--opcteam-scrollbar-thumb) transparent;',
   '    }',
   '  }',
   '  @supports selector(::-webkit-scrollbar) {',
@@ -95,7 +95,7 @@ function validateContract(value) {
   }
   const names = new Set();
   for (const variable of value.variables) {
-    if (!/^--openbitfun-[a-z0-9-]+$/.test(variable.name ?? '')) {
+    if (!/^--opcteam-[a-z0-9-]+$/.test(variable.name ?? '')) {
       throw new Error(`Invalid MiniApp appearance variable: ${String(variable.name)}.`);
     }
     if (names.has(variable.name)) throw new Error(`Duplicate MiniApp appearance variable: ${variable.name}.`);

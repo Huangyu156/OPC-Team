@@ -54,10 +54,10 @@ const EVIDENCE_STATUS_LABEL_KEYS: Record<ReviewEvidenceStatus, string> = {
 const log = createLogger('CodeReviewToolCard');
 
 const riskLevelColors: Record<string, string> = {
-  low: 'var(--openbitfun-color-status-success-content)',
-  medium: 'var(--openbitfun-color-status-warning-content)',
-  high: 'color-mix(in srgb, var(--openbitfun-color-status-warning-content) 55%, var(--openbitfun-color-status-danger-content))',
-  critical: 'var(--openbitfun-color-status-danger-content)',
+  low: 'var(--opcteam-color-status-success-content)',
+  medium: 'var(--opcteam-color-status-warning-content)',
+  high: 'color-mix(in srgb, var(--opcteam-color-status-warning-content) 55%, var(--opcteam-color-status-danger-content))',
+  critical: 'var(--opcteam-color-status-danger-content)',
 };
 
 type Translate = (key: string, options?: Record<string, unknown>) => string;
@@ -344,9 +344,9 @@ export const CodeReviewToolCard: React.FC<ToolCardProps> = React.memo(({
       case 'low':
         return <Icon name="info" size="sm" style={{ color: riskLevelColors.low }} />;
       case 'info':
-        return <Icon name="info" size="sm" style={{ color: 'var(--openbitfun-color-content-muted)' }} />;
+        return <Icon name="info" size="sm" style={{ color: 'var(--opcteam-color-content-muted)' }} />;
       default:
-        return <Icon name="info" size="sm" style={{ color: 'var(--openbitfun-color-content-muted)' }} />;
+        return <Icon name="info" size="sm" style={{ color: 'var(--opcteam-color-content-muted)' }} />;
     }
   };
 

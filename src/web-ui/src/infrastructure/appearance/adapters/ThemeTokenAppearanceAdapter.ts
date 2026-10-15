@@ -21,10 +21,10 @@ const HIGHLIGHT_STYLE_ATTRIBUTE = 'data-openbitfun-appearance-highlight-paint';
 const ROOT_BACKGROUND_VARIABLE = themeCssVariables['color.surface.chrome'];
 const FORBIDDEN_VALUE = /(?:url\s*\(|var\s*\(|expression\s*\(|[;{}<>])/i;
 const HIGHLIGHT_COLOR_TOKENS = new Set([
-  '--openbitfun-color-accent-border-subtle',
-  '--openbitfun-color-selection-surface',
-  '--openbitfun-color-action-secondary-pressed',
-  '--openbitfun-color-content-primary',
+  '--opcteam-color-accent-border-subtle',
+  '--opcteam-color-selection-surface',
+  '--opcteam-color-action-secondary-pressed',
+  '--opcteam-color-content-primary',
 ]);
 
 function projectHighlightToken(name: string, value: string): string {
@@ -113,7 +113,7 @@ export const themeTokenAppearanceAdapter: AppearanceRendererAdapter<'theme-token
     Object.entries(next.tokens).forEach(([name, value]) => {
       if (value !== undefined) rootStyle.setProperty(name, projectHighlightToken(name, value));
     });
-    const accent = next.tokens['--openbitfun-component-conversation-excerpt-accent'];
+    const accent = next.tokens['--opcteam-component-conversation-excerpt-accent'];
     if (accent) {
       const paint = resolveHighlightPaintColors(document, accent);
       // Renderer output only: old theme packages need no new setting or token.

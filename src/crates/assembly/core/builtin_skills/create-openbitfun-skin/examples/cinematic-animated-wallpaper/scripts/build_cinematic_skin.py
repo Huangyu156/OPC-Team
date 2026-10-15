@@ -415,7 +415,7 @@ def add_build_arguments(parser: argparse.ArgumentParser) -> None:
     parser.add_argument("--dialog-size", default="1040x515")
     parser.add_argument("--palette", type=Path, default=DEFAULT_PALETTE)
     parser.add_argument("--surface-plan", type=Path, default=DEFAULT_SURFACE_PLAN)
-    parser.add_argument("--openbitfun-repo", type=Path)
+    parser.add_argument("--opcteam-repo", type=Path)
     parser.add_argument("--allow-warnings", action="store_true")
     parser.add_argument("--force", action="store_true")
 
@@ -433,11 +433,11 @@ def parse_args() -> argparse.Namespace:
 
     rebuild = subparsers.add_parser("rebuild", help="Rebuild from skin-build.json.")
     rebuild.add_argument("--output", type=Path, required=True)
-    rebuild.add_argument("--openbitfun-repo", type=Path)
+    rebuild.add_argument("--opcteam-repo", type=Path)
 
     check = subparsers.add_parser("check", help="Check reproducibility, hashes, validation, and host compatibility.")
     check.add_argument("--output", type=Path, required=True)
-    check.add_argument("--openbitfun-repo", type=Path)
+    check.add_argument("--opcteam-repo", type=Path)
     check.add_argument("--skip-host-verify", action="store_true")
     return parser.parse_args()
 

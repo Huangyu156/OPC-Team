@@ -101,7 +101,7 @@ function resolvedTheme(theme = state.theme) {
 
 function syncThemeColor() {
   const surface = getComputedStyle(document.documentElement)
-    .getPropertyValue('--openbitfun-color-surface-canvas')
+    .getPropertyValue('--opcteam-color-surface-canvas')
     .trim();
   if (surface) {
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', surface);

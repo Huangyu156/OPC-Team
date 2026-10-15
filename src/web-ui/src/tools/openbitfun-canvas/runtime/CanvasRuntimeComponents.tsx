@@ -11,14 +11,14 @@ function errorText(error: unknown): string {
 
 export function CanvasRuntimeErrorPanel({ error }: { error: unknown }) {
   return (
-    <main style={{ maxWidth: 860, margin: '0 auto', padding: 12, border: '1px solid var(--openbitfun-color-border-default)', borderRadius: 8 }}>
+    <main style={{ maxWidth: 860, margin: '0 auto', padding: 12, border: '1px solid var(--opcteam-color-border-default)', borderRadius: 8 }}>
       <h1 style={{
-        fontSize: 'var(--openbitfun-type-heading-page-font-size)',
-        fontWeight: 'var(--openbitfun-type-heading-page-font-weight)',
-        lineHeight: 'var(--openbitfun-type-heading-page-line-height)',
+        fontSize: 'var(--opcteam-type-heading-page-font-size)',
+        fontWeight: 'var(--opcteam-type-heading-page-font-weight)',
+        lineHeight: 'var(--opcteam-type-heading-page-line-height)',
         margin: '0 0 8px',
       }}>Canvas runtime error</h1>
-      <pre style={{ whiteSpace: 'pre-wrap', color: 'var(--openbitfun-canvas-danger)' }}>{errorText(error)}</pre>
+      <pre style={{ whiteSpace: 'pre-wrap', color: 'var(--opcteam-canvas-danger)' }}>{errorText(error)}</pre>
     </main>
   );
 }

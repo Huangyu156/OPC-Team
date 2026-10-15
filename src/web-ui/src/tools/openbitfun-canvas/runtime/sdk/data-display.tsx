@@ -30,7 +30,7 @@ export function Callout({ children, tone = 'info', title, style, ...props }: Can
     <section
       {...props}
       className={['openbitfun-callout', props.className].filter(Boolean).join(' ')}
-      style={{ '--openbitfun-callout-accent': accent, ...style } as React.CSSProperties}
+      style={{ '--opcteam-callout-accent': accent, ...style } as React.CSSProperties}
     >
       {title ? (
         <div className="openbitfun-callout-title">
@@ -79,15 +79,15 @@ export function Stat({ value, label, tone, style, ...props }: CanvasStatProps) {
       <strong
         style={{
           color: toneColor(tone),
-          fontSize: 'var(--openbitfun-type-heading-dialog-font-size)',
-          fontWeight: 'var(--openbitfun-type-label-selected-font-weight)',
-          lineHeight: 'var(--openbitfun-type-display-sm-line-height)',
+          fontSize: 'var(--opcteam-type-heading-dialog-font-size)',
+          fontWeight: 'var(--opcteam-type-label-selected-font-weight)',
+          lineHeight: 'var(--opcteam-type-display-sm-line-height)',
           fontVariantNumeric: 'tabular-nums',
         }}
       >
         {value}
       </strong>
-      <span style={{ color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>{label}</span>
+      <span style={{ color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-support-font-size)' }}>{label}</span>
     </div>
   );
 }
@@ -132,7 +132,7 @@ export function Table({
             <tr
               key={rowIndex}
               style={{
-                background: striped && rowIndex % 2 === 1 ? 'var(--openbitfun-color-surface-subtle)' : undefined,
+                background: striped && rowIndex % 2 === 1 ? 'var(--opcteam-color-surface-subtle)' : undefined,
               }}
             >
               {safeHeaders.map((_, index) => (
@@ -157,7 +157,7 @@ export function Table({
           ))
         ) : (
           <tr>
-            <td colSpan={safeHeaders.length || 1} style={{ color: 'var(--openbitfun-color-content-muted)' }}>
+            <td colSpan={safeHeaders.length || 1} style={{ color: 'var(--opcteam-color-content-muted)' }}>
               {emptyMessage}
             </td>
           </tr>
@@ -228,13 +228,13 @@ export function DiffStats({ additions = 0, deletions = 0, style, ...props }: Can
         display: 'inline-flex',
         gap: 7,
         alignItems: 'center',
-        fontSize: 'var(--openbitfun-type-support-font-size)',
+        fontSize: 'var(--opcteam-type-support-font-size)',
         fontVariantNumeric: 'tabular-nums',
         ...style,
       }}
     >
-      {addCount ? <span style={{ color: 'var(--openbitfun-color-code-change-added)' }}>+{addCount}</span> : null}
-      {delCount ? <span style={{ color: 'var(--openbitfun-color-code-change-removed)' }}>-{delCount}</span> : null}
+      {addCount ? <span style={{ color: 'var(--opcteam-color-code-change-added)' }}>+{addCount}</span> : null}
+      {delCount ? <span style={{ color: 'var(--opcteam-color-code-change-removed)' }}>-{delCount}</span> : null}
     </span>
   );
 }
@@ -253,15 +253,15 @@ export function DiffView({
         const type = line?.type;
         const accent =
           type === 'added' || type === 'addition'
-            ? 'var(--openbitfun-color-code-change-added)'
+            ? 'var(--opcteam-color-code-change-added)'
             : type === 'removed' || type === 'removal'
-              ? 'var(--openbitfun-color-code-change-removed)'
+              ? 'var(--opcteam-color-code-change-removed)'
               : 'transparent';
         const bg =
-          accent === 'var(--openbitfun-color-code-change-added)'
-            ? 'color-mix(in srgb, var(--openbitfun-color-code-change-added) 12%, transparent)'
-            : accent === 'var(--openbitfun-color-code-change-removed)'
-              ? 'color-mix(in srgb, var(--openbitfun-color-code-change-removed) 12%, transparent)'
+          accent === 'var(--opcteam-color-code-change-added)'
+            ? 'color-mix(in srgb, var(--opcteam-color-code-change-added) 12%, transparent)'
+            : accent === 'var(--opcteam-color-code-change-removed)'
+              ? 'color-mix(in srgb, var(--opcteam-color-code-change-removed) 12%, transparent)'
               : 'transparent';
         return (
           <div
@@ -278,7 +278,7 @@ export function DiffView({
             {showLineNumbers ? (
               <span
                 style={{
-                  color: coloredLineNumbers && accent !== 'transparent' ? accent : 'var(--openbitfun-color-content-muted)',
+                  color: coloredLineNumbers && accent !== 'transparent' ? accent : 'var(--opcteam-color-content-muted)',
                   textAlign: 'right',
                   padding: '0 8px',
                   userSelect: 'none',
@@ -289,13 +289,13 @@ export function DiffView({
             ) : null}
             <span
               style={{
-                color: accent === 'transparent' ? 'var(--openbitfun-color-content-muted)' : accent,
+                color: accent === 'transparent' ? 'var(--opcteam-color-content-muted)' : accent,
                 userSelect: 'none',
               }}
             >
-              {accent === 'var(--openbitfun-color-code-change-added)' ? '+' : accent === 'var(--openbitfun-color-code-change-removed)' ? '-' : ' '}
+              {accent === 'var(--opcteam-color-code-change-added)' ? '+' : accent === 'var(--opcteam-color-code-change-removed)' ? '-' : ' '}
             </span>
-            <span style={{ paddingRight: 10, color: 'var(--openbitfun-color-content-primary)' }}>
+            <span style={{ paddingRight: 10, color: 'var(--opcteam-color-content-primary)' }}>
               {line?.content || ''}
             </span>
           </div>
@@ -343,15 +343,15 @@ export function KeyValueList({
             style={{
               minWidth: 0,
               padding: compact ? '0 0 6px' : '8px 0',
-              borderBottom: '1px solid var(--openbitfun-color-border-subtle)',
+              borderBottom: '1px solid var(--opcteam-color-border-subtle)',
             }}
           >
             <dt
               style={{
                 margin: 0,
-                color: 'var(--openbitfun-color-content-muted)',
-                fontSize: 'var(--openbitfun-type-meta-font-size)',
-                lineHeight: 'var(--openbitfun-type-meta-line-height)',
+                color: 'var(--opcteam-color-content-muted)',
+                fontSize: 'var(--opcteam-type-meta-font-size)',
+                lineHeight: 'var(--opcteam-type-meta-line-height)',
               }}
             >
               {item.label}
@@ -360,9 +360,9 @@ export function KeyValueList({
               style={{
                 margin: '2px 0 0',
                 color: toneColor(item.tone),
-                fontSize: compact ? 'var(--openbitfun-type-body-xs-font-size)' : 'var(--openbitfun-type-body-sm-font-size)',
-                fontWeight: 'var(--openbitfun-type-label-selected-font-weight)',
-                lineHeight: 'var(--openbitfun-type-meta-line-height)',
+                fontSize: compact ? 'var(--opcteam-type-body-xs-font-size)' : 'var(--opcteam-type-body-sm-font-size)',
+                fontWeight: 'var(--opcteam-type-label-selected-font-weight)',
+                lineHeight: 'var(--opcteam-type-meta-line-height)',
                 overflowWrap: 'anywhere',
               }}
             >
@@ -371,7 +371,7 @@ export function KeyValueList({
           </div>
         ))
       ) : (
-        <div style={{ color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>{emptyMessage}</div>
+        <div style={{ color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-support-font-size)' }}>{emptyMessage}</div>
       )}
     </dl>
   );
@@ -414,8 +414,8 @@ export function Timeline({
                   borderRadius: 999,
                   background: 'color-mix(in srgb, currentColor 16%, transparent)',
                   color,
-                  fontSize: 'var(--openbitfun-type-micro-font-size)',
-                  fontWeight: 'var(--openbitfun-type-heading-page-font-weight)',
+                  fontSize: 'var(--opcteam-type-micro-font-size)',
+                  fontWeight: 'var(--opcteam-type-heading-page-font-weight)',
                 }}
               >
                 {item.icon ?? ''}
@@ -430,17 +430,17 @@ export function Timeline({
                     minWidth: 0,
                   }}
                 >
-                  <strong style={{ minWidth: 0, color: 'var(--openbitfun-color-content-primary)', fontSize: 'var(--openbitfun-type-body-sm-font-size)' }}>
+                  <strong style={{ minWidth: 0, color: 'var(--opcteam-color-content-primary)', fontSize: 'var(--opcteam-type-body-sm-font-size)' }}>
                     {item.title}
                   </strong>
                   {item.time ? (
-                    <time style={{ flex: '0 0 auto', color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-meta-font-size)' }}>
+                    <time style={{ flex: '0 0 auto', color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-meta-font-size)' }}>
                       {item.time}
                     </time>
                   ) : null}
                 </span>
                 {item.description ? (
-                  <span style={{ color: 'var(--openbitfun-color-content-secondary)', fontSize: 'var(--openbitfun-type-support-font-size)', overflowWrap: 'anywhere' }}>
+                  <span style={{ color: 'var(--opcteam-color-content-secondary)', fontSize: 'var(--opcteam-type-support-font-size)', overflowWrap: 'anywhere' }}>
                     {item.description}
                   </span>
                 ) : null}
@@ -449,7 +449,7 @@ export function Timeline({
           );
         })
       ) : (
-        <li style={{ color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>{emptyMessage}</li>
+        <li style={{ color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-support-font-size)' }}>{emptyMessage}</li>
       )}
     </ol>
   );
@@ -474,15 +474,15 @@ function renderFileTreeItems(items: CanvasFileTreeItem[], depth: number, default
           paddingLeft: depth * 16,
         }}
       >
-        <span style={{ flex: '0 0 auto', width: 14, color: isFolder ? 'var(--openbitfun-color-accent-default)' : 'var(--openbitfun-color-content-muted)' }}>
+        <span style={{ flex: '0 0 auto', width: 14, color: isFolder ? 'var(--opcteam-color-accent-default)' : 'var(--opcteam-color-content-muted)' }}>
           {isFolder ? '▸' : '•'}
         </span>
         <OverflowText
           style={{
             minWidth: 0,
             color: toneColor(item.tone),
-            fontFamily: 'var(--openbitfun-type-code-sm-font-family)',
-            fontSize: 'var(--openbitfun-type-code-sm-font-size)',
+            fontFamily: 'var(--opcteam-type-code-sm-font-family)',
+            fontSize: 'var(--opcteam-type-code-sm-font-size)',
             overflow: 'hidden',
             whiteSpace: 'nowrap',
           }}
@@ -490,7 +490,7 @@ function renderFileTreeItems(items: CanvasFileTreeItem[], depth: number, default
           {item.name ?? item.path}
         </OverflowText>
         {item.meta ? (
-          <span style={{ flex: '0 0 auto', marginLeft: 'auto', color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-meta-font-size)' }}>
+          <span style={{ flex: '0 0 auto', marginLeft: 'auto', color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-meta-font-size)' }}>
             {item.meta}
           </span>
         ) : null}
@@ -525,15 +525,15 @@ export function FileTree({
       style={{
         minWidth: 0,
         overflow: 'auto',
-        border: '1px solid var(--openbitfun-color-border-subtle)',
+        border: '1px solid var(--opcteam-color-border-subtle)',
         borderRadius: 8,
         padding: '8px 10px',
-        background: 'color-mix(in srgb, var(--openbitfun-color-surface-panel) 70%, transparent)',
+        background: 'color-mix(in srgb, var(--opcteam-color-surface-panel) 70%, transparent)',
         ...style,
       }}
     >
       {safeItems.length ? renderFileTreeItems([...safeItems], 0, defaultExpanded) : (
-        <div style={{ color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>{emptyMessage}</div>
+        <div style={{ color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-support-font-size)' }}>{emptyMessage}</div>
       )}
     </div>
   );
@@ -561,8 +561,8 @@ export function ProgressBar({
             justifyContent: 'space-between',
             gap: 10,
             marginBottom: 5,
-            color: 'var(--openbitfun-color-content-secondary)',
-            fontSize: 'var(--openbitfun-type-support-font-size)',
+            color: 'var(--opcteam-color-content-secondary)',
+            fontSize: 'var(--opcteam-type-support-font-size)',
           }}
         >
           <span>{label}</span>
@@ -578,7 +578,7 @@ export function ProgressBar({
           height: 8,
           overflow: 'hidden',
           borderRadius: 999,
-          background: 'var(--openbitfun-color-action-neutral-surface-hover)',
+          background: 'var(--opcteam-color-action-neutral-surface-hover)',
         }}
       >
         <div
@@ -610,7 +610,7 @@ export function Swatch({
         height: 12,
         borderRadius: 3,
         background: categoryColor(color),
-        border: '1px solid var(--openbitfun-color-border-subtle)',
+        border: '1px solid var(--opcteam-color-border-subtle)',
         flex: '0 0 auto',
         ...style,
       }}
@@ -653,9 +653,9 @@ export function UsageBar({
             justifyContent: 'space-between',
             gap: 12,
             marginBottom: 6,
-            color: 'var(--openbitfun-color-content-secondary)',
-            fontSize: 'var(--openbitfun-type-support-font-size)',
-            lineHeight: 'var(--openbitfun-type-meta-line-height)',
+            color: 'var(--opcteam-color-content-secondary)',
+            fontSize: 'var(--opcteam-type-support-font-size)',
+            lineHeight: 'var(--opcteam-type-meta-line-height)',
           }}
         >
           <span>{topLeftLabel}</span>
@@ -673,7 +673,7 @@ export function UsageBar({
           height: 10,
           overflow: 'hidden',
           borderRadius: 999,
-          background: 'var(--openbitfun-color-action-neutral-surface-hover)',
+          background: 'var(--opcteam-color-action-neutral-surface-hover)',
           padding: 1,
         }}
       >
@@ -699,7 +699,7 @@ export function UsageBar({
               flex: `${remainder} 1 0`,
               minWidth: 2,
               borderRadius: 999,
-              background: 'var(--openbitfun-color-action-quiet-hover)',
+              background: 'var(--opcteam-color-action-quiet-hover)',
             }}
           />
         ) : null}
@@ -709,10 +709,10 @@ export function UsageBar({
 }
 
 function todoStatusColor(status: CanvasTodoItem['status']) {
-  if (status === 'completed') return 'var(--openbitfun-color-status-success-content)';
-  if (status === 'in_progress') return 'var(--openbitfun-color-status-warning-content)';
-  if (status === 'cancelled') return 'var(--openbitfun-color-content-muted)';
-  return 'var(--openbitfun-color-content-muted)';
+  if (status === 'completed') return 'var(--opcteam-color-status-success-content)';
+  if (status === 'in_progress') return 'var(--opcteam-color-status-warning-content)';
+  if (status === 'cancelled') return 'var(--opcteam-color-content-muted)';
+  return 'var(--opcteam-color-content-muted)';
 }
 
 function todoStatusLabel(status: CanvasTodoItem['status']) {
@@ -743,10 +743,10 @@ function TodoMarker({ status }: { status: CanvasTodoItem['status'] }) {
         borderRadius: status === 'in_progress' ? 999 : 3,
         border: `1.5px solid ${color}`,
         background: isCompleted ? color : 'transparent',
-        color: 'var(--openbitfun-color-surface-canvas)',
-        fontSize: 'var(--openbitfun-type-micro-font-size)',
-        lineHeight: 'var(--openbitfun-type-modifier-leading-none-line-height)',
-        fontWeight: 'var(--openbitfun-type-heading-page-font-weight)',
+        color: 'var(--opcteam-color-surface-canvas)',
+        fontSize: 'var(--opcteam-type-micro-font-size)',
+        lineHeight: 'var(--opcteam-type-modifier-leading-none-line-height)',
+        fontWeight: 'var(--opcteam-type-heading-page-font-weight)',
       }}
     >
       {isCompleted ? '✓' : ''}
@@ -788,7 +788,7 @@ export function TodoList({
           borderRadius: 6,
           padding: '6px 7px',
           background: 'transparent',
-          color: 'var(--openbitfun-color-content-primary)',
+          color: 'var(--opcteam-color-content-primary)',
           font: 'inherit',
           textAlign: 'left' as const,
           opacity: isDimmed ? 0.5 : 1,
@@ -800,16 +800,16 @@ export function TodoList({
             <span style={{ minWidth: 0, display: 'grid', gap: 2 }}>
               <span
                 style={{
-                  color: todo.status === 'completed' ? 'var(--openbitfun-color-content-secondary)' : 'var(--openbitfun-color-content-primary)',
-                  fontSize: 'var(--openbitfun-type-support-font-size)',
-                  lineHeight: 'var(--openbitfun-type-support-line-height)',
+                  color: todo.status === 'completed' ? 'var(--opcteam-color-content-secondary)' : 'var(--opcteam-color-content-primary)',
+                  fontSize: 'var(--opcteam-type-support-font-size)',
+                  lineHeight: 'var(--opcteam-type-support-line-height)',
                   textDecoration: todo.status === 'completed' ? 'line-through' : undefined,
                   overflowWrap: 'anywhere',
                 }}
               >
                 {content}
               </span>
-              <span style={{ color: todoStatusColor(todo.status), fontSize: 'var(--openbitfun-type-micro-font-size)', lineHeight: 'var(--openbitfun-type-micro-line-height)' }}>
+              <span style={{ color: todoStatusColor(todo.status), fontSize: 'var(--opcteam-type-micro-font-size)', lineHeight: 'var(--opcteam-type-micro-line-height)' }}>
                 {todoStatusLabel(todo.status)}
               </span>
             </span>
@@ -853,9 +853,9 @@ export function TodoListCard({
       {...props}
       className={['openbitfun-todo-list-card', props.className].filter(Boolean).join(' ')}
       style={{
-        border: '1px solid var(--openbitfun-color-border-subtle)',
+        border: '1px solid var(--opcteam-color-border-subtle)',
         borderRadius: 8,
-        background: 'var(--openbitfun-color-surface-raised)',
+        background: 'var(--opcteam-color-surface-raised)',
         overflow: 'hidden',
         ...style,
       }}
@@ -871,9 +871,9 @@ export function TodoListCard({
           alignItems: 'center',
           gap: 8,
           border: 0,
-          borderBottom: open ? '1px solid var(--openbitfun-color-border-subtle)' : 0,
+          borderBottom: open ? '1px solid var(--opcteam-color-border-subtle)' : 0,
           background: 'transparent',
-          color: 'var(--openbitfun-color-content-primary)',
+          color: 'var(--opcteam-color-content-primary)',
           padding: '8px 10px',
           font: 'inherit',
           cursor: 'pointer',
@@ -883,14 +883,14 @@ export function TodoListCard({
         <span
           aria-hidden="true"
           style={{
-            color: 'var(--openbitfun-color-content-muted)',
+            color: 'var(--opcteam-color-content-muted)',
             transform: open ? 'rotate(90deg)' : 'rotate(0deg)',
           }}
         >
           ›
         </span>
-        <span style={{ fontWeight: 'var(--openbitfun-type-label-selected-font-weight)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>Tasks</span>
-        <span style={{ marginLeft: 'auto', color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>
+        <span style={{ fontWeight: 'var(--opcteam-type-label-selected-font-weight)', fontSize: 'var(--opcteam-type-support-font-size)' }}>Tasks</span>
+        <span style={{ marginLeft: 'auto', color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-support-font-size)' }}>
           {completed}/{safeTodos.length} done
         </span>
       </button>

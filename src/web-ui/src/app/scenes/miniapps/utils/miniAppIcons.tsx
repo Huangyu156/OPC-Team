@@ -33,12 +33,12 @@ const MINI_APP_CATALOG: Record<string, IconName> = {
 };
 
 const ICON_GRADIENTS = [
-  'linear-gradient(135deg, color-mix(in srgb, var(--openbitfun-color-accent-hover) 35%, transparent) 0%, color-mix(in srgb, var(--openbitfun-color-accent-secondary) 25%, transparent) 100%)',
-  'linear-gradient(135deg, color-mix(in srgb, var(--openbitfun-color-status-success-content) 30%, transparent) 0%, color-mix(in srgb, var(--openbitfun-color-accent-hover) 25%, transparent) 100%)',
-  'linear-gradient(135deg, color-mix(in srgb, var(--openbitfun-color-status-warning-content) 30%, transparent) 0%, color-mix(in srgb, var(--openbitfun-color-status-danger-content) 20%, transparent) 100%)',
-  'linear-gradient(135deg, color-mix(in srgb, var(--openbitfun-color-accent-secondary) 35%, transparent) 0%, color-mix(in srgb, var(--openbitfun-color-status-danger-content) 20%, transparent) 100%)',
-  'linear-gradient(135deg, color-mix(in srgb, var(--openbitfun-domain-generative-ui) 30%, transparent) 0%, color-mix(in srgb, var(--openbitfun-color-accent-hover) 25%, transparent) 100%)',
-  'linear-gradient(135deg, color-mix(in srgb, var(--openbitfun-color-status-danger-content) 25%, transparent) 0%, color-mix(in srgb, var(--openbitfun-color-status-warning-content) 20%, transparent) 100%)',
+  'linear-gradient(135deg, color-mix(in srgb, var(--opcteam-color-accent-hover) 35%, transparent) 0%, color-mix(in srgb, var(--opcteam-color-accent-secondary) 25%, transparent) 100%)',
+  'linear-gradient(135deg, color-mix(in srgb, var(--opcteam-color-status-success-content) 30%, transparent) 0%, color-mix(in srgb, var(--opcteam-color-accent-hover) 25%, transparent) 100%)',
+  'linear-gradient(135deg, color-mix(in srgb, var(--opcteam-color-status-warning-content) 30%, transparent) 0%, color-mix(in srgb, var(--opcteam-color-status-danger-content) 20%, transparent) 100%)',
+  'linear-gradient(135deg, color-mix(in srgb, var(--opcteam-color-accent-secondary) 35%, transparent) 0%, color-mix(in srgb, var(--opcteam-color-status-danger-content) 20%, transparent) 100%)',
+  'linear-gradient(135deg, color-mix(in srgb, var(--opcteam-domain-generative-ui) 30%, transparent) 0%, color-mix(in srgb, var(--opcteam-color-accent-hover) 25%, transparent) 100%)',
+  'linear-gradient(135deg, color-mix(in srgb, var(--opcteam-color-status-danger-content) 25%, transparent) 0%, color-mix(in srgb, var(--opcteam-color-status-warning-content) 20%, transparent) 100%)',
 ];
 
 const MINI_APP_ICONS = {

@@ -7,20 +7,20 @@
 }
 
 .generative-widget-card__icon {
-  color: var(--openbitfun-domain-generative-ui);
+  color: var(--opcteam-domain-generative-ui);
 }
 
 .generative-widget-card__title {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-control-flow-chat-inline-gap);
+  gap: var(--opcteam-control-flow-chat-inline-gap);
   min-width: 0;
 }
 
 .generative-widget-card__extra {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-control-flow-chat-control-gap);
+  gap: var(--opcteam-control-flow-chat-control-gap);
 }
 
 .generative-widget-card__export-action {
@@ -29,13 +29,13 @@
 }
 
 .generative-widget-card__status {
-  font-size: var(--openbitfun-type-flow-control-font-size);
-  color: var(--openbitfun-color-content-secondary);
+  font-size: var(--opcteam-type-flow-control-font-size);
+  color: var(--opcteam-color-content-secondary);
   white-space: nowrap;
 }
 
 .generative-widget-card__status--error {
-  color: color-mix(in srgb, var(--openbitfun-color-status-danger-content) 72%, var(--openbitfun-color-content-on-dark));
+  color: color-mix(in srgb, var(--opcteam-color-status-danger-content) 72%, var(--opcteam-color-content-on-dark));
 }
 
 .generative-widget-card__preview {
@@ -51,9 +51,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: var(--openbitfun-space-4);
-  color: var(--openbitfun-color-content-secondary);
-  font-size: var(--openbitfun-type-flow-control-font-size);
+  padding: var(--opcteam-space-4);
+  color: var(--opcteam-color-content-secondary);
+  font-size: var(--opcteam-type-flow-control-font-size);
 }
 
 .generative-widget-card__placeholder--error {
@@ -61,7 +61,7 @@
   justify-content: flex-start;
   padding: 0;
   overflow-wrap: anywhere;
-  color: var(--openbitfun-color-status-danger-content);
+  color: var(--opcteam-color-status-danger-content);
 }
 
 .generative-widget-card__capture-root {
@@ -79,6 +79,6 @@
 }
 
 .generative-widget-card__export-stage-inner {
-  padding: var(--openbitfun-space-5);
-  background: var(--openbitfun-color-surface-scene);
+  padding: var(--opcteam-space-5);
+  background: var(--opcteam-color-surface-scene);
 }

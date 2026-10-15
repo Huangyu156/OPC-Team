@@ -3,25 +3,25 @@
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
     min-inline-size: 0;
-    margin-inline-start: calc(-1 * (var(--openbitfun-space-2) + var(--openbitfun-border-width-default) / 2));
-    color: var(--openbitfun-color-content-muted);
-    font-family: var(--openbitfun-type-flow-meta-font-family);
-    font-size: var(--openbitfun-type-flow-meta-font-size);
-    font-weight: var(--openbitfun-type-flow-meta-font-weight);
-    line-height: var(--openbitfun-type-flow-meta-line-height);
+    margin-inline-start: calc(-1 * (var(--opcteam-space-2) + var(--opcteam-border-width-default) / 2));
+    color: var(--opcteam-color-content-muted);
+    font-family: var(--opcteam-type-flow-meta-font-family);
+    font-size: var(--opcteam-type-flow-meta-font-size);
+    font-weight: var(--opcteam-type-flow-meta-font-weight);
+    line-height: var(--opcteam-type-flow-meta-line-height);
     font-variant-numeric: tabular-nums;
   }
 
   .metric {
     display: inline-flex;
     align-items: center;
-    gap: var(--openbitfun-space-1);
-    padding: calc(var(--openbitfun-space-1) / 2) var(--openbitfun-space-2);
-    border: calc(var(--openbitfun-border-width-default) / 2) solid transparent;
+    gap: var(--opcteam-space-1);
+    padding: calc(var(--opcteam-space-1) / 2) var(--opcteam-space-2);
+    border: calc(var(--opcteam-border-width-default) / 2) solid transparent;
     white-space: nowrap;
-    border-radius: var(--openbitfun-radius-pill);
+    border-radius: var(--opcteam-radius-pill);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -29,29 +29,29 @@
   }
 
   .metric:hover, .metric:focus-visible, .metric[aria-describedby] {
-    border-color: var(--openbitfun-color-border-subtle);
-    background: color-mix(in srgb, var(--openbitfun-color-surface-raised) 80%, transparent);
+    border-color: var(--opcteam-color-border-subtle);
+    background: color-mix(in srgb, var(--opcteam-color-surface-raised) 80%, transparent);
   }
 
   /* Paint and blur on the animated surface itself, like the selected-text capsule.
      An opacity-animated ancestor would isolate an inner backdrop filter. */
   .detailsCard {
-    border: calc(var(--openbitfun-border-width-default) / 2) solid var(--openbitfun-color-border-subtle);
-    border-radius: var(--openbitfun-radius-lg);
-    background: var(--openbitfun-color-surface-raised);
-    box-shadow: var(--openbitfun-shadow-sm);
+    border: calc(var(--opcteam-border-width-default) / 2) solid var(--opcteam-color-border-subtle);
+    border-radius: var(--opcteam-radius-lg);
+    background: var(--opcteam-color-surface-raised);
+    box-shadow: var(--opcteam-shadow-sm);
   }
 
   @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
     .detailsCard {
-      background: color-mix(in srgb, var(--openbitfun-color-surface-raised) 80%, transparent);
-      backdrop-filter: var(--openbitfun-effect-blur-base);
-      -webkit-backdrop-filter: var(--openbitfun-effect-blur-base);
+      background: color-mix(in srgb, var(--opcteam-color-surface-raised) 80%, transparent);
+      backdrop-filter: var(--opcteam-effect-blur-base);
+      -webkit-backdrop-filter: var(--opcteam-effect-blur-base);
     }
   }
 
   .detailsCard [data-openbitfun-part='content'] {
-    padding: var(--openbitfun-space-3);
+    padding: var(--opcteam-space-3);
     border: 0;
     border-radius: inherit;
     background: transparent;
@@ -65,32 +65,32 @@
   .detailsGrid {
     display: grid;
     grid-template-columns: auto minmax(0, 1fr);
-    gap: var(--openbitfun-space-2) var(--openbitfun-space-6);
+    gap: var(--opcteam-space-2) var(--opcteam-space-6);
     margin: 0;
   }
 
-  .detailLabel { color: var(--openbitfun-color-content-secondary); }
+  .detailLabel { color: var(--opcteam-color-content-secondary); }
   .detailValue { margin: 0; text-align: end; font-variant-numeric: tabular-nums; }
   .detailsNote {
     max-inline-size: 32ch;
-    margin: var(--openbitfun-space-2) 0 0;
-    color: var(--openbitfun-color-content-secondary);
+    margin: var(--opcteam-space-2) 0 0;
+    color: var(--opcteam-color-content-secondary);
   }
 
   .metric:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .gauge {
     position: relative;
     display: inline-flex;
     flex: 0 0 auto;
-    inline-size: var(--openbitfun-control-icon-size-sm);
-    block-size: var(--openbitfun-control-icon-size-sm);
+    inline-size: var(--opcteam-control-icon-size-sm);
+    block-size: var(--opcteam-control-icon-size-sm);
   }
 
-  .track { color: var(--openbitfun-color-border-default); }
+  .track { color: var(--opcteam-color-border-default); }
 
   .gauge[data-cache-state='unknown'] .track circle { stroke-dasharray: 2 3; }
 
@@ -105,7 +105,7 @@
 
   @media (prefers-reduced-transparency: reduce) {
     .detailsCard {
-      background: var(--openbitfun-color-surface-raised);
+      background: var(--opcteam-color-surface-raised);
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }

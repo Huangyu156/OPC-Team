@@ -19,7 +19,7 @@ function pkg(id: string, background: string): AppearancePackage {
     renderers: {
       'theme-tokens': {
         version: 1,
-        settings: { tokens: { '--openbitfun-color-surface-canvas': background } },
+        settings: { tokens: { '--opcteam-color-surface-canvas': background } },
       },
     },
   };
@@ -46,7 +46,7 @@ describe('AppearanceRuntime', () => {
       validate: () => [],
       apply: async next => {
         calls.push(next ? { ...next } : undefined);
-        if (next?.tokens['--openbitfun-color-surface-canvas'] === 'fail') throw new Error('renderer failed');
+        if (next?.tokens['--opcteam-color-surface-canvas'] === 'fail') throw new Error('renderer failed');
       },
     };
     const registry = new AppearanceRegistry().registerRenderer(adapter).freeze();
@@ -62,7 +62,7 @@ describe('AppearanceRuntime', () => {
     expect(runtime.getSnapshot()?.id).toBe('test.first');
     expect(document.documentElement.getAttribute('data-openbitfun-appearance')).toBe('test.first');
     expect(document.querySelectorAll('style[data-openbitfun-appearance-runtime]')).toHaveLength(1);
-    expect(calls.at(-1)).toEqual({ tokens: { '--openbitfun-color-surface-canvas': 'first' } });
+    expect(calls.at(-1)).toEqual({ tokens: { '--opcteam-color-surface-canvas': 'first' } });
     expect(listener).toHaveBeenCalledTimes(1);
   });
 
@@ -104,7 +104,7 @@ describe('AppearanceRuntime', () => {
       },
     });
     expect(createObjectURL).toHaveBeenCalledTimes(1);
-    expect(document.head.textContent).toContain('--openbitfun-appearance-asset-background: url("blob:test-background")');
+    expect(document.head.textContent).toContain('--opcteam-appearance-asset-background: url("blob:test-background")');
 
     await runtime.applyPackage({ ...assetPackage, id: 'test.assets-next', assets: undefined, components: undefined });
     expect(revokeObjectURL).toHaveBeenCalledWith('blob:test-background');
@@ -189,8 +189,8 @@ describe('AppearanceRuntime', () => {
       fit: 'cover',
       position: 'center',
     });
-    expect(snapshot.cssText).not.toContain('--openbitfun-appearance-asset-motion');
-    expect(snapshot.cssText).toContain('--openbitfun-appearance-asset-poster');
+    expect(snapshot.cssText).not.toContain('--opcteam-appearance-asset-motion');
+    expect(snapshot.cssText).toContain('--opcteam-appearance-asset-poster');
   });
 
   it('keeps a staged revision inactive until renderer transactions commit', async () => {
@@ -199,7 +199,7 @@ describe('AppearanceRuntime', () => {
       id: 'theme-tokens',
       validate: () => [],
       apply: next => {
-        if (next?.tokens['--openbitfun-color-surface-canvas'] !== 'second') return;
+        if (next?.tokens['--opcteam-color-surface-canvas'] !== 'second') return;
         const stagedStyle = document.querySelector<HTMLStyleElement>(
           'style[data-openbitfun-appearance-runtime="2"]',
         );

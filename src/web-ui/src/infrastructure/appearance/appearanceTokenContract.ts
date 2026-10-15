@@ -106,16 +106,16 @@ function prefix<const Values extends readonly string[]>(
 }
 
 export const APPEARANCE_DOMAIN_TOKEN_NAMES = Object.freeze([
-  ...prefix(domainTokenSuffixes, '--openbitfun-domain-'),
-  ...prefix(languageTokenSuffixes, '--openbitfun-domain-language-'),
-  ...prefix(prismTokenSuffixes, '--openbitfun-domain-prism-'),
+  ...prefix(domainTokenSuffixes, '--opcteam-domain-'),
+  ...prefix(languageTokenSuffixes, '--opcteam-domain-language-'),
+  ...prefix(prismTokenSuffixes, '--opcteam-domain-prism-'),
 ]);
 
 export const APPEARANCE_COMPONENT_TOKEN_NAMES = Object.freeze(
   [
     // Public component colors are theme-owned; product-only component tokens stay above.
-    ...Object.values(themeCssVariables).filter(name => name.startsWith('--openbitfun-component-')),
-    ...prefix(componentTokenSuffixes, '--openbitfun-component-'),
+    ...Object.values(themeCssVariables).filter(name => name.startsWith('--opcteam-component-')),
+    ...prefix(componentTokenSuffixes, '--opcteam-component-'),
   ],
 );
 

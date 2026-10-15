@@ -342,11 +342,11 @@ test("tool-card change summaries use the same markers as the code diff", async (
 
   assert.match(
     styles,
-    /\.changeSummary \[data-openbitfun-change="added"\]\s*\{\s*color: var\(--openbitfun-color-code-diff-added-marker\);/,
+    /\.changeSummary \[data-openbitfun-change="added"\]\s*\{\s*color: var\(--opcteam-color-code-diff-added-marker\);/,
   );
   assert.match(
     styles,
-    /\.changeSummary \[data-openbitfun-change="removed"\]\s*\{\s*color: var\(--openbitfun-color-code-diff-removed-marker\);/,
+    /\.changeSummary \[data-openbitfun-change="removed"\]\s*\{\s*color: var\(--opcteam-color-code-diff-removed-marker\);/,
   );
 });
 
@@ -503,11 +503,11 @@ test("file-operation failures stay collapsed and use the warning emphasis status
   assert.match(expandedMarkup, /The target text was not found\./);
   assert.match(
     styles,
-    /\.warningStatusIcon\s*\{\s*color: var\(--openbitfun-color-status-warning-emphasis\);/,
+    /\.warningStatusIcon\s*\{\s*color: var\(--opcteam-color-status-warning-emphasis\);/,
   );
   assert.match(
     styles,
-    /\.errorTitle > :where\(svg, img, \[data-openbitfun-component="icon"\]\)\s*\{[^}]*inline-size: var\(--openbitfun-font-size-xl\);[^}]*block-size: var\(--openbitfun-font-size-xl\);/s,
+    /\.errorTitle > :where\(svg, img, \[data-openbitfun-component="icon"\]\)\s*\{[^}]*inline-size: var\(--opcteam-font-size-xl\);[^}]*block-size: var\(--opcteam-font-size-xl\);/s,
   );
 });
 
@@ -521,10 +521,10 @@ test("auxiliary actions reveal on hover or keyboard focus and remain available w
   assert.match(styles, /pointer-events:\s*none/);
   assert.match(styles, /margin-inline-start:\s*auto/);
   assert.match(styles, /font-variant-numeric:\s*proportional-nums/);
-  assert.match(styles, /--openbitfun-control-height-sm/);
-  assert.match(styles, /--openbitfun-space-6/);
-  assert.match(styles, /--openbitfun-radius-md/);
-  assert.match(styles, /--openbitfun-color-focus-ring/);
+  assert.match(styles, /--opcteam-control-height-sm/);
+  assert.match(styles, /--opcteam-space-6/);
+  assert.match(styles, /--opcteam-radius-md/);
+  assert.match(styles, /--opcteam-color-focus-ring/);
 });
 
 test("FlowChat tool-card shells stay flat at rest and on hover", async () => {
@@ -541,7 +541,7 @@ test("FlowChat tool-card shells stay flat at rest and on hover", async () => {
   assert.match(ambientExpandedRule, /box-shadow:\s*none/);
   assert.match(ambientExpandedRule, /background-color:\s*transparent/);
   assert.doesNotMatch(styles, /\.ambient(?:Root|ExpandedShell)::after/);
-  assert.doesNotMatch(styles, /box-shadow:\s*var\(--openbitfun-shadow-(?:xs|sm)\)/);
+  assert.doesNotMatch(styles, /box-shadow:\s*var\(--opcteam-shadow-(?:xs|sm)\)/);
   assert.doesNotMatch(styles, /box-shadow\s+var\(--_tool-card-transition\)/);
 });
 
@@ -561,18 +561,18 @@ test("ambient disclosure keeps compact headers and puts detail in a separate tok
   assert.ok(resultRule);
   assert.match(
     ambientSurfaceRule,
-    /min-block-size:\s*max\(1lh,\s*var\(--openbitfun-control-tool-card-ambient-row-min-block-size\)\)/,
+    /min-block-size:\s*max\(1lh,\s*var\(--opcteam-control-tool-card-ambient-row-min-block-size\)\)/,
   );
-  assert.doesNotMatch(ambientSurfaceRule, /--openbitfun-control-height-sm/);
+  assert.doesNotMatch(ambientSurfaceRule, /--opcteam-control-height-sm/);
   assert.doesNotMatch(styles, /\.ambientExpandedShell \.ambientSurface/);
-  assert.match(expandedRule, /margin-block-start:\s*var\(--openbitfun-space-2\)/);
+  assert.match(expandedRule, /margin-block-start:\s*var\(--opcteam-space-2\)/);
   assert.match(expandedRule, /border-block-start:\s*0/);
-  assert.match(expandedRule, /border-radius:\s*var\(--openbitfun-radius-md\)/);
-  assert.match(expandedRule, /background:\s*var\(--openbitfun-color-surface-tertiary\)/);
+  assert.match(expandedRule, /border-radius:\s*var\(--opcteam-radius-md\)/);
+  assert.match(expandedRule, /background:\s*var\(--opcteam-color-surface-tertiary\)/);
   assert.match(subjectRule, /max-inline-size:\s*100%/);
   assert.doesNotMatch(subjectRule, /background/);
-  assert.match(resultRule, /border-radius:\s*var\(--openbitfun-radius-sm\)/);
-  assert.match(resultRule, /background:\s*var\(--openbitfun-color-action-neutral-surface\)/);
+  assert.match(resultRule, /border-radius:\s*var\(--opcteam-radius-sm\)/);
+  assert.match(resultRule, /background:\s*var\(--opcteam-color-action-neutral-surface\)/);
 });
 
 test("prominent headers keep their height while hidden actions and empty slots release their space", async () => {
@@ -596,13 +596,13 @@ test("prominent headers keep their height while hidden actions and empty slots r
 
   // The 40px outer surface includes its borders. A 20px layout slot lets the
   // existing larger button hit targets remain usable without growing the row.
-  assert.match(rootRule, /--_tool-card-action-size:\s*var\(--openbitfun-space-5\)/);
+  assert.match(rootRule, /--_tool-card-action-size:\s*var\(--opcteam-space-5\)/);
   assert.match(rootRule, /margin-block:\s*0;/);
-  assert.match(rootRule, /border-radius:\s*var\(--openbitfun-control-activity-item-surface-radius\)/);
-  assert.match(prominentSummaryRule, /min-block-size:\s*calc\(var\(--openbitfun-control-activity-item-surface-height\) - 2 \* var\(--openbitfun-border-width-default\)\)/);
-  assert.match(prominentSummaryRule, /padding-block:\s*var\(--openbitfun-control-activity-item-surface-padding-block\)/);
-  assert.match(prominentSummaryRule, /padding-inline:\s*var\(--openbitfun-control-flow-chat-card-padding-inline\);/);
-  assert.match(styles, /\.prominentSummary \.actionRegion\s*\{\s*block-size:\s*var\(--openbitfun-space-5\);/);
+  assert.match(rootRule, /border-radius:\s*var\(--opcteam-control-activity-item-surface-radius\)/);
+  assert.match(prominentSummaryRule, /min-block-size:\s*calc\(var\(--opcteam-control-activity-item-surface-height\) - 2 \* var\(--opcteam-border-width-default\)\)/);
+  assert.match(prominentSummaryRule, /padding-block:\s*var\(--opcteam-control-activity-item-surface-padding-block\)/);
+  assert.match(prominentSummaryRule, /padding-inline:\s*var\(--opcteam-control-flow-chat-card-padding-inline\);/);
+  assert.match(styles, /\.prominentSummary \.actionRegion\s*\{\s*block-size:\s*var\(--opcteam-space-5\);/);
 
   // Hidden trailing controls leave no width or flex gap, but remain focusable.
   assert.match(actionRegionRule, /margin-inline-start:\s*auto;/);
@@ -675,10 +675,10 @@ test("FlowChat tool-card summary rows share compact title and content typography
   assert.ok(changeSummaryRule);
   assert.ok(commandRule);
   assert.ok(filePathRule);
-  assert.match(rootRule, /--_tool-card-font-family:\s*var\(--openbitfun-type-body-sm-font-family\)/);
-  assert.match(rootRule, /--_tool-card-font-size:\s*var\(--openbitfun-type-body-sm-font-size\)/);
-  assert.match(rootRule, /--_tool-card-title-font-weight:\s*var\(--openbitfun-type-label-lg-font-weight\)/);
-  assert.match(rootRule, /--_tool-card-content-font-weight:\s*var\(--openbitfun-type-body-sm-font-weight\)/);
+  assert.match(rootRule, /--_tool-card-font-family:\s*var\(--opcteam-type-body-sm-font-family\)/);
+  assert.match(rootRule, /--_tool-card-font-size:\s*var\(--opcteam-type-body-sm-font-size\)/);
+  assert.match(rootRule, /--_tool-card-title-font-weight:\s*var\(--opcteam-type-label-lg-font-weight\)/);
+  assert.match(rootRule, /--_tool-card-content-font-weight:\s*var\(--opcteam-type-body-sm-font-weight\)/);
   assert.match(rootRule, /font-variant-numeric:\s*proportional-nums/);
   assert.match(prominentSizeRule, /font-size:\s*var\(--_tool-card-font-size\)/);
   assert.match(ambientSizeRule, /font-size:\s*var\(--_tool-card-font-size\)/);
@@ -710,25 +710,25 @@ test("tool cards keep monospace in code evidence, separate from labels and prose
       const rule = [...stylesheet.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
         .find((match) => match[1].trim() === selector);
       assert.ok(rule, file);
-      assert.match(rule[2], /font-family:\s*var\(--openbitfun-type-flow-code-font-family\)/, file);
+      assert.match(rule[2], /font-family:\s*var\(--opcteam-type-flow-code-font-family\)/, file);
       stylesheet = stylesheet.replace(rule[0], "");
     }
-    assert.doesNotMatch(stylesheet, /font-family:\s*var\(--openbitfun-type-(?:flow-)?code[^)]*\)/, file);
+    assert.doesNotMatch(stylesheet, /font-family:\s*var\(--opcteam-type-(?:flow-)?code[^)]*\)/, file);
     assert.doesNotMatch(stylesheet, /font-variant-numeric:\s*tabular-nums/, file);
   }
 
   const details = await readFile(new URL("ToolCardDetails.module.css", directory), "utf8");
-  assert.match(details, /\.text\[data-variant="prose"\]\s*\{[^}]*font-family:\s*var\(--openbitfun-type-body-sm-font-family\)/s);
+  assert.match(details, /\.text\[data-variant="prose"\]\s*\{[^}]*font-family:\s*var\(--opcteam-type-body-sm-font-family\)/s);
 
   const previewStyles = await readFile(
     new URL("../../../apps/design-lab/src/preview/FlowChatPreviewRegistry.css", import.meta.url),
     "utf8",
   );
-  assert.equal(previewStyles.match(/--openbitfun-type-code-md-font-family/g)?.length ?? 0, 1);
+  assert.equal(previewStyles.match(/--opcteam-type-code-md-font-family/g)?.length ?? 0, 1);
   assert.doesNotMatch(previewStyles, /font-variant-numeric:\s*tabular-nums/);
   assert.match(
     previewStyles,
-    /\.flow-chat-tool-card-preview__diff\s*\{[^}]*font-family:\s*var\(--openbitfun-type-code-md-font-family\)/s,
+    /\.flow-chat-tool-card-preview__diff\s*\{[^}]*font-family:\s*var\(--opcteam-type-code-md-font-family\)/s,
   );
 });
 
@@ -1065,7 +1065,7 @@ test("file diff summary matches the compact file-operation information hierarchy
   assert.match(markup, /data-openbitfun-change="removed">-0/);
   assert.doesNotMatch(markup, /Git HEAD|data-openbitfun-part="diffType"/);
   assert.ok(pathRule, "file-diff path rule should exist");
-  assert.match(pathRule, /var\(--openbitfun-color-content-secondary\)/);
+  assert.match(pathRule, /var\(--opcteam-color-content-secondary\)/);
   assert.doesNotMatch(pathRule, /font-(?:family|size|weight):/);
 });
 
@@ -1090,7 +1090,7 @@ test("todo rows identify the task list with a shared icon and expose progress wh
   for (const markup of [collapsed, compact]) {
     assert.match(markup, /data-openbitfun-name="list-todo"/);
     assert.match(markup, /aria-label="Tasks"/);
-    assert.match(markup, /stroke-width="var\(--openbitfun-control-icon-stroke-width\)"/);
+    assert.match(markup, /stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
     assert.match(markup, /Migrate FlowChat adapter/);
     assert.doesNotMatch(markup, /role="progressbar"/);
   }

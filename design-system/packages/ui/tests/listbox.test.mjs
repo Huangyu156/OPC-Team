@@ -43,11 +43,11 @@ test("Listbox styling uses public menu, action, content, and focus tokens", asyn
     "utf8",
   );
 
-  assert.match(styles, /--openbitfun-overlay-menu-item-height/);
-  assert.match(styles, /\.list,\s*\.groupOptions\s*\{[^}]*gap: var\(--openbitfun-overlay-menu-row-gap\)/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface/);
-  assert.match(styles, /--openbitfun-color-content-muted/);
-  assert.match(styles, /--openbitfun-color-focus-ring/);
+  assert.match(styles, /--opcteam-overlay-menu-item-height/);
+  assert.match(styles, /\.list,\s*\.groupOptions\s*\{[^}]*gap: var\(--opcteam-overlay-menu-row-gap\)/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface/);
+  assert.match(styles, /--opcteam-color-content-muted/);
+  assert.match(styles, /--opcteam-color-focus-ring/);
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}/i);
 });
 

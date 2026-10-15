@@ -1,12 +1,12 @@
 @layer openbitfun.components {
-  .root { display: flex; box-sizing: border-box; inline-size: 100%; min-block-size: 44px; align-items: center; gap: var(--openbitfun-space-3); padding: var(--openbitfun-space-2) var(--openbitfun-space-4); border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle); border-radius: var(--openbitfun-radius-md); color: var(--openbitfun-color-content-secondary); background: var(--openbitfun-color-surface-subtle); font-size: var(--openbitfun-type-body-sm-font-size); }
-  .root[data-tone="info"] { border-color: var(--openbitfun-color-status-info-border); color: var(--openbitfun-color-status-info-content); background: var(--openbitfun-color-status-info-surface); }
-  .root[data-tone="warning"] { border-color: var(--openbitfun-color-status-warning-border); color: var(--openbitfun-color-status-warning-content); background: var(--openbitfun-color-status-warning-surface); }
-  .root[data-tone="danger"] { border-color: var(--openbitfun-color-status-danger-border); color: var(--openbitfun-color-status-danger-content); background: var(--openbitfun-color-status-danger-surface); }
+  .root { display: flex; box-sizing: border-box; inline-size: 100%; min-block-size: 44px; align-items: center; gap: var(--opcteam-space-3); padding: var(--opcteam-space-2) var(--opcteam-space-4); border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle); border-radius: var(--opcteam-radius-md); color: var(--opcteam-color-content-secondary); background: var(--opcteam-color-surface-subtle); font-size: var(--opcteam-type-body-sm-font-size); }
+  .root[data-tone="info"] { border-color: var(--opcteam-color-status-info-border); color: var(--opcteam-color-status-info-content); background: var(--opcteam-color-status-info-surface); }
+  .root[data-tone="warning"] { border-color: var(--opcteam-color-status-warning-border); color: var(--opcteam-color-status-warning-content); background: var(--opcteam-color-status-warning-surface); }
+  .root[data-tone="danger"] { border-color: var(--opcteam-color-status-danger-border); color: var(--opcteam-color-status-danger-content); background: var(--opcteam-color-status-danger-surface); }
   .icon { display: grid; inline-size: 20px; block-size: 20px; flex: 0 0 20px; place-items: center; }
-  .root[data-tone="info"] .icon { color: var(--openbitfun-color-status-info-emphasis); }
-  .root[data-tone="warning"] .icon { color: var(--openbitfun-color-status-warning-emphasis); }
-  .root[data-tone="danger"] .icon { color: var(--openbitfun-color-status-danger-emphasis); }
+  .root[data-tone="info"] .icon { color: var(--opcteam-color-status-info-emphasis); }
+  .root[data-tone="warning"] .icon { color: var(--opcteam-color-status-warning-emphasis); }
+  .root[data-tone="danger"] .icon { color: var(--opcteam-color-status-danger-emphasis); }
   .content { min-inline-size: 0; flex: 1; }
   .action { flex: 0 0 auto; }
 }

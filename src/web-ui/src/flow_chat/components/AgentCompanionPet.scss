@@ -20,16 +20,16 @@
 
 .openbitfun-agent-companion-pet {
   /* FIXED panda body palette — never inverted. */
-  --openbitfun-pet-color: var(--openbitfun-color-content-on-light);
-  --openbitfun-pet-cream: var(--openbitfun-color-content-on-dark);
+  --opcteam-pet-color: var(--opcteam-color-content-on-light);
+  --opcteam-pet-cream: var(--opcteam-color-content-on-dark);
 
   /* Decorative palette — inverts between light/dark themes so overlays
      stay readable on either companion surface. */
-  --openbitfun-pet-decor: var(--openbitfun-pet-color);
-  --openbitfun-pet-decor-soft: color-mix(in srgb, var(--openbitfun-pet-color) 55%, transparent);
-  --openbitfun-petdex-width: 42px;
-  --openbitfun-petdex-height: 46px;
-  --openbitfun-petdex-margin-top: -8px;
+  --opcteam-pet-decor: var(--opcteam-pet-color);
+  --opcteam-pet-decor-soft: color-mix(in srgb, var(--opcteam-pet-color) 55%, transparent);
+  --opcteam-petdex-width: 42px;
+  --opcteam-petdex-height: 46px;
+  --opcteam-petdex-margin-top: -8px;
 
   position: relative;
   z-index: 0;
@@ -54,47 +54,47 @@
     width: 100%;
     height: 100%;
     overflow: visible;
-    color: var(--openbitfun-pet-cream);
+    color: var(--opcteam-pet-cream);
     shape-rendering: geometricPrecision;
   }
 
   &__petdex {
-    width: var(--openbitfun-petdex-width);
-    height: var(--openbitfun-petdex-height);
-    margin-top: var(--openbitfun-petdex-margin-top);
-    background-image: var(--openbitfun-petdex-src);
+    width: var(--opcteam-petdex-width);
+    height: var(--opcteam-petdex-height);
+    margin-top: var(--opcteam-petdex-margin-top);
+    background-image: var(--opcteam-petdex-src);
     background-repeat: no-repeat;
     background-size: 800% 900%;
     background-position-x: 0;
-    background-position-y: calc(var(--openbitfun-petdex-row) * 12.5%);
+    background-position-y: calc(var(--opcteam-petdex-row) * 12.5%);
     image-rendering: pixelated;
     transform-origin: 50% 80%;
     animation:
-      openbitfun-petdex-walk 1.8s steps(var(--openbitfun-petdex-frames)) infinite,
+      openbitfun-petdex-walk 1.8s steps(var(--opcteam-petdex-frames)) infinite,
       openbitfun-petdex-breathe 6s ease-in-out infinite;
   }
 
   &__petdex--rest {
     animation:
-      openbitfun-petdex-walk 2.4s steps(var(--openbitfun-petdex-frames)) infinite,
+      openbitfun-petdex-walk 2.4s steps(var(--opcteam-petdex-frames)) infinite,
       openbitfun-petdex-breathe 6.4s ease-in-out infinite;
   }
 
   &__petdex--working {
     animation:
-      openbitfun-petdex-walk 1.16s steps(var(--openbitfun-petdex-frames)) infinite,
+      openbitfun-petdex-walk 1.16s steps(var(--opcteam-petdex-frames)) infinite,
       openbitfun-petdex-work 0.56s linear infinite;
   }
 
   &__petdex--hover {
     animation:
-      openbitfun-petdex-walk 1.44s steps(var(--openbitfun-petdex-frames)) infinite,
+      openbitfun-petdex-walk 1.44s steps(var(--opcteam-petdex-frames)) infinite,
       openbitfun-petdex-hover 1.9s ease-in-out infinite;
   }
 
   &__petdex--dragging {
     animation:
-      openbitfun-petdex-walk 0.96s steps(var(--openbitfun-petdex-frames)) infinite,
+      openbitfun-petdex-walk 0.96s steps(var(--opcteam-petdex-frames)) infinite,
       openbitfun-petdex-dragging 0.48s linear infinite;
   }
 }
@@ -105,8 +105,8 @@
    outlines on every internal element. */
 :root[data-openbitfun-appearance-mode='dark'] .openbitfun-agent-companion-pet,
 [data-openbitfun-appearance-mode='dark'] .openbitfun-agent-companion-pet {
-  --openbitfun-pet-decor: var(--openbitfun-pet-cream);
-  --openbitfun-pet-decor-soft: color-mix(in srgb, var(--openbitfun-pet-cream) 60%, transparent);
+  --opcteam-pet-decor: var(--opcteam-pet-cream);
+  --opcteam-pet-decor-soft: color-mix(in srgb, var(--opcteam-pet-cream) 60%, transparent);
 
   .openbitfun-panda-head__silhouette {
     filter: url(#openbitfun-panda-outline);
@@ -116,11 +116,11 @@
 /* ---------- Fills ---------- */
 
 .openbitfun-panda__b {
-  fill: var(--openbitfun-pet-color);
+  fill: var(--opcteam-pet-color);
 }
 
 .openbitfun-panda__face-mask {
-  fill: var(--openbitfun-pet-cream);
+  fill: var(--opcteam-pet-cream);
 }
 
 /* ---------- Head: gentle continuous breathing ---------- */
@@ -176,24 +176,24 @@
   /* Floating ZZZ above the sleeping panda. */
 
   &__zzz-glyph {
-    fill: var(--openbitfun-pet-decor);
+    fill: var(--opcteam-pet-decor);
     font-family:
-      var(--openbitfun-type-body-sm-font-family);
-    font-weight: var(--openbitfun-type-heading-page-font-weight);
+      var(--opcteam-type-body-sm-font-family);
+    font-weight: var(--opcteam-type-heading-page-font-weight);
     opacity: 0;
 
     &--a {
-      font-size: var(--openbitfun-type-display-sm-font-size);
+      font-size: var(--opcteam-type-display-sm-font-size);
       animation: openbitfun-zzz-rise 6.8s ease-in-out infinite;
     }
 
     &--b {
-      font-size: var(--openbitfun-type-display-md-font-size);
+      font-size: var(--opcteam-type-display-md-font-size);
       animation: openbitfun-zzz-rise 6.8s ease-in-out -2.2s infinite;
     }
 
     &--c {
-      font-size: var(--openbitfun-type-display-xl-font-size);
+      font-size: var(--opcteam-type-display-xl-font-size);
       animation: openbitfun-zzz-rise 6.8s ease-in-out -4.4s infinite;
     }
   }
@@ -213,7 +213,7 @@
   }
 
   &__think-pip {
-    fill: var(--openbitfun-pet-decor);
+    fill: var(--opcteam-pet-decor);
     opacity: 0;
     animation: openbitfun-think-pulse 3.2s ease-in-out infinite;
 
@@ -239,7 +239,7 @@
   }
 
   &__wait-pip {
-    fill: var(--openbitfun-pet-decor);
+    fill: var(--opcteam-pet-decor);
     opacity: 0.5;
     animation: openbitfun-wait-bounce 2.2s ease-in-out infinite;
 
@@ -259,7 +259,7 @@
   /* Working — sweat drop + tense ear. */
 
   &__sweat-drop {
-    fill: var(--openbitfun-pet-decor-soft);
+    fill: var(--opcteam-pet-decor-soft);
     opacity: 0;
     animation: openbitfun-sweat-fall 3.2s ease-in infinite;
   }
@@ -278,7 +278,7 @@
   }
 
   &__sparkle {
-    fill: var(--openbitfun-pet-decor);
+    fill: var(--opcteam-pet-decor);
     opacity: 0;
     transform-origin: center;
     transform-box: fill-box;
@@ -298,7 +298,7 @@
 
   &__drag-line {
     fill: none;
-    stroke: var(--openbitfun-pet-decor-soft);
+    stroke: var(--opcteam-pet-decor-soft);
     stroke-width: 8;
     stroke-linecap: round;
     opacity: 0;
@@ -711,7 +711,7 @@
   }
 
   to {
-    background-position-x: var(--openbitfun-petdex-end);
+    background-position-x: var(--opcteam-petdex-end);
   }
 }
 

@@ -36,12 +36,12 @@ describe('UserMessageItem metadata visibility', () => {
     const editingBubble = extractBlock(stylesheet, '\n.user-message-item--editing {');
 
     expect(editLayout).toContain('flex-direction: column;');
-    expect(editLayout).toContain('gap: var(--openbitfun-control-flow-chat-inline-gap);');
-    expect(textarea).toContain('min-height: var(--openbitfun-control-height-sm);');
-    expect(richInput).toContain('min-height: var(--openbitfun-control-height-sm);');
+    expect(editLayout).toContain('gap: var(--opcteam-control-flow-chat-inline-gap);');
+    expect(textarea).toContain('min-height: var(--opcteam-control-height-sm);');
+    expect(richInput).toContain('min-height: var(--opcteam-control-height-sm);');
     expect(bubble).toContain('width: fit-content;');
     expect(bubble).not.toContain('min-width:');
-    expect(bubble).toContain('max-width: var(--openbitfun-control-flow-chat-user-message-max-width);');
+    expect(bubble).toContain('max-width: var(--opcteam-control-flow-chat-user-message-max-width);');
     expect(bubble).toContain('border: none;');
     expect(main).toContain('justify-content: center;');
     expect(content).toContain('flex: 0 1 auto;');
@@ -101,14 +101,14 @@ describe('UserMessageItem metadata visibility', () => {
     expect(meta + metaLayout).not.toMatch(/(?:^|\n)\s*(?:max-)?height:/);
     expect(metaLayout).toContain('justify-content: flex-end;');
     const bubble = extractBlock(stylesheet, '\n.user-message-item {');
-    expect(bubble).toContain('padding: var(--openbitfun-control-flow-chat-user-message-padding-block) var(--_user-message-padding-inline);');
+    expect(bubble).toContain('padding: var(--opcteam-control-flow-chat-user-message-padding-block) var(--_user-message-padding-inline);');
     expect(shell).toContain('--_user-message-padding-inline: var(--_user-message-radius);');
     // The bubble's surface ends on the reading column's content edge instead of
     // one radius past it, so a sent message lines up with the tool cards and the
     // composer card that share that edge.
     expect(bubble).toContain('margin-inline: auto 0;');
     expect(meta).toContain('padding-inline: 0;');
-    expect(meta).toContain('padding-block: calc(var(--openbitfun-space-1) / 2) 0;');
+    expect(meta).toContain('padding-block: calc(var(--opcteam-space-1) / 2) 0;');
     expect(meta).toContain('pointer-events: auto;');
     expect(shell).not.toContain('.user-message-item__timestamp');
     expect(shell).not.toContain('&--with-timestamp');

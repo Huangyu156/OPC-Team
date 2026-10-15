@@ -463,8 +463,8 @@ export const AgentCompanionPet: React.FC<AgentCompanionPetProps> = ({
     const frames = getPetAnimationFrameCount(actionRow ?? rowByMood[mood]);
     const nativePetdexStyle = nativePetdexSize && petFrameSize
       ? {
-        '--openbitfun-petdex-width': `${petFrameSize.width}px`,
-        '--openbitfun-petdex-height': `${petFrameSize.height}px`,
+        '--opcteam-petdex-width': `${petFrameSize.width}px`,
+        '--opcteam-petdex-height': `${petFrameSize.height}px`,
       }
       : {};
     return (
@@ -486,10 +486,10 @@ export const AgentCompanionPet: React.FC<AgentCompanionPetProps> = ({
             // BitBlob's atlas already contains breathing, squash and movement.
             // Extra mood transforms change its apparent size when a session changes state.
             animationName: pet.source === 'preset' && pet.id === 'bitblob' ? 'openbitfun-petdex-walk' : undefined,
-            '--openbitfun-petdex-src': `url("${petSrc}")`,
-            '--openbitfun-petdex-row': row,
-            '--openbitfun-petdex-frames': frames,
-            '--openbitfun-petdex-end': `${frames / (layout.columns - 1) * 100}%`,
+            '--opcteam-petdex-src': `url("${petSrc}")`,
+            '--opcteam-petdex-row': row,
+            '--opcteam-petdex-frames': frames,
+            '--opcteam-petdex-end': `${frames / (layout.columns - 1) * 100}%`,
             backgroundSize: `${layout.columns * 100}% ${layout.rows * 100}%`,
             backgroundPositionY: `${row / (layout.rows - 1) * 100}%`,
             ...(spriteAction ? { animationDuration: '1.2s', animationName: 'openbitfun-petdex-walk' } : {}),

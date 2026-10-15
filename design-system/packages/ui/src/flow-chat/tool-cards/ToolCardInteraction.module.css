@@ -4,7 +4,7 @@
     min-inline-size: 0;
     max-inline-size: 100%;
     align-items: center;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
   .participant {
@@ -12,9 +12,9 @@
     min-inline-size: 0;
     max-inline-size: 100%;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
     flex: 0 1 auto;
-    font-weight: var(--openbitfun-type-label-lg-font-weight);
+    font-weight: var(--opcteam-type-label-lg-font-weight);
   }
 
   .participantIcon {
@@ -25,6 +25,6 @@
 
   .direction {
     flex: 0 0 auto;
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 }

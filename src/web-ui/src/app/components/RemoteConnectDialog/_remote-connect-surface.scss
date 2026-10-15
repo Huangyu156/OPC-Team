@@ -2,27 +2,27 @@
 // The dialog and the account panel consume these mixins so pages, sections,
 // cards, rows and action bars keep one rhythm.
 
-$page-inline: var(--openbitfun-space-8);
-$page-inline-compact: var(--openbitfun-space-5);
-$page-inline-narrow: var(--openbitfun-space-4);
-$page-block-start: var(--openbitfun-space-8);
-$page-content-gap: var(--openbitfun-space-6);
-$section-gap: var(--openbitfun-space-6);
-$section-heading-gap: var(--openbitfun-space-3);
-$row-block: var(--openbitfun-layout-field-group-row-padding-block);
-$row-inline: var(--openbitfun-layout-field-group-row-padding-inline);
-$row-gap: var(--openbitfun-space-3);
+$page-inline: var(--opcteam-space-8);
+$page-inline-compact: var(--opcteam-space-5);
+$page-inline-narrow: var(--opcteam-space-4);
+$page-block-start: var(--opcteam-space-8);
+$page-content-gap: var(--opcteam-space-6);
+$section-gap: var(--opcteam-space-6);
+$section-heading-gap: var(--opcteam-space-3);
+$row-block: var(--opcteam-layout-field-group-row-padding-block);
+$row-inline: var(--opcteam-layout-field-group-row-padding-inline);
+$row-gap: var(--opcteam-space-3);
 $icon-slot: 24px;
-$divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
+$divider: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
 
 @mixin page-title {
   margin: 0;
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-heading-dialog-font-family);
-  font-size: var(--openbitfun-type-heading-dialog-font-size);
-  font-weight: var(--openbitfun-type-heading-dialog-font-weight);
-  line-height: var(--openbitfun-type-heading-dialog-line-height);
-  letter-spacing: var(--openbitfun-type-heading-dialog-letter-spacing);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-heading-dialog-font-family);
+  font-size: var(--opcteam-type-heading-dialog-font-size);
+  font-weight: var(--opcteam-type-heading-dialog-font-weight);
+  line-height: var(--opcteam-type-heading-dialog-line-height);
+  letter-spacing: var(--opcteam-type-heading-dialog-letter-spacing);
 }
 
 @mixin section {
@@ -35,29 +35,29 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
 @mixin section-heading {
   display: flex;
   min-width: 0;
-  min-block-size: var(--openbitfun-control-button-xs-height);
+  min-block-size: var(--opcteam-control-button-xs-height);
   align-items: flex-end;
   justify-content: space-between;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
 }
 
 @mixin section-title {
   margin: 0;
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-heading-section-font-family);
-  font-size: var(--openbitfun-type-heading-section-font-size);
-  font-weight: var(--openbitfun-type-heading-section-font-weight);
-  line-height: var(--openbitfun-type-heading-section-line-height);
-  letter-spacing: var(--openbitfun-type-heading-section-letter-spacing);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-heading-section-font-family);
+  font-size: var(--opcteam-type-heading-section-font-size);
+  font-weight: var(--opcteam-type-heading-section-font-weight);
+  line-height: var(--opcteam-type-heading-section-line-height);
+  letter-spacing: var(--opcteam-type-heading-section-letter-spacing);
 }
 
 @mixin supporting-text {
   margin: 0;
-  color: var(--openbitfun-color-content-muted);
-  font-family: var(--openbitfun-type-body-sm-font-family);
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  font-weight: var(--openbitfun-type-body-sm-font-weight);
-  line-height: var(--openbitfun-type-body-sm-line-height);
+  color: var(--opcteam-color-content-muted);
+  font-family: var(--opcteam-type-body-sm-font-family);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  font-weight: var(--opcteam-type-body-sm-font-weight);
+  line-height: var(--opcteam-type-body-sm-line-height);
 }
 
 @mixin card {
@@ -65,8 +65,8 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
   min-width: 0;
   flex-direction: column;
   overflow: hidden;
-  border-radius: var(--openbitfun-layout-field-group-radius);
-  background: var(--openbitfun-color-field-group-background);
+  border-radius: var(--opcteam-layout-field-group-radius);
+  background: var(--opcteam-color-field-group-background);
 }
 
 @mixin card-row {
@@ -88,7 +88,7 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
   justify-content: center;
   inline-size: $icon-slot;
   block-size: $icon-slot;
-  color: var(--openbitfun-color-content-secondary);
+  color: var(--opcteam-color-content-secondary);
 }
 
 @mixin row-copy {
@@ -96,33 +96,33 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
   min-width: 0;
   flex: 1;
   flex-direction: column;
-  gap: var(--openbitfun-space-1);
+  gap: var(--opcteam-space-1);
 }
 
 @mixin row-title {
   margin: 0;
   min-width: 0;
-  color: var(--openbitfun-color-content-primary);
-  font-family: var(--openbitfun-type-body-md-font-family);
-  font-size: var(--openbitfun-type-body-md-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  line-height: var(--openbitfun-type-modifier-leading-ui-line-height);
+  color: var(--opcteam-color-content-primary);
+  font-family: var(--opcteam-type-body-md-font-family);
+  font-size: var(--opcteam-type-body-md-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  line-height: var(--opcteam-type-modifier-leading-ui-line-height);
 }
 
 @mixin row-trailing {
   display: flex;
   flex-shrink: 0;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
   min-width: 0;
 }
 
 @mixin label-text {
-  color: var(--openbitfun-color-content-secondary);
-  font-family: var(--openbitfun-type-label-selected-font-family);
-  font-size: var(--openbitfun-type-label-selected-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  line-height: var(--openbitfun-type-label-selected-line-height);
+  color: var(--opcteam-color-content-secondary);
+  font-family: var(--opcteam-type-label-selected-font-family);
+  font-size: var(--opcteam-type-label-selected-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  line-height: var(--opcteam-type-label-selected-line-height);
 }
 
 @mixin action-bar {
@@ -130,8 +130,8 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
   flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
-  gap: var(--openbitfun-space-2);
-  padding: var(--openbitfun-space-3) $row-inline;
+  gap: var(--opcteam-space-2);
+  padding: var(--opcteam-space-3) $row-inline;
   border-top: $divider;
 }
 
@@ -139,7 +139,7 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
   display: grid;
   grid-template-columns: 16px minmax(0, 1fr);
   align-items: start;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
   @include supporting-text;
 
   > svg,
@@ -151,20 +151,20 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
 // Include last in a rule block: it emits nested rules only.
 @mixin interactive-row {
   & {
-    transition: background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   &:hover:not(:disabled) {
-    background: var(--openbitfun-color-action-neutral-surface);
+    background: var(--opcteam-color-action-neutral-surface);
   }
 
   &:active:not(:disabled) {
-    background: var(--openbitfun-color-action-neutral-surface-pressed);
+    background: var(--opcteam-color-action-neutral-surface-pressed);
   }
 
   &:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: calc(0px - var(--openbitfun-focus-width));
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: calc(0px - var(--opcteam-focus-width));
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -174,5 +174,5 @@ $divider: var(--openbitfun-border-width-default) solid var(--openbitfun-color-bo
 
 @mixin chevron {
   flex-shrink: 0;
-  color: var(--openbitfun-color-content-muted);
+  color: var(--opcteam-color-content-muted);
 }

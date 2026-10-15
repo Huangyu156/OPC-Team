@@ -13,15 +13,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: color-mix(in srgb, var(--openbitfun-color-surface-chrome) 90%, transparent);
+  background: color-mix(in srgb, var(--opcteam-color-surface-chrome) 90%, transparent);
   pointer-events: none;
 
   :root[data-contrast='high'] & {
-    background: var(--openbitfun-color-surface-chrome);
+    background: var(--opcteam-color-surface-chrome);
   }
 
   @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
-    background: var(--openbitfun-color-surface-chrome);
+    background: var(--opcteam-color-surface-chrome);
   }
 
   // ── Exit state ─────────────────────────────────────────────────────────────
@@ -54,45 +54,45 @@
   display: block;
   width: 120px;
   height: 120px;
-  color: var(--openbitfun-color-content-on-light);
+  color: var(--opcteam-color-content-on-light);
   user-select: none;
   // Ensure proper rendering on Linux
   -webkit-user-select: none;
 }
 
 [data-color-scheme='dark'] .splash-screen__logo {
-  color: var(--openbitfun-color-content-on-dark);
+  color: var(--opcteam-color-content-on-dark);
 }
 
 .splash-screen__message {
   position: absolute;
-  top: calc(100% + var(--openbitfun-space-4));
+  top: calc(100% + var(--opcteam-space-4));
   left: 50%;
   min-width: 220px;
   max-width: min(360px, calc(100vw - 48px));
-  color: var(--openbitfun-color-content-secondary);
-  font-family: var(--openbitfun-type-label-md-font-family);
-  font-size: var(--openbitfun-type-label-md-font-size);
-  font-weight: var(--openbitfun-type-label-md-font-weight);
-  line-height: var(--openbitfun-type-label-md-line-height);
-  letter-spacing: var(--openbitfun-type-label-md-letter-spacing);
+  color: var(--opcteam-color-content-secondary);
+  font-family: var(--opcteam-type-label-md-font-family);
+  font-size: var(--opcteam-type-label-md-font-size);
+  font-weight: var(--opcteam-type-label-md-font-weight);
+  line-height: var(--opcteam-type-label-md-line-height);
+  letter-spacing: var(--opcteam-type-label-md-letter-spacing);
   text-align: center;
   opacity: 0;
   transform: translate(-50%, -2px);
   transition:
-    opacity var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-decelerate),
-    transform var(--openbitfun-motion-duration-base) var(--openbitfun-motion-easing-decelerate);
+    opacity var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-decelerate),
+    transform var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-decelerate);
   pointer-events: none;
 }
 
 [data-color-scheme='dark'][data-contrast='standard'] .splash-screen__message {
-  color: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 60%, transparent);
+  color: color-mix(in srgb, var(--opcteam-color-content-on-dark) 60%, transparent);
 }
 
 .splash-screen__message--visible {
   opacity: 1;
   transform: translate(-50%, 0);
-  animation: splash-message-breathe 3.6s ease-in-out var(--openbitfun-motion-duration-base) infinite;
+  animation: splash-message-breathe 3.6s ease-in-out var(--opcteam-motion-duration-base) infinite;
 }
 
 // ── Keyframes ─────────────────────────────────────────────────────────────────

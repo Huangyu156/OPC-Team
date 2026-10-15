@@ -43,11 +43,11 @@
   }
 
   .root[data-openbitfun-fade-top="true"] {
-    --_scroll-area-fade-top: var(--openbitfun-layout-scroll-area-fade-extent);
+    --_scroll-area-fade-top: var(--opcteam-layout-scroll-area-fade-extent);
   }
 
   .root[data-openbitfun-fade-bottom="true"] {
-    --_scroll-area-fade-bottom: var(--openbitfun-layout-scroll-area-fade-extent);
+    --_scroll-area-fade-bottom: var(--opcteam-layout-scroll-area-fade-extent);
   }
 
   .root[data-openbitfun-edge-fade="vertical"]:where([data-openbitfun-fade-top="true"], [data-openbitfun-fade-bottom="true"]) {
@@ -56,10 +56,10 @@
     --_scroll-area-edge-mask: linear-gradient(
       to bottom,
       transparent,
-      var(--openbitfun-color-content-on-light) min(var(--_scroll-area-fade-top), 25%),
-      var(--openbitfun-color-content-on-light) calc(100% - min(var(--_scroll-area-fade-bottom), 25%)),
+      var(--opcteam-color-content-on-light) min(var(--_scroll-area-fade-top), 25%),
+      var(--opcteam-color-content-on-light) calc(100% - min(var(--_scroll-area-fade-bottom), 25%)),
       transparent
-    ), linear-gradient(var(--openbitfun-color-content-on-light) 0 0), linear-gradient(var(--openbitfun-color-content-on-light) 0 0);
+    ), linear-gradient(var(--opcteam-color-content-on-light) 0 0), linear-gradient(var(--opcteam-color-content-on-light) 0 0);
     -webkit-mask-image: var(--_scroll-area-edge-mask);
     mask-image: var(--_scroll-area-edge-mask);
     mask-mode: alpha;

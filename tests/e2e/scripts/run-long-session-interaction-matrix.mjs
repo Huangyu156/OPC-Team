@@ -238,9 +238,9 @@ function prepareScenarioRuntime(name, baseEnv) {
   runFixture([
     '--workspace',
     workspace,
-    '--openbitfun-home',
+    '--opcteam-home',
     homeRoot,
-    '--openbitfun-user-root',
+    '--opcteam-user-root',
     userRoot,
     '--session-prefix',
     'perf-long-session',
@@ -256,9 +256,9 @@ function prepareScenarioRuntime(name, baseEnv) {
     runFixture([
       '--workspace',
       workspace,
-      '--openbitfun-home',
+      '--opcteam-home',
       homeRoot,
-      '--openbitfun-user-root',
+      '--opcteam-user-root',
       userRoot,
       '--session-prefix',
       prefix,

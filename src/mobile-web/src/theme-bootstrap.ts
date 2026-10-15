@@ -14,7 +14,7 @@ try {
   }
 }
 const root = document.documentElement;
-root.setAttribute('data-openbitfun-design-system-root', '');
+root.setAttribute('data-opcteam-design-system-root', '');
 root.setAttribute('data-color-scheme', initialTheme);
 root.setAttribute('data-contrast', 'standard');
 root.setAttribute('data-density', 'comfortable');

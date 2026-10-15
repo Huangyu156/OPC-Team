@@ -3,53 +3,53 @@
     display: inline-flex;
     align-items: center;
     min-inline-size: 0;
-    min-block-size: var(--openbitfun-control-height-sm);
-    gap: var(--openbitfun-space-1);
-    padding-inline: var(--openbitfun-space-2);
-    border-radius: var(--openbitfun-radius-base);
-    color: var(--openbitfun-color-action-neutral-content);
+    min-block-size: var(--opcteam-control-height-sm);
+    gap: var(--opcteam-space-1);
+    padding-inline: var(--opcteam-space-2);
+    border-radius: var(--opcteam-radius-base);
+    color: var(--opcteam-color-action-neutral-content);
     background: transparent;
     transition:
-      color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+      color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .root:not([data-disabled="true"]):hover,
   .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="hover"]) {
-    background: var(--openbitfun-color-action-neutral-surface-hover);
+    background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
   .root:not([data-disabled="true"]):has(.trigger:active),
   .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="active"]) {
-    background: var(--openbitfun-color-action-neutral-surface-hover);
+    background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
   .root:not([data-disabled="true"]):has(.trigger:active) .label,
   .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="active"]) .label {
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
   .root:has(.trigger:focus-visible) {
-    box-shadow: 0 0 0 var(--openbitfun-focus-width) var(--openbitfun-color-focus-ring);
+    box-shadow: 0 0 0 var(--opcteam-focus-width) var(--opcteam-color-focus-ring);
   }
 
   .root[data-disabled="true"] {
-    color: var(--openbitfun-color-action-neutral-content-disabled);
+    color: var(--opcteam-color-action-neutral-content-disabled);
     cursor: not-allowed;
   }
 
   .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]) {
-    color: var(--openbitfun-color-status-danger-content);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):hover,
   .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="hover"]) {
-    background: var(--openbitfun-color-status-danger-surface);
+    background: var(--opcteam-color-status-danger-surface);
   }
 
   .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):has(.trigger:active),
   .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="active"]) {
-    background: var(--openbitfun-color-status-danger-surface);
+    background: var(--opcteam-color-status-danger-surface);
   }
 
   .trigger {
@@ -58,7 +58,7 @@
     align-items: center;
     min-inline-size: 0;
     min-block-size: inherit;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
     margin: 0;
     padding: 0;
     border: 0;
@@ -75,13 +75,13 @@
   }
 
   .leading {
-    --openbitfun-opacity-icon-artwork: 1;
+    --opcteam-opacity-icon-artwork: 1;
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
     justify-content: center;
-    inline-size: var(--openbitfun-font-size-sm);
-    block-size: var(--openbitfun-font-size-sm);
+    inline-size: var(--opcteam-font-size-sm);
+    block-size: var(--opcteam-font-size-sm);
   }
 
   .leading > :where(svg, img),
@@ -95,11 +95,11 @@
     overflow: hidden;
     flex: 1 1 auto;
     min-inline-size: 0;
-    font-family: var(--openbitfun-type-label-md-font-family);
-    font-size: var(--openbitfun-type-label-md-font-size);
-    font-weight: var(--openbitfun-type-label-md-font-weight);
-    line-height: var(--openbitfun-type-action-row-line-height);
-    letter-spacing: var(--openbitfun-type-label-md-letter-spacing);
+    font-family: var(--opcteam-type-label-md-font-family);
+    font-size: var(--opcteam-type-label-md-font-size);
+    font-weight: var(--opcteam-type-label-md-font-weight);
+    line-height: var(--opcteam-type-action-row-line-height);
+    letter-spacing: var(--opcteam-type-label-md-letter-spacing);
     white-space: nowrap;
   }
 
@@ -117,22 +117,22 @@
   }
 
   .metadata {
-    color: var(--openbitfun-color-content-muted);
-    font-family: var(--openbitfun-type-meta-font-family);
-    font-size: var(--openbitfun-type-meta-font-size);
-    font-weight: var(--openbitfun-type-meta-font-weight);
-    line-height: var(--openbitfun-type-meta-line-height);
-    letter-spacing: var(--openbitfun-type-meta-letter-spacing);
+    color: var(--opcteam-color-content-muted);
+    font-family: var(--opcteam-type-meta-font-family);
+    font-size: var(--opcteam-type-meta-font-size);
+    font-weight: var(--opcteam-type-meta-font-weight);
+    line-height: var(--opcteam-type-meta-line-height);
+    letter-spacing: var(--opcteam-type-meta-letter-spacing);
     white-space: nowrap;
   }
 
   /* A text shortcut hint is secondary text, so it must not inherit the surface body size. */
   .shortcut {
-    font-family: var(--openbitfun-type-meta-font-family);
-    font-size: var(--openbitfun-type-meta-font-size);
-    font-weight: var(--openbitfun-type-meta-font-weight);
-    line-height: var(--openbitfun-type-meta-line-height);
-    letter-spacing: var(--openbitfun-type-meta-letter-spacing);
+    font-family: var(--opcteam-type-meta-font-family);
+    font-size: var(--opcteam-type-meta-font-size);
+    font-weight: var(--opcteam-type-meta-font-weight);
+    line-height: var(--opcteam-type-meta-line-height);
+    letter-spacing: var(--opcteam-type-meta-letter-spacing);
     white-space: nowrap;
   }
 
@@ -141,7 +141,7 @@
   }
 
   .actions {
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -152,7 +152,7 @@
 
   @media (forced-colors: active) {
     .root:has(.trigger:focus-visible) {
-      box-shadow: 0 0 0 var(--openbitfun-focus-width) Highlight;
+      box-shadow: 0 0 0 var(--opcteam-focus-width) Highlight;
     }
 
     .root:not([data-disabled="true"]):hover,

@@ -79,11 +79,11 @@ export function useThinkingSuccessor(rootRef: RefObject<HTMLDivElement>, options
       // reveal. No measured reservation, translation, or mount CSS animation.
       if (!fade || !element?.animate || media?.matches || root.ownerDocument.hidden) return;
       const style = view.getComputedStyle(root);
-      const token = style.getPropertyValue('--openbitfun-motion-duration-fast').trim();
+      const token = style.getPropertyValue('--opcteam-motion-duration-fast').trim();
       const duration = parseFloat(token) * (token.endsWith('ms') ? 1 : 1000);
       if (!Number.isFinite(duration) || duration <= 0) return;
       reveal = element.animate([{ opacity: 0 }, { opacity: 1 }], {
-        duration, easing: style.getPropertyValue('--openbitfun-motion-easing-standard').trim() || 'ease',
+        duration, easing: style.getPropertyValue('--opcteam-motion-easing-standard').trim() || 'ease',
       });
       const animation = reveal;
       void animation.finished.then(() => { if (reveal === animation) reveal = undefined; }, () => {});

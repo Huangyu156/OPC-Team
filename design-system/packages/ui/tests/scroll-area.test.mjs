@@ -60,10 +60,10 @@ test("ScrollArea styling uses public scrollbar tokens and preserves native scrol
   // The published stylesheet must carry the shared policy for both ordinary
   // native scroll containers and ScrollArea, including standalone consumers.
   const publishedStyles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
-  assert.match(publishedStyles, /--openbitfun-scrollbar-width/);
-  assert.match(publishedStyles, /--openbitfun-scrollbar-radius/);
-  assert.match(publishedStyles, /--openbitfun-color-scrollbar-thumb/);
-  assert.match(publishedStyles, /--openbitfun-color-scrollbar-thumb-hover/);
+  assert.match(publishedStyles, /--opcteam-scrollbar-width/);
+  assert.match(publishedStyles, /--opcteam-scrollbar-radius/);
+  assert.match(publishedStyles, /--opcteam-color-scrollbar-thumb/);
+  assert.match(publishedStyles, /--opcteam-color-scrollbar-thumb-hover/);
   assert.match(publishedStyles, /\[data-openbitfun-scrollbar-visibility\]/);
   assert.match(publishedStyles, /scrollbar-width:\s*none/);
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}/i);

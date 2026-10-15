@@ -124,13 +124,13 @@ test("AskUser disclosure hides editable controls until expanded and retains the 
 test("AskUser styles use public semantic and component geometry tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-control-activity-item-surface-height/);
-  assert.match(styles, /--openbitfun-control-ask-user-option-padding-block/);
-  assert.match(styles, /--openbitfun-control-ask-user-question-options-gap/);
-  assert.match(styles, /--openbitfun-color-surface-subtle/);
-  assert.match(styles, /--openbitfun-color-action-neutral-content/);
-  assert.match(styles, /--openbitfun-color-content-muted/);
-  assert.match(styles, /--openbitfun-color-status-success-content/);
-  assert.match(styles, /--openbitfun-type-heading-page-line-height/);
+  assert.match(styles, /--opcteam-control-activity-item-surface-height/);
+  assert.match(styles, /--opcteam-control-ask-user-option-padding-block/);
+  assert.match(styles, /--opcteam-control-ask-user-question-options-gap/);
+  assert.match(styles, /--opcteam-color-surface-subtle/);
+  assert.match(styles, /--opcteam-color-action-neutral-content/);
+  assert.match(styles, /--opcteam-color-content-muted/);
+  assert.match(styles, /--opcteam-color-status-success-content/);
+  assert.match(styles, /--opcteam-type-heading-page-line-height/);
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}\b|rgba?\(/i);
 });

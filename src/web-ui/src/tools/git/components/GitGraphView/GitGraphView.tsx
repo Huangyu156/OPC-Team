@@ -493,7 +493,7 @@ function drawNodeWithInfo(
   const centerY = y + rowHeight / 2;
   const resolveLaneColor = (lane: number) => ensureMinimumContrast(
     resolveCanvasColor(colors[lane % colors.length]),
-    resolveCanvasColor('var(--openbitfun-color-surface-canvas)'),
+    resolveCanvasColor('var(--opcteam-color-surface-canvas)'),
     GIT_GRAPH_LANE_MIN_CONTRAST
   );
   const color = resolveLaneColor(node.lane);
@@ -580,7 +580,7 @@ function drawNodeWithInfo(
   
 
   if (state.isSelected) {
-    ctx.strokeStyle = resolveCanvasColor('var(--openbitfun-color-content-on-dark)');
+    ctx.strokeStyle = resolveCanvasColor('var(--opcteam-color-content-on-dark)');
     ctx.lineWidth = 2;
     ctx.beginPath();
     ctx.arc(x, centerY, nodeSize + 1.5, 0, Math.PI * 2);
@@ -644,7 +644,7 @@ function drawNodeWithInfo(
             ? APPEARANCE_DOMAIN_TOKENS.gitGraphLane[2]
             : APPEARANCE_DOMAIN_TOKENS.gitGraphLane[3]
       ),
-      resolveCanvasColor('var(--openbitfun-color-content-on-dark)'),
+      resolveCanvasColor('var(--opcteam-color-content-on-dark)'),
       GIT_GRAPH_LANE_MIN_CONTRAST
     );
     const text = displayName;
@@ -665,7 +665,7 @@ function drawNodeWithInfo(
 
     if (ref.isCurrent) {
       ctx.save();
-      ctx.fillStyle = resolveCanvasColor('var(--openbitfun-color-content-on-dark)');
+      ctx.fillStyle = resolveCanvasColor('var(--opcteam-color-content-on-dark)');
       ctx.beginPath();
       ctx.arc(refX + refWidth - 4, centerY - refHeight / 2 + 4, 2, 0, Math.PI * 2);
       ctx.fill();
@@ -674,7 +674,7 @@ function drawNodeWithInfo(
     
 
     ctx.save();
-    ctx.fillStyle = resolveCanvasColor('var(--openbitfun-color-content-on-dark)');
+    ctx.fillStyle = resolveCanvasColor('var(--opcteam-color-content-on-dark)');
     ctx.font = '500 11px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
     ctx.textBaseline = 'middle';
     ctx.textAlign = 'left';
@@ -691,7 +691,7 @@ function drawNodeWithInfo(
   ctx.save();
   
 
-  ctx.fillStyle = resolveCanvasColor('var(--openbitfun-color-content-primary)');
+  ctx.fillStyle = resolveCanvasColor('var(--opcteam-color-content-primary)');
   ctx.font = '13px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
   ctx.textBaseline = 'middle';
   ctx.textAlign = 'left';
@@ -712,7 +712,7 @@ function drawNodeWithInfo(
   const metaX = textX + ctx.measureText(displayText).width + 20;
 
 
-  ctx.fillStyle = resolveCanvasColor('var(--openbitfun-color-content-muted)');
+  ctx.fillStyle = resolveCanvasColor('var(--opcteam-color-content-muted)');
   ctx.font = '12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif';
   
   let authorName = node.authorName;
@@ -732,7 +732,7 @@ function drawNodeWithInfo(
   const hashX = metaX + ctx.measureText(metaText).width + 16;
   const hashText = node.hash.substring(0, 7);
   
-  ctx.fillStyle = resolveCanvasColor('var(--openbitfun-color-content-disabled)');
+  ctx.fillStyle = resolveCanvasColor('var(--opcteam-color-content-disabled)');
   ctx.font = codeFont;
   ctx.fillText(hashText, hashX, centerY);
   

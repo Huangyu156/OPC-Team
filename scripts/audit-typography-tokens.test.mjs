@@ -13,11 +13,11 @@ function codesFor(source, relativePath) {
 test('accepts canonical CSS typography, inheritance, structural zeros, and documented geometry', () => {
   const issues = auditTypographyText(`
     .body {
-      font-family: var(--openbitfun-type-body-md-font-family);
-      font-size: var(--openbitfun-type-body-md-font-size);
-      font-weight: var(--openbitfun-font-weight-regular);
-      line-height: var(--openbitfun-line-height-base);
-      letter-spacing: var(--openbitfun-letter-spacing-normal);
+      font-family: var(--opcteam-type-body-md-font-family);
+      font-size: var(--opcteam-type-body-md-font-size);
+      font-weight: var(--opcteam-font-weight-regular);
+      line-height: var(--opcteam-line-height-base);
+      letter-spacing: var(--opcteam-letter-spacing-normal);
     }
     .inherit { font: inherit; }
     .structural { font-size: 0; line-height: 0; }
@@ -50,11 +50,11 @@ test('accepts only build-owned font faces and stacks in Web font profiles', () =
       font-family: "OpenBitFun HarmonyOS Sans";
       font-weight: 500;
     }
-    @layer openbitfun.tokens.system {
-      :where([data-openbitfun-design-system-root]) {
-        --openbitfun-font-family-sans: "OpenBitFun HarmonyOS Sans", system-ui, sans-serif;
-        --openbitfun-font-family-control: "OpenBitFun HarmonyOS Sans", system-ui, sans-serif;
-        --openbitfun-font-family-mono: "Fira Code", monospace;
+    @layer opcteam.tokens.system {
+      :where([data-opcteam-design-system-root]) {
+        --opcteam-font-family-sans: "OpenBitFun HarmonyOS Sans", system-ui, sans-serif;
+        --opcteam-font-family-control: "OpenBitFun HarmonyOS Sans", system-ui, sans-serif;
+        --opcteam-font-family-mono: "Fira Code", monospace;
       }
     }
   `, 'src/web-ui/src/font-profiles/harmony-bundled.css');
@@ -121,11 +121,11 @@ test('exempts the Design Lab Web font profile root and nothing else in the Lab',
 test('requires semantic roles in the complete component library and every React product frontend', () => {
   const primitiveCodes = codesFor(`
     .title {
-      font-family: var(--openbitfun-font-family-control);
-      font-size: var(--openbitfun-font-size-sm);
-      font-weight: var(--openbitfun-font-weight-semibold);
-      line-height: var(--openbitfun-line-height-tight);
-      letter-spacing: var(--openbitfun-letter-spacing-normal);
+      font-family: var(--opcteam-font-family-control);
+      font-size: var(--opcteam-font-size-sm);
+      font-weight: var(--opcteam-font-weight-semibold);
+      line-height: var(--opcteam-line-height-tight);
+      letter-spacing: var(--opcteam-letter-spacing-normal);
     }
   `, 'design-system/packages/ui/src/components/Card/Card.module.css');
 
@@ -136,24 +136,24 @@ test('requires semantic roles in the complete component library and every React 
 
   const semanticIssues = auditTypographyText(`
     .title {
-      font-family: var(--openbitfun-type-heading-card-font-family);
-      font-size: var(--openbitfun-type-heading-card-font-size);
-      font-weight: var(--openbitfun-type-heading-card-font-weight);
-      line-height: var(--openbitfun-type-heading-card-line-height);
-      letter-spacing: var(--openbitfun-type-heading-card-letter-spacing);
+      font-family: var(--opcteam-type-heading-card-font-family);
+      font-size: var(--opcteam-type-heading-card-font-size);
+      font-weight: var(--opcteam-type-heading-card-font-weight);
+      line-height: var(--opcteam-type-heading-card-line-height);
+      letter-spacing: var(--opcteam-type-heading-card-letter-spacing);
     }
   `, 'design-system/packages/ui/src/components/Card/Card.module.css');
 
   assert.deepEqual(semanticIssues, []);
 
   const geometryIssues = auditTypographyText(`
-    .icon { inline-size: var(--openbitfun-font-size-sm); block-size: var(--openbitfun-font-size-sm); }
+    .icon { inline-size: var(--opcteam-font-size-sm); block-size: var(--opcteam-font-size-sm); }
   `, 'design-system/packages/ui/src/components/ActionItem/ActionItem.module.css');
 
   assert.deepEqual(geometryIssues, []);
 
   const flowChatCodes = codesFor(`
-    .message { font-size: var(--openbitfun-font-size-sm); }
+    .message { font-size: var(--opcteam-font-size-sm); }
   `, 'design-system/packages/ui/src/flow-chat/Message.module.css');
 
   assert.equal(
@@ -163,8 +163,8 @@ test('requires semantic roles in the complete component library and every React 
 
   const webUiCodes = codesFor(`
     .label {
-      font-size: var(--openbitfun-font-size-xs);
-      line-height: var(--openbitfun-line-height-tight);
+      font-size: var(--opcteam-font-size-xs);
+      line-height: var(--opcteam-line-height-tight);
     }
   `, 'src/web-ui/src/app/components/LegacyLabel.scss');
 
@@ -175,8 +175,8 @@ test('requires semantic roles in the complete component library and every React 
 
   const webUiIndirectCodes = codesFor(`
     .title {
-      --local-title-font: var(--openbitfun-font-family-sans);
-      min-height: calc(var(--openbitfun-font-size-sm) * var(--openbitfun-line-height-base));
+      --local-title-font: var(--opcteam-font-family-sans);
+      min-height: calc(var(--opcteam-font-size-sm) * var(--opcteam-line-height-base));
     }
   `, 'src/web-ui/src/app/components/LegacyTitle.scss');
 
@@ -191,7 +191,7 @@ test('requires semantic roles in the complete component library and every React 
     'design-system/apps/design-lab/src/LegacyLabel.css',
   ]) {
     const productCodes = codesFor(`
-      .label { font-size: var(--openbitfun-font-size-xs); }
+      .label { font-size: var(--opcteam-font-size-xs); }
     `, productPath);
 
     assert.equal(
@@ -209,9 +209,9 @@ test('rejects static TypeScript typography but accepts tokens, adapters, and dyn
     const compilerKeys = { fontSize: 'font-size', lineHeight: 'line-height' };
     const tokenOptions = { fontSize: getTypographyTokenPx('font.size.base') };
     const dynamicPreview = { fontSize: \`\${previewPx}px\` };
-    const tokenStyle = { fontWeight: 'var(--openbitfun-font-weight-semibold)' };
+    const tokenStyle = { fontWeight: 'var(--opcteam-font-weight-semibold)' };
     const Component = ({ fontSize = 16 }) => (
-      <svg><text fontSize={10} fontWeight="var(--openbitfun-font-weight-medium)" /></svg>
+      <svg><text fontSize={10} fontWeight="var(--opcteam-font-weight-medium)" /></svg>
     );
   `, 'fixture.tsx');
 
@@ -220,8 +220,8 @@ test('rejects static TypeScript typography but accepts tokens, adapters, and dyn
 
 test('requires semantic roles in product frontend inline styles and embedded CSS', () => {
   const codes = codesFor(`
-    const style = { fontSize: 'var(--openbitfun-font-size-sm)' };
-    const shell = \`<style>.title { font-weight: var(--openbitfun-font-weight-semibold); }</style>\`;
+    const style = { fontSize: 'var(--opcteam-font-size-sm)' };
+    const shell = \`<style>.title { font-weight: var(--opcteam-font-weight-semibold); }</style>\`;
   `, 'src/web-ui/src/fixture.tsx');
 
   assert.equal(
@@ -230,8 +230,8 @@ test('requires semantic roles in product frontend inline styles and embedded CSS
   );
 
   const semanticIssues = auditTypographyText(`
-    const style = { fontSize: 'var(--openbitfun-type-label-md-font-size)' };
-    const shell = \`<style>.title { font-weight: var(--openbitfun-type-heading-card-font-weight); }</style>\`;
+    const style = { fontSize: 'var(--opcteam-type-label-md-font-size)' };
+    const shell = \`<style>.title { font-weight: var(--opcteam-type-heading-card-font-weight); }</style>\`;
   `, 'src/web-ui/src/fixture.tsx');
 
   assert.deepEqual(semanticIssues, []);
@@ -241,7 +241,7 @@ test('requires semantic roles in product frontend inline styles and embedded CSS
     'OpenBitFun-Installer/src/fixture.tsx',
   ]) {
     const productCodes = codesFor(`
-      const style = { fontSize: 'var(--openbitfun-font-size-sm)' };
+      const style = { fontSize: 'var(--opcteam-font-size-sm)' };
     `, productPath);
     assert.equal(
       productCodes.filter(code => code === 'foundation-typography-in-semantic-consumer').length,
@@ -254,7 +254,7 @@ test('requires semantic roles in product frontend inline styles and embedded CSS
 test('rejects retired aliases and FlowChat font APIs', () => {
   const codes = codesFor(`
     const oldToken = 'font.size.body';
-    const oldVar = '--openbitfun-appearance-token-flowchat-font-size-base';
+    const oldVar = '--opcteam-appearance-token-flowchat-font-size-base';
     setFlowChatFont('independent');
   `, 'fixture.ts');
 
@@ -268,7 +268,7 @@ test('rejects retired aliases and FlowChat font APIs', () => {
 test('rejects retired component typography tokens and variables', () => {
   const codes = codesFor(`
     const oldToken = 'control.button.xsFontSize';
-    const oldVariable = '--openbitfun-overlay-modal-title-font-weight';
+    const oldVariable = '--opcteam-overlay-modal-title-font-weight';
   `, 'fixture.ts');
 
   assert.deepEqual(codes.sort(), [
@@ -280,7 +280,7 @@ test('rejects retired component typography tokens and variables', () => {
 test('allows retired names only inside explicit negative-test blocks', () => {
   const issues = auditTypographyText(`
     // typography-audit: negative-test-start -- verifies the retired alias stays absent
-    expect(css).not.toContain('--openbitfun-appearance-token-font-size-base');
+    expect(css).not.toContain('--opcteam-appearance-token-font-size-base');
     // typography-audit: negative-test-end
   `, 'fixture.test.ts');
 

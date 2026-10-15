@@ -82,13 +82,13 @@ describe('pet sprite renderer', () => {
     await act(async () => root.render(<AgentCompanionPet pet={selection} mood="rest" action="waving" lookDirection={12} />));
     expect(sprite().dataset.petAction).toBe('waving');
     expect(parseFloat(sprite().style.backgroundPositionY)).toBeCloseTo(3 / (version === 1 ? 8 : 10) * 100);
-    expect(sprite().style.getPropertyValue('--openbitfun-petdex-frames')).toBe('4');
+    expect(sprite().style.getPropertyValue('--opcteam-petdex-frames')).toBe('4');
     await act(async () => root.render(<AgentCompanionPet pet={selection} mood="rest" />));
     expect(sprite().dataset.petAction).toBeUndefined();
     for (const [action, row, frames] of [['jumping', 4, 5], ['failed', 5, 8]] as const) {
       await act(async () => root.render(<AgentCompanionPet pet={selection} mood="rest" action={action} lookDirection={12} />));
       expect(parseFloat(sprite().style.backgroundPositionY)).toBeCloseTo(row / (version === 1 ? 8 : 10) * 100);
-      expect(sprite().style.getPropertyValue('--openbitfun-petdex-frames')).toBe(String(frames));
+      expect(sprite().style.getPropertyValue('--opcteam-petdex-frames')).toBe(String(frames));
       expect(sprite().style.animation).not.toBe('none');
     }
     await act(async () => root.render(<AgentCompanionPet pet={selection} mood="dragging" action="failed" />));
@@ -105,7 +105,7 @@ describe('pet sprite renderer', () => {
     expect(onSize).toHaveBeenLastCalledWith({ width: 96, height: 104 });
     expect(sprite().style.backgroundSize).toBe('800% 1100%');
     expect(sprite().style.backgroundPositionY).toBe('20%');
-    expect(sprite().style.getPropertyValue('--openbitfun-petdex-frames')).toBe('8');
+    expect(sprite().style.getPropertyValue('--opcteam-petdex-frames')).toBe('8');
     expect(sprite().style.animation).not.toBe('none');
   });
 

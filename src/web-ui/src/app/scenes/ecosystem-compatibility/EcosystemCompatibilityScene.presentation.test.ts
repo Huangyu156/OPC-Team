@@ -303,8 +303,8 @@ describe('ecosystem compatibility scene presentation contract', () => {
   it('lets the page inherit the surrounding scene surface', () => {
     const styles = source('./EcosystemCompatibilityScene.scss');
 
-    expect(styles).not.toContain('background: var(--openbitfun-color-surface-scene);');
-    expect(styles).not.toContain('background: var(--openbitfun-color-surface-canvas);');
+    expect(styles).not.toContain('background: var(--opcteam-color-surface-scene);');
+    expect(styles).not.toContain('background: var(--opcteam-color-surface-canvas);');
   });
 
   it('keeps Oh My Pi and generic ACP agents out of the product catalog', () => {

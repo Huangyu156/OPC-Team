@@ -15,7 +15,7 @@ const slots = [
   ["LauncherButton", "icon", "inline-size", "100%"],
   ["IconButton", "icon", "inline-size", "100%"],
   ["TabGroup", "icon", "inline-size", "100%"],
-  ["ActionCard", "leading", "inline-size", "var(--openbitfun-control-action-card-icon-size)"],
+  ["ActionCard", "leading", "inline-size", "var(--opcteam-control-action-card-icon-size)"],
   ["ActionItem", "leading", "inline-size", "100%"],
   ["ActivityItem", "leading", "inline-size", "100%"],
   ["SegmentedControl", "icon", "inline-size", "100%"],
@@ -28,7 +28,7 @@ const slots = [
   ["StatusPill", "leading", "inline-size", "100%"],
   ["Avatar", "content", "inline-size", "55%"],
   ["Empty", "media", "inline-size", "var(--_empty-icon-size)"],
-  ["ConfirmDialog", "icon", "inline-size", "var(--openbitfun-layout-confirm-dialog-icon-glyph-size)"],
+  ["ConfirmDialog", "icon", "inline-size", "var(--opcteam-layout-confirm-dialog-icon-glyph-size)"],
   ["Listbox", "leading", "inline-size", "100%"],
   ["Listbox", "indicator", "inline-size", "100%"],
 ];
@@ -94,7 +94,7 @@ test("buttons constrain normalized line fallbacks through the same icon slot", (
     const markup = renderToStaticMarkup(createElement(Component, props));
     assert.match(markup, /data-openbitfun-component="icon"/);
     assert.match(markup, /data-openbitfun-source="line"/);
-    assert.match(markup, /<svg[^>]*stroke-width="var\(--openbitfun-control-icon-stroke-width\)"/);
+    assert.match(markup, /<svg[^>]*stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
   }
 });
 
@@ -106,7 +106,7 @@ test("public icon slots normalize default Lucide weight without changing custom 
   assert.ok(rule, "shared icon-slot normalization rule must exist");
   assert.match(rule[1], /svg\.lucide\[stroke-width="2"\]/);
   assert.match(rule[2], /color:\s*inherit/);
-  assert.match(rule[2], /stroke-width:\s*var\(--openbitfun-control-icon-stroke-width\)/);
+  assert.match(rule[2], /stroke-width:\s*var\(--opcteam-control-icon-stroke-width\)/);
 
   for (const [Component, props] of [
     [Button, { children: "Network", leadingIcon: createElement(Network) }],
@@ -197,7 +197,7 @@ test("FlowChat glyphs keep the shared line-weight contract through status and di
         // IconButton and Icon each own a public slot around the actual glyph.
         if (stack.some(ancestor => ancestor.startsWith('<button')
           && ancestor.includes('data-openbitfun-part="affordanceButton"'))) checkedPanelActions++;
-        const usesIconToken = tag.includes('stroke-width="var(--openbitfun-control-icon-stroke-width)"');
+        const usesIconToken = tag.includes('stroke-width="var(--opcteam-control-icon-stroke-width)"');
         assert.ok(usesIconToken || stack.at(-1)?.includes('data-openbitfun-icon-slot="true"'),
           `Unnormalized glyph: ${tag}`);
       }

@@ -60,23 +60,23 @@ test("Select styling owns one token-driven surface for the expanded header and l
     "utf8",
   );
 
-  assert.match(styles, /--openbitfun-control-select-padding-inline/);
-  assert.match(styles, /--openbitfun-control-select-indicator-size/);
-  assert.match(styles, /--openbitfun-color-field-border-focus/);
-  assert.match(styles, /\.popover\s*\{[^}]*border-radius:\s*var\(--openbitfun-control-select-radius\)/s);
-  assert.match(styles, /--openbitfun-color-selection-surface/);
-  assert.match(styles, /--openbitfun-color-control-highlight-background/);
-  assert.match(styles, /--openbitfun-shadow-menu/);
-  assert.match(styles, /--openbitfun-color-status-danger-border/);
+  assert.match(styles, /--opcteam-control-select-padding-inline/);
+  assert.match(styles, /--opcteam-control-select-indicator-size/);
+  assert.match(styles, /--opcteam-color-field-border-focus/);
+  assert.match(styles, /\.popover\s*\{[^}]*border-radius:\s*var\(--opcteam-control-select-radius\)/s);
+  assert.match(styles, /--opcteam-color-selection-surface/);
+  assert.match(styles, /--opcteam-color-control-highlight-background/);
+  assert.match(styles, /--opcteam-shadow-menu/);
+  assert.match(styles, /--opcteam-color-status-danger-border/);
   assert.match(styles, /\.popover\s*\{[^}]*flex-direction:\s*column[^}]*padding:\s*0[^}]*border:/s);
   assert.match(styles, /\.root\s*\{[^}]*block-size:\s*var\(--_select-height\)/s);
   assert.match(styles, /\.root\s*\{[^}]*display:\s*grid;/s);
   assert.match(
     styles,
-    /\.popoverHeader\s*\{[^}]*block-size:\s*calc\([\s\S]*?--_select-height[\s\S]*?--openbitfun-border-width-default/,
+    /\.popoverHeader\s*\{[^}]*block-size:\s*calc\([\s\S]*?--_select-height[\s\S]*?--opcteam-border-width-default/,
   );
-  assert.match(styles, /\.divider\s*\{[^}]*--openbitfun-border-width-default/s);
-  assert.match(styles, /\.options\s*\{[^}]*--openbitfun-overlay-menu-surface-padding/s);
+  assert.match(styles, /\.divider\s*\{[^}]*--opcteam-border-width-default/s);
+  assert.match(styles, /\.options\s*\{[^}]*--opcteam-overlay-menu-surface-padding/s);
   assert.doesNotMatch(styles, /border-block-(?:start|end):\s*0/);
   assert.doesNotMatch(styles, /scale\(/);
   assert.match(source, /<Listbox/);

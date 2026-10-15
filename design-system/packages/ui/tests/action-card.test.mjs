@@ -47,9 +47,9 @@ test("ActionCard disables its trigger and sibling actions as one contract", () =
 test("ActionCard styles use public action-card and semantic tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-control-action-card-sm-min-block-size/);
-  assert.match(styles, /--openbitfun-control-action-card-leading-size/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface-hover/);
-  assert.match(styles, /--openbitfun-color-selection-surface/);
-  assert.match(styles, /--openbitfun-color-focus-ring/);
+  assert.match(styles, /--opcteam-control-action-card-sm-min-block-size/);
+  assert.match(styles, /--opcteam-control-action-card-leading-size/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface-hover/);
+  assert.match(styles, /--opcteam-color-selection-surface/);
+  assert.match(styles, /--opcteam-color-focus-ring/);
 });

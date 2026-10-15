@@ -44,7 +44,7 @@ export function ToolCardRollingNumber({ value }: { value: number | string }) {
       paint(target);
       return;
     }
-    const durationToken = view.getComputedStyle(root).getPropertyValue("--openbitfun-motion-duration-base").trim();
+    const durationToken = view.getComputedStyle(root).getPropertyValue("--opcteam-motion-duration-base").trim();
     const duration = parseFloat(durationToken) * (durationToken.endsWith("ms") ? 1 : 1000);
     if (!Number.isFinite(duration) || duration <= 0) {
       paint(target);

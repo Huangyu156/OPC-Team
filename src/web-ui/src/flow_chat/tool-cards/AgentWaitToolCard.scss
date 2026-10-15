@@ -32,21 +32,21 @@
   display: inline-flex;
   flex: 0 1 auto;
   align-items: center;
-  min-inline-size: calc(var(--openbitfun-space-8) + 2 * var(--openbitfun-space-1));
+  min-inline-size: calc(var(--opcteam-space-8) + 2 * var(--opcteam-space-1));
   max-inline-size: 100%;
-  gap: var(--openbitfun-space-1);
+  gap: var(--opcteam-space-1);
 
   &__viewport {
     box-sizing: border-box;
     display: inline-flex;
     flex: 0 1 auto;
     align-items: center;
-    min-inline-size: calc(var(--openbitfun-space-8) + 2 * var(--openbitfun-space-1));
+    min-inline-size: calc(var(--opcteam-space-8) + 2 * var(--opcteam-space-1));
     max-inline-size: 100%;
-    block-size: calc(var(--openbitfun-space-8) + var(--openbitfun-space-1));
-    margin-block: calc(-1 * var(--openbitfun-space-1) / 2);
+    block-size: calc(var(--opcteam-space-8) + var(--opcteam-space-1));
+    margin-block: calc(-1 * var(--opcteam-space-1) / 2);
     padding-block: 2px;
-    padding-inline: var(--openbitfun-space-1);
+    padding-inline: var(--opcteam-space-1);
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-inline: contain;
@@ -60,18 +60,18 @@
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   &__button {
     display: inline-grid;
     flex: 0 0 auto;
-    inline-size: var(--openbitfun-space-8);
-    block-size: var(--openbitfun-space-8);
+    inline-size: var(--opcteam-space-8);
+    block-size: var(--opcteam-space-8);
     padding: 0;
     place-items: center;
     border: 0;
-    border-radius: var(--openbitfun-radius-pill);
+    border-radius: var(--opcteam-radius-pill);
     background: transparent;
     cursor: pointer;
   }
@@ -79,14 +79,14 @@
   &__scroll-button {
     display: inline-grid;
     flex: 0 0 auto;
-    inline-size: var(--openbitfun-space-5);
-    block-size: var(--openbitfun-space-8);
+    inline-size: var(--opcteam-space-5);
+    block-size: var(--opcteam-space-8);
     padding: 0;
     place-items: center;
     border: 0;
-    border-radius: var(--openbitfun-radius-pill);
+    border-radius: var(--opcteam-radius-pill);
     background: transparent;
-    color: var(--openbitfun-color-action-neutral-content);
+    color: var(--opcteam-color-action-neutral-content);
     cursor: pointer;
 
     &:disabled { display: none; }
@@ -94,7 +94,7 @@
 
   &__button:focus-visible,
   &__scroll-button:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: calc(-1 * var(--openbitfun-focus-width));
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: calc(-1 * var(--opcteam-focus-width));
   }
 }

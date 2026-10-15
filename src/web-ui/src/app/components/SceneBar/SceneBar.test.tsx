@@ -355,7 +355,7 @@ describe('SceneBar overflow navigation', () => {
     expect(sceneBarStyles).toMatch(/&:disabled\s*\{\s*display:\s*none;/);
     expect(sceneBarStyles).toContain('background: linear-gradient(');
     expect(sceneBarStyles).not.toContain('mask-image: linear-gradient(');
-    expect(sceneBarStyles).not.toContain('backdrop-filter: var(--openbitfun-effect-blur-subtle)');
+    expect(sceneBarStyles).not.toContain('backdrop-filter: var(--opcteam-effect-blur-subtle)');
   });
 
   it('scrolls a newly active off-screen tab into view', () => {

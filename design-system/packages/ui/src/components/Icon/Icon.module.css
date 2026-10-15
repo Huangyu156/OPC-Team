@@ -21,7 +21,7 @@
 
   /* Reviewed monochrome paths keep authored opacity outside control slots. */
   .icon[data-openbitfun-artwork="monochrome"] {
-    opacity: var(--openbitfun-opacity-icon-artwork);
+    opacity: var(--opcteam-opacity-icon-artwork);
   }
 
   .icon[data-openbitfun-source="line"] > svg {
@@ -31,55 +31,55 @@
   }
 
   .icon[data-size="2xs"] {
-    --_icon-size: var(--openbitfun-control-icon-size2xs);
+    --_icon-size: var(--opcteam-control-icon-size2xs);
   }
 
   .icon[data-size="xs"] {
-    --_icon-size: var(--openbitfun-control-icon-size-xs);
+    --_icon-size: var(--opcteam-control-icon-size-xs);
   }
 
   .icon[data-size="sm"] {
-    --_icon-size: var(--openbitfun-control-icon-size-sm);
+    --_icon-size: var(--opcteam-control-icon-size-sm);
   }
 
   .icon[data-size="md"] {
-    --_icon-size: var(--openbitfun-control-icon-size-md);
+    --_icon-size: var(--opcteam-control-icon-size-md);
   }
 
   .icon[data-size="lg"] {
-    --_icon-size: var(--openbitfun-control-icon-size-lg);
+    --_icon-size: var(--opcteam-control-icon-size-lg);
   }
 
   .icon[data-openbitfun-tone="primary"] {
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   .icon[data-openbitfun-tone="secondary"] {
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
   }
 
   .icon[data-openbitfun-tone="muted"] {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 
   .icon[data-openbitfun-tone="disabled"] {
-    color: var(--openbitfun-color-content-disabled);
+    color: var(--opcteam-color-content-disabled);
   }
 
   .icon[data-openbitfun-tone="info"] {
-    color: var(--openbitfun-color-status-info-emphasis);
+    color: var(--opcteam-color-status-info-emphasis);
   }
 
   .icon[data-openbitfun-tone="success"] {
-    color: var(--openbitfun-color-status-success-emphasis);
+    color: var(--opcteam-color-status-success-emphasis);
   }
 
   .icon[data-openbitfun-tone="warning"] {
-    color: var(--openbitfun-color-status-warning-emphasis);
+    color: var(--opcteam-color-status-warning-emphasis);
   }
 
   .icon[data-openbitfun-tone="danger"] {
-    color: var(--openbitfun-color-status-danger-emphasis);
+    color: var(--opcteam-color-status-danger-emphasis);
   }
 
   @media (forced-colors: active) {

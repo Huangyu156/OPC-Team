@@ -36,7 +36,7 @@ test('MiniApp audit accepts a narrow data-viz owner and rejects ordinary raw col
   const fixtureRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'openbitfun-miniapp-colors-'));
   t.after(() => fs.rmSync(fixtureRoot, { recursive: true, force: true }));
   writeText(path.join(fixtureRoot, 'app/ui.js'), "const SERIES = ['#ff00ff'];\n");
-  writeText(path.join(fixtureRoot, 'app/style.css'), '.app { color: #ffffff; background: var(--openbitfun-bg, #000000); }\n');
+  writeText(path.join(fixtureRoot, 'app/style.css'), '.app { color: #ffffff; background: var(--opcteam-bg, #000000); }\n');
   const surface = {
     id: 'fixture-miniapp',
     root: 'app',
@@ -52,13 +52,13 @@ test('MiniApp audit accepts a narrow data-viz owner and rejects ordinary raw col
     },
   };
   const contract = {
-    variables: [{ name: '--openbitfun-bg' }],
+    variables: [{ name: '--opcteam-bg' }],
   };
 
   const report = auditMiniappSurface(surface, contract, { repositoryRoot: fixtureRoot });
   assert.equal(report.specializedOwners[0].occurrences, 1);
   assert.match(report.failures.join('\n'), /unowned hex #ffffff/);
-  assert.match(report.failures.join('\n'), /fallback to public host variable --openbitfun-bg/);
+  assert.match(report.failures.join('\n'), /fallback to public host variable --opcteam-bg/);
 });
 
 test('MiniApp generated bundle checks ignore checkout-only line ending differences', (t) => {

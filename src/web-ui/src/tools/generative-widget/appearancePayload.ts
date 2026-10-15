@@ -27,7 +27,7 @@ function requireBuiltinThemeToken(name: string): string {
 export const WIDGET_APPEARANCE_FALLBACK_VARS = Object.freeze(Object.fromEntries(
   WIDGET_APPEARANCE_VARIABLE_NAMES.map(name => [
     name,
-    name === '--openbitfun-color-surface-canvas' ? 'transparent' : requireBuiltinThemeToken(name),
+    name === '--opcteam-color-surface-canvas' ? 'transparent' : requireBuiltinThemeToken(name),
   ]),
 ));
 

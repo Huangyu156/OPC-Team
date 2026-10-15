@@ -2,7 +2,7 @@
   .root {
     position: relative;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) var(--openbitfun-border-width-default) minmax(0, var(--_split-view-right-size));
+    grid-template-columns: minmax(0, 1fr) var(--opcteam-border-width-default) minmax(0, var(--_split-view-right-size));
     grid-template-areas: "primary divider secondary";
     min-inline-size: 0;
     min-block-size: 0;
@@ -36,11 +36,11 @@
   }
 
   .root[data-layout="overlay"][data-mode="split"] > .primary .primaryDock {
-    inline-size: max(0px, calc(100% - var(--_split-view-right-size) - var(--openbitfun-border-width-default)));
+    inline-size: max(0px, calc(100% - var(--_split-view-right-size) - var(--opcteam-border-width-default)));
   }
 
   .root[data-layout="overlay"][data-mode="split"][data-secondary-side="left"] > .primary .primaryDock {
-    inset-inline-start: calc(var(--_split-view-right-size) + var(--openbitfun-border-width-default));
+    inset-inline-start: calc(var(--_split-view-right-size) + var(--opcteam-border-width-default));
   }
 
   .root[data-layout="overlay"][data-mode="split"] .secondary {
@@ -50,8 +50,8 @@
     inset-inline-end: 0;
     inline-size: var(--_split-view-right-size);
     isolation: isolate;
-    background: var(--openbitfun-color-surface-raised);
-    box-shadow: var(--openbitfun-shadow-overlay);
+    background: var(--opcteam-color-surface-raised);
+    box-shadow: var(--opcteam-shadow-overlay);
   }
 
   .root[data-layout="overlay"][data-mode="split"] .divider {
@@ -59,7 +59,7 @@
     position: absolute;
     inset-block: 0;
     inset-inline-end: var(--_split-view-right-size);
-    inline-size: var(--openbitfun-border-width-default);
+    inline-size: var(--opcteam-border-width-default);
   }
 
   .root[data-layout="overlay"][data-secondary-side="left"] .secondary {
@@ -87,14 +87,14 @@
   .divider {
     grid-area: divider;
     position: relative;
-    background: var(--openbitfun-color-border-subtle);
-    z-index: var(--openbitfun-layer-sticky);
+    background: var(--opcteam-color-border-subtle);
+    z-index: var(--opcteam-layer-sticky);
   }
 
   .resizeHandle {
     position: absolute;
     inset-block: 0;
-    inset-inline: calc(-1 * var(--openbitfun-space-2));
+    inset-inline: calc(-1 * var(--opcteam-space-2));
     cursor: col-resize;
     touch-action: none;
     outline: none;
@@ -105,18 +105,18 @@
     position: absolute;
     inset-block: 0;
     inset-inline-start: 50%;
-    inline-size: var(--openbitfun-border-width-default);
+    inline-size: var(--opcteam-border-width-default);
     transform: translateX(-50%);
-    background: var(--openbitfun-color-accent-default);
+    background: var(--opcteam-color-accent-default);
     opacity: 0;
-    transition: opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .resizeHandle:hover::after,
   .resizeHandle:focus-visible::after,
   .root[data-resizing] .resizeHandle::after { opacity: 1; }
 
-  .resizeHandle:focus-visible::after { background: var(--openbitfun-color-focus-ring); }
+  .resizeHandle:focus-visible::after { background: var(--opcteam-color-focus-ring); }
 
   .actions {
     position: absolute;
@@ -125,14 +125,14 @@
     transform: translate(-50%, -50%);
     display: flex;
     align-items: center;
-    gap: var(--openbitfun-space-1);
-    padding: var(--openbitfun-space-1);
-    background: var(--openbitfun-color-surface-raised);
-    border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
-    border-radius: var(--openbitfun-radius-lg);
+    gap: var(--opcteam-space-1);
+    padding: var(--opcteam-space-1);
+    background: var(--opcteam-color-surface-raised);
+    border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
+    border-radius: var(--opcteam-radius-lg);
     opacity: 0;
     pointer-events: none;
-    transition: opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .divider:hover .actions, .divider:has(:focus-visible) .actions { opacity: 1; pointer-events: auto; }
@@ -144,6 +144,6 @@
 
   @media (hover: none) {
     .actions { opacity: 1; pointer-events: auto; }
-    .resizeHandle { inset-inline: calc(-1 * var(--openbitfun-space-3)); }
+    .resizeHandle { inset-inline: calc(-1 * var(--opcteam-space-3)); }
   }
 }

@@ -35,7 +35,7 @@ describe('GenerativeWidgetFrame shell', () => {
   });
 
   it('keeps iframe-local small text aligned with the host default token', () => {
-    const values = [...GENERATIVE_WIDGET_SHELL_HTML.matchAll(/--openbitfun-font-size-sm:\s*([^;]+);/g)].map(
+    const values = [...GENERATIVE_WIDGET_SHELL_HTML.matchAll(/--opcteam-font-size-sm:\s*([^;]+);/g)].map(
       (match) => match[1]?.trim()
     );
 

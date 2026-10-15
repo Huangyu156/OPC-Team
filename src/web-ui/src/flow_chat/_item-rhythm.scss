@@ -8,7 +8,7 @@
   &:is([data-flow-item-stack], .explore-region__content, .flow-group-content-segment):not([data-agent-card-grid])
     > :is(.flow-text-block, .flow-thinking-item, .flowchat-flow-item,
       .subagent-projection-text--truncated):not([hidden]):not([data-thinking-attachment='side']) {
-    margin: 0 0 var(--openbitfun-control-flow-chat-paragraph-gap) 0;
+    margin: 0 0 var(--opcteam-control-flow-chat-paragraph-gap) 0;
 
     // A renderer with no content must not leave an empty paragraph behind.
     &:has(> .flow-tool-card-wrapper:empty) {
@@ -40,21 +40,21 @@
 
   > .flowchat-flow-item:has(> .flow-tool-card-wrapper[data-capsule-row='true']) {
     display: block;
-    inline-size: var(--openbitfun-control-flow-chat-capsule-inline-size);
+    inline-size: var(--opcteam-control-flow-chat-capsule-inline-size);
     max-inline-size: 100%;
     vertical-align: top;
 
     // Retract directly to the shared resting width in the detail exit interval.
     @media (prefers-reduced-motion: no-preference) {
       transition:
-        inline-size 520ms var(--openbitfun-motion-easing-smooth),
-        max-inline-size 520ms var(--openbitfun-motion-easing-smooth);
+        inline-size 520ms var(--opcteam-motion-easing-smooth),
+        max-inline-size 520ms var(--opcteam-motion-easing-smooth);
     }
   }
 
   > .flowchat-flow-item:has(> .flow-tool-card-wrapper[data-capsule-row='true'][data-capsule-parallel='true']) {
     display: inline-block;
-    max-inline-size: calc(100% - var(--openbitfun-space-2));
-    margin-inline-end: var(--openbitfun-space-2);
+    max-inline-size: calc(100% - var(--opcteam-space-2));
+    margin-inline-end: var(--opcteam-space-2);
   }
 }

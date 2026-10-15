@@ -8,30 +8,30 @@ describe('Canvas runtime installer', () => {
     const runtimeCss = readFileSync(new URL('./styles/canvas-runtime.scss', import.meta.url), 'utf8');
     const runtimeEntry = readFileSync(new URL('./entry.tsx', import.meta.url), 'utf8');
     const iframeFallbackVars = [
-      '--openbitfun-radius-sm',
-      '--openbitfun-radius-base',
-      '--openbitfun-radius-md',
-      '--openbitfun-radius-lg',
-      '--openbitfun-radius-xl',
-      '--openbitfun-radius-2xl',
-      '--openbitfun-radius-pill',
-      '--openbitfun-space-1',
-      '--openbitfun-space-2',
-      '--openbitfun-space-3',
-      '--openbitfun-space-4',
-      '--openbitfun-space-5',
-      '--openbitfun-space-6',
-      '--openbitfun-space-8',
-      '--openbitfun-space-10',
-      '--openbitfun-space-12',
-      '--openbitfun-space-16',
+      '--opcteam-radius-sm',
+      '--opcteam-radius-base',
+      '--opcteam-radius-md',
+      '--opcteam-radius-lg',
+      '--opcteam-radius-xl',
+      '--opcteam-radius-2xl',
+      '--opcteam-radius-pill',
+      '--opcteam-space-1',
+      '--opcteam-space-2',
+      '--opcteam-space-3',
+      '--opcteam-space-4',
+      '--opcteam-space-5',
+      '--opcteam-space-6',
+      '--opcteam-space-8',
+      '--opcteam-space-10',
+      '--opcteam-space-12',
+      '--opcteam-space-16',
     ];
 
     for (const name of iframeFallbackVars) {
       expect(runtimeCss).toContain(`${name}:`);
     }
     expect(runtimeEntry).toContain("import '@openbitfun/design-tokens/tokens.css';");
-    expect(runtimeCss).not.toMatch(/^\s*--openbitfun-(?:font|letter-spacing|line-height|type)-/m);
+    expect(runtimeCss).not.toMatch(/^\s*--opcteam-(?:font|letter-spacing|line-height|type)-/m);
   });
 
   it('merges bundled SDK adapters before user module startup', () => {
@@ -66,10 +66,10 @@ describe('Canvas runtime installer', () => {
     const runtimeCss = readFileSync(new URL('./styles/canvas-runtime.scss', import.meta.url), 'utf8');
     const script = buildCanvasRuntimeInstallerScript('rev_test');
 
-    expect(runtimeCss).toContain('--openbitfun-color-code-change-added: var(--openbitfun-canvas-success)');
-    expect(runtimeCss).toContain('--openbitfun-color-code-change-removed: var(--openbitfun-canvas-danger)');
-    expect(script).toContain('appearanceVars["--openbitfun-color-code-change-added"]');
-    expect(script).toContain('appearanceVars["--openbitfun-color-code-change-removed"]');
+    expect(runtimeCss).toContain('--opcteam-color-code-change-added: var(--opcteam-canvas-success)');
+    expect(runtimeCss).toContain('--opcteam-color-code-change-removed: var(--opcteam-canvas-danger)');
+    expect(script).toContain('appearanceVars["--opcteam-color-code-change-added"]');
+    expect(script).toContain('appearanceVars["--opcteam-color-code-change-removed"]');
     expect(script).toContain('stripAdded: codeChangeAdded');
     expect(script).toContain('stripRemoved: codeChangeRemoved');
   });

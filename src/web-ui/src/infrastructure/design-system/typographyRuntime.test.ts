@@ -20,14 +20,14 @@ describe('typography runtime adapter', () => {
   });
 
   it('reads active root font-size overrides before falling back to the canonical value', () => {
-    document.documentElement.style.setProperty('--openbitfun-font-size-base', '17px');
+    document.documentElement.style.setProperty('--opcteam-font-size-base', '17px');
     expect(readActiveTypographyTokenPx('font.size.base')).toBe(17);
-    document.documentElement.style.removeProperty('--openbitfun-font-size-base');
+    document.documentElement.style.removeProperty('--opcteam-font-size-base');
   });
 
   it('resolves code fonts at use time and preserves explicit editor choices', () => {
     const style = document.documentElement.style;
-    const property = '--openbitfun-font-family-mono';
+    const property = '--opcteam-font-family-mono';
     try {
       style.setProperty(property, '"Active Code", monospace');
       expect(readActiveTypographyTokenValue('font.family.mono')).toBe('"Active Code", monospace');
@@ -42,9 +42,9 @@ describe('typography runtime adapter', () => {
 
   it('reads scoped code metrics for renderer APIs', () => {
     const scope = document.createElement('div');
-    scope.style.setProperty('--openbitfun-font-family-mono', '"Scoped Code", monospace');
-    scope.style.setProperty('--openbitfun-type-code-output-font-size', '17px');
-    scope.style.setProperty('--openbitfun-type-code-output-line-height', '1.6');
+    scope.style.setProperty('--opcteam-font-family-mono', '"Scoped Code", monospace');
+    scope.style.setProperty('--opcteam-type-code-output-font-size', '17px');
+    scope.style.setProperty('--opcteam-type-code-output-line-height', '1.6');
     document.body.append(scope);
     try {
       expect(readTerminalOutputTypography(scope)).toMatchObject({

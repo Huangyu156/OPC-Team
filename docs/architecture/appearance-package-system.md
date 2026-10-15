@@ -197,7 +197,7 @@ transform 等复杂值必须使用结构化对象，不能使用 CSS 字符串�
 `@openbitfun/design-tokens` 独占，不属于 Appearance 包的可覆盖协议。
 组件规则通过 `{ "kind": "ref", "path": "globals.colors.accent" }` 引用。
 
-编译器将全局 token 投影为 `--openbitfun-appearance-*` 变量。`materials` 是带视觉角色的可复用样式定义：
+编译器将全局 token 投影为 `--opcteam-appearance-*` 变量。`materials` 是带视觉角色的可复用样式定义：
 
 ```json
 {

@@ -26,11 +26,11 @@
     display: block;
     min-inline-size: max-content;
     /* Keep ascent/descent inside the clipping box, including in tight controls. */
-    line-height: var(--openbitfun-type-modifier-leading-intrinsic-line-height);
+    line-height: var(--opcteam-type-modifier-leading-intrinsic-line-height);
     /* Font ink and fractional scaling can extend beyond the natural line box.
        Include block-axis breathing room in the grid's intrinsic height so the
        horizontal clipping viewport does not shave off accents or descenders. */
-    padding-block: calc(var(--openbitfun-space-1) / 2);
+    padding-block: calc(var(--opcteam-space-1) / 2);
   }
 
   .root[data-overflow-style="ellipsis"] > .content {
@@ -62,13 +62,13 @@
     -webkit-mask-image: linear-gradient(
       to right,
       currentColor 0,
-      currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+      currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
       transparent 100%
     );
     mask-image: linear-gradient(
       to right,
       currentColor 0,
-      currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+      currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
       transparent 100%
     );
     -webkit-mask-repeat: no-repeat;
@@ -80,13 +80,13 @@
     -webkit-mask-image: linear-gradient(
       to left,
       currentColor 0,
-      currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+      currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
       transparent 100%
     );
     mask-image: linear-gradient(
       to left,
       currentColor 0,
-      currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+      currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
       transparent 100%
     );
   }
@@ -125,13 +125,13 @@
       -webkit-mask-image: linear-gradient(
         to right,
         currentColor 0,
-        currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+        currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
         transparent 100%
       );
       mask-image: linear-gradient(
         to right,
         currentColor 0,
-        currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+        currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
         transparent 100%
       );
       -webkit-mask-repeat: no-repeat;
@@ -142,13 +142,13 @@
       -webkit-mask-image: linear-gradient(
         to left,
         currentColor 0,
-        currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+        currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
         transparent 100%
       );
       mask-image: linear-gradient(
         to left,
         currentColor 0,
-        currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 25%)),
+        currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 25%)),
         transparent 100%
       );
     }

@@ -54,7 +54,7 @@ export const ScrollToBottomButton: React.FC<ScrollToBottomButtonProps> = ({
           tabIndex={visible ? buttonProps.tabIndex : -1}
           {...(!visible ? { inert: '' } : {})}
         >
-          <LucideChevronDown data-openbitfun-component="scroll-to-bottom-button" data-openbitfun-part="icon" className="scroll-icon" size="var(--openbitfun-control-icon-size-md)" aria-hidden="true" />
+          <LucideChevronDown data-openbitfun-component="scroll-to-bottom-button" data-openbitfun-part="icon" className="scroll-icon" size="var(--opcteam-control-icon-size-md)" aria-hidden="true" />
           {unreadCount !== undefined && unreadCount > 0 && (
             <span data-openbitfun-component="scroll-to-bottom-button" data-openbitfun-part="badge" className="unread-badge">{unreadCount > 99 ? '99+' : unreadCount}</span>
           )}

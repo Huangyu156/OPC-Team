@@ -192,8 +192,8 @@ test("mobile stylesheet is isolated and uses semantic tokens", async () => {
   assert.match(styles, /data-expanded=true/);
   assert.match(styles, /pointer-events:none/);
   assert.match(styles, /mobile-sheet/);
-  assert.match(styles, /--openbitfun-color-surface-panel/);
-  assert.match(styles, /--openbitfun-shadow-base/);
+  assert.match(styles, /--opcteam-color-surface-panel/);
+  assert.match(styles, /--opcteam-shadow-base/);
   assert.doesNotMatch(styles, /#[0-9a-f]{3,8}\b/i);
 });
 

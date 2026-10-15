@@ -19,8 +19,8 @@ describe('ModelSelector portal layer', () => {
 
     expect(component).toContain('createOverlayPortal(');
     expect(component).not.toContain('document.body');
-    expect(dropdownBlock).toContain('z-index: var(--openbitfun-layer-popover);');
-    expect(dropdownBlock).not.toContain('z-index: var(--openbitfun-layer-dropdown);');
+    expect(dropdownBlock).toContain('z-index: var(--opcteam-layer-popover);');
+    expect(dropdownBlock).not.toContain('z-index: var(--opcteam-layer-dropdown);');
   });
 
   it('uses one shared overlay surface for summary, model and reasoning views', () => {

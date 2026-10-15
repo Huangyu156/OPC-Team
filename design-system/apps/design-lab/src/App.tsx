@@ -182,7 +182,7 @@ export function App() {
   useLayoutEffect(() => {
     const root = document.documentElement;
     const attributes = {
-      "data-openbitfun-design-system-root": "",
+      "data-opcteam-design-system-root": "",
       "data-color-scheme": colorScheme,
       "data-contrast": contrast,
       "data-density": density,

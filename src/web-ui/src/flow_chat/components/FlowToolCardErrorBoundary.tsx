@@ -87,9 +87,9 @@ function RenderFallback({
           >
             <div
               style={{
-                color: 'var(--openbitfun-color-content-secondary)',
-                fontSize: 'var(--openbitfun-type-flow-support-font-size)',
-                lineHeight: 'var(--openbitfun-type-flow-support-line-height)',
+                color: 'var(--opcteam-color-content-secondary)',
+                fontSize: 'var(--opcteam-type-flow-support-font-size)',
+                lineHeight: 'var(--opcteam-type-flow-support-line-height)',
               }}
             >
               {getFirstLine(error)}
@@ -114,9 +114,9 @@ function RenderFallback({
                   marginTop: 8,
                   whiteSpace: 'pre-wrap',
                   wordBreak: 'break-word',
-                  fontFamily: 'var(--openbitfun-type-body-sm-font-family)',
-                  fontSize: 'var(--openbitfun-type-flow-code-font-size)',
-                  lineHeight: 'var(--openbitfun-type-flow-code-line-height)',
+                  fontFamily: 'var(--opcteam-type-body-sm-font-family)',
+                  fontSize: 'var(--opcteam-type-flow-code-font-size)',
+                  lineHeight: 'var(--opcteam-type-flow-code-line-height)',
                   maxHeight: 220,
                   overflow: 'auto',
                 }}
@@ -133,9 +133,9 @@ function RenderFallback({
                     marginTop: 8,
                     whiteSpace: 'pre-wrap',
                     wordBreak: 'break-word',
-                    fontFamily: 'var(--openbitfun-type-body-sm-font-family)',
-                    fontSize: 'var(--openbitfun-type-flow-code-font-size)',
-                    lineHeight: 'var(--openbitfun-type-flow-code-line-height)',
+                    fontFamily: 'var(--opcteam-type-body-sm-font-family)',
+                    fontSize: 'var(--opcteam-type-flow-code-font-size)',
+                    lineHeight: 'var(--opcteam-type-flow-code-line-height)',
                     maxHeight: 260,
                     overflow: 'auto',
                   }}

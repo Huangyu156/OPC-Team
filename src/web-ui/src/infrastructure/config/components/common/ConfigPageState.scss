@@ -2,27 +2,27 @@
   position: relative;
   width: 100%;
   min-width: 0;
-  color: var(--openbitfun-color-content-muted);
-  font-size: var(--openbitfun-type-label-md-font-size);
+  color: var(--opcteam-color-content-muted);
+  font-size: var(--opcteam-type-label-md-font-size);
 
   &__skeleton {
     display: grid;
-    gap: var(--openbitfun-space-4);
+    gap: var(--opcteam-space-4);
   }
 
   &__row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: var(--openbitfun-space-5);
+    gap: var(--opcteam-space-5);
     min-height: 48px;
   }
 
   &__copy,
   &__control {
     display: block;
-    border-radius: var(--openbitfun-radius-md);
-    background: var(--openbitfun-color-action-quiet-hover);
+    border-radius: var(--opcteam-radius-md);
+    background: var(--opcteam-color-action-quiet-hover);
   }
 
   &__copy {
@@ -39,7 +39,7 @@
     display: flex;
     justify-content: center;
     min-height: 28px;
-    margin-top: var(--openbitfun-space-3);
+    margin-top: var(--opcteam-space-3);
   }
 
   &[data-loading-variant='list'] &__row {
@@ -57,13 +57,13 @@
 }
 
 .openbitfun-config-message {
-  margin-bottom: var(--openbitfun-space-1);
+  margin-bottom: var(--opcteam-space-1);
 }
 
 .openbitfun-config-empty-state {
   min-width: 0;
-  border-radius: var(--openbitfun-layout-field-group-radius);
-  background: var(--openbitfun-color-surface-tertiary);
+  border-radius: var(--opcteam-layout-field-group-radius);
+  background: var(--opcteam-color-surface-tertiary);
 
   > [data-openbitfun-component='empty'] {
     box-sizing: border-box;
@@ -75,7 +75,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 .openbitfun-config-retry-state .openbitfun-config-message {
@@ -86,18 +86,18 @@
 .openbitfun-config-field-status {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
   min-width: 0;
-  color: var(--openbitfun-color-content-secondary);
-  font-size: var(--openbitfun-type-label-sm-font-size);
-  line-height: var(--openbitfun-type-label-sm-line-height);
+  color: var(--opcteam-color-content-secondary);
+  font-size: var(--opcteam-type-label-sm-font-size);
+  line-height: var(--opcteam-type-label-sm-line-height);
 
   &[data-openbitfun-status='error'] {
-    color: var(--openbitfun-color-status-danger-content);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   &[data-openbitfun-status='saved'] {
-    color: var(--openbitfun-color-status-success-content);
+    color: var(--opcteam-color-status-success-content);
   }
 
   &__marker {
@@ -113,15 +113,15 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: var(--openbitfun-space-4);
+  gap: var(--opcteam-space-4);
   min-height: 40px;
-  padding: var(--openbitfun-space-2) 0;
+  padding: var(--opcteam-space-2) 0;
 
   &__actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
     flex: 0 0 auto;
   }
 }

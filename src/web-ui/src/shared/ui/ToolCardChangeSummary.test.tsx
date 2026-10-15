@@ -33,7 +33,7 @@ describe('ToolCardChangeSummary rolling counts', () => {
       removeEventListener: (_event: string, listener: () => void) => preferenceListeners.delete(listener),
     }));
     vi.spyOn(window, 'getComputedStyle').mockImplementation(() => ({
-      getPropertyValue: (name: string) => name === '--openbitfun-motion-duration-base' ? '240ms' : '',
+      getPropertyValue: (name: string) => name === '--opcteam-motion-duration-base' ? '240ms' : '',
     } as CSSStyleDeclaration));
     container = document.createElement('div');
     document.body.append(container);

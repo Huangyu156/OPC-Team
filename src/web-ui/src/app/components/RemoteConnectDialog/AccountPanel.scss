@@ -26,8 +26,8 @@
     flex-shrink: 0;
     flex-direction: column;
     align-items: stretch;
-    gap: var(--openbitfun-space-2);
-    padding: var(--openbitfun-space-4) surface.$page-inline 0;
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-space-4) surface.$page-inline 0;
   }
 
   &__section &__error-banner {
@@ -118,14 +118,14 @@
 
   &__empty {
     @include surface.supporting-text;
-    padding: var(--openbitfun-space-6) surface.$row-inline;
+    padding: var(--opcteam-space-6) surface.$row-inline;
     text-align: center;
 
     &--loading {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: var(--openbitfun-space-2);
+      gap: var(--opcteam-space-2);
     }
   }
 
@@ -135,25 +135,25 @@
     min-width: 0;
     min-height: 64px;
     align-items: center;
-    gap: var(--openbitfun-space-2);
-    padding: var(--openbitfun-space-3) surface.$row-inline;
-    transition: background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-space-3) surface.$row-inline;
+    transition: background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     & + & {
       @include surface.card-divider;
     }
 
     &.selectable:has(> .account-panel__device-select:hover) {
-      background: var(--openbitfun-color-action-neutral-surface);
+      background: var(--opcteam-color-action-neutral-surface);
     }
 
     &.selectable:has(> .account-panel__device-select:active) {
-      background: var(--openbitfun-color-action-neutral-surface-pressed);
+      background: var(--opcteam-color-action-neutral-surface-pressed);
     }
 
     &.selectable:has(> .account-panel__device-select:focus-visible) {
-      outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-      outline-offset: calc(0px - var(--openbitfun-focus-width));
+      outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+      outline-offset: calc(0px - var(--opcteam-focus-width));
     }
   }
 
@@ -166,7 +166,7 @@
     padding: 0;
     border: 0;
     background: transparent;
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
     font: inherit;
     text-align: start;
     cursor: default;
@@ -203,7 +203,7 @@
     @include surface.row-title;
     display: flex;
     align-items: center;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
 
     > span:not([data-overflow-content]):first-child {
       min-width: 0;
@@ -223,29 +223,29 @@
   }
 
   &__device-status {
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
 
     &::before {
       display: inline-block;
       inline-size: 6px;
       block-size: 6px;
-      margin-inline-end: var(--openbitfun-space-1);
-      border-radius: var(--openbitfun-radius-pill);
-      background: var(--openbitfun-color-content-muted);
+      margin-inline-end: var(--opcteam-space-1);
+      border-radius: var(--opcteam-radius-pill);
+      background: var(--opcteam-color-content-muted);
       content: '';
       vertical-align: middle;
     }
 
     &[data-openbitfun-state='online']::before {
-      background: var(--openbitfun-color-status-success-content);
+      background: var(--opcteam-color-status-success-content);
     }
   }
 
   &__device-incompatible {
-    color: var(--openbitfun-color-status-warning-content);
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    color: var(--opcteam-color-status-warning-content);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-sm-line-height);
     overflow-wrap: break-word;
   }
 
@@ -255,7 +255,7 @@
     display: flex;
     flex-shrink: 0;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   &__device-chevron {
@@ -271,7 +271,7 @@
     display: flex;
     min-width: 0;
     align-items: center;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
 
     > [data-openbitfun-component='icon-button'] {
       flex-shrink: 0;
@@ -291,17 +291,17 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
     border-radius: inherit;
-    background: color-mix(in srgb, var(--openbitfun-color-surface-raised) 92%, transparent);
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    backdrop-filter: var(--openbitfun-effect-blur-subtle);
+    background: color-mix(in srgb, var(--opcteam-color-surface-raised) 92%, transparent);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    backdrop-filter: var(--opcteam-effect-blur-subtle);
   }
 
   .spinning {
-    animation: openbitfun-account-panel-spin var(--openbitfun-motion-duration-lazy) linear infinite;
+    animation: openbitfun-account-panel-spin var(--opcteam-motion-duration-lazy) linear infinite;
   }
 }
 
@@ -312,7 +312,7 @@
 
 @media (max-width: 760px) {
   .account-panel__scroll {
-    padding: var(--openbitfun-space-5) surface.$page-inline-compact;
+    padding: var(--opcteam-space-5) surface.$page-inline-compact;
   }
 
   .account-panel__error-banner {
@@ -332,7 +332,7 @@
   .account-panel__identity-line,
   .account-panel__login-card,
   .account-panel__device-card {
-    padding-inline: var(--openbitfun-space-4);
+    padding-inline: var(--opcteam-space-4);
   }
 }
 

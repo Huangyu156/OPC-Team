@@ -21,15 +21,15 @@
     padding: 0;
     border: 0;
     flex-direction: column;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   .root[data-has-context="true"] {
-    padding-block-start: var(--openbitfun-control-composer-context-offset);
-    border-radius: var(--openbitfun-control-composer-surface-radius);
-    background: var(--openbitfun-color-composer-context-background);
-    backdrop-filter: blur(var(--openbitfun-control-composer-context-blur));
-    -webkit-backdrop-filter: blur(var(--openbitfun-control-composer-context-blur));
+    padding-block-start: var(--opcteam-control-composer-context-offset);
+    border-radius: var(--opcteam-control-composer-surface-radius);
+    background: var(--opcteam-color-composer-context-background);
+    backdrop-filter: blur(var(--opcteam-control-composer-context-blur));
+    -webkit-backdrop-filter: blur(var(--opcteam-control-composer-context-blur));
   }
 
   .context {
@@ -39,49 +39,49 @@
     display: flex;
     align-items: center;
     min-inline-size: 0;
-    min-block-size: var(--openbitfun-control-composer-context-offset);
-    padding-block: var(--openbitfun-control-composer-context-padding-block);
-    padding-inline: var(--openbitfun-control-composer-context-padding-inline);
+    min-block-size: var(--opcteam-control-composer-context-offset);
+    padding-block: var(--opcteam-control-composer-context-padding-block);
+    padding-inline: var(--opcteam-control-composer-context-padding-inline);
   }
 
   .surface {
     position: relative;
-    z-index: var(--openbitfun-layer-content);
+    z-index: var(--opcteam-layer-content);
     display: flex;
     inline-size: 100%;
     min-inline-size: 0;
-    min-block-size: var(--openbitfun-control-composer-min-block-size);
+    min-block-size: var(--opcteam-control-composer-min-block-size);
     flex-direction: column;
-    gap: var(--openbitfun-control-composer-surface-gap);
-    padding: var(--openbitfun-control-composer-surface-padding);
-    border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-composer-border);
-    border-radius: var(--openbitfun-control-composer-surface-radius);
-    background: var(--openbitfun-color-surface-raised);
-    box-shadow: var(--openbitfun-shadow-composer);
+    gap: var(--opcteam-control-composer-surface-gap);
+    padding: var(--opcteam-control-composer-surface-padding);
+    border: var(--opcteam-border-width-default) solid var(--opcteam-color-composer-border);
+    border-radius: var(--opcteam-control-composer-surface-radius);
+    background: var(--opcteam-color-surface-raised);
+    box-shadow: var(--opcteam-shadow-composer);
     transition:
-      border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      box-shadow var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+      border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .surface:focus-within {
-    border-color: var(--openbitfun-color-field-border-active);
-    box-shadow: var(--openbitfun-shadow-composer);
+    border-color: var(--opcteam-color-field-border-active);
+    box-shadow: var(--opcteam-shadow-composer);
   }
 
   .root[data-invalid="true"] > .surface {
-    border-color: var(--openbitfun-color-status-danger-border);
+    border-color: var(--opcteam-color-status-danger-border);
   }
 
   .root[data-invalid="true"] > .surface:focus-within {
     box-shadow:
-      var(--openbitfun-shadow-composer),
-      0 0 0 var(--openbitfun-focus-width) var(--openbitfun-color-status-danger-surface);
+      var(--opcteam-shadow-composer),
+      0 0 0 var(--opcteam-focus-width) var(--opcteam-color-status-danger-surface);
   }
 
   .root[data-disabled="true"] {
-    color: var(--openbitfun-color-content-disabled);
+    color: var(--opcteam-color-content-disabled);
     cursor: not-allowed;
-    opacity: var(--openbitfun-opacity-disabled);
+    opacity: var(--opcteam-opacity-disabled);
   }
 
   .editor {
@@ -90,13 +90,13 @@
     align-items: flex-start;
     min-inline-size: 0;
     min-block-size: 0;
-    padding: var(--openbitfun-control-composer-editor-padding);
+    padding: var(--opcteam-control-composer-editor-padding);
     color: inherit;
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
-    line-height: var(--openbitfun-type-body-sm-line-height);
-    letter-spacing: var(--openbitfun-type-body-sm-letter-spacing);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
+    line-height: var(--opcteam-type-body-sm-line-height);
+    letter-spacing: var(--opcteam-type-body-sm-letter-spacing);
   }
 
   .editor > :where(textarea, input, [contenteditable="true"]) {
@@ -114,7 +114,7 @@
   }
 
   .editor > :where(textarea, input)::placeholder {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     opacity: 1;
   }
 
@@ -129,7 +129,7 @@
     justify-content: space-between;
     inline-size: 100%;
     min-inline-size: 0;
-    gap: var(--openbitfun-control-composer-toolbar-gap);
+    gap: var(--opcteam-control-composer-toolbar-gap);
   }
 
   .barLeading,
@@ -138,7 +138,7 @@
     display: flex;
     align-items: center;
     min-inline-size: 0;
-    gap: var(--openbitfun-control-composer-context-gap);
+    gap: var(--opcteam-control-composer-context-gap);
   }
 
   .barLeading {
@@ -156,10 +156,10 @@
 
   .divider {
     display: block;
-    inline-size: var(--openbitfun-border-width-default);
-    block-size: var(--openbitfun-control-composer-divider-block-size);
-    flex: 0 0 var(--openbitfun-border-width-default);
-    background: var(--openbitfun-color-border-subtle);
+    inline-size: var(--opcteam-border-width-default);
+    block-size: var(--opcteam-control-composer-divider-block-size);
+    flex: 0 0 var(--opcteam-border-width-default);
+    background: var(--opcteam-color-border-subtle);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -170,7 +170,7 @@
 
   @media (prefers-reduced-transparency: reduce) {
     .root[data-has-context="true"] {
-      background: var(--openbitfun-color-surface-panel);
+      background: var(--opcteam-color-surface-panel);
       backdrop-filter: none;
       -webkit-backdrop-filter: none;
     }
@@ -190,7 +190,7 @@
 
     .surface:focus-within {
       border-color: Highlight;
-      box-shadow: 0 0 0 var(--openbitfun-focus-width) Highlight;
+      box-shadow: 0 0 0 var(--opcteam-focus-width) Highlight;
     }
 
     .divider {

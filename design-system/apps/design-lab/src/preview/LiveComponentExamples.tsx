@@ -59,7 +59,7 @@ export function MobileConversationExample({ name, state }: { name: string; state
 export function MobileFloatingActionsExample({ state }: { state: string }) {
   const { t } = useI18n();
   const [showComposer, setShowComposer] = useState(false);
-  return <div className="design-mobile-footer-example" style={{ maxWidth: state === "narrow" ? 320 : undefined, paddingBottom: state === "safe-area" ? "var(--openbitfun-space-8)" : undefined }}>
+  return <div className="design-mobile-footer-example" style={{ maxWidth: state === "narrow" ? 320 : undefined, paddingBottom: state === "safe-area" ? "var(--opcteam-space-8)" : undefined }}>
     <MobileMessage roleType="assistant">{t("design.contextAssistant")}</MobileMessage>
     {showComposer && <MobileConversationExample name="MobileComposer" state="expanded" />}
     <MobileFloatingActions leading={<MobileButton onClick={() => setShowComposer(value => !value)}>{t("components.preview.add")}</MobileButton>}

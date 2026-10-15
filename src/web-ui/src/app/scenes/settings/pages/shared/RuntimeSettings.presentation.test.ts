@@ -63,7 +63,7 @@ describe('Runtime settings information architecture', () => {
     expect(styles).toContain('&__pet-card-preview');
     expect(styles).toContain('&__pet-selected-mark');
     expect(styles).toContain('border: 1px solid transparent;');
-    expect(styles).toContain('&__pet-card:hover,\n  &__pet-card:focus-within {\n    border-color: var(--openbitfun-color-border-default);');
+    expect(styles).toContain('&__pet-card:hover,\n  &__pet-card:focus-within {\n    border-color: var(--opcteam-color-border-default);');
     expect(styles).not.toContain('&__pet-preview-popover');
     expect(styles).toContain(":root[data-openbitfun-appearance-mode='light'] &");
   });
@@ -83,8 +83,8 @@ describe('Runtime settings information architecture', () => {
     expect(source).toContain('className="openbitfun-runtime-settings__platform-note-icon"');
     expect(source).toContain('className="openbitfun-runtime-settings__platform-note-copy"');
     expect(source).not.toContain("padding: '8px 0 4px'");
-    expect(styles).toContain('padding: var(--openbitfun-space-3) var(--openbitfun-space-5);');
-    expect(styles).toContain('border-top: 1px solid var(--openbitfun-component-config-page-divider);');
-    expect(styles).toContain('padding-inline: var(--openbitfun-space-4);');
+    expect(styles).toContain('padding: var(--opcteam-space-3) var(--opcteam-space-5);');
+    expect(styles).toContain('border-top: 1px solid var(--opcteam-component-config-page-divider);');
+    expect(styles).toContain('padding-inline: var(--opcteam-space-4);');
   });
 });

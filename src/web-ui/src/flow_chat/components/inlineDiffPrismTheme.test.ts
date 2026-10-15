@@ -17,8 +17,8 @@ describe('inline diff syntax theme', () => {
     const value = tokens.find(token => token.type === 'attr-value');
     expect(attribute).toBeDefined();
     expect(value).toBeDefined();
-    expect(getInlineDiffTokenStyle(attribute!).color).toBe('var(--openbitfun-color-code-diff-syntax-property)');
-    expect(getInlineDiffTokenStyle(value!).color).toBe('var(--openbitfun-color-code-diff-syntax-string)');
+    expect(getInlineDiffTokenStyle(attribute!).color).toBe('var(--opcteam-color-code-diff-syntax-property)');
+    expect(getInlineDiffTokenStyle(value!).color).toBe('var(--opcteam-color-code-diff-syntax-string)');
   });
 
   it('distinguishes declarations, control flow, and null without overriding code typography', () => {
@@ -30,9 +30,9 @@ describe('inline diff syntax theme', () => {
       const split = splitTokensByNewlines([token])[0][0] as Prism.Token;
       return getInlineDiffTokenStyle(split);
     };
-    expect(styleFor('const').color).toBe('var(--openbitfun-color-code-diff-syntax-declaration)');
-    expect(styleFor('return').color).toBe('var(--openbitfun-color-code-diff-syntax-keyword)');
-    expect(styleFor('null').color).toBe('var(--openbitfun-color-code-diff-syntax-number)');
+    expect(styleFor('const').color).toBe('var(--opcteam-color-code-diff-syntax-declaration)');
+    expect(styleFor('return').color).toBe('var(--opcteam-color-code-diff-syntax-keyword)');
+    expect(styleFor('null').color).toBe('var(--opcteam-color-code-diff-syntax-number)');
     for (const token of tokens) {
       expect(getInlineDiffTokenStyle(token)).not.toHaveProperty('fontWeight');
       expect(getInlineDiffTokenStyle(token)).not.toHaveProperty('fontSize');

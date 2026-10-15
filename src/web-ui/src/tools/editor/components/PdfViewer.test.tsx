@@ -328,7 +328,7 @@ describe('PdfViewer', () => {
     expect(container.querySelectorAll('.openbitfun-pdf-viewer__text-layer span')).toHaveLength(3);
     expect(
       container.querySelector<HTMLElement>('.openbitfun-pdf-viewer__text-layer span')
-        ?.style.getPropertyValue('--openbitfun-pdf-glyph-height'),
+        ?.style.getPropertyValue('--opcteam-pdf-glyph-height'),
     ).toBe('12px');
   });
 

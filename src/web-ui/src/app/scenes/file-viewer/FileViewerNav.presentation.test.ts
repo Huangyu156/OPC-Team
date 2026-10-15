@@ -74,9 +74,9 @@ describe('FileViewerNav surface ownership', () => {
       '.openbitfun-file-viewer-nav__section::before',
     );
 
-    expect(sectionDivider.getPropertyValue('inset-inline')).toBe('var(--openbitfun-space-2)');
+    expect(sectionDivider.getPropertyValue('inset-inline')).toBe('var(--opcteam-space-2)');
     expect(sectionDivider.height).toBe('1px');
-    expect(sectionDivider.background).toBe('var(--openbitfun-color-border-default)');
+    expect(sectionDivider.background).toBe('var(--opcteam-color-border-default)');
     expect(declarations(navRules, '.openbitfun-file-viewer-nav__workspace').borderBottomWidth)
       .toBe('');
     expect(navSource).toContain(
@@ -93,9 +93,9 @@ describe('FileViewerNav surface ownership', () => {
       filesPanelRules,
       '.openbitfun-files-panel__main-content--search::before',
     );
-    expect(searchDivider.getPropertyValue('inset-inline')).toBe('var(--openbitfun-space-2)');
+    expect(searchDivider.getPropertyValue('inset-inline')).toBe('var(--opcteam-space-2)');
     expect(searchDivider.height).toBe('1px');
-    expect(searchDivider.background).toBe('var(--openbitfun-color-border-default)');
+    expect(searchDivider.background).toBe('var(--opcteam-color-border-default)');
 
     const searchContainer = declarations(filesPanelRules, '.openbitfun-files-panel__search');
     expect(searchContainer.borderBottomWidth).toBe('');
@@ -109,10 +109,10 @@ describe('FileViewerNav surface ownership', () => {
     ];
 
     for (const divider of dividers) {
-      expect(divider.getPropertyValue('inset-inline')).toBe('var(--openbitfun-space-2)');
+      expect(divider.getPropertyValue('inset-inline')).toBe('var(--opcteam-space-2)');
       expect(divider.height).toBe('1px');
-      expect(divider.background).toBe('var(--openbitfun-color-border-default)');
-      expect(divider.zIndex).toBe('var(--openbitfun-layer-decoration)');
+      expect(divider.background).toBe('var(--opcteam-color-border-default)');
+      expect(divider.zIndex).toBe('var(--opcteam-layer-decoration)');
       expect(divider.pointerEvents).toBe('none');
     }
   });

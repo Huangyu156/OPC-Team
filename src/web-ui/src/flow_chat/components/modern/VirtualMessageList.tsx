@@ -129,7 +129,7 @@ const FLOWCHAT_SCROLL_START_THRESHOLD_PX = 1;
 function readableViewportBounds(scroller: HTMLElement, inputOverlayInsetPx: number) {
   const top = scroller.getBoundingClientRect().top;
   const edgeFadePx = Number.parseFloat(
-    getComputedStyle(scroller).getPropertyValue('--openbitfun-space-12'),
+    getComputedStyle(scroller).getPropertyValue('--opcteam-space-12'),
   ) || 0;
   return {
     top: top + (scroller.scrollTop <= FLOWCHAT_SCROLL_START_THRESHOLD_PX ? 0 : edgeFadePx),

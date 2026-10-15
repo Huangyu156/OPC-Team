@@ -15,7 +15,7 @@
     block-size: 100%;
     align-items: center;
     justify-content: center;
-    transition: opacity var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .statusLayer > [data-openbitfun-component="icon"],
@@ -42,11 +42,11 @@
   }
 
   .success {
-    color: var(--openbitfun-color-status-success-emphasis);
+    color: var(--opcteam-color-status-success-emphasis);
   }
 
   .danger {
-    color: var(--openbitfun-color-status-danger-emphasis);
+    color: var(--opcteam-color-status-danger-emphasis);
   }
 
   .statusLayer .processing {
@@ -54,7 +54,7 @@
   }
 
   .muted {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 
   @media (prefers-reduced-motion: reduce) {

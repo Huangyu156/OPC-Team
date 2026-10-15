@@ -149,10 +149,10 @@ test("ChatComposer queue keeps four message rows visible before scrolling", asyn
   const maxBlockSize = listRule.match(/max-block-size:\s*calc\((.*?)\);/s)?.[1];
   assert.ok(maxBlockSize);
   assert.equal(
-    (maxBlockSize.match(/--openbitfun-control-chat-composer-control-height/g) ?? []).length,
+    (maxBlockSize.match(/--opcteam-control-chat-composer-control-height/g) ?? []).length,
     4,
   );
-  assert.equal((maxBlockSize.match(/--openbitfun-space-1/g) ?? []).length, 3);
+  assert.equal((maxBlockSize.match(/--opcteam-space-1/g) ?? []).length, 3);
   assert.match(listRule, /overflow-y:\s*auto/);
   assert.match(listRule, /overscroll-behavior-y:\s*contain/);
 });
@@ -182,10 +182,10 @@ test("ChatComposer queue promotes message text from secondary to primary on inte
   const contentRule = styles.match(/\.content\s*\{[^}]*\}/s)?.[0];
 
   assert.ok(contentRule);
-  assert.match(contentRule, /color:\s*var\(--openbitfun-color-content-secondary\)/);
+  assert.match(contentRule, /color:\s*var\(--opcteam-color-content-secondary\)/);
   assert.match(
     styles,
-    /\.item:hover \.content,\s*\.item:focus-within \.content\s*\{[^}]*color:\s*var\(--openbitfun-color-content-primary\)/s,
+    /\.item:hover \.content,\s*\.item:focus-within \.content\s*\{[^}]*color:\s*var\(--opcteam-color-content-primary\)/s,
   );
 });
 
@@ -200,7 +200,7 @@ test("ChatComposer queue never changes the input surface geometry", async () => 
   assert.ok(bodyRule);
   assert.match(bodyRule, /display:\s*flex/);
   assert.match(bodyRule, /flex-direction:\s*column/);
-  assert.match(bodyRule, /gap:\s*var\(--openbitfun-space-2\)/);
+  assert.match(bodyRule, /gap:\s*var\(--opcteam-space-2\)/);
   assert.ok(queueRule);
   assert.match(queueRule, /display:\s*contents/);
   assert.doesNotMatch(styles, /\.body:has\(/);
@@ -239,43 +239,43 @@ test("ChatComposer resolves compound slots into the same stable anatomy", () => 
 test("ChatComposer geometry is driven by public system and semantic tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-control-height-md/);
-  assert.match(styles, /--openbitfun-control-chat-composer-compact-gap/);
-  assert.match(styles, /--openbitfun-control-chat-composer-compact-height/);
-  assert.match(styles, /--openbitfun-control-chat-composer-compact-padding-block/);
-  assert.match(styles, /--openbitfun-control-chat-composer-compact-padding-inline/);
-  assert.match(styles, /--openbitfun-control-chat-composer-compact-track-height/);
-  assert.match(styles, /--openbitfun-control-chat-composer-action-icon-size/);
-  assert.match(styles, /--openbitfun-control-chat-composer-control-height/);
-  assert.match(styles, /--openbitfun-space-8/);
-  assert.match(styles, /--openbitfun-control-composer-surface-radius/);
-  assert.match(styles, /--openbitfun-color-surface-panel/);
-  assert.match(styles, /--openbitfun-color-surface-subtle/);
-  assert.match(styles, /--openbitfun-color-surface-raised/);
+  assert.match(styles, /--opcteam-control-height-md/);
+  assert.match(styles, /--opcteam-control-chat-composer-compact-gap/);
+  assert.match(styles, /--opcteam-control-chat-composer-compact-height/);
+  assert.match(styles, /--opcteam-control-chat-composer-compact-padding-block/);
+  assert.match(styles, /--opcteam-control-chat-composer-compact-padding-inline/);
+  assert.match(styles, /--opcteam-control-chat-composer-compact-track-height/);
+  assert.match(styles, /--opcteam-control-chat-composer-action-icon-size/);
+  assert.match(styles, /--opcteam-control-chat-composer-control-height/);
+  assert.match(styles, /--opcteam-space-8/);
+  assert.match(styles, /--opcteam-control-composer-surface-radius/);
+  assert.match(styles, /--opcteam-color-surface-panel/);
+  assert.match(styles, /--opcteam-color-surface-subtle/);
+  assert.match(styles, /--opcteam-color-surface-raised/);
   const contextBackgroundRule = styles.match(
     /\.\w+\[data-has-context=(?:"true"|true)\][^{]*\{[^}]*\}/,
   );
   assert.ok(contextBackgroundRule);
-  assert.match(contextBackgroundRule[0], /background:\s*var\(--openbitfun-color-composer-context-background\)/);
-  assert.match(styles, /--openbitfun-color-composer-border/);
-  assert.match(styles, /--openbitfun-shadow-composer/);
+  assert.match(contextBackgroundRule[0], /background:\s*var\(--opcteam-color-composer-context-background\)/);
+  assert.match(styles, /--opcteam-color-composer-border/);
+  assert.match(styles, /--opcteam-shadow-composer/);
   assert.match(
     styles,
-    /border:\s*var\(--openbitfun-border-width-default\)\s+solid\s+var\(--openbitfun-color-composer-border\)/,
+    /border:\s*var\(--opcteam-border-width-default\)\s+solid\s+var\(--opcteam-color-composer-border\)/,
   );
-  assert.match(styles, /min-block-size:\s*var\(--openbitfun-control-height-md\)/);
+  assert.match(styles, /min-block-size:\s*var\(--opcteam-control-height-md\)/);
   assert.match(styles, /grid-template-areas:\s*"start content end"/);
   assert.match(
     styles,
-    /grid-template-rows:\s*var\(--openbitfun-control-chat-composer-compact-track-height\)/,
+    /grid-template-rows:\s*var\(--opcteam-control-chat-composer-compact-track-height\)/,
   );
   assert.match(styles, /"content content"\s*"start end"/);
   assert.match(
     styles,
-    /\[data-openbitfun-layout=(?:"compact"|compact)\][^{]*\{[^}]*block-size:\s*var\(--openbitfun-control-chat-composer-compact-height\)[^}]*border-radius:\s*var\(--openbitfun-control-composer-surface-radius\)/,
+    /\[data-openbitfun-layout=(?:"compact"|compact)\][^{]*\{[^}]*block-size:\s*var\(--opcteam-control-chat-composer-compact-height\)[^}]*border-radius:\s*var\(--opcteam-control-composer-surface-radius\)/,
   );
   assert.match(
     styles,
-    /\[data-openbitfun-layout=(?:"compact"|compact)\][^{]*\.\w+\s*\{[^}]*block-size:\s*var\(--openbitfun-control-chat-composer-compact-track-height\)[^}]*align-self:\s*center/,
+    /\[data-openbitfun-layout=(?:"compact"|compact)\][^{]*\.\w+\s*\{[^}]*block-size:\s*var\(--opcteam-control-chat-composer-compact-track-height\)[^}]*align-self:\s*center/,
   );
 });

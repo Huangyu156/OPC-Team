@@ -5,13 +5,13 @@
   // Tracks retain the same card width when a side pane opens or the window
   // narrows. Only a pane narrower than one card can constrain that width.
   grid-template-columns: repeat(auto-fill, min(100%, calc(
-    (var(--openbitfun-control-flow-chat-transcript-max-width)
-      - 2 * var(--openbitfun-control-flow-chat-content-padding-inline)
-      - 2 * var(--openbitfun-control-flow-chat-paragraph-gap)) / 3
+    (var(--opcteam-control-flow-chat-transcript-max-width)
+      - 2 * var(--opcteam-control-flow-chat-content-padding-inline)
+      - 2 * var(--opcteam-control-flow-chat-paragraph-gap)) / 3
   )));
   justify-content: start;
-  gap: var(--openbitfun-control-flow-chat-paragraph-gap);
-  margin-block-end: var(--openbitfun-control-flow-chat-paragraph-gap);
+  gap: var(--opcteam-control-flow-chat-paragraph-gap);
+  margin-block-end: var(--opcteam-control-flow-chat-paragraph-gap);
 
   // Full-width thinking keeps its original DOM and successor relationship.
   > .flow-thinking-item { grid-column: 1 / -1; }

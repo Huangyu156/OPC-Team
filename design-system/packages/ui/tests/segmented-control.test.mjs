@@ -76,22 +76,22 @@ test("SegmentedControl exposes stable layout and visual variants", () => {
 test("SegmentedControl styles bind pill geometry and shared action tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-control-segmented-control-padding/);
-  assert.match(styles, /--openbitfun-control-segmented-control-segment-height/);
-  assert.match(styles, /--openbitfun-control-segmented-control-segment-height-md/);
-  assert.match(styles, /--openbitfun-control-segmented-control-pill-segment-height/);
-  assert.match(styles, /--openbitfun-control-segmented-control-segment-padding-inline/);
-  assert.match(styles, /--openbitfun-control-segmented-control-icon-size/);
-  assert.match(styles, /--openbitfun-control-height-md/);
-  assert.match(styles, /--openbitfun-radius-pill/);
-  assert.match(styles, /--openbitfun-space-4/);
-  assert.match(styles, /--openbitfun-type-meta-font-size/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface/);
-  assert.match(styles, /--openbitfun-color-surface-raised/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface-hover/);
-  assert.match(styles, /--openbitfun-color-action-neutral-surface-pressed/);
-  assert.match(styles, /--openbitfun-color-action-neutral-content-disabled/);
-  assert.match(styles, /--openbitfun-color-focus-ring/);
+  assert.match(styles, /--opcteam-control-segmented-control-padding/);
+  assert.match(styles, /--opcteam-control-segmented-control-segment-height/);
+  assert.match(styles, /--opcteam-control-segmented-control-segment-height-md/);
+  assert.match(styles, /--opcteam-control-segmented-control-pill-segment-height/);
+  assert.match(styles, /--opcteam-control-segmented-control-segment-padding-inline/);
+  assert.match(styles, /--opcteam-control-segmented-control-icon-size/);
+  assert.match(styles, /--opcteam-control-height-md/);
+  assert.match(styles, /--opcteam-radius-pill/);
+  assert.match(styles, /--opcteam-space-4/);
+  assert.match(styles, /--opcteam-type-meta-font-size/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface/);
+  assert.match(styles, /--opcteam-color-surface-raised/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface-hover/);
+  assert.match(styles, /--opcteam-color-action-neutral-surface-pressed/);
+  assert.match(styles, /--opcteam-color-action-neutral-content-disabled/);
+  assert.match(styles, /--opcteam-color-focus-ring/);
   assert.match(styles, /data-distribution=fill/);
   assert.match(styles, /data-tone=neutral/);
   assert.match(styles, /data-variant=pills/);

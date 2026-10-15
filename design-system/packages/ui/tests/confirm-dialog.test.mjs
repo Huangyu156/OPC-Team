@@ -50,7 +50,7 @@ test("ConfirmDialog presents semantic icons as bare glyphs", async () => {
   const iconRule = styles.match(/\.icon\s*\{[^}]+\}/)?.[0];
 
   assert.ok(iconRule, "missing ConfirmDialog icon rule");
-  assert.match(iconRule, /flex:\s*0 0 var\(--openbitfun-layout-confirm-dialog-icon-glyph-size\)/);
+  assert.match(iconRule, /flex:\s*0 0 var\(--opcteam-layout-confirm-dialog-icon-glyph-size\)/);
   assert.match(iconRule, /block-size:\s*1lh/);
   assert.doesNotMatch(
     styles,
@@ -61,11 +61,11 @@ test("ConfirmDialog presents semantic icons as bare glyphs", async () => {
 test("ConfirmDialog styles use public status, layout, and typography tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-layout-confirm-dialog-content-gap/);
-  assert.match(styles, /--openbitfun-layout-confirm-dialog-icon-glyph-size/);
-  assert.match(styles, /--openbitfun-layout-confirm-dialog-preview-max-block-size/);
-  assert.match(styles, /--openbitfun-layout-confirm-dialog-preview-padding-inline/);
-  assert.match(styles, /--openbitfun-color-status-warning-emphasis/);
-  assert.match(styles, /--openbitfun-color-status-danger-emphasis/);
-  assert.match(styles, /--openbitfun-type-code-sm-font-family/);
+  assert.match(styles, /--opcteam-layout-confirm-dialog-content-gap/);
+  assert.match(styles, /--opcteam-layout-confirm-dialog-icon-glyph-size/);
+  assert.match(styles, /--opcteam-layout-confirm-dialog-preview-max-block-size/);
+  assert.match(styles, /--opcteam-layout-confirm-dialog-preview-padding-inline/);
+  assert.match(styles, /--opcteam-color-status-warning-emphasis/);
+  assert.match(styles, /--opcteam-color-status-danger-emphasis/);
+  assert.match(styles, /--opcteam-type-code-sm-font-family/);
 });

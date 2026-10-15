@@ -69,7 +69,7 @@ describe('composer context track layout', () => {
     }
 
     expect(branchPicker).toMatch(
-      /branch-quick-switch__item \{[\s\S]*?min-height: var\(--openbitfun-control-height-sm\);/,
+      /branch-quick-switch__item \{[\s\S]*?min-height: var\(--opcteam-control-height-sm\);/,
     );
     for (const stylesheet of [workspaceStrip, branchPicker, targetPicker]) {
       expect(stylesheet).not.toMatch(
@@ -77,25 +77,25 @@ describe('composer context track layout', () => {
       );
     }
     expect(targetPicker).toMatch(
-      /&__option-row \{[\s\S]*?min-height: var\(--openbitfun-control-height-md\);/,
+      /&__option-row \{[\s\S]*?min-height: var\(--opcteam-control-height-md\);/,
     );
     expect(targetPicker).toMatch(
-      /&__menu \{[\s\S]*?--openbitfun-overlay-menu-section-gap: var\(--openbitfun-space-1\);/,
+      /&__menu \{[\s\S]*?--opcteam-overlay-menu-section-gap: var\(--opcteam-space-1\);/,
     );
     expect(targetPicker).toMatch(
-      /&__status \{[\s\S]*?min-height: var\(--openbitfun-overlay-menu-heading-height\);/,
+      /&__status \{[\s\S]*?min-height: var\(--opcteam-overlay-menu-heading-height\);/,
     );
     expect(targetPicker).toMatch(
-      /strong \{[\s\S]*?font-size: var\(--openbitfun-type-label-md-font-size\);/,
+      /strong \{[\s\S]*?font-size: var\(--opcteam-type-label-md-font-size\);/,
     );
     expect(targetPicker).toMatch(
-      /small \{[\s\S]*?font-size: var\(--openbitfun-type-meta-font-size\);/,
+      /small \{[\s\S]*?font-size: var\(--opcteam-type-meta-font-size\);/,
     );
     expect(targetPicker).toMatch(
-      /\&\[data-openbitfun-part='option'\] \{[\s\S]*?strong \{[\s\S]*?color: var\(--openbitfun-color-content-secondary\);[\s\S]*?opacity: var\(--openbitfun-opacity-focus\);/,
+      /\&\[data-openbitfun-part='option'\] \{[\s\S]*?strong \{[\s\S]*?color: var\(--opcteam-color-content-secondary\);[\s\S]*?opacity: var\(--opcteam-opacity-focus\);/,
     );
     expect(targetPicker).toMatch(
-      /small \{[\s\S]*?color: var\(--openbitfun-color-content-muted\);[\s\S]*?opacity: 0\.5;/,
+      /small \{[\s\S]*?color: var\(--opcteam-color-content-muted\);[\s\S]*?opacity: 0\.5;/,
     );
   });
 
@@ -121,12 +121,12 @@ describe('composer context track layout', () => {
     // facts inherit it; every control restates the same step through the
     // shared mixin, so the row reads as a single hushed line.
     expect(stylesheet).toContain(
-      'font-size: var(--openbitfun-type-flow-meta-font-size);\n  line-height:',
+      'font-size: var(--opcteam-type-flow-meta-font-size);\n  line-height:',
     );
     expect(stylesheet).toMatch(/&__workspace \{[\s\S]*?font-size: inherit;/);
     expect(stylesheet).toMatch(/&__branch \{[\s\S]*?font-size: inherit;/);
     expect(stylesheet).toMatch(
-      /@mixin strip-control \{[\s\S]*?font-size: var\(--openbitfun-type-flow-meta-font-size\);/,
+      /@mixin strip-control \{[\s\S]*?font-size: var\(--opcteam-type-flow-meta-font-size\);/,
     );
     // No control names a size of its own — that is how the track drifted into
     // four of them before.
@@ -149,7 +149,7 @@ describe('composer context track layout', () => {
     expect(mixin).toContain('height: 18px;');
     expect(mixin).toContain('border-radius: 999px;');
     expect(mixin).toContain('background: transparent;');
-    expect(mixin).toMatch(/> :is\(svg, \[data-openbitfun-component='icon'\]\) \{[\s\S]*?width: var\(--openbitfun-control-icon-size-xs\);/);
+    expect(mixin).toMatch(/> :is\(svg, \[data-openbitfun-component='icon'\]\) \{[\s\S]*?width: var\(--opcteam-control-icon-size-xs\);/);
 
     for (const control of [
       '    .dispatch-target-picker__trigger {\n      @include strip-control;',
@@ -171,7 +171,7 @@ describe('composer context track layout', () => {
     expect(stylesheet).toMatch(/&__workspace \{[\s\S]*?border-radius: 999px;/);
     expect(stylesheet).toMatch(/&__workspace \{[\s\S]*?cursor: default;/);
     expect(stylesheet).toMatch(
-      /&__workspace--switchable \{[\s\S]*?&:hover:not\(:disabled\)[\s\S]*?background: var\(--openbitfun-color-action-quiet-hover\);/,
+      /&__workspace--switchable \{[\s\S]*?&:hover:not\(:disabled\)[\s\S]*?background: var\(--opcteam-color-action-quiet-hover\);/,
     );
 
     // Branch wears the same pill so the three left-rail segments keep one
@@ -191,7 +191,7 @@ describe('composer context track layout', () => {
     expect(staticBranch).toContain('padding: 0 7px;');
     expect(staticBranch).toContain('border-radius: 999px;');
     expect(chip).toMatch(
-      /&--branch-switchable \{[\s\S]*?cursor: pointer;[\s\S]*?&:hover:not\(:disabled\)[\s\S]*?background: var\(--openbitfun-color-action-quiet-hover\);/,
+      /&--branch-switchable \{[\s\S]*?cursor: pointer;[\s\S]*?&:hover:not\(:disabled\)[\s\S]*?background: var\(--opcteam-color-action-quiet-hover\);/,
     );
 
     // A hairline parts the segments; inside a segment spacing is the only
@@ -223,10 +223,10 @@ describe('composer context track layout', () => {
     // The composer is a panel of the transcript, so it takes the transcript
     // content inset and not a second, narrower one of its own.
     expect(chatInput).toMatch(
-      /\.openbitfun-context-drop-zone\.openbitfun-chat-input-drop-zone \{[\s\S]*?padding: 0 var\(--openbitfun-control-flow-chat-content-padding-inline\);/,
+      /\.openbitfun-context-drop-zone\.openbitfun-chat-input-drop-zone \{[\s\S]*?padding: 0 var\(--opcteam-control-flow-chat-content-padding-inline\);/,
     );
     expect(chatInput).toMatch(
-      /\.openbitfun-context-drop-zone\.openbitfun-chat-input-drop-zone \{[\s\S]*?bottom: var\(--openbitfun-space-6\);/,
+      /\.openbitfun-context-drop-zone\.openbitfun-chat-input-drop-zone \{[\s\S]*?bottom: var\(--opcteam-space-6\);/,
     );
     expect(stripRoot).toContain('position: relative;');
     expect(stripRoot).toContain('padding: 0;');
@@ -270,10 +270,10 @@ describe('composer context track layout', () => {
     expect(component).toContain("'workspaceStrip.personalAssistant'");
     expect(component).toContain('__workspace-option-detail');
     expect(stylesheet).toMatch(
-      /&__workspace-option-copy \{[\s\S]*?padding-block: calc\(var\(--openbitfun-space-1\) \/ 2\);/,
+      /&__workspace-option-copy \{[\s\S]*?padding-block: calc\(var\(--opcteam-space-1\) \/ 2\);/,
     );
     expect(stylesheet).toMatch(
-      /&__workspace-option-detail \{[\s\S]*?color: var\(--openbitfun-color-content-muted\);/,
+      /&__workspace-option-detail \{[\s\S]*?color: var\(--opcteam-color-content-muted\);/,
     );
     expect(stylesheet).toMatch(
       /&__workspace-option-detail \{[\s\S]*?opacity: 0\.5;/,
@@ -392,7 +392,7 @@ describe('composer context track layout', () => {
     expect(standaloneHarnessIndex).toBeLessThan(endActionsIndex);
     expect(chatInput).toContain('isMultiLine && executionLevelPolicy.userConfigurable ? (');
     expect(stylesheet).toMatch(
-      /&\[data-openbitfun-layout='expanded'\] \{[\s\S]*?\.openbitfun-harness-selector__trigger \{[\s\S]*?height: var\(--openbitfun-control-chat-composer-control-height\);/,
+      /&\[data-openbitfun-layout='expanded'\] \{[\s\S]*?\.openbitfun-harness-selector__trigger \{[\s\S]*?height: var\(--opcteam-control-chat-composer-control-height\);/,
     );
     expect(modelIndex).toBeGreaterThan(endActionsIndex);
     expect(chatInput).not.toContain('harnessControl');
@@ -455,7 +455,7 @@ describe('composer context track layout', () => {
 
     expect(modelPair).toContain('border: 0;');
     expect(modelPair).toMatch(
-      /&:hover,\s*&\[data-openbitfun-state='open'\] \{\s*background: var\(--openbitfun-color-action-quiet-hover\);/,
+      /&:hover,\s*&\[data-openbitfun-state='open'\] \{\s*background: var\(--opcteam-color-action-quiet-hover\);/,
     );
     expect(modelPair).not.toContain('border-color:');
   });
@@ -486,10 +486,10 @@ describe('composer context track layout', () => {
     );
     expect(compactControls).toContain('height: 100%;');
     expect(stylesheet).toContain(
-      'height: var(--openbitfun-control-chat-composer-control-height);',
+      'height: var(--opcteam-control-chat-composer-control-height);',
     );
     expect(compactControls).not.toContain(
-      'width: var(--openbitfun-control-chat-composer-compact-track-height) !important;',
+      'width: var(--opcteam-control-chat-composer-compact-track-height) !important;',
     );
     expect(component).toContain('className="openbitfun-chat-input__agent-boost-trigger"');
     expect(stylesheet).toMatch(
@@ -535,7 +535,7 @@ describe('composer context track layout', () => {
     expect(component).toContain('aria-label={tooltip}');
     expect(stylesheet).toMatch(/&__trigger \{[\s\S]*?width: 18px;[\s\S]*?height: 18px;/);
     expect(stylesheet).toMatch(
-      /&__trigger-label \{[\s\S]*?font-size: var\(--openbitfun-type-flow-control-font-size\);/,
+      /&__trigger-label \{[\s\S]*?font-size: var\(--opcteam-type-flow-control-font-size\);/,
     );
     expect(chatInput).toContain('reasoningTriggerPresentation="label"');
   });
@@ -548,15 +548,15 @@ describe('composer context track layout', () => {
       stylesheet.indexOf('&__permission-label {'),
     );
     expect(riskRamp).toContain('permission-trigger--ask &');
-    expect(riskRamp).toContain('var(--openbitfun-color-status-success-emphasis)');
+    expect(riskRamp).toContain('var(--opcteam-color-status-success-emphasis)');
     expect(riskRamp).toContain('permission-trigger--auto &');
-    expect(riskRamp).toContain('var(--openbitfun-color-status-warning-emphasis)');
+    expect(riskRamp).toContain('var(--opcteam-color-status-warning-emphasis)');
     expect(riskRamp).toContain('permission-trigger--full_access &');
-    expect(riskRamp).toContain('var(--openbitfun-color-status-danger-emphasis)');
+    expect(riskRamp).toContain('var(--opcteam-color-status-danger-emphasis)');
     // Full access keeps a body of its own so the risk survives the label being
     // dropped on a narrow composer.
     expect(stylesheet).toMatch(
-      /&__permission-trigger \{[\s\S]*?&--full_access \{[\s\S]*?background: var\(--openbitfun-color-status-danger-surface\);/,
+      /&__permission-trigger \{[\s\S]*?&--full_access \{[\s\S]*?background: var\(--opcteam-color-status-danger-surface\);/,
     );
   });
 
@@ -598,7 +598,7 @@ describe('composer context track layout', () => {
     // On/off is a colour, not an outline: one bordered item in a borderless
     // row reads as an error state rather than a mode.
     expect(stylesheet).toMatch(
-      /&--on \{\n\s*color: var\(--openbitfun-color-accent-default\);/,
+      /&--on \{\n\s*color: var\(--opcteam-color-accent-default\);/,
     );
     expect(stylesheet).not.toMatch(/&__worktree-toggle \{[\s\S]*?border: 1px/);
   });

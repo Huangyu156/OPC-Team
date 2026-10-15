@@ -1,6 +1,6 @@
 /* Regex Playground — developer-tool theme.
  * Design system reference:
- *   palette  ─ Inherits OPC-Team host theme (--openbitfun-* tokens) so it reads
+ *   palette  ─ Inherits OPC-Team host theme (--opcteam-* tokens) so it reads
  *              as a native panel under both openbitfun-dark and openbitfun-light.
  *              Local --rx-* tokens are derived from the required host vars;
  *              the host contract owns first-paint defaults.
@@ -23,42 +23,42 @@ body, html { margin: 0; padding: 0; height: 100%; }
   color-scheme: dark;
   /* Surfaces — drive everything off host bg tokens so the playground tracks
    * OPC-Team light/dark automatically. Fallbacks mirror the default dark theme. */
-  --rx-bg:        var(--openbitfun-bg);
-  --rx-bg-2:      var(--openbitfun-bg-tertiary);
-  --rx-surface:   var(--openbitfun-bg-secondary);
-  --rx-surface-2: var(--openbitfun-element-bg);
-  --rx-surface-3: var(--openbitfun-element-hover);
+  --rx-bg:        var(--opcteam-bg);
+  --rx-bg-2:      var(--opcteam-bg-tertiary);
+  --rx-surface:   var(--opcteam-bg-secondary);
+  --rx-surface-2: var(--opcteam-element-bg);
+  --rx-surface-3: var(--opcteam-element-hover);
 
-  --rx-border:        var(--openbitfun-border-subtle);
-  --rx-border-strong: var(--openbitfun-border);
-  --rx-border-bright: var(--openbitfun-border);
+  --rx-border:        var(--opcteam-border-subtle);
+  --rx-border-strong: var(--opcteam-border);
+  --rx-border-bright: var(--opcteam-border);
 
-  --rx-text:      var(--openbitfun-text);
-  --rx-text-soft: var(--openbitfun-text-secondary);
-  --rx-text-mute: var(--openbitfun-text-muted);
-  --rx-text-dim:  var(--openbitfun-text-muted);
+  --rx-text:      var(--opcteam-text);
+  --rx-text-soft: var(--opcteam-text-secondary);
+  --rx-text-mute: var(--opcteam-text-muted);
+  --rx-text-dim:  var(--opcteam-text-muted);
 
   /* Accent — follows host primary (blue in dark, slate in light) instead of
    * the previous saturated "run green" which clashed with OPC-Team's neutral palette. */
-  --rx-accent:        var(--openbitfun-accent);
-  --rx-accent-strong: var(--openbitfun-accent-hover);
+  --rx-accent:        var(--opcteam-accent);
+  --rx-accent-strong: var(--opcteam-accent-hover);
   --rx-accent-soft:   color-mix(in srgb, var(--rx-accent) 14%, transparent);
 
   /* Semantic colors — pulled from host so they harmonize with the rest of OPC-Team. */
-  --rx-match:      var(--openbitfun-warning);            /* warm match highlight */
+  --rx-match:      var(--opcteam-warning);            /* warm match highlight */
   --rx-match-soft: color-mix(in srgb, var(--rx-match) 18%, transparent);
-  --rx-error:      var(--openbitfun-error);
-  --rx-info:       var(--openbitfun-info);
-  --rx-group:      var(--openbitfun-accent-secondary);              /* capture-group accent */
-  --rx-string:     var(--openbitfun-success);
+  --rx-error:      var(--opcteam-error);
+  --rx-info:       var(--opcteam-info);
+  --rx-group:      var(--opcteam-accent-secondary);              /* capture-group accent */
+  --rx-string:     var(--opcteam-success);
 
-  --rx-radius:    var(--openbitfun-radius);
+  --rx-radius:    var(--opcteam-radius);
   --rx-radius-sm: 6px;
-  --rx-shadow-card: var(--openbitfun-shadow-card);
-  --rx-shadow-elevated: var(--openbitfun-shadow-overlay);
+  --rx-shadow-card: var(--opcteam-shadow-card);
+  --rx-shadow-elevated: var(--opcteam-shadow-overlay);
 
-  --rx-mono: var(--openbitfun-font-mono);
-  --rx-sans: var(--openbitfun-font-sans);
+  --rx-mono: var(--opcteam-font-mono);
+  --rx-sans: var(--opcteam-font-sans);
 
   --rx-dur: 200ms;
   --rx-ease: cubic-bezier(.2,.8,.2,1);
@@ -651,11 +651,11 @@ button, input, textarea, select { font-family: inherit; color: inherit; }
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-thumb {
-  background: var(--openbitfun-scrollbar-thumb);
+  background: var(--opcteam-scrollbar-thumb);
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--openbitfun-scrollbar-thumb-hover);
+  background: var(--opcteam-scrollbar-thumb-hover);
 }
 
 /* ── Reduced motion ─────────────────────────────────── */

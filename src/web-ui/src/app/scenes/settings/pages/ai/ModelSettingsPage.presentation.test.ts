@@ -40,10 +40,10 @@ describe('ModelSettingsPage presentation', () => {
 
   it('keeps subscription actions right-aligned through the shared compact breakpoint', () => {
     expect(styles).toMatch(
-      /@container config-panel \(max-width: 520px\)\s*\{\s*&__cli-account\.openbitfun-config-page-row\s*\{[\s\S]*?grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*?gap: var\(--openbitfun-space-4\);[\s\S]*?justify-content: flex-end;/,
+      /@container config-panel \(max-width: 520px\)\s*\{\s*&__cli-account\.openbitfun-config-page-row\s*\{[\s\S]*?grid-template-columns: minmax\(0, 1fr\) auto;[\s\S]*?gap: var\(--opcteam-space-4\);[\s\S]*?justify-content: flex-end;/,
     );
     expect(styles).toMatch(
-      /@container config-panel \(max-width: 360px\)\s*\{\s*&__cli-account\.openbitfun-config-page-row\s*\{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?gap: var\(--openbitfun-space-2\);[\s\S]*?justify-content: flex-start;/,
+      /@container config-panel \(max-width: 360px\)\s*\{\s*&__cli-account\.openbitfun-config-page-row\s*\{[\s\S]*?grid-template-columns: minmax\(0, 1fr\);[\s\S]*?gap: var\(--opcteam-space-2\);[\s\S]*?justify-content: flex-start;/,
     );
   });
 });

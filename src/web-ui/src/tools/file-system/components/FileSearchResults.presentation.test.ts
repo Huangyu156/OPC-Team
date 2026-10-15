@@ -33,7 +33,7 @@ describe('file search result presentation', () => {
 
   it('insets the divider below the results header evenly', () => {
     expect(stylesheet).toMatch(
-      /\.openbitfun-search-results__header\s*\{[^}]*position:\s*relative;[\s\S]*?&::after\s*\{[^}]*inset-inline:\s*var\(--openbitfun-space-2\);[^}]*bottom:\s*0;[^}]*z-index:\s*var\(--openbitfun-layer-decoration\);[^}]*height:\s*1px;[^}]*background:\s*var\(--openbitfun-color-border-default\);/s,
+      /\.openbitfun-search-results__header\s*\{[^}]*position:\s*relative;[\s\S]*?&::after\s*\{[^}]*inset-inline:\s*var\(--opcteam-space-2\);[^}]*bottom:\s*0;[^}]*z-index:\s*var\(--opcteam-layer-decoration\);[^}]*height:\s*1px;[^}]*background:\s*var\(--opcteam-color-border-default\);/s,
     );
     expect(stylesheet).not.toMatch(
       /\.openbitfun-search-results__header\s*\{[^}]*border-bottom:/s,
@@ -51,7 +51,7 @@ describe('file search result presentation', () => {
       /className="openbitfun-search-results__file-path"\s+data-overflow-trigger\s+marqueeTrigger="interaction"/,
     );
     expect(stylesheet).toMatch(
-      /\.openbitfun-search-results__highlight\s*\{[^}]*background:\s*color-mix\(in srgb, var\(--openbitfun-component-conversation-excerpt-accent\) 30%, transparent\);[^}]*color:\s*var\(--openbitfun-component-conversation-excerpt-accent\);/s,
+      /\.openbitfun-search-results__highlight\s*\{[^}]*background:\s*color-mix\(in srgb, var\(--opcteam-component-conversation-excerpt-accent\) 30%, transparent\);[^}]*color:\s*var\(--opcteam-component-conversation-excerpt-accent\);/s,
     );
   });
 

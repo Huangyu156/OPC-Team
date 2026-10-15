@@ -6,7 +6,7 @@ const colorScheme = window.matchMedia?.('(prefers-color-scheme: dark)').matches
   : 'light';
 const root = document.documentElement;
 
-root.setAttribute('data-openbitfun-design-system-root', '');
+root.setAttribute('data-opcteam-design-system-root', '');
 root.setAttribute('data-color-scheme', colorScheme);
 root.setAttribute('data-contrast', 'standard');
 root.setAttribute('data-density', 'comfortable');

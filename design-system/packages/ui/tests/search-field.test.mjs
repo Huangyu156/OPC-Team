@@ -114,10 +114,10 @@ test("SearchField panel uses canonical frosted tokens with an opaque reduced-tra
     new URL("../src/components/SearchField/SearchField.module.css", import.meta.url),
     "utf8",
   );
-  assert.match(styles, /border-radius: var\(--openbitfun-radius-lg\)/);
-  assert.match(styles, /@supports[^}]+background: color-mix\(in srgb, var\(--openbitfun-color-surface-raised\) 80%, transparent\)/s);
-  assert.match(styles, /backdrop-filter: var\(--openbitfun-effect-blur-medium\)/);
-  assert.match(styles, /@media \(prefers-reduced-transparency: reduce\)[^}]+background: var\(--openbitfun-color-surface-raised\)[^}]+backdrop-filter: none/s);
+  assert.match(styles, /border-radius: var\(--opcteam-radius-lg\)/);
+  assert.match(styles, /@supports[^}]+background: color-mix\(in srgb, var\(--opcteam-color-surface-raised\) 80%, transparent\)/s);
+  assert.match(styles, /backdrop-filter: var\(--opcteam-effect-blur-medium\)/);
+  assert.match(styles, /@media \(prefers-reduced-transparency: reduce\)[^}]+background: var\(--opcteam-color-surface-raised\)[^}]+backdrop-filter: none/s);
 });
 
 test("SearchField exposes a labeled clear action without hiding it from assistive technology", () => {
@@ -154,9 +154,9 @@ test("SearchField keeps its clear action quiet and focus-preserving", async () =
 test("SearchField owns pill composition while reusing Input behavior", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /border-radius:var\(--openbitfun-radius-pill\)/);
-  assert.match(styles, /--openbitfun-type-label-md-font-size/);
-  assert.match(styles, /--openbitfun-type-meta-font-size/);
+  assert.match(styles, /border-radius:var\(--opcteam-radius-pill\)/);
+  assert.match(styles, /--opcteam-type-label-md-font-size/);
+  assert.match(styles, /--opcteam-type-meta-font-size/);
 });
 
 test("SearchField owns a quiet single-border focus without changing Input's focus contract", async () => {
@@ -176,13 +176,13 @@ test("SearchField owns a quiet single-border focus without changing Input's focu
   )?.[1];
 
   assert.ok(searchFocusRule);
-  assert.match(searchFocusRule, /outline-color: var\(--openbitfun-color-border-default\)/);
+  assert.match(searchFocusRule, /outline-color: var\(--opcteam-color-border-default\)/);
   assert.doesNotMatch(searchFocusRule, /box-shadow|border-width|outline-width|outline-offset/);
   assert.ok(panelFocusRule);
-  assert.match(panelFocusRule, /outline-color: var\(--openbitfun-color-border-default\)/);
+  assert.match(panelFocusRule, /outline-color: var\(--opcteam-color-border-default\)/);
   assert.ok(focusRule);
-  assert.match(focusRule, /border-color: var\(--openbitfun-color-field-border-active\)/);
-  assert.doesNotMatch(inputStyles, /--openbitfun-color-field-border-focus|\.field[^{}]*:focus-visible/);
+  assert.match(focusRule, /border-color: var\(--opcteam-color-field-border-active\)/);
+  assert.doesNotMatch(inputStyles, /--opcteam-color-field-border-focus|\.field[^{}]*:focus-visible/);
   assert.match(focusRule, /box-shadow: none/);
   assert.doesNotMatch(focusRule, /border-width|outline/);
 });

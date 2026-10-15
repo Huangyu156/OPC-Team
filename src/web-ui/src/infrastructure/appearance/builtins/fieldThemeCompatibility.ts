@@ -6,17 +6,17 @@ export function withLegacyFieldTokens(
   tokens: Partial<Record<AppearanceThemeTokenName, string>> | undefined,
 ): Partial<Record<AppearanceThemeTokenName, string>> {
   const result = { ...tokens };
-  const legacy = tokens?.['--openbitfun-color-content-muted'];
-  if (result['--openbitfun-color-field-placeholder'] === undefined && legacy !== undefined) {
-    result['--openbitfun-color-field-placeholder'] = legacy;
+  const legacy = tokens?.['--opcteam-color-content-muted'];
+  if (result['--opcteam-color-field-placeholder'] === undefined && legacy !== undefined) {
+    result['--opcteam-color-field-placeholder'] = legacy;
   }
-  const legacyFocus = tokens?.['--openbitfun-color-field-border-focus'];
-  if (result['--openbitfun-color-field-border-active'] === undefined && legacyFocus !== undefined) {
-    result['--openbitfun-color-field-border-active'] = legacyFocus;
+  const legacyFocus = tokens?.['--opcteam-color-field-border-focus'];
+  if (result['--opcteam-color-field-border-active'] === undefined && legacyFocus !== undefined) {
+    result['--opcteam-color-field-border-active'] = legacyFocus;
   }
-  const legacyGroup = tokens?.['--openbitfun-color-surface-tertiary'];
-  if (result['--openbitfun-color-field-group-background'] === undefined && legacyGroup !== undefined) {
-    result['--openbitfun-color-field-group-background'] = legacyGroup;
+  const legacyGroup = tokens?.['--opcteam-color-surface-tertiary'];
+  if (result['--opcteam-color-field-group-background'] === undefined && legacyGroup !== undefined) {
+    result['--opcteam-color-field-group-background'] = legacyGroup;
   }
   return result;
 }

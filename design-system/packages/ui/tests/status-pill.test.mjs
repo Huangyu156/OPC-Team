@@ -38,10 +38,10 @@ test("StatusPill keeps its optional leading indicator decorative", () => {
 test("StatusPill styles consume public semantic and geometry tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-control-status-pill-gap/);
-  assert.match(styles, /--openbitfun-control-status-pill-padding-block/);
-  assert.match(styles, /--openbitfun-control-status-pill-icon-size/);
-  assert.match(styles, /--openbitfun-color-status-success-surface/);
-  assert.match(styles, /--openbitfun-color-status-danger-content/);
-  assert.match(styles, /--openbitfun-layout-overflow-text-fade-extent/);
+  assert.match(styles, /--opcteam-control-status-pill-gap/);
+  assert.match(styles, /--opcteam-control-status-pill-padding-block/);
+  assert.match(styles, /--opcteam-control-status-pill-icon-size/);
+  assert.match(styles, /--opcteam-color-status-success-surface/);
+  assert.match(styles, /--opcteam-color-status-danger-content/);
+  assert.match(styles, /--opcteam-layout-overflow-text-fade-extent/);
 });

@@ -13,12 +13,12 @@ const props = {
 
 test('the animated outer card owns the backdrop and provides an opaque fallback', async () => {
   const css = await readFile(new URL('../src/flow-chat/conversation/FlowChatTurnMetrics.module.css', import.meta.url), 'utf8');
-  assert.match(css, /\.detailsCard\s*\{[^}]*background:\s*var\(--openbitfun-color-surface-raised\)/);
-  assert.match(css, /@supports[^{}]*backdrop-filter[^{}]*\{\s*\.detailsCard\s*\{[^}]*backdrop-filter:\s*var\(--openbitfun-effect-blur-base\)/);
+  assert.match(css, /\.detailsCard\s*\{[^}]*background:\s*var\(--opcteam-color-surface-raised\)/);
+  assert.match(css, /@supports[^{}]*backdrop-filter[^{}]*\{\s*\.detailsCard\s*\{[^}]*backdrop-filter:\s*var\(--opcteam-effect-blur-base\)/);
   const content = css.match(/\.detailsCard \[data-openbitfun-part='content'\]\s*\{([^}]*)\}/)?.[1];
   assert.match(content, /background:\s*transparent/);
   assert.match(content, /backdrop-filter:\s*none/);
-  assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[^{]*\{\s*\.detailsCard\s*\{[^}]*background:\s*var\(--openbitfun-color-surface-raised\)/);
+  assert.match(css, /@media \(prefers-reduced-transparency: reduce\)[^{]*\{\s*\.detailsCard\s*\{[^}]*background:\s*var\(--opcteam-color-surface-raised\)/);
 });
 
 test('metrics retain exact accessible descriptions and reuse the shared Icon glyphs', () => {

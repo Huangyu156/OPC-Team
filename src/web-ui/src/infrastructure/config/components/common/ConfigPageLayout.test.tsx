@@ -113,7 +113,7 @@ describe('ConfigPageLayout', () => {
     expect(layout).toContain('gap: 40px;');
     const sectionBodyRule = layout.match(/\.openbitfun-config-page-section__body\s*\{([\s\S]*?)\}/)?.[1];
     expect(sectionBodyRule?.trim()).toBe('min-width: 0;');
-    expect(layout).not.toContain('--openbitfun-component-config-page-section-background');
+    expect(layout).not.toContain('--opcteam-component-config-page-section-background');
     expect(header).toContain('margin-bottom: 36px;');
   });
 
@@ -204,9 +204,9 @@ describe('ConfigPageLayout', () => {
     expect(standardControlRules).toContain("[data-openbitfun-component='combobox']");
     expect(standardControlRules).toContain("[data-openbitfun-component='multi-select']");
     expect(standardControlRules).not.toContain("[data-openbitfun-component='textarea']");
-    expect(standardControlRules).toContain('var(--openbitfun-overlay-menu-inline-size)');
+    expect(standardControlRules).toContain('var(--opcteam-overlay-menu-inline-size)');
     expect(layout).toMatch(
-      /\.openbitfun-config-page-section__extra > :where\([\s\S]*?max-inline-size:\s*var\(--openbitfun-overlay-menu-inline-size\);/,
+      /\.openbitfun-config-page-section__extra > :where\([\s\S]*?max-inline-size:\s*var\(--opcteam-overlay-menu-inline-size\);/,
     );
     expect(layout).toMatch(
       /@container config-panel \(max-width: 520px\)[\s\S]*?\.openbitfun-config-page-section__extra > :where\([\s\S]*?inline-size:\s*100%;[\s\S]*?max-inline-size:\s*none;/,
@@ -233,7 +233,7 @@ describe('ConfigPageLayout', () => {
     expect(marker?.getAttribute('aria-hidden')).toBe('true');
     expect(marker?.getAttribute('data-openbitfun-component')).toBe('config');
     expect(input?.required).toBe(true);
-    expect(layout).toMatch(/\.openbitfun-config-page-row__required\s*\{[\s\S]*?--openbitfun-color-content-required-indicator/);
+    expect(layout).toMatch(/\.openbitfun-config-page-row__required\s*\{[\s\S]*?--opcteam-color-content-required-indicator/);
   });
 
   it('strips the body surface chrome when the section opts out of the standard surface', () => {

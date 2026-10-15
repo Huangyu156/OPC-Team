@@ -3,7 +3,7 @@
     display: flex;
     min-inline-size: 0;
     flex-direction: column;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
   }
 
   .sessionList {
@@ -17,31 +17,31 @@
     display: grid;
     min-inline-size: 0;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: var(--openbitfun-space-1) var(--openbitfun-space-3);
-    padding-block: var(--openbitfun-space-2);
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    gap: var(--opcteam-space-1) var(--opcteam-space-3);
+    padding-block: var(--opcteam-space-2);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
-  .record { padding-block: var(--openbitfun-space-2); }
+  .record { padding-block: var(--opcteam-space-2); }
 
   .record [data-openbitfun-part="sectionLabel"] {
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   .record + .record,
   .session + .session {
-    border-block-start: 1px solid var(--openbitfun-color-border-subtle);
+    border-block-start: 1px solid var(--opcteam-color-border-subtle);
   }
 
   .sessionId {
     grid-column: 1;
     overflow-wrap: anywhere;
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
   }
 
   .sessionName {
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
     min-inline-size: 0;
     overflow: hidden;
     white-space: nowrap;
@@ -51,24 +51,24 @@
     grid-column: 2;
     grid-row: 1 / span 2;
     align-self: center;
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     white-space: nowrap;
   }
 
   .empty {
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
   .status {
     min-inline-size: 0;
     color: inherit;
-    font-size: var(--openbitfun-type-meta-font-size);
+    font-size: var(--opcteam-type-meta-font-size);
   }
 
   .error {
-    color: var(--openbitfun-color-status-danger-content);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    color: var(--opcteam-color-status-danger-content);
+    font-size: var(--opcteam-type-body-sm-font-size);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }

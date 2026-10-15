@@ -44,9 +44,9 @@ export class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoun
             height: '100%',
             padding: '32px',
             textAlign: 'center',
-            background: 'var(--openbitfun-color-surface-canvas)',
-            color: 'var(--openbitfun-color-content-primary)',
-            fontFamily: 'var(--openbitfun-type-body-md-font-family)',
+            background: 'var(--opcteam-color-surface-canvas)',
+            color: 'var(--opcteam-color-content-primary)',
+            fontFamily: 'var(--opcteam-type-body-md-font-family)',
           }}
         />
       );

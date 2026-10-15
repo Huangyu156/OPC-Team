@@ -10,7 +10,7 @@ import { getTypographyTokenValue } from '@/infrastructure/design-system/typograp
 
 it('resolves the active output font at use time rather than module import time', () => {
   const style = document.documentElement.style;
-  const property = '--openbitfun-font-family-mono';
+  const property = '--opcteam-font-family-mono';
   const previous = style.getPropertyValue(property);
   try {
     const family = '"Fira Code", "OpenBitFun HarmonyOS Sans SC", monospace';

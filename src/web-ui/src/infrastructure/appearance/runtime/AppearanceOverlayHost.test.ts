@@ -44,7 +44,7 @@ describe('appearance overlay host', () => {
   // and never receives its clicks.
   it('gives portaled overlays their own stacking context', () => {
     expect(hostRule).toMatch(/position:\s*fixed/);
-    expect(hostRule).toMatch(/z-index:\s*var\(--openbitfun-layer-overlay-host\)/);
+    expect(hostRule).toMatch(/z-index:\s*var\(--opcteam-layer-overlay-host\)/);
   });
 
   it('stacks above app content while all floating surfaces share the same host', () => {

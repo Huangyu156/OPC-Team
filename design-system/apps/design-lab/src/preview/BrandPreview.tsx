@@ -13,7 +13,7 @@ export function BrandPreview({ name, state = "playing", active = true }: { name:
       return <OpenBitFunMark motion={state === "static" ? "none" : "breathe"} active={playing} size={120} />;
     case "OpenBitFunBrandMotion":
       if (["construction", "counter-rotate", "paused", "reduced-motion"].includes(state)) {
-        return <div style={{ display: "flex", alignItems: "center", gap: "var(--openbitfun-space-4)" }}>
+        return <div style={{ display: "flex", alignItems: "center", gap: "var(--opcteam-space-4)" }}>
           {[10, 12, 14, 16, 24, 32].map(size => (
             <OpenBitFunBrandMotion key={size} variant={state === "counter-rotate" ? "counter-rotate" : "construction"} active={playing} size={size} />
           ))}

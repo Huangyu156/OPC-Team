@@ -5,16 +5,16 @@
     min-inline-size: 0;
     max-inline-size: 100%;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   .viewport {
     display: inline-flex;
     flex: 0 1 auto;
     box-sizing: border-box;
-    min-inline-size: var(--openbitfun-control-height-sm);
+    min-inline-size: var(--opcteam-control-height-sm);
     max-inline-size: 100%;
-    padding: var(--openbitfun-space-1);
+    padding: var(--opcteam-space-1);
     overflow-x: auto;
     overflow-y: hidden;
     overscroll-behavior-inline: contain;
@@ -27,7 +27,7 @@
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   .target {
@@ -38,7 +38,7 @@
     align-items: center;
     padding: 0;
     border: 0;
-    border-radius: var(--openbitfun-radius-sm);
+    border-radius: var(--opcteam-radius-sm);
     background: transparent;
     color: inherit;
     font: inherit;
@@ -49,8 +49,8 @@
   }
 
   .target:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .scrollButton { flex: 0 0 auto; }

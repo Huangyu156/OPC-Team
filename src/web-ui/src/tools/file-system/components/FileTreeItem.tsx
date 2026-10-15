@@ -158,8 +158,8 @@ export const FileTreeItem: React.FC<FileTreeItemProps> = ({
     dragImage.style.position = 'absolute';
     dragImage.style.top = '-1000px';
     dragImage.style.padding = '8px';
-    dragImage.style.background = 'color-mix(in srgb, var(--openbitfun-color-content-on-light) 80%, transparent)';
-    dragImage.style.color = 'var(--openbitfun-color-content-on-dark)';
+    dragImage.style.background = 'color-mix(in srgb, var(--opcteam-color-content-on-light) 80%, transparent)';
+    dragImage.style.color = 'var(--opcteam-color-content-on-dark)';
     dragImage.style.borderRadius = '4px';
     document.body.appendChild(dragImage);
     dragImageRef.current = dragImage;

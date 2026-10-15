@@ -37,7 +37,7 @@
   // Keep the first message aligned to the list header and steering messages
   // grouped with the active Turn.
   &[data-item-type='user-message']:not([data-virtual-index='0']) {
-    padding-top: calc(var(--openbitfun-control-flow-chat-turn-gap) + var(--openbitfun-space-4));
+    padding-top: calc(var(--opcteam-control-flow-chat-turn-gap) + var(--opcteam-space-4));
   }
 
   /* Turn spacing has one owner: this virtual-row boundary. Remove only the
@@ -82,7 +82,7 @@
         > .flow-tool-card-wrapper[data-openbitfun-attention='ambient']:not([data-tool-capsule='true']):not(.flow-tool-card-wrapper--permission-pending)
           [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-expanded-shell='false']
       ) {
-        margin-bottom: var(--openbitfun-control-flow-chat-paragraph-gap);
+        margin-bottom: var(--opcteam-control-flow-chat-paragraph-gap);
       }
     }
   }
@@ -121,7 +121,7 @@
     padding-block-start: 0;
   }
   &[data-group-first='true'] > .explore-region__content {
-    padding-block-start: var(--openbitfun-control-flow-chat-paragraph-gap);
+    padding-block-start: var(--opcteam-control-flow-chat-paragraph-gap);
   }
 }
 
@@ -129,25 +129,25 @@
 .flowchat-search-line {
   position: absolute;
   pointer-events: none;
-  background: var(--openbitfun-color-action-neutral-surface);
+  background: var(--opcteam-color-action-neutral-surface);
 
   &::before {
     content: '';
     position: absolute;
     inset-block: 0;
-    inset-inline-start: calc(-1 * var(--openbitfun-space-2));
-    border-inline-start: var(--openbitfun-focus-width) solid var(--openbitfun-color-control-switch-track-checked);
+    inset-inline-start: calc(-1 * var(--opcteam-space-2));
+    border-inline-start: var(--opcteam-focus-width) solid var(--opcteam-color-control-switch-track-checked);
   }
 }
 
 [data-flowchat-highlight-search-current]::highlight(openbitfun-flowchat-search-current) {
   color: inherit;
-  background: var(--openbitfun-color-accent-border-subtle);
+  background: var(--opcteam-color-accent-border-subtle);
 }
 
 [data-flowchat-highlight-search-match]::highlight(openbitfun-flowchat-search-match) {
   color: inherit;
-  background: var(--openbitfun-color-selection-surface);
+  background: var(--opcteam-color-selection-surface);
 }
 
 @media (forced-colors: active) {

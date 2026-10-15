@@ -4,9 +4,9 @@ export function withLegacyCaptionToken(
   tokens: Partial<Record<AppearanceThemeTokenName, string>> | undefined,
 ): Partial<Record<AppearanceThemeTokenName, string>> {
   const result = { ...tokens };
-  if (result['--openbitfun-color-content-caption'] === undefined
-    && tokens?.['--openbitfun-color-content-muted'] !== undefined) {
-    result['--openbitfun-color-content-caption'] = tokens['--openbitfun-color-content-muted'];
+  if (result['--opcteam-color-content-caption'] === undefined
+    && tokens?.['--opcteam-color-content-muted'] !== undefined) {
+    result['--opcteam-color-content-caption'] = tokens['--opcteam-color-content-muted'];
   }
   return result;
 }

@@ -156,13 +156,13 @@ describe('L0 Appearance', () => {
     const appearanceStyles = await browser.execute(() => {
       const styles = window.getComputedStyle(document.documentElement);
       const appearanceVariables = Array.from(styles)
-        .filter(property => property.startsWith('--openbitfun-color-'));
+        .filter(property => property.startsWith('--opcteam-color-'));
 
       return {
         variableCount: appearanceVariables.length,
-        background: styles.getPropertyValue('--openbitfun-color-surface-canvas').trim(),
-        text: styles.getPropertyValue('--openbitfun-color-content-primary').trim(),
-        accent: styles.getPropertyValue('--openbitfun-color-accent-default').trim(),
+        background: styles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
+        text: styles.getPropertyValue('--opcteam-color-content-primary').trim(),
+        accent: styles.getPropertyValue('--opcteam-color-accent-default').trim(),
       };
     });
 
@@ -180,16 +180,16 @@ describe('L0 Appearance', () => {
       const styles = window.getComputedStyle(document.documentElement);
       const navPanel = document.querySelector<HTMLElement>('[data-testid="nav-panel"]');
       return {
-        primary: styles.getPropertyValue('--openbitfun-color-surface-canvas').trim(),
-        scene: styles.getPropertyValue('--openbitfun-color-surface-scene').trim(),
-        softSurface: styles.getPropertyValue('--openbitfun-color-action-secondary-background').trim(),
-        text: styles.getPropertyValue('--openbitfun-color-content-primary').trim(),
-        mutedText: styles.getPropertyValue('--openbitfun-color-content-muted').trim(),
-        accent: styles.getPropertyValue('--openbitfun-color-accent-default').trim(),
-        primaryButton: styles.getPropertyValue('--openbitfun-color-action-primary-background').trim(),
-        successBackground: styles.getPropertyValue('--openbitfun-color-status-success-surface').trim(),
-        errorBackground: styles.getPropertyValue('--openbitfun-color-status-danger-surface').trim(),
-        border: styles.getPropertyValue('--openbitfun-color-border-default').trim(),
+        primary: styles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
+        scene: styles.getPropertyValue('--opcteam-color-surface-scene').trim(),
+        softSurface: styles.getPropertyValue('--opcteam-color-action-secondary-background').trim(),
+        text: styles.getPropertyValue('--opcteam-color-content-primary').trim(),
+        mutedText: styles.getPropertyValue('--opcteam-color-content-muted').trim(),
+        accent: styles.getPropertyValue('--opcteam-color-accent-default').trim(),
+        primaryButton: styles.getPropertyValue('--opcteam-color-action-primary-background').trim(),
+        successBackground: styles.getPropertyValue('--opcteam-color-status-success-surface').trim(),
+        errorBackground: styles.getPropertyValue('--opcteam-color-status-danger-surface').trim(),
+        border: styles.getPropertyValue('--opcteam-color-border-default').trim(),
         navBackground: navPanel ? window.getComputedStyle(navPanel).backgroundColor : null,
       };
     });
@@ -248,8 +248,8 @@ describe('L0 Appearance', () => {
 
       return {
         appearanceMode: document.documentElement.getAttribute('data-openbitfun-appearance-mode'),
-        textPrimary: rootStyle.getPropertyValue('--openbitfun-color-content-primary').trim(),
-        scene: rootStyle.getPropertyValue('--openbitfun-color-surface-scene').trim(),
+        textPrimary: rootStyle.getPropertyValue('--opcteam-color-content-primary').trim(),
+        scene: rootStyle.getPropertyValue('--opcteam-color-surface-scene').trim(),
         buttonBackground: buttonRule?.style.background ?? null,
         buttonBorder: buttonRule?.style.borderColor ?? null,
         iconColor: iconRule?.style.color ?? null,
@@ -261,9 +261,9 @@ describe('L0 Appearance', () => {
       appearanceMode: 'light',
       textPrimary: '#1c1c1f',
       scene: '#ffffff',
-      buttonBackground: 'var(--openbitfun-color-content-primary)',
-      buttonBorder: 'var(--openbitfun-color-content-primary)',
-      iconColor: 'var(--openbitfun-color-surface-scene)',
+      buttonBackground: 'var(--opcteam-color-content-primary)',
+      buttonBorder: 'var(--opcteam-color-content-primary)',
+      iconColor: 'var(--opcteam-color-surface-scene)',
       iconStroke: 'currentcolor',
     });
   });
@@ -449,7 +449,7 @@ describe('L0 Appearance', () => {
                   ? window.getComputedStyle(cardPrimaryAction).backgroundColor
                   : null,
                 neutralActionBackground: window.getComputedStyle(card)
-                  .getPropertyValue('--openbitfun-color-action-neutral-surface')
+                  .getPropertyValue('--opcteam-color-action-neutral-surface')
                   .trim(),
                 primaryActionLabel: cardPrimaryAction?.textContent?.trim() ?? '',
                 width: cardRect.width,
@@ -688,16 +688,16 @@ describe('L0 Appearance', () => {
       };
     });
     expect(miniAppHoverContract).toEqual({
-      cardBackground: 'var(--openbitfun-color-surface-subtle)',
-      cardBorder: 'var(--openbitfun-color-border-default)',
-      cardShadow: 'var(--openbitfun-shadow-sm)',
+      cardBackground: 'var(--opcteam-color-surface-subtle)',
+      cardBorder: 'var(--opcteam-color-border-default)',
+      cardShadow: 'var(--opcteam-shadow-sm)',
       cardTransform: 'translateY(-3px)',
       primaryBackground: 'var(--miniapp-card-inverse-bg)',
       primaryColor: 'var(--miniapp-card-inverse-color)',
       deleteBackground: 'var(--miniapp-card-inverse-bg)',
       deleteColor: 'var(--miniapp-card-inverse-color)',
-      lightInverseBackground: 'var(--openbitfun-color-content-on-light)',
-      lightInverseColor: 'var(--openbitfun-color-content-on-dark)',
+      lightInverseBackground: 'var(--opcteam-color-content-on-light)',
+      lightInverseColor: 'var(--opcteam-color-content-on-dark)',
     });
 
     const importAction = await $('[data-testid="miniapp-import-action"]');
@@ -770,21 +770,21 @@ describe('L0 Appearance', () => {
       return {
         appearanceId: document.documentElement.getAttribute('data-openbitfun-appearance'),
         appearanceMode: document.documentElement.getAttribute('data-openbitfun-appearance-mode'),
-        contentBackgroundToken: rootStyles.getPropertyValue('--openbitfun-color-surface-canvas').trim(),
-        contentTextToken: rootStyles.getPropertyValue('--openbitfun-color-content-primary').trim(),
-        contentSecondaryTextToken: rootStyles.getPropertyValue('--openbitfun-color-content-secondary').trim(),
-        contentBorderToken: rootStyles.getPropertyValue('--openbitfun-color-border-subtle').trim(),
-        contentSurfaceToken: rootStyles.getPropertyValue('--openbitfun-color-surface-subtle').trim(),
-        configSectionBackgroundToken: rootStyles.getPropertyValue('--openbitfun-component-config-page-section-background').trim(),
-        configSectionBorderToken: rootStyles.getPropertyValue('--openbitfun-component-config-page-section-border').trim(),
-        configSectionBorderWidthToken: rootStyles.getPropertyValue('--openbitfun-component-config-page-section-border-width').trim(),
-        configDividerToken: rootStyles.getPropertyValue('--openbitfun-component-config-page-divider').trim(),
-        chromeBackgroundToken: navStyles.getPropertyValue('--openbitfun-color-surface-canvas').trim(),
-        chromeTextToken: navStyles.getPropertyValue('--openbitfun-color-content-primary').trim(),
+        contentBackgroundToken: rootStyles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
+        contentTextToken: rootStyles.getPropertyValue('--opcteam-color-content-primary').trim(),
+        contentSecondaryTextToken: rootStyles.getPropertyValue('--opcteam-color-content-secondary').trim(),
+        contentBorderToken: rootStyles.getPropertyValue('--opcteam-color-border-subtle').trim(),
+        contentSurfaceToken: rootStyles.getPropertyValue('--opcteam-color-surface-subtle').trim(),
+        configSectionBackgroundToken: rootStyles.getPropertyValue('--opcteam-component-config-page-section-background').trim(),
+        configSectionBorderToken: rootStyles.getPropertyValue('--opcteam-component-config-page-section-border').trim(),
+        configSectionBorderWidthToken: rootStyles.getPropertyValue('--opcteam-component-config-page-section-border-width').trim(),
+        configDividerToken: rootStyles.getPropertyValue('--opcteam-component-config-page-divider').trim(),
+        chromeBackgroundToken: navStyles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
+        chromeTextToken: navStyles.getPropertyValue('--opcteam-color-content-primary').trim(),
         bodyBackground: bodyStyles.backgroundColor,
         workbenchBackground: workbenchStyles.backgroundColor,
         navBackground: navStyles.backgroundColor,
-        navTextToken: navStyles.getPropertyValue('--openbitfun-color-content-primary').trim(),
+        navTextToken: navStyles.getPropertyValue('--opcteam-color-content-primary').trim(),
         settingsTitleColor: window.getComputedStyle(settingsTitle).color,
         settingsActiveItemColor: window.getComputedStyle(settingsActiveItem).color,
         settingsSectionBackground: window.getComputedStyle(settingsSectionBody).backgroundColor,
@@ -793,9 +793,9 @@ describe('L0 Appearance', () => {
         settingsSectionShadow: window.getComputedStyle(settingsSectionBody).boxShadow,
         settingsRowDivider: window.getComputedStyle(settingsRowDivider).borderTopColor,
         appearanceSelectBorder: window.getComputedStyle(appearanceSelect).borderTopColor,
-        sceneBarTextToken: sceneBarStyles.getPropertyValue('--openbitfun-color-content-primary').trim(),
+        sceneBarTextToken: sceneBarStyles.getPropertyValue('--opcteam-color-content-primary').trim(),
         viewportBackground: viewportStyles.backgroundColor,
-        viewportTextToken: viewportStyles.getPropertyValue('--openbitfun-color-content-primary').trim(),
+        viewportTextToken: viewportStyles.getPropertyValue('--opcteam-color-content-primary').trim(),
         viewportRadius: viewportStyles.borderTopLeftRadius,
       };
     });
@@ -912,7 +912,7 @@ describe('L0 Appearance', () => {
         id: root.getAttribute('data-openbitfun-appearance'),
         mode: root.getAttribute('data-openbitfun-appearance-mode'),
         revision: root.getAttribute('data-openbitfun-appearance-revision'),
-        background: styles.getPropertyValue('--openbitfun-color-surface-canvas').trim(),
+        background: styles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
       };
     });
 

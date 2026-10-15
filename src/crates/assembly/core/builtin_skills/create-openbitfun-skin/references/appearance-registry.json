@@ -1,281 +1,41 @@
 {
   "schema": "openbitfun.appearance.registry",
   "schemaVersion": 2,
-  "generatedFrom": "68a853e10a3e2c18d85a3f5fca29bc09b4e8313d",
-  "generatedAt": "2026-08-30T22:40:41.595382+00:00",
-  "sourceRevision": "68a853e10a3e2c18d85a3f5fca29bc09b4e8313d",
-  "sourceDirty": false,
-  "sourceTreeHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+  "generatedFrom": "2bc8fe3a7295e0e5dca65a946fb724a5e2889611",
+  "generatedAt": "2026-10-15T10:27:50.611805+00:00",
+  "sourceRevision": "2bc8fe3a7295e0e5dca65a946fb724a5e2889611",
+  "sourceDirty": true,
+  "sourceTreeHash": "3cc38ae985f9bb2bcfdf433d0197557d0b9afc52e10788d300940bf66db87be2",
   "components": [
     {
-      "id": "card",
+      "id": "split-view",
       "parts": [
         {
           "id": "root",
-          "propertyProfile": "container"
+          "propertyProfile": "layout"
         },
         {
-          "id": "header",
-          "propertyProfile": "container"
+          "id": "primary",
+          "propertyProfile": "layout"
         },
         {
-          "id": "headerContent",
-          "propertyProfile": "container"
+          "id": "primaryDock",
+          "propertyProfile": "layout"
         },
         {
-          "id": "title",
-          "propertyProfile": "container"
+          "id": "secondary",
+          "propertyProfile": "layout"
         },
         {
-          "id": "subtitle",
-          "propertyProfile": "container"
+          "id": "divider",
+          "propertyProfile": "layout"
         },
         {
-          "id": "extra",
-          "propertyProfile": "container"
+          "id": "resizeHandle",
+          "propertyProfile": "layout"
         },
         {
-          "id": "body",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "footer",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [
-        {
-          "id": "variant",
-          "attribute": "data-openbitfun-variant",
-          "values": [
-            "default",
-            "elevated",
-            "subtle",
-            "accent",
-            "purple"
-          ]
-        },
-        {
-          "id": "padding",
-          "attribute": "data-openbitfun-padding",
-          "values": [
-            "none",
-            "small",
-            "medium",
-            "large"
-          ]
-        },
-        {
-          "id": "radius",
-          "attribute": "data-openbitfun-radius",
-          "values": [
-            "small",
-            "medium",
-            "large"
-          ]
-        },
-        {
-          "id": "align",
-          "attribute": "data-openbitfun-align",
-          "values": [
-            "left",
-            "center",
-            "right",
-            "between"
-          ]
-        }
-      ],
-      "states": [
-        {
-          "id": "hover",
-          "selector": {
-            "kind": "self",
-            "suffix": ":hover"
-          }
-        },
-        {
-          "id": "active",
-          "selector": {
-            "kind": "self",
-            "suffix": ":active"
-          }
-        },
-        {
-          "id": "interactive",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"interactive\"]"
-          }
-        },
-        {
-          "id": "fullWidth",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fullWidth\"]"
-          }
-        }
-      ]
-    },
-    {
-      "id": "tooltip",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "arrow",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "content",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "body",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [
-        {
-          "id": "placement",
-          "attribute": "data-openbitfun-placement",
-          "values": [
-            "top",
-            "bottom",
-            "left",
-            "right"
-          ]
-        },
-        {
-          "id": "interactive",
-          "attribute": "data-openbitfun-interactive",
-          "values": [
-            "true",
-            "false"
-          ]
-        }
-      ],
-      "states": [
-        {
-          "id": "visible",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"visible\"]"
-          }
-        }
-      ]
-    },
-    {
-      "id": "popup-close-button",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "control",
-          "visualRole": "control"
-        }
-      ],
-      "facets": [
-        {
-          "id": "variant",
-          "attribute": "data-openbitfun-variant",
-          "values": [
-            "ghost"
-          ]
-        },
-        {
-          "id": "size",
-          "attribute": "data-openbitfun-size",
-          "values": [
-            "medium"
-          ]
-        },
-        {
-          "id": "shape",
-          "attribute": "data-openbitfun-shape",
-          "values": [
-            "square"
-          ]
-        }
-      ],
-      "states": [
-        {
-          "id": "hover",
-          "selector": {
-            "kind": "self",
-            "suffix": ":hover:not(:disabled)"
-          }
-        },
-        {
-          "id": "active",
-          "selector": {
-            "kind": "self",
-            "suffix": ":active:not(:disabled)"
-          }
-        },
-        {
-          "id": "focusVisible",
-          "selector": {
-            "kind": "self",
-            "suffix": ":focus-visible"
-          }
-        },
-        {
-          "id": "disabled",
-          "selector": {
-            "kind": "self",
-            "suffix": ":disabled"
-          }
-        }
-      ]
-    },
-    {
-      "id": "code-editor",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "wrapper",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "fullscreenButton",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "editor",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [],
-      "states": [
-        {
-          "id": "fullscreen",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"fullscreen\"]"
-          }
-        },
-        {
-          "id": "readOnly",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"readOnly\"]"
-          }
-        }
-      ]
-    },
-    {
-      "id": "config-page",
-      "parts": [
-        {
-          "id": "loading",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "message",
+          "id": "actions",
           "propertyProfile": "container"
         }
       ],
@@ -304,6 +64,14 @@
         {
           "id": "preview",
           "propertyProfile": "container"
+        },
+        {
+          "id": "actions",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "actionGroup",
+          "propertyProfile": "container"
         }
       ],
       "facets": [
@@ -321,62 +89,8 @@
       "states": []
     },
     {
-      "id": "cube-loading",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "text",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [
-        {
-          "id": "size",
-          "attribute": "data-openbitfun-size",
-          "values": [
-            "small",
-            "medium",
-            "large"
-          ]
-        }
-      ],
-      "states": []
-    },
-    {
-      "id": "dot-matrix-loader",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "dot",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [
-        {
-          "id": "size",
-          "attribute": "data-openbitfun-size",
-          "values": [
-            "small",
-            "medium",
-            "large"
-          ]
-        }
-      ],
-      "states": []
-    },
-    {
       "id": "input-dialog",
       "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
         {
           "id": "body",
           "propertyProfile": "container"
@@ -398,48 +112,10 @@
       "states": []
     },
     {
-      "id": "task-running-indicator",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "bar",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [
-        {
-          "id": "size",
-          "attribute": "data-openbitfun-size",
-          "values": [
-            "xs",
-            "sm",
-            "md",
-            "lg"
-          ]
-        }
-      ],
-      "states": []
-    },
-    {
       "id": "window-controls",
       "parts": [
         {
           "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "minimize",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "maximize",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "close",
           "propertyProfile": "container"
         }
       ],
@@ -460,6 +136,23 @@
           }
         }
       ]
+    },
+    {
+      "id": "navigation-transition-boundary",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "layout",
+          "visualRole": "continuous-surface"
+        },
+        {
+          "id": "layer",
+          "propertyProfile": "container",
+          "visualRole": "content"
+        }
+      ],
+      "facets": [],
+      "states": []
     },
     {
       "id": "markdown",
@@ -517,6 +210,10 @@
           "propertyProfile": "container"
         },
         {
+          "id": "canvasLink",
+          "propertyProfile": "container"
+        },
+        {
           "id": "table",
           "propertyProfile": "container"
         },
@@ -560,23 +257,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "view-transition-boundary",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "layout",
-          "visualRole": "continuous-surface"
-        },
-        {
-          "id": "view",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        }
-      ],
-      "facets": [],
-      "states": []
     },
     {
       "id": "chat-input",
@@ -627,6 +307,14 @@
         },
         {
           "id": "imageRemove",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "attachment",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "attachmentRemove",
           "propertyProfile": "container"
         },
         {
@@ -783,7 +471,8 @@
             "context",
             "skill",
             "additional-mode",
-            "manage"
+            "manage",
+            "thread-goal"
           ]
         }
       ],
@@ -877,14 +566,6 @@
         {
           "id": "agent",
           "propertyProfile": "container"
-        },
-        {
-          "id": "sessionSummary",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "newSession",
-          "propertyProfile": "container"
         }
       ],
       "facets": [
@@ -900,10 +581,10 @@
           "id": "profile",
           "attribute": "data-openbitfun-profile",
           "values": [
-            "minimal",
-            "balanced",
-            "ultimate",
-            "creative",
+            "Minimal",
+            "Standard",
+            "Ultimate",
+            "Creative",
             "other"
           ]
         }
@@ -1170,6 +851,7 @@
             "web-element",
             "widget-reference",
             "skill-reference",
+            "mcp-reference",
             "additional-mode-reference"
           ]
         }
@@ -1227,11 +909,11 @@
           "propertyProfile": "container"
         },
         {
-          "id": "subagent",
+          "id": "toolItem",
           "propertyProfile": "container"
         },
         {
-          "id": "toolItem",
+          "id": "canvasAttachments",
           "propertyProfile": "container"
         },
         {
@@ -1435,15 +1117,51 @@
           "propertyProfile": "container"
         },
         {
+          "id": "selectionSummary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "modeMaterial",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "modeChoices",
+          "propertyProfile": "container"
+        },
+        {
           "id": "reasoningSummary",
           "propertyProfile": "container"
         },
         {
-          "id": "contextUsage",
+          "id": "reasoningSlider",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "reasoningSliderSky",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "reasoningSliderNebula",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "reasoningSliderAurora",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "reasoningSliderInput",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "reasoningSliderValue",
           "propertyProfile": "container"
         },
         {
           "id": "dropdown",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "loading",
           "propertyProfile": "container"
         },
         {
@@ -1478,6 +1196,13 @@
           "selector": {
             "kind": "self",
             "suffix": "[data-openbitfun-state~=\"open\"]"
+          }
+        },
+        {
+          "id": "loading",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"loading\"]"
           }
         },
         {
@@ -2100,14 +1825,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "header",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "content",
-          "propertyProfile": "container"
-        },
-        {
           "id": "toolbar",
           "propertyProfile": "container"
         },
@@ -2140,14 +1857,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "keyBadge",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "revert",
-          "propertyProfile": "container"
-        },
-        {
           "id": "empty",
           "propertyProfile": "container"
         }
@@ -2174,13 +1883,6 @@
             "kind": "self",
             "suffix": "[data-openbitfun-state~=\"modified\"]"
           }
-        },
-        {
-          "id": "readonly",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"readonly\"]"
-          }
         }
       ]
     },
@@ -2189,50 +1891,6 @@
       "parts": [
         {
           "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "header",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "body",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "main",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "action",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "meta",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "rail",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "expanded",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "interruption",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "reviewer",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "responsibilities",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "prompt",
           "propertyProfile": "container"
         },
         {
@@ -2248,13 +1906,6 @@
             "kind": "self",
             "suffix": "[data-openbitfun-state~=\"failed\"]"
           }
-        },
-        {
-          "id": "expanded",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
-          }
         }
       ]
     },
@@ -2266,11 +1917,11 @@
           "propertyProfile": "container"
         },
         {
-          "id": "content",
+          "id": "launchAtLogin",
           "propertyProfile": "container"
         },
         {
-          "id": "launchAtLogin",
+          "id": "preventSleep",
           "propertyProfile": "container"
         },
         {
@@ -2287,10 +1938,6 @@
         },
         {
           "id": "terminal",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "shellOption",
           "propertyProfile": "container"
         },
         {
@@ -2340,7 +1987,8 @@
           "values": [
             "preview",
             "markdown",
-            "source"
+            "source",
+            "ir"
           ]
         }
       ],
@@ -2519,22 +2167,6 @@
         },
         {
           "id": "token",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "manager",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "managerEditor",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "managerList",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "managerGroup",
           "propertyProfile": "container"
         },
         {
@@ -2763,10 +2395,6 @@
         },
         {
           "id": "header",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "summary",
           "propertyProfile": "container"
         },
         {
@@ -3113,6 +2741,10 @@
           "propertyProfile": "container"
         },
         {
+          "id": "input",
+          "propertyProfile": "container"
+        },
+        {
           "id": "text",
           "propertyProfile": "container"
         },
@@ -3299,6 +2931,41 @@
           }
         }
       ]
+    },
+    {
+      "id": "computer-control",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "status",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "preview",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "pointer",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "click",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "sharing",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "permissions",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": []
     },
     {
       "id": "agent-companion-desktop-pet",
@@ -3538,6 +3205,26 @@
         {
           "id": "trigger",
           "propertyProfile": "container"
+        },
+        {
+          "id": "options",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "optionCard",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "optionContent",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "optionLabel",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "optionPreview",
+          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -3559,10 +3246,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "timestamp",
-          "propertyProfile": "container"
-        },
-        {
           "id": "main",
           "propertyProfile": "container"
         },
@@ -3575,6 +3258,10 @@
           "propertyProfile": "container"
         },
         {
+          "id": "meta",
+          "propertyProfile": "container"
+        },
+        {
           "id": "actions",
           "propertyProfile": "container"
         },
@@ -3584,6 +3271,10 @@
         },
         {
           "id": "image",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "timestamp",
           "propertyProfile": "container"
         },
         {
@@ -3769,14 +3460,6 @@
         {
           "id": "content",
           "propertyProfile": "container"
-        },
-        {
-          "id": "actions",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "saving",
-          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -3786,13 +3469,6 @@
           "selector": {
             "kind": "self",
             "suffix": "[data-openbitfun-state~=\"loading\"]"
-          }
-        },
-        {
-          "id": "saving",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"saving\"]"
           }
         }
       ]
@@ -3809,39 +3485,15 @@
           "propertyProfile": "container"
         },
         {
-          "id": "settings",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "settingsContent",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "language",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "palettePicker",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "paletteSelect",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "paletteOption",
-          "propertyProfile": "container"
-        },
-        {
           "id": "packageSection",
           "propertyProfile": "container"
         },
         {
-          "id": "packageSelect",
+          "id": "packagePreview",
           "propertyProfile": "container"
         },
         {
-          "id": "packagePreview",
+          "id": "packageBuiltinTheme",
           "propertyProfile": "container"
         },
         {
@@ -4070,6 +3722,10 @@
           "propertyProfile": "container"
         },
         {
+          "id": "required",
+          "propertyProfile": "container"
+        },
+        {
           "id": "rowDescription",
           "propertyProfile": "container"
         },
@@ -4126,24 +3782,30 @@
           "propertyProfile": "container"
         },
         {
-          "id": "modelOption",
+          "id": "loadingState",
           "propertyProfile": "container"
         },
         {
-          "id": "modelSelection",
+          "id": "emptyState",
           "propertyProfile": "container"
         },
         {
-          "id": "modelSelectionOption",
+          "id": "retryState",
           "propertyProfile": "container"
         },
         {
-          "id": "modelSelectionLabel",
+          "id": "message",
           "propertyProfile": "container"
         },
         {
-          "id": "modelSelectionDropdown",
-          "propertyProfile": "container"
+          "id": "fieldStatus",
+          "propertyProfile": "paint",
+          "visualRole": "content"
+        },
+        {
+          "id": "actionBar",
+          "propertyProfile": "layout",
+          "visualRole": "toolbar"
         },
         {
           "id": "pageHeaderInner",
@@ -4183,6 +3845,16 @@
             "multiline",
             "wide",
             "balanced"
+          ]
+        },
+        {
+          "id": "status",
+          "attribute": "data-openbitfun-status",
+          "values": [
+            "unsaved",
+            "saving",
+            "saved",
+            "error"
           ]
         }
       ],
@@ -4327,6 +3999,14 @@
           "propertyProfile": "container"
         },
         {
+          "id": "connectionStatus",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "connectionStatusContent",
+          "propertyProfile": "container"
+        },
+        {
           "id": "list",
           "propertyProfile": "container"
         },
@@ -4442,6 +4122,56 @@
       "id": "update",
       "parts": [
         {
+          "id": "notice",
+          "propertyProfile": "container",
+          "visualRole": "content"
+        },
+        {
+          "id": "noticeTitle",
+          "propertyProfile": "paint",
+          "visualRole": "content"
+        },
+        {
+          "id": "releaseArtwork",
+          "propertyProfile": "paint",
+          "visualRole": "decoration"
+        },
+        {
+          "id": "indicator",
+          "propertyProfile": "paint",
+          "visualRole": "decoration"
+        },
+        {
+          "id": "downloadControl",
+          "propertyProfile": "container",
+          "visualRole": "content"
+        },
+        {
+          "id": "downloadVessel",
+          "propertyProfile": "paint",
+          "visualRole": "content"
+        },
+        {
+          "id": "downloadFill",
+          "propertyProfile": "paint",
+          "visualRole": "decoration"
+        },
+        {
+          "id": "downloadTransfer",
+          "propertyProfile": "paint",
+          "visualRole": "decoration"
+        },
+        {
+          "id": "panel",
+          "propertyProfile": "container",
+          "visualRole": "content"
+        },
+        {
+          "id": "panelStatus",
+          "propertyProfile": "paint",
+          "visualRole": "content"
+        },
+        {
           "id": "availableRoot",
           "propertyProfile": "container"
         },
@@ -4549,232 +4279,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "component-preview",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "header",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "logo",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "headerActions",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "appearanceSelector",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "container",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "sidebar",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "sidebarHeader",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "sidebarToggle",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "navigation",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "category",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "main",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "componentHeader",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "emptyState",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "markdownRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "markdownHeader",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "markdownControls",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "markdownStage",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "markdownEditor",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "columnRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "columnNavigation",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "columnItem",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "columnPreview",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "demoRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "demoCard",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "demoHeader",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "demoStage",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "demoFooter",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "fullPageRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "fullPageTabs",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "fullPageTab",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "fullPageContent",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "gridRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "gridCard",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "gridHeader",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "gridPreview",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "gridCanvas",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "gridInfo",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "largeCardRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "largeCard",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "largeCardHeader",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "largeCardPreview",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "expandButton",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [
-        {
-          "id": "columns",
-          "attribute": "data-openbitfun-columns",
-          "values": [
-            "2",
-            "3",
-            "4"
-          ]
-        }
-      ],
-      "states": [
-        {
-          "id": "active",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
-          }
-        },
-        {
-          "id": "collapsed",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
-          }
-        },
-        {
-          "id": "expanded",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"expanded\"]"
-          }
-        }
-      ]
-    },
-    {
-      "id": "icon-catalog",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "item",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [],
-      "states": []
     },
     {
       "id": "assistant-avatar",
@@ -4908,10 +4412,10 @@
           "id": "profile",
           "attribute": "data-openbitfun-profile",
           "values": [
-            "minimal",
-            "balanced",
-            "ultimate",
-            "creative"
+            "Minimal",
+            "Standard",
+            "Ultimate",
+            "Creative"
           ]
         }
       ],
@@ -5236,6 +4740,18 @@
       ]
     },
     {
+      "id": "image-lightbox",
+      "parts": [
+        {
+          "id": "image",
+          "propertyProfile": "container",
+          "visualRole": "content"
+        }
+      ],
+      "facets": [],
+      "states": []
+    },
+    {
       "id": "canvas-tool",
       "parts": [
         {
@@ -5377,14 +4893,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "meditorPreview",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "meditorFrontmatter",
-          "propertyProfile": "container"
-        },
-        {
           "id": "meditorEditArea",
           "propertyProfile": "container"
         }
@@ -5477,10 +4985,6 @@
         },
         {
           "id": "graphStatus",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "pushButton",
           "propertyProfile": "container"
         },
         {
@@ -5674,6 +5178,11 @@
         {
           "id": "forward",
           "propertyProfile": "container"
+        },
+        {
+          "id": "title",
+          "propertyProfile": "container",
+          "visualRole": "content"
         }
       ],
       "facets": [],
@@ -5737,6 +5246,10 @@
         {
           "id": "root",
           "propertyProfile": "container"
+        },
+        {
+          "id": "emptyState",
+          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -5786,6 +5299,10 @@
         {
           "id": "controls",
           "propertyProfile": "container"
+        },
+        {
+          "id": "dropHint",
+          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -5820,6 +5337,10 @@
         {
           "id": "footer",
           "propertyProfile": "container"
+        },
+        {
+          "id": "error",
+          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -5838,6 +5359,10 @@
         },
         {
           "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "marketImage",
           "propertyProfile": "container"
         }
       ],
@@ -5877,6 +5402,10 @@
         },
         {
           "id": "name",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "source",
           "propertyProfile": "container"
         },
         {
@@ -6224,6 +5753,25 @@
       "states": []
     },
     {
+      "id": "agent-capability-option",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "selected",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"selected\"]"
+          }
+        }
+      ]
+    },
+    {
       "id": "git-nav",
       "parts": [
         {
@@ -6262,15 +5810,59 @@
           "propertyProfile": "container"
         },
         {
-          "id": "icon",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "label",
-          "propertyProfile": "container"
-        },
-        {
           "id": "actions",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "workspace",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "workspaceButton",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "location",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "sections",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "divider",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "terminalList",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "terminalRow",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "terminalOpen",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "terminalMeta",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "status",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "terminalActions",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "empty",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "error",
           "propertyProfile": "container"
         }
       ],
@@ -6282,14 +5874,6 @@
       "parts": [
         {
           "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "box",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "footer",
           "propertyProfile": "container"
         },
         {
@@ -6509,44 +6093,6 @@
       ],
       "facets": [],
       "states": []
-    },
-    {
-      "id": "relay-deploy",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "steps",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "step",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "error",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [],
-      "states": [
-        {
-          "id": "active",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"active\"]"
-          }
-        },
-        {
-          "id": "completed",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"completed\"]"
-          }
-        }
-      ]
     },
     {
       "id": "market-account-controls",
@@ -7115,6 +6661,10 @@
           "propertyProfile": "container"
         },
         {
+          "id": "status",
+          "propertyProfile": "container"
+        },
+        {
           "id": "edit",
           "propertyProfile": "container"
         },
@@ -7461,27 +7011,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "brand",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "title",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "subtitle",
-          "propertyProfile": "container"
-        },
-        {
           "id": "actions",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "statusBar",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "statusLine",
           "propertyProfile": "container"
         },
         {
@@ -7518,10 +7048,6 @@
         },
         {
           "id": "listItemMeta",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "listItemStats",
           "propertyProfile": "container"
         },
         {
@@ -7597,14 +7123,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "sectionHeading",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "sectionActions",
-          "propertyProfile": "container"
-        },
-        {
           "id": "ciItem",
           "propertyProfile": "container"
         },
@@ -7645,15 +7163,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "fileMain",
-          "propertyProfile": "container"
-        },
-        {
           "id": "fileStatus",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "filePath",
           "propertyProfile": "container"
         },
         {
@@ -7671,6 +7181,14 @@
           "attribute": "data-openbitfun-layout",
           "values": [
             "full",
+            "detail"
+          ]
+        },
+        {
+          "id": "view",
+          "attribute": "data-openbitfun-view",
+          "values": [
+            "list",
             "detail"
           ]
         }
@@ -7738,6 +7256,10 @@
         },
         {
           "id": "pairingCard",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "connections",
           "propertyProfile": "container"
         },
         {
@@ -7826,30 +7348,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "syncOptions",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "syncOption",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "server",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "syncStatus",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "progressTrack",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "progressFill",
-          "propertyProfile": "container"
-        },
-        {
           "id": "deviceList",
           "propertyProfile": "container"
         },
@@ -7864,7 +7362,6 @@
           "attribute": "data-openbitfun-view",
           "values": [
             "login",
-            "overwrite",
             "devices"
           ]
         }
@@ -8122,6 +7619,10 @@
           "propertyProfile": "container"
         },
         {
+          "id": "pdf",
+          "propertyProfile": "container"
+        },
+        {
           "id": "error",
           "propertyProfile": "container"
         },
@@ -8185,10 +7686,6 @@
         },
         {
           "id": "headerMain",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "badge",
           "propertyProfile": "container"
         },
         {
@@ -8257,6 +7754,93 @@
           }
         }
       ]
+    },
+    {
+      "id": "conversation-excerpt",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "toolbar",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "action",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "editor",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "attachments",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "attachment",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "dialog",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "quote",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "quoteText",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "comment",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "locate",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "preview",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "markers",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "superscript",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "chip",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "details",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "detail",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "detailNumber",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "detailText",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "detailLabel",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": []
     },
     {
       "id": "modern-flow-chat",
@@ -8419,10 +8003,6 @@
         },
         {
           "id": "subscriptionArea",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "subscriptionNotice",
           "propertyProfile": "container"
         },
         {
@@ -8613,15 +8193,23 @@
           "propertyProfile": "container"
         },
         {
+          "id": "patchEditor",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "legacy",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "legacyNotice",
+          "propertyProfile": "container"
+        },
+        {
           "id": "actions",
           "propertyProfile": "container"
         },
         {
           "id": "action",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "actionControls",
           "propertyProfile": "container"
         }
       ],
@@ -8791,6 +8379,10 @@
           "propertyProfile": "container"
         },
         {
+          "id": "tabs",
+          "propertyProfile": "container"
+        },
+        {
           "id": "toolbar",
           "propertyProfile": "container"
         },
@@ -8860,7 +8452,8 @@
           "id": "view",
           "attribute": "data-openbitfun-view",
           "values": [
-            "registry",
+            "local",
+            "ssh",
             "json"
           ]
         }
@@ -8875,10 +8468,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "content",
-          "propertyProfile": "container"
-        },
-        {
           "id": "control",
           "propertyProfile": "container"
         },
@@ -8888,6 +8477,14 @@
         },
         {
           "id": "petChooser",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "petSummary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "petStack",
           "propertyProfile": "container"
         },
         {
@@ -8933,10 +8530,9 @@
           "attribute": "data-openbitfun-view",
           "values": [
             "pet",
-            "session-workspace",
+            "permissions",
             "execution",
-            "execution-control",
-            "device-control"
+            "browser-desktop-control"
           ]
         }
       ],
@@ -9042,6 +8638,10 @@
         {
           "id": "authEditor",
           "propertyProfile": "container"
+        },
+        {
+          "id": "authorizationInput",
+          "propertyProfile": "container"
         }
       ],
       "facets": [
@@ -9054,6 +8654,57 @@
           ]
         }
       ],
+      "states": []
+    },
+    {
+      "id": "mcp-config-editor",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "field",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "section",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "keyValue",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "argument",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "importRow",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "actions",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "hint",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "error",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "advanced",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "advancedFields",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
       "states": []
     },
     {
@@ -9172,19 +8823,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "level",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "levelValue",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "recognitionTest",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "note",
+          "id": "feedback",
           "propertyProfile": "container"
         },
         {
@@ -9205,15 +8844,6 @@
             "preparing",
             "recording",
             "transcribing"
-          ]
-        },
-        {
-          "id": "volume",
-          "attribute": "data-openbitfun-volume",
-          "values": [
-            "silent",
-            "low",
-            "normal"
           ]
         }
       ],
@@ -9256,7 +8886,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "headerInfo",
+          "id": "title",
           "propertyProfile": "container"
         },
         {
@@ -9268,11 +8898,15 @@
           "propertyProfile": "container"
         },
         {
-          "id": "badges",
+          "id": "metadata",
           "propertyProfile": "container"
         },
         {
           "id": "vibe",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "creature",
           "propertyProfile": "container"
         },
         {
@@ -9423,10 +9057,6 @@
         },
         {
           "id": "action",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "spinner",
           "propertyProfile": "container"
         }
       ],
@@ -9696,11 +9326,11 @@
           "propertyProfile": "container"
         },
         {
-          "id": "filters",
+          "id": "summary",
           "propertyProfile": "container"
         },
         {
-          "id": "summary",
+          "id": "activityPanel",
           "propertyProfile": "container"
         },
         {
@@ -9708,7 +9338,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "modelHitRate",
+          "id": "details",
           "propertyProfile": "container"
         },
         {
@@ -9782,6 +9412,11 @@
           "id": "highlight",
           "propertyProfile": "paint",
           "visualRole": "decoration"
+        },
+        {
+          "id": "dirtyMarker",
+          "propertyProfile": "paint",
+          "visualRole": "decoration"
         }
       ],
       "facets": [],
@@ -9803,46 +9438,6 @@
       ]
     },
     {
-      "id": "settings-view-page",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "layout",
-          "visualRole": "content"
-        },
-        {
-          "id": "loading",
-          "propertyProfile": "overlay",
-          "visualRole": "content"
-        },
-        {
-          "id": "loadingLine",
-          "propertyProfile": "paint",
-          "visualRole": "decoration"
-        },
-        {
-          "id": "loadingBlock",
-          "propertyProfile": "paint",
-          "visualRole": "decoration"
-        }
-      ],
-      "facets": [
-        {
-          "id": "view",
-          "attribute": "data-openbitfun-view",
-          "values": [
-            "voice",
-            "shortcuts",
-            "editor",
-            "terminal",
-            "quick-actions",
-            "hooks"
-          ]
-        }
-      ],
-      "states": []
-    },
-    {
       "id": "automation-settings-page",
       "parts": [
         {
@@ -9857,50 +9452,6 @@
         },
         {
           "id": "hooks",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        }
-      ],
-      "facets": [],
-      "states": []
-    },
-    {
-      "id": "development-settings-page",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "layout",
-          "visualRole": "content"
-        },
-        {
-          "id": "terminal",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        },
-        {
-          "id": "editor",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        }
-      ],
-      "facets": [],
-      "states": []
-    },
-    {
-      "id": "input-settings-page",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "layout",
-          "visualRole": "content"
-        },
-        {
-          "id": "voice",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        },
-        {
-          "id": "shortcuts",
           "propertyProfile": "container",
           "visualRole": "content"
         }
@@ -10061,6 +9612,56 @@
       "states": []
     },
     {
+      "id": "chat-context-picker",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "header",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "currentDirectoryPath",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "currentViewLabel",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "skillDescription",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "footer",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "loading",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"loading\"]"
+          }
+        },
+        {
+          "id": "error",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"error\"]"
+          }
+        }
+      ]
+    },
+    {
       "id": "file-mention-picker",
       "parts": [
         {
@@ -10076,11 +9677,15 @@
           "propertyProfile": "container"
         },
         {
-          "id": "currentDirectoryName",
+          "id": "currentDirectoryPath",
           "propertyProfile": "container"
         },
         {
-          "id": "parentDirectoryPath",
+          "id": "currentViewLabel",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "skillDescription",
           "propertyProfile": "container"
         },
         {
@@ -10191,59 +9796,68 @@
       ]
     },
     {
+      "id": "conversation-mode-surface",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "body",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "voiceHeader",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "modeSwitch",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "modeSwitchButton",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "composer",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "history",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "images",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "imagePreview",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "chat",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"chat\"]"
+          }
+        },
+        {
+          "id": "voice",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"voice\"]"
+          }
+        }
+      ]
+    },
+    {
       "id": "realtime-voice-call",
       "parts": [
         {
-          "id": "trigger",
-          "propertyProfile": "container"
-        },
-        {
           "id": "root",
-          "propertyProfile": "overlay",
-          "visualRole": "popup"
-        },
-        {
-          "id": "header",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "avatar",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "heading",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "liveIndicator",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "conversation",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "utterance",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "empty",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "task",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "meter",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "controls",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "control",
           "propertyProfile": "container"
         }
       ],
@@ -10672,10 +10286,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "empty",
-          "propertyProfile": "container"
-        },
-        {
           "id": "dialog",
           "propertyProfile": "container"
         },
@@ -10709,15 +10319,7 @@
         }
       ],
       "facets": [],
-      "states": [
-        {
-          "id": "empty",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"empty\"]"
-          }
-        }
-      ]
+      "states": []
     },
     {
       "id": "status-bar-popover",
@@ -10774,10 +10376,6 @@
         },
         {
           "id": "editPanel",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "previewPanel",
           "propertyProfile": "container"
         },
         {
@@ -10891,108 +10489,10 @@
       "states": []
     },
     {
-      "id": "branch-select-modal",
-      "parts": [
-        {
-          "id": "overlay",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "close",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "header",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "content",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "input",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "error",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "list",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "loading",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "item",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "itemName",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "badge",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "empty",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "footer",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "options",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [],
-      "states": [
-        {
-          "id": "selected",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"selected\"]"
-          }
-        },
-        {
-          "id": "current",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"current\"]"
-          }
-        }
-      ]
-    },
-    {
       "id": "floating-mini-chat",
       "parts": [
         {
           "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "backdrop",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "trigger",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "triggerActivity",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "triggerIcon",
           "propertyProfile": "container"
         },
         {
@@ -11004,18 +10504,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "sessionIcon",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "headerAction",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "title",
-          "propertyProfile": "container"
-        },
-        {
           "id": "body",
           "propertyProfile": "container"
         },
@@ -11024,7 +10512,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "pendingIcon",
+          "id": "callStatus",
           "propertyProfile": "container"
         }
       ],
@@ -11036,6 +10524,14 @@
             "chat",
             "miniapp"
           ]
+        },
+        {
+          "id": "communicationMode",
+          "attribute": "data-openbitfun-communication-mode",
+          "values": [
+            "chat",
+            "voice"
+          ]
         }
       ],
       "states": [
@@ -11045,22 +10541,6 @@
             "kind": "ancestorPart",
             "part": "root",
             "suffix": "[data-openbitfun-state~=\"open\"]"
-          }
-        },
-        {
-          "id": "processing",
-          "selector": {
-            "kind": "ancestorPart",
-            "part": "root",
-            "suffix": "[data-openbitfun-state~=\"processing\"]"
-          }
-        },
-        {
-          "id": "customizing",
-          "selector": {
-            "kind": "ancestorPart",
-            "part": "root",
-            "suffix": "[data-openbitfun-state~=\"customizing\"]"
           }
         }
       ]
@@ -11238,6 +10718,46 @@
         },
         {
           "id": "categoryFilter",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "tools",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "item",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "showcase",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "summary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "title",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "meta",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "status",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "actions",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "error",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "detail",
           "propertyProfile": "container"
         }
       ],
@@ -11622,6 +11142,18 @@
         {
           "id": "usageAction",
           "propertyProfile": "container"
+        },
+        {
+          "id": "goal",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "goalRun",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "goalClear",
+          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -11645,6 +11177,27 @@
           "selector": {
             "kind": "self",
             "suffix": "[data-openbitfun-state~=\"active\"]"
+          }
+        },
+        {
+          "id": "paused",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"paused\"]"
+          }
+        },
+        {
+          "id": "blocked",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"blocked\"]"
+          }
+        },
+        {
+          "id": "complete",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"complete\"]"
           }
         },
         {
@@ -11734,6 +11287,182 @@
         },
         {
           "id": "contentWrapper",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "controls",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "item",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "expanded",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "context-load-group",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "header",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "summary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "contentWrapper",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "controls",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "item",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "expanded",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "file-edit-group",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "header",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "summary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "controls",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "contentWrapper",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "item",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "expanded",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "shell-group",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "header",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "summary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "contentWrapper",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "controls",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "item",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "expanded",
+          "selector": {
+            "kind": "self",
+            "suffix": "[data-openbitfun-state~=\"expanded\"]"
+          }
+        }
+      ]
+    },
+    {
+      "id": "interface-observation-group",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "header",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "summary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "contentWrapper",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "controls",
           "propertyProfile": "container"
         },
         {
@@ -11842,10 +11571,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "collapse",
-          "propertyProfile": "container"
-        },
-        {
           "id": "container",
           "propertyProfile": "container"
         },
@@ -11856,13 +11581,6 @@
       ],
       "facets": [],
       "states": [
-        {
-          "id": "collapsed",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-openbitfun-state~=\"collapsed\"]"
-          }
-        },
         {
           "id": "expanded",
           "selector": {
@@ -12066,6 +11784,10 @@
         },
         {
           "id": "exportAction",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "htmlExportAction",
           "propertyProfile": "container"
         },
         {
@@ -12489,6 +12211,50 @@
       ]
     },
     {
+      "id": "pdf-viewer",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "info",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "container",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "loading",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "error",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "page",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "textLayer",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": [
+        {
+          "id": "rendering",
+          "selector": {
+            "kind": "ancestorPart",
+            "part": "page",
+            "suffix": "[data-openbitfun-state~=\"rendering\"]"
+          }
+        }
+      ]
+    },
+    {
       "id": "branch-quick-switch",
       "parts": [
         {
@@ -12670,10 +12436,6 @@
       "parts": [
         {
           "id": "root",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "hero",
           "propertyProfile": "container"
         },
         {
@@ -12995,6 +12757,18 @@
       ]
     },
     {
+      "id": "browser-preview",
+      "parts": [
+        {
+          "id": "image",
+          "propertyProfile": "layout",
+          "visualRole": "content"
+        }
+      ],
+      "facets": [],
+      "states": []
+    },
+    {
       "id": "nursery-gallery",
       "parts": [
         {
@@ -13010,23 +12784,11 @@
           "propertyProfile": "container"
         },
         {
-          "id": "avatar",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "artwork",
-          "propertyProfile": "container"
-        },
-        {
           "id": "defaultsContent",
           "propertyProfile": "container"
         },
         {
           "id": "stats",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "companion",
           "propertyProfile": "container"
         }
       ],
@@ -13118,7 +12880,8 @@
           "attribute": "data-openbitfun-presentation",
           "values": [
             "standard",
-            "dedicated"
+            "dedicated",
+            "relation"
           ]
         }
       ],
@@ -13197,6 +12960,10 @@
         },
         {
           "id": "scope",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "grantScope",
           "propertyProfile": "container"
         }
       ],
@@ -13309,10 +13076,6 @@
         {
           "id": "loopWarning",
           "propertyProfile": "container"
-        },
-        {
-          "id": "actionCode",
-          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -13332,6 +13095,57 @@
           }
         }
       ]
+    },
+    {
+      "id": "openbitfun-control-tool-card",
+      "parts": [
+        {
+          "id": "details",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "description",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "fields",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "field",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "label",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "value",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "notice",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "error",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "results",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "list",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "result",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": []
     },
     {
       "id": "mini-app-tool-display",
@@ -13381,7 +13195,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "footer",
+          "id": "actions",
           "propertyProfile": "container"
         },
         {
@@ -13426,7 +13240,7 @@
           "propertyProfile": "container"
         },
         {
-          "id": "chevron",
+          "id": "leadingIcon",
           "propertyProfile": "container"
         },
         {
@@ -13443,6 +13257,14 @@
         },
         {
           "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "details",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "detailsActions",
           "propertyProfile": "container"
         }
       ],
@@ -13795,6 +13617,18 @@
       "states": []
     },
     {
+      "id": "session-title-number",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "paint",
+          "visualRole": "content"
+        }
+      ],
+      "facets": [],
+      "states": []
+    },
+    {
       "id": "cowork-example-cards",
       "parts": [
         {
@@ -13815,26 +13649,6 @@
         },
         {
           "id": "grid",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "card",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "cardHeader",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "cardIcon",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "cardTitle",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "cardDescription",
           "propertyProfile": "container"
         }
       ],
@@ -14124,6 +13938,10 @@
         },
         {
           "id": "content",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "leadingIcon",
           "propertyProfile": "container"
         },
         {
@@ -14487,6 +14305,10 @@
         {
           "id": "placeholder",
           "propertyProfile": "container"
+        },
+        {
+          "id": "searchLine",
+          "propertyProfile": "container"
         }
       ],
       "facets": [],
@@ -14523,6 +14345,11 @@
         {
           "id": "navArea",
           "propertyProfile": "container"
+        },
+        {
+          "id": "workspaceMaterial",
+          "propertyProfile": "paint",
+          "visualRole": "decoration"
         },
         {
           "id": "navDivider",
@@ -14575,7 +14402,8 @@
             "terminal",
             "git",
             "settings",
-            "file-viewer",
+            "content",
+            "miniapp",
             "profile",
             "agents",
             "skills",
@@ -14585,7 +14413,8 @@
             "assistant",
             "insights",
             "shell",
-            "panel-view"
+            "todos",
+            "ecosystem-compatibility"
           ]
         }
       ],
@@ -14643,6 +14472,11 @@
         {
           "id": "greeting",
           "propertyProfile": "container",
+          "visualRole": "content"
+        },
+        {
+          "id": "logo",
+          "propertyProfile": "paint",
           "visualRole": "content"
         },
         {
@@ -14758,17 +14592,6 @@
           }
         }
       ]
-    },
-    {
-      "id": "file-viewer",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [],
-      "states": []
     },
     {
       "id": "git",
@@ -14940,17 +14763,6 @@
       "states": []
     },
     {
-      "id": "panel-view",
-      "parts": [
-        {
-          "id": "root",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [],
-      "states": []
-    },
-    {
       "id": "profile",
       "parts": [
         {
@@ -15043,15 +14855,18 @@
             "application.appearance",
             "application.pet",
             "application.input",
-            "application.development",
             "ai.models",
-            "ai.memory",
-            "workspace.session",
-            "workspace.worktrees",
-            "tools.execution",
-            "tools.automation",
+            "ai.session-memory",
+            "ai.execution",
+            "ai.permissions",
+            "development.editor",
+            "development.terminal",
+            "development.workspace",
+            "tools.web-search",
+            "tools.desktop-control",
             "tools.mcp",
-            "tools.acp",
+            "tools.external-agents",
+            "tools.automation",
             "data.usage",
             "data.archived",
             "data.diagnostics"
@@ -15109,18 +14924,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "tabs",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "tab",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "tabDivider",
-          "propertyProfile": "container"
-        },
-        {
           "id": "content",
           "propertyProfile": "container"
         },
@@ -15138,6 +14941,10 @@
         },
         {
           "id": "sidebarTitle",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "sidebarSearch",
           "propertyProfile": "container"
         },
         {
@@ -15161,14 +14968,6 @@
           "propertyProfile": "container"
         },
         {
-          "id": "sidebarFooter",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "sidebarHint",
-          "propertyProfile": "container"
-        },
-        {
           "id": "main",
           "propertyProfile": "container"
         },
@@ -15178,6 +14977,10 @@
         },
         {
           "id": "filterAction",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "installedTable",
           "propertyProfile": "container"
         },
         {
@@ -15214,6 +15017,10 @@
         },
         {
           "id": "installedCard",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "installedCardOpen",
           "propertyProfile": "container"
         },
         {
@@ -15297,103 +15104,71 @@
           "propertyProfile": "container"
         },
         {
-          "id": "discoverSearch",
-          "propertyProfile": "container"
-        },
-        {
           "id": "resultsInfo",
           "propertyProfile": "container"
         },
         {
-          "id": "suite",
+          "id": "detail",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteHero",
+          "id": "detailBadges",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteHeroCopy",
+          "id": "detailDescriptionViewport",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteHeroActions",
+          "id": "detailDescription",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteModeToolbar",
+          "id": "detailMetadata",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteModes",
+          "id": "groups",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteModeTab",
+          "id": "groupsHeader",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteModeTabLabel",
+          "id": "groupList",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteLoading",
+          "id": "groupTable",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteSection",
+          "id": "groupListHeader",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteSectionLabel",
+          "id": "groupRow",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteGrid",
+          "id": "groupOpen",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteGroupCard",
+          "id": "groupActions",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteGroupHead",
+          "id": "groupEditor",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteGroupTitleWrap",
+          "id": "groupMembers",
           "propertyProfile": "container"
         },
         {
-          "id": "suiteGroupTitleRow",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "suiteGroupTitle",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "suiteGroupCount",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "suiteGroupActions",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "suiteSkills",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "suiteSkill",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "suiteSkillName",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "suiteSkillStatus",
+          "id": "groupMember",
           "propertyProfile": "container"
         }
       ],
@@ -15414,7 +15189,7 @@
             "builtin",
             "user",
             "project",
-            "suite"
+            "groups"
           ]
         },
         {
@@ -15423,15 +15198,6 @@
           "values": [
             "user",
             "project"
-          ]
-        },
-        {
-          "id": "mode",
-          "attribute": "data-openbitfun-mode",
-          "values": [
-            "agentic",
-            "Cowork",
-            "Claw"
           ]
         }
       ],
@@ -15768,401 +15534,636 @@
     "isolation"
   ],
   "themeTokenNames": [
-    "--openbitfun-color-accent-border",
-    "--openbitfun-color-accent-border-subtle",
-    "--openbitfun-color-accent-default",
-    "--openbitfun-color-accent-disabled",
-    "--openbitfun-color-accent-hover",
-    "--openbitfun-color-accent-secondary",
-    "--openbitfun-color-accent-secondary-border",
-    "--openbitfun-color-accent-secondary-hover",
-    "--openbitfun-color-accent-secondary-surface",
-    "--openbitfun-color-accent-secondary-surface-strong",
-    "--openbitfun-color-accent-surface",
-    "--openbitfun-color-accent-surface-strong",
-    "--openbitfun-color-accent-surface-subtle",
-    "--openbitfun-color-action-neutral-border",
-    "--openbitfun-color-action-neutral-content",
-    "--openbitfun-color-action-neutral-content-disabled",
-    "--openbitfun-color-action-neutral-fill-border",
-    "--openbitfun-color-action-neutral-surface",
-    "--openbitfun-color-action-neutral-surface-hover",
-    "--openbitfun-color-action-neutral-surface-pressed",
-    "--openbitfun-color-action-primary-background",
-    "--openbitfun-color-action-primary-content",
-    "--openbitfun-color-action-primary-hover",
-    "--openbitfun-color-action-primary-pressed",
-    "--openbitfun-color-action-quiet-content",
-    "--openbitfun-color-action-quiet-hover",
-    "--openbitfun-color-action-quiet-pressed",
-    "--openbitfun-color-action-secondary-background",
-    "--openbitfun-color-action-secondary-content",
-    "--openbitfun-color-action-secondary-hover",
-    "--openbitfun-color-action-secondary-pressed",
-    "--openbitfun-color-border-default",
-    "--openbitfun-color-border-strong",
-    "--openbitfun-color-border-subtle",
-    "--openbitfun-color-content-disabled",
-    "--openbitfun-color-content-inverse",
-    "--openbitfun-color-content-muted",
-    "--openbitfun-color-content-on-dark",
-    "--openbitfun-color-content-on-light",
-    "--openbitfun-color-content-primary",
-    "--openbitfun-color-content-secondary",
-    "--openbitfun-color-control-switch-thumb",
-    "--openbitfun-color-control-switch-track",
-    "--openbitfun-color-control-switch-track-checked",
-    "--openbitfun-color-field-background",
-    "--openbitfun-color-field-background-hover",
-    "--openbitfun-color-field-border",
-    "--openbitfun-color-field-border-focus",
-    "--openbitfun-color-field-border-hover",
-    "--openbitfun-color-focus-ring",
-    "--openbitfun-color-identity-assistant-border",
-    "--openbitfun-color-identity-assistant-content",
-    "--openbitfun-color-identity-assistant-content-hover",
-    "--openbitfun-color-identity-assistant-surface",
-    "--openbitfun-color-identity-assistant-surface-subtle",
-    "--openbitfun-color-key-hint-background",
-    "--openbitfun-color-link-default",
-    "--openbitfun-color-link-hover",
-    "--openbitfun-color-overlay-scrim",
-    "--openbitfun-color-scrollbar-thumb",
-    "--openbitfun-color-scrollbar-thumb-hover",
-    "--openbitfun-color-status-danger-border",
-    "--openbitfun-color-status-danger-content",
-    "--openbitfun-color-status-danger-surface",
-    "--openbitfun-color-status-info-border",
-    "--openbitfun-color-status-info-content",
-    "--openbitfun-color-status-info-surface",
-    "--openbitfun-color-status-success-border",
-    "--openbitfun-color-status-success-content",
-    "--openbitfun-color-status-success-surface",
-    "--openbitfun-color-status-warning-border",
-    "--openbitfun-color-status-warning-content",
-    "--openbitfun-color-status-warning-surface",
-    "--openbitfun-color-surface-canvas",
-    "--openbitfun-color-surface-chrome",
-    "--openbitfun-color-surface-panel",
-    "--openbitfun-color-surface-raised",
-    "--openbitfun-color-surface-scene",
-    "--openbitfun-color-surface-subtle",
-    "--openbitfun-color-surface-tertiary",
-    "--openbitfun-color-surface-workbench",
-    "--openbitfun-effect-blur-base",
-    "--openbitfun-effect-blur-medium",
-    "--openbitfun-effect-blur-subtle",
-    "--openbitfun-opacity-disabled",
-    "--openbitfun-opacity-focus",
-    "--openbitfun-opacity-hover",
-    "--openbitfun-opacity-muted",
-    "--openbitfun-shadow-accent-glow",
-    "--openbitfun-shadow-base",
-    "--openbitfun-shadow-composer",
-    "--openbitfun-shadow-inner-highlight",
-    "--openbitfun-shadow-inner-highlight-hover",
-    "--openbitfun-shadow-lg",
-    "--openbitfun-shadow-menu",
-    "--openbitfun-shadow-overlay",
-    "--openbitfun-shadow-raised",
-    "--openbitfun-shadow-sm",
-    "--openbitfun-shadow-xl",
-    "--openbitfun-shadow-xs",
-    "--openbitfun-domain-context-compression",
-    "--openbitfun-domain-generative-ui",
-    "--openbitfun-domain-mini-app",
-    "--openbitfun-domain-mermaid-diagram",
-    "--openbitfun-domain-tool-search",
-    "--openbitfun-domain-tool-web-search",
-    "--openbitfun-domain-tool-git",
-    "--openbitfun-domain-tool-terminal",
-    "--openbitfun-domain-tool-mcp",
-    "--openbitfun-domain-tool-assistant-action",
-    "--openbitfun-domain-tool-review-summary",
-    "--openbitfun-domain-capability-docs",
-    "--openbitfun-domain-capability-testing",
-    "--openbitfun-domain-capability-creative",
-    "--openbitfun-domain-capability-ops",
-    "--openbitfun-domain-insights-positive",
-    "--openbitfun-domain-insights-time",
-    "--openbitfun-domain-insights-neutral",
-    "--openbitfun-domain-insights-issue",
-    "--openbitfun-domain-progress-compacting",
-    "--openbitfun-domain-template-memories",
-    "--openbitfun-domain-review-member-default",
-    "--openbitfun-domain-review-worker",
-    "--openbitfun-domain-review-judge",
-    "--openbitfun-domain-teal-action",
-    "--openbitfun-domain-todo",
-    "--openbitfun-domain-git-branch",
-    "--openbitfun-domain-git-branch-background",
-    "--openbitfun-domain-git-branch-background-hover",
-    "--openbitfun-domain-git-changes",
-    "--openbitfun-domain-git-added",
-    "--openbitfun-domain-git-deleted",
-    "--openbitfun-domain-git-staged",
-    "--openbitfun-domain-git-lane-0",
-    "--openbitfun-domain-git-lane-1",
-    "--openbitfun-domain-git-lane-2",
-    "--openbitfun-domain-git-lane-3",
-    "--openbitfun-domain-git-lane-4",
-    "--openbitfun-domain-git-lane-5",
-    "--openbitfun-domain-git-lane-6",
-    "--openbitfun-domain-git-lane-7",
-    "--openbitfun-domain-text-stroke-0",
-    "--openbitfun-domain-text-stroke-1",
-    "--openbitfun-domain-text-stroke-2",
-    "--openbitfun-domain-text-stroke-3",
-    "--openbitfun-domain-text-stroke-4",
-    "--openbitfun-domain-inspector-active-border",
-    "--openbitfun-domain-inspector-active-background",
-    "--openbitfun-domain-inspector-active-border-subtle",
-    "--openbitfun-domain-inspector-selected-border",
-    "--openbitfun-domain-inspector-selected-background",
-    "--openbitfun-domain-inspector-browser-tooltip-background",
-    "--openbitfun-domain-inspector-main-tooltip-background",
-    "--openbitfun-domain-inspector-tooltip-text",
-    "--openbitfun-domain-inspector-tooltip-shadow",
-    "--openbitfun-domain-language-blue",
-    "--openbitfun-domain-language-cyan",
-    "--openbitfun-domain-language-yellow",
-    "--openbitfun-domain-language-orange",
-    "--openbitfun-domain-language-red",
-    "--openbitfun-domain-language-green",
-    "--openbitfun-domain-language-purple",
-    "--openbitfun-domain-language-slate",
-    "--openbitfun-domain-prism-light-foreground",
-    "--openbitfun-domain-prism-light-comment",
-    "--openbitfun-domain-prism-light-keyword",
-    "--openbitfun-domain-prism-light-string",
-    "--openbitfun-domain-prism-light-function",
-    "--openbitfun-domain-prism-light-number",
-    "--openbitfun-domain-prism-light-tag",
-    "--openbitfun-domain-prism-light-punctuation",
-    "--openbitfun-domain-prism-light-property",
-    "--openbitfun-domain-prism-dark-foreground",
-    "--openbitfun-domain-prism-dark-comment",
-    "--openbitfun-domain-prism-dark-keyword",
-    "--openbitfun-domain-prism-dark-string",
-    "--openbitfun-domain-prism-dark-function",
-    "--openbitfun-domain-prism-dark-number",
-    "--openbitfun-domain-prism-dark-tag",
-    "--openbitfun-domain-prism-dark-punctuation",
-    "--openbitfun-domain-prism-dark-property",
-    "--openbitfun-component-config-page-section-background",
-    "--openbitfun-component-config-page-section-border",
-    "--openbitfun-component-config-page-section-border-width",
-    "--openbitfun-component-config-page-section-shadow",
-    "--openbitfun-component-config-page-divider",
-    "--openbitfun-component-config-page-row-hover-background",
-    "--openbitfun-component-scene-viewport-border-width",
-    "--openbitfun-component-badge-padding-block"
+    "--opcteam-color-accent-border",
+    "--opcteam-color-accent-border-subtle",
+    "--opcteam-color-accent-default",
+    "--opcteam-color-accent-disabled",
+    "--opcteam-color-accent-hover",
+    "--opcteam-color-accent-secondary",
+    "--opcteam-color-accent-secondary-border",
+    "--opcteam-color-accent-secondary-hover",
+    "--opcteam-color-accent-secondary-surface",
+    "--opcteam-color-accent-secondary-surface-strong",
+    "--opcteam-color-accent-surface",
+    "--opcteam-color-accent-surface-strong",
+    "--opcteam-color-accent-surface-subtle",
+    "--opcteam-color-action-neutral-border",
+    "--opcteam-color-action-neutral-content",
+    "--opcteam-color-action-neutral-content-disabled",
+    "--opcteam-color-action-neutral-fill-border",
+    "--opcteam-color-action-neutral-surface",
+    "--opcteam-color-action-neutral-surface-hover",
+    "--opcteam-color-action-neutral-surface-pressed",
+    "--opcteam-color-action-primary-background",
+    "--opcteam-color-action-primary-content",
+    "--opcteam-color-action-primary-hover",
+    "--opcteam-color-action-primary-pressed",
+    "--opcteam-color-action-quiet-content",
+    "--opcteam-color-action-quiet-hover",
+    "--opcteam-color-action-quiet-pressed",
+    "--opcteam-color-action-secondary-background",
+    "--opcteam-color-action-secondary-content",
+    "--opcteam-color-action-secondary-hover",
+    "--opcteam-color-action-secondary-pressed",
+    "--opcteam-color-action-card-background",
+    "--opcteam-color-border-default",
+    "--opcteam-color-border-strong",
+    "--opcteam-color-border-subtle",
+    "--opcteam-color-code-change-added",
+    "--opcteam-color-code-change-removed",
+    "--opcteam-color-code-diff-added-gutter",
+    "--opcteam-color-code-diff-added-line",
+    "--opcteam-color-code-diff-added-marker",
+    "--opcteam-color-code-diff-added-word",
+    "--opcteam-color-code-diff-foreground",
+    "--opcteam-color-code-diff-gutter-border",
+    "--opcteam-color-code-diff-line-number",
+    "--opcteam-color-code-diff-removed-gutter",
+    "--opcteam-color-code-diff-removed-line",
+    "--opcteam-color-code-diff-removed-marker",
+    "--opcteam-color-code-diff-removed-word",
+    "--opcteam-color-code-diff-syntax-comment",
+    "--opcteam-color-code-diff-syntax-declaration",
+    "--opcteam-color-code-diff-syntax-function",
+    "--opcteam-color-code-diff-syntax-keyword",
+    "--opcteam-color-code-diff-syntax-number",
+    "--opcteam-color-code-diff-syntax-operator",
+    "--opcteam-color-code-diff-syntax-property",
+    "--opcteam-color-code-diff-syntax-punctuation",
+    "--opcteam-color-code-diff-syntax-string",
+    "--opcteam-color-code-diff-syntax-variable",
+    "--opcteam-color-composer-border",
+    "--opcteam-color-composer-context-background",
+    "--opcteam-color-content-caption",
+    "--opcteam-color-content-disabled",
+    "--opcteam-color-content-inverse",
+    "--opcteam-color-content-muted",
+    "--opcteam-color-content-on-dark",
+    "--opcteam-color-content-on-light",
+    "--opcteam-color-content-primary",
+    "--opcteam-color-content-required-indicator",
+    "--opcteam-color-content-secondary",
+    "--opcteam-color-control-highlight-background",
+    "--opcteam-color-control-highlight-content",
+    "--opcteam-color-control-launcher-background",
+    "--opcteam-color-control-launcher-background-hover",
+    "--opcteam-color-control-launcher-background-pressed",
+    "--opcteam-color-control-launcher-content",
+    "--opcteam-color-control-launcher-content-disabled",
+    "--opcteam-color-control-launcher-content-hover",
+    "--opcteam-color-control-launcher-content-pressed",
+    "--opcteam-color-control-switch-thumb",
+    "--opcteam-color-control-switch-track",
+    "--opcteam-color-control-switch-track-checked",
+    "--opcteam-color-field-background",
+    "--opcteam-color-field-background-hover",
+    "--opcteam-color-field-border",
+    "--opcteam-color-field-border-active",
+    "--opcteam-color-field-border-focus",
+    "--opcteam-color-field-border-hover",
+    "--opcteam-color-field-group-background",
+    "--opcteam-color-field-placeholder",
+    "--opcteam-color-focus-ring",
+    "--opcteam-color-identity-assistant-border",
+    "--opcteam-color-identity-assistant-content",
+    "--opcteam-color-identity-assistant-content-hover",
+    "--opcteam-color-identity-assistant-surface",
+    "--opcteam-color-identity-assistant-surface-subtle",
+    "--opcteam-color-identity-global-search-new-project",
+    "--opcteam-color-identity-global-search-new-session",
+    "--opcteam-color-identity-global-search-open-browser",
+    "--opcteam-color-identity-global-search-open-files",
+    "--opcteam-color-identity-global-search-open-project",
+    "--opcteam-color-identity-global-search-open-terminal",
+    "--opcteam-color-identity-harness-creative",
+    "--opcteam-color-identity-harness-minimal",
+    "--opcteam-color-identity-harness-standard",
+    "--opcteam-color-identity-harness-ultimate",
+    "--opcteam-color-key-hint-background",
+    "--opcteam-color-key-hint-content",
+    "--opcteam-color-link-default",
+    "--opcteam-color-link-hover",
+    "--opcteam-color-number-badge-background",
+    "--opcteam-color-overlay-scrim",
+    "--opcteam-color-scrollbar-thumb",
+    "--opcteam-color-scrollbar-thumb-hover",
+    "--opcteam-color-selection-surface",
+    "--opcteam-color-status-danger-border",
+    "--opcteam-color-status-danger-content",
+    "--opcteam-color-status-danger-emphasis",
+    "--opcteam-color-status-danger-surface",
+    "--opcteam-color-status-info-border",
+    "--opcteam-color-status-info-content",
+    "--opcteam-color-status-info-emphasis",
+    "--opcteam-color-status-info-surface",
+    "--opcteam-color-status-success-border",
+    "--opcteam-color-status-success-content",
+    "--opcteam-color-status-success-emphasis",
+    "--opcteam-color-status-success-surface",
+    "--opcteam-color-status-warning-border",
+    "--opcteam-color-status-warning-content",
+    "--opcteam-color-status-warning-emphasis",
+    "--opcteam-color-status-warning-surface",
+    "--opcteam-color-surface-canvas",
+    "--opcteam-color-surface-chrome",
+    "--opcteam-color-surface-panel",
+    "--opcteam-color-surface-raised",
+    "--opcteam-color-surface-scene",
+    "--opcteam-color-surface-subtle",
+    "--opcteam-color-surface-tertiary",
+    "--opcteam-color-surface-workbench",
+    "--opcteam-component-button-content",
+    "--opcteam-component-button-fill-background",
+    "--opcteam-component-button-fill-background-hover",
+    "--opcteam-component-button-fill-background-pressed",
+    "--opcteam-component-button-outline-border",
+    "--opcteam-component-button-outline-border-interactive",
+    "--opcteam-component-button-primary-background",
+    "--opcteam-component-button-primary-background-hover",
+    "--opcteam-component-button-primary-background-pressed",
+    "--opcteam-component-button-primary-content-disabled",
+    "--opcteam-component-button-text-content",
+    "--opcteam-component-button-text-content-disabled",
+    "--opcteam-component-button-text-content-hover",
+    "--opcteam-component-empty-media",
+    "--opcteam-effect-blur-base",
+    "--opcteam-effect-blur-medium",
+    "--opcteam-effect-blur-subtle",
+    "--opcteam-opacity-disabled",
+    "--opcteam-opacity-focus",
+    "--opcteam-opacity-hover",
+    "--opcteam-opacity-muted",
+    "--opcteam-shadow-accent-glow",
+    "--opcteam-shadow-base",
+    "--opcteam-shadow-composer",
+    "--opcteam-shadow-inner-highlight",
+    "--opcteam-shadow-inner-highlight-hover",
+    "--opcteam-shadow-lg",
+    "--opcteam-shadow-menu",
+    "--opcteam-shadow-overlay",
+    "--opcteam-shadow-raised",
+    "--opcteam-shadow-sm",
+    "--opcteam-shadow-xl",
+    "--opcteam-shadow-xs",
+    "--opcteam-domain-context-compression",
+    "--opcteam-domain-generative-ui",
+    "--opcteam-domain-mini-app",
+    "--opcteam-domain-mermaid-diagram",
+    "--opcteam-domain-tool-search",
+    "--opcteam-domain-tool-web-search",
+    "--opcteam-domain-tool-git",
+    "--opcteam-domain-tool-terminal",
+    "--opcteam-domain-tool-mcp",
+    "--opcteam-domain-tool-assistant-action",
+    "--opcteam-domain-tool-review-summary",
+    "--opcteam-domain-subagent-robot-01",
+    "--opcteam-domain-subagent-robot-02",
+    "--opcteam-domain-subagent-robot-03",
+    "--opcteam-domain-subagent-robot-04",
+    "--opcteam-domain-subagent-robot-05",
+    "--opcteam-domain-subagent-robot-06",
+    "--opcteam-domain-subagent-robot-07",
+    "--opcteam-domain-subagent-robot-08",
+    "--opcteam-domain-subagent-robot-09",
+    "--opcteam-domain-subagent-robot-10",
+    "--opcteam-domain-subagent-robot-11",
+    "--opcteam-domain-subagent-robot-12",
+    "--opcteam-domain-subagent-robot-13",
+    "--opcteam-domain-subagent-robot-14",
+    "--opcteam-domain-subagent-robot-15",
+    "--opcteam-domain-subagent-robot-16",
+    "--opcteam-domain-subagent-robot-17",
+    "--opcteam-domain-subagent-robot-18",
+    "--opcteam-domain-subagent-robot-19",
+    "--opcteam-domain-subagent-robot-20",
+    "--opcteam-domain-capability-docs",
+    "--opcteam-domain-capability-testing",
+    "--opcteam-domain-capability-creative",
+    "--opcteam-domain-capability-ops",
+    "--opcteam-domain-insights-positive",
+    "--opcteam-domain-insights-time",
+    "--opcteam-domain-insights-neutral",
+    "--opcteam-domain-insights-issue",
+    "--opcteam-domain-progress-compacting",
+    "--opcteam-domain-template-memories",
+    "--opcteam-domain-review-member-default",
+    "--opcteam-domain-review-worker",
+    "--opcteam-domain-review-judge",
+    "--opcteam-domain-teal-action",
+    "--opcteam-domain-todo",
+    "--opcteam-domain-git-branch",
+    "--opcteam-domain-git-branch-background",
+    "--opcteam-domain-git-branch-background-hover",
+    "--opcteam-domain-git-changes",
+    "--opcteam-domain-git-added",
+    "--opcteam-domain-git-deleted",
+    "--opcteam-domain-git-staged",
+    "--opcteam-domain-git-lane-0",
+    "--opcteam-domain-git-lane-1",
+    "--opcteam-domain-git-lane-2",
+    "--opcteam-domain-git-lane-3",
+    "--opcteam-domain-git-lane-4",
+    "--opcteam-domain-git-lane-5",
+    "--opcteam-domain-git-lane-6",
+    "--opcteam-domain-git-lane-7",
+    "--opcteam-domain-text-stroke-0",
+    "--opcteam-domain-text-stroke-1",
+    "--opcteam-domain-text-stroke-2",
+    "--opcteam-domain-text-stroke-3",
+    "--opcteam-domain-text-stroke-4",
+    "--opcteam-domain-inspector-active-border",
+    "--opcteam-domain-inspector-active-background",
+    "--opcteam-domain-inspector-active-border-subtle",
+    "--opcteam-domain-inspector-selected-border",
+    "--opcteam-domain-inspector-selected-background",
+    "--opcteam-domain-inspector-browser-tooltip-background",
+    "--opcteam-domain-inspector-main-tooltip-background",
+    "--opcteam-domain-inspector-tooltip-text",
+    "--opcteam-domain-inspector-tooltip-shadow",
+    "--opcteam-domain-language-blue",
+    "--opcteam-domain-language-cyan",
+    "--opcteam-domain-language-yellow",
+    "--opcteam-domain-language-orange",
+    "--opcteam-domain-language-red",
+    "--opcteam-domain-language-green",
+    "--opcteam-domain-language-purple",
+    "--opcteam-domain-language-slate",
+    "--opcteam-domain-prism-light-foreground",
+    "--opcteam-domain-prism-light-comment",
+    "--opcteam-domain-prism-light-keyword",
+    "--opcteam-domain-prism-light-string",
+    "--opcteam-domain-prism-light-function",
+    "--opcteam-domain-prism-light-number",
+    "--opcteam-domain-prism-light-tag",
+    "--opcteam-domain-prism-light-punctuation",
+    "--opcteam-domain-prism-light-property",
+    "--opcteam-domain-prism-dark-foreground",
+    "--opcteam-domain-prism-dark-comment",
+    "--opcteam-domain-prism-dark-keyword",
+    "--opcteam-domain-prism-dark-string",
+    "--opcteam-domain-prism-dark-function",
+    "--opcteam-domain-prism-dark-number",
+    "--opcteam-domain-prism-dark-tag",
+    "--opcteam-domain-prism-dark-punctuation",
+    "--opcteam-domain-prism-dark-property",
+    "--opcteam-component-conversation-excerpt-accent",
+    "--opcteam-component-update-material-cyan",
+    "--opcteam-component-config-page-section-background",
+    "--opcteam-component-config-page-section-border",
+    "--opcteam-component-config-page-section-border-width",
+    "--opcteam-component-config-page-section-shadow",
+    "--opcteam-component-config-page-divider",
+    "--opcteam-component-config-page-row-hover-background",
+    "--opcteam-component-scene-viewport-border-width",
+    "--opcteam-component-badge-padding-block"
   ],
   "scopedThemeTokenNames": [
-    "--openbitfun-color-accent-border",
-    "--openbitfun-color-accent-border-subtle",
-    "--openbitfun-color-accent-default",
-    "--openbitfun-color-accent-disabled",
-    "--openbitfun-color-accent-hover",
-    "--openbitfun-color-accent-secondary",
-    "--openbitfun-color-accent-secondary-border",
-    "--openbitfun-color-accent-secondary-hover",
-    "--openbitfun-color-accent-secondary-surface",
-    "--openbitfun-color-accent-secondary-surface-strong",
-    "--openbitfun-color-accent-surface",
-    "--openbitfun-color-accent-surface-strong",
-    "--openbitfun-color-accent-surface-subtle",
-    "--openbitfun-color-action-neutral-border",
-    "--openbitfun-color-action-neutral-content",
-    "--openbitfun-color-action-neutral-content-disabled",
-    "--openbitfun-color-action-neutral-fill-border",
-    "--openbitfun-color-action-neutral-surface",
-    "--openbitfun-color-action-neutral-surface-hover",
-    "--openbitfun-color-action-neutral-surface-pressed",
-    "--openbitfun-color-action-primary-background",
-    "--openbitfun-color-action-primary-content",
-    "--openbitfun-color-action-primary-hover",
-    "--openbitfun-color-action-primary-pressed",
-    "--openbitfun-color-action-quiet-content",
-    "--openbitfun-color-action-quiet-hover",
-    "--openbitfun-color-action-quiet-pressed",
-    "--openbitfun-color-action-secondary-background",
-    "--openbitfun-color-action-secondary-content",
-    "--openbitfun-color-action-secondary-hover",
-    "--openbitfun-color-action-secondary-pressed",
-    "--openbitfun-color-border-default",
-    "--openbitfun-color-border-strong",
-    "--openbitfun-color-border-subtle",
-    "--openbitfun-color-content-disabled",
-    "--openbitfun-color-content-inverse",
-    "--openbitfun-color-content-muted",
-    "--openbitfun-color-content-on-dark",
-    "--openbitfun-color-content-on-light",
-    "--openbitfun-color-content-primary",
-    "--openbitfun-color-content-secondary",
-    "--openbitfun-color-control-switch-thumb",
-    "--openbitfun-color-control-switch-track",
-    "--openbitfun-color-control-switch-track-checked",
-    "--openbitfun-color-field-background",
-    "--openbitfun-color-field-background-hover",
-    "--openbitfun-color-field-border",
-    "--openbitfun-color-field-border-focus",
-    "--openbitfun-color-field-border-hover",
-    "--openbitfun-color-focus-ring",
-    "--openbitfun-color-identity-assistant-border",
-    "--openbitfun-color-identity-assistant-content",
-    "--openbitfun-color-identity-assistant-content-hover",
-    "--openbitfun-color-identity-assistant-surface",
-    "--openbitfun-color-identity-assistant-surface-subtle",
-    "--openbitfun-color-key-hint-background",
-    "--openbitfun-color-link-default",
-    "--openbitfun-color-link-hover",
-    "--openbitfun-color-overlay-scrim",
-    "--openbitfun-color-scrollbar-thumb",
-    "--openbitfun-color-scrollbar-thumb-hover",
-    "--openbitfun-color-status-danger-border",
-    "--openbitfun-color-status-danger-content",
-    "--openbitfun-color-status-danger-surface",
-    "--openbitfun-color-status-info-border",
-    "--openbitfun-color-status-info-content",
-    "--openbitfun-color-status-info-surface",
-    "--openbitfun-color-status-success-border",
-    "--openbitfun-color-status-success-content",
-    "--openbitfun-color-status-success-surface",
-    "--openbitfun-color-status-warning-border",
-    "--openbitfun-color-status-warning-content",
-    "--openbitfun-color-status-warning-surface",
-    "--openbitfun-color-surface-canvas",
-    "--openbitfun-color-surface-chrome",
-    "--openbitfun-color-surface-panel",
-    "--openbitfun-color-surface-raised",
-    "--openbitfun-color-surface-scene",
-    "--openbitfun-color-surface-subtle",
-    "--openbitfun-color-surface-tertiary",
-    "--openbitfun-color-surface-workbench",
-    "--openbitfun-effect-blur-base",
-    "--openbitfun-effect-blur-medium",
-    "--openbitfun-effect-blur-subtle",
-    "--openbitfun-opacity-disabled",
-    "--openbitfun-opacity-focus",
-    "--openbitfun-opacity-hover",
-    "--openbitfun-opacity-muted",
-    "--openbitfun-shadow-accent-glow",
-    "--openbitfun-shadow-base",
-    "--openbitfun-shadow-composer",
-    "--openbitfun-shadow-inner-highlight",
-    "--openbitfun-shadow-inner-highlight-hover",
-    "--openbitfun-shadow-lg",
-    "--openbitfun-shadow-menu",
-    "--openbitfun-shadow-overlay",
-    "--openbitfun-shadow-raised",
-    "--openbitfun-shadow-sm",
-    "--openbitfun-shadow-xl",
-    "--openbitfun-shadow-xs"
+    "--opcteam-color-accent-border",
+    "--opcteam-color-accent-border-subtle",
+    "--opcteam-color-accent-default",
+    "--opcteam-color-accent-disabled",
+    "--opcteam-color-accent-hover",
+    "--opcteam-color-accent-secondary",
+    "--opcteam-color-accent-secondary-border",
+    "--opcteam-color-accent-secondary-hover",
+    "--opcteam-color-accent-secondary-surface",
+    "--opcteam-color-accent-secondary-surface-strong",
+    "--opcteam-color-accent-surface",
+    "--opcteam-color-accent-surface-strong",
+    "--opcteam-color-accent-surface-subtle",
+    "--opcteam-color-action-neutral-border",
+    "--opcteam-color-action-neutral-content",
+    "--opcteam-color-action-neutral-content-disabled",
+    "--opcteam-color-action-neutral-fill-border",
+    "--opcteam-color-action-neutral-surface",
+    "--opcteam-color-action-neutral-surface-hover",
+    "--opcteam-color-action-neutral-surface-pressed",
+    "--opcteam-color-action-primary-background",
+    "--opcteam-color-action-primary-content",
+    "--opcteam-color-action-primary-hover",
+    "--opcteam-color-action-primary-pressed",
+    "--opcteam-color-action-quiet-content",
+    "--opcteam-color-action-quiet-hover",
+    "--opcteam-color-action-quiet-pressed",
+    "--opcteam-color-action-secondary-background",
+    "--opcteam-color-action-secondary-content",
+    "--opcteam-color-action-secondary-hover",
+    "--opcteam-color-action-secondary-pressed",
+    "--opcteam-color-action-card-background",
+    "--opcteam-color-border-default",
+    "--opcteam-color-border-strong",
+    "--opcteam-color-border-subtle",
+    "--opcteam-color-code-change-added",
+    "--opcteam-color-code-change-removed",
+    "--opcteam-color-code-diff-added-gutter",
+    "--opcteam-color-code-diff-added-line",
+    "--opcteam-color-code-diff-added-marker",
+    "--opcteam-color-code-diff-added-word",
+    "--opcteam-color-code-diff-foreground",
+    "--opcteam-color-code-diff-gutter-border",
+    "--opcteam-color-code-diff-line-number",
+    "--opcteam-color-code-diff-removed-gutter",
+    "--opcteam-color-code-diff-removed-line",
+    "--opcteam-color-code-diff-removed-marker",
+    "--opcteam-color-code-diff-removed-word",
+    "--opcteam-color-code-diff-syntax-comment",
+    "--opcteam-color-code-diff-syntax-declaration",
+    "--opcteam-color-code-diff-syntax-function",
+    "--opcteam-color-code-diff-syntax-keyword",
+    "--opcteam-color-code-diff-syntax-number",
+    "--opcteam-color-code-diff-syntax-operator",
+    "--opcteam-color-code-diff-syntax-property",
+    "--opcteam-color-code-diff-syntax-punctuation",
+    "--opcteam-color-code-diff-syntax-string",
+    "--opcteam-color-code-diff-syntax-variable",
+    "--opcteam-color-composer-border",
+    "--opcteam-color-composer-context-background",
+    "--opcteam-color-content-caption",
+    "--opcteam-color-content-disabled",
+    "--opcteam-color-content-inverse",
+    "--opcteam-color-content-muted",
+    "--opcteam-color-content-on-dark",
+    "--opcteam-color-content-on-light",
+    "--opcteam-color-content-primary",
+    "--opcteam-color-content-required-indicator",
+    "--opcteam-color-content-secondary",
+    "--opcteam-color-control-highlight-background",
+    "--opcteam-color-control-highlight-content",
+    "--opcteam-color-control-launcher-background",
+    "--opcteam-color-control-launcher-background-hover",
+    "--opcteam-color-control-launcher-background-pressed",
+    "--opcteam-color-control-launcher-content",
+    "--opcteam-color-control-launcher-content-disabled",
+    "--opcteam-color-control-launcher-content-hover",
+    "--opcteam-color-control-launcher-content-pressed",
+    "--opcteam-color-control-switch-thumb",
+    "--opcteam-color-control-switch-track",
+    "--opcteam-color-control-switch-track-checked",
+    "--opcteam-color-field-background",
+    "--opcteam-color-field-background-hover",
+    "--opcteam-color-field-border",
+    "--opcteam-color-field-border-active",
+    "--opcteam-color-field-border-focus",
+    "--opcteam-color-field-border-hover",
+    "--opcteam-color-field-group-background",
+    "--opcteam-color-field-placeholder",
+    "--opcteam-color-focus-ring",
+    "--opcteam-color-identity-assistant-border",
+    "--opcteam-color-identity-assistant-content",
+    "--opcteam-color-identity-assistant-content-hover",
+    "--opcteam-color-identity-assistant-surface",
+    "--opcteam-color-identity-assistant-surface-subtle",
+    "--opcteam-color-identity-global-search-new-project",
+    "--opcteam-color-identity-global-search-new-session",
+    "--opcteam-color-identity-global-search-open-browser",
+    "--opcteam-color-identity-global-search-open-files",
+    "--opcteam-color-identity-global-search-open-project",
+    "--opcteam-color-identity-global-search-open-terminal",
+    "--opcteam-color-identity-harness-creative",
+    "--opcteam-color-identity-harness-minimal",
+    "--opcteam-color-identity-harness-standard",
+    "--opcteam-color-identity-harness-ultimate",
+    "--opcteam-color-key-hint-background",
+    "--opcteam-color-key-hint-content",
+    "--opcteam-color-link-default",
+    "--opcteam-color-link-hover",
+    "--opcteam-color-number-badge-background",
+    "--opcteam-color-overlay-scrim",
+    "--opcteam-color-scrollbar-thumb",
+    "--opcteam-color-scrollbar-thumb-hover",
+    "--opcteam-color-selection-surface",
+    "--opcteam-color-status-danger-border",
+    "--opcteam-color-status-danger-content",
+    "--opcteam-color-status-danger-emphasis",
+    "--opcteam-color-status-danger-surface",
+    "--opcteam-color-status-info-border",
+    "--opcteam-color-status-info-content",
+    "--opcteam-color-status-info-emphasis",
+    "--opcteam-color-status-info-surface",
+    "--opcteam-color-status-success-border",
+    "--opcteam-color-status-success-content",
+    "--opcteam-color-status-success-emphasis",
+    "--opcteam-color-status-success-surface",
+    "--opcteam-color-status-warning-border",
+    "--opcteam-color-status-warning-content",
+    "--opcteam-color-status-warning-emphasis",
+    "--opcteam-color-status-warning-surface",
+    "--opcteam-color-surface-canvas",
+    "--opcteam-color-surface-chrome",
+    "--opcteam-color-surface-panel",
+    "--opcteam-color-surface-raised",
+    "--opcteam-color-surface-scene",
+    "--opcteam-color-surface-subtle",
+    "--opcteam-color-surface-tertiary",
+    "--opcteam-color-surface-workbench",
+    "--opcteam-component-button-content",
+    "--opcteam-component-button-fill-background",
+    "--opcteam-component-button-fill-background-hover",
+    "--opcteam-component-button-fill-background-pressed",
+    "--opcteam-component-button-outline-border",
+    "--opcteam-component-button-outline-border-interactive",
+    "--opcteam-component-button-primary-background",
+    "--opcteam-component-button-primary-background-hover",
+    "--opcteam-component-button-primary-background-pressed",
+    "--opcteam-component-button-primary-content-disabled",
+    "--opcteam-component-button-text-content",
+    "--opcteam-component-button-text-content-disabled",
+    "--opcteam-component-button-text-content-hover",
+    "--opcteam-component-empty-media",
+    "--opcteam-effect-blur-base",
+    "--opcteam-effect-blur-medium",
+    "--opcteam-effect-blur-subtle",
+    "--opcteam-opacity-disabled",
+    "--opcteam-opacity-focus",
+    "--opcteam-opacity-hover",
+    "--opcteam-opacity-muted",
+    "--opcteam-shadow-accent-glow",
+    "--opcteam-shadow-base",
+    "--opcteam-shadow-composer",
+    "--opcteam-shadow-inner-highlight",
+    "--opcteam-shadow-inner-highlight-hover",
+    "--opcteam-shadow-lg",
+    "--opcteam-shadow-menu",
+    "--opcteam-shadow-overlay",
+    "--opcteam-shadow-raised",
+    "--opcteam-shadow-sm",
+    "--opcteam-shadow-xl",
+    "--opcteam-shadow-xs"
   ],
   "themeScopeIds": [
     "chrome"
   ],
   "widgetVariableNames": [
-    "--openbitfun-color-accent-border",
-    "--openbitfun-color-accent-border-subtle",
-    "--openbitfun-color-accent-default",
-    "--openbitfun-color-accent-disabled",
-    "--openbitfun-color-accent-hover",
-    "--openbitfun-color-accent-secondary",
-    "--openbitfun-color-accent-secondary-border",
-    "--openbitfun-color-accent-secondary-hover",
-    "--openbitfun-color-accent-secondary-surface",
-    "--openbitfun-color-accent-secondary-surface-strong",
-    "--openbitfun-color-accent-surface",
-    "--openbitfun-color-accent-surface-strong",
-    "--openbitfun-color-accent-surface-subtle",
-    "--openbitfun-color-action-neutral-border",
-    "--openbitfun-color-action-neutral-content",
-    "--openbitfun-color-action-neutral-content-disabled",
-    "--openbitfun-color-action-neutral-fill-border",
-    "--openbitfun-color-action-neutral-surface",
-    "--openbitfun-color-action-neutral-surface-hover",
-    "--openbitfun-color-action-neutral-surface-pressed",
-    "--openbitfun-color-action-primary-background",
-    "--openbitfun-color-action-primary-content",
-    "--openbitfun-color-action-primary-hover",
-    "--openbitfun-color-action-primary-pressed",
-    "--openbitfun-color-action-quiet-content",
-    "--openbitfun-color-action-quiet-hover",
-    "--openbitfun-color-action-quiet-pressed",
-    "--openbitfun-color-action-secondary-background",
-    "--openbitfun-color-action-secondary-content",
-    "--openbitfun-color-action-secondary-hover",
-    "--openbitfun-color-action-secondary-pressed",
-    "--openbitfun-color-border-default",
-    "--openbitfun-color-border-strong",
-    "--openbitfun-color-border-subtle",
-    "--openbitfun-color-content-disabled",
-    "--openbitfun-color-content-inverse",
-    "--openbitfun-color-content-muted",
-    "--openbitfun-color-content-on-dark",
-    "--openbitfun-color-content-on-light",
-    "--openbitfun-color-content-primary",
-    "--openbitfun-color-content-secondary",
-    "--openbitfun-color-control-switch-thumb",
-    "--openbitfun-color-control-switch-track",
-    "--openbitfun-color-control-switch-track-checked",
-    "--openbitfun-color-field-background",
-    "--openbitfun-color-field-background-hover",
-    "--openbitfun-color-field-border",
-    "--openbitfun-color-field-border-focus",
-    "--openbitfun-color-field-border-hover",
-    "--openbitfun-color-focus-ring",
-    "--openbitfun-color-identity-assistant-border",
-    "--openbitfun-color-identity-assistant-content",
-    "--openbitfun-color-identity-assistant-content-hover",
-    "--openbitfun-color-identity-assistant-surface",
-    "--openbitfun-color-identity-assistant-surface-subtle",
-    "--openbitfun-color-key-hint-background",
-    "--openbitfun-color-link-default",
-    "--openbitfun-color-link-hover",
-    "--openbitfun-color-overlay-scrim",
-    "--openbitfun-color-scrollbar-thumb",
-    "--openbitfun-color-scrollbar-thumb-hover",
-    "--openbitfun-color-status-danger-border",
-    "--openbitfun-color-status-danger-content",
-    "--openbitfun-color-status-danger-surface",
-    "--openbitfun-color-status-info-border",
-    "--openbitfun-color-status-info-content",
-    "--openbitfun-color-status-info-surface",
-    "--openbitfun-color-status-success-border",
-    "--openbitfun-color-status-success-content",
-    "--openbitfun-color-status-success-surface",
-    "--openbitfun-color-status-warning-border",
-    "--openbitfun-color-status-warning-content",
-    "--openbitfun-color-status-warning-surface",
-    "--openbitfun-color-surface-canvas",
-    "--openbitfun-color-surface-chrome",
-    "--openbitfun-color-surface-panel",
-    "--openbitfun-color-surface-raised",
-    "--openbitfun-color-surface-scene",
-    "--openbitfun-color-surface-subtle",
-    "--openbitfun-color-surface-tertiary",
-    "--openbitfun-color-surface-workbench",
-    "--openbitfun-effect-blur-base",
-    "--openbitfun-effect-blur-medium",
-    "--openbitfun-effect-blur-subtle",
-    "--openbitfun-opacity-disabled",
-    "--openbitfun-opacity-focus",
-    "--openbitfun-opacity-hover",
-    "--openbitfun-opacity-muted",
-    "--openbitfun-shadow-accent-glow",
-    "--openbitfun-shadow-base",
-    "--openbitfun-shadow-composer",
-    "--openbitfun-shadow-inner-highlight",
-    "--openbitfun-shadow-inner-highlight-hover",
-    "--openbitfun-shadow-lg",
-    "--openbitfun-shadow-menu",
-    "--openbitfun-shadow-overlay",
-    "--openbitfun-shadow-raised",
-    "--openbitfun-shadow-sm",
-    "--openbitfun-shadow-xl",
-    "--openbitfun-shadow-xs"
+    "--opcteam-color-accent-border",
+    "--opcteam-color-accent-border-subtle",
+    "--opcteam-color-accent-default",
+    "--opcteam-color-accent-disabled",
+    "--opcteam-color-accent-hover",
+    "--opcteam-color-accent-secondary",
+    "--opcteam-color-accent-secondary-border",
+    "--opcteam-color-accent-secondary-hover",
+    "--opcteam-color-accent-secondary-surface",
+    "--opcteam-color-accent-secondary-surface-strong",
+    "--opcteam-color-accent-surface",
+    "--opcteam-color-accent-surface-strong",
+    "--opcteam-color-accent-surface-subtle",
+    "--opcteam-color-action-neutral-border",
+    "--opcteam-color-action-neutral-content",
+    "--opcteam-color-action-neutral-content-disabled",
+    "--opcteam-color-action-neutral-fill-border",
+    "--opcteam-color-action-neutral-surface",
+    "--opcteam-color-action-neutral-surface-hover",
+    "--opcteam-color-action-neutral-surface-pressed",
+    "--opcteam-color-action-primary-background",
+    "--opcteam-color-action-primary-content",
+    "--opcteam-color-action-primary-hover",
+    "--opcteam-color-action-primary-pressed",
+    "--opcteam-color-action-quiet-content",
+    "--opcteam-color-action-quiet-hover",
+    "--opcteam-color-action-quiet-pressed",
+    "--opcteam-color-action-secondary-background",
+    "--opcteam-color-action-secondary-content",
+    "--opcteam-color-action-secondary-hover",
+    "--opcteam-color-action-secondary-pressed",
+    "--opcteam-color-action-card-background",
+    "--opcteam-color-border-default",
+    "--opcteam-color-border-strong",
+    "--opcteam-color-border-subtle",
+    "--opcteam-color-code-change-added",
+    "--opcteam-color-code-change-removed",
+    "--opcteam-color-code-diff-added-gutter",
+    "--opcteam-color-code-diff-added-line",
+    "--opcteam-color-code-diff-added-marker",
+    "--opcteam-color-code-diff-added-word",
+    "--opcteam-color-code-diff-foreground",
+    "--opcteam-color-code-diff-gutter-border",
+    "--opcteam-color-code-diff-line-number",
+    "--opcteam-color-code-diff-removed-gutter",
+    "--opcteam-color-code-diff-removed-line",
+    "--opcteam-color-code-diff-removed-marker",
+    "--opcteam-color-code-diff-removed-word",
+    "--opcteam-color-code-diff-syntax-comment",
+    "--opcteam-color-code-diff-syntax-declaration",
+    "--opcteam-color-code-diff-syntax-function",
+    "--opcteam-color-code-diff-syntax-keyword",
+    "--opcteam-color-code-diff-syntax-number",
+    "--opcteam-color-code-diff-syntax-operator",
+    "--opcteam-color-code-diff-syntax-property",
+    "--opcteam-color-code-diff-syntax-punctuation",
+    "--opcteam-color-code-diff-syntax-string",
+    "--opcteam-color-code-diff-syntax-variable",
+    "--opcteam-color-composer-border",
+    "--opcteam-color-composer-context-background",
+    "--opcteam-color-content-caption",
+    "--opcteam-color-content-disabled",
+    "--opcteam-color-content-inverse",
+    "--opcteam-color-content-muted",
+    "--opcteam-color-content-on-dark",
+    "--opcteam-color-content-on-light",
+    "--opcteam-color-content-primary",
+    "--opcteam-color-content-required-indicator",
+    "--opcteam-color-content-secondary",
+    "--opcteam-color-control-highlight-background",
+    "--opcteam-color-control-highlight-content",
+    "--opcteam-color-control-launcher-background",
+    "--opcteam-color-control-launcher-background-hover",
+    "--opcteam-color-control-launcher-background-pressed",
+    "--opcteam-color-control-launcher-content",
+    "--opcteam-color-control-launcher-content-disabled",
+    "--opcteam-color-control-launcher-content-hover",
+    "--opcteam-color-control-launcher-content-pressed",
+    "--opcteam-color-control-switch-thumb",
+    "--opcteam-color-control-switch-track",
+    "--opcteam-color-control-switch-track-checked",
+    "--opcteam-color-field-background",
+    "--opcteam-color-field-background-hover",
+    "--opcteam-color-field-border",
+    "--opcteam-color-field-border-active",
+    "--opcteam-color-field-border-focus",
+    "--opcteam-color-field-border-hover",
+    "--opcteam-color-field-group-background",
+    "--opcteam-color-field-placeholder",
+    "--opcteam-color-focus-ring",
+    "--opcteam-color-identity-assistant-border",
+    "--opcteam-color-identity-assistant-content",
+    "--opcteam-color-identity-assistant-content-hover",
+    "--opcteam-color-identity-assistant-surface",
+    "--opcteam-color-identity-assistant-surface-subtle",
+    "--opcteam-color-identity-global-search-new-project",
+    "--opcteam-color-identity-global-search-new-session",
+    "--opcteam-color-identity-global-search-open-browser",
+    "--opcteam-color-identity-global-search-open-files",
+    "--opcteam-color-identity-global-search-open-project",
+    "--opcteam-color-identity-global-search-open-terminal",
+    "--opcteam-color-identity-harness-creative",
+    "--opcteam-color-identity-harness-minimal",
+    "--opcteam-color-identity-harness-standard",
+    "--opcteam-color-identity-harness-ultimate",
+    "--opcteam-color-key-hint-background",
+    "--opcteam-color-key-hint-content",
+    "--opcteam-color-link-default",
+    "--opcteam-color-link-hover",
+    "--opcteam-color-number-badge-background",
+    "--opcteam-color-overlay-scrim",
+    "--opcteam-color-scrollbar-thumb",
+    "--opcteam-color-scrollbar-thumb-hover",
+    "--opcteam-color-selection-surface",
+    "--opcteam-color-status-danger-border",
+    "--opcteam-color-status-danger-content",
+    "--opcteam-color-status-danger-emphasis",
+    "--opcteam-color-status-danger-surface",
+    "--opcteam-color-status-info-border",
+    "--opcteam-color-status-info-content",
+    "--opcteam-color-status-info-emphasis",
+    "--opcteam-color-status-info-surface",
+    "--opcteam-color-status-success-border",
+    "--opcteam-color-status-success-content",
+    "--opcteam-color-status-success-emphasis",
+    "--opcteam-color-status-success-surface",
+    "--opcteam-color-status-warning-border",
+    "--opcteam-color-status-warning-content",
+    "--opcteam-color-status-warning-emphasis",
+    "--opcteam-color-status-warning-surface",
+    "--opcteam-color-surface-canvas",
+    "--opcteam-color-surface-chrome",
+    "--opcteam-color-surface-panel",
+    "--opcteam-color-surface-raised",
+    "--opcteam-color-surface-scene",
+    "--opcteam-color-surface-subtle",
+    "--opcteam-color-surface-tertiary",
+    "--opcteam-color-surface-workbench",
+    "--opcteam-component-button-content",
+    "--opcteam-component-button-fill-background",
+    "--opcteam-component-button-fill-background-hover",
+    "--opcteam-component-button-fill-background-pressed",
+    "--opcteam-component-button-outline-border",
+    "--opcteam-component-button-outline-border-interactive",
+    "--opcteam-component-button-primary-background",
+    "--opcteam-component-button-primary-background-hover",
+    "--opcteam-component-button-primary-background-pressed",
+    "--opcteam-component-button-primary-content-disabled",
+    "--opcteam-component-button-text-content",
+    "--opcteam-component-button-text-content-disabled",
+    "--opcteam-component-button-text-content-hover",
+    "--opcteam-component-empty-media",
+    "--opcteam-effect-blur-base",
+    "--opcteam-effect-blur-medium",
+    "--opcteam-effect-blur-subtle",
+    "--opcteam-opacity-disabled",
+    "--opcteam-opacity-focus",
+    "--opcteam-opacity-hover",
+    "--opcteam-opacity-muted",
+    "--opcteam-shadow-accent-glow",
+    "--opcteam-shadow-base",
+    "--opcteam-shadow-composer",
+    "--opcteam-shadow-inner-highlight",
+    "--opcteam-shadow-inner-highlight-hover",
+    "--opcteam-shadow-lg",
+    "--opcteam-shadow-menu",
+    "--opcteam-shadow-overlay",
+    "--opcteam-shadow-raised",
+    "--opcteam-shadow-sm",
+    "--opcteam-shadow-xl",
+    "--opcteam-shadow-xs"
   ]
 }

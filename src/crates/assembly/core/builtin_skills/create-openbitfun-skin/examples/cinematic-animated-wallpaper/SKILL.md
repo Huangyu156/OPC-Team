@@ -83,7 +83,7 @@ python examples/cinematic-animated-wallpaper/scripts/build_cinematic_skin.py bui
   --name "<Skin name>" `
   --frame-time <seconds> `
   --palette <palette.json> `
-  --openbitfun-repo <openbitfun-repo>
+  --opcteam-repo <openbitfun-repo>
 ```
 
 The thin recipe entrypoint combines cinematic asset generation and manifest construction with the parent's generic build support. It initializes the package, generates previews and assets, copies resolved recipe inputs, scaffolds the manifest, validates project and archive, runs strict host verification, and writes the reproducibility record.

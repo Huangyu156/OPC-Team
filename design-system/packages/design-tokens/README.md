@@ -57,16 +57,16 @@ fallbacks, density, and the runtime font-size preference remain synchronized:
 
 ```css
 .title {
-  font-family: var(--openbitfun-type-heading-card-font-family);
-  font-size: var(--openbitfun-type-heading-card-font-size);
-  font-weight: var(--openbitfun-type-heading-card-font-weight);
-  line-height: var(--openbitfun-type-heading-card-line-height);
-  letter-spacing: var(--openbitfun-type-heading-card-letter-spacing);
+  font-family: var(--opcteam-type-heading-card-font-family);
+  font-size: var(--opcteam-type-heading-card-font-size);
+  font-weight: var(--opcteam-type-heading-card-font-weight);
+  line-height: var(--opcteam-type-heading-card-line-height);
+  letter-spacing: var(--opcteam-type-heading-card-letter-spacing);
 }
 ```
 
-Foundation variables such as `--openbitfun-font-size-sm` remain available for renderer
-adapters and non-text geometry. Public text components should use `--openbitfun-type-*`
+Foundation variables such as `--opcteam-font-size-sm` remain available for renderer
+adapters and non-text geometry. Public text components should use `--opcteam-type-*`
 roles.
 
 When an existing composition intentionally overrides only line height or

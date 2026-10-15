@@ -5,16 +5,16 @@ type SyntaxRole = 'comment' | 'punctuation' | 'keyword' | 'declaration' | 'funct
   | 'string' | 'number' | 'property' | 'variable' | 'operator';
 
 const syntaxColors: Record<SyntaxRole, string> = {
-  comment: 'var(--openbitfun-color-code-diff-syntax-comment)',
-  punctuation: 'var(--openbitfun-color-code-diff-syntax-punctuation)',
-  keyword: 'var(--openbitfun-color-code-diff-syntax-keyword)',
-  declaration: 'var(--openbitfun-color-code-diff-syntax-declaration)',
-  function: 'var(--openbitfun-color-code-diff-syntax-function)',
-  string: 'var(--openbitfun-color-code-diff-syntax-string)',
-  number: 'var(--openbitfun-color-code-diff-syntax-number)',
-  property: 'var(--openbitfun-color-code-diff-syntax-property)',
-  variable: 'var(--openbitfun-color-code-diff-syntax-variable)',
-  operator: 'var(--openbitfun-color-code-diff-syntax-operator)',
+  comment: 'var(--opcteam-color-code-diff-syntax-comment)',
+  punctuation: 'var(--opcteam-color-code-diff-syntax-punctuation)',
+  keyword: 'var(--opcteam-color-code-diff-syntax-keyword)',
+  declaration: 'var(--opcteam-color-code-diff-syntax-declaration)',
+  function: 'var(--opcteam-color-code-diff-syntax-function)',
+  string: 'var(--opcteam-color-code-diff-syntax-string)',
+  number: 'var(--opcteam-color-code-diff-syntax-number)',
+  property: 'var(--opcteam-color-code-diff-syntax-property)',
+  variable: 'var(--opcteam-color-code-diff-syntax-variable)',
+  operator: 'var(--opcteam-color-code-diff-syntax-operator)',
 };
 
 // Prism uses kebab-case token names. Keep HTML attributes and type names

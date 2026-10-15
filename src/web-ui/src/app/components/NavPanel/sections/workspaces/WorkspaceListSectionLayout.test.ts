@@ -36,7 +36,7 @@ describe('WorkspaceListSection layout styles', () => {
     const workspaceList = extractBlock(stylesheet, '&__workspace-list');
     const workspaceDropTarget = extractBlock(stylesheet, '&__workspace-drop-target');
 
-    expect(workspaceList).toContain('gap: var(--openbitfun-space-2);');
+    expect(workspaceList).toContain('gap: var(--opcteam-space-2);');
     expect(workspaceDropTarget).toContain('gap: 0;');
   });
 
@@ -65,7 +65,7 @@ describe('WorkspaceListSection layout styles', () => {
     expect(workspaceGroup).toContain('min-width: 0;');
     expect(workspaceItem).toContain('min-width: 0;');
     expect(workspaceItem).toContain('max-width: 100%;');
-    expect(workspaceItem).toContain('gap: calc(var(--openbitfun-space-1) / 2);');
+    expect(workspaceItem).toContain('gap: calc(var(--opcteam-space-1) / 2);');
     expect(workspaceCard).toContain('max-width: 100%;');
     expect(workspaceCard).toContain('overflow: hidden;');
     expect(workspaceIcon).toContain('width: var(--_nav-icon-size-prominent);');
@@ -93,7 +93,7 @@ describe('WorkspaceListSection layout styles', () => {
 
     expect(assistantItem).toContain('min-width: 0;');
     expect(assistantItem).toContain('max-width: 100%;');
-    expect(assistantItem).toContain('gap: calc(var(--openbitfun-space-1) / 2);');
+    expect(assistantItem).toContain('gap: calc(var(--opcteam-space-1) / 2);');
     expect(assistantCard).toContain('max-width: 100%;');
     expect(assistantCard).toContain('min-height: 30px;');
     expect(assistantCard).toContain('overflow: hidden;');
@@ -121,7 +121,7 @@ describe('WorkspaceListSection layout styles', () => {
     expect(assistantMenu).toContain('gap: 4px;');
     // The 30px session indent now lives on the list as a shared rail so the
     // rows and their sibling "show more" toggle stay on one text axis.
-    expect(stylesheet).toContain('--openbitfun-nav-session-rail: 30px;');
+    expect(stylesheet).toContain('--opcteam-nav-session-rail: 30px;');
     expect(stylesheet).toContain('padding-right: 0;');
   });
 
@@ -130,7 +130,7 @@ describe('WorkspaceListSection layout styles', () => {
     const fullWidthSessionLists = stylesheet.match(
       /\.openbitfun-nav-panel__inline-list \{\n\s+\/\/[^\n]+\n\s+margin-left: 0;/g,
     );
-    const sessionRails = stylesheet.match(/--openbitfun-nav-session-rail: 30px;/g);
+    const sessionRails = stylesheet.match(/--opcteam-nav-session-rail: 30px;/g);
 
     expect(fullWidthSessionLists).toHaveLength(2);
     expect(sessionRails).toHaveLength(2);
@@ -212,18 +212,18 @@ describe('WorkspaceListSection layout styles', () => {
       "&__workspace-item[data-openbitfun-state~='remote'] &__workspace-item-name-btn",
     );
 
-    expect(remoteNameRow).toContain('gap: var(--openbitfun-space-2);');
+    expect(remoteNameRow).toContain('gap: var(--opcteam-space-2);');
     expect(remoteNameButton).toContain('flex: 1 1 0;');
     expect(remoteNameButton).toContain('max-width: none;');
-    expect(remoteChip).toContain('gap: var(--openbitfun-space-2);');
+    expect(remoteChip).toContain('gap: var(--opcteam-space-2);');
     expect(remoteChip).toContain('flex: 0 0 auto;');
     expect(remoteChip).toContain('margin-left: auto;');
-    expect(remoteChip).toContain('padding: 0 var(--openbitfun-space-2);');
-    expect(remoteChip).toContain('border-radius: var(--openbitfun-radius-base);');
+    expect(remoteChip).toContain('padding: 0 var(--opcteam-space-2);');
+    expect(remoteChip).toContain('border-radius: var(--opcteam-radius-base);');
     expect(stylesheet).toContain(
       '&.is-connected {\n' +
-      '      background: var(--openbitfun-color-status-success-surface);\n' +
-      '      color: var(--openbitfun-color-status-success-content);',
+      '      background: var(--opcteam-color-status-success-surface);\n' +
+      '      color: var(--opcteam-color-status-success-content);',
     );
     expect(remoteHost).toContain('flex: 0 0 auto;');
     expect(remoteHost).toContain('white-space: nowrap;');

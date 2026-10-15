@@ -57,7 +57,7 @@ function createTurns(count: number): FlowChatTurnRailItem[] {
 }
 
 const railCss = compile(resolve(__dirname, 'FlowChatTurnRail.scss')).css;
-const fullBarWidth = 'var(--openbitfun-control-flow-chat-turn-rail-width)';
+const fullBarWidth = 'var(--opcteam-control-flow-chat-turn-rail-width)';
 
 describe('FlowChatTurnRail', () => {
   let container: HTMLDivElement;
@@ -67,7 +67,7 @@ describe('FlowChatTurnRail', () => {
   const emphasizedBars = () => {
     const selectors = Array.from(style.sheet!.cssRules)
       .filter((rule): rule is CSSStyleRule => rule instanceof CSSStyleRule)
-      .filter(rule => rule.style.getPropertyValue('background') === 'var(--openbitfun-color-content-primary)'
+      .filter(rule => rule.style.getPropertyValue('background') === 'var(--opcteam-color-content-primary)'
         && rule.style.getPropertyValue('opacity') === '0.8')
       .map(rule => rule.selectorText);
     expect(selectors.length).toBeGreaterThan(0);

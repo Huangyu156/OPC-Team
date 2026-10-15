@@ -29,8 +29,8 @@ test("LoadingState composes Spinner with optional support copy", () => {
 
 test("Spinner styling uses public system, motion, and semantic tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
-  assert.match(styles, /--openbitfun-layout-spinner-matrix-cell-md/);
-  assert.match(styles, /--openbitfun-layout-spinner-matrix-gap-md/);
-  assert.match(styles, /--openbitfun-motion-duration-loop/);
-  assert.match(styles, /--openbitfun-color-content-muted/);
+  assert.match(styles, /--opcteam-layout-spinner-matrix-cell-md/);
+  assert.match(styles, /--opcteam-layout-spinner-matrix-gap-md/);
+  assert.match(styles, /--opcteam-motion-duration-loop/);
+  assert.match(styles, /--opcteam-color-content-muted/);
 });

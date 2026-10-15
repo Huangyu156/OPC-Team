@@ -12,8 +12,8 @@
   min-height: 0;
   overflow: hidden;
   container-type: inline-size;
-  background: var(--openbitfun-color-surface-scene);
-  animation: welcome-scene-reveal var(--openbitfun-motion-duration-normal) var(--openbitfun-motion-easing-enter) both;
+  background: var(--opcteam-color-surface-scene);
+  animation: welcome-scene-reveal var(--opcteam-motion-duration-normal) var(--opcteam-motion-easing-enter) both;
 
   &__content {
     display: flex;
@@ -22,8 +22,8 @@
     justify-content: center;
     min-width: 0;
     min-height: 0;
-    padding: var(--openbitfun-space-6);
-    padding-block-end: max(var(--openbitfun-space-6), 12vh);
+    padding: var(--opcteam-space-6);
+    padding-block-end: max(var(--opcteam-space-6), 12vh);
   }
 
   &__greeting {
@@ -40,20 +40,20 @@
     width: 56px;
     height: 56px;
     flex-shrink: 0;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   &__brand {
     display: flex;
     align-items: center;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
     margin: 0;
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-display-sm-font-family);
-    font-size: var(--openbitfun-type-display-sm-font-size);
-    font-weight: var(--openbitfun-type-display-sm-font-weight);
-    line-height: var(--openbitfun-type-display-sm-line-height);
-    letter-spacing: var(--openbitfun-type-display-sm-letter-spacing);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-display-sm-font-family);
+    font-size: var(--opcteam-type-display-sm-font-size);
+    font-weight: var(--opcteam-type-display-sm-font-weight);
+    line-height: var(--opcteam-type-display-sm-line-height);
+    letter-spacing: var(--opcteam-type-display-sm-letter-spacing);
     white-space: nowrap;
   }
 
@@ -68,12 +68,12 @@
     justify-content: center;
     max-width: 100%;
     margin: 0;
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-display-sm-font-family);
-    font-size: var(--openbitfun-type-display-sm-font-size);
-    font-weight: var(--openbitfun-type-body-lg-font-weight);
-    line-height: var(--openbitfun-type-display-sm-line-height);
-    letter-spacing: var(--openbitfun-type-display-sm-letter-spacing);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-display-sm-font-family);
+    font-size: var(--opcteam-type-display-sm-font-size);
+    font-weight: var(--opcteam-type-body-lg-font-weight);
+    line-height: var(--opcteam-type-display-sm-line-height);
+    letter-spacing: var(--opcteam-type-display-sm-letter-spacing);
   }
 
   &__phrase-slot {
@@ -123,12 +123,12 @@
 @container (max-width: 560px) {
   .welcome-scene {
     &__content {
-      padding-inline: var(--openbitfun-space-4);
+      padding-inline: var(--opcteam-space-4);
     }
 
     &__brand,
     &__tagline {
-      font-size: var(--openbitfun-type-heading-display-font-size);
+      font-size: var(--opcteam-type-heading-display-font-size);
     }
 
     &__logo {
@@ -142,7 +142,7 @@
   .welcome-scene {
     &__brand,
     &__tagline {
-      font-size: var(--openbitfun-type-flow-title-font-size);
+      font-size: var(--opcteam-type-flow-title-font-size);
     }
 
     &__logo {

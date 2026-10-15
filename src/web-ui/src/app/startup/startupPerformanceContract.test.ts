@@ -84,12 +84,12 @@ describe('startup performance contract', () => {
     for (const styles of [source, componentStyles]) {
       expect(styles).toContain('width: 120px;');
       expect(styles).not.toContain('width: 144px;');
-      expect(styles).toMatch(/(?:background-)?color: var\(--openbitfun-color-content-on-light\);/);
-      expect(styles).toMatch(/(?:background-)?color: var\(--openbitfun-color-content-on-dark\);/);
-      expect(styles).toContain('color: var(--openbitfun-color-content-secondary);');
-      expect(styles).not.toContain('var(--openbitfun-color-content-on-dark) 80%, transparent');
-      expect(styles).toContain('var(--openbitfun-color-content-on-dark) 60%, transparent');
-      expect(styles).toContain('font-size: var(--openbitfun-type-label-md-font-size);');
+      expect(styles).toMatch(/(?:background-)?color: var\(--opcteam-color-content-on-light\);/);
+      expect(styles).toMatch(/(?:background-)?color: var\(--opcteam-color-content-on-dark\);/);
+      expect(styles).toContain('color: var(--opcteam-color-content-secondary);');
+      expect(styles).not.toContain('var(--opcteam-color-content-on-dark) 80%, transparent');
+      expect(styles).toContain('var(--opcteam-color-content-on-dark) 60%, transparent');
+      expect(styles).toContain('font-size: var(--opcteam-type-label-md-font-size);');
     }
   });
 

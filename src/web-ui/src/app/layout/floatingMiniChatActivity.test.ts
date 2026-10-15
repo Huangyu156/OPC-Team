@@ -36,8 +36,8 @@ describe('floating MiniApp chat activity', () => {
     const stylesheet = readSource('./FloatingMiniChat.scss');
 
     expect(component).toMatch(/<div\b[^>]*role="dialog"[^>]*data-motion="presence"/);
-    expect(stylesheet).not.toContain('--openbitfun-color-control-launcher');
-    expect(stylesheet).not.toContain('--openbitfun-color-control-highlight');
+    expect(stylesheet).not.toContain('--opcteam-color-control-launcher');
+    expect(stylesheet).not.toContain('--opcteam-color-control-highlight');
     expect(stylesheet).toMatch(/\.openbitfun-fmc__button\s*\{[\s\S]*?\.openbitfun-fmc--open &[\s\S]*?visibility: hidden;[\s\S]*?pointer-events: none;/);
     expect(stylesheet).toContain('transition-behavior: allow-discrete;');
   });

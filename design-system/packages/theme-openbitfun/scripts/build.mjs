@@ -173,22 +173,33 @@ for (const tokens of [lightTokens, darkTokens, highContrastLightTokens, highCont
 
 const css = [
   renderCss(semanticThemes.light, {
-    layer: "openbitfun.tokens.theme",
-    selector: ':where([data-openbitfun-design-system-root]), :where([data-openbitfun-design-system-root][data-color-scheme="light"])',
+    layer: "opcteam.tokens.theme",
+    selector: ':where([data-opcteam-design-system-root]), :where([data-opcteam-design-system-root][data-color-scheme="light"])',
   }),
   renderCss(semanticThemes.dark, {
-    layer: "openbitfun.tokens.theme",
-    selector: ':where([data-openbitfun-design-system-root][data-color-scheme="dark"])',
+    layer: "opcteam.tokens.theme",
+    selector: ':where([data-opcteam-design-system-root][data-color-scheme="dark"])',
   }),
   renderCss(diffResolvedTokens(semanticThemes.light, semanticThemes.highContrastLight), {
-    layer: "openbitfun.tokens.theme",
-    selector: ':where([data-openbitfun-design-system-root][data-color-scheme="light"][data-contrast="high"])',
+    layer: "opcteam.tokens.theme",
+    selector: ':where([data-opcteam-design-system-root][data-color-scheme="light"][data-contrast="high"])',
   }),
   renderCss(diffResolvedTokens(semanticThemes.dark, semanticThemes.highContrastDark), {
-    layer: "openbitfun.tokens.theme",
-    selector: ':where([data-openbitfun-design-system-root][data-color-scheme="dark"][data-contrast="high"])',
+    layer: "opcteam.tokens.theme",
+    selector: ':where([data-opcteam-design-system-root][data-color-scheme="dark"][data-contrast="high"])',
   }),
 ].join("\n");
+
+const legacyAliasCss = `/* Legacy compatibility aliases: skins authored before the OPC-Team rename reference --opcteam-* names. Keep until no supported skin can still reference them. */
+:root, :where([data-opcteam-design-system-root]) {
+${Object.keys(semanticThemes.light)
+  .map((name) => {
+    const newName = tokenNameToCssVariable(name);
+    return `  --opcteam-${newName.slice("--opcteam-".length)}: var(${newName});`;
+  })
+  .join("\n")}
+}
+`;
 
 const themeData = {
   dark: Object.fromEntries(Object.entries(semanticThemes.dark).map(([name, token]) => [name, token.value])),
@@ -229,10 +240,10 @@ const declarationSource = [
   `export type ThemeTokenName = ${themeTokenNameUnion || "never"};`,
   'export declare const themeContractVersion: "0.1.0";',
   "export declare const themes: Readonly<Record<ThemeDataName, Readonly<Record<ThemeTokenName, string | number | boolean>>>>;",
-  "export declare const themeCssVariables: Readonly<Record<ThemeTokenName, `--openbitfun-${string}`>>;",
+  "export declare const themeCssVariables: Readonly<Record<ThemeTokenName, `--opcteam-${string}`>>;",
   "export interface ThemeTokenCatalogEntry {",
   "  readonly category: string;",
-  "  readonly cssVariable: `--openbitfun-${string}`;",
+  "  readonly cssVariable: `--opcteam-${string}`;",
   "  readonly description?: string;",
   "  readonly name: ThemeTokenName;",
   "  readonly type: string;",
@@ -265,7 +276,7 @@ const authoringDeclarationSource = [
 
 await mkdir(outputDirectory, { recursive: true });
 await Promise.all([
-  writeFile(path.join(outputDirectory, "themes.css"), css),
+  writeFile(path.join(outputDirectory, "themes.css"), css + legacyAliasCss),
   writeFile(
     path.join(outputDirectory, "default.css"),
     '@import "@openbitfun/design-tokens/tokens.css";\n@import "./themes.css";\n',

@@ -37,16 +37,16 @@ $config-input-height: 32px;
 
 
 .openbitfun-config-form__label {
-  font-size: var(--openbitfun-type-label-selected-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  color: var(--openbitfun-color-content-primary);
-  line-height: var(--openbitfun-type-label-selected-line-height);
-  letter-spacing: var(--openbitfun-type-label-selected-letter-spacing);
+  font-size: var(--opcteam-type-label-selected-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  color: var(--opcteam-color-content-primary);
+  line-height: var(--opcteam-type-label-selected-line-height);
+  letter-spacing: var(--opcteam-type-label-selected-letter-spacing);
   overflow-wrap: break-word;
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-2);
-  margin-bottom: var(--openbitfun-space-1);
+  gap: var(--opcteam-space-2);
+  margin-bottom: var(--opcteam-space-1);
   user-select: none;
   list-style: none;
   
@@ -59,12 +59,12 @@ $config-input-height: 32px;
 }
 
 .openbitfun-config-form__hint {
-  font-size: var(--openbitfun-type-support-font-size);
-  font-weight: var(--openbitfun-type-support-font-weight);
-  color: var(--openbitfun-color-content-secondary);
-  margin-top: var(--openbitfun-space-1);
-  line-height: var(--openbitfun-type-field-helper-line-height);
-  letter-spacing: var(--openbitfun-type-support-letter-spacing);
+  font-size: var(--opcteam-type-support-font-size);
+  font-weight: var(--opcteam-type-support-font-weight);
+  color: var(--opcteam-color-content-secondary);
+  margin-top: var(--opcteam-space-1);
+  line-height: var(--opcteam-type-field-helper-line-height);
+  letter-spacing: var(--opcteam-type-support-letter-spacing);
   overflow-wrap: break-word;
 }
 
@@ -75,39 +75,39 @@ $config-input-height: 32px;
 .openbitfun-config-form__textarea {
   width: 100%;
   padding: 0 12px !important;
-  font-size: var(--openbitfun-type-label-md-font-size) !important;
-  line-height: var(--openbitfun-type-label-md-line-height) !important;
-  color: var(--openbitfun-color-content-primary) !important;
+  font-size: var(--opcteam-type-label-md-font-size) !important;
+  line-height: var(--opcteam-type-label-md-line-height) !important;
+  color: var(--opcteam-color-content-primary) !important;
   background: transparent !important;
-  border: 1px solid var(--openbitfun-color-border-default) !important;
-  border-radius: var(--openbitfun-radius-sm) !important;
+  border: 1px solid var(--opcteam-color-border-default) !important;
+  border-radius: var(--opcteam-radius-sm) !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  transition: border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-              background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard) !important;
+  transition: border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+              background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard) !important;
   outline: none !important;
-  font-family:var(--openbitfun-type-body-sm-font-family);
+  font-family:var(--opcteam-type-body-sm-font-family);
   transform: none !important;
   box-shadow: none !important;
 
   &:focus {
-    border-color: var(--openbitfun-color-accent-default) !important;
+    border-color: var(--opcteam-color-accent-default) !important;
     background: transparent !important;
     box-shadow: none !important;
     transform: none !important;
   }
 
   &:hover:not(:focus):not(:disabled) {
-    border-color: var(--openbitfun-color-field-border-hover) !important;
+    border-color: var(--opcteam-color-field-border-hover) !important;
     background: transparent !important;
     transform: none !important;
   }
 
   &:disabled {
-    opacity: var(--openbitfun-opacity-disabled) !important;
+    opacity: var(--opcteam-opacity-disabled) !important;
     cursor: default !important;
-    background: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 4%, transparent) !important;
-    border-color: var(--openbitfun-color-border-subtle) !important;
+    background: color-mix(in srgb, var(--opcteam-color-content-on-dark) 4%, transparent) !important;
+    border-color: var(--opcteam-color-border-subtle) !important;
   }
 }
 
@@ -117,15 +117,15 @@ $config-input-height: 32px;
   height: $config-input-height;
 
   &::placeholder {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     opacity: 0.6;
     font-style: italic;
   }
 
   
   &[type="password"] {
-    font-family:var(--openbitfun-type-code-md-font-family);
-    letter-spacing: var(--openbitfun-type-modifier-tracking-caps-letter-spacing);
+    font-family:var(--opcteam-type-code-md-font-family);
+    letter-spacing: var(--opcteam-type-modifier-tracking-caps-letter-spacing);
   }
 
   
@@ -153,11 +153,11 @@ $config-input-height: 32px;
 
 .openbitfun-config-form__select {
   height: $config-input-height !important;
-  line-height: var(--openbitfun-type-label-md-line-height) !important;
+  line-height: var(--opcteam-type-label-md-line-height) !important;
   cursor: pointer !important;
   background-image:
-    linear-gradient(45deg, transparent 50%, color-mix(in srgb, var(--openbitfun-color-content-muted) 80%, transparent) 50%),
-    linear-gradient(135deg, color-mix(in srgb, var(--openbitfun-color-content-muted) 80%, transparent) 50%, transparent 50%) !important;
+    linear-gradient(45deg, transparent 50%, color-mix(in srgb, var(--opcteam-color-content-muted) 80%, transparent) 50%),
+    linear-gradient(135deg, color-mix(in srgb, var(--opcteam-color-content-muted) 80%, transparent) 50%, transparent 50%) !important;
   background-position:
     calc(100% - 16px) 50%,
     calc(100% - 11px) 50% !important;
@@ -172,11 +172,11 @@ $config-input-height: 32px;
   vertical-align: middle !important;
 
   option {
-    background: var(--openbitfun-color-surface-panel) !important;
-    color: var(--openbitfun-color-content-primary) !important;
+    background: var(--opcteam-color-surface-panel) !important;
+    color: var(--opcteam-color-content-primary) !important;
     padding: 6px 10px !important;
-    font-size: var(--openbitfun-type-label-md-font-size) !important;
-    line-height: var(--openbitfun-type-body-sm-line-height) !important;
+    font-size: var(--opcteam-type-label-md-font-size) !important;
+    line-height: var(--opcteam-type-body-sm-line-height) !important;
   }
 }
 
@@ -185,10 +185,10 @@ $config-input-height: 32px;
 .openbitfun-config-form__textarea {
   min-height: 80px;
   resize: vertical;
-  font-family:var(--openbitfun-type-body-sm-font-family);
+  font-family:var(--opcteam-type-body-sm-font-family);
 
   &::placeholder {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     opacity: 0.8;
   }
 }
@@ -232,7 +232,7 @@ $config-input-height: 32px;
   width: 16px;
   height: 16px;
   background: transparent;
-  border: 1.5px solid var(--openbitfun-color-field-border-hover);
+  border: 1.5px solid var(--opcteam-color-field-border-hover);
   border-radius: 3px;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
@@ -250,7 +250,7 @@ $config-input-height: 32px;
     content: '';
     width: 4px;
     height: 8px;
-    border: solid var(--openbitfun-color-content-on-dark);
+    border: solid var(--opcteam-color-content-on-dark);
     border-width: 0 1.5px 1.5px 0;
     transform: rotate(45deg) scale(0.8);
     opacity: 0;
@@ -261,8 +261,8 @@ $config-input-height: 32px;
 }
 
 .openbitfun-config-form__checkbox-input:checked + .openbitfun-config-form__checkbox-mark {
-  background: var(--openbitfun-color-accent-default);
-  border-color: var(--openbitfun-color-accent-default);
+  background: var(--opcteam-color-accent-default);
+  border-color: var(--opcteam-color-accent-default);
   box-shadow: none;
 
   &::after {
@@ -272,17 +272,17 @@ $config-input-height: 32px;
 }
 
 .openbitfun-config-form__checkbox-input:focus + .openbitfun-config-form__checkbox-mark {
-  border-color: var(--openbitfun-color-accent-default);
+  border-color: var(--opcteam-color-accent-default);
   box-shadow: none;
 }
 
 .openbitfun-config-form__checkbox:hover .openbitfun-config-form__checkbox-mark {
-  border-color: var(--openbitfun-color-border-strong);
+  border-color: var(--opcteam-color-border-strong);
 }
 
 .openbitfun-config-form__checkbox:hover .openbitfun-config-form__checkbox-input:checked + .openbitfun-config-form__checkbox-mark {
-  background: var(--openbitfun-color-accent-hover);
-  border-color: var(--openbitfun-color-accent-hover);
+  background: var(--opcteam-color-accent-hover);
+  border-color: var(--opcteam-color-accent-hover);
   box-shadow: none;
 }
 
@@ -294,20 +294,20 @@ $config-input-height: 32px;
 }
 
 .openbitfun-config-form__checkbox-title {
-  font-size: var(--openbitfun-type-label-selected-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
-  color: var(--openbitfun-color-content-primary);
-  line-height: var(--openbitfun-type-label-selected-line-height);
-  letter-spacing: var(--openbitfun-type-label-selected-letter-spacing);
+  font-size: var(--opcteam-type-label-selected-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
+  color: var(--opcteam-color-content-primary);
+  line-height: var(--opcteam-type-label-selected-line-height);
+  letter-spacing: var(--opcteam-type-label-selected-letter-spacing);
   overflow-wrap: break-word;
 }
 
 .openbitfun-config-form__checkbox-description {
-  font-size: var(--openbitfun-type-support-font-size);
-  font-weight: var(--openbitfun-type-support-font-weight);
-  color: var(--openbitfun-color-content-secondary);
-  line-height: var(--openbitfun-type-modifier-leading-support-line-height);
-  letter-spacing: var(--openbitfun-type-support-letter-spacing);
+  font-size: var(--opcteam-type-support-font-size);
+  font-weight: var(--opcteam-type-support-font-weight);
+  color: var(--opcteam-color-content-secondary);
+  line-height: var(--opcteam-type-modifier-leading-support-line-height);
+  letter-spacing: var(--opcteam-type-support-letter-spacing);
   overflow-wrap: break-word;
 }
 
@@ -315,11 +315,11 @@ $config-input-height: 32px;
 
 .openbitfun-config-form__actions {
   display: flex;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
   justify-content: flex-end;
-  margin-top: var(--openbitfun-space-5);
-  padding-top: var(--openbitfun-space-4);
-  border-top: 1px solid color-mix(in srgb, var(--openbitfun-color-accent-hover) 30%, transparent);
+  margin-top: var(--opcteam-space-5);
+  padding-top: var(--opcteam-space-4);
+  border-top: 1px solid color-mix(in srgb, var(--opcteam-color-accent-hover) 30%, transparent);
 
   &--start {
     justify-content: flex-start;
@@ -339,37 +339,37 @@ $config-input-height: 32px;
 .openbitfun-config-form__status {
   display: flex;
   align-items: flex-start;
-  gap: var(--openbitfun-space-3);
-  padding: var(--openbitfun-space-3) var(--openbitfun-space-4);
-  border-radius: var(--openbitfun-radius-base);
-  font-size: var(--openbitfun-type-label-md-font-size);
-  line-height: var(--openbitfun-type-body-sm-line-height);
+  gap: var(--opcteam-space-3);
+  padding: var(--opcteam-space-3) var(--opcteam-space-4);
+  border-radius: var(--opcteam-radius-base);
+  font-size: var(--opcteam-type-label-md-font-size);
+  line-height: var(--opcteam-type-body-sm-line-height);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
-  margin-top: var(--openbitfun-space-4);
+  margin-top: var(--opcteam-space-4);
 
   &--success {
-    background: var(--openbitfun-color-status-success-surface);
-    border: 1px solid var(--openbitfun-color-status-success-border);
-    color: var(--openbitfun-color-status-success-content);
+    background: var(--opcteam-color-status-success-surface);
+    border: 1px solid var(--opcteam-color-status-success-border);
+    color: var(--opcteam-color-status-success-content);
   }
 
   &--error {
-    background: var(--openbitfun-color-status-danger-surface);
-    border: 1px solid var(--openbitfun-color-status-danger-border);
-    color: var(--openbitfun-color-status-danger-content);
+    background: var(--opcteam-color-status-danger-surface);
+    border: 1px solid var(--opcteam-color-status-danger-border);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   &--warning {
-    background: var(--openbitfun-color-status-warning-surface);
-    border: 1px solid var(--openbitfun-color-status-warning-border);
-    color: var(--openbitfun-color-status-warning-content);
+    background: var(--opcteam-color-status-warning-surface);
+    border: 1px solid var(--opcteam-color-status-warning-border);
+    color: var(--opcteam-color-status-warning-content);
   }
 
   &--info {
-    background: var(--openbitfun-color-status-info-surface);
-    border: 1px solid var(--openbitfun-color-status-info-border);
-    color: var(--openbitfun-color-status-info-content);
+    background: var(--opcteam-color-status-info-surface);
+    border: 1px solid var(--opcteam-color-status-info-border);
+    color: var(--opcteam-color-status-info-content);
   }
 }
 
@@ -378,7 +378,7 @@ $config-input-height: 32px;
 .openbitfun-config-form__section {
   display: flex;
   flex-direction: column;
-  gap: var(--openbitfun-space-5);
+  gap: var(--opcteam-space-5);
   padding: 0;
   background: transparent;
   border: none;
@@ -393,29 +393,29 @@ $config-input-height: 32px;
 .openbitfun-config-form__section-content {
   display: flex;
   flex-direction: column;
-  gap: var(--openbitfun-space-4);
+  gap: var(--opcteam-space-4);
 }
 
 .openbitfun-config-form__section-title {
-  font-size: var(--openbitfun-type-heading-section-font-size);
-  font-weight: var(--openbitfun-type-heading-section-font-weight);
-  color: var(--openbitfun-color-content-primary);
-  line-height: var(--openbitfun-type-heading-section-line-height);
-  letter-spacing: var(--openbitfun-type-heading-section-letter-spacing);
+  font-size: var(--opcteam-type-heading-section-font-size);
+  font-weight: var(--opcteam-type-heading-section-font-weight);
+  color: var(--opcteam-color-content-primary);
+  line-height: var(--opcteam-type-heading-section-line-height);
+  letter-spacing: var(--opcteam-type-heading-section-letter-spacing);
   overflow-wrap: break-word;
-  margin: 0 0 var(--openbitfun-space-3) 0;
+  margin: 0 0 var(--opcteam-space-3) 0;
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 .openbitfun-config-form__section-description {
-  font-size: var(--openbitfun-type-body-sm-font-size);
-  font-weight: var(--openbitfun-type-body-sm-font-weight);
-  color: var(--openbitfun-color-content-primary);
-  margin: 0 0 var(--openbitfun-space-5) 0;
-  line-height: var(--openbitfun-type-form-description-line-height);
-  letter-spacing: var(--openbitfun-type-body-sm-letter-spacing);
+  font-size: var(--opcteam-type-body-sm-font-size);
+  font-weight: var(--opcteam-type-body-sm-font-weight);
+  color: var(--opcteam-color-content-primary);
+  margin: 0 0 var(--opcteam-space-5) 0;
+  line-height: var(--opcteam-type-form-description-line-height);
+  letter-spacing: var(--opcteam-type-body-sm-letter-spacing);
   overflow-wrap: break-word;
 }
 
@@ -424,7 +424,7 @@ $config-input-height: 32px;
 @media (max-width: 768px) {
   .openbitfun-config-form__row {
     grid-template-columns: 1fr;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
   }
   
   .openbitfun-config-form__actions {
@@ -457,12 +457,12 @@ $config-input-height: 32px;
 .openbitfun-config-form__input:focus-visible,
 .openbitfun-config-form__select:focus-visible,
 .openbitfun-config-form__textarea:focus-visible {
-  outline: 2px solid var(--openbitfun-color-accent-default);
+  outline: 2px solid var(--opcteam-color-accent-default);
   outline-offset: 2px;
 }
 
 .openbitfun-config-form__checkbox-input:focus-visible + .openbitfun-config-form__checkbox-mark {
-  outline: 2px solid var(--openbitfun-color-accent-default);
+  outline: 2px solid var(--opcteam-color-accent-default);
   outline-offset: 2px;
 }
 
@@ -495,13 +495,13 @@ $config-input-height: 32px;
 .config-form-label__text {
   display: inline-flex;
   align-items: center;
-  gap: var(--openbitfun-space-1);
+  gap: var(--opcteam-space-1);
 }
 
 .config-form-label__required {
-  color: var(--openbitfun-color-content-required-indicator);
-  font-size: var(--openbitfun-type-label-selected-font-size);
-  font-weight: var(--openbitfun-type-label-selected-font-weight);
+  color: var(--opcteam-color-content-required-indicator);
+  font-size: var(--opcteam-type-label-selected-font-size);
+  font-weight: var(--opcteam-type-label-selected-font-weight);
 }
 
 @media (forced-colors: active) {
@@ -616,9 +616,9 @@ $config-input-height: 32px;
 
 .config-form-section-chevron {
   margin-left: 8px;
-  color: var(--openbitfun-color-content-muted);
-  font-size: var(--openbitfun-type-body-md-font-size);
-  transition: transform 150ms var(--openbitfun-motion-easing-standard);
+  color: var(--opcteam-color-content-muted);
+  font-size: var(--opcteam-type-body-md-font-size);
+  transition: transform 150ms var(--opcteam-motion-easing-standard);
 }
 
 .config-form-section-title[aria-expanded='false'] .config-form-section-chevron {
@@ -630,8 +630,8 @@ $config-input-height: 32px;
   grid-template-rows: 0fr;
   opacity: 0;
   transition:
-    grid-template-rows 180ms var(--openbitfun-motion-easing-standard),
-    opacity 180ms var(--openbitfun-motion-easing-standard);
+    grid-template-rows 180ms var(--opcteam-motion-easing-standard),
+    opacity 180ms var(--opcteam-motion-easing-standard);
 
   &[data-open='true'] {
     grid-template-rows: 1fr;

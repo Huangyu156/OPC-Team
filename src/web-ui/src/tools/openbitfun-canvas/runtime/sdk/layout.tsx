@@ -148,7 +148,7 @@ export function Divider({ style, ...props }: CanvasDividerProps) {
       {...props}
       style={{
         border: 0,
-        borderTop: '1px solid var(--openbitfun-color-border-subtle)',
+        borderTop: '1px solid var(--opcteam-color-border-subtle)',
         width: '100%',
         margin: '4px 0',
         ...style,

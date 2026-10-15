@@ -14,7 +14,7 @@ const STORAGE_KEY = 'openbitfun-mobile-theme';
 
 function commitThemeDOM(id: ThemeId) {
   const root = document.documentElement;
-  root.setAttribute('data-openbitfun-design-system-root', '');
+  root.setAttribute('data-opcteam-design-system-root', '');
   root.setAttribute('data-color-scheme', id);
   root.setAttribute('data-contrast', 'standard');
   root.setAttribute('data-density', 'comfortable');

@@ -123,7 +123,7 @@ function renderErrorPanel(error: unknown): void {
   }
 
   rootElement.innerHTML =
-    '<main style="max-width:860px;margin:0 auto;padding:12px;border:1px solid var(--openbitfun-color-border-default);border-radius:8px"><h1 style="font-size:var(--openbitfun-type-heading-page-font-size);font-weight:var(--openbitfun-type-heading-page-font-weight);line-height:var(--openbitfun-type-heading-page-line-height);margin:0 0 8px">Canvas runtime error</h1><pre style="white-space:pre-wrap;color:var(--openbitfun-canvas-danger)"></pre></main>';
+    '<main style="max-width:860px;margin:0 auto;padding:12px;border:1px solid var(--opcteam-color-border-default);border-radius:8px"><h1 style="font-size:var(--opcteam-type-heading-page-font-size);font-weight:var(--opcteam-type-heading-page-font-weight);line-height:var(--opcteam-type-heading-page-line-height);margin:0 0 8px">Canvas runtime error</h1><pre style="white-space:pre-wrap;color:var(--opcteam-canvas-danger)"></pre></main>';
   const pre = rootElement.querySelector('pre');
   if (pre) pre.textContent = errorText(error);
 }

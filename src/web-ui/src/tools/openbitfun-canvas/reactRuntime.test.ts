@@ -146,7 +146,7 @@ describe('React Canvas runtime bridge', () => {
     const html = buildReactCanvasHtml(compiledHtml, { title: 'Standalone' });
 
     expect(html).toContain('color-scheme:light');
-    expect(html).toContain('--openbitfun-canvas-bg: Canvas');
+    expect(html).toContain('--opcteam-canvas-bg: Canvas');
     expect(html).toContain('.openbitfun-canvas-stack{max-width:min(100%,980px);margin-inline:auto}');
   });
 
@@ -176,7 +176,7 @@ describe('React Canvas runtime bridge', () => {
 
     expect(html).toContain('nextAppearance.vars');
     expect(html).toContain("rootStyle.setProperty(name, value.trim())");
-    expect(html).toContain('--openbitfun-color-surface-canvas');
+    expect(html).toContain('--opcteam-color-surface-canvas');
   });
 
   it('exposes semantic appearance tokens through useHostAppearance().tokens', async () => {
@@ -200,10 +200,10 @@ window.OpenBitFunCanvasRuntime.mount(Canvas);
       expect(messages).toContainEqual(expect.objectContaining({ type: 'openbitfun-canvas-ready' }));
       expect(messages).not.toContainEqual(expect.objectContaining({ type: 'openbitfun-canvas-runtime-error' }));
       expect(dom.window.document.querySelector('[data-testid="node"]')?.getAttribute('fill')).toBe(
-        'var(--openbitfun-canvas-panel)',
+        'var(--opcteam-canvas-panel)',
       );
       expect(dom.window.document.querySelector('[data-testid="label"]')?.getAttribute('fill')).toBe(
-        'var(--openbitfun-canvas-fg)',
+        'var(--opcteam-canvas-fg)',
       );
     } finally {
       dom.window.close();

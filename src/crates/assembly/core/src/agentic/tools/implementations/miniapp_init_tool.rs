@@ -30,13 +30,13 @@ const SKELETON_WORKER_JS: &str = r#"// Node.js Worker — export methods callabl
 // };
 "#;
 
-const SKELETON_CSS: &str = r#"/* MiniApp skeleton — uses host theme via --openbitfun-* variables */
+const SKELETON_CSS: &str = r#"/* MiniApp skeleton — uses host theme via --opcteam-* variables */
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body {
-  font-family: var(--openbitfun-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif);
+  font-family: var(--opcteam-font-sans, -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Segoe UI', 'Microsoft YaHei UI', 'Microsoft YaHei', 'Helvetica Neue', Helvetica, Arial, sans-serif);
   font-size: 13px;
-  color: var(--openbitfun-text, #e8e8e8);
-  background: var(--openbitfun-bg, #121214);
+  color: var(--opcteam-text, #e8e8e8);
+  background: var(--opcteam-bg, #121214);
   min-height: 100vh;
 }
 #app { min-height: 100vh; }

@@ -56,7 +56,7 @@ class SubagentTranscriptPage {
         activeElement: document.activeElement?.getAttribute('data-testid') || document.activeElement?.tagName,
         display: style.display,
         gap: Number.parseFloat(style.columnGap),
-        paragraphGap: Number.parseFloat(style.getPropertyValue('--openbitfun-control-flow-chat-paragraph-gap')),
+        paragraphGap: Number.parseFloat(style.getPropertyValue('--opcteam-control-flow-chat-paragraph-gap')),
         contentWidth: grid.clientWidth - Number.parseFloat(style.paddingLeft) - Number.parseFloat(style.paddingRight),
         scrollerWidth: scroller.clientWidth,
         scrollTop: scroller.scrollTop,

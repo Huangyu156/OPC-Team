@@ -9,25 +9,25 @@
   block-size: 100%;
   overflow: hidden;
   border-radius: inherit;
-  fill: var(--openbitfun-color-content-on-dark);
+  fill: var(--opcteam-color-content-on-dark);
   stroke: none;
   pointer-events: none;
   user-select: none;
 
   &[data-mode='smart'] {
     // Neutral starlight stays distinct from the colored nebula.
-    color: var(--openbitfun-color-content-on-dark);
+    color: var(--opcteam-color-content-on-dark);
     fill: currentColor;
   }
 
   &[data-mode='pool'] {
     --_model-mode-cycle: 6.6s;
-    --_model-battery-tint: color-mix(in oklch, var(--openbitfun-color-status-success-emphasis) 72%, var(--openbitfun-color-link-default));
-    color: color-mix(in srgb, var(--_model-battery-tint) 65%, var(--openbitfun-color-content-on-dark));
+    --_model-battery-tint: color-mix(in oklch, var(--opcteam-color-status-success-emphasis) 72%, var(--opcteam-color-link-default));
+    color: color-mix(in srgb, var(--_model-battery-tint) 65%, var(--opcteam-color-content-on-dark));
   }
 
   &__nebula {
-    fill: color-mix(in srgb, var(--openbitfun-color-surface-panel) 70%, var(--openbitfun-color-content-on-dark));
+    fill: color-mix(in srgb, var(--opcteam-color-surface-panel) 70%, var(--opcteam-color-content-on-dark));
     opacity: 0.85;
     transform-origin: center;
     animation: openbitfun-model-mode-nebula 9s ease-in-out -3s infinite alternate;
@@ -48,7 +48,7 @@
   }
 
   &[data-mode='smart'] &__nebula {
-    fill: color-mix(in oklch, var(--openbitfun-color-link-default) 58%, var(--openbitfun-color-accent-secondary));
+    fill: color-mix(in oklch, var(--opcteam-color-link-default) 58%, var(--opcteam-color-accent-secondary));
   }
 
   &__sky-layer {
@@ -110,7 +110,7 @@
   }
 
   &[data-mode='pool'] &__nebula {
-    fill: color-mix(in srgb, currentColor 68%, var(--openbitfun-color-content-on-dark));
+    fill: color-mix(in srgb, currentColor 68%, var(--opcteam-color-content-on-dark));
   }
 
   &[data-mode='pool'] &__nebula-field {
@@ -130,15 +130,15 @@
   }
 
   &__battery-glass {
-    color: color-mix(in srgb, currentColor 25%, var(--openbitfun-color-content-on-dark));
+    color: color-mix(in srgb, currentColor 25%, var(--opcteam-color-content-on-dark));
   }
 
   &__battery-rim {
     // A tinted fine edge reads on light glass; dark glass retains a pale reflection.
-    color: color-mix(in srgb, var(--_model-battery-tint) 50%, var(--openbitfun-color-content-on-dark));
+    color: color-mix(in srgb, var(--_model-battery-tint) 50%, var(--opcteam-color-content-on-dark));
 
     :where([data-color-scheme='dark']) & {
-      color: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 72%, currentColor);
+      color: color-mix(in srgb, var(--opcteam-color-content-on-dark) 72%, currentColor);
     }
   }
 
@@ -154,10 +154,10 @@
 
   &__battery-light {
     // Pale mint light sits above the jade tint instead of adding another dense green fill.
-    color: color-mix(in srgb, var(--_model-battery-tint) 55%, var(--openbitfun-color-content-on-dark));
+    color: color-mix(in srgb, var(--_model-battery-tint) 55%, var(--opcteam-color-content-on-dark));
 
     :where([data-color-scheme='dark']) & {
-      color: color-mix(in srgb, var(--_model-battery-tint) 64%, var(--openbitfun-color-content-on-dark));
+      color: color-mix(in srgb, var(--_model-battery-tint) 64%, var(--opcteam-color-content-on-dark));
     }
   }
 
@@ -182,11 +182,11 @@
   }
 
   &__battery-particles {
-    fill: color-mix(in srgb, var(--_model-battery-tint) 55%, var(--openbitfun-color-content-on-dark));
+    fill: color-mix(in srgb, var(--_model-battery-tint) 55%, var(--opcteam-color-content-on-dark));
     opacity: 0.9;
 
     :where([data-color-scheme='dark']) & {
-      fill: color-mix(in srgb, var(--openbitfun-color-content-on-dark) 88%, currentColor);
+      fill: color-mix(in srgb, var(--opcteam-color-content-on-dark) 88%, currentColor);
     }
   }
 
@@ -194,7 +194,7 @@
     fill: var(--_model-battery-tint);
 
     :where([data-color-scheme='dark']) & {
-      fill: color-mix(in srgb, currentColor 70%, var(--openbitfun-color-content-on-dark));
+      fill: color-mix(in srgb, currentColor 70%, var(--opcteam-color-content-on-dark));
     }
   }
 

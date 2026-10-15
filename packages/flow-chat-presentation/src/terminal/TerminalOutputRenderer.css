@@ -3,22 +3,22 @@
   margin: 0 !important;
   border: 0 !important;
   outline: 0 !important;
-  color: var(--openbitfun-color-content-secondary);
+  color: var(--opcteam-color-content-secondary);
   background: transparent !important;
   box-shadow: none !important;
-  font-family: var(--openbitfun-type-code-output-font-family);
-  font-size: var(--openbitfun-type-code-output-font-size);
-  font-weight: var(--openbitfun-type-code-output-font-weight);
-  line-height: var(--openbitfun-type-code-output-line-height);
-  letter-spacing: var(--openbitfun-type-code-output-letter-spacing);
+  font-family: var(--opcteam-type-code-output-font-family);
+  font-size: var(--opcteam-type-code-output-font-size);
+  font-weight: var(--opcteam-type-code-output-font-weight);
+  line-height: var(--opcteam-type-code-output-line-height);
+  letter-spacing: var(--opcteam-type-code-output-letter-spacing);
   white-space: pre-wrap;
   word-break: break-word;
 }
 
 .terminal-output-renderer {
   overflow: hidden;
-  border-radius: var(--openbitfun-radius-sm);
-  background: var(--openbitfun-color-surface-scene);
+  border-radius: var(--opcteam-radius-sm);
+  background: var(--opcteam-color-surface-scene);
 
   .xterm {
     height: 100%;
@@ -29,7 +29,7 @@
     }
 
     &:not(.allow-transparency) .xterm-viewport {
-      background-color: var(--openbitfun-color-surface-scene);
+      background-color: var(--opcteam-color-surface-scene);
     }
 
     .xterm-screen {
@@ -46,7 +46,7 @@
 
 .terminal-output-renderer[data-surface="embedded"] {
   border-radius: 0;
-  color: var(--openbitfun-color-content-secondary);
+  color: var(--opcteam-color-content-secondary);
   background: transparent;
 
   .xterm .xterm-viewport {

@@ -48,7 +48,7 @@ export function useCapsuleMotion(rootRef: RefObject<HTMLElement>) {
     const startTime = root.ownerDocument.timeline?.currentTime;
     // Keep detail retraction visible throughout its interval.
     const easing = kind === 'recall' ? 'linear'
-      : view.getComputedStyle(root).getPropertyValue('--openbitfun-motion-easing-standard').trim() || 'ease-out';
+      : view.getComputedStyle(root).getPropertyValue('--opcteam-motion-easing-standard').trim() || 'ease-out';
     const current = { kind, cancel: () => {
       if (disposed) return;
       disposed = true;

@@ -46,6 +46,17 @@ export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
         .map(name => tokenNameToCssVariable(name)),
     ),
   }),
+  // Legacy compatibility aliases emitted by the theme build (themes.css): skins
+  // authored before the OPC-Team rename reference --openbitfun-* names.
+  Object.freeze({
+    owner: 'design-system/packages/theme-openbitfun/scripts/build.mjs',
+    packageName: '@openbitfun/theme-openbitfun',
+    variables: Object.freeze(
+      Object.keys(openbitfunThemeTokens)
+        .filter(name => publicThemePrefixes.some(prefix => name.startsWith(prefix)))
+        .map(name => `--openbitfun-${tokenNameToCssVariable(name).slice('--opcteam-'.length)}`),
+    ),
+  }),
 ]);
 
 /**
@@ -333,17 +344,17 @@ export const SURFACE_TOKEN_RENAME_CONTRACTS = [];
 
 export const DYNAMIC_VAR_FAMILY_CONTRACTS = [
   {
-    prefix: '--openbitfun-appearance-asset-',
+    prefix: '--opcteam-appearance-asset-',
     owner: 'src/web-ui/src/infrastructure/appearance/compiler/AppearanceCompiler.ts; src/web-ui/src/infrastructure/appearance/runtime/AppearanceRuntime.ts',
     reason: 'Appearance package image ids are validated by the package schema, then projected to host-created blob URL variables for registered component parts.',
   },
   {
-    prefix: '--openbitfun-canvas-',
+    prefix: '--opcteam-canvas-',
     owner: 'src/web-ui/src/tools/openbitfun-canvas/runtime/canvasRuntimeInstaller.ts; src/web-ui/src/tools/openbitfun-canvas/runtime/styles/canvas-runtime.scss',
     reason: 'OpenBitFun Canvas iframe runtime receives host Appearance values through a scoped CSS variable family that must stay isolated from app root tokens.',
   },
   {
-    prefix: '--openbitfun-font-size-',
+    prefix: '--opcteam-font-size-',
     owner: 'src/web-ui/src/infrastructure/font-preference/core/FontPreferenceService.ts',
     reason: 'Font preference runtime overrides the canonical design-system font-size primitives so every semantic role follows one global scale.',
   },

@@ -3,7 +3,7 @@
     display: block;
     min-inline-size: 0;
     overflow: hidden;
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
     white-space: nowrap;
   }
 
@@ -12,9 +12,9 @@
     display: inline-flex;
     min-inline-size: 0;
     align-items: center;
-    gap: var(--openbitfun-space-1);
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    gap: var(--opcteam-space-1);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
   .summary {
@@ -23,11 +23,11 @@
   }
 
   .summary[data-tone="warning"] {
-    color: var(--openbitfun-color-status-warning-content);
+    color: var(--opcteam-color-status-warning-content);
   }
 
   .summary[data-tone="danger"] {
-    color: var(--openbitfun-color-status-danger-content);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   .output {
@@ -35,19 +35,19 @@
     max-block-size: 20rem;
     min-inline-size: 0;
     flex-direction: column;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
     overflow: auto;
   }
 
   .outputBlock,
   .textPreview {
     margin: 0;
-    padding: var(--openbitfun-space-3);
-    border-radius: var(--openbitfun-radius-sm);
-    background: var(--openbitfun-color-surface-canvas);
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-md-line-height);
+    padding: var(--opcteam-space-3);
+    border-radius: var(--opcteam-radius-sm);
+    background: var(--opcteam-color-surface-canvas);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-md-line-height);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
@@ -57,33 +57,33 @@
   }
 
   .textPreview {
-    font-family: var(--openbitfun-type-flow-code-font-family);
-    font-size: var(--openbitfun-type-flow-code-font-size);
-    font-weight: var(--openbitfun-type-flow-code-font-weight);
-    line-height: var(--openbitfun-type-flow-code-line-height);
+    font-family: var(--opcteam-type-flow-code-font-family);
+    font-size: var(--opcteam-type-flow-code-font-size);
+    font-weight: var(--opcteam-type-flow-code-font-weight);
+    line-height: var(--opcteam-type-flow-code-line-height);
   }
 
   .outputGroup {
     display: flex;
     flex-direction: column;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
   .outputLabel,
   .sectionLabel {
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
   .outputGroup[data-tone="warning"] .outputBlock {
-    color: var(--openbitfun-color-status-warning-content);
-    background: var(--openbitfun-color-status-warning-surface);
+    color: var(--opcteam-color-status-warning-content);
+    background: var(--opcteam-color-status-warning-surface);
   }
 
   .outputGroup[data-tone="danger"] .outputBlock {
-    color: var(--openbitfun-color-status-danger-content);
-    background: var(--openbitfun-color-status-danger-surface);
+    color: var(--opcteam-color-status-danger-content);
+    background: var(--opcteam-color-status-danger-surface);
   }
 
   .footer {
@@ -91,19 +91,19 @@
     min-inline-size: 0;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--openbitfun-space-2);
-    padding: var(--openbitfun-space-2) var(--openbitfun-space-3);
-    border-radius: var(--openbitfun-radius-sm);
-    background: var(--openbitfun-color-surface-raised);
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-space-2) var(--opcteam-space-3);
+    border-radius: var(--opcteam-radius-sm);
+    background: var(--opcteam-color-surface-raised);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
   .footerItem {
     display: inline-flex;
     min-inline-size: 0;
     align-items: baseline;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   .footerItem[data-grow="true"] {
@@ -111,43 +111,43 @@
   }
 
   .footerLabel {
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
   .footerValue {
     min-inline-size: 0;
     overflow: hidden;
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
     white-space: nowrap;
   }
 
   .footerItem[data-tone="success"] .footerValue {
-    color: var(--openbitfun-color-status-success-content);
+    color: var(--opcteam-color-status-success-content);
   }
 
   .footerItem[data-tone="danger"] .footerValue {
-    color: var(--openbitfun-color-status-danger-content);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   .error {
-    color: var(--openbitfun-color-status-danger-content);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-md-line-height);
+    color: var(--opcteam-color-status-danger-content);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-md-line-height);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
 
   .errorMeta {
-    margin-block-start: var(--openbitfun-space-2);
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    margin-block-start: var(--opcteam-space-2);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
   .diffPath {
     display: block;
     overflow: hidden;
     min-inline-size: 0;
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
     white-space: nowrap;
   }
 
@@ -162,10 +162,10 @@
   }
 
   .message {
-    padding: var(--openbitfun-space-3);
-    border-block-end: 1px solid var(--openbitfun-color-border-subtle);
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    padding: var(--opcteam-space-3);
+    border-block-end: 1px solid var(--opcteam-color-border-subtle);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
   .reviewDetails,
@@ -173,14 +173,14 @@
     display: flex;
     min-inline-size: 0;
     flex-direction: column;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
   }
 
   .reviewSummary {
     margin: 0;
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-md-line-height);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-md-line-height);
   }
 
   .fileViewport { max-block-size: 20rem; }
@@ -188,19 +188,19 @@
   .fileList {
     overflow-wrap: anywhere;
     display: grid;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
     margin: 0;
-    padding-inline-start: var(--openbitfun-space-4);
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-md-line-height);
+    padding-inline-start: var(--opcteam-space-4);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-md-line-height);
   }
 
   .actions {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
 }

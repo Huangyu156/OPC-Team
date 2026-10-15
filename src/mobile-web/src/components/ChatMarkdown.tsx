@@ -398,16 +398,16 @@ export const MarkdownContent: React.FC<MarkdownContentProps> = ({ content, onFil
             customStyle={{
               margin: 0,
               borderRadius: '8px',
-              fontSize: 'var(--openbitfun-type-code-sm-font-size)',
-              lineHeight: 'var(--openbitfun-type-body-md-line-height)',
+              fontSize: 'var(--opcteam-type-code-sm-font-size)',
+              lineHeight: 'var(--opcteam-type-body-md-line-height)',
             }}
             codeTagProps={{
               style: {
-                fontFamily: 'var(--openbitfun-type-code-md-font-family)',
+                fontFamily: 'var(--opcteam-type-code-md-font-family)',
               },
             }}
             lineNumberStyle={{
-              color: 'var(--openbitfun-color-content-muted)',
+              color: 'var(--opcteam-color-content-muted)',
               paddingRight: '1em',
               textAlign: 'right' as const,
               userSelect: 'none' as const,

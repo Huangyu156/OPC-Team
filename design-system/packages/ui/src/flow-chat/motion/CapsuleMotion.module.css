@@ -1,7 +1,7 @@
 @layer openbitfun.components {
   .layer {
     position: absolute;
-    z-index: var(--openbitfun-layer-decoration);
+    z-index: var(--opcteam-layer-decoration);
     inset: 0;
     overflow: visible;
     pointer-events: none;
@@ -14,9 +14,9 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: var(--openbitfun-radius-pill);
-    background: var(--openbitfun-color-action-quiet-hover);
-    color: var(--openbitfun-color-content-secondary);
+    border-radius: var(--opcteam-radius-pill);
+    background: var(--opcteam-color-action-quiet-hover);
+    color: var(--opcteam-color-content-secondary);
     pointer-events: none;
   }
 

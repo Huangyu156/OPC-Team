@@ -2,8 +2,8 @@
   .root {
     display: inline-block;
     position: relative;
-    width: var(--openbitfun-space-8);
-    height: var(--openbitfun-space-8);
+    width: var(--opcteam-space-8);
+    height: var(--opcteam-space-8);
     flex: 0 0 auto;
     vertical-align: bottom;
     isolation: isolate;

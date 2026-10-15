@@ -29,7 +29,7 @@ export function VoiceParticleLogo({ readAudio, active = true, formation = 1, cla
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const colors = getComputedStyle(canvas);
     let foreground = colors.color;
-    let background = colors.getPropertyValue("--openbitfun-color-content-on-light").trim();
+    let background = colors.getPropertyValue("--opcteam-color-content-on-light").trim();
     const renderer = createVoiceParticleRenderer(
       canvas,
       foreground,
@@ -54,7 +54,7 @@ export function VoiceParticleLogo({ readAudio, active = true, formation = 1, cla
         if (formationRef.current.moving) {
           const current = getComputedStyle(canvas);
           const nextForeground = current.color;
-          const nextBackground = current.getPropertyValue("--openbitfun-color-content-on-light").trim();
+          const nextBackground = current.getPropertyValue("--opcteam-color-content-on-light").trim();
           if (foreground !== nextForeground || background !== nextBackground) {
             foreground = nextForeground;
             background = nextBackground;
@@ -91,7 +91,7 @@ export function VoiceParticleLogo({ readAudio, active = true, formation = 1, cla
     const updateTheme = () => {
       const current = getComputedStyle(canvas);
       const nextForeground = current.color;
-      const nextBackground = current.getPropertyValue("--openbitfun-color-content-on-light").trim();
+      const nextBackground = current.getPropertyValue("--opcteam-color-content-on-light").trim();
       if (foreground === nextForeground && background === nextBackground) return;
       foreground = nextForeground;
       background = nextBackground;

@@ -52,17 +52,17 @@ test("Dialog geometry and typography use public design tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
   for (const token of [
-    "--openbitfun-overlay-dialog-viewport-gutter",
-    "--openbitfun-overlay-dialog-backdrop-blur",
-    "--openbitfun-overlay-dialog-surface-radius",
-    "--openbitfun-overlay-dialog-header-padding-inline",
-    "--openbitfun-overlay-dialog-footer-padding-inline",
-    "--openbitfun-overlay-dialog-max-inline-size-xxlarge",
-    "--openbitfun-type-heading-dialog-font-size",
-    "--openbitfun-type-heading-dialog-font-weight",
-    "--openbitfun-color-overlay-scrim",
-    "--openbitfun-color-surface-raised",
-    "--openbitfun-shadow-overlay",
+    "--opcteam-overlay-dialog-viewport-gutter",
+    "--opcteam-overlay-dialog-backdrop-blur",
+    "--opcteam-overlay-dialog-surface-radius",
+    "--opcteam-overlay-dialog-header-padding-inline",
+    "--opcteam-overlay-dialog-footer-padding-inline",
+    "--opcteam-overlay-dialog-max-inline-size-xxlarge",
+    "--opcteam-type-heading-dialog-font-size",
+    "--opcteam-type-heading-dialog-font-weight",
+    "--opcteam-color-overlay-scrim",
+    "--opcteam-color-surface-raised",
+    "--opcteam-shadow-overlay",
   ]) {
     assert.match(styles, new RegExp(token));
   }
@@ -84,9 +84,9 @@ test("DialogFooter exposes a centered frosted floating action layer", async () =
   assert.match(styles, /\[data-appearance=floating\]\{[^}]*position:absolute/);
   assert.match(styles, /\[data-appearance=floating\]\{[^}]*justify-content:center/);
   assert.match(styles, /\[data-appearance=floating\]:before\{[^}]*background:linear-gradient/);
-  assert.match(styles, /\[data-appearance=floating\]:before\{[^}]*backdrop-filter:var\(--openbitfun-overlay-dialog-footer-blur\)/);
+  assert.match(styles, /\[data-appearance=floating\]:before\{[^}]*backdrop-filter:var\(--opcteam-overlay-dialog-footer-blur\)/);
   assert.match(styles, /\[data-appearance=floating\]\{[^}]*pointer-events:auto/);
-  assert.match(styles, /--openbitfun-overlay-dialog-footer-action-min-width/);
+  assert.match(styles, /--opcteam-overlay-dialog-footer-action-min-width/);
 });
 
 test("dialog separators are explicit and do not leak native attributes", () => {

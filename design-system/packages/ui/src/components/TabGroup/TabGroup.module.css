@@ -1,27 +1,27 @@
 @layer openbitfun.components {
   .tabGroup {
-    --_tab-group-item-height: var(--openbitfun-control-tab-group-item-height);
-    --_tab-group-item-padding-block: var(--openbitfun-space-component-block);
-    --_tab-group-item-padding-inline: var(--openbitfun-control-tab-group-item-padding-inline);
-    --_tab-group-item-gap: var(--openbitfun-control-tab-group-item-gap);
-    --_tab-group-item-icon-size: var(--openbitfun-control-tab-group-item-icon-size);
+    --_tab-group-item-height: var(--opcteam-control-tab-group-item-height);
+    --_tab-group-item-padding-block: var(--opcteam-space-component-block);
+    --_tab-group-item-padding-inline: var(--opcteam-control-tab-group-item-padding-inline);
+    --_tab-group-item-gap: var(--opcteam-control-tab-group-item-gap);
+    --_tab-group-item-icon-size: var(--opcteam-control-tab-group-item-icon-size);
 
     display: inline-flex;
     align-items: center;
-    gap: var(--openbitfun-control-tab-group-gap);
+    gap: var(--opcteam-control-tab-group-gap);
   }
 
   .tabGroup[data-size="sm"] {
-    --_tab-group-item-height: var(--openbitfun-control-tab-group-item-height-sm);
-    --_tab-group-item-padding-block: var(--openbitfun-control-tab-group-item-padding-block-sm);
-    --_tab-group-item-padding-inline: var(--openbitfun-control-tab-group-item-padding-inline-sm);
-    --_tab-group-item-gap: var(--openbitfun-control-tab-group-item-gap-sm);
-    --_tab-group-item-icon-size: var(--openbitfun-control-tab-group-item-icon-size-sm);
+    --_tab-group-item-height: var(--opcteam-control-tab-group-item-height-sm);
+    --_tab-group-item-padding-block: var(--opcteam-control-tab-group-item-padding-block-sm);
+    --_tab-group-item-padding-inline: var(--opcteam-control-tab-group-item-padding-inline-sm);
+    --_tab-group-item-gap: var(--opcteam-control-tab-group-item-gap-sm);
+    --_tab-group-item-icon-size: var(--opcteam-control-tab-group-item-icon-size-sm);
   }
 
   .item {
     --_floating-action-host-height: var(--_tab-group-item-height);
-    --_floating-action-size: var(--openbitfun-control-tab-group-item-action-size);
+    --_floating-action-size: var(--opcteam-control-tab-group-item-action-size);
     position: relative;
     display: inline-flex;
     flex: 0 0 auto;
@@ -31,10 +31,10 @@
 
   .tab {
     --_tab-background: transparent;
-    --_tab-background-hover: var(--openbitfun-component-button-fill-background);
-    --_tab-background-active: var(--openbitfun-component-button-fill-background);
-    --_tab-border: var(--openbitfun-component-button-outline-border);
-    --_tab-content: var(--openbitfun-color-content-primary);
+    --_tab-background-hover: var(--opcteam-component-button-fill-background);
+    --_tab-background-active: var(--opcteam-component-button-fill-background);
+    --_tab-border: var(--opcteam-component-button-outline-border);
+    --_tab-content: var(--opcteam-color-content-primary);
 
     display: inline-flex;
     align-items: center;
@@ -44,57 +44,57 @@
     max-inline-size: 100%;
     padding-block: var(--_tab-group-item-padding-block);
     padding-inline: var(--_tab-group-item-padding-inline);
-    border: var(--openbitfun-border-width-default) solid var(--_tab-border);
-    border-radius: var(--openbitfun-control-tab-group-item-radius);
+    border: var(--opcteam-border-width-default) solid var(--_tab-border);
+    border-radius: var(--opcteam-control-tab-group-item-radius);
     color: var(--_tab-content);
     background: var(--_tab-background);
-    font-family: var(--openbitfun-type-label-md-font-family);
-    font-size: var(--openbitfun-type-label-md-font-size);
-    font-weight: var(--openbitfun-type-label-md-font-weight);
-    letter-spacing: var(--openbitfun-type-label-md-letter-spacing);
-    line-height: var(--openbitfun-type-label-md-line-height);
+    font-family: var(--opcteam-type-label-md-font-family);
+    font-size: var(--opcteam-type-label-md-font-size);
+    font-weight: var(--opcteam-type-label-md-font-weight);
+    letter-spacing: var(--opcteam-type-label-md-letter-spacing);
+    line-height: var(--opcteam-type-label-md-line-height);
     white-space: nowrap;
     cursor: pointer;
     transition:
-      background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      border-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+      background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      border-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .tab[aria-selected="true"] {
-    --_tab-background: var(--openbitfun-color-selection-surface);
-    --_tab-background-hover: var(--openbitfun-color-action-neutral-surface-hover);
+    --_tab-background: var(--opcteam-color-selection-surface);
+    --_tab-background-hover: var(--opcteam-color-action-neutral-surface-hover);
     --_tab-border: transparent;
 
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
   .tab:hover:not(:disabled),
   .item:hover .tab:not(:disabled),
   .tabGroup[data-openbitfun-preview-state="hover"] .tab[aria-selected="false"]:not(:disabled) {
     background: var(--_tab-background-hover);
-    border-color: var(--openbitfun-component-button-outline-border-interactive);
+    border-color: var(--opcteam-component-button-outline-border-interactive);
   }
 
   .tab:active:not(:disabled),
   .tabGroup[data-openbitfun-preview-state="active"] .tab[aria-selected="false"]:not(:disabled) {
     background: var(--_tab-background-active);
-    border-color: var(--openbitfun-component-button-outline-border-interactive);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    border-color: var(--opcteam-component-button-outline-border-interactive);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
   .tab:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .tab:disabled {
-    color: var(--openbitfun-color-action-neutral-content-disabled);
+    color: var(--opcteam-color-action-neutral-content-disabled);
     cursor: not-allowed;
   }
 
   .icon {
-    --openbitfun-opacity-icon-artwork: 1;
+    --opcteam-opacity-icon-artwork: 1;
     display: inline-flex;
     flex: 0 0 auto;
     align-items: center;
@@ -114,12 +114,12 @@
 
   .label {
     min-inline-size: 0;
-    line-height: var(--openbitfun-type-label-md-line-height);
+    line-height: var(--opcteam-type-label-md-line-height);
     overflow: hidden;
   }
 
   .endAction {
-    color: var(--openbitfun-color-action-neutral-content);
+    color: var(--opcteam-color-action-neutral-content);
   }
 
   .labelSuffix {
@@ -138,26 +138,26 @@
     margin: 0;
     padding: 0;
     border: 0;
-    border-radius: var(--openbitfun-radius-pill);
+    border-radius: var(--opcteam-radius-pill);
     color: inherit;
     font: inherit;
     cursor: pointer;
     transition:
-      background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+      background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])):hover {
-    color: var(--openbitfun-color-action-neutral-content);
+    color: var(--opcteam-color-action-neutral-content);
   }
 
   .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])):focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])):disabled {
-    color: var(--openbitfun-color-action-neutral-content-disabled);
+    color: var(--opcteam-color-action-neutral-content-disabled);
     cursor: not-allowed;
   }
 

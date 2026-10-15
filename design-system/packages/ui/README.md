@@ -144,7 +144,7 @@ availability; the icon catalog does not imply runtime support for these modes.
 ## Native scrollbars
 
 `styles.css` owns scrollbar presentation inside `ThemeRoot` (or
-`data-openbitfun-design-system-root`) and standalone `ScrollArea` viewports.
+`data-opcteam-design-system-root`) and standalone `ScrollArea` viewports.
 Native file trees, virtualized transcripts, navigation, menus, and dialogs use
 the same policy without wrappers, scroll listeners, or timers.
 
@@ -473,7 +473,7 @@ import { Network } from "lucide-react";
 
 Do not set `strokeWidth` at product call sites. Button, menu, tab and navigation
 slots own final geometry and opacity; standalone named icons retain the public
-`--openbitfun-opacity-icon-artwork` treatment. Brand assets retain their original
+`--opcteam-opacity-icon-artwork` treatment. Brand assets retain their original
 geometry, and fixture fingerprints protect the five preserved masks.
 
 Use `canonicalIconNames` for galleries and pickers. Existing names remain
@@ -710,7 +710,7 @@ the rows (for example, `<ScrollArea><MenuList>...</MenuList></ScrollArea>`).
 Flex gap only reaches immediate children, so a plain wrapper loses that contract.
 Product code owns positioning and viewport limits, and must not patch private
 list/section-items/group-options gaps. A deliberate density variation belongs
-on the owning surface via `--openbitfun-overlay-menu-row-gap`.
+on the owning surface via `--opcteam-overlay-menu-row-gap`.
 
 Menus use `overlay.menu.inlineSize` by default. `Menu` / `MenuPopover` accept
 `inlineSize="content"` for short, product-owned surfaces such as a context menu:

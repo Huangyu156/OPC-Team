@@ -32,10 +32,10 @@ export function createGenerativeWidgetHtml({
   const style = doc.createElement('style');
   style.textContent = `
     html, body { min-height: 100%; overflow-y: auto; }
-    html { background: var(--openbitfun-color-surface-panel); }
+    html { background: var(--opcteam-color-surface-panel); }
     body {
-      background: var(--openbitfun-color-surface-canvas);
-      font-family: var(--openbitfun-type-body-sm-font-family);
+      background: var(--opcteam-color-surface-canvas);
+      font-family: var(--opcteam-type-body-sm-font-family);
     }
   `;
   doc.head.appendChild(style);

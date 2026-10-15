@@ -1,7 +1,7 @@
 # 主题与颜色 Token 治理
 
 本文定义 OPC-Team 全部前端的颜色所有权、运行时投影和防回退契约。目标不是在旧变量之上再包一层，
-而是让设计系统成为普通 UI 颜色的唯一公共来源：组件只消费 canonical `--openbitfun-*`，产品层只选择、
+而是让设计系统成为普通 UI 颜色的唯一公共来源：组件只消费 canonical `--opcteam-*`，产品层只选择、
 组合和投影这些 Token，不再维护第二套别名体系。
 
 当前事实以以下可执行契约及其输出为准：
@@ -39,8 +39,8 @@ flowchart LR
   Theme --> UI
   Theme --> Appearance["Web UI Appearance v2<br/>产品主题组合"]
   Appearance --> Runtime["theme-tokens adapter"]
-  Runtime --> Root["canonical root --openbitfun-*"]
-  Runtime --> Scope["canonical scoped --openbitfun-*"]
+  Runtime --> Root["canonical root --opcteam-*"]
+  Runtime --> Scope["canonical scoped --opcteam-*"]
   Theme --> Surfaces["Web surfaces / Desktop bootstrap / MiniApp projection"]
   Mobile["Native mobile contract"] --> Native["HarmonyOS / Android / iOS"]
 ```
@@ -52,11 +52,11 @@ Desktop bootstrap 和产品前端也不能反向定义公共主题值。
 
 正向代码只使用以下四类 Token：
 
-1. **System / semantic**：`--openbitfun-color-*`、`--openbitfun-shadow-*`、`--openbitfun-effect-*`、`--openbitfun-opacity-*`
+1. **System / semantic**：`--opcteam-color-*`、`--opcteam-shadow-*`、`--opcteam-effect-*`、`--opcteam-opacity-*`
    等由设计系统发布的公共变量，是普通 UI 的默认消费层。
-2. **Component**：`--openbitfun-component-*`。仅用于跨消费方稳定存在、又无法由 semantic Token 准确表达的
+2. **Component**：`--opcteam-component-*`。仅用于跨消费方稳定存在、又无法由 semantic Token 准确表达的
    组件差异；必须在 `appearanceTokenContract.ts` 中登记。
-3. **Product domain**：`--openbitfun-domain-*`。用于 Git lane、语言身份、syntax、inspector、工具类别等明确的
+3. **Product domain**：`--opcteam-domain-*`。用于 Git lane、语言身份、syntax、inspector、工具类别等明确的
    专用语义；不得当作普通 UI 的备用色板。
 4. **Renderer payload**：Monaco、xterm、Mermaid、OPC-Team Canvas 等第三方或专用渲染器的显式配置。
    它们有各自格式，不进入普通组件 CSS。
@@ -84,14 +84,14 @@ Primitive/reference 色值只存在于主题 authoring、明确的主题 preset 
 
 1. 语义相同，直接复用现有 semantic Token。
 2. 数值相近且相邻状态仍可区分，合并到已有 Token，并更新 near-pair 决策。
-3. 存在独立、稳定、可说明的组件语义，在最窄 owner 中新增 `--openbitfun-component-*`。
-4. 属于产品或渲染专用域，进入 `--openbitfun-domain-*` 或 renderer payload。
+3. 存在独立、稳定、可说明的组件语义，在最窄 owner 中新增 `--opcteam-component-*`。
+4. 属于产品或渲染专用域，进入 `--opcteam-domain-*` 或 renderer payload。
 5. 只有主题本身需要新的基础色时，才修改 `@openbitfun/theme-openbitfun` 的 authoring source。
 
 数值接近不是唯一判断标准；相邻背景/边框、文本层级、状态色、diff、syntax 和数据系列必须结合同时
 出现时的区分度审查。反过来，也不能以“可能有视觉差异”为理由给每个组件建立近似私有颜色。
 
-对话注释由 Web UI Appearance 的 `--openbitfun-component-conversation-excerpt-accent` 承载 UIKit 青色，
+对话注释由 Web UI Appearance 的 `--opcteam-component-conversation-excerpt-accent` 承载 UIKit 青色，
 引用公开浅色主题的 accent（`#059cb0`），保持各内置主题的注释标识一致。全局 selection 是中性选中语义，
 全局 accent 则随主题变化，均不满足这项局部设计约束。正文拖选、编辑与定位高亮使用此色的 30% 底色和
 同色文字；注释编号和工具栏交互复用同一 Token。系统强制色模式下正文选区使用系统 Highlight/HighlightText。
@@ -99,7 +99,7 @@ Primitive/reference 色值只存在于主题 authoring、明确的主题 preset 
 ## 普通 UI 的硬约束
 
 更新提醒与详情弹窗共用磨砂材质。暗色通过现有 surface、content、info 与 highlight Token 提亮底面，
-并用 `--openbitfun-component-update-material-cyan` 保留青色衬光；该组件 Token 复用公开浅色主题的
+并用 `--opcteam-component-update-material-cyan` 保留青色衬光；该组件 Token 复用公开浅色主题的
 accent，由 Web UI Appearance 提供默认值并接受皮肤覆盖。暗色全局 accent 为蓝色，无法同时表达
 青蓝两种材质色；其他组件的青色 Token 也不属于更新材质。该差异因此由更新组件的最小契约承载，
 不新增基础色。旧皮肤通过现有组合逻辑补齐默认值。
@@ -110,7 +110,7 @@ accent，由 Web UI Appearance 提供默认值并接受皮肤覆盖。暗色全�
 - 不写 hex、rgb、hsl、命名色等 raw color；静态资产元数据和明确主题/renderer owner 除外。
 - 不使用 `var(--token, fallback)` 隐藏缺失 Token。
 - 不引用未定义、未登记或跨 root 偷借的变量。
-- 不定义 `--color-*`、`--lab-*` 或 `--openbitfun-appearance-token-*` 等局部/历史公共前缀。
+- 不定义 `--color-*`、`--lab-*` 或 `--opcteam-appearance-token-*` 等局部/历史公共前缀。
 - SVG 图标优先使用 `currentColor`，由外层 semantic Token 控制状态。
 - Component-private 非颜色变量可使用包约定的 `--_` 前缀，但不能借此建立私有颜色系统。
 
@@ -126,9 +126,9 @@ Web UI Appearance 的当前 schema 固定为 v2。颜色入口是 `theme-tokens`
   "theme-tokens": {
     version: 1,
     settings: {
-      tokens: { "--openbitfun-color-*": "...", "--openbitfun-component-*": "...", "--openbitfun-domain-*": "..." },
+      tokens: { "--opcteam-color-*": "...", "--opcteam-component-*": "...", "--opcteam-domain-*": "..." },
       scopes: {
-        chrome: { "--openbitfun-color-*": "..." }
+        chrome: { "--opcteam-color-*": "..." }
       }
     }
   }
@@ -160,7 +160,7 @@ Tokyo Night 使用夜靛外壳、storm 靛蓝内容与蓝紫浮层。Cyber 保�
 而不通过局部组件色值修补。上述配色由 builtin palette 声明，并同步生成启动页和生成式 UI 配色清单；
 不为每款主题新增 Token 名称或主题专属布局分支。
 
-旧 CSS-token adapter、Token 投影层、`css-tokens` renderer 和 `--openbitfun-appearance-token-*`
+旧 CSS-token adapter、Token 投影层、`css-tokens` renderer 和 `--opcteam-appearance-token-*`
 运行时变量均已退休并从源码删除。不得为第三方包、旧组件或测试重新引入这些接口。
 
 ### v1 读取不是兼容运行时
@@ -200,7 +200,7 @@ Tokyo Night 使用夜靛外壳、storm 靛蓝内容与蓝紫浮层。Cyber 保�
 ### Design Lab、Website、Market
 
 Design Lab、Website、Mini App Market 与 Skin Market 直接加载 `@openbitfun/theme-openbitfun/default.css`，通过
-`data-openbitfun-design-system-root`、`data-color-scheme`、`data-contrast` 和 `data-density` 选择已发布主题。
+`data-opcteam-design-system-root`、`data-color-scheme`、`data-contrast` 和 `data-density` 选择已发布主题。
 它们可以拥有布局和产品交互，但不得再维护本地 light/dark palette。
 
 ### Mobile Web / Remote Control
@@ -219,11 +219,11 @@ Token；`theme.js` 在首屏绘制前选择系统浅色/深色和高对比模式
 统一颜色审计同时检查源码和生成物漂移。
 
 Desktop 的更新确认页和启动页只消费 `src/apps/desktop/src/generated/bootstrap_theme.css` 发布的 canonical
-`--openbitfun-*`，不得内联另一套启动色。该 CSS 和两个 Appearance manifest 一起由
+`--opcteam-*`，不得内联另一套启动色。该 CSS 和两个 Appearance manifest 一起由
 `generate-startup-appearance-bootstrap.mjs` 从正式主题/Appearance 源生成；统一颜色审计执行 `--check`，
 生成物漂移直接失败。
 
-Native Mobile 预览的工具 chrome 消费 canonical `--openbitfun-*`；设备画布消费 `--mobile-*` 这一受登记的 scoped
+Native Mobile 预览的工具 chrome 消费 canonical `--opcteam-*`；设备画布消费 `--mobile-*` 这一受登记的 scoped
 动态变量族，其值只来自生成的 mobile contract data。二者不互相 alias。预览不得直接解释 ARGB 字符串为 Web
 颜色，必须在投影边界显式转换；generated data 不作为普通 UI 源码重复计数，但必须通过生成物漂移检查。
 
@@ -245,7 +245,7 @@ Native Mobile 预览的工具 chrome 消费 canonical `--openbitfun-*`；设备�
 
 Installer 首屏和普通流程组件加载设计系统默认主题并只消费 canonical Token。主题选择器保留六个明确的
 自定义安装器 preset；这些 preset 的身份色是唯一允许的 installer raw-color owner，并由 Installer 专属
-baseline 约束。运行时只把选中 preset 投影到 canonical `--openbitfun-color-*` 子集。
+baseline 约束。运行时只把选中 preset 投影到 canonical `--opcteam-color-*` 子集。
 
 Installer 不再拥有 `src/styles/variables.css`，也不得让页面直接读取 preset 对象或建立页面级变量。新增
 preset 必须同时说明用户可见差异、相邻状态对比、所需 canonical 投影和 baseline 变化，不能借新增 preset
@@ -254,10 +254,10 @@ preset 必须同时说明用户可见差异、相邻状态对比、所需 canoni
 ### MiniApp 公共投影
 
 MiniApp 不能读取 Web UI 内部变量全集。公开边界只有 `src/shared/miniapp-appearance/contract.json` 中登记的
-`--openbitfun-*`，每一项都投影自 `@openbitfun/design-tokens` 或 `@openbitfun/theme-openbitfun` 的真实 canonical 变量。
+`--opcteam-*`，每一项都投影自 `@openbitfun/design-tokens` 或 `@openbitfun/theme-openbitfun` 的真实 canonical 变量。
 Web UI payload、Rust 首帧 style 和 MiniApp 源码共同遵守以下约束：
 
-- 使用未登记的 `--openbitfun-*`、在应用内重新定义宿主变量、或写 `var(--openbitfun-*, fallback)` 均直接失败。
+- 使用未登记的 `--opcteam-*`、在应用内重新定义宿主变量、或写 `var(--opcteam-*, fallback)` 均直接失败。
 - `default_appearance_style.html` 由公共 contract 生成，不是第三个 palette owner。
 - Demo/builtin 与内置 Skill 中的 reference mirror 必须 byte-equal；修改正式样例时同时更新 mirror，不保留旧版。
 - 普通 MiniApp chrome 的 raw color 为零。专用色不进入通用 baseline，只能登记到下表的最窄 owner；owner
@@ -275,7 +275,7 @@ Web UI payload、Rust 首帧 style 和 MiniApp 源码共同遵守以下约束：
 ### 专用 renderer 和资产
 
 Monaco、xterm/ANSI、Mermaid、syntax、diff、语言标识、调试 overlay、Canvas 和数据系列有独立的格式或
-稳定语义。它们必须留在对应 renderer/domain owner 中，并通过明确 payload 或 `--openbitfun-domain-*` 消费；不得
+稳定语义。它们必须留在对应 renderer/domain owner 中，并通过明确 payload 或 `--opcteam-domain-*` 消费；不得
 泄漏成普通组件可随手调用的 palette。
 
 Renderer adapter 同时拥有第三方格式边界。设计系统和 Appearance payload 可以使用其已声明支持的 CSS

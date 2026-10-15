@@ -35,8 +35,8 @@ test("Textarea keeps required emphasis separate from validation danger", async (
     "utf8",
   );
 
-  assert.match(styles, /\.required\s*\{\s*color:\s*var\(--openbitfun-color-content-required-indicator\)/);
-  assert.match(styles, /\.error\s*\{\s*color:\s*var\(--openbitfun-color-status-danger-content\)/);
+  assert.match(styles, /\.required\s*\{\s*color:\s*var\(--opcteam-color-content-required-indicator\)/);
+  assert.match(styles, /\.error\s*\{\s*color:\s*var\(--opcteam-color-status-danger-content\)/);
 });
 
 test("Textarea guards IME-owned commit and cancel keys", async () => {

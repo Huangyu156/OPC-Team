@@ -7,7 +7,7 @@ import "@openbitfun/theme-openbitfun/default.css";
 import { themeModes, themeTokenCatalog, themes } from "@openbitfun/theme-openbitfun";
 ```
 
-`default.css` synchronously imports the system token contract and all built-in theme variants. Theme selection is scoped to a `data-openbitfun-design-system-root` element and uses independent `data-color-scheme` and `data-contrast` axes.
+`default.css` synchronously imports the system token contract and all built-in theme variants. Theme selection is scoped to a `data-opcteam-design-system-root` element and uses independent `data-color-scheme` and `data-contrast` axes.
 
 `themeTokenCatalog` exposes the complete public semantic theme contract for visual authoring: colors, elevation shadows, surface filters, and state opacity. UI components consume this semantic contract and never depend on reference colors directly.
 

@@ -11,7 +11,7 @@
 
   &--motion {
     transform-origin: center;
-    transition: transform var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+    transition: transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   &__art {
@@ -39,27 +39,27 @@
     z-index: 1;
     width: max(6px, calc(var(--subagent-avatar-size) * 0.24));
     height: max(6px, calc(var(--subagent-avatar-size) * 0.24));
-    border: 1.5px solid var(--openbitfun-color-surface-raised);
+    border: 1.5px solid var(--opcteam-color-surface-raised);
     border-radius: 50%;
-    background: var(--openbitfun-color-content-muted);
+    background: var(--opcteam-color-content-muted);
   }
 
   &--running &__status,
   &--finishing &__status {
-    background: var(--openbitfun-color-status-success-emphasis);
+    background: var(--opcteam-color-status-success-emphasis);
   }
 
   &--waiting &__status {
-    background: var(--openbitfun-color-status-warning-emphasis);
+    background: var(--opcteam-color-status-warning-emphasis);
   }
 
   &--error &__status,
   &--cancelled &__status {
-    background: var(--openbitfun-color-status-danger-emphasis);
+    background: var(--opcteam-color-status-danger-emphasis);
   }
 
   &--completed &__status {
-    background: var(--openbitfun-color-status-info-emphasis);
+    background: var(--opcteam-color-status-info-emphasis);
   }
 }
 

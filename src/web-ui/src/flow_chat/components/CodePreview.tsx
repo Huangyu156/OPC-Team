@@ -219,10 +219,10 @@ export const CodePreview: React.FC<CodePreviewProps> = memo(({
       style: {
         display: 'block',
         backgroundColor: isHighlighted
-          ? 'color-mix(in srgb, var(--openbitfun-color-accent-default) 15%, transparent)'
+          ? 'color-mix(in srgb, var(--opcteam-color-accent-default) 15%, transparent)'
           : 'transparent',
         // Paint the rail outside the text without adding to the line's inset.
-        boxShadow: isHighlighted ? '-3px 0 var(--openbitfun-color-accent-default)' : 'none',
+        boxShadow: isHighlighted ? '-3px 0 var(--opcteam-color-accent-default)' : 'none',
         padding: 0,
         transition: 'background-color 0.15s ease',
       },
@@ -279,10 +279,10 @@ export const CodePreview: React.FC<CodePreviewProps> = memo(({
             }}
             codeTagProps={{
               style: {
-                fontFamily: 'var(--openbitfun-type-flow-code-font-family)',
-                fontSize: 'var(--openbitfun-type-flow-code-font-size)',
-                lineHeight: 'var(--openbitfun-type-flow-code-line-height)',
-                fontWeight: 'var(--openbitfun-type-flow-code-font-weight)',
+                fontFamily: 'var(--opcteam-type-flow-code-font-family)',
+                fontSize: 'var(--opcteam-type-flow-code-font-size)',
+                lineHeight: 'var(--opcteam-type-flow-code-line-height)',
+                fontWeight: 'var(--opcteam-type-flow-code-font-weight)',
               }
             }}
             lineNumberStyle={{
@@ -290,7 +290,7 @@ export const CodePreview: React.FC<CodePreviewProps> = memo(({
               paddingRight: '1em',
               textAlign: 'right',
               userSelect: 'none',
-              color: 'var(--openbitfun-color-content-muted)',
+              color: 'var(--opcteam-color-content-muted)',
               opacity: isLight ? 0.88 : 0.6,
             }}
           >

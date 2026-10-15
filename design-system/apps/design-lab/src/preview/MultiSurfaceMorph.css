@@ -20,7 +20,7 @@
   place-items: center;
   block-size: 100%;
   min-block-size: 0;
-  font-family: var(--openbitfun-type-body-md-font-family);
+  font-family: var(--opcteam-type-body-md-font-family);
 }
 
 .design-morph-frame {
@@ -30,11 +30,11 @@
   border: var(--_lab-rule);
   border-radius: var(--_morph-r);
   overflow: hidden;
-  background: var(--openbitfun-color-surface-canvas);
+  background: var(--opcteam-color-surface-canvas);
   transition:
-    --_morph-w var(--openbitfun-motion-duration-lazy) var(--openbitfun-motion-easing-smooth),
-    --_morph-h var(--openbitfun-motion-duration-lazy) var(--openbitfun-motion-easing-smooth),
-    --_morph-r var(--openbitfun-motion-duration-lazy) var(--openbitfun-motion-easing-smooth);
+    --_morph-w var(--opcteam-motion-duration-lazy) var(--opcteam-motion-easing-smooth),
+    --_morph-h var(--opcteam-motion-duration-lazy) var(--opcteam-motion-easing-smooth),
+    --_morph-r var(--opcteam-motion-duration-lazy) var(--opcteam-motion-easing-smooth);
 }
 
 /* The four geometries. The desktop window is the stage itself; the phone keeps the height and loses
@@ -44,13 +44,13 @@
 .design-morph[data-surface="web"] .design-morph-frame {
   --_morph-w: var(--_morph-stage-w);
   --_morph-h: var(--_morph-stage-h);
-  --_morph-r: var(--openbitfun-radius-lg);
+  --_morph-r: var(--opcteam-radius-lg);
 }
 
 .design-morph[data-surface="phone"] .design-morph-frame {
   --_morph-w: min(300px, var(--_morph-stage-w));
   --_morph-h: var(--_morph-stage-h);
-  --_morph-r: var(--openbitfun-radius-4xl);
+  --_morph-r: var(--opcteam-radius-4xl);
 }
 
 .design-morph[data-surface="watch"] .design-morph-frame {
@@ -63,7 +63,7 @@
   --_morph-w: min(780px, var(--_morph-stage-w));
   /* A visor, not a window: the shallowest of the four, so the frame hugs the strip it carries. */
   --_morph-h: min(168px, var(--_morph-stage-h));
-  --_morph-r: var(--openbitfun-radius-3xl);
+  --_morph-r: var(--opcteam-radius-3xl);
 }
 
 /* A surface is a stage of its own, laid out at the size it will be read at and never stretched: the
@@ -78,8 +78,8 @@
   pointer-events: none;
   transform: scale(1.03);
   transition:
-    opacity var(--openbitfun-motion-duration-slow) linear,
-    transform var(--openbitfun-motion-duration-lazy) var(--openbitfun-motion-easing-smooth);
+    opacity var(--opcteam-motion-duration-slow) linear,
+    transform var(--opcteam-motion-duration-lazy) var(--opcteam-motion-easing-smooth);
 }
 
 .design-morph-surface[data-active="true"] {
@@ -87,8 +87,8 @@
   transform: none;
   /* Arrives after the box has mostly arrived, so the shape is read before the content is. */
   transition:
-    opacity var(--openbitfun-motion-duration-slow) linear var(--openbitfun-motion-duration-slow),
-    transform var(--openbitfun-motion-duration-lazy) var(--openbitfun-motion-easing-smooth);
+    opacity var(--opcteam-motion-duration-slow) linear var(--opcteam-motion-duration-slow),
+    transform var(--opcteam-motion-duration-lazy) var(--opcteam-motion-easing-smooth);
 }
 
 /* ------------------------------------------------------------------------------ phone surface
@@ -101,7 +101,7 @@
   min-block-size: 0;
   /* The phone's frame has a phone's corners: the bottom bar has to clear them, the way the system
      safe area would on the device. */
-  padding-block-end: var(--openbitfun-space-4);
+  padding-block-end: var(--opcteam-space-4);
 }
 
 .design-morph-phone-head {
@@ -111,18 +111,18 @@
 .design-morph-phone-thread {
   display: grid;
   align-content: start;
-  gap: var(--openbitfun-space-3);
-  padding: var(--openbitfun-space-4);
+  gap: var(--opcteam-space-3);
+  padding: var(--opcteam-space-4);
   min-block-size: 0;
   overflow: hidden;
 }
 
 .design-morph-phone-composer {
-  margin-inline: var(--openbitfun-space-3);
+  margin-inline: var(--opcteam-space-3);
 }
 
 .design-morph-phone-tabs {
-  margin-block-start: var(--openbitfun-space-3);
+  margin-block-start: var(--opcteam-space-3);
 }
 
 /* ------------------------------------------------------------------------------ watch surface
@@ -138,37 +138,37 @@
   position: relative;
   display: grid;
   place-items: center;
-  gap: var(--openbitfun-space-3);
+  gap: var(--opcteam-space-3);
   inline-size: 100%;
   block-size: 100%;
-  padding: var(--openbitfun-space-8);
+  padding: var(--opcteam-space-8);
 }
 
 /* The bezel: one hairline inside the frame's own edge, which is what says "device" at this size. */
 .design-morph-watch-face::before {
   content: "";
   position: absolute;
-  inset: var(--openbitfun-space-3);
+  inset: var(--opcteam-space-3);
   border: var(--_lab-rule);
-  border-radius: var(--openbitfun-radius-pill);
+  border-radius: var(--opcteam-radius-pill);
 }
 
 .design-morph-watch-mark {
-  color: var(--openbitfun-color-content-secondary);
+  color: var(--opcteam-color-content-secondary);
 }
 
 .design-morph-watch-wave {
   display: flex;
   align-items: center;
-  gap: calc(var(--openbitfun-space-1) / 2);
-  block-size: var(--openbitfun-space-12);
+  gap: calc(var(--opcteam-space-1) / 2);
+  block-size: var(--opcteam-space-12);
 }
 
 .design-morph-watch-wave > i {
   inline-size: 3px;
   block-size: var(--_morph-wave, 40%);
-  border-radius: var(--openbitfun-radius-pill);
-  background: var(--openbitfun-color-accent-default);
+  border-radius: var(--opcteam-radius-pill);
+  background: var(--opcteam-color-accent-default);
 }
 
 /* ------------------------------------------------------------------------------ glasses surface
@@ -186,27 +186,27 @@
   position: absolute;
   inset-inline: 0;
   block-size: 78%;
-  background: radial-gradient(58% 100% at 50% 50%, var(--openbitfun-color-surface-subtle), transparent);
+  background: radial-gradient(58% 100% at 50% 50%, var(--opcteam-color-surface-subtle), transparent);
 }
 
 .design-morph-glasses-hud {
   position: relative;
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-4);
-  inline-size: min(calc(100% - var(--openbitfun-space-16)), 640px);
-  padding: var(--openbitfun-space-3) var(--openbitfun-space-5);
+  gap: var(--opcteam-space-4);
+  inline-size: min(calc(100% - var(--opcteam-space-16)), 640px);
+  padding: var(--opcteam-space-3) var(--opcteam-space-5);
   border: var(--_lab-rule);
-  border-radius: var(--openbitfun-radius-2xl);
-  background: var(--openbitfun-color-surface-panel);
-  color: var(--openbitfun-color-content-primary);
+  border-radius: var(--opcteam-radius-2xl);
+  background: var(--opcteam-color-surface-panel);
+  color: var(--opcteam-color-content-primary);
 }
 
 .design-morph-glasses-line {
   flex: 1 1 auto;
   min-inline-size: 0;
   overflow: hidden;
-  color: var(--openbitfun-color-content-secondary);
+  color: var(--opcteam-color-content-secondary);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -215,8 +215,8 @@
   display: inline-grid;
   flex: none;
   place-items: center;
-  inline-size: var(--openbitfun-space-8);
-  block-size: var(--openbitfun-space-8);
-  border-radius: var(--openbitfun-radius-pill);
-  background: var(--openbitfun-color-selection-surface);
+  inline-size: var(--opcteam-space-8);
+  block-size: var(--opcteam-space-8);
+  border-radius: var(--opcteam-radius-pill);
+  background: var(--opcteam-color-selection-surface);
 }

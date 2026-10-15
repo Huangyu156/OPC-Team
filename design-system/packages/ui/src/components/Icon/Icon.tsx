@@ -382,7 +382,7 @@ export const Icon = forwardRef<HTMLSpanElement, IconProps>(function Icon({
         <Glyph
           aria-hidden="true"
           focusable="false"
-          strokeWidth="var(--openbitfun-control-icon-stroke-width)"
+          strokeWidth="var(--opcteam-control-icon-stroke-width)"
         />
       ) : null}
     </span>

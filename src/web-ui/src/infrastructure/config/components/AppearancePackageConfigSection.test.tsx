@@ -145,7 +145,7 @@ describe('AppearancePackageConfigSection', () => {
     expect(cardRule).toContain('width: 100%;');
     expect(cardRule).not.toContain('border:');
     expect(styles).toMatch(/&__card-body--inline \{\s*flex-direction: row;/);
-    expect(styles).toMatch(/&__builtin-theme-select \{[\s\S]*?flex: 0 0 var\(--openbitfun-overlay-menu-inline-size\);/);
+    expect(styles).toMatch(/&__builtin-theme-select \{[\s\S]*?flex: 0 0 var\(--opcteam-overlay-menu-inline-size\);/);
   });
 
   it('reuses the built-in high-density artwork in the hover preview without requesting a package asset', async () => {

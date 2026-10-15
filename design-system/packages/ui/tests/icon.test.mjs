@@ -28,7 +28,7 @@ test("Icon exposes the complete named catalog without duplicate names", () => {
   assert.ok(iconNames.includes("folder-search"));
   const bookSearch = renderToStaticMarkup(createElement(Icon, { name: "book-search" }));
   assert.match(bookSearch, /lucide-book-search/);
-  assert.match(bookSearch, /stroke-width="var\(--openbitfun-control-icon-stroke-width\)"/);
+  assert.match(bookSearch, /stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
   assert.ok(iconNames.includes("commit"));
   assert.ok(iconNames.includes("sidebar-right"));
   assert.ok(iconNames.includes("chevron-up"));
@@ -48,7 +48,7 @@ test("Icon is decorative by default and renders the named Lucide glyph", () => {
   assert.match(markup, /data-size="lg"/);
   assert.match(markup, /aria-hidden="true"/);
   assert.match(markup, /lucide-search/);
-  assert.match(markup, /stroke-width="var\(--openbitfun-control-icon-stroke-width\)"/);
+  assert.match(markup, /stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
   assert.doesNotMatch(markup, /mask-image/);
 });
 
@@ -81,7 +81,7 @@ test("Icon normalizes Lucide fallbacks without exposing product-owned line weigh
   assert.match(markup, /data-openbitfun-tone="secondary"/);
   assert.match(markup, /role="img"/);
   assert.match(markup, /aria-label="Network"/);
-  assert.match(markup, /<svg[^>]*stroke-width="var\(--openbitfun-control-icon-stroke-width\)"/);
+  assert.match(markup, /<svg[^>]*stroke-width="var\(--opcteam-control-icon-stroke-width\)"/);
   assert.match(markup, /<svg[^>]*aria-hidden="true"/);
   assert.doesNotMatch(markup, /mask-image/);
 });
@@ -89,10 +89,10 @@ test("Icon normalizes Lucide fallbacks without exposing product-owned line weigh
 test("Icon styles consume only public geometry and semantic color tokens", async () => {
   const styles = await readFile(new URL("../dist/styles.css", import.meta.url), "utf8");
 
-  assert.match(styles, /--openbitfun-control-icon-size2xs/);
-  assert.match(styles, /--openbitfun-control-icon-size-lg/);
-  assert.match(styles, /--openbitfun-color-content-primary/);
-  assert.match(styles, /--openbitfun-color-status-success-content/);
+  assert.match(styles, /--opcteam-control-icon-size2xs/);
+  assert.match(styles, /--opcteam-control-icon-size-lg/);
+  assert.match(styles, /--opcteam-color-content-primary/);
+  assert.match(styles, /--opcteam-color-status-success-content/);
   assert.match(styles, /mask-size:contain/);
   assert.match(styles, /data-openbitfun-source=line/);
 });
@@ -151,7 +151,7 @@ test("every general-purpose named icon renders Lucide and only the reviewed exce
       assert.doesNotMatch(markup, /<svg/, name);
     } else {
       assert.match(markup, /class="lucide lucide-/, name);
-      assert.match(markup, /stroke-width="var\(--openbitfun-control-icon-stroke-width\)"/, name);
+      assert.match(markup, /stroke-width="var\(--opcteam-control-icon-stroke-width\)"/, name);
       assert.doesNotMatch(markup, /mask-image/, name);
     }
   }

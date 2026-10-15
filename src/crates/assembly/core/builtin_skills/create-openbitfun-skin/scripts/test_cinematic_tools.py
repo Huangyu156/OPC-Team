@@ -41,7 +41,7 @@ class CinematicContractTests(unittest.TestCase):
         self.assertIn("theme-tokens", manifest["renderers"])
         self.assertNotIn("css-tokens", manifest["renderers"])
         serialized_renderers = json.dumps(manifest["renderers"])
-        self.assertNotIn("--openbitfun-appearance-token-", serialized_renderers)
+        self.assertNotIn("--opcteam-appearance-token-", serialized_renderers)
         self.assertIn("flow-chat-turn-rail", manifest["components"])
         self.assertIn("copyable-text-preview", manifest["components"])
         self.assertNotIn("input", manifest["components"]["toolbar-mode"]["parts"])

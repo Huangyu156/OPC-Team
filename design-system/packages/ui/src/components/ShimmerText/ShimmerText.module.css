@@ -1,7 +1,7 @@
 @layer openbitfun.components {
   .root {
     display: inline-block;
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   /* Keep ordinary text as the fallback for print, reduced motion and high contrast. */
@@ -28,7 +28,7 @@
         mask-position: 100% 0;
         -webkit-mask-repeat: no-repeat;
         mask-repeat: no-repeat;
-        animation: openbitfun-text-shimmer calc(var(--openbitfun-motion-duration-loop) * 4) linear infinite;
+        animation: openbitfun-text-shimmer calc(var(--opcteam-motion-duration-loop) * 4) linear infinite;
       }
     }
   }

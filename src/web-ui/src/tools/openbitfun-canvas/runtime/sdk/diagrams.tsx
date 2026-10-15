@@ -37,15 +37,15 @@ function DiagramShell({
       style={{
         minWidth: 0,
         overflow: 'auto',
-        border: '1px solid color-mix(in srgb, var(--openbitfun-color-border-subtle) 78%, transparent)',
+        border: '1px solid color-mix(in srgb, var(--opcteam-color-border-subtle) 78%, transparent)',
         borderRadius: 8,
-        background: 'color-mix(in srgb, var(--openbitfun-color-surface-raised) 56%, transparent)',
+        background: 'color-mix(in srgb, var(--opcteam-color-surface-raised) 56%, transparent)',
         padding: 14,
         ...style,
       }}
     >
       {title ? (
-        <div style={{ marginBottom: 10, color: 'var(--openbitfun-color-content-primary)', fontSize: 'var(--openbitfun-type-label-sm-font-size)', fontWeight: 'var(--openbitfun-type-label-selected-font-weight)', lineHeight: 'var(--openbitfun-type-label-sm-line-height)' }}>
+        <div style={{ marginBottom: 10, color: 'var(--opcteam-color-content-primary)', fontSize: 'var(--opcteam-type-label-sm-font-size)', fontWeight: 'var(--opcteam-type-label-selected-font-weight)', lineHeight: 'var(--opcteam-type-label-sm-line-height)' }}>
           {title}
         </div>
       ) : null}
@@ -84,7 +84,7 @@ function renderGraphSvg({
             width={rank.width + 16}
             height={rank.height + 16}
             rx={8}
-            fill={index % 2 === 0 ? 'var(--openbitfun-color-surface-subtle)' : 'var(--openbitfun-color-surface-chrome)'}
+            fill={index % 2 === 0 ? 'var(--opcteam-color-surface-subtle)' : 'var(--opcteam-color-surface-chrome)'}
             opacity={index % 2 === 0 ? 0.72 : 0.46}
           />
         ))}
@@ -107,8 +107,8 @@ function renderGraphSvg({
                   x={(edge.sourceX + edge.targetX) / 2}
                   y={(edge.sourceY + edge.targetY) / 2 - 4}
                   textAnchor="middle"
-                  fill="var(--openbitfun-color-content-muted)"
-                  fontSize="var(--openbitfun-type-micro-font-size)"
+                  fill="var(--opcteam-color-content-muted)"
+                  fontSize="var(--opcteam-type-micro-font-size)"
                 >
                   <title>{String(meta.label)}</title>
                   {String(meta.label).slice(0, 18)}
@@ -130,8 +130,8 @@ function renderGraphSvg({
               width={layoutNode.width}
               height={layoutNode.height}
               rx={6}
-              fill="var(--openbitfun-color-surface-raised)"
-              stroke="var(--openbitfun-color-border-subtle)"
+              fill="var(--opcteam-color-surface-raised)"
+              stroke="var(--opcteam-color-border-subtle)"
               strokeWidth={1}
             />
             <rect
@@ -141,11 +141,11 @@ function renderGraphSvg({
               fill={color}
               opacity={0.78}
             />
-            <text x={14} y={description ? 18 : layoutNode.height / 2 + 4} fill="var(--openbitfun-color-content-primary)" fontSize="var(--openbitfun-type-support-font-size)" fontWeight="var(--openbitfun-type-label-selected-font-weight)">
+            <text x={14} y={description ? 18 : layoutNode.height / 2 + 4} fill="var(--opcteam-color-content-primary)" fontSize="var(--opcteam-type-support-font-size)" fontWeight="var(--opcteam-type-label-selected-font-weight)">
               {String(label).slice(0, 22)}
             </text>
             {description ? (
-              <text x={14} y={34} fill="var(--openbitfun-color-content-muted)" fontSize="var(--openbitfun-type-micro-font-size)">
+              <text x={14} y={34} fill="var(--opcteam-color-content-muted)" fontSize="var(--opcteam-type-micro-font-size)">
                 {String(description).slice(0, 26)}
               </text>
             ) : null}
@@ -182,7 +182,7 @@ export function DependencyGraph({
       {safeNodes.length ? (
         renderGraphSvg({ layout, nodes: [...safeNodes], edges: resolvedEdges, title: String(title || 'Dependency graph') })
       ) : (
-        <div style={{ color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>No graph nodes</div>
+        <div style={{ color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-support-font-size)' }}>No graph nodes</div>
       )}
     </DiagramShell>
   );
@@ -245,7 +245,7 @@ export function FlowDiagram({
       {resolvedNodes.length ? (
         renderGraphSvg({ layout, nodes: resolvedNodes, edges: resolvedEdges, title: String(title || 'Flow diagram') })
       ) : (
-        <div style={{ color: 'var(--openbitfun-color-content-muted)', fontSize: 'var(--openbitfun-type-support-font-size)' }}>No flow steps</div>
+        <div style={{ color: 'var(--opcteam-color-content-muted)', fontSize: 'var(--opcteam-type-support-font-size)' }}>No flow steps</div>
       )}
     </DiagramShell>
   );

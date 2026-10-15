@@ -10,7 +10,7 @@
   display: flex;
   flex-flow: row wrap;
   align-items: flex-start;
-  gap: 0 var(--openbitfun-control-flow-chat-card-gap);
+  gap: 0 var(--opcteam-control-flow-chat-card-gap);
 }
 
 :is([data-flow-item-stack], .explore-region__content, .flow-group-content-segment):has(
@@ -24,14 +24,14 @@
 :is([data-flow-item-stack], .explore-region__content, .flow-group-content-segment):has(
   > .flowchat-flow-item > .flow-tool-card-wrapper [data-openbitfun-tool-card='agent-control']
 ) > .flowchat-flow-item:has(> .flow-tool-card-wrapper[data-capsule-row='true'][data-capsule-parallel='true']) {
-  flex: 0 1 var(--openbitfun-control-flow-chat-capsule-inline-size);
+  flex: 0 1 var(--opcteam-control-flow-chat-capsule-inline-size);
   margin-inline-end: 0;
 }
 
 :is([data-flow-item-stack], .explore-region__content, .flow-group-content-segment)
   > .flowchat-flow-item:has(> .flow-tool-card-wrapper [data-openbitfun-tool-card='agent-control']) {
   flex: 0 1 auto;
-  inline-size: calc((var(--openbitfun-control-flow-chat-transcript-max-width) - 2 * var(--openbitfun-control-flow-chat-content-padding-inline) - 2 * var(--openbitfun-control-flow-chat-card-gap)) / 3);
+  inline-size: calc((var(--opcteam-control-flow-chat-transcript-max-width) - 2 * var(--opcteam-control-flow-chat-content-padding-inline) - 2 * var(--opcteam-control-flow-chat-card-gap)) / 3);
   max-inline-size: 100%;
 }
 
@@ -43,13 +43,13 @@
     :has(+ .flowchat-flow-item:not([hidden]) > .flow-tool-card-wrapper [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-attention='prominent']),
     :has(+ .flow-thinking-item:not([hidden])[data-thinking-attachment='side'] + .flowchat-flow-item:not([hidden]) > .flow-tool-card-wrapper [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-attention='prominent'])
   ) {
-  margin-bottom: calc(var(--openbitfun-space-5) / 2);
+  margin-bottom: calc(var(--opcteam-space-5) / 2);
 }
 
 /* Use the same design-system gap in both directions between agent cards. */
 :is([data-flow-item-stack], .explore-region__content, .flow-group-content-segment)
   > .flowchat-flow-item:has(> .flow-tool-card-wrapper [data-openbitfun-tool-card='agent-control']) {
-  margin-bottom: var(--openbitfun-control-flow-chat-card-gap);
+  margin-bottom: var(--opcteam-control-flow-chat-card-gap);
 }
 
 /* The next card may start a separately materialized segment. */
@@ -58,7 +58,7 @@
   + .flow-group-content-segment > .flow-thinking-item:first-child:not([hidden])[data-thinking-attachment='side'] + .flowchat-flow-item:not([hidden]) > .flow-tool-card-wrapper [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-attention='prominent']
 ))
   > :is(.flow-text-block, .flow-thinking-item, .flowchat-flow-item, .subagent-projection-text--truncated):last-child:not([hidden]):not([data-thinking-attachment='side']) {
-  margin-bottom: calc(var(--openbitfun-space-5) / 2);
+  margin-bottom: calc(var(--opcteam-space-5) / 2);
 }
 
 :where([data-flow-item-stack], .explore-region__content, .flow-group-content-segment)
@@ -72,7 +72,7 @@
       + .flowchat-flow-item:not([hidden])
         > .flow-tool-card-wrapper[data-openbitfun-attention='ambient']:not([data-tool-capsule='true']):not(.flow-tool-card-wrapper--permission-pending)
   ) {
-  margin-bottom: var(--openbitfun-control-flow-chat-paragraph-gap);
+  margin-bottom: var(--opcteam-control-flow-chat-paragraph-gap);
 }
 
 /* Deferred segments retain normal flow. Their boundary uses the same header
@@ -88,5 +88,5 @@
     > .flow-tool-card-wrapper[data-openbitfun-attention='ambient']:not([data-tool-capsule='true']):not(.flow-tool-card-wrapper--permission-pending)
       [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-expanded-shell='false']
   ) {
-  margin-bottom: var(--openbitfun-control-flow-chat-paragraph-gap);
+  margin-bottom: var(--opcteam-control-flow-chat-paragraph-gap);
 }

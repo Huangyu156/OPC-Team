@@ -28,10 +28,10 @@ interface RemediationSelectionPanelProps {
 const EMPTY_FIXING_REMEDIATION_IDS = new Set<string>();
 
 const GROUP_PRIORITY_META: Record<RemediationGroupId, { color: string }> = {
-  must_fix: { color: 'var(--openbitfun-color-status-danger-content)' },
-  should_improve: { color: 'var(--openbitfun-color-status-warning-content)' },
-  needs_decision: { color: 'var(--openbitfun-color-accent-default)' },
-  verification: { color: 'var(--openbitfun-color-status-success-content)' },
+  must_fix: { color: 'var(--opcteam-color-status-danger-content)' },
+  should_improve: { color: 'var(--opcteam-color-status-warning-content)' },
+  needs_decision: { color: 'var(--opcteam-color-accent-default)' },
+  verification: { color: 'var(--opcteam-color-status-success-content)' },
 };
 
 const stopNestedScrollPropagation = (event: React.WheelEvent | React.TouchEvent) => {

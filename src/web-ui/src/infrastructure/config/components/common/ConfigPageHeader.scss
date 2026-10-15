@@ -6,7 +6,7 @@
   box-sizing: border-box;
   width: 100%;
   min-width: 0;
-  padding: var(--openbitfun-space-5) 0 0;
+  padding: var(--opcteam-space-5) 0 0;
   margin-bottom: 36px;
 }
 
@@ -15,13 +15,13 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--openbitfun-space-4);
+  gap: var(--opcteam-space-4);
 }
 
 .openbitfun-config-page-header__left {
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-4);
+  gap: var(--opcteam-space-4);
   flex: 1;
   min-width: 0;
 }
@@ -46,7 +46,7 @@
   flex-shrink: 0;
   display: flex;
   align-items: center;
-  gap: var(--openbitfun-space-2);
+  gap: var(--opcteam-space-2);
 }
 
 @media (max-width: 768px) {
@@ -67,7 +67,7 @@
 
 @media (max-width: 600px) {
   .openbitfun-config-page-header__left {
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
   }
 }
 
@@ -76,25 +76,25 @@
   @include configLayout.content-frame;
   flex-shrink: 0;
   height: 1px;
-  background: var(--openbitfun-color-border-subtle);
-  margin: var(--openbitfun-space-4) auto;
+  background: var(--opcteam-color-border-subtle);
+  margin: var(--opcteam-space-4) auto;
   display: none;
 }
 
 @container config-panel (max-width: 520px) {
   .openbitfun-config-page-header {
-    padding-top: var(--openbitfun-space-4);
-    margin-bottom: var(--openbitfun-space-8);
+    padding-top: var(--opcteam-space-4);
+    margin-bottom: var(--opcteam-space-8);
   }
 
   .openbitfun-config-page-header__inner {
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
     flex-direction: column;
     align-items: flex-start;
   }
 
   .openbitfun-config-page-header__left {
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
     width: 100%;
   }
 
@@ -105,17 +105,17 @@
   .openbitfun-config-page-header__extra {
     width: 100%;
     justify-content: flex-start;
-    margin-top: var(--openbitfun-space-2);
+    margin-top: var(--opcteam-space-2);
   }
 
   .openbitfun-config-page-header-divider {
-    margin: var(--openbitfun-space-3) auto;
+    margin: var(--opcteam-space-3) auto;
   }
 }
 
 @media (prefers-reduced-transparency: reduce) {
   .openbitfun-config-page-header {
-    background: var(--openbitfun-color-surface-scene);
+    background: var(--opcteam-color-surface-scene);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;
   }

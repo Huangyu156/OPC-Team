@@ -6,8 +6,8 @@
  * moves the contest: the overlay's own z-index then competes, in the root
  * stacking context, with whatever container it escaped from. A container that
  * legitimately floats above app content — the floating mini chat panel at
- * `var(--openbitfun-layer-overlay) + 1`, a maximized canvas — therefore paints over popovers that
- * use the ordinary `var(--openbitfun-layer-dropdown)` level, which reads as a dead control: the menu
+ * `var(--opcteam-layer-overlay) + 1`, a maximized canvas — therefore paints over popovers that
+ * use the ordinary `var(--opcteam-layer-dropdown)` level, which reads as a dead control: the menu
  * opens behind the panel, and the panel's own backdrop takes the clicks.
  *
  * The host sits above app content. Every independently painted overlay,
@@ -23,7 +23,7 @@
 #openbitfun-appearance-overlay-host {
   position: fixed;
   inset: 0;
-  z-index: var(--openbitfun-layer-overlay-host);
+  z-index: var(--opcteam-layer-overlay-host);
   // The layer spans the viewport; only the overlays in it are hit-testable.
   pointer-events: none;
 }

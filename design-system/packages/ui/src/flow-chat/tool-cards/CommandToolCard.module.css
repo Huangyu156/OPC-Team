@@ -12,36 +12,36 @@
   .root > .expandedCard {
     overflow: hidden;
     border: 0;
-    border-radius: var(--openbitfun-radius-lg);
-    color: var(--openbitfun-color-content-primary);
-    background: color-mix(in srgb, var(--openbitfun-color-surface-tertiary) 50%, var(--openbitfun-color-surface-scene));
+    border-radius: var(--opcteam-radius-lg);
+    color: var(--opcteam-color-content-primary);
+    background: color-mix(in srgb, var(--opcteam-color-surface-tertiary) 50%, var(--opcteam-color-surface-scene));
   }
 
   .expandedCard > [data-openbitfun-part="surface"] {
     border-block-end: 0;
-    background: var(--openbitfun-color-surface-tertiary);
+    background: var(--opcteam-color-surface-tertiary);
   }
 
   .expandedCard > [data-openbitfun-part="surface"][data-openbitfun-attention="ambient"],
   .expandedCard [data-openbitfun-part="summary"],
   .footerRow {
     box-sizing: border-box;
-    min-block-size: calc(var(--openbitfun-control-height-sm) + 2 * var(--openbitfun-space-1));
-    gap: var(--openbitfun-space-2);
-    padding: var(--openbitfun-space-1) var(--openbitfun-control-flow-chat-card-padding-inline);
+    min-block-size: calc(var(--opcteam-control-height-sm) + 2 * var(--opcteam-space-1));
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-space-1) var(--opcteam-control-flow-chat-card-padding-inline);
   }
 
   .expandedCard [data-openbitfun-part="extra"],
   .expandedCard [data-openbitfun-part="actions"],
   .outputActions {
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
   /* Expanded header actions use the same control size as the footer, instead
      of inheriting the smaller ambient row controls. */
   .root > .expandedCard > [data-openbitfun-part="surface"][data-openbitfun-attention="ambient"] [data-openbitfun-part="actions"] [data-openbitfun-component="icon-button"] {
-    inline-size: var(--openbitfun-control-height-sm);
-    block-size: var(--openbitfun-control-height-sm);
+    inline-size: var(--opcteam-control-height-sm);
+    block-size: var(--opcteam-control-height-sm);
   }
 
   .expandedCard [data-openbitfun-part="extra"] {
@@ -68,24 +68,24 @@
     padding: 0;
     border: 0;
     border-radius: 0;
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
     background: transparent;
     white-space: nowrap;
   }
 
   .root .expandedCommand {
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-flow-code-font-family);
-    font-size: var(--openbitfun-type-flow-code-font-size);
-    font-weight: var(--openbitfun-type-flow-code-font-weight);
-    line-height: var(--openbitfun-type-flow-code-line-height);
-    letter-spacing: var(--openbitfun-type-flow-code-letter-spacing);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-flow-code-font-family);
+    font-size: var(--opcteam-type-flow-code-font-size);
+    font-weight: var(--opcteam-type-flow-code-font-weight);
+    line-height: var(--opcteam-type-flow-code-line-height);
+    letter-spacing: var(--opcteam-type-flow-code-letter-spacing);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
 
   .command[data-empty="true"] {
-    color: var(--openbitfun-color-content-muted);
+    color: var(--opcteam-color-content-muted);
     font-style: italic;
   }
 
@@ -93,7 +93,7 @@
     display: flex;
     min-inline-size: 0;
     align-items: flex-start;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
   .commandPreview {
@@ -101,7 +101,7 @@
   }
 
   .commandActions {
-    block-size: calc(var(--openbitfun-type-flow-code-font-size) * var(--openbitfun-type-flow-code-line-height));
+    block-size: calc(var(--opcteam-type-flow-code-font-size) * var(--opcteam-type-flow-code-line-height));
   }
 
   .commandPreview,
@@ -115,8 +115,8 @@
   }
 
   .commandPreview[data-expanded="false"][data-overflow="true"] .expandedCommand {
-    -webkit-mask-image: linear-gradient(to bottom, currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 1lh)), transparent 100%);
-    mask-image: linear-gradient(to bottom, currentColor calc(100% - min(var(--openbitfun-layout-overflow-text-fade-extent), 1lh)), transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 1lh)), transparent 100%);
+    mask-image: linear-gradient(to bottom, currentColor calc(100% - min(var(--opcteam-layout-overflow-text-fade-extent), 1lh)), transparent 100%);
   }
 
   .commandPreview[role="button"] {
@@ -124,46 +124,46 @@
   }
 
   .commandPreview:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
-    border-radius: var(--openbitfun-radius-xs);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
+    border-radius: var(--opcteam-radius-xs);
   }
 
   .statusSummary {
     display: inline-flex;
     min-inline-size: 0;
     align-items: center;
-    gap: var(--openbitfun-space-2);
-    color: var(--openbitfun-color-content-muted);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    gap: var(--opcteam-space-2);
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-body-sm-font-size);
   }
 
   .expandedCard .statusSummary {
-    color: var(--openbitfun-color-content-primary);
+    color: var(--opcteam-color-content-primary);
   }
 
   .statusLabel {
     display: inline-flex;
     align-items: center;
-    gap: var(--openbitfun-space-1);
-    padding-block: var(--openbitfun-space-1);
-    padding-inline: var(--openbitfun-space-2);
-    border-radius: var(--openbitfun-radius-sm);
-    background: var(--openbitfun-color-action-neutral-surface);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    font-weight: var(--openbitfun-type-label-selected-font-weight);
+    gap: var(--opcteam-space-1);
+    padding-block: var(--opcteam-space-1);
+    padding-inline: var(--opcteam-space-2);
+    border-radius: var(--opcteam-radius-sm);
+    background: var(--opcteam-color-action-neutral-surface);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    font-weight: var(--opcteam-type-label-selected-font-weight);
     white-space: nowrap;
   }
 
   .expandedCard .statusLabel:is([data-tone="neutral"], [data-tone="success"]) {
     padding: 0;
     background: transparent;
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
   }
 
   .resultIcon {
     flex: 0 0 auto;
-    color: var(--openbitfun-color-status-success-emphasis);
+    color: var(--opcteam-color-status-success-emphasis);
   }
 
   .root > [data-openbitfun-attention="prominent"] .statusLabel {
@@ -171,17 +171,17 @@
   }
 
   .statusLabel[data-tone="warning"] {
-    color: var(--openbitfun-color-status-warning-content);
-    background: var(--openbitfun-color-status-warning-surface);
+    color: var(--opcteam-color-status-warning-content);
+    background: var(--opcteam-color-status-warning-surface);
   }
 
   .statusLabel[data-tone="danger"] {
-    color: var(--openbitfun-color-status-danger-content);
-    background: var(--openbitfun-color-status-danger-surface);
+    color: var(--opcteam-color-status-danger-content);
+    background: var(--opcteam-color-status-danger-surface);
   }
 
   .criticalAction {
-    color: var(--openbitfun-color-status-warning-content);
+    color: var(--opcteam-color-status-warning-content);
   }
 
   .details {
@@ -194,9 +194,9 @@
     display: flex;
     min-inline-size: 0;
     flex-direction: column;
-    gap: var(--openbitfun-space-3);
-    padding: var(--openbitfun-space-3) var(--openbitfun-control-flow-chat-card-padding-inline);
-    color: var(--openbitfun-color-content-secondary);
+    gap: var(--opcteam-space-3);
+    padding: var(--opcteam-space-3) var(--opcteam-control-flow-chat-card-padding-inline);
+    color: var(--opcteam-color-content-secondary);
   }
 
   .outputFrame {
@@ -246,19 +246,19 @@
     align-items: center;
     justify-content: flex-start;
     padding: 0;
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-body-sm-font-size);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-body-sm-font-size);
     font-style: italic;
     text-align: start;
   }
 
   .footer {
-    color: var(--openbitfun-color-content-secondary);
-    background: var(--openbitfun-color-surface-tertiary);
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    color: var(--opcteam-color-content-secondary);
+    background: var(--opcteam-color-surface-tertiary);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
+    line-height: var(--opcteam-type-body-sm-line-height);
   }
 
   .footerRow {
@@ -272,7 +272,7 @@
     display: inline-flex;
     min-inline-size: 0;
     align-items: center;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
     white-space: nowrap;
   }
 
@@ -286,7 +286,7 @@
 
   .footerLabel {
     color: inherit;
-    font-weight: var(--openbitfun-type-label-lg-font-weight);
+    font-weight: var(--opcteam-type-label-lg-font-weight);
   }
 
   .footerValue {
@@ -295,33 +295,33 @@
   }
 
   .footerItem[data-tone="success"] .footerValue {
-    color: var(--openbitfun-color-status-success-content);
+    color: var(--opcteam-color-status-success-content);
   }
 
   .footerItem[data-tone="warning"] .footerValue {
-    color: var(--openbitfun-color-status-warning-content);
+    color: var(--opcteam-color-status-warning-content);
   }
 
   .footerItem[data-tone="danger"] .footerValue {
-    color: var(--openbitfun-color-status-danger-content);
+    color: var(--opcteam-color-status-danger-content);
   }
 
   .error {
-    color: var(--openbitfun-color-status-danger-content);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-md-line-height);
+    color: var(--opcteam-color-status-danger-content);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-md-line-height);
     white-space: pre-wrap;
     overflow-wrap: anywhere;
   }
 
   .root[data-openbitfun-preview-state="hover"] > .expandedCard > [data-openbitfun-part="surface"],
   :global([data-openbitfun-preview-state="hover"]) .root > .expandedCard > [data-openbitfun-part="surface"] {
-    background: var(--openbitfun-color-action-quiet-hover);
+    background: var(--opcteam-color-action-quiet-hover);
   }
 
   @media (hover: hover) {
     .expandedCard > [data-openbitfun-part="surface"]:hover {
-      background: var(--openbitfun-color-action-quiet-hover);
+      background: var(--opcteam-color-action-quiet-hover);
     }
   }
 

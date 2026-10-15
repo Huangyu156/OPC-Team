@@ -974,10 +974,10 @@ export const AgentCompanionDesktopPet: React.FC = () => {
   }, []);
 
   const dockVars = {
-    '--openbitfun-agent-companion-pet-width': `${activePetSize.width}px`,
-    '--openbitfun-agent-companion-pet-height': `${activePetSize.height}px`,
-    '--openbitfun-agent-companion-gap': `${WINDOW_HORIZONTAL_GAP}px`,
-    '--openbitfun-agent-companion-vertical-buffer': `${WINDOW_VERTICAL_BUFFER}px`,
+    '--opcteam-agent-companion-pet-width': `${activePetSize.width}px`,
+    '--opcteam-agent-companion-pet-height': `${activePetSize.height}px`,
+    '--opcteam-agent-companion-gap': `${WINDOW_HORIZONTAL_GAP}px`,
+    '--opcteam-agent-companion-vertical-buffer': `${WINDOW_VERTICAL_BUFFER}px`,
   } as React.CSSProperties;
   const isSingleTask = visibleTasks.length === 1;
   const hasAttentionTask = visibleTasks.some(task => task.state === 'attention');

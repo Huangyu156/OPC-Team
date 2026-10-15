@@ -13,7 +13,7 @@ export type EditableTokenMode = SystemTokenMode | ThemeDataName;
 export interface EditableToken {
   readonly category: string;
   readonly collection: TokenCollection;
-  readonly cssVariable: `--openbitfun-${string}`;
+  readonly cssVariable: `--opcteam-${string}`;
   readonly description?: string;
   readonly name: string;
   readonly type: string;

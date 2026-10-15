@@ -367,7 +367,7 @@ impl AppearanceConfig {
                     
                     root.setAttribute('data-openbitfun-appearance', '{id}');
                     root.setAttribute('data-openbitfun-appearance-mode', '{appearance_mode}');
-                    root.setAttribute('data-openbitfun-design-system-root', '');
+                    root.setAttribute('data-opcteam-design-system-root', '');
                     root.setAttribute('data-color-scheme', '{appearance_mode}');
                     root.setAttribute('data-contrast', 'standard');
                     root.setAttribute('data-density', 'compact');
@@ -375,15 +375,15 @@ impl AppearanceConfig {
                         root.setAttribute('data-openbitfun-native-material', 'sidebar');
                     }}
                     
-                    root.style.setProperty('--openbitfun-color-surface-canvas', '{bg_primary}');
-                    root.style.setProperty('--openbitfun-color-surface-panel', '{bg_secondary}');
-                    root.style.setProperty('--openbitfun-color-surface-tertiary', '{bg_primary}');
-                    root.style.setProperty('--openbitfun-color-surface-workbench', '{bg_primary}');
-                    root.style.setProperty('--openbitfun-color-surface-scene', '{bg_scene}');
-                    root.style.setProperty('--openbitfun-color-surface-chrome', '{bg_primary}');
-                    root.style.setProperty('--openbitfun-color-content-primary', '{text_primary}');
-                    root.style.setProperty('--openbitfun-color-content-muted', '{text_muted}');
-                    root.style.setProperty('--openbitfun-color-accent-default', '{accent_color}');
+                    root.style.setProperty('--opcteam-color-surface-canvas', '{bg_primary}');
+                    root.style.setProperty('--opcteam-color-surface-panel', '{bg_secondary}');
+                    root.style.setProperty('--opcteam-color-surface-tertiary', '{bg_primary}');
+                    root.style.setProperty('--opcteam-color-surface-workbench', '{bg_primary}');
+                    root.style.setProperty('--opcteam-color-surface-scene', '{bg_scene}');
+                    root.style.setProperty('--opcteam-color-surface-chrome', '{bg_primary}');
+                    root.style.setProperty('--opcteam-color-content-primary', '{text_primary}');
+                    root.style.setProperty('--opcteam-color-content-muted', '{text_muted}');
+                    root.style.setProperty('--opcteam-color-accent-default', '{accent_color}');
                     root.style.backgroundColor = {native_sidebar_material} ? 'transparent' : '{bg_primary}';
                     
                     if (document.body) {{
@@ -463,14 +463,14 @@ mod startup_appearance_tests {
         assert!(script.contains("__OPENBITFUN_BOOTSTRAP_APPEARANCE_SELECTION__"));
         assert!(script.contains("data-openbitfun-appearance"));
         assert!(script.contains("data-openbitfun-appearance-mode"));
-        assert!(script.contains("data-openbitfun-design-system-root"));
+        assert!(script.contains("data-opcteam-design-system-root"));
         assert!(script.contains("data-color-scheme"));
-        assert!(script.contains("--openbitfun-color-surface-canvas"));
-        assert!(script.contains("--openbitfun-color-surface-scene"));
-        assert!(script.contains("--openbitfun-color-content-primary"));
-        assert!(script.contains("--openbitfun-color-content-muted"));
-        assert!(script.contains("--openbitfun-color-accent-default"));
-        assert!(!script.contains("--openbitfun-appearance-token-"));
+        assert!(script.contains("--opcteam-color-surface-canvas"));
+        assert!(script.contains("--opcteam-color-surface-scene"));
+        assert!(script.contains("--opcteam-color-content-primary"));
+        assert!(script.contains("--opcteam-color-content-muted"));
+        assert!(script.contains("--opcteam-color-accent-default"));
+        assert!(!script.contains("--opcteam-appearance-token-"));
         let retired_bootstrap_global = ["__OPENBITFUN_BOOTSTRAP", "THEME"].join("_");
         let retired_background_token = ["--", "color-bg-"].concat();
         let retired_text_token = ["--", "color-text-"].concat();

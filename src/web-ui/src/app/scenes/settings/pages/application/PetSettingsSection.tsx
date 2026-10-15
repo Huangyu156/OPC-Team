@@ -40,7 +40,7 @@ const IS_TAURI_DESKTOP = typeof window !== 'undefined' && '__TAURI__' in window;
 function getPetPreviewStyle(pet: AgentCompanionPetPackage): React.CSSProperties {
   return {
     imageRendering: pet.source === 'preset' && pet.id === 'bitblob' ? 'auto' : undefined,
-    '--openbitfun-pet-preview-src': `url("${pet.previewSrc}")`,
+    '--opcteam-pet-preview-src': `url("${pet.previewSrc}")`,
     backgroundSize: `800% ${getPetSpriteLayout(pet.spriteVersionNumber).rows * 100}%`,
   } as React.CSSProperties;
 }

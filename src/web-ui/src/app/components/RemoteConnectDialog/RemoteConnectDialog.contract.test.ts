@@ -61,7 +61,7 @@ describe('Remote Connect safety contracts', () => {
     expect(disclaimerSource).toContain('<DialogFooter');
     expect(disclaimerSource).toContain('separator');
     expect(disclaimerSource).toContain("variant={canAgree ? 'fill' : 'primary'}");
-    expect(rootStyle).toContain('padding-block-start: var(--openbitfun-space-3);');
+    expect(rootStyle).toContain('padding-block-start: var(--opcteam-space-3);');
     expect(rootStyle).not.toContain('padding-block-end');
     expect(actionStyle).not.toContain('border-top');
     expect(actionStyle).not.toContain('padding-top');
@@ -171,9 +171,9 @@ describe('Remote Connect safety contracts', () => {
       dialogStyleSource.indexOf('.openbitfun-remote-connect-dialog__header'),
     );
 
-    expect(desktopGeometry).toContain('block-size: min(620px, calc(100vh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter)))');
-    expect(desktopGeometry).toContain('min-block-size: min(620px, calc(100vh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter)))');
-    expect(desktopGeometry).toContain('max-block-size: min(620px, calc(100vh - 2 * var(--openbitfun-overlay-dialog-viewport-gutter)))');
+    expect(desktopGeometry).toContain('block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)))');
+    expect(desktopGeometry).toContain('min-block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)))');
+    expect(desktopGeometry).toContain('max-block-size: min(620px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)))');
     expect(dialogStyleSource).toContain(".openbitfun-remote-connect [data-openbitfun-part='panel']");
     expect(dialogSource).toContain('<ScrollArea');
   });
@@ -237,9 +237,9 @@ describe('Remote Connect safety contracts', () => {
     expect(dialogStyleSource).not.toContain('connected-app-icon');
     expect(footerMessageBrandStyle).toContain('border: 0');
     expect(footerMessageBrandStyle).toContain('background: transparent');
-    expect(footerBrandColorStyle).toContain('--openbitfun-color-content-primary');
+    expect(footerBrandColorStyle).toContain('--opcteam-color-content-primary');
     expect(overviewMessageBrandStyle).toContain('background: transparent');
-    expect(overviewMessageBrandStyle).toContain('--openbitfun-color-content-primary');
+    expect(overviewMessageBrandStyle).toContain('--opcteam-color-content-primary');
     expect(dialogSource).not.toContain('<Send size={28} />');
     expect(dialogSource).not.toContain('<MessageSquareText size={28} />');
     expect(dialogSource).not.toContain('<MessagesSquare size={28} />');

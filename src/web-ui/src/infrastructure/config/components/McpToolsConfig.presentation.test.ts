@@ -16,7 +16,7 @@ describe('MCP settings presentation', () => {
     const editorEnd = stylesheet.indexOf('&__json-editor-header', editorStart);
 
     expect(stylesheet).not.toContain('.openbitfun-config-page-row {');
-    expect(stylesheet.slice(editorStart, editorEnd)).toContain('padding: var(--openbitfun-space-4);');
+    expect(stylesheet.slice(editorStart, editorEnd)).toContain('padding: var(--opcteam-space-4);');
   });
 
   it('presents JSON as an advanced text-labelled mode without the extensions overview', () => {

@@ -40,6 +40,6 @@ export function createSubagentAvatarTokens(
         if (contrast(mixed) >= 4.5) break;
       }
     }
-    return [`--openbitfun-domain-subagent-${character.file.replace('.svg', '')}`, accent];
+    return [`--opcteam-domain-subagent-${character.file.replace('.svg', '')}`, accent];
   })) as Record<AppearanceThemeTokenName, string>;
 }

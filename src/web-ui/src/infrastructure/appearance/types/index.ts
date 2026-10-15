@@ -387,12 +387,12 @@ export type AppearanceRendererId =
   | 'openbitfun-canvas';
 
 export type AppearanceThemeTokenName =
-  | `--openbitfun-color-${string}`
-  | `--openbitfun-shadow-${string}`
-  | `--openbitfun-effect-${string}`
-  | `--openbitfun-opacity-${string}`
-  | `--openbitfun-domain-${string}`
-  | `--openbitfun-component-${string}`;
+  | `--opcteam-color-${string}`
+  | `--opcteam-shadow-${string}`
+  | `--opcteam-effect-${string}`
+  | `--opcteam-opacity-${string}`
+  | `--opcteam-domain-${string}`
+  | `--opcteam-component-${string}`;
 
 export type AppearanceThemeScopeId = 'chrome';
 

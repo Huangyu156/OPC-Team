@@ -50,8 +50,8 @@ test('conversation reading column, metadata and composer follow their applicatio
     assert.equal(property(block(lab, '.flow-chat-mock__timeline'), name), property(column, name), name);
   }
   for (const name of ['turn-rail-offset', 'turn-rail-width', 'metadata-action-size']) {
-    assert.ok(lab.includes(`var(--openbitfun-control-flow-chat-${name})`));
-    assert.ok(layout.includes(`var(--openbitfun-control-flow-chat-${name})`));
+    assert.ok(lab.includes(`var(--opcteam-control-flow-chat-${name})`));
+    assert.ok(layout.includes(`var(--opcteam-control-flow-chat-${name})`));
   }
   const composer = block(lab, '.flow-chat-mock__composer');
   assert.ok(property(composer, 'inline-size').includes(property(block(input, '.openbitfun-context-drop-zone.openbitfun-chat-input-drop-zone'), 'max-width')));

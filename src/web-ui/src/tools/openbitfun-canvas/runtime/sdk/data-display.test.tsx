@@ -28,7 +28,7 @@ describe('OpenBitFun Canvas data display components', () => {
     expect(markup).toContain('openbitfun-callout');
     expect(markup).toContain('openbitfun-callout-title');
     expect(markup).toContain('openbitfun-callout-body');
-    expect(markup).toContain('--openbitfun-callout-accent:var(--openbitfun-canvas-info)');
+    expect(markup).toContain('--opcteam-callout-accent:var(--opcteam-canvas-info)');
     expect(markup).toContain('Repository Rule');
   });
 
@@ -115,10 +115,10 @@ describe('OpenBitFun Canvas data display components', () => {
       </>,
     );
 
-    expect(markup).toContain('--openbitfun-color-code-change-added');
-    expect(markup).toContain('--openbitfun-color-code-change-removed');
-    expect(markup).not.toContain('--openbitfun-color-status-success-content');
-    expect(markup).not.toContain('--openbitfun-color-status-danger-content');
+    expect(markup).toContain('--opcteam-color-code-change-added');
+    expect(markup).toContain('--opcteam-color-code-change-removed');
+    expect(markup).not.toContain('--opcteam-color-status-success-content');
+    expect(markup).not.toContain('--opcteam-color-status-danger-content');
   });
 
   it('renders progress bars with bounded values', () => {

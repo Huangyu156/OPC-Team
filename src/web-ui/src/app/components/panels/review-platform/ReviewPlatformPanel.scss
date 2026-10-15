@@ -5,8 +5,8 @@
   min-inline-size: 0;
   min-block-size: 0;
   block-size: 100%;
-  color: var(--openbitfun-color-content-primary);
-  background: var(--openbitfun-color-surface-canvas);
+  color: var(--opcteam-color-content-primary);
+  background: var(--opcteam-color-surface-canvas);
 
   > [data-openbitfun-component='toolbar'] {
     flex: 0 0 auto;
@@ -40,7 +40,7 @@
     display: flex;
     flex-direction: column;
     min-inline-size: 0;
-    gap: var(--openbitfun-space-1);
+    gap: var(--opcteam-space-1);
   }
 
   &__auth-gate {
@@ -57,7 +57,7 @@
 
   &__detail-header {
     flex: 0 0 auto;
-    padding: var(--openbitfun-space-4);
+    padding: var(--opcteam-space-4);
     overflow-wrap: anywhere;
   }
 
@@ -73,27 +73,27 @@
   &__inline-meta,
   &__detail-meta,
   &__thread-anchor {
-    color: var(--openbitfun-color-content-secondary);
-    font-size: var(--openbitfun-type-meta-font-size);
+    color: var(--opcteam-color-content-secondary);
+    font-size: var(--opcteam-type-meta-font-size);
   }
 
   &__ci-details {
     display: grid;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
     margin: 0;
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    line-height: var(--openbitfun-type-body-sm-line-height);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    line-height: var(--opcteam-type-body-sm-line-height);
   }
 
   &__fact-row {
     display: grid;
     grid-template-columns: minmax(0, 8rem) minmax(0, 1fr);
     align-items: start;
-    gap: var(--openbitfun-space-3);
+    gap: var(--opcteam-space-3);
 
     dt {
-      color: var(--openbitfun-color-content-secondary);
+      color: var(--opcteam-color-content-secondary);
     }
 
     dd {
@@ -119,10 +119,10 @@
     flex: 1 1 0;
     min-inline-size: 0;
     min-block-size: 0;
-    padding: var(--openbitfun-space-4);
+    padding: var(--opcteam-space-4);
     display: flex;
     flex-direction: column;
-    gap: var(--openbitfun-space-6);
+    gap: var(--opcteam-space-6);
 
     > * {
       flex-shrink: 0;
@@ -137,7 +137,7 @@
     display: inline-flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: var(--openbitfun-space-2);
+    gap: var(--opcteam-space-2);
   }
 
   &__body-markdown {
@@ -157,7 +157,7 @@
     min-block-size: 0;
     max-inline-size: 100%;
     margin: auto;
-    padding: var(--openbitfun-space-6);
+    padding: var(--opcteam-space-6);
     overflow: auto;
   }
 
@@ -168,13 +168,13 @@
     margin: 0;
     max-block-size: 360px;
     overflow: auto;
-    padding: var(--openbitfun-space-3);
-    border-radius: var(--openbitfun-radius-md);
-    background: var(--openbitfun-color-surface-tertiary);
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-code-md-font-family);
-    font-size: var(--openbitfun-type-code-md-font-size);
-    line-height: var(--openbitfun-type-code-md-line-height);
+    padding: var(--opcteam-space-3);
+    border-radius: var(--opcteam-radius-md);
+    background: var(--opcteam-color-surface-tertiary);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-code-md-font-family);
+    font-size: var(--opcteam-type-code-md-font-size);
+    line-height: var(--opcteam-type-code-md-line-height);
     tab-size: 2;
   }
 
@@ -191,27 +191,27 @@
   &__diff-line {
     display: block;
     min-block-size: 1lh;
-    padding-inline: var(--openbitfun-space-3);
+    padding-inline: var(--opcteam-space-3);
     white-space: pre;
   }
 
   &__diff-line--hunk {
-    color: var(--openbitfun-color-status-info-content);
-    background: var(--openbitfun-color-status-info-surface);
+    color: var(--opcteam-color-status-info-content);
+    background: var(--opcteam-color-status-info-surface);
   }
 
   &__diff-line--add {
-    color: var(--openbitfun-color-code-change-added);
-    background: color-mix(in srgb, var(--openbitfun-color-code-change-added) 10%, transparent);
+    color: var(--opcteam-color-code-change-added);
+    background: color-mix(in srgb, var(--opcteam-color-code-change-added) 10%, transparent);
   }
 
   &__diff-line--delete {
-    color: var(--openbitfun-color-code-change-removed);
-    background: color-mix(in srgb, var(--openbitfun-color-code-change-removed) 10%, transparent);
+    color: var(--opcteam-color-code-change-removed);
+    background: color-mix(in srgb, var(--opcteam-color-code-change-removed) 10%, transparent);
   }
 
   &__diff-line--meta {
-    color: var(--openbitfun-color-content-secondary);
+    color: var(--opcteam-color-content-secondary);
   }
 
   @container review-platform (max-width: 760px) {

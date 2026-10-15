@@ -90,9 +90,9 @@ test('settings sheet title stays on the sheet centerline beside the close action
 
   assert.ok(headerRule, 'missing settings sheet header rule');
   assert.match(headerRule, /display:\s*grid/);
-  assert.match(headerRule, /grid-template-columns:\s*var\(--openbitfun-space-12\)\s+minmax\(0,\s*1fr\)\s+var\(--openbitfun-space-12\)/);
+  assert.match(headerRule, /grid-template-columns:\s*var\(--opcteam-space-12\)\s+minmax\(0,\s*1fr\)\s+var\(--opcteam-space-12\)/);
   assert.doesNotMatch(headerRule, /padding:\s*0\s+12px\s+0\s+20px/);
-  assert.match(headerRule, /padding:\s*0\s+var\(--openbitfun-space-3\)/);
+  assert.match(headerRule, /padding:\s*0\s+var\(--opcteam-space-3\)/);
   assert.match(headingRule ?? "", /grid-column:\s*2/);
   assert.match(headingRule ?? "", /text-align:\s*center/);
   assert.match(actionRule ?? "", /grid-column:\s*3/);
@@ -339,7 +339,7 @@ test('mobile file card failures stay readable and repeatable', async () => {
     markdownStyles.indexOf(".file-card[data-status='error'] {"),
     markdownStyles.indexOf('.file-card__icon {'),
   );
-  assert.match(errorCardStyles, /background:\s*var\(--openbitfun-color-status-danger-surface\);/);
+  assert.match(errorCardStyles, /background:\s*var\(--opcteam-color-status-danger-surface\);/);
   assert.doesNotMatch(errorCardStyles, /opacity:/);
   assert.match(markdownStyles, /\.file-card__reason\s*\{[\s\S]*?-webkit-line-clamp:\s*2;/);
 });
@@ -355,12 +355,12 @@ test('chat notices stay readable above the transcript they float over', async ()
   );
   // The shared status surface is a 10% tint; a floating notice needs an opaque
   // base so the transcript behind it cannot bleed through the message text.
-  assert.match(toastStyles, /background-color:\s*var\(--openbitfun-color-surface-raised\);/);
+  assert.match(toastStyles, /background-color:\s*var\(--opcteam-color-surface-raised\);/);
   assert.match(toastStyles, /background-image:\s*linear-gradient\(var\(--chat-toast-tint\), var\(--chat-toast-tint\)\);/);
   for (const tone of ['info', 'warning', 'danger']) {
     assert.match(toastStyles, new RegExp(`&\\[data-tone='${tone}'\\]`));
   }
-  assert.doesNotMatch(toastStyles, /background:\s*var\(--openbitfun-color-status-(?:info|warning|danger)-surface\)/);
+  assert.doesNotMatch(toastStyles, /background:\s*var\(--opcteam-color-status-(?:info|warning|danger)-surface\)/);
 });
 
 

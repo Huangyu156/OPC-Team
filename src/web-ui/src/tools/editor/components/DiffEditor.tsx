@@ -296,7 +296,7 @@ export const DiffEditor: React.FC<DiffEditorProps> = ({
               const elements = container.querySelectorAll(selector);
               elements.forEach((element) => {
                 const htmlElement = element as HTMLElement;
-                htmlElement.style.backgroundColor = 'var(--openbitfun-color-surface-canvas)';
+                htmlElement.style.backgroundColor = 'var(--opcteam-color-surface-canvas)';
               });
             });
             

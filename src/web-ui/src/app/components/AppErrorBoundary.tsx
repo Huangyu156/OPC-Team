@@ -58,8 +58,8 @@ export class AppErrorBoundary extends Component<Props, State> {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          background: 'var(--openbitfun-color-surface-workbench)',
-          color: 'var(--openbitfun-color-content-primary)',
+          background: 'var(--opcteam-color-surface-workbench)',
+          color: 'var(--opcteam-color-content-primary)',
           padding: 24,
           boxSizing: 'border-box',
         }}
@@ -67,11 +67,11 @@ export class AppErrorBoundary extends Component<Props, State> {
         <div style={{ maxWidth: 760, width: '100%' }}>
           <h2 style={{
             margin: 0,
-            fontFamily: 'var(--openbitfun-type-heading-page-font-family)',
-            fontSize: 'var(--openbitfun-type-heading-page-font-size)',
-            fontWeight: 'var(--openbitfun-type-heading-page-font-weight)',
-            lineHeight: 'var(--openbitfun-type-heading-page-line-height)',
-            letterSpacing: 'var(--openbitfun-type-heading-page-letter-spacing)',
+            fontFamily: 'var(--opcteam-type-heading-page-font-family)',
+            fontSize: 'var(--opcteam-type-heading-page-font-size)',
+            fontWeight: 'var(--opcteam-type-heading-page-font-weight)',
+            lineHeight: 'var(--opcteam-type-heading-page-line-height)',
+            letterSpacing: 'var(--opcteam-type-heading-page-letter-spacing)',
           }}>{title}</h2>
           <p style={{ margin: '12px 0 0', opacity: 0.9 }}>{firstLine}</p>
           <div style={{ marginTop: 16 }}>
@@ -90,15 +90,15 @@ export class AppErrorBoundary extends Component<Props, State> {
                 style={{
                   marginTop: 12,
                   padding: 12,
-                  background: 'var(--openbitfun-color-surface-panel)',
-                  color: 'var(--openbitfun-color-content-secondary)',
+                  background: 'var(--opcteam-color-surface-panel)',
+                  color: 'var(--opcteam-color-content-secondary)',
                   borderRadius: 8,
                   overflow: 'auto',
                   maxHeight: 240,
-                  fontFamily: 'var(--openbitfun-type-code-sm-font-family)',
-                  fontSize: 'var(--openbitfun-type-code-sm-font-size)',
-                  fontWeight: 'var(--openbitfun-type-code-sm-font-weight)',
-                  lineHeight: 'var(--openbitfun-type-code-sm-line-height)',
+                  fontFamily: 'var(--opcteam-type-code-sm-font-family)',
+                  fontSize: 'var(--opcteam-type-code-sm-font-size)',
+                  fontWeight: 'var(--opcteam-type-code-sm-font-weight)',
+                  lineHeight: 'var(--opcteam-type-code-sm-line-height)',
                 }}
               >
                 {this.state.error.stack ?? this.state.error.message}

@@ -1,36 +1,36 @@
 @layer openbitfun.components {
   .root {
     box-sizing: border-box;
-    border-radius: var(--openbitfun-radius-sm);
-    color: var(--openbitfun-color-accent-default);
+    border-radius: var(--opcteam-radius-sm);
+    color: var(--opcteam-color-accent-default);
     text-decoration-line: underline;
-    text-decoration-thickness: var(--openbitfun-border-width-default);
+    text-decoration-thickness: var(--opcteam-border-width-default);
     text-underline-offset: 0.16em;
     touch-action: manipulation;
   }
 
   .root:hover {
-    color: var(--openbitfun-color-accent-hover);
+    color: var(--opcteam-color-accent-hover);
   }
 
   .root:active {
-    color: var(--openbitfun-color-accent-hover);
+    color: var(--opcteam-color-accent-hover);
   }
 
   .root:focus-visible {
-    outline: var(--openbitfun-focus-width) solid var(--openbitfun-color-focus-ring);
-    outline-offset: var(--openbitfun-focus-offset);
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
   }
 
   .root[data-appearance="surface"] {
     display: inline-flex;
     min-block-size: 44px;
     align-items: center;
-    padding-inline: var(--openbitfun-space-3);
-    border: var(--openbitfun-border-width-default) solid var(--openbitfun-color-border-subtle);
-    border-radius: var(--openbitfun-radius-pill);
-    background: var(--openbitfun-color-surface-panel);
-    box-shadow: var(--openbitfun-shadow-xs);
+    padding-inline: var(--opcteam-space-3);
+    border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
+    border-radius: var(--opcteam-radius-pill);
+    background: var(--opcteam-color-surface-panel);
+    box-shadow: var(--opcteam-shadow-xs);
     text-decoration: none;
   }
 

@@ -2,8 +2,8 @@ import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 
 const CODE_CHANGE_TOKENS = [
-  '--openbitfun-color-code-change-added',
-  '--openbitfun-color-code-change-removed',
+  '--opcteam-color-code-change-added',
+  '--opcteam-color-code-change-removed',
 ] as const;
 
 const PRIMARY_CODE_CHANGE_SURFACES = [
@@ -39,13 +39,13 @@ describe('code-change color integration', () => {
     ]) {
       const source = readFileSync(new URL(relativePath, import.meta.url), 'utf8');
 
-      expect(source).not.toMatch(/--openbitfun-domain-git-(?:added|deleted|staged)/);
+      expect(source).not.toMatch(/--opcteam-domain-git-(?:added|deleted|staged)/);
     }
   });
 
   it('uses dedicated diff colors for the inline code viewer', () => {
     const source = readFileSync(new URL('../../flow_chat/components/InlineDiffPreview.scss', import.meta.url), 'utf8');
-    expect(source).toContain('--openbitfun-color-code-diff-added-marker');
-    expect(source).toContain('--openbitfun-color-code-diff-removed-marker');
+    expect(source).toContain('--opcteam-color-code-diff-added-marker');
+    expect(source).toContain('--opcteam-color-code-diff-removed-marker');
   });
 });

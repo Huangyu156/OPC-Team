@@ -15,47 +15,47 @@
     inline-size: 100%;
     min-inline-size: 0;
     border: 0;
-    outline: var(--openbitfun-border-width-default) solid transparent;
-    outline-offset: calc(-1 * var(--openbitfun-border-width-default));
-    border-radius: var(--openbitfun-control-action-card-radius);
-    color: var(--openbitfun-color-action-neutral-content);
-    background: var(--openbitfun-color-action-card-background);
+    outline: var(--opcteam-border-width-default) solid transparent;
+    outline-offset: calc(-1 * var(--opcteam-border-width-default));
+    border-radius: var(--opcteam-control-action-card-radius);
+    color: var(--opcteam-color-action-neutral-content);
+    background: var(--opcteam-color-action-card-background);
     transition:
-      color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      background-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard),
-      outline-color var(--openbitfun-motion-duration-fast) var(--openbitfun-motion-easing-standard);
+      color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      outline-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
   .root[data-size="sm"] {
-    min-block-size: var(--openbitfun-control-action-card-sm-min-block-size);
+    min-block-size: var(--opcteam-control-action-card-sm-min-block-size);
   }
 
   .root[data-size="md"] {
-    min-block-size: var(--openbitfun-control-action-card-md-min-block-size);
+    min-block-size: var(--opcteam-control-action-card-md-min-block-size);
   }
 
   .root:not([data-disabled="true"]):is(:hover, :has(.trigger[data-openbitfun-preview-state="hover"])) {
-    outline-color: var(--openbitfun-color-border-default);
-    background: var(--openbitfun-color-action-neutral-surface-hover);
+    outline-color: var(--opcteam-color-border-default);
+    background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
   .root:not([data-disabled="true"]):is(:active, :has(.trigger[data-openbitfun-preview-state="active"])) {
-    background: var(--openbitfun-color-action-neutral-surface-pressed);
+    background: var(--opcteam-color-action-neutral-surface-pressed);
   }
 
   .root[data-selected="true"] {
-    outline-color: var(--openbitfun-color-border-default);
-    background: var(--openbitfun-color-selection-surface);
+    outline-color: var(--opcteam-color-border-default);
+    background: var(--opcteam-color-selection-surface);
   }
 
   .root:has(.trigger:focus-visible) {
-    box-shadow: 0 0 0 var(--openbitfun-focus-width) var(--openbitfun-color-focus-ring);
+    box-shadow: 0 0 0 var(--opcteam-focus-width) var(--opcteam-color-focus-ring);
   }
 
   .root[data-disabled="true"] {
-    color: var(--openbitfun-color-action-neutral-content-disabled);
+    color: var(--opcteam-color-action-neutral-content-disabled);
     cursor: not-allowed;
-    opacity: var(--openbitfun-opacity-disabled);
+    opacity: var(--opcteam-opacity-disabled);
   }
 
   .trigger {
@@ -65,10 +65,10 @@
     align-self: stretch;
     min-inline-size: 0;
     min-block-size: inherit;
-    gap: var(--openbitfun-control-action-card-gap);
+    gap: var(--opcteam-control-action-card-gap);
     margin: 0;
-    padding-block: var(--openbitfun-control-action-card-padding-block);
-    padding-inline: var(--openbitfun-control-action-card-padding-inline);
+    padding-block: var(--opcteam-control-action-card-padding-block);
+    padding-inline: var(--opcteam-control-action-card-padding-inline);
     border: 0;
     outline: 0;
     color: inherit;
@@ -84,20 +84,20 @@
 
   .leading {
     display: inline-flex;
-    flex: 0 0 var(--openbitfun-control-action-card-leading-size);
+    flex: 0 0 var(--opcteam-control-action-card-leading-size);
     align-items: center;
     justify-content: center;
-    inline-size: var(--openbitfun-control-action-card-leading-size);
-    block-size: var(--openbitfun-control-action-card-leading-size);
-    border-radius: var(--openbitfun-radius-pill);
-    color: var(--openbitfun-color-content-secondary);
+    inline-size: var(--opcteam-control-action-card-leading-size);
+    block-size: var(--opcteam-control-action-card-leading-size);
+    border-radius: var(--opcteam-radius-pill);
+    color: var(--opcteam-color-content-secondary);
   }
 
   .leading > :where(svg, img),
   .leading > [data-openbitfun-component="icon"] {
     display: block;
-    inline-size: var(--openbitfun-control-action-card-icon-size);
-    block-size: var(--openbitfun-control-action-card-icon-size);
+    inline-size: var(--opcteam-control-action-card-icon-size);
+    block-size: var(--opcteam-control-action-card-icon-size);
   }
 
   .content {
@@ -105,7 +105,7 @@
     flex: 1 1 auto;
     min-inline-size: 0;
     flex-direction: column;
-    gap: var(--openbitfun-control-action-card-content-gap);
+    gap: var(--opcteam-control-action-card-content-gap);
   }
 
   .title,
@@ -116,21 +116,21 @@
   }
 
   .title {
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-heading-section-font-family);
-    font-size: var(--openbitfun-type-heading-section-font-size);
-    font-weight: var(--openbitfun-type-heading-section-font-weight);
-    line-height: var(--openbitfun-type-heading-section-line-height);
-    letter-spacing: var(--openbitfun-type-heading-section-letter-spacing);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-heading-section-font-family);
+    font-size: var(--opcteam-type-heading-section-font-size);
+    font-weight: var(--opcteam-type-heading-section-font-weight);
+    line-height: var(--opcteam-type-heading-section-line-height);
+    letter-spacing: var(--opcteam-type-heading-section-letter-spacing);
   }
 
   .description {
-    color: var(--openbitfun-color-content-primary);
-    font-family: var(--openbitfun-type-body-sm-font-family);
-    font-size: var(--openbitfun-type-body-sm-font-size);
-    font-weight: var(--openbitfun-type-body-sm-font-weight);
-    line-height: var(--openbitfun-type-action-row-line-height);
-    letter-spacing: var(--openbitfun-type-body-sm-letter-spacing);
+    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-body-sm-font-family);
+    font-size: var(--opcteam-type-body-sm-font-size);
+    font-weight: var(--opcteam-type-body-sm-font-weight);
+    line-height: var(--opcteam-type-action-row-line-height);
+    letter-spacing: var(--opcteam-type-body-sm-letter-spacing);
   }
 
   .actions {
@@ -138,8 +138,8 @@
     flex: 0 0 auto;
     align-items: center;
     align-self: stretch;
-    gap: var(--openbitfun-control-action-card-actions-gap);
-    padding-inline-end: var(--openbitfun-control-action-card-actions-padding-inline-end);
+    gap: var(--opcteam-control-action-card-actions-gap);
+    padding-inline-end: var(--opcteam-control-action-card-actions-padding-inline-end);
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -160,7 +160,7 @@
     }
 
     .root:has(.trigger:focus-visible) {
-      box-shadow: 0 0 0 var(--openbitfun-focus-width) Highlight;
+      box-shadow: 0 0 0 var(--opcteam-focus-width) Highlight;
     }
   }
 }
