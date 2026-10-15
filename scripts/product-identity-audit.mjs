@@ -98,7 +98,7 @@ const auditedProductIdentities = Object.freeze({
   opcteam: Object.freeze({
     label: 'OPC-Team',
     pattern: /opc[-_]?team/giu,
-    canonicalCasings: Object.freeze(['OPC-Team', 'opcteam', 'OPCTeam', 'OPCTEAM', 'opcTeam']),
+    canonicalCasings: Object.freeze(['OPC-Team', 'opcteam', 'OPCTeam', 'OPCTEAM', 'opcTeam', 'OpcTeam']),
   }),
 });
 

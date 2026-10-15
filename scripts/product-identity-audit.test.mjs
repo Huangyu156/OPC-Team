@@ -82,6 +82,7 @@ test('accepts the canonical OPC-Team identity in casing, paths, and contracts', 
     'opcteam',
     'OPCTeam',
     'opcTeamControlBridge',
+    'OpcTeamError',
     'OPCTEAM_USER_ROOT',
     'com.opcteam.desktop',
     'opcteam-desktop',
@@ -96,19 +97,16 @@ test('rejects competing OPC-Team spellings so a third casing cannot drift in', (
   // Assembled at runtime so this file never carries the spellings it rejects.
   const competingHyphen = ['opc', 'team'].join('-');
   const competingSnake = `${['OPC', 'TEAM'].join('_')}_USER_ROOT`;
-  const competingPascal = ['Opc', 'Team'].join('');
   const competingCli = `${competingHyphen}-cli`;
   const source = [
     competingHyphen,
     competingSnake,
-    competingPascal,
     competingCli,
   ].join('\n');
 
   assert.deepEqual(
     violationsFor(source).map((violation) => violation.rule),
     [
-      'noncanonical-opcteam-casing',
       'noncanonical-opcteam-casing',
       'noncanonical-opcteam-casing',
       'noncanonical-opcteam-casing',
