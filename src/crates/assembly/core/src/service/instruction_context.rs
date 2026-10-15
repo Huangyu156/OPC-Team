@@ -256,7 +256,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn local_user_instructions_precede_workspace_instructions_by_ecosystem_priority() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -299,7 +299,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn conditional_instructions_keep_user_then_workspace_precedence() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -345,7 +345,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn invalid_user_rule_does_not_hide_project_conditional_instructions() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -386,7 +386,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn opencode_global_config_resolves_relative_instructions_in_the_local_workspace() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -426,7 +426,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn invalid_user_source_does_not_hide_workspace_instructions() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -460,7 +460,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn a_user_configured_workspace_file_is_not_rendered_again_as_a_project_source() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -494,7 +494,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn port_backed_workspace_never_falls_back_to_local_user_sources() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");

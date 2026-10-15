@@ -208,7 +208,7 @@ mod tests {
         };
         let temp_root = std::env::var_os("OPENBITFUN_TEST_TMPDIR")
             .map(PathBuf::from)
-            .unwrap_or_else(|| PathBuf::from("E:/tmp"));
+            .unwrap_or_else(std::env::temp_dir);
         fs::create_dir_all(&temp_root).unwrap();
         let temp = tempfile::Builder::new()
             .prefix("openbitfun-offline-session-")

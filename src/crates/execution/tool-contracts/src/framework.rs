@@ -637,8 +637,18 @@ fn escape_get_tool_spec_xml_text(value: &str) -> String {
         .replace('>', "&gt;")
 }
 
+/// Tool names that launch a subagent.
+///
+/// `Task` is the retained compatibility name for the same launch surface as
+/// `AgentSpawn`, so every consumer must treat both names identically. This is
+/// the single source of truth for that pair; the execution pipeline counts
+/// subagent launches through this list instead of keeping a second copy.
+pub const SUBAGENT_LAUNCH_TOOL_NAMES: &[&str] = &["Task", "AgentSpawn"];
+
 pub fn tool_manifest_sort_rank(tool_name: &str) -> usize {
     match tool_name {
+        // Subagent launch keeps its prompt-visible slot under both names.
+        "Task" => 1,
         "AgentSpawn" => 1,
         "AgentSendInput" => 1,
         "AgentControl" => 1,
@@ -2438,7 +2448,10 @@ pub fn tool_restrictions_for_delegation_policy(
 ) -> ToolRuntimeRestrictions {
     let mut restrictions = ToolRuntimeRestrictions::default();
     if !delegation_policy.allow_subagent_spawn {
-        for tool_name in ["AgentSpawn"] {
+        // Deny the shared subagent launch list so a child delegation cannot
+        // reach either launch name, and the policy cannot drift from the list
+        // the execution pipeline counts subagent launches with.
+        for &tool_name in SUBAGENT_LAUNCH_TOOL_NAMES {
             restrictions.denied_tool_names.insert(tool_name.to_string());
             restrictions.denied_tool_messages.insert(
                 tool_name.to_string(),

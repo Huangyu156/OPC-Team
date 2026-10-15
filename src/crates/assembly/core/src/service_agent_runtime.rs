@@ -4861,8 +4861,17 @@ mod history_workspace_identity_tests {
     async fn history_routing_uses_ids_even_with_colliding_roots_and_stale_transport_fields() {
         let temp = tempfile::tempdir().unwrap();
         let local = register_local_fixture(temp.path(), None).await;
+        // Saved remote roots always use POSIX syntax, so the local folder can be
+        // echoed by name only: a controller drive path can never be a remote root.
+        // Routing must follow the ID even while that name collision stands.
+        let local_name = local
+            .root_path
+            .file_name()
+            .expect("local fixture folder name")
+            .to_string_lossy()
+            .into_owned();
         let remote = register_remote_fixture(
-            &local.root_path.to_string_lossy(),
+            &format!("/srv/{local_name}"),
             "history-test-ssh",
             "history.example",
         )

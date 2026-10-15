@@ -70,7 +70,10 @@ class LegacyWorkspaceCompatibilityTest {
     @Test
     fun sessionOwnershipComparesIdsOnlyWhenBothSidesHaveThem() {
         val session = RemoteSession("s", "Session", "code", "idle", "", "", 0, "/repo", null,
-            workspaceIdentity = RemoteWorkspaceIdentity("/renamed", null, null, "ssh-id"))
+            workspaceIdentity = RemoteWorkspaceIdentity("/renamed", null, null, "ssh-id"),
+            parentSessionId = null,
+            relationshipKind = null,
+        )
         assertTrue(session.belongsTo(ssh, catalog))
         assertFalse(session.belongsTo(local, catalog))
         // The ID decides even when the catalog no longer lists the row.
@@ -84,7 +87,10 @@ class LegacyWorkspaceCompatibilityTest {
     @Test
     fun ownedLegacyIdentityResolvesThroughTheCatalogToAnIdRow() {
         val session = RemoteSession("s", "Session", "code", "idle", "", "", 0, "/repo", null,
-            workspaceIdentity = RemoteWorkspaceIdentity("/repo", "saved", "host"))
+            workspaceIdentity = RemoteWorkspaceIdentity("/repo", "saved", "host"),
+            parentSessionId = null,
+            relationshipKind = null,
+        )
         assertTrue(session.belongsTo(ssh, catalog))
         assertFalse(session.belongsTo(local, catalog))
         val unscoped = session.copy(workspaceIdentity = RemoteWorkspaceIdentity("/repo", null, null))

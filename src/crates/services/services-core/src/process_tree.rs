@@ -512,9 +512,13 @@ mod tests {
             std::env::var_os("OPENBITFUN_DESCENDANT_PID_FILE").expect("fixture PID file path");
         match role.as_str() {
             "parent" | "orphan-parent" => {
-                let _child = windows_fixture_command(Path::new(&pid_file), "leaf")
+                let child = windows_fixture_command(Path::new(&pid_file), "leaf")
                     .spawn()
                     .expect("spawn fixture descendant");
+                // The leaf must outlive this fixture parent -- that is exactly what
+                // the process-tree contract asserts -- so this fixture never waits
+                // for it (dropping a `Child` never terminates the process).
+                drop(child);
                 if role == "orphan-parent" {
                     return;
                 }

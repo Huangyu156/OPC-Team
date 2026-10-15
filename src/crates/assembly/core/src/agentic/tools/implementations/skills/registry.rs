@@ -337,14 +337,20 @@ mod local_skill_scan_tests {
             .find(|item| item.unsupported_field.is_some())
             .unwrap();
         assert_eq!(unsupported.unsupported_field.as_deref(), Some("context"));
-        assert!(unsupported.path.ends_with("guard/SKILL.md"));
+        assert!(diagnostic_points_at_skill_file(&unsupported.path, "guard"));
         let failure = scan
             .diagnostics
             .iter()
             .find(|item| item.unsupported_field.is_none())
             .unwrap();
-        assert!(failure.path.ends_with("broken/SKILL.md"));
+        assert!(diagnostic_points_at_skill_file(&failure.path, "broken"));
         assert!(failure.message.contains("description"));
+    }
+
+    /// A diagnostic must name the exact skill directory plus its `SKILL.md`.
+    /// Comparing path components keeps the assertion separator-independent.
+    fn diagnostic_points_at_skill_file(path: &str, directory: &str) -> bool {
+        Path::new(path).ends_with(Path::new(directory).join("SKILL.md"))
     }
 
     #[tokio::test]

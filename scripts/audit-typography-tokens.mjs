@@ -27,7 +27,16 @@ const SELF_AUDIT_FILES = new Set([
   'scripts/audit-typography-tokens.mjs',
   'scripts/audit-typography-tokens.test.mjs',
 ]);
-const WEB_FONT_PROFILE_STYLE_ROOT = 'src/web-ui/src/font-profiles/';
+// A web font profile is a build-owned directory: the build picks one profile per surface, and
+// the profile is the one place that ships the faces those surfaces load plus the font stack
+// that resolves to them. Its @font-face declarations are exempt because the CSS specification
+// does not accept var() in an @font-face descriptor, so a face family and a face weight can
+// only ever be written literally — there is no token that could stand in for them. Every other
+// declaration in a profile directory is still audited like any other stylesheet.
+const WEB_FONT_PROFILE_STYLE_ROOTS = [
+  'src/web-ui/src/font-profiles/',
+  'design-system/apps/design-lab/src/font-profiles/',
+];
 const WEB_FONT_PROFILE_STACK_PROPERTIES = new Set([
   '--openbitfun-font-family-sans',
   '--openbitfun-font-family-control',
@@ -276,6 +285,10 @@ function normalizePath(value) {
   return value.split(path.sep).join('/');
 }
 
+function isWebFontProfileStyleRoot(relativePath) {
+  return WEB_FONT_PROFILE_STYLE_ROOTS.some(root => relativePath.startsWith(root));
+}
+
 function lineNumberAt(text, index) {
   let line = 1;
   for (let cursor = 0; cursor < index; cursor += 1) {
@@ -402,7 +415,7 @@ function cssAtRuleRanges(source, atRulePattern) {
 }
 
 function isBuildOwnedWebFontDeclaration(relativePath, source, offset, property, customProperty) {
-  if (!normalizePath(relativePath).startsWith(WEB_FONT_PROFILE_STYLE_ROOT)) return false;
+  if (!isWebFontProfileStyleRoot(normalizePath(relativePath))) return false;
 
   if (customProperty) {
     return property === 'fontFamily'
@@ -674,7 +687,7 @@ function auditRetiredReferences(text, relativePath) {
 }
 
 function requiresSemanticRoleConsumption(relativePath) {
-  if (relativePath.startsWith(WEB_FONT_PROFILE_STYLE_ROOT)) return false;
+  if (isWebFontProfileStyleRoot(relativePath)) return false;
 
   return (
     relativePath.startsWith(SEMANTIC_ROLE_COMPONENT_STYLE_ROOT)

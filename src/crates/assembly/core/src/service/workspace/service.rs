@@ -3402,9 +3402,19 @@ mod tests {
         let env = TestEnvironment::new();
         let service = build_test_workspace_service(env.path_manager.clone()).await;
         let folder = tempfile::tempdir().unwrap();
+        // A saved remote root always uses POSIX syntax, so it cannot reuse a
+        // controller drive path. It keeps the controller folder's name instead:
+        // creating that folder locally must still produce the local record and
+        // never select the saved remote one.
+        let folder_name = folder
+            .path()
+            .file_name()
+            .expect("temp folder name")
+            .to_string_lossy()
+            .into_owned();
         let remote = service
             .track_workspace_activity(
-                folder.path().to_path_buf(),
+                PathBuf::from(format!("/srv/{folder_name}")),
                 WorkspaceCreateOptions {
                     workspace_kind: WorkspaceKind::Remote,
                     remote_connection_id: Some("other-machine".into()),

@@ -177,6 +177,9 @@ impl PromptStashStore {
         let lock_path = self.path.with_extension("jsonl.lock");
         let lock = OpenOptions::new()
             .create(true)
+            // Lock files are only ever used for file locking; their contents are
+            // never read or written, so never truncate them.
+            .truncate(false)
             .read(true)
             .write(true)
             .open(lock_path)?;
@@ -398,6 +401,9 @@ mod tests {
         std::fs::create_dir_all(path.parent().unwrap()).unwrap();
         let lock = std::fs::OpenOptions::new()
             .create(true)
+            // Lock files are only ever used for file locking; their contents are
+            // never read or written, so never truncate them.
+            .truncate(false)
             .read(true)
             .write(true)
             .open(path.with_extension("jsonl.lock"))

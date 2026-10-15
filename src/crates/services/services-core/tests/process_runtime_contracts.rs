@@ -108,9 +108,13 @@ mod windows_process_cleanup {
         let directory = std::path::PathBuf::from(std::env::var_os(FIXTURE_DIR).unwrap());
         match role.as_str() {
             "managed-parent" => {
-                let _child = fixture_command("managed-leaf", &directory)
+                let child = fixture_command("managed-leaf", &directory)
                     .spawn()
                     .expect("spawn managed descendant");
+                // The leaf must outlive this fixture and is reclaimed by the owning
+                // process tree, so this fixture never waits for it (dropping a
+                // `Child` never terminates the process).
+                drop(child);
                 idle();
             }
             "managed-leaf" | "lifetime" => {
@@ -181,19 +185,25 @@ mod windows_process_cleanup {
         if mode == "contained" {
             // Cleanup must leave the explicit host Job intact: even a raw
             // descendant started afterwards still ends when this host exits.
-            let _child = fixture_command("lifetime", directory).spawn().unwrap();
+            let child = fixture_command("lifetime", directory).spawn().unwrap();
             wait_for_file(&directory.join("lifetime.pid")).await;
+            // This descendant must survive this host's exit, so the handle is
+            // released without waiting (dropping a `Child` never terminates it).
+            drop(child);
         } else {
             spawn_handoff("handoff-after", directory).await;
         }
     }
 
     async fn spawn_handoff(role: &str, directory: &Path) {
-        let _child = fixture_command(role, directory)
+        let child = fixture_command(role, directory)
             .env(HOST_PID, std::process::id().to_string())
             .spawn()
             .expect("start independent handoff process");
         wait_for_file(&directory.join(format!("{role}.ready"))).await;
+        // The handoff fixture observes this host's exit, so it must outlive it:
+        // the handle is released without waiting for the descendant to exit.
+        drop(child);
     }
 
     async fn wait_for_file(path: &Path) {

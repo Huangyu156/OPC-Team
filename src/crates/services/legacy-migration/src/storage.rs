@@ -117,6 +117,7 @@ impl MigrationLock {
             .create(true)
             .read(true)
             .write(true)
+            .truncate(false)
             .open(&path)
             .map_err(|error| LegacyMigrationError::io(&path, error))?;
         file.try_lock_exclusive()

@@ -35,6 +35,11 @@ fn sdk_host_process_job_reclaims_descendants_when_host_exits() {
             )
             .expect("record descendant PID");
             std::thread::sleep(std::time::Duration::from_millis(100));
+            // This owner fixture must exit while the descendant is still running so
+            // that the SDK Host Job object reclaims it. Waiting for the descendant
+            // here would deadlock the fixture, so the handle is released plainly
+            // (dropping a `Child` never terminates the process).
+            drop(descendant);
             return;
         }
         _ => {}

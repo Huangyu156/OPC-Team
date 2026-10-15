@@ -421,12 +421,16 @@ mod tests {
         use crate::service::cron::CronJobTarget;
         let root = tempfile::tempdir().unwrap();
         let local = register_local_fixture(root.path(), None).await;
-        let remote = register_remote_fixture(
-            &local.root_path.to_string_lossy(),
-            "cron-upgrade-ssh",
-            "cron.example",
-        )
-        .await;
+        // Saved remote roots always use POSIX syntax, so the collision that
+        // makes a path-only payload ambiguous is expressed by one remote root
+        // saved for two hosts (the registry keys remote workspaces by
+        // `(host, root)`).
+        let remote_root = format!("/srv/cron-100-{}", uuid::Uuid::new_v4());
+        let remote =
+            register_remote_fixture(&remote_root, "cron-upgrade-ssh", "cron.example").await;
+        let remote_on_other_host =
+            register_remote_fixture(&remote_root, "cron-upgrade-ssh-alt", "cron.example-alt").await;
+        assert_ne!(remote.id, remote_on_other_host.id);
         let payload = serde_json::json!({
             "kind": "workspace", "workspace": {
                 "workspacePath": remote.root_path, "remoteConnectionId": "cron-upgrade-ssh",
@@ -475,12 +479,18 @@ mod tests {
     async fn current_local_io_scope_uses_ids_or_an_explicit_controller_target() {
         let root = tempfile::tempdir().unwrap();
         let local = register_local_fixture(root.path(), None).await;
-        let remote = register_remote_fixture(
-            &local.root_path.to_string_lossy(),
-            "io-scope-ssh",
-            "io.example",
-        )
-        .await;
+        // Remote roots use POSIX syntax; the saved root keeps the controller
+        // folder's name so the local and remote scopes stay name-colliding
+        // while the request path below is still the controller folder.
+        let local_name = local
+            .root_path
+            .file_name()
+            .expect("local fixture folder name")
+            .to_string_lossy()
+            .into_owned();
+        let remote =
+            register_remote_fixture(&format!("/srv/{local_name}"), "io-scope-ssh", "io.example")
+                .await;
         let path = local.root_path.to_string_lossy();
         assert!(!remote_io_for_legacy_or_id(Some(&local.id), false, &path)
             .await
@@ -1347,7 +1357,7 @@ mod legacy_file_scope_tests {
     async fn legacy_file_collision_requires_id_or_explicit_device_scope() {
         let folder = tempfile::tempdir().unwrap();
         let local = super::register_local_fixture(folder.path(), None).await;
-        let path = local
+        let local_file = local
             .root_path
             .join("file.txt")
             .to_string_lossy()
@@ -1355,17 +1365,27 @@ mod legacy_file_scope_tests {
         let service = super::fixture_workspace_service().await;
         assert_eq!(
             service
-                .upgrade_legacy_file_connection(&path, None, None)
+                .upgrade_legacy_file_connection(&local_file, None, None)
                 .await
                 .unwrap(),
             None
         );
-        let remote = super::register_remote_fixture(
-            &local.root_path.to_string_lossy(),
-            "legacy-file-ssh",
-            "legacy-file-host",
+        // A saved remote root always uses POSIX syntax, so it cannot reuse a
+        // controller drive path. The collision that must require an ID or an
+        // explicit device scope is one remote root saved for two hosts, which
+        // the registry keeps apart by `(host, root)`.
+        let remote_root = format!("/srv/legacy-file-{}", uuid::Uuid::new_v4());
+        let remote =
+            super::register_remote_fixture(&remote_root, "legacy-file-ssh", "legacy-file-host")
+                .await;
+        let remote_on_other_host = super::register_remote_fixture(
+            &remote_root,
+            "legacy-file-ssh-alt",
+            "legacy-file-host-alt",
         )
         .await;
+        assert_ne!(remote.id, remote_on_other_host.id);
+        let path = format!("{remote_root}/file.txt");
         assert!(service
             .upgrade_legacy_file_connection(&path, None, None)
             .await

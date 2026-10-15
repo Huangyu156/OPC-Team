@@ -258,6 +258,9 @@ impl CliConfig {
         let lock_path = config_path.with_extension("toml.lock");
         let lock_file = OpenOptions::new()
             .create(true)
+            // Lock files are only ever used for file locking; their contents are
+            // never read or written, so never truncate them.
+            .truncate(false)
             .read(true)
             .write(true)
             .open(lock_path)?;

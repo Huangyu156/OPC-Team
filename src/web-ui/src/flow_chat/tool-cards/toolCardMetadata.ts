@@ -35,6 +35,7 @@ const AMBIENT_TOOL_CARD_NAMES = new Set([
   'SessionControl',
   'SessionMessage',
   'AgentSendInput',
+  'AgentControl',
   'AgentInterrupt',
   'Cron',
   'RunCode',
@@ -243,6 +244,16 @@ const TOOL_CARD_DEFINITIONS: Record<string, ToolCardDefinition> = {
     resultDisplayType: 'detailed',
     description: 'Send a follow-up instruction to an agent',
     displayMode: 'detailed',
+    primaryColor: APPEARANCE_DOMAIN_TOKENS.toolIdentity.assistantAction
+  },
+  'AgentControl': {
+    toolName: 'AgentControl',
+    displayName: 'Control Agents',
+    icon: '',
+    requiresConfirmation: false,
+    resultDisplayType: 'detailed',
+    description: 'Interrupt or delete agent subtrees',
+    displayMode: 'standard',
     primaryColor: APPEARANCE_DOMAIN_TOKENS.toolIdentity.assistantAction
   },
   'AgentInterrupt': {
@@ -664,7 +675,7 @@ export function getToolItemCardConfig(
       ? 'ambient' : config.attention;
   const input = readInteractionInput(effective);
   const action = readToolRecord(effective.toolResult?.result).action ?? input.action;
-  const relation = ['SessionMessage', 'AgentSendInput', 'AgentInterrupt', 'AgentWait', 'AgentDelete', 'WriteStdin', 'ExecControl'].includes(effective.toolName)
+  const relation = ['SessionMessage', 'AgentSendInput', 'AgentControl', 'AgentInterrupt', 'AgentWait', 'AgentDelete', 'WriteStdin', 'ExecControl'].includes(effective.toolName)
     || effective.toolName === 'SessionControl' && ['create', 'cancel', 'delete', 'rename'].includes(String(action))
     || effective.toolName === 'Task' && ['send_input', 'cancel'].includes(String(action));
   return { ...config, attention, presentation: relation ? 'relation' : config.presentation };

@@ -9,18 +9,19 @@ import type { ToolNameForOwner } from '@openbitfun/flow-chat-presentation/regist
 import type { JSXElementConstructor } from 'react';
 import type { ToolCardProps } from '../types/flow-chat';
 
-type CompatibilityStandardToolName = 'AgentInterrupt' | 'AgentDelete';
-type CompatibilityProductToolName = 'Task';
+type CompatibilityToolName = 'AgentInterrupt' | 'AgentDelete';
 type StandardToolCardRegistry = Record<
   ToolNameForOwner<'standard'>,
   JSXElementConstructor<ToolCardProps>
-> &
-  Partial<Record<CompatibilityStandardToolName, JSXElementConstructor<ToolCardProps>>>;
+>;
 type ProductToolCardRegistry = Record<
   ToolNameForOwner<'product'>,
   JSXElementConstructor<ToolCardProps>
-> &
-  Partial<Record<CompatibilityProductToolName, JSXElementConstructor<ToolCardProps>>>;
+>;
+type CompatibilityToolCardRegistry = Record<
+  CompatibilityToolName,
+  JSXElementConstructor<ToolCardProps>
+>;
 
 export {
   TOOL_CARD_CONFIGS,
@@ -88,6 +89,8 @@ import { BuiltinToolCard } from './BuiltinToolCard';
  *
  * These components may translate product data, localization, host callbacks,
  * and heavyweight renderer slots, but they must not own a second card anatomy.
+ * The keys mirror the presentation registry's `standard` bindings exactly;
+ * historical-only cards live in `COMPATIBILITY_TOOL_CARD_COMPONENTS` instead.
  */
 export const STANDARD_TOOL_CARD_ADAPTERS = {
   // File tools
@@ -110,7 +113,7 @@ export const STANDARD_TOOL_CARD_ADAPTERS = {
   // Agent activity
   'AgentSpawn': AgentControlToolCard,
   'AgentSendInput': AgentControlToolCard,
-  'AgentInterrupt': AgentInteractionToolCard,
+  'AgentControl': AgentControlToolCard,
   'AgentWait': AgentWaitToolCard,
   'TodoWrite': TodoWriteDisplay,
 
@@ -127,6 +130,7 @@ export const STANDARD_TOOL_CARD_ADAPTERS = {
   'GetFileDiff': GetFileDiffDisplay,
 
   // Session tools
+  'ListWorkspaces': DefaultToolCard,
   'SessionControl': SessionControlToolCard,
   'SessionMessage': SessionMessageToolCard,
 
@@ -151,7 +155,6 @@ export const STANDARD_TOOL_CARD_ADAPTERS = {
   'create_goal': BuiltinToolCard,
   'update_goal': BuiltinToolCard,
   'AgentList': BuiltinToolCard,
-  'AgentDelete': AgentDeleteToolCard,
   'SessionHistory': BuiltinToolCard,
   'analyze_image': BuiltinToolCard,
   'GetTime': BuiltinToolCard,
@@ -174,7 +177,8 @@ export const STANDARD_TOOL_CARD_ADAPTERS = {
  *
  * Their view is inseparable from a product workflow, runtime surface, or host
  * capability. They may compose the public framework, but are not represented
- * as generic concrete views in the independent package.
+ * as generic concrete views in the independent package. The keys mirror the
+ * presentation registry's `product` bindings exactly.
  */
 export const PRODUCT_OWNED_TOOL_CARD_COMPONENTS = {
   'Task': TaskToolDisplay,
@@ -195,10 +199,23 @@ export const PRODUCT_OWNED_TOOL_CARD_COMPONENTS = {
   'PatchCanvas': CanvasToolCard,
 } as const satisfies ProductToolCardRegistry;
 
+/**
+ * Cards that render historical tool calls only.
+ *
+ * `AgentControl` replaced the retired `AgentInterrupt`/`AgentDelete` tools, so
+ * these cards stay outside the presentation registry that the standard and
+ * product adapter maps mirror, and they take no part in catalog coverage.
+ */
+export const COMPATIBILITY_TOOL_CARD_COMPONENTS = {
+  'AgentInterrupt': AgentInteractionToolCard,
+  'AgentDelete': AgentDeleteToolCard,
+} as const satisfies CompatibilityToolCardRegistry;
+
 // Runtime map keyed by backend tool names.
 export const TOOL_CARD_COMPONENTS = {
   ...STANDARD_TOOL_CARD_ADAPTERS,
   ...PRODUCT_OWNED_TOOL_CARD_COMPONENTS,
+  ...COMPATIBILITY_TOOL_CARD_COMPONENTS,
 };
 
 /**

@@ -5527,7 +5527,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn local_workspace_services_still_include_local_user_instruction_sources() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace_root = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -5572,7 +5572,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn local_workspace_services_remain_the_project_instruction_io_owner() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace_root = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -5619,7 +5619,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn conditional_rules_persist_once_and_reload_after_compaction() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace_root = temp.path().join("workspace");
         let claude = temp.path().join("claude");

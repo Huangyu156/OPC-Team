@@ -152,10 +152,14 @@ async fn hook_runtime_start_publishes_a_typed_complete_generation() {
         .expect("typed generation should start");
 
     assert_eq!(started, generation);
-    let batches = registrations.batches.lock().expect("batch lock");
-    assert_eq!(batches[0].generation, generation);
-    assert_eq!(batches[0].tools[0].id, "echo");
-    assert_eq!(batches[0].hooks.len(), 2);
+    {
+        // Keep the guard inside this synchronous block so it is released before
+        // the await below; the assertions themselves are unchanged.
+        let batches = registrations.batches.lock().expect("batch lock");
+        assert_eq!(batches[0].generation, generation);
+        assert_eq!(batches[0].tools[0].id, "echo");
+        assert_eq!(batches[0].hooks.len(), 2);
+    }
     host.await.expect("fake host should finish");
 }
 

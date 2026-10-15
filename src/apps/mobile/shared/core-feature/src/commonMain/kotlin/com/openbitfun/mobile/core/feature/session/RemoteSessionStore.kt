@@ -1390,6 +1390,10 @@ public class RemoteSessionStore internal constructor(
                     workspacePath = confirmedPath,
                     workspaceName = null,
                     workspaceIdentity = confirmedIdentity,
+                    // A session this client just created is top-level until the
+                    // host says otherwise.
+                    parentSessionId = null,
+                    relationshipKind = null,
                 )
                 if (!isCurrentWork(operationToken)) return@launch
                 val commitRevision = publishCommittedCreate(confirmedSession, current)
@@ -2131,6 +2135,10 @@ public class RemoteSessionStore internal constructor(
         updatedAt = s.updatedAt, createdAt = s.createdAt, messageCount = s.messageCount,
         workspacePath = s.workspacePath, workspaceName = s.workspaceName,
         workspaceIdentity = s.workspaceIdentity?.let { RemoteWorkspaceIdentity(it.path, it.remoteConnectionId, it.remoteSshHost, it.workspaceId) },
+        // The persisted record stores no parent relationship, so a restored
+        // session is listed as the top-level row the cache can describe.
+        parentSessionId = null,
+        relationshipKind = null,
     )
 
     private fun toPersistedSession(s: RemoteSession): PersistedRemoteSession = PersistedRemoteSession(

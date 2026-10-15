@@ -49,12 +49,19 @@ public data class RemoteSession public constructor(
     public val workspaceName: String?,
     public val workspaceIdentity: RemoteWorkspaceIdentity?,
     /** Set when the session hangs off another one (btw/review/miniapp/subagent). */
-    public val parentSessionId: String? = null,
-    public val relationshipKind: String? = null,
+    public val parentSessionId: String?,
+    public val relationshipKind: String?,
 ) {
+    /**
+     * The shape a caller uses before it knows about a parent relationship.
+     *
+     * The primary constructor takes every parameter, because Kotlin default
+     * arguments do not survive into Swift; a shorter call shape is a secondary
+     * constructor instead, as it is above.
+     */
     public constructor(id: String, title: String, agentType: String, status: String, updatedAt: String,
         createdAt: String, messageCount: Int, workspacePath: String?, workspaceName: String?) :
-        this(id, title, agentType, status, updatedAt, createdAt, messageCount, workspacePath, workspaceName, null)
+        this(id, title, agentType, status, updatedAt, createdAt, messageCount, workspacePath, workspaceName, null, null, null)
 }
 
 public data class ChatSessionCursor public constructor(

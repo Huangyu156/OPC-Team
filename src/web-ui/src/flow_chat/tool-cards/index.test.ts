@@ -3,6 +3,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  COMPATIBILITY_TOOL_CARD_COMPONENTS,
   DEDICATED_TOOL_CARD_NAMES,
   getToolCardComponent,
   isCollapsibleTool,
@@ -16,15 +17,12 @@ import { AgentControlToolCard } from './AgentControlToolCard';
 import { AgentInteractionToolCard } from './AgentInteractionToolCard';
 import { OpenBitFunControlToolCard } from './OpenBitFunControlToolCard';
 
-// These cards remain available for rendering historical or explicitly
-// configured tool calls, but are no longer part of the current presentation
-// registry: AgentControl replaced the AgentInterrupt/AgentDelete tools, and
-// Task remains only as a compatibility tool.
-const COMPATIBILITY_ONLY_TOOL_CARD_NAMES = new Set([
-  'AgentInterrupt',
-  'AgentDelete',
-  'Task',
-]);
+// These cards remain available for rendering historical tool calls, but are no
+// longer part of the current presentation registry: AgentControl replaced the
+// AgentInterrupt/AgentDelete tools.
+const COMPATIBILITY_ONLY_TOOL_CARD_NAMES = new Set(
+  Object.keys(COMPATIBILITY_TOOL_CARD_COMPONENTS),
+);
 
 describe('tool card registry', () => {
   it('keeps OpenBitFun controls visible through their dedicated product card', () => {
@@ -43,6 +41,10 @@ describe('tool card registry', () => {
   });
 
   it('keeps current lightweight dedicated-card classification aligned with the component registry', () => {
+    expect([...COMPATIBILITY_ONLY_TOOL_CARD_NAMES].sort()).toEqual([
+      'AgentDelete',
+      'AgentInterrupt',
+    ]);
     expect([...DEDICATED_TOOL_CARD_NAMES].sort()).toEqual(
       Object.keys(TOOL_CARD_COMPONENTS)
         .filter((toolName) => !COMPATIBILITY_ONLY_TOOL_CARD_NAMES.has(toolName))
@@ -68,7 +70,7 @@ describe('tool card registry', () => {
       'ControlHub',
       'AgentSpawn',
       'AgentSendInput',
-      'AgentInterrupt',
+      'AgentControl',
       'AgentWait',
       'TodoWrite',
       'ContextCompression',
@@ -76,6 +78,7 @@ describe('tool card registry', () => {
       'Skill',
       'ReviewSessionSummary',
       'GetFileDiff',
+      'ListWorkspaces',
       'SessionControl',
       'SessionMessage',
       'Cron',
@@ -90,7 +93,6 @@ describe('tool card registry', () => {
       'create_goal',
       'update_goal',
       'AgentList',
-      'AgentDelete',
       'SessionHistory',
       'analyze_image',
       'GetTime',
@@ -123,7 +125,7 @@ describe('tool card registry', () => {
       'PatchCanvas',
     ]);
     expect(standardNames.some((toolName) => productOwnedNames.includes(toolName))).toBe(false);
-    expect([...standardNames, ...productOwnedNames].sort()).toEqual(
+    expect([...standardNames, ...productOwnedNames, ...COMPATIBILITY_ONLY_TOOL_CARD_NAMES].sort()).toEqual(
       Object.keys(TOOL_CARD_COMPONENTS).sort(),
     );
   });

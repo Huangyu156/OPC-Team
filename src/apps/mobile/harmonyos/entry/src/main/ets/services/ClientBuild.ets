@@ -21,8 +21,8 @@ import { bundleManager } from '@kit.AbilityKit';
  * `openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION` in
  * `src/crates/contracts/product-domains/src/account.rs` and to the Kotlin
  * `CLIENT_PROTOCOL_VERSION` the other mobile clients share;
- * `ClientBuildContractTest` in `shared/core-transport` pins them together so
- * one side can never drift.
+ * `tools/tests/client-build-contract.test.cjs` pins the three together so one
+ * side can never drift.
  */
 export const CLIENT_PROTOCOL_VERSION: number = 2;
 

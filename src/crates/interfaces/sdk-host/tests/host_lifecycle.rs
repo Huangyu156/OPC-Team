@@ -1427,9 +1427,12 @@ async fn query_passes_output_schema_to_runtime_and_returns_parsed_json() {
 
     let accepted = output.recv().await.unwrap();
     assert_eq!(accepted["result"]["accepted"], true);
-    let submitted = owner.dialog_requests.lock().unwrap();
-    assert_eq!(submitted.last().unwrap().output_schema, Some(schema));
-    drop(submitted);
+    {
+        // Keep the guard inside this synchronous block so it is released before
+        // the awaits below; the assertions themselves are unchanged.
+        let submitted = owner.dialog_requests.lock().unwrap();
+        assert_eq!(submitted.last().unwrap().output_schema, Some(schema));
+    }
 
     assert_eq!(output.recv().await.unwrap()["method"], "query/event");
     let result = output.recv().await.unwrap();

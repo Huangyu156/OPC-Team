@@ -15282,9 +15282,15 @@ mod tests {
         };
 
         let workspace = TestWorkspace::new();
-        let root = workspace.path().to_string_lossy().into_owned();
-        let loopback = register_remote_fixture(&root, "connection-loopback", "localhost").await;
-        let remote = register_remote_fixture(&root, "connection-remote", "other-host").await;
+        // Saved remote roots always use POSIX syntax, so a controller drive path
+        // cannot be the colliding string. The collision that makes a path-only
+        // request ambiguous is one remote root saved for two hosts: the catalog
+        // keys remote workspaces by `(host, root)`.
+        let remote_root = format!("/srv/owners-{}", Uuid::new_v4());
+        let loopback =
+            register_remote_fixture(&remote_root, "connection-loopback", "localhost").await;
+        let remote = register_remote_fixture(&remote_root, "connection-remote", "other-host").await;
+        assert_ne!(loopback.id, remote.id);
         let port = CoreSessionStorePort::with_path_manager_for_tests(workspace.path_manager());
         let local = port
             .resolve_workspace_storage(workspace.workspace_id())
@@ -15304,7 +15310,7 @@ mod tests {
         );
 
         let old_request = SessionStoragePathRequest {
-            workspace_path: workspace.path().to_path_buf(),
+            workspace_path: PathBuf::from(&remote_root),
             remote_connection_id: None,
             remote_ssh_host: None,
         };
@@ -15315,7 +15321,7 @@ mod tests {
         assert!(error.message.contains("ambiguous"), "{error}");
         let selected = port
             .resolve_session_storage_path(SessionStoragePathRequest {
-                workspace_path: workspace.path().to_path_buf(),
+                workspace_path: PathBuf::from(&remote_root),
                 remote_connection_id: Some("connection-loopback".into()),
                 remote_ssh_host: Some("localhost".into()),
             })
@@ -15326,7 +15332,7 @@ mod tests {
             loopback_storage.effective_storage_path
         );
         let unknown = port
-            .resolve_storage_for_reference(Some("unknown-id"), &root, None, None)
+            .resolve_storage_for_reference(Some("unknown-id"), &remote_root, None, None)
             .await
             .unwrap_err();
         assert!(unknown.message.contains("unknown-id"));
@@ -15381,12 +15387,23 @@ mod tests {
         let workspace = TestWorkspace::new();
         let persistence = Arc::new(PersistenceManager::new(workspace.path_manager()).unwrap());
         let manager = test_manager(persistence.clone());
+        // Remote roots always use POSIX syntax, so a controller drive path can
+        // never be the colliding string. The collision is one remote root saved
+        // for two hosts: `(host, root)` keys the catalog, so a path-only lookup
+        // of that root cannot pick an owner.
+        let remote_root = format!("/srv/bound-writes-{}", Uuid::new_v4());
+        let owner = crate::service::workspace::legacy_compat::register_remote_fixture(
+            &remote_root,
+            "bound-writes-ssh",
+            "bound-writes-host",
+        )
+        .await;
         let session = manager
             .create_session(
                 "Bound writes".into(),
                 "Standard".into(),
                 SessionConfig {
-                    workspace_id: Some(workspace.workspace_id().into()),
+                    workspace_id: Some(owner.id.clone()),
                     ..Default::default()
                 },
             )
@@ -15396,18 +15413,21 @@ mod tests {
             .require_session_storage_path(&session.session_id)
             .await
             .unwrap();
-        crate::service::workspace::legacy_compat::register_remote_fixture(
-            &workspace.path().to_string_lossy(),
+        let colliding = crate::service::workspace::legacy_compat::register_remote_fixture(
+            &remote_root,
             "colliding-remote",
-            "localhost",
+            "colliding-host",
         )
         .await;
-        manager
-            .sessions
-            .get_mut(&session.session_id)
-            .unwrap()
-            .config
-            .workspace_id = None;
+        assert_ne!(owner.id, colliding.id);
+        // The pre-ID projection keeps the root alone: no workspace ID and no
+        // transport narrowing, so it is exactly the ambiguous legacy path.
+        {
+            let mut bound = manager.sessions.get_mut(&session.session_id).unwrap();
+            bound.config.workspace_id = None;
+            bound.config.remote_connection_id = None;
+            bound.config.remote_ssh_host = None;
+        }
 
         let turn = manager
             .append_completed_local_command_turn(
@@ -15445,12 +15465,23 @@ mod tests {
         let workspace = TestWorkspace::new();
         let persistence = Arc::new(PersistenceManager::new(workspace.path_manager()).unwrap());
         let manager = test_manager(persistence.clone());
+        // Remote roots always use POSIX syntax, so a controller drive path can
+        // never be the colliding string. The collision is one remote root saved
+        // for two hosts: `(host, root)` keys the catalog, so a path-only lookup
+        // of that root cannot pick an owner.
+        let remote_root = format!("/srv/bound-history-{}", Uuid::new_v4());
+        let owner = crate::service::workspace::legacy_compat::register_remote_fixture(
+            &remote_root,
+            "bound-history-ssh",
+            "bound-history-host",
+        )
+        .await;
         let session = manager
             .create_session(
                 "Bound history".into(),
                 "Standard".into(),
                 SessionConfig {
-                    workspace_id: Some(workspace.workspace_id().into()),
+                    workspace_id: Some(owner.id.clone()),
                     ..Default::default()
                 },
             )
@@ -15460,19 +15491,22 @@ mod tests {
             .require_session_storage_path(&session.session_id)
             .await
             .unwrap();
-        crate::service::workspace::legacy_compat::register_remote_fixture(
-            &workspace.path().to_string_lossy(),
+        let colliding = crate::service::workspace::legacy_compat::register_remote_fixture(
+            &remote_root,
             "colliding-remote",
-            "localhost",
+            "colliding-host",
         )
         .await;
+        assert_ne!(owner.id, colliding.id);
         // In-memory legacy projections cannot replace an admitted storage owner.
-        manager
-            .sessions
-            .get_mut(&session.session_id)
-            .unwrap()
-            .config
-            .workspace_id = None;
+        // The pre-ID projection keeps the root alone: no workspace ID and no
+        // transport narrowing, so it is exactly the ambiguous legacy path.
+        {
+            let mut bound = manager.sessions.get_mut(&session.session_id).unwrap();
+            bound.config.workspace_id = None;
+            bound.config.remote_connection_id = None;
+            bound.config.remote_ssh_host = None;
+        }
         assert_eq!(
             manager
                 .require_session_storage_path(&session.session_id)
@@ -15494,7 +15528,7 @@ mod tests {
             .unwrap();
         assert_eq!(
             restored.config.workspace_id.as_deref(),
-            Some(workspace.workspace_id())
+            Some(owner.id.as_str())
         );
         manager.evict_loaded_session_for_test(&session.session_id);
 
@@ -15505,7 +15539,7 @@ mod tests {
             .unwrap();
         assert_eq!(
             restored.config.workspace_id.as_deref(),
-            Some(workspace.workspace_id())
+            Some(owner.id.as_str())
         );
         assert_eq!(
             restarted

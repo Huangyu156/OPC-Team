@@ -200,7 +200,7 @@ html:has(.flow-chat-mock-page[data-fullscreen]) {
   width: fit-content;
   max-width: var(--openbitfun-control-flow-chat-user-message-max-width);
   padding: var(--openbitfun-control-flow-chat-user-message-padding-block) var(--_user-message-padding-inline);
-  background: var(--openbitfun-color-action-quiet-hover);
+  background: transparent;
   border: none;
   border-radius: var(--_user-message-radius);
   margin-block: 0;
@@ -209,7 +209,21 @@ html:has(.flow-chat-mock-page[data-fullscreen]) {
   position: relative;
 }
 
+/* The production row keeps `background: transparent` and paints the bubble fill
+   on `user-message-item__surface`, a layer behind the positioned content. The
+   mock owns one element per bubble, so its first paint layer is the pseudo
+   element and the content stays above it, exactly like `user-message-item__main`. */
+.flow-chat-mock__user-bubble::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--openbitfun-color-action-quiet-hover);
+  pointer-events: none;
+}
+
 .flow-chat-mock__user-content {
+  position: relative;
   width: fit-content;
   max-width: 100%;
   white-space: pre-wrap;

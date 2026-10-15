@@ -24,6 +24,12 @@
 *.mjs               text eol=lf
 *.cjs               text eol=lf
 
+# The thread-goal prompt templates are embedded with `include_str!` and rendered
+# verbatim, so the runtime compares their newlines against LF literals. An
+# autocrlf checkout would turn them into CRLF and fail those assertions on
+# Windows only.
+src/crates/execution/agent-runtime/src/thread_goal/templates/*.md text eol=lf
+
 # Generated frontend/mobile contracts compare exact file contents. Keep both
 # their source fragments and generated outputs stable on every checkout so a
 # Windows or hosted runner cannot report newline-only generated drift.

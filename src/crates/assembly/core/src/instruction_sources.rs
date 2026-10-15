@@ -202,7 +202,7 @@ mod tests {
     #[tokio::test]
     async fn catalog_reuses_reader_precedence_and_projects_scope_without_contents() {
         use super::test_support::{lock_environment, EnvironmentGuard};
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().unwrap();
         let workspace = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");
@@ -314,15 +314,22 @@ mod tests {
 pub(crate) mod test_support {
     use std::ffi::OsString;
     use std::path::Path;
-    use std::sync::{Mutex, MutexGuard, OnceLock};
+    use std::sync::OnceLock;
 
-    static ENVIRONMENT: OnceLock<Mutex<()>> = OnceLock::new();
+    /// Serializes tests that mutate process-wide instruction environment
+    /// variables (`XDG_CONFIG_HOME`, `CODEX_HOME`, `CLAUDE_CONFIG_DIR`).
+    ///
+    /// The guard is intentionally held across `await` points because the
+    /// instruction loaders read those variables asynchronously, so this lock is
+    /// async-aware: a `std::sync::MutexGuard` is `!Send` and holding it across a
+    /// suspension point is unsound under a work-stealing scheduler.
+    static ENVIRONMENT: OnceLock<tokio::sync::Mutex<()>> = OnceLock::new();
 
-    pub(crate) fn lock_environment() -> MutexGuard<'static, ()> {
+    pub(crate) async fn lock_environment() -> tokio::sync::MutexGuard<'static, ()> {
         ENVIRONMENT
-            .get_or_init(|| Mutex::new(()))
+            .get_or_init(|| tokio::sync::Mutex::new(()))
             .lock()
-            .expect("instruction environment lock")
+            .await
     }
 
     pub(crate) struct EnvironmentGuard {

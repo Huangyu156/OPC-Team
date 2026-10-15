@@ -323,7 +323,7 @@ mod tests {
     #[cfg(feature = "external-sources")]
     #[tokio::test]
     async fn an_unmatched_read_does_not_freeze_rule_content_before_activation() {
-        let _environment = lock_environment();
+        let _environment = lock_environment().await;
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace_root = temp.path().join("workspace");
         let xdg = temp.path().join("xdg");

@@ -470,10 +470,9 @@ mod tests {
 
     #[tokio::test]
     async fn device_local_credential_lifecycle_keeps_secret_out_of_config() {
-        std::fs::create_dir_all("E:/tmp").expect("E:/tmp should be available for tests");
         let directory = Builder::new()
             .prefix("openbitfun-web-search-vault-")
-            .tempdir_in("E:/tmp")
+            .tempdir()
             .expect("create WebSearch test directory");
         let vault = credential_vault_in(directory.path());
         let config = WebSearchConfig::default();
@@ -512,10 +511,9 @@ mod tests {
 
     #[tokio::test]
     async fn credential_helpers_normalize_entry_id_without_changing_secret() {
-        std::fs::create_dir_all("E:/tmp").expect("E:/tmp should be available for tests");
         let directory = Builder::new()
             .prefix("openbitfun-web-search-vault-normalization-")
-            .tempdir_in("E:/tmp")
+            .tempdir()
             .expect("create WebSearch test directory");
         let vault = credential_vault_in(directory.path());
         let padded_credential_id = "  web-search:test  ";

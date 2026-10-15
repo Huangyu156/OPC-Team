@@ -4320,12 +4320,24 @@ mod tests {
             )
             .await
             .unwrap();
-        crate::service::workspace::legacy_compat::register_remote_fixture(
-            &workspace.to_string_lossy(),
+        // Saved remote roots always use POSIX syntax, so an SSH record cannot
+        // reuse the controller folder's string. The collision that makes the
+        // submitted root unresolvable by path alone is one remote root saved for
+        // two hosts: only the session's workspace ID can pick an owner.
+        let remote_root = format!("/srv/same-name-{}", uuid::Uuid::new_v4());
+        let other = crate::service::workspace::legacy_compat::register_remote_fixture(
+            &remote_root,
             "other-connection",
-            "localhost",
+            "other-host",
         )
         .await;
+        let colliding = crate::service::workspace::legacy_compat::register_remote_fixture(
+            &remote_root,
+            "colliding-connection",
+            "colliding-host",
+        )
+        .await;
+        assert_ne!(other.id, colliding.id);
         manager
             .update_session_state(
                 &session.session_id,
@@ -4343,7 +4355,7 @@ mod tests {
                 None,
                 Some("next-turn".into()),
                 "Standard".into(),
-                Some(workspace.to_string_lossy().into_owned()),
+                Some(remote_root.clone()),
                 None,
                 None,
                 DialogSubmissionPolicy::for_source(DialogTriggerSource::AgentSession),

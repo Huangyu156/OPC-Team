@@ -1596,7 +1596,7 @@ fn tool_execution_admission_gate_preserves_pipeline_rejection_order() {
     assert!(matches!(err, ToolExecutionAdmissionRejection::Deferred(_)));
     assert!(err
         .to_string()
-        .contains("Call GetToolSpec first with {\"tool_name\":\"WebFetch\"}"));
+        .contains("Call GetToolSpec with {\"tool_name\":\"WebFetch\"}"));
 }
 
 #[test]
@@ -2867,7 +2867,7 @@ async fn contextual_manifest_resolver_preserves_runtime_visible_manifest_contrac
         .iter()
         .find(|tool| tool.name == "Read")
         .expect("expanded Read manifest");
-    assert_eq!(read.description, "Read description for agentic");
+    assert_eq!(read.description, "Read description for Standard");
     assert_eq!(read.parameters["properties"]["agent"]["const"], "Standard");
 
     assert!(!manifest

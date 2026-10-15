@@ -34,7 +34,8 @@ use openbitfun_agent_tools::{
     build_user_steering_interrupted_presentation, build_write_tail_closure_notice,
     render_tool_result_for_assistant, validate_tool_execution_admission, PermissionIntent,
     ResolvedToolInvocation, ToolExecutionAdmissionRejection, ToolExecutionAdmissionRequest,
-    ToolExecutionErrorPresentation, GET_TOOL_SPEC_TOOL_NAME, USER_STEERING_INTERRUPTED_MESSAGE,
+    ToolExecutionErrorPresentation, GET_TOOL_SPEC_TOOL_NAME, SUBAGENT_LAUNCH_TOOL_NAMES,
+    USER_STEERING_INTERRUPTED_MESSAGE,
 };
 use openbitfun_runtime_ports::{
     PermissionReply, PermissionRequest, PermissionRequestSource, PermissionRequestSourceKind,
@@ -624,8 +625,6 @@ fn permission_resource_case_sensitivity(
         PermissionResourceCaseSensitivity::Insensitive
     }
 }
-
-const SUBAGENT_LAUNCH_TOOL_NAMES: &[&str] = &["Task", "AgentSpawn"];
 
 /// Native hook session facts derived from one tool task.
 fn native_hook_session_facts<'a>(

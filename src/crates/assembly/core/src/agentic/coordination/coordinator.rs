@@ -18997,12 +18997,17 @@ mod tests {
         let workspace_service =
             crate::service::workspace::WorkspaceService::new_for_test_path_manager(path_manager)
                 .await;
-        let remote_path = root.path().join("same-path-local-sentinel");
+        // A saved remote root always uses POSIX syntax, so it cannot be the
+        // controller path itself. The controller folder below carries the same
+        // name as the saved root: it must neither be selected nor touched.
+        let remote_root_name = format!("same-path-local-sentinel-{}", uuid::Uuid::new_v4());
+        let remote_root = format!("/srv/{remote_root_name}");
+        let remote_path = root.path().join(&remote_root_name);
         std::fs::create_dir(&remote_path).expect("local collision");
         std::fs::write(remote_path.join("owner.txt"), "local").expect("local sentinel");
         workspace_service
             .track_workspace_activity(
-                remote_path.clone(),
+                PathBuf::from(&remote_root),
                 crate::service::workspace::WorkspaceCreateOptions {
                     workspace_kind: WorkspaceKind::Remote,
                     remote_connection_id: Some("conn-a".to_string()),
@@ -19024,7 +19029,7 @@ mod tests {
                 .ensure_workspace_runtime_ownership_for_reference_with_service(
                     &workspace_service,
                     None,
-                    &remote_path.to_string_lossy(),
+                    &remote_root,
                     Some(connection),
                     Some(host),
                 )
@@ -19086,10 +19091,18 @@ mod tests {
             .expect_err("unverified hints must not bypass local ownership");
 
         #[cfg(feature = "ssh-remote")]
-        assert!(
-            error.to_string().contains("not saved on this host"),
-            "{error}"
-        );
+        {
+            // The unverified hint must be refused before the path is opened.
+            // Remote roots always use POSIX syntax: where the controller path
+            // could be one, the saved connection is what is missing; where it
+            // cannot (a drive path), the remote path check refuses it first.
+            let expected = if workspace.path().to_string_lossy().starts_with('/') {
+                "not saved on this host"
+            } else {
+                "must be an absolute POSIX path"
+            };
+            assert!(error.to_string().contains(expected), "{error}");
+        }
         #[cfg(not(feature = "ssh-remote"))]
         assert!(
             error.to_string().contains("requires SSH support"),

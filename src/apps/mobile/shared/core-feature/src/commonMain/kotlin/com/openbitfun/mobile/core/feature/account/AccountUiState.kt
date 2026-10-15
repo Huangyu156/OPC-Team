@@ -28,7 +28,7 @@ public data class AccountDeviceUi public constructor(
      * builds. `false` is confirmed incompatible and is never a control target;
      * null is an older Relay that does not gate, "unknown but usable".
      */
-    public val compatible: Boolean? = null,
+    public val compatible: Boolean?,
 ) {
     public constructor(id: String, name: String, online: Boolean, lastSeenAt: Long?) : this(id, name, online, lastSeenAt, null)
 

@@ -772,9 +772,15 @@ mod saved_directory_tests {
     #[tokio::test]
     async fn unknown_saved_profile_cannot_read_a_same_named_local_directory() {
         let temp = tempfile::tempdir().unwrap();
+        // Remote directories use POSIX syntax on every host, so the request
+        // cannot reuse a controller temp path. The controller keeps a directory
+        // of the same name: the remote read must not fall back to it.
+        let remote_root = "/srv/same-named-local-directory";
+        let local_lookalike = temp.path().join("same-named-local-directory");
+        std::fs::create_dir_all(&local_lookalike).unwrap();
         openbitfun_services_core::filesystem::FileSystemService::default()
             .write_text_file(
-                &temp.path().join("private-local.txt").to_string_lossy(),
+                &local_lookalike.join("private-local.txt").to_string_lossy(),
                 "local",
             )
             .await
@@ -784,15 +790,12 @@ mod saved_directory_tests {
         let files = crate::service::remote_ssh::RemoteFileService::new(Arc::new(
             tokio::sync::RwLock::new(Some(ssh.clone())),
         ));
-        let error = read_saved_directory_with_provider(
-            &temp.path().to_string_lossy(),
-            "missing-saved-id",
-            &ssh,
-            &files,
-        )
-        .await
-        .unwrap_err();
+        let error =
+            read_saved_directory_with_provider(remote_root, "missing-saved-id", &ssh, &files)
+                .await
+                .unwrap_err();
         assert!(error.to_string().contains("not saved on this runtime"));
+        assert!(local_lookalike.join("private-local.txt").exists());
     }
     #[test]
     fn remote_directory_keeps_metadata_needed_for_runtime_sorting() {

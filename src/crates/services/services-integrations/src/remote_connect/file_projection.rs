@@ -359,19 +359,28 @@ mod tests {
 
     #[tokio::test]
     async fn remote_delivery_uses_provider_bytes_even_when_controller_has_the_same_path() {
-        let root = std::env::temp_dir().join(format!("output-projection-{}", uuid::Uuid::new_v4()));
+        // Remote paths keep POSIX syntax on every host. On a POSIX controller
+        // the temp root is that same POSIX path, so the controller file sits at
+        // the very path the provider is asked for; a drive temp root cannot
+        // spell it, so the remote side uses an explicit POSIX root there.
+        let name = format!("output-projection-{}", uuid::Uuid::new_v4());
+        let root = std::env::temp_dir().join(&name);
+        let controller_root = root.to_string_lossy().replace('\\', "/");
+        let remote_root = if controller_root.starts_with('/') {
+            controller_root
+        } else {
+            format!("/tmp/{name}")
+        };
         std::fs::create_dir(&root).unwrap();
         let path = root.join("preview.png");
         std::fs::write(&path, b"private-controller-image").unwrap();
-        let (target, fs) = fixture(root.to_str().unwrap(), path.to_str().unwrap(), false, false);
+        let remote_path = format!("{remote_root}/preview.png");
+        let (target, fs) = fixture(&remote_root, &remote_path, false, false);
         let file = target.read(100).await.unwrap();
         assert_eq!(file.bytes, b"remote-image");
         assert_eq!(file.name, "preview.png");
         assert_eq!(file.mime_type, "image/png");
-        assert_eq!(
-            fs.reads.lock().unwrap().as_slice(),
-            &[path.to_string_lossy()]
-        );
+        assert_eq!(fs.reads.lock().unwrap().as_slice(), &[remote_path]);
         std::fs::remove_dir_all(root).unwrap();
     }
 

@@ -3426,11 +3426,14 @@ mod tests {
             .expect("cancel child");
 
         assert!(result.requested);
-        let cancellations = ports.cancelled_turns.lock().unwrap();
-        assert_eq!(cancellations.len(), 1);
-        assert_eq!(cancellations[0].session_id, "child_1");
-        assert!(cancellations[0].cancel_descendants);
-        drop(cancellations);
+        {
+            // Keep the guard inside this synchronous block so it is released
+            // before the await below; the assertions are unchanged.
+            let cancellations = ports.cancelled_turns.lock().unwrap();
+            assert_eq!(cancellations.len(), 1);
+            assert_eq!(cancellations[0].session_id, "child_1");
+            assert!(cancellations[0].cancel_descendants);
+        }
 
         let error = runtime
             .cancel_lineage_session(AgentSessionLineageCancellationRequest {

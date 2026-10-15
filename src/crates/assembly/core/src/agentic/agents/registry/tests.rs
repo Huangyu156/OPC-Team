@@ -253,15 +253,18 @@ async fn remote_workspace_load_publishes_an_empty_project_set_and_keeps_user_age
         registry.user_custom_agents_loaded(),
         "a remote workspace must not leave user-level custom agents unloaded"
     );
-    let project_subagents = registry.read_project_subagents();
-    let published = project_subagents
-        .get(remote.id.as_str())
-        .expect("remote workspace publishes a project set so queries stop rescanning");
-    assert!(
-        published.is_empty(),
-        "remote hosts have no locally discoverable project agents"
-    );
-    drop(project_subagents);
+    {
+        // Keep the read guard inside this synchronous block so it is released
+        // before the awaits below; the assertions themselves are unchanged.
+        let project_subagents = registry.read_project_subagents();
+        let published = project_subagents
+            .get(remote.id.as_str())
+            .expect("remote workspace publishes a project set so queries stop rescanning");
+        assert!(
+            published.is_empty(),
+            "remote hosts have no locally discoverable project agents"
+        );
+    }
 
     let unknown = String::from("workspace-does-not-exist");
     registry.load_custom_agents(Some(&unknown)).await;

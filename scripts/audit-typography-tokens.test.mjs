@@ -76,6 +76,48 @@ test('rejects unrelated raw typography inside Web font profiles', () => {
   assert.equal(codes.filter(code => code === 'raw-private-typography-token').length, 1);
 });
 
+test('exempts the Design Lab Web font profile root and nothing else in the Lab', () => {
+  const issues = auditTypographyText(`
+    @font-face {
+      font-family: "IBM Plex Mono";
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+      src: url("../assets/fonts/ibm-plex-mono-latin-400.woff2") format("woff2");
+    }
+    @font-face {
+      font-family: "IBM Plex Mono";
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+      src: url("../assets/fonts/ibm-plex-mono-latin-600.woff2") format("woff2");
+    }
+  `, 'design-system/apps/design-lab/src/font-profiles/ibm-plex-mono.css');
+
+  assert.deepEqual(issues, []);
+
+  const profileCodes = codesFor(`
+    .bad { font-size: 14px; }
+  `, 'design-system/apps/design-lab/src/font-profiles/ibm-plex-mono.css');
+
+  assert.equal(profileCodes.filter(code => code === 'raw-css-typography').length, 1);
+
+  // The exemption is scoped to the profile root: the Lab's own layout sheet still has to
+  // tokenise its typography and still has to name a semantic role.
+  const layoutCodes = codesFor(`
+    .bad {
+      font-family: "IBM Plex Mono", monospace;
+      font-weight: 600;
+    }
+  `, 'design-system/apps/design-lab/src/design-layout.css');
+
+  assert.equal(layoutCodes.filter(code => code === 'raw-css-typography').length, 2);
+  assert.equal(
+    layoutCodes.filter(code => code === 'semantic-typography-role-missing').length,
+    1,
+  );
+});
+
 test('requires semantic roles in the complete component library and every React product frontend', () => {
   const primitiveCodes = codesFor(`
     .title {

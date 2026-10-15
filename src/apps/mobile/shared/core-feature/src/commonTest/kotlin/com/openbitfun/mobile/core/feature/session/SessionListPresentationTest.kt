@@ -335,5 +335,8 @@ class SessionListPresentationTest {
         workspacePath = path,
         workspaceName = null,
         workspaceIdentity = RemoteWorkspaceIdentity(path.orEmpty(), remoteConnectionId, null, workspaceId),
+        // This helper builds the top-level rows the sidebar assertions use.
+        parentSessionId = null,
+        relationshipKind = null,
     )
 }

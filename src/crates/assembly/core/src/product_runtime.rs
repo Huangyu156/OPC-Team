@@ -3801,8 +3801,17 @@ mod tests {
             .expect_err("path-like session ids must be rejected");
         assert_eq!(invalid_session.kind, PortErrorKind::InvalidRequest);
 
+        // Saved remote roots always use POSIX syntax, so the remote owner can only
+        // share the local folder's name: a controller drive path can never be a
+        // remote root, and the ID must still be rejected before backend access.
+        let local_name = record
+            .root_path
+            .file_name()
+            .expect("local fixture folder name")
+            .to_string_lossy()
+            .into_owned();
         let remote = crate::service::workspace::legacy_compat::register_remote_fixture(
-            &record.root_path.to_string_lossy(),
+            &format!("/srv/{local_name}"),
             "snapshot-test-connection",
             "snapshot.example",
         )

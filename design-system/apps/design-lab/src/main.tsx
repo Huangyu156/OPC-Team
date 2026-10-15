@@ -5,6 +5,7 @@ import "@openbitfun/ui/styles.css";
 import "@openbitfun/ui/mobile.css";
 import { App } from "./App";
 import { I18nProvider } from "./i18n";
+import "./font-profiles/ibm-plex-mono.css";
 import "./styles.css";
 import "./design-layout.css";
 

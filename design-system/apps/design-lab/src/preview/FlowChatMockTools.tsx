@@ -19,8 +19,8 @@ const groupForTool = {
   ListModels: 'execution', ControlHub: 'web',
   RunCode: 'execution', ExecCommand: 'execution', WriteStdin: 'execution', ExecControl: 'execution', Cron: 'execution', GetToolSpec: 'execution', Skill: 'execution',
   WebSearch: 'web', WebFetch: 'web', PageDeploy: 'web', PagePublish: 'web',
-  AgentSpawn: 'collaboration', AgentSendInput: 'collaboration', AgentWait: 'collaboration', TodoWrite: 'collaboration',
-  ContextCompression: 'collaboration', ReviewSessionSummary: 'collaboration', SessionControl: 'collaboration', SessionMessage: 'collaboration',
+  AgentSpawn: 'collaboration', AgentSendInput: 'collaboration', AgentControl: 'collaboration', AgentWait: 'collaboration', TodoWrite: 'collaboration',
+  ContextCompression: 'collaboration', ReviewSessionSummary: 'collaboration', ListWorkspaces: 'collaboration', SessionControl: 'collaboration', SessionMessage: 'collaboration',
 } as const satisfies Record<ToolNameForOwner<'standard'>, ToolGroup>;
 
 export const mockToolCoverage = Object.entries(toolPresentationRegistry)

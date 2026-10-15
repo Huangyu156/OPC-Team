@@ -11,9 +11,11 @@ import kotlin.test.assertTrue
  * every place that must send it, mirroring
  * `src/web-ui/src/infrastructure/account/clientBuild.contract.test.ts`.
  *
- * The three mobile clients are covered from here because HarmonyOS keeps its
- * own ArkTS transport rather than this Kotlin one, and its unit runner cannot
- * read repository files; the JVM suite can, so it holds the whole contract.
+ * Only the shared Kotlin transport and the two web clients are covered here.
+ * HarmonyOS keeps its own ArkTS transport, so its half of the contract lives
+ * with it, in `tools/tests/client-build-contract.test.cjs` — `shared/` is
+ * platform-agnostic and `scripts/check-mobile-architecture.mjs` rule 6 keeps it
+ * invisible to the platform trees, so a test here must not reach into one.
  */
 class ClientBuildContractTest {
     private val repoRoot: Path = generateSequence(Path.of("").toAbsolutePath()) { it.parent }
@@ -53,24 +55,5 @@ class ClientBuildContractTest {
         assertTrue(client.contains("@SerialName(\"clientVersion\") val clientVersion: String"))
         assertTrue(client.contains("@SerialName(\"clientProtocol\") val clientProtocol: Int"))
         assertTrue(client.contains("CLIENT_VERSION, CLIENT_PROTOCOL_VERSION"))
-    }
-
-    @Test
-    fun harmonyOsTransportReportsTheSameBuild() {
-        val services = "src/apps/mobile/harmonyos/entry/src/main/ets/services"
-        val clientBuild = source("$services/ClientBuild.ets")
-        assertTrue(
-            clientBuild.contains("export const CLIENT_PROTOCOL_VERSION: number = $CLIENT_PROTOCOL_VERSION;"),
-            "HarmonyOS CLIENT_PROTOCOL_VERSION must equal the Kotlin one",
-        )
-        // HarmonyOS reads its build string from the bundle manifest at runtime,
-        // so the value is a call rather than a constant.
-        val realtime = source("$services/AccountRealtime.ets")
-        assertTrue(realtime.contains("clientVersion: clientVersion()"))
-        assertTrue(realtime.contains("clientProtocol: CLIENT_PROTOCOL_VERSION"))
-        // The phone login body carries it; a watch is provisioned by the phone
-        // and reports its own build on its own handshake instead.
-        val client = source("$services/CloudAccountClient.ets")
-        assertTrue(client.contains("clientVersion: clientVersion(), clientProtocol: CLIENT_PROTOCOL_VERSION"))
     }
 }
