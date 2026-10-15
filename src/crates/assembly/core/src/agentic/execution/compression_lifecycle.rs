@@ -20,7 +20,7 @@ impl ExecutionEngine {
         workspace: Option<&WorkspaceBinding>,
         workspace_services: Option<&crate::agentic::workspace::WorkspaceServices>,
         trace_config: Option<ModelExchangeTraceConfig>,
-    ) -> OpenBitFunResult<Option<crate::agentic::session::CompressionResult>> {
+    ) -> OpcTeamResult<Option<crate::agentic::session::CompressionResult>> {
         let job = compression_job::CompressionJob::new(
             self.context_compressor.clone(),
             session_id,
@@ -70,13 +70,11 @@ impl ExecutionEngine {
         workspace: Option<&WorkspaceBinding>,
         workspace_services: Option<&crate::agentic::workspace::WorkspaceServices>,
         prefetch: Option<PrefetchedCompression>,
-    ) -> OpenBitFunResult<Option<(usize, Vec<Message>)>> {
+    ) -> OpcTeamResult<Option<(usize, Vec<Message>)>> {
         let mut session = self
             .session_manager
             .get_session(session_id)
-            .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Session not found: {}", session_id))
-            })?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {}", session_id)))?;
 
         // Record start time
         let start_time = std::time::Instant::now();
@@ -160,7 +158,7 @@ impl ExecutionEngine {
             let candidate = match claim {
                 Some(openbitfun_agent_runtime::compression_prefetch::PrefetchClaim::Ready(candidate)) => Some(candidate),
                 Some(openbitfun_agent_runtime::compression_prefetch::PrefetchClaim::Waiting(task)) => {
-                    Some(task.wait().await.map_err(|_| OpenBitFunError::AIClient(
+                    Some(task.wait().await.map_err(|_| OpcTeamError::AIClient(
                         "Compression prefetch worker stopped before publishing a result".into()
                     ))??)
                 }
@@ -211,7 +209,7 @@ impl ExecutionEngine {
                                     session.dialog_turn_ids.last() != expected_last_turn.as_ref()
                                 })
                         {
-                            return Err(OpenBitFunError::Cancelled(
+                            return Err(OpcTeamError::Cancelled(
                                 "Compression execution owner changed".into(),
                             ));
                         }
@@ -284,7 +282,7 @@ impl ExecutionEngine {
                                     return Ok((None, None));
                                 }
                                 if cancellation_token.is_cancelled() {
-                                    return Err(OpenBitFunError::Cancelled(
+                                    return Err(OpcTeamError::Cancelled(
                                         "Context compaction cancelled".into(),
                                     ));
                                 }

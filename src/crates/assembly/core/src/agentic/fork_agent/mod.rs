@@ -5,7 +5,7 @@
 //! its own rounds, tools, cancellation, and cleanup lifecycle.
 
 use crate::agentic::core::{Message, Session, SessionConfig};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 
 mod context_normalization;
 
@@ -32,13 +32,13 @@ impl ForkAgentContextSnapshot {
     pub fn from_parent_session(
         parent_session: &Session,
         messages: Vec<Message>,
-    ) -> OpenBitFunResult<Self> {
+    ) -> OpcTeamResult<Self> {
         let workspace_path = parent_session
             .config
             .workspace_path
             .clone()
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "workspace_path is required when forking session: {}",
                     parent_session.session_id
                 ))

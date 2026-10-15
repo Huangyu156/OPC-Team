@@ -1234,7 +1234,7 @@ impl Default for WebSearchConfig {
 pub struct WebSearchProviderConfigs {
     pub exa_search_api: WebSearchCredentialProviderConfig,
     pub tavily: WebSearchCredentialProviderConfig,
-    pub openbitfun_search_http: OpenBitFunSearchHttpConfig,
+    pub openbitfun_search_http: OpcTeamSearchHttpConfig,
     #[serde(flatten)]
     pub unknown: serde_json::Map<String, serde_json::Value>,
 }
@@ -1250,7 +1250,7 @@ impl Default for WebSearchProviderConfigs {
                 credential_id: default_tavily_credential_id(),
                 unknown: serde_json::Map::new(),
             },
-            openbitfun_search_http: OpenBitFunSearchHttpConfig::default(),
+            openbitfun_search_http: OpcTeamSearchHttpConfig::default(),
             unknown: serde_json::Map::new(),
         }
     }
@@ -1275,18 +1275,18 @@ impl Default for WebSearchCredentialProviderConfig {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(default, rename_all = "camelCase")]
-pub struct OpenBitFunSearchHttpConfig {
+pub struct OpcTeamSearchHttpConfig {
     pub endpoint: String,
-    pub auth: OpenBitFunSearchHttpAuthConfig,
+    pub auth: OpcTeamSearchHttpAuthConfig,
     #[serde(flatten)]
     pub unknown: serde_json::Map<String, serde_json::Value>,
 }
 
-impl Default for OpenBitFunSearchHttpConfig {
+impl Default for OpcTeamSearchHttpConfig {
     fn default() -> Self {
         Self {
             endpoint: String::new(),
-            auth: OpenBitFunSearchHttpAuthConfig::default(),
+            auth: OpcTeamSearchHttpAuthConfig::default(),
             unknown: serde_json::Map::new(),
         }
     }
@@ -1294,7 +1294,7 @@ impl Default for OpenBitFunSearchHttpConfig {
 
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 #[serde(default, rename_all = "camelCase")]
-pub struct OpenBitFunSearchHttpAuthConfig {
+pub struct OpcTeamSearchHttpAuthConfig {
     /// `none`, `bearer`, or `header`. Kept as a string so unknown future modes
     /// round-trip and fail explicitly only when selected at runtime.
     pub mode: String,
@@ -1304,7 +1304,7 @@ pub struct OpenBitFunSearchHttpAuthConfig {
     pub unknown: serde_json::Map<String, serde_json::Value>,
 }
 
-impl Default for OpenBitFunSearchHttpAuthConfig {
+impl Default for OpcTeamSearchHttpAuthConfig {
     fn default() -> Self {
         Self {
             mode: "none".to_string(),

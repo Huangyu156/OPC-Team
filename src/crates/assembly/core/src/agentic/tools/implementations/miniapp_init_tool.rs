@@ -6,7 +6,7 @@ use crate::miniapp::try_get_global_miniapp_manager;
 use crate::miniapp::types::{
     FsPermissions, MiniAppPermissions, MiniAppSource, NetPermissions, ShellPermissions,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 
@@ -62,7 +62,7 @@ impl Tool for InitMiniAppTool {
         "InitMiniApp"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Create a new MiniApp skeleton in the Toolbox. After creation, use Read/Write/Edit file tools to modify the source files directly.
 
 Input: name, description, icon, category. The tool creates the app directory and skeleton files:
@@ -111,7 +111,7 @@ Returns app_id and the app root directory. Use the root directory and file names
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let name = input
             .get("name")
             .and_then(Value::as_str)
@@ -127,19 +127,19 @@ Returns app_id and the app root directory. Use the root directory and file names
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
-            return Err(OpenBitFunError::tool(
-                "InitMiniApp returns product-host-local files and cannot be used in a remote workspace. Use OpenBitFunControl get feature.miniapps and its structured create-app operation instead".to_string(),
+            return Err(OpcTeamError::tool(
+                "InitMiniApp returns product-host-local files and cannot be used in a remote workspace. Use OpcTeamControl get feature.miniapps and its structured create-app operation instead".to_string(),
             ));
         }
         let manager = try_get_global_miniapp_manager()
-            .ok_or_else(|| OpenBitFunError::tool("MiniAppManager not initialized".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("MiniAppManager not initialized".to_string()))?;
 
         let name = input
             .get("name")
             .and_then(|v| v.as_str())
-            .ok_or_else(|| OpenBitFunError::validation("Missing required field: name"))?
+            .ok_or_else(|| OpcTeamError::validation("Missing required field: name"))?
             .to_string();
         let description = input
             .get("description")
@@ -195,7 +195,7 @@ Returns app_id and the app root directory. Use the root directory and file names
                 context.workspace_root(),
             )
             .await
-            .map_err(|e| OpenBitFunError::tool(format!("Failed to create MiniApp: {}", e)))?;
+            .map_err(|e| OpcTeamError::tool(format!("Failed to create MiniApp: {}", e)))?;
 
         let path_manager = manager.path_manager();
         let app_dir = path_manager.miniapp_dir(&app.id);

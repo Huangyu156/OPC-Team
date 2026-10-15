@@ -56,9 +56,9 @@ pub struct WorkspaceBinding {
 
 impl WorkspaceBinding {
     /// Construct an execution binding from the owning host's authoritative record.
-    pub async fn resolve(workspace_id: &str) -> crate::OpenBitFunResult<Self> {
+    pub async fn resolve(workspace_id: &str) -> crate::OpcTeamResult<Self> {
         let service = crate::service::workspace::get_global_workspace_service()
-            .ok_or_else(|| crate::OpenBitFunError::service("Workspace service is unavailable"))?;
+            .ok_or_else(|| crate::OpcTeamError::service("Workspace service is unavailable"))?;
         let record = service.require_workspace(workspace_id).await?;
         let mut config = SessionConfig::default();
         apply_workspace_record(&mut config, &record)?;
@@ -82,9 +82,9 @@ impl WorkspaceBinding {
                 identity,
             ))
         } else {
-            let project_id = config.project_workspace_id.ok_or_else(|| {
-                crate::OpenBitFunError::service("Project workspace ID is required")
-            })?;
+            let project_id = config
+                .project_workspace_id
+                .ok_or_else(|| crate::OpcTeamError::service("Project workspace ID is required"))?;
             let project = service.require_workspace(&project_id).await?;
             let mut binding = Self::new(Some(record.id), record.root_path)
                 .with_project_root_path(project.root_path);
@@ -290,7 +290,7 @@ mod tests {
 /// registry before routing, ownership checks, extension discovery or persistence.
 pub(crate) async fn normalize_session_workspace(
     config: &mut SessionConfig,
-) -> crate::OpenBitFunResult<()> {
+) -> crate::OpcTeamResult<()> {
     use crate::service::workspace::{get_global_workspace_service, WorkspaceKind};
     if config.workspace_id.is_none()
         && config.workspace_path.is_none()
@@ -299,7 +299,7 @@ pub(crate) async fn normalize_session_workspace(
         return Ok(());
     }
     let service = get_global_workspace_service()
-        .ok_or_else(|| crate::OpenBitFunError::service("Workspace service is unavailable"))?;
+        .ok_or_else(|| crate::OpcTeamError::service("Workspace service is unavailable"))?;
     if config.workspace_id.is_none() || config.project_workspace_id.is_none() {
         crate::service::workspace::legacy_compat::upgrade_session_workspace_reference(
             config, &service,
@@ -311,13 +311,13 @@ pub(crate) async fn normalize_session_workspace(
         .await?;
     let project_id = record
         .project_workspace_id()
-        .map_err(crate::OpenBitFunError::service)?;
+        .map_err(crate::OpcTeamError::service)?;
     if config
         .project_workspace_id
         .as_deref()
         .is_some_and(|id| id != project_id)
     {
-        return Err(crate::OpenBitFunError::service(
+        return Err(crate::OpcTeamError::service(
             "Session project workspace ID differs from its workspace object",
         ));
     }
@@ -326,7 +326,7 @@ pub(crate) async fn normalize_session_workspace(
         || project.workspace_kind == WorkspaceKind::Remote)
         && record.id != project.id
     {
-        return Err(crate::OpenBitFunError::service(
+        return Err(crate::OpcTeamError::service(
             "Remote workspace cannot be bound to a different project workspace",
         ));
     }
@@ -354,7 +354,7 @@ pub(crate) async fn normalize_session_workspace(
 pub(crate) fn apply_workspace_record(
     config: &mut SessionConfig,
     record: &crate::service::workspace::WorkspaceInfo,
-) -> crate::OpenBitFunResult<()> {
+) -> crate::OpcTeamResult<()> {
     use crate::service::workspace::WorkspaceKind;
     let (connection_id, host) = if record.workspace_kind == WorkspaceKind::Remote {
         let id = record
@@ -362,7 +362,7 @@ pub(crate) fn apply_workspace_record(
             .map(str::trim)
             .filter(|id| !id.is_empty())
             .ok_or_else(|| {
-                crate::OpenBitFunError::service(
+                crate::OpcTeamError::service(
                     "Remote workspace record is missing its saved SSH connection ID",
                 )
             })?;
@@ -373,7 +373,7 @@ pub(crate) fn apply_workspace_record(
             .map(str::trim)
             .filter(|host| !host.is_empty())
             .ok_or_else(|| {
-                crate::OpenBitFunError::service("Remote workspace record is missing its SSH host")
+                crate::OpcTeamError::service("Remote workspace record is missing its SSH host")
             })?;
         (Some(id.to_owned()), Some(host.to_owned()))
     } else {
@@ -383,7 +383,7 @@ pub(crate) fn apply_workspace_record(
     config.project_workspace_id = Some(
         record
             .project_workspace_id()
-            .map_err(crate::OpenBitFunError::service)?
+            .map_err(crate::OpcTeamError::service)?
             .to_owned(),
     );
     config.project_workspace_path =
@@ -408,11 +408,11 @@ pub(crate) fn reject_session_storage_root(
     path: &Path,
     projects_root: &Path,
     ssh_mirror_root: &Path,
-) -> crate::OpenBitFunResult<()> {
+) -> crate::OpcTeamResult<()> {
     if [projects_root, ssh_mirror_root].iter().any(|root| {
         path.starts_with(root) || dunce::canonicalize(path).is_ok_and(|path| path.starts_with(root))
     }) {
-        return Err(crate::OpenBitFunError::service(
+        return Err(crate::OpcTeamError::service(
             "Session storage directories cannot be used as workspace execution roots",
         ));
     }

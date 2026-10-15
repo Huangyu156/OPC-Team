@@ -455,7 +455,7 @@ async fn remote_mcp_streamable_http_accepts_202_and_delivers_response_via_sse() 
         .expect("remote connection should be created");
 
     connection
-        .initialize("OpenBitFunTest", "0.0.0")
+        .initialize("OpcTeamTest", "0.0.0")
         .await
         .expect("initialize should succeed");
 
@@ -534,10 +534,7 @@ async fn remote_mcp_health_falls_back_only_for_unsupported_ping() {
     )
     .await
     .unwrap();
-    connection
-        .initialize("OpenBitFunTest", "1.0.0")
-        .await
-        .unwrap();
+    connection.initialize("OpcTeamTest", "1.0.0").await.unwrap();
     if !state.sse_connected.load(Ordering::SeqCst) {
         tokio::time::timeout(
             Duration::from_secs(2),

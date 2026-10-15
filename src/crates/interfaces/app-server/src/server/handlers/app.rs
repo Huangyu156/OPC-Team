@@ -13,7 +13,7 @@ use crate::role::{AppClient, AppServer};
 use crate::server::host_policy::{AppServerHostLimits, AppServerHostPolicy};
 
 pub(in crate::server) fn builder(
-    runtime: std::sync::Arc<crate::agent::OpenBitFunAppRuntime>,
+    runtime: std::sync::Arc<crate::agent::OpcTeamAppRuntime>,
     event_state: std::sync::Arc<crate::server::ConnectionEventState>,
     management: Option<std::sync::Arc<crate::management::AppManagementService>>,
     host_policy: Option<std::sync::Arc<AppServerHostPolicy>>,

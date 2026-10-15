@@ -9,7 +9,7 @@ use core_foundation::number::CFNumber;
 use core_foundation::string::CFString;
 use objc2_app_kit::{NSApplicationActivationPolicy, NSWorkspace};
 use openbitfun_core::agentic::tools::computer_use_host::AppInfo;
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::collections::HashSet;
 use std::ffi::c_void;
 
@@ -30,7 +30,7 @@ fn number(dictionary: &Dictionary, key: &str) -> Option<f64> {
 }
 
 pub(super) fn list_share_targets(
-) -> OpenBitFunResult<Vec<openbitfun_agent_tools::computer_use_control::ShareTarget>> {
+) -> OpcTeamResult<Vec<openbitfun_agent_tools::computer_use_control::ShareTarget>> {
     #[link(name = "CoreGraphics", kind = "framework")]
     unsafe extern "C" {
         fn CGWindowListCopyWindowInfo(
@@ -42,7 +42,7 @@ pub(super) fn list_share_targets(
     // application's hidden state rather than whichever Space is visible.
     let raw = unsafe { CGWindowListCopyWindowInfo(16, 0) };
     if raw.is_null() {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "APP_DISCOVERY_UNAVAILABLE: WindowServer application inventory is unavailable",
         ));
     }
@@ -96,7 +96,7 @@ pub(super) fn list_share_targets(
     Ok(targets)
 }
 
-fn window_owners() -> OpenBitFunResult<HashSet<i32>> {
+fn window_owners() -> OpcTeamResult<HashSet<i32>> {
     Ok(list_share_targets()?
         .into_iter()
         .filter_map(|window| window.pid)
@@ -114,7 +114,7 @@ fn include_application(
         && (include_hidden || !hidden)
 }
 
-pub(super) fn list_running_apps(include_hidden: bool) -> OpenBitFunResult<Vec<AppInfo>> {
+pub(super) fn list_running_apps(include_hidden: bool) -> OpcTeamResult<Vec<AppInfo>> {
     let owners = window_owners()?;
     let applications = NSWorkspace::sharedWorkspace().runningApplications();
     let mut apps = Vec::new();

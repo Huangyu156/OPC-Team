@@ -20,7 +20,7 @@ use crate::infrastructure::ai::reasoning_catalog::{
 };
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::{model_runtime_binding_fingerprint, AIConfig, AIModelConfig};
-use crate::util::OpenBitFunError;
+use crate::util::OpcTeamError;
 use openbitfun_ai_adapters::models_dev::ModelsDevCatalog;
 use openbitfun_external_sources::ExternalSubagentCoordinatorSnapshot;
 use openbitfun_product_domains::external_sources::EcosystemId;
@@ -350,7 +350,7 @@ fn host_tool_name(capability: ExternalSubagentToolCapability) -> &'static str {
     }
 }
 
-fn log_model_config_unavailable(stage: &str, error: &OpenBitFunError) {
+fn log_model_config_unavailable(stage: &str, error: &OpcTeamError) {
     if claim_model_config_outage_log(&MODEL_CONFIG_UNAVAILABLE_LOGGED) {
         log::warn!(
             "External subagent model configuration unavailable: stage={}, category={}",
@@ -364,27 +364,27 @@ fn claim_model_config_outage_log(logged: &AtomicBool) -> bool {
     !logged.swap(true, Ordering::Relaxed)
 }
 
-fn model_config_error_category(error: &OpenBitFunError) -> &'static str {
+fn model_config_error_category(error: &OpcTeamError) -> &'static str {
     match error {
-        OpenBitFunError::Configuration(message) if message.contains("not initialized") => {
+        OpcTeamError::Configuration(message) if message.contains("not initialized") => {
             "service_not_initialized"
         }
-        OpenBitFunError::Configuration(message) if message.contains("service is None") => {
+        OpcTeamError::Configuration(message) if message.contains("service is None") => {
             "service_missing"
         }
-        OpenBitFunError::Configuration(message)
+        OpcTeamError::Configuration(message)
             if message.contains("Failed to deserialize config value") =>
         {
             "config_deserialization_failed"
         }
-        OpenBitFunError::Configuration(message) if message.contains("Config path") => {
+        OpcTeamError::Configuration(message) if message.contains("Config path") => {
             "config_path_unavailable"
         }
-        OpenBitFunError::Configuration(_) => "configuration_error",
-        OpenBitFunError::Deserialization(_) => "deserialization_error",
-        OpenBitFunError::Serialization(_) => "serialization_error",
-        OpenBitFunError::Io(_) => "io_error",
-        OpenBitFunError::Service(_) => "service_error",
+        OpcTeamError::Configuration(_) => "configuration_error",
+        OpcTeamError::Deserialization(_) => "deserialization_error",
+        OpcTeamError::Serialization(_) => "serialization_error",
+        OpcTeamError::Io(_) => "io_error",
+        OpcTeamError::Service(_) => "service_error",
         _ => "other_error",
     }
 }
@@ -2397,7 +2397,7 @@ mod tests {
         logged.store(false, Ordering::Relaxed);
         assert!(claim_model_config_outage_log(&logged));
 
-        let error = OpenBitFunError::config(
+        let error = OpcTeamError::config(
             "Failed to deserialize config value at 'ai': invalid value 'sk-sensitive'",
         );
         let category = model_config_error_category(&error);

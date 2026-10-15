@@ -1,6 +1,6 @@
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::{AgentProfileConfig, GlobalConfig};
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use openbitfun_agent_runtime::permission::{
     AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY,
 };
@@ -69,7 +69,7 @@ pub(crate) fn derive_parent_permission_runtime_ceiling(
 pub(crate) async fn load_parent_permission_runtime_ceiling(
     agent_type: Option<&str>,
     workspace_id: Option<&str>,
-) -> OpenBitFunResult<PermissionRuntimeCeiling> {
+) -> OpcTeamResult<PermissionRuntimeCeiling> {
     let service = GlobalConfigManager::get_service().await?;
     let global: GlobalConfig = service.get_config(None).await?;
     let profile = agent_type.and_then(|agent_type| {

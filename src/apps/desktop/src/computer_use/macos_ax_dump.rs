@@ -24,7 +24,7 @@ use core_foundation::boolean::{CFBoolean, CFBooleanGetTypeID, CFBooleanRef};
 use core_foundation::string::{CFString, CFStringRef};
 use core_graphics::geometry::{CGPoint, CGSize};
 use openbitfun_core::agentic::tools::computer_use_host::{AppStateSnapshot, AxNode};
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::collections::{HashMap, VecDeque};
 use std::ffi::c_void;
 use std::sync::{Mutex, OnceLock};
@@ -218,12 +218,12 @@ pub(crate) fn retained_cached_target(pid: i32, idx: u32) -> Option<RetainedCache
     cached_ref(pid, None, idx)
 }
 
-pub(crate) fn validate_bound_target(pid: i32, target: AxRef) -> OpenBitFunResult<()> {
-    super::control_session::input_allowed().map_err(OpenBitFunError::tool)?;
-    let bound = super::macos_capture::bound_window_id(pid).map_err(OpenBitFunError::tool)?;
+pub(crate) fn validate_bound_target(pid: i32, target: AxRef) -> OpcTeamResult<()> {
+    super::control_session::input_allowed().map_err(OpcTeamError::tool)?;
+    let bound = super::macos_capture::bound_window_id(pid).map_err(OpcTeamError::tool)?;
     let mut actual_pid = 0;
     if unsafe { AXUIElementGetPid(target.0, &mut actual_pid) } != 0 || actual_pid != pid {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "AX_TARGET_MISMATCH: Accessibility target belongs to a different application",
         ));
     }
@@ -232,12 +232,12 @@ pub(crate) fn validate_bound_target(pid: i32, target: AxRef) -> OpenBitFunResult
         None => is_application_menu_item(target),
     };
     if !allowed {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "AX_TARGET_MISMATCH: Accessibility target does not belong to the captured window",
         ));
     }
     super::control_session::target_allowed(&format!("pid:{pid}/window:{bound}"))
-        .map_err(OpenBitFunError::tool)
+        .map_err(OpcTeamError::tool)
 }
 
 pub(crate) fn element_window_id(target: AxRef) -> Option<u32> {
@@ -270,13 +270,13 @@ pub(crate) fn retained_target_at_point(
     pid: i32,
     x: f64,
     y: f64,
-) -> OpenBitFunResult<Option<RetainedCachedTarget>> {
+) -> OpcTeamResult<Option<RetainedCachedTarget>> {
     if !x.is_finite() || !y.is_finite() {
         return Ok(None);
     }
-    let window_id = super::macos_capture::bound_window_id(pid).map_err(OpenBitFunError::tool)?;
+    let window_id = super::macos_capture::bound_window_id(pid).map_err(OpcTeamError::tool)?;
     super::control_session::target_allowed(&format!("pid:{pid}/window:{window_id}"))
-        .map_err(OpenBitFunError::tool)?;
+        .map_err(OpcTeamError::tool)?;
     unsafe {
         let app = AXUIElementCreateApplication(pid);
         if app.is_null() {
@@ -293,7 +293,7 @@ pub(crate) fn retained_target_at_point(
             return if matches!(status, -25208 | -25212) {
                 Ok(None)
             } else {
-                Err(OpenBitFunError::tool(format!(
+                Err(OpcTeamError::tool(format!(
                     "AX_HIT_TEST_FAILED: Application hit testing failed (status={status})"
                 )))
             };
@@ -328,9 +328,9 @@ pub(crate) fn retained_target_at_point(
 
 /// Evidence check after a visual focus attempt. `false` means no proven
 /// mismatch, not verified delivery: custom canvases may expose no AX focus.
-pub(crate) fn focused_text_target_mismatch(pid: i32, x: f64, y: f64) -> OpenBitFunResult<bool> {
-    super::control_session::input_allowed().map_err(OpenBitFunError::tool)?;
-    let bound = super::macos_capture::bound_window_id(pid).map_err(OpenBitFunError::tool)?;
+pub(crate) fn focused_text_target_mismatch(pid: i32, x: f64, y: f64) -> OpcTeamResult<bool> {
+    super::control_session::input_allowed().map_err(OpcTeamError::tool)?;
+    let bound = super::macos_capture::bound_window_id(pid).map_err(OpcTeamError::tool)?;
     unsafe {
         let app = AXUIElementCreateApplication(pid);
         if app.is_null() {
@@ -345,7 +345,7 @@ pub(crate) fn focused_text_target_mismatch(pid: i32, x: f64, y: f64) -> OpenBitF
             return if matches!(status, -25205 | -25208 | -25212) {
                 Ok(false)
             } else {
-                Err(OpenBitFunError::tool(format!("AX_FOCUS_CHECK_FAILED: Cannot inspect the current text destination (status={status})")))
+                Err(OpcTeamError::tool(format!("AX_FOCUS_CHECK_FAILED: Cannot inspect the current text destination (status={status})")))
             };
         }
         if value.is_null() {
@@ -702,13 +702,13 @@ fn is_closed_menu_container(role: &str, frame: Option<(f64, f64, f64, f64)>) -> 
     }
 }
 
-pub(super) fn dump_app_ax(pid: i32, opts: DumpOpts) -> OpenBitFunResult<AppStateSnapshot> {
+pub(super) fn dump_app_ax(pid: i32, opts: DumpOpts) -> OpcTeamResult<AppStateSnapshot> {
     let scope = openbitfun_agent_tools::computer_use_control::ObservationScope::from_control(
         &super::control_session::snapshot(),
     );
     let app = unsafe { AXUIElementCreateApplication(pid) };
     if app.is_null() {
-        return Err(OpenBitFunError::tool(format!(
+        return Err(OpcTeamError::tool(format!(
             "AXUIElementCreateApplication returned null for pid={}",
             pid
         )));
@@ -746,7 +746,7 @@ pub(super) fn dump_app_ax(pid: i32, opts: DumpOpts) -> OpenBitFunResult<AppState
                 Some(window) => window,
                 None => {
                     unsafe { ax_release(app as CFTypeRef) };
-                    return Err(OpenBitFunError::tool("AX_BOUND_WINDOW_UNAVAILABLE: Accessibility cannot identify the captured window; another application window was not substituted"));
+                    return Err(OpcTeamError::tool("AX_BOUND_WINDOW_UNAVAILABLE: Accessibility cannot identify the captured window; another application window was not substituted"));
                 }
             }
         } else {
@@ -920,7 +920,7 @@ equivalents, or AXPress the menu first.\n",
     {
         let mut cache = snapshot_cache()
             .lock()
-            .map_err(|_| OpenBitFunError::tool("AX snapshot cache poisoned".to_string()))?;
+            .map_err(|_| OpcTeamError::tool("AX snapshot cache poisoned".to_string()))?;
         cache.clear();
         cache.insert(
             pid,

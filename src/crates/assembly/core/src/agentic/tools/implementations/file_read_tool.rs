@@ -13,7 +13,7 @@ use crate::agentic::tools::review_read_receipt_runtime::{
 };
 use crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri;
 use crate::agentic::tools::ToolPathOperation;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::timing::elapsed_ms_u64;
 use async_trait::async_trait;
 use log::{debug, warn};
@@ -218,18 +218,18 @@ impl FileReadTool {
         pages: Option<DocumentPageSelection>,
         filesystem: &dyn crate::agentic::workspace::WorkspaceFileSystem,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<(ReadFileResult, DocumentReadMetadata)> {
+    ) -> OpcTeamResult<(ReadFileResult, DocumentReadMetadata)> {
         let bytes = filesystem
             .read_file_bounded(resolved_path, MAX_DOCUMENT_INPUT_BYTES)
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "Failed to read document {}: {:#}",
                     logical_path, error
                 ))
             })?
             .ok_or_else(|| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "Document {} is larger than the {} MiB Read limit. Use a smaller document or a specialized extraction workflow; pages/offset/limit do not reduce source file transfer.",
                     logical_path,
                     MAX_DOCUMENT_INPUT_BYTES / (1024 * 1024)
@@ -258,7 +258,7 @@ impl FileReadTool {
                 DOCUMENT_CONVERSION_TIMEOUT.as_millis(),
                 elapsed_ms_u64(conversion_started_at)
             );
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "Document conversion did not finish within {} seconds: {}",
                 DOCUMENT_CONVERSION_TIMEOUT.as_secs(),
                 logical_path
@@ -300,7 +300,7 @@ impl FileReadTool {
                 self.max_total_chars,
             )
         }
-        .map_err(OpenBitFunError::tool)?;
+        .map_err(OpcTeamError::tool)?;
 
         Ok((
             read_result,
@@ -317,14 +317,14 @@ impl FileReadTool {
     fn document_conversion_error(
         logical_path: &str,
         error: DocumentConversionError,
-    ) -> OpenBitFunError {
+    ) -> OpcTeamError {
         let recovery = match error.code() {
             "encrypted" => " Use an unlocked copy of the document.",
             "unsupported" => " For a text file, use render=source; otherwise use a format-specific extraction tool.",
             "resourceLimit" => " For an extracted-output limit, request fewer pages; this does not bypass source-size or parser limits. Otherwise use a smaller document or specialized extraction workflow.",
             _ => "",
         };
-        OpenBitFunError::tool(format!(
+        OpcTeamError::tool(format!(
             "Failed to convert document {} to Markdown ({}): {}.{}",
             logical_path,
             error.code(),
@@ -340,7 +340,7 @@ impl Tool for FileReadTool {
         "Read"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         #[cfg(feature = "document-read")]
         let document_guidance = format!(
             r#"
@@ -432,11 +432,11 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let file_path = input
             .get("file_path")
             .and_then(Value::as_str)
-            .ok_or_else(|| OpenBitFunError::validation("file_path is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::validation("file_path is required".to_string()))?;
         file_permission_intents("read", [file_path], context)
     }
 
@@ -618,16 +618,16 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let file_path = input
             .get("file_path")
             .and_then(|v| v.as_str())
-            .ok_or_else(|| OpenBitFunError::tool("file_path is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("file_path is required".to_string()))?;
 
-        let tail = Self::read_tail_mode(input).map_err(OpenBitFunError::tool)?;
-        let render_mode = Self::read_render_mode(input).map_err(OpenBitFunError::tool)?;
-        let pages = Self::read_page_selection(input).map_err(OpenBitFunError::tool)?;
-        let start_line = Self::read_window_start_line(input).map_err(OpenBitFunError::tool)?;
+        let tail = Self::read_tail_mode(input).map_err(OpcTeamError::tool)?;
+        let render_mode = Self::read_render_mode(input).map_err(OpcTeamError::tool)?;
+        let pages = Self::read_page_selection(input).map_err(OpcTeamError::tool)?;
+        let start_line = Self::read_window_start_line(input).map_err(OpcTeamError::tool)?;
 
         let limit = input
             .get("limit")
@@ -639,12 +639,12 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
         #[cfg(feature = "tools-miniapp")]
         if is_virtual_context_path(context, &resolved) {
             if pages.is_some() {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "pages cannot select a MiniApp text context; use offset/limit".to_string(),
                 ));
             }
             let content = virtual_context_file(context, &resolved).ok_or_else(|| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "MiniApp context file is unavailable: {}",
                     resolved.logical_path
                 ))
@@ -660,7 +660,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
                     self.max_total_chars,
                 )
             }
-            .map_err(OpenBitFunError::tool)?;
+            .map_err(OpcTeamError::tool)?;
             let presentation =
                 build_read_file_presentation(&resolved.logical_path, &read_file_result);
             return Ok(vec![ToolResult::Result {
@@ -685,7 +685,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
         }
         #[cfg(feature = "tools-miniapp")]
         if requires_virtual_context_path(context) {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "MiniApp context file is unavailable: {}",
                 resolved.logical_path
             )));
@@ -705,11 +705,11 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
             ReadRenderMode::Markdown => true,
         };
         if pages.is_some() && !reads_document_representation {
-            return Err(OpenBitFunError::tool("pages requires a document. For a misnamed document or CSV use render=markdown; for ordinary text use offset/limit".to_string()));
+            return Err(OpcTeamError::tool("pages requires a document. For a misnamed document or CSV use render=markdown; for ordinary text use offset/limit".to_string()));
         }
         #[cfg(not(feature = "document-read"))]
         if reads_document_representation {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "Document Markdown conversion is not available in this product build: {}. Use a product that includes document-read, or render=source for text-based formats.",
                 resolved.logical_path
             )));
@@ -759,7 +759,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
                 .open_read(&resolved.resolved_path)
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::tool(format!(
+                    OpcTeamError::tool(format!(
                         "Failed to open file {}: {:#}",
                         resolved.logical_path, error
                     ))
@@ -791,7 +791,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
                     elapsed_ms_u64(read_started_at),
                     error
                 );
-                OpenBitFunError::tool(error)
+                OpcTeamError::tool(error)
             })?;
             debug!("Workspace file stream read completed: path={} start_line={} end_line={} total_lines={} hit_total_char_limit={} duration_ms={}",
                 resolved.logical_path, result.start_line, result.end_line, result.total_lines,

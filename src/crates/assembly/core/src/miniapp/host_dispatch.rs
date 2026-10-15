@@ -3,7 +3,7 @@
 //! Concrete fs/shell/net/os dispatch lives in `openbitfun-services-integrations`.
 
 use crate::miniapp::types::MiniAppPermissions;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use serde_json::Value;
 use std::path::{Path, PathBuf};
 
@@ -17,7 +17,7 @@ pub async fn dispatch_host(
     granted_paths: &[PathBuf],
     method: &str,
     params: Value,
-) -> OpenBitFunResult<Value> {
+) -> OpcTeamResult<Value> {
     openbitfun_services_integrations::miniapp::host_dispatch::dispatch_host(
         perms,
         app_id,
@@ -33,17 +33,15 @@ pub async fn dispatch_host(
 
 fn map_host_dispatch_error(
     err: openbitfun_services_integrations::miniapp::host_dispatch::MiniAppHostDispatchError,
-) -> OpenBitFunError {
+) -> OpcTeamError {
     use openbitfun_services_integrations::miniapp::host_dispatch::MiniAppHostDispatchErrorKind;
 
     match err.kind() {
-        MiniAppHostDispatchErrorKind::Parse => OpenBitFunError::parse(err.message().to_string()),
+        MiniAppHostDispatchErrorKind::Parse => OpcTeamError::parse(err.message().to_string()),
         MiniAppHostDispatchErrorKind::Validation => {
-            OpenBitFunError::validation(err.message().to_string())
+            OpcTeamError::validation(err.message().to_string())
         }
-        MiniAppHostDispatchErrorKind::Io => OpenBitFunError::io(err.message().to_string()),
-        MiniAppHostDispatchErrorKind::Service => {
-            OpenBitFunError::service(err.message().to_string())
-        }
+        MiniAppHostDispatchErrorKind::Io => OpcTeamError::io(err.message().to_string()),
+        MiniAppHostDispatchErrorKind::Service => OpcTeamError::service(err.message().to_string()),
     }
 }

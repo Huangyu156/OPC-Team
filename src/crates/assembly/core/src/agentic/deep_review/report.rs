@@ -13,7 +13,7 @@ use crate::agentic::deep_review_policy::{
     deep_review_runtime_diagnostics_snapshot,
 };
 use crate::agentic::tools::framework::ToolUseContext;
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use log::debug;
 use openbitfun_agent_runtime::deep_review::diagnostics as runtime_diagnostics;
 use openbitfun_agent_runtime::deep_review::report as runtime_report;
@@ -140,7 +140,7 @@ pub(crate) fn log_deep_review_runtime_diagnostics(dialog_turn_id: Option<&str>) 
 pub(crate) async fn persist_deep_review_cache(
     context: &ToolUseContext,
     cache_value: Value,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let Some(session_id) = context.session_id.as_deref() else {
         return Ok(());
     };

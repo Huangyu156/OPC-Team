@@ -8,7 +8,7 @@ use crate::agentic::tools::framework::{
     ValidationResult,
 };
 use crate::agentic::tools::ToolPathOperation;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_agent_tools::strip_invalid_windows_drive_path_prefix;
 use openbitfun_core_types::product_identity::hidden_data_directory;
@@ -61,13 +61,13 @@ impl FileWriteTool {
     async fn file_exists(
         context: &ToolUseContext,
         resolved: &ToolPathResolution,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         context
             .file_system_for_path(resolved)?
             .exists(&resolved.resolved_path)
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(format!("Failed to check whether file exists: {:#}", error))
+                OpcTeamError::tool(format!("Failed to check whether file exists: {:#}", error))
             })
     }
 
@@ -75,13 +75,13 @@ impl FileWriteTool {
         context: &ToolUseContext,
         resolved: &ToolPathResolution,
         content: &str,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         let existing = context
             .file_system_for_path(resolved)?
             .read_file(&resolved.resolved_path)
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "Failed to read existing file {} before writing: {:#}",
                     resolved.logical_path, error
                 ))
@@ -310,7 +310,7 @@ impl Tool for FileWriteTool {
         "Write"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(FileWriteTool::description())
     }
 
@@ -321,7 +321,7 @@ impl Tool for FileWriteTool {
     async fn description_with_context(
         &self,
         _context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         Ok(FileWriteTool::description())
     }
 
@@ -352,8 +352,8 @@ impl Tool for FileWriteTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
-        let parsed = Self::parse_payload(input).map_err(OpenBitFunError::validation)?;
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
+        let parsed = Self::parse_payload(input).map_err(OpcTeamError::validation)?;
         let file_path = match parsed {
             ParsedWritePayload::Target { file_path, .. } => file_path.to_string(),
             ParsedWritePayload::MissingPath { .. } => Self::fallback_file_path(context),
@@ -479,9 +479,9 @@ impl Tool for FileWriteTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let ignored_parameter_names = Self::ignored_top_level_parameter_names(input);
-        let parsed = Self::parse_payload(input).map_err(OpenBitFunError::tool)?;
+        let parsed = Self::parse_payload(input).map_err(OpcTeamError::tool)?;
         let (file_path, content, missing_path_fallback) = match parsed {
             ParsedWritePayload::Target { file_path, content } => {
                 (file_path.to_string(), content.to_string(), false)
@@ -524,7 +524,7 @@ impl Tool for FileWriteTool {
             .write_file(&resolved.resolved_path, content.as_bytes())
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "Failed to write file {}: {:#}",
                     resolved.logical_path, error
                 ))

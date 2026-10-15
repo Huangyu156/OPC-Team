@@ -5,7 +5,7 @@
 use super::resource::ResourceAdapter;
 use crate::service::mcp::protocol::{MCPResource, MCPResourceContent};
 use crate::service::mcp::server::MCPServerManager;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::{debug, info, warn};
 use openbitfun_services_integrations::mcp::adapter::{
     MCPContextEnhancer as ContextEnhancer, MCPContextEnhancerConfig as ContextEnhancerConfig,
@@ -45,7 +45,7 @@ impl MCPContextProvider {
         &self,
         query: &str,
         server_ids: Option<Vec<String>>,
-    ) -> OpenBitFunResult<Vec<(MCPResource, MCPResourceContent)>> {
+    ) -> OpcTeamResult<Vec<(MCPResource, MCPResourceContent)>> {
         let mut all_resources = Vec::new();
 
         let server_ids = server_ids.unwrap_or_else(|| {
@@ -82,9 +82,9 @@ impl MCPContextProvider {
         manager: &MCPServerManager,
         server_id: &str,
         query: &str,
-    ) -> OpenBitFunResult<Vec<(MCPResource, MCPResourceContent)>> {
+    ) -> OpcTeamResult<Vec<(MCPResource, MCPResourceContent)>> {
         let connection = manager.get_connection(server_id).await.ok_or_else(|| {
-            OpenBitFunError::NotFound(format!("MCP server connection not found: {}", server_id))
+            OpcTeamError::NotFound(format!("MCP server connection not found: {}", server_id))
         })?;
 
         let mut resources = manager.get_cached_resources(server_id).await;
@@ -131,7 +131,7 @@ impl MCPContextProvider {
         query: &str,
         existing_context: Option<Value>,
         server_ids: Option<Vec<String>>,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         let resources = self.query_resources(query, server_ids).await?;
 
         if resources.is_empty() {
@@ -160,7 +160,7 @@ impl MCPContextProvider {
         &self,
         prompt_names: Vec<String>,
         arguments: HashMap<String, String>,
-    ) -> OpenBitFunResult<Vec<String>> {
+    ) -> OpcTeamResult<Vec<String>> {
         let mut enhancements = Vec::new();
         let server_ids = self.server_manager.get_all_server_ids().await;
 

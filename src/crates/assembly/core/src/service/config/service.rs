@@ -64,10 +64,10 @@ impl<'de> Deserialize<'de> for ConfigExport {
     }
 }
 
-fn validate_config_export(export: &ConfigExport) -> OpenBitFunResult<()> {
+fn validate_config_export(export: &ConfigExport) -> OpcTeamResult<()> {
     validate_openbitfun_product_identity(&export.product_id, "Configuration export")?;
     if export.format_version != CURRENT_CONFIG_EXPORT_FORMAT_VERSION {
-        return Err(OpenBitFunError::validation(format!(
+        return Err(OpcTeamError::validation(format!(
             "Configuration export format_version must be {CURRENT_CONFIG_EXPORT_FORMAT_VERSION}, found {}",
             export.format_version
         )));
@@ -99,13 +99,13 @@ pub struct ConfigHealthStatus {
 
 impl ConfigService {
     /// Creates a new configuration service.
-    pub async fn new() -> OpenBitFunResult<Self> {
+    pub async fn new() -> OpcTeamResult<Self> {
         let settings = ConfigManagerSettings::default();
         Self::with_settings(settings).await
     }
 
     /// Creates a configuration service with custom settings.
-    pub async fn with_settings(settings: ConfigManagerSettings) -> OpenBitFunResult<Self> {
+    pub async fn with_settings(settings: ConfigManagerSettings) -> OpcTeamResult<Self> {
         let manager = ConfigManager::new(settings).await?;
 
         Ok(Self {
@@ -116,7 +116,7 @@ impl ConfigService {
     }
 
     /// Gets a configuration value (supports dot-paths).
-    pub async fn get_config<T>(&self, path: Option<&str>) -> OpenBitFunResult<T>
+    pub async fn get_config<T>(&self, path: Option<&str>) -> OpcTeamResult<T>
     where
         T: serde::de::DeserializeOwned,
     {
@@ -127,13 +127,13 @@ impl ConfigService {
         } else {
             let config = manager.get_config();
             serde_json::from_value(serde_json::to_value(config)?)
-                .map_err(|e| OpenBitFunError::config(format!("Failed to serialize config: {}", e)))
+                .map_err(|e| OpcTeamError::config(format!("Failed to serialize config: {}", e)))
         }
     }
 
-    pub async fn install_runtime_ai_model(&self, model: AIModelConfig) -> OpenBitFunResult<()> {
+    pub async fn install_runtime_ai_model(&self, model: AIModelConfig) -> OpcTeamResult<()> {
         if model.id.trim().is_empty() {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "Runtime model id is required".to_string(),
             ));
         }
@@ -148,7 +148,7 @@ impl ConfigService {
         self.runtime_ai_models.read().await.get(model_id).cloned()
     }
 
-    pub async fn get_effective_ai_config(&self) -> OpenBitFunResult<AIConfig> {
+    pub async fn get_effective_ai_config(&self) -> OpcTeamResult<AIConfig> {
         let mut ai: AIConfig = self.get_config(Some("ai")).await?;
         for runtime_model in self.runtime_ai_models.read().await.values() {
             if let Some(model) = ai
@@ -180,7 +180,7 @@ impl ConfigService {
     /// When the path touches AI models / default model slots / agent-model
     /// mappings, runs [`Self::reconcile_models`] afterwards so the config can
     /// never end up referencing a disabled or deleted model.
-    pub async fn set_config<T>(&self, path: &str, value: T) -> OpenBitFunResult<()>
+    pub async fn set_config<T>(&self, path: &str, value: T) -> OpcTeamResult<()>
     where
         T: serde::Serialize,
     {
@@ -189,7 +189,7 @@ impl ConfigService {
 
     /// Compares and persists under the same lock; unchanged preferences do not
     /// trigger validation, disk writes, account sync, or runtime notifications.
-    pub async fn set_config_if_changed<T>(&self, path: &str, value: T) -> OpenBitFunResult<bool>
+    pub async fn set_config_if_changed<T>(&self, path: &str, value: T) -> OpcTeamResult<bool>
     where
         T: serde::Serialize,
     {
@@ -213,8 +213,8 @@ impl ConfigService {
     pub async fn update_config<T, R>(
         &self,
         path: &str,
-        update: impl FnOnce(&mut T) -> OpenBitFunResult<R>,
-    ) -> OpenBitFunResult<R>
+        update: impl FnOnce(&mut T) -> OpcTeamResult<R>,
+    ) -> OpcTeamResult<R>
     where
         T: serde::Serialize + serde::de::DeserializeOwned,
     {
@@ -280,11 +280,11 @@ impl ConfigService {
         path: &str,
         expected: Option<serde_json::Value>,
         replacement: serde_json::Value,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         let mut manager = self.manager.write().await;
         let current = match manager.get::<serde_json::Value>(path) {
             Ok(value) => Some(value),
-            Err(OpenBitFunError::NotFound(_)) => None,
+            Err(OpcTeamError::NotFound(_)) => None,
             Err(error) => return Err(error),
         };
         if current != expected {
@@ -314,7 +314,7 @@ impl ConfigService {
     /// When the reset target touches AI models (or is a global reset),
     /// triggers [`Self::reconcile_models`] so default-slot / agent-model
     /// references can never linger pointing at a now-missing model.
-    pub async fn reset_config(&self, path: Option<&str>) -> OpenBitFunResult<()> {
+    pub async fn reset_config(&self, path: Option<&str>) -> OpcTeamResult<()> {
         {
             let mut manager = self.manager.write().await;
             manager.reset(path).await?;
@@ -348,7 +348,7 @@ impl ConfigService {
     }
 
     /// Validates configuration.
-    pub async fn validate_config(&self) -> OpenBitFunResult<ConfigValidationResult> {
+    pub async fn validate_config(&self) -> OpcTeamResult<ConfigValidationResult> {
         let manager = self.manager.read().await;
         let mut result = manager.validate_config().await?;
         result
@@ -362,7 +362,7 @@ impl ConfigService {
     }
 
     /// Exports configuration.
-    pub async fn export_config(&self) -> OpenBitFunResult<ConfigExport> {
+    pub async fn export_config(&self) -> OpcTeamResult<ConfigExport> {
         let manager = self.manager.read().await;
         let config_value = manager.export_config()?;
         let config: GlobalConfig = serde_json::from_value(config_value)?;
@@ -377,10 +377,7 @@ impl ConfigService {
     }
 
     /// Imports a complete current-format OPC-Team configuration export.
-    pub async fn import_config(
-        &self,
-        export: ConfigExport,
-    ) -> OpenBitFunResult<ConfigImportResult> {
+    pub async fn import_config(&self, export: ConfigExport) -> OpcTeamResult<ConfigImportResult> {
         if let Err(error) = validate_config_export(&export) {
             return Ok(ConfigImportResult {
                 success: false,
@@ -424,7 +421,7 @@ impl ConfigService {
     }
 
     /// Runs a health check.
-    pub async fn health_check(&self) -> OpenBitFunResult<ConfigHealthStatus> {
+    pub async fn health_check(&self) -> OpcTeamResult<ConfigHealthStatus> {
         let manager = self.manager.read().await;
         let stats = manager.get_statistics();
         let validation_result = manager.validate_config().await?;
@@ -472,7 +469,7 @@ impl ConfigService {
     }
 
     /// Reloads configuration.
-    pub async fn reload(&self) -> OpenBitFunResult<()> {
+    pub async fn reload(&self) -> OpcTeamResult<()> {
         {
             let mut manager = self.manager.write().await;
             manager.reload().await?;
@@ -490,7 +487,7 @@ impl ConfigService {
     }
 
     /// Creates a configuration backup.
-    pub async fn create_backup(&self) -> OpenBitFunResult<std::path::PathBuf> {
+    pub async fn create_backup(&self) -> OpcTeamResult<std::path::PathBuf> {
         let manager = self.manager.read().await;
         manager.create_backup().await
     }
@@ -502,13 +499,13 @@ impl ConfigService {
     }
 
     /// Returns all AI model configurations.
-    pub async fn get_ai_models(&self) -> OpenBitFunResult<Vec<AIModelConfig>> {
+    pub async fn get_ai_models(&self) -> OpcTeamResult<Vec<AIModelConfig>> {
         let config: GlobalConfig = self.get_config(None).await?;
         Ok(config.ai.models)
     }
 
     /// Adds an AI model configuration.
-    pub async fn add_ai_model(&self, model: AIModelConfig) -> OpenBitFunResult<()> {
+    pub async fn add_ai_model(&self, model: AIModelConfig) -> OpcTeamResult<()> {
         self.update_config("ai.models", |models: &mut Vec<AIModelConfig>| {
             models.push(model);
             Ok(())
@@ -517,17 +514,13 @@ impl ConfigService {
     }
 
     /// Updates an AI model configuration.
-    pub async fn update_ai_model(
-        &self,
-        model_id: &str,
-        model: AIModelConfig,
-    ) -> OpenBitFunResult<()> {
+    pub async fn update_ai_model(&self, model_id: &str, model: AIModelConfig) -> OpcTeamResult<()> {
         self.update_config("ai.models", |models: &mut Vec<AIModelConfig>| {
             let existing = models
                 .iter_mut()
                 .find(|m| m.id == model_id)
                 .ok_or_else(|| {
-                    OpenBitFunError::config(format!("AI model '{}' not found", model_id))
+                    OpcTeamError::config(format!("AI model '{}' not found", model_id))
                 })?;
             *existing = model;
             Ok(())
@@ -536,12 +529,12 @@ impl ConfigService {
     }
 
     /// Deletes an AI model configuration.
-    pub async fn delete_ai_model(&self, model_id: &str) -> OpenBitFunResult<()> {
+    pub async fn delete_ai_model(&self, model_id: &str) -> OpcTeamResult<()> {
         self.update_config("ai.models", |models: &mut Vec<AIModelConfig>| {
             let original_len = models.len();
             models.retain(|m| m.id != model_id);
             if models.len() == original_len {
-                return Err(OpenBitFunError::config(format!(
+                return Err(OpcTeamError::config(format!(
                     "AI model '{}' not found",
                     model_id
                 )));
@@ -556,18 +549,18 @@ impl ConfigService {
     pub async fn save_cloud_speech_config(
         &self,
         request: SaveCloudSpeechConfigRequest,
-    ) -> OpenBitFunResult<SaveCloudSpeechConfigResult> {
+    ) -> OpcTeamResult<SaveCloudSpeechConfigResult> {
         let name = request.name.trim();
         let base_url = request.base_url.trim().trim_end_matches('/');
         let model_name = request.model_name.trim();
         let api_key = request.api_key.trim();
         if name.is_empty() || base_url.is_empty() || model_name.is_empty() || api_key.is_empty() {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "Cloud speech name, base URL, model name, and API key are required".to_string(),
             ));
         }
         if !base_url.starts_with("http://") && !base_url.starts_with("https://") {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "Cloud speech base URL must use http or https".to_string(),
             ));
         }
@@ -586,7 +579,7 @@ impl ConfigService {
                 }
             });
         if !request_url.starts_with("http://") && !request_url.starts_with("https://") {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "Cloud speech request URL must use http or https".to_string(),
             ));
         }
@@ -676,7 +669,7 @@ impl ConfigService {
     ///   and the AI client cache can react in lockstep.
     ///
     /// `caller` is logged for diagnostics (e.g. `set_config`, `update_ai_model`).
-    pub async fn reconcile_models(&self, caller: &str) -> OpenBitFunResult<ReconcileModelsReport> {
+    pub async fn reconcile_models(&self, caller: &str) -> OpcTeamResult<ReconcileModelsReport> {
         let reconciliation = {
             // Reconciliation writes a full config snapshot. Keep its read and
             // write under one lock so unrelated saves (such as voice keys)

@@ -13,7 +13,7 @@ use crate::service::{
     get_global_cron_service,
 };
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use chrono::{DateTime, Local, SecondsFormat, TimeZone};
 use openbitfun_agent_runtime::sdk::AgentRuntime;
@@ -71,8 +71,8 @@ impl CronTool {
         &self,
         workspace: &str,
         context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
-        Self::validate_workspace_format(workspace, context).map_err(OpenBitFunError::tool)?;
+    ) -> OpcTeamResult<String> {
+        Self::validate_workspace_format(workspace, context).map_err(OpcTeamError::tool)?;
 
         if let Some(ctx) = context {
             if ctx.is_remote() {
@@ -83,13 +83,13 @@ impl CronTool {
         let resolved = normalize_path(workspace.trim());
         let path = Path::new(&resolved);
         if !path.exists() {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "Workspace does not exist: {}",
                 resolved
             )));
         }
         if !path.is_dir() {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "Workspace is not a directory: {}",
                 resolved
             )));
@@ -97,9 +97,9 @@ impl CronTool {
         Ok(resolved)
     }
 
-    fn resolve_workspace_from_context(&self, context: &ToolUseContext) -> OpenBitFunResult<String> {
+    fn resolve_workspace_from_context(&self, context: &ToolUseContext) -> OpcTeamResult<String> {
         let workspace = context.workspace_root().ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "workspace is required when the current workspace is unavailable".to_string(),
             )
         })?;
@@ -110,7 +110,7 @@ impl CronTool {
         &self,
         session_id: &str,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<CronWorkspaceRef> {
+    ) -> OpcTeamResult<CronWorkspaceRef> {
         if let Some(runtime) = Self::agent_runtime()? {
             if let Some(binding) = runtime
                 .resolve_session_workspace_binding(AgentSessionWorkspaceRequest {
@@ -118,7 +118,7 @@ impl CronTool {
                 })
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                    OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
                 })?
             {
                 let workspace_ref = Self::workspace_ref_from_agent_binding(binding);
@@ -142,26 +142,26 @@ impl CronTool {
             });
         }
 
-        Err(OpenBitFunError::tool(format!(
+        Err(OpcTeamError::tool(format!(
             "Unable to resolve workspace for session '{}'",
             session_id
         )))
     }
 
-    fn agent_runtime() -> OpenBitFunResult<Option<AgentRuntime>> {
+    fn agent_runtime() -> OpcTeamResult<Option<AgentRuntime>> {
         let Some(coordinator) = get_global_coordinator() else {
             return Ok(None);
         };
         CoreServiceAgentRuntime::agent_runtime(coordinator)
             .map(Some)
-            .map_err(OpenBitFunError::tool)
+            .map_err(OpcTeamError::tool)
     }
 
     async fn ensure_target_session_visible(
         runtime: &AgentRuntime,
         workspace_ref: &CronWorkspaceRef,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let sessions = runtime
             .list_sessions(AgentSessionListRequest {
                 workspace_id: workspace_ref.workspace_id.clone(),
@@ -171,7 +171,7 @@ impl CronTool {
             })
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
             })?;
         if sessions
             .iter()
@@ -184,7 +184,7 @@ impl CronTool {
             .resolve_session_agent_type(session_id)
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
             })?;
         if resolved_agent_type
             .as_deref()
@@ -194,7 +194,7 @@ impl CronTool {
             return Ok(());
         }
 
-        Err(OpenBitFunError::NotFound(format!(
+        Err(OpcTeamError::NotFound(format!(
             "Session '{}' not found in workspace '{}'",
             session_id, workspace_ref.workspace_path
         )))
@@ -204,7 +204,7 @@ impl CronTool {
         &self,
         session_id: Option<&str>,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let resolved = match session_id {
             Some(session_id) => session_id.trim().to_string(),
             None => context
@@ -215,7 +215,7 @@ impl CronTool {
                 .to_string(),
         };
 
-        Self::validate_session_id(&resolved).map_err(OpenBitFunError::tool)?;
+        Self::validate_session_id(&resolved).map_err(OpcTeamError::tool)?;
         Ok(resolved)
     }
 
@@ -292,9 +292,9 @@ impl CronTool {
         }
     }
 
-    fn normalize_optional_name(name: Option<String>) -> OpenBitFunResult<Option<String>> {
+    fn normalize_optional_name(name: Option<String>) -> OpcTeamResult<Option<String>> {
         match name {
-            Some(name) if name.trim().is_empty() => Err(OpenBitFunError::tool(
+            Some(name) if name.trim().is_empty() => Err(OpcTeamError::tool(
                 "patch.name cannot be empty when provided".to_string(),
             )),
             Some(name) => Ok(Some(name.trim().to_string())),
@@ -302,9 +302,9 @@ impl CronTool {
         }
     }
 
-    fn validate_payload(payload: &str, field_name: &str) -> OpenBitFunResult<()> {
+    fn validate_payload(payload: &str, field_name: &str) -> OpcTeamResult<()> {
         if payload.trim().is_empty() {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "{}.payload must not be empty",
                 field_name
             )));
@@ -316,9 +316,9 @@ impl CronTool {
         CronJobPayload { text: payload }
     }
 
-    fn parse_iso_timestamp_ms(value: &str, field_name: &str) -> OpenBitFunResult<i64> {
+    fn parse_iso_timestamp_ms(value: &str, field_name: &str) -> OpcTeamResult<i64> {
         let parsed = DateTime::parse_from_rfc3339(value).map_err(|error| {
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "{} must be a valid ISO-8601 timestamp: {}",
                 field_name, error
             ))
@@ -326,12 +326,12 @@ impl CronTool {
         Ok(parsed.timestamp_millis())
     }
 
-    fn format_iso_timestamp_local(timestamp_ms: i64, field_name: &str) -> OpenBitFunResult<String> {
+    fn format_iso_timestamp_local(timestamp_ms: i64, field_name: &str) -> OpcTeamResult<String> {
         let datetime = Local
             .timestamp_millis_opt(timestamp_ms)
             .single()
             .ok_or_else(|| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "{} timestamp is out of range: {}",
                     field_name, timestamp_ms
                 ))
@@ -343,9 +343,9 @@ impl CronTool {
         every_ms.div_ceil(1_000)
     }
 
-    fn seconds_to_every_ms(seconds: u64, field_name: &str) -> OpenBitFunResult<u64> {
+    fn seconds_to_every_ms(seconds: u64, field_name: &str) -> OpcTeamResult<u64> {
         if seconds == 0 {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "{}.every must be greater than 0 seconds",
                 field_name
             )));
@@ -353,15 +353,15 @@ impl CronTool {
 
         seconds
             .checked_mul(1_000)
-            .ok_or_else(|| OpenBitFunError::tool(format!("{}.every is too large", field_name)))
+            .ok_or_else(|| OpcTeamError::tool(format!("{}.every is too large", field_name)))
     }
 
-    fn serialize_job(job: &CronJob) -> OpenBitFunResult<Value> {
+    fn serialize_job(job: &CronJob) -> OpcTeamResult<Value> {
         serde_json::to_value(CronToolJobOutput::try_from(job)?)
-            .map_err(|err| OpenBitFunError::serialization(err.to_string()))
+            .map_err(|err| OpcTeamError::serialization(err.to_string()))
     }
 
-    fn serialize_jobs(jobs: &[CronJob]) -> OpenBitFunResult<Vec<Value>> {
+    fn serialize_jobs(jobs: &[CronJob]) -> OpcTeamResult<Vec<Value>> {
         jobs.iter().map(Self::serialize_job).collect()
     }
 
@@ -495,12 +495,12 @@ enum CronToolScheduleInput {
 }
 
 impl CronToolScheduleInput {
-    fn to_service_schedule(&self, field_name: &str) -> OpenBitFunResult<CronSchedule> {
+    fn to_service_schedule(&self, field_name: &str) -> OpcTeamResult<CronSchedule> {
         match self {
             Self::At { at } => {
                 let at = at.trim();
                 if at.is_empty() {
-                    return Err(OpenBitFunError::tool(format!(
+                    return Err(OpcTeamError::tool(format!(
                         "{}.at cannot be empty",
                         field_name
                     )));
@@ -511,7 +511,7 @@ impl CronToolScheduleInput {
             Self::Every { every, anchor } => {
                 let anchor_ms = match anchor.as_deref() {
                     Some(anchor) if anchor.trim().is_empty() => {
-                        return Err(OpenBitFunError::tool(format!(
+                        return Err(OpcTeamError::tool(format!(
                             "{}.anchor cannot be empty when provided",
                             field_name
                         )));
@@ -531,7 +531,7 @@ impl CronToolScheduleInput {
             Self::Cron { expr, tz } => {
                 let expr = expr.trim();
                 if expr.is_empty() {
-                    return Err(OpenBitFunError::tool(format!(
+                    return Err(OpcTeamError::tool(format!(
                         "{}.expr cannot be empty",
                         field_name
                     )));
@@ -568,9 +568,9 @@ enum CronToolScheduleOutput {
 }
 
 impl TryFrom<&CronSchedule> for CronToolScheduleOutput {
-    type Error = OpenBitFunError;
+    type Error = OpcTeamError;
 
-    fn try_from(schedule: &CronSchedule) -> OpenBitFunResult<Self> {
+    fn try_from(schedule: &CronSchedule) -> OpcTeamResult<Self> {
         match schedule {
             CronSchedule::At { at } => Ok(Self::At { at: at.clone() }),
             CronSchedule::Every {
@@ -645,9 +645,9 @@ struct CronToolJobOutput {
 }
 
 impl TryFrom<&CronJob> for CronToolJobOutput {
-    type Error = OpenBitFunError;
+    type Error = OpcTeamError;
 
-    fn try_from(job: &CronJob) -> OpenBitFunResult<Self> {
+    fn try_from(job: &CronJob) -> OpcTeamResult<Self> {
         Ok(Self {
             id: job.id.clone(),
             name: job.name.clone(),
@@ -670,7 +670,7 @@ impl Tool for CronTool {
         "Cron"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Manage scheduled jobs.
 
 Scheduling is a handoff, not a step:
@@ -1058,9 +1058,9 @@ Patch schema for "update":
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let params: CronToolInput = serde_json::from_value(input.clone())
-            .map_err(|err| OpenBitFunError::tool(format!("Invalid input: {}", err)))?;
+            .map_err(|err| OpcTeamError::tool(format!("Invalid input: {}", err)))?;
 
         match params.action {
             CronAction::GetTime => {
@@ -1080,7 +1080,7 @@ Patch schema for "update":
             }
             CronAction::List => {
                 let cron_service = get_global_cron_service().ok_or_else(|| {
-                    OpenBitFunError::tool("cron service not initialized".to_string())
+                    OpcTeamError::tool("cron service not initialized".to_string())
                 })?;
                 let session_id =
                     self.resolve_effective_session_id(params.session_id.as_deref(), context)?;
@@ -1150,7 +1150,7 @@ Patch schema for "update":
             }
             CronAction::Add => {
                 let cron_service = get_global_cron_service().ok_or_else(|| {
-                    OpenBitFunError::tool("cron service not initialized".to_string())
+                    OpcTeamError::tool("cron service not initialized".to_string())
                 })?;
                 let session_id =
                     self.resolve_effective_session_id(params.session_id.as_deref(), context)?;
@@ -1160,7 +1160,7 @@ Patch schema for "update":
                 let workspace = workspace_ref.workspace_path.clone();
                 let job = params
                     .job
-                    .ok_or_else(|| OpenBitFunError::tool("job is required for add".to_string()))?;
+                    .ok_or_else(|| OpcTeamError::tool("job is required for add".to_string()))?;
 
                 Self::validate_payload(&job.payload, "job")?;
 
@@ -1194,17 +1194,17 @@ Patch schema for "update":
             }
             CronAction::Update => {
                 let cron_service = get_global_cron_service().ok_or_else(|| {
-                    OpenBitFunError::tool("cron service not initialized".to_string())
+                    OpcTeamError::tool("cron service not initialized".to_string())
                 })?;
                 let job_id = params.job_id.ok_or_else(|| {
-                    OpenBitFunError::tool("job_id is required for update".to_string())
+                    OpcTeamError::tool("job_id is required for update".to_string())
                 })?;
-                Self::validate_job_id(&job_id).map_err(OpenBitFunError::tool)?;
+                Self::validate_job_id(&job_id).map_err(OpcTeamError::tool)?;
                 let patch = params.patch.ok_or_else(|| {
-                    OpenBitFunError::tool("patch is required for update".to_string())
+                    OpcTeamError::tool("patch is required for update".to_string())
                 })?;
                 if patch.is_empty() {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "patch must include at least one field".to_string(),
                     ));
                 }
@@ -1245,12 +1245,12 @@ Patch schema for "update":
             }
             CronAction::Remove => {
                 let cron_service = get_global_cron_service().ok_or_else(|| {
-                    OpenBitFunError::tool("cron service not initialized".to_string())
+                    OpcTeamError::tool("cron service not initialized".to_string())
                 })?;
                 let job_id = params.job_id.ok_or_else(|| {
-                    OpenBitFunError::tool("job_id is required for remove".to_string())
+                    OpcTeamError::tool("job_id is required for remove".to_string())
                 })?;
-                Self::validate_job_id(&job_id).map_err(OpenBitFunError::tool)?;
+                Self::validate_job_id(&job_id).map_err(OpcTeamError::tool)?;
 
                 let deleted = cron_service.delete_job(&job_id).await?;
                 let result_for_assistant = if deleted {
@@ -1272,12 +1272,12 @@ Patch schema for "update":
             }
             CronAction::Run => {
                 let cron_service = get_global_cron_service().ok_or_else(|| {
-                    OpenBitFunError::tool("cron service not initialized".to_string())
+                    OpcTeamError::tool("cron service not initialized".to_string())
                 })?;
-                let job_id = params.job_id.ok_or_else(|| {
-                    OpenBitFunError::tool("job_id is required for run".to_string())
-                })?;
-                Self::validate_job_id(&job_id).map_err(OpenBitFunError::tool)?;
+                let job_id = params
+                    .job_id
+                    .ok_or_else(|| OpcTeamError::tool("job_id is required for run".to_string()))?;
+                Self::validate_job_id(&job_id).map_err(OpcTeamError::tool)?;
 
                 let updated = cron_service.run_job_now(&job_id).await?;
                 let serialized_job = Self::serialize_job(&updated)?;

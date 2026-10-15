@@ -10,7 +10,7 @@ use crate::agentic::tools::computer_use_host::{
     VisualMarkViewOpts,
 };
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_services_core::system::{
     truncate_with_marker, LocalSystemActionError, LocalSystemProvider, RunScriptRequest,
 };
@@ -31,7 +31,7 @@ const OPEN_FILE_ROUTING_NOTE: &str = "The file is now open in an external applic
 
 pub(crate) struct ComputerUseActions;
 
-fn include_app_state_image(params: &Value) -> OpenBitFunResult<bool> {
+fn include_app_state_image(params: &Value) -> OpcTeamResult<bool> {
     match params.get("include_image") {
         None => Ok(true),
         Some(Value::Bool(value)) => Ok(*value),
@@ -60,9 +60,9 @@ impl ComputerUseActions {
         action: &str,
         params: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let host = context.computer_use_host.as_ref().ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "Desktop control is only available in the OPC-Team desktop app".to_string(),
             )
         })?;
@@ -215,7 +215,7 @@ impl ComputerUseActions {
                 let display_id = match params.get("display_id") {
                     Some(Value::Null) | None => None,
                     Some(v) => Some(v.as_u64().ok_or_else(|| {
-                        OpenBitFunError::tool(
+                        OpcTeamError::tool(
                             "focus_display: 'display_id' must be a non-negative integer or null"
                                 .to_string(),
                         )
@@ -248,7 +248,7 @@ impl ComputerUseActions {
             let target = match v {
                 Value::Null => None,
                 v => Some(v.as_u64().ok_or_else(|| {
-                    OpenBitFunError::tool(
+                    OpcTeamError::tool(
                         "display_id must be a non-negative integer or null".to_string(),
                     )
                 })? as u32),
@@ -284,9 +284,9 @@ impl ComputerUseActions {
         params: &Value,
         text_only: bool,
         context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         // ── Helpers ─────────────────────────────────────────────────
-        fn parse_selector(v: &Value) -> OpenBitFunResult<AppSelector> {
+        fn parse_selector(v: &Value) -> OpcTeamResult<AppSelector> {
             let obj = v.get("app").ok_or_else(|| {
                 coded_tool_error(
                     ErrorCode::InvalidParams,
@@ -308,7 +308,7 @@ impl ComputerUseActions {
             Ok(sel)
         }
 
-        fn parse_click_target(v: &Value) -> OpenBitFunResult<ClickTarget> {
+        fn parse_click_target(v: &Value) -> OpcTeamResult<ClickTarget> {
             if v.get("kind").is_some() {
                 return serde_json::from_value(v.clone()).map_err(|e| {
                     coded_tool_error(ErrorCode::InvalidParams, format!("bad ClickTarget: {} (expected {{\"kind\":\"node_idx\", \"idx\":N}}, {{\"kind\":\"image_xy\",\"x\":0,\"y\":0}}, {{\"kind\":\"image_grid\",\"x0\":0,\"y0\":0,\"width\":300,\"height\":300,\"rows\":15,\"cols\":15,\"row\":7,\"col\":7,\"intersections\":true}}, {{\"kind\":\"visual_grid\",\"rows\":15,\"cols\":15,\"row\":7,\"col\":7,\"intersections\":true}}, {{\"kind\":\"screen_xy\",\"x\":0,\"y\":0}}, or {{\"kind\":\"ocr_text\",\"needle\":\"...\"}})",
@@ -431,7 +431,7 @@ impl ComputerUseActions {
             Err(coded_tool_error(ErrorCode::InvalidParams, "unsupported ClickTarget. Use {\"kind\":\"node_idx\",\"idx\":N}, {\"node_idx\":N}, {\"kind\":\"image_xy\",\"x\":0,\"y\":0}, {\"image_xy\":{\"x\":0,\"y\":0}}, {\"kind\":\"image_grid\",\"x0\":0,\"y0\":0,\"width\":300,\"height\":300,\"rows\":15,\"cols\":15,\"row\":7,\"col\":7,\"intersections\":true}, {\"kind\":\"visual_grid\",\"rows\":15,\"cols\":15,\"row\":7,\"col\":7,\"intersections\":true}, {\"kind\":\"screen_xy\",\"x\":0,\"y\":0}, or {\"ocr_text\":{\"needle\":\"...\"}}."))
         }
 
-        fn parse_wait_predicate(v: &Value) -> OpenBitFunResult<AppWaitPredicate> {
+        fn parse_wait_predicate(v: &Value) -> OpcTeamResult<AppWaitPredicate> {
             if v.get("kind").is_some() {
                 return serde_json::from_value(v.clone()).map_err(|e| {
                     coded_tool_error(
@@ -1161,13 +1161,13 @@ impl ComputerUseActions {
         action: &str,
         params: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         match action {
             "open_app" => {
                 let app_name = params
                     .get("app_name")
                     .and_then(|v| v.as_str())
-                    .ok_or_else(|| OpenBitFunError::tool("open_app requires 'app_name'".to_string()))?;
+                    .ok_or_else(|| OpcTeamError::tool("open_app requires 'app_name'".to_string()))?;
 
                 // Phase 4 (p4_open_app_unify): consolidate the two historical
                 // launch paths (ComputerUse host vs. raw shell `open`/`start`)
@@ -1219,7 +1219,7 @@ impl ComputerUseActions {
 
                 let provider = LocalSystemProvider::new();
                 let outcome = provider.open_app_shell(app_name).map_err(|e| {
-                    OpenBitFunError::tool(format!("{} (host_error: {:?})", e.message(), host_error))
+                    OpcTeamError::tool(format!("{} (host_error: {:?})", e.message(), host_error))
                 })?;
                 let warning = host_error.map(|e| {
                     format!("computer_use_host open_app failed; shell fallback succeeded: {}", e)
@@ -1240,7 +1240,7 @@ impl ComputerUseActions {
                 let script = params
                     .get("script")
                     .and_then(|v| v.as_str())
-                    .ok_or_else(|| OpenBitFunError::tool("run_script requires 'script'".to_string()))?;
+                    .ok_or_else(|| OpcTeamError::tool("run_script requires 'script'".to_string()))?;
                 let script_type = params
                     .get("script_type")
                     .and_then(|v| v.as_str())
@@ -1368,7 +1368,7 @@ impl ComputerUseActions {
             // dramatically simpler than driving each target GUI by hand.
             "clipboard_set" => {
                 let text = params.get("text").and_then(|v| v.as_str()).ok_or_else(|| {
-                    OpenBitFunError::tool("clipboard_set requires 'text'".to_string())
+                    OpcTeamError::tool("clipboard_set requires 'text'".to_string())
                 })?;
                 match LocalSystemProvider::new().clipboard_write_text(text).await {
                     Ok(()) => Ok(vec![ToolResult::ok(
@@ -1391,7 +1391,7 @@ impl ComputerUseActions {
                 let url = params
                     .get("url")
                     .and_then(|v| v.as_str())
-                    .ok_or_else(|| OpenBitFunError::tool("open_url requires 'url'".to_string()))?;
+                    .ok_or_else(|| OpcTeamError::tool("open_url requires 'url'".to_string()))?;
                 match LocalSystemProvider::new().open_url(url) {
                     Ok(outcome) => Ok(vec![ToolResult::ok(
                         json!({
@@ -1414,7 +1414,7 @@ impl ComputerUseActions {
             // for "open this PDF / picture / spreadsheet for me".
             "open_file" => {
                 let path_str = params.get("path").and_then(|v| v.as_str()).ok_or_else(|| {
-                    OpenBitFunError::tool("open_file requires 'path'".to_string())
+                    OpcTeamError::tool("open_file requires 'path'".to_string())
                 })?;
                 let app_name = params.get("app").and_then(|v| v.as_str());
 
@@ -1440,7 +1440,7 @@ impl ComputerUseActions {
                 }
             }
 
-            other => Err(OpenBitFunError::tool(format!(
+            other => Err(OpcTeamError::tool(format!(
                 "Unknown system action: '{}'. Valid: open_app, run_script, get_os_info, open_url, open_file, clipboard_get, clipboard_set",
                 other
             ))),
@@ -1460,12 +1460,12 @@ fn local_system_error_response(
     err_response(domain, action, control_error)
 }
 
-fn map_run_script_error(error: LocalSystemActionError) -> OpenBitFunResult<Vec<ToolResult>> {
+fn map_run_script_error(error: LocalSystemActionError) -> OpcTeamResult<Vec<ToolResult>> {
     match error.stable_code() {
         "NOT_AVAILABLE" | "TIMEOUT" => {
             Ok(local_system_error_response("system", "run_script", error))
         }
-        _ => Err(OpenBitFunError::tool(error.message().to_string())),
+        _ => Err(OpcTeamError::tool(error.message().to_string())),
     }
 }
 
@@ -1481,13 +1481,13 @@ fn error_code_from_local(code: &str) -> ErrorCode {
 
 #[cfg(test)]
 mod tests {
-    use super::{ComputerUseActions, OpenBitFunError, ToolResult};
+    use super::{ComputerUseActions, OpcTeamError, ToolResult};
     use super::{OPEN_FILE_ROUTING_NOTE, OPEN_URL_ROUTING_NOTE};
     use crate::agentic::tools::computer_use_host::ComputerUseForegroundApplication;
     use serde_json::json;
 
     use crate::agentic::tools::computer_use_host as h;
-    use crate::util::errors::OpenBitFunResult;
+    use crate::util::errors::OpcTeamResult;
     use std::sync::{Arc, Mutex};
 
     #[derive(Debug, Default)]
@@ -1515,49 +1515,49 @@ mod tests {
             }
             snapshot
         }
-        async fn permission_snapshot(&self) -> OpenBitFunResult<h::ComputerUsePermissionSnapshot> {
+        async fn permission_snapshot(&self) -> OpcTeamResult<h::ComputerUsePermissionSnapshot> {
             panic!("unexpected permission request")
         }
-        async fn request_accessibility_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_accessibility_permission(&self) -> OpcTeamResult<()> {
             panic!("unexpected permission request")
         }
-        async fn request_screen_capture_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_screen_capture_permission(&self) -> OpcTeamResult<()> {
             panic!("unexpected permission request")
         }
         async fn screenshot_display(
             &self,
             _: h::ComputerUseScreenshotParams,
-        ) -> OpenBitFunResult<h::ComputerScreenshot> {
+        ) -> OpcTeamResult<h::ComputerScreenshot> {
             panic!("unexpected capture")
         }
-        fn map_image_coords_to_pointer(&self, _: i32, _: i32) -> OpenBitFunResult<(i32, i32)> {
+        fn map_image_coords_to_pointer(&self, _: i32, _: i32) -> OpcTeamResult<(i32, i32)> {
             panic!("unexpected coordinate conversion")
         }
-        fn map_normalized_coords_to_pointer(&self, _: i32, _: i32) -> OpenBitFunResult<(i32, i32)> {
+        fn map_normalized_coords_to_pointer(&self, _: i32, _: i32) -> OpcTeamResult<(i32, i32)> {
             panic!("unexpected coordinate conversion")
         }
-        async fn mouse_move(&self, _: i32, _: i32) -> OpenBitFunResult<()> {
+        async fn mouse_move(&self, _: i32, _: i32) -> OpcTeamResult<()> {
             panic!("unexpected global input")
         }
-        async fn pointer_move_relative(&self, _: i32, _: i32) -> OpenBitFunResult<()> {
+        async fn pointer_move_relative(&self, _: i32, _: i32) -> OpcTeamResult<()> {
             panic!("unexpected global input")
         }
-        async fn mouse_click(&self, _: &str) -> OpenBitFunResult<()> {
+        async fn mouse_click(&self, _: &str) -> OpcTeamResult<()> {
             panic!("unexpected global input")
         }
-        async fn scroll(&self, _: i32, _: i32) -> OpenBitFunResult<()> {
+        async fn scroll(&self, _: i32, _: i32) -> OpcTeamResult<()> {
             panic!("unexpected global input")
         }
-        async fn key_chord(&self, _: Vec<String>) -> OpenBitFunResult<()> {
+        async fn key_chord(&self, _: Vec<String>) -> OpcTeamResult<()> {
             panic!("unexpected global input")
         }
-        async fn type_text(&self, _: &str) -> OpenBitFunResult<()> {
+        async fn type_text(&self, _: &str) -> OpcTeamResult<()> {
             panic!("unexpected global input")
         }
-        async fn wait_ms(&self, _: u64) -> OpenBitFunResult<()> {
+        async fn wait_ms(&self, _: u64) -> OpcTeamResult<()> {
             panic!("unexpected wait")
         }
-        async fn list_apps(&self, _: bool) -> OpenBitFunResult<Vec<h::AppInfo>> {
+        async fn list_apps(&self, _: bool) -> OpcTeamResult<Vec<h::AppInfo>> {
             Ok(serde_json::from_value(json!([
                 {"name":"Fixture","pid":73,"bundle_id":"example.fixture","running":true},
                 {"name":"Google Chrome","pid":74,"bundle_id":"com.google.Chrome","running":true}
@@ -1575,7 +1575,7 @@ mod tests {
             _: h::AppSelector,
             _: u32,
             _: bool,
-        ) -> OpenBitFunResult<h::AppStateSnapshot> {
+        ) -> OpcTeamResult<h::AppStateSnapshot> {
             assert!(
                 self.calls
                     .lock()
@@ -1589,7 +1589,7 @@ mod tests {
                 .unwrap()
                 .push("recover observation".into());
             if self.fail_observation {
-                return Err(OpenBitFunError::tool("FIXTURE_OBSERVATION_FAILED"));
+                return Err(OpcTeamError::tool("FIXTURE_OBSERVATION_FAILED"));
             }
             let mut snapshot = unchanged_snapshot();
             snapshot.screenshot = Some(serde_json::from_value(json!({
@@ -1603,7 +1603,7 @@ mod tests {
             &self,
             app: h::AppSelector,
             action: h::AppInputAction,
-        ) -> OpenBitFunResult<()> {
+        ) -> OpcTeamResult<()> {
             assert_eq!(app.pid, Some(73));
             match &action {
                 h::AppInputAction::Click { target, .. } => {
@@ -1620,7 +1620,7 @@ mod tests {
                 .unwrap()
                 .push(format!("input:{}", action.name()));
             if self.fail_input {
-                return Err(OpenBitFunError::tool("FIXTURE_POST_INPUT_FAILED"));
+                return Err(OpcTeamError::tool("FIXTURE_POST_INPUT_FAILED"));
             }
             Ok(())
         }

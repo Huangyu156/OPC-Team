@@ -224,10 +224,10 @@ pub(crate) async fn input(request: SharedInputRequest) -> Result<ControlSnapshot
 }
 
 #[cfg(target_os = "linux")]
-async fn portal_input(input: AppInputAction) -> OpenBitFunResult<()> {
-    control_session::foreground_allowed().map_err(OpenBitFunError::tool)?;
+async fn portal_input(input: AppInputAction) -> OpcTeamResult<()> {
+    control_session::foreground_allowed().map_err(OpcTeamError::tool)?;
     // Portal coordinates are stream-local. They never address an AT-SPI PID.
-    let point = |target: ClickTarget| -> OpenBitFunResult<(f64, f64)> {
+    let point = |target: ClickTarget| -> OpcTeamResult<(f64, f64)> {
         if let ClickTarget::ImageXy {
             x,
             y,
@@ -238,7 +238,7 @@ async fn portal_input(input: AppInputAction) -> OpenBitFunResult<()> {
                 .observed_pointer_map(None, Some(&id))?
                 .map_image_to_global_f64(x, y)
         } else {
-            Err(OpenBitFunError::tool(
+            Err(OpcTeamError::tool(
                 "[PREVIEW_IMAGE_REQUIRED] Missing image coordinates",
             ))
         }
@@ -252,7 +252,7 @@ async fn portal_input(input: AppInputAction) -> OpenBitFunResult<()> {
             ..
         } => {
             if !modifier_keys.is_empty() {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "[PREVIEW_UNSUPPORTED] Portal modified clicks are unavailable",
                 ));
             }
@@ -282,7 +282,7 @@ async fn portal_input(input: AppInputAction) -> OpenBitFunResult<()> {
                 .drag(point(from)?, point(to)?, &mouse_button, duration_ms)
                 .await
         }
-        _ => Err(OpenBitFunError::tool(
+        _ => Err(OpcTeamError::tool(
             "[PREVIEW_UNSUPPORTED] Unsupported portal preview input",
         )),
     }

@@ -2,7 +2,7 @@ use super::common::CustomAgentData;
 use crate::agentic::agents::Agent;
 use crate::agentic::agents::{PromptBuilderContext, UserContextPolicy};
 use crate::agentic::session::SystemPromptCacheIdentity;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_agent_runtime::custom_agent::{
     custom_agent_read_markdown_file, default_custom_agent_user_context_policy,
@@ -49,7 +49,7 @@ impl Agent for CustomSubagent {
         self.data.system_prompt_cache_identity()
     }
 
-    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpenBitFunResult<String> {
+    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpcTeamResult<String> {
         self.data.build_prompt(context).await
     }
 
@@ -152,10 +152,10 @@ impl CustomSubagent {
         )
     }
 
-    pub fn from_file(path: &str, kind: CustomSubagentKind) -> OpenBitFunResult<Self> {
-        let parsed = custom_agent_read_markdown_file(path, kind).map_err(OpenBitFunError::Agent)?;
+    pub fn from_file(path: &str, kind: CustomSubagentKind) -> OpcTeamResult<Self> {
+        let parsed = custom_agent_read_markdown_file(path, kind).map_err(OpcTeamError::Agent)?;
         if parsed.definition.kind != CustomAgentKind::Subagent {
-            return Err(OpenBitFunError::Agent(
+            return Err(OpcTeamError::Agent(
                 "Expected custom subagent file".to_string(),
             ));
         }
@@ -169,7 +169,7 @@ impl CustomSubagent {
     /// - `model`: Override model value, None uses self.model
     ///
     /// Fields equal to default values are not saved
-    pub fn save_to_file(&self, model: Option<&str>) -> OpenBitFunResult<()> {
+    pub fn save_to_file(&self, model: Option<&str>) -> OpcTeamResult<()> {
         self.data.save_to_file(model, None)
     }
 
@@ -177,7 +177,7 @@ impl CustomSubagent {
         &self,
         model: Option<&str>,
         model_is_explicit: bool,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.data.save_to_file(model, Some(model_is_explicit))
     }
 

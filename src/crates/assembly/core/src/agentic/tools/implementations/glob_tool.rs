@@ -4,7 +4,7 @@ use crate::service::search::{
     get_global_workspace_search_service, remote_workspace_search_service_for_workspace,
     workspace_search_feature_enabled, workspace_search_runtime_available, GlobSearchRequest,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use log::{info, warn};
 use serde_json::{json, Value};
@@ -170,7 +170,7 @@ impl Tool for GlobTool {
         "Glob"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Fast file pattern matching tool
 - Supports glob patterns like "**/*.js" or "src/**/*.ts"
 - Returns matching file paths
@@ -216,11 +216,11 @@ impl Tool for GlobTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let pattern = input
             .get("pattern")
             .and_then(|v| v.as_str())
-            .ok_or_else(|| OpenBitFunError::tool("pattern is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("pattern is required".to_string()))?;
 
         let resolved = match input.get("path").and_then(|v| v.as_str()) {
             Some(user_path) => context.resolve_tool_path(user_path)?,
@@ -230,7 +230,7 @@ impl Tool for GlobTool {
                     .as_ref()
                     .map(|w| w.root_path_string())
                     .ok_or_else(|| {
-                        OpenBitFunError::tool(
+                        OpcTeamError::tool(
                             "workspace_path is required when Glob path is omitted".to_string(),
                         )
                     })?;
@@ -268,7 +268,7 @@ impl Tool for GlobTool {
                         .as_ref()
                         .map(|workspace| PathBuf::from(workspace.root_path_string()))
                         .ok_or_else(|| {
-                            OpenBitFunError::tool(
+                            OpcTeamError::tool(
                                 "workspace_path is required when Glob path is omitted".to_string(),
                             )
                         })?;
@@ -277,9 +277,9 @@ impl Tool for GlobTool {
                         resolve_effective_glob_scope(&resolved_path, &effective_glob.pattern);
                     let workspace_id = context.workspace.as_ref()
                         .and_then(|workspace| workspace.workspace_id.as_deref())
-                        .ok_or_else(|| OpenBitFunError::tool("Remote search requires a workspace ID"))?;
+                        .ok_or_else(|| OpcTeamError::tool("Remote search requires a workspace ID"))?;
                     let search_service = remote_workspace_search_service_for_workspace(workspace_id)
-                        .await.map_err(OpenBitFunError::tool)?;
+                        .await.map_err(OpcTeamError::tool)?;
                     let glob_result = search_service
                         .glob(GlobSearchRequest {
                             repo_root: workspace_root.clone(),
@@ -288,7 +288,7 @@ impl Tool for GlobTool {
                             limit,
                         })
                         .await
-                        .map_err(OpenBitFunError::tool)?;
+                        .map_err(OpcTeamError::tool)?;
 
                     let match_count = glob_result.paths.len();
                     let total_matches = glob_result.total_matches;
@@ -305,7 +305,7 @@ impl Tool for GlobTool {
                         result_relative_base.as_deref(),
                     );
 
-                    Ok::<Vec<ToolResult>, OpenBitFunError>(vec![ToolResult::Result {
+                    Ok::<Vec<ToolResult>, OpcTeamError>(vec![ToolResult::Result {
                         data: json!({
                             "pattern": pattern,
                             "path": resolved.logical_path,
@@ -340,9 +340,9 @@ impl Tool for GlobTool {
             }
 
             // Existing rg is an accelerator. Without it, consume the typed workspace filesystem.
-            let ws_shell = context.ws_shell().ok_or_else(|| {
-                OpenBitFunError::tool("Workspace shell not available".to_string())
-            })?;
+            let ws_shell = context
+                .ws_shell()
+                .ok_or_else(|| OpcTeamError::tool("Workspace shell not available".to_string()))?;
 
             let search_dir = effective_glob.search_path.clone();
             let (remote_walk_root, _remote_pattern) =
@@ -354,9 +354,7 @@ impl Tool for GlobTool {
             let (_stdout, _stderr, exit_code) = ws_shell
                 .exec("command -v rg >/dev/null 2>&1", Some(5_000))
                 .await
-                .map_err(|e| {
-                    OpenBitFunError::tool(format!("Failed to detect rg on remote: {}", e))
-                })?;
+                .map_err(|e| OpcTeamError::tool(format!("Failed to detect rg on remote: {}", e)))?;
 
             let uses_ripgrep = exit_code == 0;
             let glob_result = if uses_ripgrep {
@@ -369,9 +367,9 @@ impl Tool for GlobTool {
                     .exec(&command, Some(30_000))
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(format!("Failed to glob on remote: {error}"))
+                        OpcTeamError::tool(format!("Failed to glob on remote: {error}"))
                     })?;
-                validate_remote_glob_exit(exit_code, &stderr).map_err(OpenBitFunError::tool)?;
+                validate_remote_glob_exit(exit_code, &stderr).map_err(OpcTeamError::tool)?;
                 collect_remote_glob_result(&remote_walk_root, &stdout, limit, true)
             } else {
                 info!(
@@ -383,8 +381,8 @@ impl Tool for GlobTool {
                     std::time::Duration::from_secs(30),
                     collect_workspace_glob(fs.as_ref(), &search_dir, &effective_glob.pattern, limit),
                 ).await
-                    .map_err(|_| OpenBitFunError::tool("Workspace glob timed out after 30000ms; narrow the search path or use an existing target rg installation".to_string()))?
-                    .map_err(OpenBitFunError::tool)?
+                    .map_err(|_| OpcTeamError::tool("Workspace glob timed out after 30000ms; narrow the search path or use an existing target rg installation".to_string()))?
+                    .map_err(OpcTeamError::tool)?
             };
             let total_matches = glob_result.total_matches;
             let truncated = glob_result.truncated;
@@ -505,8 +503,8 @@ impl Tool for GlobTool {
             })
         })
         .await
-        .map_err(|err| OpenBitFunError::tool(format!("Glob tool task failed: {}", err)))?
-        .map_err(OpenBitFunError::tool)?;
+        .map_err(|err| OpcTeamError::tool(format!("Glob tool task failed: {}", err)))?
+        .map_err(OpcTeamError::tool)?;
 
         let matches = glob_result
             .matches

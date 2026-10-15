@@ -2239,9 +2239,7 @@ pub async fn scan_workspace_info(
             .await
             .and_then(|record| {
                 record.ok_or_else(|| {
-                    openbitfun_core::OpenBitFunError::service(
-                        "Workspace ID is required for scanning",
-                    )
+                    openbitfun_core::OpcTeamError::service("Workspace ID is required for scanning")
                 })
             })
     }
@@ -4922,8 +4920,8 @@ pub async fn search_filenames(
                 progress_sink: None,
             })
             .await
-            .map_err(openbitfun_core::util::errors::OpenBitFunError::service),
-            Err(error) => Err(openbitfun_core::util::errors::OpenBitFunError::service(
+            .map_err(openbitfun_core::util::errors::OpcTeamError::service),
+            Err(error) => Err(openbitfun_core::util::errors::OpcTeamError::service(
                 format!("Remote file service not available: {}", error),
             )),
         },
@@ -4933,9 +4931,7 @@ pub async fn search_filenames(
                 .search_file_names(&request.root_path, &request.pattern, options, cancel_flag)
                 .await
         }
-        Err(error) => Err(openbitfun_core::util::errors::OpenBitFunError::service(
-            error,
-        )),
+        Err(error) => Err(openbitfun_core::util::errors::OpcTeamError::service(error)),
     };
     unregister_search(&state, search_id.as_deref());
 
@@ -5144,7 +5140,7 @@ pub async fn start_search_filenames_stream(
                 progress_sink: Some(progress_sink),
             })
             .await
-            .map_err(openbitfun_core::util::errors::OpenBitFunError::service)
+            .map_err(openbitfun_core::util::errors::OpcTeamError::service)
         } else {
             filesystem_service
                 .search_file_names_with_progress(
@@ -5307,7 +5303,7 @@ pub async fn start_search_file_contents_stream(
                 }
             }
             result.map_err(|error| {
-                openbitfun_core::util::errors::OpenBitFunError::service(format!(
+                openbitfun_core::util::errors::OpcTeamError::service(format!(
                     "Failed to search file contents via workspace search: {}",
                     error
                 ))

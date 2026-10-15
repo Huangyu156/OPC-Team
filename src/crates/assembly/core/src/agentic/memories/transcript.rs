@@ -5,7 +5,7 @@ use crate::agentic::session::transcript_render::{
 use crate::agentic::tools::registry::GET_TOOL_SPEC_TOOL_NAME;
 use crate::service::config::types::MemoryExternalContextPolicy;
 use crate::service::session::{DialogTurnData, ToolItemData, ToolItemIdentityExt};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use regex::Regex;
 use serde::Serialize;
 use serde_json::Value;
@@ -56,14 +56,14 @@ pub(crate) fn render_memory_phase1_transcript(
     turns: &[DialogTurnData],
     token_limit: usize,
     external_context_policy: MemoryExternalContextPolicy,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     let items = collect_memory_transcript_items(turns, external_context_policy);
     if items.is_empty() {
         return Ok(String::new());
     }
 
     let serialized = serde_json::to_string(&items).map_err(|error| {
-        OpenBitFunError::serialization(format!(
+        OpcTeamError::serialization(format!(
             "Failed to serialize memory phase1 transcript: {}",
             error
         ))

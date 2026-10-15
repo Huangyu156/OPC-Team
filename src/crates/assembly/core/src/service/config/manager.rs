@@ -22,27 +22,27 @@ use std::path::PathBuf;
 use std::sync::Arc;
 use tokio::fs;
 
-fn invalid_config_error(context: &str, result: &ConfigValidationResult) -> OpenBitFunError {
+fn invalid_config_error(context: &str, result: &ConfigValidationResult) -> OpcTeamError {
     let messages = result
         .errors
         .iter()
         .map(|error| format!("{}: {}", error.path, error.message))
         .collect::<Vec<_>>()
         .join(", ");
-    OpenBitFunError::validation(format!("{context}: {messages}"))
+    OpcTeamError::validation(format!("{context}: {messages}"))
 }
 
 pub(crate) fn validate_openbitfun_product_identity(
     value: &str,
     context: &str,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     openbitfun_config_contracts::validate_openbitfun_product_identity(value, context)
-        .map_err(OpenBitFunError::validation)
+        .map_err(OpcTeamError::validation)
 }
 
-pub(crate) fn validate_current_config_value(value: &Value, context: &str) -> OpenBitFunResult<()> {
+pub(crate) fn validate_current_config_value(value: &Value, context: &str) -> OpcTeamResult<()> {
     openbitfun_config_contracts::validate_current_config_value(value, context)
-        .map_err(OpenBitFunError::validation)
+        .map_err(OpcTeamError::validation)
 }
 
 const INSTALLER_MODEL_ID: &str = "installer:default";
@@ -70,21 +70,21 @@ fn model_from_installer_handoff(model: InstallerModelHandoff) -> AIModelConfig {
     }
 }
 
-fn reject_protected_metadata_path(path: &str) -> OpenBitFunResult<()> {
+fn reject_protected_metadata_path(path: &str) -> OpcTeamResult<()> {
     if matches!(
         path,
         "product_id" | "schema_version" | "version" | "last_modified"
     ) {
-        return Err(OpenBitFunError::validation(format!(
+        return Err(OpcTeamError::validation(format!(
             "Configuration metadata '{path}' is managed by OPC-Team and cannot be changed directly"
         )));
     }
     Ok(())
 }
 
-fn config_value_for_persistence(config: &GlobalConfig) -> OpenBitFunResult<Value> {
+fn config_value_for_persistence(config: &GlobalConfig) -> OpcTeamResult<Value> {
     let mut value = serde_json::to_value(config)
-        .map_err(|e| OpenBitFunError::config(format!("Failed to serialize config: {}", e)))?;
+        .map_err(|e| OpcTeamError::config(format!("Failed to serialize config: {}", e)))?;
     prune_default_ai_tool_argument_json_repair(&mut value);
     prune_default_ai_max_rounds(&mut value);
     if config.ai.user_question_timeout_secs == AIConfig::default().user_question_timeout_secs {
@@ -119,7 +119,7 @@ fn prune_default_ai_max_rounds(config_value: &mut Value) {
     }
 }
 
-fn prune_default_memories_config(config_value: &mut Value) -> OpenBitFunResult<()> {
+fn prune_default_memories_config(config_value: &mut Value) -> OpcTeamResult<()> {
     let Some(config_object) = config_value.as_object_mut() else {
         return Ok(());
     };
@@ -128,7 +128,7 @@ fn prune_default_memories_config(config_value: &mut Value) -> OpenBitFunResult<(
     };
 
     let default_memories = serde_json::to_value(MemoriesConfig::default()).map_err(|e| {
-        OpenBitFunError::config(format!(
+        OpcTeamError::config(format!(
             "Failed to serialize default memories config: {}",
             e
         ))
@@ -149,7 +149,7 @@ fn prune_default_memories_config(config_value: &mut Value) -> OpenBitFunResult<(
     Ok(())
 }
 
-fn prune_default_web_search_config(config_value: &mut Value) -> OpenBitFunResult<()> {
+fn prune_default_web_search_config(config_value: &mut Value) -> OpcTeamResult<()> {
     let Some(ai_config) = config_value.get_mut("ai").and_then(Value::as_object_mut) else {
         return Ok(());
     };
@@ -161,7 +161,7 @@ fn prune_default_web_search_config(config_value: &mut Value) -> OpenBitFunResult
     };
 
     let defaults = serde_json::to_value(WebSearchConfig::default()).map_err(|e| {
-        OpenBitFunError::config(format!(
+        OpcTeamError::config(format!(
             "Failed to serialize default WebSearch config: {}",
             e
         ))
@@ -230,7 +230,7 @@ impl Default for ConfigManagerSettings {
 
 impl ConfigManager {
     /// Creates a new unified configuration manager.
-    pub async fn new(settings: ConfigManagerSettings) -> OpenBitFunResult<Self> {
+    pub async fn new(settings: ConfigManagerSettings) -> OpcTeamResult<Self> {
         let path_manager = match settings.path_manager {
             Some(path_manager) => path_manager,
             None => try_get_path_manager_arc()?,
@@ -273,7 +273,7 @@ impl ConfigManager {
 
     /// Reloads from the same storage root while the service holds its write
     /// lock, so a concurrent save cannot be replaced by an older disk read.
-    pub(crate) async fn reload(&mut self) -> OpenBitFunResult<()> {
+    pub(crate) async fn reload(&mut self) -> OpcTeamResult<()> {
         let settings = ConfigManagerSettings {
             path_manager: Some(self.path_manager.clone()),
             auto_save: true,
@@ -284,7 +284,7 @@ impl ConfigManager {
     }
 
     /// Loads or creates the configuration file.
-    async fn load_or_create_config(&mut self) -> OpenBitFunResult<()> {
+    async fn load_or_create_config(&mut self) -> OpcTeamResult<()> {
         if self.config_file.exists() {
             self.load_existing_config().await?;
         } else {
@@ -299,7 +299,7 @@ impl ConfigManager {
     }
 
     /// Creates the first config file using the already initialized defaults.
-    async fn create_default_config(&mut self) -> OpenBitFunResult<()> {
+    async fn create_default_config(&mut self) -> OpcTeamResult<()> {
         self.config.product_id = product_identity::product_id().to_string();
         self.config.schema_version = CURRENT_CONFIG_SCHEMA_VERSION;
         self.config.version = env!("CARGO_PKG_VERSION").to_string();
@@ -309,7 +309,7 @@ impl ConfigManager {
         Ok(())
     }
 
-    async fn consume_installer_config_handoff(&mut self) -> OpenBitFunResult<()> {
+    async fn consume_installer_config_handoff(&mut self) -> OpcTeamResult<()> {
         let handoff_file = self.config_dir.join(INSTALLER_CONFIG_HANDOFF_FILE_NAME);
         if !handoff_file.exists() {
             return Ok(());
@@ -319,11 +319,11 @@ impl ConfigManager {
         let _cross_process_lock = store
             .acquire_cross_process_lock(&handoff_file)
             .await
-            .map_err(|error| OpenBitFunError::config(error.to_string()))?;
+            .map_err(|error| OpcTeamError::config(error.to_string()))?;
         let Some(handoff) = store
             .read_optional::<InstallerConfigHandoff>(&handoff_file)
             .await
-            .map_err(|error| OpenBitFunError::config(error.to_string()))?
+            .map_err(|error| OpcTeamError::config(error.to_string()))?
         else {
             return Ok(());
         };
@@ -383,13 +383,13 @@ impl ConfigManager {
 
     /// Loads an existing OPC-Team config, with a narrow repair for the sparse
     /// document written by released standalone installers.
-    async fn load_existing_config(&mut self) -> OpenBitFunResult<()> {
+    async fn load_existing_config(&mut self) -> OpcTeamResult<()> {
         let content = fs::read_to_string(&self.config_file)
             .await
-            .map_err(|e| OpenBitFunError::config(format!("Failed to read config file: {}", e)))?;
+            .map_err(|e| OpcTeamError::config(format!("Failed to read config file: {}", e)))?;
 
         let config_value: Value = serde_json::from_str(&content).map_err(|error| {
-            OpenBitFunError::config(format!("Failed to parse config file as JSON: {error}"))
+            OpcTeamError::config(format!("Failed to parse config file as JSON: {error}"))
         })?;
         if let Err(contract_error) =
             validate_current_config_value(&config_value, "Configuration file")
@@ -405,7 +405,7 @@ impl ConfigManager {
         }
 
         let mut config: GlobalConfig = serde_json::from_value(config_value).map_err(|error| {
-            OpenBitFunError::config(format!("Failed to deserialize config file: {error}"))
+            OpcTeamError::config(format!("Failed to deserialize config file: {error}"))
         })?;
         let mut diagnostics =
             openbitfun_config_contracts::normalization::recover_persisted_config(&mut config);
@@ -433,7 +433,7 @@ impl ConfigManager {
         &self,
         config: &mut GlobalConfig,
         diagnostics: &mut Vec<super::types::ConfigDiagnostic>,
-    ) -> OpenBitFunResult<super::types::ConfigValidationResult> {
+    ) -> OpcTeamResult<super::types::ConfigValidationResult> {
         loop {
             let result = self.providers.validate_config(config).await?;
             let mut recovered = false;
@@ -475,7 +475,7 @@ impl ConfigManager {
         &mut self,
         content: &str,
         config_value: &Value,
-    ) -> OpenBitFunResult<Option<GlobalConfig>> {
+    ) -> OpcTeamResult<Option<GlobalConfig>> {
         let Some(root) = config_value.as_object() else {
             return Ok(None);
         };
@@ -528,18 +528,18 @@ impl ConfigManager {
     }
 
     /// Saves the configuration file.
-    async fn save_config(&self) -> OpenBitFunResult<()> {
+    async fn save_config(&self) -> OpcTeamResult<()> {
         self.persist_config(&self.config).await
     }
 
-    async fn persist_config(&self, config: &GlobalConfig) -> OpenBitFunResult<()> {
+    async fn persist_config(&self, config: &GlobalConfig) -> OpcTeamResult<()> {
         let content = serde_json::to_string_pretty(&config_value_for_persistence(config)?)
-            .map_err(|e| OpenBitFunError::config(format!("Config serialization failed: {}", e)))?;
+            .map_err(|e| OpcTeamError::config(format!("Config serialization failed: {}", e)))?;
 
         if let Some(parent) = self.config_file.parent() {
             if !parent.exists() {
                 fs::create_dir_all(parent).await.map_err(|e| {
-                    OpenBitFunError::config(format!(
+                    OpcTeamError::config(format!(
                         "Failed to create config directory {:?}: {}",
                         parent, e
                     ))
@@ -551,7 +551,7 @@ impl ConfigManager {
             .write_text_atomic_strict(&self.config_file, &content)
             .await
             .map_err(|e| {
-                OpenBitFunError::config(format!(
+                OpcTeamError::config(format!(
                     "Failed to atomically write config file {:?}: {}",
                     self.config_file, e
                 ))
@@ -559,19 +559,19 @@ impl ConfigManager {
         Ok(())
     }
 
-    async fn backup_raw_config(&self, content: &str, reason: &str) -> OpenBitFunResult<PathBuf> {
+    async fn backup_raw_config(&self, content: &str, reason: &str) -> OpcTeamResult<PathBuf> {
         let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S_%3f");
         let backup_dir = self.config_dir.join("backups");
-        fs::create_dir_all(&backup_dir).await.map_err(|e| {
-            OpenBitFunError::config(format!("Failed to create backup directory: {e}"))
-        })?;
+        fs::create_dir_all(&backup_dir)
+            .await
+            .map_err(|e| OpcTeamError::config(format!("Failed to create backup directory: {e}")))?;
         let backup_file = backup_dir.join(format!(
             "app_{reason}_{timestamp}_{}.json",
             uuid::Uuid::new_v4().simple()
         ));
         fs::write(&backup_file, content)
             .await
-            .map_err(|e| OpenBitFunError::config(format!("Failed to write config backup: {e}")))?;
+            .map_err(|e| OpcTeamError::config(format!("Failed to write config backup: {e}")))?;
         self.prune_backups(&backup_dir).await?;
         info!(
             "Created config backup: reason={}, path={}",
@@ -581,18 +581,18 @@ impl ConfigManager {
         Ok(backup_file)
     }
 
-    async fn prune_backups(&self, backup_dir: &std::path::Path) -> OpenBitFunResult<()> {
+    async fn prune_backups(&self, backup_dir: &std::path::Path) -> OpcTeamResult<()> {
         if self.backup_count == 0 {
             return Ok(());
         }
-        let mut entries = fs::read_dir(backup_dir).await.map_err(|e| {
-            OpenBitFunError::config(format!("Failed to read backup directory: {e}"))
-        })?;
+        let mut entries = fs::read_dir(backup_dir)
+            .await
+            .map_err(|e| OpcTeamError::config(format!("Failed to read backup directory: {e}")))?;
         let mut files = Vec::new();
         while let Some(entry) = entries
             .next_entry()
             .await
-            .map_err(|e| OpenBitFunError::config(format!("Failed to enumerate backups: {e}")))?
+            .map_err(|e| OpcTeamError::config(format!("Failed to enumerate backups: {e}")))?
         {
             let is_repair_backup = entry
                 .file_name()
@@ -604,7 +604,7 @@ impl ConfigManager {
             let metadata = entry
                 .metadata()
                 .await
-                .map_err(|e| OpenBitFunError::config(format!("Failed to inspect backup: {e}")))?;
+                .map_err(|e| OpcTeamError::config(format!("Failed to inspect backup: {e}")))?;
             if metadata.is_file() {
                 files.push((metadata.modified().ok(), entry.path()));
             }
@@ -624,13 +624,13 @@ impl ConfigManager {
     }
 
     /// Gets a configuration value (supports dot-paths).
-    pub fn get<T>(&self, path: &str) -> OpenBitFunResult<T>
+    pub fn get<T>(&self, path: &str) -> OpcTeamResult<T>
     where
         T: serde::de::DeserializeOwned,
     {
         let value = self.get_value_by_path(path)?;
         serde_json::from_value(value).map_err(|e| {
-            OpenBitFunError::config(format!(
+            OpcTeamError::config(format!(
                 "Failed to deserialize config value at '{}': {}",
                 path, e
             ))
@@ -638,12 +638,12 @@ impl ConfigManager {
     }
 
     /// Sets a configuration value (supports dot-paths).
-    pub async fn set<T>(&mut self, path: &str, value: T) -> OpenBitFunResult<()>
+    pub async fn set<T>(&mut self, path: &str, value: T) -> OpcTeamResult<()>
     where
         T: serde::Serialize,
     {
         let json_value = serde_json::to_value(value).map_err(|e| {
-            OpenBitFunError::config(format!("Failed to serialize config value: {}", e))
+            OpcTeamError::config(format!("Failed to serialize config value: {}", e))
         })?;
 
         reject_protected_metadata_path(path)?;
@@ -686,7 +686,7 @@ impl ConfigManager {
     }
 
     /// Resets configuration (supports dot-paths).
-    pub async fn reset(&mut self, path: Option<&str>) -> OpenBitFunResult<()> {
+    pub async fn reset(&mut self, path: Option<&str>) -> OpcTeamResult<()> {
         let config = if let Some(path) = path {
             reject_protected_metadata_path(path)?;
             let default_config = self.providers.get_default_config();
@@ -713,7 +713,7 @@ impl ConfigManager {
         &mut self,
         mut config: GlobalConfig,
         path: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         config.product_id = product_identity::product_id().to_string();
         config.schema_version = CURRENT_CONFIG_SCHEMA_VERSION;
         config.version = env!("CARGO_PKG_VERSION").to_string();
@@ -747,22 +747,21 @@ impl ConfigManager {
     }
 
     /// Validates configuration.
-    pub async fn validate_config(&self) -> OpenBitFunResult<ConfigValidationResult> {
+    pub async fn validate_config(&self) -> OpcTeamResult<ConfigValidationResult> {
         self.providers.validate_config(&self.config).await
     }
 
     /// Exports configuration.
-    pub fn export_config(&self) -> OpenBitFunResult<serde_json::Value> {
+    pub fn export_config(&self) -> OpcTeamResult<serde_json::Value> {
         serde_json::to_value(&self.config)
-            .map_err(|e| OpenBitFunError::config(format!("Failed to export config: {}", e)))
+            .map_err(|e| OpcTeamError::config(format!("Failed to export config: {}", e)))
     }
 
     /// Imports configuration.
-    pub async fn import_config(&mut self, config_data: serde_json::Value) -> OpenBitFunResult<()> {
+    pub async fn import_config(&mut self, config_data: serde_json::Value) -> OpcTeamResult<()> {
         validate_current_config_value(&config_data, "Imported configuration")?;
-        let imported_config: GlobalConfig = serde_json::from_value(config_data).map_err(|e| {
-            OpenBitFunError::config(format!("Failed to parse imported config: {}", e))
-        })?;
+        let imported_config: GlobalConfig = serde_json::from_value(config_data)
+            .map_err(|e| OpcTeamError::config(format!("Failed to parse imported config: {}", e)))?;
 
         let validation_result = self.providers.validate_config(&imported_config).await?;
         if !validation_result.valid {
@@ -775,7 +774,7 @@ impl ConfigManager {
         // Imports replace the whole document. Keep the exact previous file
         // recoverable before a cloud apply or an explicit backup restore.
         let previous_content = fs::read_to_string(&self.config_file).await.map_err(|e| {
-            OpenBitFunError::config(format!("Failed to read config before import backup: {e}"))
+            OpcTeamError::config(format!("Failed to read config before import backup: {e}"))
         })?;
         self.backup_raw_config(&previous_content, "pre-import")
             .await?;
@@ -788,13 +787,13 @@ impl ConfigManager {
     }
 
     /// Creates a configuration backup.
-    pub async fn create_backup(&self) -> OpenBitFunResult<PathBuf> {
+    pub async fn create_backup(&self) -> OpcTeamResult<PathBuf> {
         let timestamp = chrono::Utc::now().format("%Y%m%d_%H%M%S");
         let backup_dir = self.config_dir.join("backups");
 
         if !backup_dir.exists() {
             fs::create_dir_all(&backup_dir).await.map_err(|e| {
-                OpenBitFunError::config(format!("Failed to create backup directory: {}", e))
+                OpcTeamError::config(format!("Failed to create backup directory: {}", e))
             })?;
         }
 
@@ -805,12 +804,12 @@ impl ConfigManager {
         ));
 
         let content = serde_json::to_string_pretty(&config_value_for_persistence(&self.config)?)
-            .map_err(|e| OpenBitFunError::config(format!("Failed to serialize backup: {}", e)))?;
+            .map_err(|e| OpcTeamError::config(format!("Failed to serialize backup: {}", e)))?;
 
         JsonFileStore
             .write_text_atomic_create_new(&backup_file, &content)
             .await
-            .map_err(|e| OpenBitFunError::config(format!("Failed to write backup: {}", e)))?;
+            .map_err(|e| OpcTeamError::config(format!("Failed to write backup: {}", e)))?;
 
         info!("Created config backup: {:?}", backup_file);
         Ok(backup_file)
@@ -833,7 +832,7 @@ impl ConfigManager {
     }
 
     /// Gets a configuration value by dot-path.
-    fn get_value_by_path(&self, path: &str) -> OpenBitFunResult<serde_json::Value> {
+    fn get_value_by_path(&self, path: &str) -> OpcTeamResult<serde_json::Value> {
         self.get_value_by_path_from_config(&self.config, path)
     }
 
@@ -842,9 +841,9 @@ impl ConfigManager {
         &self,
         config: &GlobalConfig,
         path: &str,
-    ) -> OpenBitFunResult<serde_json::Value> {
+    ) -> OpcTeamResult<serde_json::Value> {
         let config_value = serde_json::to_value(config)
-            .map_err(|e| OpenBitFunError::config(format!("Failed to serialize config: {}", e)))?;
+            .map_err(|e| OpcTeamError::config(format!("Failed to serialize config: {}", e)))?;
 
         if path.is_empty() {
             return Ok(config_value);
@@ -855,7 +854,7 @@ impl ConfigManager {
 
         for key in keys {
             current = current.get(key).ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Config path '{}' not found", path))
+                OpcTeamError::NotFound(format!("Config path '{}' not found", path))
             })?;
         }
 
@@ -867,46 +866,44 @@ impl ConfigManager {
         &self,
         path: &str,
         value: serde_json::Value,
-    ) -> OpenBitFunResult<GlobalConfig> {
+    ) -> OpcTeamResult<GlobalConfig> {
         if path.is_empty() {
-            return serde_json::from_value(value).map_err(|e| {
-                OpenBitFunError::config(format!("Failed to deserialize config: {}", e))
-            });
+            return serde_json::from_value(value)
+                .map_err(|e| OpcTeamError::config(format!("Failed to deserialize config: {}", e)));
         }
 
         let mut config_value = serde_json::to_value(&self.config)
-            .map_err(|e| OpenBitFunError::config(format!("Failed to serialize config: {}", e)))?;
+            .map_err(|e| OpcTeamError::config(format!("Failed to serialize config: {}", e)))?;
 
         let keys: Vec<&str> = path.split('.').filter(|k| !k.is_empty()).collect();
         if keys.is_empty() {
-            return serde_json::from_value(value).map_err(|e| {
-                OpenBitFunError::config(format!("Failed to deserialize config: {}", e))
-            });
+            return serde_json::from_value(value)
+                .map_err(|e| OpcTeamError::config(format!("Failed to deserialize config: {}", e)));
         }
 
         let last_key = keys.last().ok_or_else(|| {
-            OpenBitFunError::config(format!("Config path '{}' does not contain any keys", path))
+            OpcTeamError::config(format!("Config path '{}' does not contain any keys", path))
         })?;
         let parent_keys = &keys[..keys.len() - 1];
 
         let mut current = &mut config_value;
         for key in parent_keys {
             current = current.get_mut(key).ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Config path '{}' not found", path))
+                OpcTeamError::NotFound(format!("Config path '{}' not found", path))
             })?;
         }
 
         if let Some(obj) = current.as_object_mut() {
             obj.insert(last_key.to_string(), value);
         } else {
-            return Err(OpenBitFunError::config(format!(
+            return Err(OpcTeamError::config(format!(
                 "Cannot set value at path '{}': parent is not an object",
                 path
             )));
         }
 
         serde_json::from_value(config_value).map_err(|e| {
-            OpenBitFunError::config(format!("Failed to deserialize updated config: {}", e))
+            OpcTeamError::config(format!("Failed to deserialize updated config: {}", e))
         })
     }
 
@@ -915,7 +912,7 @@ impl ConfigManager {
         &self,
         path: &str,
         old_config: &GlobalConfig,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.check_and_broadcast_app_change(path).await;
         self.check_and_broadcast_log_level_change(old_config).await;
         self.check_and_broadcast_sensitive_diagnostics_change(old_config)

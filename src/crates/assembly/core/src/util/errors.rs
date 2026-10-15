@@ -9,7 +9,7 @@ use openbitfun_core_types::errors::{
 use serde::Serialize;
 use thiserror::Error;
 
-impl From<openbitfun_services_core::storage_error::StorageError> for OpenBitFunError {
+impl From<openbitfun_services_core::storage_error::StorageError> for OpcTeamError {
     fn from(error: openbitfun_services_core::storage_error::StorageError) -> Self {
         use openbitfun_services_core::storage_error::StorageError;
         match error {
@@ -24,7 +24,7 @@ impl From<openbitfun_services_core::storage_error::StorageError> for OpenBitFunE
 
 /// Unified error type for the OPC-Team application
 #[derive(Debug, Error, Serialize)]
-pub enum OpenBitFunError {
+pub enum OpcTeamError {
     #[error("Service error: {0}")]
     Service(String),
 
@@ -119,7 +119,7 @@ pub enum OpenBitFunError {
     Cancelled(String),
 }
 
-pub type OpenBitFunResult<T> = Result<T, OpenBitFunError>;
+pub type OpcTeamResult<T> = Result<T, OpcTeamError>;
 
 // Custom serialization functions for non-serializable error types
 fn serialize_io_error<S>(err: &std::io::Error, serializer: S) -> Result<S::Ok, S::Error>
@@ -143,7 +143,7 @@ where
     serializer.serialize_str(&err.to_string())
 }
 
-impl OpenBitFunError {
+impl OpcTeamError {
     pub fn tool_error_detail(&self) -> Option<&openbitfun_core_types::errors::ToolErrorDetail> {
         match self {
             Self::ClassifiedTool { detail, .. } => Some(detail),
@@ -205,19 +205,19 @@ impl OpenBitFunError {
     /// Infer an error category from this error for frontend-friendly classification.
     pub fn error_category(&self) -> ErrorCategory {
         match self {
-            OpenBitFunError::AIClient(msg) => classify_ai_error_message(msg),
-            OpenBitFunError::AIProvider(error) => error.category.clone(),
-            OpenBitFunError::RecoverableContextOverflow(_) => ErrorCategory::ContextOverflow,
-            OpenBitFunError::Timeout(_) => ErrorCategory::Timeout,
-            OpenBitFunError::Cancelled(_) => ErrorCategory::Unknown,
+            OpcTeamError::AIClient(msg) => classify_ai_error_message(msg),
+            OpcTeamError::AIProvider(error) => error.category.clone(),
+            OpcTeamError::RecoverableContextOverflow(_) => ErrorCategory::ContextOverflow,
+            OpcTeamError::Timeout(_) => ErrorCategory::Timeout,
+            OpcTeamError::Cancelled(_) => ErrorCategory::Unknown,
             _ => ErrorCategory::Unknown,
         }
     }
 
     /// Build a structured, provider-agnostic AI error detail for UI recovery.
     pub fn error_detail(&self) -> AiErrorDetail {
-        if let OpenBitFunError::AIProvider(error)
-        | OpenBitFunError::RecoverableContextOverflow(error) = self
+        if let OpcTeamError::AIProvider(error) | OpcTeamError::RecoverableContextOverflow(error) =
+            self
         {
             return error.detail();
         }
@@ -232,7 +232,7 @@ impl OpenBitFunError {
 }
 
 #[cfg(feature = "agent-runtime")]
-impl From<openbitfun_agent_stream::StreamProcessorError> for OpenBitFunError {
+impl From<openbitfun_agent_stream::StreamProcessorError> for OpcTeamError {
     fn from(error: openbitfun_agent_stream::StreamProcessorError) -> Self {
         match error {
             openbitfun_agent_stream::StreamProcessorError::AiClient(msg) => Self::AIClient(msg),
@@ -245,21 +245,21 @@ impl From<openbitfun_agent_stream::StreamProcessorError> for OpenBitFunError {
 }
 
 #[cfg(feature = "agent-runtime")]
-impl From<openbitfun_agent_runtime::event_bus::EventBusError> for OpenBitFunError {
+impl From<openbitfun_agent_runtime::event_bus::EventBusError> for OpcTeamError {
     fn from(error: openbitfun_agent_runtime::event_bus::EventBusError) -> Self {
         Self::Agent(error.to_string())
     }
 }
 
 #[cfg(feature = "agent-runtime")]
-impl From<openbitfun_agent_tools::computer_use::ComputerUseContractError> for OpenBitFunError {
+impl From<openbitfun_agent_tools::computer_use::ComputerUseContractError> for OpcTeamError {
     fn from(error: openbitfun_agent_tools::computer_use::ComputerUseContractError) -> Self {
         Self::Tool(error.to_string())
     }
 }
 
 #[cfg(feature = "mcp-runtime")]
-impl From<openbitfun_services_integrations::mcp::MCPRuntimeError> for OpenBitFunError {
+impl From<openbitfun_services_integrations::mcp::MCPRuntimeError> for OpcTeamError {
     fn from(error: openbitfun_services_integrations::mcp::MCPRuntimeError) -> Self {
         use openbitfun_services_integrations::mcp::MCPRuntimeErrorKind;
 
@@ -280,20 +280,20 @@ impl From<openbitfun_services_integrations::mcp::MCPRuntimeError> for OpenBitFun
     }
 }
 
-impl From<OpenBitFunError> for String {
-    fn from(err: OpenBitFunError) -> String {
+impl From<OpcTeamError> for String {
+    fn from(err: OpcTeamError) -> String {
         err.to_string()
     }
 }
 
-impl From<String> for OpenBitFunError {
+impl From<String> for OpcTeamError {
     fn from(error: String) -> Self {
-        OpenBitFunError::Service(error)
+        OpcTeamError::Service(error)
     }
 }
 
-impl From<&str> for OpenBitFunError {
+impl From<&str> for OpcTeamError {
     fn from(error: &str) -> Self {
-        OpenBitFunError::Service(error.to_string())
+        OpcTeamError::Service(error.to_string())
     }
 }

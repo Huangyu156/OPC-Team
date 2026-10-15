@@ -4,12 +4,11 @@
 //! `std::path::Path` treats paths like `/home/user/proj` as non-absolute and joins them
 //! incorrectly. Remote sessions must use POSIX path semantics for tool arguments.
 
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 pub use openbitfun_agent_tools::{
     build_openbitfun_current_session_uri, is_openbitfun_current_session_uri,
-    is_openbitfun_runtime_uri, is_openbitfun_tool_uri, ParsedOpenBitFunCurrentSessionUri,
-    ParsedOpenBitFunRuntimeUri, OPENBITFUN_CURRENT_SESSION_URI_PREFIX,
-    OPENBITFUN_RUNTIME_URI_PREFIX,
+    is_openbitfun_runtime_uri, is_openbitfun_tool_uri, ParsedOpcTeamCurrentSessionUri,
+    ParsedOpcTeamRuntimeUri, OPENBITFUN_CURRENT_SESSION_URI_PREFIX, OPENBITFUN_RUNTIME_URI_PREFIX,
 };
 use std::path::Path;
 
@@ -20,32 +19,32 @@ pub fn normalize_path(path: &str) -> String {
 pub fn resolve_path_with_workspace(
     path: &str,
     workspace_root: Option<&Path>,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     openbitfun_agent_tools::resolve_host_path_with_workspace(path, workspace_root)
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))
+        .map_err(|error| OpcTeamError::tool(error.to_string()))
 }
 
-pub fn resolve_path(path: &str) -> OpenBitFunResult<String> {
+pub fn resolve_path(path: &str) -> OpcTeamResult<String> {
     openbitfun_agent_tools::resolve_host_path(path)
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))
+        .map_err(|error| OpcTeamError::tool(error.to_string()))
 }
 
-pub fn normalize_runtime_relative_path(path: &str) -> OpenBitFunResult<String> {
+pub fn normalize_runtime_relative_path(path: &str) -> OpcTeamResult<String> {
     openbitfun_agent_tools::normalize_runtime_relative_path(path)
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))
+        .map_err(|error| OpcTeamError::tool(error.to_string()))
 }
 
-pub fn parse_openbitfun_runtime_uri(path: &str) -> OpenBitFunResult<ParsedOpenBitFunRuntimeUri> {
+pub fn parse_openbitfun_runtime_uri(path: &str) -> OpcTeamResult<ParsedOpcTeamRuntimeUri> {
     openbitfun_agent_tools::parse_openbitfun_runtime_uri(path)
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))
+        .map_err(|error| OpcTeamError::tool(error.to_string()))
 }
 
 pub fn build_openbitfun_runtime_uri(
     workspace_scope: &str,
     relative_path: &str,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     openbitfun_agent_tools::build_openbitfun_runtime_uri(workspace_scope, relative_path)
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))
+        .map_err(|error| OpcTeamError::tool(error.to_string()))
 }
 
 /// POSIX absolute: after normalizing backslashes, path starts with `/`.
@@ -57,9 +56,9 @@ pub fn posix_style_path_is_absolute(path: &str) -> bool {
 pub fn posix_resolve_path_with_workspace(
     path: &str,
     workspace_root: Option<&str>,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     openbitfun_agent_tools::posix_resolve_path_with_workspace(path, workspace_root)
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))
+        .map_err(|error| OpcTeamError::tool(error.to_string()))
 }
 
 /// Unified resolver: POSIX semantics when the workspace is remote SSH; otherwise host `Path`.
@@ -67,9 +66,9 @@ pub fn resolve_workspace_tool_path(
     path: &str,
     workspace_root: Option<&str>,
     workspace_is_remote: bool,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     openbitfun_agent_tools::resolve_workspace_tool_path(path, workspace_root, workspace_is_remote)
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))
+        .map_err(|error| OpcTeamError::tool(error.to_string()))
 }
 
 #[cfg(test)]

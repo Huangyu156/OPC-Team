@@ -21,9 +21,9 @@ use super::events::{
     PERMISSION_REJECT_ONCE,
 };
 use super::thinking::{InlineThinkRouter, InlineThinkSegment};
-use super::{AcpSessionState, OpenBitFunAcpRuntime};
+use super::{AcpSessionState, OpcTeamAcpRuntime};
 
-impl OpenBitFunAcpRuntime {
+impl OpcTeamAcpRuntime {
     pub(super) async fn run_prompt(&self, request: PromptRequest) -> Result<PromptResponse> {
         let session_id = request.session_id.to_string();
         let (acp_session, lifecycle_guard) = self.lock_active_session(&session_id).await?;
@@ -162,7 +162,7 @@ fn permission_request_targets_session(request: &PermissionRequest, session_id: &
 }
 
 async fn wait_for_prompt_completion(
-    runtime: &OpenBitFunAcpRuntime,
+    runtime: &OpcTeamAcpRuntime,
     event_rx: &mut AgentSessionEventReceiver,
     permission_rx: &mut PermissionRequestEventReceiver,
     connection: &ConnectionTo<Client>,
@@ -295,7 +295,7 @@ async fn wait_for_prompt_completion(
 }
 
 async fn cancel_turn_after_event_stream_failure(
-    runtime: &OpenBitFunAcpRuntime,
+    runtime: &OpcTeamAcpRuntime,
     session_id: &str,
     turn_id: &str,
     reason: &str,
@@ -349,7 +349,7 @@ fn send_inline_think_segments(
 }
 
 async fn handle_permission_request(
-    runtime: &OpenBitFunAcpRuntime,
+    runtime: &OpcTeamAcpRuntime,
     connection: &ConnectionTo<Client>,
     acp_session_id: &str,
     permission: PermissionRequest,
@@ -411,7 +411,7 @@ async fn handle_permission_request(
         .agent_runtime
         .respond_permission(&request_id, reply)
         .await
-        .map_err(OpenBitFunAcpRuntime::runtime_error)?;
+        .map_err(OpcTeamAcpRuntime::runtime_error)?;
 
     Ok(())
 }

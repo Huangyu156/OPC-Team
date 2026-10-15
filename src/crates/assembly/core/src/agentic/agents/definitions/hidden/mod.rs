@@ -5,4 +5,4 @@ pub use code_review::CodeReviewAgent;
 pub use deep_review::DeepReviewAgent;
 
 mod openbitfun;
-pub use openbitfun::OpenBitFunAgent;
+pub use openbitfun::OpcTeamAgent;

@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 use std::time::Duration;
 
 use openbitfun_core::service::remote_ssh::{SSHCommandOptions, SSHConnectionManager};
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use tokio::process::Command;
 
 use super::builtin_clients::builtin_acp_client_preset;
@@ -282,9 +282,9 @@ pub(crate) async fn probe_remote_npx_adapter(
     item
 }
 
-pub(crate) async fn predownload_npm_adapter(package: &str, bin: &str) -> OpenBitFunResult<()> {
+pub(crate) async fn predownload_npm_adapter(package: &str, bin: &str) -> OpcTeamResult<()> {
     let npm_path = find_executable("npm")
-        .ok_or_else(|| OpenBitFunError::service("npm is not available on PATH".to_string()))?;
+        .ok_or_else(|| OpcTeamError::service("npm is not available on PATH".to_string()))?;
     let args = npm_predownload_args(package, bin);
 
     match run_command_with_timeout(
@@ -295,12 +295,12 @@ pub(crate) async fn predownload_npm_adapter(package: &str, bin: &str) -> OpenBit
     .await
     {
         Ok(output) if output.status.success() => Ok(()),
-        Ok(output) => Err(OpenBitFunError::service(format!(
+        Ok(output) => Err(OpcTeamError::service(format!(
             "Failed to predownload ACP adapter '{}': {}",
             package,
             command_error_summary(&output.stderr, &output.stdout)
         ))),
-        Err(error) => Err(OpenBitFunError::service(format!(
+        Err(error) => Err(OpcTeamError::service(format!(
             "Failed to predownload ACP adapter '{}': {}",
             package, error
         ))),
@@ -318,19 +318,19 @@ fn npm_predownload_args(package: &str, bin: &str) -> [String; 6] {
     ]
 }
 
-pub(crate) async fn install_npm_cli_package(package: &str) -> OpenBitFunResult<()> {
+pub(crate) async fn install_npm_cli_package(package: &str) -> OpcTeamResult<()> {
     let npm_path = find_executable("npm")
-        .ok_or_else(|| OpenBitFunError::service("npm is not available on PATH".to_string()))?;
+        .ok_or_else(|| OpcTeamError::service("npm is not available on PATH".to_string()))?;
     let args = ["install", "-g", package];
 
     match run_command_with_timeout(npm_path.as_os_str(), args, CLI_INSTALL_TIMEOUT).await {
         Ok(output) if output.status.success() => Ok(()),
-        Ok(output) => Err(OpenBitFunError::service(format!(
+        Ok(output) => Err(OpcTeamError::service(format!(
             "Failed to install ACP agent CLI '{}': {}",
             package,
             command_error_summary(&output.stderr, &output.stdout)
         ))),
-        Err(error) => Err(OpenBitFunError::service(format!(
+        Err(error) => Err(OpcTeamError::service(format!(
             "Failed to install ACP agent CLI '{}': {}",
             package, error
         ))),
@@ -341,7 +341,7 @@ pub(crate) async fn install_remote_npm_cli_package(
     ssh_manager: &SSHConnectionManager,
     connection_id: &str,
     package: &str,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let command = remote_user_shell_command(&format!("npm install -g {}", shell_escape(package)));
     let timeout_ms = u64::try_from(CLI_INSTALL_TIMEOUT.as_millis()).unwrap_or(u64::MAX);
     match ssh_manager
@@ -356,20 +356,20 @@ pub(crate) async fn install_remote_npm_cli_package(
         .await
     {
         Ok(output) if output.exit_code == 0 && !output.timed_out && !output.interrupted => Ok(()),
-        Ok(output) if output.timed_out => Err(OpenBitFunError::service(format!(
+        Ok(output) if output.timed_out => Err(OpcTeamError::service(format!(
             "Failed to install remote ACP agent CLI '{}': command timed out",
             package
         ))),
-        Ok(output) if output.interrupted => Err(OpenBitFunError::service(format!(
+        Ok(output) if output.interrupted => Err(OpcTeamError::service(format!(
             "Failed to install remote ACP agent CLI '{}': command was cancelled",
             package
         ))),
-        Ok(output) => Err(OpenBitFunError::service(format!(
+        Ok(output) => Err(OpcTeamError::service(format!(
             "Failed to install remote ACP agent CLI '{}': {}",
             package,
             remote_command_error_summary(&output.stderr, &output.stdout)
         ))),
-        Err(error) => Err(OpenBitFunError::service(format!(
+        Err(error) => Err(OpcTeamError::service(format!(
             "Failed to install remote ACP agent CLI '{}': {}",
             package, error
         ))),

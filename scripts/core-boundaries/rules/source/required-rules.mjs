@@ -3335,7 +3335,7 @@ export const requiredContentRules = [
         message: 'missing agent-tools MiniApp headless restriction re-export',
       },
       {
-        regex: /\bimpl From<ToolRestrictionError> for OpenBitFunError\b/,
+        regex: /\bimpl From<ToolRestrictionError> for OpcTeamError\b/,
         message: 'missing core error mapping adapter',
       },
       {

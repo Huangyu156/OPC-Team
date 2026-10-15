@@ -9,7 +9,7 @@
 //! separate ports; without them injected the runtime returns a missing-port
 //! error, which these tests assert maps to an error at the JSON-RPC boundary.
 //!
-//! Each `on_receive_request` on `OpenBitFunAppServer::serve` chains a
+//! Each `on_receive_request` on `OpcTeamAppServer::serve` chains a
 //! `ChainedHandler` layer; the full agent-kernel + permission + git + config
 //! surface now monomorphizes into a handler tower deeper than the default
 //! recursion limit when this test instantiates the connection. The lifted
@@ -43,9 +43,7 @@ use openbitfun_app_server::schema::{
     SubmitDialogTurnResponse, SubmitTurnMessage, SubmitTurnResponse, UpdateSessionModeMessage,
     UpdateSessionModeResponse, UpdateSessionModelMessage, UpdateSessionModelResponse,
 };
-use openbitfun_app_server::{
-    transport, AppClient, AppServer, OpenBitFunAppRuntime, OpenBitFunAppServer,
-};
+use openbitfun_app_server::{transport, AppClient, AppServer, OpcTeamAppRuntime, OpcTeamAppServer};
 use openbitfun_app_server_protocol::agent as protocol_agent;
 use openbitfun_app_server_protocol::app::{ClientInfo, HealthStatus, InitializeRequest};
 use openbitfun_app_server_protocol::error::{AppServerErrorData, AppServerErrorKind};
@@ -132,20 +130,20 @@ fn build_runtime() -> openbitfun_agent_runtime::sdk::AgentRuntime {
 
 /// Wrap the test runtime with a fresh `AgentEventSource` backed by an isolated
 /// `EventQueue`, so the app-server's event forwarder has something to drain.
-fn build_app_runtime() -> OpenBitFunAppRuntime {
+fn build_app_runtime() -> OpcTeamAppRuntime {
     let event_queue = Arc::new(EventQueue::new(EventQueueConfig::default()));
     let event_source = AgentEventSource::new(event_queue);
-    OpenBitFunAppRuntime::new(build_runtime(), event_source)
+    OpcTeamAppRuntime::new(build_runtime(), event_source)
 }
 
 /// Like [`build_app_runtime`] but also hands back the backing `EventQueue` so a
 /// test can publish into it and assert the server forwards the event to the
 /// client as an `agent/event` notification.
-fn build_app_runtime_with_queue() -> (OpenBitFunAppRuntime, Arc<EventQueue>) {
+fn build_app_runtime_with_queue() -> (OpcTeamAppRuntime, Arc<EventQueue>) {
     let event_queue = Arc::new(EventQueue::new(EventQueueConfig::default()));
     let event_source = AgentEventSource::new(event_queue.clone());
     (
-        OpenBitFunAppRuntime::new(build_runtime(), event_source),
+        OpcTeamAppRuntime::new(build_runtime(), event_source),
         event_queue,
     )
 }
@@ -281,7 +279,7 @@ impl AgentSessionRestorePort for SessionControlProvider {
     }
 }
 
-fn build_session_control_app_runtime() -> (OpenBitFunAppRuntime, Arc<SessionControlProvider>) {
+fn build_session_control_app_runtime() -> (OpcTeamAppRuntime, Arc<SessionControlProvider>) {
     let submission = Arc::new(ExampleAgentProvider::default());
     let session_control = Arc::new(SessionControlProvider::default());
     let runtime = AgentRuntimeBuilder::new()
@@ -297,7 +295,7 @@ fn build_session_control_app_runtime() -> (OpenBitFunAppRuntime, Arc<SessionCont
         .expect("runtime should build with Session control ports");
     let event_queue = Arc::new(EventQueue::new(EventQueueConfig::default()));
     (
-        OpenBitFunAppRuntime::new(runtime, AgentEventSource::new(event_queue)),
+        OpcTeamAppRuntime::new(runtime, AgentEventSource::new(event_queue)),
         session_control,
     )
 }
@@ -736,7 +734,7 @@ impl ports::RuntimeEventSink for TestRuntimeEventSink {
     }
 }
 
-fn build_phase2_app_runtime() -> (OpenBitFunAppRuntime, Arc<Phase2Provider>) {
+fn build_phase2_app_runtime() -> (OpcTeamAppRuntime, Arc<Phase2Provider>) {
     let provider = Arc::new(Phase2Provider::default());
     let services = openbitfun_agent_runtime::sdk::RuntimeServicesBuilder::new()
         .with_filesystem(Arc::new(TestRuntimeService(
@@ -778,7 +776,7 @@ fn build_phase2_app_runtime() -> (OpenBitFunAppRuntime, Arc<Phase2Provider>) {
         .expect("phase 2 runtime");
     let event_queue = Arc::new(EventQueue::new(EventQueueConfig::default()));
     (
-        OpenBitFunAppRuntime::new(runtime, AgentEventSource::new(event_queue))
+        OpcTeamAppRuntime::new(runtime, AgentEventSource::new(event_queue))
             .with_context_reload(provider.clone()),
         provider,
     )
@@ -1061,11 +1059,11 @@ where
 }
 
 fn spawn_server(
-    runtime: OpenBitFunAppRuntime,
+    runtime: OpcTeamAppRuntime,
     transport: impl agent_client_protocol::ConnectTo<AppServer> + 'static,
 ) {
     tokio::task::spawn_local(async move {
-        let _ = OpenBitFunAppServer::new(runtime).serve(transport).await;
+        let _ = OpcTeamAppServer::new(runtime).serve(transport).await;
     });
 }
 

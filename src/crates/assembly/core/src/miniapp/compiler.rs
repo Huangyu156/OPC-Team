@@ -5,7 +5,7 @@ pub use openbitfun_product_domains::miniapp::compiler::{
 };
 
 use crate::miniapp::types::{MiniAppPermissions, MiniAppSource};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 
 /// Compile MiniApp source into full HTML with Import Map, Runtime Adapter, and CSP injected.
 pub fn compile(
@@ -15,7 +15,7 @@ pub fn compile(
     app_data_dir: &str,
     workspace_dir: &str,
     appearance_mode: &str,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     openbitfun_product_domains::miniapp::compiler::compile(
         source,
         permissions,
@@ -24,31 +24,31 @@ pub fn compile(
         workspace_dir,
         appearance_mode,
     )
-    .map_err(|e| OpenBitFunError::validation(e.to_string()))
+    .map_err(|e| OpcTeamError::validation(e.to_string()))
 }
 
 pub fn compile_with_request(
     source: &MiniAppSource,
     permissions: &MiniAppPermissions,
     request: &MiniAppCompileRequest,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     openbitfun_product_domains::miniapp::compiler::compile_with_request(
         source,
         permissions,
         request,
     )
-    .map_err(|e| OpenBitFunError::validation(e.to_string()))
+    .map_err(|e| OpcTeamError::validation(e.to_string()))
 }
 
 pub fn compile_market_with_request(
     source: &MiniAppSource,
     permissions: &MiniAppPermissions,
     request: &MiniAppCompileRequest,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     openbitfun_product_domains::miniapp::compiler::compile_market_with_request(
         source,
         permissions,
         request,
     )
-    .map_err(|e| OpenBitFunError::validation(e.to_string()))
+    .map_err(|e| OpcTeamError::validation(e.to_string()))
 }

@@ -9,12 +9,12 @@ mod registry;
 use crate::agentic::session::{SystemPromptCacheIdentity, UserContextCacheIdentity};
 use crate::agentic::tools::framework::ToolExposure;
 use crate::agentic::WorkspaceBinding;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 pub use definitions::custom::{CustomMode, CustomSubagent, CustomSubagentKind};
 #[cfg(feature = "external-sources")]
 pub(crate) use definitions::external::ExternalProvidedAgent;
-pub use definitions::hidden::{CodeReviewAgent, DeepReviewAgent, OpenBitFunAgent};
+pub use definitions::hidden::{CodeReviewAgent, DeepReviewAgent, OpcTeamAgent};
 pub use definitions::modes::{
     ClawMode, CoworkMode, CreativeHarness, DeepResearchMode, MinimalHarness, StandardHarness,
     UltimateHarness,
@@ -168,11 +168,11 @@ pub trait Agent: Send + Sync + 'static {
     fn user_context_policy(&self) -> UserContextPolicy;
 
     /// Build the system prompt for this agent
-    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpenBitFunResult<String> {
+    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpcTeamResult<String> {
         let prompt_components = PromptBuilder::new(context.clone());
         let template_name = self.prompt_template_name(context.model_name.as_deref());
         let system_prompt_template = get_embedded_prompt(template_name).ok_or_else(|| {
-            OpenBitFunError::Agent(format!("{} not found in embedded files", template_name))
+            OpcTeamError::Agent(format!("{} not found in embedded files", template_name))
         })?;
 
         let prompt = prompt_components
@@ -186,11 +186,11 @@ pub trait Agent: Send + Sync + 'static {
     async fn get_system_prompt(
         &self,
         context: Option<&PromptBuilderContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         if let Some(context) = context {
             self.build_prompt(context).await
         } else {
-            Err(OpenBitFunError::Agent(
+            Err(OpcTeamError::Agent(
                 "Prompt build context is required".to_string(),
             ))
         }
@@ -205,11 +205,11 @@ pub trait Agent: Send + Sync + 'static {
         &self,
         _previous_agent_type: Option<&str>,
         _workspace: Option<&WorkspaceBinding>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         if let Some(system_reminder_template_name) = self.system_reminder_template_name() {
             let system_reminder =
                 get_embedded_prompt(system_reminder_template_name).ok_or_else(|| {
-                    OpenBitFunError::Agent(format!(
+                    OpcTeamError::Agent(format!(
                         "{} not found in embedded files",
                         system_reminder_template_name
                     ))

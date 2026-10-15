@@ -19,9 +19,9 @@ use super::model::{
     build_session_config_options, build_session_model_state, normalize_session_model_id,
 };
 use super::replay::replay_session_history;
-use super::{AcpSessionState, OpenBitFunAcpRuntime};
+use super::{AcpSessionState, OpcTeamAcpRuntime};
 
-impl OpenBitFunAcpRuntime {
+impl OpcTeamAcpRuntime {
     fn validate_session_target(session_id: &str, cwd: &Path) -> Result<()> {
         openbitfun_core_types::validate_session_id(session_id)
             .map_err(|message| Error::invalid_params().data(message))?;

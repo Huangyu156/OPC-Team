@@ -7,11 +7,11 @@ use openbitfun_app_server_protocol::search::{
 };
 use openbitfun_runtime_ports::{PortError, PortErrorKind};
 
-use crate::agent::OpenBitFunAppRuntime;
+use crate::agent::OpcTeamAppRuntime;
 use crate::role::{AppClient, AppServer};
 
 pub(in crate::server) fn builder(
-    runtime: Arc<OpenBitFunAppRuntime>,
+    runtime: Arc<OpcTeamAppRuntime>,
 ) -> Builder<AppServer, impl HandleDispatchFrom<AppClient>> {
     AppServer
         .builder()

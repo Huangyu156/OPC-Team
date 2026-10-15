@@ -2,7 +2,7 @@
 
 use crate::agentic::core::ToolCall;
 use crate::agentic::events::EventQueue;
-use crate::util::errors::OpenBitFunError;
+use crate::util::errors::OpcTeamError;
 use crate::util::types::ai::GeminiUsage;
 use futures::stream::BoxStream;
 use openbitfun_core_types::ReasoningContentKind;
@@ -62,7 +62,7 @@ impl From<openbitfun_agent_stream::StreamResult> for StreamResult {
 /// Stream processing error exposed through openbitfun-core compatibility errors.
 #[derive(Debug)]
 pub struct StreamProcessError {
-    pub error: OpenBitFunError,
+    pub error: OpcTeamError,
     pub has_effective_output: bool,
 }
 

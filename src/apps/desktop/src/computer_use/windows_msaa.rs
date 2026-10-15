@@ -43,7 +43,7 @@
 
 use std::ptr::null_mut;
 
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::core::Interface;
 use windows::Win32::Foundation::HWND;
 use windows::Win32::System::Com::{CoInitializeEx, COINIT_APARTMENTTHREADED};
@@ -105,7 +105,7 @@ const MAX_TOTAL_ELEMENTS: usize = 5000;
 /// the UIA path; every emitted node carries `msaa_role = Some(role)` so a
 /// downstream dispatcher can distinguish MSAA-sourced nodes from UIA-sourced
 /// ones.
-pub(super) fn walk_msaa_tree(hwnd: isize) -> OpenBitFunResult<Vec<UiaNode>> {
+pub(super) fn walk_msaa_tree(hwnd: isize) -> OpcTeamResult<Vec<UiaNode>> {
     unsafe { walk_bounded(hwnd, MAX_TOTAL_ELEMENTS, MAX_DEPTH) }
 }
 
@@ -113,7 +113,7 @@ unsafe fn walk_bounded(
     hwnd: isize,
     max_total: usize,
     max_depth: usize,
-) -> OpenBitFunResult<Vec<UiaNode>> {
+) -> OpcTeamResult<Vec<UiaNode>> {
     // OpenBitFun is a Tauri GUI app; match the UIA path's apartment threading.
     // SAFETY: initializes COM for the current thread; the result is intentionally
     // ignored because an already initialized apartment is acceptable here.
@@ -135,7 +135,7 @@ unsafe fn walk_bounded(
         )
     };
     if res.is_err() || raw_root.is_null() {
-        return Err(OpenBitFunError::tool(format!(
+        return Err(OpcTeamError::tool(format!(
             "MSAA AccessibleObjectFromWindow failed for hwnd 0x{hwnd:x}: {res:?}."
         )));
     }

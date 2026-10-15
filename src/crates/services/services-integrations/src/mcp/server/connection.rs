@@ -641,7 +641,7 @@ mod tests {
             MCPConnection::new(stdin, rx).with_initialize_timeout(Some(Duration::from_millis(10)));
 
         let error = connection
-            .initialize("OpenBitFunTest", "0.0.0")
+            .initialize("OpcTeamTest", "0.0.0")
             .await
             .expect_err("initialize should time out");
         assert_eq!(error.kind(), crate::mcp::MCPRuntimeErrorKind::Timeout);

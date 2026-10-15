@@ -84,7 +84,7 @@ pub enum ConnectionMethod {
         ip: Option<String>,
     },
     #[serde(rename = "openbitfun_server")]
-    OpenBitFunServer,
+    OpcTeamServer,
     BotFeishu,
     BotTelegram,
     BotWeixin,
@@ -261,7 +261,7 @@ impl RemoteConnectService {
     pub async fn available_methods(&self) -> Vec<ConnectionMethod> {
         vec![
             ConnectionMethod::Lan { ip: None },
-            ConnectionMethod::OpenBitFunServer,
+            ConnectionMethod::OpcTeamServer,
             ConnectionMethod::BotFeishu,
             ConnectionMethod::BotTelegram,
             ConnectionMethod::BotWeixin,
@@ -282,7 +282,7 @@ impl RemoteConnectService {
                 Some(ip) => lan::build_lan_relay_url_with_ip(self.config.lan_port, ip)?,
                 None => lan::build_lan_relay_url(self.config.lan_port)?,
             },
-            ConnectionMethod::OpenBitFunServer => self.config.openbitfun_server_url.clone(),
+            ConnectionMethod::OpcTeamServer => self.config.openbitfun_server_url.clone(),
             _ => anyhow::bail!("connection method does not use a relay"),
         };
         self.stop_relay_inner().await;

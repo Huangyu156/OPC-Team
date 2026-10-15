@@ -5,7 +5,7 @@ use crate::agentic::tools::framework::{PermissionIntent, Tool, ToolResult, ToolU
 use crate::infrastructure::events::{emit_global_event, BackendEvent};
 use crate::miniapp::lifecycle::miniapp_runtime_event_payload;
 use crate::miniapp::try_get_global_miniapp_manager;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 
@@ -29,7 +29,7 @@ impl Tool for FinalizeMiniAppTool {
         "FinalizeMiniApp"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Finalize source files edited for an installed OPC-Team MiniApp.
 
 Call this after every successful Read/Write/Edit pass under a MiniApp root returned by InitMiniApp, and after modifying an existing MiniApp. It:
@@ -76,7 +76,7 @@ Returns app_id, version, changed, content_hash, and source_revision."#
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let app_id = input
             .get("app_id")
             .and_then(Value::as_str)
@@ -92,32 +92,30 @@ Returns app_id, version, changed, content_hash, and source_revision."#
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
-            return Err(OpenBitFunError::tool(
-                "FinalizeMiniApp reads product-host-local files and cannot be used in a remote workspace. Use OpenBitFunControl get feature.miniapps and its structured update-app operation instead".to_string(),
+            return Err(OpcTeamError::tool(
+                "FinalizeMiniApp reads product-host-local files and cannot be used in a remote workspace. Use OpcTeamControl get feature.miniapps and its structured update-app operation instead".to_string(),
             ));
         }
         let manager = try_get_global_miniapp_manager()
-            .ok_or_else(|| OpenBitFunError::tool("MiniAppManager not initialized".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("MiniAppManager not initialized".to_string()))?;
         let app_id = input
             .get("app_id")
             .and_then(Value::as_str)
             .map(str::trim)
             .filter(|value| !value.is_empty())
-            .ok_or_else(|| OpenBitFunError::validation("Missing required field: app_id"))?;
+            .ok_or_else(|| OpcTeamError::validation("Missing required field: app_id"))?;
         let theme = input.get("theme").and_then(Value::as_str).unwrap_or("dark");
 
         let previous = manager
             .get_meta(app_id)
             .await
-            .map_err(|error| OpenBitFunError::tool(format!("Failed to load MiniApp: {error}")))?;
+            .map_err(|error| OpcTeamError::tool(format!("Failed to load MiniApp: {error}")))?;
         let app = manager
             .sync_from_fs(app_id, theme, context.workspace_root())
             .await
-            .map_err(|error| {
-                OpenBitFunError::tool(format!("Failed to finalize MiniApp: {error}"))
-            })?;
+            .map_err(|error| OpcTeamError::tool(format!("Failed to finalize MiniApp: {error}")))?;
         let changed = app.version != previous.version;
         let reason = if changed {
             "agent-finalize"

@@ -4,7 +4,7 @@ use crate::infrastructure::events::{emit_global_event, BackendEvent};
 use crate::miniapp::js_worker::{JsWorker, MiniAppWorkerEvent, MiniAppWorkerEventFuture};
 use crate::miniapp::runtime_detect::DetectedRuntime;
 use crate::miniapp::types::{NodePermissions, NpmDep};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_product_domains::miniapp::ports::{
     MiniAppInstallDepsRequest, MiniAppPortError, MiniAppPortErrorKind, MiniAppPortFuture,
     MiniAppRuntimePort,
@@ -29,7 +29,7 @@ impl JsWorkerPool {
     pub fn new(
         path_manager: Arc<crate::infrastructure::PathManager>,
         worker_host_path: PathBuf,
-    ) -> OpenBitFunResult<Self> {
+    ) -> OpcTeamResult<Self> {
         let event_sink: SharedMiniAppWorkerEventSink = Arc::new(CoreMiniAppWorkerEventSink);
         ServiceJsWorkerPool::new(
             path_manager.miniapps_dir(),
@@ -50,7 +50,7 @@ impl JsWorkerPool {
         worker_revision: &str,
         policy_json: &str,
         node_perms: Option<&NodePermissions>,
-    ) -> OpenBitFunResult<Arc<Mutex<JsWorker>>> {
+    ) -> OpcTeamResult<Arc<Mutex<JsWorker>>> {
         self.inner
             .get_or_spawn(app_id, worker_revision, policy_json, node_perms)
             .await
@@ -65,7 +65,7 @@ impl JsWorkerPool {
         worker_revision: &str,
         policy_json: &str,
         node_perms: Option<&NodePermissions>,
-    ) -> OpenBitFunResult<Arc<Mutex<JsWorker>>> {
+    ) -> OpcTeamResult<Arc<Mutex<JsWorker>>> {
         self.inner
             .get_or_spawn_with_app_dir(
                 worker_key,
@@ -87,7 +87,7 @@ impl JsWorkerPool {
         permissions: Option<&NodePermissions>,
         method: &str,
         params: Value,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         self.inner
             .call(
                 app_id,
@@ -111,7 +111,7 @@ impl JsWorkerPool {
         permissions: Option<&NodePermissions>,
         method: &str,
         params: Value,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         self.inner
             .call_with_app_dir(
                 worker_key,
@@ -155,7 +155,7 @@ impl JsWorkerPool {
         &self,
         app_id: &str,
         deps: &[NpmDep],
-    ) -> OpenBitFunResult<InstallResult> {
+    ) -> OpcTeamResult<InstallResult> {
         self.inner
             .install_deps(app_id, deps)
             .await
@@ -166,7 +166,7 @@ impl JsWorkerPool {
         &self,
         app_dir: &Path,
         deps: &[NpmDep],
-    ) -> OpenBitFunResult<InstallResult> {
+    ) -> OpcTeamResult<InstallResult> {
         self.inner
             .install_deps_in_dir(app_dir, deps)
             .await
@@ -207,37 +207,31 @@ impl MiniAppRuntimePort for JsWorkerPool {
     }
 }
 
-fn map_worker_pool_error(error: MiniAppWorkerPoolError) -> OpenBitFunError {
+fn map_worker_pool_error(error: MiniAppWorkerPoolError) -> OpcTeamError {
     match error.kind() {
-        MiniAppWorkerPoolErrorKind::NotFound => {
-            OpenBitFunError::NotFound(error.message().to_string())
-        }
+        MiniAppWorkerPoolErrorKind::NotFound => OpcTeamError::NotFound(error.message().to_string()),
         MiniAppWorkerPoolErrorKind::Validation => {
-            OpenBitFunError::validation(error.message().to_string())
+            OpcTeamError::validation(error.message().to_string())
         }
-        MiniAppWorkerPoolErrorKind::Io => OpenBitFunError::io(error.message().to_string()),
+        MiniAppWorkerPoolErrorKind::Io => OpcTeamError::io(error.message().to_string()),
         MiniAppWorkerPoolErrorKind::RuntimeUnavailable => {
-            OpenBitFunError::ProcessError(error.message().to_string())
+            OpcTeamError::ProcessError(error.message().to_string())
         }
-        MiniAppWorkerPoolErrorKind::Backend => {
-            OpenBitFunError::service(error.message().to_string())
-        }
+        MiniAppWorkerPoolErrorKind::Backend => OpcTeamError::service(error.message().to_string()),
     }
 }
 
-fn map_miniapp_runtime_port_error(error: OpenBitFunError) -> MiniAppPortError {
+fn map_miniapp_runtime_port_error(error: OpcTeamError) -> MiniAppPortError {
     let kind = match &error {
-        OpenBitFunError::NotFound(_) => MiniAppPortErrorKind::NotFound,
-        OpenBitFunError::Validation(_) | OpenBitFunError::Deserialization(_) => {
+        OpcTeamError::NotFound(_) => MiniAppPortErrorKind::NotFound,
+        OpcTeamError::Validation(_) | OpcTeamError::Deserialization(_) => {
             MiniAppPortErrorKind::InvalidInput
         }
-        OpenBitFunError::Io(io_error)
-            if io_error.kind() == std::io::ErrorKind::PermissionDenied =>
-        {
+        OpcTeamError::Io(io_error) if io_error.kind() == std::io::ErrorKind::PermissionDenied => {
             MiniAppPortErrorKind::PermissionDenied
         }
-        OpenBitFunError::Io(_) => MiniAppPortErrorKind::Io,
-        OpenBitFunError::ProcessError(_) | OpenBitFunError::Timeout(_) => {
+        OpcTeamError::Io(_) => MiniAppPortErrorKind::Io,
+        OpcTeamError::ProcessError(_) | OpcTeamError::Timeout(_) => {
             MiniAppPortErrorKind::RuntimeUnavailable
         }
         _ => MiniAppPortErrorKind::Backend,

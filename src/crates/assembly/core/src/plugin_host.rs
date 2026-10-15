@@ -46,13 +46,13 @@ impl HookFunctionRegistrationSink for CapturedPluginGeneration {
 }
 
 impl CapturedPluginGeneration {
-    fn take(&self) -> crate::OpenBitFunResult<HookFunctionRegistrationBatch> {
+    fn take(&self) -> crate::OpcTeamResult<HookFunctionRegistrationBatch> {
         self.batch
             .lock()
             .expect("plugin generation lock poisoned")
             .take()
             .ok_or_else(|| {
-                crate::OpenBitFunError::ProcessError(
+                crate::OpcTeamError::ProcessError(
                     "Plugin runtime started without publishing its registration batch".to_string(),
                 )
             })
@@ -112,13 +112,13 @@ impl Drop for PluginHostEnsureLease {
     }
 }
 
-async fn acquire_plugin_host_ensure_lease() -> crate::OpenBitFunResult<PluginHostEnsureLease> {
+async fn acquire_plugin_host_ensure_lease() -> crate::OpcTeamResult<PluginHostEnsureLease> {
     let lifecycle_lock = PLUGIN_HOST_LIFECYCLE_LOCK
         .get_or_init(|| async { Mutex::new(()) })
         .await;
     let _guard = lifecycle_lock.lock().await;
     if PLUGIN_HOST_SHUTDOWN_STARTED.load(Ordering::Acquire) {
-        return Err(crate::OpenBitFunError::ProcessError(
+        return Err(crate::OpcTeamError::ProcessError(
             "Plugin host is shutting down".to_string(),
         ));
     }
@@ -220,7 +220,7 @@ pub enum PluginHostLaunchPolicy {
     Disabled,
 }
 
-pub async fn configured_plugins_present() -> crate::OpenBitFunResult<bool> {
+pub async fn configured_plugins_present() -> crate::OpcTeamResult<bool> {
     use crate::service::config::{get_global_config_service, GlobalConfig};
 
     let config_service = get_global_config_service().await?;
@@ -230,14 +230,14 @@ pub async fn configured_plugins_present() -> crate::OpenBitFunResult<bool> {
 
 pub async fn initialize_configured_plugin_host(
     launch_policy: PluginHostLaunchPolicy,
-) -> crate::OpenBitFunResult<PluginHostStartup> {
+) -> crate::OpcTeamResult<PluginHostStartup> {
     initialize_configured_plugin_host_with_log_file(launch_policy, None).await
 }
 
 pub async fn initialize_configured_plugin_host_with_log_file(
     launch_policy: PluginHostLaunchPolicy,
     log_file: Option<PathBuf>,
-) -> crate::OpenBitFunResult<PluginHostStartup> {
+) -> crate::OpcTeamResult<PluginHostStartup> {
     use crate::service::config::{get_global_config_service, GlobalConfig};
 
     if launch_policy == PluginHostLaunchPolicy::Disabled {
@@ -255,7 +255,7 @@ async fn initialize_configured_plugin_host_from_config(
     launch_policy: PluginHostLaunchPolicy,
     log_file: Option<PathBuf>,
     config: &crate::service::config::GlobalConfig,
-) -> crate::OpenBitFunResult<PluginHostStartup> {
+) -> crate::OpcTeamResult<PluginHostStartup> {
     if launch_policy == PluginHostLaunchPolicy::Disabled {
         return Ok(PluginHostStartup::Disabled);
     }
@@ -267,7 +267,7 @@ async fn initialize_configured_plugin_host_from_config(
         .await;
     let _lifecycle_guard = lifecycle_lock.lock().await;
     if PLUGIN_HOST_SHUTDOWN_STARTED.load(Ordering::Acquire) {
-        return Err(crate::OpenBitFunError::ProcessError(
+        return Err(crate::OpcTeamError::ProcessError(
             "Plugin host is shutting down".to_string(),
         ));
     }
@@ -277,14 +277,14 @@ async fn initialize_configured_plugin_host_from_config(
     let stale_host = {
         let mut host_state = host_state.lock().await;
         if PLUGIN_HOST_SHUTDOWN_STARTED.load(Ordering::Acquire) {
-            return Err(crate::OpenBitFunError::ProcessError(
+            return Err(crate::OpcTeamError::ProcessError(
                 "Plugin host is shutting down".to_string(),
             ));
         }
         if let Some(host) = host_state.as_mut() {
             if host
                 .is_connected()
-                .map_err(|error| crate::OpenBitFunError::ProcessError(error.to_string()))?
+                .map_err(|error| crate::OpcTeamError::ProcessError(error.to_string()))?
             {
                 return Ok(PluginHostStartup::AlreadyStarted);
             }
@@ -301,7 +301,7 @@ async fn initialize_configured_plugin_host_from_config(
     let log_file = log_file.unwrap_or_else(|| path_manager.logs_dir().join("plugin-host.log"));
     let entry = resolve_host_entry(launch_spec)?;
     let working_directory = entry.parent().ok_or_else(|| {
-        crate::OpenBitFunError::config(format!(
+        crate::OpcTeamError::config(format!(
             "{} plugin host entry has no parent directory: {}",
             launch_spec.runtime_name,
             entry.display()
@@ -319,7 +319,7 @@ async fn initialize_configured_plugin_host_from_config(
     })
     .await
     .map_err(|error| {
-        crate::OpenBitFunError::ProcessError(format!(
+        crate::OpcTeamError::ProcessError(format!(
             "Failed to initialize {} plugin host from {}: {error}",
             launch_spec.runtime_name,
             entry.display()
@@ -338,14 +338,14 @@ async fn initialize_configured_plugin_host_from_config(
     Ok(PluginHostStartup::Started)
 }
 
-pub async fn set_configured_plugin_host_log_level(level: &str) -> crate::OpenBitFunResult<()> {
+pub async fn set_configured_plugin_host_log_level(level: &str) -> crate::OpcTeamResult<()> {
     let host_state = PLUGIN_HOST.get_or_init(|| async { Mutex::new(None) }).await;
     let client = host_state.lock().await.as_ref().map(PluginHost::client);
     let Some(client) = client else {
         return Ok(());
     };
     client.set_log_level(level).await.map_err(|error| {
-        crate::OpenBitFunError::ProcessError(format!(
+        crate::OpcTeamError::ProcessError(format!(
             "Failed to update plugin host log level to {}: {}",
             level, error
         ))
@@ -397,15 +397,15 @@ pub(crate) async fn fault_configured_plugin_host_generation(
 pub async fn ensure_configured_plugin_instance(
     launch_policy: PluginHostLaunchPolicy,
     workspace_id: &str,
-) -> crate::OpenBitFunResult<()> {
+) -> crate::OpcTeamResult<()> {
     use crate::service::config::{get_global_config_service, GlobalConfig};
 
     let service = crate::service::workspace::get_global_workspace_service().ok_or_else(|| {
-        crate::OpenBitFunError::Validation("Workspace service is unavailable".into())
+        crate::OpcTeamError::Validation("Workspace service is unavailable".into())
     })?;
     let workspace = service.require_workspace(workspace_id).await?;
     if workspace.workspace_kind == crate::service::workspace::WorkspaceKind::Remote {
-        return Err(crate::OpenBitFunError::NotImplemented(
+        return Err(crate::OpcTeamError::NotImplemented(
             "Plugin Host is unavailable for remote workspaces".into(),
         ));
     }
@@ -419,13 +419,13 @@ pub async fn ensure_configured_plugin_instance(
         return Ok(());
     }
     if directory.as_os_str().is_empty() || !directory.is_dir() {
-        return Err(crate::OpenBitFunError::Validation(format!(
+        return Err(crate::OpcTeamError::Validation(format!(
             "Plugin host instance directory does not exist: {}",
             directory.display()
         )));
     }
     let canonical_directory = dunce::canonicalize(&directory).map_err(|error| {
-        crate::OpenBitFunError::Io(std::io::Error::other(format!(
+        crate::OpcTeamError::Io(std::io::Error::other(format!(
             "Failed to canonicalize plugin host instance directory {}: {error}",
             directory.display()
         )))
@@ -457,7 +457,7 @@ pub async fn ensure_configured_plugin_instance(
 
     let config = serde_json::to_value(
         crate::plugin_runtime::opencode_config_snapshot(&canonical_directory).map_err(|error| {
-            crate::OpenBitFunError::Validation(format!(
+            crate::OpcTeamError::Validation(format!(
                 "Failed to load OpenCode config for plugin activation: {error}"
             ))
         })?,
@@ -467,7 +467,7 @@ pub async fn ensure_configured_plugin_instance(
         _ => unreachable!("OpenCodeConfigSnapshot must serialize as an object"),
     })
     .map_err(|error| {
-        crate::OpenBitFunError::Validation(format!(
+        crate::OpcTeamError::Validation(format!(
             "Failed to serialize OpenCode plugin config snapshot: {error}"
         ))
     })?;
@@ -481,13 +481,13 @@ pub async fn ensure_configured_plugin_instance(
             .as_ref()
             .map(|host| (host.client(), host.runtime()))
             .ok_or_else(|| {
-                crate::OpenBitFunError::ProcessError(
+                crate::OpcTeamError::ProcessError(
                     "Configured plugin host is not running".to_string(),
                 )
             })?
     };
     if !client.capabilities().supports(GENERATION_FENCING_V1) {
-        return Err(crate::OpenBitFunError::ProcessError(
+        return Err(crate::OpcTeamError::ProcessError(
             "Configured plugin host does not support generation-fencing-v1".to_string(),
         ));
     }
@@ -515,7 +515,7 @@ pub async fn ensure_configured_plugin_instance(
         )
         .await
         .map_err(|error| {
-            crate::OpenBitFunError::ProcessError(format!(
+            crate::OpcTeamError::ProcessError(format!(
                 "Failed to prepare plugins for workspace {}: {error}",
                 canonical_directory.display()
             ))
@@ -524,7 +524,7 @@ pub async fn ensure_configured_plugin_instance(
     let failed_count = prepared.failed_count;
     let reviewed_count = prepared.reviewed_count;
     if failed_count != 0 || prepared_count != reviewed_count {
-        return Err(crate::OpenBitFunError::Validation(format!(
+        return Err(crate::OpcTeamError::Validation(format!(
             "Configured OpenCode plugin preparation did not resolve the complete plugin graph: prepared={prepared_count}, failed={failed_count}, reviewed={reviewed_count}"
         )));
     }
@@ -536,7 +536,7 @@ pub async fn ensure_configured_plugin_instance(
     let workspace_config_fingerprint = serde_json::to_vec(&initial_config)
         .map(|bytes| hex::encode(Sha256::digest(bytes)))
         .map_err(|error| {
-            crate::OpenBitFunError::Validation(format!(
+            crate::OpcTeamError::Validation(format!(
                 "Failed to fingerprint workspace plugin config: {error}"
             ))
         })?;
@@ -562,7 +562,7 @@ pub async fn ensure_configured_plugin_instance(
             != Some(instance.generation_key.as_str())
         {
             let registration_batch = instance.registration_batch.as_ref().ok_or_else(|| {
-                crate::OpenBitFunError::ProcessError(
+                crate::OpcTeamError::ProcessError(
                     "Reusable plugin instance is missing its typed registration batch".to_string(),
                 )
             })?;
@@ -571,7 +571,7 @@ pub async fn ensure_configured_plugin_instance(
                 &initial_config,
                 registration_batch,
             )
-            .map_err(|error| crate::OpenBitFunError::Validation(error.to_string()))?;
+            .map_err(|error| crate::OpcTeamError::Validation(error.to_string()))?;
             let publication = crate::plugin_capability_publication::prepare(
                 workspace_id,
                 &instance.generation_key,
@@ -599,7 +599,7 @@ pub async fn ensure_configured_plugin_instance(
         )
         .await
         {
-            return Err(crate::OpenBitFunError::ProcessError(
+            return Err(crate::OpcTeamError::ProcessError(
                 "Configured plugin Host faulted while retiring a superseded generation".to_string(),
             ));
         }
@@ -619,7 +619,7 @@ pub async fn ensure_configured_plugin_instance(
     )
     .await
     {
-        return Err(crate::OpenBitFunError::ProcessError(
+        return Err(crate::OpcTeamError::ProcessError(
             "Configured plugin host could not confirm closure of the previous workspace generation"
                 .to_string(),
         ));
@@ -704,7 +704,7 @@ pub async fn ensure_configured_plugin_instance(
                 &generation,
             )
             .await;
-            return Err(crate::OpenBitFunError::ProcessError(
+            return Err(crate::OpcTeamError::ProcessError(
                 "Plugin runtime returned a different generation from the requested lease"
                     .to_string(),
             ));
@@ -718,7 +718,7 @@ pub async fn ensure_configured_plugin_instance(
                 &generation,
             )
             .await;
-            return Err(crate::OpenBitFunError::ProcessError(format!(
+            return Err(crate::OpcTeamError::ProcessError(format!(
                 "Failed to activate plugins for workspace {}: {error}",
                 canonical_directory.display()
             )));
@@ -743,7 +743,7 @@ pub async fn ensure_configured_plugin_instance(
         &initial_config,
         &registration_batch,
     )
-    .map_err(|error| crate::OpenBitFunError::Validation(error.to_string()));
+    .map_err(|error| crate::OpcTeamError::Validation(error.to_string()));
     let config_publication = match projected_config.and_then(|projection| {
         crate::plugin_capability_publication::prepare(
             workspace_id,
@@ -791,7 +791,7 @@ pub async fn ensure_configured_plugin_instance(
                 &generation,
             )
             .await;
-            return Err(crate::OpenBitFunError::ProcessError(format!(
+            return Err(crate::OpcTeamError::ProcessError(format!(
                 "Failed to register plugin hooks for workspace {}: {error}",
                 canonical_directory.display()
             )));
@@ -861,7 +861,7 @@ pub async fn ensure_configured_plugin_instance(
                 &generation,
             )
             .await;
-            return Err(crate::OpenBitFunError::ProcessError(
+            return Err(crate::OpcTeamError::ProcessError(
                 "Plugin instance disappeared before generation publication".to_string(),
             ));
         }
@@ -891,7 +891,7 @@ pub async fn ensure_configured_plugin_instance(
     )
     .await
     {
-        return Err(crate::OpenBitFunError::ProcessError(
+        return Err(crate::OpcTeamError::ProcessError(
             "Configured plugin Host faulted while retiring a superseded generation".to_string(),
         ));
     }
@@ -1691,7 +1691,7 @@ pub(crate) fn instance_directories_equal(requested: &str, expected: &Path) -> bo
 }
 
 pub async fn shutdown_configured_plugin_host(
-) -> crate::OpenBitFunResult<Option<PluginHostShutdownReport>> {
+) -> crate::OpcTeamResult<Option<PluginHostShutdownReport>> {
     let shutdown_report = PLUGIN_HOST_SHUTDOWN_REPORT
         .get_or_init(|| async { Mutex::new(None) })
         .await;
@@ -1793,7 +1793,7 @@ async fn register_plugin_tools(
     config_fingerprint: &str,
     registration_batch: &HookFunctionRegistrationBatch,
     projection: &crate::plugin_capability_publication::PluginCapabilityPublicationPlan,
-) -> crate::OpenBitFunResult<Vec<String>> {
+) -> crate::OpcTeamResult<Vec<String>> {
     let tools = &registration_batch.tools;
     if tools.is_empty() {
         log::debug!(
@@ -1813,10 +1813,10 @@ async fn register_plugin_tools(
     let mut seen_ids = std::collections::BTreeSet::new();
     for tool in tools {
         let tool_ref = openbitfun_opencode_adapter::project_plugin_tool_ref(tool)
-            .map_err(|error| crate::OpenBitFunError::Validation(error.to_string()))?;
+            .map_err(|error| crate::OpcTeamError::Validation(error.to_string()))?;
         let allowed_runtime_agent_keys = projection.allowed_runtime_agent_keys_for_tool(&tool_ref);
         if !seen_ids.insert(tool.id.clone()) {
-            return Err(crate::OpenBitFunError::Validation(format!(
+            return Err(crate::OpcTeamError::Validation(format!(
                 "Plugin tool id is duplicated in the registration batch: {}",
                 tool.id
             )));
@@ -1870,13 +1870,13 @@ async fn register_plugin_tools(
     Ok(names)
 }
 
-fn resolve_host_entry(spec: PluginHostLaunchSpec) -> crate::OpenBitFunResult<PathBuf> {
+fn resolve_host_entry(spec: PluginHostLaunchSpec) -> crate::OpcTeamResult<PathBuf> {
     if let Some(entry) = std::env::var_os(spec.entry_env) {
         return absolutize_existing_entry(PathBuf::from(entry), spec);
     }
-    let executable = std::env::current_exe().map_err(crate::OpenBitFunError::Io)?;
+    let executable = std::env::current_exe().map_err(crate::OpcTeamError::Io)?;
     let executable_directory = executable.parent().ok_or_else(|| {
-        crate::OpenBitFunError::config(format!(
+        crate::OpcTeamError::config(format!(
             "OPC-Team executable has no parent directory: {}",
             executable.display()
         ))
@@ -1889,7 +1889,7 @@ fn resolve_host_entry(spec: PluginHostLaunchSpec) -> crate::OpenBitFunResult<Pat
     if let Some(entry) = development_entry.filter(|entry| entry.is_file()) {
         return Ok(entry);
     }
-    Err(crate::OpenBitFunError::NotFound(format!(
+    Err(crate::OpcTeamError::NotFound(format!(
         "{} plugin host entry does not exist at {}. Set {} in development.",
         spec.runtime_name,
         bundled_entries
@@ -1958,7 +1958,7 @@ fn plugin_declaration(
 
 fn plugin_config_fingerprint(
     config: &crate::service::config::GlobalConfig,
-) -> crate::OpenBitFunResult<String> {
+) -> crate::OpcTeamResult<String> {
     let declarations = config
         .plugin
         .iter()
@@ -1978,16 +1978,16 @@ fn comparable_instance_directory(directory: &str) -> String {
 fn absolutize_existing_entry(
     entry: PathBuf,
     spec: PluginHostLaunchSpec,
-) -> crate::OpenBitFunResult<PathBuf> {
+) -> crate::OpcTeamResult<PathBuf> {
     let entry = if entry.is_absolute() {
         entry
     } else {
         std::env::current_dir()
-            .map_err(crate::OpenBitFunError::Io)?
+            .map_err(crate::OpcTeamError::Io)?
             .join(entry)
     };
     if !entry.is_file() {
-        return Err(crate::OpenBitFunError::NotFound(format!(
+        return Err(crate::OpcTeamError::NotFound(format!(
             "{} plugin host entry does not exist: {}. Set {} in development.",
             spec.runtime_name,
             entry.display(),

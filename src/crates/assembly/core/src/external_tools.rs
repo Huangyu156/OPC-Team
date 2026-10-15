@@ -6,7 +6,7 @@ use crate::agentic::tools::framework::{
 };
 use crate::agentic::tools::registry::get_global_tool_registry;
 use crate::agentic::workspace::workspace_route_key;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_external_sources::{ExternalSourceControlPlane, ExternalToolCoordinatorSnapshot};
 use openbitfun_product_domains::external_sources::{
@@ -180,7 +180,7 @@ impl Tool for LoadedExternalTool {
         &self.descriptor.name
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(self.descriptor.description.clone())
     }
 
@@ -220,7 +220,7 @@ impl Tool for LoadedExternalTool {
         &self,
         _input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         Ok(vec![external_tool_permission_intent(
             &self.provider_id,
             &self.descriptor.name,
@@ -231,7 +231,7 @@ impl Tool for LoadedExternalTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if !crate::external_sources::external_tool_invocation_is_authorized(
             &self.ecosystem_id,
             &self.approval_key,
@@ -239,9 +239,9 @@ impl Tool for LoadedExternalTool {
             &self.workspace_key,
         )
         .await
-        .map_err(OpenBitFunError::tool)?
+        .map_err(OpcTeamError::tool)?
         {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "external tool '{}' was disabled in another OPC-Team process; refresh external tools before retrying",
                 self.name()
             )));
@@ -287,7 +287,7 @@ impl Tool for LoadedExternalTool {
                         )
                         .await;
                     }
-                    return Err(OpenBitFunError::Cancelled(format!("external tool '{}' was cancelled", self.name())));
+                    return Err(OpcTeamError::Cancelled(format!("external tool '{}' was cancelled", self.name())));
                 }
             }
         } else {
@@ -310,7 +310,7 @@ impl Tool for LoadedExternalTool {
                     )
                     .await;
                 }
-                return Err(OpenBitFunError::tool(error.to_string()));
+                return Err(OpcTeamError::tool(error.to_string()));
             }
         };
         Ok(vec![ToolResult::ok(
@@ -569,7 +569,7 @@ impl Tool for ExternalToolMux {
         &self.name
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         match self.original() {
             Some(tool) => tool.description().await,
             None => Ok(format!("External tool: {}", self.name)),
@@ -579,10 +579,10 @@ impl Tool for ExternalToolMux {
     async fn description_with_context(
         &self,
         context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         match self.selected(context) {
             Some(tool) => tool.description_with_context(context).await,
-            None => Err(OpenBitFunError::tool(format!(
+            None => Err(OpcTeamError::tool(format!(
                 "tool '{}' is waiting for an external-source decision",
                 self.name
             ))),
@@ -653,9 +653,9 @@ impl Tool for ExternalToolMux {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         self.selected(Some(context))
-            .ok_or_else(|| OpenBitFunError::tool(format!("tool '{}' is unavailable", self.name)))?
+            .ok_or_else(|| OpcTeamError::tool(format!("tool '{}' is unavailable", self.name)))?
             .permission_intents(input, context)
     }
 
@@ -682,9 +682,9 @@ impl Tool for ExternalToolMux {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let selected = self.selected(Some(context)).ok_or_else(|| {
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "tool '{}' is waiting for an external-source decision",
                 self.name
             ))
@@ -696,12 +696,12 @@ impl Tool for ExternalToolMux {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
             return self
                 .original()
                 .ok_or_else(|| {
-                    OpenBitFunError::tool(format!(
+                    OpcTeamError::tool(format!(
                         "tool '{}' is unavailable in remote workspaces",
                         self.name
                     ))
@@ -722,9 +722,9 @@ impl Tool for ExternalToolMux {
                 expectation.selected_candidate_id.as_deref(),
             )
             .await
-            .map_err(OpenBitFunError::tool)?
+            .map_err(OpcTeamError::tool)?
             {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "tool conflict choice for '{}' changed in another OPC-Team process; refresh before retrying",
                     self.name
                 )));
@@ -735,7 +735,7 @@ impl Tool for ExternalToolMux {
             Some(WorkspaceRoute::Live { .. }) => {
                 self.selected(Some(context))
                     .ok_or_else(|| {
-                        OpenBitFunError::tool(format!("tool '{}' is unavailable", self.name))
+                        OpcTeamError::tool(format!("tool '{}' is unavailable", self.name))
                     })?
                     .call(input, context)
                     .await
@@ -743,7 +743,7 @@ impl Tool for ExternalToolMux {
             Some(WorkspaceRoute::Original { .. }) | None => {
                 self.original()
                     .ok_or_else(|| {
-                        OpenBitFunError::tool(format!(
+                        OpcTeamError::tool(format!(
                             "tool '{}' is waiting for an external-source decision",
                             self.name
                         ))
@@ -751,7 +751,7 @@ impl Tool for ExternalToolMux {
                     .call(input, context)
                     .await
             }
-            Some(WorkspaceRoute::Unavailable { .. }) => Err(OpenBitFunError::tool(format!(
+            Some(WorkspaceRoute::Unavailable { .. }) => Err(OpcTeamError::tool(format!(
                 "tool '{}' is waiting for an external-source decision",
                 self.name
             ))),
@@ -2466,7 +2466,7 @@ mod tests {
             &self.name
         }
 
-        async fn description(&self) -> OpenBitFunResult<String> {
+        async fn description(&self) -> OpcTeamResult<String> {
             Ok("test tool".to_string())
         }
 
@@ -2482,7 +2482,7 @@ mod tests {
             &self,
             _input: &Value,
             _context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<ToolResult>> {
+        ) -> OpcTeamResult<Vec<ToolResult>> {
             Ok(Vec::new())
         }
     }
@@ -2499,7 +2499,7 @@ mod tests {
             &self.name
         }
 
-        async fn description(&self) -> OpenBitFunResult<String> {
+        async fn description(&self) -> OpcTeamResult<String> {
             Ok("plugin test tool".to_string())
         }
 
@@ -2519,7 +2519,7 @@ mod tests {
             &self,
             _input: &Value,
             _context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<ToolResult>> {
+        ) -> OpcTeamResult<Vec<ToolResult>> {
             Ok(Vec::new())
         }
     }

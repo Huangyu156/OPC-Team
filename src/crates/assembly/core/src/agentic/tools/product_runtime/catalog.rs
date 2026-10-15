@@ -4,7 +4,7 @@ use crate::agentic::agents::{get_agent_registry, AgentToolPolicyOverrides};
 use crate::agentic::tools::framework::{Tool, ToolExposure, ToolResult};
 use crate::agentic::tools::registry::{get_global_tool_registry, ToolRef};
 use crate::agentic::tools::tool_context_runtime::ToolUseContext;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::ToolDefinition;
 use openbitfun_agent_tools::{
     resolve_contextual_tool_manifest, resolve_contextual_visible_tools, ContextualToolManifest,
@@ -237,9 +237,9 @@ impl ProductToolCatalogProvider {
     async fn contextual_deferred_tools(
         &self,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolRef>> {
+    ) -> OpcTeamResult<Vec<ToolRef>> {
         let agent_type = context.agent_type.as_deref().ok_or_else(|| {
-            OpenBitFunError::Validation("GetToolSpec requires agent type context".to_string())
+            OpcTeamError::Validation("GetToolSpec requires agent type context".to_string())
         })?;
         let workspace_id = context.workspace_id();
         let agent_registry = get_agent_registry();
@@ -259,9 +259,9 @@ impl ProductToolCatalogProvider {
     async fn contextual_available_tools(
         &self,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolRef>> {
+    ) -> OpcTeamResult<Vec<ToolRef>> {
         let agent_type = context.agent_type.as_deref().ok_or_else(|| {
-            OpenBitFunError::Validation("GetToolSpec requires agent type context".to_string())
+            OpcTeamError::Validation("GetToolSpec requires agent type context".to_string())
         })?;
         let workspace_id = context.workspace_id();
         let agent_registry = get_agent_registry();
@@ -469,7 +469,7 @@ mod tests {
             self.name
         }
 
-        async fn description(&self) -> crate::util::errors::OpenBitFunResult<String> {
+        async fn description(&self) -> crate::util::errors::OpcTeamResult<String> {
             Ok(self.name.to_string())
         }
 
@@ -489,7 +489,7 @@ mod tests {
             &self,
             _input: &Value,
             _context: &ToolUseContext,
-        ) -> crate::util::errors::OpenBitFunResult<Vec<ToolResult>> {
+        ) -> crate::util::errors::OpcTeamResult<Vec<ToolResult>> {
             Ok(Vec::new())
         }
     }
@@ -500,7 +500,7 @@ mod tests {
             "mcp__github__search_repos"
         }
 
-        async fn description(&self) -> crate::util::errors::OpenBitFunResult<String> {
+        async fn description(&self) -> crate::util::errors::OpcTeamResult<String> {
             Ok("Search GitHub repositories".to_string())
         }
 
@@ -538,7 +538,7 @@ mod tests {
             &self,
             _input: &serde_json::Value,
             _context: &ToolUseContext,
-        ) -> crate::util::errors::OpenBitFunResult<Vec<ToolResult>> {
+        ) -> crate::util::errors::OpcTeamResult<Vec<ToolResult>> {
             Ok(Vec::new())
         }
     }

@@ -15,21 +15,21 @@ use std::net::IpAddr;
 const OPENBITFUN_SEARCH_TIMEOUT_SECS: u64 = 60;
 const OPENBITFUN_SEARCH_MEDIA_TYPE: &str = "application/vnd.openbitfun.web-search.v1+json";
 
-pub enum OpenBitFunSearchHttpAuth {
+pub enum OpcTeamSearchHttpAuth {
     None,
     Bearer(String),
     Header { name: String, value: String },
 }
 
-pub struct OpenBitFunSearchHttpProvider {
+pub struct OpcTeamSearchHttpProvider {
     endpoint: Url,
-    auth: OpenBitFunSearchHttpAuth,
+    auth: OpcTeamSearchHttpAuth,
 }
 
-impl OpenBitFunSearchHttpProvider {
+impl OpcTeamSearchHttpProvider {
     pub fn new(
         endpoint: impl AsRef<str>,
-        auth: OpenBitFunSearchHttpAuth,
+        auth: OpcTeamSearchHttpAuth,
     ) -> Result<Self, WebSearchError> {
         let provider = WebSearchProviderId::new(WebSearchProviderId::OPENBITFUN_SEARCH_HTTP);
         let endpoint = Url::parse(endpoint.as_ref()).map_err(|error| {
@@ -84,7 +84,7 @@ struct ProtocolErrorBody {
 }
 
 #[async_trait]
-impl WebSearchProvider for OpenBitFunSearchHttpProvider {
+impl WebSearchProvider for OpcTeamSearchHttpProvider {
     fn id(&self) -> WebSearchProviderId {
         WebSearchProviderId::new(WebSearchProviderId::OPENBITFUN_SEARCH_HTTP)
     }
@@ -101,9 +101,9 @@ impl WebSearchProvider for OpenBitFunSearchHttpProvider {
                 max_results: request.max_results,
             });
         builder = match &self.auth {
-            OpenBitFunSearchHttpAuth::None => builder,
-            OpenBitFunSearchHttpAuth::Bearer(secret) => builder.bearer_auth(secret),
-            OpenBitFunSearchHttpAuth::Header { name, value } => {
+            OpcTeamSearchHttpAuth::None => builder,
+            OpcTeamSearchHttpAuth::Bearer(secret) => builder.bearer_auth(secret),
+            OpcTeamSearchHttpAuth::Header { name, value } => {
                 let name = HeaderName::from_bytes(name.as_bytes()).map_err(|error| {
                     WebSearchError::new(
                         provider.clone(),
@@ -223,13 +223,13 @@ fn is_loopback_host(host: Option<&str>) -> bool {
 }
 
 fn validate_auth(
-    auth: &OpenBitFunSearchHttpAuth,
+    auth: &OpcTeamSearchHttpAuth,
     provider: WebSearchProviderId,
 ) -> Result<(), WebSearchError> {
     match auth {
-        OpenBitFunSearchHttpAuth::None => Ok(()),
-        OpenBitFunSearchHttpAuth::Bearer(value) if !value.trim().is_empty() => Ok(()),
-        OpenBitFunSearchHttpAuth::Header { name, value } if !value.trim().is_empty() => {
+        OpcTeamSearchHttpAuth::None => Ok(()),
+        OpcTeamSearchHttpAuth::Bearer(value) if !value.trim().is_empty() => Ok(()),
+        OpcTeamSearchHttpAuth::Header { name, value } if !value.trim().is_empty() => {
             let name = HeaderName::from_bytes(name.as_bytes()).map_err(|error| {
                 WebSearchError::new(
                     provider.clone(),

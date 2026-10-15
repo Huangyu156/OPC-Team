@@ -13,7 +13,7 @@ use crate::agentic::tools::framework::{
 use crate::infrastructure::events::event_system::{
     get_global_event_system, BackendEvent::BackgroundCommandLifecycle,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::event::BackgroundCommandLifecycleInfo;
 use async_trait::async_trait;
 use openbitfun_runtime_ports::{
@@ -112,7 +112,7 @@ impl ExecCommandTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<PreparedShell> {
+    ) -> OpcTeamResult<PreparedShell> {
         let key = Self::plan_key(input, context);
         let mut plans = self.prepared_shells.lock().await;
         if let Some(shell) = plans.get(&key) {
@@ -124,10 +124,10 @@ impl ExecCommandTool {
                 .as_ref()
                 .and_then(|w| w.connection_id())
                 .ok_or_else(|| {
-                    OpenBitFunError::tool("remote connection id is required for ExecCommand")
+                    OpcTeamError::tool("remote connection id is required for ExecCommand")
                 })?;
             let port = context.remote_exec_port().ok_or_else(|| {
-                OpenBitFunError::tool("remote exec runtime service is required for ExecCommand")
+                OpcTeamError::tool("remote exec runtime service is required for ExecCommand")
             })?;
             PreparedShell::Remote(Self::resolve_remote_shell(port, connection).await)
         } else {
@@ -183,7 +183,7 @@ impl ExecCommandTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<PreparedShell> {
+    ) -> OpcTeamResult<PreparedShell> {
         let shell = self.prepare_shell(input, context).await?;
         self.prepared_shells
             .lock()
@@ -192,7 +192,7 @@ impl ExecCommandTool {
         // Recheck with the exact selection about to be used, including changes
         // in constraints while a permission dialog was open.
         if let Some(rejection) = self.guard_prepared(input, context, &shell).await {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 rejection.message.unwrap_or_default(),
             ));
         }
@@ -209,7 +209,7 @@ impl ExecCommandTool {
         }
     }
 
-    async fn description_for_context(context: Option<&ToolUseContext>) -> OpenBitFunResult<String> {
+    async fn description_for_context(context: Option<&ToolUseContext>) -> OpcTeamResult<String> {
         let mut description = Self::new().description().await?;
         if context.map(ToolUseContext::is_remote).unwrap_or(false) {
             description = format!(
@@ -225,7 +225,7 @@ impl ExecCommandTool {
         exec_command_noninteractive_env()
     }
 
-    fn requested_workdir(input: &Value, context: &ToolUseContext) -> OpenBitFunResult<String> {
+    fn requested_workdir(input: &Value, context: &ToolUseContext) -> OpcTeamResult<String> {
         input
             .get("workdir")
             .and_then(Value::as_str)
@@ -238,11 +238,11 @@ impl ExecCommandTool {
                     .map(|path| path.to_string_lossy().to_string())
             })
             .ok_or_else(|| {
-                OpenBitFunError::tool("workspace root is required for ExecCommand".to_string())
+                OpcTeamError::tool("workspace root is required for ExecCommand".to_string())
             })
     }
 
-    fn resolve_workdir(input: &Value, context: &ToolUseContext) -> OpenBitFunResult<PathBuf> {
+    fn resolve_workdir(input: &Value, context: &ToolUseContext) -> OpcTeamResult<PathBuf> {
         let raw = Self::requested_workdir(input, context)?;
         let workspace_root = context
             .workspace_root()
@@ -259,7 +259,7 @@ impl ExecCommandTool {
         Ok(PathBuf::from(resolved))
     }
 
-    fn resolve_remote_workdir(input: &Value, context: &ToolUseContext) -> OpenBitFunResult<String> {
+    fn resolve_remote_workdir(input: &Value, context: &ToolUseContext) -> OpcTeamResult<String> {
         let raw = Self::requested_workdir(input, context)?;
         let resolved = context.resolve_workspace_tool_path(&raw)?;
 
@@ -502,9 +502,9 @@ impl ExecCommandTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let parsed_input = exec_command_run_input_from_input(input)
-            .ok_or_else(|| OpenBitFunError::tool("cmd is required for ExecCommand".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("cmd is required for ExecCommand".to_string()))?;
         let cmd = parsed_input.cmd;
         let tty = parsed_input.tty;
 
@@ -514,19 +514,17 @@ impl ExecCommandTool {
             .as_ref()
             .and_then(|workspace| workspace.connection_id())
             .ok_or_else(|| {
-                OpenBitFunError::tool(
-                    "remote connection id is required for ExecCommand".to_string(),
-                )
+                OpcTeamError::tool("remote connection id is required for ExecCommand".to_string())
             })?
             .to_string();
         let remote_exec_port = context.remote_exec_port().ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "remote exec runtime service is required for ExecCommand".to_string(),
             )
         })?;
         let yield_time_ms = parsed_input.yield_time_ms;
         let PreparedShell::Remote(shell) = self.take_prepared_shell(input, context).await? else {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "ExecCommand shell plan does not match remote execution",
             ));
         };
@@ -594,7 +592,7 @@ impl ExecCommandTool {
                         .finish(capture_id, BackgroundCommandOutputStatus::Failed, None)
                         .await;
                 }
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "ExecCommand failed: {}",
                     error.message
                 )));
@@ -656,7 +654,7 @@ impl Tool for ExecCommandTool {
         "ExecCommand"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Runs the supplied shell command in a separate process in the Session's workspace environment.
 
 Command availability:
@@ -686,7 +684,7 @@ Output:
     async fn description_with_context(
         &self,
         context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         Self::description_for_context(context).await
     }
 
@@ -732,11 +730,11 @@ Output:
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let command = exec_command_run_input_from_input(input)
             .map(|parsed| parsed.cmd.trim().to_string())
             .filter(|command| !command.is_empty())
-            .ok_or_else(|| OpenBitFunError::validation("cmd is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::validation("cmd is required".to_string()))?;
         Ok(vec![PermissionIntent::new("bash", vec![command])])
     }
 
@@ -804,26 +802,24 @@ Output:
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
             return self.call_remote_pipe(input, context).await;
         }
 
         let parsed_input = exec_command_run_input_from_input(input)
-            .ok_or_else(|| OpenBitFunError::tool("cmd is required for ExecCommand".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("cmd is required for ExecCommand".to_string()))?;
         let cmd = parsed_input.cmd;
         let workdir = Self::resolve_workdir(input, context)?;
         let tty = parsed_input.tty;
         let PreparedShell::Local(shell) = self.take_prepared_shell(input, context).await? else {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "ExecCommand shell plan does not match local execution",
             ));
         };
         let yield_time_ms = parsed_input.yield_time_ms;
         let terminal_port = context.terminal_port().ok_or_else(|| {
-            OpenBitFunError::tool(
-                "terminal runtime service is required for ExecCommand".to_string(),
-            )
+            OpcTeamError::tool("terminal runtime service is required for ExecCommand".to_string())
         })?;
         let output_capture_tx = if let Some(capture_id) = context.tool_call_id.as_ref() {
             Some(
@@ -872,7 +868,7 @@ Output:
                         .finish(capture_id, BackgroundCommandOutputStatus::Failed, None)
                         .await;
                 }
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "ExecCommand failed: {}",
                     error.message
                 )));

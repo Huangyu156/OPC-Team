@@ -401,7 +401,7 @@ fn custom_agent_discovery_ignores_non_openbitfun_agent_dirs() {
 
     write_subagent(
         &project_openbitfun.join("project-openbitfun.md"),
-        "OpenBitFunProject",
+        "OpcTeamProject",
         CustomAgentLevel::Project,
     );
     write_subagent(
@@ -411,7 +411,7 @@ fn custom_agent_discovery_ignores_non_openbitfun_agent_dirs() {
     );
     write_subagent(
         &user_agents.join("user-openbitfun.md"),
-        "OpenBitFunUser",
+        "OpcTeamUser",
         CustomAgentLevel::User,
     );
     write_subagent(
@@ -442,7 +442,7 @@ fn custom_agent_discovery_ignores_non_openbitfun_agent_dirs() {
             .iter()
             .map(|loaded| loaded.definition.id.as_str())
             .collect::<Vec<_>>(),
-        vec!["OpenBitFunProject", "OpenBitFunUser"]
+        vec!["OpcTeamProject", "OpcTeamUser"]
     );
     assert!(report.errors.is_empty());
 }

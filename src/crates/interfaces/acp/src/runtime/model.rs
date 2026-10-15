@@ -9,14 +9,14 @@ use openbitfun_core::agentic::agents::get_agent_registry;
 use openbitfun_core::service::config::types::AIConfig;
 use openbitfun_core::service::config::{GlobalConfig, GlobalConfigManager};
 
-use super::OpenBitFunAcpRuntime;
+use super::OpcTeamAcpRuntime;
 
 const PRIMARY_MODEL_ID: &str = "primary";
 const FAST_MODEL_ID: &str = "fast";
 const MODEL_CONFIG_ID: &str = "model";
 const MODE_CONFIG_ID: &str = "mode";
 
-impl OpenBitFunAcpRuntime {
+impl OpcTeamAcpRuntime {
     pub(super) async fn update_session_model(
         &self,
         request: SetSessionModelRequest,
@@ -235,11 +235,11 @@ fn model_display_name(model: &openbitfun_core::service::config::types::AIModelCo
 async fn load_ai_config() -> Result<AIConfig> {
     let config_service = GlobalConfigManager::get_service()
         .await
-        .map_err(OpenBitFunAcpRuntime::internal_error)?;
+        .map_err(OpcTeamAcpRuntime::internal_error)?;
     let global_config = config_service
         .get_config::<GlobalConfig>(None)
         .await
-        .map_err(OpenBitFunAcpRuntime::internal_error)?;
+        .map_err(OpcTeamAcpRuntime::internal_error)?;
     Ok(global_config.ai)
 }
 

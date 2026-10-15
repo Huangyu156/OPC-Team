@@ -1452,13 +1452,13 @@ fn runtime_ipc_error(error: RuntimeError) -> RuntimeIpcError {
     }
 }
 
-fn core_ipc_error(error: openbitfun_core::util::errors::OpenBitFunError) -> RuntimeIpcError {
+fn core_ipc_error(error: openbitfun_core::util::errors::OpcTeamError) -> RuntimeIpcError {
     let code = match &error {
-        openbitfun_core::util::errors::OpenBitFunError::Validation(_)
-        | openbitfun_core::util::errors::OpenBitFunError::NotFound(_) => {
+        openbitfun_core::util::errors::OpcTeamError::Validation(_)
+        | openbitfun_core::util::errors::OpcTeamError::NotFound(_) => {
             RuntimeIpcErrorCode::InvalidRequest
         }
-        openbitfun_core::util::errors::OpenBitFunError::SessionInUse { .. } => {
+        openbitfun_core::util::errors::OpcTeamError::SessionInUse { .. } => {
             RuntimeIpcErrorCode::SessionInUse
         }
         _ => RuntimeIpcErrorCode::Unavailable,

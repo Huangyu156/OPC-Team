@@ -224,14 +224,14 @@ impl MCPServerManager {
         error_message: Option<String>,
         error_code: Option<i32>,
         error_data: Option<Value>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let pending = {
             let mut interactions = self.pending_interactions.write().await;
             interactions.remove(interaction_id)
         };
 
         let Some(pending) = pending else {
-            return Err(OpenBitFunError::NotFound(format!(
+            return Err(OpcTeamError::NotFound(format!(
                 "MCP interaction not found: {}",
                 interaction_id
             )));
@@ -253,7 +253,7 @@ impl MCPServerManager {
         };
 
         pending.sender.send(decision).map_err(|_| {
-            OpenBitFunError::MCPError(format!(
+            OpcTeamError::MCPError(format!(
                 "Failed to deliver MCP interaction response (receiver dropped): {}",
                 interaction_id
             ))

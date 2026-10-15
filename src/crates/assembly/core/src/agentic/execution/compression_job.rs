@@ -28,7 +28,7 @@ impl Drop for PrefetchObservation {
 }
 
 pub(super) struct PrefetchedCompression {
-    task: CompressionPrefetch<CompressionCandidate, OpenBitFunError>,
+    task: CompressionPrefetch<CompressionCandidate, OpcTeamError>,
     source_message_ids: Vec<String>,
     request_identity: serde_json::Value,
     observation: PrefetchObservation,
@@ -38,7 +38,7 @@ impl PrefetchedCompression {
     pub(super) fn claim(
         mut self,
         input: &CompressionModelSummaryInput<'_>,
-    ) -> PrefetchClaim<CompressionCandidate, OpenBitFunError> {
+    ) -> PrefetchClaim<CompressionCandidate, OpcTeamError> {
         let latest = ContextCompressor::canonical_conversation(input.runtime_messages);
         self.observation.claimed = true;
         let request_matches = self.request_identity == CompressionJob::request_identity(input);
@@ -75,12 +75,12 @@ pub(super) fn merge_latest_context(
     runtime: &[Message],
     snapshot: &[Message],
     latest: &[Message],
-) -> OpenBitFunResult<Vec<Message>> {
+) -> OpcTeamResult<Vec<Message>> {
     if !ContextCompressor::has_message_id_prefix(
         latest,
         snapshot.iter().map(|message| message.id.as_str()),
     ) {
-        return Err(OpenBitFunError::Cancelled(
+        return Err(OpcTeamError::Cancelled(
             "Context changed during compression preparation".into(),
         ));
     }
@@ -130,7 +130,7 @@ impl CompressionJob {
     ) -> PrefetchedCompression
     where
         F: FnOnce(Self) -> Fut + Send + 'static,
-        Fut: std::future::Future<Output = OpenBitFunResult<CompressionCandidate>> + Send + 'static,
+        Fut: std::future::Future<Output = OpcTeamResult<CompressionCandidate>> + Send + 'static,
     {
         let source_message_ids = ContextCompressor::canonical_conversation(&self.messages)
             .map(|message| message.id.clone())
@@ -211,7 +211,7 @@ impl CompressionJob {
         }
     }
 
-    async fn request_summary(&self, messages: &[Message]) -> OpenBitFunResult<String> {
+    async fn request_summary(&self, messages: &[Message]) -> OpcTeamResult<String> {
         let mut messages = ExecutionEngine::build_ai_messages_for_send(
             messages,
             &self.client.config.format,
@@ -233,7 +233,7 @@ impl CompressionJob {
         .await
     }
 
-    pub(super) async fn run(self) -> OpenBitFunResult<CompressionCandidate> {
+    pub(super) async fn run(self) -> OpcTeamResult<CompressionCandidate> {
         let session_id = self.session_id.as_str();
         let dialog_turn_id = self.turn_id.as_str();
         let runtime_messages = self.messages.as_slice();
@@ -252,12 +252,12 @@ impl CompressionJob {
                 recent_target,
             )?
             else {
-                return Err(OpenBitFunError::AIClient(
+                return Err(OpcTeamError::AIClient(
                     "Context compression has no eligible plan".to_string(),
                 ));
             };
             if previous_cutoff.is_some_and(|cutoff| plan.cutoff_message_index >= cutoff) {
-                return Err(OpenBitFunError::AIClient(
+                return Err(OpcTeamError::AIClient(
                     "Context compression cannot reduce the summary input further".to_string(),
                 ));
             }

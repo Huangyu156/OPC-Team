@@ -1,4 +1,4 @@
-//! OpenBitFunControl — discover and control user-facing OPC-Team features and settings.
+//! OpcTeamControl — discover and control user-facing OPC-Team features and settings.
 
 use crate::agentic::agents::get_agent_registry;
 use crate::agentic::tools::framework::{
@@ -8,12 +8,12 @@ use crate::agentic::tools::openbitfun_control_config::{
     global_shared_product_control_executor, SharedProductControlExecutor,
 };
 use crate::agentic::tools::openbitfun_control_host::{
-    invoke_openbitfun_control, openbitfun_control_host_available, OpenBitFunControlHostRequest,
+    invoke_openbitfun_control, openbitfun_control_host_available, OpcTeamControlHostRequest,
     ProductControlAction,
 };
 #[cfg(test)]
 use crate::service::config::ConfigService;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_product_domains::product_control::{
     capability as product_capability, discover as discover_product_capabilities,
@@ -31,11 +31,11 @@ const INPUT_ID_ALIASES: &[(&str, &str)] = &[
     ("option_id", "optionId"),
 ];
 
-pub struct OpenBitFunControlTool {
+pub struct OpcTeamControlTool {
     shared_executor: Option<Arc<SharedProductControlExecutor>>,
 }
 
-impl OpenBitFunControlTool {
+impl OpcTeamControlTool {
     pub fn new() -> Self {
         Self {
             shared_executor: None,
@@ -62,20 +62,18 @@ impl OpenBitFunControlTool {
         serde_json::to_string(result).unwrap_or_else(|_| result.to_string())
     }
 
-    async fn inspect_shared_capability(&self, capability_id: &str) -> OpenBitFunResult<Value> {
+    async fn inspect_shared_capability(&self, capability_id: &str) -> OpcTeamResult<Value> {
         match self.shared_executor().await {
             Ok(executor) => executor
                 .inspect(capability_id, ProductControlDeliveryProfile::Cli)
                 .await
-                .map_err(OpenBitFunError::tool),
+                .map_err(OpcTeamError::tool),
             Err(error) => {
                 let mut result =
                     openbitfun_product_domains::product_control::inspect_contract(capability_id)
-                        .map_err(OpenBitFunError::tool)?;
+                        .map_err(OpcTeamError::tool)?;
                 let object = result.as_object_mut().ok_or_else(|| {
-                    OpenBitFunError::tool(
-                        "Product-control inspection was not an object".to_string(),
-                    )
+                    OpcTeamError::tool("Product-control inspection was not an object".to_string())
                 })?;
                 object.insert(
                     "controlAvailability".to_string(),
@@ -93,14 +91,14 @@ impl OpenBitFunControlTool {
 
     async fn configure_shared_option(
         &self,
-        request: &OpenBitFunControlHostRequest,
-    ) -> OpenBitFunResult<Value> {
+        request: &OpcTeamControlHostRequest,
+    ) -> OpcTeamResult<Value> {
         self.shared_executor()
             .await
-            .map_err(OpenBitFunError::tool)?
+            .map_err(OpcTeamError::tool)?
             .configure(request)
             .await
-            .map_err(OpenBitFunError::tool)
+            .map_err(OpcTeamError::tool)
     }
 
     fn action(input: &Value) -> Option<&str> {
@@ -243,7 +241,7 @@ impl OpenBitFunControlTool {
             .is_some_and(|operation| operation.risk == ProductControlRisk::Read)
     }
 
-    fn headless_unsupported(request: &OpenBitFunControlHostRequest) -> String {
+    fn headless_unsupported(request: &OpcTeamControlHostRequest) -> String {
         let definition_id = match request.action {
             ProductControlAction::Execute => request.operation_id.as_ref().map(|operation_id| {
                 format!(
@@ -296,19 +294,19 @@ impl OpenBitFunControlTool {
     }
 }
 
-impl Default for OpenBitFunControlTool {
+impl Default for OpcTeamControlTool {
     fn default() -> Self {
         Self::new()
     }
 }
 
 #[async_trait]
-impl Tool for OpenBitFunControlTool {
+impl Tool for OpcTeamControlTool {
     fn name(&self) -> &str {
         "OpenBitFunControl"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(
             "Control OPC-Team itself through its internal ProductControl API. Use the two-step flow: first `list` or `search`, then `get` the matching capability and follow its returned schema and availability to `configure`, `execute`, or `open`. To show a capability's root surface, call `open` with only its capability_id. destination.actionId is presentation metadata, never an item_id or operation_id. The full catalog loads only on demand; never guess IDs or values."
                 .to_string(),
@@ -415,7 +413,7 @@ impl Tool for OpenBitFunControlTool {
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let action = Self::action(input).unwrap_or("<missing-action>");
         if matches!(action, "list" | "search" | "get") {
             return Ok(Vec::new());
@@ -622,24 +620,24 @@ impl Tool for OpenBitFunControlTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
-        Self::validate_input_aliases(input).map_err(OpenBitFunError::tool)?;
+    ) -> OpcTeamResult<Vec<ToolResult>> {
+        Self::validate_input_aliases(input).map_err(OpcTeamError::tool)?;
         let action = Self::action(input)
-            .ok_or_else(|| OpenBitFunError::tool("action is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("action is required".to_string()))?;
         let typed_action = Self::typed_action(action).ok_or_else(|| {
-            OpenBitFunError::tool(format!("Unsupported OpenBitFunControl action: {action}"))
+            OpcTeamError::tool(format!("Unsupported OpcTeamControl action: {action}"))
         })?;
-        Self::validate_operation_scope(input, context).map_err(OpenBitFunError::tool)?;
+        Self::validate_operation_scope(input, context).map_err(OpcTeamError::tool)?;
         let mutating_control = matches!(action, "open" | "configure")
             || (action == "execute" && !Self::operation_is_readonly(input));
         if mutating_control && Self::agent_is_readonly(context) {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "This read-only agent may discover OPC-Team features and settings but cannot control them"
                     .to_string(),
             ));
         }
 
-        let request = OpenBitFunControlHostRequest {
+        let request = OpcTeamControlHostRequest {
             action: typed_action,
             query: input
                 .get("query")
@@ -661,7 +659,7 @@ impl Tool for OpenBitFunControlTool {
                 .map(str::to_string),
             arguments: input.get("arguments").cloned(),
             value: if typed_action == ProductControlAction::Configure {
-                Self::configure_value(input).map_err(OpenBitFunError::tool)?
+                Self::configure_value(input).map_err(OpcTeamError::tool)?
             } else {
                 None
             },
@@ -678,12 +676,13 @@ impl Tool for OpenBitFunControlTool {
 
         let result = match typed_action {
             ProductControlAction::List | ProductControlAction::Search => {
-                discover_product_capabilities(&request).map_err(OpenBitFunError::tool)?
+                discover_product_capabilities(&request).map_err(OpcTeamError::tool)?
             }
             ProductControlAction::Get => {
-                let capability_id = request.capability_id.as_deref().ok_or_else(|| {
-                    OpenBitFunError::tool("capability_id is required".to_string())
-                })?;
+                let capability_id = request
+                    .capability_id
+                    .as_deref()
+                    .ok_or_else(|| OpcTeamError::tool("capability_id is required".to_string()))?;
                 let mut result = if openbitfun_control_host_available() {
                     match invoke_openbitfun_control(request.clone()).await {
                         Ok(result) => result,
@@ -706,7 +705,7 @@ impl Tool for OpenBitFunControlTool {
                 };
                 if let Some(object) = result.as_object_mut() {
                     let capability =
-                        product_capability(capability_id).map_err(OpenBitFunError::tool)?;
+                        product_capability(capability_id).map_err(OpcTeamError::tool)?;
                     object.insert(
                         "toolInput".to_string(),
                         json!({ "capability_id": capability_id }),
@@ -743,7 +742,7 @@ impl Tool for OpenBitFunControlTool {
                         "idNamespaceRules".to_string(),
                         json!({
                             "destinationActionIdCallable": false,
-                            "note": "capability.destination and item.destination are presentation metadata. Use only returned item, operation, and option IDs in their matching OpenBitFunControl fields.",
+                            "note": "capability.destination and item.destination are presentation metadata. Use only returned item, operation, and option IDs in their matching OpcTeamControl fields.",
                         }),
                     );
                 }
@@ -753,18 +752,18 @@ impl Tool for OpenBitFunControlTool {
                 if openbitfun_control_host_available() {
                     invoke_openbitfun_control(request)
                         .await
-                        .map_err(OpenBitFunError::tool)?
+                        .map_err(OpcTeamError::tool)?
                 } else {
                     self.configure_shared_option(&request).await?
                 }
             }
             ProductControlAction::Open | ProductControlAction::Execute => {
                 if !openbitfun_control_host_available() {
-                    return Err(OpenBitFunError::tool(Self::headless_unsupported(&request)));
+                    return Err(OpcTeamError::tool(Self::headless_unsupported(&request)));
                 }
                 invoke_openbitfun_control(request)
                     .await
-                    .map_err(OpenBitFunError::tool)?
+                    .map_err(OpcTeamError::tool)?
             }
         };
 
@@ -816,7 +815,7 @@ mod tests {
         context
     }
 
-    async fn tool_with_temp_config(name: &str) -> (OpenBitFunControlTool, tempfile::TempDir) {
+    async fn tool_with_temp_config(name: &str) -> (OpcTeamControlTool, tempfile::TempDir) {
         let dir = tempfile::tempdir().expect("tempdir");
         let path_manager = Arc::new(PathManager::with_user_root_for_tests(dir.path().join(name)));
         let config_service = Arc::new(
@@ -828,15 +827,12 @@ mod tests {
             .await
             .expect("config service"),
         );
-        (
-            OpenBitFunControlTool::with_config_service(config_service),
-            dir,
-        )
+        (OpcTeamControlTool::with_config_service(config_service), dir)
     }
 
     #[tokio::test]
     async fn description_keeps_the_catalog_out_of_the_prompt() {
-        let description = OpenBitFunControlTool::new().description().await.unwrap();
+        let description = OpcTeamControlTool::new().description().await.unwrap();
         assert!(description.contains("two-step"));
         assert!(description.contains("list"));
         assert!(description.contains("search"));
@@ -844,7 +840,7 @@ mod tests {
         assert!(!description.contains("get_configs"));
         assert!(description.len() < 600);
 
-        let schema = OpenBitFunControlTool::new().input_schema();
+        let schema = OpcTeamControlTool::new().input_schema();
         assert_eq!(schema["properties"]["value_boolean"]["type"], "boolean");
         assert_eq!(schema["properties"]["value_integer"]["type"], "integer");
         assert_eq!(schema["properties"]["value_null"]["type"], "boolean");
@@ -855,12 +851,12 @@ mod tests {
     #[test]
     fn null_value_requires_true() {
         assert_eq!(
-            OpenBitFunControlTool::configure_value(&json!({ "value_null": true })),
+            OpcTeamControlTool::configure_value(&json!({ "value_null": true })),
             Ok(Some(Value::Null))
         );
         for value in [json!(false), json!(null), json!("true"), json!(1)] {
             assert_eq!(
-                OpenBitFunControlTool::configure_value(&json!({ "value_null": value })),
+                OpcTeamControlTool::configure_value(&json!({ "value_null": value })),
                 Err("value_null must be true when used".to_string())
             );
         }
@@ -868,7 +864,7 @@ mod tests {
 
     #[tokio::test]
     async fn validates_the_discover_then_execute_contract() {
-        let tool = OpenBitFunControlTool::new();
+        let tool = OpcTeamControlTool::new();
         assert!(
             tool.validate_input(&json!({ "action": "list" }), None)
                 .await
@@ -982,7 +978,7 @@ mod tests {
 
     #[tokio::test]
     async fn invalid_presentation_ids_return_an_exact_recovery_call() {
-        let tool = OpenBitFunControlTool::new();
+        let tool = OpcTeamControlTool::new();
         let invalid_item = tool
             .validate_input(
                 &json!({
@@ -1018,7 +1014,7 @@ mod tests {
 
     #[tokio::test]
     async fn discovery_payload_exposes_ids_to_the_model() {
-        let tool = OpenBitFunControlTool::new();
+        let tool = OpcTeamControlTool::new();
         let results = tool
             .call_impl(
                 &json!({
@@ -1211,7 +1207,7 @@ mod tests {
 
     #[test]
     fn discovery_is_permission_free_but_execution_is_scoped() {
-        let tool = OpenBitFunControlTool::new();
+        let tool = OpcTeamControlTool::new();
         assert!(tool
             .permission_intents(&json!({ "action": "search", "query": "theme" }), &context())
             .unwrap()
@@ -1253,9 +1249,7 @@ mod tests {
             "capability_id": "setting.application.pet",
             "operation_id": "list-pets"
         });
-        assert!(OpenBitFunControlTool::operation_is_readonly(
-            &read_operation
-        ));
+        assert!(OpcTeamControlTool::operation_is_readonly(&read_operation));
         assert!(tool
             .permission_intents(&read_operation, &context())
             .unwrap()
@@ -1265,7 +1259,7 @@ mod tests {
     #[tokio::test]
     async fn headless_profiles_discover_contracts_and_degrade_control_explicitly() {
         assert!(!openbitfun_control_host_available());
-        let tool = OpenBitFunControlTool::new();
+        let tool = OpcTeamControlTool::new();
         let results = tool
             .call_impl(
                 &json!({
@@ -1310,7 +1304,7 @@ mod tests {
 
     #[tokio::test]
     async fn remote_workspaces_reject_product_host_paths_but_allow_stable_ids() {
-        let tool = OpenBitFunControlTool::new();
+        let tool = OpcTeamControlTool::new();
         let path_request = json!({
             "action": "execute",
             "capability_id": "setting.application.pet",

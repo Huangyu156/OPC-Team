@@ -1,7 +1,7 @@
 //! Persistent product-control conversation; media connections never own Sessions.
 use super::ConversationCoordinator;
 use crate::agentic::core::SessionConfig;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_services_core::json_store::JsonFileStore;
 use serde::{Deserialize, Serialize};
 use tokio::sync::Mutex;
@@ -61,16 +61,16 @@ pub struct VoiceExchangeRequest {
 }
 
 impl ConversationCoordinator {
-    pub async fn ensure_control_conversation(&self) -> OpenBitFunResult<ControlConversation> {
+    pub async fn ensure_control_conversation(&self) -> OpcTeamResult<ControlConversation> {
         self.select_control_conversation(None).await
     }
 
     pub async fn create_control_conversation(
         &self,
         request: CreateControlConversationRequest,
-    ) -> OpenBitFunResult<ControlConversation> {
+    ) -> OpcTeamResult<ControlConversation> {
         if request.expected_session_id.is_empty() {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "The current control conversation is required",
             ));
         }
@@ -81,7 +81,7 @@ impl ConversationCoordinator {
     async fn select_control_conversation(
         &self,
         expected_session_id: Option<&str>,
-    ) -> OpenBitFunResult<ControlConversation> {
+    ) -> OpcTeamResult<ControlConversation> {
         let workspace = self
             .get_session_manager()
             .path_manager()
@@ -95,7 +95,7 @@ impl ConversationCoordinator {
         &self,
         workspace: &std::path::Path,
         expected_session_id: Option<&str>,
-    ) -> OpenBitFunResult<ControlConversation> {
+    ) -> OpcTeamResult<ControlConversation> {
         let _guard = ENSURE_CONTROL.lock().await;
         let manager = self.get_session_manager();
         tokio::fs::create_dir_all(&workspace).await?;
@@ -103,7 +103,7 @@ impl ConversationCoordinator {
         // hidden workspace record so the session, its history reads, and remote
         // controllers address it by workspace ID rather than by this path.
         let workspace_service = crate::service::workspace::get_global_workspace_service()
-            .ok_or_else(|| OpenBitFunError::service("Workspace service is unavailable"))?;
+            .ok_or_else(|| OpcTeamError::service("Workspace service is unavailable"))?;
         let workspace_record = workspace_service
             .track_workspace_activity(
                 workspace.to_path_buf(),
@@ -155,7 +155,7 @@ impl ConversationCoordinator {
                 )
                 .await?;
             } else {
-                return Err(OpenBitFunError::session(
+                return Err(OpcTeamError::session(
                     "The saved control conversation is unavailable",
                 ));
             }
@@ -177,10 +177,7 @@ impl ConversationCoordinator {
         })
     }
 
-    pub async fn record_voice_exchange(
-        &self,
-        request: VoiceExchangeRequest,
-    ) -> OpenBitFunResult<()> {
+    pub async fn record_voice_exchange(&self, request: VoiceExchangeRequest) -> OpcTeamResult<()> {
         self.ensure_session_runtime_ownership(&request.session_id, None)?;
         self.get_session_manager()
             .append_voice_exchange(

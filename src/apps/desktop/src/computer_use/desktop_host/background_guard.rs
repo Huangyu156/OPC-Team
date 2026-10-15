@@ -44,8 +44,8 @@ fn evidence(before: &Witness, after: &Witness, sequence: u64) -> BackgroundObser
 }
 
 pub(super) async fn run<T>(
-    input: impl std::future::Future<Output = OpenBitFunResult<T>>,
-) -> OpenBitFunResult<T> {
+    input: impl std::future::Future<Output = OpcTeamResult<T>>,
+) -> OpcTeamResult<T> {
     let control = crate::computer_use::control_session::snapshot();
     if control.mode != ControlMode::Background {
         return input.await;
@@ -63,10 +63,10 @@ pub(super) async fn run<T>(
 /// evidence, never admission or revocation. Native target/lease checks still own
 /// input validity. Preserve the action's exact outcome and never replay it.
 async fn observe_operation<T, F, Fut>(
-    input: impl std::future::Future<Output = OpenBitFunResult<T>>,
+    input: impl std::future::Future<Output = OpcTeamResult<T>>,
     mut read: F,
     sequence: u64,
-) -> (OpenBitFunResult<T>, Option<BackgroundObservation>)
+) -> (OpcTeamResult<T>, Option<BackgroundObservation>)
 where
     F: FnMut() -> Fut,
     Fut: std::future::Future<Output = Result<Witness, String>>,
@@ -220,7 +220,7 @@ mod tests {
         let (result, evidence) = observe_operation(
             async {
                 calls += 1;
-                Err::<(), _>(OpenBitFunError::tool("native target closed"))
+                Err::<(), _>(OpcTeamError::tool("native target closed"))
             },
             || std::future::ready(Err("desktop witness unavailable".into())),
             8,
@@ -228,7 +228,7 @@ mod tests {
         .await;
         assert_eq!(
             result.unwrap_err().to_string(),
-            OpenBitFunError::tool("native target closed").to_string()
+            OpcTeamError::tool("native target closed").to_string()
         );
         assert_eq!(calls, 1);
         assert!(evidence.is_none());

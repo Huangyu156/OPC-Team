@@ -21,7 +21,7 @@ use crate::external_sources::{
     LocalConfiguredSkillRootContribution,
 };
 use crate::infrastructure::get_path_manager_arc;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use futures::{stream, StreamExt};
 use log::{debug, error, warn};
 #[cfg(feature = "external-sources")]
@@ -803,12 +803,12 @@ impl SkillRegistry {
         }
     }
 
-    async fn read_local_skill_markdown(info: &SkillInfo) -> OpenBitFunResult<String> {
+    async fn read_local_skill_markdown(info: &SkillInfo) -> OpcTeamResult<String> {
         #[cfg(feature = "external-sources")]
         if is_configured_opencode_source_slot(&info.source_slot) {
             let skill_dir =
                 validate_configured_opencode_skill_root(Path::new(&info.path), &info.source_slot)
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
             return read_workspace_relative_text_bounded(
                 &skill_dir,
                 "SKILL.md",
@@ -817,7 +817,7 @@ impl SkillRegistry {
             .await
             .map(|file| file.content)
             .map_err(|error| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "Failed to read configured OpenCode skill file: {error}"
                 ))
             });
@@ -827,7 +827,7 @@ impl SkillRegistry {
             PathBuf::from(&info.path).join(info.entry_file.as_deref().unwrap_or("SKILL.md"));
         fs::read_to_string(&skill_md_path)
             .await
-            .map_err(|error| OpenBitFunError::tool(format!("Failed to read skill file: {}", error)))
+            .map_err(|error| OpcTeamError::tool(format!("Failed to read skill file: {}", error)))
     }
 
     async fn apply_remote_openai_policy(
@@ -1639,17 +1639,17 @@ impl SkillRegistry {
         skill_name: &str,
         candidates: Vec<SkillCandidate>,
         agent_type: Option<&str>,
-    ) -> OpenBitFunResult<SkillInfo> {
+    ) -> OpcTeamResult<SkillInfo> {
         match resolve_default_hidden_builtin_for_explicit_invocation(
             skill_name, candidates, agent_type,
         ) {
             ExplicitSkillInvocationResolution::Found(info) => Ok(info),
-            ExplicitSkillInvocationResolution::NotFound => Err(OpenBitFunError::tool(format!(
+            ExplicitSkillInvocationResolution::NotFound => Err(OpcTeamError::tool(format!(
                 "Skill '{}' not found",
                 skill_name
             ))),
             ExplicitSkillInvocationResolution::DisabledForMode { mode_id } => {
-                Err(OpenBitFunError::tool(format!(
+                Err(OpcTeamError::tool(format!(
                     "Skill '{}' is disabled for mode '{}'. Enable it in mode skill settings or switch to a mode where it is enabled.",
                     skill_name, mode_id
                 )))
@@ -1662,7 +1662,7 @@ impl SkillRegistry {
         skill_name: &str,
         workspace: Option<&crate::agentic::workspace::WorkspaceBinding>,
         agent_type: Option<&str>,
-    ) -> OpenBitFunResult<SkillInfo> {
+    ) -> OpcTeamResult<SkillInfo> {
         let workspace_root = workspace.map(|workspace| workspace.root_path());
         let candidates = self
             .scan_skill_candidates_for_workspace(workspace_root)
@@ -1694,7 +1694,7 @@ impl SkillRegistry {
         fs: &dyn WorkspaceFileSystem,
         remote_root: &str,
         agent_type: Option<&str>,
-    ) -> OpenBitFunResult<SkillInfo> {
+    ) -> OpcTeamResult<SkillInfo> {
         let candidates = self
             .scan_skill_candidates_for_remote_workspace(fs, remote_root)
             .await;
@@ -1981,7 +1981,7 @@ impl SkillRegistry {
         skill_name: &str,
         workspace: Option<&crate::agentic::workspace::WorkspaceBinding>,
         agent_type: Option<&str>,
-    ) -> OpenBitFunResult<SkillData> {
+    ) -> OpcTeamResult<SkillData> {
         let info = self
             .find_skill_info_for_explicit_invocation_workspace(skill_name, workspace, agent_type)
             .await?;
@@ -1995,7 +1995,7 @@ impl SkillRegistry {
             true,
             info.parser_source_slot(),
         )
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))?;
+        .map_err(|error| OpcTeamError::tool(error.to_string()))?;
         data.path = info.path;
         data.entry_file = info.entry_file;
         data.key = info.key;
@@ -2012,7 +2012,7 @@ impl SkillRegistry {
         skill_key: &str,
         workspace: Option<&crate::agentic::workspace::WorkspaceBinding>,
         agent_type: Option<&str>,
-    ) -> OpenBitFunResult<SkillData> {
+    ) -> OpcTeamResult<SkillData> {
         let workspace_root = workspace.map(|workspace| workspace.root_path());
         let candidates = self
             .scan_skill_candidates_for_workspace(workspace_root)
@@ -2025,7 +2025,7 @@ impl SkillRegistry {
             .map(|candidate| candidate.info)
             .find(|skill| skill.key == skill_key)
             .ok_or_else(|| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "Skill key '{}' was not found or is disabled for this mode",
                     skill_key
                 ))
@@ -2040,7 +2040,7 @@ impl SkillRegistry {
             true,
             info.parser_source_slot(),
         )
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))?;
+        .map_err(|error| OpcTeamError::tool(error.to_string()))?;
         data.path = info.path;
         data.entry_file = info.entry_file;
         data.key = info.key;
@@ -2058,7 +2058,7 @@ impl SkillRegistry {
         fs: &dyn WorkspaceFileSystem,
         remote_root: &str,
         agent_type: Option<&str>,
-    ) -> OpenBitFunResult<SkillData> {
+    ) -> OpcTeamResult<SkillData> {
         let info = self
             .find_skill_info_for_explicit_invocation_remote_workspace(
                 skill_name,
@@ -2076,7 +2076,7 @@ impl SkillRegistry {
             true,
             info.parser_source_slot(),
         )
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))?;
+        .map_err(|error| OpcTeamError::tool(error.to_string()))?;
         data.path = info.path;
         data.entry_file = info.entry_file;
         data.key = info.key;
@@ -2094,7 +2094,7 @@ impl SkillRegistry {
         fs: &dyn WorkspaceFileSystem,
         remote_root: &str,
         agent_type: Option<&str>,
-    ) -> OpenBitFunResult<SkillData> {
+    ) -> OpcTeamResult<SkillData> {
         let candidates = self
             .scan_skill_candidates_for_remote_workspace(fs, remote_root)
             .await;
@@ -2106,7 +2106,7 @@ impl SkillRegistry {
             .map(|candidate| candidate.info)
             .find(|skill| skill.key == skill_key)
             .ok_or_else(|| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "Skill key '{}' was not found or is disabled for this mode",
                     skill_key
                 ))
@@ -2120,7 +2120,7 @@ impl SkillRegistry {
             true,
             info.parser_source_slot(),
         )
-        .map_err(|error| OpenBitFunError::tool(error.to_string()))?;
+        .map_err(|error| OpcTeamError::tool(error.to_string()))?;
         data.path = info.path;
         data.entry_file = info.entry_file;
         data.key = info.key;
@@ -2181,7 +2181,7 @@ impl SkillRegistry {
     async fn read_skill_md_for_remote_merge(
         info: &SkillInfo,
         remote_fs: &dyn WorkspaceFileSystem,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         match info.level {
             SkillLocation::User => Self::read_local_skill_markdown(info).await,
             SkillLocation::Project => {
@@ -2194,7 +2194,7 @@ impl SkillRegistry {
                     .read_file_text(&skill_md_path)
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(format!("Failed to read skill file: {}", error))
+                        OpcTeamError::tool(format!("Failed to read skill file: {}", error))
                     })
             }
         }

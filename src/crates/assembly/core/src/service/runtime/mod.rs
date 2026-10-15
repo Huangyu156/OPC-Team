@@ -4,7 +4,7 @@
 //! `openbitfun-services-core`; core only supplies the product-managed runtime root.
 
 use crate::infrastructure::get_path_manager_arc;
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use openbitfun_services_core::managed_runtime::ManagedRuntimeResolver;
 use std::path::{Path, PathBuf};
 
@@ -18,7 +18,7 @@ pub struct RuntimeManager {
 }
 
 impl RuntimeManager {
-    pub fn new() -> OpenBitFunResult<Self> {
+    pub fn new() -> OpcTeamResult<Self> {
         let pm = get_path_manager_arc();
         Ok(Self {
             inner: ManagedRuntimeResolver::new(pm.managed_runtimes_dir()),

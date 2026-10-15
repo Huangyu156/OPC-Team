@@ -1,5 +1,5 @@
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_events::ToolExecutionProgressInfo;
 use openbitfun_runtime_ports::{
@@ -50,13 +50,13 @@ struct PluginToolExecutionGuard {
     cancel: tokio::sync::watch::Sender<bool>,
 }
 
-fn dispatched_tool_cancel_error(stopped: bool) -> OpenBitFunError {
+fn dispatched_tool_cancel_error(stopped: bool) -> OpcTeamError {
     let detail = if stopped {
         "OpenCode plugin tool stopped after cancellation, but its side effects may already have committed"
     } else {
         "OpenCode plugin tool cancellation was not confirmed"
     };
-    OpenBitFunError::OutcomeUnknown(detail.to_string())
+    OpcTeamError::OutcomeUnknown(detail.to_string())
 }
 
 impl Drop for PluginToolExecutionGuard {
@@ -136,7 +136,7 @@ impl Tool for PluginHostToolMux {
     fn name(&self) -> &str {
         &self.id
     }
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(self
             .routes
             .read()
@@ -149,7 +149,7 @@ impl Tool for PluginHostToolMux {
     async fn description_with_context(
         &self,
         context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         Ok(self
             .route_for(context)
             .map(|r| r.description)
@@ -179,7 +179,7 @@ impl Tool for PluginHostToolMux {
         &self,
         _input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<crate::agentic::tools::framework::PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<crate::agentic::tools::framework::PermissionIntent>> {
         Ok(vec![
             crate::agentic::tools::framework::PermissionIntent::new(
                 "custom_tool",
@@ -200,9 +200,9 @@ impl Tool for PluginHostToolMux {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let route = self.route_for(Some(context)).ok_or_else(|| {
-            OpenBitFunError::service("OpenCode plugin tool is not registered for this workspace")
+            OpcTeamError::service("OpenCode plugin tool is not registered for this workspace")
         })?;
         // OpenCode execution IDs are Host-local operation identities. A model
         // tool-call ID is only a presentation correlation and can repeat across
@@ -265,7 +265,7 @@ impl Tool for PluginHostToolMux {
                                 route.host_generation,
                                 "plugin tool cancellation failed",
                             ).await;
-                            return Err(OpenBitFunError::OutcomeUnknown(error.to_string()));
+                            return Err(OpcTeamError::OutcomeUnknown(error.to_string()));
                         }
                     };
                     return if cancelled.stopped {
@@ -287,19 +287,19 @@ impl Tool for PluginHostToolMux {
             // A timed-out/cancelled side-effecting plugin call may still have
             // completed in the Host. Preserve this distinction so the tool
             // pipeline never retries it as a transient service failure.
-            PortErrorKind::OutcomeUnknown => OpenBitFunError::OutcomeUnknown(format!(
+            PortErrorKind::OutcomeUnknown => OpcTeamError::OutcomeUnknown(format!(
                 "OpenCode plugin tool '{}' outcome is unknown: {}",
                 self.id, error.message
             )),
-            PortErrorKind::Cancelled => OpenBitFunError::Cancelled(error.message),
-            PortErrorKind::Timeout => OpenBitFunError::Timeout(error.message),
-            PortErrorKind::PermissionDenied => OpenBitFunError::Validation(error.message),
-            _ => OpenBitFunError::service(format!(
+            PortErrorKind::Cancelled => OpcTeamError::Cancelled(error.message),
+            PortErrorKind::Timeout => OpcTeamError::Timeout(error.message),
+            PortErrorKind::PermissionDenied => OpcTeamError::Validation(error.message),
+            _ => OpcTeamError::service(format!(
                 "OpenCode plugin tool '{}' failed: {error}",
                 self.id
             )),
         });
-        if matches!(result, Err(OpenBitFunError::OutcomeUnknown(_))) {
+        if matches!(result, Err(OpcTeamError::OutcomeUnknown(_))) {
             crate::plugin_host::fault_configured_plugin_host_generation(
                 route.host_generation,
                 "plugin tool invocation outcome is unknown",
@@ -733,7 +733,7 @@ mod tests {
     fn dispatched_tool_abort_is_not_reported_as_a_definite_cancellation() {
         let error = dispatched_tool_cancel_error(true);
 
-        assert!(matches!(error, crate::OpenBitFunError::OutcomeUnknown(_)));
+        assert!(matches!(error, crate::OpcTeamError::OutcomeUnknown(_)));
     }
 
     #[test]

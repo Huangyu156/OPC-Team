@@ -1,4 +1,4 @@
-use openbitfun_core::OpenBitFunResult;
+use openbitfun_core::OpcTeamResult;
 use openbitfun_runtime_ports::AgentSessionWorkspaceBinding;
 
 fn activation_target(binding: &AgentSessionWorkspaceBinding) -> Option<&str> {
@@ -8,7 +8,7 @@ fn activation_target(binding: &AgentSessionWorkspaceBinding) -> Option<&str> {
     }
 }
 
-pub(crate) async fn ensure_configured_plugin_execution_supported() -> OpenBitFunResult<bool> {
+pub(crate) async fn ensure_configured_plugin_execution_supported() -> OpcTeamResult<bool> {
     // Plugin activation is optional. Isolated Runtime clients (including unit
     // tests) may create sessions before the process-level config service is
     // initialized; that must not make ordinary session creation fail.
@@ -28,7 +28,7 @@ pub(crate) async fn ensure_configured_plugin_execution_supported() -> OpenBitFun
 
 pub(crate) async fn ensure_plugin_workspace_ready(
     binding: &AgentSessionWorkspaceBinding,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     if let Err(error) = try_ensure_plugin_workspace_ready(binding).await {
         openbitfun_core::plugin_host::report_configured_plugin_activation_failure(
             "CLI workspace activation",
@@ -42,13 +42,13 @@ pub(crate) async fn ensure_plugin_workspace_ready(
 
 async fn try_ensure_plugin_workspace_ready(
     binding: &AgentSessionWorkspaceBinding,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     if !ensure_configured_plugin_execution_supported().await? {
         return Ok(());
     }
 
     let Some(target) = activation_target(binding) else {
-        return Err(openbitfun_core::OpenBitFunError::NotImplemented(
+        return Err(openbitfun_core::OpcTeamError::NotImplemented(
             "Configured Plugin Host is unsupported for Remote CLI workspaces; no controller-local fallback was attempted"
                 .to_string(),
         ));

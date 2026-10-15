@@ -1,7 +1,7 @@
 use crate::service::coordination_persistence::{
     initialize_coordination_schema, validate_coordination_agent_id,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_core_types::agent_identity::{canonical_agent_id, HarnessId};
 use rusqlite::{params, Connection, OptionalExtension, Transaction, TransactionBehavior};
 use std::path::PathBuf;
@@ -40,7 +40,7 @@ impl BackgroundTaskStatus {
         self != Self::Running
     }
 
-    fn parse(value: &str) -> OpenBitFunResult<Self> {
+    fn parse(value: &str) -> OpcTeamResult<Self> {
         match value {
             "running" => Ok(Self::Running),
             "completed" => Ok(Self::Completed),
@@ -48,7 +48,7 @@ impl BackgroundTaskStatus {
             "failed" => Ok(Self::Failed),
             "cancelled" => Ok(Self::Cancelled),
             "interrupted" => Ok(Self::Interrupted),
-            _ => Err(OpenBitFunError::service(format!(
+            _ => Err(OpcTeamError::service(format!(
                 "Invalid background task status in coordination database: {value}"
             ))),
         }
@@ -111,14 +111,14 @@ impl CoordinationStore {
         }
     }
 
-    async fn connection(&self) -> OpenBitFunResult<Arc<Mutex<Connection>>> {
+    async fn connection(&self) -> OpcTeamResult<Arc<Mutex<Connection>>> {
         let db_path = self.db_path.clone();
         self.connection
             .get_or_try_init(|| async move {
                 task::spawn_blocking(move || open_connection(db_path))
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::service(format!(
+                        OpcTeamError::service(format!(
                             "Agent coordination database initialization task failed: {error}"
                         ))
                     })?
@@ -127,23 +127,21 @@ impl CoordinationStore {
             .cloned()
     }
 
-    async fn with_connection<T, F>(&self, operation: F) -> OpenBitFunResult<T>
+    async fn with_connection<T, F>(&self, operation: F) -> OpcTeamResult<T>
     where
         T: Send + 'static,
-        F: FnOnce(&mut Connection) -> OpenBitFunResult<T> + Send + 'static,
+        F: FnOnce(&mut Connection) -> OpcTeamResult<T> + Send + 'static,
     {
         let connection = self.connection().await?;
         task::spawn_blocking(move || {
             let mut connection = connection.lock().map_err(|_| {
-                OpenBitFunError::service(
-                    "Agent coordination database lock was poisoned".to_string(),
-                )
+                OpcTeamError::service("Agent coordination database lock was poisoned".to_string())
             })?;
             operation(&mut connection)
         })
         .await
         .map_err(|error| {
-            OpenBitFunError::service(format!("Agent coordination database task failed: {error}"))
+            OpcTeamError::service(format!("Agent coordination database task failed: {error}"))
         })?
     }
 
@@ -152,7 +150,7 @@ impl CoordinationStore {
         parent_session_id: &str,
         child_session_id: &str,
         requested_agent_id: Option<&str>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let parent_session_id = parent_session_id.to_string();
         let child_session_id = child_session_id.to_string();
         let requested_agent_id = requested_agent_id.map(str::to_string);
@@ -176,7 +174,7 @@ impl CoordinationStore {
         &self,
         parent_session_id: &str,
         child_session_id: &str,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         let parent_session_id = parent_session_id.to_string();
         let child_session_id = child_session_id.to_string();
         self.with_connection(move |connection| {
@@ -196,7 +194,7 @@ impl CoordinationStore {
         &self,
         parent_session_id: &str,
         agent_id: &str,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let parent_session_id = parent_session_id.to_string();
         let agent_id = agent_id.to_string();
         self.with_connection(move |connection| {
@@ -209,7 +207,7 @@ impl CoordinationStore {
                 .optional()
                 .map_err(db_error)?
                 .flatten()
-                .ok_or_else(|| OpenBitFunError::tool(format!("Agent was not found: {agent_id}")))
+                .ok_or_else(|| OpcTeamError::tool(format!("Agent was not found: {agent_id}")))
         })
         .await
     }
@@ -217,7 +215,7 @@ impl CoordinationStore {
     pub(crate) async fn direct_child_agents(
         &self,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<Vec<DirectChildAgentRecord>> {
+    ) -> OpcTeamResult<Vec<DirectChildAgentRecord>> {
         let parent_session_id = parent_session_id.to_string();
         self.with_connection(move |connection| {
             let mut statement = connection
@@ -269,7 +267,7 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
         &self,
         parent_session_id: &str,
         agent_id: &str,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let parent_session_id = parent_session_id.to_string();
         let agent_id = agent_id.to_string();
         self.with_connection(move |connection| {
@@ -281,7 +279,7 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
                 )
                 .optional()
                 .map_err(db_error)?
-                .ok_or_else(|| OpenBitFunError::tool(format!("Direct child agent was not found: {agent_id}")))
+                .ok_or_else(|| OpcTeamError::tool(format!("Direct child agent was not found: {agent_id}")))
         })
         .await
     }
@@ -293,7 +291,7 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
         parent_agent_type: &str,
         child_agent_type: &str,
         child_depth: u8,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let parent_session_id = parent_session_id.to_string();
         let child_session_id = child_session_id.to_string();
         let parent_agent_type = parent_agent_type.to_string();
@@ -306,18 +304,18 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
                 child_agent_type.as_str(),
                 "SwarmPlanner" | "SwarmWorker" | "SwarmReviewer"
             ) {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "Swarm cannot launch agent_type={child_agent_type}"
                 )));
             }
             let child_depth = i64::from(child_depth);
             if child_depth == 0 || child_depth > SWARM_MAX_DEPTH {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "Swarm tree height limit exceeded: child depth {child_depth}, maximum {SWARM_MAX_DEPTH}"
                 )));
             }
             if child_depth == SWARM_MAX_DEPTH && child_agent_type == "SwarmPlanner" {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "SwarmPlanner cannot be launched at the final tree level".to_string(),
                 ));
             }
@@ -334,7 +332,7 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
                 Some(root_session_id) => root_session_id,
                 None if parent_agent_type == "Ultimate" => parent_session_id.clone(),
                 None => {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "Swarm parent is not part of the current tree".to_string(),
                     ));
                 }
@@ -367,19 +365,19 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
                 )
                 .optional()
                 .map_err(db_error)?
-                .ok_or_else(|| OpenBitFunError::tool("Swarm parent is not part of the current tree".to_string()))?;
+                .ok_or_else(|| OpcTeamError::tool("Swarm parent is not part of the current tree".to_string()))?;
             if parent.2 != parent_agent_type {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "Swarm parent agent type does not match its persisted tree node".to_string(),
                 ));
             }
             if parent.0 != root_session_id || parent.1.saturating_add(1) != child_depth {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "Swarm child depth does not match its parent lineage".to_string(),
                 ));
             }
             if !matches!(parent.2.as_str(), "Ultimate" | "SwarmPlanner") {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "Only a Swarm planner can launch child agents".to_string(),
                 ));
             }
@@ -391,7 +389,7 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
                 )
                 .map_err(db_error)?;
             if node_count >= SWARM_MAX_NODES {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "Swarm tree size limit reached: maximum {SWARM_MAX_NODES} agents including the root"
                 )));
             }
@@ -400,17 +398,14 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
                     "INSERT INTO swarm_nodes (session_id, root_session_id, parent_session_id, agent_type, depth, created_at_ms) VALUES (?1, ?2, ?3, ?4, ?5, ?6)",
                     params![child_session_id, root_session_id, parent_session_id, child_agent_type, child_depth, unix_time_ms() as i64],
                 )
-                .map_err(|error| OpenBitFunError::tool(format!("Failed to reserve Swarm node: {error}")))?;
+                .map_err(|error| OpcTeamError::tool(format!("Failed to reserve Swarm node: {error}")))?;
             transaction.commit().map_err(db_error)?;
             Ok(())
         })
         .await
     }
 
-    pub(crate) async fn rollback_swarm_child(
-        &self,
-        child_session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    pub(crate) async fn rollback_swarm_child(&self, child_session_id: &str) -> OpcTeamResult<()> {
         let child_session_id = child_session_id.to_string();
         self.with_connection(move |connection| {
             connection
@@ -427,7 +422,7 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
     pub(crate) async fn swarm_depth_for_session(
         &self,
         session_id: &str,
-    ) -> OpenBitFunResult<Option<u8>> {
+    ) -> OpcTeamResult<Option<u8>> {
         let session_id = session_id.to_string();
         self.with_connection(move |connection| {
             connection
@@ -446,7 +441,7 @@ ORDER BY swarm_nodes.created_at_ms ASC, agents.agent_pk ASC
     pub(crate) async fn swarm_descendant_session_ids(
         &self,
         session_id: &str,
-    ) -> OpenBitFunResult<Vec<String>> {
+    ) -> OpcTeamResult<Vec<String>> {
         let session_id = session_id.to_string();
         self.with_connection(move |connection| {
             let mut statement = connection
@@ -476,7 +471,7 @@ SELECT session_id FROM descendants
     pub(crate) async fn swarm_subtree_session_ids_postorder(
         &self,
         session_id: &str,
-    ) -> OpenBitFunResult<Vec<String>> {
+    ) -> OpcTeamResult<Vec<String>> {
         let session_id = session_id.to_string();
         self.with_connection(move |connection| {
             let mut statement = connection
@@ -504,7 +499,7 @@ SELECT session_id FROM subtree ORDER BY depth DESC, session_id ASC
     pub(crate) async fn register_background_task(
         &self,
         registration: BackgroundTaskRegistration,
-    ) -> OpenBitFunResult<RegisteredBackgroundTask> {
+    ) -> OpcTeamResult<RegisteredBackgroundTask> {
         let execution_owner_token = self.execution_owner_token.clone();
         self.with_connection(move |connection| {
             let transaction = connection
@@ -569,7 +564,7 @@ INSERT INTO background_tasks (
         status: BackgroundTaskStatus,
         error_code: Option<String>,
         error_message: Option<String>,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         self.with_connection(move |connection| {
             let changed = connection
                 .execute(
@@ -596,7 +591,7 @@ WHERE task_pk = ?5 AND status = 'running'
         &self,
         task_pk: i64,
         release_agent_reservation: bool,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         self.with_connection(move |connection| {
             let transaction = connection
                 .transaction_with_behavior(TransactionBehavior::Immediate)
@@ -637,7 +632,7 @@ WHERE task_pk = ?5 AND status = 'running'
         &self,
         parent_session_id: &str,
         requested_bg_task_ids: &[String],
-    ) -> OpenBitFunResult<Vec<BackgroundTaskRecord>> {
+    ) -> OpcTeamResult<Vec<BackgroundTaskRecord>> {
         let parent_session_id = parent_session_id.to_string();
         let requested_bg_task_ids = requested_bg_task_ids.to_vec();
         self.with_connection(move |connection| {
@@ -668,7 +663,7 @@ WHERE task_pk = ?5 AND status = 'running'
                     .optional()
                     .map_err(db_error)?
                     .ok_or_else(|| {
-                        OpenBitFunError::tool(format!("Background task was not found: {bg_task_id}"))
+                        OpcTeamError::tool(format!("Background task was not found: {bg_task_id}"))
                     })?;
                 if record.delivered_at_ms.is_none() {
                     records.push(record);
@@ -682,7 +677,7 @@ WHERE task_pk = ?5 AND status = 'running'
     pub(crate) async fn records_by_task_pks(
         &self,
         task_pks: &[i64],
-    ) -> OpenBitFunResult<Vec<BackgroundTaskRecord>> {
+    ) -> OpcTeamResult<Vec<BackgroundTaskRecord>> {
         let task_pks = task_pks.to_vec();
         self.with_connection(move |connection| {
             let mut records = Vec::with_capacity(task_pks.len());
@@ -709,7 +704,7 @@ WHERE task_pk = ?5 AND status = 'running'
         parent_session_id: &str,
         task_pks: &[i64],
         delivered_parent_dialog_turn_id: &str,
-    ) -> OpenBitFunResult<Vec<BackgroundTaskRecord>> {
+    ) -> OpcTeamResult<Vec<BackgroundTaskRecord>> {
         let parent_session_id = parent_session_id.to_string();
         let task_pks = task_pks.to_vec();
         let delivered_parent_dialog_turn_id = delivered_parent_dialog_turn_id.to_string();
@@ -759,7 +754,7 @@ WHERE task_pk = ?3
     pub(crate) async fn stale_running_tasks(
         &self,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<Vec<BackgroundTaskRecord>> {
+    ) -> OpcTeamResult<Vec<BackgroundTaskRecord>> {
         let parent_session_id = parent_session_id.to_string();
         let execution_owner_token = self.execution_owner_token.clone();
         self.with_connection(move |connection| {
@@ -783,7 +778,7 @@ WHERE task_pk = ?3
     pub(crate) async fn delete_session_references(
         &self,
         session_id: &str,
-    ) -> OpenBitFunResult<Vec<i64>> {
+    ) -> OpcTeamResult<Vec<i64>> {
         let session_id = session_id.to_string();
         self.with_connection(move |connection| {
             let transaction = connection
@@ -848,7 +843,7 @@ WHERE task_pk = ?3
         &self,
         parent_session_id: &str,
         parent_dialog_turn_ids: &[String],
-    ) -> OpenBitFunResult<Vec<i64>> {
+    ) -> OpcTeamResult<Vec<i64>> {
         let parent_session_id = parent_session_id.to_string();
         let parent_dialog_turn_ids = parent_dialog_turn_ids.to_vec();
         self.with_connection(move |connection| {
@@ -896,7 +891,7 @@ WHERE task_pk = ?3
         &self,
         source_parent_session_id: &str,
         target_parent_session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let source_parent_session_id = source_parent_session_id.to_string();
         let target_parent_session_id = target_parent_session_id.to_string();
         self.with_connection(move |connection| {
@@ -1004,7 +999,7 @@ fn collect_rows(
         '_,
         impl FnMut(&rusqlite::Row<'_>) -> rusqlite::Result<BackgroundTaskRecord>,
     >,
-) -> OpenBitFunResult<Vec<BackgroundTaskRecord>> {
+) -> OpcTeamResult<Vec<BackgroundTaskRecord>> {
     rows.collect::<rusqlite::Result<Vec<_>>>().map_err(db_error)
 }
 
@@ -1013,7 +1008,7 @@ fn get_or_create_agent(
     parent_session_id: &str,
     child_session_id: &str,
     requested_agent_id: Option<&str>,
-) -> OpenBitFunResult<(i64, String)> {
+) -> OpcTeamResult<(i64, String)> {
     if let Some(existing) = transaction
         .query_row(
             "SELECT agent_pk, agent_id FROM agents WHERE parent_session_id = ?1 AND child_session_id = ?2",
@@ -1024,7 +1019,7 @@ fn get_or_create_agent(
         .map_err(db_error)?
     {
         if requested_agent_id.is_some_and(|requested_agent_id| existing.1 != requested_agent_id) {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "Subagent session is already registered as agent_id={}",
                 existing.1
             )));
@@ -1052,7 +1047,7 @@ fn get_or_create_agent(
                 .map_err(db_error)?
                 .is_some();
             if exists {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "agent_id is already reserved in this parent session: {agent_id}"
                 )));
             }
@@ -1094,28 +1089,28 @@ fn get_or_create_agent(
             params![parent_session_id, agent_id, child_session_id, unix_time_ms() as i64],
         )
         .map_err(|error| {
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "Failed to register agent_id={agent_id} for the parent session: {error}"
             ))
         })?;
     Ok((transaction.last_insert_rowid(), agent_id))
 }
 
-pub(crate) fn validate_agent_id(agent_id: &str) -> OpenBitFunResult<()> {
+pub(crate) fn validate_agent_id(agent_id: &str) -> OpcTeamResult<()> {
     validate_coordination_agent_id(agent_id)
 }
 
-fn open_connection(db_path: PathBuf) -> OpenBitFunResult<Arc<Mutex<Connection>>> {
+fn open_connection(db_path: PathBuf) -> OpcTeamResult<Arc<Mutex<Connection>>> {
     if let Some(parent) = db_path.parent() {
         std::fs::create_dir_all(parent).map_err(|error| {
-            OpenBitFunError::io(format!(
+            OpcTeamError::io(format!(
                 "Failed to create agent coordination database directory {}: {error}",
                 parent.display()
             ))
         })?;
     }
     let connection = Connection::open(&db_path).map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to open agent coordination database {}: {error}",
             db_path.display()
         ))
@@ -1136,8 +1131,8 @@ PRAGMA synchronous = NORMAL;
     Ok(Arc::new(Mutex::new(connection)))
 }
 
-fn db_error(error: rusqlite::Error) -> OpenBitFunError {
-    OpenBitFunError::io(format!("Agent coordination database error: {error}"))
+fn db_error(error: rusqlite::Error) -> OpcTeamError {
+    OpcTeamError::io(format!("Agent coordination database error: {error}"))
 }
 
 fn unix_time_ms() -> u64 {

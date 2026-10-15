@@ -4,7 +4,7 @@ use crate::agentic::tools::framework::{
     Tool, ToolExposure, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
 use crate::service_agent_runtime::CoreWorkspaceCatalogPort;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_core_types::WorkspaceKind;
 use openbitfun_runtime_ports::{AgentWorkspaceCatalogEntry, AgentWorkspaceCatalogPort};
@@ -163,9 +163,9 @@ impl ListWorkspacesTool {
         input: &Input,
         records: Vec<AgentWorkspaceCatalogEntry>,
         current: Option<&str>,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         let query = input.query();
-        let after = input.after().map_err(OpenBitFunError::tool)?;
+        let after = input.after().map_err(OpcTeamError::tool)?;
         let mut records: Vec<_> = records
             .into_iter()
             .filter(|record| {
@@ -208,7 +208,7 @@ impl ListWorkspacesTool {
                     query,
                     kind: input.kind.clone(),
                 })
-                .map_err(|error| OpenBitFunError::tool(error.to_string()))?,
+                .map_err(|error| OpcTeamError::tool(error.to_string()))?,
             )
         } else {
             None
@@ -234,7 +234,7 @@ impl Tool for ListWorkspacesTool {
     fn name(&self) -> &str {
         "ListWorkspaces"
     }
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok("List registered workspaces on this runtime host, including local, assistant, remote SSH, closed, and offline workspaces. Returns opaque workspace_id values, ordered by last recorded access from newest to oldest; equal timestamps use workspace ID as a stable tie-breaker. Pagination reads the live catalog, so recent activity can change ordering between calls.".into())
     }
     fn short_description(&self) -> String {
@@ -285,13 +285,13 @@ impl Tool for ListWorkspacesTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
-        let input = Input::parse(input).map_err(OpenBitFunError::tool)?;
+    ) -> OpcTeamResult<Vec<ToolResult>> {
+        let input = Input::parse(input).map_err(OpcTeamError::tool)?;
         let records = self
             .catalog
             .list_workspaces()
             .await
-            .map_err(|error| OpenBitFunError::tool(error.to_string()))?;
+            .map_err(|error| OpcTeamError::tool(error.to_string()))?;
         let data = Self::result(&input, records, context.workspace_id())?;
         let assistant = Self::result_for_assistant(&data);
         Ok(vec![ToolResult::ok(data, Some(assistant))])

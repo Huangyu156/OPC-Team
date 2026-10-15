@@ -20,7 +20,7 @@ use crate::infrastructure::subscription_auth::{
 use crate::service::config::types::SubscriptionProvider;
 use crate::service::config::types::{model_runtime_binding_fingerprint, AuthConfig};
 use crate::service::config::{get_global_config_service, ConfigService};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::AIConfig;
 use anyhow::{anyhow, Result};
 use log::{debug, info, warn};
@@ -386,7 +386,7 @@ static GLOBAL_AI_CLIENT_FACTORY: OnceLock<Arc<tokio::sync::RwLock<Option<Arc<AIC
 
 impl AIClientFactory {
     /// Initialize the global AIClientFactory singleton
-    pub async fn initialize_global() -> OpenBitFunResult<()> {
+    pub async fn initialize_global() -> OpcTeamResult<()> {
         if Self::is_global_initialized() {
             return Ok(());
         }
@@ -394,14 +394,14 @@ impl AIClientFactory {
         info!("Initializing global AIClientFactory...");
 
         let config_service = get_global_config_service().await.map_err(|e| {
-            OpenBitFunError::service(format!("Failed to get global config service: {}", e))
+            OpcTeamError::service(format!("Failed to get global config service: {}", e))
         })?;
 
         let factory = Arc::new(AIClientFactory::new(config_service));
         let wrapper = Arc::new(tokio::sync::RwLock::new(Some(factory)));
 
         GLOBAL_AI_CLIENT_FACTORY.set(wrapper).map_err(|_| {
-            OpenBitFunError::service("Failed to initialize global AIClientFactory".to_string())
+            OpcTeamError::service("Failed to initialize global AIClientFactory".to_string())
         })?;
 
         info!("Global AIClientFactory initialized");
@@ -409,9 +409,9 @@ impl AIClientFactory {
     }
 
     /// Get the global AIClientFactory instance
-    pub async fn get_global() -> OpenBitFunResult<Arc<AIClientFactory>> {
+    pub async fn get_global() -> OpcTeamResult<Arc<AIClientFactory>> {
         let wrapper = GLOBAL_AI_CLIENT_FACTORY.get().ok_or_else(|| {
-            OpenBitFunError::service(
+            OpcTeamError::service(
                 "Global AIClientFactory not initialized. Call initialize_global() first."
                     .to_string(),
             )
@@ -420,7 +420,7 @@ impl AIClientFactory {
         let guard = wrapper.read().await;
         guard
             .as_ref()
-            .ok_or_else(|| OpenBitFunError::service("Global AIClientFactory is None".to_string()))
+            .ok_or_else(|| OpcTeamError::service("Global AIClientFactory is None".to_string()))
             .map(Arc::clone)
     }
 
@@ -429,9 +429,9 @@ impl AIClientFactory {
     }
 
     /// Update the global AIClientFactory instance (used for config reload)
-    pub async fn update_global(new_factory: Arc<AIClientFactory>) -> OpenBitFunResult<()> {
+    pub async fn update_global(new_factory: Arc<AIClientFactory>) -> OpcTeamResult<()> {
         let wrapper = GLOBAL_AI_CLIENT_FACTORY.get().ok_or_else(|| {
-            OpenBitFunError::service("Global AIClientFactory not initialized".to_string())
+            OpcTeamError::service("Global AIClientFactory not initialized".to_string())
         })?;
 
         {
@@ -444,11 +444,11 @@ impl AIClientFactory {
     }
 }
 
-pub async fn get_global_ai_client_factory() -> OpenBitFunResult<Arc<AIClientFactory>> {
+pub async fn get_global_ai_client_factory() -> OpcTeamResult<Arc<AIClientFactory>> {
     AIClientFactory::get_global().await
 }
 
-pub async fn initialize_global_ai_client_factory() -> OpenBitFunResult<()> {
+pub async fn initialize_global_ai_client_factory() -> OpcTeamResult<()> {
     AIClientFactory::initialize_global().await
 }
 

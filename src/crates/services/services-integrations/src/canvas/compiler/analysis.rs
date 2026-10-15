@@ -440,7 +440,7 @@ pub(super) fn canvas_runtime_binding_prelude(import_bindings: &CanvasSdkImportBi
         .map(|name| {
             (
                 (*name).to_string(),
-                format!("__OpenBitFunCanvasSDK.{}", property_access(name)),
+                format!("__OpcTeamCanvasSDK.{}", property_access(name)),
             )
         })
         .collect::<BTreeMap<_, _>>();
@@ -455,18 +455,18 @@ pub(super) fn canvas_runtime_binding_prelude(import_bindings: &CanvasSdkImportBi
         local_bindings.insert(
             namespace.local.clone(),
             match namespace.source {
-                CanvasSdkImportSource::Canvas => "__OpenBitFunCanvasSDK".to_string(),
-                CanvasSdkImportSource::React => "__OpenBitFunCanvasReactCompat".to_string(),
+                CanvasSdkImportSource::Canvas => "__OpcTeamCanvasSDK".to_string(),
+                CanvasSdkImportSource::React => "__OpcTeamCanvasReactCompat".to_string(),
             },
         );
     }
 
     let mut prelude = String::from(
-        "const __OpenBitFunCanvasSDK = window.OpenBitFunCanvasSDK;\n\
-const __OpenBitFunCanvasRuntime = window.OpenBitFunCanvasRuntime;\n\
-const __OpenBitFunCanvasReactCompat = Object.freeze({ ...__OpenBitFunCanvasSDK, createElement: __OpenBitFunCanvasRuntime.h, Fragment: __OpenBitFunCanvasRuntime.Fragment });\n\
-const h = __OpenBitFunCanvasRuntime.h;\n\
-const Fragment = __OpenBitFunCanvasRuntime.Fragment;\n",
+        "const __OpcTeamCanvasSDK = window.OpcTeamCanvasSDK;\n\
+const __OpcTeamCanvasRuntime = window.OpcTeamCanvasRuntime;\n\
+const __OpcTeamCanvasReactCompat = Object.freeze({ ...__OpcTeamCanvasSDK, createElement: __OpcTeamCanvasRuntime.h, Fragment: __OpcTeamCanvasRuntime.Fragment });\n\
+const h = __OpcTeamCanvasRuntime.h;\n\
+const Fragment = __OpcTeamCanvasRuntime.Fragment;\n",
     );
     for (local, expression) in local_bindings {
         if local == "h" || local == "Fragment" {
@@ -504,23 +504,23 @@ fn named_import_target(source: CanvasSdkImportSource, imported: &str) -> Option<
                 .contains(&imported)
                 .then(|| NamedImportTarget {
                     canonical: imported.to_string(),
-                    expression: format!("__OpenBitFunCanvasSDK.{}", property_access(imported)),
+                    expression: format!("__OpcTeamCanvasSDK.{}", property_access(imported)),
                 })
         }
         CanvasSdkImportSource::React => match imported {
             "useState" | "useRef" | "useEffect" | "useCallback" | "useMemo" => {
                 Some(NamedImportTarget {
                     canonical: imported.to_string(),
-                    expression: format!("__OpenBitFunCanvasSDK.{}", property_access(imported)),
+                    expression: format!("__OpcTeamCanvasSDK.{}", property_access(imported)),
                 })
             }
             "Fragment" => Some(NamedImportTarget {
                 canonical: "Fragment".to_string(),
-                expression: "__OpenBitFunCanvasRuntime.Fragment".to_string(),
+                expression: "__OpcTeamCanvasRuntime.Fragment".to_string(),
             }),
             "createElement" => Some(NamedImportTarget {
                 canonical: "createElement".to_string(),
-                expression: "__OpenBitFunCanvasRuntime.h".to_string(),
+                expression: "__OpcTeamCanvasRuntime.h".to_string(),
             }),
             _ => None,
         },
@@ -584,9 +584,9 @@ fn is_reserved_canvas_runtime_binding(name: &str) -> bool {
     matches!(
         name,
         "h" | "Fragment"
-            | "__OpenBitFunCanvasSDK"
-            | "__OpenBitFunCanvasRuntime"
-            | "__OpenBitFunCanvasReactCompat"
+            | "__OpcTeamCanvasSDK"
+            | "__OpcTeamCanvasRuntime"
+            | "__OpcTeamCanvasReactCompat"
     )
 }
 
@@ -660,7 +660,7 @@ pub(super) fn rewrite_canvas_module_for_runtime(
         cursor = end;
     }
     rewritten.push_str(&source[cursor..]);
-    rewritten.push_str("\nwindow.OpenBitFunCanvasRuntime.mount(__OpenBitFunCanvasComponent);\n");
+    rewritten.push_str("\nwindow.OpcTeamCanvasRuntime.mount(__OpcTeamCanvasComponent);\n");
     Ok(rewritten)
 }
 
@@ -678,14 +678,14 @@ fn default_export_replacement(
             *start,
             *end,
             format!(
-                "const __OpenBitFunCanvasComponent = {};",
+                "const __OpcTeamCanvasComponent = {};",
                 source[*expression_start..*end].trim()
             ),
         ),
         CanvasDefaultExport::Identifier { start, end, name } => (
             *start,
             *end,
-            format!("const __OpenBitFunCanvasComponent = {name};"),
+            format!("const __OpcTeamCanvasComponent = {name};"),
         ),
     }
 }

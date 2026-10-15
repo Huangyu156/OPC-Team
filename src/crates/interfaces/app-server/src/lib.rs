@@ -6,7 +6,7 @@
 //! own `JsonRpcRequest` / `JsonRpcNotification` types; the crate binds no
 //! schema method set, unlike [`openbitfun_acp`].
 //!
-//! [`OpenBitFunAppServer`] exposes the selected Agent Kernel and management
+//! [`OpcTeamAppServer`] exposes the selected Agent Kernel and management
 //! operations over a host-injected runtime. Behavior-light wire contracts are
 //! owned by `openbitfun-app-server-protocol`; [`schema`] remains a compatibility
 //! re-export for existing server-side imports. Typed clients are owned by the
@@ -37,7 +37,7 @@
 //! # Crate boundary
 //!
 //! This crate is an **internal interface crate**, not a versioned public API.
-//! The server-side surface ([`OpenBitFunAppServer`], [`schema`], [`agent`]) is the
+//! The server-side surface ([`OpcTeamAppServer`], [`schema`], [`agent`]) is the
 //! production path consumed by the Server Host. This crate does not own a
 //! second client implementation.
 
@@ -45,7 +45,7 @@
 // `ChainedHandler` layer per registered request handler, and with the
 // agent-kernel + permission + git + config surface all on one builder the
 // monomorphized handler tower overflows the default recursion limit when the
-// `agent_kernel` integration test instantiates the full `OpenBitFunAppServer::serve`
+// `agent_kernel` integration test instantiates the full `OpcTeamAppServer::serve`
 // connection. Raise it so the chain keeps compiling as more host-service groups
 // land under option C.
 #![recursion_limit = "256"]
@@ -57,7 +57,7 @@ pub mod schema;
 pub mod server;
 pub mod transport;
 
-pub use agent::OpenBitFunAppRuntime;
+pub use agent::OpcTeamAppRuntime;
 pub use agent_client_protocol as protocol;
 pub use management::{
     AppManagementCapabilities, AppManagementError, AppManagementErrorKind, AppManagementResult,
@@ -69,13 +69,12 @@ pub use server::host_policy::{
     AppServerDisconnect, AppServerHostLimits, AppServerHostPolicy, HostPolicyViolation,
     DEFAULT_EVENT_BUFFER_CAPACITY, DEFAULT_MAX_FRAME_BYTES,
 };
-pub use server::OpenBitFunAppServer;
+pub use server::OpcTeamAppServer;
 
 /// Convenience prelude for consumers building an app-server connection.
 pub mod prelude {
     pub use crate::{
-        agent, schema, server, transport, AppClient, AppServer, OpenBitFunAppRuntime,
-        OpenBitFunAppServer,
+        agent, schema, server, transport, AppClient, AppServer, OpcTeamAppRuntime, OpcTeamAppServer,
     };
     pub use agent_client_protocol::{
         Builder, ConnectionTo, Dispatch, Handled, JsonRpcNotification, JsonRpcRequest,

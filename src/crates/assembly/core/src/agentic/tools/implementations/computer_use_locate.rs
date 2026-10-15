@@ -8,40 +8,40 @@ use crate::agentic::tools::framework::{ToolResult, ToolUseContext};
 use crate::agentic::tools::implementations::computer_use_tool::computer_use_augment_result_json;
 use crate::agentic::tools::parse_u64_value;
 use crate::service::config::global::GlobalConfigManager;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use serde_json::{json, Value};
 
 /// Runs native UI locate (AX / UIA / AT-SPI) for the foreground app -- `ComputerUse` `action: "locate"`.
 pub(crate) async fn execute_computer_use_locate(
     input: &Value,
     context: &ToolUseContext,
-) -> OpenBitFunResult<Vec<ToolResult>> {
+) -> OpcTeamResult<Vec<ToolResult>> {
     if context.is_remote() {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "ComputerUse action locate cannot run while the session workspace is remote (SSH)."
                 .to_string(),
         ));
     }
     if !computer_use_desktop_available() {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "Computer use is not available on this host.".to_string(),
         ));
     }
     let Ok(service) = GlobalConfigManager::get_service().await else {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "Computer use configuration is unavailable.".to_string(),
         ));
     };
     let ai: crate::service::config::types::AIConfig =
         service.get_config(Some("ai")).await.unwrap_or_default();
     if !ai.computer_use_enabled {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "Computer use is disabled in OPC-Team settings.".to_string(),
         ));
     }
 
     let host = context.computer_use_host.as_ref().ok_or_else(|| {
-        OpenBitFunError::tool(
+        OpcTeamError::tool(
             "Computer use is only available in the OPC-Team desktop app.".to_string(),
         )
     })?;

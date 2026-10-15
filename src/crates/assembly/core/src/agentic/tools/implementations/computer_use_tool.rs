@@ -11,7 +11,7 @@ use crate::agentic::tools::framework::{
     PermissionIntent, Tool, ToolExposure, ToolResult, ToolUseContext,
 };
 use crate::service::config::global::GlobalConfigManager;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::ToolImageAttachment;
 use async_trait::async_trait;
 use base64::{engine::general_purpose::STANDARD as B64, Engine as _};
@@ -754,7 +754,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
         text_query: &str,
         ocr_region_native: Option<OcrRegionNative>,
         matches: &[ScreenOcrTextMatch],
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         Self::require_multimodal_tool_output_for_screenshot(context)?;
         let take = matches.len().min(Self::MOVE_TO_TEXT_DISAMBIGUATION_MAX);
         let mut attachments: Vec<ToolImageAttachment> = Vec::with_capacity(take);
@@ -837,7 +837,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
         text_query: &str,
         ocr_region_native: Option<OcrRegionNative>,
         matches: &[ScreenOcrTextMatch],
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let take = matches.len().min(Self::MOVE_TO_TEXT_DISAMBIGUATION_MAX);
         let mut candidates: Vec<Value> = Vec::with_capacity(take);
         for (i, m) in matches.iter().take(take).enumerate() {
@@ -904,7 +904,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
         host: &dyn ComputerUseHost,
         input: &Value,
         text_only: bool,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let session_snap = host.computer_use_session_snapshot().await;
         let interaction = host.computer_use_interaction_state();
         // The human's foreground application is metadata, never the source of
@@ -912,7 +912,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
         let selector = if let Some(app) = input.get("app").filter(|v| v.is_object()) {
             Some(
                 serde_json::from_value::<AppSelector>(app.clone())
-                    .map_err(|e| OpenBitFunError::tool(format!("Invalid app selector: {e}")))?,
+                    .map_err(|e| OpcTeamError::tool(format!("Invalid app selector: {e}")))?,
             )
         } else if host.control_snapshot().supported {
             Some(AppSelector::default())
@@ -1012,16 +1012,16 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
 
     /// Screenshot tool results attach JPEGs via `tool_image_attachments`; only providers whose
     /// request converters emit multimodal tool output are supported.
-    fn require_multimodal_tool_output_for_screenshot(ctx: &ToolUseContext) -> OpenBitFunResult<()> {
+    fn require_multimodal_tool_output_for_screenshot(ctx: &ToolUseContext) -> OpcTeamResult<()> {
         if !ctx.primary_model_supports_image_understanding() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "The primary model does not accept images; do not use ComputerUse action `screenshot` or other image-producing steps. Use get_app_state/describe_screen and observed node_idx or ocr_text app-scoped targets.".to_string(),
             ));
         }
         if ctx.primary_model_facts().multimodal_tool_output_supported() {
             return Ok(());
         }
-        Err(OpenBitFunError::tool(
+        Err(OpcTeamError::tool(
             "Screenshot results include images in tool results; set the primary model to an image-capable model using Anthropic, OpenAI Chat/Responses, or Gemini API format.".to_string(),
         ))
     }
@@ -1031,7 +1031,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
         input: &Value,
         x: i32,
         y: i32,
-    ) -> OpenBitFunResult<(f64, f64)> {
+    ) -> OpcTeamResult<(f64, f64)> {
         if use_screen_coordinates(input) {
             return Ok((x as f64, y as f64));
         }
@@ -1043,19 +1043,19 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
     }
 
     /// `click` must not carry coordinate fields — use `mouse_move` (or `move_to_text`, etc.) separately.
-    fn ensure_click_has_no_coordinate_fields(input: &Value) -> OpenBitFunResult<()> {
+    fn ensure_click_has_no_coordinate_fields(input: &Value) -> OpcTeamResult<()> {
         if input.get("x").is_some() || input.get("y").is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "click does not accept x or y. Position with move_to_text, click_element, or `mouse_move` with use_screen_coordinates: true (globals from tool results), then `click` with only button and num_clicks.".to_string(),
             ));
         }
         if input.get("coordinate_mode").is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "click does not accept coordinate_mode. Use `mouse_move` with use_screen_coordinates: true, then `click`.".to_string(),
             ));
         }
         if input.get("use_screen_coordinates").is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "click does not accept use_screen_coordinates. Use `mouse_move` with use_screen_coordinates, then `click`.".to_string(),
             ));
         }
@@ -1085,7 +1085,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
         host_ref: &dyn crate::agentic::tools::computer_use_host::ComputerUseHost,
         text_query: &str,
         region_native: Option<crate::agentic::tools::computer_use_host::OcrRegionNative>,
-    ) -> OpenBitFunResult<Vec<ScreenOcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<ScreenOcrTextMatch>> {
         let matches = host_ref
             .ocr_find_text_matches(text_query, region_native)
             .await?;
@@ -1144,7 +1144,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
     async fn resolve_target_point(
         host_ref: &dyn crate::agentic::tools::computer_use_host::ComputerUseHost,
         input: &Value,
-    ) -> OpenBitFunResult<ResolvedDesktopTarget> {
+    ) -> OpcTeamResult<ResolvedDesktopTarget> {
         let mut query = parse_locate_query(input);
         if query.text_contains.is_none() {
             if let Some(target_text) = input
@@ -1201,7 +1201,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
                 let selected = match requested_index {
                     Some(idx) if idx >= 1 && idx <= matches.len() => idx - 1,
                     Some(idx) => {
-                        return Err(OpenBitFunError::tool(format!(
+                        return Err(OpcTeamError::tool(format!(
                             "target_match_index/move_to_text_match_index must be between 1 and {} (got {}).",
                             matches.len(),
                             idx
@@ -1262,7 +1262,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
             });
         }
 
-        Err(OpenBitFunError::tool(
+        Err(OpcTeamError::tool(
             "move_to_target/click_target requires a target: node_idx, target_text/text_query/text_contains/title_contains, role_substring, identifier_contains, or x/y with use_screen_coordinates: true.".to_string(),
         ))
     }
@@ -1341,7 +1341,7 @@ Use ExecCommand for genuine shell work, never ad hoc GUI capture, clipboard or i
         shot: &ComputerScreenshot,
         debug_rel: Option<String>,
         input: &Value,
-    ) -> OpenBitFunResult<(Value, ToolImageAttachment, String)> {
+    ) -> OpcTeamResult<(Value, ToolImageAttachment, String)> {
         let b64 = B64.encode(&shot.bytes);
         let ignored: Vec<&str> = [
             "screenshot_crop_center_x",
@@ -1389,7 +1389,7 @@ pub(crate) async fn ensure_global_xy_on_display(
     host: &dyn crate::agentic::tools::computer_use_host::ComputerUseHost,
     gx: f64,
     gy: f64,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let displays = host.list_displays().await.unwrap_or_default();
     if displays.is_empty() {
         // Host can't enumerate displays (non-desktop runtime) — skip the guard.
@@ -1467,7 +1467,7 @@ fn parse_locate_query(input: &Value) -> UiElementLocateQuery {
 
 fn parse_ocr_region_native(
     input: &Value,
-) -> OpenBitFunResult<Option<crate::agentic::tools::computer_use_host::OcrRegionNative>> {
+) -> OpcTeamResult<Option<crate::agentic::tools::computer_use_host::OcrRegionNative>> {
     let v = input
         .get("ocr_region_native")
         .or_else(|| input.get("ocr_region"));
@@ -1478,27 +1478,25 @@ fn parse_ocr_region_native(
         return Ok(None);
     }
     let o = val.as_object().ok_or_else(|| {
-        OpenBitFunError::tool(
+        OpcTeamError::tool(
             "ocr_region_native must be an object { x0, y0, width, height } in global native pixels."
                 .to_string(),
         )
     })?;
     let x0 = o.get("x0").and_then(|x| x.as_i64()).ok_or_else(|| {
-        OpenBitFunError::tool("ocr_region_native.x0 (integer) is required.".to_string())
+        OpcTeamError::tool("ocr_region_native.x0 (integer) is required.".to_string())
     })? as i32;
     let y0 = o.get("y0").and_then(|x| x.as_i64()).ok_or_else(|| {
-        OpenBitFunError::tool("ocr_region_native.y0 (integer) is required.".to_string())
+        OpcTeamError::tool("ocr_region_native.y0 (integer) is required.".to_string())
     })? as i32;
     let width = o.get("width").and_then(|x| x.as_u64()).ok_or_else(|| {
-        OpenBitFunError::tool("ocr_region_native.width (positive integer) is required.".to_string())
+        OpcTeamError::tool("ocr_region_native.width (positive integer) is required.".to_string())
     })? as u32;
     let height = o.get("height").and_then(|x| x.as_u64()).ok_or_else(|| {
-        OpenBitFunError::tool(
-            "ocr_region_native.height (positive integer) is required.".to_string(),
-        )
+        OpcTeamError::tool("ocr_region_native.height (positive integer) is required.".to_string())
     })? as u32;
     if width == 0 || height == 0 {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "ocr_region_native width and height must be greater than zero.".to_string(),
         ));
     }
@@ -1518,7 +1516,7 @@ impl Tool for ComputerUseTool {
         "ComputerUse"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         let os = Self::host_os_label();
         let keys = Self::key_chord_os_hint();
         Ok(format!(
@@ -1545,7 +1543,7 @@ Capabilities describe available routes, not support for every control. Use suppo
     async fn description_with_context(
         &self,
         context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let vision = context
             .map(|c| c.primary_model_supports_image_understanding())
             .unwrap_or(true);
@@ -1621,7 +1619,7 @@ Capabilities describe available routes, not support for every control. Use suppo
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         Ok(vec![PermissionIntent::new(
             "computer_use",
             vec![computer_use_permission_resource(input)],
@@ -1651,7 +1649,7 @@ Capabilities describe available routes, not support for every control. Use suppo
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let mut results = self.call_with_control(input, context).await?;
         super::computer_use_presentation::complete_model_results(&mut results);
         Ok(results)
@@ -1659,11 +1657,11 @@ Capabilities describe available routes, not support for every control. Use suppo
 }
 
 impl ComputerUseTool {
-    fn capture_failure_allows_ax_observation(error: &OpenBitFunError) -> bool {
+    fn capture_failure_allows_ax_observation(error: &OpcTeamError) -> bool {
         // Native capture adapters expose a leading machine code, not a prose
         // classifier. Unknown errors and control/authorization revocations stay
         // fail-closed even when their human text mentions an unavailable frame.
-        let OpenBitFunError::Tool(message) = error else {
+        let OpcTeamError::Tool(message) = error else {
             return false;
         };
         let code = if let Some(rest) = message.strip_prefix('[') {
@@ -1689,32 +1687,32 @@ impl ComputerUseTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "ComputerUse cannot run while the session workspace is remote (SSH).",
             ));
         }
         let action = input
             .get("action")
             .and_then(Value::as_str)
-            .ok_or_else(|| OpenBitFunError::tool("action is required"))?;
+            .ok_or_else(|| OpcTeamError::tool("action is required"))?;
         let policy =
             openbitfun_agent_tools::computer_use_control::ControlActionPolicy::for_action(action)
                 .ok_or_else(|| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "[CONTROL_ACTION_INVALID] Unknown ComputerUse action: {action}"
                 ))
             })?;
         let host = context
             .computer_use_host
             .as_ref()
-            .ok_or_else(|| OpenBitFunError::tool("Desktop control provider unavailable"))?;
+            .ok_or_else(|| OpcTeamError::tool("Desktop control provider unavailable"))?;
         let owner = match context.session_id.as_deref() {
             Some(owner) => owner,
             None if !host.control_snapshot().supported => "legacy-local-tool-context",
             None => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "[CONTROL_OWNER_REQUIRED] Desktop control requires a runtime session",
                 ))
             }
@@ -1736,7 +1734,7 @@ impl ComputerUseTool {
                 let request = serde_json::from_value::<
                     crate::agentic::tools::computer_use_host::ControlStartRequest,
                 >(input.clone())
-                .map_err(|e| OpenBitFunError::tool(format!("Invalid control request: {e}")))?;
+                .map_err(|e| OpcTeamError::tool(format!("Invalid control request: {e}")))?;
                 let snapshot = host.start_control(owner, request).await?;
                 Self::watch_control_cancellation(host.clone(), context, snapshot.generation);
                 return Ok(vec![ToolResult::ok(serde_json::to_value(snapshot)?, None)]);
@@ -1755,7 +1753,7 @@ impl ComputerUseTool {
             if policy.target {
                 let app: crate::agentic::tools::computer_use_host::AppSelector = match input.get("app").filter(|v| v.is_object()) {
                     Some(app) => serde_json::from_value(app.clone())
-                        .map_err(|e| OpenBitFunError::tool(format!("Invalid app selector: {e}")))?,
+                        .map_err(|e| OpcTeamError::tool(format!("Invalid app selector: {e}")))?,
                     None => crate::agentic::tools::computer_use_host::AppSelector::default(),
                 };
                 let explicit_target = !app.is_empty();
@@ -1776,7 +1774,7 @@ impl ComputerUseTool {
             }
             if !policy.observation {
                 if let Some(value) = input.get("observation_id") {
-                    let id = value.as_str().filter(|id| !id.is_empty()).ok_or_else(|| OpenBitFunError::tool("[INVALID_PARAMS] observation_id must be a nonempty string"))?;
+                    let id = value.as_str().filter(|id| !id.is_empty()).ok_or_else(|| OpcTeamError::tool("[INVALID_PARAMS] observation_id must be a nonempty string"))?;
                     host.validate_observation(id)?;
                 }
             }
@@ -1785,7 +1783,7 @@ impl ComputerUseTool {
             if policy.observation && policy.lease
                 && !super::computer_use_program::same_active_control(&observation_scope, &host.control_snapshot())
             {
-                return Err(OpenBitFunError::tool("[CONTROL_STALE] Observation discarded because control stopped or changed target"));
+                return Err(OpcTeamError::tool("[CONTROL_STALE] Observation discarded because control stopped or changed target"));
             }
             if let Some(error) = capture_preparation_error {
                 for result in &mut results {
@@ -1838,9 +1836,9 @@ impl ComputerUseTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "ComputerUse cannot run while the session workspace is remote (SSH).".to_string(),
             ));
         }
@@ -1848,7 +1846,7 @@ impl ComputerUseTool {
         let action = input
             .get("action")
             .and_then(|v| v.as_str())
-            .ok_or_else(|| OpenBitFunError::tool("action is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("action is required".to_string()))?;
 
         // Browser process identity does not determine input authority. The
         // session owner, selected target and host control scope govern input;
@@ -1870,7 +1868,7 @@ impl ComputerUseTool {
         }
 
         let host = context.computer_use_host.as_ref().ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "Computer use is only available in the OPC-Team desktop app.".to_string(),
             )
         })?;
@@ -1989,7 +1987,7 @@ impl ComputerUseTool {
                     && query.identifier_contains.is_none()
                     && query.node_idx.is_none()
                 {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "click_element requires at least one of text_contains, title_contains, role_substring, identifier_contains, or node_idx.".to_string(),
                     ));
                 }
@@ -2086,7 +2084,7 @@ impl ComputerUseTool {
                     .map(str::trim)
                     .filter(|s| !s.is_empty())
                     .ok_or_else(|| {
-                        OpenBitFunError::tool(
+                        OpcTeamError::tool(
                             "move_to_text requires non-empty string field `text_query`."
                                 .to_string(),
                         )
@@ -2102,7 +2100,7 @@ impl ComputerUseTool {
                         Self::find_text_on_screen(host_ref, text_query, ocr_region_native.clone())
                             .await?;
                     if matches.is_empty() {
-                        return Err(OpenBitFunError::tool(format!(
+                        return Err(OpcTeamError::tool(format!(
                             "move_to_text found no visible OCR match for {:?}. Take a fresh screenshot and try a shorter or more distinctive substring, or use click_element.",
                             text_query
                         )));
@@ -2133,7 +2131,7 @@ impl ComputerUseTool {
                         None => 0,
                         Some(idx) => {
                             if idx < 1 || idx > n as u32 {
-                                return Err(OpenBitFunError::tool(format!(
+                                return Err(OpcTeamError::tool(format!(
                                     "move_to_text_match_index must be between 1 and {} ({} OCR matches for {:?}).",
                                     n, n, text_query
                                 )));
@@ -2297,7 +2295,7 @@ impl ComputerUseTool {
                 let dx = input.get("delta_x").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
                 let dy = input.get("delta_y").and_then(|v| v.as_i64()).unwrap_or(0) as i32;
                 if dx == 0 && dy == 0 {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "scroll requires non-zero delta_x and/or delta_y".to_string(),
                     ));
                 }
@@ -2394,7 +2392,7 @@ impl ComputerUseTool {
                         .as_deref()
                         .is_none_or(|target| target.trim().is_empty())
                 {
-                    return Err(OpenBitFunError::tool("CAPTURE_REQUIRED: Screenshot requires an authorized capture target. Select an application through the control session; display, crop and navigation hints do not grant capture authority."));
+                    return Err(OpcTeamError::tool("CAPTURE_REQUIRED: Screenshot requires an authorized capture target. Select an application through the control session; display, crop and navigation hints do not grant capture authority."));
                 }
                 // The host owns capture authority and the exact pixel/coordinate
                 // basis. Presentation neither navigates displays nor fabricates crops.
@@ -2429,7 +2427,7 @@ impl ComputerUseTool {
                     .and_then(|v| v.as_i64())
                     .unwrap_or(0) as i32;
                 if dx == 0 && dy == 0 {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "pointer_move_rel requires a non-zero delta. Accepts `delta_x`|`dx` and `delta_y`|`dy` (screen pixels); at least one must be non-zero.".to_string(),
                     ));
                 }
@@ -2507,7 +2505,7 @@ impl ComputerUseTool {
                 let text = input
                     .get("text")
                     .and_then(|v| v.as_str())
-                    .ok_or_else(|| OpenBitFunError::tool("text is required".to_string()))?;
+                    .ok_or_else(|| OpcTeamError::tool("text is required".to_string()))?;
                 host_ref.type_text(text).await?;
                 let input_coords =
                     json!({ "kind": "type_text", "char_count": text.chars().count() });
@@ -2527,7 +2525,7 @@ impl ComputerUseTool {
                 let ms = input
                     .get("ms")
                     .and_then(|v| v.as_u64())
-                    .ok_or_else(|| OpenBitFunError::tool("ms is required".to_string()))?;
+                    .ok_or_else(|| OpcTeamError::tool("ms is required".to_string()))?;
                 host_ref.wait_ms(ms).await?;
                 let body = computer_use_augment_result_json(
                     host_ref,
@@ -2545,7 +2543,7 @@ impl ComputerUseTool {
                     .get("app_name")
                     .and_then(|v| v.as_str())
                     .ok_or_else(|| {
-                        OpenBitFunError::tool("open_app requires `app_name` parameter.".to_string())
+                        OpcTeamError::tool("open_app requires `app_name` parameter.".to_string())
                     })?;
                 let result = host_ref.open_app(app_name).await?;
                 // A live process with zero windows is the one launch outcome
@@ -2625,14 +2623,14 @@ Do not send screen-coordinate clicks without an observed window or report launch
                     .get("script")
                     .and_then(|v| v.as_str())
                     .ok_or_else(|| {
-                        OpenBitFunError::tool(
+                        OpcTeamError::tool(
                             "run_apple_script requires `script` parameter.".to_string(),
                         )
                     })?;
                 #[cfg(not(target_os = "macos"))]
                 {
                     let _ = script;
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "run_apple_script is only available on macOS.".to_string(),
                     ));
                 }
@@ -2645,8 +2643,8 @@ Do not send screen-coordinate clicks without an observed window or report launch
                             .output()
                     })
                     .await
-                    .map_err(|e| OpenBitFunError::tool(format!("spawn: {}", e)))?
-                    .map_err(|e| OpenBitFunError::tool(format!("osascript: {}", e)))?;
+                    .map_err(|e| OpcTeamError::tool(format!("spawn: {}", e)))?
+                    .map_err(|e| OpcTeamError::tool(format!("osascript: {}", e)))?;
 
                     let stdout = String::from_utf8_lossy(&output.stdout).trim().to_string();
                     let stderr = String::from_utf8_lossy(&output.stderr).trim().to_string();
@@ -2685,7 +2683,7 @@ Do not send screen-coordinate clicks without an observed window or report launch
                 }
             }
 
-            _ => Err(OpenBitFunError::tool(format!("Unknown action: {}", action))),
+            _ => Err(OpcTeamError::tool(format!("Unknown action: {}", action))),
         }
     }
 }
@@ -2716,12 +2714,12 @@ struct ScreenOcrTextMatch {
     bounds_height: f64,
 }
 
-fn req_i32(input: &Value, key: &str) -> OpenBitFunResult<i32> {
+fn req_i32(input: &Value, key: &str) -> OpcTeamResult<i32> {
     input
         .get(key)
         .and_then(|v| v.as_i64())
         .map(|v| v as i32)
-        .ok_or_else(|| OpenBitFunError::tool(format!("{} is required (integer)", key)))
+        .ok_or_else(|| OpcTeamError::tool(format!("{} is required (integer)", key)))
 }
 
 #[cfg(test)]
@@ -2735,7 +2733,7 @@ mod tests {
         ComputerUsePermissionSnapshot, ComputerUseScreenshotParams, ComputerUseSessionSnapshot,
     };
     use crate::agentic::tools::framework::{Tool, ToolExposure, ToolResult, ToolUseContext};
-    use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+    use crate::util::errors::{OpcTeamError, OpcTeamResult};
     use serde_json::{json, Value};
 
     #[test]
@@ -3244,58 +3242,54 @@ mod tests {
     #[derive(Debug)]
     struct ChromeForegroundHost;
 
-    fn not_expected<T>() -> OpenBitFunResult<T> {
-        Err(OpenBitFunError::tool(
+    fn not_expected<T>() -> OpcTeamResult<T> {
+        Err(OpcTeamError::tool(
             "not expected to be called in this test".to_string(),
         ))
     }
 
     #[async_trait::async_trait]
     impl ComputerUseHost for ChromeForegroundHost {
-        async fn permission_snapshot(&self) -> OpenBitFunResult<ComputerUsePermissionSnapshot> {
+        async fn permission_snapshot(&self) -> OpcTeamResult<ComputerUsePermissionSnapshot> {
             not_expected()
         }
-        async fn request_accessibility_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_accessibility_permission(&self) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn request_screen_capture_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_screen_capture_permission(&self) -> OpcTeamResult<()> {
             not_expected()
         }
         async fn screenshot_display(
             &self,
             _params: ComputerUseScreenshotParams,
-        ) -> OpenBitFunResult<ComputerScreenshot> {
+        ) -> OpcTeamResult<ComputerScreenshot> {
             not_expected()
         }
-        fn map_image_coords_to_pointer(&self, _x: i32, _y: i32) -> OpenBitFunResult<(i32, i32)> {
+        fn map_image_coords_to_pointer(&self, _x: i32, _y: i32) -> OpcTeamResult<(i32, i32)> {
             not_expected()
         }
-        fn map_normalized_coords_to_pointer(
-            &self,
-            _x: i32,
-            _y: i32,
-        ) -> OpenBitFunResult<(i32, i32)> {
+        fn map_normalized_coords_to_pointer(&self, _x: i32, _y: i32) -> OpcTeamResult<(i32, i32)> {
             not_expected()
         }
-        async fn mouse_move(&self, _x: i32, _y: i32) -> OpenBitFunResult<()> {
+        async fn mouse_move(&self, _x: i32, _y: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn pointer_move_relative(&self, _dx: i32, _dy: i32) -> OpenBitFunResult<()> {
+        async fn pointer_move_relative(&self, _dx: i32, _dy: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn mouse_click(&self, _button: &str) -> OpenBitFunResult<()> {
+        async fn mouse_click(&self, _button: &str) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn scroll(&self, _delta_x: i32, _delta_y: i32) -> OpenBitFunResult<()> {
+        async fn scroll(&self, _delta_x: i32, _delta_y: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn key_chord(&self, _keys: Vec<String>) -> OpenBitFunResult<()> {
+        async fn key_chord(&self, _keys: Vec<String>) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn type_text(&self, _text: &str) -> OpenBitFunResult<()> {
+        async fn type_text(&self, _text: &str) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn wait_ms(&self, _ms: u64) -> OpenBitFunResult<()> {
+        async fn wait_ms(&self, _ms: u64) -> OpcTeamResult<()> {
             not_expected()
         }
         async fn computer_use_session_snapshot(&self) -> ComputerUseSessionSnapshot {
@@ -3326,50 +3320,46 @@ mod tests {
 
     #[async_trait::async_trait]
     impl ComputerUseHost for GuardRecordingHost {
-        async fn permission_snapshot(&self) -> OpenBitFunResult<ComputerUsePermissionSnapshot> {
+        async fn permission_snapshot(&self) -> OpcTeamResult<ComputerUsePermissionSnapshot> {
             not_expected()
         }
-        async fn request_accessibility_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_accessibility_permission(&self) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn request_screen_capture_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_screen_capture_permission(&self) -> OpcTeamResult<()> {
             not_expected()
         }
         async fn screenshot_display(
             &self,
             _params: ComputerUseScreenshotParams,
-        ) -> OpenBitFunResult<ComputerScreenshot> {
+        ) -> OpcTeamResult<ComputerScreenshot> {
             not_expected()
         }
-        fn map_image_coords_to_pointer(&self, _x: i32, _y: i32) -> OpenBitFunResult<(i32, i32)> {
+        fn map_image_coords_to_pointer(&self, _x: i32, _y: i32) -> OpcTeamResult<(i32, i32)> {
             not_expected()
         }
-        fn map_normalized_coords_to_pointer(
-            &self,
-            _x: i32,
-            _y: i32,
-        ) -> OpenBitFunResult<(i32, i32)> {
+        fn map_normalized_coords_to_pointer(&self, _x: i32, _y: i32) -> OpcTeamResult<(i32, i32)> {
             not_expected()
         }
-        async fn mouse_move(&self, _x: i32, _y: i32) -> OpenBitFunResult<()> {
+        async fn mouse_move(&self, _x: i32, _y: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn pointer_move_relative(&self, _dx: i32, _dy: i32) -> OpenBitFunResult<()> {
+        async fn pointer_move_relative(&self, _dx: i32, _dy: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn mouse_click(&self, _button: &str) -> OpenBitFunResult<()> {
+        async fn mouse_click(&self, _button: &str) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn scroll(&self, _delta_x: i32, _delta_y: i32) -> OpenBitFunResult<()> {
+        async fn scroll(&self, _delta_x: i32, _delta_y: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn key_chord(&self, _keys: Vec<String>) -> OpenBitFunResult<()> {
+        async fn key_chord(&self, _keys: Vec<String>) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn type_text(&self, _text: &str) -> OpenBitFunResult<()> {
+        async fn type_text(&self, _text: &str) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn wait_ms(&self, _ms: u64) -> OpenBitFunResult<()> {
+        async fn wait_ms(&self, _ms: u64) -> OpcTeamResult<()> {
             not_expected()
         }
         fn control_snapshot(&self) -> crate::agentic::tools::computer_use_host::ControlSnapshot {
@@ -3403,7 +3393,7 @@ mod tests {
             app: crate::agentic::tools::computer_use_host::AppSelector,
             _max_depth: u32,
             _focus_window_only: bool,
-        ) -> OpenBitFunResult<crate::agentic::tools::computer_use_host::AppStateSnapshot> {
+        ) -> OpcTeamResult<crate::agentic::tools::computer_use_host::AppStateSnapshot> {
             self.observed_selectors.lock().unwrap().push(app);
             if !self.observing {
                 return not_expected();
@@ -3418,7 +3408,7 @@ mod tests {
         }
         async fn read_screen_text(
             &self,
-        ) -> OpenBitFunResult<Vec<crate::agentic::tools::computer_use_host::OcrTextMatch>> {
+        ) -> OpcTeamResult<Vec<crate::agentic::tools::computer_use_host::OcrTextMatch>> {
             if !self.observing {
                 return not_expected();
             }
@@ -3788,12 +3778,12 @@ mod tests {
     }
     #[async_trait::async_trait]
     impl ComputerUseHost for ControlRecordingHost {
-        fn validate_observation(&self, id: &str) -> OpenBitFunResult<()> {
+        fn validate_observation(&self, id: &str) -> OpcTeamResult<()> {
             self.events.lock().unwrap().push(format!("validate:{id}"));
             if id == "fixture-current" {
                 Ok(())
             } else {
-                Err(OpenBitFunError::tool("[STALE_OBSERVATION] Read again"))
+                Err(OpcTeamError::tool("[STALE_OBSERVATION] Read again"))
             }
         }
 
@@ -3801,7 +3791,7 @@ mod tests {
             &self,
             app: crate::agentic::tools::computer_use_host::AppSelector,
             action: crate::agentic::tools::computer_use_host::AppInputAction,
-        ) -> OpenBitFunResult<()> {
+        ) -> OpcTeamResult<()> {
             assert_eq!(app.pid, Some(421));
             if let crate::agentic::tools::computer_use_host::AppInputAction::Wait { ms } = action {
                 return self.wait_ms(ms).await;
@@ -3813,7 +3803,7 @@ mod tests {
             }
             if matches!(action, crate::agentic::tools::computer_use_host::AppInputAction::TypeText {ref text, ..} if text == "fixture-failure")
             {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "FIXTURE_INPUT_FAILURE: target rejected input",
                 ));
             }
@@ -3822,13 +3812,13 @@ mod tests {
         async fn prepare_control_target(
             &self,
             app: crate::agentic::tools::computer_use_host::AppSelector,
-        ) -> OpenBitFunResult<()> {
+        ) -> OpcTeamResult<()> {
             if self.fail_capture {
                 self.events
                     .lock()
                     .unwrap()
                     .push(format!("prepare:{:?}", app.pid));
-                return Err(OpenBitFunError::tool(self.capture_error));
+                return Err(OpcTeamError::tool(self.capture_error));
             }
             Ok(())
         }
@@ -3837,14 +3827,14 @@ mod tests {
             app: crate::agentic::tools::computer_use_host::AppSelector,
             _max_depth: u32,
             _focus_window_only: bool,
-        ) -> OpenBitFunResult<crate::agentic::tools::computer_use_host::AppStateSnapshot> {
+        ) -> OpcTeamResult<crate::agentic::tools::computer_use_host::AppStateSnapshot> {
             self.events
                 .lock()
                 .unwrap()
                 .push(format!("observe:{:?}", app.pid));
             assert_eq!(app.pid, Some(421));
             if self.fail_observation {
-                return Err(OpenBitFunError::tool("FIXTURE_OBSERVATION_FAILURE"));
+                return Err(OpcTeamError::tool("FIXTURE_OBSERVATION_FAILURE"));
             }
             if let Some(replacement) = &self.replace_control_during_observation {
                 *self.state.lock().unwrap() = replacement.clone();
@@ -3867,8 +3857,7 @@ mod tests {
         async fn get_app_shortcuts(
             &self,
             app: crate::agentic::tools::computer_use_host::AppSelector,
-        ) -> OpenBitFunResult<crate::agentic::tools::computer_use_host::AppShortcutsSnapshot>
-        {
+        ) -> OpcTeamResult<crate::agentic::tools::computer_use_host::AppShortcutsSnapshot> {
             self.events
                 .lock()
                 .unwrap()
@@ -3886,7 +3875,7 @@ mod tests {
             &self,
             owner: &str,
             request: ControlStartRequest,
-        ) -> OpenBitFunResult<ControlSnapshot> {
+        ) -> OpcTeamResult<ControlSnapshot> {
             self.events
                 .lock()
                 .unwrap()
@@ -3898,7 +3887,7 @@ mod tests {
             state.state = "active".into();
             Ok(state.clone())
         }
-        async fn stop_control(&self, owner: &str) -> OpenBitFunResult<ControlSnapshot> {
+        async fn stop_control(&self, owner: &str) -> OpcTeamResult<ControlSnapshot> {
             self.events.lock().unwrap().push(format!("stop:{owner}"));
             let mut state = self.state.lock().unwrap();
             state.generation += 1;
@@ -3909,7 +3898,7 @@ mod tests {
             &self,
             owner: &str,
             generation: u64,
-        ) -> OpenBitFunResult<ControlSnapshot> {
+        ) -> OpcTeamResult<ControlSnapshot> {
             let snapshot = {
                 let mut state = self.state.lock().unwrap();
                 if state.generation != generation {
@@ -3926,7 +3915,7 @@ mod tests {
             &self,
             owner: &str,
             action: &str,
-        ) -> OpenBitFunResult<Option<Box<dyn ComputerUseActionLease>>> {
+        ) -> OpcTeamResult<Option<Box<dyn ComputerUseActionLease>>> {
             self.events
                 .lock()
                 .unwrap()
@@ -3937,9 +3926,7 @@ mod tests {
                     state.generation += 1;
                     state.owner = Some(owner.into());
                     state.state = "awaiting_share".into();
-                    return Err(OpenBitFunError::tool(
-                        "[SHARE_REQUIRED] Select an application",
-                    ));
+                    return Err(OpcTeamError::tool("[SHARE_REQUIRED] Select an application"));
                 }
                 if state.state == "idle" {
                     state.state = "active".into();
@@ -3951,50 +3938,46 @@ mod tests {
                 complete: false,
             })))
         }
-        async fn permission_snapshot(&self) -> OpenBitFunResult<ComputerUsePermissionSnapshot> {
+        async fn permission_snapshot(&self) -> OpcTeamResult<ComputerUsePermissionSnapshot> {
             not_expected()
         }
-        async fn request_accessibility_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_accessibility_permission(&self) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn request_screen_capture_permission(&self) -> OpenBitFunResult<()> {
+        async fn request_screen_capture_permission(&self) -> OpcTeamResult<()> {
             not_expected()
         }
         async fn screenshot_display(
             &self,
             _params: ComputerUseScreenshotParams,
-        ) -> OpenBitFunResult<ComputerScreenshot> {
+        ) -> OpcTeamResult<ComputerScreenshot> {
             not_expected()
         }
-        fn map_image_coords_to_pointer(&self, _x: i32, _y: i32) -> OpenBitFunResult<(i32, i32)> {
+        fn map_image_coords_to_pointer(&self, _x: i32, _y: i32) -> OpcTeamResult<(i32, i32)> {
             not_expected()
         }
-        fn map_normalized_coords_to_pointer(
-            &self,
-            _x: i32,
-            _y: i32,
-        ) -> OpenBitFunResult<(i32, i32)> {
+        fn map_normalized_coords_to_pointer(&self, _x: i32, _y: i32) -> OpcTeamResult<(i32, i32)> {
             not_expected()
         }
-        async fn mouse_move(&self, _x: i32, _y: i32) -> OpenBitFunResult<()> {
+        async fn mouse_move(&self, _x: i32, _y: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn pointer_move_relative(&self, _dx: i32, _dy: i32) -> OpenBitFunResult<()> {
+        async fn pointer_move_relative(&self, _dx: i32, _dy: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn mouse_click(&self, _button: &str) -> OpenBitFunResult<()> {
+        async fn mouse_click(&self, _button: &str) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn scroll(&self, _delta_x: i32, _delta_y: i32) -> OpenBitFunResult<()> {
+        async fn scroll(&self, _delta_x: i32, _delta_y: i32) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn key_chord(&self, _keys: Vec<String>) -> OpenBitFunResult<()> {
+        async fn key_chord(&self, _keys: Vec<String>) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn type_text(&self, _text: &str) -> OpenBitFunResult<()> {
+        async fn type_text(&self, _text: &str) -> OpcTeamResult<()> {
             not_expected()
         }
-        async fn wait_ms(&self, ms: u64) -> OpenBitFunResult<()> {
+        async fn wait_ms(&self, ms: u64) -> OpcTeamResult<()> {
             self.events.lock().unwrap().push("wait".into());
             self.wait_started.notify_one();
             if ms > 0 {
@@ -4375,11 +4358,11 @@ mod tests {
             "SCREEN_CAPTURE_PERMISSION_REQUIRED",
         ] {
             assert!(ComputerUseTool::capture_failure_allows_ax_observation(
-                &OpenBitFunError::tool(format!("{code}: details"))
+                &OpcTeamError::tool(format!("{code}: details"))
             ));
         }
         assert!(!ComputerUseTool::capture_failure_allows_ax_observation(
-            &OpenBitFunError::tool("LOCAL_AUTHORIZATION_REQUIRED: approve access")
+            &OpcTeamError::tool("LOCAL_AUTHORIZATION_REQUIRED: approve access")
         ));
     }
     #[tokio::test]

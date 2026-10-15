@@ -11,13 +11,13 @@ use openbitfun_app_server_protocol::session::{
     UndoSessionRequest, WaitForSettlementRequest, WaitForSettlementResponse,
 };
 
-use crate::agent::{runtime_call, OpenBitFunAppRuntime};
+use crate::agent::{runtime_call, OpcTeamAppRuntime};
 use crate::role::{AppClient, AppServer};
 use crate::schema::*;
 use crate::server::wire;
 
 pub(in crate::server) fn builder(
-    runtime: Arc<OpenBitFunAppRuntime>,
+    runtime: Arc<OpcTeamAppRuntime>,
 ) -> Builder<AppServer, impl HandleDispatchFrom<AppClient>> {
     AppServer
         .builder()
@@ -34,7 +34,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(|()| RenameSessionResponse {})
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -53,7 +53,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(|()| SetSessionArchivedResponse {})
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -72,7 +72,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(|()| UpdateSessionModelResponse {})
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -91,7 +91,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(|()| UpdateSessionModeResponse {})
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -155,7 +155,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(wire::restore_session_response)
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -179,7 +179,7 @@ pub(in crate::server) fn builder(
                         })
                         .await
                         .map_err(|error| {
-                            OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                            OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                         })?;
                     let transcript = runtime_call(
                         runtime
@@ -266,7 +266,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(CompactSessionResponse)
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -285,7 +285,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(RevertSessionResponse)
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -304,7 +304,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(RevertSessionResponse)
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -338,7 +338,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(SessionUsageResponse)
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -357,7 +357,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(|_| WaitForSettlementResponse {})
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }

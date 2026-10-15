@@ -3034,9 +3034,9 @@ export const forbiddenContentRules = [
           'core workspace path facade must not redefine the runtime URI prefix; use openbitfun-agent-tools',
       },
       {
-        regex: /\bpub struct ParsedOpenBitFunRuntimeUri\b/,
+        regex: /\bpub struct ParsedOpcTeamRuntimeUri\b/,
         message:
-          'core workspace path facade must not redefine ParsedOpenBitFunRuntimeUri; use openbitfun-agent-tools',
+          'core workspace path facade must not redefine ParsedOpcTeamRuntimeUri; use openbitfun-agent-tools',
       },
       {
         regex: /\bfn\s+posix_normalize_components\b/,

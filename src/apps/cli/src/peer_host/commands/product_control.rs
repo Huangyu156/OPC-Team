@@ -2,7 +2,7 @@
 //!
 //! The adapter only translates the Peer transport envelope and audit source.
 //! Shared setting reads and mutations execute in the same process-level
-//! handler used by OpenBitFunControl in the CLI Agent loop.
+//! handler used by OpcTeamControl in the CLI Agent loop.
 
 use openbitfun_core::agentic::tools::openbitfun_control_config::global_shared_product_control_executor;
 use openbitfun_product_domains::product_control::{

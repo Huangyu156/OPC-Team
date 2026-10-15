@@ -5,7 +5,7 @@ use crate::service::instruction_context::{
     load_local_conditional_instruction_files, load_local_conditional_instruction_files_with_fs,
     load_workspace_conditional_instruction_files_with_fs, render_instruction_documents,
 };
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use log::warn;
 use openbitfun_services_core::workspace_instructions::{
     WorkspaceInstructionFile, WorkspaceInstructionPathMatcher,
@@ -32,7 +32,7 @@ pub(crate) async fn build_conditional_instruction_reminder(
     messages: &[Message],
     turn_id: &str,
     round_id: &str,
-) -> OpenBitFunResult<Option<Message>> {
+) -> OpcTeamResult<Option<Message>> {
     Ok(
         ConditionalInstructionCatalog::load(workspace, workspace_services)
             .await?
@@ -44,7 +44,7 @@ impl ConditionalInstructionCatalog {
     pub(crate) async fn load(
         workspace: &WorkspaceBinding,
         workspace_services: Option<&WorkspaceServices>,
-    ) -> OpenBitFunResult<Self> {
+    ) -> OpcTeamResult<Self> {
         let files = if workspace.is_remote() {
             let Some(services) = workspace_services else {
                 warn!(

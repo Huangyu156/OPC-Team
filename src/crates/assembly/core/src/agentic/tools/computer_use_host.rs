@@ -21,7 +21,7 @@ pub use openbitfun_agent_tools::computer_use::{
     COMPUTER_USE_QUADRANT_CLICK_READY_MAX_LONG_EDGE, COMPUTER_USE_QUADRANT_EDGE_EXPAND_PX,
 };
 
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 pub use openbitfun_agent_tools::computer_use_control::{
     ControlMode, ControlSnapshot, ControlStartRequest,
@@ -42,29 +42,29 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
 
     /// Validate an opaque observation reference against the prepared target.
     /// Older hosts must reject explicit references they cannot validate.
-    fn validate_observation(&self, _observation_id: &str) -> OpenBitFunResult<()> {
-        Err(OpenBitFunError::tool(
+    fn validate_observation(&self, _observation_id: &str) -> OpcTeamResult<()> {
+        Err(OpcTeamError::tool(
             "[OBSERVATION_REFERENCE_UNSUPPORTED] This host cannot validate observation_id",
         ))
     }
 
-    async fn prepare_control_target(&self, _app: AppSelector) -> OpenBitFunResult<()> {
+    async fn prepare_control_target(&self, _app: AppSelector) -> OpcTeamResult<()> {
         Ok(())
     }
     async fn start_control(
         &self,
         _owner: &str,
         _request: ControlStartRequest,
-    ) -> OpenBitFunResult<ControlSnapshot> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<ControlSnapshot> {
+        Err(OpcTeamError::tool(
             "[CONTROL_UNSUPPORTED] This host has no control-session provider",
         ))
     }
     fn control_snapshot(&self) -> ControlSnapshot {
         ControlSnapshot::default()
     }
-    async fn stop_control(&self, _owner: &str) -> OpenBitFunResult<ControlSnapshot> {
-        Err(OpenBitFunError::tool(
+    async fn stop_control(&self, _owner: &str) -> OpcTeamResult<ControlSnapshot> {
+        Err(OpcTeamError::tool(
             "[CONTROL_UNSUPPORTED] This host has no control-session provider",
         ))
     }
@@ -72,9 +72,9 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         owner: &str,
         generation: u64,
-    ) -> OpenBitFunResult<ControlSnapshot> {
+    ) -> OpcTeamResult<ControlSnapshot> {
         let _ = (owner, generation);
-        Err(OpenBitFunError::tool(
+        Err(OpcTeamError::tool(
             "[CONTROL_UNSUPPORTED] Conditional stop is unavailable on this host",
         ))
     }
@@ -82,27 +82,27 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _owner: &str,
         _action: &str,
-    ) -> OpenBitFunResult<Option<Box<dyn ComputerUseActionLease>>> {
+    ) -> OpcTeamResult<Option<Box<dyn ComputerUseActionLease>>> {
         Ok(None)
     }
-    async fn permission_snapshot(&self) -> OpenBitFunResult<ComputerUsePermissionSnapshot>;
+    async fn permission_snapshot(&self) -> OpcTeamResult<ComputerUsePermissionSnapshot>;
 
     /// Platform-specific prompt (e.g. macOS accessibility dialog).
-    async fn request_accessibility_permission(&self) -> OpenBitFunResult<()>;
+    async fn request_accessibility_permission(&self) -> OpcTeamResult<()>;
 
     /// Open settings or trigger OS screen-capture permission flow where supported.
-    async fn request_screen_capture_permission(&self) -> OpenBitFunResult<()>;
+    async fn request_screen_capture_permission(&self) -> OpcTeamResult<()>;
 
     /// Capture the display that contains `(0,0)`. See [`ComputerUseScreenshotParams`]: point crop, optional quadrant drill, refresh, reset.
     async fn screenshot_display(
         &self,
         params: ComputerUseScreenshotParams,
-    ) -> OpenBitFunResult<ComputerScreenshot>;
+    ) -> OpcTeamResult<ComputerScreenshot>;
 
     /// Full-screen capture for **UI / human verification only**. Must **not** replace
     /// `last_pointer_map`, navigation focus, or `last_screenshot_refinement` (unlike [`screenshot_display`](Self::screenshot_display)).
     /// Desktop overrides with a side-effect-free capture; default delegates to a plain full-frame `screenshot_display` (may still advance navigation on naive embedders — override on desktop).
-    async fn screenshot_peek_full_display(&self) -> OpenBitFunResult<ComputerScreenshot> {
+    async fn screenshot_peek_full_display(&self) -> OpcTeamResult<ComputerScreenshot> {
         self.screenshot_display(ComputerUseScreenshotParams::default())
             .await
     }
@@ -114,17 +114,17 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         text_query: &str,
         region_native: Option<OcrRegionNative>,
-    ) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<OcrTextMatch>> {
         let _ = (text_query, region_native);
-        Err(OpenBitFunError::tool(
+        Err(OpcTeamError::tool(
             "OCR text recognition is not available on this host.".to_string(),
         ))
     }
 
     /// Read all visible text from the authorized target window without a search
     /// query. Coordinates refer to the captured frame's global bounds.
-    async fn read_screen_text(&self) -> OpenBitFunResult<Vec<OcrTextMatch>> {
-        Err(OpenBitFunError::tool(
+    async fn read_screen_text(&self) -> OpcTeamResult<Vec<OcrTextMatch>> {
+        Err(OpcTeamError::tool(
             "[OCR_READ_UNSUPPORTED] Full-frame text reading is not available on this host.",
         ))
     }
@@ -135,7 +135,7 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _gx: f64,
         _gy: f64,
-    ) -> OpenBitFunResult<Option<OcrAccessibilityHit>> {
+    ) -> OpcTeamResult<Option<OcrAccessibilityHit>> {
         Ok(None)
     }
 
@@ -145,65 +145,65 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         _gx: f64,
         _gy: f64,
         _half_extent_native: u32,
-    ) -> OpenBitFunResult<Vec<u8>> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<Vec<u8>> {
+        Err(OpcTeamError::tool(
             "OCR preview crops are not available on this host.".to_string(),
         ))
     }
 
     /// Map `(x, y)` from the **last** screenshot's image pixel grid to global pointer pixels.
     /// Fails if no screenshot was taken in this process since startup (or since last host reset).
-    fn map_image_coords_to_pointer(&self, x: i32, y: i32) -> OpenBitFunResult<(i32, i32)>;
+    fn map_image_coords_to_pointer(&self, x: i32, y: i32) -> OpcTeamResult<(i32, i32)>;
 
     /// Same as `map_image_coords_to_pointer` but **sub-point** precision (macOS: use for the `mouse_move` action).
-    fn map_image_coords_to_pointer_f64(&self, x: i32, y: i32) -> OpenBitFunResult<(f64, f64)> {
+    fn map_image_coords_to_pointer_f64(&self, x: i32, y: i32) -> OpcTeamResult<(f64, f64)> {
         let (a, b) = self.map_image_coords_to_pointer(x, y)?;
         Ok((a as f64, b as f64))
     }
 
     /// Map `(x, y)` with each axis in `0..=1000` to the captured display in native pointer pixels.
     /// `(0,0)` ≈ top-left of capture, `(1000,1000)` ≈ bottom-right (inclusive mapping).
-    fn map_normalized_coords_to_pointer(&self, x: i32, y: i32) -> OpenBitFunResult<(i32, i32)>;
+    fn map_normalized_coords_to_pointer(&self, x: i32, y: i32) -> OpcTeamResult<(i32, i32)>;
 
-    fn map_normalized_coords_to_pointer_f64(&self, x: i32, y: i32) -> OpenBitFunResult<(f64, f64)> {
+    fn map_normalized_coords_to_pointer_f64(&self, x: i32, y: i32) -> OpcTeamResult<(f64, f64)> {
         let (a, b) = self.map_normalized_coords_to_pointer(x, y)?;
         Ok((a as f64, b as f64))
     }
 
     /// Absolute move in host global display coordinates (on macOS: CG space, **double** precision).
-    async fn mouse_move_global_f64(&self, gx: f64, gy: f64) -> OpenBitFunResult<()> {
+    async fn mouse_move_global_f64(&self, gx: f64, gy: f64) -> OpcTeamResult<()> {
         self.mouse_move(gx.round() as i32, gy.round() as i32).await
     }
 
-    async fn mouse_move(&self, x: i32, y: i32) -> OpenBitFunResult<()>;
+    async fn mouse_move(&self, x: i32, y: i32) -> OpcTeamResult<()>;
 
     /// Move the pointer by `(dx, dy)` in **global screen pixels** (same space as absolute `mouse_move` globals).
-    async fn pointer_move_relative(&self, dx: i32, dy: i32) -> OpenBitFunResult<()>;
+    async fn pointer_move_relative(&self, dx: i32, dy: i32) -> OpcTeamResult<()>;
 
     /// Click at the **current** pointer position only (does not move). Use `mouse_move` / `move_to_text` / `pointer_move_rel` first.
     /// `button`: "left" | "right" | "middle"
     /// On desktop, enforces the vision fine-screenshot guard (unlike [`mouse_click_authoritative`](Self::mouse_click_authoritative)).
-    async fn mouse_click(&self, button: &str) -> OpenBitFunResult<()>;
+    async fn mouse_click(&self, button: &str) -> OpcTeamResult<()>;
 
     /// Click at the current pointer after the host has moved it to a **trusted** target (`click_element`, `move_to_text`).
     /// Skips the vision fine-screenshot / stale-pointer guard that [`mouse_click`](Self::mouse_click) applies after a pointer move.
     /// Default: delegates to [`mouse_click`](Self::mouse_click).
-    async fn mouse_click_authoritative(&self, button: &str) -> OpenBitFunResult<()> {
+    async fn mouse_click_authoritative(&self, button: &str) -> OpcTeamResult<()> {
         self.mouse_click(button).await
     }
 
     /// Press a mouse button and hold it at the current pointer position.
     /// `button`: "left" | "right" | "middle"
-    async fn mouse_down(&self, _button: &str) -> OpenBitFunResult<()> {
-        Err(OpenBitFunError::tool(
+    async fn mouse_down(&self, _button: &str) -> OpcTeamResult<()> {
+        Err(OpcTeamError::tool(
             "mouse_down is not supported on this host.".to_string(),
         ))
     }
 
     /// Release a mouse button at the current pointer position.
     /// `button`: "left" | "right" | "middle"
-    async fn mouse_up(&self, _button: &str) -> OpenBitFunResult<()> {
-        Err(OpenBitFunError::tool(
+    async fn mouse_up(&self, _button: &str) -> OpcTeamResult<()> {
+        Err(OpcTeamError::tool(
             "mouse_up is not supported on this host.".to_string(),
         ))
     }
@@ -221,7 +221,7 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         to: (f64, f64),
         button: &str,
         duration_ms: u64,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.mouse_move_global_f64(from.0, from.1).await?;
         self.mouse_down(button).await?;
         let half = (duration_ms / 2).min(2_000);
@@ -235,15 +235,15 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         self.mouse_up(button).await
     }
 
-    async fn scroll(&self, delta_x: i32, delta_y: i32) -> OpenBitFunResult<()>;
+    async fn scroll(&self, delta_x: i32, delta_y: i32) -> OpcTeamResult<()>;
 
     /// Press key combination; names like "command", "control", "shift", "alt", "return", "tab", "escape", "space", or single letters.
-    async fn key_chord(&self, keys: Vec<String>) -> OpenBitFunResult<()>;
+    async fn key_chord(&self, keys: Vec<String>) -> OpcTeamResult<()>;
 
     /// Type Unicode text (synthesized key events; may be imperfect for some IMEs).
-    async fn type_text(&self, text: &str) -> OpenBitFunResult<()>;
+    async fn type_text(&self, text: &str) -> OpcTeamResult<()>;
 
-    async fn wait_ms(&self, ms: u64) -> OpenBitFunResult<()>;
+    async fn wait_ms(&self, ms: u64) -> OpcTeamResult<()>;
 
     /// Current frontmost app and global pointer position for tool-result JSON (`computer_use_context`).
     /// Default: empty. Desktop overrides with platform queries (typically after each tool action).
@@ -293,13 +293,13 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
     /// Refuse `mouse_click` if the pointer moved (or a click happened) since the last screenshot,
     /// or if the latest capture is not a valid “fine” basis (desktop: ~500×500 point crop **or**
     /// quadrant navigation region with longest side < [`COMPUTER_USE_QUADRANT_CLICK_READY_MAX_LONG_EDGE`]).
-    fn computer_use_guard_click_allowed(&self) -> OpenBitFunResult<()> {
+    fn computer_use_guard_click_allowed(&self) -> OpcTeamResult<()> {
         Ok(())
     }
 
     /// Relaxed click guard for AX-based `click_element`: skips the fine-screenshot requirement.
     /// AX coordinates are authoritative, so no quadrant drill or point crop is needed.
-    fn computer_use_guard_click_allowed_relaxed(&self) -> OpenBitFunResult<()> {
+    fn computer_use_guard_click_allowed_relaxed(&self) -> OpcTeamResult<()> {
         Ok(())
     }
 
@@ -320,8 +320,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
     async fn locate_ui_element_screen_center(
         &self,
         _query: UiElementLocateQuery,
-    ) -> OpenBitFunResult<UiElementLocateResult> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<UiElementLocateResult> {
+        Err(OpcTeamError::tool(
             "Native UI element (accessibility) lookup is not available on this host.".to_string(),
         ))
     }
@@ -360,8 +360,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
 
     /// Launch a macOS/Windows/Linux application by name and return its PID.
     /// Default: unsupported. Desktop host overrides with platform-specific implementation.
-    async fn open_app(&self, _app_name: &str) -> OpenBitFunResult<OpenAppResult> {
-        Err(OpenBitFunError::tool(
+    async fn open_app(&self, _app_name: &str) -> OpcTeamResult<OpenAppResult> {
+        Err(OpcTeamError::tool(
             "open_app is not available on this host.".to_string(),
         ))
     }
@@ -371,7 +371,7 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
     /// `ControlHub` exposes via `desktop.list_displays`.
     ///
     /// Default: empty (non-desktop hosts can't enumerate displays).
-    async fn list_displays(&self) -> OpenBitFunResult<Vec<ComputerUseDisplayInfo>> {
+    async fn list_displays(&self) -> OpcTeamResult<Vec<ComputerUseDisplayInfo>> {
         Ok(vec![])
     }
 
@@ -384,8 +384,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
     /// the target display from the cursor (which is wrong whenever the user
     /// has the keyboard focus on a different screen), the model can
     /// announce "I am working on display N" and the host will commit to it.
-    async fn focus_display(&self, _display_id: Option<u32>) -> OpenBitFunResult<()> {
-        Err(OpenBitFunError::tool(
+    async fn focus_display(&self, _display_id: Option<u32>) -> OpcTeamResult<()> {
+        Err(OpcTeamError::tool(
             "focus_display is not available on this host.".to_string(),
         ))
     }
@@ -426,7 +426,7 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
     /// Enumerate running applications, sorted by recency / launch count
     /// (Codex's `list_apps`). Default: empty list — callers should treat an
     /// empty result as "not available on this host".
-    async fn list_apps(&self, _include_hidden: bool) -> OpenBitFunResult<Vec<AppInfo>> {
+    async fn list_apps(&self, _include_hidden: bool) -> OpcTeamResult<Vec<AppInfo>> {
         Ok(vec![])
     }
 
@@ -439,8 +439,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         _app: AppSelector,
         _max_depth: u32,
         _focus_window_only: bool,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<AppStateSnapshot> {
+        Err(OpcTeamError::tool(
             "get_app_state is not available on this host.".to_string(),
         ))
     }
@@ -455,7 +455,7 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         max_depth: u32,
         focus_window_only: bool,
         include_image: bool,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
+    ) -> OpcTeamResult<AppStateSnapshot> {
         let mut snapshot = self
             .get_app_state(app, max_depth, focus_window_only)
             .await?;
@@ -482,8 +482,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
     /// queryable from any running app's AX element); on Windows it
     /// resolves a top-level window owned by the target app. Default:
     /// unsupported.
-    async fn get_app_shortcuts(&self, _app: AppSelector) -> OpenBitFunResult<AppShortcutsSnapshot> {
-        Err(OpenBitFunError::tool(
+    async fn get_app_shortcuts(&self, _app: AppSelector) -> OpcTeamResult<AppShortcutsSnapshot> {
+        Err(OpcTeamError::tool(
             "get_app_shortcuts is not available on this host.".to_string(),
         ))
     }
@@ -499,8 +499,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _app: AppSelector,
         _action: AppInputAction,
-    ) -> OpenBitFunResult<()> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<()> {
+        Err(OpcTeamError::tool(
             "[APP_INPUT_UNSUPPORTED] This provider does not expose observation-free app input",
         ))
     }
@@ -513,8 +513,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         _pred: AppWaitPredicate,
         _timeout_ms: u32,
         _poll_ms: u32,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<AppStateSnapshot> {
+        Err(OpcTeamError::tool(
             "app_wait_for is not available on this host.".to_string(),
         ))
     }
@@ -548,8 +548,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _app: AppSelector,
         _opts: InteractiveViewOpts,
-    ) -> OpenBitFunResult<InteractiveView> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<InteractiveView> {
+        Err(OpcTeamError::tool(
             "build_interactive_view is not available on this host.".to_string(),
         ))
     }
@@ -562,8 +562,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _app: AppSelector,
         _params: InteractiveClickParams,
-    ) -> OpenBitFunResult<InteractiveActionResult> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<InteractiveActionResult> {
+        Err(OpcTeamError::tool(
             "interactive_click is not available on this host.".to_string(),
         ))
     }
@@ -575,8 +575,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _app: AppSelector,
         _params: InteractiveTypeTextParams,
-    ) -> OpenBitFunResult<InteractiveActionResult> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<InteractiveActionResult> {
+        Err(OpcTeamError::tool(
             "interactive_type_text is not available on this host.".to_string(),
         ))
     }
@@ -587,8 +587,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _app: AppSelector,
         _params: InteractiveScrollParams,
-    ) -> OpenBitFunResult<InteractiveActionResult> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<InteractiveActionResult> {
+        Err(OpcTeamError::tool(
             "interactive_scroll is not available on this host.".to_string(),
         ))
     }
@@ -605,8 +605,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _app: AppSelector,
         _opts: VisualMarkViewOpts,
-    ) -> OpenBitFunResult<VisualMarkView> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<VisualMarkView> {
+        Err(OpcTeamError::tool(
             "build_visual_mark_view is not available on this host.".to_string(),
         ))
     }
@@ -615,8 +615,8 @@ pub trait ComputerUseHost: Send + Sync + std::fmt::Debug {
         &self,
         _app: AppSelector,
         _params: VisualClickParams,
-    ) -> OpenBitFunResult<VisualActionResult> {
-        Err(OpenBitFunError::tool(
+    ) -> OpcTeamResult<VisualActionResult> {
+        Err(OpcTeamError::tool(
             "visual_click is not available on this host.".to_string(),
         ))
     }

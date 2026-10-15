@@ -8,7 +8,7 @@ use std::path::PathBuf;
 
 use crate::infrastructure::try_get_path_manager_arc;
 use crate::service::mcp::server::MCPServerConfig;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_services_integrations::mcp::auth::rmcp_compat::{
     AuthError, AuthorizationManager, CredentialStore, StoredCredentials,
 };
@@ -17,12 +17,12 @@ pub use openbitfun_services_integrations::mcp::auth::{
     MCPRemoteOAuthSessionSnapshot, MCPRemoteOAuthStatus, PreparedMCPRemoteOAuthAuthorization,
 };
 
-fn oauth_data_dir() -> OpenBitFunResult<PathBuf> {
+fn oauth_data_dir() -> OpcTeamResult<PathBuf> {
     Ok(try_get_path_manager_arc()?.user_data_dir())
 }
 
-pub fn map_auth_error(error: impl ToString) -> OpenBitFunError {
-    OpenBitFunError::MCPError(format!("OAuth error: {}", error.to_string()))
+pub fn map_auth_error(error: impl ToString) -> OpcTeamError {
+    OpcTeamError::MCPError(format!("OAuth error: {}", error.to_string()))
 }
 
 #[deprecated(
@@ -35,7 +35,7 @@ pub struct MCPRemoteOAuthCredentialVault {
 
 #[allow(deprecated)]
 impl MCPRemoteOAuthCredentialVault {
-    pub fn new() -> OpenBitFunResult<Self> {
+    pub fn new() -> OpcTeamResult<Self> {
         Ok(Self {
             inner: openbitfun_services_integrations::mcp::auth::MCPRemoteOAuthCredentialVault::new(
                 oauth_data_dir()?,
@@ -106,7 +106,7 @@ impl CredentialStore for MCPRemoteOAuthCredentialStore {
     }
 }
 
-pub async fn has_stored_oauth_credentials(server_id: &str) -> OpenBitFunResult<bool> {
+pub async fn has_stored_oauth_credentials(server_id: &str) -> OpcTeamResult<bool> {
     openbitfun_services_integrations::mcp::auth::has_stored_oauth_credentials(
         oauth_data_dir()?,
         server_id,
@@ -115,7 +115,7 @@ pub async fn has_stored_oauth_credentials(server_id: &str) -> OpenBitFunResult<b
     .map_err(map_auth_error)
 }
 
-pub async fn clear_stored_oauth_credentials(server_id: &str) -> OpenBitFunResult<()> {
+pub async fn clear_stored_oauth_credentials(server_id: &str) -> OpcTeamResult<()> {
     openbitfun_services_integrations::mcp::auth::clear_stored_oauth_credentials(
         oauth_data_dir()?,
         server_id,
@@ -127,7 +127,7 @@ pub async fn clear_stored_oauth_credentials(server_id: &str) -> OpenBitFunResult
 pub async fn build_authorization_manager(
     server_id: &str,
     server_url: &str,
-) -> OpenBitFunResult<(AuthorizationManager, bool)> {
+) -> OpcTeamResult<(AuthorizationManager, bool)> {
     openbitfun_services_integrations::mcp::auth::build_authorization_manager(
         oauth_data_dir()?,
         server_id,
@@ -139,7 +139,7 @@ pub async fn build_authorization_manager(
 
 pub async fn prepare_remote_oauth_authorization(
     config: &MCPServerConfig,
-) -> OpenBitFunResult<PreparedMCPRemoteOAuthAuthorization> {
+) -> OpcTeamResult<PreparedMCPRemoteOAuthAuthorization> {
     openbitfun_services_integrations::mcp::auth::prepare_remote_oauth_authorization(
         oauth_data_dir()?,
         config,

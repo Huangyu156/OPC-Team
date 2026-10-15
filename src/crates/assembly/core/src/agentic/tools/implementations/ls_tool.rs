@@ -6,7 +6,7 @@ use crate::agentic::tools::framework::{
     Tool, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
 use crate::agentic::tools::workspace_paths::is_openbitfun_tool_uri;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use chrono::{DateTime, Local};
 use serde_json::{json, Value};
@@ -55,7 +55,7 @@ impl Tool for LSTool {
         "LS"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Recursively lists files and directories in a given path.
 
 Usage:
@@ -244,20 +244,20 @@ Usage:
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let path = input
             .get("path")
             .and_then(|v| v.as_str())
-            .ok_or_else(|| OpenBitFunError::tool("path is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("path is required".to_string()))?;
 
-        let limit = self.parse_limit(input).map_err(OpenBitFunError::tool)?;
+        let limit = self.parse_limit(input).map_err(OpcTeamError::tool)?;
 
         let resolved = context.resolve_tool_path(path)?;
 
         let fs = context.file_system_for_path(&resolved)?;
         let listing = list_workspace_directory(fs.as_ref(), &resolved.resolved_path, limit)
             .await
-            .map_err(OpenBitFunError::tool)?;
+            .map_err(OpcTeamError::tool)?;
         let entries_json = listing
             .entries
             .iter()

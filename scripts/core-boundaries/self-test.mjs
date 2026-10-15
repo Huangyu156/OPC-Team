@@ -905,7 +905,7 @@ export function runManifestParserSelfTest({
   }
   const coreWorkspacePathContracts = [
     'OPENBITFUN_RUNTIME_URI_PREFIX',
-    'ParsedOpenBitFunRuntimeUri',
+    'ParsedOpcTeamRuntimeUri',
     'posix_normalize_components',
     'Component::ParentDir',
   ];
@@ -3530,7 +3530,7 @@ export function runManifestParserSelfTest({
       contracts: [
         'tool_restrictions_for_delegation_policy',
         'miniapp_headless_agent_tool_restrictions',
-        'impl From<ToolRestrictionError> for OpenBitFunError',
+        'impl From<ToolRestrictionError> for OpcTeamError',
         'is_local_path_within_root',
       ],
     },

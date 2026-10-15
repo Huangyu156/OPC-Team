@@ -23,7 +23,7 @@ use crate::agentic::deep_review_policy::{
     DeepReviewExecutionPolicy, DeepReviewPolicyViolation, DeepReviewSubagentRole,
 };
 use crate::agentic::events::{DeepReviewQueueStatus, ErrorCategory};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_agent_runtime::deep_review::task_execution as runtime_task_execution;
 pub(crate) use openbitfun_agent_runtime::deep_review::task_execution::{
     attach_deep_review_cache, deep_review_incremental_cache_hit_for_task,
@@ -114,7 +114,7 @@ pub(crate) fn deep_review_cancelled_reviewer_result(
 }
 
 pub(crate) fn capacity_decision_for_provider_error(
-    error: &OpenBitFunError,
+    error: &OpcTeamError,
 ) -> DeepReviewCapacityQueueDecision {
     let detail = error.error_detail();
     let error_message = error.to_string();
@@ -411,7 +411,7 @@ pub(crate) async fn wait_for_reviewer_admission(
     conc_policy: &DeepReviewConcurrencyPolicy,
     is_optional_reviewer: bool,
     launch_batch_info: Option<&DeepReviewLaunchBatchInfo>,
-) -> OpenBitFunResult<DeepReviewQueueWaitOutcome> {
+) -> OpcTeamResult<DeepReviewQueueWaitOutcome> {
     let decision = runtime_task_execution::local_reviewer_capacity_queue_decision();
     let local_capacity_reason = decision
         .reason
@@ -532,7 +532,7 @@ pub(crate) async fn wait_for_reviewer_admission(
                 DeepReviewCapacityQueueReason::LaunchBatchBlocked
             }
             Err(violation) => {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "DeepReview Task policy violation: {}",
                     violation.to_tool_error_message()
                 )));

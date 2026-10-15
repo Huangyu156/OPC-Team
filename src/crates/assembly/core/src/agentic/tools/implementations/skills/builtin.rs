@@ -4,7 +4,7 @@
 //! managed `.system` directory under the user skills root on demand.
 
 use crate::infrastructure::get_path_manager_arc;
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use fs2::FileExt;
 use include_dir::{include_dir, Dir};
 use log::{debug, error, warn};
@@ -91,7 +91,7 @@ fn builtin_skills_staging_root(parent: &Path) -> PathBuf {
     ))
 }
 
-async fn read_installed_manifest(root: &Path) -> OpenBitFunResult<Option<BuiltinSkillsManifest>> {
+async fn read_installed_manifest(root: &Path) -> OpcTeamResult<Option<BuiltinSkillsManifest>> {
     let path = builtin_skills_manifest_path(root);
     match fs::read_to_string(&path).await {
         Ok(content) => match serde_json::from_str::<BuiltinSkillsManifest>(&content) {
@@ -110,7 +110,7 @@ async fn read_installed_manifest(root: &Path) -> OpenBitFunResult<Option<Builtin
     }
 }
 
-async fn write_installed_manifest(root: &Path) -> OpenBitFunResult<()> {
+async fn write_installed_manifest(root: &Path) -> OpcTeamResult<()> {
     let path = builtin_skills_manifest_path(root);
     let manifest = BuiltinSkillsManifest {
         bundle_hash: builtin_skills_bundle_hash().to_string(),
@@ -120,15 +120,13 @@ async fn write_installed_manifest(root: &Path) -> OpenBitFunResult<()> {
     Ok(())
 }
 
-async fn acquire_install_lock(
-    user_skills_root: &Path,
-) -> OpenBitFunResult<BuiltinSkillsInstallLock> {
+async fn acquire_install_lock(user_skills_root: &Path) -> OpcTeamResult<BuiltinSkillsInstallLock> {
     let lock_path = builtin_skills_install_lock_path(user_skills_root);
 
     // Use an OS-backed advisory file lock so parallel test processes and app
     // instances serialize built-in skill installation across the shared
     // `.system` directory.
-    let file = task::spawn_blocking(move || -> OpenBitFunResult<std::fs::File> {
+    let file = task::spawn_blocking(move || -> OpcTeamResult<std::fs::File> {
         let file = OpenOptions::new()
             .create(true)
             .truncate(false)
@@ -140,7 +138,7 @@ async fn acquire_install_lock(
     })
     .await
     .map_err(|error| {
-        crate::util::errors::OpenBitFunError::io(format!(
+        crate::util::errors::OpcTeamError::io(format!(
             "Failed to join built-in skills install lock task: {}",
             error
         ))
@@ -149,9 +147,7 @@ async fn acquire_install_lock(
     Ok(BuiltinSkillsInstallLock { file })
 }
 
-async fn install_builtin_skills_to_staging(
-    staging_root: &Path,
-) -> OpenBitFunResult<(usize, usize)> {
+async fn install_builtin_skills_to_staging(staging_root: &Path) -> OpcTeamResult<(usize, usize)> {
     let mut installed = 0usize;
     let mut updated = 0usize;
 
@@ -170,7 +166,7 @@ async fn install_builtin_skills_to_staging(
     Ok((installed, updated))
 }
 
-pub async fn ensure_builtin_skills_installed() -> OpenBitFunResult<()> {
+pub async fn ensure_builtin_skills_installed() -> OpcTeamResult<()> {
     let pm = get_path_manager_arc();
     let user_skills_root = pm.user_skills_dir();
     let dest_root = pm.builtin_skills_dir();
@@ -244,7 +240,7 @@ struct SyncStats {
     updated: usize,
 }
 
-async fn sync_dir(dir: &Dir<'_>, dest_root: &Path) -> OpenBitFunResult<SyncStats> {
+async fn sync_dir(dir: &Dir<'_>, dest_root: &Path) -> OpcTeamResult<SyncStats> {
     let mut files: Vec<&include_dir::File<'_>> = Vec::new();
     collect_files(dir, &mut files);
 
@@ -284,9 +280,9 @@ fn collect_files<'a>(dir: &'a Dir<'a>, out: &mut Vec<&'a include_dir::File<'a>>)
     }
 }
 
-fn safe_join(root: &Path, relative: &Path) -> OpenBitFunResult<PathBuf> {
+fn safe_join(root: &Path, relative: &Path) -> OpcTeamResult<PathBuf> {
     if relative.is_absolute() {
-        return Err(crate::util::errors::OpenBitFunError::validation(format!(
+        return Err(crate::util::errors::OpcTeamError::validation(format!(
             "Unexpected absolute path in built-in skills: {}",
             relative.display()
         )));
@@ -295,7 +291,7 @@ fn safe_join(root: &Path, relative: &Path) -> OpenBitFunResult<PathBuf> {
     // Prevent `..` traversal even though include_dir should only contain clean relative paths.
     for c in relative.components() {
         if matches!(c, std::path::Component::ParentDir) {
-            return Err(crate::util::errors::OpenBitFunError::validation(format!(
+            return Err(crate::util::errors::OpcTeamError::validation(format!(
                 "Unexpected parent dir component in built-in skills path: {}",
                 relative.display()
             )));
@@ -308,7 +304,7 @@ fn safe_join(root: &Path, relative: &Path) -> OpenBitFunResult<PathBuf> {
 async fn desired_file_content(
     file: &include_dir::File<'_>,
     _dest_path: &Path,
-) -> OpenBitFunResult<Vec<u8>> {
+) -> OpcTeamResult<Vec<u8>> {
     Ok(file.contents().to_vec())
 }
 

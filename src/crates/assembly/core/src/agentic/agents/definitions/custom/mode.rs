@@ -1,7 +1,7 @@
 use super::common::CustomAgentData;
 use crate::agentic::agents::Agent;
 use crate::agentic::agents::{PromptBuilderContext, UserContextPolicy};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_agent_runtime::custom_agent::{
     custom_agent_read_markdown_file, default_custom_agent_user_context_policy,
@@ -48,18 +48,15 @@ impl CustomMode {
         )
     }
 
-    pub fn from_file(path: &str, level: CustomAgentLevel) -> OpenBitFunResult<Self> {
-        let parsed =
-            custom_agent_read_markdown_file(path, level).map_err(OpenBitFunError::Agent)?;
+    pub fn from_file(path: &str, level: CustomAgentLevel) -> OpcTeamResult<Self> {
+        let parsed = custom_agent_read_markdown_file(path, level).map_err(OpcTeamError::Agent)?;
         if parsed.definition.kind != CustomAgentKind::Mode {
-            return Err(OpenBitFunError::Agent(
-                "Expected custom mode file".to_string(),
-            ));
+            return Err(OpcTeamError::Agent("Expected custom mode file".to_string()));
         }
         Ok(Self::from_definition(path.to_string(), parsed.definition))
     }
 
-    pub fn save_to_file(&self, model: Option<&str>) -> OpenBitFunResult<()> {
+    pub fn save_to_file(&self, model: Option<&str>) -> OpcTeamResult<()> {
         self.data.save_to_file(model, None)
     }
 }
@@ -93,7 +90,7 @@ impl Agent for CustomMode {
         self.data.system_prompt_cache_identity()
     }
 
-    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpenBitFunResult<String> {
+    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpcTeamResult<String> {
         self.data.build_prompt(context).await
     }
 

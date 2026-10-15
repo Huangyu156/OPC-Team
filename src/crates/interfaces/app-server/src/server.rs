@@ -15,7 +15,7 @@ use std::sync::Arc;
 
 use agent_client_protocol::{ConnectTo, ConnectionTo, Result};
 
-use crate::agent::OpenBitFunAppRuntime;
+use crate::agent::OpcTeamAppRuntime;
 use crate::management::AppManagementService;
 use crate::role::{AppClient, AppServer};
 
@@ -96,16 +96,16 @@ impl ConnectionEventState {
 /// transport failure. Hosts that inject none of them keep the pre-existing
 /// open surface.
 #[derive(Clone)]
-pub struct OpenBitFunAppServer {
-    runtime: Arc<OpenBitFunAppRuntime>,
+pub struct OpcTeamAppServer {
+    runtime: Arc<OpcTeamAppRuntime>,
     management: Option<Arc<AppManagementService>>,
     host_policy: Option<Arc<host_policy::AppServerHostPolicy>>,
     host_limits: host_policy::AppServerHostLimits,
     disconnect: Option<Arc<host_policy::AppServerDisconnect>>,
 }
 
-impl OpenBitFunAppServer {
-    pub fn new(runtime: OpenBitFunAppRuntime) -> Self {
+impl OpcTeamAppServer {
+    pub fn new(runtime: OpcTeamAppRuntime) -> Self {
         Self {
             runtime: Arc::new(runtime),
             management: None,
@@ -144,7 +144,7 @@ impl OpenBitFunAppServer {
     }
 
     /// Return the shared runtime used by this server.
-    pub fn runtime(&self) -> &OpenBitFunAppRuntime {
+    pub fn runtime(&self) -> &OpcTeamAppRuntime {
         &self.runtime
     }
 

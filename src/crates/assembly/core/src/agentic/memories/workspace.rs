@@ -1,6 +1,6 @@
 use crate::agentic::memories::db::MemoryRow;
 use crate::infrastructure::get_path_manager_arc;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::{DateTime, Utc};
 pub use openbitfun_services_core::memory_store::{
     AD_HOC_EXTENSION_NAME, AD_HOC_NOTES_DIR_NAME, MEMORY_EXTENSIONS_DIR_NAME, MEMORY_FILE_NAME,
@@ -195,9 +195,9 @@ fn format_source_updated_at(unix_secs: i64) -> String {
     source_datetime_from_unix_secs(unix_secs).to_rfc3339()
 }
 
-pub async fn ensure_memory_workspace(root: &Path) -> OpenBitFunResult<()> {
+pub async fn ensure_memory_workspace(root: &Path) -> OpcTeamResult<()> {
     tokio::fs::create_dir_all(root).await.map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to create memory workspace {}: {}",
             root.display(),
             error
@@ -206,7 +206,7 @@ pub async fn ensure_memory_workspace(root: &Path) -> OpenBitFunResult<()> {
     tokio::fs::create_dir_all(rollout_summaries_dir(root))
         .await
         .map_err(|error| {
-            OpenBitFunError::io(format!(
+            OpcTeamError::io(format!(
                 "Failed to create memory rollout summaries dir {}: {}",
                 rollout_summaries_dir(root).display(),
                 error
@@ -215,7 +215,7 @@ pub async fn ensure_memory_workspace(root: &Path) -> OpenBitFunResult<()> {
     Ok(())
 }
 
-pub async fn sync_phase2_workspace_inputs(root: &Path, rows: &[MemoryRow]) -> OpenBitFunResult<()> {
+pub async fn sync_phase2_workspace_inputs(root: &Path, rows: &[MemoryRow]) -> OpcTeamResult<()> {
     ensure_memory_workspace(root).await?;
     seed_ad_hoc_memory_extension(root).await?;
     sync_rollout_summaries(root, rows).await?;
@@ -224,7 +224,7 @@ pub async fn sync_phase2_workspace_inputs(root: &Path, rows: &[MemoryRow]) -> Op
     Ok(())
 }
 
-pub async fn prepare_memory_workspace(root: &Path) -> OpenBitFunResult<()> {
+pub async fn prepare_memory_workspace(root: &Path) -> OpcTeamResult<()> {
     ensure_memory_workspace(root).await?;
     seed_ad_hoc_memory_extension(root).await?;
     remove_phase2_workspace_diff(root).await?;
@@ -233,11 +233,11 @@ pub async fn prepare_memory_workspace(root: &Path) -> OpenBitFunResult<()> {
         .map_err(map_memory_workspace_baseline_error)
 }
 
-pub async fn seed_ad_hoc_memory_extension(root: &Path) -> OpenBitFunResult<()> {
+pub async fn seed_ad_hoc_memory_extension(root: &Path) -> OpcTeamResult<()> {
     tokio::fs::create_dir_all(ad_hoc_notes_dir(root))
         .await
         .map_err(|error| {
-            OpenBitFunError::io(format!(
+            OpcTeamError::io(format!(
                 "Failed to create ad-hoc memory notes directory {}: {}",
                 ad_hoc_notes_dir(root).display(),
                 error
@@ -255,14 +255,14 @@ pub async fn seed_ad_hoc_memory_extension(root: &Path) -> OpenBitFunResult<()> {
             file.write_all(AD_HOC_INSTRUCTIONS.as_bytes())
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::io(format!(
+                    OpcTeamError::io(format!(
                         "Failed to seed ad-hoc memory instructions {}: {}",
                         instructions_path.display(),
                         error
                     ))
                 })?;
             file.flush().await.map_err(|error| {
-                OpenBitFunError::io(format!(
+                OpcTeamError::io(format!(
                     "Failed to flush ad-hoc memory instructions {}: {}",
                     instructions_path.display(),
                     error
@@ -271,7 +271,7 @@ pub async fn seed_ad_hoc_memory_extension(root: &Path) -> OpenBitFunResult<()> {
         }
         Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => {}
         Err(error) => {
-            return Err(OpenBitFunError::io(format!(
+            return Err(OpcTeamError::io(format!(
                 "Failed to create ad-hoc memory instructions {}: {}",
                 instructions_path.display(),
                 error
@@ -282,14 +282,14 @@ pub async fn seed_ad_hoc_memory_extension(root: &Path) -> OpenBitFunResult<()> {
     Ok(())
 }
 
-pub async fn memory_workspace_diff(root: &Path) -> OpenBitFunResult<MemoryWorkspaceDiff> {
+pub async fn memory_workspace_diff(root: &Path) -> OpcTeamResult<MemoryWorkspaceDiff> {
     remove_phase2_workspace_diff(root).await?;
     openbitfun_services_core::session::memory_workspace_diff(root)
         .await
         .map_err(map_memory_workspace_diff_error)
 }
 
-pub async fn write_workspace_diff(root: &Path, diff: &MemoryWorkspaceDiff) -> OpenBitFunResult<()> {
+pub async fn write_workspace_diff(root: &Path, diff: &MemoryWorkspaceDiff) -> OpcTeamResult<()> {
     ensure_memory_workspace(root).await?;
     let path = phase2_workspace_diff_file(root);
     write_text_file_if_changed(
@@ -299,23 +299,23 @@ pub async fn write_workspace_diff(root: &Path, diff: &MemoryWorkspaceDiff) -> Op
     .await
 }
 
-pub async fn reset_memory_workspace_baseline(root: &Path) -> OpenBitFunResult<()> {
+pub async fn reset_memory_workspace_baseline(root: &Path) -> OpcTeamResult<()> {
     remove_phase2_workspace_diff(root).await?;
     openbitfun_services_core::session::reset_memory_workspace_git_baseline(root)
         .await
         .map_err(map_memory_workspace_baseline_error)
 }
 
-pub async fn clear_phase2_workspace_diff(root: &Path) -> OpenBitFunResult<()> {
+pub async fn clear_phase2_workspace_diff(root: &Path) -> OpcTeamResult<()> {
     remove_phase2_workspace_diff(root).await
 }
 
-pub async fn remove_phase2_workspace_diff(root: &Path) -> OpenBitFunResult<()> {
+pub async fn remove_phase2_workspace_diff(root: &Path) -> OpcTeamResult<()> {
     let path = phase2_workspace_diff_file(root);
     match tokio::fs::remove_file(&path).await {
         Ok(()) => Ok(()),
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => Ok(()),
-        Err(error) => Err(OpenBitFunError::io(format!(
+        Err(error) => Err(OpcTeamError::io(format!(
             "Failed to remove memory workspace diff {}: {}",
             path.display(),
             error
@@ -323,27 +323,27 @@ pub async fn remove_phase2_workspace_diff(root: &Path) -> OpenBitFunResult<()> {
     }
 }
 
-fn map_memory_workspace_baseline_error(error: MemoryWorkspaceGitError) -> OpenBitFunError {
+fn map_memory_workspace_baseline_error(error: MemoryWorkspaceGitError) -> OpcTeamError {
     map_memory_workspace_git_error("Memory workspace baseline task failed", error)
 }
 
-fn map_memory_workspace_diff_error(error: MemoryWorkspaceGitError) -> OpenBitFunError {
+fn map_memory_workspace_diff_error(error: MemoryWorkspaceGitError) -> OpcTeamError {
     map_memory_workspace_git_error("Memory workspace diff task failed", error)
 }
 
 fn map_memory_workspace_git_error(
     join_context: &'static str,
     error: MemoryWorkspaceGitError,
-) -> OpenBitFunError {
+) -> OpcTeamError {
     match error {
         MemoryWorkspaceGitError::Join { source } => {
-            OpenBitFunError::service(format!("{join_context}: {source}"))
+            OpcTeamError::service(format!("{join_context}: {source}"))
         }
-        error => OpenBitFunError::io(error.to_string()),
+        error => OpcTeamError::io(error.to_string()),
     }
 }
 
-async fn rebuild_raw_memories(root: &Path, rows: &[MemoryRow]) -> OpenBitFunResult<()> {
+async fn rebuild_raw_memories(root: &Path, rows: &[MemoryRow]) -> OpcTeamResult<()> {
     let mut body = String::from("# Raw Memories\n\n");
     if rows.is_empty() {
         body.push_str("No raw memories yet.\n");
@@ -375,7 +375,7 @@ async fn rebuild_raw_memories(root: &Path, rows: &[MemoryRow]) -> OpenBitFunResu
     write_text_file_if_changed(&path, &body).await
 }
 
-async fn sync_rollout_summaries(root: &Path, rows: &[MemoryRow]) -> OpenBitFunResult<()> {
+async fn sync_rollout_summaries(root: &Path, rows: &[MemoryRow]) -> OpcTeamResult<()> {
     let dir = rollout_summaries_dir(root);
     let keep = rows
         .iter()
@@ -405,9 +405,9 @@ async fn sync_rollout_summaries(root: &Path, rows: &[MemoryRow]) -> OpenBitFunRe
     Ok(())
 }
 
-async fn prune_rollout_summaries(dir: &Path, keep: &HashSet<String>) -> OpenBitFunResult<()> {
+async fn prune_rollout_summaries(dir: &Path, keep: &HashSet<String>) -> OpcTeamResult<()> {
     let mut entries = tokio::fs::read_dir(dir).await.map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to read rollout summaries dir {}: {}",
             dir.display(),
             error
@@ -415,7 +415,7 @@ async fn prune_rollout_summaries(dir: &Path, keep: &HashSet<String>) -> OpenBitF
     })?;
 
     while let Some(entry) = entries.next_entry().await.map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to scan rollout summaries dir {}: {}",
             dir.display(),
             error
@@ -430,7 +430,7 @@ async fn prune_rollout_summaries(dir: &Path, keep: &HashSet<String>) -> OpenBitF
         }
         if let Err(error) = tokio::fs::remove_file(&path).await {
             if error.kind() != std::io::ErrorKind::NotFound {
-                return Err(OpenBitFunError::io(format!(
+                return Err(OpcTeamError::io(format!(
                     "Failed to prune rollout summary {}: {}",
                     path.display(),
                     error
@@ -457,11 +457,11 @@ fn sorted_rows(rows: &[MemoryRow]) -> Vec<&MemoryRow> {
     sorted
 }
 
-fn format_error(error: std::fmt::Error) -> OpenBitFunError {
-    OpenBitFunError::service(format!("Failed to format memory workspace file: {}", error))
+fn format_error(error: std::fmt::Error) -> OpcTeamError {
+    OpcTeamError::service(format!("Failed to format memory workspace file: {}", error))
 }
 
-async fn write_text_file_if_changed(path: &Path, body: &str) -> OpenBitFunResult<()> {
+async fn write_text_file_if_changed(path: &Path, body: &str) -> OpcTeamResult<()> {
     if let Ok(existing) = tokio::fs::read_to_string(path).await {
         if existing == body {
             return Ok(());
@@ -470,7 +470,7 @@ async fn write_text_file_if_changed(path: &Path, body: &str) -> OpenBitFunResult
 
     let temp_path = path.with_extension("tmp");
     tokio::fs::write(&temp_path, body).await.map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to write temp memory workspace file {}: {}",
             temp_path.display(),
             error
@@ -478,7 +478,7 @@ async fn write_text_file_if_changed(path: &Path, body: &str) -> OpenBitFunResult
     })?;
     tokio::fs::rename(&temp_path, path).await.map_err(|error| {
         let _ = std::fs::remove_file(&temp_path);
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to atomically replace memory workspace file {}: {}",
             path.display(),
             error
@@ -487,16 +487,16 @@ async fn write_text_file_if_changed(path: &Path, body: &str) -> OpenBitFunResult
     Ok(())
 }
 
-pub async fn clear_directory_contents(root: &Path) -> OpenBitFunResult<()> {
+pub async fn clear_directory_contents(root: &Path) -> OpcTeamResult<()> {
     tokio::fs::create_dir_all(root).await.map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to create directory {}: {}",
             root.display(),
             error
         ))
     })?;
     let mut entries = tokio::fs::read_dir(root).await.map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to read directory {}: {}",
             root.display(),
             error
@@ -504,7 +504,7 @@ pub async fn clear_directory_contents(root: &Path) -> OpenBitFunResult<()> {
     })?;
 
     while let Some(entry) = entries.next_entry().await.map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to scan directory {}: {}",
             root.display(),
             error
@@ -512,7 +512,7 @@ pub async fn clear_directory_contents(root: &Path) -> OpenBitFunResult<()> {
     })? {
         let path = entry.path();
         if let Err(error) = remove_entry(&path).await {
-            return Err(OpenBitFunError::io(format!(
+            return Err(OpcTeamError::io(format!(
                 "Failed to clear directory entry {}: {}",
                 path.display(),
                 error
@@ -523,7 +523,7 @@ pub async fn clear_directory_contents(root: &Path) -> OpenBitFunResult<()> {
     Ok(())
 }
 
-pub async fn reset_memory_workspace(root: &Path) -> OpenBitFunResult<()> {
+pub async fn reset_memory_workspace(root: &Path) -> OpcTeamResult<()> {
     clear_directory_contents(root).await
 }
 

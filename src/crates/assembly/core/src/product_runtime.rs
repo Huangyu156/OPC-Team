@@ -91,7 +91,7 @@ use crate::service::snapshot::{
 };
 use crate::service::token_usage::TokenUsageService;
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 
 pub use openbitfun_product_capabilities::ProductRuntimeAssembly as CoreProductRuntimeAssembly;
 pub use runtime_services::{build_local_runtime_services, CoreRuntimeServicesProvider};
@@ -363,14 +363,14 @@ pub struct CoreSessionMaintenancePermit {
     _permit: SessionMaintenancePermit,
 }
 
-fn validate_persisted_session_id(session_id: &str) -> OpenBitFunResult<()> {
-    openbitfun_core_types::validate_session_id(session_id).map_err(OpenBitFunError::Validation)
+fn validate_persisted_session_id(session_id: &str) -> OpcTeamResult<()> {
+    openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)
 }
 
 fn validate_session_workspace_identity(
     session: &Session,
     expected: &WorkspaceSessionIdentity,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let config = &session.config;
     let actual = config.workspace_path.as_deref().and_then(|path| {
         workspace_session_identity(
@@ -380,7 +380,7 @@ fn validate_session_workspace_identity(
         )
     });
     if actual.as_ref() != Some(expected) {
-        return Err(OpenBitFunError::Validation(format!(
+        return Err(OpcTeamError::Validation(format!(
             "Session workspace identity does not match the requested workspace scope: {}",
             session.session_id,
         )));
@@ -391,17 +391,17 @@ fn validate_session_workspace_identity(
 async fn fork_workspace_binding(
     session: &Session,
     requested_workspace_id: &str,
-) -> OpenBitFunResult<crate::agentic::WorkspaceBinding> {
+) -> OpcTeamResult<crate::agentic::WorkspaceBinding> {
     let mut config = session.config.clone();
     crate::agentic::workspace::normalize_session_workspace(&mut config).await?;
     let id = config
         .workspace_id
         .as_deref()
-        .ok_or_else(|| OpenBitFunError::Validation("Session workspace ID is required".into()))?;
+        .ok_or_else(|| OpcTeamError::Validation("Session workspace ID is required".into()))?;
     if requested_workspace_id != id
         && config.project_workspace_id.as_deref() != Some(requested_workspace_id)
     {
-        return Err(OpenBitFunError::Validation(format!(
+        return Err(OpcTeamError::Validation(format!(
             "Session workspace identity does not match the requested workspace ID: {}",
             session.session_id
         )));
@@ -415,7 +415,7 @@ async fn begin_consistent_persisted_session_read(
     storage_path: &Path,
     session_id: &str,
     expected_workspace: Option<&WorkspaceSessionIdentity>,
-) -> OpenBitFunResult<CoreSessionReadPermit> {
+) -> OpcTeamResult<CoreSessionReadPermit> {
     validate_persisted_session_id(session_id)?;
     let session_manager = coordinator.get_session_manager();
     let guard = session_manager.acquire_session_mutation(session_id).await?;
@@ -440,7 +440,7 @@ async fn begin_consistent_persisted_session_read(
     {
         if state.phase != crate::agentic::session::revert::SessionRevertPhase::Staged {
             if session_manager.get_session(session_id).is_none() {
-                return Err(OpenBitFunError::OutcomeUnknown(
+                return Err(OpcTeamError::OutcomeUnknown(
                     "Session facts are unavailable until the unfinished undo transition is restored"
                         .to_string(),
                 ));
@@ -461,12 +461,12 @@ async fn begin_consistent_persisted_session_read(
     })
 }
 
-fn latest_persisted_turn_id(turns: &[DialogTurnData]) -> OpenBitFunResult<String> {
+fn latest_persisted_turn_id(turns: &[DialogTurnData]) -> OpcTeamResult<String> {
     turns
         .last()
         .map(|turn| turn.turn_id.clone())
         .ok_or_else(|| {
-            OpenBitFunError::Validation("Session has no persisted turns to fork".to_string())
+            OpcTeamError::Validation("Session has no persisted turns to fork".to_string())
         })
 }
 
@@ -475,7 +475,7 @@ async fn generate_core_session_usage_report(
     token_usage_service: &TokenUsageService,
     session_storage_path: &Path,
     request: AgentSessionUsageRequest,
-) -> OpenBitFunResult<SessionUsageReport> {
+) -> OpcTeamResult<SessionUsageReport> {
     validate_persisted_session_id(&request.session_id)?;
     generate_session_usage_report_from_storage_path(
         persistence,
@@ -492,7 +492,7 @@ async fn load_visible_persisted_session_turns(
     session_id: &str,
     visible_turn_end: Option<usize>,
     limit: Option<usize>,
-) -> OpenBitFunResult<Vec<DialogTurnData>> {
+) -> OpcTeamResult<Vec<DialogTurnData>> {
     let mut turns = persistence
         .load_session_turns(storage_path, session_id)
         .await?;
@@ -921,21 +921,21 @@ pub struct CoreAgentRuntimeCompatibility {
 impl CoreAgentRuntimeCompatibility {
     pub async fn ensure_control_conversation(
         &self,
-    ) -> OpenBitFunResult<crate::agentic::coordination::ControlConversation> {
+    ) -> OpcTeamResult<crate::agentic::coordination::ControlConversation> {
         self.coordinator.ensure_control_conversation().await
     }
 
     pub async fn create_control_conversation(
         &self,
         request: crate::agentic::coordination::CreateControlConversationRequest,
-    ) -> OpenBitFunResult<crate::agentic::coordination::ControlConversation> {
+    ) -> OpcTeamResult<crate::agentic::coordination::ControlConversation> {
         self.coordinator.create_control_conversation(request).await
     }
 
     pub async fn record_voice_exchange(
         &self,
         request: crate::agentic::coordination::VoiceExchangeRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.coordinator.record_voice_exchange(request).await
     }
 
@@ -966,7 +966,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         session_id: &str,
         mode: Option<openbitfun_runtime_ports::PermissionMode>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.coordinator
             .get_session_manager()
             .update_session_permission_mode(session_id, mode)
@@ -1036,7 +1036,7 @@ impl CoreAgentRuntimeCompatibility {
     pub fn ensure_workspace_runtime_ownership(
         &self,
         request: &SessionStoragePathRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.coordinator.ensure_workspace_runtime_ownership(
             &request.workspace_path,
             request.remote_connection_id.as_deref(),
@@ -1050,7 +1050,7 @@ impl CoreAgentRuntimeCompatibility {
     pub async fn reload_session_context(
         &self,
         request: AgentContextReloadRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let session_id = request.session_id.trim();
         validate_persisted_session_id(session_id)?;
 
@@ -1060,7 +1060,7 @@ impl CoreAgentRuntimeCompatibility {
             .get_session(session_id)
             .is_none()
         {
-            return Err(OpenBitFunError::NotFound(format!(
+            return Err(OpcTeamError::NotFound(format!(
                 "Session '{session_id}' is not loaded"
             )));
         }
@@ -1087,7 +1087,7 @@ impl CoreAgentRuntimeCompatibility {
         storage_path: &Path,
         session_id: &str,
         include_internal: bool,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         validate_persisted_session_id(session_id)?;
         if include_internal {
             self.coordinator
@@ -1106,7 +1106,7 @@ impl CoreAgentRuntimeCompatibility {
         session_id: &str,
         include_internal: bool,
         tail_turn_count: Option<usize>,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<DialogTurnData>,
         usize,
@@ -1166,7 +1166,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         storage_path: &Path,
         mut request: SessionTurnWindowRequest,
-    ) -> OpenBitFunResult<SessionTurnWindowResponse> {
+    ) -> OpcTeamResult<SessionTurnWindowResponse> {
         validate_persisted_session_id(&request.session_id)?;
         if self
             .persistence
@@ -1176,7 +1176,7 @@ impl CoreAgentRuntimeCompatibility {
                 !request.include_internal && metadata.should_hide_from_user_lists()
             })
         {
-            return Err(OpenBitFunError::NotFound(format!(
+            return Err(OpcTeamError::NotFound(format!(
                 "Session not found: {}",
                 request.session_id
             )));
@@ -1194,7 +1194,7 @@ impl CoreAgentRuntimeCompatibility {
         storage_path: &Path,
         session_id: &str,
         include_internal: bool,
-    ) -> OpenBitFunResult<(Session, Vec<DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<DialogTurnData>)> {
         validate_persisted_session_id(session_id)?;
         if include_internal {
             self.coordinator
@@ -1213,7 +1213,7 @@ impl CoreAgentRuntimeCompatibility {
         session_id: &str,
         include_internal: bool,
         tail_turn_count: Option<usize>,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<DialogTurnData>,
         usize,
@@ -1236,7 +1236,7 @@ impl CoreAgentRuntimeCompatibility {
         request: SessionStoragePathRequest,
         session_id: &str,
         include_internal: bool,
-    ) -> OpenBitFunResult<(Session, Vec<DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<DialogTurnData>)> {
         validate_persisted_session_id(session_id)?;
         if include_internal {
             self.coordinator
@@ -1252,7 +1252,7 @@ impl CoreAgentRuntimeCompatibility {
     pub async fn list_persisted_sessions(
         &self,
         workspace_path: &Path,
-    ) -> OpenBitFunResult<Vec<SessionMetadata>> {
+    ) -> OpcTeamResult<Vec<SessionMetadata>> {
         self.persistence.list_session_metadata(workspace_path).await
     }
 
@@ -1261,7 +1261,7 @@ impl CoreAgentRuntimeCompatibility {
         workspace_path: &Path,
         cursor: Option<&str>,
         limit: usize,
-    ) -> OpenBitFunResult<SessionMetadataPage> {
+    ) -> OpcTeamResult<SessionMetadataPage> {
         self.persistence
             .list_session_metadata_page(workspace_path, cursor, limit)
             .await
@@ -1277,7 +1277,7 @@ impl CoreAgentRuntimeCompatibility {
         cursor: Option<&str>,
         limit: usize,
         session_ids: Option<&[String]>,
-    ) -> OpenBitFunResult<SessionMetadataPage> {
+    ) -> OpcTeamResult<SessionMetadataPage> {
         use futures::StreamExt;
         use openbitfun_agent_runtime::session_state::SessionState;
         use openbitfun_services_core::session::page::{
@@ -1286,7 +1286,7 @@ impl CoreAgentRuntimeCompatibility {
 
         if let Some(ids) = session_ids {
             if ids.len() > 128 {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "A session activity batch may contain at most 128 session ids".to_string(),
                 ));
             }
@@ -1311,7 +1311,7 @@ impl CoreAgentRuntimeCompatibility {
         // Capture the mailbox once for the batch, including delegated owners.
         let mut approvals = std::collections::HashMap::<String, usize>::new();
         for request in runtime.pending_permission_requests().map_err(|error| {
-            OpenBitFunError::Service(format!(
+            OpcTeamError::Service(format!(
                 "Session activity permission snapshot unavailable: {error}"
             ))
         })? {
@@ -1426,7 +1426,7 @@ impl CoreAgentRuntimeCompatibility {
         query: &str,
         limit: usize,
         include_archived: bool,
-    ) -> OpenBitFunResult<SessionContentSearchResponse> {
+    ) -> OpcTeamResult<SessionContentSearchResponse> {
         let query = validated_session_content_search_query(query)?;
         if query.is_empty() {
             return Ok(SessionContentSearchResponse::default());
@@ -1514,7 +1514,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<Option<SessionMetadata>> {
+    ) -> OpcTeamResult<Option<SessionMetadata>> {
         validate_persisted_session_id(session_id)?;
         self.persistence
             .load_session_metadata(workspace_path, session_id)
@@ -1531,7 +1531,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         let metadata = self
             .load_persisted_session_metadata(workspace_path, session_id)
             .await?;
@@ -1548,14 +1548,14 @@ impl CoreAgentRuntimeCompatibility {
         workspace_path: &Path,
         session_id: &str,
         update: impl FnOnce(&mut SessionMetadata),
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         validate_persisted_session_id(session_id)?;
         self.persistence
             .update_session_metadata(workspace_path, session_id, update)
             .await
     }
 
-    pub fn is_session_loaded_in_memory(&self, session_id: &str) -> OpenBitFunResult<bool> {
+    pub fn is_session_loaded_in_memory(&self, session_id: &str) -> OpcTeamResult<bool> {
         validate_persisted_session_id(session_id)?;
         Ok(self
             .coordinator
@@ -1571,7 +1571,7 @@ impl CoreAgentRuntimeCompatibility {
     /// so a later process restart cannot resurrect work. Live read-only views
     /// (for example Peer Device controllers) still need the current process
     /// state to distinguish an executing session from interrupted history.
-    pub fn loaded_session_snapshot(&self, session_id: &str) -> OpenBitFunResult<Option<Session>> {
+    pub fn loaded_session_snapshot(&self, session_id: &str) -> OpcTeamResult<Option<Session>> {
         validate_persisted_session_id(session_id)?;
         Ok(self
             .coordinator
@@ -1583,7 +1583,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         session_id: &str,
         title: &str,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         validate_persisted_session_id(session_id)?;
         self.coordinator
             .update_session_title(session_id, title)
@@ -1593,19 +1593,19 @@ impl CoreAgentRuntimeCompatibility {
     pub async fn resolve_persisted_session_storage_path(
         &self,
         request: SessionStoragePathRequest,
-    ) -> OpenBitFunResult<PathBuf> {
+    ) -> OpcTeamResult<PathBuf> {
         CoreSessionStorePort::with_path_manager(self.persistence.path_manager().clone())
             .resolve_session_storage_path(request)
             .await
             .map(|resolution| resolution.effective_storage_path)
-            .map_err(|error| OpenBitFunError::Session(error.to_string()))
+            .map_err(|error| OpcTeamError::Session(error.to_string()))
     }
 
     pub fn is_session_loaded_from_storage_path(
         &self,
         storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         validate_persisted_session_id(session_id)?;
         self.coordinator
             .get_session_manager()
@@ -1617,7 +1617,7 @@ impl CoreAgentRuntimeCompatibility {
         storage_path: &Path,
         session_id: &str,
         include_internal: bool,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if self.is_session_loaded_from_storage_path(storage_path, session_id)? {
             return Ok(());
         }
@@ -1640,7 +1640,7 @@ impl CoreAgentRuntimeCompatibility {
         model_id: &str,
         reasoning_preset: Option<&str>,
         include_internal: bool,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.coordinator
             .update_session_model_selection_from_storage_path(
                 storage_path,
@@ -1656,7 +1656,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<CoreSessionMutationPermit> {
+    ) -> OpcTeamResult<CoreSessionMutationPermit> {
         validate_persisted_session_id(session_id)?;
         let session_manager = self.coordinator.get_session_manager();
         let guard = session_manager.acquire_session_mutation(session_id).await?;
@@ -1676,7 +1676,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<CoreSessionMutationPermit> {
+    ) -> OpcTeamResult<CoreSessionMutationPermit> {
         let permit = self
             .begin_persisted_session_mutation(storage_path, session_id)
             .await?;
@@ -1686,7 +1686,7 @@ impl CoreAgentRuntimeCompatibility {
             .await?
             .is_some()
         {
-            return Err(OpenBitFunError::SessionInUse {
+            return Err(OpcTeamError::SessionInUse {
                 session_id: session_id.to_string(),
             });
         }
@@ -1697,7 +1697,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<CoreSessionReadPermit> {
+    ) -> OpcTeamResult<CoreSessionReadPermit> {
         begin_consistent_persisted_session_read(
             self.coordinator.as_ref(),
             self.persistence.as_ref(),
@@ -1713,7 +1713,7 @@ impl CoreAgentRuntimeCompatibility {
         storage_path: &Path,
         session_id: &str,
         workspace: &WorkspaceSessionIdentity,
-    ) -> OpenBitFunResult<CoreSessionReadPermit> {
+    ) -> OpcTeamResult<CoreSessionReadPermit> {
         begin_consistent_persisted_session_read(
             self.coordinator.as_ref(),
             self.persistence.as_ref(),
@@ -1729,7 +1729,7 @@ impl CoreAgentRuntimeCompatibility {
         storage_path: &Path,
         session_id: &str,
         wait_timeout_ms: u64,
-    ) -> OpenBitFunResult<CoreSessionMaintenancePermit> {
+    ) -> OpcTeamResult<CoreSessionMaintenancePermit> {
         let permit = self
             .scheduler
             .begin_session_maintenance(
@@ -1744,7 +1744,7 @@ impl CoreAgentRuntimeCompatibility {
     /// Compatibility-only lifecycle operation for ACP setup compensation and
     /// session/close. It releases loaded Core state but preserves persistence
     /// and the storage binding so the same session can be restored later.
-    pub async fn unload_persisted_session(&self, session_id: &str) -> OpenBitFunResult<bool> {
+    pub async fn unload_persisted_session(&self, session_id: &str) -> OpcTeamResult<bool> {
         validate_persisted_session_id(session_id)?;
         self.coordinator
             .get_session_manager()
@@ -1756,7 +1756,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         parent_session_id: &str,
         subagent_session_id: &str,
-    ) -> OpenBitFunResult<usize> {
+    ) -> OpcTeamResult<usize> {
         self.coordinator
             .cancel_background_subagents_for_parent(parent_session_id, subagent_session_id, true)
             .await
@@ -1766,7 +1766,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         permit: &CoreSessionMutationPermit,
         target_turn: usize,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.coordinator
             .get_session_manager()
             .rollback_context_to_turn_start_locked(
@@ -1781,7 +1781,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         permit: &CoreSessionMutationPermit,
         target_turn: usize,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.coordinator
             .get_session_manager()
             .validate_rollback_context_to_turn_start_locked(
@@ -1798,7 +1798,7 @@ impl CoreAgentRuntimeCompatibility {
     pub async fn commit_session_revert_before_snapshot_mutation(
         &self,
         permit: &CoreSessionMutationPermit,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.coordinator
             .commit_session_revert_locked(&permit.storage_path, &permit.session_id)
             .await
@@ -1809,14 +1809,14 @@ impl CoreAgentRuntimeCompatibility {
     pub async fn ensure_snapshot_record_allowed(
         &self,
         permit: &CoreSessionMutationPermit,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if self
             .persistence
             .load_session_revert_state(&permit.storage_path, &permit.session_id)
             .await?
             .is_some()
         {
-            return Err(OpenBitFunError::OutcomeUnknown(format!(
+            return Err(OpcTeamError::OutcomeUnknown(format!(
                 "Snapshot recording is not allowed while a Session undo is staged: session_id={}",
                 permit.session_id
             )));
@@ -1829,7 +1829,7 @@ impl CoreAgentRuntimeCompatibility {
         storage_path: &Path,
         session_id: &str,
         limit: Option<usize>,
-    ) -> OpenBitFunResult<Vec<DialogTurnData>> {
+    ) -> OpcTeamResult<Vec<DialogTurnData>> {
         let read = self
             .begin_persisted_session_read(storage_path, session_id)
             .await?;
@@ -1847,7 +1847,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         permit: &CoreSessionMutationPermit,
         limit: Option<usize>,
-    ) -> OpenBitFunResult<Vec<DialogTurnData>> {
+    ) -> OpcTeamResult<Vec<DialogTurnData>> {
         let visible_turn_end = self
             .persistence
             .load_session_revert_state(&permit.storage_path, &permit.session_id)
@@ -1868,7 +1868,7 @@ impl CoreAgentRuntimeCompatibility {
         storage_path: &Path,
         session_id: &str,
         options: &SessionTranscriptExportOptions,
-    ) -> OpenBitFunResult<SessionTranscriptExport> {
+    ) -> OpcTeamResult<SessionTranscriptExport> {
         let _read = self
             .begin_persisted_session_read(storage_path, session_id)
             .await?;
@@ -1881,7 +1881,7 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         validate_persisted_session_id(session_id)?;
         self.persistence
             .touch_session(workspace_path, session_id)
@@ -1892,10 +1892,10 @@ impl CoreAgentRuntimeCompatibility {
         &self,
         permit: &CoreSessionMutationPermit,
         turn: &DialogTurnData,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         validate_persisted_session_id(&turn.session_id)?;
         if turn.session_id != permit.session_id {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Turn session does not match the active mutation: turn_session_id={}, mutation_session_id={}",
                 turn.session_id, permit.session_id
             )));
@@ -1916,14 +1916,14 @@ impl CoreAgentRuntimeCompatibility {
             .get_session_manager()
             .get_session(&permit.session_id)
             .ok_or_else(|| {
-                OpenBitFunError::OutcomeUnknown(format!(
+                OpcTeamError::OutcomeUnknown(format!(
                     "Session must be loaded before saving a projected Turn: session_id={}",
                     permit.session_id
                 ))
             })?;
         let expected_turn_id = session.dialog_turn_ids.get(turn.turn_index);
         if expected_turn_id != Some(&turn.turn_id) {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Turn does not belong to the active Session history branch: session_id={}, turn_index={}, turn_id={}",
                 permit.session_id, turn.turn_index, turn.turn_id
             )));
@@ -1956,7 +1956,7 @@ impl CoreAgentRuntimeCompatibility {
         workspace_path: &Path,
         parent_session_id: &str,
         parent_dialog_turn_ids: &std::collections::HashSet<String>,
-    ) -> OpenBitFunResult<Vec<String>> {
+    ) -> OpcTeamResult<Vec<String>> {
         validate_persisted_session_id(parent_session_id)?;
         self.coordinator
             .delete_hidden_subagent_sessions_for_parent_turns(
@@ -2000,16 +2000,16 @@ fn session_search_turn_document(turn: &DialogTurnData) -> SessionSearchTurnDocum
 }
 
 #[cfg(feature = "product-search")]
-fn session_search_index_error(error: SessionSearchIndexError) -> OpenBitFunError {
+fn session_search_index_error(error: SessionSearchIndexError) -> OpcTeamError {
     log::warn!("Product search index operation failed: {error}");
-    OpenBitFunError::Session("Session content search is temporarily unavailable".to_string())
+    OpcTeamError::Session("Session content search is temporarily unavailable".to_string())
 }
 
 #[cfg(feature = "product-search")]
-fn validated_session_content_search_query(query: &str) -> OpenBitFunResult<&str> {
+fn validated_session_content_search_query(query: &str) -> OpcTeamResult<&str> {
     let query = query.trim();
     if query.chars().count() > MAX_SESSION_CONTENT_SEARCH_QUERY_CHARS {
-        return Err(OpenBitFunError::Validation(format!(
+        return Err(OpcTeamError::Validation(format!(
             "Session content search queries must not exceed {MAX_SESSION_CONTENT_SEARCH_QUERY_CHARS} characters"
         )));
     }
@@ -2131,7 +2131,7 @@ impl CoreSessionOperationsPort {
     ) -> PortResult<String> {
         let service =
             crate::service::workspace::get_global_workspace_service().ok_or_else(|| {
-                runtime_port_error(OpenBitFunError::service("Workspace service is unavailable"))
+                runtime_port_error(OpcTeamError::service("Workspace service is unavailable"))
             })?;
         let record = match workspace_id {
             Some(id) => service
@@ -2463,15 +2463,15 @@ async fn validate_persisted_lineage_descendant(
     }
 }
 
-fn runtime_port_error(error: OpenBitFunError) -> PortError {
+fn runtime_port_error(error: OpcTeamError) -> PortError {
     let kind = match &error {
-        OpenBitFunError::Validation(_) => PortErrorKind::InvalidRequest,
-        OpenBitFunError::NotFound(_) => PortErrorKind::NotFound,
-        OpenBitFunError::Timeout(_) => PortErrorKind::Timeout,
-        OpenBitFunError::Cancelled(_) => PortErrorKind::Cancelled,
-        OpenBitFunError::SessionInUse { .. } => PortErrorKind::SessionInUse,
-        OpenBitFunError::SessionCreateCleanupRequired { .. } => PortErrorKind::CleanupRequired,
-        OpenBitFunError::OutcomeUnknown(_) => PortErrorKind::OutcomeUnknown,
+        OpcTeamError::Validation(_) => PortErrorKind::InvalidRequest,
+        OpcTeamError::NotFound(_) => PortErrorKind::NotFound,
+        OpcTeamError::Timeout(_) => PortErrorKind::Timeout,
+        OpcTeamError::Cancelled(_) => PortErrorKind::Cancelled,
+        OpcTeamError::SessionInUse { .. } => PortErrorKind::SessionInUse,
+        OpcTeamError::SessionCreateCleanupRequired { .. } => PortErrorKind::CleanupRequired,
+        OpcTeamError::OutcomeUnknown(_) => PortErrorKind::OutcomeUnknown,
         _ => PortErrorKind::Backend,
     };
     PortError::new(kind, error.to_string())
@@ -2941,7 +2941,7 @@ mod tests {
     use crate::service::workspace_runtime::{
         set_workspace_runtime_service_for_current_test, WorkspaceRuntimeService,
     };
-    use crate::util::errors::OpenBitFunError;
+    use crate::util::errors::OpcTeamError;
     use openbitfun_agent_runtime::sdk::{
         AgentSessionForkAtTurnRequest, AgentSessionForkBeforeTurnRequest, AgentSessionForkPort,
         AgentSessionForkRequest, AgentSessionUsagePort, AgentSessionUsageRequest, PortErrorKind,
@@ -2977,7 +2977,7 @@ mod tests {
         );
         assert!(matches!(
             validated_session_content_search_query(&oversized),
-            Err(OpenBitFunError::Validation(_))
+            Err(OpcTeamError::Validation(_))
         ));
     }
 
@@ -3838,7 +3838,7 @@ mod tests {
 
     #[test]
     fn session_create_rollback_residual_remains_typed_across_the_runtime_port() {
-        let error = runtime_port_error(OpenBitFunError::SessionCreateCleanupRequired {
+        let error = runtime_port_error(OpcTeamError::SessionCreateCleanupRequired {
             session_id: "session-1".to_string(),
             error: "metadata write failed".to_string(),
             cleanup_error: "session directory is locked".to_string(),
@@ -3850,7 +3850,7 @@ mod tests {
 
     #[test]
     fn session_writer_conflict_remains_typed_across_the_runtime_port() {
-        let error = runtime_port_error(OpenBitFunError::SessionInUse {
+        let error = runtime_port_error(OpcTeamError::SessionInUse {
             session_id: "session-1".to_string(),
         });
 
@@ -4654,10 +4654,7 @@ mod tests {
             .load_visible_persisted_session_turns(&storage_path, session_id)
             .await
             .expect_err("cold readers must fail closed on an unfinished undo transition");
-        assert!(matches!(
-            cold_read_error,
-            OpenBitFunError::OutcomeUnknown(_)
-        ));
+        assert!(matches!(cold_read_error, OpcTeamError::OutcomeUnknown(_)));
 
         let result = port
             .fork_session(AgentSessionForkRequest {
@@ -4864,7 +4861,7 @@ mod tests {
             .save_persisted_dialog_turn(&commit_mutation, &hidden_turn)
             .await
             .expect_err("a delayed save cannot revive a committed suffix Turn");
-        assert!(matches!(stale_save, OpenBitFunError::Validation(_)));
+        assert!(matches!(stale_save, OpcTeamError::Validation(_)));
         drop(commit_mutation);
         assert_eq!(
             persistence
@@ -5150,7 +5147,7 @@ mod tests {
             .await
             .expect_err("a Runtime-owned Session still needs its history branch");
         assert!(
-            matches!(error, OpenBitFunError::OutcomeUnknown(_)),
+            matches!(error, OpcTeamError::OutcomeUnknown(_)),
             "unexpected error: {error}"
         );
     }

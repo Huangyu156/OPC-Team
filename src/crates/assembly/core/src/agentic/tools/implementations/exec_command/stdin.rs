@@ -1,7 +1,7 @@
 use super::completion::{exec_command_local_completion, exec_command_remote_completion};
 use super::progress::ExecOutputProgressBridge;
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext, ValidationResult};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_runtime_ports::{PortErrorKind, RemoteWriteStdinRequest, TerminalWriteStdinRequest};
 use serde_json::{json, Value};
@@ -42,9 +42,9 @@ impl WriteStdinTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let parsed_input = write_stdin_input_from_input(input).ok_or_else(|| {
-            OpenBitFunError::tool("session_id is required for WriteStdin".to_string())
+            OpcTeamError::tool("session_id is required for WriteStdin".to_string())
         })?;
         let session_id = parsed_input.session_id;
         let request = RemoteWriteStdinRequest {
@@ -55,9 +55,7 @@ impl WriteStdinTool {
             max_output_chars: None,
         };
         let remote_exec_port = context.remote_exec_port().ok_or_else(|| {
-            OpenBitFunError::tool(
-                "remote exec runtime service is required for WriteStdin".to_string(),
-            )
+            OpcTeamError::tool("remote exec runtime service is required for WriteStdin".to_string())
         })?;
         let progress_bridge = ExecOutputProgressBridge::start(context, self.name());
         let response_result = if let Some(bridge) = progress_bridge.as_ref() {
@@ -76,7 +74,7 @@ impl WriteStdinTool {
                 return Ok(Self::session_not_found_result(session_id, true));
             }
             Err(error) => {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "WriteStdin failed: {}",
                     error.message
                 )));
@@ -109,7 +107,7 @@ impl Tool for WriteStdinTool {
         "WriteStdin"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Writes stdin to, or polls, a running ExecCommand session.
 
 Pass the session_id returned by ExecCommand. Leave chars empty or omit it to poll for new output.
@@ -208,13 +206,13 @@ Output is only what was produced during this tool call's wait window."#
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
             return self.call_remote_pipe(input, context).await;
         }
 
         let parsed_input = write_stdin_input_from_input(input).ok_or_else(|| {
-            OpenBitFunError::tool("session_id is required for WriteStdin".to_string())
+            OpcTeamError::tool("session_id is required for WriteStdin".to_string())
         })?;
         let session_id = parsed_input.session_id;
         let request = TerminalWriteStdinRequest {
@@ -225,7 +223,7 @@ Output is only what was produced during this tool call's wait window."#
             max_output_chars: None,
         };
         let terminal_port = context.terminal_port().ok_or_else(|| {
-            OpenBitFunError::tool("terminal runtime service is required for WriteStdin".to_string())
+            OpcTeamError::tool("terminal runtime service is required for WriteStdin".to_string())
         })?;
         let progress_bridge = ExecOutputProgressBridge::start(context, self.name());
         let response_result = if let Some(bridge) = progress_bridge.as_ref() {
@@ -244,7 +242,7 @@ Output is only what was produced during this tool call's wait window."#
                 return Ok(Self::session_not_found_result(session_id, false));
             }
             Err(error) => {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "WriteStdin failed: {}",
                     error.message
                 )));

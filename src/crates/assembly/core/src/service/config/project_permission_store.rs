@@ -1,7 +1,7 @@
 //! Workspace-scoped static tool permission rules.
 
 use crate::infrastructure::get_path_manager_arc;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_core_types::product_identity::hidden_data_directory;
 use openbitfun_runtime_ports::{PermissionRule, WorkspaceFileSystem};
 use serde::{Deserialize, Serialize};
@@ -32,34 +32,34 @@ pub fn project_permission_file_path_for_remote(remote_root: &str) -> String {
 
 pub fn deserialize_project_permission_config(
     content: &str,
-) -> OpenBitFunResult<ProjectPermissionConfig> {
+) -> OpcTeamResult<ProjectPermissionConfig> {
     let value: Value = serde_json::from_str(content).map_err(|error| {
-        OpenBitFunError::config(format!(
+        OpcTeamError::config(format!(
             "Failed to parse project permission config: {error}"
         ))
     })?;
 
     if value.is_array() {
-        Err(OpenBitFunError::config(
+        Err(OpcTeamError::config(
             "Project permission config uses the pre-OpenBitFun array format; use the explicit data migration tool instead",
         ))
     } else {
         serde_json::from_value(value).map_err(|error| {
-            OpenBitFunError::config(format!("Invalid project permission config: {error}"))
+            OpcTeamError::config(format!("Invalid project permission config: {error}"))
         })
     }
 }
 
 pub async fn load_project_permission_config_local(
     workspace_root: &Path,
-) -> OpenBitFunResult<ProjectPermissionConfig> {
+) -> OpcTeamResult<ProjectPermissionConfig> {
     let path = project_permission_file_path(workspace_root);
     match tokio::fs::read_to_string(&path).await {
         Ok(content) => deserialize_project_permission_config(&content),
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => {
             Ok(ProjectPermissionConfig::default())
         }
-        Err(error) => Err(OpenBitFunError::config(format!(
+        Err(error) => Err(OpcTeamError::config(format!(
             "Failed to read project permission config '{}': {error}",
             path.display()
         ))),
@@ -69,14 +69,14 @@ pub async fn load_project_permission_config_local(
 pub async fn load_project_permission_config_remote(
     fs: &dyn WorkspaceFileSystem,
     remote_root: &str,
-) -> OpenBitFunResult<ProjectPermissionConfig> {
+) -> OpcTeamResult<ProjectPermissionConfig> {
     let path = project_permission_file_path_for_remote(remote_root);
     if !fs.exists(&path).await.unwrap_or(false) {
         return Ok(ProjectPermissionConfig::default());
     }
 
     let content = fs.read_file_text(&path).await.map_err(|error| {
-        OpenBitFunError::config(format!(
+        OpcTeamError::config(format!(
             "Failed to read remote project permission config '{}': {error}",
             path
         ))

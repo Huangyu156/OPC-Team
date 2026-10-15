@@ -3,13 +3,13 @@
 use super::types::SkillData;
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::AIExperienceConfig;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_agent_runtime::skills::OPENBITFUN_SYSTEM_SKILL_SLOT;
 
 const COMMIT_SKILL_KEY: &str = "user::openbitfun-system::commit-push-pr";
 const COMMIT_COAUTHOR_POLICY_PLACEHOLDER: &str = "{{OPENBITFUN_GIT_COMMIT_COAUTHOR_POLICY}}";
 
-pub(super) async fn apply_builtin_runtime_settings(skill: &mut SkillData) -> OpenBitFunResult<()> {
+pub(super) async fn apply_builtin_runtime_settings(skill: &mut SkillData) -> OpcTeamResult<()> {
     if skill.key != COMMIT_SKILL_KEY || skill.source_slot != OPENBITFUN_SYSTEM_SKILL_SLOT {
         return Ok(());
     }
@@ -23,9 +23,9 @@ pub(super) async fn apply_builtin_runtime_settings(skill: &mut SkillData) -> Ope
     Ok(())
 }
 
-fn render_commit_coauthor_policy(content: &str, enabled: bool) -> OpenBitFunResult<String> {
+fn render_commit_coauthor_policy(content: &str, enabled: bool) -> OpcTeamResult<String> {
     if !content.contains(COMMIT_COAUTHOR_POLICY_PLACEHOLDER) {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "Built-in commit skill is missing its runtime co-author setting".to_string(),
         ));
     }

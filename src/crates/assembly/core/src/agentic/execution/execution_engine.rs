@@ -60,7 +60,7 @@ use crate::service::instruction_context::{
     build_workspace_instruction_files_context_detailed,
     build_workspace_instruction_files_context_with_fs, InstructionContextBuild,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::token_counter::TokenCounter;
 use crate::util::types::Message as AIMessage;
 use crate::util::types::ToolDefinition;
@@ -250,41 +250,41 @@ impl ManualCompactionCommitGate {
 /// in the same poll that produces a result. Callers must commit outside this future.
 pub(crate) async fn prepare_compression_cancellable<T>(
     cancellation_token: &CancellationToken,
-    preparation: impl std::future::Future<Output = OpenBitFunResult<T>>,
-) -> OpenBitFunResult<T> {
+    preparation: impl std::future::Future<Output = OpcTeamResult<T>>,
+) -> OpcTeamResult<T> {
     let result = tokio::select! {
         biased;
         _ = cancellation_token.cancelled() => {
-            return Err(OpenBitFunError::Cancelled("Context compaction cancelled".to_string()));
+            return Err(OpcTeamError::Cancelled("Context compaction cancelled".to_string()));
         }
         result = preparation => result,
     };
     if cancellation_token.is_cancelled() {
-        return Err(OpenBitFunError::Cancelled(
+        return Err(OpcTeamError::Cancelled(
             "Context compaction cancelled".to_string(),
         ));
     }
     result
 }
 
-fn compression_plan_error(error: OpenBitFunError, plan: usize) -> OpenBitFunError {
+fn compression_plan_error(error: OpcTeamError, plan: usize) -> OpcTeamError {
     match error {
-        OpenBitFunError::AIProvider(mut error)
-        | OpenBitFunError::RecoverableContextOverflow(mut error) => {
+        OpcTeamError::AIProvider(mut error)
+        | OpcTeamError::RecoverableContextOverflow(mut error) => {
             error.message = format!(
                 "Context compression failed on plan {plan}: {}",
                 error.message
             );
-            OpenBitFunError::AIProvider(error)
+            OpcTeamError::AIProvider(error)
         }
         error => error,
     }
 }
 
-fn manual_compaction_terminal_error(error: OpenBitFunError) -> OpenBitFunError {
+fn manual_compaction_terminal_error(error: OpcTeamError) -> OpcTeamError {
     match error {
-        error @ OpenBitFunError::Cancelled(_) => error,
-        error => OpenBitFunError::Session(error.to_string()),
+        error @ OpcTeamError::Cancelled(_) => error,
+        error => OpcTeamError::Session(error.to_string()),
     }
 }
 
@@ -1175,10 +1175,10 @@ impl ExecutionEngine {
         missing_path && missing_data_url && has_redaction_hint
     }
 
-    fn is_recoverable_historical_image_error(err: &OpenBitFunError) -> bool {
+    fn is_recoverable_historical_image_error(err: &OpcTeamError) -> bool {
         match err {
-            OpenBitFunError::Io(_) | OpenBitFunError::Deserialization(_) => true,
-            OpenBitFunError::Validation(msg) => {
+            OpcTeamError::Io(_) | OpcTeamError::Deserialization(_) => true,
+            OpcTeamError::Validation(msg) => {
                 msg.starts_with("Failed to decode image data")
                     || msg.starts_with("Unsupported or unrecognized image format")
                     || msg.starts_with("Invalid data URL format")
@@ -1190,12 +1190,12 @@ impl ExecutionEngine {
 
     fn can_fallback_to_text_only(
         images: &[ImageContextData],
-        err: &OpenBitFunError,
+        err: &OpcTeamError,
         is_current_turn_message: bool,
     ) -> bool {
         let is_redacted_payload_error = matches!(
             err,
-            OpenBitFunError::Validation(msg) if msg.starts_with("Image context missing image_path/data_url")
+            OpcTeamError::Validation(msg) if msg.starts_with("Image context missing image_path/data_url")
         ) && !images.is_empty()
             && images.iter().all(Self::is_redacted_image_context);
 
@@ -1230,7 +1230,7 @@ impl ExecutionEngine {
         ai_config: &crate::service::config::types::AIConfig,
         configured_model_id: &str,
         frozen_model_id: Option<&str>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         if let Some(frozen_model_id) = frozen_model_id
             .map(str::trim)
             .filter(|model_id| !model_id.is_empty())
@@ -1238,7 +1238,7 @@ impl ExecutionEngine {
             return ai_config
                 .resolve_model_reference(frozen_model_id)
                 .ok_or_else(|| {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "Frozen dialog turn model contract is unavailable: {frozen_model_id}"
                     ))
                 });
@@ -1254,7 +1254,7 @@ impl ExecutionEngine {
             .resolve_model_selection(selector)
             .or_else(|| ai_config.resolve_model_selection("primary"))
             .ok_or_else(|| {
-                OpenBitFunError::AIClient(
+                OpcTeamError::AIClient(
                     "Dialog turn model could not resolve a concrete primary model".to_string(),
                 )
             })
@@ -1263,7 +1263,7 @@ impl ExecutionEngine {
     fn validate_frozen_reasoning_contract(
         context: &ExecutionContext,
         ai_client: &crate::infrastructure::ai::AIClient,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let Some(expected_value) = context
             .context
             .get(INTERRUPTED_TURN_REASONING_PRESET_METADATA_KEY)
@@ -1271,7 +1271,7 @@ impl ExecutionEngine {
             return Ok(());
         };
         let expected = serde_json::from_str::<Option<String>>(expected_value).map_err(|error| {
-            OpenBitFunError::Validation(format!(
+            OpcTeamError::Validation(format!(
                 "Frozen dialog turn reasoning contract is malformed: {error}"
             ))
         })?;
@@ -1280,7 +1280,7 @@ impl ExecutionEngine {
             .or_else(|| ai_client.model_reasoning_preset());
         let actual = actual_descriptor.map(|preset| preset.id.as_str());
         if actual != expected.as_deref() {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Frozen dialog turn reasoning contract changed before execution: expected={:?}, actual={actual:?}",
                 expected.as_deref(),
             )));
@@ -1289,13 +1289,13 @@ impl ExecutionEngine {
             .context
             .get(INTERRUPTED_TURN_REASONING_FINGERPRINT_METADATA_KEY)
             .ok_or_else(|| {
-                OpenBitFunError::Validation(
+                OpcTeamError::Validation(
                     "Frozen dialog turn reasoning contract has no runtime fingerprint".to_string(),
                 )
             })?;
         if reasoning_preset_runtime_fingerprint(actual_descriptor) != expected_fingerprint.as_str()
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Frozen dialog turn reasoning contract changed before execution: runtime fingerprint mismatch"
                     .to_string(),
             ));
@@ -1307,13 +1307,13 @@ impl ExecutionEngine {
         &self,
         session_id: &str,
         context: &ExecutionContext,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         if let Some(frozen_selection) = context
             .context
             .get(INTERRUPTED_TURN_REASONING_SELECTION_METADATA_KEY)
         {
             return serde_json::from_str::<Option<String>>(frozen_selection).map_err(|error| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "Frozen dialog turn reasoning selection is malformed: {error}"
                 ))
             });
@@ -1324,11 +1324,11 @@ impl ExecutionEngine {
             .await
     }
 
-    pub(crate) fn is_frozen_reasoning_contract_error(error: &OpenBitFunError) -> bool {
-        matches!(error, OpenBitFunError::Validation(message) if message.starts_with("Frozen dialog turn reasoning contract changed before execution:"))
+    pub(crate) fn is_frozen_reasoning_contract_error(error: &OpcTeamError) -> bool {
+        matches!(error, OpcTeamError::Validation(message) if message.starts_with("Frozen dialog turn reasoning contract changed before execution:"))
     }
 
-    async fn validate_frozen_model_contract(context: &ExecutionContext) -> OpenBitFunResult<()> {
+    async fn validate_frozen_model_contract(context: &ExecutionContext) -> OpcTeamResult<()> {
         let Some(expected_model_id) = context
             .context
             .get(INTERRUPTED_TURN_RESOLVED_MODEL_ID_METADATA_KEY)
@@ -1339,14 +1339,14 @@ impl ExecutionEngine {
             .context
             .get(INTERRUPTED_TURN_MODEL_BINDING_FINGERPRINT_METADATA_KEY)
             .ok_or_else(|| {
-                OpenBitFunError::Validation(
+                OpcTeamError::Validation(
                     "Frozen dialog turn model contract has no binding fingerprint".to_string(),
                 )
             })?;
         let ai_config = SessionManager::load_ai_config_for_model_resolution()
             .await
             .ok_or_else(|| {
-                OpenBitFunError::Validation(
+                OpcTeamError::Validation(
                     "Frozen dialog turn model contract cannot be validated because AI configuration is unavailable"
                         .to_string(),
                 )
@@ -1354,7 +1354,7 @@ impl ExecutionEngine {
         let canonical_model_id = ai_config
             .resolve_model_reference(expected_model_id)
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "Frozen dialog turn model contract is unavailable: {expected_model_id}"
                 ))
             })?;
@@ -1363,21 +1363,21 @@ impl ExecutionEngine {
             .iter()
             .find(|model| model.enabled && model.id == canonical_model_id)
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "Frozen dialog turn model contract is unavailable: {expected_model_id}"
                 ))
             })?;
         let actual_fingerprint = model_runtime_binding_fingerprint(model);
         if actual_fingerprint != expected_fingerprint.as_str() {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Frozen dialog turn model contract changed before execution: model_id={expected_model_id}"
             )));
         }
         Ok(())
     }
 
-    pub(crate) fn is_frozen_model_contract_error(error: &OpenBitFunError) -> bool {
-        matches!(error, OpenBitFunError::Validation(message) if message.starts_with("Frozen dialog turn model contract"))
+    pub(crate) fn is_frozen_model_contract_error(error: &OpcTeamError) -> bool {
+        matches!(error, OpcTeamError::Validation(message) if message.starts_with("Frozen dialog turn model contract"))
     }
 
     async fn resolve_primary_model_context(
@@ -1496,7 +1496,7 @@ impl ExecutionEngine {
     ) -> (Option<String>, bool) {
         let mut cacheable = true;
         if policy.includes(UserContextSection::WorkspaceInstructions) {
-            let instruction_context: OpenBitFunResult<InstructionContextBuild> =
+            let instruction_context: OpcTeamResult<InstructionContextBuild> =
                 if let Some(workspace) = workspace {
                     if workspace.is_remote() {
                         if let Some(services) = workspace_services {
@@ -1685,7 +1685,7 @@ impl ExecutionEngine {
         current_agent: &dyn crate::agentic::agents::Agent,
         prompt_context: Option<&PromptBuilderContext>,
         prompt_policy_id: Option<&str>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let identity = match prompt_policy_id {
             Some(policy_id) => SystemPromptCacheIdentity::new(format!("harness:{policy_id}")),
             None => prompt_context
@@ -1713,10 +1713,10 @@ impl ExecutionEngine {
         );
         let system_prompt = if let Some(policy_id) = prompt_policy_id {
             let context = prompt_context.ok_or_else(|| {
-                OpenBitFunError::Agent("Prompt build context is required".to_string())
+                OpcTeamError::Agent("Prompt build context is required".to_string())
             })?;
             let template = get_embedded_prompt(policy_id).ok_or_else(|| {
-                OpenBitFunError::Agent(format!("{policy_id} not found in embedded files"))
+                OpcTeamError::Agent(format!("{policy_id} not found in embedded files"))
             })?;
             PromptBuilder::new(context.clone())
                 .build_prompt_from_template(template)
@@ -1733,7 +1733,7 @@ impl ExecutionEngine {
     async fn resolve_turn_prompt_scaffold(
         &self,
         input: TurnPromptScaffoldInput<'_>,
-    ) -> OpenBitFunResult<TurnPromptScaffold> {
+    ) -> OpcTeamResult<TurnPromptScaffold> {
         debug!(
             "Resolving turn prompt scaffold: session_id={}, turn_id={}, stage={}, agent={}, model={}",
             input.context.session_id,
@@ -1843,11 +1843,11 @@ impl ExecutionEngine {
         turn_index: usize,
         frozen_model_id: Option<&str>,
         frozen_model_binding_fingerprint: Option<&str>,
-    ) -> OpenBitFunResult<(String, String)> {
+    ) -> OpcTeamResult<(String, String)> {
         let ai_config = SessionManager::load_ai_config_for_model_resolution()
             .await
             .ok_or_else(|| {
-                OpenBitFunError::AIClient(
+                OpcTeamError::AIClient(
                     "Failed to get config service for model resolution".to_string(),
                 )
             })?;
@@ -1862,7 +1862,7 @@ impl ExecutionEngine {
                 .map(str::trim)
                 .filter(|model_id| !model_id.is_empty())
                 .ok_or_else(|| {
-                    OpenBitFunError::AIClient(
+                    OpcTeamError::AIClient(
                         "Approved immutable session has no concrete model id".to_string(),
                     )
                 })?;
@@ -1871,7 +1871,7 @@ impl ExecutionEngine {
                 .model_binding_fingerprint
                 .as_deref()
                 .ok_or_else(|| {
-                    OpenBitFunError::AIClient(
+                    OpcTeamError::AIClient(
                         "Approved immutable session has no model binding fingerprint".to_string(),
                     )
                 })?;
@@ -1880,7 +1880,7 @@ impl ExecutionEngine {
                 .iter()
                 .filter(|model| model.enabled && model.id == model_id);
             let model = matches.next().ok_or_else(|| {
-                OpenBitFunError::AIClient(format!(
+                OpcTeamError::AIClient(format!(
                     "Approved model configuration is unavailable: {}",
                     model_id
                 ))
@@ -1888,7 +1888,7 @@ impl ExecutionEngine {
             if matches.next().is_some()
                 || model_runtime_binding_fingerprint(model) != expected_fingerprint
             {
-                return Err(OpenBitFunError::AIClient(format!(
+                return Err(OpcTeamError::AIClient(format!(
                     "Approved model binding changed before execution: {}",
                     model_id
                 )));
@@ -1903,7 +1903,7 @@ impl ExecutionEngine {
                 workspace.and_then(|binding| binding.workspace_id.as_deref()),
             )
             .await
-            .map_err(|e| OpenBitFunError::AIClient(format!("Failed to get model ID: {}", e)))?;
+            .map_err(|e| OpcTeamError::AIClient(format!("Failed to get model ID: {}", e)))?;
         let configured_model_id = session
             .config
             .model_id
@@ -1923,11 +1923,11 @@ impl ExecutionEngine {
             .find(|model| model.enabled && model.id == model_id)
             .ok_or_else(|| {
                 if frozen_model_id.is_some() {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "Frozen dialog turn model contract is unavailable: {model_id}"
                     ))
                 } else {
-                    OpenBitFunError::AIClient(format!(
+                    OpcTeamError::AIClient(format!(
                         "Dialog turn model configuration is unavailable: {model_id}"
                     ))
                 }
@@ -1936,7 +1936,7 @@ impl ExecutionEngine {
         if frozen_model_binding_fingerprint
             .is_some_and(|expected| expected != model_binding_fingerprint)
         {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Frozen dialog turn model contract changed before execution: model_id={model_id}"
             )));
         }
@@ -2002,7 +2002,7 @@ impl ExecutionEngine {
     async fn run_finalize_round(
         &self,
         input: FinalizeRoundInput<'_>,
-    ) -> OpenBitFunResult<RoundResult> {
+    ) -> OpcTeamResult<RoundResult> {
         // Keep the original tool definitions attached to the finalize request
         // even though finalize forbids tool execution at runtime. Dropping the
         // tools here would change the provider request shape, which breaks
@@ -2085,7 +2085,7 @@ impl ExecutionEngine {
         current_turn_id: &str,
         attach_images: bool,
         prepended_reminders: &[&str],
-    ) -> OpenBitFunResult<Vec<AIMessage>> {
+    ) -> OpcTeamResult<Vec<AIMessage>> {
         /// Only the last this many **messages** that contain images keep their images for the API.
         const MAX_IMAGE_BEARING_MESSAGE_ROUNDS: usize = 2;
 
@@ -2173,7 +2173,7 @@ impl ExecutionEngine {
                         Ok(processed) => {
                             let next_count = attached_image_count + processed.len();
                             if next_count > limits.max_images_per_request {
-                                return Err(OpenBitFunError::validation(format!(
+                                return Err(OpcTeamError::validation(format!(
                                     "Too many images in one request: {} > {}",
                                     next_count, limits.max_images_per_request
                                 )));
@@ -2186,7 +2186,7 @@ impl ExecutionEngine {
                             result.extend(multimodal);
                         }
                         Err(err) => {
-                            if matches!(&err, OpenBitFunError::Validation(msg) if msg.starts_with("Too many images in one request"))
+                            if matches!(&err, OpcTeamError::Validation(msg) if msg.starts_with("Too many images in one request"))
                             {
                                 return Err(err);
                             }
@@ -2231,7 +2231,7 @@ impl ExecutionEngine {
                             if keep_this_message_images {
                                 let next_count = attached_image_count + atts.len();
                                 if next_count > limits.max_images_per_request {
-                                    return Err(OpenBitFunError::validation(format!(
+                                    return Err(OpcTeamError::validation(format!(
                                         "Too many images in one request: {} > {}",
                                         next_count, limits.max_images_per_request
                                     )));
@@ -2313,7 +2313,7 @@ impl ExecutionEngine {
         &self,
         session: &Session,
         context: &ExecutionContext,
-    ) -> OpenBitFunResult<CompressionRuntimeScaffold> {
+    ) -> OpcTeamResult<CompressionRuntimeScaffold> {
         let agent_registry = get_agent_registry();
         agent_registry
             .load_custom_agents(
@@ -2333,7 +2333,7 @@ impl ExecutionEngine {
                     .and_then(|workspace| workspace.workspace_id.as_deref()),
             )
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Agent not found: {}", context.agent_type))
+                OpcTeamError::NotFound(format!("Agent not found: {}", context.agent_type))
             })?;
 
         let (model_id, _) = self
@@ -2354,7 +2354,7 @@ impl ExecutionEngine {
             .await?;
 
         let ai_client_factory = get_global_ai_client_factory().await.map_err(|e| {
-            OpenBitFunError::AIClient(format!("Failed to get AI client factory: {}", e))
+            OpcTeamError::AIClient(format!("Failed to get AI client factory: {}", e))
         })?;
         let reasoning_preset = match self
             .resolve_reasoning_selection_for_turn(&session.session_id, context)
@@ -2402,7 +2402,7 @@ impl ExecutionEngine {
                     // remain ordinary execution failures.
                     Self::validate_frozen_model_contract(context).await?;
                 }
-                return Err(OpenBitFunError::AIClient(format!(
+                return Err(OpcTeamError::AIClient(format!(
                     "Failed to get AI client (model_id={}): {}",
                     model_id, error
                 )));
@@ -2562,13 +2562,11 @@ impl ExecutionEngine {
         trigger: &str,
         cancellation_token: CancellationToken,
         commit_gate: Arc<ManualCompactionCommitGate>,
-    ) -> OpenBitFunResult<ContextCompactionOutcome> {
+    ) -> OpcTeamResult<ContextCompactionOutcome> {
         let mut session = self
             .session_manager
             .get_session(&session_id)
-            .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Session not found: {}", session_id))
-            })?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {}", session_id)))?;
         let start_time = std::time::Instant::now();
         let preparation = prepare_compression_cancellable(&cancellation_token, async {
             let scaffold = self
@@ -2710,7 +2708,7 @@ impl ExecutionEngine {
         let planned_result = if commit_gate.try_begin_commit() {
             Ok(planned_result)
         } else {
-            Err(OpenBitFunError::Cancelled(
+            Err(OpcTeamError::Cancelled(
                 "Manual context compaction cancelled".to_string(),
             ))
         };
@@ -2892,7 +2890,7 @@ impl ExecutionEngine {
         agent_type: String,
         initial_messages: Vec<Message>,
         context: ExecutionContext,
-    ) -> OpenBitFunResult<ExecutionResult> {
+    ) -> OpcTeamResult<ExecutionResult> {
         let start_time = std::time::Instant::now();
         let dialog_turn_id = context.dialog_turn_id.clone();
         let control_owner = context.session_id.clone();
@@ -2940,7 +2938,7 @@ impl ExecutionEngine {
         initial_messages: Vec<Message>,
         context: ExecutionContext,
         start_time: std::time::Instant,
-    ) -> OpenBitFunResult<ExecutionResult> {
+    ) -> OpcTeamResult<ExecutionResult> {
         let dialog_turn_id = context.dialog_turn_id.clone();
         let initial_count = initial_messages.len();
 
@@ -2968,7 +2966,7 @@ impl ExecutionEngine {
                     .as_ref()
                     .and_then(|workspace| workspace.workspace_id.as_deref()),
             )
-            .ok_or_else(|| OpenBitFunError::NotFound(format!("Agent not found: {}", agent_type)))?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Agent not found: {}", agent_type)))?;
         info!(
             "Current Agent: {} ({})",
             current_agent.name(),
@@ -2979,7 +2977,7 @@ impl ExecutionEngine {
             .session_manager
             .get_session(&context.session_id)
             .ok_or_else(|| {
-                OpenBitFunError::Session(format!("Session not found: {}", context.session_id))
+                OpcTeamError::Session(format!("Session not found: {}", context.session_id))
             })?;
 
         // 2. Get AI client
@@ -3053,7 +3051,7 @@ impl ExecutionEngine {
         );
 
         let ai_client_factory = get_global_ai_client_factory().await.map_err(|e| {
-            OpenBitFunError::AIClient(format!("Failed to get AI client factory: {}", e))
+            OpcTeamError::AIClient(format!("Failed to get AI client factory: {}", e))
         })?;
 
         // Get AI client by model ID
@@ -3099,7 +3097,7 @@ impl ExecutionEngine {
                 {
                     Self::validate_frozen_model_contract(&context).await?;
                 }
-                return Err(OpenBitFunError::AIClient(format!(
+                return Err(OpcTeamError::AIClient(format!(
                     "Failed to get AI client (model_id={}): {}",
                     model_id, error
                 )));
@@ -3389,7 +3387,7 @@ impl ExecutionEngine {
                 .round_executor
                 .is_dialog_turn_cancelled(&dialog_turn_id)
             {
-                return Err(OpenBitFunError::Cancelled("Dialog cancelled".to_string()));
+                return Err(OpcTeamError::Cancelled("Dialog cancelled".to_string()));
             }
             if reached_fixed_model_round_limit(self.config.max_rounds, completed_rounds) {
                 warn!(
@@ -3627,7 +3625,7 @@ impl ExecutionEngine {
                             .round_executor
                             .is_dialog_turn_cancelled(&dialog_turn_id)
                         {
-                            return Err(OpenBitFunError::Cancelled("Dialog cancelled".to_string()));
+                            return Err(OpcTeamError::Cancelled("Dialog cancelled".to_string()));
                         }
                         messages = compressed_messages;
                         turn_prompt_scaffold = self
@@ -3649,11 +3647,11 @@ impl ExecutionEngine {
                         send_pressure_reusable = false;
                     }
                     Ok(None) => {
-                        return Err(OpenBitFunError::AIClient(
+                        return Err(OpcTeamError::AIClient(
                             "Context compression has no eligible plan".to_string(),
                         ));
                     }
-                    Err(err @ OpenBitFunError::Cancelled(_)) => return Err(err),
+                    Err(err @ OpcTeamError::Cancelled(_)) => return Err(err),
                     Err(e) => return Err(e),
                 }
             }
@@ -3786,7 +3784,7 @@ impl ExecutionEngine {
                 })
             {
                 if !available_tools.iter().any(|name| name == "analyze_image") {
-                    return Err(OpenBitFunError::validation(
+                    return Err(OpcTeamError::validation(
                         "This agent cannot analyze image attachments with the selected text-only model. Enable analyze_image for this agent or select a multimodal model.",
                     ));
                 }
@@ -3874,7 +3872,7 @@ impl ExecutionEngine {
                                 .round_executor
                                 .is_dialog_turn_cancelled(&dialog_turn_id)
                             {
-                                return Err(OpenBitFunError::Cancelled(
+                                return Err(OpcTeamError::Cancelled(
                                     "Dialog cancelled".to_string(),
                                 ));
                             }
@@ -3913,7 +3911,7 @@ impl ExecutionEngine {
                             );
                             return Err(err);
                         }
-                        Err(err @ OpenBitFunError::Cancelled(_)) => return Err(err),
+                        Err(err @ OpcTeamError::Cancelled(_)) => return Err(err),
                         Err(compression_error) => {
                             error!(
                                 "Context-overflow recovery compression failed: session_id={}, turn_id={}, round_index={}, error={}",
@@ -4242,7 +4240,7 @@ impl ExecutionEngine {
                         // Use the same durable input path as turn-boundary messages.
                         // A malformed image must not silently become a text-only turn.
                         let mut images = agent_dialog_turn_image_contexts(&injection.attachments)
-                            .map_err(|error| OpenBitFunError::validation(error.to_string()))?
+                            .map_err(|error| OpcTeamError::validation(error.to_string()))?
                             .unwrap_or_default();
                         crate::agentic::image_analysis::attachments::prepare_inline_image_attachments(
                             &mut images, &attachment_context,
@@ -4498,7 +4496,7 @@ impl ExecutionEngine {
                 }
 
                 // Note: Token will be cleaned up when outer function exits
-                return Err(OpenBitFunError::cancelled("Dialog cancelled"));
+                return Err(OpcTeamError::cancelled("Dialog cancelled"));
             }
 
             // Continue to next round
@@ -4781,7 +4779,7 @@ impl ExecutionEngine {
     }
 
     /// Cancel dialog turn execution
-    pub async fn cancel_dialog_turn(&self, dialog_turn_id: &str) -> OpenBitFunResult<()> {
+    pub async fn cancel_dialog_turn(&self, dialog_turn_id: &str) -> OpcTeamResult<()> {
         debug!("Cancelling dialog turn: dialog_turn_id={}", dialog_turn_id);
         let result = self.round_executor.cancel_dialog_turn(dialog_turn_id).await;
         if result.is_ok() {
@@ -5075,7 +5073,7 @@ mod tests {
             Ok(())
         })
         .await;
-        assert!(matches!(result, Err(crate::OpenBitFunError::Cancelled(_))));
+        assert!(matches!(result, Err(crate::OpcTeamError::Cancelled(_))));
     }
 
     #[tokio::test]
@@ -5112,7 +5110,7 @@ mod tests {
             .await
             .expect("Cancellation must not wait for pending work")
             .unwrap();
-        assert!(matches!(result, Err(crate::OpenBitFunError::Cancelled(_))));
+        assert!(matches!(result, Err(crate::OpcTeamError::Cancelled(_))));
         assert!(dropped.load(Ordering::SeqCst));
         assert!(!committed.load(Ordering::SeqCst));
     }
@@ -5125,7 +5123,7 @@ mod tests {
             Ok("summary that must not be committed")
         })
         .await;
-        assert!(matches!(result, Err(crate::OpenBitFunError::Cancelled(_))));
+        assert!(matches!(result, Err(crate::OpcTeamError::Cancelled(_))));
     }
 
     #[tokio::test]
@@ -5138,13 +5136,13 @@ mod tests {
             42
         );
         let result = super::prepare_compression_cancellable::<()>(&token, async {
-            Err(crate::OpenBitFunError::Session(
+            Err(crate::OpcTeamError::Session(
                 "preparation failed".to_string(),
             ))
         })
         .await;
         assert!(
-            matches!(result, Err(crate::OpenBitFunError::Session(message)) if message == "preparation failed")
+            matches!(result, Err(crate::OpcTeamError::Session(message)) if message == "preparation failed")
         );
     }
 
@@ -5323,11 +5321,11 @@ mod tests {
 
     #[test]
     fn manual_compaction_preserves_cancellation_as_a_terminal_cancellation() {
-        let error = manual_compaction_terminal_error(crate::OpenBitFunError::Cancelled(
+        let error = manual_compaction_terminal_error(crate::OpcTeamError::Cancelled(
             "cancelled by user".to_string(),
         ));
 
-        assert!(matches!(error, crate::OpenBitFunError::Cancelled(_)));
+        assert!(matches!(error, crate::OpcTeamError::Cancelled(_)));
     }
 
     #[derive(Clone)]

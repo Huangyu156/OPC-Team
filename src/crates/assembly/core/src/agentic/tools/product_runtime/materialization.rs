@@ -120,7 +120,7 @@ impl StaticToolProviderFactory<dyn Tool> for ProductConcreteToolFactory {
             "ExecControl" => Some(Arc::new(ExecControlTool::new())),
             "GetTime" => Some(Arc::new(GetTimeTool::new())),
             "ListModels" => Some(Arc::new(ListModelsTool::new())),
-            "OpenBitFunControl" => Some(Arc::new(OpenBitFunControlTool::new())),
+            "OpenBitFunControl" => Some(Arc::new(OpcTeamControlTool::new())),
             "Task" => Some(Arc::new(TaskTool::new())),
             "AgentSpawn" => Some(Arc::new(AgentSpawnTool::new())),
             "AgentSendInput" => Some(Arc::new(AgentSendInputTool::new())),

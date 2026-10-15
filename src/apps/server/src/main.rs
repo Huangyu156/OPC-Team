@@ -121,8 +121,8 @@ async fn main() -> Result<()> {
     .await?;
 
     // Build the agent runtime the same way the Desktop session application does,
-    // then build an in-process `OpenBitFunAppServer` for it. Each WebSocket
-    // connection is handed straight to `OpenBitFunAppServer::serve` over a WS-bridged
+    // then build an in-process `OpcTeamAppServer` for it. Each WebSocket
+    // connection is handed straight to `OpcTeamAppServer::serve` over a WS-bridged
     // `Lines` transport (browser-direct ACP-over-WS, Step 2), so the browser
     // connects directly to the in-process app-server over native JSON-RPC — no
     // shared in-process client, no custom WS envelope.
@@ -220,7 +220,7 @@ async fn main() -> Result<()> {
                 .allow_methods([Method::GET])
                 .allow_origin(cors_origins),
         )
-        // The OpenBitFunAppServer is cloned per WebSocket connection through an axum
+        // The OpcTeamAppServer is cloned per WebSocket connection through an axum
         // Extension (cheap Arc clone); each connection spawns its own `serve`
         // over a WS-bridged `Lines` transport.
         .layer(axum::Extension(openbitfun_app_server))

@@ -1,6 +1,6 @@
 //! Lightweight CDP (Chrome DevTools Protocol) client over WebSocket.
 
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use futures::stream::{SplitSink, SplitStream};
 use futures::{SinkExt, StreamExt};
 use log::{debug, info, warn};
@@ -81,28 +81,28 @@ fn suppressed_browser_connections() -> &'static RwLock<HashSet<u16>> {
 
 impl CdpClient {
     /// Discover browser version on a legacy fixed debug port.
-    pub async fn get_version(port: u16) -> OpenBitFunResult<CdpVersionInfo> {
+    pub async fn get_version(port: u16) -> OpcTeamResult<CdpVersionInfo> {
         CdpEndpointProvider::get_version(port)
             .await
-            .map_err(|error| OpenBitFunError::tool(error.to_string()))
+            .map_err(|error| OpcTeamError::tool(error.to_string()))
     }
 
     /// List all pages/tabs on a legacy fixed debug port.
-    pub async fn list_pages(port: u16) -> OpenBitFunResult<Vec<CdpPageInfo>> {
+    pub async fn list_pages(port: u16) -> OpcTeamResult<Vec<CdpPageInfo>> {
         CdpEndpointProvider::list_pages(port)
             .await
-            .map_err(|error| OpenBitFunError::tool(error.to_string()))
+            .map_err(|error| OpcTeamError::tool(error.to_string()))
     }
 
     /// Create a new page/tab on a legacy fixed debug port.
-    pub async fn create_page(port: u16, url: Option<&str>) -> OpenBitFunResult<CdpPageInfo> {
+    pub async fn create_page(port: u16, url: Option<&str>) -> OpcTeamResult<CdpPageInfo> {
         CdpEndpointProvider::create_page(port, url)
             .await
-            .map_err(|error| OpenBitFunError::tool(error.to_string()))
+            .map_err(|error| OpcTeamError::tool(error.to_string()))
     }
 
     /// Connect to a specific page by its legacy WebSocket debugger URL.
-    pub async fn connect(ws_url: &str) -> OpenBitFunResult<Self> {
+    pub async fn connect(ws_url: &str) -> OpcTeamResult<Self> {
         info!("CDP connecting to page WebSocket");
         Self::connect_with_timeout(ws_url, PAGE_CDP_CONNECT_TIMEOUT).await
     }
@@ -115,9 +115,9 @@ impl CdpClient {
         actual_port: u16,
         browser_kind: &BrowserKind,
         ws_url: &str,
-    ) -> OpenBitFunResult<CdpBrowserConnection> {
+    ) -> OpcTeamResult<CdpBrowserConnection> {
         if Self::browser_connection_suppressed(logical_port).await {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Browser control was disconnected in Settings. Reconnect it there before attaching again."
                     .to_string(),
             ));
@@ -136,7 +136,7 @@ impl CdpClient {
             Self::connect_with_timeout(ws_url, USER_PROFILE_APPROVAL_TIMEOUT)
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::tool(format!(
+                    OpcTeamError::tool(format!(
                         "Could not connect to the current browser profile. Approve OPC-Team's remote debugging request in the browser, then try again: {}",
                         error
                     ))
@@ -234,16 +234,14 @@ impl CdpClient {
             .contains(&logical_port)
     }
 
-    async fn connect_with_timeout(ws_url: &str, timeout: Duration) -> OpenBitFunResult<Self> {
+    async fn connect_with_timeout(ws_url: &str, timeout: Duration) -> OpcTeamResult<Self> {
         let (ws_stream, _) = tokio::time::timeout(timeout, connect_async(ws_url))
             .await
             .map_err(|_| {
-                OpenBitFunError::tool(
-                    "Timed out waiting for the CDP WebSocket connection".to_string(),
-                )
+                OpcTeamError::tool("Timed out waiting for the CDP WebSocket connection".to_string())
             })?
             .map_err(|error| {
-                OpenBitFunError::tool(format!("CDP WebSocket connect failed: {}", error))
+                OpcTeamError::tool(format!("CDP WebSocket connect failed: {}", error))
             })?;
 
         let (sink, stream) = ws_stream.split();
@@ -334,7 +332,7 @@ impl CdpClient {
     }
 
     /// Connect to the first available page on a legacy debug port.
-    pub async fn connect_to_first_page(port: u16) -> OpenBitFunResult<Self> {
+    pub async fn connect_to_first_page(port: u16) -> OpcTeamResult<Self> {
         let pages = Self::list_pages(port).await?;
         let page = pages
             .iter()
@@ -342,17 +340,18 @@ impl CdpClient {
                 page.page_type.as_deref() == Some("page") && page.web_socket_debugger_url.is_some()
             })
             .or_else(|| pages.first())
-            .ok_or_else(|| OpenBitFunError::tool("No browser pages found via CDP".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("No browser pages found via CDP".to_string()))?;
 
-        let ws_url = page.web_socket_debugger_url.as_ref().ok_or_else(|| {
-            OpenBitFunError::tool("Page has no WebSocket debugger URL".to_string())
-        })?;
+        let ws_url = page
+            .web_socket_debugger_url
+            .as_ref()
+            .ok_or_else(|| OpcTeamError::tool("Page has no WebSocket debugger URL".to_string()))?;
 
         Self::connect(ws_url).await
     }
 
     /// Query version metadata from a browser-level CDP connection.
-    pub async fn browser_version(&self) -> OpenBitFunResult<CdpVersionInfo> {
+    pub async fn browser_version(&self) -> OpcTeamResult<CdpVersionInfo> {
         self.require_browser_connection()?;
         let result = self.send("Browser.getVersion", None).await?;
         Ok(CdpVersionInfo {
@@ -370,14 +369,14 @@ impl CdpClient {
 
     /// List targets through the browser WebSocket. This replaces `/json` for
     /// an approval-only real-profile endpoint.
-    pub async fn browser_pages(&self) -> OpenBitFunResult<Vec<CdpPageInfo>> {
+    pub async fn browser_pages(&self) -> OpcTeamResult<Vec<CdpPageInfo>> {
         self.require_browser_connection()?;
         let result = self.send("Target.getTargets", None).await?;
         Ok(Self::page_infos_from_target_result(&result))
     }
 
     /// Create a target through the browser WebSocket and return its metadata.
-    pub async fn create_browser_page(&self, url: Option<&str>) -> OpenBitFunResult<CdpPageInfo> {
+    pub async fn create_browser_page(&self, url: Option<&str>) -> OpcTeamResult<CdpPageInfo> {
         self.require_browser_connection()?;
         let target_url = url.unwrap_or("about:blank");
         let result = self
@@ -387,7 +386,7 @@ impl CdpClient {
             .get("targetId")
             .and_then(Value::as_str)
             .ok_or_else(|| {
-                OpenBitFunError::tool("Target.createTarget returned no target id".to_string())
+                OpcTeamError::tool("Target.createTarget returned no target id".to_string())
             })?
             .to_string();
 
@@ -415,7 +414,7 @@ impl CdpClient {
     /// Attach to one target using a flattened CDP session carried over the
     /// retained browser WebSocket. All subsequent page commands are tagged with
     /// the returned `sessionId`, while events are routed to this client only.
-    pub async fn attach_to_page(&self, target_id: &str) -> OpenBitFunResult<Self> {
+    pub async fn attach_to_page(&self, target_id: &str) -> OpcTeamResult<Self> {
         self.require_browser_connection()?;
         let result = self
             .send(
@@ -427,7 +426,7 @@ impl CdpClient {
             .get("sessionId")
             .and_then(Value::as_str)
             .ok_or_else(|| {
-                OpenBitFunError::tool("Target.attachToTarget returned no session id".to_string())
+                OpcTeamError::tool("Target.attachToTarget returned no session id".to_string())
             })?
             .to_string();
 
@@ -452,9 +451,9 @@ impl CdpClient {
         })
     }
 
-    fn require_browser_connection(&self) -> OpenBitFunResult<()> {
+    fn require_browser_connection(&self) -> OpcTeamResult<()> {
         if self.session_id.is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "This CDP operation requires the browser-level connection".to_string(),
             ));
         }
@@ -492,9 +491,9 @@ impl CdpClient {
     }
 
     /// Send a CDP method call and wait for the response.
-    pub async fn send(&self, method: &str, params: Option<Value>) -> OpenBitFunResult<Value> {
+    pub async fn send(&self, method: &str, params: Option<Value>) -> OpcTeamResult<Value> {
         if !self.is_connected() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "CDP response channel closed".to_string(),
             ));
         }
@@ -518,19 +517,19 @@ impl CdpClient {
         };
         if let Err(error) = send_result {
             self.transport.pending.write().await.remove(&id);
-            return Err(OpenBitFunError::tool(format!("CDP send failed: {}", error)));
+            return Err(OpcTeamError::tool(format!("CDP send failed: {}", error)));
         }
 
         let result = match tokio::time::timeout(Duration::from_secs(30), rx).await {
             Ok(Ok(result)) => result,
             Ok(Err(_)) => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "CDP response channel closed".to_string(),
                 ))
             }
             Err(_) => {
                 self.transport.pending.write().await.remove(&id);
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "CDP timeout for method {}",
                     method
                 )));
@@ -538,7 +537,7 @@ impl CdpClient {
         };
 
         if let Some(error) = result.get("error") {
-            return Err(OpenBitFunError::tool(format!("CDP error: {}", error)));
+            return Err(OpcTeamError::tool(format!("CDP error: {}", error)));
         }
 
         Ok(result.get("result").cloned().unwrap_or(json!({})))
@@ -629,7 +628,7 @@ impl CdpClient {
 
 #[async_trait::async_trait]
 impl BrowserAutomationClient for CdpClient {
-    async fn send(&self, method: &str, params: Option<Value>) -> OpenBitFunResult<Value> {
+    async fn send(&self, method: &str, params: Option<Value>) -> OpcTeamResult<Value> {
         CdpClient::send(self, method, params).await
     }
 

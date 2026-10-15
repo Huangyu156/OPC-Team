@@ -8,7 +8,7 @@ pub(super) enum TaskAction {
 }
 
 impl TaskAction {
-    pub(super) fn parse(value: &Value) -> OpenBitFunResult<Self> {
+    pub(super) fn parse(value: &Value) -> OpcTeamResult<Self> {
         let action = match value
             .get("action")
             .and_then(Value::as_str)
@@ -18,7 +18,7 @@ impl TaskAction {
             Some(action) => action,
             None => {
                 return Self::infer_from_input(value)
-                    .ok_or_else(|| OpenBitFunError::tool("action is required".to_string()))
+                    .ok_or_else(|| OpcTeamError::tool("action is required".to_string()))
             }
         };
 
@@ -26,7 +26,7 @@ impl TaskAction {
             "spawn" => Ok(Self::Spawn),
             "send_input" => Ok(Self::SendInput),
             "cancel" => Ok(Self::Cancel),
-            other => Err(OpenBitFunError::tool(format!(
+            other => Err(OpcTeamError::tool(format!(
                 "action must be one of: spawn, send_input, cancel; got '{}'",
                 other
             ))),
@@ -93,9 +93,9 @@ impl AgentExecutionTool {
     pub(super) fn parse_invocation(
         input: &Value,
         is_deep_review_parent: bool,
-    ) -> OpenBitFunResult<TaskInvocation> {
+    ) -> OpcTeamResult<TaskInvocation> {
         if input.get("workspace_path").is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "workspace_path is no longer supported; subagents inherit the current workspace. Put any non-current target path in the prompt."
                     .to_string(),
             ));
@@ -103,13 +103,13 @@ impl AgentExecutionTool {
 
         if is_deep_review_parent {
             if input.get("action").is_some() {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "action is not supported for DeepReview AgentSpawn calls".to_string(),
                 ));
             }
             for field in ["fork_context", "agent_id", "run_in_background"] {
                 if input.get(field).is_some() {
-                    return Err(OpenBitFunError::tool(format!(
+                    return Err(OpcTeamError::tool(format!(
                         "{field} is not allowed for DeepReview AgentSpawn calls"
                     )));
                 }
@@ -148,24 +148,24 @@ impl AgentExecutionTool {
 
         let action = TaskAction::parse(input)?;
         if input.get("description").is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "description is not supported; put the complete task instruction in prompt"
                     .to_string(),
             ));
         }
         if input.get("requested_agent_id").is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "requested_agent_id is not supported; use agent_id".to_string(),
             ));
         }
         if Self::has_deep_review_retry_fields(input) {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "DeepReview retry fields are only allowed for DeepReview AgentSpawn calls"
                     .to_string(),
             ));
         }
         if input.get("timeout_seconds").is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "timeout_seconds is only allowed for DeepReview AgentSpawn calls".to_string(),
             ));
         }
@@ -180,7 +180,7 @@ impl AgentExecutionTool {
                 match context_mode {
                     SubagentContextMode::Fresh => {
                         if subagent_type.is_none() {
-                            return Err(OpenBitFunError::tool(
+                            return Err(OpcTeamError::tool(
                                 "subagent_type is required when action is spawn and fork_context is false or omitted"
                                     .to_string(),
                             ));
@@ -188,7 +188,7 @@ impl AgentExecutionTool {
                     }
                     SubagentContextMode::Fork => {
                         if subagent_type.is_some() {
-                            return Err(OpenBitFunError::tool(
+                            return Err(OpcTeamError::tool(
                                 "subagent_type cannot be combined with fork_context=true when action is spawn; use either subagent_type for a fresh subagent or fork_context=true to inherit the current context."
                                     .to_string(),
                             ));
@@ -321,21 +321,21 @@ impl AgentExecutionTool {
         input: &Value,
         field: &str,
         action: TaskAction,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let value = Self::string_field(
             input,
             field,
             format!("action is {}", action.as_str()).as_str(),
         )?;
         value.ok_or_else(|| {
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "{field} is required when action is {}",
                 action.as_str()
             ))
         })
     }
 
-    fn required_agent_id_for_action(input: &Value, action: TaskAction) -> OpenBitFunResult<String> {
+    fn required_agent_id_for_action(input: &Value, action: TaskAction) -> OpcTeamResult<String> {
         let agent_id = Self::required_string_for_action(input, "agent_id", action)?;
         let raw_agent_id = input
             .get("agent_id")
@@ -345,16 +345,16 @@ impl AgentExecutionTool {
         Ok(agent_id)
     }
 
-    fn string_field(input: &Value, field: &str, context: &str) -> OpenBitFunResult<Option<String>> {
+    fn string_field(input: &Value, field: &str, context: &str) -> OpcTeamResult<Option<String>> {
         match input.get(field) {
             None => Ok(None),
             Some(value) => {
                 let value = value
                     .as_str()
-                    .ok_or_else(|| OpenBitFunError::tool(format!("{field} must be a string")))?;
+                    .ok_or_else(|| OpcTeamError::tool(format!("{field} must be a string")))?;
                 let value = value.trim();
                 if value.is_empty() {
-                    return Err(OpenBitFunError::tool(format!(
+                    return Err(OpcTeamError::tool(format!(
                         "{field} is required for {context}"
                     )));
                 }
@@ -363,44 +363,42 @@ impl AgentExecutionTool {
         }
     }
 
-    fn optional_trimmed_string(input: &Value, field: &str) -> OpenBitFunResult<Option<String>> {
+    fn optional_trimmed_string(input: &Value, field: &str) -> OpcTeamResult<Option<String>> {
         match input.get(field) {
             None | Some(Value::Null) => Ok(None),
             Some(value) => {
                 let value = value
                     .as_str()
-                    .ok_or_else(|| OpenBitFunError::tool(format!("{field} must be a string")))?;
+                    .ok_or_else(|| OpcTeamError::tool(format!("{field} must be a string")))?;
                 let value = value.trim();
                 Ok((!value.is_empty()).then(|| value.to_string()))
             }
         }
     }
 
-    fn optional_model_id(input: &Value) -> OpenBitFunResult<(Option<String>, bool)> {
+    fn optional_model_id(input: &Value) -> OpcTeamResult<(Option<String>, bool)> {
         match Self::optional_trimmed_string(input, "model_id")? {
             Some(model_id) if model_id == "inherit" => Ok((None, true)),
             model_id => Ok((model_id, false)),
         }
     }
 
-    fn optional_bool(input: &Value, field: &str) -> OpenBitFunResult<Option<bool>> {
+    fn optional_bool(input: &Value, field: &str) -> OpcTeamResult<Option<bool>> {
         match input.get(field) {
             None | Some(Value::Null) => Ok(None),
             Some(value) => value
                 .as_bool()
                 .map(Some)
-                .ok_or_else(|| OpenBitFunError::tool(format!("{field} must be a boolean"))),
+                .ok_or_else(|| OpcTeamError::tool(format!("{field} must be a boolean"))),
         }
     }
 
-    fn optional_timeout_seconds(input: &Value) -> OpenBitFunResult<Option<u64>> {
+    fn optional_timeout_seconds(input: &Value) -> OpcTeamResult<Option<u64>> {
         match input.get("timeout_seconds") {
             None => Ok(None),
             Some(value) => {
                 let parsed = value.as_u64().ok_or_else(|| {
-                    OpenBitFunError::tool(
-                        "timeout_seconds must be a non-negative integer".to_string(),
-                    )
+                    OpcTeamError::tool("timeout_seconds must be a non-negative integer".to_string())
                 })?;
                 Ok((parsed > 0).then_some(parsed))
             }
@@ -411,10 +409,10 @@ impl AgentExecutionTool {
         input: &Value,
         fields: &[&str],
         action: TaskAction,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         for field in fields {
             if Self::has_effective_value(input, field) {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "{field} is not allowed when action is {}",
                     action.as_str()
                 )));

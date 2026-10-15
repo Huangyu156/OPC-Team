@@ -1,6 +1,6 @@
 use crate::service::bootstrap::ensure_workspace_gitignore_ignores_openbitfun;
 use crate::service::config::{get_global_config_service, types::WorkspaceConfig};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_services_integrations::workspace_search as owner;
 use std::path::{Path, PathBuf};
@@ -25,7 +25,7 @@ impl WorkspaceSearchService {
     pub async fn open_repo(
         &self,
         repo_root: impl AsRef<Path>,
-    ) -> OpenBitFunResult<owner::WorkspaceIndexStatus> {
+    ) -> OpcTeamResult<owner::WorkspaceIndexStatus> {
         self.inner
             .open_repo(repo_root)
             .await
@@ -35,7 +35,7 @@ impl WorkspaceSearchService {
     pub async fn get_index_status(
         &self,
         repo_root: impl AsRef<Path>,
-    ) -> OpenBitFunResult<owner::WorkspaceIndexStatus> {
+    ) -> OpcTeamResult<owner::WorkspaceIndexStatus> {
         self.inner
             .get_index_status(repo_root)
             .await
@@ -45,7 +45,7 @@ impl WorkspaceSearchService {
     pub async fn build_index(
         &self,
         repo_root: impl AsRef<Path>,
-    ) -> OpenBitFunResult<owner::IndexTaskHandle> {
+    ) -> OpcTeamResult<owner::IndexTaskHandle> {
         self.inner
             .build_index(repo_root)
             .await
@@ -55,7 +55,7 @@ impl WorkspaceSearchService {
     pub async fn rebuild_index(
         &self,
         repo_root: impl AsRef<Path>,
-    ) -> OpenBitFunResult<owner::IndexTaskHandle> {
+    ) -> OpcTeamResult<owner::IndexTaskHandle> {
         self.inner
             .rebuild_index(repo_root)
             .await
@@ -65,7 +65,7 @@ impl WorkspaceSearchService {
     pub async fn search_content(
         &self,
         request: owner::ContentSearchRequest,
-    ) -> OpenBitFunResult<owner::ContentSearchResult> {
+    ) -> OpcTeamResult<owner::ContentSearchResult> {
         self.inner
             .search_content(request)
             .await
@@ -75,7 +75,7 @@ impl WorkspaceSearchService {
     pub async fn glob(
         &self,
         request: owner::GlobSearchRequest,
-    ) -> OpenBitFunResult<owner::GlobSearchResult> {
+    ) -> OpcTeamResult<owner::GlobSearchResult> {
         self.inner
             .glob(request)
             .await
@@ -216,6 +216,6 @@ pub fn resolve_workspace_search_daemon_program_path() -> Option<PathBuf> {
     owner::resolve_workspace_search_daemon_program_path()
 }
 
-fn map_workspace_search_error(error: String) -> OpenBitFunError {
-    OpenBitFunError::service(error)
+fn map_workspace_search_error(error: String) -> OpcTeamError {
+    OpcTeamError::service(error)
 }

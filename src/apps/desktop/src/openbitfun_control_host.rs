@@ -16,7 +16,7 @@ use openbitfun_core::agentic::tools::openbitfun_control_config::{
     exact_config_binding, read_config_backed_option, ProductConfigBinding,
 };
 use openbitfun_core::agentic::tools::openbitfun_control_host::{
-    set_openbitfun_control_port, OpenBitFunControlHostRequest, ProductControlAction,
+    set_openbitfun_control_port, OpcTeamControlHostRequest, ProductControlAction,
     ProductControlPort, ProductControlSource,
 };
 use openbitfun_core::infrastructure::events::{emit_global_event, BackendEvent};
@@ -99,9 +99,7 @@ async fn dispatch_surface_event(
 
     let Some(payload) = payload.as_object_mut() else {
         lock_pending_responses().remove(&request_id);
-        return Err(
-            "OpenBitFunControl request serialization produced an invalid payload".to_string(),
-        );
+        return Err("OpcTeamControl request serialization produced an invalid payload".to_string());
     };
     payload.insert("requestId".to_string(), Value::String(request_id.clone()));
 
@@ -113,24 +111,24 @@ async fn dispatch_surface_event(
     {
         lock_pending_responses().remove(&request_id);
         return Err(format!(
-            "Failed to send OpenBitFunControl surface request: {error}"
+            "Failed to send OpcTeamControl surface request: {error}"
         ));
     }
 
     match tokio::time::timeout(timeout, receiver).await {
         Ok(Ok(result)) => result,
-        Ok(Err(_)) => Err("OpenBitFunControl response channel closed".to_string()),
+        Ok(Err(_)) => Err("OpcTeamControl response channel closed".to_string()),
         Err(_) => {
             lock_pending_responses().remove(&request_id);
             SURFACE_READY.store(false, Ordering::Release);
             Err(format!(
-                "OpenBitFunControl timed out waiting for the active product surface to {purpose}"
+                "OpcTeamControl timed out waiting for the active product surface to {purpose}"
             ))
         }
     }
 }
 
-async fn dispatch_surface_request(request: OpenBitFunControlHostRequest) -> Result<Value, String> {
+async fn dispatch_surface_request(request: OpcTeamControlHostRequest) -> Result<Value, String> {
     dispatch_surface_event(
         OPENBITFUN_CONTROL_REQUEST_EVENT,
         serde_json::to_value(request).map_err(|error| error.to_string())?,
@@ -507,7 +505,7 @@ async fn configure_option_transaction(
 
 async fn inspect_desktop(
     app: &AppHandle,
-    request: &OpenBitFunControlHostRequest,
+    request: &OpcTeamControlHostRequest,
 ) -> Result<Value, String> {
     let capability_id = request
         .capability_id
@@ -570,7 +568,7 @@ async fn inspect_desktop(
 
 async fn configure_desktop(
     app: &AppHandle,
-    request: &OpenBitFunControlHostRequest,
+    request: &OpcTeamControlHostRequest,
 ) -> Result<Value, String> {
     let capability_id = request
         .capability_id
@@ -692,7 +690,7 @@ async fn failed_legacy_transaction(
 }
 
 /// Compatibility adapter for existing GUI settings. Exact controlled paths
-/// become the same typed option command used by OpenBitFunControl. Parent-object
+/// become the same typed option command used by OpcTeamControl. Parent-object
 /// writes are schema-checked against every affected option, committed once,
 /// and produce the same backend and presentation effects.
 pub(crate) async fn set_config_from_gui(
@@ -1005,7 +1003,7 @@ async fn execute_desktop_provider_operation(
 
 async fn execute_desktop(
     app: &AppHandle,
-    request: &OpenBitFunControlHostRequest,
+    request: &OpcTeamControlHostRequest,
 ) -> Result<Value, String> {
     let capability_id = request
         .capability_id
@@ -1069,7 +1067,7 @@ async fn execute_desktop(
 
 async fn dispatch_request(
     app: &AppHandle,
-    request: OpenBitFunControlHostRequest,
+    request: OpcTeamControlHostRequest,
 ) -> Result<Value, String> {
     match request.action {
         ProductControlAction::Get => inspect_desktop(app, &request).await,
@@ -1096,7 +1094,7 @@ struct DesktopProductControlPort {
 impl ProductControlPort for DesktopProductControlPort {
     fn invoke<'a>(
         &'a self,
-        request: OpenBitFunControlHostRequest,
+        request: OpcTeamControlHostRequest,
     ) -> openbitfun_product_domains::product_control::ProductControlFuture<'a> {
         Box::pin(async move { dispatch_request(&self.app, request).await })
     }
@@ -1139,12 +1137,12 @@ pub(crate) fn mark_openbitfun_control_surface_unready() {
     }
 }
 
-/// Typed GUI adapter into the same Desktop executor used by OpenBitFunControl.
+/// Typed GUI adapter into the same Desktop executor used by OpcTeamControl.
 /// Caller-provided source metadata is overwritten at the trusted boundary.
 #[tauri::command]
 pub(crate) async fn product_control_invoke(
     app: AppHandle,
-    mut request: OpenBitFunControlHostRequest,
+    mut request: OpcTeamControlHostRequest,
 ) -> Result<Value, String> {
     request.source = ProductControlSource::Gui;
     dispatch_request(&app, request).await
@@ -1152,7 +1150,7 @@ pub(crate) async fn product_control_invoke(
 
 #[derive(Debug, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub(crate) struct ReportOpenBitFunControlResultRequest {
+pub(crate) struct ReportOpcTeamControlResultRequest {
     request_id: String,
     success: bool,
     #[serde(default)]
@@ -1164,22 +1162,22 @@ pub(crate) struct ReportOpenBitFunControlResultRequest {
 /// Return a presentation-surface result to the waiting product-control call.
 #[tauri::command]
 pub(crate) async fn report_openbitfun_control_result(
-    request: ReportOpenBitFunControlResultRequest,
+    request: ReportOpcTeamControlResultRequest,
 ) -> Result<(), String> {
     let sender = lock_pending_responses()
         .remove(&request.request_id)
-        .ok_or_else(|| "OpenBitFunControl request is no longer pending".to_string())?;
+        .ok_or_else(|| "OpcTeamControl request is no longer pending".to_string())?;
     let result = if request.success {
         Ok(request.result.unwrap_or(Value::Null))
     } else {
         Err(request
             .error
             .filter(|message| !message.trim().is_empty())
-            .unwrap_or_else(|| "OpenBitFunControl presentation request failed".to_string()))
+            .unwrap_or_else(|| "OpcTeamControl presentation request failed".to_string()))
     };
     sender
         .send(result)
-        .map_err(|_| "OpenBitFunControl request receiver is no longer available".to_string())
+        .map_err(|_| "OpcTeamControl request receiver is no longer available".to_string())
 }
 
 #[cfg(test)]

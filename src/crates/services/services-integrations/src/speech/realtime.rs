@@ -1,4 +1,4 @@
-use super::{OpenBitFunError, OpenBitFunResult, SpeechService};
+use super::{OpcTeamError, OpcTeamResult, SpeechService};
 use base64::engine::general_purpose::STANDARD as BASE64_STANDARD;
 use base64::Engine;
 use futures_util::{SinkExt, StreamExt};
@@ -71,7 +71,7 @@ impl SpeechService {
         &self,
         config: VolcengineRealtimeSpeechConfig,
         on_event: F,
-    ) -> OpenBitFunResult<SpeechRealtimeSession>
+    ) -> OpcTeamResult<SpeechRealtimeSession>
     where
         F: Fn(SpeechRealtimeEvent) + Send + Sync + 'static,
     {
@@ -117,11 +117,11 @@ impl SpeechService {
             }),
             Ok(Ok(Err(message))) => {
                 self.realtime.sessions.lock().await.remove(&session_id);
-                Err(OpenBitFunError::service(message))
+                Err(OpcTeamError::service(message))
             }
             Ok(Err(_)) => {
                 self.realtime.sessions.lock().await.remove(&session_id);
-                Err(OpenBitFunError::service(
+                Err(OpcTeamError::service(
                     "Realtime speech connection ended before it became ready",
                 ))
             }
@@ -129,7 +129,7 @@ impl SpeechService {
                 if let Some(handle) = self.realtime.sessions.lock().await.remove(&session_id) {
                     handle.cancel.cancel();
                 }
-                Err(OpenBitFunError::service(
+                Err(OpcTeamError::service(
                     "Timed out connecting to the realtime speech service",
                 ))
             }
@@ -139,19 +139,19 @@ impl SpeechService {
     pub async fn append_realtime_audio(
         &self,
         request: SpeechAppendRealtimeAudioRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let audio = BASE64_STANDARD
             .decode(request.pcm16_base64.as_bytes())
             .map_err(|error| {
-                OpenBitFunError::validation(format!("Invalid base64 realtime audio chunk: {error}"))
+                OpcTeamError::validation(format!("Invalid base64 realtime audio chunk: {error}"))
             })?;
         if audio.is_empty() || audio.len() % 2 != 0 {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "Realtime PCM16 audio must contain complete samples",
             ));
         }
         if audio.len() > MAX_AUDIO_CHUNK_BYTES {
-            return Err(OpenBitFunError::validation(format!(
+            return Err(OpcTeamError::validation(format!(
                 "Realtime audio chunk exceeds {MAX_AUDIO_CHUNK_BYTES} bytes"
             )));
         }
@@ -169,7 +169,7 @@ impl SpeechService {
     pub async fn commit_realtime_audio(
         &self,
         request: SpeechRealtimeSessionRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.send_realtime_command(
             &request.session_id,
             json!({
@@ -183,15 +183,13 @@ impl SpeechService {
     pub async fn send_realtime_tool_result(
         &self,
         request: SpeechRealtimeToolResultRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let call_id = request.call_id.trim();
         if call_id.is_empty() {
-            return Err(OpenBitFunError::validation(
-                "Function call id cannot be empty",
-            ));
+            return Err(OpcTeamError::validation("Function call id cannot be empty"));
         }
         if request.result.len() > MAX_TOOL_RESULT_BYTES {
-            return Err(OpenBitFunError::validation(format!(
+            return Err(OpcTeamError::validation(format!(
                 "Realtime function result exceeds {MAX_TOOL_RESULT_BYTES} bytes"
             )));
         }
@@ -205,15 +203,15 @@ impl SpeechService {
     pub async fn speak_realtime_text(
         &self,
         request: SpeechRealtimeSpeakRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let text = request.text.trim();
         if text.is_empty() {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "Spoken progress text cannot be empty",
             ));
         }
         if text.chars().count() > MAX_SPOKEN_PROGRESS_CHARS {
-            return Err(OpenBitFunError::validation(format!(
+            return Err(OpcTeamError::validation(format!(
                 "Spoken progress text exceeds {MAX_SPOKEN_PROGRESS_CHARS} characters"
             )));
         }
@@ -224,7 +222,7 @@ impl SpeechService {
     pub async fn cancel_realtime_response(
         &self,
         request: SpeechRealtimeSessionRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.send_realtime_command(
             &request.session_id,
             json!({
@@ -238,7 +236,7 @@ impl SpeechService {
     pub async fn close_realtime_session(
         &self,
         request: SpeechRealtimeSessionRequest,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let handle = self
             .realtime
             .sessions
@@ -246,20 +244,16 @@ impl SpeechService {
             .await
             .remove(&request.session_id)
             .ok_or_else(|| {
-                OpenBitFunError::NotFound("Realtime speech session not found".to_string())
+                OpcTeamError::NotFound("Realtime speech session not found".to_string())
             })?;
         handle
             .sender
             .send(RealtimeSpeechCommand::Close)
             .await
-            .map_err(|_| OpenBitFunError::service("Realtime speech session is already closed"))
+            .map_err(|_| OpcTeamError::service("Realtime speech session is already closed"))
     }
 
-    async fn send_realtime_command(
-        &self,
-        session_id: &str,
-        payload: Value,
-    ) -> OpenBitFunResult<()> {
+    async fn send_realtime_command(&self, session_id: &str, payload: Value) -> OpcTeamResult<()> {
         let handle = self
             .realtime
             .sessions
@@ -268,13 +262,13 @@ impl SpeechService {
             .get(session_id)
             .cloned()
             .ok_or_else(|| {
-                OpenBitFunError::NotFound("Realtime speech session not found".to_string())
+                OpcTeamError::NotFound("Realtime speech session not found".to_string())
             })?;
         handle
             .sender
             .send(RealtimeSpeechCommand::Send(payload))
             .await
-            .map_err(|_| OpenBitFunError::service("Realtime speech session is already closed"))
+            .map_err(|_| OpcTeamError::service("Realtime speech session is already closed"))
     }
 }
 
@@ -302,21 +296,21 @@ fn spoken_text_payload(text: &str) -> Value {
 
 fn validate_config(
     mut config: VolcengineRealtimeSpeechConfig,
-) -> OpenBitFunResult<VolcengineRealtimeSpeechConfig> {
+) -> OpcTeamResult<VolcengineRealtimeSpeechConfig> {
     config.api_key = config.api_key.trim().to_string();
     config.voice = config.voice.trim().to_string();
     if config.api_key.is_empty() {
-        return Err(OpenBitFunError::validation(
+        return Err(OpcTeamError::validation(
             "Volcengine realtime speech API key is not configured",
         ));
     }
     if config.voice.is_empty() {
-        return Err(OpenBitFunError::validation(
+        return Err(OpcTeamError::validation(
             "Volcengine realtime speech voice is not configured",
         ));
     }
     if !(-50..=100).contains(&config.speed) || !(-50..=100).contains(&config.loudness) {
-        return Err(OpenBitFunError::validation(
+        return Err(OpcTeamError::validation(
             "Realtime speech speed and loudness must be between -50 and 100",
         ));
     }

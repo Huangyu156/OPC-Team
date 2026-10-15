@@ -2,14 +2,14 @@
 
 use super::{hooks_config, runtime_hook_registry, AgentHooksConfig};
 use crate::agentic::tools::framework::ToolUseContext;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_agent_runtime::native_hooks::RuntimeHookRegistry;
 use openbitfun_agent_runtime::skills::{SkillData, SkillLocation};
 
 pub(crate) async fn activate_skill_hooks(
     skill: &SkillData,
     context: &ToolUseContext,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     activate(
         &runtime_hook_registry(),
         &hooks_config().await,
@@ -23,12 +23,12 @@ fn activate(
     config: &AgentHooksConfig,
     skill: &SkillData,
     context: &ToolUseContext,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let Some(hooks) = skill.hooks.as_ref().filter(|hooks| !hooks.is_empty()) else {
         return Ok(());
     };
     let reject = |reason: &str| {
-        OpenBitFunError::tool(format!(
+        OpcTeamError::tool(format!(
             "Cannot activate skill '{}' hooks: {reason}",
             skill.name
         ))

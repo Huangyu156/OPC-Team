@@ -69,7 +69,7 @@ fn validate_instance_directory(
 
 pub(crate) async fn register_plugin_host_backend_handlers(
     client: PluginHostClient,
-) -> crate::OpenBitFunResult<Arc<PluginHostBackendBridge>> {
+) -> crate::OpcTeamResult<Arc<PluginHostBackendBridge>> {
     let previous = PLUGIN_HOST_BACKEND_BRIDGE
         .get_or_init(|| RwLock::new(None))
         .read()
@@ -77,7 +77,7 @@ pub(crate) async fn register_plugin_host_backend_handlers(
         .clone();
     if let Some(previous) = previous {
         if !previous.begin_draining().await {
-            return Err(crate::OpenBitFunError::ProcessError(
+            return Err(crate::OpcTeamError::ProcessError(
                 "Previous plugin Host backend requests did not stop before replacement".to_string(),
             ));
         }
@@ -88,7 +88,7 @@ pub(crate) async fn register_plugin_host_backend_handlers(
     )
     .await
     .map_err(|error| {
-        crate::OpenBitFunError::ProcessError(format!(
+        crate::OpcTeamError::ProcessError(format!(
             "Failed to register plugin host backend handler: {error}"
         ))
     })?;

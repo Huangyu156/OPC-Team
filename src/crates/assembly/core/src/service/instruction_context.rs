@@ -39,7 +39,7 @@ async fn load_user_conditional_instruction_files() -> Vec<LocalInstructionFile> 
 
 pub(crate) async fn build_workspace_instruction_files_context(
     workspace_root: &Path,
-) -> OpenBitFunResult<Option<String>> {
+) -> OpcTeamResult<Option<String>> {
     Ok(
         build_workspace_instruction_files_context_detailed(workspace_root)
             .await?
@@ -49,7 +49,7 @@ pub(crate) async fn build_workspace_instruction_files_context(
 
 pub(crate) async fn build_workspace_instruction_files_context_detailed(
     workspace_root: &Path,
-) -> OpenBitFunResult<InstructionContextBuild> {
+) -> OpcTeamResult<InstructionContextBuild> {
     let (user_instruction_files, user_instruction_files_cacheable) =
         load_user_instruction_files(workspace_root).await;
     let workspace_instruction_files =
@@ -57,7 +57,7 @@ pub(crate) async fn build_workspace_instruction_files_context_detailed(
             workspace_root,
         )
         .await
-        .map_err(OpenBitFunError::service)?;
+        .map_err(OpcTeamError::service)?;
     Ok(compose_local_instruction_sources(
         workspace_root,
         user_instruction_files,
@@ -70,7 +70,7 @@ pub(crate) async fn build_local_workspace_instruction_files_context_with_fs_deta
     workspace_root: &Path,
     fs: &dyn WorkspaceFileSystem,
     workspace_root_path: &str,
-) -> OpenBitFunResult<InstructionContextBuild> {
+) -> OpcTeamResult<InstructionContextBuild> {
     let (user_instruction_files, user_instruction_files_cacheable) =
         load_user_instruction_files(workspace_root).await;
     let workspace_instruction_files =
@@ -79,7 +79,7 @@ pub(crate) async fn build_local_workspace_instruction_files_context_with_fs_deta
             workspace_root_path,
         )
         .await
-        .map_err(OpenBitFunError::service)?;
+        .map_err(OpcTeamError::service)?;
     Ok(compose_local_instruction_sources(
         workspace_root,
         user_instruction_files,
@@ -131,14 +131,14 @@ fn merge_local_instruction_sources(
 
 pub(crate) async fn load_local_conditional_instruction_files(
     workspace_root: &Path,
-) -> OpenBitFunResult<Vec<WorkspaceInstructionFile>> {
+) -> OpcTeamResult<Vec<WorkspaceInstructionFile>> {
     let user_instruction_files = load_user_conditional_instruction_files().await;
     let workspace_instruction_files =
         openbitfun_services_core::workspace_instructions::read_workspace_conditional_instruction_sources(
             workspace_root,
         )
         .await
-        .map_err(OpenBitFunError::service)?;
+        .map_err(OpcTeamError::service)?;
     Ok(merge_local_instruction_sources(
         workspace_root,
         user_instruction_files,
@@ -150,7 +150,7 @@ pub(crate) async fn load_local_conditional_instruction_files_with_fs(
     workspace_root: &Path,
     fs: &dyn WorkspaceFileSystem,
     workspace_root_path: &str,
-) -> OpenBitFunResult<Vec<WorkspaceInstructionFile>> {
+) -> OpcTeamResult<Vec<WorkspaceInstructionFile>> {
     let user_instruction_files = load_user_conditional_instruction_files().await;
     let workspace_instruction_files =
         openbitfun_services_core::workspace_instructions::read_workspace_conditional_instruction_sources_with_fs(
@@ -158,7 +158,7 @@ pub(crate) async fn load_local_conditional_instruction_files_with_fs(
             workspace_root_path,
         )
         .await
-        .map_err(OpenBitFunError::service)?;
+        .map_err(OpcTeamError::service)?;
     Ok(merge_local_instruction_sources(
         workspace_root,
         user_instruction_files,
@@ -169,26 +169,26 @@ pub(crate) async fn load_local_conditional_instruction_files_with_fs(
 pub(crate) async fn load_workspace_conditional_instruction_files_with_fs(
     fs: &dyn WorkspaceFileSystem,
     workspace_root: &str,
-) -> OpenBitFunResult<Vec<WorkspaceInstructionFile>> {
+) -> OpcTeamResult<Vec<WorkspaceInstructionFile>> {
     Ok(openbitfun_services_core::workspace_instructions::read_workspace_conditional_instruction_sources_with_fs(
             fs,
             workspace_root,
         )
         .await
-        .map_err(OpenBitFunError::service)?)
+        .map_err(OpcTeamError::service)?)
 }
 
 pub(crate) async fn build_workspace_instruction_files_context_with_fs(
     fs: &dyn WorkspaceFileSystem,
     workspace_root: &str,
-) -> OpenBitFunResult<Option<String>> {
+) -> OpcTeamResult<Option<String>> {
     let instruction_files =
         openbitfun_services_core::workspace_instructions::read_workspace_instruction_files_with_fs(
             fs,
             workspace_root,
         )
         .await
-        .map_err(OpenBitFunError::service)?;
+        .map_err(OpcTeamError::service)?;
     Ok(render_workspace_instruction_files_section(
         &instruction_files,
     ))

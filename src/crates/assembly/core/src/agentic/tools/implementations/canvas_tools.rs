@@ -1,7 +1,7 @@
 //! Canvas artifact tools.
 
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use chrono::Utc;
 use openbitfun_product_domains::canvas::{
@@ -76,7 +76,7 @@ impl Tool for CreateCanvasTool {
         "CreateCanvas"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Create a session-scoped OPC-Team Canvas artifact from a single TSX source file.
 
 Use this for rich visual artifacts, dashboards, explainers, interactive summaries, charts, diagrams, and compact apps that should render beside the conversation instead of being written into the user's repository.
@@ -125,7 +125,7 @@ Returns a stable `openbitfun-canvas://...` artifact reference for subsequent Can
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let title = required_non_empty_string(input, "title")?;
         let source = normalize_canvas_source_input(required_non_empty_string(input, "source")?);
         let description = optional_non_empty_string(input, "description");
@@ -191,7 +191,7 @@ impl Tool for ReadCanvasTool {
         "ReadCanvas"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Read a OPC-Team Canvas artifact from the current session.
 
 Provide either `artifact_reference` returned by CreateCanvas/PatchCanvas/UpdateCanvas or `canvas_id` for the current session. By default this returns metadata, status, diagnostics, and source. Set `include_source` to false when only status metadata is needed."#
@@ -235,7 +235,7 @@ Provide either `artifact_reference` returned by CreateCanvas/PatchCanvas/UpdateC
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let (session_id, canvas_id) = resolve_canvas_target(input, context)?;
         let snapshot = canvas_storage_for_context(context)?
             .load_snapshot(session_id, canvas_id)
@@ -252,7 +252,7 @@ Provide either `artifact_reference` returned by CreateCanvas/PatchCanvas/UpdateC
         let mut data = snapshot_data(&snapshot, include_source);
         if include_compiled_payload {
             data["compiledPayload"] = serde_json::to_value(&snapshot.compiled_payload)
-                .map_err(|error| OpenBitFunError::tool(error.to_string()))?;
+                .map_err(|error| OpcTeamError::tool(error.to_string()))?;
         }
 
         let assistant_text = canvas_read_result_for_assistant(&snapshot, include_source);
@@ -270,7 +270,7 @@ impl Tool for UpdateCanvasTool {
         "UpdateCanvas"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Replace the TSX source for an existing OPC-Team Canvas artifact.
 
 Provide either `artifact_reference` or `canvas_id`, plus one complete replacement `source` string. The Canvas remains session-scoped and keeps its stable artifact reference. The previous compiled payload is retained as last-known-good if the new source fails policy or compile validation."#
@@ -319,7 +319,7 @@ Provide either `artifact_reference` or `canvas_id`, plus one complete replacemen
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let source_text =
             normalize_canvas_source_input(required_non_empty_string(input, "source")?);
         let (session_id, canvas_id) = resolve_canvas_target(input, context)?;
@@ -348,7 +348,7 @@ impl Tool for PatchCanvasTool {
         "PatchCanvas"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Patch an existing OPC-Team Canvas artifact by applying exact text replacements to the latest TSX source.
 
 Use this for small, targeted edits such as changing a label, number, style prop, component prop, or a short JSX block. Provide either `artifact_reference` or `canvas_id`, plus one or more replacements. Each `old` text must match the current source exactly once; the tool fails without saving if a replacement is missing or ambiguous. For large rewrites, use UpdateCanvas with a complete replacement source."#
@@ -413,7 +413,7 @@ Use this for small, targeted edits such as changing a label, number, style prop,
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let replacements = parse_canvas_replacements(input)?;
         let (session_id, canvas_id) = resolve_canvas_target(input, context)?;
         let service = canvas_storage_for_context(context)?;
@@ -443,7 +443,7 @@ async fn save_canvas_source_revision(
     existing: CanvasSnapshot,
     source_text: String,
     input: &Value,
-) -> OpenBitFunResult<(CanvasSnapshot, bool)> {
+) -> OpcTeamResult<(CanvasSnapshot, bool)> {
     let now = now_millis();
     let revision = CanvasRevision::new(format!("rev_{}", uuid_short()));
     let mut artifact = existing.artifact.clone();
@@ -593,12 +593,12 @@ fn normalize_canvas_source_input(source: &str) -> String {
     inner.trim().to_string()
 }
 
-fn parse_canvas_replacements(input: &Value) -> OpenBitFunResult<Vec<CanvasReplacement>> {
+fn parse_canvas_replacements(input: &Value) -> OpcTeamResult<Vec<CanvasReplacement>> {
     let values = input
         .get("replacements")
         .and_then(|value| value.as_array())
         .filter(|values| !values.is_empty())
-        .ok_or_else(|| OpenBitFunError::validation("Missing required field: replacements"))?;
+        .ok_or_else(|| OpcTeamError::validation("Missing required field: replacements"))?;
 
     values
         .iter()
@@ -608,13 +608,13 @@ fn parse_canvas_replacements(input: &Value) -> OpenBitFunResult<Vec<CanvasReplac
                 .get("old")
                 .and_then(|value| value.as_str())
                 .ok_or_else(|| {
-                    OpenBitFunError::validation(format!(
+                    OpcTeamError::validation(format!(
                         "Missing required field: replacements[{}].old",
                         index
                     ))
                 })?;
             if old.is_empty() {
-                return Err(OpenBitFunError::validation(format!(
+                return Err(OpcTeamError::validation(format!(
                     "replacements[{}].old must not be empty",
                     index
                 )));
@@ -623,7 +623,7 @@ fn parse_canvas_replacements(input: &Value) -> OpenBitFunResult<Vec<CanvasReplac
                 .get("new")
                 .and_then(|value| value.as_str())
                 .ok_or_else(|| {
-                    OpenBitFunError::validation(format!(
+                    OpcTeamError::validation(format!(
                         "Missing required field: replacements[{}].new",
                         index
                     ))
@@ -639,13 +639,13 @@ fn parse_canvas_replacements(input: &Value) -> OpenBitFunResult<Vec<CanvasReplac
 fn apply_canvas_replacements(
     source: &str,
     replacements: &[CanvasReplacement],
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     let mut patched = source.to_string();
     for (index, replacement) in replacements.iter().enumerate() {
         let matches = patched.match_indices(&replacement.old).count();
         match matches {
             0 => {
-                return Err(OpenBitFunError::validation(format!(
+                return Err(OpcTeamError::validation(format!(
                     "Canvas patch replacement {} did not match the current source",
                     index + 1
                 )));
@@ -654,7 +654,7 @@ fn apply_canvas_replacements(
                 patched = patched.replacen(&replacement.old, &replacement.new, 1);
             }
             count => {
-                return Err(OpenBitFunError::validation(format!(
+                return Err(OpcTeamError::validation(format!(
                     "Canvas patch replacement {} matched {} locations; provide a more specific old text",
                     index + 1,
                     count
@@ -677,9 +677,9 @@ fn canvas_source_preview(source: &str) -> String {
 
 fn canvas_storage_for_context(
     context: &ToolUseContext,
-) -> OpenBitFunResult<Arc<dyn CanvasStoragePort>> {
+) -> OpcTeamResult<Arc<dyn CanvasStoragePort>> {
     context.canvas_storage().ok_or_else(|| {
-        OpenBitFunError::tool(
+        OpcTeamError::tool(
             "Canvas storage is unavailable for this execution context; use a workspace-backed session",
         )
     })
@@ -714,10 +714,10 @@ fn artifact_reference(snapshot: &CanvasSnapshot) -> CanvasArtifactRef {
 fn resolve_canvas_target(
     input: &Value,
     context: &ToolUseContext,
-) -> OpenBitFunResult<(CanvasSessionId, CanvasId)> {
+) -> OpcTeamResult<(CanvasSessionId, CanvasId)> {
     if let Some(reference) = optional_non_empty_string(input, "artifact_reference") {
         let parsed = parse_canvas_artifact_ref(reference).map_err(|error| {
-            OpenBitFunError::validation(format!("Invalid artifact_reference: {error}"))
+            OpcTeamError::validation(format!("Invalid artifact_reference: {error}"))
         })?;
         return Ok((parsed.session_id, parsed.canvas_id));
     }
@@ -725,7 +725,7 @@ fn resolve_canvas_target(
     let session_id = require_session_id(context)?;
     let canvas_id = optional_non_empty_string(input, "canvas_id")
         .ok_or_else(|| {
-            OpenBitFunError::validation(
+            OpcTeamError::validation(
                 "Provide either artifact_reference or canvas_id for the Canvas artifact",
             )
         })
@@ -733,13 +733,13 @@ fn resolve_canvas_target(
     Ok((session_id, canvas_id))
 }
 
-fn require_session_id(context: &ToolUseContext) -> OpenBitFunResult<CanvasSessionId> {
+fn require_session_id(context: &ToolUseContext) -> OpcTeamResult<CanvasSessionId> {
     context
         .session_id
         .as_deref()
         .filter(|value| !value.trim().is_empty())
         .map(CanvasSessionId::new)
-        .ok_or_else(|| OpenBitFunError::tool("session_id is required to use Canvas tools"))
+        .ok_or_else(|| OpcTeamError::tool("session_id is required to use Canvas tools"))
 }
 
 fn workspace_id_for_context(context: &ToolUseContext) -> CanvasWorkspaceId {
@@ -750,13 +750,13 @@ fn workspace_id_for_context(context: &ToolUseContext) -> CanvasWorkspaceId {
     )
 }
 
-fn required_non_empty_string<'a>(input: &'a Value, key: &str) -> OpenBitFunResult<&'a str> {
+fn required_non_empty_string<'a>(input: &'a Value, key: &str) -> OpcTeamResult<&'a str> {
     input
         .get(key)
         .and_then(|value| value.as_str())
         .map(str::trim)
         .filter(|value| !value.is_empty())
-        .ok_or_else(|| OpenBitFunError::validation(format!("Missing required field: {key}")))
+        .ok_or_else(|| OpcTeamError::validation(format!("Missing required field: {key}")))
 }
 
 fn optional_non_empty_string<'a>(input: &'a Value, key: &str) -> Option<&'a str> {
@@ -802,10 +802,8 @@ fn now_millis() -> i64 {
     Utc::now().timestamp_millis()
 }
 
-fn canvas_port_error(
-    error: openbitfun_product_domains::canvas::CanvasPortError,
-) -> OpenBitFunError {
-    OpenBitFunError::tool(error.to_string())
+fn canvas_port_error(error: openbitfun_product_domains::canvas::CanvasPortError) -> OpcTeamError {
+    OpcTeamError::tool(error.to_string())
 }
 
 #[cfg(test)]

@@ -57,7 +57,7 @@ fn every_agent_runtime_delivery_profile_includes_product_control_discovery() {
                 .iter()
                 .flat_map(|provider| provider.tool_names())
                 .any(|tool_name| *tool_name == "OpenBitFunControl"),
-            "{} must expose OpenBitFunControl to its agents",
+            "{} must expose OpcTeamControl to its agents",
             profile.id()
         );
     }

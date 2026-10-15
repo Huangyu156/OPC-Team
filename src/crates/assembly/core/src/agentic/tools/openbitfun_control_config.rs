@@ -416,7 +416,7 @@ fn validate_legacy_option_value(
 }
 
 /// Resolve every public option affected by a legacy Config API write and
-/// validate it against the same typed schema used by OpenBitFunControl.
+/// validate it against the same typed schema used by OpcTeamControl.
 ///
 /// The result is also the compatibility translation record used by Desktop
 /// auditing. Unknown internal config remains writable for upgrade

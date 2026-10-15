@@ -32,7 +32,7 @@ use openbitfun_core::agentic::tools::computer_use_host::{
     InteractiveTypeTextParams, InteractiveView, InteractiveViewOpts, VisualActionResult,
     VisualClickParams, VisualMarkView, VisualMarkViewOpts,
 };
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 #[cfg(any(target_os = "macos", target_os = "windows"))]
 use std::time::{Duration, Instant};
 
@@ -138,7 +138,7 @@ fn is_plain_activation_click(button: &str, count: u8, modifiers: &[String]) -> b
 }
 
 #[cfg(target_os = "macos")]
-fn try_macos_point_press(pid: i32, x: f64, y: f64) -> OpenBitFunResult<bool> {
+fn try_macos_point_press(pid: i32, x: f64, y: f64) -> OpcTeamResult<bool> {
     let Some(target) = crate::computer_use::macos_ax_dump::retained_target_at_point(pid, x, y)?
     else {
         return Ok(false);
@@ -153,7 +153,7 @@ fn try_macos_point_press(pid: i32, x: f64, y: f64) -> OpenBitFunResult<bool> {
             Ok(true)
         },
         crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(-25206) => Ok(false),
-        crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(status) => Err(OpenBitFunError::tool(format!("AX_ACTION_OUTCOME_UNKNOWN: AXPress returned {status}; no coordinate retry was sent. Observe before choosing another action"))),
+        crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(status) => Err(OpcTeamError::tool(format!("AX_ACTION_OUTCOME_UNKNOWN: AXPress returned {status}; no coordinate retry was sent. Observe before choosing another action"))),
     }
 }
 
@@ -162,9 +162,9 @@ fn resolve_macos_node_click(
     pid: i32,
     idx: u32,
     semantic: bool,
-) -> OpenBitFunResult<Option<(f64, f64)>> {
+) -> OpcTeamResult<Option<(f64, f64)>> {
     let target = crate::computer_use::macos_ax_dump::retained_cached_target(pid, idx)
-        .ok_or_else(|| OpenBitFunError::tool(format!("AX_NODE_STALE: idx={idx} is not in the observed app snapshot; observe the app again")))?;
+        .ok_or_else(|| OpcTeamError::tool(format!("AX_NODE_STALE: idx={idx} is not in the observed app snapshot; observe the app again")))?;
     crate::computer_use::macos_ax_dump::validate_bound_target(pid, target.reference())?;
     if semantic {
         match crate::computer_use::macos_ax_write::try_ax_press(target.reference()) {
@@ -172,12 +172,12 @@ fn resolve_macos_node_click(
             // kAXErrorActionUnsupported guarantees no semantic action was sent.
             crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(-25206) => {}
             crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(status) => {
-                return Err(OpenBitFunError::tool(format!("AX_ACTION_OUTCOME_UNKNOWN: AXPress returned {status}; no coordinate retry was sent. Re-observe before deciding another action")));
+                return Err(OpcTeamError::tool(format!("AX_ACTION_OUTCOME_UNKNOWN: AXPress returned {status}; no coordinate retry was sent. Re-observe before deciding another action")));
             }
         }
     }
     let frame = target.frame_global().ok_or_else(|| {
-        OpenBitFunError::tool(format!(
+        OpcTeamError::tool(format!(
             "AX_NODE_STALE: idx={idx} no longer has a readable frame; observe the app again"
         ))
     })?;
@@ -185,11 +185,9 @@ fn resolve_macos_node_click(
 }
 
 #[cfg(any(test, target_os = "macos"))]
-fn observed_node_center(
-    (x, y, width, height): (f64, f64, f64, f64),
-) -> OpenBitFunResult<(f64, f64)> {
+fn observed_node_center((x, y, width, height): (f64, f64, f64, f64)) -> OpcTeamResult<(f64, f64)> {
     if ![x, y, width, height].into_iter().all(f64::is_finite) || width <= 0.0 || height <= 0.0 {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "AX_NODE_STALE: Observed target has an invalid or empty frame",
         ));
     }
@@ -197,7 +195,7 @@ fn observed_node_center(
 }
 
 impl DesktopComputerUseHost {
-    async fn dispatch_app_click_impl(&self, params: AppClickParams) -> OpenBitFunResult<()> {
+    async fn dispatch_app_click_impl(&self, params: AppClickParams) -> OpcTeamResult<()> {
         super::background_guard::run(self.dispatch_app_click_native(params)).await
     }
     async fn dispatch_app_type_text_impl(
@@ -205,7 +203,7 @@ impl DesktopComputerUseHost {
         app: AppSelector,
         text: &str,
         focus: Option<ClickTarget>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         super::background_guard::run(self.dispatch_app_type_text_native(app, text, focus)).await
     }
     async fn dispatch_app_scroll_impl(
@@ -214,7 +212,7 @@ impl DesktopComputerUseHost {
         focus: Option<ClickTarget>,
         dx: i32,
         dy: i32,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         super::background_guard::run(self.dispatch_app_scroll_native(app, focus, dx, dy)).await
     }
     async fn dispatch_app_key_chord_impl(
@@ -222,7 +220,7 @@ impl DesktopComputerUseHost {
         app: AppSelector,
         keys: Vec<String>,
         focus_idx: Option<u32>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         super::background_guard::run(self.dispatch_app_key_chord_native(app, keys, focus_idx)).await
     }
     async fn dispatch_app_drag_impl(
@@ -232,7 +230,7 @@ impl DesktopComputerUseHost {
         to: ClickTarget,
         button: String,
         duration_ms: u64,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         super::background_guard::run(self.dispatch_app_drag_native(
             app,
             from,
@@ -247,9 +245,9 @@ impl DesktopComputerUseHost {
         &self,
         app: AppSelector,
         action: AppInputAction,
-    ) -> OpenBitFunResult<()> {
-        action.validate().map_err(OpenBitFunError::tool)?;
-        crate::computer_use::control_session::input_allowed().map_err(OpenBitFunError::tool)?;
+    ) -> OpcTeamResult<()> {
+        action.validate().map_err(OpcTeamError::tool)?;
+        crate::computer_use::control_session::input_allowed().map_err(OpcTeamError::tool)?;
         match action {
             AppInputAction::Click {
                 target,
@@ -297,7 +295,7 @@ impl DesktopComputerUseHost {
         to: ClickTarget,
         button: String,
         duration_ms: u64,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             #[cfg(target_os = "macos")]
@@ -305,10 +303,10 @@ impl DesktopComputerUseHost {
             #[cfg(target_os = "windows")]
             let (pid, hwnd) = self.windows_target(&app).await?;
             // Both endpoints refer to observed pixels from this same window.
-            let point = |target: ClickTarget| -> OpenBitFunResult<(f64, f64)> {
+            let point = |target: ClickTarget| -> OpcTeamResult<(f64, f64)> {
                 match target {
                     ClickTarget::ImageXy {x, y, screenshot_id} => self.map_app_image_coords_to_pointer_f64(pid, x, y, screenshot_id.as_deref()),
-                    _ => Err(OpenBitFunError::tool("[INVALID_DRAG_TARGET] Drag endpoints require image_xy and screenshot_id from the observed app window")),
+                    _ => Err(OpcTeamError::tool("[INVALID_DRAG_TARGET] Drag endpoints require image_xy and screenshot_id from the observed app window")),
                 }
             };
             let (x0, y0) = point(from)?;
@@ -317,9 +315,9 @@ impl DesktopComputerUseHost {
             #[cfg(target_os = "macos")]
             {
                 let wid = crate::computer_use::macos_capture::bound_window_id(pid)
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
                 let [wx, wy, _, _] = crate::computer_use::macos_capture::window_bounds(pid, wid)
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
                 let button = match button.as_str() {
                     "right" => crate::computer_use::macos_bg_input::BgDragButton::Right,
                     "middle" => crate::computer_use::macos_bg_input::BgDragButton::Middle,
@@ -344,7 +342,7 @@ impl DesktopComputerUseHost {
                     })
                 })
                 .await
-                .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             }
             #[cfg(target_os = "windows")]
             {
@@ -361,7 +359,7 @@ impl DesktopComputerUseHost {
                     )
                 })
                 .await
-                .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             }
             crate::computer_use::control_session::record_pointer(x1, y1, false);
             Ok(())
@@ -369,29 +367,26 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, from, to, button, duration_ms);
-            Err(OpenBitFunError::tool("[BACKGROUND_DRAG_UNAVAILABLE] This compositor does not support app-directed background dragging"))
+            Err(OpcTeamError::tool("[BACKGROUND_DRAG_UNAVAILABLE] This compositor does not support app-directed background dragging"))
         }
     }
 
     pub(super) async fn app_click_impl(
         &self,
         params: AppClickParams,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
+    ) -> OpcTeamResult<AppStateSnapshot> {
         let app = params.app.clone();
         self.dispatch_app_click_impl(params).await?;
         self.observe_after_app_input(app).await
     }
 
-    async fn observe_after_app_input(
-        &self,
-        app: AppSelector,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
+    async fn observe_after_app_input(&self, app: AppSelector) -> OpcTeamResult<AppStateSnapshot> {
         self.get_app_state(app, 32, true).await.map_err(|error| {
-            OpenBitFunError::tool(format!("[POST_INPUT_OBSERVATION_FAILED] Input was already submitted; only observation failed: {error}. Observe the target before deciding another input; do not replay the action to repair this error."))
+            OpcTeamError::tool(format!("[POST_INPUT_OBSERVATION_FAILED] Input was already submitted; only observation failed: {error}. Observe the target before deciding another input; do not replay the action to repair this error."))
         })
     }
 
-    async fn dispatch_app_click_native(&self, params: AppClickParams) -> OpenBitFunResult<()> {
+    async fn dispatch_app_click_native(&self, params: AppClickParams) -> OpcTeamResult<()> {
         #[cfg(target_os = "macos")]
         {
             let pid = resolve_pid_macos(self, &params.app).await?;
@@ -422,7 +417,7 @@ impl DesktopComputerUseHost {
                             macos::catch_objc(|| resolve_macos_node_click(pid, idx, semantic))
                         })
                         .await
-                        .map_err(|error| OpenBitFunError::tool(error.to_string()))??;
+                        .map_err(|error| OpcTeamError::tool(error.to_string()))??;
                     node_coordinates.is_none()
                 }
                 ClickTarget::ImageXy {
@@ -446,7 +441,7 @@ impl DesktopComputerUseHost {
                         macos::catch_objc(|| try_macos_point_press(pid, x, y))
                     })
                     .await
-                    .map_err(|error| OpenBitFunError::tool(error.to_string()))??
+                    .map_err(|error| OpcTeamError::tool(error.to_string()))??
                 }
                 ClickTarget::ScreenXy { .. }
                 | ClickTarget::ImageXy { .. }
@@ -496,15 +491,15 @@ impl DesktopComputerUseHost {
                     crate::computer_use::control_session::spawn_blocking(move || {
                         macos::catch_objc(|| {
                             let wid = crate::computer_use::macos_capture::bound_window_id(pid)
-                                .map_err(OpenBitFunError::tool)?;
+                                .map_err(OpcTeamError::tool)?;
                             let bounds =
                                 crate::computer_use::macos_capture::window_bounds(pid, wid)
-                                    .map_err(OpenBitFunError::tool)?;
-                            Ok::<_, OpenBitFunError>((wid, bounds))
+                                    .map_err(OpcTeamError::tool)?;
+                            Ok::<_, OpcTeamError>((wid, bounds))
                         })
                     })
                     .await
-                    .map_err(|error| OpenBitFunError::tool(error.to_string()))??;
+                    .map_err(|error| OpcTeamError::tool(error.to_string()))??;
 
                 // Raw mouse-down requires explicit foreground authorization;
                 // the native dispatcher rejects background mode before posting.
@@ -540,13 +535,13 @@ impl DesktopComputerUseHost {
                     })
                 })
                 .await
-                .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             }
             let settle_ms = params.wait_ms_after.unwrap_or(0);
             if settle_ms > 0 {
                 crate::computer_use::control_session::wait(settle_ms as u64)
                     .await
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
             }
             Ok(())
         }
@@ -558,14 +553,14 @@ impl DesktopComputerUseHost {
                     || params.click_count != 1
                     || !params.modifier_keys.is_empty()
                 {
-                    return Err(OpenBitFunError::tool("[AX_ACTION_UNSUPPORTED] Semantic activation supports one unmodified left click"));
+                    return Err(OpcTeamError::tool("[AX_ACTION_UNSUPPORTED] Semantic activation supports one unmodified left click"));
                 }
                 let idx = *idx;
                 crate::computer_use::control_session::spawn_blocking(move || {
                     crate::computer_use::windows_ax_ui::invoke_cached_node(hwnd_raw, idx)
                 })
                 .await
-                .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             } else {
                 let (x, y) = self
                     .resolve_click_target_windows(&params.target, &params.app)
@@ -584,16 +579,16 @@ impl DesktopComputerUseHost {
                         &modifiers,
                     )?;
                     crate::computer_use::control_session::record_pointer(x, y, true);
-                    Ok::<_, OpenBitFunError>(())
+                    Ok::<_, OpcTeamError>(())
                 })
                 .await
-                .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             }
             let settle_ms = params.wait_ms_after.unwrap_or(0);
             if settle_ms > 0 {
                 crate::computer_use::control_session::wait(settle_ms as u64)
                     .await
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
             }
             Ok(())
         }
@@ -603,16 +598,16 @@ impl DesktopComputerUseHost {
                 || params.mouse_button != "left"
                 || !params.modifier_keys.is_empty()
             {
-                return Err(OpenBitFunError::tool("[BACKGROUND_ACTION_UNAVAILABLE] AT-SPI default actions support one semantic activation without mouse modifiers."));
+                return Err(OpcTeamError::tool("[BACKGROUND_ACTION_UNAVAILABLE] AT-SPI default actions support one semantic activation without mouse modifiers."));
             }
             let ClickTarget::NodeIdx { idx } = params.target else {
-                return Err(OpenBitFunError::tool("[FOREGROUND_REQUIRED] Linux background app actions require an observed AT-SPI node. Coordinate input requires an authorized foreground portal session."));
+                return Err(OpcTeamError::tool("[FOREGROUND_REQUIRED] Linux background app actions require an observed AT-SPI node. Coordinate input requires an authorized foreground portal session."));
             };
             crate::computer_use::linux_control_ax::press(&params.app, idx).await?;
             if let Some(delay) = params.wait_ms_after {
                 crate::computer_use::control_session::wait(delay as u64)
                     .await
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
             }
             Ok(())
         }
@@ -623,7 +618,7 @@ impl DesktopComputerUseHost {
         app: AppSelector,
         text: &str,
         focus: Option<ClickTarget>,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
+    ) -> OpcTeamResult<AppStateSnapshot> {
         self.dispatch_app_type_text_impl(app.clone(), text, focus)
             .await?;
         self.observe_after_app_input(app).await
@@ -637,7 +632,7 @@ impl DesktopComputerUseHost {
         &self,
         pid: i32,
         target: &ClickTarget,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         self.try_macos_text_operation(pid, target, None).await
     }
 
@@ -647,7 +642,7 @@ impl DesktopComputerUseHost {
         pid: i32,
         target: &ClickTarget,
         insertion: Option<String>,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         let point = match target {
             ClickTarget::NodeIdx { .. } => None,
             _ => Some(
@@ -666,7 +661,7 @@ impl DesktopComputerUseHost {
         crate::computer_use::control_session::spawn_blocking(move || macos::catch_objc(|| {
             let element = if let Some(index) = index {
                 Some(crate::computer_use::macos_ax_dump::retained_cached_target(pid, index)
-                    .ok_or_else(|| OpenBitFunError::tool("AX_NODE_STALE: text focus target is no longer in the observed snapshot"))?)
+                    .ok_or_else(|| OpcTeamError::tool("AX_NODE_STALE: text focus target is no longer in the observed snapshot"))?)
             } else if let Some((x, y)) = point {
                 crate::computer_use::macos_ax_dump::retained_target_at_point(pid, x, y)?
             } else { None };
@@ -682,9 +677,9 @@ impl DesktopComputerUseHost {
             match crate::computer_use::macos_ax_write::try_ax_focus(element.reference()) {
                 crate::computer_use::macos_ax_write::AxWriteOutcome::Ok => Ok(true),
                 crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(-25205 | -25206) => Ok(false),
-                crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(status) => Err(OpenBitFunError::tool(format!("AX_FOCUS_OUTCOME_UNKNOWN: AXFocused returned {status}; no click or text was sent. Observe before choosing another action"))),
+                crate::computer_use::macos_ax_write::AxWriteOutcome::Unavailable(status) => Err(OpcTeamError::tool(format!("AX_FOCUS_OUTCOME_UNKNOWN: AXFocused returned {status}; no click or text was sent. Observe before choosing another action"))),
             }
-        })).await.map_err(|error| OpenBitFunError::tool(error.to_string()))?
+        })).await.map_err(|error| OpcTeamError::tool(error.to_string()))?
     }
 
     async fn dispatch_app_type_text_native(
@@ -692,7 +687,7 @@ impl DesktopComputerUseHost {
         app: AppSelector,
         text: &str,
         focus: Option<ClickTarget>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         #[cfg(target_os = "macos")]
         {
             let pid = resolve_pid_macos(self, &app).await?;
@@ -721,9 +716,9 @@ impl DesktopComputerUseHost {
                     if let Some((x, y)) = intended_point {
                         let mismatch = crate::computer_use::control_session::spawn_blocking(move || macos::catch_objc(||
                         crate::computer_use::macos_ax_dump::focused_text_target_mismatch(pid, x, y)
-                    )).await.map_err(|error| OpenBitFunError::tool(error.to_string()))??;
+                    )).await.map_err(|error| OpcTeamError::tool(error.to_string()))??;
                         if mismatch {
-                            return Err(OpenBitFunError::tool("FOCUS_TARGET_MISMATCH: The application still reports a different text field as focused after the click. No text was sent. Observe and select the intended field before typing."));
+                            return Err(OpcTeamError::tool("FOCUS_TARGET_MISMATCH: The application still reports a different text field as focused after the click. No text was sent. Observe and select the intended field before typing."));
                         }
                     }
                 }
@@ -752,7 +747,7 @@ impl DesktopComputerUseHost {
                 })
             })
             .await
-            .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+            .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             Ok(())
         }
         #[cfg(target_os = "windows")]
@@ -763,7 +758,7 @@ impl DesktopComputerUseHost {
                 Some(ClickTarget::ImageXy { x, y, screenshot_id }) => (None, Some(self.map_app_image_coords_to_pointer_f64(pid, x, y, screenshot_id.as_deref())?)),
                 Some(ClickTarget::ScreenXy { x, y }) => (None, Some((x,y))),
                 None => (None, None),
-                _ => return Err(OpenBitFunError::tool("[BACKGROUND_TEXT_UNAVAILABLE] Windows text targeting requires an observed node, image pixel or bound native focus")),
+                _ => return Err(OpcTeamError::tool("[BACKGROUND_TEXT_UNAVAILABLE] Windows text targeting requires an observed node, image pixel or bound native focus")),
             };
             let text = text.to_owned();
             crate::computer_use::control_session::spawn_blocking(move || match index {
@@ -775,13 +770,13 @@ impl DesktopComputerUseHost {
                 ),
             })
             .await
-            .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+            .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             Ok(())
         }
         #[cfg(target_os = "linux")]
         {
             let Some(ClickTarget::NodeIdx { idx }) = focus else {
-                return Err(OpenBitFunError::tool("[BACKGROUND_TEXT_UNAVAILABLE] Linux background text insertion requires an explicit observed EditableText node; implicit system focus is not used."));
+                return Err(OpcTeamError::tool("[BACKGROUND_TEXT_UNAVAILABLE] Linux background text insertion requires an explicit observed EditableText node; implicit system focus is not used."));
             };
             crate::computer_use::linux_control_ax::insert_text(&app, idx, text).await?;
             Ok(())
@@ -796,7 +791,7 @@ impl DesktopComputerUseHost {
         target: &ClickTarget,
         node_coordinates: Option<(f64, f64)>,
         image_coordinates: Option<(f64, f64)>,
-    ) -> OpenBitFunResult<(f64, f64)> {
+    ) -> OpcTeamResult<(f64, f64)> {
         Ok(match target {
             ClickTarget::ScreenXy { x, y } => (*x, *y),
             ClickTarget::ImageXy {
@@ -810,9 +805,8 @@ impl DesktopComputerUseHost {
                 }
             },
             ClickTarget::ImageGrid { screenshot_id, .. } => {
-                let (ix, iy) = Self::image_grid_target_to_xy(target)?.ok_or_else(|| {
-                    OpenBitFunError::tool("invalid image_grid target".to_string())
-                })?;
+                let (ix, iy) = Self::image_grid_target_to_xy(target)?
+                    .ok_or_else(|| OpcTeamError::tool("invalid image_grid target".to_string()))?;
                 self.map_app_image_coords_to_pointer_f64(pid, ix, iy, screenshot_id.as_deref())?
             }
             ClickTarget::VisualGrid {
@@ -839,7 +833,7 @@ impl DesktopComputerUseHost {
                     screenshot_id: shot.screenshot_id.clone(),
                 };
                 let (ix, iy) = Self::image_grid_target_to_xy(&target)?.ok_or_else(|| {
-                    OpenBitFunError::tool("invalid detected visual_grid target".to_string())
+                    OpcTeamError::tool("invalid detected visual_grid target".to_string())
                 })?;
                 if let Some(wait) = wait_ms_after_detection {
                     if *wait > 0 {
@@ -861,9 +855,9 @@ impl DesktopComputerUseHost {
                         macos::catch_objc(|| resolve_macos_node_click(pid, idx, false))
                     })
                     .await
-                    .map_err(|error| OpenBitFunError::tool(error.to_string()))??
+                    .map_err(|error| OpcTeamError::tool(error.to_string()))??
                     .ok_or_else(|| {
-                        OpenBitFunError::tool("AX_NODE_STALE: target has no observed coordinates")
+                        OpcTeamError::tool("AX_NODE_STALE: target has no observed coordinates")
                     })?
                 }
             },
@@ -880,10 +874,7 @@ impl DesktopComputerUseHost {
                         .unwrap_or(std::cmp::Ordering::Equal)
                 });
                 let m = best.ok_or_else(|| {
-                    OpenBitFunError::tool(format!(
-                        "NOT_FOUND: no OCR match for needle {:?}",
-                        needle
-                    ))
+                    OpcTeamError::tool(format!("NOT_FOUND: no OCR match for needle {:?}", needle))
                 })?;
                 (m.center_x, m.center_y)
             }
@@ -896,7 +887,7 @@ impl DesktopComputerUseHost {
         focus: Option<ClickTarget>,
         dx: i32,
         dy: i32,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
+    ) -> OpcTeamResult<AppStateSnapshot> {
         self.dispatch_app_scroll_impl(app.clone(), focus, dx, dy)
             .await?;
         self.observe_after_app_input(app).await
@@ -908,7 +899,7 @@ impl DesktopComputerUseHost {
         focus: Option<ClickTarget>,
         dx: i32,
         dy: i32,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         #[cfg(target_os = "macos")]
         {
             let pid = resolve_pid_macos(self, &app).await?;
@@ -917,10 +908,10 @@ impl DesktopComputerUseHost {
                     .resolve_macos_pointer_target(pid, &target, None, None)
                     .await?;
                 let window = crate::computer_use::macos_capture::bound_window_id(pid)
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
                 let [wx, wy, width, height] =
                     crate::computer_use::macos_capture::window_bounds(pid, window)
-                        .map_err(OpenBitFunError::tool)?;
+                        .map_err(OpcTeamError::tool)?;
                 if !x.is_finite()
                     || !y.is_finite()
                     || x < wx
@@ -928,7 +919,7 @@ impl DesktopComputerUseHost {
                     || x >= wx + width
                     || y >= wy + height
                 {
-                    return Err(OpenBitFunError::tool("TARGET_COORDINATES_OUTSIDE_WINDOW: Scroll anchor is outside the bound window"));
+                    return Err(OpcTeamError::tool("TARGET_COORDINATES_OUTSIDE_WINDOW: Scroll anchor is outside the bound window"));
                 }
                 // Scrolling at a point never implies pressing the control there.
                 crate::computer_use::control_session::record_pointer(x, y, false);
@@ -938,28 +929,26 @@ impl DesktopComputerUseHost {
                 macos::catch_objc(|| crate::computer_use::macos_bg_input::bg_scroll(pid, dx, dy))
             })
             .await
-            .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+            .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             Ok(())
         }
         #[cfg(target_os = "windows")]
         {
             let Some(ClickTarget::NodeIdx { idx }) = focus else {
-                return Err(OpenBitFunError::tool("[FOREGROUND_REQUIRED] Background scrolling requires an explicitly observed scrollable node"));
+                return Err(OpcTeamError::tool("[FOREGROUND_REQUIRED] Background scrolling requires an explicitly observed scrollable node"));
             };
             let (_, hwnd_raw) = self.windows_target(&app).await?;
             crate::computer_use::control_session::spawn_blocking(move || {
                 crate::computer_use::windows_ax_ui::scroll_cached_node(hwnd_raw, idx, dx, dy)
             })
             .await
-            .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+            .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             Ok(())
         }
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, focus, dx, dy);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -969,7 +958,7 @@ impl DesktopComputerUseHost {
         app: AppSelector,
         keys: Vec<String>,
         focus_idx: Option<u32>,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
+    ) -> OpcTeamResult<AppStateSnapshot> {
         self.dispatch_app_key_chord_impl(app.clone(), keys, focus_idx)
             .await?;
         self.observe_after_app_input(app).await
@@ -980,7 +969,7 @@ impl DesktopComputerUseHost {
         app: AppSelector,
         keys: Vec<String>,
         focus_idx: Option<u32>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         #[cfg(target_os = "macos")]
         {
             let pid = resolve_pid_macos(self, &app).await?;
@@ -1002,31 +991,27 @@ impl DesktopComputerUseHost {
                 }
             }
             require_macos_background_input()?;
-            crate::computer_use::control_session::spawn_blocking(
-                move || -> OpenBitFunResult<()> {
-                    macos::catch_objc(|| {
-                        let (mods, kc) =
-                            crate::computer_use::macos_bg_input::parse_key_sequence(&keys)?;
-                        crate::computer_use::macos_bg_input::bg_key_chord(pid, &mods, kc)?;
-                        Ok(())
-                    })
-                },
-            )
+            crate::computer_use::control_session::spawn_blocking(move || -> OpcTeamResult<()> {
+                macos::catch_objc(|| {
+                    let (mods, kc) =
+                        crate::computer_use::macos_bg_input::parse_key_sequence(&keys)?;
+                    crate::computer_use::macos_bg_input::bg_key_chord(pid, &mods, kc)?;
+                    Ok(())
+                })
+            })
             .await
-            .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+            .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             Ok(())
         }
         #[cfg(target_os = "windows")]
         {
             let _ = (app, keys, focus_idx);
-            Err(OpenBitFunError::tool("[FOREGROUND_REQUIRED] Windows keyboard chords require an explicitly authorized foreground input action; no focus click was sent"))
+            Err(OpcTeamError::tool("[FOREGROUND_REQUIRED] Windows keyboard chords require an explicitly authorized foreground input action; no focus click was sent"))
         }
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, keys, focus_idx);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -1036,7 +1021,7 @@ impl DesktopComputerUseHost {
         pred: AppWaitPredicate,
         timeout_ms: u32,
         poll_ms: u32,
-    ) -> OpenBitFunResult<AppStateSnapshot> {
+    ) -> OpcTeamResult<AppStateSnapshot> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             let deadline = Instant::now() + Duration::from_millis(timeout_ms as u64);
@@ -1054,7 +1039,7 @@ impl DesktopComputerUseHost {
                     // A failed window capture must never expose desktop pixels
                     // or return success without the expected final observation.
                     let pid = snap.app.pid.ok_or_else(|| {
-                        OpenBitFunError::tool(
+                        OpcTeamError::tool(
                             "[WAIT_TARGET_UNAVAILABLE] Matched application has no process identity",
                         )
                     })?;
@@ -1069,7 +1054,7 @@ impl DesktopComputerUseHost {
                         let (_, hwnd) = self.windows_target(&target).await?;
                         self.screenshot_for_foreground_window(pid, hwnd).await
                     };
-                    snap.screenshot = Some(capture.map_err(|error| OpenBitFunError::tool(format!(
+                    snap.screenshot = Some(capture.map_err(|error| OpcTeamError::tool(format!(
                         "[WAIT_OBSERVATION_UNAVAILABLE] Predicate matched; target capture failed: {error}. Last observed digest: {}. Do not repeat the preceding mutation based on this capture failure.", snap.digest,
                     )))?);
                     return Ok(snap);
@@ -1081,9 +1066,7 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, pred, timeout_ms, poll_ms);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -1091,7 +1074,7 @@ impl DesktopComputerUseHost {
         &self,
         app: AppSelector,
         opts: InteractiveViewOpts,
-    ) -> OpenBitFunResult<InteractiveView> {
+    ) -> OpcTeamResult<InteractiveView> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             let pid = resolve_pid(self, &app).await?;
@@ -1178,7 +1161,7 @@ impl DesktopComputerUseHost {
                 let mut s = self
                     .state
                     .lock()
-                    .map_err(|e| OpenBitFunError::tool(format!("lock: {}", e)))?;
+                    .map_err(|e| OpcTeamError::tool(format!("lock: {}", e)))?;
                 s.interactive_view_cache.insert(
                     pid,
                     CachedInteractiveView {
@@ -1192,9 +1175,7 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, opts);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -1202,7 +1183,7 @@ impl DesktopComputerUseHost {
         &self,
         app: AppSelector,
         params: InteractiveClickParams,
-    ) -> OpenBitFunResult<InteractiveActionResult> {
+    ) -> OpcTeamResult<InteractiveActionResult> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             // A rebuilt view can assign this index to a different control.
@@ -1281,9 +1262,7 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, params);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -1291,7 +1270,7 @@ impl DesktopComputerUseHost {
         &self,
         app: AppSelector,
         opts: VisualMarkViewOpts,
-    ) -> OpenBitFunResult<VisualMarkView> {
+    ) -> OpcTeamResult<VisualMarkView> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             let pid = resolve_pid(self, &app).await?;
@@ -1317,7 +1296,7 @@ impl DesktopComputerUseHost {
                 }
             }
             let shot = snap.screenshot.as_ref().ok_or_else(|| {
-                OpenBitFunError::tool(
+                OpcTeamError::tool(
                     "build_visual_mark_view: app screenshot unavailable; grant Screen Recording permission and retry".to_string(),
                 )
             })?;
@@ -1366,7 +1345,7 @@ impl DesktopComputerUseHost {
                 let mut s = self
                     .state
                     .lock()
-                    .map_err(|e| OpenBitFunError::tool(format!("lock: {}", e)))?;
+                    .map_err(|e| OpcTeamError::tool(format!("lock: {}", e)))?;
                 s.visual_mark_cache.insert(
                     pid,
                     CachedVisualMarkView {
@@ -1381,9 +1360,7 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, opts);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -1391,7 +1368,7 @@ impl DesktopComputerUseHost {
         &self,
         app: AppSelector,
         params: VisualClickParams,
-    ) -> OpenBitFunResult<VisualActionResult> {
+    ) -> OpcTeamResult<VisualActionResult> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             // Visual indices are also tied to the view the caller actually saw.
@@ -1404,7 +1381,7 @@ impl DesktopComputerUseHost {
                 let s = self
                     .state
                     .lock()
-                    .map_err(|e| OpenBitFunError::tool(format!("lock: {}", e)))?;
+                    .map_err(|e| OpcTeamError::tool(format!("lock: {}", e)))?;
                 s.visual_mark_cache
                     .get(&pid)
                     .and_then(|cached| cached.screenshot_id.clone())
@@ -1443,9 +1420,7 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, params);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -1453,7 +1428,7 @@ impl DesktopComputerUseHost {
         &self,
         app: AppSelector,
         params: InteractiveTypeTextParams,
-    ) -> OpenBitFunResult<InteractiveActionResult> {
+    ) -> OpcTeamResult<InteractiveActionResult> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             let focus = if let Some(i) = params.i {
@@ -1484,7 +1459,7 @@ impl DesktopComputerUseHost {
                 {
                     let pid = resolve_pid_macos(self, &app).await?;
                     crate::computer_use::control_session::spawn_blocking(
-                        move || -> OpenBitFunResult<()> {
+                        move || -> OpcTeamResult<()> {
                             macos::catch_objc(|| {
                                 let (m1, k1) =
                                     crate::computer_use::macos_bg_input::parse_key_sequence(&[
@@ -1502,7 +1477,7 @@ impl DesktopComputerUseHost {
                         },
                     )
                     .await
-                    .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                    .map_err(|e| OpcTeamError::tool(e.to_string()))??;
                 }
                 #[cfg(target_os = "windows")]
                 {
@@ -1528,7 +1503,7 @@ impl DesktopComputerUseHost {
                 {
                     let pid = resolve_pid_macos(self, &app).await?;
                     crate::computer_use::control_session::spawn_blocking(
-                        move || -> OpenBitFunResult<()> {
+                        move || -> OpcTeamResult<()> {
                             macos::catch_objc(|| {
                                 let (m, k) =
                                     crate::computer_use::macos_bg_input::parse_key_sequence(&[
@@ -1540,7 +1515,7 @@ impl DesktopComputerUseHost {
                         },
                     )
                     .await
-                    .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                    .map_err(|e| OpcTeamError::tool(e.to_string()))??;
                 }
                 #[cfg(target_os = "windows")]
                 {
@@ -1571,9 +1546,7 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, params);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 
@@ -1581,7 +1554,7 @@ impl DesktopComputerUseHost {
         &self,
         app: AppSelector,
         params: InteractiveScrollParams,
-    ) -> OpenBitFunResult<InteractiveActionResult> {
+    ) -> OpcTeamResult<InteractiveActionResult> {
         #[cfg(any(target_os = "macos", target_os = "windows"))]
         {
             let focus = if let Some(i) = params.i {
@@ -1615,9 +1588,7 @@ impl DesktopComputerUseHost {
         #[cfg(not(any(target_os = "macos", target_os = "windows")))]
         {
             let _ = (app, params);
-            Err(OpenBitFunError::tool(
-                LINUX_LEGACY_AX_UNAVAILABLE.to_string(),
-            ))
+            Err(OpcTeamError::tool(LINUX_LEGACY_AX_UNAVAILABLE.to_string()))
         }
     }
 }
@@ -1630,7 +1601,7 @@ fn app_wait_observation_ready(
     pred: &AppWaitPredicate,
     deadline_reached: bool,
     timeout_ms: u32,
-) -> OpenBitFunResult<bool> {
+) -> OpcTeamResult<bool> {
     let matched = match pred {
         AppWaitPredicate::DigestChanged { prev_digest } => snap.digest != *prev_digest,
         AppWaitPredicate::TitleContains { needle } => {
@@ -1656,7 +1627,7 @@ fn app_wait_observation_ready(
         return Ok(true);
     }
     if deadline_reached {
-        return Err(OpenBitFunError::tool(format!(
+        return Err(OpcTeamError::tool(format!(
             "[WAIT_TIMEOUT] Predicate {pred:?} was not satisfied within {timeout_ms} ms. Last observed digest: {}. Re-observe the target; timeout does not prove the preceding mutation failed.", snap.digest,
         )));
     }
@@ -1768,7 +1739,7 @@ fn compute_visual_mark_view_digest(marks: &[VisualMark], screenshot_id: Option<&
 fn build_regular_visual_marks(
     shot: &ComputerScreenshot,
     opts: &VisualMarkViewOpts,
-) -> OpenBitFunResult<Vec<VisualMark>> {
+) -> OpcTeamResult<Vec<VisualMark>> {
     if !opts.include_grid {
         return Ok(Vec::new());
     }
@@ -1828,7 +1799,7 @@ fn build_regular_visual_marks(
     }
 
     if marks.is_empty() {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "build_visual_mark_view: no visual marks generated for the requested region"
                 .to_string(),
         ));
@@ -1864,15 +1835,15 @@ pub(super) fn detect_regular_grid_rect_from_screenshot(
     shot: &ComputerScreenshot,
     rows: u32,
     cols: u32,
-) -> OpenBitFunResult<(i32, i32, u32, u32)> {
+) -> OpcTeamResult<(i32, i32, u32, u32)> {
     if rows < 2 || cols < 2 {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "visual_grid requires rows and cols >= 2".to_string(),
         ));
     }
 
     let img = image::load_from_memory(&shot.bytes)
-        .map_err(|e| OpenBitFunError::tool(format!("visual_grid: decode screenshot failed: {e}")))?
+        .map_err(|e| OpcTeamError::tool(format!("visual_grid: decode screenshot failed: {e}")))?
         .to_rgb8();
     let (image_w, image_h) = img.dimensions();
     let (left, top, width, height) = shot
@@ -1883,7 +1854,7 @@ pub(super) fn detect_regular_grid_rect_from_screenshot(
     let right = left.saturating_add(width).min(image_w);
     let bottom = top.saturating_add(height).min(image_h);
     if right <= left + 8 || bottom <= top + 8 {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "visual_grid: screenshot content rect is too small".to_string(),
         ));
     }
@@ -1901,7 +1872,7 @@ pub(super) fn detect_regular_grid_rect_from_screenshot(
 
     let aspect = w as f64 / h.max(1) as f64;
     if !(0.5..=2.0).contains(&aspect) {
-        return Err(OpenBitFunError::tool(format!(
+        return Err(OpcTeamError::tool(format!(
             "visual_grid: detected grid is implausibly non-square (x0={}, y0={}, width={}, height={}, aspect={:.2}); pass image_grid with an explicit rectangle",
             x0, y0, w, h, aspect
         )));
@@ -1965,9 +1936,9 @@ fn detect_regular_line_sequence(
     projection: &[f64],
     count: u32,
     offset: u32,
-) -> OpenBitFunResult<Vec<u32>> {
+) -> OpcTeamResult<Vec<u32>> {
     if projection.len() < count as usize {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "visual_grid: projection is smaller than requested grid count".to_string(),
         ));
     }
@@ -2021,7 +1992,7 @@ fn detect_regular_line_sequence(
         if let Some(fallback) = top_regular_positions(&adjusted, count, offset, min_gap.max(2)) {
             return Ok(fallback);
         }
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "visual_grid: could not find enough line peaks".to_string(),
         ));
     }
@@ -2082,7 +2053,7 @@ fn detect_regular_line_sequence(
     best.map(|(_, positions)| positions)
         .or_else(|| top_regular_positions(&adjusted, count, offset, min_gap.max(2)))
         .ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "visual_grid: no regular grid sequence detected; pass image_grid with an explicit rectangle or build_visual_mark_view to choose a point"
                     .to_string(),
             )
@@ -2131,7 +2102,7 @@ fn top_regular_positions(
 /// Returns `true` if the error reported by `resolve_interactive_index`
 /// is the recoverable `STALE_INTERACTIVE_VIEW` variant. We match on the
 /// error text rather than introducing a typed error enum because every
-/// `OpenBitFunError::tool` is already string-based throughout the host
+/// `OpcTeamError::tool` is already string-based throughout the host
 /// surface; adding a new variant would ripple through ~40 callers.
 impl DesktopComputerUseHost {
     /// Return the image-pixel center `(x, y)` of the cached interactive
@@ -2166,14 +2137,14 @@ impl DesktopComputerUseHost {
         app: &AppSelector,
         i: u32,
         before_digest: Option<&str>,
-    ) -> OpenBitFunResult<u32> {
+    ) -> OpcTeamResult<u32> {
         let pid = resolve_pid(self, app).await?;
         let s = self
             .state
             .lock()
-            .map_err(|e| OpenBitFunError::tool(format!("lock: {}", e)))?;
+            .map_err(|e| OpcTeamError::tool(format!("lock: {}", e)))?;
         let cached = s.interactive_view_cache.get(&pid).ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "INTERACTIVE_VIEW_MISSING: call `build_interactive_view` before `interactive_*` actions"
                     .to_string(),
             )
@@ -2187,7 +2158,7 @@ impl DesktopComputerUseHost {
                     want == cached.digest
                 };
                 if !matches {
-                    return Err(OpenBitFunError::tool(format!(
+                    return Err(OpcTeamError::tool(format!(
                         "STALE_INTERACTIVE_VIEW: before_view_digest={} but current cached digest={}; re-call `build_interactive_view` and reuse the new digest (full or >=8-char prefix)",
                         want, cached.digest
                     )));
@@ -2195,7 +2166,7 @@ impl DesktopComputerUseHost {
             }
         }
         let el = cached.elements.iter().find(|e| e.i == i).ok_or_else(|| {
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "INTERACTIVE_INDEX_OUT_OF_RANGE: i={} not in cached view (len={})",
                 i,
                 cached.elements.len()
@@ -2210,14 +2181,14 @@ impl DesktopComputerUseHost {
         app: &AppSelector,
         i: u32,
         before_digest: Option<&str>,
-    ) -> OpenBitFunResult<VisualMark> {
+    ) -> OpcTeamResult<VisualMark> {
         let pid = resolve_pid(self, app).await?;
         let s = self
             .state
             .lock()
-            .map_err(|e| OpenBitFunError::tool(format!("lock: {}", e)))?;
+            .map_err(|e| OpcTeamError::tool(format!("lock: {}", e)))?;
         let cached = s.visual_mark_cache.get(&pid).ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "VISUAL_MARK_VIEW_MISSING: call `build_visual_mark_view` before `visual_click`"
                     .to_string(),
             )
@@ -2231,7 +2202,7 @@ impl DesktopComputerUseHost {
                     want == cached.digest
                 };
                 if !matches {
-                    return Err(OpenBitFunError::tool(format!(
+                    return Err(OpcTeamError::tool(format!(
                         "STALE_VISUAL_MARK_VIEW: before_view_digest={} but current cached digest={}; re-call `build_visual_mark_view` and reuse the new digest (full or >=8-char prefix)",
                         want, cached.digest
                     )));
@@ -2244,7 +2215,7 @@ impl DesktopComputerUseHost {
             .find(|mark| mark.i == i)
             .cloned()
             .ok_or_else(|| {
-                OpenBitFunError::tool(format!(
+                OpcTeamError::tool(format!(
                     "VISUAL_INDEX_OUT_OF_RANGE: i={} not in cached visual mark view (len={})",
                     i,
                     cached.marks.len()

@@ -5,8 +5,8 @@ use std::sync::{Arc, OnceLock};
 use serde_json::Value;
 
 pub use openbitfun_product_domains::product_control::{
-    ProductControlAction, ProductControlPort,
-    ProductControlRequest as OpenBitFunControlHostRequest, ProductControlSource,
+    ProductControlAction, ProductControlPort, ProductControlRequest as OpcTeamControlHostRequest,
+    ProductControlSource,
 };
 
 static OPENBITFUN_CONTROL_PORT: OnceLock<Arc<dyn ProductControlPort>> = OnceLock::new();
@@ -21,10 +21,10 @@ pub fn openbitfun_control_host_available() -> bool {
 }
 
 pub async fn invoke_openbitfun_control(
-    request: OpenBitFunControlHostRequest,
+    request: OpcTeamControlHostRequest,
 ) -> Result<Value, String> {
     let Some(port) = OPENBITFUN_CONTROL_PORT.get() else {
-        return Err("OpenBitFunControl host is not available on this product surface".to_string());
+        return Err("OpcTeamControl host is not available on this product surface".to_string());
     };
     port.invoke(request).await
 }
@@ -36,7 +36,7 @@ mod tests {
 
     #[test]
     fn host_request_uses_the_frontend_camel_case_contract() {
-        let serialized = serde_json::to_value(OpenBitFunControlHostRequest {
+        let serialized = serde_json::to_value(OpcTeamControlHostRequest {
             action: ProductControlAction::Open,
             query: None,
             capability_id: Some("setting.application.input".to_string()),

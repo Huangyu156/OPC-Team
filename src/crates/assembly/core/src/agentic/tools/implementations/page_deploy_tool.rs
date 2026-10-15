@@ -3,7 +3,7 @@
 use crate::agentic::tools::framework::{PermissionIntent, Tool, ToolResult, ToolUseContext};
 use crate::agentic::tools::page_deploy_host::invoke_page_deploy;
 use crate::agentic::tools::page_publish_host::page_account_available;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 
@@ -27,7 +27,7 @@ impl Tool for PageDeployTool {
         "PageDeploy"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(
             r#"Switch the production pointer of an existing OPC-Team Page to a previously saved version_id (rollback or promote a prior version).
 
@@ -72,7 +72,7 @@ Preview a version at /p/{username}/{slug}/@v/{version_id}."#
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let slug = input
             .get("slug")
             .and_then(Value::as_str)
@@ -117,9 +117,9 @@ Preview a version at /p/{username}/{slug}/@v/{version_id}."#
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if !page_account_available().await {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "PageDeploy requires a logged-in GitHub account".to_string(),
             ));
         }
@@ -129,19 +129,19 @@ Preview a version at /p/{username}/{slug}/@v/{version_id}."#
             .and_then(|v| v.as_str())
             .map(str::trim)
             .filter(|s| !s.is_empty())
-            .ok_or_else(|| OpenBitFunError::tool("slug is required".to_string()))?
+            .ok_or_else(|| OpcTeamError::tool("slug is required".to_string()))?
             .to_string();
         let version_id = input
             .get("version_id")
             .and_then(|v| v.as_str())
             .map(str::trim)
             .filter(|s| !s.is_empty())
-            .ok_or_else(|| OpenBitFunError::tool("version_id is required".to_string()))?
+            .ok_or_else(|| OpcTeamError::tool("version_id is required".to_string()))?
             .to_string();
 
         let result = invoke_page_deploy(slug.clone(), version_id.clone())
             .await
-            .map_err(OpenBitFunError::tool)?;
+            .map_err(OpcTeamError::tool)?;
 
         let url = result
             .get("url")

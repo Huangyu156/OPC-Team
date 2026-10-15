@@ -13,7 +13,7 @@ use crate::service::snapshot::types::FileOperation;
 use crate::service::token_usage::{
     TimeRange, TokenUsageQuery, TokenUsageRecord, TokenUsageService,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::Utc;
 use std::collections::{BTreeSet, HashMap, HashSet};
 use std::path::Path;
@@ -24,10 +24,11 @@ pub async fn generate_session_usage_report(
     persistence_manager: &PersistenceManager,
     token_usage_service: Option<&TokenUsageService>,
     request: SessionUsageReportRequest,
-) -> OpenBitFunResult<SessionUsageReport> {
-    let workspace_path = request.workspace_path.clone().ok_or_else(|| {
-        OpenBitFunError::validation("Workspace path is required for usage reports")
-    })?;
+) -> OpcTeamResult<SessionUsageReport> {
+    let workspace_path = request
+        .workspace_path
+        .clone()
+        .ok_or_else(|| OpcTeamError::validation("Workspace path is required for usage reports"))?;
     generate_session_usage_report_from_storage_path(
         persistence_manager,
         token_usage_service,
@@ -46,7 +47,7 @@ pub async fn generate_session_usage_report_from_storage_path(
     token_usage_service: Option<&TokenUsageService>,
     session_storage_path: &Path,
     request: SessionUsageReportRequest,
-) -> OpenBitFunResult<SessionUsageReport> {
+) -> OpcTeamResult<SessionUsageReport> {
     let revert_boundary = persistence_manager
         .load_session_revert_state(session_storage_path, &request.session_id)
         .await?
@@ -71,7 +72,7 @@ pub async fn generate_session_usage_report_from_storage_path(
             .query_records_for_sessions(token_usage_query(&request), &session_ids)
             .await
             .map_err(|error| {
-                OpenBitFunError::service(format!("Failed to query token usage records: {}", error))
+                OpcTeamError::service(format!("Failed to query token usage records: {}", error))
             })?
     } else {
         Vec::new()

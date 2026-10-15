@@ -11,7 +11,7 @@ pub(in crate::server) fn builder() -> Builder<AppServer, impl HandleDispatchFrom
             async move |_: I18nGetCurrentLanguageMessage, p, _| {
                 let result = async {
                     let s = openbitfun_core::service::config::get_global_config_service().await?;
-                    Ok::<_, openbitfun_core::OpenBitFunError>(
+                    Ok::<_, openbitfun_core::OpcTeamError>(
                         s.get_config::<String>(Some("app.language"))
                             .await
                             .unwrap_or_else(|_| "zh-CN".to_string()),
@@ -29,7 +29,7 @@ pub(in crate::server) fn builder() -> Builder<AppServer, impl HandleDispatchFrom
                 let result = async {
                     let locale = openbitfun_core::service::i18n::LocaleId::from_str(&r.language)
                         .ok_or_else(|| {
-                            openbitfun_core::OpenBitFunError::validation(format!(
+                            openbitfun_core::OpcTeamError::validation(format!(
                                 "Unsupported language: {}",
                                 r.language
                             ))
@@ -40,7 +40,7 @@ pub(in crate::server) fn builder() -> Builder<AppServer, impl HandleDispatchFrom
                         .await?;
                     let _ = openbitfun_core::service::i18n::sync_global_i18n_service_locale(locale)
                         .await;
-                    Ok::<_, openbitfun_core::OpenBitFunError>(locale.as_str().to_string())
+                    Ok::<_, openbitfun_core::OpcTeamError>(locale.as_str().to_string())
                 }
                 .await
                 .map(|language| I18nSetLanguageResponse { language })
@@ -53,7 +53,7 @@ pub(in crate::server) fn builder() -> Builder<AppServer, impl HandleDispatchFrom
             async move |_: I18nGetConfigMessage, p, _| {
                 let result = async {
                     let s = openbitfun_core::service::config::get_global_config_service().await?;
-                    Ok::<_, openbitfun_core::OpenBitFunError>(I18nGetConfigResponse {
+                    Ok::<_, openbitfun_core::OpcTeamError>(I18nGetConfigResponse {
                         current_language: s
                             .get_config::<String>(Some("app.language"))
                             .await
@@ -74,7 +74,7 @@ pub(in crate::server) fn builder() -> Builder<AppServer, impl HandleDispatchFrom
                     if let Some(language) = r.current_language.as_deref() {
                         let locale = openbitfun_core::service::i18n::LocaleId::from_str(language)
                             .ok_or_else(|| {
-                            openbitfun_core::OpenBitFunError::validation(format!(
+                            openbitfun_core::OpcTeamError::validation(format!(
                                 "Unsupported language: {}",
                                 language
                             ))
@@ -87,7 +87,7 @@ pub(in crate::server) fn builder() -> Builder<AppServer, impl HandleDispatchFrom
                             openbitfun_core::service::i18n::sync_global_i18n_service_locale(locale)
                                 .await;
                     }
-                    Ok::<_, openbitfun_core::OpenBitFunError>(())
+                    Ok::<_, openbitfun_core::OpcTeamError>(())
                 }
                 .await
                 .map(|()| I18nSetConfigResponse {})

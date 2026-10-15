@@ -11,7 +11,7 @@ use crate::agentic::tools::framework::{
 };
 use crate::service::workspace::{get_global_workspace_service, WorkspaceService};
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_agent_runtime::sdk::AgentRuntime;
 use openbitfun_agent_runtime::session_control::{
@@ -94,9 +94,9 @@ impl SessionControlTool {
         datetime.format("%Y-%m-%dT%H:%M:%S").to_string()
     }
 
-    fn creator_session_marker(&self, context: &ToolUseContext) -> OpenBitFunResult<String> {
+    fn creator_session_marker(&self, context: &ToolUseContext) -> OpcTeamResult<String> {
         let creator_session_id = context.session_id.as_ref().ok_or_else(|| {
-            OpenBitFunError::tool("create requires a creator session in tool context".to_string())
+            OpcTeamError::tool("create requires a creator session in tool context".to_string())
         })?;
         Ok(session_control_creator_marker(creator_session_id))
     }
@@ -108,13 +108,13 @@ impl SessionControlTool {
         requested_workspace: Option<&str>,
         context: &ToolUseContext,
         runtime: &AgentRuntime,
-    ) -> OpenBitFunResult<SessionControlWorkspaceTarget> {
+    ) -> OpcTeamResult<SessionControlWorkspaceTarget> {
         match action {
             SessionControlAction::Cancel
             | SessionControlAction::Delete
             | SessionControlAction::Rename => {
                 let session_id = session_id.ok_or_else(|| {
-                    OpenBitFunError::tool(format!("session_id is required for {}", action.as_str()))
+                    OpcTeamError::tool(format!("session_id is required for {}", action.as_str()))
                 })?;
                 if let Some(binding) = runtime
                     .resolve_session_workspace_binding(AgentSessionWorkspaceRequest {
@@ -122,22 +122,22 @@ impl SessionControlTool {
                     })
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                        OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
                     })?
                 {
                     return Ok(Self::workspace_target_from_binding(binding));
                 }
-                Err(OpenBitFunError::NotFound(format!(
+                Err(OpcTeamError::NotFound(format!(
                     "Workspace for session '{}' could not be resolved",
                     session_id
                 )))
             }
             SessionControlAction::Create | SessionControlAction::List => {
                 let workspace = requested_workspace.ok_or_else(|| {
-                    OpenBitFunError::tool(format!("workspace is required for {}", action.as_str()))
+                    OpcTeamError::tool(format!("workspace is required for {}", action.as_str()))
                 })?;
                 let service = get_global_workspace_service().ok_or_else(|| {
-                    OpenBitFunError::tool("Workspace service is unavailable".to_string())
+                    OpcTeamError::tool("Workspace service is unavailable".to_string())
                 })?;
                 Self::resolve_requested_workspace(workspace, context, &service).await
             }
@@ -148,7 +148,7 @@ impl SessionControlTool {
         workspace: &str,
         context: &ToolUseContext,
         service: &WorkspaceService,
-    ) -> OpenBitFunResult<SessionControlWorkspaceTarget> {
+    ) -> OpcTeamResult<SessionControlWorkspaceTarget> {
         let current = context.workspace.as_ref();
         let operand = workspace.trim();
         let record = if let Some(record) = service.get_workspace(operand).await {
@@ -161,7 +161,7 @@ impl SessionControlTool {
                 std::path::Path::new(operand).is_absolute()
             };
             if !absolute {
-                return Err(OpenBitFunError::NotFound(format!(
+                return Err(OpcTeamError::NotFound(format!(
                     "Workspace ID '{}' is unavailable on this host; use ListWorkspaces to select a registered ID or provide an absolute path in the caller's environment",
                     operand
                 )));
@@ -206,14 +206,14 @@ impl SessionControlTool {
             }
             match candidates.as_slice() {
                 [] => {
-                    return Err(OpenBitFunError::NotFound(format!(
+                    return Err(OpcTeamError::NotFound(format!(
                         "Workspace '{}' is not registered in the caller's environment",
                         workspace
                     )))
                 }
                 [record] => record.clone(),
                 _ => {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "Workspace path is ambiguous; use ListWorkspaces to select a workspace ID"
                             .to_string(),
                     ))
@@ -340,12 +340,12 @@ impl SessionControlTool {
         runtime: &AgentRuntime,
         workspace: &SessionControlWorkspaceTarget,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let existing_sessions = runtime
             .list_sessions(Self::list_request(workspace))
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
             })?;
         if existing_sessions
             .iter()
@@ -353,7 +353,7 @@ impl SessionControlTool {
         {
             Ok(())
         } else {
-            Err(OpenBitFunError::NotFound(format!(
+            Err(OpcTeamError::NotFound(format!(
                 "Session '{}' not found in workspace '{}'",
                 session_id, workspace.display_workspace
             )))
@@ -410,7 +410,7 @@ impl Tool for SessionControlTool {
         "SessionControl"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(
             r#"Manage persisted workspace-scoped agent sessions.
 
@@ -508,13 +508,13 @@ Arguments:
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let params: SessionControlInput = serde_json::from_value(input.clone())
-            .map_err(|e| OpenBitFunError::tool(format!("Invalid input: {}", e)))?;
+            .map_err(|e| OpcTeamError::tool(format!("Invalid input: {}", e)))?;
         let coordinator = get_global_coordinator()
-            .ok_or_else(|| OpenBitFunError::tool("coordinator not initialized".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("coordinator not initialized".to_string()))?;
         let runtime = CoreServiceAgentRuntime::agent_runtime(coordinator.clone())
-            .map_err(OpenBitFunError::tool)?;
+            .map_err(OpcTeamError::tool)?;
 
         match params.action {
             SessionControlAction::Create => {
@@ -549,7 +549,7 @@ Arguments:
                     })
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                        OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
                     })?;
                 let created_session_id = session.session_id.clone();
                 let created_session_name = session.session_name.clone();
@@ -577,9 +577,9 @@ Arguments:
             }
             SessionControlAction::Cancel => {
                 let session_id = params.session_id.as_deref().ok_or_else(|| {
-                    OpenBitFunError::tool("session_id is required for cancel".to_string())
+                    OpcTeamError::tool("session_id is required for cancel".to_string())
                 })?;
-                validate_session_id(session_id).map_err(OpenBitFunError::tool)?;
+                validate_session_id(session_id).map_err(OpcTeamError::tool)?;
                 let workspace = self
                     .resolve_effective_workspace(
                         SessionControlAction::Cancel,
@@ -590,7 +590,7 @@ Arguments:
                     )
                     .await?;
                 if self.current_workspace_session(context, &workspace) == Some(session_id) {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "cannot cancel the current session from SessionControl".to_string(),
                     ));
                 }
@@ -614,7 +614,7 @@ Arguments:
                             coordinator.clone(),
                             scheduler,
                         )
-                        .map_err(OpenBitFunError::tool)?;
+                        .map_err(OpcTeamError::tool)?;
                         (runtime, Some(requester_session_id))
                     }
                     _ => {
@@ -635,7 +635,7 @@ Arguments:
                     })
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                        OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
                     })?
                     .turn_id;
                 let had_active_turn = cancelled_turn_id.is_some();
@@ -662,9 +662,9 @@ Arguments:
             }
             SessionControlAction::Delete => {
                 let session_id = params.session_id.as_deref().ok_or_else(|| {
-                    OpenBitFunError::tool("session_id is required for delete".to_string())
+                    OpcTeamError::tool("session_id is required for delete".to_string())
                 })?;
-                validate_session_id(session_id).map_err(OpenBitFunError::tool)?;
+                validate_session_id(session_id).map_err(OpcTeamError::tool)?;
                 let workspace = self
                     .resolve_effective_workspace(
                         SessionControlAction::Delete,
@@ -675,7 +675,7 @@ Arguments:
                     )
                     .await?;
                 if self.current_workspace_session(context, &workspace) == Some(session_id) {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "cannot delete the current session from SessionControl".to_string(),
                     ));
                 }
@@ -684,15 +684,13 @@ Arguments:
                     .await?;
 
                 let scheduler = get_global_scheduler().ok_or_else(|| {
-                    OpenBitFunError::tool(
-                        "scheduler not initialized for session deletion".to_string(),
-                    )
+                    OpcTeamError::tool("scheduler not initialized for session deletion".to_string())
                 })?;
                 let deletion_runtime = CoreServiceAgentRuntime::agent_runtime_with_scheduler_ports(
                     coordinator.clone(),
                     scheduler,
                 )
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
 
                 deletion_runtime
                     .delete_session(AgentSessionDeleteRequest {
@@ -704,7 +702,7 @@ Arguments:
                     })
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                        OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
                     })?;
 
                 Ok(vec![ToolResult::Result {
@@ -723,16 +721,16 @@ Arguments:
             }
             SessionControlAction::Rename => {
                 let session_id = params.session_id.as_deref().ok_or_else(|| {
-                    OpenBitFunError::tool("session_id is required for rename".to_string())
+                    OpcTeamError::tool("session_id is required for rename".to_string())
                 })?;
-                validate_session_id(session_id).map_err(OpenBitFunError::tool)?;
+                validate_session_id(session_id).map_err(OpcTeamError::tool)?;
                 let session_name = params
                     .session_name
                     .as_deref()
                     .map(str::trim)
                     .filter(|value| !value.is_empty())
                     .ok_or_else(|| {
-                        OpenBitFunError::tool(
+                        OpcTeamError::tool(
                             "session_name is required and must not be empty for rename".to_string(),
                         )
                     })?;
@@ -746,7 +744,7 @@ Arguments:
                     )
                     .await?;
                 if self.current_workspace_session(context, &workspace) == Some(session_id) {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "cannot rename the current session from SessionControl".to_string(),
                     ));
                 }
@@ -758,7 +756,7 @@ Arguments:
                     .rename_session(Self::rename_request(&workspace, session_id, session_name))
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(format!(
+                        OpcTeamError::tool(format!(
                             "cannot rename session '{session_id}': {}",
                             CoreServiceAgentRuntime::runtime_error_message(error)
                         ))
@@ -795,7 +793,7 @@ Arguments:
                     .list_sessions(Self::list_request(&workspace))
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
+                        OpcTeamError::tool(CoreServiceAgentRuntime::runtime_error_message(error))
                     })?;
                 let current_session_id = self.current_workspace_session(context, &workspace);
                 let result_for_assistant = self.build_list_result_for_assistant(
@@ -1144,7 +1142,7 @@ mod tests {
                 &service,
             )
             .await,
-            Err(OpenBitFunError::NotFound(_))
+            Err(OpcTeamError::NotFound(_))
         ));
 
         let path = root.path.join("shared-path");
@@ -1174,7 +1172,7 @@ mod tests {
                 &service
             )
             .await,
-            Err(OpenBitFunError::NotFound(_))
+            Err(OpcTeamError::NotFound(_))
         ));
 
         // Discovery exposes both same-path remote records to a local caller.
@@ -1199,7 +1197,7 @@ mod tests {
         for invalid in ["unknown-id", "relative/path", ""] {
             assert!(matches!(
                 SessionControlTool::resolve_requested_workspace(invalid, &context, &service).await,
-                Err(OpenBitFunError::NotFound(_))
+                Err(OpcTeamError::NotFound(_))
             ));
         }
 
@@ -1234,7 +1232,7 @@ mod tests {
                 &service
             )
             .await,
-            Err(OpenBitFunError::NotFound(_))
+            Err(OpcTeamError::NotFound(_))
         ));
     }
 

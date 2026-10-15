@@ -1,6 +1,6 @@
 use crate::agentic::agents::{PromptBuilder, PromptBuilderContext, UserContextPolicy};
 use crate::agentic::session::SystemPromptCacheIdentity;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_agent_runtime::custom_agent::{
     custom_agent_save_markdown_file, CustomAgentDefinition, CustomAgentKind, CustomAgentLevel,
 };
@@ -72,7 +72,7 @@ impl CustomAgentData {
     pub(crate) async fn build_prompt(
         &self,
         context: &PromptBuilderContext,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let prompt_builder = PromptBuilder::new(context.clone());
         prompt_builder
             .build_prompt_from_template(&self.prompt)
@@ -83,8 +83,8 @@ impl CustomAgentData {
         &self,
         model: Option<&str>,
         model_is_explicit: Option<bool>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let definition = self.to_definition(model, model_is_explicit);
-        custom_agent_save_markdown_file(&self.path, &definition).map_err(OpenBitFunError::Agent)
+        custom_agent_save_markdown_file(&self.path, &definition).map_err(OpcTeamError::Agent)
     }
 }

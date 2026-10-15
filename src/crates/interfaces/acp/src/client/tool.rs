@@ -10,7 +10,7 @@ use openbitfun_agent_tools::{
     AcpExternalAgentToolDefinitionInput, ToolResult, ValidationResult,
 };
 use openbitfun_core::agentic::tools::framework::{Tool, ToolRenderOptions, ToolUseContext};
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use serde_json::Value;
 
 use super::config::AcpClientConfig;
@@ -64,7 +64,7 @@ impl Tool for AcpAgentTool {
         &self.definition.tool_name
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(self.definition.description.clone())
     }
 
@@ -123,15 +123,15 @@ impl Tool for AcpAgentTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let openbitfun_session_id = context.session_id.clone().ok_or_else(|| {
-            OpenBitFunError::tool("ACP tool requires an active OPC-Team session".to_string())
+            OpcTeamError::tool("ACP tool requires an active OPC-Team session".to_string())
         })?;
         let prompt = input
             .get("prompt")
             .and_then(|value| value.as_str())
             .filter(|value| !value.trim().is_empty())
-            .ok_or_else(|| OpenBitFunError::tool("prompt is required".to_string()))?
+            .ok_or_else(|| OpcTeamError::tool("prompt is required".to_string()))?
             .to_string();
 
         let workspace_path = input

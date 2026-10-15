@@ -2,7 +2,7 @@ use crate::agentic::coordination::get_global_coordinator;
 use crate::agentic::tools::framework::{
     PermissionIntent, Tool, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 use std::collections::HashSet;
@@ -14,19 +14,17 @@ enum AgentControlAction {
 }
 
 impl AgentControlAction {
-    fn parse(input: &Value) -> OpenBitFunResult<Self> {
+    fn parse(input: &Value) -> OpcTeamResult<Self> {
         let action = input
             .get("action")
             .and_then(Value::as_str)
             .map(str::trim)
             .filter(|action| !action.is_empty())
-            .ok_or_else(|| {
-                OpenBitFunError::tool("action is required for AgentControl".to_string())
-            })?;
+            .ok_or_else(|| OpcTeamError::tool("action is required for AgentControl".to_string()))?;
         match action {
             "interrupt" => Ok(Self::Interrupt),
             "delete" => Ok(Self::Delete),
-            other => Err(OpenBitFunError::tool(format!(
+            other => Err(OpcTeamError::tool(format!(
                 "action must be one of: interrupt, delete; got '{other}'"
             ))),
         }
@@ -53,15 +51,15 @@ impl AgentControlTool {
         Self
     }
 
-    fn parse_agent_ids(input: &Value) -> OpenBitFunResult<Vec<String>> {
+    fn parse_agent_ids(input: &Value) -> OpcTeamResult<Vec<String>> {
         let object = input.as_object().ok_or_else(|| {
-            OpenBitFunError::tool("AgentControl input must be an object".to_string())
+            OpcTeamError::tool("AgentControl input must be an object".to_string())
         })?;
         if let Some(field) = object
             .keys()
             .find(|field| !matches!(field.as_str(), "action" | "agent_ids"))
         {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "AgentControl does not accept field '{field}'"
             )));
         }
@@ -70,12 +68,12 @@ impl AgentControlTool {
             Some(value @ Value::String(_)) => vec![value],
             Some(Value::Array(values)) => values.iter().collect(),
             Some(_) => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "agent_ids must be an array of strings".to_string(),
                 ));
             }
             None => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "agent_ids is required for AgentControl".to_string(),
                 ));
             }
@@ -89,32 +87,31 @@ impl AgentControlTool {
                 .map(str::trim)
                 .filter(|agent_id| !agent_id.is_empty())
                 .ok_or_else(|| {
-                    OpenBitFunError::tool(
-                        "agent_ids must contain only non-empty strings".to_string(),
-                    )
+                    OpcTeamError::tool("agent_ids must contain only non-empty strings".to_string())
                 })?;
             if seen.insert(agent_id.to_string()) {
                 agent_ids.push(agent_id.to_string());
             }
         }
         if agent_ids.is_empty() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "agent_ids must contain at least one agent ID".to_string(),
             ));
         }
         Ok(agent_ids)
     }
 
-    fn parse_input(input: &Value) -> OpenBitFunResult<(AgentControlAction, Vec<String>)> {
+    fn parse_input(input: &Value) -> OpcTeamResult<(AgentControlAction, Vec<String>)> {
         let action = AgentControlAction::parse(input)?;
         let agent_ids = Self::parse_agent_ids(input)?;
         Ok((action, agent_ids))
     }
 
-    fn ensure_context_allowed(context: &ToolUseContext) -> OpenBitFunResult<()> {
-        context.agent_type.as_deref().ok_or_else(|| {
-            OpenBitFunError::tool("agent_type is required in context".to_string())
-        })?;
+    fn ensure_context_allowed(context: &ToolUseContext) -> OpcTeamResult<()> {
+        context
+            .agent_type
+            .as_deref()
+            .ok_or_else(|| OpcTeamError::tool("agent_type is required in context".to_string()))?;
         Ok(())
     }
 
@@ -149,7 +146,7 @@ impl Tool for AgentControlTool {
         true
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok("Interrupt or permanently delete one or more direct child agents and their entire descendant subtrees. Both actions use cascading semantics; deletion cancels active work before removing sessions and pending results.".to_string())
     }
 
@@ -169,7 +166,7 @@ impl Tool for AgentControlTool {
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let (action, agent_ids) = Self::parse_input(input)?;
         let resources = agent_ids
             .into_iter()
@@ -216,14 +213,15 @@ impl Tool for AgentControlTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         Self::ensure_context_allowed(context)?;
         let (action, agent_ids) = Self::parse_input(input)?;
-        let session_id = context.session_id.as_deref().ok_or_else(|| {
-            OpenBitFunError::tool("session_id is required in context".to_string())
-        })?;
+        let session_id = context
+            .session_id
+            .as_deref()
+            .ok_or_else(|| OpcTeamError::tool("session_id is required in context".to_string()))?;
         let coordinator = get_global_coordinator()
-            .ok_or_else(|| OpenBitFunError::tool("coordinator not initialized".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("coordinator not initialized".to_string()))?;
 
         match action {
             AgentControlAction::Interrupt => {

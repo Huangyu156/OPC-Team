@@ -6,14 +6,14 @@ use serde_json::{json, Value};
 
 use openbitfun_core::agentic::tools::openbitfun_control_config::global_shared_product_control_executor;
 use openbitfun_core::service::config::get_global_config_service;
-use openbitfun_core::util::errors::OpenBitFunError;
+use openbitfun_core::util::errors::OpcTeamError;
 
 use crate::peer_host::args::{optional_bool, request_value};
 use crate::peer_host::state::PeerHostState;
 
-fn is_expected_config_path_not_found(error: &OpenBitFunError, path: Option<&str>) -> bool {
+fn is_expected_config_path_not_found(error: &OpcTeamError, path: Option<&str>) -> bool {
     match (error, path) {
-        (OpenBitFunError::NotFound(message), Some(path)) => {
+        (OpcTeamError::NotFound(message), Some(path)) => {
             message == &format!("Config path '{path}' not found")
         }
         _ => false,

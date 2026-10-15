@@ -6,7 +6,7 @@ use std::collections::HashMap;
 use crate::agentic::tools::framework::{PermissionIntent, Tool, ToolResult, ToolUseContext};
 use crate::agentic::tools::page_publish_host::page_account_available;
 use crate::agentic::tools::page_publish_host::{invoke_page_publish, PagePublishHostRequest};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 
@@ -30,7 +30,7 @@ impl Tool for PagePublishTool {
         "PagePublish"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(
             r#"Publish a OPC-Team Page to the account relay: upload content, freeze an immutable version, and optionally deploy it to production.
 
@@ -112,7 +112,7 @@ Use PageDeploy only to switch an already-saved version_id (rollback / promote a 
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let slug = input
             .get("slug")
             .and_then(Value::as_str)
@@ -170,9 +170,9 @@ Use PageDeploy only to switch an already-saved version_id (rollback / promote a 
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if !page_account_available().await {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "PagePublish requires a logged-in GitHub account".to_string(),
             ));
         }
@@ -182,7 +182,7 @@ Use PageDeploy only to switch an already-saved version_id (rollback / promote a 
             .and_then(|v| v.as_str())
             .map(str::trim)
             .filter(|s| !s.is_empty())
-            .ok_or_else(|| OpenBitFunError::tool("slug is required".to_string()))?
+            .ok_or_else(|| OpcTeamError::tool("slug is required".to_string()))?
             .to_string();
 
         let visibility = input
@@ -219,13 +219,13 @@ Use PageDeploy only to switch an already-saved version_id (rollback / promote a 
             .map(str::to_string);
 
         if directory.is_some() && context.workspace.is_none() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "PagePublish directory requires a local workspace; use inline files when no workspace is open"
                     .to_string(),
             ));
         }
         if directory.is_some() && context.is_remote() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "PagePublish cannot read a remote workspace directory through the local desktop host; use inline files"
                     .to_string(),
             ));
@@ -235,12 +235,12 @@ Use PageDeploy only to switch an already-saved version_id (rollback / promote a 
 
         match (&directory, &files) {
             (Some(_), Some(_)) => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "provide either directory or files, not both".to_string(),
                 ));
             }
             (None, None) => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "either directory or files is required".to_string(),
                 ));
             }
@@ -257,7 +257,7 @@ Use PageDeploy only to switch an already-saved version_id (rollback / promote a 
             files,
         })
         .await
-        .map_err(OpenBitFunError::tool)?;
+        .map_err(OpcTeamError::tool)?;
 
         let version_id = result
             .get("version_id")
@@ -330,7 +330,7 @@ fn publish_result_for_assistant(
     }
 }
 
-fn parse_files_map(value: Option<&Value>) -> OpenBitFunResult<Option<HashMap<String, String>>> {
+fn parse_files_map(value: Option<&Value>) -> OpcTeamResult<Option<HashMap<String, String>>> {
     let Some(value) = value else {
         return Ok(None);
     };
@@ -338,15 +338,15 @@ fn parse_files_map(value: Option<&Value>) -> OpenBitFunResult<Option<HashMap<Str
         return Ok(None);
     }
     let obj = value.as_object().ok_or_else(|| {
-        OpenBitFunError::tool("files must be an object of path→content strings".to_string())
+        OpcTeamError::tool("files must be an object of path→content strings".to_string())
     })?;
     if obj.is_empty() {
-        return Err(OpenBitFunError::tool("files must not be empty".to_string()));
+        return Err(OpcTeamError::tool("files must not be empty".to_string()));
     }
     let mut map = HashMap::with_capacity(obj.len());
     for (path, content) in obj {
         let Some(text) = content.as_str() else {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "files['{path}'] must be a UTF-8 string"
             )));
         };

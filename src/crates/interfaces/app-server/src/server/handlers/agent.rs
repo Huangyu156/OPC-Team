@@ -8,14 +8,14 @@ use openbitfun_app_server_protocol::agent::{
 };
 
 use super::capability::management_handler;
-use crate::agent::{runtime_call, OpenBitFunAppRuntime};
+use crate::agent::{runtime_call, OpcTeamAppRuntime};
 use crate::management::{AppManagementService, MODES_CAPABILITY};
 use crate::role::{AppClient, AppServer};
 use crate::schema::*;
 use crate::server::wire;
 
 pub(in crate::server) fn builder(
-    runtime: Arc<OpenBitFunAppRuntime>,
+    runtime: Arc<OpcTeamAppRuntime>,
     management: Option<Arc<AppManagementService>>,
 ) -> Builder<AppServer, impl HandleDispatchFrom<AppClient>> {
     AppServer
@@ -77,7 +77,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(SubmitTurnResponse)
                             .map_err(|err| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, err)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, err)
                             }),
                     )
                 }
@@ -96,7 +96,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(wire::submit_dialog_turn_response)
                             .map_err(|err| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, err)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, err)
                             }),
                     )
                 }
@@ -145,7 +145,7 @@ pub(in crate::server) fn builder(
                                 }
                             })
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }
@@ -164,7 +164,7 @@ pub(in crate::server) fn builder(
                             .await
                             .map(RunUserShellCommandResponse)
                             .map_err(|error| {
-                                OpenBitFunAppRuntime::session_runtime_error(&session_id, error)
+                                OpcTeamAppRuntime::session_runtime_error(&session_id, error)
                             }),
                     )
                 }

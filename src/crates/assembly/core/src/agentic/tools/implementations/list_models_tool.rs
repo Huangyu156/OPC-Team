@@ -5,7 +5,7 @@ use crate::agentic::tools::framework::{
 };
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::{AIConfig, AIModelConfig};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 
@@ -172,7 +172,7 @@ impl Tool for ListModelsTool {
         "ListModels"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok("List enabled OPC-Team models as provider_name, model_id, and model_name. Use `query` to filter models; exact `primary` or `fast` resolves that default selector.".to_string())
     }
 
@@ -251,12 +251,12 @@ impl Tool for ListModelsTool {
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let service = GlobalConfigManager::get_service().await.map_err(|_| {
-            OpenBitFunError::tool("OPC-Team model configuration is unavailable.".to_string())
+            OpcTeamError::tool("OPC-Team model configuration is unavailable.".to_string())
         })?;
         let config: AIConfig = service.get_config(Some("ai")).await.map_err(|_| {
-            OpenBitFunError::tool("OPC-Team model configuration could not be loaded.".to_string())
+            OpcTeamError::tool("OPC-Team model configuration could not be loaded.".to_string())
         })?;
         let query = input.get("query").and_then(Value::as_str);
         let (data, result_for_assistant) = build_list_models_result(&config, query);

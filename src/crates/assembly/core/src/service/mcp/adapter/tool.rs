@@ -8,7 +8,7 @@ use crate::agentic::tools::framework::{
 };
 use crate::service::mcp::protocol::{MCPTool, MCPToolResult};
 use crate::service::mcp::server::MCPConnection;
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use async_trait::async_trait;
 use log::{debug, error, info, warn};
 use openbitfun_agent_tools::{
@@ -145,7 +145,7 @@ impl Tool for MCPToolWrapper {
         &self.descriptor.full_name
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(self.descriptor.description.clone())
     }
 
@@ -204,7 +204,7 @@ impl Tool for MCPToolWrapper {
         &self,
         _input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         Ok(vec![dynamic_mcp_permission_intent(
             &self.descriptor.full_name,
         )])
@@ -256,9 +256,9 @@ impl Tool for MCPToolWrapper {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if self.is_blocked_in_context(Some(context)) {
-            return Err(crate::util::errors::OpenBitFunError::tool(format!(
+            return Err(crate::util::errors::OpcTeamError::tool(format!(
                 "MCP server '{}' is unavailable in the current workspace",
                 self.descriptor.tool_info.server_name
             )));
@@ -313,7 +313,7 @@ impl MCPToolAdapter {
         connection: Arc<MCPConnection>,
         external_workspace_scope: Option<String>,
         context_policy: Arc<MCPToolContextPolicy>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         info!(
             "Loading tools from MCP server: {} (id={})",
             server_name, server_id
@@ -325,7 +325,7 @@ impl MCPToolAdapter {
             .await
             .map_err(|e| {
                 error!("list_tools call failed: {}", e);
-                crate::util::errors::OpenBitFunError::from(e)
+                crate::util::errors::OpcTeamError::from(e)
             })?;
 
         info!(

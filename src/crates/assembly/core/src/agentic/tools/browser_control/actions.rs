@@ -2,7 +2,7 @@
 
 use super::automation_client::{BrowserAutomationClient, BrowserAutomationEvent};
 use crate::agentic::tools::implementations::control_hub::{coded_tool_error, ErrorCode};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use serde_json::{json, Value};
 #[path = "snapshot_context.rs"]
 mod snapshot_context;
@@ -91,7 +91,7 @@ fn structured_error(
     code: ErrorCode,
     message: impl std::fmt::Display,
     hints: &[&str],
-) -> OpenBitFunError {
+) -> OpcTeamError {
     if hints.is_empty() {
         coded_tool_error(code, message)
     } else {
@@ -103,7 +103,7 @@ fn structured_error(
 /// error. `Element not found` originates from `resolve_element_js` and is by
 /// far the most common interaction failure, so it gets a dedicated
 /// `NOT_FOUND` code with a snapshot-recovery instruction for the model.
-pub(crate) fn classify_evaluate_exception(message: &str) -> OpenBitFunError {
+pub(crate) fn classify_evaluate_exception(message: &str) -> OpcTeamError {
     if message.contains("Element not found") {
         // `resolve_element_js` appends the cross-origin iframe count to its
         // throw message: those frames are invisible to both `snapshot` and
@@ -132,7 +132,7 @@ pub(crate) fn classify_evaluate_exception(message: &str) -> OpenBitFunError {
 /// be re-attached; a transport timeout means the page did not answer. Anything
 /// else passes through so the heuristic fallback in `map_dispatch_error` still
 /// applies.
-pub(crate) fn classify_transport_error(err: OpenBitFunError) -> OpenBitFunError {
+pub(crate) fn classify_transport_error(err: OpcTeamError) -> OpcTeamError {
     let raw = err.to_string();
     let message = raw.strip_prefix("Tool error: ").unwrap_or(raw.as_str());
     if message.contains("CDP send failed")
@@ -161,7 +161,7 @@ pub(crate) fn classify_transport_error(err: OpenBitFunError) -> OpenBitFunError 
 /// element. Dispatching the mouse event anyway would act on the overlay while
 /// reporting success for the intended element — the worst possible outcome,
 /// so the action is refused instead.
-pub(crate) fn occluded_element_error(selector: &str, blocker: &str) -> OpenBitFunError {
+pub(crate) fn occluded_element_error(selector: &str, blocker: &str) -> OpcTeamError {
     structured_error(
         ErrorCode::GuardRejected,
         format!(
@@ -175,7 +175,7 @@ pub(crate) fn occluded_element_error(selector: &str, blocker: &str) -> OpenBitFu
 /// Error for an element that resolved inside a cross-origin iframe: its
 /// coordinates cannot be translated to the top-level viewport, so
 /// coordinate-based actions (click/hover) cannot reach it.
-pub(crate) fn cross_origin_frame_error(selector: &str) -> OpenBitFunError {
+pub(crate) fn cross_origin_frame_error(selector: &str) -> OpcTeamError {
     structured_error(
         ErrorCode::NotAvailable,
         format!(
@@ -255,7 +255,7 @@ impl<'a> BrowserActions<'a> {
         Self { client }
     }
 
-    pub async fn enable_observers(&self) -> OpenBitFunResult<Value> {
+    pub async fn enable_observers(&self) -> OpcTeamResult<Value> {
         let _ = self.client.send("Page.enable", None).await;
         let _ = self.client.send("Runtime.enable", None).await;
         let _ = self.client.send("Network.enable", None).await;
@@ -265,7 +265,7 @@ impl<'a> BrowserActions<'a> {
 
     // ── Navigation ─────────────────────────────────────────────────────
 
-    pub async fn navigate(&self, url: &str) -> OpenBitFunResult<Value> {
+    pub async fn navigate(&self, url: &str) -> OpcTeamResult<Value> {
         // Subscribe **before** issuing the navigate so we can never miss the
         // `Page.lifecycleEvent` ("load") that fires while we are awaiting the
         // command response. Page lifecycle events must be enabled explicitly.
@@ -316,7 +316,7 @@ impl<'a> BrowserActions<'a> {
                 }
             }
             LifecycleOutcome::Closed => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "Browser target closed before the page finished loading.".to_string(),
                 ));
             }
@@ -324,24 +324,24 @@ impl<'a> BrowserActions<'a> {
         Ok(body)
     }
 
-    pub async fn back(&self) -> OpenBitFunResult<Value> {
+    pub async fn back(&self) -> OpcTeamResult<Value> {
         self.evaluate("history.back(); undefined").await?;
         Ok(json!({ "success": true, "action": "back" }))
     }
 
-    pub async fn forward(&self) -> OpenBitFunResult<Value> {
+    pub async fn forward(&self) -> OpcTeamResult<Value> {
         self.evaluate("history.forward(); undefined").await?;
         Ok(json!({ "success": true, "action": "forward" }))
     }
 
-    pub async fn reload(&self, ignore_cache: bool) -> OpenBitFunResult<Value> {
+    pub async fn reload(&self, ignore_cache: bool) -> OpcTeamResult<Value> {
         self.client
             .send("Page.reload", Some(json!({ "ignoreCache": ignore_cache })))
             .await?;
         Ok(json!({ "success": true, "action": "reload", "ignore_cache": ignore_cache }))
     }
 
-    pub async fn get_url(&self) -> OpenBitFunResult<String> {
+    pub async fn get_url(&self) -> OpcTeamResult<String> {
         let result = self.evaluate("window.location.href").await?;
         Ok(result
             .get("result")
@@ -351,7 +351,7 @@ impl<'a> BrowserActions<'a> {
             .to_string())
     }
 
-    pub async fn get_title(&self) -> OpenBitFunResult<String> {
+    pub async fn get_title(&self) -> OpcTeamResult<String> {
         let result = self.evaluate("document.title").await?;
         Ok(result
             .get("result")
@@ -379,7 +379,7 @@ impl<'a> BrowserActions<'a> {
     /// reported (`offscreen_count`, `cross_origin_frames`, plus trailing
     /// note lines in `snapshot`) so their absence is never read as "the
     /// element does not exist".
-    pub async fn snapshot(&self) -> OpenBitFunResult<Value> {
+    pub async fn snapshot(&self) -> OpcTeamResult<Value> {
         self.snapshot_with_options(false).await
     }
 
@@ -394,10 +394,7 @@ impl<'a> BrowserActions<'a> {
     /// `with_backend_node_ids` is `true`, every snapshot element gets a
     /// `backend_node_id` field; pages where `DOM.getDocument` errors out
     /// (very rare — e.g. about:blank) silently fall back to no ids.
-    pub async fn snapshot_with_options(
-        &self,
-        with_backend_node_ids: bool,
-    ) -> OpenBitFunResult<Value> {
+    pub async fn snapshot_with_options(&self, with_backend_node_ids: bool) -> OpcTeamResult<Value> {
         let result = self.evaluate(SNAPSHOT_SCRIPT).await?;
         let mut parsed = snapshot_context::parse_snapshot_result(&result).map_err(|message| {
             structured_error(
@@ -441,14 +438,14 @@ impl<'a> BrowserActions<'a> {
     /// Resolve `backend_node_id` for every snapshot element by walking the
     /// DOM through CDP. Mutates `parsed["elements"][i]["backend_node_id"]`
     /// in place. Returns `Err` if the document tree could not be fetched.
-    async fn attach_backend_node_ids(&self, parsed: &mut Value) -> OpenBitFunResult<()> {
+    async fn attach_backend_node_ids(&self, parsed: &mut Value) -> OpcTeamResult<()> {
         let doc = self.client.send("DOM.getDocument", None).await?;
         let root_id = doc
             .get("root")
             .and_then(|r| r.get("nodeId"))
             .and_then(|v| v.as_i64())
             .ok_or_else(|| {
-                OpenBitFunError::tool("DOM.getDocument: missing root nodeId".to_string())
+                OpcTeamError::tool("DOM.getDocument: missing root nodeId".to_string())
             })?;
         let qsa = self
             .client
@@ -515,7 +512,7 @@ impl<'a> BrowserActions<'a> {
     /// empty string), and `Ok(Some(""))` when the element was found but
     /// genuinely empty. The lookup walks shadow roots / same-origin
     /// iframes, matching the rest of the browser action surface.
-    pub async fn get_text(&self, selector: &str) -> OpenBitFunResult<Option<String>> {
+    pub async fn get_text(&self, selector: &str) -> OpcTeamResult<Option<String>> {
         self.get_attribute(selector, "text")
             .await
             .map(|v| v.map(|v| v.as_str().unwrap_or("").to_string()))
@@ -525,7 +522,7 @@ impl<'a> BrowserActions<'a> {
         &self,
         selector: &str,
         attribute: &str,
-    ) -> OpenBitFunResult<Option<Value>> {
+    ) -> OpcTeamResult<Option<Value>> {
         let resolve = Self::resolve_element_js(selector);
         let getter = match attribute {
             "text" => "(el.textContent || '').trim().slice(0, 5000)".to_string(),
@@ -569,7 +566,7 @@ impl<'a> BrowserActions<'a> {
     // ── Interaction ────────────────────────────────────────────────────
 
     /// Click an element by CSS selector or by `@eN` ref.
-    pub async fn click(&self, selector: &str) -> OpenBitFunResult<Value> {
+    pub async fn click(&self, selector: &str) -> OpcTeamResult<Value> {
         let (x, y) = self.element_center(selector).await?;
 
         self.client
@@ -616,7 +613,7 @@ impl<'a> BrowserActions<'a> {
     /// own document: a mouse event dispatched at coordinates covered by an
     /// overlay lands on the overlay, and reporting that as a successful click
     /// on the intended element is the worst failure mode available.
-    async fn element_center(&self, selector: &str) -> OpenBitFunResult<(f64, f64)> {
+    async fn element_center(&self, selector: &str) -> OpcTeamResult<(f64, f64)> {
         let center_js = Self::element_center_js(selector);
         let result = self.evaluate(&center_js).await?;
         let coords_str = result
@@ -699,7 +696,7 @@ impl<'a> BrowserActions<'a> {
         )
     }
 
-    pub async fn hover(&self, selector: &str) -> OpenBitFunResult<Value> {
+    pub async fn hover(&self, selector: &str) -> OpcTeamResult<Value> {
         let (x, y) = self.element_center(selector).await?;
         self.client
             .send(
@@ -720,7 +717,7 @@ impl<'a> BrowserActions<'a> {
     }
 
     /// Fill (clear + type) a text input identified by selector or `@eN` ref.
-    pub async fn fill(&self, selector: &str, value: &str) -> OpenBitFunResult<Value> {
+    pub async fn fill(&self, selector: &str, value: &str) -> OpcTeamResult<Value> {
         let js = Self::resolve_element_js(selector);
         let focus_js = format!(
             r#"(function(){{ {} el.scrollIntoView({{ block: 'nearest', inline: 'nearest', behavior: 'instant' }}); el.focus({{ preventScroll: true }}); el.value = ''; el.dispatchEvent(new Event('input', {{ bubbles: true }})); return true; }})()"#,
@@ -740,14 +737,14 @@ impl<'a> BrowserActions<'a> {
     }
 
     /// Type text at the currently focused element (appends, does not clear).
-    pub async fn type_text(&self, text: &str) -> OpenBitFunResult<Value> {
+    pub async fn type_text(&self, text: &str) -> OpcTeamResult<Value> {
         self.client
             .send("Input.insertText", Some(json!({ "text": text })))
             .await?;
         Ok(json!({ "success": true, "action": "type", "text": text }))
     }
 
-    pub async fn set_checked(&self, selector: &str, checked: bool) -> OpenBitFunResult<Value> {
+    pub async fn set_checked(&self, selector: &str, checked: bool) -> OpcTeamResult<Value> {
         let js = Self::resolve_element_js(selector);
         let script = format!(
             r#"(function(){{
@@ -776,7 +773,7 @@ impl<'a> BrowserActions<'a> {
     }
 
     /// Select a dropdown option by visible text.
-    pub async fn select(&self, selector: &str, option_text: &str) -> OpenBitFunResult<Value> {
+    pub async fn select(&self, selector: &str, option_text: &str) -> OpcTeamResult<Value> {
         let js = Self::select_option_js(selector, option_text);
         let result = self.evaluate(&js).await?;
         let text = result
@@ -789,7 +786,7 @@ impl<'a> BrowserActions<'a> {
     }
 
     /// Press a key (Enter, Escape, Tab, etc.).
-    pub async fn press_key(&self, key: &str) -> OpenBitFunResult<Value> {
+    pub async fn press_key(&self, key: &str) -> OpcTeamResult<Value> {
         let fields = key_event_fields(key);
         // `keyDown` with `text` is what makes Chrome perform the key's default
         // action; keys that produce no text must go out as `rawKeyDown` or the
@@ -817,7 +814,7 @@ impl<'a> BrowserActions<'a> {
     }
 
     /// Scroll the page.
-    pub async fn scroll(&self, direction: &str, amount: Option<i64>) -> OpenBitFunResult<Value> {
+    pub async fn scroll(&self, direction: &str, amount: Option<i64>) -> OpcTeamResult<Value> {
         let px = amount.unwrap_or(500);
         let (delta_x, delta_y) = match direction {
             "up" => (0, -px),
@@ -853,7 +850,7 @@ impl<'a> BrowserActions<'a> {
         direction: &str,
         max_scrolls: u64,
         delay_ms: u64,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         let max_scrolls = max_scrolls.clamp(1, 200);
         let delay_ms = delay_ms.clamp(0, 5_000);
         let delta = if direction == "up" {
@@ -901,7 +898,7 @@ impl<'a> BrowserActions<'a> {
         duration_ms: Option<u64>,
         condition: Option<&str>,
         condition_timeout_ms: Option<u64>,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         if let Some(ms) = duration_ms {
             let clamped = ms.min(MAX_WAIT_MS);
             tokio::time::sleep(std::time::Duration::from_millis(clamped)).await;
@@ -1009,7 +1006,7 @@ impl<'a> BrowserActions<'a> {
     // ── Capture ────────────────────────────────────────────────────────
 
     /// Take a screenshot of the current page, returns base64 JPEG data.
-    pub async fn screenshot(&self) -> OpenBitFunResult<Value> {
+    pub async fn screenshot(&self) -> OpcTeamResult<Value> {
         self.screenshot_with_options("jpeg", Some(80), true).await
     }
 
@@ -1018,7 +1015,7 @@ impl<'a> BrowserActions<'a> {
         format: &str,
         quality: Option<u8>,
         from_surface: bool,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         self.screenshot_with_options_ext(format, quality, from_surface, false)
             .await
     }
@@ -1029,7 +1026,7 @@ impl<'a> BrowserActions<'a> {
         quality: Option<u8>,
         from_surface: bool,
         full_page: bool,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         let normalized = if format.eq_ignore_ascii_case("png") {
             "png"
         } else {
@@ -1112,7 +1109,7 @@ impl<'a> BrowserActions<'a> {
     // ── JavaScript ─────────────────────────────────────────────────────
 
     /// Evaluate a JavaScript expression in the page context.
-    pub async fn evaluate(&self, expression: &str) -> OpenBitFunResult<Value> {
+    pub async fn evaluate(&self, expression: &str) -> OpcTeamResult<Value> {
         self.evaluate_with_options(expression, true, true).await
     }
 
@@ -1121,8 +1118,8 @@ impl<'a> BrowserActions<'a> {
         expression: &str,
         await_promise: bool,
         return_by_value: bool,
-    ) -> OpenBitFunResult<Value> {
-        let mut last_error: Option<OpenBitFunError> = None;
+    ) -> OpcTeamResult<Value> {
+        let mut last_error: Option<OpcTeamError> = None;
         for attempt in 0..2 {
             let result = self
                 .client
@@ -1163,11 +1160,11 @@ impl<'a> BrowserActions<'a> {
             }
         }
         Err(classify_transport_error(last_error.unwrap_or_else(|| {
-            OpenBitFunError::tool("Runtime.evaluate failed".to_string())
+            OpcTeamError::tool("Runtime.evaluate failed".to_string())
         })))
     }
 
-    pub async fn get_cookies(&self, urls: Option<Vec<String>>) -> OpenBitFunResult<Value> {
+    pub async fn get_cookies(&self, urls: Option<Vec<String>>) -> OpcTeamResult<Value> {
         let params = urls
             .filter(|items| !items.is_empty())
             .map(|urls| json!({ "urls": urls }))
@@ -1180,7 +1177,7 @@ impl<'a> BrowserActions<'a> {
         }))
     }
 
-    pub async fn set_cookies(&self, cookies: &[Value]) -> OpenBitFunResult<Value> {
+    pub async fn set_cookies(&self, cookies: &[Value]) -> OpcTeamResult<Value> {
         let mut set = 0usize;
         let mut errors = Vec::<Value>::new();
         for cookie in cookies {
@@ -1213,9 +1210,9 @@ impl<'a> BrowserActions<'a> {
         &self,
         selector: Option<&str>,
         files: &[String],
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         if files.is_empty() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "set_file_input_files requires non-empty 'files'".to_string(),
             ));
         }
@@ -1231,7 +1228,7 @@ impl<'a> BrowserActions<'a> {
             .and_then(|r| r.get("nodeId"))
             .and_then(|v| v.as_i64())
             .ok_or_else(|| {
-                OpenBitFunError::tool("DOM.getDocument: missing root nodeId".to_string())
+                OpcTeamError::tool("DOM.getDocument: missing root nodeId".to_string())
             })?;
         let node = self
             .client
@@ -1242,7 +1239,7 @@ impl<'a> BrowserActions<'a> {
             .await?;
         let node_id = node.get("nodeId").and_then(|v| v.as_i64()).unwrap_or(0);
         if node_id == 0 {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "No file input found for selector: {}",
                 query
             )));
@@ -1267,7 +1264,7 @@ impl<'a> BrowserActions<'a> {
         method: &str,
         headers: Value,
         body: Option<&str>,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         let script = format!(
             r#"(async () => {{
                 try {{
@@ -1316,7 +1313,7 @@ impl<'a> BrowserActions<'a> {
         Ok(json!({ "success": parsed.get("error").is_none(), "action": "fetch", "result": parsed }))
     }
 
-    pub async fn read_article(&self) -> OpenBitFunResult<Value> {
+    pub async fn read_article(&self) -> OpcTeamResult<Value> {
         let script = r#"
         (function() {
             function textOf(node) {
@@ -1352,7 +1349,7 @@ impl<'a> BrowserActions<'a> {
 
     // ── Close ──────────────────────────────────────────────────────────
 
-    pub async fn close_page(&self) -> OpenBitFunResult<Value> {
+    pub async fn close_page(&self) -> OpcTeamResult<Value> {
         let _ = self.client.send("Page.close", None).await;
         Ok(json!({ "success": true, "action": "close" }))
     }
@@ -1448,7 +1445,7 @@ mod shared_target_tests {
 
     #[async_trait::async_trait]
     impl BrowserAutomationClient for FakeEmbeddedClient {
-        async fn send(&self, method: &str, params: Option<Value>) -> OpenBitFunResult<Value> {
+        async fn send(&self, method: &str, params: Option<Value>) -> OpcTeamResult<Value> {
             self.methods
                 .lock()
                 .unwrap_or_else(|poisoned| poisoned.into_inner())
@@ -1483,9 +1480,7 @@ mod shared_target_tests {
                     Ok(json!({ "result": { "type": "string", "value": value } }))
                 }
                 "Input.dispatchMouseEvent" => Ok(json!({})),
-                other => Err(OpenBitFunError::tool(format!(
-                    "unexpected primitive: {other}"
-                ))),
+                other => Err(OpcTeamError::tool(format!("unexpected primitive: {other}"))),
             }
         }
 
@@ -1563,7 +1558,7 @@ mod structured_error_tests {
 
     #[test]
     fn classify_transport_error_maps_dead_socket_to_wrong_tab() {
-        let msg = classify_transport_error(OpenBitFunError::tool(
+        let msg = classify_transport_error(OpcTeamError::tool(
             "CDP send failed: broken pipe".to_string(),
         ))
         .to_string();
@@ -1573,7 +1568,7 @@ mod structured_error_tests {
 
     #[test]
     fn classify_transport_error_maps_cdp_timeout_to_timeout() {
-        let msg = classify_transport_error(OpenBitFunError::tool(
+        let msg = classify_transport_error(OpcTeamError::tool(
             "CDP timeout for method Runtime.evaluate".to_string(),
         ))
         .to_string();
@@ -1582,7 +1577,7 @@ mod structured_error_tests {
 
     #[test]
     fn classify_transport_error_maps_missing_builtin_target_to_wrong_tab() {
-        let msg = classify_transport_error(OpenBitFunError::tool(
+        let msg = classify_transport_error(OpcTeamError::tool(
             "Built-in browser adapter failed for Runtime.evaluate: Webview not found".to_string(),
         ))
         .to_string();
@@ -1593,7 +1588,7 @@ mod structured_error_tests {
     #[test]
     fn classify_transport_error_passes_through_other_errors() {
         let msg =
-            classify_transport_error(OpenBitFunError::tool("CDP error: some detail".to_string()))
+            classify_transport_error(OpcTeamError::tool("CDP error: some detail".to_string()))
                 .to_string();
         assert!(msg.contains("CDP error: some detail"), "got: {msg}");
         assert!(

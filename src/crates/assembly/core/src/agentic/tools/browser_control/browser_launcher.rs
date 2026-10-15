@@ -13,7 +13,7 @@ pub use provider::{
 use std::path::PathBuf;
 
 use crate::infrastructure::app_paths::get_path_manager_arc;
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 
 pub struct BrowserLauncher;
 
@@ -22,7 +22,7 @@ impl BrowserLauncher {
         provider::BrowserLauncher::is_cdp_available(port).await
     }
 
-    pub fn detect_default_browser() -> OpenBitFunResult<BrowserKind> {
+    pub fn detect_default_browser() -> OpcTeamResult<BrowserKind> {
         Ok(provider::BrowserLauncher::detect_default_browser()?)
     }
 
@@ -43,7 +43,7 @@ impl BrowserLauncher {
         provider::BrowserLauncher::browser_kind_from_config(value)
     }
 
-    pub fn resolve_browser_kind(preferred_browser: Option<&str>) -> OpenBitFunResult<BrowserKind> {
+    pub fn resolve_browser_kind(preferred_browser: Option<&str>) -> OpcTeamResult<BrowserKind> {
         Ok(provider::BrowserLauncher::resolve_browser_kind(
             preferred_browser,
         )?)
@@ -72,7 +72,7 @@ impl BrowserLauncher {
         provider::BrowserLauncher::user_profile_debug_endpoint(kind)
     }
 
-    pub async fn launch_with_cdp(kind: &BrowserKind, port: u16) -> OpenBitFunResult<LaunchResult> {
+    pub async fn launch_with_cdp(kind: &BrowserKind, port: u16) -> OpcTeamResult<LaunchResult> {
         Ok(provider::BrowserLauncher::launch_with_cdp_options(
             kind,
             port,
@@ -85,7 +85,7 @@ impl BrowserLauncher {
         kind: &BrowserKind,
         port: u16,
         user_data_dir: Option<&str>,
-    ) -> OpenBitFunResult<LaunchResult> {
+    ) -> OpcTeamResult<LaunchResult> {
         Ok(provider::BrowserLauncher::launch_with_cdp_options(
             kind,
             port,
@@ -94,17 +94,14 @@ impl BrowserLauncher {
         .await?)
     }
 
-    pub async fn restart_with_cdp(kind: &BrowserKind, port: u16) -> OpenBitFunResult<LaunchResult> {
+    pub async fn restart_with_cdp(kind: &BrowserKind, port: u16) -> OpcTeamResult<LaunchResult> {
         Self::launch_with_cdp(kind, port).await
     }
 
     /// Explicit Settings flow: keep the browser settings page open long enough
     /// for the user-owned consent toggle, then continue with the guarded
     /// real-profile connection as soon as the endpoint appears.
-    pub async fn enable_default_cdp(
-        kind: &BrowserKind,
-        port: u16,
-    ) -> OpenBitFunResult<LaunchResult> {
+    pub async fn enable_default_cdp(kind: &BrowserKind, port: u16) -> OpcTeamResult<LaunchResult> {
         let mut options = Self::launch_options(None);
         options.wait_for_user_profile_setup = true;
         Ok(provider::BrowserLauncher::launch_with_cdp_options(kind, port, options).await?)

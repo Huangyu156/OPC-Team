@@ -5,7 +5,7 @@ use crate::agentic::tools::framework::{
 };
 use crate::agentic::tools::parse_i64_value;
 use crate::service::config::get_global_config_service;
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use async_trait::async_trait;
 use serde::Deserialize;
 use serde_json::{json, Value};
@@ -172,7 +172,7 @@ impl Tool for GenerativeUITool {
         "GenerativeUI"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(format!(
             r#"Use GenerativeUI to render visual HTML or SVG content.
 
@@ -220,7 +220,7 @@ Input rules:
     async fn description_with_context(
         &self,
         _context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let mut description = self.description().await?;
         if let Some(appearance_context) = self.build_appearance_prompt_context().await {
             description.push_str("\n\n");
@@ -426,7 +426,7 @@ Input rules:
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let title = input
             .get("title")
             .and_then(|v| v.as_str())

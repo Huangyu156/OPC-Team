@@ -6,7 +6,7 @@ use std::time::Duration;
 use crate::infrastructure::try_get_path_manager_arc;
 use crate::service::mcp::protocol::MCPServerInfo;
 use crate::service::mcp::server::{MCPConnection, MCPServerConfig, MCPServerStatus, MCPServerType};
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 
 pub struct MCPServerProcess {
     inner: openbitfun_services_integrations::mcp::server::MCPServerProcess,
@@ -28,7 +28,7 @@ impl MCPServerProcess {
         command: &str,
         args: &[String],
         env: &std::collections::HashMap<String, String>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.inner.start(command, args, env).await?;
         Ok(())
     }
@@ -39,7 +39,7 @@ impl MCPServerProcess {
         args: &[String],
         env: &std::collections::HashMap<String, String>,
         working_directory: Option<&std::path::Path>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.inner
             .start_in_directory(command, args, env, working_directory)
             .await?;
@@ -53,7 +53,7 @@ impl MCPServerProcess {
         env: &std::collections::HashMap<String, String>,
         working_directory: Option<&std::path::Path>,
         inherit_parent_environment: bool,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.inner
             .start_with_environment_policy(
                 command,
@@ -66,13 +66,13 @@ impl MCPServerProcess {
         Ok(())
     }
 
-    pub async fn start_remote(&mut self, config: &MCPServerConfig) -> OpenBitFunResult<()> {
+    pub async fn start_remote(&mut self, config: &MCPServerConfig) -> OpcTeamResult<()> {
         let data_dir = try_get_path_manager_arc()?.user_data_dir();
         self.inner.start_remote(data_dir, config).await?;
         Ok(())
     }
 
-    pub async fn stop(&mut self) -> OpenBitFunResult<()> {
+    pub async fn stop(&mut self) -> OpcTeamResult<()> {
         self.inner.stop().await?;
         Ok(())
     }
@@ -82,7 +82,7 @@ impl MCPServerProcess {
         command: &str,
         args: &[String],
         env: &std::collections::HashMap<String, String>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.inner.restart(command, args, env).await?;
         Ok(())
     }
@@ -93,7 +93,7 @@ impl MCPServerProcess {
         args: &[String],
         env: &std::collections::HashMap<String, String>,
         working_directory: Option<&std::path::Path>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.inner
             .restart_in_directory(command, args, env, working_directory)
             .await?;
@@ -107,7 +107,7 @@ impl MCPServerProcess {
         env: &std::collections::HashMap<String, String>,
         working_directory: Option<&std::path::Path>,
         inherit_parent_environment: bool,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.inner
             .restart_with_environment_policy(
                 command,

@@ -6,7 +6,7 @@ use log::{error, info};
 use openbitfun_core::service::config::{
     ConfigExport, SaveCloudSpeechConfigRequest, SaveCloudSpeechConfigResult,
 };
-use openbitfun_core::util::errors::OpenBitFunError;
+use openbitfun_core::util::errors::OpcTeamError;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
 use std::collections::BTreeMap;
@@ -68,9 +68,9 @@ fn to_json_value<T: Serialize>(value: T, context: &str) -> Result<Value, String>
     serde_json::to_value(value).map_err(|e| format!("Failed to serialize {}: {}", context, e))
 }
 
-fn is_expected_config_path_not_found(error: &OpenBitFunError, path: Option<&str>) -> bool {
+fn is_expected_config_path_not_found(error: &OpcTeamError, path: Option<&str>) -> bool {
     match (error, path) {
-        (OpenBitFunError::NotFound(message), Some(path)) => {
+        (OpcTeamError::NotFound(message), Some(path)) => {
             message == &format!("Config path '{}' not found", path)
         }
         _ => false,
@@ -166,7 +166,7 @@ mod tests {
 
     #[test]
     fn recognizes_expected_config_path_not_found_errors() {
-        let error = OpenBitFunError::NotFound(
+        let error = OpcTeamError::NotFound(
             "Config path 'ai.review_team_rate_limit_status' not found".to_string(),
         );
 
@@ -180,7 +180,7 @@ mod tests {
         ));
         assert!(!is_expected_config_path_not_found(&error, None));
         assert!(!is_expected_config_path_not_found(
-            &OpenBitFunError::config("Config path 'ai.review_team_rate_limit_status' not found"),
+            &OpcTeamError::config("Config path 'ai.review_team_rate_limit_status' not found"),
             Some("ai.review_team_rate_limit_status"),
         ));
     }

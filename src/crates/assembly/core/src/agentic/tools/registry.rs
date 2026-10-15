@@ -4,7 +4,7 @@ use crate::agentic::tools::framework::{DynamicToolInfo, Tool};
 use crate::agentic::tools::product_runtime::{
     resolve_product_readonly_enabled_tools, ProductToolRuntime,
 };
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use log::{debug, info, trace, warn};
 use openbitfun_agent_tools::{
     DynamicToolDescriptor, DynamicToolProvider, PortResult, ToolDecoratorRef,
@@ -275,7 +275,7 @@ pub async fn get_all_tools() -> Vec<Arc<dyn Tool>> {
 }
 
 /// Get readonly tools
-pub async fn get_readonly_tools() -> OpenBitFunResult<Vec<Arc<dyn Tool>>> {
+pub async fn get_readonly_tools() -> OpcTeamResult<Vec<Arc<dyn Tool>>> {
     Ok(resolve_product_readonly_enabled_tools().await)
 }
 
@@ -401,7 +401,7 @@ mod tests {
             &self.name
         }
 
-        async fn description(&self) -> crate::util::errors::OpenBitFunResult<String> {
+        async fn description(&self) -> crate::util::errors::OpcTeamResult<String> {
             Ok("dynamic test tool".to_string())
         }
 
@@ -444,7 +444,7 @@ mod tests {
             &self,
             _input: &Value,
             _context: &ToolUseContext,
-        ) -> crate::util::errors::OpenBitFunResult<Vec<ToolResult>> {
+        ) -> crate::util::errors::OpcTeamResult<Vec<ToolResult>> {
             Ok(Vec::new())
         }
     }
@@ -508,7 +508,7 @@ mod tests {
             &self.name
         }
 
-        async fn description(&self) -> crate::util::errors::OpenBitFunResult<String> {
+        async fn description(&self) -> crate::util::errors::OpcTeamResult<String> {
             Ok("decorated test tool".to_string())
         }
 
@@ -532,7 +532,7 @@ mod tests {
             &self,
             _input: &Value,
             _context: &ToolUseContext,
-        ) -> crate::util::errors::OpenBitFunResult<Vec<ToolResult>> {
+        ) -> crate::util::errors::OpcTeamResult<Vec<ToolResult>> {
             Ok(Vec::new())
         }
     }

@@ -3,7 +3,7 @@ use crate::agentic::tools::restrictions::{
     canonicalize_local_path_best_effort, is_local_path_within_root,
 };
 use crate::infrastructure::get_path_manager_arc;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 
@@ -11,7 +11,7 @@ pub(crate) fn file_permission_intents<'a>(
     action: &str,
     paths: impl IntoIterator<Item = &'a str>,
     context: &ToolUseContext,
-) -> OpenBitFunResult<Vec<PermissionIntent>> {
+) -> OpcTeamResult<Vec<PermissionIntent>> {
     file_permission_intents_with_plan_edit_access(action, paths, context, false)
 }
 
@@ -19,7 +19,7 @@ pub(crate) fn file_permission_intents_allowing_managed_plan_edits<'a>(
     action: &str,
     paths: impl IntoIterator<Item = &'a str>,
     context: &ToolUseContext,
-) -> OpenBitFunResult<Vec<PermissionIntent>> {
+) -> OpcTeamResult<Vec<PermissionIntent>> {
     file_permission_intents_with_plan_edit_access(action, paths, context, true)
 }
 
@@ -28,7 +28,7 @@ fn file_permission_intents_with_plan_edit_access<'a>(
     paths: impl IntoIterator<Item = &'a str>,
     context: &ToolUseContext,
     allow_managed_plan_edits: bool,
-) -> OpenBitFunResult<Vec<PermissionIntent>> {
+) -> OpcTeamResult<Vec<PermissionIntent>> {
     let mut resources = Vec::new();
     let mut external_directories = Vec::new();
     let mut seen_resources = HashSet::new();
@@ -56,7 +56,7 @@ fn file_permission_intents_with_plan_edit_access<'a>(
     }
 
     if !has_paths {
-        return Err(OpenBitFunError::validation(
+        return Err(OpcTeamError::validation(
             "File permission intent requires at least one resource".to_string(),
         ));
     }
@@ -74,7 +74,7 @@ fn file_permission_intents_with_plan_edit_access<'a>(
     Ok(intents)
 }
 
-fn normalized_permission_resource(resolved: &ToolPathResolution) -> OpenBitFunResult<String> {
+fn normalized_permission_resource(resolved: &ToolPathResolution) -> OpcTeamResult<String> {
     if resolved.uses_remote_workspace_backend() || resolved.is_runtime_artifact() {
         return Ok(resolved.resolved_path.replace('\\', "/"));
     }
@@ -89,7 +89,7 @@ fn normalized_permission_resource(resolved: &ToolPathResolution) -> OpenBitFunRe
 fn external_directory_resource(
     context: &ToolUseContext,
     resolved: &ToolPathResolution,
-) -> OpenBitFunResult<Option<String>> {
+) -> OpcTeamResult<Option<String>> {
     if resolved.uses_remote_workspace_backend() || resolved.is_runtime_artifact() {
         return Ok(None);
     }
@@ -99,7 +99,7 @@ fn external_directory_resource(
     }
 
     let workspace_root = context.workspace_root().ok_or_else(|| {
-        OpenBitFunError::validation("A workspace is required for file permissions".to_string())
+        OpcTeamError::validation("A workspace is required for file permissions".to_string())
     })?;
     let path = Path::new(&resolved.resolved_path);
     if is_local_path_within_root(path, workspace_root)? {
@@ -110,7 +110,7 @@ fn external_directory_resource(
         path
     } else {
         path.parent().ok_or_else(|| {
-            OpenBitFunError::validation(format!(
+            OpcTeamError::validation(format!(
                 "External path '{}' has no parent directory",
                 path.display()
             ))
@@ -126,7 +126,7 @@ fn external_directory_resource(
 fn is_openbitfun_managed_local_path(
     context: &ToolUseContext,
     resolved: &ToolPathResolution,
-) -> OpenBitFunResult<bool> {
+) -> OpcTeamResult<bool> {
     let path = Path::new(&resolved.resolved_path);
     for root in openbitfun_managed_local_roots(context)? {
         if is_local_path_within_root(path, &root)? {
@@ -139,7 +139,7 @@ fn is_openbitfun_managed_local_path(
 fn is_current_workspace_plan_path(
     context: &ToolUseContext,
     resolved: &ToolPathResolution,
-) -> OpenBitFunResult<bool> {
+) -> OpcTeamResult<bool> {
     if resolved.uses_remote_workspace_backend()
         || resolved.is_runtime_artifact()
         || context.workspace_root().is_none()
@@ -148,13 +148,13 @@ fn is_current_workspace_plan_path(
     }
 
     let workspace_root = context.workspace_root().ok_or_else(|| {
-        OpenBitFunError::validation("A workspace is required for plan permissions".to_string())
+        OpcTeamError::validation("A workspace is required for plan permissions".to_string())
     })?;
     let plans_root = get_path_manager_arc().project_plans_dir(workspace_root);
     is_local_path_within_root(Path::new(&resolved.resolved_path), &plans_root)
 }
 
-fn openbitfun_managed_local_roots(context: &ToolUseContext) -> OpenBitFunResult<Vec<PathBuf>> {
+fn openbitfun_managed_local_roots(context: &ToolUseContext) -> OpcTeamResult<Vec<PathBuf>> {
     let mut roots = vec![terminal_transcript_root(context)];
     if context.workspace_root().is_none() {
         return Ok(roots);

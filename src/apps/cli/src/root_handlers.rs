@@ -958,7 +958,7 @@ pub(crate) async fn serve_acp_stdio() -> Result<()> {
 
     let runtime = crate::runtime::AcpRuntimeContext::build(agentic_system, workspace_root)?;
     let (agent_runtime, compatibility) = runtime.parts();
-    openbitfun_acp::OpenBitFunAcpRuntime::serve_stdio(agent_runtime, compatibility).await?;
+    openbitfun_acp::OpcTeamAcpRuntime::serve_stdio(agent_runtime, compatibility).await?;
     Ok(())
 }
 

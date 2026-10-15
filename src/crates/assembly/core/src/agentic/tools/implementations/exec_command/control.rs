@@ -1,6 +1,6 @@
 use super::completion::{exec_command_local_completion, exec_command_remote_completion};
 use crate::agentic::tools::framework::{Tool, ToolResult, ToolUseContext, ValidationResult};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_runtime_ports::{
     PortErrorKind, RemoteExecControlAction, RemoteExecControlOrigin, RemoteExecControlRequest,
@@ -44,7 +44,7 @@ pub enum ExecCommandControlError {
     SessionNotFound(i32),
 
     #[error(transparent)]
-    Tool(#[from] OpenBitFunError),
+    Tool(#[from] OpcTeamError),
 }
 
 pub async fn control_exec_command_session(
@@ -54,7 +54,7 @@ pub async fn control_exec_command_session(
 ) -> Result<ExecCommandControlResponse, ExecCommandControlError> {
     if request.remote {
         let remote_exec_port = remote_exec_port.ok_or_else(|| {
-            ExecCommandControlError::Tool(OpenBitFunError::tool(
+            ExecCommandControlError::Tool(OpcTeamError::tool(
                 "remote exec runtime service is required for ExecControl".to_string(),
             ))
         })?;
@@ -71,7 +71,7 @@ pub async fn control_exec_command_session(
                 error if error.kind == PortErrorKind::NotFound => {
                     ExecCommandControlError::SessionNotFound(request.session_id)
                 }
-                error => ExecCommandControlError::Tool(OpenBitFunError::tool(format!(
+                error => ExecCommandControlError::Tool(OpcTeamError::tool(format!(
                     "ExecControl failed: {}",
                     error.message
                 ))),
@@ -91,7 +91,7 @@ pub async fn control_exec_command_session(
     }
 
     let terminal_port = terminal_port.ok_or_else(|| {
-        ExecCommandControlError::Tool(OpenBitFunError::tool(
+        ExecCommandControlError::Tool(OpcTeamError::tool(
             "terminal runtime service is required for ExecControl".to_string(),
         ))
     })?;
@@ -108,7 +108,7 @@ pub async fn control_exec_command_session(
             error if error.kind == PortErrorKind::NotFound => {
                 ExecCommandControlError::SessionNotFound(request.session_id)
             }
-            error => ExecCommandControlError::Tool(OpenBitFunError::tool(format!(
+            error => ExecCommandControlError::Tool(OpcTeamError::tool(format!(
                 "ExecControl failed: {}",
                 error.message
             ))),
@@ -188,9 +188,9 @@ impl ExecControlTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if let Some(message) = exec_command_control_tool_input_validation_message(input) {
-            return Err(OpenBitFunError::tool(message.to_string()));
+            return Err(OpcTeamError::tool(message.to_string()));
         }
         let parsed_input = exec_command_control_tool_input_from_input(input)
             .expect("validated ExecControl input should parse");
@@ -245,7 +245,7 @@ impl Tool for ExecControlTool {
         "ExecControl"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Interrupts or kills a running ExecCommand session.
 
 Pass the session_id returned by ExecCommand.
@@ -319,13 +319,13 @@ Output is only what was produced during this tool call's wait window."#
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         if context.is_remote() {
             return self.call_remote_pipe(input, context).await;
         }
 
         if let Some(message) = exec_command_control_tool_input_validation_message(input) {
-            return Err(OpenBitFunError::tool(message.to_string()));
+            return Err(OpcTeamError::tool(message.to_string()));
         }
         let parsed_input = exec_command_control_tool_input_from_input(input)
             .expect("validated ExecControl input should parse");

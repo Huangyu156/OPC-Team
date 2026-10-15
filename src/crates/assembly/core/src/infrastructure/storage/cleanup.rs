@@ -23,10 +23,10 @@ impl CleanupService {
         }
     }
 
-    pub async fn cleanup_all(&self) -> OpenBitFunResult<CleanupResult> {
+    pub async fn cleanup_all(&self) -> OpcTeamResult<CleanupResult> {
         self.inner
             .cleanup_all()
             .await
-            .map_err(OpenBitFunError::service)
+            .map_err(OpcTeamError::service)
     }
 }

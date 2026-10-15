@@ -1,8 +1,8 @@
 //! OPC-Team agent runtime adapter for the generic app-server surface.
 //!
-//! This is the Phase 2 wiring point: [`OpenBitFunAppRuntime`] holds an externally
+//! This is the Phase 2 wiring point: [`OpcTeamAppRuntime`] holds an externally
 //! assembled [`AgentRuntime`] (built by product assembly from `AgenticSystem`,
-//! the same way `openbitfun_acp::OpenBitFunAcpRuntime` receives its runtime) and exposes
+//! the same way `openbitfun_acp::OpcTeamAcpRuntime` receives its runtime) and exposes
 //! the agent kernel operations the JSON-RPC handlers delegate to. Like the ACP
 //! runtime boundary, this crate does not own product assembly or the
 //! compatibility facade; the host injects a ready runtime.
@@ -16,26 +16,25 @@ use openbitfun_runtime_ports::{AgentContextReloadPort, ProductSearchPort};
 
 /// Host-injected OPC-Team agent runtime exposed over the app-server surface.
 ///
-/// Construct with [`OpenBitFunAppRuntime::new`] from a product-assembled
+/// Construct with [`OpcTeamAppRuntime::new`] from a product-assembled
 /// `AgentRuntime` and the runtime's [`AgentEventSource`] (so the server can
 /// forward runtime events to the client as `agent/event` notifications), then
-/// pass a clone to [`crate::server::OpenBitFunAppServer::new`].
+/// pass a clone to [`crate::server::OpcTeamAppServer::new`].
 #[derive(Clone)]
-pub struct OpenBitFunAppRuntime {
+pub struct OpcTeamAppRuntime {
     runtime: Arc<AgentRuntime>,
     event_source: AgentEventSource,
     context_reload: Option<Arc<dyn AgentContextReloadPort>>,
     product_search: Option<Arc<dyn ProductSearchPort>>,
 }
 
-impl std::fmt::Debug for OpenBitFunAppRuntime {
+impl std::fmt::Debug for OpcTeamAppRuntime {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        f.debug_struct("OpenBitFunAppRuntime")
-            .finish_non_exhaustive()
+        f.debug_struct("OpcTeamAppRuntime").finish_non_exhaustive()
     }
 }
 
-impl OpenBitFunAppRuntime {
+impl OpcTeamAppRuntime {
     /// Wrap an externally assembled agent runtime together with the runtime
     /// event source the server uses to forward `agent/event` notifications.
     /// Both are shared by reference across handlers, so callers usually pass a
@@ -116,7 +115,7 @@ impl OpenBitFunAppRuntime {
 
 /// Convenience for wrapping a fallible runtime call into a JSON-RPC `Result`.
 pub fn runtime_call<T>(result: std::result::Result<T, RuntimeError>) -> Result<T> {
-    result.map_err(OpenBitFunAppRuntime::runtime_error)
+    result.map_err(OpcTeamAppRuntime::runtime_error)
 }
 
 /// Map a `openbitfun_core::service::git::GitError` onto a JSON-RPC `Error`. Mirrors
@@ -146,17 +145,17 @@ pub fn git_service_error(error: GitError) -> Error {
     }
 }
 
-/// Map a `openbitfun_core::OpenBitFunError` (the unified core error type) onto a
-/// JSON-RPC `Error`. `OpenBitFunError` already derives `Serialize`, so the whole
+/// Map a `openbitfun_core::OpcTeamError` (the unified core error type) onto a
+/// JSON-RPC `Error`. `OpcTeamError` already derives `Serialize`, so the whole
 /// enum is attached as `data` (carrying the variant + message) for the client
 /// to inspect; the human-readable `Display` form goes into the message. Used
 /// by host-service handlers (`config/*`, and the upcoming `workspace/*`,
 /// `snapshot/*` batches) that call into `openbitfun-core` service singletons.
-pub fn openbitfun_error(error: openbitfun_core::OpenBitFunError) -> Error {
+pub fn openbitfun_error(error: openbitfun_core::OpcTeamError) -> Error {
     Error::internal_error().data(serde_json::to_value(&error).unwrap_or(serde_json::Value::Null))
 }
 
-/// Map a `OpenBitFunError` from a `config/getConfig` / `config/getConfigs` call
+/// Map a `OpcTeamError` from a `config/getConfig` / `config/getConfigs` call
 /// onto a JSON-RPC `Error`.
 ///
 /// The frontend `ConfigAPI.getConfig` swallows the error and returns
@@ -164,17 +163,17 @@ pub fn openbitfun_error(error: openbitfun_core::OpenBitFunError) -> Error {
 /// `not found:`, `config path`, and `'<path>'` -- it does not inspect `data`.
 /// [`openbitfun_error`] leaves `message` as the static `"Internal error"`, so the
 /// substring match never hits on a path-not-found. This helper instead puts
-/// the human-readable `OpenBitFunError` Display text into the JSON-RPC `message`
+/// the human-readable `OpcTeamError` Display text into the JSON-RPC `message`
 /// for the `NotFound` case, mirroring the desktop host's
 /// `"Failed to get config: Not found: Config path '<path>' not found"` shape
-/// (`desktop/src/api/config_api.rs` + `OpenBitFunError::NotFound` Display =
+/// (`desktop/src/api/config_api.rs` + `OpcTeamError::NotFound` Display =
 /// `Not found: {0}`) byte-for-byte, so the frontend substring match works in
-/// web mode the same way it does on desktop. The structured `OpenBitFunError` is
+/// web mode the same way it does on desktop. The structured `OpcTeamError` is
 /// still attached as `data` for callers that inspect it. Other config errors
 /// fall back to the generic [`openbitfun_error`] shape.
-pub fn config_get_error(error: openbitfun_core::OpenBitFunError) -> Error {
+pub fn config_get_error(error: openbitfun_core::OpcTeamError) -> Error {
     match &error {
-        openbitfun_core::OpenBitFunError::NotFound(_) => Error::new(
+        openbitfun_core::OpcTeamError::NotFound(_) => Error::new(
             agent_client_protocol::ErrorCode::InternalError.into(),
             format!("Failed to get config: {}", error),
         )
@@ -218,7 +217,7 @@ mod tests {
     fn config_get_error_not_found_message_matches_frontend_substrings() {
         let path = "ai.review_teams.default";
         let error =
-            openbitfun_core::OpenBitFunError::NotFound(format!("Config path '{}' not found", path));
+            openbitfun_core::OpcTeamError::NotFound(format!("Config path '{}' not found", path));
         let mapped = config_get_error(error);
 
         let message = mapped.message.to_lowercase();
@@ -238,7 +237,7 @@ mod tests {
         // inspect it.
         assert!(
             mapped.data.is_some(),
-            "data must carry the OpenBitFunError enum"
+            "data must carry the OpcTeamError enum"
         );
     }
 
@@ -248,7 +247,7 @@ mod tests {
     /// real errors.
     #[test]
     fn config_get_error_non_not_found_falls_back_to_internal_error_message() {
-        let error = openbitfun_core::OpenBitFunError::config("something else broke");
+        let error = openbitfun_core::OpcTeamError::config("something else broke");
         let mapped = config_get_error(error);
 
         assert_eq!(

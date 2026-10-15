@@ -5,7 +5,7 @@ use super::types::{
 #[cfg(feature = "agent-runtime")]
 use crate::agentic::WorkspaceBinding;
 use crate::infrastructure::{get_path_manager_arc, PathManager};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::debug;
 use openbitfun_services_core::workspace_identity::normalize_remote_workspace_path;
 use serde::Serialize;
@@ -79,7 +79,7 @@ impl WorkspaceRuntimeService {
     pub async fn ensure_workspace_runtime(
         &self,
         target: WorkspaceRuntimeTarget,
-    ) -> OpenBitFunResult<WorkspaceRuntimeEnsureResult> {
+    ) -> OpcTeamResult<WorkspaceRuntimeEnsureResult> {
         let context = self.context_for_target(target);
         self.ensure_runtime_context(context).await
     }
@@ -87,7 +87,7 @@ impl WorkspaceRuntimeService {
     pub async fn ensure_local_workspace_runtime(
         &self,
         workspace_path: &Path,
-    ) -> OpenBitFunResult<WorkspaceRuntimeEnsureResult> {
+    ) -> OpcTeamResult<WorkspaceRuntimeEnsureResult> {
         self.ensure_workspace_runtime(WorkspaceRuntimeTarget::LocalWorkspace {
             workspace_root: workspace_path.to_path_buf(),
         })
@@ -98,7 +98,7 @@ impl WorkspaceRuntimeService {
         &self,
         ssh_host: &str,
         remote_root: &str,
-    ) -> OpenBitFunResult<WorkspaceRuntimeEnsureResult> {
+    ) -> OpcTeamResult<WorkspaceRuntimeEnsureResult> {
         self.ensure_workspace_runtime(WorkspaceRuntimeTarget::RemoteWorkspaceMirror {
             ssh_host: ssh_host.to_string(),
             remote_root: remote_root.to_string(),
@@ -110,7 +110,7 @@ impl WorkspaceRuntimeService {
     pub async fn ensure_runtime_for_workspace_binding(
         &self,
         workspace: &WorkspaceBinding,
-    ) -> OpenBitFunResult<WorkspaceRuntimeEnsureResult> {
+    ) -> OpcTeamResult<WorkspaceRuntimeEnsureResult> {
         if workspace.is_remote() {
             self.ensure_remote_workspace_runtime(
                 &workspace.session_identity.hostname,
@@ -126,7 +126,7 @@ impl WorkspaceRuntimeService {
     async fn ensure_runtime_context(
         &self,
         context: WorkspaceRuntimeContext,
-    ) -> OpenBitFunResult<WorkspaceRuntimeEnsureResult> {
+    ) -> OpcTeamResult<WorkspaceRuntimeEnsureResult> {
         if self.is_runtime_verified(&context.runtime_root) {
             return Ok(Self::cached_ensure_result(context));
         }
@@ -187,10 +187,7 @@ impl WorkspaceRuntimeService {
             .insert(runtime_root.to_path_buf());
     }
 
-    async fn persist_layout_state(
-        &self,
-        context: &WorkspaceRuntimeContext,
-    ) -> OpenBitFunResult<()> {
+    async fn persist_layout_state(&self, context: &WorkspaceRuntimeContext) -> OpcTeamResult<()> {
         let target_descriptor = match &context.target {
             WorkspaceRuntimeTarget::LocalWorkspace { workspace_root } => {
                 workspace_root.display().to_string()
@@ -211,12 +208,12 @@ impl WorkspaceRuntimeService {
         };
 
         let bytes = serde_json::to_vec_pretty(&state).map_err(|e| {
-            OpenBitFunError::service(format!("Failed to serialize runtime state: {}", e))
+            OpcTeamError::service(format!("Failed to serialize runtime state: {}", e))
         })?;
         tokio::fs::write(&context.layout_state_file, bytes)
             .await
             .map_err(|e| {
-                OpenBitFunError::service(format!(
+                OpcTeamError::service(format!(
                     "Failed to write runtime layout state '{}': {}",
                     context.layout_state_file.display(),
                     e
@@ -259,7 +256,7 @@ pub fn get_workspace_runtime_service_arc() -> Arc<WorkspaceRuntimeService> {
         .clone()
 }
 
-pub fn try_get_workspace_runtime_service_arc() -> OpenBitFunResult<Arc<WorkspaceRuntimeService>> {
+pub fn try_get_workspace_runtime_service_arc() -> OpcTeamResult<Arc<WorkspaceRuntimeService>> {
     Ok(get_workspace_runtime_service_arc())
 }
 

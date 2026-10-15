@@ -6,7 +6,7 @@
 
 use crate::agentic::core::ToolResult;
 use crate::agentic::tools::tool_context_runtime::ToolUseContext;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::{debug, warn};
 use openbitfun_agent_tools::{
     build_persisted_tool_output_message, count_tool_result_lines, generate_tool_result_preview,
@@ -154,7 +154,7 @@ async fn persist_and_render_replacement(
     context: &ToolUseContext,
     policy: ToolResultStoragePolicy,
     content_override: Option<String>,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     let persisted =
         persist_tool_result(result, context, policy.preview_chars, content_override).await?;
     Ok(build_persisted_tool_output_message(
@@ -168,9 +168,9 @@ async fn persist_tool_result(
     context: &ToolUseContext,
     preview_chars: usize,
     content_override: Option<String>,
-) -> OpenBitFunResult<PersistedToolOutput> {
+) -> OpcTeamResult<PersistedToolOutput> {
     let session_id = context.session_id.as_deref().ok_or_else(|| {
-        OpenBitFunError::tool("A session id is required to persist tool results".to_string())
+        OpcTeamError::tool("A session id is required to persist tool results".to_string())
     })?;
 
     let (serialized, is_json) = if let Some(content) = content_override {
@@ -183,7 +183,7 @@ async fn persist_tool_result(
 
     if let Some(parent) = path.parent() {
         tokio::fs::create_dir_all(parent).await.map_err(|error| {
-            OpenBitFunError::io(format!(
+            OpcTeamError::io(format!(
                 "Failed to create tool result directory {}: {}",
                 parent.display(),
                 error
@@ -219,7 +219,7 @@ async fn persist_tool_result(
     })
 }
 
-async fn write_once(path: &Path, content: &str) -> OpenBitFunResult<()> {
+async fn write_once(path: &Path, content: &str) -> OpcTeamResult<()> {
     match tokio::fs::OpenOptions::new()
         .create_new(true)
         .write(true)
@@ -229,7 +229,7 @@ async fn write_once(path: &Path, content: &str) -> OpenBitFunResult<()> {
         Ok(mut file) => {
             use tokio::io::AsyncWriteExt;
             file.write_all(content.as_bytes()).await.map_err(|error| {
-                OpenBitFunError::io(format!(
+                OpcTeamError::io(format!(
                     "Failed to write tool result file {}: {}",
                     path.display(),
                     error
@@ -241,7 +241,7 @@ async fn write_once(path: &Path, content: &str) -> OpenBitFunResult<()> {
             // an intermittent failure on macOS CI. flush() drains the buffer to
             // the OS so the persisted output is visible to later readers.
             file.flush().await.map_err(|error| {
-                OpenBitFunError::io(format!(
+                OpcTeamError::io(format!(
                     "Failed to flush tool result file {}: {}",
                     path.display(),
                     error
@@ -249,7 +249,7 @@ async fn write_once(path: &Path, content: &str) -> OpenBitFunResult<()> {
             })
         }
         Err(error) if error.kind() == std::io::ErrorKind::AlreadyExists => Ok(()),
-        Err(error) => Err(OpenBitFunError::io(format!(
+        Err(error) => Err(OpcTeamError::io(format!(
             "Failed to create tool result file {}: {}",
             path.display(),
             error
@@ -257,7 +257,7 @@ async fn write_once(path: &Path, content: &str) -> OpenBitFunResult<()> {
     }
 }
 
-fn serialize_tool_result_content(result: &ToolResult) -> OpenBitFunResult<(String, bool)> {
+fn serialize_tool_result_content(result: &ToolResult) -> OpcTeamResult<(String, bool)> {
     if let Some(text) = result.result_for_assistant.as_ref() {
         return Ok((text.clone(), false));
     }
@@ -266,7 +266,7 @@ fn serialize_tool_result_content(result: &ToolResult) -> OpenBitFunResult<(Strin
         .or_else(|_| serde_json::to_string(&result.result))
         .map(|text| (text, true))
         .map_err(|error| {
-            OpenBitFunError::serialization(format!("Failed to serialize tool result: {}", error))
+            OpcTeamError::serialization(format!("Failed to serialize tool result: {}", error))
         })
 }
 

@@ -32,7 +32,7 @@ use openbitfun_core::service::session::{
 use openbitfun_core::service::session_usage::SessionUsageReport;
 use openbitfun_core::service::token_usage::TokenUsageService;
 use openbitfun_core::service::workspace::WorkspaceService;
-use openbitfun_core::util::errors::OpenBitFunError;
+use openbitfun_core::util::errors::OpcTeamError;
 use openbitfun_product_domains::product_search::SessionContentSearchResponse;
 use openbitfun_runtime_ports::{AgentContextReloadRequest, SessionTurnWindowRequest};
 use serde::{Deserialize, Serialize};
@@ -76,14 +76,12 @@ pub(crate) enum DesktopSessionApplicationError {
 
 pub(crate) type DesktopSessionApplicationResult<T> = Result<T, DesktopSessionApplicationError>;
 
-fn desktop_core_session_error(error: OpenBitFunError) -> DesktopSessionApplicationError {
+fn desktop_core_session_error(error: OpcTeamError) -> DesktopSessionApplicationError {
     match error {
-        OpenBitFunError::SessionInUse { session_id } => {
-            DesktopSessionApplicationError::SessionInUse(format!(
-                "Session is already open for writing: {session_id}"
-            ))
-        }
-        OpenBitFunError::OutcomeUnknown(message) => {
+        OpcTeamError::SessionInUse { session_id } => DesktopSessionApplicationError::SessionInUse(
+            format!("Session is already open for writing: {session_id}"),
+        ),
+        OpcTeamError::OutcomeUnknown(message) => {
             DesktopSessionApplicationError::OutcomeUnknown(message)
         }
         error => DesktopSessionApplicationError::Core(error.to_string()),
@@ -191,7 +189,7 @@ impl DesktopSessionScopeResolver {
                 )
                 .await
                 .and_then(|record| {
-                    record.ok_or_else(|| OpenBitFunError::service("Workspace ID is unavailable"))
+                    record.ok_or_else(|| OpcTeamError::service("Workspace ID is unavailable"))
                 })
         }
         .map_err(desktop_core_session_error)?;
@@ -1034,11 +1032,10 @@ mod tests {
 
     #[test]
     fn session_writer_conflict_keeps_a_stable_desktop_transport_code() {
-        let error = desktop_core_session_error(
-            openbitfun_core::util::errors::OpenBitFunError::SessionInUse {
+        let error =
+            desktop_core_session_error(openbitfun_core::util::errors::OpcTeamError::SessionInUse {
                 session_id: "session-1".to_string(),
-            },
-        );
+            });
 
         assert!(matches!(
             error,
@@ -1069,7 +1066,7 @@ mod tests {
 
     #[test]
     fn compatibility_rename_unknown_outcomes_keep_the_same_transport_code() {
-        let error = desktop_core_session_error(OpenBitFunError::OutcomeUnknown(
+        let error = desktop_core_session_error(OpcTeamError::OutcomeUnknown(
             "inspect authoritative state".to_string(),
         ));
 

@@ -17,7 +17,7 @@ use crate::service::instruction_context::build_workspace_instruction_files_conte
 use crate::service::remote_ssh::workspace_state::get_remote_workspace_manager;
 use crate::service::workspace::get_global_workspace_service;
 use crate::service::workspace::RelatedPath;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::{debug, info, warn};
 use openbitfun_agent_runtime::prompt::{
     render_project_layout, render_runtime_context_reminder, render_user_context_reminder,
@@ -518,15 +518,15 @@ For instructions on locating and reading the transcripts, read: `{}`
     /// Read app.language from global config, generate simple language instruction
     /// Returns empty string if config cannot be read
     /// Returns error if language code is unsupported
-    async fn get_language_preference(&self) -> OpenBitFunResult<String> {
+    async fn get_language_preference(&self) -> OpcTeamResult<String> {
         let language_code = get_app_language_code().await;
         Self::format_language_instruction(&language_code)
     }
 
     /// Format language instruction based on language code
-    fn format_language_instruction(lang_code: &str) -> OpenBitFunResult<String> {
+    fn format_language_instruction(lang_code: &str) -> OpcTeamResult<String> {
         let Some(locale) = LocaleId::from_str(lang_code) else {
-            return Err(OpenBitFunError::config(format!(
+            return Err(OpcTeamError::config(format!(
                 "Unknown language code: {}",
                 lang_code
             )));
@@ -546,7 +546,7 @@ For instructions on locating and reading the transcripts, read: `{}`
     /// - `{FILE_REFERENCES}` - Shared file and image reference guidance
     ///
     /// If a placeholder is not in the template, corresponding content will not be added
-    pub async fn build_prompt_from_template(&self, template: &str) -> OpenBitFunResult<String> {
+    pub async fn build_prompt_from_template(&self, template: &str) -> OpcTeamResult<String> {
         let mut result = template.to_string();
 
         // Replace {PERSONA}

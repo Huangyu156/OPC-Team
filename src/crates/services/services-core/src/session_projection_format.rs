@@ -1,6 +1,6 @@
 //! Stable on-disk envelope for in-flight Session runtime events.
 
-use crate::storage_error::{StorageError as OpenBitFunError, StorageResult as OpenBitFunResult};
+use crate::storage_error::{StorageError as OpcTeamError, StorageResult as OpcTeamResult};
 use openbitfun_events::AgenticEvent;
 use std::collections::BTreeSet;
 use std::io::{BufRead, BufReader};
@@ -28,9 +28,9 @@ pub struct RuntimeEventLogSummary {
 pub fn validate_runtime_event_log(
     path: &Path,
     expected_session_id: &str,
-) -> OpenBitFunResult<RuntimeEventLogSummary> {
+) -> OpcTeamResult<RuntimeEventLogSummary> {
     let file = std::fs::File::open(path).map_err(|error| {
-        OpenBitFunError::io(format!(
+        OpcTeamError::io(format!(
             "Failed to open runtime event log {}: {error}",
             path.display()
         ))
@@ -40,7 +40,7 @@ pub fn validate_runtime_event_log(
     let mut turn_ids = BTreeSet::new();
     for (line_index, line) in BufReader::new(file).lines().enumerate() {
         let line = line.map_err(|error| {
-            OpenBitFunError::io(format!(
+            OpcTeamError::io(format!(
                 "Failed to read runtime event log {} at line {}: {error}",
                 path.display(),
                 line_index + 1
@@ -54,7 +54,7 @@ pub fn validate_runtime_event_log(
         };
         if let Some(session_id) = record.event.session_id() {
             if session_id != expected_session_id {
-                return Err(OpenBitFunError::validation(format!(
+                return Err(OpcTeamError::validation(format!(
                     "Runtime event log {} contains a different Session id",
                     path.display()
                 )));
@@ -75,7 +75,7 @@ pub fn validate_runtime_event_log(
         event_count = event_count.saturating_add(1);
     }
     let stream_id = stream_id.ok_or_else(|| {
-        OpenBitFunError::validation(format!(
+        OpcTeamError::validation(format!(
             "Runtime event log {} contains no events",
             path.display()
         ))

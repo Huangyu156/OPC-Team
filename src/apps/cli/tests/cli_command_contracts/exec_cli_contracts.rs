@@ -110,7 +110,7 @@ fn cli_agent_controls_its_own_isolated_config_through_openbitfun_control() {
     let mut command = environment.std_command();
     command.args([
         "exec",
-        "用 OpenBitFunControl 搜索工具调用超时，读取、配置为 74，再回读",
+        "用 OpcTeamControl 搜索工具调用超时，读取、配置为 74，再回读",
         "--auto",
         "--no-verify-final-changes",
         "--output-format",
@@ -129,10 +129,10 @@ fn cli_agent_controls_its_own_isolated_config_through_openbitfun_control() {
         .expect("model tools")
         .iter()
         .find(|tool| tool["function"]["name"] == "OpenBitFunControl")
-        .expect("OpenBitFunControl is loaded for the CLI Agent");
+        .expect("OpcTeamControl is loaded for the CLI Agent");
     let description = openbitfun_control["function"]["description"]
         .as_str()
-        .expect("OpenBitFunControl description");
+        .expect("OpcTeamControl description");
     assert!(description.contains("two-step"), "{description}");
     assert!(description.len() < 600, "catalog leaked into tool prompt");
 

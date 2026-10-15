@@ -34,7 +34,7 @@ use crate::service::config::types::AgentProfileConfig;
 use crate::service::config::types::SubagentBatchExecutionPolicy as ConfigSubagentBatchExecutionPolicy;
 use crate::service::config::GlobalConfigManager;
 use crate::util::elapsed_ms_u64;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::types::Message as AIMessage;
 use crate::util::types::ToolDefinition;
 use log::{debug, error, warn};
@@ -122,7 +122,7 @@ impl RoundExecutor {
         openbitfun_agent_stream::retry::should_retry(category)
     }
 
-    fn terminal_request_error(error: &anyhow::Error, attempts: u32) -> OpenBitFunError {
+    fn terminal_request_error(error: &anyhow::Error, attempts: u32) -> OpcTeamError {
         let mut provider_error = error
             .downcast_ref::<AiProviderError>()
             .cloned()
@@ -132,9 +132,9 @@ impl RoundExecutor {
             provider_error.message
         );
         if provider_error.category == ErrorCategory::ContextOverflow {
-            OpenBitFunError::RecoverableContextOverflow(provider_error)
+            OpcTeamError::RecoverableContextOverflow(provider_error)
         } else {
-            OpenBitFunError::AIProvider(provider_error)
+            OpcTeamError::AIProvider(provider_error)
         }
     }
 
@@ -294,9 +294,9 @@ impl RoundExecutor {
     async fn sleep_with_cancellation(
         delay_ms: u64,
         cancel_token: &CancellationToken,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         tokio::select! {
-            _ = cancel_token.cancelled() => Err(OpenBitFunError::Cancelled("Execution cancelled".to_string())),
+            _ = cancel_token.cancelled() => Err(OpcTeamError::Cancelled("Execution cancelled".to_string())),
             _ = tokio::time::sleep(Duration::from_millis(delay_ms)) => Ok(()),
         }
     }
@@ -328,7 +328,7 @@ impl RoundExecutor {
         ai_messages: Vec<AIMessage>,
         tool_definitions: Option<Vec<ToolDefinition>>,
         context_window: Option<usize>,
-    ) -> OpenBitFunResult<RoundResult> {
+    ) -> OpcTeamResult<RoundResult> {
         let mut lifecycle = ModelRoundLifecycle::new();
         self.execute_round_with_lifecycle(
             ai_client,
@@ -351,7 +351,7 @@ impl RoundExecutor {
         context_window: Option<usize>,
         lifecycle: &mut ModelRoundLifecycle,
         session_manager: Option<&SessionManager>,
-    ) -> OpenBitFunResult<RoundResult> {
+    ) -> OpcTeamResult<RoundResult> {
         let round_started_at = lifecycle.started_at;
         let subagent_parent_info = context.subagent_parent_info.clone();
         let is_subagent = subagent_parent_info.is_some();
@@ -404,9 +404,7 @@ impl RoundExecutor {
                     "Cancel token detected before AI request, stopping execution: session_id={}",
                     context.session_id
                 );
-                return Err(OpenBitFunError::Cancelled(
-                    "Execution cancelled".to_string(),
-                ));
+                return Err(OpcTeamError::Cancelled("Execution cancelled".to_string()));
             }
 
             let request_started_at = Instant::now();
@@ -431,7 +429,7 @@ impl RoundExecutor {
             );
             let send_result = tokio::select! {
                 _ = cancel_token.cancelled() => {
-                    return Err(OpenBitFunError::Cancelled("Execution cancelled".to_string()));
+                    return Err(OpcTeamError::Cancelled("Execution cancelled".to_string()));
                 }
                 result = send_future => result,
             };
@@ -515,9 +513,7 @@ impl RoundExecutor {
                     "Cancel token detected after AI stream opened, stopping execution: session_id={}",
                     context.session_id
                 );
-                return Err(OpenBitFunError::Cancelled(
-                    "Execution cancelled".to_string(),
-                ));
+                return Err(OpcTeamError::Cancelled("Execution cancelled".to_string()));
             }
 
             debug!(
@@ -657,7 +653,7 @@ impl RoundExecutor {
                             ),
                         )
                         .await;
-                        return Err(OpenBitFunError::AIClient(format!(
+                        return Err(OpcTeamError::AIClient(format!(
                             "Stream retry budget exhausted after {} attempts: {}",
                             max_attempts, err_msg
                         )));
@@ -722,7 +718,7 @@ impl RoundExecutor {
                             ),
                         )
                         .await;
-                        return Err(OpenBitFunError::AIClient(format!(
+                        return Err(OpcTeamError::AIClient(format!(
                             "Stream retry budget exhausted after {} attempts: {}",
                             max_attempts, err_msg
                         )));
@@ -781,7 +777,7 @@ impl RoundExecutor {
                             ),
                         )
                         .await;
-                        return Err(OpenBitFunError::AIClient(format!(
+                        return Err(OpcTeamError::AIClient(format!(
                             "Stream retry budget exhausted after {} attempts: {}",
                             max_attempts, err_msg
                         )));
@@ -810,7 +806,7 @@ impl RoundExecutor {
                     );
                 }
                 Err(stream_err) => {
-                    if matches!(&stream_err.error, OpenBitFunError::Cancelled(_)) {
+                    if matches!(&stream_err.error, OpcTeamError::Cancelled(_)) {
                         Self::complete_model_exchange_trace(
                             trace_config.as_ref(),
                             trace_handle.as_ref(),
@@ -823,8 +819,8 @@ impl RoundExecutor {
                     let stream_error_category = stream_err.error.error_category();
                     let retryable = Self::should_retry_provider_error(&stream_error_category);
                     let provider_error = match &stream_err.error {
-                        OpenBitFunError::AIProvider(error)
-                        | OpenBitFunError::RecoverableContextOverflow(error) => Some(error),
+                        OpcTeamError::AIProvider(error)
+                        | OpcTeamError::RecoverableContextOverflow(error) => Some(error),
                         _ => None,
                     };
                     Self::complete_model_exchange_trace(
@@ -877,13 +873,13 @@ impl RoundExecutor {
                     );
                     if stream_error_category == ErrorCategory::ContextOverflow {
                         let provider_error = match stream_err.error {
-                            OpenBitFunError::AIProvider(error)
-                            | OpenBitFunError::RecoverableContextOverflow(error) => error,
+                            OpcTeamError::AIProvider(error)
+                            | OpcTeamError::RecoverableContextOverflow(error) => error,
                             _ => {
                                 AiProviderError::classified(err_msg, ErrorCategory::ContextOverflow)
                             }
                         };
-                        return Err(OpenBitFunError::RecoverableContextOverflow(provider_error));
+                        return Err(OpcTeamError::RecoverableContextOverflow(provider_error));
                     }
                     return Err(stream_err.error);
                 }
@@ -942,9 +938,7 @@ impl RoundExecutor {
                 "Cancel token detected after stream processing, stopping execution: session_id={}",
                 context.session_id
             );
-            return Err(OpenBitFunError::Cancelled(
-                "Execution cancelled".to_string(),
-            ));
+            return Err(OpcTeamError::Cancelled("Execution cancelled".to_string()));
         }
 
         // Emit model round completed event
@@ -1083,9 +1077,7 @@ impl RoundExecutor {
                 "Cancel token detected before tool execution, stopping execution: session_id={}",
                 context.session_id
             );
-            return Err(OpenBitFunError::Cancelled(
-                "Execution cancelled".to_string(),
-            ));
+            return Err(OpcTeamError::Cancelled("Execution cancelled".to_string()));
         }
 
         // Execute tool calls
@@ -1342,7 +1334,7 @@ impl RoundExecutor {
     }
 
     /// Cancel dialog turn (using dialog_turn_id)
-    pub async fn cancel_dialog_turn(&self, dialog_turn_id: &str) -> OpenBitFunResult<()> {
+    pub async fn cancel_dialog_turn(&self, dialog_turn_id: &str) -> OpcTeamResult<()> {
         debug!("Cancelling dialog turn: dialog_turn_id={}", dialog_turn_id);
 
         if self.cancellation_tokens.cancel(dialog_turn_id) {
@@ -1600,7 +1592,7 @@ pub(super) mod tests {
     use crate::agentic::execution::types::RoundContext;
     use crate::agentic::tools::ToolRuntimeRestrictions;
     use crate::service::config::types::{AgentProfileConfig, GlobalConfig};
-    use crate::util::errors::OpenBitFunError;
+    use crate::util::errors::OpcTeamError;
     use crate::util::types::ai::GeminiUsage;
     use openbitfun_agent_runtime::permission::{
         AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY,
@@ -1902,7 +1894,7 @@ pub(super) mod tests {
         fn name(&self) -> &str {
             "SemanticCommitTest"
         }
-        async fn description(&self) -> super::OpenBitFunResult<String> {
+        async fn description(&self) -> super::OpcTeamResult<String> {
             Ok("semantic commit test".into())
         }
         fn short_description(&self) -> String {
@@ -1930,7 +1922,7 @@ pub(super) mod tests {
             &self,
             _: &serde_json::Value,
             _: &crate::agentic::tools::framework::ToolUseContext,
-        ) -> super::OpenBitFunResult<Vec<crate::agentic::tools::framework::ToolResult>> {
+        ) -> super::OpcTeamResult<Vec<crate::agentic::tools::framework::ToolResult>> {
             self.entered.notify_one();
             self.release.notified().await;
             Ok(vec![crate::agentic::tools::framework::ToolResult::Result {
@@ -2098,7 +2090,7 @@ pub(super) mod tests {
         })
         .await
         .expect("live stream should be cancelled after its first output");
-        assert!(matches!(result, Err(OpenBitFunError::Cancelled(_))));
+        assert!(matches!(result, Err(OpcTeamError::Cancelled(_))));
         events.extend(executor.event_queue.dequeue_batch(100).await);
         assert!(!events.iter().any(|event| matches!(
             event.event,
@@ -2423,7 +2415,7 @@ pub(super) mod tests {
         token.cancel();
 
         let result = waiter.await.expect("sleep task should join");
-        assert!(matches!(result, Err(OpenBitFunError::Cancelled(_))));
+        assert!(matches!(result, Err(OpcTeamError::Cancelled(_))));
     }
 
     #[tokio::test]
@@ -2666,7 +2658,7 @@ pub(super) mod tests {
             .provider_message
             .unwrap()
             .contains("after 10 attempts"));
-        let OpenBitFunError::AIProvider(provider) = error else {
+        let OpcTeamError::AIProvider(provider) = error else {
             panic!("expected provider error")
         };
         let encoded = serde_json::to_value(&provider).unwrap();
@@ -2689,7 +2681,7 @@ pub(super) mod tests {
         ));
         assert!(matches!(
             RoundExecutor::terminal_request_error(&source, 10),
-            OpenBitFunError::RecoverableContextOverflow(_)
+            OpcTeamError::RecoverableContextOverflow(_)
         ));
     }
 

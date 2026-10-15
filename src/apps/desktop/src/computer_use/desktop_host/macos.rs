@@ -8,7 +8,7 @@
 //! reviewable home instead of living inline inside the multi-thousand-line
 //! host file.
 
-use super::{OpenBitFunError, OpenBitFunResult};
+use super::{OpcTeamError, OpcTeamResult};
 use core_foundation::base::{CFRelease, TCFType};
 use core_foundation::boolean::CFBoolean;
 use core_foundation::dictionary::CFDictionary;
@@ -34,12 +34,12 @@ unsafe extern "C" {
 /// Objective-C `NSException` thrown by TSM / HIToolbox / AppKit (which
 /// historically appears as `__rust_foreign_exception` and aborts the
 /// process when it crosses back into the Rust runtime) is converted into
-/// a `OpenBitFunError` we can return to the caller. The closure must itself
-/// return a `OpenBitFunResult<T>` so we can flatten the two error sources
+/// a `OpcTeamError` we can return to the caller. The closure must itself
+/// return a `OpcTeamResult<T>` so we can flatten the two error sources
 /// (ObjC exception + Rust-side error) into one.
-pub(super) fn run_on_main_for_enigo<F, T>(f: F) -> OpenBitFunResult<T>
+pub(super) fn run_on_main_for_enigo<F, T>(f: F) -> OpcTeamResult<T>
 where
-    F: FnOnce() -> OpenBitFunResult<T> + Send,
+    F: FnOnce() -> OpcTeamResult<T> + Send,
     T: Send,
 {
     let token = crate::computer_use::control_session::dispatch_token();
@@ -61,7 +61,7 @@ where
 /// Two failure modes are defended against simultaneously:
 ///
 ///   1. `NSException` thrown by the framework (caught and converted into
-///      `OpenBitFunError`).
+///      `OpcTeamError`).
 ///   2. AppKit's `__assert_rtn` "Must only be used from the main thread"
 ///      `SIGTRAP` which fires when AX cross-process callbacks (e.g.
 ///      `AXUIElementCopyActionNames` → `_NSThemeWidgetCell.accessibility…`
@@ -72,9 +72,9 @@ where
 ///
 /// If we're already on the main thread we run inline (avoids
 /// `dispatch_sync(main)` deadlock).
-pub(super) fn catch_objc<F, T>(f: F) -> OpenBitFunResult<T>
+pub(super) fn catch_objc<F, T>(f: F) -> OpcTeamResult<T>
 where
-    F: FnOnce() -> OpenBitFunResult<T> + Send,
+    F: FnOnce() -> OpcTeamResult<T> + Send,
     T: Send,
 {
     let token = crate::computer_use::control_session::dispatch_token();
@@ -93,25 +93,25 @@ where
 /// non-`Send` data and that are guaranteed not to reach AppKit's
 /// main-thread-only AX callbacks (e.g. Vision OCR on an in-memory
 /// screenshot buffer).
-pub(super) fn catch_objc_local<F, T>(f: F) -> OpenBitFunResult<T>
+pub(super) fn catch_objc_local<F, T>(f: F) -> OpcTeamResult<T>
 where
-    F: FnOnce() -> OpenBitFunResult<T>,
+    F: FnOnce() -> OpcTeamResult<T>,
 {
     catch_only(f)
 }
 
-fn catch_only<F, T>(f: F) -> OpenBitFunResult<T>
+fn catch_only<F, T>(f: F) -> OpcTeamResult<T>
 where
-    F: FnOnce() -> OpenBitFunResult<T>,
+    F: FnOnce() -> OpcTeamResult<T>,
 {
     use std::panic::AssertUnwindSafe;
     match objc2::exception::catch(AssertUnwindSafe(f)) {
         Ok(inner) => inner,
-        Err(Some(exc)) => Err(OpenBitFunError::tool(format!(
+        Err(Some(exc)) => Err(OpcTeamError::tool(format!(
             "Objective-C exception: {}",
             exc
         ))),
-        Err(None) => Err(OpenBitFunError::tool(
+        Err(None) => Err(OpcTeamError::tool(
             "Objective-C exception (nil)".to_string(),
         )),
     }
@@ -131,11 +131,11 @@ unsafe extern "C" {
 }
 
 /// Mouse location in Quartz global coordinates (same space as `CGEvent` / `CGWarpMouseCursorPosition`).
-pub(super) fn quartz_mouse_location() -> OpenBitFunResult<(f64, f64)> {
+pub(super) fn quartz_mouse_location() -> OpcTeamResult<(f64, f64)> {
     unsafe {
         let ev = CGEventCreate(std::ptr::null());
         if ev.is_null() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "CGEventCreate returned null (pointer overlay).".to_string(),
             ));
         }
@@ -164,11 +164,11 @@ pub(super) fn request_screen_capture() -> bool {
 
 /// Observation never invokes consent prompts. The user's permission action
 /// owns the explicit request and the OS owns its outcome.
-pub(super) fn require_ax_trust_for(retry_hint: &str) -> OpenBitFunResult<()> {
+pub(super) fn require_ax_trust_for(retry_hint: &str) -> OpcTeamResult<()> {
     if ax_trusted() {
         return Ok(());
     }
-    Err(OpenBitFunError::tool(format!(
+    Err(OpcTeamError::tool(format!(
         "[PERMISSION_DENIED] macOS Accessibility permission not granted to OPC-Team. \
          Use Computer Use permissions to request access, or open System Settings → \
          Privacy & Security → Accessibility → enable OPC-Team. {}",

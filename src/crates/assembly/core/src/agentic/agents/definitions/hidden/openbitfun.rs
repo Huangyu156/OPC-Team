@@ -1,10 +1,10 @@
 use crate::agentic::agents::{Agent, UserContextPolicy};
 use async_trait::async_trait;
 
-pub struct OpenBitFunAgent;
+pub struct OpcTeamAgent;
 
 #[async_trait]
-impl Agent for OpenBitFunAgent {
+impl Agent for OpcTeamAgent {
     fn as_any(&self) -> &dyn std::any::Any {
         self
     }

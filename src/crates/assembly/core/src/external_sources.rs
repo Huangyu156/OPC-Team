@@ -47,7 +47,7 @@ use crate::agentic::workspace::workspace_route_key;
 use crate::external_mcp::{
     reconcile_external_mcp_catalog, ExternalMcpDecision, ExternalMcpDecisions,
     ExternalMcpProductState, ExternalMcpRuntimePort, ExternalMcpRuntimeStatus, NativeMcpCandidate,
-    OpenBitFunExternalMcpRuntime, EXTERNAL_MCP_RUNTIME_FAILED,
+    OpcTeamExternalMcpRuntime, EXTERNAL_MCP_RUNTIME_FAILED,
     EXTERNAL_MCP_RUNTIME_PREPARATION_FAILED, EXTERNAL_MCP_RUNTIME_STATUS_UNAVAILABLE,
 };
 use crate::external_subagents::{
@@ -1830,7 +1830,7 @@ impl WorkspaceExternalSourceService {
             watch_states: tokio::sync::Mutex::new(BTreeMap::new()),
             refresh_gate: tokio::sync::Mutex::new(()),
             product_rebuild_gate: tokio::sync::Mutex::new(()),
-            mcp_runtime: Arc::new(OpenBitFunExternalMcpRuntime),
+            mcp_runtime: Arc::new(OpcTeamExternalMcpRuntime),
             active_mcp_runtime_ids: tokio::sync::Mutex::new(BTreeSet::new()),
             initial_refresh_completed: AtomicBool::new(false),
             automatic_discovery_active: AtomicBool::new(automatic_discovery),
@@ -9406,7 +9406,7 @@ mod tests {
             watch_states: tokio::sync::Mutex::new(BTreeMap::new()),
             refresh_gate: tokio::sync::Mutex::new(()),
             product_rebuild_gate: tokio::sync::Mutex::new(()),
-            mcp_runtime: Arc::new(OpenBitFunExternalMcpRuntime),
+            mcp_runtime: Arc::new(OpcTeamExternalMcpRuntime),
             active_mcp_runtime_ids: tokio::sync::Mutex::new(BTreeSet::new()),
             initial_refresh_completed: AtomicBool::new(false),
             automatic_discovery_active: AtomicBool::new(false),

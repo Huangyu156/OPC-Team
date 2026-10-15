@@ -13,18 +13,18 @@ pub struct PersistenceService {
 }
 
 impl PersistenceService {
-    pub async fn new(base_dir: PathBuf) -> OpenBitFunResult<Self> {
+    pub async fn new(base_dir: PathBuf) -> OpcTeamResult<Self> {
         let path_manager = try_get_path_manager_arc()?;
         let inner = openbitfun_services_core::persistence::PersistenceService::new(base_dir)
             .await
-            .map_err(OpenBitFunError::service)?;
+            .map_err(OpcTeamError::service)?;
         Ok(Self {
             inner,
             path_manager,
         })
     }
 
-    pub async fn new_user_level(path_manager: Arc<PathManager>) -> OpenBitFunResult<Self> {
+    pub async fn new_user_level(path_manager: Arc<PathManager>) -> OpcTeamResult<Self> {
         let base_dir = path_manager.user_data_dir();
         path_manager.ensure_dir(&base_dir).await?;
         Ok(Self {
@@ -38,7 +38,7 @@ impl PersistenceService {
     pub async fn new_project_level(
         path_manager: Arc<PathManager>,
         workspace_path: PathBuf,
-    ) -> OpenBitFunResult<Self> {
+    ) -> OpcTeamResult<Self> {
         let base_dir = path_manager.project_runtime_root(&workspace_path);
         Ok(Self {
             inner: openbitfun_services_core::persistence::PersistenceService::from_base_dir(
@@ -61,27 +61,24 @@ impl PersistenceService {
         key: &str,
         data: &T,
         options: StorageOptions,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.inner
             .save_json(key, data, options)
             .await
-            .map_err(OpenBitFunError::service)
+            .map_err(OpcTeamError::service)
     }
 
     pub async fn load_json<T: for<'de> serde::Deserialize<'de>>(
         &self,
         key: &str,
-    ) -> OpenBitFunResult<Option<T>> {
+    ) -> OpcTeamResult<Option<T>> {
         self.inner
             .load_json(key)
             .await
-            .map_err(OpenBitFunError::service)
+            .map_err(OpcTeamError::service)
     }
 
-    pub async fn delete(&self, key: &str) -> OpenBitFunResult<bool> {
-        self.inner
-            .delete(key)
-            .await
-            .map_err(OpenBitFunError::service)
+    pub async fn delete(&self, key: &str) -> OpcTeamResult<bool> {
+        self.inner.delete(key).await.map_err(OpcTeamError::service)
     }
 }

@@ -990,7 +990,7 @@ mod tests {
         let html = result.payload.unwrap().html;
 
         assert!(html.contains("openbitfun-canvas-root"));
-        assert!(html.contains("OpenBitFunCanvasRuntime.mount"));
+        assert!(html.contains("OpcTeamCanvasRuntime.mount"));
         assert!(html.contains("connect-src 'none'"));
         assert!(!html.contains("</script><unsafe>"));
     }

@@ -5,7 +5,7 @@ use super::readable::{
 use crate::agentic::tools::framework::{
     PermissionIntent, Tool, ToolResult, ToolUseContext, ValidationResult,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use openbitfun_services_integrations::web_tools::WebToolNetworkProvider;
 use serde_json::{json, Value};
@@ -31,7 +31,7 @@ impl Tool for WebFetchTool {
         "WebFetch"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Fetch content from a URL.
 
 Use this tool to:
@@ -89,13 +89,13 @@ Example usage:
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let url = input
             .get("url")
             .and_then(Value::as_str)
             .map(str::trim)
             .filter(|url| !url.is_empty())
-            .ok_or_else(|| OpenBitFunError::validation("url is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::validation("url is required".to_string()))?;
         Ok(vec![PermissionIntent::new(
             "webfetch",
             vec![url.to_string()],
@@ -146,18 +146,18 @@ Example usage:
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let url = input
             .get("url")
             .and_then(|v| v.as_str())
-            .ok_or_else(|| OpenBitFunError::tool("url is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("url is required".to_string()))?;
 
         let requested_format =
             normalize_requested_format(input.get("format").and_then(|v| v.as_str()))?;
 
         let response = WebToolNetworkProvider::fetch_text(url)
             .await
-            .map_err(|error| OpenBitFunError::tool(error.to_string()))?;
+            .map_err(|error| OpcTeamError::tool(error.to_string()))?;
         let content_type = response.content_type;
         let content = response.content;
 
@@ -172,7 +172,7 @@ Example usage:
             RequestedFormat::Raw => (content, "raw", "raw", fallback_title),
             RequestedFormat::Json => {
                 serde_json::from_str::<Value>(&content)
-                    .map_err(|e| OpenBitFunError::tool(format!("Invalid JSON response: {}", e)))?;
+                    .map_err(|e| OpcTeamError::tool(format!("Invalid JSON response: {}", e)))?;
                 (content, "json", "json", None)
             }
             RequestedFormat::Markdown => {

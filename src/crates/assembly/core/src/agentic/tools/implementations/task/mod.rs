@@ -25,7 +25,7 @@ use crate::agentic::tools::framework::{
 use crate::agentic::tools::pipeline::SubagentParentInfo;
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::AIConfig;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use crate::util::timing::elapsed_ms_u64;
 use async_trait::async_trait;
 use input::{TaskAction, TaskInvocation};
@@ -160,7 +160,7 @@ impl Tool for AgentExecutionTool {
         true
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(self.render_description())
     }
 
@@ -180,7 +180,7 @@ impl Tool for AgentExecutionTool {
     async fn description_with_context(
         &self,
         _context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         Ok(self.render_description())
     }
 
@@ -224,7 +224,7 @@ impl Tool for AgentExecutionTool {
         &self,
         input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         let action = TaskAction::parse(input)?;
         let resource = match action {
             TaskAction::Spawn => input
@@ -240,14 +240,14 @@ impl Tool for AgentExecutionTool {
                 .map(str::trim)
                 .filter(|agent_id| !agent_id.is_empty())
                 .map(|agent_id| format!("send_input:{agent_id}"))
-                .ok_or_else(|| OpenBitFunError::validation("agent_id is required".to_string()))?,
+                .ok_or_else(|| OpcTeamError::validation("agent_id is required".to_string()))?,
             TaskAction::Cancel => input
                 .get("agent_id")
                 .and_then(Value::as_str)
                 .map(str::trim)
                 .filter(|agent_id| !agent_id.is_empty())
                 .map(|agent_id| format!("cancel:{agent_id}"))
-                .ok_or_else(|| OpenBitFunError::validation("agent_id is required".to_string()))?,
+                .ok_or_else(|| OpcTeamError::validation("agent_id is required".to_string()))?,
         };
         Ok(vec![PermissionIntent::new("task", vec![resource])])
     }
@@ -301,7 +301,7 @@ impl Tool for AgentExecutionTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         self.call_task_impl(input, context).await
     }
 }
@@ -320,7 +320,7 @@ impl Tool for TaskTool {
         true
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(Self::render_legacy_description())
     }
 
@@ -335,7 +335,7 @@ impl Tool for TaskTool {
     async fn description_with_context(
         &self,
         _context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         Ok(Self::render_legacy_description())
     }
 
@@ -362,7 +362,7 @@ impl Tool for TaskTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         AgentExecutionTool::new().permission_intents(input, context)
     }
 
@@ -415,7 +415,7 @@ impl Tool for TaskTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         AgentExecutionTool::new()
             .call_task_impl(input, context)
             .await

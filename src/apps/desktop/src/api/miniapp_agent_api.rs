@@ -37,7 +37,7 @@ use openbitfun_core::miniapp::agent_context::{
     MiniAppAgentContextSnapshot,
 };
 use openbitfun_core::miniapp::agent_workspace::prepare_agent_workspace;
-use openbitfun_core::OpenBitFunError;
+use openbitfun_core::OpcTeamError;
 
 // ============== Run registry ==============
 
@@ -340,7 +340,7 @@ async fn load_and_validate_miniapp_agent_session(
             .await
         {
             Ok(session) => session,
-            Err(OpenBitFunError::NotFound(_)) => return Ok(None),
+            Err(OpcTeamError::NotFound(_)) => return Ok(None),
             Err(error) => {
                 return Err(format!(
                     "Failed to restore MiniApp agent session: {}",

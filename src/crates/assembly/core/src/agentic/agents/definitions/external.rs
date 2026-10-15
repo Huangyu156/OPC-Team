@@ -3,7 +3,7 @@ use crate::agentic::agents::{
     PromptBuilderContext, UserContextPolicy,
 };
 use crate::agentic::session::SystemPromptCacheIdentity;
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use async_trait::async_trait;
 use openbitfun_runtime_ports::PermissionConstraintLayer;
 
@@ -74,7 +74,7 @@ impl Agent for ExternalProvidedAgent {
         SystemPromptCacheIdentity::new(format!("external_agent_behavior:{}", self.behavior_version))
     }
 
-    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpenBitFunResult<String> {
+    async fn build_prompt(&self, context: &PromptBuilderContext) -> OpcTeamResult<String> {
         PromptBuilder::new(context.clone())
             .build_prompt_from_template(&self.prompt)
             .await

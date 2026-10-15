@@ -1,7 +1,7 @@
 //! GetTime tool implementation.
 
 use crate::agentic::tools::framework::{Tool, ToolRenderOptions, ToolResult, ToolUseContext};
-use crate::util::errors::OpenBitFunResult;
+use crate::util::errors::OpcTeamResult;
 use async_trait::async_trait;
 use chrono::{Datelike, Local, SecondsFormat, Utc};
 use serde_json::{json, Value};
@@ -27,7 +27,7 @@ impl Tool for GetTimeTool {
         "GetTime"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(r#"Return the current time, weekday, and Unix timestamp.
 
 Use this tool when you need reliable current date/time facts for planning, timestamping, report names, or date-sensitive reasoning. It returns local time, UTC time, weekday, and Unix timestamps in seconds and milliseconds.
@@ -72,7 +72,7 @@ This tool takes no parameters."#
         &self,
         _input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let now = Local::now();
         let utc = now.with_timezone(&Utc);
         let local_time = now.to_rfc3339_opts(SecondsFormat::Secs, false);

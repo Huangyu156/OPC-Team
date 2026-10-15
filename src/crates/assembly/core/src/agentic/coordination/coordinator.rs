@@ -86,7 +86,7 @@ use crate::service::workspace::{
     WorkspaceKind, WorkspaceService,
 };
 use crate::service_agent_runtime::CoreServiceAgentRuntime;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use dashmap::DashMap;
 use log::{debug, error, info, warn};
 use openbitfun_agent_runtime::deep_review::FocusedReviewAssignment;
@@ -242,7 +242,7 @@ tokio::task_local! {
     static TEST_AGENT_MODEL_DEFAULTS: AgentModelDefaultsConfig;
 }
 
-async fn normalize_model_selection(model_id: &str) -> OpenBitFunResult<String> {
+async fn normalize_model_selection(model_id: &str) -> OpcTeamResult<String> {
     let requested_model_id = model_id.trim();
     match requested_model_id {
         // Upgrade-only compatibility for clients predating removal of the
@@ -251,7 +251,7 @@ async fn normalize_model_selection(model_id: &str) -> OpenBitFunResult<String> {
         "primary" | "fast" => Ok(requested_model_id.to_string()),
         model_config_id => {
             let config_service = get_global_config_service().await.map_err(|error| {
-                OpenBitFunError::AIClient(format!(
+                OpcTeamError::AIClient(format!(
                     "Failed to load AI configuration for model update: {error}"
                 ))
             })?;
@@ -259,14 +259,14 @@ async fn normalize_model_selection(model_id: &str) -> OpenBitFunResult<String> {
                 .get_config(Some("ai"))
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::AIClient(format!(
+                    OpcTeamError::AIClient(format!(
                         "Failed to read AI configuration for model update: {error}"
                     ))
                 })?;
             ai_config
                 .resolve_model_reference(model_config_id)
                 .ok_or_else(|| {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "Unknown or disabled model configuration ID: {model_config_id}"
                     ))
                 })
@@ -278,7 +278,7 @@ fn resolve_approved_immutable_model_binding(
     binding: &ExternalSubagentModelBinding,
     parent_model_selection: Option<&str>,
     ai_config: &AIConfig,
-) -> OpenBitFunResult<(String, String)> {
+) -> OpcTeamResult<(String, String)> {
     let (model_id, expected_fingerprint) = match binding {
         ExternalSubagentModelBinding::Fixed {
             model_id,
@@ -289,7 +289,7 @@ fn resolve_approved_immutable_model_binding(
                 .map(str::trim)
                 .filter(|value| !value.is_empty())
                 .ok_or_else(|| {
-                    OpenBitFunError::Validation(
+                    OpcTeamError::Validation(
                         "Approved inherited subagent model has no parent model selection"
                             .to_string(),
                     )
@@ -298,7 +298,7 @@ fn resolve_approved_immutable_model_binding(
                 ai_config
                     .resolve_model_selection(parent_model_selection)
                     .ok_or_else(|| {
-                        OpenBitFunError::Validation(format!(
+                        OpcTeamError::Validation(format!(
                             "Parent model selection is unknown or disabled: {parent_model_selection}"
                         ))
                     })?,
@@ -311,13 +311,13 @@ fn resolve_approved_immutable_model_binding(
         .iter()
         .find(|model| model.enabled && model.id == model_id)
         .ok_or_else(|| {
-            OpenBitFunError::Validation(format!(
+            OpcTeamError::Validation(format!(
                 "Approved subagent model configuration is unknown or disabled: {model_id}"
             ))
         })?;
     let fingerprint = model_runtime_binding_fingerprint(model);
     if expected_fingerprint.is_some_and(|expected| expected != fingerprint) {
-        return Err(OpenBitFunError::Validation(
+        return Err(OpcTeamError::Validation(
             "Approved subagent model configuration changed; review the external agent again"
                 .to_string(),
         ));
@@ -348,17 +348,17 @@ fn resolve_subagent_model_selection(
     explicit_model_id: Option<&str>,
     configured_selection: &SubagentModelSelection,
     parent_model_id: Option<&str>,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     if let Some(model_id) = trimmed_model_id(explicit_model_id) {
         return Ok(model_id);
     }
 
     match configured_selection {
         SubagentModelSelection::Fixed { model_id } => trimmed_model_id(Some(model_id)).ok_or_else(|| {
-            OpenBitFunError::Validation("Configured subagent model must not be empty".to_string())
+            OpcTeamError::Validation("Configured subagent model must not be empty".to_string())
         }),
         SubagentModelSelection::Inherit => trimmed_model_id(parent_model_id).ok_or_else(|| {
-            OpenBitFunError::Validation(
+            OpcTeamError::Validation(
                 "Subagent model is configured to inherit, but the parent session has no model selection"
                     .to_string(),
             )
@@ -573,11 +573,11 @@ pub struct BackgroundSubagentStartResult {
 
 /// User-facing admission must agree with delegated reuse. Fresh-only children
 /// execute their initial turn through the dedicated hidden-subagent route.
-pub(super) fn ensure_session_accepts_conversation(session: &Session) -> OpenBitFunResult<()> {
+pub(super) fn ensure_session_accepts_conversation(session: &Session) -> OpcTeamResult<()> {
     if session.kind == SessionKind::Subagent
         && session.config.continuation_policy == SessionContinuationPolicy::FreshOnly
     {
-        return Err(OpenBitFunError::Validation(
+        return Err(OpcTeamError::Validation(
             "subagent_follow_up_unsupported: this subagent session is fresh-only; start a new Task invocation"
                 .to_string(),
         ));
@@ -853,7 +853,7 @@ struct SessionExecutionLease {
 
 struct ManualCompactionTask {
     turn_id: String,
-    completion: oneshot::Receiver<OpenBitFunResult<()>>,
+    completion: oneshot::Receiver<OpcTeamResult<()>>,
 }
 
 struct ManualCompactionControlGuard {
@@ -1029,12 +1029,12 @@ fn normalize_subagent_max_concurrency(raw: usize) -> usize {
 fn delegation_policy_for_agent_turn(
     agent_type: &str,
     swarm_depth: Option<u8>,
-) -> OpenBitFunResult<DelegationPolicy> {
+) -> OpcTeamResult<DelegationPolicy> {
     match agent_type {
         "Ultimate" => Ok(DelegationPolicy::swarm_root()),
         "SwarmPlanner" => {
             let nesting_depth = swarm_depth.ok_or_else(|| {
-                OpenBitFunError::tool(
+                OpcTeamError::tool(
                     "SwarmPlanner session is missing its persisted tree node".to_string(),
                 )
             })?;
@@ -1161,11 +1161,11 @@ pub(crate) fn validate_required_lineage_turns_settled(
 }
 
 fn lineage_post_admission_cancellation_error(
-    error: OpenBitFunError,
+    error: OpcTeamError,
     session_id: &str,
     turn_id: &str,
-) -> OpenBitFunError {
-    OpenBitFunError::OutcomeUnknown(format!(
+) -> OpcTeamError {
+    OpcTeamError::OutcomeUnknown(format!(
         "Subagent cancellation was admitted, but its final outcome was not confirmed: session_id={session_id}, turn_id={turn_id}; {error}"
     ))
 }
@@ -1373,7 +1373,7 @@ impl ConversationCoordinator {
     async fn build_session_config_for_workspace(
         workspace_id: String,
         model_id: Option<String>,
-    ) -> OpenBitFunResult<SessionConfig> {
+    ) -> OpcTeamResult<SessionConfig> {
         let mut config = SessionConfig {
             workspace_id: Some(workspace_id),
             model_id,
@@ -1391,7 +1391,7 @@ impl ConversationCoordinator {
     /// to the controller filesystem for a remote session.
     pub(crate) async fn build_workspace_services(
         binding: &Option<WorkspaceBinding>,
-    ) -> OpenBitFunResult<Option<crate::agentic::workspace::WorkspaceServices>> {
+    ) -> OpcTeamResult<Option<crate::agentic::workspace::WorkspaceServices>> {
         let Some(binding) = binding.as_ref() else {
             return Ok(None);
         };
@@ -1403,7 +1403,7 @@ impl ConversationCoordinator {
         }
 
         let connection_id = binding.connection_id().ok_or_else(|| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Remote workspace services are unavailable for {}: the workspace binding has no connection id; no local fallback was attempted",
                 binding.root_path_string()
             ))
@@ -1411,7 +1411,7 @@ impl ConversationCoordinator {
 
         #[cfg(not(feature = "remote-workspace"))]
         {
-            Err(OpenBitFunError::NotImplemented(format!(
+            Err(OpcTeamError::NotImplemented(format!(
                 "Remote workspace services are unavailable for connection {connection_id}: remote workspaces are not compiled into this OPC-Team host (feature `remote-workspace`); no local fallback was attempted"
             )))
         }
@@ -1419,7 +1419,7 @@ impl ConversationCoordinator {
         #[cfg(feature = "remote-workspace")]
         {
             let unavailable = |reason: &str| {
-                OpenBitFunError::service(format!(
+                OpcTeamError::service(format!(
                     "Remote workspace services are unavailable for connection {connection_id}: {reason}; no local fallback was attempted"
                 ))
             };
@@ -1461,7 +1461,7 @@ impl ConversationCoordinator {
         external_sources_supported: bool,
         expected_owner: Option<SessionAgentRouteOwner>,
         expected_route_key: Option<&str>,
-    ) -> OpenBitFunResult<crate::agentic::agents::ExternalPrimaryAgentTurnBinding> {
+    ) -> OpcTeamResult<crate::agentic::agents::ExternalPrimaryAgentTurnBinding> {
         let external_sources_supported =
             cfg!(feature = "external-sources") && external_sources_supported;
         let registry = get_agent_registry();
@@ -1476,7 +1476,7 @@ impl ConversationCoordinator {
 
         if !external_sources_supported {
             return local_binding.ok_or_else(|| {
-                OpenBitFunError::Validation(format!("Unknown session mode: {agent_type}"))
+                OpcTeamError::Validation(format!("Unknown session mode: {agent_type}"))
             });
         }
 
@@ -1502,7 +1502,7 @@ impl ConversationCoordinator {
             if expected_owner == Some(SessionAgentRouteOwner::External)
                 || registry.is_external_subagent_route(agent_type, workspace_id)
             {
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "candidate_unavailable: external main agent {agent_type} could not be refreshed"
                 )));
             }
@@ -1514,7 +1514,7 @@ impl ConversationCoordinator {
                 );
                 return Ok(local_binding);
             }
-            return Err(OpenBitFunError::Service(format!(
+            return Err(OpcTeamError::Service(format!(
                 "External agent source discovery failed: {error}"
             )));
         }
@@ -1531,11 +1531,11 @@ impl ConversationCoordinator {
                 if expected_owner == Some(SessionAgentRouteOwner::External)
                     || registry.is_external_subagent_route(agent_type, workspace_id)
                 {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "candidate_unavailable: external main agent {agent_type} changed before the turn could start"
                     ))
                 } else {
-                    OpenBitFunError::Validation(format!("Unknown session mode: {agent_type}"))
+                    OpcTeamError::Validation(format!("Unknown session mode: {agent_type}"))
                 }
             })
     }
@@ -1544,7 +1544,7 @@ impl ConversationCoordinator {
         session: &Session,
         agent_type: &str,
         workspace: &Option<WorkspaceBinding>,
-    ) -> OpenBitFunResult<crate::agentic::agents::ExternalPrimaryAgentTurnBinding> {
+    ) -> OpcTeamResult<crate::agentic::agents::ExternalPrimaryAgentTurnBinding> {
         ensure_session_accepts_conversation(session)?;
         if session.kind == SessionKind::Subagent
             && Self::normalize_agent_type(agent_type)
@@ -1565,7 +1565,7 @@ impl ConversationCoordinator {
                     session.config.agent_route_key.as_deref(),
                 )
                 .ok_or_else(|| {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "candidate_unavailable: saved local subagent {} is unavailable or its source changed",
                         session.agent_type
                     ))
@@ -1616,7 +1616,7 @@ impl ConversationCoordinator {
 
     fn session_reference_locators_from_metadata(
         metadata: Option<&serde_json::Value>,
-    ) -> OpenBitFunResult<Vec<SessionReferenceLocator>> {
+    ) -> OpcTeamResult<Vec<SessionReferenceLocator>> {
         let Some(value) = metadata
             .and_then(serde_json::Value::as_object)
             .and_then(|object| object.get(SESSION_REFERENCES_METADATA_KEY))
@@ -1626,13 +1626,10 @@ impl ConversationCoordinator {
 
         let references = serde_json::from_value::<Vec<SessionReferenceLocator>>(value.clone())
             .map_err(|error| {
-                OpenBitFunError::Validation(format!(
-                    "Invalid session reference metadata: {}",
-                    error
-                ))
+                OpcTeamError::Validation(format!("Invalid session reference metadata: {}", error))
             })?;
         if references.len() > MAX_SESSION_REFERENCES_PER_TURN {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "A message can reference at most {} sessions",
                 MAX_SESSION_REFERENCES_PER_TURN
             )));
@@ -1642,37 +1639,37 @@ impl ConversationCoordinator {
 
     fn workspace_references_from_metadata(
         metadata: Option<&serde_json::Value>,
-    ) -> OpenBitFunResult<Vec<AgentWorkspaceReference>> {
+    ) -> OpcTeamResult<Vec<AgentWorkspaceReference>> {
         let Some(object) = metadata.and_then(serde_json::Value::as_object) else {
             return Ok(Vec::new());
         };
         agent_workspace_references_from_metadata(object)
-            .map_err(|error| OpenBitFunError::Validation(error.message))
+            .map_err(|error| OpcTeamError::Validation(error.message))
     }
 
     fn validate_workspace_reference_source(
         input: &str,
         reference: &AgentWorkspaceReference,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let chars = input.chars().collect::<Vec<_>>();
         let start = reference.source.start;
         let end = reference.source.end;
         if start >= end || end > chars.len() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Workspace reference source range is outside the submitted message".to_string(),
             ));
         }
         if (start > 0 && !chars[start - 1].is_whitespace())
             || (end < chars.len() && !chars[end].is_whitespace())
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Workspace reference source must be bounded by whitespace or the message boundary"
                     .to_string(),
             ));
         }
         let selected = chars[start..end].iter().collect::<String>();
         if selected != reference.source.value {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Workspace reference source no longer matches the submitted message".to_string(),
             ));
         }
@@ -1681,13 +1678,13 @@ impl ConversationCoordinator {
             (Some(start), None) => format!("@{}#{}", reference.path, start),
             (Some(start), Some(end)) => format!("@{}#{}-{}", reference.path, start, end),
             (None, Some(_)) => {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Workspace reference end line requires a start line".to_string(),
                 ))
             }
         };
         if selected != expected {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Workspace reference text does not match its structured path".to_string(),
             ));
         }
@@ -1699,7 +1696,7 @@ impl ConversationCoordinator {
         session_id: &str,
         input: &str,
         metadata: Option<&serde_json::Value>,
-    ) -> OpenBitFunResult<Vec<Message>> {
+    ) -> OpcTeamResult<Vec<Message>> {
         let references = Self::workspace_references_from_metadata(metadata)?;
         if references.is_empty() {
             return Ok(Vec::new());
@@ -1709,12 +1706,12 @@ impl ConversationCoordinator {
             .resolve_session_workspace_binding(session_id)
             .await
             .ok_or_else(|| {
-                OpenBitFunError::Validation(
+                OpcTeamError::Validation(
                     "Workspace references require an authoritative session workspace".to_string(),
                 )
             })?;
         if binding.is_remote() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Workspace references are unavailable for remote workspaces".to_string(),
             ));
         }
@@ -1723,34 +1720,34 @@ impl ConversationCoordinator {
         for reference in &references {
             Self::validate_workspace_reference_source(input, reference)?;
             let normalized = normalize_workspace_relative_path(&reference.path)
-                .map_err(|error| OpenBitFunError::Validation(error.to_string()))?;
+                .map_err(|error| OpcTeamError::Validation(error.to_string()))?;
             if normalized != reference.path {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Workspace reference paths must use normalized forward slashes".to_string(),
                 ));
             }
             let entry = resolve_workspace_relative_entry(binding.root_path(), &normalized)
                 .await
-                .map_err(|error| OpenBitFunError::Validation(error.to_string()))?;
+                .map_err(|error| OpcTeamError::Validation(error.to_string()))?;
             let expected_kind = match entry.kind {
                 WorkspaceEntryKind::File => AgentWorkspaceReferenceKind::File,
                 WorkspaceEntryKind::Directory => AgentWorkspaceReferenceKind::Directory,
             };
             if reference.kind != expected_kind {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Workspace reference kind does not match the selected path".to_string(),
                 ));
             }
             if reference.kind == AgentWorkspaceReferenceKind::Directory
                 && (reference.start_line.is_some() || reference.end_line.is_some())
             {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Directory references do not accept line ranges".to_string(),
                 ));
             }
             if let Some(start) = reference.start_line {
                 if start == 0 || reference.end_line.is_some_and(|end| end < start) {
-                    return Err(OpenBitFunError::Validation(
+                    return Err(OpcTeamError::Validation(
                         "Workspace reference line range is invalid".to_string(),
                     ));
                 }
@@ -1834,7 +1831,7 @@ impl ConversationCoordinator {
         &self,
         source_session_id: &str,
         metadata: Option<&serde_json::Value>,
-    ) -> OpenBitFunResult<Vec<Message>> {
+    ) -> OpcTeamResult<Vec<Message>> {
         let references = Self::session_reference_locators_from_metadata(metadata)?;
         if references.is_empty() {
             return Ok(Vec::new());
@@ -1845,7 +1842,7 @@ impl ConversationCoordinator {
         for (reference, artifact_stem) in references.into_iter().zip(artifact_stems) {
             if let Some(scheduler) = get_global_scheduler() {
                 if scheduler.is_session_busy_or_queued(&reference.session_id) {
-                    return Err(OpenBitFunError::Validation(format!(
+                    return Err(OpcTeamError::Validation(format!(
                         "Referenced session is busy or has queued work: {}",
                         reference.session_id
                     )));
@@ -1907,10 +1904,7 @@ impl ConversationCoordinator {
         }
     }
 
-    async fn restore_path_for_existing_session(
-        &self,
-        session_id: &str,
-    ) -> OpenBitFunResult<PathBuf> {
+    async fn restore_path_for_existing_session(&self, session_id: &str) -> OpcTeamResult<PathBuf> {
         self.session_manager
             .require_session_storage_path(session_id)
             .await
@@ -2186,10 +2180,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         remote_connection_id: Option<&str>,
         remote_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.runtime_ownership
             .ensure_workspace_scope(workspace_path, remote_connection_id, remote_ssh_host)
-            .map_err(|error| OpenBitFunError::Service(self.runtime_ownership.error_message(&error)))
+            .map_err(|error| OpcTeamError::Service(self.runtime_ownership.error_message(&error)))
     }
 
     /// Ensures that this process may attach or mutate one workspace Runtime.
@@ -2198,7 +2192,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         remote_connection_id: Option<&str>,
         remote_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.ensure_runtime_ownership(workspace_path, remote_connection_id, remote_ssh_host)
     }
 
@@ -2209,12 +2203,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         remote_connection_id: &str,
         remote_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.runtime_ownership
             .register_verified_remote_scope(workspace_path, remote_connection_id, remote_ssh_host)
-            .map_err(|error| {
-                OpenBitFunError::Service(self.runtime_ownership.error_message(&error))
-            })?;
+            .map_err(|error| OpcTeamError::Service(self.runtime_ownership.error_message(&error)))?;
         self.ensure_runtime_ownership(workspace_path, Some(remote_connection_id), remote_ssh_host)
     }
 
@@ -2227,7 +2219,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         legacy_path: &str,
         legacy_connection_id: Option<&str>,
         legacy_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<PathBuf> {
+    ) -> OpcTeamResult<PathBuf> {
         let workspace = self
             .ensure_workspace_runtime_ownership_for_reference(
                 workspace_id,
@@ -2240,7 +2232,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .resolve_workspace_storage(&workspace.id)
             .await
             .map(|resolution| resolution.effective_storage_path)
-            .map_err(|error| OpenBitFunError::service(error.to_string()))
+            .map_err(|error| OpcTeamError::service(error.to_string()))
     }
 
     /// Take runtime ownership of the workspace a request names. The ID selects
@@ -2252,9 +2244,9 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         legacy_path: &str,
         legacy_connection_id: Option<&str>,
         legacy_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<WorkspaceInfo> {
+    ) -> OpcTeamResult<WorkspaceInfo> {
         let service = crate::service::workspace::get_global_workspace_service()
-            .ok_or_else(|| OpenBitFunError::service("Workspace service is unavailable"))?;
+            .ok_or_else(|| OpcTeamError::service("Workspace service is unavailable"))?;
         self.ensure_workspace_runtime_ownership_for_reference_with_service(
             service.as_ref(),
             workspace_id,
@@ -2277,7 +2269,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         legacy_path: &str,
         legacy_connection_id: Option<&str>,
         legacy_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<WorkspaceInfo> {
+    ) -> OpcTeamResult<WorkspaceInfo> {
         let workspace = match workspace_id.map(str::trim).filter(|id| !id.is_empty()) {
             Some(id) => workspace_service.require_workspace(id).await?,
             None => {
@@ -2302,19 +2294,19 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                                 })
                         })
                         .ok_or_else(|| {
-                            OpenBitFunError::service(format!(
+                            OpcTeamError::service(format!(
                                 "Remote workspace ownership is unavailable: the saved workspace does not match connection '{connection_id}' at {legacy_path}"
                             ))
                         })?,
                     None => resolved.ok_or_else(|| {
-                        OpenBitFunError::service("Legacy workspace reference is unavailable")
+                        OpcTeamError::service("Legacy workspace reference is unavailable")
                     })?,
                 }
             }
         };
         if workspace.workspace_kind == WorkspaceKind::Remote {
             let connection = workspace.remote_ssh_connection_id().ok_or_else(|| {
-                OpenBitFunError::service("Remote workspace is missing its saved SSH connection ID")
+                OpcTeamError::service("Remote workspace is missing its saved SSH connection ID")
             })?;
             self.ensure_verified_remote_workspace_runtime_ownership(
                 &workspace.root_path,
@@ -2336,11 +2328,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_service: &WorkspaceService,
         workspace_id: &str,
-    ) -> OpenBitFunResult<WorkspaceInfo> {
+    ) -> OpcTeamResult<WorkspaceInfo> {
         let workspace = workspace_service.require_workspace(workspace_id).await?;
         if workspace.workspace_kind == WorkspaceKind::Remote {
             let connection_id = workspace.remote_ssh_connection_id().ok_or_else(|| {
-                OpenBitFunError::service(
+                OpcTeamError::service(
                     "Remote workspace record is missing its saved SSH connection ID",
                 )
             })?;
@@ -2376,7 +2368,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_service: &WorkspaceService,
         path: PathBuf,
-    ) -> OpenBitFunResult<WorkspaceInfo> {
+    ) -> OpcTeamResult<WorkspaceInfo> {
         self.ensure_runtime_ownership(&path, None, None)?;
         let workspace = workspace_service.open_workspace(path).await?;
         self.select_workspace_with_runtime_ownership(workspace_service, &workspace.id)
@@ -2391,7 +2383,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         connection_id: &str,
         ssh_host: Option<&str>,
         remote_connection_rebind: RemoteConnectionRebind,
-    ) -> OpenBitFunResult<WorkspaceInfo> {
+    ) -> OpcTeamResult<WorkspaceInfo> {
         let workspace = workspace_service
             .prepare_remote_workspace(path, connection_id, ssh_host)
             .await?;
@@ -2414,12 +2406,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         fallback_workspace: Option<&Path>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if let Some(session) = self.session_manager.get_session(session_id) {
             let workspace_path = session.config.workspace_path.as_deref().ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
-                    "Session workspace_path is missing: {session_id}"
-                ))
+                OpcTeamError::Validation(format!("Session workspace_path is missing: {session_id}"))
             })?;
             return self.ensure_runtime_ownership(
                 Path::new(workspace_path),
@@ -2429,7 +2419,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         }
         match fallback_workspace {
             Some(workspace_path) => self.ensure_runtime_ownership(workspace_path, None, None),
-            None => Err(OpenBitFunError::NotFound(format!(
+            None => Err(OpcTeamError::NotFound(format!(
                 "Session not found: {session_id}"
             ))),
         }
@@ -2511,10 +2501,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         action: SubagentTimeoutAction,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let registry = self.subagent_timeout_registry.read().await;
         let handle = registry.get(session_id).cloned().ok_or_else(|| {
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "No active subagent timeout handle for session {}",
                 session_id
             ))
@@ -2535,9 +2525,9 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_name: String,
         agent_type: String,
         config: SessionConfig,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let workspace_path = config.workspace_path.clone().ok_or_else(|| {
-            OpenBitFunError::Validation(
+            OpcTeamError::Validation(
                 "workspace_path is required when creating a session".to_string(),
             )
         })?;
@@ -2559,9 +2549,9 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_name: String,
         agent_type: String,
         config: SessionConfig,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let workspace_path = config.workspace_path.clone().ok_or_else(|| {
-            OpenBitFunError::Validation(
+            OpcTeamError::Validation(
                 "workspace_path is required when creating a session".to_string(),
             )
         })?;
@@ -2586,7 +2576,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         agent_type: String,
         config: SessionConfig,
         workspace_path: String,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.create_session_with_workspace_and_creator(
             session_id,
             session_name,
@@ -2602,7 +2592,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         model_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.update_session_model_selection(session_id, model_id, None)
             .await
     }
@@ -2612,7 +2602,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         model_id: &str,
         reasoning_preset: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.ensure_session_runtime_ownership(session_id, None)?;
         let normalized_model_id = normalize_model_selection(model_id).await?;
 
@@ -2638,7 +2628,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         model_id: &str,
         reasoning_preset: Option<&str>,
         include_internal: bool,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let model_id = normalize_model_selection(model_id).await?;
         self.session_manager
             .update_session_model_selection_in_storage(
@@ -2649,7 +2639,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 include_internal,
                 |session| {
                     let workspace = session.config.workspace_path.as_deref().ok_or_else(|| {
-                        OpenBitFunError::Validation(format!(
+                        OpcTeamError::Validation(format!(
                             "Session workspace_path is missing: {session_id}"
                         ))
                     })?;
@@ -2671,7 +2661,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         enable_tools: bool,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.ensure_session_runtime_ownership(session_id, None)?;
 
         if self
@@ -2699,7 +2689,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         config: SessionConfig,
         workspace_path: String,
         created_by: Option<String>,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.create_session_with_workspace_and_creator_internal(
             session_id,
             session_name,
@@ -2721,7 +2711,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: String,
         created_by: Option<String>,
         transient: bool,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         // Persist the workspace binding inside the session config so execution can
         // consistently restore the correct workspace regardless of the entry point.
         config.workspace_path = Some(workspace_path.clone());
@@ -2859,7 +2849,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         mut config: SessionConfig,
         workspace_path: String,
         created_by: Option<String>,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         config.workspace_path = Some(workspace_path);
         self.ensure_runtime_ownership(
             Path::new(
@@ -3236,10 +3226,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         turn_id: &str,
         terminal_kind: &str,
-        persistence_error: &OpenBitFunError,
+        persistence_error: &OpcTeamError,
         emit_lifecycle_events: bool,
     ) -> crate::service::session::TurnStatus {
-        let error = OpenBitFunError::OutcomeUnknown(format!(
+        let error = OpcTeamError::OutcomeUnknown(format!(
             "Failed to persist authoritative {terminal_kind} outcome: session_id={session_id}, turn_id={turn_id}; {persistence_error}"
         ));
         let error_text = error.to_string();
@@ -3561,7 +3551,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         scheduler_notify_tx: Option<&mpsc::UnboundedSender<(String, TurnOutcome)>>,
         session_id: &str,
         turn_id: &str,
-        error: &OpenBitFunError,
+        error: &OpcTeamError,
         emit_lifecycle_events: bool,
     ) -> crate::service::session::TurnStatus {
         Self::persist_failed_dialog_turn_with_messages(
@@ -3585,16 +3575,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         scheduler_notify_tx: Option<&mpsc::UnboundedSender<(String, TurnOutcome)>>,
         session_id: &str,
         turn_id: &str,
-        error: &OpenBitFunError,
+        error: &OpcTeamError,
         emit_lifecycle_events: bool,
         generation_messages: &[Message],
         preserve_recovery_on_persist_failure: bool,
     ) -> crate::service::session::TurnStatus {
         let error_text = error.to_string();
-        let recoverable = !matches!(
-            error,
-            OpenBitFunError::AIClient(_) | OpenBitFunError::Timeout(_)
-        );
+        let recoverable = !matches!(error, OpcTeamError::AIClient(_) | OpcTeamError::Timeout(_));
 
         error!("Dialog turn execution failed: {}", error_text);
 
@@ -3760,7 +3747,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         agent_type: String,
         config: SessionConfig,
         created_by: Option<String>,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.create_hidden_agent_session(
             session_id,
             session_name,
@@ -3780,7 +3767,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         config: SessionConfig,
         created_by: Option<String>,
         kind: SessionKind,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.create_hidden_agent_session_with_durability(
             session_id,
             session_name,
@@ -3802,7 +3789,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         created_by: Option<String>,
         kind: SessionKind,
         transient: bool,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         if transient {
             self.session_manager
                 .create_transient_session_with_id_and_details(
@@ -3831,7 +3818,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     async fn load_session_context_messages(
         &self,
         session: &Session,
-    ) -> OpenBitFunResult<Vec<Message>> {
+    ) -> OpcTeamResult<Vec<Message>> {
         let session_id = &session.session_id;
         let mut context_messages = self
             .session_manager
@@ -3883,7 +3870,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         enable_tools: bool,
         skill_agent_context_vars: &HashMap<String, String>,
         runtime_tool_restrictions: &ToolRuntimeRestrictions,
-    ) -> OpenBitFunResult<WrappedUserInputPayload> {
+    ) -> OpcTeamResult<WrappedUserInputPayload> {
         let agent_registry = get_agent_registry();
         agent_registry
             .load_custom_agents(
@@ -3898,7 +3885,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 workspace.and_then(|binding| binding.workspace_id.as_deref()),
             )
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!("Unknown agent type: {}", agent_type))
+                OpcTeamError::Validation(format!("Unknown agent type: {}", agent_type))
             })?;
         let current_agent_reminder = current_agent
             .get_system_reminder(previous_agent_type, workspace)
@@ -3975,7 +3962,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: String,
         workspace_path: String,
-    ) -> OpenBitFunResult<AssistantBootstrapEnsureOutcome> {
+    ) -> OpcTeamResult<AssistantBootstrapEnsureOutcome> {
         let workspace_root = PathBuf::from(&workspace_path);
         // Assistant workspaces are local-only. Ownership must be established
         // before persona files are created or a persisted Session is attached.
@@ -4017,7 +4004,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let expected_reply_language = if is_chinese { "Chinese" } else { "English" };
         let workspace_binding =
             WorkspaceBinding::resolve(session.config.workspace_id.as_deref().ok_or_else(|| {
-                OpenBitFunError::service("Assistant bootstrap requires its workspace ID")
+                OpcTeamError::service("Assistant bootstrap requires its workspace ID")
             })?)
             .await?;
         let (model_id, _) = self
@@ -4107,7 +4094,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         remote_ssh_host: Option<String>,
         submission_policy: DialogSubmissionPolicy,
         user_message_metadata: Option<serde_json::Value>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.start_dialog_turn_internal(
             session_id,
             user_input,
@@ -4143,23 +4130,23 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         extra_user_message_metadata: Option<serde_json::Value>,
         ecosystem_id: String,
         logical_id: String,
-    ) -> futures::future::BoxFuture<'_, OpenBitFunResult<()>> {
+    ) -> futures::future::BoxFuture<'_, OpcTeamResult<()>> {
         Box::pin(async move {
             openbitfun_core_types::validate_session_id(&session_id)
-                .map_err(OpenBitFunError::Validation)?;
+                .map_err(OpcTeamError::Validation)?;
             if prompt.trim().is_empty() {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "External subagent delegation prompt must not be empty".to_string(),
                 ));
             }
             let ecosystem_id = EcosystemId::new(ecosystem_id).map_err(|error| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "Invalid external subagent delegation ecosystem: {error}"
                 ))
             })?;
             let logical_id = logical_id.trim().to_string();
             if logical_id.is_empty() {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "External subagent delegation logical_id must not be empty".to_string(),
                 ));
             }
@@ -4168,17 +4155,17 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .session_manager
                 .get_session(&session_id)
                 .ok_or_else(|| {
-                    OpenBitFunError::NotFound(format!("Session not found: {session_id}"))
+                    OpcTeamError::NotFound(format!("Session not found: {session_id}"))
                 })?;
             self.ensure_session_runtime_ownership(&session_id, None)?;
             if session.config.is_remote_workspace() {
-                return Err(OpenBitFunError::NotImplemented(
+                return Err(OpcTeamError::NotImplemented(
                     "External subagent command delegation is unavailable for remote workspaces"
                         .to_string(),
                 ));
             }
             if !matches!(session.state, SessionState::Idle) {
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "Session must be idle before external subagent command delegation: {:?}",
                     session.state
                 )));
@@ -4188,7 +4175,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .await
                 > 0
             {
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "Previous dialog turn is still draining: session_id={session_id}"
                 )));
             }
@@ -4200,7 +4187,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .or_else(|| session.config.workspace_path.clone())
                 .or(workspace_path)
                 .ok_or_else(|| {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "Session workspace_path is missing: {session_id}"
                     ))
                 })?;
@@ -4225,7 +4212,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .session_manager
                     .get_session(&session_id)
                     .ok_or_else(|| {
-                        OpenBitFunError::NotFound(format!("Session not found: {session_id}"))
+                        OpcTeamError::NotFound(format!("Session not found: {session_id}"))
                     })?;
             }
 
@@ -4249,13 +4236,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 session.config.workspace_id.as_deref(),
             )
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "candidate_unavailable: approved external subagent {}:{} changed before the command could start",
                     ecosystem_id, logical_id
                 ))
             })?;
             let external_generation_lease = binding.lease.ok_or_else(|| {
-                OpenBitFunError::Validation(
+                OpcTeamError::Validation(
                     "Approved external subagent route is missing its generation lease".to_string(),
                 )
             })?;
@@ -4494,7 +4481,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                         (data, assistant_text, false, false, child_session_id, None)
                     }
                     Err(error) => {
-                        let cancelled = matches!(error, OpenBitFunError::Cancelled(_));
+                        let cancelled = matches!(error, OpcTeamError::Cancelled(_));
                         let error_text = error.to_string();
                         let tool_event = if cancelled {
                             ToolEventData::Cancelled {
@@ -4656,7 +4643,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                         error: error.to_string(),
                         recoverable: !matches!(
                             error,
-                            OpenBitFunError::AIClient(_) | OpenBitFunError::Timeout(_)
+                            OpcTeamError::AIClient(_) | OpcTeamError::Timeout(_)
                         ),
                     }
                 } else {
@@ -4764,7 +4751,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         submission_policy: DialogSubmissionPolicy,
         user_message_metadata: Option<serde_json::Value>,
         prepended_messages: Vec<Message>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.start_dialog_turn_internal(
             session_id,
             user_input,
@@ -4797,7 +4784,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         remote_ssh_host: Option<String>,
         submission_policy: DialogSubmissionPolicy,
         user_message_metadata: Option<serde_json::Value>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.start_dialog_turn_internal(
             session_id,
             user_input,
@@ -4831,7 +4818,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         submission_policy: DialogSubmissionPolicy,
         user_message_metadata: Option<serde_json::Value>,
         prepended_messages: Vec<Message>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.start_dialog_turn_internal(
             session_id,
             user_input,
@@ -4859,7 +4846,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &str,
         remote_connection_id: Option<&str>,
         remote_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<SessionStoragePathResolution> {
+    ) -> OpcTeamResult<SessionStoragePathResolution> {
         let request = SessionStoragePathRequest {
             workspace_path: PathBuf::from(workspace_path),
             remote_connection_id: remote_connection_id.map(ToOwned::to_owned),
@@ -4869,7 +4856,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         CoreSessionStorePort::with_path_manager(self.session_manager.path_manager())
             .resolve_session_storage_path(request)
             .await
-            .map_err(|error| OpenBitFunError::Session(error.to_string()))
+            .map_err(|error| OpcTeamError::Session(error.to_string()))
     }
 
     async fn resolve_session_restore_path(
@@ -4877,22 +4864,22 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &str,
         remote_connection_id: Option<&str>,
         remote_ssh_host: Option<&str>,
-    ) -> OpenBitFunResult<PathBuf> {
+    ) -> OpcTeamResult<PathBuf> {
         self.resolve_session_restore_scope(workspace_path, remote_connection_id, remote_ssh_host)
             .await
             .map(|resolution| resolution.effective_storage_path)
     }
 
-    fn require_main_session_workspace(&self, session_id: &str) -> OpenBitFunResult<PathBuf> {
+    fn require_main_session_workspace(&self, session_id: &str) -> OpcTeamResult<PathBuf> {
         let session = self
             .session_manager
             .get_session(session_id)
-            .ok_or_else(|| OpenBitFunError::NotFound(format!("Session not found: {session_id}")))?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {session_id}")))?;
         if matches!(
             session.kind,
             SessionKind::Subagent | SessionKind::EphemeralChild
         ) {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Thread goals are only available for main sessions".to_string(),
             ));
         }
@@ -4903,22 +4890,17 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .map(Path::new)
             .map(Path::to_path_buf)
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
-                    "Session workspace_path is missing: {session_id}"
-                ))
+                OpcTeamError::Validation(format!("Session workspace_path is missing: {session_id}"))
             })
     }
 
-    async fn require_main_session_storage_path(
-        &self,
-        session_id: &str,
-    ) -> OpenBitFunResult<PathBuf> {
+    async fn require_main_session_storage_path(&self, session_id: &str) -> OpcTeamResult<PathBuf> {
         self.require_main_session_workspace(session_id)?;
         self.session_manager
             .effective_session_storage_path(session_id)
             .await
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "Session storage path is unavailable: {session_id}"
                 ))
             })
@@ -4928,7 +4910,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         workspace_path: &Path,
-    ) -> OpenBitFunResult<PathBuf> {
+    ) -> OpcTeamResult<PathBuf> {
         if self.session_manager.get_session(session_id).is_some() {
             self.require_main_session_storage_path(session_id).await
         } else {
@@ -4940,7 +4922,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         storage_path: &Path,
-    ) -> OpenBitFunResult<Option<ThreadGoal>> {
+    ) -> OpcTeamResult<Option<ThreadGoal>> {
         let Some(mut goal) = self
             .thread_goal_store()
             .get_thread_goal(session_id, storage_path)
@@ -4980,7 +4962,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         workspace_path: &Path,
-    ) -> OpenBitFunResult<Option<ThreadGoal>> {
+    ) -> OpcTeamResult<Option<ThreadGoal>> {
         let _goal_guard = self.lock_thread_goal_operation(session_id).await;
         let storage_path = self
             .resolve_thread_goal_storage_path(session_id, workspace_path)
@@ -4993,7 +4975,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         workspace_path: &Path,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let goal_guard = self.lock_thread_goal_operation(session_id).await;
         let storage_path = self
             .resolve_thread_goal_storage_path(session_id, workspace_path)
@@ -5019,7 +5001,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         _workspace_path: &Path,
         objective: String,
         token_budget: Option<i64>,
-    ) -> OpenBitFunResult<ThreadGoal> {
+    ) -> OpcTeamResult<ThreadGoal> {
         let _goal_guard = self.lock_thread_goal_operation(session_id).await;
         let storage_path = self.require_main_session_storage_path(session_id).await?;
         let goal = self
@@ -5037,7 +5019,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         _workspace_path: &Path,
         objective: String,
-    ) -> OpenBitFunResult<ThreadGoal> {
+    ) -> OpcTeamResult<ThreadGoal> {
         let goal_guard = self.lock_thread_goal_operation(session_id).await;
         let storage_path = self.require_main_session_storage_path(session_id).await?;
         let existing = self
@@ -5045,7 +5027,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .get_thread_goal(session_id, storage_path.as_path())
             .await?
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!(
+                OpcTeamError::NotFound(format!(
                     "cannot edit goal for session {session_id}: no goal exists"
                 ))
             })?;
@@ -5100,7 +5082,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         _workspace_path: &Path,
         objective: String,
         replace_existing: bool,
-    ) -> OpenBitFunResult<ThreadGoal> {
+    ) -> OpcTeamResult<ThreadGoal> {
         let goal_guard = self.lock_thread_goal_operation(session_id).await;
         let storage_path = self.require_main_session_storage_path(session_id).await?;
         let previous = self
@@ -5203,7 +5185,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub async fn maybe_mark_thread_goal_usage_limited(
         &self,
         session_id: &str,
-        error: &OpenBitFunError,
+        error: &OpcTeamError,
     ) {
         if !is_usage_limit_error(error) {
             return;
@@ -5242,7 +5224,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         _workspace_path: &Path,
         status: ThreadGoalStatus,
-    ) -> OpenBitFunResult<ThreadGoal> {
+    ) -> OpcTeamResult<ThreadGoal> {
         let goal_guard = self.lock_thread_goal_operation(session_id).await;
         let storage_path = self.require_main_session_storage_path(session_id).await?;
         let previous = self
@@ -5511,13 +5493,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         status: ThreadGoalStatus,
         turn_id: Option<&str>,
-    ) -> OpenBitFunResult<ThreadGoal> {
+    ) -> OpcTeamResult<ThreadGoal> {
         if let Some(expected_turn_id) = turn_id {
             let matches = self.session_manager.get_session(session_id).is_some_and(|session| {
                 matches!(session.state, SessionState::Processing { current_turn_id, .. } if current_turn_id == expected_turn_id)
             });
             if !matches {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Cannot update a thread goal from a stale turn".to_string(),
                 ));
             }
@@ -5539,10 +5521,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         .await;
     }
 
-    async fn load_active_thread_goal(
-        &self,
-        session_id: &str,
-    ) -> OpenBitFunResult<Option<ThreadGoal>> {
+    async fn load_active_thread_goal(&self, session_id: &str) -> OpcTeamResult<Option<ThreadGoal>> {
         let storage_path = self.require_main_session_storage_path(session_id).await?;
         Ok(self
             .thread_goal_store()
@@ -5557,16 +5536,16 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         prompt: &str,
-    ) -> OpenBitFunResult<Option<ThreadGoal>> {
+    ) -> OpcTeamResult<Option<ThreadGoal>> {
         let _goal_guard = self.lock_thread_goal_operation(session_id).await;
         use openbitfun_agent_runtime::thread_goal::goal_objective_from_prompt;
         let Some(objective) = goal_objective_from_prompt(prompt) else {
             return Ok(None);
         };
         openbitfun_runtime_ports::validate_thread_goal_objective(objective)
-            .map_err(OpenBitFunError::Validation)?;
+            .map_err(OpcTeamError::Validation)?;
         if !self.session_manager.should_persist_session_id(session_id) {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Thread goals require a persistent session".to_string(),
             ));
         }
@@ -5602,9 +5581,9 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: String,
         user_hint: Option<String>,
-    ) -> OpenBitFunResult<ThreadGoal> {
+    ) -> OpcTeamResult<ThreadGoal> {
         let objective = user_hint.ok_or_else(|| {
-            OpenBitFunError::Validation(
+            OpcTeamError::Validation(
                 "Goal objective is required. Use /goal <objective>.".to_string(),
             )
         })?;
@@ -5638,7 +5617,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         metadata: &serde_json::Value,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         Ok(self
             .load_active_thread_goal(session_id)
             .await?
@@ -5651,7 +5630,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         metadata: &serde_json::Value,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let _goal_guard = self.lock_thread_goal_operation(session_id).await;
         if !self
             .thread_goal_continuation_is_current(session_id, metadata)
@@ -5685,7 +5664,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         user_input: &str,
         user_message_metadata: Option<&serde_json::Value>,
         turn_completed: bool,
-    ) -> OpenBitFunResult<Option<ThreadGoalContinuationPlan>> {
+    ) -> OpcTeamResult<Option<ThreadGoalContinuationPlan>> {
         let _goal_guard = self.lock_thread_goal_operation(session_id).await;
         if should_skip_goal_continuation_after_turn(user_input, user_message_metadata) {
             return Ok(None);
@@ -5735,14 +5714,14 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: String,
         requested_turn_id: Option<String>,
-    ) -> OpenBitFunResult<ManualCompactionTask> {
+    ) -> OpcTeamResult<ManualCompactionTask> {
         openbitfun_core_types::validate_session_id(&session_id)
-            .map_err(OpenBitFunError::Validation)?;
+            .map_err(OpcTeamError::Validation)?;
         if requested_turn_id
             .as_deref()
             .is_some_and(|turn_id| turn_id.trim().is_empty())
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Manual compaction turn_id must not be empty".to_string(),
             ));
         }
@@ -5753,22 +5732,20 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let initial_session = self
             .session_manager
             .get_session(&session_id)
-            .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Session not found: {}", session_id))
-            })?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {}", session_id)))?;
         match &initial_session.state {
             SessionState::Idle => {}
             SessionState::Processing {
                 current_turn_id,
                 phase,
             } => {
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "Session is still processing: current_turn_id={}, phase={:?}",
                     current_turn_id, phase
                 )));
             }
             SessionState::Error { error, .. } => {
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "Session must be idle before manual compaction: {}",
                     error
                 )));
@@ -5780,7 +5757,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .get_context_messages(&session_id)
             .await?;
         if context_messages.is_empty() && !initial_session.dialog_turn_ids.is_empty() {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Session context is not loaded; restore the session before manual compaction: {session_id}"
             )));
         }
@@ -5818,9 +5795,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let session = self
             .session_manager
             .get_session(&session_id)
-            .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Session not found: {}", session_id))
-            })?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {}", session_id)))?;
         let turn_index = session.dialog_turn_ids.len().saturating_sub(1);
 
         let execution_lease = self.register_session_execution(&session_id);
@@ -5897,7 +5872,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         turn_id: &str,
         outcome: &ContextCompactionOutcome,
         context_window: usize,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let model_round =
             Self::build_manual_compaction_round_completed(turn_id, outcome, context_window);
         let turn_persistence = session_manager
@@ -5914,16 +5889,16 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
 
         let finalization_error = match (turn_persistence, idle_persistence) {
             (Ok(()), Ok(true)) => None,
-            (Ok(()), Ok(false)) => Some(OpenBitFunError::Session(format!(
+            (Ok(()), Ok(false)) => Some(OpcTeamError::Session(format!(
                 "Manual compaction was applied, but turn ownership changed before finalization: session_id={session_id}, turn_id={turn_id}"
             ))),
-            (Err(turn_error), Ok(_)) => Some(OpenBitFunError::Session(format!(
+            (Err(turn_error), Ok(_)) => Some(OpcTeamError::Session(format!(
                 "Manual compaction was applied, but the completed turn could not be persisted: {turn_error}"
             ))),
-            (Ok(()), Err(state_error)) => Some(OpenBitFunError::Session(format!(
+            (Ok(()), Err(state_error)) => Some(OpcTeamError::Session(format!(
                 "Manual compaction was applied, but the idle session state could not be persisted: {state_error}"
             ))),
-            (Err(turn_error), Err(state_error)) => Some(OpenBitFunError::Session(format!(
+            (Err(turn_error), Err(state_error)) => Some(OpcTeamError::Session(format!(
                 "Manual compaction was applied, but turn and idle-state persistence failed: turn_error={turn_error}; state_error={state_error}"
             ))),
         };
@@ -5986,7 +5961,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         remote_exec_port: Option<Arc<dyn RemoteExecPort>>,
         cancellation_token: CancellationToken,
         commit_gate: Arc<ManualCompactionCommitGate>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let compression_id = format!("compression_{}", uuid::Uuid::new_v4());
         let mut context_window = session.config.max_context_tokens;
         let result = async {
@@ -6065,7 +6040,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 )
                 .await
             }
-            Err(err @ OpenBitFunError::Cancelled(_)) => {
+            Err(err @ OpcTeamError::Cancelled(_)) => {
                 let error_text = err.to_string();
                 let model_round = Self::build_manual_compaction_round_failed(
                     &turn_id,
@@ -6130,10 +6105,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     /// Compact the active session context through the same owned maintenance
     /// task used by Agent Runtime callers, then await its terminal result for
     /// the existing Desktop compatibility API.
-    pub async fn compact_session_manually(&self, session_id: String) -> OpenBitFunResult<()> {
+    pub async fn compact_session_manually(&self, session_id: String) -> OpcTeamResult<()> {
         let task = self.start_manual_compaction_task(session_id, None).await?;
         task.completion.await.map_err(|_| {
-            OpenBitFunError::Service(format!(
+            OpcTeamError::Service(format!(
                 "Manual compaction task ended without a terminal result: {}",
                 task.turn_id
             ))
@@ -6147,7 +6122,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: String,
         turn_id: String,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.start_manual_compaction_task(session_id, Some(turn_id))
             .await
             .map(|_task| ())
@@ -6157,14 +6132,14 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         images: &mut [ImageContextData],
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if images.is_empty() {
             return Ok(());
         }
         let session = self
             .session_manager
             .get_session(session_id)
-            .ok_or_else(|| OpenBitFunError::NotFound(format!("Session not found: {session_id}")))?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {session_id}")))?;
         let workspace = Self::build_workspace_binding(&session.config).await;
         let context =
             crate::agentic::tools::framework::ToolUseContext::for_tool_listing(workspace, None);
@@ -6190,7 +6165,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         extra_user_message_metadata: Option<serde_json::Value>,
         mut additional_prepended_messages: Vec<Message>,
         suppress_session_title_generation: bool,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let loaded_session = self.session_manager.get_session(&session_id);
         let storage_workspace_path = session_storage_workspace_locator(
             workspace_path.as_deref(),
@@ -6232,7 +6207,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     session_id
                 );
                 let restore = requested_restore.ok_or_else(|| {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "workspace_path is required when restoring session: {}",
                         session_id
                     ))
@@ -6368,7 +6343,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     "Session still processing, rejecting new dialog: session_id={}, current_turn_id={}, phase={:?}",
                     session_id, current_turn_id, phase
                 );
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "Session state does not allow starting new dialog: {:?}",
                     session.state
                 )));
@@ -6396,7 +6371,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 "UserPromptSubmit hook blocked the prompt: session_id={}, reason={}",
                 session_id, reason
             );
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "A UserPromptSubmit hook blocked this prompt: {reason}"
             )));
         }
@@ -6714,7 +6689,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .thread_goal_continuation_is_current(&session_id, metadata)
                 .await?
             {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Thread goal continuation is no longer current".to_string(),
                 ));
             }
@@ -6763,7 +6738,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             ) {
                 self.session_manager
                     .reset_session_state_if_processing(&session_id, &turn_id);
-                return Err(OpenBitFunError::Session(format!(
+                return Err(OpcTeamError::Session(format!(
                     "Failed to install active turn permission mode: session_id={session_id}, turn_id={turn_id}"
                 )));
             }
@@ -7199,7 +7174,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 Err(e) => {
                     let generation_messages = execution_engine
                         .take_generation_messages(&session_id_clone, &turn_id_clone);
-                    if matches!(&e, OpenBitFunError::Cancelled(_)) {
+                    if matches!(&e, OpcTeamError::Cancelled(_)) {
                         if interrupted_turn_intent_is_pending(
                             interrupted_turn_intents.as_ref(),
                             &interrupted_turn_key,
@@ -7274,28 +7249,27 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub async fn recover_interrupted_dialog_turn(
         &self,
         request: &openbitfun_runtime_ports::AgentDialogTurnRecoveryRequest,
-    ) -> OpenBitFunResult<openbitfun_runtime_ports::AgentDialogTurnRecoveryOutcome> {
+    ) -> OpcTeamResult<openbitfun_runtime_ports::AgentDialogTurnRecoveryOutcome> {
         openbitfun_core_types::validate_session_id(&request.session_id)
-            .map_err(OpenBitFunError::Validation)?;
-        openbitfun_core_types::validate_session_id(&request.turn_id).map_err(|message| {
-            OpenBitFunError::Validation(format!("Invalid turn_id: {message}"))
-        })?;
+            .map_err(OpcTeamError::Validation)?;
+        openbitfun_core_types::validate_session_id(&request.turn_id)
+            .map_err(|message| OpcTeamError::Validation(format!("Invalid turn_id: {message}")))?;
         self.ensure_session_runtime_ownership(&request.session_id, None)?;
 
         let session = self
             .session_manager
             .get_session(&request.session_id)
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Session not found: {}", request.session_id))
+                OpcTeamError::NotFound(format!("Session not found: {}", request.session_id))
             })?;
         if session.kind != SessionKind::Standard {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Interrupted turn recovery is supported only for standard user sessions"
                     .to_string(),
             ));
         }
         if session.config.is_remote_workspace() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Interrupted turn recovery is unavailable for remote workspaces".to_string(),
             ));
         }
@@ -7309,7 +7283,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 == Some(requested_workspace_id)
                 || session.config.project_workspace_id.as_deref() == Some(requested_workspace_id);
             if !matches_session_workspace {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Interrupted turn recovery workspace does not match the session".to_string(),
                 ));
             }
@@ -7319,13 +7293,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 == Some(requested_workspace)
                 || session.config.project_workspace_path.as_deref() == Some(requested_workspace);
             if !matches_session_workspace {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Interrupted turn recovery workspace does not match the session".to_string(),
                 ));
             }
         }
         if !matches!(session.state, SessionState::Idle) {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Session must be idle before recovering an interrupted turn: {:?}",
                 session.state
             )));
@@ -7344,7 +7318,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 )
             })
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Use the Thread Goal controls to resume goal work".to_string(),
             ));
         }
@@ -7360,7 +7334,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .as_ref()
             .is_some_and(WorkspaceBinding::is_remote)
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Interrupted turn recovery is unavailable for remote workspaces".to_string(),
             ));
         }
@@ -7368,7 +7342,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             Self::resolve_session_agent_for_turn(&session, &session.agent_type, &session_workspace)
                 .await?;
         if primary_agent_binding.route_owner != SessionAgentRouteOwner::Local {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Interrupted turn recovery is unavailable for externally owned agent routes"
                     .to_string(),
             ));
@@ -7693,7 +7667,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .await
                     .0,
                 ),
-                Err(error) if matches!(&error, OpenBitFunError::Cancelled(_)) => {
+                Err(error) if matches!(&error, OpcTeamError::Cancelled(_)) => {
                     let generation_messages =
                         execution_engine.take_generation_messages(&session_id, &turn_id);
                     if interrupted_turn_intent_is_pending(
@@ -7836,7 +7810,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         turn_id: &str,
         max_wait: Duration,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         match self
             .turn_settlements
             .wait(session_id, turn_id, max_wait)
@@ -7849,19 +7823,19 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .session_manager
                     .get_session(session_id)
                     .ok_or_else(|| {
-                        OpenBitFunError::NotFound(format!("Session not found: {session_id}"))
+                        OpcTeamError::NotFound(format!("Session not found: {session_id}"))
                     })?;
                 if !session.dialog_turn_ids.iter().any(|known| known == turn_id) {
-                    return Err(OpenBitFunError::NotFound(format!(
+                    return Err(OpcTeamError::NotFound(format!(
                         "Dialog turn not found: {turn_id}"
                     )));
                 }
-                return Err(OpenBitFunError::OutcomeUnknown(format!(
+                return Err(OpcTeamError::OutcomeUnknown(format!(
                     "Turn settlement evidence is unavailable: session_id={session_id}, turn_id={turn_id}"
                 )));
             }
         }
-        Err(OpenBitFunError::Timeout(format!(
+        Err(OpcTeamError::Timeout(format!(
             "Turn did not settle before timeout: session_id={session_id}, turn_id={turn_id}, timeout_ms={}",
             max_wait.as_millis()
         )))
@@ -7899,12 +7873,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         max_wait: Duration,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let pending = self.wait_session_drained(session_id, max_wait).await;
         if pending == 0 {
             return Ok(());
         }
-        Err(OpenBitFunError::Timeout(format!(
+        Err(OpcTeamError::Timeout(format!(
             "Session execution did not drain before maintenance: session_id={session_id}, pending={pending}, timeout_ms={}",
             max_wait.as_millis()
         )))
@@ -7965,7 +7939,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         dialog_turn_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.cancel_dialog_turn_with_descendant_policy(
             session_id,
             dialog_turn_id,
@@ -7981,7 +7955,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         dialog_turn_id: &str,
         drain_timeout: Duration,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.cancel_dialog_turn_with_descendant_policy(
             session_id,
             dialog_turn_id,
@@ -7999,7 +7973,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         cancel_descendants: bool,
         drain_timeout: Duration,
         disposition: DialogTurnStopDisposition,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         info!(
             "Received stop request: dialog_turn_id={}, session_id={}, cancel_descendants={}, disposition={:?}",
             dialog_turn_id, session_id, cancel_descendants, disposition
@@ -8010,21 +7984,21 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .session_manager
                 .get_session(session_id)
                 .ok_or_else(|| {
-                    OpenBitFunError::NotFound(format!("Session not found: {session_id}"))
+                    OpcTeamError::NotFound(format!("Session not found: {session_id}"))
                 })?;
             if session.kind != SessionKind::Standard {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Recoverable interruption is supported only for standard user sessions"
                         .to_string(),
                 ));
             }
             if session.config.is_remote_workspace() {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Recoverable interruption is not available for remote workspaces".to_string(),
                 ));
             }
             if session.config.agent_route_owner != SessionAgentRouteOwner::Local {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Recoverable interruption is unavailable for externally owned agent routes"
                         .to_string(),
                 ));
@@ -8046,7 +8020,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     );
                     return Ok(());
                 }
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "Dialog turn is not the active turn: {dialog_turn_id}"
                 )));
             }
@@ -8062,7 +8036,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     )
                 })
             {
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "Use the Thread Goal controls to pause or resume goal work".to_string(),
                 ));
             }
@@ -8208,7 +8182,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     );
                     return Ok(());
                 }
-                return Err(OpenBitFunError::Timeout(format!(
+                return Err(OpcTeamError::Timeout(format!(
                     "Interrupted turn did not settle within {}ms: session_id={}, turn_id={}",
                     drain_timeout.as_millis(),
                     session_id,
@@ -8238,7 +8212,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         wait_timeout: Duration,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         self.cancel_active_turn_for_session_with_descendant_policy(session_id, wait_timeout, true)
             .await
     }
@@ -8249,7 +8223,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         wait_timeout: Duration,
         cancel_descendants: bool,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         abort_thread_goal_continuation_for_session(session_id);
 
         let Some(session) = self.session_manager.get_session(session_id) else {
@@ -8286,7 +8260,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     current_turn_id,
                     wait_timeout.as_millis()
                 );
-                return Err(OpenBitFunError::Timeout(format!(
+                return Err(OpcTeamError::Timeout(format!(
                     "Active turn cancellation did not drain before timeout: session_id={session_id}, dialog_turn_id={current_turn_id}, timeout_ms={}",
                     wait_timeout.as_millis()
                 )));
@@ -8303,7 +8277,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         expected_active_turn_id: Option<&str>,
         wait_timeout: Duration,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         let deadline = Instant::now() + wait_timeout;
         let _mutation_guard = tokio::time::timeout(
             wait_timeout,
@@ -8311,7 +8285,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         )
         .await
         .map_err(|_| {
-            OpenBitFunError::Timeout(format!(
+            OpcTeamError::Timeout(format!(
                 "Timed out acquiring the Session lifecycle lease before lineage cancellation: session_id={session_id}"
             ))
         })??;
@@ -8331,7 +8305,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 _ => None,
             });
         if active_turn_id.as_deref() != expected_active_turn_id {
-            return Err(OpenBitFunError::OutcomeUnknown(format!(
+            return Err(OpcTeamError::OutcomeUnknown(format!(
                 "Subagent Session active Turn changed before cancellation: session_id={session_id}, expected_turn_id={}, active_turn_id={}",
                 expected_active_turn_id.unwrap_or("none"),
                 active_turn_id.as_deref().unwrap_or("none")
@@ -8366,7 +8340,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let session_storage_path = self
             .session_manager
             .resolve_storage_path_for_workspace_path(workspace_path)
@@ -8444,7 +8418,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         remote_connection_id: Option<&str>,
         remote_ssh_host: Option<&str>,
         session_id: &str,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         let family = self.session_manager.transient_session_family_postorder(
             workspace_path,
             remote_connection_id,
@@ -8474,7 +8448,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         parent_session_id: &str,
         parent_dialog_turn_ids: &HashSet<String>,
-    ) -> OpenBitFunResult<Vec<String>> {
+    ) -> OpcTeamResult<Vec<String>> {
         let session_ids = self
             .collect_hidden_subagent_sessions_for_parent_turns(
                 workspace_path,
@@ -8503,7 +8477,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         source_session_id: &str,
         target_session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.background_subagent_outcomes
             .initialize_fork(source_session_id, target_session_id)
             .await
@@ -8514,7 +8488,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         parent_session_id: &str,
         parent_dialog_turn_ids: &HashSet<String>,
-    ) -> OpenBitFunResult<Vec<String>> {
+    ) -> OpcTeamResult<Vec<String>> {
         self.session_manager
             .collect_hidden_subagent_cascade_for_parent_turns(
                 workspace_path,
@@ -8529,7 +8503,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         parent_session_id: &str,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if let Err(e) = self
             .cancel_active_turn_for_session(session_id, Duration::from_secs(2))
             .await
@@ -8548,7 +8522,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.ensure_runtime_ownership(workspace_path, None, None)?;
         let session = self
             .session_manager
@@ -8560,24 +8534,24 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub(crate) async fn local_revert_workspace(
         &self,
         session_id: &str,
-    ) -> OpenBitFunResult<crate::service::workspace::WorkspaceInfo> {
+    ) -> OpcTeamResult<crate::service::workspace::WorkspaceInfo> {
         let session = self
             .session_manager
             .get_session(session_id)
-            .ok_or_else(|| OpenBitFunError::NotFound(format!("Session not found: {session_id}")))?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {session_id}")))?;
         let id = session.config.workspace_id.as_deref().ok_or_else(|| {
-            OpenBitFunError::Validation(format!("Session workspace ID is missing: {session_id}"))
+            OpcTeamError::Validation(format!("Session workspace ID is missing: {session_id}"))
         })?;
         let service = crate::service::workspace::get_global_workspace_service()
-            .ok_or_else(|| OpenBitFunError::service("Workspace service is unavailable"))?;
+            .ok_or_else(|| OpcTeamError::service("Workspace service is unavailable"))?;
         let workspace = service.require_workspace(id).await?;
         if workspace.workspace_kind == WorkspaceKind::Remote {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Session undo and redo are unavailable for remote workspaces".into(),
             ));
         }
         if !workspace.root_path.is_dir() {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Session workspace directory does not exist: {}",
                 workspace.root_path.display()
             )));
@@ -8590,12 +8564,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_storage_path: &Path,
         session_id: &str,
         undo: bool,
-    ) -> OpenBitFunResult<(AgentSessionComposerUpdate, bool, usize)> {
+    ) -> OpcTeamResult<(AgentSessionComposerUpdate, bool, usize)> {
         let workspace = self.local_revert_workspace(session_id).await?;
         let snapshot_manager =
             crate::service::snapshot::get_or_create_snapshot_manager(&workspace.id, None)
                 .await
-                .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+                .map_err(|error| OpcTeamError::service(error.to_string()))?;
         let persistence = self.session_manager.persistence_manager();
         let mut current = persistence
             .load_session_revert_state(session_storage_path, session_id)
@@ -8607,7 +8581,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             self.reconcile_session_revert_locked(session_storage_path, session_id)
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::OutcomeUnknown(format!(
+                    OpcTeamError::OutcomeUnknown(format!(
                         "Session revert could not finish a pending transition: session_id={session_id}, error={error}"
                     ))
                 })?;
@@ -8637,7 +8611,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 snapshot_manager
                     .prepare_workspace_revert(session_id, &mut state)
                     .await
-                    .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+                    .map_err(|error| OpcTeamError::service(error.to_string()))?;
                 persistence
                     .save_session_revert_state(session_storage_path, session_id, &state)
                     .await?;
@@ -8645,7 +8619,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .apply_workspace_revert(session_id, &state)
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::OutcomeUnknown(format!(
+                        OpcTeamError::OutcomeUnknown(format!(
                             "Staged Session boundary was persisted but workspace reconciliation failed: session_id={session_id}, error={error}"
                         ))
                     })?;
@@ -8657,7 +8631,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     )
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::OutcomeUnknown(format!(
+                        OpcTeamError::OutcomeUnknown(format!(
                             "Staged Session boundary and workspace were updated but runtime context reconciliation failed: session_id={session_id}, error={error}"
                         ))
                     })?;
@@ -8666,7 +8640,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .save_session_revert_state(session_storage_path, session_id, &state)
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::OutcomeUnknown(format!(
+                        OpcTeamError::OutcomeUnknown(format!(
                             "Session boundary was applied but its stable phase could not be persisted: session_id={session_id}, error={error}"
                         ))
                     })?;
@@ -8685,7 +8659,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .apply_workspace_revert(session_id, &previous_state)
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::OutcomeUnknown(format!(
+                        OpcTeamError::OutcomeUnknown(format!(
                             "Session redo may have partially restored the workspace: session_id={session_id}, error={error}"
                         ))
                     })?;
@@ -8697,7 +8671,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     )
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::OutcomeUnknown(format!(
+                        OpcTeamError::OutcomeUnknown(format!(
                             "Session redo restored the workspace but could not reconcile runtime context: session_id={session_id}, error={error}"
                         ))
                     })?;
@@ -8705,7 +8679,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .delete_session_revert_state(session_storage_path, session_id)
                     .await
                     .map_err(|error| {
-                        OpenBitFunError::OutcomeUnknown(format!(
+                        OpcTeamError::OutcomeUnknown(format!(
                             "Session redo restored history but could not clear its staged marker: session_id={session_id}, error={error}"
                         ))
                     })?;
@@ -8730,7 +8704,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         target_turn_id: &str,
         expected_storage_turn_index: Option<usize>,
         expected_catalog_revision: Option<&str>,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         AgentSessionComposerUpdate,
         usize,
         usize,
@@ -8746,7 +8720,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .as_ref()
             .is_some_and(|state| state.phase != SessionRevertPhase::Staged)
         {
-            return Err(OpenBitFunError::OutcomeUnknown(format!(
+            return Err(OpcTeamError::OutcomeUnknown(format!(
                 "Session rollback requires reconciliation of an unfinished revert: session_id={session_id}"
             )));
         }
@@ -8772,7 +8746,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             )
             .await?;
         if expected_catalog_revision.is_some_and(|revision| revision != catalog.revision) {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Session rollback target is stale: session_id={session_id}"
             )));
         }
@@ -8780,12 +8754,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .iter()
             .find(|turn| turn.turn_id == target_turn_id)
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!(
+                OpcTeamError::NotFound(format!(
                     "Session rollback target was not found: session_id={session_id} turn_id={target_turn_id}"
                 ))
             })?;
         if expected_storage_turn_index.is_some_and(|index| index != target.turn_index) {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Session rollback target storage identity is stale: session_id={session_id} turn_id={target_turn_id}"
             )));
         }
@@ -8796,7 +8770,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .map(|turn| turn.turn_id.clone())
             .collect();
         let transition = resolve_targeted(&turns, target_turn_id, current.as_ref()).ok_or_else(|| {
-            OpenBitFunError::Validation(format!(
+            OpcTeamError::Validation(format!(
                 "Session rollback target is not a user Turn: session_id={session_id} turn_id={target_turn_id}"
             ))
         })?;
@@ -8811,13 +8785,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let snapshot_manager =
             crate::service::snapshot::get_or_create_snapshot_manager(&workspace.id, None)
                 .await
-                .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+                .map_err(|error| OpcTeamError::service(error.to_string()))?;
 
         state.phase = SessionRevertPhase::Applying;
         snapshot_manager
             .prepare_workspace_revert(session_id, &mut state)
             .await
-            .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+            .map_err(|error| OpcTeamError::service(error.to_string()))?;
         persistence
             .save_session_revert_state(session_storage_path, session_id, &state)
             .await?;
@@ -8825,7 +8799,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .apply_workspace_revert(session_id, &state)
             .await
             .map_err(|error| {
-                OpenBitFunError::OutcomeUnknown(format!(
+                OpcTeamError::OutcomeUnknown(format!(
                     "Session rollback was staged but workspace reconciliation failed: session_id={session_id}, error={error}"
                 ))
             })?;
@@ -8833,7 +8807,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .apply_staged_revert_context_locked(session_storage_path, session_id, boundary_turn)
             .await
             .map_err(|error| {
-                OpenBitFunError::OutcomeUnknown(format!(
+                OpcTeamError::OutcomeUnknown(format!(
                     "Session rollback updated the workspace but runtime context reconciliation failed: session_id={session_id}, error={error}"
                 ))
             })?;
@@ -8862,7 +8836,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let persistence = self.session_manager.persistence_manager();
         let Some(state) = persistence
             .load_session_revert_state(session_storage_path, session_id)
@@ -8875,7 +8849,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .commit_session_revert_locked(session_storage_path, session_id)
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::OutcomeUnknown(format!(
+                    OpcTeamError::OutcomeUnknown(format!(
                         "Session restore could not finish a pending revert commit: session_id={session_id}, error={error}"
                     ))
                 }),
@@ -8888,7 +8862,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 )
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::OutcomeUnknown(format!(
+                    OpcTeamError::OutcomeUnknown(format!(
                         "Session restore could not reconcile staged runtime context: session_id={session_id}, error={error}"
                     ))
                 }),
@@ -8906,9 +8880,8 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
-        openbitfun_core_types::validate_session_id(session_id)
-            .map_err(OpenBitFunError::Validation)?;
+    ) -> OpcTeamResult<()> {
+        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         self.session_manager
             .validate_session_storage_path_binding(session_id, session_storage_path)?;
         if let Some(state) = self
@@ -8919,7 +8892,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         {
             if state.phase != SessionRevertPhase::Staged {
                 if self.session_manager.get_session(session_id).is_none() {
-                    return Err(OpenBitFunError::OutcomeUnknown(format!(
+                    return Err(OpcTeamError::OutcomeUnknown(format!(
                         "Session history is unavailable until the unfinished undo transition is restored: session_id={session_id}"
                     )));
                 }
@@ -8940,7 +8913,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<Vec<DialogTurnData>> {
+    ) -> OpcTeamResult<Vec<DialogTurnData>> {
         let _mutation = self
             .session_manager
             .acquire_session_mutation(session_id)
@@ -8966,7 +8939,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         storage: &Path,
         session_id: &str,
         turn_id: Option<&str>,
-    ) -> OpenBitFunResult<Vec<DialogTurnData>> {
+    ) -> OpcTeamResult<Vec<DialogTurnData>> {
         self.load_relay_session_selection(storage, session_id, turn_id, None)
             .await
             .map(|page| page.0)
@@ -8977,7 +8950,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         storage: &Path,
         session_id: &str,
         before: Option<usize>,
-    ) -> OpenBitFunResult<(Vec<DialogTurnData>, Option<usize>)> {
+    ) -> OpcTeamResult<(Vec<DialogTurnData>, Option<usize>)> {
         self.load_relay_session_selection(storage, session_id, None, Some(before))
             .await
     }
@@ -8988,7 +8961,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         turn_id: Option<&str>,
         history: Option<Option<usize>>,
-    ) -> OpenBitFunResult<(Vec<DialogTurnData>, Option<usize>)> {
+    ) -> OpcTeamResult<(Vec<DialogTurnData>, Option<usize>)> {
         let _mutation = self
             .session_manager
             .acquire_session_mutation(session_id)
@@ -9008,7 +8981,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .lock_session_writes(storage, session_id)
             {
                 Ok(lease) => Some(lease),
-                Err(OpenBitFunError::SessionInUse { .. }) => None,
+                Err(OpcTeamError::SessionInUse { .. }) => None,
                 Err(error) => return Err(error),
             }
         } else {
@@ -9063,7 +9036,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             turns.len()
         );
         if turn_id.is_some() && turns.is_empty() {
-            return Err(OpenBitFunError::NotFound(format!(
+            return Err(OpcTeamError::NotFound(format!(
                 "Session turn unavailable: {}",
                 turn_id.unwrap_or_default()
             )));
@@ -9145,7 +9118,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_storage_path: &Path,
         session_id: &str,
         options: &crate::service::session::SessionTranscriptExportOptions,
-    ) -> OpenBitFunResult<crate::service::session::SessionTranscriptExport> {
+    ) -> OpcTeamResult<crate::service::session::SessionTranscriptExport> {
         let _mutation = self
             .session_manager
             .acquire_session_mutation(session_id)
@@ -9163,18 +9136,18 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_storage_path: &Path,
         session_id: &str,
         state: crate::agentic::session::revert::SessionRevertState,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let persistence = self.session_manager.persistence_manager();
         let workspace = self.local_revert_workspace(session_id).await?;
         let snapshot_manager =
             crate::service::snapshot::get_or_create_snapshot_manager(&workspace.id, None)
                 .await
-                .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+                .map_err(|error| OpcTeamError::service(error.to_string()))?;
         snapshot_manager
             .apply_workspace_revert(session_id, &state)
             .await
             .map_err(|error| {
-                OpenBitFunError::OutcomeUnknown(format!(
+                OpcTeamError::OutcomeUnknown(format!(
                     "Session restore could not reconcile an applying workspace boundary: session_id={session_id}, error={error}"
                 ))
             })?;
@@ -9186,7 +9159,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             )
             .await
             .map_err(|error| {
-                OpenBitFunError::OutcomeUnknown(format!(
+                OpcTeamError::OutcomeUnknown(format!(
                     "Session restore reconciled the workspace but not runtime context: session_id={session_id}, error={error}"
                 ))
             })?;
@@ -9217,7 +9190,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let persistence = self.session_manager.persistence_manager();
         let Some(mut state) = persistence
             .load_session_revert_state(session_storage_path, session_id)
@@ -9248,7 +9221,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let snapshot_manager =
             crate::service::snapshot::get_or_create_snapshot_manager(&workspace.id, None)
                 .await
-                .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+                .map_err(|error| OpcTeamError::service(error.to_string()))?;
         if state.phase == SessionRevertPhase::Staged {
             state.phase = SessionRevertPhase::Committing;
             persistence
@@ -9280,7 +9253,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         snapshot_manager
             .commit_workspace_revert(session_id, &state)
             .await
-            .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+            .map_err(|error| OpcTeamError::service(error.to_string()))?;
         persistence
             .delete_session_revert_state(session_storage_path, session_id)
             .await
@@ -9290,7 +9263,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         operation: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let Some(session_storage_path) = self
             .session_manager
             .effective_session_storage_path(session_id)
@@ -9310,7 +9283,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         self.commit_session_revert_locked(&session_storage_path, session_id)
             .await
             .map_err(|error| {
-                OpenBitFunError::OutcomeUnknown(format!(
+                OpcTeamError::OutcomeUnknown(format!(
                     "{operation} was not admitted because the staged Session suffix could not be committed safely: session_id={session_id}, error={error}"
                 ))
             })
@@ -9321,7 +9294,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub(crate) async fn commit_session_revert_before_submission(
         &self,
         session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let _mutation_guard = self
             .session_manager
             .acquire_session_mutation(session_id)
@@ -9334,13 +9307,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         restored: T,
-    ) -> OpenBitFunResult<T> {
+    ) -> OpcTeamResult<T> {
         let session_storage_path = self
             .session_manager
             .effective_session_storage_path(session_id)
             .await
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Session storage path not found: {session_id}"))
+                OpcTeamError::NotFound(format!("Session storage path not found: {session_id}"))
             })?;
         let _mutation_guard = self
             .session_manager
@@ -9355,7 +9328,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let session = self
             .session_manager
             .restore_session_from_storage_path(session_storage_path, session_id)
@@ -9367,7 +9340,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let session = self
             .session_manager
             .restore_internal_session_from_storage_path(session_storage_path, session_id)
@@ -9379,7 +9352,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         request: SessionStoragePathRequest,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.ensure_runtime_ownership(
             &request.workspace_path,
             request.remote_connection_id.as_deref(),
@@ -9402,7 +9375,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         legacy_connection_id: Option<&str>,
         legacy_ssh_host: Option<&str>,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let session_storage_path = self
             .session_storage_for_reference(
                 workspace_id,
@@ -9423,7 +9396,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         binding: &WorkspaceBinding,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let ssh_host = binding
             .is_remote()
             .then(|| binding.session_identity.hostname.clone())
@@ -9442,7 +9415,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         request: SessionStoragePathRequest,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.ensure_runtime_ownership(
             &request.workspace_path,
             request.remote_connection_id.as_deref(),
@@ -9459,7 +9432,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         self.ensure_runtime_ownership(workspace_path, None, None)?;
         let session = self
             .session_manager
@@ -9473,7 +9446,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         self.ensure_runtime_ownership(workspace_path, None, None)?;
         let restored = self
             .session_manager
@@ -9486,7 +9459,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         let restored = self
             .session_manager
             .restore_session_with_turns_from_storage_path(session_storage_path, session_id)
@@ -9498,7 +9471,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         let restored = self
             .session_manager
             .restore_internal_session_with_turns_from_storage_path(session_storage_path, session_id)
@@ -9510,7 +9483,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         request: SessionStoragePathRequest,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         self.ensure_runtime_ownership(
             &request.workspace_path,
             request.remote_connection_id.as_deref(),
@@ -9527,7 +9500,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         request: SessionStoragePathRequest,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         self.ensure_runtime_ownership(
             &request.workspace_path,
             request.remote_connection_id.as_deref(),
@@ -9544,7 +9517,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         self.ensure_runtime_ownership(workspace_path, None, None)?;
         let restored = self
             .session_manager
@@ -9558,7 +9531,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         self.session_manager
             .restore_session_view(workspace_path, session_id)
             .await
@@ -9568,7 +9541,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         crate::agentic::session::session_manager::SessionViewRestoreTiming,
@@ -9582,7 +9555,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         request: SessionStoragePathRequest,
         session_id: &str,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         crate::agentic::session::session_manager::SessionViewRestoreTiming,
@@ -9596,7 +9569,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         crate::agentic::session::session_manager::SessionViewRestoreTiming,
@@ -9611,7 +9584,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         session_id: &str,
         tail_turn_count: usize,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>, usize)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>, usize)> {
         self.session_manager
             .restore_session_view_tail(workspace_path, session_id, tail_turn_count)
             .await
@@ -9622,7 +9595,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         session_id: &str,
         tail_turn_count: usize,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         usize,
@@ -9638,7 +9611,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_storage_path: &Path,
         session_id: &str,
         tail_turn_count: usize,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         usize,
@@ -9657,7 +9630,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>)> {
         self.session_manager
             .restore_internal_session_view(workspace_path, session_id)
             .await
@@ -9667,7 +9640,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         workspace_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         crate::agentic::session::session_manager::SessionViewRestoreTiming,
@@ -9681,7 +9654,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         request: SessionStoragePathRequest,
         session_id: &str,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         crate::agentic::session::session_manager::SessionViewRestoreTiming,
@@ -9695,7 +9668,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_storage_path: &Path,
         session_id: &str,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         crate::agentic::session::session_manager::SessionViewRestoreTiming,
@@ -9710,7 +9683,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         session_id: &str,
         tail_turn_count: usize,
-    ) -> OpenBitFunResult<(Session, Vec<crate::service::session::DialogTurnData>, usize)> {
+    ) -> OpcTeamResult<(Session, Vec<crate::service::session::DialogTurnData>, usize)> {
         self.session_manager
             .restore_internal_session_view_tail(workspace_path, session_id, tail_turn_count)
             .await
@@ -9721,7 +9694,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         workspace_path: &Path,
         session_id: &str,
         tail_turn_count: usize,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         usize,
@@ -9737,7 +9710,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_storage_path: &Path,
         session_id: &str,
         tail_turn_count: usize,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Session,
         Vec<crate::service::session::DialogTurnData>,
         usize,
@@ -9753,15 +9726,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     }
 
     /// List all sessions
-    pub async fn list_sessions(
-        &self,
-        workspace_path: &Path,
-    ) -> OpenBitFunResult<Vec<SessionSummary>> {
+    pub async fn list_sessions(&self, workspace_path: &Path) -> OpcTeamResult<Vec<SessionSummary>> {
         self.session_manager.list_sessions(workspace_path).await
     }
 
     /// Get a best-effort message view for a session.
-    pub async fn get_messages(&self, session_id: &str) -> OpenBitFunResult<Vec<Message>> {
+    pub async fn get_messages(&self, session_id: &str) -> OpcTeamResult<Vec<Message>> {
         self.session_manager.get_messages(session_id).await
     }
 
@@ -9771,7 +9741,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         limit: usize,
         before_message_id: Option<&str>,
-    ) -> OpenBitFunResult<(Vec<Message>, bool)> {
+    ) -> OpcTeamResult<(Vec<Message>, bool)> {
         self.session_manager
             .get_messages_paginated(session_id, limit, before_message_id)
             .await
@@ -9796,15 +9766,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     }
 
     /// Cancel tool execution
-    pub async fn cancel_tool(&self, tool_id: &str, reason: String) -> OpenBitFunResult<()> {
+    pub async fn cancel_tool(&self, tool_id: &str, reason: String) -> OpcTeamResult<()> {
         self.tool_pipeline.cancel_tool(tool_id, reason).await
     }
 
-    pub async fn reply_to_tool(
-        &self,
-        tool_id: &str,
-        reply: PermissionReply,
-    ) -> OpenBitFunResult<()> {
+    pub async fn reply_to_tool(&self, tool_id: &str, reply: PermissionReply) -> OpcTeamResult<()> {
         self.tool_pipeline.reply_to_tool(tool_id, reply).await
     }
 
@@ -9943,20 +9909,20 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         cancel_token: Option<&CancellationToken>,
         deadline: Option<Instant>,
         label: &str,
-    ) -> OpenBitFunResult<OwnedSemaphorePermit> {
+    ) -> OpcTeamResult<OwnedSemaphorePermit> {
         let semaphore = limiter.semaphore.clone();
         let permit = match (cancel_token, deadline) {
             (Some(token), Some(deadline)) => {
                 tokio::select! {
                     result = semaphore.acquire_owned() => result
-                        .map_err(|error| OpenBitFunError::Semaphore(error.to_string()))?,
+                        .map_err(|error| OpcTeamError::Semaphore(error.to_string()))?,
                     _ = token.cancelled() => {
-                        return Err(OpenBitFunError::Cancelled(
+                        return Err(OpcTeamError::Cancelled(
                             "Subagent task was cancelled while waiting for a concurrency slot".to_string(),
                         ));
                     }
                     _ = tokio::time::sleep_until(deadline) => {
-                        return Err(OpenBitFunError::Timeout(format!(
+                        return Err(OpcTeamError::Timeout(format!(
                             "Timed out while waiting for a {} concurrency slot for subagent '{}'",
                             label, agent_type
                         )));
@@ -9966,9 +9932,9 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             (Some(token), None) => {
                 tokio::select! {
                     result = semaphore.acquire_owned() => result
-                        .map_err(|error| OpenBitFunError::Semaphore(error.to_string()))?,
+                        .map_err(|error| OpcTeamError::Semaphore(error.to_string()))?,
                     _ = token.cancelled() => {
-                        return Err(OpenBitFunError::Cancelled(
+                        return Err(OpcTeamError::Cancelled(
                             "Subagent task was cancelled while waiting for a concurrency slot".to_string(),
                         ));
                     }
@@ -9977,9 +9943,9 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             (None, Some(deadline)) => {
                 tokio::select! {
                     result = semaphore.acquire_owned() => result
-                        .map_err(|error| OpenBitFunError::Semaphore(error.to_string()))?,
+                        .map_err(|error| OpcTeamError::Semaphore(error.to_string()))?,
                     _ = tokio::time::sleep_until(deadline) => {
-                        return Err(OpenBitFunError::Timeout(format!(
+                        return Err(OpcTeamError::Timeout(format!(
                             "Timed out while waiting for a {} concurrency slot for subagent '{}'",
                             label, agent_type
                         )));
@@ -9989,7 +9955,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             (None, None) => semaphore
                 .acquire_owned()
                 .await
-                .map_err(|error| OpenBitFunError::Semaphore(error.to_string()))?,
+                .map_err(|error| OpcTeamError::Semaphore(error.to_string()))?,
         };
 
         let active_subagents = limiter
@@ -10009,7 +9975,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         profile_concurrency_cap: usize,
         cancel_token: Option<&CancellationToken>,
         deadline: Option<Instant>,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         Vec<(OwnedSemaphorePermit, SubagentConcurrencyLimiter)>,
         u128,
     )> {
@@ -10111,7 +10077,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         request: HiddenSubagentExecutionRequest,
         cancel_token: Option<&CancellationToken>,
         timeout_seconds: Option<u64>,
-    ) -> OpenBitFunResult<SubagentResult> {
+    ) -> OpcTeamResult<SubagentResult> {
         let HiddenSubagentExecutionRequest {
             requested_agent_id: _,
             target_session_id,
@@ -10224,7 +10190,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     prepared_session_created,
                 )
                 .await;
-                return Err(OpenBitFunError::Cancelled(
+                return Err(OpcTeamError::Cancelled(
                     "Subagent task has been cancelled".to_string(),
                 ));
             }
@@ -10265,7 +10231,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     prepared_session_created,
                 )
                 .await;
-                return Err(OpenBitFunError::Cancelled(
+                return Err(OpcTeamError::Cancelled(
                     "Subagent task has been cancelled".to_string(),
                 ));
             }
@@ -10280,7 +10246,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 prepared_session_created,
             )
             .await;
-            return Err(OpenBitFunError::Timeout(timeout_error_message.clone()));
+            return Err(OpcTeamError::Timeout(timeout_error_message.clone()));
         }
 
         let session = match target_session_id {
@@ -10288,12 +10254,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 Some(session) => {
                     if session.kind != session_kind {
                         let error = if session_kind == SessionKind::Subagent {
-                            OpenBitFunError::Validation(format!(
+                            OpcTeamError::Validation(format!(
                                 "Subagent execution target must be a subagent session: {}",
                                 target_session_id
                             ))
                         } else {
-                            OpenBitFunError::Validation(format!(
+                            OpcTeamError::Validation(format!(
                                 "Hidden agent execution target has unexpected kind: {}",
                                 target_session_id
                             ))
@@ -10308,7 +10274,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     session
                 }
                 None => {
-                    let error = OpenBitFunError::NotFound(format!(
+                    let error = OpcTeamError::NotFound(format!(
                         "Subagent session not found: {}",
                         target_session_id
                     ));
@@ -10434,7 +10400,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .await;
                 let mut registry = self.subagent_timeout_registry.write().await;
                 registry.remove(&session_id);
-                return Err(OpenBitFunError::Cancelled(
+                return Err(OpcTeamError::Cancelled(
                     "Subagent task has been cancelled".to_string(),
                 ));
             }
@@ -10452,7 +10418,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .await;
             let mut registry = self.subagent_timeout_registry.write().await;
             registry.remove(&session_id);
-            return Err(OpenBitFunError::Timeout(timeout_error_message.clone()));
+            return Err(OpcTeamError::Timeout(timeout_error_message.clone()));
         }
 
         let turn_index = self.session_manager.get_turn_count(&session_id);
@@ -10566,7 +10532,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             let _ = self.cleanup_subagent_resources(&session_id).await;
             let mut registry = self.subagent_timeout_registry.write().await;
             registry.remove(&session_id);
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Subagent task has been cancelled".to_string(),
             ));
         }
@@ -10758,7 +10724,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     let _ = self
                         .execution_engine
                         .take_generation_messages(&session_id, &dialog_turn_id);
-                    let join_error = OpenBitFunError::tool(format!(
+                    let join_error = OpcTeamError::tool(format!(
                         "Subagent '{}' failed to join: {}",
                         agent_type, error
                     ));
@@ -10887,7 +10853,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 registry.remove(&session_id);
 
                 execution_scope.disarm();
-                return Err(OpenBitFunError::Cancelled(
+                return Err(OpcTeamError::Cancelled(
                     "Subagent task has been cancelled".to_string(),
                 ));
             }
@@ -11034,7 +11000,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     return Ok(partial_result);
                 }
 
-                let timeout_error = OpenBitFunError::Timeout(timeout_error_message.clone());
+                let timeout_error = OpcTeamError::Timeout(timeout_error_message.clone());
                 Self::persist_failed_dialog_turn(
                     self.event_queue.as_ref(),
                     self.session_manager.as_ref(),
@@ -11069,7 +11035,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 registry.remove(&session_id);
 
                 execution_scope.disarm();
-                return Err(OpenBitFunError::Timeout(timeout_error_message.clone()));
+                return Err(OpcTeamError::Timeout(timeout_error_message.clone()));
             }
         };
 
@@ -11093,7 +11059,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 let _ = self
                     .execution_engine
                     .take_generation_messages(&session_id, &dialog_turn_id);
-                let turn_status = if matches!(&e, OpenBitFunError::Cancelled(_)) {
+                let turn_status = if matches!(&e, OpcTeamError::Cancelled(_)) {
                     Self::persist_cancelled_dialog_turn(
                         self.event_queue.as_ref(),
                         self.session_manager.as_ref(),
@@ -11248,15 +11214,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub async fn capture_fork_agent_context_snapshot(
         &self,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<ForkAgentContextSnapshot> {
+    ) -> OpcTeamResult<ForkAgentContextSnapshot> {
         let parent_session = self
             .session_manager
             .get_session(parent_session_id)
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!(
-                    "Parent session not found: {}",
-                    parent_session_id
-                ))
+                OpcTeamError::NotFound(format!("Parent session not found: {}", parent_session_id))
             })?;
         self.load_session_context_messages(&parent_session).await?;
         // The restore path above may acquire the same lock, so take the
@@ -11283,7 +11246,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         request_id: &str,
         parent_dialog_turn_id: Option<&str>,
         parent_turn_index: Option<usize>,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         if let Some(session) = self.session_manager.get_session(child_session_id) {
             self.session_manager
                 .merge_session_relationship(
@@ -11385,26 +11348,24 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         parent_turn_index: Option<usize>,
         user_message_metadata: Option<serde_json::Value>,
         initial_model_selection: Option<openbitfun_runtime_ports::AgentSessionModelSelection>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         if request_id.trim().is_empty() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "request_id is required".to_string(),
             ));
         }
         if parent_session_id.trim().is_empty() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "parent_session_id is required".to_string(),
             ));
         }
         if child_session_id.trim().is_empty() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "child_session_id is required".to_string(),
             ));
         }
         if question.trim().is_empty() {
-            return Err(OpenBitFunError::Validation(
-                "question is required".to_string(),
-            ));
+            return Err(OpcTeamError::Validation("question is required".to_string()));
         }
 
         let child_session = self
@@ -11490,7 +11451,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         target_session_id: &str,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<Session> {
+    ) -> OpcTeamResult<Session> {
         let session = match self.session_manager.get_session(target_session_id) {
             Some(session) => session,
             None => {
@@ -11499,7 +11460,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     .resolve_session_workspace_binding(parent_session_id)
                     .await
                     .ok_or_else(|| {
-                        OpenBitFunError::NotFound(format!(
+                        OpcTeamError::NotFound(format!(
                             "Parent session workspace not found: {}",
                             parent_session_id
                         ))
@@ -11515,7 +11476,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                         .and_then(|relationship| relationship.continuation_policy)
                         == Some(SessionContinuationPolicy::FreshOnly)
                 }) {
-                    return Err(OpenBitFunError::Validation(
+                    return Err(OpcTeamError::Validation(
                         "subagent_follow_up_unsupported: this subagent session is fresh-only; start a new Task invocation"
                             .to_string(),
                     ));
@@ -11529,14 +11490,14 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         };
 
         if session.config.continuation_policy == SessionContinuationPolicy::FreshOnly {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "subagent_follow_up_unsupported: this subagent session is fresh-only; start a new Task invocation"
                     .to_string(),
             ));
         }
 
         if session.kind != SessionKind::Subagent {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Subagent execution target must be a subagent session: {}",
                 target_session_id
             )));
@@ -11546,14 +11507,14 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .subagent_session_owned_by_parent(&session, parent_session_id)
             .await
         {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Subagent session '{}' was not created by parent session '{}'",
                 target_session_id, parent_session_id
             )));
         }
 
         if matches!(session.state, SessionState::Error { .. }) {
-            return Err(OpenBitFunError::Validation(format!(
+            return Err(OpcTeamError::Validation(format!(
                 "Subagent session is in error state and cannot be reused: {}",
                 target_session_id
             )));
@@ -11654,7 +11615,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     async fn load_reusable_subagent_context_messages(
         &self,
         session: &Session,
-    ) -> OpenBitFunResult<Vec<Message>> {
+    ) -> OpcTeamResult<Vec<Message>> {
         let session_id = &session.session_id;
         let mut context_messages = self
             .session_manager
@@ -11699,21 +11660,18 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         parent_session_id: &str,
         defaults: &AgentModelDefaultsConfig,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let parent_session = self
             .session_manager
             .get_session(parent_session_id)
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!(
-                    "Parent session not found: {}",
-                    parent_session_id
-                ))
+                OpcTeamError::NotFound(format!("Parent session not found: {}", parent_session_id))
             })?;
 
         trimmed_model_id(parent_session.config.model_id.as_deref())
             .or_else(|| trimmed_model_id(Some(defaults.mode.as_str())))
             .ok_or_else(|| {
-                OpenBitFunError::Validation(format!(
+                OpcTeamError::Validation(format!(
                     "Parent session has no model selection: {}",
                     parent_session_id
                 ))
@@ -11726,7 +11684,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         inherit_parent_model: bool,
         agent_type: &str,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let defaults = Self::agent_model_defaults().await;
         if inherit_parent_model {
             return normalize_model_selection(
@@ -11738,7 +11696,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .session_manager
             .get_session(parent_session_id)
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!("Session not found: {parent_session_id}"))
+                OpcTeamError::NotFound(format!("Session not found: {parent_session_id}"))
             })?;
         let registry = get_agent_registry();
         let configured_selection = registry
@@ -11767,9 +11725,9 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         binding: &ExternalSubagentModelBinding,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<(String, String)> {
+    ) -> OpcTeamResult<(String, String)> {
         let config_service = get_global_config_service().await.map_err(|error| {
-            OpenBitFunError::AIClient(format!(
+            OpcTeamError::AIClient(format!(
                 "Failed to load AI configuration for approved subagent binding: {error}"
             ))
         })?;
@@ -11777,7 +11735,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .get_config(Some("ai"))
             .await
             .map_err(|error| {
-                OpenBitFunError::AIClient(format!(
+                OpcTeamError::AIClient(format!(
                     "Failed to read AI configuration for approved subagent binding: {error}"
                 ))
             })?;
@@ -11841,10 +11799,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     async fn resolve_hidden_subagent_execution_request(
         &self,
         request: SubagentExecutionRequest,
-    ) -> OpenBitFunResult<HiddenSubagentExecutionRequest> {
+    ) -> OpcTeamResult<HiddenSubagentExecutionRequest> {
         let task_description = request.task_description.trim().to_string();
         if task_description.is_empty() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "task_description is required when creating a subagent session".to_string(),
             ));
         }
@@ -11857,7 +11815,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .map(str::to_string);
         let inherit_parent_model = request.inherit_parent_model;
         if inherit_parent_model && model_id.is_some() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "A subagent model request cannot specify both a model ID and parent inheritance"
                     .to_string(),
             ));
@@ -11870,7 +11828,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .session_manager
             .get_session(&request.subagent_parent_info.session_id)
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!(
+                OpcTeamError::NotFound(format!(
                     "Parent session not found: {}",
                     request.subagent_parent_info.session_id
                 ))
@@ -11921,13 +11879,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             SubagentContextMode::Fresh => {
                 if let Some(target_session_id) = request.target_session_id.as_deref() {
                     if request.subagent_type.is_some() {
-                        return Err(OpenBitFunError::Validation(
+                        return Err(OpcTeamError::Validation(
                             "subagent_type is not allowed when target_session_id is provided"
                                 .to_string(),
                         ));
                     }
                     if request.workspace_path.is_some() {
-                        return Err(OpenBitFunError::Validation(
+                        return Err(OpcTeamError::Validation(
                             "workspace_path is not allowed when target_session_id is provided"
                                 .to_string(),
                         ));
@@ -11978,7 +11936,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                             self.session_manager
                                 .get_session(&session_id)
                                 .ok_or_else(|| {
-                                    OpenBitFunError::NotFound(format!(
+                                    OpcTeamError::NotFound(format!(
                                         "Subagent session not found after model update: {}",
                                         session_id
                                     ))
@@ -12024,7 +11982,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 }
 
                 let agent_type = request.subagent_type.ok_or_else(|| {
-                    OpenBitFunError::Validation(
+                    OpcTeamError::Validation(
                         "subagent_type is required when context_mode is 'fresh'".to_string(),
                     )
                 })?;
@@ -12035,12 +11993,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     SessionModelBindingPolicy::ApprovedImmutable
                 ) {
                     if model_id.is_some() || inherit_parent_model {
-                        return Err(OpenBitFunError::Validation(
+                        return Err(OpcTeamError::Validation(
                             "An approved immutable subagent model cannot be overridden".to_string(),
                         ));
                     }
                     let binding = approved_model_binding.as_ref().ok_or_else(|| {
-                        OpenBitFunError::Validation(
+                        OpcTeamError::Validation(
                             "Approved immutable subagent generation has no model binding"
                                 .to_string(),
                         )
@@ -12069,7 +12027,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     &agent_type,
                 );
                 let workspace_id = parent_session.config.workspace_id.clone().ok_or_else(|| {
-                    OpenBitFunError::service("Parent session workspace ID is unavailable")
+                    OpcTeamError::service("Parent session workspace ID is unavailable")
                 })?;
                 let mut session_config =
                     Self::build_session_config_for_workspace(workspace_id, Some(resolved_model_id))
@@ -12112,17 +12070,17 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             }
             SubagentContextMode::Fork => {
                 if request.target_session_id.is_some() {
-                    return Err(OpenBitFunError::Validation(
+                    return Err(OpcTeamError::Validation(
                         "target_session_id is not allowed when context_mode is 'fork'".to_string(),
                     ));
                 }
                 if request.subagent_type.is_some() {
-                    return Err(OpenBitFunError::Validation(
+                    return Err(OpcTeamError::Validation(
                         "subagent_type is not allowed when context_mode is 'fork'".to_string(),
                     ));
                 }
                 if request.workspace_path.is_some() {
-                    return Err(OpenBitFunError::Validation(
+                    return Err(OpcTeamError::Validation(
                         "workspace_path is not allowed when context_mode is 'fork'".to_string(),
                     ));
                 }
@@ -12138,7 +12096,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                         trimmed_model_id(snapshot.session_model_id.as_deref())
                             .or_else(|| trimmed_model_id(Some(defaults.mode.as_str())))
                             .ok_or_else(|| {
-                                OpenBitFunError::Validation(format!(
+                                OpcTeamError::Validation(format!(
                                     "Fork parent session has no model selection: {}",
                                     snapshot.parent_session_id
                                 ))
@@ -12149,7 +12107,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 };
                 let model_selection = if inherit_parent_model {
                     parent_model_id.ok_or_else(|| {
-                        OpenBitFunError::Validation(
+                        OpcTeamError::Validation(
                             "Fork parent session has no model selection".to_string(),
                         )
                     })?
@@ -12204,19 +12162,19 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub(super) async fn prepare_hidden_subagent_execution_request(
         &self,
         mut request: HiddenSubagentExecutionRequest,
-    ) -> OpenBitFunResult<HiddenSubagentExecutionRequest> {
+    ) -> OpcTeamResult<HiddenSubagentExecutionRequest> {
         if let Some(target_session_id) = request.target_session_id.as_deref() {
             let session = self
                 .session_manager
                 .get_session(target_session_id)
                 .ok_or_else(|| {
-                    OpenBitFunError::NotFound(format!(
+                    OpcTeamError::NotFound(format!(
                         "Subagent session not found: {}",
                         target_session_id
                     ))
                 })?;
             if session.kind != SessionKind::Subagent {
-                return Err(OpenBitFunError::Validation(format!(
+                return Err(OpcTeamError::Validation(format!(
                     "Subagent execution target must be a subagent session: {}",
                     target_session_id
                 )));
@@ -12301,7 +12259,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub(crate) async fn prepare_subagent_execution_request(
         &self,
         request: SubagentExecutionRequest,
-    ) -> OpenBitFunResult<HiddenSubagentExecutionRequest> {
+    ) -> OpcTeamResult<HiddenSubagentExecutionRequest> {
         let request = self
             .resolve_hidden_subagent_execution_request(request)
             .await?;
@@ -12318,26 +12276,26 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         request: HiddenSubagentExecutionRequest,
         cancel_token: Option<&CancellationToken>,
         timeout_seconds: Option<u64>,
-    ) -> OpenBitFunResult<SubagentResult> {
+    ) -> OpcTeamResult<SubagentResult> {
         self.execute_hidden_subagent_internal(request, cancel_token, timeout_seconds)
             .await
     }
 
     async fn await_hidden_subagent_receiver(
-        receiver: tokio::sync::oneshot::Receiver<OpenBitFunResult<SubagentResult>>,
-    ) -> OpenBitFunResult<SubagentResult> {
+        receiver: tokio::sync::oneshot::Receiver<OpcTeamResult<SubagentResult>>,
+    ) -> OpcTeamResult<SubagentResult> {
         receiver
             .await
-            .map_err(|_| OpenBitFunError::tool("Subagent result channel closed".to_string()))?
+            .map_err(|_| OpcTeamError::tool("Subagent result channel closed".to_string()))?
     }
 
     async fn await_hidden_subagent_cancellation(
-        receiver: impl std::future::Future<Output = OpenBitFunResult<SubagentResult>>,
+        receiver: impl std::future::Future<Output = OpcTeamResult<SubagentResult>>,
         wait_timeout: Duration,
-    ) -> OpenBitFunResult<SubagentResult> {
+    ) -> OpcTeamResult<SubagentResult> {
         match tokio::time::timeout(wait_timeout, receiver).await {
             Ok(result) => result,
-            Err(_) => Err(OpenBitFunError::Cancelled(
+            Err(_) => Err(OpcTeamError::Cancelled(
                 "Subagent task has been cancelled".to_string(),
             )),
         }
@@ -12383,7 +12341,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         parent_session_id: &str,
         subagent_session_id: &str,
         cancel_descendants: bool,
-    ) -> OpenBitFunResult<usize> {
+    ) -> OpcTeamResult<usize> {
         self.ensure_subagent_session_loaded_for_reuse(subagent_session_id, parent_session_id)
             .await?;
 
@@ -12424,7 +12382,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub(crate) async fn cancel_background_subagents_for_parent_session(
         &self,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<Vec<String>> {
+    ) -> OpcTeamResult<Vec<String>> {
         let controls = self.claim_background_subagent_controls(|control| {
             control.parent_session_id == parent_session_id
         });
@@ -12451,7 +12409,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         delivered_parent_dialog_turn_id: &str,
         cancellation_token: Option<&CancellationToken>,
         round_injection_preemption_token: Option<&CancellationToken>,
-    ) -> OpenBitFunResult<BackgroundSubagentWaitResult> {
+    ) -> OpcTeamResult<BackgroundSubagentWaitResult> {
         self.background_subagent_outcomes
             .wait_for(
                 parent_session_id,
@@ -12470,7 +12428,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         parent_session_id: &str,
         subagent_session_id: &str,
         requested_agent_id: Option<&str>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         self.background_subagent_outcomes
             .agent_id_for_session_with_requested_id(
                 parent_session_id,
@@ -12484,7 +12442,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         parent_session_id: &str,
         subagent_session_id: &str,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         self.background_subagent_outcomes
             .existing_agent_id_for_session(parent_session_id, subagent_session_id)
             .await
@@ -12494,7 +12452,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         parent_session_id: &str,
         agent_id: &str,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         self.background_subagent_outcomes
             .resolve_agent_id(parent_session_id, agent_id)
             .await
@@ -12503,7 +12461,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub(crate) async fn direct_child_agents(
         &self,
         parent_session_id: &str,
-    ) -> OpenBitFunResult<Vec<super::DirectChildAgentRecord>> {
+    ) -> OpcTeamResult<Vec<super::DirectChildAgentRecord>> {
         self.background_subagent_outcomes
             .direct_child_agents(parent_session_id)
             .await
@@ -12513,7 +12471,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         parent_session_id: &str,
         agent_ids: &[String],
-    ) -> OpenBitFunResult<usize> {
+    ) -> OpcTeamResult<usize> {
         let mut targets = Vec::with_capacity(agent_ids.len());
         for agent_id in agent_ids {
             let target_session_id = self
@@ -12541,13 +12499,13 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         parent_session_id: &str,
         agent_id: &str,
         target_session_id: &str,
-    ) -> OpenBitFunResult<usize> {
+    ) -> OpcTeamResult<usize> {
         let subtree = self
             .background_subagent_outcomes
             .swarm_subtree_session_ids_postorder(target_session_id)
             .await?;
         if subtree.last().map(String::as_str) != Some(target_session_id) {
-            return Err(OpenBitFunError::OutcomeUnknown(format!(
+            return Err(OpcTeamError::OutcomeUnknown(format!(
                 "Agent subtree could not be resolved completely: agent_id={agent_id}"
             )));
         }
@@ -12558,7 +12516,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             .await
             .map(|binding| binding.session_storage_dir())
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!(
+                OpcTeamError::NotFound(format!(
                     "Parent session workspace not found: {parent_session_id}"
                 ))
             })?;
@@ -12607,11 +12565,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         Ok(subtree.len())
     }
 
-    async fn delete_agent_session_by_id(&self, session_id: &str) -> OpenBitFunResult<()> {
+    async fn delete_agent_session_by_id(&self, session_id: &str) -> OpcTeamResult<()> {
         let session = self
             .session_manager
             .get_session(session_id)
-            .ok_or_else(|| OpenBitFunError::NotFound(format!("Session not found: {session_id}")))?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {session_id}")))?;
         let workspace_path = session.config.workspace_path.clone().map(PathBuf::from);
         let is_remote_workspace = Self::session_hooks_are_remote(&session).await;
         let model = session.config.model_id.clone().unwrap_or_default();
@@ -12648,7 +12606,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     pub(crate) async fn swarm_depth_for_session(
         &self,
         session_id: &str,
-    ) -> OpenBitFunResult<Option<u8>> {
+    ) -> OpcTeamResult<Option<u8>> {
         self.background_subagent_outcomes
             .swarm_depth_for_session(session_id)
             .await
@@ -12702,7 +12660,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         controls: Vec<(i64, BackgroundSubagentTaskControl)>,
         cancel_descendants: bool,
-    ) -> OpenBitFunResult<usize> {
+    ) -> OpcTeamResult<usize> {
         for (task_pk, control) in &controls {
             debug!(
                 "Cancelling background subagent task: task_pk={}, parent_session_id={}, subagent_session_id={}",
@@ -12738,7 +12696,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         request: SubagentExecutionRequest,
         cancel_token: Option<&CancellationToken>,
         timeout_seconds: Option<u64>,
-    ) -> OpenBitFunResult<SubagentResult> {
+    ) -> OpcTeamResult<SubagentResult> {
         let request = self.prepare_subagent_execution_request(request).await?;
         let Some(scheduler) = get_global_scheduler() else {
             return self
@@ -12753,7 +12711,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             Err(error) => {
                 self.cleanup_prepared_hidden_subagent_session_if_unsubmitted(&request)
                     .await;
-                return Err(OpenBitFunError::tool(error));
+                return Err(OpcTeamError::tool(error));
             }
         };
         let receiver = submit_result.receiver;
@@ -12788,10 +12746,10 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         request: InternalAgentExecutionRequest,
         cancel_token: Option<&CancellationToken>,
         timeout_seconds: Option<u64>,
-    ) -> OpenBitFunResult<SubagentResult> {
+    ) -> OpcTeamResult<SubagentResult> {
         let task_description = request.task_description.trim().to_string();
         if task_description.is_empty() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "task_description is required when creating an internal agent session".to_string(),
             ));
         }
@@ -12837,12 +12795,12 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         // Tool cancellation is narrower than parent-turn cancellation: round
         // injection cancels the Tool while keeping the dialog turn alive.
         tool_cancellation_token: Option<CancellationToken>,
-    ) -> OpenBitFunResult<BackgroundSubagentStartResult> {
+    ) -> OpcTeamResult<BackgroundSubagentStartResult> {
         if tool_cancellation_token
             .as_ref()
             .is_some_and(CancellationToken::is_cancelled)
         {
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Background subagent start was cancelled".to_string(),
             ));
         }
@@ -12860,7 +12818,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         {
             self.cleanup_prepared_hidden_subagent_session_if_unsubmitted(&request)
                 .await;
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Background subagent start was cancelled".to_string(),
             ));
         }
@@ -12868,7 +12826,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let subagent_session_id = request
             .target_session_id()
             .ok_or_else(|| {
-                OpenBitFunError::Validation(
+                OpcTeamError::Validation(
                     "prepared hidden subagent request is missing target_session_id".to_string(),
                 )
             })?
@@ -12878,7 +12836,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             None => {
                 self.cleanup_prepared_hidden_subagent_session_if_unsubmitted(&request)
                     .await;
-                return Err(OpenBitFunError::Validation(
+                return Err(OpcTeamError::Validation(
                     "subagent_parent_info is required when creating a background subagent session"
                         .to_string(),
                 ));
@@ -12892,7 +12850,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             None => {
                 self.cleanup_prepared_hidden_subagent_session_if_unsubmitted(&request)
                     .await;
-                return Err(OpenBitFunError::NotFound(format!(
+                return Err(OpcTeamError::NotFound(format!(
                     "Parent session not found: {}",
                     subagent_parent_info.session_id
                 )));
@@ -12927,7 +12885,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 }
                 self.cleanup_prepared_hidden_subagent_session_if_unsubmitted(&request)
                     .await;
-                return Err(OpenBitFunError::service(
+                return Err(OpcTeamError::service(
                     "Coordinator not initialized".to_string(),
                 ));
             }
@@ -12990,7 +12948,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                         .await;
                 }
             }
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Background subagent start was cancelled".to_string(),
             ));
         }
@@ -13039,7 +12997,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                                 .await;
                         }
                     }
-                    return Err(OpenBitFunError::tool(error));
+                    return Err(OpcTeamError::tool(error));
                 }
             };
             let receiver = submit_result.receiver;
@@ -13197,7 +13155,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
     /// Durable and reusable Subagent sessions remain available for follow-up.
     /// A transient fresh-only child has no supported continuation path, so its
     /// existing lifecycle owner releases the Session after terminal cleanup.
-    async fn cleanup_subagent_resources(&self, session_id: &str) -> OpenBitFunResult<()> {
+    async fn cleanup_subagent_resources(&self, session_id: &str) -> OpcTeamResult<()> {
         let cleanup_started_at = Instant::now();
         debug!(
             "Starting subagent resource cleanup: session_id={}",
@@ -13250,7 +13208,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 .as_deref()
                 .map(Path::new)
                 .ok_or_else(|| {
-                    OpenBitFunError::Validation(format!(
+                    OpcTeamError::Validation(format!(
                         "Transient subagent workspace binding is missing: {session_id}"
                     ))
                 })?;
@@ -13287,7 +13245,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         dialog_turn_id: &str,
         user_input_text: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if !Self::should_persist_reused_subagent_user_input_context(
             prepared_target_session_id,
             prepared_session_created,
@@ -13323,7 +13281,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         user_message: &str,
         max_length: Option<usize>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         self.ensure_session_runtime_ownership(session_id, None)?;
         let allow_ai = is_ai_session_title_generation_enabled().await;
         let resolved = self
@@ -13354,11 +13312,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         title: &str,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         self.ensure_session_runtime_ownership(session_id, None)?;
         let normalized = title.trim().to_string();
         if normalized.is_empty() {
-            return Err(OpenBitFunError::validation(
+            return Err(OpcTeamError::validation(
                 "Session title must not be empty".to_string(),
             ));
         }
@@ -13377,11 +13335,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         Ok(normalized)
     }
 
-    pub async fn update_session_mode(
-        &self,
-        session_id: &str,
-        mode_id: &str,
-    ) -> OpenBitFunResult<()> {
+    pub async fn update_session_mode(&self, session_id: &str, mode_id: &str) -> OpcTeamResult<()> {
         self.update_session_mode_with_route(session_id, mode_id, None)
             .await
     }
@@ -13391,11 +13345,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         session_id: &str,
         mode_id: &str,
         expected_route_key: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.ensure_session_runtime_ownership(session_id, None)?;
         let mode_id = mode_id.trim();
         if mode_id.is_empty() {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Session mode must not be empty".to_string(),
             ));
         }
@@ -13403,7 +13357,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         let session = self
             .session_manager
             .get_session(session_id)
-            .ok_or_else(|| OpenBitFunError::NotFound(format!("Session not found: {session_id}")))?;
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Session not found: {session_id}")))?;
         let workspace = Self::build_workspace_binding(&session.config).await;
         let external_sources_supported = workspace
             .as_ref()
@@ -13433,7 +13387,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         &self,
         session_id: &str,
         agent_type: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.ensure_session_runtime_ownership(session_id, None)?;
         let normalized = Self::normalize_agent_type(agent_type);
         self.session_manager
@@ -13558,7 +13512,7 @@ fn resolve_agent_session_create_created_by(
         .map(ToOwned::to_owned)
 }
 
-fn runtime_port_backend_error(error: OpenBitFunError) -> openbitfun_runtime_ports::PortError {
+fn runtime_port_backend_error(error: OpcTeamError) -> openbitfun_runtime_ports::PortError {
     openbitfun_runtime_ports::PortError::new(
         openbitfun_runtime_ports::PortErrorKind::Backend,
         error.to_string(),
@@ -13570,7 +13524,7 @@ async fn create_agent_session_from_runtime_request(
     session_id: Option<String>,
     request: openbitfun_runtime_ports::AgentSessionCreateRequest,
     transient: bool,
-    map_core_error: fn(OpenBitFunError) -> openbitfun_runtime_ports::PortError,
+    map_core_error: fn(OpcTeamError) -> openbitfun_runtime_ports::PortError,
 ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult> {
     let workspace_path = request.workspace_path.clone().ok_or_else(|| {
         openbitfun_runtime_ports::PortError::new(
@@ -13629,7 +13583,7 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
     ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult>
     {
         openbitfun_core_types::validate_session_id(&session_id).map_err(|message| {
-            runtime_port_error_preserving_message(OpenBitFunError::Validation(message))
+            runtime_port_error_preserving_message(OpcTeamError::Validation(message))
         })?;
         create_agent_session_from_runtime_request(
             self,
@@ -13648,7 +13602,7 @@ impl openbitfun_runtime_ports::AgentSubmissionPort for ConversationCoordinator {
     ) -> openbitfun_runtime_ports::PortResult<openbitfun_runtime_ports::AgentSessionCreateResult>
     {
         openbitfun_core_types::validate_session_id(&session_id).map_err(|message| {
-            runtime_port_error_preserving_message(OpenBitFunError::Validation(message))
+            runtime_port_error_preserving_message(OpcTeamError::Validation(message))
         })?;
         create_agent_session_from_runtime_request(
             self,
@@ -13966,32 +13920,30 @@ fn runtime_session_workspace_binding(binding: WorkspaceBinding) -> AgentSessionW
     }
 }
 
-fn runtime_port_error_from_openbitfun(
-    error: OpenBitFunError,
-) -> openbitfun_runtime_ports::PortError {
+fn runtime_port_error_from_openbitfun(error: OpcTeamError) -> openbitfun_runtime_ports::PortError {
     let (kind, message) = match error {
-        OpenBitFunError::Validation(message) => (
+        OpcTeamError::Validation(message) => (
             openbitfun_runtime_ports::PortErrorKind::InvalidRequest,
             message,
         ),
-        OpenBitFunError::NotFound(message) => {
+        OpcTeamError::NotFound(message) => {
             (openbitfun_runtime_ports::PortErrorKind::NotFound, message)
         }
-        OpenBitFunError::Cancelled(message) => {
+        OpcTeamError::Cancelled(message) => {
             (openbitfun_runtime_ports::PortErrorKind::Cancelled, message)
         }
-        OpenBitFunError::Timeout(message) => {
+        OpcTeamError::Timeout(message) => {
             (openbitfun_runtime_ports::PortErrorKind::Timeout, message)
         }
-        OpenBitFunError::SessionInUse { session_id } => (
+        OpcTeamError::SessionInUse { session_id } => (
             openbitfun_runtime_ports::PortErrorKind::SessionInUse,
             format!("Session is already open for writing: {session_id}"),
         ),
-        OpenBitFunError::OutcomeUnknown(message) => (
+        OpcTeamError::OutcomeUnknown(message) => (
             openbitfun_runtime_ports::PortErrorKind::OutcomeUnknown,
             message,
         ),
-        OpenBitFunError::NotImplemented(message) => (
+        OpcTeamError::NotImplemented(message) => (
             openbitfun_runtime_ports::PortErrorKind::NotAvailable,
             message,
         ),
@@ -14004,7 +13956,7 @@ fn runtime_port_error_from_openbitfun(
 }
 
 fn runtime_port_error_preserving_message(
-    error: OpenBitFunError,
+    error: OpcTeamError,
 ) -> openbitfun_runtime_ports::PortError {
     let message = error.to_string();
     let mut port_error = runtime_port_error_from_openbitfun(error);
@@ -14534,7 +14486,7 @@ impl openbitfun_runtime_ports::AgentLocalCommandTurnPort for ConversationCoordin
         self.session_manager
             .get_session(&request.session_id)
             .ok_or_else(|| {
-                runtime_port_error_preserving_message(OpenBitFunError::NotFound(format!(
+                runtime_port_error_preserving_message(OpcTeamError::NotFound(format!(
                     "Session not found: {}",
                     request.session_id
                 )))
@@ -14574,23 +14526,23 @@ impl openbitfun_runtime_ports::AgentLocalCommandTurnPort for ConversationCoordin
 
 fn validate_user_shell_command_request(
     request: &openbitfun_runtime_ports::AgentUserShellCommandRequest,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     openbitfun_core_types::validate_session_id(&request.session_id)
-        .map_err(OpenBitFunError::Validation)?;
+        .map_err(OpcTeamError::Validation)?;
     openbitfun_core_types::validate_session_id(&request.turn_id)
-        .map_err(|message| OpenBitFunError::Validation(format!("Invalid turn_id: {message}")))?;
+        .map_err(|message| OpcTeamError::Validation(format!("Invalid turn_id: {message}")))?;
     if request.command.trim().is_empty() {
-        return Err(OpenBitFunError::Validation(
+        return Err(OpcTeamError::Validation(
             "Shell command must not be empty".to_string(),
         ));
     }
     if request.command.contains('\0') {
-        return Err(OpenBitFunError::Validation(
+        return Err(OpcTeamError::Validation(
             "Shell command must not contain NUL characters".to_string(),
         ));
     }
     if request.command.len() > USER_SHELL_COMMAND_MAX_BYTES {
-        return Err(OpenBitFunError::Validation(format!(
+        return Err(OpcTeamError::Validation(format!(
             "Shell command exceeds the {USER_SHELL_COMMAND_MAX_BYTES}-byte limit"
         )));
     }
@@ -14628,7 +14580,7 @@ impl ConversationCoordinator {
         agent_type: &str,
         workspace: &Option<WorkspaceBinding>,
         workspace_services: &Option<WorkspaceServices>,
-    ) -> OpenBitFunResult<ToolExecutionOptions> {
+    ) -> OpcTeamResult<ToolExecutionOptions> {
         let global_config: crate::service::config::types::GlobalConfig =
             match GlobalConfigManager::get_service().await {
                 Ok(service) => service.get_config(None).await.unwrap_or_default(),
@@ -14637,7 +14589,7 @@ impl ConversationCoordinator {
         let project_rules = match workspace.as_ref() {
             Some(workspace) if workspace.is_remote() => {
                 let services = workspace_services.as_ref().ok_or_else(|| {
-                    OpenBitFunError::service(
+                    OpcTeamError::service(
                         "Remote workspace services are unavailable for a shell command".to_string(),
                     )
                 })?;
@@ -14685,7 +14637,7 @@ impl ConversationCoordinator {
         tool_call: ToolCall,
         context: ToolExecutionContext,
         options: ToolExecutionOptions,
-    ) -> OpenBitFunResult<Vec<crate::agentic::tools::pipeline::ToolExecutionResult>> {
+    ) -> OpcTeamResult<Vec<crate::agentic::tools::pipeline::ToolExecutionResult>> {
         tool_pipeline
             .execute_tools(vec![tool_call], context, options)
             .await
@@ -14927,7 +14879,7 @@ impl openbitfun_runtime_ports::AgentUserShellCommandPort for ConversationCoordin
             .session_manager
             .get_session(&request.session_id)
             .ok_or_else(|| {
-                runtime_port_error_preserving_message(OpenBitFunError::NotFound(format!(
+                runtime_port_error_preserving_message(OpcTeamError::NotFound(format!(
                     "Session not found: {}",
                     request.session_id
                 )))
@@ -15042,7 +14994,7 @@ impl openbitfun_runtime_ports::AgentThreadGoalManagementPort for ConversationCoo
         request: openbitfun_runtime_ports::AgentThreadGoalGetRequest,
     ) -> openbitfun_runtime_ports::PortResult<Option<ThreadGoal>> {
         openbitfun_core_types::validate_session_id(&request.session_id).map_err(|message| {
-            runtime_port_error_preserving_message(OpenBitFunError::Validation(message))
+            runtime_port_error_preserving_message(OpcTeamError::Validation(message))
         })?;
         let uses_default_workspace = request.workspace_path == "."
             && request.remote_connection_id.is_none()
@@ -15201,10 +15153,10 @@ impl openbitfun_runtime_ports::AgentTurnCancellationPort for ConversationCoordin
             .map_err(|error| {
                 openbitfun_runtime_ports::PortError::new(
                     match error {
-                        OpenBitFunError::Validation(_) => {
+                        OpcTeamError::Validation(_) => {
                             openbitfun_runtime_ports::PortErrorKind::InvalidRequest
                         }
-                        OpenBitFunError::NotFound(_) => {
+                        OpcTeamError::NotFound(_) => {
                             openbitfun_runtime_ports::PortErrorKind::NotFound
                         }
                         _ => openbitfun_runtime_ports::PortErrorKind::Backend,
@@ -15726,7 +15678,7 @@ mod tests {
     use crate::agentic::tools::{ToolPipeline, ToolStateManager};
     use crate::agentic::TurnSkillAgentSnapshot;
     use crate::infrastructure::PathManager;
-    use crate::util::errors::OpenBitFunError;
+    use crate::util::errors::OpcTeamError;
     use openbitfun_agent_runtime::permission::PermissionRequestManager;
     use openbitfun_runtime_ports::AgentTurnSettlementStatus;
     use openbitfun_runtime_services::test_support::FakeRuntimePort;
@@ -15853,7 +15805,7 @@ mod tests {
         );
         #[cfg(not(feature = "remote-workspace"))]
         assert!(
-            matches!(error, OpenBitFunError::NotImplemented(_)),
+            matches!(error, OpcTeamError::NotImplemented(_)),
             "builds without remote-workspace must report the missing feature: {message}"
         );
 
@@ -16056,15 +16008,15 @@ mod tests {
     #[test]
     fn post_admission_cancellation_errors_are_outcome_unknown() {
         for source_error in [
-            crate::util::errors::OpenBitFunError::Timeout("drain deadline".to_string()),
-            crate::util::errors::OpenBitFunError::Session("state persistence failed".to_string()),
+            crate::util::errors::OpcTeamError::Timeout("drain deadline".to_string()),
+            crate::util::errors::OpcTeamError::Session("state persistence failed".to_string()),
         ] {
             let error =
                 lineage_post_admission_cancellation_error(source_error, "session-1", "turn-1");
 
             assert!(matches!(
                 error,
-                crate::util::errors::OpenBitFunError::OutcomeUnknown(message)
+                crate::util::errors::OpcTeamError::OutcomeUnknown(message)
                     if message.contains("session_id=session-1")
                         && message.contains("turn_id=turn-1")
             ));
@@ -16173,7 +16125,7 @@ mod tests {
 
         assert!(matches!(
             error,
-            crate::util::errors::OpenBitFunError::OutcomeUnknown(message)
+            crate::util::errors::OpcTeamError::OutcomeUnknown(message)
                 if message.contains("Injected session state write failure")
         ));
         assert!(engine_token.is_cancelled());
@@ -16760,7 +16712,7 @@ mod tests {
             Arc::new(ManualCompactionCommitGate::planning()),
         )
         .await;
-        assert!(matches!(result, Err(OpenBitFunError::Cancelled(_))));
+        assert!(matches!(result, Err(OpcTeamError::Cancelled(_))));
         let session = session_manager.get_session(&session_id).unwrap();
         assert!(matches!(session.state, SessionState::Idle));
         assert_eq!(session.compression_state.compression_count, 0);
@@ -17045,7 +16997,7 @@ mod tests {
 
         assert!(matches!(
             error,
-            crate::util::errors::OpenBitFunError::Cancelled(_)
+            crate::util::errors::OpcTeamError::Cancelled(_)
         ));
     }
 
@@ -17144,7 +17096,7 @@ mod tests {
     #[test]
     fn migrated_runtime_ports_preserve_existing_core_error_messages() {
         let error = runtime_port_error_preserving_message(
-            crate::util::errors::OpenBitFunError::Validation("invalid session id".to_string()),
+            crate::util::errors::OpcTeamError::Validation("invalid session id".to_string()),
         );
 
         assert_eq!(
@@ -17464,7 +17416,7 @@ mod tests {
             "ExecCommand"
         }
 
-        async fn description(&self) -> crate::util::errors::OpenBitFunResult<String> {
+        async fn description(&self) -> crate::util::errors::OpcTeamResult<String> {
             Ok("test user shell command".to_string())
         }
 
@@ -17492,7 +17444,7 @@ mod tests {
             &self,
             input: &serde_json::Value,
             _context: &ToolUseContext,
-        ) -> crate::util::errors::OpenBitFunResult<Vec<PermissionIntent>> {
+        ) -> crate::util::errors::OpcTeamResult<Vec<PermissionIntent>> {
             Ok(vec![PermissionIntent::new(
                 "bash",
                 vec![input["cmd"].as_str().unwrap_or_default().to_string()],
@@ -17522,7 +17474,7 @@ mod tests {
             &self,
             input: &serde_json::Value,
             _context: &ToolUseContext,
-        ) -> crate::util::errors::OpenBitFunResult<Vec<ToolResult>> {
+        ) -> crate::util::errors::OpcTeamResult<Vec<ToolResult>> {
             if let Some(call_count) = &self.call_count {
                 call_count.fetch_add(1, Ordering::SeqCst);
             }
@@ -18147,7 +18099,7 @@ mod tests {
             None,
             &session.session_id,
             &failed_turn_id,
-            &OpenBitFunError::AIClient("provider failed".to_string()),
+            &OpcTeamError::AIClient("provider failed".to_string()),
             true,
         )
         .await;
@@ -18270,7 +18222,7 @@ mod tests {
             .expect_err("stale target must fail before mutation");
         assert!(matches!(
             error,
-            crate::util::errors::OpenBitFunError::Validation(_)
+            crate::util::errors::OpcTeamError::Validation(_)
         ));
 
         let marker_after = session_manager
@@ -21064,7 +21016,7 @@ mod tests {
             .expect_err("transient discard must reject durable Session ownership");
         assert!(matches!(
             discard_error,
-            crate::util::errors::OpenBitFunError::Validation(_)
+            crate::util::errors::OpcTeamError::Validation(_)
         ));
         session_manager.evict_loaded_session_for_test(&durable.session_id);
         let collision = AgentSubmissionPort::create_transient_session_with_id(

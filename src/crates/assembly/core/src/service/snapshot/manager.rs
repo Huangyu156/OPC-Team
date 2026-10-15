@@ -869,14 +869,14 @@ impl Tool for WrappedTool {
         self.original_tool.name()
     }
 
-    async fn description(&self) -> crate::util::errors::OpenBitFunResult<String> {
+    async fn description(&self) -> crate::util::errors::OpcTeamResult<String> {
         Ok(self.original_tool.description().await?)
     }
 
     async fn description_with_context(
         &self,
         context: Option<&ToolUseContext>,
-    ) -> crate::util::errors::OpenBitFunResult<String> {
+    ) -> crate::util::errors::OpcTeamResult<String> {
         self.original_tool.description_with_context(context).await
     }
 
@@ -941,7 +941,7 @@ impl Tool for WrappedTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> crate::util::errors::OpenBitFunResult<Vec<openbitfun_agent_tools::PermissionIntent>> {
+    ) -> crate::util::errors::OpcTeamResult<Vec<openbitfun_agent_tools::PermissionIntent>> {
         self.original_tool.permission_intents(input, context)
     }
 
@@ -991,7 +991,7 @@ impl Tool for WrappedTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> crate::util::errors::OpenBitFunResult<Vec<ToolResult>> {
+    ) -> crate::util::errors::OpcTeamResult<Vec<ToolResult>> {
         let mut snapshot_warning = None;
         let prepared = if Self::is_file_modification_tool_name(self.name()) {
             debug!(
@@ -1083,14 +1083,14 @@ impl WrappedTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> crate::util::errors::OpenBitFunResult<()> {
+    ) -> crate::util::errors::OpcTeamResult<()> {
         if !matches!(self.name(), "Delete" | "delete_file") {
             return Ok(());
         }
 
         let raw_path = self
             .extract_file_path(input, context)
-            .map_err(|error| crate::util::errors::OpenBitFunError::Tool(error.to_string()))?;
+            .map_err(|error| crate::util::errors::OpcTeamError::Tool(error.to_string()))?;
         let resolved = context.resolve_tool_path(raw_path.to_string_lossy().as_ref())?;
         if resolved.is_runtime_artifact() {
             return Ok(());
@@ -1098,13 +1098,13 @@ impl WrappedTool {
         let workspace_fs = context.file_system_for_path(&resolved)?;
         match workspace_fs.metadata(&resolved.resolved_path, false).await {
             Ok(Some(metadata)) if matches!(metadata.kind, WorkspacePathKind::Symlink | WorkspacePathKind::Other) => {
-                Err(crate::util::errors::OpenBitFunError::Tool(format!(
+                Err(crate::util::errors::OpcTeamError::Tool(format!(
                     "Snapshot-tracked Delete cannot remove a symbolic link or reparse point because rollback cannot restore the link object: {}. The delete was not performed",
                     resolved.logical_path
                 )))
             }
             Ok(_) => Ok(()),
-            Err(error) => Err(crate::util::errors::OpenBitFunError::Tool(format!(
+            Err(error) => Err(crate::util::errors::OpcTeamError::Tool(format!(
                 "Failed to inspect Delete target for Snapshot safety: path={} error={}",
                 resolved.logical_path, error
             ))),
@@ -1117,16 +1117,16 @@ impl WrappedTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> crate::util::errors::OpenBitFunResult<Option<PreparedFileModification>> {
+    ) -> crate::util::errors::OpcTeamResult<Option<PreparedFileModification>> {
         let session_id = context.session_id.clone().ok_or_else(|| {
-            crate::util::errors::OpenBitFunError::Tool(
+            crate::util::errors::OpcTeamError::Tool(
                 "session_id is required in ToolUseContext".to_string(),
             )
         })?;
 
         let raw_path = match self.extract_file_path(input, context) {
             Ok(path) => path,
-            Err(e) => return Err(crate::util::errors::OpenBitFunError::Tool(e.to_string())),
+            Err(e) => return Err(crate::util::errors::OpcTeamError::Tool(e.to_string())),
         };
 
         let resolved = context.resolve_tool_path(raw_path.to_string_lossy().as_ref())?;
@@ -1135,7 +1135,7 @@ impl WrappedTool {
             return Ok(None);
         }
         let binding = context.workspace.as_ref().ok_or_else(|| {
-            crate::util::errors::OpenBitFunError::Tool(
+            crate::util::errors::OpcTeamError::Tool(
                 "workspace is required in ToolUseContext for snapshot tracking".into(),
             )
         })?;
@@ -1143,23 +1143,23 @@ impl WrappedTool {
         let runtime_context = context.ensure_current_workspace_runtime().await?;
         let snapshot_manager = get_or_create_snapshot_manager_with_workspace(
             binding.workspace_id.as_deref().ok_or_else(|| {
-                crate::OpenBitFunError::service("Workspace ID is required for snapshot tracking")
+                crate::OpcTeamError::service("Workspace ID is required for snapshot tracking")
             })?,
             workspace_fs.clone(),
             runtime_context,
             None,
         )
         .await
-        .map_err(|error| crate::util::errors::OpenBitFunError::Tool(error.to_string()))?;
+        .map_err(|error| crate::util::errors::OpcTeamError::Tool(error.to_string()))?;
         let file_path = PathBuf::from(&resolved.resolved_path);
         let file_existed_before = workspace_fs
             .metadata(&resolved.resolved_path, true)
             .await
-            .map_err(|error| crate::util::errors::OpenBitFunError::Tool(error.to_string()))?
+            .map_err(|error| crate::util::errors::OpcTeamError::Tool(error.to_string()))?
             .is_some();
         let is_create_tool = matches!(self.name(), "Write" | "write_file" | "create_file");
         if !file_existed_before && !is_create_tool {
-            return Err(crate::util::errors::OpenBitFunError::Tool(format!(
+            return Err(crate::util::errors::OpcTeamError::Tool(format!(
                 "File not found: {}",
                 resolved.logical_path
             )));
@@ -1181,7 +1181,7 @@ impl WrappedTool {
                 context.tool_call_id.clone(),
             )
             .await
-            .map_err(|e| crate::util::errors::OpenBitFunError::Tool(e.to_string()))?;
+            .map_err(|e| crate::util::errors::OpcTeamError::Tool(e.to_string()))?;
         let intercept_ms = crate::util::elapsed_ms_u64(intercept_started_at);
 
         debug!(
@@ -1511,7 +1511,7 @@ mod tests {
             "Write"
         }
 
-        async fn description(&self) -> crate::util::errors::OpenBitFunResult<String> {
+        async fn description(&self) -> crate::util::errors::OpcTeamResult<String> {
             Ok(self.short_description())
         }
 
@@ -1527,7 +1527,7 @@ mod tests {
             &self,
             _input: &serde_json::Value,
             _context: &ToolUseContext,
-        ) -> crate::util::errors::OpenBitFunResult<Vec<ToolResult>> {
+        ) -> crate::util::errors::OpcTeamResult<Vec<ToolResult>> {
             self.calls.fetch_add(1, Ordering::SeqCst);
             let mut file = std::fs::OpenOptions::new()
                 .create(true)
@@ -1539,7 +1539,7 @@ mod tests {
                 block_metadata_storage(metadata_dir);
             }
             if self.fail_after_mutation {
-                return Err(crate::util::errors::OpenBitFunError::Tool(
+                return Err(crate::util::errors::OpcTeamError::Tool(
                     "original tool error after mutation".to_string(),
                 ));
             }

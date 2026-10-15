@@ -1,4 +1,4 @@
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_runtime_ports::{
     RemoteExecPort, RemoteSendStdinRequest, TerminalPort, TerminalSendStdinRequest,
 };
@@ -16,10 +16,10 @@ pub async fn send_exec_command_input(
     request: ExecCommandInputRequest,
     terminal_port: Option<&Arc<dyn TerminalPort>>,
     remote_exec_port: Option<&Arc<dyn RemoteExecPort>>,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     if request.remote {
         let remote_exec_port = remote_exec_port.ok_or_else(|| {
-            OpenBitFunError::tool(
+            OpcTeamError::tool(
                 "remote exec runtime service is required for ExecCommand input".to_string(),
             )
         })?;
@@ -31,15 +31,13 @@ pub async fn send_exec_command_input(
             })
             .await
             .map_err(|error| {
-                OpenBitFunError::tool(format!("ExecCommand input failed: {}", error.message))
+                OpcTeamError::tool(format!("ExecCommand input failed: {}", error.message))
             })?;
         return Ok(());
     }
 
     let terminal_port = terminal_port.ok_or_else(|| {
-        OpenBitFunError::tool(
-            "terminal runtime service is required for ExecCommand input".to_string(),
-        )
+        OpcTeamError::tool("terminal runtime service is required for ExecCommand input".to_string())
     })?;
     terminal_port
         .send_stdin(TerminalSendStdinRequest {
@@ -48,7 +46,5 @@ pub async fn send_exec_command_input(
             append_enter: request.append_enter,
         })
         .await
-        .map_err(|error| {
-            OpenBitFunError::tool(format!("ExecCommand input failed: {}", error.message))
-        })
+        .map_err(|error| OpcTeamError::tool(format!("ExecCommand input failed: {}", error.message)))
 }

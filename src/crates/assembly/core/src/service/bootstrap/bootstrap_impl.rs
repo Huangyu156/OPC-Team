@@ -23,14 +23,14 @@ fn normalize_line_endings(content: &str) -> String {
     content.replace("\r\n", "\n").replace('\r', "\n")
 }
 
-async fn ensure_markdown_placeholder(path: &Path, content: &str) -> OpenBitFunResult<bool> {
+async fn ensure_markdown_placeholder(path: &Path, content: &str) -> OpcTeamResult<bool> {
     if path.exists() {
         return Ok(false);
     }
 
     let normalized_content = normalize_line_endings(content);
     fs::write(path, normalized_content).await.map_err(|e| {
-        OpenBitFunError::service(format!("Failed to create {}: {}", path.display(), e))
+        OpcTeamError::service(format!("Failed to create {}: {}", path.display(), e))
     })?;
 
     Ok(true)
@@ -50,7 +50,7 @@ fn gitignore_already_ignores_openbitfun(content: &str) -> bool {
 
 pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
     workspace_root: &Path,
-) -> OpenBitFunResult<bool> {
+) -> OpcTeamResult<bool> {
     let gitignore_path = workspace_root.join(".gitignore");
     let openbitfun_entry = format!(
         "{}/",
@@ -67,7 +67,7 @@ pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
             return Ok(false);
         }
         Err(error) => {
-            return Err(OpenBitFunError::service(format!(
+            return Err(OpcTeamError::service(format!(
                 "Failed to read {}: {}",
                 gitignore_path.display(),
                 error
@@ -92,7 +92,7 @@ pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
     updated.push_str(line_ending);
 
     fs::write(&gitignore_path, updated).await.map_err(|e| {
-        OpenBitFunError::service(format!(
+        OpcTeamError::service(format!(
             "Failed to update {} for {}: {}",
             gitignore_path.display(),
             openbitfun_core_types::product_identity::hidden_data_directory(),
@@ -124,9 +124,7 @@ async fn ensure_workspace_gitignore_ignores_openbitfun_best_effort(workspace_roo
     }
 }
 
-pub(crate) async fn initialize_workspace_persona_files(
-    workspace_root: &Path,
-) -> OpenBitFunResult<()> {
+pub(crate) async fn initialize_workspace_persona_files(workspace_root: &Path) -> OpcTeamResult<()> {
     let gitignore_updated =
         ensure_workspace_gitignore_ignores_openbitfun_best_effort(workspace_root).await;
     let bootstrap_path = workspace_root.join(BOOTSTRAP_FILE_NAME);
@@ -161,7 +159,7 @@ pub(crate) fn is_workspace_bootstrap_pending(workspace_root: &Path) -> bool {
 #[cfg(feature = "agent-runtime")]
 pub(crate) async fn ensure_workspace_persona_files_for_prompt(
     workspace_root: &Path,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let gitignore_updated =
         ensure_workspace_gitignore_ignores_openbitfun_best_effort(workspace_root).await;
     let bootstrap_path = workspace_root.join(BOOTSTRAP_FILE_NAME);
@@ -218,9 +216,7 @@ pub(crate) async fn ensure_workspace_persona_files_for_prompt(
     Ok(())
 }
 
-pub async fn reset_workspace_persona_files_to_default(
-    workspace_root: &Path,
-) -> OpenBitFunResult<()> {
+pub async fn reset_workspace_persona_files_to_default(workspace_root: &Path) -> OpcTeamResult<()> {
     let persona_templates = [
         (BOOTSTRAP_FILE_NAME, BOOTSTRAP_TEMPLATE),
         (SOUL_FILE_NAME, SOUL_TEMPLATE),
@@ -234,7 +230,7 @@ pub async fn reset_workspace_persona_files_to_default(
         fs::write(&file_path, normalized_content)
             .await
             .map_err(|e| {
-                OpenBitFunError::service(format!(
+                OpcTeamError::service(format!(
                     "Failed to reset persona file '{}': {}",
                     file_path.display(),
                     e
@@ -253,7 +249,7 @@ pub async fn reset_workspace_persona_files_to_default(
 #[cfg(feature = "agent-runtime")]
 pub(crate) async fn build_workspace_persona_prompt(
     workspace_root: &Path,
-) -> OpenBitFunResult<Option<String>> {
+) -> OpcTeamResult<Option<String>> {
     ensure_workspace_persona_files_for_prompt(workspace_root).await?;
 
     let mut documents = Vec::new();

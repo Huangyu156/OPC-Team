@@ -1,6 +1,6 @@
 //! Literal Shell launch with an explicit activation policy; no cmd.exe parsing.
 use openbitfun_core::agentic::tools::computer_use_host::OpenAppResult;
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use windows::core::{w, HSTRING};
 use windows::Win32::Foundation::RPC_E_CHANGED_MODE;
 use windows::Win32::System::Com::{
@@ -11,10 +11,10 @@ use windows::Win32::UI::{
     WindowsAndMessaging::{SW_SHOWNOACTIVATE, SW_SHOWNORMAL},
 };
 
-pub(super) fn open(name: String, background: bool) -> OpenBitFunResult<OpenAppResult> {
-    crate::computer_use::control_session::input_allowed().map_err(OpenBitFunError::tool)?;
+pub(super) fn open(name: String, background: bool) -> OpcTeamResult<OpenAppResult> {
+    crate::computer_use::control_session::input_allowed().map_err(OpcTeamError::tool)?;
     if name.trim().is_empty() || name.contains('\0') {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "[APP_REQUIRED] A valid application name or path is required",
         ));
     }
@@ -23,7 +23,7 @@ pub(super) fn open(name: String, background: bool) -> OpenBitFunResult<OpenAppRe
     let initialized =
         unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE) };
     if initialized.is_err() && initialized != RPC_E_CHANGED_MODE {
-        return Err(OpenBitFunError::tool(format!(
+        return Err(OpcTeamError::tool(format!(
             "Windows application launch could not initialize COM: {initialized:?}"
         )));
     }

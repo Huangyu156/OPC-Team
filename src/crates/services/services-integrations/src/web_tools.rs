@@ -5,7 +5,7 @@ mod openbitfun_search_http;
 mod tavily;
 
 pub use exa_search_api::ExaSearchApiProvider;
-pub use openbitfun_search_http::{OpenBitFunSearchHttpAuth, OpenBitFunSearchHttpProvider};
+pub use openbitfun_search_http::{OpcTeamSearchHttpAuth, OpcTeamSearchHttpProvider};
 pub use tavily::TavilySearchProvider;
 
 use async_trait::async_trait;
@@ -840,9 +840,9 @@ mod tests {
             response_body
         ))
         .await;
-        let provider = OpenBitFunSearchHttpProvider::new(
+        let provider = OpcTeamSearchHttpProvider::new(
             endpoint,
-            OpenBitFunSearchHttpAuth::Header {
+            OpcTeamSearchHttpAuth::Header {
                 name: "X-Search-Key".to_string(),
                 value: "http-secret".to_string(),
             },
@@ -869,14 +869,14 @@ mod tests {
 
     #[test]
     fn openbitfun_http_protocol_rejects_unsafe_endpoint_and_managed_headers() {
-        assert!(OpenBitFunSearchHttpProvider::new(
+        assert!(OpcTeamSearchHttpProvider::new(
             "http://example.com/search",
-            OpenBitFunSearchHttpAuth::None
+            OpcTeamSearchHttpAuth::None
         )
         .is_err());
-        assert!(OpenBitFunSearchHttpProvider::new(
+        assert!(OpcTeamSearchHttpProvider::new(
             "https://example.com/search",
-            OpenBitFunSearchHttpAuth::Header {
+            OpcTeamSearchHttpAuth::Header {
                 name: "Authorization".to_string(),
                 value: "secret".to_string(),
             }
@@ -891,7 +891,7 @@ mod tests {
                 .to_string(),
         )
         .await;
-        let provider = OpenBitFunSearchHttpProvider::new(endpoint, OpenBitFunSearchHttpAuth::None)
+        let provider = OpcTeamSearchHttpProvider::new(endpoint, OpcTeamSearchHttpAuth::None)
             .expect("loopback endpoint should be valid");
 
         let error = provider
@@ -915,7 +915,7 @@ mod tests {
             response_body
         ))
         .await;
-        let provider = OpenBitFunSearchHttpProvider::new(endpoint, OpenBitFunSearchHttpAuth::None)
+        let provider = OpcTeamSearchHttpProvider::new(endpoint, OpcTeamSearchHttpAuth::None)
             .expect("loopback endpoint should be valid");
 
         let error = provider

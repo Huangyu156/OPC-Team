@@ -7,15 +7,15 @@ fn input_object<'a>(
     input: &'a Value,
     tool_name: &str,
     allowed_fields: &[&str],
-) -> OpenBitFunResult<&'a Map<String, Value>> {
+) -> OpcTeamResult<&'a Map<String, Value>> {
     let object = input
         .as_object()
-        .ok_or_else(|| OpenBitFunError::tool(format!("{tool_name} input must be an object")))?;
+        .ok_or_else(|| OpcTeamError::tool(format!("{tool_name} input must be an object")))?;
     if let Some(field) = object
         .keys()
         .find(|field| !allowed_fields.contains(&field.as_str()))
     {
-        return Err(OpenBitFunError::tool(format!(
+        return Err(OpcTeamError::tool(format!(
             "{tool_name} does not accept field '{field}'"
         )));
     }
@@ -26,28 +26,28 @@ fn required_string(
     object: &Map<String, Value>,
     field: &str,
     tool_name: &str,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     let value = object
         .get(field)
-        .ok_or_else(|| OpenBitFunError::tool(format!("{field} is required for {tool_name}")))?
+        .ok_or_else(|| OpcTeamError::tool(format!("{field} is required for {tool_name}")))?
         .as_str()
-        .ok_or_else(|| OpenBitFunError::tool(format!("{field} must be a string")))?
+        .ok_or_else(|| OpcTeamError::tool(format!("{field} must be a string")))?
         .trim();
     if value.is_empty() {
-        return Err(OpenBitFunError::tool(format!(
+        return Err(OpcTeamError::tool(format!(
             "{field} is required for {tool_name}"
         )));
     }
     Ok(value.to_string())
 }
 
-fn optional_string(object: &Map<String, Value>, field: &str) -> OpenBitFunResult<Option<String>> {
+fn optional_string(object: &Map<String, Value>, field: &str) -> OpcTeamResult<Option<String>> {
     match object.get(field) {
         None | Some(Value::Null) => Ok(None),
         Some(value) => {
             let value = value
                 .as_str()
-                .ok_or_else(|| OpenBitFunError::tool(format!("{field} must be a string")))?
+                .ok_or_else(|| OpcTeamError::tool(format!("{field} must be a string")))?
                 .trim();
             Ok((!value.is_empty()).then(|| value.to_string()))
         }
@@ -60,7 +60,7 @@ fn insert_optional_model_id(task_input: &mut Value, model_id: Option<String>) {
     }
 }
 
-fn validate_task_input(task_input: OpenBitFunResult<Value>, tool_name: &str) -> ValidationResult {
+fn validate_task_input(task_input: OpcTeamResult<Value>, tool_name: &str) -> ValidationResult {
     let task_input = match task_input {
         Ok(task_input) => task_input,
         Err(error) => return AgentExecutionTool::invalid_input(error.to_string()),
@@ -86,7 +86,7 @@ impl AgentSpawnTool {
         Self
     }
 
-    pub(super) fn task_input(input: &Value) -> OpenBitFunResult<Value> {
+    pub(super) fn task_input(input: &Value) -> OpcTeamResult<Value> {
         let object = input_object(input, "AgentSpawn", AGENT_SPAWN_FIELDS)?;
         let agent_id = required_string(object, "agent_id", "AgentSpawn")?;
         let raw_agent_id = object
@@ -159,7 +159,7 @@ impl Tool for AgentSpawnTool {
         true
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(self.render_agent_spawn_description())
     }
 
@@ -187,7 +187,7 @@ impl Tool for AgentSpawnTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         AgentExecutionTool::new().permission_intents(&Self::task_input(input)?, context)
     }
 
@@ -217,7 +217,7 @@ impl Tool for AgentSpawnTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let results = AgentExecutionTool::new()
             .call_task_impl(&Self::task_input(input)?, context)
             .await?;
@@ -236,7 +236,7 @@ impl AgentSendInputTool {
         Self
     }
 
-    pub(super) fn task_input(input: &Value) -> OpenBitFunResult<Value> {
+    pub(super) fn task_input(input: &Value) -> OpcTeamResult<Value> {
         let object = input_object(input, "AgentSendInput", AGENT_SEND_INPUT_FIELDS)?;
         let agent_id = required_string(object, "agent_id", "AgentSendInput")?;
         let prompt = required_string(object, "prompt", "AgentSendInput")?;
@@ -302,7 +302,7 @@ impl Tool for AgentSendInputTool {
         true
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(self.render_agent_send_input_description())
     }
 
@@ -322,7 +322,7 @@ impl Tool for AgentSendInputTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         AgentExecutionTool::new().permission_intents(&Self::task_input(input)?, context)
     }
 
@@ -352,7 +352,7 @@ impl Tool for AgentSendInputTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let results = AgentExecutionTool::new()
             .call_task_impl(&Self::task_input(input)?, context)
             .await?;

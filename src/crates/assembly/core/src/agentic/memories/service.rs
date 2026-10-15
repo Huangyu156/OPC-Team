@@ -14,7 +14,7 @@ use crate::infrastructure::get_path_manager_arc;
 use crate::service::config::get_global_config_service;
 use crate::service::config::types::{GlobalConfig, MemoryExternalContextPolicy};
 use crate::service::session::{SessionMemoryMode, SessionMetadata, SessionStatus};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use chrono::{SecondsFormat, Utc};
 use futures::future::BoxFuture;
 use log::{debug, error, info, warn};
@@ -93,21 +93,21 @@ impl MemoryPhase1RuntimeConfig {
 }
 
 impl MemoryPhase1Service {
-    pub async fn new() -> OpenBitFunResult<Self> {
+    pub async fn new() -> OpcTeamResult<Self> {
         let path_manager = get_path_manager_arc();
         let db = Arc::new(MemoryDatabase::new(path_manager));
         db.initialize().await?;
         Ok(Self { db })
     }
 
-    pub async fn run_once(&self) -> OpenBitFunResult<MemoryPhase1RunStats> {
+    pub async fn run_once(&self) -> OpcTeamResult<MemoryPhase1RunStats> {
         self.run_once_excluding_session(None).await
     }
 
     pub async fn prune_stage1_outputs_for_retention(
         &self,
         max_unused_days: i64,
-    ) -> OpenBitFunResult<usize> {
+    ) -> OpcTeamResult<usize> {
         self.db
             .prune_stage1_outputs_for_retention(max_unused_days, STAGE_ONE_PRUNE_BATCH_SIZE)
             .await
@@ -116,7 +116,7 @@ impl MemoryPhase1Service {
     pub async fn run_once_excluding_session(
         &self,
         excluded_session_id: Option<&str>,
-    ) -> OpenBitFunResult<MemoryPhase1RunStats> {
+    ) -> OpcTeamResult<MemoryPhase1RunStats> {
         let started_at = Instant::now();
         let config = MemoryPhase1RuntimeConfig::from_global(&load_global_config().await);
         info!(
@@ -158,7 +158,7 @@ impl MemoryPhase1Service {
         }
 
         let ai_factory = get_global_ai_client_factory().await.map_err(|error| {
-            OpenBitFunError::service(format!("Failed to get AI client factory: {}", error))
+            OpcTeamError::service(format!("Failed to get AI client factory: {}", error))
         })?;
         let ai_client = ai_factory
             .get_client_resolved(&config.extract_model_selector)
@@ -184,7 +184,7 @@ impl MemoryPhase1Service {
         let mut handles = Vec::new();
         for session in sessions {
             let permit = semaphore.clone().acquire_owned().await.map_err(|error| {
-                OpenBitFunError::service(format!("Failed to acquire memories semaphore: {}", error))
+                OpcTeamError::service(format!("Failed to acquire memories semaphore: {}", error))
             })?;
             let db = self.db.clone();
             let persistence = persistence.clone();
@@ -228,7 +228,7 @@ impl MemoryPhase1Service {
         persistence: &PersistenceManager,
         config: &MemoryPhase1RuntimeConfig,
         excluded_session_id: Option<&str>,
-    ) -> OpenBitFunResult<MemoryPhase1CandidateCollection> {
+    ) -> OpcTeamResult<MemoryPhase1CandidateCollection> {
         let now_ms = current_unix_ms();
         let cutoff_age_ms =
             now_ms.saturating_sub(config.max_session_age_days * 24 * 60 * 60 * 1000);
@@ -437,7 +437,7 @@ async fn process_single_session(
     ai_client: Arc<openbitfun_ai_adapters::AIClient>,
     claimed: ClaimedMemorySourceSession,
     config: MemoryPhase1RuntimeConfig,
-) -> OpenBitFunResult<bool> {
+) -> OpcTeamResult<bool> {
     let ClaimedMemorySourceSession {
         source,
         session_storage_path,
@@ -462,7 +462,7 @@ async fn process_single_session(
                 .load_visible_persisted_session_turns(session_storage_path, &source.session_id)
                 .await
         }
-        None => Err(OpenBitFunError::service(
+        None => Err(OpcTeamError::service(
             "Core coordinator is unavailable for AI Memory history reads",
         )),
     };
@@ -737,7 +737,7 @@ async fn run_phase1_extraction_attempts(
     source: &MemorySourceSession,
     transcript: &str,
     prompt: &str,
-) -> OpenBitFunResult<MemoryExtractionRecord> {
+) -> OpcTeamResult<MemoryExtractionRecord> {
     run_phase1_extraction_attempts_with_request(source, transcript, || {
         Box::pin(stage_one_client.send_message(
             vec![
@@ -754,7 +754,7 @@ async fn run_phase1_extraction_attempts_with_request<'a, F>(
     source: &MemorySourceSession,
     transcript: &str,
     mut send_request: F,
-) -> OpenBitFunResult<MemoryExtractionRecord>
+) -> OpcTeamResult<MemoryExtractionRecord>
 where
     F: FnMut() -> BoxFuture<'a, anyhow::Result<openbitfun_ai_adapters::GeminiResponse>>,
 {
@@ -766,7 +766,7 @@ where
             Ok(response) => response,
             Err(error) => {
                 let error =
-                    OpenBitFunError::service(format!("Memory phase1 model call failed: {}", error));
+                    OpcTeamError::service(format!("Memory phase1 model call failed: {}", error));
                 warn!(
                     "Memory phase1 model request attempt failed: session_id={}, workspace_path={}, attempt={}/{}, duration_ms={}, error={}",
                     source.session_id,
@@ -823,7 +823,7 @@ where
     }
 
     Err(last_error.unwrap_or_else(|| {
-        OpenBitFunError::service("Memory phase1 extraction failed without attempts".to_string())
+        OpcTeamError::service("Memory phase1 extraction failed without attempts".to_string())
     }))
 }
 
@@ -831,7 +831,7 @@ fn parse_extraction_response(
     source: &MemorySourceSession,
     _transcript: &str,
     response_text: &str,
-) -> OpenBitFunResult<MemoryExtractionRecord> {
+) -> OpcTeamResult<MemoryExtractionRecord> {
     let (raw_memory, next_offset) = extract_framed_section_after(
         source,
         response_text,
@@ -863,7 +863,7 @@ fn extract_rollout_slug_section(
     source: &MemorySourceSession,
     text: &str,
     start_offset: usize,
-) -> OpenBitFunResult<Option<String>> {
+) -> OpcTeamResult<Option<String>> {
     let (slug, _) = extract_framed_section_after(
         source,
         text,
@@ -876,7 +876,7 @@ fn extract_rollout_slug_section(
         return Ok(None);
     }
     if slug.contains('\n') || slug.contains('\r') {
-        return Err(OpenBitFunError::Deserialization(format!(
+        return Err(OpcTeamError::Deserialization(format!(
             "Memory phase1 response field `rollout_slug` must be a single line for session {}",
             source.session_id
         )));
@@ -891,17 +891,17 @@ fn extract_framed_section_after(
     begin_marker: &str,
     end_marker: &str,
     start_offset: usize,
-) -> OpenBitFunResult<(String, usize)> {
+) -> OpcTeamResult<(String, usize)> {
     let (_, content_start) =
         marker_line_bounds_from(text, begin_marker, start_offset).ok_or_else(|| {
-            OpenBitFunError::Deserialization(format!(
+            OpcTeamError::Deserialization(format!(
                 "Memory phase1 response missing `{}` begin marker for field `{}` in session {}",
                 begin_marker, field, source.session_id
             ))
         })?;
     let (content_end, next_offset) = marker_line_bounds_from(text, end_marker, content_start)
         .ok_or_else(|| {
-            OpenBitFunError::Deserialization(format!(
+            OpcTeamError::Deserialization(format!(
                 "Memory phase1 response missing `{}` end marker for field `{}` in session {}",
                 end_marker, field, source.session_id
             ))
@@ -910,7 +910,7 @@ fn extract_framed_section_after(
     if marker_line_bounds_from(text, begin_marker, content_start)
         .is_some_and(|(duplicate_start, _)| duplicate_start < content_end)
     {
-        return Err(OpenBitFunError::Deserialization(format!(
+        return Err(OpcTeamError::Deserialization(format!(
             "Memory phase1 response contains duplicate begin marker `{}` before field `{}` end marker in session {}",
             begin_marker, field, source.session_id
         )));
@@ -949,7 +949,7 @@ async fn record_success_no_output(
     db: &Arc<MemoryDatabase>,
     source: &MemorySourceSession,
     ownership_token: &str,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     db.mark_phase1_job_succeeded_no_output(&source.session_id, ownership_token)
         .await
         .map(|_| ())
@@ -959,7 +959,7 @@ async fn release_claim_without_watermark(
     db: &Arc<MemoryDatabase>,
     source: &MemorySourceSession,
     ownership_token: &str,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     db.release_phase1_claim_without_watermark(&source.session_id, ownership_token)
         .await
         .map(|_| ())
@@ -971,7 +971,7 @@ async fn record_failure(
     ownership_token: &str,
     retry_backoff_seconds: i64,
     error: String,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     db.mark_phase1_job_failed(
         &source.session_id,
         ownership_token,

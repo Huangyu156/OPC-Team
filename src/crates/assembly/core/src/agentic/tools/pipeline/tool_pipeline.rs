@@ -17,7 +17,7 @@ use crate::agentic::tools::tool_result_storage;
 use crate::agentic::WorkspaceBinding;
 use crate::native_hooks::{self, NativeHookSessionFacts};
 use crate::util::elapsed_ms_u64;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use futures::future::join_all;
 use log::{debug, error, info, warn};
 use openbitfun_agent_runtime::permission::{
@@ -257,12 +257,12 @@ fn elapsed_ms_since(time: SystemTime) -> u64 {
         .unwrap_or(0)
 }
 
-fn classify_tool_error(error: &OpenBitFunError) -> &'static str {
+fn classify_tool_error(error: &OpcTeamError) -> &'static str {
     match error {
-        OpenBitFunError::Validation(_) => "invalid_arguments",
-        OpenBitFunError::Cancelled(_) => "cancelled",
-        OpenBitFunError::Timeout(_) => "timeout",
-        OpenBitFunError::NotFound(_) => "not_found",
+        OpcTeamError::Validation(_) => "invalid_arguments",
+        OpcTeamError::Cancelled(_) => "cancelled",
+        OpcTeamError::Timeout(_) => "timeout",
+        OpcTeamError::NotFound(_) => "not_found",
         _ => "execution_error",
     }
 }
@@ -270,7 +270,7 @@ fn classify_tool_error(error: &OpenBitFunError) -> &'static str {
 fn build_error_execution_result(
     task_id: &str,
     task: Option<ToolTask>,
-    error: &OpenBitFunError,
+    error: &OpcTeamError,
 ) -> ToolExecutionResult {
     let error_message = error.to_string();
     let category = classify_tool_error(error);
@@ -449,23 +449,23 @@ fn build_permission_rejected_tool_result(
 const ROUND_INJECTION_RUNNING_TOOL_CANCELLED_MESSAGE: &str =
     "Tool execution cancelled because a pending round injection requested running-tool preemption for this turn.";
 
-fn should_retry_tool_error(error: &OpenBitFunError) -> bool {
-    if matches!(error, OpenBitFunError::OutcomeUnknown(_)) {
+fn should_retry_tool_error(error: &OpcTeamError) -> bool {
+    if matches!(error, OpcTeamError::OutcomeUnknown(_)) {
         return false;
     }
     matches!(
         error,
-        OpenBitFunError::Timeout(_)
-            | OpenBitFunError::Io(_)
-            | OpenBitFunError::Http(_)
-            | OpenBitFunError::Service(_)
-            | OpenBitFunError::MCPError(_)
-            | OpenBitFunError::ProcessError(_)
-            | OpenBitFunError::Other(_)
+        OpcTeamError::Timeout(_)
+            | OpcTeamError::Io(_)
+            | OpcTeamError::Http(_)
+            | OpcTeamError::Service(_)
+            | OpcTeamError::MCPError(_)
+            | OpcTeamError::ProcessError(_)
+            | OpcTeamError::Other(_)
     )
 }
 
-fn classify_tool_retry_error(error: &OpenBitFunError) -> ToolExecutionErrorClass {
+fn classify_tool_retry_error(error: &OpcTeamError) -> ToolExecutionErrorClass {
     if should_retry_tool_error(error) {
         ToolExecutionErrorClass::Retryable
     } else {
@@ -473,16 +473,14 @@ fn classify_tool_retry_error(error: &OpenBitFunError) -> ToolExecutionErrorClass
     }
 }
 
-fn map_tool_execution_admission_rejection(
-    error: ToolExecutionAdmissionRejection,
-) -> OpenBitFunError {
+fn map_tool_execution_admission_rejection(error: ToolExecutionAdmissionRejection) -> OpcTeamError {
     match error {
         ToolExecutionAdmissionRejection::RuntimeRestriction(error) => error.into(),
         ToolExecutionAdmissionRejection::AllowedList(error) => {
-            OpenBitFunError::Validation(error.to_string())
+            OpcTeamError::Validation(error.to_string())
         }
         ToolExecutionAdmissionRejection::Deferred(error) => {
-            OpenBitFunError::Validation(error.to_string())
+            OpcTeamError::Validation(error.to_string())
         }
     }
 }
@@ -534,7 +532,7 @@ enum PermissionPlanDraft {
 pub fn permission_project_id_for_workspace_identity(
     identity: &openbitfun_services_core::workspace_identity::WorkspaceSessionIdentity,
     is_remote: bool,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     if !is_remote {
         return Ok(
             openbitfun_services_core::workspace_identity::local_workspace_stable_storage_id(
@@ -545,7 +543,7 @@ pub fn permission_project_id_for_workspace_identity(
 
     if identity.hostname == "_unresolved" {
         let connection_id = identity.remote_connection_id.as_deref().ok_or_else(|| {
-            OpenBitFunError::validation(
+            OpcTeamError::validation(
                 "Unresolved remote workspace permission identity has no connection id".to_string(),
             )
         })?;
@@ -565,16 +563,16 @@ pub fn permission_project_id_for_workspace_identity(
     )
 }
 
-fn permission_project_id(context: &ToolUseContext) -> OpenBitFunResult<String> {
+fn permission_project_id(context: &ToolUseContext) -> OpcTeamResult<String> {
     let workspace = context.workspace.as_ref().ok_or_else(|| {
-        OpenBitFunError::validation("A workspace is required for file permissions".to_string())
+        OpcTeamError::validation("A workspace is required for file permissions".to_string())
     })?;
     permission_project_id_for_workspace_identity(&workspace.session_identity, workspace.is_remote())
 }
 
-fn permission_project_path(context: &ToolUseContext) -> OpenBitFunResult<String> {
+fn permission_project_path(context: &ToolUseContext) -> OpcTeamResult<String> {
     let workspace = context.workspace.as_ref().ok_or_else(|| {
-        OpenBitFunError::validation("A workspace is required for file permissions".to_string())
+        OpcTeamError::validation("A workspace is required for file permissions".to_string())
     })?;
     Ok(workspace
         .session_identity
@@ -589,7 +587,7 @@ const ACCOUNT_PERMISSION_PROJECT_PATH: &str = "GitHub account";
 fn permission_scope(
     context: &ToolUseContext,
     intents: &[PermissionIntent],
-) -> OpenBitFunResult<(String, String)> {
+) -> OpcTeamResult<(String, String)> {
     if context.workspace.is_some() {
         return Ok((
             permission_project_id(context)?,
@@ -611,7 +609,7 @@ fn permission_scope(
         ));
     }
 
-    Err(OpenBitFunError::validation(
+    Err(OpcTeamError::validation(
         "A workspace is required for file permissions".to_string(),
     ))
 }
@@ -702,7 +700,7 @@ impl ToolPipeline {
         tool_name: String,
         intents: Vec<PermissionIntent>,
         context: ToolUseContext,
-    ) -> OpenBitFunResult<PermissionPlanDraft> {
+    ) -> OpcTeamResult<PermissionPlanDraft> {
         let hook_ask = self
             .hook_asks
             .lock()
@@ -739,7 +737,7 @@ impl ToolPipeline {
             Some(ref manager) => manager
                 .list_project_grants(&project_id)
                 .await
-                .map_err(|error| OpenBitFunError::service(error.to_string()))?,
+                .map_err(|error| OpcTeamError::service(error.to_string()))?,
             None => Vec::new(),
         };
         let asks =
@@ -789,7 +787,7 @@ impl ToolPipeline {
         }
 
         if manager.is_none() {
-            return Err(OpenBitFunError::service(
+            return Err(OpcTeamError::service(
                 "Permission request manager is unavailable for a file tool request".to_string(),
             ));
         }
@@ -838,9 +836,9 @@ impl ToolPipeline {
         requests: Vec<PermissionRequest>,
         dialog_turn_id: &str,
         auto_approve: bool,
-    ) -> OpenBitFunResult<Vec<PendingPermissionReceiver>> {
+    ) -> OpcTeamResult<Vec<PendingPermissionReceiver>> {
         let manager = self.permission_request_manager.as_ref().ok_or_else(|| {
-            OpenBitFunError::service(
+            OpcTeamError::service(
                 "Permission request manager is unavailable for a file tool request".to_string(),
             )
         })?;
@@ -857,7 +855,7 @@ impl ToolPipeline {
                 .register_batch_for_turn(requests.clone(), dialog_turn_id.to_string())
                 .await
         }
-        .map_err(|error| OpenBitFunError::service(error.to_string()))?;
+        .map_err(|error| OpcTeamError::service(error.to_string()))?;
 
         if auto_approve {
             for request in &requests {
@@ -877,7 +875,7 @@ impl ToolPipeline {
                         "Automatic permission approval failed".to_string(),
                     )
                     .await;
-                    return Err(OpenBitFunError::service(error.to_string()));
+                    return Err(OpcTeamError::service(error.to_string()));
                 }
             }
         }
@@ -1182,7 +1180,7 @@ impl ToolPipeline {
         });
     }
 
-    async fn prepare_permission_plans(&self, task_ids: &[String]) -> OpenBitFunResult<()> {
+    async fn prepare_permission_plans(&self, task_ids: &[String]) -> OpcTeamResult<()> {
         let mut drafts = Vec::with_capacity(task_ids.len());
         let mut ordered_requests = Vec::new();
 
@@ -1273,7 +1271,7 @@ impl ToolPipeline {
                 .and_then(|task_id| self.state_manager.get_task(task_id))
                 .map(|task| task.context.dialog_turn_id)
                 .ok_or_else(|| {
-                    OpenBitFunError::service(
+                    OpcTeamError::service(
                         "Permission batch lost its owning Dialog Turn".to_string(),
                     )
                 })?;
@@ -1326,7 +1324,7 @@ impl ToolPipeline {
             for (task_id, draft) in &drafts {
                 if let PermissionPlanDraft::Requests(_) = draft {
                     let receivers = receivers_by_task.remove(task_id).ok_or_else(|| {
-                        OpenBitFunError::service(format!(
+                        OpcTeamError::service(format!(
                             "Permission plan lost its pending receivers for tool task '{task_id}'"
                         ))
                     })?;
@@ -1363,7 +1361,7 @@ impl ToolPipeline {
         &self,
         task_id: &str,
         cancellation_token: &CancellationToken,
-    ) -> OpenBitFunResult<PermissionAuthorization> {
+    ) -> OpcTeamResult<PermissionAuthorization> {
         let Some(plan) = self.permission_plans.lock().await.remove(task_id) else {
             return Ok(PermissionAuthorization::Allowed);
         };
@@ -1376,7 +1374,7 @@ impl ToolPipeline {
         &self,
         plan: PermissionExecutionPlan,
         cancellation_token: &CancellationToken,
-    ) -> OpenBitFunResult<PermissionAuthorization> {
+    ) -> OpcTeamResult<PermissionAuthorization> {
         let receivers = match plan {
             PermissionExecutionPlan::Allowed => return Ok(PermissionAuthorization::Allowed),
             PermissionExecutionPlan::Rejected { reason } => {
@@ -1399,7 +1397,7 @@ impl ToolPipeline {
                         "Tool execution was cancelled".to_string(),
                     )
                     .await;
-                    return Err(OpenBitFunError::Cancelled(
+                    return Err(OpcTeamError::Cancelled(
                         "Tool execution was cancelled while awaiting permission".to_string(),
                     ));
                 }
@@ -1412,7 +1410,7 @@ impl ToolPipeline {
                     updated_input: patch,
                 }) => {
                     let patch = patch.as_object().ok_or_else(|| {
-                        OpenBitFunError::Validation(
+                        OpcTeamError::Validation(
                             "Edited approval input must be an object".to_string(),
                         )
                     })?;
@@ -1439,7 +1437,7 @@ impl ToolPipeline {
                         "Another permission request for this tool was cancelled".to_string(),
                     )
                     .await;
-                    return Err(OpenBitFunError::Cancelled(reason));
+                    return Err(OpcTeamError::Cancelled(reason));
                 }
             }
 
@@ -1451,7 +1449,7 @@ impl ToolPipeline {
                     "Tool execution was cancelled".to_string(),
                 )
                 .await;
-                return Err(OpenBitFunError::Cancelled(
+                return Err(OpcTeamError::Cancelled(
                     "Tool execution was cancelled after permission reply".to_string(),
                 ));
             }
@@ -1519,7 +1517,7 @@ impl ToolPipeline {
         intents: Vec<PermissionIntent>,
         context: &ToolUseContext,
         cancellation_token: &CancellationToken,
-    ) -> OpenBitFunResult<PermissionAuthorization> {
+    ) -> OpcTeamResult<PermissionAuthorization> {
         let draft = self
             .draft_permission_plan(
                 task.clone(),
@@ -1596,7 +1594,7 @@ impl ToolPipeline {
     fn append_execution_result(
         &self,
         task_id: &str,
-        result: OpenBitFunResult<ToolExecutionResult>,
+        result: OpcTeamResult<ToolExecutionResult>,
         all_results: &mut Vec<ToolExecutionResult>,
     ) {
         match result {
@@ -1617,7 +1615,7 @@ impl ToolPipeline {
         &self,
         task_ids: impl IntoIterator<Item = String>,
         preemption: RoundInjectionToolPreemption,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         for task_id in task_ids {
             let Some(task) = self.state_manager.get_task(&task_id) else {
                 continue;
@@ -1676,7 +1674,7 @@ impl ToolPipeline {
         tool_calls: Vec<ToolCall>,
         context: ToolExecutionContext,
         options: ToolExecutionOptions,
-    ) -> OpenBitFunResult<Vec<ToolExecutionResult>> {
+    ) -> OpcTeamResult<Vec<ToolExecutionResult>> {
         if tool_calls.is_empty() {
             return Ok(vec![]);
         }
@@ -1770,7 +1768,7 @@ impl ToolPipeline {
         task_ids: Vec<String>,
         options: &ToolExecutionOptions,
         subagent_call_count: usize,
-    ) -> OpenBitFunResult<Vec<ToolExecutionResult>> {
+    ) -> OpcTeamResult<Vec<ToolExecutionResult>> {
         let tool_names = task_ids
             .iter()
             .filter_map(|id| self.state_manager.get_task(id))
@@ -1888,7 +1886,7 @@ impl ToolPipeline {
     async fn execute_parallel(
         &self,
         task_ids: Vec<String>,
-    ) -> OpenBitFunResult<Vec<ToolExecutionResult>> {
+    ) -> OpcTeamResult<Vec<ToolExecutionResult>> {
         let batch_interrupt = task_ids
             .first()
             .and_then(|task_id| self.state_manager.get_task(task_id))
@@ -1921,7 +1919,7 @@ impl ToolPipeline {
     async fn execute_sequential(
         &self,
         task_ids: Vec<String>,
-    ) -> OpenBitFunResult<Vec<ToolExecutionResult>> {
+    ) -> OpcTeamResult<Vec<ToolExecutionResult>> {
         let mut results = Vec::new();
 
         let mut task_iter = task_ids.into_iter().peekable();
@@ -1954,15 +1952,16 @@ impl ToolPipeline {
     }
 
     /// Execute single tool
-    async fn execute_single_tool(&self, tool_id: String) -> OpenBitFunResult<ToolExecutionResult> {
+    async fn execute_single_tool(&self, tool_id: String) -> OpcTeamResult<ToolExecutionResult> {
         let start_time = Instant::now();
 
         debug!("Starting tool execution: tool_id={}", tool_id);
 
         // Get task
-        let mut task = self.state_manager.get_task(&tool_id).ok_or_else(|| {
-            OpenBitFunError::NotFound(format!("Tool task not found: {}", tool_id))
-        })?;
+        let mut task = self
+            .state_manager
+            .get_task(&tool_id)
+            .ok_or_else(|| OpcTeamError::NotFound(format!("Tool task not found: {}", tool_id)))?;
 
         let wire_tool_name = task.tool_call.tool_name.clone();
         let tool_name = task.invocation.effective_tool_name.clone();
@@ -2019,7 +2018,7 @@ impl ToolPipeline {
                 )
                 .await;
 
-            return Err(OpenBitFunError::Validation(error_msg));
+            return Err(OpcTeamError::Validation(error_msg));
         }
 
         if let Some(rejection) = task.input_rewrite_rejection.as_ref() {
@@ -2044,7 +2043,7 @@ impl ToolPipeline {
                     },
                 )
                 .await;
-            return Err(OpenBitFunError::Validation(error_msg));
+            return Err(OpcTeamError::Validation(error_msg));
         }
 
         match repair_kind {
@@ -2110,7 +2109,7 @@ impl ToolPipeline {
         let registered_tool = tool.ok_or_else(|| {
             let error_msg = format!("Tool '{}' is not registered or enabled.", tool_name);
             error!("{}", error_msg);
-            OpenBitFunError::tool(error_msg)
+            OpcTeamError::tool(error_msg)
         })?;
 
         let cancellation_token = task
@@ -2133,7 +2132,7 @@ impl ToolPipeline {
                     },
                 )
                 .await;
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Tool was cancelled before validation".to_string(),
             ));
         }
@@ -2168,11 +2167,11 @@ impl ToolPipeline {
                 )
                 .await;
             return Err(match error_detail {
-                Some(detail) => OpenBitFunError::ClassifiedTool {
+                Some(detail) => OpcTeamError::ClassifiedTool {
                     message: error_msg,
                     detail,
                 },
-                None => OpenBitFunError::Validation(error_msg),
+                None => OpcTeamError::Validation(error_msg),
             });
         }
         if let Some(message) = validation
@@ -2204,7 +2203,7 @@ impl ToolPipeline {
                 )
                 .await;
             self.cancellation_tokens.remove(&tool_id);
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Tool was cancelled during validation".to_string(),
             ));
         }
@@ -2302,7 +2301,7 @@ impl ToolPipeline {
                 )
                 .await;
             self.cancellation_tokens.remove(&tool_id);
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Tool was cancelled before execution".to_string(),
             ));
         }
@@ -2421,7 +2420,7 @@ impl ToolPipeline {
                 // Cancellation is a first-class terminal state, not a failure.
                 // Preserve Cancelled here so a late cancel cannot be overwritten
                 // by the generic Failed branch below.
-                if let OpenBitFunError::Cancelled(reason) = &e {
+                if let OpcTeamError::Cancelled(reason) = &e {
                     self.state_manager
                         .update_state(
                             &tool_id,
@@ -2450,7 +2449,7 @@ impl ToolPipeline {
                     return Err(e);
                 }
 
-                if matches!(e, OpenBitFunError::Timeout(_)) {
+                if matches!(e, OpcTeamError::Timeout(_)) {
                     let duration_ms = elapsed_ms_u64(start_time);
                     let presentation = build_tool_execution_timeout_presentation(
                         &tool_name,
@@ -2545,14 +2544,14 @@ impl ToolPipeline {
         task: &ToolTask,
         cancellation_token: CancellationToken,
         tool: Arc<dyn crate::agentic::tools::framework::Tool>,
-    ) -> OpenBitFunResult<ModelToolResult> {
+    ) -> OpcTeamResult<ModelToolResult> {
         let mut attempts = 0;
         let max_attempts = task.options.max_retries + 1;
 
         loop {
             // Check cancellation token
             if cancellation_token.is_cancelled() {
-                return Err(OpenBitFunError::Cancelled(
+                return Err(OpcTeamError::Cancelled(
                     "Tool execution was cancelled".to_string(),
                 ));
             }
@@ -2592,10 +2591,10 @@ impl ToolPipeline {
         task: &ToolTask,
         cancellation_token: CancellationToken,
         tool: Arc<dyn crate::agentic::tools::framework::Tool>,
-    ) -> OpenBitFunResult<ModelToolResult> {
+    ) -> OpcTeamResult<ModelToolResult> {
         // Check cancellation token
         if cancellation_token.is_cancelled() {
-            return Err(OpenBitFunError::Cancelled(
+            return Err(OpcTeamError::Cancelled(
                 "Tool execution was cancelled".to_string(),
             ));
         }
@@ -2620,7 +2619,7 @@ impl ToolPipeline {
                 let result = timeout(timeout_duration, execution_future)
                     .await
                     .map_err(|_| {
-                        OpenBitFunError::Timeout(format!(
+                        OpcTeamError::Timeout(format!(
                             "Tool execution timeout: {}",
                             task.effective_tool_name()
                         ))
@@ -2646,7 +2645,7 @@ impl ToolPipeline {
                 )
             })
             .ok_or_else(|| {
-                OpenBitFunError::Tool(format!(
+                OpcTeamError::Tool(format!(
                     "Tool did not return result: {}",
                     task.effective_tool_name()
                 ))
@@ -2670,7 +2669,7 @@ impl ToolPipeline {
         &self,
         task: &ToolTask,
         results: &[FrameworkToolResult],
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let mut chunks_received = 0;
 
         for result in results {
@@ -2709,7 +2708,7 @@ impl ToolPipeline {
     }
 
     /// Cancel tool execution
-    pub async fn cancel_tool(&self, tool_id: &str, reason: String) -> OpenBitFunResult<()> {
+    pub async fn cancel_tool(&self, tool_id: &str, reason: String) -> OpcTeamResult<()> {
         let Some(task) = self.state_manager.get_task(tool_id) else {
             debug!(
                 "Ignoring cancel request for unknown tool: tool_id={}",
@@ -2763,26 +2762,26 @@ impl ToolPipeline {
         &self,
         task: &ToolTask,
         patch: serde_json::Value,
-    ) -> OpenBitFunResult<serde_json::Value> {
+    ) -> OpcTeamResult<serde_json::Value> {
         let mut arguments = task
             .invocation
             .effective_arguments
             .as_object()
             .cloned()
             .ok_or_else(|| {
-                OpenBitFunError::Validation(
+                OpcTeamError::Validation(
                     "This tool does not support object input edits".to_string(),
                 )
             })?;
         arguments.extend(patch.as_object().cloned().ok_or_else(|| {
-            OpenBitFunError::Validation("Edited approval input must be an object".to_string())
+            OpcTeamError::Validation("Edited approval input must be an object".to_string())
         })?);
         let arguments = serde_json::Value::Object(arguments);
         if let Some(rejection) = self
             .non_relaxable_original_input_rejection(task, &arguments)
             .await
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 rejection
                     .message
                     .unwrap_or_else(|| "This tool input is immutable".to_string()),
@@ -2794,18 +2793,18 @@ impl ToolPipeline {
             .read()
             .await
             .get_tool(task.effective_tool_name())
-            .ok_or_else(|| OpenBitFunError::NotFound("Approval tool is unavailable".to_string()))?;
+            .ok_or_else(|| OpcTeamError::NotFound("Approval tool is unavailable".to_string()))?;
         if tool.is_concurrency_safe(Some(task.effective_arguments()))
             && !tool.is_concurrency_safe(Some(&arguments))
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Edited input changes the admitted concurrency class; submit it as a new tool call"
                     .to_string(),
             ));
         }
         let validation = tool.validate_input(&arguments, Some(&context)).await;
         if !validation.result {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 validation
                     .message
                     .unwrap_or_else(|| "Invalid edited tool input".to_string()),
@@ -2821,18 +2820,14 @@ impl ToolPipeline {
             )
             .await?
         {
-            return Err(OpenBitFunError::Validation(reason));
+            return Err(OpcTeamError::Validation(reason));
         }
         Ok(arguments)
     }
 
-    pub async fn reply_to_tool(
-        &self,
-        tool_id: &str,
-        reply: PermissionReply,
-    ) -> OpenBitFunResult<()> {
+    pub async fn reply_to_tool(&self, tool_id: &str, reply: PermissionReply) -> OpcTeamResult<()> {
         let manager = self.permission_request_manager.as_ref().ok_or_else(|| {
-            OpenBitFunError::service("Permission request manager is unavailable".to_string())
+            OpcTeamError::service("Permission request manager is unavailable".to_string())
         })?;
         let request = manager
             .pending_requests()
@@ -2841,9 +2836,7 @@ impl ToolPipeline {
                 request.tool_call_id.as_deref() == Some(tool_id) || request.request_id == tool_id
             })
             .ok_or_else(|| {
-                OpenBitFunError::NotFound(format!(
-                    "Permission request not found for tool: {tool_id}"
-                ))
+                OpcTeamError::NotFound(format!("Permission request not found for tool: {tool_id}"))
             })?;
         if let PermissionReply::OnceWithInput { updated_input } = &reply {
             let task = request
@@ -2851,7 +2844,7 @@ impl ToolPipeline {
                 .as_deref()
                 .and_then(|id| self.state_manager.get_task(id))
                 .ok_or_else(|| {
-                    OpenBitFunError::Validation(
+                    OpcTeamError::Validation(
                         "This permission request does not own editable tool input".to_string(),
                     )
                 })?;
@@ -2862,11 +2855,11 @@ impl ToolPipeline {
             .reply(&request.request_id, reply, PermissionReplySource::User)
             .await
             .map(|_| ())
-            .map_err(|error| OpenBitFunError::service(error.to_string()))
+            .map_err(|error| OpcTeamError::service(error.to_string()))
     }
 
     /// Cancel all tools for a dialog turn
-    pub async fn cancel_dialog_turn_tools(&self, dialog_turn_id: &str) -> OpenBitFunResult<()> {
+    pub async fn cancel_dialog_turn_tools(&self, dialog_turn_id: &str) -> OpcTeamResult<()> {
         info!(
             "Cancelling all tools for dialog turn: dialog_turn_id={}",
             dialog_turn_id
@@ -3190,7 +3183,7 @@ mod tests {
         fn name(&self) -> &str {
             "ActivateSkillHooks"
         }
-        async fn description(&self) -> OpenBitFunResult<String> {
+        async fn description(&self) -> OpcTeamResult<String> {
             Ok("Activate test skill".into())
         }
         fn short_description(&self) -> String {
@@ -3212,7 +3205,7 @@ mod tests {
             &self,
             _: &serde_json::Value,
             context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<ToolResult>> {
+        ) -> OpcTeamResult<Vec<ToolResult>> {
             native_hooks::activate_skill_hooks(&self.skill, context).await?;
             Ok(vec![ToolResult::Result {
                 data: json!({"loaded":true}),
@@ -3443,7 +3436,7 @@ mod tests {
             true
         }
 
-        async fn description(&self) -> OpenBitFunResult<String> {
+        async fn description(&self) -> OpcTeamResult<String> {
             Ok("File permission test tool".to_string())
         }
 
@@ -3459,7 +3452,7 @@ mod tests {
             &self,
             _input: &serde_json::Value,
             _context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+        ) -> OpcTeamResult<Vec<PermissionIntent>> {
             Ok(self.intents.clone())
         }
 
@@ -3467,7 +3460,7 @@ mod tests {
             &self,
             input: &serde_json::Value,
             _context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<ToolResult>> {
+        ) -> OpcTeamResult<Vec<ToolResult>> {
             self.call_count.fetch_add(1, Ordering::SeqCst);
             Ok(vec![ToolResult::Result {
                 data: json!({ "written": true, "input": input }),
@@ -3589,7 +3582,7 @@ mod tests {
             &self.name
         }
 
-        async fn description(&self) -> OpenBitFunResult<String> {
+        async fn description(&self) -> OpcTeamResult<String> {
             Ok("capturing test tool".to_string())
         }
 
@@ -3674,7 +3667,7 @@ mod tests {
             &self,
             input: &serde_json::Value,
             _context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<ToolResult>> {
+        ) -> OpcTeamResult<Vec<ToolResult>> {
             *self
                 .received_arguments
                 .lock()
@@ -3693,7 +3686,7 @@ mod tests {
             &self.name
         }
 
-        async fn description(&self) -> OpenBitFunResult<String> {
+        async fn description(&self) -> OpcTeamResult<String> {
             Ok("static test tool".to_string())
         }
 
@@ -3730,7 +3723,7 @@ mod tests {
             &self,
             _input: &serde_json::Value,
             context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<ToolResult>> {
+        ) -> OpcTeamResult<Vec<ToolResult>> {
             if self.delay_ms > 0 {
                 if let Some(token) = context
                     .round_injection_preemption_token()
@@ -4378,7 +4371,7 @@ mod tests {
             .execute_single_tool(tool_id)
             .await
             .expect_err("protected original input must block execution");
-        assert!(matches!(error, OpenBitFunError::Validation(_)));
+        assert!(matches!(error, OpcTeamError::Validation(_)));
         assert!(received_arguments
             .lock()
             .expect("capturing tool argument lock")
@@ -4417,7 +4410,7 @@ mod tests {
             .execute_single_tool(tool_id)
             .await
             .expect_err("protected original target must block execution");
-        assert!(matches!(error, OpenBitFunError::Validation(_)));
+        assert!(matches!(error, OpcTeamError::Validation(_)));
         assert!(received_arguments
             .lock()
             .expect("capturing tool argument lock")
@@ -4494,7 +4487,7 @@ mod tests {
             .execute_single_tool(tool_id)
             .await
             .expect_err("protected final input must fail final validation");
-        assert!(matches!(error, OpenBitFunError::Validation(_)));
+        assert!(matches!(error, OpcTeamError::Validation(_)));
         assert!(received_arguments
             .lock()
             .expect("capturing tool argument lock")
@@ -5510,7 +5503,7 @@ mod tests {
 
     #[test]
     fn classified_edit_failure_preserves_model_error_and_persisted_detail() {
-        let error = OpenBitFunError::ClassifiedTool {
+        let error = OpcTeamError::ClassifiedTool {
             message: "[guidance] new_string must be different from old_string".into(),
             detail: openbitfun_core_types::errors::ToolErrorDetail {
                 code: "edit_no_change".into(),
@@ -5542,7 +5535,7 @@ mod tests {
         let result = build_error_execution_result(
             "tool_1",
             Some(task),
-            &OpenBitFunError::Validation("Arguments are invalid JSON.".to_string()),
+            &OpcTeamError::Validation("Arguments are invalid JSON.".to_string()),
         );
 
         assert_eq!(
@@ -5571,7 +5564,7 @@ mod tests {
         let result = build_error_execution_result(
             "tool_1",
             Some(task),
-            &OpenBitFunError::Validation("operation is not supported".to_string()),
+            &OpcTeamError::Validation("operation is not supported".to_string()),
         );
 
         assert!(result.result.result["provided_arguments"].is_null());

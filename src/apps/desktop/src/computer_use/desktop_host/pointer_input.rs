@@ -20,13 +20,12 @@ use openbitfun_core::agentic::tools::computer_use_host::ClickTarget;
 use openbitfun_core::agentic::tools::computer_use_host::{
     ComputerUseHost, ComputerUseLastMutationKind,
 };
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::time::Duration;
 
 impl DesktopComputerUseHost {
-    pub(super) fn ensure_input_automation_allowed() -> OpenBitFunResult<()> {
-        crate::computer_use::control_session::foreground_allowed()
-            .map_err(OpenBitFunError::tool)?;
+    pub(super) fn ensure_input_automation_allowed() -> OpcTeamResult<()> {
+        crate::computer_use::control_session::foreground_allowed().map_err(OpcTeamError::tool)?;
         #[cfg(target_os = "macos")]
         {
             if macos::ax_trusted() {
@@ -35,7 +34,7 @@ impl DesktopComputerUseHost {
             let exe = std::env::current_exe()
                 .map(|p| p.display().to_string())
                 .unwrap_or_else(|_| "(unknown path)".to_string());
-            Err(OpenBitFunError::tool(format!(
+            Err(OpcTeamError::tool(format!(
                 "macOS Accessibility is not enabled for this executable. System Settings > Privacy & Security > Accessibility: add and enable OPC-Team. Development builds use the debug binary at: {}",
                 exe
             )))
@@ -46,16 +45,16 @@ impl DesktopComputerUseHost {
         }
     }
 
-    fn with_enigo<F, T>(f: F) -> OpenBitFunResult<T>
+    fn with_enigo<F, T>(f: F) -> OpcTeamResult<T>
     where
-        F: FnOnce(&mut Enigo) -> OpenBitFunResult<T>,
+        F: FnOnce(&mut Enigo) -> OpcTeamResult<T>,
     {
         Self::ensure_input_automation_allowed()?;
         #[cfg(target_os = "linux")]
-        crate::computer_use::linux_control::require_legacy_x11().map_err(OpenBitFunError::tool)?;
+        crate::computer_use::linux_control::require_legacy_x11().map_err(OpcTeamError::tool)?;
         let settings = Settings::default();
-        let mut enigo = Enigo::new(&settings)
-            .map_err(|e| OpenBitFunError::tool(format!("enigo init: {}", e)))?;
+        let mut enigo =
+            Enigo::new(&settings).map_err(|e| OpcTeamError::tool(format!("enigo init: {}", e)))?;
         f(&mut enigo)
     }
 
@@ -68,9 +67,9 @@ impl DesktopComputerUseHost {
     /// converted into a Rust error instead of propagating across the FFI
     /// boundary as a "foreign exception" — which would otherwise cause Rust's
     /// `catch_unwind` to abort the whole process (`SIGABRT`).
-    pub(super) fn run_enigo_job<F, T>(job: F) -> OpenBitFunResult<T>
+    pub(super) fn run_enigo_job<F, T>(job: F) -> OpcTeamResult<T>
     where
-        F: FnOnce(&mut Enigo) -> OpenBitFunResult<T> + Send,
+        F: FnOnce(&mut Enigo) -> OpcTeamResult<T> + Send,
         T: Send,
     {
         #[cfg(target_os = "macos")]
@@ -85,9 +84,8 @@ impl DesktopComputerUseHost {
 
     /// Absolute pointer move in Quartz global **points** with full float precision (avoids enigo integer truncation).
     #[cfg(target_os = "macos")]
-    fn post_mouse_moved_cg_global(x: f64, y: f64) -> OpenBitFunResult<()> {
-        crate::computer_use::control_session::foreground_allowed()
-            .map_err(OpenBitFunError::tool)?;
+    fn post_mouse_moved_cg_global(x: f64, y: f64) -> OpcTeamResult<()> {
+        crate::computer_use::control_session::foreground_allowed().map_err(OpcTeamError::tool)?;
         crate::computer_use::control_session::record_pointer(x, y, false);
         use core_graphics::event::{CGEvent, CGEventTapLocation, CGEventType, CGMouseButton};
         use core_graphics::event_source::{CGEventSource, CGEventSourceStateID};
@@ -95,11 +93,11 @@ impl DesktopComputerUseHost {
 
         let source =
             CGEventSource::new(CGEventSourceStateID::CombinedSessionState).map_err(|_| {
-                OpenBitFunError::tool("CGEventSource create failed (mouse_move)".to_string())
+                OpcTeamError::tool("CGEventSource create failed (mouse_move)".to_string())
             })?;
         let pt = CGPoint { x, y };
         let ev = CGEvent::new_mouse_event(source, CGEventType::MouseMoved, pt, CGMouseButton::Left)
-            .map_err(|_| OpenBitFunError::tool("CGEvent MouseMoved failed".to_string()))?;
+            .map_err(|_| OpcTeamError::tool("CGEvent MouseMoved failed".to_string()))?;
         ev.post(CGEventTapLocation::HID);
         Ok(())
     }
@@ -112,7 +110,7 @@ impl DesktopComputerUseHost {
 
     /// Move the pointer along a short visible path instead of warping in one event.
     #[cfg(target_os = "macos")]
-    fn smooth_mouse_move_cg_global(x1: f64, y1: f64) -> OpenBitFunResult<()> {
+    fn smooth_mouse_move_cg_global(x1: f64, y1: f64) -> OpcTeamResult<()> {
         const MIN_DIST: f64 = 2.5;
         const MIN_STEPS: usize = 8;
         const MAX_STEPS: usize = 85;
@@ -144,7 +142,7 @@ impl DesktopComputerUseHost {
 
     /// Windows/Linux: same smooth path using enigo absolute moves (single `Enigo` session).
     #[cfg(not(target_os = "macos"))]
-    fn smooth_mouse_move_enigo_abs(x1: f64, y1: f64) -> OpenBitFunResult<()> {
+    fn smooth_mouse_move_enigo_abs(x1: f64, y1: f64) -> OpcTeamResult<()> {
         const MIN_DIST: f64 = 2.5;
         const MIN_STEPS: usize = 8;
         const MAX_STEPS: usize = 85;
@@ -152,7 +150,7 @@ impl DesktopComputerUseHost {
 
         Self::run_enigo_job(|e| {
             let (cx, cy) = e.location().map_err(|err| {
-                OpenBitFunError::tool(format!("smooth_mouse_move: pointer location: {}", err))
+                OpcTeamError::tool(format!("smooth_mouse_move: pointer location: {}", err))
             })?;
             let x0 = cx as f64;
             let y0 = cy as f64;
@@ -162,7 +160,7 @@ impl DesktopComputerUseHost {
             if dist < MIN_DIST {
                 return e
                     .move_mouse(x1.round() as i32, y1.round() as i32, Coordinate::Abs)
-                    .map_err(|err| OpenBitFunError::tool(format!("mouse_move: {}", err)));
+                    .map_err(|err| OpcTeamError::tool(format!("mouse_move: {}", err)));
             }
             let duration_ms = (70.0 + dist * 0.28).min(MAX_DURATION_MS as f64) as u64;
             let steps = ((dist / 5.5).ceil() as usize).clamp(MIN_STEPS, MAX_STEPS);
@@ -170,13 +168,13 @@ impl DesktopComputerUseHost {
 
             for i in 1..=steps {
                 crate::computer_use::control_session::foreground_allowed()
-                    .map_err(OpenBitFunError::tool)?;
+                    .map_err(OpcTeamError::tool)?;
                 let t = i as f64 / steps as f64;
                 let te = Self::smoothstep01(t);
                 let x = x0 + dx * te;
                 let y = y0 + dy * te;
                 e.move_mouse(x.round() as i32, y.round() as i32, Coordinate::Abs)
-                    .map_err(|err| OpenBitFunError::tool(format!("mouse_move: {}", err)))?;
+                    .map_err(|err| OpcTeamError::tool(format!("mouse_move: {}", err)))?;
                 if i < steps {
                     std::thread::sleep(step_delay);
                 }
@@ -185,19 +183,16 @@ impl DesktopComputerUseHost {
         })
     }
 
-    fn map_button(s: &str) -> OpenBitFunResult<Button> {
+    fn map_button(s: &str) -> OpcTeamResult<Button> {
         match s.to_lowercase().as_str() {
             "left" => Ok(Button::Left),
             "right" => Ok(Button::Right),
             "middle" => Ok(Button::Middle),
-            _ => Err(OpenBitFunError::tool(format!(
-                "Unknown mouse button: {}",
-                s
-            ))),
+            _ => Err(OpcTeamError::tool(format!("Unknown mouse button: {}", s))),
         }
     }
 
-    fn map_key(name: &str) -> OpenBitFunResult<Key> {
+    fn map_key(name: &str) -> OpcTeamResult<Key> {
         let n = name.to_lowercase();
         Ok(match n.as_str() {
             "command" | "meta" | "super" | "win" => Key::Meta,
@@ -236,7 +231,7 @@ impl DesktopComputerUseHost {
                 Key::Unicode(c)
             }
             _ => {
-                return Err(OpenBitFunError::tool(format!("Unknown key name: {}", name)));
+                return Err(OpcTeamError::tool(format!("Unknown key name: {}", name)));
             }
         })
     }
@@ -250,21 +245,21 @@ impl DesktopComputerUseHost {
 impl DesktopComputerUseHost {
     /// Perform a physical click at the current pointer without running [`ComputerUseHost::computer_use_guard_click_allowed`].
     /// Used after `mouse_move_global_f64` when coordinates came from AX or OCR (not from vision model image coords).
-    async fn mouse_click_at_current_pointer(&self, button: &str) -> OpenBitFunResult<()> {
+    async fn mouse_click_at_current_pointer(&self, button: &str) -> OpcTeamResult<()> {
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
             let code = crate::computer_use::linux_control::button_code(button)
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             session
                 .button(code, true)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             session
                 .button(code, false)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_click(self);
             return Ok(());
         }
@@ -273,11 +268,11 @@ impl DesktopComputerUseHost {
             Self::run_enigo_job(|e| {
                 let b = Self::map_button(&button)?;
                 e.button(b, Direction::Click)
-                    .map_err(|err| OpenBitFunError::tool(format!("click: {}", err)))
+                    .map_err(|err| OpcTeamError::tool(format!("click: {}", err)))
             })
         })
         .await
-        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
 
         // Flash a click highlight at current pointer (macOS only, non-blocking).
         #[cfg(target_os = "macos")]
@@ -299,16 +294,16 @@ impl DesktopComputerUseHost {
         &self,
         expected_pid: Option<i32>,
         screenshot_id: Option<&str>,
-    ) -> OpenBitFunResult<PointerMap> {
+    ) -> OpcTeamResult<PointerMap> {
         let scope = crate::computer_use::control_session::observation_scope()
-            .map_err(OpenBitFunError::tool)?;
+            .map_err(OpcTeamError::tool)?;
         if expected_pid.is_some_and(|pid| {
             !scope
                 .target
                 .as_deref()
                 .is_some_and(|target| target.starts_with(&format!("pid:{pid}/window:")))
         }) {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "[STALE_CAPTURE] Target window changed; observe it again",
             ));
         }
@@ -317,13 +312,13 @@ impl DesktopComputerUseHost {
             let selected = state
                 .observations
                 .image(screenshot_id)
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             if !state
                 .observations
                 .latest_image()
                 .is_some_and(|current| current.same_window_projection(&selected))
             {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "[STALE_CAPTURE] Screenshot does not match the target's current geometry",
                 ));
             }
@@ -337,12 +332,12 @@ impl DesktopComputerUseHost {
                 .and_then(|target| target.strip_prefix("pid:"))
                 .and_then(|target| target.split('/').next())
                 .and_then(|id| id.parse::<i32>().ok())
-                .ok_or_else(|| OpenBitFunError::tool("[STALE_CAPTURE] Missing process identity"))?;
+                .ok_or_else(|| OpcTeamError::tool("[STALE_CAPTURE] Missing process identity"))?;
             let window = crate::computer_use::macos_capture::bound_window_id(pid)
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             map.at_window_bounds(
                 crate::computer_use::macos_capture::window_bounds(pid, window)
-                    .map_err(OpenBitFunError::tool)?,
+                    .map_err(OpcTeamError::tool)?,
             )?
         };
         #[cfg(target_os = "windows")]
@@ -352,13 +347,13 @@ impl DesktopComputerUseHost {
                 .as_deref()
                 .and_then(|target| target.split("/window:").nth(1))
                 .and_then(|id| id.parse::<isize>().ok())
-                .ok_or_else(|| OpenBitFunError::tool("[STALE_CAPTURE] Missing window identity"))?;
+                .ok_or_else(|| OpcTeamError::tool("[STALE_CAPTURE] Missing window identity"))?;
             map.at_window_bounds(crate::computer_use::windows_capture::window_bounds(
                 windows::Win32::Foundation::HWND(hwnd as *mut _),
             )?)?
         };
         crate::computer_use::control_session::validate_observation_scope(&scope)
-            .map_err(OpenBitFunError::tool)?;
+            .map_err(OpcTeamError::tool)?;
         Ok(map)
     }
 
@@ -369,7 +364,7 @@ impl DesktopComputerUseHost {
         x: i32,
         y: i32,
         screenshot_id: Option<&str>,
-    ) -> OpenBitFunResult<(f64, f64)> {
+    ) -> OpcTeamResult<(f64, f64)> {
         self.observed_pointer_map(Some(pid), screenshot_id)?
             .map_image_to_global_f64(x, y)
     }
@@ -377,7 +372,7 @@ impl DesktopComputerUseHost {
     #[cfg(any(target_os = "macos", target_os = "windows"))]
     pub(super) fn image_grid_target_to_xy(
         target: &ClickTarget,
-    ) -> OpenBitFunResult<Option<(i32, i32)>> {
+    ) -> OpcTeamResult<Option<(i32, i32)>> {
         let ClickTarget::ImageGrid {
             x0,
             y0,
@@ -395,12 +390,12 @@ impl DesktopComputerUseHost {
         };
 
         if *width == 0 || *height == 0 || *rows == 0 || *cols == 0 {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "image_grid requires positive width, height, rows, and cols.".to_string(),
             ));
         }
         if row >= rows || col >= cols {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "image_grid row/col out of range: row={} col={} for rows={} cols={}",
                 row, col, rows, cols
             )));
@@ -434,7 +429,7 @@ fn flash_click_highlight_cg(gx: f64, gy: f64) {
 
 impl DesktopComputerUseHost {
     #[cfg(target_os = "windows")]
-    pub(super) async fn windows_target(&self, app: &AppSelector) -> OpenBitFunResult<(i32, isize)> {
+    pub(super) async fn windows_target(&self, app: &AppSelector) -> OpcTeamResult<(i32, isize)> {
         let pid = super::resolve_pid(self, app).await?;
         // A sharing indicator or newly opened utility window must not replace
         // the window already owned by the control session.
@@ -453,7 +448,7 @@ impl DesktopComputerUseHost {
                 GetWindowThreadProcessId(hwnd, Some(&mut actual_pid));
             }
             if !unsafe { IsWindow(Some(hwnd)) }.as_bool() || actual_pid != pid as u32 {
-                return Err(OpenBitFunError::tool("[TARGET_WINDOW_UNAVAILABLE] The bound window closed; select a new target explicitly"));
+                return Err(OpcTeamError::tool("[TARGET_WINDOW_UNAVAILABLE] The bound window closed; select a new target explicitly"));
             }
             return Ok((pid, window));
         }
@@ -461,12 +456,12 @@ impl DesktopComputerUseHost {
             .sharing
             .is_some()
         {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "[SHARED_TARGET_ONLY] Application was not shared by the user",
             ));
         }
         let hwnd = crate::computer_use::windows_list_apps::find_top_window_for_pid(pid as u32)
-            .ok_or_else(|| OpenBitFunError::tool("[TARGET_UNAVAILABLE] Target has no window"))?;
+            .ok_or_else(|| OpcTeamError::tool("[TARGET_UNAVAILABLE] Target has no window"))?;
         Ok((pid, hwnd.0 as isize))
     }
 
@@ -509,7 +504,7 @@ impl DesktopComputerUseHost {
         &self,
         target: &ClickTarget,
         app: &AppSelector,
-    ) -> OpenBitFunResult<(f64, f64)> {
+    ) -> OpcTeamResult<(f64, f64)> {
         let (pid, hwnd_raw) = self.windows_target(app).await?;
         match target {
             ClickTarget::ScreenXy { x, y } => Ok((*x, *y)),
@@ -519,9 +514,8 @@ impl DesktopComputerUseHost {
                 screenshot_id,
             } => self.map_app_image_coords_to_pointer_f64(pid, *x, *y, screenshot_id.as_deref()),
             ClickTarget::ImageGrid { screenshot_id, .. } => {
-                let (ix, iy) = Self::image_grid_target_to_xy(target)?.ok_or_else(|| {
-                    OpenBitFunError::tool("invalid image_grid target".to_string())
-                })?;
+                let (ix, iy) = Self::image_grid_target_to_xy(target)?
+                    .ok_or_else(|| OpcTeamError::tool("invalid image_grid target".to_string()))?;
                 self.map_app_image_coords_to_pointer_f64(pid, ix, iy, screenshot_id.as_deref())
             }
             ClickTarget::VisualGrid {
@@ -550,7 +544,7 @@ impl DesktopComputerUseHost {
                     screenshot_id: shot.screenshot_id.clone(),
                 };
                 let (ix, iy) = Self::image_grid_target_to_xy(&detected)?.ok_or_else(|| {
-                    OpenBitFunError::tool("invalid detected visual_grid target".to_string())
+                    OpcTeamError::tool("invalid detected visual_grid target".to_string())
                 })?;
                 if let Some(wait) = wait_ms_after_detection {
                     if *wait > 0 {
@@ -566,7 +560,7 @@ impl DesktopComputerUseHost {
                     crate::computer_use::windows_ax_ui::cached_node_center(hwnd, idx)
                 })
                 .await
-                .map_err(|e| OpenBitFunError::tool(e.to_string()))?
+                .map_err(|e| OpcTeamError::tool(e.to_string()))?
             }
             ClickTarget::OcrText { needle } => {
                 let matches = self.ocr_find_text_matches(needle, None).await?;
@@ -576,10 +570,7 @@ impl DesktopComputerUseHost {
                         .unwrap_or(std::cmp::Ordering::Equal)
                 });
                 let m = best.ok_or_else(|| {
-                    OpenBitFunError::tool(format!(
-                        "NOT_FOUND: no OCR match for needle {:?}",
-                        needle
-                    ))
+                    OpcTeamError::tool(format!("NOT_FOUND: no OCR match for needle {:?}", needle))
                 })?;
                 Ok((m.center_x, m.center_y))
             }
@@ -595,7 +586,7 @@ impl DesktopComputerUseHost {
         &self,
         x: i32,
         y: i32,
-    ) -> OpenBitFunResult<(f64, f64)> {
+    ) -> OpcTeamResult<(f64, f64)> {
         self.observed_pointer_map(None, None)?
             .map_image_to_global_f64(x, y)
     }
@@ -604,24 +595,20 @@ impl DesktopComputerUseHost {
         &self,
         x: i32,
         y: i32,
-    ) -> OpenBitFunResult<(f64, f64)> {
+    ) -> OpcTeamResult<(f64, f64)> {
         self.observed_pointer_map(None, None)?
             .map_normalized_to_global_f64(x, y)
     }
 
-    pub(super) async fn mouse_move_global_f64_impl(
-        &self,
-        gx: f64,
-        gy: f64,
-    ) -> OpenBitFunResult<()> {
+    pub(super) async fn mouse_move_global_f64_impl(&self, gx: f64, gy: f64) -> OpcTeamResult<()> {
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
             session
                 .move_pointer(gx, gy)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             return Ok(());
         }
@@ -640,28 +627,24 @@ impl DesktopComputerUseHost {
             }
         })
         .await
-        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
         ComputerUseHost::computer_use_after_pointer_mutation(self);
         Ok(())
     }
 
-    pub(super) async fn pointer_move_relative_impl(
-        &self,
-        dx: i32,
-        dy: i32,
-    ) -> OpenBitFunResult<()> {
+    pub(super) async fn pointer_move_relative_impl(&self, dx: i32, dy: i32) -> OpcTeamResult<()> {
         if dx == 0 && dy == 0 {
             return Ok(());
         }
 
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
             session
                 .move_relative(dx, dy)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             return Ok(());
         }
@@ -678,17 +661,17 @@ impl DesktopComputerUseHost {
             crate::computer_use::control_session::spawn_blocking(move || {
                 Self::run_enigo_job(|e| {
                     let (cx, cy) = macos::quartz_mouse_location().map_err(|err| {
-                        OpenBitFunError::tool(format!("quartz pointer (relative move): {}", err))
+                        OpcTeamError::tool(format!("quartz pointer (relative move): {}", err))
                     })?;
                     let nx = (cx + dpt_x).round() as i32;
                     let ny = (cy + dpt_y).round() as i32;
                     e.move_mouse(nx, ny, Coordinate::Abs).map_err(|err| {
-                        OpenBitFunError::tool(format!("pointer_move_relative: {}", err))
+                        OpcTeamError::tool(format!("pointer_move_relative: {}", err))
                     })
                 })
             })
             .await
-            .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+            .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             Ok(())
         }
@@ -698,42 +681,39 @@ impl DesktopComputerUseHost {
             crate::computer_use::control_session::spawn_blocking(move || {
                 Self::run_enigo_job(|e| {
                     e.move_mouse(dx, dy, Coordinate::Rel).map_err(|err| {
-                        OpenBitFunError::tool(format!("pointer_move_relative: {}", err))
+                        OpcTeamError::tool(format!("pointer_move_relative: {}", err))
                     })
                 })
             })
             .await
-            .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+            .map_err(|e| OpcTeamError::tool(e.to_string()))??;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             Ok(())
         }
     }
 
-    pub(super) async fn mouse_click_impl(&self, button: &str) -> OpenBitFunResult<()> {
+    pub(super) async fn mouse_click_impl(&self, button: &str) -> OpcTeamResult<()> {
         debug!("computer_use: mouse_click button={}", button);
         ComputerUseHost::computer_use_guard_click_allowed(self)?;
         self.mouse_click_at_current_pointer(button).await
     }
 
-    pub(super) async fn mouse_click_authoritative_impl(
-        &self,
-        button: &str,
-    ) -> OpenBitFunResult<()> {
+    pub(super) async fn mouse_click_authoritative_impl(&self, button: &str) -> OpcTeamResult<()> {
         debug!("computer_use: mouse_click_authoritative button={}", button);
         self.mouse_click_at_current_pointer(button).await
     }
 
-    pub(super) async fn mouse_down_impl(&self, button: &str) -> OpenBitFunResult<()> {
+    pub(super) async fn mouse_down_impl(&self, button: &str) -> OpcTeamResult<()> {
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
             let code = crate::computer_use::linux_control::button_code(button)
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             session
                 .button(code, true)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             return Ok(());
         }
@@ -743,26 +723,26 @@ impl DesktopComputerUseHost {
             Self::run_enigo_job(|e| {
                 let b = Self::map_button(&button)?;
                 e.button(b, Direction::Press)
-                    .map_err(|err| OpenBitFunError::tool(format!("mouse_down: {}", err)))
+                    .map_err(|err| OpcTeamError::tool(format!("mouse_down: {}", err)))
             })
         })
         .await
-        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
         ComputerUseHost::computer_use_after_pointer_mutation(self);
         Ok(())
     }
 
-    pub(super) async fn mouse_up_impl(&self, button: &str) -> OpenBitFunResult<()> {
+    pub(super) async fn mouse_up_impl(&self, button: &str) -> OpcTeamResult<()> {
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
             let code = crate::computer_use::linux_control::button_code(button)
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             session
                 .button(code, false)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             return Ok(());
         }
@@ -772,11 +752,11 @@ impl DesktopComputerUseHost {
             Self::run_enigo_job(|e| {
                 let b = Self::map_button(&button)?;
                 e.button(b, Direction::Release)
-                    .map_err(|err| OpenBitFunError::tool(format!("mouse_up: {}", err)))
+                    .map_err(|err| OpcTeamError::tool(format!("mouse_up: {}", err)))
             })
         })
         .await
-        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
         ComputerUseHost::computer_use_after_pointer_mutation(self);
         Ok(())
     }
@@ -792,25 +772,25 @@ impl DesktopComputerUseHost {
         to: (f64, f64),
         button: &str,
         duration_ms: u64,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         debug!(
             "computer_use: drag from=({:.1},{:.1}) to=({:.1},{:.1}) button={} dur={}ms",
             from.0, from.1, to.0, to.1, button, duration_ms
         );
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
             let code = crate::computer_use::linux_control::button_code(button)
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             session
                 .move_pointer(from.0, from.1)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             session
                 .button(code, true)
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             let mut result = Ok(());
             for step in 1..=24 {
                 let fraction = Self::smoothstep01(step as f64 / 24.0);
@@ -829,7 +809,7 @@ impl DesktopComputerUseHost {
                 }
             }
             let release = session.button(code, false).await;
-            result.and(release).map_err(OpenBitFunError::tool)?;
+            result.and(release).map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             ComputerUseHost::computer_use_after_committed_ui_action(self);
             return Ok(());
@@ -841,7 +821,7 @@ impl DesktopComputerUseHost {
         #[cfg(target_os = "macos")]
         {
             crate::computer_use::control_session::foreground_allowed()
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             if crate::computer_use::macos_bg_input::supports_background_input() {
                 if let Some(pid) = crate::computer_use::macos_bg_input::frontmost_pid_macos() {
                     let bg_button = match button {
@@ -854,7 +834,7 @@ impl DesktopComputerUseHost {
                     crate::computer_use::control_session::spawn_blocking(move || {
                         macos::catch_objc(|| {
                             let wid = crate::computer_use::macos_capture::bound_window_id(pid)
-                                .map_err(OpenBitFunError::tool)?;
+                                .map_err(OpcTeamError::tool)?;
                             crate::computer_use::macos_bg_input::bg_drag(
                                 pid,
                                 fx,
@@ -872,7 +852,7 @@ impl DesktopComputerUseHost {
                         })
                     })
                     .await
-                    .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                    .map_err(|e| OpcTeamError::tool(e.to_string()))??;
                     return Ok(());
                 }
             }
@@ -899,7 +879,7 @@ impl DesktopComputerUseHost {
                     )
                 })
                 .await
-                .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                .map_err(|e| OpcTeamError::tool(e.to_string()))??;
                 return Ok(());
             }
         }
@@ -918,18 +898,18 @@ impl DesktopComputerUseHost {
         self.mouse_up(button).await
     }
 
-    pub(super) async fn scroll_impl(&self, delta_x: i32, delta_y: i32) -> OpenBitFunResult<()> {
+    pub(super) async fn scroll_impl(&self, delta_x: i32, delta_y: i32) -> OpcTeamResult<()> {
         if delta_x == 0 && delta_y == 0 {
             return Ok(());
         }
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
             session
                 .scroll(f64::from(delta_x), f64::from(delta_y))
                 .await
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             ComputerUseHost::computer_use_after_committed_ui_action(self);
             ComputerUseHost::computer_use_record_mutation(
@@ -941,27 +921,25 @@ impl DesktopComputerUseHost {
         crate::computer_use::control_session::spawn_blocking(move || {
             Self::run_enigo_job(|e| {
                 if delta_x != 0 {
-                    e.scroll(delta_x, Axis::Horizontal).map_err(|err| {
-                        OpenBitFunError::tool(format!("scroll horizontal: {}", err))
-                    })?;
+                    e.scroll(delta_x, Axis::Horizontal)
+                        .map_err(|err| OpcTeamError::tool(format!("scroll horizontal: {}", err)))?;
                 }
                 if delta_y != 0 {
-                    e.scroll(delta_y, Axis::Vertical).map_err(|err| {
-                        OpenBitFunError::tool(format!("scroll vertical: {}", err))
-                    })?;
+                    e.scroll(delta_y, Axis::Vertical)
+                        .map_err(|err| OpcTeamError::tool(format!("scroll vertical: {}", err)))?;
                 }
                 Ok(())
             })
         })
         .await
-        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
         ComputerUseHost::computer_use_after_pointer_mutation(self);
         ComputerUseHost::computer_use_after_committed_ui_action(self);
         ComputerUseHost::computer_use_record_mutation(self, ComputerUseLastMutationKind::Scroll);
         Ok(())
     }
 
-    pub(super) async fn key_chord_impl(&self, keys: Vec<String>) -> OpenBitFunResult<()> {
+    pub(super) async fn key_chord_impl(&self, keys: Vec<String>) -> OpcTeamResult<()> {
         if keys.is_empty() {
             return Ok(());
         }
@@ -981,12 +959,9 @@ impl DesktopComputerUseHost {
         }
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
-            session
-                .key_chord(&keys)
-                .await
-                .map_err(OpenBitFunError::tool)?;
+            session.key_chord(&keys).await.map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_pointer_mutation(self);
             ComputerUseHost::computer_use_after_committed_ui_action(self);
             ComputerUseHost::computer_use_record_mutation(
@@ -1001,7 +976,7 @@ impl DesktopComputerUseHost {
                 let mapped: Vec<Key> = keys_for_job
                     .iter()
                     .map(|s| Self::map_key(s))
-                    .collect::<OpenBitFunResult<_>>()?;
+                    .collect::<OpcTeamResult<_>>()?;
                 let chord_has_modifier = keys_for_job.iter().any(|s| {
                     matches!(
                         s.to_lowercase().as_str(),
@@ -1018,13 +993,13 @@ impl DesktopComputerUseHost {
                 });
                 if mapped.len() == 1 {
                     e.key(mapped[0], Direction::Click)
-                        .map_err(|err| OpenBitFunError::tool(format!("key: {}", err)))?;
+                        .map_err(|err| OpcTeamError::tool(format!("key: {}", err)))?;
                 } else {
                     let mods = &mapped[..mapped.len() - 1];
                     let last = *mapped.last().unwrap();
                     for k in mods {
                         e.key(*k, Direction::Press)
-                            .map_err(|err| OpenBitFunError::tool(format!("key press: {}", err)))?;
+                            .map_err(|err| OpcTeamError::tool(format!("key press: {}", err)))?;
                     }
                     if chord_has_modifier {
                         // Modifiers must be registered before the main key; otherwise macOS / IME
@@ -1035,13 +1010,12 @@ impl DesktopComputerUseHost {
                         std::thread::sleep(std::time::Duration::from_millis(55));
                     }
                     crate::computer_use::control_session::foreground_allowed()
-                        .map_err(OpenBitFunError::tool)?;
+                        .map_err(OpcTeamError::tool)?;
                     e.key(last, Direction::Click)
-                        .map_err(|err| OpenBitFunError::tool(format!("key click: {}", err)))?;
+                        .map_err(|err| OpcTeamError::tool(format!("key click: {}", err)))?;
                     for k in mods.iter().rev() {
-                        e.key(*k, Direction::Release).map_err(|err| {
-                            OpenBitFunError::tool(format!("key release: {}", err))
-                        })?;
+                        e.key(*k, Direction::Release)
+                            .map_err(|err| OpcTeamError::tool(format!("key release: {}", err)))?;
                     }
                     if chord_has_modifier {
                         std::thread::sleep(std::time::Duration::from_millis(35));
@@ -1051,25 +1025,22 @@ impl DesktopComputerUseHost {
             })
         })
         .await
-        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
         ComputerUseHost::computer_use_after_pointer_mutation(self);
         ComputerUseHost::computer_use_after_committed_ui_action(self);
         ComputerUseHost::computer_use_record_mutation(self, ComputerUseLastMutationKind::KeyChord);
         Ok(())
     }
 
-    pub(super) async fn type_text_impl(&self, text: &str) -> OpenBitFunResult<()> {
+    pub(super) async fn type_text_impl(&self, text: &str) -> OpcTeamResult<()> {
         if text.is_empty() {
             return Ok(());
         }
         #[cfg(target_os = "linux")]
         if let Some(session) =
-            crate::computer_use::linux_control::session().map_err(OpenBitFunError::tool)?
+            crate::computer_use::linux_control::session().map_err(OpcTeamError::tool)?
         {
-            session
-                .type_text(text)
-                .await
-                .map_err(OpenBitFunError::tool)?;
+            session.type_text(text).await.map_err(OpcTeamError::tool)?;
             ComputerUseHost::computer_use_after_committed_ui_action(self);
             ComputerUseHost::computer_use_trust_pointer_after_text_input(self);
             ComputerUseHost::computer_use_record_mutation(
@@ -1086,7 +1057,7 @@ impl DesktopComputerUseHost {
         #[cfg(target_os = "macos")]
         {
             crate::computer_use::control_session::foreground_allowed()
-                .map_err(OpenBitFunError::tool)?;
+                .map_err(OpcTeamError::tool)?;
             if crate::computer_use::macos_bg_input::supports_background_input() {
                 let frontmost = crate::computer_use::macos_bg_input::frontmost_pid_macos();
                 if let Some(pid) = frontmost {
@@ -1098,7 +1069,7 @@ impl DesktopComputerUseHost {
                             })
                         })
                         .await
-                        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+                        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
                         ComputerUseHost::computer_use_after_committed_ui_action(self);
                         ComputerUseHost::computer_use_trust_pointer_after_text_input(self);
                         ComputerUseHost::computer_use_record_mutation(
@@ -1114,11 +1085,11 @@ impl DesktopComputerUseHost {
         crate::computer_use::control_session::spawn_blocking(move || {
             Self::run_enigo_job(|e| {
                 e.text(&owned)
-                    .map_err(|err| OpenBitFunError::tool(format!("type_text: {}", err)))
+                    .map_err(|err| OpcTeamError::tool(format!("type_text: {}", err)))
             })
         })
         .await
-        .map_err(|e| OpenBitFunError::tool(e.to_string()))??;
+        .map_err(|e| OpcTeamError::tool(e.to_string()))??;
         // Typing does not move the pointer; do not set click_needs (would block Enter after search).
         ComputerUseHost::computer_use_after_committed_ui_action(self);
         ComputerUseHost::computer_use_trust_pointer_after_text_input(self);

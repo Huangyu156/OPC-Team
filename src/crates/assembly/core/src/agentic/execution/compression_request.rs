@@ -2,7 +2,7 @@
 
 use crate::agentic::session::ContextCompressor;
 use crate::infrastructure::ai::AIClient;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_agent_stream::retry::{delay_ms, should_retry, MAX_MODEL_ATTEMPTS};
 use openbitfun_ai_adapters::{
     Message, ModelExchangeTraceConfig, ModelRequestContext, ToolDefinition,
@@ -16,7 +16,7 @@ pub(super) async fn request_summary(
     tools: Option<Vec<ToolDefinition>>,
     context: &ModelRequestContext,
     trace: Option<ModelExchangeTraceConfig>,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     request_summary_with(|| {
         client.send_message_once_with_trace_and_request_context(
             messages.clone(),
@@ -28,7 +28,7 @@ pub(super) async fn request_summary(
     .await
 }
 
-async fn request_summary_with<F, Fut>(mut request: F) -> OpenBitFunResult<String>
+async fn request_summary_with<F, Fut>(mut request: F) -> OpcTeamResult<String>
 where
     F: FnMut() -> Fut,
     Fut: std::future::Future<Output = anyhow::Result<openbitfun_ai_adapters::GeminiResponse>>,
@@ -67,9 +67,9 @@ where
                 error.message
             );
             return Err(if error.category == ErrorCategory::ContextOverflow {
-                OpenBitFunError::RecoverableContextOverflow(error)
+                OpcTeamError::RecoverableContextOverflow(error)
             } else {
-                OpenBitFunError::AIProvider(error)
+                OpcTeamError::AIProvider(error)
             });
         }
         let wait_ms = delay_ms(attempt, &error.message, Some(&error));
@@ -188,7 +188,7 @@ mod tests {
             token.cancel();
         };
         let (result, _) = tokio::join!(work, cancel);
-        assert!(matches!(result, Err(OpenBitFunError::Cancelled(_))));
+        assert!(matches!(result, Err(OpcTeamError::Cancelled(_))));
         assert_eq!(requests, 1);
     }
 

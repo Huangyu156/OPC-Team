@@ -28,7 +28,7 @@ use openbitfun_core::infrastructure::events::{emit_global_event, BackendEvent};
 use openbitfun_core::infrastructure::PathManager;
 use openbitfun_core::service::config::ConfigService;
 use openbitfun_core::service::remote_ssh::workspace_state::get_remote_workspace_manager;
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use serde::{Deserialize, Serialize};
 use serde_json::json;
 use tokio::process::{Child, Command};
@@ -223,7 +223,7 @@ impl AcpClientService {
     pub fn new(
         config_service: Arc<ConfigService>,
         path_manager: Arc<PathManager>,
-    ) -> OpenBitFunResult<Arc<Self>> {
+    ) -> OpcTeamResult<Arc<Self>> {
         Ok(Arc::new(Self {
             config_service,
             session_persistence: AcpSessionPersistence::new(path_manager.clone())?,
@@ -247,7 +247,7 @@ impl AcpClientService {
         workspace_path: &str,
         client_id: &str,
         session_name: Option<String>,
-    ) -> OpenBitFunResult<CreateAcpFlowSessionRecordResponse> {
+    ) -> OpcTeamResult<CreateAcpFlowSessionRecordResponse> {
         self.session_persistence
             .create_flow_session_record(
                 session_storage_path,
@@ -259,7 +259,7 @@ impl AcpClientService {
             .await
     }
 
-    pub async fn initialize_all(self: &Arc<Self>) -> OpenBitFunResult<()> {
+    pub async fn initialize_all(self: &Arc<Self>) -> OpcTeamResult<()> {
         let configs = self.load_configs().await?;
         self.register_configured_tools(&configs).await;
 
@@ -286,7 +286,7 @@ impl AcpClientService {
         Ok(())
     }
 
-    pub async fn list_clients(self: &Arc<Self>) -> OpenBitFunResult<Vec<AcpClientInfo>> {
+    pub async fn list_clients(self: &Arc<Self>) -> OpcTeamResult<Vec<AcpClientInfo>> {
         let configs = self.load_configs().await?;
         let mut infos = Vec::with_capacity(configs.len());
         for (id, config) in configs {
@@ -325,7 +325,7 @@ impl AcpClientService {
         self: &Arc<Self>,
         remote_connection_id: Option<&str>,
         force_refresh: bool,
-    ) -> OpenBitFunResult<Vec<AcpClientRequirementProbe>> {
+    ) -> OpcTeamResult<Vec<AcpClientRequirementProbe>> {
         if let Some(remote_connection_id) = remote_connection_id
             .map(str::trim)
             .filter(|value| !value.is_empty())
@@ -402,7 +402,7 @@ impl AcpClientService {
     pub async fn refresh_remote_client_requirements(
         &self,
         remote_connection_id: &str,
-    ) -> OpenBitFunResult<Vec<AcpClientRequirementProbe>> {
+    ) -> OpcTeamResult<Vec<AcpClientRequirementProbe>> {
         let probes = self
             .probe_remote_client_requirements(remote_connection_id)
             .await?;
@@ -419,12 +419,12 @@ impl AcpClientService {
     async fn probe_remote_client_requirements(
         &self,
         remote_connection_id: &str,
-    ) -> OpenBitFunResult<Vec<AcpClientRequirementProbe>> {
+    ) -> OpcTeamResult<Vec<AcpClientRequirementProbe>> {
         let remote_manager = get_remote_workspace_manager().ok_or_else(|| {
-            OpenBitFunError::service("Remote workspace manager is not initialized".to_string())
+            OpcTeamError::service("Remote workspace manager is not initialized".to_string())
         })?;
         let ssh_manager = remote_manager.get_ssh_manager().await.ok_or_else(|| {
-            OpenBitFunError::service("SSH manager is not available for remote ACP".to_string())
+            OpcTeamError::service("SSH manager is not available for remote ACP".to_string())
         })?;
 
         let config_file = self.load_config_file().await?;
@@ -501,11 +501,11 @@ impl AcpClientService {
     pub async fn predownload_client_adapter(
         self: &Arc<Self>,
         client_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let configs = self.load_configs().await?;
         let spec = acp_requirement_spec(client_id, configs.get(client_id));
         let adapter = spec.adapter.ok_or_else(|| {
-            OpenBitFunError::config(format!(
+            OpcTeamError::config(format!(
                 "ACP client '{}' does not use a downloadable adapter",
                 client_id
             ))
@@ -518,7 +518,7 @@ impl AcpClientService {
         self: &Arc<Self>,
         client_id: &str,
         remote_connection_id: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let remote_connection_id = remote_connection_id
             .map(str::trim)
             .filter(|value| !value.is_empty());
@@ -526,7 +526,7 @@ impl AcpClientService {
         let config = resolve_config_for_client(&config_file, client_id, remote_connection_id);
         let spec = acp_requirement_spec(client_id, config.as_ref());
         let package = spec.install_package.ok_or_else(|| {
-            OpenBitFunError::config(format!(
+            OpcTeamError::config(format!(
                 "ACP client '{}' does not have a known CLI installer",
                 client_id
             ))
@@ -534,10 +534,10 @@ impl AcpClientService {
 
         if let Some(remote_connection_id) = remote_connection_id {
             let remote_manager = get_remote_workspace_manager().ok_or_else(|| {
-                OpenBitFunError::service("Remote workspace manager is not initialized".to_string())
+                OpcTeamError::service("Remote workspace manager is not initialized".to_string())
             })?;
             let ssh_manager = remote_manager.get_ssh_manager().await.ok_or_else(|| {
-                OpenBitFunError::service("SSH manager is not available for remote ACP".to_string())
+                OpcTeamError::service("SSH manager is not available for remote ACP".to_string())
             })?;
             install_remote_npm_cli_package(&ssh_manager, remote_connection_id, package).await
         } else {
@@ -551,7 +551,7 @@ impl AcpClientService {
         openbitfun_session_id: &str,
         workspace_path: Option<&str>,
         remote_connection_id: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let connection_id = session_client_connection_id(client_id, openbitfun_session_id);
         self.start_client_connection(
             &connection_id,
@@ -568,7 +568,7 @@ impl AcpClientService {
         client_id: &str,
         workspace_path: Option<&str>,
         remote_connection_id: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let (connection, remote_connection_id) = loop {
             if let Some(existing) = self.clients.get(connection_id).map(|entry| entry.clone()) {
                 let status = *existing.status.read().await;
@@ -722,7 +722,7 @@ impl AcpClientService {
                 // The agent is gone; whatever it managed to say on the way out
                 // is all anyone has to go on, so put it in front of the user
                 // rather than only in the log.
-                return Err(OpenBitFunError::service(startup_exit_error_message(
+                return Err(OpcTeamError::service(startup_exit_error_message(
                     client_id,
                     &stderr_tail.drained_detail().await,
                 )));
@@ -759,7 +759,7 @@ impl AcpClientService {
         }
     }
 
-    pub async fn stop_client(self: &Arc<Self>, client_id: &str) -> OpenBitFunResult<()> {
+    pub async fn stop_client(self: &Arc<Self>, client_id: &str) -> OpcTeamResult<()> {
         let connection_ids = self
             .clients
             .iter()
@@ -772,7 +772,7 @@ impl AcpClientService {
         Ok(())
     }
 
-    async fn stop_connection(self: &Arc<Self>, connection_id: &str) -> OpenBitFunResult<()> {
+    async fn stop_connection(self: &Arc<Self>, connection_id: &str) -> OpcTeamResult<()> {
         let Some(client) = self.clients.get(connection_id).map(|entry| entry.clone()) else {
             return Ok(());
         };
@@ -889,26 +889,26 @@ impl AcpClientService {
         &self,
         session_storage_path: &Path,
         openbitfun_session_id: &str,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         self.session_persistence
             .delete_flow_session_record(session_storage_path, openbitfun_session_id)
             .await
     }
 
-    pub async fn load_json_config(&self) -> OpenBitFunResult<String> {
+    pub async fn load_json_config(&self) -> OpcTeamResult<String> {
         let config = parse_config_value(self.load_config_value().await?)?;
         serde_json::to_string_pretty(&config).map_err(|error| {
-            OpenBitFunError::config(format!("Failed to render ACP config: {}", error))
+            OpcTeamError::config(format!("Failed to render ACP config: {}", error))
         })
     }
 
-    pub async fn save_json_config(self: &Arc<Self>, json_config: &str) -> OpenBitFunResult<()> {
+    pub async fn save_json_config(self: &Arc<Self>, json_config: &str) -> OpcTeamResult<()> {
         let value: serde_json::Value = serde_json::from_str(json_config).map_err(|error| {
-            OpenBitFunError::config(format!("Invalid ACP client JSON config: {}", error))
+            OpcTeamError::config(format!("Invalid ACP client JSON config: {}", error))
         })?;
         let config = parse_config_value(value)?;
         let canonical_value = serde_json::to_value(config).map_err(|error| {
-            OpenBitFunError::config(format!("Failed to render ACP config: {}", error))
+            OpcTeamError::config(format!("Failed to render ACP config: {}", error))
         })?;
         self.config_service
             .set_config(CONFIG_PATH, canonical_value)
@@ -920,9 +920,9 @@ impl AcpClientService {
     pub async fn submit_permission_response(
         &self,
         request: SubmitAcpPermissionResponseRequest,
-    ) -> OpenBitFunResult<AcpClientPermissionResponse> {
+    ) -> OpcTeamResult<AcpClientPermissionResponse> {
         let Some((_, pending)) = self.pending_permissions.remove(&request.permission_id) else {
-            return Err(OpenBitFunError::NotFound(format!(
+            return Err(OpcTeamError::NotFound(format!(
                 "ACP permission request not found: {}",
                 request.permission_id
             )));
@@ -948,7 +948,7 @@ impl AcpClientService {
         remote_connection_id: Option<String>,
         session_storage_path: Option<PathBuf>,
         openbitfun_session_id: String,
-    ) -> OpenBitFunResult<AcpSessionOptions> {
+    ) -> OpcTeamResult<AcpSessionOptions> {
         let resolved = self
             .resolve_or_create_client_session(
                 client_id,
@@ -983,7 +983,7 @@ impl AcpClientService {
         remote_connection_id: Option<String>,
         session_storage_path: Option<PathBuf>,
         openbitfun_session_id: String,
-    ) -> OpenBitFunResult<Vec<AcpAvailableCommand>> {
+    ) -> OpcTeamResult<Vec<AcpAvailableCommand>> {
         let resolved = self
             .resolve_or_create_client_session(
                 client_id,
@@ -1011,7 +1011,7 @@ impl AcpClientService {
         self: &Arc<Self>,
         request: SetAcpSessionModelRequest,
         session_storage_path: Option<PathBuf>,
-    ) -> OpenBitFunResult<AcpSessionOptions> {
+    ) -> OpcTeamResult<AcpSessionOptions> {
         let resolved = self
             .resolve_or_create_client_session(
                 &request.client_id,
@@ -1034,7 +1034,7 @@ impl AcpClientService {
         let active = session
             .active
             .as_ref()
-            .ok_or_else(|| OpenBitFunError::service("ACP session was not initialized"))?;
+            .ok_or_else(|| OpcTeamError::service("ACP session was not initialized"))?;
         let remote_session_id = active.session_id().to_string();
         let connection = active.connection();
 
@@ -1100,7 +1100,7 @@ impl AcpClientService {
         if let Some(error) = set_model_error {
             return Err(error);
         }
-        Err(OpenBitFunError::NotFound(
+        Err(OpcTeamError::NotFound(
             "ACP session does not expose selectable models".to_string(),
         ))
     }
@@ -1109,7 +1109,7 @@ impl AcpClientService {
         self: &Arc<Self>,
         request: SetAcpSessionConfigOptionRequest,
         session_storage_path: Option<PathBuf>,
-    ) -> OpenBitFunResult<AcpSessionOptions> {
+    ) -> OpcTeamResult<AcpSessionOptions> {
         let resolved = self
             .resolve_or_create_client_session(
                 &request.client_id,
@@ -1132,7 +1132,7 @@ impl AcpClientService {
         let active = session
             .active
             .as_ref()
-            .ok_or_else(|| OpenBitFunError::service("ACP session was not initialized"))?;
+            .ok_or_else(|| OpcTeamError::service("ACP session was not initialized"))?;
         let remote_session_id = active.session_id().to_string();
         let connection = active.connection();
 
@@ -1141,7 +1141,7 @@ impl AcpClientService {
             .iter()
             .any(|option| option.id.to_string() == request.config_id)
         {
-            return Err(OpenBitFunError::NotFound(format!(
+            return Err(OpcTeamError::NotFound(format!(
                 "ACP session config option not found: {}",
                 request.config_id
             )));
@@ -1174,7 +1174,7 @@ impl AcpClientService {
         openbitfun_session_id: String,
         session_storage_path: Option<PathBuf>,
         timeout_seconds: Option<u64>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let resolved = self
             .resolve_or_create_client_session(
                 client_id,
@@ -1200,7 +1200,7 @@ impl AcpClientService {
             let active = session
                 .active
                 .as_mut()
-                .ok_or_else(|| OpenBitFunError::service("ACP session was not initialized"))?;
+                .ok_or_else(|| OpcTeamError::service("ACP session was not initialized"))?;
             let mut prompt = AcpPrompt::start(active, prompt);
             read_turn_to_string(&mut session, &mut prompt).await
         };
@@ -1209,7 +1209,7 @@ impl AcpClientService {
             tokio::time::timeout(Duration::from_secs(seconds), run)
                 .await
                 .map_err(|_| {
-                    OpenBitFunError::tool(format!("ACP client timed out after {}s", seconds))
+                    OpcTeamError::tool(format!("ACP client timed out after {}s", seconds))
                 })?
         } else {
             run.await
@@ -1226,9 +1226,9 @@ impl AcpClientService {
         session_storage_path: Option<PathBuf>,
         timeout_seconds: Option<u64>,
         mut on_event: F,
-    ) -> OpenBitFunResult<()>
+    ) -> OpcTeamResult<()>
     where
-        F: FnMut(AcpClientStreamEvent) -> OpenBitFunResult<()> + Send,
+        F: FnMut(AcpClientStreamEvent) -> OpcTeamResult<()> + Send,
     {
         let resolved = self
             .resolve_or_create_client_session(
@@ -1256,7 +1256,7 @@ impl AcpClientService {
                 let active = session
                     .active
                     .as_mut()
-                    .ok_or_else(|| OpenBitFunError::service("ACP session was not initialized"))?;
+                    .ok_or_else(|| OpcTeamError::service("ACP session was not initialized"))?;
                 AcpPrompt::start(active, prompt)
             };
             let mut round_tracker = AcpStreamRoundTracker::new();
@@ -1264,9 +1264,10 @@ impl AcpClientService {
 
             loop {
                 let message = {
-                    let active = session.active.as_mut().ok_or_else(|| {
-                        OpenBitFunError::service("ACP session was not initialized")
-                    })?;
+                    let active = session
+                        .active
+                        .as_mut()
+                        .ok_or_else(|| OpcTeamError::service("ACP session was not initialized"))?;
                     prompt.read_update(active).await.map_err(protocol_error)?
                 };
 
@@ -1310,7 +1311,7 @@ impl AcpClientService {
             tokio::time::timeout(Duration::from_secs(seconds), run)
                 .await
                 .map_err(|_| {
-                    OpenBitFunError::tool(format!("ACP client timed out after {}s", seconds))
+                    OpcTeamError::tool(format!("ACP client timed out after {}s", seconds))
                 })?
         } else {
             run.await
@@ -1322,23 +1323,23 @@ impl AcpClientService {
         client_id: &str,
         workspace_path: Option<String>,
         openbitfun_session_id: String,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let connection_id = session_client_connection_id(client_id, &openbitfun_session_id);
         let client = self
             .clients
             .get(&connection_id)
             .map(|entry| entry.clone())
             .ok_or_else(|| {
-                OpenBitFunError::service(format!("ACP client is not running: {}", client_id))
+                OpcTeamError::service(format!("ACP client is not running: {}", client_id))
             })?;
 
         let cwd = workspace_path
             .map(PathBuf::from)
             .or_else(|| std::env::current_dir().ok())
-            .ok_or_else(|| OpenBitFunError::validation("Workspace path is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::validation("Workspace path is required".to_string()))?;
         let session_key = build_session_key(&openbitfun_session_id, client_id, &cwd);
         let handle = client.cancel_handles.get(&session_key).ok_or_else(|| {
-            OpenBitFunError::NotFound(format!(
+            OpcTeamError::NotFound(format!(
                 "ACP session is not active for client '{}' in workspace '{}'",
                 client_id,
                 cwd.display()
@@ -1355,7 +1356,7 @@ impl AcpClientService {
     pub async fn cancel_openbitfun_session(
         self: &Arc<Self>,
         openbitfun_session_id: &str,
-    ) -> OpenBitFunResult<bool> {
+    ) -> OpcTeamResult<bool> {
         let session_key_prefix = format!("{}:", openbitfun_session_id);
         for client in self.clients.iter().map(|entry| entry.value().clone()) {
             let handle = client
@@ -1382,7 +1383,7 @@ impl AcpClientService {
         workspace_path: Option<String>,
         remote_connection_id: Option<&str>,
         openbitfun_session_id: &str,
-    ) -> OpenBitFunResult<(Arc<AcpClientConnection>, PathBuf, String)> {
+    ) -> OpcTeamResult<(Arc<AcpClientConnection>, PathBuf, String)> {
         let connection_id = session_client_connection_id(client_id, openbitfun_session_id);
         self.start_client_connection(
             &connection_id,
@@ -1396,13 +1397,13 @@ impl AcpClientService {
             .get(&connection_id)
             .map(|entry| entry.clone())
             .ok_or_else(|| {
-                OpenBitFunError::service(format!("ACP client is not running: {}", client_id))
+                OpcTeamError::service(format!("ACP client is not running: {}", client_id))
             })?;
 
         let cwd = workspace_path
             .map(PathBuf::from)
             .or_else(|| std::env::current_dir().ok())
-            .ok_or_else(|| OpenBitFunError::validation("Workspace path is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::validation("Workspace path is required".to_string()))?;
         let session_key = build_session_key(openbitfun_session_id, client_id, &cwd);
         Ok((client, cwd, session_key))
     }
@@ -1413,7 +1414,7 @@ impl AcpClientService {
         workspace_path: Option<String>,
         remote_connection_id: Option<&str>,
         openbitfun_session_id: &str,
-    ) -> OpenBitFunResult<ResolvedClientSession> {
+    ) -> OpcTeamResult<ResolvedClientSession> {
         let (client, cwd, session_key) = self
             .resolve_client_session(
                 client_id,
@@ -1443,7 +1444,7 @@ impl AcpClientService {
         openbitfun_session_id: &str,
         session_storage_path: Option<&Path>,
         session: &mut AcpRemoteSession,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if session.active.is_some() {
             return Ok(());
         }
@@ -1552,7 +1553,7 @@ impl AcpClientService {
             return Ok(());
         }
 
-        Err(OpenBitFunError::service(
+        Err(OpcTeamError::service(
             "Failed to initialize ACP remote session".to_string(),
         ))
     }
@@ -1591,7 +1592,7 @@ impl AcpClientService {
         response: NewSessionResponse,
         strategy: AcpRemoteSessionStrategy,
         last_resume_error: Option<String>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let cx = client.connection().await?;
         let models = response.models.clone();
         let config_options = response.config_options.clone().unwrap_or_default();
@@ -1627,15 +1628,15 @@ impl AcpClientService {
         Ok(())
     }
 
-    async fn load_configs(&self) -> OpenBitFunResult<HashMap<String, AcpClientConfig>> {
+    async fn load_configs(&self) -> OpcTeamResult<HashMap<String, AcpClientConfig>> {
         Ok(self.load_config_file().await?.acp_clients)
     }
 
-    async fn load_config_file(&self) -> OpenBitFunResult<AcpClientConfigFile> {
+    async fn load_config_file(&self) -> OpcTeamResult<AcpClientConfigFile> {
         parse_config_value(self.load_config_value().await?)
     }
 
-    async fn load_config_value(&self) -> OpenBitFunResult<serde_json::Value> {
+    async fn load_config_value(&self) -> OpcTeamResult<serde_json::Value> {
         Ok(self
             .config_service
             .get_config::<serde_json::Value>(Some(CONFIG_PATH))
@@ -1742,7 +1743,7 @@ impl AcpClientService {
         client_id: &str,
         connection_id: &str,
         config: &AcpClientConfig,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         ByteStreams<AcpOutgoingStream, AcpIncomingStream>,
         Child,
         StderrTail,
@@ -1769,7 +1770,7 @@ impl AcpClientService {
         configure_process_group(&mut command);
 
         let mut child = command.spawn().map_err(|error| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Failed to spawn ACP client '{}': {}",
                 client_id, error
             ))
@@ -1779,7 +1780,7 @@ impl AcpClientService {
             Some(stdout) => stdout,
             None => {
                 terminate_child_process_tree(connection_id, child).await;
-                return Err(OpenBitFunError::service(format!(
+                return Err(OpcTeamError::service(format!(
                     "ACP client '{}' stdout is unavailable",
                     client_id
                 )));
@@ -1789,7 +1790,7 @@ impl AcpClientService {
             Some(stdin) => stdin,
             None => {
                 terminate_child_process_tree(connection_id, child).await;
-                return Err(OpenBitFunError::service(format!(
+                return Err(OpcTeamError::service(format!(
                     "ACP client '{}' stdin is unavailable",
                     client_id
                 )));
@@ -1815,7 +1816,7 @@ impl AcpClientService {
         config: &AcpClientConfig,
         workspace_path: Option<&str>,
         remote_connection_id: Option<&str>,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         ByteStreams<AcpOutgoingStream, AcpIncomingStream>,
         Option<Child>,
         StderrTail,
@@ -1838,16 +1839,16 @@ impl AcpClientService {
         config: &AcpClientConfig,
         workspace_path: Option<&str>,
         remote_connection_id: &str,
-    ) -> OpenBitFunResult<(
+    ) -> OpcTeamResult<(
         ByteStreams<AcpOutgoingStream, AcpIncomingStream>,
         StderrTail,
     )> {
         let command = render_remote_client_command(config, workspace_path)?;
         let remote_manager = get_remote_workspace_manager().ok_or_else(|| {
-            OpenBitFunError::service("Remote workspace manager is not initialized".to_string())
+            OpcTeamError::service("Remote workspace manager is not initialized".to_string())
         })?;
         let ssh_manager = remote_manager.get_ssh_manager().await.ok_or_else(|| {
-            OpenBitFunError::service("SSH manager is not available for remote ACP".to_string())
+            OpcTeamError::service("SSH manager is not available for remote ACP".to_string())
         })?;
         // Same reason as `start_local_transport`: the command below only boots
         // the runtime OPC-Team ships, so it has to be on that host first.
@@ -1866,7 +1867,7 @@ impl AcpClientService {
             .open_workspace_stdio(remote_connection_id, &command)
             .await
             .map_err(|error| {
-                OpenBitFunError::service(format!(
+                OpcTeamError::service(format!(
                     "Failed to start remote ACP client '{}': {}",
                     client_id, error
                 ))
@@ -1897,7 +1898,7 @@ impl AcpClientService {
         client_id: &str,
         workspace_path: Option<&str>,
         remote_connection_id: Option<&str>,
-    ) -> OpenBitFunResult<StartClientConfig> {
+    ) -> OpcTeamResult<StartClientConfig> {
         let remote_connection_id = remote_connection_id
             .map(str::trim)
             .filter(|value| !value.is_empty())
@@ -1907,17 +1908,17 @@ impl AcpClientService {
         let config =
             resolve_config_for_client(&config_file, client_id, remote_connection_id.as_deref())
                 .ok_or_else(|| {
-                    OpenBitFunError::NotFound(format!("ACP client not found: {}", client_id))
+                    OpcTeamError::NotFound(format!("ACP client not found: {}", client_id))
                 })?;
 
         if config.command.trim().is_empty() {
-            return Err(OpenBitFunError::config(format!(
+            return Err(OpcTeamError::config(format!(
                 "ACP client command is empty: {}",
                 client_id
             )));
         }
         if !config.enabled {
-            return Err(OpenBitFunError::config(format!(
+            return Err(OpcTeamError::config(format!(
                 "ACP client is disabled: {}",
                 client_id
             )));
@@ -1949,12 +1950,12 @@ fn resolve_config_for_client(
 fn ensure_remote_client_supported(
     _client_id: &str,
     workspace_path: Option<&str>,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     if workspace_path
         .map(str::trim)
         .is_none_or(|workspace_path| workspace_path.is_empty())
     {
-        return Err(OpenBitFunError::validation(
+        return Err(OpcTeamError::validation(
             "Workspace path is required for remote ACP sessions".to_string(),
         ));
     }
@@ -1965,10 +1966,10 @@ fn ensure_remote_client_supported(
 fn render_remote_client_command(
     config: &AcpClientConfig,
     workspace_path: Option<&str>,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     let command = config.command.trim();
     if command.is_empty() {
-        return Err(OpenBitFunError::config(
+        return Err(OpcTeamError::config(
             "ACP client command is empty".to_string(),
         ));
     }
@@ -2019,9 +2020,9 @@ impl AcpClientConnection {
         }
     }
 
-    async fn connection(&self) -> OpenBitFunResult<ConnectionTo<Agent>> {
+    async fn connection(&self) -> OpcTeamResult<ConnectionTo<Agent>> {
         self.connection.read().await.clone().ok_or_else(|| {
-            OpenBitFunError::service(format!("ACP client is not connected: {}", self.id))
+            OpcTeamError::service(format!("ACP client is not connected: {}", self.id))
         })
     }
 }
@@ -2048,7 +2049,7 @@ fn claim_client_start(
 async fn wait_for_client_connection(
     client: Arc<AcpClientConnection>,
     connection_id: &str,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let started_at = Instant::now();
     loop {
         if client.connection.read().await.is_some() {
@@ -2057,7 +2058,7 @@ async fn wait_for_client_connection(
 
         let status = *client.status.read().await;
         if matches!(status, AcpClientStatus::Failed | AcpClientStatus::Stopped) {
-            return Err(OpenBitFunError::service(format!(
+            return Err(OpcTeamError::service(format!(
                 "ACP client '{}' is not running",
                 connection_id
             )));
@@ -2071,17 +2072,16 @@ async fn wait_for_client_connection(
     }
 }
 
-fn parse_config_value(value: serde_json::Value) -> OpenBitFunResult<AcpClientConfigFile> {
+fn parse_config_value(value: serde_json::Value) -> OpcTeamResult<AcpClientConfigFile> {
     let mut config = if value.get("acpClients").is_some() {
-        serde_json::from_value(value).map_err(|error| {
-            OpenBitFunError::config(format!("Invalid ACP client config: {}", error))
-        })
+        serde_json::from_value(value)
+            .map_err(|error| OpcTeamError::config(format!("Invalid ACP client config: {}", error)))
     } else if value.is_object() {
         serde_json::from_value(json!({ "acpClients": value })).map_err(|error| {
-            OpenBitFunError::config(format!("Invalid ACP client config map: {}", error))
+            OpcTeamError::config(format!("Invalid ACP client config map: {}", error))
         })
     } else {
-        Err(OpenBitFunError::config(
+        Err(OpcTeamError::config(
             "ACP client config must be an object".to_string(),
         ))
     }?;
@@ -2313,9 +2313,9 @@ async fn drain_pending_turn_updates<F>(
     tool_call_tracker: &mut AcpToolCallTracker,
     round_tracker: &mut AcpStreamRoundTracker,
     on_event: &mut F,
-) -> OpenBitFunResult<()>
+) -> OpcTeamResult<()>
 where
-    F: FnMut(AcpClientStreamEvent) -> OpenBitFunResult<()> + Send,
+    F: FnMut(AcpClientStreamEvent) -> OpcTeamResult<()> + Send,
 {
     let started_at = Instant::now();
     let mut drained_count = 0usize;
@@ -2363,7 +2363,7 @@ where
 async fn read_turn_to_string(
     session: &mut AcpRemoteSession,
     prompt: &mut AcpPrompt,
-) -> OpenBitFunResult<String> {
+) -> OpcTeamResult<String> {
     let mut output = String::new();
     let mut tool_call_tracker = AcpToolCallTracker::new();
     loop {
@@ -2371,7 +2371,7 @@ async fn read_turn_to_string(
             let active = session
                 .active
                 .as_mut()
-                .ok_or_else(|| OpenBitFunError::service("ACP session was not initialized"))?;
+                .ok_or_else(|| OpcTeamError::service("ACP session was not initialized"))?;
             prompt.read_update(active).await.map_err(protocol_error)?
         };
 
@@ -2397,7 +2397,7 @@ async fn drain_pending_turn_text(
     session: &mut AcpRemoteSession,
     tool_call_tracker: &mut AcpToolCallTracker,
     output: &mut String,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let started_at = Instant::now();
     let mut drained_count = 0usize;
     while started_at.elapsed() < TURN_COMPLETION_DRAIN_MAX_DURATION {
@@ -2447,7 +2447,7 @@ fn append_agent_text(output: &mut String, events: Vec<AcpClientStreamEvent>) {
 
 async fn drain_pending_session_metadata_updates(
     session: &mut AcpRemoteSession,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let started_at = Instant::now();
     let mut drained_count = 0usize;
     let mut tool_call_tracker = AcpToolCallTracker::new();
@@ -2582,8 +2582,8 @@ fn update_session_config_options(session: &mut AcpRemoteSession, events: &[AcpCl
     session.config_options = options;
 }
 
-fn protocol_error(error: impl std::fmt::Display) -> OpenBitFunError {
-    OpenBitFunError::service(format!("ACP protocol error: {}", error))
+fn protocol_error(error: impl std::fmt::Display) -> OpcTeamError {
+    OpcTeamError::service(format!("ACP protocol error: {}", error))
 }
 
 /// The last lines an agent wrote to stderr, kept so a startup failure can say
@@ -2696,8 +2696,8 @@ fn startup_exit_error_message(client_id: &str, stderr_detail: &str) -> String {
 
 const STARTUP_TIMEOUT_ERROR_PREFIX: &str = "ACP startup timed out:";
 
-fn startup_timeout_error(client_id: &str, phase: &str) -> OpenBitFunError {
-    OpenBitFunError::service(startup_timeout_error_message(client_id, phase))
+fn startup_timeout_error(client_id: &str, phase: &str) -> OpcTeamError {
+    OpcTeamError::service(startup_timeout_error_message(client_id, phase))
 }
 
 fn startup_timeout_error_message(client_id: &str, phase: &str) -> String {
@@ -2710,7 +2710,7 @@ fn startup_timeout_error_message(client_id: &str, phase: &str) -> String {
     )
 }
 
-fn is_startup_timeout_error(error: &OpenBitFunError) -> bool {
+fn is_startup_timeout_error(error: &OpcTeamError) -> bool {
     error.to_string().contains(STARTUP_TIMEOUT_ERROR_PREFIX)
 }
 

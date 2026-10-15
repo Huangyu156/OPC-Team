@@ -149,7 +149,7 @@ mod tests {
     use crate::agentic::tools::framework::{
         DynamicMcpToolInfo, DynamicToolInfo, Tool, ToolExposure, ToolResult,
     };
-    use crate::util::errors::OpenBitFunResult;
+    use crate::util::errors::OpcTeamResult;
     use serde_json::{json, Value};
     use std::sync::Arc;
 
@@ -163,7 +163,7 @@ mod tests {
         fn name(&self) -> &str {
             self.name
         }
-        async fn description(&self) -> OpenBitFunResult<String> {
+        async fn description(&self) -> OpcTeamResult<String> {
             Ok("Search documents".into())
         }
         fn short_description(&self) -> String {
@@ -193,7 +193,7 @@ mod tests {
             &self,
             _input: &Value,
             _context: &ToolUseContext,
-        ) -> OpenBitFunResult<Vec<ToolResult>> {
+        ) -> OpcTeamResult<Vec<ToolResult>> {
             panic!("catalog must never execute a tool")
         }
     }

@@ -18,6 +18,6 @@ pub use agent_client_protocol as protocol;
 #[cfg(feature = "client")]
 pub use client::AcpClientService;
 #[cfg(feature = "server")]
-pub use runtime::OpenBitFunAcpRuntime;
+pub use runtime::OpcTeamAcpRuntime;
 #[cfg(feature = "server")]
 pub use server::AcpServer;

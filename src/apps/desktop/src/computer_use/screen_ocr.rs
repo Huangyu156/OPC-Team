@@ -1,7 +1,7 @@
 use log::{info, warn};
 use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
 use openbitfun_core::infrastructure::try_get_path_manager_arc;
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use std::fs;
 use std::io::Write;
 use std::path::PathBuf;
@@ -48,7 +48,7 @@ pub(super) use openbitfun_core::agentic::tools::computer_use_host::OcrTextMatch;
 
 /// Read the best recognized text for every visible region. No search query,
 /// candidate ranking, or debug pixel persistence is involved.
-pub(super) fn read_text(shot: &ComputerScreenshot) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+pub(super) fn read_text(shot: &ComputerScreenshot) -> OpcTeamResult<Vec<OcrTextMatch>> {
     #[cfg(target_os = "macos")]
     {
         return macos::read_text(shot);
@@ -64,7 +64,7 @@ pub(super) fn read_text(shot: &ComputerScreenshot) -> OpenBitFunResult<Vec<OcrTe
     #[cfg(not(any(target_os = "macos", target_os = "windows", target_os = "linux")))]
     {
         let _ = shot;
-        Err(OpenBitFunError::tool(
+        Err(OpcTeamError::tool(
             "[OCR_READ_UNSUPPORTED] Text reading is not available on this platform.",
         ))
     }
@@ -73,7 +73,7 @@ pub(super) fn read_text(shot: &ComputerScreenshot) -> OpenBitFunResult<Vec<OcrTe
 pub(super) fn find_text_matches(
     shot: &ComputerScreenshot,
     text_query: &str,
-) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+) -> OpcTeamResult<Vec<OcrTextMatch>> {
     let query = normalize_query(text_query)?;
     save_ocr_debug_jpeg(shot, &query);
 
@@ -93,7 +93,7 @@ pub(super) fn find_text_matches(
     }
 
     #[allow(unreachable_code)]
-    Err(OpenBitFunError::tool(
+    Err(OpcTeamError::tool(
         "move_to_text OCR is not supported on this platform.".to_string(),
     ))
 }
@@ -201,10 +201,10 @@ fn save_ocr_debug_jpeg(shot: &ComputerScreenshot, text_query: &str) {
     }
 }
 
-fn normalize_query(text_query: &str) -> OpenBitFunResult<String> {
+fn normalize_query(text_query: &str) -> OpcTeamResult<String> {
     let q = text_query.trim();
     if q.is_empty() {
-        return Err(OpenBitFunError::tool(
+        return Err(OpcTeamError::tool(
             "move_to_text requires a non-empty text_query.".to_string(),
         ));
     }
@@ -232,15 +232,15 @@ mod macos {
         VNRequestTextRecognitionLevel,
     };
     use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-    use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+    use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 
     /// Top-N candidates per observation; Chinese matches often appear below rank 1.
     const TOP_CANDIDATES_MAX: usize = 10;
 
-    pub(super) fn read_text(shot: &ComputerScreenshot) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    pub(super) fn read_text(shot: &ComputerScreenshot) -> OpcTeamResult<Vec<OcrTextMatch>> {
         let (_, _, width, height) = image_content_rect_or_full(shot);
         if width == 0 || height == 0 {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Screenshot content rect is empty; cannot run macOS Vision OCR.",
             ));
         }
@@ -274,11 +274,11 @@ mod macos {
     pub(super) fn find_text_matches(
         shot: &ComputerScreenshot,
         text_query: &str,
-    ) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<OcrTextMatch>> {
         let (_content_left, _content_top, content_width, content_height) =
             image_content_rect_or_full(shot);
         if content_width == 0 || content_height == 0 {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Screenshot content rect is empty; cannot run macOS Vision OCR.".to_string(),
             ));
         }
@@ -293,7 +293,7 @@ mod macos {
 
         let ranked = filter_and_rank(text_query, raw_matches);
         if ranked.is_empty() {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "No OCR text matched {:?} on screen (macOS Vision found {} text regions total). \
                  Matching strips whitespace between glyphs and allows small edit distance for OCR errors. \
                  If the UI is Chinese, try a shorter substring or ensure the text is visible in the capture.",
@@ -306,7 +306,7 @@ mod macos {
 
     fn recognize_text_observations(
         jpeg_bytes: &[u8],
-    ) -> OpenBitFunResult<Vec<Retained<VNRecognizedTextObservation>>> {
+    ) -> OpcTeamResult<Vec<Retained<VNRecognizedTextObservation>>> {
         // Create NSData from the raw JPEG bytes.
         let ns_data = NSData::with_bytes(jpeg_bytes);
 
@@ -358,9 +358,9 @@ mod macos {
         Ok(results.to_vec())
     }
 
-    fn ns_error_to_openbitfun(err: Retained<NSError>) -> OpenBitFunError {
+    fn ns_error_to_openbitfun(err: Retained<NSError>) -> OpcTeamError {
         let desc = err.localizedDescription().to_string();
-        OpenBitFunError::tool(format!("macOS Vision OCR failed: {}", desc))
+        OpcTeamError::tool(format!("macOS Vision OCR failed: {}", desc))
     }
 
     fn observation_to_match(
@@ -454,7 +454,7 @@ mod windows_backend {
         image_content_rect_or_full, normalize_for_match, OcrTextMatch,
     };
     use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-    use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+    use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
     use windows::core::HSTRING;
     use windows::Graphics::Imaging::BitmapDecoder;
     use windows::Media::Ocr::{OcrEngine, OcrWord};
@@ -464,29 +464,29 @@ mod windows_backend {
         COINIT_APARTMENTTHREADED, COINIT_DISABLE_OLE1DDE,
     };
 
-    fn w<T>(r: windows::core::Result<T>) -> OpenBitFunResult<T> {
-        r.map_err(|e| OpenBitFunError::tool(format!("Windows OCR: {}", e)))
+    fn w<T>(r: windows::core::Result<T>) -> OpcTeamResult<T> {
+        r.map_err(|e| OpcTeamError::tool(format!("Windows OCR: {}", e)))
     }
 
-    pub(super) fn read_text(shot: &ComputerScreenshot) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    pub(super) fn read_text(shot: &ComputerScreenshot) -> OpcTeamResult<Vec<OcrTextMatch>> {
         recognize(shot, None)
     }
 
     pub(super) fn find_text_matches(
         shot: &ComputerScreenshot,
         text_query: &str,
-    ) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<OcrTextMatch>> {
         recognize(shot, Some(text_query))
     }
 
     fn recognize(
         shot: &ComputerScreenshot,
         query: Option<&str>,
-    ) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<OcrTextMatch>> {
         let (content_left, content_top, content_width, content_height) =
             image_content_rect_or_full(shot);
         if content_width == 0 || content_height == 0 {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Screenshot content rect is empty; cannot run Windows OCR.".to_string(),
             ));
         }
@@ -500,7 +500,7 @@ mod windows_backend {
             let hr =
                 unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE) };
             if hr.is_err() {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "Windows OCR COM initialization failed: {:?}",
                     hr
                 )));
@@ -508,7 +508,7 @@ mod windows_backend {
             co_init = Some(());
         }
 
-        let result = (|| -> OpenBitFunResult<Vec<OcrTextMatch>> {
+        let result = (|| -> OpcTeamResult<Vec<OcrTextMatch>> {
             // 1. Write JPEG bytes to in-memory stream
             let stream = w(InMemoryRandomAccessStream::new())?;
             let writer = w(DataWriter::CreateDataWriter(&stream))?;
@@ -530,7 +530,7 @@ mod windows_backend {
                         &HSTRING::from("en-US"),
                     ))?;
                     if !w(OcrEngine::IsLanguageSupported(&lang))? {
-                        return Err(OpenBitFunError::tool(
+                        return Err(OpcTeamError::tool(
                             "Windows OCR: No supported language packs installed.".to_string(),
                         ));
                     }
@@ -606,7 +606,7 @@ mod windows_backend {
 
             let ranked = filter_and_rank(text_query, raw_matches);
             if ranked.is_empty() {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "No OCR text matched {:?} on screen (Windows OCR found {} text regions total).",
                     text_query, line_count
                 )));
@@ -666,27 +666,27 @@ mod linux_backend {
     use leptess::capi::TessPageIteratorLevel_RIL_WORD;
     use leptess::{leptonica, tesseract::TessApi};
     use openbitfun_core::agentic::tools::computer_use_host::ComputerScreenshot;
-    use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+    use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 
-    pub(super) fn read_text(shot: &ComputerScreenshot) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    pub(super) fn read_text(shot: &ComputerScreenshot) -> OpcTeamResult<Vec<OcrTextMatch>> {
         recognize(shot, None)
     }
 
     pub(super) fn find_text_matches(
         shot: &ComputerScreenshot,
         text_query: &str,
-    ) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<OcrTextMatch>> {
         recognize(shot, Some(text_query))
     }
 
     fn recognize(
         shot: &ComputerScreenshot,
         query: Option<&str>,
-    ) -> OpenBitFunResult<Vec<OcrTextMatch>> {
+    ) -> OpcTeamResult<Vec<OcrTextMatch>> {
         let (content_left, content_top, content_width, content_height) =
             image_content_rect_or_full(shot);
         if content_width == 0 || content_height == 0 {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Screenshot content rect is empty; cannot run Linux Tesseract OCR.".to_string(),
             ));
         }
@@ -710,14 +710,14 @@ mod linux_backend {
                         }
                     }
                 }
-                api.ok_or_else(|| OpenBitFunError::tool(
+                api.ok_or_else(|| OpcTeamError::tool(
                     "Linux OCR: Tesseract initialization failed. Please install tesseract-ocr and tesseract-ocr-eng packages, or ensure TESSDATA_PREFIX is set correctly.".to_string()
                 ))?
             }
         };
 
         let pix = leptonica::pix_read_mem(&shot.bytes).map_err(|e| {
-            OpenBitFunError::tool(format!(
+            OpcTeamError::tool(format!(
                 "Linux OCR: Failed to decode screenshot image with Leptonica: {}",
                 e
             ))
@@ -725,14 +725,14 @@ mod linux_backend {
 
         api.set_image(&pix);
         if api.recognize() != 0 {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Linux OCR: Tesseract recognition failed.".to_string(),
             ));
         }
 
         let Some(text_query) = query else {
             let tsv = api.get_tsv_text(0).map_err(|error| {
-                OpenBitFunError::tool(format!("Linux OCR: Invalid text encoding: {error}"))
+                OpcTeamError::tool(format!("Linux OCR: Invalid text encoding: {error}"))
             })?;
             return Ok(tesseract_lines_from_tsv(shot, &tsv));
         };
@@ -740,9 +740,7 @@ mod linux_backend {
         let boxa = api
             .get_component_images(TessPageIteratorLevel_RIL_WORD, true)
             .ok_or_else(|| {
-                OpenBitFunError::tool(
-                    "Linux OCR: Tesseract did not return word regions.".to_string(),
-                )
+                OpcTeamError::tool("Linux OCR: Tesseract did not return word regions.".to_string())
             })?;
 
         let word_region_count = boxa.get_n();
@@ -783,7 +781,7 @@ mod linux_backend {
 
         let ranked = filter_and_rank(text_query, raw_matches);
         if ranked.is_empty() {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "No OCR text matched {:?} on screen (Tesseract found {} word regions total).",
                 text_query, word_region_count
             )));

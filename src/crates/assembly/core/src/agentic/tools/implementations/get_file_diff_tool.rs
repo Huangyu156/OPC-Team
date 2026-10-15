@@ -10,7 +10,7 @@ use crate::service::review_platform::{
     ReviewPlatformService, ReviewRepositoryLocator,
 };
 use crate::service::snapshot::manager::get_snapshot_manager_for_workspace;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use log::{debug, warn};
 use openbitfun_agent_runtime::deep_review::{
@@ -179,12 +179,12 @@ impl GetFileDiffTool {
         Self
     }
 
-    fn target_evidence(context: &ToolUseContext) -> OpenBitFunResult<Option<ReviewTargetEvidence>> {
+    fn target_evidence(context: &ToolUseContext) -> OpcTeamResult<Option<ReviewTargetEvidence>> {
         let Some(manifest) = context.custom_data.get("deep_review_run_manifest") else {
             return Ok(None);
         };
         ReviewTargetEvidence::from_context_value(manifest).map_err(|error| {
-            OpenBitFunError::tool(format!("Invalid prepared Review target evidence: {error}"))
+            OpcTeamError::tool(format!("Invalid prepared Review target evidence: {error}"))
         })
     }
 
@@ -192,11 +192,9 @@ impl GetFileDiffTool {
         context: &ToolUseContext,
         evidence: &ReviewTargetEvidence,
         logical_path: &str,
-    ) -> OpenBitFunResult<ProviderFileDiffRoute> {
+    ) -> OpcTeamResult<ProviderFileDiffRoute> {
         let pull_request = evidence.pull_request().ok_or_else(|| {
-            OpenBitFunError::tool(
-                "Prepared pull request Review identity is unavailable".to_string(),
-            )
+            OpcTeamError::tool("Prepared pull request Review identity is unavailable".to_string())
         })?;
         let platform = match pull_request.platform() {
             "github" => Some(ReviewPlatformKind::Github),
@@ -204,16 +202,16 @@ impl GetFileDiffTool {
             "gitee" => Some(ReviewPlatformKind::Gitee),
             "gitcode" => None,
             value => {
-                return Err(OpenBitFunError::tool(format!(
+                return Err(OpcTeamError::tool(format!(
                     "Prepared pull request provider is unsupported: {value}"
                 )))
             }
         };
         let base_revision = evidence.base_revision().ok_or_else(|| {
-            OpenBitFunError::tool("Prepared pull request base revision is unavailable".to_string())
+            OpcTeamError::tool("Prepared pull request base revision is unavailable".to_string())
         })?;
         let head_revision = evidence.head_revision().ok_or_else(|| {
-            OpenBitFunError::tool("Prepared pull request head revision is unavailable".to_string())
+            OpcTeamError::tool("Prepared pull request head revision is unavailable".to_string())
         })?;
         let file_page_hint = evidence.file_page_hint_for_path(logical_path, 100);
         if let Some(platform) = platform {
@@ -289,9 +287,9 @@ impl GetFileDiffTool {
     fn ensure_prepared_target_path(
         relative_path: Option<&str>,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         if relative_path.is_none() && Self::target_evidence(context)?.is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Prepared Review targets only allow workspace-relative target paths".to_string(),
             ));
         }
@@ -301,12 +299,12 @@ impl GetFileDiffTool {
     fn exact_review_target(
         relative_path: &str,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Option<ExactReviewTarget>> {
+    ) -> OpcTeamResult<Option<ExactReviewTarget>> {
         let Some(evidence) = Self::target_evidence(context)? else {
             return Ok(None);
         };
         if !evidence.contains_file(relative_path) {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Requested file is outside the prepared Review target evidence".to_string(),
             ));
         }
@@ -314,7 +312,7 @@ impl GetFileDiffTool {
             if evidence.source()
                 != openbitfun_agent_runtime::deep_review::ReviewTargetEvidenceSource::Workspace
             {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "Prepared Review target does not provide a consumable exact diff for this file; preserve limited coverage"
                         .to_string(),
                 ));
@@ -330,10 +328,7 @@ impl GetFileDiffTool {
         )))
     }
 
-    async fn exact_review_diff(
-        &self,
-        request: ExactReviewDiffRequest<'_>,
-    ) -> OpenBitFunResult<Value> {
+    async fn exact_review_diff(&self, request: ExactReviewDiffRequest<'_>) -> OpcTeamResult<Value> {
         let ExactReviewDiffRequest {
             workspace_root,
             logical_path,
@@ -348,7 +343,7 @@ impl GetFileDiffTool {
             GitService::get_review_diff(workspace_root, base_revision, head_revision, paths)
                 .await
                 .map_err(|error| {
-                    OpenBitFunError::tool(format!(
+                    OpcTeamError::tool(format!(
                         "Failed to read prepared Review target diff: {error}"
                     ))
                 })?;
@@ -390,7 +385,7 @@ impl GetFileDiffTool {
         evidence: &ReviewTargetEvidence,
         logical_path: &str,
         diff_offset: usize,
-    ) -> OpenBitFunResult<Option<Value>> {
+    ) -> OpcTeamResult<Option<Value>> {
         self.pull_request_review_diff_with_service(
             context,
             evidence,
@@ -408,12 +403,12 @@ impl GetFileDiffTool {
         logical_path: &str,
         diff_offset: usize,
         service: &dyn ProviderFileDiffService,
-    ) -> OpenBitFunResult<Option<Value>> {
+    ) -> OpcTeamResult<Option<Value>> {
         if evidence.source() != ReviewTargetEvidenceSource::PullRequest {
             return Ok(None);
         }
         if !evidence.contains_file(logical_path) {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Requested file is outside the prepared Review target evidence".to_string(),
             ));
         }
@@ -531,7 +526,7 @@ impl GetFileDiffTool {
         cursor: Option<&str>,
         binding: &str,
         path: &str,
-    ) -> OpenBitFunResult<usize> {
+    ) -> OpcTeamResult<usize> {
         let Some(cursor) = cursor else {
             return Ok(0);
         };
@@ -540,18 +535,18 @@ impl GetFileDiffTool {
         let offset = parts.next().and_then(|value| value.parse::<usize>().ok());
         let signature = parts.next();
         if version != Some("review-v1") || parts.next().is_some() {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Invalid prepared Review continuation cursor".to_string(),
             ));
         }
         let Some(offset) = offset else {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Invalid prepared Review continuation cursor".to_string(),
             ));
         };
         let expected = Self::review_cursor(binding, path, offset);
         if signature.is_none() || expected != cursor {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Prepared Review continuation cursor does not match this target file".to_string(),
             ));
         }
@@ -563,7 +558,7 @@ impl GetFileDiffTool {
         diff_offset: usize,
         cursor_binding: &str,
         logical_path: &str,
-    ) -> OpenBitFunResult<Value> {
+    ) -> OpcTeamResult<Value> {
         let diff = data
             .get("diff_content")
             .and_then(Value::as_str)
@@ -572,7 +567,7 @@ impl GetFileDiffTool {
         let total_chars = chars.len();
         let consumable_chars = total_chars.min(PREPARED_REVIEW_DIFF_TOTAL_CHARS);
         if diff_offset > consumable_chars {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "diff_offset {} exceeds prepared Review diff budget {}",
                 diff_offset, consumable_chars
             )));
@@ -859,7 +854,7 @@ impl GetFileDiffTool {
         &self,
         file_path: &Path,
         workspace_id: Option<&str>,
-    ) -> Option<OpenBitFunResult<Value>> {
+    ) -> Option<OpcTeamResult<Value>> {
         let snapshot_manager = workspace_id.and_then(get_snapshot_manager_for_workspace)?;
 
         // Get snapshot service
@@ -917,14 +912,14 @@ impl GetFileDiffTool {
         review_status: Option<&str>,
         review_paths: Option<&[String]>,
         review_workspace_root: Option<&Path>,
-    ) -> Option<OpenBitFunResult<Value>> {
+    ) -> Option<OpcTeamResult<Value>> {
         // Get directory containing the file
         let file_dir = file_path.parent()?;
         let prepared_workspace_root = if review_safe {
             match review_workspace_root {
                 Some(root) => Some(root),
                 None => {
-                    return Some(Err(OpenBitFunError::tool(
+                    return Some(Err(OpcTeamError::tool(
                         "Workspace root is required for prepared Review diff".to_string(),
                     )))
                 }
@@ -972,7 +967,7 @@ impl GetFileDiffTool {
             Ok(root) => root,
             Err(e) => {
                 if review_safe {
-                    return Some(Err(OpenBitFunError::tool(format!(
+                    return Some(Err(OpcTeamError::tool(format!(
                         "Prepared Review Git repository is unavailable: {e}"
                     ))));
                 }
@@ -1012,7 +1007,7 @@ impl GetFileDiffTool {
                     let repo_relative = match absolute.strip_prefix(repo_root_path) {
                         Ok(path) => path,
                         Err(_) => {
-                            return Some(Err(OpenBitFunError::tool(
+                            return Some(Err(OpcTeamError::tool(
                                 "Prepared Review path is outside the discovered Git repository"
                                     .to_string(),
                             )))
@@ -1044,7 +1039,7 @@ impl GetFileDiffTool {
             Ok(diff) => diff,
             Err(e) => {
                 if review_safe {
-                    return Some(Err(OpenBitFunError::tool(format!(
+                    return Some(Err(OpcTeamError::tool(format!(
                         "Prepared Review Git diff is unavailable within the safety boundary: {e}"
                     ))));
                 }
@@ -1107,7 +1102,7 @@ impl GetFileDiffTool {
             let (diff_content, modified_content, additions, deletions) =
                 if diff_output.is_empty() && review_status == Some("added") {
                     let metadata = fs::symlink_metadata(file_path).map_err(|error| {
-                        OpenBitFunError::tool(format!(
+                        OpcTeamError::tool(format!(
                             "Failed to inspect prepared Review new file: {error}"
                         ))
                     });
@@ -1116,14 +1111,14 @@ impl GetFileDiffTool {
                         Err(error) => return Some(Err(error)),
                     };
                     if Self::is_symlink_or_reparse_point(&metadata) {
-                        return Some(Err(OpenBitFunError::tool(
+                        return Some(Err(OpcTeamError::tool(
                         "Prepared Review does not read untracked symlink or reparse-point targets"
                             .to_string(),
                     )));
                     }
                     let size = metadata.len();
                     if size > REVIEW_NEW_FILE_CONTENT_LIMIT {
-                        return Some(Err(OpenBitFunError::tool(format!(
+                        return Some(Err(OpcTeamError::tool(format!(
                             "Prepared Review new file exceeds the {} byte safety limit",
                             REVIEW_NEW_FILE_CONTENT_LIMIT
                         ))));
@@ -1131,7 +1126,7 @@ impl GetFileDiffTool {
                     let content = match fs::read_to_string(file_path) {
                         Ok(content) => content,
                         Err(error) => {
-                            return Some(Err(OpenBitFunError::tool(format!(
+                            return Some(Err(OpcTeamError::tool(format!(
                                 "Failed to read prepared Review new file: {error}"
                             ))))
                         }
@@ -1197,9 +1192,9 @@ impl GetFileDiffTool {
     }
 
     /// Return full file content
-    fn return_full_content(&self, file_path: &Path) -> OpenBitFunResult<Value> {
+    fn return_full_content(&self, file_path: &Path) -> OpcTeamResult<Value> {
         let content = fs::read_to_string(file_path)
-            .map_err(|e| OpenBitFunError::tool(format!("Failed to read file: {}", e)))?;
+            .map_err(|e| OpcTeamError::tool(format!("Failed to read file: {}", e)))?;
 
         let total_lines = content.lines().count();
 
@@ -1226,7 +1221,7 @@ impl Tool for GetFileDiffTool {
         "GetFileDiff"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok(
             r#"Gets the diff for a file, showing changes from its baseline or Git HEAD.
 
@@ -1249,7 +1244,7 @@ Usage:
     async fn description_with_context(
         &self,
         context: Option<&ToolUseContext>,
-    ) -> OpenBitFunResult<String> {
+    ) -> OpcTeamResult<String> {
         let prepared = context
             .and_then(|context| Self::target_evidence(context).ok().flatten())
             .is_some();
@@ -1505,11 +1500,11 @@ Usage:
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         let file_path = input
             .get("file_path")
             .and_then(|v| v.as_str())
-            .ok_or_else(|| OpenBitFunError::tool("file_path is required".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("file_path is required".to_string()))?;
 
         let resolved = context.resolve_tool_path(file_path)?;
         debug!(
@@ -1528,7 +1523,7 @@ Usage:
             if resolved.uses_remote_workspace_backend() {
                 let logical_path = relative_path.as_deref().unwrap_or(file_path);
                 if !evidence.contains_file(logical_path) {
-                    return Err(OpenBitFunError::tool(
+                    return Err(OpcTeamError::tool(
                         "Requested file is outside the prepared Review target evidence".to_string(),
                     ));
                 }
@@ -1553,7 +1548,7 @@ Usage:
                 Self::review_cursor_offset(cursor, evidence.fingerprint(), path)?
             }
             (None, _) if cursor.is_some() => {
-                return Err(OpenBitFunError::tool(
+                return Err(OpcTeamError::tool(
                     "cursor is only available for prepared Review diffs".to_string(),
                 ))
             }
@@ -1628,9 +1623,7 @@ Usage:
 
         if let Some((base_revision, head_revision, paths, fingerprint)) = exact_target {
             let workspace_root = context.workspace_root().ok_or_else(|| {
-                OpenBitFunError::tool(
-                    "Workspace root is required for Review target diff".to_string(),
-                )
+                OpcTeamError::tool("Workspace root is required for Review target diff".to_string())
             })?;
             let data = self
                 .exact_review_diff(ExactReviewDiffRequest {
@@ -1669,14 +1662,14 @@ Usage:
 
         if resolved.uses_remote_workspace_backend() {
             let ws_fs = context.ws_fs().ok_or_else(|| {
-                OpenBitFunError::tool(
+                OpcTeamError::tool(
                     "Workspace file system not available for remote diff".to_string(),
                 )
             })?;
             let content = ws_fs
                 .read_file_text(&resolved.resolved_path)
                 .await
-                .map_err(|e| OpenBitFunError::tool(format!("Failed to read file: {}", e)))?;
+                .map_err(|e| OpcTeamError::tool(format!("Failed to read file: {}", e)))?;
             let total_lines = content.lines().count();
             let data = json!({
                 "file_path": resolved.logical_path,
@@ -1717,7 +1710,7 @@ Usage:
         let path = Path::new(&resolved.resolved_path);
         if resolved.is_runtime_artifact() {
             let content = fs::read_to_string(path)
-                .map_err(|e| OpenBitFunError::tool(format!("Failed to read file: {}", e)))?;
+                .map_err(|e| OpcTeamError::tool(format!("Failed to read file: {}", e)))?;
             let total_lines = content.lines().count();
             let data = json!({
                 "file_path": resolved.logical_path,
@@ -1839,7 +1832,7 @@ Usage:
         }
 
         if prepared_review {
-            return Err(OpenBitFunError::tool(
+            return Err(OpcTeamError::tool(
                 "Prepared Review diff is unavailable because the target file is not in a readable Git repository"
                     .to_string(),
             ));

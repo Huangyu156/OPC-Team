@@ -15,7 +15,7 @@ use dashmap::mapref::entry::Entry;
 use dashmap::DashMap;
 use openbitfun_agent_runtime::sdk::{AgentRuntime, PortErrorKind, RuntimeError};
 use openbitfun_core::product_runtime::CoreAgentRuntimeCompatibility;
-use openbitfun_core::util::errors::OpenBitFunError;
+use openbitfun_core::util::errors::OpcTeamError;
 
 use crate::server::{AcpRuntime, AcpServer};
 
@@ -28,7 +28,7 @@ mod replay;
 mod session;
 mod thinking;
 
-pub struct OpenBitFunAcpRuntime {
+pub struct OpcTeamAcpRuntime {
     pub(crate) agent_runtime: AgentRuntime,
     pub(crate) compatibility: CoreAgentRuntimeCompatibility,
     pub(crate) sessions: DashMap<String, AcpSessionState>,
@@ -81,7 +81,7 @@ impl Drop for AcpSessionTransition<'_> {
     }
 }
 
-impl OpenBitFunAcpRuntime {
+impl OpcTeamAcpRuntime {
     pub fn new(agent_runtime: AgentRuntime, compatibility: CoreAgentRuntimeCompatibility) -> Self {
         Self {
             agent_runtime,
@@ -165,11 +165,11 @@ impl OpenBitFunAcpRuntime {
         }
     }
 
-    pub(crate) fn session_core_error(session_id: &str, error: OpenBitFunError) -> Error {
+    pub(crate) fn session_core_error(session_id: &str, error: OpcTeamError) -> Error {
         match error {
-            OpenBitFunError::NotFound(_) => Error::resource_not_found(Some(session_id.to_string())),
-            OpenBitFunError::Validation(message) => Error::invalid_params().data(message),
-            OpenBitFunError::SessionInUse { session_id } => Self::session_in_use_error(format!(
+            OpcTeamError::NotFound(_) => Error::resource_not_found(Some(session_id.to_string())),
+            OpcTeamError::Validation(message) => Error::invalid_params().data(message),
+            OpcTeamError::SessionInUse { session_id } => Self::session_in_use_error(format!(
                 "Session is already open for writing: {session_id}"
             )),
             other => Self::internal_error(other),
@@ -212,7 +212,7 @@ impl OpenBitFunAcpRuntime {
 }
 
 #[async_trait]
-impl AcpRuntime for OpenBitFunAcpRuntime {
+impl AcpRuntime for OpcTeamAcpRuntime {
     async fn initialize(&self, _request: InitializeRequest) -> Result<InitializeResponse> {
         Ok(InitializeResponse::new(ProtocolVersion::V1)
             .agent_capabilities(
@@ -292,13 +292,13 @@ mod tests {
     use agent_client_protocol::schema::ErrorCode;
     use dashmap::DashMap;
     use openbitfun_agent_runtime::sdk::{PortError, PortErrorKind, RuntimeError};
-    use openbitfun_core::util::errors::OpenBitFunError;
+    use openbitfun_core::util::errors::OpcTeamError;
 
-    use super::{AcpSessionTransition, OpenBitFunAcpRuntime};
+    use super::{AcpSessionTransition, OpcTeamAcpRuntime};
 
     #[test]
     fn invalid_runtime_request_remains_invalid_params_at_the_protocol_boundary() {
-        let error = OpenBitFunAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
+        let error = OpcTeamAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
             PortErrorKind::InvalidRequest,
             "unknown session mode",
         )));
@@ -309,7 +309,7 @@ mod tests {
 
     #[test]
     fn missing_runtime_session_remains_resource_not_found_at_the_protocol_boundary() {
-        let error = OpenBitFunAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
+        let error = OpcTeamAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
             PortErrorKind::NotFound,
             "Session not found: session-404",
         )));
@@ -320,7 +320,7 @@ mod tests {
 
     #[test]
     fn session_writer_conflict_is_actionable_at_the_protocol_boundary() {
-        let error = OpenBitFunAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
+        let error = OpcTeamAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
             PortErrorKind::SessionInUse,
             "Session is already open for writing: session-1",
         )));
@@ -334,9 +334,9 @@ mod tests {
 
     #[test]
     fn compatibility_restore_preserves_session_writer_conflicts() {
-        let error = OpenBitFunAcpRuntime::session_core_error(
+        let error = OpcTeamAcpRuntime::session_core_error(
             "session-1",
-            OpenBitFunError::SessionInUse {
+            OpcTeamError::SessionInUse {
                 session_id: "session-1".to_string(),
             },
         );
@@ -350,7 +350,7 @@ mod tests {
 
     #[test]
     fn session_runtime_error_uses_the_requested_resource_id() {
-        let error = OpenBitFunAcpRuntime::session_runtime_error(
+        let error = OpcTeamAcpRuntime::session_runtime_error(
             "session-404",
             RuntimeError::Port(PortError::new(
                 PortErrorKind::NotFound,
@@ -367,7 +367,7 @@ mod tests {
 
     #[test]
     fn backend_runtime_failure_stays_internal_at_the_protocol_boundary() {
-        let error = OpenBitFunAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
+        let error = OpcTeamAcpRuntime::runtime_error(RuntimeError::Port(PortError::new(
             PortErrorKind::Backend,
             "storage unavailable",
         )));
@@ -406,7 +406,7 @@ mod tests {
 
     #[test]
     fn incomplete_close_error_exposes_retry_and_ownership_state() {
-        let error = OpenBitFunAcpRuntime::session_close_incomplete_error(
+        let error = OpcTeamAcpRuntime::session_close_incomplete_error(
             "session-1",
             "ephemeral MCP cleanup",
             "server stop failed",

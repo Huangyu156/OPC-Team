@@ -33,7 +33,7 @@ use crate::agentic::keyed_lock::{KeyedAsyncLock, KeyedAsyncLockGuard};
 use crate::agentic::round_preempt::{DialogRoundInjectionSource, SessionRoundInjectionBuffer};
 use crate::agentic::session::session_store_port::CoreSessionStorePort;
 use crate::agentic::session::SessionManager;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::{debug, info, warn};
 use openbitfun_runtime_ports::{ThreadGoal, MAX_THREAD_GOAL_AUTO_CONTINUATIONS};
 use std::collections::HashSet;
@@ -148,7 +148,7 @@ fn remove_queued_turn_by_id(
 
 #[derive(Debug)]
 enum SchedulerSubmitError {
-    Core(OpenBitFunError),
+    Core(OpcTeamError),
     Port(PortError),
     Message(String),
 }
@@ -156,26 +156,26 @@ enum SchedulerSubmitError {
 impl SchedulerSubmitError {
     fn into_port_error(self) -> PortError {
         match self {
-            Self::Core(OpenBitFunError::Validation(message)) => {
+            Self::Core(OpcTeamError::Validation(message)) => {
                 PortError::new(PortErrorKind::InvalidRequest, message)
             }
-            Self::Core(OpenBitFunError::NotFound(message)) => {
+            Self::Core(OpcTeamError::NotFound(message)) => {
                 PortError::new(PortErrorKind::NotFound, message)
             }
-            Self::Core(OpenBitFunError::Cancelled(message)) => {
+            Self::Core(OpcTeamError::Cancelled(message)) => {
                 PortError::new(PortErrorKind::Cancelled, message)
             }
-            Self::Core(OpenBitFunError::Timeout(message)) => {
+            Self::Core(OpcTeamError::Timeout(message)) => {
                 PortError::new(PortErrorKind::Timeout, message)
             }
-            Self::Core(OpenBitFunError::SessionInUse { session_id }) => PortError::new(
+            Self::Core(OpcTeamError::SessionInUse { session_id }) => PortError::new(
                 PortErrorKind::SessionInUse,
                 format!("Session is already open for writing: {session_id}"),
             ),
-            Self::Core(OpenBitFunError::OutcomeUnknown(message)) => {
+            Self::Core(OpcTeamError::OutcomeUnknown(message)) => {
                 PortError::new(PortErrorKind::OutcomeUnknown, message)
             }
-            Self::Core(OpenBitFunError::NotImplemented(message)) => {
+            Self::Core(OpcTeamError::NotImplemented(message)) => {
                 PortError::new(PortErrorKind::NotAvailable, message)
             }
             Self::Core(error) => PortError::new(PortErrorKind::Backend, error.to_string()),
@@ -195,8 +195,8 @@ impl std::fmt::Display for SchedulerSubmitError {
     }
 }
 
-impl From<OpenBitFunError> for SchedulerSubmitError {
-    fn from(error: OpenBitFunError) -> Self {
+impl From<OpcTeamError> for SchedulerSubmitError {
+    fn from(error: OpcTeamError) -> Self {
         Self::Core(error)
     }
 }
@@ -223,17 +223,17 @@ pub(crate) struct HiddenSubagentQueuedExecution {
 
 #[derive(Debug, Clone, Default)]
 pub(crate) struct SharedSubagentResultSender {
-    inner: Arc<std::sync::Mutex<Option<oneshot::Sender<OpenBitFunResult<SubagentResult>>>>>,
+    inner: Arc<std::sync::Mutex<Option<oneshot::Sender<OpcTeamResult<SubagentResult>>>>>,
 }
 
 impl SharedSubagentResultSender {
-    fn new(sender: oneshot::Sender<OpenBitFunResult<SubagentResult>>) -> Self {
+    fn new(sender: oneshot::Sender<OpcTeamResult<SubagentResult>>) -> Self {
         Self {
             inner: Arc::new(std::sync::Mutex::new(Some(sender))),
         }
     }
 
-    fn send(&self, result: OpenBitFunResult<SubagentResult>) {
+    fn send(&self, result: OpcTeamResult<SubagentResult>) {
         let Some(sender) = self.inner.lock().ok().and_then(|mut guard| guard.take()) else {
             return;
         };
@@ -273,7 +273,7 @@ impl HiddenSubagentQueueCancellation {
 
 #[derive(Debug)]
 pub(crate) struct HiddenSubagentSubmitResult {
-    pub receiver: oneshot::Receiver<OpenBitFunResult<SubagentResult>>,
+    pub receiver: oneshot::Receiver<OpcTeamResult<SubagentResult>>,
     pub cancel_handle: HiddenSubagentQueueCancelHandle,
 }
 
@@ -1199,7 +1199,7 @@ impl DialogScheduler {
                 "Hidden subagent turn cancellation request did not hit an active turn: session_id={}, turn_id={}, error={}",
                 handle.session_id, handle.turn_id, error
             );
-            handle.result_tx.send(Err(OpenBitFunError::Cancelled(
+            handle.result_tx.send(Err(OpcTeamError::Cancelled(
                 "Subagent task has been cancelled".to_string(),
             )));
         }
@@ -1221,7 +1221,7 @@ impl DialogScheduler {
                     .await
                 {
                     Ok(path) => path,
-                    Err(OpenBitFunError::NotFound(_)) => {
+                    Err(OpcTeamError::NotFound(_)) => {
                         let workspace_path = workspace_path.ok_or_else(|| {
                             format!(
                                 "workspace_path is required when restoring session: {session_id}"
@@ -1284,7 +1284,7 @@ impl DialogScheduler {
             .await
         {
             Ok(session) => Ok(Some(session)),
-            Err(OpenBitFunError::NotFound(_)) => {
+            Err(OpcTeamError::NotFound(_)) => {
                 // A genuinely new Session has no persisted state to restore.
                 Ok(None)
             }
@@ -1463,7 +1463,7 @@ impl DialogScheduler {
             QueuedTurnExecution::FreshExternalSubagent(_)
         ) && (!matches!(&state_fact, DialogSessionStateFact::Idle) || queue_has_items)
         {
-            return Err(SchedulerSubmitError::Core(OpenBitFunError::Validation(
+            return Err(SchedulerSubmitError::Core(OpcTeamError::Validation(
                 "External subagent delegation requires an idle session with an empty queue"
                     .to_string(),
             )));
@@ -1589,7 +1589,7 @@ impl DialogScheduler {
         &self,
         session_id: &str,
         interrupted_turn_id: Option<&str>,
-    ) -> OpenBitFunResult<()> {
+    ) -> OpcTeamResult<()> {
         let Some(interrupted_turn_id) = interrupted_turn_id else {
             return Ok(());
         };
@@ -1685,7 +1685,7 @@ impl DialogScheduler {
                 self.coordinator
                     .cleanup_prepared_hidden_subagent_session_if_unsubmitted(&execution.request)
                     .await;
-                execution.result_tx.send(Err(OpenBitFunError::Cancelled(
+                execution.result_tx.send(Err(OpcTeamError::Cancelled(
                     "Subagent task has been cancelled".to_string(),
                 )));
             }
@@ -1804,7 +1804,7 @@ impl DialogScheduler {
         target_session_id: &str,
         requester_session_id: &str,
         wait_timeout: Duration,
-    ) -> crate::util::errors::OpenBitFunResult<Option<String>> {
+    ) -> crate::util::errors::OpcTeamResult<Option<String>> {
         let _operation_guard = self.lock_session_operation(target_session_id).await;
         let suppression_key = self
             .active_turns
@@ -1850,7 +1850,7 @@ impl DialogScheduler {
         &self,
         session_id: &str,
         wait_timeout: Duration,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         self.cancel_active_turn_for_session_with_descendant_policy(session_id, wait_timeout, true)
             .await
     }
@@ -1877,7 +1877,7 @@ impl DialogScheduler {
         session_id: &str,
         expected_active_turn_id: Option<&str>,
         wait_timeout: Duration,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         let deadline = Instant::now() + wait_timeout;
         let _operation_guard = tokio::time::timeout(
             wait_timeout,
@@ -1885,7 +1885,7 @@ impl DialogScheduler {
         )
         .await
         .map_err(|_| {
-            OpenBitFunError::Timeout(format!(
+            OpcTeamError::Timeout(format!(
                 "Timed out acquiring the Session operation lock before lineage cancellation: session_id={session_id}"
             ))
         })?;
@@ -1904,7 +1904,7 @@ impl DialogScheduler {
         session_id: &str,
         wait_timeout: Duration,
         cancel_descendants: bool,
-    ) -> OpenBitFunResult<Option<String>> {
+    ) -> OpcTeamResult<Option<String>> {
         let _operation_guard = self.lock_session_operation(session_id).await;
         abort_thread_goal_continuation_for_session(session_id);
         self.coordinator
@@ -1924,7 +1924,7 @@ impl DialogScheduler {
         session_id: &str,
         requested_storage_path: &std::path::Path,
         wait_timeout: Duration,
-    ) -> OpenBitFunResult<SessionMaintenancePermit> {
+    ) -> OpcTeamResult<SessionMaintenancePermit> {
         self.begin_session_maintenance_with_policy(
             session_id,
             requested_storage_path,
@@ -1940,9 +1940,8 @@ impl DialogScheduler {
         requested_storage_path: &std::path::Path,
         wait_timeout: Duration,
         require_idle: bool,
-    ) -> OpenBitFunResult<SessionMaintenancePermit> {
-        openbitfun_core_types::validate_session_id(session_id)
-            .map_err(OpenBitFunError::Validation)?;
+    ) -> OpcTeamResult<SessionMaintenancePermit> {
+        openbitfun_core_types::validate_session_id(session_id).map_err(OpcTeamError::Validation)?;
         let _queue_admission_guard = self.host_queue_locks.lock(session_id).await;
         let operation_guard = self.lock_session_operation(session_id).await;
         self.session_manager
@@ -1954,7 +1953,7 @@ impl DialogScheduler {
                 || self.queue_depth(session_id) > 0
                 || self.round_injection_buffer.pending_count(session_id) > 0)
         {
-            return Err(OpenBitFunError::Validation(
+            return Err(OpcTeamError::Validation(
                 "Session rollback requires an idle session with an empty queue".to_string(),
             ));
         }
@@ -2033,7 +2032,7 @@ impl DialogScheduler {
         session_id: &str,
         requested_storage_path: &std::path::Path,
         wait_timeout: Duration,
-    ) -> OpenBitFunResult<SessionMaintenancePermit> {
+    ) -> OpcTeamResult<SessionMaintenancePermit> {
         let permit = self
             .begin_session_maintenance(session_id, requested_storage_path, wait_timeout)
             .await?;
@@ -2137,7 +2136,7 @@ impl DialogScheduler {
                                 &execution.request,
                             )
                             .await;
-                        execution.result_tx.send(Err(OpenBitFunError::Cancelled(
+                        execution.result_tx.send(Err(OpcTeamError::Cancelled(
                             "Subagent task was cancelled because a previous queued turn failed"
                                 .to_string(),
                         )));
@@ -2488,7 +2487,7 @@ impl DialogScheduler {
                     turn_id: turn_id_for_task,
                 },
             ));
-            result_tx.send(Err(OpenBitFunError::Cancelled(
+            result_tx.send(Err(OpcTeamError::Cancelled(
                 "Subagent task has been cancelled".to_string(),
             )));
             return Ok(turn_id);
@@ -2554,14 +2553,14 @@ impl DialogScheduler {
                     ));
                     result_tx.send(Ok(result));
                 }
-                Err(OpenBitFunError::Cancelled(error_text)) => {
+                Err(OpcTeamError::Cancelled(error_text)) => {
                     let _ = outcome_tx.send((
                         session_id_owned.clone(),
                         TurnOutcome::Cancelled {
                             turn_id: turn_id_for_task.clone(),
                         },
                     ));
-                    result_tx.send(Err(OpenBitFunError::Cancelled(error_text)));
+                    result_tx.send(Err(OpcTeamError::Cancelled(error_text)));
                 }
                 Err(error) => {
                     let error_text = error.to_string();
@@ -3362,9 +3361,9 @@ impl AgentDialogTurnPort for DialogScheduler {
                     .map_err(|error| {
                         PortError::new(
                             match error {
-                                OpenBitFunError::Validation(_) => PortErrorKind::InvalidRequest,
-                                OpenBitFunError::NotFound(_) => PortErrorKind::NotFound,
-                                OpenBitFunError::Timeout(_) => PortErrorKind::Timeout,
+                                OpcTeamError::Validation(_) => PortErrorKind::InvalidRequest,
+                                OpcTeamError::NotFound(_) => PortErrorKind::NotFound,
+                                OpcTeamError::Timeout(_) => PortErrorKind::Timeout,
                                 _ => PortErrorKind::Backend,
                             },
                             error.to_string(),
@@ -3532,9 +3531,9 @@ impl AgentTurnCancellationPort for DialogScheduler {
             .map_err(|error| {
                 PortError::new(
                     match error {
-                        OpenBitFunError::Validation(_) => PortErrorKind::InvalidRequest,
-                        OpenBitFunError::NotFound(_) => PortErrorKind::NotFound,
-                        OpenBitFunError::Timeout(_) => PortErrorKind::Timeout,
+                        OpcTeamError::Validation(_) => PortErrorKind::InvalidRequest,
+                        OpcTeamError::NotFound(_) => PortErrorKind::NotFound,
+                        OpcTeamError::Timeout(_) => PortErrorKind::Timeout,
                         _ => PortErrorKind::Backend,
                     },
                     error.to_string(),
@@ -3658,7 +3657,7 @@ mod tests {
 
     #[test]
     fn scheduler_preserves_session_writer_conflicts() {
-        let error = SchedulerSubmitError::Core(OpenBitFunError::SessionInUse {
+        let error = SchedulerSubmitError::Core(OpcTeamError::SessionInUse {
             session_id: "session-1".to_string(),
         })
         .into_port_error();
@@ -4267,7 +4266,7 @@ mod tests {
             Err(error) => error,
         };
 
-        assert!(matches!(error, OpenBitFunError::Timeout(_)));
+        assert!(matches!(error, OpcTeamError::Timeout(_)));
         assert!(error.to_string().contains(child_session_id));
         assert!(session_manager.get_session(parent_session_id).is_some());
 
@@ -4278,7 +4277,7 @@ mod tests {
             Ok(_) => panic!("retry must retain ownership of the still-running child"),
             Err(error) => error,
         };
-        assert!(matches!(retry_error, OpenBitFunError::Timeout(_)));
+        assert!(matches!(retry_error, OpcTeamError::Timeout(_)));
         assert!(retry_error.to_string().contains(child_session_id));
 
         scheduler
@@ -4411,7 +4410,7 @@ mod tests {
                     Duration::from_millis(10),
                 )
                 .await,
-            Err(OpenBitFunError::NotFound(_))
+            Err(OpcTeamError::NotFound(_))
         ));
     }
 
@@ -4478,7 +4477,7 @@ mod tests {
                 .coordinator
                 .wait_for_turn_settlement(session_id, turn_id, Duration::from_millis(10))
                 .await,
-            Err(OpenBitFunError::Timeout(_))
+            Err(OpcTeamError::Timeout(_))
         ));
 
         assert!(scheduler
@@ -4711,7 +4710,7 @@ mod tests {
                 .coordinator
                 .wait_for_turn_settlement(session_id, "rejected-turn", Duration::from_millis(10),)
                 .await,
-            Err(OpenBitFunError::NotFound(_))
+            Err(OpcTeamError::NotFound(_))
         ));
     }
 
@@ -4819,7 +4818,7 @@ mod tests {
                 .coordinator
                 .wait_for_turn_settlement(session_id, turn_id, Duration::from_millis(10))
                 .await,
-            Err(OpenBitFunError::NotFound(_))
+            Err(OpcTeamError::NotFound(_))
         ));
     }
 
@@ -4910,7 +4909,7 @@ mod tests {
         assert!(
             matches!(
                 &error,
-                OpenBitFunError::OutcomeUnknown(message)
+                OpcTeamError::OutcomeUnknown(message)
                     if message.contains(session_id) && message.contains(turn_id)
             ),
             "{error}"
@@ -5502,7 +5501,7 @@ mod tests {
             .err()
             .expect("wrong workspace must be rejected before quiescence");
 
-        assert!(matches!(error, OpenBitFunError::Validation(_)));
+        assert!(matches!(error, OpcTeamError::Validation(_)));
         assert_eq!(scheduler.queue_depth(session_id), 1);
         assert!(scheduler
             .active_turns

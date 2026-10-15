@@ -2,7 +2,7 @@ use crate::agentic::coordination::get_global_coordinator;
 use crate::agentic::tools::framework::{
     PermissionIntent, Tool, ToolRenderOptions, ToolResult, ToolUseContext, ValidationResult,
 };
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use serde_json::{json, Value};
 
@@ -19,12 +19,12 @@ impl AgentListTool {
         Self
     }
 
-    fn validate_request(input: &Value, context: Option<&ToolUseContext>) -> OpenBitFunResult<()> {
-        let object = input.as_object().ok_or_else(|| {
-            OpenBitFunError::tool("AgentList input must be an object".to_string())
-        })?;
+    fn validate_request(input: &Value, context: Option<&ToolUseContext>) -> OpcTeamResult<()> {
+        let object = input
+            .as_object()
+            .ok_or_else(|| OpcTeamError::tool("AgentList input must be an object".to_string()))?;
         if let Some(field) = object.keys().next() {
-            return Err(OpenBitFunError::tool(format!(
+            return Err(OpcTeamError::tool(format!(
                 "AgentList does not accept field '{field}'"
             )));
         }
@@ -39,7 +39,7 @@ impl Tool for AgentListTool {
         "AgentList"
     }
 
-    async fn description(&self) -> OpenBitFunResult<String> {
+    async fn description(&self) -> OpcTeamResult<String> {
         Ok("List direct child agents and their latest status.".to_string())
     }
 
@@ -63,7 +63,7 @@ impl Tool for AgentListTool {
         &self,
         _input: &Value,
         _context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<PermissionIntent>> {
+    ) -> OpcTeamResult<Vec<PermissionIntent>> {
         Ok(Vec::new())
     }
 
@@ -91,13 +91,14 @@ impl Tool for AgentListTool {
         &self,
         input: &Value,
         context: &ToolUseContext,
-    ) -> OpenBitFunResult<Vec<ToolResult>> {
+    ) -> OpcTeamResult<Vec<ToolResult>> {
         Self::validate_request(input, Some(context))?;
-        let session_id = context.session_id.as_deref().ok_or_else(|| {
-            OpenBitFunError::tool("session_id is required in context".to_string())
-        })?;
+        let session_id = context
+            .session_id
+            .as_deref()
+            .ok_or_else(|| OpcTeamError::tool("session_id is required in context".to_string()))?;
         let coordinator = get_global_coordinator()
-            .ok_or_else(|| OpenBitFunError::tool("coordinator not initialized".to_string()))?;
+            .ok_or_else(|| OpcTeamError::tool("coordinator not initialized".to_string()))?;
         let agents = coordinator
             .direct_child_agents(session_id)
             .await?

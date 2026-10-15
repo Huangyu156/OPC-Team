@@ -1309,6 +1309,6 @@
       };
     });
   }
-  window.OpenBitFunCanvasSDK = { Stack, Row, Grid, Box, Divider, Spacer, H1, H2, H3, Text, Code, Link, Card, CardHeader, CardBody, Alert, Callout, CollapsibleSection, Empty, Tabs, Pill, Stat, Table, KeyValueList, Timeline, FileTree, ProgressBar, Swatch, UsageBar, TodoList, TodoListCard, DependencyGraph, FlowDiagram, BarChart, LineChart, PieChart, Button, Toggle, Checkbox, Select, Input, TextInput, TextArea, IconButton, DiffStats, DiffView, computeDAGLayout, normalizeDiffLines, mergeStyle, usageColorSequence, categoryPaletteLight, categoryPaletteDark, canvasPaletteLight, canvasPaletteDark, canvasTokensLight, canvasTokens, useHostAppearance, useCanvasState, useCanvasAction, useState, useRef, useEffect, useCallback, useMemo };
-  window.OpenBitFunCanvasRuntime = { h, Fragment, mount(component) { renderFn = component; rerender(); } };
+  window.OpcTeamCanvasSDK = { Stack, Row, Grid, Box, Divider, Spacer, H1, H2, H3, Text, Code, Link, Card, CardHeader, CardBody, Alert, Callout, CollapsibleSection, Empty, Tabs, Pill, Stat, Table, KeyValueList, Timeline, FileTree, ProgressBar, Swatch, UsageBar, TodoList, TodoListCard, DependencyGraph, FlowDiagram, BarChart, LineChart, PieChart, Button, Toggle, Checkbox, Select, Input, TextInput, TextArea, IconButton, DiffStats, DiffView, computeDAGLayout, normalizeDiffLines, mergeStyle, usageColorSequence, categoryPaletteLight, categoryPaletteDark, canvasPaletteLight, canvasPaletteDark, canvasTokensLight, canvasTokens, useHostAppearance, useCanvasState, useCanvasAction, useState, useRef, useEffect, useCallback, useMemo };
+  window.OpcTeamCanvasRuntime = { h, Fragment, mount(component) { renderFn = component; rerender(); } };
 })();

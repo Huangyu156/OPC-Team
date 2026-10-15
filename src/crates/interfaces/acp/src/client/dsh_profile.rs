@@ -22,7 +22,7 @@ use std::path::{Path, PathBuf};
 use std::time::Duration;
 
 use openbitfun_core::service::remote_ssh::SSHConnectionManager;
-use openbitfun_core::util::errors::{OpenBitFunError, OpenBitFunResult};
+use openbitfun_core::util::errors::{OpcTeamError, OpcTeamResult};
 use serde::Deserialize;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
@@ -69,7 +69,7 @@ struct BridgeStamp {
 /// a filesystem that refused the write — each of which would otherwise surface
 /// as `dsh` complaining about a profile that does not exist, or as a pile of
 /// module resolution failures with no hint about the cause.
-pub(crate) async fn ensure_bundled_profile(profile: &str) -> OpenBitFunResult<PathBuf> {
+pub(crate) async fn ensure_bundled_profile(profile: &str) -> OpcTeamResult<PathBuf> {
     let (source, stamp) = bundled_build(profile)?;
 
     // Checked on every launch, not just when copying: the pairing can break
@@ -89,7 +89,7 @@ pub(crate) async fn ensure_bundled_profile(profile: &str) -> OpenBitFunResult<Pa
     tokio::task::spawn_blocking(move || install_profile(&source, &target))
         .await
         .map_err(|error| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Failed to install the DeepSeek Harness profile: {error}"
             ))
         })??;
@@ -102,16 +102,16 @@ pub(crate) async fn ensure_bundled_profile(profile: &str) -> OpenBitFunResult<Pa
 }
 
 /// The built profile this OPC-Team ships, and what it says about itself.
-fn bundled_build(profile: &str) -> OpenBitFunResult<(PathBuf, BridgeStamp)> {
+fn bundled_build(profile: &str) -> OpcTeamResult<(PathBuf, BridgeStamp)> {
     let source = bundled_profile_source(profile).ok_or_else(|| {
-        OpenBitFunError::service(format!(
+        OpcTeamError::service(format!(
             "The bundled DeepSeek Harness profile '{profile}' is missing from this OPC-Team build. \
              Build it with `npm run build && node scripts/build-profile.mjs` in packages/dsh-acp, \
              or point {SOURCE_DIR_ENV} at a built profile directory."
         ))
     })?;
     let stamp = read_stamp(&source)?.ok_or_else(|| {
-        OpenBitFunError::service(format!(
+        OpcTeamError::service(format!(
             "The bundled DeepSeek Harness profile at {} has no {STAMP_FILENAME}; it is not a \
              finished build.",
             source.display()
@@ -126,14 +126,14 @@ fn bundled_build(profile: &str) -> OpenBitFunResult<(PathBuf, BridgeStamp)> {
 /// failure here: a missing `dsh` already surfaces as an install prompt in the
 /// agent list, and guessing about an unrecognized version string would block a
 /// launch that may well work.
-async fn require_supported_dsh(minimum: &str) -> OpenBitFunResult<()> {
+async fn require_supported_dsh(minimum: &str) -> OpcTeamResult<()> {
     let Some(installed) = probe_executable("dsh").await.version else {
         return Ok(());
     };
     if version_is_supported(&installed, minimum) {
         return Ok(());
     }
-    Err(OpenBitFunError::service(format!(
+    Err(OpcTeamError::service(format!(
         "DeepSeek Harness {installed} is older than {minimum}, which this OPC-Team build requires. \
          Update it with `npm install -g @deepseek-ai/dsh`."
     )))
@@ -238,13 +238,13 @@ fn profile_name_of(directory: &Path) -> Option<String> {
 }
 
 /// Read a build stamp, distinguishing "not installed" from "unreadable".
-fn read_stamp(directory: &Path) -> OpenBitFunResult<Option<BridgeStamp>> {
+fn read_stamp(directory: &Path) -> OpcTeamResult<Option<BridgeStamp>> {
     let path = directory.join(STAMP_FILENAME);
     let contents = match std::fs::read(&path) {
         Ok(contents) => contents,
         Err(error) if error.kind() == std::io::ErrorKind::NotFound => return Ok(None),
         Err(error) => {
-            return Err(OpenBitFunError::service(format!(
+            return Err(OpcTeamError::service(format!(
                 "Failed to read {}: {error}",
                 path.display()
             )))
@@ -253,17 +253,17 @@ fn read_stamp(directory: &Path) -> OpenBitFunResult<Option<BridgeStamp>> {
     serde_json::from_slice(&contents)
         .map(Some)
         .map_err(|error| {
-            OpenBitFunError::service(format!("Failed to parse {}: {error}", path.display()))
+            OpcTeamError::service(format!("Failed to parse {}: {error}", path.display()))
         })
 }
 
 /// `$DSH_HOME/profiles`, created if the user has not run dsh yet.
-fn dsh_profiles_directory() -> OpenBitFunResult<PathBuf> {
+fn dsh_profiles_directory() -> OpcTeamResult<PathBuf> {
     let home = match std::env::var_os(DSH_HOME_ENV) {
         Some(home) if !home.is_empty() => PathBuf::from(home),
         _ => dirs::home_dir()
             .ok_or_else(|| {
-                OpenBitFunError::service(
+                OpcTeamError::service(
                     "Cannot locate the home directory that holds the DeepSeek Harness install"
                         .to_string(),
                 )
@@ -277,9 +277,9 @@ fn dsh_profiles_directory() -> OpenBitFunResult<PathBuf> {
 ///
 /// The stamp is copied only after every other file lands, so an interrupted
 /// install reads as absent rather than current and is simply redone.
-fn install_profile(source: &Path, destination: &Path) -> OpenBitFunResult<()> {
+fn install_profile(source: &Path, destination: &Path) -> OpcTeamResult<()> {
     let write_error = |error: std::io::Error| {
-        OpenBitFunError::service(format!(
+        OpcTeamError::service(format!(
             "Failed to install the DeepSeek Harness profile into {}: {error}",
             destination.display()
         ))
@@ -362,7 +362,7 @@ pub(crate) async fn ensure_bundled_profile_remote(
     env: &HashMap<String, String>,
     ssh: &SSHConnectionManager,
     connection_id: &str,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     let (source, stamp) = bundled_build(profile)?;
     let exports = remote_exports(env);
 
@@ -372,12 +372,12 @@ pub(crate) async fn ensure_bundled_profile_remote(
         .execute_command(connection_id, &probe_command)
         .await
         .map_err(|error| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Failed to inspect the DeepSeek Harness install on the remote host: {error}"
             ))
         })?;
     if code != 0 {
-        return Err(OpenBitFunError::service(format!(
+        return Err(OpcTeamError::service(format!(
             "Failed to inspect the DeepSeek Harness install on the remote host: {}",
             remote_failure_summary(&stderr, &stdout)
         )));
@@ -388,7 +388,7 @@ pub(crate) async fn ensure_bundled_profile_remote(
     // different one here is how the list ends up saying "installed" while the
     // launch says "not installed".
     if probe.launcher.is_empty() {
-        return Err(OpenBitFunError::service(format!(
+        return Err(OpcTeamError::service(format!(
             "DeepSeek Harness is not installed on the remote host: `{launcher}` is not on the login \
              shell's PATH. Install it there with `npm install -g @deepseek-ai/dsh`; OPC-Team ships \
              the bridge, not the harness."
@@ -398,14 +398,14 @@ pub(crate) async fn ensure_bundled_profile_remote(
     // Node installs it without complaint and then fails to boot it. Say that
     // here rather than letting the user read a SyntaxError out of a log.
     if let Some(node) = unsupported_node_version(&probe.node) {
-        return Err(OpenBitFunError::service(format!(
+        return Err(OpcTeamError::service(format!(
             "The remote host runs Node {node}, and DeepSeek Harness needs at least \
              {MIN_NODE_VERSION} to start (its own toolchain targets Node 22 LTS). Install a newer \
              Node on that host, then start the session again."
         )));
     }
     if !version_is_supported(&probe.version, &stamp.min_dsh_version) {
-        return Err(OpenBitFunError::service(format!(
+        return Err(OpcTeamError::service(format!(
             "The remote host runs DeepSeek Harness {}, which is older than {}, the version this \
              OPC-Team build requires. Update it there with `npm install -g @deepseek-ai/dsh`.",
             probe.version, stamp.min_dsh_version
@@ -420,7 +420,7 @@ pub(crate) async fn ensure_bundled_profile_remote(
     let archive = tokio::task::spawn_blocking(move || archive_profile(&source))
         .await
         .map_err(|error| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Failed to package the DeepSeek Harness profile for upload: {error}"
             ))
         })??;
@@ -430,7 +430,7 @@ pub(crate) async fn ensure_bundled_profile_remote(
         .open_workspace_stdio(connection_id, &install_command)
         .await
         .map_err(|error| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Failed to install the DeepSeek Harness profile on the remote host: {error}"
             ))
         })?;
@@ -440,24 +440,24 @@ pub(crate) async fn ensure_bundled_profile_remote(
 
     let upload = async {
         stdin.write_all(&archive).await.map_err(|error| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Failed to send the DeepSeek Harness profile to the remote host: {error}"
             ))
         })?;
         // The remote `tar` reads until end of input, so the shutdown is what
         // ends the extraction rather than a timeout.
         stdin.shutdown().await.map_err(|error| {
-            OpenBitFunError::service(format!(
+            OpcTeamError::service(format!(
                 "Failed to send the DeepSeek Harness profile to the remote host: {error}"
             ))
         })?;
-        Ok::<_, OpenBitFunError>(completion.wait().await)
+        Ok::<_, OpcTeamError>(completion.wait().await)
     };
 
     let exit = tokio::time::timeout(REMOTE_INSTALL_TIMEOUT, upload)
         .await
         .map_err(|_| {
-            OpenBitFunError::service(
+            OpcTeamError::service(
                 "Timed out installing the DeepSeek Harness profile on the remote host".to_string(),
             )
         })??;
@@ -472,7 +472,7 @@ pub(crate) async fn ensure_bundled_profile_remote(
         )
         .await;
         let summary = remote_failure_summary(&diagnostics, "");
-        return Err(OpenBitFunError::service(format!(
+        return Err(OpcTeamError::service(format!(
             "Failed to install the DeepSeek Harness profile on the remote host (exit {}){}",
             exit.exit_code
                 .map(|code| code.to_string())
@@ -589,9 +589,9 @@ fn remote_install_script(profile: &str, exports: &str) -> String {
 /// Ordering is the whole point: `tar` writes entries in the order they appear,
 /// so a transfer that dies halfway leaves a destination without a current stamp
 /// and the next launch simply redoes it.
-fn archive_profile(source: &Path) -> OpenBitFunResult<Vec<u8>> {
+fn archive_profile(source: &Path) -> OpcTeamResult<Vec<u8>> {
     let pack_error = |error: std::io::Error| {
-        OpenBitFunError::service(format!(
+        OpcTeamError::service(format!(
             "Failed to package the DeepSeek Harness profile at {}: {error}",
             source.display()
         ))

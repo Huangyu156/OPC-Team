@@ -2,7 +2,7 @@
 
 use super::{decode_data_url, ImageContextData};
 use crate::agentic::tools::framework::{build_tool_runtime_artifact_reference, ToolUseContext};
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use openbitfun_services_core::json_store::JsonFileStore;
 use sha2::{Digest, Sha256};
 use std::path::Path;
@@ -14,7 +14,7 @@ use std::path::Path;
 pub(crate) async fn prepare_inline_image_attachments(
     images: &mut [ImageContextData],
     context: &ToolUseContext,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     if !images.iter().any(|image| image.data_url.is_some()) {
         return Ok(());
     }
@@ -33,14 +33,14 @@ async fn prepare_in_runtime_root(
     runtime_root: &Path,
     workspace_scope: Option<&str>,
     emit_runtime_uri: bool,
-) -> OpenBitFunResult<()> {
+) -> OpcTeamResult<()> {
     for image in images {
         let Some(data_url) = image.data_url.as_deref() else {
             continue;
         };
         let (bytes, _) = decode_data_url(data_url)?;
         let format = image::guess_format(&bytes).map_err(|error| {
-            OpenBitFunError::validation(format!("Invalid image attachment {}: {error}", image.id))
+            OpcTeamError::validation(format!("Invalid image attachment {}: {error}", image.id))
         })?;
         let (extension, mime_type) = match format {
             image::ImageFormat::Png => ("png", "image/png"),
@@ -49,7 +49,7 @@ async fn prepare_in_runtime_root(
             image::ImageFormat::WebP => ("webp", "image/webp"),
             image::ImageFormat::Bmp => ("bmp", "image/bmp"),
             _ => {
-                return Err(OpenBitFunError::validation(format!(
+                return Err(OpcTeamError::validation(format!(
                 "Unsupported image attachment format: {format:?}. Use PNG, JPEG, GIF, WebP or BMP."
             )))
             }
@@ -73,7 +73,7 @@ async fn prepare_in_runtime_root(
                 workspace_scope,
                 emit_runtime_uri,
             )
-            .map_err(|error| OpenBitFunError::validation(error.to_string()))?,
+            .map_err(|error| OpcTeamError::validation(error.to_string()))?,
         );
         image.mime_type = mime_type.to_string();
     }
@@ -175,9 +175,9 @@ mod tests {
     }
 }
 
-async fn persist_attachment(path: &Path, bytes: Vec<u8>) -> OpenBitFunResult<()> {
+async fn persist_attachment(path: &Path, bytes: Vec<u8>) -> OpcTeamResult<()> {
     JsonFileStore
         .write_bytes_atomic_strict(path, bytes)
         .await
-        .map_err(|error| OpenBitFunError::io(format!("Failed to save image attachment: {error}")))
+        .map_err(|error| OpcTeamError::io(format!("Failed to save image attachment: {error}")))
 }

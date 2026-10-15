@@ -5,7 +5,7 @@
 //! loading here so existing callers keep their paths while ownership moves down.
 
 use crate::service::config::global::GlobalConfigManager;
-use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use log::warn;
 use serde_json::Value;
 
@@ -48,9 +48,9 @@ pub use openbitfun_agent_runtime::deep_review::{
 
 const DEFAULT_REVIEW_TEAM_CONFIG_PATH: &str = "ai.review_teams.default";
 
-pub async fn load_default_deep_review_policy() -> OpenBitFunResult<DeepReviewExecutionPolicy> {
+pub async fn load_default_deep_review_policy() -> OpcTeamResult<DeepReviewExecutionPolicy> {
     let config_service = GlobalConfigManager::get_service().await.map_err(|error| {
-        OpenBitFunError::config(format!(
+        OpcTeamError::config(format!(
             "Failed to load DeepReview execution policy because config service is unavailable: {}",
             error
         ))
@@ -69,7 +69,7 @@ pub async fn load_default_deep_review_policy() -> OpenBitFunResult<DeepReviewExe
             None
         }
         Err(error) => {
-            return Err(OpenBitFunError::config(format!(
+            return Err(OpcTeamError::config(format!(
                 "Failed to load DeepReview execution policy from {}: {}",
                 DEFAULT_REVIEW_TEAM_CONFIG_PATH, error
             )));
@@ -81,8 +81,8 @@ pub async fn load_default_deep_review_policy() -> OpenBitFunResult<DeepReviewExe
     ))
 }
 
-pub fn is_missing_default_review_team_config_error(error: &OpenBitFunError) -> bool {
-    matches!(error, OpenBitFunError::NotFound(message)
+pub fn is_missing_default_review_team_config_error(error: &OpcTeamError) -> bool {
+    matches!(error, OpcTeamError::NotFound(message)
         if message == &format!("Config path '{}' not found", DEFAULT_REVIEW_TEAM_CONFIG_PATH))
 }
 
@@ -93,24 +93,23 @@ mod tests {
         DeepReviewBudgetTracker, DeepReviewExecutionPolicy, DeepReviewRunManifestGate,
         DeepReviewStrategyLevel, DeepReviewSubagentRole, REVIEW_WORKER_AGENT_TYPE,
     };
-    use crate::util::errors::OpenBitFunError;
+    use crate::util::errors::OpcTeamError;
     use serde_json::json;
 
     #[test]
     fn only_missing_default_review_team_path_can_fallback_to_defaults() {
-        let matching = OpenBitFunError::NotFound(
-            "Config path 'ai.review_teams.default' not found".to_string(),
-        );
+        let matching =
+            OpcTeamError::NotFound("Config path 'ai.review_teams.default' not found".to_string());
         assert!(is_missing_default_review_team_config_error(&matching));
 
         let different_path =
-            OpenBitFunError::NotFound("Config path 'ai.review_teams.other' not found".to_string());
+            OpcTeamError::NotFound("Config path 'ai.review_teams.other' not found".to_string());
         assert!(!is_missing_default_review_team_config_error(
             &different_path
         ));
 
         let other_error =
-            OpenBitFunError::config("Config path 'ai.review_teams.default' not found".to_string());
+            OpcTeamError::config("Config path 'ai.review_teams.default' not found".to_string());
         assert!(!is_missing_default_review_team_config_error(&other_error));
     }
 
