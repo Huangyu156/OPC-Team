@@ -10,7 +10,7 @@ $reasoning-dust: ();
     radial-gradient(circle at $x $y, var(--_reasoning-star-color) 0 0.45px, transparent 1.05px), comma);
 }
 
-.openbitfun-reasoning-control {
+.opc-reasoning-control {
   &__segments[data-wrap='true'] {
     display: grid;
   }
@@ -196,7 +196,7 @@ $reasoning-dust: ();
         inset-inline-start: math.div(($index * 37 + $index * $index * 11) % 97, 97) * 96% + 2%;
         inset-block-start: math.div(($index * 53 + $index * $index * 7) % 83, 83) * 80% + 10%;
 
-        .openbitfun-reasoning-control__star {
+        .opc-reasoning-control__star {
           // Brightness phases vary; the containing starfield owns all movement.
           animation-duration: 2.8s + ($index % 5) * 0.35s;
           animation-delay: $index * -0.417s;
@@ -228,7 +228,7 @@ $reasoning-dust: ();
     --_reasoning-cloud-depth: 0.64;
     --_reasoning-dust-opacity: 0.24;
 
-    .openbitfun-reasoning-control__star-slot:nth-child(-n + 24) {
+    .opc-reasoning-control__star-slot:nth-child(-n + 24) {
       opacity: 1;
     }
   }
@@ -240,7 +240,7 @@ $reasoning-dust: ();
     --_reasoning-cloud-depth: 0.82;
     --_reasoning-dust-opacity: 0.38;
 
-    .openbitfun-reasoning-control__star-slot:nth-child(-n + 36) {
+    .opc-reasoning-control__star-slot:nth-child(-n + 36) {
       opacity: 1;
     }
   }
@@ -252,13 +252,13 @@ $reasoning-dust: ();
     --_reasoning-cloud-depth: 1;
     --_reasoning-dust-opacity: 0.56;
 
-    .openbitfun-reasoning-control__star-slot {
+    .opc-reasoning-control__star-slot {
       opacity: 1;
     }
   }
 
   &[data-reasoning-state='manual']:is([data-intensity='3'], [data-intensity='4']) {
-    .openbitfun-reasoning-control__star-slot:nth-child(12n) {
+    .opc-reasoning-control__star-slot:nth-child(12n) {
       inline-size: 2.2px;
       block-size: 2.2px;
     }
@@ -273,7 +273,7 @@ $reasoning-dust: ();
     --_reasoning-cloud-height: 84%;
     --_reasoning-cloud-depth: 0.74;
 
-    .openbitfun-reasoning-control__field {
+    .opc-reasoning-control__field {
       // An authored silver-blue cloud composition remains when all stars are absent.
       background:
         radial-gradient(ellipse 90% 100% at 12% 12%, color-mix(in srgb, var(--_reasoning-control-glow) 28%, transparent), transparent 76%),
@@ -296,7 +296,7 @@ $reasoning-dust: ();
     --_reasoning-cloud-depth: 0.6;
     --_reasoning-dust-opacity: 0.18;
 
-    .openbitfun-reasoning-control__field {
+    .opc-reasoning-control__field {
       background:
         radial-gradient(ellipse 48% 96% at 20% 50%, color-mix(in srgb, var(--_reasoning-control-glow) 28%, transparent), transparent 80%),
         radial-gradient(ellipse 48% 96% at 80% 50%, color-mix(in srgb, var(--_reasoning-control-tint) 28%, transparent), transparent 80%),
@@ -309,13 +309,13 @@ $reasoning-dust: ();
       }
     }
 
-    .openbitfun-reasoning-control__aurora::before,
-    .openbitfun-reasoning-control__aurora::after {
+    .opc-reasoning-control__aurora::before,
+    .opc-reasoning-control__aurora::after {
       filter: none;
       animation: openbitfun-reasoning-balance 6s ease-in-out infinite alternate;
     }
 
-    .openbitfun-reasoning-control__aurora::before {
+    .opc-reasoning-control__aurora::before {
       background:
         radial-gradient(ellipse 28% 24% at 24% 48%, color-mix(in srgb, var(--_reasoning-control-highlight) 24%, transparent), transparent 78%),
         radial-gradient(ellipse var(--_reasoning-cloud-width) var(--_reasoning-cloud-height) at 24% 50%,
@@ -323,7 +323,7 @@ $reasoning-dust: ();
           color-mix(in srgb, var(--_reasoning-control-tint) 24%, transparent) 38%, transparent 78%);
     }
 
-    .openbitfun-reasoning-control__aurora::after {
+    .opc-reasoning-control__aurora::after {
       background:
         radial-gradient(ellipse 28% 24% at 76% 48%, color-mix(in srgb, var(--_reasoning-control-highlight) 24%, transparent), transparent 78%),
         radial-gradient(ellipse var(--_reasoning-cloud-width) var(--_reasoning-cloud-height) at 76% 50%,
@@ -332,7 +332,7 @@ $reasoning-dust: ();
       animation-delay: -6s;
     }
 
-    .openbitfun-reasoning-control__star-slot {
+    .opc-reasoning-control__star-slot {
       opacity: 0;
 
       &:nth-child(-n + 18) {
@@ -409,12 +409,12 @@ $reasoning-dust: ();
     min-block-size: calc(var(--opcteam-space-6) + var(--opcteam-space-1));
     color: inherit;
 
-    [data-openbitfun-part='trigger'] {
+    [data-opc-part='trigger'] {
       justify-content: center;
       text-align: center;
     }
 
-    [data-openbitfun-part='label'] {
+    [data-opc-part='label'] {
       flex: 0 1 auto;
       inline-size: max-content;
       min-inline-size: 4em;
@@ -433,14 +433,14 @@ $reasoning-dust: ();
     inline-size: 100%;
     min-inline-size: 0;
 
-    [data-openbitfun-component='segmented-control'] {
+    [data-opc-component='segmented-control'] {
       min-inline-size: 0;
       gap: var(--opcteam-space-1);
       padding: 0;
       background: transparent;
     }
 
-    [data-openbitfun-part='segment'] {
+    [data-opc-part='segment'] {
       block-size: calc(var(--opcteam-space-6) + var(--opcteam-space-1));
       padding-inline: var(--opcteam-space-1);
       color: var(--opcteam-color-content-secondary);

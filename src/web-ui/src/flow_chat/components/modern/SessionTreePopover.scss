@@ -123,7 +123,7 @@
       }
     }
 
-    &[data-openbitfun-placement='top'] {
+    &[data-opc-placement='top'] {
       --session-tree-popover-offset: 4px;
       transform-origin: center bottom;
     }
@@ -218,7 +218,7 @@
     cursor: pointer;
 
     > svg,
-    > [data-openbitfun-component='icon'] {
+    > [data-opc-component='icon'] {
       flex: 0 0 auto;
       color: var(--opcteam-color-content-secondary);
     }

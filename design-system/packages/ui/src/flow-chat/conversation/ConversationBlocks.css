@@ -105,7 +105,7 @@
   justify-content: center;
   transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 }
-.thinking-collapsed-header .thinking-leading-icon > :is([data-openbitfun-component=icon], [data-openbitfun-component=thinking-indicator]) {
+.thinking-collapsed-header .thinking-leading-icon > :is([data-opc-component=icon], [data-opc-component=thinking-indicator]) {
   position: absolute;
   inset: 0;
   inline-size: 100%;
@@ -284,7 +284,7 @@
   .thinking-toggle,
   .thinking-label-target,
   .thinking-collapsed-header .thinking-leading-icon,
-  .thinking-collapsed-header .thinking-leading-icon > :is([data-openbitfun-component=icon], [data-openbitfun-component=thinking-indicator]),
+  .thinking-collapsed-header .thinking-leading-icon > :is([data-opc-component=icon], [data-opc-component=thinking-indicator]),
   .thinking-collapsed-header .thinking-label,
   .thinking-expand-container {
     transition: none !important;
@@ -309,7 +309,7 @@
   user-select: text;
 }
 
-.flow-thinking-item[data-openbitfun-state~='streaming'] .thinking-content {
+.flow-thinking-item[data-opc-state~='streaming'] .thinking-content {
   color: var(--opcteam-color-content-muted);
 }
 

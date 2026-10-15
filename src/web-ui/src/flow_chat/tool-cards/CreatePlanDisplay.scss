@@ -98,7 +98,7 @@
       border-radius: 4px;
       color: var(--opcteam-color-content-secondary);
 
-      > :is(svg, [data-openbitfun-component='icon']) {
+      > :is(svg, [data-opc-component='icon']) {
         width: var(--opcteam-control-icon-size-md);
         height: var(--opcteam-control-icon-size-md);
       }

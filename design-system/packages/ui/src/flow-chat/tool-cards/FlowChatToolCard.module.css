@@ -35,17 +35,17 @@
   }
 
   .prominentRoot:is(:hover, :focus-within),
-  .prominentRoot[data-openbitfun-preview-state="hover"],
-  :global([data-openbitfun-preview-state="hover"]) .prominentRoot {
+  .prominentRoot[data-opc-preview-state="hover"],
+  :global([data-opc-preview-state="hover"]) .prominentRoot {
     border-color: var(--opcteam-color-border-strong);
   }
 
-  .prominentRoot[data-openbitfun-state~="confirmation"] {
+  .prominentRoot[data-opc-state~="confirmation"] {
     border-color: var(--opcteam-color-status-warning-border);
   }
 
-  .prominentRoot[data-openbitfun-status="cancelled"],
-  .prominentRoot[data-openbitfun-status="rejected"] {
+  .prominentRoot[data-opc-status="cancelled"],
+  .prominentRoot[data-opc-status="rejected"] {
     opacity: var(--opcteam-opacity-muted);
   }
 
@@ -65,7 +65,7 @@
     cursor: default;
   }
 
-  .prominentSurface[data-openbitfun-interactive="true"] {
+  .prominentSurface[data-opc-interactive="true"] {
     cursor: pointer;
   }
 
@@ -193,7 +193,7 @@
   }
 
   .prominentSummary:is(:hover, :has(:focus-visible)) .hoverActions,
-  :global([data-openbitfun-preview-state="hover"]) .prominentSummary .hoverActions {
+  :global([data-opc-preview-state="hover"]) .prominentSummary .hoverActions {
     position: static;
     pointer-events: auto;
   }
@@ -229,7 +229,7 @@
   /* Diff totals and hover controls take turns in the trailing slot. Remove the
      whole extra slot so revealing an action cannot push the totals left. */
   .prominentSummary:has(.hoverActions):is(:hover, :has(:focus-visible)) > .extra:has(> .changeSummary),
-  :global([data-openbitfun-preview-state="hover"]) .prominentSummary:has(.hoverActions) > .extra:has(> .changeSummary) {
+  :global([data-opc-preview-state="hover"]) .prominentSummary:has(.hoverActions) > .extra:has(> .changeSummary) {
     display: none;
   }
 
@@ -251,11 +251,11 @@
     white-space: nowrap;
   }
 
-  .changeSummary [data-openbitfun-change="added"] {
+  .changeSummary [data-opc-change="added"] {
     color: var(--opcteam-color-code-diff-added-marker);
   }
 
-  .changeSummary [data-openbitfun-change="removed"] {
+  .changeSummary [data-opc-change="removed"] {
     color: var(--opcteam-color-code-diff-removed-marker);
   }
 
@@ -297,7 +297,7 @@
   :global([data-tool-card-action-scope]):is(:hover, :focus-visible, :has(:focus-visible)) > .toolCardActions[data-reveal="hover"],
   :global([data-tool-card-action-scope]):is(:hover, :focus-visible, :has(:focus-visible)) > .subject > .actionRegion > .toolCardActions[data-reveal="hover"],
   :global([data-tool-card-action-scope]):is(:hover, :focus-visible, :has(:focus-visible)) > :global([data-tool-card-action-heading]) > .toolCardActions[data-reveal="hover"],
-  :global([data-openbitfun-preview-state="hover"]) .toolCardActions[data-reveal="hover"] {
+  :global([data-opc-preview-state="hover"]) .toolCardActions[data-reveal="hover"] {
     opacity: 1;
     pointer-events: auto;
   }
@@ -321,7 +321,7 @@
       color var(--_tool-card-transition);
   }
 
-  .affordanceButton:is(:hover, [data-openbitfun-preview-state="hover"]) {
+  .affordanceButton:is(:hover, [data-opc-preview-state="hover"]) {
     color: var(--opcteam-color-content-primary);
     background: var(--opcteam-color-action-neutral-surface);
   }
@@ -331,7 +331,7 @@
     outline-offset: var(--opcteam-focus-offset);
   }
 
-  .affordanceButton > :where(svg, img, [data-openbitfun-component="icon"]) {
+  .affordanceButton > :where(svg, img, [data-opc-component="icon"]) {
     display: block;
     inline-size: var(--opcteam-font-size-base);
     block-size: var(--opcteam-font-size-base);
@@ -407,10 +407,10 @@
       transform var(--_tool-card-transition);
   }
 
-  .mainIcon [data-openbitfun-component="icon"],
-  .statusIcon > [data-openbitfun-component="icon"],
+  .mainIcon [data-opc-component="icon"],
+  .statusIcon > [data-opc-component="icon"],
   .mainIcon :where(svg, img),
-  .inlineAffordance > :where(svg, img, [data-openbitfun-component="icon"]),
+  .inlineAffordance > :where(svg, img, [data-opc-component="icon"]),
   .statusIcon > :where(svg, img) {
     display: block;
     inline-size: 100%;
@@ -422,19 +422,19 @@
     opacity: 0;
   }
 
-  .inlineAffordance[data-expanded="true"] > :where(svg, img, [data-openbitfun-component="icon"]) {
+  .inlineAffordance[data-expanded="true"] > :where(svg, img, [data-opc-component="icon"]) {
     transform: rotate(180deg);
   }
 
-  .ambientRoot:is(:hover, :focus-within) .iconSlot[data-openbitfun-expandable="true"] .mainIcon,
-  .ambientRoot[data-openbitfun-preview-state="hover"] .iconSlot[data-openbitfun-expandable="true"] .mainIcon,
-  :global([data-openbitfun-preview-state="hover"]) .ambientRoot .iconSlot[data-openbitfun-expandable="true"] .mainIcon {
+  .ambientRoot:is(:hover, :focus-within) .iconSlot[data-opc-expandable="true"] .mainIcon,
+  .ambientRoot[data-opc-preview-state="hover"] .iconSlot[data-opc-expandable="true"] .mainIcon,
+  :global([data-opc-preview-state="hover"]) .ambientRoot .iconSlot[data-opc-expandable="true"] .mainIcon {
     opacity: 0;
   }
 
-  .ambientRoot:is(:hover, :focus-within) .iconSlot[data-openbitfun-expandable="true"] .inlineAffordance,
-  .ambientRoot[data-openbitfun-preview-state="hover"] .iconSlot[data-openbitfun-expandable="true"] .inlineAffordance,
-  :global([data-openbitfun-preview-state="hover"]) .ambientRoot .iconSlot[data-openbitfun-expandable="true"] .inlineAffordance {
+  .ambientRoot:is(:hover, :focus-within) .iconSlot[data-opc-expandable="true"] .inlineAffordance,
+  .ambientRoot[data-opc-preview-state="hover"] .iconSlot[data-opc-expandable="true"] .inlineAffordance,
+  :global([data-opc-preview-state="hover"]) .ambientRoot .iconSlot[data-opc-expandable="true"] .inlineAffordance {
     opacity: 1;
   }
 
@@ -470,11 +470,11 @@
     border-inline-start: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   }
 
-  .prominentRoot[data-openbitfun-status="completed"] .statusIcon {
+  .prominentRoot[data-opc-status="completed"] .statusIcon {
     color: var(--opcteam-color-status-success-emphasis);
   }
 
-  .prominentRoot[data-openbitfun-status="error"] .statusIcon {
+  .prominentRoot[data-opc-status="error"] .statusIcon {
     color: var(--opcteam-color-status-danger-emphasis);
   }
 
@@ -534,12 +534,12 @@
     transition: background-color var(--_tool-card-transition);
   }
 
-  .ambientRoot[data-openbitfun-direct-action="true"] {
+  .ambientRoot[data-opc-direct-action="true"] {
     border-radius: var(--opcteam-radius-sm);
     cursor: pointer;
   }
 
-  .ambientRoot[data-openbitfun-direct-action="true"]:focus-visible {
+  .ambientRoot[data-opc-direct-action="true"]:focus-visible {
     outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
     outline-offset: var(--opcteam-focus-offset);
   }
@@ -563,18 +563,18 @@
   /* Disclosure keeps the same body-line header, including hidden copy actions.
      Capsules retain their own control geometry. */
   .ambientRoot:not([data-tool-capsule="true"])
-    > .ambientSurface .toolCardActions [data-openbitfun-component="icon-button"] {
+    > .ambientSurface .toolCardActions [data-opc-component="icon-button"] {
     inline-size: var(--opcteam-control-tool-card-ambient-row-min-block-size);
     block-size: var(--opcteam-control-tool-card-ambient-row-min-block-size);
   }
 
-  .ambientSurface[data-openbitfun-interactive="true"] {
+  .ambientSurface[data-opc-interactive="true"] {
     cursor: pointer;
   }
 
   .ambientSurface:is(:hover, :focus-within),
-  .ambientRoot[data-openbitfun-preview-state="hover"] .ambientSurface,
-  :global([data-openbitfun-preview-state="hover"]) .ambientRoot .ambientSurface {
+  .ambientRoot[data-opc-preview-state="hover"] .ambientSurface,
+  :global([data-opc-preview-state="hover"]) .ambientRoot .ambientSurface {
     color: var(--opcteam-color-content-primary);
   }
 
@@ -592,25 +592,25 @@
   /* Confirmation changes the leading icon, not the ambient card's frame.
      The enclosing state also covers permission requests delivered separately. */
   :is(
-    .ambientRoot[data-openbitfun-state~="confirmation"],
-    :global([data-openbitfun-state~="permission-pending"]) .ambientRoot
-  ) > .ambientSurface :is(.iconSlot, .inlineAffordance, [data-openbitfun-part="processing"]) {
+    .ambientRoot[data-opc-state~="confirmation"],
+    :global([data-opc-state~="permission-pending"]) .ambientRoot
+  ) > .ambientSurface :is(.iconSlot, .inlineAffordance, [data-opc-part="processing"]) {
     color: var(--_tool-card-confirmation-icon-color);
   }
 
   :is(
-    .ambientRoot[data-openbitfun-state~="confirmation"],
-    :global([data-openbitfun-state~="permission-pending"]) .ambientRoot
+    .ambientRoot[data-opc-state~="confirmation"],
+    :global([data-opc-state~="permission-pending"]) .ambientRoot
   ) > .ambientSurface .iconSlot
-    [data-openbitfun-part="statusSlot"]:has(> [data-openbitfun-part="toolIconLayer"])
-    > [data-openbitfun-part="statusLayer"] {
+    [data-opc-part="statusSlot"]:has(> [data-opc-part="toolIconLayer"])
+    > [data-opc-part="statusLayer"] {
     opacity: 0;
   }
 
   :is(
-    .ambientRoot[data-openbitfun-state~="confirmation"],
-    :global([data-openbitfun-state~="permission-pending"]) .ambientRoot
-  ) > .ambientSurface .iconSlot [data-openbitfun-part="toolIconLayer"] {
+    .ambientRoot[data-opc-state~="confirmation"],
+    :global([data-opc-state~="permission-pending"]) .ambientRoot
+  ) > .ambientSurface .iconSlot [data-opc-part="toolIconLayer"] {
     opacity: 1;
   }
 
@@ -700,12 +700,12 @@
     box-shadow: none;
   }
 
-  .prominentRoot[data-openbitfun-state~="loading"] .actionLabel,
-  .prominentRoot[data-openbitfun-state~="loading"] .content {
+  .prominentRoot[data-opc-state~="loading"] .actionLabel,
+  .prominentRoot[data-opc-state~="loading"] .content {
     animation: openbitfun-flow-chat-tool-loading var(--opcteam-motion-duration-loop) var(--opcteam-motion-easing-standard) infinite alternate;
   }
 
-  .prominentRoot[data-openbitfun-state~="loading"] .summaryText[data-active="true"] :is(.actionLabel, .content) {
+  .prominentRoot[data-opc-state~="loading"] .summaryText[data-active="true"] :is(.actionLabel, .content) {
     animation: none;
   }
 
@@ -753,11 +753,11 @@
     transition: background-color var(--_tool-card-transition);
   }
 
-  .ambientRoot[data-tool-capsule="true"] .ambientSurface[data-openbitfun-interactive="true"]:is(:hover, :focus-visible) > .capsuleSkin {
+  .ambientRoot[data-tool-capsule="true"] .ambientSurface[data-opc-interactive="true"]:is(:hover, :focus-visible) > .capsuleSkin {
     background: var(--opcteam-color-action-quiet-pressed);
   }
 
-  .ambientRoot[data-tool-capsule="true"][data-openbitfun-status="error"]:not(.ambientExpandedShell) .ambientSurface {
+  .ambientRoot[data-tool-capsule="true"][data-opc-status="error"]:not(.ambientExpandedShell) .ambientSurface {
     border-radius: var(--opcteam-radius-md);
   }
 
@@ -818,11 +818,11 @@
   }
 
   /* AgentWait shares the Subagent card's transparent leading edge. */
-  .ambientRoot[data-tool-capsule="true"][data-openbitfun-tool-card="agent-wait"] {
+  .ambientRoot[data-tool-capsule="true"][data-opc-tool-card="agent-wait"] {
     border-radius: var(--opcteam-radius-sm);
   }
 
-  .ambientRoot[data-tool-capsule="true"][data-openbitfun-tool-card="agent-wait"] .ambientSurface {
+  .ambientRoot[data-tool-capsule="true"][data-opc-tool-card="agent-wait"] .ambientSurface {
     align-items: flex-end;
     align-items: last baseline;
     gap: var(--opcteam-control-flow-chat-row-icon-gap);
@@ -831,15 +831,15 @@
     border-radius: var(--opcteam-radius-sm);
   }
 
-  .ambientRoot[data-tool-capsule="true"][data-openbitfun-tool-card="agent-wait"] .capsuleExtra {
+  .ambientRoot[data-tool-capsule="true"][data-opc-tool-card="agent-wait"] .capsuleExtra {
     align-self: flex-end;
   }
 
-  .ambientRoot[data-tool-capsule="true"][data-openbitfun-tool-card="agent-wait"] .capsuleSkin {
+  .ambientRoot[data-tool-capsule="true"][data-opc-tool-card="agent-wait"] .capsuleSkin {
     display: none;
   }
 
-  .ambientRoot[data-tool-capsule="true"][data-openbitfun-status="error"] .capsuleStatus {
+  .ambientRoot[data-tool-capsule="true"][data-opc-status="error"] .capsuleStatus {
     color: var(--opcteam-color-status-danger-content);
   }
 
@@ -909,10 +909,10 @@
       transition: none;
     }
 
-    .ambientRoot[data-openbitfun-state~="loading"] .ambientAction,
-    .ambientRoot[data-openbitfun-state~="loading"] .ambientContent,
-    .prominentRoot[data-openbitfun-state~="loading"] .actionLabel,
-    .prominentRoot[data-openbitfun-state~="loading"] .content {
+    .ambientRoot[data-opc-state~="loading"] .ambientAction,
+    .ambientRoot[data-opc-state~="loading"] .ambientContent,
+    .prominentRoot[data-opc-state~="loading"] .actionLabel,
+    .prominentRoot[data-opc-state~="loading"] .content {
       animation: none;
     }
   }
@@ -942,7 +942,7 @@
       outline-color: Highlight;
     }
 
-    .ambientRoot[data-openbitfun-direct-action="true"]:focus-visible {
+    .ambientRoot[data-opc-direct-action="true"]:focus-visible {
       outline-color: Highlight;
     }
 

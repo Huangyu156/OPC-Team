@@ -166,7 +166,7 @@
 
 /* Sidebar: the panel keeps its own surface and its block-fill selection. The footer loses its rule
    — this frame separates its regions with fills and space, never with lines. */
-.design-home-preview-sidebar [data-openbitfun-part="footer"] {
+.design-home-preview-sidebar [data-opc-part="footer"] {
   border-block-start-color: transparent;
 }
 
@@ -177,7 +177,7 @@
   padding-block: var(--opcteam-space-2) 0;
 }
 
-.design-home-preview-search > [data-openbitfun-component="search-field"] {
+.design-home-preview-search > [data-opc-component="search-field"] {
   flex: 1 1 auto;
   min-inline-size: 0;
 }
@@ -251,13 +251,13 @@
    instead, so the window stays a legible picture at every width the page allows. The ramp is the
    picture's own container-relative scale rather than a published role, so it lives in one local
    token the way the wordmark's lockup does. */
-.design-home-preview-welcome-header [data-openbitfun-part="heading"] {
+.design-home-preview-welcome-header [data-opc-part="heading"] {
   --_lab-picture-heading-size: clamp(var(--opcteam-font-size-2xl), 4.6cqi, var(--opcteam-type-heading-welcome-font-size));
   font-size: var(--_lab-picture-heading-size);
   text-wrap: balance;
 }
 
-.design-home-preview-welcome-header [data-openbitfun-part="description"] {
+.design-home-preview-welcome-header [data-opc-part="description"] {
   --_lab-picture-intro-size: clamp(var(--opcteam-font-size-sm), 2.2cqi, var(--opcteam-type-page-intro-font-size));
   color: var(--opcteam-color-content-secondary);
   font-size: var(--_lab-picture-intro-size);

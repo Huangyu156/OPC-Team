@@ -1,4 +1,4 @@
-.openbitfun-context-card {
+.opc-context-card {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -200,19 +200,19 @@
   }
   
   &__remove-btn {
-    @extend .openbitfun-context-card__action-btn;
+    @extend .opc-context-card__action-btn;
 
     flex-shrink: 1;
 
     // Keep the remove action's existing danger feedback on its root.
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+    > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
       inline-size: var(--opcteam-control-icon-size-sm);
       block-size: var(--opcteam-control-icon-size-sm);
     }
@@ -277,7 +277,7 @@
   &--invalid {
     border-color: var(--opcteam-color-status-danger-border);
     
-    .openbitfun-context-card__indicator {
+    .opc-context-card__indicator {
       background-color: var(--opcteam-color-status-danger-content) !important;
     }
   }
@@ -287,7 +287,7 @@
   &--compact {
     padding: var(--opcteam-space-2);
     
-    .openbitfun-context-card__icon {
+    .opc-context-card__icon {
       width: 24px;
       height: 24px;
       
@@ -297,12 +297,12 @@
       }
     }
     
-    .openbitfun-context-card__title {
+    .opc-context-card__title {
       font-size: var(--opcteam-type-label-sm-font-size);
     }
     
-    .openbitfun-context-card__preview,
-    .openbitfun-context-card__subtitle {
+    .opc-context-card__preview,
+    .opc-context-card__subtitle {
       display: none;
     }
   }
@@ -342,25 +342,25 @@
   
   
   &--file {
-    .openbitfun-context-card__icon {
+    .opc-context-card__icon {
       color: var(--opcteam-color-accent-default);
     }
   }
   
   &--code-snippet {
-    .openbitfun-context-card__icon {
+    .opc-context-card__icon {
       color: var(--opcteam-color-accent-secondary);
     }
   }
   
   &--mermaid-node {
-    .openbitfun-context-card__icon {
+    .opc-context-card__icon {
       color: var(--opcteam-domain-mermaid-diagram);
     }
   }
   
   &--image {
-    .openbitfun-context-card__icon {
+    .opc-context-card__icon {
       color: var(--opcteam-color-status-success-content);
     }
   }
@@ -378,7 +378,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-context-card__spinner {
+  .opc-context-card__spinner {
     animation: none;
     transform: none;
   }

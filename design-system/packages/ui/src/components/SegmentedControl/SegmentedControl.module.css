@@ -105,12 +105,12 @@
   }
 
   .segment:hover:not(:disabled)[aria-checked="false"],
-  .root[data-openbitfun-preview-state="hover"] .segment[aria-checked="false"]:not(:disabled) {
+  .root[data-opc-preview-state="hover"] .segment[aria-checked="false"]:not(:disabled) {
     background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
   .segment:active:not(:disabled)[aria-checked="false"],
-  .root[data-openbitfun-preview-state="active"] .segment[aria-checked="false"]:not(:disabled) {
+  .root[data-opc-preview-state="active"] .segment[aria-checked="false"]:not(:disabled) {
     background: var(--opcteam-color-action-neutral-surface-pressed);
   }
 
@@ -135,7 +135,7 @@
   }
 
   .icon > :where(svg, img),
-  .icon > [data-openbitfun-component="icon"] {
+  .icon > [data-opc-component="icon"] {
     display: block;
     inline-size: 100%;
     block-size: 100%;

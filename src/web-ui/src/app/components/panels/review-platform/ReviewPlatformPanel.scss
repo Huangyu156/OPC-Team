@@ -8,7 +8,7 @@
   color: var(--opcteam-color-content-primary);
   background: var(--opcteam-color-surface-canvas);
 
-  > [data-openbitfun-component='toolbar'] {
+  > [data-opc-component='toolbar'] {
     flex: 0 0 auto;
   }
 
@@ -219,9 +219,9 @@
       grid-template-columns: minmax(0, 1fr);
     }
 
-    &[data-openbitfun-view='list'] &__detail,
-    &[data-openbitfun-view='detail'] &__list,
-    &[data-openbitfun-view='detail'] &__toolbar {
+    &[data-opc-view='list'] &__detail,
+    &[data-opc-view='detail'] &__list,
+    &[data-opc-view='detail'] &__toolbar {
       display: none;
     }
 

@@ -1,4 +1,4 @@
-.openbitfun-acp-mode-selector {
+.opc-acp-mode-selector {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -19,7 +19,7 @@
     opacity: 0.72;
     outline: none;
 
-    .openbitfun-chat-input__box:focus-within &,
+    .opc-chat-input__box:focus-within &,
     &:hover,
     &:focus-visible,
     &--open {
@@ -120,13 +120,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-acp-mode-selector__menu {
+  .opc-acp-mode-selector__menu {
     transition: opacity 100ms linear;
   }
 }
 
 @media (max-width: 520px) {
-  .openbitfun-acp-mode-selector__trigger {
+  .opc-acp-mode-selector__trigger {
     max-width: 92px;
   }
 }

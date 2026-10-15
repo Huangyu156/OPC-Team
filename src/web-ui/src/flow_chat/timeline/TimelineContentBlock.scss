@@ -23,7 +23,7 @@
 
   // The fixed grid cell supplies the width, including the paragraph-gap tokens.
   // Avoid applying the standalone card-gap-based cap a second time.
-  > .flowchat-flow-item [data-openbitfun-tool-card='agent-control'] {
+  > .flowchat-flow-item [data-opc-tool-card='agent-control'] {
     max-inline-size: 100%;
   }
 }

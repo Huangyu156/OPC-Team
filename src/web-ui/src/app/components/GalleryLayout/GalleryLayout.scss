@@ -228,7 +228,7 @@ $content-max: 936px;
     align-items: center;
     justify-content: center;
 
-    > :where(svg, img, [data-openbitfun-component='icon']) {
+    > :where(svg, img, [data-opc-component='icon']) {
       width: 100%;
       height: 100%;
     }
@@ -453,7 +453,7 @@ $content-max: 936px;
   }
 }
 
-:root[data-openbitfun-appearance-mode='light'] .gallery-grid--skeleton {
+:root[data-opc-appearance-mode='light'] .gallery-grid--skeleton {
   --skeleton-shimmer-0: color-mix(in srgb, var(--opcteam-color-content-on-light) 0%, transparent);
   --skeleton-shimmer-peak: color-mix(in srgb, var(--opcteam-color-content-on-light) 7%, transparent);
 }

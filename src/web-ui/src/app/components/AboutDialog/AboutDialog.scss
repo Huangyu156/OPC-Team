@@ -3,24 +3,24 @@
  * this file owns brand placement, build details and repository invitation.
  */
 
-.openbitfun-about-dialog__close {
+.opc-about-dialog__close {
   position: absolute;
   top: var(--opcteam-space-3);
   right: var(--opcteam-space-3);
   z-index: 1;
 }
 
-.openbitfun-about-dialog__modal-content {
+.opc-about-dialog__modal-content {
   overscroll-behavior: contain;
 }
 
-.openbitfun-about-dialog__content {
+.opc-about-dialog__content {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
 }
 
-.openbitfun-about-dialog__body {
+.opc-about-dialog__body {
   display: grid;
   grid-template-columns: minmax(0, 192px) minmax(0, 1fr);
   column-gap: var(--opcteam-space-8);
@@ -28,7 +28,7 @@
   padding: 40px var(--opcteam-space-8) var(--opcteam-space-8);
 }
 
-.openbitfun-about-dialog__brand {
+.opc-about-dialog__brand {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -37,7 +37,7 @@
   min-width: 0;
 }
 
-.openbitfun-about-dialog__brand-statement {
+.opc-about-dialog__brand-statement {
   margin: 0;
   color: var(--opcteam-color-content-muted);
   font-family: var(--opcteam-type-label-sm-font-family);
@@ -49,12 +49,12 @@
   white-space: pre-line;
 }
 
-.openbitfun-about-dialog__artwork {
+.opc-about-dialog__artwork {
   width: 100%;
   max-width: 192px;
 }
 
-.openbitfun-about-dialog__brand-mark {
+.opc-about-dialog__brand-mark {
   display: block;
   width: 100%;
   height: auto;
@@ -63,17 +63,17 @@
   pointer-events: none;
 }
 
-.openbitfun-about-dialog__metadata {
+.opc-about-dialog__metadata {
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
 
-.openbitfun-about-dialog__brand-copy {
+.opc-about-dialog__brand-copy {
   min-width: 0;
 }
 
-.openbitfun-about-dialog__title {
+.opc-about-dialog__title {
   margin: 0;
   color: var(--opcteam-color-content-primary);
   font-family: var(--opcteam-type-display-sm-font-family);
@@ -85,18 +85,18 @@
   overflow-wrap: anywhere;
 }
 
-.openbitfun-about-dialog__tagline {
+.opc-about-dialog__tagline {
   margin: var(--opcteam-space-2) 0 0;
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-body-sm-font-size);
   line-height: var(--opcteam-type-support-line-height);
 }
 
-.openbitfun-about-dialog__details {
+.opc-about-dialog__details {
   margin-top: var(--opcteam-space-8);
 }
 
-.openbitfun-about-dialog__info-row {
+.opc-about-dialog__info-row {
   box-sizing: border-box;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
@@ -108,7 +108,7 @@
   padding: var(--opcteam-space-2) var(--opcteam-space-1);
 }
 
-.openbitfun-about-dialog__info-label {
+.opc-about-dialog__info-label {
   min-width: 0;
   color: var(--opcteam-color-content-secondary);
   font-family: var(--opcteam-type-label-md-font-family);
@@ -118,7 +118,7 @@
   letter-spacing: var(--opcteam-type-label-md-letter-spacing);
 }
 
-.openbitfun-about-dialog__info-value {
+.opc-about-dialog__info-value {
   min-width: 0;
   color: var(--opcteam-color-content-primary);
   font-family: var(--opcteam-type-body-sm-font-family);
@@ -135,7 +135,7 @@
   }
 }
 
-.openbitfun-about-dialog__info-value-group {
+.opc-about-dialog__info-value-group {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -145,13 +145,13 @@
   margin: 0;
 }
 
-.openbitfun-about-dialog__channel-badge,
-.openbitfun-about-dialog__copy-action {
+.opc-about-dialog__channel-badge,
+.opc-about-dialog__copy-action {
   display: inline-flex;
   flex: 0 0 auto;
 }
 
-.openbitfun-about-dialog__star-callout {
+.opc-about-dialog__star-callout {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
@@ -160,11 +160,11 @@
   border-top: 1px solid var(--opcteam-color-border-subtle);
 }
 
-.openbitfun-about-dialog__star-copy {
+.opc-about-dialog__star-copy {
   min-width: 0;
 }
 
-.openbitfun-about-dialog__star-title {
+.opc-about-dialog__star-title {
   margin: 0;
   color: var(--opcteam-color-content-primary);
   font-size: var(--opcteam-type-body-sm-font-size);
@@ -172,45 +172,45 @@
   line-height: var(--opcteam-type-body-sm-line-height);
 }
 
-.openbitfun-about-dialog__star-description {
+.opc-about-dialog__star-description {
   margin: var(--opcteam-space-1) 0 0;
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-label-md-font-size);
   line-height: var(--opcteam-type-flow-support-line-height);
 }
 
-.openbitfun-about-dialog__star-button {
+.opc-about-dialog__star-button {
   white-space: nowrap;
 }
 
-.openbitfun-about-dialog__update-card {
+.opc-about-dialog__update-card {
   min-width: 0;
   margin-top: var(--opcteam-space-5);
 }
 
-.openbitfun-about-dialog__update-card-actions {
+.opc-about-dialog__update-card-actions {
   display: flex;
   align-items: center;
 }
 
-.openbitfun-about-dialog__update-feedback {
+.opc-about-dialog__update-feedback {
   &:not(:empty) {
     margin-top: 12px;
   }
 }
 
-.openbitfun-about-dialog__update-alert {
+.opc-about-dialog__update-alert {
   width: 100%;
   text-align: left;
 }
 
-.openbitfun-about-dialog__download-status {
+.opc-about-dialog__download-status {
   display: flex;
   flex-direction: column;
   gap: 7px;
 }
 
-.openbitfun-about-dialog__download-bar {
+.opc-about-dialog__download-bar {
   position: relative;
   width: 100%;
   height: 6px;
@@ -219,7 +219,7 @@
   background: var(--opcteam-color-surface-subtle);
 }
 
-.openbitfun-about-dialog__download-fill {
+.opc-about-dialog__download-fill {
   height: 100%;
   border-radius: inherit;
   background: var(--opcteam-color-accent-default);
@@ -241,7 +241,7 @@
   }
 }
 
-.openbitfun-about-dialog__download-meta {
+.opc-about-dialog__download-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -251,21 +251,21 @@
   line-height: var(--opcteam-type-modifier-leading-ui-line-height);
 }
 
-.openbitfun-about-dialog__download-hint {
+.opc-about-dialog__download-hint {
   margin: 0;
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-label-md-font-size);
   line-height: var(--opcteam-type-flow-support-line-height);
 }
 
-.openbitfun-about-dialog__update-installed {
+.opc-about-dialog__update-installed {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   gap: 10px;
 }
 
-.openbitfun-about-dialog__update-status {
+.opc-about-dialog__update-status {
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -278,12 +278,12 @@
     margin-top: 2px;
   }
 
-  &--success .openbitfun-about-dialog__update-status-icon {
+  &--success .opc-about-dialog__update-status-icon {
     color: var(--opcteam-color-status-success-content);
   }
 }
 
-.openbitfun-about-dialog__footer {
+.opc-about-dialog__footer {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
@@ -291,7 +291,7 @@
   padding: 0 var(--opcteam-space-8) var(--opcteam-space-6);
 }
 
-.openbitfun-about-dialog__copyright {
+.opc-about-dialog__copyright {
   margin: 0;
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-meta-font-size);
@@ -299,51 +299,51 @@
 }
 
 @media (max-width: 640px) {
-  .openbitfun-about-dialog__body {
+  .opc-about-dialog__body {
     grid-template-columns: minmax(0, 1fr);
     row-gap: var(--opcteam-space-6);
     padding: 40px var(--opcteam-space-6) var(--opcteam-space-6);
   }
 
-  .openbitfun-about-dialog__brand {
+  .opc-about-dialog__brand {
     flex-direction: row;
     justify-content: flex-start;
   }
 
-  .openbitfun-about-dialog__brand-statement {
+  .opc-about-dialog__brand-statement {
     text-align: left;
   }
 
-  .openbitfun-about-dialog__artwork {
+  .opc-about-dialog__artwork {
     flex: 0 0 80px;
   }
 
-  .openbitfun-about-dialog__details {
+  .opc-about-dialog__details {
     margin-top: var(--opcteam-space-6);
   }
 
-  .openbitfun-about-dialog__footer {
+  .opc-about-dialog__footer {
     padding-inline: var(--opcteam-space-6);
   }
 }
 
 @media (max-width: 480px) {
-  .openbitfun-about-dialog__star-callout {
+  .opc-about-dialog__star-callout {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--opcteam-space-3);
   }
 
-  .openbitfun-about-dialog__star-button {
+  .opc-about-dialog__star-button {
     justify-self: start;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-about-dialog__brand-flow {
+  .opc-about-dialog__brand-flow {
     display: none;
   }
 
-  .openbitfun-about-dialog__download-fill--indeterminate {
+  .opc-about-dialog__download-fill--indeterminate {
     animation: none;
     transform: none;
   }

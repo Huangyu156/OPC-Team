@@ -20,12 +20,12 @@
       transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
-  .root[data-openbitfun-state="visible"] {
+  .root[data-opc-state="visible"] {
     opacity: 1;
     transform: translate3d(0, 0, 0) scale(1);
   }
 
-  .root[data-openbitfun-interactive="true"][data-openbitfun-state="visible"] {
+  .root[data-opc-interactive="true"][data-opc-state="visible"] {
     pointer-events: auto;
   }
 
@@ -64,56 +64,56 @@
     transform: rotate(45deg);
   }
 
-  .root[data-openbitfun-placement="top"] .arrow,
-  .root[data-openbitfun-placement="bottom"] .arrow {
+  .root[data-opc-placement="top"] .arrow,
+  .root[data-opc-placement="bottom"] .arrow {
     left: calc(50% - var(--opcteam-overlay-tooltip-arrow-size) / 2);
   }
 
-  .root[data-openbitfun-placement="left"] .arrow,
-  .root[data-openbitfun-placement="right"] .arrow {
+  .root[data-opc-placement="left"] .arrow,
+  .root[data-opc-placement="right"] .arrow {
     top: calc(50% - var(--opcteam-overlay-tooltip-arrow-size) / 2);
   }
 
-  .root[data-openbitfun-placement="top"] .arrow {
+  .root[data-opc-placement="top"] .arrow {
     bottom: -3px;
     border-top: 0;
     border-left: 0;
   }
 
-  .root[data-openbitfun-placement="bottom"] .arrow {
+  .root[data-opc-placement="bottom"] .arrow {
     top: -3px;
     border-right: 0;
     border-bottom: 0;
   }
 
-  .root[data-openbitfun-placement="left"] .arrow {
+  .root[data-opc-placement="left"] .arrow {
     right: -3px;
     border-bottom: 0;
     border-left: 0;
   }
 
-  .root[data-openbitfun-placement="right"] .arrow {
+  .root[data-opc-placement="right"] .arrow {
     left: -3px;
     border-top: 0;
     border-right: 0;
   }
 
-  .root[data-openbitfun-placement="top"] {
+  .root[data-opc-placement="top"] {
     --_enter-y: 3px;
     transform-origin: center bottom;
   }
 
-  .root[data-openbitfun-placement="bottom"] {
+  .root[data-opc-placement="bottom"] {
     --_enter-y: -3px;
     transform-origin: center top;
   }
 
-  .root[data-openbitfun-placement="left"] {
+  .root[data-opc-placement="left"] {
     --_enter-x: 3px;
     transform-origin: right center;
   }
 
-  .root[data-openbitfun-placement="right"] {
+  .root[data-opc-placement="right"] {
     --_enter-x: -3px;
     transform-origin: left center;
   }
@@ -144,7 +144,7 @@
       transform: none;
     }
 
-    .root[data-openbitfun-state="visible"] {
+    .root[data-opc-state="visible"] {
       transform: none;
     }
 

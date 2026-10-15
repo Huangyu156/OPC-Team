@@ -87,7 +87,7 @@
   &__btn {
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       inline-size: 16px;
       block-size: 16px;

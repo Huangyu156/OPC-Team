@@ -226,7 +226,7 @@ describe('numbered composer attachments', () => {
     const attachment = () => container.querySelector<HTMLButtonElement>('[data-opc-product-part="attachment"]')!;
     click(source);
     const actions = [...dialog()!.querySelectorAll('button')].map(button => button.textContent);
-    expect(dialog()!.dataset.openbitfunProductPart).toBe('dialog');
+    expect(dialog()!.dataset.opcProductPart).toBe('dialog');
     typeComment('From the source');
     click(action('selection.save'));
     expect(useContextStore.getState().contexts).toEqual([{ ...excerpt, comment: 'From the source' }]);

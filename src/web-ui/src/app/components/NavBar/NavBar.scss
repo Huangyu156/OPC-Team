@@ -4,7 +4,7 @@
  */
 @use '../../styles/workspace-shell-surfaces' as shell-surfaces;
 
-.openbitfun-nav-bar {
+.opc-nav-bar {
   @include shell-surfaces.sidebar-background;
 
   display: flex;
@@ -30,7 +30,7 @@
     transition: padding-left var(--opcteam-motion-duration-content-swap) var(--opcteam-motion-easing-standard);
 
     // AppKit drives this independently of resize/command completion.
-    .openbitfun-app-layout--fullscreen-chrome & {
+    .opc-app-layout--fullscreen-chrome & {
       padding-left: var(--opcteam-space-2);
     }
   }
@@ -124,12 +124,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-nav-bar--macos {
+  .opc-nav-bar--macos {
     transition: none;
   }
 
-  .openbitfun-nav-bar__btn,
-  .openbitfun-nav-bar__panel-toggle {
+  .opc-nav-bar__btn,
+  .opc-nav-bar__panel-toggle {
     transition: none;
     transform: none;
   }

@@ -35,7 +35,7 @@
 .design-mobile-conversation textarea { width: 100%; min-height: var(--opcteam-space-16); resize: vertical; border: 0; background: transparent; color: var(--opcteam-color-content-primary); font: inherit; outline-offset: var(--opcteam-focus-offset); }
 .design-mobile-footer-example { display: grid; gap: var(--opcteam-space-8); min-height: 300px; align-content: space-between; }
 .design-scrim-example { position: relative; min-height: 220px; padding: var(--opcteam-space-5); border-radius: var(--opcteam-radius-lg); overflow: hidden; background: var(--opcteam-color-surface-canvas); }
-.design-scrim-example > [data-openbitfun-component="mobile-scrim"] { position: absolute; }
+.design-scrim-example > [data-opc-component="mobile-scrim"] { position: absolute; }
 @media (max-width: 600px) {
   .design-component-overview { padding: var(--opcteam-space-4); }
   .design-component-overview:not([data-presentation="compact"]) .design-example-grid { grid-template-columns: minmax(0, 1fr); }

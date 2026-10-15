@@ -23,7 +23,7 @@ $model-mode-dust-sizes: ();
   $model-mode-dust-sizes: list.append($model-mode-dust-sizes, auto, comma);
 }
 
-.openbitfun-model-selector {
+.opc-model-selector {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -55,7 +55,7 @@ $model-mode-dust-sizes: ();
     letter-spacing: var(--opcteam-type-modifier-tracking-wide-letter-spacing);
 
     // More visible while input is focused
-    .openbitfun-chat-input__box:focus-within & {
+    .opc-chat-input__box:focus-within & {
       opacity: 1;
     }
 
@@ -153,7 +153,7 @@ $model-mode-dust-sizes: ();
     flex-shrink: 0;
     transition: transform 0.2s ease;
 
-    .openbitfun-model-selector__trigger--open & {
+    .opc-model-selector__trigger--open & {
       transform: rotate(180deg);
     }
   }
@@ -232,7 +232,7 @@ $model-mode-dust-sizes: ();
         backdrop-filter: none;
       }
 
-      > [data-openbitfun-component='scroll-area'] {
+      > [data-opc-component='scroll-area'] {
         // Summary cards are fixed compositions, not vertically scrollable lists.
         overflow: clip;
       }
@@ -470,7 +470,7 @@ $model-mode-dust-sizes: ();
     }
   }
 
-  &__selection-back [data-openbitfun-part='metadata'] {
+  &__selection-back [data-opc-part='metadata'] {
     min-inline-size: 0;
     max-inline-size: 60%;
   }
@@ -494,37 +494,37 @@ $model-mode-dust-sizes: ();
       grid-template-columns: minmax(0, 1fr);
       padding-block-start: 0;
 
-      .openbitfun-model-selector__model-summary {
+      .opc-model-selector__model-summary {
         grid-area: 1 / 1;
         padding-block: 0;
       }
 
-      .openbitfun-model-selector__mode-footer {
+      .opc-model-selector__mode-footer {
         grid-area: 1 / 1;
         align-self: end;
       }
     }
 
     &[data-selecting-mode='true'] {
-      .openbitfun-model-selector__model-field,
-      .openbitfun-model-selector__mode-footer,
-      .openbitfun-model-selector__mode-summary,
-      .openbitfun-reasoning-control__value {
+      .opc-model-selector__model-field,
+      .opc-model-selector__mode-footer,
+      .opc-model-selector__mode-summary,
+      .opc-reasoning-control__value {
         visibility: hidden;
       }
     }
 
     &[data-has-reasoning='true'] {
-      .openbitfun-model-selector__mode-footer,
-      .openbitfun-model-selector__model-field {
+      .opc-model-selector__mode-footer,
+      .opc-model-selector__model-field {
         position: relative;
         z-index: 1;
         pointer-events: none;
       }
 
-      .openbitfun-model-selector__model-control,
-      .openbitfun-model-selector__mode-control,
-      .openbitfun-model-selector__provider-control {
+      .opc-model-selector__model-control,
+      .opc-model-selector__mode-control,
+      .opc-model-selector__provider-control {
         pointer-events: auto;
       }
 
@@ -538,11 +538,11 @@ $model-mode-dust-sizes: ();
     place-items: center;
     min-block-size: var(--_model-selector-card-height);
 
-    [data-openbitfun-component='loading-state'] {
+    [data-opc-component='loading-state'] {
       color: inherit;
     }
 
-    [data-openbitfun-part='label'] {
+    [data-opc-part='label'] {
       color: inherit;
       font: inherit;
       letter-spacing: inherit;
@@ -563,13 +563,13 @@ $model-mode-dust-sizes: ();
       transform: scaleX(0.86);
     }
 
-    [data-openbitfun-component='segmented-control'] {
+    [data-opc-component='segmented-control'] {
       gap: var(--opcteam-space-1);
       padding: 0;
       background: transparent;
     }
 
-    [data-openbitfun-part='segment'] {
+    [data-opc-part='segment'] {
       block-size: var(--opcteam-space-8);
       padding-inline: var(--opcteam-space-1);
       color: var(--opcteam-color-content-secondary);
@@ -592,7 +592,7 @@ $model-mode-dust-sizes: ();
   }
 
   &__model-control,
-  &__mode-summary .openbitfun-model-selector__mode-control {
+  &__mode-summary .opc-model-selector__mode-control {
     flex: 0 1 auto;
     inline-size: fit-content;
     min-inline-size: 0;
@@ -601,7 +601,7 @@ $model-mode-dust-sizes: ();
     padding-inline: var(--opcteam-space-2);
     color: var(--opcteam-color-content-primary);
 
-    [data-openbitfun-part='label'] {
+    [data-opc-part='label'] {
       font-family: var(--opcteam-type-heading-section-font-family);
       font-size: var(--opcteam-type-heading-section-font-size);
       font-weight: var(--opcteam-type-heading-section-font-weight);
@@ -641,8 +641,8 @@ $model-mode-dust-sizes: ();
     padding-inline: var(--opcteam-space-1);
     color: var(--opcteam-color-content-secondary);
 
-    [data-openbitfun-part='trigger'],
-    [data-openbitfun-part='label'] {
+    [data-opc-part='trigger'],
+    [data-opc-part='label'] {
       text-align: start;
     }
   }
@@ -651,8 +651,8 @@ $model-mode-dust-sizes: ();
     // The centered name uses its text height instead of reserving a full menu row.
     min-block-size: 0;
 
-    [data-openbitfun-part='trigger'],
-    [data-openbitfun-part='label'] {
+    [data-opc-part='trigger'],
+    [data-opc-part='label'] {
       justify-content: center;
       text-align: center;
     }
@@ -672,27 +672,27 @@ $model-mode-dust-sizes: ();
     min-inline-size: 0;
     min-block-size: 0;
 
-    .openbitfun-reasoning-control {
+    .opc-reasoning-control {
       // Anchor the sky to the card while the inline choices follow the model.
       position: static;
       isolation: auto;
       overflow: visible;
     }
 
-    .openbitfun-reasoning-control__value {
+    .opc-reasoning-control__value {
       color: var(--opcteam-color-content-secondary);
     }
 
-    .openbitfun-reasoning-control {
+    .opc-reasoning-control {
       // Let the retained content own height throughout expansion and collapse.
       &,
-      .openbitfun-reasoning-control__value,
-      .openbitfun-reasoning-control__trigger {
+      .opc-reasoning-control__value,
+      .opc-reasoning-control__trigger {
         min-block-size: 0;
       }
     }
 
-    .openbitfun-reasoning-control__backdrop {
+    .opc-reasoning-control__backdrop {
       z-index: 0;
     }
   }
@@ -705,13 +705,13 @@ $model-mode-dust-sizes: ();
     padding-block-end: var(--opcteam-space-1);
     padding-inline: var(--opcteam-space-2);
 
-    .openbitfun-model-selector__mode-control,
-    .openbitfun-model-selector__provider-control {
+    .opc-model-selector__mode-control,
+    .opc-model-selector__provider-control {
       min-block-size: var(--opcteam-space-5);
       margin-inline-start: 0;
       color: var(--opcteam-color-content-secondary);
 
-      [data-openbitfun-part='label'] {
+      [data-opc-part='label'] {
         font-family: var(--opcteam-type-label-sm-font-family);
         font-size: var(--opcteam-type-label-sm-font-size);
         font-weight: var(--opcteam-type-label-md-font-weight);
@@ -720,12 +720,12 @@ $model-mode-dust-sizes: ();
       }
     }
 
-    .openbitfun-model-selector__mode-control {
+    .opc-model-selector__mode-control {
       flex-shrink: 0;
       max-inline-size: 60%;
     }
 
-    .openbitfun-model-selector__provider-control {
+    .opc-model-selector__provider-control {
       margin-inline-start: auto;
     }
   }
@@ -739,10 +739,10 @@ $model-mode-dust-sizes: ();
     min-block-size: 0;
     text-align: center;
 
-    .openbitfun-model-selector__mode-control {
+    .opc-model-selector__mode-control {
       margin-inline-start: 0;
 
-      [data-openbitfun-part='trigger'] {
+      [data-opc-part='trigger'] {
         justify-content: center;
         text-align: center;
       }
@@ -839,8 +839,8 @@ $model-mode-dust-sizes: ();
 }
 
 @media (forced-colors: active) {
-  .openbitfun-model-selector__dropdown[data-menu-level='settings'],
-  .openbitfun-model-selector__dropdown[data-menu-level='settings']:is([data-model-mode='smart'], [data-model-mode='pool']) {
+  .opc-model-selector__dropdown[data-menu-level='settings'],
+  .opc-model-selector__dropdown[data-menu-level='settings']:is([data-model-mode='smart'], [data-model-mode='pool']) {
     background-image: none;
     background-color: Canvas;
     -webkit-backdrop-filter: none;
@@ -856,14 +856,14 @@ $model-mode-dust-sizes: ();
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-model-selector__dropdown,
-  .openbitfun-model-selector__trigger,
-  .openbitfun-model-selector__chevron,
-  .openbitfun-model-selector__level {
+  .opc-model-selector__dropdown,
+  .opc-model-selector__trigger,
+  .opc-model-selector__chevron,
+  .opc-model-selector__level {
     transition-duration: 0ms;
   }
 
-  .openbitfun-model-selector__dropdown {
+  .opc-model-selector__dropdown {
     animation: none;
 
     &[data-menu-level='settings']:is([data-model-mode='smart'], [data-model-mode='pool']) {

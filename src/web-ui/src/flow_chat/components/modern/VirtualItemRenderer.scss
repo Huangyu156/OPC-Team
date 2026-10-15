@@ -79,8 +79,8 @@
     > .model-round-item,
     > .flowchat-timeline-content > .model-round-item {
       > .flowchat-flow-item:last-child:has(
-        > .flow-tool-card-wrapper[data-openbitfun-attention='ambient']:not([data-tool-capsule='true']):not(.flow-tool-card-wrapper--permission-pending)
-          [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='root'][data-openbitfun-expanded-shell='false']
+        > .flow-tool-card-wrapper[data-opc-attention='ambient']:not([data-tool-capsule='true']):not(.flow-tool-card-wrapper--permission-pending)
+          [data-opc-component='flow-chat-tool-card'][data-opc-part='root'][data-opc-expanded-shell='false']
       ) {
         margin-bottom: var(--opcteam-control-flow-chat-paragraph-gap);
       }

@@ -100,8 +100,8 @@
     [role='switch'],
     [data-motion='interactive'],
     .v-card--interactive,
-    .openbitfun-context-card--interactive,
-    .openbitfun-nav-panel__section-header--interactive
+    .opc-context-card--interactive,
+    .opc-nav-panel__section-header--interactive
   ):where(
     :not(:disabled):not([aria-disabled='true']):not([data-motion='none'])
   ) {

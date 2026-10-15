@@ -10,13 +10,13 @@
   .option[data-disabled="true"] { color: var(--opcteam-color-content-disabled); cursor: not-allowed; }
 
   @media (hover: hover) and (pointer: fine) {
-    .option:is(:hover, [data-openbitfun-preview-state="hover"]):not([data-disabled="true"]),
-    .root[data-openbitfun-preview-state="hover"] .option:not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-hover); }
+    .option:is(:hover, [data-opc-preview-state="hover"]):not([data-disabled="true"]),
+    .root[data-opc-preview-state="hover"] .option:not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-hover); }
   }
-  .option:is(:active, [data-openbitfun-preview-state="active"]):not([data-disabled="true"]),
-  .root[data-openbitfun-preview-state="active"] .option:not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-pressed); }
+  .option:is(:active, [data-opc-preview-state="active"]):not([data-disabled="true"]),
+  .root[data-opc-preview-state="active"] .option:not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-pressed); }
   .option:has(.input:focus-visible),
-  .root[data-openbitfun-preview-state="focus-visible"] .option[data-checked="true"] { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: calc(var(--opcteam-focus-offset) * -1); }
+  .root[data-opc-preview-state="focus-visible"] .option[data-checked="true"] { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: calc(var(--opcteam-focus-offset) * -1); }
 
   .control { position: relative; display: inline-flex; inline-size: 20px; block-size: 20px; flex: 0 0 auto; }
   .input { position: absolute; z-index: var(--opcteam-layer-content); inset: 0; inline-size: 100%; block-size: 100%; margin: 0; opacity: 0; cursor: inherit; }
@@ -35,5 +35,5 @@
   .leading > :where(svg, img) { inline-size: 100%; block-size: 100%; }
 
   @media (prefers-reduced-motion: reduce) { .option, .circle, .dot { transition: none; } }
-  @media (forced-colors: active) { .root[data-appearance="surface"], .circle { border-color: ButtonText; } .option[data-checked="true"] .circle { border-color: Highlight; background: Highlight; } .option:has(.input:focus-visible), .root[data-openbitfun-preview-state="focus-visible"] .option[data-checked="true"] { outline-color: Highlight; } }
+  @media (forced-colors: active) { .root[data-appearance="surface"], .circle { border-color: ButtonText; } .option[data-checked="true"] .circle { border-color: Highlight; background: Highlight; } .option:has(.input:focus-visible), .root[data-opc-preview-state="focus-visible"] .option[data-checked="true"] { outline-color: Highlight; } }
 }

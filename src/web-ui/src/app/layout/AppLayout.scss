@@ -29,13 +29,13 @@ html, body {
   overflow: hidden;
 }
 
-html[data-openbitfun-native-material='sidebar'],
-html[data-openbitfun-native-material='sidebar'] body {
+html[data-opc-native-material='sidebar'],
+html[data-opc-native-material='sidebar'] body {
   background: transparent;
 }
 
 // ==================== Main layout container ====================
-.openbitfun-app-layout {
+.opc-app-layout {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -66,11 +66,11 @@ html[data-openbitfun-native-material='sidebar'] body {
     outline: none;
   }
 
-  &[data-openbitfun-background-media='video'] {
+  &[data-opc-background-media='video'] {
     background: transparent;
   }
 
-  :root[data-openbitfun-native-material='sidebar'] &:has(.openbitfun-workspace-body) {
+  :root[data-opc-native-material='sidebar'] &:has(.opc-workspace-body) {
     background: transparent;
   }
 
@@ -103,7 +103,7 @@ html[data-openbitfun-native-material='sidebar'] body {
   &--modal-open {
     overflow: hidden;
 
-    .openbitfun-app-main {
+    .opc-app-main {
       filter: blur(2px);
       pointer-events: none;
     }
@@ -112,7 +112,7 @@ html[data-openbitfun-native-material='sidebar'] body {
 }
 
 // ==================== Main content area (full height, no TitleBar) ====================
-.openbitfun-app-main-workspace {
+.opc-app-main-workspace {
   position: relative;
   z-index: 1;
   display: flex;
@@ -126,12 +126,12 @@ html[data-openbitfun-native-material='sidebar'] body {
   background: transparent;
 }
 
-.openbitfun-app-layout--toolbar-mode > [data-openbitfun-product-component='toolbar-mode'][data-openbitfun-product-part='root'] {
+.opc-app-layout--toolbar-mode > [data-opc-product-component='toolbar-mode'][data-opc-product-part='root'] {
   position: relative;
   z-index: 1;
 }
 
-.openbitfun-appearance-background-media {
+.opc-appearance-background-media {
   position: absolute;
   inset: 0;
   z-index: 0;
@@ -140,7 +140,7 @@ html[data-openbitfun-native-material='sidebar'] body {
   pointer-events: none;
 }
 
-.openbitfun-appearance-background-media__video {
+.opc-appearance-background-media__video {
   display: block;
   width: 100%;
   height: 100%;
@@ -152,7 +152,7 @@ html[data-openbitfun-native-material='sidebar'] body {
   }
 }
 
-.openbitfun-window-mode-hint {
+.opc-window-mode-hint {
   @include surfaces.floating;
 
   position: fixed;
@@ -190,7 +190,7 @@ html[data-openbitfun-native-material='sidebar'] body {
 
 // ==================== Responsive ====================
 @media (max-width: 768px) {
-  .openbitfun-window-mode-hint {
+  .opc-window-mode-hint {
     align-items: flex-start;
     flex-direction: column;
     gap: 1px;
@@ -206,19 +206,19 @@ html[data-openbitfun-native-material='sidebar'] body {
 
 // ==================== High-contrast mode ====================
 @media (prefers-contrast: high) {
-  .openbitfun-app-layout {
+  .opc-app-layout {
     background: var(--opcteam-color-surface-scene);
   }
 }
 
 // ==================== Reduced motion preference ====================
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-app-layout * {
+  .opc-app-layout * {
     transition: none;
     animation: none;
   }
 
-  .openbitfun-appearance-background-media__video {
+  .opc-appearance-background-media__video {
     display: none;
   }
 

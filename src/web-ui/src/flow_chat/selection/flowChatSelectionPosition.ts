@@ -119,7 +119,7 @@ export function measureSelectionBarGeometry(root: HTMLElement, selection: Captur
   const viewport = getSelectionViewport(root, focusNode);
   const pane = viewport.getBoundingClientRect();
   const visual = view.visualViewport;
-  const inset = Math.max(0, Number(viewport.dataset.openbitfunViewportInsetBottom) || 0);
+  const inset = Math.max(0, Number(viewport.dataset.opcViewportInsetBottom) || 0);
   const bounds = clipToAncestors({
     left: Math.max(pane.left, visual?.offsetLeft ?? 0),
     right: Math.min(pane.right, (visual?.offsetLeft ?? 0) + (visual?.width ?? view.innerWidth)),

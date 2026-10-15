@@ -18,8 +18,8 @@
   }
 
   .root:is(:hover, :focus-within) { border-color: var(--opcteam-color-border-strong); }
-  .root[data-openbitfun-state~='confirmation'] { border-color: var(--opcteam-color-status-warning-border); }
-  .root:is([data-openbitfun-status='cancelled'], [data-openbitfun-status='rejected']) { opacity: var(--opcteam-opacity-muted); }
+  .root[data-opc-state~='confirmation'] { border-color: var(--opcteam-color-status-warning-border); }
+  .root:is([data-opc-status='cancelled'], [data-opc-status='rejected']) { opacity: var(--opcteam-opacity-muted); }
 
   .surface {
     position: relative;
@@ -69,7 +69,7 @@
     pointer-events: none;
   }
 
-  .avatar > :is(svg, [data-openbitfun-component="icon"]) { inline-size: var(--opcteam-space-5); block-size: var(--opcteam-space-5); }
+  .avatar > :is(svg, [data-opc-component="icon"]) { inline-size: var(--opcteam-space-5); block-size: var(--opcteam-space-5); }
   .details {
     display: grid;
     flex: 1 1 0;
@@ -100,7 +100,7 @@
   .model:not([data-overflow='true']) { text-align: end; }
   .status,
   .statusDot,
-  .name > [data-openbitfun-part='statusSlot'] { align-self: center; }
+  .name > [data-opc-part='statusSlot'] { align-self: center; }
   .status {
     flex: 0 1 auto;
     min-inline-size: 0;
@@ -136,10 +136,10 @@
   }
 
   /* The action replaces the status in place; metadata never moves on hover. */
-  .surface:not(:disabled, [aria-disabled='true']):is(:hover, :focus-visible) .name > :is(.status, .statusDot, [data-openbitfun-part='statusSlot']) {
+  .surface:not(:disabled, [aria-disabled='true']):is(:hover, :focus-visible) .name > :is(.status, .statusDot, [data-opc-part='statusSlot']) {
     visibility: hidden;
   }
-  .surface:not(:disabled, [aria-disabled='true']):is(:hover, :focus-visible) .name:not(:has(> .status, > .statusDot, > [data-openbitfun-part='statusSlot'])) {
+  .surface:not(:disabled, [aria-disabled='true']):is(:hover, :focus-visible) .name:not(:has(> .status, > .statusDot, > [data-opc-part='statusSlot'])) {
     padding-inline-end: var(--opcteam-space-5);
   }
   .surface:not(:disabled, [aria-disabled='true']):is(:hover, :focus-visible) .openIcon { display: block; }

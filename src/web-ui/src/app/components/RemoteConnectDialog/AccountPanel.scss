@@ -236,7 +236,7 @@
       vertical-align: middle;
     }
 
-    &[data-openbitfun-state='online']::before {
+    &[data-opc-state='online']::before {
       background: var(--opcteam-color-status-success-content);
     }
   }
@@ -273,7 +273,7 @@
     align-items: center;
     gap: var(--opcteam-space-2);
 
-    > [data-openbitfun-component='icon-button'] {
+    > [data-opc-component='icon-button'] {
       flex-shrink: 0;
     }
   }

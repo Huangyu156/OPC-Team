@@ -6,7 +6,7 @@
   position: relative;
   user-select: none;
 
-  > [data-openbitfun-part='item'] {
+  > [data-opc-part='item'] {
     max-inline-size: 100%;
   }
 
@@ -29,7 +29,7 @@
   }
 
   // A pinned document always exposes its unpin control.
-  &.is-pinned [data-openbitfun-part='endAction'] {
+  &.is-pinned [data-opc-part='endAction'] {
     opacity: 1;
     pointer-events: auto;
   }

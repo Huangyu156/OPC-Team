@@ -254,7 +254,7 @@ $pages-gutter: clamp(24px, 4vw, 56px);
     font-size: var(--opcteam-type-label-sm-font-size);
 
     svg,
-    [data-openbitfun-component='icon'] {
+    [data-opc-component='icon'] {
       flex-shrink: 0;
       opacity: 0.85;
     }
@@ -264,7 +264,7 @@ $pages-gutter: clamp(24px, 4vw, 56px);
     color: var(--opcteam-color-content-secondary);
 
     svg,
-    [data-openbitfun-component='icon'] {
+    [data-opc-component='icon'] {
       color: var(--opcteam-color-accent-default);
     }
   }
@@ -368,7 +368,7 @@ $pages-gutter: clamp(24px, 4vw, 56px);
     text-align: left;
 
     svg,
-    [data-openbitfun-component='icon'] {
+    [data-opc-component='icon'] {
       flex-shrink: 0;
       color: var(--opcteam-color-accent-default);
     }

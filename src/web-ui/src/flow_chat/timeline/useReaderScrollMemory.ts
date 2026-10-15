@@ -9,7 +9,7 @@ export function useReaderScrollMemory(rootRef: RefObject<HTMLElement | null>, it
     if (!root || !reader || !itemId) return;
     const restored = new WeakSet<HTMLElement>();
     const targets = () => [...root.querySelectorAll<HTMLElement>('[data-opc-scrollbar-visibility], [data-testid="chat-thinking-content"]')];
-    const keyFor = (element: HTMLElement, index: number) => `scroll:${itemId}:${element.dataset.openbitfunComponent}:${element.dataset.openbitfunPart}:${index}`;
+    const keyFor = (element: HTMLElement, index: number) => `scroll:${itemId}:${element.dataset.opcComponent}:${element.dataset.opcPart}:${index}`;
     const restore = () => targets().forEach((element, index) => {
       if (restored.has(element)) return;
       restored.add(element);

@@ -185,12 +185,12 @@
     border: 1px solid color-mix(in srgb, var(--opcteam-color-status-danger-content) 20%, transparent);
     flex-shrink: 0;
 
-    > :is(svg, [data-openbitfun-component='icon']) {
+    > :is(svg, [data-opc-component='icon']) {
       flex-shrink: 0;
       margin-top: 1px;
     }
 
-    > span:not([data-openbitfun-component='icon']) {
+    > span:not([data-opc-component='icon']) {
       flex: 1;
       word-break: break-word;
     }

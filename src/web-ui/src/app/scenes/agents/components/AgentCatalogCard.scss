@@ -35,7 +35,7 @@
 
   // CardHeader defaults to a content-sized title. This compound title needs the
   // full header width so its text only shrinks when the card runs out of space.
-  &__header > [data-openbitfun-part='header-content'] > [data-openbitfun-part='title'] {
+  &__header > [data-opc-part='header-content'] > [data-opc-part='title'] {
     align-self: stretch;
   }
 
@@ -119,7 +119,7 @@
     color: var(--opcteam-color-status-success-content);
   }
 
-  &__status[data-openbitfun-state='disabled'] &__status-icon {
+  &__status[data-opc-state='disabled'] &__status-icon {
     color: var(--opcteam-color-status-warning-content);
   }
 }

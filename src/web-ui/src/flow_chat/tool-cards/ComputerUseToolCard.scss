@@ -40,7 +40,7 @@
   color: var(--opcteam-color-status-warning-content);
   font-size: var(--opcteam-type-label-sm-font-size);
 
-  > :is(svg, [data-openbitfun-component='icon']) {
+  > :is(svg, [data-opc-component='icon']) {
     flex-shrink: 0;
     block-size: 1lh;
     color: var(--opcteam-color-status-warning-emphasis);

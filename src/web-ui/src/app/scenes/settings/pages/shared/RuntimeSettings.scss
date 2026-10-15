@@ -1,5 +1,5 @@
 // Shared presentation for runtime-owned settings pages and their embedded sections.
-.openbitfun-runtime-settings {
+.opc-runtime-settings {
   &__content {
     display: flex;
     flex-direction: column;
@@ -302,7 +302,7 @@
     overflow: hidden;
     background: var(--opcteam-color-surface-workbench);
 
-    :root[data-openbitfun-appearance-mode='light'] & {
+    :root[data-opc-appearance-mode='light'] & {
       background: var(--opcteam-color-surface-scene);
     }
   }
@@ -385,7 +385,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-runtime-settings {
+  .opc-runtime-settings {
     &__pet-stack-card,
     &__pet-card-delete,
     &__pet-preview-sprite {
@@ -406,7 +406,7 @@
 }
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-runtime-settings {
+  .opc-runtime-settings {
     &__row-control {
       align-items: flex-start;
     }
@@ -439,7 +439,7 @@
 }
 
 @container config-panel (max-width: 420px) {
-  .openbitfun-runtime-settings {
+  .opc-runtime-settings {
     &__pet-stack {
       display: none;
     }
@@ -457,7 +457,7 @@
 }
 
 @media (hover: none) {
-  .openbitfun-runtime-settings__pet-card-delete {
+  .opc-runtime-settings__pet-card-delete {
     opacity: 1;
     pointer-events: auto;
   }

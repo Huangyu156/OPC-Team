@@ -1,13 +1,13 @@
 /**
  * SessionsSection styles — inline accordion shown under the Sessions nav item.
  *
- * Uses the parent BEM block (.openbitfun-nav-panel) to stay consistent with the
+ * Uses the parent BEM block (.opc-nav-panel) to stay consistent with the
  * rest of the navigation styling, while being self-contained in this file.
  */
 @use '../../../../styles/nav-panel-font-scope.scss' as nav-font;
 @use '../../../../styles/workspace-shell-surfaces' as shell-surfaces;
 
-.openbitfun-nav-panel {
+.opc-nav-panel {
   &__inline-list {
     // Left text rail shared by session rows and the expand toggle. Context
     // stylesheets that indent rows (see WorkspaceListSection's 30px icon
@@ -80,7 +80,7 @@
     color: var(--opcteam-color-content-muted);
     font-size: var(--opcteam-type-meta-font-size);
 
-    .openbitfun-nav-panel__inline-loading-icon {
+    .opc-nav-panel__inline-loading-icon {
       inline-size: var(--opcteam-control-icon-size-xs);
       block-size: var(--opcteam-control-icon-size-xs);
       color: var(--opcteam-color-content-secondary);
@@ -260,9 +260,9 @@
     grid-area: 1 / 1;
     pointer-events: none;
 
-    .openbitfun-nav-panel__inline-item:hover &,
-    .openbitfun-nav-panel__inline-item:focus-within &,
-    .openbitfun-nav-panel__inline-item.is-menu-open & {
+    .opc-nav-panel__inline-item:hover &,
+    .opc-nav-panel__inline-item:focus-within &,
+    .opc-nav-panel__inline-item.is-menu-open & {
       visibility: hidden;
     }
   }
@@ -281,7 +281,7 @@
     max-width: 100%;
     align-items: center;
 
-    .openbitfun-nav-panel__inline-item-label {
+    .opc-nav-panel__inline-item-label {
       flex: 0 1 auto;
     }
   }
@@ -338,7 +338,7 @@
     letter-spacing: var(--opcteam-type-modifier-tracking-wide-letter-spacing);
     white-space: nowrap;
 
-    .openbitfun-nav-panel__inline-item-review-icon {
+    .opc-nav-panel__inline-item-review-icon {
       inline-size: var(--opcteam-control-icon-size2xs);
       block-size: var(--opcteam-control-icon-size2xs);
       color: var(--opcteam-color-content-secondary);
@@ -362,7 +362,7 @@
     // Kill the inline strut so the icon stays optically centered in the circle.
     line-height: 0;
 
-    .openbitfun-nav-panel__inline-item-worktree-icon {
+    .opc-nav-panel__inline-item-worktree-icon {
       inline-size: var(--opcteam-control-icon-size-xs);
       block-size: var(--opcteam-control-icon-size-xs);
     }
@@ -461,8 +461,8 @@
     opacity: 0;
     pointer-events: none;
 
-    .openbitfun-nav-panel__inline-item:hover &,
-    .openbitfun-nav-panel__inline-item:focus-within &,
+    .opc-nav-panel__inline-item:hover &,
+    .opc-nav-panel__inline-item:focus-within &,
     &.is-open {
       opacity: 1;
       pointer-events: auto;
@@ -747,17 +747,17 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-nav-panel {
+  .opc-nav-panel {
     &__inline-item {
       transition: none;
     }
   }
 
-  .openbitfun-nav-panel__inline-item-review-badge svg {
+  .opc-nav-panel__inline-item-review-badge svg {
     animation: none;
   }
 
-  .openbitfun-nav-panel__inline-item-background-subagent-icon {
+  .opc-nav-panel__inline-item-background-subagent-icon {
     animation: none;
 
     &.is-agent {
@@ -774,7 +774,7 @@
 
 // Compact session rows share the shell's 6px radius and 120ms physical press
 // response. Running/attention motion remains because it communicates state.
-.openbitfun-nav-panel {
+.opc-nav-panel {
   &__inline-list {
     margin: 0 6px 0 var(--opcteam-space-3);
     padding: 2px 0;
@@ -822,7 +822,7 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .openbitfun-nav-panel__inline-item:hover {
+  .opc-nav-panel__inline-item:hover {
     background: var(--opcteam-color-action-quiet-hover);
   }
 }
@@ -830,7 +830,7 @@
 
 // Match the primary navigation's readable text scale and 30px row rhythm while
 // retaining the existing nested/flat session geometry.
-.openbitfun-nav-panel {
+.opc-nav-panel {
   &__inline-list {
     padding-block: 0;
     // Rail for this rhythm: rows previously hard-coded `padding: 0 6px`.

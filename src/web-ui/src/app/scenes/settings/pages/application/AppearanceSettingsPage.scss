@@ -1,5 +1,5 @@
 // Appearance settings page presentation.
-.openbitfun-appearance-settings__content {
+.opc-appearance-settings__content {
   display: flex;
   flex-direction: column;
   padding: 0;
@@ -363,7 +363,7 @@
       transition: none;
     }
 
-    .appearance-market__nav-item > [data-openbitfun-part='trigger'] {
+    .appearance-market__nav-item > [data-opc-part='trigger'] {
       padding: var(--opcteam-space-2) var(--opcteam-space-3);
       border: 0;
       border-radius: var(--opcteam-radius-sm);
@@ -379,7 +379,7 @@
         outline: revert-layer;
       }
 
-      > [data-openbitfun-part='label'] {
+      > [data-opc-part='label'] {
         font: inherit;
         letter-spacing: inherit;
       }
@@ -955,17 +955,17 @@
     margin: 0;
   }
 
-  &__empty[data-openbitfun-component='empty'] {
+  &__empty[data-opc-component='empty'] {
     padding: 0;
     text-align: inherit;
 
-    > [data-openbitfun-part='media'] {
+    > [data-opc-part='media'] {
       inline-size: 28px;
       block-size: 28px;
       color: inherit;
     }
 
-    > [data-openbitfun-part='description'] {
+    > [data-opc-part='description'] {
       max-inline-size: none;
       color: inherit;
       font: inherit;
@@ -1786,7 +1786,7 @@
 
 @container config-panel (max-width: 640px) {
   .appearance-package-config {
-    > [data-openbitfun-part='header'] {
+    > [data-opc-part='header'] {
       flex-direction: column;
     }
 
@@ -1817,7 +1817,7 @@
 }
 
 // The existing card owns feedback and geometry; the shared trigger owns activation.
-.appearance-package-config__card-action[data-openbitfun-component='action-card'] {
+.appearance-package-config__card-action[data-opc-component='action-card'] {
   min-block-size: 0;
   border-radius: inherit;
   background: transparent;
@@ -1826,7 +1826,7 @@
   box-shadow: none;
   opacity: 1;
 
-  > [data-openbitfun-part='trigger'] {
+  > [data-opc-part='trigger'] {
     min-block-size: 72px;
   }
 }

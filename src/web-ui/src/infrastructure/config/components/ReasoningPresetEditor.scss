@@ -1,6 +1,6 @@
 @use '@/shared/styles/surface-recipes' as surfaces;
 
-.openbitfun-reasoning-preset-editor {
+.opc-reasoning-preset-editor {
   display: flex;
   flex-direction: column;
   gap: 0;
@@ -31,7 +31,7 @@
     gap: var(--opcteam-space-3);
     min-width: 0;
 
-    > .openbitfun-reasoning-preset-editor__primary-control {
+    > .opc-reasoning-preset-editor__primary-control {
       flex: 1 1 auto;
       min-width: 0;
     }
@@ -133,7 +133,7 @@
       white-space: nowrap;
     }
 
-    > .openbitfun-reasoning-preset-editor__binding-control {
+    > .opc-reasoning-preset-editor__binding-control {
       flex: 1 1 auto;
       min-width: 0;
     }
@@ -303,12 +303,12 @@
     // The disclosure retains its padding-sized target and existing focus style.
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+    > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
       inline-size: var(--opcteam-control-icon-size-sm);
       block-size: var(--opcteam-control-icon-size-sm);
     }
@@ -320,7 +320,7 @@
     }
 
     > svg,
-    > [data-openbitfun-part='icon'] > svg {
+    > [data-opc-part='icon'] > svg {
       flex-shrink: 0;
       color: var(--opcteam-color-content-muted);
     }
@@ -359,7 +359,7 @@
     flex: 0 1 220px;
     min-width: 120px;
 
-    > .openbitfun-reasoning-preset-editor__row-name-input {
+    > .opc-reasoning-preset-editor__row-name-input {
       width: 100%;
     }
   }
@@ -499,7 +499,7 @@
 }
 
 @media (max-width: 720px) {
-  .openbitfun-reasoning-preset-editor {
+  .opc-reasoning-preset-editor {
     &__primary-settings {
       align-items: stretch;
       flex-direction: column;

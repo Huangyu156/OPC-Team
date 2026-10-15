@@ -13,10 +13,10 @@
   .root[data-disabled="true"] .field { color: var(--opcteam-color-content-disabled); cursor: not-allowed; }
 
   @media (hover: hover) and (pointer: fine) {
-    .field:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-hover); }
+    .field:is(:hover, [data-opc-preview-state="hover"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-hover); }
   }
-  .field:is(:active, [data-openbitfun-preview-state="active"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-pressed); }
-  .field:is(:focus-visible, [data-openbitfun-preview-state="focus-visible"]) { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: var(--opcteam-focus-offset); }
+  .field:is(:active, [data-opc-preview-state="active"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-pressed); }
+  .field:is(:focus-visible, [data-opc-preview-state="focus-visible"]) { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: var(--opcteam-focus-offset); }
 
   .value { min-inline-size: 0; flex: 1 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .value[data-placeholder="true"] { color: var(--opcteam-color-content-muted); }

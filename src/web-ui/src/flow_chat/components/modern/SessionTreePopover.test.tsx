@@ -233,7 +233,7 @@ describe('SessionTreePopover', () => {
       )!;
       const presentation = resolveSubagentAvatarPresentation(sessionId);
 
-      expect(avatar.dataset.openbitfunAvatarId).toBe(presentation.avatarId);
+      expect(avatar.dataset.opcAvatarId).toBe(presentation.avatarId);
       expect(avatar.querySelector('img')?.getAttribute('src')).toBe(getSubagentAvatarDefinition(presentation.avatarId).src);
     });
 

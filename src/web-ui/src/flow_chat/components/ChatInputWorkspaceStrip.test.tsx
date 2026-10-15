@@ -1337,8 +1337,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
       '[data-testid="chat-input-thread-goal"]',
     );
     expect(control).not.toBeNull();
-    expect(control?.dataset.openbitfunPart).toBe('goal');
-    expect(control?.dataset.openbitfunState).toBe('active');
+    expect(control?.dataset.opcPart).toBe('goal');
+    expect(control?.dataset.opcState).toBe('active');
     expect(control?.getAttribute('aria-haspopup')).toBe('dialog');
     expect(control?.getAttribute('aria-label')).toBe('Open thread goal');
     expect(control?.textContent).toContain('Active');
@@ -1579,9 +1579,9 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     const clear = container.querySelector<HTMLButtonElement>(
       '[data-testid="chat-input-thread-goal-clear"]',
     );
-    expect(run?.dataset.openbitfunPart).toBe('goalRun');
+    expect(run?.dataset.opcPart).toBe('goalRun');
     expect(run?.getAttribute('aria-label')).toBe('Pause goal');
-    expect(clear?.dataset.openbitfunPart).toBe('goalClear');
+    expect(clear?.dataset.opcPart).toBe('goalClear');
     expect(clear?.getAttribute('aria-label')).toBe('Clear goal');
 
     await act(async () => {

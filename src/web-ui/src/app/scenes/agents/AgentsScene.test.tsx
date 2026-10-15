@@ -292,13 +292,13 @@ describeWithJsdom('AgentsScene', () => {
 
     for (const id of ['Minimal', 'Standard', 'Ultimate', 'Creative']) {
       const profile = container.querySelector<HTMLElement>(`[data-testid="agents-harness-${id}"]`);
-      expect(profile?.dataset.openbitfunProfile).toBe(id);
+      expect(profile?.dataset.opcProfile).toBe(id);
       expect(profile?.textContent).toContain(`harnessZone.profiles.${id}.name`);
       expect(profile?.textContent).toContain(`harnessZone.profiles.${id}.purpose`);
       expect(profile?.tagName).toBe('BUTTON');
       expect(profile?.querySelector('.opc-agents-scene__harness-profile-icon')).not.toBeNull();
       expect(profile?.querySelector('.opc-agents-scene__harness-route svg')).not.toBeNull();
-      expect(profile?.dataset.openbitfunState).toBeUndefined();
+      expect(profile?.dataset.opcState).toBeUndefined();
     }
     expect(presentation?.querySelectorAll('button')).toHaveLength(4);
     expect(presentation?.textContent).not.toMatch(/harnessZone\.(task|result|connected|comingSoon)/);

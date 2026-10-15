@@ -1,4 +1,4 @@
-.openbitfun-update-download {
+.opc-update-download {
   display: flex;
   flex: 0 0 auto;
   align-items: center;
@@ -7,12 +7,12 @@
     // Keep the full hit area while the circle itself owns pointer feedback.
     &::before { display: none; }
 
-    &:is(:hover, :focus-visible):not(:disabled) .openbitfun-update-download__vessel {
+    &:is(:hover, :focus-visible):not(:disabled) .opc-update-download__vessel {
       filter: brightness(1.12);
       scale: 1.06;
     }
 
-    &:active:not(:disabled) .openbitfun-update-download__vessel {
+    &:active:not(:disabled) .opc-update-download__vessel {
       filter: brightness(0.98);
       scale: 0.96;
     }
@@ -60,11 +60,11 @@
       background: inherit;
       // Two matching wave periods keep crests and troughs flowing through the loop.
       mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 8' preserveAspectRatio='none'%3E%3Cpath d='M0 4C3.33 0 6.67 0 10 4S16.67 8 20 4S26.67 0 30 4S36.67 8 40 4V8H0Z'/%3E%3C/svg%3E") 0 0 / 100% 100% no-repeat;
-      animation: openbitfun-update-download-wave calc(var(--opcteam-motion-duration-loop) * 2) linear infinite;
+      animation: opc-update-download-wave calc(var(--opcteam-motion-duration-loop) * 2) linear infinite;
       content: '';
     }
 
-    &[data-openbitfun-state='indeterminate'] {
+    &[data-opc-state='indeterminate'] {
       // Keep the wave near the bottom until byte progress can set the water level.
       transform: translateY(calc(100% - var(--opcteam-space-1) / 4));
     }
@@ -72,7 +72,7 @@
 
   &__complete {
     color: var(--opcteam-color-content-on-dark);
-    animation: openbitfun-update-download-complete var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
+    animation: opc-update-download-complete var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
   }
 
   &__transfer {
@@ -90,20 +90,20 @@
   }
 }
 
-@keyframes openbitfun-update-download-wave {
+@keyframes opc-update-download-wave {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
 
-@keyframes openbitfun-update-download-complete {
+@keyframes opc-update-download-complete {
   from { opacity: 0; transform: translateY(var(--opcteam-motion-distance-sm)); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-update-download {
+  .opc-update-download {
     &__vessel { transition: none; }
-    &__button:is(:hover, :focus-visible, :active):not(:disabled) .openbitfun-update-download__vessel { scale: 1; }
+    &__button:is(:hover, :focus-visible, :active):not(:disabled) .opc-update-download__vessel { scale: 1; }
     &__complete { animation: none; }
     &__fill { transition: none; }
     &__fill::before { animation: none; }
@@ -112,16 +112,16 @@
 }
 
 @media (forced-colors: active) {
-  .openbitfun-update-download__button:is(:hover, :focus-visible, :active):not(:disabled) .openbitfun-update-download__vessel {
+  .opc-update-download__button:is(:hover, :focus-visible, :active):not(:disabled) .opc-update-download__vessel {
     filter: none;
   }
-  .openbitfun-update-download__vessel[data-download-status] {
+  .opc-update-download__vessel[data-download-status] {
     border-color: ButtonText;
     background: Canvas;
   }
-  .openbitfun-update-download__fill,
-  .openbitfun-update-download__vessel[data-download-status='ready'],
-  .openbitfun-update-download__vessel[data-download-status='installing'],
-  .openbitfun-update-download__transfer { background: Highlight; }
-  .openbitfun-update-download__complete { color: HighlightText; }
+  .opc-update-download__fill,
+  .opc-update-download__vessel[data-download-status='ready'],
+  .opc-update-download__vessel[data-download-status='installing'],
+  .opc-update-download__transfer { background: Highlight; }
+  .opc-update-download__complete { color: HighlightText; }
 }

@@ -1,4 +1,4 @@
-.openbitfun-reasoning-preset-selector {
+.opc-reasoning-preset-selector {
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -33,7 +33,7 @@
     }
   }
 
-  &[data-openbitfun-presentation='label'] &__trigger {
+  &[data-opc-presentation='label'] &__trigger {
     width: auto;
     min-width: 0;
     padding-inline: 2px;
@@ -121,7 +121,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-reasoning-preset-selector__menu {
+  .opc-reasoning-preset-selector__menu {
     transition: opacity 100ms linear;
   }
 }

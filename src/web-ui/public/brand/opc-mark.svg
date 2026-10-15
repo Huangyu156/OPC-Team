@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <!--
+    OPC-Team brand mark.
+    A closed hexagon ring split into two clockwise pinwheel ribbons: the cyan
+    ribbon owns the top arc and lands on the right edge with a descending
+    arrowhead; the silver ribbon owns the bottom arc and lands on the left
+    edge with an ascending arrowhead. The arrowheads interlock with the
+    opposite ribbon so the ring stays complete. A center S chevron pair
+    (cyan down, silver up) carries the rotation inward.
+    Flat 2D, no gradients/glow, so it survives 16px rendering.
+  -->
+  <g fill="none" stroke-linecap="butt" stroke-linejoin="miter">
+    <!-- silver ribbon: right-middle tail, under the bottom, arrowhead up the left edge -->
+    <path d="M100 60 L100 83.5 L60 107 L20 83.5 L20 60" stroke="currentColor" stroke-width="11"/>
+    <path d="M12.6 61.5 L27.4 61.5 L20 46 Z" fill="currentColor" stroke="none"/>
+    <!-- cyan ribbon: left-middle tail, over the top, arrowhead down the right edge -->
+    <path d="M20 60 L20 36.5 L60 13 L100 36.5 L100 60" stroke="currentColor" stroke-width="11"/>
+    <path d="M92.6 58.5 L107.4 58.5 L100 74 Z" fill="currentColor" stroke="none"/>
+    <!-- center S: cyan chevron pointing down, silver chevron pointing up -->
+    <path data-optical-drop="small" d="M50 47 L61 54 L72 47" stroke="currentColor" stroke-width="8"/>
+    <path data-optical-drop="small" d="M70 73 L59 66 L48 73" stroke="currentColor" stroke-width="8"/>
+  </g>
+</svg>

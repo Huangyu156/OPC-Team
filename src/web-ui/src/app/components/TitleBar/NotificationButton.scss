@@ -1,7 +1,7 @@
 /**
  * NotificationButton styles — TitleBar notification indicator.
  */
-.openbitfun-notification-btn {
+.opc-notification-btn {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-1);
@@ -108,10 +108,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-notification-btn__spinner {
+  .opc-notification-btn__spinner {
     animation: none;
   }
-  .openbitfun-notification-btn {
+  .opc-notification-btn {
     transition: none;
     transform: none;
   }

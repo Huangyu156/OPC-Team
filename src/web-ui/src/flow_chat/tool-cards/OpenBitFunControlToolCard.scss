@@ -1,4 +1,4 @@
-.openbitfun-control-card__details {
+.opc-control-card__details {
   display: grid;
   min-inline-size: 0;
   gap: var(--opcteam-space-3);
@@ -9,20 +9,20 @@
   p { margin: 0; }
 }
 
-.openbitfun-control-card__description,
-.openbitfun-control-card__result p {
+.opc-control-card__description,
+.opc-control-card__result p {
   color: var(--opcteam-color-content-secondary);
   overflow-wrap: anywhere;
 }
 
-.openbitfun-control-card__fields {
+.opc-control-card__fields {
   container: control-fields / inline-size;
   display: grid;
   gap: var(--opcteam-space-2);
   margin: 0;
 }
 
-.openbitfun-control-card__field {
+.opc-control-card__field {
   display: grid;
   grid-template-columns: var(--opcteam-control-tool-card-field-label-width) minmax(0, 1fr);
   align-items: baseline;
@@ -44,13 +44,13 @@
   }
 }
 
-.openbitfun-control-card__results {
+.opc-control-card__results {
   display: grid;
   min-inline-size: 0;
   gap: var(--opcteam-space-2);
 }
 
-.openbitfun-control-card__list {
+.opc-control-card__list {
   display: grid;
   gap: var(--opcteam-space-3);
   margin: 0;
@@ -58,32 +58,32 @@
   list-style: none;
 }
 
-.openbitfun-control-card__result {
+.opc-control-card__result {
   display: grid;
   min-inline-size: 0;
   gap: var(--opcteam-space-1);
 }
 
-.openbitfun-control-card__notice {
+.opc-control-card__notice {
   color: var(--opcteam-color-status-warning-content);
   overflow-wrap: anywhere;
 }
 
-.openbitfun-control-card__error {
+.opc-control-card__error {
   color: var(--opcteam-color-status-danger-content);
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
 
-.openbitfun-control-card__viewport {
+.opc-control-card__viewport {
   max-block-size: 20rem;
 }
 
-.openbitfun-control-card__result + .openbitfun-control-card__result {
+.opc-control-card__result + .opc-control-card__result {
   padding-block-start: var(--opcteam-space-2);
   border-block-start: 1px solid var(--opcteam-color-border-subtle);
 }
 
 @container control-fields (max-width: 22rem) {
-  .openbitfun-control-card__field { grid-template-columns: minmax(0, 1fr); gap: var(--opcteam-space-1); }
+  .opc-control-card__field { grid-template-columns: minmax(0, 1fr); gap: var(--opcteam-space-1); }
 }

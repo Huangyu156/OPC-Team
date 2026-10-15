@@ -170,7 +170,7 @@
   }
 
   .valueLeading > :where(svg, img),
-  .valueLeading > [data-openbitfun-component="icon"] {
+  .valueLeading > [data-opc-component="icon"] {
     inline-size: 100%;
     block-size: 100%;
   }
@@ -269,7 +269,7 @@
   }
 
   .indicator > svg,
-  .indicator > [data-openbitfun-component="icon"] {
+  .indicator > [data-opc-component="icon"] {
     inline-size: 100%;
     block-size: 100%;
   }
@@ -362,11 +362,11 @@
     min-block-size: 0;
   }
 
-  .listbox [data-openbitfun-listbox-option][data-selected="true"] [data-openbitfun-part="label"] {
+  .listbox [data-opc-listbox-option][data-selected="true"] [data-opc-part="label"] {
     font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
-  .listbox [data-openbitfun-listbox-option][data-selected="true"] [data-openbitfun-part="indicator"] {
+  .listbox [data-opc-listbox-option][data-selected="true"] [data-opc-part="indicator"] {
     color: var(--opcteam-color-control-highlight-background);
   }
 
@@ -415,7 +415,7 @@
       box-shadow: 0 0 0 var(--opcteam-focus-width) Highlight;
     }
 
-    .listbox [data-openbitfun-listbox-option][data-selected="true"] [data-openbitfun-part="indicator"] {
+    .listbox [data-opc-listbox-option][data-selected="true"] [data-opc-part="indicator"] {
       color: Highlight;
     }
   }

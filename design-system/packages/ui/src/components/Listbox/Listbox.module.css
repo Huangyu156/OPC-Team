@@ -120,9 +120,9 @@
   }
 
   .leading > :where(svg, img),
-  .leading > [data-openbitfun-component="icon"],
+  .leading > [data-opc-component="icon"],
   .indicator > :where(svg, img),
-  .indicator > [data-openbitfun-component="icon"] {
+  .indicator > [data-opc-component="icon"] {
     inline-size: 100%;
     block-size: 100%;
   }

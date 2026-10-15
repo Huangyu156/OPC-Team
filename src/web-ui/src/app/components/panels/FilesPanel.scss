@@ -9,7 +9,7 @@
  * - Expanded mode: >=360px
  */
   // ==================== Files Panel Root Container ====================
-.openbitfun-files-panel {
+.opc-files-panel {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
@@ -24,7 +24,7 @@
     justify-content: flex-start;
   }
 
-  &__header .openbitfun-panel-header__title {
+  &__header .opc-panel-header__title {
     text-align: left;
   }
 
@@ -160,10 +160,10 @@
 
   // FileSearchResults is also used outside navigation. Keep its standalone
   // surface intact and only let this embedded instance inherit the sidebar.
-  &__search-results.openbitfun-search-results {
+  &__search-results.opc-search-results {
     background: transparent;
 
-    .openbitfun-search-results__header {
+    .opc-search-results__header {
       background: transparent;
     }
   }
@@ -204,7 +204,7 @@
   }
 
   &__search-spinner {
-    animation: openbitfun-files-panel-spin 0.8s linear infinite;
+    animation: opc-files-panel-spin 0.8s linear infinite;
     flex-shrink: 0;
   }
 
@@ -222,7 +222,7 @@
     min-width: 0;
   }
 
-  &__search-modes > [data-openbitfun-part="segment"] {
+  &__search-modes > [data-opc-part="segment"] {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -278,11 +278,11 @@
     // Active and responsive states remain owned by this search toolbar.
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where(svg) {
+    > :where([data-opc-part='icon']) > :where(svg) {
       inline-size: 14px;
       block-size: 14px;
     }
@@ -308,16 +308,16 @@
   }
 
   @container files-panel (max-width: 340px) {
-    .openbitfun-files-panel__search-index {
+    .opc-files-panel__search-index {
       flex-direction: column;
       align-items: stretch;
     }
 
-    .openbitfun-files-panel__search-index-actions {
+    .opc-files-panel__search-index-actions {
       justify-content: space-between;
     }
 
-    .openbitfun-files-panel__search-toolbar {
+    .opc-files-panel__search-toolbar {
       align-items: flex-start;
       flex-direction: column;
     }
@@ -416,9 +416,9 @@
     overflow: hidden;
   }
 
-  &__transfer-track--indeterminate .openbitfun-files-panel__transfer-fill {
+  &__transfer-track--indeterminate .opc-files-panel__transfer-fill {
     width: 40% !important;
-    animation: openbitfun-files-panel-transfer-indeterminate 1.1s ease-in-out infinite;
+    animation: opc-files-panel-transfer-indeterminate 1.1s ease-in-out infinite;
   }
 
   &__transfer-fill {
@@ -428,7 +428,7 @@
     transition: width var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
   }
 
-  @keyframes openbitfun-files-panel-transfer-indeterminate {
+  @keyframes opc-files-panel-transfer-indeterminate {
     0% {
       transform: translateX(-100%);
     }
@@ -465,7 +465,7 @@
     border: 2px solid var(--opcteam-color-action-neutral-surface);
     border-top: 2px solid var(--opcteam-color-accent-hover);
     border-radius: var(--opcteam-radius-pill);
-    animation: openbitfun-files-panel-spin 1s linear infinite;
+    animation: opc-files-panel-spin 1s linear infinite;
     margin-bottom: var(--opcteam-space-3);
   }
 
@@ -515,7 +515,7 @@
 }
 
 // ==================== Animation Definitions ====================
-@keyframes openbitfun-files-panel-spin {
+@keyframes opc-files-panel-spin {
   from {
     transform: rotate(0deg);
   }
@@ -528,7 +528,7 @@
 
 // Compact mode
 @container files-panel (max-width: 140px) {
-  .openbitfun-files-panel {
+  .opc-files-panel {
     &__search {
       padding: 4px 6px;
     }
@@ -584,7 +584,7 @@
 
 // Expanded mode
 @container files-panel (min-width: 360px) {
-  .openbitfun-files-panel {
+  .opc-files-panel {
     &__search {
       padding: var(--opcteam-space-3) var(--opcteam-space-4);
     }
@@ -648,19 +648,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-files-panel__sync-indicator,
-  .openbitfun-files-panel__search-spinner,
-  .openbitfun-files-panel__transfer-track--indeterminate .openbitfun-files-panel__transfer-fill,
-  .openbitfun-files-panel__loading-spinner {
+  .opc-files-panel__sync-indicator,
+  .opc-files-panel__search-spinner,
+  .opc-files-panel__transfer-track--indeterminate .opc-files-panel__transfer-fill,
+  .opc-files-panel__loading-spinner {
     animation: none;
     transform: none;
   }
 }
 
-.openbitfun-files-panel__search-modes[data-openbitfun-component='segmented-control'] {
+.opc-files-panel__search-modes[data-opc-component='segmented-control'] {
   padding: 0;
   background: transparent;
-  > [data-openbitfun-part='segment'] {
+  > [data-opc-part='segment'] {
     block-size: 22px;
   }
 }

@@ -56,9 +56,9 @@
   .resultText { min-inline-size: 0; overflow-wrap: anywhere; }
   button.result { cursor: pointer; }
   button.result:hover { background: var(--opcteam-color-action-quiet-hover); }
-  .root[data-openbitfun-status="error"] .outcome { color: var(--opcteam-color-status-danger-content); }
-  .root[data-openbitfun-status="rejected"] .outcome,
-  .root[data-openbitfun-status="pending_confirmation"] .outcome { color: var(--opcteam-color-status-warning-content); }
+  .root[data-opc-status="error"] .outcome { color: var(--opcteam-color-status-danger-content); }
+  .root[data-opc-status="rejected"] .outcome,
+  .root[data-opc-status="pending_confirmation"] .outcome { color: var(--opcteam-color-status-warning-content); }
   .participant:focus-visible, .result:focus-visible { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: var(--opcteam-focus-offset); }
   .details { display: flex; flex-direction: column; min-inline-size: 0; gap: var(--opcteam-space-4); }
 

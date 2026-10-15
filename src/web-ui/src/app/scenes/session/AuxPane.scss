@@ -2,7 +2,7 @@
  * AuxPane styles — AI Agent scene right pane (ContentCanvas).
  * Renamed from panels/ContentPanel.scss.
  */
-.openbitfun-aux-pane {
+.opc-aux-pane {
   display: flex;
   flex-direction: column;
   background: var(--opcteam-color-surface-workbench);
@@ -58,7 +58,7 @@
 }
 
 @media (max-width: 768px) {
-  .openbitfun-aux-pane {
+  .opc-aux-pane {
     min-width: 50px;
   }
 }

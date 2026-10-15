@@ -3,7 +3,7 @@
  * Optimized display for .plan.md files
  */
 
-.openbitfun-plan-viewer {
+.opc-plan-viewer {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -87,12 +87,12 @@
           opacity 0.15s ease;
 
         svg,
-        [data-openbitfun-component='icon'] {
+        [data-opc-component='icon'] {
           transition: transform 0.15s ease;
         }
 
         &--expanded svg,
-        &--expanded [data-openbitfun-component='icon'] {
+        &--expanded [data-opc-component='icon'] {
           transform: rotate(180deg);
         }
 
@@ -328,7 +328,7 @@
 }
 
 // Spin animation
-@keyframes openbitfun-plan-viewer-spin {
+@keyframes opc-plan-viewer-spin {
   from {
     transform: rotate(0deg);
   }
@@ -338,14 +338,14 @@
 }
 
 .animate-spin {
-  animation: openbitfun-plan-viewer-spin 1s linear infinite;
+  animation: opc-plan-viewer-spin 1s linear infinite;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-plan-viewer {
+  .opc-plan-viewer {
     .header-expand-indicator,
     .header-expand-indicator svg,
-    .header-expand-indicator [data-openbitfun-component='icon'],
+    .header-expand-indicator [data-opc-component='icon'],
     .build-btn {
       transition: none;
     }

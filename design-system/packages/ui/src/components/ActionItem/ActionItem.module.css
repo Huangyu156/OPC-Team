@@ -15,17 +15,17 @@
   }
 
   .root:not([data-disabled="true"]):hover,
-  .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="hover"]) {
+  .root:not([data-disabled="true"]):has(.trigger[data-opc-preview-state="hover"]) {
     background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
   .root:not([data-disabled="true"]):has(.trigger:active),
-  .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="active"]) {
+  .root:not([data-disabled="true"]):has(.trigger[data-opc-preview-state="active"]) {
     background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
   .root:not([data-disabled="true"]):has(.trigger:active) .label,
-  .root:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="active"]) .label {
+  .root:not([data-disabled="true"]):has(.trigger[data-opc-preview-state="active"]) .label {
     font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
@@ -38,17 +38,17 @@
     cursor: not-allowed;
   }
 
-  .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]) {
+  .root[data-opc-tone="danger"]:not([data-disabled="true"]) {
     color: var(--opcteam-color-status-danger-content);
   }
 
-  .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):hover,
-  .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="hover"]) {
+  .root[data-opc-tone="danger"]:not([data-disabled="true"]):hover,
+  .root[data-opc-tone="danger"]:not([data-disabled="true"]):has(.trigger[data-opc-preview-state="hover"]) {
     background: var(--opcteam-color-status-danger-surface);
   }
 
-  .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):has(.trigger:active),
-  .root[data-openbitfun-tone="danger"]:not([data-disabled="true"]):has(.trigger[data-openbitfun-preview-state="active"]) {
+  .root[data-opc-tone="danger"]:not([data-disabled="true"]):has(.trigger:active),
+  .root[data-opc-tone="danger"]:not([data-disabled="true"]):has(.trigger[data-opc-preview-state="active"]) {
     background: var(--opcteam-color-status-danger-surface);
   }
 
@@ -85,7 +85,7 @@
   }
 
   .leading > :where(svg, img),
-  .leading > [data-openbitfun-component="icon"] {
+  .leading > [data-opc-component="icon"] {
     display: block;
     inline-size: 100%;
     block-size: 100%;

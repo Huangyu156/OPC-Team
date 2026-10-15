@@ -344,20 +344,13 @@ pub fn set_unread_count(app: &AppHandle, count: u32) -> Result<(), String> {
 
 #[cfg(target_os = "macos")]
 fn macos_tray_icon() -> Result<tauri::image::Image<'static>, image::ImageError> {
+    // The light export of the vector mark renders on a transparent canvas with
+    // a full-bleed hexagon ring, so it needs no border cropping. AppKit's
+    // template rendering uses alpha only, so the light gray tone stays out.
     let mark = image::load_from_memory(include_bytes!(
-        "../../../../assets/brand/source/openbitfun-app-mark.png"
+        "../../../../assets/brand/exports/opc-mark-light-512.png"
     ))?
     .into_rgba8();
-    // The solid source has a 51 px transparent border on its 512 px canvas.
-    // Remove that border symmetrically so the ring retains its proportions and
-    // fills the same 18 pt menu bar height as the previous mark. AppKit's
-    // template rendering uses alpha, so the source's gray shading stays out.
-    let mut mark = image::imageops::crop_imm(&mark, 51, 51, 410, 410).to_image();
-    // Add an inset copy to shrink the hole by about 10% without expanding the
-    // outer silhouette. This adds roughly 0.7 pt to the thin side walls at the
-    // native 18 pt display size, where the unmodified app mark looks too light.
-    let inset = image::imageops::resize(&mark, 370, 370, image::imageops::FilterType::Lanczos3);
-    image::imageops::overlay(&mut mark, &inset, 20, 20);
     let mark = image::imageops::resize(&mark, 64, 64, image::imageops::FilterType::Lanczos3);
     let image = mark;
     let (width, height) = image.dimensions();

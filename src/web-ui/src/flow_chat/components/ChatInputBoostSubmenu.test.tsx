@@ -177,9 +177,9 @@ describe('ChatInputBoostSubmenu', () => {
       expect(panels).toHaveLength(1);
       expect(panels[0].id).toBe(trigger.getAttribute('aria-controls'));
       if (trigger === harness) {
-        expect((panels[0] as HTMLElement).dataset.openbitfunPage).toBe('profiles');
+        expect((panels[0] as HTMLElement).dataset.opcPage).toBe('profiles');
         act(() => document.querySelector<HTMLButtonElement>('[data-testid="harness-profile-other"]')!.click());
-        expect((panels[0] as HTMLElement).dataset.openbitfunPage).toBe('agents');
+        expect((panels[0] as HTMLElement).dataset.opcPage).toBe('agents');
       }
     }
 

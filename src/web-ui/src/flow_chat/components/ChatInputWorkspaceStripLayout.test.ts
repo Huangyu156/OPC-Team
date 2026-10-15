@@ -416,7 +416,7 @@ describe('composer context track layout', () => {
     expect(component).toContain(
       'clone.querySelector(\n      \'[data-opc-component="chat-composer"] [data-opc-part="surface"]\'',
     );
-    expect(component).toContain("cloneComposerSurfaceEl.dataset.openbitfunLayout = 'compact';");
+    expect(component).toContain("cloneComposerSurfaceEl.dataset.opcLayout = 'compact';");
     expect(component).toContain('const singleLineThreshold = paddingBlock + singleLineHeight * 1.5;');
     expect(component).toContain('naturalHeightMeasured > singleLineThreshold');
     expect(component).not.toContain('naturalHeightMeasured > 32');

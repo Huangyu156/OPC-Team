@@ -4,10 +4,10 @@
   .root[data-disabled="true"] { color: var(--opcteam-color-content-disabled); cursor: not-allowed; }
 
   @media (hover: hover) and (pointer: fine) {
-    .root:is(:hover, [data-openbitfun-preview-state="hover"]):not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-hover); }
+    .root:is(:hover, [data-opc-preview-state="hover"]):not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-hover); }
   }
-  .root:is(:active, [data-openbitfun-preview-state="active"]):not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-pressed); }
-  .root:is(:has(.input:focus-visible), [data-openbitfun-preview-state="focus-visible"]) { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: var(--opcteam-focus-offset); }
+  .root:is(:active, [data-opc-preview-state="active"]):not([data-disabled="true"]) { background: var(--opcteam-color-action-neutral-surface-pressed); }
+  .root:is(:has(.input:focus-visible), [data-opc-preview-state="focus-visible"]) { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: var(--opcteam-focus-offset); }
 
   /* The box is the web Checkbox at touch scale: same tokens, 20px instead of 14px, so it can carry
      the row's weight without a second visual language. */
@@ -26,5 +26,5 @@
   .root[data-disabled="true"] .label, .root[data-disabled="true"] .description { color: inherit; }
 
   @media (prefers-reduced-motion: reduce) { .root, .box { transition: none; } }
-  @media (forced-colors: active) { .root[data-appearance="surface"], .box { border-color: ButtonText; } .root[data-checked="true"] .box, .root[data-indeterminate="true"] .box { border-color: Highlight; color: HighlightText; background: Highlight; } .root:has(.input:focus-visible), .root[data-openbitfun-preview-state="focus-visible"] { outline-color: Highlight; } }
+  @media (forced-colors: active) { .root[data-appearance="surface"], .box { border-color: ButtonText; } .root[data-checked="true"] .box, .root[data-indeterminate="true"] .box { border-color: Highlight; color: HighlightText; background: Highlight; } .root:has(.input:focus-visible), .root[data-opc-preview-state="focus-visible"] { outline-color: Highlight; } }
 }

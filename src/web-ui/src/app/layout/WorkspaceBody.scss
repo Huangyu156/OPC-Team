@@ -10,13 +10,13 @@ $_nav-collapsed-width: 76px;
 $_nav-bar-height: var(--opcteam-layout-toolbar-md-height);
 $_resize-target-width: 6px;
 
-.openbitfun-workspace-body {
+.opc-workspace-body {
   --nav-width: #{$_nav-width};
 
   @include shell-surfaces.sidebar-background;
 
-  :root[data-openbitfun-native-material='sidebar'] &,
-  .openbitfun-app-layout[data-openbitfun-background-media='video'] & {
+  :root[data-opc-native-material='sidebar'] &,
+  .opc-app-layout[data-opc-background-media='video'] & {
     background: transparent;
   }
 
@@ -34,7 +34,7 @@ $_resize-target-width: 6px;
   gap: 0;
 }
 
-.openbitfun-workspace-body__material {
+.opc-workspace-body__material {
   @include shell-surfaces.sidebar-glass;
 
   // A single background continues through the scene's exposed rounded corners.
@@ -45,7 +45,7 @@ $_resize-target-width: 6px;
   pointer-events: none;
 }
 
-.openbitfun-workspace-body__nav-area {
+.opc-workspace-body__nav-area {
   position: relative;
   z-index: 3;
   display: flex;
@@ -57,17 +57,17 @@ $_resize-target-width: 6px;
   overflow: visible;
 
   // The shared material stays visible through every navigation mode.
-  > .openbitfun-nav-bar,
-  > .openbitfun-nav-panel,
-  .openbitfun-nav-panel__brand-header,
-  .openbitfun-nav-panel__sticky-section-header,
-  .openbitfun-nav-panel__layer--scene,
-  .openbitfun-nav-panel [data-openbitfun-component='navigation-panel'] {
+  > .opc-nav-bar,
+  > .opc-nav-panel,
+  .opc-nav-panel__brand-header,
+  .opc-nav-panel__sticky-section-header,
+  .opc-nav-panel__layer--scene,
+  .opc-nav-panel [data-opc-component='navigation-panel'] {
     background: transparent;
   }
 
   // Settings and other scene navigation share the same material as MainNav.
-  [data-openbitfun-component='search-field'] > [data-openbitfun-component='input'] {
+  [data-opc-component='search-field'] > [data-opc-component='input'] {
     @include shell-surfaces.sidebar-overlay(var(--opcteam-color-field-background));
 
     &:hover,
@@ -78,7 +78,7 @@ $_resize-target-width: 6px;
 
   // Keep the gear on the shared material, including IconButton's ::before
   // surface. Icon color and the keyboard focus ring provide interaction feedback.
-  .openbitfun-nav-panel__footer-btn--icon {
+  .opc-nav-panel__footer-btn--icon {
     &,
     &:is(:hover, :active, .is-active, .is-hover-open) {
       background: transparent;
@@ -98,7 +98,7 @@ $_resize-target-width: 6px;
   }
 }
 
-.openbitfun-workspace-body__collapsed-nav {
+.opc-workspace-body__collapsed-nav {
   position: absolute;
   top: 0;
   left: 0;
@@ -107,7 +107,7 @@ $_resize-target-width: 6px;
   height: $_nav-bar-height;
 }
 
-.openbitfun-workspace-body__nav-divider {
+.opc-workspace-body__nav-divider {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -120,7 +120,7 @@ $_resize-target-width: 6px;
   background: transparent;
 }
 
-.openbitfun-workspace-body__scene-area {
+.opc-workspace-body__scene-area {
   position: relative;
   z-index: 1;
   display: flex;
@@ -132,7 +132,7 @@ $_resize-target-width: 6px;
   background: transparent;
 }
 
-.openbitfun-workspace-body__scene-surface {
+.opc-workspace-body__scene-surface {
   --_scene-surface-radius: var(--opcteam-layout-split-view-content-panel-radius);
 
   position: relative;
@@ -148,7 +148,7 @@ $_resize-target-width: 6px;
   background: var(--opcteam-color-surface-scene);
   box-shadow: -4px 0 12px -6px color-mix(in srgb, var(--opcteam-color-content-muted) 8%, transparent);
 
-  :root[data-openbitfun-appearance-mode='dark'] & {
+  :root[data-opc-appearance-mode='dark'] & {
     box-shadow: -5px 0 16px -7px color-mix(in srgb, var(--opcteam-color-content-on-light) 30%, transparent);
   }
 
@@ -172,33 +172,33 @@ $_resize-target-width: 6px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .openbitfun-workspace-body__nav-divider:hover ~ .openbitfun-workspace-body__scene-area {
-    .openbitfun-workspace-body__scene-surface::after {
+  .opc-workspace-body__nav-divider:hover ~ .opc-workspace-body__scene-area {
+    .opc-workspace-body__scene-surface::after {
       border-color: var(--opcteam-color-border-subtle);
       opacity: 1;
     }
   }
 }
 
-.openbitfun-is-resizing-nav .openbitfun-workspace-body__scene-surface::after {
+.opc-is-resizing-nav .opc-workspace-body__scene-surface::after {
   border-color: var(--opcteam-color-border-default);
   opacity: 1;
 }
 
 // The compact toolbar remains reachable when the navigation panel is hidden.
-.openbitfun-workspace-body__nav-area.is-collapsed + .openbitfun-workspace-body__scene-area {
-  .openbitfun-workspace-body__scene-surface .openbitfun-scene-top-bar {
+.opc-workspace-body__nav-area.is-collapsed + .opc-workspace-body__scene-area {
+  .opc-workspace-body__scene-surface .opc-scene-top-bar {
     padding-left: calc(#{$_nav-collapsed-width} + var(--opcteam-space-1));
   }
 }
 
 // Move during AppKit's transition, before the traffic lights return. Only
 // the moving toolbar accepts pointer events; no clipping hides the controls.
-.openbitfun-app-layout--macos .openbitfun-workspace-body__collapsed-nav {
+.opc-app-layout--macos .opc-workspace-body__collapsed-nav {
   width: calc(#{$_nav-collapsed-width} + 72px);
   pointer-events: none;
 
-  > .openbitfun-nav-bar {
+  > .opc-nav-bar {
     box-sizing: border-box;
     width: $_nav-collapsed-width;
     pointer-events: auto;
@@ -207,47 +207,47 @@ $_resize-target-width: 6px;
   }
 }
 
-.openbitfun-app-layout--macos.openbitfun-app-layout--fullscreen-chrome .openbitfun-workspace-body__collapsed-nav {
-  > .openbitfun-nav-bar {
+.opc-app-layout--macos.opc-app-layout--fullscreen-chrome .opc-workspace-body__collapsed-nav {
+  > .opc-nav-bar {
     transform: translateX(0);
   }
 }
 
-.openbitfun-app-layout--macos .openbitfun-workspace-body__nav-area.is-collapsed + .openbitfun-workspace-body__scene-area {
-  .openbitfun-workspace-body__scene-surface .openbitfun-scene-top-bar {
+.opc-app-layout--macos .opc-workspace-body__nav-area.is-collapsed + .opc-workspace-body__scene-area {
+  .opc-workspace-body__scene-surface .opc-scene-top-bar {
     transition: padding-left var(--opcteam-motion-duration-content-swap) var(--opcteam-motion-easing-standard);
   }
 }
 
 // Reserve traffic-light space only while the native window is not fullscreen.
-.openbitfun-app-layout--macos:not(.openbitfun-app-layout--fullscreen-chrome) .openbitfun-workspace-body__nav-area.is-collapsed + .openbitfun-workspace-body__scene-area {
-  .openbitfun-workspace-body__scene-surface .openbitfun-scene-top-bar {
+.opc-app-layout--macos:not(.opc-app-layout--fullscreen-chrome) .opc-workspace-body__nav-area.is-collapsed + .opc-workspace-body__scene-area {
+  .opc-workspace-body__scene-surface .opc-scene-top-bar {
     padding-left: calc(#{$_nav-collapsed-width} + var(--opcteam-space-1) + 72px);
   }
 }
 
-.openbitfun-workspace-body__nav-area.is-collapsed .openbitfun-nav-bar--macos .openbitfun-nav-bar__logo-menu {
+.opc-workspace-body__nav-area.is-collapsed .opc-nav-bar--macos .opc-nav-bar__logo-menu {
   display: none;
 }
 
-.openbitfun-workspace-body__nav-panel {
+.opc-workspace-body__nav-panel {
   width: 100%;
   max-width: 100%;
   min-width: 0;
 }
 
-.openbitfun-is-dragging-nav-collapse,
-.openbitfun-is-dragging-nav-collapse * {
+.opc-is-dragging-nav-collapse,
+.opc-is-dragging-nav-collapse * {
   cursor: ew-resize !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-app-layout--macos .openbitfun-workspace-body__collapsed-nav > .openbitfun-nav-bar,
-  .openbitfun-app-layout--macos .openbitfun-workspace-body__nav-area.is-collapsed + .openbitfun-workspace-body__scene-area .openbitfun-workspace-body__scene-surface .openbitfun-scene-top-bar {
+  .opc-app-layout--macos .opc-workspace-body__collapsed-nav > .opc-nav-bar,
+  .opc-app-layout--macos .opc-workspace-body__nav-area.is-collapsed + .opc-workspace-body__scene-area .opc-workspace-body__scene-surface .opc-scene-top-bar {
     transition: none;
   }
 
-  .openbitfun-workspace-body__scene-surface::after {
+  .opc-workspace-body__scene-surface::after {
     transition: none;
   }
 }

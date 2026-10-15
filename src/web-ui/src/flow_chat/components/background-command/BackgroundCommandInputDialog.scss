@@ -33,7 +33,7 @@
   }
 
   &__textarea {
-    .openbitfun-textarea__field {
+    .opc-textarea__field {
       min-height: 96px;
       resize: vertical;
       font-family:var(--opcteam-type-code-md-font-family);
@@ -41,7 +41,7 @@
       line-height: var(--opcteam-type-body-sm-line-height);
     }
 
-    &--masked .openbitfun-textarea__field {
+    &--masked .opc-textarea__field {
       -webkit-text-security: disc;
     }
   }

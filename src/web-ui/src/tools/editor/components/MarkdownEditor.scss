@@ -2,7 +2,7 @@
 @use '@/infrastructure/markdown/table' as markdownTable;
 @use '../styles/markdown-editor-layout' as markdownLayout;
 
-.openbitfun-markdown-editor {
+.opc-markdown-editor {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -12,18 +12,18 @@
   overflow: hidden;
 }
 
-.openbitfun-markdown-editor__mode-toolbar {
+.opc-markdown-editor__mode-toolbar {
   background: var(--opcteam-color-surface-scene);
   flex-shrink: 0;
 }
 
-.openbitfun-markdown-editor__body,
-.openbitfun-markdown-editor__unsafe-body {
+.opc-markdown-editor__body,
+.opc-markdown-editor__unsafe-body {
   min-height: 0;
   flex: 1;
 }
 
-.openbitfun-markdown-editor-loading {
+.opc-markdown-editor-loading {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,7 +33,7 @@
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-markdown-editor-error {
+.opc-markdown-editor-error {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -460,9 +460,9 @@
 
 }
 
-:root[data-openbitfun-appearance-mode="light"] .m-editor .markdown-body,
-:root[data-openbitfun-appearance-mode="light"] .m-editor .markdown-body,
-[data-openbitfun-appearance-mode="light"] .m-editor .markdown-body,
+:root[data-opc-appearance-mode="light"] .m-editor .markdown-body,
+:root[data-opc-appearance-mode="light"] .m-editor .markdown-body,
+[data-opc-appearance-mode="light"] .m-editor .markdown-body,
 .light .m-editor .markdown-body {
   code {
     color: markdownCode.$inline-code-fg-light;

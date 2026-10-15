@@ -1,4 +1,4 @@
-.openbitfun-git-settings-view {
+.opc-git-settings-view {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -292,7 +292,7 @@
   }
 
   &__loading-spinner {
-    animation: openbitfun-git-settings-view-spin 1s linear infinite;
+    animation: opc-git-settings-view-spin 1s linear infinite;
   }
 
   &__error-message {
@@ -330,7 +330,7 @@
   }
 }
 
-@keyframes openbitfun-git-settings-view-spin {
+@keyframes opc-git-settings-view-spin {
   from {
     transform: rotate(0deg);
   }
@@ -340,13 +340,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-git-settings-view__loading-spinner {
+  .opc-git-settings-view__loading-spinner {
     animation: none;
   }
 }
 
 @media (max-width: 768px) {
-  .openbitfun-git-settings-view {
+  .opc-git-settings-view {
     &__header {
       flex-direction: column;
       gap: var(--opcteam-space-2);

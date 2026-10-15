@@ -1,4 +1,4 @@
-.openbitfun-acp-plan {
+.opc-acp-plan {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -47,7 +47,7 @@
     &--completed {
       color: var(--opcteam-color-content-muted);
 
-      .openbitfun-acp-plan__content {
+      .opc-acp-plan__content {
         text-decoration: line-through;
       }
     }
@@ -67,7 +67,7 @@
 
     &--active {
       color: var(--opcteam-color-accent-default);
-      animation: openbitfun-acp-plan-spin 1.2s linear infinite;
+      animation: opc-acp-plan-spin 1.2s linear infinite;
     }
 
     &--pending {
@@ -81,7 +81,7 @@
   }
 }
 
-@keyframes openbitfun-acp-plan-spin {
+@keyframes opc-acp-plan-spin {
   from {
     transform: rotate(0deg);
   }
@@ -92,7 +92,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-acp-plan__icon--active {
+  .opc-acp-plan__icon--active {
     animation: none;
   }
 }

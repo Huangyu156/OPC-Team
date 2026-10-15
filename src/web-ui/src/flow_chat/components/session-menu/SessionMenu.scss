@@ -4,12 +4,12 @@
  */
 $session-menu-timing: cubic-bezier(0.4, 0, 0.2, 1);
 
-.openbitfun-session-menu {
+.opc-session-menu {
   position: relative;
   pointer-events: auto;
 }
 
-.openbitfun-session-menu__trigger {
+.opc-session-menu__trigger {
   flex-shrink: 0;
   width: 22px;
   height: 22px;
@@ -43,7 +43,7 @@ $session-menu-timing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.openbitfun-session-menu__dropdown {
+.opc-session-menu__dropdown {
   --session-menu-entry-y: -4px;
   --opcteam-overlay-menu-inline-size: min(220px, calc(100vw - 16px));
   --opcteam-overlay-menu-max-block-size: min(360px, calc(100vh - 16px));
@@ -52,26 +52,26 @@ $session-menu-timing: cubic-bezier(0.4, 0, 0.2, 1);
   animation: session-menu-appear 0.2s $session-menu-timing;
   transform-origin: top left;
 
-  &[data-openbitfun-placement='top'] {
+  &[data-opc-placement='top'] {
     --session-menu-entry-y: 4px;
     transform-origin: bottom left;
   }
 
 }
 
-.openbitfun-session-menu__actions {
+.opc-session-menu__actions {
   flex: 0 0 auto;
 }
 
-.openbitfun-session-menu__scroll {
+.opc-session-menu__scroll {
   min-height: 0;
 }
 
-.openbitfun-session-menu__item {
+.opc-session-menu__item {
   &--new {
     font-weight: var(--opcteam-type-label-sm-font-weight);
 
-    &:hover .openbitfun-session-menu__item-icon {
+    &:hover .opc-session-menu__item-icon {
       background: var(--opcteam-color-action-secondary-pressed);
       color: var(--opcteam-color-accent-default);
     }
@@ -79,7 +79,7 @@ $session-menu-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Round plus badge on the "new session" rows, matching the sidebar header. */
-.openbitfun-session-menu__item-icon {
+.opc-session-menu__item-icon {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
@@ -92,14 +92,14 @@ $session-menu-timing: cubic-bezier(0.4, 0, 0.2, 1);
   transition: background 0.1s ease, color 0.1s ease;
 }
 
-.openbitfun-session-menu__item-label {
+.opc-session-menu__item-label {
   min-width: 0;
   flex: 1;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.openbitfun-session-menu__divider {
+.opc-session-menu__divider {
   margin: 4px 8px;
 }
 

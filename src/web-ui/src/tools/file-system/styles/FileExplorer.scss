@@ -4,7 +4,7 @@ $_node-padding-x: 8px;
 $_icon-size: 16px;
 $_indent-width: 8px;
 
-.openbitfun-file-explorer {
+.opc-file-explorer {
   height: 100%;
   overflow: hidden;
   display: flex;
@@ -21,7 +21,7 @@ $_indent-width: 8px;
   }
 }
 
-.openbitfun-file-explorer__toolbar {
+.opc-file-explorer__toolbar {
   position: absolute;
   top: var(--opcteam-space-2);
   right: var(--opcteam-space-1);
@@ -47,18 +47,18 @@ $_indent-width: 8px;
   
 }
 
-.openbitfun-file-explorer__empty {
+.opc-file-explorer__empty {
   text-align: center;
   color: var(--opcteam-color-content-muted);
   padding: var(--opcteam-space-8);
 }
 
-.openbitfun-file-explorer__empty-icon {
+.opc-file-explorer__empty-icon {
   margin-bottom: var(--opcteam-space-4);
   opacity: var(--opcteam-opacity-disabled);
 }
 
-.openbitfun-file-explorer__breadcrumb {
+.opc-file-explorer__breadcrumb {
   display: flex;
   align-items: center;
   gap: 1px;
@@ -78,14 +78,14 @@ $_indent-width: 8px;
     border-color 140ms ease;
 }
 
-.openbitfun-file-explorer__breadcrumb-separator {
+.opc-file-explorer__breadcrumb-separator {
   color: var(--opcteam-color-content-disabled);
   flex-shrink: 0;
   opacity: 0.4;
   margin: 0 1px;
 }
 
-.openbitfun-file-explorer__breadcrumb-item {
+.opc-file-explorer__breadcrumb-item {
   white-space: nowrap;
   overflow: hidden;
   max-width: 100px;
@@ -110,7 +110,7 @@ $_indent-width: 8px;
   }
 }
 
-.openbitfun-file-explorer__tree {
+.opc-file-explorer__tree {
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -119,15 +119,15 @@ $_indent-width: 8px;
 
 }
 
-.openbitfun-file-explorer__tree--virtual > div {
+.opc-file-explorer__tree--virtual > div {
   scrollbar-gutter: stable;
 }
 
-.openbitfun-file-explorer__node {
+.opc-file-explorer__node {
   user-select: none;
 }
 
-.openbitfun-file-explorer__node-content {
+.opc-file-explorer__node-content {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -166,7 +166,7 @@ $_indent-width: 8px;
     background: var(--opcteam-domain-git-branch-background);
     color: var(--opcteam-domain-git-branch);
 
-    .openbitfun-file-explorer__node-name {
+    .opc-file-explorer__node-name {
       color: var(--opcteam-domain-git-branch);
       font-weight: var(--opcteam-type-label-sm-font-weight);
     }
@@ -202,7 +202,7 @@ $_indent-width: 8px;
       z-index: 1;
     }
     
-    .openbitfun-file-explorer__node-name {
+    .opc-file-explorer__node-name {
       color: var(--opcteam-domain-git-branch);
       font-weight: var(--opcteam-type-label-sm-font-weight);
     }
@@ -214,7 +214,7 @@ $_indent-width: 8px;
   to { opacity: 0; }
 }
 
-.openbitfun-file-explorer__expand-icon {
+.opc-file-explorer__expand-icon {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -225,27 +225,27 @@ $_indent-width: 8px;
   flex-shrink: 0;
   min-width: $_icon-size;
 
-  > svg:not(.openbitfun-file-explorer__loading-icon) {
+  > svg:not(.opc-file-explorer__loading-icon) {
     transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
   }
 
-  &--expanded > svg:not(.openbitfun-file-explorer__loading-icon) {
+  &--expanded > svg:not(.opc-file-explorer__loading-icon) {
     transform: rotate(90deg);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-file-explorer__node-content--highlighted::after {
+  .opc-file-explorer__node-content--highlighted::after {
     opacity: 0.2;
     animation: none;
   }
 
-  .openbitfun-file-explorer__expand-icon > svg {
+  .opc-file-explorer__expand-icon > svg {
     transition: none;
   }
 }
 
-.openbitfun-file-explorer__icon {
+.opc-file-explorer__icon {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -308,7 +308,7 @@ $_indent-width: 8px;
   }
 }
 
-.openbitfun-file-explorer__node-wrapper {
+.opc-file-explorer__node-wrapper {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -318,7 +318,7 @@ $_indent-width: 8px;
   min-width: 0;
 }
 
-.openbitfun-file-explorer__node-name {
+.opc-file-explorer__node-name {
   flex: 1;
   font-size: var(--opcteam-type-label-md-font-size);
   font-weight: var(--opcteam-type-body-sm-font-weight);
@@ -329,23 +329,23 @@ $_indent-width: 8px;
   color: inherit;
 }
 
-.openbitfun-file-explorer__rename-input-wrapper {
+.opc-file-explorer__rename-input-wrapper {
   flex: 1;
   min-width: 0;
   z-index: 10;
 }
 
-.openbitfun-file-explorer__rename-input {
+.opc-file-explorer__rename-input {
   width: 100%;
 }
 
-.openbitfun-file-explorer__compressed-path {
+.opc-file-explorer__compressed-path {
   font-style: italic;
   opacity: 0.85;
   color: var(--opcteam-color-content-muted);
 }
 
-.openbitfun-file-explorer__node-size {
+.opc-file-explorer__node-size {
   font-size: var(--opcteam-type-label-sm-font-size);
   color: var(--opcteam-color-content-muted);
   opacity: 0.7;
@@ -354,7 +354,7 @@ $_indent-width: 8px;
   z-index: 2;
 }
 
-.openbitfun-file-explorer__node-modified {
+.opc-file-explorer__node-modified {
   font-size: var(--opcteam-type-label-sm-font-size);
   color: var(--opcteam-color-content-muted);
   opacity: 0.7;
@@ -363,7 +363,7 @@ $_indent-width: 8px;
   z-index: 2;
 }
 
-.openbitfun-file-explorer__node-actions {
+.opc-file-explorer__node-actions {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -374,17 +374,17 @@ $_indent-width: 8px;
   position: relative;
   z-index: 2;
 
-  .openbitfun-file-explorer__node-content:hover & {
+  .opc-file-explorer__node-content:hover & {
     opacity: 1;
   }
 }
 
-.openbitfun-file-explorer__node-children {
+.opc-file-explorer__node-children {
   // Indentation is computed in JS via paddingLeft; avoid additional spacing here.
   position: relative;
 }
 
-.openbitfun-file-explorer__load-more {
+.opc-file-explorer__load-more {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -416,7 +416,7 @@ $_indent-width: 8px;
   }
 }
 
-.openbitfun-file-explorer__empty-message {
+.opc-file-explorer__empty-message {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -427,22 +427,22 @@ $_indent-width: 8px;
 }
 
 @media (max-width: 767px) {
-  .openbitfun-file-explorer__node-content {
+  .opc-file-explorer__node-content {
     padding: 6px $_node-padding-x;
     min-height: 32px;
   }
 
-  .openbitfun-file-explorer__node-name {
+  .opc-file-explorer__node-name {
     font-size: var(--opcteam-type-body-md-font-size);
   }
 
-  .openbitfun-file-explorer__node-size,
-  .openbitfun-file-explorer__node-modified {
+  .opc-file-explorer__node-size,
+  .opc-file-explorer__node-modified {
     display: none;
   }
 }
 
-// .file-explorer { @extend .openbitfun-file-explorer; }
-// .file-tree { @extend .openbitfun-file-explorer__tree; }
-// .file-tree-node { @extend .openbitfun-file-explorer__node; }
-// .node-content { @extend .openbitfun-file-explorer__node-content; }
+// .file-explorer { @extend .opc-file-explorer; }
+// .file-tree { @extend .opc-file-explorer__tree; }
+// .file-tree-node { @extend .opc-file-explorer__node; }
+// .node-content { @extend .opc-file-explorer__node-content; }

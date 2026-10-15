@@ -78,9 +78,9 @@
   /* Prevent unwanted wrapping of short inline text */
   .thinking-label,
   .thinking-collapsed-header,
-  [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='action'],
-  [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='content'],
-  [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='extra'],
+  [data-opc-component='flow-chat-tool-card'][data-opc-part='action'],
+  [data-opc-component='flow-chat-tool-card'][data-opc-part='content'],
+  [data-opc-component='flow-chat-tool-card'][data-opc-part='extra'],
   .export-content__title,
   .export-content__timestamp,
   .export-content__footer span,
@@ -229,8 +229,8 @@
     
     // Hide tool card action buttons and expanded content.
     .tool-card__actions,
-    [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='actionRegion'],
-    [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-part='expanded'] {
+    [data-opc-component='flow-chat-tool-card'][data-opc-part='actionRegion'],
+    [data-opc-component='flow-chat-tool-card'][data-opc-part='expanded'] {
       display: none !important;
     }
   }

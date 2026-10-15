@@ -2,7 +2,7 @@
  * Cowork example cards styles
  */
 
-.openbitfun-cowork-example-cards {
+.opc-cowork-example-cards {
   border: 1px solid var(--opcteam-color-border-default);
   border-radius: calc(var(--opcteam-control-flow-chat-card-radius) + 2px);
   padding: var(--opcteam-control-flow-chat-card-expanded-padding-inline);
@@ -40,7 +40,7 @@
 }
 
 @media (max-width: 720px) {
-  .openbitfun-cowork-example-cards {
+  .opc-cowork-example-cards {
     &__grid {
       grid-template-columns: 1fr;
     }

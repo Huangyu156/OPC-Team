@@ -15,7 +15,7 @@
   font-variant-numeric: proportional-nums;
 
   > svg,
-  [data-openbitfun-component='icon'] {
+  [data-opc-component='icon'] {
     flex-shrink: 0;
     opacity: 0.95;
   }
@@ -29,7 +29,7 @@
   color: var(--opcteam-color-status-warning-content);
 
   > svg,
-  > [data-openbitfun-component='icon'] {
+  > [data-opc-component='icon'] {
     color: var(--opcteam-color-status-warning-emphasis);
     opacity: 1;
   }
@@ -39,7 +39,7 @@
   color: var(--opcteam-color-code-change-added);
 
   > svg,
-  > [data-openbitfun-component='icon'] {
+  > [data-opc-component='icon'] {
     color: var(--opcteam-color-status-success-emphasis);
     opacity: 1;
   }
@@ -50,7 +50,7 @@
   color: var(--opcteam-color-status-danger-content);
 
   > svg,
-  > [data-openbitfun-component='icon'] {
+  > [data-opc-component='icon'] {
     color: var(--opcteam-color-status-danger-emphasis);
     opacity: 1;
   }

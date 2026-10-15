@@ -8,7 +8,7 @@ $transition-duration: 0.25s;
 $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 
 // Full-window container; draggable.
-.openbitfun-toolbar-mode {
+.opc-toolbar-mode {
   position: fixed;
   top: 0;
   left: 0;
@@ -62,7 +62,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.openbitfun-toolbar-mode[data-openbitfun-communication-mode='voice'] {
+.opc-toolbar-mode[data-opc-communication-mode='voice'] {
   border: 0;
   border-radius: calc(var(--opcteam-space-8) + var(--opcteam-space-1));
   background: transparent;
@@ -71,7 +71,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   &::before { content: none; }
 }
 
-.openbitfun-toolbar-mode__header {
+.opc-toolbar-mode__header {
   flex: 0 0 auto;
   height: 32px;
   position: relative;
@@ -86,11 +86,11 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 // macOS overlay titlebar: reserve left space for traffic light buttons
-.openbitfun-toolbar-mode--macos .openbitfun-toolbar-mode__header {
+.opc-toolbar-mode--macos .opc-toolbar-mode__header {
   padding-left: 78px;
 }
 
-.openbitfun-toolbar-mode__header-left {
+.opc-toolbar-mode__header-left {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -98,17 +98,17 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
-.openbitfun-toolbar-mode__session-menu-root {
+.opc-toolbar-mode__session-menu-root {
   position: relative;
   pointer-events: auto;
 }
 
-.openbitfun-toolbar-mode__session-menu-trigger--open {
+.opc-toolbar-mode__session-menu-trigger--open {
   background: var(--opcteam-color-action-neutral-surface);
   color: var(--opcteam-color-accent-default);
 }
 
-.openbitfun-toolbar-mode__header-right {
+.opc-toolbar-mode__header-right {
   flex: 1 1 auto;
   display: flex;
   align-items: center;
@@ -119,7 +119,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
-.openbitfun-toolbar-mode__header-overflow {
+.opc-toolbar-mode__header-overflow {
   position: relative;
   flex-shrink: 0;
   display: flex;
@@ -127,14 +127,14 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
 }
 
-.openbitfun-toolbar-mode__header-collapsed-actions {
+.opc-toolbar-mode__header-collapsed-actions {
   display: flex;
   align-items: center;
   gap: 6px;
   flex-shrink: 0;
 }
 
-.openbitfun-toolbar-mode__create-btn {
+.opc-toolbar-mode__create-btn {
   flex-shrink: 0;
   width: 22px;
   height: 22px;
@@ -163,7 +163,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.openbitfun-toolbar-mode__title-wrapper {
+.opc-toolbar-mode__title-wrapper {
   // Horizontally centered in the header bar; width follows title up to max-width.
   position: absolute;
   left: 50%;
@@ -176,7 +176,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: auto;
 }
 
-.openbitfun-toolbar-mode__header-drag-area {
+.opc-toolbar-mode__header-drag-area {
   flex: 1 1 auto;
   min-width: 12px;
   min-height: 100%;
@@ -184,7 +184,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   pointer-events: none;
 }
 
-.openbitfun-toolbar-mode__title-display {
+.opc-toolbar-mode__title-display {
   width: 100%;
   min-width: 0;
   max-width: 100%;
@@ -199,7 +199,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: var(--opcteam-radius-sm);
 }
 
-.openbitfun-toolbar-mode__title-text {
+.opc-toolbar-mode__title-text {
   min-width: 0;
   flex: 1 1 auto;
   overflow: hidden;
@@ -207,18 +207,18 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
 }
 
-.openbitfun-toolbar-mode__session-menu {
+.opc-toolbar-mode__session-menu {
   display: flex;
   flex-direction: column;
   min-height: 0;
   max-height: inherit;
 }
 
-.openbitfun-toolbar-mode__session-menu-actions {
+.opc-toolbar-mode__session-menu-actions {
   flex: 0 0 auto;
 }
 
-.openbitfun-toolbar-mode__session-menu-scroll {
+.opc-toolbar-mode__session-menu-scroll {
   flex: 1 1 auto;
   min-height: 0;
   /* 仅列表区域限高，滚轮 / 触控板滚动 */
@@ -231,7 +231,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   -ms-overflow-style: auto;
 }
 
-.openbitfun-toolbar-mode__session-dropdown {
+.opc-toolbar-mode__session-dropdown {
   @include surfaces.floating;
 
   position: absolute;
@@ -248,20 +248,20 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   animation: dropdown-appear 0.2s $transition-timing;
   transform-origin: top left;
 
-  .openbitfun-toolbar-mode__session-menu {
+  .opc-toolbar-mode__session-menu {
     max-height: inherit;
   }
 
-  .openbitfun-toolbar-mode__session-menu-actions .openbitfun-toolbar-mode__session-item--new:first-of-type {
+  .opc-toolbar-mode__session-menu-actions .opc-toolbar-mode__session-item--new:first-of-type {
     border-radius: 7px 7px 0 0;
   }
 
-  .openbitfun-toolbar-mode__session-menu-scroll .openbitfun-toolbar-mode__session-item:last-child {
+  .opc-toolbar-mode__session-menu-scroll .opc-toolbar-mode__session-item:last-child {
     border-radius: 0 0 7px 7px;
   }
 }
 
-.openbitfun-toolbar-mode__session-picker {
+.opc-toolbar-mode__session-picker {
   flex: 1;
   width: 100%;
   min-height: 0;
@@ -272,20 +272,20 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   border-bottom: 1px solid var(--opcteam-color-border-subtle);
   animation: session-picker-expand 0.25s $transition-timing;
 
-  .openbitfun-toolbar-mode__session-menu {
+  .opc-toolbar-mode__session-menu {
     flex: 1;
     min-height: 0;
   }
 
   /* 紧凑窗体：列表占剩余高度，内部滚动 */
-  .openbitfun-toolbar-mode__session-menu-scroll {
+  .opc-toolbar-mode__session-menu-scroll {
     flex: 1 1 auto;
     min-height: 0;
     max-height: none;
   }
 }
 
-.openbitfun-toolbar-mode__session-item {
+.opc-toolbar-mode__session-item {
   display: block;
   width: 100%;
   box-sizing: border-box;
@@ -318,7 +318,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
     font-weight: var(--opcteam-type-label-sm-font-weight);
     color: var(--opcteam-color-content-primary);
 
-    &:hover .openbitfun-toolbar-mode__session-item-icon {
+    &:hover .opc-toolbar-mode__session-item-icon {
       background: var(--opcteam-color-action-secondary-pressed);
       color: var(--opcteam-color-accent-default);
     }
@@ -326,7 +326,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* “+ 编程会话”：圆底加号，对齐侧栏顶栏 */
-.openbitfun-toolbar-mode__session-item-icon {
+.opc-toolbar-mode__session-item-icon {
   flex-shrink: 0;
   width: 20px;
   height: 20px;
@@ -339,27 +339,27 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   transition: background 0.1s ease, color 0.1s ease;
 }
 
-.openbitfun-toolbar-mode__session-item-label {
+.opc-toolbar-mode__session-item-label {
   min-width: 0;
   flex: 1;
   overflow: hidden;
   white-space: nowrap;
 }
 
-.openbitfun-toolbar-mode__session-list-divider {
+.opc-toolbar-mode__session-list-divider {
   height: 1px;
   margin: 4px 8px;
   background: var(--opcteam-color-border-subtle);
   flex-shrink: 0;
 }
 
-.openbitfun-toolbar-mode__overflow-menu {
+.opc-toolbar-mode__overflow-menu {
   position: fixed;
   z-index: var(--opcteam-layer-popover);
 }
 
 
-.openbitfun-toolbar-mode__content-row {
+.opc-toolbar-mode__content-row {
   flex: 1;
   min-height: 0;
   display: flex;
@@ -370,7 +370,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   animation: content-row-enter 0.2s $transition-timing;
 }
 
-.openbitfun-toolbar-mode__stream-content {
+.opc-toolbar-mode__stream-content {
   flex: 1;
   min-width: 0;
   align-self: stretch;
@@ -381,15 +381,15 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   cursor: pointer;
 
   &:hover {
-    .openbitfun-toolbar-mode__text,
-    .openbitfun-toolbar-mode__tool-summary,
-    .openbitfun-toolbar-mode__todo-current {
+    .opc-toolbar-mode__text,
+    .opc-toolbar-mode__tool-summary,
+    .opc-toolbar-mode__todo-current {
       color: var(--opcteam-color-content-primary);
     }
   }
 }
 
-.openbitfun-toolbar-mode__text {
+.opc-toolbar-mode__text {
   display: block;
   white-space: nowrap;
   overflow: hidden;
@@ -408,7 +408,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.openbitfun-toolbar-mode__tool {
+.opc-toolbar-mode__tool {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -433,7 +433,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.openbitfun-toolbar-mode__todo {
+.opc-toolbar-mode__todo {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -458,7 +458,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.openbitfun-toolbar-mode__controls {
+.opc-toolbar-mode__controls {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -466,7 +466,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   gap: 6px;
 }
 
-.openbitfun-toolbar-mode__input-field {
+.opc-toolbar-mode__input-field {
   flex: 1;
   align-self: center;
   height: 32px;
@@ -495,17 +495,17 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   // The existing variants retain their surfaces; the shared component owns the button.
   &::before { content: none; }
 
-  > [data-openbitfun-part='icon'] {
+  > [data-opc-part='icon'] {
     --opcteam-opacity-icon-artwork: inherit;
     display: contents;
   }
 
-  > :where([data-openbitfun-part='icon']) > :where(svg) {
+  > :where([data-opc-part='icon']) > :where(svg) {
     inline-size: 14px;
     block-size: 14px;
   }
 
-  > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+  > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
     inline-size: 16px;
     block-size: 16px;
   }
@@ -690,7 +690,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 // Host for the reused main-window session surface (ChatPane: conversation +
 // ChatInput). Only sizing is adjusted here — the surface keeps the main
 // window's own look and behavior.
-.openbitfun-toolbar-mode__session-surface {
+.opc-toolbar-mode__session-surface {
   flex: 1;
   min-height: 0;
   min-width: 0;
@@ -700,7 +700,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 
   animation: flowchat-expand-in $transition-duration $transition-timing;
 
-  .openbitfun-chat-pane__content {
+  .opc-chat-pane__content {
     flex: 1;
     min-height: 0;
   }
@@ -713,20 +713,20 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
 
-.openbitfun-toolbar-mode--expanded {
+.opc-toolbar-mode--expanded {
   cursor: default;
 
-  .openbitfun-toolbar-mode__header {
+  .opc-toolbar-mode__header {
     border-bottom-color: var(--opcteam-color-border-default);
   }
 
-  .openbitfun-toolbar-mode__content-row {
+  .opc-toolbar-mode__content-row {
     animation: content-row-exit $transition-duration $transition-timing forwards;
   }
 }
 
 
-.openbitfun-toolbar-mode__expanded-input {
+.opc-toolbar-mode__expanded-input {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -737,7 +737,7 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
   border-top: 1px solid var(--opcteam-color-border-subtle);
   background: var(--opcteam-color-surface-subtle);
 
-  .openbitfun-toolbar-mode__input-field--expanded {
+  .opc-toolbar-mode__input-field--expanded {
     flex: 1;
     height: 36px;
     padding: 0 12px;
@@ -818,9 +818,9 @@ $transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-toolbar-mode,
-  .openbitfun-toolbar-mode--processing::before,
-  .openbitfun-toolbar-mode__text--streaming::after,
+  .opc-toolbar-mode,
+  .opc-toolbar-mode--processing::before,
+  .opc-toolbar-mode__text--streaming::after,
   .toolbar-btn--cancel,
   .animate-spin,
   .animate-pulse {

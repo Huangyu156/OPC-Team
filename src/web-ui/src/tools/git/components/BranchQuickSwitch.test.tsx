@@ -167,7 +167,7 @@ describe('BranchQuickSwitch', () => {
       '[data-testid="branch-quick-switch-option-main"]',
     );
     expect(currentBranch?.getAttribute('aria-selected')).toBe('true');
-    expect(currentBranch?.dataset.openbitfunState).toBe('current');
+    expect(currentBranch?.dataset.opcState).toBe('current');
     expect(currentBranch?.disabled).toBe(false);
   });
 

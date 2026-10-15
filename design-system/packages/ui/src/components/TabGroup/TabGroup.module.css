@@ -71,13 +71,13 @@
 
   .tab:hover:not(:disabled),
   .item:hover .tab:not(:disabled),
-  .tabGroup[data-openbitfun-preview-state="hover"] .tab[aria-selected="false"]:not(:disabled) {
+  .tabGroup[data-opc-preview-state="hover"] .tab[aria-selected="false"]:not(:disabled) {
     background: var(--_tab-background-hover);
     border-color: var(--opcteam-component-button-outline-border-interactive);
   }
 
   .tab:active:not(:disabled),
-  .tabGroup[data-openbitfun-preview-state="active"] .tab[aria-selected="false"]:not(:disabled) {
+  .tabGroup[data-opc-preview-state="active"] .tab[aria-selected="false"]:not(:disabled) {
     background: var(--_tab-background-active);
     border-color: var(--opcteam-component-button-outline-border-interactive);
     font-weight: var(--opcteam-type-label-selected-font-weight);
@@ -106,7 +106,7 @@
   }
 
   .icon > :where(svg, img),
-  .icon > [data-openbitfun-component="icon"] {
+  .icon > [data-opc-component="icon"] {
     display: block;
     inline-size: 100%;
     block-size: 100%;
@@ -129,7 +129,7 @@
   }
 
   /* Native tab actions share the glass material; IconButtons keep their tone and states. */
-  .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])) {
+  .endAction > :where(button, [role="button"]):where(:not([data-opc-component="icon-button"])) {
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -147,16 +147,16 @@
       color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
-  .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])):hover {
+  .endAction > :where(button, [role="button"]):where(:not([data-opc-component="icon-button"])):hover {
     color: var(--opcteam-color-action-neutral-content);
   }
 
-  .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])):focus-visible {
+  .endAction > :where(button, [role="button"]):where(:not([data-opc-component="icon-button"])):focus-visible {
     outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
     outline-offset: var(--opcteam-focus-offset);
   }
 
-  .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])):disabled {
+  .endAction > :where(button, [role="button"]):where(:not([data-opc-component="icon-button"])):disabled {
     color: var(--opcteam-color-action-neutral-content-disabled);
     cursor: not-allowed;
   }
@@ -164,7 +164,7 @@
   @media (prefers-reduced-motion: reduce) {
     .tab,
     .endAction,
-    .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])) {
+    .endAction > :where(button, [role="button"]):where(:not([data-opc-component="icon-button"])) {
       transition: none;
     }
   }
@@ -184,7 +184,7 @@
       outline-color: Highlight;
     }
 
-    .endAction > :where(button, [role="button"]):where(:not([data-openbitfun-component="icon-button"])):focus-visible {
+    .endAction > :where(button, [role="button"]):where(:not([data-opc-component="icon-button"])):focus-visible {
       outline-color: Highlight;
     }
 

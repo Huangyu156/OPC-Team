@@ -116,7 +116,7 @@
     background: var(--opcteam-color-status-warning-surface);
     color: var(--opcteam-color-content-secondary);
 
-    > :is(svg, [data-openbitfun-component='icon']) {
+    > :is(svg, [data-opc-component='icon']) {
       color: var(--opcteam-color-status-warning-emphasis);
     }
   }
@@ -126,7 +126,7 @@
     background: var(--opcteam-color-status-danger-surface);
     color: var(--opcteam-color-status-danger-content);
 
-    > :is(svg, [data-openbitfun-component='icon']) {
+    > :is(svg, [data-opc-component='icon']) {
       color: var(--opcteam-color-status-danger-emphasis);
     }
   }
@@ -157,7 +157,7 @@
   }
 
   &__input-textarea {
-    .openbitfun-textarea__field {
+    .opc-textarea__field {
       min-height: 74px;
       max-height: 180px;
       resize: vertical;
@@ -166,7 +166,7 @@
       line-height: var(--opcteam-type-body-sm-line-height);
     }
 
-    &--masked .openbitfun-textarea__field {
+    &--masked .opc-textarea__field {
       -webkit-text-security: disc;
     }
   }

@@ -99,7 +99,7 @@ describe('SessionMenu', () => {
 
     const dropdown = document.querySelector<HTMLElement>('.opc-session-menu__dropdown');
     expect(dropdown?.closest('[data-opc-overlay-host]')?.getAttribute('data-opc-overlay-host')).toBe('true');
-    expect(dropdown?.dataset.openbitfunPlacement).toBe('top');
+    expect(dropdown?.dataset.opcPlacement).toBe('top');
     expect(dropdown?.style.visibility).toBe('visible');
     expect(Number.parseFloat(dropdown?.style.left ?? '')).toBeLessThanOrEqual(752);
   });

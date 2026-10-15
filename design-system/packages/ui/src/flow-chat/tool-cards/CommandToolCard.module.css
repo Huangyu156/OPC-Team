@@ -5,7 +5,7 @@
 
   /* Seed the expansion transition with transparency instead of currentColor,
      even while the collapsed ambient row has no visible border. */
-  .root > [data-openbitfun-attention="ambient"]:not(.expandedCard) {
+  .root > [data-opc-attention="ambient"]:not(.expandedCard) {
     border-color: transparent;
   }
 
@@ -17,13 +17,13 @@
     background: color-mix(in srgb, var(--opcteam-color-surface-tertiary) 50%, var(--opcteam-color-surface-scene));
   }
 
-  .expandedCard > [data-openbitfun-part="surface"] {
+  .expandedCard > [data-opc-part="surface"] {
     border-block-end: 0;
     background: var(--opcteam-color-surface-tertiary);
   }
 
-  .expandedCard > [data-openbitfun-part="surface"][data-openbitfun-attention="ambient"],
-  .expandedCard [data-openbitfun-part="summary"],
+  .expandedCard > [data-opc-part="surface"][data-opc-attention="ambient"],
+  .expandedCard [data-opc-part="summary"],
   .footerRow {
     box-sizing: border-box;
     min-block-size: calc(var(--opcteam-control-height-sm) + 2 * var(--opcteam-space-1));
@@ -31,31 +31,31 @@
     padding: var(--opcteam-space-1) var(--opcteam-control-flow-chat-card-padding-inline);
   }
 
-  .expandedCard [data-openbitfun-part="extra"],
-  .expandedCard [data-openbitfun-part="actions"],
+  .expandedCard [data-opc-part="extra"],
+  .expandedCard [data-opc-part="actions"],
   .outputActions {
     gap: var(--opcteam-space-2);
   }
 
   /* Expanded header actions use the same control size as the footer, instead
      of inheriting the smaller ambient row controls. */
-  .root > .expandedCard > [data-openbitfun-part="surface"][data-openbitfun-attention="ambient"] [data-openbitfun-part="actions"] [data-openbitfun-component="icon-button"] {
+  .root > .expandedCard > [data-opc-part="surface"][data-opc-attention="ambient"] [data-opc-part="actions"] [data-opc-component="icon-button"] {
     inline-size: var(--opcteam-control-height-sm);
     block-size: var(--opcteam-control-height-sm);
   }
 
-  .expandedCard [data-openbitfun-part="extra"] {
+  .expandedCard [data-opc-part="extra"] {
     margin-inline-start: auto;
   }
 
-  .expandedCard [data-openbitfun-part="expanded"] {
+  .expandedCard [data-opc-part="expanded"] {
     margin-block-start: 0;
     border: 0;
     border-radius: 0;
     background: transparent;
   }
 
-  .root > .expandedCard [data-openbitfun-part="actionRegion"] {
+  .root > .expandedCard [data-opc-part="actionRegion"] {
     padding-inline-start: 0;
     border-inline-start: 0;
   }
@@ -166,7 +166,7 @@
     color: var(--opcteam-color-status-success-emphasis);
   }
 
-  .root > [data-openbitfun-attention="prominent"] .statusLabel {
+  .root > [data-opc-attention="prominent"] .statusLabel {
     padding-block: 0;
   }
 
@@ -314,13 +314,13 @@
     overflow-wrap: anywhere;
   }
 
-  .root[data-openbitfun-preview-state="hover"] > .expandedCard > [data-openbitfun-part="surface"],
-  :global([data-openbitfun-preview-state="hover"]) .root > .expandedCard > [data-openbitfun-part="surface"] {
+  .root[data-opc-preview-state="hover"] > .expandedCard > [data-opc-part="surface"],
+  :global([data-opc-preview-state="hover"]) .root > .expandedCard > [data-opc-part="surface"] {
     background: var(--opcteam-color-action-quiet-hover);
   }
 
   @media (hover: hover) {
-    .expandedCard > [data-openbitfun-part="surface"]:hover {
+    .expandedCard > [data-opc-part="surface"]:hover {
       background: var(--opcteam-color-action-quiet-hover);
     }
   }

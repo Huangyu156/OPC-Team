@@ -974,7 +974,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   const focusPreferredPanelItem = useCallback(() => {
     if (modeChoicesRef.current) {
       const buttons = Array.from(modeChoicesRef.current.querySelectorAll<HTMLButtonElement>('button:not(:disabled)'));
-      const preferred = buttons.find(button => button.dataset.openbitfunValue === modeRetryFocusRef.current)
+      const preferred = buttons.find(button => button.dataset.opcValue === modeRetryFocusRef.current)
         ?? buttons.find(button => button.getAttribute('aria-pressed') === 'true')
         ?? buttons[0];
       preferred?.focus({ preventScroll: true });

@@ -9,7 +9,7 @@ $fmc-collapsed-transform: translate(12px, 12px) scale(0.9);
 $panel-width: 480px;
 $panel-height: 680px;
 
-.openbitfun-fmc {
+.opc-fmc {
   position: fixed;
   right: 0;
   bottom: 0;
@@ -17,7 +17,7 @@ $panel-height: 680px;
   pointer-events: none;
 }
 
-.openbitfun-fmc__button {
+.opc-fmc__button {
   position: relative;
   z-index: 2;
   opacity: 1;
@@ -30,7 +30,7 @@ $panel-height: 680px;
     color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
     background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
-  .openbitfun-fmc--open & {
+  .opc-fmc--open & {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
@@ -42,7 +42,7 @@ $panel-height: 680px;
   }
 }
 
-.openbitfun-fmc__panel {
+.opc-fmc__panel {
   @include surfaces.floating;
 
   container-type: inline-size;
@@ -61,7 +61,7 @@ $panel-height: 680px;
 
   // Keep the expanded Hello surface inset from the window corner. MiniApp
   // panels already inherit their spacing from the root container.
-  .openbitfun-fmc[data-openbitfun-mode='chat'] & {
+  .opc-fmc[data-opc-mode='chat'] & {
     right: 16px;
     bottom: 16px;
   }
@@ -110,7 +110,7 @@ $panel-height: 680px;
 
 }
 
-.openbitfun-fmc__header {
+.opc-fmc__header {
   flex: 0 0 auto;
   min-height: 40px;
   display: flex;
@@ -121,12 +121,12 @@ $panel-height: 680px;
   border-bottom: 1px solid var(--opcteam-color-border-subtle);
 }
 
-.openbitfun-fmc__title-wrapper {
+.opc-fmc__title-wrapper {
   flex: 1;
   min-width: 0;
 }
 
-.openbitfun-fmc__body {
+.opc-fmc__body {
   flex: 1;
   min-height: 0;
   min-width: 0;
@@ -134,7 +134,7 @@ $panel-height: 680px;
   display: flex;
   flex-direction: column;
 
-  .openbitfun-chat-pane__content {
+  .opc-chat-pane__content {
     flex: 1;
     min-height: 0;
     background: transparent;
@@ -152,7 +152,7 @@ $panel-height: 680px;
   }
 }
 
-.openbitfun-fmc__miniapp-session-pending {
+.opc-fmc__miniapp-session-pending {
   flex: 1;
   min-height: 0;
   display: flex;
@@ -168,7 +168,7 @@ $panel-height: 680px;
 
 // MiniApps describe this empty state as bounded data through
 // app.chat.claimComposer. The host owns the markup, behavior, and theme.
-.openbitfun-fmc__miniapp-welcome {
+.opc-fmc__miniapp-welcome {
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -178,7 +178,7 @@ $panel-height: 680px;
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-fmc__miniapp-welcome-content {
+.opc-fmc__miniapp-welcome-content {
   width: 100%;
   min-height: 100%;
   display: flex;
@@ -198,7 +198,7 @@ $panel-height: 680px;
   }
 }
 
-.openbitfun-fmc__miniapp-welcome-icon {
+.opc-fmc__miniapp-welcome-icon {
   width: 44px;
   height: 44px;
   display: flex;
@@ -211,7 +211,7 @@ $panel-height: 680px;
   box-shadow: 0 12px 28px -18px color-mix(in srgb, var(--opcteam-color-content-on-light) 30%, transparent);
 }
 
-.openbitfun-fmc__miniapp-welcome-eyebrow {
+.opc-fmc__miniapp-welcome-eyebrow {
   margin-top: 18px;
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-flow-support-font-size);
@@ -219,7 +219,7 @@ $panel-height: 680px;
   letter-spacing: var(--opcteam-type-modifier-tracking-wider-letter-spacing);
 }
 
-.openbitfun-fmc__miniapp-welcome-description {
+.opc-fmc__miniapp-welcome-description {
   max-width: 420px;
   margin: 12px 0 0;
   color: var(--opcteam-color-content-secondary);
@@ -227,7 +227,7 @@ $panel-height: 680px;
   line-height: var(--opcteam-type-body-lg-line-height);
 }
 
-.openbitfun-fmc__miniapp-workspace {
+.opc-fmc__miniapp-workspace {
   max-width: 100%;
   display: inline-flex;
   align-items: center;
@@ -248,24 +248,24 @@ $panel-height: 680px;
   }
 }
 
-.openbitfun-fmc__miniapp-suggestions {
+.opc-fmc__miniapp-suggestions {
   width: 100%;
   margin-top: 28px;
 }
 
-.openbitfun-fmc__miniapp-suggestions-label {
+.opc-fmc__miniapp-suggestions-label {
   margin-bottom: 8px;
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-flow-support-font-size);
 }
 
-.openbitfun-fmc__miniapp-suggestions-list {
+.opc-fmc__miniapp-suggestions-list {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 8px;
 }
 
-.openbitfun-fmc__miniapp-suggestion {
+.opc-fmc__miniapp-suggestion {
   width: 100%;
   min-height: 42px;
   display: flex;
@@ -314,34 +314,34 @@ $panel-height: 680px;
 }
 
 @container (max-width: 420px) {
-  .openbitfun-fmc__miniapp-welcome-content { padding-inline: 24px; }
+  .opc-fmc__miniapp-welcome-content { padding-inline: 24px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-fmc__button,
-  .openbitfun-fmc--open .openbitfun-fmc__button,
-  .openbitfun-fmc__panel,
-  .openbitfun-fmc__miniapp-suggestion {
+  .opc-fmc__button,
+  .opc-fmc--open .opc-fmc__button,
+  .opc-fmc__panel,
+  .opc-fmc__miniapp-suggestion {
     transition: none;
     transform: none;
   }
 }
 
-.openbitfun-fmc__tabs { flex: 1; min-width: 0; overflow-x: auto; }
-.openbitfun-fmc__mode-switch { flex: 0 0 auto; display: flex; align-items: center; }
-.openbitfun-fmc__view { height: 100%; min-height: 0; display: flex; flex-direction: column; }
-.openbitfun-fmc__view[hidden] { display: none; }
-.openbitfun-fmc__call-status {
+.opc-fmc__tabs { flex: 1; min-width: 0; overflow-x: auto; }
+.opc-fmc__mode-switch { flex: 0 0 auto; display: flex; align-items: center; }
+.opc-fmc__view { height: 100%; min-height: 0; display: flex; flex-direction: column; }
+.opc-fmc__view[hidden] { display: none; }
+.opc-fmc__call-status {
   display: flex; align-items: center; gap: var(--opcteam-space-2);
   padding-inline: var(--opcteam-space-3);
   border-bottom: 1px solid var(--opcteam-color-border-subtle);
   > button:first-child { display: flex; align-items: center; gap: var(--opcteam-space-2); flex: 1; min-width: 0;
     background: transparent; border: 0; color: var(--opcteam-color-content-secondary); cursor: pointer; }
 }
-.openbitfun-fmc__panel--drop { outline: 2px solid var(--opcteam-color-border-strong); }
+.opc-fmc__panel--drop { outline: 2px solid var(--opcteam-color-border-strong); }
 
 // Preserve the original VoiceCallPanel surface, now painted once by the window.
-.openbitfun-fmc[data-openbitfun-communication-mode='voice'] .openbitfun-fmc__panel {
+.opc-fmc[data-opc-communication-mode='voice'] .opc-fmc__panel {
   border: 0;
   border-radius: calc(var(--opcteam-space-8) + var(--opcteam-space-1));
   background: var(--opcteam-color-content-on-light);
@@ -364,7 +364,7 @@ $panel-height: 680px;
 
 }
 
-.openbitfun-fmc__header--identity {
+.opc-fmc__header--identity {
   position: absolute;
   top: var(--opcteam-space-3);
   right: var(--opcteam-space-3);
@@ -372,6 +372,6 @@ $panel-height: 680px;
   min-height: 0;
   border: 0;
   padding: 0;
-  .openbitfun-fmc__mode-switch,
-  .openbitfun-fmc__title-wrapper { display: none; }
+  .opc-fmc__mode-switch,
+  .opc-fmc__title-wrapper { display: none; }
 }

@@ -450,12 +450,12 @@
 .design-component-tokens { display: grid; gap: var(--opcteam-space-4); justify-items: start; }
 .colors-section-navigation, .token-category-navigation, .pattern-navigation { display: flex; max-width: 100%; overflow-x: auto; padding-block: var(--opcteam-space-1); margin-bottom: var(--opcteam-space-5); }
 .colors-theme-value { display: flex; align-items: center; min-height: var(--opcteam-control-height-md); color: var(--opcteam-color-content-secondary); font-size: var(--opcteam-type-body-sm-font-size); }
-.colors-semantic-tools > [data-openbitfun-component="search-field"] { flex: 1; min-width: 12rem; }
-.colors-semantic-tools > [data-openbitfun-component="select"] { min-width: 10rem; }
+.colors-semantic-tools > [data-opc-component="search-field"] { flex: 1; min-width: 12rem; }
+.colors-semantic-tools > [data-opc-component="select"] { min-width: 10rem; }
 .colors-expand-action { display: flex; justify-content: center; padding: var(--opcteam-space-4) var(--opcteam-space-2); }
 .token-tools > * { min-width: 0; }
 .token-action-row { flex-wrap: wrap; }
-.token-value-control > [data-openbitfun-component="input"] { flex: 1; min-width: 0; }
+.token-value-control > [data-opc-component="input"] { flex: 1; min-width: 0; }
 .guide-setup-layout { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: start; gap: var(--opcteam-space-8); }
 .guide-step-list { display: grid; gap: var(--opcteam-space-6); list-style: none; padding: 0; margin: 0; }
 .guide-step-list li { display: flex; align-items: flex-start; gap: var(--opcteam-space-3); }

@@ -5,7 +5,7 @@
   inline-size: var(--opcteam-space-5);
   block-size: var(--opcteam-space-5);
 
-  &[data-status='running'] > [data-openbitfun-component='icon'] {
+  &[data-status='running'] > [data-opc-component='icon'] {
     animation: session-status-running 1.4s linear infinite;
   }
 }
@@ -15,7 +15,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .session-status-indicator[data-status='running'] > [data-openbitfun-component='icon'] {
+  .session-status-indicator[data-status='running'] > [data-opc-component='icon'] {
     animation: none;
   }
 }

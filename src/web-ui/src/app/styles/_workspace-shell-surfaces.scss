@@ -19,7 +19,7 @@
     box-shadow: var(--opcteam-shadow-inner-highlight);
   }
 
-  :root[data-openbitfun-native-material='sidebar'] & {
+  :root[data-opc-native-material='sidebar'] & {
     background: color-mix(in srgb, var(--opcteam-color-surface-chrome) 90%, transparent);
     // The OS blurs desktop pixels; a CSS backdrop only sees the webview.
     -webkit-backdrop-filter: none;
@@ -28,7 +28,7 @@
 
   @media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
     &,
-    :root[data-openbitfun-native-material='sidebar'] & {
+    :root[data-opc-native-material='sidebar'] & {
       @include sidebar-background;
       -webkit-backdrop-filter: none;
       backdrop-filter: none;
@@ -69,7 +69,7 @@
 @mixin sidebar-hairline-color {
   border-color: var(--opcteam-color-border-subtle);
 
-  :root[data-openbitfun-appearance-mode='light'] & {
+  :root[data-opc-appearance-mode='light'] & {
     border-color: color-mix(
       in srgb,
       var(--opcteam-color-content-on-light) 5%,

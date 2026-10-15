@@ -52,10 +52,10 @@ describe('startup performance contract', () => {
   it('keeps the pre-React startup fallback vector-only', () => {
     const source = readSource('../../../index.html');
 
-    expect(source).toContain('<link rel="icon" type="image/png" href="/brand/openbitfun-app-icon.png" />');
+    expect(source).toContain('<link rel="icon" type="image/png" href="/brand/opc-app-icon.png" />');
     expect(source).not.toContain('rel="preload" as="image"');
     expect(source).toContain('class="opc-preload__logo"');
-    expect(source).toContain("url('/brand/openbitfun-mark.svg')");
+    expect(source).toContain("url('/brand/opc-mark.svg')");
     expect(source).not.toContain('src="/brand/opc-mark-dark-128.png"');
     expect(source).not.toContain('src="/brand/opc-mark-light-128.png"');
     expect(source).not.toContain('Loading workspace...');
@@ -68,12 +68,12 @@ describe('startup performance contract', () => {
   });
 
   it('keeps the startup mark as a reusable transparent vector asset', () => {
-    const asset = readSource('../../../public/brand/openbitfun-mark.svg');
+    const asset = readSource('../../../public/brand/opc-mark.svg');
 
     expect(asset).toContain('viewBox="0 0 120 120"');
     expect(asset).toContain('fill="none"');
     expect(asset).toContain('stroke="currentColor"');
-    expect(asset.match(/<path\b/g)).toHaveLength(15);
+    expect(asset.match(/<path\b/g)).toHaveLength(6);
     expect(asset).not.toContain('<rect');
   });
 

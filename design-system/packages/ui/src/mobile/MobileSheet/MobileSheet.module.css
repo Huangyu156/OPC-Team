@@ -1,5 +1,5 @@
 @layer openbitfun.components {
-  .overlay[data-openbitfun-component="mobile-sheet"] {
+  .overlay[data-opc-component="mobile-sheet"] {
     position: fixed;
     inset: 0;
     z-index: var(--opcteam-layer-modal);

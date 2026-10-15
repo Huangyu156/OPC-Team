@@ -43,7 +43,7 @@ test("brand marks are decorative by default and expose supplied accessible names
 test("published artwork embeds the same bytes as the application icon generator", async () => {
   const source = new URL("../src/brand/assets/", import.meta.url);
   const solid = renderToStaticMarkup(createElement(brand.OpenBitFunSolidMark));
-  assert.ok(solid.includes((await readFile(new URL("openbitfun-app-mark.png", source))).toString("base64")));
+  assert.ok(solid.includes((await readFile(new URL("opc-app-mark.png", source))).toString("base64")));
   const app = renderToStaticMarkup(createElement(brand.OpenBitFunAppIcon));
   for (const size of [16, 32, 128, 256, 512]) {
     assert.ok(app.includes((await readFile(new URL(`opc-app-icon-${size}.png`, source))).toString("base64")));

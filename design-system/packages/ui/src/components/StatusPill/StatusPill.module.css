@@ -37,7 +37,7 @@
   }
 
   .leading > :where(svg, img),
-  .leading > [data-openbitfun-component="icon"] {
+  .leading > [data-opc-component="icon"] {
     display: block;
     inline-size: 100%;
     block-size: 100%;

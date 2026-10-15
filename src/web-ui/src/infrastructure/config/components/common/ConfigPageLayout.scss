@@ -3,7 +3,7 @@
 @use './config-page-layout.tokens' as configLayout;
 
 
-.openbitfun-config-page-layout {
+.opc-config-page-layout {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
@@ -25,14 +25,14 @@
   container-name: config-panel;
 }
 
-.openbitfun-config-page-layout__scroll-end-spacer {
+.opc-config-page-layout__scroll-end-spacer {
   flex-shrink: 0;
   width: 100%;
   height: var(--config-page-content-bottom-padding);
   pointer-events: none;
 }
 
-.openbitfun-config-page-content {
+.opc-config-page-content {
   /* flex-shrink: 0 — do NOT shrink below natural content height.
    * This ensures the flex layout positions the scroll-end spacer AFTER
    * the actual content, not at the flex-allocated truncated position. */
@@ -48,39 +48,39 @@
   padding: 0;
 }
 
-.openbitfun-config-page-content__inner {
+.opc-config-page-content__inner {
   @include configLayout.content-frame;
   display: flex;
   flex-direction: column;
   gap: var(--config-page-section-gap);
 }
 
-.openbitfun-config-page-section-stack {
+.opc-config-page-section-stack {
   display: flex;
   flex-direction: column;
   gap: var(--config-page-section-gap);
   min-width: 0;
 }
 
-.openbitfun-config-page-section {
+.opc-config-page-section {
   display: flex;
   flex-direction: column;
   gap: var(--opcteam-space-4);
 }
 
-.openbitfun-config-page-section__header {
+.opc-config-page-section__header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: var(--opcteam-space-3);
 }
 
-.openbitfun-config-page-section__heading {
+.opc-config-page-section__heading {
   min-width: 0;
   flex: 1;
 }
 
-.openbitfun-config-page-section__title-row {
+.opc-config-page-section__title-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -88,7 +88,7 @@
   min-width: 0;
 }
 
-.openbitfun-config-page-section__title {
+.opc-config-page-section__title {
   margin: 0;
   font-size: var(--opcteam-type-heading-section-font-size);
   font-weight: var(--opcteam-type-heading-section-font-weight);
@@ -98,7 +98,7 @@
   overflow-wrap: break-word;
 }
 
-.openbitfun-config-page-section__description {
+.opc-config-page-section__description {
   margin: var(--opcteam-space-1) 0 0;
   max-inline-size: var(--config-page-description-max-width);
   font-size: var(--opcteam-type-body-sm-font-size);
@@ -110,14 +110,14 @@
   text-wrap: pretty;
 }
 
-.openbitfun-config-page-section__description--inline {
+.opc-config-page-section__description--inline {
   margin: 0;
   max-inline-size: none;
   white-space: nowrap;
   text-wrap: nowrap;
 }
 
-.openbitfun-config-page-section__extra {
+.opc-config-page-section__extra {
   flex-shrink: 0;
   display: flex;
   flex-wrap: wrap;
@@ -126,12 +126,12 @@
   gap: var(--opcteam-space-3);
 }
 
-.openbitfun-config-page-section__body {
+.opc-config-page-section__body {
   min-width: 0;
 }
 
 // Sections whose children own their own cards should not render a second surface.
-.openbitfun-config-page-section__body--flush {
+.opc-config-page-section__body--flush {
   background: transparent;
   border: 0;
   border-radius: 0;
@@ -139,7 +139,7 @@
   box-shadow: none;
 }
 
-.openbitfun-config-page-row {
+.opc-config-page-row {
   --row-grid-cols: minmax(0, 1fr) minmax(0, 150px);
   display: grid;
   grid-template-columns: var(--row-grid-cols);
@@ -147,87 +147,87 @@
   padding: var(--opcteam-space-4) var(--opcteam-space-5);
 }
 
-.openbitfun-config-page-row + .openbitfun-config-page-row {
+.opc-config-page-row + .opc-config-page-row {
   border-top: 1px solid var(--opcteam-component-config-page-divider);
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .openbitfun-config-page-row:hover {
+  .opc-config-page-row:hover {
     background: var(--opcteam-component-config-page-row-hover-background);
   }
 }
 
-.openbitfun-config-page-row--center {
+.opc-config-page-row--center {
   align-items: center;
 }
 
-.openbitfun-config-page-row--start {
+.opc-config-page-row--start {
   align-items: flex-start;
 }
 
-.openbitfun-config-page-row--balanced {
+.opc-config-page-row--balanced {
   --row-grid-cols: minmax(0, 2fr) minmax(0, 3fr);
 }
 
-.openbitfun-config-page-row--wide {
+.opc-config-page-row--wide {
   --row-grid-cols: minmax(0, 2fr) minmax(0, 8fr);
 }
 
-.openbitfun-config-page-row--multiline {
+.opc-config-page-row--multiline {
   gap: var(--opcteam-space-2);
 
-  .openbitfun-config-page-row__control {
+  .opc-config-page-row__control {
     justify-content: flex-start;
     align-items: stretch;
     justify-self: stretch;
   }
 }
 
-.openbitfun-config-page-row--multiline:not(
-  .openbitfun-config-page-row--balanced,
-  .openbitfun-config-page-row--wide
+.opc-config-page-row--multiline:not(
+  .opc-config-page-row--balanced,
+  .opc-config-page-row--wide
 ) {
   --row-grid-cols: 1fr;
 }
 
-.openbitfun-config-page-row--no-control {
+.opc-config-page-row--no-control {
   --row-grid-cols: minmax(0, 1fr);
 
-  .openbitfun-config-page-row__meta {
+  .opc-config-page-row__meta {
     grid-column: 1 / -1;
   }
 
-  .openbitfun-config-page-row__description {
+  .opc-config-page-row__description {
     max-inline-size: none;
   }
 }
 
 // Ordinary single-field rows share one measure across settings pages. Wide,
 // multiline, and composite controls keep their explicit contextual layout.
-.openbitfun-config-page-row:not(
-  .openbitfun-config-page-row--multiline,
-  .openbitfun-config-page-row--wide
+.opc-config-page-row:not(
+  .opc-config-page-row--multiline,
+  .opc-config-page-row--wide
 ):has(
-  > .openbitfun-config-page-row__control > :where(
-    [data-openbitfun-component='input'],
-    [data-openbitfun-component='search-field'],
-    [data-openbitfun-component='number-input'],
-    [data-openbitfun-component='select'],
-    [data-openbitfun-component='combobox'],
-    [data-openbitfun-component='multi-select']
+  > .opc-config-page-row__control > :where(
+    [data-opc-component='input'],
+    [data-opc-component='search-field'],
+    [data-opc-component='number-input'],
+    [data-opc-component='select'],
+    [data-opc-component='combobox'],
+    [data-opc-component='multi-select']
   ):only-child
 ),
-.openbitfun-config-page-row:not(
-  .openbitfun-config-page-row--multiline,
-  .openbitfun-config-page-row--wide
+.opc-config-page-row:not(
+  .opc-config-page-row--multiline,
+  .opc-config-page-row--wide
 ):has(
-  > .openbitfun-config-page-row__control > div:only-child > :where(
-    [data-openbitfun-component='input'],
-    [data-openbitfun-component='search-field'],
-    [data-openbitfun-component='number-input'],
-    [data-openbitfun-component='select'],
-    [data-openbitfun-component='combobox'],
-    [data-openbitfun-component='multi-select']
+  > .opc-config-page-row__control > div:only-child > :where(
+    [data-opc-component='input'],
+    [data-opc-component='search-field'],
+    [data-opc-component='number-input'],
+    [data-opc-component='select'],
+    [data-opc-component='combobox'],
+    [data-opc-component='multi-select']
   ):only-child
 ) {
   --row-grid-cols: minmax(0, 1fr) minmax(
@@ -236,25 +236,25 @@
   );
 }
 
-.openbitfun-config-page-section__extra > :where(
-  [data-openbitfun-component='input'],
-  [data-openbitfun-component='search-field'],
-  [data-openbitfun-component='number-input'],
-  [data-openbitfun-component='select'],
-  [data-openbitfun-component='combobox'],
-  [data-openbitfun-component='multi-select']
+.opc-config-page-section__extra > :where(
+  [data-opc-component='input'],
+  [data-opc-component='search-field'],
+  [data-opc-component='number-input'],
+  [data-opc-component='select'],
+  [data-opc-component='combobox'],
+  [data-opc-component='multi-select']
 ) {
   flex: 0 1 var(--opcteam-overlay-menu-inline-size);
   inline-size: min(100%, var(--opcteam-overlay-menu-inline-size));
   max-inline-size: var(--opcteam-overlay-menu-inline-size);
 }
 
-.openbitfun-config-page-row__meta {
+.opc-config-page-row__meta {
   min-width: 0;
   max-width: 450px;
 }
 
-.openbitfun-config-page-row__label {
+.opc-config-page-row__label {
   margin: 0;
   font-size: var(--opcteam-type-label-selected-font-size);
   font-weight: var(--opcteam-type-label-selected-font-weight);
@@ -264,14 +264,14 @@
   overflow-wrap: break-word;
 }
 
-.openbitfun-config-page-row__required {
+.opc-config-page-row__required {
   margin-inline-start: var(--opcteam-space-1);
   color: var(--opcteam-color-content-required-indicator);
   font-size: var(--opcteam-type-label-selected-font-size);
   font-weight: var(--opcteam-type-label-selected-font-weight);
 }
 
-.openbitfun-config-page-row__description {
+.opc-config-page-row__description {
   margin: var(--opcteam-space-1) 0 0;
   max-inline-size: var(--config-page-description-max-width);
   font-size: var(--opcteam-type-support-font-size);
@@ -283,7 +283,7 @@
   text-wrap: pretty;
 }
 
-.openbitfun-config-page-row__control {
+.opc-config-page-row__control {
   min-width: 0;
   width: 100%;
   display: flex;
@@ -295,43 +295,43 @@
   // controls such as Switch, Button, Checkbox, and StatusPill keep the
   // geometry owned by their design-system component.
   > :where(
-    [data-openbitfun-component='input'],
-    [data-openbitfun-component='search-field'],
-    [data-openbitfun-component='textarea'],
-    [data-openbitfun-component='combobox'],
-    [data-openbitfun-component='multi-select'],
-    [data-openbitfun-component='select'],
-    [data-openbitfun-component='number-input']
+    [data-opc-component='input'],
+    [data-opc-component='search-field'],
+    [data-opc-component='textarea'],
+    [data-opc-component='combobox'],
+    [data-opc-component='multi-select'],
+    [data-opc-component='select'],
+    [data-opc-component='number-input']
   ),
   > div:has(
     > :where(
-      [data-openbitfun-component='input'],
-      [data-openbitfun-component='search-field'],
-      [data-openbitfun-component='textarea'],
-      [data-openbitfun-component='combobox'],
-      [data-openbitfun-component='multi-select'],
-      [data-openbitfun-component='select'],
-      [data-openbitfun-component='number-input']
+      [data-opc-component='input'],
+      [data-opc-component='search-field'],
+      [data-opc-component='textarea'],
+      [data-opc-component='combobox'],
+      [data-opc-component='multi-select'],
+      [data-opc-component='select'],
+      [data-opc-component='number-input']
     )
   ),
   > div:has(
     > :where(
-      [data-openbitfun-component='input'],
-      [data-openbitfun-component='search-field'],
-      [data-openbitfun-component='textarea'],
-      [data-openbitfun-component='combobox'],
-      [data-openbitfun-component='multi-select'],
-      [data-openbitfun-component='select'],
-      [data-openbitfun-component='number-input']
+      [data-opc-component='input'],
+      [data-opc-component='search-field'],
+      [data-opc-component='textarea'],
+      [data-opc-component='combobox'],
+      [data-opc-component='multi-select'],
+      [data-opc-component='select'],
+      [data-opc-component='number-input']
     )
   ) > :where(
-    [data-openbitfun-component='input'],
-    [data-openbitfun-component='search-field'],
-    [data-openbitfun-component='textarea'],
-    [data-openbitfun-component='combobox'],
-    [data-openbitfun-component='multi-select'],
-    [data-openbitfun-component='select'],
-    [data-openbitfun-component='number-input']
+    [data-opc-component='input'],
+    [data-opc-component='search-field'],
+    [data-opc-component='textarea'],
+    [data-opc-component='combobox'],
+    [data-opc-component='multi-select'],
+    [data-opc-component='select'],
+    [data-opc-component='number-input']
   ) {
     inline-size: 100%;
     min-inline-size: 0;
@@ -339,52 +339,52 @@
 }
 
 @container config-panel (max-width: 900px) {
-  .openbitfun-config-page-layout__scroll-end-spacer {
+  .opc-config-page-layout__scroll-end-spacer {
     height: 40px;
   }
 
-  .openbitfun-config-page-content {
+  .opc-config-page-content {
     --config-page-section-gap: 36px;
   }
 }
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-config-page-section {
+  .opc-config-page-section {
     gap: var(--opcteam-space-3);
   }
 
-  .openbitfun-config-page-section__header {
+  .opc-config-page-section__header {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .openbitfun-config-page-section__extra {
+  .opc-config-page-section__extra {
     width: 100%;
     justify-content: flex-start;
   }
 
-  .openbitfun-config-page-row {
+  .opc-config-page-row {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--opcteam-space-2);
     padding: var(--opcteam-space-4);
   }
 
-  .openbitfun-config-page-row__meta {
+  .opc-config-page-row__meta {
     max-width: none;
   }
 
-  .openbitfun-config-page-row__control {
+  .opc-config-page-row__control {
     width: 100%;
     justify-self: stretch;
   }
 
-  .openbitfun-config-page-section__extra > :where(
-    [data-openbitfun-component='input'],
-    [data-openbitfun-component='search-field'],
-    [data-openbitfun-component='number-input'],
-    [data-openbitfun-component='select'],
-    [data-openbitfun-component='combobox'],
-    [data-openbitfun-component='multi-select']
+  .opc-config-page-section__extra > :where(
+    [data-opc-component='input'],
+    [data-opc-component='search-field'],
+    [data-opc-component='number-input'],
+    [data-opc-component='select'],
+    [data-opc-component='combobox'],
+    [data-opc-component='multi-select']
   ) {
     flex-basis: 100%;
     inline-size: 100%;
@@ -393,13 +393,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-config-page-row {
+  .opc-config-page-row {
     transition: none;
   }
 }
 
 @media (forced-colors: active) {
-  .openbitfun-config-page-row__required {
+  .opc-config-page-row__required {
     color: Highlight;
   }
 }

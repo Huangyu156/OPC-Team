@@ -9,8 +9,8 @@ import { COMPOSER_ICON, readMacosFallback } from './macos-icon-assets.mjs';
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url));
 const ROOT_DIR = path.resolve(SCRIPT_DIR, '..');
 const SOURCE_DIR = path.join(ROOT_DIR, 'assets', 'brand', 'source');
-const SOURCE_SVG = path.join(ROOT_DIR, 'design-system/packages/ui/src/brand/assets/openbitfun-mark.svg');
-const SOURCE_APP_MARK = path.join(ROOT_DIR, 'design-system/packages/ui/src/brand/assets/openbitfun-app-mark.png');
+const SOURCE_SVG = path.join(ROOT_DIR, 'design-system/packages/ui/src/brand/assets/opc-mark.svg');
+const SOURCE_APP_MARK = path.join(ROOT_DIR, 'design-system/packages/ui/src/brand/assets/opc-app-mark.png');
 const SOURCE_MARKS = {
   dark: path.join(SOURCE_DIR, 'opc-mark-dark.png'),
   light: path.join(SOURCE_DIR, 'opc-mark-light.png'),
@@ -19,7 +19,6 @@ const SOURCE_MARKS = {
 const BRAND_SIZE = 512;
 const APP_ICON_SIZE = 1024;
 const APP_ICON_CORNER_RADIUS = 96;
-const APP_MARK_LIFT = 28;
 const ANDROID_FOREGROUND_SCALE = 0.66;
 
 const ANDROID_DENSITIES = {
@@ -81,40 +80,30 @@ async function writePng(filePath, buffer) {
 }
 
 function createReusableWebMark(svg) {
-  const reusableMark = svg.replaceAll('stroke="black"', 'stroke="currentColor"');
-  if (!reusableMark.includes('stroke="currentColor"')) {
-    throw new Error('OpenBitFun mark source is missing its canonical inherited-color strokes');
+  const reusableMark = svg
+    .replaceAll('stroke="#57C7F5"', 'stroke="currentColor"')
+    .replaceAll('stroke="#C4CFDA"', 'stroke="currentColor"')
+    .replaceAll('fill="#57C7F5"', 'fill="currentColor"')
+    .replaceAll('fill="#C4CFDA"', 'fill="currentColor"');
+  if (!reusableMark.includes('currentColor')) {
+    throw new Error('OPC mark source is missing its canonical brand-colored strokes');
+  }
+  if (/#(?:[0-9a-f]{3}|[0-9a-f]{6})\b/i.test(reusableMark)) {
+    throw new Error('OPC mark source still carries hard-coded colors after currentColor substitution');
   }
   return reusableMark;
 }
 
-async function normalizePng(input) {
-  return sharp(input)
-    .ensureAlpha()
-    .resize({ width: BRAND_SIZE, height: BRAND_SIZE, fit: 'contain', kernel: 'lanczos3' })
-    .png({ compressionLevel: 9, adaptiveFiltering: true })
-    .toBuffer();
-}
-
 async function renderMark(svg, size, tone, opticalSize = size) {
-  // At favicon sizes, fifteen subpixel strokes disappear. Keep the same
-  // silhouette with fewer filaments. The opaque outer rim must survive
-  // antialiasing independently of the decorative interior strokes.
-  const indices = opticalSize <= 24 ? [0, 7, 14]
-    : opticalSize <= 48 ? [0, 3, 7, 11, 14]
-      : opticalSize <= 96 ? [0, 2, 4, 7, 10, 12, 14] : null;
-  let index = 0;
+  // The redrawn mark has six bold elements that survive antialiasing at
+  // every shipped size. Only the center chevron pair is dropped below 24px
+  // (data-optical-drop markers), where the two 8px strokes would fuse into
+  // an unreadable blob.
   const reusableMark = createReusableWebMark(svg);
-  const artwork = indices ? reusableMark.replace(/<path\b[^>]*\/>/g, element => {
-    const contour = index++;
-    if (!indices.includes(contour)) return '';
-    const outer = contour === 14;
-    const inner = contour === 0;
-    const width = Math.max(outer ? 3.2 : inner ? 1.2 : 0.7,
-      (outer ? 1.35 : inner ? 0.85 : 0.65) * 256 / opticalSize);
-    return element.replace(/ (?:stroke-width|opacity)="[^"]*"/g, '')
-      .replace('/>', ` stroke-width="${width}" opacity="${outer ? 1 : inner ? 0.9 : 0.75}"/>`);
-  }) : reusableMark;
+  const artwork = opticalSize <= 24
+    ? reusableMark.replaceAll(/ data-optical-drop="small"/g, '')
+        .replaceAll(/<path[^>]*\/>\s*(?=<\/g>)/gs, '')
+    : reusableMark;
   return sharp(Buffer.from(artwork.replaceAll('currentColor', tone)), { density: 144 })
     .resize(size, size)
     .png({ compressionLevel: 9, adaptiveFiltering: true })
@@ -128,31 +117,10 @@ async function resizePng(input, size) {
     .toBuffer();
 }
 
-async function createApplicationMark(lightMark) {
-  const { data, info } = await sharp(lightMark)
-    .ensureAlpha()
-    .raw()
-    .toBuffer({ resolveWithObject: true });
-  const channels = info.channels;
-  const whiteMark = Buffer.alloc(data.length);
-
-  for (let index = 0; index < data.length; index += channels) {
-    const sourceTone = data[index];
-    const liftedTone = Math.min(255, sourceTone + APP_MARK_LIFT);
-    whiteMark[index] = liftedTone;
-    whiteMark[index + 1] = liftedTone;
-    whiteMark[index + 2] = liftedTone;
-    whiteMark[index + 3] = data[index + 3];
-  }
-
-  return sharp(whiteMark, {
-    raw: { width: info.width, height: info.height, channels: 4 },
-  })
-    .png({ compressionLevel: 9, adaptiveFiltering: true })
-    .toBuffer();
-}
-
 async function createApplicationIcon(applicationMark) {
+  // The launcher icon is the white mark on a black rounded field, so every
+  // size keeps a bright rim and the platform masks stay lossless. The
+  // submitted photographic artwork ships as a design-system asset instead.
   const { width: size } = await sharp(applicationMark).metadata();
   const cornerRadius = APP_ICON_CORNER_RADIUS * size / BRAND_SIZE;
   const background = Buffer.from(
@@ -177,9 +145,9 @@ async function createApplicationIcon(applicationMark) {
     .toBuffer();
 }
 
-async function createAdaptiveForeground(applicationMark, size) {
+async function createAdaptiveForeground(applicationMarkMono, size) {
   const artworkSize = Math.round(size * ANDROID_FOREGROUND_SCALE);
-  const artwork = await resizePng(applicationMark, artworkSize);
+  const artwork = await resizePng(applicationMarkMono, artworkSize);
 
   return sharp({
     create: {
@@ -241,17 +209,18 @@ async function removeLegacyApplicationAssets() {
 }
 
 async function generateBrandAssets() {
-  const applicationMark = await createApplicationMark(await normalizePng(SOURCE_APP_MARK));
-  await writePng(path.join(COMPOSER_ICON, 'Assets/Mark.png'), await resizePng(applicationMark, APP_ICON_SIZE));
+  const svg = await readFile(SOURCE_SVG, 'utf8');
+  const applicationMarkMono = await renderMark(svg, BRAND_SIZE, '#ffffff');
+  await writePng(path.join(COMPOSER_ICON, 'Assets/Mark.png'), await resizePng(applicationMarkMono, APP_ICON_SIZE));
   if (process.argv.includes('--macos-source-only')) return;
   const macosFallback = readMacosFallback();
-  const svg = await readFile(SOURCE_SVG, 'utf8');
   const [darkMark, lightMark] = await Promise.all([
     renderMark(svg, BRAND_SIZE, '#202020'),
     renderMark(svg, BRAND_SIZE, '#e8e8e8'),
   ]);
   await writePng(SOURCE_MARKS.dark, darkMark);
   await writePng(SOURCE_MARKS.light, lightMark);
+  const applicationMark = applicationMarkMono;
   const applicationIcon = await createApplicationIcon(applicationMark);
   const applicationIconLarge = await resizePng(applicationIcon, APP_ICON_SIZE);
   const darkMarkSmall = await renderMark(svg, 128, '#202020');
@@ -270,11 +239,11 @@ async function generateBrandAssets() {
 
   const exportDir = outputPath('assets', 'brand', 'exports');
   await mkdir(exportDir, { recursive: true });
-  await copyFile(SOURCE_SVG, path.join(exportDir, 'openbitfun-mark.svg'));
+  await copyFile(SOURCE_SVG, path.join(exportDir, 'opc-mark.svg'));
   const legacySourceDir = outputPath('assets', 'brand', 'source');
   await mkdir(legacySourceDir, { recursive: true });
-  await copyFile(SOURCE_SVG, path.join(legacySourceDir, 'openbitfun-mark.svg'));
-  await copyFile(SOURCE_APP_MARK, path.join(legacySourceDir, 'openbitfun-app-mark.png'));
+  await copyFile(SOURCE_SVG, path.join(legacySourceDir, 'opc-mark.svg'));
+  await copyFile(SOURCE_APP_MARK, path.join(legacySourceDir, 'opc-app-mark.png'));
   const componentAssetDir = outputPath('design-system', 'packages', 'ui', 'src', 'brand', 'assets');
   await mkdir(componentAssetDir, { recursive: true });
   for (const size of [16, 32, 128, 256, 512]) {
@@ -305,7 +274,7 @@ async function generateBrandAssets() {
   await writePng(path.join(webBrandDir, 'opc-mark-dark-128.png'), darkMarkSmall);
   await writePng(path.join(webBrandDir, 'opc-mark-light-128.png'), lightMarkSmall);
   await writePng(path.join(webBrandDir, 'openbitfun-app-icon.png'), applicationIcon);
-  await writeFile(path.join(webBrandDir, 'openbitfun-mark.svg'), createReusableWebMark(svg), 'utf8');
+  await writeFile(path.join(webBrandDir, 'opc-mark.svg'), createReusableWebMark(svg), 'utf8');
 
   const desktopIconDir = outputPath('src', 'apps', 'desktop', 'icons');
   await writePng(path.join(desktopIconDir, 'openbitfun-app-icon.png'), applicationIconLarge);
@@ -350,7 +319,7 @@ async function generateBrandAssets() {
 
   for (const [density, sizes] of Object.entries(ANDROID_DENSITIES)) {
     const legacyIcon = await renderIcon(sizes.icon);
-    const adaptiveForeground = await createAdaptiveForeground(applicationMark, sizes.adaptive);
+    const adaptiveForeground = await createAdaptiveForeground(applicationMarkMono, sizes.adaptive);
     const androidDir = outputPath('src', 'apps', 'mobile', 'android', 'app', 'src', 'main', 'res', `mipmap-${density}`);
     await writePng(path.join(androidDir, 'ic_launcher.png'), legacyIcon);
     await writePng(path.join(androidDir, 'ic_launcher_round.png'), legacyIcon);

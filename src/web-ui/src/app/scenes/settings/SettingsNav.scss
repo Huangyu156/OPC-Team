@@ -5,7 +5,7 @@
  */
 @use '../../styles/nav-panel-font-scope.scss' as nav-font;
 
-.openbitfun-settings-nav {
+.opc-settings-nav {
   @include nav-font.nav-panel-text-body;
 
   // Resolve navigation ink inside the host's light, dark, or inverse chrome.

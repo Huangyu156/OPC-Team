@@ -142,17 +142,17 @@
   }
 }
 
-:root[data-openbitfun-appearance-mode='dark'] .floating-input-base {
+:root[data-opc-appearance-mode='dark'] .floating-input-base {
   background: color-mix(in srgb, var(--opcteam-color-surface-canvas) 65%, transparent);
   border-color: color-mix(in srgb, var(--opcteam-color-accent-hover) 12%, transparent);
 }
 
-:root[data-openbitfun-appearance-mode='dark'] .floating-input-base:hover {
+:root[data-opc-appearance-mode='dark'] .floating-input-base:hover {
   background: color-mix(in srgb, var(--opcteam-color-surface-canvas) 75%, transparent);
   border-color: color-mix(in srgb, var(--opcteam-color-accent-hover) 20%, transparent);
 }
 
-:root[data-openbitfun-appearance-mode='dark'] .floating-input-base:focus-within {
+:root[data-opc-appearance-mode='dark'] .floating-input-base:focus-within {
   background: color-mix(in srgb, var(--opcteam-color-surface-canvas) 99%, transparent);
   border-color: color-mix(in srgb, var(--opcteam-color-accent-hover) 45%, transparent);
 }

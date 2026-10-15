@@ -32,7 +32,7 @@ describe('shared ScrollArea edge fades', () => {
     metrics.scrollTop = top;
     viewport!.dispatchEvent(new Event('scroll'));
   });
-  const edges = () => [viewport?.dataset.openbitfunFadeTop, viewport?.dataset.openbitfunFadeBottom];
+  const edges = () => [viewport?.dataset.opcFadeTop, viewport?.dataset.opcFadeBottom];
 
   beforeEach(() => {
     metrics = { clientHeight: 100, clientWidth: 200, offsetHeight: 100, offsetWidth: 200, scrollHeight: 300, scrollTop: 0 };
@@ -94,7 +94,7 @@ describe('shared ScrollArea edge fades', () => {
     render({ onScroll, 'data-opc-component': 'inline-diff-preview', 'data-opc-part': 'content' });
     expect(host.firstElementChild).toBe(viewport);
     expect(viewport?.children).toHaveLength(1);
-    expect(viewport?.dataset.openbitfunComponent).toBe('inline-diff-preview');
+    expect(viewport?.dataset.opcComponent).toBe('inline-diff-preview');
     expect(viewport?.style.getPropertyValue('--_scroll-area-inline-gutter')).toBe('10px');
     expect(viewport?.style.getPropertyValue('--_scroll-area-block-gutter')).toBe('14px');
     scroll(50);

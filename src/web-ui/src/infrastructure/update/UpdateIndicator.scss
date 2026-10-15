@@ -1,4 +1,4 @@
-.openbitfun-update-indicator {
+.opc-update-indicator {
   display: inline-block;
   flex: 0 0 auto;
   width: 6px;
@@ -7,11 +7,11 @@
   background: var(--opcteam-color-status-info-emphasis);
 }
 
-.openbitfun-update-indicator-anchor {
+.opc-update-indicator-anchor {
   position: relative;
   display: inline-flex;
 
-  > .openbitfun-update-indicator {
+  > .opc-update-indicator {
     position: absolute;
     top: 0;
     right: 0;

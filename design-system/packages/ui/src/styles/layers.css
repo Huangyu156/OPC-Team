@@ -42,7 +42,7 @@
    * as their size and color. Match only Lucide's default stroke attribute so
    * reviewed fill icons and intentionally custom line artwork remain intact.
    */
-  [data-openbitfun-icon-slot="true"] > :where(svg.lucide[stroke-width="2"]) {
+  [data-opc-icon-slot="true"] > :where(svg.lucide[stroke-width="2"]) {
     color: inherit;
     stroke-width: var(--opcteam-control-icon-stroke-width);
   }

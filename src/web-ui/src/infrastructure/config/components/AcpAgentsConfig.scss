@@ -1,4 +1,4 @@
-.openbitfun-acp-agents {
+.opc-acp-agents {
   &--dialog {
     min-inline-size: 0;
     container: config-panel / inline-size;
@@ -9,7 +9,7 @@
     flex-direction: column;
     gap: var(--opcteam-space-6);
 
-    .openbitfun-acp-agents__manager {
+    .opc-acp-agents__manager {
       gap: var(--opcteam-space-6);
     }
   }
@@ -259,7 +259,7 @@
       grid-column: 1 / -1;
     }
 
-    &__registry-row--remote > .openbitfun-acp-agents__capabilities {
+    &__registry-row--remote > .opc-acp-agents__capabilities {
       grid-column: 1 / -1;
     }
 

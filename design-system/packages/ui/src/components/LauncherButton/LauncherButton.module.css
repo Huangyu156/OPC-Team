@@ -32,17 +32,17 @@
       background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
-  .root:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled) {
+  .root:is(:hover, [data-opc-preview-state="hover"]):not(:disabled) {
     color: var(--opcteam-color-control-launcher-content-hover);
     background: var(--opcteam-color-control-launcher-background-hover);
   }
 
-  .root:is(:active, [data-openbitfun-preview-state="active"]):not(:disabled) {
+  .root:is(:active, [data-opc-preview-state="active"]):not(:disabled) {
     color: var(--opcteam-color-control-launcher-content-pressed);
     background: var(--opcteam-color-control-launcher-background-pressed);
   }
 
-  .root:is(:focus-visible, [data-openbitfun-preview-state="focus-visible"]) {
+  .root:is(:focus-visible, [data-opc-preview-state="focus-visible"]) {
     outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
     outline-offset: calc(var(--opcteam-focus-offset) * -1);
   }
@@ -64,7 +64,7 @@
   }
 
   .icon > :where(svg, img),
-  .icon > [data-openbitfun-component="icon"] {
+  .icon > [data-opc-component="icon"] {
     display: block;
     inline-size: 100%;
     block-size: 100%;

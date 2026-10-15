@@ -1,4 +1,4 @@
-.openbitfun-skills-config {
+.opc-skills-config {
   &__path-input {
     display: flex;
     align-items: flex-end;
@@ -76,7 +76,7 @@
   }
 
   &__item--covered {
-    .openbitfun-collection-item__name {
+    .opc-collection-item__name {
       color: var(--opcteam-color-content-muted);
       text-decoration: line-through;
     }
@@ -360,7 +360,7 @@
 }
 
 @container config-panel (max-width: 640px) {
-  .openbitfun-skills-config {
+  .opc-skills-config {
     &__market-item-body {
       grid-template-columns: 1fr;
       align-items: stretch;
@@ -393,7 +393,7 @@
 }
 
 @container config-panel (max-width: 460px) {
-  .openbitfun-skills-config {
+  .opc-skills-config {
     &__market-item-body {
       padding: var(--opcteam-space-3) var(--opcteam-space-3) var(--opcteam-space-3) var(--opcteam-space-4);
       gap: var(--opcteam-space-3);
@@ -417,9 +417,9 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-skills-config__market-skeleton-line::after,
-  .openbitfun-skills-config__market-skeleton-chip::after,
-  .openbitfun-skills-config__market-skeleton-btn::after {
+  .opc-skills-config__market-skeleton-line::after,
+  .opc-skills-config__market-skeleton-chip::after,
+  .opc-skills-config__market-skeleton-btn::after {
     animation: none;
     transform: none;
   }

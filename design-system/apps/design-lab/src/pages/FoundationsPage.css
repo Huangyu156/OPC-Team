@@ -59,7 +59,7 @@
 
 .foundation-type-toolbar { display: flex; align-items: center; gap: var(--opcteam-space-3); padding: var(--opcteam-space-3) var(--opcteam-space-4); background: var(--opcteam-color-surface-subtle); border-radius: var(--opcteam-radius-lg); }
 .foundation-type-toolbar > label { flex: none; font-size: var(--opcteam-type-label-sm-font-size); color: var(--opcteam-color-content-secondary); }
-.foundation-type-toolbar > [data-openbitfun-component="input"] { flex: 1; min-width: 0; }
+.foundation-type-toolbar > [data-opc-component="input"] { flex: 1; min-width: 0; }
 .foundation-type-row { display: grid; grid-template-columns: 210px minmax(0, 1fr); align-items: center; gap: var(--opcteam-space-6); padding-block: var(--opcteam-space-5); }
 /* Rows are separated by space, not by a rule: the content column is not a table here. */
 .foundation-type-row + .foundation-type-row { padding-top: var(--opcteam-space-8); }

@@ -138,7 +138,7 @@ describe('public Select product integration', () => {
 
   it('moves Field semantics to a unified popup that exactly covers the anchor rectangle', () => {
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
-      if (this.dataset.openbitfunComponent === 'select-popup') return new DOMRect(0, 0, 240, 180);
+      if (this.dataset.opcComponent === 'select-popup') return new DOMRect(0, 0, 240, 180);
       return new DOMRect(40, 20, 240, 32);
     });
     act(() => root.render(

@@ -1,7 +1,7 @@
 /**
  * NavPanel styles — categorized sidebar navigation.
  *
- * Root class: .openbitfun-nav-panel
+ * Root class: .opc-nav-panel
  * Width is owned by WorkspaceBody and remains resizable.
  * Sessions supports inline accordion expansion.
  */
@@ -16,7 +16,7 @@ $_section-header-height: 22px;
 // Root
 // ──────────────────────────────────────────────
 
-.openbitfun-nav-panel {
+.opc-nav-panel {
   @include shell-surfaces.sidebar-background;
 
   --_nav-icon-color: var(--opcteam-color-content-secondary);
@@ -246,7 +246,7 @@ $_section-header-height: 22px;
       box-shadow 0.38s ease,
       border-radius 0.38s ease;
 
-    .openbitfun-nav-panel__mode-pill.is-assistant:not(.is-switching) & {
+    .opc-nav-panel__mode-pill.is-assistant:not(.is-switching) & {
       transform: translate3d(100%, 0, 0) scale(1, 1);
       background: var(--opcteam-mode-pill-liquid-assistant-bg);
       box-shadow:
@@ -262,7 +262,7 @@ $_section-header-height: 22px;
       animation: openbitfun-nav-mode-pill-morph-to-pro 0.48s linear forwards;
     }
 
-    .openbitfun-nav-panel__mode-pill.is-switching & {
+    .opc-nav-panel__mode-pill.is-switching & {
       transition: none;
     }
   }
@@ -293,12 +293,12 @@ $_section-header-height: 22px;
       max-width: 100%;
     }
 
-    &--pro .openbitfun-nav-panel__mode-pill-segment-icon {
+    &--pro .opc-nav-panel__mode-pill-segment-icon {
       width: var(--_nav-icon-slot-size);
       height: var(--_nav-icon-slot-size);
     }
 
-    &--assistant .openbitfun-nav-panel__mode-pill-segment-icon {
+    &--assistant .opc-nav-panel__mode-pill-segment-icon {
       width: var(--opcteam-control-icon-size-lg);
       height: var(--opcteam-control-icon-size-lg);
     }
@@ -345,12 +345,12 @@ $_section-header-height: 22px;
       transform: scale(1);
     }
 
-    .openbitfun-nav-panel__mode-pill:hover .openbitfun-nav-panel__mode-pill-segment-icon--dual &--default {
+    .opc-nav-panel__mode-pill:hover .opc-nav-panel__mode-pill-segment-icon--dual &--default {
       opacity: 0;
       transform: scale(1.05);
     }
 
-    .openbitfun-nav-panel__mode-pill:hover .openbitfun-nav-panel__mode-pill-segment-icon--dual &--hover {
+    .opc-nav-panel__mode-pill:hover .opc-nav-panel__mode-pill-segment-icon--dual &--hover {
       opacity: 1;
       transform: scale(1);
     }
@@ -473,7 +473,7 @@ $_section-header-height: 22px;
     flex: 1 1 auto;
     min-width: 0;
     max-width: 100%;
-    // No padding-top: separation from top-actions is only .openbitfun-nav-panel__top-actions padding-bottom.
+    // No padding-top: separation from top-actions is only .opc-nav-panel__top-actions padding-bottom.
     // Top padding here stacked with that and read as “extra” gap above the first section header.
     padding: 0 0 var(--opcteam-space-3) 0;
 
@@ -676,7 +676,7 @@ $_section-header-height: 22px;
   // plus that region's own inset pushed the trigger 12px off the row's right edge
   // and the pill stopped short with it. Trailing the region as an overlay keeps
   // the bubbles on their existing gutter and lets the pill span the full row.
-  &__miniapp-item > [data-openbitfun-part='actions'] {
+  &__miniapp-item > [data-opc-part='actions'] {
     position: absolute;
     inset-block: 0;
     inset-inline-end: var(--opcteam-space-2);
@@ -727,7 +727,7 @@ $_section-header-height: 22px;
     &:hover,
     &:focus-visible,
     &.is-active {
-      .openbitfun-nav-panel__miniapp-entry-icon {
+      .opc-nav-panel__miniapp-entry-icon {
         color: var(--opcteam-color-content-primary);
       }
     }
@@ -803,7 +803,7 @@ $_section-header-height: 22px;
                 filter var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
                 opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
-    &:not(.is-active):not(.openbitfun-nav-panel__miniapp-bubble--more) {
+    &:not(.is-active):not(.opc-nav-panel__miniapp-bubble--more) {
       filter: saturate(0.72);
       opacity: 0.9;
     }
@@ -1051,7 +1051,7 @@ $_section-header-height: 22px;
     }
   }
 
-  button.openbitfun-nav-panel__inline-item {
+  button.opc-nav-panel__inline-item {
     font: inherit;
     appearance: none;
     -webkit-appearance: none;
@@ -1115,7 +1115,7 @@ $_section-header-height: 22px;
         border-radius: 0 2px 2px 0;
       }
 
-      .openbitfun-nav-panel__item-icon {
+      .opc-nav-panel__item-icon {
         color: var(--opcteam-color-content-primary);
         opacity: 1;
       }
@@ -1125,7 +1125,7 @@ $_section-header-height: 22px;
       opacity: 1;
       color: var(--opcteam-color-content-primary);
 
-      .openbitfun-nav-panel__item-icon {
+      .opc-nav-panel__item-icon {
         color: var(--_nav-icon-color);
       }
     }
@@ -1146,7 +1146,7 @@ $_section-header-height: 22px;
     transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
                 color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
-    .openbitfun-nav-panel__item:hover & {
+    .opc-nav-panel__item:hover & {
       opacity: 1;
     }
   }
@@ -1338,7 +1338,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__footer {
+.opc-nav-panel__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -1349,7 +1349,7 @@ $_section-header-height: 22px;
   gap: var(--opcteam-space-1);
 }
 
-.openbitfun-nav-panel__footer-left {
+.opc-nav-panel__footer-left {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-1);
@@ -1357,18 +1357,18 @@ $_section-header-height: 22px;
   min-width: 0;
 }
 
-.openbitfun-nav-panel__footer-right {
+.opc-nav-panel__footer-right {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-1);
   flex-shrink: 0;
 }
 
-.openbitfun-nav-panel__footer-btn {
+.opc-nav-panel__footer-btn {
   flex-shrink: 0;
 }
 
-.openbitfun-nav-panel__footer-device-status {
+.opc-nav-panel__footer-device-status {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-2);
@@ -1414,7 +1414,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__footer-device-status-label {
+.opc-nav-panel__footer-device-status-label {
   flex: 0 1 auto;
   min-width: 0;
   overflow: hidden;
@@ -1430,7 +1430,7 @@ $_section-header-height: 22px;
 // brand, system or kind silhouette drawn a step quieter reads as a disabled or
 // offline party instead of as another drawing. Connection state is communicated
 // by the device overview, never by recoloring a mark.
-.openbitfun-nav-panel__footer-device-status-attached {
+.opc-nav-panel__footer-device-status-attached {
   display: flex;
   flex-shrink: 0;
   align-items: center;
@@ -1439,7 +1439,7 @@ $_section-header-height: 22px;
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-nav-panel__footer-device-status-attached-group {
+.opc-nav-panel__footer-device-status-attached-group {
   width: var(--_nav-icon-slot-size);
   height: var(--_nav-icon-slot-size);
   display: inline-flex;
@@ -1449,31 +1449,31 @@ $_section-header-height: 22px;
   box-sizing: border-box;
   line-height: var(--opcteam-type-modifier-leading-none-line-height);
 
-  &[data-openbitfun-device-kind='message-app'] {
+  &[data-opc-device-kind='message-app'] {
     border: 0;
     background: transparent;
   }
 }
 
-.openbitfun-nav-panel__footer-device-status-attached-count {
+.opc-nav-panel__footer-device-status-attached-count {
   font-size: var(--opcteam-type-overline-sm-font-size);
   font-weight: var(--opcteam-type-label-selected-font-weight);
   line-height: var(--opcteam-type-modifier-leading-none-line-height);
 }
 
 // Footer notification: yellow only when there are unread messages (BellDot)
-.openbitfun-nav-panel__footer .openbitfun-notification-btn .openbitfun-notification-btn__icon--has-message {
+.opc-nav-panel__footer .opc-notification-btn .opc-notification-btn__icon--has-message {
   color: var(--opcteam-color-status-warning-content);
 }
 
-.openbitfun-nav-panel__footer .openbitfun-notification-btn.openbitfun-notification-btn--nav-hover-icon:not(.openbitfun-notification-btn--has-progress) {
+.opc-nav-panel__footer .opc-notification-btn.opc-notification-btn--nav-hover-icon:not(.opc-notification-btn--has-progress) {
   width: 28px;
   height: 28px;
   padding: 0;
   justify-content: center;
 }
 
-.openbitfun-nav-panel__footer-btn--icon {
+.opc-nav-panel__footer-btn--icon {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1488,7 +1488,7 @@ $_section-header-height: 22px;
   transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
               background var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
-  > [data-openbitfun-part='icon'] {
+  > [data-opc-part='icon'] {
     inline-size: var(--opcteam-control-icon-size-md);
     block-size: var(--opcteam-control-icon-size-md);
   }
@@ -1510,7 +1510,7 @@ $_section-header-height: 22px;
 }
 
 // Footer icon buttons: default icon fades to alternate on hover / focus-visible
-.openbitfun-nav-panel__footer-btn-icon-swap {
+.opc-nav-panel__footer-btn-icon-swap {
   position: relative;
   width: var(--_nav-icon-size);
   height: var(--_nav-icon-size);
@@ -1519,7 +1519,7 @@ $_section-header-height: 22px;
   align-items: center;
   justify-content: center;
 
-  > [data-openbitfun-component='icon'] {
+  > [data-opc-component='icon'] {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -1528,25 +1528,25 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__footer-btn-icon-swap-default {
+.opc-nav-panel__footer-btn-icon-swap-default {
   opacity: 1;
 }
 
-.openbitfun-nav-panel__footer-btn-icon-swap-hover {
+.opc-nav-panel__footer-btn-icon-swap-hover {
   opacity: 0;
 }
 
 // is-hover-open: multimodal submenu is open but pointer may be over the menu, not the button — keep “hover” icon
-.openbitfun-nav-panel__footer-btn--icon:hover .openbitfun-nav-panel__footer-btn-icon-swap,
-.openbitfun-nav-panel__footer-btn--icon:focus-visible .openbitfun-nav-panel__footer-btn-icon-swap,
-.openbitfun-nav-panel__footer-btn--icon.is-hover-open .openbitfun-nav-panel__footer-btn-icon-swap,
-.openbitfun-nav-panel__footer .openbitfun-notification-btn--nav-hover-icon:hover .openbitfun-nav-panel__footer-btn-icon-swap,
-.openbitfun-nav-panel__footer .openbitfun-notification-btn--nav-hover-icon:focus-visible .openbitfun-nav-panel__footer-btn-icon-swap {
-  .openbitfun-nav-panel__footer-btn-icon-swap-default {
+.opc-nav-panel__footer-btn--icon:hover .opc-nav-panel__footer-btn-icon-swap,
+.opc-nav-panel__footer-btn--icon:focus-visible .opc-nav-panel__footer-btn-icon-swap,
+.opc-nav-panel__footer-btn--icon.is-hover-open .opc-nav-panel__footer-btn-icon-swap,
+.opc-nav-panel__footer .opc-notification-btn--nav-hover-icon:hover .opc-nav-panel__footer-btn-icon-swap,
+.opc-nav-panel__footer .opc-notification-btn--nav-hover-icon:focus-visible .opc-nav-panel__footer-btn-icon-swap {
+  .opc-nav-panel__footer-btn-icon-swap-default {
     opacity: 0;
   }
 
-  .openbitfun-nav-panel__footer-btn-icon-swap-hover {
+  .opc-nav-panel__footer-btn-icon-swap-hover {
     opacity: 1;
   }
 }
@@ -1555,24 +1555,24 @@ $_section-header-height: 22px;
 // Settings popup menu
 // ──────────────────────────────────────────────
 
-.openbitfun-nav-panel__footer-menu-wrap {
+.opc-nav-panel__footer-menu-wrap {
   position: relative;
 }
 
 // Hover-open subtle glow on the main button
-.openbitfun-nav-panel__footer-btn--icon.is-hover-open {
+.opc-nav-panel__footer-btn--icon.is-hover-open {
   color: var(--opcteam-color-content-primary);
   background: var(--opcteam-color-action-quiet-hover);
 }
 
-.openbitfun-nav-panel__footer-backdrop {
+.opc-nav-panel__footer-backdrop {
   position: fixed;
   inset: 0;
   z-index: calc(var(--opcteam-layer-popover) - 1);
 }
 
 /* Positioning-only overrides; the design-system Menu owns the surface look. */
-.openbitfun-nav-panel__footer-menu {
+.opc-nav-panel__footer-menu {
   position: fixed;
   max-width: calc(100vw - 16px);
   max-height: calc(100vh - 16px);
@@ -1585,13 +1585,13 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__appearance-menu-trigger {
+.opc-nav-panel__appearance-menu-trigger {
   &.is-open {
     background: var(--opcteam-color-action-neutral-surface);
   }
 }
 
-.openbitfun-nav-panel__appearance-menu-current {
+.opc-nav-panel__appearance-menu-current {
   display: block;
   max-width: 82px;
   overflow: hidden;
@@ -1599,7 +1599,7 @@ $_section-header-height: 22px;
 }
 
 /* Positioning and open-state composition only; the design-system Menu owns chrome. */
-.openbitfun-nav-panel__appearance-submenu {
+.opc-nav-panel__appearance-submenu {
   position: fixed;
   max-width: calc(100vw - 16px);
   max-height: calc(100vh - 16px);
@@ -1619,7 +1619,7 @@ $_section-header-height: 22px;
 // Device overview — one compact model, local and connected states
 // ──────────────────────────────────────────────
 
-.openbitfun-device-overview {
+.opc-device-overview {
   position: fixed;
   z-index: var(--opcteam-layer-popover);
   width: min(340px, calc(100vw - 16px));
@@ -1631,20 +1631,20 @@ $_section-header-height: 22px;
   animation: openbitfun-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
-.openbitfun-device-overview__scroll {
+.opc-device-overview__scroll {
   // Natural content height in both WebKit and Chromium; shrink only at the viewport limit.
   display: block;
   min-height: 0;
   flex: 1 1 auto;
 }
 
-.openbitfun-device-overview__title {
+.opc-device-overview__title {
   margin: 0;
   color: inherit;
   font: inherit;
 }
 
-.openbitfun-device-overview__current {
+.opc-device-overview__current {
   display: grid;
   grid-template-columns: 22px minmax(0, 1fr);
   align-items: start;
@@ -1652,21 +1652,21 @@ $_section-header-height: 22px;
   min-width: 0;
 }
 
-.openbitfun-device-overview__current > svg,
-.openbitfun-device-overview__row > svg {
+.opc-device-overview__current > svg,
+.opc-device-overview__row > svg {
   flex-shrink: 0;
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-device-overview__current-copy,
-.openbitfun-device-overview__row-copy {
+.opc-device-overview__current-copy,
+.opc-device-overview__row-copy {
   display: flex;
   min-width: 0;
   flex-direction: column;
   gap: 2px;
 }
 
-.openbitfun-device-overview__current-heading {
+.opc-device-overview__current-heading {
   display: flex;
   min-width: 0;
   align-items: center;
@@ -1683,13 +1683,13 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-device-overview__detail {
+.opc-device-overview__detail {
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-label-sm-font-size);
   line-height: var(--opcteam-type-meta-line-height);
 }
 
-.openbitfun-device-overview__tag {
+.opc-device-overview__tag {
   flex-shrink: 0;
   max-width: 112px;
   overflow: hidden;
@@ -1703,7 +1703,7 @@ $_section-header-height: 22px;
   white-space: nowrap;
 }
 
-.openbitfun-device-overview__section {
+.opc-device-overview__section {
   margin-top: 22px;
 
   h3 {
@@ -1715,13 +1715,13 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-device-overview__rows {
+.opc-device-overview__rows {
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 
-.openbitfun-device-overview__row {
+.opc-device-overview__row {
   display: grid;
   grid-template-columns: 18px minmax(0, 1fr) auto;
   align-items: center;
@@ -1729,11 +1729,11 @@ $_section-header-height: 22px;
   min-width: 0;
 }
 
-.openbitfun-device-overview__row-copy {
+.opc-device-overview__row-copy {
   grid-column: 2 / -1;
 }
 
-.openbitfun-device-overview__row-label {
+.opc-device-overview__row-label {
   min-width: 0;
   overflow: hidden;
   color: var(--opcteam-color-content-primary);
@@ -1743,7 +1743,7 @@ $_section-header-height: 22px;
   white-space: nowrap;
 }
 
-.openbitfun-device-overview__backup {
+.opc-device-overview__backup {
   display: flex;
   align-items: center;
   gap: 11px;
@@ -1755,19 +1755,19 @@ $_section-header-height: 22px;
   line-height: var(--opcteam-type-meta-line-height);
 }
 
-.openbitfun-device-overview__backup.is-done {
+.opc-device-overview__backup.is-done {
   color: var(--opcteam-color-status-success-content);
 }
 
-.openbitfun-device-overview__backup.is-syncing svg {
-  animation: openbitfun-device-overview-spin 1s linear infinite;
+.opc-device-overview__backup.is-syncing svg {
+  animation: opc-device-overview-spin 1s linear infinite;
 }
 
-.openbitfun-device-overview__backup.is-failed {
+.opc-device-overview__backup.is-failed {
   color: var(--opcteam-color-status-warning-content);
 }
 
-.openbitfun-device-overview__notice {
+.opc-device-overview__notice {
   width: calc(100% - var(--opcteam-space-4) * 2);
   margin: var(--opcteam-space-3) var(--opcteam-space-4) 0;
   height: auto;
@@ -1777,7 +1777,7 @@ $_section-header-height: 22px;
   white-space: normal;
 }
 
-.openbitfun-device-overview__actions {
+.opc-device-overview__actions {
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
@@ -1785,21 +1785,21 @@ $_section-header-height: 22px;
   padding: var(--opcteam-space-3) var(--opcteam-space-4) var(--opcteam-space-4);
 }
 
-.openbitfun-device-overview__action {
+.opc-device-overview__action {
   width: 100%;
 }
 
-@keyframes openbitfun-device-overview-spin {
+@keyframes opc-device-overview-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-.openbitfun-device-overview__header {
+.opc-device-overview__header {
   flex-shrink: 0;
   padding: var(--opcteam-space-4) var(--opcteam-space-4) var(--opcteam-space-3);
 
-  .openbitfun-device-overview__title {
+  .opc-device-overview__title {
     color: var(--opcteam-color-content-primary);
     font-family: var(--opcteam-type-label-md-font-family);
     font-size: var(--opcteam-type-body-lg-font-size);
@@ -1810,14 +1810,14 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-device-overview__body {
+.opc-device-overview__body {
   min-width: 0;
   // Keep every section in normal flow so additional controllers cannot squeeze
   // the carousel and clip its name/status inside the horizontal viewport.
   display: block;
 }
 
-.openbitfun-device-overview__summary {
+.opc-device-overview__summary {
   position: relative;
   display: grid;
   min-width: 0;
@@ -1825,18 +1825,18 @@ $_section-header-height: 22px;
   text-align: center;
 }
 
-.openbitfun-device-overview__carousel-viewport {
+.opc-device-overview__carousel-viewport {
   min-width: 0;
   overflow: hidden;
   width: 100%;
 }
 
-.openbitfun-device-overview__carousel-track {
+.opc-device-overview__carousel-track {
   display: flex;
   transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
-.openbitfun-device-overview__carousel-slide {
+.opc-device-overview__carousel-slide {
   flex: 0 0 100%;
   min-width: 0;
   display: flex;
@@ -1845,13 +1845,13 @@ $_section-header-height: 22px;
   gap: var(--opcteam-space-2);
 }
 
-.openbitfun-device-overview__device-switcher {
+.opc-device-overview__device-switcher {
   position: relative;
   width: 100%;
   min-width: 0;
 }
 
-.openbitfun-device-overview__carousel-controls {
+.opc-device-overview__carousel-controls {
   position: absolute;
   inset: 0 0 auto;
   width: 100%;
@@ -1867,19 +1867,19 @@ $_section-header-height: 22px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-device-overview__carousel-track { transition: none; }
+  .opc-device-overview__carousel-track { transition: none; }
 }
 
 // Status and connection action share a dedicated row below the carousel.
 // Its natural height accommodates wrapped activity and compatibility messages.
-.openbitfun-device-overview__connect-action {
+.opc-device-overview__connect-action {
   min-width: 0;
   display: grid;
   place-items: center;
   padding-inline: var(--opcteam-space-4);
 
   > button,
-  > .openbitfun-device-overview__activity {
+  > .opc-device-overview__activity {
     grid-area: 1 / 1;
     max-width: 100%;
   }
@@ -1892,12 +1892,12 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-device-overview__connect-reserved {
+.opc-device-overview__connect-reserved {
   visibility: hidden;
   pointer-events: none;
 }
 
-.openbitfun-device-overview__artwork {
+.opc-device-overview__artwork {
   display: grid;
   position: relative;
   width: 100%;
@@ -1918,7 +1918,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-device-overview__artwork-glyph {
+.opc-device-overview__artwork-glyph {
   width: 45%;
   aspect-ratio: 140 / 78;
   background: var(--opcteam-color-content-primary);
@@ -1929,7 +1929,7 @@ $_section-header-height: 22px;
 // are a tall stack where every other artwork here is a landscape laptop. It takes
 // less of the width and more of the height instead, so it carries the same weight
 // in the compact artwork as the silhouettes beside it.
-.openbitfun-device-overview__artwork[data-artwork='server'] .openbitfun-device-overview__artwork-glyph {
+.opc-device-overview__artwork[data-artwork='server'] .opc-device-overview__artwork-glyph {
   width: 22.5%;
   aspect-ratio: 24 / 29.4629;
   mask-image: url('./assets/server.svg');
@@ -1937,23 +1937,23 @@ $_section-header-height: 22px;
 
 // The system variants keep the neutral device.svg silhouette and size, so only
 // the mask source differs; an unplaceable system falls back to device.svg.
-.openbitfun-device-overview__artwork[data-artwork='windows'] .openbitfun-device-overview__artwork-glyph {
+.opc-device-overview__artwork[data-artwork='windows'] .opc-device-overview__artwork-glyph {
   mask-image: url('./assets/windows.svg');
 }
 
-.openbitfun-device-overview__artwork[data-artwork='macos'] .openbitfun-device-overview__artwork-glyph {
+.opc-device-overview__artwork[data-artwork='macos'] .opc-device-overview__artwork-glyph {
   mask-image: url('./assets/macos.svg');
 }
 
-.openbitfun-device-overview__artwork[data-artwork='linux'] .openbitfun-device-overview__artwork-glyph {
+.opc-device-overview__artwork[data-artwork='linux'] .opc-device-overview__artwork-glyph {
   mask-image: url('./assets/linux.svg');
 }
 
-.openbitfun-device-overview__artwork[data-artwork='harmonyos'] .openbitfun-device-overview__artwork-glyph {
+.opc-device-overview__artwork[data-artwork='harmonyos'] .opc-device-overview__artwork-glyph {
   mask-image: url('./assets/harmonyos.svg');
 }
 
-.openbitfun-device-overview__device-name {
+.opc-device-overview__device-name {
   width: 100%;
   min-width: 0;
   box-sizing: border-box;
@@ -1964,7 +1964,7 @@ $_section-header-height: 22px;
   line-height: var(--opcteam-type-body-sm-line-height);
 }
 
-.openbitfun-device-overview__activity {
+.opc-device-overview__activity {
   box-sizing: border-box;
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-meta-font-size);
@@ -1972,7 +1972,7 @@ $_section-header-height: 22px;
   overflow-wrap: anywhere;
 }
 
-.openbitfun-device-overview__device-group {
+.opc-device-overview__device-group {
   margin: 0 var(--opcteam-space-4) var(--opcteam-space-3);
 
   h3 {
@@ -1984,13 +1984,13 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-device-overview__device-rows {
+.opc-device-overview__device-rows {
   display: flex;
   flex-direction: column;
   gap: var(--opcteam-space-2);
 }
 
-.openbitfun-device-overview__device-row {
+.opc-device-overview__device-row {
   display: grid;
   grid-template-columns: 28px minmax(0, 1fr);
   align-items: center;
@@ -2000,7 +2000,7 @@ $_section-header-height: 22px;
   padding: var(--opcteam-space-1) 0;
   border-radius: var(--opcteam-radius-sm);
 
-  &[data-openbitfun-device-kind='message-app'] .openbitfun-device-overview__device-icon {
+  &[data-opc-device-kind='message-app'] .opc-device-overview__device-icon {
     background: transparent;
     color: var(--opcteam-color-content-primary);
   }
@@ -2014,7 +2014,7 @@ $_section-header-height: 22px;
     white-space: nowrap;
   }
 
-  > span:not(.openbitfun-device-overview__device-icon) {
+  > span:not(.opc-device-overview__device-icon) {
     grid-column: 2;
     color: var(--opcteam-color-content-muted);
     font-size: var(--opcteam-type-micro-font-size);
@@ -2037,7 +2037,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-device-overview__device-icon {
+.opc-device-overview__device-icon {
   grid-row: 1 / span 2;
   width: 28px;
   height: 28px;
@@ -2052,7 +2052,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__remote-disclaimer {
+.opc-nav-panel__remote-disclaimer {
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -2060,14 +2060,14 @@ $_section-header-height: 22px;
   padding: 12px 0 14px;
 }
 
-.openbitfun-nav-panel__remote-disclaimer-text {
+.opc-nav-panel__remote-disclaimer-text {
   margin: 0;
   font-size: var(--opcteam-type-label-sm-font-size);
   line-height: var(--opcteam-type-label-md-line-height);
   color: var(--opcteam-color-content-muted);
 }
 
-.openbitfun-nav-panel__remote-disclaimer-list {
+.opc-nav-panel__remote-disclaimer-list {
   margin: 0;
   padding-left: 20px;
   display: flex;
@@ -2082,7 +2082,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__remote-disclaimer-actions {
+.opc-nav-panel__remote-disclaimer-actions {
   display: flex;
   justify-content: center;
   gap: 12px;
@@ -2091,7 +2091,7 @@ $_section-header-height: 22px;
   border-top: 1px solid var(--opcteam-color-border-subtle);
 }
 
-.openbitfun-nav-panel__remote-disclaimer-btn {
+.opc-nav-panel__remote-disclaimer-btn {
   border-radius: 6px;
   border: 1px solid transparent;
   min-width: 112px;
@@ -2106,7 +2106,7 @@ $_section-header-height: 22px;
     transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 }
 
-.openbitfun-nav-panel__remote-disclaimer-btn--secondary {
+.opc-nav-panel__remote-disclaimer-btn--secondary {
   background: var(--opcteam-color-surface-subtle);
   color: var(--opcteam-color-content-secondary);
   border-color: var(--opcteam-color-border-subtle);
@@ -2117,7 +2117,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__remote-disclaimer-btn--primary {
+.opc-nav-panel__remote-disclaimer-btn--primary {
   background: var(--opcteam-color-accent-hover);
   color: var(--opcteam-color-content-on-dark);
   border-color: color-mix(in srgb, color-mix(in srgb, var(--opcteam-color-accent-hover) 80%, transparent) 35%, transparent);
@@ -2132,7 +2132,7 @@ $_section-header-height: 22px;
 // ──────────────────────────────────────────────
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-nav-panel {
+  .opc-nav-panel {
     &__item,
     &__item-slot,
     &__item-icon,
@@ -2168,22 +2168,22 @@ $_section-header-height: 22px;
     }
   }
 
-  .openbitfun-nav-panel__top-action-icon-circle {
+  .opc-nav-panel__top-action-icon-circle {
     transition: none;
   }
 
-  .openbitfun-nav-panel__top-action-btn:not(.openbitfun-nav-panel__top-action-btn--sub) .openbitfun-nav-panel__top-action-icon-slot {
+  .opc-nav-panel__top-action-btn:not(.opc-nav-panel__top-action-btn--sub) .opc-nav-panel__top-action-icon-slot {
     transition: none;
   }
 
-  .openbitfun-nav-panel__top-action-btn:not(.openbitfun-nav-panel__top-action-btn--sub):hover .openbitfun-nav-panel__top-action-icon-slot {
+  .opc-nav-panel__top-action-btn:not(.opc-nav-panel__top-action-btn--sub):hover .opc-nav-panel__top-action-icon-slot {
     transform: scale(1);
   }
 }
 
 // ── Nav workspace search ─────────────────────────
 
-.openbitfun-nav-panel__brand-header {
+.opc-nav-panel__brand-header {
   @include shell-surfaces.sidebar-background;
 
   position: relative;
@@ -2194,13 +2194,13 @@ $_section-header-height: 22px;
   flex-shrink: 0;
 }
 
-.openbitfun-nav-panel__brand-search {
+.opc-nav-panel__brand-search {
   flex: 1 1 auto;
   width: auto;
   min-width: 0;
 }
 
-.openbitfun-nav-panel__utility-row {
+.opc-nav-panel__utility-row {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-1);
@@ -2208,7 +2208,7 @@ $_section-header-height: 22px;
   min-width: 0;
 }
 
-.openbitfun-nav-panel__count-badge {
+.opc-nav-panel__count-badge {
   flex: 0 0 auto;
   min-width: 20px;
   height: 20px;
@@ -2228,7 +2228,7 @@ $_section-header-height: 22px;
 
 // ── Top action strip ─────────────────────────────
 
-.openbitfun-nav-panel__top-actions {
+.opc-nav-panel__top-actions {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -2248,7 +2248,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__top-action-expand {
+.opc-nav-panel__top-action-expand {
   display: flex;
   flex-direction: column;
   gap: calc(var(--opcteam-space-1) / 2);
@@ -2256,7 +2256,7 @@ $_section-header-height: 22px;
   min-width: 0;
 }
 
-.openbitfun-nav-panel__top-action-sublist {
+.opc-nav-panel__top-action-sublist {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -2269,7 +2269,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__top-action-sublist-inner {
+.opc-nav-panel__top-action-sublist-inner {
   display: flex;
   flex-direction: column;
   gap: calc(var(--opcteam-space-1) / 2);
@@ -2277,7 +2277,7 @@ $_section-header-height: 22px;
   overflow: hidden;
 }
 
-.openbitfun-nav-panel__session-view-toggle {
+.opc-nav-panel__session-view-toggle {
   > svg {
     display: block;
     flex: 0 0 auto;
@@ -2285,7 +2285,7 @@ $_section-header-height: 22px;
 }
 
 // Align with section headers: __section-header margin-x 8 + padding-x 8 → label starts 16px from panel; __top-actions pad-x 8 + button pl 8 → icon column starts at 16px.
-.openbitfun-nav-panel__top-action-item {
+.opc-nav-panel__top-action-item {
   display: flex;
   width: 100%;
   min-height: var(--opcteam-layout-navigation-panel-item-height);
@@ -2293,11 +2293,11 @@ $_section-header-height: 22px;
   background: transparent;
 }
 
-.openbitfun-nav-panel__top-action-item--sub {
+.opc-nav-panel__top-action-item--sub {
   min-height: var(--opcteam-layout-navigation-panel-item-height);
 }
 
-.openbitfun-nav-panel__top-action-btn {
+.opc-nav-panel__top-action-btn {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-2);
@@ -2317,7 +2317,7 @@ $_section-header-height: 22px;
 
   // Follow the ActionItem anatomy explicitly so component-library slots are not
   // mistaken for labels when new spans are added to the component.
-  > [data-openbitfun-part='label'] {
+  > [data-opc-part='label'] {
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -2326,7 +2326,7 @@ $_section-header-height: 22px;
 
   svg { flex-shrink: 0; }
 
-  .openbitfun-nav-panel__top-action-icon-slot {
+  .opc-nav-panel__top-action-icon-slot {
     width: var(--_nav-icon-slot-size);
     min-width: var(--_nav-icon-slot-size);
     height: var(--_nav-icon-slot-size);
@@ -2341,7 +2341,7 @@ $_section-header-height: 22px;
     background: var(--opcteam-color-action-quiet-hover);
     color: var(--opcteam-color-content-primary);
 
-    .openbitfun-nav-panel__top-action-icon-slot {
+    .opc-nav-panel__top-action-icon-slot {
       color: var(--opcteam-color-content-primary);
     }
   }
@@ -2355,7 +2355,7 @@ $_section-header-height: 22px;
     background: var(--opcteam-color-action-quiet-hover);
     color: var(--opcteam-color-content-primary);
 
-    .openbitfun-nav-panel__top-action-icon-slot {
+    .opc-nav-panel__top-action-icon-slot {
       color: var(--opcteam-color-content-primary);
     }
   }
@@ -2364,7 +2364,7 @@ $_section-header-height: 22px;
     // Start the child icon on the parent label column.
     padding-left: calc(var(--opcteam-space-2) + var(--_nav-icon-slot-size) + var(--opcteam-space-2));
 
-    .openbitfun-nav-panel__top-action-icon-slot {
+    .opc-nav-panel__top-action-icon-slot {
       width: var(--_nav-icon-size);
       min-width: var(--_nav-icon-size);
       height: var(--_nav-icon-size);
@@ -2377,22 +2377,22 @@ $_section-header-height: 22px;
 // Keep every primary navigation entry on the same token-owned icon column.
 // ActionItem's leading slot is a direct child of the trigger; the icon wrappers
 // inside it inherit this fixed geometry instead of participating in label growth.
-.openbitfun-nav-panel__top-action-btn,
-.openbitfun-nav-panel__miniapp-entry {
-  > [data-openbitfun-part='leading'] {
+.opc-nav-panel__top-action-btn,
+.opc-nav-panel__miniapp-entry {
+  > [data-opc-part='leading'] {
     flex: 0 0 var(--_nav-icon-slot-size);
     inline-size: var(--_nav-icon-slot-size);
     block-size: var(--_nav-icon-slot-size);
   }
 }
 
-.openbitfun-nav-panel__top-action-btn--sub > [data-openbitfun-part='leading'] {
+.opc-nav-panel__top-action-btn--sub > [data-opc-part='leading'] {
   flex-basis: var(--_nav-icon-size);
   inline-size: var(--_nav-icon-size);
   block-size: var(--_nav-icon-size);
 }
 
-.openbitfun-nav-panel__top-action-unseen {
+.opc-nav-panel__top-action-unseen {
   width: 6px;
   height: 6px;
   flex: 0 0 6px;
@@ -2401,11 +2401,11 @@ $_section-header-height: 22px;
 }
 
 // 扩展：默认 Puzzle，悬停时图标位切换为 Chevron；展开时箭头朝上
-.openbitfun-nav-panel__top-action-expand-icons {
+.opc-nav-panel__top-action-expand-icons {
   position: relative;
 
-  > .openbitfun-nav-panel__top-action-expand-icon-default,
-  > .openbitfun-nav-panel__top-action-expand-icon-chevron {
+  > .opc-nav-panel__top-action-expand-icon-default,
+  > .opc-nav-panel__top-action-expand-icon-chevron {
     position: absolute;
     inset-block-start: 50%;
     inset-inline-start: 50%;
@@ -2414,12 +2414,12 @@ $_section-header-height: 22px;
                 transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
-  .openbitfun-nav-panel__top-action-expand-icon-default {
+  .opc-nav-panel__top-action-expand-icon-default {
     opacity: 1;
     transform: translate(-50%, -50%);
   }
 
-  .openbitfun-nav-panel__top-action-expand-icon-chevron {
+  .opc-nav-panel__top-action-expand-icon-chevron {
     opacity: 0;
 
     &.is-open {
@@ -2428,17 +2428,17 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__top-action-btn--expand:hover .openbitfun-nav-panel__top-action-expand-icons {
-  .openbitfun-nav-panel__top-action-expand-icon-default {
+.opc-nav-panel__top-action-btn--expand:hover .opc-nav-panel__top-action-expand-icons {
+  .opc-nav-panel__top-action-expand-icon-default {
     opacity: 0;
   }
 
-  .openbitfun-nav-panel__top-action-expand-icon-chevron {
+  .opc-nav-panel__top-action-expand-icon-chevron {
     opacity: 1;
   }
 }
 
-.openbitfun-nav-panel__top-action-icon-circle {
+.opc-nav-panel__top-action-icon-circle {
   width: var(--_nav-icon-slot-size);
   min-width: var(--_nav-icon-slot-size);
   height: var(--_nav-icon-slot-size);
@@ -2452,21 +2452,21 @@ $_section-header-height: 22px;
   color: var(--opcteam-color-action-primary-content);
   box-shadow: var(--opcteam-shadow-sm);
 
-  .openbitfun-nav-panel__top-action-btn:hover & {
+  .opc-nav-panel__top-action-btn:hover & {
     background: var(--opcteam-color-action-primary-hover);
     color: var(--opcteam-color-action-primary-content);
     box-shadow: var(--opcteam-shadow-base);
     transform: none;
   }
 
-  .openbitfun-nav-panel__top-action-btn:active & {
+  .opc-nav-panel__top-action-btn:active & {
     background: var(--opcteam-color-action-primary-pressed);
     color: var(--opcteam-color-action-primary-content);
     box-shadow: var(--opcteam-shadow-xs);
   }
 }
 
-.openbitfun-nav-panel__menu-loading-icon {
+.opc-nav-panel__menu-loading-icon {
   inline-size: var(--opcteam-control-icon-size-sm);
   block-size: var(--opcteam-control-icon-size-sm);
   color: var(--opcteam-color-content-secondary);
@@ -2480,7 +2480,7 @@ $_section-header-height: 22px;
 // This final layer consolidates geometry and interaction behavior across the
 // older navigation subsections without changing their information architecture.
 
-.openbitfun-nav-panel {
+.opc-nav-panel {
   border-radius: var(--opcteam-radius-base);
 
   &__content {
@@ -2565,7 +2565,7 @@ $_section-header-height: 22px;
       @include shell-surfaces.navigation-selection-feedback;
     }
 
-    &:not(.openbitfun-nav-panel__top-action-btn--sub):hover .openbitfun-nav-panel__top-action-icon-slot {
+    &:not(.opc-nav-panel__top-action-btn--sub):hover .opc-nav-panel__top-action-icon-slot {
       transform: none;
     }
 
@@ -2579,7 +2579,7 @@ $_section-header-height: 22px;
     border-radius: var(--opcteam-radius-sm);
     transition: transform 120ms cubic-bezier(0.23, 1, 0.32, 1);
 
-    .openbitfun-nav-panel__top-action-btn:hover & {
+    .opc-nav-panel__top-action-btn:hover & {
       transform: none;
     }
   }
@@ -2749,13 +2749,13 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__footer {
+.opc-nav-panel__footer {
   min-height: 50px;
   padding: 2px 6px;
 }
 
-.openbitfun-nav-panel__footer-btn--icon,
-.openbitfun-nav-panel__footer .openbitfun-notification-btn.openbitfun-notification-btn--nav-hover-icon:not(.openbitfun-notification-btn--has-progress) {
+.opc-nav-panel__footer-btn--icon,
+.opc-nav-panel__footer .opc-notification-btn.opc-notification-btn--nav-hover-icon:not(.opc-notification-btn--has-progress) {
   width: 28px;
   height: 28px;
   border-radius: var(--opcteam-radius-sm);
@@ -2765,9 +2765,9 @@ $_section-header-height: 22px;
     color 120ms ease;
 }
 
-.openbitfun-nav-panel__workspace-menu,
-.openbitfun-nav-panel__footer-menu,
-.openbitfun-nav-panel__appearance-submenu {
+.opc-nav-panel__workspace-menu,
+.opc-nav-panel__footer-menu,
+.opc-nav-panel__appearance-submenu {
   animation: openbitfun-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
 
   &.is-closing {
@@ -2775,7 +2775,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__remote-disclaimer-btn {
+.opc-nav-panel__remote-disclaimer-btn {
   border-radius: var(--opcteam-radius-sm);
   transition:
     transform 120ms cubic-bezier(0.23, 1, 0.32, 1),
@@ -2807,31 +2807,31 @@ $_section-header-height: 22px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .openbitfun-nav-panel__top-action-btn:hover,
-  .openbitfun-nav-panel__item:hover,
-  .openbitfun-nav-panel__footer-btn--icon:hover {
+  .opc-nav-panel__top-action-btn:hover,
+  .opc-nav-panel__item:hover,
+  .opc-nav-panel__footer-btn--icon:hover {
     @include shell-surfaces.navigation-hover-feedback;
   }
 
-  .openbitfun-nav-panel__top-action-btn:hover {
+  .opc-nav-panel__top-action-btn:hover {
     transform: none;
     box-shadow: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-nav-panel__workspace-menu,
-  .openbitfun-nav-panel__footer-menu,
-  .openbitfun-nav-panel__appearance-submenu,
-  .openbitfun-device-overview {
+  .opc-nav-panel__workspace-menu,
+  .opc-nav-panel__footer-menu,
+  .opc-nav-panel__appearance-submenu,
+  .opc-device-overview {
     animation: none;
   }
 
-  .openbitfun-device-overview__backup.is-syncing svg {
+  .opc-device-overview__backup.is-syncing svg {
     animation: none;
   }
 
-  .openbitfun-nav-panel__top-action-sublist {
+  .opc-nav-panel__top-action-sublist {
     transition: none;
   }
 }
@@ -2843,7 +2843,7 @@ $_section-header-height: 22px;
 // their own palette while giving the light navigation the neutral ink hierarchy
 // used by the product's reading surfaces.
 
-.openbitfun-nav-panel {
+.opc-nav-panel {
   @include nav-font.nav-panel-text-body;
 
   line-height: var(--opcteam-type-meta-line-height);
@@ -2933,7 +2933,7 @@ $_section-header-height: 22px;
   }
 }
 
-.openbitfun-nav-panel__main-nav {
+.opc-nav-panel__main-nav {
   inline-size: 100%;
   max-inline-size: none;
   flex: 1 1 auto;
@@ -2942,15 +2942,15 @@ $_section-header-height: 22px;
 
 }
 
-.openbitfun-nav-panel__main-nav-header {
+.opc-nav-panel__main-nav-header {
   padding: 0;
 }
 
-.openbitfun-nav-panel__main-nav-content {
+.opc-nav-panel__main-nav-content {
   padding: 0;
   gap: 0;
 }
 
-.openbitfun-nav-panel__sections-slot {
+.opc-nav-panel__sections-slot {
   display: contents;
 }

@@ -44,7 +44,7 @@
     font: inherit;
   }
 
-  .target[data-openbitfun-affordance="open-panel-right"] {
+  .target[data-opc-affordance="open-panel-right"] {
     cursor: pointer;
   }
 

@@ -1,6 +1,6 @@
 // AgentWait is a single, non-expandable row. Let its width follow the IPs,
 // while the avatar viewport takes the overflow once the transcript row is full.
-.flowchat-flow-item:has(> .flow-tool-card-wrapper[data-openbitfun-component='flow-tool-card'][data-tool-capsule='true'][data-tool-name='AgentWait'][data-capsule-row='true']) {
+.flowchat-flow-item:has(> .flow-tool-card-wrapper[data-opc-component='flow-tool-card'][data-tool-capsule='true'][data-tool-name='AgentWait'][data-capsule-row='true']) {
   inline-size: max-content;
   max-inline-size: 100%;
 }
@@ -11,17 +11,17 @@
 }
 
 .flow-tool-card-wrapper[data-tool-name='AgentWait'][data-tool-capsule='true']
-  [data-openbitfun-tool-card='agent-wait'][data-openbitfun-part='root'][data-tool-capsule='true'] {
+  [data-opc-tool-card='agent-wait'][data-opc-part='root'][data-tool-capsule='true'] {
   inline-size: max-content;
   max-inline-size: 100%;
 
-  &:has(.agent-wait-avatars) [data-openbitfun-part='content'] {
+  &:has(.agent-wait-avatars) [data-opc-part='content'] {
     // Preserve the wait label while the IP rail takes the overflow.
     flex: 0 0 auto;
     max-inline-size: 50%;
   }
 
-  [data-openbitfun-part='extra'] {
+  [data-opc-part='extra'] {
     flex: 0 1 auto;
     min-inline-size: 0;
     max-inline-size: 100%;

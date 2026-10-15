@@ -10,15 +10,15 @@
   .item[data-selected="true"] .icon { background: var(--opcteam-color-selection-surface); }
 
   @media (hover: hover) and (pointer: fine) {
-    .item:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled),
-    .root[data-openbitfun-preview-state="hover"] .item:not(:disabled) { color: var(--opcteam-color-content-primary); }
-    .item:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled) .icon,
-    .root[data-openbitfun-preview-state="hover"] .item:not(:disabled) .icon { background: var(--opcteam-color-action-neutral-surface-hover); }
+    .item:is(:hover, [data-opc-preview-state="hover"]):not(:disabled),
+    .root[data-opc-preview-state="hover"] .item:not(:disabled) { color: var(--opcteam-color-content-primary); }
+    .item:is(:hover, [data-opc-preview-state="hover"]):not(:disabled) .icon,
+    .root[data-opc-preview-state="hover"] .item:not(:disabled) .icon { background: var(--opcteam-color-action-neutral-surface-hover); }
   }
-  .item:is(:active, [data-openbitfun-preview-state="active"]):not(:disabled) .icon,
-  .root[data-openbitfun-preview-state="active"] .item:not(:disabled) .icon { background: var(--opcteam-color-action-neutral-surface-pressed); }
-  .item:is(:focus-visible, [data-openbitfun-preview-state="focus-visible"]),
-  .root[data-openbitfun-preview-state="focus-visible"] .item[data-selected="true"] { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: calc(var(--opcteam-focus-offset) * -1); }
+  .item:is(:active, [data-opc-preview-state="active"]):not(:disabled) .icon,
+  .root[data-opc-preview-state="active"] .item:not(:disabled) .icon { background: var(--opcteam-color-action-neutral-surface-pressed); }
+  .item:is(:focus-visible, [data-opc-preview-state="focus-visible"]),
+  .root[data-opc-preview-state="focus-visible"] .item[data-selected="true"] { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: calc(var(--opcteam-focus-offset) * -1); }
   .item:disabled { color: var(--opcteam-color-content-disabled); cursor: not-allowed; }
 
   .icon { position: relative; display: grid; box-sizing: border-box; inline-size: 64px; block-size: 32px; place-items: center; border-radius: var(--opcteam-radius-pill); transition: background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard); }

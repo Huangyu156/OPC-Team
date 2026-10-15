@@ -147,7 +147,7 @@
       }
     }
 
-    > [data-openbitfun-part='content'] {
+    > [data-opc-part='content'] {
       max-width: 84px;
       overflow: hidden;
       white-space: nowrap;
@@ -215,13 +215,13 @@
     border-radius: 6px;
     background: color-mix(in srgb, var(--opcteam-color-action-quiet-hover) 58%, transparent);
 
-    > :is(svg, [data-openbitfun-component='icon']) {
+    > :is(svg, [data-opc-component='icon']) {
       flex: 0 0 auto;
       color: var(--opcteam-color-content-secondary);
     }
 
     &--warning svg,
-    &--warning [data-openbitfun-component='icon'],
+    &--warning [data-opc-component='icon'],
     &--warning .session-usage-report-card__metric-value {
       color: var(--opcteam-color-status-warning-content);
     }
@@ -606,7 +606,7 @@
   overflow-wrap: anywhere;
 }
 
-.session-usage-report-card__compact-metric--warning .session-usage-report-card__compact-metric-label [data-openbitfun-component='icon'],
+.session-usage-report-card__compact-metric--warning .session-usage-report-card__compact-metric-label [data-opc-component='icon'],
 .session-usage-report-card__compact-metric--warning .session-usage-report-card__metric-value {
   color: var(--opcteam-color-status-warning-content);
 }

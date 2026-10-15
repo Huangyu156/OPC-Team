@@ -34,7 +34,7 @@
   }
 
   .media > :where(svg, img),
-  .media > [data-openbitfun-component="icon"] {
+  .media > [data-opc-component="icon"] {
     display: block;
     inline-size: var(--_empty-icon-size);
     block-size: var(--_empty-icon-size);
@@ -42,7 +42,7 @@
     max-block-size: 100%;
   }
 
-  .media > [data-openbitfun-component="icon"] {
+  .media > [data-opc-component="icon"] {
     color: inherit;
   }
 

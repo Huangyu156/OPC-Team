@@ -114,7 +114,7 @@ export function useSceneTabNavigation({
 
   useLayoutEffect(() => {
     const tabs = tabsRef.current;
-    const activeTab = getTabElements().find(tab => tab.dataset.openbitfunValue === activeTabId);
+    const activeTab = getTabElements().find(tab => tab.dataset.opcValue === activeTabId);
     const activeItem = activeTab?.closest<HTMLElement>('[data-opc-part="item"]') ?? activeTab;
     if (!tabs || !activeItem) return;
 

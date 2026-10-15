@@ -18,7 +18,7 @@
   }
 
   .root:not([data-disabled="true"]) .header:hover,
-  .root:not([data-disabled="true"])[data-openbitfun-preview-state="hover"] .header {
+  .root:not([data-disabled="true"])[data-opc-preview-state="hover"] .header {
     background: var(--opcteam-color-action-neutral-surface);
   }
 
@@ -27,7 +27,7 @@
   }
 
   .header:has(.trigger:focus-visible),
-  .root[data-openbitfun-preview-state="focus-visible"] .header {
+  .root[data-opc-preview-state="focus-visible"] .header {
     box-shadow: 0 0 0 var(--opcteam-focus-width) var(--opcteam-color-focus-ring);
   }
 

@@ -95,15 +95,15 @@
 
 .welcome-panel__inline-btn::before { content: none; }
 
-.welcome-panel__inline-btn > [data-openbitfun-part='content'] { gap: inherit; }
+.welcome-panel__inline-btn > [data-opc-part='content'] { gap: inherit; }
 
-.welcome-panel__inline-btn [data-openbitfun-part='leading-icon'] {
+.welcome-panel__inline-btn [data-opc-part='leading-icon'] {
   --opcteam-opacity-icon-artwork: inherit;
   inline-size: 13px;
   block-size: 13px;
 }
 
-.welcome-panel__inline-btn [data-openbitfun-part='trailing-icon'] {
+.welcome-panel__inline-btn [data-opc-part='trailing-icon'] {
   --opcteam-opacity-icon-artwork: inherit;
   inline-size: 11px;
   block-size: 11px;

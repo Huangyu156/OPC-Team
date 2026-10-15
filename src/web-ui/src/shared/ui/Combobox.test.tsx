@@ -215,7 +215,7 @@ describe('public Combobox product integration', () => {
   it('flips at the bottom edge and repositions after ancestor scrolling', () => {
     let top = window.innerHeight - 48;
     vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
-      if (this.dataset.openbitfunComponent === 'combobox-popup') return new DOMRect(0, 0, 240, 180);
+      if (this.dataset.opcComponent === 'combobox-popup') return new DOMRect(0, 0, 240, 180);
       return new DOMRect(40, top, 240, 40);
     });
     render(); act(() => trigger().click());

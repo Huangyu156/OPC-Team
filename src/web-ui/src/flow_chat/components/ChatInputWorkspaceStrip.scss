@@ -76,14 +76,14 @@ $track-item-gap: 10px;
 
   // One glyph size for the whole track, enforced here so component-owned
   // icons land on the same rhythm without the strip reaching into them.
-  > :is(svg, [data-openbitfun-component='icon']) {
+  > :is(svg, [data-opc-component='icon']) {
     flex: none;
     width: var(--opcteam-control-icon-size-xs);
     height: var(--opcteam-control-icon-size-xs);
   }
 }
 
-.openbitfun-chat-input-workspace-strip {
+.opc-chat-input-workspace-strip {
   position: relative;
   z-index: 1;
   box-sizing: border-box;
@@ -215,20 +215,20 @@ $track-item-gap: 10px;
   &__permission-overview-icon {
     color: var(--opcteam-color-content-muted);
 
-    .openbitfun-chat-input-workspace-strip__permission-trigger--ask & {
+    .opc-chat-input-workspace-strip__permission-trigger--ask & {
       color: var(--opcteam-color-status-success-emphasis);
     }
 
-    .openbitfun-chat-input-workspace-strip__permission-trigger--auto & {
+    .opc-chat-input-workspace-strip__permission-trigger--auto & {
       color: var(--opcteam-color-status-warning-emphasis);
     }
 
-    .openbitfun-chat-input-workspace-strip__permission-trigger--full_access & {
+    .opc-chat-input-workspace-strip__permission-trigger--full_access & {
       color: var(--opcteam-color-status-danger-emphasis);
     }
 
-    .openbitfun-chat-input-workspace-strip__permission-trigger--reject &,
-    .openbitfun-chat-input-workspace-strip__permission-trigger--acp & {
+    .opc-chat-input-workspace-strip__permission-trigger--reject &,
+    .opc-chat-input-workspace-strip__permission-trigger--acp & {
       color: var(--opcteam-color-content-muted);
     }
   }
@@ -286,7 +286,7 @@ $track-item-gap: 10px;
     // Running is the quiet case, so only the glyph says the goal is alive.
     // `<Icon>` owns the svg, so the flag is tinted on the icon slot itself;
     // hovering the control then lifts the label without dimming the flag.
-    &--active > [data-openbitfun-component='icon'] {
+    &--active > [data-opc-component='icon'] {
       color: var(--opcteam-color-accent-default);
     }
 
@@ -323,7 +323,7 @@ $track-item-gap: 10px;
 
   // Clearing cannot be undone, so the one irreversible control on the track says
   // so before it is pressed instead of joining the quiet ink of the rest.
-  &__goal-clear:hover:not(:disabled) > [data-openbitfun-component='icon'] {
+  &__goal-clear:hover:not(:disabled) > [data-opc-component='icon'] {
     color: var(--opcteam-color-status-danger-emphasis);
   }
 
@@ -545,7 +545,7 @@ $track-item-gap: 10px;
 // Degradation is ordered by what a reader loses: prose first, then labels, and
 // never the colors or the numeric readings that carry state and risk.
 @media (max-width: 680px) {
-  .openbitfun-chat-input-workspace-strip {
+  .opc-chat-input-workspace-strip {
     &__workspace {
       max-width: 112px;
     }
@@ -553,7 +553,7 @@ $track-item-gap: 10px;
 }
 
 @media (max-width: 560px) {
-  .openbitfun-chat-input-workspace-strip {
+  .opc-chat-input-workspace-strip {
     &__permission-label {
       display: none;
     }
@@ -584,7 +584,7 @@ $track-item-gap: 10px;
 }
 
 @media (max-width: 460px) {
-  .openbitfun-chat-input-workspace-strip {
+  .opc-chat-input-workspace-strip {
     &__branch {
       display: none;
     }

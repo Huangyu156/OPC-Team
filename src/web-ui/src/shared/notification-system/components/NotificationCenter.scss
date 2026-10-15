@@ -77,7 +77,7 @@
     min-inline-size: 0;
 
     &:is(:hover, :has(:focus-visible)),
-    &[data-openbitfun-state~='expanded'] {
+    &[data-opc-state~='expanded'] {
       > .notification-center__item-card {
         background: var(--opcteam-color-action-neutral-surface);
       }
@@ -89,7 +89,7 @@
     transition: background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
-  &__item-disclosure > [data-openbitfun-part='header'] {
+  &__item-disclosure > [data-opc-part='header'] {
     background: transparent;
     color: inherit;
 
@@ -98,29 +98,29 @@
       grid-template-columns: var(--opcteam-layout-disclosure-indicator-size) minmax(0, 1fr);
     }
 
-    [data-openbitfun-part='indicator'],
-    [data-openbitfun-part='leading'] {
+    [data-opc-part='indicator'],
+    [data-opc-part='leading'] {
       grid-area: 1 / 1;
       pointer-events: none;
     }
 
-    [data-openbitfun-part='indicator'] {
+    [data-opc-part='indicator'] {
       transition:
         opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
         transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
     }
 
-    [data-openbitfun-part='leading'] {
+    [data-opc-part='leading'] {
       opacity: 0;
       transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
     }
 
-    [data-openbitfun-part='heading'] {
+    [data-opc-part='heading'] {
       grid-area: 1 / 2;
     }
   }
 
-  &__item-disclosure > [data-openbitfun-part='content'] > [data-openbitfun-part='content-inner'],
+  &__item-disclosure > [data-opc-part='content'] > [data-opc-part='content-inner'],
   &__item-progress {
     padding-inline-start: calc(
       var(--opcteam-layout-disclosure-trigger-padding-inline)
@@ -282,12 +282,12 @@
       pointer-events: none;
     }
 
-    > .notification-center__item-card > .notification-center__item-disclosure[data-open='false'] > [data-openbitfun-part='header'] {
-      [data-openbitfun-part='indicator'] {
+    > .notification-center__item-card > .notification-center__item-disclosure[data-open='false'] > [data-opc-part='header'] {
+      [data-opc-part='indicator'] {
         opacity: 0;
       }
 
-      [data-openbitfun-part='leading'] {
+      [data-opc-part='leading'] {
         opacity: 1;
       }
     }
@@ -301,8 +301,8 @@
 
   .notification-center__item-card,
   .notification-center__item-progress-fill,
-  .notification-center__item-disclosure > [data-openbitfun-part='header'] [data-openbitfun-part='indicator'],
-  .notification-center__item-disclosure > [data-openbitfun-part='header'] [data-openbitfun-part='leading'],
+  .notification-center__item-disclosure > [data-opc-part='header'] [data-opc-part='indicator'],
+  .notification-center__item-disclosure > [data-opc-part='header'] [data-opc-part='leading'],
   .notification-center__item-action {
     transition: none;
   }

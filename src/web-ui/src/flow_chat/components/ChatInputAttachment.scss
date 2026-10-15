@@ -1,4 +1,4 @@
-.openbitfun-chat-input {
+.opc-chat-input {
   &__image-strip {
     display: flex;
     flex-wrap: wrap;
@@ -16,8 +16,8 @@
     border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
     flex-shrink: 0;
 
-    &:hover .openbitfun-chat-input__attachment-remove,
-    &:focus-within .openbitfun-chat-input__attachment-remove { opacity: 1; }
+    &:hover .opc-chat-input__attachment-remove,
+    &:focus-within .opc-chat-input__attachment-remove { opacity: 1; }
   }
 
   &__image-chip-preview {
@@ -81,5 +81,5 @@
 }
 
 @media (hover: none) {
-  .openbitfun-chat-input__attachment-remove { opacity: 1; }
+  .opc-chat-input__attachment-remove { opacity: 1; }
 }

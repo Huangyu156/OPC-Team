@@ -8,7 +8,7 @@ $skills-installed-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(120px, 0.85f
 // Root wrapper
 // ══════════════════════════════════════════════════════════════════════════════
 
-.openbitfun-skills-scene {
+.opc-skills-scene {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   grid-template-rows: auto minmax(0, 1fr);
@@ -71,7 +71,7 @@ $skills-installed-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(120px, 0.85f
   min-inline-size: 0;
 }
 
-.skills-sidebar__search > [data-openbitfun-component='search-field'] {
+.skills-sidebar__search > [data-opc-component='search-field'] {
   inline-size: 100%;
 }
 
@@ -275,7 +275,7 @@ $skills-installed-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(120px, 0.85f
   gap: var(--opcteam-space-2);
   min-width: 0;
 
-  > [data-openbitfun-component='status-pill'] {
+  > [data-opc-component='status-pill'] {
     flex: none;
   }
 }
@@ -333,7 +333,7 @@ $skills-installed-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(120px, 0.85f
   font-size: var(--opcteam-type-meta-font-size);
   line-height: var(--opcteam-type-meta-line-height);
 
-  > [data-openbitfun-component='icon'] {
+  > [data-opc-component='icon'] {
     flex-shrink: 0;
   }
 }
@@ -344,7 +344,7 @@ $skills-installed-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(120px, 0.85f
   align-items: flex-start;
   gap: var(--opcteam-space-2);
 
-  > [data-openbitfun-component='status-pill'] {
+  > [data-opc-component='status-pill'] {
     max-inline-size: 100%;
   }
 }
@@ -636,7 +636,7 @@ $skills-installed-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(120px, 0.85f
   }
 }
 
-.openbitfun-skills-scene {
+.opc-skills-scene {
   &__market-meta {
     display: inline-flex;
     align-items: center;
@@ -762,7 +762,7 @@ $skills-installed-columns: minmax(0, 1.6fr) minmax(0, 0.9fr) minmax(120px, 0.85f
     border-inline-end: 0;
     border-block-end: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
 
-    > [data-openbitfun-part='body'] {
+    > [data-opc-part='body'] {
       display: none;
     }
   }

@@ -12,12 +12,12 @@ import {
 } from "@openbitfun/ui/brand";
 import { useI18n, type MessageKey } from "../i18n";
 import { SUBAGENT_AVATAR_CATALOG } from "../assets/subagentAvatars";
-import silverUrl from "../../../../packages/ui/src/brand/assets/openbitfun-app-mark.png?url";
-import outlineUrl from "../../../../packages/ui/src/brand/assets/openbitfun-mark.svg?url";
+import silverUrl from "../../../../packages/ui/src/brand/assets/opc-app-mark.png?url";
+import outlineUrl from "../../../../packages/ui/src/brand/assets/opc-mark.svg?url";
 import appPngUrl from "../../../../../assets/brand/exports/opc-app-icon-512.png?url";
 import appIcoUrl from "../../../../../assets/brand/exports/openbitfun-app-icon.ico?url";
 import appIcnsUrl from "../../../../../assets/brand/exports/openbitfun-app-icon.icns?url";
-import wordmarkUrl from "../../../../../png/opc-wordmark.png?url";
+import wordmarkUrl from "../../../../../png/openbitfun-wordmark.png?url";
 import "./BrandPage.css";
 
 type BrandResource = {
@@ -47,12 +47,12 @@ export const brandResources: readonly BrandResource[] = [
   {
     name: "OpenBitFunMark", label: "design.lineMark", motion: true,
     description: "brandAssets.outlineDescription", specification: "SVG",
-    downloads: [{ label: "SVG", url: outlineUrl, filename: "openbitfun-mark.svg" }],
+    downloads: [{ label: "SVG", url: outlineUrl, filename: "opc-mark.svg" }],
   },
   {
     name: "wordmark", label: "design.wordmark",
     description: "brandAssets.wordmarkDescription", specification: "PNG · 2172 × 724",
-    downloads: [{ label: "PNG", url: wordmarkUrl, filename: "opc-wordmark.png" }],
+    downloads: [{ label: "PNG", url: wordmarkUrl, filename: "openbitfun-wordmark.png" }],
   },
   {
     name: "OpenBitFunBrandMotion", label: "design.aboutMotion", motion: true,

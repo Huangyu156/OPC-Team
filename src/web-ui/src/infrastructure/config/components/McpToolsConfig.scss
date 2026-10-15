@@ -1,4 +1,4 @@
-.openbitfun-mcp-tools {
+.opc-mcp-tools {
   // Server rows, empty states and the JSON editor all sit inside the shared
   // section card (see ConfigPageLayout) — no page-level chrome overrides here,
   // so this page reads like every other settings page.
@@ -6,7 +6,7 @@
   // ─── JSON editor (MCP) ─────────────────────────────────────────────────────
   &__json-editor {
     // Replaces the server list inside the section card, so it carries the same
-    // gutter a `.openbitfun-config-page-row` would.
+    // gutter a `.opc-config-page-row` would.
     padding: var(--opcteam-space-4);
     display: flex;
     flex-direction: column;
@@ -93,7 +93,7 @@
       border-color: var(--opcteam-color-status-success-border);
 
       > svg,
-      > [data-openbitfun-component='icon'] {
+      > [data-opc-component='icon'] {
         color: var(--opcteam-color-status-success-emphasis);
       }
     }
@@ -104,8 +104,8 @@
       border-color: var(--opcteam-color-status-warning-border);
 
       > svg,
-      > [data-openbitfun-component='icon'],
-      > [data-openbitfun-part='processing'] {
+      > [data-opc-component='icon'],
+      > [data-opc-part='processing'] {
         color: var(--opcteam-color-status-warning-emphasis);
       }
     }
@@ -116,7 +116,7 @@
       border-color: var(--opcteam-color-status-danger-border);
 
       > svg,
-      > [data-openbitfun-component='icon'] {
+      > [data-opc-component='icon'] {
         color: var(--opcteam-color-status-danger-emphasis);
       }
     }
@@ -184,17 +184,17 @@
 }
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-mcp-tools__external-section > .openbitfun-config-page-section__header {
+  .opc-mcp-tools__external-section > .opc-config-page-section__header {
     flex-direction: row;
     align-items: flex-start;
 
-    .openbitfun-config-page-section__extra {
+    .opc-config-page-section__extra {
       width: auto;
       justify-content: flex-end;
     }
   }
 }
-.openbitfun-mcp-tools__import {
+.opc-mcp-tools__import {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -209,7 +209,7 @@
     margin: 0;
   }
 
-  .openbitfun-mcp-tools__import-list {
+  .opc-mcp-tools__import-list {
     max-height: 120px;
   }
 
@@ -220,12 +220,12 @@
 
 }
 
-.openbitfun-mcp-tools__import-actions {
+.opc-mcp-tools__import-actions {
   display: flex;
   gap: 8px;
 }
 
-.openbitfun-mcp-tools__import-plan {
+.opc-mcp-tools__import-plan {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -233,12 +233,12 @@
   min-width: 0;
 }
 
-.openbitfun-mcp-tools__import-list {
+.opc-mcp-tools__import-list {
   padding: 0;
   list-style: none;
 }
 
-.openbitfun-mcp-tools__import-option {
+.opc-mcp-tools__import-option {
   display: flex;
   align-items: flex-start;
   gap: var(--opcteam-space-2);
@@ -246,11 +246,11 @@
   cursor: pointer;
 }
 
-.openbitfun-mcp-tools__import-control {
+.opc-mcp-tools__import-control {
   width: 100%;
 }
 
-.openbitfun-mcp-tools__import-option-content {
+.opc-mcp-tools__import-option-content {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -258,7 +258,7 @@
   min-width: 0;
 }
 
-.openbitfun-mcp-tools__import-option-meta {
+.opc-mcp-tools__import-option-meta {
   display: flex;
   gap: var(--opcteam-space-1);
   flex-wrap: wrap;

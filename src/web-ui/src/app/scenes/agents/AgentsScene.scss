@@ -1,9 +1,9 @@
 // Keep controls aligned with their surfaces while retaining color and label motion.
-:is(.openbitfun-agents-scene, .agent-detail-dialog) :is(button, [role='button']):active {
+:is(.opc-agents-scene, .agent-detail-dialog) :is(button, [role='button']):active {
   scale: none;
 }
 
-.openbitfun-agents-scene {
+.opc-agents-scene {
   flex: 1 1 auto;
   width: 100%;
   height: 100%;
@@ -123,7 +123,7 @@
     margin: 0;
 
     // The outer list clips the fill once, against its own border contour.
-    &:has(> .openbitfun-agents-scene__harness-profile:hover:not(:disabled)) {
+    &:has(> .opc-agents-scene__harness-profile:hover:not(:disabled)) {
       background-color: var(--opcteam-color-surface-subtle);
     }
 
@@ -149,8 +149,8 @@
     column-gap: var(--opcteam-space-4);
     min-width: 0;
 
-    &:hover:not(:disabled) .openbitfun-agents-scene__harness-route-node,
-    &:hover:not(:disabled) .openbitfun-agents-scene__harness-route-arrow {
+    &:hover:not(:disabled) .opc-agents-scene__harness-route-node,
+    &:hover:not(:disabled) .opc-agents-scene__harness-route-arrow {
       background: var(--opcteam-color-surface-subtle);
     }
 
@@ -163,19 +163,19 @@
       cursor: default;
     }
 
-    &[data-openbitfun-profile='Minimal'] {
+    &[data-opc-profile='Minimal'] {
       color: var(--opcteam-color-identity-harness-minimal);
     }
 
-    &[data-openbitfun-profile='Standard'] {
+    &[data-opc-profile='Standard'] {
       color: var(--opcteam-color-identity-harness-standard);
     }
 
-    &[data-openbitfun-profile='Ultimate'] {
+    &[data-opc-profile='Ultimate'] {
       color: var(--opcteam-color-identity-harness-ultimate);
     }
 
-    &[data-openbitfun-profile='Creative'] {
+    &[data-opc-profile='Creative'] {
       color: var(--opcteam-color-identity-harness-creative);
     }
   }
@@ -241,7 +241,7 @@
 }
 
 @container agents-scene (max-width: 720px) {
-  .openbitfun-agents-scene {
+  .opc-agents-scene {
     .gallery-page-header {
       padding-top: var(--opcteam-space-5);
       padding-bottom: var(--opcteam-space-3);
@@ -277,7 +277,7 @@
 }
 
 @container agent-harness (max-width: 680px) {
-  .openbitfun-agents-scene {
+  .opc-agents-scene {
     &__harness-profile {
       grid-template-columns: 24px minmax(0, 1fr) minmax(120px, 32%);
       grid-template-rows: auto auto;
@@ -310,7 +310,7 @@
 }
 
 @container agent-harness (max-width: 480px) {
-  .openbitfun-agents-scene {
+  .opc-agents-scene {
     &__harness-profile {
       grid-template-columns: 24px minmax(0, 1fr);
       padding-inline: var(--opcteam-space-3);

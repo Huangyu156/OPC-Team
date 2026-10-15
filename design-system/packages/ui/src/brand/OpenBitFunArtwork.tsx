@@ -1,6 +1,6 @@
 import type { ImgHTMLAttributes } from "react";
 import { classNames } from "../internal/classNames";
-import solidMark from "./assets/openbitfun-app-mark.png";
+import solidMark from "./assets/opc-app-mark.png";
 import appIcon16 from "./assets/opc-app-icon-16.png";
 import appIcon32 from "./assets/opc-app-icon-32.png";
 import appIcon128 from "./assets/opc-app-icon-128.png";

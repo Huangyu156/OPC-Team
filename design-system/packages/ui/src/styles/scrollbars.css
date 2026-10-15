@@ -9,28 +9,28 @@
  * tracks for edge-to-edge content.
  */
 @layer openbitfun.base {
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar {
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar {
     width: var(--opcteam-scrollbar-width);
     height: var(--opcteam-scrollbar-width);
     background: transparent;
   }
 
   /* OS settings can expose the root, track pieces, buttons, and corner. */
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-track,
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-track-piece,
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-corner,
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-button,
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-resizer {
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-track,
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-track-piece,
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-corner,
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-button,
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-resizer {
     background: transparent;
   }
 
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-thumb {
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-thumb {
     background: var(--opcteam-color-scrollbar-thumb);
     border-radius: var(--opcteam-scrollbar-radius);
   }
 
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-thumb:hover,
-  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-thumb:active {
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-thumb:hover,
+  :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-thumb:active {
     background: var(--opcteam-color-scrollbar-thumb-hover);
   }
 
@@ -39,7 +39,7 @@
    * not color; setting thin there disables its transparent WebKit scrollbar.
    */
   @supports (scrollbar-color: transparent transparent) {
-    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility]) {
+    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility]) {
       scrollbar-width: thin;
       scrollbar-color: var(--opcteam-color-scrollbar-thumb) transparent;
     }
@@ -52,12 +52,12 @@
    * Scroll events (including streaming output) do not reveal an idle viewport.
    */
   @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
-    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility]):where(:not(:hover, :focus-visible, :has(:focus-visible), [data-openbitfun-scrollbar-visibility="always"]))::-webkit-scrollbar-thumb {
+    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility]):where(:not(:hover, :focus-visible, :has(:focus-visible), [data-opc-scrollbar-visibility="always"]))::-webkit-scrollbar-thumb {
       background: transparent;
     }
 
     @supports (scrollbar-color: transparent transparent) {
-      :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility]):where(:not(:hover, :focus-visible, :has(:focus-visible), [data-openbitfun-scrollbar-visibility="always"])) {
+      :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility]):where(:not(:hover, :focus-visible, :has(:focus-visible), [data-opc-scrollbar-visibility="always"])) {
         scrollbar-color: transparent transparent;
       }
     }
@@ -66,32 +66,32 @@
   /* Opt-in hover viewports release idle tracks instead of only hiding paint.
      Native overflow still owns whether a track is needed when revealed. */
   @media (hover: hover) and (pointer: fine) and (forced-colors: none) {
-    [data-openbitfun-scrollbar-visibility="hover"]:not(:hover, :focus-visible, :has(:focus-visible)) {
+    [data-opc-scrollbar-visibility="hover"]:not(:hover, :focus-visible, :has(:focus-visible)) {
       scrollbar-width: none;
     }
 
-    [data-openbitfun-scrollbar-visibility="hover"]:not(:hover, :focus-visible, :has(:focus-visible))::-webkit-scrollbar {
+    [data-opc-scrollbar-visibility="hover"]:not(:hover, :focus-visible, :has(:focus-visible))::-webkit-scrollbar {
       display: none;
     }
   }
 
   /* Explicit hidden viewports keep scrolling and their existing layout. */
-  [data-openbitfun-scrollbar-visibility="hidden"] {
+  [data-opc-scrollbar-visibility="hidden"] {
     scrollbar-width: none;
   }
 
-  [data-openbitfun-scrollbar-visibility="hidden"]::-webkit-scrollbar {
+  [data-opc-scrollbar-visibility="hidden"]::-webkit-scrollbar {
     display: none;
   }
 
   @media (forced-colors: active) {
-    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility]) {
+    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility]) {
       scrollbar-color: auto;
     }
 
-    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-thumb,
-    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-thumb:hover,
-    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-openbitfun-scrollbar-visibility])::-webkit-scrollbar-thumb:active {
+    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-thumb,
+    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-thumb:hover,
+    :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar-thumb:active {
       background: CanvasText;
     }
   }

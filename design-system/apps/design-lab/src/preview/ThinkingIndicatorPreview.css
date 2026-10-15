@@ -45,7 +45,7 @@
   block-size: 6rem;
 }
 
-.thinking-indicator-preview__enlarged > [data-openbitfun-component="thinking-indicator"] { transform: scale(3); }
+.thinking-indicator-preview__enlarged > [data-opc-component="thinking-indicator"] { transform: scale(3); }
 .thinking-indicator-preview__controls { display: flex; justify-content: center; }
 
 .thinking-indicator-preview__size-row {

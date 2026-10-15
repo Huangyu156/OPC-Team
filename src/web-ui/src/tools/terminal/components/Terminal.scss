@@ -1,6 +1,6 @@
 /* Terminal component styles based on xterm.js. */
 
-.openbitfun-terminal {
+.opc-terminal {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -137,12 +137,12 @@
       // Keep the terminal's quiet/pressed/danger states and text Ctrl+C glyph.
       &::before { content: none; }
 
-      > [data-openbitfun-part='icon'] {
+      > [data-opc-part='icon'] {
         --opcteam-opacity-icon-artwork: inherit;
         display: contents;
       }
 
-      > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+      > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
         inline-size: var(--opcteam-control-icon-size-sm);
         block-size: var(--opcteam-control-icon-size-sm);
       }
@@ -215,7 +215,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-terminal__loading-spinner {
+  .opc-terminal__loading-spinner {
     animation: none;
   }
 

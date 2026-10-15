@@ -1,7 +1,7 @@
  
 
 // Model settings page presentation.
-.openbitfun-model-settings {
+.opc-model-settings {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -24,17 +24,17 @@
     width: 100%;
     justify-content: space-between;
 
-    > [data-openbitfun-component='button'] {
+    > [data-opc-component='button'] {
       flex-shrink: 0;
     }
   }
 
-  &__acquisition-row > .openbitfun-config-page-row__meta,
-  &__mode-row > .openbitfun-config-page-row__meta {
+  &__acquisition-row > .opc-config-page-row__meta,
+  &__mode-row > .opc-config-page-row__meta {
     max-width: none;
   }
 
-  &__mode-row > .openbitfun-config-page-row__meta > .openbitfun-config-page-row__description {
+  &__mode-row > .opc-config-page-row__meta > .opc-config-page-row__description {
     max-inline-size: none;
   }
 
@@ -65,7 +65,7 @@
     flex-wrap: wrap;
   }
 
-  &__pool-tags > [data-openbitfun-component='status-pill'] {
+  &__pool-tags > [data-opc-component='status-pill'] {
     max-inline-size: 100%;
   }
 
@@ -88,12 +88,12 @@
     gap: var(--opcteam-space-3);
     margin-block: var(--opcteam-space-4);
 
-    > [data-openbitfun-component='search-field'] {
+    > [data-opc-component='search-field'] {
       flex: 1 1 220px;
       min-width: 0;
     }
 
-    > [data-openbitfun-component='select'] {
+    > [data-opc-component='select'] {
       flex: 0 1 180px;
       min-width: 0;
     }
@@ -119,7 +119,7 @@
     height: 100%;
   }
 
-  &__pool-card-header > [data-openbitfun-part='header-content'] {
+  &__pool-card-header > [data-opc-part='header-content'] {
     align-items: stretch;
   }
 
@@ -397,16 +397,16 @@
     display: flex;
     flex-direction: column;
 
-    > .openbitfun-collection-item {
+    > .opc-collection-item {
       border-radius: 0;
     }
 
-    .openbitfun-collection-item__row {
+    .opc-collection-item__row {
       border: none;
       border-radius: 0;
     }
 
-    .openbitfun-collection-item__details {
+    .opc-collection-item__details {
       border-top: 1px solid var(--opcteam-color-border-subtle);
       // The provider group owns the persistent surface. Reusing the shared
       // translucent details tint here makes the dark-theme composite nearly
@@ -415,7 +415,7 @@
       background: transparent;
     }
 
-    .openbitfun-collection-item__details-toggle {
+    .opc-collection-item__details-toggle {
       order: 2;
       opacity: 0;
       visibility: hidden;
@@ -425,10 +425,10 @@
         visibility 0s linear var(--opcteam-motion-duration-fast);
     }
 
-    .openbitfun-collection-item:hover,
-    .openbitfun-collection-item:focus-within {
-      .openbitfun-model-settings__model-actions,
-      .openbitfun-collection-item__details-toggle {
+    .opc-collection-item:hover,
+    .opc-collection-item:focus-within {
+      .opc-model-settings__model-actions,
+      .opc-collection-item__details-toggle {
         opacity: 1;
         visibility: visible;
         pointer-events: auto;
@@ -585,7 +585,7 @@
 
   &__custom-headers-row,
   &__custom-request-body-row {
-    > .openbitfun-config-page-row__meta {
+    > .opc-config-page-row__meta {
       width: 100%;
       max-width: none;
     }
@@ -604,13 +604,13 @@
     }
   }
 
-  &__context-window-row.openbitfun-config-page-row {
+  &__context-window-row.opc-config-page-row {
     row-gap: var(--opcteam-space-1);
 
-    > .openbitfun-config-page-row__meta {
+    > .opc-config-page-row__meta {
       display: contents;
 
-      > .openbitfun-config-page-row__description {
+      > .opc-config-page-row__description {
         grid-column: 1 / -1;
         order: 1;
         max-inline-size: none;
@@ -1195,17 +1195,17 @@
       flex-direction: column;
       gap: 0;
 
-      .openbitfun-model-settings__edit-section:not(.openbitfun-model-settings__connection-section) {
-        .openbitfun-config-page-row:not(.openbitfun-config-page-row--multiline):not(.openbitfun-model-settings__toggle-row),
-        .openbitfun-config-page-row--multiline.openbitfun-config-page-row--wide {
+      .opc-model-settings__edit-section:not(.opc-model-settings__connection-section) {
+        .opc-config-page-row:not(.opc-config-page-row--multiline):not(.opc-model-settings__toggle-row),
+        .opc-config-page-row--multiline.opc-config-page-row--wide {
           grid-template-columns: 96px minmax(0, 1fr) !important;
           gap: var(--opcteam-space-4);
 
-          &.openbitfun-model-settings__context-window-row {
+          &.opc-model-settings__context-window-row {
             row-gap: var(--opcteam-space-1);
           }
 
-          &.openbitfun-model-settings__model-selection-row {
+          &.opc-model-settings__model-selection-row {
             row-gap: var(--opcteam-space-2);
           }
         }
@@ -1214,31 +1214,31 @@
   }
 
   &__edit-section {
-    .openbitfun-config-page-row {
+    .opc-config-page-row {
       padding: var(--opcteam-space-3) var(--opcteam-space-4);
     }
 
-    .openbitfun-config-page-row.openbitfun-model-settings__toggle-row {
+    .opc-config-page-row.opc-model-settings__toggle-row {
       grid-template-columns: minmax(0, 1fr) auto !important;
       gap: var(--opcteam-space-3);
     }
 
-    .openbitfun-config-page-row--multiline.openbitfun-config-page-row--wide {
+    .opc-config-page-row--multiline.opc-config-page-row--wide {
       grid-template-columns: 96px minmax(0, 1fr) !important;
       gap: var(--opcteam-space-4);
     }
 
-    .openbitfun-config-page-row--multiline.openbitfun-config-page-row--wide .openbitfun-config-page-row__control {
+    .opc-config-page-row--multiline.opc-config-page-row--wide .opc-config-page-row__control {
       grid-column: 2;
     }
 
-    .openbitfun-config-page-row__control {
+    .opc-config-page-row__control {
       justify-content: stretch;
       justify-self: stretch;
       min-width: 0;
       overflow: visible;
 
-      > :not([data-openbitfun-component='switch']) {
+      > :not([data-opc-component='switch']) {
         min-width: 0;
         width: 100%;
         max-width: none;
@@ -1247,12 +1247,12 @@
 
     }
 
-    .openbitfun-model-settings__toggle-row .openbitfun-config-page-row__control {
+    .opc-model-settings__toggle-row .opc-config-page-row__control {
       width: auto;
       min-width: auto;
       justify-self: end;
 
-      > :not([data-openbitfun-component='switch']) {
+      > :not([data-opc-component='switch']) {
         width: auto;
         max-width: none;
         flex: 0 0 auto;
@@ -1260,14 +1260,14 @@
       }
     }
 
-    .openbitfun-config-page-row--multiline .openbitfun-config-page-row__control {
+    .opc-config-page-row--multiline .opc-config-page-row__control {
       flex-direction: column;
       align-items: stretch;
       overflow: visible;
     }
   }
 
-  &__connection-section > .openbitfun-config-page-section__body {
+  &__connection-section > .opc-config-page-section__body {
     display: grid;
     grid-template-columns: 112px minmax(0, 1.6fr) 96px minmax(0, 1fr);
     column-gap: var(--opcteam-space-4);
@@ -1283,7 +1283,7 @@
     padding: var(--opcteam-space-3) var(--opcteam-space-4);
   }
 
-  &__connection-row > .openbitfun-config-page-row {
+  &__connection-row > .opc-config-page-row {
     grid-column: span 2;
     grid-template-columns: subgrid;
     column-gap: var(--opcteam-space-4);
@@ -1292,7 +1292,7 @@
     border-top: 0;
   }
 
-  &__connection-row > .openbitfun-config-page-row + .openbitfun-config-page-row {
+  &__connection-row > .opc-config-page-row + .opc-config-page-row {
     border-top: 0;
   }
 
@@ -1301,20 +1301,20 @@
       &__connection-row:hover {
         background: var(--opcteam-component-config-page-row-hover-background);
 
-        > .openbitfun-config-page-row:hover {
+        > .opc-config-page-row:hover {
           background: transparent;
         }
       }
     }
   }
 
-  &__connection-row--single > .openbitfun-config-page-row {
+  &__connection-row--single > .opc-config-page-row {
     grid-column: 1 / -1;
   }
 
-  &__connection-row--single > .openbitfun-config-page-row,
+  &__connection-row--single > .opc-config-page-row,
   &__connection-section &__endpoint-row {
-    > .openbitfun-config-page-row__control {
+    > .opc-config-page-row__control {
       grid-column: 2 / -1;
     }
   }
@@ -1336,7 +1336,7 @@
     gap: var(--opcteam-space-2);
     min-width: 0;
 
-    > [data-openbitfun-component='status-pill'] {
+    > [data-opc-component='status-pill'] {
       flex: 0 0 auto;
     }
   }
@@ -1362,7 +1362,7 @@
     gap: var(--opcteam-space-2);
     min-width: 0;
 
-    > [data-openbitfun-component='status-pill'] {
+    > [data-opc-component='status-pill'] {
       flex: 0 0 auto;
     }
   }
@@ -1396,7 +1396,7 @@
 
   &__endpoint-row,
   &__model-selection-row {
-    > .openbitfun-config-page-row__meta {
+    > .opc-config-page-row__meta {
       display: flex;
       align-items: center;
       min-block-size: var(--opcteam-control-height-sm);
@@ -1442,17 +1442,17 @@
     // Keep the input decoration's existing feedback and intrinsic icon size.
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where(svg) {
+    > :where([data-opc-part='icon']) > :where(svg) {
       inline-size: 14px;
       block-size: 14px;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+    > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
       inline-size: var(--opcteam-control-icon-size-sm);
       block-size: var(--opcteam-control-icon-size-sm);
     }
@@ -1504,7 +1504,7 @@
       padding-inline: 12px;
     }
 
-    .openbitfun-model-settings__resolved-url {
+    .opc-model-settings__resolved-url {
       width: 100%;
       min-width: 0;
     }
@@ -1543,8 +1543,8 @@
     gap: var(--opcteam-space-3);
     overflow: hidden;
 
-    > .openbitfun-model-settings__model-fetch-hint,
-    > [data-openbitfun-component='search-field'] {
+    > .opc-model-settings__model-fetch-hint,
+    > [data-opc-component='search-field'] {
       flex-shrink: 0;
     }
   }
@@ -1561,7 +1561,7 @@
     align-items: flex-start;
     gap: var(--opcteam-space-2);
 
-    > [data-openbitfun-component='button'] {
+    > [data-opc-component='button'] {
       max-inline-size: 100%;
     }
   }
@@ -1631,11 +1631,11 @@
     gap: var(--opcteam-space-2);
     min-width: 0;
 
-    .openbitfun-model-settings__model-capsule {
+    .opc-model-settings__model-capsule {
       min-inline-size: min(100%, calc(4 * var(--opcteam-control-icon-button-xs-size)));
     }
 
-    .openbitfun-model-settings__model-capsule-edit > [data-openbitfun-part='content'] {
+    .opc-model-settings__model-capsule-edit > [data-opc-part='content'] {
       flex: 1 1 auto;
       justify-content: center;
     }
@@ -1652,17 +1652,17 @@
   }
 
   &__model-fetch-hint {
-    &:not(.openbitfun-model-settings__json-status--error) {
+    &:not(.opc-model-settings__json-status--error) {
       color: var(--opcteam-color-content-muted);
     }
     font-size: var(--opcteam-type-label-sm-font-size);
     line-height: var(--opcteam-type-body-sm-line-height);
   }
 
-  &__model-selection-row > .openbitfun-config-page-row__control {
+  &__model-selection-row > .opc-config-page-row__control {
     display: contents;
 
-    > .openbitfun-model-settings__control-stack {
+    > .opc-model-settings__control-stack {
       display: contents;
     }
   }
@@ -1674,12 +1674,12 @@
     box-sizing: border-box;
     padding-inline: calc(var(--opcteam-space-2) + var(--opcteam-border-width-default));
 
-    .openbitfun-model-settings__resolved-url-label {
+    .opc-model-settings__resolved-url-label {
       flex-shrink: 0;
       white-space: nowrap;
     }
 
-    .openbitfun-model-settings__resolved-url-value {
+    .opc-model-settings__resolved-url-value {
       min-width: 0;
     }
 
@@ -1712,12 +1712,12 @@
   &__model-editor-header {
     align-items: center;
 
-    [data-openbitfun-part='heading'] {
+    [data-opc-part='heading'] {
       justify-content: center;
       min-block-size: var(--opcteam-control-icon-button-xs-size);
     }
 
-    [data-openbitfun-part='title'] {
+    [data-opc-part='title'] {
       color: var(--opcteam-color-content-primary);
       font-family: var(--opcteam-type-label-selected-font-family);
       font-size: var(--opcteam-type-label-selected-font-size);
@@ -1736,7 +1736,7 @@
   &__form--single-model {
     container-name: config-panel;
 
-    .openbitfun-model-settings__form-content {
+    .opc-model-settings__form-content {
       gap: var(--opcteam-space-4);
     }
   }
@@ -1909,10 +1909,10 @@
 
   
   .spinning {
-    animation: openbitfun-model-settings-spin 1s linear infinite;
+    animation: opc-model-settings-spin 1s linear infinite;
   }
 
-  @keyframes openbitfun-model-settings-spin {
+  @keyframes opc-model-settings-spin {
     to {
       transform: rotate(360deg);
     }
@@ -1984,7 +1984,7 @@
     color: var(--opcteam-color-content-primary);
     white-space: nowrap;
 
-    .openbitfun-model-settings__provider-row:hover & {
+    .opc-model-settings__provider-row:hover & {
       color: var(--opcteam-color-accent-default);
     }
   }
@@ -2047,7 +2047,7 @@
     text-decoration: none;
     transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
-    .openbitfun-model-settings__provider-row:hover & {
+    .opc-model-settings__provider-row:hover & {
       color: var(--opcteam-color-accent-default);
     }
 
@@ -2101,7 +2101,7 @@
       transition: color var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
     }
 
-    .openbitfun-model-settings__custom-option:hover & svg {
+    .opc-model-settings__custom-option:hover & svg {
       color: var(--opcteam-color-accent-default);
     }
 
@@ -2167,7 +2167,7 @@
   }
 }
 
-.openbitfun-model-settings__selected-model-category-dropdown {
+.opc-model-settings__selected-model-category-dropdown {
   width: max-content;
   min-width: min(176px, calc(100vw - 16px));
   max-width: min(240px, calc(100vw - 16px));
@@ -2177,7 +2177,7 @@
 
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-model-settings {
+  .opc-model-settings {
     &__details-grid {
       grid-template-columns: 1fr;
       gap: var(--opcteam-space-2);
@@ -2356,7 +2356,7 @@
   }
 }
 
-.openbitfun-model-settings {
+.opc-model-settings {
   &__cli-discovery {
     display: flex;
     flex-direction: column;
@@ -2374,7 +2374,7 @@
     }
   }
 
-  &__cli-account.openbitfun-config-page-row {
+  &__cli-account.opc-config-page-row {
     grid-template-columns: minmax(0, 1fr) auto;
   }
 
@@ -2459,7 +2459,7 @@
       line-height: var(--opcteam-type-body-lg-line-height);
     }
 
-    .openbitfun-model-settings__subscription-logout-list {
+    .opc-model-settings__subscription-logout-list {
       max-height: 160px;
     }
 
@@ -2489,12 +2489,12 @@
   }
 
   @container config-panel (max-width: 520px) {
-    &__cli-account.openbitfun-config-page-row {
+    &__cli-account.opc-config-page-row {
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
       gap: var(--opcteam-space-4);
 
-      .openbitfun-config-page-row__control {
+      .opc-config-page-row__control {
         justify-content: flex-end;
       }
     }
@@ -2505,12 +2505,12 @@
   }
 
   @container config-panel (max-width: 360px) {
-    &__cli-account.openbitfun-config-page-row {
+    &__cli-account.opc-config-page-row {
       grid-template-columns: minmax(0, 1fr);
       align-items: flex-start;
       gap: var(--opcteam-space-2);
 
-      .openbitfun-config-page-row__control {
+      .opc-config-page-row__control {
         justify-content: flex-start;
       }
     }
@@ -2523,29 +2523,29 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-model-settings .spinning {
+  .opc-model-settings .spinning {
     animation: none;
     transform: none;
   }
 
-  .openbitfun-model-settings__model-actions,
-  .openbitfun-model-settings__pool-card-controls,
-  .openbitfun-model-settings__provider-group-list .openbitfun-collection-item__details-toggle {
+  .opc-model-settings__model-actions,
+  .opc-model-settings__pool-card-controls,
+  .opc-model-settings__provider-group-list .opc-collection-item__details-toggle {
     transition: none;
   }
 }
 
 @media (hover: none), (pointer: coarse) {
-  .openbitfun-model-settings__pool-card-controls {
+  .opc-model-settings__pool-card-controls {
     opacity: 1;
     pointer-events: auto;
   }
 }
 
 @media (hover: none) {
-  .openbitfun-model-settings__provider-group-list {
-    .openbitfun-model-settings__model-actions,
-    .openbitfun-collection-item__details-toggle {
+  .opc-model-settings__provider-group-list {
+    .opc-model-settings__model-actions,
+    .opc-collection-item__details-toggle {
       opacity: 1;
       visibility: visible;
       pointer-events: auto;
@@ -2555,86 +2555,86 @@
 }
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-model-settings__provider-row {
+  .opc-model-settings__provider-row {
     flex-wrap: wrap;
   }
 
-  .openbitfun-model-settings__provider-help-link {
+  .opc-model-settings__provider-help-link {
     font-size: var(--opcteam-type-micro-font-size);
   }
 }
 
 @container model-editor (max-width: 560px) {
-  .openbitfun-model-settings__form--modal .openbitfun-model-settings__edit-section:not(.openbitfun-model-settings__connection-section) {
-    .openbitfun-config-page-row:not(.openbitfun-config-page-row--multiline):not(.openbitfun-model-settings__toggle-row),
-    .openbitfun-config-page-row--multiline.openbitfun-config-page-row--wide {
+  .opc-model-settings__form--modal .opc-model-settings__edit-section:not(.opc-model-settings__connection-section) {
+    .opc-config-page-row:not(.opc-config-page-row--multiline):not(.opc-model-settings__toggle-row),
+    .opc-config-page-row--multiline.opc-config-page-row--wide {
       grid-template-columns: minmax(0, 1fr) !important;
     }
 
-    .openbitfun-config-page-row__control,
-    .openbitfun-config-page-row--multiline.openbitfun-config-page-row--wide .openbitfun-config-page-row__control {
+    .opc-config-page-row__control,
+    .opc-config-page-row--multiline.opc-config-page-row--wide .opc-config-page-row__control {
       grid-column: 1;
     }
   }
 
-  .openbitfun-model-settings__form-content {
+  .opc-model-settings__form-content {
     padding-inline: var(--opcteam-space-4);
   }
 
-  .openbitfun-model-settings__connection-section > .openbitfun-config-page-section__body {
+  .opc-model-settings__connection-section > .opc-config-page-section__body {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .openbitfun-model-settings__connection-row > .openbitfun-config-page-row {
+  .opc-model-settings__connection-row > .opc-config-page-row {
     grid-column: 1 / -1;
     padding-block: var(--opcteam-space-3);
   }
 
-  .openbitfun-model-settings__connection-row--single > .openbitfun-config-page-row,
-  .openbitfun-model-settings__connection-section .openbitfun-model-settings__endpoint-row {
-    > .openbitfun-config-page-row__control {
+  .opc-model-settings__connection-row--single > .opc-config-page-row,
+  .opc-model-settings__connection-section .opc-model-settings__endpoint-row {
+    > .opc-config-page-row__control {
       grid-column: 1;
     }
   }
 
-  .openbitfun-model-settings__form--modal .openbitfun-model-settings__edit-section .openbitfun-config-page-row {
+  .opc-model-settings__form--modal .opc-model-settings__edit-section .opc-config-page-row {
     row-gap: var(--opcteam-space-2);
   }
 
-  .openbitfun-model-settings__connection-section .openbitfun-model-settings__connection-row {
+  .opc-model-settings__connection-section .opc-model-settings__connection-row {
     padding-block: 0;
   }
 
-  .openbitfun-model-settings__connection-row > .openbitfun-config-page-row + .openbitfun-config-page-row {
+  .opc-model-settings__connection-row > .opc-config-page-row + .opc-config-page-row {
     border-top: var(--opcteam-border-width-default) solid var(--opcteam-component-config-page-divider);
   }
 
-  .openbitfun-model-settings__endpoint-inputs {
+  .opc-model-settings__endpoint-inputs {
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .openbitfun-model-settings__resolved-url {
+  .opc-model-settings__resolved-url {
     flex-wrap: wrap;
   }
 
-  .openbitfun-model-settings__subscription-account {
+  .opc-model-settings__subscription-account {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--opcteam-space-3);
   }
 
-  .openbitfun-model-settings__connection-section .openbitfun-model-settings__subscription-account-row {
+  .opc-model-settings__connection-section .opc-model-settings__subscription-account-row {
     padding-block-end: var(--opcteam-space-3);
 
-    > .openbitfun-config-page-row {
+    > .opc-config-page-row {
       padding-block-end: 0;
     }
   }
 
-  .openbitfun-model-settings__subscription-account-hint {
+  .opc-model-settings__subscription-account-hint {
     grid-column: 1 / -1;
   }
 
-  .openbitfun-model-settings__subscription-account-actions {
+  .opc-model-settings__subscription-account-actions {
     justify-content: flex-end;
   }
 }

@@ -31,7 +31,7 @@ function getSceneIdFromTabTarget(target: EventTarget | null): SceneTabId | undef
   if (!(target instanceof HTMLElement)) return undefined;
   const item = target.closest<HTMLElement>('[data-opc-part="item"]');
   const tab = item?.querySelector<HTMLElement>('[role="tab"][data-opc-value]');
-  return tab?.dataset.openbitfunValue as SceneTabId | undefined;
+  return tab?.dataset.opcValue as SceneTabId | undefined;
 }
 
 interface SceneBarProps {

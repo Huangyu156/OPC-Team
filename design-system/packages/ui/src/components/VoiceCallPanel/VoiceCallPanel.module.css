@@ -151,8 +151,8 @@
     color: inherit;
   }
 
-  .controls .control [data-openbitfun-part="icon"] { inline-size: 28px; block-size: 28px; }
-  .header :is(.back, .close) [data-openbitfun-part="icon"] { inline-size: 20px; block-size: 20px; }
+  .controls .control [data-opc-part="icon"] { inline-size: 28px; block-size: 28px; }
+  .header :is(.back, .close) [data-opc-part="icon"] { inline-size: 20px; block-size: 20px; }
   :is(.header, .controls) :is(.control, .back, .close)::before { content: none; }
 
   :is(.header, .controls) :is(.control, .back, .close):hover:not(:disabled) {
@@ -209,7 +209,7 @@
 
   /* The transcript changes presentation without replacing its reading viewport.
      Match FlowChat's user text and prose roles; compact only controls spacing. */
-  .conversation[data-openbitfun-presentation="chat"] {
+  .conversation[data-opc-presentation="chat"] {
     color: var(--opcteam-color-content-primary);
     font-family: var(--opcteam-type-flow-body-font-family);
     font-size: var(--opcteam-type-flow-control-font-size);
@@ -218,13 +218,13 @@
     letter-spacing: var(--opcteam-type-flow-body-letter-spacing);
   }
 
-  .conversation[data-openbitfun-presentation="chat"] .user {
+  .conversation[data-opc-presentation="chat"] .user {
     background: var(--opcteam-color-action-quiet-hover);
     border-radius: calc(var(--opcteam-control-flow-chat-card-radius) + 2px);
     line-height: inherit;
   }
 
-  .conversation[data-openbitfun-presentation="chat"] .status {
+  .conversation[data-opc-presentation="chat"] .status {
     color: var(--opcteam-color-content-secondary);
     font-size: var(--opcteam-type-flow-support-font-size);
     font-weight: var(--opcteam-type-flow-support-font-weight);
@@ -242,6 +242,6 @@
     color: inherit;
     background: color-mix(in srgb, currentColor 12%, transparent);
   }
-  .compactControls .control [data-openbitfun-part="icon"] { inline-size: 16px; block-size: 16px; }
+  .compactControls .control [data-opc-part="icon"] { inline-size: 16px; block-size: 16px; }
   @media (prefers-reduced-motion: reduce) { .controls, .controls .control { transition: none; } }
 }

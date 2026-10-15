@@ -70,24 +70,24 @@ describe('ComposerVoiceInputButton', () => {
 
     expect(cancel).toMatchObject({
       dataset: expect.objectContaining({
-        openbitfunRole: 'composer-action',
-        openbitfunShape: 'circle',
-        openbitfunVariant: 'quiet',
+        opcRole: 'composer-action',
+        opcShape: 'circle',
+        opcVariant: 'quiet',
       }),
     });
     expect(transcribe).toMatchObject({
       dataset: expect.objectContaining({
-        openbitfunRole: 'composer-action',
-        openbitfunShape: 'circle',
-        openbitfunVariant: 'fill',
+        opcRole: 'composer-action',
+        opcShape: 'circle',
+        opcVariant: 'fill',
       }),
     });
     expect(send).toMatchObject({
       dataset: expect.objectContaining({
-        openbitfunRole: 'composer-action',
-        openbitfunShape: 'circle',
-        openbitfunTone: 'danger',
-        openbitfunVariant: 'primary',
+        opcRole: 'composer-action',
+        opcShape: 'circle',
+        opcTone: 'danger',
+        opcVariant: 'primary',
       }),
     });
   });

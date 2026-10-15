@@ -1,4 +1,4 @@
-.openbitfun-shell-nav {
+.opc-shell-nav {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -249,8 +249,8 @@
       color: var(--opcteam-color-content-primary);
       background: var(--opcteam-color-action-neutral-surface-hover);
 
-      .openbitfun-shell-nav__terminal-dot { display: none; }
-      .openbitfun-shell-nav__terminal-close { display: inline-flex; }
+      .opc-shell-nav__terminal-dot { display: none; }
+      .opc-shell-nav__terminal-close { display: inline-flex; }
     }
 
     &.is-active {
@@ -398,7 +398,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-shell-nav {
+  .opc-shell-nav {
     &__workspace-trigger,
     &__split-button,
     &__split-button-main,
@@ -410,7 +410,7 @@
   }
 }
 
-.openbitfun-shell-nav__terminal-action[data-openbitfun-component='action-item'] {
+.opc-shell-nav__terminal-action[data-opc-component='action-item'] {
   width: 100%;
   min-block-size: 0;
   padding: 0;
@@ -420,30 +420,30 @@
   box-shadow: none;
   align-items: flex-start;
 
-  > [data-openbitfun-part='trigger'] {
+  > [data-opc-part='trigger'] {
     min-height: 32px;
   }
 
-  > [data-openbitfun-part='trigger'] > [data-openbitfun-part='label'] {
+  > [data-opc-part='trigger'] > [data-opc-part='label'] {
     display: block;
     width: 100%;
     font: inherit;
   }
 
-  > [data-openbitfun-part='actions'] {
+  > [data-opc-part='actions'] {
     align-self: flex-start;
     padding-top: 8px;
   }
 }
-.openbitfun-shell-nav__terminal-item.has-cwd .openbitfun-shell-nav__terminal-action > [data-openbitfun-part='actions'] {
+.opc-shell-nav__terminal-item.has-cwd .opc-shell-nav__terminal-action > [data-opc-part='actions'] {
   padding-top: 0;
 }
-.openbitfun-shell-nav__terminal-item:focus-within {
-  .openbitfun-shell-nav__terminal-close { display: inline-flex; }
-  .openbitfun-shell-nav__terminal-dot { display: none; }
+.opc-shell-nav__terminal-item:focus-within {
+  .opc-shell-nav__terminal-close { display: inline-flex; }
+  .opc-shell-nav__terminal-dot { display: none; }
 }
 
-.openbitfun-shell-nav__terminal-item:has(.openbitfun-shell-nav__terminal-action > [data-openbitfun-part='trigger']:focus-visible) {
+.opc-shell-nav__terminal-item:has(.opc-shell-nav__terminal-action > [data-opc-part='trigger']:focus-visible) {
   outline: 2px solid var(--opcteam-color-accent-default);
   outline-offset: -1px;
 }

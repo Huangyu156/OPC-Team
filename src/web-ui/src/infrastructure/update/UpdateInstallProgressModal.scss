@@ -1,8 +1,8 @@
-.openbitfun-update-progress {
+.opc-update-progress {
   min-inline-size: 0;
 }
 
-.openbitfun-update-progress__ready {
+.opc-update-progress__ready {
   display: flex;
   align-items: flex-start;
   gap: var(--opcteam-space-2);
@@ -13,14 +13,14 @@
   letter-spacing: var(--opcteam-type-body-md-letter-spacing);
 }
 
-.openbitfun-update-progress__status-icon {
+.opc-update-progress__status-icon {
   display: inline-flex;
   flex: 0 0 auto;
   align-items: center;
   block-size: 1lh;
 }
 
-.openbitfun-update-progress__summary {
+.opc-update-progress__summary {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -29,16 +29,16 @@
   overflow-wrap: anywhere;
 }
 
-.openbitfun-update-progress__version {
+.opc-update-progress__version {
   margin: 0;
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-update-progress__ready + * {
+.opc-update-progress__ready + * {
   margin-block-start: var(--opcteam-space-4);
 }
 
-.openbitfun-update-progress__bar {
+.opc-update-progress__bar {
   height: 8px;
   border-radius: 4px;
   background: var(--opcteam-color-surface-subtle);
@@ -46,7 +46,7 @@
   position: relative;
 }
 
-.openbitfun-update-progress__fill {
+.opc-update-progress__fill {
   width: 100%;
   height: 100%;
   border-radius: 4px;
@@ -55,12 +55,12 @@
   transition: transform 0.15s ease-out;
 }
 
-.openbitfun-update-progress__fill--indeterminate {
+.opc-update-progress__fill--indeterminate {
   width: 38%;
-  animation: openbitfun-update-progress-indeterminate 1.1s ease-in-out infinite;
+  animation: opc-update-progress-indeterminate 1.1s ease-in-out infinite;
 }
 
-@keyframes openbitfun-update-progress-indeterminate {
+@keyframes opc-update-progress-indeterminate {
   0% {
     transform: translateX(-100%);
   }
@@ -69,24 +69,24 @@
   }
 }
 
-.openbitfun-update-progress__hint {
+.opc-update-progress__hint {
   margin: 12px 0 0;
   font-size: var(--opcteam-type-label-md-font-size);
   color: var(--opcteam-color-content-secondary);
 }
 
-.openbitfun-update-progress__restart {
+.opc-update-progress__restart {
   margin: 8px 0 0;
   font-size: var(--opcteam-type-label-sm-font-size);
   color: var(--opcteam-color-content-muted);
 }
 
-.openbitfun-update-progress__alert {
+.opc-update-progress__alert {
   margin: 0;
   width: 100%;
 }
 
-.openbitfun-update-progress__actions {
+.opc-update-progress__actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -96,11 +96,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-update-progress__fill {
+  .opc-update-progress__fill {
     transition: none;
   }
 
-  .openbitfun-update-progress__fill--indeterminate {
+  .opc-update-progress__fill--indeterminate {
     animation: none;
     transform: none;
   }

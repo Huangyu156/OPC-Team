@@ -38,8 +38,8 @@ describe('NewProjectDialog composition', () => {
     const pending = new Promise<void>((_resolve, reject) => { rejectCreate = reject; });
     const confirm = vi.fn(() => pending);
     await act(async () => root.render(<NewProjectDialog isOpen defaultParentPath="/srv/workspaces" onClose={close} onConfirm={confirm} />));
-    expect(button('newProject.cancel').dataset.openbitfunVariant).toBe('fill');
-    expect(button('newProject.create').dataset.openbitfunVariant).toBe('primary');
+    expect(button('newProject.cancel').dataset.opcVariant).toBe('fill');
+    expect(button('newProject.create').dataset.opcVariant).toBe('primary');
     enterName(' example-project ');
     await act(async () => { button('newProject.create').click(); });
     expect(confirm).toHaveBeenCalledWith('/srv/workspaces', 'example-project');

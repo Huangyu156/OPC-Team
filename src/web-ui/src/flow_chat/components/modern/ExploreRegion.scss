@@ -23,7 +23,7 @@
 }
 
 // The exposed page edges need space only while the file group is collected.
-.explore-region[data-file-revisions='true'][data-expanded='true'] > [data-openbitfun-part='header'] {
+.explore-region[data-file-revisions='true'][data-expanded='true'] > [data-opc-part='header'] {
   padding-block-end: 0;
 }
 

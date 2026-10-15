@@ -382,7 +382,7 @@ describeWithJsdom('AgentControlToolCard', () => {
     expect(container.querySelector('[title]')).toBeNull();
     const popup = await revealPreview();
     expect(document.querySelectorAll('[role="tooltip"]')).toHaveLength(1);
-    expect(popup.dataset.openbitfunInteractive).toBe('true');
+    expect(popup.dataset.opcInteractive).toBe('true');
     expect(popup.querySelector('[data-opc-part="previewName"]')?.textContent).toBe(flowChatEn.subagentIdentity.names.cloudHopper);
     expect(popup.querySelector('[data-opc-component="subagent-avatar"]')).toBeTruthy();
     expect(popup.querySelector('[data-opc-part="previewAgentType"]')?.textContent).toBe('SwarmWorker');

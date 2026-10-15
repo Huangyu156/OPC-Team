@@ -537,13 +537,13 @@ const Terminal = forwardRef<TerminalRef, TerminalProps>(({
 
     const xtermViewport = container.querySelector<HTMLElement>('.xterm-viewport');
     if (xtermViewport) {
-      xtermViewport.dataset.openbitfunComponent = 'terminal-tool';
-      xtermViewport.dataset.openbitfunPart = 'output';
+      xtermViewport.dataset.opcComponent = 'terminal-tool';
+      xtermViewport.dataset.opcPart = 'output';
     }
     const xtermScreen = container.querySelector<HTMLElement>('.xterm-screen');
     if (xtermScreen) {
-      xtermScreen.dataset.openbitfunComponent = 'terminal-tool';
-      xtermScreen.dataset.openbitfunPart = 'screen';
+      xtermScreen.dataset.opcComponent = 'terminal-tool';
+      xtermScreen.dataset.opcPart = 'screen';
     }
 
     terminalRef.current = terminal;

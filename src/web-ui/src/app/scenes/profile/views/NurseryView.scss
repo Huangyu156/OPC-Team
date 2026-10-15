@@ -207,9 +207,9 @@ $nursery-gallery-gutter: clamp(16px, 2.5vw, 28px);
   &__header {
     min-width: 0;
 
-    > [data-openbitfun-part='header-content'] > :where(
-      [data-openbitfun-part='title'],
-      [data-openbitfun-part='description']
+    > [data-opc-part='header-content'] > :where(
+      [data-opc-part='title'],
+      [data-opc-part='description']
     ) {
       align-self: stretch;
     }
@@ -1225,7 +1225,7 @@ $nursery-gallery-gutter: clamp(16px, 2.5vw, 28px);
 
   // Override SessionsSection's built-in NavPanel indentation so rows
   // align flush with the chat input above; slightly roomier than nav but not loose.
-  .openbitfun-nav-panel__inline-list {
+  .opc-nav-panel__inline-list {
     padding-inline: 0;
     padding-block: var(--opcteam-space-1);
     margin-inline: 0;
@@ -1233,7 +1233,7 @@ $nursery-gallery-gutter: clamp(16px, 2.5vw, 28px);
     gap: var(--opcteam-space-1);
   }
 
-  .openbitfun-nav-panel__inline-item {
+  .opc-nav-panel__inline-item {
     height: auto;
     min-height: 34px;
     padding: var(--opcteam-space-1) var(--opcteam-space-2);
@@ -1241,13 +1241,13 @@ $nursery-gallery-gutter: clamp(16px, 2.5vw, 28px);
     font-size: var(--opcteam-type-body-md-font-size);
   }
 
-  .openbitfun-nav-panel__inline-item.is-child {
+  .opc-nav-panel__inline-item.is-child {
     min-height: 30px;
     padding-left: calc(var(--opcteam-space-2) + 22px);
     font-size: var(--opcteam-type-label-md-font-size);
   }
 
-  .openbitfun-nav-panel__inline-empty {
+  .opc-nav-panel__inline-empty {
     padding: var(--opcteam-space-3) 0;
     font-size: var(--opcteam-type-label-md-font-size);
   }

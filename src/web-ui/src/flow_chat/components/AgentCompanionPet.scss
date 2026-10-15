@@ -18,7 +18,7 @@
 
 /* ---------- Slot ---------- */
 
-.openbitfun-agent-companion-pet {
+.opc-agent-companion-pet {
   /* FIXED panda body palette — never inverted. */
   --opcteam-pet-color: var(--opcteam-color-content-on-light);
   --opcteam-pet-cream: var(--opcteam-color-content-on-dark);
@@ -103,29 +103,29 @@
    SVG outline filter (defined inline in the markup) so the silhouette is
    surrounded by a single continuous light contour rather than per-shape
    outlines on every internal element. */
-:root[data-openbitfun-appearance-mode='dark'] .openbitfun-agent-companion-pet,
-[data-openbitfun-appearance-mode='dark'] .openbitfun-agent-companion-pet {
+:root[data-opc-appearance-mode='dark'] .opc-agent-companion-pet,
+[data-opc-appearance-mode='dark'] .opc-agent-companion-pet {
   --opcteam-pet-decor: var(--opcteam-pet-cream);
   --opcteam-pet-decor-soft: color-mix(in srgb, var(--opcteam-pet-cream) 60%, transparent);
 
-  .openbitfun-panda-head__silhouette {
+  .opc-panda-head__silhouette {
     filter: url(#openbitfun-panda-outline);
   }
 }
 
 /* ---------- Fills ---------- */
 
-.openbitfun-panda__b {
+.opc-panda__b {
   fill: var(--opcteam-pet-color);
 }
 
-.openbitfun-panda__face-mask {
+.opc-panda__face-mask {
   fill: var(--opcteam-pet-cream);
 }
 
 /* ---------- Head: gentle continuous breathing ---------- */
 
-.openbitfun-panda-head {
+.opc-panda-head {
   transform-origin: 50% 88%;
   transform-box: fill-box;
   animation: openbitfun-head-breathe 6.8s ease-in-out infinite;
@@ -163,7 +163,7 @@
 
 /* ---------- Mood overlay layers ---------- */
 
-.openbitfun-panda-head {
+.opc-panda-head {
   &__face-layer {
     opacity: 0;
     transition: opacity 0.64s ease;
@@ -200,13 +200,13 @@
 
   /* Analyzing — ears twitch + think pips climb upward in sequence. */
 
-  &--analyzing .openbitfun-panda-head__ear--left {
+  &--analyzing .opc-panda-head__ear--left {
     animation: openbitfun-ear-twitch-l 2.8s ease-in-out infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
   }
 
-  &--analyzing .openbitfun-panda-head__ear--right {
+  &--analyzing .opc-panda-head__ear--right {
     animation: openbitfun-ear-twitch-r 2.8s ease-in-out 0.72s infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
@@ -232,7 +232,7 @@
 
   /* Waiting — front paw taps + dots bob. */
 
-  &--waiting .openbitfun-panda-head__paw--front {
+  &--waiting .opc-panda-head__paw--front {
     animation: openbitfun-paw-tap 1.8s ease-in-out infinite;
     transform-origin: 70% 60%;
     transform-box: fill-box;
@@ -264,14 +264,14 @@
     animation: openbitfun-sweat-fall 3.2s ease-in infinite;
   }
 
-  &--working .openbitfun-panda-head__ear--right {
+  &--working .opc-panda-head__ear--right {
     animation: openbitfun-ear-tense 3.2s ease-in-out infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
   }
 
-  &--hover .openbitfun-panda-head__ear--left,
-  &--hover .openbitfun-panda-head__ear--right {
+  &--hover .opc-panda-head__ear--left,
+  &--hover .opc-panda-head__ear--right {
     animation: openbitfun-ear-perk 1.9s ease-in-out infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
@@ -289,8 +289,8 @@
     }
   }
 
-  &--dragging .openbitfun-panda-head__paw--front,
-  &--dragging .openbitfun-panda-head__paw--rear {
+  &--dragging .opc-panda-head__paw--front,
+  &--dragging .opc-panda-head__paw--rear {
     animation: openbitfun-paw-hold 0.96s ease-in-out infinite;
     transform-origin: 50% 60%;
     transform-box: fill-box;
@@ -312,43 +312,43 @@
 
 /* ---------- Mood transition micro-bump ---------- */
 
-.openbitfun-agent-companion-pet__stage--transition {
+.opc-agent-companion-pet__stage--transition {
   animation: openbitfun-stage-bump 0.64s cubic-bezier(0.2, 1.4, 0.5, 1);
 }
 
 /* ---------- Idle micro-actions (rest only, all in-place) ---------- */
 
-.openbitfun-agent-companion-pet__stage--idle-ear-twitch-left .openbitfun-panda-head__ear--left {
+.opc-agent-companion-pet__stage--idle-ear-twitch-left .opc-panda-head__ear--left {
   animation: openbitfun-ear-twitch-once 1.4s ease-in-out;
   transform-origin: 50% 100%;
   transform-box: fill-box;
 }
 
-.openbitfun-agent-companion-pet__stage--idle-ear-twitch-right .openbitfun-panda-head__ear--right {
+.opc-agent-companion-pet__stage--idle-ear-twitch-right .opc-panda-head__ear--right {
   animation: openbitfun-ear-twitch-once 1.4s ease-in-out;
   transform-origin: 50% 100%;
   transform-box: fill-box;
 }
 
-.openbitfun-agent-companion-pet__stage--idle-yawn .openbitfun-panda-head__muzzle {
+.opc-agent-companion-pet__stage--idle-yawn .opc-panda-head__muzzle {
   animation: openbitfun-yawn 2.6s ease-in-out;
   transform-origin: 50% 30%;
   transform-box: fill-box;
 }
 
-.openbitfun-agent-companion-pet__stage--idle-deep-breath .openbitfun-panda-head__body--front {
+.opc-agent-companion-pet__stage--idle-deep-breath .opc-panda-head__body--front {
   animation: openbitfun-deep-breath 1.8s ease-in-out;
   transform-origin: 50% 95%;
   transform-box: fill-box;
 }
 
-.openbitfun-agent-companion-pet__stage--idle-body-roll .openbitfun-panda-head {
+.opc-agent-companion-pet__stage--idle-body-roll .opc-panda-head {
   animation:
     openbitfun-head-breathe 6.8s ease-in-out infinite,
     openbitfun-body-roll 3.0s ease-in-out;
 }
 
-.openbitfun-agent-companion-pet__stage--idle-paw-wiggle .openbitfun-panda-head__paw--front {
+.opc-agent-companion-pet__stage--idle-paw-wiggle .opc-panda-head__paw--front {
   animation: openbitfun-paw-wiggle 1.8s ease-in-out;
   transform-origin: 70% 60%;
   transform-box: fill-box;
@@ -768,20 +768,20 @@
    restoring infinite motion over the user's accessibility preference. */
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-agent-companion-pet,
-  .openbitfun-agent-companion-pet * {
+  .opc-agent-companion-pet,
+  .opc-agent-companion-pet * {
     animation: none !important;
   }
 
-  .openbitfun-agent-companion-pet__stage,
-  .openbitfun-agent-companion-pet__petdex,
-  .openbitfun-panda-head,
-  .openbitfun-panda-head__ear,
-  .openbitfun-panda-head__paw {
+  .opc-agent-companion-pet__stage,
+  .opc-agent-companion-pet__petdex,
+  .opc-panda-head,
+  .opc-panda-head__ear,
+  .opc-panda-head__paw {
     transform: none !important;
   }
 
-  .openbitfun-agent-companion-pet__petdex {
+  .opc-agent-companion-pet__petdex {
     background-position-x: 0;
   }
 }

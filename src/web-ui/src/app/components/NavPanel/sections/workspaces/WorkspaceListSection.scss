@@ -1,7 +1,7 @@
 @use '../../../../styles/nav-panel-font-scope.scss' as nav-font;
 @use '../../../../styles/workspace-shell-surfaces' as shell-surfaces;
 
-.openbitfun-nav-panel {
+.opc-nav-panel {
   &__workspace-list {
     display: flex;
     flex-direction: column;
@@ -15,7 +15,7 @@
     padding: 2px 0 0;
 
     &.is-dragging {
-      .openbitfun-nav-panel__workspace-item {
+      .opc-nav-panel__workspace-item {
         cursor: default;
       }
     }
@@ -110,7 +110,7 @@
     &.is-dragging {
       opacity: 0.42;
 
-      .openbitfun-nav-panel__workspace-item-card {
+      .opc-nav-panel__workspace-item-card {
         cursor: default;
       }
     }
@@ -126,20 +126,20 @@
     }
 
     &:not(.is-active) {
-      .openbitfun-nav-panel__workspace-item-card {
+      .opc-nav-panel__workspace-item-card {
         gap: 1px;
 
         &:hover {
           color: var(--opcteam-color-content-secondary);
 
-          .openbitfun-nav-panel__workspace-item-collapse-btn,
-          .openbitfun-nav-panel__workspace-item-name-btn {
+          .opc-nav-panel__workspace-item-collapse-btn,
+          .opc-nav-panel__workspace-item-name-btn {
             background: transparent;
           }
         }
       }
 
-      .openbitfun-nav-panel__workspace-item-collapse-btn {
+      .opc-nav-panel__workspace-item-collapse-btn {
         border-radius: 6px 0 0 6px;
 
         &:hover {
@@ -147,17 +147,17 @@
         }
       }
 
-      .openbitfun-nav-panel__workspace-item-name-cluster {
+      .opc-nav-panel__workspace-item-name-cluster {
         border-radius: 0 6px 6px 0;
       }
 
-      .openbitfun-nav-panel__workspace-item-name-btn {
+      .opc-nav-panel__workspace-item-name-btn {
         border-radius: 0;
       }
     }
 
     &:not(:hover):not(:focus-within):not(.is-menu-open) {
-      .openbitfun-nav-panel__workspace-item-branch {
+      .opc-nav-panel__workspace-item-branch {
         max-width: 0;
         margin-left: 0;
         padding-left: 0;
@@ -167,7 +167,7 @@
         pointer-events: none;
       }
 
-      .openbitfun-nav-panel__workspace-item-menu {
+      .opc-nav-panel__workspace-item-menu {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -194,12 +194,12 @@
 
 
     &:hover {
-      .openbitfun-nav-panel__workspace-item-icon-default {
+      .opc-nav-panel__workspace-item-icon-default {
         opacity: 0;
         transform: scale(0.7);
       }
 
-      .openbitfun-nav-panel__workspace-item-icon-toggle {
+      .opc-nav-panel__workspace-item-icon-toggle {
         opacity: 1;
         transform: scale(1);
       }
@@ -243,12 +243,12 @@
     &:hover {
       background: color-mix(in srgb, var(--opcteam-color-action-neutral-surface-hover) 60%, transparent);
 
-      .openbitfun-nav-panel__workspace-item-icon-default {
+      .opc-nav-panel__workspace-item-icon-default {
         opacity: 0;
         transform: scale(0.7);
       }
 
-      .openbitfun-nav-panel__workspace-item-icon-toggle {
+      .opc-nav-panel__workspace-item-icon-toggle {
         opacity: 1;
         transform: scale(1);
       }
@@ -284,11 +284,11 @@
     width: 100%;
   }
 
-  &__workspace-item[data-openbitfun-state~='remote'] &__workspace-item-name-row {
+  &__workspace-item[data-opc-state~='remote'] &__workspace-item-name-row {
     gap: var(--opcteam-space-2);
   }
 
-  &__workspace-item[data-openbitfun-state~='remote'] &__workspace-item-name-btn {
+  &__workspace-item[data-opc-state~='remote'] &__workspace-item-name-btn {
     flex: 1 1 0;
     max-width: none;
   }
@@ -348,7 +348,7 @@
     color: var(--opcteam-color-content-primary);
     overflow: hidden;
 
-    .openbitfun-nav-panel__workspace-item-avatar-letter {
+    .opc-nav-panel__workspace-item-avatar-letter {
       font-size: var(--opcteam-type-body-lg-font-size);
       font-weight: var(--opcteam-type-heading-page-font-weight);
       line-height: var(--opcteam-type-modifier-leading-none-line-height);
@@ -359,7 +359,7 @@
       transform: scale(1);
     }
 
-    .openbitfun-nav-panel__workspace-item-icon-toggle {
+    .opc-nav-panel__workspace-item-icon-toggle {
       position: absolute;
       display: inline-flex;
       align-items: center;
@@ -450,7 +450,7 @@
     overflow: hidden;
   }
 
-  &__workspace-item[data-openbitfun-state~='remote'] &__workspace-item-label {
+  &__workspace-item[data-opc-state~='remote'] &__workspace-item-label {
     text-overflow: clip;
   }
 
@@ -945,7 +945,7 @@
       pointer-events: none;
     }
 
-    .openbitfun-nav-panel__inline-list {
+    .opc-nav-panel__inline-list {
       // Let the row own the full selection surface; indent only its content below.
       margin-left: 0;
       margin-right: 0;
@@ -957,11 +957,11 @@
       --opcteam-nav-session-rail: 30px;
     }
 
-    .openbitfun-nav-panel__inline-item {
+    .opc-nav-panel__inline-item {
       height: 30px;
     }
 
-    .openbitfun-nav-panel__inline-empty {
+    .opc-nav-panel__inline-empty {
       padding-left: var(--opcteam-space-1);
     }
   }
@@ -977,13 +977,13 @@
     gap: 0;
 
     &.is-drag-active {
-      .openbitfun-nav-panel__workspace-item {
+      .opc-nav-panel__workspace-item {
         box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--opcteam-color-border-subtle) 80%, transparent);
       }
     }
 
     &.is-drop-target {
-      .openbitfun-nav-panel__workspace-item {
+      .opc-nav-panel__workspace-item {
         border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 18%, transparent);
       }
     }
@@ -1011,7 +1011,7 @@
 }
 
 // ── Assistant-mode row item (standalone styles, not shared with pro mode) ────────────
-.openbitfun-nav-panel {
+.opc-nav-panel {
   &__assistant-item {
     position: relative;
     display: flex;
@@ -1033,7 +1033,7 @@
     &.is-dragging {
       opacity: 0.42;
 
-      .openbitfun-nav-panel__assistant-item-card {
+      .opc-nav-panel__assistant-item-card {
         cursor: default;
       }
     }
@@ -1044,7 +1044,7 @@
     }
 
     &:not(:hover):not(:focus-within):not(.is-menu-open) {
-      .openbitfun-nav-panel__assistant-item-menu {
+      .opc-nav-panel__assistant-item-menu {
         opacity: 0;
         visibility: hidden;
         pointer-events: none;
@@ -1070,12 +1070,12 @@
                 box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     &:hover {
-      .openbitfun-nav-panel__assistant-item-group-icon {
+      .opc-nav-panel__assistant-item-group-icon {
         opacity: 0;
         transform: scale(0.7);
       }
 
-      .openbitfun-nav-panel__assistant-item-icon-toggle {
+      .opc-nav-panel__assistant-item-icon-toggle {
         opacity: 1;
         transform: scale(1);
       }
@@ -1116,12 +1116,12 @@
     &:hover {
       background: color-mix(in srgb, var(--opcteam-color-action-neutral-surface-hover) 60%, transparent);
 
-      .openbitfun-nav-panel__assistant-item-group-icon {
+      .opc-nav-panel__assistant-item-group-icon {
         opacity: 0;
         transform: scale(0.7);
       }
 
-      .openbitfun-nav-panel__assistant-item-icon-toggle {
+      .opc-nav-panel__assistant-item-icon-toggle {
         opacity: 1;
         transform: scale(1);
       }
@@ -1275,7 +1275,7 @@
       pointer-events: none;
     }
 
-    .openbitfun-nav-panel__inline-list {
+    .opc-nav-panel__inline-list {
       // Let the row own the full selection surface; indent only its content below.
       margin-left: 0;
       margin-right: 0;
@@ -1287,11 +1287,11 @@
       --opcteam-nav-session-rail: 30px;
     }
 
-    .openbitfun-nav-panel__inline-item {
+    .opc-nav-panel__inline-item {
       height: 30px;
     }
 
-    .openbitfun-nav-panel__inline-empty {
+    .opc-nav-panel__inline-empty {
       padding-left: var(--opcteam-space-1);
     }
   }
@@ -1305,7 +1305,7 @@
 // Workspace rows use the same compact surface language as the rest of the
 // desktop navigation. Status pulses remain untouched because they carry live
 // indexing/connection meaning.
-.openbitfun-nav-panel {
+.opc-nav-panel {
   &__workspace-list {
     padding-top: 1px;
   }
@@ -1392,26 +1392,26 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .openbitfun-nav-panel__workspace-item:hover,
-  .openbitfun-nav-panel__assistant-item:hover,
-  .openbitfun-nav-panel__workspace-item-card:hover,
-  .openbitfun-nav-panel__assistant-item-card:hover {
+  .opc-nav-panel__workspace-item:hover,
+  .opc-nav-panel__assistant-item:hover,
+  .opc-nav-panel__workspace-item-card:hover,
+  .opc-nav-panel__assistant-item-card:hover {
     transform: none;
     box-shadow: none;
   }
 
-  .openbitfun-nav-panel__workspace-item-card:hover,
-  .openbitfun-nav-panel__assistant-item-card:hover {
+  .opc-nav-panel__workspace-item-card:hover,
+  .opc-nav-panel__assistant-item-card:hover {
     @include shell-surfaces.navigation-hover-feedback;
   }
 
-  .openbitfun-nav-panel__workspace-item.is-active .openbitfun-nav-panel__workspace-item-card:hover,
-  .openbitfun-nav-panel__assistant-item.is-active .openbitfun-nav-panel__assistant-item-card:hover {
+  .opc-nav-panel__workspace-item.is-active .opc-nav-panel__workspace-item-card:hover,
+  .opc-nav-panel__assistant-item.is-active .opc-nav-panel__assistant-item-card:hover {
     @include shell-surfaces.navigation-selection-feedback;
   }
 
-  .openbitfun-nav-panel__workspace-item.is-active:has(.openbitfun-nav-panel__workspace-item-sessions .openbitfun-nav-panel__inline-item.is-active) .openbitfun-nav-panel__workspace-item-card:hover,
-  .openbitfun-nav-panel__assistant-item.is-active:has(.openbitfun-nav-panel__assistant-item-sessions .openbitfun-nav-panel__inline-item.is-active) .openbitfun-nav-panel__assistant-item-card:hover {
+  .opc-nav-panel__workspace-item.is-active:has(.opc-nav-panel__workspace-item-sessions .opc-nav-panel__inline-item.is-active) .opc-nav-panel__workspace-item-card:hover,
+  .opc-nav-panel__assistant-item.is-active:has(.opc-nav-panel__assistant-item-sessions .opc-nav-panel__inline-item.is-active) .opc-nav-panel__assistant-item-card:hover {
     background: transparent;
   }
 }
@@ -1428,15 +1428,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-nav-panel__workspace-item-menu-popover,
-  .openbitfun-nav-panel__workspace-acp-submenu {
+  .opc-nav-panel__workspace-item-menu-popover,
+  .opc-nav-panel__workspace-acp-submenu {
     animation: none;
   }
 }
 
 // Workspace and assistant rows follow the same hierarchy as session titles:
 // ordinary 13px labels, quieter metadata, and a consistent 30px primary row.
-.openbitfun-nav-panel {
+.opc-nav-panel {
   &__workspace-group-title {
     @include nav-font.nav-panel-text-group;
   }
@@ -1488,8 +1488,8 @@
   }
 }
 
-.openbitfun-nav-panel__assistant-item-name-action[data-openbitfun-component='action-item'],
-.openbitfun-nav-panel__workspace-item-name-action[data-openbitfun-component='action-item'] {
+.opc-nav-panel__assistant-item-name-action[data-opc-component='action-item'],
+.opc-nav-panel__workspace-item-name-action[data-opc-component='action-item'] {
   flex: 0 1 auto;
   min-width: 0;
   max-width: 100%;
@@ -1499,17 +1499,17 @@
   color: inherit;
   background: transparent;
 
-  > [data-openbitfun-part='trigger'] > [data-openbitfun-part='label'] {
+  > [data-opc-part='trigger'] > [data-opc-part='label'] {
     display: contents;
     font: inherit;
   }
 }
-.openbitfun-nav-panel__workspace-item[data-openbitfun-state~='remote'] .openbitfun-nav-panel__workspace-item-name-action {
+.opc-nav-panel__workspace-item[data-opc-state~='remote'] .opc-nav-panel__workspace-item-name-action {
   flex: 1 1 0;
   max-width: none;
 }
 
-.openbitfun-nav-panel__assistant-item-name-action[data-openbitfun-component='action-item'] {
+.opc-nav-panel__assistant-item-name-action[data-opc-component='action-item'] {
   flex: 1 1 0;
-  > [data-openbitfun-part='trigger'] { width: 100%; }
+  > [data-opc-part='trigger'] { width: 100%; }
 }

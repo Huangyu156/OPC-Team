@@ -262,7 +262,7 @@
     letter-spacing: var(--opcteam-type-body-sm-letter-spacing);
 
     svg,
-    [data-openbitfun-component='icon'] {
+    [data-opc-component='icon'] {
       flex-shrink: 0;
     }
   }
@@ -322,7 +322,7 @@
 
     &__icon {
       svg,
-      [data-openbitfun-component='icon'] {
+      [data-opc-component='icon'] {
         width: 48px;
         height: 48px;
       }

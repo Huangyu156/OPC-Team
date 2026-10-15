@@ -4,11 +4,11 @@
   .option[data-selected="true"] { color: var(--opcteam-color-content-primary); background: var(--opcteam-color-action-neutral-surface); box-shadow: var(--opcteam-shadow-xs); }
   @media (hover: hover) and (pointer: fine) {
     .option:not([data-selected="true"]):hover:not(:disabled),
-    .root[data-openbitfun-preview-state="hover"] .option:not([data-selected="true"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-hover); }
+    .root[data-opc-preview-state="hover"] .option:not([data-selected="true"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-hover); }
   }
   .option:active:not(:disabled),
-  .root[data-openbitfun-preview-state="active"] .option:not([data-selected="true"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-pressed); }
-  .root[data-openbitfun-preview-state="focus-visible"] .option[data-selected="true"] { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: calc(var(--opcteam-focus-offset) * -1); }
+  .root[data-opc-preview-state="active"] .option:not([data-selected="true"]):not(:disabled) { background: var(--opcteam-color-action-neutral-surface-pressed); }
+  .root[data-opc-preview-state="focus-visible"] .option[data-selected="true"] { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: calc(var(--opcteam-focus-offset) * -1); }
   .option:focus-visible { outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring); outline-offset: calc(var(--opcteam-focus-offset) * -1); }
   .option:disabled { color: var(--opcteam-color-content-disabled); cursor: not-allowed; }
   @media (prefers-reduced-motion: reduce) { .option { transition: none; } }

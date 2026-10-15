@@ -155,7 +155,7 @@
     color: var(--opcteam-color-content-secondary);
   }
 
-  .todoCompactIcon > [data-openbitfun-component="icon"] {
+  .todoCompactIcon > [data-opc-component="icon"] {
     inline-size: 100%;
     block-size: 100%;
   }
@@ -185,7 +185,7 @@
     overflow: auto;
   }
 
-  .todoRoot [data-openbitfun-part="expanded"] {
+  .todoRoot [data-opc-part="expanded"] {
     border-block-start: 0;
   }
 

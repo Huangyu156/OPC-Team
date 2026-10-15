@@ -30,7 +30,7 @@ describe('ReasoningIntensityControl', () => {
   };
   const control = () => container.querySelector<HTMLElement>('[data-testid="chat-model-selector-intensity-control"]')!;
   const option = (value: string) => Array.from(choices()?.querySelectorAll<HTMLButtonElement>('button') ?? [])
-    .find(button => button.dataset.openbitfunValue === value)!;
+    .find(button => button.dataset.opcValue === value)!;
   const render = async (presets = allPresets, selected: string | undefined = 'medium', allowDefaultReset = true, disabled = false, active = true) => {
     await act(async () => root.render(
       <ReasoningIntensityControl
@@ -76,7 +76,7 @@ describe('ReasoningIntensityControl', () => {
     });
     expect(onSelect).not.toHaveBeenCalled();
     await expand();
-    expect(Array.from(choices()!.querySelectorAll('button')).map(button => button.dataset.openbitfunValue))
+    expect(Array.from(choices()!.querySelectorAll('button')).map(button => button.dataset.opcValue))
       .toEqual(['auto', 'preset:medium', 'preset:xhigh']);
     expect(document.activeElement).toBe(option('preset:medium'));
     expect(container.querySelector('[role="menuitemradio"]')).toBeNull();
@@ -254,7 +254,7 @@ describe('ReasoningIntensityControl', () => {
   it('keeps five real effort choices and reserves the fourth material for Maximum', async () => {
     await render(['low', 'medium', 'high', 'xhigh', 'max'].map(preset), 'medium');
     await expand();
-    expect(Array.from(choices()!.querySelectorAll('button')).map(button => button.dataset.openbitfunValue))
+    expect(Array.from(choices()!.querySelectorAll('button')).map(button => button.dataset.opcValue))
       .toEqual(['auto', 'preset:low', 'preset:medium', 'preset:high', 'preset:xhigh', 'preset:max']);
     expect(choices()!.querySelectorAll('[aria-pressed="true"]')).toHaveLength(1);
     expect(option('preset:medium').getAttribute('aria-pressed')).toBe('true');

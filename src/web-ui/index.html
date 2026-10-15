@@ -2,9 +2,9 @@
 <html lang="zh-CN">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/png" href="/brand/openbitfun-app-icon.png" />
-    <link rel="icon" type="image/png" sizes="16x16" href="/brand/openbitfun-app-icon-16.png" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/brand/openbitfun-app-icon-32.png" />
+    <link rel="icon" type="image/png" href="/brand/opc-app-icon.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/brand/opc-app-icon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/brand/opc-app-icon-32.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OPC-Team - AI Code Assistant</title>
     <!-- OPENBITFUN_STARTUP_I18N_START -->
@@ -144,12 +144,12 @@
       }
 
       #root,
-      #openbitfun-startup-overlay {
+      #opc-startup-overlay {
         width: 100%;
         height: 100%;
       }
 
-      #openbitfun-startup-overlay {
+      #opc-startup-overlay {
         position: fixed;
         inset: 0;
         z-index: 9999;
@@ -157,11 +157,11 @@
 
       /* Keep the mounting shell from showing through or doubling the tint.
          Preserve layout so startup readiness and measurements still complete. */
-      #root:has(+ #openbitfun-startup-overlay:not(.openbitfun-startup-overlay--exiting)) {
+      #root:has(+ #opc-startup-overlay:not(.opc-startup-overlay--exiting)) {
         visibility: hidden;
       }
 
-      .openbitfun-sr-only {
+      .opc-sr-only {
         position: absolute;
         width: 1px;
         height: 1px;
@@ -196,11 +196,11 @@
         }
       }
 
-      #openbitfun-startup-overlay.openbitfun-startup-overlay--exiting {
-        animation: openbitfun-startup-overlay-exit 0.24s ease-in-out both;
+      #opc-startup-overlay.opc-startup-overlay--exiting {
+        animation: opc-startup-overlay-exit 0.24s ease-in-out both;
       }
 
-      .window-controls.openbitfun-startup-window-controls {
+      .window-controls.opc-startup-window-controls {
         position: fixed;
         top: 0;
         right: 0;
@@ -209,7 +209,7 @@
         pointer-events: auto;
       }
 
-      .openbitfun-startup-window-controls[hidden] {
+      .opc-startup-window-controls[hidden] {
         display: none;
       }
 
@@ -231,7 +231,7 @@
       }
 
       .splash-screen__logo,
-      .openbitfun-preload__logo {
+      .opc-preload__logo {
         display: block;
         position: absolute;
         top: 50%;
@@ -240,14 +240,14 @@
         height: 120px;
         background-color: var(--opcteam-color-content-on-light);
         transform: translate(-50%, -50%);
-        -webkit-mask: url('/brand/openbitfun-mark.svg') center / contain no-repeat;
-        mask: url('/brand/openbitfun-mark.svg') center / contain no-repeat;
+        -webkit-mask: url('/brand/opc-mark.svg') center / contain no-repeat;
+        mask: url('/brand/opc-mark.svg') center / contain no-repeat;
         user-select: none;
         -webkit-user-select: none;
       }
 
       [data-color-scheme="dark"] .splash-screen__logo,
-      [data-color-scheme="dark"] .openbitfun-preload__logo {
+      [data-color-scheme="dark"] .opc-preload__logo {
         background-color: var(--opcteam-color-content-on-dark);
       }
 
@@ -300,7 +300,7 @@
         }
       }
 
-      @keyframes openbitfun-startup-overlay-exit {
+      @keyframes opc-startup-overlay-exit {
         from {
           opacity: 1;
         }
@@ -320,15 +320,15 @@
         }
       }
 
-      .openbitfun-pet-preload-body {
+      .opc-pet-preload-body {
         background: transparent !important;
       }
 
-      .openbitfun-pet-preload-body #root {
+      .opc-pet-preload-body #root {
         background: transparent;
       }
 
-      .openbitfun-pet-preload {
+      .opc-pet-preload {
         width: 100%;
         height: 100%;
         display: grid;
@@ -337,15 +337,15 @@
         pointer-events: none;
       }
 
-      .openbitfun-pet-preload__sprite {
+      .opc-pet-preload__sprite {
         position: relative;
         width: 48px;
         height: 48px;
         transform-origin: center bottom;
-        animation: openbitfun-pet-preload-breathe 1.8s ease-in-out infinite;
+        animation: opc-pet-preload-breathe 1.8s ease-in-out infinite;
       }
 
-      @keyframes openbitfun-pet-preload-breathe {
+      @keyframes opc-pet-preload-breathe {
         0%, 100% {
           opacity: 0.58;
           transform: scale(0.96);
@@ -357,7 +357,7 @@
       }
 
       @media (prefers-reduced-motion: reduce) {
-        .openbitfun-pet-preload__sprite {
+        .opc-pet-preload__sprite {
           animation: none;
         }
       }
@@ -368,12 +368,12 @@
   <body>
     <script type="module" src="/src/main.tsx"></script>
     <div id="root"></div>
-    <div id="openbitfun-startup-overlay">
+    <div id="opc-startup-overlay">
       <div class="splash-screen">
         <div
-          class="window-controls openbitfun-startup-window-controls"
-          data-openbitfun-component="window-controls"
-          data-openbitfun-part="root"
+          class="window-controls opc-startup-window-controls"
+          data-opc-component="window-controls"
+          data-opc-part="root"
           data-startup-window-controls
           hidden
         >
@@ -394,7 +394,7 @@
         </div>
         <div class="splash-screen__center">
           <div class="splash-screen__logo-wrap">
-            <span class="openbitfun-preload__logo" aria-hidden="true"></span>
+            <span class="opc-preload__logo" aria-hidden="true"></span>
           </div>
           <div class="splash-screen__message"></div>
         </div>
@@ -406,16 +406,16 @@
         var isPetWindow = params.get('openbitfunWindow') === 'agent-companion';
         var messages = window.__OPENBITFUN_RESOLVE_BOOTSTRAP_MESSAGES__();
         var locale = window.__OPENBITFUN_RESOLVE_BOOTSTRAP_LOCALE__();
-        var startupOverlay = document.getElementById('openbitfun-startup-overlay');
+        var startupOverlay = document.getElementById('opc-startup-overlay');
         document.documentElement.setAttribute('lang', locale);
 
         if (isPetWindow) {
-          document.body.classList.add('openbitfun-pet-preload-body');
+          document.body.classList.add('opc-pet-preload-body');
           if (startupOverlay) startupOverlay.remove();
           var root = document.getElementById('root');
           if (root) {
-            root.innerHTML = '<div class="openbitfun-pet-preload"><div class="openbitfun-pet-preload__sprite" aria-hidden="true"></div><span class="openbitfun-sr-only"></span></div>';
-            var petStatus = root.querySelector('.openbitfun-sr-only');
+            root.innerHTML = '<div class="opc-pet-preload"><div class="opc-pet-preload__sprite" aria-hidden="true"></div><span class="opc-sr-only"></span></div>';
+            var petStatus = root.querySelector('.opc-sr-only');
             if (petStatus) petStatus.textContent = messages.petLoading;
           }
           return;
@@ -431,7 +431,7 @@
         function applyStartupLabels() {
           if (hint) hint.textContent = messages.loadingApp;
           if (!controls) return;
-          var isMaximized = controls.getAttribute('data-openbitfun-state') === 'maximized';
+          var isMaximized = controls.getAttribute('data-opc-state') === 'maximized';
           var labels = {
             minimize: messages.minimize,
             toggle_maximize: isMaximized ? messages.restore : messages.maximize,
@@ -481,9 +481,9 @@
           if (!controls || !response || typeof response.isMaximized !== 'boolean') return;
           var isMaximized = response.isMaximized;
           if (isMaximized) {
-            controls.setAttribute('data-openbitfun-state', 'maximized');
+            controls.setAttribute('data-opc-state', 'maximized');
           } else {
-            controls.removeAttribute('data-openbitfun-state');
+            controls.removeAttribute('data-opc-state');
           }
           setButtonLabel(maximizeButton, isMaximized ? messages.restore : messages.maximize);
           if (maximizeButton) {

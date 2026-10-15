@@ -503,14 +503,14 @@ describe('ModelSelector provider levels', () => {
       '[data-testid="chat-model-selector-reasoning-options"] button',
     ));
     expect(options.every(option => option.closest('[data-testid="chat-model-selector-settings"]'))).toBe(true);
-    expect(options.map(option => option.dataset.openbitfunValue))
+    expect(options.map(option => option.dataset.opcValue))
       .toEqual(['auto', 'preset:off', 'preset:low', 'preset:medium', 'preset:high']);
-    expect(options.find(option => option.dataset.openbitfunValue === 'unavailable:xhigh')).toBeUndefined();
+    expect(options.find(option => option.dataset.opcValue === 'unavailable:xhigh')).toBeUndefined();
     expect(options.every(option => (
       option.querySelector('.opc-model-selector__option-desc') === null
     ))).toBe(true);
     expect(options.every(option => option.querySelector('svg') === null)).toBe(true);
-    expect(options.find(option => option.dataset.openbitfunValue === 'auto')?.getAttribute('aria-pressed'))
+    expect(options.find(option => option.dataset.opcValue === 'auto')?.getAttribute('aria-pressed'))
       .toBe('true');
     expect(flowChatStoreMocks.store.updateSessionReasoningPreset).not.toHaveBeenCalled();
     expect(agentAPI.updateSessionModel).not.toHaveBeenCalled();

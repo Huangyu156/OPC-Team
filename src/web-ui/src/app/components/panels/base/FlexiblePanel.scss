@@ -1,6 +1,6 @@
 // ==================== Panel Root Container ====================
 
-.openbitfun-flexible-panel {
+.opc-flexible-panel {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -29,7 +29,7 @@
 
 // ==================== Panel Header ====================
 
-.openbitfun-flexible-panel__header {
+.opc-flexible-panel__header {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -46,7 +46,7 @@
 }
 
 // Header left area
-.openbitfun-flexible-panel__header-left {
+.opc-flexible-panel__header-left {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -57,7 +57,7 @@
 }
 
 // Header right area
-.openbitfun-flexible-panel__header-right {
+.opc-flexible-panel__header-right {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -67,7 +67,7 @@
 
 // ==================== Header Elements ====================
 
-.openbitfun-flexible-panel__collapse-btn {
+.opc-flexible-panel__collapse-btn {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -93,7 +93,7 @@
 }
 
 // Content icon
-.openbitfun-flexible-panel__content-icon {
+.opc-flexible-panel__content-icon {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -104,7 +104,7 @@
 }
 
 // Content info
-.openbitfun-flexible-panel__content-info {
+.opc-flexible-panel__content-info {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -114,7 +114,7 @@
   min-width: 0;
 }
 
-.openbitfun-flexible-panel__content-title {
+.opc-flexible-panel__content-title {
   overflow: hidden;
   white-space: nowrap;
   font-size: var(--opcteam-type-body-md-font-size);
@@ -122,7 +122,7 @@
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-flexible-panel__content-type {
+.opc-flexible-panel__content-type {
   overflow: hidden;
   white-space: nowrap;
   font-size: var(--opcteam-type-label-md-font-size);
@@ -131,7 +131,7 @@
 
 // ==================== Panel Content ====================
 
-.openbitfun-flexible-panel__content {
+.opc-flexible-panel__content {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -143,7 +143,7 @@
 }
 
 
-.openbitfun-flexible-panel__markdown-editor {
+.opc-flexible-panel__markdown-editor {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -154,7 +154,7 @@
 
 // ==================== Loading State ====================
 
-.openbitfun-flexible-panel__loading {
+.opc-flexible-panel__loading {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -172,7 +172,7 @@
     border: 2px solid var(--opcteam-color-border-default);
     border-top-color: var(--opcteam-color-accent-default);
     border-radius: var(--opcteam-radius-pill);
-    animation: openbitfun-flexible-panel-spin 0.8s linear infinite;
+    animation: opc-flexible-panel-spin 0.8s linear infinite;
   }
 
   p {
@@ -182,7 +182,7 @@
   }
 }
 
-@keyframes openbitfun-flexible-panel-spin {
+@keyframes opc-flexible-panel-spin {
   from {
     transform: rotate(0deg);
   }
@@ -193,7 +193,7 @@
 
 // ==================== Empty State ====================
 
-.openbitfun-flexible-panel__empty-content {
+.opc-flexible-panel__empty-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -217,14 +217,14 @@
   }
 }
 
-.openbitfun-flexible-panel__empty-icon {
+.opc-flexible-panel__empty-icon {
   margin-bottom: var(--opcteam-space-4);
   opacity: 0.5;
 }
 
 // ==================== Code Content ====================
 
-.openbitfun-flexible-panel__code-content {
+.opc-flexible-panel__code-content {
   flex: 1;
   overflow: auto;
   padding: 0;
@@ -256,11 +256,11 @@
       inset 0 0 30px color-mix(in srgb, var(--opcteam-color-status-warning-content) 8%, transparent),
       inset 0 0 40px color-mix(in srgb, var(--opcteam-color-status-warning-content) 3%, transparent);
     border: none;
-    animation: openbitfun-flexible-panel-yellow-glow-pulse 3s ease-in-out infinite alternate;
+    animation: opc-flexible-panel-yellow-glow-pulse 3s ease-in-out infinite alternate;
   }
 }
 
-@keyframes openbitfun-flexible-panel-yellow-glow-pulse {
+@keyframes opc-flexible-panel-yellow-glow-pulse {
   from {
     box-shadow: 
       0 0 4px color-mix(in srgb, var(--opcteam-color-status-warning-content) 25%, transparent),
@@ -285,14 +285,14 @@
 
 // ==================== Markdown Content ====================
 
-.openbitfun-flexible-panel__markdown-content {
+.opc-flexible-panel__markdown-content {
   flex: 1;
   overflow: auto;
   padding: var(--opcteam-space-4);
 }
 
 // Editor container without padding (let editor control spacing)
-.openbitfun-flexible-panel__markdown-editor {
+.opc-flexible-panel__markdown-editor {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -302,7 +302,7 @@
   margin: 0;
 }
 
-.openbitfun-flexible-panel__markdown-textarea {
+.opc-flexible-panel__markdown-textarea {
   flex: 1;
   width: 100%;
   min-height: 300px;
@@ -328,7 +328,7 @@
 }
 
 
-.openbitfun-flexible-panel__text-content {
+.opc-flexible-panel__text-content {
   flex: 1;
   overflow: auto;
   padding: var(--opcteam-space-4);
@@ -350,7 +350,7 @@
 
 // ==================== Unknown Content ====================
 
-.openbitfun-flexible-panel__unknown-content {
+.opc-flexible-panel__unknown-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -361,7 +361,7 @@
   color: var(--opcteam-color-content-secondary);
   gap: var(--opcteam-space-3);
 
-  .openbitfun-flexible-panel__unknown-icon {
+  .opc-flexible-panel__unknown-icon {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -387,7 +387,7 @@
     max-width: 400px;
   }
 
-  .openbitfun-flexible-panel__unknown-meta {
+  .opc-flexible-panel__unknown-meta {
     margin-top: var(--opcteam-space-2);
     padding: var(--opcteam-space-2) var(--opcteam-space-3);
     background: var(--opcteam-color-surface-panel);
@@ -406,7 +406,7 @@
 
 // ==================== Error Message ====================
 
-.openbitfun-flexible-panel__error-message {
+.opc-flexible-panel__error-message {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -433,7 +433,7 @@
 
 // ==================== Placeholder ====================
 
-.openbitfun-flexible-panel__placeholder {
+.opc-flexible-panel__placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -482,7 +482,7 @@
 
 // ==================== File Viewer ====================
 
-.openbitfun-flexible-panel__file-viewer-content {
+.opc-flexible-panel__file-viewer-content {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -491,7 +491,7 @@
   overflow: hidden;
 }
 
-.openbitfun-flexible-panel__file-viewer-header {
+.opc-flexible-panel__file-viewer-header {
   padding: var(--opcteam-space-3) var(--opcteam-space-4);
   border-bottom: 1px solid var(--opcteam-color-border-default);
   background: var(--opcteam-color-surface-panel);
@@ -504,14 +504,14 @@
   }
 }
 
-.openbitfun-flexible-panel__file-path {
+.opc-flexible-panel__file-path {
   margin: 0;
   font-size: var(--opcteam-type-label-sm-font-size);
   color: var(--opcteam-color-content-secondary);
   font-family: var(--opcteam-type-code-md-font-family);
 }
 
-.openbitfun-flexible-panel__file-content {
+.opc-flexible-panel__file-content {
   flex: 1;
   overflow: auto;
   padding: var(--opcteam-space-4);
@@ -529,7 +529,7 @@
 
 // ==================== Code Viewer Container ====================
 
-.openbitfun-flexible-panel__code-viewer-container {
+.opc-flexible-panel__code-viewer-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -540,7 +540,7 @@
   padding: 0 !important;
   border: none !important;
 
-  .openbitfun-flexible-panel__code-content {
+  .opc-flexible-panel__code-content {
     flex: 1;
     overflow: hidden;
     background: var(--opcteam-color-surface-canvas);
@@ -558,14 +558,14 @@
         inset 0 0 30px color-mix(in srgb, var(--opcteam-color-status-warning-content) 8%, transparent),
         inset 0 0 40px color-mix(in srgb, var(--opcteam-color-status-warning-content) 3%, transparent);
       border: 1px solid color-mix(in srgb, var(--opcteam-color-status-warning-content) 40%, transparent);
-      animation: openbitfun-flexible-panel-yellow-glow-pulse 3s ease-in-out infinite alternate;
+      animation: opc-flexible-panel-yellow-glow-pulse 3s ease-in-out infinite alternate;
     }
   }
 }
 
 // ==================== Image Viewer Container ====================
 
-.openbitfun-flexible-panel__image-viewer-container {
+.opc-flexible-panel__image-viewer-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -576,7 +576,7 @@
   padding: 0 !important;
   border: none !important;
 
-  .openbitfun-flexible-panel__image-viewer {
+  .opc-flexible-panel__image-viewer {
     flex: 1;
     overflow: hidden;
     margin: 0 !important;
@@ -587,7 +587,7 @@
 
 // ==================== PDF Viewer Container ====================
 
-.openbitfun-flexible-panel__pdf-viewer-container {
+.opc-flexible-panel__pdf-viewer-container {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -599,7 +599,7 @@
   border: none !important;
   background: var(--opcteam-color-surface-tertiary);
 
-  .openbitfun-flexible-panel__pdf-viewer {
+  .opc-flexible-panel__pdf-viewer {
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -609,8 +609,8 @@
   }
 }
 
-.openbitfun-html-preview__loading,
-.openbitfun-html-preview__error {
+.opc-html-preview__loading,
+.opc-html-preview__error {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -621,27 +621,27 @@
 
 // ==================== Panel CodeViewer Style ====================
 
-.openbitfun-flexible-panel__panel-code-viewer {
+.opc-flexible-panel__panel-code-viewer {
   border: none !important;
   border-radius: 0 !important;
   height: 100%;
   margin: 0 !important;
   padding: 0 !important;
 
-  .openbitfun-flexible-panel__code-viewer-header {
+  .opc-flexible-panel__code-viewer-header {
     background: var(--opcteam-color-surface-canvas);
     border-bottom: none;
   }
 
-  .openbitfun-flexible-panel__file-name {
+  .opc-flexible-panel__file-name {
     color: var(--opcteam-color-content-secondary);
   }
 
-  .openbitfun-flexible-panel__file-path {
+  .opc-flexible-panel__file-path {
     color: var(--opcteam-color-content-muted);
   }
 
-  .openbitfun-flexible-panel__action-btn {
+  .opc-flexible-panel__action-btn {
     color: var(--opcteam-color-content-muted);
 
     &:hover {
@@ -659,7 +659,7 @@
       inset 0 0 30px color-mix(in srgb, var(--opcteam-color-status-warning-content) 8%, transparent),
       inset 0 0 40px color-mix(in srgb, var(--opcteam-color-status-warning-content) 3%, transparent);
     border: 1px solid color-mix(in srgb, var(--opcteam-color-status-warning-content) 40%, transparent);
-    animation: openbitfun-flexible-panel-yellow-glow-pulse 3s ease-in-out infinite alternate;
+    animation: opc-flexible-panel-yellow-glow-pulse 3s ease-in-out infinite alternate;
     transition: box-shadow var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
   }
 }
@@ -667,28 +667,28 @@
 // ==================== Responsive Design ====================
 
 @media (max-width: 768px) {
-  .openbitfun-flexible-panel__header {
+  .opc-flexible-panel__header {
     padding: var(--opcteam-space-2) var(--opcteam-space-3);
   }
   
-  .openbitfun-flexible-panel__content-title {
+  .opc-flexible-panel__content-title {
     font-size: var(--opcteam-type-label-md-font-size);
   }
   
-  .openbitfun-flexible-panel__content-type {
+  .opc-flexible-panel__content-type {
     font-size: var(--opcteam-type-label-sm-font-size);
   }
   
-  .openbitfun-flexible-panel__code-content,
-  .openbitfun-flexible-panel__markdown-content,
-  .openbitfun-flexible-panel__text-content {
+  .opc-flexible-panel__code-content,
+  .opc-flexible-panel__markdown-content,
+  .opc-flexible-panel__text-content {
     padding: var(--opcteam-space-3);
   }
 }
 
 // ==================== Terminal Panel Container ====================
 
-.openbitfun-flexible-panel__terminal-container {
+.opc-flexible-panel__terminal-container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -708,8 +708,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-flexible-panel__loading::before,
-  .openbitfun-flexible-panel .needs-fix {
+  .opc-flexible-panel__loading::before,
+  .opc-flexible-panel .needs-fix {
     animation: none;
     transform: none;
   }

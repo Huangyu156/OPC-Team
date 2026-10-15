@@ -1,6 +1,6 @@
 
-.openbitfun-agent-companion-window-root,
-.openbitfun-agent-companion-window-body {
+.opc-agent-companion-window-root,
+.opc-agent-companion-window-body {
   width: 100%;
   height: 100%;
   margin: 0;
@@ -8,13 +8,13 @@
   background: transparent !important;
 }
 
-.openbitfun-agent-companion-window-body #root {
+.opc-agent-companion-window-body #root {
   width: 100vw;
   height: 100vh;
   background: transparent;
 }
 
-.openbitfun-agent-companion-window {
+.opc-agent-companion-window {
   --opcteam-agent-companion-gap: 8px;
   --opcteam-agent-companion-pet-width: 96px;
   --opcteam-agent-companion-pet-height: 96px;
@@ -200,7 +200,7 @@
         color-mix(in srgb, var(--opcteam-color-status-warning-content) 8%, transparent) 50%,
         transparent 75%
       );
-      animation: openbitfun-agent-companion-pet-attention-glow 1.6s ease-in-out infinite !important;
+      animation: opc-agent-companion-pet-attention-glow 1.6s ease-in-out infinite !important;
       pointer-events: none;
       z-index: 0;
     }
@@ -343,14 +343,14 @@
 
       /* Only the output yields space to the input row; letting the title and
          status shrink too would clip their glyphs. */
-      .openbitfun-agent-companion-window__bubble-title,
-      .openbitfun-agent-companion-window__bubble-status {
+      .opc-agent-companion-window__bubble-title,
+      .opc-agent-companion-window__bubble-status {
         flex: 0 0 auto;
       }
 
       /* Two whole lines: a flexible height would leave a half-clipped line
          under the input row. */
-      .openbitfun-agent-companion-window__bubble-output {
+      .opc-agent-companion-window__bubble-output {
         flex: 0 0 calc(12px * 2);
         height: calc(12px * 2);
       }
@@ -460,7 +460,7 @@
     );
   }
 
-  .openbitfun-agent-companion-pet {
+  .opc-agent-companion-pet {
     --opcteam-petdex-width: min(var(--opcteam-agent-companion-pet-width), 100vw);
     --opcteam-petdex-height: min(var(--opcteam-agent-companion-pet-height), 100vh);
     --opcteam-petdex-margin-top: 0;
@@ -507,7 +507,7 @@
   }
 }
 
-@keyframes openbitfun-agent-companion-pet-attention-glow {
+@keyframes opc-agent-companion-pet-attention-glow {
   0%,
   100% {
     opacity: 0.5;
@@ -521,10 +521,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-agent-companion__pet--needs-attention::before,
-  .openbitfun-agent-companion__bubble--typing::after,
-  .openbitfun-agent-companion__bubble--attention,
-  .openbitfun-agent-companion__bubble--attention::after {
+  .opc-agent-companion__pet--needs-attention::before,
+  .opc-agent-companion__bubble--typing::after,
+  .opc-agent-companion__bubble--attention,
+  .opc-agent-companion__bubble--attention::after {
     animation: none !important;
     transform: none;
   }

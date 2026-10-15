@@ -1,7 +1,7 @@
 /**
  * Token usage indicator styles.
  */
-.openbitfun-token-usage {
+.opc-token-usage {
   position: relative;
   display: flex;
   align-items: center;
@@ -20,7 +20,7 @@
   pointer-events: none;
 
   // Show on input focus
-  .openbitfun-chat-input__box:focus-within & {
+  .opc-chat-input__box:focus-within & {
     opacity: 1;
     pointer-events: auto;
   }
@@ -79,12 +79,12 @@
   &--normal {
     color: var(--opcteam-color-accent-default);
 
-    .openbitfun-token-usage__progress-track {
+    .opc-token-usage__progress-track {
       background: color-mix(in srgb, var(--opcteam-color-accent-hover) 8%, transparent);
       border: 1px solid color-mix(in srgb, var(--opcteam-color-accent-hover) 25%, transparent);
     }
 
-    .openbitfun-token-usage__progress-fill {
+    .opc-token-usage__progress-fill {
       background: linear-gradient(
         90deg,
         color-mix(in srgb, var(--opcteam-color-accent-hover) 30%, transparent),
@@ -98,12 +98,12 @@
   &--warning {
     color: var(--opcteam-color-status-warning-content);
 
-    .openbitfun-token-usage__progress-track {
+    .opc-token-usage__progress-track {
       background: color-mix(in srgb, var(--opcteam-color-status-warning-content) 8%, transparent);
       border: 1px solid color-mix(in srgb, var(--opcteam-color-status-warning-content) 25%, transparent);
     }
 
-    .openbitfun-token-usage__progress-fill {
+    .opc-token-usage__progress-fill {
       background: linear-gradient(
         90deg,
         color-mix(in srgb, var(--opcteam-color-status-warning-content) 30%, transparent),
@@ -115,12 +115,12 @@
   &--critical {
     color: var(--opcteam-color-status-danger-content);
 
-    .openbitfun-token-usage__progress-track {
+    .opc-token-usage__progress-track {
       background: color-mix(in srgb, var(--opcteam-color-status-danger-content) 8%, transparent);
       border: 1px solid color-mix(in srgb, var(--opcteam-color-status-danger-content) 30%, transparent);
     }
 
-    .openbitfun-token-usage__progress-fill {
+    .opc-token-usage__progress-fill {
       background: linear-gradient(
         90deg,
         color-mix(in srgb, var(--opcteam-color-status-danger-content) 45%, transparent),
@@ -131,16 +131,16 @@
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .openbitfun-token-usage:hover .openbitfun-token-usage__hover-content {
+  .opc-token-usage:hover .opc-token-usage__hover-content {
     opacity: 1;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-token-usage,
-  .openbitfun-token-usage__progress-track,
-  .openbitfun-token-usage__progress-fill,
-  .openbitfun-token-usage__hover-content {
+  .opc-token-usage,
+  .opc-token-usage__progress-track,
+  .opc-token-usage__progress-fill,
+  .opc-token-usage__hover-content {
     transition: none;
   }
 }

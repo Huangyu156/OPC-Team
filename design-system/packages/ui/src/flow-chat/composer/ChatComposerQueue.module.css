@@ -84,7 +84,7 @@
     color: var(--opcteam-color-content-primary);
   }
 
-  .item[data-openbitfun-state="sending"] {
+  .item[data-opc-state="sending"] {
     opacity: var(--opcteam-opacity-disabled);
   }
 

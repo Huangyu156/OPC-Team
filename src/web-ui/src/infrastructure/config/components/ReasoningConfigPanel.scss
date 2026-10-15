@@ -1,4 +1,4 @@
-.openbitfun-reasoning-config-panel {
+.opc-reasoning-config-panel {
   display: flex;
   flex: 1;
   flex-direction: column;
@@ -38,7 +38,7 @@
 }
 
 @media (max-width: 480px) {
-  .openbitfun-reasoning-config-panel {
+  .opc-reasoning-config-panel {
     &__footer {
       align-items: stretch;
       flex-direction: column;

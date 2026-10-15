@@ -40,20 +40,20 @@
   }
 
   .icon > svg,
-  .icon > [data-openbitfun-component="icon"] {
+  .icon > [data-opc-component="icon"] {
     inline-size: var(--opcteam-layout-confirm-dialog-icon-glyph-size);
     block-size: var(--opcteam-layout-confirm-dialog-icon-glyph-size);
   }
 
-  .icon[data-openbitfun-status="success"] {
+  .icon[data-opc-status="success"] {
     color: var(--opcteam-color-status-success-emphasis);
   }
 
-  .icon[data-openbitfun-status="warning"] {
+  .icon[data-opc-status="warning"] {
     color: var(--opcteam-color-status-warning-emphasis);
   }
 
-  .icon[data-openbitfun-status="danger"] {
+  .icon[data-opc-status="danger"] {
     color: var(--opcteam-color-status-danger-emphasis);
   }
 

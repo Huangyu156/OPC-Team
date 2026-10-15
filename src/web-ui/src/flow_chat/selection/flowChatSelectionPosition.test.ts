@@ -129,7 +129,7 @@ describe('native selection endpoint geometry', () => {
     elementGeometry.set(paragraph, rect(100, 250, 500, 100));
     expect(measureSelectionBarGeometry(root, snapshot)).toBeNull();
     paragraph.style.overflowY = '';
-    scroller.dataset.openbitfunViewportInsetBottom = '280';
+    scroller.dataset.opcViewportInsetBottom = '280';
     expect(measureSelectionBarGeometry(root, snapshot)).toBeNull();
   });
 

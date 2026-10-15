@@ -2,7 +2,7 @@
  * CurrentSessionTitle styles
  * Displays the title of the active session
  */
-.openbitfun-current-session-title {
+.opc-current-session-title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -62,11 +62,11 @@
   }
 
   &:hover {
-    .openbitfun-current-session-title__text {
+    .opc-current-session-title__text {
       color: var(--opcteam-color-content-primary);
     }
 
-    .openbitfun-current-session-title__create-btn {
+    .opc-current-session-title__create-btn {
       color: var(--opcteam-color-content-secondary);
     }
   }

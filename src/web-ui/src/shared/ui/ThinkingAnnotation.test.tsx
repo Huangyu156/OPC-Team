@@ -73,7 +73,7 @@ describe('thinking page-margin annotation', () => {
       if (this.dataset.geometry === 'nested') return new DOMRect(50, 200, 650, 260);
       if (this.hasAttribute('data-thinking-continuation')) return new DOMRect(100, top, 500, height);
       if (this.matches('.thinking-toggle')) return new DOMRect(74, top + (panel ? center() : 11) - 11, 22, 22);
-      if (this.dataset.openbitfunPart === 'surface') return new DOMRect(100, top + 8, 500, 36);
+      if (this.dataset.opcPart === 'surface') return new DOMRect(100, top + 8, 500, 36);
       return new DOMRect(0, 0, 800, 1000);
     });
     host = document.createElement('div');

@@ -4,7 +4,7 @@
 
 @use '@/shared/styles/surface-recipes' as surfaces;
 
-.openbitfun-context-drop-zone.openbitfun-chat-input-drop-zone {
+.opc-context-drop-zone.opc-chat-input-drop-zone {
   box-sizing: border-box;
   position: absolute;
   flex: 0 0 auto;
@@ -37,7 +37,7 @@
   }
 
   // Reserve the composer's actual height so the transcript ends above it.
-  &.openbitfun-chat-input-drop-zone--conversation {
+  &.opc-chat-input-drop-zone--conversation {
     position: relative;
     inset: auto;
     transform: none;
@@ -46,8 +46,8 @@
     padding: var(--opcteam-space-2) var(--opcteam-space-3) var(--opcteam-space-3);
   }
 
-  &.openbitfun-context-drop-zone--can-accept {
-    .openbitfun-chat-input__composer {
+  &.opc-context-drop-zone--can-accept {
+    .opc-chat-input__composer {
       outline: var(--opcteam-border-width-default) solid var(--opcteam-color-field-border-hover);
       box-shadow:
         0 12px 32px color-mix(in srgb, var(--opcteam-color-content-on-light) 45%, transparent),
@@ -55,8 +55,8 @@
     }
   }
 
-  &.openbitfun-context-drop-zone--cannot-accept {
-    .openbitfun-chat-input__composer {
+  &.opc-context-drop-zone--cannot-accept {
+    .opc-chat-input__composer {
       outline: var(--opcteam-border-width-default) solid var(--opcteam-color-status-danger-border);
       box-shadow:
         0 8px 24px color-mix(in srgb, var(--opcteam-color-content-on-light) 40%, transparent),
@@ -65,7 +65,7 @@
   }
 }
 
-.openbitfun-chat-input__voice-cluster {
+.opc-chat-input__voice-cluster {
   display: inline-flex;
   align-items: center;
   gap: var(--opcteam-space-1);
@@ -81,14 +81,14 @@
   }
 }
 
-.openbitfun-chat-input__voice-control-shell {
+.opc-chat-input__voice-control-shell {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   line-height: 0;
 }
 
-.openbitfun-chat-input__voice-control {
+.opc-chat-input__voice-control {
   width: 24px;
   height: 24px;
   min-width: 24px;
@@ -102,11 +102,11 @@
   }
 }
 
-.openbitfun-chat-input__voice-spinner {
+.opc-chat-input__voice-spinner {
   animation: openbitfun-voice-input-spin 0.9s linear infinite;
 }
 
-.openbitfun-chat-input__voice-pill {
+.opc-chat-input__voice-pill {
   display: inline-flex;
   align-items: center;
   width: clamp(270px, 27vw, 320px);
@@ -124,7 +124,7 @@
   animation: openbitfun-voice-pill-in 220ms cubic-bezier(0.18, 0.9, 0.3, 1.18) both;
 }
 
-.openbitfun-chat-input__voice-setup-pill {
+.opc-chat-input__voice-setup-pill {
   display: inline-flex;
   align-items: center;
   width: clamp(320px, 34vw, 390px);
@@ -142,7 +142,7 @@
   animation: openbitfun-voice-pill-in 220ms cubic-bezier(0.18, 0.9, 0.3, 1.18) both;
 }
 
-.openbitfun-chat-input__voice-setup-icon {
+.opc-chat-input__voice-setup-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -152,7 +152,7 @@
   color: var(--opcteam-color-content-secondary);
 }
 
-.openbitfun-chat-input__voice-setup-copy {
+.opc-chat-input__voice-setup-copy {
   position: relative;
   min-width: 0;
   flex: 1 1 auto;
@@ -163,7 +163,7 @@
   white-space: nowrap;
 }
 
-.openbitfun-chat-input__voice-setup-progress {
+.opc-chat-input__voice-setup-progress {
   position: absolute;
   right: 0;
   bottom: -2px;
@@ -182,11 +182,11 @@
   }
 }
 
-.openbitfun-chat-input__voice-setup-action {
+.opc-chat-input__voice-setup-action {
   flex: 0 0 auto;
 }
 
-.openbitfun-chat-input__voice-setup-pill > [data-openbitfun-part='action'] {
+.opc-chat-input__voice-setup-pill > [data-opc-part='action'] {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -194,7 +194,7 @@
   line-height: 0;
 }
 
-.openbitfun-chat-input__voice-setup-dismiss[data-openbitfun-component='icon-button'] {
+.opc-chat-input__voice-setup-dismiss[data-opc-component='icon-button'] {
   width: 24px;
   height: 24px;
   min-width: 24px;
@@ -204,7 +204,7 @@
   color: var(--opcteam-color-content-muted);
 }
 
-.openbitfun-chat-input__voice-pill-status {
+.opc-chat-input__voice-pill-status {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -214,7 +214,7 @@
   color: var(--opcteam-color-status-danger-content);
 }
 
-.openbitfun-chat-input__voice-pill-recording-dot {
+.opc-chat-input__voice-pill-recording-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
@@ -223,12 +223,12 @@
   animation: openbitfun-voice-recording-dot 1.6s ease-in-out infinite;
 }
 
-.openbitfun-chat-input__voice-low-volume {
+.opc-chat-input__voice-low-volume {
   color: var(--opcteam-color-status-warning-content);
   animation: openbitfun-voice-low-volume 1.2s ease-in-out infinite;
 }
 
-.openbitfun-chat-input__voice-pill-time {
+.opc-chat-input__voice-pill-time {
   min-width: 36px;
   color: var(--opcteam-color-content-primary);
   font-size: var(--opcteam-type-flow-support-font-size);
@@ -237,7 +237,7 @@
   line-height: var(--opcteam-type-modifier-leading-none-line-height);
 }
 
-.openbitfun-chat-input__voice-pill-timeline {
+.opc-chat-input__voice-pill-timeline {
   position: relative;
   display: grid;
   grid-template-columns: repeat(32, minmax(1px, 1fr));
@@ -253,7 +253,7 @@
   &--paused { opacity: 0.58; }
 }
 
-.openbitfun-chat-input__voice-pill-timeline-bar {
+.opc-chat-input__voice-pill-timeline-bar {
   justify-self: center;
   width: min(2px, 100%);
   height: 18px;
@@ -264,14 +264,14 @@
   transition: transform 72ms linear, opacity 72ms linear;
 }
 
-.openbitfun-chat-input__voice-pill-divider {
+.opc-chat-input__voice-pill-divider {
   width: 1px;
   height: 16px;
   flex: 0 0 1px;
   background: var(--opcteam-color-border-subtle);
 }
 
-.openbitfun-chat-input__voice-pill-action-shell {
+.opc-chat-input__voice-pill-action-shell {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -280,22 +280,22 @@
   line-height: 0;
 }
 
-.openbitfun-chat-input__voice-pill-action[data-openbitfun-component='icon-button'] {
+.opc-chat-input__voice-pill-action[data-opc-component='icon-button'] {
   transition:
     color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
     transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
-  &.openbitfun-chat-input__voice-pill-action--cancel:not(:disabled) {
+  &.opc-chat-input__voice-pill-action--cancel:not(:disabled) {
     color: var(--opcteam-color-content-muted);
   }
 
-  &.openbitfun-chat-input__voice-pill-action--transcribe:not(:disabled) {
+  &.opc-chat-input__voice-pill-action--transcribe:not(:disabled) {
     color: var(--opcteam-color-content-secondary);
   }
 
   &:is(
-    .openbitfun-chat-input__voice-pill-action--cancel,
-    .openbitfun-chat-input__voice-pill-action--transcribe
+    .opc-chat-input__voice-pill-action--cancel,
+    .opc-chat-input__voice-pill-action--transcribe
   ):not(:disabled):hover {
     color: var(--opcteam-color-content-primary);
   }
@@ -314,12 +314,12 @@
   50% { opacity: 0.55; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-chat-input__voice-spinner,
-  .openbitfun-chat-input__voice-pill,
-  .openbitfun-chat-input__voice-setup-pill,
-  .openbitfun-chat-input__voice-pill-recording-dot,
-  .openbitfun-chat-input__voice-low-volume,
-  .openbitfun-chat-input__voice-pill-action {
+  .opc-chat-input__voice-spinner,
+  .opc-chat-input__voice-pill,
+  .opc-chat-input__voice-setup-pill,
+  .opc-chat-input__voice-pill-recording-dot,
+  .opc-chat-input__voice-low-volume,
+  .opc-chat-input__voice-pill-action {
     animation: none;
     transition: none;
   }
@@ -327,31 +327,31 @@
 }
 
 @container chat-input (max-width: 640px) {
-  .openbitfun-chat-input__voice-cluster--recording {
+  .opc-chat-input__voice-cluster--recording {
     min-width: 220px;
   }
 
-  .openbitfun-chat-input__voice-cluster--setup {
+  .opc-chat-input__voice-cluster--setup {
     min-width: min(280px, 100%);
   }
 
-  .openbitfun-chat-input__voice-pill {
+  .opc-chat-input__voice-pill {
     width: min(100%, 240px);
     min-width: 220px;
   }
 
-  .openbitfun-chat-input__voice-setup-pill {
+  .opc-chat-input__voice-setup-pill {
     width: min(100%, 300px);
   }
 
-  .openbitfun-chat-input__voice-pill-timeline {
+  .opc-chat-input__voice-pill-timeline {
     min-width: 28px;
     gap: 1px;
   }
 
 }
 
-.openbitfun-chat-input {
+.opc-chat-input {
   // The off-screen capsule measurement clones this root, so responsive controls
   // see the same local width there as in main, floating, and native windows.
   container: chat-input / inline-size;
@@ -388,8 +388,8 @@
     transform: translateY(-50%);
   }
 
-  :root[data-openbitfun-appearance-mode="light"] &,
-  :root[data-openbitfun-appearance-mode="light"] &,
+  :root[data-opc-appearance-mode="light"] &,
+  :root[data-opc-appearance-mode="light"] &,
   .light & {
     &__placeholder {
       color: color-mix(in srgb, var(--opcteam-color-content-secondary) 48%, transparent);
@@ -433,30 +433,30 @@
     pointer-events: none;
   }
 
-  :root[data-openbitfun-appearance-mode="light"] &,
-  :root[data-openbitfun-appearance-mode="light"] &,
+  :root[data-opc-appearance-mode="light"] &,
+  :root[data-opc-appearance-mode="light"] &,
   .light & {
-    .openbitfun-chat-input__capsule-divider {
+    .opc-chat-input__capsule-divider {
       background: color-mix(in srgb, var(--opcteam-color-content-muted) 20%, transparent);
     }
   }
 
   // Non-agent scenes: high transparency to avoid obscuring content
   &--non-agent {
-    .openbitfun-chat-input__input-area,
-    .openbitfun-chat-input__actions-left,
-    .openbitfun-chat-input__actions-right,
-    .openbitfun-chat-input__recommendations {
+    .opc-chat-input__input-area,
+    .opc-chat-input__actions-left,
+    .opc-chat-input__actions-right,
+    .opc-chat-input__recommendations {
       opacity: 0.25;
       transition: opacity 160ms cubic-bezier(0.23, 1, 0.32, 1);
     }
 
     &:hover,
     &:focus-within {
-      .openbitfun-chat-input__input-area,
-      .openbitfun-chat-input__actions-left,
-      .openbitfun-chat-input__actions-right,
-      .openbitfun-chat-input__recommendations {
+      .opc-chat-input__input-area,
+      .opc-chat-input__actions-left,
+      .opc-chat-input__actions-right,
+      .opc-chat-input__recommendations {
         opacity: 1;
       }
     }
@@ -530,9 +530,9 @@
   // Product controls fill the stable public ChatComposer slots. The package
   // owns the 42px compact / 120px expanded surface geometry; Web UI owns concrete menus and
   // lifecycle states.
-  &__composer > [data-openbitfun-part='body'] > [data-openbitfun-part='surface'] {
-    .openbitfun-chat-input__actions-left,
-    .openbitfun-chat-input__actions-right {
+  &__composer > [data-opc-part='body'] > [data-opc-part='surface'] {
+    .opc-chat-input__actions-left,
+    .opc-chat-input__actions-right {
       display: flex;
       min-width: 0;
       height: var(--opcteam-control-chat-composer-control-height);
@@ -541,24 +541,24 @@
       padding: 0;
     }
 
-    .openbitfun-chat-input__actions-left {
+    .opc-chat-input__actions-left {
       justify-content: flex-start;
       gap: var(--opcteam-space-2);
     }
 
-    .openbitfun-chat-input__actions-right {
+    .opc-chat-input__actions-right {
       justify-content: flex-end;
       gap: var(--opcteam-space-1);
     }
 
-    .openbitfun-chat-input__model-usage-group,
-    .openbitfun-model-selector {
+    .opc-chat-input__model-usage-group,
+    .opc-model-selector {
       display: flex;
       min-width: 0;
       align-items: center;
     }
 
-    .openbitfun-model-selector {
+    .opc-model-selector {
       box-sizing: border-box;
       gap: 2px;
       height: var(--opcteam-control-chat-composer-control-height);
@@ -568,12 +568,12 @@
       background: transparent;
 
       &:hover,
-      &[data-openbitfun-state='open'] {
+      &[data-opc-state='open'] {
         background: var(--opcteam-color-action-quiet-hover);
       }
     }
 
-    .openbitfun-model-selector__trigger {
+    .opc-model-selector__trigger {
       min-width: 0;
       height: var(--opcteam-control-chat-composer-control-height);
       padding: 0 var(--opcteam-space-1) 0 var(--opcteam-space-2);
@@ -584,23 +584,23 @@
       opacity: 1;
     }
 
-    .openbitfun-model-selector__name {
+    .opc-model-selector__name {
       max-width: min(160px, 22cqi);
     }
 
-    .openbitfun-model-selector__trigger-reasoning {
+    .opc-model-selector__trigger-reasoning {
       max-width: min(72px, 12cqi);
     }
 
-    .openbitfun-reasoning-preset-selector[data-openbitfun-presentation='label']
-      .openbitfun-reasoning-preset-selector__trigger {
+    .opc-reasoning-preset-selector[data-opc-presentation='label']
+      .opc-reasoning-preset-selector__trigger {
       width: auto;
       height: 20px;
       padding-inline: 2px;
       border-radius: var(--opcteam-radius-sm);
     }
 
-    .openbitfun-chat-input__voice-control.icon-btn {
+    .opc-chat-input__voice-control.icon-btn {
       width: var(--opcteam-control-chat-composer-control-height) !important;
       height: var(--opcteam-control-chat-composer-control-height) !important;
       min-width: var(--opcteam-control-chat-composer-control-height) !important;
@@ -608,44 +608,44 @@
       border-radius: var(--opcteam-radius-pill) !important;
     }
 
-    .openbitfun-chat-input__voice-control.icon-btn {
+    .opc-chat-input__voice-control.icon-btn {
       border: 0;
       background: transparent;
     }
 
-    .openbitfun-chat-input__voice-control.icon-btn svg {
+    .opc-chat-input__voice-control.icon-btn svg {
       width: 14px;
       height: 14px;
     }
 
-    .openbitfun-chat-input__breathing-circle {
+    .opc-chat-input__breathing-circle {
       width: var(--opcteam-control-chat-composer-control-height) !important;
       height: var(--opcteam-control-chat-composer-control-height) !important;
     }
 
-    &[data-openbitfun-layout='compact'] {
+    &[data-opc-layout='compact'] {
       // Keep the editing track usable in smaller panes. The reasoning setting
       // remains available in the model menu when its inline summary cannot fit.
       @container chat-input (max-width: 360px) {
-        .openbitfun-model-selector__trigger-reasoning {
+        .opc-model-selector__trigger-reasoning {
           display: none;
         }
       }
 
-      .openbitfun-chat-input__actions-left,
-      .openbitfun-chat-input__actions-right {
+      .opc-chat-input__actions-left,
+      .opc-chat-input__actions-right {
         height: 100%;
         align-self: stretch;
       }
 
-      .openbitfun-chat-input__voice-cluster,
-      .openbitfun-chat-input__voice-control-shell {
+      .opc-chat-input__voice-cluster,
+      .opc-chat-input__voice-control-shell {
         height: 100%;
       }
     }
 
-    &[data-openbitfun-layout='expanded'] {
-      .openbitfun-harness-selector__trigger {
+    &[data-opc-layout='expanded'] {
+      .opc-harness-selector__trigger {
         height: var(--opcteam-control-chat-composer-control-height);
         border-radius: var(--opcteam-radius-pill);
       }
@@ -653,12 +653,12 @@
   }
 
   &--capsule {
-    .openbitfun-chat-input__content {
+    .opc-chat-input__content {
       height: 100%;
       justify-content: center;
     }
 
-    .openbitfun-chat-input__input-area {
+    .opc-chat-input__input-area {
       height: 100%;
       min-height: 0;
       padding: 0;
@@ -677,16 +677,16 @@
       }
     }
 
-    .openbitfun-chat-input__cowork-examples,
-    .openbitfun-chat-input__recommendations,
-    .openbitfun-chat-input__target-switcher,
-    .openbitfun-chat-input__image-strip {
+    .opc-chat-input__cowork-examples,
+    .opc-chat-input__recommendations,
+    .opc-chat-input__target-switcher,
+    .opc-chat-input__image-strip {
       display: none !important;
     }
   }
 
   &--multi-line {
-    .openbitfun-chat-input__input-area {
+    .opc-chat-input__input-area {
       min-height: 48px;
 
       .rich-text-input {
@@ -703,7 +703,7 @@
     padding-bottom: 7px;
     margin-bottom: 0.06rem;
     border-bottom: 1px solid color-mix(in srgb, var(--opcteam-color-content-on-dark) 8%, transparent);
-    animation: openbitfun-chat-input-fade-in 0.1s ease-out;
+    animation: opc-chat-input-fade-in 0.1s ease-out;
   }
 
   &__target-switcher-label {
@@ -801,7 +801,7 @@
     padding: 0;
     opacity: 0.3;
 
-    .openbitfun-chat-input__box:focus-within & {
+    .opc-chat-input__box:focus-within & {
       opacity: 1;
     }
 
@@ -870,7 +870,7 @@
   }
 
   &__boost-submenu-spinner {
-    animation: openbitfun-chat-input-spin 0.8s linear infinite;
+    animation: opc-chat-input-spin 0.8s linear infinite;
     color: var(--opcteam-color-accent-default);
   }
 
@@ -973,7 +973,7 @@
     }
 
     &--active {
-      .openbitfun-chat-input__slash-command-name {
+      .opc-chat-input__slash-command-name {
         color: color-mix(in srgb, var(--opcteam-color-accent-default) 95%, var(--opcteam-color-content-primary));
       }
     }
@@ -1063,17 +1063,17 @@
   }
 
   // Popovers: heavy blur + dark shadows read as gray/black on light theme
-  :root[data-openbitfun-appearance-mode="light"] &,
-  :root[data-openbitfun-appearance-mode="light"] &,
+  :root[data-opc-appearance-mode="light"] &,
+  :root[data-opc-appearance-mode="light"] &,
   .light & {
-    &__mode-option:not(.openbitfun-chat-input__mode-option--disabled):hover {
+    &__mode-option:not(.opc-chat-input__mode-option--disabled):hover {
       background: var(--opcteam-color-action-quiet-hover);
     }
 
     &__mode-submenu-content {
       background: color-mix(in srgb, var(--opcteam-color-content-muted) 4%, transparent);
 
-      .openbitfun-chat-input__mode-option:hover:not(.openbitfun-chat-input__mode-option--disabled) {
+      .opc-chat-input__mode-option:hover:not(.opc-chat-input__mode-option--disabled) {
         background: var(--opcteam-color-action-quiet-hover);
       }
     }
@@ -1140,7 +1140,7 @@
     transform: none !important;
     cursor: pointer;
 
-    .openbitfun-chat-input__box:focus-within &,
+    .opc-chat-input__box:focus-within &,
     &:hover {
       background: transparent !important;
       border: none !important;
@@ -1148,7 +1148,7 @@
       transform: none !important;
     }
 
-    &:hover .openbitfun-chat-input__breathing-circle {
+    &:hover .opc-chat-input__breathing-circle {
       filter: none;
       background: var(--opcteam-color-action-primary-hover);
       border-color: color-mix(in srgb, var(--opcteam-color-action-primary-content) 24%, transparent);
@@ -1167,7 +1167,7 @@
     border-radius: 50%;
     border: 1px solid transparent;
     border-top-color: var(--opcteam-color-action-primary-content);
-    animation: openbitfun-chat-input-spin 0.8s linear infinite;
+    animation: opc-chat-input-spin 0.8s linear infinite;
   }
 
   /* Stop keeps the same action surface so state changes do not shift hierarchy. */
@@ -1220,13 +1220,13 @@
   }
 }
 
-@keyframes openbitfun-chat-input-spin {
+@keyframes opc-chat-input-spin {
   to {
     transform: rotate(360deg);
   }
 }
 
-@keyframes openbitfun-chat-input-fade-in {
+@keyframes opc-chat-input-fade-in {
   from {
     opacity: 0;
     transform: translateY(4px);
@@ -1238,27 +1238,27 @@
 }
 
 @media (hover: none), (pointer: coarse) {
-  .openbitfun-chat-input__voice-pill-action:not(:disabled):hover,
-  .openbitfun-chat-input__voice-pill-send:not(:disabled):hover {
+  .opc-chat-input__voice-pill-action:not(:disabled):hover,
+  .opc-chat-input__voice-pill-send:not(:disabled):hover {
     transform: none;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-chat-input,
-  .openbitfun-chat-input__input-area,
-  .openbitfun-chat-input__actions-left,
-  .openbitfun-chat-input__actions-right,
-  .openbitfun-chat-input__recommendations,
-  .openbitfun-chat-input__action-button,
-  .openbitfun-chat-input__send-button,
-  .openbitfun-chat-input__breathing-circle,
-  .openbitfun-chat-input__slash-command-item {
+  .opc-chat-input,
+  .opc-chat-input__input-area,
+  .opc-chat-input__actions-left,
+  .opc-chat-input__actions-right,
+  .opc-chat-input__recommendations,
+  .opc-chat-input__action-button,
+  .opc-chat-input__send-button,
+  .opc-chat-input__breathing-circle,
+  .opc-chat-input__slash-command-item {
     transition-duration: 0ms;
   }
 
-  .openbitfun-chat-input__loading-spinner,
-  .openbitfun-chat-input__boost-submenu-spinner {
+  .opc-chat-input__loading-spinner,
+  .opc-chat-input__boost-submenu-spinner {
     animation: none;
   }
 }

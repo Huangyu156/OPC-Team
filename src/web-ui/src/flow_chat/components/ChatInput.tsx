@@ -866,7 +866,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       // ChatComposer owns the compact/expanded grid. Force its public layout
       // contract on the off-screen clone so collapse checks never measure the
       // wider expanded content track by accident.
-      cloneComposerSurfaceEl.dataset.openbitfunLayout = 'compact';
+      cloneComposerSurfaceEl.dataset.opcLayout = 'compact';
     }
 
     document.body.appendChild(clone);

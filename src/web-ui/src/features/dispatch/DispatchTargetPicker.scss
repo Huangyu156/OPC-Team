@@ -73,7 +73,7 @@
     // The two local execution modes keep matching title ink regardless of
     // which row is selected. Every option detail shares the quieter treatment
     // declared on `small` below.
-    &[data-openbitfun-part='option'] {
+    &[data-opc-part='option'] {
       .dispatch-target-picker__option-copy {
         strong {
           color: var(--opcteam-color-content-secondary);

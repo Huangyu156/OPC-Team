@@ -121,12 +121,12 @@
     // The existing root owns feedback; do not paint a second hover surface.
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+    > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
       inline-size: var(--opcteam-control-icon-size-sm);
       block-size: var(--opcteam-control-icon-size-sm);
     }

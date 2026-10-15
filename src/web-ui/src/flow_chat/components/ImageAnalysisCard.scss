@@ -241,7 +241,7 @@
   color: var(--image-analysis-error);
 }
 
-:root[data-openbitfun-appearance-mode='dark'] .image-analysis-card {
+:root[data-opc-appearance-mode='dark'] .image-analysis-card {
   --image-analysis-surface: var(--opcteam-color-surface-raised);
   --image-analysis-background: var(--opcteam-color-surface-canvas);
   --image-analysis-border: var(--opcteam-color-border-default);

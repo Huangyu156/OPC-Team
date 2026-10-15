@@ -34,12 +34,12 @@
     min-block-size: var(--opcteam-control-action-card-md-min-block-size);
   }
 
-  .root:not([data-disabled="true"]):is(:hover, :has(.trigger[data-openbitfun-preview-state="hover"])) {
+  .root:not([data-disabled="true"]):is(:hover, :has(.trigger[data-opc-preview-state="hover"])) {
     outline-color: var(--opcteam-color-border-default);
     background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
-  .root:not([data-disabled="true"]):is(:active, :has(.trigger[data-openbitfun-preview-state="active"])) {
+  .root:not([data-disabled="true"]):is(:active, :has(.trigger[data-opc-preview-state="active"])) {
     background: var(--opcteam-color-action-neutral-surface-pressed);
   }
 
@@ -94,7 +94,7 @@
   }
 
   .leading > :where(svg, img),
-  .leading > [data-openbitfun-component="icon"] {
+  .leading > [data-opc-component="icon"] {
     display: block;
     inline-size: var(--opcteam-control-action-card-icon-size);
     block-size: var(--opcteam-control-action-card-icon-size);

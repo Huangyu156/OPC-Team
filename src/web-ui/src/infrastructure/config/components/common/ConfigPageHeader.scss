@@ -1,7 +1,7 @@
 @use './config-page-layout.tokens' as configLayout;
 
 
-.openbitfun-config-page-header {
+.opc-config-page-header {
   flex-shrink: 0;
   box-sizing: border-box;
   width: 100%;
@@ -10,7 +10,7 @@
   margin-bottom: 36px;
 }
 
-.openbitfun-config-page-header__inner {
+.opc-config-page-header__inner {
   @include configLayout.content-frame;
   display: flex;
   justify-content: space-between;
@@ -18,7 +18,7 @@
   gap: var(--opcteam-space-4);
 }
 
-.openbitfun-config-page-header__left {
+.opc-config-page-header__left {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-4);
@@ -26,23 +26,23 @@
   min-width: 0;
 }
 
-.openbitfun-config-page-header__info {
+.opc-config-page-header__info {
   flex: 1;
   min-width: 0;
 }
 
-.openbitfun-config-page-header__title {
+.opc-config-page-header__title {
   overflow-wrap: break-word;
 }
 
-.openbitfun-config-page-header__subtitle {
+.opc-config-page-header__subtitle {
   display: block;
   margin: 0;
   max-width: 100%;
   overflow-wrap: break-word;
 }
 
-.openbitfun-config-page-header__extra {
+.opc-config-page-header__extra {
   flex-shrink: 0;
   display: flex;
   align-items: center;
@@ -50,29 +50,29 @@
 }
 
 @media (max-width: 768px) {
-  .openbitfun-config-page-header__inner {
+  .opc-config-page-header__inner {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .openbitfun-config-page-header__left {
+  .opc-config-page-header__left {
     width: 100%;
   }
 
-  .openbitfun-config-page-header__extra {
+  .opc-config-page-header__extra {
     width: 100%;
     justify-content: flex-end;
   }
 }
 
 @media (max-width: 600px) {
-  .openbitfun-config-page-header__left {
+  .opc-config-page-header__left {
     gap: var(--opcteam-space-3);
   }
 }
 
 
-.openbitfun-config-page-header-divider {
+.opc-config-page-header-divider {
   @include configLayout.content-frame;
   flex-shrink: 0;
   height: 1px;
@@ -82,39 +82,39 @@
 }
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-config-page-header {
+  .opc-config-page-header {
     padding-top: var(--opcteam-space-4);
     margin-bottom: var(--opcteam-space-8);
   }
 
-  .openbitfun-config-page-header__inner {
+  .opc-config-page-header__inner {
     gap: var(--opcteam-space-3);
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .openbitfun-config-page-header__left {
+  .opc-config-page-header__left {
     gap: var(--opcteam-space-3);
     width: 100%;
   }
 
-  .openbitfun-config-page-header__subtitle {
+  .opc-config-page-header__subtitle {
     max-width: 100%;
   }
 
-  .openbitfun-config-page-header__extra {
+  .opc-config-page-header__extra {
     width: 100%;
     justify-content: flex-start;
     margin-top: var(--opcteam-space-2);
   }
 
-  .openbitfun-config-page-header-divider {
+  .opc-config-page-header-divider {
     margin: var(--opcteam-space-3) auto;
   }
 }
 
 @media (prefers-reduced-transparency: reduce) {
-  .openbitfun-config-page-header {
+  .opc-config-page-header {
     background: var(--opcteam-color-surface-scene);
     backdrop-filter: none;
     -webkit-backdrop-filter: none;

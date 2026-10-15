@@ -2,7 +2,7 @@
  * Image Viewer Styles
  * Following Git panel design style
  */
-.openbitfun-image-viewer {
+.opc-image-viewer {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -112,17 +112,17 @@
     border: 3px solid var(--opcteam-color-field-border-hover);
     border-top-color: var(--opcteam-color-accent-default);
     border-radius: 50%;
-    animation: openbitfun-image-viewer-spin 0.8s linear infinite;
+    animation: opc-image-viewer-spin 0.8s linear infinite;
   }
 
-  @keyframes openbitfun-image-viewer-spin {
+  @keyframes opc-image-viewer-spin {
     to {
       transform: rotate(360deg);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .openbitfun-image-viewer__spinner {
+    .opc-image-viewer__spinner {
       animation: none;
     }
   }

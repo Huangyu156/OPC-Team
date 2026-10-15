@@ -217,7 +217,7 @@
       letter-spacing: var(--opcteam-type-body-sm-letter-spacing);
 
       svg,
-      [data-openbitfun-component='icon'] {
+      [data-opc-component='icon'] {
         color: var(--opcteam-color-content-muted);
       }
 
@@ -226,7 +226,7 @@
         white-space: nowrap;
       }
 
-      [data-openbitfun-component='icon-button'] {
+      [data-opc-component='icon-button'] {
         color: var(--opcteam-color-content-muted);
       }
     }

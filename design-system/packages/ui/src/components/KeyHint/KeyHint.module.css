@@ -37,7 +37,7 @@
   }
 
   .icon > :where(svg, img),
-  .icon > [data-openbitfun-component="icon"] {
+  .icon > [data-opc-component="icon"] {
     display: block;
     inline-size: 1em;
     block-size: 1em;

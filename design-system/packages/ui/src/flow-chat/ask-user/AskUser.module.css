@@ -219,7 +219,7 @@
     cursor: pointer;
   }
 
-  .root[data-openbitfun-expanded="true"] .summaryButton {
+  .root[data-opc-expanded="true"] .summaryButton {
     border-block-end: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   }
 
@@ -262,9 +262,9 @@
     color: var(--opcteam-color-status-success-content);
   }
 
-  .summaryIcon > [data-openbitfun-component="icon"],
-  .statusIcon > [data-openbitfun-component="icon"],
-  .summaryAction > [data-openbitfun-component="icon"],
+  .summaryIcon > [data-opc-component="icon"],
+  .statusIcon > [data-opc-component="icon"],
+  .summaryAction > [data-opc-component="icon"],
   .summaryIcon > svg,
   .statusIcon > svg,
   .summaryAction > svg {
@@ -321,7 +321,7 @@
     display: none;
   }
 
-  .root[data-openbitfun-has-summary="true"][data-openbitfun-expanded="false"] .details {
+  .root[data-opc-has-summary="true"][data-opc-expanded="false"] .details {
     grid-template-rows: 0fr;
   }
 
@@ -400,7 +400,7 @@
   }
 
   .option:hover:has(.optionSelector[data-disabled="false"][data-readonly="false"]),
-  .option:has([data-openbitfun-preview-state="hover"]) {
+  .option:has([data-opc-preview-state="hover"]) {
     background: var(--opcteam-color-action-neutral-surface-hover);
   }
 
@@ -417,11 +417,11 @@
     font: inherit;
   }
 
-  .optionSelector > :global([data-openbitfun-part="control"]) {
+  .optionSelector > :global([data-opc-part="control"]) {
     margin-block-start: max(0px, calc((1lh - var(--opcteam-control-icon-size-md)) / 2));
   }
 
-  .optionSelector > :global([data-openbitfun-part="content"]) {
+  .optionSelector > :global([data-opc-part="content"]) {
     flex: 1 1 auto;
     min-inline-size: 0;
   }
@@ -470,7 +470,7 @@
     margin-inline-end: var(--opcteam-control-ask-user-option-padding-inline);
   }
 
-  .customInput > :global([data-openbitfun-component="input"]) {
+  .customInput > :global([data-opc-component="input"]) {
     inline-size: 100%;
   }
 
@@ -514,27 +514,27 @@
     line-height: var(--opcteam-type-body-sm-line-height);
   }
 
-  .root[data-openbitfun-state="asking"] .statusIcon {
+  .root[data-opc-state="asking"] .statusIcon {
     color: var(--opcteam-color-status-warning-content);
   }
 
-  .root[data-openbitfun-state="submitted"] .statusIcon,
-  .root[data-openbitfun-state="completed"] .statusIcon {
+  .root[data-opc-state="submitted"] .statusIcon,
+  .root[data-opc-state="completed"] .statusIcon {
     color: var(--opcteam-color-status-success-content);
   }
 
-  .root[data-openbitfun-state="error"] .statusIcon {
+  .root[data-opc-state="error"] .statusIcon {
     color: var(--opcteam-color-status-danger-content);
   }
 
-  .root[data-openbitfun-state="loading"] .statusIcon,
-  .root[data-openbitfun-state="timeout"] .statusIcon,
-  .root[data-openbitfun-state="submitting"] .statusIcon {
+  .root[data-opc-state="loading"] .statusIcon,
+  .root[data-opc-state="timeout"] .statusIcon,
+  .root[data-opc-state="submitting"] .statusIcon {
     color: var(--opcteam-color-content-secondary);
   }
 
-  .root[data-openbitfun-state="loading"] .statusIcon > :is(svg, [data-openbitfun-component="icon"]),
-  .root[data-openbitfun-state="submitting"] .statusIcon > :is(svg, [data-openbitfun-component="icon"]) {
+  .root[data-opc-state="loading"] .statusIcon > :is(svg, [data-opc-component="icon"]),
+  .root[data-opc-state="submitting"] .statusIcon > :is(svg, [data-opc-component="icon"]) {
     animation: openbitfun-ask-user-spin var(--opcteam-motion-duration-loop) linear infinite;
   }
 
@@ -557,7 +557,7 @@
     background: var(--opcteam-color-status-warning-surface);
   }
 
-  .root[data-openbitfun-state="error"] .feedback {
+  .root[data-opc-state="error"] .feedback {
     border-color: var(--opcteam-color-status-danger-border);
     color: var(--opcteam-color-status-danger-content);
     background: var(--opcteam-color-status-danger-surface);
@@ -593,8 +593,8 @@
       transition: none;
     }
 
-    .root[data-openbitfun-state="loading"] .statusIcon > :is(svg, [data-openbitfun-component="icon"]),
-    .root[data-openbitfun-state="submitting"] .statusIcon > :is(svg, [data-openbitfun-component="icon"]) {
+    .root[data-opc-state="loading"] .statusIcon > :is(svg, [data-opc-component="icon"]),
+    .root[data-opc-state="submitting"] .statusIcon > :is(svg, [data-opc-component="icon"]) {
       animation: none;
     }
   }

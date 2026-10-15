@@ -1,4 +1,4 @@
-.openbitfun-pdf-viewer {
+.opc-pdf-viewer {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -187,17 +187,17 @@
     border: 3px solid var(--opcteam-color-field-border-hover);
     border-top-color: var(--opcteam-color-accent-default);
     border-radius: 50%;
-    animation: openbitfun-pdf-viewer-spin 0.8s linear infinite;
+    animation: opc-pdf-viewer-spin 0.8s linear infinite;
   }
 
-  @keyframes openbitfun-pdf-viewer-spin {
+  @keyframes opc-pdf-viewer-spin {
     to {
       transform: rotate(360deg);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .openbitfun-pdf-viewer__spinner {
+    .opc-pdf-viewer__spinner {
       animation: none;
     }
   }

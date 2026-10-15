@@ -15,16 +15,16 @@
     mask-size: contain;
   }
 
-  .icon[data-openbitfun-source="line"] {
+  .icon[data-opc-source="line"] {
     background-color: transparent;
   }
 
   /* Reviewed monochrome paths keep authored opacity outside control slots. */
-  .icon[data-openbitfun-artwork="monochrome"] {
+  .icon[data-opc-artwork="monochrome"] {
     opacity: var(--opcteam-opacity-icon-artwork);
   }
 
-  .icon[data-openbitfun-source="line"] > svg {
+  .icon[data-opc-source="line"] > svg {
     display: block;
     inline-size: 100%;
     block-size: 100%;
@@ -50,35 +50,35 @@
     --_icon-size: var(--opcteam-control-icon-size-lg);
   }
 
-  .icon[data-openbitfun-tone="primary"] {
+  .icon[data-opc-tone="primary"] {
     color: var(--opcteam-color-content-primary);
   }
 
-  .icon[data-openbitfun-tone="secondary"] {
+  .icon[data-opc-tone="secondary"] {
     color: var(--opcteam-color-content-secondary);
   }
 
-  .icon[data-openbitfun-tone="muted"] {
+  .icon[data-opc-tone="muted"] {
     color: var(--opcteam-color-content-muted);
   }
 
-  .icon[data-openbitfun-tone="disabled"] {
+  .icon[data-opc-tone="disabled"] {
     color: var(--opcteam-color-content-disabled);
   }
 
-  .icon[data-openbitfun-tone="info"] {
+  .icon[data-opc-tone="info"] {
     color: var(--opcteam-color-status-info-emphasis);
   }
 
-  .icon[data-openbitfun-tone="success"] {
+  .icon[data-opc-tone="success"] {
     color: var(--opcteam-color-status-success-emphasis);
   }
 
-  .icon[data-openbitfun-tone="warning"] {
+  .icon[data-opc-tone="warning"] {
     color: var(--opcteam-color-status-warning-emphasis);
   }
 
-  .icon[data-openbitfun-tone="danger"] {
+  .icon[data-opc-tone="danger"] {
     color: var(--opcteam-color-status-danger-emphasis);
   }
 

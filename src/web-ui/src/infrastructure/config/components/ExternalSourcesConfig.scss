@@ -1,4 +1,4 @@
-.openbitfun-external-sources-config {
+.opc-external-sources-config {
   container-name: external-sources;
   container-type: inline-size;
 
@@ -83,21 +83,21 @@
     transform: rotate(45deg);
   }
 
-  .openbitfun-config-page-header__inner {
+  .opc-config-page-header__inner {
     position: relative;
   }
 
   /*
    * Sections keep the shared card surface from ConfigPageLayout, so every
    * bespoke block below carries the same horizontal gutter a
-   * `.openbitfun-config-page-row` uses. Custom content then lines up with standard
+   * `.opc-config-page-row` uses. Custom content then lines up with standard
    * rows and its separators run edge to edge like theirs.
    */
-  .openbitfun-config-page-section__body > .openbitfun-external-sources-config__notice {
+  .opc-config-page-section__body > .opc-external-sources-config__notice {
     margin: var(--opcteam-space-3) var(--opcteam-space-4);
   }
 
-  .openbitfun-config-page-section__body > .openbitfun-external-sources-config__capability-grid {
+  .opc-config-page-section__body > .opc-external-sources-config__capability-grid {
     padding-right: var(--opcteam-space-4);
     padding-left: var(--opcteam-space-4);
   }
@@ -236,7 +236,7 @@
       }
     }
 
-    .openbitfun-external-sources-config__scope-reset {
+    .opc-external-sources-config__scope-reset {
       margin-left: auto;
     }
   }
@@ -334,12 +334,12 @@
 
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+    > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
       inline-size: var(--opcteam-control-icon-size-md);
       block-size: var(--opcteam-control-icon-size-md);
     }
@@ -394,7 +394,7 @@
     margin-bottom: 12px;
     padding: 0;
 
-    &[data-openbitfun-component='alert'] {
+    &[data-opc-component='alert'] {
       display: block;
       border: 0;
       border-radius: 0;
@@ -404,10 +404,10 @@
       line-height: inherit;
       letter-spacing: inherit;
 
-      > [data-openbitfun-part='content'] {
+      > [data-opc-part='content'] {
         display: block;
 
-        > [data-openbitfun-part='message'] {
+        > [data-opc-part='message'] {
           color: inherit;
         }
       }
@@ -749,13 +749,13 @@
   }
 
   @container external-sources (max-width: 720px) {
-    &__source-group.openbitfun-config-page-row {
+    &__source-group.opc-config-page-row {
       grid-template-columns: minmax(0, 1fr);
       gap: var(--opcteam-space-2);
       align-items: stretch;
     }
 
-    &__source-group .openbitfun-config-page-row__control {
+    &__source-group .opc-config-page-row__control {
       justify-content: flex-start;
     }
 
@@ -797,7 +797,7 @@
 }
 
 @container external-sources (max-width: 520px) {
-  .openbitfun-external-sources-config .openbitfun-config-page-header__extra {
+  .opc-external-sources-config .opc-config-page-header__extra {
     position: absolute;
     top: 0;
     right: 0;

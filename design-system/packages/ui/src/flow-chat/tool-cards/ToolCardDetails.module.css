@@ -130,11 +130,11 @@
     transform: rotate(90deg);
   }
 
-  .disclosure > [data-openbitfun-part="content"] > .disclosureContent {
+  .disclosure > [data-opc-part="content"] > .disclosureContent {
     padding-inline: 0;
   }
 
-  .disclosure[data-open="true"] > [data-openbitfun-part="content"] > .disclosureContent {
+  .disclosure[data-open="true"] > [data-opc-part="content"] > .disclosureContent {
     padding-block: var(--opcteam-space-2) 0;
   }
 

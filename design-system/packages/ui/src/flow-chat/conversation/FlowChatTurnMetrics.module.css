@@ -50,7 +50,7 @@
     }
   }
 
-  .detailsCard [data-openbitfun-part='content'] {
+  .detailsCard [data-opc-part='content'] {
     padding: var(--opcteam-space-3);
     border: 0;
     border-radius: inherit;
@@ -60,7 +60,7 @@
     -webkit-backdrop-filter: none;
   }
 
-  .detailsCard [data-openbitfun-part='arrow'] { display: none; }
+  .detailsCard [data-opc-part='arrow'] { display: none; }
 
   .detailsGrid {
     display: grid;

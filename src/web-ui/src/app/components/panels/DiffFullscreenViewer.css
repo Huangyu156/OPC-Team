@@ -241,15 +241,15 @@
   }
 }
 
-:root[data-openbitfun-appearance-mode='dark'] .diff-fullscreen-container {
+:root[data-opc-appearance-mode='dark'] .diff-fullscreen-container {
   background: var(--opcteam-color-surface-canvas);
 }
 
-:root[data-openbitfun-appearance-mode='dark'] .diff-fullscreen-header {
+:root[data-opc-appearance-mode='dark'] .diff-fullscreen-header {
   background: color-mix(in srgb, var(--opcteam-color-content-on-light) 95%, transparent);
   border-bottom-color: color-mix(in srgb, var(--opcteam-color-content-on-dark) 15%, transparent);
 }
 
-:root[data-openbitfun-appearance-mode='dark'] .diff-fullscreen-content {
+:root[data-opc-appearance-mode='dark'] .diff-fullscreen-content {
   background: var(--opcteam-color-surface-canvas);
 }

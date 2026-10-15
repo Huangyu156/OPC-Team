@@ -2,7 +2,7 @@
  * Smart recommendations styles
  */
 
-.openbitfun-smart-recommendations {
+.opc-smart-recommendations {
   position: relative;
   background: var(--opcteam-color-surface-panel);
   border: 1px solid var(--opcteam-color-border-default);
@@ -47,7 +47,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-smart-recommendations {
+  .opc-smart-recommendations {
     animation: none;
   }
 }

@@ -25,7 +25,7 @@
 
   .record { padding-block: var(--opcteam-space-2); }
 
-  .record [data-openbitfun-part="sectionLabel"] {
+  .record [data-opc-part="sectionLabel"] {
     color: var(--opcteam-color-content-primary);
   }
 

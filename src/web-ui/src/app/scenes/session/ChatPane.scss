@@ -2,7 +2,7 @@
  * ChatPane styles — AI Agent scene left pane (FlowChat).
  * Renamed from panels/CenterPanel.scss.
  */
-.openbitfun-chat-pane__content {
+.opc-chat-pane__content {
   width: 100%;
   height: 100%;
   min-width: 0;
@@ -16,7 +16,7 @@
   font-size: var(--opcteam-type-flow-body-font-size);
 }
 
-.openbitfun-chat-pane__chat-container {
+.opc-chat-pane__chat-container {
   flex: 1;
   min-width: 0;
   min-height: 0;
@@ -28,7 +28,7 @@
 }
 
 // A pane-sized target without intercepting drops or changing transcript geometry.
-.openbitfun-chat-pane__drop-overlay {
+.opc-chat-pane__drop-overlay {
   position: absolute;
   inset: 0;
   z-index: var(--opcteam-layer-overlay);
@@ -40,7 +40,7 @@
   -webkit-backdrop-filter: var(--opcteam-effect-blur-medium);
 }
 
-.openbitfun-chat-pane__drop-content {
+.opc-chat-pane__drop-content {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,33 +52,33 @@
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-chat-pane__drop-emblem {
+.opc-chat-pane__drop-emblem {
   flex-shrink: 0;
   margin-bottom: var(--opcteam-space-2);
   color: var(--opcteam-color-content-secondary);
   opacity: 0.2;
 }
 
-.openbitfun-chat-pane__drop-copy {
+.opc-chat-pane__drop-copy {
   display: flex;
   flex-direction: column;
   gap: var(--opcteam-space-2);
 }
 
-.openbitfun-chat-pane__drop-title {
+.opc-chat-pane__drop-title {
   color: var(--opcteam-color-content-primary);
   font-size: var(--opcteam-type-body-lg-font-size);
   font-weight: var(--opcteam-type-label-selected-font-weight);
   line-height: var(--opcteam-type-label-md-line-height);
 }
 
-.openbitfun-chat-pane__drop-description {
+.opc-chat-pane__drop-description {
   color: var(--opcteam-color-content-secondary);
   font-size: var(--opcteam-type-body-sm-font-size);
   line-height: var(--opcteam-type-body-sm-line-height);
 }
 
-.openbitfun-chat-pane__drop-cursor {
+.opc-chat-pane__drop-cursor {
   position: absolute;
   top: 0;
   left: 0;
@@ -86,7 +86,7 @@
   will-change: transform;
 }
 
-.openbitfun-chat-pane__file-preview {
+.opc-chat-pane__file-preview {
   position: relative;
   isolation: isolate;
   width: 128px;
@@ -113,7 +113,7 @@
   }
 }
 
-.openbitfun-chat-pane__file-front {
+.opc-chat-pane__file-front {
   position: relative;
   padding: var(--opcteam-space-2);
   border-radius: var(--opcteam-radius-lg);
@@ -123,7 +123,7 @@
 
 }
 
-.openbitfun-chat-pane__file-tile {
+.opc-chat-pane__file-tile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -145,7 +145,7 @@
   img { width: 100%; height: 100%; object-fit: cover; }
 }
 
-.openbitfun-chat-pane__file-count {
+.opc-chat-pane__file-count {
   position: absolute;
   z-index: 1;
   top: 0;
@@ -165,7 +165,7 @@
   font-weight: var(--opcteam-type-label-selected-font-weight);
 }
 
-.openbitfun-chat-pane__file-caption {
+.opc-chat-pane__file-caption {
   margin-top: var(--opcteam-space-2);
   max-width: 100%;
   text-align: center;

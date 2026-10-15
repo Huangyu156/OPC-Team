@@ -1,4 +1,4 @@
-.openbitfun-file-viewer-nav {
+.opc-file-viewer-nav {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -70,7 +70,7 @@
 
     &:hover:not(:disabled) { background: var(--opcteam-color-action-quiet-hover); }
     &:disabled { cursor: default; }
-    > [data-openbitfun-component='icon'] { color: var(--opcteam-color-content-muted); }
+    > [data-opc-component='icon'] { color: var(--opcteam-color-content-muted); }
   }
 
   &__workspace-name {
@@ -85,7 +85,7 @@
     min-inline-size: 0;
     max-inline-size: 40%;
 
-    > [data-openbitfun-component='status-pill'] {
+    > [data-opc-component='status-pill'] {
       min-inline-size: 0;
       max-inline-size: 100%;
     }
@@ -150,7 +150,7 @@
       color: var(--opcteam-color-content-primary);
     }
 
-    > [data-openbitfun-component='icon'] { color: var(--opcteam-color-content-muted); }
+    > [data-opc-component='icon'] { color: var(--opcteam-color-content-muted); }
   }
 
   &__section-label {
@@ -222,7 +222,7 @@
     line-height: var(--opcteam-type-label-sm-line-height);
     cursor: pointer;
     &:disabled { cursor: default; }
-    > [data-openbitfun-component='icon'] { color: var(--opcteam-color-content-muted); }
+    > [data-opc-component='icon'] { color: var(--opcteam-color-content-muted); }
   }
 
   &__terminal-text { display: flex; flex-direction: column; flex: 1; min-inline-size: 0; gap: calc(var(--opcteam-space-1) / 2); }

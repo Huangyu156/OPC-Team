@@ -1,4 +1,4 @@
-.openbitfun-config-loading-state {
+.opc-config-loading-state {
   position: relative;
   width: 100%;
   min-width: 0;
@@ -56,34 +56,34 @@
   }
 }
 
-.openbitfun-config-message {
+.opc-config-message {
   margin-bottom: var(--opcteam-space-1);
 }
 
-.openbitfun-config-empty-state {
+.opc-config-empty-state {
   min-width: 0;
   border-radius: var(--opcteam-layout-field-group-radius);
   background: var(--opcteam-color-surface-tertiary);
 
-  > [data-openbitfun-component='empty'] {
+  > [data-opc-component='empty'] {
     box-sizing: border-box;
     min-height: 200px;
   }
 }
 
-.openbitfun-config-retry-state {
+.opc-config-retry-state {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: var(--opcteam-space-2);
 }
 
-.openbitfun-config-retry-state .openbitfun-config-message {
+.opc-config-retry-state .opc-config-message {
   align-self: stretch;
   margin-bottom: 0;
 }
 
-.openbitfun-config-field-status {
+.opc-config-field-status {
   display: inline-flex;
   align-items: center;
   gap: var(--opcteam-space-2);
@@ -92,11 +92,11 @@
   font-size: var(--opcteam-type-label-sm-font-size);
   line-height: var(--opcteam-type-label-sm-line-height);
 
-  &[data-openbitfun-status='error'] {
+  &[data-opc-status='error'] {
     color: var(--opcteam-color-status-danger-content);
   }
 
-  &[data-openbitfun-status='saved'] {
+  &[data-opc-status='saved'] {
     color: var(--opcteam-color-status-success-content);
   }
 
@@ -109,7 +109,7 @@
   }
 }
 
-.openbitfun-config-action-bar {
+.opc-config-action-bar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -127,14 +127,14 @@
 }
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-config-action-bar {
+  .opc-config-action-bar {
     align-items: stretch;
     flex-direction: column;
 
     &__actions {
       width: 100%;
 
-      > [data-openbitfun-component='button'] {
+      > [data-opc-component='button'] {
         flex: 1 1 0;
       }
     }

@@ -6,7 +6,7 @@
   // A light content appearance may still place navigation inside inverse
   // structural chrome. Only force the crisp light-mode treatment when the
   // consumer is not inside the navigation chrome scope.
-  :root[data-openbitfun-appearance-mode='light'] &:not(.openbitfun-nav-panel *) {
+  :root[data-opc-appearance-mode='light'] &:not(.opc-nav-panel *) {
     color: color-mix(
       in srgb,
       var(--opcteam-color-content-on-light) 92%,
@@ -22,7 +22,7 @@
 @mixin nav-panel-text-meta {
   color: var(--opcteam-color-content-muted);
 
-  :root[data-openbitfun-appearance-mode='light'] &:not(.openbitfun-nav-panel *) {
+  :root[data-opc-appearance-mode='light'] &:not(.opc-nav-panel *) {
     color: color-mix(
       in srgb,
       var(--opcteam-color-content-on-light) 48%,
@@ -38,7 +38,7 @@
     var(--opcteam-color-content-muted)
   );
 
-  :root[data-openbitfun-appearance-mode='light'] &:not(.openbitfun-nav-panel *) {
+  :root[data-opc-appearance-mode='light'] &:not(.opc-nav-panel *) {
     color: color-mix(
       in srgb,
       var(--opcteam-color-content-on-light) 70%,

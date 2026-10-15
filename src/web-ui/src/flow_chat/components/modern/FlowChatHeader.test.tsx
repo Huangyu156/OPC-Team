@@ -666,7 +666,7 @@ describe('FlowChatHeader', () => {
       '.flowchat-header__session-overview-section-header--action',
     );
 
-    expect(section?.dataset.openbitfunState).toBe('unavailable');
+    expect(section?.dataset.opcState).toBe('unavailable');
     expect(unavailable?.textContent).toBe('flowChatHeader.pullRequestNotGitRepository');
     expect(headerButton?.disabled).toBe(true);
     expect(getWorkspaceSnapshotMock).not.toHaveBeenCalled();

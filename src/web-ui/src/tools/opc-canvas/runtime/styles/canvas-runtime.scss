@@ -93,7 +93,7 @@ button {
   padding: 24px 20px 56px;
 }
 
-.openbitfun-canvas-boot {
+.opc-canvas-boot {
   max-width: 860px;
   margin: 0 auto;
   padding: 12px;
@@ -103,37 +103,37 @@ button {
   background: color-mix(in srgb, var(--opcteam-color-surface-panel) 72%, transparent);
 }
 
-.openbitfun-canvas-stack {
+.opc-canvas-stack {
   min-width: 0;
   width: 100%;
 }
 
-#openbitfun-canvas-root > .openbitfun-canvas-stack {
+#openbitfun-canvas-root > .opc-canvas-stack {
   max-width: min(100%, 980px);
   margin-inline: auto;
 }
 
-html[data-openbitfun-canvas-design-mode] {
+html[data-opc-canvas-design-mode] {
   cursor: crosshair;
 }
 
-html[data-openbitfun-canvas-design-mode] body {
+html[data-opc-canvas-design-mode] body {
   user-select: none;
 }
 
-[data-openbitfun-canvas-hovered='true'] {
+[data-opc-canvas-hovered='true'] {
   outline: 2px solid var(--opcteam-color-accent-default) !important;
   outline-offset: 2px !important;
 }
 
-.openbitfun-card {
+.opc-card {
   border: 1px solid var(--opcteam-color-border-subtle);
   border-radius: 8px;
   background: var(--opcteam-color-surface-raised);
   overflow: hidden;
 }
 
-.openbitfun-card-header {
+.opc-card-header {
   min-height: 34px;
   display: flex;
   align-items: center;
@@ -147,11 +147,11 @@ html[data-openbitfun-canvas-design-mode] body {
   line-height: var(--opcteam-type-modifier-leading-dense-line-height);
 }
 
-.openbitfun-card-body {
+.opc-card-body {
   padding: 12px;
 }
 
-.openbitfun-callout {
+.opc-callout {
   --opcteam-callout-accent: var(--opcteam-color-accent-default);
 
   position: relative;
@@ -162,7 +162,7 @@ html[data-openbitfun-canvas-design-mode] body {
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-callout::before {
+.opc-callout::before {
   content: '';
   position: absolute;
   top: 11px;
@@ -174,7 +174,7 @@ html[data-openbitfun-canvas-design-mode] body {
   opacity: 0.72;
 }
 
-.openbitfun-callout-title {
+.opc-callout-title {
   margin-bottom: 6px;
   color: var(--opcteam-color-content-primary);
   font-size: var(--opcteam-type-label-md-font-size);
@@ -182,17 +182,17 @@ html[data-openbitfun-canvas-design-mode] body {
   line-height: var(--opcteam-type-meta-line-height);
 }
 
-.openbitfun-callout-body {
+.opc-callout-body {
   color: var(--opcteam-color-content-secondary);
   font-size: var(--opcteam-type-label-md-font-size);
   line-height: var(--opcteam-type-support-line-height);
 }
 
-.openbitfun-callout-body > :first-child {
+.opc-callout-body > :first-child {
   margin-top: 0;
 }
 
-.openbitfun-callout-body > :last-child {
+.opc-callout-body > :last-child {
   margin-bottom: 0;
 }
 
@@ -215,7 +215,7 @@ html[data-openbitfun-canvas-design-mode] body {
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-button {
+.opc-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -228,17 +228,17 @@ html[data-openbitfun-canvas-design-mode] body {
   cursor: pointer;
 }
 
-.openbitfun-button:hover {
+.opc-button:hover {
   background: var(--opcteam-color-action-neutral-surface-hover);
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-button--primary {
+.opc-button--primary {
   background: var(--opcteam-color-accent-default);
   color: var(--opcteam-color-content-on-dark);
 }
 
-.openbitfun-code {
+.opc-code {
   border-radius: 5px;
   padding: 1px 5px;
   background: var(--opcteam-color-action-neutral-surface);
@@ -247,38 +247,38 @@ html[data-openbitfun-canvas-design-mode] body {
   font-size: var(--opcteam-type-label-md-font-size);
 }
 
-.openbitfun-table-wrap {
+.opc-table-wrap {
   overflow: auto;
   border: 1px solid var(--opcteam-color-border-subtle);
   border-radius: 8px;
   background: var(--opcteam-color-surface-raised);
 }
 
-.openbitfun-table {
+.opc-table {
   width: 100%;
   border-collapse: collapse;
   font-size: var(--opcteam-type-label-sm-font-size);
 }
 
-.openbitfun-table th,
-.openbitfun-table td {
+.opc-table th,
+.opc-table td {
   padding: 8px 10px;
   border-bottom: 1px solid var(--opcteam-color-border-subtle);
   text-align: left;
   vertical-align: top;
 }
 
-.openbitfun-table th {
+.opc-table th {
   color: var(--opcteam-color-content-primary);
   font-weight: var(--opcteam-type-label-selected-font-weight);
   background: var(--opcteam-color-surface-chrome);
 }
 
-.openbitfun-table td {
+.opc-table td {
   color: var(--opcteam-color-content-secondary);
 }
 
-.openbitfun-diff {
+.opc-diff {
   overflow: auto;
   background: color-mix(in srgb, var(--opcteam-color-surface-canvas) 54%, transparent);
   font-family: var(--opcteam-type-code-md-font-family);
@@ -287,7 +287,7 @@ html[data-openbitfun-canvas-design-mode] body {
   line-height: var(--opcteam-type-support-line-height);
 }
 
-.openbitfun-chart {
+.opc-chart {
   border: 1px solid var(--opcteam-color-border-subtle);
   border-radius: 8px;
   background: var(--opcteam-color-surface-raised);
@@ -295,7 +295,7 @@ html[data-openbitfun-canvas-design-mode] body {
   min-width: 0;
 }
 
-.openbitfun-chart__header {
+.opc-chart__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -304,7 +304,7 @@ html[data-openbitfun-canvas-design-mode] body {
   margin-bottom: 8px;
 }
 
-.openbitfun-chart__title {
+.opc-chart__title {
   min-width: 0;
   overflow: hidden;
   color: var(--opcteam-color-content-primary);
@@ -314,7 +314,7 @@ html[data-openbitfun-canvas-design-mode] body {
   white-space: nowrap;
 }
 
-.openbitfun-chart__legend {
+.opc-chart__legend {
   display: flex;
   flex-wrap: wrap;
   gap: 6px 10px;
@@ -322,52 +322,52 @@ html[data-openbitfun-canvas-design-mode] body {
   font-size: var(--opcteam-type-meta-font-size);
 }
 
-.openbitfun-chart__legend-item {
+.opc-chart__legend-item {
   display: inline-flex;
   align-items: center;
   gap: 5px;
 }
 
-.openbitfun-chart__swatch {
+.opc-chart__swatch {
   width: 8px;
   height: 8px;
   border-radius: 2px;
   flex: 0 0 auto;
 }
 
-.openbitfun-chart svg {
+.opc-chart svg {
   display: block;
   width: 100%;
   overflow: visible;
 }
 
-.openbitfun-canvas-toggle {
+.opc-canvas-toggle {
   display: inline-flex;
   align-items: flex-start;
   gap: 8px;
   cursor: pointer;
 }
 
-.openbitfun-canvas-toggle__copy {
+.opc-canvas-toggle__copy {
   display: flex;
   flex-direction: column;
   gap: 2px;
   min-width: 0;
 }
 
-.openbitfun-canvas-toggle__label {
+.opc-canvas-toggle__label {
   color: var(--opcteam-color-content-primary);
   font-size: var(--opcteam-type-label-md-font-size);
 }
 
-.openbitfun-canvas-toggle__description,
-.openbitfun-canvas-toggle__status {
+.opc-canvas-toggle__description,
+.opc-canvas-toggle__status {
   color: var(--opcteam-color-content-muted);
   font-size: var(--opcteam-type-label-sm-font-size);
 }
 
-.openbitfun-input,
-.openbitfun-textarea {
+.opc-input,
+.opc-textarea {
   width: 100%;
   border: 1px solid var(--opcteam-color-border-subtle);
   border-radius: 6px;
@@ -377,11 +377,11 @@ html[data-openbitfun-canvas-design-mode] body {
   outline: none;
 }
 
-.openbitfun-input:focus,
-.openbitfun-textarea:focus {
+.opc-input:focus,
+.opc-textarea:focus {
   border-color: color-mix(in srgb, var(--opcteam-color-accent-default) 55%, var(--opcteam-color-border-default));
 }
 
-.openbitfun-select {
+.opc-select {
   width: 100%;
 }

@@ -1,4 +1,4 @@
-.openbitfun-create-branch-dialog {
+.opc-create-branch-dialog {
   padding-block: var(--opcteam-space-5);
   padding-inline: var(--opcteam-space-5) 0;
   min-width: 520px;
@@ -162,7 +162,7 @@
     border-radius: var(--opcteam-radius-sm);
     color: var(--opcteam-color-status-danger-content);
     font-size: var(--opcteam-type-label-sm-font-size);
-    animation: openbitfun-create-branch-dialog-shake 0.4s ease-in-out;
+    animation: opc-create-branch-dialog-shake 0.4s ease-in-out;
   }
 
   &__hint {
@@ -234,7 +234,7 @@
 
 }
 
-@keyframes openbitfun-create-branch-dialog-shake {
+@keyframes opc-create-branch-dialog-shake {
   0%, 100% {
     transform: translateX(0);
   }
@@ -247,7 +247,7 @@
 }
 
 @media (max-width: 768px) {
-  .openbitfun-create-branch-dialog {
+  .opc-create-branch-dialog {
     min-width: auto;
     max-width: 90vw;
     margin: var(--opcteam-space-4);

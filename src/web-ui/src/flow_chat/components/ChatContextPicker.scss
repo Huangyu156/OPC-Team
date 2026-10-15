@@ -45,7 +45,7 @@
     letter-spacing: var(--opcteam-type-modifier-tracking-wide-letter-spacing);
     
     svg,
-    [data-openbitfun-component='icon'] {
+    [data-opc-component='icon'] {
       opacity: 0.6;
     }
   }
@@ -128,13 +128,13 @@
     max-width: calc(100vw - 16px);
   }
 
-  &__skill-option > [data-openbitfun-part='content'] {
+  &__skill-option > [data-opc-part='content'] {
     flex: 0 1 auto;
     min-inline-size: 0;
     max-inline-size: 60%;
   }
 
-  &__skill-option > [data-openbitfun-part='metadata'] {
+  &__skill-option > [data-opc-part='metadata'] {
     // Let every description reach the same trailing edge after its skill name.
     flex: 1 1 0;
     min-inline-size: 0;
@@ -161,7 +161,7 @@
     }
   }
 
-  :root[data-openbitfun-appearance-mode="light"] &,
+  :root[data-opc-appearance-mode="light"] &,
   .light & {
     // Keep the lighter edge treatment without overriding the shared frosted
     // floating-surface background and filter.

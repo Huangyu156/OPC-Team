@@ -298,7 +298,7 @@ describe('ChatInputApprovalBand', () => {
     );
     expect(
       container.querySelector<HTMLElement>('[data-testid="chat-input-approval-band"]')
-        ?.dataset.openbitfunState,
+        ?.dataset.opcState,
     ).toBe('error');
     expect(
       container.querySelector<HTMLButtonElement>('[data-testid="chat-input-approval-allow"]')?.disabled,

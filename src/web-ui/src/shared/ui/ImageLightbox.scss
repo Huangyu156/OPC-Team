@@ -60,13 +60,13 @@
   }
 }
 
-.image-lightbox[data-openbitfun-component='dialog'] {
+.image-lightbox[data-opc-component='dialog'] {
   padding: 0;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
 
-.image-lightbox-surface[data-openbitfun-component='dialog'] {
+.image-lightbox-surface[data-opc-component='dialog'] {
   width: 100%;
   height: 100%;
   max-inline-size: none;
@@ -80,7 +80,7 @@
   animation: none;
 }
 
-.image-lightbox-close[data-openbitfun-component='icon-button'] {
+.image-lightbox-close[data-opc-component='icon-button'] {
   &::before { content: none; }
-  > [data-openbitfun-part='icon'] { display: contents; }
+  > [data-opc-part='icon'] { display: contents; }
 }

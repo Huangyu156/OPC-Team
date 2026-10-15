@@ -121,9 +121,9 @@
 
   .leading > :where(svg, img),
   .trailing > :where(svg, img),
-  .leading > [data-openbitfun-component="icon"],
-  .leading > [data-openbitfun-part="icon"],
-  .trailing > [data-openbitfun-component="icon"] {
+  .leading > [data-opc-component="icon"],
+  .leading > [data-opc-part="icon"],
+  .trailing > [data-opc-component="icon"] {
     display: block;
     inline-size: var(--_field-icon-size);
     block-size: var(--_field-icon-size);

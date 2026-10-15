@@ -3,7 +3,7 @@
  * SceneBar owns only product-shell layout, overflow, and label truncation.
  */
 
-.openbitfun-scene-bar {
+.opc-scene-bar {
   display: flex;
   align-items: center;
   flex: 1 1 240px;
@@ -138,7 +138,7 @@
       pointer-events: none;
     }
 
-    &[data-openbitfun-part='scrollPrevious']::before {
+    &[data-opc-part='scrollPrevious']::before {
       inset-inline-start: 0;
       background: linear-gradient(
         to right,
@@ -148,7 +148,7 @@
       );
     }
 
-    &[data-openbitfun-part='scrollNext']::before {
+    &[data-opc-part='scrollNext']::before {
       inset-inline-end: 0;
       background: linear-gradient(
         to left,
@@ -173,21 +173,21 @@
     }
   }
 
-  &__tabs [data-openbitfun-part='item'] {
+  &__tabs [data-opc-part='item'] {
     // Cap the whole tab, including its label padding and close-action reserve.
     max-inline-size: 220px;
   }
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .openbitfun-scene-bar__scroll-button:hover {
+  .opc-scene-bar__scroll-button:hover {
     background: var(--opcteam-color-action-neutral-surface-hover);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-scene-bar__drop-hint { transition: none; }
-  .openbitfun-scene-bar__scroll-button {
+  .opc-scene-bar__drop-hint { transition: none; }
+  .opc-scene-bar__scroll-button {
     transition: none;
     transform: none;
   }

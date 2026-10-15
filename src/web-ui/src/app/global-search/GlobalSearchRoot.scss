@@ -150,7 +150,7 @@ $chevron-box-slack: 5px;
     font-size: var(--opcteam-type-label-sm-font-size);
     font-weight: var(--opcteam-type-label-sm-font-weight);
 
-    > [data-openbitfun-component='icon'] {
+    > [data-opc-component='icon'] {
       margin-inline-start: -$chevron-box-slack;
     }
   }
@@ -369,7 +369,7 @@ $chevron-box-slack: 5px;
   container-type: inline-size;
 }
 
-.openbitfun-nav-panel__search-trigger {
+.opc-nav-panel__search-trigger {
   display: flex;
   align-items: center;
   gap: var(--opcteam-space-2);
@@ -415,7 +415,7 @@ $chevron-box-slack: 5px;
   }
 }
 
-.openbitfun-nav-panel__search-trigger__label {
+.opc-nav-panel__search-trigger__label {
   flex: 1;
   min-width: 0;
   overflow: hidden;
@@ -619,7 +619,7 @@ $chevron-box-slack: 5px;
     font-size: inherit;
     font-weight: inherit;
 
-    > [data-openbitfun-component='icon'] {
+    > [data-opc-component='icon'] {
       margin-inline-end: -$chevron-box-slack;
     }
   }

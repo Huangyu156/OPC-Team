@@ -1,5 +1,5 @@
 /** Session content hosts; horizontal pane geometry belongs to SplitView. */
-.openbitfun-session-scene {
+.opc-session-scene {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -14,11 +14,11 @@
   &--dragging { user-select: none; }
   &--dragging-bottom {
     cursor: row-resize;
-    .openbitfun-session-scene__main-row { pointer-events: none; }
+    .opc-session-scene__main-row { pointer-events: none; }
   }
 }
 
-.openbitfun-session-scene__main-row {
+.opc-session-scene__main-row {
   flex: 1 1 auto;
   min-width: 0;
   min-height: 0;
@@ -26,8 +26,8 @@
   overflow: hidden;
 }
 
-.openbitfun-session-scene__chat-pane,
-.openbitfun-session-scene__aux-pane {
+.opc-session-scene__chat-pane,
+.opc-session-scene__aux-pane {
   display: flex;
   flex: 1;
   min-width: 0;
@@ -38,7 +38,7 @@
   box-sizing: border-box;
 }
 
-.openbitfun-session-scene__bottom-terminal-pane {
+.opc-session-scene__bottom-terminal-pane {
   display: flex;
   flex: 0 0 auto;
   width: 100%;
@@ -65,7 +65,7 @@
 }
 
 
-.openbitfun-bottom-pane-resizer {
+.opc-bottom-pane-resizer {
   height: 1px;
   flex: 0 0 auto;
   position: relative;
@@ -134,7 +134,7 @@
 
   &:hover,
   &--hovering {
-    .openbitfun-bottom-pane-resizer__line {
+    .opc-bottom-pane-resizer__line {
       background: linear-gradient(90deg,
         transparent 0%,
         color-mix(in srgb, var(--opcteam-color-accent-default) 40%, transparent) 20%,
@@ -145,12 +145,12 @@
       transform: translate(-50%, -50%) scaleX(1);
       opacity: 1;
     }
-    .openbitfun-bottom-pane-resizer__handle { opacity: 1; }
-    .openbitfun-bottom-pane-resizer__icon { color: color-mix(in srgb, var(--opcteam-color-accent-default) 90%, transparent); }
+    .opc-bottom-pane-resizer__handle { opacity: 1; }
+    .opc-bottom-pane-resizer__icon { color: color-mix(in srgb, var(--opcteam-color-accent-default) 90%, transparent); }
   }
 
   &--dragging {
-    .openbitfun-bottom-pane-resizer__line {
+    .opc-bottom-pane-resizer__line {
       background: linear-gradient(90deg,
         transparent 0%,
         color-mix(in srgb, var(--opcteam-color-accent-default) 60%, transparent) 20%,
@@ -162,13 +162,13 @@
       transform: translate(-50%, -50%) scaleX(1.19);
       opacity: 1;
     }
-    .openbitfun-bottom-pane-resizer__handle { opacity: 1; }
-    .openbitfun-bottom-pane-resizer__icon { color: var(--opcteam-color-accent-default); }
+    .opc-bottom-pane-resizer__handle { opacity: 1; }
+    .opc-bottom-pane-resizer__icon { color: var(--opcteam-color-accent-default); }
   }
 
   &:focus {
     outline: none;
-    .openbitfun-bottom-pane-resizer__line {
+    .opc-bottom-pane-resizer__line {
       background: linear-gradient(90deg,
         transparent 0%,
         color-mix(in srgb, var(--opcteam-color-accent-default) 50%, transparent) 20%,
@@ -180,11 +180,11 @@
       transform: translate(-50%, -50%) scaleX(1.11);
       opacity: 1;
     }
-    .openbitfun-bottom-pane-resizer__handle { opacity: 1; }
+    .opc-bottom-pane-resizer__handle { opacity: 1; }
   }
 
   &:focus-visible {
-    .openbitfun-bottom-pane-resizer__line {
+    .opc-bottom-pane-resizer__line {
       outline: 2px solid var(--opcteam-color-focus-ring);
       outline-offset: 2px;
     }
@@ -193,15 +193,15 @@
 
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-session-scene__bottom-terminal-pane,
-  .openbitfun-bottom-pane-resizer,
-  .openbitfun-bottom-pane-resizer__line,
-  .openbitfun-bottom-pane-resizer__handle,
-  .openbitfun-bottom-pane-resizer__icon { transition: none; }
+  .opc-session-scene__bottom-terminal-pane,
+  .opc-bottom-pane-resizer,
+  .opc-bottom-pane-resizer__line,
+  .opc-bottom-pane-resizer__handle,
+  .opc-bottom-pane-resizer__icon { transition: none; }
 }
 
 @media (hover: none) and (pointer: coarse) {
-  .openbitfun-bottom-pane-resizer {
+  .opc-bottom-pane-resizer {
     height: 8px;
     &::before { top: -10px; bottom: -10px; }
     &__line { height: 2px; opacity: 1; }
@@ -210,7 +210,7 @@
 }
 
 @media (prefers-contrast: high) {
-  .openbitfun-bottom-pane-resizer {
+  .opc-bottom-pane-resizer {
     &__line { background: currentColor; opacity: 1; }
     &:hover &__line,
     &--hovering &__line,

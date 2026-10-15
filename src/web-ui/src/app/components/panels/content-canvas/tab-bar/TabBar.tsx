@@ -95,7 +95,7 @@ export const TabBar: React.FC<TabBarProps> = ({
     const actions = actionsRef.current;
     const fixedActions = actions
       ? Array.from(actions.children).filter((child): child is HTMLElement =>
-        child instanceof HTMLElement && child.dataset.openbitfunProductComponent !== 'canvas-tab-overflow')
+        child instanceof HTMLElement && child.dataset.opcProductComponent !== 'canvas-tab-overflow')
       : [];
     const actionsGap = actions ? parseFloat(getComputedStyle(actions).columnGap) || 0 : 0;
     const fixedActionsWidth = fixedActions.reduce((width, action) => width + action.offsetWidth, 0)

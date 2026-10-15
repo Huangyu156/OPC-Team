@@ -2,7 +2,7 @@
  * GitScene styles.
  */
 
-.openbitfun-git-scene {
+.opc-git-scene {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -11,7 +11,7 @@
 
   &--not-repository,
   &--loading {
-    .openbitfun-git-scene__content {
+    .opc-git-scene__content {
       display: flex;
       flex-direction: column;
       flex: 1;

@@ -1,7 +1,7 @@
 import { useEffect, useRef, type CSSProperties, type SVGProps } from "react";
 import { classNames } from "../internal/classNames";
 import { startBrandPlayback } from "./brandPlayback";
-import markSource from "./assets/openbitfun-mark.svg?raw";
+import markSource from "./assets/opc-mark.svg?raw";
 import styles from "./brand.module.css";
 
 const CONTOUR_COUNT = 15;
@@ -80,13 +80,18 @@ function createContour(index: number): string {
 
 const contours = Array.from({ length: CONTOUR_COUNT }, (_, index) => createContour(index));
 const authoredContours = Array.from(markSource.matchAll(/<path\b[^>]*\sd="([^"]+)"/g), match => match[1]!);
-const innerContour = authoredContours[0];
-const outerContour = authoredContours[authoredContours.length - 1];
-if (!innerContour || !outerContour || authoredContours.length < 2) {
+// The redrawn mark has six authored paths: two full hexagon ribbons (an M point
+// plus four L segments), two arrowheads, and two center chevrons. The motion
+// variants only need the ribbons: they trace and rotate the ring strokes.
+const authoredRibbons = authoredContours.filter(path => (path.match(/L/g)?.length ?? 0) === 4);
+const innerContour = authoredRibbons[0];
+const outerContour = authoredRibbons[authoredRibbons.length - 1];
+if (!innerContour || !outerContour || authoredRibbons.length < 2) {
   throw new Error("The OPC-Team mark must provide its authored inner and outer contours.");
 }
 // Preserve the master's exact proportions and cubic corners. Pad its 120px canvas
 // by two units on each side so the icon-weight strokes fit throughout each turn.
+// The construction fill closes both ribbons; together they tile the full ring.
 const markContours = [outerContour, innerContour];
 const markSilhouette = markContours.join(" ");
 const MARK_VIEW_BOX = "-2 -2 124 124";

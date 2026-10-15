@@ -1,7 +1,7 @@
 $todos-stack-breakpoint: 880px;
 $todos-compact-breakpoint: 720px;
 
-.openbitfun-todos {
+.opc-todos {
   display: grid;
   // Row 2 is reserved for the editor boundary even when the modal portals or
   // renders nothing. Keeping the board explicitly on row 3 prevents an
@@ -947,13 +947,13 @@ $todos-compact-breakpoint: 720px;
   }
 }
 
-.openbitfun-todos-editor-dialog {
+.opc-todos-editor-dialog {
   inline-size: min(960px, 84vw);
   max-inline-size: min(960px, 84vw);
   max-block-size: min(760px, calc(100vh - 2 * var(--opcteam-overlay-dialog-viewport-gutter)));
 }
 
-.openbitfun-todos-editor-dialog__header {
+.opc-todos-editor-dialog__header {
   position: absolute;
   inset-block-start: var(--opcteam-space-3);
   inset-inline-end: var(--opcteam-space-3);
@@ -963,20 +963,20 @@ $todos-compact-breakpoint: 720px;
   border-block-end: 0;
 }
 
-.openbitfun-todos-editor-dialog__body {
+.opc-todos-editor-dialog__body {
   display: flex;
   min-block-size: 0;
   overflow: hidden;
 }
 
 @media (min-width: #{$todos-stack-breakpoint + 1px}) {
-  .openbitfun-todos {
+  .opc-todos {
     overflow: hidden;
   }
 }
 
 @container todos-scene (max-width: #{$todos-stack-breakpoint}) {
-  .openbitfun-todos {
+  .opc-todos {
 
     &__head {
       align-items: flex-start;
@@ -1012,7 +1012,7 @@ $todos-compact-breakpoint: 720px;
 }
 
 @container todos-scene (max-width: #{$todos-compact-breakpoint}) {
-  .openbitfun-todos {
+  .opc-todos {
     &__head {
       flex-direction: column;
       padding: var(--opcteam-space-4);
@@ -1075,47 +1075,47 @@ $todos-compact-breakpoint: 720px;
 }
 
 @media (max-width: 720px) {
-  .openbitfun-todos-editor-dialog {
+  .opc-todos-editor-dialog {
     inline-size: 100%;
     max-inline-size: 100%;
   }
 }
 
 @container todo-editor (max-width: 840px) {
-  .openbitfun-todos__editor-grid {
+  .opc-todos__editor-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @container todo-editor (max-width: 620px) {
-  .openbitfun-todos__editor-grid {
+  .opc-todos__editor-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .openbitfun-todos__editor-runtime {
+  .opc-todos__editor-runtime {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--opcteam-space-3);
   }
 
-  .openbitfun-todos__editor-runtime-divider {
+  .opc-todos__editor-runtime-divider {
     width: 100%;
     height: 1px;
   }
 }
 
 @container todo-editor (max-width: 420px) {
-  .openbitfun-todos__editor-grid,
-  .openbitfun-todos__editor-advanced-panel,
-  .openbitfun-todos__editor-runtime {
+  .opc-todos__editor-grid,
+  .opc-todos__editor-advanced-panel,
+  .opc-todos__editor-runtime {
     grid-template-columns: minmax(0, 1fr);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-todos__row,
-  .openbitfun-todos__calendar-cell,
-  .openbitfun-todos__day-detail-presence,
-  .openbitfun-todos__editor-advanced-trigger svg {
+  .opc-todos__row,
+  .opc-todos__calendar-cell,
+  .opc-todos__day-detail-presence,
+  .opc-todos__editor-advanced-trigger svg {
     transition: none;
     animation: none;
   }

@@ -24,8 +24,8 @@
   margin-block-start: var(--opcteam-control-flow-chat-flow-item-gap);
 }
 
-.flow-chat-tool-sequence__rows > [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-attention='ambient'][data-openbitfun-expanded-shell='false']
-  + [data-openbitfun-component='flow-chat-tool-card'][data-openbitfun-attention='ambient'][data-openbitfun-expanded-shell='false'] {
+.flow-chat-tool-sequence__rows > [data-opc-component='flow-chat-tool-card'][data-opc-attention='ambient'][data-opc-expanded-shell='false']
+  + [data-opc-component='flow-chat-tool-card'][data-opc-attention='ambient'][data-opc-expanded-shell='false'] {
   margin-block-start: 0;
 }
 

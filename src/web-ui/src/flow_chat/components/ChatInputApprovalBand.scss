@@ -3,7 +3,7 @@
 // no child composer exists.
 @use '@/shared/styles/surface-recipes' as surfaces;
 
-.openbitfun-chat-input-approval {
+.opc-chat-input-approval {
   box-sizing: border-box;
   // The composer centers its children, so constrain the band before laying out
   // long resources; otherwise its intrinsic width can exceed the composer.

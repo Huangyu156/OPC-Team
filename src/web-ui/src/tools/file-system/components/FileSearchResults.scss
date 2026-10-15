@@ -3,7 +3,7 @@ $_node-padding-y: 4px;
 $_node-padding-x: 8px;
 $_icon-size: 16px;
 
-.openbitfun-search-results {
+.opc-search-results {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -17,7 +17,7 @@ $_icon-size: 16px;
   }
 }
 
-.openbitfun-search-results__empty {
+.opc-search-results__empty {
   text-align: center;
   color: var(--opcteam-color-content-muted);
   padding: var(--opcteam-space-8);
@@ -34,7 +34,7 @@ $_icon-size: 16px;
   }
 }
 
-.openbitfun-search-results__header {
+.opc-search-results__header {
   position: relative;
   padding: var(--opcteam-space-2) var(--opcteam-space-3);
   background: var(--opcteam-color-surface-canvas);
@@ -52,14 +52,14 @@ $_icon-size: 16px;
   }
 }
 
-.openbitfun-search-results__count {
+.opc-search-results__count {
   min-width: 0;
   font-size: var(--opcteam-type-label-sm-font-size);
   color: var(--opcteam-color-content-muted);
   font-weight: var(--opcteam-type-label-sm-font-weight);
 }
 
-.openbitfun-search-results__list {
+.opc-search-results__list {
   flex: 1;
   min-height: 0;
   overflow-x: hidden;
@@ -68,7 +68,7 @@ $_icon-size: 16px;
 
 }
 
-.openbitfun-search-results__group {
+.opc-search-results__group {
   margin-bottom: var(--opcteam-space-3);
   
   &:last-child {
@@ -76,7 +76,7 @@ $_icon-size: 16px;
   }
 }
 
-.openbitfun-search-results__file {
+.opc-search-results__file {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -207,14 +207,14 @@ $_icon-size: 16px;
   }
 }
 
-.openbitfun-search-results__matches {
+.opc-search-results__matches {
   margin-top: var(--opcteam-space-1);
   margin-left: var(--opcteam-space-1);
   margin-right: var(--opcteam-space-1);
   margin-bottom: var(--opcteam-space-1);
 }
 
-.openbitfun-search-results__match {
+.opc-search-results__match {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -269,7 +269,7 @@ $_icon-size: 16px;
   }
 }
 
-.openbitfun-search-results__highlight {
+.opc-search-results__highlight {
   background: color-mix(in srgb, var(--opcteam-component-conversation-excerpt-accent) 30%, transparent);
   color: var(--opcteam-component-conversation-excerpt-accent);
   padding: 1px 2px;
@@ -278,13 +278,13 @@ $_icon-size: 16px;
 }
 
 @media (forced-colors: active) {
-  .openbitfun-search-results__highlight {
+  .opc-search-results__highlight {
     background: Highlight;
     color: HighlightText;
   }
 }
 
-.openbitfun-search-results__load-more {
+.opc-search-results__load-more {
   display: flex;
   flex-direction: row;
   align-items: center;

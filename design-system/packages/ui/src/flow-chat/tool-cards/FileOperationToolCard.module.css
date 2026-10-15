@@ -73,7 +73,7 @@
     font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
-  .errorTitle > :where(svg, img, [data-openbitfun-component="icon"]) {
+  .errorTitle > :where(svg, img, [data-opc-component="icon"]) {
     flex: 0 0 auto;
     inline-size: var(--opcteam-font-size-xl);
     block-size: var(--opcteam-font-size-xl);

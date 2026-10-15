@@ -1,7 +1,7 @@
 /**
  * SceneViewport styles — scene container.
  */
-.openbitfun-scene-viewport {
+.opc-scene-viewport {
   flex: 1;
   position: relative;
   overflow: hidden;
@@ -15,20 +15,20 @@
   // An open Session panel owns its toolbar/content insets. Reclaim the shell's
   // trailing gutter here so both toolbar dividers reach the window edge.
   // Only the visible host participates; retained background sessions do not.
-  .openbitfun-workspace-body__scene-surface > &:has(
-    > .openbitfun-scene-viewport__clip
-    > .openbitfun-scene-viewport__scene--active
-    .openbitfun-session-scene:not(.openbitfun-session-scene--overlay)
-    .openbitfun-session-scene__aux-pane:not(.openbitfun-session-scene__aux-pane--collapsed)
+  .opc-workspace-body__scene-surface > &:has(
+    > .opc-scene-viewport__clip
+    > .opc-scene-viewport__scene--active
+    .opc-session-scene:not(.opc-session-scene--overlay)
+    .opc-session-scene__aux-pane:not(.opc-session-scene__aux-pane--collapsed)
   ) {
     inline-size: calc(100% + var(--opcteam-space-4));
     margin-inline-end: calc(0px - var(--opcteam-space-4));
   }
 
   // The ecosystem catalog owns its own content padding and starts at the scene edge.
-  .openbitfun-workspace-body__scene-surface > &:has(
-    > .openbitfun-scene-viewport__clip
-    > .openbitfun-scene-viewport__scene--visible[data-scene-id='ecosystem-compatibility']
+  .opc-workspace-body__scene-surface > &:has(
+    > .opc-scene-viewport__clip
+    > .opc-scene-viewport__scene--visible[data-scene-id='ecosystem-compatibility']
   ) {
     inline-size: calc(100% + var(--opcteam-space-4));
     margin-inline-start: calc(0px - var(--opcteam-space-4));
@@ -106,7 +106,7 @@
       pointer-events: none;
     }
 
-    &:not(.openbitfun-scene-viewport__scene--visible) {
+    &:not(.opc-scene-viewport__scene--visible) {
       // Descendants can override inherited visibility. Hide the entire subtree
       // immediately while keeping its mounted state and layout measurements.
       opacity: 0;
@@ -115,7 +115,7 @@
   }
 
   &__clip[data-scene-motion-phase='preparing'] {
-    .openbitfun-scene-viewport__scene--incoming.openbitfun-scene-viewport__scene--visible {
+    .opc-scene-viewport__scene--incoming.opc-scene-viewport__scene--visible {
       opacity: 0.5;
       transition: none;
     }
@@ -123,12 +123,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-scene-viewport__scene--incoming {
+  .opc-scene-viewport__scene--incoming {
     transition: none;
   }
 
-  .openbitfun-scene-viewport__clip[data-scene-motion-phase='preparing'] {
-    .openbitfun-scene-viewport__scene--incoming.openbitfun-scene-viewport__scene--visible {
+  .opc-scene-viewport__clip[data-scene-motion-phase='preparing'] {
+    .opc-scene-viewport__scene--incoming.opc-scene-viewport__scene--visible {
       opacity: 1;
     }
   }

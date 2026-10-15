@@ -17,7 +17,7 @@ const HARMONY_MEDIA_DIRS = [
 
 test('design-system brand masters and packaged icons agree with native projections', () => {
   const componentAssets = 'design-system/packages/ui/src/brand/assets';
-  for (const master of ['openbitfun-mark.svg', 'openbitfun-app-mark.png']) {
+  for (const master of ['opc-mark.svg', 'opc-app-mark.png']) {
     assert.deepEqual(readFileSync(`${componentAssets}/${master}`), readFileSync(`assets/brand/source/${master}`));
   }
   for (const size of [16, 32, 128, 256, 512]) {
@@ -113,24 +113,23 @@ test('desktop and installer retain independent Windows/Linux icons alongside the
 });
 
 test('application icons preserve the submitted artwork independently from the startup Logo', async () => {
-  const applicationMark = readFileSync('assets/brand/source/openbitfun-app-mark.png');
+  const applicationMark = readFileSync('assets/brand/source/opc-app-mark.png');
   const startupMark = readFileSync('assets/brand/source/opc-mark-light.png');
   const generatedIcon = readFileSync('assets/brand/exports/opc-app-icon-512.png');
 
   assert.equal(
     createHash('sha256').update(applicationMark).digest('hex'),
-    '6cda0b01d037ef552690d210a1e5adfa807a806d685a49f46d110b1e3765b5a0',
+    'e45662113b6139c94095bc26edc10ff6d96332bc7ed303729df5f528449590d2',
   );
   assert.equal(
     createHash('sha256').update(generatedIcon).digest('hex'),
-    'df460c4a43d9a68e15bee7b23b0bb68f7b9e70c26c68158ef82e2d4fd9e6288f',
+    '2cc00f2ae99d5d23611b41b78e8808d981a284075a288fcdb77499260085d2f1',
   );
   assert.notDeepEqual(applicationMark, startupMark);
 
   const metadata = await sharp(applicationMark).metadata();
-  assert.equal(metadata.width, 512);
-  assert.equal(metadata.height, 512);
-  assert.equal(metadata.hasAlpha, true);
+  assert.equal(metadata.width, 1024);
+  assert.equal(metadata.height, 1024);
 });
 
 test('iOS App Store icon is a 1024 pixel RGB image without alpha', async () => {
@@ -156,17 +155,22 @@ test('brand exports provide decodable transparent PNGs at every advertised size'
     }
   }
   assert.deepEqual(
-    readFileSync('assets/brand/exports/openbitfun-mark.svg'),
-    readFileSync('assets/brand/source/openbitfun-mark.svg'),
+    readFileSync('assets/brand/exports/opc-mark.svg'),
+    readFileSync('assets/brand/source/opc-mark.svg'),
   );
 });
 
 test('Web UI exposes the canonical mark as a reusable currentColor vector asset', () => {
-  const source = readFileSync('assets/brand/source/openbitfun-mark.svg', 'utf8');
-  const webAsset = readFileSync('src/web-ui/public/brand/openbitfun-mark.svg', 'utf8');
+  const source = readFileSync('design-system/packages/ui/src/brand/assets/opc-mark.svg', 'utf8');
+  const webAsset = readFileSync('src/web-ui/public/brand/opc-mark.svg', 'utf8');
 
-  assert.equal(webAsset, source.replaceAll('stroke="black"', 'stroke="currentColor"'));
-  assert.equal(webAsset.match(/<path\b/g)?.length, 15);
+  const reusableSource = source
+    .replaceAll('stroke="#57C7F5"', 'stroke="currentColor"')
+    .replaceAll('stroke="#C4CFDA"', 'stroke="currentColor"')
+    .replaceAll('fill="#57C7F5"', 'fill="currentColor"')
+    .replaceAll('fill="#C4CFDA"', 'fill="currentColor"');
+  assert.equal(webAsset, reusableSource);
+  assert.equal(webAsset.match(/<path\b/g)?.length, 6);
   assert.match(webAsset, /stroke="currentColor"/);
   assert.doesNotMatch(webAsset, /#[0-9a-f]{3,8}\b/i);
 });

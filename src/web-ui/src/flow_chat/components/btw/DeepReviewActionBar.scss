@@ -118,18 +118,18 @@
     // The header has its own 28px actions, separate from the report card.
     &::before { content: none; }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where(svg) {
+    > :where([data-opc-part='icon']) > :where(svg) {
       display: inline-block;
       inline-size: 14px;
       block-size: 14px;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+    > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
       display: inline-block;
       inline-size: var(--opcteam-control-icon-size-sm);
       block-size: var(--opcteam-control-icon-size-sm);
@@ -765,7 +765,7 @@
     width: 100%;
   }
 
-  &__custom-textarea > [data-openbitfun-part='input'] {
+  &__custom-textarea > [data-opc-part='input'] {
     font-family: inherit;
     font-weight: inherit;
     letter-spacing: inherit;
@@ -1189,7 +1189,7 @@
 }
 
 // The existing card owns feedback and geometry; the shared trigger owns activation.
-.deep-review-action-bar__decision-gate-card[data-openbitfun-component='action-card'] {
+.deep-review-action-bar__decision-gate-card[data-opc-component='action-card'] {
   min-block-size: 0;
   border-radius: inherit;
   background: transparent;
@@ -1198,7 +1198,7 @@
   box-shadow: none;
   opacity: 1;
 
-  > [data-openbitfun-part='trigger'] {
+  > [data-opc-part='trigger'] {
     min-block-size: 0;
   }
 }

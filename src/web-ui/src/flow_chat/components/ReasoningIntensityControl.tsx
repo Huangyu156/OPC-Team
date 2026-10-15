@@ -89,7 +89,7 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
     if (!active || locked) return;
     if (expanded) {
       const buttons = Array.from(choicesRef.current?.querySelectorAll<HTMLButtonElement>('button:not(:disabled)') ?? []);
-      const preferred = buttons.find(button => button.dataset.openbitfunValue === retryFocusRef.current)
+      const preferred = buttons.find(button => button.dataset.opcValue === retryFocusRef.current)
         ?? buttons.find(button => button.getAttribute('aria-pressed') === 'true')
         ?? buttons[0];
       preferred?.focus({ preventScroll: true });
@@ -109,7 +109,7 @@ export const ReasoningIntensityControl: React.FC<ReasoningIntensityControlProps>
   const previewTarget = (target: EventTarget) => {
     if (!expanded || locked || !(target instanceof Element)) return;
     const button = target.closest<HTMLButtonElement>('button[data-opc-value]');
-    if (button && !button.disabled) setPreviewValue(button.dataset.openbitfunValue ?? null);
+    if (button && !button.disabled) setPreviewValue(button.dataset.opcValue ?? null);
   };
 
   const select = async (value: string) => {

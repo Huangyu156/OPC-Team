@@ -105,11 +105,11 @@
     min-inline-size: max-content;
     overflow: visible;
     text-overflow: clip;
-    animation: openbitfun-overflow-text-marquee var(--_overflow-text-marquee-duration) linear infinite alternate;
+    animation: opc-overflow-text-marquee var(--_overflow-text-marquee-duration) linear infinite alternate;
     will-change: transform;
   }
 
-  @keyframes openbitfun-overflow-text-marquee {
+  @keyframes opc-overflow-text-marquee {
     /* Start moving immediately; percentage holds delay long descriptions for seconds. */
     from {
       transform: translateX(0);

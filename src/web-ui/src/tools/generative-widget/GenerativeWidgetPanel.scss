@@ -1,4 +1,4 @@
-.openbitfun-generative-widget-panel {
+.opc-generative-widget-panel {
   width: 100%;
   height: 100%;
   min-height: 0;
@@ -8,18 +8,18 @@
   padding: 12px;
 }
 
-.openbitfun-generative-widget-panel--empty {
+.opc-generative-widget-panel--empty {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.openbitfun-generative-widget-panel__empty-copy {
+.opc-generative-widget-panel__empty-copy {
   color: var(--opcteam-color-content-secondary);
   font-size: var(--opcteam-type-label-md-font-size);
 }
 
-.openbitfun-generative-widget-panel__toolbar {
+.opc-generative-widget-panel__toolbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,38 +30,38 @@
   background: var(--opcteam-color-surface-panel);
 }
 
-.openbitfun-generative-widget-panel__toolbar-meta,
-.openbitfun-generative-widget-panel__toolbar-actions {
+.opc-generative-widget-panel__toolbar-meta,
+.opc-generative-widget-panel__toolbar-actions {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.openbitfun-generative-widget-panel__save-state {
+.opc-generative-widget-panel__save-state {
   font-size: var(--opcteam-type-label-sm-font-size);
   color: var(--opcteam-color-content-secondary);
 }
 
-.openbitfun-generative-widget-panel__save-state--saved {
+.opc-generative-widget-panel__save-state--saved {
   color: var(--opcteam-color-status-success-content);
 }
 
-.openbitfun-generative-widget-panel__save-state--saving,
-.openbitfun-generative-widget-panel__save-state--unsaved {
+.opc-generative-widget-panel__save-state--saving,
+.opc-generative-widget-panel__save-state--unsaved {
   color: var(--opcteam-color-status-warning-content);
 }
 
-.openbitfun-generative-widget-panel__save-state--error {
+.opc-generative-widget-panel__save-state--error {
   color: var(--opcteam-color-status-danger-content);
 }
 
-.openbitfun-generative-widget-panel__workspace {
+.opc-generative-widget-panel__workspace {
   flex: 1;
   min-height: 0;
   display: flex;
 }
 
-.openbitfun-generative-widget-panel__pane {
+.opc-generative-widget-panel__pane {
   flex: 1;
   min-width: 0;
   min-height: 0;
@@ -73,7 +73,7 @@
   background: var(--opcteam-color-surface-panel);
 }
 
-.openbitfun-generative-widget-panel__pane-header {
+.opc-generative-widget-panel__pane-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -82,7 +82,7 @@
   border-bottom: 1px solid color-mix(in srgb, var(--opcteam-color-content-on-dark) 8%, transparent);
 }
 
-.openbitfun-generative-widget-panel__pane-title {
+.opc-generative-widget-panel__pane-title {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -91,13 +91,13 @@
   color: var(--opcteam-color-content-primary);
 }
 
-.openbitfun-generative-widget-panel__editor-field {
+.opc-generative-widget-panel__editor-field {
   flex: 1;
   width: 100%;
   min-height: 0;
 }
 
-.openbitfun-generative-widget-panel__error {
+.opc-generative-widget-panel__error {
   padding: 10px 12px;
   border-radius: 10px;
   border: 1px solid color-mix(in srgb, var(--opcteam-color-status-danger-content) 50%, transparent);

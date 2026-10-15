@@ -80,17 +80,17 @@
       box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
-  .trigger:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled) {
+  .trigger:is(:hover, [data-opc-preview-state="hover"]):not(:disabled) {
     border-color: var(--opcteam-color-field-border-hover);
     background: var(--opcteam-color-field-background-hover);
   }
 
   .root[data-field-surface="ambient"] .trigger,
-  .root[data-field-surface="ambient"] .trigger:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled) {
+  .root[data-field-surface="ambient"] .trigger:is(:hover, [data-opc-preview-state="hover"]):not(:disabled) {
     background: transparent;
   }
 
-  .trigger:is(:focus-visible, [data-openbitfun-preview-state="focus-visible"]) {
+  .trigger:is(:focus-visible, [data-opc-preview-state="focus-visible"]) {
     border-color: var(--opcteam-color-field-border-focus);
     box-shadow: 0 0 0 var(--opcteam-focus-width) var(--opcteam-color-focus-ring);
   }
@@ -104,7 +104,7 @@
     border-color: var(--opcteam-color-status-danger-border);
   }
 
-  .root[data-invalid="true"] .trigger:is(:focus-visible, [data-openbitfun-preview-state="focus-visible"]) {
+  .root[data-invalid="true"] .trigger:is(:focus-visible, [data-opc-preview-state="focus-visible"]) {
     box-shadow: 0 0 0 var(--opcteam-focus-width) var(--opcteam-color-status-danger-surface);
   }
 
@@ -131,9 +131,9 @@
   }
 
   .leading > :where(svg, img),
-  .leading > [data-openbitfun-component="icon"],
+  .leading > [data-opc-component="icon"],
   .indicator > :where(svg, img),
-  .indicator > [data-openbitfun-component="icon"] {
+  .indicator > [data-opc-component="icon"] {
     display: block;
     inline-size: 100%;
     block-size: 100%;
@@ -205,12 +205,12 @@
     background: transparent;
   }
 
-  .popoverHeader:is(:hover, [data-openbitfun-preview-state="hover"]):not(:disabled) {
+  .popoverHeader:is(:hover, [data-opc-preview-state="hover"]):not(:disabled) {
     border-color: transparent;
     background: var(--opcteam-color-field-background-hover);
   }
 
-  .popoverHeader:is(:focus-visible, [data-openbitfun-preview-state="focus-visible"]) {
+  .popoverHeader:is(:focus-visible, [data-opc-preview-state="focus-visible"]) {
     border-color: transparent;
     box-shadow: inset 0 0 0 var(--opcteam-focus-width) var(--opcteam-color-focus-ring);
   }
@@ -236,15 +236,15 @@
     min-block-size: 0;
   }
 
-  .listbox [data-openbitfun-listbox-option][data-selected="true"] [data-openbitfun-part="label"] {
+  .listbox [data-opc-listbox-option][data-selected="true"] [data-opc-part="label"] {
     font-weight: var(--opcteam-type-label-selected-font-weight);
   }
 
-  .listbox [data-openbitfun-listbox-option][data-selected="true"] {
+  .listbox [data-opc-listbox-option][data-selected="true"] {
     background: var(--opcteam-color-selection-surface);
   }
 
-  .listbox [data-openbitfun-listbox-option][data-selected="true"] [data-openbitfun-part="indicator"] {
+  .listbox [data-opc-listbox-option][data-selected="true"] [data-opc-part="indicator"] {
     color: var(--opcteam-color-control-highlight-background);
   }
 
@@ -299,7 +299,7 @@
       box-shadow: 0 0 0 var(--opcteam-focus-width) Highlight;
     }
 
-    .listbox [data-openbitfun-listbox-option][data-selected="true"] [data-openbitfun-part="indicator"] {
+    .listbox [data-opc-listbox-option][data-selected="true"] [data-opc-part="indicator"] {
       color: Highlight;
     }
   }

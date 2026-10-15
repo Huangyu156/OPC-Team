@@ -57,7 +57,7 @@ describe('StickySectionHeader', () => {
     const stickyHeader = container.querySelector<HTMLElement>(
       '[data-testid="nav-sessions-sticky-header"]',
     );
-    expect(stickyHeader?.dataset.openbitfunState).toBeUndefined();
+    expect(stickyHeader?.dataset.opcState).toBeUndefined();
     expect(container.querySelectorAll('[data-testid="session-filter"]')).toHaveLength(1);
 
     act(() => {
@@ -73,7 +73,7 @@ describe('StickySectionHeader', () => {
         },
       ], {} as IntersectionObserver);
     });
-    expect(stickyHeader?.dataset.openbitfunState).toBeUndefined();
+    expect(stickyHeader?.dataset.opcState).toBeUndefined();
 
     act(() => {
       observerCallback([
@@ -88,7 +88,7 @@ describe('StickySectionHeader', () => {
         },
       ], {} as IntersectionObserver);
     });
-    expect(stickyHeader?.dataset.openbitfunState).toBe('stuck');
+    expect(stickyHeader?.dataset.opcState).toBe('stuck');
     expect(stickyHeader?.classList.contains('is-stuck')).toBe(true);
     expect(container.querySelectorAll('[data-testid="session-filter"]')).toHaveLength(1);
   });

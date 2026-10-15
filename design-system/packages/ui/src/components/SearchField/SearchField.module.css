@@ -44,7 +44,7 @@
     outline-color: var(--opcteam-color-border-default);
   }
 
-  .field [data-openbitfun-part="trailing"] {
+  .field [data-opc-part="trailing"] {
     gap: var(--opcteam-space-1);
   }
 
@@ -164,7 +164,7 @@
   }
 
   .icon > :where(svg, img),
-  .icon > [data-openbitfun-component="icon"] {
+  .icon > [data-opc-component="icon"] {
     display: block;
     inline-size: 100%;
     block-size: 100%;

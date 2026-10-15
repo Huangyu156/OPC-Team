@@ -77,9 +77,9 @@ describe('TodoItemRow actions', () => {
     const editButton = container.querySelector<HTMLButtonElement>('button[aria-label="actions.edit"]');
     const deleteButton = container.querySelector<HTMLButtonElement>('button[aria-label="actions.delete"]');
 
-    expect(editButton?.dataset.openbitfunComponent).toBe('icon-button');
+    expect(editButton?.dataset.opcComponent).toBe('icon-button');
     expect(editButton?.dataset.size).toBe('sm');
-    expect(deleteButton?.dataset.openbitfunTone).toBe('danger');
+    expect(deleteButton?.dataset.opcTone).toBe('danger');
 
     act(() => editButton?.click());
     expect(onEdit).toHaveBeenCalledTimes(1);

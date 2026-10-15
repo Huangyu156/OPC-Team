@@ -1,5 +1,5 @@
-.openbitfun-usage-stats {
-  [data-openbitfun-part='activityPanel'] .openbitfun-config-page-section__body {
+.opc-usage-stats {
+  [data-opc-part='activityPanel'] .opc-config-page-section__body {
     padding: var(--opcteam-space-4) var(--opcteam-space-5);
   }
 
@@ -109,7 +109,7 @@
     margin-inline-start: auto;
     white-space: nowrap;
 
-    .openbitfun-usage-stats__activity-day {
+    .opc-usage-stats__activity-day {
       width: var(--opcteam-space-3);
       flex: 0 0 auto;
     }
@@ -142,11 +142,11 @@
     margin: 0;
   }
 
-  [data-openbitfun-part='distributions'] [role='tabpanel'] > .openbitfun-config-page-row:first-child {
+  [data-opc-part='distributions'] [role='tabpanel'] > .opc-config-page-row:first-child {
     border-top: 1px solid var(--opcteam-component-config-page-divider);
   }
 
-  [data-openbitfun-part='trendPanel'] {
+  [data-opc-part='trendPanel'] {
     width: 100%;
     min-width: 0;
   }
@@ -215,7 +215,7 @@
 }
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-usage-stats [data-openbitfun-part='activityPanel'] .openbitfun-config-page-section__body {
+  .opc-usage-stats [data-opc-part='activityPanel'] .opc-config-page-section__body {
     padding: var(--opcteam-space-4);
   }
 }

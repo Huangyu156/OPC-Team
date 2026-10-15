@@ -1,6 +1,6 @@
 @use '@/shared/styles/surface-recipes' as surfaces;
 
-.openbitfun-datetime-field {
+.opc-datetime-field {
   position: relative;
   display: flex;
   align-items: center;
@@ -13,7 +13,7 @@
   }
 }
 
-.openbitfun-datetime-picker {
+.opc-datetime-picker {
   @include surfaces.floating;
 
   position: fixed;

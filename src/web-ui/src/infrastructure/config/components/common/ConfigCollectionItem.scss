@@ -1,18 +1,18 @@
 // ─── item wrapper ──────────────────────────────────────────────────────────────
 
-.openbitfun-collection-item {
+.opc-collection-item {
   --opcteam-collection-details-bg: var(--opcteam-color-surface-subtle);
   --opcteam-collection-details-border: var(--opcteam-color-field-border-hover);
   --opcteam-collection-details-text: var(--opcteam-color-content-secondary);
 
-  & + .openbitfun-collection-item {
+  & + .opc-collection-item {
     border-top: 1px solid var(--opcteam-color-border-subtle);
   }
 
   &.is-disabled {
     opacity: 0.55;
 
-    .openbitfun-collection-item__name {
+    .opc-collection-item__name {
       text-decoration: line-through;
     }
   }
@@ -20,13 +20,13 @@
 
 // ─── clickable row ─────────────────────────────────────────────────────────────
 
-.openbitfun-collection-item__row--toggleable {
+.opc-collection-item__row--toggleable {
   cursor: pointer;
 }
 
 // ─── label + inline badge ──────────────────────────────────────────────────────
 
-.openbitfun-collection-item__label {
+.opc-collection-item__label {
   display: flex !important;
   align-items: center;
   gap: var(--opcteam-space-2);
@@ -35,13 +35,13 @@
   margin: 0;
 }
 
-.openbitfun-collection-item__label--stacked {
+.opc-collection-item__label--stacked {
   flex-direction: column;
   align-items: flex-start;
   gap: var(--opcteam-space-1);
 }
 
-.openbitfun-collection-item__name {
+.opc-collection-item__name {
   white-space: nowrap;
   overflow: hidden;
   flex-shrink: 1;
@@ -49,24 +49,24 @@
   max-width: 100%;
 }
 
-.openbitfun-collection-item__badges {
+.opc-collection-item__badges {
   display: flex;
   gap: var(--opcteam-space-2);
   min-width: 0;
 }
 
-.openbitfun-collection-item__badges--inline {
+.opc-collection-item__badges--inline {
   align-items: center;
   flex-wrap: nowrap;
   overflow: hidden;
 }
 
-.openbitfun-collection-item__badges--stacked {
+.opc-collection-item__badges--stacked {
   align-items: flex-start;
   flex-wrap: wrap;
 }
 
-.openbitfun-collection-item__badge {
+.opc-collection-item__badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
@@ -83,14 +83,14 @@
 
 // ─── right control area ────────────────────────────────────────────────────────
 
-.openbitfun-collection-item__control {
+.opc-collection-item__control {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: var(--opcteam-space-2);
 }
 
-.openbitfun-collection-item__details-toggle {
+.opc-collection-item__details-toggle {
   svg {
     transition: transform var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
   }
@@ -102,7 +102,7 @@
 
 // ─── expandable details ────────────────────────────────────────────────────────
 
-.openbitfun-collection-item__details-collapse {
+.opc-collection-item__details-collapse {
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -122,12 +122,12 @@
 }
 
 // Keep padding and borders inside the clipped grid item so 0fr reaches zero.
-.openbitfun-collection-item__details-clip {
+.opc-collection-item__details-clip {
   min-height: 0;
   overflow: hidden;
 }
 
-.openbitfun-collection-item__details {
+.opc-collection-item__details {
   padding: var(--opcteam-space-4);
   border-top: 1px dashed var(--opcteam-collection-details-border);
   background: var(--opcteam-collection-details-bg);
@@ -139,7 +139,7 @@
 
 // ─── shared action button ──────────────────────────────────────────────────────
 
-.openbitfun-collection-btn {
+.opc-collection-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -175,7 +175,7 @@
   }
 
   // Preserve collection action geometry and feedback for the shared button root.
-  &[data-openbitfun-component='icon-button'] {
+  &[data-opc-component='icon-button'] {
     flex-shrink: 1;
 
     &::before { content: none; }
@@ -185,12 +185,12 @@
       outline-offset: 2px;
     }
 
-    > [data-openbitfun-part='icon'] {
+    > [data-opc-part='icon'] {
       --opcteam-opacity-icon-artwork: inherit;
       display: contents;
     }
 
-    > :where([data-openbitfun-part='icon']) > :where([data-openbitfun-component='icon']) {
+    > :where([data-opc-part='icon']) > :where([data-opc-component='icon']) {
       inline-size: 14px;
       block-size: 14px;
     }
@@ -199,7 +199,7 @@
 
 // ─── empty row ─────────────────────────────────────────────────────────────────
 
-.openbitfun-collection-empty {
+.opc-collection-empty {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -215,13 +215,13 @@
 
 // ─── inline form (shared by all collection pages) ──────────────────────────────
 
-.openbitfun-collection-form {
+.opc-collection-form {
   padding: var(--opcteam-space-4);
   border-bottom: 1px solid var(--opcteam-color-border-subtle);
   animation: openbitfun-collection-slide-down 0.18s var(--opcteam-motion-easing-standard);
 }
 
-.openbitfun-collection-form__header {
+.opc-collection-form__header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -235,13 +235,13 @@
   }
 }
 
-.openbitfun-collection-form__body {
+.opc-collection-form__body {
   display: flex;
   flex-direction: column;
   gap: var(--opcteam-space-3);
 }
 
-.openbitfun-collection-form__footer {
+.opc-collection-form__footer {
   display: flex;
   justify-content: flex-end;
   gap: var(--opcteam-space-2);
@@ -250,20 +250,20 @@
 
 // ─── details inner blocks ──────────────────────────────────────────────────────
 
-.openbitfun-collection-details__field {
+.opc-collection-details__field {
   font-size: var(--opcteam-type-label-md-font-size);
   color: var(--opcteam-color-content-secondary);
   line-height: var(--opcteam-type-body-lg-line-height);
 }
 
-.openbitfun-collection-details__label {
+.opc-collection-details__label {
   font-size: var(--opcteam-type-label-sm-font-size);
   font-weight: var(--opcteam-type-label-sm-font-weight);
   color: var(--opcteam-color-content-muted);
   margin-bottom: var(--opcteam-space-1);
 }
 
-.openbitfun-collection-details__pre {
+.opc-collection-details__pre {
   margin: 0;
   padding: var(--opcteam-space-3);
   background: var(--opcteam-color-action-neutral-surface-hover);
@@ -278,14 +278,14 @@
   max-height: 200px;
 }
 
-.openbitfun-collection-details__meta {
+.opc-collection-details__meta {
   font-size: var(--opcteam-type-label-sm-font-size);
   color: var(--opcteam-color-content-muted);
   padding-top: var(--opcteam-space-3);
   border-top: 1px solid var(--opcteam-color-border-subtle);
 }
 
-.openbitfun-collection-details__code {
+.opc-collection-details__code {
   padding: 1px 6px;
   background: var(--opcteam-color-action-neutral-surface-hover);
   border-radius: var(--opcteam-radius-sm);
@@ -308,13 +308,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-collection-item__details-collapse,
-  .openbitfun-collection-item__details-toggle svg,
-  .openbitfun-collection-btn {
+  .opc-collection-item__details-collapse,
+  .opc-collection-item__details-toggle svg,
+  .opc-collection-btn {
     transition: none;
   }
 
-  .openbitfun-collection-form {
+  .opc-collection-form {
     animation: none;
   }
 }
@@ -322,44 +322,44 @@
 // ─── responsive ────────────────────────────────────────────────────────────────
 
 @container config-panel (max-width: 520px) {
-  .openbitfun-collection-item__details {
+  .opc-collection-item__details {
     padding: var(--opcteam-space-3);
     gap: var(--opcteam-space-2);
   }
 
-  .openbitfun-collection-item__label {
+  .opc-collection-item__label {
     align-items: flex-start;
   }
 
-  .openbitfun-collection-item__badges--inline {
+  .opc-collection-item__badges--inline {
     flex-wrap: wrap;
   }
 
-  .openbitfun-collection-form {
+  .opc-collection-form {
     padding: var(--opcteam-space-3);
   }
 
-  .openbitfun-collection-form__body {
+  .opc-collection-form__body {
     gap: var(--opcteam-space-2);
   }
 
-  .openbitfun-collection-empty {
+  .opc-collection-empty {
     flex-direction: column;
     padding: var(--opcteam-space-4);
   }
 
-  .openbitfun-collection-btn {
+  .opc-collection-btn {
     width: 24px;
     height: 24px;
   }
 }
 
 // The collection owns its inset; Disclosure owns expansion and content lifetime.
-.openbitfun-collection-item__disclosure > .openbitfun-collection-item__details-collapse {
+.opc-collection-item__disclosure > .opc-collection-item__details-collapse {
   visibility: visible;
   transition-delay: 0s;
 
-  > .openbitfun-collection-item__details-clip {
+  > .opc-collection-item__details-clip {
     padding: 0;
   }
 }
