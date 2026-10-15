@@ -137,6 +137,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
     const [lightboxImage, setLightboxImage] = useState<string | null>(null);
     const [actionMenuOpen, setActionMenuOpen] = useState(false);
     const actionMenuAnchorRef = useRef<HTMLButtonElement>(null);
+    const copyResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
     const actionMenuId = useId();
     // Fine-grained selectors: only the message being edited re-renders on
     // draft keystrokes; other list items subscribe to booleans that rarely flip.
@@ -361,11 +362,31 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
       try {
         await writeComposerClipboardPayload({ text: copyText, tokens: copyTokens });
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        // Restart the reset window on repeated copies instead of letting an
+        // earlier timer flip the label back mid-feedback.
+        if (copyResetTimerRef.current) {
+          clearTimeout(copyResetTimerRef.current);
+        }
+        copyResetTimerRef.current = setTimeout(() => {
+          copyResetTimerRef.current = null;
+          setCopied(false);
+        }, 2000);
       } catch (error) {
         log.error('Failed to copy', error);
       }
     }, [copyText, copyTokens]);
+
+    // The reset timer must not outlive the component. Under the full Vitest run
+    // the 2s delay can elapse after the file-level jsdom environment is torn
+    // down, and `setCopied` then throws `window is not defined`
+    // (react-dom `getCurrentEventPriority` <- `dispatchSetState`) as an
+    // unhandled error, which Vitest 4 turns into a non-deterministic failure.
+    useEffect(() => () => {
+      if (copyResetTimerRef.current) {
+        clearTimeout(copyResetTimerRef.current);
+        copyResetTimerRef.current = null;
+      }
+    }, []);
 
     const handleRollback = useCallback(async () => {
       if (!canRollback || !resolvedSessionId) return;
