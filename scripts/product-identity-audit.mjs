@@ -13,14 +13,17 @@
  * where every retired token on the line belongs to one of those identifiers; a
  * line that pairs an identifier with any other retired token still fails.
  *
- * Two product identities are audited: the OpenBitFun identity the default
- * product definition still builds, and the OPC-Team identity introduced by the
- * rename. Both are held to their own canonical casings so neither can drift into
- * a competing spelling; `activeProductIdentityIds` is the single place to flip
- * once OpenBitFun must no longer appear.
+ * The default product definition is the OPC-Team identity; the OpenBitFun
+ * identity is retired. `activeProductIdentityIds` names the identities that may
+ * still appear in sources — moving an id out of it turns every spelling of that
+ * identity into a `retired-<id>-name` violation. The retired OpenBitFun spelling
+ * is still present across the tree; those occurrences are recorded in
+ * `scripts/product-identity-residual-baseline.json` and the audit only fails when
+ * the count for a file grows past its recorded allowance. Lowering an entry is
+ * how the migration ratchets forward.
  */
 import { execFileSync } from 'node:child_process';
-import { existsSync, readFileSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, statSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -36,6 +39,10 @@ const retiredIdentityDataBoundaryFiles = new Set([
   'deploy/openbitfun-host/README.md',
   'deploy/openbitfun-host/migrate-market-data-v1.py',
   'src/apps/relay-server/README.md',
+  // The canonical identity owner reads the legacy build-time environment names
+  // on purpose; they stay fixed because the build adapters and packaging scripts
+  // already read them, so this file is a boundary rather than residual debt.
+  productIdentityOwner,
   // HarmonyOS must keep its published bundle id and encrypted-storage names
   // for in-place upgrades. Runtime identifiers are centralized in one source;
   // the manifest and backup policy are the only declarative exceptions.
@@ -97,8 +104,9 @@ const auditedProductIdentities = Object.freeze({
 
 // Identities that may still appear in sources. Move an id out of this list once
 // the OPC-Team rename is complete: every spelling of a non-active identity is
-// then reported as `retired-<id>-name`.
-const activeProductIdentityIds = Object.freeze(['openbitfun', 'opcteam']);
+// then reported as `retired-<id>-name` and must be covered by the residual
+// baseline. OpenBitFun has been retired; OPC-Team is the live identity.
+const activeProductIdentityIds = Object.freeze(['opcteam']);
 
 function casingRuleFor(identityId) {
   const identity = auditedProductIdentities[identityId];
@@ -117,7 +125,17 @@ function retiredIdentityRuleFor(identityId) {
     id: `retired-${identityId}-name`,
     description: `retired ${identity.label} product identity`,
     pattern: identity.pattern,
-    allowedFiles: identity.allowedFiles,
+    // A line that is nothing but a published external attribution identifier may
+    // keep the retired display name: the identifier is owned by GitHub, and
+    // rewriting it would break commit attribution rather than remove debt.
+    allowedMatch: ({ location }) => location.location === 'content'
+      && isExternalAttributionOnlyLine(location.lineText),
+    // A retired identity must keep the same data boundaries the live rule
+    // honours: the migration documents, the migrator app/service crates, the
+    // HarmonyOS upgrade contract, and the pinned legacy updater feeds all have
+    // to reproduce the historical spelling verbatim.
+    allowedFiles: retiredIdentityDataBoundaryFiles,
+    allowedFilePrefixes: retiredIdentityDataBoundaryPrefixes,
   });
 }
 
@@ -311,6 +329,15 @@ const ignoredPaths = Object.freeze([
   /(^|\/)coverage\//,
   /^docs\/superpowers\//,
   /^src\/web-ui\/public\/monaco-editor\//,
+  // Generated bundles and vendored assets carry their own copies of the retired
+  // token but have no source of truth here to edit; they are regenerated from
+  // the sources the audit already covers.
+  /^src\/apps\/relay-server\/static\/assets\//,
+  /^src\/mobile-web\/dist\//,
+  /(^|\/)src\/web-ui\/public\/vditor\//,
+  // The residual ledger enumerates retired paths by definition; auditing it
+  // would make every recorded occurrence a fresh violation.
+  /^scripts\/product-identity-residual-baseline\.json$/,
 ]);
 
 export function normalizeRepositoryPath(file) {
@@ -445,20 +472,170 @@ function formatViolation(violation) {
   return `${position} ${violation.description} (${violation.rule})`;
 }
 
+/**
+ * Residual baseline for the retired identities.
+ *
+ * Retiring an identity turns every one of its remaining spellings into a
+ * `retired-<id>-name` violation — tens of thousands of them in a tree that is
+ * mid-migration. Hard-failing on all of them would block every change, and
+ * reporting nothing would hide the debt. The baseline records the exact
+ * rule-by-file counts that exist today, so the audit fails when any count grows
+ * (a regression) or shrinks (the baseline must be lowered with
+ * `--update-baseline`, which is how the migration ratchets forward).
+ *
+ * Only `retired-*` rules are baselined. Every other rule — competing casings,
+ * abbreviated names, pre-1.0 assets, the short prefixes — stays a hard failure,
+ * so a genuine new violation can never be absorbed into the baseline.
+ */
+const residualBaselinePath = path.join(
+  repositoryRoot,
+  'scripts',
+  'product-identity-residual-baseline.json',
+);
+
+// Only the whole-identity retirement rules are baselined. The short-prefix and
+// `retired-product-name` rules have their own narrow data boundaries and must
+// keep failing outright, so they are deliberately excluded by name.
+const baselineableRuleIds = new Set(
+  Object.keys(auditedProductIdentities).map((identityId) => `retired-${identityId}-name`),
+);
+
+function isBaselinedRule(ruleId) {
+  return baselineableRuleIds.has(ruleId);
+}
+
+export function buildResidualBaseline(report) {
+  const allowances = {};
+  for (const violation of report.violations) {
+    if (!isBaselinedRule(violation.rule)) {
+      continue;
+    }
+    allowances[violation.rule] ??= {};
+    allowances[violation.rule][violation.file] =
+      (allowances[violation.rule][violation.file] ?? 0) + 1;
+  }
+
+  const sortedAllowances = {};
+  for (const rule of Object.keys(allowances).sort()) {
+    sortedAllowances[rule] = {};
+    for (const file of Object.keys(allowances[rule]).sort()) {
+      sortedAllowances[rule][file] = allowances[rule][file];
+    }
+  }
+
+  return {
+    version: 1,
+    description: 'Residual retired product-identity occurrences. Lower an entry with '
+      + '`node scripts/product-identity-audit.mjs --update-baseline` as occurrences are '
+      + 'removed; the audit fails if any count grows or shrinks.',
+    allowances: sortedAllowances,
+  };
+}
+
+export function checkResidualBaseline(report, baseline) {
+  const failures = [];
+  if (baseline.version !== 1) {
+    failures.push('scripts/product-identity-residual-baseline.json must use version 1');
+  }
+  const allowances = baseline.allowances;
+  if (!allowances || typeof allowances !== 'object' || Array.isArray(allowances)) {
+    failures.push('scripts/product-identity-residual-baseline.json must define an allowances object');
+    return failures;
+  }
+
+  const actual = new Map();
+  for (const violation of report.violations) {
+    if (!isBaselinedRule(violation.rule)) {
+      continue;
+    }
+    if (!actual.has(violation.rule)) {
+      actual.set(violation.rule, new Map());
+    }
+    const perFile = actual.get(violation.rule);
+    perFile.set(violation.file, (perFile.get(violation.file) ?? 0) + 1);
+  }
+
+  for (const [rule, perFile] of actual) {
+    const ruleAllowance = allowances[rule];
+    if (!ruleAllowance) {
+      const total = [...perFile.values()].reduce((sum, count) => sum + count, 0);
+      failures.push(`${rule} has ${total} occurrence(s) but is not in the residual baseline`);
+      continue;
+    }
+    for (const [file, count] of perFile) {
+      const max = ruleAllowance[file];
+      if (max === undefined) {
+        failures.push(`${file} has ${count} ${rule} occurrence(s), which the residual baseline does not record`);
+      } else if (count > max) {
+        failures.push(`${file} has ${count} ${rule} occurrence(s), the residual baseline allows ${max}`);
+      }
+    }
+  }
+
+  for (const [rule, perFile] of Object.entries(allowances)) {
+    const actualPerFile = actual.get(rule) ?? new Map();
+    for (const [file, max] of Object.entries(perFile)) {
+      const count = actualPerFile.get(file) ?? 0;
+      if (count < max) {
+        failures.push(`${file} has ${count} ${rule} occurrence(s), below the residual baseline of ${max}; run --update-baseline to lower it`);
+      }
+    }
+  }
+
+  return failures;
+}
+
 function main() {
+  const updateBaseline = process.argv.includes('--update-baseline');
   const report = auditRepository(repositoryRoot);
 
-  if (report.violations.length > 0) {
+  if (updateBaseline) {
+    const baseline = buildResidualBaseline(report);
+    writeFileSync(residualBaselinePath, `${JSON.stringify(baseline, null, 2)}\n`, 'utf8');
+    const residual = report.violations.filter((violation) => isBaselinedRule(violation.rule)).length;
+    console.log(
+      `Wrote scripts/product-identity-residual-baseline.json (${residual} residual occurrence(s) recorded).`,
+    );
+    return;
+  }
+
+  const failures = report.violations
+    .filter((violation) => !isBaselinedRule(violation.rule))
+    .map(formatViolation);
+
+  if (!existsSync(residualBaselinePath)) {
+    const residual = report.violations.filter((violation) => isBaselinedRule(violation.rule));
+    if (residual.length > 0) {
+      failures.push(
+        `scripts/product-identity-residual-baseline.json is missing; run `
+        + '`node scripts/product-identity-audit.mjs --update-baseline` to record the current residual set',
+      );
+    }
+  } else {
+    let baseline;
+    try {
+      baseline = JSON.parse(readFileSync(residualBaselinePath, 'utf8'));
+    } catch (error) {
+      failures.push(`failed to parse scripts/product-identity-residual-baseline.json: ${error.message}`);
+    }
+    if (baseline) {
+      failures.push(...checkResidualBaseline(report, baseline));
+    }
+  }
+
+  if (failures.length > 0) {
     console.error('OpenBitFun product identity audit failed:');
-    for (const violation of report.violations) {
-      console.error(`- ${formatViolation(violation)}`);
+    for (const failure of failures) {
+      console.error(`- ${failure}`);
     }
     process.exitCode = 1;
     return;
   }
 
+  const residual = report.violations.length;
   console.log(
-    `OpenBitFun product identity audit passed (${report.contentFilesScanned} text files scanned, ${report.filesChecked} repository files checked).`,
+    `OpenBitFun product identity audit passed (${report.contentFilesScanned} text files scanned, `
+    + `${report.filesChecked} repository files checked; ${residual} residual occurrence(s) within the baseline).`,
   );
 }
 

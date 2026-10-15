@@ -12,6 +12,8 @@ import { test } from 'node:test';
 import {
   auditFile,
   auditRepository,
+  buildResidualBaseline,
+  checkResidualBaseline,
   listRepositoryFiles,
   normalizeRepositoryPath,
   productIdentityRules,
@@ -27,7 +29,7 @@ function violationsFor(content, file = 'src/example.ts') {
   return auditFile({ file, content });
 }
 
-test('accepts the canonical product identity in supported casing and contracts', () => {
+test('reports the retired identity as retired across every supported spelling', () => {
   const source = [
     'OpenBitFun',
     'openBitFunTheme',
@@ -46,10 +48,12 @@ test('accepts the canonical product identity in supported casing and contracts',
     'OpenBitFun_1.0.0_windows-x86_64-setup.exe',
   ].join('\n');
 
-  assert.deepEqual(violationsFor(source), []);
+  const rules = violationsFor(source).map((violation) => violation.rule);
+  assert.ok(rules.length > 0, 'expected the retired identity to be reported');
+  assert.ok(rules.every((rule) => rule === 'retired-openbitfun-name'), rules.join(','));
 });
 
-test('rejects non-canonical casing and abbreviated OpenBitFun names', () => {
+test('reports non-canonical and abbreviated retired names under the retirement rules', () => {
   const nonCanonicalPascal = ['Open', 'Bit', 'fun'].join('');
   const nonCanonicalCamel = ['open', 'Bit', 'fun'].join('');
   const abbreviatedPascal = ['Open', 'B', 'F'].join('');
@@ -64,8 +68,8 @@ test('rejects non-canonical casing and abbreviated OpenBitFun names', () => {
   assert.deepEqual(
     violationsFor(source).map((violation) => violation.rule),
     [
-      'noncanonical-openbitfun-casing',
-      'noncanonical-openbitfun-casing',
+      'retired-openbitfun-name',
+      'retired-openbitfun-name',
       'abbreviated-openbitfun-name',
       'abbreviated-openbitfun-name',
     ],
@@ -121,9 +125,9 @@ test('rejects competing OPC-Team spellings so a third casing cannot drift in', (
 
 test('retires an identity by spelling once it leaves the active list', () => {
   const activeRules = productIdentityRules();
-  assert.ok(activeRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'));
+  assert.equal(activeRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'), false);
   assert.ok(activeRules.some((rule) => rule.id === 'noncanonical-opcteam-casing'));
-  assert.equal(activeRules.some((rule) => rule.id.startsWith('retired-')), false);
+  assert.ok(activeRules.some((rule) => rule.id === 'retired-openbitfun-name'));
 
   const flippedRules = productIdentityRules(['opcteam']);
   assert.equal(flippedRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'), false);
@@ -134,6 +138,11 @@ test('retires an identity by spelling once it leaves the active list', () => {
   for (const sample of ['OpenBitFun', '.openbitfun/config', 'OPENBITFUN_USER_ROOT']) {
     assert.ok(new RegExp(retired.pattern.source, retired.pattern.flags).test(sample), sample);
   }
+
+  // Re-activating the identity restores the casing rule and drops the retired rule.
+  const reactivatedRules = productIdentityRules(['openbitfun', 'opcteam']);
+  assert.ok(reactivatedRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'));
+  assert.equal(reactivatedRules.some((rule) => rule.id === 'retired-openbitfun-name'), false);
 });
 
 test('rejects retired names in copy, packages, paths, protocols, and environment variables', () => {
@@ -320,28 +329,28 @@ test('checks a retired identity when it appears in a repository path', () => {
 
 test('scans untracked files while ignoring tracked files deleted by a rename', (t) => {
   const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-identity-audit-'));
-  const retiredDirectory = path.join(root, retiredLowerName);
+  const retiredDirectoryName = `open${retiredLowerName}`;
+  const retiredDirectory = path.join(root, retiredDirectoryName);
   const retiredFile = path.join(retiredDirectory, 'config.json');
-  const canonicalFile = path.join(root, 'openbitfun', 'config.json');
+  const canonicalFile = path.join(root, 'opcteam', 'config.json');
   mkdirSync(retiredDirectory, { recursive: true });
   mkdirSync(path.dirname(canonicalFile), { recursive: true });
   writeFileSync(retiredFile, '{}\n');
-  writeFileSync(canonicalFile, '{"product":"OpenBitFun"}\n');
+  writeFileSync(canonicalFile, '{"product":"OPC-Team"}\n');
   execFileSync('git', ['init', '--quiet'], { cwd: root });
   execFileSync('git', ['config', 'core.autocrlf', 'false'], { cwd: root });
   execFileSync('git', ['add', '.'], { cwd: root });
   rmSync(retiredFile);
   t.after(() => rmSync(root, { recursive: true, force: true }));
 
-  assert.deepEqual(listRepositoryFiles(root), ['openbitfun/config.json']);
+  assert.deepEqual(listRepositoryFiles(root), ['opcteam/config.json']);
   assert.deepEqual(auditRepository(root).violations, []);
 
   mkdirSync(retiredDirectory, { recursive: true });
   writeFileSync(retiredFile, '{}\n');
   const violations = auditRepository(root).violations;
-  assert.equal(violations.length, 1);
-  assert.equal(violations[0].location, 'path');
-  assert.equal(violations[0].rule, 'retired-product-name');
+  assert.ok(violations.some((violation) => violation.location === 'path'
+    && violation.rule === 'retired-openbitfun-name'));
 });
 
 test('does not confuse unrelated abbreviations, issue ids, or hashes with product identity', () => {
@@ -373,8 +382,12 @@ test('keeps compile-time product identity reads in the canonical contract owner'
   ].join('');
   const violations = violationsFor(source, 'src/example.rs');
 
-  assert.equal(violations.length, 1);
-  assert.equal(violations[0].rule, 'duplicate-product-identity-owner');
+  assert.ok(
+    violations.some((violation) => violation.rule === 'duplicate-product-identity-owner'),
+    'expected the duplicate-owner rule to fire outside the canonical owner',
+  );
+  // The canonical owner is a retired-identity boundary: it reads the legacy
+  // build-time environment names on purpose, so it reports nothing at all.
   assert.deepEqual(
     violationsFor(source, 'src/crates/contracts/core-types/src/product_identity.rs'),
     [],
@@ -393,9 +406,13 @@ test('rejects pre-1.0 minimum versions and OpenBitFun release assets', () => {
   assert.deepEqual(
     violationsFor(source).map((violation) => violation.rule),
     [
+      'retired-openbitfun-name',
       'pre-1.0-openbitfun-minimum-version',
+      'retired-openbitfun-name',
       'pre-1.0-openbitfun-minimum-version',
+      'retired-openbitfun-name',
       'pre-1.0-openbitfun-release-asset',
+      'retired-openbitfun-name',
       'pre-1.0-openbitfun-release-asset',
     ],
   );
@@ -416,4 +433,82 @@ test('normalizes Windows separators and skips dependency and generated output ro
     assert.equal(shouldAuditPath(file), false, file);
     assert.equal(shouldAuditContent(file), false, file);
   }
+});
+
+test('baselines only the retired-identity rules, never the strict rules', () => {
+  const report = {
+    violations: [
+      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+      { file: 'src/b.ts', rule: 'retired-openbitfun-name', location: 'path' },
+      { file: 'src/c.ts', rule: 'retired-product-name', location: 'content' },
+      { file: 'src/d.ts', rule: 'abbreviated-openbitfun-name', location: 'content' },
+      { file: 'src/e.ts', rule: 'retired-css-token-prefix', location: 'content' },
+    ],
+  };
+  const baseline = buildResidualBaseline(report);
+
+  assert.deepEqual(baseline.allowances, {
+    'retired-openbitfun-name': { 'src/a.ts': 2, 'src/b.ts': 1 },
+  });
+});
+
+test('fails the baseline when a file grows past its recorded allowance', () => {
+  const baseline = { version: 1, allowances: { 'retired-openbitfun-name': { 'src/a.ts': 1 } } };
+  const report = {
+    violations: [
+      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+    ],
+  };
+
+  const failures = checkResidualBaseline(report, baseline);
+  assert.equal(failures.length, 1);
+  assert.match(failures[0], /src\/a\.ts has 2 .* allows 1/);
+});
+
+test('fails the baseline when a count drops, so the ratchet cannot silently drift', () => {
+  const baseline = { version: 1, allowances: { 'retired-openbitfun-name': { 'src/a.ts': 3 } } };
+  const report = {
+    violations: [{ file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' }],
+  };
+
+  const failures = checkResidualBaseline(report, baseline);
+  assert.equal(failures.length, 1);
+  assert.match(failures[0], /below the residual baseline of 3/);
+});
+
+test('fails the baseline for a new file and for an unrecorded rule', () => {
+  const baseline = { version: 1, allowances: { 'retired-openbitfun-name': { 'src/a.ts': 1 } } };
+
+  const newFile = checkResidualBaseline(
+    {
+      violations: [
+        { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+        { file: 'src/new.ts', rule: 'retired-openbitfun-name', location: 'content' },
+      ],
+    },
+    baseline,
+  );
+  assert.ok(newFile.some((failure) => /src\/new\.ts .* does not record/.test(failure)));
+
+  const newRule = checkResidualBaseline(
+    {
+      violations: [
+        { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+        { file: 'src/a.ts', rule: 'retired-opcteam-name', location: 'content' },
+      ],
+    },
+    baseline,
+  );
+  assert.ok(newRule.some((failure) => /retired-opcteam-name .* not in the residual baseline/.test(failure)));
+});
+
+test('requires a version 1 allowances object', () => {
+  const report = { violations: [] };
+  assert.ok(checkResidualBaseline(report, { version: 2, allowances: {} })
+    .some((failure) => /version 1/.test(failure)));
+  assert.ok(checkResidualBaseline(report, { version: 1 })
+    .some((failure) => /allowances object/.test(failure)));
+  assert.deepEqual(checkResidualBaseline(report, { version: 1, allowances: {} }), []);
 });

@@ -66,6 +66,7 @@
     "flowchat:log:analyze": "node scripts/diagnostics/analyze-flowchat-log.mjs",
     "flowchat:log:analyze:test": "node --test scripts/diagnostics/analyze-flowchat-log.test.mjs",
     "product:identity:audit": "node scripts/product-identity-audit.mjs",
+    "product:identity:audit:update": "node scripts/product-identity-audit.mjs --update-baseline",
     "product:identity:audit:test": "node --test scripts/product-identity-audit.test.mjs",
     "release:version:check": "node scripts/verify-release-version-sync.mjs",
     "check:repo-hygiene": "pnpm run product:identity:audit:test && pnpm run product:identity:audit && pnpm run release:version:check && node --test scripts/check-repo-hygiene.test.mjs && node scripts/check-repo-hygiene.mjs && node scripts/update-models-dev-snapshot.mjs --check",
