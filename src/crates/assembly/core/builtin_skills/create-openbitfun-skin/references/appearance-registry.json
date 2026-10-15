@@ -1,11 +1,11 @@
 {
   "schema": "openbitfun.appearance.registry",
   "schemaVersion": 2,
-  "generatedFrom": "2bc8fe3a7295e0e5dca65a946fb724a5e2889611",
-  "generatedAt": "2026-10-15T10:27:50.611805+00:00",
-  "sourceRevision": "2bc8fe3a7295e0e5dca65a946fb724a5e2889611",
-  "sourceDirty": true,
-  "sourceTreeHash": "3cc38ae985f9bb2bcfdf433d0197557d0b9afc52e10788d300940bf66db87be2",
+  "generatedFrom": "c26255bf5a1e7bea34ee98c901ccbfec117b3dcf",
+  "generatedAt": "2026-10-15T10:50:16.302989+00:00",
+  "sourceRevision": "c26255bf5a1e7bea34ee98c901ccbfec117b3dcf",
+  "sourceDirty": false,
+  "sourceTreeHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
   "components": [
     {
       "id": "split-view",
