@@ -542,7 +542,19 @@ systemctl reload nginx'
 
 ### 10. 切 DNS / WAF
 
-本机没有 443。把云 WAF / 负载均衡的源站指到新机器后，再跑公网验收。
+本机没有 443。公网入口按 Cloudflare 接入：
+
+1. DNS 已托管在 Cloudflare（zone `opcteam.eu.cc`，NS
+   `stan/isla.ns.cloudflare.com`）。在 Cloudflare Dashboard 建 A 记录，全部
+   指向源站公网 IP（当前 `106.14.254.178`），代理状态开橙云（Proxied）：
+   `opcteam.eu.cc`、`playbook`、`remote`、`market`、`api`。
+2. SSL/TLS 模式设 **Full**（Cloudflare 边缘出 HTTPS，回源打 80；不要设
+   Strict，源站没有证书）。边缘证书由 Cloudflare 通配符覆盖所有子域。
+3. 历史 WAF（旧 `openbitfun.com` 所在的云 WAF，公网边缘 `190.92.193.x`）不再
+   使用；旧域名解析随之失效属预期，客户端升级后走新域名。
+4. 公网入口变更后，再跑下面「整机验收」的公网验收。
+
+源站本机始终没有 443，公网 HTTPS 由 Cloudflare 终止。
 
 ## 整机验收
 
