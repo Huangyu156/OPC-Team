@@ -17,7 +17,7 @@ import { useI18n } from '../../../infrastructure/i18n';
 import { createLogger } from '@/shared/utils/logger';
 import { isMacOSDesktopRuntime, startNativeWindowDragging, supportsNativeWindowDragging } from '@/infrastructure/runtime';
 import './NavBar.scss';
-import { Icon, OverflowText, Tooltip } from '@openbitfun/ui';
+import { Icon, OverflowText, Tooltip } from '@opc-team/ui';
 
 const log = createLogger('NavBar');
 

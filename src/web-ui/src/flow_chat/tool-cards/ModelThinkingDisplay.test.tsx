@@ -3,8 +3,8 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { DesignSystemProvider } from '@openbitfun/ui';
-import { FileOperationToolCard } from '@openbitfun/ui/flow-chat';
+import { DesignSystemProvider } from '@opc-team/ui';
+import { FileOperationToolCard } from '@opc-team/ui/flow-chat';
 import type { FlowThinkingItem } from '../types/flow-chat';
 import { ModelThinkingDisplay } from './ModelThinkingDisplay';
 import { latestReasoningSummaryPreview } from '../utils/reasoningSummaryPresentation';

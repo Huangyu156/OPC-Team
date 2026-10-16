@@ -39,7 +39,7 @@ vi.mock('@/infrastructure/i18n/hooks/useI18n', () => ({
   useI18n: () => ({ t: (key: string) => key }),
 }));
 
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Spinner: () => <div data-testid="scene-loader" />,
 }));
 

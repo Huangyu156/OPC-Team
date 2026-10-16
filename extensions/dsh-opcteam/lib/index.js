@@ -1,5 +1,5 @@
-// dsh-openbitfun: a DeepSeek Harness (dsh) plugin bundle that exposes the OPC-Team
-// Agent SDK Host — a standalone `openbitfun-sdk-host` process speaking
+// dsh-opcteam: a DeepSeek Harness (dsh) plugin bundle that exposes the OPC-Team
+// Agent SDK Host — a standalone `opc-sdk-host` process speaking
 // newline-delimited JSON-RPC 2.0 over stdio — as dsh tools.
 //
 // The package is dependency-free on purpose: the tool definitions are built in
@@ -9,22 +9,22 @@
 //
 // Host binary resolution order per call:
 //   1. `hostPath` in this plugin's patch config,
-//   2. the OPENBITFUN_SDK_HOST environment variable,
-//   3. `<session cwd>/target/{debug,release}/openbitfun-sdk-host(.exe)` walking up
+//   2. the OPC_SDK_HOST environment variable,
+//   3. `<session cwd>/target/{debug,release}/opc-sdk-host(.exe)` walking up
 //      the directory tree (an OPC-Team checkout-local build),
-//   4. `openbitfun-sdk-host` on PATH.
+//   4. `opc-sdk-host` on PATH.
 
 import { spawn } from 'node:child_process';
 import { existsSync, statSync } from 'node:fs';
 import path from 'node:path';
 import process from 'node:process';
 
-export const name = 'openbitfun';
+export const name = 'opcteam';
 export const inject = ['tools', 'systemPrompt'];
 
 const VERSION = '0.1.0';
 const PROTOCOL_VERSION = 1;
-const HOST_BINARY_NAME = 'openbitfun-sdk-host';
+const HOST_BINARY_NAME = 'opc-sdk-host';
 const HOST_BINARY_BASE = process.platform === 'win32' ? `${HOST_BINARY_NAME}.exe` : HOST_BINARY_NAME;
 const BOOT_REQUEST_TIMEOUT_MS = 120_000;
 const DEFAULT_REQUEST_TIMEOUT_MS = 30_000;
@@ -46,7 +46,7 @@ function positiveInteger(value, fallback) {
 class HostError extends Error {
   constructor(message, code, cause, rpcData) {
     super(message, cause === undefined ? undefined : { cause });
-    this.name = 'OpenBitFunHostError';
+    this.name = 'OpcTeamHostError';
     this.code = code;
     this.rpcData = rpcData;
   }
@@ -85,7 +85,7 @@ function findOnPath(binaryName) {
 function resolveHostPath(config, cwd) {
   const candidates = [];
   const configured = isNonEmptyString(config?.hostPath) ? config.hostPath : undefined;
-  const fromEnv = isNonEmptyString(process.env.OPENBITFUN_SDK_HOST) ? process.env.OPENBITFUN_SDK_HOST : undefined;
+  const fromEnv = isNonEmptyString(process.env.OPC_SDK_HOST) ? process.env.OPC_SDK_HOST : undefined;
   for (const candidate of [configured, fromEnv]) {
     if (candidate === undefined) continue;
     if (isPathLike(candidate)) {
@@ -125,7 +125,7 @@ function resolveHostPath(config, cwd) {
 }
 
 /**
- * One connection to a `openbitfun-sdk-host` process: newline-delimited JSON-RPC
+ * One connection to a `opc-sdk-host` process: newline-delimited JSON-RPC
  * request/response plus `query/event` and `query/result` notifications.
  * The client respawns lazily after an unexpected process exit.
  */
@@ -206,7 +206,7 @@ class SdkHostClient {
           'initialize',
           {
             protocolVersion: PROTOCOL_VERSION,
-            clientInfo: { name: 'dsh-openbitfun', version: VERSION },
+            clientInfo: { name: 'dsh-opcteam', version: VERSION },
             capabilities: { serverNotifications: true },
           },
           BOOT_REQUEST_TIMEOUT_MS,
@@ -436,7 +436,7 @@ const RUN_TOOL_PARAMETERS = {
     session_id: {
       type: 'string',
       description:
-        'Optional OPC-Team session id returned by a previous openbitfun_run call. Pass it to continue that OPC-Team conversation instead of starting a new one.',
+        'Optional OPC-Team session id returned by a previous opc_run call. Pass it to continue that OPC-Team conversation instead of starting a new one.',
     },
     agent: {
       type: 'string',
@@ -482,7 +482,7 @@ function isStaleSessionError(error) {
 }
 
 /**
- * Register the `openbitfun_run` tool plus a short system-prompt section.
+ * Register the `opc_run` tool plus a short system-prompt section.
  * One SDK Host client is kept per resolved binary; OPC-Team sessions are
  * transient per Host connection, so the plugin maps each dsh session to one
  * OPC-Team session and closes the oldest mappings past `maxSessions`.
@@ -501,9 +501,9 @@ export function apply(ctx, config) {
     const resolved = resolveHostPath(options, cwd);
     if (resolved === null) {
       throw new Error(
-        'cannot locate the OPC-Team SDK Host binary ("openbitfun-sdk-host"). ' +
-          'Build it with `cargo build -p openbitfun-sdk-host-app`, set the OPENBITFUN_SDK_HOST environment variable, ' +
-          'or configure the hostPath option of the dsh-openbitfun plugin row.',
+        'cannot locate the OPC-Team SDK Host binary ("opc-sdk-host"). ' +
+          'Build it with `cargo build -p opc-sdk-host-app`, set the OPC_SDK_HOST environment variable, ' +
+          'or configure the hostPath option of the dsh-opcteam plugin row.',
       );
     }
     let client = clients.get(resolved.spawnSpec);
@@ -536,8 +536,8 @@ export function apply(ctx, config) {
     }
   }
 
-  const openbitfunRunTool = {
-    name: 'openbitfun_run',
+  const opcteamRunTool = {
+    name: 'opc_run',
     description:
       'Delegate a task to the OPC-Team agent runtime: OPC-Team executes the prompt in a workspace with its own ' +
       'agent loop and tools, then returns its final text answer. The result includes a session_id; pass it in a ' +
@@ -640,13 +640,13 @@ export function apply(ctx, config) {
     },
   };
 
-  ctx.tools.register(openbitfunRunTool);
+  ctx.tools.register(opcteamRunTool);
 
   ctx.systemPrompt.section({
-    name: 'tool:openbitfun',
+    name: 'tool:opcteam',
     order: 200,
     text:
-      'Use the openbitfun_run tool to delegate a task to the OPC-Team agent runtime when the user asks to use OPC-Team, ' +
+      'Use the opc_run tool to delegate a task to the OPC-Team agent runtime when the user asks to use OPC-Team, ' +
       'or when handing a whole subtask to OPC-Team is appropriate. OPC-Team runs the prompt autonomously in the ' +
       'workspace and returns its final text answer; pass the returned session_id back to continue that OPC-Team ' +
       'conversation across calls. Do not use it for tasks that need interactive permission approval, because the ' +

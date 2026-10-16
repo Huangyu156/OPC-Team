@@ -9,7 +9,7 @@ import React, {
   useState,
 } from 'react';
 import { RotateCw, ZoomIn, ZoomOut } from 'lucide-react';
-import { Button, Icon, IconButton, Input, Select, Toolbar, ToolbarGroup, ToolbarSeparator, Tooltip } from '@openbitfun/ui';
+import { Button, Icon, IconButton, Input, Select, Toolbar, ToolbarGroup, ToolbarSeparator, Tooltip } from '@opc-team/ui';
 import {
   GlobalWorkerOptions,
   PermissionFlag,

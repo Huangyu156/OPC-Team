@@ -30,8 +30,8 @@
     "test": "vitest run src"
   },
   "dependencies": {
-    "@openbitfun/theme-openbitfun": "workspace:^",
-    "@openbitfun/ui": "workspace:^",
+    "@opc-team/theme": "workspace:^",
+    "@opc-team/ui": "workspace:^",
     "@tauri-apps/api": "2.11.1",
     "@tauri-apps/plugin-dialog": "2.7.3",
     "i18next": "^25.8.0",

@@ -4,7 +4,7 @@
  */
 
 import React, { useEffect, useRef, useCallback, useState, memo } from 'react';
-import { Button, Icon, IconButton } from '@openbitfun/ui';
+import { Button, Icon, IconButton } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { AlertCircle } from 'lucide-react';
 import Terminal, { TerminalRef, type TerminalOptions } from './Terminal';

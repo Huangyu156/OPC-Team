@@ -1,6 +1,6 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
 import { Suspense, useEffect, useRef, useState, type ReactElement } from 'react';
-import { useHasModalOverlay } from '@openbitfun/ui';
+import { useHasModalOverlay } from '@opc-team/ui';
 import { systemAPI } from '@/infrastructure/api/service-api/SystemAPI';
 import { createLogger } from '@/shared/utils/logger';
 import { scheduleAfterStartupSignal } from '@/shared/utils/startupTaskScheduling';

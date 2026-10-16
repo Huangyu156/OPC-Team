@@ -1,7 +1,7 @@
  
 
 import React from 'react';
-import { Button, Icon, IconButton } from '@openbitfun/ui';
+import { Button, Icon, IconButton } from '@opc-team/ui';
 import { AlertTriangle, XCircle } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n';
 import { Notification } from '../types';

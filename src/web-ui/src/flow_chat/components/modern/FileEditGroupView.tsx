@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { FlowGroup, type FlowGroupProps } from '@openbitfun/ui/flow-chat';
+import { FlowGroup, type FlowGroupProps } from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';
 import { useSnapshotState } from '@/tools/snapshot_system/hooks/useSnapshotState';
 import { FileEditGroupContext } from '../../grouping/FileEditGroupContext';

@@ -1,5 +1,5 @@
 import { useEffect, useId, useRef, useState } from 'react';
-import { createOverlayPortal, Button, Card, Icon, IconButton, useDismissibleLayer } from '@openbitfun/ui';
+import { createOverlayPortal, Button, Card, Icon, IconButton, useDismissibleLayer } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { useI18n } from '@/infrastructure/i18n';
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';

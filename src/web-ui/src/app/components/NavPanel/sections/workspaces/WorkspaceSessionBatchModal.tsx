@@ -14,7 +14,7 @@ import { OverflowText,
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Archive } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n';

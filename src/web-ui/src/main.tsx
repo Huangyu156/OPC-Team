@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
 // Register the design-system layer order before any product module can import
 // component CSS. CSS layers keep their first-seen order for the document.
-import "@openbitfun/ui/styles.css";
+import "@opc-team/ui/styles.css";
 import AppErrorBoundary from "./app/components/AppErrorBoundary";
 import { STARTUP_OVERLAY_HIDDEN_EVENT } from "./app/startup/startupSignals";
 import { I18nProvider } from "./infrastructure/i18n/providers/I18nProvider";

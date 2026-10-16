@@ -9,7 +9,7 @@ import { standaloneEditorFileAccess } from '../services/editorFileAccess';
 
 import React, { useState, useEffect, useLayoutEffect, useCallback, useMemo, useRef } from 'react';
 import { ZoomIn, ZoomOut, RotateCw, Maximize2 } from 'lucide-react';
-import { Portal, OverflowText, Button, Icon, IconButton, Toolbar, ToolbarGroup, ToolbarSeparator, Tooltip } from '@openbitfun/ui';
+import { Portal, OverflowText, Button, Icon, IconButton, Toolbar, ToolbarGroup, ToolbarSeparator, Tooltip } from '@opc-team/ui';
 import { createLogger } from '@/shared/utils/logger';
 
 import { useI18n } from '@/infrastructure/i18n';

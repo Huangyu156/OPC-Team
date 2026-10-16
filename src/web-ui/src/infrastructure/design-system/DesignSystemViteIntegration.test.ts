@@ -80,7 +80,7 @@ describe('design-system Vite integration', () => {
     );
 
     const layerPreludeIndex = mainSource.indexOf(
-      'import "@openbitfun/ui/styles.css"',
+      'import "@opc-team/ui/styles.css"',
     );
     const productGraphImports = [
       'import AppErrorBoundary from "./app/components/AppErrorBoundary"',
@@ -88,17 +88,17 @@ describe('design-system Vite integration', () => {
       "import('./app/components/AgentCompanionDesktopPet/AgentCompanionDesktopPet')",
     ];
 
-    expect(themeEntry).toContain('@import "@openbitfun/theme-openbitfun/default.css";');
-    expect(mainSource).not.toContain('import "@openbitfun/theme-openbitfun/default.css"');
+    expect(themeEntry).toContain('@import "@opc-team/theme/default.css";');
+    expect(mainSource).not.toContain('import "@opc-team/theme/default.css"');
     expect(layerPreludeIndex).toBeGreaterThanOrEqual(0);
     for (const productImport of productGraphImports) {
       expect(mainSource.indexOf(productImport)).toBeGreaterThan(layerPreludeIndex);
     }
 
     const bootstrapLayerOrder =
-      '@layer opcteam.tokens.system, opcteam.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;';
+      '@layer opcteam.tokens.system, opcteam.tokens.theme, opcteam.reset, opcteam.base, opcteam.components, opcteam.overrides;';
     const bootstrapLayerOrderIndex = indexHtml.indexOf(bootstrapLayerOrder);
-    const bootstrapResetIndex = indexHtml.indexOf('@layer openbitfun.reset {');
+    const bootstrapResetIndex = indexHtml.indexOf('@layer opcteam.reset {');
     const moduleEntryIndex = indexHtml.indexOf(
       '<script type="module" src="/src/main.tsx"></script>',
     );
@@ -112,17 +112,17 @@ describe('design-system Vite integration', () => {
     expect(themeEntryIndex).toBeLessThan(moduleEntryIndex);
     expect(moduleEntryIndex).toBeGreaterThan(bootstrapResetIndex);
     expect(indexHtml).toMatch(
-      /@layer openbitfun\.reset\s*\{[\s\S]*?\*\s*,\s*\*::before\s*,\s*\*::after\s*\{[\s\S]*?padding:\s*0;/,
+      /@layer opcteam\.reset\s*\{[\s\S]*?\*\s*,\s*\*::before\s*,\s*\*::after\s*\{[\s\S]*?padding:\s*0;/,
     );
     expect(globalStyles).not.toMatch(
       /\*\s*,\s*\*::before\s*,\s*\*::after\s*\{[\s\S]*?padding:\s*0;/,
     );
     expect(globalStyles).toMatch(
-      /@layer\s+openbitfun\.base\s*\{[\s\S]*?:focus-visible\s*\{/,
+      /@layer\s+opcteam\.base\s*\{[\s\S]*?:focus-visible\s*\{/,
     );
     expect(appLayoutStyles).not.toMatch(/^\s*\*:focus-visible\s*\{/m);
     expect(layerContract).toMatch(
-      /@layer\s+openbitfun\.tokens\.system,\s*openbitfun\.tokens\.theme,\s*openbitfun\.reset,\s*openbitfun\.base,\s*openbitfun\.components,\s*openbitfun\.overrides\s*;/,
+      /@layer\s+opcteam\.tokens\.system,\s*opcteam\.tokens\.theme,\s*opcteam\.reset,\s*opcteam\.base,\s*opcteam\.components,\s*opcteam\.overrides\s*;/,
     );
   });
 });

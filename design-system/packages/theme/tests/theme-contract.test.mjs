@@ -7,7 +7,7 @@ import {
   collectTokenDefinitions,
   mergeTokenDocuments,
   resolveTokens,
-} from "@openbitfun/token-engine";
+} from "@opc-team/token-engine";
 import {
   referenceColorCatalog,
   referenceColorScales,

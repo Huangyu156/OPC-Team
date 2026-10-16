@@ -10,7 +10,7 @@ import { subscribeOverlayInteraction, createOverlayPortal, OverflowText,
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Github, Loader2, LogOut } from 'lucide-react';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';

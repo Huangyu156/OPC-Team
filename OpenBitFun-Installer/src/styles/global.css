@@ -1,6 +1,6 @@
 @import './animations.css';
 
-@layer openbitfun.reset {
+@layer opcteam.reset {
   *, *::before, *::after { box-sizing: border-box; }
   body, h1, h2, p, ol, fieldset { margin: 0; }
   fieldset { min-inline-size: 0; padding: 0; border: 0; }

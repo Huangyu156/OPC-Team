@@ -1,6 +1,6 @@
 import React from 'react';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
-import { createOverlayPortal, OverflowText, Icon, Menu, MenuItem, Tooltip } from '@openbitfun/ui';
+import { createOverlayPortal, OverflowText, Icon, Menu, MenuItem, Tooltip } from '@opc-team/ui';
 import { WorkspaceKind, type WorkspaceInfo } from '@/shared/types';
 
 interface ShellNavWorkspaceSwitcherProps {

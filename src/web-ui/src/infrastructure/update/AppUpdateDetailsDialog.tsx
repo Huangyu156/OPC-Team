@@ -1,4 +1,4 @@
-import { Dialog } from '@openbitfun/ui';
+import { Dialog } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { AppUpdatePanel } from './AppUpdatePanel';
 import { useUpdateInstallStore } from './updateInstallStore';

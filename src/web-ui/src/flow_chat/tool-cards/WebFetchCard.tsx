@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 import { systemAPI } from '../../infrastructure/api';
-import { WebFetchToolCard as WebFetchToolCardView } from '@openbitfun/ui/flow-chat';
+import { WebFetchToolCard as WebFetchToolCardView } from '@opc-team/ui/flow-chat';
 import { ToolCardCopyAction } from './ToolCardCopyAction';
 import { createLogger } from '@/shared/utils/logger';
 import { useToolCardHeightContract } from './useToolCardHeightContract';

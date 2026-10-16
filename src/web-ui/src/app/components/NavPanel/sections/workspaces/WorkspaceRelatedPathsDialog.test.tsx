@@ -16,11 +16,11 @@ vi.mock('@/infrastructure/api/service-api/ExternalSourcesAPI', () => ({
 }));
 vi.mock('@/features/ssh-remote/sshApi', () => ({ sshApi: {} }));
 vi.mock('@/features/ssh-remote/RemoteFileBrowser', () => ({ default: () => null }));
-vi.mock('@openbitfun/ui', async (importOriginal) => {
+vi.mock('@opc-team/ui', async (importOriginal) => {
   const Wrapper = ({ children }: React.PropsWithChildren) => <div>{children}</div>;
   return {
-    Disclosure: (await importOriginal<typeof import('@openbitfun/ui')>()).Disclosure,
-    Textarea: (await importOriginal<typeof import('@openbitfun/ui')>()).Textarea,
+    Disclosure: (await importOriginal<typeof import('@opc-team/ui')>()).Disclosure,
+    Textarea: (await importOriginal<typeof import('@opc-team/ui')>()).Textarea,
     Dialog: ({ open, children }: React.PropsWithChildren<{ open: boolean }>) => open ? <div role="dialog">{children}</div> : null,
     DialogBody: Wrapper, DialogFooter: Wrapper, DialogHeader: Wrapper, DialogHeading: Wrapper, DialogTitle: Wrapper,
     DialogClose: () => null, Icon: () => null, Input: () => null,

@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useCallback, useState } from 'react';
-import { OpenBitFunMark } from '@openbitfun/ui/brand';
+import { OpenBitFunMark } from '@opc-team/ui/brand';
 import './SplashScreen.scss';
 
 const DEFAULT_LOADING_MESSAGE_DELAY_MS = 1800;

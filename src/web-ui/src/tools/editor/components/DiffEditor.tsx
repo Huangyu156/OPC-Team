@@ -8,14 +8,14 @@ import { monacoAppearanceAdapter } from '@/infrastructure/appearance/adapters/Mo
 import { configManager } from '@/infrastructure/config/services/ConfigManager';
 import { EditorConfig as EditorConfigType } from '@/infrastructure/config/types';
 import { getMonacoLanguage } from '@/infrastructure/language-detection';
-import { IconButton, OverflowText, LoadingState } from '@openbitfun/ui';
+import { IconButton, OverflowText, LoadingState } from '@opc-team/ui';
 import { useNotification } from '@/shared/notification-system';
 import { createLogger } from '@/shared/utils/logger';
 import { useI18n } from '@/infrastructure/i18n';
 import { AlertCircle } from 'lucide-react';
 import { activeEditTargetService, createMonacoEditTarget } from '../services/ActiveEditTargetService';
 import './DiffEditor.scss';
-import { Tooltip } from '@openbitfun/ui';
+import { Tooltip } from '@opc-team/ui';
 import {
   DEFAULT_EDITOR_FONT_FAMILY,
   resolveEditorFontFamily,

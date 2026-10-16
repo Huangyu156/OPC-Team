@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .prominentRoot,
   .ambientRoot {
     --_tool-card-font-family: var(--opcteam-type-body-sm-font-family);

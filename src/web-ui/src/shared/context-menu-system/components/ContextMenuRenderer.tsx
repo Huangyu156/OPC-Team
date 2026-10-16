@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, type IconName } from '@openbitfun/ui';
+import { Icon, type IconName } from '@opc-team/ui';
 import {
   Archive,
   ArchiveRestore,

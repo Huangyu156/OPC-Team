@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
-import { OverflowText, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { useShortcut } from '@/infrastructure/hooks/useShortcut';
 import { FilePlus, FolderPlus } from 'lucide-react';
 import { VirtualFileTree } from './VirtualFileTree';

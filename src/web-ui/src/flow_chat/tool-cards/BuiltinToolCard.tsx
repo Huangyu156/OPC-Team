@@ -5,7 +5,7 @@ import {
   McpResourceToolCard, WorktreeToolCard, PortForwardToolCard, ReviewPlatformToolCard,
   FrontendWorkbenchToolCard, MiniAppFinalizeToolCard, MarketplacePublishToolCard, PlaybookToolCard,
   type SemanticToolCardAction, type SemanticToolCardProps, type SemanticToolCardRecord,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';
 import { systemAPI } from '@/infrastructure/api/service-api/SystemAPI';
 import { useSceneStore } from '@/app/stores/sceneStore';

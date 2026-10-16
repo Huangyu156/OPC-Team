@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Switch } from '@openbitfun/ui';
+import { Switch } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import {
   ConfigLoadingState, ConfigPageRow, ConfigPageSection, ConfigRetryState,

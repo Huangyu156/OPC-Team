@@ -23,7 +23,7 @@ import { getSceneViewId } from '../components/SceneBar/types';
 import { useSceneManager } from '../hooks/useSceneManager';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { useDialogCompletionNotify } from '../hooks/useDialogCompletionNotify';
-import { Spinner } from '@openbitfun/ui';
+import { Spinner } from '@opc-team/ui';
 import SettingsScene from './settings/SettingsScene';
 import AssistantScene from './assistant/AssistantScene';
 import SessionScene from './session/SessionScene';

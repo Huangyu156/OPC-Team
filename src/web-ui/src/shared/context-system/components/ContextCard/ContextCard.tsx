@@ -1,7 +1,7 @@
  
 
 import React, { useMemo } from 'react';
-import { OverflowText, Icon, IconButton } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton } from '@opc-team/ui';
 import { AlertCircle, Loader2 } from 'lucide-react';
 import { ContextItem } from '../../../types/context';
 import { contextRegistry } from '../../../services/ContextRegistry';

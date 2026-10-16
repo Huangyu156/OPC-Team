@@ -14,7 +14,7 @@ import {
 } from 'lucide-react';
 import ChatToolDetails from './ChatToolDetails';
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
-import { MobileButton, MobileCard, MobileDisclosure, MobileMessage } from '@openbitfun/ui/mobile';
+import { MobileButton, MobileCard, MobileDisclosure, MobileMessage } from '@opc-team/ui/mobile';
 import { useI18n } from '../i18n';
 import type { ActiveTurnSnapshot, ChatMessage, ChatMessageItem, RemoteToolStatus } from '../services/RemoteSessionManager';
 import ChatAskQuestionCard from './ChatAskQuestionCard';

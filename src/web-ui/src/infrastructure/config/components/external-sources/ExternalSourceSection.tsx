@@ -1,4 +1,4 @@
-import { Disclosure } from '@openbitfun/ui';
+import { Disclosure } from '@opc-team/ui';
 import React from 'react';
 import { ConfigPageRow, ConfigPageSection } from '../common';
 import {

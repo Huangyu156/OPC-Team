@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FolderOpen, FileText, Loader2 } from 'lucide-react';
-import { OverflowText, Icon, Input } from '@openbitfun/ui';
+import { OverflowText, Icon, Input } from '@opc-team/ui';
 import { dragManager } from '../../../shared/services/DragManager';
 import { fileTreeDragSource } from '../../../shared/context-system/drag-drop/FileTreeDragSource';
 import { useI18n } from '@/infrastructure/i18n';

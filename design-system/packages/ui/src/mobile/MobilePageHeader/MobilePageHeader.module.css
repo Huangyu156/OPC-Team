@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root { box-sizing: border-box; display: grid; min-block-size: 56px; grid-template-columns: minmax(44px, auto) minmax(0, 1fr) minmax(44px, auto); align-items: center; gap: var(--opcteam-space-2); padding: var(--opcteam-space-2) var(--opcteam-space-4); color: var(--opcteam-color-content-primary); background: var(--opcteam-color-surface-canvas); }
   .leading, .actions { display: flex; min-inline-size: 44px; align-items: center; gap: var(--opcteam-space-2); }
   .actions { justify-content: flex-end; }

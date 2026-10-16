@@ -1,4 +1,4 @@
-import { OverflowText, Button, IconButton, Icon, Tooltip, Toolbar, ToolbarGroup, StatusPill } from '@openbitfun/ui';
+import { OverflowText, Button, IconButton, Icon, Tooltip, Toolbar, ToolbarGroup, StatusPill } from '@opc-team/ui';
 import React, {useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore} from 'react';
 import {getActiveSurfaceId, onSurfaceActivated} from '@/infrastructure/peer-device/deviceSurface';
 import {createBtwPanelViewState, type BtwPanelViewState} from './btwPanelViewState';

@@ -1,5 +1,5 @@
 {
-  "name": "@openbitfun/theme-openbitfun",
+  "name": "@opc-team/theme",
   "version": "0.1.0",
   "description": "Replaceable OPC-Team light, dark, and high-contrast theme package",
   "license": "MIT",
@@ -32,10 +32,10 @@
     "prepack": "pnpm run build"
   },
   "dependencies": {
-    "@openbitfun/design-tokens": "workspace:^"
+    "@opc-team/design-tokens": "workspace:^"
   },
   "devDependencies": {
-    "@openbitfun/token-engine": "workspace:*"
+    "@opc-team/token-engine": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

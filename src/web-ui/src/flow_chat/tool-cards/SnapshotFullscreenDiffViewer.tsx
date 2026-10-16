@@ -4,11 +4,11 @@ import { File as LucideFile } from 'lucide-react';
  */
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Button, IconButton } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Button, IconButton } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { XCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import { DiffEditor } from '../../tools/editor';
 import type { SnapshotFile } from '../../tools/snapshot_system/core/SnapshotStateManager';
 import { createLogger } from '@/shared/utils/logger';

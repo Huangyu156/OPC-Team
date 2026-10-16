@@ -3,7 +3,7 @@ import { ConfigLoadingState, ConfigMessage, ConfigPageRow, ConfigPageSection, Co
 import { isTauriRuntime } from '@/infrastructure/runtime';
 import { notificationService } from '@/shared/notification-system';
 import { createLogger } from '@/shared/utils/logger';
-import { Input, Switch } from '@openbitfun/ui';
+import { Input, Switch } from '@opc-team/ui';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingsSectionAnchor } from '../shared/useSettingsSectionAnchor';

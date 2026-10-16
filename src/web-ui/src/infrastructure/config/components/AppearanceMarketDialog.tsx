@@ -12,7 +12,7 @@ import { OverflowText,
   DialogHeaderActions,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AlertTriangle, PackageCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

@@ -1,7 +1,7 @@
 import { ConfigPageRow, ConfigPageSection } from '@/infrastructure/config/components/common';
 import { useLanguageSelector } from '@/infrastructure/i18n';
 import type { LocaleId } from '@/infrastructure/i18n/types';
-import { Select } from '@openbitfun/ui';
+import { Select } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 
 export function LanguageSettingsSection() {

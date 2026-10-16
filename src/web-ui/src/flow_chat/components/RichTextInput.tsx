@@ -3,7 +3,7 @@
  * Supports inline context tags and the @ chat context picker trigger.
  */
 
-import { Button, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle, Icon, Textarea } from '@openbitfun/ui';
+import { Button, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle, Icon, Textarea } from '@opc-team/ui';
 import React, { useRef, useEffect, useCallback, useState } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MessageCircle, Plug } from 'lucide-react';

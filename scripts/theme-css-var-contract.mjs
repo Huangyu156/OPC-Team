@@ -19,8 +19,8 @@ const designSystemTokens = resolveTokens(readDesignSystemTokenDocument(
   'design-system/packages/design-tokens/src/system.tokens.json',
 ));
 const openbitfunThemeTokens = resolveTokens(mergeTokenDocuments(
-  readDesignSystemTokenDocument('design-system/packages/theme-openbitfun/src/reference.tokens.json'),
-  readDesignSystemTokenDocument('design-system/packages/theme-openbitfun/src/light.tokens.json'),
+  readDesignSystemTokenDocument('design-system/packages/theme/src/reference.tokens.json'),
+  readDesignSystemTokenDocument('design-system/packages/theme/src/light.tokens.json'),
 ));
 const publicThemePrefixes = [
   'color.',
@@ -34,12 +34,12 @@ const publicThemePrefixes = [
 export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
   Object.freeze({
     owner: 'design-system/packages/design-tokens/src/system.tokens.json',
-    packageName: '@openbitfun/design-tokens',
+    packageName: '@opc-team/design-tokens',
     variables: Object.freeze(Object.keys(designSystemTokens).map(name => tokenNameToCssVariable(name))),
   }),
   Object.freeze({
-    owner: 'design-system/packages/theme-openbitfun/src/light.tokens.json',
-    packageName: '@openbitfun/theme-openbitfun',
+    owner: 'design-system/packages/theme/src/light.tokens.json',
+    packageName: '@opc-team/theme',
     variables: Object.freeze(
       Object.keys(openbitfunThemeTokens)
         .filter(name => publicThemePrefixes.some(prefix => name.startsWith(prefix)))
@@ -49,8 +49,8 @@ export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
   // Legacy compatibility aliases emitted by the theme build (themes.css): skins
   // authored before the OPC-Team rename reference --opc-* names.
   Object.freeze({
-    owner: 'design-system/packages/theme-openbitfun/scripts/build.mjs',
-    packageName: '@openbitfun/theme-openbitfun',
+    owner: 'design-system/packages/theme/scripts/build.mjs',
+    packageName: '@opc-team/theme',
     variables: Object.freeze(
       Object.keys(openbitfunThemeTokens)
         .filter(name => publicThemePrefixes.some(prefix => name.startsWith(prefix)))
@@ -80,16 +80,16 @@ export const CANONICAL_THEME_COLOR_TOKENS = Object.freeze(
 
 export const PACKAGE_CSS_VAR_IMPORT_CONTRACTS = Object.freeze([
   Object.freeze({
-    specifier: '@openbitfun/design-tokens/tokens.css',
-    packageNames: Object.freeze(['@openbitfun/design-tokens']),
+    specifier: '@opc-team/design-tokens/tokens.css',
+    packageNames: Object.freeze(['@opc-team/design-tokens']),
   }),
   Object.freeze({
-    specifier: '@openbitfun/theme-openbitfun/default.css',
-    packageNames: Object.freeze(['@openbitfun/design-tokens', '@openbitfun/theme-openbitfun']),
+    specifier: '@opc-team/theme/default.css',
+    packageNames: Object.freeze(['@opc-team/design-tokens', '@opc-team/theme']),
   }),
   Object.freeze({
-    specifier: '@openbitfun/theme-openbitfun/themes.css',
-    packageNames: Object.freeze(['@openbitfun/theme-openbitfun']),
+    specifier: '@opc-team/theme/themes.css',
+    packageNames: Object.freeze(['@opc-team/theme']),
   }),
 ]);
 
@@ -113,17 +113,17 @@ export const COLOR_EXTENSIONS = new Set([
 export const TOKEN_PATH_PARTS = [
   'OpenBitFun-Installer/src/theme',
   'design-system/packages/design-tokens/src',
-  'design-system/packages/theme-openbitfun/src',
+  'design-system/packages/theme/src',
 ];
 
 export const TOKEN_ALIAS_SOURCE_PATH_PARTS = [
-  'design-system/packages/theme-openbitfun/src',
+  'design-system/packages/theme/src',
 ];
 
 export const CONTRACT_VAR_DEFINITION_PATH_PARTS = [
   'OpenBitFun-Installer/src/theme/installerThemeRuntime.ts',
   'design-system/packages/design-tokens/src',
-  'design-system/packages/theme-openbitfun/src',
+  'design-system/packages/theme/src',
   'infrastructure/appearance',
   'src/mobile-web/src/styles/global.scss',
   'tools/opc-canvas/runtime/styles',
@@ -132,7 +132,7 @@ export const CONTRACT_VAR_DEFINITION_PATH_PARTS = [
 
 export const STATIC_CONTRACT_VAR_DEFINITION_PATH_PARTS = [
   'design-system/packages/design-tokens/src',
-  'design-system/packages/theme-openbitfun/src',
+  'design-system/packages/theme/src',
   'src/mobile-web/src/styles/global.scss',
 ];
 
@@ -174,7 +174,7 @@ export const COLOR_DOMAIN_RULES = [
   {
     key: 'tokenContract',
     label: 'Token contracts',
-    pathParts: ['design-system/packages/design-tokens', 'design-system/packages/theme-openbitfun'],
+    pathParts: ['design-system/packages/design-tokens', 'design-system/packages/theme'],
   },
   {
     key: 'generatedWidget',
@@ -268,7 +268,7 @@ export const COLOR_DOMAIN_CONTRACTS = [
   },
   {
     key: 'tokenContract',
-    owner: 'design-system/packages/design-tokens/src; design-system/packages/theme-openbitfun/src',
+    owner: 'design-system/packages/design-tokens/src; design-system/packages/theme/src',
     reason: 'Independent token packages own canonical system scales and semantic theme values for every product surface.',
     mergePolicy: 'Keep token values in their canonical package and reject Web UI aliases or surface-local duplicate definitions.',
   },

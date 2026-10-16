@@ -7,7 +7,7 @@ import { configManager } from '@/infrastructure/config/services/ConfigManager';
 import type { AIModelConfig, TaskModelSelection, TaskModelsConfig } from '@/infrastructure/config/types';
 import { notificationService, useNotification } from '@/shared/notification-system';
 import { createLogger } from '@/shared/utils/logger';
-import { Combobox, Switch } from '@openbitfun/ui';
+import { Combobox, Switch } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

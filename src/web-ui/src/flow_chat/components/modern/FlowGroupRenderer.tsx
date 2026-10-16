@@ -3,10 +3,10 @@
  * Product adapter for every collection category, in whole-round or inline placement.
  */
 
-import { FlowGroup, type FlowGroupProps } from '@openbitfun/ui/flow-chat';
-import { Icon } from '@openbitfun/ui';
+import { FlowGroup, type FlowGroupProps } from '@opc-team/ui/flow-chat';
+import { Icon } from '@opc-team/ui';
 import React, { useMemo, useCallback, useDeferredValue, useEffect, useLayoutEffect, useRef } from 'react';
-import { DeferredContent } from '@openbitfun/flow-chat-presentation/deferred-content';
+import { DeferredContent } from '@opc-team/flow-chat-presentation/deferred-content';
 
 import { useI18n } from '@/infrastructure/i18n';
 import type { FlowItem, FlowToolItem, FlowTextItem, FlowThinkingItem, ToolRejectOptions } from '../../types/flow-chat';

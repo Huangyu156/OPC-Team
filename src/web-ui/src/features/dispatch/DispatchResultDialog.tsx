@@ -1,7 +1,7 @@
 import {
   Alert, Button, ScrollArea, Dialog, DialogBody, DialogClose, DialogDescription,
   DialogFooter, DialogHeader, DialogHeading, DialogTitle, Disclosure, Icon,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import { createLogger } from '@/shared/utils/logger';

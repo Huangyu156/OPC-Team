@@ -1,6 +1,6 @@
 import { useDeviceDirectory, resolveDeviceName, isDeviceControllable, deviceClientVersion } from '@/infrastructure/account/deviceDirectory';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Button, Card, CardBody, CardFooter, CardHeader, Icon, IconButton, ScrollArea, type IconSize } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Button, Card, CardBody, CardFooter, CardHeader, Icon, IconButton, ScrollArea, type IconSize } from '@opc-team/ui';
 import { ChevronLeft, ChevronRight, MessageCircle, Monitor, Smartphone, Undo2 } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';

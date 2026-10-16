@@ -1,4 +1,4 @@
-import { Button, Select, type SelectOption } from '@openbitfun/ui';
+import { Button, Select, type SelectOption } from '@opc-team/ui';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Square } from 'lucide-react';
 

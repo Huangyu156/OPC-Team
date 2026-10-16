@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root { display: flex; box-sizing: border-box; inline-size: 100%; min-inline-size: 0; flex-direction: column; gap: var(--opcteam-space-2); }
 
   .copy { display: flex; flex-direction: column; gap: var(--opcteam-space-1); }

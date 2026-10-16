@@ -1,5 +1,5 @@
 import React, { useId, useState } from 'react';
-import { Disclosure, OverflowText, Icon, IconButton } from '@openbitfun/ui';
+import { Disclosure, OverflowText, Icon, IconButton } from '@opc-team/ui';
 import './ConfigCollectionItem.scss';
 
 export interface ConfigCollectionItemProps extends React.HTMLAttributes<HTMLDivElement> {

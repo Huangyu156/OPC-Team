@@ -2,7 +2,7 @@ import { HARNESS_IDS, canonicalAgentId, type HarnessId } from '@/shared/agents/i
 import { HARNESS_PRESENTATION } from '@/shared/agents/harnessPresentation';
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSection, MenuSeparator, Tooltip } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSection, MenuSeparator, Tooltip } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { confirmDialog } from '@/infrastructure/confirm-dialog';
 import { notificationService } from '@/shared/notification-system';

@@ -1,5 +1,5 @@
 {
-  "name": "@openbitfun/web-ui",
+  "name": "@opc-team/web-ui",
   "version": "1.0.5",
   "private": true,
   "description": "OPC-Team Web UI - 支持 Desktop 和 Server 两种部署方式",
@@ -31,10 +31,10 @@
     "test:run": "vitest run --maxWorkers=50%"
   },
   "dependencies": {
-    "@openbitfun/flow-chat-presentation": "workspace:*",
-    "@openbitfun/design-tokens": "workspace:^",
-    "@openbitfun/theme-openbitfun": "workspace:^",
-    "@openbitfun/ui": "workspace:^",
+    "@opc-team/flow-chat-presentation": "workspace:*",
+    "@opc-team/design-tokens": "workspace:^",
+    "@opc-team/theme": "workspace:^",
+    "@opc-team/ui": "workspace:^",
     "@monaco-editor/react": "^4.6.0",
     "@tanstack/react-virtual": "^3.13.23",
     "@tauri-apps/api": "^2.10.1",

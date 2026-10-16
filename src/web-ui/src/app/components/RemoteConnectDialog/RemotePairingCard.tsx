@@ -1,4 +1,4 @@
-import { Icon, IconButton, StatusPill } from '@openbitfun/ui';
+import { Icon, IconButton, StatusPill } from '@opc-team/ui';
 import { QRCodeSVG } from 'qrcode.react';
 import { useI18n } from '@/infrastructure/i18n';
 

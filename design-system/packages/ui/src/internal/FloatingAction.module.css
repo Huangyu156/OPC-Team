@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .host {
     --_floating-action-size: var(--opcteam-control-icon-button-xs-size);
     position: relative;

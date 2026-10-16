@@ -17,7 +17,7 @@ Read README.md for its user-facing contract.
   advisory and is honored only at engine-declared safe boundaries.
 - Reject unsupported data formats and unsafe directory overlaps. Preserve source
   data, old plans/reports, snapshots, journals, backups and owner conflict policies.
-- The UI uses public @openbitfun/design-tokens and @openbitfun/theme-openbitfun
+- The UI uses public @opc-team/design-tokens and @opc-team/theme
   exports bundled in ui/generated/design-system.css. Regenerate through
   pnpm run data-migrator:theme:generate. Direct Cargo builds are offline;
   Desktop dev/build must never generate or build migrator assets.

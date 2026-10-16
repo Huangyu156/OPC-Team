@@ -2,8 +2,8 @@ import { createHash } from 'node:crypto';
 import {
   cssVariables as systemCssVariables,
   tokens as systemTokens,
-} from '@openbitfun/design-tokens';
-import { themeCssVariables } from '@openbitfun/theme-openbitfun';
+} from '@opc-team/design-tokens';
+import { themeCssVariables } from '@opc-team/theme';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
 import { widgetAppearanceAdapter } from '@/infrastructure/appearance/adapters/WidgetAppearanceAdapter';

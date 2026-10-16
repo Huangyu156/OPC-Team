@@ -30,7 +30,7 @@ import {
   OverflowText,
   Switch,
   Tooltip
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useSettingsSectionAnchor } from '../shared/useSettingsSectionAnchor';
 const log = createLogger('PetSettingsSection');

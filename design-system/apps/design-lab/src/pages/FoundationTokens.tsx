@@ -1,6 +1,6 @@
 import { useEffect, useState, type CSSProperties, type ReactNode } from "react";
 import { Check, CircleAlert, Copy } from "lucide-react";
-import { Icon } from "@openbitfun/ui";
+import { Icon } from "@opc-team/ui";
 import { useI18n } from "../i18n";
 import { editableTokenCatalog } from "../token-editor/catalog";
 

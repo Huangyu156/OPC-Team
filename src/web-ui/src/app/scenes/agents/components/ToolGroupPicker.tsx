@@ -19,7 +19,7 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useMemo, useState } from 'react';
 
 import { useI18n, type UseI18nReturn } from '@/infrastructure/i18n/hooks/useI18n';

@@ -5,7 +5,7 @@
  * @module components/CodeEditor
  */
 
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { AlertCircle } from 'lucide-react';
 import type * as monaco from 'monaco-editor';
@@ -21,7 +21,7 @@ import { monacoAppearanceAdapter } from '@/infrastructure/appearance/adapters/Mo
 import { globalEventBus } from '@/infrastructure/event-bus';
 import { configManager } from '@/infrastructure/config/services/ConfigManager';
 import { EditorConfig as EditorConfigType } from '@/infrastructure/config/types';
-import { LoadingState } from '@openbitfun/ui';
+import { LoadingState } from '@opc-team/ui';
 import { getMonacoLanguage } from '@/infrastructure/language-detection';
 import { createLogger } from '@/shared/utils/logger';
 import { sendDebugProbe } from '@/shared/utils/debugProbe';

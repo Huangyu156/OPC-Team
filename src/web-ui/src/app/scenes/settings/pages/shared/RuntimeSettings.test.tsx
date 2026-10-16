@@ -42,8 +42,8 @@ vi.mock('../ai/SessionTitleSection', () => ({ default: () => null }));
 vi.mock('../ai/DefaultHarnessSection', () => ({ default: () => <div>default-harness-config</div> }));
 vi.mock('../ai/ReviewCapacitySection', () => ({ default: () => null }));
 vi.mock('../ai/ToolJsonRepairSection', () => ({ default: () => null }));
-vi.mock('@openbitfun/ui', async (original) => ({
-  ...await original<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async (original) => ({
+  ...await original<typeof import('@opc-team/ui')>(),
   Select: ({ value, options, disabled }: { value: string; options: Array<{ value: string; label: string }>; disabled: boolean }) => (
     <select value={value} disabled={disabled} onChange={() => {}}>{options.map(option => <option key={option.value} value={option.value}>{option.label}</option>)}</select>
   ),

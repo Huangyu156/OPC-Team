@@ -1,4 +1,4 @@
-import { Button, Icon } from '@openbitfun/ui';
+import { Button, Icon } from '@opc-team/ui';
 import React from 'react';
 import { AlertCircle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

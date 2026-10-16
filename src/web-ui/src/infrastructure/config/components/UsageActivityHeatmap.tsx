@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { createSettingsReadCache } from '../services/SettingsReadCache';
-import { Tooltip } from '@openbitfun/ui';
+import { Tooltip } from '@opc-team/ui';
 import {
   TokenUsageStatisticsUnavailableError,
   tokenUsageStatisticsApi,

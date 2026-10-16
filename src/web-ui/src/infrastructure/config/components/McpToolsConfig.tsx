@@ -18,12 +18,12 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FileJson, Play, Square, AlertTriangle, MinusCircle, KeyRound } from 'lucide-react';
 import { confirmDanger } from '@/infrastructure/confirm-dialog';
-import { ToolProcessingDots } from '@openbitfun/ui/flow-chat';
+import { ToolProcessingDots } from '@opc-team/ui/flow-chat';
 import {
   ConfigPageHeader,
   ConfigPageLayout,

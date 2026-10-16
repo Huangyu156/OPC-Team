@@ -1,4 +1,4 @@
-import { OverflowText, Button, Disclosure, Empty, Field, Icon, Input, Select, ScrollArea, Textarea } from '@openbitfun/ui';
+import { OverflowText, Button, Disclosure, Empty, Field, Icon, Input, Select, ScrollArea, Textarea } from '@opc-team/ui';
 import { type FormEvent, useCallback, useEffect, useState } from 'react';
 import { AlertTriangle, Inbox, ShieldCheck } from 'lucide-react';
 import { confirmDialog } from '@/infrastructure/confirm-dialog';

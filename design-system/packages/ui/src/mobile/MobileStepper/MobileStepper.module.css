@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   /* A control row, like the switch: the label explains the value, the value carries the buttons. */
   .root { display: flex; box-sizing: border-box; inline-size: 100%; min-inline-size: 0; min-block-size: 52px; align-items: center; gap: var(--opcteam-space-3); padding-block: var(--opcteam-space-2); }
   .root[data-disabled="true"] { color: var(--opcteam-color-content-disabled); }

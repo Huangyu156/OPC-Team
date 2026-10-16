@@ -13,7 +13,7 @@ import { OverflowText,
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Save, ShieldCheck } from 'lucide-react';
 

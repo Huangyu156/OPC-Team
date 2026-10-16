@@ -11,7 +11,7 @@ import { OverflowText,
   Select,
   type SelectOption,
   StatusPill,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AlertTriangle, Heart, Loader2, PackageCheck, ShieldCheck } from 'lucide-react';
 

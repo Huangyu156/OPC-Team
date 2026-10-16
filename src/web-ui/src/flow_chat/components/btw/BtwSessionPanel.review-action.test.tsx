@@ -3,7 +3,7 @@
 import React, { act } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createRoot, type Root } from 'react-dom/client';
-import { Dialog, DialogBody } from '@openbitfun/ui';
+import { Dialog, DialogBody } from '@opc-team/ui';
 import { BtwSessionPanel } from './BtwSessionPanel';
 import { resolveSubagentNameKey } from '../../subagent-identity/nameResolver';
 import { useReviewActionBarStore } from '../../store/deepReviewActionBarStore';
@@ -124,8 +124,8 @@ vi.mock('./DeepReviewActionBar', () => ({
   ReviewActionBar: () => <div data-testid="review-action-bar" />,
 }));
 
-vi.mock('@openbitfun/ui', async importOriginal => ({
-  ...await importOriginal<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async importOriginal => ({
+  ...await importOriginal<typeof import('@opc-team/ui')>(),
   Tooltip: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 

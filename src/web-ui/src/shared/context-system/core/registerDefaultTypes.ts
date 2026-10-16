@@ -1,7 +1,7 @@
  
 
 import React from 'react';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import { FileIcon, Code, Network, Code2 as Code2Icon } from 'lucide-react';
 import { contextRegistry } from '../../services/ContextRegistry';
 import { 

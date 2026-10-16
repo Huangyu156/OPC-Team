@@ -4,7 +4,7 @@ import {
   ScrollArea,
   type FieldGroupFieldSurface,
   type FormSectionProps,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React from 'react';
 import { formatStandaloneUiCopy } from './standaloneUiCopy';
 import './ConfigPageLayout.scss';

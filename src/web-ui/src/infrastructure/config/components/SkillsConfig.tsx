@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import { OverflowText, Button, Card, CardBody, ConfirmDialog, Field, Icon, IconButton, Input, SearchField, Select, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Button, Card, CardBody, ConfirmDialog, Field, Icon, IconButton, Input, SearchField, Select, Tooltip } from '@opc-team/ui';
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FolderOpen, TrendingUp } from 'lucide-react';

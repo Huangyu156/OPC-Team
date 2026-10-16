@@ -7,7 +7,7 @@
  */
 
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { OverflowText, Icon, IconButton, Input } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton, Input } from '@opc-team/ui';
 import { AlertTriangle, MousePointer2 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { createLogger } from '@/shared/utils/logger';

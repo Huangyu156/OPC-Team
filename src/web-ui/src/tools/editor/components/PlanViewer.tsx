@@ -1,13 +1,13 @@
 /** Optimized viewer/editor for `.plan.md` files (frontmatter + markdown body). */
 
-import { OverflowText, Button, Icon, IconButton, Input, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, Input, Tooltip } from '@opc-team/ui';
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Loader2, AlertCircle, FileText } from 'lucide-react';
 import yaml from 'yaml';
 import { MEditor } from '../meditor';
 import type { EditorInstance } from '../meditor';
 import { createLogger } from '@/shared/utils/logger';
-import { LoadingState } from '@openbitfun/ui';
+import { LoadingState } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { workspaceAPI } from '@/infrastructure/api/service-api/WorkspaceAPI';
 import { flowChatManager } from '@/flow_chat/services/FlowChatManager';

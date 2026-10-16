@@ -6,7 +6,7 @@
  */
 
 import React, { useCallback, memo, useRef, useState, useMemo, useContext } from 'react';
-import { SplitViewPrimaryDock } from '@openbitfun/ui';
+import { SplitViewPrimaryDock } from '@opc-team/ui';
 import { ChatFileDropOverlay } from './ChatFileDropOverlay';
 import type { FileDropPreview, FileDropPosition } from '@/shared/types/fileDropPreview';
 import { ModernFlowChatContainer as FlowChatContainer } from '../../../flow_chat/components/modern/ModernFlowChatContainer';

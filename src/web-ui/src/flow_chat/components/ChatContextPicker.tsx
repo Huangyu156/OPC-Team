@@ -1,4 +1,4 @@
-import { subscribeOverlayInteraction, createOverlayPortal, Disclosure } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Disclosure } from '@opc-team/ui';
 /**
  * Unified chat context picker.
  * The source level exposes files, skills, MCP, and images; typing searches providers together.
@@ -14,7 +14,7 @@ import {
   ListboxOption,
   OverflowText,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { File, Loader2, MessageCircle, Plug, RotateCcw } from 'lucide-react';
 import { sessionAPI, workspaceAPI } from '@/infrastructure/api';

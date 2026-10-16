@@ -7,7 +7,7 @@
  * Jobs with nothing left to run are the only ones left out.
  */
 
-import { OverflowText, ScrollArea } from '@openbitfun/ui';
+import { OverflowText, ScrollArea } from '@opc-team/ui';
 import React, { useMemo } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import {

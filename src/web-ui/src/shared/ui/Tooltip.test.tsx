@@ -2,8 +2,8 @@
 import React, { act, useRef } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { DesignSystemProvider, Tooltip } from '@openbitfun/ui';
-import { FlowChatMetric, FlowChatTurnMetrics } from '@openbitfun/ui/flow-chat';
+import { DesignSystemProvider, Tooltip } from '@opc-team/ui';
+import { FlowChatMetric, FlowChatTurnMetrics } from '@opc-team/ui/flow-chat';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 

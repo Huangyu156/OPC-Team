@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .tabGroup {
     --_tab-group-item-height: var(--opcteam-control-tab-group-item-height);
     --_tab-group-item-padding-block: var(--opcteam-space-component-block);

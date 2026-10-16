@@ -1,7 +1,7 @@
  
 
 import React from 'react';
-import { OverflowText, Icon } from '@openbitfun/ui';
+import { OverflowText, Icon } from '@opc-team/ui';
 import { Network } from 'lucide-react';
 import type { MermaidDiagramContext, ValidationResult, RenderOptions } from '../../../types/context';
 import type { 

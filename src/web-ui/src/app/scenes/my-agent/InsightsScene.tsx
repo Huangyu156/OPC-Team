@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useEffect, useCallback, useMemo, useState, useRef } from 'react';
-import { OverflowText, Button, Combobox, Icon, IconButton, ScrollArea, type ComboboxOption, type IconSource } from '@openbitfun/ui';
+import { OverflowText, Button, Combobox, Icon, IconButton, ScrollArea, type ComboboxOption, type IconSource } from '@opc-team/ui';
 import { Loader2, AlertTriangle, BarChart3, Calendar, Target, Zap, Trophy, AlertCircle, Lightbulb, Rocket, Database, ScanSearch, Layers3, FileCheck2, Gauge } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { insightsApi, type InsightsReport, type InsightsReportMeta, type InsightsStats } from '@/infrastructure/api/insightsApi';

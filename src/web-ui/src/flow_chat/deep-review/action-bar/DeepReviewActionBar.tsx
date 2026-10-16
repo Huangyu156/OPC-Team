@@ -1,4 +1,4 @@
-import { Icon, Textarea, type IconSource } from '@openbitfun/ui';
+import { Icon, Textarea, type IconSource } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useI18n } from '@/infrastructure/i18n';

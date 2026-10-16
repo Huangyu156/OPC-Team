@@ -3,7 +3,7 @@ import {
   NumberInput,
   Select,
   type SelectOption,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConfigPageRow, ConfigPageSection } from '@/infrastructure/config/components/common';

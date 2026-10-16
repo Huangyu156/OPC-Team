@@ -1,4 +1,4 @@
-import { Button, IconButton } from '@openbitfun/ui';
+import { Button, IconButton } from '@opc-team/ui';
 import {
   LogIn,
   RefreshCw as ArrowClockwise,

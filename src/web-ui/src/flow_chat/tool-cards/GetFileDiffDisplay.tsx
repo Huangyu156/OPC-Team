@@ -6,7 +6,7 @@ import { useToolCardDisclosure } from '../timeline/readerState';
 import React, { useMemo, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { ToolCardProps } from '../types/flow-chat';
-import { FileDiffToolCard } from '@openbitfun/ui/flow-chat';
+import { FileDiffToolCard } from '@opc-team/ui/flow-chat';
 import { InlineDiffPreview } from '../components/InlineDiffPreview';
 import { createLogger } from '@/shared/utils/logger';
 import { useToolCardHeightContract } from './useToolCardHeightContract';

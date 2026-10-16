@@ -1,4 +1,4 @@
-import { Button, Icon, IconButton, Input, SessionIcon, TabGroup } from "@openbitfun/ui";
+import { Button, Icon, IconButton, Input, SessionIcon, TabGroup } from "@opc-team/ui";
 import { useI18n } from "../i18n";
 
 export function IconCompositionPreview() {

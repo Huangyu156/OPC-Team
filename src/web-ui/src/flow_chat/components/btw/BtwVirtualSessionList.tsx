@@ -20,7 +20,7 @@ import { FlowChatReaderProvider } from '../../timeline/readerState';
 import { useTimelineInteraction } from '../../timeline/useTimelineInteraction';
 import { TimelineMutationBoundary } from '../../timeline/TimelineMutationBoundary';
 import { findTimelineBlockIndex } from '../../timeline/document';
-import { revealContainedRange } from '@openbitfun/flow-chat-presentation/scroll';
+import { revealContainedRange } from '@opc-team/flow-chat-presentation/scroll';
 
 interface BtwVirtualSessionListProps {
   items: VirtualItem[];

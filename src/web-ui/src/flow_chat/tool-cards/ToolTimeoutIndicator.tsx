@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react';
-import { subscribeOverlayInteraction, createOverlayPortal, Menu, MenuItem, Icon } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Menu, MenuItem, Icon } from '@opc-team/ui';
 import { Infinity as InfinityIcon } from 'lucide-react';
-import { ToolDuration, formatDurationPrecise } from '@openbitfun/ui/flow-chat';
+import { ToolDuration, formatDurationPrecise } from '@opc-team/ui/flow-chat';
 import { useTranslation } from 'react-i18next';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { useAnchoredPopoverPosition } from '@/shared/utils/useAnchoredPopoverPosition';

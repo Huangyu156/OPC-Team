@@ -27,7 +27,7 @@ vi.mock('@/infrastructure/i18n', () => ({
   }),
 }));
 
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   OverflowText: ({ children, behavior: _behavior, marqueeActive: _marqueeActive, ...props }: any) => <span {...props}>{children}</span>,
   Tooltip: ({ content, children }: { content: string; children: React.ReactElement }) => (

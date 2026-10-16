@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { themes } from '@openbitfun/theme-openbitfun';
+import { themes } from '@opc-team/theme';
 
 export type Theme = 'light' | 'dark';
 

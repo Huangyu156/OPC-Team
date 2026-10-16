@@ -26,7 +26,7 @@ import { createOverlayPortal,
   NavigationPanelContent,
   NavigationPanelHeader,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import ShellNavEntryItem from './components/ShellNavEntryItem';
 import ShellNavWorkspaceSwitcher from './components/ShellNavWorkspaceSwitcher';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';

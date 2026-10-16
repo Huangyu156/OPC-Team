@@ -16,7 +16,7 @@ import { getPrismLanguage } from '@/infrastructure/language-detection';
 import { useAppearance } from '@/infrastructure/appearance';
 import { getLoadedPrismSyntaxHighlighter, loadPrismSyntaxHighlighter } from '@/shared/utils/syntaxHighlighterLoader';
 import { buildCodePreviewPrismStyle } from './codePreviewPrismTheme';
-import { ScrollArea, type ScrollAreaEdgeFade, type ScrollbarVisibility } from '@openbitfun/ui';
+import { ScrollArea, type ScrollAreaEdgeFade, type ScrollbarVisibility } from '@opc-team/ui';
 import './CodePreview.scss';
 import { WindowedCodeContent } from './WindowedCodeContent';
 

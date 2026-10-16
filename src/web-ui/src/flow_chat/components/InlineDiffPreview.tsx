@@ -13,7 +13,7 @@
 
 import React, { useMemo, memo, useRef, useCallback, useState, useLayoutEffect, CSSProperties } from 'react';
 import { useVirtualizer } from '@tanstack/react-virtual';
-import { ScrollArea, type ScrollAreaEdgeFade, type ScrollbarVisibility } from '@openbitfun/ui';
+import { ScrollArea, type ScrollAreaEdgeFade, type ScrollbarVisibility } from '@opc-team/ui';
 import { getPrismLanguage } from '@/infrastructure/language-detection';
 import { createLogger } from '@/shared/utils/logger';
 import { getInlineDiffTokenStyle } from './inlineDiffPrismTheme';

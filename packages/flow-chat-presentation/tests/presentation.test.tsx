@@ -1,7 +1,7 @@
 import { act, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ExploreGroup, FlowChatRuntimeStatus, ThinkingBlock, ToolDuration } from '@openbitfun/ui/flow-chat';
+import { ExploreGroup, FlowChatRuntimeStatus, ThinkingBlock, ToolDuration } from '@opc-team/ui/flow-chat';
 import { ExecProcessPresentation, buildExecCommandCardModel, buildExecControlCardModel, buildWriteStdinCardModel, type ExecToolSnapshot } from '../src/exec';
 import { TerminalOutputFallback } from '../src/terminal';
 import { createScenarioClock, execScenarios, SCENARIO_EPOCH, type ExecScenarioStep } from '../src/scenarios';

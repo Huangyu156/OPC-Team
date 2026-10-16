@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root {
     --_mobile-icon-button-size: var(--opcteam-space-12);
     --_mobile-icon-size: 22px;

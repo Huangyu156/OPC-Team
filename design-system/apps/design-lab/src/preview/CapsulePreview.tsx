@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Capsule, Icon, IconButton, Stack, Tooltip } from "@openbitfun/ui";
+import { Button, Capsule, Icon, IconButton, Stack, Tooltip } from "@opc-team/ui";
 import { useI18n } from "../i18n";
 
 export function CapsulePreview({ state = "default" }: { state?: string }) {

@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   /* Slot wrappers must not introduce an inline SVG baseline inside the centered row. */
   .icon,
   .submenuArrow {

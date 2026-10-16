@@ -2,7 +2,7 @@
  * BranchesView — Left: branch list (switch/create/delete). Right: commit history for selected branch.
  */
 
-import { OverflowText, Button, Icon, IconButton, SearchField, Tooltip, ScrollArea } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, SearchField, Tooltip, ScrollArea } from '@opc-team/ui';
 import React, { useCallback, useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { RotateCcw, FileText } from 'lucide-react';

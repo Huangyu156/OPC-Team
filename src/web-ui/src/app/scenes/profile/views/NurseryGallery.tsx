@@ -1,4 +1,4 @@
-import { Button, Card, Icon, NumberBadge, PageHeader, StatusPill } from '@openbitfun/ui';
+import { Button, Card, Icon, NumberBadge, PageHeader, StatusPill } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CircleAlert, LoaderCircle, Wrench } from 'lucide-react';

@@ -12,7 +12,7 @@ import { useI18n } from '@/infrastructure/i18n';
 import { useNotification } from '@/shared/notification-system';
 import { createLogger } from '@/shared/utils/logger';
 import { copyTextToClipboard } from '@/shared/utils/textSelection';
-import { Button, Icon, IconButton, Input, Select, type SelectOption, Tooltip } from '@openbitfun/ui';
+import { Button, Icon, IconButton, Input, Select, type SelectOption, Tooltip } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const log = createLogger('WebSearchSettings');

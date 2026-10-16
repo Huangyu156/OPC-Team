@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Maximize, Minimize, RotateCcw } from 'lucide-react';
-import { Button, Icon, TabGroup } from '@openbitfun/ui';
+import { Button, Icon, TabGroup } from '@opc-team/ui';
 import { useI18n } from '../i18n';
 import { FlowChatMockConversation } from '../preview/FlowChatMockConversation';
 import { flowChatMockScenarios } from '../preview/flowChatMockScenarios';

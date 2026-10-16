@@ -1,7 +1,7 @@
-import { OpenBitFunMark } from '@openbitfun/ui/brand';
+import { OpenBitFunMark } from '@opc-team/ui/brand';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { Phone } from 'lucide-react';
-import { OverflowText, IconButton, VoiceCallIdentity, VoiceCallControls, VoiceCallHeader, Icon } from '@openbitfun/ui';
+import { OverflowText, IconButton, VoiceCallIdentity, VoiceCallControls, VoiceCallHeader, Icon } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 
 import { RealtimeVoiceCallPanel } from './RealtimeVoiceCallPanel';

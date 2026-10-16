@@ -14,7 +14,7 @@ import {
   DialogHeading,
   DialogTitle,
   Icon,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useMemo } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import type { UpdateDownloadProgressPayload } from './installUpdateWithProgress';

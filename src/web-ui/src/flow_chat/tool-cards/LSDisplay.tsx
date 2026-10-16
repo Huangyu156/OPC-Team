@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 import { isToolCardVisible } from '../utils/flowItemVisibility';
-import { DirectoryListToolCard } from '@openbitfun/ui/flow-chat';
+import { DirectoryListToolCard } from '@opc-team/ui/flow-chat';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 interface LSEntry {
   name: string;

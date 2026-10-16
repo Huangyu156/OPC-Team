@@ -5,7 +5,7 @@ import {
   Disclosure,
   ScrollArea,
   StatusPill,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import './RemoteConnectDisclaimer.scss';

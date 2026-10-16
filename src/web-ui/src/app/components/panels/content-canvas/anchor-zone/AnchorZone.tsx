@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import type { AnchorPosition } from '../types';
 import { LAYOUT_CONFIG, clampAnchorSize } from '../types';
 import './AnchorZone.scss';
-import { Icon, Tooltip } from '@openbitfun/ui';
+import { Icon, Tooltip } from '@opc-team/ui';
 
 export interface AnchorZoneProps {
   /** Position */

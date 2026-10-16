@@ -8,8 +8,8 @@ import {
   useRef,
   useState,
 } from "react";
-import type { SystemTokenMode } from "@openbitfun/design-tokens";
-import type { ThemeDataName } from "@openbitfun/theme-openbitfun";
+import type { SystemTokenMode } from "@opc-team/design-tokens";
+import type { ThemeDataName } from "@opc-team/theme";
 import { AppWindow, Blocks, BookOpen, Bot, Braces, FileText, House, Languages, Menu, MessageSquare, Moon, MousePointerClick, PanelTop, PanelsTopLeft, Smartphone, SquareTerminal, Sun, ToggleLeft, type LucideIcon } from "lucide-react";
 import { Button, Dialog, DialogBody, DialogClose, DialogDescription, DialogHeader, DialogHeading, DialogTitle, IconButton, KeyHint, Listbox, ListboxEmpty, ListboxOption, SearchField, Select, Sheet, Icon as CatalogIcon,
   DesignSystemProvider,
@@ -18,10 +18,10 @@ import { Button, Dialog, DialogBody, DialogClose, DialogDescription, DialogHeade
   type ContrastMode,
   type DensityMode,
   type IconName,
-} from "@openbitfun/ui";
-import { OpenBitFunSolidMark } from "@openbitfun/ui/brand";
+} from "@opc-team/ui";
+import { OpenBitFunSolidMark } from "@opc-team/ui/brand";
 import { BrandPage } from "./pages/BrandPage";
-import { componentRegistry } from "@openbitfun/ui/registry";
+import { componentRegistry } from "@opc-team/ui/registry";
 import {
   useI18n,
   type DesignLabLocale,

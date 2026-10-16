@@ -1,5 +1,5 @@
-import { execScenarios, type ExecScenario } from '@openbitfun/flow-chat-presentation/scenarios';
-import type { ExecToolSnapshot } from '@openbitfun/flow-chat-presentation/exec';
+import { execScenarios, type ExecScenario } from '@opc-team/flow-chat-presentation/scenarios';
+import type { ExecToolSnapshot } from '@opc-team/flow-chat-presentation/exec';
 
 export type FlowChatMockPhase = 'thinking' | 'exploring' | 'question' | 'editing' | 'command' | 'result';
 export interface FlowChatMockStep {

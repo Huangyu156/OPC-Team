@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Combobox, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { Combobox, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { notificationService } from '@/shared/notification-system';
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';
 import { configManager } from '../services/ConfigManager';

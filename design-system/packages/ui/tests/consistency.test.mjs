@@ -181,7 +181,7 @@ test("mobile components reuse the shared token layer instead of private colour",
 
   for (const name of names) {
     const styles = await source(`mobile/${name}/${name}.module.css`);
-    assert.match(styles, /@layer openbitfun\.components/, `${name} styles must stay in the shared layer`);
+    assert.match(styles, /@layer opcteam\.components/, `${name} styles must stay in the shared layer`);
     assert.doesNotMatch(styles, /#[0-9a-f]{3,8}\b/i, `${name} must not hardcode a colour`);
     assert.doesNotMatch(styles, /rgba?\(/, `${name} must not hardcode a colour`);
     for (const match of styles.matchAll(/var\((--opcteam-[a-z0-9-]+)/g)) {

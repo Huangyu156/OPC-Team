@@ -6,9 +6,9 @@ import { OverflowText,
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useEffect, useRef, useState } from 'react';
-import { Checkbox, Textarea } from '@openbitfun/ui';
+import { Checkbox, Textarea } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import type { FlowChatHeaderCommandSummary } from '../modern/FlowChatHeader';
 import './BackgroundCommandInputDialog.scss';

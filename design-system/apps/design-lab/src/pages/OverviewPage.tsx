@@ -1,8 +1,8 @@
 import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { Button, ComposerContextBar, ComposerDivider, Icon, IconButton, KeyHint, NavigationPanel, NavigationPanelBody, NavigationPanelContent, NavigationPanelFooter, NavigationPanelHeader, NavigationPanelItem, NavigationPanelSection, NumberBadge, PageHeader, SearchField, SegmentedControl, StatusPill, ThemeRoot, type IconName, type ThemeRootProps } from "@openbitfun/ui";
-import { ChatComposer, ChatComposerActionButton } from "@openbitfun/ui/flow-chat";
-import { OpenBitFunSolidMark, SubagentHatch, type SubagentHatchPhase } from "@openbitfun/ui/brand";
+import { Button, ComposerContextBar, ComposerDivider, Icon, IconButton, KeyHint, NavigationPanel, NavigationPanelBody, NavigationPanelContent, NavigationPanelFooter, NavigationPanelHeader, NavigationPanelItem, NavigationPanelSection, NumberBadge, PageHeader, SearchField, SegmentedControl, StatusPill, ThemeRoot, type IconName, type ThemeRootProps } from "@opc-team/ui";
+import { ChatComposer, ChatComposerActionButton } from "@opc-team/ui/flow-chat";
+import { OpenBitFunSolidMark, SubagentHatch, type SubagentHatchPhase } from "@opc-team/ui/brand";
 import { useI18n } from "../i18n";
 import { SUBAGENT_AVATAR_CATALOG } from "../assets/subagentAvatars";
 import { GuideCodeCard, GuideStepList } from "../components/GuideContract";

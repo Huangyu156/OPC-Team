@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, Tooltip } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, Tooltip } from '@opc-team/ui';
 
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';

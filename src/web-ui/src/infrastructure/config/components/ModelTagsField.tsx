@@ -1,4 +1,4 @@
-import { Button, Capsule, Field, Icon, IconButton, Input, StatusPill, Tooltip } from '@openbitfun/ui';
+import { Button, Capsule, Field, Icon, IconButton, Input, StatusPill, Tooltip } from '@opc-team/ui';
 import { useRef, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import { MAX_MODEL_USER_TAGS, normalizeModelTags } from '../services/modelTags';

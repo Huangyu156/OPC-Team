@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { Button, Icon, SegmentedControl } from "@openbitfun/ui";
-import { SubagentHatch, type SubagentHatchPhase } from "@openbitfun/ui/brand";
+import { Button, Icon, SegmentedControl } from "@opc-team/ui";
+import { SubagentHatch, type SubagentHatchPhase } from "@opc-team/ui/brand";
 import { Pause, Play, RotateCcw, Square } from "lucide-react";
 import { SUBAGENT_AVATAR_CATALOG, type SubagentAvatarId } from "../assets/subagentAvatars";
 import { useI18n } from "../i18n";

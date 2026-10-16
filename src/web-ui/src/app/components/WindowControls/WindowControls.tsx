@@ -1,6 +1,6 @@
 import { Copy as LucideCopy, Minus as LucideMinus, Square as LucideSquare, X as LucideX } from 'lucide-react';
 import React from 'react';
-import { Tooltip } from '@openbitfun/ui';
+import { Tooltip } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { isWindowsDesktopRuntime } from '@/infrastructure/runtime';
 

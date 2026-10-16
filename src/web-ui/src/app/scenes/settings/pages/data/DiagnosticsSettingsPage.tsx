@@ -9,7 +9,7 @@ import type {
   RuntimeLoggingInfo
 } from '@/infrastructure/config/types';
 import { createLogger } from '@/shared/utils/logger';
-import { Alert, Button, ConfirmDialog, IconButton, Input, Select, Switch, Tooltip } from '@openbitfun/ui';
+import { Alert, Button, ConfirmDialog, IconButton, Input, Select, Switch, Tooltip } from '@opc-team/ui';
 import { Archive, FolderOpen } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

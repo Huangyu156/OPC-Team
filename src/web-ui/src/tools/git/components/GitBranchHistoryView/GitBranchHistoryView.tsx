@@ -4,7 +4,7 @@ import type { GitWorkspaceScope } from '@/infrastructure/api/service-api/GitAPI'
  * Shows a branch's commits and supports cherry-pick when applicable.
  */
 
-import { OverflowText, Button, Icon, IconButton, SearchField, Select, ScrollArea } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, SearchField, Select, ScrollArea } from '@opc-team/ui';
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Square, CheckSquare } from 'lucide-react';

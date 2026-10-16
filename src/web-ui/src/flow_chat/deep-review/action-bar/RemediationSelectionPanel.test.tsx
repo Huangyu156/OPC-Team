@@ -28,7 +28,7 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
-vi.mock('@openbitfun/ui', async () => ({
+vi.mock('@opc-team/ui', async () => ({
   Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   Button: ({
     children,
@@ -37,7 +37,7 @@ vi.mock('@openbitfun/ui', async () => ({
     children: React.ReactNode;
     disabled?: boolean;
   }) => <button type="button" disabled={disabled}>{children}</button>,
-  Checkbox: (await vi.importActual<typeof import("@openbitfun/ui")>("@openbitfun/ui")).Checkbox,
+  Checkbox: (await vi.importActual<typeof import("@opc-team/ui")>("@opc-team/ui")).Checkbox,
   Tooltip: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 

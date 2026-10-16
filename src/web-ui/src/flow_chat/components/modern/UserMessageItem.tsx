@@ -27,9 +27,9 @@ import { globalEventBus } from '@/infrastructure/event-bus';
 import { shouldIgnoreCardToggleClick } from '@/shared/utils/textSelection';
 import { observeElementResize } from '@/shared/utils/sharedResizeObserver';
 import { formatContextForPrompt } from '@/shared/utils/contextPrompt';
-import { Button, Dialog, DialogClose, Tooltip, Icon, IconButton, MenuItem, MenuPopover, type MenuEntry, type MenuItemProps } from '@openbitfun/ui';
+import { Button, Dialog, DialogClose, Tooltip, Icon, IconButton, MenuItem, MenuPopover, type MenuEntry, type MenuItemProps } from '@opc-team/ui';
 import { confirmDanger } from '@/infrastructure/confirm-dialog';
-import { ToolProcessingDots } from '@openbitfun/ui/flow-chat';
+import { ToolProcessingDots } from '@opc-team/ui/flow-chat';
 import { UserMessageEditComposer } from './UserMessageEditComposer';
 import {
   describeUserMessageEditImpact,

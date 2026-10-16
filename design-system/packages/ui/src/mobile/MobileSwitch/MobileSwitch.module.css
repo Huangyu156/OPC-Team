@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   /* Touch geometry lives on the row, not on the switch: a 32px track inside a 52px row is the
      mobile pattern — the label is the target, the track is the state. */
   .root { display: flex; box-sizing: border-box; inline-size: 100%; min-inline-size: 0; min-block-size: 52px; align-items: center; gap: var(--opcteam-space-3); margin: 0; padding: var(--opcteam-space-2) var(--opcteam-space-3); border: var(--opcteam-border-width-default) solid transparent; border-radius: var(--opcteam-radius-md); color: var(--opcteam-color-content-primary); background: transparent; cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent; transition: background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard); }

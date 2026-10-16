@@ -20,7 +20,7 @@ import type { CanvasTab, EditorGroupId, TabState } from '../types';
 import { CanvasStoreModeContext } from '../stores';
 import { writeSessionTabDrag } from '@/app/workbench/canvasTabTransfer';
 import './Tab.scss';
-import { Tooltip } from '@openbitfun/ui';
+import { Tooltip } from '@opc-team/ui';
 export interface TabProps {
   /** Standard TabGroup item; this wrapper owns document interactions only. */
   children: React.ReactNode;

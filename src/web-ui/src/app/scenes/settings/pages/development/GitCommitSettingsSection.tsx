@@ -2,7 +2,7 @@ import { ConfigLoadingState, ConfigPageRow, ConfigPageSection, ConfigRetryState 
 import { aiExperienceConfigService } from '@/infrastructure/config/services/AIExperienceConfigService';
 import { useNotification } from '@/shared/notification-system';
 import { createLogger } from '@/shared/utils/logger';
-import { Switch } from '@openbitfun/ui';
+import { Switch } from '@opc-team/ui';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingsSectionAnchor } from '../shared/useSettingsSectionAnchor';

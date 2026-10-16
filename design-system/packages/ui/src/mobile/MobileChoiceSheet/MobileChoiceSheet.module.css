@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .sheet {
     inline-size: min(100%, 520px);
   }

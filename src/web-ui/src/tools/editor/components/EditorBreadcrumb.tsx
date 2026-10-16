@@ -10,7 +10,7 @@ import { createLogger } from '@/shared/utils/logger';
 import { useAnchoredPopoverPosition } from '@/shared/utils/useAnchoredPopoverPosition';
 
 import './EditorBreadcrumb.scss';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSection, Tooltip, type IconSize } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSection, Tooltip, type IconSize } from '@opc-team/ui';
 
 const log = createLogger('EditorBreadcrumb');
 

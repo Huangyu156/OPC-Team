@@ -1,4 +1,4 @@
-import { createOverlayPortal, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { createOverlayPortal, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { useLayoutEffect, useRef, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';

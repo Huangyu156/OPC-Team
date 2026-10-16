@@ -8,8 +8,8 @@ import { useTranslation } from 'react-i18next';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 import { isToolCardVisible } from '../utils/flowItemVisibility';
-import { GrepSearchToolCard } from '@openbitfun/ui/flow-chat';
-import { projectGrepSearchResults } from '@openbitfun/flow-chat-presentation/search';
+import { GrepSearchToolCard } from '@opc-team/ui/flow-chat';
+import { projectGrepSearchResults } from '@opc-team/flow-chat-presentation/search';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 export const GrepSearchDisplay: React.FC<ToolCardProps> = ({
   toolItem,

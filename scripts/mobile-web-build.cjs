@@ -148,7 +148,7 @@ function getMobileWebRebuildPlan(mobileWebDir, force = false, rootDir = ROOT_DIR
     path.join(rootDir, 'pnpm-lock.yaml'),
     path.join(rootDir, 'pnpm-workspace.yaml'),
     // src/mobile-web's prebuild rebuilds the design system, and mobile-web
-    // consumes @openbitfun/ui through its package exports (no source alias, and
+    // consumes @opc-team/ui through its package exports (no source alias, and
     // design-system/**/dist is generated rather than committed). Every file that
     // can change a design-system build output must therefore invalidate the
     // mobile-web dist, so watch the packages/ and tooling/ trees as a whole

@@ -2,7 +2,7 @@ import { pendingQueueManager } from '../services/flow-chat-manager/PendingQueueM
 import type { QueuedMessage } from '../types/flow-chat';
 import { useEffect, useId, useState, useSyncExternalStore } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
-import { Button, Icon, IconButton, OverflowText, Tooltip } from '@openbitfun/ui';
+import { Button, Icon, IconButton, OverflowText, Tooltip } from '@opc-team/ui';
 import { RotateCw } from 'lucide-react';
 import './HostPendingQueuePanel.scss';
 import { hostQueuePresentation, observePresentedHostQueue } from '../services/hostQueuePresentation';
@@ -10,7 +10,7 @@ import { HostDialogQueue, type QueueOutboxRecord, type QueueItem } from '../../.
 import {
   ChatComposerQueue, ChatComposerQueueHeader, ChatComposerQueueTitle,
   ChatComposerQueueList, ChatComposerQueueItem, ChatComposerQueueItemContent, ChatComposerQueueItemActions,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 
 export function HostPendingQueuePanel({ queue, onRestore }: { queue: HostDialogQueue; onRestore: (item: QueuedMessage) => boolean }) {
   const { t } = useI18n('flow-chat');

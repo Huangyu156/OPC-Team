@@ -36,7 +36,7 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from "@openbitfun/ui";
+} from "@opc-team/ui";
 import { useI18n } from "../i18n";
 
 export function FileActivityPattern() {

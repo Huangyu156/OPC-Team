@@ -1,11 +1,11 @@
-# @openbitfun/ui
+# @opc-team/ui
 
 Theme-independent React primitives and components.
 
 ```tsx
-import "@openbitfun/theme-openbitfun/default.css";
-import "@openbitfun/ui/styles.css";
-import { Button, ThemeRoot } from "@openbitfun/ui";
+import "@opc-team/theme/default.css";
+import "@opc-team/ui/styles.css";
+import { Button, ThemeRoot } from "@opc-team/ui";
 
 export function Example() {
   return (
@@ -184,7 +184,7 @@ Standard button, menu, navigation, card, selection, and disclosure text slots
 already use this primitive; consumers should not wrap those slots a second time.
 
 ```tsx
-import { OverflowText } from "@openbitfun/ui";
+import { OverflowText } from "@opc-team/ui";
 
 // The surrounding layout owns the available width.
 <OverflowText>{description}</OverflowText>
@@ -265,7 +265,7 @@ updates immediately, without a live region. The outgoing visual copy is hidden
 from assistive technology.
 
 ```tsx
-import { RollingText, TabGroup } from "@openbitfun/ui";
+import { RollingText, TabGroup } from "@opc-team/ui";
 
 <RollingText transitionKey={record.id}>{record.title}</RollingText>
 
@@ -322,7 +322,7 @@ surfaces do not inherit desktop component geometry or ship desktop component
 styles:
 
 ```tsx
-import "@openbitfun/ui/mobile.css";
+import "@opc-team/ui/mobile.css";
 import {
   MobileActionSheet,
   MobileBadge,
@@ -347,7 +347,7 @@ import {
   MobileStatus,
   MobileTextField,
   MobileTextarea,
-} from "@openbitfun/ui/mobile";
+} from "@opc-team/ui/mobile";
 ```
 
 These components own mobile touch targets, pressed/focus/disabled states,
@@ -464,7 +464,7 @@ overview retains its original device/server SVGs and MacBook image in the Web UI
 Use a semantic `name` when available, or import the required Lucide glyph:
 
 ```tsx
-import { Icon } from "@openbitfun/ui";
+import { Icon } from "@opc-team/ui";
 import { Network } from "lucide-react";
 
 <Icon name="search" size="sm" />
@@ -641,7 +641,7 @@ import {
   ReadFileToolCard,
   ToolCardCopyButton,
   ToolCardChangeSummary,
-} from "@openbitfun/ui/flow-chat";
+} from "@opc-team/ui/flow-chat";
 ```
 
 `ChatComposer` owns the reusable 32px context band and the compact/expanded

@@ -2,7 +2,7 @@ import {
   cssVariables as systemCssVariables,
   tokens as systemTokens,
   type TokenName as SystemTokenName,
-} from '@openbitfun/design-tokens';
+} from '@opc-team/design-tokens';
 import type {
   AppearanceMode,
   AppearanceThemeTokenName,

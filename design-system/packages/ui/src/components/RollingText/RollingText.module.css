@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root {
     --_rolling-text-duration: var(--opcteam-motion-duration-content-swap);
     --_rolling-text-easing: var(--opcteam-motion-easing-smooth);

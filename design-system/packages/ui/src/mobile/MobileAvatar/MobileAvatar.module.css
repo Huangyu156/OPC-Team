@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   /* Sizes ride the control scale, so an avatar lines up with the rows and buttons beside it. */
   .root { --_avatar-size: var(--opcteam-control-height-md); --_avatar-dot: 10px; position: relative; display: inline-flex; box-sizing: border-box; inline-size: var(--_avatar-size); block-size: var(--_avatar-size); flex: 0 0 auto; align-items: center; justify-content: center; overflow: visible; border-radius: var(--opcteam-radius-pill); color: var(--opcteam-color-content-secondary); background: var(--opcteam-color-action-neutral-surface); font-size: var(--opcteam-type-label-selected-font-size); font-weight: var(--opcteam-type-label-selected-font-weight); }
   .root[data-size="xs"] { --_avatar-size: var(--opcteam-space-6); --_avatar-dot: 8px; }

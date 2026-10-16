@@ -16,7 +16,7 @@ import {
   DialogBody,
   DialogClose,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import {
@@ -27,7 +27,7 @@ import {
 import { createLogger } from '@/shared/utils/logger';
 import { systemAPI } from '@/infrastructure/api';
 import { isTauriRuntime } from '@/infrastructure/update/tauriEnv';
-import { OpenBitFunBrandMotion } from '@openbitfun/ui/brand';
+import { OpenBitFunBrandMotion } from '@opc-team/ui/brand';
 import './AboutDialog.scss';
 
 const log = createLogger('AboutDialog');

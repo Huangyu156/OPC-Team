@@ -9,7 +9,7 @@ import {
   DialogHeading,
   DialogTitle,
   Input,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import './InputDialog.scss';
 

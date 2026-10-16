@@ -39,7 +39,7 @@ vi.mock('@/infrastructure/api/service-api/SystemAPI', () => ({
 }));
 vi.mock('@/infrastructure/confirm-dialog', () => ({ confirmDanger: vi.fn() }));
 vi.mock('@/shared/notification-system', () => ({ useNotification: () => ({ success: vi.fn() }) }));
-vi.mock('@openbitfun/ui', () => {
+vi.mock('@opc-team/ui', () => {
   const Box = ({ children }: { children?: React.ReactNode }) => <div>{children}</div>;
   const Button = ({ children, onClick, disabled }: { children?: React.ReactNode; onClick?: React.MouseEventHandler<HTMLButtonElement>; disabled?: boolean }) => <button onClick={onClick} disabled={disabled}>{children}</button>;
   const IconButton = ({ 'aria-label': ariaLabel, onClick, disabled }: { 'aria-label'?: string; onClick?: React.MouseEventHandler<HTMLButtonElement>; disabled?: boolean }) => <button aria-label={ariaLabel} onClick={onClick} disabled={disabled} />;

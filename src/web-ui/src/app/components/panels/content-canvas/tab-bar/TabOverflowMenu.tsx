@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { subscribeOverlayInteraction, createOverlayPortal, Button, IconButton, OverflowText, Icon, KeyHint, Menu, MenuItem, MenuList, MenuSeparator, Tooltip } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Button, IconButton, OverflowText, Icon, KeyHint, Menu, MenuItem, MenuList, MenuSeparator, Tooltip } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { LayoutGrid } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

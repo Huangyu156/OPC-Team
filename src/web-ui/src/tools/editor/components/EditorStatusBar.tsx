@@ -5,7 +5,7 @@ import { DEFAULT_EDITOR_CONFIG } from '../config/defaults';
 
 import { useI18n } from '@/infrastructure/i18n';
 import './EditorStatusBar.scss';
-import { Tooltip } from '@openbitfun/ui';
+import { Tooltip } from '@opc-team/ui';
 
 export interface EditorStatusBarProps {
   /** Current line number */

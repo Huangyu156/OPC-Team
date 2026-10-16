@@ -1,4 +1,4 @@
-import { createOverlayPortal, OverflowText, Button, Combobox, Icon, IconButton, Input, Listbox, ListboxEmpty, ListboxOption, Select, Switch, Textarea, Tooltip, type ComboboxOption, type SelectOption } from '@openbitfun/ui';
+import { createOverlayPortal, OverflowText, Button, Combobox, Icon, IconButton, Input, Listbox, ListboxEmpty, ListboxOption, Select, Switch, Textarea, Tooltip, type ComboboxOption, type SelectOption } from '@opc-team/ui';
 import React, { useMemo, useRef, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

@@ -3,7 +3,7 @@
  */
 
 import React, { useEffect, useState, useCallback } from 'react';
-import { Button, IconButton, Tooltip, Icon, type IconName } from '@openbitfun/ui';
+import { Button, IconButton, Tooltip, Icon, type IconName } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { AlertCircle, ClipboardList, Code, FileText, Lightbulb, TestTube, Wrench, type LucideIcon } from 'lucide-react';
 import { recommendationRegistry } from './RecommendationRegistry';

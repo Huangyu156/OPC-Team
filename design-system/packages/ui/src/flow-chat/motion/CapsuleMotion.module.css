@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .layer {
     position: absolute;
     z-index: var(--opcteam-layer-decoration);

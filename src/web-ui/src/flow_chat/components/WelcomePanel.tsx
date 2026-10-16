@@ -6,7 +6,7 @@
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FolderOpen, FolderPlus } from 'lucide-react';
-import { subscribeOverlayInteraction, createOverlayPortal, Button, Menu, MenuItem, MenuSeparator, Icon, PageHeader } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Button, Menu, MenuItem, MenuSeparator, Icon, PageHeader } from '@opc-team/ui';
 import { useApp } from '../../app/hooks/useApp';
 import { createLogger } from '@/shared/utils/logger';
 import { useWorkspaceContext } from '@/infrastructure/contexts/WorkspaceContext';

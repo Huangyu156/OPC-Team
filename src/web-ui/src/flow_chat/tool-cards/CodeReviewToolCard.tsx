@@ -5,7 +5,7 @@ import { useToolCardDisclosure, useToolCardValue } from '../timeline/readerState
  * Uses the shared prominent FlowChat framework.
  */
 
-import { OverflowText, Icon } from '@openbitfun/ui';
+import { OverflowText, Icon } from '@opc-team/ui';
 import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { Loader2, AlertTriangle, AlertCircle, SearchCheck } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -17,7 +17,7 @@ import {
   ProminentToolCardSummary,
   ToolCardDisclosure,
   ToolProcessingDots,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 import { createLogger } from '@/shared/utils/logger';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 import {

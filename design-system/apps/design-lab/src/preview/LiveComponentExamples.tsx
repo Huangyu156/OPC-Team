@@ -1,6 +1,6 @@
 import { useId, useState } from "react";
-import { Icon, SegmentedControl, TabGroup, type TabGroupSize } from "@openbitfun/ui";
-import { MobileButton, MobileComposer, MobileDisclosure, MobileFloatingActions, MobileIconButton, MobileMessage, MobileScrim, MobileSegmentedControl } from "@openbitfun/ui/mobile";
+import { Icon, SegmentedControl, TabGroup, type TabGroupSize } from "@opc-team/ui";
+import { MobileButton, MobileComposer, MobileDisclosure, MobileFloatingActions, MobileIconButton, MobileMessage, MobileScrim, MobileSegmentedControl } from "@opc-team/ui/mobile";
 import { useI18n } from "../i18n";
 
 export function NavigationExample({ name, state, size = "sm" }: { name: string; state: string; size?: TabGroupSize }) {

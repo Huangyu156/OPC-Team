@@ -8,7 +8,7 @@ import {
   DialogHeading,
   DialogTitle,
   type DialogSize,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import './GalleryDetailModal.scss';
 
 interface GalleryDetailModalProps {

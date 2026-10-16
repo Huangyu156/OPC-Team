@@ -1,17 +1,17 @@
 import { Fragment, useMemo, useState, type CSSProperties } from "react";
 import { Contrast, LayoutGrid, Moon, Sun } from "lucide-react";
-import { Button, Icon, SearchField, Select, TabGroup, type DensityMode } from "@openbitfun/ui";
+import { Button, Icon, SearchField, Select, TabGroup, type DensityMode } from "@opc-team/ui";
 import {
   themeContractVersion,
   themeTokenCatalog,
   type ThemeDataName,
   type ThemeTokenCatalogEntry,
-} from "@openbitfun/theme-openbitfun";
+} from "@opc-team/theme";
 import {
   referenceColorCatalog,
   referenceColorScales,
   type ReferenceColorScaleName,
-} from "@openbitfun/theme-openbitfun/authoring";
+} from "@opc-team/theme/authoring";
 import { useI18n, type MessageKey } from "../i18n";
 
 type ColorSection = "semantic" | "scale" | "palette" | "mapping";

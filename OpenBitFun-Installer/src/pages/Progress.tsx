@@ -1,4 +1,4 @@
-import { Button, PageHeader } from '@openbitfun/ui';
+import { Button, PageHeader } from '@opc-team/ui';
 import { ArrowRight, CircleCheck, CircleX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { BrandMark } from '../components/BrandMark';

@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { FlowChatCardReaderProvider } from '../timeline/readerState';
-import { ToolCapsulePresentationProvider } from '@openbitfun/ui/flow-chat';
+import { ToolCapsulePresentationProvider } from '@opc-team/ui/flow-chat';
 import { getToolCardComponent } from '../tool-cards';
 import { getToolItemCardConfig, isToolCapsule } from '../tool-cards/toolCardMetadata';
 import { getToolCapsuleSummary, toolCapsuleStateKey } from '../tool-cards/toolCapsuleModel';

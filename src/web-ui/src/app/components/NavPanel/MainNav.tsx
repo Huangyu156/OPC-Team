@@ -24,7 +24,7 @@ import { subscribeOverlayInteraction, createOverlayPortal, OverflowText,
   NavigationPanelItem,
   ScrollArea,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { isImeOwnedKeyboardEvent } from '@/shared/utils/ime';
 import { FolderOpen, FolderPlus, Network, Server, Users } from 'lucide-react';

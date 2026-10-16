@@ -1,7 +1,7 @@
 import {
   themes,
   type ThemeTokenName,
-} from '@openbitfun/theme-openbitfun';
+} from '@opc-team/theme';
 
 type BuiltinThemeMode = 'dark' | 'light';
 

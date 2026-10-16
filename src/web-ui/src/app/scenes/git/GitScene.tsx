@@ -4,14 +4,14 @@
  */
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Button, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { Button, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { ShieldAlert } from 'lucide-react';
 import { useGitSceneStore } from './gitSceneStore';
 import { WorkingCopyView, BranchesView, GraphView } from './views';
 import { useGitState } from '@/tools/git/hooks';
 import { useCurrentWorkspace } from '@/infrastructure/contexts/WorkspaceContext';
-import { LoadingState } from '@openbitfun/ui';
+import { LoadingState } from '@opc-team/ui';
 import { globalEventBus } from '@/infrastructure/event-bus';
 import { requestGitRepositoryTrust } from '@/shared/services/gitTrustService';
 import { isSurfaceChangedError } from '@/infrastructure/peer-device/deviceSurface';

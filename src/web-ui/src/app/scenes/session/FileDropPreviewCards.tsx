@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { File, FileArchive, FileAudio, FileCode2, FileImage, FileSpreadsheet, FileText, FileVideo, Presentation } from 'lucide-react';
-import { OverflowText } from '@openbitfun/ui';
+import { OverflowText } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import type { FileDropPreview, FileDropPreviewItem } from '@/shared/types/fileDropPreview';
 import { getFileDropPreviewKind, type FilePreviewKind } from './fileDropPreviewKind';

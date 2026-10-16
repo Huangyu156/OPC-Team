@@ -2,7 +2,7 @@ import type { AgentWithCapabilities } from '../agentsStore';
 import { HARNESS_IDS, type HarnessId } from '@/shared/agents/identity';
 import { HARNESS_PRESENTATION } from '@/shared/agents/harnessPresentation';
 import React from 'react';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import { GalleryZone } from '@/app/components/GalleryLayout';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 

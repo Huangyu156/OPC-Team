@@ -2,7 +2,7 @@
 import React, { act, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { AmbientToolCard, AmbientToolCardHeader, ReadFileToolCard, ToolCapsulePresentationProvider } from '@openbitfun/ui/flow-chat';
+import { AmbientToolCard, AmbientToolCardHeader, ReadFileToolCard, ToolCapsulePresentationProvider } from '@opc-team/ui/flow-chat';
 
 let container: HTMLDivElement;
 let root: Root;

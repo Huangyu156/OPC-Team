@@ -3,7 +3,7 @@
  * Minimal layout to match the FlowChat background.
  */
 
-import { Disclosure, OverflowText, Icon, IconButton, Spinner, Toolbar, ToolbarGroup, Tooltip } from '@openbitfun/ui';
+import { Disclosure, OverflowText, Icon, IconButton, Spinner, Toolbar, ToolbarGroup, Tooltip } from '@opc-team/ui';
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AlertCircle, Square } from 'lucide-react';

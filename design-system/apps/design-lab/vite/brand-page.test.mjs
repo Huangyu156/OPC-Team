@@ -5,7 +5,7 @@ import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { createServer } from "vite";
 import react from "@vitejs/plugin-react";
-import { componentRegistry } from "@openbitfun/ui/registry";
+import { componentRegistry } from "@opc-team/ui/registry";
 
 test("brand resources use original artwork, localized names and real downloads", async () => {
   const server = await createServer({

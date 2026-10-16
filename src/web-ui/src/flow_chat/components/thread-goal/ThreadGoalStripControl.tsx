@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Goal, Pause, Play, Trash2 } from 'lucide-react';
-import { Icon, Tooltip } from '@openbitfun/ui';
+import { Icon, Tooltip } from '@opc-team/ui';
 import type { ThreadGoalSnapshot } from '../../services/goalService';
 import type { ThreadGoalUiAction } from '../../services/threadGoalActions';
 import { resolveThreadGoalStatusLabel } from '../../utils/threadGoalDisplay';

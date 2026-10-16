@@ -231,12 +231,12 @@ src-tauri/target/release-fast/opc-installer.exe
 
 ### Changing the UI Theme
 
-Shared light/dark values come from `@openbitfun/theme-openbitfun`. Installer-only named presets live in
+Shared light/dark values come from `@opc-team/theme`. Installer-only named presets live in
 [installerThemesData.ts](src/theme/installerThemesData.ts), and components consume only canonical
 `--opcteam-*` variables projected by [installerThemeRuntime.ts](src/theme/installerThemeRuntime.ts).
 
 Buttons, inputs, fields, selectors, checkboxes, radio controls, page headers, and
-native scrollbar styling come from the public `@openbitfun/ui` package. The
+native scrollbar styling come from the public `@opc-team/ui` package. The
 installer owns page layout and the install state binding. The `dev`, `build`, and
 `type-check` entrypoints prepare the public design-system packages first, so a
 clean checkout does not depend on pre-existing `dist` files.

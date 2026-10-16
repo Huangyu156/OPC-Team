@@ -15,7 +15,7 @@ const outputRoot = path.join(websiteRoot, 'dist');
 const catalogPath = path.join(repositoryRoot, 'docs/interactive-capabilities/capabilities.json');
 const execFileAsync = promisify(execFile);
 const designTokensRoot = path.join(repositoryRoot, 'design-system/packages/design-tokens');
-const themeRoot = path.join(repositoryRoot, 'design-system/packages/theme-openbitfun');
+const themeRoot = path.join(repositoryRoot, 'design-system/packages/theme');
 
 async function buildThemeContracts() {
   await execFileAsync(process.execPath, [path.join(designTokensRoot, 'scripts/build.mjs')], {
@@ -50,8 +50,8 @@ function renderPage(template, { title, description, url, pageData, assetVersion 
 
 async function main() {
   await buildThemeContracts();
-  const designTokensCssPath = fileURLToPath(import.meta.resolve('@openbitfun/design-tokens/tokens.css'));
-  const themeCssPath = fileURLToPath(import.meta.resolve('@openbitfun/theme-openbitfun/themes.css'));
+  const designTokensCssPath = fileURLToPath(import.meta.resolve('@opc-team/design-tokens/tokens.css'));
+  const themeCssPath = fileURLToPath(import.meta.resolve('@opc-team/theme/themes.css'));
   const catalog = JSON.parse(await readFile(catalogPath, 'utf8'));
   const template = await readFile(path.join(sourceRoot, 'index.html'), 'utf8');
   const appSource = await readFile(path.join(sourceRoot, 'app.js'), 'utf8');

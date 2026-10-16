@@ -22,7 +22,7 @@ const root = process.cwd();
 const SOURCE_OWNER_ROOTS = [
   'OpenBitFun-Installer/src',
   'design-system/packages/design-tokens/src',
-  'design-system/packages/theme-openbitfun/src',
+  'design-system/packages/theme/src',
   'src/apps/mobile/design-system/preview',
   'src/mobile-web/src',
   'src/web-ui',
@@ -147,7 +147,7 @@ test('theme CSS var contract registry is explicit and non-overlapping', () => {
     'independent package CSS variable contracts must not overlap',
   );
   for (const contract of PACKAGE_CSS_VAR_DEFINITION_CONTRACTS) {
-    assert.match(contract.packageName, /^@openbitfun\/[a-z0-9-]+$/);
+    assert.match(contract.packageName, /^@opc-team\/[a-z0-9-]+$/);
     assert.ok(contract.owner.startsWith('design-system/packages/'));
     assert.ok(contract.variables.length > 0, `${contract.packageName} must expose variables`);
     assert.equal(
@@ -352,7 +352,7 @@ test('generated widget iframe has no compatibility alias module or contracts', (
 
 test('theme color audit emits scoped machine-readable reports', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': [
+    'design-system/packages/theme/src/test.tokens.css': [
       ':root {',
       '  --opcteam-appearance-token-color-text-primary: #111111;',
       '  --static-only: #222222;',
@@ -394,7 +394,7 @@ test('theme color audit emits scoped machine-readable reports', (t) => {
 
 test('theme color audit reports static contract token external consumption', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': [
+    'design-system/packages/theme/src/test.tokens.css': [
       ':root {',
       '  --opcteam-appearance-token-color-text-primary: #111111;',
       '  --private-helper-rgb: 17, 17, 17;',
@@ -435,15 +435,15 @@ test('theme color audit reports static contract token external consumption', (t)
   assert.deepEqual(
     report.staticContractInternalOnlyVars.map(row => [row.key, row.definitionFiles, row.internalUsageCount]),
     [
-      ['--private-helper-rgb', ['design-system/packages/theme-openbitfun/src/test.tokens.css'], 1],
-      ['--unused-export', ['design-system/packages/theme-openbitfun/src/test.tokens.css'], 0],
+      ['--private-helper-rgb', ['design-system/packages/theme/src/test.tokens.css'], 1],
+      ['--unused-export', ['design-system/packages/theme/src/test.tokens.css'], 0],
     ],
   );
 });
 
 test('theme color audit resolves canonical variables from imported package CSS contracts', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'main.tsx': "import '@openbitfun/theme-openbitfun/default.css';\n",
+    'main.tsx': "import '@opc-team/theme/default.css';\n",
     'app/App.scss': [
       '.app {',
       '  color: var(--opcteam-color-content-primary);',
@@ -460,8 +460,8 @@ test('theme color audit resolves canonical variables from imported package CSS c
 
   const report = JSON.parse(result.stdout);
   assert.deepEqual(report.packageCssContracts.importedPackages, [
-    '@openbitfun/design-tokens',
-    '@openbitfun/theme-openbitfun',
+    '@opc-team/design-tokens',
+    '@opc-team/theme',
   ]);
   assert.equal(report.cssVarDefinitions.unresolvedUnique, 0);
   assert.equal(report.cssVarDefinitions.unresolvedRequiredUnique, 0);
@@ -469,7 +469,7 @@ test('theme color audit resolves canonical variables from imported package CSS c
 
 test('theme color audit does not require a widget payload on surfaces without that contract', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'main.tsx': "import '@openbitfun/theme-openbitfun/default.css';\n",
+    'main.tsx': "import '@opc-team/theme/default.css';\n",
     'app/App.scss': '.app { color: var(--opcteam-color-content-primary); }\n',
   });
   t.after(() => fs.rmSync(dir, { recursive: true, force: true }));
@@ -486,7 +486,7 @@ test('theme color audit does not require a widget payload on surfaces without th
 
 test('theme color audit counts only the generated widget variable contract', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': [
+    'design-system/packages/theme/src/test.tokens.css': [
       ':root {',
       '  --opcteam-appearance-token-color-bg-primary: #121214;',
       '  --opcteam-appearance-token-color-bg-secondary: #1c1c1f;',
@@ -525,7 +525,7 @@ test('theme color audit counts only the generated widget variable contract', (t)
 
 test('theme color audit fails closed when the generated widget variable contract is not parseable', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': [
+    'design-system/packages/theme/src/test.tokens.css': [
       ':root {',
       '  --opcteam-appearance-token-color-bg-primary: #121214;',
       '}',
@@ -570,7 +570,7 @@ test('theme color audit reports fallback tokens that lack a boundary contract', 
 
 test('theme color audit reports specialized color domains separately from app UI', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': ':root { --opcteam-appearance-token-color-text-primary: #111111; }\n',
+    'design-system/packages/theme/src/test.tokens.css': ':root { --opcteam-appearance-token-color-text-primary: #111111; }\n',
     'infrastructure/appearance/builtins/dark.ts': "export const bg = '#222222';\n",
     'tools/mermaid-editor/theme/mermaidTheme.ts': "export const node = '#333333';\n",
     'tools/editor/editorColor.ts': "export const editorBg = '#444444';\n",
@@ -708,8 +708,8 @@ test('theme color audit can resolve peer-owned public package variables explicit
 
   const result = runAudit([
     '--root', sourceRoot,
-    '--package-contract', '@openbitfun/design-tokens',
-    '--package-contract', '@openbitfun/theme-openbitfun',
+    '--package-contract', '@opc-team/design-tokens',
+    '--package-contract', '@opc-team/theme',
     '--json',
     '--no-baseline',
   ]);
@@ -719,7 +719,7 @@ test('theme color audit can resolve peer-owned public package variables explicit
   assert.equal(report.cssVarDefinitions.unresolvedUnique, 0);
   assert.deepEqual(
     report.packageCssContracts.importedPackages,
-    ['@openbitfun/design-tokens', '@openbitfun/theme-openbitfun'],
+    ['@opc-team/design-tokens', '@opc-team/theme'],
   );
 });
 
@@ -805,7 +805,7 @@ test('theme color audit counts full CSS var governance debt before row truncatio
 
 test('theme color audit reports app literals that duplicate token values', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': [
+    'design-system/packages/theme/src/test.tokens.css': [
       ':root {',
       '  --opcteam-color-accent-default: #3b82f6;',
       '  --opcteam-color-status-warning-content: #f59e0b;',
@@ -911,7 +911,7 @@ test('theme color audit reports near color pairs inside specialized color domain
 
 test('theme color audit excludes test files from production color budgets', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': ':root { --opcteam-color-status-danger-content: #ef4444; }\n',
+    'design-system/packages/theme/src/test.tokens.css': ':root { --opcteam-color-status-danger-content: #ef4444; }\n',
     'app/App.scss': '.app { color: #ef4444; }\n',
     'app/App.test.tsx': "expect(button).toHaveStyle({ color: '#ef4444' });\n",
     'app/__tests__/Fixture.tsx': "export const visualLock = '#ef4444';\n",
@@ -1034,7 +1034,7 @@ test('theme color audit accepts registered dynamic CSS var families', (t) => {
 
 test('theme color audit requires exact exports for dynamic-family CSS var usages', (t) => {
   const { dir, sourceRoot } = createFixture({
-    'design-system/packages/theme-openbitfun/src/test.tokens.css': [
+    'design-system/packages/theme/src/test.tokens.css': [
       ':root {',
       '  --opcteam-appearance-token-color-purple-200: rgba(139, 92, 246, 0.15);',
       '}',
@@ -1162,7 +1162,7 @@ test('theme color audit excludes only explicitly named root-relative paths', (t)
   const result = runAudit([
     '--root', sourceRoot,
     '--exclude', 'generated',
-    '--package-contract', '@openbitfun/theme-openbitfun',
+    '--package-contract', '@opc-team/theme',
     '--json',
     '--no-baseline',
   ]);

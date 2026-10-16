@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
-import { Icon, StatusPill } from "@openbitfun/ui";
-import { MobileComposer, MobileIconButton, MobileMessage, MobilePageHeader, MobileTabBar } from "@openbitfun/ui/mobile";
-import { OpenBitFunSolidMark } from "@openbitfun/ui/brand";
+import { Icon, StatusPill } from "@opc-team/ui";
+import { MobileComposer, MobileIconButton, MobileMessage, MobilePageHeader, MobileTabBar } from "@opc-team/ui/mobile";
+import { OpenBitFunSolidMark } from "@opc-team/ui/brand";
 import { useI18n } from "../i18n";
 import "./MultiSurfaceMorph.css";
 

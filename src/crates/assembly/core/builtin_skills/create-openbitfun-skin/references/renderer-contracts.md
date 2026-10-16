@@ -35,7 +35,7 @@ Accepted settings: `id`, `base`, `inherit`, `rules`, and `colors`. IDs use lower
 
 ## xterm
 
-Accepted settings: `surfaces`. It may define `terminal` and `output` color maps. Font family, size, weight, and line height remain owned by `@openbitfun/design-tokens` and cannot be overridden by an Appearance package.
+Accepted settings: `surfaces`. It may define `terminal` and `output` color maps. Font family, size, weight, and line height remain owned by `@opc-team/design-tokens` and cannot be overridden by an Appearance package.
 
 ## mermaid
 

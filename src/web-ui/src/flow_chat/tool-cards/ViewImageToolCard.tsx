@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
-import { ViewImageToolCard as ViewImageToolCardView } from '@openbitfun/ui/flow-chat';
+import { ViewImageToolCard as ViewImageToolCardView } from '@opc-team/ui/flow-chat';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 
 const SUPPORTED_IMAGE_MIME_TYPES = new Set([

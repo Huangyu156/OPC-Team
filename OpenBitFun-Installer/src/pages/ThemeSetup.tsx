@@ -1,4 +1,4 @@
-import { Button, Checkbox, PageHeader, Radio } from '@openbitfun/ui';
+import { Button, Checkbox, PageHeader, Radio } from '@opc-team/ui';
 import { ArrowUpRight, Check } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';

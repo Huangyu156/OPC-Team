@@ -1,5 +1,5 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
-import { OverflowText, Button, Icon, IconButton, Textarea, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, Textarea, Tooltip } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import { AlertTriangle, EyeOff, Loader2, Send } from 'lucide-react';
 

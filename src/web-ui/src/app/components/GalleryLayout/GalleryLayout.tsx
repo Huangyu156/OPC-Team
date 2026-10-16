@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollArea } from '@openbitfun/ui';
+import { ScrollArea } from '@opc-team/ui';
 import './GalleryLayout.scss';
 
 interface GalleryLayoutProps extends React.HTMLAttributes<HTMLDivElement> {

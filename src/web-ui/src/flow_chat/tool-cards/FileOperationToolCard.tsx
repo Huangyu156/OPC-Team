@@ -15,7 +15,7 @@ import { getToolCardStatus } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 import {
   FileOperationToolCard as FileOperationCardView,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 import { useSnapshotState } from '../../tools/snapshot_system/hooks/useSnapshotState';
 import { SnapshotEventBus, SNAPSHOT_EVENTS } from '../../tools/snapshot_system/core/SnapshotEventBus';
 import { useOptionalCurrentWorkspace } from '../../infrastructure/contexts/WorkspaceContext';

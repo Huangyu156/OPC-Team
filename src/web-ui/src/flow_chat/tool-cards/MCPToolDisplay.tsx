@@ -6,9 +6,9 @@ import { useToolCardDisclosure } from '../timeline/readerState';
 
 import React, { useState, useCallback, useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Icon, OverflowText, Spinner } from '@openbitfun/ui';
+import { Icon, OverflowText, Spinner } from '@opc-team/ui';
 import type { ToolCardProps } from '../types/flow-chat';
-import { ProminentToolCard, ProminentToolCardSummary, ToolProcessingDots, ToolCardDisclosure, ToolCardSection, ToolCardText } from '@openbitfun/ui/flow-chat';
+import { ProminentToolCard, ProminentToolCardSummary, ToolProcessingDots, ToolCardDisclosure, ToolCardSection, ToolCardText } from '@opc-team/ui/flow-chat';
 import { createLogger } from '@/shared/utils/logger';
 import { MCPAPI, MCP_APPS_PROTOCOL_VERSION, type McpUiResourceCsp, type McpUiResourcePermissions, type McpUiMessageParams, type McpUiMessageResult, type McpAppMessageEvent, type McpAppMessageResponseEvent } from '@/infrastructure/api/service-api/MCPAPI';
 import { systemAPI } from '@/infrastructure/api/service-api/SystemAPI';

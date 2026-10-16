@@ -63,8 +63,8 @@ vi.mock('@/infrastructure/api/service-api/GitAPI', () => ({
   gitAPI: { resolveRevision: mocks.resolveRevision },
 }));
 
-vi.mock('@openbitfun/ui', async (importOriginal) => ({
-  Disclosure: (await importOriginal<typeof import('@openbitfun/ui')>()).Disclosure,
+vi.mock('@opc-team/ui', async (importOriginal) => ({
+  Disclosure: (await importOriginal<typeof import('@opc-team/ui')>()).Disclosure,
   Alert: ({ message }: { message: string }) => <div role="alert">{message}</div>,
   Icon: ({ name, ...props }: { name: string } & React.HTMLAttributes<HTMLSpanElement>) => <span data-icon={name} {...props} />,
   ScrollArea: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{children}</div>,

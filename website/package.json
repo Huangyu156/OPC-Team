@@ -3,8 +3,8 @@
   "private": true,
   "type": "module",
   "dependencies": {
-    "@openbitfun/design-tokens": "workspace:^",
-    "@openbitfun/theme-openbitfun": "workspace:^"
+    "@opc-team/design-tokens": "workspace:^",
+    "@opc-team/theme": "workspace:^"
   },
   "scripts": {
     "build": "node scripts/build.mjs",

@@ -11,7 +11,7 @@ const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const PREVIEW_ROOT = join(ROOT, 'src', 'apps', 'mobile', 'design-system', 'preview');
 const SHARED_ASSETS = new Map([
   ['/design-system-tokens.css', join(ROOT, 'design-system', 'packages', 'design-tokens', 'dist', 'tokens.css')],
-  ['/design-system-theme.css', join(ROOT, 'design-system', 'packages', 'theme-openbitfun', 'dist', 'themes.css')],
+  ['/design-system-theme.css', join(ROOT, 'design-system', 'packages', 'theme', 'dist', 'themes.css')],
 ]);
 const requiredFiles = ['index.html', 'preview.css', 'preview.js', 'generated/mobile-design-data.js'];
 

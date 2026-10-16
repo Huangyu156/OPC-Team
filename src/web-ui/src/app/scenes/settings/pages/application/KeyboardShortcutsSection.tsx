@@ -10,7 +10,7 @@
  * - Reset button restores all defaults
  */
 
-import { Button, FieldGroup, Icon, IconButton, OverflowText, SearchField, Tooltip } from '@openbitfun/ui';
+import { Button, FieldGroup, Icon, IconButton, OverflowText, SearchField, Tooltip } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import '@/app/scenes/settings/pages/application/KeyboardShortcutsSection.scss';

@@ -1,7 +1,7 @@
  
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Button, Icon, ScrollArea } from '@openbitfun/ui';
+import { Button, Icon, ScrollArea } from '@opc-team/ui';
 import { AlertCircle } from 'lucide-react';
 import { useContextStore, selectContexts } from '../../../stores/contextStore';
 import { ContextCard } from '../ContextCard/ContextCard';

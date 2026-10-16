@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import "@openbitfun/theme-openbitfun/default.css";
-import "@openbitfun/ui/styles.css";
-import "@openbitfun/ui/mobile.css";
+import "@opc-team/theme/default.css";
+import "@opc-team/ui/styles.css";
+import "@opc-team/ui/mobile.css";
 import { App } from "./App";
 import { I18nProvider } from "./i18n";
 import "./font-profiles/ibm-plex-mono.css";

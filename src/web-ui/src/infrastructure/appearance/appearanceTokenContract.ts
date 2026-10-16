@@ -1,4 +1,4 @@
-import { themeCssVariables } from '@openbitfun/theme-openbitfun';
+import { themeCssVariables } from '@opc-team/theme';
 
 import type {
   AppearanceThemeScopeId,

@@ -17,7 +17,7 @@ import {
   type SessionLineageLifecycle,
 } from '../utils/sessionLineage';
 import { openBtwSessionInAuxPane } from '../services/btwSessionPane';
-import { AgentControlToolCard as AgentControlToolCardView } from '@openbitfun/ui/flow-chat';
+import { AgentControlToolCard as AgentControlToolCardView } from '@opc-team/ui/flow-chat';
 import { AgentInteractionToolCard } from './AgentInteractionToolCard';
 import { resolveInteractionAgentSessionId } from './toolInteractionModel';
 

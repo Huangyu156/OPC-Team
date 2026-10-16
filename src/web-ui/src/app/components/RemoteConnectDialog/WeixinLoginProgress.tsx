@@ -1,4 +1,4 @@
-import { Spinner, StatusPill } from '@openbitfun/ui';
+import { Spinner, StatusPill } from '@opc-team/ui';
 import { useEffect, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 

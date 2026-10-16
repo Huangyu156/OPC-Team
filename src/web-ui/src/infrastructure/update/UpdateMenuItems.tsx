@@ -1,4 +1,4 @@
-import { Icon, MenuItem, Spinner, Tooltip } from '@openbitfun/ui';
+import { Icon, MenuItem, Spinner, Tooltip } from '@opc-team/ui';
 import { Repeat } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import { useI18n } from '@/infrastructure/i18n';

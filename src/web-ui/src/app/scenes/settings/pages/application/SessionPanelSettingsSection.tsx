@@ -1,5 +1,5 @@
 import { useStore } from 'zustand';
-import { Select } from '@openbitfun/ui';
+import { Select } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { ConfigPageRow, ConfigPageSection } from '@/infrastructure/config/components/common';
 import { sessionPaneLayoutStore, type SessionPaneDisplayMode } from '@/app/scenes/session/sessionPaneLayoutStore';

@@ -2,7 +2,7 @@
 
 import React, { act, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
-import { DesignSystemProvider } from '@openbitfun/ui';
+import { DesignSystemProvider } from '@opc-team/ui';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { ConnectionResult, RemoteConnectStatus } from '@/infrastructure/api/service-api/RemoteConnectAPI';
 import { remoteConnectStatusSource } from '@/infrastructure/remote-connect/remoteConnectStatus';

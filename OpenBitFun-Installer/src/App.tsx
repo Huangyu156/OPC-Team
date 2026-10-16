@@ -1,9 +1,9 @@
 import { useLayoutEffect, useRef } from 'react';
-import { DesignSystemProvider, Select } from '@openbitfun/ui';
+import { DesignSystemProvider, Select } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { WindowControls } from './components/WindowControls';
 import { StepIndicator } from './components/StepIndicator';
-import { OpenBitFunAppIcon } from '@openbitfun/ui/brand';
+import { OpenBitFunAppIcon } from '@opc-team/ui/brand';
 import { LanguageSelect } from './pages/LanguageSelect';
 import { Options } from './pages/Options';
 import { ModelSetup } from './pages/ModelSetup';

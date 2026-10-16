@@ -7,13 +7,13 @@
 
 import React, { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useFlowChatReaderValue } from '../timeline/readerState';
-import { ThinkingBlock } from '@openbitfun/ui/flow-chat';
+import { ThinkingBlock } from '@opc-team/ui/flow-chat';
 import { useTranslation } from 'react-i18next';
 import type { FlowThinkingItem } from '../types/flow-chat';
 import { useTypewriter } from '../hooks/useTypewriter';
 import { useReportTypewriterReveal } from '../hooks/typewriterRevealGateContext';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
-import { useContainedTailFollow } from '@openbitfun/flow-chat-presentation/scroll';
+import { useContainedTailFollow } from '@opc-team/flow-chat-presentation/scroll';
 import {
   isTailFollowDiagnosticsEnabled,
   noteTailFollowStep,

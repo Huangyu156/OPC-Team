@@ -1,4 +1,4 @@
-import { OverflowText } from '@openbitfun/ui';
+import { OverflowText } from '@opc-team/ui';
 /** Static section title row with optional actions. */
 
 import React from 'react';

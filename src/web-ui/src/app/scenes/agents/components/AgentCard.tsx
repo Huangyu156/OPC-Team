@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardBody, CardFooter, CardHeader, Icon, OverflowText } from '@openbitfun/ui';
+import { CardBody, CardFooter, CardHeader, Icon, OverflowText } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import type { AgentWithCapabilities } from '../agentsStore';
 import { getAgentIcon } from '../agentsIcons';

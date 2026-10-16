@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 import { isToolCardVisible } from '../utils/flowItemVisibility';
-import { GlobSearchToolCard } from '@openbitfun/ui/flow-chat';
+import { GlobSearchToolCard } from '@opc-team/ui/flow-chat';
 import { basenamePath } from "@/shared/utils/pathUtils";
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 export const GlobSearchDisplay: React.FC<ToolCardProps> = ({

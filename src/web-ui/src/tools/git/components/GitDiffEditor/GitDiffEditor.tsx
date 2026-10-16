@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useCallback, useRef, useEffect } from 'react';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { DiffEditor } from '@/tools/editor/components/DiffEditor';
 ;

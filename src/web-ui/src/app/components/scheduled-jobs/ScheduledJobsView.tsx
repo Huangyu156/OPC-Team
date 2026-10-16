@@ -5,7 +5,7 @@
  * job list at top, inline editor expands below the selected job.
  */
 
-import { OverflowText, Icon, Button, Combobox, Switch, IconButton, Input, Select, Textarea, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Icon, Button, Combobox, Switch, IconButton, Input, Select, Textarea, Tooltip } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { confirmDanger } from '@/infrastructure/confirm-dialog';
 import {

@@ -34,9 +34,9 @@ vi.mock('./ecosystemCompatibilityStore', () => ({
     selectedProductId: mocks.selectedProductId, ownerSurface: mocks.ownerSurface, setOwnerSurface: mocks.setOwnerSurface,
   }),
 }));
-vi.mock('@openbitfun/ui', async () => {
+vi.mock('@opc-team/ui', async () => {
   const { createElement, forwardRef } = await import('react');
-  const { Alert, Switch, Tooltip } = await vi.importActual<typeof import('@openbitfun/ui')>('@openbitfun/ui');
+  const { Alert, Switch, Tooltip } = await vi.importActual<typeof import('@opc-team/ui')>('@opc-team/ui');
   const Wrapper = forwardRef<HTMLDivElement, { children?: React.ReactNode }>(
     ({ children }, ref) => createElement('div', { ref }, children),
   );

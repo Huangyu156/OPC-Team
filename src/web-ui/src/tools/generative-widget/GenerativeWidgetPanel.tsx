@@ -1,4 +1,4 @@
-import { Button, Textarea } from '@openbitfun/ui';
+import { Button, Textarea } from '@opc-team/ui';
 import React from 'react';
 import { Code2, RotateCcw, Save } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

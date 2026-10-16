@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Activity } from 'lucide-react';
-import { OverflowText, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Tooltip } from '@opc-team/ui';
 import './SessionRuntimeStatusEntry.scss';
 
 interface SessionRuntimeStatusEntryProps {

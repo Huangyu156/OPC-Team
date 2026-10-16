@@ -1,6 +1,6 @@
-import type { SystemTokenMode } from "@openbitfun/design-tokens";
-import type { ThemeDataName } from "@openbitfun/theme-openbitfun";
-import type { TokenOverrides } from "@openbitfun/ui";
+import type { SystemTokenMode } from "@opc-team/design-tokens";
+import type { ThemeDataName } from "@opc-team/theme";
+import type { TokenOverrides } from "@opc-team/ui";
 import {
   editableTokenCatalog,
   type EditableToken,

@@ -2,7 +2,7 @@
 import { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { Dialog } from '@openbitfun/ui';
+import { Dialog } from '@opc-team/ui';
 import { DailyAppUpdateGate } from './DailyAppUpdateGate';
 import { useUpdateInstallStore } from './updateInstallStore';
 import { writeAppUpdateSnapshot } from './appUpdateStorage';

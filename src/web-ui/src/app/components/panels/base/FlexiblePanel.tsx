@@ -1,6 +1,6 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
 import React, { useCallback, memo } from 'react';
-import { OverflowText, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { AlertCircle } from 'lucide-react';
 
 import { MarkdownRenderer } from '@/infrastructure/markdown';

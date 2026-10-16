@@ -1,9 +1,9 @@
 import { useToolCardDisclosure } from '../timeline/readerState';
 import React, { useCallback, useMemo, useState } from 'react';
-import { OverflowText, Icon, IconButton } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton } from '@opc-team/ui';
 import { AlertTriangle } from 'lucide-react';
 import type { ToolCardProps } from '../types/flow-chat';
-import { ProminentToolCard, ProminentToolCardSummary } from '@openbitfun/ui/flow-chat';
+import { ProminentToolCard, ProminentToolCardSummary } from '@opc-team/ui/flow-chat';
 import { getToolCardStatus } from './toolCardStatus';
 import { flowChatStore } from '../store/FlowChatStore';
 import { CodePreview } from '../components/CodePreview';

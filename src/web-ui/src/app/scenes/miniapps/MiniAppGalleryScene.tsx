@@ -5,7 +5,7 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
 import React, { Suspense, useState } from 'react';
 
-import { TabGroup } from '@openbitfun/ui';
+import { TabGroup } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import './MiniAppGalleryScene.scss';
 

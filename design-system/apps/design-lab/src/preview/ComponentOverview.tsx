@@ -1,7 +1,7 @@
 import { useState, type ReactNode } from "react";
-import { Button, canonicalIconNames, Icon, KeyHint, NumberBadge, SearchField, ThemeRoot, type ColorScheme, type ContrastMode, type DensityMode, type IconName, type TokenOverrides } from "@openbitfun/ui";
-import { MobileButton, MobileIconButton, MobileLink } from "@openbitfun/ui/mobile";
-import type { ComponentMeta } from "@openbitfun/ui/registry";
+import { Button, canonicalIconNames, Icon, KeyHint, NumberBadge, SearchField, ThemeRoot, type ColorScheme, type ContrastMode, type DensityMode, type IconName, type TokenOverrides } from "@opc-team/ui";
+import { MobileButton, MobileIconButton, MobileLink } from "@opc-team/ui/mobile";
+import type { ComponentMeta } from "@opc-team/ui/registry";
 import { useI18n } from "../i18n";
 import { getOverviewStates, type ComponentPresentation } from "./componentPresentation";
 import "./ComponentShowcase.css";

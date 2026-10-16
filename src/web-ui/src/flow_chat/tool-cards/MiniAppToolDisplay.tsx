@@ -3,11 +3,11 @@ import { useToolCardDisclosure } from '../timeline/readerState';
  * MiniAppToolDisplay — InitMiniApp result on the prominent FlowChat framework.
  */
 import React, { useCallback, useMemo } from 'react';
-import { OverflowText, IconButton, Icon } from '@openbitfun/ui';
+import { OverflowText, IconButton, Icon } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 
 import type { ToolCardProps } from '../types/flow-chat';
-import { ProminentToolCard, ProminentToolCardSummary, ToolProcessingDots } from '@openbitfun/ui/flow-chat';
+import { ProminentToolCard, ProminentToolCardSummary, ToolProcessingDots } from '@opc-team/ui/flow-chat';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 import { useSceneManager } from '@/app/hooks/useSceneManager';
 import './MiniAppToolDisplay.scss';

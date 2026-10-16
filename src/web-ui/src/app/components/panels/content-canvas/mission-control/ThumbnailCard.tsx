@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import type { CanvasTab, EditorGroupId } from '../types';
 import { isFileViewerType } from '../types';
 import './ThumbnailCard.scss';
-import { OverflowText, Icon, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Icon, Tooltip } from '@opc-team/ui';
 
 export interface ThumbnailCardProps {
   /** Tab data */

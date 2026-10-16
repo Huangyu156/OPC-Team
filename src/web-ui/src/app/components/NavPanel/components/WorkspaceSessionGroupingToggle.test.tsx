@@ -4,8 +4,8 @@ import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
-vi.mock('@openbitfun/ui', async importOriginal => ({
-  ...await importOriginal<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async importOriginal => ({
+  ...await importOriginal<typeof import('@opc-team/ui')>(),
   Tooltip: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }));
 

@@ -15,7 +15,7 @@
  *  - Zero performance impact when inactive
  */
 import { INSPECTOR_OVERLAY_THEME } from '@/shared/inspector/inspectorOverlayTheme';
-import { tokens as designTokens } from '@openbitfun/design-tokens';
+import { tokens as designTokens } from '@opc-team/design-tokens';
 
 const INSPECTOR_MONO_FONT = String(designTokens['font.family.mono']).split("'").join("\\'");
 

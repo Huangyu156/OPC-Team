@@ -1,6 +1,6 @@
  
 
-import { OverlayLayer, OverlayRegion, ScrollArea, useHasModalOverlay } from '@openbitfun/ui';
+import { OverlayLayer, OverlayRegion, ScrollArea, useHasModalOverlay } from '@opc-team/ui';
 import React, { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { Notification } from '../types';
 import { useActiveNotifications } from '../hooks/useNotificationState';

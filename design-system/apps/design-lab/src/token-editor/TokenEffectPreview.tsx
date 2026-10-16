@@ -1,6 +1,6 @@
-import { componentRegistry } from "@openbitfun/ui/registry";
+import { componentRegistry } from "@opc-team/ui/registry";
 import { ComponentCardPreview } from "../pages/ComponentsPage";
-import { Button, Stack, Switch } from "@openbitfun/ui";
+import { Button, Stack, Switch } from "@opc-team/ui";
 import { useI18n } from "../i18n";
 
 export function TokenEffectPreview({ componentName }: { componentName?: string }) {

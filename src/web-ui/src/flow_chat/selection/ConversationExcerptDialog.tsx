@@ -2,7 +2,7 @@ import { useLayoutEffect, useRef, useState } from 'react';
 import {
   Button, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading,
   DialogTitle, Icon, IconButton, ScrollArea, Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { notificationService } from '@/shared/notification-system';
 import type { ExcerptDialogTarget } from './conversationExcerptEditing';

@@ -1,5 +1,5 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
-import { subscribeOverlayInteraction, createOverlayPortal, ActionItem } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, ActionItem } from '@opc-team/ui';
 import {
   Button,
   ConfirmDialog,
@@ -15,7 +15,7 @@ import {
   DialogHeading,
   DialogTitle,
   OverflowText,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { Suspense, useCallback, useContext, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { FolderOpen, FolderSearch, RotateCcw, ListChecks, ShieldCheck, Network, Server } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

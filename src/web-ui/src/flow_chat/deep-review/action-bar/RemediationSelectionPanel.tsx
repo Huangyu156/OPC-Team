@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Loader2 } from 'lucide-react';
-import { Checkbox, Icon } from '@openbitfun/ui';
+import { Checkbox, Icon } from '@opc-team/ui';
 import type { ReviewRemediationItem } from '../../utils/codeReviewRemediation';
 import { REMEDIATION_GROUP_ORDER } from '../../utils/codeReviewRemediation';
 import type { RemediationGroupId } from '../../utils/codeReviewReport';

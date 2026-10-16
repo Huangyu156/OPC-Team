@@ -2,14 +2,14 @@
 /** Git commit graph view (branch graph). */
 
 import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { Button, Icon, IconButton, SearchField, ScrollArea } from '@openbitfun/ui';
+import { Button, Icon, IconButton, SearchField, ScrollArea } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { Loader2 } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { gitAPI } from '@/infrastructure/api';
 import type { GitGraph, GitGraphNode } from '@/infrastructure/api/service-api/GitAPI';
 import { APPEARANCE_DOMAIN_TOKENS } from '@/infrastructure/appearance/appearanceDomainTokens';
-import { readActiveTypographyTokenPx, readActiveTypographyTokenValue } from '@openbitfun/design-tokens/typography-runtime';
+import { readActiveTypographyTokenPx, readActiveTypographyTokenValue } from '@opc-team/design-tokens/typography-runtime';
 import { 
   GitGraphViewProps, 
   GitGraphViewConfig,

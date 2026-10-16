@@ -7,7 +7,7 @@
 
 import { forwardRef, useEffect, useRef, useImperativeHandle, useCallback, useSyncExternalStore } from 'react';
 import { Maximize2, Minimize2, SquareDashed } from 'lucide-react';
-import { Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { ContentCanvas, useCanvasStore } from '../../components/panels/content-canvas';
 import { usePanelTabCoordinator } from '../../components/panels/content-canvas/hooks/usePanelTabCoordinator';
 import { TAB_EVENTS } from '../../components/panels/content-canvas/types';

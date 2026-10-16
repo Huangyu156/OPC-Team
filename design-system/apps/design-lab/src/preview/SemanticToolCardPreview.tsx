@@ -5,8 +5,8 @@ import {
   McpResourceToolCard, WorktreeToolCard, PortForwardToolCard, ReviewPlatformToolCard,
   FrontendWorkbenchToolCard, MiniAppFinalizeToolCard, MarketplacePublishToolCard, PlaybookToolCard,
   type SemanticToolCardProps,
-} from '@openbitfun/ui/flow-chat';
-import { toolsForComponent } from '@openbitfun/flow-chat-presentation/registry';
+} from '@opc-team/ui/flow-chat';
+import { toolsForComponent } from '@opc-team/flow-chat-presentation/registry';
 import { useI18n, type MessageKey } from '../i18n';
 import type { FlowChatPreviewDefinition } from './FlowChatPreviewRegistry';
 

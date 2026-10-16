@@ -1,4 +1,4 @@
-import { Button, ScrollArea } from '@openbitfun/ui';
+import { Button, ScrollArea } from '@opc-team/ui';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

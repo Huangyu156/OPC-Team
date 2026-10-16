@@ -8,7 +8,7 @@ import { TimelineMutationBoundary } from '../../timeline/TimelineMutationBoundar
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';
 import type { AnyFlowItem } from '../../types/flow-chat';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import type { FlowChatState, FlowItem, FlowTextItem, FlowThinkingItem, FlowToolItem } from '../../types/flow-chat';
 import { FlowTextBlock } from '../FlowTextBlock';

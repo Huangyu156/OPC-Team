@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { FolderGit2, Laptop, Loader2, MonitorSmartphone, Server } from 'lucide-react';
 
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSection, MenuSeparator, Tooltip } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSection, MenuSeparator, Tooltip } from '@opc-team/ui';
 import { SSHConnectionDialog } from '@/features/ssh-remote/SSHConnectionDialog';
 import { useAccountLoginState } from '@/infrastructure/account/useAccountLoginState';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';

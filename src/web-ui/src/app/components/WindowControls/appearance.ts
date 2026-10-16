@@ -1,6 +1,6 @@
 import type { AppearanceSurfaceDescriptor } from '@/infrastructure/appearance';
 
-/** Desktop-shell chrome owned by the product surface, not by @openbitfun/ui. */
+/** Desktop-shell chrome owned by the product surface, not by @opc-team/ui. */
 export const windowControlsAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   id: 'window-controls',
   parts: [{ id: 'root' }],

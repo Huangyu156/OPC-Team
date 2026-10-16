@@ -3,7 +3,7 @@
  * Lists directories on the peer via HostInvoke FS APIs.
  */
 
-import { createOverlayPortal, OverflowText, Button, Icon, IconButton, Input, ScrollArea } from '@openbitfun/ui';
+import { createOverlayPortal, OverflowText, Button, Icon, IconButton, Input, ScrollArea } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { Home, Loader2 } from 'lucide-react';

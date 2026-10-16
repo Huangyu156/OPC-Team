@@ -1,5 +1,5 @@
 import { BoundedResourceCache } from '@/shared/utils/BoundedResourceCache';
-import { Icon as CatalogIcon } from '@openbitfun/ui';
+import { Icon as CatalogIcon } from '@opc-team/ui';
 /**
  * MermaidBlock component
  * Renders Mermaid diagrams in Markdown

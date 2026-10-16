@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import {
   ConfigFieldStatus,

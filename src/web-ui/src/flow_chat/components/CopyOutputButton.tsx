@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useCallback } from 'react';
-import { Button, Icon } from '@openbitfun/ui';
+import { Button, Icon } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 
 import type { DialogTurn, FlowTextItem, FlowToolItem, FlowThinkingItem } from '../types/flow-chat';

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { getToolCardStatus } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
-import { SessionMessageToolCard as SessionMessageToolCardView } from '@openbitfun/ui/flow-chat';
+import { SessionMessageToolCard as SessionMessageToolCardView } from '@opc-team/ui/flow-chat';
 import { interactionOutcome, readInteractionInput, readToolRecord } from './toolInteractionModel';
 import { useToolSessionParticipant, useCurrentToolSessionParticipant } from './useToolSessionParticipant';
 

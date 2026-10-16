@@ -1,5 +1,5 @@
 import type { MouseEvent, ReactNode } from 'react';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import './ChatInputAttachment.scss';
 
 /** Images and annotations share the same composer attachment shell. */

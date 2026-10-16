@@ -11,7 +11,7 @@ import {
   type AskUserAnswers,
   type AskUserQuestion,
   type AskUserState,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 import React, {
   useCallback,
   useEffect,
@@ -22,7 +22,7 @@ import React, {
   useSyncExternalStore,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Icon, Tooltip } from '@openbitfun/ui';
+import { Button, Icon, Tooltip } from '@opc-team/ui';
 import { i18nService } from '@/infrastructure/i18n';
 import { toolAPI } from '@/infrastructure/api/service-api/ToolAPI';
 import {

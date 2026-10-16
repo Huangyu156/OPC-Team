@@ -1,16 +1,16 @@
 import { Fragment, useEffect, useRef, useState, type ReactNode } from 'react';
 import { ArrowUp, Copy, Check, GitBranch, Square, Trash2 } from 'lucide-react';
-import { Button, Icon, IconButton, MenuPopover, OverflowText, StatusPill } from '@openbitfun/ui';
+import { Button, Icon, IconButton, MenuPopover, OverflowText, StatusPill } from '@opc-team/ui';
 import {
   AskUser, ChatComposer, ChatComposerActionButton, ChatComposerQueue,
   ChatComposerQueueHeader, ChatComposerQueueItem, ChatComposerQueueItemActions,
   ChatComposerQueueItemContent, ChatComposerQueueList, ChatComposerQueueTitle,
   ExploreGroup, FileOperationToolCard, FlowChatRuntimeStatus, GrepSearchToolCard,
   ReadFileToolCard, ThinkingBlock, TodoToolCard, type AskUserAnswers,
-} from '@openbitfun/ui/flow-chat';
-import { createScenarioClock, SCENARIO_EPOCH } from '@openbitfun/flow-chat-presentation/scenarios';
-import { useThinkingDisclosure } from '@openbitfun/flow-chat-presentation/thinking';
-import { buildExploreSummary } from '@openbitfun/flow-chat-presentation/explore';
+} from '@opc-team/ui/flow-chat';
+import { createScenarioClock, SCENARIO_EPOCH } from '@opc-team/flow-chat-presentation/scenarios';
+import { useThinkingDisclosure } from '@opc-team/flow-chat-presentation/thinking';
+import { buildExploreSummary } from '@opc-team/flow-chat-presentation/explore';
 import { useI18n } from '../i18n';
 import { ScenarioCommand } from './FlowChatScenarios';
 import { usePresentationFormatNumber, usePresentationTranslate } from './flowChatTranslation';

@@ -17,7 +17,7 @@ import {
 
 import { useI18n } from '@/infrastructure/i18n';
 import './StatusBarPopovers.scss';
-import { createOverlayPortal, Input, Listbox, ListboxOption } from '@openbitfun/ui';
+import { createOverlayPortal, Input, Listbox, ListboxOption } from '@opc-team/ui';
 
 export type StatusBarPopoverType = 'position' | 'indent' | 'encoding' | 'language';
 

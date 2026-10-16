@@ -1,4 +1,4 @@
-import { componentRegistry, type ComponentMeta } from "@openbitfun/ui/registry";
+import { componentRegistry, type ComponentMeta } from "@opc-team/ui/registry";
 
 /* Which directory route belongs to which component category. The shell passes it to the page and
    the rail reads it back, so both agree on the route without duplicating the mapping. */

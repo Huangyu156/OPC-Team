@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Button, Composer, ComposerToolbar } from '@openbitfun/ui';
+import { Button, Composer, ComposerToolbar } from '@opc-team/ui';
 import { useImeOwnedKeyGuard } from '@/flow_chat/hooks/useImeOwnedKeyGuard';
 import type { ContextItem } from '@/shared/types/context';
 import { ConversationExcerptAttachments } from '../../selection/ConversationExcerptAttachments';

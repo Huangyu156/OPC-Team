@@ -201,7 +201,7 @@
       "formFactors": ["mobile", "narrow"],
       "themes": ["dark", "light", "system"],
       "states": ["default", "loading", "error", "navigation"],
-      "tokenFamilies": ["@openbitfun/theme-openbitfun", "--opcteam-color-surface-*", "--opcteam-color-content-*", "--opcteam-color-border-*", "--opcteam-color-action-*", "--opcteam-color-status-*"],
+      "tokenFamilies": ["@opc-team/theme", "--opcteam-color-surface-*", "--opcteam-color-content-*", "--opcteam-color-border-*", "--opcteam-color-action-*", "--opcteam-color-status-*"],
       "evidence": [
         {
           "type": "mobile-build-review",
@@ -221,7 +221,7 @@
       "formFactors": ["desktop", "narrow"],
       "themes": ["dark", "light", "system", "openbitfun-dark", "openbitfun-light", "openbitfun-midnight", "openbitfun-china-style", "openbitfun-china-night", "openbitfun-cyber", "openbitfun-slate", "openbitfun-tokyo-night"],
       "states": ["theme-setup", "language", "options", "loading", "progress", "error", "completed", "hover", "focus"],
-      "tokenFamilies": ["@openbitfun/theme-openbitfun", "--opcteam-color-surface-*", "--opcteam-color-content-*", "--opcteam-color-border-*", "--opcteam-color-action-*", "--opcteam-color-accent-*", "--opcteam-color-status-*"],
+      "tokenFamilies": ["@opc-team/theme", "--opcteam-color-surface-*", "--opcteam-color-content-*", "--opcteam-color-border-*", "--opcteam-color-action-*", "--opcteam-color-accent-*", "--opcteam-color-status-*"],
       "evidence": [
         {
           "type": "theme-color-audit",

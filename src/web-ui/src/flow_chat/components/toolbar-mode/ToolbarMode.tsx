@@ -12,7 +12,7 @@
 
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { subscribeOverlayInteraction, createOverlayPortal, IconButton, OverflowText, Menu, MenuItem } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, IconButton, OverflowText, Menu, MenuItem } from '@opc-team/ui';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { Square, Maximize2, MoreVertical, PanelTopOpen, PanelTopClose } from 'lucide-react';
 import { useToolbarModeContext } from './ToolbarModeContext';
@@ -31,7 +31,7 @@ import { useRealtimeVoiceCall } from '../voice/RealtimeVoiceCallContext';
 
 const log = createLogger('ToolbarMode');
 import ChatPane from '@/app/scenes/session/ChatPane';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import './ToolbarMode.scss';
 
 export const ToolbarMode: React.FC = () => {

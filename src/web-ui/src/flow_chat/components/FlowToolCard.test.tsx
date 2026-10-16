@@ -15,7 +15,7 @@ vi.mock('@/infrastructure/i18n', () => ({
 
 vi.mock('../tool-cards', async () => {
   const ReactModule = await import('react');
-  const { useToolCapsulePresentation } = await import('@openbitfun/ui/flow-chat');
+  const { useToolCapsulePresentation } = await import('@opc-team/ui/flow-chat');
   return {
     getToolCardComponent: (toolName: string) => ({
       toolItem,

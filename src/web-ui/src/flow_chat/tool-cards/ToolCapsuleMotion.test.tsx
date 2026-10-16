@@ -2,7 +2,7 @@
 import React, { act, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { AmbientToolCard, AmbientToolCardHeader, ExploreGroup, ToolCapsulePresentationProvider, type FlowGroupReceiveFeedback } from '@openbitfun/ui/flow-chat';
+import { AmbientToolCard, AmbientToolCardHeader, ExploreGroup, ToolCapsulePresentationProvider, type FlowGroupReceiveFeedback } from '@opc-team/ui/flow-chat';
 
 type Status = 'running' | 'completed' | 'error';
 let container: HTMLDivElement;

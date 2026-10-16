@@ -1,4 +1,4 @@
-import { Button, Icon as CatalogIcon } from "@openbitfun/ui";
+import { Button, Icon as CatalogIcon } from "@opc-team/ui";
 import { GuideCodeCard, GuideStepList } from "../components/GuideContract";
 import { useI18n } from "../i18n";
 

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
-import { Button, Card, CardBody, CardFooter, CardHeader, OverlayLayer, OverflowText } from '@openbitfun/ui';
+import { Button, Card, CardBody, CardFooter, CardHeader, OverlayLayer, OverflowText } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { getActiveSurfaceScope, onSurfaceActivated } from '@/infrastructure/peer-device/deviceSurface';
 import {

@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem, MenuList } from '@openbitfun/ui';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem, MenuList } from '@opc-team/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import type { ReasoningCatalogProjection } from '@/infrastructure/config/types';

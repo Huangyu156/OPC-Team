@@ -59,7 +59,7 @@ The trusted application then supplies one process-lifetime model configuration;
 the SDK finds and manages the staged native Host automatically:
 
 ```typescript
-import { AgentClient } from "@openbitfun/agent-sdk";
+import { AgentClient } from "@opc-team/agent-sdk";
 
 const apiKey = await trustedSecretStore.read("openai");
 await using client = await AgentClient.start({

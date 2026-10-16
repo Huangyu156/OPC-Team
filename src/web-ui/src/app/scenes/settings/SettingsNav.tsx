@@ -13,7 +13,7 @@ import {
   OverflowText,
   SearchField,
   Spinner,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import type { i18n as I18nApi } from 'i18next';
 import React, {
   useCallback,

@@ -1,5 +1,5 @@
 import { Play } from 'lucide-react';
-import { Icon, IconButton, OverflowText, Tooltip } from '@openbitfun/ui';
+import { Icon, IconButton, OverflowText, Tooltip } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import type { MenuItem } from '@/shared/context-menu-system/types/menu.types';
 import type { ShellEntry, UseShellEntriesReturn } from '../shell/hooks';

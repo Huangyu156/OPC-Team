@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Code2, Pause, Play } from "lucide-react";
-import { SegmentedControl, Icon, IconButton, ThemeRoot } from "@openbitfun/ui";
+import { SegmentedControl, Icon, IconButton, ThemeRoot } from "@opc-team/ui";
 import {
   OpenBitFunAppIcon,
   OpenBitFunBrandMotion,
@@ -9,7 +9,7 @@ import {
   SubagentHatch,
   VoiceParticleLogo,
   type SubagentHatchPhase,
-} from "@openbitfun/ui/brand";
+} from "@opc-team/ui/brand";
 import { useI18n, type MessageKey } from "../i18n";
 import { SUBAGENT_AVATAR_CATALOG } from "../assets/subagentAvatars";
 import silverUrl from "../../../../packages/ui/src/brand/assets/opc-app-mark.png?url";

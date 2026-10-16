@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import {
   SkillToolCard,
   type FlowChatToolStatus,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlowChatRuntimeStatus } from '@openbitfun/ui/flow-chat';
+import { FlowChatRuntimeStatus } from '@opc-team/ui/flow-chat';
 import { useRuntimeStatusStore } from '../../store/runtimeStatusStore';
 import { submittedMessageStatusDelay } from '../../services/submittedMessagePresentation';
 import './RuntimeStatusSlot.scss';

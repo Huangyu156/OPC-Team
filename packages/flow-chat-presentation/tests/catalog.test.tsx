@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs';
 import { renderToString } from 'react-dom/server';
 import ts from 'typescript';
 import { describe, expect, it, vi } from 'vitest';
-import { componentRegistry } from '@openbitfun/ui/registry';
+import { componentRegistry } from '@opc-team/ui/registry';
 import { dedicatedToolNames, productOwnedToolNames, toolPresentationRegistry, toolsForComponent } from '../src/registry';
 import { execScenarios } from '../src/scenarios';
 import { FlowChatComponentPreview, flowChatPreviewRegistry } from '../../../design-system/apps/design-lab/src/preview/FlowChatPreviewRegistry';

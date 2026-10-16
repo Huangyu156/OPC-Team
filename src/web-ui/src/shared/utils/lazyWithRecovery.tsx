@@ -9,7 +9,7 @@ import {
   type ForwardRefExoticComponent,
   type LazyExoticComponent,
 } from 'react';
-import { Alert, Button } from '@openbitfun/ui';
+import { Alert, Button } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { createLogger } from './logger';
 import { createModuleLoader, subscribeToModuleRecovery } from './moduleLoader';

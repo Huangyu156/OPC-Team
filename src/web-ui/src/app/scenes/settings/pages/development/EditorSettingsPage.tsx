@@ -19,7 +19,7 @@ import { useI18n } from '@/infrastructure/i18n';
 import { createLogger } from '@/shared/utils/logger';
 import { DEFAULT_EDITOR_CONFIG, type EditorConfigPartial, type EditorConfig as EditorConfigType } from '@/tools/editor/config';
 import { resolveEditorFontFamily } from '@/tools/editor/config/defaults';
-import { NumberInput, Select, Switch } from '@openbitfun/ui';
+import { NumberInput, Select, Switch } from '@opc-team/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 
 const log = createLogger('EditorSettingsPage');

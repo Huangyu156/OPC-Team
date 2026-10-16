@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ArrowLeftRight } from 'lucide-react';
-import { Button, Icon, IconButton, Input, SplitView, Tooltip, type SplitViewMode } from '@openbitfun/ui';
+import { Button, Icon, IconButton, Input, SplitView, Tooltip, type SplitViewMode } from '@opc-team/ui';
 import { useI18n } from '../i18n';
 import './SplitViewPreview.css';
 

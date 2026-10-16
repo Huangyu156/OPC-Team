@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root { box-sizing: border-box; min-inline-size: 0; color: var(--opcteam-color-content-primary); }
   .trigger { display: flex; inline-size: 100%; min-block-size: 44px; align-items: center; gap: var(--opcteam-space-2); margin: 0; padding: var(--opcteam-space-2) 0; border: 0; color: inherit; background: transparent; cursor: pointer; text-align: start; font: inherit; }
   @media (hover: hover) and (pointer: fine) {

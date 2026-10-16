@@ -7,8 +7,8 @@ import { useToolCardDisclosure } from '../timeline/readerState';
  */
 
 import React, { useState, useMemo, useCallback, useEffect, useRef } from 'react';
-import { OverflowText, Button, IconButton, ScrollArea } from '@openbitfun/ui';
-import { ToolCardActions } from '@openbitfun/ui/flow-chat';
+import { OverflowText, Button, IconButton, ScrollArea } from '@opc-team/ui';
+import { ToolCardActions } from '@opc-team/ui/flow-chat';
 import { useTranslation } from 'react-i18next';
 import { ClipboardList, Loader2, PlayCircle, XCircle, ChevronsUpDown, ChevronsDownUp, FolderOpen, Save, AlertCircle } from 'lucide-react';
 import type { ToolCardProps } from '../types/flow-chat';
@@ -17,7 +17,7 @@ import { flowChatManager } from '@/flow_chat/services/FlowChatManager';
 import { workspaceAPI } from '@/infrastructure/api/service-api/WorkspaceAPI';
 import { fileSystemService } from '@/tools/file-system/services/FileSystemService';
 import { planBuildStateService } from '@/shared/services/PlanBuildStateService';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import { createLogger } from '@/shared/utils/logger';
 import { notificationService } from '@/shared/notification-system';
 import { globalEventBus } from '@/infrastructure/event-bus';

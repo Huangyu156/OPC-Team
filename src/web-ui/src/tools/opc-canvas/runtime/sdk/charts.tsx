@@ -1,4 +1,4 @@
-import { OverflowText } from '@openbitfun/ui';
+import { OverflowText } from '@opc-team/ui';
 import type { CanvasChartDatum, CanvasChartProps, CanvasChartSeries } from './types';
 
 interface NormalizedSeries {

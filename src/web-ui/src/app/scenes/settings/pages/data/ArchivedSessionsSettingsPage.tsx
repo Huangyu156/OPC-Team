@@ -25,7 +25,7 @@ import { i18nService, useI18n } from '@/infrastructure/i18n';
 import { notificationService } from '@/shared/notification-system';
 import type { SessionMetadata } from '@/shared/types/session-history';
 import { createLogger } from '@/shared/utils/logger';
-import { Button, Empty, Icon, OverflowText } from '@openbitfun/ui';
+import { Button, Empty, Icon, OverflowText } from '@opc-team/ui';
 import { Inbox, RotateCcw } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

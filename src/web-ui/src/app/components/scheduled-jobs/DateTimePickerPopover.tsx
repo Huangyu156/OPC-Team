@@ -11,7 +11,7 @@
  * and the text field already accepts it.
  */
 
-import { subscribeOverlayInteraction, createOverlayPortal, Button, Icon, IconButton } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Button, Icon, IconButton } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';

@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root { display: inline-flex; min-block-size: 22px; align-items: center; gap: var(--opcteam-space-1); padding: 1px var(--opcteam-space-2); border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle); border-radius: var(--opcteam-radius-pill); color: var(--opcteam-color-content-secondary); background: var(--opcteam-color-surface-tertiary); font-size: var(--opcteam-type-label-xs-font-size); font-weight: var(--opcteam-type-label-xs-font-weight); line-height: var(--opcteam-type-label-xs-line-height); }
   .root[data-tone="info"] { border-color: var(--opcteam-color-status-info-border); color: var(--opcteam-color-status-info-content); background: var(--opcteam-color-status-info-surface); }
   .root[data-tone="success"] { border-color: var(--opcteam-color-status-success-border); color: var(--opcteam-color-status-success-content); background: var(--opcteam-color-status-success-surface); }

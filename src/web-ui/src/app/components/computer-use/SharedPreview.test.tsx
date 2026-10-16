@@ -14,7 +14,7 @@ vi.mock('@/infrastructure/peer-device/deviceSurface', () => ({
 }));
 vi.mock('@/infrastructure/i18n', () => ({ useI18n: () => ({ t: mocks.t }) }));
 vi.mock('./PreviewCursor', () => ({ PreviewCursor: () => <span /> }));
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Button: ({ children, variant: _variant, size: _size, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement> & { variant?: string; size?: string }) => <button {...props}>{children}</button>,
   Input: ({ size: _size, ...props }: Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> & { size?: string }) => <input {...props} />,
   Select: () => <select />,

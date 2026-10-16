@@ -1,6 +1,6 @@
 import React from 'react';
 import { Bookmark } from 'lucide-react';
-import { NavigationPanelItem, OverflowText, Icon as CatalogIcon, Tooltip } from '@openbitfun/ui';
+import { NavigationPanelItem, OverflowText, Icon as CatalogIcon, Tooltip } from '@opc-team/ui';
 import type { MenuItem } from '@/shared/context-menu-system/types/menu.types';
 import type { ShellEntry } from '../hooks/shellEntryTypes';
 

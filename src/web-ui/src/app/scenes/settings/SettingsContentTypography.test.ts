@@ -16,7 +16,7 @@ const shortcutStyles = readSource('./pages/application/KeyboardShortcutsSection.
 
 describe('Settings content typography', () => {
   it('maps the shared settings hierarchy to canonical semantic type roles', () => {
-    expect(headerComponent).toContain("import { PageHeader } from '@openbitfun/ui'");
+    expect(headerComponent).toContain("import { PageHeader } from '@opc-team/ui'");
     expect(headerComponent).toContain('<PageHeader');
     expect(headerComponent).toContain('size="md"');
 

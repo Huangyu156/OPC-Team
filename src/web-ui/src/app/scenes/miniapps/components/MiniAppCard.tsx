@@ -1,4 +1,4 @@
-import { OverflowText, Icon, IconButton } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton } from '@opc-team/ui';
 import React from 'react';
 import { Play, Square } from 'lucide-react';
 import type { MiniAppMeta } from '@/infrastructure/api/service-api/MiniAppAPI';

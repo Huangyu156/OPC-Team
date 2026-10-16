@@ -1,4 +1,4 @@
-import { OverflowText, Button, Icon, StatusPill, type StatusPillTone } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, StatusPill, type StatusPillTone } from '@opc-team/ui';
 import {
   GalleryHorizontalEnd,
   HardDrive,

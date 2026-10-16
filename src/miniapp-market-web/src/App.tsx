@@ -1,4 +1,4 @@
-import { Input, Textarea, Button, IconButton } from '@openbitfun/ui';
+import { Input, Textarea, Button, IconButton } from '@opc-team/ui';
 import { FormEvent, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CubeFocus as MarketLogo, GithubLogo, IconContext } from '@phosphor-icons/react';
 import {

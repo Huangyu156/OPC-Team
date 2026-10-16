@@ -1,1 +1,1 @@
-export { formatSessionViewPreviewText, isSessionViewPreviewText, isOnlySessionViewPreviewText } from '@openbitfun/flow-chat-presentation/text';
+export { formatSessionViewPreviewText, isSessionViewPreviewText, isOnlySessionViewPreviewText } from '@opc-team/flow-chat-presentation/text';

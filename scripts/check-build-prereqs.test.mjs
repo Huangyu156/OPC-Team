@@ -166,7 +166,7 @@ test('passes when all prerequisites are present (including sherpa-onnx prebuilt)
     sherpaOnnx: ['sherpa-onnx-v1.13.4-osx-arm64-static-lib'],
     virtualStoreEntries: {
       'node_modules/.pnpm/typescript@5.8.3/node_modules/typescript': ['package.json'],
-      'node_modules/.pnpm/@openbitfun+ui@0.1.0/node_modules/@openbitfun/ui': [
+      'node_modules/.pnpm/@opc-team+ui@0.1.0/node_modules/@opc-team/ui': [
         'package.json',
       ],
     },

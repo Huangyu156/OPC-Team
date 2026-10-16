@@ -33,7 +33,7 @@ import {
   Switch,
   Textarea,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { GitPullRequest, Zap } from 'lucide-react';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';

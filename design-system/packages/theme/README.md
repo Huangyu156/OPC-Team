@@ -1,10 +1,10 @@
-# @openbitfun/theme-openbitfun
+# @opc-team/theme
 
-Replaceable OPC-Team theme values for the framework-neutral `@openbitfun/ui` package.
+Replaceable OPC-Team theme values for the framework-neutral `@opc-team/ui` package.
 
 ```ts
-import "@openbitfun/theme-openbitfun/default.css";
-import { themeModes, themeTokenCatalog, themes } from "@openbitfun/theme-openbitfun";
+import "@opc-team/theme/default.css";
+import { themeModes, themeTokenCatalog, themes } from "@opc-team/theme";
 ```
 
 `default.css` synchronously imports the system token contract and all built-in theme variants. Theme selection is scoped to a `data-opcteam-design-system-root` element and uses independent `data-color-scheme` and `data-contrast` axes.
@@ -21,10 +21,10 @@ Design tools can read the palette through the authoring-only export:
 import {
   referenceColorCatalog,
   referenceColorScales,
-} from "@openbitfun/theme-openbitfun/authoring";
+} from "@opc-team/theme/authoring";
 ```
 
-The same data is available as `@openbitfun/theme-openbitfun/reference-colors.json`. Reference colors deliberately do not emit runtime CSS variables; application and component CSS must continue to use semantic theme variables.
+The same data is available as `@opc-team/theme/reference-colors.json`. Reference colors deliberately do not emit runtime CSS variables; application and component CSS must continue to use semantic theme variables.
 
 ## Surface and state roles
 

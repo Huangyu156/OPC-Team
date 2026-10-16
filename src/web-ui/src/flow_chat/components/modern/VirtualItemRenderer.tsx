@@ -9,7 +9,7 @@ import type { VirtualItem } from '../../store/modernFlowChatStore';
 import { UserMessageItem } from './UserMessageItem';
 import { ModelRoundItem } from './ModelRoundItem';
 import { FlowGroupRenderer } from './FlowGroupRenderer';
-import { AmbientToolCard, AmbientToolCardHeader } from '@openbitfun/ui/flow-chat';
+import { AmbientToolCard, AmbientToolCardHeader } from '@opc-team/ui/flow-chat';
 import { useFlowChatVolatileContext } from './FlowChatContext';
 import { TurnCompletionNoticeItem } from './TurnCompletionNoticeItem';
 import { TurnFailureNoticeItem } from './TurnFailureNoticeItem';
@@ -18,7 +18,7 @@ import { getVirtualItemStableKey } from './virtualItemIdentity';
 import { useFlowChatSearchPresentation } from './useFlowChatSearchPresentation';
 import { ConversationExcerptMarkers } from '../../selection/ConversationExcerptMarkers';
 import { getKnownVirtualItemHeightPx } from './virtualItemHeightEstimators';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import { TimelineContentBlock } from '../../timeline/TimelineContentBlock';
 import { useTurnFooterInteraction } from './useTurnFooterInteraction';
 

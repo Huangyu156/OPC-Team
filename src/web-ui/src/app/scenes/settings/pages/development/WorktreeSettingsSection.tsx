@@ -30,7 +30,7 @@ import { confirmWarning } from '@/infrastructure/confirm-dialog';
 import { useI18n } from '@/infrastructure/i18n';
 import { workspaceManager } from '@/infrastructure/services/business/workspaceManager';
 import { notificationService } from '@/shared/notification-system';
-import { Button, ConfirmDialog, Icon, IconButton, Input, NumberInput, OverflowText, StatusPill, Switch, Tooltip } from '@openbitfun/ui';
+import { Button, ConfirmDialog, Icon, IconButton, Input, NumberInput, OverflowText, StatusPill, Switch, Tooltip } from '@opc-team/ui';
 import { FolderGit2, LoaderCircle, MessageSquareText, RotateCcw } from 'lucide-react';
 import React, {
   useCallback,

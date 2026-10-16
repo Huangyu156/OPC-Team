@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root { box-sizing: border-box; min-inline-size: 0; border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle); border-radius: var(--opcteam-radius-xl); color: var(--opcteam-color-content-primary); background: var(--opcteam-color-surface-panel); }
   .root[data-appearance="plain"] { border-color: transparent; background: transparent; }
   .root[data-appearance="elevated"] { background: var(--opcteam-color-surface-raised); box-shadow: var(--opcteam-shadow-base); }

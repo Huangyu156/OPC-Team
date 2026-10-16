@@ -1,5 +1,5 @@
 import { Component, ReactNode } from 'react';
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import { createLogger } from '@/shared/utils/logger';
 import { i18nService } from '@/infrastructure/i18n';
 import { buildReactCrashLogPayload } from '@/shared/utils/reactProductionError';

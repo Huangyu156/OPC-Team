@@ -1,5 +1,5 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { Button, Checkbox, Select } from '@openbitfun/ui';
+import { Button, Checkbox, Select } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { getActiveSurfaceScope, onSurfaceActivated } from '@/infrastructure/peer-device/deviceSurface';
 import { computerUseControlAPI, type ComputerUseControlSnapshot, type ComputerUseShareTarget } from '@/infrastructure/api/service-api/ComputerUseControlAPI';

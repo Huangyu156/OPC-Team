@@ -1,5 +1,5 @@
 import { categoryColor, usageColorSequence, toneColor } from './style';
-import { Alert as DesignAlert, Disclosure as DesignDisclosure, OverflowText } from '@openbitfun/ui';
+import { Alert as DesignAlert, Disclosure as DesignDisclosure, OverflowText } from '@opc-team/ui';
 import { useCanvasState } from './hooks';
 import { normalizeDiffLines } from './diffLines';
 import type {

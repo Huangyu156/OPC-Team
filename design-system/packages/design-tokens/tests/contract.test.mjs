@@ -7,7 +7,7 @@ import {
   diffResolvedTokens,
   mergeTokenDocuments,
   resolveTokens,
-} from "@openbitfun/token-engine";
+} from "@opc-team/token-engine";
 import {
   tokenCatalog,
   tokenModes,

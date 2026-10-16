@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   /* The group is the surface: options are flush rows inside it, so a surface group reads as one
      card instead of a stack of separate controls. */
   .root { display: flex; box-sizing: border-box; inline-size: 100%; min-inline-size: 0; flex-direction: column; overflow: hidden; gap: 0; border: var(--opcteam-border-width-default) solid transparent; border-radius: var(--opcteam-radius-md); background: transparent; }

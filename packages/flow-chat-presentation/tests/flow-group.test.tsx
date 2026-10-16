@@ -1,7 +1,7 @@
 import { act, useState, type ComponentType } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { ContextLoadGroup, ExploreGroup, FlowGroup, type FlowGroupProps } from '@openbitfun/ui/flow-chat';
+import { ContextLoadGroup, ExploreGroup, FlowGroup, type FlowGroupProps } from '@opc-team/ui/flow-chat';
 
 let container: HTMLDivElement;
 let root: Root;

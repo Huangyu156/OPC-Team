@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
-import { themes } from "@openbitfun/theme-openbitfun";
-import { Button, Icon, Input, SearchField, Select, TabGroup, StatusPill } from "@openbitfun/ui";
+import { themes } from "@opc-team/theme";
+import { Button, Icon, Input, SearchField, Select, TabGroup, StatusPill } from "@opc-team/ui";
 import { Clipboard, RotateCcw, Save } from "lucide-react";
-import { componentRegistry } from "@openbitfun/ui/registry";
+import { componentRegistry } from "@opc-team/ui/registry";
 import { useI18n, type MessageKey } from "../i18n";
 import {
   editableTokenCatalog,
@@ -283,7 +283,7 @@ export function TokenWorkbench({
 
   function exportDraft() {
     const payload = JSON.stringify(
-      { changes, contract: "@openbitfun/token-draft@1" },
+      { changes, contract: "@opc-team/token-draft@1" },
       null,
       2,
     );

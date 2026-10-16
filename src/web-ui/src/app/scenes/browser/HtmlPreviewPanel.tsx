@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
-import { LoadingState } from '@openbitfun/ui';
+import { LoadingState } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import BrowserPanel from './BrowserPanel';
 import { htmlPreviewApi } from '@/infrastructure/api/htmlPreviewApi';

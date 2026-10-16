@@ -7,7 +7,7 @@ import {
   Switch as OpenBitFunSwitch,
   Textarea as OpenBitFunTextarea,
   Tooltip as OpenBitFunTooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import type {
   CanvasCheckboxProps,
   CanvasIconButtonProps,

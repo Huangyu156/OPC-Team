@@ -1,5 +1,5 @@
 import React from 'react';
-import { MobileButton, MobileStatus } from '@openbitfun/ui/mobile';
+import { MobileButton, MobileStatus } from '@opc-team/ui/mobile';
 
 interface ErrorBoundaryProps {
   children: React.ReactNode;

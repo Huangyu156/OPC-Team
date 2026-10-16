@@ -1,4 +1,4 @@
-import { Input, Button } from '@openbitfun/ui';
+import { Input, Button } from '@opc-team/ui';
 import { ArrowRight, Search as MagnifyingGlass } from 'lucide-react';
 import {
   useCallback,

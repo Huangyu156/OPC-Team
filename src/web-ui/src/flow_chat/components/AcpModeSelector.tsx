@@ -11,8 +11,8 @@
 import React, { useCallback, useEffect, useId, useRef, useState } from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem } from '@openbitfun/ui';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem } from '@opc-team/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import type { AcpModeState } from '../utils/acpSessionConfig';

@@ -7,7 +7,7 @@
 当前事实以以下可执行契约及其输出为准：
 
 - `design-system/packages/design-tokens`
-- `design-system/packages/theme-openbitfun`
+- `design-system/packages/theme`
 - `src/web-ui/src/infrastructure/appearance/appearanceTokenContract.ts`
 - `scripts/theme-color-governance-baseline*.json`
 - `scripts/theme-color-near-pair-decisions.json`
@@ -24,18 +24,18 @@
 
 | 层级 | 唯一职责 | 不拥有的内容 |
 |---|---|---|
-| `@openbitfun/design-tokens` | 主题无关的命名、系统尺度和基础 Token 契约 | OPC-Team 具体 light/dark 值、产品状态、route 或运行时选择 |
-| `@openbitfun/theme-openbitfun` | OPC-Team 的 reference/semantic 主题值、canonical CSS 变量映射和 `default.css` | Web UI Appearance 包、产品 store、组件内部状态 |
-| `@openbitfun/ui` | 消费 semantic/system Token 的公共组件 anatomy、行为和无障碍契约 | 具体主题值、Appearance schema、旧 Web UI 变量 |
+| `@opc-team/design-tokens` | 主题无关的命名、系统尺度和基础 Token 契约 | OPC-Team 具体 light/dark 值、产品状态、route 或运行时选择 |
+| `@opc-team/theme` | OPC-Team 的 reference/semantic 主题值、canonical CSS 变量映射和 `default.css` | Web UI Appearance 包、产品 store、组件内部状态 |
+| `@opc-team/ui` | 消费 semantic/system Token 的公共组件 anatomy、行为和无障碍契约 | 具体主题值、Appearance schema、旧 Web UI 变量 |
 | Web UI Appearance | 选择和组合主题，生成 schema v2 包，并投影 canonical root/scoped Token 与显式 product domain/component Token | 公共 Token 的第二套命名、兼容双写、组件私有 palette |
-| 产品前端 | 选择主题、设置设计系统 root 属性并消费 canonical Token | 复制 `theme-openbitfun` palette、随组件新增 raw color |
+| 产品前端 | 选择主题、设置设计系统 root 属性并消费 canonical Token | 复制 `theme` palette、随组件新增 raw color |
 
 正向依赖固定为：
 
 ```mermaid
 flowchart LR
-  System["@openbitfun/design-tokens<br/>命名与系统尺度"] --> Theme["@openbitfun/theme-openbitfun<br/>默认语义值"]
-  System --> UI["@openbitfun/ui"]
+  System["@opc-team/design-tokens<br/>命名与系统尺度"] --> Theme["@opc-team/theme<br/>默认语义值"]
+  System --> UI["@opc-team/ui"]
   Theme --> UI
   Theme --> Appearance["Web UI Appearance v2<br/>产品主题组合"]
   Appearance --> Runtime["theme-tokens adapter"]
@@ -86,7 +86,7 @@ Primitive/reference 色值只存在于主题 authoring、明确的主题 preset 
 2. 数值相近且相邻状态仍可区分，合并到已有 Token，并更新 near-pair 决策。
 3. 存在独立、稳定、可说明的组件语义，在最窄 owner 中新增 `--opcteam-component-*`。
 4. 属于产品或渲染专用域，进入 `--opcteam-domain-*` 或 renderer payload。
-5. 只有主题本身需要新的基础色时，才修改 `@openbitfun/theme-openbitfun` 的 authoring source。
+5. 只有主题本身需要新的基础色时，才修改 `@opc-team/theme` 的 authoring source。
 
 数值接近不是唯一判断标准；相邻背景/边框、文本层级、状态色、diff、syntax 和数据系列必须结合同时
 出现时的区分度审查。反过来，也不能以“可能有视觉差异”为理由给每个组件建立近似私有颜色。
@@ -143,7 +143,7 @@ Web UI Appearance 的当前 schema 固定为 v2。颜色入口是 `theme-tokens`
 - `ThemeTokenAppearanceAdapter` 在切换时移除上一包写入的 root/scoped Token，再写入新包；不双写任何
   历史名称。
 - Token 名和 Token 值都经过 allowlist 与安全校验；未登记名称、嵌套 `var()`、URL 或可注入片段直接失败。
-- builtin Appearance 从 `@openbitfun/theme-openbitfun` 的完整主题值开始，只覆盖产品 theme/preset 真正不同的
+- builtin Appearance 从 `@opc-team/theme` 的完整主题值开始，只覆盖产品 theme/preset 真正不同的
   canonical 值，再补充受治理的 component/domain Token。
 - Widget、Desktop 首屏 bootstrap 和生成式 UI 提示只消费同一 canonical 源生成的 allowlist 产物，
   不能反向成为主题 owner。
@@ -182,11 +182,11 @@ Tokyo Night 使用夜靛外壳、storm 靛蓝内容与蓝紫浮层。Cyber 保�
 登记稳定 `id`、源码 root、颜色 owner 和审计引擎；新增目录不能依赖维护者再给 `package.json` 手写一段命令。
 当前注册表覆盖：
 
-- Web UI、`@openbitfun/ui`、Design Lab、Website、Mini App Market、Skin Market、Mobile Web 和 Installer。
+- Web UI、`@opc-team/ui`、Design Lab、Website、Mini App Market、Skin Market、Mobile Web 和 Installer。
 - Desktop JavaScript 启动前页面、Native Mobile 比较预览、CLI/TUI。
 - HarmonyOS、Android、iOS 三端原生源码。
 - 全部 builtin/Demo MiniApp 及其内置 Skill reference mirror。
-- `@openbitfun/design-tokens` 与 `@openbitfun/theme-openbitfun` 的 authoring owner。
+- `@opc-team/design-tokens` 与 `@opc-team/theme` 的 authoring owner。
 
 `scripts/audit-frontend-colors.mjs` 只从该注册表编排检查：普通 Web surface 复用 CSS/Token 审计，CLI 复用终端
 主题审计，Native Mobile 与 MiniApp 使用各自的源码契约检查。MiniApp discovery 会从三个登记的父目录查找
@@ -199,13 +199,13 @@ Tokyo Night 使用夜靛外壳、storm 靛蓝内容与蓝紫浮层。Cyber 保�
 
 ### Design Lab、Website、Market
 
-Design Lab、Website、Mini App Market 与 Skin Market 直接加载 `@openbitfun/theme-openbitfun/default.css`，通过
+Design Lab、Website、Mini App Market 与 Skin Market 直接加载 `@opc-team/theme/default.css`，通过
 `data-opcteam-design-system-root`、`data-color-scheme`、`data-contrast` 和 `data-density` 选择已发布主题。
 它们可以拥有布局和产品交互，但不得再维护本地 light/dark palette。
 
 ### Mobile Web / Remote Control
 
-Mobile Web 直接消费 `@openbitfun/theme-openbitfun`。`ThemeProvider` 与首屏 bootstrap 只负责选择 light/dark、
+Mobile Web 直接消费 `@opc-team/theme`。`ThemeProvider` 与首屏 bootstrap 只负责选择 light/dark、
 写设计系统 root 属性和同步浏览器 `theme-color`；已退休的本地 preset/ramp 不得恢复。Relay 中的 Mobile
 静态包必须由这一源码重新构建，不能保留旧 Vite 产物作为隐式第二套主题实现。
 
@@ -229,7 +229,7 @@ Native Mobile 预览的工具 chrome 消费 canonical `--opcteam-*`；设备画�
 
 ### HarmonyOS / Android / iOS
 
-原生移动端不加载 Web CSS，也不复制 `@openbitfun/theme-openbitfun`。它们的唯一跨平台视觉事实 owner 是
+原生移动端不加载 Web CSS，也不复制 `@opc-team/theme`。它们的唯一跨平台视觉事实 owner 是
 `src/apps/mobile/design-system/tokens/mobile-tokens.json`：
 
 - 颜色名称按语义登记，例如 content、surface、status、scrim、media control 和 shadow；不得使用 `green`、
@@ -254,7 +254,7 @@ preset 必须同时说明用户可见差异、相邻状态对比、所需 canoni
 ### MiniApp 公共投影
 
 MiniApp 不能读取 Web UI 内部变量全集。公开边界只有 `src/shared/miniapp-appearance/contract.json` 中登记的
-`--opcteam-*`，每一项都投影自 `@openbitfun/design-tokens` 或 `@openbitfun/theme-openbitfun` 的真实 canonical 变量。
+`--opcteam-*`，每一项都投影自 `@opc-team/design-tokens` 或 `@opc-team/theme` 的真实 canonical 变量。
 Web UI payload、Rust 首帧 style 和 MiniApp 源码共同遵守以下约束：
 
 - 使用未登记的 `--opcteam-*`、在应用内重新定义宿主变量、或写 `var(--opcteam-*, fallback)` 均直接失败。

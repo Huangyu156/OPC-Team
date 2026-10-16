@@ -9,7 +9,7 @@ import {
   Input as DesignInput,
   StatusPill as DesignStatusPill,
   TabGroup as DesignTabGroup,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import type {
   CanvasButtonProps,
   CanvasCardBodyProps,

@@ -1,5 +1,5 @@
 
-import { ToolCardCopyButton } from '@openbitfun/ui/flow-chat';
+import { ToolCardCopyButton } from '@opc-team/ui/flow-chat';
 import { useCopyTextAction } from '../hooks/useCopyTextAction';
 
 export interface ToolCardCopyActionProps {

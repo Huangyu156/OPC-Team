@@ -24,9 +24,9 @@ test('mobile-web lifecycle prepares its generated design-system package entries'
   const packageJson = JSON.parse(
     readFileSync(new URL('../src/mobile-web/package.json', import.meta.url), 'utf8'),
   );
-  // Unlike src/web-ui, mobile-web has no @openbitfun/ui source alias and
+  // Unlike src/web-ui, mobile-web has no @opc-team/ui source alias and
   // design-system/packages/ui/dist is generated rather than committed, so dev,
-  // build, and type-check all resolve @openbitfun/ui through its package
+  // build, and type-check all resolve @opc-team/ui through its package
   // exports. Every hook therefore needs the full build:packages run.
   const prepareCommand = 'pnpm --dir ../../design-system run build:packages';
 
@@ -59,13 +59,13 @@ async function createInputChangeFixture(changedInput) {
 
 test('requests a mobile-web rebuild when a theme source changes', async () => {
   const { mobileWebDir, root } = await createInputChangeFixture(
-    'design-system/packages/theme-openbitfun/src/light.tokens.json',
+    'design-system/packages/theme/src/light.tokens.json',
   );
 
   const plan = getMobileWebRebuildPlan(mobileWebDir, false, root);
 
   assert.equal(plan.shouldBuild, true);
-  assert.match(plan.reason, /design-system[\\/]packages[\\/]theme-openbitfun[\\/]src[\\/]light\.tokens\.json/);
+  assert.match(plan.reason, /design-system[\\/]packages[\\/]theme[\\/]src[\\/]light\.tokens\.json/);
 });
 
 test('requests a mobile-web rebuild when a shared ui package source changes', async () => {
@@ -81,7 +81,7 @@ test('requests a mobile-web rebuild when a shared ui package source changes', as
 
 test('requests a mobile-web rebuild when a design-system package-root config changes', async () => {
   // Regression: a package-root file that is neither src/ nor scripts/ still
-  // changes the @openbitfun/ui exports mobile-web bundles.
+  // changes the @opc-team/ui exports mobile-web bundles.
   const { mobileWebDir, root } = await createInputChangeFixture(
     'design-system/packages/ui/vite.mobile.config.ts',
   );
@@ -115,7 +115,7 @@ test('reuses mobile-web output when only generated design-system output is newer
   );
   const generatedTheme = write(
     root,
-    'design-system/packages/theme-openbitfun/dist/index.js',
+    'design-system/packages/theme/dist/index.js',
     'export {};\n',
   );
   // Generated ui output is watched through its source tree only: treating dist

@@ -1,4 +1,4 @@
-import { Stack as DesignStack } from '@openbitfun/ui';
+import { Stack as DesignStack } from '@opc-team/ui';
 import { commonStyle, flexAlign, flexJustify } from './style';
 import type {
   CanvasBoxProps,

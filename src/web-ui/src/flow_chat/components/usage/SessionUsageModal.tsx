@@ -19,7 +19,7 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import type { SessionUsageReport } from '@/infrastructure/api/service-api/SessionAPI';
 import { setChatPopupActive } from '../chatPopupState';
 import { SessionUsageReportCard } from './SessionUsageReportCard';

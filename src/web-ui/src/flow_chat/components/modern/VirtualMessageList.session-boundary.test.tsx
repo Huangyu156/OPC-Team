@@ -3,8 +3,8 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { FlowGroup, ThinkingBlock } from '@openbitfun/ui/flow-chat';
-import { DeferredContent } from '@openbitfun/flow-chat-presentation/deferred-content';
+import { FlowGroup, ThinkingBlock } from '@opc-team/ui/flow-chat';
+import { DeferredContent } from '@opc-team/flow-chat-presentation/deferred-content';
 import { computeFlowChatInputStackFooterPx } from '../../utils/flowChatScrollLayout';
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';
 import { finishSubmittedMessageScrollIntent, registerSubmittedMessageScrollIntent, type SubmittedMessageScrollIntent } from '../../services/submittedMessageScrollIntent';

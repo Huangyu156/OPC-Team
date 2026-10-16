@@ -1,4 +1,4 @@
-import { OverflowText, Button, Icon, Input, ScrollArea, Switch, Textarea, Tooltip, type IconSource } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, Input, ScrollArea, Switch, Textarea, Tooltip, type IconSource } from '@opc-team/ui';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import {
   FileText,

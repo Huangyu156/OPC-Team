@@ -12,7 +12,7 @@ import { resolveAgentWaitAvatarTargets, type AgentWaitAvatarTarget } from './age
 import {
   AgentWaitToolCard as AgentWaitToolCardView,
   ToolCardDisclosure, ToolCardSection, ToolCardText,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 import { useCurrentToolSessionParticipant } from './useToolSessionParticipant';
 import { interactionOutcome, readInteractionInput, readToolRecord, toolString } from './toolInteractionModel';
 import { formatRuntimeToolValue } from './runtimeToolCardModel';

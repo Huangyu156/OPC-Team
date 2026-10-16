@@ -1,5 +1,5 @@
 import { memo, type ReactNode } from 'react';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import { CircleAlert, CircleCheck, CirclePause, CircleStop, CloudOff, Hand, Loader2, MessageCircleQuestion } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n';
 import { useSessionNavStatus } from '@/flow_chat/hooks/useSessionNavStatus';

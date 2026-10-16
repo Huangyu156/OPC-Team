@@ -3,7 +3,7 @@ import { FilePlus, FolderPlus, List, RotateCw } from 'lucide-react';
 import {
   Icon, IconButton, NavigationPanel, NavigationPanelBody, NavigationPanelContent,
   NavigationPanelHeader, OverflowText, StatusPill, Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { getWorkspaceDisplayName, useWorkspaceContext } from '@/infrastructure/contexts/WorkspaceContext';
 import { getActiveSurfaceScope, onSurfaceActivated } from '@/infrastructure/peer-device/deviceSurface';

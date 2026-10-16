@@ -101,7 +101,7 @@ import {
   type TabGroupSize,
   type ToolbarSize,
   type TokenOverrides,
-} from "@openbitfun/ui";
+} from "@opc-team/ui";
 import {
   MobileActionSheet,
   MobileAvatar,
@@ -136,8 +136,8 @@ import {
   MobileTextarea,
   MobileToolbar,
 }
-from "@openbitfun/ui/mobile";
-import { componentRegistry, type ComponentMeta } from "@openbitfun/ui/registry";
+from "@opc-team/ui/mobile";
+import { componentRegistry, type ComponentMeta } from "@opc-team/ui/registry";
 import previewImage from "../assets/design-system-hero.webp";
 import { IconCompositionPreview } from "../preview/IconCompositionPreview";
 import { RollingTextPreview } from "../preview/RollingTextPreview";
@@ -494,45 +494,45 @@ export function ComponentDetailPage({
 
   const codeSample = useMemo(() => {
     if (component.name === "SplitView") {
-      return `import { SplitView } from "@openbitfun/ui";\n\n<SplitView\n  primary={<Chat />}\n  secondary={<Content />}\n  mode={mode}\n  secondarySide={contentSide}\n  rightSize={rightSize}\n  onRightSizeChange={setRightSize}\n  dividerLabel="${t('splitView.resize')}"\n  dividerActions={<SwapButton onClick={swapPanes} />}\n/>`;
+      return `import { SplitView } from "@opc-team/ui";\n\n<SplitView\n  primary={<Chat />}\n  secondary={<Content />}\n  mode={mode}\n  secondarySide={contentSide}\n  rightSize={rightSize}\n  onRightSizeChange={setRightSize}\n  dividerLabel="${t('splitView.resize')}"\n  dividerActions={<SwapButton onClick={swapPanes} />}\n/>`;
     }
     if (component.name === "ThinkingIndicator") {
-      return `import { ThinkingIndicator } from "@openbitfun/ui";\n\n<ThinkingIndicator active={thinking} size="sm" label="${t("thinkingIndicator.label")}" />\n`;
+      return `import { ThinkingIndicator } from "@opc-team/ui";\n\n<ThinkingIndicator active={thinking} size="sm" label="${t("thinkingIndicator.label")}" />\n`;
     }
     if (component.name === "ShimmerText") {
-      return `import { ShimmerText } from "@openbitfun/ui";\n\n<ShimmerText active={running}>${t("components.preview.flowChat.running")}</ShimmerText>\n`;
+      return `import { ShimmerText } from "@opc-team/ui";\n\n<ShimmerText active={running}>${t("components.preview.flowChat.running")}</ShimmerText>\n`;
     }
     if (component.name === "RollingText") {
-      return 'import { RollingText, TabGroup } from "@openbitfun/ui";\n\n// Keep the identity stable for title edits; change it when replacing the resource.\n<RollingText transitionKey={record.id}>{record.title}</RollingText>\n\n// TabGroup owns the text slot and composes RollingText without nested clipping.\n<TabGroup\n  aria-label="Views"\n  items={[{ value: slotId, label: record.title, labelTransitionKey: record.id }]}\n/>\n';
+      return 'import { RollingText, TabGroup } from "@opc-team/ui";\n\n// Keep the identity stable for title edits; change it when replacing the resource.\n<RollingText transitionKey={record.id}>{record.title}</RollingText>\n\n// TabGroup owns the text slot and composes RollingText without nested clipping.\n<TabGroup\n  aria-label="Views"\n  items={[{ value: slotId, label: record.title, labelTransitionKey: record.id }]}\n/>\n';
     }
-    if (component.name === "MobileActionSheet") return `import { MobileActionSheet } from "@openbitfun/ui/mobile";\n\n<MobileActionSheet\n  actions={[\n    { id: "rename", label: "${t("components.preview.modalSave")}" },\n    { id: "delete", label: "${t("components.preview.confirmDelete")}", tone: "danger" },\n  ]}\n  cancelLabel="${t("components.preview.modalCancel")}"\n  onAction={handleAction}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  title="${t("components.preview.session")}"\n/>`;
-    if (component.name === "MobileComposer") return `import { MobileComposer } from "@openbitfun/ui/mobile";\n\n<MobileComposer\n  expanded={expanded}\n  leading={<AttachButton />}\n  startActions={<ModelControls />}\n  endActions={<SendButton />}\n>\n  <textarea />\n</MobileComposer>`;
-    if (component.name === "MobileChoiceSheet") return `import { MobileChoiceSheet } from "@openbitfun/ui/mobile";\n\n<MobileChoiceSheet\n  cancelLabel="${t("components.preview.modalCancel")}"\n  onOpenChange={() => setOpen(false)}\n  onSelect={setMode}\n  open={open}\n  options={[\n    { label: "${t("components.preview.modeMinimal")}", value: "minimal" },\n    { label: "${t("components.preview.modeStandard")}", value: "standard" },\n    { label: "${t("components.preview.modeUltimate")}", value: "ultimate" },\n  ]}\n  selectedValue={mode}\n  title="${t("components.preview.selectExecutionMode")}"\n/>`;
-    if (component.name === "MobileConfirmSheet") return `import { MobileConfirmSheet } from "@openbitfun/ui/mobile";\n\n<MobileConfirmSheet\n  cancelLabel="${t("components.preview.modalCancel")}"\n  confirmLabel="${t("components.preview.confirmDelete")}"\n  confirmTone="danger"\n  onConfirm={handleDelete}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  title="${t("components.preview.confirmTitle")}"\n/>`;
-    if (component.name === "MobileFloatingActions") return `import { MobileFloatingActions } from "@openbitfun/ui/mobile";\n\n<MobileFloatingActions\n  leading={<NewChatButton />}\n  trailing={<SettingsButton />}\n/>`;
-    if (component.name === "MobileFileButton") return `import { MobileFileButton } from "@openbitfun/ui/mobile";\n\n<MobileFileButton accept="image/*" onChange={handleFile}>\n  ${t("components.preview.add")}\n</MobileFileButton>`;
-    if (component.name === "MobileScrim") return `import { MobileScrim } from "@openbitfun/ui/mobile";\n\n<MobileScrim\n  aria-label="${t("components.preview.close")}"\n  onClick={closeSidebar}\n/>`;
-    if (component.name === "MobileIconButton") return `import { Icon } from "@openbitfun/ui";\nimport { MobileIconButton } from "@openbitfun/ui/mobile";\n\n<MobileIconButton\n  appearance="floating"\n  aria-label="${t("components.preview.searchLabel")}"\n  icon={<Icon name="search" />}\n/>`;
-    if (component.name === "MobileLink") return `import { MobileLink } from "@openbitfun/ui/mobile";\n\n<MobileLink href="https://example.com">\n  ${t("nav.docs")}\n</MobileLink>`;
-    if (component.name === "MobileTextField") return `import { MobileTextField } from "@openbitfun/ui/mobile";\n\n<MobileTextField\n  aria-label="${t("components.preview.searchLabel")}"\n  placeholder="${t("components.preview.searchPlaceholder")}"\n/>`;
-    if (component.name === "MobileListRow") return `import { MobileListRow } from "@openbitfun/ui/mobile";\n\n<MobileListRow\n  appearance="surface"\n  label="${t("components.preview.session")}"\n  supportingText="/workspace"\n/>`;
-    if (component.name === "MobileAvatar") return `import { MobileAvatar } from "@openbitfun/ui/mobile";\n\n<MobileAvatar name="${t("components.preview.session")}" size="md" status="online" />`;
-    if (component.name === "MobileCheckbox") return `import { MobileCheckbox } from "@openbitfun/ui/mobile";\n\n<MobileCheckbox\n  label="${t("components.preview.notifications")}"\n  description="${t("components.preview.fieldDescription")}"\n  checked={enabled}\n  onCheckedChange={setEnabled}\n/>`;
-    if (component.name === "MobileRadioGroup") return `import { MobileRadioGroup } from "@openbitfun/ui/mobile";\n\n<MobileRadioGroup\n  name="density"\n  options={densityOptions}\n  value={density}\n  onValueChange={setDensity}\n/>`;
-    if (component.name === "MobileSelect") return `import { MobileSelect } from "@openbitfun/ui/mobile";\n\n<MobileSelect\n  label="${t("components.preview.mobileSelectLabel")}"\n  options={models}\n  sheetTitle="${t("components.preview.mobileSelectLabel")}"\n  value={model}\n  onValueChange={setModel}\n/>`;
-    if (component.name === "MobileStepper") return `import { MobileStepper } from "@openbitfun/ui/mobile";\n\n<MobileStepper\n  label="${t("components.preview.mobileStepperLabel")}"\n  decrementLabel="${t("components.preview.mobileDecrease")}"\n  incrementLabel="${t("components.preview.mobileIncrease")}"\n  min={0}\n  max={5}\n  value={value}\n  onValueChange={setValue}\n/>`;
-    if (component.name === "MobileSwitch") return `import { MobileSwitch } from "@openbitfun/ui/mobile";\n\n<MobileSwitch\n  label="${t("components.preview.notifications")}"\n  description="${t("components.preview.fieldDescription")}"\n  checked={enabled}\n  onCheckedChange={setEnabled}\n/>`;
-    if (component.name === "MobileTabBar") return `import { MobileTabBar } from "@openbitfun/ui/mobile";\n\n<MobileTabBar\n  label="${t("components.preview.segmentedLabel")}"\n  items={destinations}\n  value={section}\n  onValueChange={setSection}\n/>`;
-    if (component.name === "MobileTag") return `import { MobileTag } from "@openbitfun/ui/mobile";\n\n<MobileTag\n  selected={active}\n  onClick={toggle}\n>\n  Design\n</MobileTag>`;
-    if (component.name === "MobileToolbar") return `import { MobileToolbar } from "@openbitfun/ui/mobile";\n\n<MobileToolbar\n  label="${t("components.preview.mobileToolbarSelection")}"\n  leading={<BackButton />}\n  trailing={<MoreButton />}\n>\n  ${t("components.preview.mobileToolbarSelection")}\n</MobileToolbar>`;
-    if (component.name === "MobileSheet") return `import { MobileSheet } from "@openbitfun/ui/mobile";\n\n<MobileSheet\n  footer={<CancelButton />}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  title="${t("components.preview.modalTitle")}"\n>\n  <ActionList />\n</MobileSheet>`;
-    if (component.name === "Textarea") return `import { Textarea } from "@openbitfun/ui";\n\n<Textarea\n  label="${t("components.preview.inputLabel")}"\n  defaultValue="${t("components.preview.fieldValue")}"\n  hint="${t("components.preview.fieldDescription")}"\n  maxLength={200}\n  rows={3}\n  showCount\n/>`;
-    if (component.name === "Alert") return `import { Alert } from "@openbitfun/ui";\n\n<Alert tone="info" title="${t("components.preview.notifications")}" message="${t("components.preview.fieldDescription")}" />`;
-    if (component.name === "Avatar") return 'import { Avatar } from "@openbitfun/ui";\n\n<Avatar>BF</Avatar>';
-    if (component.name === "Checkbox" || component.name === "Radio") return `import { ${component.name} } from "@openbitfun/ui";\n\n<${component.name}${component.name === "Checkbox" ? ` appearance="${checkboxAppearance}"` : ""} label="${t("components.preview.notifications")}" defaultChecked />`;
-    if (component.name === "NumberBadge") return `import { NumberBadge } from "@openbitfun/ui";\n\n<NumberBadge value={${JSON.stringify(numberBadgeValue)}} />;`;
-    if (component.name === "NumberInput") return 'import { useState } from "react";\nimport { NumberInput } from "@openbitfun/ui";\n\nfunction Example() {\n  const [value, setValue] = useState(8);\n  return <NumberInput value={value} onValueChange={setValue} />;\n}';
-    if (component.name === "Empty") return `import { Empty } from "@openbitfun/ui";\n\n<Empty title="${t("components.preview.cardTitle")}" description="${t("components.preview.cardDescription")}" />`;
+    if (component.name === "MobileActionSheet") return `import { MobileActionSheet } from "@opc-team/ui/mobile";\n\n<MobileActionSheet\n  actions={[\n    { id: "rename", label: "${t("components.preview.modalSave")}" },\n    { id: "delete", label: "${t("components.preview.confirmDelete")}", tone: "danger" },\n  ]}\n  cancelLabel="${t("components.preview.modalCancel")}"\n  onAction={handleAction}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  title="${t("components.preview.session")}"\n/>`;
+    if (component.name === "MobileComposer") return `import { MobileComposer } from "@opc-team/ui/mobile";\n\n<MobileComposer\n  expanded={expanded}\n  leading={<AttachButton />}\n  startActions={<ModelControls />}\n  endActions={<SendButton />}\n>\n  <textarea />\n</MobileComposer>`;
+    if (component.name === "MobileChoiceSheet") return `import { MobileChoiceSheet } from "@opc-team/ui/mobile";\n\n<MobileChoiceSheet\n  cancelLabel="${t("components.preview.modalCancel")}"\n  onOpenChange={() => setOpen(false)}\n  onSelect={setMode}\n  open={open}\n  options={[\n    { label: "${t("components.preview.modeMinimal")}", value: "minimal" },\n    { label: "${t("components.preview.modeStandard")}", value: "standard" },\n    { label: "${t("components.preview.modeUltimate")}", value: "ultimate" },\n  ]}\n  selectedValue={mode}\n  title="${t("components.preview.selectExecutionMode")}"\n/>`;
+    if (component.name === "MobileConfirmSheet") return `import { MobileConfirmSheet } from "@opc-team/ui/mobile";\n\n<MobileConfirmSheet\n  cancelLabel="${t("components.preview.modalCancel")}"\n  confirmLabel="${t("components.preview.confirmDelete")}"\n  confirmTone="danger"\n  onConfirm={handleDelete}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  title="${t("components.preview.confirmTitle")}"\n/>`;
+    if (component.name === "MobileFloatingActions") return `import { MobileFloatingActions } from "@opc-team/ui/mobile";\n\n<MobileFloatingActions\n  leading={<NewChatButton />}\n  trailing={<SettingsButton />}\n/>`;
+    if (component.name === "MobileFileButton") return `import { MobileFileButton } from "@opc-team/ui/mobile";\n\n<MobileFileButton accept="image/*" onChange={handleFile}>\n  ${t("components.preview.add")}\n</MobileFileButton>`;
+    if (component.name === "MobileScrim") return `import { MobileScrim } from "@opc-team/ui/mobile";\n\n<MobileScrim\n  aria-label="${t("components.preview.close")}"\n  onClick={closeSidebar}\n/>`;
+    if (component.name === "MobileIconButton") return `import { Icon } from "@opc-team/ui";\nimport { MobileIconButton } from "@opc-team/ui/mobile";\n\n<MobileIconButton\n  appearance="floating"\n  aria-label="${t("components.preview.searchLabel")}"\n  icon={<Icon name="search" />}\n/>`;
+    if (component.name === "MobileLink") return `import { MobileLink } from "@opc-team/ui/mobile";\n\n<MobileLink href="https://example.com">\n  ${t("nav.docs")}\n</MobileLink>`;
+    if (component.name === "MobileTextField") return `import { MobileTextField } from "@opc-team/ui/mobile";\n\n<MobileTextField\n  aria-label="${t("components.preview.searchLabel")}"\n  placeholder="${t("components.preview.searchPlaceholder")}"\n/>`;
+    if (component.name === "MobileListRow") return `import { MobileListRow } from "@opc-team/ui/mobile";\n\n<MobileListRow\n  appearance="surface"\n  label="${t("components.preview.session")}"\n  supportingText="/workspace"\n/>`;
+    if (component.name === "MobileAvatar") return `import { MobileAvatar } from "@opc-team/ui/mobile";\n\n<MobileAvatar name="${t("components.preview.session")}" size="md" status="online" />`;
+    if (component.name === "MobileCheckbox") return `import { MobileCheckbox } from "@opc-team/ui/mobile";\n\n<MobileCheckbox\n  label="${t("components.preview.notifications")}"\n  description="${t("components.preview.fieldDescription")}"\n  checked={enabled}\n  onCheckedChange={setEnabled}\n/>`;
+    if (component.name === "MobileRadioGroup") return `import { MobileRadioGroup } from "@opc-team/ui/mobile";\n\n<MobileRadioGroup\n  name="density"\n  options={densityOptions}\n  value={density}\n  onValueChange={setDensity}\n/>`;
+    if (component.name === "MobileSelect") return `import { MobileSelect } from "@opc-team/ui/mobile";\n\n<MobileSelect\n  label="${t("components.preview.mobileSelectLabel")}"\n  options={models}\n  sheetTitle="${t("components.preview.mobileSelectLabel")}"\n  value={model}\n  onValueChange={setModel}\n/>`;
+    if (component.name === "MobileStepper") return `import { MobileStepper } from "@opc-team/ui/mobile";\n\n<MobileStepper\n  label="${t("components.preview.mobileStepperLabel")}"\n  decrementLabel="${t("components.preview.mobileDecrease")}"\n  incrementLabel="${t("components.preview.mobileIncrease")}"\n  min={0}\n  max={5}\n  value={value}\n  onValueChange={setValue}\n/>`;
+    if (component.name === "MobileSwitch") return `import { MobileSwitch } from "@opc-team/ui/mobile";\n\n<MobileSwitch\n  label="${t("components.preview.notifications")}"\n  description="${t("components.preview.fieldDescription")}"\n  checked={enabled}\n  onCheckedChange={setEnabled}\n/>`;
+    if (component.name === "MobileTabBar") return `import { MobileTabBar } from "@opc-team/ui/mobile";\n\n<MobileTabBar\n  label="${t("components.preview.segmentedLabel")}"\n  items={destinations}\n  value={section}\n  onValueChange={setSection}\n/>`;
+    if (component.name === "MobileTag") return `import { MobileTag } from "@opc-team/ui/mobile";\n\n<MobileTag\n  selected={active}\n  onClick={toggle}\n>\n  Design\n</MobileTag>`;
+    if (component.name === "MobileToolbar") return `import { MobileToolbar } from "@opc-team/ui/mobile";\n\n<MobileToolbar\n  label="${t("components.preview.mobileToolbarSelection")}"\n  leading={<BackButton />}\n  trailing={<MoreButton />}\n>\n  ${t("components.preview.mobileToolbarSelection")}\n</MobileToolbar>`;
+    if (component.name === "MobileSheet") return `import { MobileSheet } from "@opc-team/ui/mobile";\n\n<MobileSheet\n  footer={<CancelButton />}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  title="${t("components.preview.modalTitle")}"\n>\n  <ActionList />\n</MobileSheet>`;
+    if (component.name === "Textarea") return `import { Textarea } from "@opc-team/ui";\n\n<Textarea\n  label="${t("components.preview.inputLabel")}"\n  defaultValue="${t("components.preview.fieldValue")}"\n  hint="${t("components.preview.fieldDescription")}"\n  maxLength={200}\n  rows={3}\n  showCount\n/>`;
+    if (component.name === "Alert") return `import { Alert } from "@opc-team/ui";\n\n<Alert tone="info" title="${t("components.preview.notifications")}" message="${t("components.preview.fieldDescription")}" />`;
+    if (component.name === "Avatar") return 'import { Avatar } from "@opc-team/ui";\n\n<Avatar>BF</Avatar>';
+    if (component.name === "Checkbox" || component.name === "Radio") return `import { ${component.name} } from "@opc-team/ui";\n\n<${component.name}${component.name === "Checkbox" ? ` appearance="${checkboxAppearance}"` : ""} label="${t("components.preview.notifications")}" defaultChecked />`;
+    if (component.name === "NumberBadge") return `import { NumberBadge } from "@opc-team/ui";\n\n<NumberBadge value={${JSON.stringify(numberBadgeValue)}} />;`;
+    if (component.name === "NumberInput") return 'import { useState } from "react";\nimport { NumberInput } from "@opc-team/ui";\n\nfunction Example() {\n  const [value, setValue] = useState(8);\n  return <NumberInput value={value} onValueChange={setValue} />;\n}';
+    if (component.name === "Empty") return `import { Empty } from "@opc-team/ui";\n\n<Empty title="${t("components.preview.cardTitle")}" description="${t("components.preview.cardDescription")}" />`;
     if (flowChatPreview) {
       return flowChatPreview.codeSample(t);
     }
@@ -540,26 +540,26 @@ export function ComponentDetailPage({
     if (component.category === "brand") return brandCodeSample(component.name);
 
     if (component.name === "ActionCard") {
-      return `import { Icon, ActionCard } from "@openbitfun/ui";\n\n<ActionCard\n  actions={[\n    { id: "more", icon: <Icon name="more" />, label: "${t("components.preview.more")}" },\n  ]}\n  description="${t("components.preview.actionCardDescription")}"\n  leading={<Icon name="session" />}\n  size="${actionCardSize}"\n>\n  ${t("components.preview.actionCardTitle")}\n</ActionCard>`;
+      return `import { Icon, ActionCard } from "@opc-team/ui";\n\n<ActionCard\n  actions={[\n    { id: "more", icon: <Icon name="more" />, label: "${t("components.preview.more")}" },\n  ]}\n  description="${t("components.preview.actionCardDescription")}"\n  leading={<Icon name="session" />}\n  size="${actionCardSize}"\n>\n  ${t("components.preview.actionCardTitle")}\n</ActionCard>`;
     }
     if (component.name === "LauncherButton") {
-      return 'import { Icon, LauncherButton } from "@openbitfun/ui";\n\n<LauncherButton leadingIcon={<Icon name="mic" />}>\n  Hello\n</LauncherButton>';
+      return 'import { Icon, LauncherButton } from "@opc-team/ui";\n\n<LauncherButton leadingIcon={<Icon name="mic" />}>\n  Hello\n</LauncherButton>';
     }
     if (component.name === "VoiceCallPanel") {
-      return 'import { VoiceCallPanel } from "@openbitfun/ui";\n\n<VoiceCallPanel\n  title="Live Call"\n  labels={{ back: "Back to chat", close: "Close", mute: "Mute",\n    unmute: "Unmute", settings: "Settings", end: "End call" }}\n  phase="live"\n  muted={muted}\n  userTranscript={userTranscript}\n  assistantTranscript={assistantTranscript}\n  readAudio={readAudio}\n  onBack={returnToChat}\n  onClose={closeWindow}\n  onToggleMute={toggleMute}\n  onOpenSettings={openVoiceSettings}\n  onEnd={endCall}\n/>';
+      return 'import { VoiceCallPanel } from "@opc-team/ui";\n\n<VoiceCallPanel\n  title="Live Call"\n  labels={{ back: "Back to chat", close: "Close", mute: "Mute",\n    unmute: "Unmute", settings: "Settings", end: "End call" }}\n  phase="live"\n  muted={muted}\n  userTranscript={userTranscript}\n  assistantTranscript={assistantTranscript}\n  readAudio={readAudio}\n  onBack={returnToChat}\n  onClose={closeWindow}\n  onToggleMute={toggleMute}\n  onOpenSettings={openVoiceSettings}\n  onEnd={endCall}\n/>';
     }
     if (component.name === "ActionItem") {
       const metadataProp = actionItemShowMetadata ? `\n  metadata="12"` : "";
-      return `import { Icon, ActionItem, KeyHint } from "@openbitfun/ui";\n\n<ActionItem\n  actions={[\n    { id: "add", icon: <Icon name="plus" />, label: "${t("components.preview.add")}" },\n    { id: "more", icon: <Icon name="more" />, label: "${t("components.preview.more")}" },\n  ]}\n  leading={<Icon name="session" />}${metadataProp}\n  shortcut={<KeyHint>K</KeyHint>}\n>\n  ${t("components.preview.assistant")}\n</ActionItem>`;
+      return `import { Icon, ActionItem, KeyHint } from "@opc-team/ui";\n\n<ActionItem\n  actions={[\n    { id: "add", icon: <Icon name="plus" />, label: "${t("components.preview.add")}" },\n    { id: "more", icon: <Icon name="more" />, label: "${t("components.preview.more")}" },\n  ]}\n  leading={<Icon name="session" />}${metadataProp}\n  shortcut={<KeyHint>K</KeyHint>}\n>\n  ${t("components.preview.assistant")}\n</ActionItem>`;
     }
     if (component.name === "ActivityItem") {
       if (activityItemAppearance === "inline") {
-        return `import { Icon, ActivityItem } from "@openbitfun/ui";\n\n<ActivityItem\n  appearance="inline"\n  leading={<Icon name="check-line" />}\n>\n  ${t("components.preview.activityStatus")}\n</ActivityItem>`;
+        return `import { Icon, ActivityItem } from "@opc-team/ui";\n\n<ActivityItem\n  appearance="inline"\n  leading={<Icon name="check-line" />}\n>\n  ${t("components.preview.activityStatus")}\n</ActivityItem>`;
       }
       const detailProp = activityShowDetail
         ? `\n  detail={<code>${t("components.preview.activityDetail")}</code>}`
         : "";
-      return `import { Icon, ActivityItem, ChangeCount } from "@openbitfun/ui";\n\n<ActivityItem\n  actions={[\n    { id: "copy", icon: <Icon name="duplicate" />, label: "${t("components.preview.activityCopy")}" },\n    { id: "download", icon: <Icon name="arrow-down" />, label: "${t("components.preview.activityDownload")}" },\n    { id: "open", icon: <Icon name="arrow-up-right" />, label: "${t("components.preview.activityOpen")}" },\n  ]}\n  appearance="surface"${detailProp}\n  label="${t("components.preview.activityAction")}"\n  leading={<Icon name="terminal" />}\n  metadata={<ChangeCount additions={6} deletions={0} />}\n  onActivate={() => openActivity()}\n>\n  ${t("components.preview.activityDescription")}\n</ActivityItem>`;
+      return `import { Icon, ActivityItem, ChangeCount } from "@opc-team/ui";\n\n<ActivityItem\n  actions={[\n    { id: "copy", icon: <Icon name="duplicate" />, label: "${t("components.preview.activityCopy")}" },\n    { id: "download", icon: <Icon name="arrow-down" />, label: "${t("components.preview.activityDownload")}" },\n    { id: "open", icon: <Icon name="arrow-up-right" />, label: "${t("components.preview.activityOpen")}" },\n  ]}\n  appearance="surface"${detailProp}\n  label="${t("components.preview.activityAction")}"\n  leading={<Icon name="terminal" />}\n  metadata={<ChangeCount additions={6} deletions={0} />}\n  onActivate={() => openActivity()}\n>\n  ${t("components.preview.activityDescription")}\n</ActivityItem>`;
     }
     if (component.name === "Button") {
       const stateProps = `${inspectorDisabled ? " disabled" : ""}${inspectorLoading ? " loading" : ""}`;
@@ -569,13 +569,13 @@ export function ComponentDetailPage({
       const iconProp = previewIcon === "chevron"
         ? ` ${previewIconPosition === "left" ? "leadingIcon" : "trailingIcon"}={<Icon name="chevron-right" />}`
         : "";
-      return `import { Button } from "@openbitfun/ui";${iconImport}\n\n<Button variant="${variant}" size="${size}"${stateProps}${iconProp}>\n  ${t("components.preview.session")}\n</Button>`;
+      return `import { Button } from "@opc-team/ui";${iconImport}\n\n<Button variant="${variant}" size="${size}"${stateProps}${iconProp}>\n  ${t("components.preview.session")}\n</Button>`;
     }
     if (component.name === "Card") {
       if (previewState === "media") {
-        return `import { Card, CardBody, CardHeader, CardMedia } from "@openbitfun/ui";\n\n<Card appearance="neutral" clip radius="md">\n  <CardMedia>\n    <ProductArtwork />\n  </CardMedia>\n  <CardBody align="center" padding="sm">\n    <CardHeader\n      contentAlign="center"\n      title="${t("components.preview.cardMediaTitle")}"\n      description="${t("components.preview.cardMediaDescription")}"\n    />\n  </CardBody>\n</Card>`;
+        return `import { Card, CardBody, CardHeader, CardMedia } from "@opc-team/ui";\n\n<Card appearance="neutral" clip radius="md">\n  <CardMedia>\n    <ProductArtwork />\n  </CardMedia>\n  <CardBody align="center" padding="sm">\n    <CardHeader\n      contentAlign="center"\n      title="${t("components.preview.cardMediaTitle")}"\n      description="${t("components.preview.cardMediaDescription")}"\n    />\n  </CardBody>\n</Card>`;
       }
-      return `import { Card, CardBody, CardFooter, CardHeader } from "@openbitfun/ui";\n\n<Card appearance="${previewState}" gap="md" padding="md" radius="lg">\n  <CardHeader\n    contentAlign="${cardContentAlign}"\n    title="${t("components.preview.cardTitle")}"\n    description="${t("components.preview.cardDescription")}"\n  />\n  <CardBody>\n    <CommandGrid />\n  </CardBody>\n  <CardFooter align="end">\n    <Button>${t("components.preview.settings")}</Button>\n  </CardFooter>\n</Card>`;
+      return `import { Card, CardBody, CardFooter, CardHeader } from "@opc-team/ui";\n\n<Card appearance="${previewState}" gap="md" padding="md" radius="lg">\n  <CardHeader\n    contentAlign="${cardContentAlign}"\n    title="${t("components.preview.cardTitle")}"\n    description="${t("components.preview.cardDescription")}"\n  />\n  <CardBody>\n    <CommandGrid />\n  </CardBody>\n  <CardFooter align="end">\n    <Button>${t("components.preview.settings")}</Button>\n  </CardFooter>\n</Card>`;
     }
     if (component.name === "Composer") {
       const stateProps = `${previewState === "disabled" ? " disabled" : ""}${previewState === "invalid" ? " invalid" : ""}`;
@@ -585,22 +585,22 @@ export function ComponentDetailPage({
       const toolbarProp = composerShowToolbar
         ? `\n  toolbar={<ComposerToolbar\n    leading={<IconButton aria-label="${t("components.preview.composerAdd")}" icon={<Icon name="plus" />} />}\n    trailing={<><Button variant="text">${t("components.preview.composerModel")}</Button><IconButton aria-label="${t("components.preview.composerSend")}" icon={<Icon name="arrow-up" />} variant="primary" /></>}\n  />}`
         : "";
-      return `import { Button, Composer, ComposerContextBar, ComposerDivider, ComposerToolbar, IconButton } from "@openbitfun/ui";\n\n<Composer\n  aria-label="${t("components.preview.composerLabel")}"${contextProp}${toolbarProp}${stateProps}\n>\n  <textarea\n    aria-label="${t("components.preview.composerEditorLabel")}"\n    placeholder="${t("components.preview.composerPlaceholder")}"\n  />\n</Composer>`;
+      return `import { Button, Composer, ComposerContextBar, ComposerDivider, ComposerToolbar, IconButton } from "@opc-team/ui";\n\n<Composer\n  aria-label="${t("components.preview.composerLabel")}"${contextProp}${toolbarProp}${stateProps}\n>\n  <textarea\n    aria-label="${t("components.preview.composerEditorLabel")}"\n    placeholder="${t("components.preview.composerPlaceholder")}"\n  />\n</Composer>`;
     }
     if (component.name === "ConfirmDialog") {
-      return `import { ConfirmDialog } from "@openbitfun/ui";\n\n<ConfirmDialog\n  cancelText="${t("components.preview.modalCancel")}"\n  confirmDanger\n  confirmText="${t("components.preview.confirmDelete")}"\n  message="${t("components.preview.confirmMessage")}"\n  onConfirm={() => deleteItem()}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  preview="/workspace/project"\n  title="${t("components.preview.confirmTitle")}"\n  type="error"\n/>`;
+      return `import { ConfirmDialog } from "@opc-team/ui";\n\n<ConfirmDialog\n  cancelText="${t("components.preview.modalCancel")}"\n  confirmDanger\n  confirmText="${t("components.preview.confirmDelete")}"\n  message="${t("components.preview.confirmMessage")}"\n  onConfirm={() => deleteItem()}\n  onOpenChange={() => setOpen(false)}\n  open={open}\n  preview="/workspace/project"\n  title="${t("components.preview.confirmTitle")}"\n  type="error"\n/>`;
     }
     if (component.name === "Icon") {
-      return `import { Icon } from "@openbitfun/ui";\n\n<Icon name="${iconName}" size="${iconSize}" tone="${iconTone}" />`;
+      return `import { Icon } from "@opc-team/ui";\n\n<Icon name="${iconName}" size="${iconSize}" tone="${iconTone}" />`;
     }
 
     if (component.name === "Capsule") {
-      return `import { Button, Capsule, Icon, IconButton } from "@openbitfun/ui";\n\n<Capsule size="sm" action={\n  <IconButton aria-label="${t("components.preview.close")}" icon={<Icon name="xmark" />} onClick={remove} />\n}>\n  <Button size="sm" variant="outline">${t("components.preview.modalProviderName")}</Button>\n</Capsule>`;
+      return `import { Button, Capsule, Icon, IconButton } from "@opc-team/ui";\n\n<Capsule size="sm" action={\n  <IconButton aria-label="${t("components.preview.close")}" icon={<Icon name="xmark" />} onClick={remove} />\n}>\n  <Button size="sm" variant="outline">${t("components.preview.modalProviderName")}</Button>\n</Capsule>`;
     }
     if (component.name === "IconButton") {
       const stateProps = `${inspectorDisabled ? " disabled" : ""}${inspectorLoading ? " loading" : ""}`;
       const annotation = iconButtonVariant === "annotation";
-      return `import { Icon, IconButton } from "@openbitfun/ui";${annotation ? "" : '\nimport { List } from "lucide-react";'}\n\n<IconButton\n  aria-label="${t(annotation ? "components.preview.fieldHelp" : "components.preview.listView")}"\n  icon={<Icon ${annotation ? 'name="info"' : 'glyph={List}'} />}\n  variant="${iconButtonVariant}"\n  size="${iconButtonSize}"\n  shape="${iconButtonShape}"${stateProps}\n/>`;
+      return `import { Icon, IconButton } from "@opc-team/ui";${annotation ? "" : '\nimport { List } from "lucide-react";'}\n\n<IconButton\n  aria-label="${t(annotation ? "components.preview.fieldHelp" : "components.preview.listView")}"\n  icon={<Icon ${annotation ? 'name="info"' : 'glyph={List}'} />}\n  variant="${iconButtonVariant}"\n  size="${iconButtonSize}"\n  shape="${iconButtonShape}"${stateProps}\n/>`;
     }
     if (component.name === "Field") {
       const labelAction = fieldShowLabelAction
@@ -612,7 +612,7 @@ export function ComponentDetailPage({
       const controlTrailing = fieldShowControlTrailing
         ? `\n  controlTrailing={<IconButton aria-label="${t("components.preview.more")}" icon={<Icon name="more" />} size="xs" />}`
         : "";
-      return `import { Icon, Field, IconButton, Input, Switch, Tooltip } from "@openbitfun/ui";\n\n<Field\n  description="${t("components.preview.fieldDescription")}"\n  label="${t("components.preview.appearance")}"${labelAction}${controlLeading}${controlTrailing}\n  orientation="${fieldOrientation}"\n  required\n>\n  <Input defaultValue="${t("components.preview.fieldValue")}" trailing={<Icon name="chevron-down" />} />\n</Field>`;
+      return `import { Icon, Field, IconButton, Input, Switch, Tooltip } from "@opc-team/ui";\n\n<Field\n  description="${t("components.preview.fieldDescription")}"\n  label="${t("components.preview.appearance")}"${labelAction}${controlLeading}${controlTrailing}\n  orientation="${fieldOrientation}"\n  required\n>\n  <Input defaultValue="${t("components.preview.fieldValue")}" trailing={<Icon name="chevron-down" />} />\n</Field>`;
     }
     if (component.name === "Input") {
       const stateProps = previewState === "disabled"
@@ -622,76 +622,76 @@ export function ComponentDetailPage({
           : previewState === "read-only"
             ? ' readOnly defaultValue="OPC-Team"'
             : previewState === "default" ? "" : ' defaultValue="OPC-Team"';
-      return `import { Icon, Input } from "@openbitfun/ui";\n\n<Input\n  aria-label="${t("components.preview.inputLabel")}"\n  placeholder="${t("components.preview.inputPlaceholder")}"\n  trailing={<Icon name="eye" />}${stateProps}\n/>`;
+      return `import { Icon, Input } from "@opc-team/ui";\n\n<Input\n  aria-label="${t("components.preview.inputLabel")}"\n  placeholder="${t("components.preview.inputPlaceholder")}"\n  trailing={<Icon name="eye" />}${stateProps}\n/>`;
     }
     if (component.name === "KeyHint") {
-      return `import { Icon, KeyHint } from "@openbitfun/ui";\n\n<KeyHint icon={<Icon name="command-mac" />}>K</KeyHint>`;
+      return `import { Icon, KeyHint } from "@opc-team/ui";\n\n<KeyHint icon={<Icon name="command-mac" />}>K</KeyHint>`;
     }
     if (component.name === "FieldGroup") {
-      return `import { Icon, Field, FieldGroup, FieldRow, FormSection, Input } from "@openbitfun/ui";\n\n<FormSection\n  description="${t("components.preview.fieldDescription")}"\n  headingAs="h3"\n  leading={<Icon name="gear" />}\n  title="${t("components.preview.modalSectionTitle")}"\n>\n  <FieldGroup appearance="subtle" dividers>\n    <FieldRow>\n      <Field controlWidth="fill" label="${t("components.preview.modalProviderName")}" labelWidth="md" orientation="horizontal" required>\n        <Input defaultValue="OPC-Team" />\n      </Field>\n    </FieldRow>\n    <FieldRow>\n      <Field controlWidth="fill" label="${t("components.preview.modalApiUrl")}" labelWidth="md" orientation="horizontal">\n        <Input defaultValue="https://api.openbitfun.com" />\n      </Field>\n    </FieldRow>\n  </FieldGroup>\n</FormSection>`;
+      return `import { Icon, Field, FieldGroup, FieldRow, FormSection, Input } from "@opc-team/ui";\n\n<FormSection\n  description="${t("components.preview.fieldDescription")}"\n  headingAs="h3"\n  leading={<Icon name="gear" />}\n  title="${t("components.preview.modalSectionTitle")}"\n>\n  <FieldGroup appearance="subtle" dividers>\n    <FieldRow>\n      <Field controlWidth="fill" label="${t("components.preview.modalProviderName")}" labelWidth="md" orientation="horizontal" required>\n        <Input defaultValue="OPC-Team" />\n      </Field>\n    </FieldRow>\n    <FieldRow>\n      <Field controlWidth="fill" label="${t("components.preview.modalApiUrl")}" labelWidth="md" orientation="horizontal">\n        <Input defaultValue="https://api.openbitfun.com" />\n      </Field>\n    </FieldRow>\n  </FieldGroup>\n</FormSection>`;
     }
     if (component.name === "LoadingState") {
-      return `import { LoadingState } from "@openbitfun/ui";\n\n<LoadingState>${t("detail.loading")}</LoadingState>`;
+      return `import { LoadingState } from "@opc-team/ui";\n\n<LoadingState>${t("detail.loading")}</LoadingState>`;
     }
     if (component.name === "Tooltip") {
       const behavior = previewState === "instant" ? "\n  delay={0}" : previewState === "interactive" ? "\n  interactive" : previewState === "visible" ? "\n  active" : "";
-      return `import { Button, Tooltip } from "@openbitfun/ui";\n\n<Tooltip\n  content="${t("components.preview.tooltipContent")}"\n  placement="top"${behavior}\n>\n  <Button>${t("components.preview.tooltipTrigger")}</Button>\n</Tooltip>`;
+      return `import { Button, Tooltip } from "@opc-team/ui";\n\n<Tooltip\n  content="${t("components.preview.tooltipContent")}"\n  placement="top"${behavior}\n>\n  <Button>${t("components.preview.tooltipTrigger")}</Button>\n</Tooltip>`;
     }
     if (component.name === "Menu") {
-      return `import { Icon, Menu, MenuItem, MenuSection, MenuSeparator } from "@openbitfun/ui";\n\n<Menu\n  aria-label="${t("components.preview.menuLabel")}"\n  scrollbarVisibility="${menuShowScrollbar ? "auto" : "hidden"}"\n>\n  <MenuSection title="${t("components.preview.menuSectionTitle")}">\n    <MenuItem leading={<Icon name="session" />}>${t("components.preview.menuItemOne")}</MenuItem>\n    <MenuItem leading={<Icon name="session" />}>${t("components.preview.menuItemTwo")}</MenuItem>\n  </MenuSection>\n  <MenuSeparator />\n  <MenuSection aria-label="${t("components.preview.menuMoreSection")}">\n    <MenuItem disabled>${t("components.preview.menuDisabledItem")}</MenuItem>\n  </MenuSection>\n</Menu>`;
+      return `import { Icon, Menu, MenuItem, MenuSection, MenuSeparator } from "@opc-team/ui";\n\n<Menu\n  aria-label="${t("components.preview.menuLabel")}"\n  scrollbarVisibility="${menuShowScrollbar ? "auto" : "hidden"}"\n>\n  <MenuSection title="${t("components.preview.menuSectionTitle")}">\n    <MenuItem leading={<Icon name="session" />}>${t("components.preview.menuItemOne")}</MenuItem>\n    <MenuItem leading={<Icon name="session" />}>${t("components.preview.menuItemTwo")}</MenuItem>\n  </MenuSection>\n  <MenuSeparator />\n  <MenuSection aria-label="${t("components.preview.menuMoreSection")}">\n    <MenuItem disabled>${t("components.preview.menuDisabledItem")}</MenuItem>\n  </MenuSection>\n</Menu>`;
     }
     if (component.name === "Dialog") {
-      return `import { Button, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle } from "@openbitfun/ui";\n\n<Dialog onOpenChange={() => setOpen(false)} open={open} size="xl">\n  <DialogHeader>\n    <DialogHeading><DialogTitle>${t("components.preview.modalTitle")}</DialogTitle></DialogHeading>\n    <DialogClose />\n  </DialogHeader>\n  <DialogBody><ProviderConfigurationFields /></DialogBody>\n  <DialogFooter appearance="floating">\n    <Button onClick={() => setOpen(false)} variant="fill">${t("components.preview.modalCancel")}</Button>\n    <Button onClick={() => setOpen(false)} variant="primary">${t("components.preview.modalSave")}</Button>\n  </DialogFooter>\n</Dialog>`;
+      return `import { Button, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle } from "@opc-team/ui";\n\n<Dialog onOpenChange={() => setOpen(false)} open={open} size="xl">\n  <DialogHeader>\n    <DialogHeading><DialogTitle>${t("components.preview.modalTitle")}</DialogTitle></DialogHeading>\n    <DialogClose />\n  </DialogHeader>\n  <DialogBody><ProviderConfigurationFields /></DialogBody>\n  <DialogFooter appearance="floating">\n    <Button onClick={() => setOpen(false)} variant="fill">${t("components.preview.modalCancel")}</Button>\n    <Button onClick={() => setOpen(false)} variant="primary">${t("components.preview.modalSave")}</Button>\n  </DialogFooter>\n</Dialog>`;
     }
     if (component.name === "Sheet") {
-      return `import { Button, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle, Sheet } from "@openbitfun/ui";\n\n<Sheet onOpenChange={() => setOpen(false)} open={open} placement="right" size="lg">\n  <DialogHeader>\n    <DialogHeading><DialogTitle>${t("components.preview.modalTitle")}</DialogTitle></DialogHeading>\n    <DialogClose />\n  </DialogHeader>\n  <DialogBody><ProviderConfigurationFields /></DialogBody>\n  <DialogFooter>\n    <Button onClick={() => setOpen(false)} variant="fill">${t("components.preview.modalCancel")}</Button>\n    <Button onClick={() => setOpen(false)} variant="primary">${t("components.preview.modalSave")}</Button>\n  </DialogFooter>\n</Sheet>`;
+      return `import { Button, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle, Sheet } from "@opc-team/ui";\n\n<Sheet onOpenChange={() => setOpen(false)} open={open} placement="right" size="lg">\n  <DialogHeader>\n    <DialogHeading><DialogTitle>${t("components.preview.modalTitle")}</DialogTitle></DialogHeading>\n    <DialogClose />\n  </DialogHeader>\n  <DialogBody><ProviderConfigurationFields /></DialogBody>\n  <DialogFooter>\n    <Button onClick={() => setOpen(false)} variant="fill">${t("components.preview.modalCancel")}</Button>\n    <Button onClick={() => setOpen(false)} variant="primary">${t("components.preview.modalSave")}</Button>\n  </DialogFooter>\n</Sheet>`;
     }
     if (component.name === "PageHeader") {
       const requiredProp = pageHeaderRequired ? "\n  required" : "";
-      return `import { Icon, IconButton, PageHeader } from "@openbitfun/ui";\n\n<PageHeader\n  action={<IconButton aria-label="${t("components.preview.close")}" icon={<Icon name="xmark" />} />}\n  align="${pageHeaderAlign}"\n  description="${t("components.preview.appearanceDescription")}"\n  leading={<Icon name="gear" />}\n  level={2}${requiredProp}\n  size="${pageHeaderSize}"\n  title="${t("components.preview.appearance")}"\n/>`;
+      return `import { Icon, IconButton, PageHeader } from "@opc-team/ui";\n\n<PageHeader\n  action={<IconButton aria-label="${t("components.preview.close")}" icon={<Icon name="xmark" />} />}\n  align="${pageHeaderAlign}"\n  description="${t("components.preview.appearanceDescription")}"\n  leading={<Icon name="gear" />}\n  level={2}${requiredProp}\n  size="${pageHeaderSize}"\n  title="${t("components.preview.appearance")}"\n/>`;
     }
     if (component.name === "SearchField") {
       const searchStateProps = previewState === "disabled" ? " disabled" : previewState === "invalid" ? " invalid" : previewState === "read-only" ? " readOnly" : "";
-      return `import { useState } from "react";\nimport { Icon, KeyHint, SearchField } from "@openbitfun/ui";\n\nfunction Example() {\n  const [query, setQuery] = useState(${JSON.stringify(previewState === "default" ? "" : "OPC-Team")});\n  return (\n    <SearchField\n      clearLabel="${t("components.preview.searchClear")}"\n      onClear={() => setQuery("")}\n      onValueChange={setQuery}\n      value={query}\n      aria-label="${t("components.preview.searchLabel")}"\n      leadingIcon={<Icon name="search" />}\n      placeholder="${t("components.preview.searchPlaceholder")}"\n      shortcut={<KeyHint icon={<Icon name="command-mac" />}>K</KeyHint>}${searchStateProps}\n    />\n  );\n}`;
+      return `import { useState } from "react";\nimport { Icon, KeyHint, SearchField } from "@opc-team/ui";\n\nfunction Example() {\n  const [query, setQuery] = useState(${JSON.stringify(previewState === "default" ? "" : "OPC-Team")});\n  return (\n    <SearchField\n      clearLabel="${t("components.preview.searchClear")}"\n      onClear={() => setQuery("")}\n      onValueChange={setQuery}\n      value={query}\n      aria-label="${t("components.preview.searchLabel")}"\n      leadingIcon={<Icon name="search" />}\n      placeholder="${t("components.preview.searchPlaceholder")}"\n      shortcut={<KeyHint icon={<Icon name="command-mac" />}>K</KeyHint>}${searchStateProps}\n    />\n  );\n}`;
     }
     if (component.name === "Combobox") {
-      return `import { Combobox } from "@openbitfun/ui";\n\n<Combobox\n  aria-label="Mode"\n  onValueChange={setMode}\n  options={[\n    { label: "Ask", value: "ask" },\n    { label: "Plan", value: "plan" },\n    { disabled: true, label: "Agent", value: "agent" },\n  ]}\n  value={mode}\n/>`;
+      return `import { Combobox } from "@opc-team/ui";\n\n<Combobox\n  aria-label="Mode"\n  onValueChange={setMode}\n  options={[\n    { label: "Ask", value: "ask" },\n    { label: "Plan", value: "plan" },\n    { disabled: true, label: "Agent", value: "agent" },\n  ]}\n  value={mode}\n/>`;
     }
     if (component.name === "Spinner") {
-      return `import { Spinner } from "@openbitfun/ui";\n\n<Spinner aria-label="${t("detail.loading")}" size="${size}" variant="${previewState === "bars" ? "bars" : "matrix"}" />`;
+      return `import { Spinner } from "@opc-team/ui";\n\n<Spinner aria-label="${t("detail.loading")}" size="${size}" variant="${previewState === "bars" ? "bars" : "matrix"}" />`;
     }
     if (component.name === "MultiSelect") {
-      return `import { MultiSelect } from "@openbitfun/ui";\n\n<MultiSelect\n  aria-label="Modes"\n  onValueChange={setModes}\n  options={[\n    { label: "Ask", value: "ask" },\n    { label: "Plan", value: "plan" },\n    { disabled: true, label: "Agent", value: "agent" },\n  ]}\n  value={modes}\n/>`;
+      return `import { MultiSelect } from "@opc-team/ui";\n\n<MultiSelect\n  aria-label="Modes"\n  onValueChange={setModes}\n  options={[\n    { label: "Ask", value: "ask" },\n    { label: "Plan", value: "plan" },\n    { disabled: true, label: "Agent", value: "agent" },\n  ]}\n  value={modes}\n/>`;
     }
     if (component.name === "Listbox") {
-      return `import { Listbox, ListboxOption } from "@openbitfun/ui";\n\n<Listbox aria-label="Mode">\n  <ListboxOption selected value="ask">Ask</ListboxOption>\n  <ListboxOption value="plan">Plan</ListboxOption>\n  <ListboxOption disabled value="agent">Agent</ListboxOption>\n</Listbox>`;
+      return `import { Listbox, ListboxOption } from "@opc-team/ui";\n\n<Listbox aria-label="Mode">\n  <ListboxOption selected value="ask">Ask</ListboxOption>\n  <ListboxOption value="plan">Plan</ListboxOption>\n  <ListboxOption disabled value="agent">Agent</ListboxOption>\n</Listbox>`;
     }
     if (component.name === "Select") {
-      return `import { Icon, Select } from "@openbitfun/ui";\n\n<Select\n  aria-label="Mode"\n  leading={<Icon name="unselected" />}\n  onValueChange={setMode}\n  options={[\n    { label: "Ask", value: "ask" },\n    { label: "Plan", value: "plan" },\n    { disabled: true, label: "Agent", value: "agent" },\n  ]}\n  value="${selectValue}"\n/>`;
+      return `import { Icon, Select } from "@opc-team/ui";\n\n<Select\n  aria-label="Mode"\n  leading={<Icon name="unselected" />}\n  onValueChange={setMode}\n  options={[\n    { label: "Ask", value: "ask" },\n    { label: "Plan", value: "plan" },\n    { disabled: true, label: "Agent", value: "agent" },\n  ]}\n  value="${selectValue}"\n/>`;
     }
     if (component.name === "SegmentedControl") {
       const defaultMode = previewState === "unselected" ? "agent" : "chat";
-      return `import { Icon, SegmentedControl } from "@openbitfun/ui";\n\n<SegmentedControl\n  size="md"\n  aria-label="${t("components.preview.segmentedLabel")}"\n  defaultValue="${defaultMode}"\n  onValueChange={setMode}\n  options={[\n    { icon: <Icon name="session" />, label: "${t("components.preview.segmentedChat")}", value: "chat" },\n    { label: "${t("components.preview.segmentedAgent")}", value: "agent" },\n  ]}\n/>`;
+      return `import { Icon, SegmentedControl } from "@opc-team/ui";\n\n<SegmentedControl\n  size="md"\n  aria-label="${t("components.preview.segmentedLabel")}"\n  defaultValue="${defaultMode}"\n  onValueChange={setMode}\n  options={[\n    { icon: <Icon name="session" />, label: "${t("components.preview.segmentedChat")}", value: "chat" },\n    { label: "${t("components.preview.segmentedAgent")}", value: "agent" },\n  ]}\n/>`;
     }
     if (component.name === "StatusPill") {
-      return `import { Icon, StatusPill } from "@openbitfun/ui";\n\n<StatusPill emphasis leading={<Icon name="unselected" />} tone="${previewState}">\n  Ask\n</StatusPill>`;
+      return `import { Icon, StatusPill } from "@opc-team/ui";\n\n<StatusPill emphasis leading={<Icon name="unselected" />} tone="${previewState}">\n  Ask\n</StatusPill>`;
     }
     if (component.name === "Disclosure") {
       const stateProps = previewState === "open" ? " defaultOpen" : previewState === "disabled" ? " disabled" : "";
-      return `import { Disclosure } from "@openbitfun/ui";\n\n<Disclosure summary="${t("components.preview.appearance")}"${stateProps}>\n  ${t("components.preview.appearanceDescription")}\n</Disclosure>`;
+      return `import { Disclosure } from "@opc-team/ui";\n\n<Disclosure summary="${t("components.preview.appearance")}"${stateProps}>\n  ${t("components.preview.appearanceDescription")}\n</Disclosure>`;
     }
     if (component.name === "NavigationPanel") {
-      return `import { Icon, IconButton, NavigationPanel, NavigationPanelBody, NavigationPanelContent, NavigationPanelFooter, NavigationPanelHeader, NavigationPanelItem, NavigationPanelSection, NavigationPanelSeparator, SearchField } from "@openbitfun/ui";\n\n<NavigationPanel aria-label="${t("components.preview.navigationPanelLabel")}">\n  <NavigationPanelHeader>\n    <SearchField aria-label="${t("components.preview.searchLabel")}" leadingIcon={<Icon name="search" />} />\n  </NavigationPanelHeader>\n  <NavigationPanelBody scrollbarVisibility="${navigationPanelShowScrollbar ? "auto" : "hidden"}">\n    <NavigationPanelContent>\n      <NavigationPanelSection title="${t("components.preview.navigationPanelSectionTitle")}">\n        <NavigationPanelItem selected>${t("components.preview.menuItemOne")}</NavigationPanelItem>\n        <NavigationPanelItem>${t("components.preview.menuItemTwo")}</NavigationPanelItem>\n      </NavigationPanelSection>\n      <NavigationPanelSeparator />\n      <NavigationPanelSection title="${t("components.preview.navigationPanelMoreSection")}">\n        <NavigationPanelItem>${t("components.preview.navigationPanelMoreItem")}</NavigationPanelItem>\n      </NavigationPanelSection>\n    </NavigationPanelContent>\n  </NavigationPanelBody>\n  <NavigationPanelFooter>\n    <NavigationPanelItem leading={<Icon name="device-mac" />}>${t("components.preview.navigationPanelDevice")}</NavigationPanelItem>\n    <IconButton aria-label="${t("components.preview.settings")}" icon={<Icon name="gear" />} />\n  </NavigationPanelFooter>\n</NavigationPanel>`;
+      return `import { Icon, IconButton, NavigationPanel, NavigationPanelBody, NavigationPanelContent, NavigationPanelFooter, NavigationPanelHeader, NavigationPanelItem, NavigationPanelSection, NavigationPanelSeparator, SearchField } from "@opc-team/ui";\n\n<NavigationPanel aria-label="${t("components.preview.navigationPanelLabel")}">\n  <NavigationPanelHeader>\n    <SearchField aria-label="${t("components.preview.searchLabel")}" leadingIcon={<Icon name="search" />} />\n  </NavigationPanelHeader>\n  <NavigationPanelBody scrollbarVisibility="${navigationPanelShowScrollbar ? "auto" : "hidden"}">\n    <NavigationPanelContent>\n      <NavigationPanelSection title="${t("components.preview.navigationPanelSectionTitle")}">\n        <NavigationPanelItem selected>${t("components.preview.menuItemOne")}</NavigationPanelItem>\n        <NavigationPanelItem>${t("components.preview.menuItemTwo")}</NavigationPanelItem>\n      </NavigationPanelSection>\n      <NavigationPanelSeparator />\n      <NavigationPanelSection title="${t("components.preview.navigationPanelMoreSection")}">\n        <NavigationPanelItem>${t("components.preview.navigationPanelMoreItem")}</NavigationPanelItem>\n      </NavigationPanelSection>\n    </NavigationPanelContent>\n  </NavigationPanelBody>\n  <NavigationPanelFooter>\n    <NavigationPanelItem leading={<Icon name="device-mac" />}>${t("components.preview.navigationPanelDevice")}</NavigationPanelItem>\n    <IconButton aria-label="${t("components.preview.settings")}" icon={<Icon name="gear" />} />\n  </NavigationPanelFooter>\n</NavigationPanel>`;
     }
     if (component.name === "ScrollArea") {
-      return `import { ScrollArea } from "@openbitfun/ui";\n\n<ScrollArea\n  aria-label="${t("components.preview.scrollAreaLabel")}"\n  className="activity-scroll-area"\n  orientation="${scrollAreaOrientation}"\n  scrollbarVisibility="${previewState}"\n  edgeFade="${scrollAreaOrientation === "horizontal" ? "none" : "vertical"}"\n>\n  {items.map((item) => <div key={item.id}>{item.label}</div>)}\n</ScrollArea>`;
+      return `import { ScrollArea } from "@opc-team/ui";\n\n<ScrollArea\n  aria-label="${t("components.preview.scrollAreaLabel")}"\n  className="activity-scroll-area"\n  orientation="${scrollAreaOrientation}"\n  scrollbarVisibility="${previewState}"\n  edgeFade="${scrollAreaOrientation === "horizontal" ? "none" : "vertical"}"\n>\n  {items.map((item) => <div key={item.id}>{item.label}</div>)}\n</ScrollArea>`;
     }
     if (component.name === "TabGroup") {
       const defaultTab = previewState === "unselected" ? "settings" : "welcome";
-      return `import { Icon, TabGroup } from "@openbitfun/ui";\n\nconst items = [\n  { icon: <Icon name="session" />, label: "${t("components.preview.welcome")}", value: "welcome" },\n  { icon: <Icon name="session" />, label: "${t("components.preview.settings")}", value: "settings" },\n];\n\n<TabGroup\n  aria-label="${t("components.preview.tabGroupLabel")}"\n  defaultValue="${defaultTab}"\n  items={items}\n  size="${tabGroupSize}"\n/>`;
+      return `import { Icon, TabGroup } from "@opc-team/ui";\n\nconst items = [\n  { icon: <Icon name="session" />, label: "${t("components.preview.welcome")}", value: "welcome" },\n  { icon: <Icon name="session" />, label: "${t("components.preview.settings")}", value: "settings" },\n];\n\n<TabGroup\n  aria-label="${t("components.preview.tabGroupLabel")}"\n  defaultValue="${defaultTab}"\n  items={items}\n  size="${tabGroupSize}"\n/>`;
     }
     if (component.name === "Toolbar") {
-      return `import { Icon, ChangeCount, IconButton, TabGroup, Toolbar, ToolbarBadge, ToolbarGroup, ToolbarSeparator } from "@openbitfun/ui";\n\nconst items = [\n  { label: "${t("components.preview.welcome")}", value: "welcome" },\n  { label: "${t("components.preview.settings")}", value: "settings" },\n];\n\n<Toolbar\n  aria-label="${t("components.preview.tabGroupLabel")}"\n  center={<ToolbarGroup>\n    <ToolbarBadge>18</ToolbarBadge>\n    <strong>${t("components.preview.session")}</strong>\n  </ToolbarGroup>}\n  leading={<TabGroup defaultValue="welcome" items={items} size="sm" />}\n  size="${toolbarSize}"\n  trailing={<ToolbarGroup>\n    <ChangeCount additions={6} deletions={0} />\n    <ToolbarSeparator />\n    <IconButton aria-label="${t("components.preview.searchLabel")}" icon={<Icon name="search" />} size="xs" />\n    <IconButton aria-label="${t("components.preview.more")}" icon={<Icon name="more" />} size="xs" />\n  </ToolbarGroup>}\n/>`;
+      return `import { Icon, ChangeCount, IconButton, TabGroup, Toolbar, ToolbarBadge, ToolbarGroup, ToolbarSeparator } from "@opc-team/ui";\n\nconst items = [\n  { label: "${t("components.preview.welcome")}", value: "welcome" },\n  { label: "${t("components.preview.settings")}", value: "settings" },\n];\n\n<Toolbar\n  aria-label="${t("components.preview.tabGroupLabel")}"\n  center={<ToolbarGroup>\n    <ToolbarBadge>18</ToolbarBadge>\n    <strong>${t("components.preview.session")}</strong>\n  </ToolbarGroup>}\n  leading={<TabGroup defaultValue="welcome" items={items} size="sm" />}\n  size="${toolbarSize}"\n  trailing={<ToolbarGroup>\n    <ChangeCount additions={6} deletions={0} />\n    <ToolbarSeparator />\n    <IconButton aria-label="${t("components.preview.searchLabel")}" icon={<Icon name="search" />} size="xs" />\n    <IconButton aria-label="${t("components.preview.more")}" icon={<Icon name="more" />} size="xs" />\n  </ToolbarGroup>}\n/>`;
     }
     if (component.name !== "Switch") return `// ${t("detail.previewUnavailable")}: ${component.name}`;
     const stateProps = previewState === "on"
@@ -699,7 +699,7 @@ export function ComponentDetailPage({
       : previewState === "disabled"
         ? " disabled"
         : "";
-    return `import { Switch } from "@openbitfun/ui";\n\n<Switch\n  aria-label="${t("components.preview.notifications")}"${stateProps}\n/>`;
+    return `import { Switch } from "@opc-team/ui";\n\n<Switch\n  aria-label="${t("components.preview.notifications")}"${stateProps}\n/>`;
   }, [
     actionItemShowMetadata,
     activityItemAppearance,

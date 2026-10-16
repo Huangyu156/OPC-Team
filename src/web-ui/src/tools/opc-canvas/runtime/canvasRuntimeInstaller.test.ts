@@ -30,7 +30,7 @@ describe('Canvas runtime installer', () => {
     for (const name of iframeFallbackVars) {
       expect(runtimeCss).toContain(`${name}:`);
     }
-    expect(runtimeEntry).toContain("import '@openbitfun/design-tokens/tokens.css';");
+    expect(runtimeEntry).toContain("import '@opc-team/design-tokens/tokens.css';");
     expect(runtimeCss).not.toMatch(/^\s*--opcteam-(?:font|letter-spacing|line-height|type)-/m);
   });
 

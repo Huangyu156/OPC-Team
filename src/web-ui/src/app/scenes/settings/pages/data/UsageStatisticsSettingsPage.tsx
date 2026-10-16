@@ -36,7 +36,7 @@ import {
   Select,
   TabGroup,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { BarChart3 } from 'lucide-react';
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 

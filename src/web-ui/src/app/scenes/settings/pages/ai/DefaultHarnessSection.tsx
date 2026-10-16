@@ -1,6 +1,6 @@
 import { useConfigSeed } from '@/infrastructure/config/hooks/useConfigSeed';
 import { HARNESS_IDS, canonicalHarnessId } from '@/shared/agents/identity';
-import { Select, type SelectOption } from '@openbitfun/ui';
+import { Select, type SelectOption } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 

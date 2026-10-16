@@ -15,7 +15,7 @@ import { useTranslation } from 'react-i18next';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 import { CodePreview } from '../components/CodePreview';
-import { RunCodeToolCard as RunCodeToolCardView } from '@openbitfun/ui/flow-chat';
+import { RunCodeToolCard as RunCodeToolCardView } from '@opc-team/ui/flow-chat';
 import { ToolCardCopyAction } from './ToolCardCopyAction';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 import { formatSessionViewPreviewText } from '../utils/sessionViewPreview';

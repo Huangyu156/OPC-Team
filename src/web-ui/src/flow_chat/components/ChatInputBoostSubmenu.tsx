@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useId, useRef } from 'react';
 
-import { createOverlayPortal, Menu, MenuItem, Icon, subscribeOverlayInteraction } from '@openbitfun/ui';
+import { createOverlayPortal, Menu, MenuItem, Icon, subscribeOverlayInteraction } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { useSideAnchoredPopoverPosition } from '@/shared/utils/useSideAnchoredPopoverPosition';
 

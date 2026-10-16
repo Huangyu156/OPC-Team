@@ -1,4 +1,4 @@
-import { IconButton } from '@openbitfun/ui';
+import { IconButton } from '@opc-team/ui';
 import { Minus as LucideMinus, X as LucideX } from 'lucide-react';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { useTranslation } from 'react-i18next';

@@ -1,7 +1,7 @@
 import { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { ToolRelationRow, type ToolCardInteraction } from '@openbitfun/ui/flow-chat';
+import { ToolRelationRow, type ToolCardInteraction } from '@opc-team/ui/flow-chat';
 import { ExecProcessPresentation, buildWriteStdinCardModel, buildExecControlCardModel, type ExecToolSnapshot } from '../src/exec';
 
 let container: HTMLDivElement;

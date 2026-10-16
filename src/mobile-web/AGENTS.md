@@ -21,7 +21,7 @@ Mobile web is the browser-based remote control client for OPC-Team desktop sessi
 ## Component style integration
 
 - Load `styles/reset.scss` before shared component CSS. Keep universal resets
-  and generic focus defaults in `openbitfun.reset`, below `openbitfun.components`;
+  and generic focus defaults in `opcteam.reset`, below `opcteam.components`;
   unlayered resets erase shared spacing and focus behavior.
 - Adapt shared components through their public `data-opc-part` hooks or
   explicit app classes, not old native tags, positional children, or generated

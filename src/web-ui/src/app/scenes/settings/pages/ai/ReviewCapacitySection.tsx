@@ -8,7 +8,7 @@ import {
   type ReviewTeam,
   type ReviewTeamConcurrencyPolicy,
 } from '@/shared/services/reviewTeamService';
-import { Button, NumberInput } from '@openbitfun/ui';
+import { Button, NumberInput } from '@opc-team/ui';
 import { RotateCcw } from 'lucide-react';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';

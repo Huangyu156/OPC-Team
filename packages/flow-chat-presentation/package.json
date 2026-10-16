@@ -1,5 +1,5 @@
 {
-  "name": "@openbitfun/flow-chat-presentation",
+  "name": "@opc-team/flow-chat-presentation",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -20,8 +20,8 @@
     "./context-load": "./src/context-load.ts"
   },
   "dependencies": {
-    "@openbitfun/ui": "workspace:^",
-    "@openbitfun/design-tokens": "workspace:^",
+    "@opc-team/ui": "workspace:^",
+    "@opc-team/design-tokens": "workspace:^",
     "@xterm/xterm": "^6.1.0-beta.101",
     "@xterm/addon-fit": "^0.12.0-beta.103"
   },

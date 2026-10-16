@@ -8,7 +8,7 @@ import { LoaderCircle as LucideLoaderCircle } from 'lucide-react';
 
 import React, { useRef, useEffect, useState } from 'react';
 import { BellDot, BellRing } from 'lucide-react';
-import { Icon, MenuItem, Tooltip } from '@openbitfun/ui';
+import { Icon, MenuItem, Tooltip } from '@opc-team/ui';
 
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import {

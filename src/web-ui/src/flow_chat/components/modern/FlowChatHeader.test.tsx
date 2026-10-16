@@ -30,11 +30,11 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
-vi.mock('@openbitfun/ui', async importOriginal => {
+vi.mock('@opc-team/ui', async importOriginal => {
   const ReactModule = await import('react');
 
   return {
-    ...await importOriginal<typeof import('@openbitfun/ui')>(),
+    ...await importOriginal<typeof import('@opc-team/ui')>(),
     Tooltip: ({ children }: { children: React.ReactNode }) => (
       <ReactModule.Fragment>{children}</ReactModule.Fragment>
     ),

@@ -77,7 +77,7 @@ vi.mock('@/shared/utils/logger', () => ({
   }),
 }));
 
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Button: ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
     <button {...props}>{children}</button>
   ),

@@ -6,7 +6,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import type { Notification } from '../types';
 import { useActiveNotifications } from '../hooks/useNotificationState';
 import { NotificationContainer } from './NotificationContainer';
-import { Dialog } from '@openbitfun/ui';
+import { Dialog } from '@opc-team/ui';
 import { notificationService } from '../services/NotificationService';
 
 vi.mock('../hooks/useNotificationState', () => ({

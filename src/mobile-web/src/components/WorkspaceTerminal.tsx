@@ -1,6 +1,6 @@
 import { TerminalSquare } from 'lucide-react';
 import React, { useEffect, useRef, useState } from 'react';
-import { MobileBanner, MobileButton } from '@openbitfun/ui/mobile';
+import { MobileBanner, MobileButton } from '@opc-team/ui/mobile';
 import { Terminal } from '@xterm/xterm';
 import { FitAddon } from '@xterm/addon-fit';
 import '@xterm/xterm/css/xterm.css';

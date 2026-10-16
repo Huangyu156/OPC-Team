@@ -1,4 +1,4 @@
-import { Textarea, Button, Disclosure } from '@openbitfun/ui';
+import { Textarea, Button, Disclosure } from '@opc-team/ui';
 import { GithubLogo } from '@phosphor-icons/react';
 import { RefreshCw as ArrowClockwise, ShieldCheck, CircleAlert as WarningCircle } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';

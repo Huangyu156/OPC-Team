@@ -9,7 +9,7 @@ import {
   readActiveTypographyTokenPx,
 } from './typographyRuntime';
 import { resolveEditorFontFamily } from '@/tools/editor/config/defaults';
-import { readTerminalOutputTypography } from '@openbitfun/flow-chat-presentation/terminal/model';
+import { readTerminalOutputTypography } from '@opc-team/flow-chat-presentation/terminal/model';
 
 describe('typography runtime adapter', () => {
   it('translates canonical design tokens for numeric renderer APIs', () => {

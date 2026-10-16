@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Square } from 'lucide-react';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Spinner, Tooltip } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Spinner, Tooltip } from '@opc-team/ui';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { sessionAPI, type SessionLineageSnapshot } from '@/infrastructure/api/service-api/SessionAPI';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance';
@@ -21,7 +21,7 @@ import {
   SubagentAvatar,
 } from '../../subagent-identity';
 import './SessionTreePopover.scss';
-import { IconButton, Menu, MenuItem, Icon } from '@openbitfun/ui';
+import { IconButton, Menu, MenuItem, Icon } from '@opc-team/ui';
 
 export interface SessionTreeSelection {
   sessionId: string;

@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import FlexiblePanel from '../../base/FlexiblePanel';
 import type { PanelContent } from '../types';
 import './QuickLook.scss';
-import { createOverlayPortal, OverflowText, Icon, Tooltip, useDismissibleLayer } from '@openbitfun/ui';
+import { createOverlayPortal, OverflowText, Icon, Tooltip, useDismissibleLayer } from '@opc-team/ui';
 
 export interface QuickLookProps {
   /** Whether visible */

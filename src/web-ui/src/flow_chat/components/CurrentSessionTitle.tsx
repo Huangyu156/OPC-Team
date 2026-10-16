@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { flowChatStore } from '../store/FlowChatStore';
 import { FlowChatState, Session } from '../types/flow-chat';
-import { OverflowText, Tooltip, Icon } from '@openbitfun/ui';
+import { OverflowText, Tooltip, Icon } from '@opc-team/ui';
 import { i18nService } from '@/infrastructure/i18n';
 import { resolveSessionTitle } from '../utils/sessionTitle';
 import { useSessionTitleNumbers } from '../hooks/useSessionTitleNumbers';

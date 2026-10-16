@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 ;
 
 import './EmptyState.scss';
-import { Icon, Tooltip } from '@openbitfun/ui';
+import { Icon, Tooltip } from '@opc-team/ui';
 
 export interface EmptyStateProps {
   onClose?: () => void;

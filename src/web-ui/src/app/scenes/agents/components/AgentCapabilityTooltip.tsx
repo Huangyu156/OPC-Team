@@ -2,7 +2,7 @@ import React from 'react';
 
 import type { AgentCapabilityTooltipField } from './agentCapabilityTooltipUtils';
 import './AgentCapabilityTooltip.scss';
-import { Tooltip } from '@openbitfun/ui';
+import { Tooltip } from '@opc-team/ui';
 
 export type { AgentCapabilityTooltipField } from './agentCapabilityTooltipUtils';
 

@@ -5,7 +5,7 @@ import { systemAPI } from '@/infrastructure/api/service-api/SystemAPI';
 import { ConfigLoadingState, ConfigMessage, ConfigPageRow, ConfigPageSection, ConfigRetryState } from '@/infrastructure/config/components/common';
 import { configManager } from '@/infrastructure/config/services/ConfigManager';
 import { createLogger } from '@/shared/utils/logger';
-import { Button, Select, Switch } from '@openbitfun/ui';
+import { Button, Select, Switch } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SettingsPage } from '../shared/SettingsPage';

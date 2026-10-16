@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root {
     --_floating-action-host-height: var(--opcteam-control-height-sm);
     display: inline-flex;

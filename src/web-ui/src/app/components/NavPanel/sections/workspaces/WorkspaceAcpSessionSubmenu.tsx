@@ -10,7 +10,7 @@ import {
   type MutableRefObject,
 } from 'react';
 import { Loader2 } from 'lucide-react';
-import { createOverlayPortal, Icon, Menu, MenuItem } from '@openbitfun/ui';
+import { createOverlayPortal, Icon, Menu, MenuItem } from '@opc-team/ui';
 
 import type { AcpClientInfo } from '@/infrastructure/api/service-api/ACPClientAPI';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';

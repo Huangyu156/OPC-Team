@@ -1,7 +1,7 @@
 /** Session-owned composition over the shared, controlled SplitView. */
 import { ArrowLeftRight, GripHorizontal } from 'lucide-react';
 import React, { useRef, useState, useCallback, useEffect, useLayoutEffect, useMemo } from 'react';
-import { Icon, IconButton, SplitView, Tooltip } from '@openbitfun/ui';
+import { Icon, IconButton, SplitView, Tooltip } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { useApp } from '../../hooks/useApp';
 import ChatPane from './ChatPane';

@@ -1,6 +1,6 @@
 import React, { forwardRef, useId } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Textarea } from '@openbitfun/ui';
+import { Textarea } from '@opc-team/ui';
 
 export interface ConfigTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
    

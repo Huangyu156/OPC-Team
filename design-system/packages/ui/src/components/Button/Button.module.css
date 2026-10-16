@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .button {
     --_button-background: transparent;
     --_button-background-hover: var(--opcteam-component-button-fill-background);

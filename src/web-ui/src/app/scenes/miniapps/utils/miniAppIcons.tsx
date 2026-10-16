@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon, type IconName, type IconSize, type IconSource } from '@openbitfun/ui';
+import { Icon, type IconName, type IconSize, type IconSource } from '@opc-team/ui';
 import codingFootprintShowcase from '@/assets/miniapps/showcases/coding-footprint.webp';
 import dailyDivinationShowcase from '@/assets/miniapps/showcases/daily-divination.webp';
 import gomokuShowcase from '@/assets/miniapps/showcases/gomoku.webp';

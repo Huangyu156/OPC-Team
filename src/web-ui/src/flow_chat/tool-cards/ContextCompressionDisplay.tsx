@@ -6,7 +6,7 @@ import { useToolCardDisclosure } from '../timeline/readerState';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import type { FlowToolItem } from '../types/flow-chat';
-import { ContextCompressionToolCard } from '@openbitfun/ui/flow-chat';
+import { ContextCompressionToolCard } from '@opc-team/ui/flow-chat';
 import { i18nService } from '@/infrastructure/i18n';
 import { getToolCardStatus } from './toolCardStatus';
 import { useToolCardHeightContract } from './useToolCardHeightContract';

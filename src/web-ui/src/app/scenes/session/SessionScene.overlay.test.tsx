@@ -8,8 +8,8 @@ import SessionPanelSettingsSection from '../settings/pages/application/SessionPa
 
 const mocks = vi.hoisted(() => ({ selectLayout: null as null | ((value: string) => void) }));
 
-vi.mock('@openbitfun/ui', async importOriginal => ({
-  ...await importOriginal<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async importOriginal => ({
+  ...await importOriginal<typeof import('@opc-team/ui')>(),
   Select: ({ value, onValueChange }: { value: string; onValueChange: (value: string) => void }) => {
     mocks.selectLayout = onValueChange;
     return <output data-testid="layout-preference">{value}</output>;

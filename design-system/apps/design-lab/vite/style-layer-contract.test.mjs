@@ -1,8 +1,8 @@
 import assert from "node:assert/strict";
 import { readdir, readFile } from "node:fs/promises";
 import test from "node:test";
-import { tokenCatalog } from "@openbitfun/design-tokens";
-import { themeTokenCatalog } from "@openbitfun/theme-openbitfun";
+import { tokenCatalog } from "@opc-team/design-tokens";
+import { themeTokenCatalog } from "@opc-team/theme";
 
 const stylesSource = new URL("../src/styles.css", import.meta.url);
 
@@ -33,9 +33,9 @@ function findLayerRange(source, name) {
   assert.fail(`Missing closing brace for ${marker}`);
 }
 
-test("Design Lab form resets stay below component styles in openbitfun.reset", async () => {
+test("Design Lab form resets stay below component styles in opcteam.reset", async () => {
   const source = await readFile(stylesSource, "utf8");
-  const resetLayer = findLayerRange(source, "openbitfun.reset");
+  const resetLayer = findLayerRange(source, "opcteam.reset");
   const resetContracts = [
     /button,\s*input,\s*select\s*\{\s*font:\s*inherit;\s*\}/g,
     /button,\s*a,\s*select\s*\{\s*-webkit-tap-highlight-color:\s*transparent;\s*\}/g,

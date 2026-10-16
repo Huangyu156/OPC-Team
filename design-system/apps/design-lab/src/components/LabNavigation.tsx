@@ -1,7 +1,7 @@
 import { enUSMessages } from "../i18n/messages";
 import { useI18n, type MessageKey } from "../i18n";
 import { Fragment, useSyncExternalStore } from "react";
-import { OpenBitFunSolidMark } from "@openbitfun/ui/brand";
+import { OpenBitFunSolidMark } from "@opc-team/ui/brand";
 import {
   focusFoundationSection,
   foundationSections,

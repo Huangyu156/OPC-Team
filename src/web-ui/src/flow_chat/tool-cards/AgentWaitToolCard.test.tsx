@@ -4,7 +4,7 @@ import React, { act } from 'react';
 import { createRoot } from 'react-dom/client';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it, vi } from 'vitest';
-import { ToolCapsulePresentationProvider } from '@openbitfun/ui/flow-chat';
+import { ToolCapsulePresentationProvider } from '@opc-team/ui/flow-chat';
 
 import type { FlowToolItem, Session, ToolCardConfig } from '../types/flow-chat';
 import { resolveSubagentAvatarPresentation, resolveSubagentNameKey } from '../subagent-identity';

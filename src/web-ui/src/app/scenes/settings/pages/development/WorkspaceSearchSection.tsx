@@ -6,7 +6,7 @@ import { useCurrentWorkspace } from '@/infrastructure/contexts/WorkspaceContext'
 import { notificationService } from '@/shared/notification-system';
 import { isRemoteWorkspace } from '@/shared/types/global-state';
 import { createLogger } from '@/shared/utils/logger';
-import { Switch } from '@openbitfun/ui';
+import { Switch } from '@opc-team/ui';
 import { useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingsSectionAnchor } from '../shared/useSettingsSectionAnchor';

@@ -5,7 +5,7 @@
  * several rows with different times.
  */
 
-import { OverflowText, Icon, IconButton, Switch, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton, Switch, Tooltip } from '@opc-team/ui';
 import React from 'react';
 import { CalendarClock } from 'lucide-react';
 

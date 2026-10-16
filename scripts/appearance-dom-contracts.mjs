@@ -17,7 +17,7 @@ export const flowChatAppearanceSources = {
 export function collectForwardedFlowGroupParts(ast, ownerAst) {
   const names = new Set();
   for (const statement of ast.statements) {
-    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@openbitfun/ui/flow-chat') continue;
+    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@opc-team/ui/flow-chat') continue;
     const bindings = statement.importClause?.namedBindings;
     if (!bindings || !ts.isNamedImports(bindings)) continue;
     for (const binding of bindings.elements) {
@@ -73,7 +73,7 @@ export function collectForwardedFlowGroupParts(ast, ownerAst) {
 export function collectFlowChatAppearanceHostTags(ast) {
   const names = new Set();
   for (const statement of ast.statements) {
-    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@openbitfun/ui/flow-chat') continue;
+    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@opc-team/ui/flow-chat') continue;
     const bindings = statement.importClause?.namedBindings;
     if (!bindings || !ts.isNamedImports(bindings)) continue;
     for (const binding of bindings.elements) {
@@ -101,7 +101,7 @@ function property(object, name) {
 export function collectForwardedTabProps(ast) {
   const tabGroupNames = new Set();
   for (const statement of ast.statements) {
-    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@openbitfun/ui') continue;
+    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@opc-team/ui') continue;
     const bindings = statement.importClause?.namedBindings;
     if (!bindings || !ts.isNamedImports(bindings)) continue;
     for (const binding of bindings.elements) {
@@ -153,7 +153,7 @@ export function findDomAttribute(node, name) {
 export function collectForwardedOverlayProps(ast) {
   const names = new Set();
   for (const statement of ast.statements) {
-    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@openbitfun/ui') continue;
+    if (!ts.isImportDeclaration(statement) || statement.moduleSpecifier.text !== '@opc-team/ui') continue;
     const bindings = statement.importClause?.namedBindings;
     if (!bindings || !ts.isNamedImports(bindings)) continue;
     for (const binding of bindings.elements) {

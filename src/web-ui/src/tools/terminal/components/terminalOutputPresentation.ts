@@ -1,1 +1,1 @@
-export * from '@openbitfun/flow-chat-presentation/terminal/model';
+export * from '@opc-team/flow-chat-presentation/terminal/model';

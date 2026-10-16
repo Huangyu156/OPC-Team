@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Tooltip } from '@openbitfun/ui';
+import { Button, Tooltip } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { usePeerDeviceModeOptional } from './peerDeviceContextState';
 import { WifiOff } from 'lucide-react';

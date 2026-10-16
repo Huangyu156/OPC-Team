@@ -1,5 +1,5 @@
-import { OpenBitFunMark } from '@openbitfun/ui/brand';
-import { Alert, Button, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle } from '@openbitfun/ui';
+import { OpenBitFunMark } from '@opc-team/ui/brand';
+import { Alert, Button, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle } from '@opc-team/ui';
 import ReactMarkdown from 'react-markdown';
 import { useI18n } from '@/infrastructure/i18n';
 import { systemAPI } from '@/infrastructure/api/service-api/SystemAPI';

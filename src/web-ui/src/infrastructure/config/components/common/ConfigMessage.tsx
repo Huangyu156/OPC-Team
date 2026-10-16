@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert } from '@openbitfun/ui';
+import { Alert } from '@opc-team/ui';
 import './ConfigPageState.scss';
 
 export interface ConfigMessageData {

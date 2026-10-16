@@ -1,7 +1,7 @@
 import { refreshDeviceDirectory, isDeviceControllable, deviceClientVersion } from '@/infrastructure/account/deviceDirectory';
 /** Account login and authenticated device connections. */
 
-import { OverflowText, Alert, Avatar, Button, Icon, IconButton, Input, ScrollArea, StatusPill } from '@openbitfun/ui';
+import { OverflowText, Alert, Avatar, Button, Icon, IconButton, Input, ScrollArea, StatusPill } from '@opc-team/ui';
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import {

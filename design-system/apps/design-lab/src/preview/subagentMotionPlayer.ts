@@ -1,1 +1,1 @@
-export * from "@openbitfun/ui/brand";
+export * from "@opc-team/ui/brand";

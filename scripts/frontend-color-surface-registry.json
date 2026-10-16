@@ -3,7 +3,7 @@
   "description": "Authoritative registry for every OPC-Team frontend color surface, its canonical token owner, narrowly scoped specialized palette owners, and non-product artifacts excluded from ordinary UI governance.",
   "contracts": {
     "webSystem": "design-system/packages/design-tokens/src/system.tokens.json",
-    "webTheme": "design-system/packages/theme-openbitfun/src/light.tokens.json",
+    "webTheme": "design-system/packages/theme/src/light.tokens.json",
     "miniappAppearance": "src/shared/miniapp-appearance/contract.json",
     "nativeMobile": "src/apps/mobile/design-system/tokens/mobile-tokens.json"
   },
@@ -19,17 +19,17 @@
       "id": "design-system-token-owner",
       "label": "Design system token authoring",
       "kind": "contract-owner",
-      "owner": "@openbitfun/design-tokens and @openbitfun/theme-openbitfun",
+      "owner": "@opc-team/design-tokens and @opc-team/theme",
       "roots": [
         "design-system/packages/design-tokens/src",
-        "design-system/packages/theme-openbitfun/src"
+        "design-system/packages/theme/src"
       ]
     },
     {
       "id": "web-ui",
       "label": "Web UI",
       "kind": "canonical-web",
-      "owner": "@openbitfun/theme-openbitfun plus Web UI Appearance theme-tokens",
+      "owner": "@opc-team/theme plus Web UI Appearance theme-tokens",
       "root": "src/web-ui",
       "audit": {
         "engine": "theme",
@@ -62,32 +62,32 @@
       "id": "design-system-ui",
       "label": "Public design-system UI package",
       "kind": "canonical-web",
-      "owner": "@openbitfun/ui consuming peer-owned canonical tokens",
+      "owner": "@opc-team/ui consuming peer-owned canonical tokens",
       "root": "design-system/packages/ui",
       "audit": {
         "engine": "theme",
         "baseline": "scripts/theme-color-governance-baseline.design-system-ui.json",
         "excludePaths": ["src/brand/assets/subagent-egg.svg"],
-        "packageContracts": ["@openbitfun/design-tokens", "@openbitfun/theme-openbitfun"]
+        "packageContracts": ["@opc-team/design-tokens", "@opc-team/theme"]
       }
     },
     {
       "id": "flow-chat-presentation",
       "label": "Shared FlowChat presentation",
       "kind": "canonical-web",
-      "owner": "@openbitfun/flow-chat-presentation consuming canonical tokens and injected renderer themes",
+      "owner": "@opc-team/flow-chat-presentation consuming canonical tokens and injected renderer themes",
       "root": "packages/flow-chat-presentation",
       "audit": {
         "engine": "theme",
         "policy": "canonical-ui-zero",
-        "packageContracts": ["@openbitfun/design-tokens", "@openbitfun/theme-openbitfun"]
+        "packageContracts": ["@opc-team/design-tokens", "@opc-team/theme"]
       }
     },
     {
       "id": "design-lab",
       "label": "Design Lab",
       "kind": "canonical-web",
-      "owner": "@openbitfun/theme-openbitfun",
+      "owner": "@opc-team/theme",
       "root": "design-system/apps/design-lab",
       "audit": {
         "engine": "theme",
@@ -98,7 +98,7 @@
       "id": "miniapp-market",
       "label": "Mini App Market",
       "kind": "canonical-web",
-      "owner": "@openbitfun/theme-openbitfun",
+      "owner": "@opc-team/theme",
       "root": "src/miniapp-market-web",
       "audit": {
         "engine": "theme",
@@ -109,7 +109,7 @@
       "id": "skin-market",
       "label": "Skin Market",
       "kind": "canonical-web",
-      "owner": "@openbitfun/theme-openbitfun",
+      "owner": "@opc-team/theme",
       "root": "src/skin-market-web",
       "audit": {
         "engine": "theme",
@@ -120,7 +120,7 @@
       "id": "website",
       "label": "Public website",
       "kind": "canonical-web",
-      "owner": "@openbitfun/theme-openbitfun",
+      "owner": "@opc-team/theme",
       "root": "website",
       "audit": {
         "engine": "theme",
@@ -131,7 +131,7 @@
       "id": "mobile-web",
       "label": "Mobile Web and Remote Control",
       "kind": "canonical-web",
-      "owner": "@openbitfun/theme-openbitfun",
+      "owner": "@opc-team/theme",
       "root": "src/mobile-web",
       "audit": {
         "engine": "theme",
@@ -142,7 +142,7 @@
       "id": "installer",
       "label": "OPC-Team Installer",
       "kind": "canonical-web",
-      "owner": "@openbitfun/theme-openbitfun with the installer preset owner",
+      "owner": "@opc-team/theme with the installer preset owner",
       "root": "OpenBitFun-Installer",
       "audit": {
         "engine": "theme",
@@ -153,12 +153,12 @@
       "id": "data-migrator",
       "label": "Offline Data Migrator",
       "kind": "canonical-web",
-      "owner": "@openbitfun/design-tokens and @openbitfun/theme-openbitfun public CSS exports",
+      "owner": "@opc-team/design-tokens and @opc-team/theme public CSS exports",
       "root": "src/apps/data-migrator/ui",
       "audit": {
         "engine": "theme",
         "policy": "canonical-ui-zero",
-        "packageContracts": ["@openbitfun/design-tokens", "@openbitfun/theme-openbitfun"],
+        "packageContracts": ["@opc-team/design-tokens", "@opc-team/theme"],
         "excludePaths": ["generated"]
       }
     },
@@ -166,12 +166,12 @@
       "id": "desktop-bootstrap",
       "label": "Desktop pre-JavaScript bootstrap pages",
       "kind": "canonical-web",
-      "owner": "generated @openbitfun/theme-openbitfun bootstrap projection",
+      "owner": "generated @opc-team/theme bootstrap projection",
       "root": "src/apps/desktop/bootstrap-ui",
       "audit": {
         "engine": "theme",
         "policy": "canonical-ui-zero",
-        "packageContracts": ["@openbitfun/design-tokens", "@openbitfun/theme-openbitfun"]
+        "packageContracts": ["@opc-team/design-tokens", "@opc-team/theme"]
       }
     },
     {
@@ -183,7 +183,7 @@
       "audit": {
         "engine": "theme",
         "policy": "canonical-ui-zero",
-        "packageContracts": ["@openbitfun/design-tokens", "@openbitfun/theme-openbitfun"],
+        "packageContracts": ["@opc-team/design-tokens", "@opc-team/theme"],
         "excludePaths": ["generated"]
       }
     },

@@ -7,7 +7,7 @@ description = "Standalone local Agent SDK Host implementation candidate"
 autobins = false
 
 [[bin]]
-name = "openbitfun-sdk-host"
+name = "opc-sdk-host"
 path = "src/main.rs"
 
 [dependencies]

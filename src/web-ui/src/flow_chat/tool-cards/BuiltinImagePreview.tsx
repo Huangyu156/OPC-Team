@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ToolCardText } from '@openbitfun/ui/flow-chat';
+import { ToolCardText } from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';
 

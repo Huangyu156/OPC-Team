@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Tooltip } from '@openbitfun/ui';
+import { Tooltip } from '@opc-team/ui';
 import type { TurnRailCapsulePreview } from '@/shared/types/session-history';
 import { MessageReferenceCapsule } from './MessageReferenceCapsule';
 import { observeElementResize } from '@/shared/utils/sharedResizeObserver';

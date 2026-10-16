@@ -1,4 +1,4 @@
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import React from 'react';
 import { AlertCircle, AlertTriangle } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n';

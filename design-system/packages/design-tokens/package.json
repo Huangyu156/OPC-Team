@@ -1,5 +1,5 @@
 {
-  "name": "@openbitfun/design-tokens",
+  "name": "@opc-team/design-tokens",
   "version": "0.1.0",
   "description": "Framework-neutral design token contract and system scales for OPC-Team UI packages",
   "license": "MIT",
@@ -30,7 +30,7 @@
     "prepack": "pnpm run build"
   },
   "devDependencies": {
-    "@openbitfun/token-engine": "workspace:*"
+    "@opc-team/token-engine": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

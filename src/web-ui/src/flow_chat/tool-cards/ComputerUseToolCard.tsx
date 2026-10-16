@@ -1,6 +1,6 @@
 import { useToolCardDisclosure } from '../timeline/readerState';
 import React, { useMemo } from 'react';
-import { Button, Icon } from '@openbitfun/ui';
+import { Button, Icon } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { AlertTriangle, Camera, Clipboard, Keyboard, MousePointerClick } from 'lucide-react';
 
@@ -9,7 +9,7 @@ import { createLogger } from '@/shared/utils/logger';
 import { api } from '@/infrastructure/api/service-api/ApiClient';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
-import { AmbientToolCard, AmbientToolCardHeader, ToolCardStatusSlot } from '@openbitfun/ui/flow-chat';
+import { AmbientToolCard, AmbientToolCardHeader, ToolCardStatusSlot } from '@opc-team/ui/flow-chat';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 import './ComputerUseToolCard.scss';
 

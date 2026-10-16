@@ -2,7 +2,7 @@ import {
   readActiveTypographyTokenNumber,
   readActiveTypographyTokenPx,
   readActiveTypographyTokenValue,
-} from '@openbitfun/design-tokens/typography-runtime';
+} from '@opc-team/design-tokens/typography-runtime';
 
 export function readTerminalOutputFontFamily(target?: Element | null): string {
   return readActiveTypographyTokenValue('font.family.mono', target);

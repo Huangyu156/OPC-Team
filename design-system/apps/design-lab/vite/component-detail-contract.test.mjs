@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import test from "node:test";
-import { componentRegistry } from "@openbitfun/ui/registry";
+import { componentRegistry } from "@opc-team/ui/registry";
 
 const detailSource = new URL("../src/pages/ComponentDetailPage.tsx", import.meta.url);
 const catalogSource = new URL("../src/pages/ComponentsPage.tsx", import.meta.url);

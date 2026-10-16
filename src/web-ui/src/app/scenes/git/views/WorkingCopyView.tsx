@@ -2,7 +2,7 @@
  * WorkingCopyView — Git working copy: commit bar + file list + diff area (ContentCanvas mode=git).
  */
 
-import { OverflowText, Button, Icon, IconButton, SearchField, Textarea, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, SearchField, Textarea, Tooltip } from '@opc-team/ui';
 import React, { useCallback, useState, useMemo, useEffect, useRef } from 'react';
 import { useShortcut } from '@/infrastructure/hooks/useShortcut';
 import { useTranslation } from 'react-i18next';

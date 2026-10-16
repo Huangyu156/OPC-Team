@@ -9,7 +9,7 @@ import {
   renderCss,
   resolveTokens,
   tokenNameToCssVariable,
-} from "@openbitfun/token-engine";
+} from "@opc-team/token-engine";
 import { resolveStatusColors } from "./resolve-status-colors.mjs";
 
 const packageDirectory = fileURLToPath(new URL("../", import.meta.url));
@@ -279,7 +279,7 @@ await Promise.all([
   writeFile(path.join(outputDirectory, "themes.css"), css + legacyAliasCss),
   writeFile(
     path.join(outputDirectory, "default.css"),
-    '@import "@openbitfun/design-tokens/tokens.css";\n@import "./themes.css";\n',
+    '@import "@opc-team/design-tokens/tokens.css";\n@import "./themes.css";\n',
   ),
   writeFile(path.join(outputDirectory, "theme-data.json"), `${JSON.stringify(themeData, null, 2)}\n`),
   writeFile(path.join(outputDirectory, "index.js"), indexSource),

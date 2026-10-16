@@ -1,4 +1,4 @@
-import { Icon as CatalogIcon, type IconName } from "@openbitfun/ui";
+import { Icon as CatalogIcon, type IconName } from "@opc-team/ui";
 import { BookOpen, Boxes, FileCode2, FileText, ShieldCheck } from "lucide-react";
 import { useI18n, type MessageKey } from "../i18n";
 
@@ -30,7 +30,7 @@ const resources: readonly {
   },
   {
     description: "resources.themeDescription",
-    href: `${repositoryBase}/packages/theme-openbitfun/README.md`,
+    href: `${repositoryBase}/packages/theme/README.md`,
     icon: "palette",
     title: "resources.themeTitle",
   },

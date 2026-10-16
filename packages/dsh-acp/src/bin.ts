@@ -10,7 +10,7 @@
  * (deepseek-harness/packages/examples/acp-demo/src/bin.ts, MIT).
  * Copyright (c) DeepSeek. See ../NOTICE.md.
  *
- * @module @openbitfun/dsh-acp/bin
+ * @module @opc-team/dsh-acp/bin
  */
 
 import { parseArgs } from 'node:util'

@@ -14,8 +14,8 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
-vi.mock('@openbitfun/ui', async importOriginal => ({
-  ...await importOriginal<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async importOriginal => ({
+  ...await importOriginal<typeof import('@opc-team/ui')>(),
   IconButton: ({
     children,
     loading,

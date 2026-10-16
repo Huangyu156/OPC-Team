@@ -1,6 +1,6 @@
 import React, { useCallback, useId, useMemo, useState } from 'react';
 import { AlertCircle } from 'lucide-react';
-import { OverflowText, Tooltip, Icon } from '@openbitfun/ui';
+import { OverflowText, Tooltip, Icon } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import {
   getAiErrorPresentation,

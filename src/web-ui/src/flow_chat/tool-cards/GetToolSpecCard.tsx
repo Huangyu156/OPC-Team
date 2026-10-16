@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
-import { GetToolSpecToolCard } from '@openbitfun/ui/flow-chat';
+import { GetToolSpecToolCard } from '@opc-team/ui/flow-chat';
 
 interface ParsedGetToolSpecResult {
   toolName: string;

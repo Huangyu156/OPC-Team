@@ -5,7 +5,7 @@ import { getMcpPromptReferenceMatches } from '../../utils/mcpPromptReference';
 import { MessageReferenceCapsule } from './MessageReferenceCapsule';
 import { messageInlineTokenIcon } from './messageReferenceIcons';
 import { ConversationExcerptPreview } from '../../selection/ConversationExcerptAttachments';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 
 /** Render the persisted prompt format without requiring newer message metadata. */
 export const UserMessageTextContent: React.FC<{ text: string }> = ({ text }) => {

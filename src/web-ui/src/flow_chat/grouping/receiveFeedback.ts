@@ -1,4 +1,4 @@
-import type { FlowGroupReceiveFeedback } from '@openbitfun/ui/flow-chat';
+import type { FlowGroupReceiveFeedback } from '@opc-team/ui/flow-chat';
 import type { FlowToolItem } from '../types/flow-chat';
 import type { VirtualItem } from '../types/flow-chat-projection';
 import { getModelRoundActiveItems } from './roundGroups';

@@ -1,5 +1,5 @@
 import React, { useCallback, useSyncExternalStore } from 'react';
-import { SessionMessageToolCard as SessionMessageToolCardView } from '@openbitfun/ui/flow-chat';
+import { SessionMessageToolCard as SessionMessageToolCardView } from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { flowChatStore } from '../store/FlowChatStore';
 import type { ToolCardProps } from '../types/flow-chat';

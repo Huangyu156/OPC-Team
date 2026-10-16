@@ -1,6 +1,6 @@
 import { useId, useRef, useState } from 'react';
 import { Wifi } from 'lucide-react';
-import { Icon, IconButton, MenuPopover, Switch, Tooltip, type MenuEntry } from '@openbitfun/ui';
+import { Icon, IconButton, MenuPopover, Switch, Tooltip, type MenuEntry } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 
 interface ModelPoolCardActionsProps {

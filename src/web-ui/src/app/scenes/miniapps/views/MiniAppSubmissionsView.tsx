@@ -8,7 +8,7 @@ import { OverflowText,
   Select,
   StatusPill,
   Textarea,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useEffect, useMemo, useState } from 'react';
 import { open } from '@tauri-apps/plugin-dialog';
 import { AlertTriangle, Camera, Github, History, Loader2, PackageOpen, Send } from 'lucide-react';

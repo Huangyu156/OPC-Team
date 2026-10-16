@@ -1,5 +1,5 @@
 import React from 'react';
-import { PageHeader } from '@openbitfun/ui';
+import { PageHeader } from '@opc-team/ui';
 import { formatStandaloneUiText } from './standaloneUiCopy';
 import './ConfigPageHeader.scss';
 

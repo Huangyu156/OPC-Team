@@ -1,4 +1,4 @@
-import type { GrepSearchResultBlock, GrepSearchResultLine } from '@openbitfun/ui/flow-chat';
+import type { GrepSearchResultBlock, GrepSearchResultLine } from '@opc-team/ui/flow-chat';
 import { formatSessionViewPreviewText } from './sessionViewPreview';
 
 export interface GrepSearchPreviewOptions {

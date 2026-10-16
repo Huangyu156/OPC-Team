@@ -8,7 +8,7 @@
  * remeasure when the pointer moves. Hover visibility opts into removing idle
  * tracks for edge-to-edge content.
  */
-@layer openbitfun.base {
+@layer opcteam.base {
   :where([data-opcteam-design-system-root], [data-opcteam-design-system-root] *, [data-opc-scrollbar-visibility])::-webkit-scrollbar {
     width: var(--opcteam-scrollbar-width);
     height: var(--opcteam-scrollbar-width);

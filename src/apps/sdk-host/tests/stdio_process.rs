@@ -17,7 +17,7 @@ async fn standalone_sdk_host_negotiates_and_shuts_down_without_cli() {
     }
 
     let mut child = opc_services_core::process_manager::create_tokio_command(env!(
-        "CARGO_BIN_EXE_openbitfun-sdk-host"
+        "CARGO_BIN_EXE_opc-sdk-host"
     ))
     .current_dir(&workspace)
     .env_remove("OPENBITFUN_USER_ROOT")

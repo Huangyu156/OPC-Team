@@ -243,9 +243,9 @@ export default defineConfig(({ mode, command }) => {
   optimizeDeps: {
     // Exclude dependencies that need to be dynamically loaded
     exclude: [
-      '@openbitfun/design-tokens',
-      '@openbitfun/theme-openbitfun',
-      '@openbitfun/ui',
+      '@opc-team/design-tokens',
+      '@opc-team/theme',
+      '@opc-team/ui',
     ],
     // Force pre-building dependencies
     // Resolve Vite 7 and React 18 compatibility issues

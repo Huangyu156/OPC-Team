@@ -26,7 +26,7 @@ import {
   StatusPill,
   Switch,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Plug2, RotateCcw, Wrench } from 'lucide-react';
 

@@ -6,7 +6,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 ;
-import { Icon, SearchField } from '@openbitfun/ui';
+import { Icon, SearchField } from '@opc-team/ui';
 import './SearchFilter.scss';
 
 export interface SearchFilterProps {

@@ -1,7 +1,7 @@
  
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { OverflowText, Button, Icon, ScrollArea, SearchField } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, ScrollArea, SearchField } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { FileText, FileJson, FileCode } from 'lucide-react';
 import MCPAPI, { MCPResource } from '../../api/service-api/MCPAPI';

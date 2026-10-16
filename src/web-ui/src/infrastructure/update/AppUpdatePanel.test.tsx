@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import React, { act } from 'react';
-import { Dialog } from '@openbitfun/ui';
+import { Dialog } from '@opc-team/ui';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import common from '@/locales/en-US/common.json';

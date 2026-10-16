@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import { workspaceAPI } from '@/infrastructure/api/service-api/WorkspaceAPI';
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';
 import { i18nService, useI18n } from '@/infrastructure/i18n';

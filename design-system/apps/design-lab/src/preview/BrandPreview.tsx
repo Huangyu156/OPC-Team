@@ -1,4 +1,4 @@
-import { OpenBitFunAppIcon, OpenBitFunSolidMark, OpenBitFunBrandMotion, OpenBitFunMark, SubagentHatch } from "@openbitfun/ui/brand";
+import { OpenBitFunAppIcon, OpenBitFunSolidMark, OpenBitFunBrandMotion, OpenBitFunMark, SubagentHatch } from "@opc-team/ui/brand";
 import { SUBAGENT_AVATAR_CATALOG } from "../assets/subagentAvatars";
 import { VoiceParticlePreview } from "../components/VoiceCallPreview";
 
@@ -41,5 +41,5 @@ export function brandCodeSample(name: string): string {
       : name === "SubagentHatch"
         ? '<SubagentHatch phase={isCreated ? "ready" : "incubating"} size={32}>\n  {avatar}\n</SubagentHatch>'
         : '<VoiceParticleLogo active={isCallActive} readAudio={readAudio} />';
-  return `import { ${name} } from "@openbitfun/ui/brand";\nimport "@openbitfun/ui/styles.css";\n\n${usage}`;
+  return `import { ${name} } from "@opc-team/ui/brand";\nimport "@opc-team/ui/styles.css";\n\n${usage}`;
 }

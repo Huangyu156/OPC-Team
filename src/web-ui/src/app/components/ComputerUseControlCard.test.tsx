@@ -15,7 +15,7 @@ vi.mock('@/infrastructure/peer-device/deviceSurface', () => ({
   onSurfaceActivated: (fn: () => void) => { mocks.listeners.add(fn); return () => mocks.listeners.delete(fn); },
 }));
 vi.mock('@/infrastructure/i18n', () => ({ useI18n: () => ({ t: (key: string) => key }) }));
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Button: ({ children, ...props }: React.ButtonHTMLAttributes<HTMLButtonElement>) => <button {...props}>{children}</button>,
   Card: ({ children }: React.PropsWithChildren) => <div>{children}</div>,
   CardHeader: ({ children }: React.PropsWithChildren) => <div>{children}</div>,

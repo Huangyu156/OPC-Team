@@ -1,9 +1,9 @@
 import { useToolCardDisclosure } from '../timeline/readerState';
 import React, { useEffect, useMemo, useState } from 'react';
-import { IconButton, Icon } from '@openbitfun/ui';
+import { IconButton, Icon } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import type { ToolCardProps } from '../types/flow-chat';
-import { ReviewSummaryToolCard } from '@openbitfun/ui/flow-chat';
+import { ReviewSummaryToolCard } from '@opc-team/ui/flow-chat';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 import { flowChatStore } from '../store/FlowChatStore';
 import { openBtwSessionInAuxPane } from '../services/btwSessionPane';

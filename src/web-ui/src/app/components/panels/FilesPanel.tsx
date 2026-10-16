@@ -1,11 +1,11 @@
-import { SegmentedControl } from '@openbitfun/ui';
+import { SegmentedControl } from '@opc-team/ui';
 import { FileText as LucideFileText } from 'lucide-react';
 /**
  * Files panel component
  * Displays the file explorer for the current workspace
  */
 
-import { OverflowText, Button, Icon, IconButton, SearchField, StatusPill, Tooltip, ScrollArea } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, SearchField, StatusPill, Tooltip, ScrollArea } from '@opc-team/ui';
 import React, { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CaseSensitive, Regex, WholeWord, List, Loader2 } from 'lucide-react';
@@ -25,7 +25,7 @@ import { workspaceAPI } from '@/infrastructure/api';
 import type { FileSystemNode, FileTreeRevealTarget } from '@/tools/file-system/types';
 import { globalEventBus } from '@/infrastructure/event-bus';
 import { useNotification } from '@/shared/notification-system';
-import { LoadingState } from '@openbitfun/ui';
+import { LoadingState } from '@opc-team/ui';
 import { InputDialog } from '@/app/components/InputDialog';
 import { openFileInBestTarget } from '@/shared/utils/tabUtils';
 import { PanelHeader } from './base';

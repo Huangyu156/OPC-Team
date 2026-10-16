@@ -1,7 +1,7 @@
 /** Modeless host of references to Runtime-owned conversations. */
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { ArrowUpRight, Minus, Phone, PhoneOff, X } from 'lucide-react';
-import { IconButton, LauncherButton, OverflowText, TabGroup, Button } from '@openbitfun/ui';
+import { IconButton, LauncherButton, OverflowText, TabGroup, Button } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { getActiveSurfaceId, getActiveSurfaceScope, onSurfaceActivated, isSurfaceChangedError } from '@/infrastructure/peer-device/deviceSurface';
 import { globalEventBus } from '@/infrastructure/event-bus';

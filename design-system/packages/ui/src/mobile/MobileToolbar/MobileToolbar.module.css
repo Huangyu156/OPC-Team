@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root { display: flex; box-sizing: border-box; inline-size: 100%; min-block-size: 56px; align-items: center; justify-content: space-between; gap: var(--opcteam-space-3); padding: var(--opcteam-space-2) var(--opcteam-space-4); background: var(--opcteam-color-surface-panel); box-shadow: var(--opcteam-shadow-sm); }
   .root[data-appearance="plain"] { background: transparent; box-shadow: none; }
   .root[data-safe-area="true"] { padding-block-end: calc(var(--opcteam-space-2) + env(safe-area-inset-bottom, 0px)); }

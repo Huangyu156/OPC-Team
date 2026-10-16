@@ -2,8 +2,8 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { DesignSystemProvider } from '@openbitfun/ui';
-import { ThinkingBlock } from '@openbitfun/ui/flow-chat';
+import { DesignSystemProvider } from '@opc-team/ui';
+import { ThinkingBlock } from '@opc-team/ui/flow-chat';
 
 // Supplied geometry exercises ownership and lifecycle; it is not visual proof.
 describe('thinking page-margin annotation', () => {

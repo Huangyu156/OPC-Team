@@ -9,7 +9,7 @@ import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatu
 import type { ToolCardProps } from '../types/flow-chat';
 import { isToolCardVisible } from '../utils/flowItemVisibility';
 import { systemAPI } from '../../infrastructure/api';
-import { WebSearchToolCard } from '@openbitfun/ui/flow-chat';
+import { WebSearchToolCard } from '@opc-team/ui/flow-chat';
 import { createLogger } from '@/shared/utils/logger';
 import { useToolCardHeightContract } from './useToolCardHeightContract';
 

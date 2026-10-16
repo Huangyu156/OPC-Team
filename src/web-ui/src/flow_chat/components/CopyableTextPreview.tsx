@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useTranslation } from 'react-i18next';
-import { IconButton, Tooltip, Icon, OverflowText } from '@openbitfun/ui';
+import { IconButton, Tooltip, Icon, OverflowText } from '@opc-team/ui';
 import { useCopyTextAction } from '../hooks/useCopyTextAction';
 import './CopyableTextPreview.scss';
 

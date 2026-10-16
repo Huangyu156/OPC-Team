@@ -1,4 +1,4 @@
-import type { TerminalOutputHost } from '@openbitfun/flow-chat-presentation/terminal';
+import type { TerminalOutputHost } from '@opc-team/flow-chat-presentation/terminal';
 import { xtermAppearanceAdapter } from '@/infrastructure/appearance/adapters/XtermAppearanceAdapter';
 import { fontPreferenceService } from '@/infrastructure/font-preference';
 import { registerTerminalActions, unregisterTerminalActions } from '../services/TerminalActionManager';

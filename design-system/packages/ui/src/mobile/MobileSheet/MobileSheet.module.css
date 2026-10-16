@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .overlay[data-opc-component="mobile-sheet"] {
     position: fixed;
     inset: 0;

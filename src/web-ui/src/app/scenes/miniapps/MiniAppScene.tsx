@@ -2,7 +2,7 @@
  * MiniAppScene — standalone scene tab for a single MiniApp.
  * Mounts MiniAppRunner; closing its scene stops the app through the shared lifecycle.
  */
-import { OverflowText, Button, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Loader2, AlertTriangle } from 'lucide-react';
 import { miniAppAPI } from '@/infrastructure/api/service-api/MiniAppAPI';

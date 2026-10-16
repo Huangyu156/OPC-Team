@@ -3,7 +3,7 @@ import path from 'node:path';
 import { createElement } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { Icon, iconNames } from '@openbitfun/ui';
+import { Icon, iconNames } from '@opc-team/ui';
 import { HARNESS_PRESENTATION } from '@/shared/agents/harnessPresentation';
 import { ConfigRefreshButton } from '@/infrastructure/config/components/common';
 

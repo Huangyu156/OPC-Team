@@ -1,4 +1,4 @@
-import type { componentRegistry } from '@openbitfun/ui/registry';
+import type { componentRegistry } from '@opc-team/ui/registry';
 type FlowChatViewName = Extract<(typeof componentRegistry)[number], { readonly category: 'flow-chat' }>['name'];
 
 /** Product presentation bindings. No React values, stores or host imports here. */

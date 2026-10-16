@@ -5,7 +5,7 @@
 
 import { createContext, useContext } from 'react';
 import type React from 'react';
-import type { FlowGroupReceiveFeedback } from '@openbitfun/ui/flow-chat';
+import type { FlowGroupReceiveFeedback } from '@opc-team/ui/flow-chat';
 import type { Session, ToolRejectOptions } from '../../types/flow-chat';
 import { type LineRange } from '@/shared/editor/LineRange';
 import type { SearchMatch } from './useFlowChatSearch';

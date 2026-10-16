@@ -1,6 +1,6 @@
 import { useToolCardDisclosure } from '../timeline/readerState';
 import React, { useMemo } from 'react';
-import { ControlHubToolCard as ControlHubToolCardView, type ToolCardField, type ControlHubToolCardRecord } from '@openbitfun/ui/flow-chat';
+import { ControlHubToolCard as ControlHubToolCardView, type ToolCardField, type ControlHubToolCardRecord } from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';
 import type { ToolCardProps } from '../types/flow-chat';
 import { useToolCardHeightContract } from './useToolCardHeightContract';

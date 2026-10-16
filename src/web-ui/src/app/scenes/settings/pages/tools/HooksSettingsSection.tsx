@@ -31,7 +31,7 @@ import {
   DialogTitle,
   Icon,
   Switch,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useSettingsSectionAnchor } from '../shared/useSettingsSectionAnchor';

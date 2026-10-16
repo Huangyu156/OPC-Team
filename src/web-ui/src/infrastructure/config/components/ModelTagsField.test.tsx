@@ -3,7 +3,7 @@
 import React, { act, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { Dialog, DialogBody, DialogHeader, DialogHeading, DialogTitle } from '@openbitfun/ui';
+import { Dialog, DialogBody, DialogHeader, DialogHeading, DialogTitle } from '@opc-team/ui';
 import { i18nService } from '@/infrastructure/i18n';
 import ModelTagsField from './ModelTagsField';
 

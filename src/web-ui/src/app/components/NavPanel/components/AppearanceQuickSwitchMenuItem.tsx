@@ -8,7 +8,7 @@ import React, {
   type KeyboardEvent,
   type RefObject,
 } from 'react';
-import { createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSeparator } from '@openbitfun/ui';
+import { createOverlayPortal, OverflowText, Icon, Menu, MenuItem, MenuSeparator } from '@opc-team/ui';
 
 import {
   SYSTEM_APPEARANCE_ID,

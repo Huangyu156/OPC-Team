@@ -2,7 +2,7 @@
 import React, { act, useRef, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { DesignSystemProvider, MenuPopover, ThemeRoot, type MenuEntry } from '@openbitfun/ui';
+import { DesignSystemProvider, MenuPopover, ThemeRoot, type MenuEntry } from '@opc-team/ui';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 

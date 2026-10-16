@@ -6,7 +6,7 @@ import { FlowGroupRenderer } from './FlowGroupRenderer';
 import { useReportTypewriterReveal } from '../../hooks/typewriterRevealGateContext';
 import type { FlowGroupData, FlowGroupCategory } from '../../grouping/types';
 import type { FlowTextItem, FlowThinkingItem, FlowToolItem } from '../../types/flow-chat';
-import { requestDeferredContentItem } from '@openbitfun/flow-chat-presentation/deferred-content';
+import { requestDeferredContentItem } from '@opc-team/flow-chat-presentation/deferred-content';
 
 const state = vi.hoisted(() => ({ choices: new Map<string, boolean>(), permissions: new Set<string>(), revealing: false }));
 vi.mock('@/tools/snapshot_system/hooks/useSnapshotState', () => ({

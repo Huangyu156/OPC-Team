@@ -1,4 +1,4 @@
-import { SubagentHatch } from '@openbitfun/ui/brand';
+import { SubagentHatch } from '@opc-team/ui/brand';
 import { SubagentAvatar, type SubagentAvatarProps } from './SubagentAvatar';
 
 interface SubagentDelegationAvatarProps extends Pick<SubagentAvatarProps, 'sessionId' | 'name' | 'size' | 'status' | 'motion' | 'showStatus'> {

@@ -13,7 +13,7 @@ import { createOverlayPortal,
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { activateProductAction } from '@/app/global-search/productActionActivator';

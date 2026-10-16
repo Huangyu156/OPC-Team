@@ -1,4 +1,4 @@
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import { downloadDir, join } from '@tauri-apps/api/path';
 import { writeFile } from '@tauri-apps/plugin-fs';
 import { notificationService } from '@/shared/notification-system';

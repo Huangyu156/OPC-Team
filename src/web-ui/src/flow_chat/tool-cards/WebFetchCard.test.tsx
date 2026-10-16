@@ -21,7 +21,7 @@ vi.mock('react-i18next', async () => {
   };
 });
 
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   IconButton: ({
     children,

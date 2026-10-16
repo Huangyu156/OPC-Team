@@ -1,6 +1,6 @@
 import { File as LucideFile } from 'lucide-react';
 import React, { useCallback, useRef } from 'react';
-import { createOverlayPortal, OverflowText, Button, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { createOverlayPortal, OverflowText, Button, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { useI18n } from '@/infrastructure/i18n';

@@ -6,7 +6,7 @@
  * scheduled without knowing which workspace it runs in.
  */
 
-import { OverflowText, Button, Combobox, Icon, Input, Select, Switch, ScrollArea, Textarea } from '@openbitfun/ui';
+import { OverflowText, Button, Combobox, Icon, Input, Select, Switch, ScrollArea, Textarea } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { CalendarClock, ClipboardList } from 'lucide-react';
 import { agentAPI, type ModeInfo } from '@/infrastructure/api/service-api/AgentAPI';

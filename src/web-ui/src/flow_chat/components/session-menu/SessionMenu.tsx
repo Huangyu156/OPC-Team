@@ -11,8 +11,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem, MenuList, MenuSeparator } from '@openbitfun/ui';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem, MenuList, MenuSeparator } from '@opc-team/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { useAnchoredPopoverPosition } from '@/shared/utils/useAnchoredPopoverPosition';
 import { activateMainSession } from '../../services/sessionActivation';

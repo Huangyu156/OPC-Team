@@ -1,4 +1,4 @@
-import { OverflowText } from '@openbitfun/ui';
+import { OverflowText } from '@opc-team/ui';
 /**
  * Generic panel header with centered title and optional action buttons.
  */

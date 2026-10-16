@@ -8,7 +8,7 @@ import { useResourceFileAccess, type ResourceFileAccess } from '@/infrastructure
 
 import React, { useState, useMemo, useCallback, useEffect, useLayoutEffect, useRef, useSyncExternalStore, Component, type ReactNode } from 'react';
 import ReactMarkdown, { defaultUrlTransform } from 'react-markdown';
-import { Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { Icon, IconButton, Tooltip } from '@opc-team/ui';
 import remarkGfm from 'remark-gfm';
 import { remarkCachedParse } from './markdownParseCache';
 import { remarkAutolinkBoundaries } from './remarkAutolinkBoundaries';

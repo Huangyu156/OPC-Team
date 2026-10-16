@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Button, Icon, TabGroup } from "@openbitfun/ui";
+import { Button, Icon, TabGroup } from "@opc-team/ui";
 import {
   SUBAGENT_AVATAR_CATALOG,
   type SubagentAvatarId,

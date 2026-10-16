@@ -21,7 +21,7 @@ vi.mock('@/app/components/WindowControls', () => ({ WindowControls: () => <butto
 vi.mock('@tauri-apps/api/window', () => ({ getCurrentWindow: () => ({ startDragging, isMaximized, isFullscreen }) }));
 vi.mock('../../stores/sceneStore', () => ({ useSceneStore: (selector: (state: typeof sceneState) => unknown) => selector(sceneState) }));
 vi.mock('../SceneBar/SceneBar', async () => {
-  const { TabGroup } = await import('@openbitfun/ui');
+  const { TabGroup } = await import('@opc-team/ui');
   return {
     default: () => <TabGroup
       value="0"

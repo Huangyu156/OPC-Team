@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .surface[data-opc-variant="glass"],
   .surface:not([data-opc-component="icon-button"]) {
     background: var(--opcteam-color-surface-raised);

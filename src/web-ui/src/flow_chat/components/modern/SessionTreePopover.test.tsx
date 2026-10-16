@@ -29,11 +29,11 @@ vi.mock('../../store/FlowChatStore', () => ({
   },
 }));
 
-vi.mock('@openbitfun/ui', async importOriginal => {
+vi.mock('@opc-team/ui', async importOriginal => {
   const ReactModule = await import('react');
 
   return {
-    ...await importOriginal<typeof import('@openbitfun/ui')>(),
+    ...await importOriginal<typeof import('@opc-team/ui')>(),
     Spinner: () => <span data-testid="dot-matrix-loader" />,
     IconButton: ReactModule.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement> & {
       tooltip?: string;

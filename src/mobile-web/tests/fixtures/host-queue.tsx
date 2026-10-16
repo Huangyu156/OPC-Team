@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
 import '../../src/styles/reset.scss';
-import '@openbitfun/theme-openbitfun/default.css';
-import '@openbitfun/ui/mobile.css';
+import '@opc-team/theme/default.css';
+import '@opc-team/ui/mobile.css';
 import '../../src/styles/index.scss';
 import { createRoot } from 'react-dom/client';
 import { ThinkingBlock } from '../../src/components/ChatTranscript';

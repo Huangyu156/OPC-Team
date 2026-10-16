@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Card, CardBody, CardFooter, CardHeader, Icon, OverflowText } from '@openbitfun/ui';
+import { Button, Card, CardBody, CardFooter, CardHeader, Icon, OverflowText } from '@opc-team/ui';
 import './SkillCard.scss';
 
 type SkillCardActionTone = 'primary' | 'danger' | 'success' | 'muted';

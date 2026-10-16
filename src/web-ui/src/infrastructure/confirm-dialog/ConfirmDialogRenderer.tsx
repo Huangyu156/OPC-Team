@@ -1,4 +1,4 @@
-import { ConfirmDialog } from '@openbitfun/ui';
+import { ConfirmDialog } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { useConfirmDialogStore } from './confirmDialogService';
 

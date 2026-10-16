@@ -2,7 +2,7 @@ import React, { useEffect, useId, useRef, useState } from 'react';
 import {
   Button, Checkbox, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader,
   DialogHeading, DialogTitle, Disclosure, Icon, IconButton, Input, Select, Textarea,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { requestSettingsDraftExit, useSettingsDraft } from '../settingsDraftRegistry';
 import {

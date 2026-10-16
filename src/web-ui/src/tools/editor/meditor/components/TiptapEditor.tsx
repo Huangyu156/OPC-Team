@@ -6,7 +6,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Button, Icon, IconButton, Input, Tooltip } from '@openbitfun/ui';
+import { Button, Icon, IconButton, Input, Tooltip } from '@opc-team/ui';
 import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { Details, DetailsContent, DetailsSummary } from '@tiptap/extension-details';

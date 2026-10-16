@@ -27,7 +27,7 @@ import swift from 'react-syntax-highlighter/dist/esm/languages/prism/swift';
 import tsx from 'react-syntax-highlighter/dist/esm/languages/prism/tsx';
 import typescript from 'react-syntax-highlighter/dist/esm/languages/prism/typescript';
 import yaml from 'react-syntax-highlighter/dist/esm/languages/prism/yaml';
-import { MobileButton, MobileIconButton, MobileLink } from '@openbitfun/ui/mobile';
+import { MobileButton, MobileIconButton, MobileLink } from '@opc-team/ui/mobile';
 import { useI18n } from '../i18n';
 import { useTheme } from '../theme';
 import { RemoteArtifactImage } from './RemoteArtifactImage';

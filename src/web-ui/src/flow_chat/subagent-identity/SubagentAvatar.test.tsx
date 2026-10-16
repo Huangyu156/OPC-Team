@@ -3,7 +3,7 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { subagentMotionClips } from '@openbitfun/ui/brand';
+import { subagentMotionClips } from '@opc-team/ui/brand';
 import { SubagentAvatar } from './SubagentAvatar';
 import { resolveSubagentAvatarPresentation } from './avatarResolver';
 import { getSubagentAvatarDefinition } from './catalog';

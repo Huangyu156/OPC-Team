@@ -14,7 +14,7 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 
 describe('public Combobox product integration', () => {
   let root: Root;

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { OverflowText, Icon, IconButton, Input } from '@openbitfun/ui';
+import { OverflowText, Icon, IconButton, Input } from '@opc-team/ui';
 import { AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { createLogger } from '@/shared/utils/logger';

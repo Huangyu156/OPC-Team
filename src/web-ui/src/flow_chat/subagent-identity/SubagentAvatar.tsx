@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { useSubagentAvatarMotion } from '@openbitfun/ui/brand';
+import { useSubagentAvatarMotion } from '@opc-team/ui/brand';
 import type { SessionLineageLifecycle } from '../utils/sessionLineage';
 import { getSubagentAvatarDefinition } from './catalog';
 import { resolveSubagentAvatarPresentation } from './avatarResolver';

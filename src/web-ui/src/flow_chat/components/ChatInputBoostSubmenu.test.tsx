@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Menu, MenuItem, Portal, subscribeOverlayInteraction } from '@openbitfun/ui';
+import { Menu, MenuItem, Portal, subscribeOverlayInteraction } from '@opc-team/ui';
 
 import { ChatInputBoostSubmenu } from './ChatInputBoostSubmenu';
 import { HarnessProfileSelector } from './HarnessProfileSelector';

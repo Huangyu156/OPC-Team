@@ -1,5 +1,5 @@
 import { useRef } from 'react';
-import { ToolRelationRow, ToolCardSection, ToolCardText } from '@openbitfun/ui/flow-chat';
+import { ToolRelationRow, ToolCardSection, ToolCardText } from '@opc-team/ui/flow-chat';
 import type { ExecOutputHandle, ExecProcessPresentationProps } from './ExecProcessPresentation';
 
 /** Process input, polling and control are records; they never expand the transcript. */

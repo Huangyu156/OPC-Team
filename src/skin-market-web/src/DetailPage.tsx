@@ -1,4 +1,4 @@
-import { Textarea, Button, Disclosure } from '@openbitfun/ui';
+import { Textarea, Button, Disclosure } from '@opc-team/ui';
 import {
   ArrowLeft,
   ExternalLink as ArrowSquareOut,

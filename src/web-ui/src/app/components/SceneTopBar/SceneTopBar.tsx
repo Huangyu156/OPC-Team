@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Toolbar, ToolbarSeparator } from '@openbitfun/ui';
+import { Toolbar, ToolbarSeparator } from '@opc-team/ui';
 import { WindowControls } from '@/app/components/WindowControls';
 import { startNativeWindowDragging, supportsNativeWindowDragging } from '@/infrastructure/runtime';
 import { createLogger } from '@/shared/utils/logger';

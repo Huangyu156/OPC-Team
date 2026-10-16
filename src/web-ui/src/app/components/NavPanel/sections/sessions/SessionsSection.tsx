@@ -12,7 +12,7 @@ import { canCopySessionsOnSurface } from '@/infrastructure/peer-device/peerCapab
  */
 
 import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
-import { subscribeOverlayInteraction, createOverlayPortal, Button, Icon, IconButton, Input, Menu, MenuItem, OverflowText, StatusPill, Tooltip } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Button, Icon, IconButton, Input, Menu, MenuItem, OverflowText, StatusPill, Tooltip } from '@opc-team/ui';
 import { Loader2, Archive, FolderGit2, FolderOpen, ListChecks } from 'lucide-react';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { useI18n } from '@/infrastructure/i18n';

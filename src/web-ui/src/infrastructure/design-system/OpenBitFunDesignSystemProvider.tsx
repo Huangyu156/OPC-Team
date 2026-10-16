@@ -3,7 +3,7 @@ import {
   type ColorScheme,
   type ContrastMode,
   type DensityMode,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import {
   useEffect,
   useLayoutEffect,

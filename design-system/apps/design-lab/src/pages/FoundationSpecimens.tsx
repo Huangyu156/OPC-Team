@@ -1,6 +1,6 @@
 import { useState, type CSSProperties } from "react";
 import { Layers } from "lucide-react";
-import { Icon, Switch, TabGroup } from "@openbitfun/ui";
+import { Icon, Switch, TabGroup } from "@opc-team/ui";
 import { useI18n } from "../i18n";
 import { nonColorTokenCatalog } from "../token-editor/catalog";
 import { CopyValue, TokenCopy, cssToken, foundationTypeStyle } from "./FoundationTokens";

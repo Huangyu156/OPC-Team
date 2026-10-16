@@ -12,7 +12,7 @@ import { useDialogTurnTodos } from '../hooks/useDialogTurnTodos';
 import {
   TodoToolCard as TodoToolCardView,
   type TodoToolCardItemStatus,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 import { createTodoRenderItems, type TodoLike } from './todoRenderItems';
 
 function normalizeTodoStatus(status: TodoLike['status']): TodoToolCardItemStatus {

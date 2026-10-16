@@ -82,7 +82,7 @@ reusing the page roles (`page_bg`, `card`, `soft`, `line`, `ink`, `muted`,
 sheets, and action surfaces; only the rail moved.
 
 Each token maps one-to-one onto a desktop semantic role from
-`design-system/packages/theme-openbitfun`:
+`design-system/packages/theme`:
 
 | Mobile token | Desktop role | Used for |
 | --- | --- | --- |

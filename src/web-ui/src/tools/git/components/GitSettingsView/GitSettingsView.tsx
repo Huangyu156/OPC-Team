@@ -1,7 +1,7 @@
 import type { GitWorkspaceScope } from '@/infrastructure/api/service-api/GitAPI';
 /** Git settings view. */
 
-import { Button, Checkbox, Field, Icon, IconButton, Input, Select, TabGroup, ScrollArea } from '@openbitfun/ui';
+import { Button, Checkbox, Field, Icon, IconButton, Input, Select, TabGroup, ScrollArea } from '@opc-team/ui';
 import React, { useState, useCallback, useEffect } from 'react';
 import { Mail, Key, Save } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n';

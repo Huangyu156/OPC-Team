@@ -11,7 +11,7 @@ const outputPath = path.join(
   repositoryRoot,
   'src/crates/contracts/product-domains/src/miniapp/generated/default_appearance_style.html',
 );
-const themeEntryPath = path.join(repositoryRoot, 'design-system/packages/theme-openbitfun/dist/index.js');
+const themeEntryPath = path.join(repositoryRoot, 'design-system/packages/theme/dist/index.js');
 const systemEntryPath = path.join(repositoryRoot, 'design-system/packages/design-tokens/dist/index.js');
 const checkOnly = process.argv.includes('--check');
 

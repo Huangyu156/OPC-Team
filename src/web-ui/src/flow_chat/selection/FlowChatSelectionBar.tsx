@@ -2,7 +2,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type 
 import { createOverlayPortal,
   Button, Card, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading,
   DialogTitle, Icon, ToolbarGroup, ToolbarSeparator, useDismissibleLayer,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { useI18n } from '@/infrastructure/i18n';
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';

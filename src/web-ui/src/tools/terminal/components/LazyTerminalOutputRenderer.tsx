@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { LazyTerminalOutputRenderer as SharedRenderer, type TerminalOutputRendererHandle, type TerminalOutputRendererProps as SharedProps } from '@openbitfun/flow-chat-presentation/terminal';
+import { LazyTerminalOutputRenderer as SharedRenderer, type TerminalOutputRendererHandle, type TerminalOutputRendererProps as SharedProps } from '@opc-team/flow-chat-presentation/terminal';
 import { terminalOutputHost } from './terminalOutputHost';
 
 export type TerminalOutputRendererProps = Omit<SharedProps, 'host'>;
@@ -9,4 +9,4 @@ export const LazyTerminalOutputRenderer = forwardRef<TerminalOutputRendererHandl
 ));
 LazyTerminalOutputRenderer.displayName = 'LazyTerminalOutputRenderer';
 export default LazyTerminalOutputRenderer;
-export { TerminalOutputFallback } from '@openbitfun/flow-chat-presentation/terminal';
+export { TerminalOutputFallback } from '@opc-team/flow-chat-presentation/terminal';

@@ -1,5 +1,5 @@
-import { Select } from '@openbitfun/ui';
-import { productOwnedToolNames, toolPresentationRegistry, type ToolNameForOwner } from '@openbitfun/flow-chat-presentation/registry';
+import { Select } from '@opc-team/ui';
+import { productOwnedToolNames, toolPresentationRegistry, type ToolNameForOwner } from '@opc-team/flow-chat-presentation/registry';
 import { FlowChatComponentPreview } from './FlowChatPreviewRegistry';
 import { useI18n } from '../i18n';
 

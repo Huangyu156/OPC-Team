@@ -1,4 +1,4 @@
-import { Dialog, DialogClose, Icon } from '@openbitfun/ui';
+import { Dialog, DialogClose, Icon } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { i18nService } from '@/infrastructure/i18n';
 import './ImageLightbox.scss';

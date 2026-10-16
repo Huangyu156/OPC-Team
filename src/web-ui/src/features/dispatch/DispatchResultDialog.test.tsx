@@ -21,8 +21,8 @@ vi.mock('@/infrastructure/i18n', () => ({
   useI18n: () => ({ t: (key: string) => key }),
 }));
 
-vi.mock('@openbitfun/ui', async (importOriginal) => ({
-  Disclosure: (await importOriginal<typeof import('@openbitfun/ui')>()).Disclosure,
+vi.mock('@opc-team/ui', async (importOriginal) => ({
+  Disclosure: (await importOriginal<typeof import('@opc-team/ui')>()).Disclosure,
   Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   Alert: ({ message }: { message: string }) => <div role="alert">{message}</div>,
   ScrollArea: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{children}</div>,

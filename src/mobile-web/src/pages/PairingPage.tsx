@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { MobileStatus } from '@openbitfun/ui/mobile';
+import { MobileStatus } from '@opc-team/ui/mobile';
 import PairingForm from '../components/PairingForm';
 import { accountDeviceIdFromHash, currentRelayUrl } from '../services/pairingLink';
 import { useI18n } from '../i18n';

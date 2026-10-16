@@ -14,7 +14,7 @@ import { OverflowText,
   NavigationPanelHeader,
   NavigationPanelItem,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { Layers2, type LucideIcon } from 'lucide-react';
 import { useGitSceneStore, type GitSceneView } from './gitSceneStore';

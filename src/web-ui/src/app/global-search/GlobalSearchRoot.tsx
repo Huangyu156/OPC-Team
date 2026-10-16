@@ -18,7 +18,7 @@ import { OverflowText,
   ScrollArea,
   Dialog,
   DialogBody,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { BarChart3, Blocks, CheckSquare2, FileText, Keyboard, MessageSquareText, MessagesSquare, Network, Users } from 'lucide-react';
 import { useShortcut } from '@/infrastructure/hooks/useShortcut';
 import { useI18n } from '@/infrastructure/i18n';

@@ -3,7 +3,7 @@
 import React, { act, useState } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Dialog, DialogBody, DialogDescription, DialogHeader, DialogHeading, DialogTitle, Sheet } from '@openbitfun/ui';
+import { Dialog, DialogBody, DialogDescription, DialogHeader, DialogHeading, DialogTitle, Sheet } from '@opc-team/ui';
 
 describe('overlay exit content', () => {
   let root: Root;

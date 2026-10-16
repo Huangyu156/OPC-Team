@@ -32,7 +32,7 @@ import { subscribeOverlayInteraction, createOverlayPortal,
   NumberBadge,
   SearchField,
   SegmentedControl,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 
 import {
   GalleryEmpty,

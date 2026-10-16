@@ -1,6 +1,6 @@
-@layer opcteam.tokens.system, opcteam.tokens.theme, openbitfun.reset, openbitfun.base, openbitfun.components, openbitfun.overrides;
+@layer opcteam.tokens.system, opcteam.tokens.theme, opcteam.reset, opcteam.base, opcteam.components, opcteam.overrides;
 
-@layer openbitfun.reset {
+@layer opcteam.reset {
   [data-opcteam-design-system-root],
   [data-opcteam-design-system-root] *,
   [data-opcteam-design-system-root] *::before,
@@ -16,7 +16,7 @@
   }
 }
 
-@layer openbitfun.base {
+@layer opcteam.base {
   [data-opcteam-design-system-root] select option,
   [data-opcteam-design-system-root] select optgroup {
     color: var(--opcteam-color-content-primary);
@@ -36,7 +36,7 @@
   }
 }
 
-@layer openbitfun.components {
+@layer opcteam.components {
   /*
    * Public icon slots own the visual weight of default Lucide glyphs as well
    * as their size and color. Match only Lucide's default stroke attribute so

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import type { FlowGroupReceiveFeedback } from '@openbitfun/ui/flow-chat';
+import type { FlowGroupReceiveFeedback } from '@opc-team/ui/flow-chat';
 import type { VirtualItem } from '../../types/flow-chat-projection';
 import { indexFlowGroups } from '../../grouping/selectors';
 import { getFlowGroupStateIds, isFlowGroupExpanded } from '../../grouping/types';

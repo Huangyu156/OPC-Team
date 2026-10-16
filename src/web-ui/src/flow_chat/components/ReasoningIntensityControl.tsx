@@ -1,6 +1,6 @@
 import React, { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
-import { MenuItem, SegmentedControl } from '@openbitfun/ui';
-import { FlowChatCollapse } from '@openbitfun/ui/flow-chat';
+import { MenuItem, SegmentedControl } from '@opc-team/ui';
+import { FlowChatCollapse } from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';
 import type { ReasoningPresetDescriptor } from '@/infrastructure/config/types';
 import { isAutomaticReasoningPreset, presetDisplayLabel, presetSemanticKey, reasoningAutomaticValue, reasoningPresetChoices, reasoningSelectionLabel, reasoningVisualTier, resolveReasoningPresetChoice } from './reasoningPresetPresentation';

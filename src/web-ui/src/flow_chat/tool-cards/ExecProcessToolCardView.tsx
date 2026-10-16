@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useToolCardDisclosure } from '../timeline/readerState';
 import { useTranslation } from 'react-i18next';
-import { ExecProcessPresentation, type ExecProcessCardModel } from '@openbitfun/flow-chat-presentation/exec';
+import { ExecProcessPresentation, type ExecProcessCardModel } from '@opc-team/flow-chat-presentation/exec';
 import type { FlowToolItem, ToolCardDisplayContext } from '../types/flow-chat';
 import { LazyTerminalOutputRenderer } from '@/tools/terminal/components/LazyTerminalOutputRenderer';
 import { ToolCardCopyAction } from './ToolCardCopyAction';
@@ -11,7 +11,7 @@ import { useToolCardHeightContract } from './useToolCardHeightContract';
 import { getToolItemCardConfig } from './toolCardMetadata';
 import { useFlowChatContext } from '../components/modern/FlowChatContext';
 
-export type { ExecProcessCardModel } from '@openbitfun/flow-chat-presentation/exec';
+export type { ExecProcessCardModel } from '@opc-team/flow-chat-presentation/exec';
 interface ExecProcessToolCardViewProps {
   toolItem: FlowToolItem;
   model: ExecProcessCardModel;

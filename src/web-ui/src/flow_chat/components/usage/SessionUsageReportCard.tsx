@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Checkbox, OverflowText, Button, Card, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { Checkbox, OverflowText, Button, Card, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { Activity, AlertTriangle, Database, FileText, Wrench } from 'lucide-react';
 import { MarkdownRenderer } from '@/infrastructure/markdown';
-import { ToolProcessingDots } from '@openbitfun/ui/flow-chat';
+import { ToolProcessingDots } from '@opc-team/ui/flow-chat';
 import type { SessionUsageReport } from '@/infrastructure/api/service-api/SessionAPI';
 import { copyTextToClipboard } from '@/shared/utils/textSelection';
 import {

@@ -1,4 +1,4 @@
-import { Icon as CatalogIcon } from '@openbitfun/ui';
+import { Icon as CatalogIcon } from '@opc-team/ui';
 /**
  * TerminalScene — renders a ConnectedTerminal for the session selected
  * via terminalSceneStore.

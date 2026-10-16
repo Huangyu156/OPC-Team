@@ -1,7 +1,7 @@
 import type { GitWorkspaceScope } from '@/infrastructure/api/service-api/GitAPI';
 /** Git diff view. */
 
-import { OverflowText, Button, Icon, IconButton, SegmentedControl } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, SegmentedControl } from '@opc-team/ui';
 import React, { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FileText, Minus, EyeOff, AlertCircle } from 'lucide-react';

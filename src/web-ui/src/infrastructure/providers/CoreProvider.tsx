@@ -1,6 +1,6 @@
  
 import React, { useEffect, useState, ReactNode } from 'react';
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import { initializeCore, destroyCore } from '../index';
 import { globalEventBus } from '../event-bus';
 import { createLogger } from '@/shared/utils/logger';

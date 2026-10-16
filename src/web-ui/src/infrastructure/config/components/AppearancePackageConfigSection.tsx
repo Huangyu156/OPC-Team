@@ -1,8 +1,8 @@
-import { ActionCard } from '@openbitfun/ui';
+import { ActionCard } from '@opc-team/ui';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { OverflowText, Button, Icon, IconButton, Select, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, IconButton, Select, Tooltip } from '@opc-team/ui';
 
 import { confirmDialog } from '@/infrastructure/confirm-dialog';
 import {

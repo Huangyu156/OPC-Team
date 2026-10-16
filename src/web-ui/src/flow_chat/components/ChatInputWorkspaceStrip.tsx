@@ -14,8 +14,8 @@ import { useDeviceDirectory, resolveDeviceName } from '@/infrastructure/account/
 import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Circle, Shield, ShieldAlert, ShieldCheck, Square, SquareCheck } from 'lucide-react';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem, MenuSection, MenuSeparator } from '@openbitfun/ui';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, Menu, MenuItem, MenuSection, MenuSeparator } from '@opc-team/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import { BranchQuickSwitch } from '@/tools/git/components/BranchQuickSwitch';
 import { useGitState } from '@/tools/git/hooks/useGitState';
 import type { SessionExecutionTarget } from '@/infrastructure/api/service-api/WorktreeAPI';

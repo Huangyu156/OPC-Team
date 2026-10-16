@@ -1,4 +1,4 @@
-# @openbitfun/dsh-acp
+# @opc-team/dsh-acp
 
 An Agent Client Protocol server for [DeepSeek Harness](https://github.com/deepseek-ai)
 (`dsh`), written for an IDE rather than for automation.

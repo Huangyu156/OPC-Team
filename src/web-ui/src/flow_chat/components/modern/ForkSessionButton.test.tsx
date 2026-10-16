@@ -24,8 +24,8 @@ vi.mock('react-i18next', () => ({
   }),
 }));
 
-vi.mock('@openbitfun/ui', async importOriginal => ({
-  IconButton: (await importOriginal<typeof import('@openbitfun/ui')>()).IconButton,
+vi.mock('@opc-team/ui', async importOriginal => ({
+  IconButton: (await importOriginal<typeof import('@opc-team/ui')>()).IconButton,
   Icon: ({ name, className }: { name: string; className?: string }) => (
     <span className={className} data-opc-component="icon" data-opc-name={name} />
   ),

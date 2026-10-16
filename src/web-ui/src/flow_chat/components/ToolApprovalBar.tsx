@@ -1,4 +1,4 @@
-import { OverflowText } from '@openbitfun/ui';
+import { OverflowText } from '@opc-team/ui';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AcpPermissionActions } from '../tool-cards/AcpPermissionActions';

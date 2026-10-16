@@ -7,7 +7,7 @@ import { ArrowUp as LucideArrowUp } from 'lucide-react';
 
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconButton, Tooltip } from '@openbitfun/ui';
+import { IconButton, Tooltip } from '@opc-team/ui';
 import './ScrollToTurnHeaderButton.scss';
 
 interface ScrollToTurnHeaderButtonProps {

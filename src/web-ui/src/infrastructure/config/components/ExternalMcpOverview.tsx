@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { Icon, Button, Checkbox, IconButton, ScrollArea, Tooltip } from '@openbitfun/ui';
+import { Icon, Button, Checkbox, IconButton, ScrollArea, Tooltip } from '@opc-team/ui';
 
 import { useTranslation } from 'react-i18next';
 

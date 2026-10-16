@@ -24,7 +24,7 @@ vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Icon: ({ name }: { name: string }) => <span data-opc-component="icon" data-opc-name={name} />,
   OverflowText: ({ children, behavior: _behavior, marqueeActive: _marqueeActive, ...props }: any) => <span {...props}>{children}</span>,
   IconButton: ({ icon, loading: _loading, size: _size, variant: _variant, ...props }: ButtonHTMLAttributes<HTMLButtonElement> & {

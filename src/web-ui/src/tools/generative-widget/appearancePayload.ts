@@ -2,7 +2,7 @@ import {
   cssVariables as systemCssVariables,
   tokens as systemTokens,
   type TokenName as SystemTokenName,
-} from '@openbitfun/design-tokens';
+} from '@opc-team/design-tokens';
 
 import { widgetAppearanceAdapter } from '@/infrastructure/appearance/adapters/WidgetAppearanceAdapter';
 import { WIDGET_APPEARANCE_VARIABLE_NAMES } from '@/infrastructure/appearance/adapters/widgetAppearanceVariables';

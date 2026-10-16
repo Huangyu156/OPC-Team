@@ -39,11 +39,11 @@ vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));
 
-vi.mock('@openbitfun/ui', async (importOriginal) => ({
-  NavigationPanelItem: (await importOriginal<typeof import('@openbitfun/ui')>()).NavigationPanelItem,
-  DialogHeaderActions: (await importOriginal<typeof import('@openbitfun/ui')>()).DialogHeaderActions,
-  Empty: (await importOriginal<typeof import('@openbitfun/ui')>()).Empty,
-  Disclosure: (await importOriginal<typeof import('@openbitfun/ui')>()).Disclosure,
+vi.mock('@opc-team/ui', async (importOriginal) => ({
+  NavigationPanelItem: (await importOriginal<typeof import('@opc-team/ui')>()).NavigationPanelItem,
+  DialogHeaderActions: (await importOriginal<typeof import('@opc-team/ui')>()).DialogHeaderActions,
+  Empty: (await importOriginal<typeof import('@opc-team/ui')>()).Empty,
+  Disclosure: (await importOriginal<typeof import('@opc-team/ui')>()).Disclosure,
   ScrollArea: ({ children, ...props }: React.HTMLAttributes<HTMLDivElement>) => <div {...props}>{children}</div>,
   Icon: ({ name, ...props }: { name: string } & React.HTMLAttributes<HTMLSpanElement>) => <span data-icon={name} {...props} />,
   OverflowText: ({ children, behavior: _behavior, marqueeActive: _marqueeActive, ...props }: any) => <span {...props}>{children}</span>,

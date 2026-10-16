@@ -12,10 +12,10 @@
 
 /*
  * Generic document styles belong below component-owned rules. Keeping them in
- * openbitfun.base prevents selectors such as :focus-visible, :disabled, and img from
+ * opcteam.base prevents selectors such as :focus-visible, :disabled, and img from
  * overriding independently packaged component anatomy.
  */
-@layer openbitfun.base {
+@layer opcteam.base {
 /* Root element styles */
 html {
   font-size: var(--opcteam-type-flow-title-font-size);
@@ -77,7 +77,7 @@ a:hover {
   outline-offset: 0;
 }
 
-@layer openbitfun.base {
+@layer opcteam.base {
 /* Disabled state */
 :disabled {
   opacity: var(--opcteam-opacity-disabled);

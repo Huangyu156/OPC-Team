@@ -36,7 +36,7 @@ import {
   Spinner,
   Textarea,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 
 const log = createLogger('AssistantConfigPage');
 

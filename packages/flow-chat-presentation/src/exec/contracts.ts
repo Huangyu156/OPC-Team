@@ -1,4 +1,4 @@
-import type { FlowChatToolStatus, ToolCardInteraction } from '@openbitfun/ui/flow-chat';
+import type { FlowChatToolStatus, ToolCardInteraction } from '@opc-team/ui/flow-chat';
 
 /** Read-only presentation input, structurally compatible with existing records. */
 export interface ExecToolSnapshot {

@@ -5,7 +5,7 @@
  * @module components/MarkdownEditor
  */
 
-import { Button, Empty, Icon, IconButton, SegmentedControl, Toolbar, ToolbarGroup } from '@openbitfun/ui';
+import { Button, Empty, Icon, IconButton, SegmentedControl, Toolbar, ToolbarGroup } from '@opc-team/ui';
 import React, { useEffect, useState, useCallback, useRef, useMemo } from 'react';
 import { MEditor } from '../meditor';
 import { resourcePathKey } from '@/shared/utils/resourcePath';
@@ -21,7 +21,7 @@ import {
   isPeerDeviceModeActive,
   PEER_MODE_FILE_SYNC_POLL_MS,
 } from '@/infrastructure/peer-device/peerModeFlag';
-import { LoadingState } from '@openbitfun/ui';
+import { LoadingState } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import {
   diskVersionFromMetadata,

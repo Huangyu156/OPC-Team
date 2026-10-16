@@ -2,7 +2,7 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { SplitView, SplitViewPrimaryDock, type SplitViewProps } from '@openbitfun/ui';
+import { SplitView, SplitViewPrimaryDock, type SplitViewProps } from '@opc-team/ui';
 
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 

@@ -29,7 +29,7 @@ import {
   DialogHeading,
   DialogTitle,
   type IconSource,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Copy, FolderOpen, Layers, ShieldAlert, ShieldCheck } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';

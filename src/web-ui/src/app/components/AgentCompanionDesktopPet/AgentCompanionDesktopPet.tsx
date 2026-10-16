@@ -1,5 +1,5 @@
 import { ArrowUp as LucideArrowUp, PencilLine as LucidePencilLine, X as LucideX } from 'lucide-react';
-import { OverflowText, Menu, MenuItem, ScrollArea } from '@openbitfun/ui';
+import { OverflowText, Menu, MenuItem, ScrollArea } from '@opc-team/ui';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { emit, listen } from '@tauri-apps/api/event';

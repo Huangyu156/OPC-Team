@@ -1,8 +1,8 @@
 // Declare the reset before component CSS is imported. Unlayered resets override
 // every layered component, even when their selectors have lower specificity.
-@layer openbitfun.reset, openbitfun.components;
+@layer opcteam.reset, opcteam.components;
 
-@layer openbitfun.reset {
+@layer opcteam.reset {
   * {
     margin: 0;
     padding: 0;

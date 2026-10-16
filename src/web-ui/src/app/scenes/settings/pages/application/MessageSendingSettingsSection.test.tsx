@@ -14,8 +14,8 @@ vi.mock('@/infrastructure/config/services/ConfigManager', () => ({ configManager
     return () => mocks.listeners.delete(listener);
   },
 } }));
-vi.mock('@openbitfun/ui', async original => ({
-  ...await original<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async original => ({
+  ...await original<typeof import('@opc-team/ui')>(),
   Select: ({ value, disabled, options, onValueChange }: {
     value: string; disabled: boolean; options: Array<{ value: string; label: string }>;
     onValueChange: (value: string) => void;

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Button, IconButton, Tooltip, Icon } from '@openbitfun/ui';
+import { Button, IconButton, Tooltip, Icon } from '@opc-team/ui';
 import { ShieldCheck, ShieldX } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type { TFunction } from 'i18next';

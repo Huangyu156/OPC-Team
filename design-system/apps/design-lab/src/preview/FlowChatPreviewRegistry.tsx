@@ -1,7 +1,7 @@
-import { Icon, LayersPlusIcon } from "@openbitfun/ui";
-import { toolsForComponent } from '@openbitfun/flow-chat-presentation/registry';
+import { Icon, LayersPlusIcon } from "@opc-team/ui";
+import { toolsForComponent } from '@opc-team/flow-chat-presentation/registry';
 import { semanticToolCardPreviews } from './SemanticToolCardPreview';
-import { createScenarioClock, execScenarios, execSnapshot, type ExecToolName } from '@openbitfun/flow-chat-presentation/scenarios';
+import { createScenarioClock, execScenarios, execSnapshot, type ExecToolName } from '@opc-team/flow-chat-presentation/scenarios';
 import { ScenarioCommand, FlowGroupPreview, ThinkingPreview, ExplorePreview, ContextLoadPreview, RuntimeStatusPreview } from './FlowChatScenarios';
 import {
   Fragment,
@@ -45,7 +45,7 @@ import {
   User,
   type LucideIcon,
 } from "lucide-react";
-import { IconButton } from "@openbitfun/ui";
+import { IconButton } from "@opc-team/ui";
 import {
   AgentControlToolCard,
   AgentWaitToolCard,
@@ -99,8 +99,8 @@ import {
   type FlowChatToolStatus,
   type AskUserAnswers,
   type AskUserState,
-} from "@openbitfun/ui/flow-chat";
-import { componentRegistry } from "@openbitfun/ui/registry";
+} from "@opc-team/ui/flow-chat";
+import { componentRegistry } from "@opc-team/ui/registry";
 import { useI18n } from "../i18n";
 import { usePresentationFormatNumber, usePresentationTranslate } from "./flowChatTranslation";
 import "./FlowChatPreviewRegistry.css";
@@ -869,7 +869,7 @@ function ConcreteProminentPreview({
 }
 
 function concreteCodeSample(name: string) {
-  return () => `import { ${name} } from "@openbitfun/ui/flow-chat";\n\n<${name} status="completed" />`;
+  return () => `import { ${name} } from "@opc-team/ui/flow-chat";\n\n<${name} status="completed" />`;
 }
 
 function AskUserPreview({ interactive, state }: PreviewProps) {
@@ -1039,7 +1039,7 @@ export const flowChatPreviewDefinitions = {
   },
   AmbientToolCard: {
     attention: "ambient",
-    codeSample: (t) => `import { AmbientToolCard, AmbientToolCardHeader } from "@openbitfun/ui/flow-chat";\nimport { FileText } from "lucide-react";\n\n<AmbientToolCard\n  status="completed"\n  header={(\n    <AmbientToolCardHeader\n      icon={<FileText />}\n      action="${t("components.preview.flowChat.readFile")}"\n      content="src/flow_chat/tool-cards/index.ts"\n    />\n  )}\n/>`,
+    codeSample: (t) => `import { AmbientToolCard, AmbientToolCardHeader } from "@opc-team/ui/flow-chat";\nimport { FileText } from "lucide-react";\n\n<AmbientToolCard\n  status="completed"\n  header={(\n    <AmbientToolCardHeader\n      icon={<FileText />}\n      action="${t("components.preview.flowChat.readFile")}"\n      content="src/flow_chat/tool-cards/index.ts"\n    />\n  )}\n/>`,
     icon: FileText,
     render: (options) => <FrameworkPreview {...options} kind="ambient" />,
     section: "framework",
@@ -1047,7 +1047,7 @@ export const flowChatPreviewDefinitions = {
   },
   AskUser: {
     attention: "prominent",
-    codeSample: () => `import { AskUser } from "@openbitfun/ui/flow-chat";\n\n<AskUser\n  answers={answers}\n  customAnswers={customAnswers}\n  questions={questions}\n  state="completed"\n/>`,
+    codeSample: () => `import { AskUser } from "@opc-team/ui/flow-chat";\n\n<AskUser\n  answers={answers}\n  customAnswers={customAnswers}\n  questions={questions}\n  state="completed"\n/>`,
     icon: MessageSquare,
     render: (options) => <AskUserPreview {...options} />,
     section: "tool-card",
@@ -1055,7 +1055,7 @@ export const flowChatPreviewDefinitions = {
   },
   ChatComposer: {
     attention: "adaptive",
-    codeSample: () => `import { ChatComposer } from "@openbitfun/ui/flow-chat";\n\n<ChatComposer\n  contextBar={<WorkspaceContext />}\n  queue={pendingMessages.length ? <PendingMessageQueue items={pendingMessages} /> : undefined}\n  layout={multiline ? "expanded" : "compact"}\n  startActions={<AddMenu />}\n  endActions={<ComposerActions />}\n>\n  <RichTextEditor />\n</ChatComposer>`,
+    codeSample: () => `import { ChatComposer } from "@opc-team/ui/flow-chat";\n\n<ChatComposer\n  contextBar={<WorkspaceContext />}\n  queue={pendingMessages.length ? <PendingMessageQueue items={pendingMessages} /> : undefined}\n  layout={multiline ? "expanded" : "compact"}\n  startActions={<AddMenu />}\n  endActions={<ComposerActions />}\n>\n  <RichTextEditor />\n</ChatComposer>`,
     icon: MessageSquare,
     render: (options) => <ChatComposerPreview {...options} />,
     section: "framework",
@@ -1063,7 +1063,7 @@ export const flowChatPreviewDefinitions = {
   },
   CommandToolCard: {
     attention: "prominent",
-    codeSample: (t) => `import { CommandToolCard } from "@openbitfun/ui/flow-chat";\n\n<CommandToolCard\n  action="${t("components.preview.flowChat.runCommand")}"\n  command="pnpm run design-system:check"\n  emptyCommand="${t("components.preview.flowChat.emptyCommand")}"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  output={<TerminalOutput />}\n  status="completed"\n/>`,
+    codeSample: (t) => `import { CommandToolCard } from "@opc-team/ui/flow-chat";\n\n<CommandToolCard\n  action="${t("components.preview.flowChat.runCommand")}"\n  command="pnpm run design-system:check"\n  emptyCommand="${t("components.preview.flowChat.emptyCommand")}"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  output={<TerminalOutput />}\n  status="completed"\n/>`,
     icon: Terminal,
     render: (options) => <CommandPreview {...options} />,
     section: "tool-card",
@@ -1071,7 +1071,7 @@ export const flowChatPreviewDefinitions = {
   },
   ContextCompressionToolCard: {
     attention: "prominent",
-    codeSample: (t) => `import { ContextCompressionToolCard } from "@openbitfun/ui/flow-chat";\n\n<ContextCompressionToolCard\n  status="completed"\n  summary="${t("components.preview.flowChat.contextSummary")}"\n  title="${t("components.preview.flowChat.contextCompression")}"\n/>`,
+    codeSample: (t) => `import { ContextCompressionToolCard } from "@opc-team/ui/flow-chat";\n\n<ContextCompressionToolCard\n  status="completed"\n  summary="${t("components.preview.flowChat.contextSummary")}"\n  title="${t("components.preview.flowChat.contextCompression")}"\n/>`,
     icon: Archive,
     render: (options) => <ContextCompressionPreview {...options} />,
     section: "tool-card",
@@ -1103,7 +1103,7 @@ export const flowChatPreviewDefinitions = {
   },
   FileDiffToolCard: {
     attention: "prominent",
-    codeSample: (t) => `import { FileDiffToolCard } from "@openbitfun/ui/flow-chat";\n\n<FileDiffToolCard\n  action="GetFileDiff:"\n  changeSummary={{\n    additions: 12,\n    deletions: 4,\n    label: "${t("components.preview.flowChat.fileChangeSummary")}",\n  }}\n  path="src/flow_chat/components/FlowToolCard.tsx"\n  pathLabel="FlowToolCard.tsx"\n  status="completed"\n/>`,
+    codeSample: (t) => `import { FileDiffToolCard } from "@opc-team/ui/flow-chat";\n\n<FileDiffToolCard\n  action="GetFileDiff:"\n  changeSummary={{\n    additions: 12,\n    deletions: 4,\n    label: "${t("components.preview.flowChat.fileChangeSummary")}",\n  }}\n  path="src/flow_chat/components/FlowToolCard.tsx"\n  pathLabel="FlowToolCard.tsx"\n  status="completed"\n/>`,
     icon: GitCompare,
     render: (options) => <ConcreteProminentPreview {...options} kind="diff" />,
     section: "tool-card",
@@ -1111,7 +1111,7 @@ export const flowChatPreviewDefinitions = {
   },
   FileOperationToolCard: {
     attention: "adaptive",
-    codeSample: (t) => `import { FileOperationToolCard } from "@openbitfun/ui/flow-chat";\n\n<FileOperationToolCard\n  actionLabel="${t("components.preview.flowChat.editFile")}"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  operation="edit"\n  path="src/flow_chat/components/FlowToolCard.tsx"\n  pathLabel="FlowToolCard.tsx"\n  preview={<DiffPreview />}\n  status="completed"\n/>`,
+    codeSample: (t) => `import { FileOperationToolCard } from "@opc-team/ui/flow-chat";\n\n<FileOperationToolCard\n  actionLabel="${t("components.preview.flowChat.editFile")}"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  operation="edit"\n  path="src/flow_chat/components/FlowToolCard.tsx"\n  pathLabel="FlowToolCard.tsx"\n  preview={<DiffPreview />}\n  status="completed"\n/>`,
     icon: FileEdit,
     render: (options) => <FileOperationPreview {...options} />,
     section: "tool-card",
@@ -1167,7 +1167,7 @@ export const flowChatPreviewDefinitions = {
   },
   ProminentToolCard: {
     attention: "prominent",
-    codeSample: (t) => `import { ProminentToolCard, ProminentToolCardSummary } from "@openbitfun/ui/flow-chat";\nimport { SquareTerminal } from "lucide-react";\n\n<ProminentToolCard\n  status="completed"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  summary={(\n    <ProminentToolCardSummary\n      icon={<SquareTerminal />}\n      action="${t("components.preview.flowChat.runCommand")}"\n      content={<code>curl https://openbitfun.com</code>}\n    />\n  )}\n  expandedContent={<CommandOutput />}\n/>`,
+    codeSample: (t) => `import { ProminentToolCard, ProminentToolCardSummary } from "@opc-team/ui/flow-chat";\nimport { SquareTerminal } from "lucide-react";\n\n<ProminentToolCard\n  status="completed"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  summary={(\n    <ProminentToolCardSummary\n      icon={<SquareTerminal />}\n      action="${t("components.preview.flowChat.runCommand")}"\n      content={<code>curl https://openbitfun.com</code>}\n    />\n  )}\n  expandedContent={<CommandOutput />}\n/>`,
     icon: SquareTerminal,
     render: (options) => <FrameworkPreview {...options} kind="prominent" />,
     section: "framework",
@@ -1175,7 +1175,7 @@ export const flowChatPreviewDefinitions = {
   },
   ReadFileToolCard: {
     attention: "ambient",
-    codeSample: (t) => `import { ReadFileToolCard } from "@openbitfun/ui/flow-chat";\n\n<ReadFileToolCard\n  accessibleLabel="${t("components.preview.flowChat.readFile")}"\n  action="${t("components.preview.flowChat.readFile")}"\n  content="src/flow_chat/tool-cards/index.ts · 128 lines"\n  interactive\n  onOpen={openFile}\n  status="completed"\n/>`,
+    codeSample: (t) => `import { ReadFileToolCard } from "@opc-team/ui/flow-chat";\n\n<ReadFileToolCard\n  accessibleLabel="${t("components.preview.flowChat.readFile")}"\n  action="${t("components.preview.flowChat.readFile")}"\n  content="src/flow_chat/tool-cards/index.ts · 128 lines"\n  interactive\n  onOpen={openFile}\n  status="completed"\n/>`,
     icon: FileText,
     render: (options) => <ReadFilePreview {...options} />,
     section: "tool-card",

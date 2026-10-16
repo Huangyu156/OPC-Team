@@ -1,5 +1,5 @@
-import '@openbitfun/theme-openbitfun/default.css';
-import { themes } from '@openbitfun/theme-openbitfun';
+import '@opc-team/theme/default.css';
+import { themes } from '@opc-team/theme';
 
 const colorScheme = window.matchMedia?.('(prefers-color-scheme: dark)').matches
   ? 'dark'

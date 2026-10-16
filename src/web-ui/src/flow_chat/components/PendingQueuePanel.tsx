@@ -20,7 +20,7 @@ import { getActiveSurfaceScope, isSurfaceChangedError, onSurfaceActivated } from
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ListEnd } from 'lucide-react';
-import { OverflowText, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Tooltip } from '@opc-team/ui';
 import { stateMachineManager } from '../state-machine';
 import { FlowChatStore } from '../store/FlowChatStore';
 import { pendingQueueManager } from '../services/flow-chat-manager/PendingQueueModule';
@@ -33,7 +33,7 @@ import type { QueuedMessage, SteeringImage } from '../types/flow-chat';
 import { isAcpFlowSession } from '../utils/acpSession';
 import { getQueuedMessageAttachmentCount } from '../utils/pendingQueuePresentation';
 import './PendingQueuePanel.scss';
-import { IconButton, Icon } from '@openbitfun/ui';
+import { IconButton, Icon } from '@opc-team/ui';
 import {
   ChatComposerQueue,
   ChatComposerQueueAttachmentBadge,
@@ -44,7 +44,7 @@ import {
   ChatComposerQueueList,
   ChatComposerQueueTitle,
   type ChatComposerQueueItemState,
-} from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui/flow-chat';
 
 const log = createLogger('PendingQueuePanel');
 

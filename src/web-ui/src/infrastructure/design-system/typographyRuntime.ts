@@ -12,4 +12,4 @@ export {
   type LineHeightTokenName,
   type LetterSpacingTokenName,
   type TypographyTokenName,
-} from '@openbitfun/design-tokens/typography-runtime';
+} from '@opc-team/design-tokens/typography-runtime';

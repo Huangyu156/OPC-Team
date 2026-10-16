@@ -3,7 +3,7 @@
  * Used to browse and select remote directory as workspace
  */
 
-import { subscribeOverlayInteraction, createOverlayPortal, Button, Dialog, ConfirmDialog, Icon, IconButton, Input, Menu, MenuItem, MenuSeparator, ScrollArea } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Button, Dialog, ConfirmDialog, Icon, IconButton, Input, Menu, MenuItem, MenuSeparator, ScrollArea } from '@opc-team/ui';
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { useI18n } from '@/infrastructure/i18n';

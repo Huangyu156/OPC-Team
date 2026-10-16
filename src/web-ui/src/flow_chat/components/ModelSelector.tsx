@@ -8,7 +8,7 @@
  * - Supports 'primary' | 'fast' | specific model IDs
  */
 
-import { subscribeOverlayInteraction, createOverlayPortal, LoadingState, Menu, MenuItem, MenuList, MenuSection, MenuSeparator, OverflowText, SegmentedControl, Spinner } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, LoadingState, Menu, MenuItem, MenuList, MenuSection, MenuSeparator, OverflowText, SegmentedControl, Spinner } from '@opc-team/ui';
 import React, { useState, useEffect, useId, useRef, useCallback, useLayoutEffect, useMemo, useSyncExternalStore } from 'react';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { getActiveSurfaceScope, onSurfaceActivated } from '@/infrastructure/peer-device/deviceSurface';
@@ -23,7 +23,7 @@ import {
 import { ACPClientAPI, type AcpSessionOptions } from '@/infrastructure/api/service-api/ACPClientAPI';
 import { getProviderDisplayName, getProviderGroupKey } from '@/infrastructure/config/services/modelConfigs';
 import type { AIModelConfig, AgentModelDefaultsConfig, DefaultModelsConfig } from '@/infrastructure/config/types';
-import { Tooltip, Icon } from '@openbitfun/ui';
+import { Tooltip, Icon } from '@opc-team/ui';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { notificationService } from '@/shared/notification-system';
 import { FlowChatStore } from '../store/FlowChatStore';

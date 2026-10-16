@@ -1,4 +1,4 @@
-import { Button, Icon, StatusPill } from '@openbitfun/ui';
+import { Button, Icon, StatusPill } from '@opc-team/ui';
 import type { ReactNode } from 'react';
 import type { ConnectionResult, RemoteConnectStatus } from '@/infrastructure/api/service-api/RemoteConnectAPI';
 import { useI18n } from '@/infrastructure/i18n';

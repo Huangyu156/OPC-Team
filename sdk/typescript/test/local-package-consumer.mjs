@@ -43,7 +43,7 @@ try {
     join(consumerRoot, "run.mjs"),
     `
 import assert from "node:assert/strict";
-import { AgentClient } from "@openbitfun/agent-sdk";
+import { AgentClient } from "@opc-team/agent-sdk";
 
 const client = await AgentClient.start({
   cwd: process.cwd(),

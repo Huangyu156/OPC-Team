@@ -1,8 +1,8 @@
 /**
  * Icon and color mapping for the agents scene
- * Shared icon sources for agent identity. Rendering stays owned by @openbitfun/ui Icon.
+ * Shared icon sources for agent identity. Rendering stays owned by @opc-team/ui Icon.
  */
-import type { IconSource } from '@openbitfun/ui';
+import type { IconSource } from '@opc-team/ui';
 import {
   Code2,
   FlaskConical,

@@ -26,7 +26,7 @@ import {
   SegmentedControl,
   Stack,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { ShieldAlert } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import type {

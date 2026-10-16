@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { Button, Icon, IconButton, KeyHint, ScrollArea, useDismissibleLayer } from '@openbitfun/ui';
+import { Button, Icon, IconButton, KeyHint, ScrollArea, useDismissibleLayer } from '@opc-team/ui';
 import { Merge } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { ThumbnailCard } from './ThumbnailCard';

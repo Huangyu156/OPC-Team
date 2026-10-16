@@ -1,7 +1,7 @@
  
 
 import React from 'react';
-import { OverflowText, Icon } from '@openbitfun/ui';
+import { OverflowText, Icon } from '@opc-team/ui';
 import { api } from '@/infrastructure/api/service-api/ApiClient';
 import { FileIcon } from 'lucide-react';
 import type { FileContext, ValidationResult, RenderOptions } from '../../../types/context';

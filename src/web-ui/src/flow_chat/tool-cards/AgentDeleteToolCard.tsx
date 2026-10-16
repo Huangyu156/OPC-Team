@@ -1,5 +1,5 @@
 import React, { useCallback, useSyncExternalStore } from 'react';
-import { ToolRelationRow, ToolCardText } from '@openbitfun/ui/flow-chat';
+import { ToolRelationRow, ToolCardText } from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';
 import { flowChatStore } from '../store/FlowChatStore';
 import { resolveSubagentNameKey, SubagentAvatar } from '../subagent-identity';

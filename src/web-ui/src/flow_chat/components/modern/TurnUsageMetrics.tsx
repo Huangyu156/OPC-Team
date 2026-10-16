@@ -1,4 +1,4 @@
-import { FlowChatMetricDetails, FlowChatTurnMetrics } from '@openbitfun/ui/flow-chat';
+import { FlowChatMetricDetails, FlowChatTurnMetrics } from '@opc-team/ui/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';
 import { formatTokenCount } from '@/shared/utils/tokenUsageFormatting';
 import type { TokenUsage } from '../../types/flow-chat';

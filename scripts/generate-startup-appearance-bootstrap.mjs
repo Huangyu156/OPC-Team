@@ -23,7 +23,7 @@ const desktopBootstrapThemeOutputPath = path.join(
 );
 const themePackageEntryPath = path.join(
   repoRoot,
-  'design-system/packages/theme-openbitfun/dist/index.js',
+  'design-system/packages/theme/dist/index.js',
 );
 const checkOnly = process.argv.includes('--check');
 

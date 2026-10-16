@@ -1,4 +1,4 @@
-@layer openbitfun.base {
+@layer opcteam.base {
   .root {
     --_overflow-text-marquee-distance: 0px;
     --_overflow-text-marquee-duration: 2400ms;

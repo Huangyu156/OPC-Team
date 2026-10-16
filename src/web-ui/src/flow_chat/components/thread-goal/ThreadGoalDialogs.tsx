@@ -6,11 +6,11 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle, Icon,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Target } from 'lucide-react';
-import { Textarea } from '@openbitfun/ui';
+import { Textarea } from '@opc-team/ui';
 import { i18nService } from '@/infrastructure/i18n';
 import { formatTokenCount } from '@/shared/utils/tokenUsageFormatting';
 import type { ThreadGoalController } from '../../hooks/useThreadGoalController';

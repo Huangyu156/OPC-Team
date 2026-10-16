@@ -6,7 +6,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import { isReducedMotionPreferred } from '@/shared/utils/motionPreference';
-import { OpenBitFunMark } from '@openbitfun/ui/brand';
+import { OpenBitFunMark } from '@opc-team/ui/brand';
 import './WelcomeScene.scss';
 
 const TYPE_MS = 100;

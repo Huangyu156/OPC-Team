@@ -1,5 +1,5 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
-import { OverflowText } from '@openbitfun/ui';
+import { OverflowText } from '@opc-team/ui';
 /**
  * Main application layout.
  *

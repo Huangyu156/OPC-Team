@@ -10,7 +10,7 @@ import { FlowChatStore } from '../../store/FlowChatStore';
 import { notificationService } from '@/shared/notification-system';
 import { FlowTextBlock } from '../FlowTextBlock';
 import { FlowToolCard } from '../FlowToolCard';
-import { Button, Card, CardBody, CardHeader, Checkbox, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle, Icon, IconButton, Tooltip } from '@openbitfun/ui';
+import { Button, Card, CardBody, CardHeader, Checkbox, Dialog, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle, Icon, IconButton, Tooltip } from '@opc-team/ui';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import type { DialogTurn, FlowTextItem, FlowToolItem, FlowThinkingItem } from '../../types/flow-chat';
 import { i18nService, useI18n } from '@/infrastructure/i18n';

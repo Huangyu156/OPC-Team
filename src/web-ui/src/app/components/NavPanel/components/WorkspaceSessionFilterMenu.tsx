@@ -5,7 +5,7 @@ import { useI18n } from '@/infrastructure/i18n';
 import { getAppearanceOverlayHost } from '@/infrastructure/appearance/runtime/AppearanceOverlayHost';
 import { flowChatStore } from '@/flow_chat/store/FlowChatStore';
 import { useSubmenuIntent } from '@/shared/utils/useSubmenuIntent';
-import { subscribeOverlayInteraction, createOverlayPortal, Icon, IconButton, Menu, MenuItem, MenuSection, MenuSeparator, Tooltip } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, Icon, IconButton, Menu, MenuItem, MenuSection, MenuSeparator, Tooltip } from '@opc-team/ui';
 import {
   DEFAULT_WORKSPACE_SESSION_VIEW,
   hasWorkspaceSessionFilters,

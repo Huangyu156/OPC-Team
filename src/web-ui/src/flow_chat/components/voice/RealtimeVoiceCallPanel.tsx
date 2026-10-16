@@ -1,4 +1,4 @@
-import { VoiceCallPanel } from '@openbitfun/ui';
+import { VoiceCallPanel } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { useRealtimeVoiceCall } from './RealtimeVoiceCallContext';
 

@@ -1,6 +1,6 @@
 import { useContext, useLayoutEffect, useMemo, useRef, useState, type ReactNode } from 'react';
-import { Button, Dialog, IconButton, Tooltip, VoiceCallTranscript, type VoiceTranscriptEntry } from '@openbitfun/ui';
-import { ToolProcessingDots } from '@openbitfun/ui/flow-chat';
+import { Button, Dialog, IconButton, Tooltip, VoiceCallTranscript, type VoiceTranscriptEntry } from '@opc-team/ui';
+import { ToolProcessingDots } from '@opc-team/ui/flow-chat';
 import { SquarePen } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n';
 import { notificationService } from '@/shared/notification-system';

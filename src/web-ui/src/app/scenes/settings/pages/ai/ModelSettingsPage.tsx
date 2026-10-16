@@ -118,7 +118,7 @@ import {
   ToolbarGroup,
   Tooltip,
   type ComboboxOption,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { AlertTriangle, EyeOff, FolderOpen, Loader, Wifi } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 

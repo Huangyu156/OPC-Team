@@ -3,7 +3,7 @@ import {
   Dialog,
   DialogBody,
   DialogClose, Icon,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { useTranslation } from 'react-i18next';

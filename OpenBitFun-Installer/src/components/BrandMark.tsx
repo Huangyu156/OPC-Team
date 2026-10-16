@@ -1,4 +1,4 @@
-import { OpenBitFunMark } from '@openbitfun/ui/brand';
+import { OpenBitFunMark } from '@opc-team/ui/brand';
 
 interface BrandMarkProps {
   size?: 'medium' | 'hero';

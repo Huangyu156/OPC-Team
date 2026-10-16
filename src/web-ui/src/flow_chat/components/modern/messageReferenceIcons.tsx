@@ -1,5 +1,5 @@
 import React from 'react';
-import { Icon } from '@openbitfun/ui';
+import { Icon } from '@opc-team/ui';
 import { AtSign, File } from 'lucide-react';
 import type { ContextType } from '@/shared/types/context';
 

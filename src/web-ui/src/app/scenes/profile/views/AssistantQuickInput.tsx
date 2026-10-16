@@ -10,7 +10,7 @@
  */
 
 import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { OverflowText, Composer, ComposerToolbar, Icon, IconButton } from '@openbitfun/ui';
+import { OverflowText, Composer, ComposerToolbar, Icon, IconButton } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { ModelSelector } from '@/flow_chat/components/ModelSelector';
 import { flowChatManager } from '@/flow_chat/services/FlowChatManager';

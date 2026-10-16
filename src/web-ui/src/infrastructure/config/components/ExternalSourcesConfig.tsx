@@ -1,4 +1,4 @@
-import { Disclosure, Alert, Button, Combobox, ConfirmDialog, Icon, IconButton, Select, Switch, Tooltip } from '@openbitfun/ui';
+import { Disclosure, Alert, Button, Combobox, ConfirmDialog, Icon, IconButton, Select, Switch, Tooltip } from '@opc-team/ui';
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { TFunction } from 'i18next';
 import { useTranslation } from 'react-i18next';

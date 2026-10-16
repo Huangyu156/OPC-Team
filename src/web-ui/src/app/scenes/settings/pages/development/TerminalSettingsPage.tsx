@@ -9,7 +9,7 @@ import type {
 import { createLogger } from '@/shared/utils/logger';
 import { getTerminalService } from '@/tools/terminal/services';
 import type { ShellInfo } from '@/tools/terminal/types/session';
-import { Combobox, type ComboboxOption } from '@openbitfun/ui';
+import { Combobox, type ComboboxOption } from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { SettingsPage } from '../shared/SettingsPage';

@@ -2,7 +2,7 @@ import { useId, useMemo, useRef, useState } from 'react';
 import {
   Button, Checkbox, Dialog, DialogBody, DialogClose, DialogHeader, DialogHeading,
   DialogTitle, Input, OverflowText, ScrollArea, SearchField,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { confirmDialog } from '@/infrastructure/confirm-dialog';
 import type { UserSkillGroup } from '@/infrastructure/config/types';

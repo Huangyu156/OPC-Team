@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
-import '@openbitfun/ui/styles.css';
-import '@openbitfun/design-tokens/tokens.css';
-import '@openbitfun/theme-openbitfun/default.css';
+import '@opc-team/ui/styles.css';
+import '@opc-team/design-tokens/tokens.css';
+import '@opc-team/theme/default.css';
 import '../../src/app/styles/index.scss';
 import { I18nProvider, i18nService } from '../../src/infrastructure/i18n';
 import { OpenBitFunDesignSystemProvider } from '../../src/infrastructure/design-system';

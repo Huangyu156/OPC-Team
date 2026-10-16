@@ -1,4 +1,4 @@
-import { IconButton } from '@openbitfun/ui';
+import { IconButton } from '@opc-team/ui';
 import { ArrowDown as LucideArrowDown } from 'lucide-react';
 /**
  * Scroll-to-latest bar.

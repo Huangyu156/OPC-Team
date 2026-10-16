@@ -1,4 +1,4 @@
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import React from 'react';
 
 import { ConfigMessage } from './ConfigMessage';

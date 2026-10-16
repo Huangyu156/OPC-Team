@@ -1,4 +1,4 @@
-import { buildContextLoadSummary } from '@openbitfun/flow-chat-presentation/context-load';
+import { buildContextLoadSummary } from '@opc-team/flow-chat-presentation/context-load';
 import type { FlowItem, FlowToolItem } from '../types/flow-chat';
 import { getContextLoadKind, isSettledContextLoad } from '../tool-cards/contextLoadClassification';
 import { computeExploreStats, isCollapsibleTool } from '../tool-cards/toolCardMetadata';

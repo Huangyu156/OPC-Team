@@ -67,7 +67,7 @@ import {
   type ContrastMode,
   type DensityMode,
   type TokenOverrides,
-} from "@openbitfun/ui";
+} from "@opc-team/ui";
 import {
   MobileAvatar,
   MobileBadge,
@@ -98,8 +98,8 @@ import {
   MobileTextarea,
   MobileToolbar,
 }
-from "@openbitfun/ui/mobile";
-import { type ComponentMeta } from "@openbitfun/ui/registry";
+from "@opc-team/ui/mobile";
+import { type ComponentMeta } from "@opc-team/ui/registry";
 import { useI18n } from "../i18n";
 import { defaultComponent } from "../componentNavigation";
 import {

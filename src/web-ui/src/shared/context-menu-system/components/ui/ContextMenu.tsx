@@ -1,5 +1,5 @@
 import React from 'react';
-import { Menu, MenuItem, MenuPopover, MenuSeparator, type MenuEntry, type MenuItemProps, type MenuProps, type MenuPopoverParts, type MenuSeparatorProps } from '@openbitfun/ui';
+import { Menu, MenuItem, MenuPopover, MenuSeparator, type MenuEntry, type MenuItemProps, type MenuProps, type MenuPopoverParts, type MenuSeparatorProps } from '@opc-team/ui';
 import { createLogger } from '@/shared/utils/logger';
 import type { ContextMenuProps, ContextMenuItem } from './types';
 

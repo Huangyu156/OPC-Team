@@ -1,4 +1,4 @@
-import { Button } from '@openbitfun/ui';
+import { Button } from '@opc-team/ui';
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { i18nService } from '@/infrastructure/i18n';
 import { getActiveSurfaceScope, onSurfaceActivated } from '@/infrastructure/peer-device/deviceSurface';

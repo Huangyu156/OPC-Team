@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, ThinkingIndicator } from "@openbitfun/ui";
+import { Button, ThinkingIndicator } from "@opc-team/ui";
 import { useI18n } from "../i18n";
 import "./ThinkingIndicatorPreview.css";
 

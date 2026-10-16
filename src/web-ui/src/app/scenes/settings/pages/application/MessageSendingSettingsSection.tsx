@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Select } from '@openbitfun/ui';
+import { Select } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import { ConfigLoadingState, ConfigPageRow, ConfigPageSection, ConfigRetryState } from '@/infrastructure/config/components/common';
 import { useChatInputSendPreference } from '@/infrastructure/config/hooks/useChatInputSendPreference';

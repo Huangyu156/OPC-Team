@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState, type ReactNode, type Ref } from 'react';
-import { CommandToolCard, type CommandToolCardFooterItem } from '@openbitfun/ui/flow-chat';
+import { CommandToolCard, type CommandToolCardFooterItem } from '@opc-team/ui/flow-chat';
 import type { ExecProcessCardModel, ExecToolSnapshot, PresentationClock, PresentationTranslate } from './contracts';
 import { formatSessionViewPreviewText } from '../sessionViewPreview';
 import { ExecRelationPresentation } from './ExecRelationPresentation';

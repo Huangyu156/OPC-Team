@@ -5,7 +5,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { FilePlus } from 'lucide-react';
-import { OverflowText, Tooltip, Icon } from '@openbitfun/ui';
+import { OverflowText, Tooltip, Icon } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { useSnapshotState } from '../../../tools/snapshot_system/hooks/useSnapshotState';
 import { createDiffEditorTab } from '../../../shared/utils/tabUtils';

@@ -2,7 +2,7 @@
 import React, { act } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { ThinkingBlock } from '@openbitfun/ui/flow-chat';
+import { ThinkingBlock } from '@opc-team/ui/flow-chat';
 
 // Controllable transition promises verify sequencing, not rendered appearance.
 describe('thinking to successor transaction', () => {

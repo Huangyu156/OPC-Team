@@ -4,7 +4,7 @@ import {
   saveAndContinueSettingsNavigation,
   useSettingsDraftSnapshot,
 } from '@/infrastructure/config/settingsDraftRegistry';
-import { ConfirmDialog } from '@openbitfun/ui';
+import { ConfirmDialog } from '@opc-team/ui';
 import React, { Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { getActiveSurfaceScope, onSurfaceActivated } from '@/infrastructure/peer-device/deviceSurface';
 import { ConfigLoadingState, ConfigRetryState } from '@/infrastructure/config/components/common';

@@ -1,19 +1,19 @@
 import { useMemo, useRef, useState } from 'react';
-import { Button, Select } from '@openbitfun/ui';
+import { Button, Select } from '@opc-team/ui';
 import {
   FlowGroup, FileOperationToolCard, ContextLoadGroup, ExploreGroup, FlowChatRuntimeStatus, GetToolSpecToolCard, ReadFileToolCard, SkillToolCard, ThinkingBlock, ToolDuration,
   ToolCardActions, ToolCardCopyButton,
-} from '@openbitfun/ui/flow-chat';
-import { themes, themeCssVariables, type ThemeTokenName } from '@openbitfun/theme-openbitfun';
+} from '@opc-team/ui/flow-chat';
+import { themes, themeCssVariables, type ThemeTokenName } from '@opc-team/theme';
 import {
   buildExecCommandCardModel, buildExecControlCardModel, buildWriteStdinCardModel,
   ExecProcessPresentation, type ExecToolSnapshot, type PresentationClock,
-} from '@openbitfun/flow-chat-presentation/exec';
-import { LazyTerminalOutputRenderer, type TerminalOutputHost } from '@openbitfun/flow-chat-presentation/terminal';
-import { createScenarioClock, execScenarios, SCENARIO_EPOCH, type ExecScenario } from '@openbitfun/flow-chat-presentation/scenarios';
-import { useThinkingDisclosure } from '@openbitfun/flow-chat-presentation/thinking';
-import { buildExploreSummary } from '@openbitfun/flow-chat-presentation/explore';
-import { buildContextLoadSummary } from '@openbitfun/flow-chat-presentation/context-load';
+} from '@opc-team/flow-chat-presentation/exec';
+import { LazyTerminalOutputRenderer, type TerminalOutputHost } from '@opc-team/flow-chat-presentation/terminal';
+import { createScenarioClock, execScenarios, SCENARIO_EPOCH, type ExecScenario } from '@opc-team/flow-chat-presentation/scenarios';
+import { useThinkingDisclosure } from '@opc-team/flow-chat-presentation/thinking';
+import { buildExploreSummary } from '@opc-team/flow-chat-presentation/explore';
+import { buildContextLoadSummary } from '@opc-team/flow-chat-presentation/context-load';
 import { useI18n } from '../i18n';
 import { usePresentationFormatNumber, usePresentationTranslate } from './flowChatTranslation';
 

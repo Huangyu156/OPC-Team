@@ -6,7 +6,7 @@
 import React, { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { FilePlus, SearchCheck, Zap, GitPullRequest } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { createOverlayPortal, useDismissibleLayer, OverflowText, Icon, IconButton, Menu, MenuItem, MenuSeparator, Tooltip } from '@openbitfun/ui';
+import { createOverlayPortal, useDismissibleLayer, OverflowText, Icon, IconButton, Menu, MenuItem, MenuSeparator, Tooltip } from '@opc-team/ui';
 import { useSnapshotState } from '../../../tools/snapshot_system/hooks/useSnapshotState';
 import { createDiffEditorTab } from '../../../shared/utils/tabUtils';
 import { snapshotAPI } from '../../../infrastructure/api';

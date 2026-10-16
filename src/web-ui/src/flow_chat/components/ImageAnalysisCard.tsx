@@ -3,7 +3,7 @@
  * Displays analysis progress and results.
  */
 
-import { OverflowText, Button, Icon } from '@openbitfun/ui';
+import { OverflowText, Button, Icon } from '@opc-team/ui';
 import React, { useState } from 'react';
 import { Loader, AlertCircle } from 'lucide-react';
 import type { FlowImageAnalysisItem } from '../types/flow-chat';

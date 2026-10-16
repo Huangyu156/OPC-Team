@@ -15,7 +15,7 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useState, useCallback, useMemo, useId } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createLogger } from '@/shared/utils/logger';

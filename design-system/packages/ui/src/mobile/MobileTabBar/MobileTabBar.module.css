@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root { display: flex; box-sizing: border-box; inline-size: 100%; min-block-size: 56px; align-items: stretch; gap: 0; padding-inline: var(--opcteam-space-1); background: var(--opcteam-color-surface-panel); }
   .root[data-appearance="plain"] { background: transparent; }
   /* The bar owns the bottom edge of the screen, so it owns the home indicator's space too. */

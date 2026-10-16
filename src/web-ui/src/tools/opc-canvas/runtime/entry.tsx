@@ -1,4 +1,4 @@
-import '@openbitfun/design-tokens/tokens.css';
+import '@opc-team/design-tokens/tokens.css';
 import './styles/canvas-runtime.scss';
 import * as sdkAdapters from './sdk';
 import { installOpenBitFunCanvasRuntimeApp } from './CanvasRuntimeApp';

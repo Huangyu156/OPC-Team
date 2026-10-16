@@ -1,8 +1,8 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
-import { OverflowText, Button, IconButton } from '@openbitfun/ui';
+import { OverflowText, Button, IconButton } from '@opc-team/ui';
 import React, { Suspense, useEffect, useRef, useState } from 'react';
 import { AlertCircle, Keyboard, Loader2 } from 'lucide-react';
-import { Checkbox, Textarea, Tooltip, Icon } from '@openbitfun/ui';
+import { Checkbox, Textarea, Tooltip, Icon } from '@opc-team/ui';
 import { useTranslation } from 'react-i18next';
 import { agentAPI } from '@/infrastructure/api';
 import type {

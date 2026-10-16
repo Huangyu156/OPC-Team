@@ -1,4 +1,4 @@
-@layer openbitfun.components {
+@layer opcteam.components {
   .root {
     box-sizing: border-box;
     border-radius: var(--opcteam-radius-sm);

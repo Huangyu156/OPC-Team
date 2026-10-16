@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { getToolCardStatus, getToolCardStatusDescription } from './toolCardStatus';
 import type { ToolCardProps } from '../types/flow-chat';
 import { isToolCardVisible } from '../utils/flowItemVisibility';
-import { ReadFileToolCard } from '@openbitfun/ui/flow-chat';
+import { ReadFileToolCard } from '@opc-team/ui/flow-chat';
 import { i18nService } from '@/infrastructure/i18n';
 
 export const ReadFileDisplay: React.FC<ToolCardProps> = React.memo(({

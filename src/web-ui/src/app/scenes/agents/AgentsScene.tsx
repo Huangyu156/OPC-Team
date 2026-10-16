@@ -3,7 +3,7 @@ import {
   OverflowText, Button, Combobox, Dialog, DialogBody, DialogClose, DialogFooter,
   DialogHeader, DialogHeaderActions, DialogHeading, DialogTitle, Field,
   FormSection, Icon, IconButton, SearchField, Select, StatusPill, TabGroup, Toolbar, Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import type { TFunction } from 'i18next';
 import { RotateCcw } from 'lucide-react';

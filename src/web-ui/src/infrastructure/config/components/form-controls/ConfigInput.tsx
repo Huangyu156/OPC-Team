@@ -1,6 +1,6 @@
 import React, { forwardRef, useId } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Input } from '@openbitfun/ui';
+import { Input } from '@opc-team/ui';
 
 export interface ConfigInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size'> {
    

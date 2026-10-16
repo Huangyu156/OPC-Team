@@ -21,7 +21,7 @@ import type { VoiceInputSettings } from '@/infrastructure/config/types';
 import { isTauriRuntime } from '@/infrastructure/runtime';
 import { notificationService } from '@/shared/notification-system';
 import { createLogger } from '@/shared/utils/logger';
-import { Button, Select, type SelectOption, StatusPill, type StatusPillTone, Switch } from '@openbitfun/ui';
+import { Button, Select, type SelectOption, StatusPill, type StatusPillTone, Switch } from '@opc-team/ui';
 import { CloudOff, HardDrive } from 'lucide-react';
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';

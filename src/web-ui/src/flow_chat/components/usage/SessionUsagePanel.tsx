@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Activity, AlertTriangle, Database, FileText, GitCompare, ShieldCheck, Wrench } from 'lucide-react';
 import { MarkdownRenderer } from '@/infrastructure/markdown';
-import { Checkbox, Button, OverflowText, TabGroup, Tooltip } from '@openbitfun/ui';
+import { Checkbox, Button, OverflowText, TabGroup, Tooltip } from '@opc-team/ui';
 import { snapshotAPI } from '@/infrastructure/api';
 import type { SessionUsageReport } from '@/infrastructure/api/service-api/SessionAPI';
 import { globalEventBus } from '@/infrastructure/event-bus';
@@ -42,7 +42,7 @@ import {
 import type { SessionUsagePanelTab } from './sessionUsagePanelTypes';
 import { sessionWorkspaceId } from '../../session-drivers/sessionFileNavigation';
 import './SessionUsagePanel.scss';
-import { IconButton, Icon } from '@openbitfun/ui';
+import { IconButton, Icon } from '@opc-team/ui';
 
 const log = createLogger('SessionUsagePanel');
 type UsageTranslator = (key: string, options?: Record<string, unknown>) => string;

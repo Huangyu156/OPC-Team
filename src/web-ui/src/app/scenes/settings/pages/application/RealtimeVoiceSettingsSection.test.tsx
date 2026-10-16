@@ -31,7 +31,7 @@ vi.mock('@/shared/notification-system', () => ({ notificationService: { error: m
 vi.mock('@/shared/utils/logger', () => ({ createLogger: () => ({ error: vi.fn() }) }));
 vi.mock('../../../../../infrastructure/config/components/LocalVoiceModelsConfig', () => ({ default: () => null }));
 vi.mock('../../../../../infrastructure/config/components/VoiceInputDiagnostics', () => ({ VoiceInputDiagnostics: () => null }));
-vi.mock('@openbitfun/ui', () => ({
+vi.mock('@opc-team/ui', () => ({
   Input: ({ size: _size, ...props }: React.InputHTMLAttributes<HTMLInputElement>) => <input {...props} />,
   Switch: (props: React.InputHTMLAttributes<HTMLInputElement>) => <input type="checkbox" {...props} />,
   Select: () => null, StatusPill: () => null,

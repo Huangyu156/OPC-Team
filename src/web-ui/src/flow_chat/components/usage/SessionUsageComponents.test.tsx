@@ -231,8 +231,8 @@ vi.mock('react-i18next', async (importOriginal) => ({
   }),
 }));
 
-vi.mock('@openbitfun/ui', async importOriginal => ({
-  ...await importOriginal<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async importOriginal => ({
+  ...await importOriginal<typeof import('@opc-team/ui')>(),
   IconButton: React.forwardRef<
     HTMLButtonElement,
     React.ButtonHTMLAttributes<HTMLButtonElement> & { icon?: React.ReactNode; variant?: string; size?: string }
@@ -271,7 +271,7 @@ vi.mock('@/infrastructure/markdown', () => ({
   MarkdownRenderer: ({ content }: { content: string }) => <div data-testid="markdown">{content}</div>,
 }));
 
-vi.mock('@openbitfun/ui/flow-chat', () => ({
+vi.mock('@opc-team/ui/flow-chat', () => ({
   ToolProcessingDots: ({ className }: { className?: string }) => <span className={className}>...</span>,
 }));
 

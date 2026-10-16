@@ -199,7 +199,7 @@
       line-height: inherit;
     }
 
-    @layer openbitfun.components {
+    @layer opcteam.components {
       &[role='tab']:focus-visible {
         outline: revert-layer;
         outline-offset: revert-layer;

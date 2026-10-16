@@ -1,5 +1,5 @@
 import { createElement, useCallback, useMemo, useSyncExternalStore } from 'react';
-import type { ToolCardParticipant } from '@openbitfun/ui/flow-chat';
+import type { ToolCardParticipant } from '@opc-team/ui/flow-chat';
 import { flowChatStore } from '../store/FlowChatStore';
 import { resolveSubagentNameKey, SubagentAvatar } from '../subagent-identity';
 import { getActiveSurfaceScope, onSurfaceActivated } from '@/infrastructure/peer-device/deviceSurface';

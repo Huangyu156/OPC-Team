@@ -5,7 +5,7 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plane, Presentation, ListTodo, CalendarDays, ClipboardList, Mail, FileSpreadsheet, HandCoins, TrendingUp, RotateCcw } from 'lucide-react';
-import { ActionCard, IconButton, Tooltip, Icon } from '@openbitfun/ui';
+import { ActionCard, IconButton, Tooltip, Icon } from '@opc-team/ui';
 import './CoworkExampleCards.scss';
 
 type ExampleId =

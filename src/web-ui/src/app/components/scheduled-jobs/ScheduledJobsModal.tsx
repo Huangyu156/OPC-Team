@@ -6,7 +6,7 @@ import {
   DialogHeader,
   DialogHeading,
   DialogTitle,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n';
 import ScheduledJobsView from '@/app/components/scheduled-jobs/ScheduledJobsView';
 import type { CronJobTargetKind } from '@/infrastructure/api';

@@ -1,7 +1,7 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
 import { captureContentScope } from '@/shared/services/workbenchContentService';
 import React, { Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { Icon, IconButton } from '@openbitfun/ui';
+import { Icon, IconButton } from '@opc-team/ui';
 import { AlertTriangle, Code2, Loader2, MousePointer2 } from 'lucide-react';
 import path from 'path-browserify';
 import { flowChatStore } from '@/flow_chat/store/FlowChatStore';

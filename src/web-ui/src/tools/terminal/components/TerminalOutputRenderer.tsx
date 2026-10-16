@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import { TerminalOutputRenderer as SharedRenderer, type TerminalOutputRendererHandle, type TerminalOutputRendererProps as SharedProps } from '@openbitfun/flow-chat-presentation/terminal/renderer';
+import { TerminalOutputRenderer as SharedRenderer, type TerminalOutputRendererHandle, type TerminalOutputRendererProps as SharedProps } from '@opc-team/flow-chat-presentation/terminal/renderer';
 import { terminalOutputHost } from './terminalOutputHost';
 
 export type TerminalOutputRendererProps = Omit<SharedProps, 'host'>;

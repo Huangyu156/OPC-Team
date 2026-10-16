@@ -3,7 +3,7 @@ import React, { Suspense, useMemo, useEffect } from 'react';
 import { useWorkspaceContext } from '@/infrastructure/contexts/WorkspaceContext';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { WorkspaceKind } from '@/shared/types';
-import { Spinner } from '@openbitfun/ui';
+import { Spinner } from '@opc-team/ui';
 import { useMyAgentStore } from '../my-agent/myAgentStore';
 import './AssistantScene.scss';
 

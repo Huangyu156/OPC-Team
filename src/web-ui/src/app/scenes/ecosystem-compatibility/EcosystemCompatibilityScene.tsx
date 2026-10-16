@@ -25,7 +25,7 @@ import {
   Switch,
   Textarea,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import { useCurrentWorkspace } from '@/infrastructure/contexts/WorkspaceContext';

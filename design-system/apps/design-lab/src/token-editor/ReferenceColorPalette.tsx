@@ -3,7 +3,7 @@ import {
   referenceColorScales,
   type ReferenceColorEntry,
   type ReferenceColorScaleName,
-} from "@openbitfun/theme-openbitfun/authoring";
+} from "@opc-team/theme/authoring";
 import { useI18n } from "../i18n";
 import { humanizeTokenSegment } from "./catalog";
 

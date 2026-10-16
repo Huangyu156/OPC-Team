@@ -1,4 +1,4 @@
-import { themes } from '@openbitfun/theme-openbitfun';
+import { themes } from '@opc-team/theme';
 import React, { createContext, useCallback, useLayoutEffect, useState } from 'react';
 
 export type ThemeId = 'dark' | 'light';

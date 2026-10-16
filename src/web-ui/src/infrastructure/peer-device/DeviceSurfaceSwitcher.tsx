@@ -8,7 +8,7 @@
  */
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, ActionItem, Icon, Menu, MenuItem, MenuSection, MenuSeparator } from '@openbitfun/ui';
+import { subscribeOverlayInteraction, createOverlayPortal, OverflowText, ActionItem, Icon, Menu, MenuItem, MenuSection, MenuSeparator } from '@opc-team/ui';
 import { Monitor, MonitorSmartphone, Loader2, Unplug } from 'lucide-react';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { useNotification } from '@/shared/notification-system';

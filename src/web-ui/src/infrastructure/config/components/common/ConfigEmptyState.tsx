@@ -1,5 +1,5 @@
 import React from 'react';
-import { Empty, type EmptyProps } from '@openbitfun/ui';
+import { Empty, type EmptyProps } from '@opc-team/ui';
 import { formatStandaloneUiCopy } from './standaloneUiCopy';
 import './ConfigPageState.scss';
 

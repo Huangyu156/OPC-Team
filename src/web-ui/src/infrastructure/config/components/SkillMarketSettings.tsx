@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { Button, Field, Icon, IconButton, Input, Select, Switch } from '@openbitfun/ui';
+import { Button, Field, Icon, IconButton, Input, Select, Switch } from '@opc-team/ui';
 import { useI18n } from '@/infrastructure/i18n/hooks/useI18n';
 import { configAPI } from '@/infrastructure/api/service-api/ConfigAPI';
 import type { SkillMarketConfig, SkillMarketSource } from '../types';

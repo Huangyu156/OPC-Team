@@ -10,8 +10,8 @@
 import React, { useMemo, useState, useCallback, useEffect, useLayoutEffect, useRef } from 'react';
 import { useFlowChatReaderValue, useTimelineReveal } from '../../timeline/readerState';
 import { useTranslation } from 'react-i18next';
-import { subscribeOverlayInteraction, createOverlayPortal, Button, Disclosure, Icon, IconButton, Menu, MenuItem, Tooltip } from '@openbitfun/ui';
-import { AmbientToolCard, AmbientToolCardHeader, FlowChatMetric, FlowChatMetricDetails, ToolCardSection, ToolCardText } from '@openbitfun/ui/flow-chat';
+import { subscribeOverlayInteraction, createOverlayPortal, Button, Disclosure, Icon, IconButton, Menu, MenuItem, Tooltip } from '@opc-team/ui';
+import { AmbientToolCard, AmbientToolCardHeader, FlowChatMetric, FlowChatMetricDetails, ToolCardSection, ToolCardText } from '@opc-team/ui/flow-chat';
 import { CircleAlert, Wifi } from 'lucide-react';
 import type { ModelRound, ModelRoundAttempt, ModelRoundAttemptDiagnostic, FlowItem, FlowTextItem, FlowToolItem, FlowThinkingItem, ToolRejectOptions } from '../../types/flow-chat';
 import { useI18n } from '@/infrastructure/i18n';

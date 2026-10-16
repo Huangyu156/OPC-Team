@@ -1,4 +1,4 @@
-import { themes, type ThemeDataName, type ThemeTokenName } from '@openbitfun/theme-openbitfun';
+import { themes, type ThemeDataName, type ThemeTokenName } from '@opc-team/theme';
 import type { ThemeId } from '../types/installer';
 
 type BackgroundColors = InstallerTheme['colors']['background'];

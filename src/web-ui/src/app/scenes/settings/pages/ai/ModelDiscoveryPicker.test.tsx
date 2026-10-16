@@ -3,7 +3,7 @@
 import React, { act, useState, type ComponentProps } from 'react';
 import { createRoot, type Root } from 'react-dom/client';
 import { afterEach, beforeAll, beforeEach, describe, expect, it } from 'vitest';
-import { Button, Dialog, DialogBody, DialogHeader, DialogHeading, DialogTitle } from '@openbitfun/ui';
+import { Button, Dialog, DialogBody, DialogHeader, DialogHeading, DialogTitle } from '@opc-team/ui';
 import { i18nService } from '@/infrastructure/i18n';
 import { ModelDiscoveryPicker } from './ModelDiscoveryPicker';
 

@@ -1,5 +1,5 @@
 import { Monitor } from 'lucide-react';
-import type { IconSize } from '@openbitfun/ui';
+import type { IconSize } from '@opc-team/ui';
 import type { DeviceOverviewDevice } from '../deviceInterconnectionOverview';
 import { getDeviceArtworkKind } from './deviceArtworkKind';
 import { DEVICE_MARK_BY_ARTWORK, DEVICE_SYSTEM_MARKS } from './deviceSystemMarks';

@@ -9,7 +9,7 @@ import {
   OverflowText,
   StatusPill,
   Tooltip,
-} from '@openbitfun/ui';
+} from '@opc-team/ui';
 
 import { useTranslation } from 'react-i18next';
 

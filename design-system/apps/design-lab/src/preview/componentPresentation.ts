@@ -1,4 +1,4 @@
-import type { ComponentMeta } from "@openbitfun/ui/registry";
+import type { ComponentMeta } from "@opc-team/ui/registry";
 
 export type ComponentPresentation =
   | "matrix" | "compact" | "fields" | "cards" | "stack" | "icons"

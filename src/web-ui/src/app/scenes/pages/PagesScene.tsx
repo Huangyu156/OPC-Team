@@ -1,5 +1,5 @@
 import { lazyWithRecovery } from '@/shared/utils/lazyWithRecovery';
-import { OverflowText, Button, Icon, Input, Select, type SelectOption } from '@openbitfun/ui';
+import { OverflowText, Button, Icon, Input, Select, type SelectOption } from '@opc-team/ui';
 import React, { Suspense, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CircleStop, FileClock, HardDrive, Lock, PanelsTopLeft, Rocket, Save, Users, type LucideIcon } from 'lucide-react';
 import { RetainedMountBoundary } from '@/shared/presence';

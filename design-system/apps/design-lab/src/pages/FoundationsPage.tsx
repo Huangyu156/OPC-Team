@@ -1,8 +1,8 @@
-import { KeyHint, Select } from "@openbitfun/ui";
+import { KeyHint, Select } from "@opc-team/ui";
 import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
 import { Check, RotateCcw } from "lucide-react";
-import { Button, Icon, Input, StatusPill, Switch, type DensityMode } from "@openbitfun/ui";
-import type { ThemeDataName } from "@openbitfun/theme-openbitfun";
+import { Button, Icon, Input, StatusPill, Switch, type DensityMode } from "@opc-team/ui";
+import type { ThemeDataName } from "@opc-team/theme";
 import { useI18n } from "../i18n";
 import { nonColorTokenCatalog } from "../token-editor/catalog";
 import {

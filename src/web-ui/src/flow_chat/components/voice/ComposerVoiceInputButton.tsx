@@ -4,8 +4,8 @@ import {
   IconButton,
   OverflowText,
   Tooltip,
-} from '@openbitfun/ui';
-import { ChatComposerActionButton } from '@openbitfun/ui/flow-chat';
+} from '@opc-team/ui';
+import { ChatComposerActionButton } from '@opc-team/ui/flow-chat';
 import { useEffect, useRef, useState } from 'react';
 import { Loader2, VolumeX } from 'lucide-react';
 import type { ComposerVoiceInputController } from './useComposerVoiceInput';

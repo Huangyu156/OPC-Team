@@ -1,5 +1,5 @@
-import { OpenBitFunMark } from '@openbitfun/ui/brand';
-import { ActionItem, Button, Card, CardBody, CardFooter, CardHeader, Icon, IconButton, OverlayLayer, OverflowText, useHasModalOverlay } from '@openbitfun/ui';
+import { OpenBitFunMark } from '@opc-team/ui/brand';
+import { ActionItem, Button, Card, CardBody, CardFooter, CardHeader, Icon, IconButton, OverlayLayer, OverflowText, useHasModalOverlay } from '@opc-team/ui';
 import { useEffect, useMemo, useRef, type MouseEvent } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
 import { getVersionInfo } from '@/shared/utils/version';

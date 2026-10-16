@@ -26,8 +26,8 @@ vi.mock('react-i18next', () => ({
   useTranslation: () => ({ t: translateMock }),
 }));
 
-vi.mock('@openbitfun/ui', async importOriginal => ({
-  ...await importOriginal<typeof import('@openbitfun/ui')>(),
+vi.mock('@opc-team/ui', async importOriginal => ({
+  ...await importOriginal<typeof import('@opc-team/ui')>(),
   Button: ({ children, disabled, onClick }: React.ButtonHTMLAttributes<HTMLButtonElement>) => (
     <button type="button" disabled={disabled} onClick={onClick}>{children}</button>
   ),

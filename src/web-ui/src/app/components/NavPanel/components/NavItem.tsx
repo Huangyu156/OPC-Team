@@ -10,7 +10,7 @@ import React, { useRef } from 'react';
 import type { LucideIcon } from 'lucide-react';
 
 import type { NavItem as NavItemConfig } from '../types';
-import { OverflowText, Icon, Tooltip } from '@openbitfun/ui';
+import { OverflowText, Icon, Tooltip } from '@opc-team/ui';
 
 interface NavItemProps {
   item: NavItemConfig;
