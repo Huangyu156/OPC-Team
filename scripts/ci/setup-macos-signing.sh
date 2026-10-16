@@ -19,7 +19,7 @@ for name in "${required[@]}"; do
 done
 
 if [[ "${#missing[@]}" -gt 0 ]]; then
-  if [[ "${OPENBITFUN_REQUIRE_APPLE_SIGNING:-false}" == "true" ]]; then
+  if [[ "${OPC_REQUIRE_APPLE_SIGNING:-false}" == "true" ]]; then
     printf 'Apple signing is required, but these secrets are missing: %s\n' "${missing[*]}" >&2
     exit 1
   fi
@@ -71,7 +71,7 @@ fi
   echo "APPLE_API_KEY=${APPLE_API_KEY}"
   echo "APPLE_API_KEY_PATH=${api_key_path}"
   echo "APPLE_SIGNING_IDENTITY=${APPLE_SIGNING_IDENTITY}"
-  echo "OPENBITFUN_APPLE_SIGNING_CONFIGURED=true"
+  echo "OPC_APPLE_SIGNING_CONFIGURED=true"
 } >>"${GITHUB_ENV}"
 
 echo "Apple Developer ID signing and notarization credentials are ready."

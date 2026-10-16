@@ -60,7 +60,7 @@ Git remote 不要混用：
 - **当前仍在服务的 `lwb`** 是 `origin=bobleer/OpenBitFun`、
   `upstream=GCWing/OpenBitFun`。只在这台旧机上才使用 `upstream`。
 
-脚本里的 `OPENBITFUN_BASE_URL` 写死为 `https://openbitfun.com/release`。
+脚本里的 `OPC_BASE_URL` 写死为 `https://openbitfun.com/release`。
 域名变了要改 `scripts/openbitfun-release-sync.sh`，不能只改 Nginx。
 
 ## A. 旧机只读导出
@@ -174,16 +174,16 @@ test "$(node -v)" = "v20.20.2"'
 ```bash
 NEW_HOST=new-openbitfun
 ssh "$NEW_HOST" 'set -eu
-OPENBITFUN_REV="$(cat /root/openbitfun-host-export/openbitfun.rev)"
-test -n "$OPENBITFUN_REV"
+OPC_REV="$(cat /root/openbitfun-host-export/openbitfun.rev)"
+test -n "$OPC_REV"
 if [ ! -d /root/repos/OpenBitFun/.git ]; then
   git clone https://github.com/GCWing/OpenBitFun.git /root/repos/OpenBitFun
 fi
 cd /root/repos/OpenBitFun
 git remote -v
 git fetch origin
-git checkout --detach "$OPENBITFUN_REV"
-test "$(git rev-parse HEAD)" = "$OPENBITFUN_REV"
+git checkout --detach "$OPC_REV"
+test "$(git rev-parse HEAD)" = "$OPC_REV"
 test -x scripts/openbitfun-release-sync.sh'
 ```
 
@@ -236,7 +236,7 @@ test -f /srv/openbitfun-release/downloads.json
 touch /var/log/openbitfun-release-sync.log
 chmod 644 /var/log/openbitfun-release-sync.log
 crontab -l > /root/openbitfun-host-export/new-host.crontab.bak 2>/dev/null || true
-crontab /root/repos/OpenBitFun/deploy/openbitfun-host/release-sync.cron
+crontab /root/repos/OpenBitFun/deploy/opc-host/release-sync.cron
 crontab -l
 /root/repos/OpenBitFun/scripts/openbitfun-release-sync.sh
 python3 -c "import json; print(json.load(open(\"/srv/openbitfun-release/downloads.json\"))[\"version\"])"'
@@ -249,7 +249,7 @@ python3 -c "import json; print(json.load(open(\"/srv/openbitfun-release/download
 
 稳定镜像跟随 GitHub `/releases/latest`，不按版本名是否包含 `beta` 分类。
 例如 `v1.0.0-beta` 是 `prerelease=false` 的 Latest，必须进入默认稳定镜像；
-`OPENBITFUN_RELEASE_CHANNEL=beta` 读取的是独立的 `channel-v1-beta`。
+`OPC_RELEASE_CHANNEL=beta` 读取的是独立的 `channel-v1-beta`。
 
 #### 已有源站的 1.X 同步切换
 
@@ -263,7 +263,7 @@ OpenBitFun checkout 不会修改已有 crontab。
 - cron 只执行 `/root/repos/OpenBitFun/scripts/openbitfun-release-sync.sh`，日志为
   `/var/log/openbitfun-release-sync.log`。只替换该任务行，保留其它任务。
 - 实际执行的脚本读取 `latest-v1.json` 和 `linux-binaries-v1.json`，并校验
-  `ghcr.io/gcwing/openbitfun-relay-server`。不要放宽校验来兼容错配的新旧清单。
+  `ghcr.io/gcwing/opc-relay-server`。不要放宽校验来兼容错配的新旧清单。
 - 脚本输出与 Nginx `/release/` alias 必须指向同一目录。当前 `lwb` 保留
   `/srv/bitfun-release` 的历史文件，以 `/srv/openbitfun-release` 软链接指向它；
   Nginx 仍使用原 alias。迁移到新机时复制真实文件到新的标准目录，不能只复制
@@ -281,7 +281,7 @@ OpenBitFun checkout 不会修改已有 crontab。
 可选 beta：
 
 ```bash
-OPENBITFUN_RELEASE_CHANNEL=beta /root/repos/OpenBitFun/scripts/openbitfun-release-sync.sh
+OPC_RELEASE_CHANNEL=beta /root/repos/OpenBitFun/scripts/openbitfun-release-sync.sh
 ```
 
 ### 5. 官网
@@ -308,7 +308,7 @@ npm install
 npm run build
 test -f dist/index.html
 install -m 0644 \
-  /root/repos/OpenBitFun/deploy/openbitfun-host/nginx-openbit.fun.conf \
+  /root/repos/OpenBitFun/deploy/opc-host/nginx-openbit.fun.conf \
   /etc/nginx/sites-available/openbit.fun
 ln -sfn /etc/nginx/sites-available/openbit.fun /etc/nginx/sites-enabled/openbit.fun
 nginx -t
@@ -338,7 +338,7 @@ test -n "$PLAYBOOK_SAMPLE_ID"
 ssh lwb "install -d -m 0755 /srv/openbitfun-playbook/releases/$PLAYBOOK_RELEASE"
 rsync -a --delete website/dist/ \
   "lwb:/srv/openbitfun-playbook/releases/$PLAYBOOK_RELEASE/"
-rsync -a deploy/openbitfun-host/nginx-playbook.openbitfun.com.conf \
+rsync -a deploy/opc-host/nginx-playbook.openbitfun.com.conf \
   lwb:/tmp/nginx-playbook.openbitfun.com.conf
 ssh lwb "set -eu
 install -m 0644 /tmp/nginx-playbook.openbitfun.com.conf \
@@ -368,8 +368,8 @@ curl --retry 5 --retry-delay 1 --retry-all-errors -fsS -o /dev/null \
 必须先恢复两个 volume，再启动容器。先跑 `deploy.sh` 会建空卷，账号、同步和
 Pages 资产都会丢。不要在空库上用 `relay-admin` 新建用户来“代替”恢复。
 
-当前生产 `.env` 只有镜像开关（`OPENBITFUN_USE_CN_MIRROR` 等）。新机用
-`OPENBITFUN_MIRROR=auto`，让 `deploy.sh` 按主机网络自己选。不要写死
+当前生产 `.env` 只有镜像开关（`OPC_USE_CN_MIRROR` 等）。新机用
+`OPC_MIRROR=auto`，让 `deploy.sh` 按主机网络自己选。不要写死
 `--global-mirror`。不要 `cat` 旧 `.env`。
 
 ```bash
@@ -391,9 +391,9 @@ docker run --rm \
   alpine tar xzf /backup/relay-server_room-web.tar.gz -C /data
 
 cd /root/repos/OpenBitFun/src/apps/relay-server
-OPENBITFUN_MIRROR=auto bash deploy.sh
+OPC_MIRROR=auto bash deploy.sh
 install -m 0644 \
-  /root/repos/OpenBitFun/deploy/openbitfun-host/nginx-remote.openbit.fun.conf \
+  /root/repos/OpenBitFun/deploy/opc-host/nginx-remote.openbit.fun.conf \
   /etc/nginx/sites-available/remote.openbit.fun
 ln -sfn /etc/nginx/sites-available/remote.openbit.fun \
   /etc/nginx/sites-enabled/remote.openbit.fun
@@ -454,12 +454,12 @@ test "$(git -C /srv/openbitfun-skin-market/app rev-parse HEAD)" = "$SKIN_REV"'
 护栏；若目标仍指向旧生产库，工具会拒绝执行。
 
 ```bash
-python3 /root/repos/OpenBitFun/deploy/openbitfun-host/migrate-market-data-v1.py \
+python3 /root/repos/OpenBitFun/deploy/opc-host/migrate-market-data-v1.py \
   miniapp \
   --database /srv/openbitfun-miniapp-market/data/market.sqlite \
   --live-database /srv/bitfun-miniapp-market/data/market.sqlite
 
-python3 /root/repos/OpenBitFun/deploy/openbitfun-host/migrate-market-data-v1.py \
+python3 /root/repos/OpenBitFun/deploy/opc-host/migrate-market-data-v1.py \
   skin \
   --database /srv/openbitfun-skin-market/data/market.sqlite \
   --artifacts /srv/openbitfun-skin-market/artifacts \
@@ -491,7 +491,7 @@ test -d /root/repos/new_api_bak/data
 /root/repos/new_api_bak/load_image.sh
 /root/repos/new_api_bak/start.sh
 install -m 0644 \
-  /root/repos/OpenBitFun/deploy/openbitfun-host/nginx-api.openbit.fun.conf \
+  /root/repos/OpenBitFun/deploy/opc-host/nginx-api.openbit.fun.conf \
   /etc/nginx/sites-available/api.openbit.fun
 ln -sfn /etc/nginx/sites-available/api.openbit.fun \
   /etc/nginx/sites-enabled/api.openbit.fun
@@ -518,21 +518,21 @@ install -m 0644 \
 ln -sfn /etc/nginx/sites-available/00-default-server.conf \
   /etc/nginx/sites-enabled/00-default-server.conf
 install -m 0644 \
-  /root/repos/OpenBitFun/deploy/openbitfun-host/nginx-openbit.fun.conf \
+  /root/repos/OpenBitFun/deploy/opc-host/nginx-openbit.fun.conf \
   /etc/nginx/sites-available/openbit.fun
 ln -sfn /etc/nginx/sites-available/openbit.fun /etc/nginx/sites-enabled/openbit.fun
 install -m 0644 \
-  /root/repos/OpenBitFun/deploy/openbitfun-host/nginx-playbook.openbitfun.com.conf \
+  /root/repos/OpenBitFun/deploy/opc-host/nginx-playbook.openbitfun.com.conf \
   /etc/nginx/sites-available/playbook.openbitfun.com
 ln -sfn /etc/nginx/sites-available/playbook.openbitfun.com \
   /etc/nginx/sites-enabled/playbook.openbitfun.com
 install -m 0644 \
-  /root/repos/OpenBitFun/deploy/openbitfun-host/nginx-remote.openbit.fun.conf \
+  /root/repos/OpenBitFun/deploy/opc-host/nginx-remote.openbit.fun.conf \
   /etc/nginx/sites-available/remote.openbit.fun
 ln -sfn /etc/nginx/sites-available/remote.openbit.fun \
   /etc/nginx/sites-enabled/remote.openbit.fun
 install -m 0644 \
-  /root/repos/OpenBitFun/deploy/openbitfun-host/nginx-api.openbit.fun.conf \
+  /root/repos/OpenBitFun/deploy/opc-host/nginx-api.openbit.fun.conf \
   /etc/nginx/sites-available/api.openbit.fun
 ln -sfn /etc/nginx/sites-available/api.openbit.fun \
   /etc/nginx/sites-enabled/api.openbit.fun
@@ -593,7 +593,7 @@ docker exec openbitfun-relay /app/relay-admin --db /app/data/openbitfun_relay.db
 | 要做的事 | 怎么做 |
 | --- | --- |
 | 更新 OpenBitFun 源码 | 先 `cp -a src/apps/relay-server/.env /tmp/relay-server.env.bak`（若存在）。`git fetch` 对应 remote，再 `git merge --ff-only <remote>/main`。不要默认 `reset --hard`，不要 `git clean`。 |
-| 更新 Relay | 源码更新后 `cd src/apps/relay-server && OPENBITFUN_MIRROR=auto bash deploy.sh`。账号 volume 会留下。 |
+| 更新 Relay | 源码更新后 `cd src/apps/relay-server && OPC_MIRROR=auto bash deploy.sh`。账号 volume 会留下。 |
 | 更新 Release 镜像脚本 | 只改仓库里的 `scripts/openbitfun-release-sync.sh`。cron 已经跑这份文件。 |
 | 更新官网 | 在 `OpenBitFun-Website` 拉代码，`source ~/.nvm/nvm.sh && nvm use 20.20.2 && npm run build`。 |
 | 更新 Playbook | 在开发机校验能力契约并运行 `pnpm run website:build`，再按「OpenBitFun Playbook」使用 `dist/release.json` 的版本目录上传和切换 `current`。 |

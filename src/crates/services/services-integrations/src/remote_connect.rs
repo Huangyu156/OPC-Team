@@ -80,8 +80,8 @@ where
 }
 
 pub(crate) fn product_home_dir() -> Option<PathBuf> {
-    std::env::var_os("OPENBITFUN_HOME")
-        .or_else(|| std::env::var_os("OPENBITFUN_E2E_HOME"))
+    std::env::var_os("OPC_HOME")
+        .or_else(|| std::env::var_os("OPC_E2E_HOME"))
         .map(PathBuf::from)
         .filter(|path| !path.as_os_str().is_empty())
         .or_else(|| dirs::home_dir().map(|home| home.join(hidden_data_directory())))

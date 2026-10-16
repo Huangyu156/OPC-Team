@@ -528,7 +528,7 @@ mod tests {
     use super::*;
     use opc_product_domains::canvas::{
         CanvasDiagnosticCategory, CanvasDiagnosticSeverity, CanvasRevision, CanvasScope,
-        CanvasWorkspaceId, OPENBITFUN_CANVAS_RUNTIME_VERSION,
+        CanvasWorkspaceId, OPC_CANVAS_RUNTIME_VERSION,
     };
     use std::collections::BTreeMap;
 
@@ -787,8 +787,8 @@ mod tests {
                 CanvasSessionId::new("session_1"),
                 CanvasId::new("canvas_1"),
                 CanvasRevision::new("rev_1"),
-                OPENBITFUN_CANVAS_RUNTIME_VERSION.to_string(),
-                opc_product_domains::canvas::OPENBITFUN_CANVAS_SDK_VERSION.to_string(),
+                OPC_CANVAS_RUNTIME_VERSION.to_string(),
+                opc_product_domains::canvas::OPC_CANVAS_SDK_VERSION.to_string(),
             )
             .await
             .unwrap();
@@ -906,7 +906,7 @@ mod tests {
                 CanvasId::new("canvas_1"),
                 CanvasRevision::new("rev_1"),
                 "legacy-runtime".to_string(),
-                opc_product_domains::canvas::OPENBITFUN_CANVAS_SDK_VERSION.to_string(),
+                opc_product_domains::canvas::OPC_CANVAS_SDK_VERSION.to_string(),
             )
             .await
             .unwrap();
@@ -918,7 +918,7 @@ mod tests {
                 CanvasSessionId::new("session_1"),
                 CanvasId::new("canvas_1"),
                 CanvasRevision::new("rev_1"),
-                OPENBITFUN_CANVAS_RUNTIME_VERSION.to_string(),
+                OPC_CANVAS_RUNTIME_VERSION.to_string(),
                 "legacy-sdk".to_string(),
             )
             .await
@@ -951,8 +951,8 @@ mod tests {
                 CanvasSessionId::new("session_1"),
                 CanvasId::new("canvas_1"),
                 CanvasRevision::new("rev_1"),
-                OPENBITFUN_CANVAS_RUNTIME_VERSION.to_string(),
-                opc_product_domains::canvas::OPENBITFUN_CANVAS_SDK_VERSION.to_string(),
+                OPC_CANVAS_RUNTIME_VERSION.to_string(),
+                opc_product_domains::canvas::OPC_CANVAS_SDK_VERSION.to_string(),
             )
             .await
             .unwrap();

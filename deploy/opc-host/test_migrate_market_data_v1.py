@@ -200,7 +200,7 @@ class MarketDataMigrationTest(unittest.TestCase):
             self.assertNotEqual(new_sha, retired_sha)
 
             migrated_path = migration.skin_package_path(
-                artifacts, new_sha, migration.OPENBITFUN_APPEARANCE_EXTENSION
+                artifacts, new_sha, migration.OPC_APPEARANCE_EXTENSION
             )
             self.assertTrue(migrated_path.is_file())
             self.assertEqual(

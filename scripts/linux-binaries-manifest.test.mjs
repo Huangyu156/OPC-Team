@@ -19,7 +19,7 @@ test('generates GitHub URLs for both Linux CLI and Relay architectures', () => {
   ]) {
     for (const filename of [
       `opc-cli-1.2.3-${target}.tar.gz`,
-      `openbitfun-relay-server-${target}.tar.gz`,
+      `opc-relay-server-${target}.tar.gz`,
     ]) {
       fs.writeFileSync(path.join(assets, filename), '');
       fs.writeFileSync(path.join(assets, `${filename}.sha256`), '');
@@ -67,7 +67,7 @@ test('publishes sigUrl when a signature is present, omits it otherwise', () => {
   for (const target of ['x86_64-unknown-linux-gnu', 'aarch64-unknown-linux-gnu']) {
     for (const filename of [
       `opc-cli-1.2.3-${target}.tar.gz`,
-      `openbitfun-relay-server-${target}.tar.gz`,
+      `opc-relay-server-${target}.tar.gz`,
     ]) {
       fs.writeFileSync(path.join(assets, filename), '');
       fs.writeFileSync(path.join(assets, `${filename}.sha256`), '');
@@ -121,7 +121,7 @@ test('rejects versions whose build metadata GitHub would rewrite in asset names'
   for (const target of ['x86_64-unknown-linux-gnu', 'aarch64-unknown-linux-gnu']) {
     for (const filename of [
       `opc-cli-${version}-${target}.tar.gz`,
-      `openbitfun-relay-server-${target}.tar.gz`,
+      `opc-relay-server-${target}.tar.gz`,
     ]) {
       fs.writeFileSync(path.join(assets, filename), '');
       fs.writeFileSync(path.join(assets, `${filename}.sha256`), '');
@@ -162,7 +162,7 @@ test('openbitfun sync mirrors both products and their checksums', () => {
     syncScript,
     /for key in \("url", "sha256Url", "sha256SigUrl", "sigUrl"\)/
   );
-  assert.match(syncScript, /OPENBITFUN_BASE_URL/);
+  assert.match(syncScript, /OPC_BASE_URL/);
   assert.match(syncScript, /WEBSITE_RELEASE_DIR.*linux-binaries-v1\.json/);
   assert.match(syncScript, /mirror_dispatch_macos_cli_archives/);
   assert.match(syncScript, /x86_64-apple-darwin aarch64-apple-darwin/);
@@ -191,9 +191,9 @@ test('release sync pins Relay and Linux metadata to the updater release during l
     env: {
       ...process.env,
       SYNC_SCRIPT: path.join(repoRoot, 'scripts/opc-release-sync.sh'),
-      OPENBITFUN_RELEASE_CHANNEL: 'stable',
+      OPC_RELEASE_CHANNEL: 'stable',
       WEBSITE_RELEASE_DIR: path.join(temp, 'release'),
-      OPENBITFUN_RELEASE_SYNC_LOCK: path.join(temp, 'sync.lock'),
+      OPC_RELEASE_SYNC_LOCK: path.join(temp, 'sync.lock'),
       TEST_URLS: urls,
       TEST_LATEST_JSON: JSON.stringify({ version: '1.0.0', platforms: {
         'linux-x86_64': { url: `${releaseBase}/OpenBitFun_1.0.0_linux-x86_64.AppImage` },
@@ -375,7 +375,7 @@ test('website download manifest uses installer while updater manifest keeps setu
     ['-c', `
       source "$SYNC_SCRIPT"
       VERSION_DIR="$TEST_VERSION_DIR"
-      OPENBITFUN_BASE_URL="https://openbitfun.test/release"
+      OPC_BASE_URL="https://openbitfun.test/release"
       WINDOWS_INSTALLER_FILENAME="opc-installer.exe"
       WEBSITE_DOWNLOADS_MANIFEST="downloads.json"
       write_website_download_manifest
@@ -490,12 +490,12 @@ test('openbitfun sync lock and cron use the in-repo script, not a server-only co
   );
   assert.match(
     syncScript,
-    /OPENBITFUN_RELEASE_SYNC_LOCK/,
+    /OPC_RELEASE_SYNC_LOCK/,
     'lock path must be overridable so a new host can run the repo script'
   );
   assert.match(
     syncScript,
-    /\/root\/repos\/OpenBitFun\/scripts\/opc-release-sync\.sh/,
+    /\/root\/repos\/OPC-Team\/scripts\/opc-release-sync\.sh/,
     'documented cron must invoke the OpenBitFun checkout, not a detached copy'
   );
   assert.doesNotMatch(
@@ -505,7 +505,7 @@ test('openbitfun sync lock and cron use the in-repo script, not a server-only co
   );
   assert.match(
     cronFile,
-    /\/root\/repos\/OpenBitFun\/scripts\/opc-release-sync\.sh/,
+    /\/root\/repos\/OPC-Team\/scripts\/opc-release-sync\.sh/,
     'installed crontab must invoke the OpenBitFun checkout, not a detached copy'
   );
   assert.doesNotMatch(
@@ -515,7 +515,7 @@ test('openbitfun sync lock and cron use the in-repo script, not a server-only co
   );
   assert.match(
     syncScript,
-    /LOCK_FILE="\$\{OPENBITFUN_RELEASE_SYNC_LOCK:-\/var\/lock\/opc-release-sync\.lock\}"/,
+    /LOCK_FILE="\$\{OPC_RELEASE_SYNC_LOCK:-\/var\/lock\/opc-release-sync\.lock\}"/,
     'default lock must stay off the Nginx /release/ alias'
   );
 });

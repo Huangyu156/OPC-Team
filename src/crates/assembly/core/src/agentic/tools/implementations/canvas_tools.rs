@@ -7,7 +7,7 @@ use chrono::Utc;
 use opc_product_domains::canvas::{
     parse_canvas_artifact_ref, CanvasArtifact, CanvasArtifactRef, CanvasId, CanvasRevision,
     CanvasScope, CanvasSessionId, CanvasSnapshot, CanvasSource, CanvasStatus, CanvasStoragePort,
-    CanvasWorkspaceId, OPENBITFUN_CANVAS_SDK_VERSION,
+    CanvasWorkspaceId, OPC_CANVAS_SDK_VERSION,
 };
 use serde_json::{json, Value};
 use std::sync::Arc;
@@ -159,7 +159,7 @@ Returns a stable `opc-canvas://...` artifact reference for subsequent Canvas too
             revision,
             filename,
             source,
-            OPENBITFUN_CANVAS_SDK_VERSION,
+            OPC_CANVAS_SDK_VERSION,
             now,
         );
 
@@ -467,7 +467,7 @@ async fn save_canvas_source_revision(
         revision,
         filename,
         source_text,
-        OPENBITFUN_CANVAS_SDK_VERSION,
+        OPC_CANVAS_SDK_VERSION,
         now,
     );
 

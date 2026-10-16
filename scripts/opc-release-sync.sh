@@ -17,25 +17,25 @@
 #
 # Cron (every 10 minutes). Run the in-repo script from the OpenBitFun checkout so a
 # new host only needs this repository, not a detached AutoUpdate copy:
-#   */10 * * * * /root/repos/OpenBitFun/scripts/openbitfun-release-sync.sh \
+#   */10 * * * * /root/repos/OPC-Team/scripts/opc-release-sync.sh \
 #       >> /var/log/openbitfun-release-sync.log 2>&1
-# Host restore: deploy/openbitfun-host/README.md
+# Host restore: deploy/opc-host/README.md
 #
 # Optional immediate trigger. The release workflow POSTs to
-# ${OPENBITFUN_SYNC_WEBHOOK_URL} once assets are published (see the "Request
+# ${OPC_SYNC_WEBHOOK_URL} once assets are published (see the "Request
 # openbitfun mirror sync" step in .github/workflows/desktop-package.yml) so a
 # new release reaches the mirror in a couple of minutes rather than up to ten.
 # Point that secret at any receiver that runs this script, for example:
 #
 #   while true; do
 #     nc -l -p 8787 -q 1 >/dev/null \
-#       && OPENBITFUN_RELEASE_CHANNEL=stable \
-#            /root/repos/OpenBitFun/scripts/openbitfun-release-sync.sh \
+#       && OPC_RELEASE_CHANNEL=stable \
+#            /root/repos/OPC-Team/scripts/opc-release-sync.sh \
 #            >> /var/log/openbitfun-release-sync.log 2>&1
 #   done
 #
 # The current production origin is cron-only. Do not invent a detached webhook
-# listener unless OPENBITFUN_SYNC_WEBHOOK_URL is actually configured.
+# listener unless OPC_SYNC_WEBHOOK_URL is actually configured.
 #
 # Cron stays the source of truth: this script is idempotent and holds a flock,
 # so a webhook run and a cron run cannot collide and a missed webhook only costs
@@ -44,7 +44,7 @@
 set -euo pipefail
 
 # ── Configuration ──────────────────────────────────────────────
-RELEASE_CHANNEL="${OPENBITFUN_RELEASE_CHANNEL:-stable}"
+RELEASE_CHANNEL="${OPC_RELEASE_CHANNEL:-stable}"
 case "$RELEASE_CHANNEL" in
   stable)
     CHANNEL_PATH=""
@@ -55,14 +55,14 @@ case "$RELEASE_CHANNEL" in
     GITHUB_RELEASE_ROOT="https://github.com/GCWing/OpenBitFun/releases/download/channel-v1-beta"
     ;;
   *)
-    echo "Unsupported OPENBITFUN_RELEASE_CHANNEL: $RELEASE_CHANNEL" >&2
+    echo "Unsupported OPC_RELEASE_CHANNEL: $RELEASE_CHANNEL" >&2
     exit 1
     ;;
 esac
 GITHUB_LATEST_JSON_URL="${GITHUB_RELEASE_ROOT}/latest-v1.json"
 GITHUB_LINUX_BINARIES_URL="${GITHUB_RELEASE_ROOT}/linux-binaries-v1.json"
 GITHUB_RELAY_IMAGE_URL="${GITHUB_RELEASE_ROOT}/relay-image.json"
-OPENBITFUN_BASE_URL="https://openbitfun.com/release${CHANNEL_PATH}"
+OPC_BASE_URL="https://openbitfun.com/release${CHANNEL_PATH}"
 # The mirror deliberately lives outside the website checkout. It used to be
 # OpenBitFun-Website/dist/release, but `npm run build` empties dist/, so every
 # website deploy silently deleted the mirrored installers and manifests —
@@ -71,9 +71,9 @@ OPENBITFUN_BASE_URL="https://openbitfun.com/release${CHANNEL_PATH}"
 WEBSITE_RELEASE_ROOT="${WEBSITE_RELEASE_DIR:-/srv/openbitfun-release}"
 WEBSITE_RELEASE_DIR="${WEBSITE_RELEASE_ROOT}${CHANNEL_PATH}"
 # Keep the lock off the Nginx /release/ alias. Override with
-# OPENBITFUN_RELEASE_SYNC_LOCK if a host must share a lock across checkouts.
-LOCK_FILE="${OPENBITFUN_RELEASE_SYNC_LOCK:-/var/lock/openbitfun-release-sync.lock}"
-WINDOWS_INSTALLER_FILENAME="openbitfun-installer.exe"
+# OPC_RELEASE_SYNC_LOCK if a host must share a lock across checkouts.
+LOCK_FILE="${OPC_RELEASE_SYNC_LOCK:-/var/lock/opc-release-sync.lock}"
+WINDOWS_INSTALLER_FILENAME="opc-installer.exe"
 WINDOWS_INSTALLER_URL=""
 WINDOWS_INSTALLER_SIGNATURE_URL=""
 WEBSITE_DOWNLOADS_MANIFEST="downloads.json"
@@ -181,7 +181,7 @@ write_website_download_manifest() {
   "$PYTHON" - \
     "${VERSION_DIR}/latest-v1.json" \
     "$output_tmp" \
-    "$OPENBITFUN_BASE_URL" \
+    "$OPC_BASE_URL" \
     "$WINDOWS_INSTALLER_FILENAME" <<'PY'
 import json, sys
 
@@ -356,7 +356,7 @@ PY
     cut -f2 <<< "$LINUX_ASSET_LIST" | verify_mirrored_checksums || exit 1
 
     "$PYTHON" - "$LINUX_MANIFEST_TMP" "${VERSION_DIR}/linux-binaries-v1.json" \
-      "$OPENBITFUN_BASE_URL" <<'PY'
+      "$OPC_BASE_URL" <<'PY'
 import json, sys
 source, dest, base = sys.argv[1:]
 with open(source, encoding="utf-8") as f:
@@ -398,7 +398,7 @@ mirror_dispatch_macos_cli_archives() {
   local target filename base_url suffix ready failed checksum_list
   checksum_list=""
   for target in x86_64-apple-darwin aarch64-apple-darwin; do
-    filename="openbitfun-cli-${VERSION}-${target}.tar.gz"
+    filename="opc-cli-${VERSION}-${target}.tar.gz"
     base_url="${RELEASE_ASSET_BASE_URL}/${filename}"
     ready=1
     for suffix in "" .sha256 .sha256.sig .sig; do
@@ -477,7 +477,7 @@ import json, re, sys
 with open(sys.argv[1], encoding="utf-8") as f:
     data = json.load(f)
 assert data.get("schema_version") == 1
-assert data.get("image") == "ghcr.io/gcwing/openbitfun-relay-server"
+assert data.get("image") == "ghcr.io/gcwing/opc-relay-server"
 assert re.fullmatch(r"sha256:[0-9a-f]{64}", data.get("digest", ""))
 print(data["version"])
 PY
@@ -651,7 +651,7 @@ for target, entry in data.get('manual_installers', {}).items():
 import sys, json
 data = json.load(sys.stdin)
 version = data['version']
-base = '${OPENBITFUN_BASE_URL}/' + version
+base = '${OPC_BASE_URL}/' + version
 for p, info in data.get('platforms', {}).items():
     fname = info['url'].split('/')[-1]
     info['url'] = base + '/' + fname

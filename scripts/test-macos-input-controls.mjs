@@ -18,7 +18,7 @@ const run = (command, args, env = process.env, onSpawn) => new Promise((resolve,
   child.on('close', code => { clearTimeout(timer); code === 0 ? resolve() : reject(new Error(`${command} exited ${code}`)); });
 });
 
-const nativeTestBinary = async () => process.env.OPENBITFUN_TEST_BINARY || new Promise((resolve, reject) => {
+const nativeTestBinary = async () => process.env.OPC_TEST_BINARY || new Promise((resolve, reject) => {
   const build = spawn('cargo', ['test', '--locked', '-p', 'opc-desktop', ...(orchestration ? ['--features', 'devtools', '--test', 'computer_use_native_roundtrip'] : ['--lib']), '--no-run', '--message-format=json'], {
     cwd: root, stdio: ['ignore', 'pipe', 'inherit'], windowsHide: true,
   });
@@ -47,7 +47,7 @@ if (latency) {
     await new Promise((resolve, reject) => {
       const child = spawn(process.execPath, [fileURLToPath(import.meta.url), '--orchestration'], {
         cwd: root, windowsHide: true, stdio: ['ignore', 'inherit', 'pipe'],
-        env: { ...process.env, OPENBITFUN_TEST_BINARY: testBinary, OPENBITFUN_INPUT_LATENCY_CASE: fixtureCase },
+        env: { ...process.env, OPC_TEST_BINARY: testBinary, OPC_INPUT_LATENCY_CASE: fixtureCase },
       });
       let pending = '';
       child.stderr.on('data', chunk => {
@@ -114,10 +114,10 @@ try {
   const initialWindow = JSON.parse(await readFile(result, 'utf8')).window_id;
   const hostReady = join(directory, 'host-ready');
   const testEnvironment = {
-    ...process.env, OPENBITFUN_INPUT_FIXTURE_PID: pid,
-    OPENBITFUN_INPUT_FIXTURE_APP: join(directory, 'OpenBitFun Input Target.app'),
-    OPENBITFUN_INPUT_FIXTURE_RESULT: result, OPENBITFUN_INPUT_OBSERVER_RESULT: `${result}.observer`,
-    OPENBITFUN_INPUT_HOST_READY: hostReady,
+    ...process.env, OPC_INPUT_FIXTURE_PID: pid,
+    OPC_INPUT_FIXTURE_APP: join(directory, 'OpenBitFun Input Target.app'),
+    OPC_INPUT_FIXTURE_RESULT: result, OPC_INPUT_OBSERVER_RESULT: `${result}.observer`,
+    OPC_INPUT_HOST_READY: hostReady,
   };
   // Initialize AppKit before creating the foreground observer. Otherwise the
   // test host's own startup can deactivate it before the first tool action.
@@ -135,7 +135,7 @@ try {
   // Recheck immediately before foreground activation; the first gate ran
   // before target/host startup. A busy desktop is inconclusive, never PASS.
   await run(binary, ['--wait-input-idle', '5']);
-  observer = spawn(observerBinary, ['--observer', `${result}.observer`, String(initialWindow)], { cwd: root, stdio: ['ignore', 'pipe', 'inherit'], windowsHide: true, env: { ...process.env, OPENBITFUN_INPUT_COVER_TARGET: semantic ? '1' : '0' } });
+  observer = spawn(observerBinary, ['--observer', `${result}.observer`, String(initialWindow)], { cwd: root, stdio: ['ignore', 'pipe', 'inherit'], windowsHide: true, env: { ...process.env, OPC_INPUT_COVER_TARGET: semantic ? '1' : '0' } });
   await new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error('Observer not ready')), 10000);
     observer.stdout.on('data', chunk => { process.stdout.write(String(chunk)); if (String(chunk).includes('READY')) { clearTimeout(timer); resolve(); } });
@@ -147,7 +147,7 @@ try {
     const error = await orchestrationResult;
     if (error) throw error;
   } else {
-    await run(testBinary, testArgs, { ...testEnvironment, OPENBITFUN_INPUT_OBSERVER_PID: String(observer.pid) });
+    await run(testBinary, testArgs, { ...testEnvironment, OPC_INPUT_OBSERVER_PID: String(observer.pid) });
   }
   // Allow the observer's independent sampling timer to publish the final state.
   await new Promise(resolve => setTimeout(resolve, 90));

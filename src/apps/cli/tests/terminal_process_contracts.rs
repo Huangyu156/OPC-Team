@@ -482,7 +482,7 @@ fn assert_exec_stream_json_ctrl_c_contract() {
         "interrupt exit code changed:\n{output}"
     );
     assert!(
-        output.contains("OPENBITFUN_EXIT: cancelled:"),
+        output.contains("OPC_EXIT: cancelled:"),
         "missing stable cancellation diagnostic:\n{output}"
     );
     let events = strict_stream_json_events(&output);

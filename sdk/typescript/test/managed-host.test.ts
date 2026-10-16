@@ -53,8 +53,8 @@ test("AgentClient.start reports a missing Host before an operation begins", asyn
 });
 
 test("the Host resolver uses the package-local executable without environment fallback", () => {
-  const previousHostPath = process.env.OPENBITFUN_SDK_HOST_PATH;
-  process.env.OPENBITFUN_SDK_HOST_PATH = process.execPath;
+  const previousHostPath = process.env.OPC_SDK_HOST_PATH;
+  process.env.OPC_SDK_HOST_PATH = process.execPath;
   try {
     const executableName = process.platform === "win32" ? "opc-sdk-host.exe" : "opc-sdk-host";
     const expectedHost = fileURLToPath(
@@ -67,9 +67,9 @@ test("the Host resolver uses the package-local executable without environment fa
     assert.notEqual(resolveHostPath(), process.execPath);
   } finally {
     if (previousHostPath === undefined) {
-      delete process.env.OPENBITFUN_SDK_HOST_PATH;
+      delete process.env.OPC_SDK_HOST_PATH;
     } else {
-      process.env.OPENBITFUN_SDK_HOST_PATH = previousHostPath;
+      process.env.OPC_SDK_HOST_PATH = previousHostPath;
     }
   }
 });

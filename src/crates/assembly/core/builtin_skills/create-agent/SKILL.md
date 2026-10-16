@@ -37,7 +37,7 @@ Save one UTF-8 `<id>.md` file directly in the agents directory. Start with YAML 
 | User on macOS | `~/Library/Application Support/opcteam/agents/` | Mode or subagent |
 | User on Linux | `$XDG_CONFIG_HOME/opcteam/agents/`, or `~/.config/opcteam/agents/` | Mode or subagent |
 
-If `OPENBITFUN_USER_ROOT` is configured, use its `agents/` subdirectory for user roles. Use the environment where the role will be used. If the user has a custom data location, use that location. A mode cannot be installed at project scope.
+If `OPC_USER_ROOT` is configured, use its `agents/` subdirectory for user roles. Use the environment where the role will be used. If the user has a custom data location, use that location. A mode cannot be installed at project scope.
 
 ### Fields
 

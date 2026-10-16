@@ -10,7 +10,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
 const DRIVER_HOST = '127.0.0.1';
-const DRIVER_PORT = Number(process.env.OPENBITFUN_E2E_WEBDRIVER_PORT || 4445);
+const DRIVER_PORT = Number(process.env.OPC_E2E_WEBDRIVER_PORT || 4445);
 const DEV_SERVER_HOST = '127.0.0.1';
 const DEV_SERVER_PORT = 1422;
 
@@ -23,8 +23,8 @@ function projectRoot(): string {
 }
 
 function e2eRuntimeRoot(): string {
-  return process.env.OPENBITFUN_E2E_STORAGE_ROOT
-    ? path.resolve(process.env.OPENBITFUN_E2E_STORAGE_ROOT)
+  return process.env.OPC_E2E_STORAGE_ROOT
+    ? path.resolve(process.env.OPC_E2E_STORAGE_ROOT)
     : path.join(projectRoot(), 'tests', 'e2e', '.openbitfun', 'runtime');
 }
 
@@ -35,25 +35,25 @@ function setDefaultEnvPath(name: string, value: string): void {
 }
 
 function ensureIsolatedE2eStorageEnv(): void {
-  if (process.env.OPENBITFUN_E2E_USE_REAL_PROFILE === '1') {
-    delete process.env.OPENBITFUN_E2E_STORAGE_GUARD;
+  if (process.env.OPC_E2E_USE_REAL_PROFILE === '1') {
+    delete process.env.OPC_E2E_STORAGE_GUARD;
     return;
   }
 
   const root = e2eRuntimeRoot();
-  const userRoot = process.env.OPENBITFUN_E2E_USER_ROOT
-    ? path.resolve(process.env.OPENBITFUN_E2E_USER_ROOT)
+  const userRoot = process.env.OPC_E2E_USER_ROOT
+    ? path.resolve(process.env.OPC_E2E_USER_ROOT)
     : path.join(root, 'user-root');
-  const homeRoot = process.env.OPENBITFUN_E2E_HOME
-    ? path.resolve(process.env.OPENBITFUN_E2E_HOME)
+  const homeRoot = process.env.OPC_E2E_HOME
+    ? path.resolve(process.env.OPC_E2E_HOME)
     : path.join(root, 'home');
 
-  process.env.OPENBITFUN_E2E_USER_ROOT = userRoot;
-  process.env.OPENBITFUN_USER_ROOT = userRoot;
-  process.env.OPENBITFUN_E2E_HOME = homeRoot;
-  process.env.OPENBITFUN_HOME = homeRoot;
-  process.env.OPENBITFUN_E2E_STORAGE_GUARD = '1';
-  setDefaultEnvPath('OPENBITFUN_E2E_LOG_DIR', path.join(root, 'logs'));
+  process.env.OPC_E2E_USER_ROOT = userRoot;
+  process.env.OPC_USER_ROOT = userRoot;
+  process.env.OPC_E2E_HOME = homeRoot;
+  process.env.OPC_HOME = homeRoot;
+  process.env.OPC_E2E_STORAGE_GUARD = '1';
+  setDefaultEnvPath('OPC_E2E_LOG_DIR', path.join(root, 'logs'));
   fs.mkdirSync(root, { recursive: true });
 }
 
@@ -78,7 +78,7 @@ function executableCandidates(buildType: E2eBuildType): string[] {
     // built before the product rename still use the OpenBitFun names for both.
     // The real `tauri build` bundle lives in `target/<profile>/bundle/macos`, so it
     // is listed before the legacy top-level `.app` layout. The raw executable stays
-    // first because forced `OPENBITFUN_E2E_APP_MODE` modes read index 0 directly.
+    // first because forced `OPC_E2E_APP_MODE` modes read index 0 directly.
     return [
       path.join(root, 'target', buildType, binaryName),
       path.join(root, 'target', buildType, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
@@ -96,8 +96,8 @@ function executableCandidates(buildType: E2eBuildType): string[] {
 }
 
 export function getApplicationPath(): string {
-  const forcedPath = process.env.OPENBITFUN_E2E_APP_PATH;
-  const forcedMode = process.env.OPENBITFUN_E2E_APP_MODE?.toLowerCase();
+  const forcedPath = process.env.OPC_E2E_APP_PATH;
+  const forcedMode = process.env.OPC_E2E_APP_MODE?.toLowerCase();
 
   if (forcedPath) {
     return forcedPath;
@@ -126,7 +126,7 @@ export function getApplicationPath(): string {
 }
 
 async function waitForDevServerIfNeeded(appPath: string): Promise<void> {
-  if (process.env.OPENBITFUN_E2E_PACKAGED_FRONTEND === '1') return;
+  if (process.env.OPC_E2E_PACKAGED_FRONTEND === '1') return;
   if (!appPath.includes(`${path.sep}debug${path.sep}`)) {
     return;
   }
@@ -450,8 +450,8 @@ async function startOpenBitFunApp(): Promise<void> {
     stdio: ['ignore', 'pipe', 'pipe'],
     env: {
       ...process.env,
-      OPENBITFUN_WEBDRIVER_PORT: String(DRIVER_PORT),
-      OPENBITFUN_WEBDRIVER_LABEL: 'main',
+      OPC_WEBDRIVER_PORT: String(DRIVER_PORT),
+      OPC_WEBDRIVER_LABEL: 'main',
     },
   });
 

@@ -112,7 +112,7 @@ both build steps. Official `desktop:build` ships `dist-profile/` as a Tauri
 resource; `desktop:dev` and `cargo check` do not compile it. A failure during
 packaging fails the desktop build: an app that silently ships no bridge is
 indistinguishable from a working one until a user starts a DeepSeek session.
-`OPENBITFUN_SKIP_DSH_PROFILE=1` opts out on purpose.
+`OPC_SKIP_DSH_PROFILE=1` opts out on purpose.
 
 Every `@deepseek-ai/*` dependency is pinned to the **`0.1.0-rc.6`** train — the
 set npm's `next` dist-tag points at. Half of these packages still carry a

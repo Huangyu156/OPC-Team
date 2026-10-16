@@ -36,7 +36,7 @@ import { downloadUrl, loginUrl, marketApi, MarketApiError } from './api';
 import { formatCompactNumber, formatMarketDate, formatMarketDateTime } from './format';
 import { GetOpenBitFunCta } from './GetOpenBitFunCta';
 import { useLocale, type Locale, type MessageKey } from './i18n';
-import { OPENBITFUN_HOME_URL } from './links';
+import { OPC_HOME_URL } from './links';
 import { MiniAppIcon } from './MiniAppIcon';
 import { marketImageSrcSet, marketImageUrl, retryOriginalMarketImage } from './marketImages';
 import { useTheme, type Theme } from './theme';
@@ -211,7 +211,7 @@ function MarketApp() {
             <MarketLogo weight="duotone" aria-hidden="true" />
             <span>OPC-Team MiniApp Market</span>
           </div>
-          <a href={OPENBITFUN_HOME_URL} target="_blank" rel="noreferrer">
+          <a href={OPC_HOME_URL} target="_blank" rel="noreferrer">
             {t('openbitfunHome')}
             <ArrowSquareOut size={18} aria-hidden="true" />
           </a>

@@ -106,11 +106,11 @@ const endpoint = 'http://127.0.0.1:' + port;
 const log = await open(path.join(root, 'desktop.log'), 'w');
 const app = spawn(path.join(repo, 'target/debug/opc-desktop' + (process.platform === 'win32' ? '.exe' : '')), [], {
   cwd: repo, windowsHide: true, stdio: ['ignore', log.fd, log.fd],
-  env: { ...process.env, OPENBITFUN_USER_ROOT: userRoot, OPENBITFUN_E2E_USER_ROOT: userRoot,
-    OPENBITFUN_HOME: productHome, OPENBITFUN_E2E_HOME: productHome, OPENBITFUN_E2E_STORAGE_GUARD: '1',
-    OPENBITFUN_E2E_PACKAGED_FRONTEND: '1', OPENBITFUN_E2E_FRONTEND_DIR: frontendSnapshot,
-    OPENBITFUN_E2E_LOG_DIR: path.join(root, 'logs'),
-    OPENBITFUN_WEBDRIVER_PORT: String(port), OPENBITFUN_WEBDRIVER_LABEL: 'main' },
+  env: { ...process.env, OPC_USER_ROOT: userRoot, OPC_E2E_USER_ROOT: userRoot,
+    OPC_HOME: productHome, OPC_E2E_HOME: productHome, OPC_E2E_STORAGE_GUARD: '1',
+    OPC_E2E_PACKAGED_FRONTEND: '1', OPC_E2E_FRONTEND_DIR: frontendSnapshot,
+    OPC_E2E_LOG_DIR: path.join(root, 'logs'),
+    OPC_WEBDRIVER_PORT: String(port), OPC_WEBDRIVER_LABEL: 'main' },
 });
 let exitError;
 app.on('error', error => { exitError = error; });
@@ -137,7 +137,7 @@ const execute = script => request('/session/' + session + '/execute/sync', { scr
 const readOutput = () => execute('() => document.querySelector("[data-testid=creation-native-output]")?.textContent');
 async function resumePaint() {
   if (!suspendedPaint) return;
-  const phase = await execute('() => window.__OPENBITFUN_STARTUP_TRACE__?.snapshot().phases.events.find(event => event.phase === "interactive_shell_ready")');
+  const phase = await execute('() => window.__OPC_STARTUP_TRACE__?.snapshot().phases.events.find(event => event.phase === "interactive_shell_ready")');
   assert.equal(phase?.reason, 'startup-overlay-hidden');
   assert.equal(phase?.afterPaint, false);
   await execute('() => { window.__openbitfunResumeTestPaint(); return true; }');
@@ -181,7 +181,7 @@ try {
   console.log(JSON.stringify(report));
 } catch (error) {
   if (session) {
-    const diagnostics = await execute('() => ({ url: location.href, ready: document.readyState, text: document.body?.innerText.slice(0, 3000), scripts: [...document.scripts].map(script => script.src), creationStyles: document.querySelectorAll("[data-opc-creation]").length, startup: window.__OPENBITFUN_STARTUP_TRACE__?.snapshot() })').catch(String);
+    const diagnostics = await execute('() => ({ url: location.href, ready: document.readyState, text: document.body?.innerText.slice(0, 3000), scripts: [...document.scripts].map(script => script.src), creationStyles: document.querySelectorAll("[data-opc-creation]").length, startup: window.__OPC_STARTUP_TRACE__?.snapshot() })').catch(String);
     await writeFile(path.join(root, 'failure.json'), JSON.stringify(diagnostics, null, 2));
     const browserLogs = await request('/session/' + session + '/se/log', { type: 'browser' }).catch(String);
     await writeFile(path.join(root, 'browser-errors.json'), JSON.stringify(browserLogs, null, 2));

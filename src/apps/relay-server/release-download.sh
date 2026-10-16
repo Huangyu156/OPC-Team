@@ -5,29 +5,29 @@
 #   - src/apps/relay-server/deploy.sh
 #   - remote_ssh/relay_deploy.rs (embedded with include_str!)
 #
-# The Desktop path supplies OPENBITFUN_RELAY_IMAGE_DIGEST from a minisign-verified
+# The Desktop path supplies OPC_RELAY_IMAGE_DIGEST from a minisign-verified
 # release descriptor. Docker then verifies every manifest/layer against that
 # immutable digest while pulling through either the official registry or a
 # China acceleration prefix. The old download-archive + local image-construction
 # path is intentionally gone.
 #
 # Configuration:
-#   OPENBITFUN_RELAY_IMAGE          canonical image repository
-#   OPENBITFUN_RELAY_IMAGE_DIGEST   sha256:<64 lowercase hex> (required by Desktop)
-#   OPENBITFUN_RELAY_IMAGE_TAG      manual-script fallback tag (default release tag)
-#   OPENBITFUN_IMAGE_PULL_TIMEOUT   per-route pull timeout in seconds (default 900)
-#   OPENBITFUN_GITHUB_PROBE_WINDOW  GitHub throughput probe window (default 10s)
-#   OPENBITFUN_GITHUB_HEALTHY_BPS   keep GitHub first at/above this rate (default 512 KiB/s)
-#   OPENBITFUN_MIRROR_MODE          cn | global
+#   OPC_RELAY_IMAGE          canonical image repository
+#   OPC_RELAY_IMAGE_DIGEST   sha256:<64 lowercase hex> (required by Desktop)
+#   OPC_RELAY_IMAGE_TAG      manual-script fallback tag (default release tag)
+#   OPC_IMAGE_PULL_TIMEOUT   per-route pull timeout in seconds (default 900)
+#   OPC_GITHUB_PROBE_WINDOW  GitHub throughput probe window (default 10s)
+#   OPC_GITHUB_HEALTHY_BPS   keep GitHub first at/above this rate (default 512 KiB/s)
+#   OPC_MIRROR_MODE          cn | global
 #   RELAY_PORT                  published/container port (default 9700)
 #   RELAY_HOST_BIND_IP          host bind address (default 0.0.0.0)
 
-OPENBITFUN_RELAY_IMAGE="${OPENBITFUN_RELAY_IMAGE:-ghcr.io/gcwing/openbitfun-relay-server}"
-OPENBITFUN_RELAY_IMAGE_TAG="${OPENBITFUN_RELAY_IMAGE_TAG:-${OPENBITFUN_RELEASE_TAG:-latest}}"
-OPENBITFUN_IMAGE_PULL_TIMEOUT="${OPENBITFUN_IMAGE_PULL_TIMEOUT:-900}"
-OPENBITFUN_GITHUB_PROBE_WINDOW="${OPENBITFUN_GITHUB_PROBE_WINDOW:-10}"
-OPENBITFUN_GITHUB_HEALTHY_BPS="${OPENBITFUN_GITHUB_HEALTHY_BPS:-524288}"
-OPENBITFUN_GITHUB_RELEASE_BASE="${OPENBITFUN_GITHUB_RELEASE_BASE:-https://github.com/GCWing/OpenBitFun/releases}"
+OPC_RELAY_IMAGE="${OPC_RELAY_IMAGE:-ghcr.io/gcwing/opc-relay-server}"
+OPC_RELAY_IMAGE_TAG="${OPC_RELAY_IMAGE_TAG:-${OPC_RELEASE_TAG:-latest}}"
+OPC_IMAGE_PULL_TIMEOUT="${OPC_IMAGE_PULL_TIMEOUT:-900}"
+OPC_GITHUB_PROBE_WINDOW="${OPC_GITHUB_PROBE_WINDOW:-10}"
+OPC_GITHUB_HEALTHY_BPS="${OPC_GITHUB_HEALTHY_BPS:-524288}"
+OPC_GITHUB_RELEASE_BASE="${OPC_GITHUB_RELEASE_BASE:-https://github.com/GCWing/OpenBitFun/releases}"
 
 # The embedded Desktop helpers call Docker through openbitfun_docker; the manual
 # script exposes docker_cmd. Keep this file independent of either caller.
@@ -60,7 +60,7 @@ openbitfun_image_docker_with_timeout() {
     openbitfun_image_docker "$@"
     return
   fi
-  case "${OPENBITFUN_DOCKER_MODE:-direct}" in
+  case "${OPC_DOCKER_MODE:-direct}" in
     sg)
       sg docker -c "$(openbitfun_image_shell_join timeout "$seconds" docker "$@")"
       ;;
@@ -85,10 +85,10 @@ openbitfun_relay_native_platform() {
 
 openbitfun_relay_image_ref() {
   local repository="$1"
-  if [ -n "${OPENBITFUN_RELAY_IMAGE_DIGEST:-}" ]; then
-    printf '%s@%s' "$repository" "$OPENBITFUN_RELAY_IMAGE_DIGEST"
+  if [ -n "${OPC_RELAY_IMAGE_DIGEST:-}" ]; then
+    printf '%s@%s' "$repository" "$OPC_RELAY_IMAGE_DIGEST"
   else
-    printf '%s:%s' "$repository" "$OPENBITFUN_RELAY_IMAGE_TAG"
+    printf '%s:%s' "$repository" "$OPC_RELAY_IMAGE_TAG"
   fi
 }
 
@@ -109,27 +109,27 @@ openbitfun_probe_github_throughput() {
     echo 0
     return 0
   }
-  tag="${OPENBITFUN_RELEASE_TAG:-latest}"
+  tag="${OPC_RELEASE_TAG:-latest}"
   if [ "$tag" = latest ]; then
-    url="${OPENBITFUN_GITHUB_RELEASE_BASE}/latest/download/openbitfun-relay-server-${target}.tar.gz"
+    url="${OPC_GITHUB_RELEASE_BASE}/latest/download/opc-relay-server-${target}.tar.gz"
   else
-    url="${OPENBITFUN_GITHUB_RELEASE_BASE}/download/${tag}/openbitfun-relay-server-${target}.tar.gz"
+    url="${OPC_GITHUB_RELEASE_BASE}/download/${tag}/opc-relay-server-${target}.tar.gz"
   fi
   if ! command -v curl >/dev/null 2>&1; then
     echo ">>> GitHub throughput probe skipped: curl is unavailable" >&2
     echo 0
     return 0
   fi
-  case "$OPENBITFUN_GITHUB_PROBE_WINDOW" in
-    '' | *[!0-9]*) OPENBITFUN_GITHUB_PROBE_WINDOW=10 ;;
+  case "$OPC_GITHUB_PROBE_WINDOW" in
+    '' | *[!0-9]*) OPC_GITHUB_PROBE_WINDOW=10 ;;
   esac
-  case "$OPENBITFUN_GITHUB_HEALTHY_BPS" in
-    '' | *[!0-9]*) OPENBITFUN_GITHUB_HEALTHY_BPS=524288 ;;
+  case "$OPC_GITHUB_HEALTHY_BPS" in
+    '' | *[!0-9]*) OPC_GITHUB_HEALTHY_BPS=524288 ;;
   esac
   metrics="$(curl -LsS \
     --range 0-4194303 \
     --connect-timeout 5 \
-    --max-time "$OPENBITFUN_GITHUB_PROBE_WINDOW" \
+    --max-time "$OPC_GITHUB_PROBE_WINDOW" \
     -o /dev/null \
     -w '%{http_code} %{size_download} %{time_total}' \
     "$url" 2>/dev/null || true)"
@@ -140,7 +140,7 @@ openbitfun_probe_github_throughput() {
   case "$speed" in
     '' | *[!0-9]*) speed=0 ;;
   esac
-  echo ">>> GitHub Relay probe: $((speed / 1024)) KiB/s (healthy floor: $((OPENBITFUN_GITHUB_HEALTHY_BPS / 1024)) KiB/s)" >&2
+  echo ">>> GitHub Relay probe: $((speed / 1024)) KiB/s (healthy floor: $((OPC_GITHUB_HEALTHY_BPS / 1024)) KiB/s)" >&2
   echo "$speed"
 }
 
@@ -151,39 +151,39 @@ openbitfun_probe_github_throughput() {
 openbitfun_pull_relay_image() {
   local platform="$1" routes route_name repository image_ref selected=""
   local requested_mode github_speed mirror_first=0
-  local pull_timeout="${OPENBITFUN_IMAGE_PULL_TIMEOUT:-900}"
+  local pull_timeout="${OPC_IMAGE_PULL_TIMEOUT:-900}"
   case "$pull_timeout" in
     '' | *[!0-9]*) pull_timeout=900 ;;
   esac
 
   routes="$(mktemp)"
-  requested_mode="${OPENBITFUN_MIRROR_REQUESTED_MODE:-${OPENBITFUN_MIRROR_MODE:-auto}}"
-  case "$OPENBITFUN_GITHUB_HEALTHY_BPS" in
-    '' | *[!0-9]*) OPENBITFUN_GITHUB_HEALTHY_BPS=524288 ;;
+  requested_mode="${OPC_MIRROR_REQUESTED_MODE:-${OPC_MIRROR_MODE:-auto}}"
+  case "$OPC_GITHUB_HEALTHY_BPS" in
+    '' | *[!0-9]*) OPC_GITHUB_HEALTHY_BPS=524288 ;;
   esac
   case "$requested_mode" in
     cn) mirror_first=1 ;;
     global) mirror_first=0 ;;
     *)
       github_speed="$(openbitfun_probe_github_throughput "$platform")"
-      if [ "$github_speed" -lt "$OPENBITFUN_GITHUB_HEALTHY_BPS" ]; then
+      if [ "$github_speed" -lt "$OPC_GITHUB_HEALTHY_BPS" ]; then
         mirror_first=1
       fi
       ;;
   esac
 
   if [ "$requested_mode" = global ]; then
-    printf '%s\t%s\n' "official GHCR" "$OPENBITFUN_RELAY_IMAGE" >"$routes"
+    printf '%s\t%s\n' "official GHCR" "$OPC_RELAY_IMAGE" >"$routes"
   elif [ "$mirror_first" = "1" ]; then
     printf '%s\t%s\n' \
-      "NJU GHCR accelerator" "ghcr.nju.edu.cn/${OPENBITFUN_RELAY_IMAGE#ghcr.io/}" \
-      "DaoCloud GHCR accelerator" "m.daocloud.io/${OPENBITFUN_RELAY_IMAGE}" \
-      "official GHCR fallback" "$OPENBITFUN_RELAY_IMAGE" >"$routes"
+      "NJU GHCR accelerator" "ghcr.nju.edu.cn/${OPC_RELAY_IMAGE#ghcr.io/}" \
+      "DaoCloud GHCR accelerator" "m.daocloud.io/${OPC_RELAY_IMAGE}" \
+      "official GHCR fallback" "$OPC_RELAY_IMAGE" >"$routes"
   else
     printf '%s\t%s\n' \
-      "official GHCR" "$OPENBITFUN_RELAY_IMAGE" \
-      "NJU GHCR accelerator fallback" "ghcr.nju.edu.cn/${OPENBITFUN_RELAY_IMAGE#ghcr.io/}" \
-      "DaoCloud GHCR accelerator fallback" "m.daocloud.io/${OPENBITFUN_RELAY_IMAGE}" >"$routes"
+      "official GHCR" "$OPC_RELAY_IMAGE" \
+      "NJU GHCR accelerator fallback" "ghcr.nju.edu.cn/${OPC_RELAY_IMAGE#ghcr.io/}" \
+      "DaoCloud GHCR accelerator fallback" "m.daocloud.io/${OPC_RELAY_IMAGE}" >"$routes"
   fi
 
   while IFS=$'\t' read -r route_name repository; do
@@ -199,7 +199,7 @@ openbitfun_pull_relay_image() {
   rm -f "$routes"
 
   if [ -z "$selected" ]; then
-    echo ">>> ERROR: Relay image pull failed on every ${OPENBITFUN_MIRROR_MODE:-global} route." >&2
+    echo ">>> ERROR: Relay image pull failed on every ${OPC_MIRROR_MODE:-global} route." >&2
     return 1
   fi
 
@@ -214,8 +214,8 @@ openbitfun_pull_relay_image() {
 
 openbitfun_restore_previous_relay() {
   openbitfun_image_docker rm -f openbitfun-relay >/dev/null 2>&1 || true
-  if [ -n "${OPENBITFUN_RELAY_BACKUP_CONTAINER:-}" ]; then
-    openbitfun_image_docker rename "$OPENBITFUN_RELAY_BACKUP_CONTAINER" openbitfun-relay >/dev/null 2>&1 || true
+  if [ -n "${OPC_RELAY_BACKUP_CONTAINER:-}" ]; then
+    openbitfun_image_docker rename "$OPC_RELAY_BACKUP_CONTAINER" openbitfun-relay >/dev/null 2>&1 || true
     openbitfun_image_docker start openbitfun-relay >/dev/null 2>&1 || true
   fi
 }
@@ -225,11 +225,11 @@ openbitfun_run_relay_image() {
   openbitfun_image_docker volume create relay-server_relay-db >/dev/null || return 1
   openbitfun_image_docker volume create relay-server_room-web >/dev/null || return 1
 
-  OPENBITFUN_RELAY_BACKUP_CONTAINER=""
+  OPC_RELAY_BACKUP_CONTAINER=""
   if openbitfun_image_docker container inspect openbitfun-relay >/dev/null 2>&1; then
-    OPENBITFUN_RELAY_BACKUP_CONTAINER="openbitfun-relay-before-image-$$"
+    OPC_RELAY_BACKUP_CONTAINER="openbitfun-relay-before-image-$$"
     openbitfun_image_docker stop openbitfun-relay >/dev/null 2>&1 || true
-    if ! openbitfun_image_docker rename openbitfun-relay "$OPENBITFUN_RELAY_BACKUP_CONTAINER"; then
+    if ! openbitfun_image_docker rename openbitfun-relay "$OPC_RELAY_BACKUP_CONTAINER"; then
       echo ">>> ERROR: could not stage the existing Relay container." >&2
       openbitfun_image_docker start openbitfun-relay >/dev/null 2>&1 || true
       return 1
@@ -246,8 +246,8 @@ openbitfun_run_relay_image() {
     --restart unless-stopped \
     --label com.docker.compose.project=relay-server \
     --label com.docker.compose.service=relay-server \
-    --label "com.openbitfun.relay.image=${OPENBITFUN_RELAY_IMAGE}" \
-    --label "com.openbitfun.relay.digest=${OPENBITFUN_RELAY_IMAGE_DIGEST:-unlocked}" \
+    --label "com.openbitfun.relay.image=${OPC_RELAY_IMAGE}" \
+    --label "com.openbitfun.relay.digest=${OPC_RELAY_IMAGE_DIGEST:-unlocked}" \
     -p "${RELAY_HOST_BIND_IP:-0.0.0.0}:${RELAY_PORT:-9700}:${RELAY_PORT:-9700}" \
     -e "RELAY_PORT=${RELAY_PORT:-9700}" \
     -e RELAY_STATIC_DIR=/app/static \
@@ -272,8 +272,8 @@ openbitfun_run_relay_image() {
     if openbitfun_image_docker exec openbitfun-relay \
       curl -fsS --max-time 3 "http://127.0.0.1:${RELAY_PORT:-9700}/health" >/dev/null 2>&1; then
       trap - INT TERM
-      if [ -n "$OPENBITFUN_RELAY_BACKUP_CONTAINER" ]; then
-        openbitfun_image_docker rm "$OPENBITFUN_RELAY_BACKUP_CONTAINER" >/dev/null 2>&1 || true
+      if [ -n "$OPC_RELAY_BACKUP_CONTAINER" ]; then
+        openbitfun_image_docker rm "$OPC_RELAY_BACKUP_CONTAINER" >/dev/null 2>&1 || true
       fi
       for stale in $(openbitfun_image_docker ps -aq \
         --filter 'name=^openbitfun-relay-before-image-' \
@@ -307,12 +307,12 @@ openbitfun_try_release_deploy() {
     return 1
   }
 
-  if [ -n "${OPENBITFUN_RELAY_IMAGE_DIGEST:-}" ] && \
-     [[ ! "$OPENBITFUN_RELAY_IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]; then
+  if [ -n "${OPC_RELAY_IMAGE_DIGEST:-}" ] && \
+     [[ ! "$OPC_RELAY_IMAGE_DIGEST" =~ ^sha256:[0-9a-f]{64}$ ]]; then
     echo ">>> ERROR: invalid Relay image digest; refusing to pull executable code." >&2
     return 1
   fi
-  if [ -n "${OPENBITFUN_REQUIRE_IMAGE_DIGEST:-}" ] && [ -z "${OPENBITFUN_RELAY_IMAGE_DIGEST:-}" ]; then
+  if [ -n "${OPC_REQUIRE_IMAGE_DIGEST:-}" ] && [ -z "${OPC_RELAY_IMAGE_DIGEST:-}" ]; then
     echo ">>> ERROR: a signed Relay image descriptor is required for one-click deployment." >&2
     return 1
   fi

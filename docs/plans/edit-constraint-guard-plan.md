@@ -86,7 +86,7 @@ turn 抽取与文件来源记录；旧格式中缺少 turn id 的来源记录不
    约束而被拒绝。
 7. 命中约束时返回 403 和结构化 `edit_constraint_guard` 元数据，并标记该失败不可被
    input rewrite 放宽，不执行写入。
-8. 设置 `OPENBITFUN_EDIT_CONSTRAINT_TELEMETRY=1` 后，guard 决策和成功的直接文件工具操作写入
+8. 设置 `OPC_EDIT_CONSTRAINT_TELEMETRY=1` 后，guard 决策和成功的直接文件工具操作写入
    session-scoped JSONL，用于产品诊断；默认不创建 JSONL。该开关不影响 AI provider 请求审计。
 
 撤销只接受当前 active constraint id，且只有真实用户提交的 turn 可以授权撤销。含糊表达、

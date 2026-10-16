@@ -79,21 +79,21 @@ impl PathManager {
     }
 
     fn validate_e2e_storage_guard() -> OpcTeamResult<()> {
-        if !Self::env_flag_enabled("OPENBITFUN_E2E_STORAGE_GUARD") {
+        if !Self::env_flag_enabled("OPC_E2E_STORAGE_GUARD") {
             return Ok(());
         }
 
-        let has_user_root = Self::env_path("OPENBITFUN_USER_ROOT").is_some()
-            || Self::env_path("OPENBITFUN_E2E_USER_ROOT").is_some();
-        let has_home_root = Self::env_path("OPENBITFUN_HOME").is_some()
-            || Self::env_path("OPENBITFUN_E2E_HOME").is_some();
+        let has_user_root = Self::env_path("OPC_USER_ROOT").is_some()
+            || Self::env_path("OPC_E2E_USER_ROOT").is_some();
+        let has_home_root =
+            Self::env_path("OPC_HOME").is_some() || Self::env_path("OPC_E2E_HOME").is_some();
 
         if has_user_root && has_home_root {
             return Ok(());
         }
 
         Err(OpcTeamError::config(
-            "OPENBITFUN_E2E_STORAGE_GUARD requires isolated OPENBITFUN_E2E_USER_ROOT and OPENBITFUN_E2E_HOME storage roots",
+            "OPC_E2E_STORAGE_GUARD requires isolated OPC_E2E_USER_ROOT and OPC_E2E_HOME storage roots",
         ))
     }
 
@@ -103,8 +103,8 @@ impl PathManager {
     /// - macOS: ~/Library/Application Support/opcteam/
     /// - Linux: ~/.config/opcteam/
     fn get_user_config_root() -> OpcTeamResult<PathBuf> {
-        if let Some(path) = Self::env_path("OPENBITFUN_USER_ROOT")
-            .or_else(|| Self::env_path("OPENBITFUN_E2E_USER_ROOT"))
+        if let Some(path) =
+            Self::env_path("OPC_USER_ROOT").or_else(|| Self::env_path("OPC_E2E_USER_ROOT"))
         {
             return Ok(path);
         }
@@ -116,7 +116,7 @@ impl PathManager {
     }
 
     fn get_product_home_override() -> Option<PathBuf> {
-        Self::env_path("OPENBITFUN_HOME").or_else(|| Self::env_path("OPENBITFUN_E2E_HOME"))
+        Self::env_path("OPC_HOME").or_else(|| Self::env_path("OPC_E2E_HOME"))
     }
 
     /// Get assistant home root directory: ~/.opcteam/
@@ -1165,20 +1165,20 @@ mod tests {
     fn env_overrides_keep_e2e_storage_out_of_real_user_profile() {
         let _guard = ENV_LOCK.lock().expect("env lock poisoned");
         let _env_guard = EnvVarGuard::capture([
-            "OPENBITFUN_USER_ROOT",
-            "OPENBITFUN_E2E_USER_ROOT",
-            "OPENBITFUN_HOME",
-            "OPENBITFUN_E2E_HOME",
-            "OPENBITFUN_E2E_STORAGE_GUARD",
+            "OPC_USER_ROOT",
+            "OPC_E2E_USER_ROOT",
+            "OPC_HOME",
+            "OPC_E2E_HOME",
+            "OPC_E2E_STORAGE_GUARD",
         ]);
         let temp_root = std::env::temp_dir().join("opc-e2e-path-manager-test");
         let user_root = temp_root.join("user-root");
         let home_root = temp_root.join("home");
 
-        std::env::remove_var("OPENBITFUN_USER_ROOT");
-        std::env::set_var("OPENBITFUN_E2E_USER_ROOT", &user_root);
-        std::env::remove_var("OPENBITFUN_HOME");
-        std::env::set_var("OPENBITFUN_E2E_HOME", &home_root);
+        std::env::remove_var("OPC_USER_ROOT");
+        std::env::set_var("OPC_E2E_USER_ROOT", &user_root);
+        std::env::remove_var("OPC_HOME");
+        std::env::set_var("OPC_E2E_HOME", &home_root);
 
         let pm = PathManager::new().expect("path manager should use env overrides");
         assert_eq!(pm.user_config_dir(), user_root.join("config"));
@@ -1191,23 +1191,23 @@ mod tests {
     fn e2e_storage_guard_rejects_missing_isolated_roots() {
         let _guard = ENV_LOCK.lock().expect("env lock poisoned");
         let _env_guard = EnvVarGuard::capture([
-            "OPENBITFUN_USER_ROOT",
-            "OPENBITFUN_E2E_USER_ROOT",
-            "OPENBITFUN_HOME",
-            "OPENBITFUN_E2E_HOME",
-            "OPENBITFUN_E2E_STORAGE_GUARD",
+            "OPC_USER_ROOT",
+            "OPC_E2E_USER_ROOT",
+            "OPC_HOME",
+            "OPC_E2E_HOME",
+            "OPC_E2E_STORAGE_GUARD",
         ]);
 
-        std::env::remove_var("OPENBITFUN_USER_ROOT");
-        std::env::remove_var("OPENBITFUN_E2E_USER_ROOT");
-        std::env::remove_var("OPENBITFUN_HOME");
-        std::env::remove_var("OPENBITFUN_E2E_HOME");
-        std::env::set_var("OPENBITFUN_E2E_STORAGE_GUARD", "1");
+        std::env::remove_var("OPC_USER_ROOT");
+        std::env::remove_var("OPC_E2E_USER_ROOT");
+        std::env::remove_var("OPC_HOME");
+        std::env::remove_var("OPC_E2E_HOME");
+        std::env::set_var("OPC_E2E_STORAGE_GUARD", "1");
 
         let error = PathManager::new().expect_err("guard should reject real-profile storage");
         let message = error.to_string();
-        assert!(message.contains("OPENBITFUN_E2E_STORAGE_GUARD"));
-        assert!(message.contains("OPENBITFUN_E2E_USER_ROOT"));
+        assert!(message.contains("OPC_E2E_STORAGE_GUARD"));
+        assert!(message.contains("OPC_E2E_USER_ROOT"));
     }
 
     struct EnvVarGuard {

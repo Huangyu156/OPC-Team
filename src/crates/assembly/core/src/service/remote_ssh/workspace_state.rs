@@ -645,7 +645,7 @@ pub async fn ensure_saved_connection_services() -> Result<Arc<RemoteWorkspaceSta
     }
     INITIALIZED
         .get_or_try_init(|| async {
-            let data_dir = if std::env::var_os("OPENBITFUN_HOME").is_some() {
+            let data_dir = if std::env::var_os("OPC_HOME").is_some() {
                 crate::infrastructure::try_get_path_manager_arc()
                     .map_err(|e| e.to_string())?
                     .user_data_dir()

@@ -3,8 +3,8 @@ import { join } from 'node:path';
 import { $, $$, browser, expect } from '@wdio/globals';
 import { openWorkspace } from '../helpers/workspace-helper';
 
-const evidence = process.env.OPENBITFUN_FLOWCHAT_E2E_ROOT!;
-const sessionId = process.env.OPENBITFUN_FLOWCHAT_SESSION_IDS!.split(',')[0];
+const evidence = process.env.OPC_FLOWCHAT_E2E_ROOT!;
+const sessionId = process.env.OPC_FLOWCHAT_SESSION_IDS!.split(',')[0];
 const samples: unknown[] = [];
 
 declare global {

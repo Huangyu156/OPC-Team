@@ -22,7 +22,7 @@ vi.mock('../utils/logger', () => ({
 }));
 
 type BootstrapGlobals = typeof globalThis & {
-  __OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__?: unknown;
+  __OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__?: unknown;
 };
 
 const bootstrapGlobals = globalThis as BootstrapGlobals;
@@ -58,7 +58,7 @@ function createWorkspaceSnapshot(): WorkspaceStartupStateSnapshot {
 describe('createGlobalStateAPI workspace startup bootstrap', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    delete bootstrapGlobals.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__;
+    delete bootstrapGlobals.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__;
   });
 
   it('maps the complete assistant catalog without marking closed assistants opened', async () => {
@@ -67,7 +67,7 @@ describe('createGlobalStateAPI workspace startup bootstrap', () => {
       ...snapshot.openedWorkspaces[0], id: 'closed-assistant', workspaceKind: 'assistant',
       identity: { name: 'Mira', emoji: null },
     }];
-    bootstrapGlobals.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = snapshot;
+    bootstrapGlobals.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = snapshot;
     const state = await createGlobalStateAPI().initializeWorkspaceStartupState();
     expect(state.assistantWorkspaces?.[0].workspaceKind).toBe(WorkspaceKind.Assistant);
     expect(state.assistantWorkspaces?.[0].identity).toMatchObject({ name: 'Mira', emoji: undefined });
@@ -75,14 +75,14 @@ describe('createGlobalStateAPI workspace startup bootstrap', () => {
   });
 
   it('accepts old snapshots without the optional assistant catalog', async () => {
-    bootstrapGlobals.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = createWorkspaceSnapshot();
+    bootstrapGlobals.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = createWorkspaceSnapshot();
     const state = await createGlobalStateAPI().initializeWorkspaceStartupState();
     expect(state.assistantWorkspaces).toBeUndefined();
     expect(state.openedWorkspaces).toHaveLength(1);
   });
 
   it('uses the injected startup workspace snapshot once without a startup IPC', async () => {
-    bootstrapGlobals.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = createWorkspaceSnapshot();
+    bootstrapGlobals.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = createWorkspaceSnapshot();
     globalApiMocks.initializeWorkspaceStartupState.mockResolvedValue({
       cleanupRemovedCount: 0,
       currentWorkspace: null,
@@ -111,7 +111,7 @@ describe('createGlobalStateAPI workspace startup bootstrap', () => {
     expect(
       Object.prototype.hasOwnProperty.call(
         bootstrapGlobals,
-        '__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__'
+        '__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__'
       )
     ).toBe(false);
 
@@ -129,7 +129,7 @@ describe('createGlobalStateAPI workspace startup bootstrap', () => {
         '/Users/me/Library/Application Support/openbitfun/data/miniapps/builtin-ppt-live/decks/deck-1785130332234-eilik4',
     };
     snapshot.recentWorkspaces = [...snapshot.recentWorkspaces, miniAppWorkspace];
-    bootstrapGlobals.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = snapshot;
+    bootstrapGlobals.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = snapshot;
 
     const api = createGlobalStateAPI();
     const state = await api.initializeWorkspaceStartupState();
@@ -138,7 +138,7 @@ describe('createGlobalStateAPI workspace startup bootstrap', () => {
   });
 
   it('falls back to the startup command when the bootstrap snapshot is invalid', async () => {
-    bootstrapGlobals.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = { recentWorkspaces: [] };
+    bootstrapGlobals.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = { recentWorkspaces: [] };
     globalApiMocks.initializeWorkspaceStartupState.mockResolvedValue(createWorkspaceSnapshot());
 
     const api = createGlobalStateAPI();
@@ -149,7 +149,7 @@ describe('createGlobalStateAPI workspace startup bootstrap', () => {
     expect(
       Object.prototype.hasOwnProperty.call(
         bootstrapGlobals,
-        '__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__'
+        '__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__'
       )
     ).toBe(false);
   });

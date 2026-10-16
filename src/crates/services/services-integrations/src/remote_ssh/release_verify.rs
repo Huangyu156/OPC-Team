@@ -12,7 +12,7 @@ use sha2::{Digest, Sha256};
 ///
 /// Forks that publish their own releases set this at build time to their own
 /// key. When absent, [`OFFICIAL_RELEASE_PUBKEY`] applies.
-pub(crate) const RELEASE_PUBKEY: Option<&str> = option_env!("OPENBITFUN_RELEASE_PUBKEY");
+pub(crate) const RELEASE_PUBKEY: Option<&str> = option_env!("OPC_RELEASE_PUBKEY");
 
 /// The official OPC-Team release public key (minisign key ID `50F47CBE6CC0A376`),
 /// base64-wrapped the way Tauri wraps `minisign.pub`. This is public data —

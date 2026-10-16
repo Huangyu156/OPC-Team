@@ -23,7 +23,7 @@ struct ComposerBar: View {
     @State private var pickerItems: [PhotosPickerItem] = []
     @State private var modelSelectorOpen = ProcessInfo.processInfo.arguments.contains(
         "--composer-model-picker"
-    ) || ProcessInfo.processInfo.environment["OPENBITFUN_COMPOSER_MODEL_PICKER"] == "1"
+    ) || ProcessInfo.processInfo.environment["OPC_COMPOSER_MODEL_PICKER"] == "1"
 
     private var placeholder: String {
         model.localized(model.surface == .remote

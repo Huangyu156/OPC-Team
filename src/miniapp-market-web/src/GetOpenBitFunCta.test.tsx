@@ -2,7 +2,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { GetOpenBitFunCta, type GetOpenBitFunPlacement } from './GetOpenBitFunCta';
 import type { MessageKey } from './i18n';
-import { OPENBITFUN_DOWNLOAD_URL } from './links';
+import { OPC_DOWNLOAD_URL } from './links';
 
 const t = (key: MessageKey): string => key;
 
@@ -12,7 +12,7 @@ describe('GetOpenBitFunCta', () => {
     (placement) => {
       const markup = renderToStaticMarkup(<GetOpenBitFunCta placement={placement} t={t} />);
 
-      expect(markup).toContain(`href="${OPENBITFUN_DOWNLOAD_URL}"`);
+      expect(markup).toContain(`href="${OPC_DOWNLOAD_URL}"`);
       expect(markup).toContain('rel="noreferrer"');
       expect(markup).toContain('getOpenBitFunTitle');
       expect(markup).toContain('getOpenBitFunAction');

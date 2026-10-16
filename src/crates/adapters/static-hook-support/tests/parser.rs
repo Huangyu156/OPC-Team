@@ -243,7 +243,7 @@ fn static_hook_command_copies_only_referenced_assets_and_marks_external_paths() 
 
     assert!(prepared
         .command
-        .contains("__OPENBITFUN_MANAGED_HOOK_ROOT__/hooks/check.py"));
+        .contains("__OPC_MANAGED_HOOK_ROOT__/hooks/check.py"));
     assert_eq!(
         assets.get(std::path::Path::new("hooks/check.py")).unwrap(),
         b"print('checked')"

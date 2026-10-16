@@ -42,7 +42,7 @@ mod windows {
     use super::ResolveBrowserDroppedFilePathsRequest;
 
     const DEVTOOLS_CALL_TIMEOUT: Duration = Duration::from_secs(5);
-    const BROWSER_DROP_REGISTRY_KEY: &str = "__OPENBITFUN_BROWSER_DROP_FILES__";
+    const BROWSER_DROP_REGISTRY_KEY: &str = "__OPC_BROWSER_DROP_FILES__";
 
     type DevToolsResult = Result<String, String>;
     type DevToolsResultSlot = Arc<Mutex<Option<oneshot::Sender<DevToolsResult>>>>;

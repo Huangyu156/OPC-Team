@@ -48,11 +48,11 @@ type LongSessionPostVisibleInteraction =
   | 'resize-window-width';
 
 function defaultOpenBitFunHome(): string {
-  if (process.env.OPENBITFUN_E2E_HOME) {
-    return process.env.OPENBITFUN_E2E_HOME;
+  if (process.env.OPC_E2E_HOME) {
+    return process.env.OPC_E2E_HOME;
   }
-  if (process.env.OPENBITFUN_E2E_USE_REAL_PROFILE === '1') {
-    return process.env.OPENBITFUN_HOME || path.join(os.homedir(), '.openbitfun');
+  if (process.env.OPC_E2E_USE_REAL_PROFILE === '1') {
+    return process.env.OPC_HOME || path.join(os.homedir(), '.openbitfun');
   }
   return path.resolve(__dirname, '..', '..', '.openbitfun', 'runtime', 'home');
 }
@@ -625,8 +625,8 @@ async function assertReleaseFastPerfRuntime(): Promise<{
     runtimeUrl: window.location.href,
     runtimeHostname: window.location.hostname,
   }));
-  const appMode = (process.env.OPENBITFUN_E2E_APP_MODE ?? '').toLowerCase();
-  const allowDevServer = process.env.OPENBITFUN_E2E_ALLOW_RELEASE_FAST_DEV_SERVER === '1';
+  const appMode = (process.env.OPC_E2E_APP_MODE ?? '').toLowerCase();
+  const allowDevServer = process.env.OPC_E2E_ALLOW_RELEASE_FAST_DEV_SERVER === '1';
   const isDevServerRuntime =
     runtime.runtimeHostname === 'localhost' || runtime.runtimeHostname === '127.0.0.1';
 
@@ -634,7 +634,7 @@ async function assertReleaseFastPerfRuntime(): Promise<{
     throw new Error(
       `release-fast perf run loaded a dev-server URL: ${runtime.runtimeUrl}. ` +
         'Build with pnpm run desktop:build:release-fast, or set ' +
-        'OPENBITFUN_E2E_ALLOW_RELEASE_FAST_DEV_SERVER=1 only for explicit dev-server diagnostics.',
+        'OPC_E2E_ALLOW_RELEASE_FAST_DEV_SERVER=1 only for explicit dev-server diagnostics.',
     );
   }
 
@@ -787,7 +787,7 @@ async function findSessionItem(sessionId: string): Promise<ReturnType<typeof $> 
       break;
     }
   }
-  if (process.env.OPENBITFUN_E2E_PERF_VERBOSE_REPORT === '1') {
+  if (process.env.OPC_E2E_PERF_VERBOSE_REPORT === '1') {
     console.log('[Perf] visible session ids while locating target', JSON.stringify({
       target: sessionId,
       visibleSessionIds: lastVisibleSessionIds.slice(0, 40),
@@ -1264,9 +1264,9 @@ async function startLongSessionViewportTimelineRecorder(
       __openbitfunLongSessionOpenIntentSessionId?: string | null;
       __openbitfunLongSessionOpenIntentHandler?: EventListener;
       __openbitfunLongSessionUserInteractionHandler?: EventListener;
-      __OPENBITFUN_RENDER_PROFILE_ENABLED__?: boolean;
+      __OPC_RENDER_PROFILE_ENABLED__?: boolean;
     };
-    globalWindow.__OPENBITFUN_RENDER_PROFILE_ENABLED__ = shouldEnableRenderProfile;
+    globalWindow.__OPC_RENDER_PROFILE_ENABLED__ = shouldEnableRenderProfile;
     if (globalWindow.__openbitfunLongSessionViewportTimelineTimer !== undefined) {
       window.clearInterval(globalWindow.__openbitfunLongSessionViewportTimelineTimer);
     }
@@ -2585,7 +2585,7 @@ async function stopLongSessionViewportTimelineRecorder(): Promise<LongSessionVie
       __openbitfunLongSessionOpenIntentAt?: number;
       __openbitfunLongSessionOpenIntentHandler?: EventListener;
       __openbitfunLongSessionUserInteractionHandler?: EventListener;
-      __OPENBITFUN_RENDER_PROFILE_ENABLED__?: boolean;
+      __OPC_RENDER_PROFILE_ENABLED__?: boolean;
     };
     if (globalWindow.__openbitfunLongSessionViewportTimelineTimer !== undefined) {
       window.clearInterval(globalWindow.__openbitfunLongSessionViewportTimelineTimer);
@@ -2630,7 +2630,7 @@ async function stopLongSessionViewportTimelineRecorder(): Promise<LongSessionVie
     globalWindow.__openbitfunLongSessionMutationEvents = undefined;
     globalWindow.__openbitfunLongSessionVisualStateEvents = undefined;
     globalWindow.__openbitfunLongSessionLayoutShiftEvents = undefined;
-    globalWindow.__OPENBITFUN_RENDER_PROFILE_ENABLED__ = false;
+    globalWindow.__OPC_RENDER_PROFILE_ENABLED__ = false;
     return { samples, mainThreadTasks, mutationEvents, visualStateEvents, layoutShiftEvents };
   });
 }
@@ -2769,7 +2769,7 @@ function getLongSessionScrollTransitionDistanceFromBottom(
 }
 
 async function maybeSavePerfScreenshot(name: string): Promise<string | null> {
-  if (process.env.OPENBITFUN_E2E_PERF_SCREENSHOTS !== '1') {
+  if (process.env.OPC_E2E_PERF_SCREENSHOTS !== '1') {
     return null;
   }
 
@@ -3718,7 +3718,7 @@ type RapidLongSessionSwitchMeasurement = {
 function readPostVisibleInteractionOption(
   options: LongSessionOpenMeasurementOptions,
 ): LongSessionPostVisibleInteraction | null {
-  const envValue = process.env.OPENBITFUN_E2E_PERF_POST_VISIBLE_INTERACTION;
+  const envValue = process.env.OPC_E2E_PERF_POST_VISIBLE_INTERACTION;
   if (
     envValue === 'first-scroll' ||
     envValue === 'scroll-down' ||
@@ -3745,7 +3745,7 @@ function getWebDriverSessionId(): string {
 }
 
 function webDriverEndpoint(pathname: string): string {
-  const port = Number(process.env.OPENBITFUN_E2E_WEBDRIVER_PORT || 4445);
+  const port = Number(process.env.OPC_E2E_WEBDRIVER_PORT || 4445);
   return `http://127.0.0.1:${port}${pathname}`;
 }
 
@@ -3929,7 +3929,7 @@ async function restoreLongSessionPostVisibleInteraction(
 }
 
 function readRapidSwitchSessionIds(): string[] {
-  const raw = process.env.OPENBITFUN_E2E_PERF_RAPID_SWITCH_SESSION_IDS;
+  const raw = process.env.OPC_E2E_PERF_RAPID_SWITCH_SESSION_IDS;
   const sessionIds = (raw ?? 'perf-rapid-a-000,perf-rapid-b-000,perf-rapid-c-000')
     .split(',')
     .map(value => value.trim())
@@ -4014,7 +4014,7 @@ async function collectRapidLongSessionSwitchMeasurement(
   await startLongSessionViewportTimelineRecorder(
     expectedLatestTurnId,
     clickedAtMs,
-    process.env.OPENBITFUN_E2E_RENDER_PROFILE === '1',
+    process.env.OPC_E2E_RENDER_PROFILE === '1',
   );
 
   for (let index = 0; index < sessionIds.length; index += 1) {
@@ -4040,7 +4040,7 @@ async function collectRapidLongSessionSwitchMeasurement(
     clickPlanEntry.clickDurationMs = nodePerformance.now() - clickStartedAtRunnerMs;
     clickPlan[index] = clickPlanEntry;
     if (index < sessionIds.length - 1) {
-      const delayMs = numericEnv('OPENBITFUN_E2E_PERF_RAPID_SWITCH_DELAY_MS') ?? 75;
+      const delayMs = numericEnv('OPC_E2E_PERF_RAPID_SWITCH_DELAY_MS') ?? 75;
       const pauseStartedAtRunnerMs = nodePerformance.now();
       await browser.pause(Math.max(0, delayMs));
       clickPlanEntry.pauseDurationMs = nodePerformance.now() - pauseStartedAtRunnerMs;
@@ -4051,8 +4051,8 @@ async function collectRapidLongSessionSwitchMeasurement(
   const latestVisible = await waitForLatestLongSessionTurnVisible(5000, expectedLatestTurnId);
   const latestUsable = await waitForLatestLongSessionViewportUsable(5000, expectedLatestTurnId);
   const postVisibleObserveMs =
-    numericEnv('OPENBITFUN_E2E_PERF_RAPID_SWITCH_OBSERVE_MS') ??
-    numericEnv('OPENBITFUN_E2E_PERF_POST_VISIBLE_OBSERVE_MS') ??
+    numericEnv('OPC_E2E_PERF_RAPID_SWITCH_OBSERVE_MS') ??
+    numericEnv('OPC_E2E_PERF_POST_VISIBLE_OBSERVE_MS') ??
     DEFAULT_POST_VISIBLE_OBSERVE_MS;
   const observeRemainingMs = latestUsable.usableAtMs + postVisibleObserveMs - await readPerformanceNow();
   if (observeRemainingMs > 0) {
@@ -4132,10 +4132,10 @@ async function collectRapidLongSessionSwitchMeasurement(
       sessionOpen: summarizeSessionOpen(sessionEvents, entry.clickedAtMs),
     };
   });
-  const verboseTimelineReport = process.env.OPENBITFUN_E2E_PERF_VERBOSE_REPORT === '1';
+  const verboseTimelineReport = process.env.OPC_E2E_PERF_VERBOSE_REPORT === '1';
 
   return {
-    appMode: process.env.OPENBITFUN_E2E_APP_MODE ?? 'auto',
+    appMode: process.env.OPC_E2E_APP_MODE ?? 'auto',
     requestedSessionIds,
     sessionIds,
     activeSessionIdAtStart,
@@ -4276,7 +4276,7 @@ async function collectLongSessionOpenMeasurement(
   await startLongSessionViewportTimelineRecorder(
     expectedLatestTurnId,
     clickedAtMs,
-    process.env.OPENBITFUN_E2E_RENDER_PROFILE === '1',
+    process.env.OPC_E2E_RENDER_PROFILE === '1',
   );
 
   await item.click();
@@ -4329,7 +4329,7 @@ async function collectLongSessionOpenMeasurement(
   latestVisible ??= await latestVisiblePromise;
   latestUsable ??= await latestUsablePromise;
   const postVisibleObserveMs =
-    numericEnv('OPENBITFUN_E2E_PERF_POST_VISIBLE_OBSERVE_MS') ?? DEFAULT_POST_VISIBLE_OBSERVE_MS;
+    numericEnv('OPC_E2E_PERF_POST_VISIBLE_OBSERVE_MS') ?? DEFAULT_POST_VISIBLE_OBSERVE_MS;
   const observeRemainingMs = latestUsable.usableAtMs + postVisibleObserveMs - await readPerformanceNow();
   if (observeRemainingMs > 0) {
     await browser.pause(Math.ceil(observeRemainingMs));
@@ -4357,7 +4357,7 @@ async function collectLongSessionOpenMeasurement(
     viewportTimelineSummary,
     sessionId,
   );
-  const verboseTimelineReport = process.env.OPENBITFUN_E2E_PERF_VERBOSE_REPORT === '1';
+  const verboseTimelineReport = process.env.OPC_E2E_PERF_VERBOSE_REPORT === '1';
   const finalSnapshot = await readStartupTraceSnapshot()
     .catch(() => [
       afterFrameSnapshot,
@@ -4384,7 +4384,7 @@ async function collectLongSessionOpenMeasurement(
   const screenshotPath = await maybeSavePerfScreenshot(`long-session-${sessionId}`);
 
   const measurement: LongSessionOpenMeasurement = {
-    appMode: process.env.OPENBITFUN_E2E_APP_MODE ?? 'auto',
+    appMode: process.env.OPC_E2E_APP_MODE ?? 'auto',
     sessionId,
     fixtureScenario,
     expectedLatestTurnId,
@@ -4595,7 +4595,7 @@ async function collectLongSessionSendAfterOpenMeasurement(
   await startLongSessionViewportTimelineRecorder(
     previousLatestTurnId,
     clickedAtMs,
-    process.env.OPENBITFUN_E2E_RENDER_PROFILE === '1',
+    process.env.OPC_E2E_RENDER_PROFILE === '1',
   );
 
   await clickLongSessionSendButton();
@@ -4617,7 +4617,7 @@ async function collectLongSessionSendAfterOpenMeasurement(
     timeoutMsg: 'Send did not change the active session message state',
   }).catch(() => undefined);
 
-  const postSendObserveMs = numericEnv('OPENBITFUN_E2E_PERF_SEND_AFTER_OPEN_OBSERVE_MS') ?? 2000;
+  const postSendObserveMs = numericEnv('OPC_E2E_PERF_SEND_AFTER_OPEN_OBSERVE_MS') ?? 2000;
   if (postSendObserveMs > 0) {
     await browser.pause(postSendObserveMs);
   }
@@ -4641,7 +4641,7 @@ async function collectLongSessionSendAfterOpenMeasurement(
     viewportTimelineSummary,
     sessionId,
   );
-  const verboseTimelineReport = process.env.OPENBITFUN_E2E_PERF_VERBOSE_REPORT === '1';
+  const verboseTimelineReport = process.env.OPC_E2E_PERF_VERBOSE_REPORT === '1';
   const finalSnapshot = await readStartupTraceSnapshot();
   const events = finalSnapshot.phases.events.filter(event =>
     event.atMs >= clickedAtMs &&
@@ -4659,7 +4659,7 @@ async function collectLongSessionSendAfterOpenMeasurement(
   const screenshotPath = await maybeSavePerfScreenshot(`long-session-send-${sessionId}`);
 
   return {
-    appMode: process.env.OPENBITFUN_E2E_APP_MODE ?? 'auto',
+    appMode: process.env.OPC_E2E_APP_MODE ?? 'auto',
     sessionId,
     fixtureScenario,
     previousLatestTurnId,
@@ -4907,10 +4907,10 @@ describe('Performance telemetry', () => {
     const breakdown = summarizeStartupBreakdown(snapshot);
     const apiSegments = summarizeApiCommandSegments(snapshot);
     const resourceTiming = await readStartupResourceTimingSummary(startup.interactiveShellReadyMs);
-    const maxInteractiveMs = numericEnv('OPENBITFUN_E2E_PERF_MAX_INTERACTIVE_MS');
+    const maxInteractiveMs = numericEnv('OPC_E2E_PERF_MAX_INTERACTIVE_MS');
 
     console.log('[Perf] startup', JSON.stringify({
-      appMode: process.env.OPENBITFUN_E2E_APP_MODE ?? 'auto',
+      appMode: process.env.OPC_E2E_APP_MODE ?? 'auto',
       ...runtime,
       traceId: snapshot.traceId,
       startup,
@@ -4919,7 +4919,7 @@ describe('Performance telemetry', () => {
       native: snapshot.native,
     }));
     await writeReport('startup', {
-      appMode: process.env.OPENBITFUN_E2E_APP_MODE ?? 'auto',
+      appMode: process.env.OPC_E2E_APP_MODE ?? 'auto',
       ...runtime,
       traceId: snapshot.traceId,
       startup,
@@ -4941,7 +4941,7 @@ describe('Performance telemetry', () => {
   it('collects first-open timing for a generated long session', async function () {
     await ensurePerformanceWorkspace(startupPage);
 
-    const sessionId = process.env.OPENBITFUN_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
+    const sessionId = process.env.OPC_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
     const expectedLatestTurnId = await readExpectedLatestTurnId(sessionId);
     const postVisibleInteraction = readPostVisibleInteractionOption({});
     const requireFrameTrace = postVisibleInteraction === null;
@@ -4958,7 +4958,7 @@ describe('Performance telemetry', () => {
       this.skip();
       return;
     }
-    const maxLatestFrameMs = numericEnv('OPENBITFUN_E2E_PERF_MAX_SESSION_FRAME_MS');
+    const maxLatestFrameMs = numericEnv('OPC_E2E_PERF_MAX_SESSION_FRAME_MS');
 
     console.log('[Perf] long-session-first-open', JSON.stringify({
       appMode: measurement.appMode,
@@ -4977,7 +4977,7 @@ describe('Performance telemetry', () => {
   it('collects warm-reopen timing for a generated long session', async function () {
     await ensurePerformanceWorkspace(startupPage);
 
-    const sessionId = process.env.OPENBITFUN_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
+    const sessionId = process.env.OPC_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
     const expectedLatestTurnId = await readExpectedLatestTurnId(sessionId);
     const measurement = await collectLongSessionOpenMeasurement(
       sessionId,
@@ -4992,7 +4992,7 @@ describe('Performance telemetry', () => {
       this.skip();
       return;
     }
-    const maxLatestFrameMs = numericEnv('OPENBITFUN_E2E_PERF_MAX_SESSION_FRAME_MS');
+    const maxLatestFrameMs = numericEnv('OPC_E2E_PERF_MAX_SESSION_FRAME_MS');
 
     console.log('[Perf] long-session-warm-reopen', JSON.stringify({
       appMode: measurement.appMode,
@@ -5011,7 +5011,7 @@ describe('Performance telemetry', () => {
   it('keeps a generated long session visible after sending a new message', async function () {
     await ensurePerformanceWorkspace(startupPage);
 
-    const sessionId = process.env.OPENBITFUN_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
+    const sessionId = process.env.OPC_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
     const expectedLatestTurnId = await readExpectedLatestTurnId(sessionId);
     if (!expectedLatestTurnId) {
       console.log(`[Perf] Session ${sessionId} not found; generate it before running this spec.`);

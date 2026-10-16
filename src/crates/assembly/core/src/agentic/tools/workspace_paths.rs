@@ -7,8 +7,8 @@
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 pub use opc_agent_tools::{
     build_opc_current_session_uri, is_opc_current_session_uri, is_opc_runtime_uri, is_opc_tool_uri,
-    ParsedOpcTeamCurrentSessionUri, ParsedOpcTeamRuntimeUri, OPENBITFUN_CURRENT_SESSION_URI_PREFIX,
-    OPENBITFUN_RUNTIME_URI_PREFIX,
+    ParsedOpcTeamCurrentSessionUri, ParsedOpcTeamRuntimeUri, OPC_CURRENT_SESSION_URI_PREFIX,
+    OPC_RUNTIME_URI_PREFIX,
 };
 use std::path::Path;
 

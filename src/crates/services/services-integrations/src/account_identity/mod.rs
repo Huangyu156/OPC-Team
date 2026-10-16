@@ -139,8 +139,8 @@ impl AccountIdentityClient {
     }
 
     pub async fn from_environment() -> Result<Self, MarketClientError> {
-        let base_url = std::env::var("OPENBITFUN_ACCOUNT_API_URL")
-            .or_else(|_| std::env::var("OPENBITFUN_MINIAPP_MARKET_API_URL"))
+        let base_url = std::env::var("OPC_ACCOUNT_API_URL")
+            .or_else(|_| std::env::var("OPC_MINIAPP_MARKET_API_URL"))
             .unwrap_or_else(|_| DEFAULT_ACCOUNT_API_URL.to_string());
         Self::new(base_url).await
     }

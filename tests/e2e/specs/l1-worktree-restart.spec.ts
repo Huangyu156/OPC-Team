@@ -50,8 +50,8 @@ type InvokeOutcome<T> =
   | { ok: true; value: T }
   | { ok: false; error: unknown };
 
-const phase = process.env.OPENBITFUN_E2E_WORKTREE_RESTART_PHASE;
-const manifestPath = process.env.OPENBITFUN_E2E_WORKTREE_RESTART_MANIFEST;
+const phase = process.env.OPC_E2E_WORKTREE_RESTART_PHASE;
+const manifestPath = process.env.OPC_E2E_WORKTREE_RESTART_MANIFEST;
 
 function git(repositoryPath: string, args: string[]): string {
   return execFileSync('git', args, {
@@ -197,7 +197,7 @@ async function cleanupFixture(manifest: Partial<RestartManifest>): Promise<void>
 describe('L1 managed Worktree desktop restart recovery', () => {
   if (!manifestPath) {
     it('requires a runner-provided manifest path', () => {
-      throw new Error('OPENBITFUN_E2E_WORKTREE_RESTART_MANIFEST is required');
+      throw new Error('OPC_E2E_WORKTREE_RESTART_MANIFEST is required');
     });
     return;
   }
@@ -334,7 +334,7 @@ describe('L1 managed Worktree desktop restart recovery', () => {
 
   it('requires a valid restart phase', () => {
     throw new Error(
-      'OPENBITFUN_E2E_WORKTREE_RESTART_PHASE must be "create" or "verify"',
+      'OPC_E2E_WORKTREE_RESTART_PHASE must be "create" or "verify"',
     );
   });
 });

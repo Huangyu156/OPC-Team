@@ -51,8 +51,8 @@ Relay URL. A private Relay therefore needs a matching client build.
    `IDENTITY_ME_URL` in `relay-service/src/identity.rs` and
    `DEFAULT_ACCOUNT_API_URL` in `services-integrations/src/account_identity/mod.rs`
    together, and adapt the market sign-in links and callback/completion host.
-   `OPENBITFUN_ACCOUNT_API_URL` overrides the desktop/CLI identity API for
-   development; the previous `OPENBITFUN_MINIAPP_MARKET_API_URL` alias remains
+   `OPC_ACCOUNT_API_URL` overrides the desktop/CLI identity API for
+   development; the previous `OPC_MINIAPP_MARKET_API_URL` alias remains
    readable. Relay never accepts an identity authority from a client request.
 4. Use separate persistent data and asset directories, configure exact browser
    CORS origins, then put the service behind your own TLS reverse proxy. Build

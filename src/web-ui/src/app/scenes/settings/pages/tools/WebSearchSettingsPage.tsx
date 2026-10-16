@@ -61,7 +61,7 @@ const DEFAULT_CONFIG: WebSearchConfig = {
   },
 };
 
-const OPENBITFUN_PROTOCOL_REQUEST_EXAMPLE = `POST <configured endpoint>
+const OPC_PROTOCOL_REQUEST_EXAMPLE = `POST <configured endpoint>
 Content-Type: application/json
 Accept: application/vnd.openbitfun.web-search.v1+json
 
@@ -70,7 +70,7 @@ Accept: application/vnd.openbitfun.web-search.v1+json
   "maxResults": 10
 }`;
 
-const OPENBITFUN_PROTOCOL_SUCCESS_EXAMPLE = `{
+const OPC_PROTOCOL_SUCCESS_EXAMPLE = `{
   "results": [
     {
       "title": "Rust Async Book",
@@ -81,7 +81,7 @@ const OPENBITFUN_PROTOCOL_SUCCESS_EXAMPLE = `{
   ]
 }`;
 
-const OPENBITFUN_PROTOCOL_ERROR_EXAMPLE = `{
+const OPC_PROTOCOL_ERROR_EXAMPLE = `{
   "error": {
     "code": "rate_limited",
     "message": "try again later",
@@ -89,7 +89,7 @@ const OPENBITFUN_PROTOCOL_ERROR_EXAMPLE = `{
   }
 }`;
 
-const OPENBITFUN_PROTOCOL_ERROR_CODES = [
+const OPC_PROTOCOL_ERROR_CODES = [
   'invalid_request',
   'authentication_failed',
   'permission_denied',
@@ -593,20 +593,20 @@ const WebSearchSettingsPage: React.FC = () => {
               <section>
                 <h4>{t('protocol.request.title')}</h4>
                 <p>{t('protocol.request.description')}</p>
-                <pre><code>{OPENBITFUN_PROTOCOL_REQUEST_EXAMPLE}</code></pre>
+                <pre><code>{OPC_PROTOCOL_REQUEST_EXAMPLE}</code></pre>
               </section>
               <section>
                 <h4>{t('protocol.success.title')}</h4>
                 <p>{t('protocol.success.description')}</p>
-                <pre><code>{OPENBITFUN_PROTOCOL_SUCCESS_EXAMPLE}</code></pre>
+                <pre><code>{OPC_PROTOCOL_SUCCESS_EXAMPLE}</code></pre>
               </section>
               <section>
                 <h4>{t('protocol.error.title')}</h4>
                 <p>{t('protocol.error.description')}</p>
-                <pre><code>{OPENBITFUN_PROTOCOL_ERROR_EXAMPLE}</code></pre>
+                <pre><code>{OPC_PROTOCOL_ERROR_EXAMPLE}</code></pre>
                 <p>
                   {t('protocol.error.codes')}{' '}
-                  {OPENBITFUN_PROTOCOL_ERROR_CODES}
+                  {OPC_PROTOCOL_ERROR_CODES}
                 </p>
               </section>
               <ul>

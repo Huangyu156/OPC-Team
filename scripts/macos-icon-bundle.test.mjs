@@ -43,16 +43,16 @@ test('CLI is locked and macOS overlays preserve the same dev/legacy icon', () =>
 
 test('generated release config cannot overwrite platform icon selection', () => {
   const directory = mkdtempSync(join(tmpdir(), 'opc-icon-config-'));
-  const updaterEnabled = process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS;
-  process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS = 'false';
+  const updaterEnabled = process.env.OPC_ENABLE_UPDATER_ARTIFACTS;
+  process.env.OPC_ENABLE_UPDATER_ARTIFACTS = 'false';
   try {
     const configPath = join(directory, 'tauri.conf.json');
     writeFileSync(configPath, JSON.stringify({ bundle: { icon: ['legacy.icns', 'windows.ico'] } }));
     const generated = prepareTauriConfig(configPath, { desktopDir: directory });
     assert.equal(json(generated).bundle.icon, undefined);
   } finally {
-    if (updaterEnabled === undefined) delete process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS;
-    else process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS = updaterEnabled;
+    if (updaterEnabled === undefined) delete process.env.OPC_ENABLE_UPDATER_ARTIFACTS;
+    else process.env.OPC_ENABLE_UPDATER_ARTIFACTS = updaterEnabled;
     rmSync(directory, { recursive: true, force: true });
   }
 });
@@ -172,7 +172,7 @@ test('locked Tauri CLI bundles the legacy ICNS without modifying it', {
 }, () => bundleFixture(false));
 
 test('locked Tauri CLI compiles the modern source and emits both Info.plist icon keys', {
-  skip: process.platform !== 'darwin' || process.env.OPENBITFUN_TEST_MACOS_BUNDLE !== '1'
+  skip: process.platform !== 'darwin' || process.env.OPC_TEST_MACOS_BUNDLE !== '1'
     ? 'Requires full Xcode; enabled explicitly on both macOS packaging runners.' : false,
 }, () => {
   requireModernIconTools();

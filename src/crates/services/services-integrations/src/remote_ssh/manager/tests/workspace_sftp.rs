@@ -697,11 +697,11 @@ async fn timed_out_create_retires_only_sftp_without_replaying_mutation() {
 }
 
 #[tokio::test]
-#[ignore = "Set OPENBITFUN_TEST_SFTP_SERVER to the OpenSSH sftp-server executable"]
+#[ignore = "Set OPC_TEST_SFTP_SERVER to the OpenSSH sftp-server executable"]
 async fn openssh_real_files_over_loopback_ssh() {
     use tokio::io::{AsyncSeekExt, AsyncWriteExt};
-    let executable = std::env::var("OPENBITFUN_TEST_SFTP_SERVER")
-        .expect("OpenSSH sftp-server executable required");
+    let executable =
+        std::env::var("OPC_TEST_SFTP_SERVER").expect("OpenSSH sftp-server executable required");
     let f = Fixture::with_openssh(Some(executable)).await;
     let path = f
         ._dir
@@ -767,11 +767,11 @@ async fn openssh_real_files_over_loopback_ssh() {
 
 #[cfg(unix)]
 #[tokio::test]
-#[ignore = "Set OPENBITFUN_TEST_SFTP_SERVER to the OpenSSH sftp-server executable"]
+#[ignore = "Set OPC_TEST_SFTP_SERVER to the OpenSSH sftp-server executable"]
 async fn openssh_directory_symlink_browsing() {
     use std::os::unix::fs::symlink;
-    let executable = std::env::var("OPENBITFUN_TEST_SFTP_SERVER")
-        .expect("OpenSSH sftp-server executable required");
+    let executable =
+        std::env::var("OPC_TEST_SFTP_SERVER").expect("OpenSSH sftp-server executable required");
     let f = Fixture::with_openssh(Some(executable)).await;
     let service = crate::remote_ssh::RemoteFileService::new(Arc::new(tokio::sync::RwLock::new(
         Some(f.manager.as_ref().clone()),
@@ -883,11 +883,11 @@ async fn a_directory_waiter_detects_retirement_after_acquiring_the_lock() {
 }
 
 #[tokio::test]
-#[ignore = "Set OPENBITFUN_TEST_SFTP_SERVER to the OpenSSH sftp-server executable"]
+#[ignore = "Set OPC_TEST_SFTP_SERVER to the OpenSSH sftp-server executable"]
 async fn openssh_streaming_upload_create_is_exclusive_and_closes_handle() {
     use tokio::io::AsyncWriteExt;
-    let executable = std::env::var("OPENBITFUN_TEST_SFTP_SERVER")
-        .expect("OpenSSH sftp-server executable required");
+    let executable =
+        std::env::var("OPC_TEST_SFTP_SERVER").expect("OpenSSH sftp-server executable required");
     let f = Fixture::with_openssh(Some(executable)).await;
     let path = f
         ._dir

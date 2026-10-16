@@ -403,8 +403,7 @@ impl SkillRegistry {
                         match fs.read_file_text_bounded(&skill_md, MAX_SKILL_BYTES).await {
                             Ok(Some(content)) => {
                                 let marker = format!("{path}/{}", imports::IMPORT_MARKER);
-                                let import_origin = if entry.source_id == OPENBITFUN_SKILL_SOURCE_ID
-                                {
+                                let import_origin = if entry.source_id == OPC_SKILL_SOURCE_ID {
                                     let marker_content = match fs.exists(&marker).await {
                                         Ok(false) => Ok(None),
                                         Ok(true) => fs.read_file_text_bounded(&marker, 16 * 1024).await
@@ -748,23 +747,22 @@ impl SkillRegistry {
                                 "SKILL.md exceeds the discovery size limit",
                             ));
                         } else {
-                            let import_origin = if entry.source_id == OPENBITFUN_SKILL_SOURCE_ID
-                                && !entry.is_builtin
-                            {
-                                match imports::read_import_origin(&path).await {
-                                    Ok(origin) => origin,
-                                    Err(error) => {
-                                        scan.diagnostics.push(diagnostic(
-                                            path.join(imports::IMPORT_MARKER).to_string_lossy(),
-                                            entry.source_id,
-                                            error,
-                                        ));
-                                        None
+                            let import_origin =
+                                if entry.source_id == OPC_SKILL_SOURCE_ID && !entry.is_builtin {
+                                    match imports::read_import_origin(&path).await {
+                                        Ok(origin) => origin,
+                                        Err(error) => {
+                                            scan.diagnostics.push(diagnostic(
+                                                path.join(imports::IMPORT_MARKER).to_string_lossy(),
+                                                entry.source_id,
+                                                error,
+                                            ));
+                                            None
+                                        }
                                     }
-                                }
-                            } else {
-                                None
-                            };
+                                } else {
+                                    None
+                                };
                             match Self::parse_skill_markdown(
                                 path.to_string_lossy().into_owned(),
                                 &content,
@@ -884,8 +882,8 @@ impl SkillRegistry {
                 }
                 let child_path = child.path();
                 if depth == 0
-                    && matches!(entry.slot, OPENBITFUN_USER_SKILL_SLOT | "home.dsh")
-                    && child.file_name() == OPENBITFUN_SYSTEM_SKILL_DIR
+                    && matches!(entry.slot, OPC_USER_SKILL_SLOT | "home.dsh")
+                    && child.file_name() == OPC_SYSTEM_SKILL_DIR
                 {
                     continue;
                 }

@@ -52,7 +52,7 @@ fn prepares_only_the_supported_synchronous_claude_command_subset() {
     assert_eq!(prepared.handlers.len(), 1);
     assert!(prepared.handlers[0]
         .command
-        .contains("__OPENBITFUN_MANAGED_HOOK_ROOT__/hooks/check.py"));
+        .contains("__OPC_MANAGED_HOOK_ROOT__/hooks/check.py"));
     assert_eq!(prepared.handlers[0].timeout_seconds, Some(12));
     assert_eq!(
         prepared.handlers[0].status_message.as_deref(),

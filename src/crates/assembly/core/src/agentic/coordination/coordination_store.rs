@@ -1149,7 +1149,7 @@ mod tests {
     use opc_services_core::coordination_persistence::coordination_table_has_column;
 
     fn test_tempdir() -> tempfile::TempDir {
-        if let Some(root) = std::env::var_os("OPENBITFUN_TEST_TMPDIR") {
+        if let Some(root) = std::env::var_os("OPC_TEST_TMPDIR") {
             let root = PathBuf::from(root);
             std::fs::create_dir_all(&root).expect("create coordination test temp root");
             return tempfile::Builder::new()

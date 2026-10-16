@@ -16,7 +16,7 @@ use tar::Archive;
 
 const GITHUB_MANIFEST: &str =
     "https://github.com/GCWing/OpenBitFun/releases/latest/download/linux-binaries-v1.json";
-const OPENBITFUN_MANIFEST: &str = "https://openbitfun.com/release/linux-binaries-v1.json";
+const OPC_MANIFEST: &str = "https://openbitfun.com/release/linux-binaries-v1.json";
 const AUTO_CHECK_INTERVAL: Duration = Duration::from_secs(6 * 60 * 60);
 
 /// Source-selection tuning. Mirrors the relay deploy path in
@@ -194,7 +194,7 @@ fn spawn_detached_install() -> Result<bool> {
 
 /// Marks the detached child so it knows to leave a failure behind for the next
 /// interactive launch to report.
-const BACKGROUND_INSTALL_ENV: &str = "OPENBITFUN_CLI_BACKGROUND_UPDATE";
+const BACKGROUND_INSTALL_ENV: &str = "OPC_CLI_BACKGROUND_UPDATE";
 
 fn is_background_install() -> bool {
     std::env::var_os(BACKGROUND_INSTALL_ENV).is_some()
@@ -598,7 +598,7 @@ async fn fetch_manifests(
     // the other's, which matters most on the startup path.
     let (github, mirror) = tokio::join!(
         fetch_manifest(client, GITHUB_MANIFEST),
-        fetch_manifest(client, OPENBITFUN_MANIFEST),
+        fetch_manifest(client, OPC_MANIFEST),
     );
 
     let mut manifests = Vec::new();
@@ -887,7 +887,7 @@ async fn download_text(client: &Client, url: &str) -> Result<String> {
 /// build time from the same `TAURI_UPDATER_PUBKEY` the Desktop updater trusts.
 ///
 /// Forks that publish their own releases override this with their own key.
-const RELEASE_PUBKEY: Option<&str> = option_env!("OPENBITFUN_RELEASE_PUBKEY");
+const RELEASE_PUBKEY: Option<&str> = option_env!("OPC_RELEASE_PUBKEY");
 
 /// The official OPC-Team release public key (minisign key ID `50F47CBE6CC0A376`),
 /// base64-wrapped the way Tauri wraps `minisign.pub`. Public data — each
@@ -1204,7 +1204,7 @@ fn is_newer_version(candidate: &str, current: &str) -> bool {
 }
 
 fn automatic_update_is_eligible() -> bool {
-    if std::env::var_os("OPENBITFUN_CLI_DISABLE_AUTO_UPDATE").is_some()
+    if std::env::var_os("OPC_CLI_DISABLE_AUTO_UPDATE").is_some()
         || !release_version_allows_automatic_update(env!("CARGO_PKG_VERSION"))
     {
         return false;

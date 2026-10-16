@@ -5,7 +5,7 @@ use std::path::Path;
 use opc_agent_runtime::sdk::{PortErrorKind, RuntimeError};
 use opc_agent_runtime_ipc::{RuntimeIpcClientError, RuntimeIpcErrorCode};
 
-pub(crate) const EXIT_LINE_PREFIX: &str = "OPENBITFUN_EXIT: ";
+pub(crate) const EXIT_LINE_PREFIX: &str = "OPC_EXIT: ";
 pub(crate) const DETAIL_MAX_LEN: usize = 500;
 pub(crate) const SESSION_IN_USE_ERROR_CODE: &str = "session_in_use";
 pub(crate) const OUTCOME_UNKNOWN_ERROR_CODE: &str = "outcome_unknown";
@@ -123,10 +123,7 @@ mod tests {
     #[test]
     fn format_exit_line_uses_stable_prefix_and_kind() {
         let line = format_exit_line(ExitKind::DialogTurnFailed, "429 Too Many Requests");
-        assert_eq!(
-            line,
-            "OPENBITFUN_EXIT: dialog_turn_failed: 429 Too Many Requests"
-        );
+        assert_eq!(line, "OPC_EXIT: dialog_turn_failed: 429 Too Many Requests");
     }
 
     #[test]

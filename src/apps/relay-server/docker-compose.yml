@@ -10,10 +10,10 @@ services:
         # Production sets this to the exact checkout commit so the runtime
         # image can be audited just like the two marketplace images.
         RELAY_GIT_COMMIT: ${RELAY_GIT_COMMIT:-unknown}
-        # China mirror switch (set by deploy.sh / OPENBITFUN_MIRROR=cn):
-        OPENBITFUN_USE_CN_MIRROR: ${OPENBITFUN_USE_CN_MIRROR:-0}
-        OPENBITFUN_APT_MIRROR: ${OPENBITFUN_APT_MIRROR:-mirrors.aliyun.com}
-        OPENBITFUN_CARGO_SPARSE_URL: ${OPENBITFUN_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}
+        # China mirror switch (set by deploy.sh / OPC_MIRROR=cn):
+        OPC_USE_CN_MIRROR: ${OPC_USE_CN_MIRROR:-0}
+        OPC_APT_MIRROR: ${OPC_APT_MIRROR:-mirrors.aliyun.com}
+        OPC_CARGO_SPARSE_URL: ${OPC_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}
     image: opc-relay:${RELAY_GIT_COMMIT:-local}
     # Intentionally no `platform:` pin — build/run for the host CPU
     # (linux/amd64 on x86_64, linux/arm64 on aarch64).

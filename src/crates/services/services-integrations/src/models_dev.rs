@@ -4,9 +4,9 @@
 //! provider-specific interpretation belongs to `opc-ai-adapters`, which is
 //! above this integration layer in the repository dependency graph.
 //!
-//! `OPENBITFUN_MODELS_DEV_PATH` selects a local JSON file as the runtime refresh
+//! `OPC_MODELS_DEV_PATH` selects a local JSON file as the runtime refresh
 //! source for development and testing. When it is not set,
-//! `OPENBITFUN_MODELS_DEV_URL` selects the HTTP source.
+//! `OPC_MODELS_DEV_URL` selects the HTTP source.
 
 use log::{debug, warn};
 use std::path::PathBuf;
@@ -21,8 +21,8 @@ const DEFAULT_CACHE_TTL: Duration = Duration::from_secs(6 * 60 * 60);
 const MIN_REFRESH_ATTEMPT_INTERVAL: Duration = Duration::from_secs(5 * 60);
 const MAX_REFRESH_ATTEMPTS: usize = 3;
 const BUNDLED_MODELS_DEV_SNAPSHOT: &str = include_str!("../assets/models-dev.json");
-const MODELS_DEV_PATH_ENV: &str = "OPENBITFUN_MODELS_DEV_PATH";
-const MODELS_DEV_URL_ENV: &str = "OPENBITFUN_MODELS_DEV_URL";
+const MODELS_DEV_PATH_ENV: &str = "OPC_MODELS_DEV_PATH";
+const MODELS_DEV_URL_ENV: &str = "OPC_MODELS_DEV_URL";
 
 #[derive(Debug, Default)]
 struct RefreshState {

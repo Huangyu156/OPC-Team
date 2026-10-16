@@ -130,9 +130,9 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          test -f linux-release-assets/openbitfun-relay-server-x86_64-unknown-linux-gnu.tar.gz
-          test -f linux-release-assets/openbitfun-relay-server-aarch64-unknown-linux-gnu.tar.gz
-          for archive in linux-release-assets/openbitfun-relay-server-*.tar.gz; do
+          test -f linux-release-assets/opc-relay-server-x86_64-unknown-linux-gnu.tar.gz
+          test -f linux-release-assets/opc-relay-server-aarch64-unknown-linux-gnu.tar.gz
+          for archive in linux-release-assets/opc-relay-server-*.tar.gz; do
             (cd linux-release-assets && sha256sum --check "$(basename "${archive}").sha256")
           done
           cp src/apps/relay-server/Dockerfile.release linux-release-assets/Dockerfile.release
@@ -157,7 +157,7 @@ jobs:
           NIGHTLY_VERSION: ${{ needs.check-changes.outputs.nightly_version }}
         run: |
           echo "asset_version=${NIGHTLY_VERSION%%+*}" >>"$GITHUB_OUTPUT"
-          echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/openbitfun-relay-server" >>"$GITHUB_OUTPUT"
+          echo "image=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/opc-relay-server" >>"$GITHUB_OUTPUT"
 
       - name: Build and push multi-platform Relay image
         id: relay-image
@@ -189,9 +189,9 @@ jobs:
         env:
           IMAGE_DIGEST: ${{ steps.relay-image.outputs.digest }}
           NIGHTLY_VERSION: ${{ needs.check-changes.outputs.nightly_version }}
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
+          OPC_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
         run: |
           set -euo pipefail
           asset_version="${NIGHTLY_VERSION%%+*}"
@@ -276,9 +276,9 @@ jobs:
       - name: Sign installer packages
         shell: bash
         env:
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
+          OPC_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
         run: |
           set -euo pipefail
           mapfile -t assets < <({
@@ -325,8 +325,8 @@ jobs:
             release-assets/**/opc-cli-*-apple-darwin.tar.gz.sha256
             linux-release-assets/opc-cli-*.tar.gz
             linux-release-assets/opc-cli-*.tar.gz.sha256
-            linux-release-assets/openbitfun-relay-server-*.tar.gz
-            linux-release-assets/openbitfun-relay-server-*.tar.gz.sha256
+            linux-release-assets/opc-relay-server-*.tar.gz
+            linux-release-assets/opc-relay-server-*.tar.gz.sha256
             linux-release-assets/*.tar.gz.sig
             linux-release-assets/*.tar.gz.sha256.sig
             linux-release-assets/linux-binaries-v1.json

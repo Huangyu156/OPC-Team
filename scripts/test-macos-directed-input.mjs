@@ -30,11 +30,11 @@ try {
     });
   });
   const testArgs = ['native_directed_input_fixture_counts_and_stop_release', '--ignored', '--test-threads=1', '--nocapture'];
-  const command = process.env.OPENBITFUN_TEST_BINARY || 'cargo';
-  const args = process.env.OPENBITFUN_TEST_BINARY ? testArgs : ['test', '-p', 'opc-desktop', '--lib', 'native_directed_input_fixture_counts_and_stop_release', '--', ...testArgs.slice(1)];
+  const command = process.env.OPC_TEST_BINARY || 'cargo';
+  const args = process.env.OPC_TEST_BINARY ? testArgs : ['test', '-p', 'opc-desktop', '--lib', 'native_directed_input_fixture_counts_and_stop_release', '--', ...testArgs.slice(1)];
   await run(command, args, {
-    ...process.env, OPENBITFUN_INPUT_FIXTURE_PID: pid, OPENBITFUN_INPUT_FIXTURE_X: x,
-    OPENBITFUN_INPUT_FIXTURE_Y: y, OPENBITFUN_INPUT_FIXTURE_RESULT: result,
+    ...process.env, OPC_INPUT_FIXTURE_PID: pid, OPC_INPUT_FIXTURE_X: x,
+    OPC_INPUT_FIXTURE_Y: y, OPC_INPUT_FIXTURE_RESULT: result,
   });
   const received = JSON.parse(await readFile(result, 'utf8'));
   assert.equal(received.locations.length, 4);

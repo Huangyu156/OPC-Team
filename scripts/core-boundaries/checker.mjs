@@ -1078,7 +1078,7 @@ function checkForbiddenContentUnder(repoDir, patterns, reason, trackedRustRepoPa
 export function runCoreBoundaryCheck() {
   failures.length = 0;
 
-  if (process.env.OPENBITFUN_BOUNDARY_CHECK_SELF_TEST === '1') {
+  if (process.env.OPC_BOUNDARY_CHECK_SELF_TEST === '1') {
     runManifestParserSelfTest({
       isManifestDependencyDeclaration,
       parseManifestDependencies,

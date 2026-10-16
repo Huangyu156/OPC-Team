@@ -326,9 +326,8 @@ impl AppearanceConfig {
         ))
         .unwrap_or_else(|_| "\"warn\"".to_string());
         let perf_trace_enabled = cfg!(debug_assertions)
-            || ((cfg!(feature = "devtools")
-                || std::env::var_os("OPENBITFUN_PERF_TRACE").is_some())
-                && std::env::var_os("OPENBITFUN_WEBDRIVER_PORT").is_some());
+            || ((cfg!(feature = "devtools") || std::env::var_os("OPC_PERF_TRACE").is_some())
+                && std::env::var_os("OPC_WEBDRIVER_PORT").is_some());
         let bootstrap_appearance_id_json =
             serde_json::to_string(&self.id).unwrap_or_else(|_| "\"openbitfun-light\"".to_string());
         let bootstrap_appearance_selection_json = self
@@ -339,26 +338,24 @@ impl AppearanceConfig {
         let bootstrap_keybindings_assignment = serde_json::to_string(&bootstrap_config.keybindings)
             .ok()
             .filter(|json| json.len() <= MAX_BOOTSTRAP_KEYBINDINGS_JSON_BYTES)
-            .map(|json| format!("window.__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__ = {json};"))
+            .map(|json| format!("window.__OPC_BOOTSTRAP_KEYBINDINGS__ = {json};"))
             .unwrap_or_default();
         let bootstrap_workspace_startup_state_assignment = workspace_startup_state
             .and_then(|state| serde_json::to_string(state).ok())
             .filter(|json| json.len() <= MAX_BOOTSTRAP_WORKSPACE_STATE_JSON_BYTES)
-            .map(|json| {
-                format!("window.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = {json};")
-            })
+            .map(|json| format!("window.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = {json};"))
             .unwrap_or_default();
 
         format!(
             r#"
             (function() {{
-                window.__OPENBITFUN_STARTUP_TRACE_ID__ = {startup_trace_id_json};
-                window.__OPENBITFUN_PERF_TRACE_ENABLED__ = {perf_trace_enabled};
-                window.__OPENBITFUN_BOOTSTRAP_LOG_LEVEL__ = {bootstrap_log_level_json};
-                window.__OPENBITFUN_BOOTSTRAP_LOCALE__ = {startup_locale_json};
-                window.__OPENBITFUN_SHOW_STARTUP_WINDOW_CONTROLS__ = {show_startup_window_controls};
-                window.__OPENBITFUN_BOOTSTRAP_APPEARANCE_ID__ = {bootstrap_appearance_id_json};
-                window.__OPENBITFUN_BOOTSTRAP_APPEARANCE_SELECTION__ = {bootstrap_appearance_selection_json};
+                window.__OPC_STARTUP_TRACE_ID__ = {startup_trace_id_json};
+                window.__OPC_PERF_TRACE_ENABLED__ = {perf_trace_enabled};
+                window.__OPC_BOOTSTRAP_LOG_LEVEL__ = {bootstrap_log_level_json};
+                window.__OPC_BOOTSTRAP_LOCALE__ = {startup_locale_json};
+                window.__OPC_SHOW_STARTUP_WINDOW_CONTROLS__ = {show_startup_window_controls};
+                window.__OPC_BOOTSTRAP_APPEARANCE_ID__ = {bootstrap_appearance_id_json};
+                window.__OPC_BOOTSTRAP_APPEARANCE_SELECTION__ = {bootstrap_appearance_selection_json};
                 {bootstrap_keybindings_assignment}
                 {bootstrap_workspace_startup_state_assignment}
                 function applyAppearance() {{
@@ -459,8 +456,8 @@ mod startup_appearance_tests {
 
         let script = appearance.generate_init_script("trace-id", &bootstrap, None);
 
-        assert!(script.contains("__OPENBITFUN_BOOTSTRAP_APPEARANCE_ID__"));
-        assert!(script.contains("__OPENBITFUN_BOOTSTRAP_APPEARANCE_SELECTION__"));
+        assert!(script.contains("__OPC_BOOTSTRAP_APPEARANCE_ID__"));
+        assert!(script.contains("__OPC_BOOTSTRAP_APPEARANCE_SELECTION__"));
         assert!(script.contains("data-openbitfun-appearance"));
         assert!(script.contains("data-opc-appearance-mode"));
         assert!(script.contains("data-opcteam-design-system-root"));
@@ -471,7 +468,7 @@ mod startup_appearance_tests {
         assert!(script.contains("--opcteam-color-content-muted"));
         assert!(script.contains("--opcteam-color-accent-default"));
         assert!(!script.contains("--opcteam-appearance-token-"));
-        let retired_bootstrap_global = ["__OPENBITFUN_BOOTSTRAP", "THEME"].join("_");
+        let retired_bootstrap_global = ["__OPC_BOOTSTRAP", "THEME"].join("_");
         let retired_background_token = ["--", "color-bg-"].concat();
         let retired_text_token = ["--", "color-text-"].concat();
         assert!(!script.contains(&retired_bootstrap_global));
@@ -501,8 +498,8 @@ fn use_development_frontend() -> bool {
     {
         // Isolated E2E can exercise the production protocol using a debug
         // executable and dist assets, without launching a development server.
-        !(std::env::var("OPENBITFUN_E2E_PACKAGED_FRONTEND").as_deref() == Ok("1")
-            && std::env::var("OPENBITFUN_E2E_STORAGE_GUARD").as_deref() == Ok("1"))
+        !(std::env::var("OPC_E2E_PACKAGED_FRONTEND").as_deref() == Ok("1")
+            && std::env::var("OPC_E2E_STORAGE_GUARD").as_deref() == Ok("1"))
     }
     #[cfg(not(debug_assertions))]
     {
@@ -639,7 +636,7 @@ pub fn create_main_window(
         // Default to a private store. Windows persistence tests explicitly opt
         // into a directory under the already validated isolated product root.
         let persistent_test_store = cfg!(target_os = "windows")
-            && std::env::var("OPENBITFUN_E2E_PERSISTENT_WEBVIEW").as_deref() == Ok("1");
+            && std::env::var("OPC_E2E_PERSISTENT_WEBVIEW").as_deref() == Ok("1");
         #[cfg(target_os = "windows")]
         if persistent_test_store {
             builder = builder.data_directory(
@@ -696,7 +693,7 @@ pub fn create_main_window(
             );
             #[cfg(any(debug_assertions, feature = "devtools"))]
             {
-                if std::env::var("OPENBITFUN_OPEN_DEVTOOLS")
+                if std::env::var("OPC_OPEN_DEVTOOLS")
                     .map(|v| v == "1")
                     .unwrap_or(false)
                 {

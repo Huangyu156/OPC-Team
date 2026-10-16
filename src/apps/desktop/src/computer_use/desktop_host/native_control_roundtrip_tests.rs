@@ -215,28 +215,28 @@ async fn wait_for_observer(path: &str) -> Value {
 }
 
 pub(crate) async fn run() {
-    if std::env::var_os("OPENBITFUN_INPUT_FIXTURE_PID").is_some() {
-        if let Ok(case) = std::env::var("OPENBITFUN_INPUT_LATENCY_CASE") {
+    if std::env::var_os("OPC_INPUT_FIXTURE_PID").is_some() {
+        if let Ok(case) = std::env::var("OPC_INPUT_LATENCY_CASE") {
             run_latency_case(&case).await;
         } else {
             run_covered_semantic().await;
         }
         return;
     }
-    let pid: i32 = std::env::var("OPENBITFUN_ROUNDTRIP_FIXTURE_PID")
+    let pid: i32 = std::env::var("OPC_ROUNDTRIP_FIXTURE_PID")
         .unwrap()
         .parse()
         .unwrap();
-    let x: f64 = std::env::var("OPENBITFUN_ROUNDTRIP_FIXTURE_X")
+    let x: f64 = std::env::var("OPC_ROUNDTRIP_FIXTURE_X")
         .unwrap()
         .parse()
         .unwrap();
-    let y: f64 = std::env::var("OPENBITFUN_ROUNDTRIP_FIXTURE_Y")
+    let y: f64 = std::env::var("OPC_ROUNDTRIP_FIXTURE_Y")
         .unwrap()
         .parse()
         .unwrap();
-    let result_path = std::env::var("OPENBITFUN_ROUNDTRIP_FIXTURE_RESULT").unwrap();
-    if let Ok(observer_path) = std::env::var("OPENBITFUN_INPUT_OBSERVER_RESULT") {
+    let result_path = std::env::var("OPC_ROUNDTRIP_FIXTURE_RESULT").unwrap();
+    if let Ok(observer_path) = std::env::var("OPC_INPUT_OBSERVER_RESULT") {
         wait_for_observer(&observer_path).await;
     }
     let foreground = crate::computer_use::macos_bg_input::frontmost_pid_macos();
@@ -396,12 +396,12 @@ pub(crate) async fn run() {
 }
 
 async fn run_covered_semantic() {
-    let pid: i32 = std::env::var("OPENBITFUN_INPUT_FIXTURE_PID")
+    let pid: i32 = std::env::var("OPC_INPUT_FIXTURE_PID")
         .unwrap()
         .parse()
         .unwrap();
-    let path = std::env::var("OPENBITFUN_INPUT_FIXTURE_RESULT").unwrap();
-    let observer_path = std::env::var("OPENBITFUN_INPUT_OBSERVER_RESULT").unwrap();
+    let path = std::env::var("OPC_INPUT_FIXTURE_RESULT").unwrap();
+    let observer_path = std::env::var("OPC_INPUT_OBSERVER_RESULT").unwrap();
     let read = |path: &str| -> Value {
         serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap()
     };
@@ -454,7 +454,7 @@ async fn run_covered_semantic() {
     let opened_by_path = call(
         &tool,
         &context,
-        json!({"action":"open_app", "app_name":std::env::var("OPENBITFUN_INPUT_FIXTURE_APP").unwrap()}),
+        json!({"action":"open_app", "app_name":std::env::var("OPC_INPUT_FIXTURE_APP").unwrap()}),
     )
     .await;
     assert_eq!(opened_by_path["success"], true);
@@ -772,12 +772,12 @@ async fn run_latency_case(case: &str) {
         "batch:ax" => (true, false),
         _ => panic!("Unknown native latency fixture case: {case}"),
     };
-    let pid: i32 = std::env::var("OPENBITFUN_INPUT_FIXTURE_PID")
+    let pid: i32 = std::env::var("OPC_INPUT_FIXTURE_PID")
         .unwrap()
         .parse()
         .unwrap();
-    let path = std::env::var("OPENBITFUN_INPUT_FIXTURE_RESULT").unwrap();
-    let observer_path = std::env::var("OPENBITFUN_INPUT_OBSERVER_RESULT").unwrap();
+    let path = std::env::var("OPC_INPUT_FIXTURE_RESULT").unwrap();
+    let observer_path = std::env::var("OPC_INPUT_OBSERVER_RESULT").unwrap();
     let read = |path: &str| -> Value {
         serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap()
     };

@@ -10,7 +10,7 @@ name = "opc_relay_server"
 path = "src/lib.rs"
 
 [[bin]]
-name = "openbitfun-relay-server"
+name = "opc-relay-server"
 path = "src/main.rs"
 
 [[bin]]

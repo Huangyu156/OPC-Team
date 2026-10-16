@@ -10,11 +10,11 @@ interface Pull { number: number; state: string; draft?: boolean }
 interface Page { items: Pull[]; total: number }
 interface Statistics { files: number; additions: number; deletions: number }
 type TraceWindow = Window & {
-  __OPENBITFUN_STARTUP_TRACE__: { snapshot: () => {
+  __OPC_STARTUP_TRACE__: { snapshot: () => {
     api: { byCommand: Array<{ command: string; count: number; failureCount: number }> };
   } };
 };
-const root = process.env.OPENBITFUN_GITEE_E2E_ROOT!;
+const root = process.env.OPC_GITEE_E2E_ROOT!;
 const workspace = join(root, 'sa-token');
 const evidence: object[] = [];
 const expected = new Map<string, Page>();
@@ -86,7 +86,7 @@ class NativeGiteePage {
   get previous() { return $('[data-testid="review-platform-previous-page"]'); }
   get pagination() { return $('[data-testid="review-platform-pagination"]'); }
   async snapshotRequests() {
-    return browser.execute(() => (window as TraceWindow).__OPENBITFUN_STARTUP_TRACE__.snapshot().api.byCommand
+    return browser.execute(() => (window as TraceWindow).__OPC_STARTUP_TRACE__.snapshot().api.byCommand
       .find(item => item.command === 'review_platform_get_workspace_snapshot'));
   }
   async ready() {
@@ -163,7 +163,7 @@ describe('Gitee repository filters in the native desktop', () => {
   });
 
   after(async () => {
-    const transportSummary = await browser.execute(() => (window as TraceWindow).__OPENBITFUN_STARTUP_TRACE__.snapshot().api.byCommand
+    const transportSummary = await browser.execute(() => (window as TraceWindow).__OPC_STARTUP_TRACE__.snapshot().api.byCommand
       .filter(item => item.command.startsWith('review_platform_')));
     await writeFile(join(root, 'result.json'), JSON.stringify({ repository: 'dromara/sa-token', evidence, transportSummary }, null, 2));
     console.log(`Gitee E2E evidence: ${root}`);

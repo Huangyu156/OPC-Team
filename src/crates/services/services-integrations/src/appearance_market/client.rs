@@ -37,7 +37,7 @@ pub struct AppearanceMarketClient {
 
 impl AppearanceMarketClient {
     pub fn configured_base_url() -> String {
-        std::env::var("OPENBITFUN_APPEARANCE_MARKET_API_URL")
+        std::env::var("OPC_APPEARANCE_MARKET_API_URL")
             .unwrap_or_else(|_| DEFAULT_APPEARANCE_MARKET_API_URL.to_string())
     }
 

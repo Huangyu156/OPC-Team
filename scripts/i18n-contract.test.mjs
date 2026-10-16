@@ -5,8 +5,8 @@ import path from 'node:path';
 import test from 'node:test';
 
 const root = process.cwd();
-const contractTestProfile = process.env.OPENBITFUN_I18N_CONTRACT_TEST_PROFILE ?? 'full';
-const runAuditIntegrationTests = process.env.OPENBITFUN_I18N_CONTRACT_TEST_AUDIT_INTEGRATION === '1';
+const contractTestProfile = process.env.OPC_I18N_CONTRACT_TEST_PROFILE ?? 'full';
+const runAuditIntegrationTests = process.env.OPC_I18N_CONTRACT_TEST_AUDIT_INTEGRATION === '1';
 const skipAuditIntegrationTests = contractTestProfile === 'ci' && !runAuditIntegrationTests;
 const contractPath = path.join(root, 'src', 'shared', 'i18n', 'contract', 'locales.json');
 const sharedTermsDir = path.join(root, 'src', 'shared', 'i18n', 'resources', 'shared');

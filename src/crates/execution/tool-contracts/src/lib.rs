@@ -92,7 +92,7 @@ pub use framework::{
     ToolPathBackend, ToolPathContractError, ToolPathOperation, ToolPathPolicy, ToolPathResolution,
     ToolRef, ToolRegistry, ToolRegistryItem, ToolRenderOptions, ToolRestrictionError, ToolResult,
     ToolRuntimeAssembly, ToolRuntimeRestrictions, ToolWorkspaceKind, ValidationResult,
-    GET_TOOL_SPEC_TOOL_NAME, OPENBITFUN_CURRENT_SESSION_URI_PREFIX, OPENBITFUN_RUNTIME_URI_PREFIX,
+    GET_TOOL_SPEC_TOOL_NAME, OPC_CURRENT_SESSION_URI_PREFIX, OPC_RUNTIME_URI_PREFIX,
     SUBAGENT_LAUNCH_TOOL_NAMES,
 };
 pub use input_validator::InputValidator;

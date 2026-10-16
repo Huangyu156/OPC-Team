@@ -22,9 +22,7 @@ use opc_product_domains::canvas::types::{
     CanvasCompiledPayload, CanvasDiagnostic, CanvasDiagnosticCategory, CanvasDiagnosticSeverity,
     CanvasSource,
 };
-use opc_product_domains::canvas::{
-    OPENBITFUN_CANVAS_RUNTIME_VERSION, OPENBITFUN_CANVAS_SDK_VERSION,
-};
+use opc_product_domains::canvas::{OPC_CANVAS_RUNTIME_VERSION, OPC_CANVAS_SDK_VERSION};
 
 pub use html::compile_canvas_html;
 use html::stable_content_hash;
@@ -46,8 +44,8 @@ pub fn compile_canvas_source(source: &CanvasSource, compiled_at: i64) -> CanvasC
             let payload = CanvasCompiledPayload {
                 canvas_id: source.canvas_id.clone(),
                 source_revision: source.revision.clone(),
-                sdk_version: OPENBITFUN_CANVAS_SDK_VERSION.to_string(),
-                runtime_version: OPENBITFUN_CANVAS_RUNTIME_VERSION.to_string(),
+                sdk_version: OPC_CANVAS_SDK_VERSION.to_string(),
+                runtime_version: OPC_CANVAS_RUNTIME_VERSION.to_string(),
                 content_hash: stable_content_hash(&html),
                 html,
                 diagnostics: diagnostics.clone(),

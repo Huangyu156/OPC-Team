@@ -151,7 +151,7 @@ jobs:
           # Compiled into the CLI; its presence makes signature verification
           # mandatory for self-update. Unset on forks, which then fall back to
           # checksum-only.
-          OPENBITFUN_RELEASE_PUBKEY: ${{ secrets.release_pubkey }}
+          OPC_RELEASE_PUBKEY: ${{ secrets.release_pubkey }}
         run: |
           cargo build --locked --release \
             --target ${{ matrix.platform.target }} \
@@ -196,9 +196,9 @@ jobs:
       - name: Sign release archives
         shell: bash
         env:
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.release_signing_key }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.release_signing_password }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.release_pubkey }}
+          OPC_SIGNING_KEY: ${{ secrets.release_signing_key }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.release_signing_password }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.release_pubkey }}
           CLI_ARCHIVE: ${{ steps.cli-stage.outputs.archive }}
           RELAY_ARCHIVE: ${{ steps.relay-stage.outputs.archive }}
         run: |

@@ -21,11 +21,11 @@ import zipfile
 
 CURRENT_VERSION_FIELD = "minOpenBitFunVersion"
 RETIRED_VERSION_FIELDS = ("minBitfunVersion", "minOpenbitfunVersion")
-OPENBITFUN_MINIMUM_VERSION = "1.0.0"
+OPC_MINIMUM_VERSION = "1.0.0"
 RETIRED_APPEARANCE_SCHEMA = "bitfun.appearance"
-OPENBITFUN_APPEARANCE_SCHEMA = "openbitfun.appearance"
+OPC_APPEARANCE_SCHEMA = "openbitfun.appearance"
 RETIRED_APPEARANCE_EXTENSION = "bitfun-appearance"
-OPENBITFUN_APPEARANCE_EXTENSION = "openbitfun-appearance"
+OPC_APPEARANCE_EXTENSION = "openbitfun-appearance"
 RETIRED_ARCHIVE_ROOT = "migrated-bitfun-v1"
 
 
@@ -56,7 +56,7 @@ def migrate_version_field(value: dict[str, Any], context: str) -> bool:
             f"{context} must contain exactly one retired minimum-version field"
         )
     value.pop(present_retired[0])
-    value[CURRENT_VERSION_FIELD] = OPENBITFUN_MINIMUM_VERSION
+    value[CURRENT_VERSION_FIELD] = OPC_MINIMUM_VERSION
     return True
 
 
@@ -162,7 +162,7 @@ def write_migrated_skin_archive(source: Path, temporary_root: Path) -> tuple[Pat
                         )
                     if manifest.get("schemaVersion") != 1:
                         raise RuntimeError("appearance.json schemaVersion must be 1")
-                    manifest["schema"] = OPENBITFUN_APPEARANCE_SCHEMA
+                    manifest["schema"] = OPC_APPEARANCE_SCHEMA
                     content = compact_json(manifest).encode("utf-8")
                 outgoing.writestr(entry, content)
         if manifest is None:
@@ -241,7 +241,7 @@ def migrate_skin_packages(
             artifacts, old_sha256, RETIRED_APPEARANCE_EXTENSION
         )
         new_existing = skin_package_path(
-            artifacts, old_sha256, OPENBITFUN_APPEARANCE_EXTENSION
+            artifacts, old_sha256, OPC_APPEARANCE_EXTENSION
         )
         if not old_path.is_file():
             if new_existing.is_file():
@@ -251,7 +251,7 @@ def migrate_skin_packages(
             old_path, temporary_root
         )
         new_path = skin_package_path(
-            artifacts, new_sha256, OPENBITFUN_APPEARANCE_EXTENSION
+            artifacts, new_sha256, OPC_APPEARANCE_EXTENSION
         )
         ensure_directory_like(new_path.parent, old_path.parent)
         if new_path.exists():

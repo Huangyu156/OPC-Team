@@ -9,9 +9,8 @@ use opc_agent_runtime::skills::{
     resolve_skill_state_for_mode, resolve_user_config_skill_root, resolve_visible_skills,
     sort_skills, ExplicitSkillInvocationResolution, ModeSkillStateReason, SkillCandidate,
     SkillData, SkillInfo, SkillLocation, SkillParseError, UserModeSkillOverrides,
-    OPENBITFUN_SYSTEM_SKILL_DIR, OPENBITFUN_SYSTEM_SKILL_SLOT, OPENBITFUN_USER_SKILL_SLOT,
-    PROJECT_SKILL_KEY_PREFIX, PROJECT_SKILL_ROOTS, USER_CONFIG_SKILL_ROOTS, USER_HOME_SKILL_ROOTS,
-    USER_SKILL_KEY_PREFIX,
+    OPC_SYSTEM_SKILL_DIR, OPC_SYSTEM_SKILL_SLOT, OPC_USER_SKILL_SLOT, PROJECT_SKILL_KEY_PREFIX,
+    PROJECT_SKILL_ROOTS, USER_CONFIG_SKILL_ROOTS, USER_HOME_SKILL_ROOTS, USER_SKILL_KEY_PREFIX,
 };
 use opc_core_types::product_identity::hidden_data_directory;
 
@@ -623,9 +622,9 @@ fn builtin_skill_catalog_and_mode_policy_are_runtime_owned() {
 fn skill_discovery_root_facts_are_runtime_owned() {
     assert_eq!(USER_SKILL_KEY_PREFIX, "user");
     assert_eq!(PROJECT_SKILL_KEY_PREFIX, "project");
-    assert_eq!(OPENBITFUN_USER_SKILL_SLOT, "openbitfun");
-    assert_eq!(OPENBITFUN_SYSTEM_SKILL_SLOT, "opc-system");
-    assert_eq!(OPENBITFUN_SYSTEM_SKILL_DIR, ".system");
+    assert_eq!(OPC_USER_SKILL_SLOT, "openbitfun");
+    assert_eq!(OPC_SYSTEM_SKILL_SLOT, "opc-system");
+    assert_eq!(OPC_SYSTEM_SKILL_DIR, ".system");
 
     let project_roots = PROJECT_SKILL_ROOTS
         .iter()

@@ -1694,8 +1694,8 @@ impl ToolPathResolution {
     }
 }
 
-pub const OPENBITFUN_RUNTIME_URI_PREFIX: &str = "openbitfun://runtime/";
-pub const OPENBITFUN_CURRENT_SESSION_URI_PREFIX: &str = "openbitfun://current-session/";
+pub const OPC_RUNTIME_URI_PREFIX: &str = "openbitfun://runtime/";
+pub const OPC_CURRENT_SESSION_URI_PREFIX: &str = "openbitfun://current-session/";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ParsedOpcTeamRuntimeUri {
@@ -1780,12 +1780,11 @@ impl fmt::Display for ToolPathContractError {
 impl std::error::Error for ToolPathContractError {}
 
 pub fn is_opc_runtime_uri(path: &str) -> bool {
-    path.trim().starts_with(OPENBITFUN_RUNTIME_URI_PREFIX)
+    path.trim().starts_with(OPC_RUNTIME_URI_PREFIX)
 }
 
 pub fn is_opc_current_session_uri(path: &str) -> bool {
-    path.trim()
-        .starts_with(OPENBITFUN_CURRENT_SESSION_URI_PREFIX)
+    path.trim().starts_with(OPC_CURRENT_SESSION_URI_PREFIX)
 }
 
 pub fn is_opc_tool_uri(path: &str) -> bool {
@@ -2002,7 +2001,7 @@ pub fn normalize_runtime_relative_path(path: &str) -> Result<String, ToolPathCon
 pub fn parse_opc_runtime_uri(path: &str) -> Result<ParsedOpcTeamRuntimeUri, ToolPathContractError> {
     let trimmed = path.trim();
     let suffix = trimmed
-        .strip_prefix(OPENBITFUN_RUNTIME_URI_PREFIX)
+        .strip_prefix(OPC_RUNTIME_URI_PREFIX)
         .ok_or_else(|| ToolPathContractError::UnsupportedRuntimeUri {
             uri: path.to_string(),
         })?;
@@ -2029,7 +2028,7 @@ pub fn parse_opc_current_session_uri(
 ) -> Result<ParsedOpcTeamCurrentSessionUri, ToolPathContractError> {
     let trimmed = path.trim();
     let relative_path = trimmed
-        .strip_prefix(OPENBITFUN_CURRENT_SESSION_URI_PREFIX)
+        .strip_prefix(OPC_CURRENT_SESSION_URI_PREFIX)
         .ok_or_else(|| ToolPathContractError::UnsupportedRuntimeUri {
             uri: path.to_string(),
         })?;
@@ -2044,7 +2043,7 @@ pub fn parse_opc_current_session_uri(
 pub fn build_opc_current_session_uri(relative_path: &str) -> Result<String, ToolPathContractError> {
     Ok(format!(
         "{}{}",
-        OPENBITFUN_CURRENT_SESSION_URI_PREFIX,
+        OPC_CURRENT_SESSION_URI_PREFIX,
         normalize_runtime_relative_path(relative_path)?
     ))
 }
@@ -2060,7 +2059,7 @@ pub fn build_opc_runtime_uri(
 
     Ok(format!(
         "{}{}/{}",
-        OPENBITFUN_RUNTIME_URI_PREFIX,
+        OPC_RUNTIME_URI_PREFIX,
         scope,
         normalize_runtime_relative_path(relative_path)?
     ))

@@ -26,9 +26,9 @@ mod windows_process_cleanup {
     };
 
     const FIXTURE_TEST: &str = "windows_process_cleanup::fixture_process";
-    const FIXTURE_ROLE: &str = "OPENBITFUN_PROCESS_CLEANUP_FIXTURE";
-    const FIXTURE_DIR: &str = "OPENBITFUN_PROCESS_CLEANUP_DIR";
-    const HOST_PID: &str = "OPENBITFUN_PROCESS_CLEANUP_HOST_PID";
+    const FIXTURE_ROLE: &str = "OPC_PROCESS_CLEANUP_FIXTURE";
+    const FIXTURE_DIR: &str = "OPC_PROCESS_CLEANUP_DIR";
+    const HOST_PID: &str = "OPC_PROCESS_CLEANUP_HOST_PID";
 
     #[tokio::test]
     async fn empty_cleanup_returns_and_handoff_survives_host_exit() {

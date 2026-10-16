@@ -321,15 +321,14 @@ mod tests {
         assert!(error.to_string().contains("Windows OPC-Team host"));
     }
 
-    /// Opt-in real Windows/WSL transport check. Set OPENBITFUN_TEST_WSL_DISTRO
+    /// Opt-in real Windows/WSL transport check. Set OPC_TEST_WSL_DISTRO
     /// to an initialized distribution and run this test with --ignored.
     #[tokio::test]
     #[ignore = "requires Windows and an initialized WSL distribution"]
     async fn wsl_windows_workspace_transport() {
         use tokio::io::{AsyncReadExt, AsyncWriteExt};
         ensure_supported().unwrap();
-        let distribution =
-            std::env::var("OPENBITFUN_TEST_WSL_DISTRO").expect("Set OPENBITFUN_TEST_WSL_DISTRO");
+        let distribution = std::env::var("OPC_TEST_WSL_DISTRO").expect("Set OPC_TEST_WSL_DISTRO");
         let root = tempfile::tempdir().unwrap();
         let manager = super::super::SSHConnectionManager::new(root.path().into());
         let mut config = workspace_config();

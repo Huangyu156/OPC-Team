@@ -9,19 +9,19 @@ pub use opc_product_domains::product_control::{
     ProductControlSource,
 };
 
-static OPENBITFUN_CONTROL_PORT: OnceLock<Arc<dyn ProductControlPort>> = OnceLock::new();
+static OPC_CONTROL_PORT: OnceLock<Arc<dyn ProductControlPort>> = OnceLock::new();
 
 /// Register the product adapter. The first registered host owns the process.
 pub fn set_opc_control_port(port: Arc<dyn ProductControlPort>) {
-    let _ = OPENBITFUN_CONTROL_PORT.set(port);
+    let _ = OPC_CONTROL_PORT.set(port);
 }
 
 pub fn opc_control_host_available() -> bool {
-    OPENBITFUN_CONTROL_PORT.get().is_some()
+    OPC_CONTROL_PORT.get().is_some()
 }
 
 pub async fn invoke_opc_control(request: OpcTeamControlHostRequest) -> Result<Value, String> {
-    let Some(port) = OPENBITFUN_CONTROL_PORT.get() else {
+    let Some(port) = OPC_CONTROL_PORT.get() else {
         return Err("OpcTeamControl host is not available on this product surface".to_string());
     };
     port.invoke(request).await

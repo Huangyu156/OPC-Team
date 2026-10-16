@@ -3828,7 +3828,7 @@ test('split core boundary check keeps self-test execution behavior', () => {
     ['scripts/check-core-boundaries.mjs'],
     {
       cwd: new URL('..', import.meta.url),
-      env: { ...process.env, OPENBITFUN_BOUNDARY_CHECK_SELF_TEST: '1' },
+      env: { ...process.env, OPC_BOUNDARY_CHECK_SELF_TEST: '1' },
       encoding: 'utf8',
     },
   );

@@ -4,7 +4,7 @@ const EXIT_FALLBACK_MS = 350;
 
 declare global {
   interface Window {
-    __OPENBITFUN_STARTUP_OVERLAY_STARTED_AT__?: number;
+    __OPC_STARTUP_OVERLAY_STARTED_AT__?: number;
   }
 }
 
@@ -13,7 +13,7 @@ function getOverlay(): HTMLElement | null {
 }
 
 export function getStartupOverlayElapsedMs(): number {
-  const startedAt = window.__OPENBITFUN_STARTUP_OVERLAY_STARTED_AT__;
+  const startedAt = window.__OPC_STARTUP_OVERLAY_STARTED_AT__;
   if (typeof startedAt !== 'number') {
     return 0;
   }

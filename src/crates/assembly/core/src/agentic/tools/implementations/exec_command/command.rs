@@ -1203,7 +1203,7 @@ mod tests {
         );
 
         assert!(command.starts_with("cd '/home/me/project' && env "));
-        assert!(command.contains("'OPENBITFUN_NONINTERACTIVE=1'"));
+        assert!(command.contains("'OPC_NONINTERACTIVE=1'"));
         assert!(command.ends_with(" '/bin/bash' -o pipefail -lc 'printf '\\''hi'\\'''"));
     }
 

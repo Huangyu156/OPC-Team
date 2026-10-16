@@ -101,7 +101,7 @@ Session 不在控制机回退执行插件。一个物理 Host 可以承载多个
 
 Desktop、CLI 和 app-server 的标准开发/构建命令都会先构建 `extension-host.js`；Desktop 包、CLI 产品包和
 app-server release 输出都把它放入 `resources/ext-host`。当前分发仍要求系统提供兼容的 `bun`（也可通过
-`OPENBITFUN_BUN_COMMAND` 显式指定）；签名 Bun
+`OPC_BUN_COMMAND` 显式指定）；签名 Bun
 sidecar 尚未交付，因此安装包还不能宣称插件运行时完全自包含。恢复 Session 和 Host 崩溃后的同 Session 下一次提交
 都会重新 ensure 实际 execution root；Remote Session 继续保持不在控制机执行本地插件。
 

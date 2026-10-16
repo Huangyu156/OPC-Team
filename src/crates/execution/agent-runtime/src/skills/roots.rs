@@ -6,11 +6,11 @@ use super::types::SkillSourceDialect;
 
 pub const USER_SKILL_KEY_PREFIX: &str = "user";
 pub const PROJECT_SKILL_KEY_PREFIX: &str = "project";
-pub const OPENBITFUN_USER_SKILL_SLOT: &str = "openbitfun";
-pub const OPENBITFUN_SYSTEM_SKILL_SLOT: &str = "opc-system";
-pub const OPENBITFUN_SYSTEM_SKILL_DIR: &str = ".system";
-pub const OPENBITFUN_SKILL_SOURCE_ID: &str = "openbitfun";
-pub const OPENBITFUN_SKILL_SOURCE_LABEL: &str = "OPC-Team";
+pub const OPC_USER_SKILL_SLOT: &str = "openbitfun";
+pub const OPC_SYSTEM_SKILL_SLOT: &str = "opc-system";
+pub const OPC_SYSTEM_SKILL_DIR: &str = ".system";
+pub const OPC_SKILL_SOURCE_ID: &str = "openbitfun";
+pub const OPC_SKILL_SOURCE_LABEL: &str = "OPC-Team";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct SkillRootSpec {
@@ -28,8 +28,8 @@ pub const PROJECT_SKILL_ROOTS: &[SkillRootSpec] = &[
         parent: hidden_data_directory(),
         subdir: "skills",
         slot: "openbitfun",
-        source_id: OPENBITFUN_SKILL_SOURCE_ID,
-        source_label: OPENBITFUN_SKILL_SOURCE_LABEL,
+        source_id: OPC_SKILL_SOURCE_ID,
+        source_label: OPC_SKILL_SOURCE_LABEL,
     },
     SkillRootSpec {
         parent: ".claude",

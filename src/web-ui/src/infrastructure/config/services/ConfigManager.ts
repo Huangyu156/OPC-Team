@@ -17,7 +17,7 @@ const PROVIDER_INSTANCE_METADATA_KEY = 'provider_instance_id';
 declare global {
   // Injected by the desktop webview initialization script before the frontend
   // bundle runs. It avoids a startup-window IPC for the initial shortcut load.
-  var __OPENBITFUN_BOOTSTRAP_KEYBINDINGS__: unknown | undefined;
+  var __OPC_BOOTSTRAP_KEYBINDINGS__: unknown | undefined;
 }
 
 function legacyProviderInstanceId(seed: string): string {
@@ -313,7 +313,7 @@ class ConfigManagerImpl implements IConfigManager {
   }
 
   private clearBootstrapOptionalConfigs(): void {
-    delete globalThis.__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__;
+    delete globalThis.__OPC_BOOTSTRAP_KEYBINDINGS__;
   }
 
   private consumeBootstrapOptionalConfig<T = any>(path: string): {
@@ -324,12 +324,12 @@ class ConfigManagerImpl implements IConfigManager {
       return { available: false, value: undefined };
     }
 
-    if (!Object.prototype.hasOwnProperty.call(globalThis, '__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__')) {
+    if (!Object.prototype.hasOwnProperty.call(globalThis, '__OPC_BOOTSTRAP_KEYBINDINGS__')) {
       return { available: false, value: undefined };
     }
 
-    const value = globalThis.__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__;
-    delete globalThis.__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__;
+    const value = globalThis.__OPC_BOOTSTRAP_KEYBINDINGS__;
+    delete globalThis.__OPC_BOOTSTRAP_KEYBINDINGS__;
     return {
       available: true,
       value: value == null ? undefined : value as T,

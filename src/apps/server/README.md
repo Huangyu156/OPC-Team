@@ -15,6 +15,6 @@ If you are looking for **Remote Connect self-hosted relay deployment**, use:
 
 When exercising configured OpenCode plugins, use `pnpm run server:dev` or
 `pnpm run server:build`. These commands prepare the extension Host first; a
-compatible `bun` command (or `OPENBITFUN_BUN_COMMAND`) is required at runtime. The
+compatible `bun` command (or `OPC_BUN_COMMAND`) is required at runtime. The
 release build stages `resources/ext-host` beside the server binary; deploy that
 directory with the binary.

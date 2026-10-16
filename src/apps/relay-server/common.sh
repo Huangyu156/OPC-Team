@@ -48,7 +48,7 @@ compose() {
   if [ "${#COMPOSE[@]}" -eq 0 ]; then
     resolve_compose
   fi
-  case "${OPENBITFUN_DOCKER_MODE:-direct}" in
+  case "${OPC_DOCKER_MODE:-direct}" in
     sudo)
       # Prefer Compose V2 via sudo docker when the daemon needs root.
       if sudo docker compose version >/dev/null 2>&1; then
@@ -67,7 +67,7 @@ compose() {
 }
 
 # Resolve how to talk to the Docker daemon for the current shell.
-# Sets OPENBITFUN_DOCKER_MODE to: direct | sg | sudo
+# Sets OPC_DOCKER_MODE to: direct | sg | sudo
 # Make DOCKER_CONFIG usable by the current user.
 #
 # A root-run Docker install (or an earlier `sudo -E docker`) can leave
@@ -120,19 +120,19 @@ resolve_docker_access() {
   fi
 
   if docker info >/dev/null 2>&1; then
-    OPENBITFUN_DOCKER_MODE=direct
+    OPC_DOCKER_MODE=direct
     return 0
   fi
   if id -nG 2>/dev/null | tr ' ' '\n' | grep -qx docker \
     || getent group docker 2>/dev/null | grep -qE "(^|:|,)$(id -un)(,|$)"; then
     if sg docker -c 'docker info' >/dev/null 2>&1; then
-      OPENBITFUN_DOCKER_MODE=sg
+      OPC_DOCKER_MODE=sg
       echo "Note: using 'sg docker' (group membership not active in this session)."
       return 0
     fi
   fi
   if sudo -n docker info >/dev/null 2>&1 || sudo docker info >/dev/null 2>&1; then
-    OPENBITFUN_DOCKER_MODE=sudo
+    OPC_DOCKER_MODE=sudo
     echo "Note: using sudo for Docker access."
     return 0
   fi
@@ -143,7 +143,7 @@ resolve_docker_access() {
 }
 
 docker_cmd() {
-  case "${OPENBITFUN_DOCKER_MODE:-direct}" in
+  case "${OPC_DOCKER_MODE:-direct}" in
     sg) sg docker -c "$(shell_join docker "$@")" ;;
     sudo) sudo docker "$@" ;;
     *) docker "$@" ;;

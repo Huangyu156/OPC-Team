@@ -16,12 +16,11 @@ const UPDATE_PROGRESS_EVENT: &str = "opc-update-progress";
 
 /// Updater origins, in configured (fallback) order. Kept in step with
 /// `scripts/desktop-tauri-build.mjs`, which bakes the same pair into the bundle.
-const GITHUB_UPDATER_ENDPOINT: &str = match option_env!("OPENBITFUN_UPDATER_PRIMARY_ENDPOINT") {
+const GITHUB_UPDATER_ENDPOINT: &str = match option_env!("OPC_UPDATER_PRIMARY_ENDPOINT") {
     Some(endpoint) => endpoint,
     None => "https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json",
 };
-const OPENBITFUN_UPDATER_ENDPOINT: &str = match option_env!("OPENBITFUN_UPDATER_FALLBACK_ENDPOINT")
-{
+const OPC_UPDATER_ENDPOINT: &str = match option_env!("OPC_UPDATER_FALLBACK_ENDPOINT") {
     Some(endpoint) => endpoint,
     None => "https://openbitfun.com/release/latest-v1.json",
 };
@@ -71,7 +70,7 @@ async fn updater_endpoints_by_policy() -> Vec<tauri::Url> {
     let platform = updater_platform_key();
     let (github_manifest, mirror_manifest) = tokio::join!(
         fetch_updater_manifest(&client, GITHUB_UPDATER_ENDPOINT, &platform),
-        fetch_updater_manifest(&client, OPENBITFUN_UPDATER_ENDPOINT, &platform),
+        fetch_updater_manifest(&client, OPC_UPDATER_ENDPOINT, &platform),
     );
     let Some(github_manifest) = github_manifest else {
         log::info!("GitHub updater metadata is unavailable; trying the OpenBitFun mirror first");
@@ -174,14 +173,14 @@ fn prefer_mirror(
 }
 
 fn default_endpoints() -> Vec<tauri::Url> {
-    [GITHUB_UPDATER_ENDPOINT, OPENBITFUN_UPDATER_ENDPOINT]
+    [GITHUB_UPDATER_ENDPOINT, OPC_UPDATER_ENDPOINT]
         .iter()
         .filter_map(|endpoint| endpoint.parse().ok())
         .collect()
 }
 
 fn mirror_first_endpoints() -> Vec<tauri::Url> {
-    [OPENBITFUN_UPDATER_ENDPOINT, GITHUB_UPDATER_ENDPOINT]
+    [OPC_UPDATER_ENDPOINT, GITHUB_UPDATER_ENDPOINT]
         .iter()
         .filter_map(|endpoint| endpoint.parse().ok())
         .collect()

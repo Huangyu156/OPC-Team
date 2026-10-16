@@ -52,11 +52,11 @@ fn run_cli(workspace: &Path, user_root: &Path, home_root: &Path, args: &[&str]) 
     opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
         .args(args)
         .current_dir(workspace)
-        .env_remove("OPENBITFUN_USER_ROOT")
-        .env_remove("OPENBITFUN_HOME")
-        .env("OPENBITFUN_E2E_STORAGE_GUARD", "1")
-        .env("OPENBITFUN_E2E_USER_ROOT", user_root)
-        .env("OPENBITFUN_E2E_HOME", home_root)
+        .env_remove("OPC_USER_ROOT")
+        .env_remove("OPC_HOME")
+        .env("OPC_E2E_STORAGE_GUARD", "1")
+        .env("OPC_E2E_USER_ROOT", user_root)
+        .env("OPC_E2E_HOME", home_root)
         .env("APPDATA", &config_root)
         .env("XDG_CONFIG_HOME", &config_root)
         .env("HOME", home_root)
@@ -131,11 +131,11 @@ fn plugin_source_cli_rejects_unavailable_product_paths() {
         opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
             .args(["plugins", "list"])
             .current_dir(&workspace)
-            .env_remove("OPENBITFUN_USER_ROOT")
-            .env_remove("OPENBITFUN_HOME")
-            .env_remove("OPENBITFUN_E2E_USER_ROOT")
-            .env_remove("OPENBITFUN_E2E_HOME")
-            .env("OPENBITFUN_E2E_STORAGE_GUARD", "1")
+            .env_remove("OPC_USER_ROOT")
+            .env_remove("OPC_HOME")
+            .env_remove("OPC_E2E_USER_ROOT")
+            .env_remove("OPC_E2E_HOME")
+            .env("OPC_E2E_STORAGE_GUARD", "1")
             .env("APPDATA", &config_root)
             .env("XDG_CONFIG_HOME", &config_root)
             .output()
@@ -143,7 +143,7 @@ fn plugin_source_cli_rejects_unavailable_product_paths() {
 
     assert!(!output.status.success());
     assert!(stderr(&output).contains("Configuration error"));
-    assert!(stderr(&output).contains("OPENBITFUN_E2E_STORAGE_GUARD"));
+    assert!(stderr(&output).contains("OPC_E2E_STORAGE_GUARD"));
 }
 
 #[test]

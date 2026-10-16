@@ -47,11 +47,11 @@ impl MigrationRoots {
         let legacy_home_root = env_path("BITFUN_HOME")
             .or_else(|| env_path("BITFUN_E2E_HOME"))
             .unwrap_or_else(|| home.join(LEGACY_HIDDEN_DATA_DIRECTORY));
-        let target_user_root = env_path("OPENBITFUN_USER_ROOT")
-            .or_else(|| env_path("OPENBITFUN_E2E_USER_ROOT"))
+        let target_user_root = env_path("OPC_USER_ROOT")
+            .or_else(|| env_path("OPC_E2E_USER_ROOT"))
             .unwrap_or_else(|| config_root.join(data_namespace()));
-        let target_home_root = env_path("OPENBITFUN_HOME")
-            .or_else(|| env_path("OPENBITFUN_E2E_HOME"))
+        let target_home_root = env_path("OPC_HOME")
+            .or_else(|| env_path("OPC_E2E_HOME"))
             .unwrap_or_else(|| home.join(hidden_data_directory()));
 
         let legacy_skills_root = platform_skills_root(&data_root, &local_data_root, "BitFun");

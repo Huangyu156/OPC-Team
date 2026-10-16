@@ -1260,9 +1260,9 @@ pub fn build_grep_candidate_command(options: &GrepOptions) -> String {
          printf 'before\\000openbitfun.probe\\n' | command rg --no-config --fixed-strings --text --quiet -e 'openbitfun.probe' || exit 127\n\
          printf '\\377\\376b\\000f\\000\\n\\000' | command rg --no-config --fixed-strings --text --quiet -e bf || exit 127\n\
          printf '\\376\\377\\000b\\000f\\000\\n' | command rg --no-config --fixed-strings --text --quiet -e bf || exit 127\n\
-         printf 'OPENBITFUN_RG_CANDIDATES_BEGIN\\000'\n\
+         printf 'OPC_RG_CANDIDATES_BEGIN\\000'\n\
          if {command}; then opc_search_status=0; else opc_search_status=$?; fi\n\
-         printf 'OPENBITFUN_RG_CANDIDATES_END\\000'\n\
+         printf 'OPC_RG_CANDIDATES_END\\000'\n\
          exit \"$opc_search_status\""
     )
 }
@@ -1281,8 +1281,8 @@ fn parse_rg_candidates(
     root: &str,
 ) -> Result<HashSet<String>, String> {
     let payload = stdout
-        .strip_prefix("OPENBITFUN_RG_CANDIDATES_BEGIN\0")
-        .and_then(|text| text.strip_suffix("OPENBITFUN_RG_CANDIDATES_END\0"))
+        .strip_prefix("OPC_RG_CANDIDATES_BEGIN\0")
+        .and_then(|text| text.strip_suffix("OPC_RG_CANDIDATES_END\0"))
         .ok_or_else(|| {
             "Workspace search candidate protocol was incomplete or contaminated".to_string()
         })?;

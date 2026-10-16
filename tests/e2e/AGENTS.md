@@ -50,9 +50,9 @@ snapshot, temporary application storage and a private WebView store. It checks
 click, pointer/wheel actions, element screenshot, input clear/send, offscreen reveal
 and oversized click targets, and retains `result.json` in its printed temporary
 directory. It does not use a mock page or establish remote/platform coverage.
-Set `OPENBITFUN_E2E_FRONTEND_DIR` to a completed build directory with
+Set `OPC_E2E_FRONTEND_DIR` to a completed build directory with
 `frontend-revision.json` to reuse an existing snapshot during concurrent builds.
-The runner also snapshots the executable; `OPENBITFUN_E2E_DESKTOP_BINARY` can
+The runner also snapshots the executable; `OPC_E2E_DESKTOP_BINARY` can
 select a freshly linked artifact when a development instance locks the default exe.
 
 Markdown editor browser interaction tests (no desktop binary required):
@@ -73,7 +73,7 @@ a fresh temporary application profile; it does not use another checkout's dev se
 For Windows live application-update discovery, reminder deferral and signed download completion,
 build the current frontend, then run `node tests/e2e/scripts/run-app-update.mjs --build`.
 The build uses the public verification key from `docs/verify-downloads.md`; the test
-requires a genuinely newer public release. `OPENBITFUN_E2E_FRONTEND_DIR` can select
+requires a genuinely newer public release. `OPC_E2E_FRONTEND_DIR` can select
 an independent build containing `frontend-revision.json`. The runner uses isolated
 application, updater-cache and WebView storage, downloads the real signed package,
 and never confirms installation. It retains `result.json` under its printed temporary
@@ -96,7 +96,7 @@ After building Desktop, verify the public Huawei endpoint through settings,
 health checks, document search, and document retrieval with isolated storage:
 
 ```bash
-OPENBITFUN_E2E_HUAWEI_MCP=1 OPENBITFUN_E2E_STORAGE_ROOT="$(mktemp -d /tmp/opc-huawei-e2e.XXXXXX)" pnpm --dir tests/e2e exec wdio run ./config/wdio.conf.ts --spec "./specs/l1-mcp-huawei-health.spec.ts"
+OPC_E2E_HUAWEI_MCP=1 OPC_E2E_STORAGE_ROOT="$(mktemp -d /tmp/opc-huawei-e2e.XXXXXX)" pnpm --dir tests/e2e exec wdio run ./config/wdio.conf.ts --spec "./specs/l1-mcp-huawei-health.spec.ts"
 ```
 
 The spec is skipped by default, uses no account credentials, and restores the

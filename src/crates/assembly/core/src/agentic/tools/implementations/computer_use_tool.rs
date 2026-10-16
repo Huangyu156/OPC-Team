@@ -129,7 +129,7 @@ pub(crate) async fn computer_use_augment_result_json(
 /// Filenames: `cu_<ms>_full.jpg` (whole display) or `cu_<ms>_crop_<x>_<y>.jpg` when a point crop was requested.
 const COMPUTER_USE_DEBUG_DIRECTORY_NAME: &str = "computer_use_debug";
 /// Set to `1` to enable on-disk debug copies of Computer use screenshots.
-const COMPUTER_USE_DEBUG_SCREENSHOTS_ENV: &str = "OPENBITFUN_COMPUTER_USE_DEBUG_SCREENSHOTS";
+const COMPUTER_USE_DEBUG_SCREENSHOTS_ENV: &str = "OPC_COMPUTER_USE_DEBUG_SCREENSHOTS";
 /// Newest debug screenshots retained in the product debug directory; older files are deleted.
 const COMPUTER_USE_DEBUG_MAX_FILES: usize = 20;
 
@@ -2912,7 +2912,7 @@ mod tests {
         );
         // Optional export permits a real Draft 2020-12 validator in focused QA
         // without adding a schema-validation dependency to the runtime.
-        if let Ok(directory) = std::env::var("OPENBITFUN_SCHEMA_TEST_OUTPUT") {
+        if let Ok(directory) = std::env::var("OPC_SCHEMA_TEST_OUTPUT") {
             std::fs::write(
                 std::path::Path::new(&directory).join("legacy.json"),
                 legacy.to_string(),

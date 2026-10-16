@@ -23,7 +23,7 @@ openbitfun_build_relay_from_source() (
   # Regional routing is shared with Docker installation. Each attempt fetches
   # into a fresh task-owned checkout, never resetting a user's source tree.
   local fetched=0
-  for repository in "${OPENBITFUN_GITHUB_GIT_URL:-$OPENBITFUN_REPO_GIT_URL}" "$OPENBITFUN_REPO_GIT_URL"; do
+  for repository in "${OPC_GITHUB_GIT_URL:-$OPC_REPO_GIT_URL}" "$OPC_REPO_GIT_URL"; do
     echo ">>> Fetching current source from $repository"
     if git -C "$checkout" -c core.hooksPath=/dev/null \
       -c http.lowSpeedLimit=1024 -c http.lowSpeedTime=60 \
@@ -46,9 +46,9 @@ openbitfun_build_relay_from_source() (
     --iidfile "$checkout/relay-image.id" \
     --build-arg "CARGO_BUILD_JOBS=${RELAY_CARGO_BUILD_JOBS:-1}" \
     --build-arg "RELAY_GIT_COMMIT=$revision" \
-    --build-arg "OPENBITFUN_USE_CN_MIRROR=${OPENBITFUN_USE_CN_MIRROR:-0}" \
-    --build-arg "OPENBITFUN_APT_MIRROR=${OPENBITFUN_APT_MIRROR:-mirrors.aliyun.com}" \
-    --build-arg "OPENBITFUN_CARGO_SPARSE_URL=${OPENBITFUN_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}" \
+    --build-arg "OPC_USE_CN_MIRROR=${OPC_USE_CN_MIRROR:-0}" \
+    --build-arg "OPC_APT_MIRROR=${OPC_APT_MIRROR:-mirrors.aliyun.com}" \
+    --build-arg "OPC_CARGO_SPARSE_URL=${OPC_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}" \
     -f "$checkout/src/apps/relay-server/Dockerfile" "$checkout"
   image_id="$(cat "$checkout/relay-image.id")"
   if [[ ! "$image_id" =~ ^sha256:[0-9a-f]{64}$ ]]; then
@@ -61,8 +61,8 @@ openbitfun_build_relay_from_source() (
     echo ">>> ERROR: source image architecture does not match $platform." >&2
     return 1
   fi
-  export OPENBITFUN_RELAY_IMAGE="source:$revision"
-  export OPENBITFUN_RELAY_IMAGE_DIGEST="$image_id"
+  export OPC_RELAY_IMAGE="source:$revision"
+  export OPC_RELAY_IMAGE_DIGEST="$image_id"
   # Starts by local image ID, with the same volumes, port, health and rollback
   # contract as the published-image path. No Compose or host Rust is needed.
   openbitfun_run_relay_image "$image_id" "$platform"

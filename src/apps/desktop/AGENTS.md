@@ -76,7 +76,7 @@ required. The default dev profile keeps line tables while reducing PDB size.
 
 ## Target cache GC
 
-`desktop:dev` (on exit), `desktop:preview:debug` (on shutdown), and `desktop:build*` prune stale `target/<profile>` cache generations. Incremental roots keep the latest crate/session. Cargo fingerprint JSON identifies distinct lib, test, bin, and build-script units; GC keeps the latest generation of each unit plus every generation whose Cargo-managed `invoked.timestamp` was refreshed within the last 24 hours, then removes orphaned `deps` files and `build` directories. Busy detection is scoped to Cargo lock files in the selected profile, so an unrelated worktree build does not suppress GC. Manual: `pnpm run target:gc -- --profile debug`. Disable with `OPENBITFUN_TARGET_GC=0`; dry-run with `OPENBITFUN_TARGET_GC_DRY_RUN=1`; adjust the grace window with `OPENBITFUN_TARGET_GC_MIN_AGE_HOURS`.
+`desktop:dev` (on exit), `desktop:preview:debug` (on shutdown), and `desktop:build*` prune stale `target/<profile>` cache generations. Incremental roots keep the latest crate/session. Cargo fingerprint JSON identifies distinct lib, test, bin, and build-script units; GC keeps the latest generation of each unit plus every generation whose Cargo-managed `invoked.timestamp` was refreshed within the last 24 hours, then removes orphaned `deps` files and `build` directories. Busy detection is scoped to Cargo lock files in the selected profile, so an unrelated worktree build does not suppress GC. Manual: `pnpm run target:gc -- --profile debug`. Disable with `OPC_TARGET_GC=0`; dry-run with `OPC_TARGET_GC_DRY_RUN=1`; adjust the grace window with `OPC_TARGET_GC_MIN_AGE_HOURS`.
 
 `release-fast` profile (`Cargo.toml`): inherits `release` but disables LTO, increases `codegen-units` to 16, enables incremental compilation. Significantly faster at the cost of binary size and marginal runtime performance.
 
@@ -100,7 +100,7 @@ For application icon resources and packaging, run `pnpm run generate-brand-asset
 and `node --test scripts/generate-brand-assets.test.mjs scripts/macos-icon-bundle.test.mjs scripts/desktop-tauri-build.test.mjs`.
 The [brand guide](../../../assets/brand/README.md#macos-icons) owns native exports.
 On a Mac with full Xcode 26+, also run
-`OPENBITFUN_TEST_MACOS_BUNDLE=1 node --test scripts/macos-icon-bundle.test.mjs`;
+`OPC_TEST_MACOS_BUNDLE=1 node --test scripts/macos-icon-bundle.test.mjs`;
 CI requires this on both macOS architectures. The fixture bundles a Mach-O
 without launching UI. Resource-only edits do not require the Rust suites below;
 packaging/startup code changes still require the desktop build. These checks do
@@ -238,7 +238,7 @@ node tests/e2e/scripts/run-creation-runtime.mjs --suspended-paint  # occluded We
 
 The harness copies a completed build into an independent frontend snapshot so
 concurrent builds cannot replace its lazy modules. It uses temporary product storage, a private WebView store, and
-`OPENBITFUN_E2E_PACKAGED_FRONTEND=1`. It checks state across document reloads;
+`OPC_E2E_PACKAGED_FRONTEND=1`. It checks state across document reloads;
 the private test store intentionally does not survive process exit.
 That debug-only switch takes effect only with the existing E2E storage guard;
 release builds always use the packaged protocol.
@@ -246,7 +246,7 @@ release builds always use the packaged protocol.
 For alternate dev-server ports and preview startup URL changes, run
 `node --test scripts/dev-startup.test.mjs` and
 `cargo test -p opc-desktop --no-default-features --lib appearance::development_frontend_tests`.
-`OPENBITFUN_DEV_PORT` selects the HTTP port; `OPENBITFUN_DEV_HMR_PORT` defaults
+`OPC_DEV_PORT` selects the HTTP port; `OPC_DEV_HMR_PORT` defaults
 to the previous port. Desktop and Vite must use the same values. Development
 launchers reuse the locked Sherpa library/archive cache across Git worktrees,
 or download the archive through curl when absent; explicit SHERPA_ONNX overrides win.
@@ -257,4 +257,4 @@ AppKit target and the `computer_use_native_roundtrip` test with `devtools`.
 The harness has its own main-thread CFRunLoop and exercises the production
 main-queue dispatcher; do not run this test through libtest or bypass that
 dispatcher. It requires local Accessibility and Screen Recording permission.
-To reuse the compiled harness, set `OPENBITFUN_TEST_BINARY` to its absolute path.
+To reuse the compiled harness, set `OPC_TEST_BINARY` to its absolute path.

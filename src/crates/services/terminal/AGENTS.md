@@ -33,7 +33,7 @@ For Windows App Execution Alias termination, install Python Install Manager and
 run this opt-in regression with its working alias (not the Store redirector):
 
 ```powershell
-$env:OPENBITFUN_TEST_PYTHON_ALIAS = "$env:LOCALAPPDATA/Microsoft/WindowsApps/python.exe"
+$env:OPC_TEST_PYTHON_ALIAS = "$env:LOCALAPPDATA/Microsoft/WindowsApps/python.exe"
 cargo test -p terminal-core --lib control_terminates_python_app_execution_alias -- --ignored
 ```
 

@@ -312,13 +312,13 @@ test('target busy detection scopes Cargo locks to the selected profile', () => {
 
 test('dry-run environment remains effective when CLI omits the flag', () => {
   const { root, cleanup } = fixtureRoot();
-  const previous = process.env.OPENBITFUN_TARGET_GC_DRY_RUN;
+  const previous = process.env.OPC_TARGET_GC_DRY_RUN;
   try {
     const targetDir = join(root, 'target');
     const profileDir = join(targetDir, 'debug');
     touchDir(join(profileDir, 'incremental', 'opc_demo-old'), 1);
     touchDir(join(profileDir, 'incremental', 'opc_demo-new'), 2);
-    process.env.OPENBITFUN_TARGET_GC_DRY_RUN = '1';
+    process.env.OPC_TARGET_GC_DRY_RUN = '1';
 
     const result = runCargoTargetGc({
       rootDir: root,
@@ -333,9 +333,9 @@ test('dry-run environment remains effective when CLI omits the flag', () => {
     assert.equal(existsSync(join(profileDir, 'incremental', 'opc_demo-old')), true);
   } finally {
     if (previous === undefined) {
-      delete process.env.OPENBITFUN_TARGET_GC_DRY_RUN;
+      delete process.env.OPC_TARGET_GC_DRY_RUN;
     } else {
-      process.env.OPENBITFUN_TARGET_GC_DRY_RUN = previous;
+      process.env.OPC_TARGET_GC_DRY_RUN = previous;
     }
     cleanup();
   }

@@ -57,14 +57,14 @@ describe('startupTrace', () => {
   });
 
   it('records react render profiles only when perf trace is explicitly enabled', () => {
-    const previousRenderProfileEnabled = globalThis.__OPENBITFUN_RENDER_PROFILE_ENABLED__;
+    const previousRenderProfileEnabled = globalThis.__OPC_RENDER_PROFILE_ENABLED__;
     const trace = createStartupTrace({
       traceId: 'trace-test',
       now: () => 100,
     });
 
     try {
-      globalThis.__OPENBITFUN_RENDER_PROFILE_ENABLED__ = false;
+      globalThis.__OPC_RENDER_PROFILE_ENABLED__ = false;
       expect(isStartupRenderTraceEnabled()).toBe(false);
       recordReactRenderProfile(trace, {
         component: 'MarkdownRenderer',
@@ -93,7 +93,7 @@ describe('startupTrace', () => {
       });
       expect(trace.getSnapshot().phases.events).toHaveLength(0);
 
-      globalThis.__OPENBITFUN_RENDER_PROFILE_ENABLED__ = true;
+      globalThis.__OPC_RENDER_PROFILE_ENABLED__ = true;
       expect(isStartupRenderTraceEnabled()).toBe(true);
       recordReactRenderProfile(trace, {
         component: 'MarkdownRenderer',
@@ -151,9 +151,9 @@ describe('startupTrace', () => {
       expect(trace.getSnapshot().phases.events[0]).not.toHaveProperty('request');
     } finally {
       if (previousRenderProfileEnabled === undefined) {
-        delete globalThis.__OPENBITFUN_RENDER_PROFILE_ENABLED__;
+        delete globalThis.__OPC_RENDER_PROFILE_ENABLED__;
       } else {
-        globalThis.__OPENBITFUN_RENDER_PROFILE_ENABLED__ = previousRenderProfileEnabled;
+        globalThis.__OPC_RENDER_PROFILE_ENABLED__ = previousRenderProfileEnabled;
       }
     }
   });
@@ -528,9 +528,9 @@ describe('startupTrace', () => {
   });
 
   it('uses the desktop injected trace id when available', () => {
-    const previousTraceId = (globalThis as { __OPENBITFUN_STARTUP_TRACE_ID__?: string })
-      .__OPENBITFUN_STARTUP_TRACE_ID__;
-    (globalThis as { __OPENBITFUN_STARTUP_TRACE_ID__?: string }).__OPENBITFUN_STARTUP_TRACE_ID__ =
+    const previousTraceId = (globalThis as { __OPC_STARTUP_TRACE_ID__?: string })
+      .__OPC_STARTUP_TRACE_ID__;
+    (globalThis as { __OPC_STARTUP_TRACE_ID__?: string }).__OPC_STARTUP_TRACE_ID__ =
       'desktop-123';
 
     try {
@@ -542,10 +542,10 @@ describe('startupTrace', () => {
       expect(trace.traceId).toBe('desktop-123');
     } finally {
       if (previousTraceId === undefined) {
-        delete (globalThis as { __OPENBITFUN_STARTUP_TRACE_ID__?: string })
-          .__OPENBITFUN_STARTUP_TRACE_ID__;
+        delete (globalThis as { __OPC_STARTUP_TRACE_ID__?: string })
+          .__OPC_STARTUP_TRACE_ID__;
       } else {
-        (globalThis as { __OPENBITFUN_STARTUP_TRACE_ID__?: string }).__OPENBITFUN_STARTUP_TRACE_ID__ =
+        (globalThis as { __OPC_STARTUP_TRACE_ID__?: string }).__OPC_STARTUP_TRACE_ID__ =
           previousTraceId;
       }
     }

@@ -341,8 +341,8 @@ function generateWebStartupI18n(contract) {
   };
 
   const html = fs.readFileSync(path.join(root, 'src', 'web-ui', 'index.html'), 'utf8');
-  const startMarker = '<!-- OPENBITFUN_STARTUP_I18N_START -->';
-  const endMarker = '<!-- OPENBITFUN_STARTUP_I18N_END -->';
+  const startMarker = '<!-- OPC_STARTUP_I18N_START -->';
+  const endMarker = '<!-- OPC_STARTUP_I18N_END -->';
   const start = html.indexOf(startMarker);
   const end = html.indexOf(endMarker, start);
   assert(start >= 0 && end > start, 'Web UI startup i18n markers must exist in index.html');

@@ -156,7 +156,7 @@ boundaries, and bounded disk storage), run:
 cargo test --locked -p opc-services-integrations --no-default-features --features miniapp-market --lib market_image::tests
 ```
 
-On Windows with an initialized WSL distribution, set `OPENBITFUN_TEST_WSL_DISTRO`
+On Windows with an initialized WSL distribution, set `OPC_TEST_WSL_DISTRO`
 and run `cargo test -p opc-services-integrations --no-default-features
 --features remote-ssh-concrete --lib wsl_windows_workspace_transport -- --ignored`
 for binary filesystem/stdio, exit status, cancellation, and saved reconnect.
@@ -167,13 +167,13 @@ For SFTP handle ownership and cancellation regressions, run
 remote_ssh::manager::tests::workspace_sftp::`. These loopback SSH/SFTP tests
 advertise a small handle limit and are included in the existing CI
 `workspace_` filter. To exercise real OpenSSH file IO over loopback SSH, set
-`OPENBITFUN_TEST_SFTP_SERVER` to an installed `sftp-server` executable and run
+`OPC_TEST_SFTP_SERVER` to an installed `sftp-server` executable and run
 the same command with the filter ending in
 `workspace_sftp::openssh_real_files_over_loopback_ssh -- --ignored`.
 
 For directory symlink browsing and workspace-path validation, use the same
 package/features with `--lib directory_symlink_browsing -- --include-ignored`
-and `OPENBITFUN_TEST_SFTP_SERVER` set. This runs real OpenSSH SFTP over loopback
+and `OPC_TEST_SFTP_SERVER` set. This runs real OpenSSH SFTP over loopback
 and the Docker command adapter against a local POSIX shell fixture; the latter
 does not establish real Docker-daemon or Windows WSL coverage.
 

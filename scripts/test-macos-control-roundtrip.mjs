@@ -27,7 +27,7 @@ try {
   await run('xcrun', ['clang', '-fobjc-arc', '-Wall', '-Werror', 'scripts/fixtures/computer-use-input-controls.m', '-framework', 'AppKit', '-o', observerBinary]);
   // Build before either disposable window is opened. The host's AppKit startup
   // must also finish before the observer establishes the foreground baseline.
-  if (!process.env.OPENBITFUN_TEST_BINARY) await run('cargo', ['test', '-p', 'opc-desktop', '--features', 'devtools', '--test', 'computer_use_native_roundtrip', '--no-run']);
+  if (!process.env.OPC_TEST_BINARY) await run('cargo', ['test', '-p', 'opc-desktop', '--features', 'devtools', '--test', 'computer_use_native_roundtrip', '--no-run']);
   fixture = spawn(binary, [result], { cwd: root, stdio: ['ignore', 'pipe', 'inherit'], windowsHide: true });
   const [pid, x, y] = await new Promise((resolve, reject) => {
     const timer = setTimeout(() => reject(new Error('Input fixture failed to become ready')), 10_000);
@@ -40,14 +40,14 @@ try {
       if (ready) { clearTimeout(timer); resolve(ready.slice(1)); }
     });
   });
-  const command = process.env.OPENBITFUN_TEST_BINARY || 'cargo';
-  const args = process.env.OPENBITFUN_TEST_BINARY ? [] : ['test', '-p', 'opc-desktop', '--features', 'devtools', '--test', 'computer_use_native_roundtrip'];
+  const command = process.env.OPC_TEST_BINARY || 'cargo';
+  const args = process.env.OPC_TEST_BINARY ? [] : ['test', '-p', 'opc-desktop', '--features', 'devtools', '--test', 'computer_use_native_roundtrip'];
   const hostReady = join(directory, 'host-ready');
   const observerResult = join(directory, 'observer.json');
   const roundtrip = run(command, args, {
-    ...process.env, OPENBITFUN_ROUNDTRIP_FIXTURE_PID: pid, OPENBITFUN_ROUNDTRIP_FIXTURE_X: x,
-    OPENBITFUN_ROUNDTRIP_FIXTURE_Y: y, OPENBITFUN_ROUNDTRIP_FIXTURE_RESULT: result,
-    OPENBITFUN_INPUT_HOST_READY: hostReady, OPENBITFUN_INPUT_OBSERVER_RESULT: observerResult,
+    ...process.env, OPC_ROUNDTRIP_FIXTURE_PID: pid, OPC_ROUNDTRIP_FIXTURE_X: x,
+    OPC_ROUNDTRIP_FIXTURE_Y: y, OPC_ROUNDTRIP_FIXTURE_RESULT: result,
+    OPC_INPUT_HOST_READY: hostReady, OPC_INPUT_OBSERVER_RESULT: observerResult,
   }, child => { harness = child; }).then(() => null, error => error);
   const deadline = Date.now() + 10_000;
   while (true) {

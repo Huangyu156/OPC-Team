@@ -15,7 +15,7 @@ const PACKAGE_ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const HOST_BINARY_BASE = process.platform === 'win32' ? 'opc-sdk-host.exe' : 'opc-sdk-host';
 
 function resolveHost() {
-  const explicit = process.argv[2] ?? process.env.OPENBITFUN_SDK_HOST;
+  const explicit = process.argv[2] ?? process.env.OPC_SDK_HOST;
   if (explicit !== undefined) return explicit;
   for (let dir = PACKAGE_ROOT; ; dir = path.dirname(dir)) {
     for (const profile of ['debug', 'release']) {

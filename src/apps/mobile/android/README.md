@@ -25,6 +25,6 @@ it explicitly:
 JAVA_HOME='/Applications/Android Studio.app/Contents/jbr/Contents/Home' ./gradlew -PallowUnsignedRelease=true :app:assembleRelease
 ```
 
-For a release signed with a formal keystore, set `OPENBITFUN_ANDROID_KEYSTORE`,
-`OPENBITFUN_ANDROID_KEYSTORE_PASSWORD`, `OPENBITFUN_ANDROID_KEY_ALIAS`, and
-`OPENBITFUN_ANDROID_KEY_PASSWORD`. Release builds enable R8 and resource shrinking.
+For a release signed with a formal keystore, set `OPC_ANDROID_KEYSTORE`,
+`OPC_ANDROID_KEYSTORE_PASSWORD`, `OPC_ANDROID_KEY_ALIAS`, and
+`OPC_ANDROID_KEY_PASSWORD`. Release builds enable R8 and resource shrinking.

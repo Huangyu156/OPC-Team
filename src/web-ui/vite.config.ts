@@ -25,7 +25,7 @@ const designSystemUiSourceDirectory = path.resolve(
   '../../design-system/packages/ui/src',
 );
 const fontAssetDirectory = path.resolve(__dirname, 'src/assets/fonts');
-const FONT_PROFILE_STYLESHEET_MARKER = '<!-- OPENBITFUN_FONT_PROFILE_STYLESHEET -->';
+const FONT_PROFILE_STYLESHEET_MARKER = '<!-- OPC_FONT_PROFILE_STYLESHEET -->';
 
 export function createWebFontProfilePlugin(
   profile: typeof APPLE_SYSTEM_FONT_PROFILE | typeof HARMONY_BUNDLED_FONT_PROFILE,

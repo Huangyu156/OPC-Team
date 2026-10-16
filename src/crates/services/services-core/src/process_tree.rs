@@ -424,10 +424,10 @@ mod tests {
             // replace themselves with their final foreground command, which
             // would make the fixture a process-group leader and cause setsid()
             // to fail on macOS before it can publish its PID.
-            .arg("\"$OPENBITFUN_PROCESS_TREE_TEST_EXE\" --exact process_tree::tests::unix_detached_fixture_process --nocapture & wait")
-            .env("OPENBITFUN_PROCESS_TREE_TEST_EXE", executable)
-            .env("OPENBITFUN_DETACHED_FIXTURE", "1")
-            .env("OPENBITFUN_DESCENDANT_PID_FILE", &pid_file)
+            .arg("\"$OPC_PROCESS_TREE_TEST_EXE\" --exact process_tree::tests::unix_detached_fixture_process --nocapture & wait")
+            .env("OPC_PROCESS_TREE_TEST_EXE", executable)
+            .env("OPC_DETACHED_FIXTURE", "1")
+            .env("OPC_DESCENDANT_PID_FILE", &pid_file)
             .stdin(Stdio::null())
             .stdout(Stdio::null())
             .stderr(Stdio::null());
@@ -453,7 +453,7 @@ mod tests {
     #[cfg(unix)]
     #[test]
     fn unix_detached_fixture_process() {
-        if std::env::var_os("OPENBITFUN_DETACHED_FIXTURE").is_none() {
+        if std::env::var_os("OPC_DETACHED_FIXTURE").is_none() {
             return;
         }
         assert!(
@@ -462,8 +462,7 @@ mod tests {
             unsafe { libc::setsid() } >= 0,
             "fixture must create a new session"
         );
-        let pid_file =
-            std::env::var("OPENBITFUN_DESCENDANT_PID_FILE").expect("fixture PID file path");
+        let pid_file = std::env::var("OPC_DESCENDANT_PID_FILE").expect("fixture PID file path");
         std::fs::write(pid_file, std::process::id().to_string())
             .expect("publish detached fixture PID");
         loop {
@@ -494,8 +493,8 @@ mod tests {
                 "process_tree::tests::windows_fixture_process",
                 "--nocapture",
             ])
-            .env("OPENBITFUN_PROCESS_TREE_FIXTURE_ROLE", role)
-            .env("OPENBITFUN_DESCENDANT_PID_FILE", pid_file)
+            .env("OPC_PROCESS_TREE_FIXTURE_ROLE", role)
+            .env("OPC_DESCENDANT_PID_FILE", pid_file)
             .stdin(Stdio::null())
             .stdout(Stdio::null())
             .stderr(Stdio::inherit());
@@ -505,11 +504,10 @@ mod tests {
     #[cfg(windows)]
     #[test]
     fn windows_fixture_process() {
-        let Ok(role) = std::env::var("OPENBITFUN_PROCESS_TREE_FIXTURE_ROLE") else {
+        let Ok(role) = std::env::var("OPC_PROCESS_TREE_FIXTURE_ROLE") else {
             return;
         };
-        let pid_file =
-            std::env::var_os("OPENBITFUN_DESCENDANT_PID_FILE").expect("fixture PID file path");
+        let pid_file = std::env::var_os("OPC_DESCENDANT_PID_FILE").expect("fixture PID file path");
         match role.as_str() {
             "parent" | "orphan-parent" => {
                 let child = windows_fixture_command(Path::new(&pid_file), "leaf")
@@ -539,8 +537,8 @@ mod tests {
         let mut command = Command::new("sh");
         command
             .arg("-c")
-            .arg("sleep 60 & echo $! > \"$OPENBITFUN_DESCENDANT_PID_FILE\"; wait")
-            .env("OPENBITFUN_DESCENDANT_PID_FILE", pid_file);
+            .arg("sleep 60 & echo $! > \"$OPC_DESCENDANT_PID_FILE\"; wait")
+            .env("OPC_DESCENDANT_PID_FILE", pid_file);
         command
     }
 
@@ -549,8 +547,8 @@ mod tests {
         let mut command = Command::new("sh");
         command
             .arg("-c")
-            .arg("sleep 60 & echo $! > \"$OPENBITFUN_DESCENDANT_PID_FILE\"")
-            .env("OPENBITFUN_DESCENDANT_PID_FILE", pid_file);
+            .arg("sleep 60 & echo $! > \"$OPC_DESCENDANT_PID_FILE\"")
+            .env("OPC_DESCENDANT_PID_FILE", pid_file);
         command
     }
 

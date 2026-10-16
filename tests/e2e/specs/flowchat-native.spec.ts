@@ -3,12 +3,12 @@ import { join } from 'node:path';
 import { $, $$, browser, expect } from '@wdio/globals';
 import { openWorkspace } from '../helpers/workspace-helper';
 
-const ids = process.env.OPENBITFUN_FLOWCHAT_SESSION_IDS!.split(',');
-const evidence = process.env.OPENBITFUN_FLOWCHAT_E2E_ROOT!;
+const ids = process.env.OPC_FLOWCHAT_SESSION_IDS!.split(',');
+const evidence = process.env.OPC_FLOWCHAT_E2E_ROOT!;
 const samples: Record<string, unknown> = {};
 
 async function profileExpansion() {
-  const port = process.env.OPENBITFUN_FLOWCHAT_CDP_PORT;
+  const port = process.env.OPC_FLOWCHAT_CDP_PORT;
   if (!port) return async () => {};
   const pages = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json() as Array<{ type: string; url: string; title: string; webSocketDebuggerUrl: string }>;
   samples.profileTargets = pages.map(({ type, url, title }) => ({ type, url, title }));

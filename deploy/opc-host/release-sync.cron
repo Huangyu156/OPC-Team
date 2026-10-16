@@ -1,0 +1,6 @@
+# This file is the entire root crontab for the OPC-Team origin.
+# Installing it replaces every root cron job. Back up `crontab -l` first.
+# Install with:
+#   crontab /root/repos/OPC-Team/deploy/opc-host/release-sync.cron
+# Requires /root/repos/OPC-Team checked out and /srv/opc-release created.
+*/10 * * * * /root/repos/OPC-Team/scripts/opc-release-sync.sh >> /var/log/opc-release-sync.log 2>&1

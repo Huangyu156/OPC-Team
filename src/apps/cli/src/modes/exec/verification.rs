@@ -21,12 +21,12 @@ pub(super) struct VerifyConfig {
 
 impl VerifyConfig {
     pub(super) fn from_env() -> Self {
-        let timeout = std::env::var("OPENBITFUN_PATCH_VERIFY_TIMEOUT_SEC")
+        let timeout = std::env::var("OPC_PATCH_VERIFY_TIMEOUT_SEC")
             .ok()
             .and_then(|value| value.trim().parse::<u64>().ok())
             .map(Duration::from_secs)
             .unwrap_or_else(|| Duration::from_secs(900));
-        let max_retries = std::env::var("OPENBITFUN_PATCH_VERIFY_MAX_RETRIES")
+        let max_retries = std::env::var("OPC_PATCH_VERIFY_MAX_RETRIES")
             .ok()
             .and_then(|value| value.trim().parse::<u32>().ok())
             .unwrap_or(1);

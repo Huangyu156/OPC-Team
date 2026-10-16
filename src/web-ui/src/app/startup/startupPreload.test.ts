@@ -39,9 +39,9 @@ describe('startup preload shell', () => {
       beforeParse(window) {
         Object.defineProperty(window.navigator, 'language', { value: system });
         Object.assign(window, {
-          __OPENBITFUN_BOOTSTRAP_LOCALE__: saved,
+          __OPC_BOOTSTRAP_LOCALE__: saved,
           // Older hosts may still inject their own copy; the surface owns it now.
-          __OPENBITFUN_BOOTSTRAP_MESSAGES__: { loadingApp: 'Legacy startup copy' },
+          __OPC_BOOTSTRAP_MESSAGES__: { loadingApp: 'Legacy startup copy' },
         });
       },
     });
@@ -65,8 +65,8 @@ describe('startup preload shell', () => {
       beforeParse(window) {
         Object.defineProperty(window.navigator, 'platform', { value: 'Win32' });
         Object.assign(window, {
-          __OPENBITFUN_BOOTSTRAP_LOCALE__: 'zh-CN',
-          __OPENBITFUN_SHOW_STARTUP_WINDOW_CONTROLS__: true,
+          __OPC_BOOTSTRAP_LOCALE__: 'zh-CN',
+          __OPC_SHOW_STARTUP_WINDOW_CONTROLS__: true,
           __TAURI_INTERNALS__: { invoke },
         });
       },
@@ -175,7 +175,7 @@ describe('startup preload shell', () => {
       runScripts: 'dangerously',
       beforeParse(window) {
         Object.assign(window, {
-          __OPENBITFUN_SHOW_STARTUP_WINDOW_CONTROLS__: showControls,
+          __OPC_SHOW_STARTUP_WINDOW_CONTROLS__: showControls,
           __TAURI_INTERNALS__: { invoke, metadata: { currentWindow: { label: 'main' } } },
         });
       },
@@ -228,7 +228,7 @@ describe('startup preload shell', () => {
       runScripts: 'dangerously',
       beforeParse(window) {
         Object.assign(window, {
-          __OPENBITFUN_BOOTSTRAP_LOCALE__: 'en-US',
+          __OPC_BOOTSTRAP_LOCALE__: 'en-US',
         });
       },
     });

@@ -97,7 +97,7 @@
 - `src/web-ui/src/infrastructure/i18n/core/I18nService.ts:44-57`:`bootstrapLocaleModules` 用 `import.meta.glob(..., { eager: true })` 把 **3 个语言 × 9 个命名空间**全部内联进入口;实测这批 JSON 源文件共 **793 KB**,而运行时只需要当前语言(~1/3)。
 - 已排除其他嫌疑:入口内无 base64 大资源(data URI 合计 78 字节)、无 tiptap/prosemirror/mermaid/monaco/lucide 全量(签名探测均为 0 或个位数命中),lucide 无 `import *` 全量导入。
 
-**方案**:bootstrap 文案按语言拆分——保持 eager 但只对 resolved locale 生效:把 eager glob 改为三个按语言的 `import.meta.glob`(每语言一个 chunk),启动时根据 `__OPENBITFUN_BOOTSTRAP_LOCALE__` 同步选择(Vite 会为每个 glob 生成独立 chunk,当前语言之外的不加载);或将同步 `t()` 依赖的模块初始化改为在 `I18nProvider` ready 后执行。注意与 `startupPerformanceContract.test.ts` 中 "i18n provider 不允许异步 waterfall" 的契约协调,属于中风险改动。
+**方案**:bootstrap 文案按语言拆分——保持 eager 但只对 resolved locale 生效:把 eager glob 改为三个按语言的 `import.meta.glob`(每语言一个 chunk),启动时根据 `__OPC_BOOTSTRAP_LOCALE__` 同步选择(Vite 会为每个 glob 生成独立 chunk,当前语言之外的不加载);或将同步 `t()` 依赖的模块初始化改为在 `I18nProvider` ready 后执行。注意与 `startupPerformanceContract.test.ts` 中 "i18n provider 不允许异步 waterfall" 的契约协调,属于中风险改动。
 
 ### 6. 未压缩大图 ~2.7 MB【中收益/低风险】
 
@@ -139,7 +139,7 @@
 | T4 桌宠按需分发 | 产品确认后:仅内置默认宠物,其余走现有 `import_agent_companion_pet_package` 通道按需获取 | `src/web-ui/public/agent-companion-pets/`、桌宠选择 UI | 安装包 -14 MB | 中(需产品确认) |
 | T5 Rust 启动并行化(第一步,低风险) | `run()` 内用 `tokio::join!` 并行 i18n/AIClientFactory/log-level 三步;`init_agentic_system` 内 TokenUsage/Cron 并行;为 `prepare_workspace_startup_bootstrap_snapshot` 的 block_on 加超时回退 | `src/apps/desktop/src/lib.rs` | 冷启动前段缩短(IO 并行) | 中低 |
 | T6 Rust 窗口前移(第二步,需设计) | config 就绪后立即创建并显示主窗口,agentic/AppState 等移到窗口创建后台;为 invoke 增加服务就绪 gate;用现有 startup_trace 对比前后指标 | `src/apps/desktop/src/lib.rs`、`theme.rs`、`api/commands.rs` | 首帧出现时间大幅提前(高) | 中 |
-| T7 i18n 首包按语言拆分 | `bootstrapLocaleModules` 按语言拆为独立 eager glob/chunk,启动仅加载 `__OPENBITFUN_BOOTSTRAP_LOCALE__` 对应语言;同步更新 `startupPerformanceContract.test.ts` 契约 | `src/web-ui/src/infrastructure/i18n/core/I18nService.ts`、契约测试 | 首包 -0.5 MB、减 parse | 中 |
+| T7 i18n 首包按语言拆分 | `bootstrapLocaleModules` 按语言拆为独立 eager glob/chunk,启动仅加载 `__OPC_BOOTSTRAP_LOCALE__` 对应语言;同步更新 `startupPerformanceContract.test.ts` 契约 | `src/web-ui/src/infrastructure/i18n/core/I18nService.ts`、契约测试 | 首包 -0.5 MB、减 parse | 中 |
 | T8 桌宠组件懒加载 | `main.tsx` 中 `AgentCompanionDesktopPet` 改 `React.lazy`,pet 窗口加 Suspense fallback(复用现有预载动画) | `src/web-ui/src/main.tsx` | 主窗口首包减小 | 低 |
 | T9 panic=abort | `[profile.release]` 加 `panic = "abort"`,全量桌面冒烟(重点:插件、panic hook、崩溃诊断路径) | 根 `Cargo.toml` | exe -5~10% | 中低 |
 | T10 高亮引擎统一 | 消除双 prismjs(InlineDiffPreview 改用 refractor 或懒加载),规划 highlight.js/react-syntax-highlighter 二选一 | `src/web-ui/src/flow_chat/components/InlineDiffPreview.tsx` 等 | JS -0.5~1 MB | 中 |

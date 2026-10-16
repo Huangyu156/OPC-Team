@@ -9,8 +9,8 @@
 #   RUN (cache mounts are not part of the image filesystem).
 #
 # China mirrors (optional):
-#   docker compose build --build-arg OPENBITFUN_USE_CN_MIRROR=1
-#   Also: OPENBITFUN_APT_MIRROR, OPENBITFUN_CARGO_SPARSE_URL
+#   docker compose build --build-arg OPC_USE_CN_MIRROR=1
+#   Also: OPC_APT_MIRROR, OPC_CARGO_SPARSE_URL
 
 # Pin a minor toolchain so floating `rust:1-bookworm` updates do not bust the
 # entire builder cache on every upstream image refresh.
@@ -22,9 +22,9 @@ WORKDIR /build/src/apps/relay-server
 #   docker compose build --build-arg CARGO_BUILD_JOBS=1
 # Note: empty value must NOT be set as ENV — cargo chokes on empty string.
 ARG CARGO_BUILD_JOBS=
-ARG OPENBITFUN_USE_CN_MIRROR=0
-ARG OPENBITFUN_APT_MIRROR=mirrors.aliyun.com
-ARG OPENBITFUN_CARGO_SPARSE_URL=sparse+https://rsproxy.cn/index/
+ARG OPC_USE_CN_MIRROR=0
+ARG OPC_APT_MIRROR=mirrors.aliyun.com
+ARG OPC_CARGO_SPARSE_URL=sparse+https://rsproxy.cn/index/
 
 ENV DEBIAN_FRONTEND=noninteractive \
     CARGO_TERM_COLOR=always \
@@ -32,15 +32,15 @@ ENV DEBIAN_FRONTEND=noninteractive \
 
 # Configure apt + cargo mirrors inside the builder when deploying from China.
 RUN set -eux; \
-    if [ "${OPENBITFUN_USE_CN_MIRROR}" = "1" ]; then \
+    if [ "${OPC_USE_CN_MIRROR}" = "1" ]; then \
       sed -i \
-        -e "s|deb.debian.org/debian|${OPENBITFUN_APT_MIRROR}/debian|g" \
-        -e "s|security.debian.org/debian-security|${OPENBITFUN_APT_MIRROR}/debian-security|g" \
+        -e "s|deb.debian.org/debian|${OPC_APT_MIRROR}/debian|g" \
+        -e "s|security.debian.org/debian-security|${OPC_APT_MIRROR}/debian-security|g" \
         /etc/apt/sources.list 2>/dev/null || true; \
       if [ -f /etc/apt/sources.list.d/debian.sources ]; then \
         sed -i \
-          -e "s|deb.debian.org/debian|${OPENBITFUN_APT_MIRROR}/debian|g" \
-          -e "s|security.debian.org/debian-security|${OPENBITFUN_APT_MIRROR}/debian-security|g" \
+          -e "s|deb.debian.org/debian|${OPC_APT_MIRROR}/debian|g" \
+          -e "s|security.debian.org/debian-security|${OPC_APT_MIRROR}/debian-security|g" \
           /etc/apt/sources.list.d/debian.sources; \
       fi; \
       mkdir -p /usr/local/cargo; \
@@ -57,7 +57,7 @@ RUN set -eux; \
         'replace-with = "openbitfun-rsproxy-sparse"' \
         '' \
         '[source.openbitfun-rsproxy-sparse]' \
-        "registry = \"${OPENBITFUN_CARGO_SPARSE_URL}\"" \
+        "registry = \"${OPC_CARGO_SPARSE_URL}\"" \
         > /usr/local/cargo/config.toml; \
     fi
 
@@ -106,7 +106,7 @@ COPY src/crates/services/page-function-runtime/src/ ../../crates/services/page-f
 RUN --mount=type=cache,id=openbitfun-relay-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
     --mount=type=cache,id=openbitfun-relay-cargo-git,target=/usr/local/cargo/git,sharing=locked \
     --mount=type=cache,id=openbitfun-relay-target,target=/build/src/apps/relay-server/target,sharing=locked \
-    rm -f target/release/openbitfun-relay-server \
+    rm -f target/release/opc-relay-server \
         target/release/relay-admin \
         target/release/deps/*openbitfun_relay_service* \
         target/release/deps/*openbitfun_page_function_runtime* \
@@ -114,7 +114,7 @@ RUN --mount=type=cache,id=openbitfun-relay-cargo-registry,target=/usr/local/carg
         target/release/deps/*relay_admin* \
     && rm -rf target/release/.fingerprint/openbitfun-relay-service-* \
         target/release/.fingerprint/openbitfun-page-function-runtime-* \
-        target/release/.fingerprint/openbitfun-relay-server-* \
+        target/release/.fingerprint/opc-relay-server-* \
         target/release/.fingerprint/relay-admin-* \
     && touch ../../crates/services/relay-service/src/lib.rs \
         ../../crates/services/page-function-runtime/src/lib.rs \
@@ -123,14 +123,14 @@ RUN --mount=type=cache,id=openbitfun-relay-cargo-registry,target=/usr/local/carg
         src/bin/relay_admin.rs \
     && { [ -n "${CARGO_BUILD_JOBS:-}" ] || unset CARGO_BUILD_JOBS; } \
     && cargo build --release \
-    && cp target/release/openbitfun-relay-server target/release/relay-admin /out/ \
-    && (strip /out/openbitfun-relay-server /out/relay-admin || true)
+    && cp target/release/opc-relay-server target/release/relay-admin /out/ \
+    && (strip /out/opc-relay-server /out/relay-admin || true)
 
 FROM debian:bookworm-slim
 
 ARG RELAY_GIT_COMMIT=unknown
-ARG OPENBITFUN_USE_CN_MIRROR=0
-ARG OPENBITFUN_APT_MIRROR=mirrors.aliyun.com
+ARG OPC_USE_CN_MIRROR=0
+ARG OPC_APT_MIRROR=mirrors.aliyun.com
 
 LABEL org.opencontainers.image.title="OPC-Team Relay Server" \
       org.opencontainers.image.description="Self-hosted relay server for OPC-Team" \
@@ -141,15 +141,15 @@ LABEL org.opencontainers.image.title="OPC-Team Relay Server" \
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN set -eux; \
-    if [ "${OPENBITFUN_USE_CN_MIRROR}" = "1" ]; then \
+    if [ "${OPC_USE_CN_MIRROR}" = "1" ]; then \
       sed -i \
-        -e "s|deb.debian.org/debian|${OPENBITFUN_APT_MIRROR}/debian|g" \
-        -e "s|security.debian.org/debian-security|${OPENBITFUN_APT_MIRROR}/debian-security|g" \
+        -e "s|deb.debian.org/debian|${OPC_APT_MIRROR}/debian|g" \
+        -e "s|security.debian.org/debian-security|${OPC_APT_MIRROR}/debian-security|g" \
         /etc/apt/sources.list 2>/dev/null || true; \
       if [ -f /etc/apt/sources.list.d/debian.sources ]; then \
         sed -i \
-          -e "s|deb.debian.org/debian|${OPENBITFUN_APT_MIRROR}/debian|g" \
-          -e "s|security.debian.org/debian-security|${OPENBITFUN_APT_MIRROR}/debian-security|g" \
+          -e "s|deb.debian.org/debian|${OPC_APT_MIRROR}/debian|g" \
+          -e "s|security.debian.org/debian-security|${OPC_APT_MIRROR}/debian-security|g" \
           /etc/apt/sources.list.d/debian.sources; \
       fi; \
     fi; \
@@ -159,7 +159,7 @@ RUN set -eux; \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
-COPY --from=builder /out/openbitfun-relay-server /app/openbitfun-relay-server
+COPY --from=builder /out/opc-relay-server /app/opc-relay-server
 COPY --from=builder /out/relay-admin /app/relay-admin
 COPY src/apps/relay-server/static/ /app/static/
 RUN mkdir -p /app/static /app/data /app/room-web
@@ -171,4 +171,4 @@ EXPOSE 9700
 HEALTHCHECK --interval=15s --timeout=5s --start-period=20s --retries=5 \
   CMD curl -fsS "http://127.0.0.1:${RELAY_PORT}/health" || exit 1
 
-CMD ["/app/openbitfun-relay-server"]
+CMD ["/app/opc-relay-server"]

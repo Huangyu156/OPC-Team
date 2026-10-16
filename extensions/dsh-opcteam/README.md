@@ -27,7 +27,7 @@ The plugin registers one dsh tool:
 The host binary is located per call in this order:
 
 1. the `hostPath` patch-config option of the `openbitfun` row,
-2. the `OPENBITFUN_SDK_HOST` environment variable,
+2. the `OPC_SDK_HOST` environment variable,
 3. `target/debug` / `target/release` walking up from the dsh session cwd
    (a OPC-Team checkout-local build),
 4. `opc-sdk-host` on `PATH`.

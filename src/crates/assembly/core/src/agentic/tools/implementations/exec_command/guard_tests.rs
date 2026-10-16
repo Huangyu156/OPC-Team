@@ -103,7 +103,7 @@ fn context(root: &Path, port: Arc<dyn TerminalPort>) -> ToolUseContext {
     context
 }
 async fn pin_bash(tool: &ExecCommandTool, input: &Value, context: &ToolUseContext) {
-    let path = std::env::var("OPENBITFUN_SHELL_TEST_BASH").unwrap_or_else(|_| "/bin/bash".into());
+    let path = std::env::var("OPC_SHELL_TEST_BASH").unwrap_or_else(|_| "/bin/bash".into());
     let shell = ResolvedLocalExecShell {
         display_name: "Fixture Bash".into(),
         path: PathBuf::from(&path),
@@ -150,7 +150,7 @@ async fn complete_shell_tool_executes_original_bytes_and_preserves_redirection_o
         assert_eq!(r.tty, n == 1);
     }
     let version = opc_services_core::process_manager::create_command(
-        std::env::var("OPENBITFUN_SHELL_TEST_BASH").unwrap_or_else(|_| "/bin/bash".into()),
+        std::env::var("OPC_SHELL_TEST_BASH").unwrap_or_else(|_| "/bin/bash".into()),
     )
     .arg("--version")
     .output()
@@ -234,9 +234,9 @@ async fn complete_shell_tool_rechecks_workdir_and_symlink_parent() {
     assert_eq!(terminal.calls.load(Ordering::SeqCst), 0);
 }
 #[tokio::test]
-#[ignore = "requires OPENBITFUN_SHELL_TEST_BASH pointing to Bash >= 4"]
+#[ignore = "requires OPC_SHELL_TEST_BASH pointing to Bash >= 4"]
 async fn complete_shell_bash_combined_append_on_capable_shell() {
-    assert!(std::env::var("OPENBITFUN_SHELL_TEST_BASH").is_ok());
+    assert!(std::env::var("OPC_SHELL_TEST_BASH").is_ok());
     let root = tempfile::tempdir().unwrap();
     let terminal = Arc::new(FixtureTerminal::default());
     let context = context(root.path(), terminal.clone());

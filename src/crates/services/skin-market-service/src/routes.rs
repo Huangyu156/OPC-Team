@@ -25,7 +25,7 @@ use opc_product_domains::appearance_market::{
     APPEARANCE_MARKET_MAX_PACKAGE_BYTES, APPEARANCE_MARKET_MAX_PAGE_SIZE,
     APPEARANCE_MARKET_PACKAGE_CONTENT_TYPE,
 };
-use opc_product_domains::product_release::OPENBITFUN_INITIAL_RELEASE_VERSION;
+use opc_product_domains::product_release::OPC_INITIAL_RELEASE_VERSION;
 use semver::Version;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -1632,7 +1632,7 @@ fn validate_min_opc_version(value: &str) -> SkinMarketResult<()> {
             "minOpenBitFunVersion must use semantic version syntax, for example 1.0.0.",
         )
     })?;
-    if version < OPENBITFUN_INITIAL_RELEASE_VERSION {
+    if version < OPC_INITIAL_RELEASE_VERSION {
         return Err(SkinMarketError::bad_request(
             "invalid_min_opc_version",
             "minOpenBitFunVersion must be 1.0.0 or newer.",

@@ -1,6 +1,6 @@
 use super::common::{read_bounded_json, stage_domain_dir};
 use opc_agent_runtime::custom_agent::{custom_agent_read_markdown_str, CustomAgentLevel};
-use opc_agent_runtime::skills::{SkillData, SkillLocation, OPENBITFUN_SYSTEM_SKILL_DIR};
+use opc_agent_runtime::skills::{SkillData, SkillLocation, OPC_SYSTEM_SKILL_DIR};
 use opc_legacy_migration::{
     atomic_write_bytes, atomic_write_json, DomainContext, DomainScan, LegacyDomainAdapter,
     LegacyMigrationError, LegacyMigrationResult, MigrationRoots,
@@ -483,7 +483,7 @@ fn plan_skills(roots: &MigrationRoots) -> LegacyMigrationResult<Vec<PlannedTree>
     for source in direct_child_directories(&source_root)? {
         let inspect = (|| -> LegacyMigrationResult<()> {
             let source_id = file_name(&source)?;
-            if source_id == OPENBITFUN_SYSTEM_SKILL_DIR {
+            if source_id == OPC_SYSTEM_SKILL_DIR {
                 return Ok(());
             }
             let skill_file = source.join("SKILL.md");
@@ -1684,10 +1684,7 @@ mod tests {
             .target_skills_root
             .join("user-skill/SKILL.md")
             .exists());
-        assert!(!roots
-            .target_skills_root
-            .join(OPENBITFUN_SYSTEM_SKILL_DIR)
-            .exists());
+        assert!(!roots.target_skills_root.join(OPC_SYSTEM_SKILL_DIR).exists());
         assert!(roots
             .target_skills_root
             .join("user-skill/undeclared.txt")
@@ -1968,7 +1965,7 @@ mod tests {
     }
 
     fn test_tempdir(label: &str) -> tempfile::TempDir {
-        let root = std::env::var_os("OPENBITFUN_TEST_TMPDIR")
+        let root = std::env::var_os("OPC_TEST_TMPDIR")
             .map(PathBuf::from)
             .unwrap_or_else(std::env::temp_dir);
         fs::create_dir_all(&root).unwrap();

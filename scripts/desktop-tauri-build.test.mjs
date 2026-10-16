@@ -381,10 +381,10 @@ test('Windows updater installs NSIS packages without showing its progress window
   const fixture = join(tmpdir(), `opc-tauri-updater-${process.pid}-${Date.now()}`);
   const baseConfig = join(fixture, 'tauri.conf.json');
   const updaterEnv = {
-    OPENBITFUN_ENABLE_UPDATER_ARTIFACTS: process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS,
-    OPENBITFUN_RELEASE_CHANNEL: process.env.OPENBITFUN_RELEASE_CHANNEL,
-    OPENBITFUN_UPDATER_FALLBACK_ENDPOINT: process.env.OPENBITFUN_UPDATER_FALLBACK_ENDPOINT,
-    OPENBITFUN_UPDATER_PRIMARY_ENDPOINT: process.env.OPENBITFUN_UPDATER_PRIMARY_ENDPOINT,
+    OPC_ENABLE_UPDATER_ARTIFACTS: process.env.OPC_ENABLE_UPDATER_ARTIFACTS,
+    OPC_RELEASE_CHANNEL: process.env.OPC_RELEASE_CHANNEL,
+    OPC_UPDATER_FALLBACK_ENDPOINT: process.env.OPC_UPDATER_FALLBACK_ENDPOINT,
+    OPC_UPDATER_PRIMARY_ENDPOINT: process.env.OPC_UPDATER_PRIMARY_ENDPOINT,
     TAURI_SIGNING_PRIVATE_KEY: process.env.TAURI_SIGNING_PRIVATE_KEY,
     TAURI_UPDATER_ENDPOINT: process.env.TAURI_UPDATER_ENDPOINT,
     TAURI_UPDATER_FALLBACK_ENDPOINT: process.env.TAURI_UPDATER_FALLBACK_ENDPOINT,
@@ -392,7 +392,7 @@ test('Windows updater installs NSIS packages without showing its progress window
   };
   mkdirSync(fixture, { recursive: true });
   writeFileSync(baseConfig, JSON.stringify({ bundle: { resources: {} } }));
-  process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS = 'true';
+  process.env.OPC_ENABLE_UPDATER_ARTIFACTS = 'true';
   process.env.TAURI_SIGNING_PRIVATE_KEY = 'test-private-key';
   process.env.TAURI_UPDATER_PUBKEY = 'test-public-key';
 
@@ -420,10 +420,10 @@ test('beta Desktop artifacts compile and bundle only beta updater endpoints', ()
   const fixture = join(tmpdir(), `opc-tauri-beta-${process.pid}-${Date.now()}`);
   const baseConfig = join(fixture, 'tauri.conf.json');
   const names = [
-    'OPENBITFUN_ENABLE_UPDATER_ARTIFACTS',
-    'OPENBITFUN_RELEASE_CHANNEL',
-    'OPENBITFUN_UPDATER_FALLBACK_ENDPOINT',
-    'OPENBITFUN_UPDATER_PRIMARY_ENDPOINT',
+    'OPC_ENABLE_UPDATER_ARTIFACTS',
+    'OPC_RELEASE_CHANNEL',
+    'OPC_UPDATER_FALLBACK_ENDPOINT',
+    'OPC_UPDATER_PRIMARY_ENDPOINT',
     'TAURI_SIGNING_PRIVATE_KEY',
     'TAURI_UPDATER_ENDPOINT',
     'TAURI_UPDATER_FALLBACK_ENDPOINT',
@@ -432,8 +432,8 @@ test('beta Desktop artifacts compile and bundle only beta updater endpoints', ()
   const previous = Object.fromEntries(names.map((name) => [name, process.env[name]]));
   mkdirSync(fixture, { recursive: true });
   writeFileSync(baseConfig, JSON.stringify({ bundle: { resources: {} } }));
-  process.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS = 'true';
-  process.env.OPENBITFUN_RELEASE_CHANNEL = 'beta';
+  process.env.OPC_ENABLE_UPDATER_ARTIFACTS = 'true';
+  process.env.OPC_RELEASE_CHANNEL = 'beta';
   process.env.TAURI_SIGNING_PRIVATE_KEY = 'test-private-key';
   process.env.TAURI_UPDATER_PUBKEY = 'test-public-key';
   delete process.env.TAURI_UPDATER_ENDPOINT;
@@ -454,11 +454,11 @@ test('beta Desktop artifacts compile and bundle only beta updater endpoints', ()
       'https://openbitfun.com/release/beta/latest-v1.json',
     );
     assert.equal(
-      process.env.OPENBITFUN_UPDATER_PRIMARY_ENDPOINT,
+      process.env.OPC_UPDATER_PRIMARY_ENDPOINT,
       config.plugins.updater.endpoints[0],
     );
     assert.equal(
-      process.env.OPENBITFUN_UPDATER_FALLBACK_ENDPOINT,
+      process.env.OPC_UPDATER_FALLBACK_ENDPOINT,
       config.plugins.updater.endpoints[1],
     );
   } finally {

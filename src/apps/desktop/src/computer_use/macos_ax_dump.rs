@@ -1119,7 +1119,7 @@ mod tests {
     #[test]
     #[ignore = "run scripts/test-native-ax-context.mjs with macOS Accessibility permission"]
     fn native_ax_fixture_round_trips_tree_and_cached_targets() {
-        let pid: i32 = std::env::var("OPENBITFUN_AX_FIXTURE_PID")
+        let pid: i32 = std::env::var("OPC_AX_FIXTURE_PID")
             .expect("isolated fixture PID")
             .parse()
             .unwrap();

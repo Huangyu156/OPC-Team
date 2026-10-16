@@ -6,7 +6,7 @@ use crate::util::string::shell_single_quote;
 pub(super) const MAX_GREP_BATCH_PATHS: usize = 128;
 pub(super) const MAX_GREP_BATCH_COMMAND_BYTES: usize = 16_384;
 
-const BATCH_END: &str = "\nOPENBITFUN_GREP_BATCH_END\n";
+const BATCH_END: &str = "\nOPC_GREP_BATCH_END\n";
 
 /// Accept only literal branches whose union is a conservative byte prefilter.
 /// Escapes, inline flags and all other regex syntax stay with the Rust scanner.
@@ -106,7 +106,7 @@ set --"#,
         esac
     fi
 done
-printf '\nOPENBITFUN_GREP_BATCH_END\n'"#,
+printf '\nOPC_GREP_BATCH_END\n'"#,
     );
     command
 }

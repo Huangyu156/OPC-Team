@@ -4,7 +4,7 @@ use crate::canvas::types::{
 };
 use serde::{Deserialize, Serialize};
 
-pub const OPENBITFUN_CANVAS_IMPORT: &str = "openbitfun/canvas";
+pub const OPC_CANVAS_IMPORT: &str = "openbitfun/canvas";
 const CURSOR_CANVAS_IMPORT: &str = "cursor/canvas";
 const REACT_IMPORT: &str = "react";
 
@@ -59,7 +59,7 @@ pub fn validate_canvas_imports(source: &str) -> Vec<CanvasImportPolicyDiagnostic
 fn is_allowed_canvas_import(specifier: &str) -> bool {
     matches!(
         specifier,
-        OPENBITFUN_CANVAS_IMPORT | CURSOR_CANVAS_IMPORT | REACT_IMPORT
+        OPC_CANVAS_IMPORT | CURSOR_CANVAS_IMPORT | REACT_IMPORT
     )
 }
 
@@ -152,7 +152,7 @@ fn import_policy_message(diagnostic: &CanvasImportPolicyDiagnostic) -> String {
         CanvasImportPolicyDiagnosticKind::UnsupportedImport => {
             format!(
                 "Import '{}' is not allowed; Canvas source may only import from {}",
-                diagnostic.specifier, OPENBITFUN_CANVAS_IMPORT
+                diagnostic.specifier, OPC_CANVAS_IMPORT
             )
         }
     }

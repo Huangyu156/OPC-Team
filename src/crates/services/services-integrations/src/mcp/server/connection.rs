@@ -652,7 +652,7 @@ mod tests {
 
     #[test]
     fn mcp_connection_timeout_child() {
-        if std::env::var_os("OPENBITFUN_MCP_CONNECTION_TIMEOUT_CHILD").is_some() {
+        if std::env::var_os("OPC_MCP_CONNECTION_TIMEOUT_CHILD").is_some() {
             std::thread::sleep(Duration::from_secs(30));
         }
     }
@@ -665,7 +665,7 @@ mod tests {
         .arg("--exact")
         .arg("mcp::server::connection::tests::mcp_connection_timeout_child")
         .arg("--nocapture")
-        .env("OPENBITFUN_MCP_CONNECTION_TIMEOUT_CHILD", "1")
+        .env("OPC_MCP_CONNECTION_TIMEOUT_CHILD", "1")
         .stdin(std::process::Stdio::piped())
         .stdout(std::process::Stdio::null())
         .stderr(std::process::Stdio::null())

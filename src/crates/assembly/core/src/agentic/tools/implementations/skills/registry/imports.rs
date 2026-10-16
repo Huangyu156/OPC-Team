@@ -185,7 +185,7 @@ pub fn package_fingerprint(root: &Path) -> Result<String, String> {
 /// Read only the files that will be copied, including the normalized flat Pi entry.
 /// Display metadata and the digest come from the same entry bytes.
 pub async fn preview_import(source: SkillInfo) -> Result<SkillImportPreview, String> {
-    if source.is_builtin || source.source_id == OPENBITFUN_SKILL_SOURCE_ID {
+    if source.is_builtin || source.source_id == OPC_SKILL_SOURCE_ID {
         return Err("Expected an external Skill source".into());
     }
     tokio::task::spawn_blocking(move || {
@@ -282,7 +282,7 @@ pub async fn import_copy_as_reviewed(
             );
         }
     }
-    if source.is_builtin || source.source_id == OPENBITFUN_SKILL_SOURCE_ID {
+    if source.is_builtin || source.source_id == OPC_SKILL_SOURCE_ID {
         return Err("Expected an external Skill source".into());
     }
     fs::create_dir_all(&target_root)
@@ -584,7 +584,7 @@ mod tests {
         let native = SkillRegistry::scan_skills_in_dir(&root(
             target.clone(),
             "openbitfun",
-            OPENBITFUN_USER_SKILL_SLOT,
+            OPC_USER_SKILL_SLOT,
             0,
         ))
         .await
@@ -755,7 +755,7 @@ mod tests {
         let candidates = SkillRegistry::scan_skills_in_dir(&root(
             target.clone(),
             "openbitfun",
-            OPENBITFUN_USER_SKILL_SLOT,
+            OPC_USER_SKILL_SLOT,
             0,
         ))
         .await

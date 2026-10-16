@@ -981,7 +981,7 @@ fn read_observation(roots: &MigrationRoots, run_id: &str) -> MigrationReleaseObs
 }
 
 fn test_tempdir() -> tempfile::TempDir {
-    match std::env::var_os("OPENBITFUN_TEST_TMPDIR") {
+    match std::env::var_os("OPC_TEST_TMPDIR") {
         Some(root) => tempfile::Builder::new()
             .prefix("legacy-migration-")
             .tempdir_in(root)

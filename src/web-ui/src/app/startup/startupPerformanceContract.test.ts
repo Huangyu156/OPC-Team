@@ -133,22 +133,22 @@ describe('startup performance contract', () => {
     expect(mainSource).not.toContain('before_render_step", "initialize_frontend_log_level_sync"');
     expect(mainSource).toContain('initializeFrontendLogLevelSync');
     expect(mainSource).toContain('installFrontendLogLevelConfigWatcher');
-    expect(loggerSource).toContain('__OPENBITFUN_BOOTSTRAP_LOG_LEVEL__');
-    expect(appearanceSource).toContain('__OPENBITFUN_BOOTSTRAP_LOG_LEVEL__');
+    expect(loggerSource).toContain('__OPC_BOOTSTRAP_LOG_LEVEL__');
+    expect(appearanceSource).toContain('__OPC_BOOTSTRAP_LOG_LEVEL__');
   });
 
   it('keeps startup keybindings on the bootstrap path instead of a first-window IPC', () => {
     const configManagerSource = readSource('../../infrastructure/config/services/ConfigManager.ts');
     const appearanceSource = readSource('../../../../apps/desktop/src/appearance.rs');
 
-    expect(appearanceSource).toContain('__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__');
+    expect(appearanceSource).toContain('__OPC_BOOTSTRAP_KEYBINDINGS__');
     expect(appearanceSource).toContain('keybindings: global_config.app.keybindings');
     expect(appearanceSource).toContain('MAX_BOOTSTRAP_KEYBINDINGS_JSON_BYTES');
     expect(appearanceSource).toContain('.filter(|json| json.len() <= MAX_BOOTSTRAP_KEYBINDINGS_JSON_BYTES)');
     expect(configManagerSource).toContain('consumeBootstrapOptionalConfig');
-    expect(configManagerSource).toContain('__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__');
+    expect(configManagerSource).toContain('__OPC_BOOTSTRAP_KEYBINDINGS__');
     expect(configManagerSource).toContain("path !== 'app.keybindings'");
-    expect(configManagerSource).toContain('delete globalThis.__OPENBITFUN_BOOTSTRAP_KEYBINDINGS__');
+    expect(configManagerSource).toContain('delete globalThis.__OPC_BOOTSTRAP_KEYBINDINGS__');
   });
 
   it('keeps workspace startup state on the bootstrap path with command fallback', () => {
@@ -157,16 +157,16 @@ describe('startup performance contract', () => {
     const desktopLibSource = readSource('../../../../apps/desktop/src/lib.rs');
     const desktopCommandsSource = readSource('../../../../apps/desktop/src/api/commands.rs');
 
-    expect(desktopAppearanceSource).toContain('__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__');
+    expect(desktopAppearanceSource).toContain('__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__');
     expect(desktopAppearanceSource).toContain('MAX_BOOTSTRAP_WORKSPACE_STATE_JSON_BYTES');
     expect(desktopLibSource).toContain('prepare_workspace_startup_bootstrap_snapshot');
     expect(desktopLibSource).toContain('tokio::task::block_in_place');
     expect(desktopLibSource).not.toContain('tauri::async_runtime::block_on(prepare_workspace_startup_bootstrap_snapshot');
     expect(desktopCommandsSource).toContain('initialize_workspace_startup_state_impl');
     expect(globalStateSource).toContain('consumeBootstrapWorkspaceStartupStateSnapshot');
-    expect(globalStateSource).toContain('__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__');
+    expect(globalStateSource).toContain('__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__');
     expect(globalStateSource).toContain(
-      'delete globalThis.__OPENBITFUN_BOOTSTRAP_WORKSPACE_STARTUP_STATE__'
+      'delete globalThis.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__'
     );
   });
 

@@ -19,7 +19,7 @@ function getWebDriverSessionId(): string {
 }
 
 function webDriverEndpoint(pathname: string): string {
-  const port = Number(process.env.OPENBITFUN_E2E_WEBDRIVER_PORT || 4445);
+  const port = Number(process.env.OPC_E2E_WEBDRIVER_PORT || 4445);
   return `http://127.0.0.1:${port}${pathname}`;
 }
 

@@ -38,7 +38,7 @@ let includeSensitiveDiagnostics = true;
 
 declare global {
   // Injected by the desktop WebView initialization script before the frontend bundle runs.
-  var __OPENBITFUN_BOOTSTRAP_LOG_LEVEL__: string | undefined;
+  var __OPC_BOOTSTRAP_LOG_LEVEL__: string | undefined;
 }
 
 export function setIncludeSensitiveDiagnostics(enabled: boolean): void {
@@ -214,7 +214,7 @@ function logLevelFromString(value: unknown): LogLevel | null {
 }
 
 function initialLogLevel(): LogLevel {
-  const bootstrapLevel = logLevelFromString(globalThis.__OPENBITFUN_BOOTSTRAP_LOG_LEVEL__);
+  const bootstrapLevel = logLevelFromString(globalThis.__OPC_BOOTSTRAP_LOG_LEVEL__);
   if (bootstrapLevel !== null) {
     return bootstrapLevel;
   }

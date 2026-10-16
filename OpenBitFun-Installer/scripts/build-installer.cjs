@@ -17,7 +17,7 @@ const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const OPENBITFUN_ROOT = path.resolve(ROOT, "..");
+const OPC_ROOT = path.resolve(ROOT, "..");
 const PAYLOAD_DIR = path.join(ROOT, "src-tauri", "payload");
 
 const rawArgs = process.argv.slice(2);
@@ -169,18 +169,18 @@ function getExpectedAppProfile(mode) {
 
 function resolveCargoTargetDir(env = process.env) {
   const configured = env.CARGO_TARGET_DIR;
-  if (!configured) return path.join(OPENBITFUN_ROOT, "target");
+  if (!configured) return path.join(OPC_ROOT, "target");
   return path.isAbsolute(configured)
     ? path.normalize(configured)
-    : path.resolve(OPENBITFUN_ROOT, configured);
+    : path.resolve(OPC_ROOT, configured);
 }
 
 function resolveAppExePath(mode, args = rawArgs, env = process.env) {
-  const configured = getArgValue(args, "--app-exe") || env.OPENBITFUN_INSTALLER_APP_EXE;
+  const configured = getArgValue(args, "--app-exe") || env.OPC_INSTALLER_APP_EXE;
   if (configured) {
     return path.isAbsolute(configured)
       ? path.normalize(configured)
-      : path.resolve(OPENBITFUN_ROOT, configured);
+      : path.resolve(OPC_ROOT, configured);
   }
 
   return path.join(
@@ -226,7 +226,7 @@ if (isDev) {
 // Step 1: Build main OPC-Team app.
 if (!skipAppBuild) {
   log("Step 1: Building OPC-Team main application...");
-  run(getMainAppBuildCommand(buildMode), OPENBITFUN_ROOT);
+  run(getMainAppBuildCommand(buildMode), OPC_ROOT);
 } else {
   log("Step 1: Skipped (--skip-app-build)");
 }
@@ -240,7 +240,7 @@ log("Step 2: Preparing installer payload...");
   if (!appExePath && STRICT_PAYLOAD_VALIDATION) {
     error(
       `Could not find the exact ${getExpectedAppProfile(buildMode)} OPC-Team executable at ${expectedAppExePath}. ` +
-        "Build that profile first, set OPENBITFUN_INSTALLER_APP_EXE, or pass --app-exe."
+        "Build that profile first, set OPC_INSTALLER_APP_EXE, or pass --app-exe."
     );
   }
 

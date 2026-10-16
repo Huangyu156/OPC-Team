@@ -25,8 +25,8 @@ try {
     fixture.stdout.on('data', chunk => { if (String(chunk).includes('READY')) { clearTimeout(timeout); resolve(); } });
   });
   const nativeArgs = ['native_ax_fixture_round_trips_tree_and_cached_targets', '--ignored'];
-  await run(process.env.OPENBITFUN_TEST_BINARY || 'cargo', process.env.OPENBITFUN_TEST_BINARY ? nativeArgs : ['test', '-p', 'opc-desktop', '--lib', nativeArgs[0], '--', ...nativeArgs.slice(1)], {
-    ...process.env, OPENBITFUN_AX_FIXTURE_PID: String(fixture.pid),
+  await run(process.env.OPC_TEST_BINARY || 'cargo', process.env.OPC_TEST_BINARY ? nativeArgs : ['test', '-p', 'opc-desktop', '--lib', nativeArgs[0], '--', ...nativeArgs.slice(1)], {
+    ...process.env, OPC_AX_FIXTURE_PID: String(fixture.pid),
   });
 } finally {
   if (fixture && fixture.exitCode === null) {

@@ -55,7 +55,7 @@ Official Desktop, CLI, and app-server development/build entry points run
 `pnpm run plugin-host:prepare`; Desktop and CLI packages plus app-server release
 output stage the resulting `extension-host.js` under `resources/ext-host`. The current execution backend
 still requires a compatible `bun` command at runtime (or an explicit
-`OPENBITFUN_BUN_COMMAND`). Bundling a signed Bun sidecar is separate distribution
+`OPC_BUN_COMMAND`). Bundling a signed Bun sidecar is separate distribution
 work and must be completed before claiming a self-contained installer.
 
 ```sh

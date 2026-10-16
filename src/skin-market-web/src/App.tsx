@@ -18,7 +18,7 @@ import { AdminPage } from './AdminPage';
 import { CatalogPage } from './CatalogPage';
 import { DetailPage } from './DetailPage';
 import { useI18n } from './i18n';
-import { OPENBITFUN_HOME_URL } from './links';
+import { OPC_HOME_URL } from './links';
 import { adminPath, parseMarketRoute, submissionsPath } from './router';
 import { SubmissionsPage } from './SubmissionsPage';
 import { useTheme } from './theme';
@@ -248,7 +248,7 @@ export default function App() {
       <footer className="site-footer">
         <div className="shell site-footer__inner">
           <span>{t('brand')} {t('market')}</span>
-          <a className="site-footer__link" href={OPENBITFUN_HOME_URL} target="_blank" rel="noreferrer">
+          <a className="site-footer__link" href={OPC_HOME_URL} target="_blank" rel="noreferrer">
             {t('openbitfunHome')}
             <ArrowSquareOut size={16} aria-hidden="true" />
           </a>

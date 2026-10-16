@@ -61,7 +61,7 @@ public object ModelLabelPolicy {
         val trimmed = value.trim()
         if (trimmed.isEmpty()) return ""
         val withoutScheme = trimmed
-            .replaceFirst(OPENBITFUN_PREFIX, "")
+            .replaceFirst(OPC_PREFIX, "")
             .replaceFirst(ANTHROPIC_PREFIX, "")
         val parts = withoutScheme.split('/', ':').filter(String::isNotEmpty)
         return parts.lastOrNull() ?: withoutScheme
@@ -71,7 +71,7 @@ public object ModelLabelPolicy {
     public fun isSpecificLabel(label: String): Boolean =
         label.isNotEmpty() && label.lowercase() !in VENDOR_NAMES
 
-    private val OPENBITFUN_PREFIX = Regex("^openbitfun[:/_-]+", RegexOption.IGNORE_CASE)
+    private val OPC_PREFIX = Regex("^openbitfun[:/_-]+", RegexOption.IGNORE_CASE)
     private val ANTHROPIC_PREFIX = Regex("^anthropic[:/_-]+", RegexOption.IGNORE_CASE)
     private val VENDOR_NAMES = setOf("openbitfun", "anthropic", "openai", "google", "azure")
 }

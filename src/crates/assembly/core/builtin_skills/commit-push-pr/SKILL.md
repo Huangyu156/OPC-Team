@@ -15,7 +15,7 @@ Invoking this skill is authorization for the requested commit/push/PR flow. It i
 
 Unless the user explicitly opts out, use the PR footer below exactly once. Commit co-author attribution follows the execution host's setting, resolved when this built-in skill is loaded:
 
-{{OPENBITFUN_GIT_COMMIT_COAUTHOR_POLICY}}
+{{OPC_GIT_COMMIT_COAUTHOR_POLICY}}
 
 - Commit trailer when co-author attribution is enabled, which GitHub uses for contributor/co-author attribution:
 

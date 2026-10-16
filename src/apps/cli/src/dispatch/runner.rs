@@ -451,11 +451,11 @@ mod tests {
             // disposition; exiting immediately races child startup on macOS.
             .arg(
                 "trap '' HUP; \
-                 sh -c 'trap \"\" HUP; printf ready > \"$OPENBITFUN_DISPATCH_HUP_TEST_READY\"; \
+                 sh -c 'trap \"\" HUP; printf ready > \"$OPC_DISPATCH_HUP_TEST_READY\"; \
                  exec sleep 30' & \
                  read release",
             )
-            .env("OPENBITFUN_DISPATCH_HUP_TEST_READY", &ready_path)
+            .env("OPC_DISPATCH_HUP_TEST_READY", &ready_path)
             .stdin(Stdio::piped())
             .stdout(Stdio::null())
             .stderr(Stdio::null());
@@ -516,14 +516,14 @@ mod tests {
             // trap immediately; an external `sleep` can defer trap handling.
             .arg(
                 "trap 'exit 0' TERM; trap '' HUP; \
-                 sh -c 'trap \"\" TERM HUP; printf ready > \"$OPENBITFUN_DISPATCH_TERM_TEST_READY\"; \
+                 sh -c 'trap \"\" TERM HUP; printf ready > \"$OPC_DISPATCH_TERM_TEST_READY\"; \
                  while :; do sleep 30; done' & \
                  wait",
             )
             // These trailing arguments make the real process identity match
             // the hidden worker contract without launching OPC-Team Runtime.
             .args(["dispatch", "__run", "--job", job_id])
-            .env("OPENBITFUN_DISPATCH_TERM_TEST_READY", &ready_path)
+            .env("OPC_DISPATCH_TERM_TEST_READY", &ready_path)
             .stdin(Stdio::null())
             .stdout(Stdio::null())
             .stderr(Stdio::null());

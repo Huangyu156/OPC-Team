@@ -3169,9 +3169,9 @@ mod tests {
     #[cfg(unix)]
     #[test]
     fn cross_process_reader_and_writer_remain_consistent_during_rotation() {
-        const MODE_ENV: &str = "OPENBITFUN_DISPATCH_ROTATION_STRESS_MODE";
-        const ROOT_ENV: &str = "OPENBITFUN_DISPATCH_ROTATION_STRESS_ROOT";
-        const DONE_ENV: &str = "OPENBITFUN_DISPATCH_ROTATION_STRESS_DONE";
+        const MODE_ENV: &str = "OPC_DISPATCH_ROTATION_STRESS_MODE";
+        const ROOT_ENV: &str = "OPC_DISPATCH_ROTATION_STRESS_ROOT";
+        const DONE_ENV: &str = "OPC_DISPATCH_ROTATION_STRESS_DONE";
 
         if let Some(mode) = std::env::var_os(MODE_ENV) {
             let root = PathBuf::from(std::env::var_os(ROOT_ENV).expect("stress root"));
@@ -3378,7 +3378,7 @@ mod tests {
 
     #[test]
     fn default_store_honors_path_manager_storage_overrides() {
-        const CHILD_ENV: &str = "OPENBITFUN_DISPATCH_PATH_TEST_CHILD";
+        const CHILD_ENV: &str = "OPC_DISPATCH_PATH_TEST_CHILD";
         if let Some(expected_home) = std::env::var_os(CHILD_ENV) {
             let store = DispatchStore::open_default().expect("open isolated default store");
             assert_eq!(store.root, PathBuf::from(expected_home).join("dispatch"));
@@ -3397,11 +3397,11 @@ mod tests {
             "--nocapture",
         ])
         .env(CHILD_ENV, &opc_home)
-        .env("OPENBITFUN_HOME", &opc_home)
-        .env("OPENBITFUN_USER_ROOT", &user_root)
-        .env("OPENBITFUN_E2E_STORAGE_GUARD", "1")
-        .env_remove("OPENBITFUN_E2E_HOME")
-        .env_remove("OPENBITFUN_E2E_USER_ROOT")
+        .env("OPC_HOME", &opc_home)
+        .env("OPC_USER_ROOT", &user_root)
+        .env("OPC_E2E_STORAGE_GUARD", "1")
+        .env_remove("OPC_E2E_HOME")
+        .env_remove("OPC_E2E_USER_ROOT")
         .output()
         .expect("run isolated path test");
         assert!(

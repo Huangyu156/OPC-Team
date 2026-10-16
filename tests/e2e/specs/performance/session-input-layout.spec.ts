@@ -63,7 +63,7 @@ async function readInputLayout() {
 
 describe('Session input layout', () => {
   it('keeps the chat input anchored near the bottom while opening a saved session', async function () {
-    const sessionId = process.env.OPENBITFUN_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
+    const sessionId = process.env.OPC_E2E_PERF_SESSION_ID || DEFAULT_PERF_SESSION_ID;
     const item = await findSessionItem(sessionId);
     if (!item) {
       console.log(`[Layout] Session ${sessionId} not found; generate it before running this spec.`);

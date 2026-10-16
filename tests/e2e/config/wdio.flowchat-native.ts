@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url';
 import { createEmbeddedConfig } from './embedded-driver';
 
 // Opt-in recorded data. Live sends additionally require an explicit model/config.
-const recorded = process.env.OPENBITFUN_FLOWCHAT_RECORDED_SESSIONS;
-const ids = process.env.OPENBITFUN_FLOWCHAT_SESSION_IDS?.split(',').filter(Boolean) ?? [];
-if (!recorded || ids.length < 2) throw new Error('Set OPENBITFUN_FLOWCHAT_RECORDED_SESSIONS and at least two OPENBITFUN_FLOWCHAT_SESSION_IDS.');
-const root = process.env.OPENBITFUN_FLOWCHAT_E2E_ROOT ?? mkdtempSync(join(tmpdir(), 'opc-flowchat-e2e-'));
+const recorded = process.env.OPC_FLOWCHAT_RECORDED_SESSIONS;
+const ids = process.env.OPC_FLOWCHAT_SESSION_IDS?.split(',').filter(Boolean) ?? [];
+if (!recorded || ids.length < 2) throw new Error('Set OPC_FLOWCHAT_RECORDED_SESSIONS and at least two OPC_FLOWCHAT_SESSION_IDS.');
+const root = process.env.OPC_FLOWCHAT_E2E_ROOT ?? mkdtempSync(join(tmpdir(), 'opc-flowchat-e2e-'));
 const home = join(root, 'home');
 const destination = join(home, 'projects', basename(resolve(recorded, '..')), 'sessions');
 mkdirSync(destination, { recursive: true });
@@ -24,17 +24,17 @@ if (!existsSync(join(destination, 'index.json'))) {
     updated_at: Date.now(), metadata_file_count: metadata.length, sessions: metadata }));
 }
 Object.assign(process.env, {
-  OPENBITFUN_FLOWCHAT_E2E_ROOT: root,
-  OPENBITFUN_E2E_STORAGE_ROOT: root, OPENBITFUN_E2E_HOME: home, OPENBITFUN_HOME: home,
-  OPENBITFUN_E2E_USER_ROOT: join(root, 'user'), OPENBITFUN_USER_ROOT: join(root, 'user'),
-  OPENBITFUN_E2E_LOG_DIR: join(root, 'logs'), OPENBITFUN_E2E_STORAGE_GUARD: '1',
-  OPENBITFUN_E2E_PACKAGED_FRONTEND: '1',
-  OPENBITFUN_E2E_FRONTEND_DIR: resolve(fileURLToPath(new URL('../../../dist', import.meta.url))),
+  OPC_FLOWCHAT_E2E_ROOT: root,
+  OPC_E2E_STORAGE_ROOT: root, OPC_E2E_HOME: home, OPC_HOME: home,
+  OPC_E2E_USER_ROOT: join(root, 'user'), OPC_USER_ROOT: join(root, 'user'),
+  OPC_E2E_LOG_DIR: join(root, 'logs'), OPC_E2E_STORAGE_GUARD: '1',
+  OPC_E2E_PACKAGED_FRONTEND: '1',
+  OPC_E2E_FRONTEND_DIR: resolve(fileURLToPath(new URL('../../../dist', import.meta.url))),
   NO_PROXY: [process.env.NO_PROXY, '127.0.0.1', 'localhost', '::1'].filter(Boolean).join(','),
 });
 console.log(`FlowChat desktop evidence: ${root}`);
-const liveConfig = process.env.OPENBITFUN_FLOWCHAT_LIVE_CONFIG;
-const liveModelId = process.env.OPENBITFUN_FLOWCHAT_LIVE_MODEL_ID;
+const liveConfig = process.env.OPC_FLOWCHAT_LIVE_CONFIG;
+const liveModelId = process.env.OPC_FLOWCHAT_LIVE_MODEL_ID;
 if (Boolean(liveConfig) !== Boolean(liveModelId)) throw new Error('Live FlowChat requires both a config path and model id.');
 const isolatedConfig = join(root, 'user', 'config', 'app.json');
 if (liveConfig && liveModelId) {
@@ -49,9 +49,9 @@ if (liveConfig && liveModelId) {
     app: { language: source.app.language, logging: { flow_chat_diagnostics: true } },
   }));
 }
-if (process.env.OPENBITFUN_FLOWCHAT_CDP_PORT) {
+if (process.env.OPC_FLOWCHAT_CDP_PORT) {
   process.env.WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = [process.env.WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS,
-    `--remote-debugging-port=${Number(process.env.OPENBITFUN_FLOWCHAT_CDP_PORT)}`].filter(Boolean).join(' ');
+    `--remote-debugging-port=${Number(process.env.OPC_FLOWCHAT_CDP_PORT)}`].filter(Boolean).join(' ');
 }
 export const config = createEmbeddedConfig([
   liveConfig ? '../specs/flowchat-streaming-native.spec.ts' : '../specs/flowchat-native.spec.ts',

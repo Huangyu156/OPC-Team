@@ -2445,8 +2445,8 @@ print("parent_exit", flush=True)"#;
     #[ignore = "requires a working Python Install Manager App Execution Alias"]
     async fn control_terminates_python_app_execution_alias() {
         use std::os::windows::fs::MetadataExt;
-        let alias = std::env::var("OPENBITFUN_TEST_PYTHON_ALIAS")
-            .expect("set OPENBITFUN_TEST_PYTHON_ALIAS to the WindowsApps python.exe alias");
+        let alias = std::env::var("OPC_TEST_PYTHON_ALIAS")
+            .expect("set OPC_TEST_PYTHON_ALIAS to the WindowsApps python.exe alias");
         let metadata = std::fs::metadata(&alias).expect("alias metadata");
         assert_eq!(metadata.len(), 0, "must use an application execution alias");
         assert_ne!(metadata.file_attributes() & 0x400, 0);
@@ -2558,16 +2558,12 @@ print("parent_exit", flush=True)"#;
 
     #[cfg(windows)]
     async fn assert_git_bash_npm_dev_control(action: ExecControlAction) {
-        let Ok(bash_path) = std::env::var("OPENBITFUN_TEST_WINDOWS_GIT_BASH") else {
-            eprintln!(
-                "skipping git bash exec regression: OPENBITFUN_TEST_WINDOWS_GIT_BASH is unset"
-            );
+        let Ok(bash_path) = std::env::var("OPC_TEST_WINDOWS_GIT_BASH") else {
+            eprintln!("skipping git bash exec regression: OPC_TEST_WINDOWS_GIT_BASH is unset");
             return;
         };
-        let Ok(fixture_dir) = std::env::var("OPENBITFUN_TEST_WINDOWS_NPM_FIXTURE") else {
-            eprintln!(
-                "skipping git bash exec regression: OPENBITFUN_TEST_WINDOWS_NPM_FIXTURE is unset"
-            );
+        let Ok(fixture_dir) = std::env::var("OPC_TEST_WINDOWS_NPM_FIXTURE") else {
+            eprintln!("skipping git bash exec regression: OPC_TEST_WINDOWS_NPM_FIXTURE is unset");
             return;
         };
 

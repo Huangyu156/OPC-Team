@@ -1632,12 +1632,12 @@ mod tests {
         async fn default_type_and_relative_globs_match_expected_files_across_workspace_paths() {
             let dir = unfiltered_fixture();
             let root = dir.path().to_string_lossy().into_owned();
-            let mut candidates = "OPENBITFUN_RG_CANDIDATES_BEGIN\0".to_string();
+            let mut candidates = "OPC_RG_CANDIDATES_BEGIN\0".to_string();
             for name in UNFILTERED_FILES {
                 candidates.push_str(&LocalWorkspaceFs.join_path(&root, &[*name]));
                 candidates.push('\0');
             }
-            candidates.push_str("OPENBITFUN_RG_CANDIDATES_END\0");
+            candidates.push_str("OPC_RG_CANDIDATES_END\0");
             let shell = ResponseShell {
                 status: 0,
                 stdout: candidates,
@@ -1885,7 +1885,7 @@ mod tests {
                 command: &str,
                 options: WorkspaceCommandOptions,
             ) -> anyhow::Result<WorkspaceCommandResult> {
-                if command.contains("OPENBITFUN_RG_CANDIDATES_BEGIN") {
+                if command.contains("OPC_RG_CANDIDATES_BEGIN") {
                     return Ok(WorkspaceCommandResult {
                         stdout: String::new(),
                         stderr: String::new(),
@@ -1894,7 +1894,7 @@ mod tests {
                         timed_out: false,
                     });
                 }
-                if command.contains("OPENBITFUN_GREP_BATCH_END") {
+                if command.contains("OPC_GREP_BATCH_END") {
                     self.batches
                         .fetch_add(1, std::sync::atomic::Ordering::Relaxed);
                     if self.malformed_batch {
@@ -2158,8 +2158,7 @@ mod tests {
             fs.opened.lock().unwrap().clear();
             let empty = ResponseShell {
                 status: 1,
-                stdout: "OPENBITFUN_RG_CANDIDATES_BEGIN\0OPENBITFUN_RG_CANDIDATES_END\0"
-                    .to_string(),
+                stdout: "OPC_RG_CANDIDATES_BEGIN\0OPC_RG_CANDIDATES_END\0".to_string(),
                 timed_out: false,
             };
             let result = grep_search_workspace(options.clone(), &fs, Some(&empty))

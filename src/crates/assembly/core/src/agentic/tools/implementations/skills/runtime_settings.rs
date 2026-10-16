@@ -4,13 +4,13 @@ use super::types::SkillData;
 use crate::service::config::global::GlobalConfigManager;
 use crate::service::config::types::AIExperienceConfig;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
-use opc_agent_runtime::skills::OPENBITFUN_SYSTEM_SKILL_SLOT;
+use opc_agent_runtime::skills::OPC_SYSTEM_SKILL_SLOT;
 
 const COMMIT_SKILL_KEY: &str = "user::opc-system::commit-push-pr";
-const COMMIT_COAUTHOR_POLICY_PLACEHOLDER: &str = "{{OPENBITFUN_GIT_COMMIT_COAUTHOR_POLICY}}";
+const COMMIT_COAUTHOR_POLICY_PLACEHOLDER: &str = "{{OPC_GIT_COMMIT_COAUTHOR_POLICY}}";
 
 pub(super) async fn apply_builtin_runtime_settings(skill: &mut SkillData) -> OpcTeamResult<()> {
-    if skill.key != COMMIT_SKILL_KEY || skill.source_slot != OPENBITFUN_SYSTEM_SKILL_SLOT {
+    if skill.key != COMMIT_SKILL_KEY || skill.source_slot != OPC_SYSTEM_SKILL_SLOT {
         return Ok(());
     }
 

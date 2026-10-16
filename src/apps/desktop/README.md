@@ -286,10 +286,10 @@ Explicit `SHERPA_ONNX_LIB_DIR` and `SHERPA_ONNX_ARCHIVE_DIR` overrides are prese
 When another worktree uses the default ports, start a separate dev server:
 
 ```sh
-OPENBITFUN_DEV_PORT=1432 pnpm run desktop:dev
+OPC_DEV_PORT=1432 pnpm run desktop:dev
 ```
 
-HMR uses port 1431 in this example; `OPENBITFUN_DEV_HMR_PORT` can override it.
+HMR uses port 1431 in this example; `OPC_DEV_HMR_PORT` can override it.
 The launcher supplies the same HTTP URL to Tauri that Vite listens on, and both
 the main window and companion window read that configured URL.
 

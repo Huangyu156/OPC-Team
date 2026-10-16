@@ -39,7 +39,7 @@ impl<'a> ParsedWritePayload<'a> {
 }
 
 const WRITE_PAYLOAD_PATH_PREFIX: &str = "+++ ";
-const WRITE_FALLBACK_DIRECTORY_PLACEHOLDER: &str = "__OPENBITFUN_WRITE_FALLBACK_DIRECTORY__";
+const WRITE_FALLBACK_DIRECTORY_PLACEHOLDER: &str = "__OPC_WRITE_FALLBACK_DIRECTORY__";
 const LARGE_WRITE_SOFT_LINE_LIMIT: usize = 200;
 const LARGE_WRITE_SOFT_BYTE_LIMIT: usize = 20 * 1024;
 
@@ -258,7 +258,7 @@ Parameter: `payload` (a single string)
 - Format: `+++ {file_path}\n{file_content}`
 - This is a path-first Write payload format: the first line uses Git's `+++` marker to specify the target file, but content lines do NOT need a leading `+`. Do not include `---`, `@@`, or other Git diff headers.
 - `{file_path}` must be an absolute path or an exact `openbitfun://...` URI. Everything after the first newline is the complete content to write to that file.
-- The `+++ ` marker is required. If it is missing or has no file path, the tool saves the entire `payload` unchanged to `__OPENBITFUN_WRITE_FALLBACK_DIRECTORY__/write_{suffix}.tmp` in the workspace.
+- The `+++ ` marker is required. If it is missing or has no file path, the tool saves the entire `payload` unchanged to `__OPC_WRITE_FALLBACK_DIRECTORY__/write_{suffix}.tmp` in the workspace.
 - Do NOT pass `path`, `file_path`, or `content`, etc. They are not valid parameters for this tool. Only `payload` is accepted.
 
 Usage:

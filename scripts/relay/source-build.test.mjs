@@ -28,10 +28,10 @@ opc_image_docker() {
     container) return 0 ;; # An existing, healthy Relay must be preserved.
     exec)
       [ "$SCENARIO" != health_failed ] || return 1
-      [ "$SCENARIO" != image_health_failed ] || [[ "$OPENBITFUN_RELAY_IMAGE" = source:* ]]
+      [ "$SCENARIO" != image_health_failed ] || [[ "$OPC_RELAY_IMAGE" = source:* ]]
       ;;
     run)
-      [ "$SCENARIO" != image_start_failed ] || [[ "$OPENBITFUN_RELAY_IMAGE" = source:* ]]
+      [ "$SCENARIO" != image_start_failed ] || [[ "$OPC_RELAY_IMAGE" = source:* ]]
       ;;
     inspect) echo false ;;
     ps) return 0 ;;
@@ -70,12 +70,12 @@ function runScenario(t, scenario, mode = 'image') {
       RELEASE_SCRIPT: path.join(repoRoot, 'src/apps/relay-server/release-download.sh'),
       SOURCE_SCRIPT: path.join(repoRoot, 'src/apps/relay-server/source-build.sh'),
       SOURCE_ROOT: sourceRoot,
-      OPENBITFUN_REPO_GIT_URL: scenario === 'download_failed' ? path.join(temp, 'missing') : upstream,
+      OPC_REPO_GIT_URL: scenario === 'download_failed' ? path.join(temp, 'missing') : upstream,
       // Exercise route fallback without making a network request.
-      OPENBITFUN_GITHUB_GIT_URL: path.join(temp, 'unreachable-mirror'),
-      OPENBITFUN_MIRROR_REQUESTED_MODE: 'global',
-      OPENBITFUN_RELAY_IMAGE_DIGEST: `sha256:${'a'.repeat(64)}`,
-      OPENBITFUN_REQUIRE_IMAGE_DIGEST: '1',
+      OPC_GITHUB_GIT_URL: path.join(temp, 'unreachable-mirror'),
+      OPC_MIRROR_REQUESTED_MODE: 'global',
+      OPC_RELAY_IMAGE_DIGEST: `sha256:${'a'.repeat(64)}`,
+      OPC_REQUIRE_IMAGE_DIGEST: '1',
       MODE: mode, SCENARIO: scenario, CALLS: calls,
     },
   });

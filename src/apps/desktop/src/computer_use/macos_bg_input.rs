@@ -1647,19 +1647,19 @@ mod tests {
     #[test]
     #[ignore = "requires a dedicated native fixture and Accessibility permission"]
     fn native_directed_input_fixture_counts_and_stop_release() {
-        let pid: i32 = std::env::var("OPENBITFUN_INPUT_FIXTURE_PID")
+        let pid: i32 = std::env::var("OPC_INPUT_FIXTURE_PID")
             .expect("fixture PID")
             .parse()
             .unwrap();
-        let x: f64 = std::env::var("OPENBITFUN_INPUT_FIXTURE_X")
+        let x: f64 = std::env::var("OPC_INPUT_FIXTURE_X")
             .unwrap()
             .parse()
             .unwrap();
-        let y: f64 = std::env::var("OPENBITFUN_INPUT_FIXTURE_Y")
+        let y: f64 = std::env::var("OPC_INPUT_FIXTURE_Y")
             .unwrap()
             .parse()
             .unwrap();
-        let path = std::env::var("OPENBITFUN_INPUT_FIXTURE_RESULT").unwrap();
+        let path = std::env::var("OPC_INPUT_FIXTURE_RESULT").unwrap();
         assert!(
             supports_background_input(),
             "Accessibility permission required"
@@ -1742,18 +1742,18 @@ mod tests {
     }
 
     fn run_inactive_controls_fixture(semantic: bool) {
-        let pid: i32 = std::env::var("OPENBITFUN_INPUT_FIXTURE_PID")
+        let pid: i32 = std::env::var("OPC_INPUT_FIXTURE_PID")
             .unwrap()
             .parse()
             .unwrap();
-        let path = std::env::var("OPENBITFUN_INPUT_FIXTURE_RESULT").unwrap();
+        let path = std::env::var("OPC_INPUT_FIXTURE_RESULT").unwrap();
         let read = || -> serde_json::Value {
             serde_json::from_str(&std::fs::read_to_string(&path).unwrap()).unwrap()
         };
         let initial = read();
         assert_eq!(initial["active"], false, "fixture must begin inactive");
         let foreground = frontmost_pid_macos();
-        let observer_pid: i32 = std::env::var("OPENBITFUN_INPUT_OBSERVER_PID")
+        let observer_pid: i32 = std::env::var("OPC_INPUT_OBSERVER_PID")
             .unwrap()
             .parse()
             .unwrap();
@@ -1762,7 +1762,7 @@ mod tests {
             Some(observer_pid),
             "test observer must be the actual foreground app"
         );
-        let observer_path = std::env::var("OPENBITFUN_INPUT_OBSERVER_RESULT").unwrap();
+        let observer_path = std::env::var("OPC_INPUT_OBSERVER_RESULT").unwrap();
         let observer = || -> serde_json::Value {
             serde_json::from_str(&std::fs::read_to_string(&observer_path).unwrap()).unwrap()
         };
@@ -1913,7 +1913,7 @@ mod tests {
                 foreground,
                 "{name} stole foreground focus"
             );
-            if let Ok(path) = std::env::var("OPENBITFUN_INPUT_OBSERVER_RESULT") {
+            if let Ok(path) = std::env::var("OPC_INPUT_OBSERVER_RESULT") {
                 let state: serde_json::Value =
                     serde_json::from_str(&std::fs::read_to_string(path).unwrap()).unwrap();
                 assert_eq!(

@@ -7,7 +7,7 @@
 #
 # What it does:
 #   1. cargo build -p openbitfun-cli --release (native host arch)
-#   2. Install openbitfun to ~/.local/bin (override with OPENBITFUN_CLI_BIN_DIR)
+#   2. Install openbitfun to ~/.local/bin (override with OPC_CLI_BIN_DIR)
 #   3. Idempotently append a PATH block to ~/.bashrc and ~/.zshrc
 #   4. Print explicit current-shell and new-terminal instructions
 #   5. Restart the account daemon's auto-start service when installed, so
@@ -16,8 +16,8 @@
 # Supported hosts: Linux/macOS on amd64 (x86_64) and arm64 (aarch64).
 #
 # Environment:
-#   OPENBITFUN_CLI_BIN_DIR       Install directory (default: ~/.local/bin)
-#   OPENBITFUN_CLI_SKIP_SHELLRC  Set to 1 to skip bashrc/zshrc edits
+#   OPC_CLI_BIN_DIR       Install directory (default: ~/.local/bin)
+#   OPC_CLI_SKIP_SHELLRC  Set to 1 to skip bashrc/zshrc edits
 #   CARGO_TARGET_DIR         Optional cargo target dir (e.g. $HOME/openbitfun-build/target)
 #   CARGO_BUILD_JOBS         Optional rustc parallelism limit for small VPS
 
@@ -291,8 +291,8 @@ Options:
   -h, --help    Show this help
 
 Environment:
-  OPENBITFUN_CLI_BIN_DIR       Install directory (default: ~/.local/bin)
-  OPENBITFUN_CLI_SKIP_SHELLRC  Set to 1 to skip ~/.bashrc and ~/.zshrc edits
+  OPC_CLI_BIN_DIR       Install directory (default: ~/.local/bin)
+  OPC_CLI_SKIP_SHELLRC  Set to 1 to skip ~/.bashrc and ~/.zshrc edits
   CARGO_TARGET_DIR         Cargo target directory override
   CARGO_BUILD_JOBS         Limit rustc parallelism (useful on small VPS)
 EOF
@@ -313,7 +313,7 @@ for arg in "$@"; do
 done
 
 REPO_ROOT="$(resolve_repo_root)"
-BIN_DIR="${OPENBITFUN_CLI_BIN_DIR:-${HOME}/.local/bin}"
+BIN_DIR="${OPC_CLI_BIN_DIR:-${HOME}/.local/bin}"
 HOST_ARCH="$(host_arch_label)"
 HOST_OS="$(uname -s)"
 
@@ -356,8 +356,8 @@ assert_plugin_host_resources "${BIN_DIR}/resources/ext-host"
 
 echo ""
 echo "[3/4] Configuring shell PATH..."
-if [ "${OPENBITFUN_CLI_SKIP_SHELLRC:-0}" = "1" ]; then
-  echo "Skipped shell rc edits (OPENBITFUN_CLI_SKIP_SHELLRC=1)."
+if [ "${OPC_CLI_SKIP_SHELLRC:-0}" = "1" ]; then
+  echo "Skipped shell rc edits (OPC_CLI_SKIP_SHELLRC=1)."
 else
   upsert_shellrc_path "${HOME}/.bashrc" "$BIN_DIR"
   upsert_shellrc_path "${HOME}/.zshrc" "$BIN_DIR"

@@ -69,14 +69,14 @@ jobs:
     runs-on: ${{ fromJSON('{"linux-x64":"ubuntu-latest","linux-arm64":"ubuntu-24.04-arm","macos-arm64":"macos-15","macos-x64":"macos-15-intel","windows-x64":"windows-latest"}')[matrix.platform] }}
     env:
       NODE_OPTIONS: --max-old-space-size=6144
-      OPENBITFUN_RELEASE_CHANNEL: nightly
+      OPC_RELEASE_CHANNEL: nightly
       # Nightly does not publish a Tauri latest-v1.json feed yet. Preserve its
       # existing stable updater endpoints until that publishing path exists.
       TAURI_UPDATER_ENDPOINT: https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json
       TAURI_UPDATER_FALLBACK_ENDPOINT: https://openbitfun.com/release/latest-v1.json
       # Nightly relay archives are signed too (linux-binaries.yml receives the
       # key), so nightly Desktop needs the same trust root to verify them.
-      OPENBITFUN_RELEASE_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
+      OPC_RELEASE_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
       PACKAGE_TARGET: ${{ fromJSON('{"linux-x64":"x86_64-unknown-linux-gnu","linux-arm64":"aarch64-unknown-linux-gnu","macos-arm64":"aarch64-apple-darwin","macos-x64":"x86_64-apple-darwin","windows-x64":"x86_64-pc-windows-msvc"}')[matrix.platform] }}
 
     strategy:
@@ -229,7 +229,7 @@ jobs:
       - name: Verify native macOS icon bundling
         if: runner.os == 'macOS'
         env:
-          OPENBITFUN_TEST_MACOS_BUNDLE: '1'
+          OPC_TEST_MACOS_BUNDLE: '1'
         run: node --test scripts/macos-icon-bundle.test.mjs
 
       - name: Build desktop app
@@ -274,9 +274,9 @@ jobs:
         if: runner.os == 'macOS'
         shell: bash
         env:
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
+          OPC_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
         run: |
           set -euo pipefail
           bash scripts/sign-release-assets.sh \

@@ -242,11 +242,11 @@ impl CliTestEnvironment {
     pub(crate) fn apply_tokio_environment(&self, command: &mut tokio::process::Command) {
         command
             .current_dir(&self.workspace)
-            .env_remove("OPENBITFUN_USER_ROOT")
-            .env_remove("OPENBITFUN_HOME")
-            .env("OPENBITFUN_E2E_STORAGE_GUARD", "1")
-            .env("OPENBITFUN_E2E_USER_ROOT", &self.user_root)
-            .env("OPENBITFUN_E2E_HOME", &self.home_root)
+            .env_remove("OPC_USER_ROOT")
+            .env_remove("OPC_HOME")
+            .env("OPC_E2E_STORAGE_GUARD", "1")
+            .env("OPC_E2E_USER_ROOT", &self.user_root)
+            .env("OPC_E2E_HOME", &self.home_root)
             .env("APPDATA", &self.config_root)
             .env("XDG_CONFIG_HOME", &self.config_root)
             .env("HOME", &self.home_root)
@@ -261,11 +261,11 @@ impl CliTestEnvironment {
     fn pty_command_for(&self, binary: &str) -> CommandBuilder {
         let mut command = CommandBuilder::new(binary);
         command.cwd(&self.workspace);
-        command.env_remove("OPENBITFUN_USER_ROOT");
-        command.env_remove("OPENBITFUN_HOME");
-        command.env("OPENBITFUN_E2E_STORAGE_GUARD", "1");
-        command.env("OPENBITFUN_E2E_USER_ROOT", &self.user_root);
-        command.env("OPENBITFUN_E2E_HOME", &self.home_root);
+        command.env_remove("OPC_USER_ROOT");
+        command.env_remove("OPC_HOME");
+        command.env("OPC_E2E_STORAGE_GUARD", "1");
+        command.env("OPC_E2E_USER_ROOT", &self.user_root);
+        command.env("OPC_E2E_HOME", &self.home_root);
         command.env("APPDATA", &self.config_root);
         command.env("XDG_CONFIG_HOME", &self.config_root);
         command.env("HOME", &self.home_root);
@@ -276,11 +276,11 @@ impl CliTestEnvironment {
 
     fn apply_std_environment(&self, command: &mut Command) {
         command
-            .env_remove("OPENBITFUN_USER_ROOT")
-            .env_remove("OPENBITFUN_HOME")
-            .env("OPENBITFUN_E2E_STORAGE_GUARD", "1")
-            .env("OPENBITFUN_E2E_USER_ROOT", &self.user_root)
-            .env("OPENBITFUN_E2E_HOME", &self.home_root)
+            .env_remove("OPC_USER_ROOT")
+            .env_remove("OPC_HOME")
+            .env("OPC_E2E_STORAGE_GUARD", "1")
+            .env("OPC_E2E_USER_ROOT", &self.user_root)
+            .env("OPC_E2E_HOME", &self.home_root)
             .env("APPDATA", &self.config_root)
             .env("XDG_CONFIG_HOME", &self.config_root)
             .env("HOME", &self.home_root)

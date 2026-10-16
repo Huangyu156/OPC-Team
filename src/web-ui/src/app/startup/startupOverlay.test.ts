@@ -9,7 +9,7 @@ import {
 
 afterEach(() => {
   document.body.innerHTML = '';
-  delete window.__OPENBITFUN_STARTUP_OVERLAY_STARTED_AT__;
+  delete window.__OPC_STARTUP_OVERLAY_STARTED_AT__;
   vi.restoreAllMocks();
   vi.useRealTimers();
 });
@@ -72,7 +72,7 @@ describe('startupOverlay', () => {
 
   it('tracks elapsed time from the static overlay first paint', () => {
     vi.spyOn(performance, 'now').mockReturnValue(1500);
-    window.__OPENBITFUN_STARTUP_OVERLAY_STARTED_AT__ = 1200;
+    window.__OPC_STARTUP_OVERLAY_STARTED_AT__ = 1200;
 
     expect(getStartupOverlayElapsedMs()).toBe(300);
   });

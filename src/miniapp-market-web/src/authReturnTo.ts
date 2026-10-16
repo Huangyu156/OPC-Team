@@ -1,5 +1,5 @@
 const AUTH_RETURN_TO_KEY = 'openbitfun.auth.returnTo';
-export const OPENBITFUN_AUTH_CALLBACK = 'openbitfun://auth/callback';
+export const OPC_AUTH_CALLBACK = 'openbitfun://auth/callback';
 
 /**
  * The return target is only a wake-up signal. Keep the allowlist exact so a
@@ -18,7 +18,7 @@ export function parseNativeAuthReturnTo(value: string | null): string | null {
       target.search ||
       target.hash
     ) return null;
-    return OPENBITFUN_AUTH_CALLBACK;
+    return OPC_AUTH_CALLBACK;
   } catch {
     return null;
   }

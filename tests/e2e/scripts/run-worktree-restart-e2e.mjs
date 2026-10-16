@@ -32,8 +32,8 @@ function runPhase(phase) {
         env: {
           ...process.env,
           E2E_LOG_LEVEL: process.env.E2E_LOG_LEVEL || 'warn',
-          OPENBITFUN_E2E_WORKTREE_RESTART_PHASE: phase,
-          OPENBITFUN_E2E_WORKTREE_RESTART_MANIFEST: manifestPath,
+          OPC_E2E_WORKTREE_RESTART_PHASE: phase,
+          OPC_E2E_WORKTREE_RESTART_MANIFEST: manifestPath,
         },
       },
     );

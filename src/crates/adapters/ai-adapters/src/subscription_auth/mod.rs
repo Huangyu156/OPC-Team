@@ -1133,10 +1133,10 @@ mod tests {
             .all(|offering| offering.plan == OpenCodePlan::Zen));
     }
 
-    const STALE_LOGIN_CHILD_METADATA_ENV: &str = "OPENBITFUN_SUBAUTH_CAS_CHILD_METADATA";
-    const STALE_LOGIN_CHILD_LOADED_ENV: &str = "OPENBITFUN_SUBAUTH_CAS_CHILD_LOADED";
-    const STALE_LOGIN_CHILD_RESUME_ENV: &str = "OPENBITFUN_SUBAUTH_CAS_CHILD_RESUME";
-    const STALE_LOGIN_CHILD_OUTCOME_ENV: &str = "OPENBITFUN_SUBAUTH_CAS_CHILD_OUTCOME";
+    const STALE_LOGIN_CHILD_METADATA_ENV: &str = "OPC_SUBAUTH_CAS_CHILD_METADATA";
+    const STALE_LOGIN_CHILD_LOADED_ENV: &str = "OPC_SUBAUTH_CAS_CHILD_LOADED";
+    const STALE_LOGIN_CHILD_RESUME_ENV: &str = "OPC_SUBAUTH_CAS_CHILD_RESUME";
+    const STALE_LOGIN_CHILD_OUTCOME_ENV: &str = "OPC_SUBAUTH_CAS_CHILD_OUTCOME";
 
     /// Serializes tests that rely on the process-global store path override.
     /// Serializes these tests against the shared on-disk store. Async-aware so

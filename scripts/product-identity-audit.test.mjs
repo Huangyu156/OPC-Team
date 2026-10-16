@@ -34,7 +34,7 @@ test('reports the retired identity as retired across every supported spelling', 
     'OpenBitFun',
     'openBitFunTheme',
     'openbitfun',
-    'OPENBITFUN_USER_ROOT',
+    'OPC_USER_ROOT',
     '@opc-team/ui',
     '.openbitfun/config',
     'openbitfun://runtime/',
@@ -133,7 +133,7 @@ test('retires an identity by spelling once it leaves the active list', () => {
 
   const retired = flippedRules.find((rule) => rule.id === 'retired-openbitfun-name');
   assert.ok(retired);
-  for (const sample of ['OpenBitFun', '.openbitfun/config', 'OPENBITFUN_USER_ROOT']) {
+  for (const sample of ['OpenBitFun', '.openbitfun/config', 'OPC_USER_ROOT']) {
     assert.ok(new RegExp(retired.pattern.source, retired.pattern.flags).test(sample), sample);
   }
 
@@ -221,7 +221,7 @@ test('limits retired identity data to the one-time production migration boundary
   assert.deepEqual(
     violationsFor(
       `RETIRED_VERSION_FIELDS = ("${retiredField}",)`,
-      'deploy/openbitfun-host/migrate-market-data-v1.py',
+      'deploy/opc-host/migrate-market-data-v1.py',
     ),
     [],
   );
@@ -376,7 +376,7 @@ test('keeps compile-time product identity reads in the canonical contract owner'
   const source = [
     'const PRODUCT_ID: &str = option_',
     'en',
-    'v!("OPENBITFUN_PRODUCT_ID").unwrap_or("openbitfun");',
+    'v!("OPC_PRODUCT_ID").unwrap_or("openbitfun");',
   ].join('');
   const violations = violationsFor(source, 'src/example.rs');
 

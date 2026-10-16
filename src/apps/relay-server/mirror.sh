@@ -8,22 +8,22 @@
 #   bash mirror.sh [--cn-mirror|--global-mirror]
 #
 # Environment:
-#   OPENBITFUN_MIRROR=auto|cn|global
-#   OPENBITFUN_APT_MIRROR=mirrors.aliyun.com
-#   OPENBITFUN_DOCKER_REGISTRY_MIRRORS="https://docker.1ms.run https://dockerproxy.net https://docker.m.daocloud.io"
-#   OPENBITFUN_CARGO_SPARSE_URL=sparse+https://rsproxy.cn/index/
-#   OPENBITFUN_RUSTUP_DIST_SERVER=https://rsproxy.cn
-#   OPENBITFUN_GITHUB_PROXY=https://ghfast.top/
-#   OPENBITFUN_DOCKER_INSTALL_URL=   # optional full URL override for get.docker.com script
+#   OPC_MIRROR=auto|cn|global
+#   OPC_APT_MIRROR=mirrors.aliyun.com
+#   OPC_DOCKER_REGISTRY_MIRRORS="https://docker.1ms.run https://dockerproxy.net https://docker.m.daocloud.io"
+#   OPC_CARGO_SPARSE_URL=sparse+https://rsproxy.cn/index/
+#   OPC_RUSTUP_DIST_SERVER=https://rsproxy.cn
+#   OPC_GITHUB_PROXY=https://ghfast.top/
+#   OPC_DOCKER_INSTALL_URL=   # optional full URL override for get.docker.com script
 #
 # Sets / exports (when mode=cn):
-#   OPENBITFUN_MIRROR_MODE=cn|global
-#   OPENBITFUN_MIRROR_REQUESTED_MODE=auto|cn|global
-#   OPENBITFUN_MIRROR_REASON=<human-readable-resolution-reason>
-#   OPENBITFUN_USE_CN_MIRROR=0|1
-#   OPENBITFUN_GITHUB_GIT_URL / OPENBITFUN_GITHUB_TARBALL_URL
-#   OPENBITFUN_DOCKER_GET_URL
-#   OPENBITFUN_APT_MIRROR / OPENBITFUN_CARGO_SPARSE_URL / OPENBITFUN_DOCKER_REGISTRY_MIRRORS
+#   OPC_MIRROR_MODE=cn|global
+#   OPC_MIRROR_REQUESTED_MODE=auto|cn|global
+#   OPC_MIRROR_REASON=<human-readable-resolution-reason>
+#   OPC_USE_CN_MIRROR=0|1
+#   OPC_GITHUB_GIT_URL / OPC_GITHUB_TARBALL_URL
+#   OPC_DOCKER_GET_URL
+#   OPC_APT_MIRROR / OPC_CARGO_SPARSE_URL / OPC_DOCKER_REGISTRY_MIRRORS
 #   RUSTUP_DIST_SERVER / RUSTUP_UPDATE_ROOT (cn only)
 
 # shellcheck disable=SC2034
@@ -59,13 +59,13 @@ openbitfun_mirror_parse_args() {
   for arg in "$@"; do
     case "$arg" in
       --cn-mirror)
-        export OPENBITFUN_MIRROR=cn
+        export OPC_MIRROR=cn
         ;;
       --global-mirror|--no-cn-mirror)
-        export OPENBITFUN_MIRROR=global
+        export OPC_MIRROR=global
         ;;
       --skip-mirror-apply)
-        export OPENBITFUN_MIRROR_SKIP_APPLY=1
+        export OPC_MIRROR_SKIP_APPLY=1
         ;;
     esac
   done
@@ -213,41 +213,41 @@ openbitfun_mirror_connectivity_suggests_cn() {
   return 1
 }
 
-# Resolve OPENBITFUN_MIRROR_MODE to cn|global. Returns 0 always.
+# Resolve OPC_MIRROR_MODE to cn|global. Returns 0 always.
 openbitfun_mirror_resolve_mode() {
-  local forced="${OPENBITFUN_MIRROR:-auto}"
+  local forced="${OPC_MIRROR:-auto}"
   forced="$(echo "$forced" | tr '[:upper:]' '[:lower:]')"
   case "$forced" in
     cn|china|zh|zh-cn|zh_cn|1|true|yes)
-      export OPENBITFUN_MIRROR_REQUESTED_MODE=cn
-      export OPENBITFUN_MIRROR_MODE=cn
-      export OPENBITFUN_MIRROR_REASON=forced-cn
-      export OPENBITFUN_USE_CN_MIRROR=1
+      export OPC_MIRROR_REQUESTED_MODE=cn
+      export OPC_MIRROR_MODE=cn
+      export OPC_MIRROR_REASON=forced-cn
+      export OPC_USE_CN_MIRROR=1
       return 0
       ;;
     global|intl|international|off|0|false|no|overseas)
-      export OPENBITFUN_MIRROR_REQUESTED_MODE=global
-      export OPENBITFUN_MIRROR_MODE=global
-      export OPENBITFUN_MIRROR_REASON=forced-global
-      export OPENBITFUN_USE_CN_MIRROR=0
+      export OPC_MIRROR_REQUESTED_MODE=global
+      export OPC_MIRROR_MODE=global
+      export OPC_MIRROR_REASON=forced-global
+      export OPC_USE_CN_MIRROR=0
       return 0
       ;;
   esac
-  export OPENBITFUN_MIRROR_REQUESTED_MODE=auto
+  export OPC_MIRROR_REQUESTED_MODE=auto
 
   # Already resolved in this shell (or exported by the caller). Detection costs
   # up to four HTTP lookups plus two 4s probes, and mirror.sh is initialised at
   # several points of one deploy; re-running it there is both slow and unstable,
   # because a network blip mid-deploy could flip the mode between steps.
-  case "${OPENBITFUN_MIRROR_MODE:-}" in
+  case "${OPC_MIRROR_MODE:-}" in
     cn)
-      export OPENBITFUN_MIRROR_REASON="${OPENBITFUN_MIRROR_REASON:-cached-cn}"
-      export OPENBITFUN_USE_CN_MIRROR=1
+      export OPC_MIRROR_REASON="${OPC_MIRROR_REASON:-cached-cn}"
+      export OPC_USE_CN_MIRROR=1
       return 0
       ;;
     global)
-      export OPENBITFUN_MIRROR_REASON="${OPENBITFUN_MIRROR_REASON:-cached-global}"
-      export OPENBITFUN_USE_CN_MIRROR=0
+      export OPC_MIRROR_REASON="${OPC_MIRROR_REASON:-cached-global}"
+      export OPC_USE_CN_MIRROR=0
       return 0
       ;;
   esac
@@ -256,9 +256,9 @@ openbitfun_mirror_resolve_mode() {
   country="$(openbitfun_mirror_detect_country || true)"
   if [ "$country" = "CN" ]; then
     echo ">>> Region detect: public IP country=CN → China mirrors"
-    export OPENBITFUN_MIRROR_MODE=cn
-    export OPENBITFUN_MIRROR_REASON=public-ip-cn
-    export OPENBITFUN_USE_CN_MIRROR=1
+    export OPC_MIRROR_MODE=cn
+    export OPC_MIRROR_REASON=public-ip-cn
+    export OPC_USE_CN_MIRROR=1
     return 0
   fi
 
@@ -269,52 +269,52 @@ openbitfun_mirror_resolve_mode() {
   # a third-party proxy — because mirrors.aliyun.com answers from anywhere.
   if [ -n "$country" ]; then
     echo ">>> Region detect: public IP country=${country} → global mirrors"
-    export OPENBITFUN_MIRROR_MODE=global
-    export OPENBITFUN_MIRROR_REASON="public-ip-${country}"
-    export OPENBITFUN_USE_CN_MIRROR=0
+    export OPC_MIRROR_MODE=global
+    export OPC_MIRROR_REASON="public-ip-${country}"
+    export OPC_USE_CN_MIRROR=0
     return 0
   fi
 
   if openbitfun_mirror_timezone_suggests_cn; then
     echo ">>> Region detect: timezone suggests mainland China → China mirrors"
-    export OPENBITFUN_MIRROR_MODE=cn
-    export OPENBITFUN_MIRROR_REASON=timezone-cn
-    export OPENBITFUN_USE_CN_MIRROR=1
+    export OPC_MIRROR_MODE=cn
+    export OPC_MIRROR_REASON=timezone-cn
+    export OPC_USE_CN_MIRROR=1
     return 0
   fi
 
   if openbitfun_mirror_connectivity_suggests_cn; then
     echo ">>> Region detect: GitHub unreachable + Aliyun reachable → China mirrors"
-    export OPENBITFUN_MIRROR_MODE=cn
-    export OPENBITFUN_MIRROR_REASON=connectivity-cn
-    export OPENBITFUN_USE_CN_MIRROR=1
+    export OPC_MIRROR_MODE=cn
+    export OPC_MIRROR_REASON=connectivity-cn
+    export OPC_USE_CN_MIRROR=1
     return 0
   fi
 
   echo ">>> Region detect: inconclusive → global mirrors"
-  export OPENBITFUN_MIRROR_MODE=global
-  export OPENBITFUN_MIRROR_REASON=inconclusive-global
-  export OPENBITFUN_USE_CN_MIRROR=0
+  export OPC_MIRROR_MODE=global
+  export OPC_MIRROR_REASON=inconclusive-global
+  export OPC_USE_CN_MIRROR=0
   return 0
 }
 
 openbitfun_mirror_export_urls() {
-  local git_upstream="${OPENBITFUN_REPO_GIT_URL:-https://github.com/GCWing/OpenBitFun.git}"
-  local tarball_upstream="${OPENBITFUN_REPO_TARBALL_URL:-https://github.com/GCWing/OpenBitFun/archive/refs/heads/main.tar.gz}"
-  local proxy="${OPENBITFUN_GITHUB_PROXY:-https://ghfast.top/}"
-  local docker_get_upstream="${OPENBITFUN_DOCKER_INSTALL_URL:-https://get.docker.com}"
+  local git_upstream="${OPC_REPO_GIT_URL:-https://github.com/GCWing/OpenBitFun.git}"
+  local tarball_upstream="${OPC_REPO_TARBALL_URL:-https://github.com/GCWing/OpenBitFun/archive/refs/heads/main.tar.gz}"
+  local proxy="${OPC_GITHUB_PROXY:-https://ghfast.top/}"
+  local docker_get_upstream="${OPC_DOCKER_INSTALL_URL:-https://get.docker.com}"
 
-  export OPENBITFUN_APT_MIRROR="${OPENBITFUN_APT_MIRROR:-mirrors.aliyun.com}"
-  export OPENBITFUN_CARGO_SPARSE_URL="${OPENBITFUN_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}"
-  export OPENBITFUN_RUSTUP_DIST_SERVER="${OPENBITFUN_RUSTUP_DIST_SERVER:-https://rsproxy.cn}"
-  export OPENBITFUN_DOCKER_REGISTRY_MIRRORS
-  OPENBITFUN_DOCKER_REGISTRY_MIRRORS="$(openbitfun_mirror_normalize_list "${OPENBITFUN_DOCKER_REGISTRY_MIRRORS:-$(openbitfun_mirror_default_docker_mirrors)}")"
+  export OPC_APT_MIRROR="${OPC_APT_MIRROR:-mirrors.aliyun.com}"
+  export OPC_CARGO_SPARSE_URL="${OPC_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}"
+  export OPC_RUSTUP_DIST_SERVER="${OPC_RUSTUP_DIST_SERVER:-https://rsproxy.cn}"
+  export OPC_DOCKER_REGISTRY_MIRRORS
+  OPC_DOCKER_REGISTRY_MIRRORS="$(openbitfun_mirror_normalize_list "${OPC_DOCKER_REGISTRY_MIRRORS:-$(openbitfun_mirror_default_docker_mirrors)}")"
 
-  if [ "${OPENBITFUN_MIRROR_MODE:-global}" != "cn" ]; then
-    export OPENBITFUN_GITHUB_GIT_URL="$git_upstream"
-    export OPENBITFUN_GITHUB_TARBALL_URL="$tarball_upstream"
-    export OPENBITFUN_DOCKER_GET_URL="$docker_get_upstream"
-    export OPENBITFUN_USE_CN_MIRROR=0
+  if [ "${OPC_MIRROR_MODE:-global}" != "cn" ]; then
+    export OPC_GITHUB_GIT_URL="$git_upstream"
+    export OPC_GITHUB_TARBALL_URL="$tarball_upstream"
+    export OPC_DOCKER_GET_URL="$docker_get_upstream"
+    export OPC_USE_CN_MIRROR=0
     return 0
   fi
 
@@ -322,36 +322,36 @@ openbitfun_mirror_export_urls() {
     */) ;;
     *) proxy="${proxy}/" ;;
   esac
-  export OPENBITFUN_GITHUB_PROXY="$proxy"
+  export OPC_GITHUB_PROXY="$proxy"
 
   # Prefix-style proxy: https://ghfast.top/https://github.com/...
   if [[ "$git_upstream" == https://github.com/* ]] || [[ "$git_upstream" == http://github.com/* ]]; then
-    export OPENBITFUN_GITHUB_GIT_URL="${proxy}${git_upstream}"
+    export OPC_GITHUB_GIT_URL="${proxy}${git_upstream}"
   else
-    export OPENBITFUN_GITHUB_GIT_URL="$git_upstream"
+    export OPC_GITHUB_GIT_URL="$git_upstream"
   fi
   if [[ "$tarball_upstream" == https://github.com/* ]] || [[ "$tarball_upstream" == http://github.com/* ]]; then
-    export OPENBITFUN_GITHUB_TARBALL_URL="${proxy}${tarball_upstream}"
+    export OPC_GITHUB_TARBALL_URL="${proxy}${tarball_upstream}"
   else
-    export OPENBITFUN_GITHUB_TARBALL_URL="$tarball_upstream"
+    export OPC_GITHUB_TARBALL_URL="$tarball_upstream"
   fi
 
-  if [ -n "${OPENBITFUN_DOCKER_INSTALL_URL:-}" ]; then
-    export OPENBITFUN_DOCKER_GET_URL="$OPENBITFUN_DOCKER_INSTALL_URL"
+  if [ -n "${OPC_DOCKER_INSTALL_URL:-}" ]; then
+    export OPC_DOCKER_GET_URL="$OPC_DOCKER_INSTALL_URL"
   else
     # get.docker.com and most GitHub-prefix proxies return 403 from CN.
     # Prefer the upstream install script mirrored on jsDelivr (same docker/docker-install).
-    export OPENBITFUN_DOCKER_GET_URL="${OPENBITFUN_DOCKER_GET_URL:-https://cdn.jsdelivr.net/gh/docker/docker-install@master/install.sh}"
+    export OPC_DOCKER_GET_URL="${OPC_DOCKER_GET_URL:-https://cdn.jsdelivr.net/gh/docker/docker-install@master/install.sh}"
   fi
 
-  export RUSTUP_DIST_SERVER="$OPENBITFUN_RUSTUP_DIST_SERVER"
-  export RUSTUP_UPDATE_ROOT="${OPENBITFUN_RUSTUP_UPDATE_ROOT:-${OPENBITFUN_RUSTUP_DIST_SERVER}/rustup}"
-  export OPENBITFUN_USE_CN_MIRROR=1
+  export RUSTUP_DIST_SERVER="$OPC_RUSTUP_DIST_SERVER"
+  export RUSTUP_UPDATE_ROOT="${OPC_RUSTUP_UPDATE_ROOT:-${OPC_RUSTUP_DIST_SERVER}/rustup}"
+  export OPC_USE_CN_MIRROR=1
 }
 
 openbitfun_mirror_backup_file() {
   local src="$1"
-  local stamp="${OPENBITFUN_MIRROR_BACKUP_STAMP:-$(date +%Y%m%d%H%M%S)}"
+  local stamp="${OPC_MIRROR_BACKUP_STAMP:-$(date +%Y%m%d%H%M%S)}"
   local dest_dir="${2:-/etc/openbitfun}"
   if [ ! -e "$src" ]; then
     return 0
@@ -409,8 +409,8 @@ openbitfun_mirror_file_cksum() {
 # says nothing about mirrors. Package signatures are what protect apt, so http
 # costs integrity nothing; use https only when the host can actually verify it.
 openbitfun_mirror_apt_scheme() {
-  if [ -n "${OPENBITFUN_APT_SCHEME:-}" ]; then
-    printf '%s' "$OPENBITFUN_APT_SCHEME"
+  if [ -n "${OPC_APT_SCHEME:-}" ]; then
+    printf '%s' "$OPC_APT_SCHEME"
     return 0
   fi
   if [ -s /etc/ssl/certs/ca-certificates.crt ] \
@@ -431,7 +431,7 @@ openbitfun_mirror_apt_scheme() {
 }
 
 openbitfun_mirror_apply_apt_debian_family() {
-  local mirror="${OPENBITFUN_APT_MIRROR:-mirrors.aliyun.com}"
+  local mirror="${OPC_APT_MIRROR:-mirrors.aliyun.com}"
   local scheme
   scheme="$(openbitfun_mirror_apt_scheme)"
   local id="" version_codename="" id_like=""
@@ -587,7 +587,7 @@ openbitfun_mirror_apply_apt() {
   if openbitfun_mirror_probe_apt; then
     return 0
   fi
-  echo ">>> apt mirror: ${OPENBITFUN_APT_MIRROR:-mirrors.aliyun.com} did not answer a test \
+  echo ">>> apt mirror: ${OPC_APT_MIRROR:-mirrors.aliyun.com} did not answer a test \
 apt-get update; restoring the previous sources" >&2
   openbitfun_mirror_restore_apt || true
   if ! openbitfun_mirror_probe_apt; then
@@ -603,7 +603,7 @@ openbitfun_mirror_write_docker_daemon_json() {
   tmp="$(mktemp)"
   py="$(mktemp)"
   added_tmp="$(mktemp)"
-  daemon_json="${OPENBITFUN_DOCKER_DAEMON_JSON:-/etc/docker/daemon.json}"
+  daemon_json="${OPC_DOCKER_DAEMON_JSON:-/etc/docker/daemon.json}"
   state_dir="$HOME/.openbitfun/mirror-state"
   state_file="${state_dir}/docker-added-mirrors"
   created_state="${state_dir}/docker-daemon-created.cksum"
@@ -777,7 +777,7 @@ openbitfun_mirror_restart_docker_if_needed() {
 
 openbitfun_mirror_apply_docker_daemon() {
   local mirrors
-  mirrors="$(openbitfun_mirror_normalize_list "${OPENBITFUN_DOCKER_REGISTRY_MIRRORS:-$(openbitfun_mirror_default_docker_mirrors)}")"
+  mirrors="$(openbitfun_mirror_normalize_list "${OPC_DOCKER_REGISTRY_MIRRORS:-$(openbitfun_mirror_default_docker_mirrors)}")"
   if [ -z "$mirrors" ]; then
     return 0
   fi
@@ -824,7 +824,7 @@ openbitfun_mirror_restore_apt() {
 }
 
 openbitfun_mirror_remove_docker_daemon() {
-  local daemon_json="${OPENBITFUN_DOCKER_DAEMON_JSON:-/etc/docker/daemon.json}"
+  local daemon_json="${OPC_DOCKER_DAEMON_JSON:-/etc/docker/daemon.json}"
   local state_file="$HOME/.openbitfun/mirror-state/docker-added-mirrors"
   local created_state="$HOME/.openbitfun/mirror-state/docker-daemon-created.cksum"
   local version_file="$HOME/.openbitfun/mirror-state/version"
@@ -1007,11 +1007,11 @@ openbitfun_mirror_restore_host() {
 }
 
 openbitfun_mirror_apply_host() {
-  if [ "${OPENBITFUN_MIRROR_SKIP_APPLY:-0}" = "1" ]; then
-    echo ">>> mirror apply skipped (OPENBITFUN_MIRROR_SKIP_APPLY=1)"
+  if [ "${OPC_MIRROR_SKIP_APPLY:-0}" = "1" ]; then
+    echo ">>> mirror apply skipped (OPC_MIRROR_SKIP_APPLY=1)"
     return 0
   fi
-  if [ "${OPENBITFUN_MIRROR_MODE:-global}" != "cn" ]; then
+  if [ "${OPC_MIRROR_MODE:-global}" != "cn" ]; then
     return 0
   fi
   mkdir -p "$HOME/.openbitfun/mirror-state" 2>/dev/null || true
@@ -1157,18 +1157,18 @@ openbitfun_mirror_sha256_of() {
 # anywhere along it is a root shell on every host deployed while it lasts.
 #
 # Two ways out, in order:
-#   * `OPENBITFUN_DOCKER_INSTALL_SHA256` — an operator-pinned digest, checked exactly.
+#   * `OPC_DOCKER_INSTALL_SHA256` — an operator-pinned digest, checked exactly.
 #   * cross-origin agreement — the same script fetched from a second, independent
 #     origin must hash identically. One compromised mirror is then not enough.
 #
 # Neither is available on a host that can only reach the CN CDN, so
-# `OPENBITFUN_DOCKER_INSTALL_ALLOW_UNVERIFIED=1` exists as a deliberate, logged
+# `OPC_DOCKER_INSTALL_ALLOW_UNVERIFIED=1` exists as a deliberate, logged
 # opt-out. It is not the default: the Aliyun docker-ce path above is GPG-verified
 # and covers Debian/Ubuntu/RHEL, so failing closed here costs little.
 openbitfun_mirror_fetch_docker_install_script() {
   local dest="$1"
-  local url="${OPENBITFUN_DOCKER_GET_URL:-https://get.docker.com}"
-  local expected="${OPENBITFUN_DOCKER_INSTALL_SHA256:-}"
+  local url="${OPC_DOCKER_GET_URL:-https://get.docker.com}"
+  local expected="${OPC_DOCKER_INSTALL_SHA256:-}"
   local actual="" reference="" reference_url="" verified=0
 
   echo ">>> Fetching Docker install script: ${url}"
@@ -1220,16 +1220,16 @@ ${expected}; refusing to run it" >&2
     return 0
   fi
 
-  if [ "${OPENBITFUN_DOCKER_INSTALL_ALLOW_UNVERIFIED:-0}" = "1" ]; then
+  if [ "${OPC_DOCKER_INSTALL_ALLOW_UNVERIFIED:-0}" = "1" ]; then
     echo ">>> WARNING: running an unverified Docker install script from ${url} \
-because OPENBITFUN_DOCKER_INSTALL_ALLOW_UNVERIFIED=1 (sha256 ${actual:-unknown})" >&2
+because OPC_DOCKER_INSTALL_ALLOW_UNVERIFIED=1 (sha256 ${actual:-unknown})" >&2
     return 0
   fi
 
   echo ">>> Docker install script from ${url} could not be verified against an \
 independent origin. Install Docker with the distribution's own packages, set \
-OPENBITFUN_DOCKER_INSTALL_SHA256=${actual:-<sha256>} to pin this exact script, or set \
-OPENBITFUN_DOCKER_INSTALL_ALLOW_UNVERIFIED=1 to accept the risk." >&2
+OPC_DOCKER_INSTALL_SHA256=${actual:-<sha256>} to pin this exact script, or set \
+OPC_DOCKER_INSTALL_ALLOW_UNVERIFIED=1 to accept the risk." >&2
   rm -f "$dest"
   return 1
 }
@@ -1238,14 +1238,14 @@ openbitfun_mirror_init() {
   openbitfun_mirror_parse_args "$@"
   openbitfun_mirror_resolve_mode
   openbitfun_mirror_export_urls
-  echo ">>> Mirror mode: ${OPENBITFUN_MIRROR_MODE} (requested=${OPENBITFUN_MIRROR_REQUESTED_MODE:-auto}, reason=${OPENBITFUN_MIRROR_REASON:-unknown}, OPENBITFUN_USE_CN_MIRROR=${OPENBITFUN_USE_CN_MIRROR})"
-  if [ "${OPENBITFUN_MIRROR_MODE}" = "cn" ]; then
-    echo ">>> GitHub git URL:     ${OPENBITFUN_GITHUB_GIT_URL}"
-    echo ">>> GitHub tarball URL: ${OPENBITFUN_GITHUB_TARBALL_URL}"
-    echo ">>> Docker get URL:     ${OPENBITFUN_DOCKER_GET_URL}"
-    echo ">>> apt mirror:         ${OPENBITFUN_APT_MIRROR}"
-    echo ">>> cargo sparse:       ${OPENBITFUN_CARGO_SPARSE_URL}"
-    echo ">>> docker registries:  ${OPENBITFUN_DOCKER_REGISTRY_MIRRORS}"
+  echo ">>> Mirror mode: ${OPC_MIRROR_MODE} (requested=${OPC_MIRROR_REQUESTED_MODE:-auto}, reason=${OPC_MIRROR_REASON:-unknown}, OPC_USE_CN_MIRROR=${OPC_USE_CN_MIRROR})"
+  if [ "${OPC_MIRROR_MODE}" = "cn" ]; then
+    echo ">>> GitHub git URL:     ${OPC_GITHUB_GIT_URL}"
+    echo ">>> GitHub tarball URL: ${OPC_GITHUB_TARBALL_URL}"
+    echo ">>> Docker get URL:     ${OPC_DOCKER_GET_URL}"
+    echo ">>> apt mirror:         ${OPC_APT_MIRROR}"
+    echo ">>> cargo sparse:       ${OPC_CARGO_SPARSE_URL}"
+    echo ">>> docker registries:  ${OPC_DOCKER_REGISTRY_MIRRORS}"
     openbitfun_mirror_apply_host
   else
     openbitfun_mirror_restore_host

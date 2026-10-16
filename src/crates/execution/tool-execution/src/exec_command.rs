@@ -14,8 +14,8 @@ const REMOTE_EXEC_ENV_SNAPSHOT_MAX_OUTPUT_CHARS: usize = 128 * 1024;
 const REMOTE_EXEC_ENV_SNAPSHOT_CONTROL_YIELD_TIME_MS: u64 = 500;
 const REMOTE_EXEC_ENV_SNAPSHOT_CONTROL_MAX_OUTPUT_CHARS: usize = 2_000;
 const REMOTE_EXEC_ENV_SNAPSHOT_TTL: Duration = Duration::from_secs(10 * 60);
-const REMOTE_ENV_SNAPSHOT_BEGIN: &str = "__OPENBITFUN_REMOTE_ENV_SNAPSHOT_BEGIN__";
-const REMOTE_ENV_SNAPSHOT_END: &str = "__OPENBITFUN_REMOTE_ENV_SNAPSHOT_END__";
+const REMOTE_ENV_SNAPSHOT_BEGIN: &str = "__OPC_REMOTE_ENV_SNAPSHOT_BEGIN__";
+const REMOTE_ENV_SNAPSHOT_END: &str = "__OPC_REMOTE_ENV_SNAPSHOT_END__";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ExecCommandControlAction {
@@ -287,7 +287,7 @@ pub fn exec_command_noninteractive_env() -> HashMap<String, String> {
         ("GH_PAGER".to_string(), "cat".to_string()),
         ("GIT_TERMINAL_PROMPT".to_string(), "0".to_string()),
         ("GIT_EDITOR".to_string(), "true".to_string()),
-        ("OPENBITFUN_NONINTERACTIVE".to_string(), "1".to_string()),
+        ("OPC_NONINTERACTIVE".to_string(), "1".to_string()),
     ])
 }
 
@@ -1340,7 +1340,7 @@ mod tests {
         );
 
         let snapshot = parse_remote_exec_env_snapshot_output(
-            "noise\r\n__OPENBITFUN_REMOTE_ENV_SNAPSHOT_BEGIN__\r\nPATH=/home/me/.nvm/bin:/usr/bin\r\nNVM_DIR=/home/me/.nvm\r\nPWD=/tmp\r\nBAD-NAME=value\r\n__OPENBITFUN_REMOTE_ENV_SNAPSHOT_END__\r\nmore noise",
+            "noise\r\n__OPC_REMOTE_ENV_SNAPSHOT_BEGIN__\r\nPATH=/home/me/.nvm/bin:/usr/bin\r\nNVM_DIR=/home/me/.nvm\r\nPWD=/tmp\r\nBAD-NAME=value\r\n__OPC_REMOTE_ENV_SNAPSHOT_END__\r\nmore noise",
         )
         .expect("snapshot should parse");
 

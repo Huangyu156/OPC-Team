@@ -472,7 +472,7 @@ temporarily offline. Destructive removal remains an explicit user action.
 Contract tests cover legacy Agent/profile deserialization, defaulted connection
 options, remote-workspace retention, stdio round trips, cancellation, and
 delimiter-safe Docker metadata parsing. A Docker-backed ignored integration test
-is available through `OPENBITFUN_TEST_DOCKER_CONTAINER`.
+is available through `OPC_TEST_DOCKER_CONTAINER`.
 
 ## Agent Runtime convergence
 

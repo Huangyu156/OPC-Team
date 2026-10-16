@@ -140,7 +140,7 @@ test('reuses mobile-web output when only generated design-system output is newer
 
   assert.deepEqual(getMobileWebRebuildPlan(mobileWebDir, false, root), {
     shouldBuild: false,
-    reason: 'mobile-web dist is up to date; skipping clean/install/build (use --force or OPENBITFUN_MOBILE_WEB_FORCE_BUILD=1 to rebuild)',
+    reason: 'mobile-web dist is up to date; skipping clean/install/build (use --force or OPC_MOBILE_WEB_FORCE_BUILD=1 to rebuild)',
   });
 });
 

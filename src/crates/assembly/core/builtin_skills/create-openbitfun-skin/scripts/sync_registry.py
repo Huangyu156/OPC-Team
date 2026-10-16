@@ -24,7 +24,7 @@ CONTRACT_KEYS = (
     "themeScopeIds",
     "widgetVariableNames",
 )
-EXPORT_MARKER = "__OPENBITFUN_APPEARANCE_REGISTRY__"
+EXPORT_MARKER = "__OPC_APPEARANCE_REGISTRY__"
 
 
 class SyncError(Exception):
@@ -76,7 +76,7 @@ try {
     facets: (item.facets ?? []).map(facet => ({ id: facet.id, attribute: facet.attribute, values: [...facet.values] })),
     states: (item.states ?? []).map(state => ({ id: state.id, selector: state.selector })),
   });
-  process.stdout.write('__OPENBITFUN_APPEARANCE_REGISTRY__' + JSON.stringify({
+  process.stdout.write('__OPC_APPEARANCE_REGISTRY__' + JSON.stringify({
     components: registry.getComponents().map(descriptor),
     scenes: registry.getScenes().map(descriptor),
     renderers: registry.getRendererAdapters().map(adapter => adapter.id),

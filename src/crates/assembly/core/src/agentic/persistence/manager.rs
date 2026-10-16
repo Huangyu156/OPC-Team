@@ -5654,7 +5654,7 @@ mod tests {
         assert_eq!(loaded_turns[0].turn_id, "turn-1");
     }
 
-    const VISIBLE_HISTORY_WRITER_CHILD_ENV: &str = "OPENBITFUN_VISIBLE_HISTORY_WRITER_CHILD";
+    const VISIBLE_HISTORY_WRITER_CHILD_ENV: &str = "OPC_VISIBLE_HISTORY_WRITER_CHILD";
     const VISIBLE_HISTORY_WRITER_CHILD_TEST: &str =
         "agentic::persistence::manager::tests::visible_history_writer_child_holds_lock";
 
@@ -5674,15 +5674,9 @@ mod tests {
             .arg(VISIBLE_HISTORY_WRITER_CHILD_TEST)
             .arg("--nocapture")
             .env(VISIBLE_HISTORY_WRITER_CHILD_ENV, "1")
-            .env(
-                "OPENBITFUN_VISIBLE_HISTORY_SESSIONS_DIR",
-                sessions_dir.as_os_str(),
-            )
-            .env("OPENBITFUN_VISIBLE_HISTORY_SESSION_ID", session_id)
-            .env(
-                "OPENBITFUN_VISIBLE_HISTORY_READY_PATH",
-                ready_path.as_os_str(),
-            )
+            .env("OPC_VISIBLE_HISTORY_SESSIONS_DIR", sessions_dir.as_os_str())
+            .env("OPC_VISIBLE_HISTORY_SESSION_ID", session_id)
+            .env("OPC_VISIBLE_HISTORY_READY_PATH", ready_path.as_os_str())
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .spawn()
@@ -5710,13 +5704,11 @@ mod tests {
             return;
         }
         let sessions_dir = PathBuf::from(
-            std::env::var_os("OPENBITFUN_VISIBLE_HISTORY_SESSIONS_DIR")
-                .expect("child sessions directory"),
+            std::env::var_os("OPC_VISIBLE_HISTORY_SESSIONS_DIR").expect("child sessions directory"),
         );
-        let session_id =
-            std::env::var("OPENBITFUN_VISIBLE_HISTORY_SESSION_ID").expect("child session id");
+        let session_id = std::env::var("OPC_VISIBLE_HISTORY_SESSION_ID").expect("child session id");
         let ready_path = PathBuf::from(
-            std::env::var_os("OPENBITFUN_VISIBLE_HISTORY_READY_PATH").expect("child ready path"),
+            std::env::var_os("OPC_VISIBLE_HISTORY_READY_PATH").expect("child ready path"),
         );
         let _writer =
             SessionWriteLock::try_acquire(&sessions_dir, &session_id).expect("child writer");

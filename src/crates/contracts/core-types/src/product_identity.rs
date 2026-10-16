@@ -5,7 +5,7 @@
 //! a running process cannot switch product identity or storage namespaces.
 
 // Canonical identity of a locally built first-party artifact. Official builds
-// override these through the OPENBITFUN_* variables below, whose names stay
+// override these through the OPC_* variables below, whose names stay
 // fixed because the build adapters and packaging scripts already read them.
 const DEFAULT_PRODUCT_ID: &str = "opcteam";
 const DEFAULT_DATA_NAMESPACE: &str = "opcteam";
@@ -13,7 +13,7 @@ const DEFAULT_HIDDEN_DATA_DIRECTORY: &str = ".opcteam";
 
 /// Stable identifier for the product family represented by this artifact.
 pub const fn product_id() -> &'static str {
-    match option_env!("OPENBITFUN_PRODUCT_ID") {
+    match option_env!("OPC_PRODUCT_ID") {
         Some(value) => value,
         None => DEFAULT_PRODUCT_ID,
     }
@@ -21,7 +21,7 @@ pub const fn product_id() -> &'static str {
 
 /// Storage namespace paired with [`product_id`].
 pub const fn data_namespace() -> &'static str {
-    match option_env!("OPENBITFUN_DATA_NAMESPACE") {
+    match option_env!("OPC_DATA_NAMESPACE") {
         Some(value) => value,
         None => DEFAULT_DATA_NAMESPACE,
     }
@@ -31,7 +31,7 @@ pub const fn data_namespace() -> &'static str {
 ///
 /// The same name is used for the product home and project-local product data.
 pub const fn hidden_data_directory() -> &'static str {
-    match option_env!("OPENBITFUN_HIDDEN_DATA_DIRECTORY") {
+    match option_env!("OPC_HIDDEN_DATA_DIRECTORY") {
         Some(value) => value,
         None => DEFAULT_HIDDEN_DATA_DIRECTORY,
     }

@@ -525,7 +525,7 @@ mod native_tests {
     #[ignore = "requires the dedicated GTK fixture and a live AT-SPI bus"]
     async fn atspi_semantic_fixture() {
         use opc_agent_tools::computer_use_control::ControlMode;
-        let pid: i32 = std::env::var("OPENBITFUN_ATSPI_FIXTURE_PID")
+        let pid: i32 = std::env::var("OPC_ATSPI_FIXTURE_PID")
             .expect("run scripts/test-linux-computer-use-atspi.sh")
             .parse()
             .unwrap();

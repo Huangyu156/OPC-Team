@@ -169,9 +169,9 @@ application: <PROJECT_ROOT>\target\debug\opc-desktop.exe
 Debug build detected, checking dev server...
 ```
 
-**核心原理**: 功能 E2E 默认使用 `target/debug/opc-desktop.exe`。性能 E2E 需要显式设置 `OPENBITFUN_E2E_APP_MODE=release-fast`，并先执行 `pnpm run desktop:build:release-fast`。
+**核心原理**: 功能 E2E 默认使用 `target/debug/opc-desktop.exe`。性能 E2E 需要显式设置 `OPC_E2E_APP_MODE=release-fast`，并先执行 `pnpm run desktop:build:release-fast`。
 
-不要直接手工启动 `target/release-fast/opc-desktop.exe` 做性能验证。直接启动会使用普通用户 profile，除非手动提供隔离存储环境变量。E2E launcher 会自动设置 `OPENBITFUN_USER_ROOT`、`OPENBITFUN_HOME` 和 `OPENBITFUN_E2E_STORAGE_GUARD=1`，确保性能测试不会静默写入真实 OPC-Team profile。
+不要直接手工启动 `target/release-fast/opc-desktop.exe` 做性能验证。直接启动会使用普通用户 profile，除非手动提供隔离存储环境变量。E2E launcher 会自动设置 `OPC_USER_ROOT`、`OPC_HOME` 和 `OPC_E2E_STORAGE_GUARD=1`，确保性能测试不会静默写入真实 OPC-Team profile。
 
 ### 5. 启动和长 Session 性能 E2E
 
@@ -187,17 +187,17 @@ pnpm --dir tests/e2e run fixture:long-session -- --workspace <workspace-path> --
 
 ```bash
 pnpm run desktop:build:release-fast
-cross-env E2E_TEST_WORKSPACE=<workspace-path> OPENBITFUN_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:release-fast
+cross-env E2E_TEST_WORKSPACE=<workspace-path> OPC_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:release-fast
 ```
 
 运行 debug 对照测试：
 
 ```bash
 cargo build -p opc-desktop
-cross-env E2E_TEST_WORKSPACE=<workspace-path> OPENBITFUN_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:debug
+cross-env E2E_TEST_WORKSPACE=<workspace-path> OPC_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:debug
 ```
 
-测试报告会写入 `tests/e2e/reports/performance/`，包含启动阶段、Tauri API 聚合、首次打开长 session、后台 full hydrate 等时间片。可选阈值环境变量：`OPENBITFUN_E2E_PERF_MAX_INTERACTIVE_MS`、`OPENBITFUN_E2E_PERF_MAX_SESSION_FRAME_MS`。
+测试报告会写入 `tests/e2e/reports/performance/`，包含启动阶段、Tauri API 聚合、首次打开长 session、后台 full hydrate 等时间片。可选阈值环境变量：`OPC_E2E_PERF_MAX_INTERACTIVE_MS`、`OPC_E2E_PERF_MAX_SESSION_FRAME_MS`。
 
 ## 测试结构
 
@@ -435,7 +435,7 @@ it('当工作区打开时应测试功能', async function () {
 cargo build -p opc-desktop
 
 # 用 debug 模式运行测试，OPC-Team 会在进程内启动 WebDriver
-OPENBITFUN_E2E_APP_MODE=debug pnpm --dir tests/e2e run test:l0:protocol
+OPC_E2E_APP_MODE=debug pnpm --dir tests/e2e run test:l0:protocol
 
 # 确认应用进程可以监听 127.0.0.1:4445
 ```
@@ -599,7 +599,7 @@ jobs:
       - name: 安装测试依赖
         run: cd tests/e2e && pnpm install
       - name: 运行 L0 测试
-        run: cd tests/e2e && OPENBITFUN_E2E_APP_MODE=debug pnpm run test:l0:all
+        run: cd tests/e2e && OPC_E2E_APP_MODE=debug pnpm run test:l0:all
         
   l1-tests:
     runs-on: windows-latest
@@ -623,7 +623,7 @@ jobs:
       - name: 安装测试依赖
         run: cd tests/e2e && pnpm install
       - name: 运行 L1 测试
-        run: cd tests/e2e && OPENBITFUN_E2E_APP_MODE=debug pnpm run test:l1
+        run: cd tests/e2e && OPC_E2E_APP_MODE=debug pnpm run test:l1
 ```
 
 ### 测试执行矩阵

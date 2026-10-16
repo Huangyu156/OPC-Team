@@ -281,7 +281,7 @@ existing-session ensure 暂缺 execution root 时的诊断可能进入全局范�
 插件贡献；刷新失败可保留已确认的上一代贡献，因此诊断表达“本次激活/刷新失败”，不能把原生路径成功写成插件激活成功。
 
 standalone `.js` Tool 继续由 `ScriptToolRuntime` 为每个脚本启动 Node worker，两条执行路径不共享生命周期对象。当前
-分发仍要求系统 Bun 或 `OPENBITFUN_BUN_COMMAND`，自动目录发现、完整 OpenCode Client/Hook/TUI 表面、安全启用门禁、
+分发仍要求系统 Bun 或 `OPC_BUN_COMMAND`，自动目录发现、完整 OpenCode Client/Hook/TUI 表面、安全启用门禁、
 不可变旧版本恢复和资源沙箱仍未完成；共享 Host 进程隔离也不承诺插件间隔离。
 
 ## 8. 验证要求

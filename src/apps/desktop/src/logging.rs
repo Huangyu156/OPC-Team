@@ -209,15 +209,15 @@ pub struct LogConfig {
 
 pub(crate) fn is_embedded_webdriver_mode() -> bool {
     (cfg!(debug_assertions) || cfg!(feature = "devtools"))
-        && std::env::var_os("OPENBITFUN_WEBDRIVER_PORT").is_some()
+        && std::env::var_os("OPC_WEBDRIVER_PORT").is_some()
 }
 
 fn resolve_logs_root() -> PathBuf {
-    if let Some(path) = std::env::var_os("OPENBITFUN_LOG_DIR").map(PathBuf::from) {
+    if let Some(path) = std::env::var_os("OPC_LOG_DIR").map(PathBuf::from) {
         return path;
     }
 
-    if let Some(path) = std::env::var_os("OPENBITFUN_E2E_LOG_DIR").map(PathBuf::from) {
+    if let Some(path) = std::env::var_os("OPC_E2E_LOG_DIR").map(PathBuf::from) {
         return path;
     }
 

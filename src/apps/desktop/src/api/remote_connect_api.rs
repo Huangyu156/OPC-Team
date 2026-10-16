@@ -1487,13 +1487,13 @@ async fn restore_saved_bots() {
 
 /// Auto-detect the mobile-web build output directory.
 fn detect_mobile_web_dir() -> Option<String> {
-    if let Ok(dir) = std::env::var("OPENBITFUN_MOBILE_WEB_DIR") {
+    if let Ok(dir) = std::env::var("OPC_MOBILE_WEB_DIR") {
         let p = std::path::Path::new(&dir);
         if p.join("index.html").exists() {
-            log::info!("Using OPENBITFUN_MOBILE_WEB_DIR: {dir}");
+            log::info!("Using OPC_MOBILE_WEB_DIR: {dir}");
             return Some(dir);
         }
-        log::warn!("OPENBITFUN_MOBILE_WEB_DIR set but index.html not found: {dir}");
+        log::warn!("OPC_MOBILE_WEB_DIR set but index.html not found: {dir}");
     }
 
     if let Some(resource_path) = MOBILE_WEB_RESOURCE_PATH.get() {

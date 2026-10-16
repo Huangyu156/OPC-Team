@@ -43,15 +43,15 @@ export function prepareDataMigratorTauriConfig(
 // lands in the directories the renamed application actually reads.
 export function dataMigratorEnvironment(environment = process.env) {
   const result = { ...environment };
-  for (const key of ['OPENBITFUN_DESKTOP_BINARY_NAME', 'OPENBITFUN_DATA_MIGRATOR_BINARY_NAME']) delete result[key];
+  for (const key of ['OPC_DESKTOP_BINARY_NAME', 'OPC_DATA_MIGRATOR_BINARY_NAME']) delete result[key];
   return {
     ...result,
     CI: 'true',
-    OPENBITFUN_PRODUCT_ID: 'opcteam',
-    OPENBITFUN_DATA_NAMESPACE: 'opcteam',
-    OPENBITFUN_HIDDEN_DATA_DIRECTORY: '.opcteam',
-    OPENBITFUN_PRODUCT_BINARY_NAME: 'opc-data-migrator',
-    OPENBITFUN_PRODUCT_DISPLAY_NAME: 'OPC-Team Data Migrator',
+    OPC_PRODUCT_ID: 'opcteam',
+    OPC_DATA_NAMESPACE: 'opcteam',
+    OPC_HIDDEN_DATA_DIRECTORY: '.opcteam',
+    OPC_PRODUCT_BINARY_NAME: 'opc-data-migrator',
+    OPC_PRODUCT_DISPLAY_NAME: 'OPC-Team Data Migrator',
   };
 }
 

@@ -334,7 +334,7 @@ fn handle_secondary_launch(app: &tauri::AppHandle) {
 }
 
 pub(crate) fn e2e_storage_guard_enabled() -> bool {
-    std::env::var("OPENBITFUN_E2E_STORAGE_GUARD")
+    std::env::var("OPC_E2E_STORAGE_GUARD")
         .ok()
         .is_some_and(|value| value == "1" || value.eq_ignore_ascii_case("true"))
 }
@@ -786,10 +786,10 @@ pub async fn run() {
                     .join("../../..")
                     .join("dist");
                 #[cfg(debug_assertions)]
-                let development_dist = if std::env::var("OPENBITFUN_E2E_STORAGE_GUARD").as_deref() == Ok("1")
-                    && std::env::var("OPENBITFUN_E2E_PACKAGED_FRONTEND").as_deref() == Ok("1")
+                let development_dist = if std::env::var("OPC_E2E_STORAGE_GUARD").as_deref() == Ok("1")
+                    && std::env::var("OPC_E2E_PACKAGED_FRONTEND").as_deref() == Ok("1")
                 {
-                    std::env::var_os("OPENBITFUN_E2E_FRONTEND_DIR").map(PathBuf::from).unwrap_or(development_dist)
+                    std::env::var_os("OPC_E2E_FRONTEND_DIR").map(PathBuf::from).unwrap_or(development_dist)
                 } else { development_dist };
                 development_dist
                     .join("index.html")

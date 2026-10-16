@@ -92,13 +92,13 @@ jobs:
       - name: Sign and verify with the independent migrator release key
         shell: bash
         env:
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.DATA_MIGRATOR_SIGNING_PRIVATE_KEY }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.DATA_MIGRATOR_SIGNING_PRIVATE_KEY_PASSWORD }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.DATA_MIGRATOR_SIGNING_PUBKEY }}
+          OPC_SIGNING_KEY: ${{ secrets.DATA_MIGRATOR_SIGNING_PRIVATE_KEY }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.DATA_MIGRATOR_SIGNING_PRIVATE_KEY_PASSWORD }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.DATA_MIGRATOR_SIGNING_PUBKEY }}
         run: |
           set -euo pipefail
-          test -n "$OPENBITFUN_SIGNING_KEY"
-          test -n "$OPENBITFUN_SIGNING_PUBKEY"
+          test -n "$OPC_SIGNING_KEY"
+          test -n "$OPC_SIGNING_PUBKEY"
           cat migrator-release-assets/*.sha256 | sort -k2 > migrator-release-assets/SHA256SUMS
           (cd migrator-release-assets && sha256sum --check SHA256SUMS)
           bash scripts/sign-release-assets.sh migrator-release-assets/*

@@ -2,7 +2,7 @@
 
 此文档定义生成或修改 MiniApp 时可用的 API，供实现时直接参考。
 
-> **实际全局对象为 `window.app`**（非 `window.__OPENBITFUN__`），以下各节均基于 `window.app`。
+> **实际全局对象为 `window.app`**（非 `window.__OPC__`），以下各节均基于 `window.app`。
 
 ## 能力边界
 

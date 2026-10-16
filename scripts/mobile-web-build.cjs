@@ -123,7 +123,7 @@ function getMobileWebBuildMarkerPath(mobileWebDir) {
  * mtime-based short-circuit (same idea as dev.cjs getDesktopPreviewRebuildPlan):
  * when dist/ exists and the build marker is newer than every input, the whole
  * clean/install/build cycle can be skipped. Escape hatches:
- *   --force flag / OPENBITFUN_MOBILE_WEB_FORCE_BUILD=1 env.
+ *   --force flag / OPC_MOBILE_WEB_FORCE_BUILD=1 env.
  */
 function getMobileWebRebuildPlan(mobileWebDir, force = false, rootDir = ROOT_DIR) {
   const fs = require('fs');
@@ -185,7 +185,7 @@ function getMobileWebRebuildPlan(mobileWebDir, force = false, rootDir = ROOT_DIR
 
   return {
     shouldBuild: false,
-    reason: 'mobile-web dist is up to date; skipping clean/install/build (use --force or OPENBITFUN_MOBILE_WEB_FORCE_BUILD=1 to rebuild)',
+    reason: 'mobile-web dist is up to date; skipping clean/install/build (use --force or OPC_MOBILE_WEB_FORCE_BUILD=1 to rebuild)',
   };
 }
 
@@ -232,7 +232,7 @@ function cleanStaleMobileWebResources(logInfo = printInfo, rootDir = ROOT_DIR) {
 function buildMobileWeb(options = {}) {
   const {
     install = false,
-    force = process.env.OPENBITFUN_MOBILE_WEB_FORCE_BUILD === '1',
+    force = process.env.OPC_MOBILE_WEB_FORCE_BUILD === '1',
     logInfo = printInfo,
     logSuccess = printSuccess,
     logError = printError,
@@ -282,7 +282,7 @@ if (require.main === module) {
   const args = process.argv.slice(2);
   const result = buildMobileWeb({
     install: args.includes('--install'),
-    force: args.includes('--force') || process.env.OPENBITFUN_MOBILE_WEB_FORCE_BUILD === '1',
+    force: args.includes('--force') || process.env.OPC_MOBILE_WEB_FORCE_BUILD === '1',
   });
   process.exit(result.ok ? 0 : 1);
 }

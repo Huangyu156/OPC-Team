@@ -80,7 +80,7 @@ modified by verification.
 ```bash
 node --test scripts/generate-brand-assets.test.mjs scripts/macos-icon-bundle.test.mjs scripts/desktop-tauri-build.test.mjs
 # Full Xcode: exercise actual Tauri + actool packaging in a disposable fixture.
-OPENBITFUN_TEST_MACOS_BUNDLE=1 node --test scripts/macos-icon-bundle.test.mjs
+OPC_TEST_MACOS_BUNDLE=1 node --test scripts/macos-icon-bundle.test.mjs
 # Inspect an existing bundle without launching it.
 node scripts/macos-icon-bundle.mjs verify /path/to/OpenBitFun.app
 ```

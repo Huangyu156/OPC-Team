@@ -228,7 +228,7 @@ async fn bun_child_connects_and_completes_authenticated_handshake() {
 
 #[tokio::test]
 async fn configured_bun_host_connects_and_completes_authenticated_handshake() {
-    let Some(entry) = std::env::var_os("OPENBITFUN_TEST_BUN_HOST_ENTRY").map(PathBuf::from) else {
+    let Some(entry) = std::env::var_os("OPC_TEST_BUN_HOST_ENTRY").map(PathBuf::from) else {
         return;
     };
     let directory = tempfile::tempdir().expect("temporary directory should be created");

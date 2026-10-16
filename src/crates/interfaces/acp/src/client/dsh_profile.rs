@@ -32,7 +32,7 @@ use super::requirements::probe_executable;
 /// Points directly at a built profile directory, overriding every other
 /// candidate. This is how a packaged build that lays resources out unusually —
 /// or a developer testing an unbuilt tree — names the source explicitly.
-const SOURCE_DIR_ENV: &str = "OPENBITFUN_DSH_PROFILE_DIR";
+const SOURCE_DIR_ENV: &str = "OPC_DSH_PROFILE_DIR";
 
 /// dsh's own state directory variable. Respecting it matters: a user who moved
 /// `$DSH_HOME` keeps their models and credentials there, and a profile written

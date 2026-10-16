@@ -19,14 +19,14 @@
  * A failure here fails the build. An app that silently ships no bridge looks
  * exactly like an app that ships a working one until a user tries to start a
  * DeepSeek session, and that is the wrong place to find out. Set
- * `OPENBITFUN_SKIP_DSH_PROFILE=1` to opt out deliberately.
+ * `OPC_SKIP_DSH_PROFILE=1` to opt out deliberately.
  *
  * Official `desktop:build` compiles this via `frontend:build-all`. desktop:dev
  * and cargo check do not: the profile is not a compile-time Tauri resource.
  * Local DeepSeek sessions run this script explicitly. A stamped profile whose
  * inputs have not changed is left alone — the same mtime short-circuit
  * mobile-web uses. Escape hatches: `--force` /
- * `OPENBITFUN_DSH_PROFILE_FORCE_BUILD=1`.
+ * `OPC_DSH_PROFILE_FORCE_BUILD=1`.
  */
 
 import { spawnSync } from 'node:child_process';
@@ -60,7 +60,7 @@ const INPUT_IGNORED_DIRS = new Set([
 /** Explains an empty dist-profile to whoever finds one in a build tree. */
 const PLACEHOLDER = `This OpenBitFun build ships no DeepSeek Harness bridge.
 
-OPENBITFUN_SKIP_DSH_PROFILE was set when this build ran, so packages/dsh-acp was
+OPC_SKIP_DSH_PROFILE was set when this build ran, so packages/dsh-acp was
 never compiled. OpenBitFun's profile resolver rejects this unstamped directory and
 reports that the bridge is missing from the build.
 
@@ -181,7 +181,7 @@ export function getDshProfileRebuildPlan({
   return {
     shouldBuild: false,
     reason:
-      'dsh-profile is up to date; skipping install/build (use --force or OPENBITFUN_DSH_PROFILE_FORCE_BUILD=1 to rebuild)',
+      'dsh-profile is up to date; skipping install/build (use --force or OPC_DSH_PROFILE_FORCE_BUILD=1 to rebuild)',
   };
 }
 
@@ -209,13 +209,13 @@ function run(command, args) {
 function fail(message, status) {
   process.stderr.write(`[dsh-profile] ${message}\n`);
   process.stderr.write(
-    '[dsh-profile] set OPENBITFUN_SKIP_DSH_PROFILE=1 to build without the DeepSeek bridge\n',
+    '[dsh-profile] set OPC_SKIP_DSH_PROFILE=1 to build without the DeepSeek bridge\n',
   );
   process.exit(status === 0 ? 1 : status);
 }
 
 function main() {
-  if (process.env.OPENBITFUN_SKIP_DSH_PROFILE === '1') {
+  if (process.env.OPC_SKIP_DSH_PROFILE === '1') {
     process.stdout.write('[dsh-profile] skipped (this build ships no DeepSeek bridge)\n');
     mkdirSync(OUT_DIR, { recursive: true });
     writeFileSync(path.join(OUT_DIR, 'NOT-BUILT.md'), PLACEHOLDER);
@@ -223,7 +223,7 @@ function main() {
   }
 
   const force =
-    process.argv.includes('--force') || process.env.OPENBITFUN_DSH_PROFILE_FORCE_BUILD === '1';
+    process.argv.includes('--force') || process.env.OPC_DSH_PROFILE_FORCE_BUILD === '1';
   const plan = getDshProfileRebuildPlan({ force });
   if (!plan.shouldBuild) {
     process.stdout.write(`[dsh-profile] ${plan.reason}\n`);

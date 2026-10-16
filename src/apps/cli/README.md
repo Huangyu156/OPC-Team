@@ -287,7 +287,7 @@ openbitfun health
 
 Official Linux archive installations perform a small, rate-limited update check
 before interactive startup. Set `behavior.auto_update = false` in CLI config or
-`OPENBITFUN_CLI_DISABLE_AUTO_UPDATE=1` to disable it. Stable updates verify the
+`OPC_CLI_DISABLE_AUTO_UPDATE=1` to disable it. Stable updates verify the
 published checksum and, in official builds, the compiled release signing key
 before replacing either entrypoint.
 

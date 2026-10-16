@@ -738,7 +738,7 @@ flowchart LR
 
 - 不启动完整 OpenCode Runtime，也不依赖用户安装 OpenCode CLI；OPC-Team 实现自己的监督、适配和 Rust 转发层。
   当前 standalone Tool 子集继续通过受监督的 Node.js worker 执行；配置型 package plugin 使用受管 Bun Host，分发仍
-  依赖系统 Bun 或 `OPENBITFUN_BUN_COMMAND`，Bun 只属于当前物理执行后端，不进入插件内部 ABI 或核心业务合同。
+  依赖系统 Bun 或 `OPC_BUN_COMMAND`，Bun 只属于当前物理执行后端，不进入插件内部 ABI 或核心业务合同。
 - 用户全局和项目来源自动发现；低风险内容默认无感应用并显示可撤销摘要，可执行来源首次启用或能力扩大时等待
   非阻塞确认。确认前不得 import module、启动 worker、读取凭据或产生直接脚本副作用。
 - 激活后的本地插件默认按 OpenCode 语义运行，允许当前用户通常拥有的文件、网络、进程和环境能力；用户、

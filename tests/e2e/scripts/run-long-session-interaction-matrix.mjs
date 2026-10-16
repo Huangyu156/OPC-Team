@@ -33,7 +33,7 @@ const scenarios = {
     grep: 'collects rapid-switch timing across generated long sessions',
     reportPrefix: 'long-session-rapid-switch-',
     env: {
-      OPENBITFUN_E2E_PERF_RAPID_SWITCH_DELAY_MS: '0',
+      OPC_E2E_PERF_RAPID_SWITCH_DELAY_MS: '0',
     },
   },
   'first-scroll': {
@@ -41,7 +41,7 @@ const scenarios = {
     grep: 'collects first-open timing for a generated long session',
     reportPrefix: 'long-session-first-open-',
     env: {
-      OPENBITFUN_E2E_PERF_POST_VISIBLE_INTERACTION: 'first-scroll',
+      OPC_E2E_PERF_POST_VISIBLE_INTERACTION: 'first-scroll',
     },
   },
   'scroll-down': {
@@ -49,15 +49,15 @@ const scenarios = {
     grep: 'collects first-open timing for a generated long session',
     reportPrefix: 'long-session-first-open-',
     env: {
-      OPENBITFUN_E2E_PERF_POST_VISIBLE_INTERACTION: 'scroll-down',
+      OPC_E2E_PERF_POST_VISIBLE_INTERACTION: 'scroll-down',
     },
   },
   'turn-navigation': {
     spec: './specs/l1-chat-turn-navigation-release.spec.ts',
     reportPrefix: null,
     env: {
-      OPENBITFUN_E2E_TURN_NAV_SESSION_ID: DEFAULT_LONG_SESSION_TARGET_ID,
-      OPENBITFUN_E2E_TURN_NAV_TARGET_INDEX: '20',
+      OPC_E2E_TURN_NAV_SESSION_ID: DEFAULT_LONG_SESSION_TARGET_ID,
+      OPC_E2E_TURN_NAV_TARGET_INDEX: '20',
     },
   },
   'resize-window': {
@@ -65,7 +65,7 @@ const scenarios = {
     grep: 'collects first-open timing for a generated long session',
     reportPrefix: 'long-session-first-open-',
     env: {
-      OPENBITFUN_E2E_PERF_POST_VISIBLE_INTERACTION: 'resize-window',
+      OPC_E2E_PERF_POST_VISIBLE_INTERACTION: 'resize-window',
     },
   },
   'resize-window-width': {
@@ -73,7 +73,7 @@ const scenarios = {
     grep: 'collects first-open timing for a generated long session',
     reportPrefix: 'long-session-first-open-',
     env: {
-      OPENBITFUN_E2E_PERF_POST_VISIBLE_INTERACTION: 'resize-window-width',
+      OPC_E2E_PERF_POST_VISIBLE_INTERACTION: 'resize-window-width',
     },
   },
   'input-layout': {
@@ -122,7 +122,7 @@ function runNode(args, options) {
 }
 
 function runnerStdioOptions() {
-  if (process.env.OPENBITFUN_E2E_PERF_RUNNER_STREAM_LOGS === '1') {
+  if (process.env.OPC_E2E_PERF_RUNNER_STREAM_LOGS === '1') {
     return { stdio: 'inherit' };
   }
   return { stdio: 'pipe', encoding: 'utf8' };
@@ -155,7 +155,7 @@ function hasFlag(name) {
 function allowMissingReports() {
   return (
     hasFlag('--allow-missing-reports') ||
-    process.env.OPENBITFUN_E2E_PERF_ALLOW_MISSING_REPORTS === '1'
+    process.env.OPC_E2E_PERF_ALLOW_MISSING_REPORTS === '1'
   );
 }
 
@@ -223,15 +223,15 @@ function prepareScenarioRuntime(name, baseEnv) {
 
   const env = {
     ...baseEnv,
-    OPENBITFUN_E2E_STORAGE_ROOT: storageRoot,
-    OPENBITFUN_E2E_HOME: homeRoot,
-    OPENBITFUN_HOME: homeRoot,
-    OPENBITFUN_E2E_USER_ROOT: userRoot,
-    OPENBITFUN_USER_ROOT: userRoot,
-    OPENBITFUN_E2E_LOG_DIR: logRoot,
+    OPC_E2E_STORAGE_ROOT: storageRoot,
+    OPC_E2E_HOME: homeRoot,
+    OPC_HOME: homeRoot,
+    OPC_E2E_USER_ROOT: userRoot,
+    OPC_USER_ROOT: userRoot,
+    OPC_E2E_LOG_DIR: logRoot,
     E2E_TEST_WORKSPACE: workspace,
-    OPENBITFUN_E2E_PERF_SESSION_ID: DEFAULT_LONG_SESSION_TARGET_ID,
-    OPENBITFUN_E2E_PERF_RAPID_SWITCH_SESSION_IDS: DEFAULT_RAPID_SWITCH_SESSION_IDS.join(','),
+    OPC_E2E_PERF_SESSION_ID: DEFAULT_LONG_SESSION_TARGET_ID,
+    OPC_E2E_PERF_RAPID_SWITCH_SESSION_IDS: DEFAULT_RAPID_SWITCH_SESSION_IDS.join(','),
   };
   const timestampBase = Date.now();
 
@@ -329,7 +329,7 @@ function selectedScenarioNames() {
   const requested =
     argValue('--profile') ||
     argValue('--scenarios') ||
-    process.env.OPENBITFUN_E2E_PERF_MATRIX_PROFILE ||
+    process.env.OPC_E2E_PERF_MATRIX_PROFILE ||
     'core';
   const names = profiles[requested] ?? requested.split(',').map(name => name.trim()).filter(Boolean);
   const unknown = names.filter(name => !scenarios[name]);
@@ -404,13 +404,13 @@ const { requested, names } = selectedScenarioNames();
 const missingReportsAllowed = allowMissingReports();
 const baseEnv = {
   ...process.env,
-  OPENBITFUN_E2E_APP_MODE: process.env.OPENBITFUN_E2E_APP_MODE || 'release-fast',
+  OPC_E2E_APP_MODE: process.env.OPC_E2E_APP_MODE || 'release-fast',
   E2E_LOG_LEVEL: process.env.E2E_LOG_LEVEL || 'warn',
 };
 
 if (hasFlag('--dry-run')) {
   console.log(
-    `[long-session-matrix] dry-run profile=${requested} appMode=${baseEnv.OPENBITFUN_E2E_APP_MODE} ` +
+    `[long-session-matrix] dry-run profile=${requested} appMode=${baseEnv.OPC_E2E_APP_MODE} ` +
       `allowMissingReports=${missingReportsAllowed} scenarios=${names.join(',')}`,
   );
   process.exit(0);

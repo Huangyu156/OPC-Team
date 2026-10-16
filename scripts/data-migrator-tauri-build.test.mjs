@@ -23,10 +23,10 @@ test('independent bundle owns version, offline assets, icons and identity', () =
 });
 
 test('a Desktop product environment cannot change the migration destination identity', () => {
-  const env = dataMigratorEnvironment({ OPENBITFUN_PRODUCT_ID: 'acme', OPENBITFUN_DATA_NAMESPACE: 'acme', OPENBITFUN_DESKTOP_BINARY_NAME: 'acme', CI: '1' });
-  assert.equal(env.OPENBITFUN_PRODUCT_ID, 'opcteam');
-  assert.equal(env.OPENBITFUN_DATA_NAMESPACE, 'opcteam');
-  assert.equal(env.OPENBITFUN_DESKTOP_BINARY_NAME, undefined);
+  const env = dataMigratorEnvironment({ OPC_PRODUCT_ID: 'acme', OPC_DATA_NAMESPACE: 'acme', OPC_DESKTOP_BINARY_NAME: 'acme', CI: '1' });
+  assert.equal(env.OPC_PRODUCT_ID, 'opcteam');
+  assert.equal(env.OPC_DATA_NAMESPACE, 'opcteam');
+  assert.equal(env.OPC_DESKTOP_BINARY_NAME, undefined);
   assert.equal(env.CI, 'true');
 });
 

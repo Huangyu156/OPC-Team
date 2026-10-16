@@ -134,7 +134,7 @@ function runCheck(
 ) {
   const env = {
     ...process.env,
-    OPENBITFUN_BUILD_PREREQS_TEST_ROOT: root,
+    OPC_BUILD_PREREQS_TEST_ROOT: root,
   };
   if (extraPath) {
     env.PATH = `${extraPath}${path.delimiter}${env.PATH || ''}`;

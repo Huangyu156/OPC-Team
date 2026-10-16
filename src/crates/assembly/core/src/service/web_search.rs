@@ -137,7 +137,7 @@ async fn resolve_provider(config: &WebSearchConfig) -> Arc<dyn WebSearchProvider
                     read_credential(&vault, &config.providers.tavily.credential_id).await?;
                 Ok(Arc::new(TavilySearchProvider::new(secret)) as Arc<dyn WebSearchProvider>)
             }
-            WebSearchProviderId::OPENBITFUN_SEARCH_HTTP => {
+            WebSearchProviderId::OPC_SEARCH_HTTP => {
                 let http = &config.providers.opc_search_http;
                 if http.endpoint.trim().is_empty() {
                     return Err(OpcTeamError::config(
@@ -242,7 +242,7 @@ fn credential_id_for_provider<'a>(
             Ok(config.providers.exa_search_api.credential_id.as_str())
         }
         WebSearchProviderId::TAVILY => Ok(config.providers.tavily.credential_id.as_str()),
-        WebSearchProviderId::OPENBITFUN_SEARCH_HTTP => {
+        WebSearchProviderId::OPC_SEARCH_HTTP => {
             if matches!(
                 config.providers.opc_search_http.auth.mode.trim(),
                 "" | "none"

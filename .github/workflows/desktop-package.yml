@@ -146,15 +146,15 @@ jobs:
     if: needs.prepare.outputs.relay_image_only != 'true'
     env:
       NODE_OPTIONS: --max-old-space-size=6144
-      OPENBITFUN_ENABLE_UPDATER_ARTIFACTS: ${{ needs.prepare.outputs.upload_to_release }}
-      OPENBITFUN_RELEASE_CHANNEL: ${{ needs.prepare.outputs.release_channel }}
+      OPC_ENABLE_UPDATER_ARTIFACTS: ${{ needs.prepare.outputs.upload_to_release }}
+      OPC_RELEASE_CHANNEL: ${{ needs.prepare.outputs.release_channel }}
       TAURI_UPDATER_ENDPOINT: ${{ github.repository != 'GCWing/OpenBitFun' && (needs.prepare.outputs.release_channel == 'beta' && format('https://github.com/{0}/releases/download/channel-v1-beta/latest-v1.json', github.repository) || format('https://github.com/{0}/releases/latest/download/latest-v1.json', github.repository)) || '' }}
       TAURI_UPDATER_FALLBACK_ENDPOINT: ${{ github.repository != 'GCWing/OpenBitFun' && (needs.prepare.outputs.release_channel == 'beta' && format('https://github.com/{0}/releases/download/channel-v1-beta/latest-v1.json', github.repository) || format('https://github.com/{0}/releases/latest/download/latest-v1.json', github.repository)) || '' }}
       TAURI_UPDATER_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
       # Same trust root, compiled into the Desktop binary so one-click relay
       # deploy can verify the signed checksum locally and hand the remote host
       # a hash it does not have to trust the mirror for.
-      OPENBITFUN_RELEASE_PUBKEY: ${{ secrets.OPENBITFUN_RELEASE_PUBKEY || secrets.TAURI_UPDATER_PUBKEY }}
+      OPC_RELEASE_PUBKEY: ${{ secrets.OPC_RELEASE_PUBKEY || secrets.TAURI_UPDATER_PUBKEY }}
       TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
       TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
@@ -324,7 +324,7 @@ jobs:
           APPLE_API_KEY: ${{ secrets.APPLE_API_KEY }}
           APPLE_API_PRIVATE_KEY: ${{ secrets.APPLE_API_PRIVATE_KEY }}
           KEYCHAIN_PASSWORD: ${{ secrets.KEYCHAIN_PASSWORD }}
-          OPENBITFUN_REQUIRE_APPLE_SIGNING: ${{ needs.prepare.outputs.upload_to_release }}
+          OPC_REQUIRE_APPLE_SIGNING: ${{ needs.prepare.outputs.upload_to_release }}
         run: bash scripts/ci/setup-macos-signing.sh
 
       - name: Project beta build version
@@ -347,7 +347,7 @@ jobs:
       - name: Verify native macOS icon bundling
         if: runner.os == 'macOS'
         env:
-          OPENBITFUN_TEST_MACOS_BUNDLE: '1'
+          OPC_TEST_MACOS_BUNDLE: '1'
         run: node --test scripts/macos-icon-bundle.test.mjs
 
       - name: Build desktop app
@@ -390,7 +390,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           # The payload manifest must hash the already signed desktop executable.
-          $env:OPENBITFUN_INSTALLER_APP_EXE = 'target/x86_64-pc-windows-msvc/release/opc-desktop.exe'
+          $env:OPC_INSTALLER_APP_EXE = 'target/x86_64-pc-windows-msvc/release/opc-desktop.exe'
           pnpm run installer:build:only
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
           if ($env:WINDOWS_CERTIFICATE_THUMBPRINT) {
@@ -451,7 +451,7 @@ jobs:
     steps:
       - name: Resolve image repository
         shell: bash
-        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/openbitfun-relay-server" >> "$GITHUB_ENV"
+        run: echo "IMAGE=ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/opc-relay-server" >> "$GITHUB_ENV"
 
       - name: Checkout
         uses: actions/checkout@v5
@@ -478,16 +478,16 @@ jobs:
           gh release download "${RELEASE_TAG}" \
             --repo "${GITHUB_REPOSITORY}" \
             --dir linux-release-assets \
-            --pattern 'openbitfun-relay-server-*.tar.gz' \
-            --pattern 'openbitfun-relay-server-*.tar.gz.sha256'
+            --pattern 'opc-relay-server-*.tar.gz' \
+            --pattern 'opc-relay-server-*.tar.gz.sha256'
 
       - name: Verify image inputs
         shell: bash
         run: |
           set -euo pipefail
-          test -f linux-release-assets/openbitfun-relay-server-x86_64-unknown-linux-gnu.tar.gz
-          test -f linux-release-assets/openbitfun-relay-server-aarch64-unknown-linux-gnu.tar.gz
-          for archive in linux-release-assets/openbitfun-relay-server-*.tar.gz; do
+          test -f linux-release-assets/opc-relay-server-x86_64-unknown-linux-gnu.tar.gz
+          test -f linux-release-assets/opc-relay-server-aarch64-unknown-linux-gnu.tar.gz
+          for archive in linux-release-assets/opc-relay-server-*.tar.gz; do
             (cd linux-release-assets && sha256sum --check "$(basename "${archive}").sha256")
           done
           cp src/apps/relay-server/Dockerfile.release linux-release-assets/Dockerfile.release
@@ -563,9 +563,9 @@ jobs:
           IMAGE_DIGEST: ${{ steps.image.outputs.digest }}
           RELEASE_TAG: ${{ needs.prepare.outputs.release_tag }}
           RELEASE_VERSION: ${{ needs.prepare.outputs.version }}
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
+          OPC_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
         run: |
           set -euo pipefail
           [[ "${IMAGE_DIGEST}" =~ ^sha256:[0-9a-f]{64}$ ]]
@@ -689,9 +689,9 @@ jobs:
       - name: Sign versioned Windows installer
         shell: bash
         env:
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
+          OPC_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
         run: bash scripts/sign-release-assets.sh release-manual-assets/*.exe
 
       - name: Collect updater assets
@@ -720,9 +720,9 @@ jobs:
       - name: Sign installer packages
         shell: bash
         env:
-          OPENBITFUN_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
-          OPENBITFUN_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
-          OPENBITFUN_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
+          OPC_SIGNING_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
+          OPC_SIGNING_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
+          OPC_SIGNING_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
         run: |
           set -euo pipefail
           mapfile -t assets < <(
@@ -784,8 +784,8 @@ jobs:
             release-assets/minisign.pub \
             linux-release-assets/opc-cli-*.tar.gz \
             linux-release-assets/opc-cli-*.tar.gz.sha256 \
-            linux-release-assets/openbitfun-relay-server-*.tar.gz \
-            linux-release-assets/openbitfun-relay-server-*.tar.gz.sha256 \
+            linux-release-assets/opc-relay-server-*.tar.gz \
+            linux-release-assets/opc-relay-server-*.tar.gz.sha256 \
             linux-release-assets/*.tar.gz.sig \
             linux-release-assets/*.tar.gz.sha256.sig \
             linux-release-assets/linux-binaries-v1.json \
@@ -907,7 +907,7 @@ jobs:
             -o relay-image.published.json
           test "$(jq -r '.tag' relay-image.published.json)" = "${{ needs.prepare.outputs.release_tag }}"
           test "$(jq -r '.version' relay-image.published.json)" = "${{ needs.prepare.outputs.version }}"
-          test "$(jq -r '.image' relay-image.published.json)" = "ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/openbitfun-relay-server"
+          test "$(jq -r '.image' relay-image.published.json)" = "ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/opc-relay-server"
           jq -e '.platforms | sort == ["linux/amd64", "linux/arm64"]' relay-image.published.json >/dev/null
           jq -e '.digest | test("^sha256:[0-9a-f]{64}$")' relay-image.published.json >/dev/null
           curl -fsSL --retry 5 --retry-delay 3 \
@@ -1013,13 +1013,13 @@ jobs:
         if: github.repository == 'GCWing/OpenBitFun'
         continue-on-error: true
         env:
-          SYNC_WEBHOOK_URL: ${{ secrets.OPENBITFUN_SYNC_WEBHOOK_URL }}
+          SYNC_WEBHOOK_URL: ${{ secrets.OPC_SYNC_WEBHOOK_URL }}
           RELEASE_TAG: ${{ needs.prepare.outputs.release_tag }}
           RELEASE_CHANNEL: ${{ needs.prepare.outputs.release_channel }}
         run: |
           set -euo pipefail
           if [[ -z "${SYNC_WEBHOOK_URL:-}" ]]; then
-            echo "OPENBITFUN_SYNC_WEBHOOK_URL is not configured; the mirror will pick this up on its next cron run."
+            echo "OPC_SYNC_WEBHOOK_URL is not configured; the mirror will pick this up on its next cron run."
             exit 0
           fi
           curl -fsSL -X POST --retry 3 --retry-delay 5 --max-time 30 \

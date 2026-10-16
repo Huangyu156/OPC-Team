@@ -43,7 +43,7 @@ async function invoke<T>(command: string, args: unknown): Promise<InvokeResult<T
 }
 
 async function invokeExpectingFailure(command: string, args: unknown): Promise<string> {
-  const driverPort = Number(process.env.OPENBITFUN_E2E_WEBDRIVER_PORT || 4445);
+  const driverPort = Number(process.env.OPC_E2E_WEBDRIVER_PORT || 4445);
   const response = await fetch(
     `http://127.0.0.1:${driverPort}/session/${browser.sessionId}/execute/sync`,
     {

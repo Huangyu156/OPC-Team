@@ -933,17 +933,16 @@ mod tests {
 
     #[test]
     fn index_lock_child_holds_the_cross_process_guard() {
-        if std::env::var_os("OPENBITFUN_SESSION_INDEX_LOCK_CHILD").is_none() {
+        if std::env::var_os("OPC_SESSION_INDEX_LOCK_CHILD").is_none() {
             return;
         }
-        let sessions_root = PathBuf::from(
-            std::env::var_os("OPENBITFUN_SESSION_INDEX_ROOT").expect("index lock root"),
-        );
+        let sessions_root =
+            PathBuf::from(std::env::var_os("OPC_SESSION_INDEX_ROOT").expect("index lock root"));
         let ready_path = PathBuf::from(
-            std::env::var_os("OPENBITFUN_SESSION_INDEX_READY").expect("index lock ready path"),
+            std::env::var_os("OPC_SESSION_INDEX_READY").expect("index lock ready path"),
         );
         let release_path = PathBuf::from(
-            std::env::var_os("OPENBITFUN_SESSION_INDEX_RELEASE").expect("index lock release path"),
+            std::env::var_os("OPC_SESSION_INDEX_RELEASE").expect("index lock release path"),
         );
         std::fs::create_dir_all(&sessions_root).expect("sessions root");
         let _guard = FileLock::acquire(&sessions_root.join(".index.lock"), FileLockMode::Exclusive)
@@ -972,10 +971,10 @@ mod tests {
             .arg("--exact")
             .arg("session::metadata_store::tests::index_lock_child_holds_the_cross_process_guard")
             .arg("--nocapture")
-            .env("OPENBITFUN_SESSION_INDEX_LOCK_CHILD", "1")
-            .env("OPENBITFUN_SESSION_INDEX_ROOT", dir.path())
-            .env("OPENBITFUN_SESSION_INDEX_READY", &ready_path)
-            .env("OPENBITFUN_SESSION_INDEX_RELEASE", &release_path)
+            .env("OPC_SESSION_INDEX_LOCK_CHILD", "1")
+            .env("OPC_SESSION_INDEX_ROOT", dir.path())
+            .env("OPC_SESSION_INDEX_READY", &ready_path)
+            .env("OPC_SESSION_INDEX_RELEASE", &release_path)
             .stdout(Stdio::null())
             .stderr(Stdio::null())
             .spawn()

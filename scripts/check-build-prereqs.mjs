@@ -36,7 +36,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SCRIPT_DIR = __dirname;
 const DEFAULT_ROOT = join(SCRIPT_DIR, '..');
-const ROOT_DIR = process.env.OPENBITFUN_BUILD_PREREQS_TEST_ROOT || DEFAULT_ROOT;
+const ROOT_DIR = process.env.OPC_BUILD_PREREQS_TEST_ROOT || DEFAULT_ROOT;
 const FIX = process.argv.includes('--fix');
 
 // --- Check logic (extracted for re-use and testing) ---

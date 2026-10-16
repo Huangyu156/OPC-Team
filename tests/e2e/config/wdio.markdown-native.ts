@@ -6,19 +6,19 @@ import type { Options } from '@wdio/types';
 import { createEmbeddedConfig } from './embedded-driver';
 
 // Worker processes inherit this root; each runner invocation starts fresh.
-const runtimeRoot = process.env.OPENBITFUN_MARKDOWN_E2E_ROOT
+const runtimeRoot = process.env.OPC_MARKDOWN_E2E_ROOT
   ?? mkdtempSync(join(tmpdir(), 'opc-markdown-profile-'));
-process.env.OPENBITFUN_MARKDOWN_E2E_ROOT = runtimeRoot;
+process.env.OPC_MARKDOWN_E2E_ROOT = runtimeRoot;
 Object.assign(process.env, {
-  OPENBITFUN_E2E_STORAGE_ROOT: runtimeRoot,
-  OPENBITFUN_E2E_USER_ROOT: join(runtimeRoot, 'user'),
-  OPENBITFUN_USER_ROOT: join(runtimeRoot, 'user'),
-  OPENBITFUN_E2E_HOME: join(runtimeRoot, 'home'),
-  OPENBITFUN_HOME: join(runtimeRoot, 'home'),
-  OPENBITFUN_E2E_LOG_DIR: join(runtimeRoot, 'logs'),
-  OPENBITFUN_E2E_STORAGE_GUARD: '1',
-  OPENBITFUN_E2E_PACKAGED_FRONTEND: '1',
-  OPENBITFUN_E2E_FRONTEND_DIR: resolve(fileURLToPath(new URL('../../../dist', import.meta.url))),
+  OPC_E2E_STORAGE_ROOT: runtimeRoot,
+  OPC_E2E_USER_ROOT: join(runtimeRoot, 'user'),
+  OPC_USER_ROOT: join(runtimeRoot, 'user'),
+  OPC_E2E_HOME: join(runtimeRoot, 'home'),
+  OPC_HOME: join(runtimeRoot, 'home'),
+  OPC_E2E_LOG_DIR: join(runtimeRoot, 'logs'),
+  OPC_E2E_STORAGE_GUARD: '1',
+  OPC_E2E_PACKAGED_FRONTEND: '1',
+  OPC_E2E_FRONTEND_DIR: resolve(fileURLToPath(new URL('../../../dist', import.meta.url))),
 });
 const base = createEmbeddedConfig(['../specs/markdown-native.spec.ts'], 'Markdown native');
 export const config: Options.Testrunner = {

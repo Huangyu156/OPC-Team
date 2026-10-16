@@ -49,7 +49,7 @@ function runCheck(root) {
     cwd: repoRoot,
     env: {
       ...process.env,
-      OPENBITFUN_GITHUB_CONFIG_TEST_ROOT: root,
+      OPC_GITHUB_CONFIG_TEST_ROOT: root,
     },
     encoding: 'utf8',
   });
@@ -1062,7 +1062,7 @@ test('passes the verification key when signing the versioned Windows installer',
   );
 
   assert.equal(
-    signingStep?.env?.OPENBITFUN_SIGNING_PUBKEY,
+    signingStep?.env?.OPC_SIGNING_PUBKEY,
     '${{ secrets.TAURI_UPDATER_PUBKEY }}',
     'release signatures must be self-verified with the configured public key',
   );
@@ -1166,14 +1166,14 @@ test('Desktop packaging keeps beta identity explicit and stable-safe', () => {
 
   const packageJob = workflow.jobs.package;
   assert.equal(
-    packageJob.env.OPENBITFUN_RELEASE_CHANNEL,
+    packageJob.env.OPC_RELEASE_CHANNEL,
     '${{ needs.prepare.outputs.release_channel }}',
   );
   assert.match(packageJob.env.TAURI_UPDATER_ENDPOINT, /github\.repository/);
   assert.match(packageJob.env.TAURI_UPDATER_ENDPOINT, /channel-v1-beta/);
   assert.ok(packageJob.env.TAURI_UPDATER_ENDPOINT.includes("format('https://github.com/{0}/releases/latest/download/latest-v1.json', github.repository)"));
   assert.equal(packageJob.env.TAURI_UPDATER_ENDPOINT, packageJob.env.TAURI_UPDATER_FALLBACK_ENDPOINT);
-  assert.match(packageJob.env.OPENBITFUN_RELEASE_PUBKEY, /OPENBITFUN_RELEASE_PUBKEY/);
+  assert.match(packageJob.env.OPC_RELEASE_PUBKEY, /OPC_RELEASE_PUBKEY/);
   const appleSetupIndex = packageJob.steps.findIndex(
     (step) => step.name === 'Configure Apple Developer ID signing and notarization',
   );
@@ -1191,7 +1191,7 @@ test('Desktop packaging keeps beta identity explicit and stable-safe', () => {
   );
   assert.equal(packageJob.steps[appleSetupIndex].if, "runner.os == 'macOS'");
   assert.equal(
-    packageJob.steps[appleSetupIndex].env.OPENBITFUN_REQUIRE_APPLE_SIGNING,
+    packageJob.steps[appleSetupIndex].env.OPC_REQUIRE_APPLE_SIGNING,
     '${{ needs.prepare.outputs.upload_to_release }}',
   );
   assert.equal(packageJob.steps[appleVerifyIndex].if, "runner.os == 'macOS'");
@@ -1242,7 +1242,7 @@ test('Desktop packaging keeps beta identity explicit and stable-safe', () => {
     (step) => step.name === 'Sign installer packages',
   );
   assert.match(signingStep.run, /write-minisign-public-key\.mjs/);
-  assert.doesNotMatch(signingStep.run, /OPENBITFUN_SIGNING_PUBKEY.*base64 -d/);
+  assert.doesNotMatch(signingStep.run, /OPC_SIGNING_PUBKEY.*base64 -d/);
   const promotionStep = uploadSteps.find(
     (step) => step.name === 'Resolve beta channel promotion',
   );
@@ -1331,7 +1331,7 @@ test('stable and beta publication require every producer, while artifact-only ru
   const stage = steps.find((step) => step.name === 'Stage release assets');
   for (const pattern of [
     'linux-release-assets/opc-cli-*.tar.gz',
-    'linux-release-assets/openbitfun-relay-server-*.tar.gz',
+    'linux-release-assets/opc-relay-server-*.tar.gz',
     'linux-release-assets/*.tar.gz.sig', 'linux-release-assets/*.tar.gz.sha256.sig',
     'linux-release-assets/linux-binaries-v1.json', 'relay-image-assets/relay-image.json.sig',
   ]) assert.ok(stage.run.includes(pattern), pattern);
@@ -1411,16 +1411,16 @@ test('Relay image tag selection keeps Beta and old stable backfills away from la
     writeFileSync(output, '');
     const result = spawnSync('bash', ['-c', `gh() { printf 'v1.0.0\\n'; }\n${step.run}`], {
       env: { ...process.env, GITHUB_OUTPUT: output, GITHUB_REPOSITORY: 'test-owner/OpenBitFun',
-        IMAGE: 'ghcr.io/test-owner/openbitfun-relay-server', RELEASE_TAG: `v${scenario.version}`,
+        IMAGE: 'ghcr.io/test-owner/opc-relay-server', RELEASE_TAG: `v${scenario.version}`,
         RELEASE_VERSION: scenario.version, RELEASE_CHANNEL: scenario.channel, IMAGE_ONLY: scenario.imageOnly },
       encoding: 'utf8', windowsHide: true,
     });
     assert.equal(result.status, 0, result.stderr);
     const tags = readFileSync(output, 'utf8').trim().split('\n');
     assert.deepEqual(tags, [
-      'value<<EOF', `ghcr.io/test-owner/openbitfun-relay-server:v${scenario.version}`,
-      `ghcr.io/test-owner/openbitfun-relay-server:${scenario.version}`,
-      ...(scenario.latest ? ['ghcr.io/test-owner/openbitfun-relay-server:latest'] : []), 'EOF',
+      'value<<EOF', `ghcr.io/test-owner/opc-relay-server:v${scenario.version}`,
+      `ghcr.io/test-owner/opc-relay-server:${scenario.version}`,
+      ...(scenario.latest ? ['ghcr.io/test-owner/opc-relay-server:latest'] : []), 'EOF',
     ]);
   }
 });
@@ -1492,7 +1492,7 @@ test('nightly and beta use the shared build-version projection', () => {
     (step) => step.name === 'Patch nightly version',
   );
   assert.match(patch.run, /node scripts\/set-build-version\.mjs/);
-  assert.equal(artifacts.jobs.package.env.OPENBITFUN_RELEASE_CHANNEL, 'nightly');
+  assert.equal(artifacts.jobs.package.env.OPC_RELEASE_CHANNEL, 'nightly');
   assert.equal(
     artifacts.jobs.package.env.TAURI_UPDATER_ENDPOINT,
     'https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json',
@@ -1501,7 +1501,7 @@ test('nightly and beta use the shared build-version projection', () => {
     artifacts.jobs.package.env.TAURI_UPDATER_FALLBACK_ENDPOINT,
     'https://openbitfun.com/release/latest-v1.json',
   );
-  assert.equal(artifacts.jobs.package.env.OPENBITFUN_ENABLE_UPDATER_ARTIFACTS, undefined);
+  assert.equal(artifacts.jobs.package.env.OPC_ENABLE_UPDATER_ARTIFACTS, undefined);
   const signingStep = nightly.jobs['publish-nightly'].steps.find(
     (step) => step.name === 'Sign installer packages',
   );

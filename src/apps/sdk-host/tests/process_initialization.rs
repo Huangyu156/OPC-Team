@@ -12,8 +12,8 @@ fn sdk_host_process_installs_a_rustls_crypto_provider() {
 #[test]
 fn sdk_host_process_job_reclaims_descendants_when_host_exits() {
     const TEST_NAME: &str = "sdk_host_process_job_reclaims_descendants_when_host_exits";
-    const MODE_ENV: &str = "OPENBITFUN_SDK_HOST_JOB_TEST_MODE";
-    const PID_FILE_ENV: &str = "OPENBITFUN_SDK_HOST_JOB_TEST_PID_FILE";
+    const MODE_ENV: &str = "OPC_SDK_HOST_JOB_TEST_MODE";
+    const PID_FILE_ENV: &str = "OPC_SDK_HOST_JOB_TEST_PID_FILE";
 
     match std::env::var(MODE_ENV).as_deref() {
         Ok("descendant") => loop {

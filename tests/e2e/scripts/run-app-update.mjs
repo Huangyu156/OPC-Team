@@ -32,7 +32,7 @@ const root = await mkdtemp(path.join(tmpdir(), 'opc-app-update-'));
 const userRoot = path.join(root, 'user');
 const productHome = path.join(root, 'home');
 const frontend = path.join(root, 'frontend');
-const frontendSource = path.resolve(process.env.OPENBITFUN_E2E_FRONTEND_DIR || path.join(repo, 'dist'));
+const frontendSource = path.resolve(process.env.OPC_E2E_FRONTEND_DIR || path.join(repo, 'dist'));
 const manifest = await readFile(path.join(frontendSource, 'frontend-revision.json'), 'utf8');
 await cp(frontendSource, frontend, { recursive: true });
 assert.equal(await readFile(path.join(frontendSource, 'frontend-revision.json'), 'utf8'), manifest,
@@ -41,7 +41,7 @@ assert.equal(await readFile(path.join(frontend, 'frontend-revision.json'), 'utf8
 await mkdir(userRoot, { recursive: true });
 await mkdir(productHome, { recursive: true });
 const binaryName = 'opc-desktop' + (process.platform === 'win32' ? '.exe' : '');
-const binarySource = path.resolve(process.env.OPENBITFUN_E2E_DESKTOP_BINARY || path.join(repo, 'target/debug', binaryName));
+const binarySource = path.resolve(process.env.OPC_E2E_DESKTOP_BINARY || path.join(repo, 'target/debug', binaryName));
 const binary = path.join(root, binaryName);
 const binaryStat = await stat(binarySource);
 await cp(binarySource, binary);
@@ -60,12 +60,12 @@ const log = await open(path.join(root, 'desktop.log'), 'w');
 const launch = () => spawn(binary, [], {
   cwd: repo, windowsHide: true, stdio: ['ignore', log.fd, log.fd],
   env: { ...process.env,
-    OPENBITFUN_USER_ROOT: userRoot, OPENBITFUN_E2E_USER_ROOT: userRoot,
-    OPENBITFUN_HOME: productHome, OPENBITFUN_E2E_HOME: productHome,
-    OPENBITFUN_E2E_STORAGE_GUARD: '1', OPENBITFUN_E2E_PACKAGED_FRONTEND: '1',
-    OPENBITFUN_E2E_FRONTEND_DIR: frontend, OPENBITFUN_E2E_LOG_DIR: path.join(root, 'logs'),
-    OPENBITFUN_WEBDRIVER_PORT: String(port), OPENBITFUN_WEBDRIVER_LABEL: 'main',
-    OPENBITFUN_E2E_PERSISTENT_WEBVIEW: '1',
+    OPC_USER_ROOT: userRoot, OPC_E2E_USER_ROOT: userRoot,
+    OPC_HOME: productHome, OPC_E2E_HOME: productHome,
+    OPC_E2E_STORAGE_GUARD: '1', OPC_E2E_PACKAGED_FRONTEND: '1',
+    OPC_E2E_FRONTEND_DIR: frontend, OPC_E2E_LOG_DIR: path.join(root, 'logs'),
+    OPC_WEBDRIVER_PORT: String(port), OPC_WEBDRIVER_LABEL: 'main',
+    OPC_E2E_PERSISTENT_WEBVIEW: '1',
     WEBVIEW2_USER_DATA_FOLDER: path.join(userRoot, 'data', 'e2e-webview'),
   },
 });

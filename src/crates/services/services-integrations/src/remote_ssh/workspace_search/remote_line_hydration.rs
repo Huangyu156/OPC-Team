@@ -48,7 +48,7 @@ const _: () = assert!(MAX_REMOTE_LINE_BYTES > MAX_HYDRATED_LINE_COLUMNS * 4);
 /// common one.
 const MAX_MANIFEST_COMMAND_BYTES: usize = 8 * 1024;
 
-const MANIFEST_HEREDOC_DELIMITER: &str = "__OPENBITFUN_LINE_MANIFEST_EOF__";
+const MANIFEST_HEREDOC_DELIMITER: &str = "__OPC_LINE_MANIFEST_EOF__";
 
 /// Reads the matched lines for one file, positionally aligned with its wanted
 /// line numbers.

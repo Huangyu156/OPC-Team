@@ -59,8 +59,8 @@ impl CapturedPluginGeneration {
     }
 }
 
-const BUN_HOST_ENTRY_ENV: &str = "OPENBITFUN_OPENCODE_BUN_HOST_ENTRY";
-const BUN_COMMAND_ENV: &str = "OPENBITFUN_BUN_COMMAND";
+const BUN_HOST_ENTRY_ENV: &str = "OPC_OPENCODE_BUN_HOST_ENTRY";
+const BUN_COMMAND_ENV: &str = "OPC_BUN_COMMAND";
 const OPENCODE_PLUGIN_ECOSYSTEM: &str = "opencode";
 const OPENCODE_PLUGIN_RUNTIME_NAMESPACE: &str = "opencode-plugin";
 const OPENCODE_PLUGIN_ROUTE_OWNER: &str = "opencode-plugin-config";
@@ -2014,8 +2014,8 @@ mod tests {
 
         assert_eq!(spec.default_command, "bun");
         assert_eq!(spec.entry_filename, "extension-host.js");
-        assert_eq!(spec.command_env, "OPENBITFUN_BUN_COMMAND");
-        assert_eq!(spec.entry_env, "OPENBITFUN_OPENCODE_BUN_HOST_ENTRY");
+        assert_eq!(spec.command_env, "OPC_BUN_COMMAND");
+        assert_eq!(spec.entry_env, "OPC_OPENCODE_BUN_HOST_ENTRY");
     }
 
     #[test]

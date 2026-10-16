@@ -3,7 +3,7 @@ import { join } from 'node:path';
 import { $, browser, expect } from '@wdio/globals';
 import { openWorkspace } from '../helpers/workspace-helper';
 
-const evidence = process.env.OPENBITFUN_FLOWCHAT_E2E_ROOT!;
+const evidence = process.env.OPC_FLOWCHAT_E2E_ROOT!;
 const scrollerSelector = '[data-flowchat-scroller]';
 const latestSelector = '.scroll-to-latest-bar[data-visible="true"]';
 type Frame = { t: number; phase: string; top: number; end: number; height: number; width: number; streaming: boolean; anchor: number | null; collapseTop: number | null; tail: number; rows: number; agents: number; userTop: number | null; line: number; sentUser: boolean; turnCount: number; firstIndex: number; lastIndex: number; paddingBottom: number };
@@ -11,7 +11,7 @@ const results: Record<string, unknown> = {};
 
 class StreamingFlowChatPage {
   async openRecordedSession() {
-    const id = process.env.OPENBITFUN_FLOWCHAT_SESSION_IDS!.split(',')[0];
+    const id = process.env.OPC_FLOWCHAT_SESSION_IDS!.split(',')[0];
     const row = $(`[data-testid="nav-session-item"][data-session-id="${id}"]`);
     await row.waitForExist({ timeout: 30000 }); await row.click();
     await browser.waitUntil(async () => (await $('[data-testid="flowchat-message-list"]').getAttribute('data-open-viewport-settled')) === 'true', { timeout: 30000 });

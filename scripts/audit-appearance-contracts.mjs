@@ -57,7 +57,7 @@ const retiredFinalStateContracts = [
   ['generate-startup-theme-bootstrap', /generate-startup-theme-bootstrap/],
   ['startup_theme_bootstrap', /startup_theme_bootstrap/],
   ['STARTUP_THEME_BOOTSTRAP', /STARTUP_THEME_BOOTSTRAP/],
-  ['__OPENBITFUN_BOOTSTRAP_THEME', /__OPENBITFUN_BOOTSTRAP_THEME/],
+  ['__OPC_BOOTSTRAP_THEME', /__OPC_BOOTSTRAP_THEME/],
   ['prepare_theme', /prepare_theme/],
   ['prepareThemeDurationMs', /prepareThemeDurationMs/],
   ['theme-switching', /theme-switching/],

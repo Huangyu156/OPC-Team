@@ -15,7 +15,7 @@ const REQUIRED_PAYLOAD_FILES: [&str; 6] = [
 ];
 
 fn main() {
-    println!("cargo:rerun-if-env-changed=OPENBITFUN_RELEASE_CHANNEL");
+    println!("cargo:rerun-if-env-changed=OPC_RELEASE_CHANNEL");
     if let Err(err) = build_embedded_payload() {
         panic!("failed to build embedded payload: {err}");
     }

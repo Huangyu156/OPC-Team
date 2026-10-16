@@ -228,10 +228,10 @@ mod tests {
                     "opc_control_host::miniapps::tests::isolated_crud_child",
                     "--nocapture",
                 ])
-                .env("OPENBITFUN_CREATION_CRUD_TEST", "1")
-                .env("OPENBITFUN_USER_ROOT", root.path().join("user"))
-                .env("OPENBITFUN_HOME", root.path().join("home"))
-                .env("OPENBITFUN_E2E_STORAGE_GUARD", "1")
+                .env("OPC_CREATION_CRUD_TEST", "1")
+                .env("OPC_USER_ROOT", root.path().join("user"))
+                .env("OPC_HOME", root.path().join("home"))
+                .env("OPC_E2E_STORAGE_GUARD", "1")
                 .output()
                 .unwrap();
         assert!(
@@ -245,10 +245,7 @@ mod tests {
     #[tokio::test]
     #[ignore = "Invoked by installed_miniapp_crud_uses_isolated_product_storage with isolated roots"]
     async fn isolated_crud_child() {
-        assert_eq!(
-            std::env::var("OPENBITFUN_CREATION_CRUD_TEST").as_deref(),
-            Ok("1")
-        );
+        assert_eq!(std::env::var("OPC_CREATION_CRUD_TEST").as_deref(), Ok("1"));
         let paths = std::sync::Arc::new(opc_core::infrastructure::PathManager::new().unwrap());
         let manager = MiniAppManager::new(paths.clone());
         let created = execute(

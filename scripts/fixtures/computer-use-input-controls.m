@@ -106,7 +106,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
     if (strcmp(argv[1], "--observer") == 0) {
         NSApplication *observer = [NSApplication sharedApplication];
         [observer setActivationPolicy:NSApplicationActivationPolicyRegular];
-        NSWindow *window = [[NSWindow alloc] initWithContentRect:(getenv("OPENBITFUN_INPUT_COVER_TARGET") && strcmp(getenv("OPENBITFUN_INPUT_COVER_TARGET"),"1")==0 ? NSMakeRect(80,80,760,340) : NSMakeRect(850,100,240,180)) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:NO];
+        NSWindow *window = [[NSWindow alloc] initWithContentRect:(getenv("OPC_INPUT_COVER_TARGET") && strcmp(getenv("OPC_INPUT_COVER_TARGET"),"1")==0 ? NSMakeRect(80,80,760,340) : NSMakeRect(850,100,240,180)) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:NO];
         window.title = @"OpenBitFun Foreground Observer";
         NSString *observerPath = argc > 2 ? [NSString stringWithUTF8String:argv[2]] : nil;
         uint32_t observedTarget = argc > 3 ? (uint32_t)strtoul(argv[3], NULL, 10) : 0;

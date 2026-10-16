@@ -33,7 +33,7 @@ test('CLI uses the shared resolver and stages the internal binary under the memb
   assert.ok(plan.internalBinaryPath.endsWith('openbitfun.exe'));
   assert.ok(plan.stagedBinaryPath.endsWith('acme.exe'));
   assert.ok(plan.stagedPluginHostPath.endsWith(join('resources', 'ext-host')));
-  assert.equal(plan.environment.OPENBITFUN_PRODUCT_DISPLAY_NAME, 'Acme CLI');
+  assert.equal(plan.environment.OPC_PRODUCT_DISPLAY_NAME, 'Acme CLI');
 });
 
 test('CLI dev forwards runtime arguments after the Cargo delimiter', () => {

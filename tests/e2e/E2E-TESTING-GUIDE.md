@@ -177,13 +177,13 @@ Debug build detected, checking dev server...
 ```
 
 **Core Principle**: Functional E2E still defaults to `target/debug/opc-desktop.exe`.
-Performance E2E should explicitly set `OPENBITFUN_E2E_APP_MODE=release-fast` after
+Performance E2E should explicitly set `OPC_E2E_APP_MODE=release-fast` after
 building `pnpm run desktop:build:release-fast`.
 
 Do not manually start `target/release-fast/opc-desktop.exe` for performance
 validation. A direct launch uses the normal user profile unless isolated storage
-environment variables are provided. The E2E launcher sets `OPENBITFUN_USER_ROOT`,
-`OPENBITFUN_HOME`, and `OPENBITFUN_E2E_STORAGE_GUARD=1` automatically so performance
+environment variables are provided. The E2E launcher sets `OPC_USER_ROOT`,
+`OPC_HOME`, and `OPC_E2E_STORAGE_GUARD=1` automatically so performance
 runs cannot silently write into the real OPC-Team profile.
 
 ### 5. Startup and Long-Session Performance E2E
@@ -198,7 +198,7 @@ Build and run the release-like performance spec:
 
 ```bash
 pnpm run desktop:build:release-fast
-cross-env E2E_TEST_WORKSPACE=<workspace-path> OPENBITFUN_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:release-fast
+cross-env E2E_TEST_WORKSPACE=<workspace-path> OPC_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:release-fast
 ```
 
 For cold-start outlier checks, prefer the focused stability runner instead of
@@ -210,17 +210,17 @@ cross-env E2E_TEST_WORKSPACE=<workspace-path> pnpm run e2e:test:perf:startup-sta
 ```
 
 It repeats only the startup telemetry case. Tune sample count and threshold gates
-with `OPENBITFUN_E2E_PERF_STARTUP_ITERATIONS`,
-`OPENBITFUN_E2E_PERF_STARTUP_MAX_INTERACTIVE_MS`,
-`OPENBITFUN_E2E_PERF_STARTUP_MAX_FIRST_SCRIPT_MS`, and
-`OPENBITFUN_E2E_PERF_STARTUP_MAX_MAIN_SHOWN_TO_INTERACTIVE_MS`.
+with `OPC_E2E_PERF_STARTUP_ITERATIONS`,
+`OPC_E2E_PERF_STARTUP_MAX_INTERACTIVE_MS`,
+`OPC_E2E_PERF_STARTUP_MAX_FIRST_SCRIPT_MS`, and
+`OPC_E2E_PERF_STARTUP_MAX_MAIN_SHOWN_TO_INTERACTIVE_MS`.
 The runner prints concise summaries by default; set
-`OPENBITFUN_E2E_PERF_RUNNER_STREAM_LOGS=1` only when debugging a failing run.
+`OPC_E2E_PERF_RUNNER_STREAM_LOGS=1` only when debugging a failing run.
 
 For long-session interaction risk, run the smallest matching profile:
 
 ```bash
-cross-env E2E_TEST_WORKSPACE=<workspace-path> OPENBITFUN_E2E_PERF_SESSION_ID=perf-long-session-000 OPENBITFUN_E2E_PERF_MATRIX_PROFILE=core pnpm run e2e:test:perf:long-session-interactions:release-fast
+cross-env E2E_TEST_WORKSPACE=<workspace-path> OPC_E2E_PERF_SESSION_ID=perf-long-session-000 OPC_E2E_PERF_MATRIX_PROFILE=core pnpm run e2e:test:perf:long-session-interactions:release-fast
 ```
 
 Profiles are `core`, `scroll`, `resize`, and `full`. Use `core` for general
@@ -231,20 +231,20 @@ matches the touched surface plus any nearby unit/contract tests; it does not nee
 every E2E suite unless the change broadens the runtime or product surface.
 The matrix fails when an expected performance report is missing so skipped
 fixtures are not mistaken for valid data; use
-`OPENBITFUN_E2E_PERF_ALLOW_MISSING_REPORTS=1` only for runner plumbing checks.
+`OPC_E2E_PERF_ALLOW_MISSING_REPORTS=1` only for runner plumbing checks.
 
 For debug-only comparison, build the debug binary and run:
 
 ```bash
 cargo build -p opc-desktop
-cross-env E2E_TEST_WORKSPACE=<workspace-path> OPENBITFUN_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:debug
+cross-env E2E_TEST_WORKSPACE=<workspace-path> OPC_E2E_PERF_SESSION_ID=perf-long-session-000 pnpm run e2e:test:perf:debug
 ```
 
 The spec writes JSON reports under `tests/e2e/reports/performance/`. It records
 startup milestones, Tauri API aggregates, first-open session hydration timings,
 and background full-hydrate timings when they occur. Optional threshold gates can
-be enabled with `OPENBITFUN_E2E_PERF_MAX_INTERACTIVE_MS` and
-`OPENBITFUN_E2E_PERF_MAX_SESSION_FRAME_MS`.
+be enabled with `OPC_E2E_PERF_MAX_INTERACTIVE_MS` and
+`OPC_E2E_PERF_MAX_SESSION_FRAME_MS`.
 
 ## Test Structure
 
@@ -482,7 +482,7 @@ it('should test feature when workspace is open', async function () {
 cargo build -p opc-desktop
 
 # Run tests in debug mode so the embedded driver starts inside OPC-Team
-OPENBITFUN_E2E_APP_MODE=debug pnpm --dir tests/e2e run test:l0:protocol
+OPC_E2E_APP_MODE=debug pnpm --dir tests/e2e run test:l0:protocol
 
 # Verify the app process is allowed to bind 127.0.0.1:4445
 ```
@@ -646,7 +646,7 @@ jobs:
       - name: Install test dependencies
         run: cd tests/e2e && pnpm install
       - name: Run L0 tests
-        run: cd tests/e2e && OPENBITFUN_E2E_APP_MODE=debug pnpm run test:l0:all
+        run: cd tests/e2e && OPC_E2E_APP_MODE=debug pnpm run test:l0:all
         
   l1-tests:
     runs-on: windows-latest
@@ -670,7 +670,7 @@ jobs:
       - name: Install test dependencies
         run: cd tests/e2e && pnpm install
       - name: Run L1 tests
-        run: cd tests/e2e && OPENBITFUN_E2E_APP_MODE=debug pnpm run test:l1
+        run: cd tests/e2e && OPC_E2E_APP_MODE=debug pnpm run test:l1
 ```
 
 ### Test Execution Matrix
