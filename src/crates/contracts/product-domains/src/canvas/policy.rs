@@ -4,7 +4,7 @@ use crate::canvas::types::{
 };
 use serde::{Deserialize, Serialize};
 
-pub const OPC_CANVAS_IMPORT: &str = "openbitfun/canvas";
+pub const OPC_CANVAS_IMPORT: &str = "opc/canvas";
 const CURSOR_CANVAS_IMPORT: &str = "cursor/canvas";
 const REACT_IMPORT: &str = "react";
 
@@ -114,9 +114,7 @@ pub fn validate_canvas_source_policy(source: &CanvasSource) -> Vec<CanvasDiagnos
             code: Some(import_policy_code(&import_diagnostic.kind).to_string()),
             line: import_diagnostic.line,
             column: import_diagnostic.column,
-            suggested_fix: Some(
-                "Import Canvas primitives from openbitfun/canvas only.".to_string(),
-            ),
+            suggested_fix: Some("Import Canvas primitives from opc/canvas only.".to_string()),
         });
     }
 

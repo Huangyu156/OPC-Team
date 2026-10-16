@@ -2,8 +2,8 @@
  * Design system reference:
  *   palette  ─ Inherits OPC-Team host theme (--opcteam-* tokens). Surfaces,
  *              text and borders all proxy through host vars so the dashboard
- *              reads as a native OPC-Team panel under both openbitfun-dark and
- *              openbitfun-light. The host contract owns first-paint defaults.
+ *              reads as a native OPC-Team panel under both opc-dark and
+ *              opc-light. The host contract owns first-paint defaults.
  *   accent   ─ host primary (cool blue / slate) for hero/streak/heatmap
  *              accents. Diff stats keep semantic green/red so additions and
  *              deletions stay glanceable.
@@ -48,7 +48,7 @@
   --cs-sans: var(--opcteam-font-sans);
 }
 
-[data-openbitfun-appearance-mode="light"] {
+[data-opc-appearance-mode="light"] {
   color-scheme: light;
   --cs-accent-glow: none;
 }

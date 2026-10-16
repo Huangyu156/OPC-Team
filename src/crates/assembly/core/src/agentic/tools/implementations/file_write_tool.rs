@@ -257,7 +257,7 @@ impl FileWriteTool {
 Parameter: `payload` (a single string)
 - Format: `+++ {file_path}\n{file_content}`
 - This is a path-first Write payload format: the first line uses Git's `+++` marker to specify the target file, but content lines do NOT need a leading `+`. Do not include `---`, `@@`, or other Git diff headers.
-- `{file_path}` must be an absolute path or an exact `openbitfun://...` URI. Everything after the first newline is the complete content to write to that file.
+- `{file_path}` must be an absolute path or an exact `opc://...` URI. Everything after the first newline is the complete content to write to that file.
 - The `+++ ` marker is required. If it is missing or has no file path, the tool saves the entire `payload` unchanged to `__OPC_WRITE_FALLBACK_DIRECTORY__/write_{suffix}.tmp` in the workspace.
 - Do NOT pass `path`, `file_path`, or `content`, etc. They are not valid parameters for this tool. Only `payload` is accepted.
 

@@ -37,7 +37,7 @@ test('generates GitHub URLs for both Linux CLI and Relay architectures', () => {
       '--tag',
       'v1.2.3',
       '--repo',
-      'GCWing/OpenBitFun',
+      'GCWing/OPC-Team',
       '--out',
       out,
     ],
@@ -90,7 +90,7 @@ test('publishes sigUrl when a signature is present, omits it otherwise', () => {
       '--assets-dir', assets,
       '--version', '1.2.3',
       '--tag', 'v1.2.3',
-      '--repo', 'GCWing/OpenBitFun',
+      '--repo', 'GCWing/OPC-Team',
       '--out', out,
     ],
     { cwd: repoRoot, encoding: 'utf8' }
@@ -139,7 +139,7 @@ test('rejects versions whose build metadata GitHub would rewrite in asset names'
       '--tag',
       'nightly',
       '--repo',
-      'GCWing/OpenBitFun',
+      'GCWing/OPC-Team',
       '--out',
       out,
     ],
@@ -173,7 +173,7 @@ test('release sync pins Relay and Linux metadata to the updater release during l
   const temp = fs.mkdtempSync(path.join(os.tmpdir(), 'opc-release-metadata-'));
   t.after(() => fs.rmSync(temp, { recursive: true, force: true }));
   const urls = path.join(temp, 'urls');
-  const releaseBase = 'https://github.com/GCWing/OpenBitFun/releases/download/v1.0.0';
+  const releaseBase = 'https://github.com/GCWing/OPC-Team/releases/download/v1.0.0';
   const result = spawnSync('bash', ['-c', `
     source "$SYNC_SCRIPT"
     flock() { return 0; }
@@ -217,7 +217,7 @@ test('openbitfun sync mirrors the website installer from the exact updater relea
     ['-c', `
       source "$SYNC_SCRIPT"
       VERSION_DIR="$TEST_VERSION_DIR"
-      RELEASE_ASSET_BASE_URL="https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3"
+      RELEASE_ASSET_BASE_URL="https://github.com/GCWing/OPC-Team/releases/download/v1.2.3"
       LATEST_JSON="$TEST_LATEST_JSON"
       download_asset() {
         printf '%s\\t%s\\n' "$1" "$2" >> "$DOWNLOAD_CALLS"
@@ -234,8 +234,8 @@ test('openbitfun sync mirrors the website installer from the exact updater relea
         TEST_LATEST_JSON: JSON.stringify({
           manual_installers: {
             'windows-x86_64': {
-              url: 'https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe',
-              signature_url: 'https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig',
+              url: 'https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe',
+              signature_url: 'https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig',
             },
           },
         }),
@@ -246,8 +246,8 @@ test('openbitfun sync mirrors the website installer from the exact updater relea
 
   const downloads = fs.readFileSync(calls, 'utf8').trim().split('\n');
   assert.deepEqual(downloads, [
-    `https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe\t${versionDir}/OpenBitFun_1.2.3_windows-x86_64-installer.exe`,
-    `https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig\t${versionDir}/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig`,
+    `https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe\t${versionDir}/OpenBitFun_1.2.3_windows-x86_64-installer.exe`,
+    `https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig\t${versionDir}/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig`,
   ]);
 });
 
@@ -262,7 +262,7 @@ test('openbitfun sync uses the canonical fixed installer fallback', () => {
     ['-c', `
       source "$SYNC_SCRIPT"
       VERSION_DIR="$TEST_VERSION_DIR"
-      RELEASE_ASSET_BASE_URL="https://github.com/GCWing/OpenBitFun/releases/download/v1.2.2"
+      RELEASE_ASSET_BASE_URL="https://github.com/GCWing/OPC-Team/releases/download/v1.2.2"
       download_asset() {
         printf '%s\\t%s\\n' "$1" "$2" >> "$DOWNLOAD_CALLS"
       }
@@ -280,8 +280,8 @@ test('openbitfun sync uses the canonical fixed installer fallback', () => {
   );
   assert.equal(result.status, 0, result.stderr);
   assert.deepEqual(fs.readFileSync(calls, 'utf8').trim().split('\n'), [
-    `https://github.com/GCWing/OpenBitFun/releases/download/v1.2.2/opc-installer.exe\t${versionDir}/opc-installer.exe`,
-    `https://github.com/GCWing/OpenBitFun/releases/download/v1.2.2/opc-installer.exe.sig\t${versionDir}/opc-installer.exe.sig`,
+    `https://github.com/GCWing/OPC-Team/releases/download/v1.2.2/opc-installer.exe\t${versionDir}/opc-installer.exe`,
+    `https://github.com/GCWing/OPC-Team/releases/download/v1.2.2/opc-installer.exe.sig\t${versionDir}/opc-installer.exe.sig`,
   ]);
 });
 
@@ -298,7 +298,7 @@ test('openbitfun sync mirrors complete signed macOS CLI sets for Dispatch', () =
       source "$SYNC_SCRIPT"
       VERSION="1.2.3"
       VERSION_DIR="$TEST_VERSION_DIR"
-      RELEASE_ASSET_BASE_URL="https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3"
+      RELEASE_ASSET_BASE_URL="https://github.com/GCWing/OPC-Team/releases/download/v1.2.3"
       curl() { return 0; }
       download_asset() {
         printf '%s\\t%s\\n' "$1" "$2" >> "$DOWNLOAD_CALLS"
@@ -328,7 +328,7 @@ test('openbitfun sync mirrors complete signed macOS CLI sets for Dispatch', () =
     for (const suffix of ['', '.sha256', '.sha256.sig', '.sig']) {
       assert.ok(
         downloads.includes(
-          `https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/${archive}${suffix}\t${versionDir}/${archive}${suffix}`
+          `https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/${archive}${suffix}\t${versionDir}/${archive}${suffix}`
         )
       );
     }
@@ -351,20 +351,20 @@ test('website download manifest uses installer while updater manifest keeps setu
     pub_date: '2026-08-05T00:00:00Z',
     platforms: {
       'windows-x86_64': {
-        url: 'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-setup.exe',
+        url: 'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-setup.exe',
       },
       'darwin-aarch64': {
-        url: 'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_darwin-aarch64.app.tar.gz',
+        url: 'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_darwin-aarch64.app.tar.gz',
       },
     },
     manual_installers: {
       'windows-x86_64': {
-        url: 'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe',
-        signature_url: 'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig',
+        url: 'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe',
+        signature_url: 'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig',
       },
       'darwin-aarch64': {
-        url: 'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg',
-        signature_url: 'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg.sig',
+        url: 'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg',
+        signature_url: 'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg.sig',
       },
     },
   };
@@ -375,7 +375,7 @@ test('website download manifest uses installer while updater manifest keeps setu
     ['-c', `
       source "$SYNC_SCRIPT"
       VERSION_DIR="$TEST_VERSION_DIR"
-      OPC_BASE_URL="https://openbitfun.test/release"
+      OPC_BASE_URL="https://opc.test/release"
       WINDOWS_INSTALLER_FILENAME="opc-installer.exe"
       WEBSITE_DOWNLOADS_MANIFEST="downloads.json"
       write_website_download_manifest
@@ -403,19 +403,19 @@ test('website download manifest uses installer while updater manifest keeps setu
   assert.equal(website.version, '1.2.3');
   assert.equal(
     website.platforms['windows-x86_64'].url,
-    'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe'
+    'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe'
   );
   assert.equal(
     website.platforms['windows-x86_64'].signatureUrl,
-    'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig'
+    'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_windows-x86_64-installer.exe.sig'
   );
   assert.equal(
     website.platforms['darwin-aarch64'].url,
-    'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg'
+    'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg'
   );
   assert.equal(
     website.platforms['darwin-aarch64'].signatureUrl,
-    'https://openbitfun.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg.sig'
+    'https://opc.test/release/1.2.3/OpenBitFun_1.2.3_aarch64.dmg.sig'
   );
 });
 
@@ -500,7 +500,7 @@ test('openbitfun sync lock and cron use the in-repo script, not a server-only co
   );
   assert.doesNotMatch(
     syncScript,
-    /LOCK_FILE="\/root\/repos\/OpenBitFun-AutoUpdate\/sync\.lock"/,
+    /LOCK_FILE="\/root\/repos\/Opc-AutoUpdate\/sync\.lock"/,
     'a hardcoded AutoUpdate lock forces every new host to recreate a server-only tree'
   );
   assert.match(
@@ -510,7 +510,7 @@ test('openbitfun sync lock and cron use the in-repo script, not a server-only co
   );
   assert.doesNotMatch(
     cronFile,
-    /OpenBitFun-AutoUpdate/,
+    /Opc-AutoUpdate/,
     'the crontab file must not revive the server-only AutoUpdate copy'
   );
   assert.match(

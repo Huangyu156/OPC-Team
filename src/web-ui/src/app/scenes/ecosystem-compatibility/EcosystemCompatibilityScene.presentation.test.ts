@@ -51,7 +51,7 @@ describe('ecosystem compatibility scene presentation contract', () => {
     expect(scene).toContain('onSnapshotChange={setSnapshot}');
     expect(scene).toContain('<AcpAgentsConfig');
     expect(scene).toContain('clientIds={[...selectedRuntime.acpClients.map((client) => client.id)');
-    expect(scene).toContain("new CustomEvent('openbitfun:create-acp-session'");
+    expect(scene).toContain("new CustomEvent('opc:create-acp-session'");
     expect(scene).toContain("t('run.session.title')");
     expect(scene).toContain("t('run.subagent.title')");
     expect(scene).toContain("t('run.subagent.responsibilityLabel')");
@@ -353,11 +353,11 @@ describe('ecosystem compatibility scene presentation contract', () => {
     expect(scene).not.toContain("'other-acp'");
   });
 
-  it('does not expose the removed use-OpenBitFun-in-product view', () => {
+  it('does not expose the removed use-Opc-in-product view', () => {
     const scene = source('./EcosystemCompatibilityScene.tsx');
     const model = source('./ecosystemCompatibilityModel.ts');
 
-    expect(scene).not.toContain("'use-openbitfun'");
-    expect(model).not.toContain("'use-openbitfun'");
+    expect(scene).not.toContain("'use-opc'");
+    expect(model).not.toContain("'use-opc'");
   });
 });

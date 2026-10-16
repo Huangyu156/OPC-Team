@@ -532,7 +532,7 @@
 
     &.is-connecting {
       background: var(--opcteam-color-status-warning-emphasis);
-      animation: openbitfun-status-dot-pulse 1.4s ease-in-out infinite;
+      animation: opc-status-dot-pulse 1.4s ease-in-out infinite;
     }
   }
 
@@ -912,7 +912,7 @@
     max-block-size: min(560px, calc(100vh - 16px));
     z-index: var(--opcteam-layer-popover);
     transform-origin: top left;
-    animation: openbitfun-footer-menu-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-decelerate) forwards;
+    animation: opc-footer-menu-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-decelerate) forwards;
   }
 
   &__workspace-acp-menu-trigger.is-open {
@@ -1297,7 +1297,7 @@
   }
 }
 
-@keyframes openbitfun-status-dot-pulse {
+@keyframes opc-status-dot-pulse {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.3; }
 }
@@ -1387,7 +1387,7 @@
 
   &__workspace-item-menu-popover {
     transform-origin: top left;
-    animation: openbitfun-workspace-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation: opc-workspace-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
   }
 }
 
@@ -1416,7 +1416,7 @@
   }
 }
 
-@keyframes openbitfun-workspace-popover-in {
+@keyframes opc-workspace-popover-in {
   from {
     opacity: 0;
     transform: scale(0.98);

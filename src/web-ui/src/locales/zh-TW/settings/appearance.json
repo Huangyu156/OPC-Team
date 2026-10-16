@@ -99,9 +99,9 @@
         "manual": {
           "open": "上傳外觀包",
           "title": "手動投稿",
-          "hint": "上傳本機的 .openbitfun-appearance 檔案；上傳前及送審前都會驗證",
+          "hint": "上傳本機的 .opc-appearance 檔案；上傳前及送審前都會驗證",
           "package": "外觀包檔案",
-          "packagePlaceholder": "選擇 .openbitfun-appearance 檔案",
+          "packagePlaceholder": "選擇 .opc-appearance 檔案",
           "choose": "選擇檔案",
           "chooseTitle": "選擇要投稿的外觀包",
           "slug": "市場識別碼（選填）",

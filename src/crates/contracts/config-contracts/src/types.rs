@@ -4035,7 +4035,7 @@ pub fn validate_current_config_value(value: &Value, context: &str) -> Result<(),
 
 fn retired_config_field(context: &str, path: &str) -> String {
     config_validation_message(format!(
-        "{context} contains retired pre-OpenBitFun field '{path}'; use the explicit data migration tool instead"
+        "{context} contains retired pre-Opc field '{path}'; use the explicit data migration tool instead"
     ))
 }
 

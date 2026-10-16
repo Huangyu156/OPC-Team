@@ -176,7 +176,7 @@
     background: var(--opcteam-color-surface-panel);
     box-shadow: var(--opcteam-shadow-menu);
     transform-origin: top center;
-    animation: openbitfun-select-popover-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-enter);
+    animation: opc-select-popover-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-enter);
   }
 
   .popover[data-invalid="true"] {
@@ -186,7 +186,7 @@
   .popover[data-placement="top"] {
     flex-direction: column-reverse;
     transform-origin: bottom center;
-    animation-name: openbitfun-select-popover-in-top;
+    animation-name: opc-select-popover-in-top;
   }
 
   .popoverHeader {
@@ -248,7 +248,7 @@
     color: var(--opcteam-color-control-highlight-background);
   }
 
-  @keyframes openbitfun-select-popover-in {
+  @keyframes opc-select-popover-in {
     from {
       opacity: 0;
       transform: translateY(-2px);
@@ -260,7 +260,7 @@
     }
   }
 
-  @keyframes openbitfun-select-popover-in-top {
+  @keyframes opc-select-popover-in-top {
     from {
       opacity: 0;
       transform: translateY(2px);

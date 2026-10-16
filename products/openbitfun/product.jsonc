@@ -7,8 +7,8 @@
   "members": {
     "desktop": {
       "displayNameKey": "product.desktop.name",
-      "binaryName": "openbitfun-desktop",
-      "bundleId": "com.openbitfun.desktop"
+      "binaryName": "opc-desktop",
+      "bundleId": "com.opcteam.desktop"
     },
     "cli": {
       "displayNameKey": "product.cli.name",

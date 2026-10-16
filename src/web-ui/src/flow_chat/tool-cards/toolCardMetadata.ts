@@ -10,7 +10,7 @@ import type { FlowItem, FlowToolItem, ToolCardConfig } from '../types/flow-chat'
 import { isMcpToolName, parseMcpToolName } from '@/infrastructure/mcp/toolName';
 import { APPEARANCE_DOMAIN_TOKENS } from '@/infrastructure/appearance/appearanceDomainTokens';
 import { getEffectiveToolName, projectEffectiveToolItem } from '../utils/toolInvocationIdentity';
-import { getOpenBitFunControlInput, isOpenBitFunControlDiscovery } from './openBitFunControlCardModel';
+import { getOpcControlInput, isOpcControlDiscovery } from './opcControlCardModel';
 import { isShellToolName } from '../grouping/activityClassification';
 import { getControlHubInput, isControlHubObservation } from './runtimeToolCardModel';
 import { SEMANTIC_BUILTIN_TOOL_NAMES, getBuiltinToolInput, getBuiltinToolAttention, isSemanticBuiltinTool } from './builtinToolCardPolicy';
@@ -45,7 +45,7 @@ const AMBIENT_TOOL_CARD_NAMES = new Set([
 
 const PROMINENT_TOOL_CARD_NAMES = new Set([
   'TodoWrite',
-  'OpenBitFunControl',
+  'OpcControl',
   'ControlHub',
   'Write',
   'Edit',
@@ -109,8 +109,8 @@ const TOOL_CARD_DEFINITIONS: Record<string, ToolCardDefinition> = {
     description: 'Control browsers and terminals or inspect available capabilities',
     primaryColor: APPEARANCE_DOMAIN_TOKENS.toolIdentity.assistantAction,
   },
-  'OpenBitFunControl': {
-    toolName: 'OpenBitFunControl',
+  'OpcControl': {
+    toolName: 'OpcControl',
     displayName: 'OPC-Team',
     icon: 'CONTROL',
     requiresConfirmation: false,
@@ -560,7 +560,7 @@ const TOOL_CARD_DEFINITIONS: Record<string, ToolCardDefinition> = {
     primaryColor: 'var(--opcteam-color-accent-hover)'
   },
 
-  // OpenBitFun Canvas tools
+  // OPC Canvas tools
   'CreateCanvas': {
     toolName: 'CreateCanvas',
     displayName: 'Create Canvas',
@@ -620,10 +620,10 @@ export function getToolCardConfig(toolName: string, input?: unknown): ToolCardCo
   if (toolName === 'ControlHub') {
     return { ...TOOL_CARD_CONFIGS[toolName], attention: isControlHubObservation(input) ? 'ambient' : 'prominent' };
   }
-  if (toolName === 'OpenBitFunControl') {
+  if (toolName === 'OpcControl') {
     return {
       ...TOOL_CARD_CONFIGS[toolName],
-      attention: isOpenBitFunControlDiscovery(input) ? 'ambient' : 'prominent',
+      attention: isOpcControlDiscovery(input) ? 'ambient' : 'prominent',
     };
   }
   // Check MCP tools (prefix: mcp__).
@@ -664,8 +664,8 @@ export function getToolItemCardConfig(
   toolItem: FlowToolItem,
 ): ToolCardConfig {
   const effective = projectEffectiveToolItem(toolItem);
-  const config = getToolCardConfig(effective.toolName, effective.toolName === 'OpenBitFunControl'
-    ? getOpenBitFunControlInput(effective)
+  const config = getToolCardConfig(effective.toolName, effective.toolName === 'OpcControl'
+    ? getOpcControlInput(effective)
     : effective.toolName === 'ControlHub' ? getControlHubInput(effective)
       : isSemanticBuiltinTool(effective.toolName) ? getBuiltinToolInput(effective) : effective.toolCall?.input);
   // Approval is a grouping boundary, but does not change an ambient card's skin.

@@ -535,7 +535,7 @@
 
   .root[data-opc-state="loading"] .statusIcon > :is(svg, [data-opc-component="icon"]),
   .root[data-opc-state="submitting"] .statusIcon > :is(svg, [data-opc-component="icon"]) {
-    animation: openbitfun-ask-user-spin var(--opcteam-motion-duration-loop) linear infinite;
+    animation: opc-ask-user-spin var(--opcteam-motion-duration-loop) linear infinite;
   }
 
   .statusOnly {
@@ -628,7 +628,7 @@
   }
 }
 
-@keyframes openbitfun-ask-user-spin {
+@keyframes opc-ask-user-spin {
   to {
     transform: rotate(1turn);
   }

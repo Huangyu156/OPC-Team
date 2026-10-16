@@ -19,7 +19,7 @@ export function createGenerativeWidgetHtml({
   doc.title = title;
   doc.documentElement.lang = language;
   if (appearance) {
-    doc.documentElement.setAttribute('data-openbitfun-appearance', appearance.id);
+    doc.documentElement.setAttribute('data-opc-appearance', appearance.id);
     doc.documentElement.setAttribute('data-opc-appearance-mode', appearance.mode);
     Object.entries(appearance.vars).forEach(([name, value]) => {
       doc.documentElement.style.setProperty(name, value);
@@ -45,8 +45,8 @@ export function createGenerativeWidgetHtml({
   bridge.textContent = `
     (function () {
       function unsupported() { window.alert(${message}); }
-      window.openbitfunWidget = { send: unsupported };
-      window.glimpse = window.openbitfunWidget;
+      window.opcWidget = { send: unsupported };
+      window.glimpse = window.opcWidget;
       window.sendPrompt = unsupported;
       document.addEventListener('click', function (event) {
         var target = event.target && event.target.closest

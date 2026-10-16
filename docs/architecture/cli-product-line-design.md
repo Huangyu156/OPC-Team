@@ -74,7 +74,7 @@ Platform services
 
 ### 3.2 Shared TUI
 
-`openbitfun chat --shared` 通过本机版本化 IPC 连接工作区 Runtime：
+`opc chat --shared` 通过本机版本化 IPC 连接工作区 Runtime：
 
 - 多个 TUI 可以复用一个工作区 Runtime。
 - 一个 TUI 同时控制至多一个 Session；一个 Session 同时只有一个 controller。

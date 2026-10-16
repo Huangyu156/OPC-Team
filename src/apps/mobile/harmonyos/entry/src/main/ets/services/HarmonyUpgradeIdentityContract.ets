@@ -8,7 +8,7 @@
  * this single boundary instead of leaking through product code.
  */
 export class HarmonyUpgradeIdentityContract {
-  static readonly APP_BUNDLE: string = 'com.bitfun.app';
+  static readonly APP_BUNDLE: string = 'com.opcteam.app';
   static readonly REMOTE_IDENTITY_STORE: string = 'bitfun_remote_identity';
   static readonly CLOUD_ACCOUNT_STORE: string = 'bitfun_cloud_account';
   static readonly CLOUD_ACCOUNT_HUKS_ALIAS: string = 'bitfun_cloud_account_session';

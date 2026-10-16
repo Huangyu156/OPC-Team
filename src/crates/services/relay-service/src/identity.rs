@@ -1,5 +1,5 @@
-//! Verification against the shared OpenBitFun GitHub identity authority.
-//! Relay receives an OpenBitFun access token, never a GitHub OAuth secret.
+//! Verification against the shared OPC-Team GitHub identity authority.
+//! Relay receives an OPC-Team access token, never a GitHub OAuth secret.
 
 use axum::http::StatusCode;
 use serde::Deserialize;
@@ -9,7 +9,7 @@ use std::{
     time::{Duration, SystemTime, UNIX_EPOCH},
 };
 
-pub(crate) const IDENTITY_ME_URL: &str = "https://auth.openbitfun.com/api/v1/me";
+pub(crate) const IDENTITY_ME_URL: &str = "https://auth.opcteam.eu.cc/api/v1/me";
 
 #[derive(Clone)]
 pub(crate) struct IdentityVerifier {

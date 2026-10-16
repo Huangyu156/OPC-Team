@@ -47,7 +47,7 @@ impl ManagedPackageFixture {
         ));
         let workspace = root.join("workspace");
         let user_data = root.join("user");
-        let package = workspace.join(".openbitfun/plugins/acme.demo");
+        let package = workspace.join(".opcteam/plugins/acme.demo");
         let plugin_path = package.join(relative_path.replace('/', std::path::MAIN_SEPARATOR_STR));
         fs::create_dir_all(plugin_path.parent().expect("plugin parent")).expect("create package");
         fs::create_dir_all(user_data.join("plugins")).expect("create user package root");
@@ -65,7 +65,7 @@ impl ManagedPackageFixture {
             }]
         });
         fs::write(
-            package.join("openbitfun.plugin.json"),
+            package.join("opc.plugin.json"),
             serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
         )
         .expect("write manifest");
@@ -73,7 +73,7 @@ impl ManagedPackageFixture {
         let service = ManagedPluginSourceService::new(
             user_data.join("plugins"),
             user_data.clone(),
-            workspace.join(".openbitfun/plugins"),
+            workspace.join(".opcteam/plugins"),
             workspace.clone(),
             user_data.join("runtime/plugin-trust.json"),
         );
@@ -96,7 +96,7 @@ impl ManagedPackageFixture {
         fs::create_dir_all(file_path.parent().expect("declared file parent"))
             .expect("create declared file parent");
         fs::write(&file_path, content).expect("write declared file");
-        let manifest_path = self.package.join("openbitfun.plugin.json");
+        let manifest_path = self.package.join("opc.plugin.json");
         let mut manifest: serde_json::Value =
             serde_json::from_slice(&fs::read(&manifest_path).expect("read plugin manifest"))
                 .expect("parse plugin manifest");
@@ -721,7 +721,7 @@ async fn managed_source_uri_encodes_reserved_path_characters() {
         .remove(0)
         .source;
 
-    assert!(source.starts_with("openbitfun://managed-plugins/"));
+    assert!(source.starts_with("opc://managed-plugins/"));
     assert!(source.contains("nested%20%23dir"));
     assert!(!source.starts_with("file://"));
 }
@@ -946,7 +946,7 @@ fn dispatch_envelope_for(
             schema_version: "agent.turn.completed.v1".to_string(),
             data_classification: PluginDataClassification::Workspace,
             redaction: PluginPayloadRedaction::Partial,
-            uri: Some("openbitfun://payloads/payload-1".to_string()),
+            uri: Some("opc://payloads/payload-1".to_string()),
         }),
         epochs: PluginRuntimeEpochs {
             trust_epoch,

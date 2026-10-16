@@ -1,0 +1,71 @@
+// @vitest-environment jsdom
+import React from 'react';
+import { renderToStaticMarkup } from 'react-dom/server';
+import { createInstance } from 'i18next';
+import { I18nextProvider } from 'react-i18next';
+import { beforeAll, describe, expect, it } from 'vitest';
+import en from '@/locales/en-US/flow-chat.json';
+import shared from '../../../../shared/i18n/resources/shared/en-US/terms.json';
+import type { FlowToolItem } from '../types/flow-chat';
+import { getToolItemCardConfig } from './toolCardMetadata';
+import { OpcControlToolCard } from './OpcControlToolCard';
+
+const translations = createInstance();
+beforeAll(async () => {
+  await translations.init({ lng: 'en-US', resources: { 'en-US': { 'flow-chat': en, shared } }, interpolation: { escapeValue: false } });
+});
+
+function render(action: string, result: unknown, status: FlowToolItem['status'] = 'completed') {
+  const toolItem: FlowToolItem = {
+    id: 'control-1', type: 'tool', toolName: 'OpcControl', status, timestamp: 0,
+    toolCall: { id: 'call-1', input: { action, capability_id: 'peer.feature' } },
+    toolResult: { result, success: true },
+  };
+  return renderToStaticMarkup(<I18nextProvider i18n={translations}>
+    <OpcControlToolCard toolItem={toolItem} config={getToolItemCardConfig(toolItem)} />
+  </I18nextProvider>);
+}
+
+describe('OpenBitFun control card content', () => {
+  it('uses real shared card frameworks for discovery and control', () => {
+    expect(render('list', { items: [] })).toContain('data-opc-attention="ambient"');
+    const html = render('configure', { configured: true, effectiveValue: false });
+    expect(html).toContain('data-opc-tool-card="opc-control"');
+    expect(html).toContain('data-opc-attention="prominent"');
+    expect(html).toContain('Change setting');
+    expect(html).toContain('peer.feature');
+    expect(html).toContain('Applied value: False');
+    expect(html).toContain('lucide-mouse-pointer');
+    expect(html).toContain('data-default-icon="tool"');
+    for (const [action, result] of [
+      ['list', { items: [] }],
+      ['search', { items: [] }],
+      ['get', { capability: { id: 'peer.feature' } }],
+    ] as const) {
+      const discovery = render(action, result);
+      expect(discovery).toContain('lucide-mouse-pointer');
+      expect(discovery).toContain('data-default-icon="tool"');
+      expect(discovery).not.toContain('lucide-book-search');
+    }
+    expect(html).not.toContain('data-opc-part="extra"');
+    expect(html).not.toContain('Tool: OpcControl');
+  });
+
+  it('does not render a success glyph for an unconfirmed result or pending approval', () => {
+    for (const html of [render('open', { futureField: true }), render('open', undefined, 'pending_confirmation')]) {
+      expect(html).not.toContain('data-opc-part="statusLayer"');
+      expect(html).not.toContain('>Opened<');
+    }
+    expect(render('get', { capability: { id: 'peer.feature' } })).not.toContain('data-opc-part="extra"');
+    expect(render('list', { items: [] })).not.toContain('data-opc-part="extra"');
+  });
+
+  it('shows rejection and failed acknowledgements distinctly', () => {
+    expect(render('execute', { executed: false }, 'rejected')).toContain('data-opc-status="rejected"');
+    const failed = render('execute', { executed: false });
+    expect(failed).toContain('data-opc-status="error"');
+    expect(failed).not.toContain('>Executed<');
+    expect(render('configure', { configured: true, presentationSync: { status: 'notAttached' } }))
+      .not.toContain('data-opc-part="extra"');
+  });
+});

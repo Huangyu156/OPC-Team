@@ -1,6 +1,6 @@
 /**
  * SSH Connection Dialog Component
- * Professional SSH connection dialog following OpenBitFun design patterns
+ * Professional SSH connection dialog following OPC-Team design patterns
  */
 
 import { OverflowText,

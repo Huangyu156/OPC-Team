@@ -17,7 +17,7 @@ const __dirname = dirname(__filename);
  *
  * Tauri names the bundle after `productName` (`OPC-Team.app`) while the
  * executable inside it keeps `mainBinaryName` (`opc-desktop`). Bundles
- * built before the product rename still use the OpenBitFun names for both.
+ * built before the product rename still use the OPC-Team names for both.
  *
  * `tauri build` writes the real bundle to `target/<profile>/bundle/macos`, so
  * that layout comes first and the top-level `.app` layout stays as fallback.
@@ -27,12 +27,12 @@ function getMacApplicationPath(): string {
   const candidates = [
     path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'opc-desktop'),
     path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-    path.join(root, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'opc-desktop'),
-    path.join(root, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+    path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'opc-desktop'),
+    path.join(root, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
     path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'opc-desktop'),
     path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-    path.join(root, 'OpenBitFun.app', 'Contents', 'MacOS', 'opc-desktop'),
-    path.join(root, 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+    path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'opc-desktop'),
+    path.join(root, 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
   ];
 
   return candidates.find((candidate) => fs.existsSync(candidate)) ?? candidates[0];

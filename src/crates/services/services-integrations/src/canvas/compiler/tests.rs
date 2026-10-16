@@ -24,7 +24,7 @@ mod enabled {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Stack, Text } from 'openbitfun/canvas';
+import { Stack, Text } from 'opc/canvas';
 const rows = ['a', 'b'];
 export default function Canvas() {
   return <Stack gap={8}><Text tone="muted">Ready</Text>{rows.map(row => <Text>{row}</Text>)}</Stack>;
@@ -60,7 +60,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Grid, Stack, Text } from 'openbitfun/canvas';
+import { Grid, Stack, Text } from 'opc/canvas';
 
 export default function Canvas() {
   return <Stack><Grid columns={2}><Text>Ready</Text></Grid></Stack>;
@@ -90,7 +90,7 @@ function Grid() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Text as T, Stack } from 'openbitfun/canvas';
+import { Text as T, Stack } from 'opc/canvas';
 
 export default function Canvas() {
   return <Stack><T tone="muted">Ready</T></Stack>;
@@ -104,7 +104,7 @@ export default function Canvas() {
         let html = result.payload.unwrap().html;
         assert!(html.contains("const T = __OpcTeamCanvasSDK.Text;"));
         assert!(html.contains("h(T"));
-        assert!(!html.contains("from 'openbitfun/canvas'"));
+        assert!(!html.contains("from 'opc/canvas'"));
     }
 
     #[test]
@@ -112,7 +112,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Pill as P } from 'openbitfun/canvas';
+import { Pill as P } from 'opc/canvas';
 
 export default function Canvas() {
   return <P label="1" />;
@@ -136,7 +136,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import * as Canvas from 'openbitfun/canvas';
+import * as Canvas from 'opc/canvas';
 
 export default function CanvasView() {
   return <Canvas.Stack><Canvas.Text tone="muted">Ready</Canvas.Text></Canvas.Stack>;
@@ -158,7 +158,7 @@ export default function CanvasView() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import * as C from 'openbitfun/canvas';
+import * as C from 'opc/canvas';
 
 export default function Canvas() {
   return <C.Table columns={[]} rows={[]} />;
@@ -182,7 +182,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Text as T } from 'openbitfun/canvas' with { note: "semi;colon" };
+import { Text as T } from 'opc/canvas' with { note: "semi;colon" };
 
 export default function Canvas() {
   return <T>Ready</T>;
@@ -204,7 +204,7 @@ export default function Canvas() {
             &source(
                 r#"
 import React, * as R from 'react';
-import { Text } from 'openbitfun/canvas';
+import { Text } from 'opc/canvas';
 
 export default function Canvas() {
   const [count] = React.useState(1);
@@ -227,7 +227,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Stack } from 'openbitfun/canvas';
+import { Stack } from 'opc/canvas';
 const Canvas = () => <Stack />;
 export default Canvas;
 "#,
@@ -248,7 +248,7 @@ export default Canvas;
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Stack } from 'openbitfun/canvas';
+import { Stack } from 'opc/canvas';
 export default Canvas;
 "#,
             ),
@@ -267,7 +267,7 @@ export default Canvas;
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Stack, useHostAppearance } from 'openbitfun/canvas';
+import { Stack, useHostAppearance } from 'opc/canvas';
 export default function Canvas() {
   const appearance = useHostAppearance();
   return <Stack style={{ background: appearance.surface.primary, color: appearance.interactive.accent }}>Body</Stack>;
@@ -307,7 +307,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Stack } from 'openbitfun/canvas';
+import { Stack } from 'opc/canvas';
 export default function Canvas() {
   return <Stack><Missing></Stack>;
 }
@@ -331,7 +331,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Text } from 'openbitfun/canvas';
+import { Text } from 'opc/canvas';
 export default function Canvas() {
   return <Text>{"</script><div>"}</Text>;
 }
@@ -349,7 +349,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { H1, Text } from 'openbitfun/canvas';
+import { H1, Text } from 'opc/canvas';
 export default function Canvas() {
   return <><H1>Title</H1><Text>Body</Text></>;
 }
@@ -370,7 +370,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r##"
-import { Box, Text } from 'openbitfun/canvas';
+import { Box, Text } from 'opc/canvas';
 export default function Canvas() {
   return <Box padding={{ x: 12, y: 8 }} background="#fff"><Text>Body</Text></Box>;
 }
@@ -426,7 +426,7 @@ import {
   mergeStyle,
   useCanvasState,
   useHostAppearance,
-} from 'openbitfun/canvas';
+} from 'opc/canvas';
 
 const lines = [
   { type: 'unchanged', content: 'fn main() {}', lineNumber: 1 },
@@ -571,7 +571,7 @@ return () => rowRef.current?.removeAttribute('data-effect');
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Pill, Stack, Table } from 'openbitfun/canvas';
+import { Pill, Stack, Table } from 'opc/canvas';
 export default function Canvas() {
   return (
 <Stack>
@@ -605,7 +605,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r#"
-import { Pill, Stack, Table, computeDAGLayout } from 'openbitfun/canvas';
+import { Pill, Stack, Table, computeDAGLayout } from 'opc/canvas';
 export default function Canvas() {
   const layout = computeDAGLayout({
 nodes: [{ id: 'a' }, { id: 'b' }],
@@ -631,7 +631,7 @@ edges: [{ from: 'a', to: 'b' }],
         let result = compile_canvas_source(
             &source(
                 r#"
-import { BarChart, LineChart, PieChart } from 'openbitfun/canvas';
+import { BarChart, LineChart, PieChart } from 'opc/canvas';
 const rows = [{ label: 'A', value: 10 }, { label: 'B', value: 16 }];
 export default function Canvas() {
   return <><BarChart data={rows} /><LineChart data={rows} /><PieChart data={rows} /></>;
@@ -655,7 +655,7 @@ export default function Canvas() {
         let result = compile_canvas_source(
             &source(
                 r##"
-import { Stack, Text, Box, Row, Divider } from 'openbitfun/canvas';
+import { Stack, Text, Box, Row, Divider } from 'opc/canvas';
 
 const LAYER_COLORS = [
   { bg: '#1a1a2e', border: '#6c63ff', text: '#c4b5fd' },

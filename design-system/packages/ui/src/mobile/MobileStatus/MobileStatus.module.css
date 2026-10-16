@@ -4,10 +4,10 @@
   .root[data-tone="danger"] { color: var(--opcteam-color-status-danger-content); }
   .icon, .spinner { display: grid; inline-size: 28px; block-size: 28px; place-items: center; }
   .icon > :where(svg, img) { inline-size: 100%; block-size: 100%; }
-  .spinner { border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: var(--opcteam-radius-pill); animation: openbitfun-mobile-status-spin var(--opcteam-motion-duration-loop) linear infinite; }
+  .spinner { border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: var(--opcteam-radius-pill); animation: opc-mobile-status-spin var(--opcteam-motion-duration-loop) linear infinite; }
   .title { color: var(--opcteam-color-content-primary); font-size: var(--opcteam-type-body-md-font-size); font-weight: var(--opcteam-type-label-md-font-weight); }
   .description { max-inline-size: 36ch; color: var(--opcteam-color-content-muted); font-size: var(--opcteam-type-body-sm-font-size); }
   .action { margin-block-start: var(--opcteam-space-2); }
-  @keyframes openbitfun-mobile-status-spin { to { transform: rotate(360deg); } }
+  @keyframes opc-mobile-status-spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
 }

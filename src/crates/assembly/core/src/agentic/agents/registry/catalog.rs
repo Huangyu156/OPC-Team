@@ -44,7 +44,7 @@ pub(crate) fn builtin_agent_specs_for_ids<'a>(
 
 fn builtin_agent_factory(id: &str) -> fn() -> Arc<dyn Agent> {
     match id {
-        "OpenBitFun" => || Arc::new(OpcTeamAgent),
+        "OPC-Team" => || Arc::new(OpcTeamAgent),
         "Minimal" => || Arc::new(MinimalHarness::new()),
         "Standard" => || Arc::new(StandardHarness::new()),
         "Cowork" => || Arc::new(CoworkMode::new()),

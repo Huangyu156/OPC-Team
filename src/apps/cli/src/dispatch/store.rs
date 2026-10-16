@@ -3386,7 +3386,7 @@ mod tests {
         }
 
         let dir = tempfile::tempdir().expect("tempdir");
-        let opc_home = dir.path().join("openbitfun-home");
+        let opc_home = dir.path().join("opc-home");
         let user_root = dir.path().join("user-root");
         let output = opc_services_core::process_manager::create_command(
             std::env::current_exe().expect("test executable"),

@@ -6,10 +6,10 @@ use super::types::SkillSourceDialect;
 
 pub const USER_SKILL_KEY_PREFIX: &str = "user";
 pub const PROJECT_SKILL_KEY_PREFIX: &str = "project";
-pub const OPC_USER_SKILL_SLOT: &str = "openbitfun";
+pub const OPC_USER_SKILL_SLOT: &str = "opcteam";
 pub const OPC_SYSTEM_SKILL_SLOT: &str = "opc-system";
 pub const OPC_SYSTEM_SKILL_DIR: &str = ".system";
-pub const OPC_SKILL_SOURCE_ID: &str = "openbitfun";
+pub const OPC_SKILL_SOURCE_ID: &str = "opcteam";
 pub const OPC_SKILL_SOURCE_LABEL: &str = "OPC-Team";
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -27,7 +27,7 @@ pub const PROJECT_SKILL_ROOTS: &[SkillRootSpec] = &[
     SkillRootSpec {
         parent: hidden_data_directory(),
         subdir: "skills",
-        slot: "openbitfun",
+        slot: "opcteam",
         source_id: OPC_SKILL_SOURCE_ID,
         source_label: OPC_SKILL_SOURCE_LABEL,
     },

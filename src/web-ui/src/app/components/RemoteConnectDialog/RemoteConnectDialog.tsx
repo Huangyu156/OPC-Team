@@ -107,8 +107,8 @@ const NETWORK_TABS: { id: NetworkTab; labelKey: string; descriptionKey: string }
   },
   {
     id: 'opc_server',
-    labelKey: 'remoteConnect.methodOpenBitFunRelay',
-    descriptionKey: 'remoteConnect.methodOpenBitFunRelayDescription',
+    labelKey: 'remoteConnect.methodOpcRelay',
+    descriptionKey: 'remoteConnect.methodOpcRelayDescription',
   },
 ];
 
@@ -126,8 +126,8 @@ const BOT_TABS: { id: BotTab; label: string }[] = [
 ];
 
 const FEISHU_SETUP_GUIDE_URLS = {
-  'zh-CN': 'https://github.com/GCWing/OpenBitFun/blob/main/docs/remote-connect/feishu-bot-setup.zh-CN.md',
-  'en-US': 'https://github.com/GCWing/OpenBitFun/blob/main/docs/remote-connect/feishu-bot-setup.md',
+  'zh-CN': 'https://github.com/GCWing/OPC-Team/blob/main/docs/remote-connect/feishu-bot-setup.zh-CN.md',
+  'en-US': 'https://github.com/GCWing/OPC-Team/blob/main/docs/remote-connect/feishu-bot-setup.md',
 } as const satisfies Partial<Record<LocaleId, string>>;
 
 const FEISHU_OPEN_PLATFORM_URL = 'https://open.feishu.cn/app';
@@ -333,7 +333,7 @@ export const RemoteConnectDialog: React.FC<RemoteConnectDialogProps> = ({
 
     // Relay and bot connections can coexist. Restore both selected subtabs
     // before choosing which group to show, otherwise the bot-first open path
-    // can leave a connected OpenBitFun Server relay rendering the default LAN UI.
+    // can leave a connected OPC-Team relay server rendering the default LAN UI.
     const hasPendingInvitation = connectionOwnerRef.current === 'network' && connectionResultRef.current !== null;
     if (!deviceInvitation && restoreSelection && network.connected
       && (!hasPendingInvitation || network.invitationConnected)) {

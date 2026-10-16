@@ -486,7 +486,7 @@ fn provider_catalog_source(
     match source {
         ModelsDevSnapshotSource::Cache => opc_core_types::ProviderCatalogSource::Cache,
         ModelsDevSnapshotSource::Bundled => opc_core_types::ProviderCatalogSource::Bundle,
-        ModelsDevSnapshotSource::Empty => opc_core_types::ProviderCatalogSource::OpenBitFun,
+        ModelsDevSnapshotSource::Empty => opc_core_types::ProviderCatalogSource::OpcTeam,
     }
 }
 
@@ -3975,7 +3975,7 @@ mod tests {
             Arc::new(
                 crate::runtime_ownership::CoreRuntimeOwnership::embedded_with_facts(
                     directory.path().join("ownership"),
-                    "openbitfun".to_string(),
+                    "opcteam".to_string(),
                     "test",
                 ),
             ),

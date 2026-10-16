@@ -232,11 +232,11 @@ const EcosystemCompatibilityScene: React.FC = () => {
     const refreshClients = () => {
       void loadCompatibility(false);
     };
-    window.addEventListener('openbitfun:acp-clients-changed', refreshClients);
-    window.addEventListener('openbitfun:acp-requirements-changed', refreshClients);
+    window.addEventListener('opc:acp-clients-changed', refreshClients);
+    window.addEventListener('opc:acp-requirements-changed', refreshClients);
     return () => {
-      window.removeEventListener('openbitfun:acp-clients-changed', refreshClients);
-      window.removeEventListener('openbitfun:acp-requirements-changed', refreshClients);
+      window.removeEventListener('opc:acp-clients-changed', refreshClients);
+      window.removeEventListener('opc:acp-requirements-changed', refreshClients);
     };
   }, [loadCompatibility]);
 
@@ -297,7 +297,7 @@ const EcosystemCompatibilityScene: React.FC = () => {
       setOwnerSurface('acp');
       return;
     }
-    window.dispatchEvent(new CustomEvent('openbitfun:create-acp-session', {
+    window.dispatchEvent(new CustomEvent('opc:create-acp-session', {
       detail: { clientId: client.id },
     }));
     notification.info(t('run.starting', { name: client.name || client.id }), { duration: 2400 });

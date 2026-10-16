@@ -252,7 +252,7 @@
     "noSource": "未發現舊版資料。請檢查來源目錄後重新掃描。",
     "dirtyLocations": "目錄已修改，請先套用目錄再掃描或繼續遷移。",
     "source": "BitFun 來源",
-    "target": "OpenBitFun 目標",
+    "target": "OPC-Team 目標",
     "userRoot": "設定與資料",
     "homeRoot": "主目錄資料",
     "skillsRoot": "Skills",

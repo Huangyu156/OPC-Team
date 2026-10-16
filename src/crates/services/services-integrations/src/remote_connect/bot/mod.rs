@@ -359,8 +359,8 @@ pub fn extract_output_file_references(text: &str) -> Vec<String> {
         let explicit = [
             "computer://",
             "file:",
-            "openbitfun://runtime/",
-            "openbitfun://current-session/",
+            "opc://runtime/",
+            "opc://current-session/",
         ]
         .iter()
         .any(|prefix| reference.starts_with(prefix));
@@ -413,7 +413,7 @@ pub fn extract_output_file_references(text: &str) -> Vec<String> {
                         .trim_end_matches(['.', ',', ';', ':', ')', ']', '>', '。', '，']);
                     if reference.starts_with("computer://")
                         || reference.starts_with("file://")
-                        || reference.starts_with("openbitfun://")
+                        || reference.starts_with("opc://")
                     {
                         add(reference, false);
                     }
@@ -792,7 +792,14 @@ mod output_reference_tests {
     }
     #[test]
     fn runtime_and_relative_images_are_retained_without_requiring_host_local_files() {
-        assert_eq!(extract_output_file_references("![Result](images/new.png)\n[Report](openbitfun://current-session/artifacts/report.html)"),
-            ["images/new.png", "openbitfun://current-session/artifacts/report.html"]);
+        assert_eq!(
+            extract_output_file_references(
+                "![Result](images/new.png)\n[Report](opc://current-session/artifacts/report.html)"
+            ),
+            [
+                "images/new.png",
+                "opc://current-session/artifacts/report.html"
+            ]
+        );
     }
 }

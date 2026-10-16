@@ -1470,7 +1470,7 @@
         "sceneId": "session"
       },
       "evidence": [
-        "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#createCanvasElementContext"
+        "source:src/web-ui/src/tools/opc-canvas/OpcCanvasPanel.tsx#createCanvasElementContext"
       ]
     },
     {
@@ -1487,7 +1487,7 @@
       },
       "evidence": [
         "command:report_canvas_runtime_error",
-        "source:src/web-ui/src/tools/opc-canvas/OpenBitFunCanvasPanel.tsx#canvas-runtime-auto-repair"
+        "source:src/web-ui/src/tools/opc-canvas/OpcCanvasPanel.tsx#canvas-runtime-auto-repair"
       ]
     },
     {
@@ -1988,7 +1988,7 @@
       "reasonEn": "“Choose LAN or the official Relay” depends on the current network and device state and requires the user to confirm the target host; the Agent opens the connection entry for that choice.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "evidence": [
         "command:remote_connect_get_methods"
@@ -2004,7 +2004,7 @@
       "reasonEn": "“Start or stop Remote Connect and inspect live status and device information” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "evidence": [
         "command:remote_connect_start",
@@ -2023,7 +2023,7 @@
       "reasonEn": "“Inspect LAN IP, network details, and shareable connection configuration” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "evidence": [
         "command:remote_connect_get_lan_ip",
@@ -2042,7 +2042,7 @@
       "reasonEn": "“Configure Feishu, Telegram, WeChat, and other bots, and stop a bot independently” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "evidence": [
         "command:remote_connect_configure_bot",
@@ -2063,7 +2063,7 @@
       "reasonEn": "GitHub account sign-in requires confirmation on an external authentication page; the Agent may open the entry and read non-secret status but cannot impersonate the account holder.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "evidence": [
         "command:account_github_start",
@@ -2083,7 +2083,7 @@
       "reasonEn": "“List, connect, inspect model and OS, set aliases, and remove same-account devices” requires device selection and confirmation. The device directory uses the controller's account identity, not the selected Peer host. Aliases take display priority without changing technical names; model and OS metadata come from the device itself. Alias updates and clearing require Relay capability support; older Relays explicitly remain unsupported. The Agent opens device management and leaves subsequent interaction to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "evidence": [
         "command:account_list_devices",
@@ -2106,7 +2106,7 @@
       "reasonEn": "“Enter Peer Device Mode and use another OPC-Team device as the command and event data plane” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "evidence": [
         "command:peer_control_attach",
@@ -2125,7 +2125,7 @@
       "reasonEn": "“List dispatch targets and probe their version, connectivity, and runtime capabilities” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -2145,7 +2145,7 @@
       "reasonEn": "“Provision the target runtime and install or update the OPC-Team CLI” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -2167,7 +2167,7 @@
       "reasonEn": "“Synchronize required model configuration before submitting a job” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -2186,7 +2186,7 @@
       "reasonEn": "“Submit a durable job with workspace, session, model, and permission policy to the target” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -2205,7 +2205,7 @@
       "reasonEn": "“List dispatched jobs and query their status, result, and errors” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -2226,7 +2226,7 @@
       "reasonEn": "“Save, append, and reload reconnectable execution transcripts” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -2247,7 +2247,7 @@
       "reasonEn": "“Answer permission requests remotely and continue or cancel target-side work” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -2268,7 +2268,7 @@
       "reasonEn": "“Synchronize target-side results back without treating the controller as a remote-filesystem proxy” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }

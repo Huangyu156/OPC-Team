@@ -27,8 +27,8 @@ pub(crate) fn apply_headers(
             builder = builder.header("Authorization", format!("Bearer {}", client.config.api_key));
         }
 
-        if client.config.base_url.contains("openbitfun.com") {
-            builder = builder.header("X-Verification-Code", "from_openbitfun");
+        if client.config.base_url.contains("opcteam.eu.cc") {
+            builder = builder.header("X-Verification-Code", "from_opc");
         }
 
         builder

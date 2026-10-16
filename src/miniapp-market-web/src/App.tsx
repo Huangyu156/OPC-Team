@@ -34,7 +34,7 @@ import { AccountSignIn } from './AccountSignIn';
 import { takeNativeAuthReturnTo } from './authReturnTo';
 import { downloadUrl, loginUrl, marketApi, MarketApiError } from './api';
 import { formatCompactNumber, formatMarketDate, formatMarketDateTime } from './format';
-import { GetOpenBitFunCta } from './GetOpenBitFunCta';
+import { GetOpcCta } from './GetOpcCta';
 import { useLocale, type Locale, type MessageKey } from './i18n';
 import { OPC_HOME_URL } from './links';
 import { MiniAppIcon } from './MiniAppIcon';
@@ -90,7 +90,7 @@ function navigate(path: string) {
 
 function App() {
   const path = window.location.pathname;
-  if (window.location.hostname === 'auth.openbitfun.com' || path === '/miniapp/auth/sign-in' || path === '/miniapp/auth/complete' || path === '/miniapp/auth/desktop-complete') {
+  if (window.location.hostname === 'auth.opcteam.eu.cc' || path === '/miniapp/auth/sign-in' || path === '/miniapp/auth/complete' || path === '/miniapp/auth/desktop-complete') {
     return <GitHubIdentityPage complete={path.endsWith('complete')} />;
   }
   return <MarketApp />;
@@ -212,7 +212,7 @@ function MarketApp() {
             <span>OPC-Team MiniApp Market</span>
           </div>
           <a href={OPC_HOME_URL} target="_blank" rel="noreferrer">
-            {t('openbitfunHome')}
+            {t('opcHome')}
             <ArrowSquareOut size={18} aria-hidden="true" />
           </a>
         </footer>
@@ -479,7 +479,7 @@ function CatalogPage({
           </div>
           <h1>{t('headline')}</h1>
           <p>{t('intro')}</p>
-          <GetOpenBitFunCta placement="catalog" t={t} />
+          <GetOpcCta placement="catalog" t={t} />
         </div>
         <div className="hero-visual">
           <img src="/miniapp/og.png" alt={t('heroImageAlt')} />
@@ -804,7 +804,7 @@ function DetailPage({
               </Button>
             )}
           </div>
-          <GetOpenBitFunCta placement="listing" t={t} />
+          <GetOpcCta placement="listing" t={t} />
           <div className="rating-control" aria-label={t('ratingLabel')}>
             {[1, 2, 3, 4, 5].map((value) => (
               <IconButton
@@ -870,7 +870,7 @@ function DetailPage({
           <p className="prose">{app.changelog}</p>
         </div>
         <aside className="facts-panel">
-          <Fact label={t('requires')} value={`v${app.minOpenBitFunVersion}+`} />
+          <Fact label={t('requires')} value={`v${app.minOpcVersion}+`} />
           <Fact
             label={t('downloadsLabel')}
             value={formatCompactNumber(app.downloadCount, locale)}
@@ -1026,7 +1026,7 @@ function SubmitPage({
                 .split(',')
                 .map((tag) => tag.trim())
                 .filter(Boolean),
-              minOpenBitFunVersion: String(form.get('minOpenBitFunVersion')),
+              minOpcVersion: String(form.get('minOpcVersion')),
               changelog: String(form.get('changelog')),
               license:
                 licenseKind === 'spdx'
@@ -1086,8 +1086,8 @@ function SubmitPage({
         <fieldset>
           <legend>{t('releaseSection')}</legend>
           <div className="form-grid">
-            <Field label={t('minOpenBitFunVersionLabel')}>
-              <Input className="market-input" name="minOpenBitFunVersion" required defaultValue="1.0.0" />
+            <Field label={t('minOpcVersionLabel')}>
+              <Input className="market-input" name="minOpcVersion" required defaultValue="1.0.0" />
             </Field>
             <Field label={t('publicRepositoryOptional')}>
               <Input className="market-input" name="repositoryUrl" type="url" placeholder="https://github.com/…" />
@@ -1367,8 +1367,8 @@ function AdminPage({
                 />
                 <Fact label={t('releaseLabel')} value={`v${selected.submission.releaseNumber}`} />
                 <Fact
-                  label={t('minimumOpenBitFunLabel')}
-                  value={selected.submission.minOpenBitFunVersion}
+                  label={t('minimumOpcLabel')}
+                  value={selected.submission.minOpcVersion}
                 />
                 <Fact
                   label={t('licenseLabel')}

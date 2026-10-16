@@ -1,4 +1,4 @@
-//! OpenBitFun Relay Server
+//! OPC-Team Relay Server
 //!
 //! Standalone binary that runs the relay as a network service.
 //! Uses `DiskAssetStore` for filesystem-backed published Page assets.
@@ -22,7 +22,7 @@ async fn main() -> anyhow::Result<()> {
         .init();
 
     let cfg = RelayConfig::from_env()?;
-    info!("OpenBitFun Relay Server v{}", env!("CARGO_PKG_VERSION"));
+    info!("OPC-Team Relay Server v{}", env!("CARGO_PKG_VERSION"));
 
     let asset_store = Arc::new(DiskAssetStore::new_with_max_bytes(
         &cfg.asset_dir,

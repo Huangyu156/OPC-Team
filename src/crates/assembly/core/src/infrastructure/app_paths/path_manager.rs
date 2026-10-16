@@ -927,13 +927,13 @@ mod tests {
                 .join("workspace-xyz")
                 .to_string_lossy()
         ));
-        assert!(!pm.is_local_assistant_workspace_path("/tmp/not-openbitfun"));
+        assert!(!pm.is_local_assistant_workspace_path("/tmp/not-opc"));
     }
 
     #[test]
     fn project_runtime_root_uses_compact_hex_key() {
         let pm = PathManager::default();
-        let runtime_root = pm.project_runtime_root(Path::new(r"E:\Projects\OpenBitFun\Source"));
+        let runtime_root = pm.project_runtime_root(Path::new(r"E:\Projects\OPC-Team\Source"));
         let slug = runtime_root
             .file_name()
             .and_then(|value| value.to_str())

@@ -1506,9 +1506,9 @@ mod tests {
     #[test]
     fn build_opc_openai_request_body_adds_glm_52_reasoning_effort() {
         let mut client = make_test_client("openai", None);
-        client.config.name = "openbitfun".to_string();
-        client.config.base_url = "https://api.openbitfun.com/v1".to_string();
-        client.config.request_url = "https://api.openbitfun.com/v1/chat/completions".to_string();
+        client.config.name = "opc".to_string();
+        client.config.base_url = "https://api.opcteam.eu.cc/v1".to_string();
+        client.config.request_url = "https://api.opcteam.eu.cc/v1/chat/completions".to_string();
         client.config.model = "glm-5.2".to_string();
         client.config.context_window = 1_000_000;
         let client = client.with_reasoning_preset(&relayed_reasoning_preset(
@@ -1535,9 +1535,9 @@ mod tests {
     #[test]
     fn build_opc_openai_request_body_disables_glm_52_reasoning() {
         let mut client = make_test_client("openai", None);
-        client.config.name = "openbitfun".to_string();
-        client.config.base_url = "https://api.openbitfun.com/v1".to_string();
-        client.config.request_url = "https://api.openbitfun.com/v1/chat/completions".to_string();
+        client.config.name = "opc".to_string();
+        client.config.base_url = "https://api.opcteam.eu.cc/v1".to_string();
+        client.config.request_url = "https://api.opcteam.eu.cc/v1/chat/completions".to_string();
         client.config.model = "glm-5.2".to_string();
         client.config.context_window = 1_000_000;
         let client = client.with_reasoning_preset(&relayed_reasoning_preset(
@@ -1562,9 +1562,9 @@ mod tests {
     #[test]
     fn build_opc_openai_request_body_preserves_deepseek_flash_low_effort() {
         let mut client = make_test_client("openai", None);
-        client.config.name = "openbitfun".to_string();
-        client.config.base_url = "https://api.openbitfun.com/v1".to_string();
-        client.config.request_url = "https://api.openbitfun.com/v1/chat/completions".to_string();
+        client.config.name = "opc".to_string();
+        client.config.base_url = "https://api.opcteam.eu.cc/v1".to_string();
+        client.config.request_url = "https://api.opcteam.eu.cc/v1/chat/completions".to_string();
         client.config.model = "deepseek-v4-flash".to_string();
         let client = client.with_reasoning_preset(&relayed_reasoning_preset(
             "low",
@@ -1590,9 +1590,9 @@ mod tests {
     #[test]
     fn build_opc_openai_request_body_maps_deepseek_pro_xhigh_to_max() {
         let mut client = make_test_client("openai", None);
-        client.config.name = "openbitfun".to_string();
-        client.config.base_url = "https://api.openbitfun.com/v1".to_string();
-        client.config.request_url = "https://api.openbitfun.com/v1/chat/completions".to_string();
+        client.config.name = "opc".to_string();
+        client.config.base_url = "https://api.opcteam.eu.cc/v1".to_string();
+        client.config.request_url = "https://api.opcteam.eu.cc/v1/chat/completions".to_string();
         client.config.model = "deepseek-v4-pro".to_string();
         let client = client.with_reasoning_preset(&relayed_reasoning_preset(
             "max",
@@ -1618,9 +1618,9 @@ mod tests {
     #[test]
     fn build_opc_openai_request_body_disables_deepseek_reasoning() {
         let mut client = make_test_client("openai", None);
-        client.config.name = "openbitfun".to_string();
-        client.config.base_url = "https://api.openbitfun.com/v1".to_string();
-        client.config.request_url = "https://api.openbitfun.com/v1/chat/completions".to_string();
+        client.config.name = "opc".to_string();
+        client.config.base_url = "https://api.opcteam.eu.cc/v1".to_string();
+        client.config.request_url = "https://api.opcteam.eu.cc/v1/chat/completions".to_string();
         client.config.model = "deepseek-v4-pro".to_string();
         let client = client.with_reasoning_preset(&relayed_reasoning_preset(
             "off",
@@ -1995,9 +1995,9 @@ mod tests {
     #[test]
     fn build_opc_anthropic_request_body_adds_glm_52_reasoning_effort() {
         let client = AIClient::new(AIConfig {
-            name: "openbitfun".to_string(),
-            base_url: "https://api.openbitfun.com".to_string(),
-            request_url: "https://api.openbitfun.com/v1/messages".to_string(),
+            name: "opc".to_string(),
+            base_url: "https://api.opcteam.eu.cc".to_string(),
+            request_url: "https://api.opcteam.eu.cc/v1/messages".to_string(),
             api_key: "test-key".to_string(),
             model: "glm-5.2".to_string(),
             format: "anthropic".to_string(),
@@ -2037,9 +2037,9 @@ mod tests {
     #[test]
     fn build_opc_anthropic_request_body_disables_glm_52_reasoning() {
         let client = AIClient::new(AIConfig {
-            name: "openbitfun".to_string(),
-            base_url: "https://api.openbitfun.com".to_string(),
-            request_url: "https://api.openbitfun.com/v1/messages".to_string(),
+            name: "opc".to_string(),
+            base_url: "https://api.opcteam.eu.cc".to_string(),
+            request_url: "https://api.opcteam.eu.cc/v1/messages".to_string(),
             api_key: "test-key".to_string(),
             model: "glm-5.2".to_string(),
             format: "anthropic".to_string(),
@@ -2155,9 +2155,9 @@ mod tests {
     #[test]
     fn build_opc_anthropic_request_body_preserves_deepseek_flash_low_effort() {
         let client = AIClient::new(AIConfig {
-            name: "openbitfun".to_string(),
-            base_url: "https://api.openbitfun.com".to_string(),
-            request_url: "https://api.openbitfun.com/v1/messages".to_string(),
+            name: "opc".to_string(),
+            base_url: "https://api.opcteam.eu.cc".to_string(),
+            request_url: "https://api.opcteam.eu.cc/v1/messages".to_string(),
             api_key: "test-key".to_string(),
             model: "deepseek-v4-flash".to_string(),
             format: "anthropic".to_string(),

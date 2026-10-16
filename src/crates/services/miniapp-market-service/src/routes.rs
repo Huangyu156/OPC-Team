@@ -49,7 +49,7 @@ struct StoredSubmissionMetadata {
     icon: String,
     category: String,
     tags: Vec<String>,
-    #[serde(rename = "minOpenBitFunVersion")]
+    #[serde(rename = "minOpcVersion")]
     min_opc_version: String,
     changelog: String,
     license: MarketLicense,
@@ -584,10 +584,10 @@ fn complete_login_response(
             expires_at,
         } => {
             let mut response = if json {
-                Json(serde_json::json!({"redirectUrl": "https://auth.openbitfun.com/complete"}))
+                Json(serde_json::json!({"redirectUrl": "https://auth.opcteam.eu.cc/complete"}))
                     .into_response()
             } else {
-                Redirect::to("https://auth.openbitfun.com/complete").into_response()
+                Redirect::to("https://auth.opcteam.eu.cc/complete").into_response()
             };
             state.auth.append_web_session_cookies(
                 response.headers_mut(),
@@ -2343,7 +2343,7 @@ mod tests {
         let temporary = tempfile::tempdir().unwrap();
         let config = MarketConfig {
             bind: "127.0.0.1:0".parse().unwrap(),
-            public_base_url: "https://market.openbitfun.com/miniapp".to_string(),
+            public_base_url: "https://market.opcteam.eu.cc/miniapp".to_string(),
             database_path: temporary.path().join("market.sqlite"),
             artifact_dir: temporary.path().join("artifacts"),
             web_dir: temporary.path().join("web"),
@@ -2396,7 +2396,7 @@ mod tests {
                 spdx_expression: Some("MIT".to_string()),
                 custom_url: None,
             },
-            repository_url: Some("https://github.com/openbitfun/openbitfun".to_string()),
+            repository_url: Some("https://github.com/GCWing/OPC-Team".to_string()),
             permissions: MiniAppPermissions {
                 node: Some(NodePermissions {
                     enabled: false,
@@ -2535,7 +2535,7 @@ mod tests {
         let temporary = tempfile::tempdir().unwrap();
         let config = MarketConfig {
             bind: "127.0.0.1:0".parse().unwrap(),
-            public_base_url: "https://market.openbitfun.com/miniapp".to_string(),
+            public_base_url: "https://market.opcteam.eu.cc/miniapp".to_string(),
             database_path: temporary.path().join("market.sqlite"),
             artifact_dir: temporary.path().join("artifacts"),
             web_dir: temporary.path().join("web"),
@@ -2712,7 +2712,7 @@ mod tests {
         let temporary = tempfile::tempdir().unwrap();
         let config = MarketConfig {
             bind: "127.0.0.1:0".parse().unwrap(),
-            public_base_url: "https://market.openbitfun.com/miniapp".to_string(),
+            public_base_url: "https://market.opcteam.eu.cc/miniapp".to_string(),
             database_path: temporary.path().join("market.sqlite"),
             artifact_dir: temporary.path().join("artifacts"),
             web_dir: temporary.path().join("web"),
@@ -2757,7 +2757,7 @@ mod tests {
         let draft = serde_json::from_value(serde_json::json!({
             "slug":"email-owner-app", "releaseNumber":1, "name":"Email App",
             "description":"A safe email account submission.", "icon":"box", "category":"developer",
-            "tags":["test"], "minOpenBitFunVersion":"1.0.0", "changelog":"Initial release",
+            "tags":["test"], "minOpcVersion":"1.0.0", "changelog":"Initial release",
             "license":{"spdxExpression":"MIT"}
         }))
         .unwrap();
@@ -2877,7 +2877,7 @@ mod tests {
         let temporary = tempfile::tempdir().unwrap();
         let config = MarketConfig {
             bind: "127.0.0.1:0".parse().unwrap(),
-            public_base_url: "https://market.openbitfun.com/miniapp".to_string(),
+            public_base_url: "https://market.opcteam.eu.cc/miniapp".to_string(),
             database_path: temporary.path().join("market.sqlite"),
             artifact_dir: temporary.path().join("artifacts"),
             web_dir: temporary.path().join("web"),

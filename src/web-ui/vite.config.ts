@@ -4,7 +4,7 @@ import { defineConfig, type Plugin } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
 import { versionInjectionPlugin } from "./vite.config.version-plugin";
-import { openbitfunCanvasRuntimeBundlePlugin } from "./vite.config.canvas-runtime-plugin";
+import { opcCanvasRuntimeBundlePlugin } from "./vite.config.canvas-runtime-plugin";
 import { watchSourcePlugin } from "../../design-system/tooling/vite/watch-source.mjs";
 import {
   APPLE_SYSTEM_FONT_PROFILE,
@@ -95,23 +95,23 @@ export function createDesignSystemSourceAliases(command: 'serve' | 'build') {
 
   return [
     {
-      find: /^@openbitfun\/ui\/brand$/,
+      find: /^@opc-team\/ui\/brand$/,
       replacement: path.join(designSystemUiSourceDirectory, 'brand.ts'),
     },
     {
-      find: /^@openbitfun\/ui\/flow-chat$/,
+      find: /^@opc-team\/ui\/flow-chat$/,
       replacement: path.join(designSystemUiSourceDirectory, 'flow-chat.ts'),
     },
     {
-      find: /^@openbitfun\/ui\/registry$/,
+      find: /^@opc-team\/ui\/registry$/,
       replacement: path.join(designSystemUiSourceDirectory, 'registry.ts'),
     },
     {
-      find: /^@openbitfun\/ui\/styles\.css$/,
+      find: /^@opc-team\/ui\/styles\.css$/,
       replacement: path.join(designSystemUiSourceDirectory, 'styles/layers.css'),
     },
     {
-      find: /^@openbitfun\/ui$/,
+      find: /^@opc-team\/ui$/,
       replacement: path.join(designSystemUiSourceDirectory, 'index.ts'),
     },
   ];
@@ -139,7 +139,7 @@ function warnIfNativeWatchUnreliable(): void {
     cwd.startsWith("\\\\") || /^\/mnt\/[a-z]\//i.test(cwd);
   if (looksLikeNetworkOrWslMount) {
     console.warn(
-      `[openbitfun] Project path "${cwd}" looks like a network share or WSL mount; ` +
+      `[opc] Project path "${cwd}" looks like a network share or WSL mount; ` +
         "native file watching may miss changes here. " +
         "Set VITE_USE_POLLING=1 to restore polling-based HMR.",
     );
@@ -169,7 +169,7 @@ export default defineConfig(({ mode, command }) => {
       createWebFontProfilePlugin(fontProfile, command),
       react(),
       watchSourcePlugin(designSystemUiSourceDirectory),
-      openbitfunCanvasRuntimeBundlePlugin(),
+      opcCanvasRuntimeBundlePlugin(),
       versionInjectionPlugin()
     ],
 

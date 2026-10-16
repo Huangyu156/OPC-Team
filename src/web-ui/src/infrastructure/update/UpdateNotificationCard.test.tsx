@@ -103,7 +103,7 @@ it('clears both indicators only when the version is explicitly skipped', () => {
   act(() => skip.click());
   expect(card()).toBeNull();
   expect(dots()).toHaveLength(0);
-  expect(localStorage.getItem('openbitfun:update:skippedVersion')).toBe('2.0.0');
+  expect(localStorage.getItem('opc:update:skippedVersion')).toBe('2.0.0');
 });
 
 it('opens release notes from the version title while keeping both indicators', () => {

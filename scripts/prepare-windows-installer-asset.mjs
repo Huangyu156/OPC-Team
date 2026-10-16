@@ -24,7 +24,7 @@ if (candidates.length !== 1) {
 rmSync(outDir, { recursive: true, force: true });
 mkdirSync(outDir, { recursive: true });
 
-const outputName = `OpenBitFun_${version}_windows-x86_64-installer.exe`;
+const outputName = `OPC-Team_${version}_windows-x86_64-installer.exe`;
 const outputPath = join(outDir, outputName);
 copyFileSync(candidates[0], outputPath);
 console.log(`[manual-installer] ${candidates[0]} -> ${outputPath}`);

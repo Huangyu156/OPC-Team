@@ -1,6 +1,6 @@
 HarmonyOS Sans Fonts Notice
 
-Non-Apple OpenBitFun GUI distributions use unmodified copies of HarmonyOS Sans
+Non-Apple OPC-Team GUI distributions use unmodified copies of HarmonyOS Sans
 Fonts. Copyright 2021 Huawei Device Co., Ltd.
 
 Bundled faces: HarmonyOS Sans and HarmonyOS Sans SC, Version 2.040.

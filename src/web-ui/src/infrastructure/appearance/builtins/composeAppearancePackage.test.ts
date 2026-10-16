@@ -6,7 +6,7 @@ import { composeAppearancePackage } from './composeAppearancePackage';
 describe('composeAppearancePackage', () => {
   it.each(['light', 'dark'] as const)('supplies subagent accents to legacy %s packages and preserves overrides', mode => {
     const original: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: 2,
+      schema: 'opc.appearance', schemaVersion: 2,
       id: 'example.legacy-subagents', name: 'Legacy subagents', version: '1.0.0', mode,
     };
     const payload = JSON.stringify(original);
@@ -27,7 +27,7 @@ describe('composeAppearancePackage', () => {
 
   it.each(['light', 'dark'] as const)('supplies update material cyan to legacy %s packages and preserves explicit overrides', mode => {
     const original: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: 2,
+      schema: 'opc.appearance', schemaVersion: 2,
       id: 'example.legacy-updates', name: 'Legacy updates', version: '1.0.0', mode,
       renderers: { 'theme-tokens': { version: 1, settings: {
         tokens: { '--opcteam-color-accent-default': '#7755aa' },
@@ -50,7 +50,7 @@ describe('composeAppearancePackage', () => {
 
   it.each(['light', 'dark'] as const)('supplies annotation cyan to legacy %s packages without replacing their accent', mode => {
     const original: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: 2,
+      schema: 'opc.appearance', schemaVersion: 2,
       id: 'example.legacy-annotations', name: 'Legacy annotations', version: '1.0.0', mode,
       renderers: { 'theme-tokens': { version: 1, settings: {
         tokens: { '--opcteam-color-accent-default': '#7755aa' },
@@ -68,7 +68,7 @@ describe('composeAppearancePackage', () => {
 
   it('preserves legacy action-card backgrounds in root and chrome across old-payload round trips', () => {
     const original: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: 2,
+      schema: 'opc.appearance', schemaVersion: 2,
       id: 'example.legacy-cards', name: 'Legacy cards', version: '1.0.0', mode: 'light',
       renderers: { 'theme-tokens': { version: 1, settings: {
         tokens: { '--opcteam-color-action-neutral-surface': '#123456', '--opcteam-color-content-muted': '#556677' },
@@ -98,7 +98,7 @@ describe('composeAppearancePackage', () => {
   });
   it('preserves legacy field colors and explicit hint overrides across old-payload round trips', () => {
     const original: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: 2,
+      schema: 'opc.appearance', schemaVersion: 2,
       id: 'example.legacy-fields', name: 'Legacy fields', version: '1.0.0', mode: 'light',
       renderers: {
         'theme-tokens': {
@@ -162,7 +162,7 @@ describe('composeAppearancePackage', () => {
   });
   it('keeps explicit legacy Button colors through a package round trip without requiring new tokens', () => {
     const original: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: 2,
+      schema: 'opc.appearance', schemaVersion: 2,
       id: 'example.legacy-button-colors', name: 'Legacy button colors', version: '1.0.0', mode: 'light',
       renderers: {
         'theme-tokens': {
@@ -201,7 +201,7 @@ describe('composeAppearancePackage', () => {
       '--opcteam-component-button-primary-background': '#654321',
     };
     const resolved = composeAppearancePackage({
-      schema: 'openbitfun.appearance', schemaVersion: 2,
+      schema: 'opc.appearance', schemaVersion: 2,
       id: 'example.button-colors', name: 'Button colors', version: '1.0.0', mode: 'light',
       renderers: { 'theme-tokens': { version: 1, settings: { tokens, scopes: { chrome: tokens } } } },
     });
@@ -212,7 +212,7 @@ describe('composeAppearancePackage', () => {
 
   it('resolves a partial imported package into a complete host appearance', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 1,
       id: 'example.partial',
       name: 'Partial',

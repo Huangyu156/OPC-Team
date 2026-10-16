@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# OpenBitFun Relay Server — one-click deploy script.
+# OPC-Team Relay Server — one-click deploy script.
 # Usage:  bash deploy.sh [--build-from-source] [--cn-mirror|--global-mirror]
 #
 # Run this script on the target server itself after SSH login.
@@ -33,7 +33,7 @@ MIRROR_ARGS=()
 
 usage() {
   cat <<'EOF'
-OpenBitFun Relay Server deploy script
+OPC-Team Relay Server deploy script
 
 Usage:
   bash deploy.sh [options]
@@ -87,14 +87,14 @@ done
 
 HOST_ARCH="$(host_arch_label)"
 
-echo "=== OpenBitFun Relay Server Deploy ==="
+echo "=== OPC-Team Relay Server Deploy ==="
 echo "Target: current machine ($(uname -s) / ${HOST_ARCH}, uname=$(uname -m))"
 echo "Note: run this script on the target server after SSH login."
 
 assert_supported_arch
 # Detect region and persist host mirrors before Docker pulls / image build.
 # Validate the host first so unsupported machines are not modified.
-openbitfun_mirror_init "${MIRROR_ARGS[@]+"${MIRROR_ARGS[@]}"}"
+opc_mirror_init "${MIRROR_ARGS[@]+"${MIRROR_ARGS[@]}"}"
 require_docker_daemon
 warn_if_forced_foreign_platform
 
@@ -107,7 +107,7 @@ if [ "$BUILD_FROM_SOURCE" = true ]; then
   echo "[1/2] Skipping the published image (--build-from-source)"
 elif [ "$SKIP_BUILD" = true ]; then
   echo "[1/2] Skipping the published image (--skip-build)"
-elif openbitfun_try_release_deploy; then
+elif opc_try_release_deploy; then
   RELAY_PORT="${RELAY_PORT:-9700}"
   echo ""
   echo "=== Deploy complete (published image) ==="
@@ -139,7 +139,7 @@ export RELAY_GIT_COMMIT
 # Persist compose build-args for CN builds (and subsequent restarts).
 touch .env
 chmod 600 .env 2>/dev/null || true
-# Refresh OpenBitFun-managed mirror keys without wiping unrelated .env entries.
+# Refresh Opc-managed mirror keys without wiping unrelated .env entries.
 if [ -f .env ]; then
   tmp_env="$(mktemp)"
   grep -Ev '^(OPC_USE_CN_MIRROR|OPC_APT_MIRROR|OPC_CARGO_SPARSE_URL|RELAY_GIT_COMMIT)=' .env >"$tmp_env" || true
@@ -216,7 +216,7 @@ echo "Relay server running on port ${RELAY_PORT} (host arch: ${HOST_ARCH})"
 echo ""
 check_relay_accounts_or_remind
 echo ""
-echo "Point OpenBitFun Desktop / CLI Auth Server URL to:"
+echo "Point OPC-Team Desktop / CLI Auth Server URL to:"
 echo "  Direct:   http://<YOUR_SERVER_IP>:${RELAY_PORT}"
 echo "  Proxy:    https://<YOUR_DOMAIN>/relay  (recommended, matches official server)"
 echo "See README.md for reverse proxy setup, sync, and Peer Device Mode."

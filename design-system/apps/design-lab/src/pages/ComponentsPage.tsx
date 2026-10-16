@@ -192,7 +192,7 @@ export function ComponentCardPreview({ component }: { component: ComponentMeta }
   if (component.category === "brand") return <BrandPreview name={component.name} active={false} />;
   if (component.name === "VoiceCallPanel") return <VoiceCallPreview compact />;
   if (component.name === "VoiceParticleLogo") return <VoiceParticlePreview />;
-  if (component.name === "Combobox") return <Combobox label={t("components.preview.modalProviderName")} defaultValue="openbitfun" options={[{ value: "openbitfun", label: "OPC-Team" }, { value: "custom", label: t("components.preview.add") }]} />;
+  if (component.name === "Combobox") return <Combobox label={t("components.preview.modalProviderName")} defaultValue="opc" options={[{ value: "opc", label: "OPC-Team" }, { value: "custom", label: t("components.preview.add") }]} />;
   const flowChatPreview = getFlowChatPreviewDefinition(component.name);
 
   if (flowChatPreview) {

@@ -392,7 +392,7 @@ async fn commit_uncommitted_changes(worktree_path: &str) -> Result<()> {
             "-c",
             "user.name=OPC-Team Dispatch",
             "-c",
-            "user.email=dispatch@openbitfun.local",
+            "user.email=dispatch@opcteam.local",
             "commit",
             "--no-verify",
             "-m",
@@ -584,8 +584,8 @@ mod tests {
     #[test]
     fn branch_names_are_prefixed_scoped_and_ref_safe() {
         assert_eq!(
-            dispatch_branch_name("openbitfun/", "dispatch-1a2b3c"),
-            "openbitfun/dispatch/dispatch-1a2b3c"
+            dispatch_branch_name("opcteam/", "dispatch-1a2b3c"),
+            "opcteam/dispatch/dispatch-1a2b3c"
         );
         assert_eq!(dispatch_branch_name("", "job1"), "dispatch/job1");
         // A prefix that could be read as a git option or escape a ref namespace
@@ -604,8 +604,8 @@ mod tests {
 
     #[test]
     fn project_labels_come_from_the_workspace_basename() {
-        assert_eq!(project_label("/Users/me/code/OpenBitFun"), "OpenBitFun");
-        assert_eq!(project_label("/Users/me/code/OpenBitFun/"), "OpenBitFun");
+        assert_eq!(project_label("/Users/me/code/OPC-Team"), "OPC-Team");
+        assert_eq!(project_label("/Users/me/code/OPC-Team/"), "OPC-Team");
         // Nothing recognizable to use; the target falls back on its own side.
         assert_eq!(project_label("/"), "");
     }
@@ -640,13 +640,13 @@ mod tests {
         std::fs::write(repository.join("file.txt"), b"base").expect("seed");
         git(&repository, &["add", "-A"]);
         git(&repository, &["commit", "--quiet", "-m", "base"]);
-        let branch = "openbitfun/dispatch/job-1";
+        let branch = "opcteam/dispatch/job-1";
         git(&repository, &["branch", branch]);
         let base_commit = git(&repository, &["rev-parse", "HEAD"]);
         let store =
             OutboundDispatchStore::new_in_root_for_tests(temp.path().join("dispatch-outbound"));
         let baseline = PreparedBaseline {
-            project_label: "OpenBitFun".to_string(),
+            project_label: "OPC-Team".to_string(),
             delivery: DispatchWorkspaceDelivery {
                 source_workspace_path: repository.to_string_lossy().to_string(),
                 project_workspace_path: repository.to_string_lossy().to_string(),
@@ -695,25 +695,25 @@ mod tests {
         .expect("record");
         record.baseline_worktree_id = Some("worktree-1".to_string());
         record.base_commit = Some("0123456789abcdef".to_string());
-        record.branch = Some("openbitfun/dispatch/job-1".to_string());
+        record.branch = Some("opcteam/dispatch/job-1".to_string());
 
         assert!(outbound_record_owns_baseline(
             &record,
             "worktree-1",
             "0123456789abcdef",
-            "openbitfun/dispatch/job-1"
+            "opcteam/dispatch/job-1"
         ));
         assert!(!outbound_record_owns_baseline(
             &record,
             "different-worktree",
             "0123456789abcdef",
-            "openbitfun/dispatch/job-1"
+            "opcteam/dispatch/job-1"
         ));
         assert!(!outbound_record_owns_baseline(
             &record,
             "worktree-1",
             "different-commit",
-            "openbitfun/dispatch/job-1"
+            "opcteam/dispatch/job-1"
         ));
         assert!(!outbound_record_owns_baseline(
             &record,
@@ -728,18 +728,18 @@ mod tests {
         assert!(outbound_record_may_own_claim(
             &record,
             "worktree-1",
-            "openbitfun/dispatch/job-1"
+            "opcteam/dispatch/job-1"
         ));
         record.base_commit = Some("generated-wip-commit".to_string());
         assert!(outbound_record_may_own_claim(
             &record,
             "worktree-1",
-            "openbitfun/dispatch/job-1"
+            "opcteam/dispatch/job-1"
         ));
         assert!(!outbound_record_may_own_claim(
             &record,
             "different-worktree",
-            "openbitfun/dispatch/job-1"
+            "opcteam/dispatch/job-1"
         ));
     }
 
@@ -758,7 +758,7 @@ mod tests {
         std::fs::write(repository.join("file.txt"), b"base").expect("seed");
         git(&repository, &["add", "-A"]);
         git(&repository, &["commit", "--quiet", "-m", "base"]);
-        let branch = "openbitfun/dispatch/job-branch";
+        let branch = "opcteam/dispatch/job-branch";
         git(&repository, &["switch", "--quiet", "-c", branch]);
 
         ensure_baseline_branch(repository.to_str().expect("repository path"), branch)

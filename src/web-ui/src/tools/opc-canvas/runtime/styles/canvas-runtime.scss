@@ -55,7 +55,7 @@
 
 html,
 body,
-#openbitfun-canvas-root {
+#opc-canvas-root {
   min-height: 100%;
 }
 
@@ -89,7 +89,7 @@ button {
   color: inherit;
 }
 
-#openbitfun-canvas-root {
+#opc-canvas-root {
   padding: 24px 20px 56px;
 }
 
@@ -108,7 +108,7 @@ button {
   width: 100%;
 }
 
-#openbitfun-canvas-root > .opc-canvas-stack {
+#opc-canvas-root > .opc-canvas-stack {
   max-width: min(100%, 980px);
   margin-inline: auto;
 }
@@ -196,7 +196,7 @@ html[data-opc-canvas-design-mode] body {
   margin-bottom: 0;
 }
 
-.openbitfun-pill {
+.opc-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
@@ -210,7 +210,7 @@ html[data-opc-canvas-design-mode] body {
   white-space: nowrap;
 }
 
-.openbitfun-pill--active {
+.opc-pill--active {
   background: var(--opcteam-color-action-secondary-hover);
   color: var(--opcteam-color-content-primary);
 }

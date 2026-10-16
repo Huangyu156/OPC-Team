@@ -12,10 +12,10 @@ const compiledHtml = `<!DOCTYPE html>
 <body>
   <script>legacy runtime</script>
   <script type="module" data-revision="rev_test">
-const { Stack } = window.OpenBitFunCanvasSDK;
-const { h } = window.OpenBitFunCanvasRuntime;
+const { Stack } = window.OpcCanvasSDK;
+const { h } = window.OpcCanvasRuntime;
 function Canvas() { return h(Stack, null, 'Hello'); }
-window.OpenBitFunCanvasRuntime.mount(Canvas);
+window.OpcCanvasRuntime.mount(Canvas);
   </script>
 </body>
 </html>`;
@@ -99,10 +99,10 @@ describe('React Canvas runtime bridge', () => {
     expect(script).toEqual({
       revision: 'rev_test',
       code: [
-        'const { Stack } = window.OpenBitFunCanvasSDK;',
-        'const { h } = window.OpenBitFunCanvasRuntime;',
+        'const { Stack } = window.OpcCanvasSDK;',
+        'const { h } = window.OpcCanvasRuntime;',
         "function Canvas() { return h(Stack, null, 'Hello'); }",
-        'window.OpenBitFunCanvasRuntime.mount(Canvas);',
+        'window.OpcCanvasRuntime.mount(Canvas);',
       ].join('\n'),
     });
   });
@@ -114,9 +114,9 @@ describe('React Canvas runtime bridge', () => {
     expect(result.runtime).toBe('react');
     expect(result.revision).toBe('rev_test');
     expect(html).toContain('<title>Canvas &lt;Test&gt;</title>');
-    expect(html).toContain('window.OpenBitFunCanvasSDK');
-    expect(html).toContain('window.OpenBitFunCanvasRuntime');
-    expect(html).toContain('window.OpenBitFunCanvasSDKAdapters');
+    expect(html).toContain('window.OpcCanvasSDK');
+    expect(html).toContain('window.OpcCanvasRuntime');
+    expect(html).toContain('window.OpcCanvasSDKAdapters');
     expect(html).toContain('ReactDOM.createRoot');
     expect(html).toContain('<meta name="opc-canvas-revision" content="rev_test">');
     expect(html).toContain("function Canvas() { return h(Stack, null, 'Hello'); }");
@@ -182,8 +182,8 @@ describe('React Canvas runtime bridge', () => {
   it('exposes semantic appearance tokens through useHostAppearance().tokens', async () => {
     const html = buildReactCanvasHtml(`<!DOCTYPE html>
 <script type="module" data-revision="rev_tokens">
-const { useHostAppearance } = window.OpenBitFunCanvasSDK;
-const { h } = window.OpenBitFunCanvasRuntime;
+const { useHostAppearance } = window.OpcCanvasSDK;
+const { h } = window.OpcCanvasRuntime;
 function Canvas() {
   const { tokens } = useHostAppearance();
   return h('svg', null,
@@ -191,7 +191,7 @@ function Canvas() {
     h('text', { 'data-testid': 'label', fill: tokens.text.primary }, 'Node')
   );
 }
-window.OpenBitFunCanvasRuntime.mount(Canvas);
+window.OpcCanvasRuntime.mount(Canvas);
 </script>`, { title: 'Appearance tokens' });
 
     const { dom, messages } = await runCanvasHtml(html ?? '');
@@ -222,14 +222,14 @@ window.OpenBitFunCanvasRuntime.mount(Canvas);
     const html = `<!DOCTYPE html>
 <script>legacy runtime</script>
 <script type="module" data-revision="rev_chart">
-const { BarChart } = window.OpenBitFunCanvasSDK;
-const { h } = window.OpenBitFunCanvasRuntime;
+const { BarChart } = window.OpcCanvasSDK;
+const { h } = window.OpcCanvasRuntime;
 function Canvas() { return h(BarChart, { data: [1, 2] }); }
-window.OpenBitFunCanvasRuntime.mount(Canvas);
+window.OpcCanvasRuntime.mount(Canvas);
     </script>`;
     const wrapped = buildReactCanvasHtml(html, { title: 'Chart' });
 
-    expect(wrapped).toContain('window.OpenBitFunCanvasSDKAdapters');
+    expect(wrapped).toContain('window.OpcCanvasSDKAdapters');
     expect(wrapped).toContain('BarChart:');
     expect(wrapped).not.toContain('function BarChart(props = {})');
     expect(wrapped).toContain('<meta name="opc-canvas-revision" content="rev_chart">');
@@ -241,17 +241,17 @@ window.OpenBitFunCanvasRuntime.mount(Canvas);
     const html = `<!DOCTYPE html>
 <script>legacy runtime</script>
 <script type="module" data-revision="rev_diff">
-const { DiffStats, DiffView } = window.OpenBitFunCanvasSDK;
-const { h } = window.OpenBitFunCanvasRuntime;
+const { DiffStats, DiffView } = window.OpcCanvasSDK;
+const { h } = window.OpcCanvasRuntime;
 const diffLines = '+added\\n-removed\\n unchanged';
 function Canvas() {
   return h('div', null, h(DiffStats, { additions: 1, deletions: -1 }), h(DiffView, { lines: diffLines }));
 }
-window.OpenBitFunCanvasRuntime.mount(Canvas);
+window.OpcCanvasRuntime.mount(Canvas);
     </script>`;
     const wrapped = buildReactCanvasHtml(html, { title: 'Diff' });
 
-    expect(wrapped).toContain('window.OpenBitFunCanvasSDKAdapters');
+    expect(wrapped).toContain('window.OpcCanvasSDKAdapters');
     expect(wrapped).toContain('normalizeDiffLines:');
     expect(wrapped).not.toContain('function normalizeDiffLines(lines)');
     expect(wrapped).not.toContain('legacy runtime');
@@ -260,8 +260,8 @@ window.OpenBitFunCanvasRuntime.mount(Canvas);
   it('smoke-renders bundled SDK components in the iframe shell', async () => {
     const html = buildReactCanvasHtml(`<!DOCTYPE html>
 <script type="module" data-revision="rev_smoke">
-const { Stack, Card, CardHeader, CardBody, BarChart, CollapsibleSection, DependencyGraph, Empty, FlowDiagram, Input, Tabs, Text } = window.OpenBitFunCanvasSDK;
-const { h } = window.OpenBitFunCanvasRuntime;
+const { Stack, Card, CardHeader, CardBody, BarChart, CollapsibleSection, DependencyGraph, Empty, FlowDiagram, Input, Tabs, Text } = window.OpcCanvasSDK;
+const { h } = window.OpcCanvasRuntime;
 function Canvas() {
   return h(Stack, { gap: 8 },
     h(Card, null,
@@ -283,7 +283,7 @@ function Canvas() {
     )
   );
 }
-window.OpenBitFunCanvasRuntime.mount(Canvas);
+window.OpcCanvasRuntime.mount(Canvas);
 </script>`, { title: 'Smoke' });
 
     expect(html).toBeTruthy();
@@ -309,8 +309,8 @@ window.OpenBitFunCanvasRuntime.mount(Canvas);
   it('hydrates state before first render and ignores incompatible persisted shapes', async () => {
     const html = buildReactCanvasHtml(`<!DOCTYPE html>
 <script type="module" data-revision="rev_state">
-const { Stack, Table, Tabs, Text, useCanvasState, useEffect } = window.OpenBitFunCanvasSDK;
-const { h } = window.OpenBitFunCanvasRuntime;
+const { Stack, Table, Tabs, Text, useCanvasState, useEffect } = window.OpcCanvasSDK;
+const { h } = window.OpcCanvasRuntime;
 function Canvas() {
   const [rows, setRows] = useCanvasState('rows', [{ label: 'Current' }]);
   useEffect(() => {
@@ -322,7 +322,7 @@ function Canvas() {
     h(Table, { headers: ['Label'], rows: { invalid: true } })
   );
 }
-window.OpenBitFunCanvasRuntime.mount(Canvas);
+window.OpcCanvasRuntime.mount(Canvas);
 </script>`, { title: 'State compatibility' });
 
     const { dom, messages } = await runCanvasHtml(html ?? '', { rows: 'stale value' });

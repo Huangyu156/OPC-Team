@@ -2715,7 +2715,7 @@ mod tests {
                 "rootPath": "/worktrees/session_1",
                 "baseRef": "main",
                 "baseCommit": "0123456789abcdef",
-                "branch": "openbitfun/session_1",
+                "branch": "opc/session_1",
                 "lifecycle": "managed"
             }
         }))

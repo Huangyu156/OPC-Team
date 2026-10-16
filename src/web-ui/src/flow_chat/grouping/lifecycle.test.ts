@@ -76,7 +76,7 @@ describe('live collection lifecycle', () => {
     }
   });
 
-  it.each(['CallDeferredTool', 'OpenBitFunControl', 'ControlHub', 'ComputerUse'])('keeps reasoning beside %s while its parameters resolve', toolName => {
+  it.each(['CallDeferredTool', 'OpcControl', 'ControlHub', 'ComputerUse'])('keeps reasoning beside %s while its parameters resolve', toolName => {
     const initial: FlowItem[] = [tool('read', 'explore', 'completed'),
       { id: 'thought', type: 'thinking', status: 'completed', timestamp: 1 }];
     const next = { ...tool('next', 'explore', 'streaming'), toolName, isParamsStreaming: true };

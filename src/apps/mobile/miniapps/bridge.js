@@ -13,7 +13,7 @@
   window.addEventListener('message', event => {
     if (event.source !== parent || !event.data) return;
     const reply = event.data;
-    if (reply.type === 'openbitfun:event' && reply.event === 'localeChange') {
+    if (reply.type === 'opc:event' && reply.event === 'localeChange') {
       locale = reply.payload.locale;
       unsupported = reply.payload.unsupported;
       document.documentElement.lang = locale;
@@ -44,5 +44,5 @@
     clipboard: Object.freeze({ writeText: text => call('clipboard.writeText', { text }) }),
     call: () => Promise.reject(new Error(unsupported))
   });
-  parent.postMessage({ method: 'openbitfun/request-locale' }, '*');
+  parent.postMessage({ method: 'opc/request-locale' }, '*');
 })();

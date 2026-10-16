@@ -49,17 +49,17 @@ export const GenerativeWidgetStaticRenderer: React.FC<GenerativeWidgetStaticRend
     if (!root) return;
 
     const globalWindow = window as Window & {
-      openbitfunWidget?: { send: (data: unknown) => void };
+      opcWidget?: { send: (data: unknown) => void };
       glimpse?: { send: (data: unknown) => void };
       sendPrompt?: (text: string) => void;
     };
 
-    const prevBridge = globalWindow.openbitfunWidget;
+    const prevBridge = globalWindow.opcWidget;
     const prevGlimpse = globalWindow.glimpse;
     const prevSendPrompt = globalWindow.sendPrompt;
 
     const noopBridge = { send: (_data: unknown) => {} };
-    globalWindow.openbitfunWidget = noopBridge;
+    globalWindow.opcWidget = noopBridge;
     globalWindow.glimpse = noopBridge;
     globalWindow.sendPrompt = (_text: string) => {};
 
@@ -68,7 +68,7 @@ export const GenerativeWidgetStaticRenderer: React.FC<GenerativeWidgetStaticRend
 
     return () => {
       root.innerHTML = '';
-      globalWindow.openbitfunWidget = prevBridge;
+      globalWindow.opcWidget = prevBridge;
       globalWindow.glimpse = prevGlimpse;
       globalWindow.sendPrompt = prevSendPrompt;
     };
@@ -92,7 +92,7 @@ export const GenerativeWidgetStaticRenderer: React.FC<GenerativeWidgetStaticRend
     <div
       className={`opc-generative-widget-static-renderer ${className}`.trim()}
       style={appearanceStyle}
-      data-openbitfun-appearance={appearancePayload?.id ?? 'unknown'}
+      data-opc-appearance={appearancePayload?.id ?? 'unknown'}
       data-opc-appearance-mode={appearancePayload?.mode ?? 'dark'}
     >
       <style>{shellCss}</style>

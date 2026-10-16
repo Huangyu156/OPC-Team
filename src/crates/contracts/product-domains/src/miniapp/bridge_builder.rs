@@ -83,7 +83,7 @@ pub fn build_bridge_script(
   }}
 
   let _appearanceMode = {appearance_mode_esc};
-  // Default to en-US until the host pushes the real locale via 'openbitfun:event'.
+  // Default to en-US until the host pushes the real locale via 'opc:event'.
   // The script below proactively requests it on startup.
   let _locale = 'en-US';
 
@@ -247,14 +247,14 @@ pub fn build_bridge_script(
   }};
 
   window.addEventListener('message', (e) => {{
-    if (e.data?.type === 'openbitfun:event') {{
+    if (e.data?.type === 'opc:event') {{
       const {{ event, payload }} = e.data;
       if (event === 'activate')    app._lifecycleHandlers.activate.forEach(f => f());
       if (event === 'deactivate')  app._lifecycleHandlers.deactivate.forEach(f => f());
       if (event === 'appearanceChange') {{
         if (payload && typeof payload === 'object') {{
           if (payload.vars) _applyAppearanceVars(payload.vars);
-          if (payload.id) document.documentElement.setAttribute('data-openbitfun-appearance', payload.id);
+          if (payload.id) document.documentElement.setAttribute('data-opc-appearance', payload.id);
           if (payload.mode) {{ _appearanceMode = payload.mode; document.documentElement.setAttribute('data-opc-appearance-mode', _appearanceMode); }}
         }}
         app._lifecycleHandlers.appearanceChange.forEach(f => f(payload));
@@ -309,8 +309,8 @@ pub fn build_bridge_script(
 
   window.app = app;
   document.documentElement.setAttribute('data-opc-appearance-mode', _appearanceMode);
-  window.parent.postMessage({{ method: 'openbitfun/request-appearance' }}, '*');
-  window.parent.postMessage({{ method: 'openbitfun/request-locale' }}, '*');
+  window.parent.postMessage({{ method: 'opc/request-appearance' }}, '*');
+  window.parent.postMessage({{ method: 'opc/request-locale' }}, '*');
 }})();
 "#,
         app_id_esc = app_id_esc,
@@ -397,7 +397,7 @@ pub fn build_market_csp_content() -> &'static str {
 
 /// Scroll boundary script (reuse same logic as MCP App).
 pub fn scroll_boundary_script() -> &'static str {
-    r#"<script>(()=>{const s=(e)=>{for(let n=e.target;n;n=n.parentNode){if(!(n instanceof Element))continue;if(n===document.documentElement||n===document.body)continue;const o=window.getComputedStyle(n).overflowY;if(o==='hidden'||o==='visible')continue;if(e.deltaY<0&&n.scrollTop>0)return false;if(e.deltaY>0&&n.scrollTop+n.clientHeight<n.scrollHeight)return false;}return true};window.addEventListener('wheel',e=>{if(!e.defaultPrevented&&s(e))window.parent.postMessage({jsonrpc:'2.0',method:'openbitfun/sandbox-wheel',params:{deltaX:e.deltaX,deltaY:e.deltaY,deltaZ:e.deltaZ,deltaMode:e.deltaMode}},'*')},{passive:true});})();</script>"#
+    r#"<script>(()=>{const s=(e)=>{for(let n=e.target;n;n=n.parentNode){if(!(n instanceof Element))continue;if(n===document.documentElement||n===document.body)continue;const o=window.getComputedStyle(n).overflowY;if(o==='hidden'||o==='visible')continue;if(e.deltaY<0&&n.scrollTop>0)return false;if(e.deltaY>0&&n.scrollTop+n.clientHeight<n.scrollHeight)return false;}return true};window.addEventListener('wheel',e=>{if(!e.defaultPrevented&&s(e))window.parent.postMessage({jsonrpc:'2.0',method:'opc/sandbox-wheel',params:{deltaX:e.deltaX,deltaY:e.deltaY,deltaZ:e.deltaZ,deltaMode:e.deltaMode}},'*')},{passive:true});})();</script>"#
 }
 
 /// Minimal MiniApp iframe first-paint contract before the host sends Appearance variables.

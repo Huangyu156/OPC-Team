@@ -363,23 +363,17 @@ mod tests {
 
     #[test]
     fn process_identity_requires_the_exact_hidden_worker_arguments() {
-        let expected = ["openbitfun", "dispatch", "__run", "--job", "job-1"].map(str::to_string);
+        let expected = ["opc", "dispatch", "__run", "--job", "job-1"].map(str::to_string);
         assert!(arguments_match_action(&expected, "__run", "job-1"));
         assert!(!arguments_match_action(&expected, "__run", "job-2"));
-        let unrelated = ["openbitfun", "dispatch", "status"].map(str::to_string);
+        let unrelated = ["opc", "dispatch", "status"].map(str::to_string);
         assert!(!arguments_match_action(&unrelated, "__run", "job-1"));
     }
 
     #[test]
     fn workspace_operation_identity_requires_the_exact_hidden_action() {
-        let expected = [
-            "openbitfun",
-            "dispatch",
-            "__workspace_sync_run",
-            "--job",
-            "job-1",
-        ]
-        .map(str::to_string);
+        let expected =
+            ["opc", "dispatch", "__workspace_sync_run", "--job", "job-1"].map(str::to_string);
         assert!(arguments_match_action(
             &expected,
             "__workspace_sync_run",

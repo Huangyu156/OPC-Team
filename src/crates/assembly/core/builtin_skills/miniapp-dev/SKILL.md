@@ -104,7 +104,7 @@ description: 'Generate and refine OPC-Team MiniApps. Use when the user wants a n
 
 #### 已打包客户端的直接管理（优先）
 
-用 `OpenBitFunControl` 的 `get` 查询 `feature.miniapps`，按返回的 schema
+用 `OpcControl` 的 `get` 查询 `feature.miniapps`，按返回的 schema
 调用 `list-apps`、`inspect-app`、`create-app`、`update-app`、`delete-app`。
 这些操作直接在持有应用的产品宿主编译、保存和通知界面，不需要源码仓库、
 Node.js 或本地目录。更新前先读取应用，使用它的 `appId` 和 `expectedVersion`；
@@ -192,7 +192,7 @@ MiniApp 里可用的是 `window.app`。
 
 默认**不要**写这些不存在的接口：
 
-- `app.openbitfun.*`
+- `app.opc.*`
 - `app.workspace.*`
 - `app.git.*`
 - `app.session.*`

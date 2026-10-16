@@ -7,20 +7,19 @@ fn doctor_reports_the_validated_cli_runtime_assembly() {
     let config_root = temp.path().join("host-config");
     std::fs::create_dir_all(&workspace).expect("create workspace");
 
-    let output =
-        opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
-            .arg("doctor")
-            .current_dir(&workspace)
-            .env_remove("OPC_USER_ROOT")
-            .env_remove("OPC_HOME")
-            .env("OPC_E2E_STORAGE_GUARD", "1")
-            .env("OPC_E2E_USER_ROOT", &user_root)
-            .env("OPC_E2E_HOME", &home_root)
-            .env("APPDATA", &config_root)
-            .env("XDG_CONFIG_HOME", &config_root)
-            .env("HOME", &home_root)
-            .output()
-            .expect("run openbitfun doctor");
+    let output = opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"))
+        .arg("doctor")
+        .current_dir(&workspace)
+        .env_remove("OPC_USER_ROOT")
+        .env_remove("OPC_HOME")
+        .env("OPC_E2E_STORAGE_GUARD", "1")
+        .env("OPC_E2E_USER_ROOT", &user_root)
+        .env("OPC_E2E_HOME", &home_root)
+        .env("APPDATA", &config_root)
+        .env("XDG_CONFIG_HOME", &config_root)
+        .env("HOME", &home_root)
+        .output()
+        .expect("run opc doctor");
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -56,20 +55,19 @@ fn health_reports_assembly_and_compatibility_boundaries() {
     let config_root = temp.path().join("host-config");
     std::fs::create_dir_all(&workspace).expect("create workspace");
 
-    let output =
-        opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
-            .arg("health")
-            .current_dir(&workspace)
-            .env_remove("OPC_USER_ROOT")
-            .env_remove("OPC_HOME")
-            .env("OPC_E2E_STORAGE_GUARD", "1")
-            .env("OPC_E2E_USER_ROOT", &user_root)
-            .env("OPC_E2E_HOME", &home_root)
-            .env("APPDATA", &config_root)
-            .env("XDG_CONFIG_HOME", &config_root)
-            .env("HOME", &home_root)
-            .output()
-            .expect("run openbitfun health");
+    let output = opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"))
+        .arg("health")
+        .current_dir(&workspace)
+        .env_remove("OPC_USER_ROOT")
+        .env_remove("OPC_HOME")
+        .env("OPC_E2E_STORAGE_GUARD", "1")
+        .env("OPC_E2E_USER_ROOT", &user_root)
+        .env("OPC_E2E_HOME", &home_root)
+        .env("APPDATA", &config_root)
+        .env("XDG_CONFIG_HOME", &config_root)
+        .env("HOME", &home_root)
+        .output()
+        .expect("run opc health");
 
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
@@ -105,7 +103,7 @@ fn doctor_rejects_incomplete_e2e_storage_roots() {
         std::fs::create_dir_all(&workspace).expect("create workspace");
 
         let mut command =
-            opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"));
+            opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"));
         command
             .arg("doctor")
             .current_dir(&workspace)
@@ -124,7 +122,7 @@ fn doctor_rejects_incomplete_e2e_storage_roots() {
             command.env("OPC_E2E_HOME", &home_root);
         }
 
-        let output = command.output().expect("run openbitfun doctor");
+        let output = command.output().expect("run opc doctor");
         let stderr = String::from_utf8_lossy(&output.stderr);
         assert!(!output.status.success(), "{case_name}: {stderr}");
         assert!(

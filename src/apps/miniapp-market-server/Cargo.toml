@@ -6,7 +6,7 @@ edition.workspace = true
 description = "OPC-Team MiniApp marketplace HTTP server"
 
 [[bin]]
-name = "openbitfun-miniapp-market-server"
+name = "opc-miniapp-market-server"
 path = "src/main.rs"
 
 [dependencies]

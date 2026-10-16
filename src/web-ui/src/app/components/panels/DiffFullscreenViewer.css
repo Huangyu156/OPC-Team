@@ -190,10 +190,10 @@
   border: 2px solid color-mix(in srgb, var(--opcteam-color-content-on-dark) 30%, transparent);
   border-top: 2px solid color-mix(in srgb, var(--opcteam-color-content-on-dark) 90%, transparent);
   border-radius: 50%;
-  animation: openbitfun-diff-fullscreen-spin 1s linear infinite;
+  animation: opc-diff-fullscreen-spin 1s linear infinite;
 }
 
-@keyframes openbitfun-diff-fullscreen-spin {
+@keyframes opc-diff-fullscreen-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }

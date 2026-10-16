@@ -1,4 +1,4 @@
-use crate::service::bootstrap::ensure_workspace_gitignore_ignores_openbitfun;
+use crate::service::bootstrap::ensure_workspace_gitignore_ignores_opc;
 use crate::service::config::{get_global_config_service, types::WorkspaceConfig};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
@@ -159,7 +159,7 @@ impl owner::WorkspaceSearchRuntimeHooks for CoreWorkspaceSearchRuntimeHooks {
     }
 
     async fn ensure_workspace_ready(&self, repo_root: &Path) -> owner::WorkspaceSearchResult<()> {
-        ensure_workspace_gitignore_ignores_openbitfun(repo_root)
+        ensure_workspace_gitignore_ignores_opc(repo_root)
             .await
             .map(|_| ())
             .map_err(|error| error.to_string())

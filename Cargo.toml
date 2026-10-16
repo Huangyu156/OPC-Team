@@ -53,7 +53,7 @@ members = [
 ]
 
 exclude = [
-    "OpenBitFun-Installer/src-tauri",
+    "Opc-Installer/src-tauri",
     "third_party/eioc",
     "third_party/tao",
 ]
@@ -306,7 +306,7 @@ rustls = { version = "0.23", default-features = false }
 # Keep Socket.IO on the product-owned ring provider; see the patch note.
 eioc = { path = "third_party/eioc" }
 # Restore macOS traffic-light geometry after the queued native style reset.
-# See third_party/tao/OPENBITFUN-PATCH.md for the upstream source and removal condition.
+# See third_party/tao/OPC-PATCH.md for the upstream source and removal condition.
 tao = { path = "third_party/tao" }
 # Tauri 2.11 loses keyboard focus for child webviews after Windows reactivates
 # an `unstable` multi-webview window. Use the upstream fix until released;

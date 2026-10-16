@@ -1,4 +1,4 @@
-// Protocol smoke test for the dsh-openbitfun bridge: drives a real
+// Protocol smoke test for the dsh-opc bridge: drives a real
 // `opc-sdk-host` process through initialize -> session/create ->
 // query/start -> query/event* -> query/result and asserts a completed turn
 // with non-empty assistant text. No dsh is required.
@@ -135,7 +135,7 @@ try {
   });
   console.log(`initialized: protocol ${init.protocolVersion}, runtime ${init.runtimeVersion}`);
 
-  const created = await request('session/create', { sessionName: 'dsh-openbitfun smoke', cwd: PACKAGE_ROOT });
+  const created = await request('session/create', { sessionName: 'dsh-opc smoke', cwd: PACKAGE_ROOT });
   console.log(`session created: ${created.sessionId} (${created.agent})`);
 
   const started = await request('query/start', { prompt: 'Reply with exactly the word OK.', sessionId: created.sessionId });

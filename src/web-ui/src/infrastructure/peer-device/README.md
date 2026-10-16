@@ -68,7 +68,7 @@ listener alone recovers an interaction emitted before attachment.
      widens that window and must keep the same scope checkpoint.
    - **Surface-scoped events must stay routed by source device.** Background
      attachments mean several agent streams share one event bus. The
-     controller tags re-emitted peer payloads with `__openbitfunSourceDeviceId`
+     controller tags re-emitted peer payloads with `__opcSourceDeviceId`
      and `deviceSurfaceRouting.ts` (applied inside
      `TauriTransportAdapter.listen`) drops anything not produced by the
      rendered device. Adding a fanned-out event on the Rust side means adding

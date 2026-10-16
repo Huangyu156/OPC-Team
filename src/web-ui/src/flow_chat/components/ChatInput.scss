@@ -103,7 +103,7 @@
 }
 
 .opc-chat-input__voice-spinner {
-  animation: openbitfun-voice-input-spin 0.9s linear infinite;
+  animation: opc-voice-input-spin 0.9s linear infinite;
 }
 
 .opc-chat-input__voice-pill {
@@ -121,7 +121,7 @@
   box-shadow:
     0 1px 4px color-mix(in srgb, var(--opcteam-color-content-on-light) 12%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--opcteam-color-content-on-dark) 4%, transparent);
-  animation: openbitfun-voice-pill-in 220ms cubic-bezier(0.18, 0.9, 0.3, 1.18) both;
+  animation: opc-voice-pill-in 220ms cubic-bezier(0.18, 0.9, 0.3, 1.18) both;
 }
 
 .opc-chat-input__voice-setup-pill {
@@ -139,7 +139,7 @@
   box-shadow:
     0 1px 4px color-mix(in srgb, var(--opcteam-color-content-on-light) 12%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--opcteam-color-content-on-dark) 4%, transparent);
-  animation: openbitfun-voice-pill-in 220ms cubic-bezier(0.18, 0.9, 0.3, 1.18) both;
+  animation: opc-voice-pill-in 220ms cubic-bezier(0.18, 0.9, 0.3, 1.18) both;
 }
 
 .opc-chat-input__voice-setup-icon {
@@ -220,12 +220,12 @@
   border-radius: 50%;
   background: var(--opcteam-color-status-danger-content);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--opcteam-color-status-danger-content) 9%, transparent);
-  animation: openbitfun-voice-recording-dot 1.6s ease-in-out infinite;
+  animation: opc-voice-recording-dot 1.6s ease-in-out infinite;
 }
 
 .opc-chat-input__voice-low-volume {
   color: var(--opcteam-color-status-warning-content);
-  animation: openbitfun-voice-low-volume 1.2s ease-in-out infinite;
+  animation: opc-voice-low-volume 1.2s ease-in-out infinite;
 }
 
 .opc-chat-input__voice-pill-time {
@@ -301,16 +301,16 @@
   }
 }
 
-@keyframes openbitfun-voice-input-spin { to { transform: rotate(360deg); } }
-@keyframes openbitfun-voice-pill-in {
+@keyframes opc-voice-input-spin { to { transform: rotate(360deg); } }
+@keyframes opc-voice-pill-in {
   from { opacity: 0; transform: scaleX(0.94) scaleY(0.88); }
   to { opacity: 1; transform: scale(1); }
 }
-@keyframes openbitfun-voice-recording-dot {
+@keyframes opc-voice-recording-dot {
   0%, 100% { transform: scale(0.92); opacity: 0.76; }
   50% { transform: scale(1.08); opacity: 1; }
 }
-@keyframes openbitfun-voice-low-volume {
+@keyframes opc-voice-low-volume {
   50% { opacity: 0.55; }
 }
 @media (prefers-reduced-motion: reduce) {

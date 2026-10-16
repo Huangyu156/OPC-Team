@@ -255,7 +255,7 @@ struct RemoteAuthorityGateTests {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
         let source = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileAppModel+RemoteSession.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileAppModel+RemoteSession.swift")
         )
 
         // Workspace-first: workspace authority is sufficient to dispatch the
@@ -314,10 +314,10 @@ struct RemoteAuthorityGateTests {
         )
 
         let modelSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileAppModel.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileAppModel.swift")
         )
         let createViewSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Features/Shell/RemoteCreateSessionView.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Features/Shell/RemoteCreateSessionView.swift")
         )
         expect(
             modelSource.contains("RemoteCreateInteractionPolicy.resolve(") &&
@@ -442,10 +442,10 @@ struct RemoteAuthorityGateTests {
             .deletingLastPathComponent()
             .deletingLastPathComponent()
         let accountSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileAppModel+Account.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileAppModel+Account.swift")
         )
         let adapterSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileCoreAdapter.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileCoreAdapter.swift")
         )
         let accountRemoteStart = functionBody(
             in: adapterSource,
@@ -501,7 +501,7 @@ struct RemoteAuthorityGateTests {
         )
 
         let modelSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileAppModel.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileAppModel.swift")
         )
         expectInvalidationBeforeMutation(
             in: modelSource,
@@ -510,7 +510,7 @@ struct RemoteAuthorityGateTests {
             message: "disconnect invalidates transfers before adapter authority reset"
         )
         let remoteSessionSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileAppModel+RemoteSession.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileAppModel+RemoteSession.swift")
         )
         expectCallBeforeMutation(
             in: remoteSessionSource,
@@ -585,7 +585,7 @@ struct RemoteAuthorityGateTests {
         )
 
         let selectionAdapterSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileCoreAdapter.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileCoreAdapter.swift")
         )
         expectCallBeforeMutation(
             in: selectionAdapterSource,
@@ -596,7 +596,7 @@ struct RemoteAuthorityGateTests {
         )
 
         let filePreviewSource = readSource(
-            iosDirectory.appendingPathComponent("OpenBitFun/Infrastructure/MobileAppModel+FilePreview.swift")
+            iosDirectory.appendingPathComponent("OPC-Team/Infrastructure/MobileAppModel+FilePreview.swift")
         )
         expectCallBeforeMutation(
             in: filePreviewSource, function: "func openRemoteFile(",

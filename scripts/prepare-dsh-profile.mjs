@@ -4,7 +4,7 @@
  * Build the DeepSeek Harness bridge into the profile directory the desktop
  * bundle ships (`packages/dsh-acp/dist-profile`).
  *
- * OpenBitFun launches DeepSeek Harness as `dsh --profile opc-acp`, and copies
+ * OPC-Team launches DeepSeek Harness as `dsh --profile opc-acp`, and copies
  * that directory into the user's own dsh install on first use — see
  * `src/crates/interfaces/acp/src/client/dsh_profile.rs`. The build has to
  * happen here rather than in Cargo because it is a TypeScript compile.
@@ -58,10 +58,10 @@ const INPUT_IGNORED_DIRS = new Set([
 ]);
 
 /** Explains an empty dist-profile to whoever finds one in a build tree. */
-const PLACEHOLDER = `This OpenBitFun build ships no DeepSeek Harness bridge.
+const PLACEHOLDER = `This OPC-Team build ships no DeepSeek Harness bridge.
 
 OPC_SKIP_DSH_PROFILE was set when this build ran, so packages/dsh-acp was
-never compiled. OpenBitFun's profile resolver rejects this unstamped directory and
+never compiled. The OPC-Team's profile resolver rejects this unstamped directory and
 reports that the bridge is missing from the build.
 
 To include it: run \`pnpm run prepare:dsh-profile\` without that variable.
@@ -110,7 +110,7 @@ export function getNewestInputMtime(entryPath) {
 /**
  * Decide whether the shipped profile needs a rebuild.
  *
- * A directory is not enough: Tauri only needs the path to exist, but OpenBitFun's
+ * A directory is not enough: Tauri only needs the path to exist, but the OPC-Team's
  * resolver rejects an unstamped tree. The stamp `.opc-bridge.json` is the
  * same file `scripts/build-profile.mjs` writes and ACP reads.
  *

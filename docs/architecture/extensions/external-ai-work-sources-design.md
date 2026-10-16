@@ -113,10 +113,10 @@ native ID 优先使用外部 logical name，再使用稳定生态后缀和最小
 永不覆盖。plan fingerprint 同时绑定脱敏 plan、私有投影和当前原生 MCP 配置摘要。apply 会重新发现并重建 plan；来源或
 目标内容变化时返回刷新后的脱敏 plan，且不写入；fingerprint 不绑定 coordinator refresh generation，因此内容未变的刷新
 不会让 plan stale。配置 service 通过同一 JSON key 的 compare-and-set mutation lane
-一次提交全部选中条目或全部不提交，并在 `_openbitfunImport` 中保留 source-qualified candidate ID、behavior version 和可选 sourceId。
+一次提交全部选中条目或全部不提交，并在 `_opcImport` 中保留 source-qualified candidate ID、behavior version 和可选 sourceId。
 普通 MCP 编辑保留这段 provenance，删除条目时随条目一并移除。旧记录缺少 sourceId 时，Desktop 从 candidate 的完整稳定 ID 与已注册 provider identity 恢复来源显示，不依赖外部文件仍在线。
 
-根 CLI 的 `openbitfun mcp import` 默认只预览，`--apply` 导入全部 eligible 项；重复 `--candidate` 可缩小集合，单一选择可用
+根 CLI 的 `opc mcp import` 默认只预览，`--apply` 导入全部 eligible 项；重复 `--candidate` 可缩小集合，单一选择可用
 `--native-id` 指定目标 ID，`--format json` 输出 versioned plan/result。当前没有 TUI/Mobile/Server/Peer/Remote/ACP/SDK
 写入口、导入 journal、tombstone、外部应用回写或插件安装/激活策略；Desktop 可审阅并撤销选定原生副本，仍由既有 MCP manager 完成复核、编辑、
 启用和删除。
@@ -143,7 +143,7 @@ ACP 配置嵌入时也只展示所选产品的 clients，并隐藏包含全部�
   当前 Host 通过扫描报告的可选 importOperationsVersion 协商新导入能力；旧 Host 保留原有目录导入路径。
   版本 2 支持可选 targetName：确认页可为同名项指定独立目录及调用名称，仅修改副本的 frontmatter name；旧 Host 不接收改名请求。
   add_skill 的 sourceKey 对应已发现来源；复制先在临时目录校验、写入 `.opc-import.json`，再发布到用户/项目原生目录。
-  来源 ID、位置、解析方言、内容摘要和导入 ID 随副本保存；sourceId 仍为 `openbitfun`，原始来源单独用于标签和筛选。
+  来源 ID、位置、解析方言、内容摘要和导入 ID 随副本保存；sourceId 仍为 `opc`，原始来源单独用于标签和筛选。
   发现目录与原生运行时目录分离：未导入的外部 Skill 不进入对话候选、模式技能列表、提示词目录或名称/key 调用入口；旧来源 key 不会自动重定向到副本。
   本地与远程工作区执行相同过滤，撤销后重新解析即失去调用资格。已批准插件通过独立发布 owner 提供的 Skill 贡献保持原有执行契约。
   原生用户副本优先于外部用户发现，项目优先于用户的规则保持不变。PI 单文件的缺省名称来自文件名，扫描与实际加载使用相同规则。

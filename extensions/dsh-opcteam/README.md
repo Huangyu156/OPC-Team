@@ -1,4 +1,4 @@
-# dsh-openbitfun
+# dsh-opc
 
 A [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (dsh)
 plugin bundle that lets a dsh agent **use OPC-Team**: it bridges dsh tools to the
@@ -10,7 +10,7 @@ The plugin registers one dsh tool:
 
 | Tool | What it does |
 |---|---|
-| `openbitfun_run` | Runs one OPC-Team agent turn against a workspace and returns OPC-Team's final text answer. The result carries a `session_id`; passing it back continues the same OPC-Team conversation (multi-turn). |
+| `opc_run` | Runs one OPC-Team agent turn against a workspace and returns OPC-Team's final text answer. The result carries a `session_id`; passing it back continues the same OPC-Team conversation (multi-turn). |
 
 ## How it works
 
@@ -26,7 +26,7 @@ The plugin registers one dsh tool:
 
 The host binary is located per call in this order:
 
-1. the `hostPath` patch-config option of the `openbitfun` row,
+1. the `hostPath` patch-config option of the `opc` row,
 2. the `OPC_SDK_HOST` environment variable,
 3. `target/debug` / `target/release` walking up from the dsh session cwd
    (a OPC-Team checkout-local build),
@@ -40,24 +40,24 @@ cargo build -p opc-sdk-host-app
 ```
 
 The SDK Host reuses the OPC-Team user config (provider/model) of the local
-machine, so a configured OPC-Team installation makes `openbitfun_run` work out of the
+machine, so a configured OPC-Team installation makes `opc_run` work out of the
 box.
 
 ## Install into a dsh profile
 
 ```bash
-dsh plugin --profile web add /absolute/path/to/extensions/dsh-openbitfun
-dsh plugin --profile headless add /absolute/path/to/extensions/dsh-openbitfun
+dsh plugin --profile web add /absolute/path/to/extensions/dsh-opc
+dsh plugin --profile headless add /absolute/path/to/extensions/dsh-opc
 ```
 
 `dsh plugin` installs the package into the profile and, because this package
-declares `dsh.bundle.patch`, appends `dsh-openbitfun` to the profile's bundle stack.
+declares `dsh.bundle.patch`, appends `dsh-opc` to the profile's bundle stack.
 Restart the profile for the change to take effect.
 
 Custom host binary or caps (in the profile's `cordis.patch.yml`):
 
 ```yaml
-- id: openbitfun
+- id: opc
   config:
     hostPath: '/absolute/path/to/opc-sdk-host'
     maxSessions: 8
@@ -81,7 +81,7 @@ completed turn with non-empty assistant text.
   on the same machine; remote-workspace and peer-device paths are not exercised.
 - **Interactive permissions are auto-rejected** by the current SDK Host
   candidate (`AutoApproveAsk = false`), so a OPC-Team turn that needs an approval
-  fails; use `openbitfun_run` for non-interactive subtasks.
+  fails; use `opc_run` for non-interactive subtasks.
 - **Transient sessions.** OPC-Team sessions live only as long as the host
   connection; a dsh restart starts fresh OPC-Team conversations. Session cleanup
   removes runtime stores, snapshots, and terminal bindings only — it never

@@ -1,4 +1,4 @@
-import { OpenBitFunMark } from '@opc-team/ui/brand';
+import { OpcMark } from '@opc-team/ui/brand';
 import { ActionItem, Button, Card, CardBody, CardFooter, CardHeader, Icon, IconButton, OverlayLayer, OverflowText, useHasModalOverlay } from '@opc-team/ui';
 import { useEffect, useMemo, useRef, type MouseEvent } from 'react';
 import { useI18n } from '@/infrastructure/i18n';
@@ -101,7 +101,7 @@ function UpdateNoticeCard({ notice }: { notice: UpdateNotice }) {
             <div className="opc-update-notice__empty-introduction" aria-hidden="true"
               data-testid="app-update-release-artwork"
               data-opc-component="update" data-opc-part="releaseArtwork">
-              <OpenBitFunMark className="opc-update-notice__brand-mark" />
+              <OpcMark className="opc-update-notice__brand-mark" />
             </div>
           )}
           {notice === 'error' && <div className="opc-update-notice__feedback">

@@ -99,9 +99,9 @@
         "manual": {
           "open": "上传外观包",
           "title": "手动投稿",
-          "hint": "上传本机的 .openbitfun-appearance 文件；上传前和送审前都会校验",
+          "hint": "上传本机的 .opc-appearance 文件；上传前和送审前都会校验",
           "package": "外观包文件",
-          "packagePlaceholder": "选择 .openbitfun-appearance 文件",
+          "packagePlaceholder": "选择 .opc-appearance 文件",
           "choose": "选择文件",
           "chooseTitle": "选择要投稿的外观包",
           "slug": "市场标识（可选）",

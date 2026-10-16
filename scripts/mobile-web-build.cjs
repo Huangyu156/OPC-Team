@@ -116,7 +116,7 @@ function getNewestInputMtime(entryPath) {
 
 // Marker lives outside dist/ so it never ships as a bundled Tauri resource.
 function getMobileWebBuildMarkerPath(mobileWebDir) {
-  return path.join(mobileWebDir, 'node_modules', '.cache', 'openbitfun-mobile-web-build-marker');
+  return path.join(mobileWebDir, 'node_modules', '.cache', 'opc-mobile-web-build-marker');
 }
 
 /**

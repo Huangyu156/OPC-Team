@@ -26,7 +26,7 @@ import { externalSourcesAPI, type ExternalMcpImportPlanV1, type ExternalSourceCa
 import { externalHooksAPI, type ExternalHookImportPlan, type ExternalHookImportSnapshot, type ExternalHookSource } from '@/infrastructure/api/service-api/ExternalHooksAPI';
 import { instructionSourcesAPI, type InstructionSourceCatalog, type InstructionSourceEntry } from '@/infrastructure/api/service-api/InstructionSourcesAPI';
 import type { SkillInfo, SkillScanDiagnostic, GlobalSkillSettings } from '@/infrastructure/config/types';
-import { getSkillSourceId, isOpenBitFunManagedSkill } from '@/infrastructure/config/skillSourcePresentation';
+import { getSkillSourceId, isOpcManagedSkill } from '@/infrastructure/config/skillSourcePresentation';
 import { buildEcosystemImportItems, catalogDiscoveryState, type EcosystemImportItem, type EcosystemImportItemKind, type EcosystemProductRuntime } from './ecosystemCompatibilityModel';
 import { applyImportUndo, prepareHookUndo, prepareMcpUndo, type ImportUndoReview } from './ecosystemImportUndo';
 import { applyEcosystemBatch, type BatchImportEntry, type BatchImportResult } from './ecosystemBatchImport';
@@ -199,7 +199,7 @@ export default function ExternalAgentContent({ scopeKey, refreshControlRef, onRe
 
   const items = useMemo<ContentItem[]>(() => {
     const catalog = buildEcosystemImportItems(snapshot, runtime);
-    const externalSkills = skills.filter((skill) => !isOpenBitFunManagedSkill(skill)
+    const externalSkills = skills.filter((skill) => !isOpcManagedSkill(skill)
       && getSkillSourceId(skill) === runtime.spec.ecosystemId);
     const hookSources = hooks?.catalog.sources.filter((source) => source.ecosystemId === runtime.spec.ecosystemId) ?? [];
     const instructionSources = instructions?.entries.filter((source) => source.ecosystemId === runtime.spec.ecosystemId || source.ecosystemId === 'shared') ?? [];
@@ -227,7 +227,7 @@ export default function ExternalAgentContent({ scopeKey, refreshControlRef, onRe
     if (loading) return;
     const counts: Record<string, number> = {};
     for (const skill of skills) {
-      if (isOpenBitFunManagedSkill(skill)) continue;
+      if (isOpcManagedSkill(skill)) continue;
       const source = getSkillSourceId(skill);
       counts[source] = (counts[source] ?? 0) + 1;
     }

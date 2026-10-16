@@ -68,12 +68,12 @@ pub mod agentic { pub mod tools { pub mod computer_use_host {
     ${lease}
 }}}
 pub mod util { pub mod errors {
-    pub use crate::computer_use_contract::{ComputerUseContractError as OpenBitFunError, ComputerUseContractResult as OpenBitFunResult};
+    pub use crate::computer_use_contract::{ComputerUseContractError as OpcError, ComputerUseContractResult as OpcResult};
 }}
 mod computer_use {
   ${['control_session', 'process_identity', 'grants', 'permissions', 'windows_list_apps', 'windows_ax_ui', 'windows_msaa', 'windows_capture', 'windows_wgc_capture', 'windows_pointer_feedback', 'ui_locate_common', 'ax_snapshot_digest'].map(name => `#[path = ${source(`src/apps/desktop/src/computer_use/${name}.rs`)}] mod ${name};`).join('\n  ')}
   mod desktop_host {
-    use crate::util::errors::{OpenBitFunError, OpenBitFunResult};
+    use crate::util::errors::{OpcError, OpcResult};
     #[path = ${source('src/apps/desktop/src/computer_use/desktop_host/background_guard.rs')}] mod background_guard;
     #[path = ${source('src/apps/desktop/src/computer_use/desktop_host/windows_launch.rs')}] mod windows_launch;
   }

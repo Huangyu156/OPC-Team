@@ -1001,7 +1001,7 @@ describe('MessageModule detached dispatch', () => {
       userMessage: {
         content: 'run remote checks',
         metadata: {
-          __openbitfunOptimisticDispatchJobId: 'job-1',
+          __opcOptimisticDispatchJobId: 'job-1',
         },
       },
       modelRounds: [],

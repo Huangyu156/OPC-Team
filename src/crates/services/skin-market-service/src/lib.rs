@@ -230,7 +230,7 @@ mod tests {
             .unwrap();
         let preview = preview_output.into_inner();
         let manifest = serde_json::json!({
-            "schema": "openbitfun.appearance",
+            "schema": "opc.appearance",
             "schemaVersion": 1,
             "id": package_id,
             "name": "Aurora",
@@ -273,7 +273,7 @@ mod tests {
         let body = serde_json::json!({
             "slug": slug,
             "releaseNumber": 1,
-            "minOpenBitFunVersion": "1.0.0",
+            "minOpcVersion": "1.0.0",
             "changelog": "Initial release",
             "license": {"spdxExpression": "MIT"}
         });
@@ -597,7 +597,7 @@ mod tests {
         let unsafe_license = serde_json::json!({
             "slug": "unsafe-license",
             "releaseNumber": 1,
-            "minOpenBitFunVersion": "1.0.0",
+            "minOpcVersion": "1.0.0",
             "changelog": "Initial release",
             "license": {"customUrl": "javascript:alert(1)"}
         });

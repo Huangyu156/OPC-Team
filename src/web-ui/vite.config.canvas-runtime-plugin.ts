@@ -11,7 +11,7 @@ interface RuntimeBundleCache {
   code: string;
 }
 
-export function openbitfunCanvasRuntimeBundlePlugin(): Plugin {
+export function opcCanvasRuntimeBundlePlugin(): Plugin {
   let cache: RuntimeBundleCache | null = null;
   const webUiRoot = path.resolve(__dirname);
   const runtimeRoot = path.resolve(webUiRoot, 'src/tools/opc-canvas/runtime');
@@ -57,7 +57,7 @@ export function openbitfunCanvasRuntimeBundlePlugin(): Plugin {
         sourcemap: 'inline',
         lib: {
           entry,
-          name: 'OpenBitFunCanvasRuntimeAdapters',
+          name: 'OpcCanvasRuntimeAdapters',
           formats: ['iife'],
         },
         rollupOptions: {
@@ -80,8 +80,8 @@ export function openbitfunCanvasRuntimeBundlePlugin(): Plugin {
       .join('\n');
 
     const code = [
-      `export const openbitfunCanvasRuntimeBundle = ${JSON.stringify({ js, css })};`,
-      'export default openbitfunCanvasRuntimeBundle;',
+      `export const opcCanvasRuntimeBundle = ${JSON.stringify({ js, css })};`,
+      'export default opcCanvasRuntimeBundle;',
     ].join('\n');
     cache = { key, code };
     return code;

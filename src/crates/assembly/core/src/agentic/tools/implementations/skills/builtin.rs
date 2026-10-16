@@ -466,23 +466,20 @@ mod tests {
 
     #[test]
     fn create_opc_skin_embeds_authoring_contract_and_example() {
-        let skill = embedded_skill_text("create-openbitfun-skin/SKILL.md");
-        assert!(skill.contains("name: create-openbitfun-skin"));
+        let skill = embedded_skill_text("create-opc-skin/SKILL.md");
+        assert!(skill.contains("name: create-opc-skin"));
 
-        let registry =
-            embedded_skill_text("create-openbitfun-skin/references/appearance-registry.json");
+        let registry = embedded_skill_text("create-opc-skin/references/appearance-registry.json");
         assert!(registry.contains("schemaVersion"));
 
-        let example = embedded_skill_text(
-            "create-openbitfun-skin/examples/cinematic-animated-wallpaper/SKILL.md",
-        );
+        let example =
+            embedded_skill_text("create-opc-skin/examples/cinematic-animated-wallpaper/SKILL.md");
         assert!(example.contains("cinematic animated-wallpaper"));
 
-        let metadata = embedded_skill_text("create-openbitfun-skin/agents/openai.yaml");
+        let metadata = embedded_skill_text("create-opc-skin/agents/openai.yaml");
         assert!(metadata.contains("display_name: \"OPC-Team Appearance Manual\""));
 
-        let workflow =
-            embedded_skill_text("create-openbitfun-skin/references/authoring-workflow.md");
+        let workflow = embedded_skill_text("create-opc-skin/references/authoring-workflow.md");
         assert!(workflow.contains("Bump it whenever the manifest"));
     }
 

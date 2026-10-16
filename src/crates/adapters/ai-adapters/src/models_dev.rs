@@ -1700,7 +1700,7 @@ mod tests {
             let projection = project_reasoning_catalog_with_limit_and_auto_binding(
                 "anthropic",
                 model,
-                "https://api.openbitfun.com",
+                "https://api.opcteam.eu.cc",
                 32_000,
                 None,
                 Some(&catalog()),

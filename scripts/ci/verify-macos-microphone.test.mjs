@@ -20,7 +20,7 @@ function verifyFixture(t, { entitlement = 'configured', usage = true } = {}) {
   const usagePlist = readFileSync(join(desktop, 'Info.plist'), 'utf8');
   const usageBody = usage ? usagePlist.match(/<dict>([\s\S]*?)<\/dict>/)[1] : '';
   writeFileSync(join(app, 'Contents/Info.plist'), plist(`
-    <key>CFBundleIdentifier</key><string>com.openbitfun.microphone-fixture</string>
+    <key>CFBundleIdentifier</key><string>com.opcteam.microphone-fixture</string>
     <key>CFBundleExecutable</key><string>fixture</string>
     <key>CFBundlePackageType</key><string>APPL</string>${usageBody}`));
   const entitlementPath = join(dir, 'entitlements.plist');

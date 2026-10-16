@@ -187,7 +187,7 @@ test('requires semantic roles in the complete component library and every React 
 
   for (const productPath of [
     'src/mobile-web/src/styles/LegacyLabel.scss',
-    'OpenBitFun-Installer/src/styles/LegacyLabel.css',
+    'Opc-Installer/src/styles/LegacyLabel.css',
     'design-system/apps/design-lab/src/LegacyLabel.css',
   ]) {
     const productCodes = codesFor(`
@@ -238,7 +238,7 @@ test('requires semantic roles in product frontend inline styles and embedded CSS
 
   for (const productPath of [
     'src/mobile-web/src/fixture.tsx',
-    'OpenBitFun-Installer/src/fixture.tsx',
+    'Opc-Installer/src/fixture.tsx',
   ]) {
     const productCodes = codesFor(`
       const style = { fontSize: 'var(--opcteam-font-size-sm)' };
@@ -342,7 +342,7 @@ test('rejects a backend FlowChat font snapshot', () => {
 test('rejects retired FlowChat typography in the distributed Appearance registry', () => {
   const issues = auditTypographyFileContractText(`{
     "components": [{ "id": "font-preference", "parts": [{ "id": "flowChatControls" }] }]
-  }`, 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/references/appearance-registry.json');
+  }`, 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/references/appearance-registry.json');
 
   assert.deepEqual(issues.map(issue => issue.code), [
     'appearance-registry-flowchat-font-contract-reintroduced',
@@ -350,7 +350,7 @@ test('rejects retired FlowChat typography in the distributed Appearance registry
 });
 
 test('rejects typography in the standalone Appearance validator but allows Monaco fontStyle', () => {
-  const path = 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/scripts/opc_appearance.py';
+  const path = 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/scripts/opcteam_appearance.py';
   const valid = auditTypographyFileContractText(`
     font_style = rule.get("fontStyle")
   `, path);

@@ -157,16 +157,10 @@ fn source_qualified_key_resolves_the_matching_custom_subagent() {
     );
 
     let project = registry
-        .get_custom_agent_detail_by_key_inner(
-            "project::openbitfun::SameNamedReviewer",
-            Some(&workspace),
-        )
+        .get_custom_agent_detail_by_key_inner("project::opc::SameNamedReviewer", Some(&workspace))
         .expect("project key should select the project definition");
     let user = registry
-        .get_custom_agent_detail_by_key_inner(
-            "user::openbitfun::SameNamedReviewer",
-            Some(&workspace),
-        )
+        .get_custom_agent_detail_by_key_inner("user::opc::SameNamedReviewer", Some(&workspace))
         .expect("user key should select the user definition");
 
     assert_eq!(project.prompt, "project review guidance");
@@ -1021,8 +1015,8 @@ async fn parent_subagent_overrides_follow_source_scopes() {
         external_sources_supported: false,
     };
 
-    let project_override_key = "project::openbitfun::ProjectScout".to_string();
-    let user_override_key = "user::openbitfun::UserScout".to_string();
+    let project_override_key = "project::opc::ProjectScout".to_string();
+    let user_override_key = "user::opc::UserScout".to_string();
     let builtin_override_key = "builtin::builtin::Explore".to_string();
 
     let mut project_parent_map = HashMap::new();
@@ -2243,16 +2237,16 @@ fn external_primary_route_follows_the_session_execution_worktree() {
 fn hidden_control_agent_resolves_as_a_session_primary() {
     let registry = AgentRegistry::new();
     let binding = registry
-        .resolve_primary_agent_for_turn("OpenBitFun", None, false, None)
+        .resolve_primary_agent_for_turn("OPC-Team", None, false, None)
         .expect("the persistent control conversation must be admitted");
-    assert_eq!(binding.runtime_agent_key, "OpenBitFun");
+    assert_eq!(binding.runtime_agent_key, "OPC-Team");
     assert_eq!(
         binding.route_owner,
         opc_core_types::SessionAgentRouteOwner::Local
     );
     assert!(registry
         .resolve_primary_agent_for_turn(
-            "OpenBitFun",
+            "OPC-Team",
             None,
             false,
             Some(opc_core_types::SessionAgentRouteOwner::External)

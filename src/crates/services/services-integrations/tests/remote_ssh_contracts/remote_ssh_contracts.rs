@@ -184,7 +184,7 @@ fn remote_workspace_path_helpers_preserve_current_identity_contract() {
         "localhost:/Users/p/w"
     );
 
-    let local_id = local_workspace_stable_storage_id("/Users/foo/OpenBitFun");
+    let local_id = local_workspace_stable_storage_id("/Users/foo/OPC-Team");
     assert_eq!(local_id, "local_20fa48956633477b7a38a742510b63ea");
 
     let remote_id = remote_workspace_stable_id("myhost", "/root/proj");

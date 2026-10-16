@@ -9,7 +9,7 @@
   display: flex;
   align-items: flex-start;
   gap: var(--opcteam-space-2);
-  animation: openbitfun-notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: opc-notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   
   
   &--completed {
@@ -37,7 +37,7 @@
   
   &__spinner {
     color: var(--opcteam-color-status-warning-content);
-    animation: openbitfun-loading-notification-spin 1s linear infinite;
+    animation: opc-loading-notification-spin 1s linear infinite;
   }
 
   
@@ -85,7 +85,7 @@
 }
 
 
-@keyframes openbitfun-loading-notification-spin {
+@keyframes opc-loading-notification-spin {
   from {
     transform: rotate(0deg);
   }
@@ -95,7 +95,7 @@
 }
 
 
-@keyframes openbitfun-notification-slide-in {
+@keyframes opc-notification-slide-in {
   from {
     opacity: 0;
     transform: translateX(-100%);

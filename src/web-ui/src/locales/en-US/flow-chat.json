@@ -2473,7 +2473,7 @@
       "fromLine": "from line {{start}}",
       "tailLines": "last {{formattedCount}} lines"
     },
-    "openBitFunControl": {
+    "opcControl": {
       "allFeatures": "All features",
       "title": "$t(shared:product.name)",
       "actions": {

@@ -38,8 +38,8 @@ describe('Canvas runtime installer', () => {
     const script = buildCanvasRuntimeInstallerScript('rev_test');
 
     expect(script).toContain('function installSdkAdapters()');
-    expect(script).toContain('...runtimeWindow.OpenBitFunCanvasSDKAdapters');
-    expect(script).toContain('runtimeWindow.OpenBitFunCanvasRuntimeHooks');
+    expect(script).toContain('...runtimeWindow.OpcCanvasSDKAdapters');
+    expect(script).toContain('runtimeWindow.OpcCanvasRuntimeHooks');
     expect(script.indexOf('installSdkAdapters();')).toBeLessThan(
       script.indexOf('opc-canvas-module-started'),
     );
@@ -48,8 +48,8 @@ describe('Canvas runtime installer', () => {
   it('keeps fallback SDK scoped to runtime hooks while bundled adapters own components', () => {
     const script = buildCanvasRuntimeInstallerScript('rev_test');
 
-    expect(script).toContain('runtimeWindow.OpenBitFunCanvasSDK = {');
-    expect(script).toContain('...runtimeWindow.OpenBitFunCanvasRuntimeHooks');
+    expect(script).toContain('runtimeWindow.OpcCanvasSDK = {');
+    expect(script).toContain('...runtimeWindow.OpcCanvasRuntimeHooks');
     expect(script).not.toContain('function Stack');
     expect(script).not.toContain('function BarChart');
     expect(script).not.toContain('function DependencyGraph');

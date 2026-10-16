@@ -137,11 +137,11 @@ pub(super) fn subagent_key_for(
         SubAgentSource::Builtin => "builtin",
         SubAgentSource::Project => {
             let _custom = agent.as_any().downcast_ref::<CustomSubagent>()?;
-            "openbitfun"
+            "opcteam"
         }
         SubAgentSource::User => {
             let _custom = agent.as_any().downcast_ref::<CustomSubagent>()?;
-            "openbitfun"
+            "opcteam"
         }
         SubAgentSource::External => "external",
     };

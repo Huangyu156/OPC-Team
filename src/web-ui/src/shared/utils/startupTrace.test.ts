@@ -570,7 +570,7 @@ describe('startupTrace payload helpers', () => {
     })).toBe(true);
     expect(isRemoteTraceRequest({
       request: {
-        workspacePath: 'D:/workspace/openbitfun',
+        workspacePath: 'D:/workspace/opcteam',
       },
     })).toBe(false);
     expect(isRemoteTraceRequest({

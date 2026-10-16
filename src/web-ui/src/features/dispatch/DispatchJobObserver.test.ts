@@ -602,7 +602,7 @@ describe('DispatchJobObserver', () => {
       id: 'dispatch_pending_job-1',
       userMessage: {
         content: '',
-        metadata: { __openbitfunOptimisticDispatchJobId: 'job-1' },
+        metadata: { __opcOptimisticDispatchJobId: 'job-1' },
       },
     });
     expect(turn?.modelRounds).toHaveLength(1);
@@ -679,7 +679,7 @@ describe('DispatchJobObserver', () => {
     registerRunningJob();
     dispatchJobStore.getState().registerJob({
       ...dispatchJobStore.getState().jobs['job-1'],
-      baselineWorktreePath: '/source/.openbitfun/worktrees/missing-baseline',
+      baselineWorktreePath: '/source/.opcteam/worktrees/missing-baseline',
     });
     mocks.checkPathExists.mockResolvedValue(false);
     mocks.status.mockResolvedValue(status());
@@ -688,7 +688,7 @@ describe('DispatchJobObserver', () => {
     await vi.advanceTimersByTimeAsync(0);
 
     expect(mocks.checkPathExists).toHaveBeenCalledWith(
-      '/source/.openbitfun/worktrees/missing-baseline',
+      '/source/.opcteam/worktrees/missing-baseline',
     );
     expect(dispatchJobStore.getState().jobs['job-1'].baselineWorktreeMissing)
       .toBe(true);

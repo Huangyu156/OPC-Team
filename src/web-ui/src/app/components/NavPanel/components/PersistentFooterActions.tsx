@@ -150,8 +150,8 @@ const PersistentFooterActions: React.FC = () => {
         setShowRemoteDisclaimer(true);
       }
     };
-    window.addEventListener('openbitfun:open-remote-connect', handlePlaybookOpen);
-    return () => window.removeEventListener('openbitfun:open-remote-connect', handlePlaybookOpen);
+    window.addEventListener('opc:open-remote-connect', handlePlaybookOpen);
+    return () => window.removeEventListener('opc:open-remote-connect', handlePlaybookOpen);
   }, [hasAgreedRemoteDisclaimer]);
 
   const handleAgreeDisclaimer = useCallback(() => {

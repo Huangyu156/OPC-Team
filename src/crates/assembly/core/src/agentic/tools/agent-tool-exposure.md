@@ -55,7 +55,7 @@ Notes:
 | `submit_code_review` | Direct | None | - |
 | `GetToolSpec` | Direct | None | - |
 | `CallDeferredTool` | Direct | None | - |
-| `OpenBitFunControl` | Direct | None | - |
+| `OpcControl` | Direct | None | - |
 | `GetFileDiff` | Deferred | `CodeReview`, `DeepReview`, `ReviewFixer`, `ReviewWorker`, `ReviewJudge` | Direct |
 | `CreateCanvas` | Direct | None | - |
 | `ReadCanvas` | Direct | None | - |

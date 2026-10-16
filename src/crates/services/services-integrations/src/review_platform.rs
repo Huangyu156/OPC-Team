@@ -4597,12 +4597,12 @@ fn validate_current_stored_tokens(
         })?;
         if canonical_key != *raw_key {
             return Err(ReviewPlatformError::Parse(format!(
-                "Review platform token authority '{raw_key}' is not canonical OpenBitFun data; use the explicit data migration tool instead"
+                "Review platform token authority '{raw_key}' is not canonical OPC-Team data; use the explicit data migration tool instead"
             )));
         }
         if canonical_key.starts_with("github:") {
             return Err(ReviewPlatformError::Parse(
-                "The review platform token store contains a pre-OpenBitFun GitHub token; use the explicit data migration tool or authenticate with the GitHub CLI"
+                "The review platform token store contains a pre-Opc GitHub token; use the explicit data migration tool or authenticate with the GitHub CLI"
                     .to_string(),
             ));
         }
@@ -8165,9 +8165,9 @@ mod tests {
         let error = service
             .load_stored_tokens()
             .await
-            .expect_err("pre-OpenBitFun GitHub token must require explicit migration");
+            .expect_err("pre-Opc GitHub token must require explicit migration");
 
-        assert!(error.to_string().contains("pre-OpenBitFun"), "{error}");
+        assert!(error.to_string().contains("pre-Opc"), "{error}");
         assert!(error.to_string().contains("migration tool"), "{error}");
         assert_eq!(
             fs::read(&path).await.expect("read unchanged store"),
@@ -8478,7 +8478,7 @@ mod tests {
             .workspace_context(
                 &ReviewRepositoryLocator::new(
                     Some("ws-remote".to_string()),
-                    "/srv/projects/openbitfun",
+                    "/srv/projects/opcteam",
                 ),
                 None,
             )
@@ -8506,7 +8506,7 @@ mod tests {
             vec![
                 (
                     "ws-remote".to_string(),
-                    "/srv/projects/openbitfun".to_string(),
+                    "/srv/projects/opcteam".to_string(),
                     vec!["rev-parse".to_string(), "--show-toplevel".to_string()],
                 ),
                 (
@@ -8530,7 +8530,7 @@ mod tests {
                 .repository_trusts_provider_identity(
                     &ReviewRepositoryLocator::new(
                         Some("ws-remote".to_string()),
-                        "/srv/projects/openbitfun",
+                        "/srv/projects/opcteam",
                     ),
                     ReviewPlatformKind::Gitlab,
                     "gitlab.com",

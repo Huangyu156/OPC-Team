@@ -7,14 +7,14 @@ import {
 type CanvasRuntimeRecord = Record<string, any>;
 
 type CanvasRuntimeWindow = Window & {
-  OpenBitFunCanvasSDK?: CanvasRuntimeRecord;
-  OpenBitFunCanvasSDKAdapters?: CanvasRuntimeRecord;
-  OpenBitFunCanvasRuntime?: CanvasRuntimeRecord;
-  OpenBitFunCanvasContract?: {
+  OpcCanvasSDK?: CanvasRuntimeRecord;
+  OpcCanvasSDKAdapters?: CanvasRuntimeRecord;
+  OpcCanvasRuntime?: CanvasRuntimeRecord;
+  OpcCanvasContract?: {
     runtimeVersion?: string;
     sdkVersion?: string;
   };
-  OpenBitFunCanvasRuntimeHooks?: {
+  OpcCanvasRuntimeHooks?: {
     whenStateReady?: (callback: () => void) => (() => void);
   };
   ReactDOM?: {
@@ -22,7 +22,7 @@ type CanvasRuntimeWindow = Window & {
       render: (node: React.ReactNode) => void;
     };
   };
-  __openbitfunCanvasPost?: (type: string, payload?: CanvasRuntimeRecord) => void;
+  __opcCanvasPost?: (type: string, payload?: CanvasRuntimeRecord) => void;
 };
 
 let reactRoot: { render: (node: React.ReactNode) => void } | null = null;
@@ -41,14 +41,14 @@ function currentRevision(): string {
 
 function postCanvasMessage(type: string, payload: CanvasRuntimeRecord = {}) {
   const revision = currentRevision();
-  const contract = runtimeWindow().OpenBitFunCanvasContract;
+  const contract = runtimeWindow().OpcCanvasContract;
   const enrichedPayload = {
     sourceRevisionSeen: revision,
     runtimeVersion: contract?.runtimeVersion,
     sdkVersion: contract?.sdkVersion,
     ...payload,
   };
-  const post = runtimeWindow().__openbitfunCanvasPost;
+  const post = runtimeWindow().__opcCanvasPost;
   if (post) {
     post(type, enrichedPayload);
     return;
@@ -82,10 +82,10 @@ function postRuntimeError(error: unknown, componentStack?: string): void {
 
 function installSdkAdapters(): void {
   const target = runtimeWindow();
-  if (!target.OpenBitFunCanvasSDK || !target.OpenBitFunCanvasSDKAdapters) return;
-  target.OpenBitFunCanvasSDK = {
-    ...target.OpenBitFunCanvasSDK,
-    ...target.OpenBitFunCanvasSDKAdapters,
+  if (!target.OpcCanvasSDK || !target.OpcCanvasSDKAdapters) return;
+  target.OpcCanvasSDK = {
+    ...target.OpcCanvasSDK,
+    ...target.OpcCanvasSDKAdapters,
   };
 }
 
@@ -133,12 +133,12 @@ function reportRuntimeError(error: unknown): void {
   postRuntimeError(error);
 }
 
-export function installOpenBitFunCanvasRuntimeApp(): void {
+export function installOpcCanvasRuntimeApp(): void {
   rootElement = document.getElementById('opc-canvas-root');
   const target = runtimeWindow();
-  const previousRuntime = target.OpenBitFunCanvasRuntime || {};
+  const previousRuntime = target.OpcCanvasRuntime || {};
 
-  target.OpenBitFunCanvasRuntime = {
+  target.OpcCanvasRuntime = {
     ...previousRuntime,
     h: React.createElement,
     Fragment: React.Fragment,
@@ -149,7 +149,7 @@ export function installOpenBitFunCanvasRuntimeApp(): void {
     reportRuntimeError,
     mount(component: React.ComponentType) {
       renderComponent = component;
-      const whenStateReady = target.OpenBitFunCanvasRuntimeHooks?.whenStateReady;
+      const whenStateReady = target.OpcCanvasRuntimeHooks?.whenStateReady;
       if (whenStateReady) {
         whenStateReady(renderRuntimeRoot);
       } else {

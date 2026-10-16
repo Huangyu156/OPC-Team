@@ -39,7 +39,7 @@ pub(super) fn validate_canvas_import_shadowing(
                 severity: CanvasDiagnosticSeverity::Error,
                 category: CanvasDiagnosticCategory::TypeScript,
                 message: format!(
-                    "`{}` is imported from openbitfun/canvas and also declared locally",
+                    "`{}` is imported from opc/canvas and also declared locally",
                     name
                 ),
                 code: Some("canvas.compile.sdk_name_shadowed".to_string()),
@@ -484,7 +484,7 @@ const Fragment = __OpcTeamCanvasRuntime.Fragment;\n",
 #[cfg(feature = "canvas-runtime")]
 fn canvas_sdk_import_source(source: &str) -> Option<CanvasSdkImportSource> {
     match source {
-        "openbitfun/canvas" | "cursor/canvas" => Some(CanvasSdkImportSource::Canvas),
+        "opc/canvas" | "cursor/canvas" => Some(CanvasSdkImportSource::Canvas),
         "react" => Some(CanvasSdkImportSource::React),
         _ => None,
     }
@@ -545,7 +545,7 @@ fn unsupported_sdk_import_diagnostic(
 ) -> CanvasDiagnostic {
     let (line, column) = line_column(source, offset);
     let module = match import_source {
-        CanvasSdkImportSource::Canvas => "openbitfun/canvas",
+        CanvasSdkImportSource::Canvas => "opc/canvas",
         CanvasSdkImportSource::React => "react",
     };
     CanvasDiagnostic {

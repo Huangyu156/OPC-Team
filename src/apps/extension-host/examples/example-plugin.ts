@@ -25,7 +25,7 @@ const ExamplePlugin: Plugin = async (input) => {
 
   return {
     config: async (config) => {
-      config.openbitfunDemo = {
+      config.opcDemo = {
         enabled: true,
         directory: input.directory,
       }
@@ -33,7 +33,7 @@ const ExamplePlugin: Plugin = async (input) => {
         ...(config.agent ?? {}),
         Cowork: {
           mode: "primary",
-          description: "Demo agent for exercising the OpenBitFun OpenCode plugin bridge",
+          description: "Demo agent for exercising the OPC-Team OpenCode plugin bridge",
           prompt: "Use the opc_demo_echo tool when the user asks you to echo text.",
           permission: {
             opc_demo_echo: "allow",
@@ -43,13 +43,13 @@ const ExamplePlugin: Plugin = async (input) => {
     },
     tool: {
       opc_demo_echo: tool({
-        description: "Echo text from the OpenBitFun OpenCode plugin demo",
+        description: "Echo text from the OPC-Team OpenCode plugin demo",
         args: {
           text: z.string().describe("Text to echo"),
         },
         async execute(args, context) {
           context.metadata({
-            title: "Preparing OpenBitFun demo echo",
+            title: "Preparing OPC-Team demo echo",
             metadata: { phase: "before-ask" },
           })
           await context.ask({
@@ -61,11 +61,11 @@ const ExamplePlugin: Plugin = async (input) => {
             },
           })
           context.metadata({
-            title: "OpenBitFun demo echo approved",
+            title: "OPC-Team demo echo approved",
             metadata: { phase: "after-ask" },
           })
           return {
-            title: "OpenBitFun demo echo",
+            title: "OPC-Team demo echo",
             output: `${args.text}:${input.directory}`,
           }
         },

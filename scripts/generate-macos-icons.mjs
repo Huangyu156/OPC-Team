@@ -19,7 +19,7 @@ run(process.execPath, [join(ROOT, 'scripts/generate-brand-assets.mjs'), '--macos
 const temp = await mkdtemp(join(tmpdir(), 'opc-macos-icons-'));
 try {
   const { canvasSize, artworkBounds: bounds } = JSON.parse(await readFile(join(MACOS_ICON_DIR, 'legacy-canvas.json'), 'utf8'));
-  const iconset = join(temp, 'openbitfun.iconset');
+  const iconset = join(temp, 'opc.iconset');
   await mkdir(iconset);
   // The legacy canvas is an authored macOS asset, not a modification of the
   // shared PNG/ICO or the full-bleed Icon Composer document. Render each size
@@ -42,7 +42,7 @@ try {
         .toFile(join(iconset, `icon_${points}x${points}${scale === 2 ? '@2x' : ''}.png`));
     }
   }
-  const output = join(temp, 'openbitfun.icns');
+  const output = join(temp, 'opc.icns');
   run('/usr/bin/iconutil', ['--convert', 'icns', '--output', output, iconset]);
   const icns = canonicalizeIcns(await readFile(output));
   for (const relative of ICNS_OUTPUTS) await writeFile(join(ROOT, relative), icns);

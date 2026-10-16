@@ -86,7 +86,7 @@
       color: var(--opcteam-color-content-secondary);
       opacity: var(--opcteam-opacity-muted);
       flex: 0 0 auto;
-      animation: openbitfun-nav-session-spin 1s linear infinite;
+      animation: opc-nav-session-spin 1s linear infinite;
     }
 
     span:not([data-overflow-content]) {
@@ -343,7 +343,7 @@
       block-size: var(--opcteam-control-icon-size2xs);
       color: var(--opcteam-color-content-secondary);
       opacity: var(--opcteam-opacity-muted);
-      animation: openbitfun-nav-session-spin 1s linear infinite;
+      animation: opc-nav-session-spin 1s linear infinite;
     }
   }
 
@@ -401,14 +401,14 @@
     transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard), transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
 
     &.is-agent {
-      animation: openbitfun-nav-background-subagent-agent-cycle 3.6s ease-in-out infinite;
+      animation: opc-nav-background-subagent-agent-cycle 3.6s ease-in-out infinite;
     }
 
     &.is-loader {
       opacity: 0;
       animation:
-        openbitfun-nav-background-subagent-loader-cycle 3.6s ease-in-out infinite,
-        openbitfun-nav-session-spin 1s linear infinite;
+        opc-nav-background-subagent-loader-cycle 3.6s ease-in-out infinite,
+        opc-nav-session-spin 1s linear infinite;
     }
   }
 
@@ -564,7 +564,7 @@
     block-size: var(--opcteam-control-icon-size-xs);
     color: var(--opcteam-color-content-secondary);
     opacity: var(--opcteam-opacity-muted);
-    animation: openbitfun-nav-session-spin 1s linear infinite;
+    animation: opc-nav-session-spin 1s linear infinite;
   }
 
   // Trailing, not leading: a leading icon would push the label off the rail by
@@ -709,7 +709,7 @@
 }
 
 // Session running spin animation
-@keyframes openbitfun-nav-session-spin {
+@keyframes opc-nav-session-spin {
   from {
     transform: rotate(0deg);
   }
@@ -718,7 +718,7 @@
   }
 }
 
-@keyframes openbitfun-nav-background-subagent-agent-cycle {
+@keyframes opc-nav-background-subagent-agent-cycle {
   0%,
   62%,
   100% {
@@ -733,7 +733,7 @@
   }
 }
 
-@keyframes openbitfun-nav-background-subagent-loader-cycle {
+@keyframes opc-nav-background-subagent-loader-cycle {
   0%,
   62%,
   100% {

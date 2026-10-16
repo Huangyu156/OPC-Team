@@ -1,6 +1,6 @@
 import reactUmd from '../../../node_modules/react/umd/react.production.min.js?raw';
 import reactDomUmd from '../../../node_modules/react-dom/umd/react-dom.production.min.js?raw';
-import openbitfunCanvasRuntimeBundle from 'virtual:opc-canvas-runtime-bundle';
+import opcCanvasRuntimeBundle from 'virtual:opc-canvas-runtime-bundle';
 import { buildCanvasRuntimeInstallerScript } from './runtime/canvasRuntimeInstaller';
 import { CANVAS_RUNTIME_VERSION } from './runtime/sdk/contract.generated';
 
@@ -88,7 +88,7 @@ export function buildReactCanvasHtmlResult(
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data:; connect-src 'none'; font-src 'none'; frame-src 'none';">
   <meta name="opc-canvas-revision" content="${escapeHtml(revision)}">
   <title>${escapeHtml(options.title)}</title>
-  <style>${openbitfunCanvasRuntimeBundle.css}</style>
+  <style>${opcCanvasRuntimeBundle.css}</style>
 </head>
 <body>
   <div id="opc-canvas-root">
@@ -96,11 +96,11 @@ export function buildReactCanvasHtmlResult(
   </div>
   <script>${sanitizeInlineScript(reactCanvasEarlyBridge(revision))}</script>
   <script>${sanitizeInlineScript(reactUmd)}</script>
-  <script>window.__openbitfunCanvasPost?.('opc-canvas-react-loaded', { hasReact: Boolean(window.React) });</script>
+  <script>window.__opcCanvasPost?.('opc-canvas-react-loaded', { hasReact: Boolean(window.React) });</script>
   <script>${sanitizeInlineScript(reactDomUmd)}</script>
-  <script>window.__openbitfunCanvasPost?.('opc-canvas-react-dom-loaded', { hasReactDOM: Boolean(window.ReactDOM), hasCreateRoot: Boolean(window.ReactDOM?.createRoot) });</script>
+  <script>window.__opcCanvasPost?.('opc-canvas-react-dom-loaded', { hasReactDOM: Boolean(window.ReactDOM), hasCreateRoot: Boolean(window.ReactDOM?.createRoot) });</script>
   <script>${sanitizeInlineScript(buildCanvasRuntimeInstallerScript(revision))}</script>
-  <script>${sanitizeInlineScript(openbitfunCanvasRuntimeBundle.js)}</script>
+  <script>${sanitizeInlineScript(opcCanvasRuntimeBundle.js)}</script>
   <script>${sanitizeInlineScript(wrapUserCanvasScript(componentScript.code, revision))}</script>
 </body>
 </html>`,
@@ -121,11 +121,11 @@ function reactCanvasEarlyBridge(revision: string): string {
     }
     return { message: String(error || 'Canvas runtime error') };
   }
-  window.__openbitfunCanvasPost = function (type, payload) {
+  window.__opcCanvasPost = function (type, payload) {
     window.parent?.postMessage({ type, sourceRevisionSeen: sourceRevision, ...(payload || {}) }, '*');
   };
   window.addEventListener('error', event => {
-    window.__openbitfunCanvasPost('opc-canvas-early-error', {
+    window.__opcCanvasPost('opc-canvas-early-error', {
       ...errorPayload(event.error || event.message),
       filename: event.filename,
       lineno: event.lineno,
@@ -133,9 +133,9 @@ function reactCanvasEarlyBridge(revision: string): string {
     });
   });
   window.addEventListener('unhandledrejection', event => {
-    window.__openbitfunCanvasPost('opc-canvas-early-error', errorPayload(event.reason || 'Canvas runtime promise rejection'));
+    window.__opcCanvasPost('opc-canvas-early-error', errorPayload(event.reason || 'Canvas runtime promise rejection'));
   });
-  window.__openbitfunCanvasPost('opc-canvas-boot-started');
+  window.__opcCanvasPost('opc-canvas-boot-started');
 })();
 `;
 }
@@ -144,10 +144,10 @@ function wrapUserCanvasScript(componentCode: string, revision: string): string {
   return `
 (function () {
   try {
-    window.OpenBitFunCanvasRuntime.moduleStarted();
+    window.OpcCanvasRuntime.moduleStarted();
 ${componentCode}
   } catch (error) {
-    window.OpenBitFunCanvasRuntime.reportRuntimeError(error);
+    window.OpcCanvasRuntime.reportRuntimeError(error);
   }
 })();
 //# sourceURL=opc-canvas-${revision || 'unknown'}.js

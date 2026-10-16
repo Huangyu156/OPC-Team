@@ -35,7 +35,7 @@ if (suspendedPaint) {
       const pending = new Map(); let next = 1;
       window.requestAnimationFrame = callback => { const id = next++; pending.set(id, callback); return id; };
       window.cancelAnimationFrame = id => pending.delete(id);
-      window.__openbitfunResumeTestPaint = () => {
+      window.__opcResumeTestPaint = () => {
         window.requestAnimationFrame = request; window.cancelAnimationFrame = cancel;
         for (const callback of pending.values()) request(callback);
         pending.clear();
@@ -140,7 +140,7 @@ async function resumePaint() {
   const phase = await execute('() => window.__OPC_STARTUP_TRACE__?.snapshot().phases.events.find(event => event.phase === "interactive_shell_ready")');
   assert.equal(phase?.reason, 'startup-overlay-hidden');
   assert.equal(phase?.afterPaint, false);
-  await execute('() => { window.__openbitfunResumeTestPaint(); return true; }');
+  await execute('() => { window.__opcResumeTestPaint(); return true; }');
 }
 async function click(name) {
   await execute('() => document.querySelector("[data-testid=creation-native-' + name + ']").click()');

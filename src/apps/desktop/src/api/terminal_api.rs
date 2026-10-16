@@ -65,7 +65,7 @@ impl TerminalState {
                 }
             }
 
-            // Prepend OpenBitFun-managed runtime dirs to PATH so Bash/Skill commands can
+            // Prepend Opc-managed runtime dirs to PATH so Bash/Skill commands can
             // run on machines without preinstalled dev tools.
             if let Ok(runtime_manager) = RuntimeManager::new() {
                 let current_path = std::env::var("PATH").ok();

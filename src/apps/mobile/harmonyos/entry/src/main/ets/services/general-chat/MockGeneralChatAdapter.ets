@@ -18,7 +18,7 @@ export class MockGeneralChatAdapter implements GeneralChatPort {
       createdAt: now,
       messageCount: 0,
       workspacePath: '',
-      workspaceName: 'OpenBitFun'
+      workspaceName: 'OPC-Team'
     };
     return session;
   }

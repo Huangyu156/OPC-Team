@@ -10,20 +10,18 @@
   "members": {
     "desktop": {
       "displayNameKey": "product.desktop.name",
-      // Install and upgrade identity deliberately stays on the already-published
-      // OpenBitFun values: the signed bundles, OS install records, and store
-      // listings registered under them are what an upgrade replaces in place.
-      // They move to the com.opcteam.desktop values only once the signing and
-      // store material for OPC-Team is in place; changing them now would look
-      // like a different product and break in-place upgrades.
-      "binaryName": "openbitfun-desktop",
-      "bundleId": "com.openbitfun.desktop"
+      // Install and upgrade identity moves to the OPC-Team values together with
+      // this rename: the signed bundles, OS install records, and store listings
+      // are re-issued under the new identity, and the legacy data migrator
+      // carries existing user data across the namespace switch.
+      "binaryName": "opc-desktop",
+      "bundleId": "com.opcteam.desktop"
     },
     "cli": {
       "displayNameKey": "product.cli.name",
-      // The CLI keeps its published executable name for the same reason, so
-      // existing package managers and shell aliases keep upgrading the same file.
-      "binaryName": "openbitfun"
+      // The CLI executable is published as `opc`; the legacy data migrator
+      // handles installs that still have the retired name on PATH.
+      "binaryName": "opc"
     }
   }
 }

@@ -162,7 +162,7 @@ export class HarmonyModelProviderHttpTransport implements ModelProviderHttpTrans
     body: string,
     protocol: ModelProviderProtocol
   ): http.HttpRequestOptions {
-    if (protocol === ModelProviderProtocol.Anthropic && url.indexOf('openbitfun.com') >= 0) {
+    if (protocol === ModelProviderProtocol.Anthropic && url.indexOf('opcteam.eu.cc') >= 0) {
       return {
         method: http.RequestMethod.POST,
         header: {
@@ -170,7 +170,7 @@ export class HarmonyModelProviderHttpTransport implements ModelProviderHttpTrans
           'Accept': 'text/event-stream',
           'x-api-key': apiKey,
           'anthropic-version': '2023-06-01',
-          'X-Verification-Code': 'from_openbitfun'
+          'X-Verification-Code': 'from_opc'
         },
         extraData: body,
         connectTimeout: 15000,
@@ -228,7 +228,7 @@ export class ModelProviderGeneralChatAdapter implements GeneralChatPort {
       createdAt: now,
       messageCount: 0,
       workspacePath: '',
-      workspaceName: 'OpenBitFun'
+      workspaceName: 'OPC-Team'
     };
   }
 
@@ -401,7 +401,7 @@ export class ModelProviderGeneralChatAdapter implements GeneralChatPort {
 
   static resolveProtocol(baseUrl: string): ModelProviderProtocol {
     const normalized = baseUrl.trim().toLowerCase().replace(/\/+$/, '');
-    if (normalized.indexOf('openbitfun.com') >= 0 || normalized.endsWith('/v1/messages')) {
+    if (normalized.indexOf('opcteam.eu.cc') >= 0 || normalized.endsWith('/v1/messages')) {
       return ModelProviderProtocol.Anthropic;
     }
     return ModelProviderProtocol.OpenAi;

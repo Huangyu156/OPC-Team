@@ -99,9 +99,9 @@
         "manual": {
           "open": "Upload package",
           "title": "Manual submission",
-          "hint": "Upload a local .openbitfun-appearance file; it is validated before upload and before review",
+          "hint": "Upload a local .opc-appearance file; it is validated before upload and before review",
           "package": "Appearance package",
-          "packagePlaceholder": "Choose a .openbitfun-appearance file",
+          "packagePlaceholder": "Choose a .opc-appearance file",
           "choose": "Choose file",
           "chooseTitle": "Choose an Appearance package to submit",
           "slug": "Market slug (optional)",

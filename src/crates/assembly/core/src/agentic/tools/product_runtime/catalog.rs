@@ -1031,7 +1031,7 @@ mod tests {
             .contains(&"ReviewPlatform".to_string()));
         assert!(manifest
             .allowed_tool_names
-            .contains(&"OpenBitFunControl".to_string()));
+            .contains(&"OpcControl".to_string()));
         assert!(manifest
             .deferred_tool_names
             .contains(&"ReviewPlatform".to_string()));
@@ -1042,7 +1042,7 @@ mod tests {
         assert!(manifest
             .tool_definitions
             .iter()
-            .any(|tool| tool.name == "OpenBitFunControl"));
+            .any(|tool| tool.name == "OpcControl"));
     }
 
     #[tokio::test]

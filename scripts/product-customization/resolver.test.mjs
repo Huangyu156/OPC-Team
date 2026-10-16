@@ -16,9 +16,9 @@ test('default and custom members resolve through one deterministic contract', ()
 
   assert.equal(defaultProduct.assembly.productId, 'opcteam');
   assert.equal(defaultProduct.assembly.dataNamespace, 'opcteam');
-  // Install and upgrade identity stays on the published OpenBitFun values.
+  // Install and upgrade identity stays on the published OPC-Team values.
   assert.equal(defaultProduct.assembly.binaryName, 'opc-desktop');
-  assert.equal(defaultProduct.assembly.bundleId, 'com.openbitfun.desktop');
+  assert.equal(defaultProduct.assembly.bundleId, 'com.opcteam.desktop');
   assert.equal(desktop.assembly.bundleId, 'com.acme.desktop');
   assert.equal(cli.assembly.binaryName, 'acme');
   assert.equal(cli.assembly.bundleId, undefined);

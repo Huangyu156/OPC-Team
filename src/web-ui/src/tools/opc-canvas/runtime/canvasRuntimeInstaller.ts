@@ -9,17 +9,17 @@ type CanvasStateRuntimeOptions<T> = {
 type RuntimeWindow = Window & {
   React?: unknown;
   ReactDOM?: unknown;
-  OpenBitFunCanvasSDK?: CanvasRuntimeRecord;
-  OpenBitFunCanvasSDKAdapters?: CanvasRuntimeRecord;
-  OpenBitFunCanvasRuntimeHooks?: Record<string, unknown>;
-  OpenBitFunCanvasRuntime?: CanvasRuntimeRecord;
+  OpcCanvasSDK?: CanvasRuntimeRecord;
+  OpcCanvasSDKAdapters?: CanvasRuntimeRecord;
+  OpcCanvasRuntimeHooks?: Record<string, unknown>;
+  OpcCanvasRuntime?: CanvasRuntimeRecord;
 };
 
 export function buildCanvasRuntimeInstallerScript(revision: string): string {
-  return `(${installOpenBitFunCanvasRuntime.toString()})(${JSON.stringify(revision)});`;
+  return `(${installOpcCanvasRuntime.toString()})(${JSON.stringify(revision)});`;
 }
 
-function installOpenBitFunCanvasRuntime(initialRevision: string): void {
+function installOpcCanvasRuntime(initialRevision: string): void {
   const runtimeWindow = window as unknown as RuntimeWindow;
   const React = runtimeWindow.React as RuntimeReact | undefined;
   const ReactDOM = runtimeWindow.ReactDOM as RuntimeReactDOM | undefined;
@@ -546,14 +546,14 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
   document.addEventListener('click', handleDesignClick, true);
 
   function installSdkAdapters(): void {
-    if (!runtimeWindow.OpenBitFunCanvasSDK || !runtimeWindow.OpenBitFunCanvasSDKAdapters) return;
-    runtimeWindow.OpenBitFunCanvasSDK = {
-      ...runtimeWindow.OpenBitFunCanvasSDK,
-      ...runtimeWindow.OpenBitFunCanvasSDKAdapters,
+    if (!runtimeWindow.OpcCanvasSDK || !runtimeWindow.OpcCanvasSDKAdapters) return;
+    runtimeWindow.OpcCanvasSDK = {
+      ...runtimeWindow.OpcCanvasSDK,
+      ...runtimeWindow.OpcCanvasSDKAdapters,
     };
   }
 
-  runtimeWindow.OpenBitFunCanvasRuntimeHooks = {
+  runtimeWindow.OpcCanvasRuntimeHooks = {
     useHostAppearance,
     useCanvasState<T>(key: string, defaultValue: T, options?: CanvasStateRuntimeOptions<T>) {
       return useCanvasState(key, defaultValue, options);
@@ -567,11 +567,11 @@ function installOpenBitFunCanvasRuntime(initialRevision: string): void {
     whenStateReady,
   };
 
-  runtimeWindow.OpenBitFunCanvasSDK = {
-    ...runtimeWindow.OpenBitFunCanvasRuntimeHooks,
+  runtimeWindow.OpcCanvasSDK = {
+    ...runtimeWindow.OpcCanvasRuntimeHooks,
   };
 
-  runtimeWindow.OpenBitFunCanvasRuntime = {
+  runtimeWindow.OpcCanvasRuntime = {
     h: React.createElement,
     Fragment: React.Fragment,
     moduleStarted() {

@@ -1,4 +1,4 @@
-//! OpenBitFun Page: versioned publish + Page Functions serve.
+//! OPC-Team Page: versioned publish + Page Functions serve.
 //!
 //! Flow: upload draft → freeze version → deploy production pointer.
 //! Preview: `/p/{user}/{slug}/@v/{version}/...`

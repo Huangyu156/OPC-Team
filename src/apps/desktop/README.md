@@ -341,7 +341,7 @@ Focused checks:
 
 ```sh
 pnpm run check:github-config
-node --test scripts/desktop-tauri-build.test.mjs OpenBitFun-Installer/scripts/build-installer.test.cjs
+node --test scripts/desktop-tauri-build.test.mjs Opc-Installer/scripts/build-installer.test.cjs
 pwsh -NoProfile -File scripts/ci/sign-windows.test.ps1
 ```
 

@@ -74,7 +74,7 @@ export const SHARED_TERMS_BY_LOCALE = {
     },
     "connectionMethods": {
       "lan": "局域网",
-      "openbitfunServer": "OPC-Team Server",
+      "opcServer": "OPC-Team Server",
       "customServer": "自定义服务器",
       "botFeishu": "飞书机器人",
       "botTelegram": "Telegram Bot",
@@ -127,7 +127,7 @@ export const SHARED_TERMS_BY_LOCALE = {
     },
     "connectionMethods": {
       "lan": "區域網路",
-      "openbitfunServer": "OPC-Team Server",
+      "opcServer": "OPC-Team Server",
       "customServer": "自訂伺服器",
       "botFeishu": "飛書機器人",
       "botTelegram": "Telegram Bot",
@@ -180,7 +180,7 @@ export const SHARED_TERMS_BY_LOCALE = {
     },
     "connectionMethods": {
       "lan": "LAN",
-      "openbitfunServer": "OPC-Team Server",
+      "opcServer": "OPC-Team Server",
       "customServer": "Custom Server",
       "botFeishu": "Feishu Bot",
       "botTelegram": "Telegram Bot",

@@ -14,7 +14,7 @@ const DRIVER_PORT = Number(process.env.OPC_E2E_WEBDRIVER_PORT || 4445);
 const DEV_SERVER_HOST = '127.0.0.1';
 const DEV_SERVER_PORT = 1422;
 
-let openbitfunApp: ChildProcess | null = null;
+let opcApp: ChildProcess | null = null;
 let devServerProcess: ChildProcess | null = null;
 let ownsDevServer = false;
 
@@ -25,7 +25,7 @@ function projectRoot(): string {
 function e2eRuntimeRoot(): string {
   return process.env.OPC_E2E_STORAGE_ROOT
     ? path.resolve(process.env.OPC_E2E_STORAGE_ROOT)
-    : path.join(projectRoot(), 'tests', 'e2e', '.openbitfun', 'runtime');
+    : path.join(projectRoot(), 'tests', 'e2e', '.opcteam', 'runtime');
 }
 
 function setDefaultEnvPath(name: string, value: string): void {
@@ -75,7 +75,7 @@ function executableCandidates(buildType: E2eBuildType): string[] {
   if (process.platform === 'darwin') {
     // Tauri names the macOS bundle after `productName` (`OPC-Team.app`) while the
     // executable inside it keeps `mainBinaryName` (`opc-desktop`). Bundles
-    // built before the product rename still use the OpenBitFun names for both.
+    // built before the product rename still use the OPC-Team names for both.
     // The real `tauri build` bundle lives in `target/<profile>/bundle/macos`, so it
     // is listed before the legacy top-level `.app` layout. The raw executable stays
     // first because forced `OPC_E2E_APP_MODE` modes read index 0 directly.
@@ -83,12 +83,12 @@ function executableCandidates(buildType: E2eBuildType): string[] {
       path.join(root, 'target', buildType, binaryName),
       path.join(root, 'target', buildType, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
       path.join(root, 'target', buildType, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-      path.join(root, 'target', buildType, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
-      path.join(root, 'target', buildType, 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+      path.join(root, 'target', buildType, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
+      path.join(root, 'target', buildType, 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
       path.join(root, 'target', buildType, 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
       path.join(root, 'target', buildType, 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-      path.join(root, 'target', buildType, 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
-      path.join(root, 'target', buildType, 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+      path.join(root, 'target', buildType, 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
+      path.join(root, 'target', buildType, 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
     ];
   }
 
@@ -297,13 +297,13 @@ async function fetchSessionLogs(
   return payload.value ?? [];
 }
 
-function stopOpenBitFunApp(): void {
-  if (!openbitfunApp) {
+function stopOpcApp(): void {
+  if (!opcApp) {
     return;
   }
 
-  openbitfunApp.kill();
-  openbitfunApp = null;
+  opcApp.kill();
+  opcApp = null;
 }
 
 function stopDevServer(): void {
@@ -426,7 +426,7 @@ async function startDevServer(): Promise<void> {
   }
 }
 
-async function startOpenBitFunApp(): Promise<void> {
+async function startOpcApp(): Promise<void> {
   const appPath = getApplicationPath();
 
   if (!fs.existsSync(appPath)) {
@@ -439,12 +439,12 @@ async function startOpenBitFunApp(): Promise<void> {
 
   await waitForDevServerIfNeeded(appPath);
 
-  stopOpenBitFunApp();
+  stopOpcApp();
 
   console.log(`Starting OPC-Team with embedded WebDriver on port ${DRIVER_PORT}`);
   console.log(`Application: ${appPath}`);
 
-  openbitfunApp = spawn(appPath, [], {
+  opcApp = spawn(appPath, [], {
     cwd: projectRoot(),
     windowsHide: true,
     stdio: ['ignore', 'pipe', 'pipe'],
@@ -455,15 +455,15 @@ async function startOpenBitFunApp(): Promise<void> {
     },
   });
 
-  openbitfunApp.stdout?.on('data', (data: Buffer) => {
+  opcApp.stdout?.on('data', (data: Buffer) => {
     console.log(`[opc-app] ${data.toString().trim()}`);
   });
 
-  openbitfunApp.stderr?.on('data', (data: Buffer) => {
+  opcApp.stderr?.on('data', (data: Buffer) => {
     console.error(`[opc-app] ${data.toString().trim()}`);
   });
 
-  openbitfunApp.on('exit', (code, signal) => {
+  opcApp.on('exit', (code, signal) => {
     console.log(`[opc-app] exited (code=${code ?? 'null'}, signal=${signal ?? 'null'})`);
   });
 
@@ -516,8 +516,8 @@ export function createEmbeddedConfig(specs: string[], label: string): Options.Te
     maxInstances: 1,
     capabilities: [{
       maxInstances: 1,
-      browserName: 'openbitfun',
-      'openbitfun:embedded': true,
+      browserName: 'chromium',
+      'opc:embedded': true,
     } as any],
 
     logLevel: (process.env.E2E_LOG_LEVEL || 'info') as Options.Testrunner['logLevel'],
@@ -569,7 +569,7 @@ export function createEmbeddedConfig(specs: string[], label: string): Options.Te
     },
 
     beforeSession: async function beforeSession() {
-      await startOpenBitFunApp();
+      await startOpcApp();
     },
 
     before: async function before() {
@@ -586,14 +586,14 @@ export function createEmbeddedConfig(specs: string[], label: string): Options.Te
 
     afterSession: function afterSession() {
       console.log('Stopping OPC-Team app...');
-      stopOpenBitFunApp();
+      stopOpcApp();
     },
 
     afterTest: sharedAfterTest(),
 
     onComplete: function onComplete() {
       console.log(`${label} E2E test run completed`);
-      stopOpenBitFunApp();
+      stopOpcApp();
       stopDevServer();
     },
   };

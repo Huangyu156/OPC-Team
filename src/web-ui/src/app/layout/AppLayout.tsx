@@ -301,10 +301,10 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
       // Always initialize FlowChat so historical sessions list even when SSH is not connected yet.
       try {
         const explicitPreferredMode =
-          sessionStorage.getItem('openbitfun:flowchat:preferredMode') ||
+          sessionStorage.getItem('opc:flowchat:preferredMode') ||
           undefined;
         if (explicitPreferredMode) {
-          sessionStorage.removeItem('openbitfun:flowchat:preferredMode');
+          sessionStorage.removeItem('opc:flowchat:preferredMode');
         }
 
         const initializationPreferredMode =
@@ -611,8 +611,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
         .then(sessionId => openMainSession(sessionId))
         .catch(error => log.error('Failed to create ACP FlowChat session', error));
     };
-    window.addEventListener('openbitfun:create-acp-session', handler);
-    return () => window.removeEventListener('openbitfun:create-acp-session', handler);
+    window.addEventListener('opc:create-acp-session', handler);
+    return () => window.removeEventListener('opc:create-acp-session', handler);
   }, [currentWorkspace]);
 
   React.useEffect(() => {
@@ -640,8 +640,8 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
         });
       }
     };
-    window.addEventListener('openbitfun:acp-session-creation', handler);
-    return () => window.removeEventListener('openbitfun:acp-session-creation', handler);
+    window.addEventListener('opc:acp-session-creation', handler);
+    return () => window.removeEventListener('opc:acp-session-creation', handler);
   }, [tCommon]);
 
   // Global drag-and-drop

@@ -146,7 +146,7 @@ describe('startup preload shell', () => {
     await Promise.resolve();
     expect(hint?.textContent).toBe(readLoadingMessage('zh-CN'));
 
-    dom.window.dispatchEvent(new dom.window.Event('openbitfun:startup-overlay-hidden'));
+    dom.window.dispatchEvent(new dom.window.Event('opc:startup-overlay-hidden'));
     dom.window.document.documentElement.lang = 'en-US';
     await Promise.resolve();
     expect(hint?.textContent).toBe(readLoadingMessage('zh-CN'));
@@ -224,7 +224,7 @@ describe('startup preload shell', () => {
   it('shows the independent pet preload for the companion window', () => {
     const html = readIndexHtml();
     const dom = new JSDOM(html, {
-      url: 'http://localhost:1422/?openbitfunWindow=agent-companion',
+      url: 'http://localhost:1422/?opcWindow=agent-companion',
       runScripts: 'dangerously',
       beforeParse(window) {
         Object.assign(window, {

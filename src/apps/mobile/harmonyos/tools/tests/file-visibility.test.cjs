@@ -80,11 +80,11 @@ const WORKSPACE = '/home/user/project';
 const ANSWER = [
   'Generated the brand asset and the report.',
   '',
-  '- [openbitfun-wordmark.png](computer://png/openbitfun-wordmark.png)',
+  '- [opc-wordmark.png](computer://png/opc-wordmark.png)',
   '- [REPORT.md](computer://artifacts/REPORT.md)',
   '- [bundle.zip](computer://artifacts/bundle.zip)',
   '',
-  'The plain-text log is at computer://artifacts/run.log and the raw export is png/openbitfun-wordmark.png.',
+  'The plain-text log is at computer://artifacts/run.log and the raw export is png/opc-wordmark.png.',
   '',
   '<computer://artifacts/diagram.svg>'
 ].join('\n');
@@ -112,7 +112,7 @@ test('stage 1: the parser reads explicit links and bare file references as links
   )).filter(inline => inline.type === 'link');
 
   const urls = links.map(link => link.url);
-  assert.ok(urls.includes('computer://png/openbitfun-wordmark.png'),
+  assert.ok(urls.includes('computer://png/opc-wordmark.png'),
     'an explicit markdown link keeps its computer:// url');
   assert.ok(urls.includes('computer://artifacts/run.log'),
     'a bare computer:// reference in prose is an autolink');
@@ -125,24 +125,24 @@ test('stage 1: the parser reads explicit links and bare file references as links
 /* ------------------------------------------------------------------ stage 2 */
 
 test('stage 2: a computer:// link becomes a RemoteWorkspaceFile card', () => {
-  const reference = projections('[openbitfun-wordmark.png](computer://png/openbitfun-wordmark.png)')[0];
+  const reference = projections('[opc-wordmark.png](computer://png/opc-wordmark.png)')[0];
   assert.ok(reference, 'the linked png is projected');
-  assert.equal(reference.path, 'computer://png/openbitfun-wordmark.png');
-  assert.equal(reference.remotePath, 'png/openbitfun-wordmark.png');
-  assert.equal(reference.label, 'openbitfun-wordmark.png');
+  assert.equal(reference.path, 'computer://png/opc-wordmark.png');
+  assert.equal(reference.remotePath, 'png/opc-wordmark.png');
+  assert.equal(reference.label, 'opc-wordmark.png');
 });
 
 test('stage 2: every file type the assistant links earns a card', () => {
   const byPath = new Map(projections(ANSWER).map(item => [item.remotePath, item]));
   for (const remotePath of [
-    'png/openbitfun-wordmark.png',
+    'png/opc-wordmark.png',
     'artifacts/REPORT.md',
     'artifacts/bundle.zip',
     'artifacts/run.log'
   ]) {
     assert.ok(byPath.has(remotePath), `a card is projected for ${remotePath}`);
   }
-  assert.equal(byPath.get('png/openbitfun-wordmark.png').label, 'openbitfun-wordmark.png',
+  assert.equal(byPath.get('png/opc-wordmark.png').label, 'opc-wordmark.png',
     'the card is named by the link label');
 });
 
@@ -174,7 +174,7 @@ test('stage 2: a relative link is a card only for an output-shaped extension', (
 
 test('stage 2: the card path and card label stay in step with the resolver', () => {
   for (const reference of [
-    'computer://png/openbitfun-wordmark.png',
+    'computer://png/opc-wordmark.png',
     'computer://artifacts/REPORT.md',
     'file:///home/user/project/artifacts/notes.txt',
     'computer://D:/work/project/artifacts/notes.txt'
@@ -195,20 +195,20 @@ test('stage 2: a scheme-less relative path is not a card', () => {
 /* ------------------------------------------------------------------ stage 3 */
 
 test('stage 3: the read command carries the normalized workspace-relative path', () => {
-  const target = resolve('computer://png/openbitfun-wordmark.png', 'openbitfun-wordmark.png').target;
+  const target = resolve('computer://png/opc-wordmark.png', 'opc-wordmark.png').target;
   const info = RemoteCommandFactory.getFileInfo(target.remotePath, target.sessionId);
   assert.equal(info.cmd, 'get_file_info');
-  assert.equal(info.path, 'png/openbitfun-wordmark.png');
+  assert.equal(info.path, 'png/opc-wordmark.png');
   assert.equal(info.session_id, SESSION);
 
   const chunk = RemoteCommandFactory.readFileChunk(target.remotePath, 0, 1024, target.sessionId);
   assert.equal(chunk.cmd, 'read_file_chunk');
-  assert.equal(chunk.path, 'png/openbitfun-wordmark.png');
+  assert.equal(chunk.path, 'png/opc-wordmark.png');
   assert.equal(chunk.session_id, SESSION);
 });
 
 test('stage 3: the preview target keeps the session the file must be read from', () => {
-  const target = resolve('computer://png/openbitfun-wordmark.png').target;
+  const target = resolve('computer://png/opc-wordmark.png').target;
   assert.ok(target.isValid(), 'a target with a session and a path is openable');
   const anonymous = resolve('computer://png/x.png').target;
   assert.equal(anonymous.sessionId, SESSION, 'the resolver takes the session from its context');
@@ -291,7 +291,7 @@ const PNG_BYTES = Buffer.from(
 
 function fixtureFiles() {
   return {
-    'png/openbitfun-wordmark.png': { kind: 'png', size: PNG_BYTES.length, bytes: PNG_BYTES },
+    'png/opc-wordmark.png': { kind: 'png', size: PNG_BYTES.length, bytes: PNG_BYTES },
     'png/photo.jpg': { kind: 'jpg', size: PNG_BYTES.length, bytes: PNG_BYTES },
     'artifacts/REPORT.md': { kind: 'md', size: 21, bytes: Buffer.from('# Report\nhello md\n') },
     'artifacts/notes.txt': { kind: 'txt', size: 11, bytes: Buffer.from('plain notes') },
@@ -313,7 +313,7 @@ function dataSource(state) {
 }
 
 test('stage 4: an image file reaches the Ready image renderer with usable pixels', async () => {
-  for (const file of ['computer://png/openbitfun-wordmark.png', 'computer://png/photo.jpg']) {
+  for (const file of ['computer://png/opc-wordmark.png', 'computer://png/photo.jpg']) {
     const { state } = await preview(file);
     assert.equal(state.phase, FilePreviewPhase.Ready, `${file} is ready`);
     assert.equal(state.rendererKind, FilePreviewRendererKind.Image, `${file} renders as an image`);
@@ -401,9 +401,9 @@ test('stage 5: downloading an image streams real bytes and names the destination
   const saver = new FakeSaver();
   const { controller, statuses, statusText } = downloader(host, saver);
 
-  await controller.download('computer://png/openbitfun-wordmark.png', SESSION, false, true);
+  await controller.download('computer://png/opc-wordmark.png', SESSION, false, true);
 
-  assert.deepEqual(saver.beginCalls, ['openbitfun-wordmark.png'],
+  assert.deepEqual(saver.beginCalls, ['opc-wordmark.png'],
     'the destination keeps the host file name');
   assert.equal(Buffer.concat(saver.chunks).toString('base64'), PNG_BYTES.toString('base64'),
     'the downloaded bytes are the real file');
@@ -503,7 +503,7 @@ function appChain() {
 }
 
 test('the whole chain agrees on one path from message text to a rendered image', async () => {
-  const reference = projections('[openbitfun-wordmark.png](computer://png/openbitfun-wordmark.png)')[0];
+  const reference = projections('[opc-wordmark.png](computer://png/opc-wordmark.png)')[0];
   const { state, dispatcher, statuses } = appChain();
 
   dispatcher.dispatch(AppRoute.RemoteChat, ConversationIntents.openFilePreview(reference.path, reference.label));
@@ -511,11 +511,11 @@ test('the whole chain agrees on one path from message text to a rendered image',
 
   assert.equal(state.phase, FilePreviewPhase.Ready, 'the card tap reached the preview');
   assert.equal(state.rendererKind, FilePreviewRendererKind.Image);
-  assert.equal(state.fileName, 'openbitfun-wordmark.png');
+  assert.equal(state.fileName, 'opc-wordmark.png');
   assert.equal(state.mimeType, 'image/png');
   assert.equal(state.contentBase64, PNG_BYTES.toString('base64'), 'the pixels on screen are the file');
   assert.equal(state.target.sessionId, SESSION, 'the read targeted the active session');
-  assert.equal(state.target.remotePath, 'png/openbitfun-wordmark.png', 'and the workspace-relative path');
+  assert.equal(state.target.remotePath, 'png/opc-wordmark.png', 'and the workspace-relative path');
   assert.deepEqual(statuses, [], 'nothing fell back to a status message');
 });
 

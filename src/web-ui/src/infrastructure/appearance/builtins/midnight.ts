@@ -28,9 +28,9 @@ const MIDNIGHT_PURPLE_HOVER = '#8b5cf6';
 const midnightText = (alpha: number | string) => rgbaFromHex(MIDNIGHT_TEXT_PRIMARY, alpha);
 const midnightAccent = (alpha: number | string) => rgbaFromHex(MIDNIGHT_ACCENT, alpha);
 
-export const openBitFunMidnightPalette: AppearancePalette = {
+export const opcMidnightPalette: AppearancePalette = {
 
-  id: 'openbitfun-midnight',
+  id: 'opc-midnight',
   name: 'Midnight',
   type: 'dark',
   description: 'Midnight gray dark appearance - Professional and elegant, inspired by JetBrains IDE',

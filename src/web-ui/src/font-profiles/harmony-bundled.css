@@ -1,6 +1,6 @@
 /* Official variable faces cover the design system's 400/500/600/700 weights. */
 @font-face {
-  font-family: "OpenBitFun HarmonyOS Sans";
+  font-family: "OPC HarmonyOS Sans";
   src: url("../assets/fonts/harmonyos-sans/base/HarmonyOS_Sans.ttf") format("truetype");
   font-style: normal;
   font-weight: 400 700;
@@ -8,7 +8,7 @@
 }
 
 @font-face {
-  font-family: "OpenBitFun HarmonyOS Sans SC";
+  font-family: "OPC HarmonyOS Sans SC";
   src: url("../assets/fonts/harmonyos-sans/sc/HarmonyOS_Sans_SC.ttf") format("truetype");
   font-style: normal;
   font-weight: 400 700;
@@ -78,14 +78,14 @@
 @layer opcteam.tokens.system {
   /* This profile loads before package CSS; outrank its zero-specificity defaults. */
   [data-opcteam-design-system-root] {
-    --opcteam-font-family-sans: "OpenBitFun HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
-    --opcteam-font-family-control: "OpenBitFun HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
+    --opcteam-font-family-sans: "OPC HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
+    --opcteam-font-family-control: "OPC HarmonyOS Sans", system-ui, "Segoe UI", Arial, sans-serif;
     /* The design system owns the code stack and its localized body fallback. */
   }
 
   :where([data-opcteam-design-system-root]):lang(zh-CN) {
-    --opcteam-font-family-sans: "OpenBitFun HarmonyOS Sans SC", "OpenBitFun HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
-    --opcteam-font-family-control: "OpenBitFun HarmonyOS Sans SC", "OpenBitFun HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
+    --opcteam-font-family-sans: "OPC HarmonyOS Sans SC", "OPC HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
+    --opcteam-font-family-control: "OPC HarmonyOS Sans SC", "OPC HarmonyOS Sans", system-ui, "Microsoft YaHei UI", sans-serif;
   }
 
   /* Traditional Chinese deliberately follows the platform's localized face. */

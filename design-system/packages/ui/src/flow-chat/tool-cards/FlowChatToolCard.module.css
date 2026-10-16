@@ -702,14 +702,14 @@
 
   .prominentRoot[data-opc-state~="loading"] .actionLabel,
   .prominentRoot[data-opc-state~="loading"] .content {
-    animation: openbitfun-flow-chat-tool-loading var(--opcteam-motion-duration-loop) var(--opcteam-motion-easing-standard) infinite alternate;
+    animation: opc-flow-chat-tool-loading var(--opcteam-motion-duration-loop) var(--opcteam-motion-easing-standard) infinite alternate;
   }
 
   .prominentRoot[data-opc-state~="loading"] .summaryText[data-active="true"] :is(.actionLabel, .content) {
     animation: none;
   }
 
-  @keyframes openbitfun-flow-chat-tool-loading {
+  @keyframes opc-flow-chat-tool-loading {
     from {
       opacity: 1;
     }

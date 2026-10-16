@@ -42,7 +42,7 @@ const server = createServer((request, response) => {
   const requestPath = decodeURIComponent((request.url ?? '/').split('?')[0]);
   const sharedAsset = SHARED_ASSETS.get(requestPath);
   if (sharedAsset) {
-    response.setHeader('X-OpenBitFun-Mobile-Preview', '1');
+    response.setHeader('X-Opc-Mobile-Preview', '1');
     response.setHeader('Content-Type', contentType(extname(sharedAsset)));
     createReadStream(sharedAsset).pipe(response);
     return;
@@ -57,13 +57,13 @@ const server = createServer((request, response) => {
     response.writeHead(404).end('Not found');
     return;
   }
-  response.setHeader('X-OpenBitFun-Mobile-Preview', '1');
+  response.setHeader('X-Opc-Mobile-Preview', '1');
   response.setHeader('Content-Type', contentType(extname(path)));
   createReadStream(path).pipe(response);
 });
 
 server.on('error', async (error) => {
-  if (error.code === 'EADDRINUSE' && await isOpenBitFunPreview(url)) {
+  if (error.code === 'EADDRINUSE' && await isOpcPreview(url)) {
     console.log(`[mobile-ui-preview] Reusing existing preview at ${url}`);
     openPreview(url);
     process.exit(0);
@@ -81,11 +81,11 @@ server.listen(port, host, () => {
   openPreview(url);
 });
 
-async function isOpenBitFunPreview(target) {
+async function isOpcPreview(target) {
   try {
     const response = await fetch(target, { signal: AbortSignal.timeout(1500) });
     if (response.headers.get('x-opc-mobile-preview') === '1') return true;
-    return (await response.text()).includes('<title>OpenBitFun Mobile Parity Bench</title>');
+    return (await response.text()).includes('<title>OPC Mobile Parity Bench</title>');
   } catch {
     return false;
   }

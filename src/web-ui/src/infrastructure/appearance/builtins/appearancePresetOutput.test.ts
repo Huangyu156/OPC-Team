@@ -55,7 +55,7 @@ describe('builtin appearance preset output', () => {
         const accent = tokens[name];
         expect(APPEARANCE_ROOT_TOKEN_NAMES).toContain(name);
         expect(accent).not.toBe(palette.colors.text.primary);
-        if (palette.id === 'openbitfun-dark') {
+        if (palette.id === 'opc-dark') {
           expect([character.body, character.knob, character.stem, character.face]).toContain(accent);
         }
         const background = palette.colors.background.scene;
@@ -66,7 +66,7 @@ describe('builtin appearance preset output', () => {
   });
 
   it('keeps published light field states in root and chrome while preserving named palettes', () => {
-    const settings = getBuiltinAppearance('openbitfun-light')?.renderers?.['theme-tokens']?.settings;
+    const settings = getBuiltinAppearance('opc-light')?.renderers?.['theme-tokens']?.settings;
     for (const tokens of [settings?.tokens, settings?.scopes?.chrome].filter(Boolean)) {
       for (const [name, value] of Object.entries(themes.light)) {
         if (name.startsWith('color.field.') || name === 'color.actionCard.background' || name.startsWith('color.composer.')) expect(tokens?.[themeCssVariables[name as ThemeTokenName]]).toBe(value);
@@ -82,7 +82,7 @@ describe('builtin appearance preset output', () => {
     expect(settings?.tokens['--opcteam-color-field-group-background']).toBe('rgba(0, 0, 0, 0.03)');
     expect(settings?.tokens['--opcteam-color-field-placeholder']).toBe('rgba(0, 0, 0, 0.40)');
     for (const palette of builtinAppearancePalettes) {
-      if (palette.id === 'openbitfun-light') continue;
+      if (palette.id === 'opc-light') continue;
       const tokens = getBuiltinAppearanceThemeTokens(palette.id);
       expect(tokens['--opcteam-color-action-card-background']).toBe(palette.colors.element.base);
       expect(tokens['--opcteam-color-field-border']).toBe(palette.colors.border.base);
@@ -101,7 +101,7 @@ describe('builtin appearance preset output', () => {
         expect(settings?.tokens[themeCssVariables[name as ThemeTokenName]]).toBe(value);
       }
     }
-    const light = getBuiltinAppearanceThemeTokens('openbitfun-light');
+    const light = getBuiltinAppearanceThemeTokens('opc-light');
     expect(light['--opcteam-component-button-content']).toBe('rgba(0, 0, 0, 0.80)');
     expect(light['--opcteam-component-button-text-content']).toBe('#059cb0');
     expect(light['--opcteam-color-action-primary-background']).toBe('#101a27');
@@ -110,7 +110,7 @@ describe('builtin appearance preset output', () => {
 
   it('preserves the action colors of branded presets through the Button contract', () => {
     for (const palette of builtinAppearancePalettes) {
-      if (palette.id === 'openbitfun-light' || palette.id === 'openbitfun-dark') continue;
+      if (palette.id === 'opc-light' || palette.id === 'opc-dark') continue;
       const tokens = getBuiltinAppearanceThemeTokens(palette.id);
       expect(tokens['--opcteam-component-button-primary-background']).toBe(tokens['--opcteam-color-action-primary-background']);
       expect(tokens['--opcteam-component-button-text-content']).toBe(tokens['--opcteam-color-accent-default']);
@@ -119,12 +119,12 @@ describe('builtin appearance preset output', () => {
   });
 
   it('keeps menu label and caption colors consistent between the public light theme and product portals', () => {
-    const settings = getBuiltinAppearance('openbitfun-light')!.renderers!['theme-tokens']!.settings;
+    const settings = getBuiltinAppearance('opc-light')!.renderers!['theme-tokens']!.settings;
     for (const tokens of [settings.tokens, ...(settings.scopes?.chrome ? [settings.scopes.chrome] : [])]) {
       expect(tokens['--opcteam-color-action-neutral-content']).toBe(themes.light['color.action.neutral.content']);
       expect(tokens['--opcteam-color-content-caption']).toBe(themes.light['color.content.caption']);
     }
-    for (const palette of builtinAppearancePalettes.filter(p => p.id !== 'openbitfun-light')) {
+    for (const palette of builtinAppearancePalettes.filter(p => p.id !== 'opc-light')) {
       expect(getBuiltinAppearanceThemeTokens(palette.id)['--opcteam-color-action-neutral-content']).toBe(palette.colors.text.secondary);
     }
   });
@@ -217,7 +217,7 @@ describe('builtin appearance preset output', () => {
 
   it('keeps approved near-neutral preset stops scoped to their semantic roles', () => {
     const serializedAppearances = JSON.stringify(builtinAppearancePalettes).toLowerCase();
-    const lightAppearance = builtinAppearancePalettes.find(appearance => appearance.id === 'openbitfun-light');
+    const lightAppearance = builtinAppearancePalettes.find(appearance => appearance.id === 'opc-light');
 
     expect(lightAppearance?.colors.background.primary).toBe('#fdfdfd');
     expect(lightAppearance?.monaco?.colors.background).toBe('#ffffff');
@@ -228,8 +228,8 @@ describe('builtin appearance preset output', () => {
   });
 
   it('keeps the default light appearance on the neutral, navy, and restrained semantic palette', () => {
-    const lightAppearance = builtinAppearancePalettes.find(appearance => appearance.id === 'openbitfun-light');
-    const tokens = getBuiltinAppearanceThemeTokens('openbitfun-light');
+    const lightAppearance = builtinAppearancePalettes.find(appearance => appearance.id === 'opc-light');
+    const tokens = getBuiltinAppearanceThemeTokens('opc-light');
 
     expect(lightAppearance).toMatchObject({
       description: 'Light appearance - Crisp white surfaces, soft neutral grays, deep navy actions',
@@ -294,9 +294,9 @@ describe('builtin appearance preset output', () => {
 
   it('keeps settings row hover feedback separated from dark scene surfaces', () => {
     const darkAppearance = builtinAppearancePalettes.find(
-      appearance => appearance.id === 'openbitfun-dark',
+      appearance => appearance.id === 'opc-dark',
     );
-    const tokens = getBuiltinAppearanceThemeTokens('openbitfun-dark');
+    const tokens = getBuiltinAppearanceThemeTokens('opc-dark');
 
     expect(tokens).toMatchObject({
       '--opcteam-color-surface-scene': '#1c1c1f',
@@ -451,7 +451,7 @@ describe('builtin appearance preset output', () => {
       [
         {
           "hash": "7af27a87536b4bb9bc7b11f1ea2e8e1de17a33b1f785f84d04459d7c2b4e0078",
-          "id": "openbitfun-light",
+          "id": "opc-light",
           "type": "light",
         },
         {
@@ -461,37 +461,37 @@ describe('builtin appearance preset output', () => {
         },
         {
           "hash": "6881bcb324f2ceca12db7951a84bb0a3fc2ff8bbb95440a3d0b79eae13b86c7e",
-          "id": "openbitfun-slate",
+          "id": "opc-slate",
           "type": "dark",
         },
         {
           "hash": "2e661919780720fb10c299eb2833a07e168119ff957912ada0a7c9bf43451bb1",
-          "id": "openbitfun-dark",
+          "id": "opc-dark",
           "type": "dark",
         },
         {
           "hash": "a6789a5583ed61fa9c111376cd6528238e25021bcff13cdc89677b5a3341fa5a",
-          "id": "openbitfun-midnight",
+          "id": "opc-midnight",
           "type": "dark",
         },
         {
           "hash": "71bb280040a388af2a6cc1246ec5892cd753eb5c070c350f431da5c55580b0de",
-          "id": "openbitfun-china-style",
+          "id": "opc-china-style",
           "type": "light",
         },
         {
           "hash": "ff90fa8fed4e2374f83bd0c618d05354b771c634f52df4fe05950633d2a00fe4",
-          "id": "openbitfun-china-night",
+          "id": "opc-china-night",
           "type": "dark",
         },
         {
           "hash": "1f268ec7627a8ad85a2fb83a6a44623342c395a64c7ce16624b321911ac11ec6",
-          "id": "openbitfun-cyber",
+          "id": "opc-cyber",
           "type": "dark",
         },
         {
           "hash": "93d50ba213102b8353088f53b8ed4fc8a1c4d7bea85e2127d4d8a13fe6d2ce9f",
-          "id": "openbitfun-tokyo-night",
+          "id": "opc-tokyo-night",
           "type": "dark",
         },
       ]

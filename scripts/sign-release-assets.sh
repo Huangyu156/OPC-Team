@@ -56,7 +56,7 @@ if ! command -v minisign >/dev/null 2>&1; then
             ;;
         esac
 
-        MINISIGN_ROOT="${RUNNER_TEMP:-${TMPDIR:-/tmp}}/openbitfun-minisign-${MINISIGN_VERSION}"
+        MINISIGN_ROOT="${RUNNER_TEMP:-${TMPDIR:-/tmp}}/opc-minisign-${MINISIGN_VERSION}"
         MINISIGN_ARCHIVE="$MINISIGN_ROOT/minisign-linux.tar.gz"
         mkdir -p "$MINISIGN_ROOT/bin"
         curl --fail --location --retry 3 \

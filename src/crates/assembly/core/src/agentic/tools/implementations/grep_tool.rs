@@ -498,7 +498,7 @@ Usage:
 - A common workflow is `output_mode: "files_with_matches"` to locate candidate files, followed by `output_mode: "content"` with `-n` and small context when exact lines are needed.
 - Uses Rust regex syntax (e.g., "log.*Error", "function\s+\w+"); look-around and backreferences are not supported.
 - Filter files with glob parameter (e.g., "*.js", "**/*.tsx") or type parameter (e.g., "js", "py", "rust")
-- The path parameter may be workspace-relative, an absolute path inside the current workspace, or an exact `openbitfun://...` URI returned by another tool
+- The path parameter may be workspace-relative, an absolute path inside the current workspace, or an exact `opc://...` URI returned by another tool
 - Omit path to search the current workspace. Do not search host roots or placeholder paths such as `/workspace`.
 - Output modes: "content" shows matching lines, "files_with_matches" shows only file paths (default), "count" shows match counts
 - Use Task tool for open-ended searches requiring multiple rounds
@@ -520,7 +520,7 @@ Usage:
                 },
                 "path": {
                     "type": "string",
-                    "description": "File or directory to search in. Omit to search the current workspace. If provided, use a workspace-relative path, an absolute path inside the current workspace, or an exact openbitfun:// URI."
+                    "description": "File or directory to search in. Omit to search the current workspace. If provided, use a workspace-relative path, an absolute path inside the current workspace, or an exact opc:// URI."
                 },
                 "glob": {
                     "type": "string",

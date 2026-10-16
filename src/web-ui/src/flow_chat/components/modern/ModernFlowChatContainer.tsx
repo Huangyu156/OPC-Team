@@ -214,7 +214,7 @@ const LATEST_TURN_AUTO_PIN_MAX_ATTEMPTS = 8;
 const HISTORY_INITIAL_CONTENT_PAINT_MAX_ATTEMPTS = 30;
 const HISTORY_LOADING_LAYER_STALL_WARN_MS = 800;
 const TURN_PIN_RETRY_MAX_ATTEMPTS = 120;
-const MOCK_BACKGROUND_COMMANDS_STORAGE_KEY = 'openbitfun.flowChat.mockBackgroundCommands';
+const MOCK_BACKGROUND_COMMANDS_STORAGE_KEY = 'opc.flowChat.mockBackgroundCommands';
 
 const MOCK_BACKGROUND_COMMANDS: BackgroundCommandSummary[] = [
   {

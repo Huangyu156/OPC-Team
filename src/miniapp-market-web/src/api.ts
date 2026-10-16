@@ -11,7 +11,7 @@ import type {
   SubmissionStatus,
 } from './types';
 
-const API = typeof window !== 'undefined' && window.location.hostname === 'auth.openbitfun.com' ? '/api/v1' : '/miniapp/api/v1';
+const API = typeof window !== 'undefined' && window.location.hostname === 'auth.opcteam.eu.cc' ? '/api/v1' : '/miniapp/api/v1';
 
 export class MarketApiError extends Error {
   readonly code: string;
@@ -101,7 +101,7 @@ export const marketApi = {
     request<MarketSubmission>(`/submissions/${id}/package`, {
       method: 'PUT',
       body: file,
-      headers: { 'content-type': 'application/vnd.openbitfun.miniapp+zip' },
+      headers: { 'content-type': 'application/vnd.opc.miniapp+zip' },
     }),
   uploadScreenshot: (id: string, position: number, file: File) =>
     request<MarketSubmission>(`/submissions/${id}/screenshots/${position}`, {
@@ -141,7 +141,7 @@ export const marketApi = {
 };
 
 export function loginUrl(returnTo = window.location.pathname): string {
-  return `https://auth.openbitfun.com/sign-in?locale=${encodeURIComponent((typeof document === 'undefined' ? 'en-US' : document.documentElement.lang || 'en-US'))}&returnTo=${encodeURIComponent(returnTo)}`;
+  return `https://auth.opcteam.eu.cc/sign-in?locale=${encodeURIComponent((typeof document === 'undefined' ? 'en-US' : document.documentElement.lang || 'en-US'))}&returnTo=${encodeURIComponent(returnTo)}`;
 }
 
 export function downloadUrl(slug: string, release: number): string {

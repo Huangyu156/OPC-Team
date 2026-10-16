@@ -722,7 +722,7 @@ mod tests {
             .await
             .expect("begin");
         store
-            .attach_preparation_baseline("job-orphan", "worktree-1", "openbitfun/dispatch/job")
+            .attach_preparation_baseline("job-orphan", "worktree-1", "opc/dispatch/job")
             .await
             .expect("attach");
         let path = store.preparation_path("job-orphan").expect("path");
@@ -772,7 +772,7 @@ mod tests {
             .await
             .expect("begin");
         store
-            .attach_preparation_baseline("job-owned", "worktree-1", "openbitfun/dispatch/job")
+            .attach_preparation_baseline("job-owned", "worktree-1", "opc/dispatch/job")
             .await
             .expect("attach");
         let mut outbound = OutboundDispatchRecord::new(
@@ -789,7 +789,7 @@ mod tests {
         )
         .expect("outbound");
         outbound.baseline_worktree_id = Some("worktree-1".to_string());
-        outbound.branch = Some("openbitfun/dispatch/job".to_string());
+        outbound.branch = Some("opc/dispatch/job".to_string());
         store.bind_if_absent(&outbound).await.expect("bind");
 
         let path = store.preparation_path("job-owned").expect("path");
@@ -877,7 +877,7 @@ mod tests {
             .await
             .expect("begin");
         store
-            .attach_preparation_baseline("job-unreadable", "worktree-1", "openbitfun/dispatch/job")
+            .attach_preparation_baseline("job-unreadable", "worktree-1", "opc/dispatch/job")
             .await
             .expect("attach");
         let path = store.preparation_path("job-unreadable").expect("path");

@@ -216,7 +216,7 @@ fn builtin_agent_definition_catalog_preserves_order_categories_models_and_visibi
             "ReviewFixer",
             "CodeReview",
             "DeepReview",
-            "OpenBitFun",
+            "OPC-Team",
             "MemoryPhase2",
         ]
     );
@@ -224,11 +224,11 @@ fn builtin_agent_definition_catalog_preserves_order_categories_models_and_visibi
     assert_eq!(specs[0].category, BuiltinAgentCategory::Mode);
     let control_agent = specs
         .iter()
-        .find(|spec| spec.id == "OpenBitFun")
+        .find(|spec| spec.id == "OPC-Team")
         .expect("OPC-Team control agent should be registered");
     assert_eq!(control_agent.category, BuiltinAgentCategory::Hidden);
     assert_eq!(control_agent.default_model_id, "primary");
-    assert_eq!(default_model_id_for_builtin_agent("OpenBitFun"), "primary");
+    assert_eq!(default_model_id_for_builtin_agent("OPC-Team"), "primary");
     let swarm_planner = specs
         .iter()
         .find(|spec| spec.id == "SwarmPlanner")

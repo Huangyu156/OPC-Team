@@ -597,7 +597,7 @@
       "value": "About"
     },
     {
-      "name": "settings_about_openbitfun",
+      "name": "settings_about_opc",
       "value": "About OPC-Team"
     },
     {
@@ -901,7 +901,7 @@
       "value": "New chat"
     },
     {
-      "name": "sidebar_signInOpenBitFunAccount",
+      "name": "sidebar_signInOpcAccount",
       "value": "Sign in with email or GitHub"
     },
     {
@@ -1229,7 +1229,7 @@
       "value": "No desktop connected yet"
     },
     {
-      "name": "remote_settings_openbitfunUser",
+      "name": "remote_settings_opcUser",
       "value": "OPC-Team user"
     },
     {
@@ -1538,7 +1538,7 @@
     },
     {
       "name": "connect_urlPlaceholder",
-      "value": "openbitfun:// or https://...#/pair?room=...&pk=...&relay=..."
+      "value": "opc:// or https://...#/pair?room=...&pk=...&relay=..."
     },
     {
       "name": "connect_statusTitle",
@@ -2145,7 +2145,7 @@
       "value": "Model"
     },
     {
-      "name": "chat_openbitfunProcessing",
+      "name": "chat_opcProcessing",
       "value": "OPC-Team is processing..."
     },
     {

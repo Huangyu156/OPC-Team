@@ -78,9 +78,9 @@ function fixture() {
       staticStatus: { state: 'ready' }, environmentKeys: [], headerNames: [], commandPreview: 'docs-server',
     } })),
   } as unknown as ExternalSourceCatalogSnapshot;
-  const skills = ['codex', 'claude-code', 'openbitfun'].map((sourceId) => ({
+  const skills = ['codex', 'claude-code', 'opc'].map((sourceId) => ({
     key: sourceId, sourceId, sourceSlot: sourceId, sourceLabel: sourceId, name: `${sourceId}-Skill`,
-    path: `/${sourceId}/skills/demo`, dirName: sourceId === 'openbitfun' ? 'native' : 'demo',
+    path: `/${sourceId}/skills/demo`, dirName: sourceId === 'opcteam' ? 'native' : 'demo',
     level: 'user', isBuiltin: false, description: 'Skill description',
   }));
   const hookSources = ['codex', 'claude-code'].map((ecosystemId) => ({ ecosystemId,
@@ -126,12 +126,12 @@ describe('external agent content and explicit import boundary', () => {
     mocks.planHook.mockResolvedValue(data.hookPlan);
     mocks.validateSkill.mockResolvedValue({ valid: true });
     mocks.addSkill.mockImplementation(async () => {
-      data.skills.push({ ...data.skills[0], key: 'imported-copy', sourceId: 'openbitfun', sourceSlot: 'openbitfun', path: '/native/skills/demo' });
+      data.skills.push({ ...data.skills[0], key: 'imported-copy', sourceId: 'opc', sourceSlot: 'opc', path: '/native/skills/demo' });
       return 'ok';
     });
     mocks.deleteSkill.mockImplementation(async () => { data.skills = data.skills.filter((skill) => skill.key !== 'imported-copy'); mocks.getSkills.mockImplementation(async () => [...data.skills]); return 'ok'; });
     mocks.saveMcp.mockResolvedValue({ runtimeApplied: true });
-    mocks.loadMcp.mockResolvedValue({ fingerprint: 'native-v1', jsonConfig: JSON.stringify({ mcpServers: { docs: { command: 'docs-server', _openbitfunImport: { sourceCandidateId: 'codex', behaviorVersion: 'v1' } }, keep: { command: 'keep' } } }) });
+    mocks.loadMcp.mockResolvedValue({ fingerprint: 'native-v1', jsonConfig: JSON.stringify({ mcpServers: { docs: { command: 'docs-server', _opcImport: { sourceCandidateId: 'codex', behaviorVersion: 'v1' } }, keep: { command: 'keep' } } }) });
     mocks.mutateHook.mockResolvedValue(data.hooks);
     mocks.applyMcp.mockResolvedValue({ outcome: { status: 'applied' } });
     mocks.applyHook.mockResolvedValue({ outcome: { kind: 'applied', snapshot: data.hooks } });
@@ -607,7 +607,7 @@ describe('external agent content and explicit import boundary', () => {
   });
 
   it('preserves existing native copies while managing their source independently', async () => {
-    data.skills.push({ ...data.skills[0], key: 'native-copy', sourceId: 'openbitfun', path: '/native/copy' });
+    data.skills.push({ ...data.skills[0], key: 'native-copy', sourceId: 'opc', path: '/native/copy' });
     await render(); await expand('skill');
     expect(container.querySelectorAll('[data-import-kind="skill"]')).toHaveLength(1);
     expect(container.querySelector('[data-import-kind="skill"]')?.getAttribute('data-import-state')).toBe('available');

@@ -61,7 +61,7 @@ UiState or an Intent declared there, and no module above it is visible to them.
 - `android/` is its own build root and pulls `shared/` in with
   `includeBuild("../shared")`, so the arrow points one way only: the app knows
   the shared build, never the reverse. That makes app dependencies read as
-  coordinates — `implementation("com.openbitfun.mobile:core-feature")` — rather than
+  coordinates — `implementation("com.opc.mobile:core-feature")` — rather than
   `project(":core-feature")`. Both spellings are subject to the seam rule below.
 - `core-feature` is the only shared module the apps may reference. Everything
   crossing that seam is a UiState or an Intent, never a repository or a DTO.
@@ -84,7 +84,7 @@ UiState or an Intent declared there, and no module above it is visible to them.
   infrastructure checks from the repository root with
   `(cd src/apps/mobile/ios && ./Testing/run-pure-swift-tests.sh)`.
   The isolated native streaming fixture (no remote requests) is covered by
-  `xcodebuild -project src/apps/mobile/ios/OpenBitFun.xcodeproj -scheme OpenBitFun -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 16 Plus' -parallel-testing-enabled NO -only-testing:OpenBitFunUITests/StreamingPresentationUITests test`.
+  `xcodebuild -project src/apps/mobile/ios/OPC-Team.xcodeproj -scheme OPC-Team -configuration Debug -destination 'platform=iOS Simulator,name=iPhone 16 Plus' -parallel-testing-enabled NO -only-testing:OpcUITests/StreamingPresentationUITests test`.
   Run it on one phone and one iPad destination when changing timeline layout,
   streaming reveal, keyboard dismissal, or history anchoring. The Debug-only
   launch argument `--streaming-regression` opens the same deterministic fixture.

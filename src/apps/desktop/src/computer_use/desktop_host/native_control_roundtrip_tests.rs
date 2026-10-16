@@ -408,10 +408,10 @@ async fn run_covered_semantic() {
     wait_for_observer(&observer_path).await;
     let initial = read(&path);
     let initial_observer = read(&observer_path);
-    assert_eq!(initial["bundle_id"], "dev.openbitfun.input-fixture.target");
+    assert_eq!(initial["bundle_id"], "dev.opc.input-fixture.target");
     assert_eq!(
         initial_observer["bundle_id"],
-        "dev.openbitfun.input-fixture.observer"
+        "dev.opc.input-fixture.observer"
     );
     let baseline_activations = initial_observer["activation_history"]
         .as_array()
@@ -441,7 +441,7 @@ async fn run_covered_semantic() {
         &tool,
         &context,
         json!({
-            "action":"open_app", "app_name":"dev.openbitfun.input-fixture.target"
+            "action":"open_app", "app_name":"dev.opc.input-fixture.target"
         }),
     )
     .await;

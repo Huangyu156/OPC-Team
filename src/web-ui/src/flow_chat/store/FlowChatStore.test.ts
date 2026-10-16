@@ -721,7 +721,7 @@ describe('FlowChatStore dispatch observer boundaries', () => {
         sessionId: 'session-1',
         userMessage: {
           id: 'user-1', content: 'continue task', timestamp: 1,
-          metadata: { __openbitfunOptimisticDispatchJobId: 'job-1' },
+          metadata: { __opcOptimisticDispatchJobId: 'job-1' },
         },
         modelRounds: [], status: 'completed', startTime: 1, endTime: 2, success: true,
       }],

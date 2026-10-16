@@ -16,9 +16,9 @@ export const subagentHatchMeta = {
   tokens: ["space.8"],
 } as const satisfies ComponentMeta;
 
-export const openBitFunSolidMarkMeta = {
+export const opcSolidMarkMeta = {
   category: "brand",
-  name: "OpenBitFunSolidMark",
+  name: "OpcSolidMark",
   description: "The original silver OPC-Team mark on a transparent canvas, preserving its material and shading.",
   maturity: "stable",
   props: [
@@ -29,9 +29,9 @@ export const openBitFunSolidMarkMeta = {
   tokens: ["control.height.lg"],
 } as const satisfies ComponentMeta;
 
-export const openBitFunAppIconMeta = {
+export const opcAppIconMeta = {
   category: "brand",
-  name: "OpenBitFunAppIcon",
+  name: "OpcAppIcon",
   description: "The installed application icon: the silver mark on its authored black rounded-square tile, with resolution-aware assets.",
   maturity: "stable",
   props: [
@@ -42,9 +42,9 @@ export const openBitFunAppIconMeta = {
   tokens: ["control.height.lg"],
 } as const satisfies ComponentMeta;
 
-export const openBitFunMarkMeta = {
+export const opcMarkMeta = {
   category: "brand",
-  name: "OpenBitFunMark",
+  name: "OpcMark",
   description: "The authored OPC-Team mark with inherited color and an optional startup breathing motion.",
   maturity: "stable",
   props: [
@@ -57,9 +57,9 @@ export const openBitFunMarkMeta = {
   tokens: ["color.content.primary"],
 } as const satisfies ComponentMeta;
 
-export const openBitFunBrandMotionMeta = {
+export const opcBrandMotionMeta = {
   category: "brand",
-  name: "OpenBitFunBrandMotion",
+  name: "OpcBrandMotion",
   description: "OPC-Team motion: circulating highlights, counter-rotating hexagons, or a compact engineering drawing that forms the original mark.",
   maturity: "stable",
   props: [

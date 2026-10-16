@@ -81,7 +81,7 @@ const BUILTIN_PETS: AgentCompanionPetSelection[] = [
   },
   {
     id: 'opc-girl',
-    displayName: BUILTIN_PET_DISPLAY_NAMES.openbitfunGirl,
+    displayName: BUILTIN_PET_DISPLAY_NAMES.opcGirl,
     description: 'Fangling, a silver-haired short-legged companion with a softly oval face and hollow rounded-hexagon ornaments.',
     source: 'preset',
     packagePath: `${BUILTIN_PET_BASE}/opc-girl`,
@@ -100,13 +100,13 @@ const BUILTIN_PETS: AgentCompanionPetSelection[] = [
     spriteVersionNumber: 2,
   },
   {
-    id: 'openbitfun',
+    id: 'opc-girl',
     displayName: 'OPC-Team',
     description:
       "OPC-Team's mascot — Bifang, a figure from Chinese mythology said to live on Mount Zhang'e. In the Classic of Mountains and Seas (Shan Hai Jing · Western Mountains), Bifang is described as crane-like with one foot, blue feathers marked with red, and a white beak.",
     source: 'preset',
-    packagePath: `${BUILTIN_PET_BASE}/openbitfun`,
-    spritesheetPath: `${BUILTIN_PET_BASE}/openbitfun/spritesheet.webp`,
+    packagePath: `${BUILTIN_PET_BASE}/opc-girl`,
+    spritesheetPath: `${BUILTIN_PET_BASE}/opc-girl/spritesheet.webp`,
     spritesheetMimeType: 'image/webp',
   },
   {

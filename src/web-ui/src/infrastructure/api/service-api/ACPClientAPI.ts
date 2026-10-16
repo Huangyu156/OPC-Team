@@ -274,7 +274,7 @@ export class ACPClientAPI {
     scope.assertCurrent('publish ACP client changes');
     ACPClientAPI.invalidateClientListCache();
     ACPClientAPI.invalidateRequirementProbeCache();
-    window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+    window.dispatchEvent(new Event('opc:acp-clients-changed'));
   }
 
   static async getClients(): Promise<AcpClientInfo[]> {
@@ -326,7 +326,7 @@ export class ACPClientAPI {
       .then((probes) => {
         scope.assertCurrent('cache ACP client requirements');
         requirementProbeCache.set(cacheKey, probes);
-        window.dispatchEvent(new Event('openbitfun:acp-requirements-changed'));
+        window.dispatchEvent(new Event('opc:acp-requirements-changed'));
         return probes;
       })
       .finally(() => {
@@ -345,7 +345,7 @@ export class ACPClientAPI {
     scope.assertCurrent('publish ACP client requirements');
     ACPClientAPI.invalidateClientListCache();
     ACPClientAPI.invalidateRequirementProbeCache();
-    window.dispatchEvent(new Event('openbitfun:acp-requirements-changed'));
+    window.dispatchEvent(new Event('opc:acp-requirements-changed'));
   }
 
   static async installClientCli(request: AcpClientIdRequest): Promise<void> {
@@ -354,7 +354,7 @@ export class ACPClientAPI {
     scope.assertCurrent('publish ACP client requirements');
     ACPClientAPI.invalidateClientListCache();
     ACPClientAPI.invalidateRequirementProbeCache();
-    window.dispatchEvent(new Event('openbitfun:acp-requirements-changed'));
+    window.dispatchEvent(new Event('opc:acp-requirements-changed'));
   }
 
   static async stopClient(request: AcpClientIdRequest): Promise<void> {
@@ -362,7 +362,7 @@ export class ACPClientAPI {
     await api.invoke('stop_acp_client', { request });
     scope.assertCurrent('publish ACP client changes');
     ACPClientAPI.invalidateClientListCache();
-    window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+    window.dispatchEvent(new Event('opc:acp-clients-changed'));
   }
 
   static async loadJsonConfig(): Promise<string> {
@@ -375,7 +375,7 @@ export class ACPClientAPI {
     scope.assertCurrent('publish ACP client changes');
     ACPClientAPI.invalidateClientListCache();
     ACPClientAPI.invalidateRequirementProbeCache();
-    window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+    window.dispatchEvent(new Event('opc:acp-clients-changed'));
   }
 
   static async updateClientSubagentConfig(
@@ -426,7 +426,7 @@ export class ACPClientAPI {
     const response = await api.invoke<CreateAcpFlowSessionResponse>('create_acp_flow_session', { request });
     scope.assertCurrent('publish ACP client changes');
     ACPClientAPI.invalidateClientListCache();
-    window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+    window.dispatchEvent(new Event('opc:acp-clients-changed'));
     return response;
   }
 

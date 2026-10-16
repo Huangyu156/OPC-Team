@@ -1,6 +1,6 @@
 //! SSH transport for persistent OPC-Team dispatch jobs.
 //!
-//! The target-side runner is the `openbitfun dispatch` CLI surface. This module is
+//! The target-side runner is the `opc dispatch` CLI surface. This module is
 //! deliberately only a controller transport: the remote CLI owns jobs,
 //! workspaces, sessions, transcripts, process detachment, supervision, and
 //! cancellation semantics.
@@ -34,11 +34,11 @@ use super::release_verify::{
 use super::remote_git::shell_quote_posix;
 use super::types::SSHCommandOptions;
 
-const GITHUB_RELEASE_BASE: &str = "https://github.com/GCWing/OpenBitFun/releases";
-const OPC_RELEASE_BASE: &str = "https://openbitfun.com/release";
+const GITHUB_RELEASE_BASE: &str = "https://github.com/GCWing/OPC-Team/releases";
+const OPC_RELEASE_BASE: &str = "https://opcteam.eu.cc/release";
 const GITHUB_LATEST_MANIFEST: &str =
-    "https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json";
-const OPC_LATEST_MANIFEST: &str = "https://openbitfun.com/release/latest-v1.json";
+    "https://github.com/GCWing/OPC-Team/releases/latest/download/latest-v1.json";
+const OPC_LATEST_MANIFEST: &str = "https://opcteam.eu.cc/release/latest-v1.json";
 const INSTALL_STEM: &str = "install-cli";
 const INSTALL_DONE_MARKER: &str = "OPC_DISPATCH_CLI_INSTALL_DONE";
 const INSTALL_PREPARE_GRACE_SECONDS: u64 = 30;
@@ -221,7 +221,7 @@ struct ResolvedRelease {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ReleaseOrigin {
     GitHub,
-    OpenBitFun,
+    OpcTeam,
 }
 
 #[derive(Debug, Clone)]
@@ -680,7 +680,7 @@ async fn download_archive_on_target(
     let mirror_url = release
         .sources
         .iter()
-        .find(|source| source.origin == ReleaseOrigin::OpenBitFun)
+        .find(|source| source.origin == ReleaseOrigin::OpcTeam)
         .map(|source| source.url.as_str())
         .unwrap_or("");
     let script = target_download_script(
@@ -1201,7 +1201,7 @@ async fn account_daemon_cli_path(
 const MODEL_CONFIG_KEYS: [&str; 3] = ["models", "default_models", "agent_model_defaults"];
 
 /// Write the controller's model configuration into the target's global config
-/// so `openbitfun dispatch probe` can report a ready model.
+/// so `opc dispatch probe` can report a ready model.
 ///
 /// `ai_model_config` is the snake_case `ai` slice restricted to
 /// [`MODEL_CONFIG_KEYS`], exactly as `app.json` stores it. Everything else in
@@ -2242,10 +2242,10 @@ else printf 'downloader=\n'; fi
 if command -v sha256sum >/dev/null 2>&1; then printf 'digest=sha256sum\n'
 elif command -v shasum >/dev/null 2>&1; then printf 'digest=shasum\n'
 else printf 'digest=\n'; fi
-if [ -x "$HOME/.local/bin/openbitfun" ]; then
-  OPC_BIN="$HOME/.local/bin/openbitfun"
+if [ -x "$HOME/.local/bin/opc" ]; then
+  OPC_BIN="$HOME/.local/bin/opc"
 else
-  OPC_BIN="$(command -v openbitfun 2>/dev/null || true)"
+  OPC_BIN="$(command -v opc 2>/dev/null || true)"
 fi
 printf 'cli=%s\n' "$OPC_BIN"
 if [ "$(uname -s 2>/dev/null || true)" = "Linux" ]; then
@@ -2295,7 +2295,7 @@ fn release_sources(version: &str, filename: &str) -> Vec<ReleaseArtifactSource> 
             format!("{GITHUB_RELEASE_BASE}/download/{tag}"),
         ),
         (
-            ReleaseOrigin::OpenBitFun,
+            ReleaseOrigin::OpcTeam,
             format!("{OPC_RELEASE_BASE}/{version}"),
         ),
     ]
@@ -2549,12 +2549,12 @@ fn order_release_sources_for_speed(sources: &mut [ReleaseArtifactSource], github
     if github_speed >= GITHUB_HEALTHY_THROUGHPUT
         || !sources
             .iter()
-            .any(|source| source.origin == ReleaseOrigin::OpenBitFun)
+            .any(|source| source.origin == ReleaseOrigin::OpcTeam)
     {
         sources.swap(0, github_index);
     } else if let Some(mirror_index) = sources
         .iter()
-        .position(|source| source.origin == ReleaseOrigin::OpenBitFun)
+        .position(|source| source.origin == ReleaseOrigin::OpcTeam)
     {
         sources.swap(0, mirror_index);
     }
@@ -2648,12 +2648,12 @@ TOKEN="${{1:-}}"
 PIDF="$D/{INSTALL_STEM}.pid"
 EXITF="$D/{INSTALL_STEM}.exit"
 TMP="$D/unpack.$$"
-TARGET="$HOME/.local/bin/openbitfun"
+TARGET="$HOME/.local/bin/opc"
 # Stage under the final filename on the same filesystem as the target so the
 # publish step is one atomic rename.
 STAGE="$HOME/.local/bin/{hidden_data_directory}-dispatch-stage-$$"
-NEW="$STAGE/openbitfun"
-BACKUP="$D/previous-openbitfun.$$"
+NEW="$STAGE/opc"
+BACKUP="$D/previous-opc.$$"
 HAD_TARGET=0
 TARGET_INSTALLED=0
 COMMITTED=0
@@ -2661,7 +2661,7 @@ rollback_install() {{
   if [ "$TARGET_INSTALLED" = "1" ]; then rm -f "$TARGET"; fi
   if [ "$HAD_TARGET" = "1" ] && [ -f "$BACKUP" ]; then
     mv -f "$BACKUP" "$TARGET" \
-      || echo "ERROR: could not restore previous openbitfun" >&2
+      || echo "ERROR: could not restore previous opc" >&2
   fi
 }}
 finish() {{
@@ -2687,7 +2687,7 @@ chmod 700 "{product_home}" "$STAGE"
     )
 }
 
-/// Stage, smoke-test, and atomically commit the single `openbitfun` binary.
+/// Stage, smoke-test, and atomically commit the single `opc` binary.
 ///
 /// `post_commit` runs once the swap has succeeded, for path-specific cleanup.
 fn install_commit_fragment(post_commit: &str) -> String {
@@ -2742,7 +2742,7 @@ case "$installed" in
 esac
 COMMITTED=1
 {post_commit}
-echo "Installed $installed at $HOME/.local/bin/openbitfun"
+echo "Installed $installed at $HOME/.local/bin/opc"
 echo {INSTALL_DONE_MARKER}
 "#,
         product_id = product_id,
@@ -2773,15 +2773,15 @@ fn install_body_script(
 echo {source_note}
 tar -xzf "$ARCHIVE" -C "$TMP"
 BINARY=""
-for candidate in "$TMP"/*/openbitfun; do
+for candidate in "$TMP"/*/opc; do
   [ -f "$candidate" ] || continue
-  [ -z "$BINARY" ] || {{ echo "ERROR: archive contains multiple openbitfun binaries" >&2; exit 1; }}
+  [ -z "$BINARY" ] || {{ echo "ERROR: archive contains multiple opc binaries" >&2; exit 1; }}
   BINARY="$candidate"
 done
 for candidate in "$TMP"/*/opc-cli; do
   [ ! -e "$candidate" ] || {{ echo "ERROR: archive contains an unsupported legacy CLI entrypoint" >&2; exit 1; }}
 done
-[ -n "$BINARY" ] || {{ echo "ERROR: archive contains no openbitfun binary" >&2; exit 1; }}
+[ -n "$BINARY" ] || {{ echo "ERROR: archive contains no opc binary" >&2; exit 1; }}
 "#,
         archive = shell_quote_posix(archive_path),
         source_note = shell_quote_posix(&source_note),
@@ -3185,7 +3185,7 @@ mod tests {
             filename: "opc-cli.tar.gz".to_string(),
             sources: [
                 (ReleaseOrigin::GitHub, github_url),
-                (ReleaseOrigin::OpenBitFun, mirror_url),
+                (ReleaseOrigin::OpcTeam, mirror_url),
             ]
             .into_iter()
             .map(|(origin, url)| ReleaseArtifactSource {
@@ -3396,7 +3396,7 @@ mod tests {
             "release must use the shared commit"
         );
         assert!(
-            release.contains(r#"NEW="$STAGE/openbitfun""#),
+            release.contains(r#"NEW="$STAGE/opc""#),
             "release must stage under the final filename"
         );
         assert!(
@@ -3460,12 +3460,12 @@ mod tests {
         assert_eq!(sources[0].origin, ReleaseOrigin::GitHub);
         assert_eq!(
             sources[0].url,
-            format!("https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/{filename}")
+            format!("https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/{filename}")
         );
-        assert_eq!(sources[1].origin, ReleaseOrigin::OpenBitFun);
+        assert_eq!(sources[1].origin, ReleaseOrigin::OpcTeam);
         assert_eq!(
             sources[1].url,
-            format!("https://openbitfun.com/release/1.2.3/{filename}")
+            format!("https://opcteam.eu.cc/release/1.2.3/{filename}")
         );
     }
 
@@ -3473,7 +3473,7 @@ mod tests {
     fn dispatch_cli_uses_the_mirror_only_below_the_github_speed_floor() {
         let mut slow = test_release(true).sources;
         order_release_sources_for_speed(&mut slow, GITHUB_HEALTHY_THROUGHPUT - 1);
-        assert_eq!(slow[0].origin, ReleaseOrigin::OpenBitFun);
+        assert_eq!(slow[0].origin, ReleaseOrigin::OpcTeam);
 
         let mut healthy = test_release(true).sources;
         healthy.swap(0, 1);
@@ -3486,15 +3486,15 @@ mod tests {
         let script = target_download_script(
             RemoteDownloader::Curl,
             RemoteDigestTool::Sha256Sum,
-            "/tmp/openbitfun.tar.gz",
-            "https://github.example/openbitfun.tar.gz",
-            "https://mirror.example/openbitfun.tar.gz",
+            "/tmp/opc.tar.gz",
+            "https://github.example/opc.tar.gz",
+            "https://mirror.example/opc.tar.gz",
             &"a".repeat(64),
         );
         assert!(script.contains("524288"));
         assert!(script.contains("GITHUB_SPEED"));
-        assert!(script.contains("https://github.example/openbitfun.tar.gz"));
-        assert!(script.contains("https://mirror.example/openbitfun.tar.gz"));
+        assert!(script.contains("https://github.example/opc.tar.gz"));
+        assert!(script.contains("https://mirror.example/opc.tar.gz"));
     }
 
     #[test]
@@ -3629,11 +3629,11 @@ mod tests {
             &ArchiveSource::TargetDownload,
         );
         assert!(
-            body.contains(r#"TARGET="$HOME/.local/bin/openbitfun""#),
+            body.contains(r#"TARGET="$HOME/.local/bin/opc""#),
             "the managed target must use the canonical CLI name"
         );
         assert!(
-            body.contains(r#"NEW="$STAGE/openbitfun""#),
+            body.contains(r#"NEW="$STAGE/opc""#),
             "the binary must stage under its final filename"
         );
         assert!(
@@ -3659,7 +3659,7 @@ mod tests {
              fi\n\
              exit 0\n\
              fi\n\
-             echo \"openbitfun 1.2.3\"\n",
+             echo \"opc 1.2.3\"\n",
             opc_services_core::product_identity::product_id(),
             opc_services_core::product_identity::data_namespace(),
             DISPATCH_PROTOCOL_VERSION,
@@ -3673,7 +3673,7 @@ mod tests {
          echo \"error: unrecognized subcommand 'dispatch'\" >&2\n\
          exit 2\n\
          fi\n\
-         echo \"openbitfun 1.2.3\"\n";
+         echo \"opc 1.2.3\"\n";
 
     #[cfg(unix)]
     #[test]
@@ -3698,7 +3698,7 @@ mod tests {
             "the underlying message must survive: {stderr}"
         );
         assert!(
-            !home.join(".local/bin/openbitfun").exists(),
+            !home.join(".local/bin/opc").exists(),
             "nothing may be published when the build cannot serve dispatch"
         );
     }
@@ -3718,7 +3718,7 @@ mod tests {
             "{}",
             String::from_utf8_lossy(&output.stderr)
         );
-        assert!(!temp.path().join(".local/bin/openbitfun").exists());
+        assert!(!temp.path().join(".local/bin/opc").exists());
     }
 
     #[cfg(unix)]
@@ -3731,12 +3731,9 @@ mod tests {
         std::fs::create_dir_all(&install_dir).expect("install dir");
         let pkg = temp.path().join("pkg/opc-cli-1.2.3-test");
         std::fs::create_dir_all(&pkg).expect("package dir");
-        std::fs::write(pkg.join("openbitfun"), primary).expect("write binary");
-        std::fs::set_permissions(
-            pkg.join("openbitfun"),
-            std::fs::Permissions::from_mode(0o755),
-        )
-        .expect("chmod package binary");
+        std::fs::write(pkg.join("opc"), primary).expect("write binary");
+        std::fs::set_permissions(pkg.join("opc"), std::fs::Permissions::from_mode(0o755))
+            .expect("chmod package binary");
         let archive = install_dir.join("archive.tar.gz");
         assert!(std::process::Command::new("tar")
             .arg("-czf")
@@ -3784,20 +3781,20 @@ mod tests {
             "install must report completion"
         );
 
-        let installed = home.join(".local/bin/openbitfun");
+        let installed = home.join(".local/bin/opc");
         let run = std::process::Command::new(&installed)
             .arg("--version")
             .output()
             .expect("run installed binary");
-        assert!(run.status.success(), "openbitfun must run after install");
-        assert!(String::from_utf8_lossy(&run.stdout).contains("openbitfun 1.2.3"));
+        assert!(run.status.success(), "opc must run after install");
+        assert!(String::from_utf8_lossy(&run.stdout).contains("opc 1.2.3"));
         let installed_entries: Vec<_> = std::fs::read_dir(home.join(".local/bin"))
             .expect("read bin dir")
             .map(|entry| entry.expect("read installed entry").file_name())
             .collect();
         assert_eq!(
             installed_entries,
-            vec![std::ffi::OsString::from("openbitfun")],
+            vec![std::ffi::OsString::from("opc")],
             "only the canonical CLI may remain; no aliases or staging directories"
         );
     }
@@ -3822,7 +3819,7 @@ mod tests {
                 RemoteDigestTool::Sha256Sum,
                 &managed_install_path("archive.tar.gz"),
                 "https://example.invalid/archive.tar.gz",
-                "https://openbitfun.example.invalid/archive.tar.gz",
+                "https://opc.example.invalid/archive.tar.gz",
                 &"a".repeat(64),
             ),
             target_download_script(
@@ -3830,7 +3827,7 @@ mod tests {
                 RemoteDigestTool::Shasum,
                 &managed_install_path("archive.tar.gz"),
                 "https://example.invalid/archive.tar.gz",
-                "https://openbitfun.example.invalid/archive.tar.gz",
+                "https://opc.example.invalid/archive.tar.gz",
                 &"a".repeat(64),
             ),
             install_poll_script(17),
@@ -4000,7 +3997,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("temp dir");
         let bin_dir = temp.path().join("bin with space");
         std::fs::create_dir_all(&bin_dir).expect("bin dir");
-        let cli = bin_dir.join("openbitfun's");
+        let cli = bin_dir.join("opc's");
         std::fs::write(&cli, "#!/bin/sh\ncat\n").expect("fake CLI");
         let mut permissions = std::fs::metadata(&cli).unwrap().permissions();
         permissions.set_mode(0o700);
@@ -4046,9 +4043,9 @@ mod tests {
     fn probe_prefers_the_managed_cli_over_an_incompatible_path_copy() {
         let script = probe_remote_target_script();
         let managed = script
-            .find(r#"[ -x "$HOME/.local/bin/openbitfun" ]"#)
+            .find(r#"[ -x "$HOME/.local/bin/opc" ]"#)
             .expect("managed CLI check");
-        let path_lookup = script.find("command -v openbitfun").expect("PATH fallback");
+        let path_lookup = script.find("command -v opc").expect("PATH fallback");
         assert!(managed < path_lookup);
     }
 
@@ -4097,7 +4094,7 @@ mod tests {
 
         // No product name may be spelled out: a hardcoded directory made the
         // model-config sync read and write a path the target CLI never uses.
-        assert!(!script.contains("openbitfun"));
+        assert!(!script.contains("opcun"));
     }
 
     #[test]
@@ -4151,7 +4148,7 @@ mod tests {
         let confirmed = DispatchCliRelease {
             version: "1.2.3".to_string(),
             target: "aarch64-apple-darwin".to_string(),
-            url: "https://example.test/openbitfun.tar.gz".to_string(),
+            url: "https://example.test/opc.tar.gz".to_string(),
             sha256: "a".repeat(64),
         };
         ensure_confirmed_release(&confirmed, &confirmed).expect("exact asset");

@@ -1,7 +1,7 @@
 /** Opt-in OPC-Team identity and motion, separate from generic UI controls. */
-export { OpenBitFunSolidMark, OpenBitFunAppIcon, type OpenBitFunArtworkProps } from "./brand/OpenBitFunArtwork";
-export { OpenBitFunMark, type OpenBitFunMarkProps } from "./brand/OpenBitFunMark";
-export { OpenBitFunBrandMotion, type OpenBitFunBrandMotionProps } from "./brand/OpenBitFunBrandMotion";
+export { OpcSolidMark, OpcAppIcon, type OpcArtworkProps } from "./brand/OpcArtwork";
+export { OpcMark, type OpcMarkProps } from "./brand/OpcMark";
+export { OpcBrandMotion, type OpcBrandMotionProps } from "./brand/OpcBrandMotion";
 export { VoiceParticleLogo, type VoiceParticleLogoProps, type VoiceParticleAudio, type VoiceParticleAudioReader } from "./brand/VoiceParticleLogo";
 
 export * from "./brand/subagent/subagentMotion";

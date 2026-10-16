@@ -1014,7 +1014,7 @@ mod tests {
     fn source_session() -> MemorySourceSession {
         MemorySourceSession {
             workspace_path: "E:/workspace".to_string(),
-            rollout_path: "E:/OpenBitFun/sessions/session_1".to_string(),
+            rollout_path: "E:/OPC-Team/sessions/session_1".to_string(),
             session_id: "session_1".to_string(),
             session_name: "Session 1".to_string(),
             agent_type: "coder".to_string(),

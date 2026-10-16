@@ -1,5 +1,5 @@
 /**
- * OpenBitFun global styles entry point.
+ * OPC-Team global styles entry point.
  * Uses component library design tokens.
  */
 
@@ -264,7 +264,7 @@ html::before {
 /* Hide top-right floating debug info */
 div[style*="position: fixed"][style*="top"][style*="right"],
 div[style*="position:fixed"][style*="top"][style*="right"] {
-  &:not(.openbitfun-notification-container):not(.openbitfun-notification-center):not([class*="openbitfun"]) {
+  &:not(.opc-notification-container):not(.opc-notification-center):not([class*="opc"]) {
     display: none !important;
   }
 }

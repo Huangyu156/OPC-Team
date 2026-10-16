@@ -900,7 +900,7 @@ mod native_tests {
             .unwrap();
         start_session(false)
             .await
-            .expect("approve the OpenBitFun Portal Fixture window in the system picker");
+            .expect("approve the OPC-Team Portal Fixture window in the system picker");
         let session = session().unwrap().expect("active portal session");
         assert_eq!(
             super::super::control_session::snapshot().target.as_deref(),

@@ -4,7 +4,7 @@
 
 Migrate settings, sessions, workspaces, and other supported data from BitFun to OPC-Team. The migrator preserves the original BitFun data and does not automatically delete its data directories.
 
-最新版本与使用指南：[中文](https://github.com/GCWing/OpenBitFun/blob/main/src/apps/data-migrator/README.zh-CN.md) · Latest release and guide: [English](https://github.com/GCWing/OpenBitFun/blob/main/src/apps/data-migrator/README.md)
+最新版本与使用指南：[中文](https://github.com/GCWing/OPC-Team/blob/main/src/apps/data-migrator/README.zh-CN.md) · Latest release and guide: [English](https://github.com/GCWing/OPC-Team/blob/main/src/apps/data-migrator/README.md)
 
 ## 中文
 
@@ -41,12 +41,12 @@ Windows 目标目录：
 ```text
 %APPDATA%\opcteam
 %USERPROFILE%\.opcteam
-%LOCALAPPDATA%\OpenBitFun
+%LOCALAPPDATA%\OPC-Team
 ```
 
 **重试后仍然异常**
 
-请在 [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) 提交问题，或在 OPC-Team 用户微信群中反馈，并提供：
+请在 [GitHub Issues](https://github.com/GCWing/OPC-Team/issues) 提交问题，或在 OPC-Team 用户微信群中反馈，并提供：
 
 - 操作系统、BitFun 版本、OPC-Team 版本和迁移器版本。
 - 操作步骤、预期结果及实际结果。
@@ -56,7 +56,7 @@ Windows 目标目录：
 Windows 迁移日志目录：
 
 ```text
-%APPDATA%\opcteam\data\migrations\bitfun-to-openbitfun\runs\<运行ID>\
+%APPDATA%\opcteam\data\migrations\bitfun-to-opc\runs\<运行ID>\
 ```
 
 请提供对应运行目录中的日志文件，例如 `report.json`、`plan.json`、`journal.jsonl`、`locations.json` 和 `release-observation.json`（如存在）。`stage` 和 `backup` 目录包含个人数据，是否一并提供可自行选择；初次反馈通常只需上述日志文件。如果准备清空目标目录重试，请先保存这份日志。
@@ -102,12 +102,12 @@ Windows destination directories:
 ```text
 %APPDATA%\opcteam
 %USERPROFILE%\.opcteam
-%LOCALAPPDATA%\OpenBitFun
+%LOCALAPPDATA%\OPC-Team
 ```
 
 **The issue persists after retrying**
 
-Open a report in [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) or share your feedback in the OPC-Team user WeChat group. Include:
+Open a report in [GitHub Issues](https://github.com/GCWing/OPC-Team/issues) or share your feedback in the OPC-Team user WeChat group. Include:
 
 - Your operating system and the BitFun, OPC-Team, and migrator versions.
 - Steps to reproduce, the expected result, and the actual result.
@@ -117,7 +117,7 @@ Open a report in [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) or
 Windows migration log location:
 
 ```text
-%APPDATA%\opcteam\data\migrations\bitfun-to-openbitfun\runs\<run-id>\
+%APPDATA%\opcteam\data\migrations\bitfun-to-opc\runs\<run-id>\
 ```
 
 Provide the log files from the affected run, such as `report.json`, `plan.json`, `journal.jsonl`, `locations.json`, and `release-observation.json` when present. The `stage` and `backup` directories contain personal data, so sharing them is optional and at your discretion; the log files listed above are usually sufficient for an initial report. Save the logs before clearing the destination directories for another attempt.

@@ -95,7 +95,7 @@ impl CanvasSdkContractVisitor<'_> {
                 severity: CanvasDiagnosticSeverity::Error,
                 category: CanvasDiagnosticCategory::TypeScript,
                 message: format!(
-                    "`{}` is not a valid prop for `{}` in openbitfun/canvas",
+                    "`{}` is not a valid prop for `{}` in opc/canvas",
                     prop, component
                 ),
                 code: Some("canvas.sdk.invalid_prop".to_string()),
@@ -229,6 +229,6 @@ fn sdk_invalid_prop_fix(component: &str, prop: &str) -> &'static str {
     match (component, prop) {
         ("Pill", "label") => "Put the label inside the Pill children, e.g. <Pill>Label</Pill>.",
         ("Table", "columns") => "Use <Table headers={...} rows={...} />; the Canvas SDK does not support a columns prop.",
-        _ => "Use props declared by the openbitfun/canvas SDK for this component.",
+        _ => "Use props declared by the opc/canvas SDK for this component.",
     }
 }

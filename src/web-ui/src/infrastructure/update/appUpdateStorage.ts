@@ -2,11 +2,11 @@ import type { CheckForUpdatesResponse } from '@/infrastructure/api/service-api/S
 import { isAppVersion, isNewerAppVersion } from './appUpdateVersion';
 
 // Keep legacy keys readable by older installs. Dismissal never changes the skipped version.
-const LAST_DAILY_PROMPT_DATE_KEY = 'openbitfun:update:lastDailyPromptDate';
-const LAST_PROMPTED_LATEST_KEY = 'openbitfun:update:lastPromptedLatestVersion';
-const SKIPPED_VERSION_KEY = 'openbitfun:update:skippedVersion';
-const CHECK_SNAPSHOT_KEY = 'openbitfun:update:checkSnapshot';
-const REMINDERS_KEY = 'openbitfun:update:reminders';
+const LAST_DAILY_PROMPT_DATE_KEY = 'opc:update:lastDailyPromptDate';
+const LAST_PROMPTED_LATEST_KEY = 'opc:update:lastPromptedLatestVersion';
+const SKIPPED_VERSION_KEY = 'opc:update:skippedVersion';
+const CHECK_SNAPSHOT_KEY = 'opc:update:checkSnapshot';
+const REMINDERS_KEY = 'opc:update:reminders';
 export const APP_UPDATE_REMINDER_INTERVAL = 24 * 60 * 60 * 1000;
 export type AppUpdateReminderStage = 'available' | 'ready';
 interface ReminderRecord { version: string; presentedAt?: number; deferredAt?: number }

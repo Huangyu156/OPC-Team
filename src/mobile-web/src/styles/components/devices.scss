@@ -18,7 +18,7 @@
   padding: max(var(--size-gap-3), env(safe-area-inset-top, 0px)) var(--size-gap-5) var(--size-gap-3);
   background: var(--opcteam-color-surface-canvas);
 
-  [data-openbitfun-part='title'] {
+  [data-opc-part='title'] {
     font-size: var(--opcteam-type-heading-dialog-font-size);
     line-height: var(--opcteam-type-heading-dialog-line-height);
   }
@@ -303,6 +303,6 @@
 
 .devices-page__header--account {
   grid-template-columns: minmax(0, 1fr) auto;
-  [data-openbitfun-part='leading'] { display: none; }
+  [data-opc-part='leading'] { display: none; }
 }
 .devices-page--empty .devices-page__header { width: min(100%, 520px); margin-inline: auto; }

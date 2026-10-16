@@ -10,7 +10,7 @@ const ts = require('typescript');
 // refusal shapes a thrown error is. The rendering itself, the system selection
 // menu item and the wire call stay device-level checks.
 //
-// Sources of truth: `.openbitfun/plans/mobile-copy-rollback.plan.md` (decision 4)
+// Sources of truth: `.opcteam/plans/mobile-copy-rollback.plan.md` (decision 4)
 // and the approved artboard `artifacts/ui-drafts/copy-rollback/v2.html` (H).
 const ROOT = path.join(__dirname, '../../entry/src/main/ets');
 const RESOURCES = path.join(__dirname, '../../entry/src/main/resources');

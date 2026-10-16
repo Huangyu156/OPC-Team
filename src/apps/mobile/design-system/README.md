@@ -48,7 +48,7 @@ platform presentation primitives.
   font-size preference. HarmonyOS folds it into the generated typography roles
   (`MobileTextScale.apply` at ability start, so every role getter returns the
   scaled value); Android folds it into the theme's `Density.fontScale` so every
-  `sp` under `OpenBitFunTheme` follows. iOS is the reference and stays at 1.
+  `sp` under `OpcTheme` follows. iOS is the reference and stays at 1.
   Symbol glyph and `dp`/`vp` geometry never scale. A HUAWEI Mate X7
   (415.6 dpi at density 3.125) resolves to 0.868, so its `16` reads as 14 vp —
   the same millimetres as 16 pt on the iPhone.
@@ -113,21 +113,21 @@ The native galleries can be launched without changing the normal app path:
 
 ```bash
 # Android (after installing the debug APK)
-adb shell am force-stop com.openbitfun.mobile.debug
+adb shell am force-stop com.opc.mobile.debug
 adb shell am start \
-  -n com.openbitfun.mobile.debug/com.openbitfun.mobile.app.MainActivity \
-  --ez openbitfun.design_preview true \
-  --es openbitfun.design_scenario connected-conversation
+  -n com.opc.mobile.debug/com.opc.mobile.app.MainActivity \
+  --ez opc.design_preview true \
+  --es opc.design_scenario connected-conversation
 
 # iOS Simulator (after installing the simulator app)
-xcrun simctl launch booted com.openbitfun.mobile.ios \
+xcrun simctl launch booted com.opc.mobile.ios \
   --design-preview connected-conversation
 
 # HarmonyOS emulator (after installing a locally signed debug HAP)
 hdc -t <emulator-tcp-target> shell aa force-stop <harmony-bundle-id>
 hdc -t <emulator-tcp-target> shell aa start \
   -a EntryAbility -b <harmony-bundle-id> \
-  --ps openbitfunDesignPreview connected-conversation
+  --ps opcDesignPreview connected-conversation
 ```
 
 Valid scenario ids come from `scenarios/mobile-preview-scenarios.json`. Save
@@ -182,7 +182,7 @@ reserved footer area until they own that capability, rather than presenting an
 inert MiniApp action. QR actions still use the existing account-device protocol;
 this UI change does not add guest credentials or bypass server authorization.
 HarmonyOS can render the isolated surface with the existing design-preview
-launch parameter `openbitfunDesignPreview=welcome-home`, without logging out an
+launch parameter `opcDesignPreview=welcome-home`, without logging out an
 active account or loading its connection state.
 
 The welcome and startup marks share the desktop AboutBrandMark contour geometry:

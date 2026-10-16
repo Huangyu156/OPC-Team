@@ -1712,7 +1712,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/execution/agent-runtime/tests/agent_definition_contracts/custom_subagent_discovery_contracts.rs',
     reason:
-      'agent-runtime custom subagent discovery owner must keep behavior-equivalence contracts for OpenBitFun directory priority, foreign directory exclusion, and load errors',
+      'agent-runtime custom subagent discovery owner must keep behavior-equivalence contracts for OPC-Team directory priority, foreign directory exclusion, and load errors',
     patterns: [
       {
         regex:
@@ -3188,7 +3188,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/service/filesystem/service.rs',
     reason:
-      'core filesystem service may keep remote-workspace overlay and OpenBitFunError compatibility, but local filesystem owner must remain services-core',
+      'core filesystem service may keep remote-workspace overlay and OpcError compatibility, but local filesystem owner must remain services-core',
     patterns: [
       {
         regex: /let connection_id = explicit_connection_id\?/,
@@ -8155,7 +8155,7 @@ export const requiredContentRules = [
         message: 'missing product config hook for workspace-search repo config',
       },
       {
-        regex: /\bensure_workspace_gitignore_ignores_openbitfun\b/,
+        regex: /\bensure_workspace_gitignore_ignores_opc\b/,
         message: 'missing workspace bootstrap hook for search warmup',
       },
     ],

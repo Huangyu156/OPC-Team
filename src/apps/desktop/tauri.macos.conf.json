@@ -5,10 +5,10 @@
   },
   "bundle": {
     "icon": [
-      "icons/openbitfun-app-icon.icns",
-      "icons/openbitfun-app-icon.ico",
-      "icons/openbitfun-app-icon.png",
-      "../../../assets/brand/macos/openbitfun.icon"
+      "icons/opc-app-icon.icns",
+      "icons/opc-app-icon.ico",
+      "icons/opc-app-icon.png",
+      "../../../assets/brand/macos/opcteam.icon"
     ]
   }
 }

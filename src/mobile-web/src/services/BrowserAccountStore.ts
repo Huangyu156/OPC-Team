@@ -6,8 +6,8 @@ import { pairingRelayUrl } from './pairingLink';
 
 const DATABASE = 'opc-mobile-account';
 const ACCOUNTS = 'accounts';
-const CHANGE_CHANNEL = 'openbitfun.mobile.account.changed';
-const LEGACY_SESSION_KEY = 'openbitfun.mobile.account_session.v2';
+const CHANGE_CHANNEL = 'opc.mobile.account.changed';
+const LEGACY_SESSION_KEY = 'opc.mobile.account_session.v2';
 
 interface BrowserAccountRecord {
   version: 1;
@@ -169,7 +169,7 @@ export class BrowserAccountStore {
       // transaction commits. A retained signed-out record prevents resurrection
       // when another, previously suspended legacy tab later loads this build.
       window.sessionStorage.removeItem(LEGACY_SESSION_KEY);
-      window.sessionStorage.removeItem(`openbitfun.mobile.device_key:${this.relayUrl}:${legacy.controllerDeviceId}`);
+      window.sessionStorage.removeItem(`opc.mobile.device_key:${this.relayUrl}:${legacy.controllerDeviceId}`);
     } catch { /* A shared record is authoritative even if legacy cleanup fails. */ }
   }
 

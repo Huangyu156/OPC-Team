@@ -3,7 +3,7 @@ use std::process::Output;
 
 fn run_cli(workspace: &Path, user_root: &Path, home_root: &Path, args: &[&str]) -> Output {
     let config_root = user_root.join("host-config");
-    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
+    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"))
         .args(args)
         .current_dir(workspace)
         .env_remove("OPC_USER_ROOT")
@@ -15,7 +15,7 @@ fn run_cli(workspace: &Path, user_root: &Path, home_root: &Path, args: &[&str]) 
         .env("XDG_CONFIG_HOME", &config_root)
         .env("HOME", home_root)
         .output()
-        .expect("run openbitfun")
+        .expect("run opc")
 }
 
 fn stdout(output: &Output) -> String {

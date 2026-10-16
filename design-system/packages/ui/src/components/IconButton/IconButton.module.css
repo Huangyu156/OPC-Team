@@ -179,10 +179,10 @@
 
   .button[data-loading="true"] .progress {
     opacity: 1;
-    animation: openbitfun-icon-button-progress var(--opcteam-motion-duration-loop) linear infinite;
+    animation: opc-icon-button-progress var(--opcteam-motion-duration-loop) linear infinite;
   }
 
-  @keyframes openbitfun-icon-button-progress {
+  @keyframes opc-icon-button-progress {
     to {
       transform: rotate(360deg);
     }

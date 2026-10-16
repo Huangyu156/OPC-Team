@@ -5,11 +5,11 @@ import { fileURLToPath } from 'node:url';
 
 export const ROOT = fileURLToPath(new URL('../', import.meta.url));
 export const MACOS_ICON_DIR = join(ROOT, 'assets/brand/macos');
-export const COMPOSER_ICON = join(MACOS_ICON_DIR, 'openbitfun.icon');
+export const COMPOSER_ICON = join(MACOS_ICON_DIR, 'opcteam.icon');
 export const ICNS_OUTPUTS = [
-  'assets/brand/exports/openbitfun-app-icon.icns',
-  'src/apps/desktop/icons/openbitfun-app-icon.icns',
-  'OpenBitFun-Installer/src-tauri/icons/openbitfun-app-icon.icns',
+  'assets/brand/exports/opc-app-icon.icns',
+  'src/apps/desktop/icons/opc-app-icon.icns',
+  'Opc-Installer/src-tauri/icons/opc-app-icon.icns',
 ];
 
 export function sha256(bytes) {
@@ -18,7 +18,7 @@ export function sha256(bytes) {
 
 export function macosSourceDigest() {
   const hash = createHash('sha256');
-  for (const file of ['openbitfun.icon/icon.json', 'openbitfun.icon/Assets/Mark.png', 'legacy-canvas.json']) {
+  for (const file of ['opcteam.icon/icon.json', 'opcteam.icon/Assets/Mark.png', 'legacy-canvas.json']) {
     hash.update(file).update('\0').update(readFileSync(join(MACOS_ICON_DIR, file)));
   }
   return hash.digest('hex');

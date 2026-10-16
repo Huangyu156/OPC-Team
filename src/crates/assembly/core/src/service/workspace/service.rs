@@ -17,7 +17,7 @@ use super::WorktreeTopologyFreshness;
 use crate::infrastructure::storage::{PersistenceService, StorageOptions};
 use crate::infrastructure::{try_get_path_manager_arc, PathManager};
 use crate::service::bootstrap::{
-    ensure_workspace_gitignore_ignores_openbitfun, initialize_workspace_persona_files,
+    ensure_workspace_gitignore_ignores_opc, initialize_workspace_persona_files,
 };
 #[cfg(feature = "git")]
 use crate::service::git::{GitError, GitWorktreeInfo};
@@ -199,7 +199,7 @@ impl WorkspaceService {
             return;
         }
 
-        if let Err(e) = ensure_workspace_gitignore_ignores_openbitfun(&workspace.root_path).await {
+        if let Err(e) = ensure_workspace_gitignore_ignores_opc(&workspace.root_path).await {
             warn!(
                 "Failed to ensure workspace .gitignore ignores {}: workspace_path={} trigger={} error={}",
                 opc_core_types::product_identity::hidden_data_directory(),
@@ -2488,7 +2488,7 @@ mod tests {
     async fn ensure_workspace_gitignore_best_effort_skips_remote_workspaces() {
         let env = TestEnvironment::new();
         let service = build_test_workspace_service(env.path_manager.clone()).await;
-        let remote_workspace_root = PathBuf::from("/srv/openbitfun/remote-workspace-shadow");
+        let remote_workspace_root = PathBuf::from("/srv/opc/remote-workspace-shadow");
 
         let remote_workspace = WorkspaceInfo::new(
             remote_workspace_root.clone(),
@@ -3116,7 +3116,7 @@ mod tests {
     #[tokio::test]
     async fn remote_workspace_rejects_noncanonical_supplied_id() {
         let error = WorkspaceInfo::new(
-            PathBuf::from("/srv/openbitfun/project"),
+            PathBuf::from("/srv/opc/project"),
             WorkspaceOpenOptions {
                 workspace_kind: WorkspaceKind::Remote,
                 remote_ssh_host: Some("example-host".to_string()),
@@ -3327,7 +3327,7 @@ mod tests {
     async fn track_workspace_activity_assigns_stable_remote_workspace_id() {
         let env = TestEnvironment::new();
         let service = build_test_workspace_service(env.path_manager.clone()).await;
-        let remote_workspace_root = PathBuf::from("/srv/openbitfun/project");
+        let remote_workspace_root = PathBuf::from("/srv/opc/project");
 
         let tracked = service
             .track_workspace_activity(
@@ -3345,7 +3345,7 @@ mod tests {
 
         assert_eq!(
             tracked.id,
-            remote_workspace_stable_id("example-host", "/srv/openbitfun/project")
+            remote_workspace_stable_id("example-host", "/srv/opc/project")
         );
         assert_eq!(tracked.root_path, remote_workspace_root);
         assert!(service.get_opened_workspaces().await.is_empty());

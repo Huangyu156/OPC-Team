@@ -349,7 +349,7 @@
     &__pet-card:focus-within &__pet-preview-sprite,
     &__pet-summary:hover &__pet-current-preview &__pet-preview-sprite,
     &__pet-summary:focus-visible &__pet-current-preview &__pet-preview-sprite {
-      animation: openbitfun-config-pet-preview 1.2s steps(6) infinite;
+      animation: opc-config-pet-preview 1.2s steps(6) infinite;
     }
   }
 
@@ -395,7 +395,7 @@
   }
 }
 
-@keyframes openbitfun-config-pet-preview {
+@keyframes opc-config-pet-preview {
   from {
     background-position-x: 0;
   }

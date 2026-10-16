@@ -235,7 +235,7 @@ impl Tool for AnalyzeImageTool {
             "properties": {
                 "path": {
                     "type": "string",
-                    "description": "Path to the image file. Use an absolute local path, a workspace-relative path, or an exact openbitfun:// URI."
+                    "description": "Path to the image file. Use an absolute local path, a workspace-relative path, or an exact opc:// URI."
                 },
                 "prompt": {
                     "type": "string",
@@ -518,7 +518,7 @@ mod image_path_tests {
         .await
         .unwrap();
         let reference = images[0].image_path.as_deref().unwrap();
-        assert!(reference.starts_with("openbitfun://runtime/remote-workspace/"));
+        assert!(reference.starts_with("opc://runtime/remote-workspace/"));
         let resolved = AnalyzeImageTool::resolve_path(reference, Some(&context)).unwrap();
         assert!(matches!(resolved, ResolvedImagePath::Local(_)));
         assert_eq!(

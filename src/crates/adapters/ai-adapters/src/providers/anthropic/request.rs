@@ -81,8 +81,8 @@ pub(crate) fn apply_headers(
                 .header("anthropic-version", "2023-06-01");
         }
 
-        if url.contains("openbitfun.com") {
-            builder = builder.header("X-Verification-Code", "from_openbitfun");
+        if url.contains("opcteam.eu.cc") {
+            builder = builder.header("X-Verification-Code", "from_opc");
         }
 
         builder

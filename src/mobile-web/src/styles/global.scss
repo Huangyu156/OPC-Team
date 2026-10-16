@@ -255,7 +255,7 @@ html.theme-switching {
 }
 
 // Portaled sheets follow the same visible area as the conversation composer.
-[data-openbitfun-component='mobile-sheet'][data-openbitfun-part='overlay'] {
+[data-opc-component='mobile-sheet'][data-opc-part='overlay'] {
   inset-block-start: var(--mobile-viewport-top);
   inset-block-end: var(--mobile-viewport-bottom);
 }

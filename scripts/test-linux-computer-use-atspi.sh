@@ -12,7 +12,7 @@ import gi
 import os
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, GLib
-window = Gtk.Window(title='OpenBitFun AT-SPI Fixture')
+window = Gtk.Window(title='OPC-Team AT-SPI Fixture')
 window.set_default_size(480, 240)
 window.connect('destroy', Gtk.main_quit)
 box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL, spacing=16)

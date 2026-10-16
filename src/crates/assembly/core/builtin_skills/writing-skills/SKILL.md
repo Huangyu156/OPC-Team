@@ -9,7 +9,7 @@ description: Use when creating new skills, editing existing skills, or verifying
 
 **Writing skills IS Test-Driven Development applied to process documentation.**
 
-**Personal skills live in `%APPDATA%/OpenBitFun/skills` on Windows, `~/Library/Application Support/OpenBitFun/skills` on macOS, and `~/.local/share/OpenBitFun/skills` on Linux.**
+**Personal skills live in `%APPDATA%/OPC-Team/skills` on Windows, `~/Library/Application Support/OPC-Team/skills` on macOS, and `~/.local/share/OPC-Team/skills` on Linux.**
 
 You write test cases (pressure scenarios with subagents), watch them fail (baseline behavior), write the skill (documentation), watch tests pass (agents comply), and refactor (close loopholes).
 

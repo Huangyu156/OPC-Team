@@ -29,7 +29,7 @@ const DESKTOP_PREVIEW_REBUILD_INPUTS = [
   path.join(ROOT_DIR, 'src', 'crates'),
 ];
 const DESKTOP_PREVIEW_REBUILD_IGNORED_DIRS = new Set([
-  '.openbitfun',
+  '.opcteam',
   '.git',
   'coverage',
   'dist',
@@ -61,24 +61,20 @@ function isDesktopMode(mode) {
 
 function getDesktopBinaryPath() {
   const suffix = process.platform === 'win32' ? '.exe' : '';
-  const binaryName = `openbitfun-desktop${suffix}`;
+  const binaryName = `opc-desktop${suffix}`;
 
   if (process.platform === 'darwin') {
     // Tauri names the macOS bundle after `productName` (`OPC-Team.app`) while the
-    // executable inside it keeps `mainBinaryName` (`openbitfun-desktop`). Bundles
-    // built before the product rename still use the OpenBitFun names, so they stay
+    // executable inside it keeps `mainBinaryName` (`opc`). Bundles
+    // built before the product rename kept older names only if the user kept them
     // as fallbacks instead of invalidating an already-built debug bundle.
     // `tauri build` writes the real bundle to `target/<profile>/bundle/macos`, so
     // that layout comes first and the top-level `.app` layout stays as fallback.
     const candidates = [
       path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
-      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
-      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+      path.join(ROOT_DIR, 'target', 'debug', 'bundle', 'macos', 'OPC-Team.app', 'Contents', 'MacOS', 'opc'),
       path.join(ROOT_DIR, 'target', 'debug', 'OPC-Team.app', 'Contents', 'MacOS', binaryName),
-      path.join(ROOT_DIR, 'target', 'debug', 'OPC-Team.app', 'Contents', 'MacOS', 'OPC-Team'),
-      path.join(ROOT_DIR, 'target', 'debug', 'OpenBitFun.app', 'Contents', 'MacOS', binaryName),
-      path.join(ROOT_DIR, 'target', 'debug', 'OpenBitFun.app', 'Contents', 'MacOS', 'OpenBitFun'),
+      path.join(ROOT_DIR, 'target', 'debug', 'OPC-Team.app', 'Contents', 'MacOS', 'opc'),
     ];
     return candidates.find((candidate) => fs.existsSync(candidate)) ?? candidates[0];
   }
@@ -368,7 +364,7 @@ async function rebuildDesktopDebugBinary() {
     CARGO_PROFILE_DEV_CODEGEN_UNITS: process.env.CARGO_PROFILE_DEV_CODEGEN_UNITS || '256',
   };
 
-  printInfo('Building openbitfun-desktop in dev mode with reduced debug info for faster local relink');
+  printInfo('Building opc-desktop in dev mode with reduced debug info for faster local relink');
   printInfo(
     `Fast local build env: CARGO_PROFILE_DEV_DEBUG=${buildEnv.CARGO_PROFILE_DEV_DEBUG}, ` +
     `CARGO_PROFILE_DEV_CODEGEN_UNITS=${buildEnv.CARGO_PROFILE_DEV_CODEGEN_UNITS}`
@@ -376,7 +372,7 @@ async function rebuildDesktopDebugBinary() {
 
   await spawnCommand(
     process.platform === 'win32' ? 'cargo.exe' : 'cargo',
-    ['build', '-p', 'openbitfun-desktop'],
+    ['build', '-p', 'opc-desktop'],
     ROOT_DIR,
     buildEnv,
   );
@@ -494,7 +490,7 @@ async function startDesktopPreview() {
 
   if (!fs.existsSync(desktopBinary)) {
     printError(`Debug desktop binary not found: ${desktopBinary}`);
-    printInfo('Retry with `pnpm run desktop:preview:debug -- --force-rebuild` or build it with `cargo build -p openbitfun-desktop`');
+    printInfo('Retry with `pnpm run desktop:preview:debug -- --force-rebuild` or build it with `cargo build -p opc-desktop`');
     process.exit(1);
   }
 
@@ -636,7 +632,7 @@ async function main() {
   };
   const modeLabel = modeLabelMap[mode] || 'Web';
   
-  printHeader(`OpenBitFun ${modeLabel} Development`);
+  printHeader(`OPC-Team ${modeLabel} Development`);
   printBlank();
 
   const totalSteps = 2;

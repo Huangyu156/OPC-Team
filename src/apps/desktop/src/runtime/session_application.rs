@@ -1394,10 +1394,7 @@ mod tests {
         let tauri_state = ["tauri", "::", "State"].concat();
         assert!(!source.contains(&tauri_namespace));
         assert!(!source.contains(&tauri_state));
-        for forbidden in [
-            ["crate", "::", "api"].concat(),
-            ["openbitfun", "_acp"].concat(),
-        ] {
+        for forbidden in [["crate", "::", "api"].concat(), ["opc", "_acp"].concat()] {
             assert!(!source.contains(&forbidden), "unexpected {forbidden}");
         }
         for forbidden in [

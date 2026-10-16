@@ -65,7 +65,7 @@ describe('toolbar icon actions and legacy Appearance hooks', () => {
     act(() => root.unmount());
     container.remove();
     document.querySelectorAll('[data-test-legacy-style]').forEach(node => node.remove());
-    document.documentElement.removeAttribute('data-openbitfun-appearance');
+    document.documentElement.removeAttribute('data-opc-appearance');
     document.documentElement.removeAttribute('data-opc-appearance-revision');
     vi.clearAllTimers();
     vi.useRealTimers();
@@ -131,7 +131,7 @@ describe('toolbar icon actions and legacy Appearance hooks', () => {
       <ScrollToTurnHeaderButton visible onClick={vi.fn()} />
     </>));
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
+      schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.toolbar-scroll', name: 'Toolbar and scroll controls', version: '1.0.0', mode: 'dark',
       components: {
         'toolbar-mode': { parts: { overflowTrigger: { states: { expanded: { opacity: { kind: 'number', value: 0.41 } } } } } },
@@ -147,7 +147,7 @@ describe('toolbar icon actions and legacy Appearance hooks', () => {
       .registerComponent(scrollToTurnHeaderButtonAppearanceDescriptor);
     const snapshot = new AppearanceCompiler(registry).compile(restored, 1);
     expect(JSON.stringify(restored)).toBe(serialized);
-    document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
+    document.documentElement.setAttribute('data-opc-appearance', snapshot.id);
     document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
     const style = document.createElement('style');
     style.dataset.testLegacyStyle = '';

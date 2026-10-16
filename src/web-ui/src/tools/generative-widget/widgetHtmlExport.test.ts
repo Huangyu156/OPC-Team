@@ -64,7 +64,7 @@ describe('standalone generative widget HTML', () => {
       dom.window.document.querySelector<HTMLButtonElement>('[data-file-path]')!.click();
       const sendPrompt = Reflect.get(dom.window, 'sendPrompt') as (text: string) => void;
       sendPrompt('Follow up');
-      const bridge = Reflect.get(dom.window, 'openbitfunWidget') as { send: (data: unknown) => void };
+      const bridge = Reflect.get(dom.window, 'opcWidget') as { send: (data: unknown) => void };
       bridge.send({ action: 'test' });
       expect(alert).toHaveBeenCalledTimes(3);
       expect(alert).toHaveBeenLastCalledWith(message);

@@ -572,7 +572,7 @@ pub fn is_valid_device_kind(kind: &str) -> bool {
     DEVICE_KINDS.contains(&kind)
 }
 
-/// Whether a row is an OpenBitFun host this account can reach and drive, as
+/// Whether a row is an OPC-Team host this account can reach and drive, as
 /// opposed to a controller (a phone or a watch).
 ///
 /// A missing kind predates client-side reporting, and is read as a desktop:
@@ -1214,7 +1214,7 @@ pub fn is_valid_auth_token(token: &str) -> bool {
 
 // ── Pages (published static sites) ──────────────────────────────────────
 
-/// Visibility levels for a published OpenBitFun Page.
+/// Visibility levels for a published OPC-Team Page.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PageVisibility {
     /// Only the page owner (with their token) can access.

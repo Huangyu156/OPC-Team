@@ -32,25 +32,25 @@ function violationsFor(content, file = 'src/example.ts') {
 test('reports the retired identity as retired across every supported spelling', () => {
   const source = [
     'OpenBitFun',
-    'openBitFunTheme',
+    'opcTheme',
     'openbitfun',
     'OPC_USER_ROOT',
     '@opc-team/ui',
     '.openbitfun/config',
-    'openbitfun://runtime/',
+    'opc://runtime/',
     '--opcteam-color-surface',
-    'data-openbitfun-component',
-    'node.dataset.openbitfunPart',
+    'data-opc-component',
+    'node.dataset.opcPart',
     '@layer opcteam.components',
-    'minOpenBitFunVersion: "1.0.0"',
-    'min_openbitfun_version: "1.2.0"',
-    'openbitfun-cli-1.0.0-aarch64-unknown-linux-gnu.tar.gz',
+    'minOpcVersion: "1.0.0"',
+    'min_opc_version: "1.2.0"',
+    'opc-cli-1.0.0-aarch64-unknown-linux-gnu.tar.gz',
     'OpenBitFun_1.0.0_windows-x86_64-setup.exe',
   ].join('\n');
 
   const rules = violationsFor(source).map((violation) => violation.rule);
   assert.ok(rules.length > 0, 'expected the retired identity to be reported');
-  assert.ok(rules.every((rule) => rule === 'retired-openbitfun-name'), rules.join(','));
+  assert.ok(rules.every((rule) => rule === 'retired-opc-name'), rules.join(','));
 });
 
 test('reports non-canonical and abbreviated retired names under the retirement rules', () => {
@@ -68,10 +68,10 @@ test('reports non-canonical and abbreviated retired names under the retirement r
   assert.deepEqual(
     violationsFor(source).map((violation) => violation.rule),
     [
-      'retired-openbitfun-name',
-      'retired-openbitfun-name',
-      'abbreviated-openbitfun-name',
-      'abbreviated-openbitfun-name',
+      'retired-opc-name',
+      'retired-opc-name',
+      'abbreviated-opc-name',
+      'abbreviated-opc-name',
     ],
   );
 });
@@ -123,24 +123,24 @@ test('rejects competing OPC-Team spellings so a third casing cannot drift in', (
 
 test('retires an identity by spelling once it leaves the active list', () => {
   const activeRules = productIdentityRules();
-  assert.equal(activeRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'), false);
+  assert.equal(activeRules.some((rule) => rule.id === 'noncanonical-opc-casing'), false);
   assert.ok(activeRules.some((rule) => rule.id === 'noncanonical-opcteam-casing'));
-  assert.ok(activeRules.some((rule) => rule.id === 'retired-openbitfun-name'));
+  assert.ok(activeRules.some((rule) => rule.id === 'retired-opc-name'));
 
   const flippedRules = productIdentityRules(['opcteam']);
-  assert.equal(flippedRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'), false);
+  assert.equal(flippedRules.some((rule) => rule.id === 'noncanonical-opc-casing'), false);
   assert.ok(flippedRules.some((rule) => rule.id === 'noncanonical-opcteam-casing'));
 
-  const retired = flippedRules.find((rule) => rule.id === 'retired-openbitfun-name');
+  const retired = flippedRules.find((rule) => rule.id === 'retired-opc-name');
   assert.ok(retired);
-  for (const sample of ['OpenBitFun', '.openbitfun/config', 'OPC_USER_ROOT']) {
+  for (const sample of ['OpenBitFun', '.openbitfun/config', 'OPENBITFUN_USER_ROOT']) {
     assert.ok(new RegExp(retired.pattern.source, retired.pattern.flags).test(sample), sample);
   }
 
   // Re-activating the identity restores the casing rule and drops the retired rule.
-  const reactivatedRules = productIdentityRules(['openbitfun', 'opcteam']);
-  assert.ok(reactivatedRules.some((rule) => rule.id === 'noncanonical-openbitfun-casing'));
-  assert.equal(reactivatedRules.some((rule) => rule.id === 'retired-openbitfun-name'), false);
+  const reactivatedRules = productIdentityRules(['opc', 'opcteam']);
+  assert.ok(reactivatedRules.some((rule) => rule.id === 'noncanonical-opc-casing'));
+  assert.equal(reactivatedRules.some((rule) => rule.id === 'retired-opc-name'), false);
 });
 
 test('rejects retired names in copy, packages, paths, protocols, and environment variables', () => {
@@ -326,7 +326,7 @@ test('checks a retired identity when it appears in a repository path', () => {
 });
 
 test('scans untracked files while ignoring tracked files deleted by a rename', (t) => {
-  const root = mkdtempSync(path.join(tmpdir(), 'openbitfun-identity-audit-'));
+  const root = mkdtempSync(path.join(tmpdir(), 'opc-identity-audit-'));
   const retiredDirectoryName = `open${retiredLowerName}`;
   const retiredDirectory = path.join(root, retiredDirectoryName);
   const retiredFile = path.join(retiredDirectory, 'config.json');
@@ -348,7 +348,7 @@ test('scans untracked files while ignoring tracked files deleted by a rename', (
   writeFileSync(retiredFile, '{}\n');
   const violations = auditRepository(root).violations;
   assert.ok(violations.some((violation) => violation.location === 'path'
-    && violation.rule === 'retired-openbitfun-name'));
+    && violation.rule === 'retired-opc-name'));
 });
 
 test('does not confuse unrelated abbreviations, issue ids, or hashes with product identity', () => {
@@ -395,23 +395,20 @@ test('keeps compile-time product identity reads in the canonical contract owner'
 test('rejects pre-1.0 minimum versions and OpenBitFun release assets', () => {
   const preOneVersion = [0, 9, 0].join('.');
   const source = [
-    `minOpenBitFunVersion: '${preOneVersion}'`,
-    `min_openbitfun_version: "${preOneVersion}"`,
-    `openbitfun-cli-${preOneVersion}-aarch64-unknown-linux-gnu.tar.gz`,
+    `minOpcVersion: '${preOneVersion}'`,
+    `min_opc_version: "${preOneVersion}"`,
+    `opc-cli-${preOneVersion}-aarch64-unknown-linux-gnu.tar.gz`,
     `OpenBitFun_${preOneVersion}_windows-x86_64-setup.exe`,
   ].join('\n');
 
   assert.deepEqual(
     violationsFor(source).map((violation) => violation.rule),
     [
-      'retired-openbitfun-name',
-      'pre-1.0-openbitfun-minimum-version',
-      'retired-openbitfun-name',
-      'pre-1.0-openbitfun-minimum-version',
-      'retired-openbitfun-name',
-      'pre-1.0-openbitfun-release-asset',
-      'retired-openbitfun-name',
-      'pre-1.0-openbitfun-release-asset',
+      'pre-1.0-opc-minimum-version',
+      'pre-1.0-opc-minimum-version',
+      'pre-1.0-opc-release-asset',
+      'retired-opc-name',
+      'pre-1.0-opc-release-asset',
     ],
   );
 });
@@ -436,27 +433,27 @@ test('normalizes Windows separators and skips dependency and generated output ro
 test('baselines only the retired-identity rules, never the strict rules', () => {
   const report = {
     violations: [
-      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
-      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
-      { file: 'src/b.ts', rule: 'retired-openbitfun-name', location: 'path' },
+      { file: 'src/a.ts', rule: 'retired-opc-name', location: 'content' },
+      { file: 'src/a.ts', rule: 'retired-opc-name', location: 'content' },
+      { file: 'src/b.ts', rule: 'retired-opc-name', location: 'path' },
       { file: 'src/c.ts', rule: 'retired-product-name', location: 'content' },
-      { file: 'src/d.ts', rule: 'abbreviated-openbitfun-name', location: 'content' },
+      { file: 'src/d.ts', rule: 'abbreviated-opc-name', location: 'content' },
       { file: 'src/e.ts', rule: 'retired-css-token-prefix', location: 'content' },
     ],
   };
   const baseline = buildResidualBaseline(report);
 
   assert.deepEqual(baseline.allowances, {
-    'retired-openbitfun-name': { 'src/a.ts': 2, 'src/b.ts': 1 },
+    'retired-opc-name': { 'src/a.ts': 2, 'src/b.ts': 1 },
   });
 });
 
 test('fails the baseline when a file grows past its recorded allowance', () => {
-  const baseline = { version: 1, allowances: { 'retired-openbitfun-name': { 'src/a.ts': 1 } } };
+  const baseline = { version: 1, allowances: { 'retired-opc-name': { 'src/a.ts': 1 } } };
   const report = {
     violations: [
-      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
-      { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+      { file: 'src/a.ts', rule: 'retired-opc-name', location: 'content' },
+      { file: 'src/a.ts', rule: 'retired-opc-name', location: 'content' },
     ],
   };
 
@@ -466,9 +463,9 @@ test('fails the baseline when a file grows past its recorded allowance', () => {
 });
 
 test('fails the baseline when a count drops, so the ratchet cannot silently drift', () => {
-  const baseline = { version: 1, allowances: { 'retired-openbitfun-name': { 'src/a.ts': 3 } } };
+  const baseline = { version: 1, allowances: { 'retired-opc-name': { 'src/a.ts': 3 } } };
   const report = {
-    violations: [{ file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' }],
+    violations: [{ file: 'src/a.ts', rule: 'retired-opc-name', location: 'content' }],
   };
 
   const failures = checkResidualBaseline(report, baseline);
@@ -477,13 +474,13 @@ test('fails the baseline when a count drops, so the ratchet cannot silently drif
 });
 
 test('fails the baseline for a new file and for an unrecorded rule', () => {
-  const baseline = { version: 1, allowances: { 'retired-openbitfun-name': { 'src/a.ts': 1 } } };
+  const baseline = { version: 1, allowances: { 'retired-opc-name': { 'src/a.ts': 1 } } };
 
   const newFile = checkResidualBaseline(
     {
       violations: [
-        { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
-        { file: 'src/new.ts', rule: 'retired-openbitfun-name', location: 'content' },
+        { file: 'src/a.ts', rule: 'retired-opc-name', location: 'content' },
+        { file: 'src/new.ts', rule: 'retired-opc-name', location: 'content' },
       ],
     },
     baseline,
@@ -493,7 +490,7 @@ test('fails the baseline for a new file and for an unrecorded rule', () => {
   const newRule = checkResidualBaseline(
     {
       violations: [
-        { file: 'src/a.ts', rule: 'retired-openbitfun-name', location: 'content' },
+        { file: 'src/a.ts', rule: 'retired-opc-name', location: 'content' },
         { file: 'src/a.ts', rule: 'retired-opcteam-name', location: 'content' },
       ],
     },

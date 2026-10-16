@@ -1,6 +1,6 @@
 import type { FlowToolItem } from '../types/flow-chat';
 import { projectEffectiveToolItem } from '../utils/toolInvocationIdentity';
-import { controlRecord, getOpenBitFunControlInput, isOpenBitFunControlDiscovery } from './openBitFunControlCardModel';
+import { controlRecord, getOpcControlInput, isOpcControlDiscovery } from './opcControlCardModel';
 
 export type ContextLoadKind = 'skill' | 'tool-spec' | 'discovery';
 
@@ -9,8 +9,8 @@ export function getContextLoadKind(item: FlowToolItem): ContextLoadKind | undefi
   const effective = projectEffectiveToolItem(item);
   if (effective.toolName === 'Skill') return 'skill';
   if (effective.toolName === 'GetToolSpec') return 'tool-spec';
-  if (effective.toolName === 'OpenBitFunControl'
-    && isOpenBitFunControlDiscovery(getOpenBitFunControlInput(effective))) return 'discovery';
+  if (effective.toolName === 'OpcControl'
+    && isOpcControlDiscovery(getOpcControlInput(effective))) return 'discovery';
   return undefined;
 }
 

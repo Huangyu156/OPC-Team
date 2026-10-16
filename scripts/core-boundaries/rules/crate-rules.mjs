@@ -74,7 +74,7 @@ export const noCoreDependencyCrates = [
 export const forbiddenManifestDependencyRules = [
   {
     dependencyNames: ['rmcp'],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     workspaceManifestPath: 'Cargo.toml',
     forbidWorkspaceAliases: false,
     allowManifestPaths: [
@@ -85,7 +85,7 @@ export const forbiddenManifestDependencyRules = [
   },
   {
     dependencyNames: ['opc-agent-runtime-ipc'],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     workspaceManifestPath: 'Cargo.toml',
     allowManifestPaths: ['src/apps/cli/Cargo.toml'],
     reason: 'the private local IPC protocol has one reviewed first-party Shared TUI consumer',
@@ -94,7 +94,7 @@ export const forbiddenManifestDependencyRules = [
   },
   {
     dependencyNames: ['sherpa-onnx'],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     forbidWorkspaceAliases: false,
     allowManifestPaths: [
       'src/crates/services/services-integrations/Cargo.toml',
@@ -106,7 +106,7 @@ export const forbiddenManifestDependencyRules = [
   },
   {
     dependencyNames: ['opc-opencode-adapter'],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     workspaceManifestPath: 'Cargo.toml',
     allowManifestPaths: [
       'src/crates/adapters/opencode-adapter/Cargo.toml',
@@ -119,7 +119,7 @@ export const forbiddenManifestDependencyRules = [
   },
   {
     dependencyNames: ['opc-dsh-adapter'],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     workspaceManifestPath: 'Cargo.toml',
     allowManifestPaths: [
       'src/crates/adapters/dsh-adapter/Cargo.toml',
@@ -132,7 +132,7 @@ export const forbiddenManifestDependencyRules = [
   },
   {
     dependencyNames: ['opc-opencode-plugin-host'],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     workspaceManifestPath: 'Cargo.toml',
     allowManifestPaths: [
       'src/crates/adapters/opencode-plugin-host/Cargo.toml',
@@ -149,7 +149,7 @@ export const forbiddenManifestDependencyRules = [
     ['opc-pi-adapter', 'pi-adapter'],
   ].map(([dependencyName, crateName]) => ({
     dependencyNames: [dependencyName],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     workspaceManifestPath: 'Cargo.toml',
     allowManifestPaths: [
       `src/crates/adapters/${crateName}/Cargo.toml`,
@@ -160,7 +160,7 @@ export const forbiddenManifestDependencyRules = [
   })),
   {
     dependencyNames: ['opc-static-hook-support'],
-    scanRoots: ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri'],
+    scanRoots: ['src/apps', 'src/crates', 'Opc-Installer/src-tauri'],
     workspaceManifestPath: 'Cargo.toml',
     allowManifestPaths: [
       'src/crates/adapters/static-hook-support/Cargo.toml',

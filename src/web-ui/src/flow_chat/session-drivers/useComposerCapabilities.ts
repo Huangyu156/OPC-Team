@@ -69,7 +69,7 @@ export function sessionSupportsThreadGoal(
   session: Pick<Session, 'config' | 'mode'> | undefined,
 ): boolean {
   // ACP agents own their execution loop and tool surface. Until the protocol
-  // exposes the OpenBitFun thread-goal lifecycle, advertising the local goal UI
+  // exposes the OPC-Team thread-goal lifecycle, advertising the local goal UI
   // would create state the external agent cannot inspect or complete.
   return !isAcpFlowSession(session);
 }

@@ -382,7 +382,7 @@ function nativePromptCommandCandidateId(
   kind: Exclude<SlashPickerItem['kind'], 'externalCommand'>,
   id: string,
 ): string {
-  return `openbitfun.desktop:${kind}:${id}`;
+  return `opc.desktop:${kind}:${id}`;
 }
 
 function toNativePromptCommandDescriptor(
@@ -1323,7 +1323,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     }),
     [activeSessionMode, currentMode, isAcpTargetSession, isAssistantWorkspace],
   );
-  const canSwitchModes = chatInputModePolicy.canSwitchModes && !isSubagentInputTarget && currentSession?.mode !== 'OpenBitFun';
+  const canSwitchModes = chatInputModePolicy.canSwitchModes && !isSubagentInputTarget && currentSession?.mode !== 'OPC-Team';
   const selectedHarnessProfile = resolveSelectedComposerExecutionLevel({
     currentMode,
   });
@@ -3182,10 +3182,10 @@ export const ChatInput: React.FC<ChatInputProps> = ({
       }
     };
 
-    window.addEventListener('openbitfun:session-switched', handleSessionSwitched);
+    window.addEventListener('opc:session-switched', handleSessionSwitched);
     
     return () => {
-      window.removeEventListener('openbitfun:session-switched', handleSessionSwitched);
+      window.removeEventListener('opc:session-switched', handleSessionSwitched);
     };
   }, []);
 
@@ -3194,7 +3194,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     const userDefaultModeForResolution = suppressedUserDefaultApplication
       ? null
       : userDefaultModeId;
-    const nextMode = activeSessionMode === 'OpenBitFun' ? 'OpenBitFun' : resolveAvailableChatInputMode({
+    const nextMode = activeSessionMode === 'OPC-Team' ? 'OPC-Team' : resolveAvailableChatInputMode({
       currentMode,
       isAssistantWorkspace,
       sessionMode: activeSessionMode,
@@ -5732,7 +5732,7 @@ export const ChatInput: React.FC<ChatInputProps> = ({
     const nativeEvt = e.nativeEvent as KeyboardEvent;
     // IME-owned keys must stay with the input method. In particular, Escape
     // closes the Chinese/Japanese/Korean candidate window and must not cancel
-    // the running OpenBitFun session.
+    // the running OPC-Team session.
     const isComposing =
       isImeComposingRef.current
       || nativeEvt.isComposing

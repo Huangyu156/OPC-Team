@@ -261,7 +261,7 @@ export class ConversationModelPresentationPolicy {
     if (trimmed.length === 0) {
       return '';
     }
-    const withoutScheme = trimmed.replace(/^openbitfun[:/_-]+/i, '').replace(/^anthropic[:/_-]+/i, '');
+    const withoutScheme = trimmed.replace(/^opc[:/_-]+/i, '').replace(/^anthropic[:/_-]+/i, '');
     const parts = withoutScheme.split(/[/:]/).filter((part: string) => part.length > 0);
     return parts.length > 0 ? parts[parts.length - 1] : withoutScheme;
   }
@@ -269,11 +269,11 @@ export class ConversationModelPresentationPolicy {
   private static isSpecificLabel(label: string): boolean {
     const normalized = label.toLowerCase();
     return label.length > 0 &&
-      normalized !== 'openbitfun' &&
+      normalized !== 'opc' &&
       normalized !== 'anthropic' &&
       normalized !== 'openai' &&
       normalized !== 'google' &&
       normalized !== 'azure' &&
-      normalized !== 'openbitfun';
+      normalized !== 'opc';
   }
 }

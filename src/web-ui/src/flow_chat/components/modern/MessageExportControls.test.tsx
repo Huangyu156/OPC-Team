@@ -78,7 +78,7 @@ const round: ModelRound = {
 
 // This package uses the pre-migration component/part/state names on disk.
 const legacyPackage: AppearancePackage = {
-  schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
+  schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
   id: 'test.message-actions', name: 'Message actions', version: '1.0.0', mode: 'dark',
   components: {
     'model-round-item': { parts: {
@@ -100,7 +100,7 @@ function compileLegacyPackage() {
     .registerComponent(exportImageAppearanceDescriptor);
   const snapshot = new AppearanceCompiler(registry).compile(restored, 1);
   expect(JSON.stringify(restored)).toBe(serialized);
-  document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
+  document.documentElement.setAttribute('data-opc-appearance', snapshot.id);
   document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
   const style = document.createElement('style');
   style.textContent = snapshot.cssText;
@@ -136,7 +136,7 @@ describe('message copy and image export controls', () => {
     act(() => root.unmount());
     container.remove();
     document.head.querySelectorAll('style').forEach(style => style.remove());
-    document.documentElement.removeAttribute('data-openbitfun-appearance');
+    document.documentElement.removeAttribute('data-opc-appearance');
     document.documentElement.removeAttribute('data-opc-appearance-revision');
     vi.clearAllTimers();
     vi.useRealTimers();

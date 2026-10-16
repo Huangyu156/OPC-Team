@@ -27,10 +27,10 @@ test('macOS uses a full-bleed Composer source and a current independent legacy e
 });
 
 test('CLI is locked and macOS overlays preserve the same dev/legacy icon', () => {
-  for (const packagePath of ['package.json', 'OpenBitFun-Installer/package.json']) {
+  for (const packagePath of ['package.json', 'Opc-Installer/package.json']) {
     assert.equal(json(join(ROOT, packagePath)).devDependencies['@tauri-apps/cli'], '2.11.4');
   }
-  for (const app of ['src/apps/desktop', 'OpenBitFun-Installer/src-tauri']) {
+  for (const app of ['src/apps/desktop', 'Opc-Installer/src-tauri']) {
     const directory = join(ROOT, app);
     const base = json(join(directory, 'tauri.conf.json'));
     const mac = json(join(directory, 'tauri.macos.conf.json'));
@@ -107,7 +107,7 @@ test('Apple iconutil decodes all ten legacy/Retina representations with Dock mar
   try {
     const iconset = join(directory, 'fallback.iconset');
     run('/usr/bin/iconutil', ['--convert', 'iconset', '--output', iconset,
-      join(ROOT, 'assets/brand/exports/openbitfun-app-icon.icns')]);
+      join(ROOT, 'assets/brand/exports/opc-app-icon.icns')]);
     const files = readdirSync(iconset).filter(file => file.endsWith('.png'));
     assert.equal(files.length, 10);
     for (const file of files) {
@@ -144,7 +144,7 @@ function bundleFixture(modern) {
     const desktop = join(ROOT, 'src/apps/desktop');
     const selected = json(join(desktop, modern ? 'tauri.macos.conf.json' : 'tauri.conf.json'));
     writeFileSync(join(directory, 'tauri.conf.json'), JSON.stringify({
-      productName: 'Icon Probe', version: '0.1.0', identifier: 'com.openbitfun.iconprobe',
+      productName: 'Icon Probe', version: '0.1.0', identifier: 'com.opcteam.iconprobe',
       build: { frontendDist: 'frontend' },
       bundle: { active: true, targets: ['app'], icon: selected.bundle.icon.map(icon => resolve(desktop, icon)) },
     }));

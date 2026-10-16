@@ -284,7 +284,7 @@ pub async fn get_mcp_servers(state: State<'_, AppState>) -> Result<Vec<MCPServer
         infos.push(MCPServerInfo {
             import_origin: config
                 .settings
-                .get("_openbitfunImport")
+                .get("_opcImport")
                 .cloned()
                 .and_then(|value| {
                     serde_json::from_value::<opc_core::service::mcp::server::MCPImportOrigin>(value)

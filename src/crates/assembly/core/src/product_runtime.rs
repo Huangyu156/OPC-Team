@@ -3642,7 +3642,7 @@ mod tests {
             Arc::new(
                 crate::runtime_ownership::CoreRuntimeOwnership::embedded_with_facts(
                     workspace.path().join("runtime-ownership"),
-                    "openbitfun".to_string(),
+                    "opcteam".to_string(),
                     "test",
                 ),
             ),
@@ -3946,7 +3946,7 @@ mod tests {
             Arc::new(
                 crate::runtime_ownership::CoreRuntimeOwnership::embedded_with_facts(
                     workspace.path().join("ownership"),
-                    "openbitfun".to_string(),
+                    "opcteam".to_string(),
                     "test",
                 ),
             ),
@@ -4575,7 +4575,7 @@ mod tests {
                         "opc-product-runtime-ownership-test-{}",
                         uuid::Uuid::new_v4()
                     )),
-                    "openbitfun".to_string(),
+                    "opcteam".to_string(),
                     "test",
                 ),
             ),
@@ -5066,7 +5066,7 @@ mod tests {
                         "opc-product-runtime-ownership-test-{}",
                         uuid::Uuid::new_v4()
                     )),
-                    "openbitfun".to_string(),
+                    "opcteam".to_string(),
                     "test",
                 ),
             ),

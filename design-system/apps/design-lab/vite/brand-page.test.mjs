@@ -32,9 +32,9 @@ test("brand resources use original artwork, localized names and real downloads",
       assert.match(html, /download="opc-silver-mark.png"/);
       assert.match(html, /href="#subagent-ip"/);
       assert.match(html, /aria-pressed="true"/);
-      assert.doesNotMatch(html, /<h2>OpenBitFunSolidMark<|>brand\.|>design\./);
-      assert.ok(brandResources.find(item => item.name === "OpenBitFunAppIcon").downloads.some(item => item.filename.endsWith(".ico")));
-      assert.ok(brandResources.find(item => item.name === "OpenBitFunAppIcon").downloads.some(item => item.filename.endsWith(".icns")));
+      assert.doesNotMatch(html, /<h2>OpcSolidMark<|>brand\.|>design\./);
+      assert.ok(brandResources.find(item => item.name === "OpcAppIcon").downloads.some(item => item.filename.endsWith(".ico")));
+      assert.ok(brandResources.find(item => item.name === "OpcAppIcon").downloads.some(item => item.filename.endsWith(".icns")));
 
     }
   } finally {

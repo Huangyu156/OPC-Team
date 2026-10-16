@@ -83,7 +83,7 @@ fn build_authorize_url(pkce: &Pkce, state: &str, redirect_uri: &str) -> String {
         ("id_token_add_organizations", "true"),
         ("codex_cli_simplified_flow", "true"),
         ("state", state),
-        ("originator", "openbitfun"),
+        ("originator", "opc"),
     ];
     let query = params
         .iter()
@@ -462,7 +462,7 @@ pub(crate) async fn resolve(options: &SubscriptionHttpOptions) -> Result<Resolve
     if let Some(account) = account_id.or_else(|| jwt::chatgpt_account_id(&access)) {
         headers.insert("ChatGPT-Account-ID".to_string(), account);
     }
-    headers.insert("originator".to_string(), "openbitfun".to_string());
+    headers.insert("originator".to_string(), "opc".to_string());
     headers.insert("User-Agent".to_string(), user_agent());
     if let Some(residency) = jwt::chatgpt_compute_residency(&access) {
         headers.insert("x-openai-internal-codex-residency".to_string(), residency);
@@ -510,8 +510,8 @@ mod tests {
         assert_eq!(DEFAULT_MODEL, "gpt-5.5");
         assert!(
             build_authorize_url(&Pkce::generate(), "state", &redirect_uri(CALLBACK_PORT))
-                .contains("originator=openbitfun")
+                .contains("originator=opc")
         );
-        assert!(user_agent().starts_with("OpenBitFun/"));
+        assert!(user_agent().starts_with("OPC-Team/"));
     }
 }

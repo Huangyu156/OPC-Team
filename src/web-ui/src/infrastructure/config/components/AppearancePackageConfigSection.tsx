@@ -375,7 +375,7 @@ export function AppearancePackageConfigSection() {
 
   const handleExport = async (id: string) => {
     try {
-      downloadArchive(await exportPackage(id), `${id}.openbitfun-appearance`);
+      downloadArchive(await exportPackage(id), `${id}.opc-appearance`);
     } catch (error) {
       notificationService.error(t('package.exportFailed', {
         error: error instanceof Error ? error.message : String(error),
@@ -470,7 +470,7 @@ export function AppearancePackageConfigSection() {
           ref={inputRef}
           className="appearance-package-config__file-input"
           type="file"
-          accept=".openbitfun-appearance,.zip,application/zip"
+          accept=".opc-appearance,.zip,application/zip"
           onChange={handleImport}
         />
       )}

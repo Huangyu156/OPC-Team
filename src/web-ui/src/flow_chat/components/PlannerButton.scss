@@ -1,7 +1,7 @@
 /**
  * Planner button styles - pill layout.
  */
-.openbitfun-planner-button {
+.opc-planner-button {
   // Reset default styles
   margin: 0;
   padding: 0 10px;
@@ -88,7 +88,7 @@
     border-radius: 50%;
     background: color-mix(in srgb, var(--opcteam-color-status-warning-content) 90%, transparent);
     box-shadow: 0 0 6px color-mix(in srgb, var(--opcteam-color-status-warning-content) 60%, transparent);
-    animation: openbitfun-planner-button-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    animation: opc-planner-button-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
     flex-shrink: 0;
     position: relative;
     z-index: 2;
@@ -112,7 +112,7 @@
   }
 }
 
-@keyframes openbitfun-planner-button-pulse {
+@keyframes opc-planner-button-pulse {
   0%, 100% {
     opacity: 1;
     transform: scale(1);
@@ -124,7 +124,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .openbitfun-planner-button {
+  .opc-planner-button {
     &::before {
       transition: none;
       transform: translateX(-100%);

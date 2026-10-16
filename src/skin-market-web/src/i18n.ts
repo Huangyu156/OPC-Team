@@ -60,7 +60,7 @@ const messages = {
     detailBack: 'Back to Skin Market',
     detailDownload: 'Download appearance',
     compatibility: 'Compatibility',
-    minOpenBitFun: 'OPC-Team {version} or newer',
+    minOpc: 'OPC-Team {version} or newer',
     requiredCapabilities: 'Required capabilities',
     noExtraCapabilities: 'No additional capabilities required',
     whatsNew: 'What changed',
@@ -81,13 +81,13 @@ const messages = {
     notFoundTitle: 'This appearance is not here',
     notFoundBody: 'The link may be outdated, or the release may no longer be public.',
     backToCatalog: 'Browse appearances',
-    openbitfunHome: 'OPC-Team website',
-    getOpenBitFunTitle: 'New to OPC-Team?',
-    getOpenBitFunCatalogNote:
+    opcHome: 'OPC-Team website',
+    getOpcTitle: 'New to OPC-Team?',
+    getOpcCatalogNote:
       'Appearances apply inside the OPC-Team desktop client. Download it once, then install any appearance from this market.',
-    getOpenBitFunListingNote:
+    getOpcListingNote:
       'This appearance applies inside the OPC-Team desktop client. Download it first, then import the package.',
-    getOpenBitFunAction: 'Download OPC-Team',
+    getOpcAction: 'Download OPC-Team',
     refresh: 'Refresh',
     submissionsTitle: 'My submissions',
     submissionsIntro: 'Track appearance packages submitted from OPC-Team Agent and respond to review feedback.',
@@ -197,7 +197,7 @@ const messages = {
     detailBack: '返回 Skin 市场',
     detailDownload: '下载外观包',
     compatibility: '兼容性',
-    minOpenBitFun: '需要 OPC-Team {version} 或更高版本',
+    minOpc: '需要 OPC-Team {version} 或更高版本',
     requiredCapabilities: '所需能力',
     noExtraCapabilities: '不需要额外能力',
     whatsNew: '更新说明',
@@ -218,13 +218,13 @@ const messages = {
     notFoundTitle: '这里没有这个外观',
     notFoundBody: '链接可能已经失效，或者该版本不再公开。',
     backToCatalog: '浏览外观',
-    openbitfunHome: 'OPC-Team 官网',
-    getOpenBitFunTitle: '没有 OPC-Team？',
-    getOpenBitFunCatalogNote:
+    opcHome: 'OPC-Team 官网',
+    getOpcTitle: '没有 OPC-Team？',
+    getOpcCatalogNote:
       '外观需要在 OPC-Team 客户端里生效。下载客户端后，就能安装市场里的任意外观。',
-    getOpenBitFunListingNote:
+    getOpcListingNote:
       '这个外观需要在 OPC-Team 客户端里生效。先下载客户端，再导入外观包即可。',
-    getOpenBitFunAction: '下载 OPC-Team 客户端',
+    getOpcAction: '下载 OPC-Team 客户端',
     refresh: '刷新',
     submissionsTitle: '我的投稿',
     submissionsIntro: '查看通过 OPC-Team 智能体投稿的外观包，并跟进审核意见。',

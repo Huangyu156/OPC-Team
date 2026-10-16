@@ -1,5 +1,5 @@
 //! Application control preferences. A remembered grant never selects or shares a window.
-// Migrated from computer-use-rust/grants.rs. OpenBitFun supplies its own
+// Migrated from computer-use-rust/grants.rs. OPC-Team supplies its own
 // product-isolated path and preserves additive fields written by newer versions.
 #[derive(Debug)]
 pub(crate) struct GrantError {

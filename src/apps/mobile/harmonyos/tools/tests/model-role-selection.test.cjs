@@ -37,7 +37,7 @@ function model(id, options = {}) {
 const primary = model('anthropic/claude-sonnet-4', {
   name: 'Anthropic', provider: 'anthropic', model_name: 'anthropic/claude-sonnet-4', context_window: 200000
 });
-const fast = model('openbitfun:gpt-5-mini', {name: 'Fast', provider: 'openai', model_name: 'openbitfun:gpt-5-mini'});
+const fast = model('opc:gpt-5-mini', {name: 'Fast', provider: 'openai', model_name: 'opc:gpt-5-mini'});
 const other = model('local:llama', {name: 'Llama', provider: 'local'});
 const disabled = model('disabled-model', {name: 'Disabled', provider: 'test', enabled: false});
 

@@ -106,8 +106,8 @@ const SAMPLE_STATS: UsageStatistics = {
     attributionStatus: 'resolved', requests: 47, tokens: 4_800_000, cacheHitRate: 0.95,
   }],
   byEndpoint: [{
-    key: 'endpoint:api.openbitfun.com/v1/chat/completions',
-    name: 'api.openbitfun.com/v1/chat/completions', providerName: null,
+    key: 'endpoint:api.opcteam.eu.cc/v1/chat/completions',
+    name: 'api.opcteam.eu.cc/v1/chat/completions', providerName: null,
     attributionStatus: 'resolved', requests: 47, tokens: 4_800_000, cacheHitRate: 0.95,
   }],
   trend: [{

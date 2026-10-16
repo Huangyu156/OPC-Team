@@ -9,31 +9,31 @@ import * as ui from "../dist/index.js";
 import { componentRegistry } from "../dist/registry.js";
 
 test("brand exports expose the real artwork while preserving the existing voice entry", () => {
-  for (const name of ["OpenBitFunSolidMark", "OpenBitFunAppIcon", "OpenBitFunMark", "OpenBitFunBrandMotion", "SubagentHatch", "VoiceParticleLogo"]) {
+  for (const name of ["OpcSolidMark", "OpcAppIcon", "OpcMark", "OpcBrandMotion", "SubagentHatch", "VoiceParticleLogo"]) {
     assert.equal(typeof brand[name], "function");
     assert.equal(componentRegistry.find(component => component.name === name)?.category, "brand");
   }
   assert.equal(ui.VoiceParticleLogo, brand.VoiceParticleLogo);
-  assert.equal(ui.OpenBitFunMark, undefined, "new brand APIs belong to the opt-in entry");
+  assert.equal(ui.OpcMark, undefined, "new brand APIs belong to the opt-in entry");
 });
 
 test("brand marks are decorative by default and expose supplied accessible names", () => {
-  for (const name of ["OpenBitFunMark", "OpenBitFunBrandMotion"]) {
+  for (const name of ["OpcMark", "OpcBrandMotion"]) {
     const decorative = renderToStaticMarkup(createElement(brand[name], { active: false }));
     assert.match(decorative, /aria-hidden="true"/);
     assert.doesNotMatch(decorative, /role="img"/);
-    const named = renderToStaticMarkup(createElement(brand[name], { label: "OpenBitFun", active: false }));
+    const named = renderToStaticMarkup(createElement(brand[name], { label: "OPC-Team", active: false }));
     assert.match(named, /role="img"/);
-    assert.match(named, /aria-label="OpenBitFun"/);
+    assert.match(named, /aria-label="OPC-Team"/);
     assert.doesNotMatch(named, /aria-hidden="true"/);
   }
-  for (const name of ["OpenBitFunSolidMark", "OpenBitFunAppIcon"]) {
+  for (const name of ["OpcSolidMark", "OpcAppIcon"]) {
     assert.match(renderToStaticMarkup(createElement(brand[name])), /alt=""/);
-    const named = renderToStaticMarkup(createElement(brand[name], { label: "OpenBitFun", size: 16 }));
-    assert.match(named, /alt="OpenBitFun"/);
+    const named = renderToStaticMarkup(createElement(brand[name], { label: "OPC-Team", size: 16 }));
+    assert.match(named, /alt="OPC-Team"/);
     assert.match(named, /width:16px/);
     assert.match(named, /src="data:image\/png;base64,/);
-    if (name === "OpenBitFunAppIcon") {
+    if (name === "OpcAppIcon") {
       assert.match(named, /srcSet=/);
       assert.match(named, /sizes="16px"/);
     }
@@ -42,9 +42,9 @@ test("brand marks are decorative by default and expose supplied accessible names
 
 test("published artwork embeds the same bytes as the application icon generator", async () => {
   const source = new URL("../src/brand/assets/", import.meta.url);
-  const solid = renderToStaticMarkup(createElement(brand.OpenBitFunSolidMark));
+  const solid = renderToStaticMarkup(createElement(brand.OpcSolidMark));
   assert.ok(solid.includes((await readFile(new URL("opc-app-mark.png", source))).toString("base64")));
-  const app = renderToStaticMarkup(createElement(brand.OpenBitFunAppIcon));
+  const app = renderToStaticMarkup(createElement(brand.OpcAppIcon));
   for (const size of [16, 32, 128, 256, 512]) {
     assert.ok(app.includes((await readFile(new URL(`opc-app-icon-${size}.png`, source))).toString("base64")));
   }

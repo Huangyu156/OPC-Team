@@ -301,11 +301,11 @@
   }
 
   .spinning {
-    animation: openbitfun-account-panel-spin var(--opcteam-motion-duration-lazy) linear infinite;
+    animation: opc-account-panel-spin var(--opcteam-motion-duration-lazy) linear infinite;
   }
 }
 
-@keyframes openbitfun-account-panel-spin {
+@keyframes opc-account-panel-spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }

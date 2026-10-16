@@ -24,15 +24,15 @@ interface CredentialProviderConfig extends Record<string, unknown> {
   credentialId: string;
 }
 
-interface OpenBitFunHttpAuthConfig extends Record<string, unknown> {
+interface OpcHttpAuthConfig extends Record<string, unknown> {
   mode: string;
   credentialId: string;
   headerName: string;
 }
 
-interface OpenBitFunHttpConfig extends Record<string, unknown> {
+interface OpcHttpConfig extends Record<string, unknown> {
   endpoint: string;
-  auth: OpenBitFunHttpAuthConfig;
+  auth: OpcHttpAuthConfig;
 }
 
 interface WebSearchConfig extends Record<string, unknown> {
@@ -40,7 +40,7 @@ interface WebSearchConfig extends Record<string, unknown> {
   providers: {
     exa_search_api: CredentialProviderConfig;
     tavily: CredentialProviderConfig;
-    opc_search_http: OpenBitFunHttpConfig;
+    opc_search_http: OpcHttpConfig;
     [key: string]: unknown;
   };
 }
@@ -63,7 +63,7 @@ const DEFAULT_CONFIG: WebSearchConfig = {
 
 const OPC_PROTOCOL_REQUEST_EXAMPLE = `POST <configured endpoint>
 Content-Type: application/json
-Accept: application/vnd.openbitfun.web-search.v1+json
+Accept: application/vnd.opc.web-search.v1+json
 
 {
   "query": "Rust async runtime",
@@ -117,10 +117,10 @@ function normalizeConfig(value: unknown): WebSearchConfig {
     ? rawProviders.tavily as Partial<CredentialProviderConfig>
     : {};
   const rawHttp = rawProviders.opc_search_http && typeof rawProviders.opc_search_http === 'object'
-    ? rawProviders.opc_search_http as Partial<OpenBitFunHttpConfig>
+    ? rawProviders.opc_search_http as Partial<OpcHttpConfig>
     : {};
   const rawAuth = rawHttp.auth && typeof rawHttp.auth === 'object'
-    ? rawHttp.auth as Partial<OpenBitFunHttpAuthConfig>
+    ? rawHttp.auth as Partial<OpcHttpAuthConfig>
     : {};
   return {
     ...DEFAULT_CONFIG,
@@ -185,8 +185,8 @@ const WebSearchSettingsPage: React.FC = () => {
     },
     {
       value: 'opc_search_http',
-      label: t('providers.openbitfunSearchHttp'),
-      description: t('providerDescriptions.openbitfunSearchHttp'),
+      label: t('providers.opcSearchHttp'),
+      description: t('providerDescriptions.opcSearchHttp'),
     },
   ], [t]);
   const authOptions = useMemo<SelectOption[]>(() => [

@@ -1,4 +1,4 @@
-import { OpenBitFunMark } from '@opc-team/ui/brand';
+import { OpcMark } from '@opc-team/ui/brand';
 import { Alert, Button, DialogBody, DialogClose, DialogFooter, DialogHeader, DialogHeading, DialogTitle } from '@opc-team/ui';
 import ReactMarkdown from 'react-markdown';
 import { useI18n } from '@/infrastructure/i18n';
@@ -79,7 +79,7 @@ export function AppUpdatePanel() {
           ) : (
             <div className="opc-update-panel__empty" aria-hidden="true"
               data-opc-component="update" data-opc-part="releaseArtwork">
-              <OpenBitFunMark className="opc-update-details__mark" />
+              <OpcMark className="opc-update-details__mark" />
             </div>
           )}
         </div>

@@ -196,7 +196,7 @@ fn cli_native_prompt_command_descriptors(command_name: &str) -> Vec<NativePrompt
         })
         .map(|action| NativePromptCommandDescriptor {
             command_name: command_name.to_ascii_lowercase(),
-            candidate_id: format!("openbitfun.cli:{}", action.id),
+            candidate_id: format!("opc.cli:{}", action.id),
             behavior_version: action_conflict_behavior_version(action.id).to_string(),
         })
         .collect()
@@ -236,7 +236,7 @@ fn builtin_command_reconfirmation(
     command_name: &str,
     preferences: &ExternalSourceConflictPreferences,
 ) -> Option<BuiltinCommandReconfirmation> {
-    let candidate_id = format!("openbitfun.cli:{action_id}");
+    let candidate_id = format!("opc.cli:{action_id}");
     let participated_in_conflict = preferences.conflicted_candidate_ids.contains(&candidate_id);
     if !participated_in_conflict {
         return None;

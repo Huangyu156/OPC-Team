@@ -114,7 +114,7 @@ unsafe fn walk_bounded(
     max_total: usize,
     max_depth: usize,
 ) -> OpcTeamResult<Vec<UiaNode>> {
-    // OpenBitFun is a Tauri GUI app; match the UIA path's apartment threading.
+    // OPC-Team is a Tauri GUI app; match the UIA path's apartment threading.
     // SAFETY: initializes COM for the current thread; the result is intentionally
     // ignored because an already initialized apartment is acceptable here.
     let _ = unsafe { CoInitializeEx(None, COINIT_APARTMENTTHREADED) };

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# sync-release.sh — Mirror OpenBitFun release assets from GitHub to openbitfun.com.
+# sync-release.sh — Mirror OPC-Team release assets from GitHub to opcteam.eu.cc.
 #
 # Flow:
 #   1. Fetch the selected channel's latest-v1.json from GitHub
@@ -15,15 +15,15 @@
 # each manual_installers entry (Windows installer, macOS .dmg) for the
 # corresponding updater package.
 #
-# Cron (every 10 minutes). Run the in-repo script from the OpenBitFun checkout so a
+# Cron (every 10 minutes). Run the in-repo script from the OPC-Team checkout so a
 # new host only needs this repository, not a detached AutoUpdate copy:
 #   */10 * * * * /root/repos/OPC-Team/scripts/opc-release-sync.sh \
-#       >> /var/log/openbitfun-release-sync.log 2>&1
+#       >> /var/log/opc-release-sync.log 2>&1
 # Host restore: deploy/opc-host/README.md
 #
 # Optional immediate trigger. The release workflow POSTs to
 # ${OPC_SYNC_WEBHOOK_URL} once assets are published (see the "Request
-# openbitfun mirror sync" step in .github/workflows/desktop-package.yml) so a
+# opc mirror sync" step in .github/workflows/desktop-package.yml) so a
 # new release reaches the mirror in a couple of minutes rather than up to ten.
 # Point that secret at any receiver that runs this script, for example:
 #
@@ -31,7 +31,7 @@
 #     nc -l -p 8787 -q 1 >/dev/null \
 #       && OPC_RELEASE_CHANNEL=stable \
 #            /root/repos/OPC-Team/scripts/opc-release-sync.sh \
-#            >> /var/log/openbitfun-release-sync.log 2>&1
+#            >> /var/log/opc-release-sync.log 2>&1
 #   done
 #
 # The current production origin is cron-only. Do not invent a detached webhook
@@ -48,11 +48,11 @@ RELEASE_CHANNEL="${OPC_RELEASE_CHANNEL:-stable}"
 case "$RELEASE_CHANNEL" in
   stable)
     CHANNEL_PATH=""
-    GITHUB_RELEASE_ROOT="https://github.com/GCWing/OpenBitFun/releases/latest/download"
+    GITHUB_RELEASE_ROOT="https://github.com/GCWing/OPC-Team/releases/latest/download"
     ;;
   beta)
     CHANNEL_PATH="/beta"
-    GITHUB_RELEASE_ROOT="https://github.com/GCWing/OpenBitFun/releases/download/channel-v1-beta"
+    GITHUB_RELEASE_ROOT="https://github.com/GCWing/OPC-Team/releases/download/channel-v1-beta"
     ;;
   *)
     echo "Unsupported OPC_RELEASE_CHANNEL: $RELEASE_CHANNEL" >&2
@@ -62,13 +62,13 @@ esac
 GITHUB_LATEST_JSON_URL="${GITHUB_RELEASE_ROOT}/latest-v1.json"
 GITHUB_LINUX_BINARIES_URL="${GITHUB_RELEASE_ROOT}/linux-binaries-v1.json"
 GITHUB_RELAY_IMAGE_URL="${GITHUB_RELEASE_ROOT}/relay-image.json"
-OPC_BASE_URL="https://openbitfun.com/release${CHANNEL_PATH}"
+OPC_BASE_URL="https://opcteam.eu.cc/release${CHANNEL_PATH}"
 # The mirror deliberately lives outside the website checkout. It used to be
-# OpenBitFun-Website/dist/release, but `npm run build` empties dist/, so every
+# Opc-Website/dist/release, but `npm run build` empties dist/, so every
 # website deploy silently deleted the mirrored installers and manifests —
 # breaking downloads and the updater fallback until someone noticed. nginx
 # serves this directory through a `location ^~ /release/` alias instead.
-WEBSITE_RELEASE_ROOT="${WEBSITE_RELEASE_DIR:-/srv/openbitfun-release}"
+WEBSITE_RELEASE_ROOT="${WEBSITE_RELEASE_DIR:-/srv/opc-release}"
 WEBSITE_RELEASE_DIR="${WEBSITE_RELEASE_ROOT}${CHANNEL_PATH}"
 # Keep the lock off the Nginx /release/ alias. Override with
 # OPC_RELEASE_SYNC_LOCK if a host must share a lock across checkouts.
@@ -301,7 +301,7 @@ fetch_linux_manifest() {
 # Mirror the CLI + Relay manifest and every asset it references.
 #
 # Runs BEFORE the Desktop packages on purpose. Desktop assets are ~700 MB per
-# release; mirroring those first meant the window in which openbitfun advertised
+# release; mirroring those first meant the window in which opc advertised
 # a release whose CLI/Relay bytes it could not yet serve was however long that
 # took, not the 10-minute cron interval. These four archives are small, so
 # publishing them first collapses that window to a couple of minutes.
@@ -512,7 +512,7 @@ main() {
     exit 0
   fi
 
-  log "=== OpenBitFun ${RELEASE_CHANNEL} release sync started ==="
+  log "=== OPC-Team ${RELEASE_CHANNEL} release sync started ==="
 
   mkdir -p "$WEBSITE_RELEASE_DIR"
 
@@ -645,7 +645,7 @@ for target, entry in data.get('manual_installers', {}).items():
     download_asset "$url" "${VERSION_DIR}/${url##*/}" || exit 1
   done <<< "$EXTRA_INSTALLERS"
 
-  # 6. Rewrite URLs in latest-v1.json to point at openbitfun.com
+  # 6. Rewrite URLs in latest-v1.json to point at opcteam.eu.cc
   LATEST_MANIFEST_TMP="${VERSION_DIR}/latest-v1.json.part"
   printf '%s' "$LATEST_JSON" | "$PYTHON" -c "
 import sys, json

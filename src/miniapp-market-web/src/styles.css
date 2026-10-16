@@ -498,7 +498,7 @@ main {
 
 /* A .bfminiapp package only runs inside the desktop client, so the catalog and
    every listing carry the same visible route to the official download page. */
-.get-openbitfun {
+.get-opc {
   max-width: 100%;
   margin-top: 22px;
   padding: 13px 15px;
@@ -514,16 +514,16 @@ main {
     box-shadow 150ms ease;
 }
 
-.get-openbitfun-listing {
+.get-opc-listing {
   margin-top: 16px;
 }
 
-.get-openbitfun:hover {
+.get-opc:hover {
   border-color: var(--opcteam-color-accent-default);
   box-shadow: var(--opcteam-shadow-sm);
 }
 
-.get-openbitfun-icon {
+.get-opc-icon {
   width: 32px;
   height: 32px;
   display: grid;
@@ -533,31 +533,31 @@ main {
   color: var(--opcteam-color-content-inverse);
 }
 
-.get-openbitfun-icon svg {
+.get-opc-icon svg {
   width: 17px;
   height: 17px;
 }
 
-.get-openbitfun-copy {
+.get-opc-copy {
   min-width: 0;
   display: grid;
   gap: 4px;
 }
 
-.get-openbitfun-copy strong {
+.get-opc-copy strong {
   color: var(--opcteam-color-content-primary);
   font-size: 13px;
   font-weight: 640;
 }
 
-.get-openbitfun-copy > span {
+.get-opc-copy > span {
   color: var(--opcteam-color-content-secondary);
   font-size: 12px;
   line-height: 1.5;
   text-wrap: pretty;
 }
 
-.get-openbitfun-action {
+.get-opc-action {
   width: fit-content;
   margin-top: 2px;
   display: inline-flex;
@@ -569,13 +569,13 @@ main {
   white-space: nowrap;
 }
 
-.get-openbitfun-action svg {
+.get-opc-action svg {
   width: 14px;
   height: 14px;
   transition: transform 150ms ease;
 }
 
-.get-openbitfun:hover .get-openbitfun-action svg {
+.get-opc:hover .get-opc-action svg {
   transform: translateX(2px);
 }
 
@@ -766,7 +766,7 @@ main {
   box-shadow: var(--opcteam-shadow-menu);
 }
 
-/* 16:9 matches the MiniApp market card inside the OpenBitFun desktop client, so a
+/* 16:9 matches the MiniApp market card inside the OPC-Team desktop client, so a
    publisher's screenshot is cropped identically in both surfaces. */
 .card-visual {
   aspect-ratio: 16 / 9;
@@ -1319,7 +1319,7 @@ main {
 }
 
 /* Matches .card-visual and the desktop client, so the same screenshot is
-   framed identically in the grid, on the detail page and inside OpenBitFun. */
+   framed identically in the grid, on the detail page and inside OPC-Team. */
 .detail-gallery {
   min-width: 0;
   aspect-ratio: 16 / 9;
@@ -1603,11 +1603,11 @@ main {
   line-height: 1.45;
 }
 
-.field :is([data-openbitfun-component="input"], input[type="file"]),
+.field :is([data-opc-component="input"], input[type="file"]),
 .field select,
 .field textarea,
-.review-actions [data-openbitfun-component="input"],
-.moderation-panel [data-openbitfun-component="input"] {
+.review-actions [data-opc-component="input"],
+.moderation-panel [data-opc-component="input"] {
   width: 100%;
   min-height: 34px;
   padding: 7px 9px;
@@ -1640,16 +1640,16 @@ main {
   cursor: pointer;
 }
 
-.field [data-openbitfun-component="input"]:focus-within,
+.field [data-opc-component="input"]:focus-within,
 .field select:focus,
 .field textarea:focus,
-.review-actions [data-openbitfun-component="input"]:focus-within,
-.moderation-panel [data-openbitfun-component="input"]:focus-within {
+.review-actions [data-opc-component="input"]:focus-within,
+.moderation-panel [data-opc-component="input"]:focus-within {
   border-color: var(--opcteam-color-accent-default);
   box-shadow: 0 0 0 3px color-mix(in srgb, var(--opcteam-color-accent-default) 10%, transparent);
 }
 
-.field [data-openbitfun-component="input"]:has(input[readonly]) {
+.field [data-opc-component="input"]:has(input[readonly]) {
   background: var(--opcteam-color-surface-tertiary);
   color: var(--opcteam-color-content-muted);
 }
@@ -2610,11 +2610,11 @@ footer a:hover {
 }
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border: 0; }
 
-.market-input[data-openbitfun-component='input'] {
+.market-input[data-opc-component='input'] {
   block-size: auto;
   min-width: 0;
 }
-.market-input[data-openbitfun-component='input'] > input {
+.market-input[data-opc-component='input'] > input {
   outline: 0;
   font: inherit;
   letter-spacing: inherit;
@@ -2629,7 +2629,7 @@ footer a:hover {
 }
 
 /* Textarea owns a wrapper; keep the native editor filling its form column. */
-.market-textarea[data-openbitfun-component="textarea"] {
+.market-textarea[data-opc-component="textarea"] {
   display: flex;
   width: 100%;
   min-width: 0;
@@ -2640,7 +2640,7 @@ footer a:hover {
 }
 
 /* Keep each surface's control geometry while using shared button semantics. */
-:where([data-openbitfun-component="button"]) {
+:where([data-opc-component="button"]) {
   display: inline-block;
   block-size: auto;
   padding: 0;
@@ -2650,26 +2650,26 @@ footer a:hover {
   letter-spacing: inherit;
   white-space: normal;
 }
-:where([data-openbitfun-component="icon-button"]) {
+:where([data-opc-component="icon-button"]) {
   inline-size: auto;
   block-size: auto;
 }
-[data-openbitfun-component="button"]::before,
-[data-openbitfun-component="icon-button"]::before {
+[data-opc-component="button"]::before,
+[data-opc-component="icon-button"]::before {
   content: none;
 }
 /* Rich labels (previews, review cards, icon + text) retain the root layout. */
-[data-openbitfun-component="button"] > [data-openbitfun-part="content"],
-[data-openbitfun-component="button"] > [data-openbitfun-part="content"] > [data-openbitfun-part="label"] {
+[data-opc-component="button"] > [data-opc-part="content"],
+[data-opc-component="button"] > [data-opc-part="content"] > [data-opc-part="label"] {
   display: contents;
   white-space: inherit;
 }
-[data-openbitfun-component="icon-button"] > [data-openbitfun-part="icon"] {
+[data-opc-component="icon-button"] > [data-opc-part="icon"] {
   position: static;
   inline-size: auto;
   block-size: auto;
 }
-[data-openbitfun-component="icon-button"] > [data-openbitfun-part="icon"] > svg {
+[data-opc-component="icon-button"] > [data-opc-part="icon"] > svg {
   inline-size: 18px;
   block-size: 18px;
 }

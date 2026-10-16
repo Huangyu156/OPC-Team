@@ -12,7 +12,7 @@
 //!     SelectionItem / ExpandCollapse / Value / RangeValue / Text / Scroll).
 //!   * Transient `E_FAIL` provider errors retried (3 attempts, 40ms backoff).
 //!
-//! Unlike the cua daemon, OpenBitFun is a Tauri GUI app, so COM is initialized with
+//! Unlike the cua daemon, OPC-Team is a Tauri GUI app, so COM is initialized with
 //! `COINIT_APARTMENTTHREADED` (correct for the main thread). VARIANT-based
 //! property reads are deliberately avoided: they require the
 //! `Win32_System_Ole` + `Win32_System_Variant` features which the desktop
@@ -90,7 +90,7 @@ pub(super) struct UiaNode {
 }
 
 impl UiaNode {
-    /// Convert to OpenBitFun's [`AxNode`] for `get_app_state` integration.
+    /// Convert to OPC-Team's [`AxNode`] for `get_app_state` integration.
     ///
     /// `idx` / `parent_idx` are supplied by the caller because `AxNode` uses a
     /// dense `u32` index over the *rendered* tree (including content-only
@@ -555,7 +555,7 @@ unsafe fn walk_cached_bounded(
     if is_actionable || has_content {
         // Read the bounding rect for content-only nodes too, so text/role
         // locate-by-filter can still resolve a click center (cua only reads it
-        // for actionable nodes; OpenBitFun's `locate_ui_element_center` needs it).
+        // for actionable nodes; OPC-Team's `locate_ui_element_center` needs it).
         let (center_x, center_y, rect) = read_cached_bounding_rect_full(element);
 
         let node = if is_actionable {
@@ -1635,7 +1635,7 @@ mod control_native_tests {
             let window = CreateWindowExW(
                 WINDOW_EX_STYLE::default(),
                 w!("STATIC"),
-                w!("OpenBitFun UIA isolated fixture"),
+                w!("OPC-Team UIA isolated fixture"),
                 WS_OVERLAPPEDWINDOW,
                 50,
                 50,

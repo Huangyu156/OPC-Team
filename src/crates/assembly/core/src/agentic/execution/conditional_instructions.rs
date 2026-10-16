@@ -167,7 +167,7 @@ pub(crate) fn successful_workspace_read_paths(
 }
 
 fn workspace_relative_path(workspace: &WorkspaceBinding, file_path: &str) -> Option<String> {
-    if file_path.starts_with("openbitfun://") {
+    if file_path.starts_with("opc://") {
         return None;
     }
     let file_path = file_path.trim().replace('\\', "/");

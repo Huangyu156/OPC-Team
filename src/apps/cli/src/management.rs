@@ -218,7 +218,7 @@ pub(crate) async fn set_mcp_server_enabled(server_id: &str, enabled: bool) -> Re
     Ok(())
 }
 
-/// User-facing input for `openbitfun mcp add`.
+/// User-facing input for `opc mcp add`.
 ///
 /// All fields are optional so the CLI can pre-fill any subset via flags and
 /// resolve the rest through the three-step wizard.
@@ -339,7 +339,7 @@ pub(crate) async fn add_mcp_server(input: McpAddInput) -> Result<()> {
 
     println!("MCP server '{}' added.", name);
     println!(
-        "Run `openbitfun mcp list` to verify, `openbitfun mcp disable {}` to toggle.",
+        "Run `opc mcp list` to verify, `opc mcp disable {}` to toggle.",
         name
     );
     Ok(())
@@ -661,7 +661,7 @@ pub(crate) async fn activate_plugin(package_id: &str, confirm: Option<&str>) -> 
         let diagnostic = crate::plugin_diagnostics::escape_terminal_text(&error.to_string());
         if confirm.is_some() {
             anyhow!(
-                "{}\nRe-run `openbitfun plugins activate {}` to preview the current content, then confirm with the new content hash.",
+                "{}\nRe-run `opc plugins activate {}` to preview the current content, then confirm with the new content hash.",
                 diagnostic,
                 crate::plugin_diagnostics::escape_terminal_text(package_id)
             )
@@ -674,7 +674,7 @@ pub(crate) async fn activate_plugin(package_id: &str, confirm: Option<&str>) -> 
     if confirm.is_none() {
         println!();
         println!(
-            "No activation state changed. Re-run `openbitfun plugins activate {} --confirm {}` to confirm this exact package content.",
+            "No activation state changed. Re-run `opc plugins activate {} --confirm {}` to confirm this exact package content.",
             crate::plugin_diagnostics::escape_terminal_text(package_id),
             crate::plugin_diagnostics::escape_terminal_text(&view.content_hash)
         );
@@ -693,7 +693,7 @@ pub(crate) async fn deactivate_plugin(package_id: &str) -> Result<()> {
                 ManagedPluginSourceError::DeactivationPersistenceUncertain { .. }
             ) {
                 anyhow!(
-                    "{diagnostic}\nThe saved state may already be cleared. Retry `openbitfun plugins deactivate {}` to confirm the result; the operation is idempotent.",
+                    "{diagnostic}\nThe saved state may already be cleared. Retry `opc plugins deactivate {}` to confirm the result; the operation is idempotent.",
                     crate::plugin_diagnostics::escape_terminal_text(package_id)
                 )
             } else {

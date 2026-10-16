@@ -37,7 +37,7 @@
   },
   "connectionMethods": {
     "lan": "LAN",
-    "openbitfunServer": "OPC-Team Server",
+    "opcServer": "OPC-Team Server",
     "customServer": "Custom Server",
     "botFeishu": "Feishu Bot",
     "botTelegram": "Telegram Bot",

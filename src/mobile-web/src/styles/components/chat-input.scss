@@ -502,7 +502,7 @@
   height: 48px;
 }
 
-.chat-composer-sheet > [data-openbitfun-part='header'] {
+.chat-composer-sheet > [data-opc-part='header'] {
   display: flex;
   align-items: center;
   text-align: left;
@@ -568,7 +568,7 @@
   border-radius: 18px;
 }
 
-.chat-page__composer[data-expanded='true'] [data-openbitfun-part='editor'] {
+.chat-page__composer[data-expanded='true'] [data-opc-part='editor'] {
   min-height: 60px;
 }
 
@@ -647,6 +647,6 @@
 }
 
 // Keep the action row and collapsed pill on the same inset in both modes.
-.chat-page__composer [data-openbitfun-part='toolbar'] {
+.chat-page__composer [data-opc-part='toolbar'] {
   min-block-size: 44px;
 }

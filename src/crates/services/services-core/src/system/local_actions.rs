@@ -974,9 +974,9 @@ mod tests {
     #[tokio::test]
     async fn shell_script_executes_and_captures_stdout() {
         let script = if cfg!(target_os = "windows") {
-            "Write-Output 'hello-openbitfun'"
+            "Write-Output 'hello-opc'"
         } else {
-            "echo hello-openbitfun"
+            "echo hello-opc"
         };
         let outcome = LocalSystemProvider::new()
             .run_script(RunScriptRequest {
@@ -992,15 +992,15 @@ mod tests {
             "shell run_script stderr={}",
             outcome.stderr
         );
-        assert!(outcome.stdout.contains("hello-openbitfun"));
+        assert!(outcome.stdout.contains("hello-opc"));
     }
 
     #[tokio::test]
     async fn zero_timeout_means_wait_without_timeout() {
         let script = if cfg!(target_os = "windows") {
-            "Write-Output 'zero-timeout-openbitfun'"
+            "Write-Output 'zero-timeout-opc'"
         } else {
-            "echo zero-timeout-openbitfun"
+            "echo zero-timeout-opc"
         };
         let outcome = LocalSystemProvider::new()
             .run_script(RunScriptRequest {
@@ -1012,6 +1012,6 @@ mod tests {
             .await
             .expect("timeout_ms=0 should wait without timeout");
         assert!(outcome.success);
-        assert!(outcome.stdout.contains("zero-timeout-openbitfun"));
+        assert!(outcome.stdout.contains("zero-timeout-opc"));
     }
 }

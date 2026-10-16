@@ -1081,7 +1081,7 @@ mod tests {
                 "arguments": "focus on auth",
                 "nativeCommands": [{
                     "commandName": "review",
-                    "candidateId": "openbitfun.desktop:action:review",
+                    "candidateId": "opc.desktop:action:review",
                     "behaviorVersion": "action:review:v1"
                 }],
                 "candidateId": "claude-code.commands:project:review",

@@ -195,7 +195,7 @@ const ACTIVE_DISPATCH_STATES = new Set<DeviceOverviewDispatchJob['state']>([
   'running',
 ]);
 
-const OFFICIAL_RELAY_HOST = 'remote.openbitfun.com';
+const OFFICIAL_RELAY_HOST = 'remote.opcteam.eu.cc';
 
 // Device names reach us as discovery host names, so macOS reports
 // `<name>.local` and LAN hosts add their own zone. That suffix identifies a
@@ -340,8 +340,8 @@ export function projectDeviceInterconnectionOverview(
 
   let backgroundTaskCount = 0;
   for (const job of input.dispatchJobs) {
-    // SSH is a remote-workspace / transport concern, not a OpenBitFun device.
-    // Only a same-account OpenBitFun host belongs in this overview.
+    // SSH is a remote-workspace / transport concern, not an OPC-Team device.
+    // Only a same-account OPC-Team host belongs in this overview.
     if (!ACTIVE_DISPATCH_STATES.has(job.state) || job.target.kind !== 'device') {
       continue;
     }

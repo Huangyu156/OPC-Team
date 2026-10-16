@@ -4,8 +4,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 pub const APPEARANCE_MARKET_API_VERSION: &str = "v1";
-pub const APPEARANCE_MARKET_PACKAGE_CONTENT_TYPE: &str =
-    "application/vnd.openbitfun.appearance+zip";
+pub const APPEARANCE_MARKET_PACKAGE_CONTENT_TYPE: &str = "application/vnd.opc.appearance+zip";
 pub const APPEARANCE_MARKET_MAX_PACKAGE_BYTES: u64 = 96 * 1024 * 1024;
 pub const APPEARANCE_MARKET_MAX_UNCOMPRESSED_BYTES: u64 = 128 * 1024 * 1024;
 pub const APPEARANCE_MARKET_MAX_MANIFEST_BYTES: u64 = 256 * 1024;
@@ -76,7 +75,7 @@ pub struct AppearanceMarketListingSummary {
     pub mode: AppearancePackageMode,
     pub package_version: String,
     pub latest_release: u32,
-    #[serde(rename = "minOpenBitFunVersion")]
+    #[serde(rename = "minOpcVersion")]
     pub min_opc_version: String,
     pub required_capabilities: Vec<String>,
     pub owner: AppearanceMarketUserSummary,
@@ -104,7 +103,7 @@ pub struct AppearanceMarketRelease {
     pub listing_id: String,
     pub release_number: u32,
     pub package_version: String,
-    #[serde(rename = "minOpenBitFunVersion")]
+    #[serde(rename = "minOpcVersion")]
     pub min_opc_version: String,
     pub package_sha256: String,
     pub package_size: u64,
@@ -154,7 +153,7 @@ pub struct AppearanceMarketSubmission {
     pub mode: Option<AppearancePackageMode>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub package_version: Option<String>,
-    #[serde(rename = "minOpenBitFunVersion")]
+    #[serde(rename = "minOpcVersion")]
     pub min_opc_version: String,
     pub required_capabilities: Vec<String>,
     pub changelog: String,
@@ -183,7 +182,7 @@ pub struct AppearanceMarketSubmissionDraftRequest {
     pub listing_id: Option<String>,
     pub slug: String,
     pub release_number: u32,
-    #[serde(rename = "minOpenBitFunVersion")]
+    #[serde(rename = "minOpcVersion")]
     pub min_opc_version: String,
     pub changelog: String,
     pub license: AppearanceMarketLicense,
@@ -346,7 +345,7 @@ mod tests {
         let value = listing
             .as_object_mut()
             .unwrap()
-            .remove("minOpenBitFunVersion")
+            .remove("minOpcVersion")
             .unwrap();
         let retired_field = ["min", "Bit", "fun", "Version"].concat();
         listing
@@ -355,6 +354,6 @@ mod tests {
             .insert(retired_field, value);
 
         let error = serde_json::from_value::<AppearanceMarketListingDetail>(listing).unwrap_err();
-        assert!(error.to_string().contains("minOpenBitFunVersion"));
+        assert!(error.to_string().contains("minOpcVersion"));
     }
 }

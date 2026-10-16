@@ -6,8 +6,8 @@
 #   bash install.sh                 # when cwd is src/apps/cli
 #
 # What it does:
-#   1. cargo build -p openbitfun-cli --release (native host arch)
-#   2. Install openbitfun to ~/.local/bin (override with OPC_CLI_BIN_DIR)
+#   1. cargo build -p opc-cli --release (native host arch)
+#   2. Install opc to ~/.local/bin (override with OPC_CLI_BIN_DIR)
 #   3. Idempotently append a PATH block to ~/.bashrc and ~/.zshrc
 #   4. Print explicit current-shell and new-terminal instructions
 #   5. Restart the account daemon's auto-start service when installed, so
@@ -18,7 +18,7 @@
 # Environment:
 #   OPC_CLI_BIN_DIR       Install directory (default: ~/.local/bin)
 #   OPC_CLI_SKIP_SHELLRC  Set to 1 to skip bashrc/zshrc edits
-#   CARGO_TARGET_DIR         Optional cargo target dir (e.g. $HOME/openbitfun-build/target)
+#   CARGO_TARGET_DIR         Optional cargo target dir (e.g. $HOME/opc-build/target)
 #   CARGO_BUILD_JOBS         Optional rustc parallelism limit for small VPS
 
 set -euo pipefail
@@ -96,14 +96,14 @@ SHELLRC_MARKER_END="# <<< OPC-Team CLI PATH (managed by src/apps/cli/install.sh)
 # Pre-rename marker. Installs made before the OPC-Team rename wrote this block,
 # so it is still recognized: an upgrade replaces the stale block instead of
 # leaving it behind and appending a second one beside it.
-SHELLRC_LEGACY_MARKER_BEGIN="# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>"
-SHELLRC_LEGACY_MARKER_END="# <<< OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) <<<"
+SHELLRC_LEGACY_MARKER_BEGIN="# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>"
+SHELLRC_LEGACY_MARKER_END="# <<< OPC-Team CLI PATH (managed by src/apps/cli/install.sh) <<<"
 
 ensure_bin_dir_on_path_block() {
   local bin_dir="$1"
   cat <<EOF
 ${SHELLRC_MARKER_BEGIN}
-# Added so \`openbitfun\` is available in new shells after install.sh.
+# Added so \`opc\` is available in new shells after install.sh.
 case ":\$PATH:" in
   *":${bin_dir}:"*) ;;
   *) export PATH="${bin_dir}:\$PATH" ;;
@@ -143,9 +143,9 @@ upsert_shellrc_path() {
 
 print_path_guidance() {
   local bin_dir="$1"
-  echo "Open a new terminal, then run: openbitfun"
-  echo "Current shell: export PATH=\"${bin_dir}:\$PATH\" && openbitfun"
-  echo "Direct path: ${bin_dir}/openbitfun"
+  echo "Open a new terminal, then run: opc"
+  echo "Current shell: export PATH=\"${bin_dir}:\$PATH\" && opc"
+  echo "Direct path: ${bin_dir}/opc"
 }
 
 assert_entrypoint() {
@@ -177,12 +177,12 @@ install_bundle() {
   local failed=0
 
   mkdir -p "$destination"
-  stage_dir="$(mktemp -d "${destination}/.openbitfun-install.XXXXXX")"
-  staged_primary="${stage_dir}/openbitfun"
+  stage_dir="$(mktemp -d "${destination}/.opc-install.XXXXXX")"
+  staged_primary="${stage_dir}/opc"
   staged_plugin_host="${stage_dir}/ext-host"
-  primary_target="${destination}/openbitfun"
+  primary_target="${destination}/opc"
   plugin_host_target="${destination}/resources/ext-host"
-  primary_backup="${stage_dir}/previous-openbitfun"
+  primary_backup="${stage_dir}/previous-opc"
   plugin_host_backup="${stage_dir}/previous-ext-host"
 
   install -m 755 "$primary_source" "$staged_primary" || failed=1
@@ -239,8 +239,8 @@ install_bundle() {
 restart_daemon_for_upgrade() {
   local os unit_name agent_label config_home plist uid
   os="$(uname -s)"
-  unit_name="openbitfun-cli-daemon.service"
-  agent_label="com.openbitfun.cli.daemon"
+  unit_name="opc-cli-daemon.service"
+  agent_label="com.opc.cli.daemon"
 
   case "$os" in
     Linux)
@@ -272,7 +272,7 @@ restart_daemon_for_upgrade() {
 
   # No auto-start service installed — warn only when a manually supervised
   # daemon is still running the old binary.
-  if "${BIN_DIR}/openbitfun" daemon status 2>/dev/null | grep -q "daemon process: running"; then
+  if "${BIN_DIR}/opc" daemon status 2>/dev/null | grep -q "daemon process: running"; then
     echo "Note: a running daemon was detected (not service-managed); restart it"
     echo "so it picks up the new binary."
   fi
@@ -285,7 +285,7 @@ OPC-Team CLI install script
 Usage:
   bash install.sh [--help]
 
-Builds and installs the openbitfun command.
+Builds and installs the opc command.
 
 Options:
   -h, --help    Show this help
@@ -328,10 +328,10 @@ require_cargo
 mkdir -p "$BIN_DIR"
 
 echo ""
-echo "[1/4] Building openbitfun (release)..."
+echo "[1/4] Building opc (release)..."
 cd "$REPO_ROOT"
 # Build from workspace root so path deps resolve.
-cargo build -p openbitfun-cli --release --bin openbitfun
+cargo build -p opc-cli --release --bin opc
 
 TARGET_DIR="${CARGO_TARGET_DIR:-${REPO_ROOT}/target}"
 if [ -n "${CARGO_BUILD_TARGET:-}" ]; then
@@ -339,7 +339,7 @@ if [ -n "${CARGO_BUILD_TARGET:-}" ]; then
 else
   RELEASE_DIR="${TARGET_DIR}/release"
 fi
-BUILT_BIN="${RELEASE_DIR}/openbitfun"
+BUILT_BIN="${RELEASE_DIR}/opc"
 PLUGIN_HOST_DIST="${REPO_ROOT}/src/apps/extension-host/dist"
 if [ ! -x "$BUILT_BIN" ]; then
   echo "Error: built binary not found at $BUILT_BIN"
@@ -350,8 +350,8 @@ assert_plugin_host_resources "$PLUGIN_HOST_DIST"
 echo ""
 echo "[2/4] Installing binaries..."
 install_bundle "$BUILT_BIN" "$PLUGIN_HOST_DIST" "$BIN_DIR"
-echo "Installed: ${BIN_DIR}/openbitfun"
-assert_entrypoint "${BIN_DIR}/openbitfun"
+echo "Installed: ${BIN_DIR}/opc"
+assert_entrypoint "${BIN_DIR}/opc"
 assert_plugin_host_resources "${BIN_DIR}/resources/ext-host"
 
 echo ""
@@ -371,5 +371,5 @@ echo ""
 echo "=== Install complete ==="
 print_path_guidance "$BIN_DIR"
 echo "Login (Peer Host): open /login inside the TUI after start."
-echo "Server use: after /login, run \`openbitfun daemon install\` to keep this"
+echo "Server use: after /login, run \`opc daemon install\` to keep this"
 echo "device reachable by your account even after exit or reboot."

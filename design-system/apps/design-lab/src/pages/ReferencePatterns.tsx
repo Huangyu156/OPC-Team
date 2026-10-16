@@ -83,7 +83,7 @@ export function FormTypographyPattern() {
         </FieldRow>
         <FieldRow>
           <Field label={t("patterns.provider.headers")} description={t("components.preview.fieldDescription")} orientation="vertical" controlWidth="fill">
-            <Input defaultValue="X-OpenBitFun-Workspace-Display-Name-With-A-Long-Value" />
+            <Input defaultValue="X-Opc-Workspace-Display-Name-With-A-Long-Value" />
           </Field>
         </FieldRow>
       </FieldGroup>

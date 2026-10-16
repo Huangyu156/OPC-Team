@@ -80,10 +80,10 @@ fn git_command_output_preserves_raw_stream_contract() {
 #[test]
 fn git_text_parsers_preserve_branch_and_log_contracts() {
     assert_eq!(
-        parse_git_log_line("abc123|OpenBitFun|openbitfun@example.com|2026-05-12|subject|body"),
+        parse_git_log_line("abc123|OPC-Team|openbitfun@example.com|2026-05-12|subject|body"),
         Some((
             "abc123".to_string(),
-            "OpenBitFun".to_string(),
+            "OPC-Team".to_string(),
             "openbitfun@example.com".to_string(),
             "2026-05-12".to_string(),
             "subject|body".to_string(),
@@ -170,10 +170,7 @@ async fn review_safe_workspace_diff_forces_rename_detection() {
     let repo_dir = TempRepoDir::new("review-workspace-rename");
     run_git(repo_dir.path(), &["init"]);
     run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.email", "tests@openbitfun.dev"],
-    );
+    run_git(repo_dir.path(), &["config", "user.email", "tests@opc.dev"]);
     let original = (0..10)
         .map(|index| format!("stable line {index}\n"))
         .collect::<String>();
@@ -240,10 +237,7 @@ async fn workspace_diff_port_reports_staged_unstaged_and_untracked_changes() {
     let repo_dir = TempRepoDir::new("workspace-diff-port");
     run_git(repo_dir.path(), &["init"]);
     run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.email", "tests@openbitfun.dev"],
-    );
+    run_git(repo_dir.path(), &["config", "user.email", "tests@opc.dev"]);
     fs::write(repo_dir.path().join("both.txt"), "base\n").unwrap();
     run_git(repo_dir.path(), &["add", "--", "both.txt"]);
     run_git(repo_dir.path(), &["commit", "-m", "base"]);
@@ -291,10 +285,7 @@ async fn workspace_diff_port_keeps_staged_changes_when_worktree_returns_to_head(
     let repo_dir = TempRepoDir::new("workspace-diff-cancelled-worktree");
     run_git(repo_dir.path(), &["init"]);
     run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.email", "tests@openbitfun.dev"],
-    );
+    run_git(repo_dir.path(), &["config", "user.email", "tests@opc.dev"]);
     fs::write(repo_dir.path().join("both.txt"), "base\n").unwrap();
     run_git(repo_dir.path(), &["add", "--", "both.txt"]);
     run_git(repo_dir.path(), &["commit", "-m", "base"]);
@@ -351,10 +342,7 @@ async fn workspace_diff_port_preserves_staged_delete_and_recreated_file_sources(
     let repo_dir = TempRepoDir::new("workspace-diff-staged-delete-recreated");
     run_git(repo_dir.path(), &["init"]);
     run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.email", "tests@openbitfun.dev"],
-    );
+    run_git(repo_dir.path(), &["config", "user.email", "tests@opc.dev"]);
     fs::write(repo_dir.path().join("rebuilt.txt"), "base\n").unwrap();
     run_git(repo_dir.path(), &["add", "--", "rebuilt.txt"]);
     run_git(repo_dir.path(), &["commit", "-m", "base"]);
@@ -380,10 +368,7 @@ async fn workspace_diff_port_marks_conflicts_without_projecting_an_incomplete_pa
     let repo_dir = TempRepoDir::new("workspace-diff-conflict");
     run_git(repo_dir.path(), &["init"]);
     run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.email", "tests@openbitfun.dev"],
-    );
+    run_git(repo_dir.path(), &["config", "user.email", "tests@opc.dev"]);
     fs::write(repo_dir.path().join("conflict.txt"), "base\n").unwrap();
     run_git(repo_dir.path(), &["add", "--", "conflict.txt"]);
     run_git(repo_dir.path(), &["commit", "-m", "base"]);
@@ -418,10 +403,7 @@ async fn workspace_diff_port_scopes_parent_repository_paths_to_the_bound_workspa
     let repo_dir = TempRepoDir::new("workspace-diff-scope");
     run_git(repo_dir.path(), &["init"]);
     run_git(repo_dir.path(), &["config", "user.name", "OPC-Team Tests"]);
-    run_git(
-        repo_dir.path(),
-        &["config", "user.email", "tests@openbitfun.dev"],
-    );
+    run_git(repo_dir.path(), &["config", "user.email", "tests@opc.dev"]);
     fs::create_dir_all(repo_dir.path().join("scope[1]")).unwrap();
     fs::write(repo_dir.path().join("outside.txt"), "base\n").unwrap();
     fs::write(
@@ -766,7 +748,7 @@ fn run_git_expect_failure(repo_dir: &std::path::Path, args: &[&str]) {
 #[test]
 fn git_worktree_info_preserves_camel_case_contract() {
     let worktree = GitWorktreeInfo {
-        path: "D:/workspace/OpenBitFun-worktree".to_string(),
+        path: "D:/workspace/Opc-worktree".to_string(),
         branch: Some("feature/test".to_string()),
         head: "abc123".to_string(),
         is_main: false,
@@ -783,11 +765,11 @@ fn git_worktree_info_preserves_camel_case_contract() {
 #[test]
 fn git_worktree_parser_preserves_porcelain_contract() {
     let worktrees = parse_worktree_list(
-        "worktree D:/workspace/OpenBitFun\nHEAD abc123\nbranch refs/heads/main\n\nworktree D:/workspace/OpenBitFun-feature\nHEAD def456\nbranch refs/heads/feature/test\nlocked\nprunable\n",
+        "worktree D:/workspace/OPC-Team\nHEAD abc123\nbranch refs/heads/main\n\nworktree D:/workspace/Opc-feature\nHEAD def456\nbranch refs/heads/feature/test\nlocked\nprunable\n",
     );
 
     assert_eq!(worktrees.len(), 2);
-    assert_eq!(worktrees[0].path, "D:/workspace/OpenBitFun");
+    assert_eq!(worktrees[0].path, "D:/workspace/OPC-Team");
     assert_eq!(worktrees[0].branch.as_deref(), Some("main"));
     assert_eq!(worktrees[0].head, "abc123");
     assert!(worktrees[0].is_main);
@@ -805,7 +787,7 @@ fn git_commit_params_preserves_no_verify_rename_contract() {
         all: Some(true),
         no_verify: Some(true),
         author: Some(GitAuthor {
-            name: "OpenBitFun".to_string(),
+            name: "OPC-Team".to_string(),
             email: "openbitfun@example.com".to_string(),
         }),
     };
@@ -822,7 +804,7 @@ fn git_graph_contract_preserves_camel_case_contract() {
             hash: "abc123".to_string(),
             message: "initial".to_string(),
             full_message: "initial commit".to_string(),
-            author_name: "OpenBitFun".to_string(),
+            author_name: "OPC-Team".to_string(),
             author_email: "openbitfun@example.com".to_string(),
             timestamp: 1_700_000_000,
             parents: Vec::new(),

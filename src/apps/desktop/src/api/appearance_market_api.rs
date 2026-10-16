@@ -278,12 +278,9 @@ fn normalize_manual_submission(
     if !package_path
         .file_name()
         .and_then(|name| name.to_str())
-        .is_some_and(|name| {
-            name.to_ascii_lowercase()
-                .ends_with(".openbitfun-appearance")
-        })
+        .is_some_and(|name| name.to_ascii_lowercase().ends_with(".opc-appearance"))
     {
-        return Err("Skin submissions must use a .openbitfun-appearance package.".to_string());
+        return Err("Skin submissions must use a .opc-appearance package.".to_string());
     }
     let fallback_name = package_path
         .file_stem()
@@ -437,9 +434,9 @@ mod tests {
     #[test]
     fn normalizes_manual_submission_defaults_without_opening_the_package() {
         let package_path = if cfg!(windows) {
-            r"C:\tmp\Ocean Night.openbitfun-appearance"
+            r"C:\tmp\Ocean Night.opc-appearance"
         } else {
-            "/tmp/Ocean Night.openbitfun-appearance"
+            "/tmp/Ocean Night.opc-appearance"
         };
         let normalized = normalize_manual_submission(AppearanceMarketSubmitPackageRequest {
             package_path: package_path.to_string(),
@@ -467,9 +464,9 @@ mod tests {
     #[test]
     fn manual_submission_requires_exactly_one_license_form() {
         let package_path = if cfg!(windows) {
-            r"C:\tmp\ocean-night.openbitfun-appearance"
+            r"C:\tmp\ocean-night.opc-appearance"
         } else {
-            "/tmp/ocean-night.openbitfun-appearance"
+            "/tmp/ocean-night.opc-appearance"
         };
         let result = normalize_manual_submission(AppearanceMarketSubmitPackageRequest {
             package_path: package_path.to_string(),

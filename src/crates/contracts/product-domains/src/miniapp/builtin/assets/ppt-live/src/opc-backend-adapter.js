@@ -85,7 +85,7 @@ function installAgentBackend(app) {
   };
 }
 
-export function installOpenBitFunBackendAdapter(app = window.app) {
+export function installOpcBackendAdapter(app = window.app) {
   if (!app || app.backend?.call) return;
   if (app.agent?.run) installAgentBackend(app);
 }

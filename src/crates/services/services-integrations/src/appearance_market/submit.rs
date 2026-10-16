@@ -118,14 +118,11 @@ pub async fn submit_appearance_package(
     let has_expected_extension = package_path
         .file_name()
         .and_then(|name| name.to_str())
-        .is_some_and(|name| {
-            name.to_ascii_lowercase()
-                .ends_with(".openbitfun-appearance")
-        });
+        .is_some_and(|name| name.to_ascii_lowercase().ends_with(".opc-appearance"));
     if !has_expected_extension {
         return Err(submission_error(
             "invalid_package_extension",
-            "Marketplace packages must use the .openbitfun-appearance extension.",
+            "Marketplace packages must use the .opc-appearance extension.",
         ));
     }
 

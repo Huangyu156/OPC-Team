@@ -1,7 +1,7 @@
 # OPC-Team MiniApp Market Web
 
 这里是 MiniApp 市场独立网页的源码目录。生产地址是
-`https://market.openbitfun.com/miniapp/`。
+`https://market.opcteam.eu.cc/miniapp/`。
 
 > 最短结论：修改这个目录里的网页，完成检查并提交 Git commit 后，按照
 > [生产部署手册](../../deploy/miniapp-market/README.md)重建并重启
@@ -36,7 +36,7 @@
 | `src/api.ts` | `/miniapp/api/v1` 客户端、CSRF、登录和下载 URL |
 | `src/types.ts` | 网页使用的 API DTO |
 | `src/MiniAppIcon.tsx` | 将 MiniApp 元数据中的 Lucide 图标名安全解析为图标组件 |
-| `src/GetOpenBitFunCta.tsx` | 目录页和详情页共用的「下载 OPC-Team 客户端」引流入口 |
+| `src/GetOpcCta.tsx` | 目录页和详情页共用的「下载 OPC-Team 客户端」引流入口 |
 | `src/links.ts` | 官网与下载页的对外链接常量 |
 | `src/i18n.ts` | `zh-CN`、`zh-TW`、`en-US` 文案与 fallback |
 | `src/format.ts` | 市场页面的日期和数字格式化 |
@@ -197,7 +197,7 @@ pnpm run theme:color-audit:all
 完整的备份、精确 commit 发布、健康检查和回滚命令见
 [生产部署手册](../../deploy/miniapp-market/README.md)。
 
-GitHub sign-in uses `https://auth.openbitfun.com/sign-in`; desktop completion
+GitHub sign-in uses `https://auth.opcteam.eu.cc/sign-in`; desktop completion
 uses its standalone `/complete` page without marketplace navigation. The page
 is built from this frontend, while the registered OAuth callback remains on the
 market host so MiniApp and Skin receive their existing path-scoped session

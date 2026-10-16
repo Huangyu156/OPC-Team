@@ -120,8 +120,8 @@ const GenerativeWidgetPanel = lazyWithRecovery(() =>
   import('@/tools/generative-widget/GenerativeWidgetPanel')
 );
 
-const OpenBitFunCanvasPanel = lazyWithRecovery(() =>
-  import('@/tools/opc-canvas/OpenBitFunCanvasPanel')
+const OpcCanvasPanel = lazyWithRecovery(() =>
+  import('@/tools/opc-canvas/OpcCanvasPanel')
 );
 
 const TaskDetailPanel = lazyWithRecovery(() =>
@@ -1018,7 +1018,7 @@ const FlexiblePanel: React.FC<ExtendedFlexiblePanelProps> = memo(({
       case 'opc-canvas':
         return (
           <React.Suspense fallback={<div className="opc-flexible-panel__loading" data-opc-component="flexible-panel" data-opc-part="loading" data-opc-state="loading">Loading Canvas preview...</div>}>
-            <OpenBitFunCanvasPanel
+            <OpcCanvasPanel
               title={content.title}
               artifactReference={content.data?.artifactReference}
               html={content.data?.html}

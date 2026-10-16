@@ -3,7 +3,7 @@
   "catalog_kind": "opc_builtin_provider_overlay",
   "providers": [
     {
-      "id": "openbitfun",
+      "id": "opc",
       "display_order": 0,
       "region": "any",
       "name": "OPC-Team Service",
@@ -13,7 +13,7 @@
       "endpoints": [
         {
           "id": "default",
-          "base_url": "https://api.openbitfun.com",
+          "base_url": "https://api.opcteam.eu.cc",
           "api_format": "anthropic",
           "label": "default",
           "is_default": true,
@@ -27,7 +27,7 @@
         },
         {
           "id": "openai",
-          "base_url": "https://api.openbitfun.com/v1",
+          "base_url": "https://api.opcteam.eu.cc/v1",
           "api_format": "openai",
           "label": "openai",
           "trusted_for_auto_detection": true,

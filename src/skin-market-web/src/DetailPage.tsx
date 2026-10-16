@@ -17,7 +17,7 @@ import {
   formatPackageSize,
   shortHash,
 } from './format';
-import { GetOpenBitFunCta } from './GetOpenBitFunCta';
+import { GetOpcCta } from './GetOpcCta';
 import type { Locale, Translate } from './i18n';
 import { PosterImage } from './PosterImage';
 import type {
@@ -189,14 +189,14 @@ export function DetailPage({ catalogSearch, isAdmin, locale, onNavigate, slug, t
               <Desktop size={19} aria-hidden="true" />
               <span>{t('desktopInstallNote')}</span>
             </p>
-            <GetOpenBitFunCta placement="listing" t={t} />
+            <GetOpcCta placement="listing" t={t} />
           </div>
         </section>
 
         <section className="detail-fact-strip" aria-label={t('compatibility')}>
           <div><span>{t('mode')}</span><strong>{modeLabel}</strong></div>
           <div><span>{t('version')}</span><strong>{detail.packageVersion}</strong></div>
-          <div><span>{t('compatibility')}</span><strong>{t('minOpenBitFun', { version: detail.minOpenBitFunVersion })}</strong></div>
+          <div><span>{t('compatibility')}</span><strong>{t('minOpc', { version: detail.minOpcVersion })}</strong></div>
         </section>
 
         <div className="detail-content">
@@ -262,7 +262,7 @@ export function DetailPage({ catalogSearch, isAdmin, locale, onNavigate, slug, t
             <section className="aside-section" aria-labelledby="compatibility-heading">
               <ShieldCheck size={24} aria-hidden="true" />
               <h2 id="compatibility-heading">{t('compatibility')}</h2>
-              <p>{t('minOpenBitFun', { version: detail.minOpenBitFunVersion })}</p>
+              <p>{t('minOpc', { version: detail.minOpcVersion })}</p>
               <h3>{t('requiredCapabilities')}</h3>
               {detail.requiredCapabilities.length ? (
                 <ul className="capability-list">
@@ -412,7 +412,7 @@ function ReleaseItem({
         </span>
       </div>
       <dl className="release-facts">
-        <div><dt>{t('compatibility')}</dt><dd>{t('minOpenBitFun', { version: release.minOpenBitFunVersion })}</dd></div>
+        <div><dt>{t('compatibility')}</dt><dd>{t('minOpc', { version: release.minOpcVersion })}</dd></div>
         <div><dt>{t('packageSize')}</dt><dd>{formatPackageSize(release.packageSize, locale)}</dd></div>
         <div><dt>{t('checksum')}</dt><dd><code title={release.packageSha256}>{shortHash(release.packageSha256)}</code></dd></div>
       </dl>

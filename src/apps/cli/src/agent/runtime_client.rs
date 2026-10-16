@@ -554,7 +554,7 @@ impl CliAgentRuntimeClient {
         match &self.backend {
             CliAgentRuntimeBackend::Embedded(runtime) => Ok(runtime),
             CliAgentRuntimeBackend::Shared(_) => Err(anyhow::anyhow!(
-                "{operation} is not available in the first Shared TUI slice; use default Embedded `openbitfun chat`"
+                "{operation} is not available in the first Shared TUI slice; use default Embedded `opc chat`"
             )),
         }
     }
@@ -2360,7 +2360,7 @@ mod tests {
         }));
         let message = error.to_string();
         assert!(message.contains("history is too large"));
-        assert!(message.contains("default Embedded `openbitfun chat`"));
+        assert!(message.contains("default Embedded `opc chat`"));
     }
 
     #[test]
@@ -2444,7 +2444,7 @@ mod tests {
         let message =
             shared_disconnect_message(Some(RuntimeIpcStreamInvalidationReason::FrameTooLarge));
         assert!(message.contains("cancellation was requested"));
-        assert!(message.contains("default Embedded `openbitfun chat`"));
+        assert!(message.contains("default Embedded `opc chat`"));
     }
 
     #[test]

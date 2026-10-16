@@ -66,7 +66,7 @@ pub struct AppServerHostLimits {
 }
 
 impl AppServerHostLimits {
-    /// Limits for the local stdio Server Host (`openbitfun server`).
+    /// Limits for the local stdio Server Host (`opc server`).
     pub const fn local_stdio() -> Self {
         Self {
             max_frame_bytes: DEFAULT_MAX_FRAME_BYTES,

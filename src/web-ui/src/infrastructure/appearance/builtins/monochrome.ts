@@ -1,6 +1,6 @@
 import type { AppearancePalette } from './AppearancePalette';
-import { openBitFunDarkPalette } from './dark';
-import { openBitFunLightPalette } from './light';
+import { opcDarkPalette } from './dark';
+import { opcLightPalette } from './light';
 import {
   createAccentScale,
   createSecondaryAccentScale,
@@ -8,14 +8,14 @@ import {
   STATIC_BLACK,
   STATIC_WHITE,
 } from './paletteHelpers';
-import { openBitFunSlatePalette } from './slate';
+import { opcSlatePalette } from './slate';
 
-const content = openBitFunLightPalette;
-const chrome = openBitFunSlatePalette;
+const content = opcLightPalette;
+const chrome = opcSlatePalette;
 const paper = STATIC_WHITE;
 const ink = chrome.colors.background.primary;
 
-export const openBitFunMonochromePalette: AppearancePalette = {
+export const opcMonochromePalette: AppearancePalette = {
   id: 'opc-monochrome',
   name: 'Black & White',
   type: 'light',
@@ -71,19 +71,19 @@ export const openBitFunMonochromePalette: AppearancePalette = {
       },
       text: {
         primary: content.colors.element.soft,
-        secondary: openBitFunDarkPalette.colors.text.secondary,
-        muted: openBitFunDarkPalette.colors.text.muted,
-        disabled: openBitFunDarkPalette.colors.text.disabled,
+        secondary: opcDarkPalette.colors.text.secondary,
+        muted: opcDarkPalette.colors.text.muted,
+        disabled: opcDarkPalette.colors.text.disabled,
       },
       accent: createAccentScale({
         base: content.colors.element.soft,
         hover: STATIC_WHITE,
         stops: {
-          50: openBitFunDarkPalette.colors.element.subtle,
-          100: openBitFunDarkPalette.colors.element.soft,
-          200: openBitFunDarkPalette.colors.element.base,
-          300: openBitFunDarkPalette.colors.element.medium,
-          400: openBitFunDarkPalette.colors.element.strong,
+          50: opcDarkPalette.colors.element.subtle,
+          100: opcDarkPalette.colors.element.soft,
+          200: opcDarkPalette.colors.element.base,
+          300: opcDarkPalette.colors.element.medium,
+          400: opcDarkPalette.colors.element.strong,
         },
       }),
       border: chrome.colors.border,

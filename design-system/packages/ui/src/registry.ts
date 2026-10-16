@@ -116,7 +116,7 @@ import {
   webFetchToolCardMeta,
   webSearchToolCardMeta,
 } from "./flow-chat/tool-cards/StandardToolCards.meta";
-import { openBitFunSolidMarkMeta, openBitFunAppIconMeta, openBitFunMarkMeta, openBitFunBrandMotionMeta, subagentHatchMeta } from "./brand/brand.meta";
+import { opcSolidMarkMeta, opcAppIconMeta, opcMarkMeta, opcBrandMotionMeta, subagentHatchMeta } from "./brand/brand.meta";
 import type { ComponentMeta, ComponentPlatform } from "./registry.types";
 
 export type {
@@ -244,10 +244,10 @@ export const componentRegistry = [
   toolbarMeta,
   tooltipMeta,
   voiceCallPanelMeta,
-  openBitFunSolidMarkMeta,
-  openBitFunAppIconMeta,
-  openBitFunMarkMeta,
-  openBitFunBrandMotionMeta,
+  opcSolidMarkMeta,
+  opcAppIconMeta,
+  opcMarkMeta,
+  opcBrandMotionMeta,
   subagentHatchMeta,
   voiceParticleLogoMeta,
   viewImageToolCardMeta,

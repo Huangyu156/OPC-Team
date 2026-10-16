@@ -33,5 +33,5 @@ OPC-Team builds only need public download access, with no private-repository tok
 ## Focused verification
 
 ```sh
-node --test scripts/prepare-flashgrep-resource.test.mjs scripts/desktop-tauri-build.test.mjs OpenBitFun-Installer/scripts/build-installer.test.cjs
+node --test scripts/prepare-flashgrep-resource.test.mjs scripts/desktop-tauri-build.test.mjs Opc-Installer/scripts/build-installer.test.cjs
 ```

@@ -12,7 +12,7 @@ async function profileExpansion() {
   if (!port) return async () => {};
   const pages = await (await fetch(`http://127.0.0.1:${port}/json/list`)).json() as Array<{ type: string; url: string; title: string; webSocketDebuggerUrl: string }>;
   samples.profileTargets = pages.map(({ type, url, title }) => ({ type, url, title }));
-  const target = pages.find(page => page.type === 'page' && page.url.includes('index.html') && !page.url.includes('openbitfunWindow='))!;
+  const target = pages.find(page => page.type === 'page' && page.url.includes('index.html') && !page.url.includes('opcWindow='))!;
   const socket = new WebSocket(target.webSocketDebuggerUrl);
   await new Promise<void>((resolve, reject) => { socket.onopen = () => resolve(); socket.onerror = reject; });
   let next = 0;
@@ -123,7 +123,7 @@ describe('Desktop FlowChat with recorded sessions', () => {
           sources: [...row.querySelectorAll<HTMLElement>('[data-flow-item-id], [data-tool-card-id]')].map(source => ({
             data: { ...source.dataset }, text: source.textContent?.slice(0, 160),
           })), line: row.querySelector('.flowchat-search-line')?.outerHTML,
-          current: row.dataset.openbitfunState?.includes('searchCurrent') ? row.outerHTML : undefined,
+          current: row.dataset.opcState?.includes('searchCurrent') ? row.outerHTML : undefined,
         })) };
     });
     writeFileSync(join(evidence, 'failure.json'), JSON.stringify(state, null, 2));

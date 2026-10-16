@@ -11,7 +11,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--opcteam-space-3);
-    animation: openbitfun-collection-slide-down 0.18s var(--opcteam-motion-easing-standard);
+    animation: opc-collection-slide-down 0.18s var(--opcteam-motion-easing-standard);
   }
 
   &__json-hint {

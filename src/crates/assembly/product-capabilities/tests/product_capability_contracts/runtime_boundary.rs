@@ -54,7 +54,7 @@ fn code_agent_tools_are_selected_from_atomic_provider_groups() {
         "AgentList",
         "PortForward",
         "ListWorkspaces",
-        "OpenBitFunControl",
+        "OpcControl",
     ] {
         assert!(
             tool_names.contains(&explore_tool),

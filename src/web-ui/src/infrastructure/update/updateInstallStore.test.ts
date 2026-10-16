@@ -50,14 +50,14 @@ describe('staged app update', () => {
   it('starts development without cached discovery or automatic checks and still allows a manual check', async () => {
     vi.stubEnv('DEV', true);
     writeAppUpdateSnapshot({ result: available(), checkedAt: Date.now() });
-    const saved = localStorage.getItem('openbitfun:update:checkSnapshot');
+    const saved = localStorage.getItem('opc:update:checkSnapshot');
     await state().initialize();
     await state().checkForUpdates('automatic', true);
     expect(state()).toMatchObject({ availableUpdate: null, notice: null, checkStatus: 'idle', lastCheckedAt: null });
     expect(selectHasUpdateAttention(state())).toBe(false);
     expect(mocks.check).not.toHaveBeenCalled();
     expect(mocks.enabled).not.toHaveBeenCalled();
-    expect(localStorage.getItem('openbitfun:update:checkSnapshot')).toBe(saved);
+    expect(localStorage.getItem('opc:update:checkSnapshot')).toBe(saved);
     await state().checkForUpdates();
     expect(mocks.check).toHaveBeenCalledOnce();
     expect(selectHasUpdateAttention(state())).toBe(true);
@@ -158,7 +158,7 @@ describe('staged app update', () => {
     expect(state().notice).toBeNull();
     state().skipVersion('2.0.0');
     expect(selectHasUpdateAttention(state())).toBe(false);
-    expect(localStorage.getItem('openbitfun:update:skippedVersion')).toBe('2.0.0');
+    expect(localStorage.getItem('opc:update:skippedVersion')).toBe('2.0.0');
     mocks.check.mockResolvedValueOnce(available('2.1.0'));
     await state().checkForUpdates('automatic', true);
     expect(selectHasUpdateAttention(state())).toBe(true);
@@ -347,7 +347,7 @@ describe('staged app update', () => {
     expect(state().promptOpen).toBe(true);
     expect(selectHasUpdateAttention(state())).toBe(false);
     expect(selectUpdateDownloadStatus(state())).toBe('ready');
-    expect(localStorage.getItem('openbitfun:update:skippedVersion')).toBeNull();
+    expect(localStorage.getItem('opc:update:skippedVersion')).toBeNull();
     expect(mocks.install).not.toHaveBeenCalled();
   });
 

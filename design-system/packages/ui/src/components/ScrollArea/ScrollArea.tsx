@@ -52,8 +52,8 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
         const measurement = `${top}:${bottom}:${inlineGutter}:${blockGutter}`;
         if (measurement === previousMeasurement) return;
         previousMeasurement = measurement;
-        viewport.dataset.openbitfunFadeTop = String(top);
-        viewport.dataset.openbitfunFadeBottom = String(bottom);
+        viewport.dataset.opcFadeTop = String(top);
+        viewport.dataset.opcFadeBottom = String(bottom);
         viewport.style.setProperty("--_scroll-area-inline-gutter", `${inlineGutter}px`);
         viewport.style.setProperty("--_scroll-area-block-gutter", `${blockGutter}px`);
       };
@@ -90,8 +90,8 @@ export const ScrollArea = forwardRef<HTMLDivElement, ScrollAreaProps>(
         mutationObserver?.disconnect();
         viewport.removeEventListener("scroll", updateEdges);
         view?.removeEventListener("resize", updateEdges);
-        delete viewport.dataset.openbitfunFadeTop;
-        delete viewport.dataset.openbitfunFadeBottom;
+        delete viewport.dataset.opcFadeTop;
+        delete viewport.dataset.opcFadeBottom;
         viewport.style.removeProperty("--_scroll-area-inline-gutter");
         viewport.style.removeProperty("--_scroll-area-block-gutter");
       };

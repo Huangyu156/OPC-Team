@@ -1,4 +1,4 @@
-//! OpenBitFun standalone relay library facade.
+//! OPC-Team standalone relay library facade.
 //!
 //! Runtime ownership lives in `opc-relay-service`. New code should depend
 //! on that crate directly; this facade keeps the standalone host thin.

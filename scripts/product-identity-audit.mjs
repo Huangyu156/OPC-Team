@@ -3,7 +3,7 @@
 /**
  * Prevent the retired product identity from returning to production sources.
  *
- * The normal product is OpenBitFun-only. Legacy exceptions are restricted to
+ * The normal product is Opc-only. Legacy exceptions are restricted to
  * the exact data-directory ignore entry and the one-time migration documents,
  * migrator app/service boundary, and fixtures used for in-place upgrades.
  *
@@ -59,6 +59,9 @@ const retiredIdentityDataBoundaryPrefixes = Object.freeze([
   // (download URLs and file names included) so old clients keep resolving
   // their last real release; they must not be rewritten to the new identity.
   'scripts/fixtures/legacy-update-feeds/',
+  // The one-shot rename ledger documents the rename itself (every historical
+  // token appears as a mapping key); it is a boundary, not residual debt.
+  'scripts/layer-c-rename-map.json',
 ]);
 const noncanonicalIdentityDataBoundaryFiles = new Set([
   'OPC_LEGACY_DATA_MIGRATION_INVENTORY.md',
@@ -89,8 +92,8 @@ const retiredProductPatternSource = `(?<!open)${retiredProductToken}`;
  * hyphenated spelling stays available as the capitalized display and brand form.
  */
 const auditedProductIdentities = Object.freeze({
-  openbitfun: Object.freeze({
-    label: 'OpenBitFun',
+  opc: Object.freeze({
+    label: 'OpenBitFun (retired, legacy identity key retained for boundary rules)',
     pattern: /openbitfun/giu,
     canonicalCasings: Object.freeze(['OpenBitFun', 'openBitFun', 'openbitfun', 'OPENBITFUN']),
     allowedFiles: noncanonicalIdentityDataBoundaryFiles,
@@ -115,6 +118,11 @@ function casingRuleFor(identityId) {
     description: `non-canonical ${identity.label} casing`,
     pattern: identity.pattern,
     isViolation: (value) => !identity.canonicalCasings.includes(value),
+    // The npm scope `@opcteam/` naming is the live package namespace introduced by the
+    // Layer A rename; its npm-scope spelling belongs to npm, not to prose, and
+    // is always acceptable wherever it appears (including regex-escaped forms).
+    allowedMatch: ({ location }) => location.location === 'content'
+      && /@opcteam[\\/]/.test(location.lineText ?? '') || /@op[c]-team[\\/]/.test(location.lineText ?? ''),
     allowedFiles: identity.allowedFiles,
   });
 }
@@ -173,7 +181,7 @@ function isExternalAttributionOnlyLine(lineText) {
 const identityRules = Object.freeze([
   ...productIdentityRules(),
   Object.freeze({
-    id: 'abbreviated-openbitfun-name',
+    id: 'abbreviated-opc-name',
     description: 'abbreviated OpenBitFun product name',
     pattern: /\bopen[\s_-]*bf\b/giu,
   }),
@@ -236,14 +244,14 @@ const identityRules = Object.freeze([
     allowedFiles: new Set([productIdentityOwner]),
   }),
   Object.freeze({
-    id: 'pre-1.0-openbitfun-minimum-version',
+    id: 'pre-1.0-opc-minimum-version',
     description: 'minimum OpenBitFun version earlier than 1.0.0',
-    pattern: /\b(?:minOpenBitFunVersion|min_openbitfun_version)\b\s*(?::|=)\s*['"]0\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?['"]/giu,
+    pattern: /\b(?:minOpcVersion|min_opc_version)\b\s*(?::|=)\s*['"]0\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?['"]/giu,
   }),
   Object.freeze({
-    id: 'pre-1.0-openbitfun-release-asset',
+    id: 'pre-1.0-opc-release-asset',
     description: 'OpenBitFun release asset earlier than 1.0.0',
-    pattern: /\b(?:openbitfun-cli-|openbitfun[_-])0\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?/giu,
+    pattern: /\b(?:opc-cli-|openbitfun[_-])0\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?/giu,
   }),
 ]);
 

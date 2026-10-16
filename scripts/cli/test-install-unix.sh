@@ -25,13 +25,13 @@ mkdir -p "$HOME"
 # install wrote, not leave it beside the new OPC-Team marker.
 for rc_file in "$HOME/.bashrc" "$HOME/.zshrc"; do
   cat >"$rc_file" <<'EOF'
-# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>
-# Added so `openbitfun` is available in new shells after install.sh.
+# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>
+# Added so `opc` is available in new shells after install.sh.
 case ":$PATH:" in
   *":$HOME/.local/bin:"*) ;;
   *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
-# <<< OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) <<<
+# <<< OPC-Team CLI PATH (managed by src/apps/cli/install.sh) <<<
 EOF
 done
 
@@ -46,17 +46,17 @@ hash_file() {
 bash "${REPO_ROOT}/src/apps/cli/install.sh"
 bash "${REPO_ROOT}/src/apps/cli/install.sh"
 
-"${OPC_CLI_BIN_DIR}/openbitfun" --version >/dev/null
+"${OPC_CLI_BIN_DIR}/opc" --version >/dev/null
 [ -f "${OPC_CLI_BIN_DIR}/resources/ext-host/extension-host.js" ]
 
 MANAGED_MARKER='# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>'
-LEGACY_MANAGED_MARKER='# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>'
+LEGACY_MANAGED_MARKER='# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>'
 for rc_file in "$HOME/.bashrc" "$HOME/.zshrc"; do
   [ "$(grep -Fc "$MANAGED_MARKER" "$rc_file")" -eq 1 ]
   [ "$(grep -Fc "$LEGACY_MANAGED_MARKER" "$rc_file")" -eq 0 ]
 done
 
-PRIMARY_HASH="$(hash_file "${OPC_CLI_BIN_DIR}/openbitfun")"
+PRIMARY_HASH="$(hash_file "${OPC_CLI_BIN_DIR}/opc")"
 REAL_MV="$(command -v mv)"
 SHIM_DIR="${TEST_ROOT}/shim"
 mkdir -p "$SHIM_DIR"
@@ -72,10 +72,10 @@ chmod +x "${SHIM_DIR}/mv"
 if PATH="${SHIM_DIR}:$PATH" \
   OPC_CLI_SKIP_SHELLRC=1 \
   OPC_CLI_TEST_REAL_MV="$REAL_MV" \
-  OPC_CLI_TEST_FAIL_SOURCE="${OPC_CLI_BIN_DIR}/openbitfun" \
+  OPC_CLI_TEST_FAIL_SOURCE="${OPC_CLI_BIN_DIR}/opc" \
   bash "${REPO_ROOT}/src/apps/cli/install.sh"; then
   echo "Error: installer unexpectedly succeeded during injected replacement failure" >&2
   exit 1
 fi
 
-[ "$(hash_file "${OPC_CLI_BIN_DIR}/openbitfun")" = "$PRIMARY_HASH" ]
+[ "$(hash_file "${OPC_CLI_BIN_DIR}/opc")" = "$PRIMARY_HASH" ]

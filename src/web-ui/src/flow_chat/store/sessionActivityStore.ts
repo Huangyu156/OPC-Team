@@ -119,8 +119,8 @@ export class SessionActivityStore {
     const sessionId = event.sessionId;
     if (typeof sessionId !== 'string' || !sessionId) return;
     const previous = this.get(sessionId, surfaceId);
-    const streamId = event.__openbitfunRuntimeStreamId;
-    const cursor = event.__openbitfunRuntimeEventCursor;
+    const streamId = event.__opcRuntimeStreamId;
+    const cursor = event.__opcRuntimeEventCursor;
     const position = typeof streamId === 'string' && typeof cursor === 'number'
       ? { streamId, cursor } : undefined;
     if (position && previous?.position?.streamId === position.streamId

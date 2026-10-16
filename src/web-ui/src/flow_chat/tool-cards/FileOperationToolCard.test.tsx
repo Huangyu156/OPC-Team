@@ -428,12 +428,12 @@ describe('FileOperationToolCard', () => {
         id: 'call-plan',
         name: 'Write',
         input: {
-          payload: `+++ .openbitfun/plans/test.plan.md\n${content}`,
+          payload: `+++ .opcteam/plans/test.plan.md\n${content}`,
         },
       },
       toolResult: {
         success: true,
-        result: { file_path: '.openbitfun/plans/test.plan.md' },
+        result: { file_path: '.opcteam/plans/test.plan.md' },
       },
     } as FlowToolItem;
 
@@ -450,7 +450,7 @@ describe('FileOperationToolCard', () => {
     expect(container.querySelector('[data-testid="write-plan-display"]')).not.toBeNull();
     expect(mocks.writePlanDisplayProps).toHaveLength(1);
     expect(mocks.writePlanDisplayProps[0]).toMatchObject({
-      planFilePath: 'D:/workspace/project/.openbitfun/plans/test.plan.md',
+      planFilePath: 'D:/workspace/project/.opcteam/plans/test.plan.md',
       initialContent: content,
       workspacePath: 'D:/workspace/project',
       remoteConnectionId: 'remote-1',
@@ -467,14 +467,14 @@ describe('FileOperationToolCard', () => {
         id: 'call-plan-edit',
         name: 'Edit',
         input: {
-          file_path: '.openbitfun/plans/test.plan.md',
+          file_path: '.opcteam/plans/test.plan.md',
           old_string: 'Old',
           new_string: 'New',
         },
       },
       toolResult: {
         success: true,
-        result: { file_path: '.openbitfun/plans/test.plan.md' },
+        result: { file_path: '.opcteam/plans/test.plan.md' },
       },
     } as FlowToolItem;
 
@@ -502,7 +502,7 @@ describe('FileOperationToolCard', () => {
         id: 'call-plan-error',
         name: 'Write',
         input: {
-          payload: '+++ .openbitfun/plans/test.plan.md\npartial',
+          payload: '+++ .opcteam/plans/test.plan.md\npartial',
         },
       },
       toolResult: {
@@ -535,13 +535,13 @@ describe('FileOperationToolCard', () => {
         id: 'call-plan-fallback',
         name: 'Write',
         input: {
-          payload: '+++ .openbitfun/plans/test.plan.md\npartial',
+          payload: '+++ .opcteam/plans/test.plan.md\npartial',
         },
       },
       toolResult: {
         success: true,
         result: {
-          file_path: '.openbitfun/tmp/write-callplanfallback.txt',
+          file_path: '.opcteam/tmp/write-callplanfallback.txt',
           used_fallback_path: true,
         },
       },

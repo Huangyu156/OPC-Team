@@ -2299,7 +2299,7 @@ pub fn native_prompt_command_conflict_key<'a>(
         candidates
             .iter()
             .map(|(candidate_id, _)| *candidate_id)
-            .filter(|candidate_id| candidate_id.starts_with("openbitfun.")),
+            .filter(|candidate_id| candidate_id.starts_with("opc.")),
     );
     let participant_fingerprint = prompt_command_conflict_key(
         execution_domain_id,
@@ -2348,7 +2348,7 @@ impl NativePromptCommandDescriptor {
     pub fn validate(&self) -> Result<(), ExternalSourceContractError> {
         validate_id(&self.command_name, "native prompt command name")?;
         validate_text(&self.candidate_id, "native prompt command candidate")?;
-        if !self.candidate_id.starts_with("openbitfun.") {
+        if !self.candidate_id.starts_with("opc.") {
             return Err(ExternalSourceContractError::InvalidIdentifier(
                 "native prompt command candidate",
             ));

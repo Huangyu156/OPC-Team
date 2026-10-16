@@ -19,7 +19,7 @@ import { withLegacyActionCardToken } from './actionCardThemeCompatibility';
 import { withLegacyIndicatorTokens } from './indicatorThemeCompatibility';
 import { withLegacyComposerTokens } from './composerThemeCompatibility';
 
-const COMPOSITION_LAYERS = Symbol('openbitfun.appearance.composition-layers');
+const COMPOSITION_LAYERS = Symbol('opc.appearance.composition-layers');
 
 interface AppearanceCompositionLayers {
   base: AppearancePackage;

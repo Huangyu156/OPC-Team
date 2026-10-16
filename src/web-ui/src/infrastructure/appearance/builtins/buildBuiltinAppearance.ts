@@ -475,7 +475,7 @@ export function buildBuiltinAppearance(palette: AppearancePalette): AppearancePa
   });
 
   return {
-    schema: 'openbitfun.appearance',
+    schema: 'opc.appearance',
     schemaVersion: 2,
     id: palette.id,
     name: palette.name,

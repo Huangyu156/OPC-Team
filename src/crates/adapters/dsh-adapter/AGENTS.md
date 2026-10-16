@@ -2,7 +2,7 @@
 
 This crate owns the static, runtime-free projection of DeepSeek Harness (`dsh`)
 plugin package sources. It reads a OPC-Team-managed package whose
-`openbitfun.plugin.json` declares `adapter: "dsh_compatible"`, parses the package's
+`opc.plugin.json` declares `adapter: "dsh_compatible"`, parses the package's
 `package.json` `dsh` declaration, and projects the discovered bundle entries
 (`dsh.bundle.patch` -> `cordis.patch.yml` rows) and/or profile bundle references
 (`dsh.profile.bundles`) as projection-only plugin sources.

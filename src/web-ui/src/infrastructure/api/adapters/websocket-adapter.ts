@@ -180,7 +180,7 @@ export const AGENT_COMMAND_SCHEMA = {
   // also uses -- no service injection, mirroring the static `GitService`
   // pattern. `get_config`/`get_configs` carry the not-found -> undefined
   // contract the frontend `ConfigAPI` depends on: the app-server
-  // `config_get_error` helper puts the `OpenBitFunError::NotFound` Display text
+  // `config_get_error` helper puts the `OpcError::NotFound` Display text
   // into the JSON-RPC `message`, so `ConfigAPI.getConfig`'s substring match
   // (`not found:` + `config path` + `'<path>'`) hits and swallows the error
   // the same way it does on desktop. `get_skill_configs` (workspace

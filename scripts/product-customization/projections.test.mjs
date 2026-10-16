@@ -30,7 +30,7 @@ test('build environment isolates custom Cargo output without overriding the defa
   assert.equal(defaultEnvironment.OPC_PRODUCT_ID, 'opcteam');
   assert.equal(defaultEnvironment.OPC_DATA_NAMESPACE, 'opcteam');
   assert.equal(defaultEnvironment.OPC_HIDDEN_DATA_DIRECTORY, '.opcteam');
-  assert.equal(defaultEnvironment.OPC_PRODUCT_BINARY_NAME, 'openbitfun');
+  assert.equal(defaultEnvironment.OPC_PRODUCT_BINARY_NAME, 'opc');
   assert.match(customEnvironment.CARGO_TARGET_DIR, /target[\\/]\.product-cache[\\/]/);
   assert.equal(customEnvironment.OPC_PRODUCT_ID, 'acme');
   assert.equal(customEnvironment.OPC_DATA_NAMESPACE, 'acme');

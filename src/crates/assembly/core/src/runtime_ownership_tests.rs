@@ -254,13 +254,10 @@ fn ownership_conflict_guidance_matches_the_calling_product_surface() {
     .expect_err("Shared owner must block an Embedded SDK Host");
 
     let tui_message = error.startup_message(RuntimeDeployment::Embedded, "cli-interactive");
-    assert!(tui_message.contains("openbitfun chat --shared"));
+    assert!(tui_message.contains("opcun chat --shared"));
     for entrypoint in ["cli-headless", "acp", "sdk-host", "desktop"] {
         let message = error.startup_message(RuntimeDeployment::Embedded, entrypoint);
-        assert!(
-            !message.contains("openbitfun chat --shared"),
-            "{entrypoint}"
-        );
+        assert!(!message.contains("opcun chat --shared"), "{entrypoint}");
         assert!(message.contains("close its clients"), "{entrypoint}");
     }
     drop(shared);

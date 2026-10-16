@@ -5,6 +5,6 @@ declare module 'virtual:opc-canvas-runtime-bundle' {
     js: string;
     css: string;
   };
-  export const openbitfunCanvasRuntimeBundle: typeof bundle;
+  export const opcCanvasRuntimeBundle: typeof bundle;
   export default bundle;
 }

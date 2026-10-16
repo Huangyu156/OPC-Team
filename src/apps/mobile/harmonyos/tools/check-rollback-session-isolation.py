@@ -33,7 +33,7 @@ def main():
         time.sleep(0.4)
         parts = ['shell', 'aa', 'start', '-a', 'EntryAbility', '-b', bundle]
         if scenario:
-            parts += ['--ps', 'openbitfunDesignPreview', scenario]
+            parts += ['--ps', 'opcDesignPreview', scenario]
         run(*parts)
         time.sleep(1)
 

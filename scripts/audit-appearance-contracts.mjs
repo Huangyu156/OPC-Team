@@ -21,7 +21,7 @@ const crossBoundaryRoots = [
   path.join(repoRoot, 'tests', 'e2e', 'helpers'),
   path.join(repoRoot, 'src', 'crates', 'contracts', 'product-domains', 'src', 'miniapp'),
   path.join(repoRoot, 'src', 'crates', 'services', 'services-integrations', 'src', 'canvas'),
-  path.join(repoRoot, 'src', 'crates', 'assembly', 'core', 'builtin_skills', 'opc-canvas'),
+  path.join(repoRoot, 'src', 'crates', 'assembly', 'core', 'builtin_skills', 'opcteam-canvas'),
   path.join(repoRoot, 'src', 'crates', 'assembly', 'core', 'builtin_skills', 'miniapp-dev'),
 ];
 const failures = [];
@@ -610,7 +610,7 @@ for (const [file, source, strictContractOwnership] of domContractSources) {
   };
   visit(ast);
 
-  const dynamicContractPattern = /\b([A-Za-z_$][\w$]*)\.dataset\.openbitfunComponent\s*=\s*['"]([^'"]+)['"]\s*;[\s\S]{0,240}?\b\1\.dataset\.openbitfunPart\s*=\s*['"]([^'"]+)['"]\s*;/g;
+  const dynamicContractPattern = /\b([A-Za-z_$][\w$]*)\.dataset\.opcComponent\s*=\s*['"]([^'"]+)['"]\s*;[\s\S]{0,240}?\b\1\.dataset\.opcPart\s*=\s*['"]([^'"]+)['"]\s*;/g;
   for (const match of source.matchAll(dynamicContractPattern)) {
     const surfaceId = match[2];
     const partId = match[3];
@@ -828,7 +828,7 @@ for (const [file, source] of productionSources) {
   if (/\bThemeService\b|\bthemeService\b|\buseTheme\b|\buseThemeStore\b|ThemeAppearanceBridge/.test(source)) {
     failures.push(`${relative(file)}: legacy Theme runtime reference is forbidden`);
   }
-  if (/data-theme(?:-type)?|data-opc-theme(?!-scope(?=$|[="'\]\s]))|openbitfun\/request-theme|themeChange|onThemeChange/.test(source)) {
+  if (/data-theme(?:-type)?|data-opc-theme(?!-scope(?=$|[="'\]\s]))|opc\/request-theme|themeChange|onThemeChange/.test(source)) {
     failures.push(`${relative(file)}: legacy Theme DOM or bridge contract is forbidden`);
   }
   if (/--(?:color|border|element|git-color|scrollbar|shadow|blur|size|opacity|motion|easing|font|line-height|btn|flowchat|scene)-/.test(source)) {
@@ -856,7 +856,7 @@ const crossBoundaryForbiddenContracts = [
   ['opc-canvas-theme', /opc-canvas-theme/],
   ['onThemeChange', /\bonThemeChange\b/],
   ['data-theme-type', /data-theme-type/],
-  ['openbitfun/request-theme', /openbitfun\/request-theme/],
+  ['opc/request-theme', /opc\/request-theme/],
   ['ThemeService', /\bThemeService\b/],
   ['SkinService', /\bSkinService\b/],
   ['tools/editor/themes', /tools[\\/]editor[\\/]themes/],

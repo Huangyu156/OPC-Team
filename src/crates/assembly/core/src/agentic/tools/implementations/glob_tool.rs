@@ -175,7 +175,7 @@ impl Tool for GlobTool {
 - Supports glob patterns like "**/*.js" or "src/**/*.ts"
 - Returns matching file paths
 - Use this tool when you need to find files by name patterns
-- The path parameter may be workspace-relative, an absolute path inside the current workspace, or an exact `openbitfun://...` URI returned by another tool
+- The path parameter may be workspace-relative, an absolute path inside the current workspace, or an exact `opc://...` URI returned by another tool
 - An absolute pattern is searched from its static parent directory (for example, `C:/logs/*.log` searches `C:/logs` with `*.log`)
 - Omit path to search the current workspace. Do not use placeholder paths such as `/workspace`.
 - Returns up to 100 matching paths. Narrow the pattern or search a more specific path if the result is truncated.

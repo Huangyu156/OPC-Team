@@ -1,12 +1,12 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
 
-import { installOpenBitFunCanvasRuntimeApp } from './CanvasRuntimeApp';
+import { installOpcCanvasRuntimeApp } from './CanvasRuntimeApp';
 
 type TestWindow = Window & {
-  OpenBitFunCanvasSDK?: Record<string, unknown>;
-  OpenBitFunCanvasSDKAdapters?: Record<string, unknown>;
-  OpenBitFunCanvasRuntime?: Record<string, any>;
-  OpenBitFunCanvasContract?: { runtimeVersion: string; sdkVersion: string };
+  OpcCanvasSDK?: Record<string, unknown>;
+  OpcCanvasSDKAdapters?: Record<string, unknown>;
+  OpcCanvasRuntime?: Record<string, any>;
+  OpcCanvasContract?: { runtimeVersion: string; sdkVersion: string };
   ReactDOM?: {
     createRoot: (element: HTMLElement) => { render: (node: unknown) => void };
   };
@@ -31,10 +31,10 @@ function installTestDom() {
     parent: { postMessage },
     setTimeout: vi.fn(),
     clearTimeout: vi.fn(),
-    OpenBitFunCanvasSDK: { Fallback: true },
-    OpenBitFunCanvasSDKAdapters: { Adapter: true },
-    OpenBitFunCanvasRuntime: { fallback: true },
-    OpenBitFunCanvasContract: { runtimeVersion: 'runtime_test', sdkVersion: 'sdk_test' },
+    OpcCanvasSDK: { Fallback: true },
+    OpcCanvasSDKAdapters: { Adapter: true },
+    OpcCanvasRuntime: { fallback: true },
+    OpcCanvasContract: { runtimeVersion: 'runtime_test', sdkVersion: 'sdk_test' },
     ReactDOM: {
       createRoot: vi.fn(() => ({ render })),
     },
@@ -54,20 +54,20 @@ describe('CanvasRuntimeApp', () => {
   it('installs runtime hooks without removing fallback runtime fields', () => {
     const { testWindow } = installTestDom();
 
-    installOpenBitFunCanvasRuntimeApp();
+    installOpcCanvasRuntimeApp();
 
-    expect(testWindow.OpenBitFunCanvasRuntime?.fallback).toBe(true);
-    expect(testWindow.OpenBitFunCanvasRuntime?.h).toBeTypeOf('function');
-    expect(testWindow.OpenBitFunCanvasRuntime?.Fragment).toBeTruthy();
+    expect(testWindow.OpcCanvasRuntime?.fallback).toBe(true);
+    expect(testWindow.OpcCanvasRuntime?.h).toBeTypeOf('function');
+    expect(testWindow.OpcCanvasRuntime?.Fragment).toBeTruthy();
   });
 
   it('merges SDK adapters on module start and posts startup event', () => {
     const { postMessage, testWindow } = installTestDom();
 
-    installOpenBitFunCanvasRuntimeApp();
-    testWindow.OpenBitFunCanvasRuntime?.moduleStarted();
+    installOpcCanvasRuntimeApp();
+    testWindow.OpcCanvasRuntime?.moduleStarted();
 
-    expect(testWindow.OpenBitFunCanvasSDK).toMatchObject({ Fallback: true, Adapter: true });
+    expect(testWindow.OpcCanvasSDK).toMatchObject({ Fallback: true, Adapter: true });
     expect(postMessage).toHaveBeenCalledWith(
       expect.objectContaining({
         type: 'opc-canvas-module-started',
@@ -83,8 +83,8 @@ describe('CanvasRuntimeApp', () => {
       return null;
     }
 
-    installOpenBitFunCanvasRuntimeApp();
-    testWindow.OpenBitFunCanvasRuntime?.mount(Canvas);
+    installOpcCanvasRuntimeApp();
+    testWindow.OpcCanvasRuntime?.mount(Canvas);
 
     expect(testWindow.ReactDOM?.createRoot).toHaveBeenCalled();
     expect(render).toHaveBeenCalled();

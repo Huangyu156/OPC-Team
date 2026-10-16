@@ -1029,7 +1029,7 @@ const CREATION_TOOL_GROUPS: &[&str] = &["core.creation", "core.miniapp"];
 const CANVAS_TOOL_GROUPS: &[&str] = &["core.canvas"];
 
 const CODE_AGENT_IDS: &[&str] = &[
-    "OpenBitFun",
+    "OPC-Team",
     "Minimal",
     "Standard",
     "Cowork",

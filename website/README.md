@@ -9,7 +9,7 @@ Desktop Tauri commands are audited separately as implementation coverage. They
 never become website pages or user-visible search entries.
 
 The same generated runtime projection powers OPC-Team search and the
-`OpenBitFunControl` agent tool. Search results carry a documented item ID when a
+`OpcControl` agent tool. Search results carry a documented item ID when a
 query matches a settings subview, so entries such as Shortcuts, Editor, and
 Hooks open the exact view instead of only the parent settings page. Complex or
 unsafe workflows remain UI-guided; the agent surface exposes only typed,
@@ -30,4 +30,4 @@ Every build writes `dist/release.json`. Deploy using its `releaseId`, which
 changes for either catalog or website-source changes, so a presentation-only
 update never mutates an older release directory.
 
-The production origin is <https://playbook.openbitfun.com>.
+The production origin is <https://playbook.opcteam.eu.cc>.

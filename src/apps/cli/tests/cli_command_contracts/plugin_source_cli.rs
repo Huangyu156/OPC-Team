@@ -41,7 +41,7 @@ fn write_package(workspace: &Path, source: &[u8], declared_hash: &str) {
         }],
     });
     std::fs::write(
-        package.join("openbitfun.plugin.json"),
+        package.join("opc.plugin.json"),
         serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
     )
     .expect("write manifest");
@@ -49,7 +49,7 @@ fn write_package(workspace: &Path, source: &[u8], declared_hash: &str) {
 
 fn run_cli(workspace: &Path, user_root: &Path, home_root: &Path, args: &[&str]) -> Output {
     let config_root = user_root.join("host-config");
-    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
+    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"))
         .args(args)
         .current_dir(workspace)
         .env_remove("OPC_USER_ROOT")
@@ -61,7 +61,7 @@ fn run_cli(workspace: &Path, user_root: &Path, home_root: &Path, args: &[&str]) 
         .env("XDG_CONFIG_HOME", &config_root)
         .env("HOME", home_root)
         .output()
-        .expect("run openbitfun")
+        .expect("run opc")
 }
 
 fn stdout(output: &Output) -> String {
@@ -127,19 +127,18 @@ fn plugin_source_cli_rejects_unavailable_product_paths() {
     let config_root = temp.path().join("host-config");
     std::fs::create_dir_all(&workspace).expect("create workspace");
 
-    let output =
-        opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
-            .args(["plugins", "list"])
-            .current_dir(&workspace)
-            .env_remove("OPC_USER_ROOT")
-            .env_remove("OPC_HOME")
-            .env_remove("OPC_E2E_USER_ROOT")
-            .env_remove("OPC_E2E_HOME")
-            .env("OPC_E2E_STORAGE_GUARD", "1")
-            .env("APPDATA", &config_root)
-            .env("XDG_CONFIG_HOME", &config_root)
-            .output()
-            .expect("run openbitfun");
+    let output = opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"))
+        .args(["plugins", "list"])
+        .current_dir(&workspace)
+        .env_remove("OPC_USER_ROOT")
+        .env_remove("OPC_HOME")
+        .env_remove("OPC_E2E_USER_ROOT")
+        .env_remove("OPC_E2E_HOME")
+        .env("OPC_E2E_STORAGE_GUARD", "1")
+        .env("APPDATA", &config_root)
+        .env("XDG_CONFIG_HOME", &config_root)
+        .output()
+        .expect("run opc");
 
     assert!(!output.status.success());
     assert!(stderr(&output).contains("Configuration error"));
@@ -204,7 +203,7 @@ fn plugin_source_cli_lifecycle_and_doctor_exit_codes() {
     assert!(!rejected.status.success());
     assert!(stderr(&rejected).contains("does not match"));
     assert!(stderr(&rejected)
-        .contains("Re-run `openbitfun plugins activate acme.demo` to preview the current content"));
+        .contains("Re-run `opc plugins activate acme.demo` to preview the current content"));
 
     let content_hash = activation_content_hash(&preview);
 
@@ -340,7 +339,7 @@ fn plugin_deactivate_cleans_residual_records_without_revoking_source_approval() 
     write_package(&workspace, PLUGIN_SOURCE, &sha256(PLUGIN_SOURCE));
     activate_package(&workspace, &user_root, &home_root);
     std::fs::write(
-        plugins_root(&workspace).join("acme.demo/openbitfun.plugin.json"),
+        plugins_root(&workspace).join("acme.demo/opc.plugin.json"),
         "{not-json",
     )
     .expect("corrupt package manifest");
@@ -355,7 +354,7 @@ fn plugin_deactivate_cleans_residual_records_without_revoking_source_approval() 
     assert!(stdout(&corrupt).contains("is unavailable"));
     assert!(stdout(&corrupt).contains("saved activation state was cleared"));
     assert!(stdout(&corrupt).contains("[error:invalid_manifest]"));
-    assert!(stdout(&corrupt).contains("openbitfun.plugin.json"));
+    assert!(stdout(&corrupt).contains("opc.plugin.json"));
 
     write_package(&workspace, PLUGIN_SOURCE, &sha256(PLUGIN_SOURCE));
     activate_package(&workspace, &user_root, &home_root);

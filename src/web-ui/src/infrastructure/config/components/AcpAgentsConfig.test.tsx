@@ -287,7 +287,7 @@ describe('AcpAgentsConfig', () => {
     listSavedConnectionsMock.mockResolvedValue([]);
     probeClientRequirementsMock.mockResolvedValue([]);
     saveJsonConfigMock.mockImplementation(async () => {
-      window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+      window.dispatchEvent(new Event('opc:acp-clients-changed'));
     });
     installClientCliMock.mockResolvedValue(undefined);
     predownloadClientAdapterMock.mockResolvedValue(undefined);
@@ -418,7 +418,7 @@ describe('AcpAgentsConfig', () => {
     loadJsonConfigMock.mockResolvedValue(JSON.stringify(wrapped ? { acpClients } : acpClients));
     saveJsonConfigMock.mockImplementation(async (rawConfig: string) => {
       loadJsonConfigMock.mockResolvedValue(rawConfig);
-      window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+      window.dispatchEvent(new Event('opc:acp-clients-changed'));
     });
 
     await act(async () => root.render(<AcpAgentsConfig />));
@@ -448,7 +448,7 @@ describe('AcpAgentsConfig', () => {
     expect(container.textContent).not.toContain('permissionMode.saveAndApply');
 
     await act(async () => {
-      window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+      window.dispatchEvent(new Event('opc:acp-clients-changed'));
     });
     expect(container.textContent).not.toContain('permissionMode.legacyRejectWarning');
     expect(saveJsonConfigMock).toHaveBeenCalledTimes(1);
@@ -729,14 +729,14 @@ describe('AcpAgentsConfig', () => {
 
     expect(listSavedConnectionsMock).toHaveBeenCalledTimes(1);
     expect(container.textContent).not.toContain('Huawei Server');
-    expect(JSON.parse(localStorage.getItem('openbitfun:settings:acp-agents:hidden-remote-connections:v1') || '[]'))
+    expect(JSON.parse(localStorage.getItem('opc:settings:acp-agents:hidden-remote-connections:v1') || '[]'))
       .toEqual(['huawei-server']);
     expect(container.textContent).toContain('remote.showHiddenConnections');
   });
 
   it('restores a hidden remote server from the hidden list', async () => {
     localStorage.setItem(
-      'openbitfun:settings:acp-agents:hidden-remote-connections:v1',
+      'opc:settings:acp-agents:hidden-remote-connections:v1',
       JSON.stringify(['huawei-server'])
     );
     listSavedConnectionsMock.mockResolvedValue([{
@@ -777,14 +777,14 @@ describe('AcpAgentsConfig', () => {
       await Promise.resolve();
     });
 
-    expect(localStorage.getItem('openbitfun:settings:acp-agents:hidden-remote-connections:v1'))
+    expect(localStorage.getItem('opc:settings:acp-agents:hidden-remote-connections:v1'))
       .toBe('[]');
     expect(container.textContent).toContain('Huawei Server');
   });
 
   it('does not probe hidden remote servers until they are restored', async () => {
     localStorage.setItem(
-      'openbitfun:settings:acp-agents:hidden-remote-connections:v1',
+      'opc:settings:acp-agents:hidden-remote-connections:v1',
       JSON.stringify(['huawei-server'])
     );
     listSavedConnectionsMock.mockResolvedValue([{
@@ -892,7 +892,7 @@ describe('AcpAgentsConfig', () => {
     ];
     probeClientRequirementsMock.mockResolvedValue(healthyProbes);
     saveJsonConfigMock.mockImplementation(async () => {
-      window.dispatchEvent(new Event('openbitfun:acp-clients-changed'));
+      window.dispatchEvent(new Event('opc:acp-clients-changed'));
       loadJsonConfigMock.mockResolvedValue(JSON.stringify({
         acpClients: {
           opencode: {

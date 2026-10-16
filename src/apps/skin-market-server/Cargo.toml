@@ -6,7 +6,7 @@ edition.workspace = true
 description = "OPC-Team appearance marketplace HTTP server"
 
 [[bin]]
-name = "openbitfun-skin-market-server"
+name = "opc-skin-market-server"
 path = "src/main.rs"
 
 [dependencies]

@@ -11,7 +11,7 @@ export struct DeviceSelectorPreview {
     const state = new DeviceDirectoryState();
     const first = emptyDeviceDirectoryEntry('preview-mac', 'MacBook Pro', true);
     first.status = 'ready';
-    first.workspaces = [{ path: '/workspace/openbitfun', name: 'OpenBitFun', lastOpened: '', workspaceKind: 'normal' }];
+    first.workspaces = [{ path: '/workspace/opcteam', name: 'OPC-Team', lastOpened: '', workspaceKind: 'normal' }];
     const second = emptyDeviceDirectoryEntry('preview-linux', 'Linux Desktop', true);
     second.status = 'ready';
     second.workspaces = [{ path: '/workspace/demo', name: 'Demo', lastOpened: '', workspaceKind: 'normal' }];

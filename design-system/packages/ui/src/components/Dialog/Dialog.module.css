@@ -19,7 +19,7 @@
     background: var(--opcteam-color-overlay-scrim);
     -webkit-backdrop-filter: var(--opcteam-overlay-dialog-backdrop-blur);
     backdrop-filter: var(--opcteam-overlay-dialog-backdrop-blur);
-    animation: openbitfun-dialog-overlay-enter var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
+    animation: opc-dialog-overlay-enter var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
   }
 
   .surface {
@@ -35,7 +35,7 @@
     color: var(--opcteam-color-content-secondary);
     background: var(--opcteam-color-surface-raised);
     box-shadow: var(--opcteam-shadow-overlay);
-    animation: openbitfun-dialog-surface-enter var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
+    animation: opc-dialog-surface-enter var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-enter) both;
   }
 
   .surface[data-size="sm"] { max-inline-size: var(--opcteam-overlay-dialog-max-inline-size-small); }
@@ -191,17 +191,17 @@
 
   .overlay[data-state="exiting"] {
     pointer-events: none;
-    animation: openbitfun-dialog-overlay-exit var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-exit) both;
+    animation: opc-dialog-overlay-exit var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-exit) both;
   }
 
   .surface[data-state="exiting"] {
-    animation: openbitfun-dialog-surface-exit var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-exit) both;
+    animation: opc-dialog-surface-exit var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-exit) both;
   }
 
-  @keyframes openbitfun-dialog-overlay-enter { from { opacity: 0; } to { opacity: 1; } }
-  @keyframes openbitfun-dialog-overlay-exit { from { opacity: 1; } to { opacity: 0; } }
-  @keyframes openbitfun-dialog-surface-enter { from { opacity: 0; transform: translateY(var(--opcteam-motion-distance-sm)) scale(0.98); } to { opacity: 1; transform: none; } }
-  @keyframes openbitfun-dialog-surface-exit { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(var(--opcteam-motion-distance-sm)) scale(0.98); } }
+  @keyframes opc-dialog-overlay-enter { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes opc-dialog-overlay-exit { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes opc-dialog-surface-enter { from { opacity: 0; transform: translateY(var(--opcteam-motion-distance-sm)) scale(0.98); } to { opacity: 1; transform: none; } }
+  @keyframes opc-dialog-surface-exit { from { opacity: 1; transform: none; } to { opacity: 0; transform: translateY(var(--opcteam-motion-distance-sm)) scale(0.98); } }
 
   @media (prefers-reduced-motion: reduce) {
     .overlay,

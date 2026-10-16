@@ -390,7 +390,7 @@ test('keeps Rust CI independent, restore-only on PRs, and target-focused', () =>
   assert.equal(installerCheck?.if, "runner.os == 'Windows'");
   assert.equal(
     installerCheck?.run,
-    'cargo check --manifest-path OpenBitFun-Installer/src-tauri/Cargo.toml',
+    'cargo check --manifest-path Opc-Installer/src-tauri/Cargo.toml',
   );
   const coreLibraryTests = rustJob.steps.find(
     (step) => step.name === 'Run core library tests',
@@ -843,7 +843,7 @@ test('nightly validates generated inputs and projected lockfiles before packagin
   assert.equal(steps[installerI18nIndex].if, "runner.os == 'Windows'");
   assert.equal(
     steps[installerI18nIndex].run,
-    'pnpm --dir OpenBitFun-Installer run sync:i18n',
+    'pnpm --dir Opc-Installer run sync:i18n',
   );
   assert.equal(steps[tauriAlignmentIndex].if, "runner.os == 'Windows'");
   assert.match(
@@ -1160,7 +1160,7 @@ test('Desktop packaging keeps beta identity explicit and stable-safe', () => {
   const prepareStep = workflow.jobs.prepare.steps.find(
     (step) => step.name === 'Resolve version metadata',
   );
-  assert.match(prepareStep.run, /GITHUB_REPOSITORY.*GCWing\/OpenBitFun/);
+  assert.match(prepareStep.run, /GITHUB_REPOSITORY.*GCWing\/OPC-Team/);
   assert.match(prepareStep.run, /merge-base --is-ancestor/);
   assert.match(prepareStep.run, /rev-parse --verify --quiet/);
 
@@ -1374,7 +1374,7 @@ test('Relay image rebuild resolves the release tag instead of the newer workflow
       env: {
         ...process.env,
         GITHUB_EVENT_NAME: 'workflow_dispatch', GITHUB_SHA: headSha,
-        GITHUB_REPOSITORY: 'GCWing/OpenBitFun', GITHUB_OUTPUT: output,
+        GITHUB_REPOSITORY: 'GCWing/OPC-Team', GITHUB_OUTPUT: output,
         INPUT_TAG_NAME: 'v1.0.0', INPUT_CHECKOUT_REF: checkoutRef,
         INPUT_RELEASE_CHANNEL: 'stable', INPUT_UPLOAD_TO_RELEASE: 'true',
         INPUT_RELAY_IMAGE_ONLY: 'true', TAG_SHA: tagSha,
@@ -1495,11 +1495,11 @@ test('nightly and beta use the shared build-version projection', () => {
   assert.equal(artifacts.jobs.package.env.OPC_RELEASE_CHANNEL, 'nightly');
   assert.equal(
     artifacts.jobs.package.env.TAURI_UPDATER_ENDPOINT,
-    'https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json',
+    'https://github.com/GCWing/OPC-Team/releases/latest/download/latest-v1.json',
   );
   assert.equal(
     artifacts.jobs.package.env.TAURI_UPDATER_FALLBACK_ENDPOINT,
-    'https://openbitfun.com/release/latest-v1.json',
+    'https://opcteam.eu.cc/release/latest-v1.json',
   );
   assert.equal(artifacts.jobs.package.env.OPC_ENABLE_UPDATER_ARTIFACTS, undefined);
   const signingStep = nightly.jobs['publish-nightly'].steps.find(

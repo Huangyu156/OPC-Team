@@ -121,7 +121,7 @@ $_section-header-height: 22px;
     min-width: 0;
     min-height: 0;
 
-    > .openbitfun-view-transition-boundary__view {
+    > .opc-view-transition-boundary__view {
       display: flex;
       flex: 1 1 auto;
       min-width: 0;
@@ -255,11 +255,11 @@ $_section-header-height: 22px;
     }
 
     &.is-morph-to-assistant {
-      animation: openbitfun-nav-mode-pill-morph-to-assistant 0.48s linear forwards;
+      animation: opc-nav-mode-pill-morph-to-assistant 0.48s linear forwards;
     }
 
     &.is-morph-to-pro {
-      animation: openbitfun-nav-mode-pill-morph-to-pro 0.48s linear forwards;
+      animation: opc-nav-mode-pill-morph-to-pro 0.48s linear forwards;
     }
 
     .opc-nav-panel__mode-pill.is-switching & {
@@ -479,7 +479,7 @@ $_section-header-height: 22px;
 
     // Synced with button ripple: fade list out, swap group, fade in
     &.is-mode-switching {
-      animation: openbitfun-nav-sections-mode-switch 0.48s linear;
+      animation: opc-nav-sections-mode-switch 0.48s linear;
     }
   }
 
@@ -984,10 +984,10 @@ $_section-header-height: 22px;
     max-height: min(560px, calc(100vh - 16px));
     z-index: var(--opcteam-layer-popover);
     transform-origin: top left;
-    animation: openbitfun-footer-menu-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-decelerate) forwards;
+    animation: opc-footer-menu-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-decelerate) forwards;
 
     &.is-closing {
-      animation: openbitfun-footer-menu-out var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-accelerate) forwards;
+      animation: opc-footer-menu-out var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-accelerate) forwards;
     }
   }
 
@@ -1225,7 +1225,7 @@ $_section-header-height: 22px;
 }
 
 // Liquid thumb: slide with horizontal stretch + corner morph (pro <-> assistant)
-@keyframes openbitfun-nav-mode-pill-morph-to-assistant {
+@keyframes opc-nav-mode-pill-morph-to-assistant {
   0% {
     transform: translate3d(0, 0, 0) scale(1, 1);
     border-radius: 999px;
@@ -1257,7 +1257,7 @@ $_section-header-height: 22px;
   }
 }
 
-@keyframes openbitfun-nav-mode-pill-morph-to-pro {
+@keyframes opc-nav-mode-pill-morph-to-pro {
   0% {
     transform: translate3d(100%, 0, 0) scale(1, 1);
     border-radius: 999px;
@@ -1294,7 +1294,7 @@ $_section-header-height: 22px;
 // ──────────────────────────────────────────────
 
 // Sections tied to button ripple: fade out then slide in from the opposite side
-@keyframes openbitfun-nav-sections-mode-switch {
+@keyframes opc-nav-sections-mode-switch {
   0% {
     opacity: 1;
     transform: translateY(0);
@@ -1316,7 +1316,7 @@ $_section-header-height: 22px;
   }
 }
 
-@keyframes openbitfun-footer-menu-in {
+@keyframes opc-footer-menu-in {
   from {
     opacity: 0;
     transform: translateY(6px) scale(0.96);
@@ -1327,7 +1327,7 @@ $_section-header-height: 22px;
   }
 }
 
-@keyframes openbitfun-footer-menu-out {
+@keyframes opc-footer-menu-out {
   from {
     opacity: 1;
     transform: translateY(0) scale(1);
@@ -1578,10 +1578,10 @@ $_section-header-height: 22px;
   max-height: calc(100vh - 16px);
   z-index: var(--opcteam-layer-popover);
   transform-origin: bottom right;
-  animation: openbitfun-footer-menu-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-decelerate) forwards;
+  animation: opc-footer-menu-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-decelerate) forwards;
 
   &.is-closing {
-    animation: openbitfun-footer-menu-out var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-accelerate) forwards;
+    animation: opc-footer-menu-out var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-accelerate) forwards;
   }
 }
 
@@ -1604,7 +1604,7 @@ $_section-header-height: 22px;
   max-width: calc(100vw - 16px);
   max-height: calc(100vh - 16px);
   z-index: calc(var(--opcteam-layer-popover) + 1);
-  animation: openbitfun-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: opc-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
 
   &[data-placement='right'] {
     transform-origin: top left;
@@ -1628,7 +1628,7 @@ $_section-header-height: 22px;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  animation: openbitfun-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: opc-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
 }
 
 .opc-device-overview__scroll {
@@ -2471,7 +2471,7 @@ $_section-header-height: 22px;
   block-size: var(--opcteam-control-icon-size-sm);
   color: var(--opcteam-color-content-secondary);
   opacity: var(--opcteam-opacity-muted);
-  animation: openbitfun-nav-session-spin 1s linear infinite;
+  animation: opc-nav-session-spin 1s linear infinite;
 }
 
 // ──────────────────────────────────────────────
@@ -2768,10 +2768,10 @@ $_section-header-height: 22px;
 .opc-nav-panel__workspace-menu,
 .opc-nav-panel__footer-menu,
 .opc-nav-panel__appearance-submenu {
-  animation: openbitfun-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
+  animation: opc-nav-popover-in 150ms cubic-bezier(0.23, 1, 0.32, 1) both;
 
   &.is-closing {
-    animation: openbitfun-nav-popover-out 100ms cubic-bezier(0.23, 1, 0.32, 1) both;
+    animation: opc-nav-popover-out 100ms cubic-bezier(0.23, 1, 0.32, 1) both;
   }
 }
 
@@ -2784,7 +2784,7 @@ $_section-header-height: 22px;
     color 120ms ease;
 }
 
-@keyframes openbitfun-nav-popover-in {
+@keyframes opc-nav-popover-in {
   from {
     opacity: 0;
     transform: translateY(3px) scale(0.98);
@@ -2795,7 +2795,7 @@ $_section-header-height: 22px;
   }
 }
 
-@keyframes openbitfun-nav-popover-out {
+@keyframes opc-nav-popover-out {
   from {
     opacity: 1;
     transform: translateY(0) scale(1);

@@ -13,7 +13,7 @@ use serde::{Deserialize, Serialize};
 use std::net::IpAddr;
 
 const OPC_SEARCH_TIMEOUT_SECS: u64 = 60;
-const OPC_SEARCH_MEDIA_TYPE: &str = "application/vnd.openbitfun.web-search.v1+json";
+const OPC_SEARCH_MEDIA_TYPE: &str = "application/vnd.opc.web-search.v1+json";
 
 pub enum OpcTeamSearchHttpAuth {
     None,

@@ -1,9 +1,9 @@
 {
   "app": {
-    // Package identity is intentionally stable across the OpenBitFun rename so
+    // Package identity is intentionally stable across the OPC-Team rename so
     // upgrades retain encrypted sessions, preferences, and watch handoff data.
-    "bundleName": "com.bitfun.app",
-    "vendor": "OpenBitFun",
+    "bundleName": "com.opcteam.app",
+    "vendor": "OPC-Team",
     "versionCode": 8,
     "versionName": "1.0.0", // x-release-please-version
     "buildVersion": "1",

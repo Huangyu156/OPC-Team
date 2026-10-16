@@ -79,7 +79,7 @@ describe('renderer appearance contracts', () => {
 
   it('passes the projected light theme to Monaco defineTheme', async () => {
     const settings = builtinAppearancePackages
-      .find(pkg => pkg.id === 'openbitfun-light')
+      .find(pkg => pkg.id === 'opc-light')
       ?.renderers?.monaco?.settings;
     expect(settings).toBeDefined();
 
@@ -97,7 +97,7 @@ describe('renderer appearance contracts', () => {
     const adapter = new MonacoAppearanceAdapter();
     await adapter.apply(settings!, undefined, {
       revision: 1,
-      appearanceId: 'openbitfun-light',
+      appearanceId: 'opc-light',
       mode: 'light',
       globals: {},
       assets: {},

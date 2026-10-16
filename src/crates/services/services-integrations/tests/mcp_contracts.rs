@@ -254,9 +254,9 @@ fn mcp_server_timeout_config_is_optional_positive_milliseconds() {
 
 #[test]
 fn mcp_remote_client_info_declares_supported_client_capabilities() {
-    let info = create_mcp_client_info("OpenBitFun", "1.0.0");
+    let info = create_mcp_client_info("OPC-Team", "1.0.0");
 
-    assert_eq!(info.client_info.name, "OpenBitFun");
+    assert_eq!(info.client_info.name, "OPC-Team");
     assert_eq!(info.client_info.version, "1.0.0");
     assert!(info.capabilities.roots.is_some());
     assert!(info.capabilities.sampling.is_some());
@@ -567,7 +567,7 @@ fn mcp_protocol_jsonrpc_helpers_preserve_wire_shape() {
 #[test]
 fn mcp_protocol_request_builders_preserve_wire_shape() {
     assert_eq!(
-        serde_json::to_value(create_initialize_request(9, "OpenBitFun", "1.0.0")).unwrap(),
+        serde_json::to_value(create_initialize_request(9, "OPC-Team", "1.0.0")).unwrap(),
         serde_json::json!({
             "jsonrpc": "2.0",
             "id": 9,
@@ -587,10 +587,10 @@ fn mcp_protocol_request_builders_preserve_wire_shape() {
                     }
                 },
                 "clientInfo": {
-                    "name": "OpenBitFun",
+                    "name": "OPC-Team",
                     "version": "1.0.0",
-                    "description": "OpenBitFun MCP Client",
-                    "vendor": "OpenBitFun"
+                    "description": "OPC-Team MCP Client",
+                    "vendor": "OPC-Team"
                 }
             }
         })
@@ -1150,7 +1150,7 @@ async fn external_mcp_import_options_survive_load_save_and_legacy_round_trip() {
         assert_eq!(loaded.timeouts, timeouts);
         assert_eq!(loaded.env, config.env);
         assert_eq!(loaded.headers, config.headers);
-        assert_eq!(loaded.settings["_openbitfunImport"]["sourceId"], "codex");
+        assert_eq!(loaded.settings["_opcImport"]["sourceId"], "codex");
         if id == "local" {
             assert_eq!(
                 loaded.env.get("TOKEN").map(String::as_str),
@@ -1231,10 +1231,10 @@ async fn external_mcp_import_is_atomic_disabled_and_idempotence_visible() {
     assert_eq!(stored["mcpServers"]["docs"]["enabled"], false);
     assert_eq!(stored["mcpServers"]["docs"]["autoStart"], false);
     assert_eq!(
-        stored["mcpServers"]["docs"]["_openbitfunImport"]["sourceCandidateId"],
+        stored["mcpServers"]["docs"]["_opcImport"]["sourceCandidateId"],
         "opencode:mcp:docs"
     );
-    assert!(stored.get("_openbitfunImportJournal").is_none());
+    assert!(stored.get("_opcImportJournal").is_none());
 
     let refreshed = service.user_import_snapshot().await.unwrap();
     assert_eq!(refreshed.imports.len(), 1);

@@ -38,7 +38,7 @@ describe('design-system Vite integration', () => {
     const config = viteConfig({ command: 'serve', mode: 'development' });
     const watcher = config.plugins?.flat(Infinity).find(
       plugin => plugin && typeof plugin === 'object'
-        && 'name' in plugin && plugin.name === 'openbitfun:watch-ui-source',
+        && 'name' in plugin && plugin.name === 'opc:watch-ui-source',
     ) as SourceWatchPlugin | undefined;
 
     expect(watcher).toBeDefined();

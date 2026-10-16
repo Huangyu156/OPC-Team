@@ -1,4 +1,4 @@
-//! Desktop adapter for the platform-agnostic OpenBitFun product-control port.
+//! Desktop adapter for the platform-agnostic OPC-Team product-control port.
 //!
 //! Discovery and contract lookup run in the product-domain owner. This adapter
 //! owns concrete Desktop state reads/mutations and delegates only presentation
@@ -898,7 +898,7 @@ async fn execute_desktop_provider_operation(
                 .map(str::trim)
                 .filter(|id| !id.is_empty())
             {
-                if id == "openbitfun" {
+                if id == "bitblob" {
                     AIExperienceConfig::default()
                         .agent_companion_pet
                         .ok_or_else(|| {

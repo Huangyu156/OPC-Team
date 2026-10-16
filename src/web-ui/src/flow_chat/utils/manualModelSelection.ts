@@ -1,4 +1,4 @@
-const STORAGE_PREFIX = 'openbitfun.model-selection.manual.v1:';
+const STORAGE_PREFIX = 'opc.model-selection.manual.v1:';
 
 /** Presentation preference only; the existing host model API owns actual selection. */
 export function getRecentManualModel(scopeKey: string): string | undefined {

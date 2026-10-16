@@ -15,11 +15,11 @@ if (process.argv.includes('--build')) {
   const publicKey = verificationGuide.match(/Public key: `(RW[A-Za-z0-9+/=]+)`/)?.[1];
   assert.ok(publicKey, 'The documented release public key is required for live signature verification');
   const config = JSON.parse(process.env.TAURI_CONFIG || '{}');
-  config.identifier ??= 'com.openbitfun.desktop.dev';
+  config.identifier ??= 'com.opcteam.desktop.dev';
   config.plugins = { ...config.plugins, updater: {
     ...config.plugins?.updater,
     pubkey: Buffer.from('untrusted comment: minisign public key\n' + publicKey + '\n').toString('base64'),
-    endpoints: ['https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json', 'https://openbitfun.com/release/latest-v1.json'],
+    endpoints: ['https://github.com/GCWing/OPC-Team/releases/latest/download/latest-v1.json', 'https://opcteam.eu.cc/release/latest-v1.json'],
   } };
   const build = spawn('cargo', ['build', '-p', 'opc-desktop'], {
     cwd: repo, windowsHide: true, stdio: ['ignore', 'inherit', 'inherit'],
@@ -128,9 +128,9 @@ class AppUpdatePage {
   wait(selector, timeout) { return until(() => this.present(selector), selector, timeout); }
   click(id) { return click(`[data-testid="${id}"]`); }
   snapshot() { return execute(() => ({
-    discovery: JSON.parse(localStorage.getItem('openbitfun:update:checkSnapshot') ?? 'null'),
-    reminders: JSON.parse(localStorage.getItem('openbitfun:update:reminders') ?? '{}'),
-    skipped: localStorage.getItem('openbitfun:update:skippedVersion'),
+    discovery: JSON.parse(localStorage.getItem('opc:update:checkSnapshot') ?? 'null'),
+    reminders: JSON.parse(localStorage.getItem('opc:update:reminders') ?? '{}'),
+    skipped: localStorage.getItem('opc:update:skippedVersion'),
     foreground: document.hasFocus(), visibility: document.visibilityState,
   })); }
   async checkManually() {
@@ -200,7 +200,7 @@ try {
   // Age only the real persisted dismissal in this isolated profile to exercise 24-hour expiry.
   // Network responses, package bytes, runtime state and the system clock remain untouched.
   await execute(() => {
-    const key = 'openbitfun:update:reminders';
+    const key = 'opc:update:reminders';
     const reminders = JSON.parse(localStorage.getItem(key));
     reminders.available.deferredAt -= 25 * 60 * 60 * 1000;
     localStorage.setItem(key, JSON.stringify(reminders));

@@ -83,7 +83,7 @@ export function flowGroupToolLabels(t: (key: string) => string): ReadonlyMap<str
     ExecCommand: t('groupBrowser.tools.execute'), Bash: t('groupBrowser.tools.legacyShell'),
     WriteStdin: t('groupBrowser.tools.interact'), ExecControl: t('groupBrowser.tools.control'),
     Skill: t('groupBrowser.tools.skill'), GetToolSpec: t('groupBrowser.tools.toolSpec'),
-    OpenBitFunControl: t('groupBrowser.tools.discovery'),
+    OpcControl: t('groupBrowser.tools.discovery'),
     ControlHub: t('groupBrowser.tools.browser'), ComputerUse: t('groupBrowser.tools.desktop'),
   }));
 }

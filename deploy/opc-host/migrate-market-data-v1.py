@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""One-time BitFun 0.2.x -> OpenBitFun 1.x market data migration.
+"""One-time BitFun 0.2.x -> OPC-Team 1.x market data migration.
 
 Run this only against an offline copy of the production database and artifact
-tree. The OpenBitFun services intentionally keep no legacy field aliases, so
+tree. The OPC-Team services intentionally keep no legacy field aliases, so
 the persisted JSON and Skin archives must be converted before first startup.
 """
 
@@ -19,13 +19,13 @@ from typing import Any
 import zipfile
 
 
-CURRENT_VERSION_FIELD = "minOpenBitFunVersion"
+CURRENT_VERSION_FIELD = "minOpcVersion"
 RETIRED_VERSION_FIELDS = ("minBitfunVersion", "minOpenbitfunVersion")
 OPC_MINIMUM_VERSION = "1.0.0"
 RETIRED_APPEARANCE_SCHEMA = "bitfun.appearance"
-OPC_APPEARANCE_SCHEMA = "openbitfun.appearance"
+OPC_APPEARANCE_SCHEMA = "opc.appearance"
 RETIRED_APPEARANCE_EXTENSION = "bitfun-appearance"
-OPC_APPEARANCE_EXTENSION = "openbitfun-appearance"
+OPC_APPEARANCE_EXTENSION = "opc-appearance"
 RETIRED_ARCHIVE_ROOT = "migrated-bitfun-v1"
 
 
@@ -137,7 +137,7 @@ def write_migrated_skin_archive(source: Path, temporary_root: Path) -> tuple[Pat
     source_stat = source.stat()
     temporary_root.mkdir(parents=True, exist_ok=True)
     file_descriptor, temporary_name = tempfile.mkstemp(
-        prefix="skin-v1-", suffix=".openbitfun-appearance", dir=temporary_root
+        prefix="skin-v1-", suffix=".opc-appearance", dir=temporary_root
     )
     os.close(file_descriptor)
     temporary = Path(temporary_name)
@@ -234,7 +234,7 @@ def migrate_skin_packages(
         ORDER BY package_sha256
         """
     ).fetchall()
-    temporary_root = artifacts / ".migration-openbitfun-v1"
+    temporary_root = artifacts / ".migration-opc-v1"
     migrated_packages = 0
     for (old_sha256,) in rows:
         old_path = skin_package_path(

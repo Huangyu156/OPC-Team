@@ -34,7 +34,7 @@ import {
 /**
  * The staged rollback on a device, over a mock host.
  *
- * The frozen interaction (`.openbitfun/plans/mobile-copy-rollback.plan.md`,
+ * The frozen interaction (`.opcteam/plans/mobile-copy-rollback.plan.md`,
  * decision 4) is a chain of things a screenshot can only half show: the entry
  * lives inside a system selection menu, the staging is a local preview that sends
  * nothing, and the three exits differ in what they do to the composer and to the

@@ -1148,7 +1148,7 @@ mod path_resolution_tests {
             serde_json::json!(std::env::temp_dir().join("opc-route-artifacts")),
         );
         let artifact = context
-            .resolve_tool_path("openbitfun://current-session/artifacts/output.txt")
+            .resolve_tool_path("opc://current-session/artifacts/output.txt")
             .unwrap();
         assert!(!Arc::ptr_eq(
             &provider,
@@ -1241,7 +1241,7 @@ mod path_resolution_tests {
 
         let resolved = context
             .resolve_tool_path(
-                "openbitfun://current-session/artifacts/compression-transcripts/12-a3f9.txt",
+                "opc://current-session/artifacts/compression-transcripts/12-a3f9.txt",
             )
             .expect("current-session URI should resolve");
 
@@ -1255,7 +1255,7 @@ mod path_resolution_tests {
         );
         assert_eq!(
             resolved.logical_child_path(&expected_session_root.join("artifacts/other.txt")),
-            Some("openbitfun://current-session/artifacts/other.txt".to_string())
+            Some("opc://current-session/artifacts/other.txt".to_string())
         );
     }
 
@@ -1271,7 +1271,7 @@ mod path_resolution_tests {
         );
 
         let resolved = context
-            .resolve_tool_path("openbitfun://current-session/artifacts/transcript.txt")
+            .resolve_tool_path("opc://current-session/artifacts/transcript.txt")
             .expect("remote current-session URI should resolve to the local mirror");
 
         assert!(!resolved.uses_remote_workspace_backend());
@@ -1295,7 +1295,7 @@ mod path_resolution_tests {
         );
 
         let err = context
-            .resolve_tool_path("openbitfun://current-session/artifacts/transcript.txt")
+            .resolve_tool_path("opc://current-session/artifacts/transcript.txt")
             .expect_err("current-session URI should require a session id");
 
         assert!(err.to_string().contains("current session"));
@@ -1309,10 +1309,7 @@ mod path_resolution_tests {
             .build_runtime_artifact_reference(r"plans\demo.plan.md")
             .expect("remote runtime artifacts should use URI references");
 
-        assert_eq!(
-            reference,
-            "openbitfun://runtime/workspace-123/plans/demo.plan.md"
-        );
+        assert_eq!(reference, "opc://runtime/workspace-123/plans/demo.plan.md");
     }
 
     #[test]
@@ -1320,7 +1317,7 @@ mod path_resolution_tests {
         let context = remote_context("/home/wsp/projects/test", Some("workspace-123".to_string()));
 
         let err = context
-            .resolve_tool_path("openbitfun://runtime/workspace-456/plans/demo.plan.md")
+            .resolve_tool_path("opc://runtime/workspace-456/plans/demo.plan.md")
             .expect_err("runtime artifact scopes must match the active workspace");
 
         assert!(err
@@ -1333,7 +1330,7 @@ mod path_resolution_tests {
         let context = context_without_workspace();
 
         let err = context
-            .resolve_tool_path("openbitfun://runtime/workspace-456/plans/demo.plan.md")
+            .resolve_tool_path("opc://runtime/workspace-456/plans/demo.plan.md")
             .expect_err("runtime URI scope should be validated before runtime root lookup");
 
         assert!(err

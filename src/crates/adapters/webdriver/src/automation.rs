@@ -73,7 +73,7 @@ impl EmbeddedWebviewAutomation {
 
     async fn perform_actions(&self, actions: Value) -> Result<(), String> {
         self.run_script(
-            "async (actions) => { await window.__openbitfunWd.performActions(actions); return null; }",
+            "async (actions) => { await window.__opcWd.performActions(actions); return null; }",
             vec![actions],
         )
         .await?;
@@ -130,7 +130,7 @@ impl EmbeddedWebviewAutomation {
             "Input.insertText" => {
                 let text = required_string(&params, "text", method)?;
                 self.run_script(
-                    "(text) => { const target = document.activeElement; if (!target) throw new Error('No focused element'); window.__openbitfunWd.insertText(target, text); return null; }",
+                    "(text) => { const target = document.activeElement; if (!target) throw new Error('No focused element'); window.__opcWd.insertText(target, text); return null; }",
                     vec![Value::String(text.to_string())],
                 )
                 .await?;

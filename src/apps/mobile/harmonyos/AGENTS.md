@@ -174,7 +174,7 @@ removing the running action. Test both postures and restore normal App afterward
 ## Theme and device verification
 
 For cold-start home animation geometry, launch the isolated design preview with
-`hdc shell aa start -a EntryAbility -b <bundle-id> --ps openbitfunDesignPreview cold-start-home`
+`hdc shell aa start -a EntryAbility -b <bundle-id> --ps opcDesignPreview cold-start-home`
 (or `cold-start-home-dark`). Use **Replay** to run the production 2400 ms
 transition over the production recent-home component and **Resize** during
 playback to remeasure its anchor. This fixture does not load account or remote

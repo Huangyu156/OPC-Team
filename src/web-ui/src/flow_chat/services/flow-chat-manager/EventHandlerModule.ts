@@ -1019,7 +1019,7 @@ async function handleAcpPermissionRequest(rawEvent: unknown): Promise<void> {
  */
 function handleSessionCreated(context: FlowChatContext, event: any): void {
   const { sessionId, sessionName, agentType } = event;
-  if (agentType === 'OpenBitFun') return; // The control host registers its dedicated presentation reference.
+  if (agentType === 'OPC-Team') return; // The control host registers its dedicated presentation reference.
 
   const store = FlowChatStore.getInstance();
   const existing = store.getState().sessions.get(sessionId);
@@ -2953,7 +2953,7 @@ function handleDialogTurnCancelled(
   // P1-11: Idempotent terminal-event handling. The execution engine may emit
   // DialogTurnCancelled when it detects cancellation between rounds, and the
   // coordinator wrapper unconditionally re-emits one when the turn returns
-  // OpenBitFunError::Cancelled. Both paths can fire on the same turn — make
+  // OpcError::Cancelled. Both paths can fire on the same turn — make
   // sure we only run the visible side-effects once.
   if (sessionId && turnId) {
     const terminalKey = `${sessionId}:${turnId}`;

@@ -87,7 +87,7 @@ hooks discovered from Claude Code or Codex. This is an explicit copy, not a
 live mount of another product's configuration:
 
 1. Open **Settings → Agent Hooks** or run `/hooks` in the TUI. Use
-   `openbitfun hooks list` from the root CLI for a scriptable view.
+   `opc hooks list` from the root CLI for a scriptable view.
 2. Choose a source and review every effective command, Windows override,
    timeout, copied or external dependency, skipped item, and the plan
    fingerprint.
@@ -165,13 +165,13 @@ Source references: [DSH Skills](https://github.com/deepseek-ai/deepseek-harness/
 Root CLI equivalents are:
 
 ```text
-openbitfun hooks list [--refresh] [--format text|json]
-openbitfun hooks import --source <source-key> [--confirm <plan-fingerprint>]
-openbitfun hooks update <import-id> [--confirm <plan-fingerprint>]
-openbitfun hooks enable <import-id>
-openbitfun hooks disable <import-id>
-openbitfun hooks remove <import-id> --confirm
-openbitfun hooks reset <user|project> --confirm
+opc hooks list [--refresh] [--format text|json]
+opc hooks import --source <source-key> [--confirm <plan-fingerprint>]
+opc hooks update <import-id> [--confirm <plan-fingerprint>]
+opc hooks enable <import-id>
+opc hooks disable <import-id>
+opc hooks remove <import-id> --confirm
+opc hooks reset <user|project> --confirm
 ```
 
 Import and update are preview-only without the matching fingerprint. TUI uses

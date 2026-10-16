@@ -79,7 +79,7 @@ pub fn get_builtin_ai_provider_catalog() -> opc_core_types::ProviderCatalog {
     infrastructure::ai::provider_catalog::resolve_builtin_provider_catalog(
         None,
         "opc-builtin".to_string(),
-        opc_core_types::ProviderCatalogSource::OpenBitFun,
+        opc_core_types::ProviderCatalogSource::OpcTeam,
     )
 }
 

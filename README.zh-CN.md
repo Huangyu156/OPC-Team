@@ -12,11 +12,11 @@ OPC-Team 是一个高度可定制的开源 Agent 工作台，让任务按你的�
 
 **如果你也期待这样的 Agent，欢迎点亮 ⭐ Star，让更多人发现 OPC-Team。**
 
-[下载桌面端](https://openbitfun.com/zh/download) · [移动端 Release](https://github.com/GCWing/OpenBitFun/releases?q=mobile-&expanded=true) · [Mini App 市场](https://market.openbitfun.com/miniapp/) · [参与共建](./CONTRIBUTING_CN.md)
+[下载桌面端](https://opcteam.eu.cc/zh/download) · [移动端 Release](https://github.com/GCWing/OPC-Team/releases?q=mobile-&expanded=true) · [Mini App 市场](https://market.opcteam.eu.cc/miniapp/) · [参与共建](./CONTRIBUTING_CN.md)
 
-[![官网](https://img.shields.io/badge/%E5%AE%98%E7%BD%91-openbitfun.com-0b7285?style=flat-square)](https://openbitfun.com/zh)
+[![官网](https://img.shields.io/badge/%E5%AE%98%E7%BD%91-opcteam.eu.cc-0b7285?style=flat-square)](https://opcteam.eu.cc/zh)
 [![Core code: MIT](https://img.shields.io/badge/core_code-MIT-yellow?style=flat-square)](./LICENSE)
-[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square)](https://openbitfun.com/zh/download)
+[![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-blue?style=flat-square)](https://opcteam.eu.cc/zh/download)
 
 [![Trendshift](https://trendshift.io/api/badge/repositories/44672)](https://trendshift.io/repositories/44672)
 
@@ -74,7 +74,7 @@ OPC-Team 1.0.0 带来全新界面、面向不同任务的四种 Agent Harness，
 
 描述需求，让 Agent 创建应用。每个 Mini App 都有自己的界面和 Agent 会话：你可以操作界面处理任务，也可以通过对话调整功能，让工具在使用中不断完善。
 
-做好的应用可以安装、反复使用。你也可以去 [Mini App 市场](https://market.openbitfun.com/miniapp/)发现适合自己的工具。
+做好的应用可以安装、反复使用。你也可以去 [Mini App 市场](https://market.opcteam.eu.cc/miniapp/)发现适合自己的工具。
 
 ## 用 OPC-Team，创造 OPC-Team
 
@@ -82,7 +82,7 @@ OPC-Team 1.0.0 带来全新界面、面向不同任务的四种 Agent Harness，
 
 - **定制专属 Agent。** 围绕漫剧创作、视觉设计、代码评审等领域，选择模型、设定角色，组合需要的工具与工作方法。
 - **接入工具与流程。** 通过 MCP 连接专业工具，把常用工作方法保存为 Skills，用 Hooks 扩展任务执行流程。
-- **改变界面与源码。** 安装[皮肤](https://market.openbitfun.com/skin/)调整外观，也可以修改 UI、工具与 Runtime 源码，构建自己的 OPC-Team。
+- **改变界面与源码。** 安装[皮肤](https://market.opcteam.eu.cc/skin/)调整外观，也可以修改 UI、工具与 Runtime 源码，构建自己的 OPC-Team。
 
 **你可以直接让 OPC-Team 的 Code Agent 修改和扩展 OPC-Team 本身。**
 
@@ -124,7 +124,7 @@ OPC-Team 仍在演进，我们希望继续探索三个方向：
 <details>
 <summary>下载、使用与源码运行</summary>
 
-前往[官方下载页](https://openbitfun.com/zh/download)，选择 Windows、macOS 或 Linux 安装包。安装后配置模型，打开工作区即可开始；操作说明见[使用手册](https://playbook.openbitfun.com)，安装包签名见[下载校验](./docs/verify-downloads.zh-CN.md)。
+前往[官方下载页](https://opcteam.eu.cc/zh/download)，选择 Windows、macOS 或 Linux 安装包。安装后配置模型，打开工作区即可开始；操作说明见[使用手册](https://playbook.opcteam.eu.cc)，安装包签名见[下载校验](./docs/verify-downloads.zh-CN.md)。
 
 从源码运行需准备 [Node.js](https://nodejs.org/) 22.12+、[pnpm](https://pnpm.io/) 10.15.0、[Rust 工具链](https://rustup.rs/)和 [Tauri 前置依赖](https://v2.tauri.app/start/prerequisites/)。克隆本仓库后运行：
 

@@ -1,7 +1,7 @@
 import { enUSMessages } from "../i18n/messages";
 import { useI18n, type MessageKey } from "../i18n";
 import { Fragment, useSyncExternalStore } from "react";
-import { OpenBitFunSolidMark } from "@opc-team/ui/brand";
+import { OpcSolidMark } from "@opc-team/ui/brand";
 import {
   focusFoundationSection,
   foundationSections,
@@ -55,7 +55,7 @@ export function LabSectionNavigation({ page, componentName, onNavigate }: Naviga
         {/* The library's own row wears the mark — the same artwork and the same flattening the
             topbar's wordmark uses, one step down in size (the 16px control-icon step), and
             decorative: the row's text already names the route. */}
-        {target === "components" && <OpenBitFunSolidMark className="design-app-mark" size={16} />}
+        {target === "components" && <OpcSolidMark className="design-app-mark" size={16} />}
       </a>
       {/* Both indexes hang under their route: one tree per section, so the rail and the page never
           show two competing lists of the same thing. */}

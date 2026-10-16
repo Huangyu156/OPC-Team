@@ -16,8 +16,8 @@ fn usage_classifier_preserves_git_command_detection() {
 #[test]
 fn usage_path_redaction_preserves_workspace_relative_display() {
     let label = display_workspace_relative_path(
-        Some("D:/workspace/openbitfun"),
-        "D:/workspace/openbitfun/src/main.rs",
+        Some("D:/workspace/opcteam"),
+        "D:/workspace/opcteam/src/main.rs",
     );
 
     assert_eq!(label.value, "src/main.rs");

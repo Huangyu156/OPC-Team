@@ -10,7 +10,7 @@
 ## 1. 产品裁决
 
 HarmonyOS PC 是 OPC-Team CLI/TUI 的目标平台之一，TUI 优先于 HarmonyOS PC GUI。目标产品是用户在
-HarmonyOS PC 真实系统终端中安装并本地执行的原生 `openbitfun`：
+HarmonyOS PC 真实系统终端中安装并本地执行的原生 `opc`：
 
 - TUI 直接使用真实 TTY；
 - Agent Runtime、模型访问、工作区文件和命令执行均在该 PC 本机运行；

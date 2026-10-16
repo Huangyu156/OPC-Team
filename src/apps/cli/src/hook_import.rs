@@ -35,7 +35,7 @@ pub(crate) enum HookAction {
     },
     /// Preview or confirm importing one Hook source
     Import {
-        /// Stable source key shown by `openbitfun hooks list`
+        /// Stable source key shown by `opc hooks list`
         #[arg(long)]
         source: String,
         /// Confirm the exact plan fingerprint shown by the preview

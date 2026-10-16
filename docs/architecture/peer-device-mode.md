@@ -38,9 +38,9 @@ Two rules follow, and both are load-bearing:
 - **Product events are routed by their source device.** The controller re-emits
   peer DeviceEvents under their original event name, so with peers attached in
   the background one bus carries several agent streams. The desktop controller
-  tags each re-emitted payload with `__openbitfunSourceDeviceId`
+  tags each re-emitted payload with `__opcSourceDeviceId`
   (`remote_connect_api::PEER_EVENT_SOURCE_KEY`; non-object payloads are wrapped
-  under `__openbitfunSourcePayload`), and `deviceSurfaceRouting.ts` — applied inside
+  under `__opcSourcePayload`), and `deviceSurfaceRouting.ts` — applied inside
   `TauriTransportAdapter.listen` — delivers a surface-scoped event only when its
   producing device is the rendered one. Untagged events are local by definition.
   Control-plane events (`account://…`, window chrome, updater) are never scoped
@@ -276,7 +276,7 @@ Imports validate the OPC-Team product identity, export format and config
 schema, then replace the document. Within the supported schema, omitted fields
 with serde defaults acquire those defaults; they do not retain the receiving
 host's prior value. Arrays and dynamic maps remain authoritative, so deleted
-models, profiles and list entries are not resurrected. Pre-OpenBitFun formats
+models, profiles and list entries are not resurrected. Pre-Opc formats
 and retired fields require the explicit migration tool. Configuration write
 timestamps and informational build versions are excluded from the sync content
 hash so a reload or unchanged save does not cause a redundant upload.

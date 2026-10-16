@@ -197,12 +197,12 @@ export default function architectureUnitTest() {
     });
 
     it('keeps workspace disclosure identity stable and device scoped', 0, () => {
-      expect(SidebarDirectoryPreviewPolicy.workspaceKey('device-a', '/repo/openbitfun/'))
-        .assertEqual('device-a:/repo/openbitfun');
-      expect(SidebarDirectoryPreviewPolicy.workspaceKey('device-a', '/repo/openbitfun'))
-        .assertEqual('device-a:/repo/openbitfun');
-      expect(SidebarDirectoryPreviewPolicy.workspaceKey('device-b', '/repo/openbitfun'))
-        .assertEqual('device-b:/repo/openbitfun');
+      expect(SidebarDirectoryPreviewPolicy.workspaceKey('device-a', '/repo/opcteam/'))
+        .assertEqual('device-a:/repo/opcteam');
+      expect(SidebarDirectoryPreviewPolicy.workspaceKey('device-a', '/repo/opcteam'))
+        .assertEqual('device-a:/repo/opcteam');
+      expect(SidebarDirectoryPreviewPolicy.workspaceKey('device-b', '/repo/opcteam'))
+        .assertEqual('device-b:/repo/opcteam');
       expect(SidebarDirectoryPreviewPolicy.workspaceKey('device-a', '/repo/other'))
         .assertEqual('device-a:/repo/other');
     });

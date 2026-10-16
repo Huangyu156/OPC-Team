@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "Public MiniApp appearance variables projected from canonical OpenBitFun design-system tokens.",
+  "description": "Public MiniApp appearance variables projected from canonical OPC design-system tokens.",
   "variables": [
     { "name": "--opcteam-bg", "kind": "theme", "source": "--opcteam-color-surface-canvas" },
     { "name": "--opcteam-bg-secondary", "kind": "theme", "source": "--opcteam-color-surface-panel" },

@@ -10,7 +10,7 @@ import { RemoteChatCommandClient } from '../../services/RemoteChatCommandControl
 /**
  * The mock host and the mock transcript behind the staged-rollback fixture.
  *
- * The frozen interaction (`.openbitfun/plans/mobile-copy-rollback.plan.md`,
+ * The frozen interaction (`.opcteam/plans/mobile-copy-rollback.plan.md`,
  * decision 4) can only be read on a device: the entry rides a system selection
  * menu, the ghosts and the bar are drawn by the production pane, and the composer
  * is refilled through it. No paired host is reachable from an emulator, so the

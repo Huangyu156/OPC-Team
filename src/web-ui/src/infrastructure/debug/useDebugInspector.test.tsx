@@ -19,7 +19,7 @@ vi.mock('@/infrastructure/api/service-api/ApiClient', () => ({
 
 vi.mock('./mainWindowInspector', () => ({
   createMainWindowInspectorScript: () =>
-    'window.__openbitfunInspectorToggleCount = (window.__openbitfunInspectorToggleCount || 0) + 1; window.__opc_main_inspector_active = true;',
+    'window.__opcInspectorToggleCount = (window.__opcInspectorToggleCount || 0) + 1; window.__opc_main_inspector_active = true;',
   CANCEL_MAIN_WINDOW_INSPECTOR_SCRIPT:
     'window.__opc_main_inspector_active = false;',
   IS_INSPECTOR_ACTIVE_SCRIPT:
@@ -71,7 +71,7 @@ describe('useDebugInspector', () => {
     container.remove();
     vi.clearAllMocks();
     setTauriRuntime(false);
-    delete (window as unknown as { __openbitfunInspectorToggleCount?: number }).__openbitfunInspectorToggleCount;
+    delete (window as unknown as { __opcInspectorToggleCount?: number }).__opcInspectorToggleCount;
     delete (window as unknown as { __opc_main_inspector_active?: boolean }).__opc_main_inspector_active;
   });
 
@@ -118,7 +118,7 @@ describe('useDebugInspector', () => {
 
     expect(event.defaultPrevented).toBe(true);
     await vi.waitFor(() =>
-      expect((window as unknown as { __openbitfunInspectorToggleCount?: number }).__openbitfunInspectorToggleCount)
+      expect((window as unknown as { __opcInspectorToggleCount?: number }).__opcInspectorToggleCount)
         .toBe(1)
     );
   });

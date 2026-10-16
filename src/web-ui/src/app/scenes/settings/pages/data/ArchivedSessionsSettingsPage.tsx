@@ -246,8 +246,8 @@ const ArchivedSessionsSettingsPage: React.FC = () => {
     const handler = () => {
       void loadArchived(true);
     };
-    window.addEventListener('openbitfun:session-archived', handler);
-    return () => window.removeEventListener('openbitfun:session-archived', handler);
+    window.addEventListener('opc:session-archived', handler);
+    return () => window.removeEventListener('opc:session-archived', handler);
   }, [loadArchived]);
 
   // ── Group entries by workspace ───────────────────────────────────────────

@@ -1238,19 +1238,11 @@ fn push_exe_relative_bundle_candidates(
 
     if cfg!(target_os = "linux") {
         for binary_name in binary_names {
+            push_candidate(exe_dir.join("../lib/opc/flashgrep").join(binary_name));
+            push_candidate(exe_dir.join("../share/opc/flashgrep").join(binary_name));
             push_candidate(
                 exe_dir
-                    .join("../lib/openbitfun/flashgrep")
-                    .join(binary_name),
-            );
-            push_candidate(
-                exe_dir
-                    .join("../share/openbitfun/flashgrep")
-                    .join(binary_name),
-            );
-            push_candidate(
-                exe_dir
-                    .join("../share/com.openbitfun.desktop/flashgrep")
+                    .join("../share/com.opcteam.desktop/flashgrep")
                     .join(binary_name),
             );
         }
@@ -1478,9 +1470,9 @@ mod tests {
         let mut status = serde_json::json!({
             "repo_id": "/repo",
             "repo_path": "/repo",
-            "storage_root": "/repo/.openbitfun/search/flashgrep-index",
-            "base_snapshot_root": "/repo/.openbitfun/search/flashgrep-index/base-snapshot",
-            "workspace_overlay_root": "/repo/.openbitfun/search/flashgrep-index/workspace-overlay",
+            "storage_root": "/repo/.opcteam/search/flashgrep-index",
+            "base_snapshot_root": "/repo/.opcteam/search/flashgrep-index/base-snapshot",
+            "workspace_overlay_root": "/repo/.opcteam/search/flashgrep-index/workspace-overlay",
             "phase": "ready_clean",
             "snapshot_key": "base-git:abc123+cfg:deadbeef",
             "last_probe_unix_secs": null,
@@ -1660,9 +1652,9 @@ mod tests {
                 "status": {
                     "repo_id": "/repo",
                     "repo_path": "/repo",
-                    "storage_root": "/repo/.openbitfun/search/flashgrep-index",
-                    "base_snapshot_root": "/repo/.openbitfun/search/flashgrep-index/base-snapshot",
-                    "workspace_overlay_root": "/repo/.openbitfun/search/flashgrep-index/workspace-overlay",
+                    "storage_root": "/repo/.opcteam/search/flashgrep-index",
+                    "base_snapshot_root": "/repo/.opcteam/search/flashgrep-index/base-snapshot",
+                    "workspace_overlay_root": "/repo/.opcteam/search/flashgrep-index/workspace-overlay",
                     "phase": "ready_clean",
                     "snapshot_key": null,
                     "last_probe_unix_secs": null,

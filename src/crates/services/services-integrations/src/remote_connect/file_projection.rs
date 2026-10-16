@@ -17,7 +17,7 @@ pub struct SessionFileTarget {
 
 /// Decode a link once, before path resolution. Runtime URIs have their own parser.
 pub fn normalize_file_reference(raw: &str) -> Result<String, String> {
-    if raw.starts_with("openbitfun://") {
+    if raw.starts_with("opc://") {
         return Ok(raw.to_string());
     }
     let uri_path = raw
@@ -432,8 +432,8 @@ mod tests {
             "C:/output/preview.png"
         );
         assert_eq!(
-            normalize_file_reference("openbitfun://current-session/artifacts/preview.png").unwrap(),
-            "openbitfun://current-session/artifacts/preview.png"
+            normalize_file_reference("opc://current-session/artifacts/preview.png").unwrap(),
+            "opc://current-session/artifacts/preview.png"
         );
     }
 }

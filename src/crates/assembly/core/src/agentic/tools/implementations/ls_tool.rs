@@ -59,7 +59,7 @@ impl Tool for LSTool {
         Ok(r#"Recursively lists files and directories in a given path.
 
 Usage:
-- The path parameter must be relative to the current workspace, an absolute path inside the current workspace, or an exact `openbitfun://...` URI returned by another tool
+- The path parameter must be relative to the current workspace, an absolute path inside the current workspace, or an exact `opc://...` URI returned by another tool
 - Do not list host roots such as `/`, `/Users`, `/home`, or placeholder paths such as `/workspace`
 - Hidden files (files starting with '.') are automatically excluded
 - Results are sorted by modification time (newest first)"#
@@ -76,7 +76,7 @@ Usage:
             "properties": {
                 "path": {
                     "type": "string",
-                    "description": "Directory to list. Use a workspace-relative path, an absolute path inside the current workspace, or an exact openbitfun:// URI returned by another tool."
+                    "description": "Directory to list. Use a workspace-relative path, an absolute path inside the current workspace, or an exact opc:// URI returned by another tool."
                 },
                 "limit": {
                     "type": "integer",

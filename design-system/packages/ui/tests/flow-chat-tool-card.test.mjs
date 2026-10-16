@@ -1132,7 +1132,7 @@ test("concrete tool views expose semantic parts instead of legacy CSS selectors"
     openUrlLabel: "Open source",
     status: "completed",
     title: "Architecture",
-    url: "https://openbitfun.com/docs",
+    url: "https://opcteam.eu.cc/docs",
   }));
   const imageMarkup = renderToStaticMarkup(createElement(ViewImageToolCard, {
     alt: "Preview",

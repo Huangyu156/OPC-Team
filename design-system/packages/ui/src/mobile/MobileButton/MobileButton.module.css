@@ -40,9 +40,9 @@
   .root[data-appearance="primary"]:disabled { background: var(--opcteam-color-accent-disabled); }
   .slot, .spinner { display: inline-grid; inline-size: 20px; block-size: 20px; flex: 0 0 20px; place-items: center; }
   .slot > :where(svg, img) { inline-size: 100%; block-size: 100%; }
-  .spinner { border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: var(--opcteam-radius-pill); animation: openbitfun-mobile-button-spin var(--opcteam-motion-duration-loop) linear infinite; }
+  .spinner { border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: var(--opcteam-radius-pill); animation: opc-mobile-button-spin var(--opcteam-motion-duration-loop) linear infinite; }
   .label { display: contents; }
-  @keyframes openbitfun-mobile-button-spin { to { transform: rotate(360deg); } }
+  @keyframes opc-mobile-button-spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .root { transition: none; } .spinner { animation: none; } }
   @media (forced-colors: active) { .root { border-color: ButtonText; } .root:focus-visible { outline-color: Highlight; } }
 }

@@ -3,9 +3,9 @@ pub(super) fn script() -> &'static str {
     const ELEMENT_KEY = "element-6066-11e4-a52e-4f735466cecf";
     const SHADOW_KEY = "shadow-6066-11e4-a52e-4f735466cecf";
     const EVENT_NAME = "opc_webdriver_result";
-    const STORE_KEY = "__openbitfunWdElements";
-    const LOG_KEY = "__openbitfunWdLogs";
-    const consolePatchedKey = "__openbitfunWdConsolePatched";
+    const STORE_KEY = "__opcWdElements";
+    const LOG_KEY = "__opcWdLogs";
+    const consolePatchedKey = "__opcWdConsolePatched";
     let currentFrameContext = [];
 
     const ensureLogs = () => {
@@ -37,8 +37,8 @@ pub(super) fn script() -> &'static str {
     const getFrameContext = () => currentFrameContext;
 
     const ensureRuntimeState = () => {
-      if (!window.__openbitfunWdRuntimeState) {
-        window.__openbitfunWdRuntimeState = {
+      if (!window.__opcWdRuntimeState) {
+        window.__opcWdRuntimeState = {
           pointer: {
             x: 0,
             y: 0,
@@ -56,7 +56,7 @@ pub(super) fn script() -> &'static str {
           }
         };
       }
-      return window.__openbitfunWdRuntimeState;
+      return window.__opcWdRuntimeState;
     };
 
     const patchConsole = () => {
@@ -86,8 +86,8 @@ pub(super) fn script() -> &'static str {
     };
 
     const ensureAlertState = (targetWindow = window) => {
-      if (!targetWindow.__openbitfunWdAlertState) {
-        targetWindow.__openbitfunWdAlertState = {
+      if (!targetWindow.__opcWdAlertState) {
+        targetWindow.__opcWdAlertState = {
           open: false,
           type: null,
           text: "",
@@ -95,11 +95,11 @@ pub(super) fn script() -> &'static str {
           promptText: null
         };
       }
-      return targetWindow.__openbitfunWdAlertState;
+      return targetWindow.__opcWdAlertState;
     };
 
     const patchDialogs = (targetWindow = window) => {
-      const patchedKey = "__openbitfunWdDialogsPatched";
+      const patchedKey = "__opcWdDialogsPatched";
       if (targetWindow[patchedKey]) {
         return;
       }

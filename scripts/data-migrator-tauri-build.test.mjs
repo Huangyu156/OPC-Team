@@ -13,7 +13,7 @@ test('independent bundle owns version, offline assets, icons and identity', () =
   const output = prepareDataMigratorTauriConfig(join(APP, 'tauri.conf.json'), mkdtempSync(join(tmpdir(), 'migrator-config-')));
   const config = JSON.parse(readFileSync(output, 'utf8'));
   assert.equal(config.productName, 'OPC-Team Data Migrator');
-  assert.equal(config.identifier, 'com.openbitfun.data-migrator');
+  assert.equal(config.identifier, 'com.opcteam.data-migrator');
   assert.equal(config.version, releaseVersion());
   assert.deepEqual(config.build, { frontendDist: 'ui' });
   assert.equal(config.plugins?.updater, undefined);

@@ -1,6 +1,6 @@
 //! Target-side detached-dispatch adapter for account device RPC.
 //!
-//! Desktop deliberately delegates execution to the same `openbitfun dispatch`
+//! Desktop deliberately delegates execution to the same `opc dispatch`
 //! runner used by SSH and CLI Peer Host. This keeps one durable job/session
 //! owner and avoids creating a second desktop-only dispatch implementation.
 
@@ -19,7 +19,7 @@ pub(crate) async fn dispatch(command: &str, args: Value) -> anyhow::Result<Value
         .ok_or_else(|| anyhow!("Unknown detached dispatch target command '{command}'"))?;
     let executable = discover_cli().ok_or_else(|| {
         anyhow!(
-            "OPC-Team CLI dispatch runner is not installed on this device; install `openbitfun` in ~/.local/bin or PATH"
+            "OPC-Team CLI dispatch runner is not installed on this device; install `opc` in ~/.local/bin or PATH"
         )
     })?;
     invoke_cli(&executable, verb, args).await
@@ -109,11 +109,7 @@ async fn invoke_cli(executable: &Path, verb: &str, args: Value) -> anyhow::Resul
 }
 
 fn discover_cli() -> Option<PathBuf> {
-    let executable_name = if cfg!(windows) {
-        "openbitfun.exe"
-    } else {
-        "openbitfun"
-    };
+    let executable_name = if cfg!(windows) { "opc.exe" } else { "opc" };
     let mut candidates = Vec::new();
     if let Some(home) = dirs::home_dir() {
         candidates.push(home.join(".local").join("bin").join(executable_name));
@@ -185,7 +181,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("tempdir");
         let binary = temp.path().join("opc-real");
         std::fs::write(&binary, b"binary").expect("binary");
-        let link = temp.path().join("openbitfun");
+        let link = temp.path().join("opc");
         symlink(&binary, &link).expect("symlink");
 
         assert_eq!(

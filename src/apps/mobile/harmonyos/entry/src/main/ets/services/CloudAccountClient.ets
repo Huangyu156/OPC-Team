@@ -137,7 +137,7 @@ interface CloudAccountDeviceWire {
   compatible?: boolean;
 }
 
-/** Default OpenBitFun cloud relay used by the desktop account flow. */
+/** Default OPC-Team cloud relay used by the desktop account flow. */
 export const DEFAULT_CLOUD_RELAY_URL: string = OFFICIAL_RELAY_URL;
 
 /** Device kinds the relay accepts; mirrors `relay-service/src/db.rs::DEVICE_KINDS`. */
@@ -298,12 +298,12 @@ export class CloudAccountClient {
     const startRequest: Record<string, string> = {};
     const start = await this.post<GitHubStart>(relayUrl, '/api/auth/github/start?methods=all', startRequest);
     if (generation !== this.authorizationGeneration) throw new Error('Sign-in cancelled.');
-    if (!start.authorizationUrl.startsWith('https://github.com/login/oauth/authorize?') && !/^https:\/\/auth\.openbitfun\.com\/sign-in#ticket=[A-Za-z0-9_-]+$/.test(start.authorizationUrl)) {
+    if (!start.authorizationUrl.startsWith('https://github.com/login/oauth/authorize?') && !/^https:\/\/auth.opcteam.eu.cc\/sign-in#ticket=[A-Za-z0-9_-]+$/.test(start.authorizationUrl)) {
       throw new Error('Untrusted account authorization URL.');
     }
     const authorizationUrl = start.authorizationUrl.replace(
       '/sign-in#',
-      '/sign-in?returnTo=openbitfun%3A%2F%2Fauth%2Fcallback#'
+      '/sign-in?returnTo=opc%3A%2F%2Fauth%2Fcallback#'
     );
     if (!await openAuthorization(authorizationUrl)) throw new Error('Could not open account sign-in.');
     const deadline = Math.min(start.expiresAt * 1000, Date.now() + 600000);

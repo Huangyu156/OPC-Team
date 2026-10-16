@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# OpenBitFun Relay Server — pull and start the published multi-platform image.
+# OPC-Team Relay Server — pull and start the published multi-platform image.
 #
 # Shared by:
 #   - src/apps/relay-server/deploy.sh
@@ -27,13 +27,13 @@ OPC_RELAY_IMAGE_TAG="${OPC_RELAY_IMAGE_TAG:-${OPC_RELEASE_TAG:-latest}}"
 OPC_IMAGE_PULL_TIMEOUT="${OPC_IMAGE_PULL_TIMEOUT:-900}"
 OPC_GITHUB_PROBE_WINDOW="${OPC_GITHUB_PROBE_WINDOW:-10}"
 OPC_GITHUB_HEALTHY_BPS="${OPC_GITHUB_HEALTHY_BPS:-524288}"
-OPC_GITHUB_RELEASE_BASE="${OPC_GITHUB_RELEASE_BASE:-https://github.com/GCWing/OpenBitFun/releases}"
+OPC_GITHUB_RELEASE_BASE="${OPC_GITHUB_RELEASE_BASE:-https://github.com/GCWing/OPC-Team/releases}"
 
-# The embedded Desktop helpers call Docker through openbitfun_docker; the manual
+# The embedded Desktop helpers call Docker through opc_docker; the manual
 # script exposes docker_cmd. Keep this file independent of either caller.
-openbitfun_image_docker() {
-  if declare -F openbitfun_docker >/dev/null 2>&1; then
-    openbitfun_docker "$@"
+opc_image_docker() {
+  if declare -F opc_docker >/dev/null 2>&1; then
+    opc_docker "$@"
   elif declare -F docker_cmd >/dev/null 2>&1; then
     docker_cmd "$@"
   else
@@ -42,7 +42,7 @@ openbitfun_image_docker() {
 }
 
 # POSIX-quote arguments passed through `sg docker -c`.
-openbitfun_image_shell_join() {
+opc_image_shell_join() {
   local out="" arg
   for arg in "$@"; do
     out="$out'$(printf '%s' "$arg" | sed "s/'/'\\\\''/g")' "
@@ -53,16 +53,16 @@ openbitfun_image_shell_join() {
 # Bound each registry route. A dead accelerator must not prevent falling back
 # to the next route forever. Hosts without GNU timeout still retain Docker's
 # own network timeouts and progress reporting.
-openbitfun_image_docker_with_timeout() {
+opc_image_docker_with_timeout() {
   local seconds="$1"
   shift
   if ! command -v timeout >/dev/null 2>&1; then
-    openbitfun_image_docker "$@"
+    opc_image_docker "$@"
     return
   fi
   case "${OPC_DOCKER_MODE:-direct}" in
     sg)
-      sg docker -c "$(openbitfun_image_shell_join timeout "$seconds" docker "$@")"
+      sg docker -c "$(opc_image_shell_join timeout "$seconds" docker "$@")"
       ;;
     sudo)
       if sudo -n true >/dev/null 2>&1; then
@@ -75,7 +75,7 @@ openbitfun_image_docker_with_timeout() {
   esac
 }
 
-openbitfun_relay_native_platform() {
+opc_relay_native_platform() {
   case "$(uname -m 2>/dev/null)" in
     x86_64 | amd64) echo linux/amd64 ;;
     aarch64 | arm64) echo linux/arm64 ;;
@@ -83,7 +83,7 @@ openbitfun_relay_native_platform() {
   esac
 }
 
-openbitfun_relay_image_ref() {
+opc_relay_image_ref() {
   local repository="$1"
   if [ -n "${OPC_RELAY_IMAGE_DIGEST:-}" ]; then
     printf '%s@%s' "$repository" "$OPC_RELAY_IMAGE_DIGEST"
@@ -92,7 +92,7 @@ openbitfun_relay_image_ref() {
   fi
 }
 
-openbitfun_relay_archive_target() {
+opc_relay_archive_target() {
   case "$1" in
     linux/amd64) echo x86_64-unknown-linux-gnu ;;
     linux/arm64) echo aarch64-unknown-linux-gnu ;;
@@ -103,9 +103,9 @@ openbitfun_relay_archive_target() {
 # Measure the GitHub release CDN that carries the exact Relay binary bytes.
 # Relay itself stays a digest-pinned OCI deployment; this byte probe decides
 # whether official GHCR or its accelerators are attempted first.
-openbitfun_probe_github_throughput() {
+opc_probe_github_throughput() {
   local platform="$1" target tag url metrics speed
-  target="$(openbitfun_relay_archive_target "$platform")" || {
+  target="$(opc_relay_archive_target "$platform")" || {
     echo 0
     return 0
   }
@@ -148,7 +148,7 @@ openbitfun_probe_github_throughput() {
 # 512 KiB/s moves the registry accelerators first. Explicit cn/global choices
 # remain authoritative. The digest is identical across routes, so transport
 # selection never changes the image Desktop authenticated.
-openbitfun_pull_relay_image() {
+opc_pull_relay_image() {
   local platform="$1" routes route_name repository image_ref selected=""
   local requested_mode github_speed mirror_first=0
   local pull_timeout="${OPC_IMAGE_PULL_TIMEOUT:-900}"
@@ -165,7 +165,7 @@ openbitfun_pull_relay_image() {
     cn) mirror_first=1 ;;
     global) mirror_first=0 ;;
     *)
-      github_speed="$(openbitfun_probe_github_throughput "$platform")"
+      github_speed="$(opc_probe_github_throughput "$platform")"
       if [ "$github_speed" -lt "$OPC_GITHUB_HEALTHY_BPS" ]; then
         mirror_first=1
       fi
@@ -188,9 +188,9 @@ openbitfun_pull_relay_image() {
 
   while IFS=$'\t' read -r route_name repository; do
     [ -n "$repository" ] || continue
-    image_ref="$(openbitfun_relay_image_ref "$repository")"
+    image_ref="$(opc_relay_image_ref "$repository")"
     echo ">>> Pulling Relay image via ${route_name}: ${image_ref}" >&2
-    if openbitfun_image_docker_with_timeout "$pull_timeout" pull --platform "$platform" "$image_ref" >&2; then
+    if opc_image_docker_with_timeout "$pull_timeout" pull --platform "$platform" "$image_ref" >&2; then
       selected="$image_ref"
       break
     fi
@@ -204,7 +204,7 @@ openbitfun_pull_relay_image() {
   fi
 
   local expected_arch="${platform#linux/}" actual_arch
-  actual_arch="$(openbitfun_image_docker image inspect -f '{{.Architecture}}' "$selected" 2>/dev/null || true)"
+  actual_arch="$(opc_image_docker image inspect -f '{{.Architecture}}' "$selected" 2>/dev/null || true)"
   if [ "$actual_arch" != "$expected_arch" ]; then
     echo ">>> ERROR: pulled image architecture '$actual_arch' does not match '$expected_arch'." >&2
     return 1
@@ -212,56 +212,56 @@ openbitfun_pull_relay_image() {
   printf '%s' "$selected"
 }
 
-openbitfun_restore_previous_relay() {
-  openbitfun_image_docker rm -f openbitfun-relay >/dev/null 2>&1 || true
+opc_restore_previous_relay() {
+  opc_image_docker rm -f opc-relay >/dev/null 2>&1 || true
   if [ -n "${OPC_RELAY_BACKUP_CONTAINER:-}" ]; then
-    openbitfun_image_docker rename "$OPC_RELAY_BACKUP_CONTAINER" openbitfun-relay >/dev/null 2>&1 || true
-    openbitfun_image_docker start openbitfun-relay >/dev/null 2>&1 || true
+    opc_image_docker rename "$OPC_RELAY_BACKUP_CONTAINER" opc-relay >/dev/null 2>&1 || true
+    opc_image_docker start opc-relay >/dev/null 2>&1 || true
   fi
 }
 
-openbitfun_run_relay_image() {
+opc_run_relay_image() {
   local image_ref="$1" platform="$2" attempt stale
-  openbitfun_image_docker volume create relay-server_relay-db >/dev/null || return 1
-  openbitfun_image_docker volume create relay-server_room-web >/dev/null || return 1
+  opc_image_docker volume create relay-server_relay-db >/dev/null || return 1
+  opc_image_docker volume create relay-server_room-web >/dev/null || return 1
 
   OPC_RELAY_BACKUP_CONTAINER=""
-  if openbitfun_image_docker container inspect openbitfun-relay >/dev/null 2>&1; then
-    OPC_RELAY_BACKUP_CONTAINER="openbitfun-relay-before-image-$$"
-    openbitfun_image_docker stop openbitfun-relay >/dev/null 2>&1 || true
-    if ! openbitfun_image_docker rename openbitfun-relay "$OPC_RELAY_BACKUP_CONTAINER"; then
+  if opc_image_docker container inspect opc-relay >/dev/null 2>&1; then
+    OPC_RELAY_BACKUP_CONTAINER="opc-relay-before-image-$$"
+    opc_image_docker stop opc-relay >/dev/null 2>&1 || true
+    if ! opc_image_docker rename opc-relay "$OPC_RELAY_BACKUP_CONTAINER"; then
       echo ">>> ERROR: could not stage the existing Relay container." >&2
-      openbitfun_image_docker start openbitfun-relay >/dev/null 2>&1 || true
+      opc_image_docker start opc-relay >/dev/null 2>&1 || true
       return 1
     fi
   fi
 
   # A cancelled wizard must put the previously healthy Relay back.
-  trap 'openbitfun_restore_previous_relay; trap - INT TERM; exit 1' INT TERM
+  trap 'opc_restore_previous_relay; trap - INT TERM; exit 1' INT TERM
 
   echo ">>> Starting Relay image on port ${RELAY_PORT:-9700}..."
-  if ! openbitfun_image_docker run -d \
-    --name openbitfun-relay \
+  if ! opc_image_docker run -d \
+    --name opc-relay \
     --platform "$platform" \
     --restart unless-stopped \
     --label com.docker.compose.project=relay-server \
     --label com.docker.compose.service=relay-server \
-    --label "com.openbitfun.relay.image=${OPC_RELAY_IMAGE}" \
-    --label "com.openbitfun.relay.digest=${OPC_RELAY_IMAGE_DIGEST:-unlocked}" \
+    --label "com.opcteam.relay.image=${OPC_RELAY_IMAGE}" \
+    --label "com.opcteam.relay.digest=${OPC_RELAY_IMAGE_DIGEST:-unlocked}" \
     -p "${RELAY_HOST_BIND_IP:-0.0.0.0}:${RELAY_PORT:-9700}:${RELAY_PORT:-9700}" \
     -e "RELAY_PORT=${RELAY_PORT:-9700}" \
     -e RELAY_STATIC_DIR=/app/static \
     -e RELAY_ROOM_WEB_DIR=/app/room-web \
     -e RELAY_ROOM_TTL=300 \
     -e RELAY_ASSET_STORE_MAX_BYTES=1073741824 \
-    -e RELAY_DB_PATH=/app/data/openbitfun_relay.db \
+    -e RELAY_DB_PATH=/app/data/opc_relay.db \
     -e "RELAY_PAGE_PUBLIC_BASE_URL=${RELAY_PAGE_PUBLIC_BASE_URL:-}" \
     -e "RELAY_PAGE_AUTH_BASE_URL=${RELAY_PAGE_AUTH_BASE_URL:-}" \
     -v relay-server_room-web:/app/room-web \
     -v relay-server_relay-db:/app/data \
     "$image_ref" >/dev/null; then
     echo ">>> ERROR: the Relay image could not start; restoring the previous container." >&2
-    openbitfun_restore_previous_relay
+    opc_restore_previous_relay
     trap - INT TERM
     return 1
   fi
@@ -269,40 +269,40 @@ openbitfun_run_relay_image() {
   # Probe inside the image. This avoids requiring curl on an otherwise ready
   # Docker host and verifies the exact container that will be kept.
   for attempt in $(seq 1 30); do
-    if openbitfun_image_docker exec openbitfun-relay \
+    if opc_image_docker exec opc-relay \
       curl -fsS --max-time 3 "http://127.0.0.1:${RELAY_PORT:-9700}/health" >/dev/null 2>&1; then
       trap - INT TERM
       if [ -n "$OPC_RELAY_BACKUP_CONTAINER" ]; then
-        openbitfun_image_docker rm "$OPC_RELAY_BACKUP_CONTAINER" >/dev/null 2>&1 || true
+        opc_image_docker rm "$OPC_RELAY_BACKUP_CONTAINER" >/dev/null 2>&1 || true
       fi
-      for stale in $(openbitfun_image_docker ps -aq \
-        --filter 'name=^openbitfun-relay-before-image-' \
-        --filter 'name=^openbitfun-relay-before-release-' 2>/dev/null); do
-        openbitfun_image_docker rm -f "$stale" >/dev/null 2>&1 || true
+      for stale in $(opc_image_docker ps -aq \
+        --filter 'name=^opc-relay-before-image-' \
+        --filter 'name=^opc-relay-before-release-' 2>/dev/null); do
+        opc_image_docker rm -f "$stale" >/dev/null 2>&1 || true
       done
       echo ">>> Relay image is healthy."
       return 0
     fi
-    if ! openbitfun_image_docker inspect -f '{{.State.Running}}' openbitfun-relay 2>/dev/null | grep -qx true; then
+    if ! opc_image_docker inspect -f '{{.State.Running}}' opc-relay 2>/dev/null | grep -qx true; then
       break
     fi
     sleep 2
   done
 
   echo ">>> ERROR: Relay image failed its health check; restoring the previous container." >&2
-  echo ">>> Container state: $(openbitfun_image_docker inspect \
+  echo ">>> Container state: $(opc_image_docker inspect \
     -f 'running={{.State.Running}} exit={{.State.ExitCode}} oom={{.State.OOMKilled}} err={{.State.Error}}' \
-    openbitfun-relay 2>&1 || true)"
-  echo ">>> Last 40 log lines from openbitfun-relay:"
-  openbitfun_image_docker logs --tail 40 openbitfun-relay 2>&1 | sed 's/^/    /' || true
-  openbitfun_restore_previous_relay
+    opc-relay 2>&1 || true)"
+  echo ">>> Last 40 log lines from opc-relay:"
+  opc_image_docker logs --tail 40 opc-relay 2>&1 | sed 's/^/    /' || true
+  opc_restore_previous_relay
   trap - INT TERM
   return 1
 }
 
-openbitfun_try_release_deploy() {
+opc_try_release_deploy() {
   local platform image_ref
-  platform="$(openbitfun_relay_native_platform)" || {
+  platform="$(opc_relay_native_platform)" || {
     echo ">>> ERROR: no published Relay image for architecture $(uname -m)." >&2
     return 1
   }
@@ -320,6 +320,6 @@ openbitfun_try_release_deploy() {
   # Ignore a user-level foreign-platform default. Relay one-click deployment is
   # deliberately native on its two supported server architectures.
   export DOCKER_DEFAULT_PLATFORM="$platform"
-  image_ref="$(openbitfun_pull_relay_image "$platform")" || return 1
-  openbitfun_run_relay_image "$image_ref" "$platform"
+  image_ref="$(opc_pull_relay_image "$platform")" || return 1
+  opc_run_relay_image "$image_ref" "$platform"
 }

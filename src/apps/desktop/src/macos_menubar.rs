@@ -16,18 +16,18 @@ pub enum EditMenuMode {
     Renderer,
 }
 
-pub const MENU_ID_EDIT_UNDO: &str = "openbitfun.edit.undo";
-pub const MENU_ID_EDIT_REDO: &str = "openbitfun.edit.redo";
-pub const MENU_ID_EDIT_CUT: &str = "openbitfun.edit.cut";
-pub const MENU_ID_EDIT_COPY: &str = "openbitfun.edit.copy";
-pub const MENU_ID_EDIT_PASTE: &str = "openbitfun.edit.paste";
-pub const MENU_ID_EDIT_SELECT_ALL: &str = "openbitfun.edit.select_all";
+pub const MENU_ID_EDIT_UNDO: &str = "opc.edit.undo";
+pub const MENU_ID_EDIT_REDO: &str = "opc.edit.redo";
+pub const MENU_ID_EDIT_CUT: &str = "opc.edit.cut";
+pub const MENU_ID_EDIT_COPY: &str = "opc.edit.copy";
+pub const MENU_ID_EDIT_PASTE: &str = "opc.edit.paste";
+pub const MENU_ID_EDIT_SELECT_ALL: &str = "opc.edit.select_all";
 
 pub fn menu_event_name_for_id(id: &str) -> Option<&'static str> {
     match id {
-        "openbitfun.open_project" => Some("opc_menu_open_project"),
-        "openbitfun.new_project" => Some("opc_menu_new_project"),
-        "openbitfun.about" => Some("opc_menu_about"),
+        "opc.open_project" => Some("opc_menu_open_project"),
+        "opc.new_project" => Some("opc_menu_new_project"),
+        "opc.about" => Some("opc_menu_about"),
         MENU_ID_EDIT_UNDO => Some("opc_menu_edit_undo"),
         MENU_ID_EDIT_REDO => Some("opc_menu_edit_redo"),
         MENU_ID_EDIT_CUT => Some("opc_menu_edit_cut"),
@@ -45,7 +45,7 @@ struct MenubarLabels {
     edit_menu: &'static str,
     open_project: &'static str,
     new_project: &'static str,
-    about_openbitfun: &'static str,
+    about_opc: &'static str,
     undo: &'static str,
     redo: &'static str,
     cut: &'static str,
@@ -62,7 +62,7 @@ fn labels_for_language(language: &str) -> MenubarLabels {
             edit_menu: "Edit",
             open_project: "Open Project…",
             new_project: "New Project…",
-            about_openbitfun: "About OPC-Team",
+            about_opc: "About OPC-Team",
             undo: "Undo",
             redo: "Redo",
             cut: "Cut",
@@ -75,7 +75,7 @@ fn labels_for_language(language: &str) -> MenubarLabels {
             edit_menu: "編輯",
             open_project: "開啟工程…",
             new_project: "新建工程…",
-            about_openbitfun: "關於 OPC-Team",
+            about_opc: "關於 OPC-Team",
             undo: "復原",
             redo: "重做",
             cut: "剪下",
@@ -88,7 +88,7 @@ fn labels_for_language(language: &str) -> MenubarLabels {
             edit_menu: "编辑",
             open_project: "打开工程…",
             new_project: "新建工程…",
-            about_openbitfun: "关于 OPC-Team",
+            about_opc: "关于 OPC-Team",
             undo: "撤销",
             redo: "重做",
             cut: "剪切",
@@ -110,7 +110,7 @@ pub fn set_macos_menubar_with_mode(
     let _ = mode;
 
     let app_menu = SubmenuBuilder::new(app, "OPC-Team")
-        .text("openbitfun.about", labels.about_openbitfun)
+        .text("opc.about", labels.about_opc)
         .separator()
         .quit()
         .build()?;
@@ -158,8 +158,8 @@ pub fn set_macos_menubar_with_mode(
     };
 
     let project_menu = SubmenuBuilder::new(app, labels.project_menu)
-        .text("openbitfun.open_project", labels.open_project)
-        .text("openbitfun.new_project", labels.new_project)
+        .text("opc.open_project", labels.open_project)
+        .text("opc.new_project", labels.new_project)
         .build()?;
 
     let menu = MenuBuilder::new(app)

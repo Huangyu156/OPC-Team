@@ -409,7 +409,7 @@
       margin-left: 2px;
       vertical-align: -0.12em;
       background: var(--opcteam-color-content-muted);
-      animation: openbitfun-agent-companion-caret 920ms steps(2, start) infinite;
+      animation: opc-agent-companion-caret 920ms steps(2, start) infinite;
     }
   }
 
@@ -420,7 +420,7 @@
       var(--opcteam-color-status-warning-surface)
     );
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--opcteam-color-status-warning-content) 50%, transparent);
-    animation: openbitfun-agent-companion-attention-pulse 1.5s ease-in-out infinite !important;
+    animation: opc-agent-companion-attention-pulse 1.5s ease-in-out infinite !important;
 
     &::after {
       content: "";
@@ -431,7 +431,7 @@
       height: 6px;
       border-radius: 50%;
       background: var(--opcteam-color-status-warning-content);
-      animation: openbitfun-agent-companion-attention-dot 1.5s ease-in-out infinite;
+      animation: opc-agent-companion-attention-dot 1.5s ease-in-out infinite;
     }
   }
 
@@ -469,7 +469,7 @@
   }
 }
 
-@keyframes openbitfun-agent-companion-caret {
+@keyframes opc-agent-companion-caret {
   0%,
   45% {
     opacity: 1;
@@ -481,7 +481,7 @@
   }
 }
 
-@keyframes openbitfun-agent-companion-attention-pulse {
+@keyframes opc-agent-companion-attention-pulse {
   0%,
   100% {
     box-shadow: 0 0 0 0 color-mix(in srgb, var(--opcteam-color-status-warning-content) 50%, transparent);
@@ -494,7 +494,7 @@
   }
 }
 
-@keyframes openbitfun-agent-companion-attention-dot {
+@keyframes opc-agent-companion-attention-dot {
   0%,
   100% {
     transform: scale(1);

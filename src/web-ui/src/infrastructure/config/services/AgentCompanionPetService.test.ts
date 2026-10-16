@@ -26,7 +26,7 @@ describe('AgentCompanionPetService built-in presets', () => {
 
     const pets = await listAgentCompanionPets();
     const blueGolden = pets.find(pet => pet.id === 'blue-golden');
-    const openbitfun = pets.find(pet => pet.id === 'openbitfun');
+    const openbitfun = pets.find(pet => pet.id === 'opc');
 
     expect(DEFAULT_AGENT_COMPANION_PET).toMatchObject({
       id: 'bitblob',

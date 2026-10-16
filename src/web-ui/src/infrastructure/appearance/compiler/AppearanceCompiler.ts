@@ -192,7 +192,7 @@ export class AppearanceCompiler {
       context,
     );
 
-    const rootSelector = `:root[data-openbitfun-appearance="${pkg.id}"][data-opc-appearance-revision="${revision}"]`;
+    const rootSelector = `:root[data-opc-appearance="${pkg.id}"][data-opc-appearance-revision="${revision}"]`;
     const appearanceRules = [
       `${rootSelector}{${globalDeclarations}}`,
       ...componentResult.rules.map(rule => this.renderRule(rule)),
@@ -289,7 +289,7 @@ export class AppearanceCompiler {
       const hostSelectorId = descriptor.hostSelectorId ?? surfaceId;
       const resolvedParts: Record<string, ResolvedAppearanceStyle[]> = {};
       Object.entries(definition.parts).forEach(([partId, partRule]) => {
-        const baseSelector = `:root[data-openbitfun-appearance="${context.pkg.id}"][data-opc-appearance-revision="${context.revision}"] [${resolvedSurfaceAttribute}="${hostSelectorId}"][${partAttribute}="${partId}"]`;
+        const baseSelector = `:root[data-opc-appearance="${context.pkg.id}"][data-opc-appearance-revision="${context.revision}"] [${resolvedSurfaceAttribute}="${hostSelectorId}"][${partAttribute}="${partId}"]`;
         const compiled = this.compilePart(baseSelector, partRule, descriptor, materials, context);
         resolvedParts[partId] = compiled.map(rule => rule.style);
         rules.push(...compiled);

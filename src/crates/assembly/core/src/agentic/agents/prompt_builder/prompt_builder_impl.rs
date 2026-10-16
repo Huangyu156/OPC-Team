@@ -1105,7 +1105,7 @@ mod tests {
         let execution_target = SessionExecutionTarget {
             kind: SessionExecutionTargetKind::ManagedWorktree,
             worktree_id: Some("wt-1".to_string()),
-            root_path: "/managed/OpenBitFun-wt-1".to_string(),
+            root_path: "/managed/OPC-Team-wt-1".to_string(),
             base_ref: Some("HEAD".to_string()),
             base_commit: Some("0123456789abcdef".to_string()),
             branch: None,
@@ -1113,9 +1113,9 @@ mod tests {
         };
         let workspace = WorkspaceBinding::new(
             Some("workspace-1".to_string()),
-            PathBuf::from("/managed/OpenBitFun-wt-1"),
+            PathBuf::from("/managed/OPC-Team-wt-1"),
         )
-        .with_project_root_path(PathBuf::from("/projects/OpenBitFun"))
+        .with_project_root_path(PathBuf::from("/projects/OPC-Team"))
         .with_execution_target(Some(execution_target));
         let context = build_prompt_context_for_workspace(
             &workspace,
@@ -1134,7 +1134,7 @@ mod tests {
 
         assert!(workspace_context.contains("Managed Git worktree created for this session"));
         assert!(workspace_context.contains("Owning project root"));
-        assert!(workspace_context.contains("/projects/OpenBitFun"));
+        assert!(workspace_context.contains("/projects/OPC-Team"));
         assert!(workspace_context.contains("Worktree ID: wt-1"));
         assert!(workspace_context.contains("Worktree checkout: detached HEAD"));
         assert!(workspace_context.contains("Worktree base commit: 0123456789abcdef"));

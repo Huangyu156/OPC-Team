@@ -16,9 +16,8 @@ struct AcpProcess {
 
 impl AcpProcess {
     async fn spawn(environment: &CliTestEnvironment) -> Self {
-        let mut command = opc_services_core::process_manager::create_tokio_command(env!(
-            "CARGO_BIN_EXE_openbitfun"
-        ));
+        let mut command =
+            opc_services_core::process_manager::create_tokio_command(env!("CARGO_BIN_EXE_opc"));
         command
             .arg("acp")
             .stdin(Stdio::piped())

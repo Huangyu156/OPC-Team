@@ -275,7 +275,7 @@ mod tests {
         git(directory.path(), &["config", "user.name", "OPC-Team Tests"]);
         git(
             directory.path(),
-            &["config", "user.email", "openbitfun@example.com"],
+            &["config", "user.email", "opc@example.com"],
         );
         std::fs::write(directory.path().join("tracked.txt"), "initial\n")
             .expect("fixture should be written");

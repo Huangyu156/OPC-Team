@@ -63,7 +63,7 @@ export const toolPresentationRegistry = {
   InitMiniApp: { owner: 'product', component: null },
   GenerativeUI: { owner: 'product', component: null },
   ComputerUse: { owner: 'product', component: null },
-  OpenBitFunControl: { owner: 'product', component: null },
+  OpcControl: { owner: 'product', component: null },
   CreateCanvas: { owner: 'product', component: null },
   ReadCanvas: { owner: 'product', component: null },
   UpdateCanvas: { owner: 'product', component: null },

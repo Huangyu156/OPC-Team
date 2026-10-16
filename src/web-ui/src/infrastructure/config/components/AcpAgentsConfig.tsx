@@ -49,7 +49,7 @@ import './AcpAgentsConfig.scss';
 
 const log = createLogger('AcpAgentsConfig');
 const HIDDEN_REMOTE_CONNECTION_IDS_STORAGE_KEY =
-  'openbitfun:settings:acp-agents:hidden-remote-connections:v1';
+  'opc:settings:acp-agents:hidden-remote-connections:v1';
 
 function loadHiddenRemoteConnectionIds(): Set<string> {
   try {
@@ -101,7 +101,7 @@ interface AcpClientPreset {
 // package (their CLI binary is launched directly).
 const NATIVE_ACP_PRESET_IDS = new Set(['opencode', 'dsh', 'omp']);
 
-// Presets OpenBitFun cannot install on the user's behalf — the agent must be
+// Presets OPC-Team cannot install on the user's behalf — the agent must be
 // installed manually (e.g. omp targets bun and ships via its own installer).
 // The UI hides the one-click "Install CLI" action for these.
 const SELF_MANAGED_INSTALL_PRESET_IDS = new Set(['omp']);
@@ -120,7 +120,7 @@ const PRESETS: AcpClientPreset[] = [
     command: 'opencode',
     args: ['acp'],
   },
-  // OpenBitFun ships the ACP bridge for DeepSeek Harness and installs it into the
+  // OPC-Team ships the ACP bridge for DeepSeek Harness and installs it into the
   // user's own dsh as a profile on first launch, so the only setup left is the
   // harness itself and the model the user picks inside it.
   {
@@ -835,9 +835,9 @@ const AcpAgentsConfig = forwardRef<AcpAgentsConfigHandle, AcpAgentsConfigProps>(
       }
       void loadConfig({ showLoading: false });
     };
-    window.addEventListener('openbitfun:acp-clients-changed', handleAcpClientsChanged);
+    window.addEventListener('opc:acp-clients-changed', handleAcpClientsChanged);
     return () => {
-      window.removeEventListener('openbitfun:acp-clients-changed', handleAcpClientsChanged);
+      window.removeEventListener('opc:acp-clients-changed', handleAcpClientsChanged);
     };
   }, [dirty, jsonDirty, loadConfig]);
 

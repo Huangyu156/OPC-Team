@@ -42,7 +42,7 @@ const rustVersion = protocolVersion(
   /pub const CLIENT_PROTOCOL_VERSION: u32 = (\d+);/,
 );
 const kotlinVersion = protocolVersion(
-  'src/apps/mobile/shared/core-transport/src/commonMain/kotlin/com/openbitfun/mobile/core/transport/ClientBuild.kt',
+  'src/apps/mobile/shared/core-transport/src/commonMain/kotlin/com/opcteam/mobile/core/transport/ClientBuild.kt',
   /public const val CLIENT_PROTOCOL_VERSION: Int = (\d+)/,
 );
 
@@ -50,7 +50,7 @@ test('the harmonyos transport reports the build the relay gates on', () => {
   assert.equal(
     kotlinVersion,
     rustVersion,
-    'the Kotlin CLIENT_PROTOCOL_VERSION must equal openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION',
+    'the Kotlin CLIENT_PROTOCOL_VERSION must equal opc_product_domains::account::CLIENT_PROTOCOL_VERSION',
   );
   const clientBuild = fs.readFileSync(path.join(services, 'ClientBuild.ets'), 'utf8');
   assert.ok(

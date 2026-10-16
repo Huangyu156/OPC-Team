@@ -564,7 +564,7 @@ describe('FlowChatManager initialization', () => {
   });
 
   it('does not let an older workspace initialization switch after a newer workspace initialize starts', async () => {
-    const openbitfunHistoryRestore = createDeferred<void>();
+    const opcHistoryRestore = createDeferred<void>();
     const sessions = new Map<string, any>([
       ['history-1', createHistoricalSession()],
       ['other-1', createHistoricalSession({
@@ -593,7 +593,7 @@ describe('FlowChatManager initialization', () => {
       })),
       loadSessionHistory: vi.fn((sessionId: string) => {
         if (sessionId === 'history-1') {
-          return openbitfunHistoryRestore.promise;
+          return opcHistoryRestore.promise;
         }
         return Promise.resolve();
       }),
@@ -603,13 +603,13 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    const openbitfunInitialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const opcInitialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
 
     await flushAsyncWork();
     await expect(manager.initialize(workspaceFixture('D:/workspace/Other', undefined, undefined), undefined)).resolves.toBe(true);
 
-    openbitfunHistoryRestore.resolve();
-    await expect(openbitfunInitialize).resolves.toBe(true);
+    opcHistoryRestore.resolve();
+    await expect(opcInitialize).resolves.toBe(true);
 
     expect(storeMocks.store.switchSession).toHaveBeenCalledWith('other-1');
     expect(storeMocks.store.switchSession).not.toHaveBeenCalledWith('history-1');

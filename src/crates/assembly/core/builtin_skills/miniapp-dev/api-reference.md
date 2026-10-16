@@ -22,7 +22,7 @@ MiniApp **能且只能**用以下 API，没有任何"通用 OPC-Team 后端通�
 
 MiniApp 不提供通用 OPC-Team 后端通道。不要假设这些接口存在：
 
-- `app.openbitfun.*`
+- `app.opc.*`
 - `app.workspace.*`
 - `app.git.*`
 - `app.session.*`

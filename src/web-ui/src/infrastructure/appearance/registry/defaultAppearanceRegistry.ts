@@ -214,7 +214,7 @@ import { flowTextBlockAppearanceDescriptor } from '@/flow_chat/components/FlowTe
 import { chatInputApprovalBandAppearanceDescriptor } from '@/flow_chat/components/ChatInputApprovalBand.appearance';
 import { canvasToolCardAppearanceDescriptor } from '@/flow_chat/tool-cards/CanvasToolCard.appearance';
 import { computerUseToolCardAppearanceDescriptor } from '@/flow_chat/tool-cards/ComputerUseToolCard.appearance';
-import { openBitFunControlToolCardAppearanceDescriptor } from '@/flow_chat/tool-cards/OpenBitFunControlToolCard.appearance';
+import { opcControlToolCardAppearanceDescriptor } from '@/flow_chat/tool-cards/OpcControlToolCard.appearance';
 import { miniAppToolDisplayAppearanceDescriptor } from '@/flow_chat/tool-cards/MiniAppToolDisplay.appearance';
 import { modelThinkingDisplayAppearanceDescriptor } from '@/flow_chat/tool-cards/ModelThinkingDisplay.appearance';
 import { toolTimeoutIndicatorAppearanceDescriptor } from '@/flow_chat/tool-cards/ToolTimeoutIndicator.appearance';
@@ -450,7 +450,7 @@ export function createDefaultAppearanceRegistry(): AppearanceRegistry {
     .registerComponent(chatInputApprovalBandAppearanceDescriptor)
     .registerComponent(canvasToolCardAppearanceDescriptor)
     .registerComponent(computerUseToolCardAppearanceDescriptor)
-    .registerComponent(openBitFunControlToolCardAppearanceDescriptor)
+    .registerComponent(opcControlToolCardAppearanceDescriptor)
     .registerComponent(miniAppToolDisplayAppearanceDescriptor)
     .registerComponent(modelThinkingDisplayAppearanceDescriptor)
     .registerComponent(toolTimeoutIndicatorAppearanceDescriptor)

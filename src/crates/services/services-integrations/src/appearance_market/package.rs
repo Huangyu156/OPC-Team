@@ -404,10 +404,10 @@ pub fn validate_appearance_market_package(
 fn validate_manifest_metadata(
     manifest: &AppearanceManifest,
 ) -> Result<(), AppearanceMarketPackageError> {
-    if manifest.schema != "openbitfun.appearance" || manifest.schema_version != 1 {
+    if manifest.schema != "opc.appearance" || manifest.schema_version != 1 {
         return Err(error(
             "unsupported_manifest",
-            "The package must use openbitfun.appearance schema version 1.",
+            "The package must use opc.appearance schema version 1.",
         ));
     }
     validate_identifier(&manifest.id, "package id")?;
@@ -739,7 +739,7 @@ mod tests {
 
     fn manifest() -> serde_json::Value {
         serde_json::json!({
-            "schema": "openbitfun.appearance",
+            "schema": "opc.appearance",
             "schemaVersion": 1,
             "id": "market.test",
             "name": "Market Test",

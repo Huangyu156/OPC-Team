@@ -45,7 +45,7 @@
       "loading": "surface-minimal"
     },
     "installer": {
-      "resourceRoot": "OpenBitFun-Installer/src/i18n/locales",
+      "resourceRoot": "Opc-Installer/src/i18n/locales",
       "loading": "surface-minimal"
     },
     "core": {

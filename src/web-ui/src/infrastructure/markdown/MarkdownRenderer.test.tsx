@@ -689,7 +689,7 @@ Second paragraph.
     expect(mocks.revealInExplorer).not.toHaveBeenCalled();
   });
 
-  it.each(['computer://preview.png', 'openbitfun://current-session/artifacts/preview.png'])(
+  it.each(['computer://preview.png', 'opc://current-session/artifacts/preview.png'])(
     'renders dispatched image %s through the session provider only', async source => {
       const read = vi.fn().mockResolvedValue('data:image/png;base64,YQ==');
       await act(async () => root.render(<MarkdownRenderer content={`![Preview](${source})`}

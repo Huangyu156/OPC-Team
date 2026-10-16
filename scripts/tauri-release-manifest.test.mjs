@@ -64,7 +64,7 @@ test('1.0.0-beta manifest keeps the updater URL separate from the manual install
     '--manual-assets-dir', manual,
     '--version', '1.0.0-beta',
     '--tag', 'v1.0.0-beta',
-    '--repo', 'GCWing/OpenBitFun',
+    '--repo', 'GCWing/OPC-Team',
     '--out', out,
     '--required-platforms', 'windows-x86_64',
   ]);
@@ -101,7 +101,7 @@ test('updater manifest carries the version release notes for the update prompt',
     '--assets-dir', updater,
     '--version', '1.0.3',
     '--tag', 'v1.0.3',
-    '--repo', 'GCWing/OpenBitFun',
+    '--repo', 'GCWing/OPC-Team',
     '--notes-file', notes,
     '--out', out,
     '--required-platforms', 'windows-x86_64',
@@ -149,7 +149,7 @@ test('manifest declares the signed macOS .dmg installers next to the .app.tar.gz
     '--installer-assets-dir', path.join(temp, 'release-assets'),
     '--version', '1.2.3',
     '--tag', 'v1.2.3',
-    '--repo', 'GCWing/OpenBitFun',
+    '--repo', 'GCWing/OPC-Team',
     '--out', out,
     '--required-platforms', 'darwin-aarch64,darwin-x86_64,windows-x86_64',
   ];
@@ -163,11 +163,11 @@ test('manifest declares the signed macOS .dmg installers next to the .app.tar.gz
   assert.match(manifest.platforms['darwin-x86_64'].url, /_darwin-x86_64\.app\.tar\.gz$/);
   assert.equal(
     manifest.manual_installers['darwin-aarch64'].url,
-    'https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/OpenBitFun_1.2.3_aarch64.dmg'
+    'https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/OpenBitFun_1.2.3_aarch64.dmg'
   );
   assert.equal(
     manifest.manual_installers['darwin-x86_64'].url,
-    'https://github.com/GCWing/OpenBitFun/releases/download/v1.2.3/OpenBitFun_1.2.3_x64.dmg'
+    'https://github.com/GCWing/OPC-Team/releases/download/v1.2.3/OpenBitFun_1.2.3_x64.dmg'
   );
   assert.match(manifest.manual_installers['windows-x86_64'].url, /-installer\.exe$/);
 
@@ -237,7 +237,7 @@ test('deb and rpm installs get bundle-type Linux updater keys through collect + 
     '--assets-dir', collected,
     '--version', '1.2.3',
     '--tag', 'v1.2.3',
-    '--repo', 'GCWing/OpenBitFun',
+    '--repo', 'GCWing/OPC-Team',
     '--out', out,
     '--required-platforms', 'linux-x86_64,linux-x86_64-deb,linux-x86_64-rpm,linux-aarch64-deb,linux-aarch64-rpm',
   ]);

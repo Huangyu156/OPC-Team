@@ -104,7 +104,7 @@ async function selectAppearance(appearanceId: string): Promise<void> {
 
   await browser.waitUntil(async () => {
     return browser.execute((expectedId: string) => {
-      return document.documentElement.getAttribute('data-openbitfun-appearance') === expectedId;
+      return document.documentElement.getAttribute('data-opc-appearance') === expectedId;
     }, appearanceId);
   }, {
     timeout: 10000,
@@ -121,7 +121,7 @@ describe('L0 Appearance', () => {
         const root = document.documentElement;
         return document.readyState === 'complete'
           && root.getAttribute('data-opc-appearance-root') === 'true'
-          && root.getAttribute('data-openbitfun-appearance') !== null
+          && root.getAttribute('data-opc-appearance') !== null
           && root.getAttribute('data-opc-appearance-mode') !== null;
       });
     }, {
@@ -138,7 +138,7 @@ describe('L0 Appearance', () => {
     const appearance = await browser.execute(() => {
       const root = document.documentElement;
       return {
-        id: root.getAttribute('data-openbitfun-appearance'),
+        id: root.getAttribute('data-opc-appearance'),
         mode: root.getAttribute('data-opc-appearance-mode'),
         revision: root.getAttribute('data-opc-appearance-revision'),
         isRoot: root.getAttribute('data-opc-appearance-root'),
@@ -174,7 +174,7 @@ describe('L0 Appearance', () => {
   });
 
   it('should project the neutral and navy light palette into the native app', async () => {
-    await selectAppearance('openbitfun-light');
+    await selectAppearance('opc-light');
 
     const lightNavigation = await browser.execute(() => {
       const styles = window.getComputedStyle(document.documentElement);
@@ -210,7 +210,7 @@ describe('L0 Appearance', () => {
   });
 
   it('should compile inverse new-session hover colors for the light appearance', async () => {
-    await selectAppearance('openbitfun-light');
+    await selectAppearance('opc-light');
 
     const hoverContract = await browser.execute(() => {
       const styleRules: CSSStyleRule[] = [];
@@ -269,7 +269,7 @@ describe('L0 Appearance', () => {
   });
 
   it('should lift only the scene viewport above the light navigation shell', async () => {
-    await selectAppearance('openbitfun-light');
+    await selectAppearance('opc-light');
     await waitForDisplayed('.opc-workspace-body__scene-area');
     await waitForDisplayed('.opc-scene-viewport');
 
@@ -317,7 +317,7 @@ describe('L0 Appearance', () => {
   });
 
   it('should keep Mini Apps and the selected navigation surface visually light', async () => {
-    await selectAppearance('openbitfun-light');
+    await selectAppearance('opc-light');
 
     const navBack = await waitForDisplayed(
       '[data-opc-component="nav-bar"][data-opc-part="back"]:not(.is-inactive)',
@@ -669,8 +669,8 @@ describe('L0 Appearance', () => {
         '.miniapp-card__action-btn--danger:hover',
       ));
       const lightInverseRule = styleRules.find(rule => (
-        rule.selectorText.includes('data-openbitfun-appearance')
-        && rule.selectorText.includes('openbitfun-light')
+        rule.selectorText.includes('data-opc-appearance')
+        && rule.selectorText.includes('opc-light')
         && rule.selectorText.includes('.miniapp-card')
       ));
 
@@ -768,7 +768,7 @@ describe('L0 Appearance', () => {
       const viewportStyles = window.getComputedStyle(viewport);
 
       return {
-        appearanceId: document.documentElement.getAttribute('data-openbitfun-appearance'),
+        appearanceId: document.documentElement.getAttribute('data-opc-appearance'),
         appearanceMode: document.documentElement.getAttribute('data-opc-appearance-mode'),
         contentBackgroundToken: rootStyles.getPropertyValue('--opcteam-color-surface-canvas').trim(),
         contentTextToken: rootStyles.getPropertyValue('--opcteam-color-content-primary').trim(),
@@ -867,7 +867,7 @@ describe('L0 Appearance', () => {
     await openAppearanceSettings();
 
     const before = await browser.execute(() => ({
-      id: document.documentElement.getAttribute('data-openbitfun-appearance'),
+      id: document.documentElement.getAttribute('data-opc-appearance'),
       revision: document.documentElement.getAttribute('data-opc-appearance-revision'),
     }));
 
@@ -897,7 +897,7 @@ describe('L0 Appearance', () => {
     expect(targetId).toBeTruthy();
     await browser.waitUntil(async () => {
       return browser.execute((expectedId: string) => {
-        return document.documentElement.getAttribute('data-openbitfun-appearance') === expectedId;
+        return document.documentElement.getAttribute('data-opc-appearance') === expectedId;
       }, targetId!);
     }, {
       timeout: 10000,
@@ -909,7 +909,7 @@ describe('L0 Appearance', () => {
       const root = document.documentElement;
       const styles = window.getComputedStyle(root);
       return {
-        id: root.getAttribute('data-openbitfun-appearance'),
+        id: root.getAttribute('data-opc-appearance'),
         mode: root.getAttribute('data-opc-appearance-mode'),
         revision: root.getAttribute('data-opc-appearance-revision'),
         background: styles.getPropertyValue('--opcteam-color-surface-canvas').trim(),

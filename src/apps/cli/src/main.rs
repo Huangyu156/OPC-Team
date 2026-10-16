@@ -134,7 +134,7 @@ pub(crate) fn ensure_cli_mcp_service(
 }
 
 #[derive(Parser)]
-#[command(name = "openbitfun")]
+#[command(name = "opc")]
 #[command(about = "OPC-Team CLI - AI agent-driven command-line programming assistant", long_about = None)]
 #[command(version)]
 struct Cli {
@@ -182,7 +182,7 @@ fn harness_profile_parser() -> clap::builder::PossibleValuesParser {
 fn shared_tui_requested(shared: bool, command: &Option<Commands>) -> Result<bool> {
     if shared && !matches!(command, None | Some(Commands::Chat { .. })) {
         return Err(anyhow!(
-            "--shared is available only for the interactive TUI (`openbitfun --shared` or `openbitfun chat --shared`); other commands and applications are unchanged"
+            "--shared is available only for the interactive TUI (`opc --shared` or `opc chat --shared`); other commands and applications are unchanged"
         ));
     }
     Ok(shared || matches!(command, Some(Commands::Chat { shared: true, .. })))
@@ -331,7 +331,7 @@ enum Commands {
 
     /// Inspect and review OPC-Team-managed plugin packages
     ///
-    /// Package layout: <package-root>/<package-id>/openbitfun.plugin.json
+    /// Package layout: <package-root>/<package-id>/opc.plugin.json
     Plugins {
         #[command(subcommand)]
         action: Option<PluginAction>,
@@ -488,13 +488,13 @@ enum AcpAction {
     /// Show ACP server status and capabilities
     Status {
         /// Command name or path to show in generated examples
-        #[arg(long, default_value = "openbitfun")]
+        #[arg(long, default_value = "opc")]
         command: String,
     },
     /// Check local readiness for ACP clients
     Doctor {
         /// Command name or path to show in generated examples
-        #[arg(long, default_value = "openbitfun")]
+        #[arg(long, default_value = "opc")]
         command: String,
     },
     /// Print editor/client integration snippets
@@ -504,7 +504,7 @@ enum AcpAction {
         client: acp_cli::AcpConfigClient,
 
         /// Command name or path your editor should execute
-        #[arg(long, default_value = "openbitfun")]
+        #[arg(long, default_value = "opc")]
         command: String,
     },
     /// Manage external ACP agents that OPC-Team can launch
@@ -1242,7 +1242,7 @@ fn is_dispatch_command(command: &Option<Commands>) -> bool {
 
 async fn run_cli() -> Result<()> {
     let raw_args = std::env::args_os().collect::<Vec<_>>();
-    let product_binary_name = option_env!("OPC_PRODUCT_BINARY_NAME").unwrap_or("openbitfun");
+    let product_binary_name = option_env!("OPC_PRODUCT_BINARY_NAME").unwrap_or("opc");
     let product_display_name = option_env!("OPC_PRODUCT_DISPLAY_NAME").unwrap_or("OPC-Team CLI");
     let parsed = Cli::command()
         .name(product_binary_name)
@@ -1729,7 +1729,7 @@ fn main() {
                 result
             })
         })
-        .expect("failed to spawn openbitfun worker thread");
+        .expect("failed to spawn opc worker thread");
 
     match worker.join() {
         Ok(Ok(())) => {}
@@ -1741,7 +1741,7 @@ fn main() {
             std::process::exit(1);
         }
         Err(_) => {
-            eprintln!("Error: openbitfun worker thread panicked");
+            eprintln!("Error: opc worker thread panicked");
             std::process::exit(1);
         }
     }
@@ -1754,7 +1754,7 @@ mod server_command_tests {
 
     #[test]
     fn server_command_parses_as_stdio_host() {
-        let parsed = Cli::try_parse_from(["openbitfun", "server"]).expect("parse server command");
+        let parsed = Cli::try_parse_from(["opc", "server"]).expect("parse server command");
         assert!(matches!(parsed.command, Some(Commands::Server)));
     }
 }
@@ -1766,15 +1766,14 @@ mod plugin_command_tests {
 
     #[test]
     fn plugin_commands_parse_list_and_source_review_actions() {
-        let list = Cli::try_parse_from(["openbitfun", "plugins"]).expect("parse plugin list");
+        let list = Cli::try_parse_from(["opc", "plugins"]).expect("parse plugin list");
         assert!(matches!(
             list.command,
             Some(Commands::Plugins { action: None })
         ));
 
-        let approval =
-            Cli::try_parse_from(["openbitfun", "plugins", "approve-source", "acme.demo"])
-                .expect("parse plugin source approval");
+        let approval = Cli::try_parse_from(["opc", "plugins", "approve-source", "acme.demo"])
+            .expect("parse plugin source approval");
         assert!(matches!(
             approval.command,
             Some(Commands::Plugins {
@@ -1782,7 +1781,7 @@ mod plugin_command_tests {
             }) if package_id == "acme.demo"
         ));
 
-        let deny = Cli::try_parse_from(["openbitfun", "plugins", "deny", "acme.demo"])
+        let deny = Cli::try_parse_from(["opc", "plugins", "deny", "acme.demo"])
             .expect("parse plugin deny");
         assert!(matches!(
             deny.command,
@@ -1791,7 +1790,7 @@ mod plugin_command_tests {
             }) if package_id == "acme.demo"
         ));
 
-        let revoke = Cli::try_parse_from(["openbitfun", "plugins", "revoke", "acme.demo"])
+        let revoke = Cli::try_parse_from(["opc", "plugins", "revoke", "acme.demo"])
             .expect("parse plugin revoke");
         assert!(matches!(
             revoke.command,
@@ -1800,7 +1799,7 @@ mod plugin_command_tests {
             }) if package_id == "acme.demo"
         ));
 
-        let preview = Cli::try_parse_from(["openbitfun", "plugins", "activate", "acme.demo"])
+        let preview = Cli::try_parse_from(["opc", "plugins", "activate", "acme.demo"])
             .expect("parse plugin activation preview");
         assert!(matches!(
             preview.command,
@@ -1813,7 +1812,7 @@ mod plugin_command_tests {
         ));
 
         let confirm = Cli::try_parse_from([
-            "openbitfun",
+            "opc",
             "plugins",
             "activate",
             "acme.demo",
@@ -1831,7 +1830,7 @@ mod plugin_command_tests {
             }) if package_id == "acme.demo" && content_hash == "sha256:previewed"
         ));
 
-        let deactivate = Cli::try_parse_from(["openbitfun", "plugins", "deactivate", "acme.demo"])
+        let deactivate = Cli::try_parse_from(["opc", "plugins", "deactivate", "acme.demo"])
             .expect("parse plugin deactivation");
         assert!(matches!(
             deactivate.command,
@@ -1852,7 +1851,7 @@ mod external_config_command_tests {
 
     #[test]
     fn external_config_commands_keep_scope_and_capability_explicit() {
-        let status = Cli::try_parse_from(["openbitfun", "config", "external", "status"])
+        let status = Cli::try_parse_from(["opc", "config", "external", "status"])
             .expect("parse external status");
         assert!(matches!(
             status.command,
@@ -1864,7 +1863,7 @@ mod external_config_command_tests {
         ));
 
         let enabled = Cli::try_parse_from([
-            "openbitfun",
+            "opc",
             "config",
             "external",
             "set-enabled",
@@ -1886,7 +1885,7 @@ mod external_config_command_tests {
         ));
 
         let mode = Cli::try_parse_from([
-            "openbitfun",
+            "opc",
             "config",
             "external",
             "set-mode",
@@ -1909,7 +1908,7 @@ mod external_config_command_tests {
         ));
 
         let capability = Cli::try_parse_from([
-            "openbitfun",
+            "opc",
             "config",
             "external",
             "set-capability",
@@ -1933,7 +1932,7 @@ mod external_config_command_tests {
             }) if ecosystem == "opencode"
         ));
 
-        let reset = Cli::try_parse_from(["openbitfun", "config", "external", "reset-incompatible"])
+        let reset = Cli::try_parse_from(["opc", "config", "external", "reset-incompatible"])
             .expect("parse incompatible policy reset");
         assert!(matches!(
             reset.command,
@@ -2007,7 +2006,7 @@ mod bootstrap_profile_tests {
     #[test]
     fn json_exec_parse_failures_are_detected_before_clap_exits() {
         let args = [
-            "openbitfun",
+            "opc",
             "exec",
             "task",
             "--output-format",
@@ -2040,11 +2039,10 @@ mod final_change_verification_cli_tests {
 
     #[test]
     fn verification_is_enabled_by_default_and_can_be_disabled() {
-        let (verify, disable) = parse_flags(&["openbitfun", "exec", "task"]);
+        let (verify, disable) = parse_flags(&["opc", "exec", "task"]);
         assert!(final_change_verification_enabled(verify, disable));
 
-        let (verify, disable) =
-            parse_flags(&["openbitfun", "exec", "--no-verify-final-changes", "task"]);
+        let (verify, disable) = parse_flags(&["opc", "exec", "--no-verify-final-changes", "task"]);
         assert!(!final_change_verification_enabled(verify, disable));
     }
 }
@@ -2058,7 +2056,7 @@ mod hook_import_command_tests {
     #[test]
     fn hook_import_is_preview_only_without_a_fingerprint() {
         let cli = Cli::try_parse_from([
-            "openbitfun",
+            "opc",
             "hooks",
             "import",
             "--source",
@@ -2081,8 +2079,8 @@ mod hook_import_command_tests {
 
     #[test]
     fn hook_remove_requires_explicit_confirmation() {
-        assert!(Cli::try_parse_from(["openbitfun", "hooks", "remove", "import-id"]).is_err());
-        let cli = Cli::try_parse_from(["openbitfun", "hooks", "remove", "import-id", "--confirm"])
+        assert!(Cli::try_parse_from(["opc", "hooks", "remove", "import-id"]).is_err());
+        let cli = Cli::try_parse_from(["opc", "hooks", "remove", "import-id", "--confirm"])
             .expect("parse confirmed Hook removal");
         assert!(matches!(
             cli.command,
@@ -2094,8 +2092,8 @@ mod hook_import_command_tests {
 
     #[test]
     fn corrupt_hook_store_reset_requires_an_explicit_scope_and_confirmation() {
-        assert!(Cli::try_parse_from(["openbitfun", "hooks", "reset", "user"]).is_err());
-        let cli = Cli::try_parse_from(["openbitfun", "hooks", "reset", "project", "--confirm"])
+        assert!(Cli::try_parse_from(["opc", "hooks", "reset", "user"]).is_err());
+        let cli = Cli::try_parse_from(["opc", "hooks", "reset", "project", "--confirm"])
             .expect("parse confirmed project Hook store reset");
         assert!(matches!(
             cli.command,
@@ -2116,7 +2114,7 @@ mod sdk_host_command_tests {
 
     #[test]
     fn sdk_host_is_not_a_cli_command() {
-        let error = match Cli::try_parse_from(["openbitfun", "sdk-host"]) {
+        let error = match Cli::try_parse_from(["opc", "sdk-host"]) {
             Ok(_) => panic!("SDK Host must be a sibling application, not a CLI subcommand"),
             Err(error) => error,
         };
@@ -2135,25 +2133,24 @@ mod shared_tui_command_tests {
 
     #[test]
     fn shared_is_an_opt_in_interactive_tui_flag() {
-        let default_tui =
-            Cli::try_parse_from(["openbitfun", "--shared"]).expect("parse default TUI");
+        let default_tui = Cli::try_parse_from(["opc", "--shared"]).expect("parse default TUI");
         assert!(default_tui.shared);
 
-        let chat = Cli::try_parse_from(["openbitfun", "chat", "--shared"])
-            .expect("parse explicit chat TUI");
+        let chat =
+            Cli::try_parse_from(["opc", "chat", "--shared"]).expect("parse explicit chat TUI");
         assert!(matches!(
             chat.command,
             Some(Commands::Chat { shared: true, .. })
         ));
-        let root_chat = Cli::try_parse_from(["openbitfun", "--shared", "chat"])
+        let root_chat = Cli::try_parse_from(["opc", "--shared", "chat"])
             .expect("parse root Shared choice before chat");
         assert!(shared_tui_requested(root_chat.shared, &root_chat.command).unwrap());
     }
 
     #[test]
     fn shared_rejects_non_interactive_surfaces_without_fallback() {
-        assert!(Cli::try_parse_from(["openbitfun", "exec", "hello", "--shared"]).is_err());
-        let exec = Cli::try_parse_from(["openbitfun", "--shared", "exec", "hello"])
+        assert!(Cli::try_parse_from(["opc", "exec", "hello", "--shared"]).is_err());
+        let exec = Cli::try_parse_from(["opc", "--shared", "exec", "hello"])
             .expect("parse root deployment choice");
         let error = shared_tui_requested(exec.shared, &exec.command)
             .expect_err("headless exec must remain Embedded");
@@ -2190,8 +2187,8 @@ mod dispatch_command_tests {
 
     #[test]
     fn dispatch_commands_parse_and_internal_worker_is_hidden() {
-        let status = Cli::try_parse_from(["openbitfun", "dispatch", "status"])
-            .expect("parse dispatch status");
+        let status =
+            Cli::try_parse_from(["opc", "dispatch", "status"]).expect("parse dispatch status");
         assert!(matches!(
             status.command,
             Some(Commands::Dispatch {
@@ -2200,7 +2197,7 @@ mod dispatch_command_tests {
         ));
         assert!(is_dispatch_command(&status.command));
 
-        let worker = Cli::try_parse_from(["openbitfun", "dispatch", "__run", "--job", "job-1"])
+        let worker = Cli::try_parse_from(["opc", "dispatch", "__run", "--job", "job-1"])
             .expect("parse internal dispatch worker");
         assert!(matches!(
             worker.command,
@@ -2209,7 +2206,7 @@ mod dispatch_command_tests {
             }) if job == "job-1"
         ));
         assert!(is_dispatch_command(&worker.command));
-        let provision = Cli::try_parse_from(["openbitfun", "dispatch", "__workspace_provision"])
+        let provision = Cli::try_parse_from(["opc", "dispatch", "__workspace_provision"])
             .expect("parse internal workspace provision");
         assert!(matches!(
             provision.command,
@@ -2218,8 +2215,7 @@ mod dispatch_command_tests {
             })
         ));
         assert!(is_dispatch_command(&provision.command));
-        let unrelated =
-            Cli::try_parse_from(["openbitfun", "config", "show"]).expect("parse config");
+        let unrelated = Cli::try_parse_from(["opc", "config", "show"]).expect("parse config");
         assert!(!is_dispatch_command(&unrelated.command));
 
         let help = Cli::command().render_long_help().to_string();
@@ -2244,8 +2240,7 @@ mod harness_profile_compatibility_tests {
         assert!(help.contains("Minimal, Standard, Ultimate, Creative"));
         assert!(!help.contains("balanced"));
         for id in opc_core_types::agent_identity::HarnessId::ALL {
-            let cli =
-                Cli::try_parse_from(["openbitfun", "--harness-profile", id.as_str()]).unwrap();
+            let cli = Cli::try_parse_from(["opc", "--harness-profile", id.as_str()]).unwrap();
             assert_eq!(
                 agent_type_with_harness_profile("Cowork".into(), cli.harness_profile.as_deref()),
                 id.as_str()
@@ -2268,7 +2263,7 @@ mod harness_profile_compatibility_tests {
     #[test]
     fn legacy_global_and_subcommand_forms_keep_precedence() {
         let cli = Cli::try_parse_from([
-            "openbitfun",
+            "opc",
             "--harness-profile",
             "balanced",
             "exec",
@@ -2297,7 +2292,7 @@ mod daemon_command_tests {
 
     #[test]
     fn dispatch_daemon_bootstrap_commands_parse_and_stay_hidden() {
-        let identity = Cli::try_parse_from(["openbitfun", "daemon", "__dispatch_identity"])
+        let identity = Cli::try_parse_from(["opc", "daemon", "__dispatch_identity"])
             .expect("parse target identity command");
         assert!(matches!(
             identity.command,
@@ -2306,13 +2301,9 @@ mod daemon_command_tests {
             })
         ));
 
-        let provision = Cli::try_parse_from([
-            "openbitfun",
-            "daemon",
-            "__dispatch_provision",
-            "/tmp/request.json",
-        ])
-        .expect("parse target provisioning command");
+        let provision =
+            Cli::try_parse_from(["opc", "daemon", "__dispatch_provision", "/tmp/request.json"])
+                .expect("parse target provisioning command");
         assert!(matches!(
             provision.command,
             Some(Commands::Daemon {
@@ -2321,7 +2312,7 @@ mod daemon_command_tests {
         ));
 
         let rollback = Cli::try_parse_from([
-            "openbitfun",
+            "opc",
             "daemon",
             "__dispatch_deprovision",
             "device-1",
@@ -2352,7 +2343,7 @@ mod daemon_command_tests {
 /// must use the resulting record ID.
 ///
 /// This registers a hidden record only. The CLI shares the workspace catalog
-/// with the desktop, and running `openbitfun doctor` or a chat in some folder
+/// with the desktop, and running `opc doctor` or a chat in some folder
 /// must not make that folder an opened, recent, or current desktop workspace;
 /// opening a folder for the desktop UI is an explicit user action there.
 async fn create_cli_local_workspace(

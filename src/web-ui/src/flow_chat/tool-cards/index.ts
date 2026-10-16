@@ -79,7 +79,7 @@ import { SessionMessageToolCard } from './SessionMessageToolCard';
 import { ComputerUseToolCard } from './ComputerUseToolCard';
 import { CronToolCard } from './CronToolCard';
 import { ViewImageToolCard } from './ViewImageToolCard';
-import { OpenBitFunControlToolCard } from './OpenBitFunControlToolCard';
+import { OpcControlToolCard } from './OpcControlToolCard';
 import { ListModelsToolCard } from './ListModelsToolCard';
 import { ControlHubToolCard } from './ControlHubToolCard';
 import { BuiltinToolCard } from './BuiltinToolCard';
@@ -145,7 +145,7 @@ export const STANDARD_TOOL_CARD_ADAPTERS = {
   'WriteStdin': WriteStdinToolCard,
   'ExecControl': ExecControlToolCard,
 
-  // OpenBitFun Page (session-only publish)
+  // OPC Page (session-only publish)
   'PageDeploy': PageDeployDisplay,
   'PagePublish': PagePublishDisplay,
 
@@ -190,9 +190,9 @@ export const PRODUCT_OWNED_TOOL_CARD_COMPONENTS = {
   'InitMiniApp': InitMiniAppDisplay,
   'GenerativeUI': GenerativeWidgetToolCard,
   'ComputerUse': ComputerUseToolCard,
-  'OpenBitFunControl': OpenBitFunControlToolCard,
+  'OpcControl': OpcControlToolCard,
 
-  // OpenBitFun Canvas tools
+  // OPC Canvas tools
   'CreateCanvas': CanvasToolCard,
   'ReadCanvas': CanvasToolCard,
   'UpdateCanvas': CanvasToolCard,

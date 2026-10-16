@@ -1,5 +1,5 @@
 // Worktree settings page presentation.
-@keyframes openbitfun-worktree-results-enter {
+@keyframes opc-worktree-results-enter {
   from {
     opacity: 0;
     transform: translate3d(0, 4px, 0);
@@ -11,7 +11,7 @@
   }
 }
 
-@keyframes openbitfun-worktree-row-remove {
+@keyframes opc-worktree-row-remove {
   from {
     opacity: 1;
     transform: translate3d(0, 0, 0);
@@ -23,7 +23,7 @@
   }
 }
 
-@keyframes openbitfun-worktree-loading-pulse {
+@keyframes opc-worktree-loading-pulse {
   0%,
   100% {
     opacity: 0.45;
@@ -34,7 +34,7 @@
   }
 }
 
-@keyframes openbitfun-worktree-refresh-progress {
+@keyframes opc-worktree-refresh-progress {
   from {
     transform: translate3d(-130%, 0, 0);
   }
@@ -44,7 +44,7 @@
   }
 }
 
-@keyframes openbitfun-worktree-session-spin {
+@keyframes opc-worktree-session-spin {
   to {
     transform: rotate(360deg);
   }
@@ -55,7 +55,7 @@
     display: flex;
     flex-direction: column;
     gap: var(--opcteam-space-6);
-    animation: openbitfun-worktree-results-enter 180ms var(--opcteam-motion-easing-standard) both;
+    animation: opc-worktree-results-enter 180ms var(--opcteam-motion-easing-standard) both;
     transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 
@@ -90,7 +90,7 @@
       border-radius: inherit;
       background: var(--opcteam-color-accent-default);
       opacity: 0.7;
-      animation: openbitfun-worktree-refresh-progress 900ms ease-in-out infinite;
+      animation: opc-worktree-refresh-progress 900ms ease-in-out infinite;
     }
   }
 
@@ -110,7 +110,7 @@
       height: 11px;
       border-radius: var(--opcteam-radius-sm);
       background: var(--opcteam-color-action-quiet-hover);
-      animation: openbitfun-worktree-loading-pulse 1.2s ease-in-out infinite;
+      animation: opc-worktree-loading-pulse 1.2s ease-in-out infinite;
 
       &:first-child {
         width: min(220px, 42%);
@@ -143,7 +143,7 @@
       height: 9px;
       border-radius: var(--opcteam-radius-sm);
       background: var(--opcteam-color-action-quiet-hover);
-      animation: openbitfun-worktree-loading-pulse 1.2s ease-in-out infinite;
+      animation: opc-worktree-loading-pulse 1.2s ease-in-out infinite;
 
       &:first-child {
         width: min(280px, 42%);
@@ -229,7 +229,7 @@
 
     &--removing {
       pointer-events: none;
-      animation: openbitfun-worktree-row-remove
+      animation: opc-worktree-row-remove
         180ms
         cubic-bezier(0.4, 0, 1, 1)
         both;
@@ -372,7 +372,7 @@
 
   &__session-link-spinner {
     flex-shrink: 0;
-    animation: openbitfun-worktree-session-spin 700ms linear infinite;
+    animation: opc-worktree-session-spin 700ms linear infinite;
   }
 
   &__session-link-state {
@@ -395,7 +395,7 @@
   }
 
   &__empty {
-    animation: openbitfun-worktree-results-enter 180ms var(--opcteam-motion-easing-standard) both;
+    animation: opc-worktree-results-enter 180ms var(--opcteam-motion-easing-standard) both;
     transition: opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
   }
 }

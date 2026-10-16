@@ -88,7 +88,7 @@ pub(crate) async fn remote_workspace_search_service(
 
 /// flashgrep refuses to open a directory that is not a Git worktree with a HEAD commit.
 /// That is a property of the workspace, not a failure of the index, so it is normalized into a
-/// stable OpenBitFun-owned sentence the UI can recognize instead of leaking the raw daemon error.
+/// stable Opc-owned sentence the UI can recognize instead of leaking the raw daemon error.
 pub(crate) const NON_GIT_WORKSPACE_MESSAGE: &str =
     "Workspace search requires a Git worktree with a HEAD commit";
 

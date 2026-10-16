@@ -142,8 +142,8 @@ Run the smallest checks matching the changed path:
 ```bash
 cargo check -p opc-cli
 cargo test -p opc-cli
-cargo test -p opc-cli --bin openbitfun peer_host::
-cargo test -p opc-cli --bin openbitfun system_info_home_contract
+cargo test -p opc-cli --bin opc peer_host::
+cargo test -p opc-cli --bin opc system_info_home_contract
 ```
 
 For streaming `exec` retry, context recovery, and final-event contracts:
@@ -162,13 +162,13 @@ Use [`README.md`](README.md) for user-facing behavior and installation. Keep
 developer internals here or in architecture docs instead of expanding the user
 guide.
 
-For unattended question lifecycle changes, run `cargo test --locked -p opc-cli --bin openbitfun shared_runtime::` and `cargo test --locked -p opc-agent-runtime-ipc protocol_contract_tests::`.
+For unattended question lifecycle changes, run `cargo test --locked -p opc-cli --bin opc shared_runtime::` and `cargo test --locked -p opc-agent-runtime-ipc protocol_contract_tests::`.
 
 For Pages account adapters, use the focused Core command in its guide and `cargo check -p opc-cli`.
 
 For `/goal` prompt routing (including the pending-session guard):
 
 ```bash
-cargo test --locked -p opc-cli --bin openbitfun goal_prompts_
-cargo test --locked -p opc-cli --bin openbitfun -- modes::exec::tests:: dispatch::worker::tests::
+cargo test --locked -p opc-cli --bin opc goal_prompts_
+cargo test --locked -p opc-cli --bin opc -- modes::exec::tests:: dispatch::worker::tests::
 ```

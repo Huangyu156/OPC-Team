@@ -653,7 +653,7 @@ pub async fn ensure_saved_connection_services() -> Result<Arc<RemoteWorkspaceSta
             } else {
                 dirs::data_local_dir()
                     .ok_or("Application data directory is unavailable")?
-                    .join("OpenBitFun")
+                    .join("OPC-Team")
                     .join("ssh")
             };
             let ssh = SSHConnectionManager::new(data_dir);

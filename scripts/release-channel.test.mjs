@@ -20,7 +20,7 @@ test('stable and beta channels resolve to isolated updater feeds', () => {
   const beta = resolveReleaseChannel('beta');
   assert.match(stable.primaryUpdaterEndpoint, /releases\/latest\/download/);
   assert.match(beta.primaryUpdaterEndpoint, /releases\/download\/channel-v1-beta/);
-  assert.equal(beta.fallbackUpdaterEndpoint, 'https://openbitfun.com/release/beta/latest-v1.json');
+  assert.equal(beta.fallbackUpdaterEndpoint, 'https://opcteam.eu.cc/release/beta/latest-v1.json');
   assert.notEqual(beta.primaryUpdaterEndpoint, stable.primaryUpdaterEndpoint);
   for (const config of [stable, beta]) {
     assert.ok(config.primaryUpdaterEndpoint.endsWith('/latest-v1.json'));
@@ -70,7 +70,7 @@ test('build version projection and verification work without npm workspace lockf
   const root = mkdtempSync(path.join(tmpdir(), 'opc-build-version-'));
   const jsonFiles = [
     'package.json',
-    'OpenBitFun-Installer/package.json',
+    'Opc-Installer/package.json',
     'src/web-ui/package.json',
     'src/mobile-web/package.json',
     'src/miniapp-market-web/package.json',
@@ -91,7 +91,7 @@ edition = "2021"
 
 [workspace]
 members = []
-exclude = ["src/apps/relay-server", "OpenBitFun-Installer/src-tauri"]
+exclude = ["src/apps/relay-server", "Opc-Installer/src-tauri"]
 `,
   );
   writeFixture(root, 'src/lib.rs', 'pub fn fixture() {}\n');
@@ -100,7 +100,7 @@ exclude = ["src/apps/relay-server", "OpenBitFun-Installer/src-tauri"]
     'src/apps/relay-server/Cargo.toml',
     'version = "1.0.0" # x-release-please-version\n',
   );
-  writeFixture(root, 'OpenBitFun-Installer/src-tauri/Cargo.toml', 'version = "1.0.0"\n');
+  writeFixture(root, 'Opc-Installer/src-tauri/Cargo.toml', 'version = "1.0.0"\n');
   writeFixture(root, 'src/crates/services/relay-service/Cargo.toml', 'version = "1.0.0"\n');
   writeFixture(
     root,
@@ -114,7 +114,7 @@ exclude = ["src/apps/relay-server", "OpenBitFun-Installer/src-tauri"]
   );
   writeFixture(
     root,
-    'src/apps/mobile/ios/OpenBitFun/Info.plist',
+    'src/apps/mobile/ios/OPC-Team/Info.plist',
     '<key>CFBundleShortVersionString</key>\n<string>1.0.0</string>\n',
   );
   writeFixture(
@@ -137,7 +137,7 @@ exclude = ["src/apps/relay-server", "OpenBitFun-Installer/src-tauri"]
   }
   for (const relative of [
     'package-lock.json',
-    'OpenBitFun-Installer/package-lock.json',
+    'Opc-Installer/package-lock.json',
     'src/mobile-web/package-lock.json',
     'tests/e2e/package-lock.json',
   ]) {
@@ -166,7 +166,7 @@ exclude = ["src/apps/relay-server", "OpenBitFun-Installer/src-tauri"]
     /versionName = "1\.0\.0"/,
   );
   assert.match(
-    readFileSync(path.join(root, 'src/apps/mobile/ios/OpenBitFun/Info.plist'), 'utf8'),
+    readFileSync(path.join(root, 'src/apps/mobile/ios/OPC-Team/Info.plist'), 'utf8'),
     /<string>1\.0\.0<\/string>/,
   );
   assert.match(
@@ -204,6 +204,6 @@ test('Desktop, CLI and SSH dispatch consume only the versioned stable feeds', ()
     assert.doesNotMatch(source, /https:[^"\s]+\/latest\.json/);
   }
   const cli = readFileSync(new URL('../src/apps/cli/src/self_update.rs', import.meta.url), 'utf8');
-  assert.ok(cli.includes('https://github.com/GCWing/OpenBitFun/releases/latest/download/linux-binaries-v1.json'));
-  assert.ok(cli.includes('https://openbitfun.com/release/linux-binaries-v1.json'));
+  assert.ok(cli.includes('https://github.com/GCWing/OPC-Team/releases/latest/download/linux-binaries-v1.json'));
+  assert.ok(cli.includes('https://opcteam.eu.cc/release/linux-binaries-v1.json'));
 });

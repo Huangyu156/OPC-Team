@@ -226,7 +226,7 @@ impl LegacyDomainAdapter for CredentialsAdapter {
                 domain: Some(self.domain()),
                 relative_path: None,
                 message: format!("Credential metadata at {field} is not safely portable."),
-                action: Some("Enter the credential again in OpenBitFun.".to_string()),
+                action: Some("Enter the credential again in OPC-Team.".to_string()),
             })
             .collect::<Vec<_>>();
         Ok(MigrationDomainResult {
@@ -900,14 +900,14 @@ fn record_target_wins(path: &str, outcome: &mut MergeOutcome) {
         domain: MigrationDomainId::Settings,
         code: "target_setting_wins".to_string(),
         source_summary: format!("legacy setting {path}"),
-        target_summary: format!("existing OpenBitFun setting {path}"),
+        target_summary: format!("existing OPC-Team setting {path}"),
         resolution: ConflictResolution::TargetWins,
     });
 }
 
 fn canonical_product_id(value: &str) -> String {
     value
-        .replace("user::bitfun::", "user::openbitfun::")
+        .replace("user::bitfun::", "user::opc::")
         .replace("bitfun-", "opc-")
 }
 
@@ -1113,7 +1113,7 @@ mod tests {
         assert!(profiles["Standard"].get("enabled_user_skills").is_none());
         assert_eq!(
             profiles["Ultimate"]["enabled_user_skills"],
-            serde_json::json!(["user::openbitfun::skill"])
+            serde_json::json!(["user::opc::skill"])
         );
         assert_eq!(
             profiles["custom::agentic"]["added_tools"],
@@ -1133,7 +1133,7 @@ mod tests {
         assert!(!outcome.conflicts.is_empty());
         assert_eq!(
             merged.ai.agent_profiles["Ultimate"].enabled_user_skills,
-            ["user::openbitfun::skill"]
+            ["user::opc::skill"]
         );
         let saved = serde_json::to_value(&merged).unwrap();
         let reloaded: GlobalConfig = serde_json::from_value(saved.clone()).unwrap();
@@ -1181,7 +1181,7 @@ mod tests {
         assert_eq!(target.workspace.line_ending, "lf");
         assert!(!target.workspace.insert_final_newline);
         assert!(target.tool_permissions.interaction.auto_approve_ask);
-        assert_eq!(target.appearance.selection, "openbitfun-dark");
+        assert_eq!(target.appearance.selection, "opc-dark");
         assert_eq!(
             target.ai.default_models.primary.as_deref(),
             Some("legacy-model")
@@ -1205,17 +1205,11 @@ mod tests {
         assert_eq!(profile.profile_id, "Standard");
         assert_eq!(profile.added_tools, ["LegacyTool"]);
         assert_eq!(profile.removed_tools, ["ReadFile"]);
-        assert_eq!(
-            profile.disabled_user_skills,
-            ["user::openbitfun::disabled-skill"]
-        );
-        assert_eq!(
-            profile.enabled_user_skills,
-            ["user::openbitfun::user-skill"]
-        );
+        assert_eq!(profile.disabled_user_skills, ["user::opc::disabled-skill"]);
+        assert_eq!(profile.enabled_user_skills, ["user::opc::user-skill"]);
         assert_eq!(
             target.ai.skill_settings.globally_disabled_user_skills,
-            ["user::openbitfun::global-disabled-skill"]
+            ["user::opc::global-disabled-skill"]
         );
         assert_eq!(
             target.ai.review_teams["default"].reviewer_timeout_seconds,

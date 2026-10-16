@@ -11,7 +11,7 @@ import {
 } from './rules/feature-rules.mjs';
 
 const SKIPPED_DIRECTORIES = new Set([
-  '.openbitfun',
+  '.opc',
   '.claude',
   '.cursor',
   '.git',
@@ -67,7 +67,7 @@ function layerForManifest(manifestPath, { root, crateLayoutRules }) {
   }
   const cratePath = repoManifestPath.replace(/\/Cargo\.toml$/, '');
 
-  if (cratePath.startsWith('src/apps/') || cratePath === 'OpenBitFun-Installer/src-tauri') {
+  if (cratePath.startsWith('src/apps/') || cratePath === 'Opc-Installer/src-tauri') {
     return 'apps';
   }
 
@@ -848,7 +848,7 @@ const RESOLVED_THIRD_PARTY_CAPABILITY_POLICIES = new Map([
     versionPrefix: '0.25.',
     ignoredVersionPrefixes: ['0.24.'],
     // macOS clipboard support currently adds TIFF through arboard. The other
-    // formats are the codecs selected by reviewed OpenBitFun owners.
+    // formats are the codecs selected by reviewed OPC-Team owners.
     allowedFeatures: new Set(['bmp', 'gif', 'jpeg', 'png', 'tiff', 'webp']),
   }],
 ]);

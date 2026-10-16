@@ -806,7 +806,7 @@ impl DesktopComputerUseHost {
             // Same `[PERMISSION_DENIED]` contract as `get_app_state_inner`
             // — without Accessibility trust, `AXMenuBar` silently returns
             // nothing rather than erroring, which would look like "this
-            // app has no shortcuts" instead of "OpenBitFun lacks permission".
+            // app has no shortcuts" instead of "OPC-Team lacks permission".
             macos::require_ax_trust_for("After granting, retry `desktop.get_app_shortcuts`.")?;
             let pid = resolve_pid_macos(self, &app).await?;
             let (shortcuts, menu_items_without_shortcut) =
@@ -1873,7 +1873,7 @@ async fn resolve_pid_macos(host: &DesktopComputerUseHost, app: &AppSelector) -> 
     if let Some(name) = app.name.as_deref() {
         let needle = name.to_lowercase();
         // 1) Exact match against the localized application name (what the
-        //    Dock / Spotlight shows, e.g. "OpenBitFun").
+        //    Dock / Spotlight shows, e.g. "OPC-Team").
         if let Some(p) = apps
             .iter()
             .find(|a| a.name.to_lowercase() == needle)
@@ -1882,8 +1882,8 @@ async fn resolve_pid_macos(host: &DesktopComputerUseHost, app: &AppSelector) -> 
             return Ok(p);
         }
         // 2) Exact match against the bundle id's last segment (e.g. user
-        //    asks for "OpenBitFun" but `list_apps` returned name="opc-desktop"
-        //    with bundle_id="ai.openbitfun.desktop"). This keeps us aligned with
+        //    asks for "OPC-Team" but `list_apps` returned name="opc-desktop"
+        //    with bundle_id="ai.opc.desktop"). This keeps us aligned with
         //    Codex, which is robust to "Cursor" vs "com.todesktop....Cursor".
         if let Some(p) = apps
             .iter()

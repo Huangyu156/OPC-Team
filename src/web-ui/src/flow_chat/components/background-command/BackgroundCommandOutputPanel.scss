@@ -185,12 +185,12 @@
   }
 
   &__input-option {
-    .openbitfun-checkbox__label {
+    .opc-checkbox__label {
       color: var(--opcteam-color-content-secondary);
       font-size: var(--opcteam-type-flow-support-font-size);
     }
 
-    &:hover .openbitfun-checkbox__label {
+    &:hover .opc-checkbox__label {
       color: var(--opcteam-color-content-primary);
     }
   }

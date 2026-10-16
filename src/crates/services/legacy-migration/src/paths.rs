@@ -58,7 +58,7 @@ impl MigrationRoots {
         let target_skills_root =
             platform_skills_root(&data_root, &local_data_root, data_namespace());
         let legacy_ssh_root = local_data_root.join("BitFun").join("ssh");
-        let target_ssh_root = local_data_root.join("OpenBitFun").join("ssh");
+        let target_ssh_root = local_data_root.join("OPC-Team").join("ssh");
 
         let roots = Self {
             legacy_user_root,
@@ -77,7 +77,7 @@ impl MigrationRoots {
         self.target_user_root
             .join("data")
             .join("migrations")
-            .join("bitfun-to-openbitfun")
+            .join("bitfun-to-opc")
     }
 
     /// Selected destinations, expanded only at recognized platform product roots.

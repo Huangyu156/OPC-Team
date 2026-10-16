@@ -22,7 +22,7 @@ export interface TokenSourceChange {
 
 export type TokenDrafts = Readonly<Record<string, string>>;
 
-const STORAGE_KEY = "openbitfun.design-lab.token-drafts.v1";
+const STORAGE_KEY = "opc.design-lab.token-drafts.v1";
 
 export function getActiveTokenMode(
   token: EditableToken,

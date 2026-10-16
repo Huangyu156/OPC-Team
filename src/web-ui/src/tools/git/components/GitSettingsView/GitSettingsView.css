@@ -321,11 +321,11 @@
 }
 
 .loading-spinner {
-  animation: openbitfun-git-settings-legacy-spin 1s linear infinite;
+  animation: opc-git-settings-legacy-spin 1s linear infinite;
   margin-bottom: 12px;
 }
 
-@keyframes openbitfun-git-settings-legacy-spin {
+@keyframes opc-git-settings-legacy-spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }

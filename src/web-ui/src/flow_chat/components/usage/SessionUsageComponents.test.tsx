@@ -369,7 +369,7 @@ function usageReport(overrides: Partial<SessionUsageReport> = {}): SessionUsageR
     generatedAt: Date.UTC(2026, 4, 10, 8, 0),
     workspace: {
       kind: 'local',
-      pathLabel: 'D:/workspace/openbitfun',
+      pathLabel: 'D:/workspace/opcteam',
     },
     scope: {
       kind: 'entire_session',
@@ -852,7 +852,7 @@ describe('Session usage report UI components', () => {
     const report = usageReport({
       workspace: {
         kind: 'local',
-        pathLabel: 'D:/workspace/openbitfun',
+        pathLabel: 'D:/workspace/opcteam',
       },
       files: {
         scope: 'snapshot_summary',
@@ -875,12 +875,12 @@ describe('Session usage report UI components', () => {
 
     render(
       <>
-        <SessionUsageReportCard report={report} markdown="## Session Usage: D:/workspace/openbitfun/src/private/secret.ts" />
+        <SessionUsageReportCard report={report} markdown="## Session Usage: D:/workspace/opcteam/src/private/secret.ts" />
         <SessionUsagePanel
           report={report}
-          markdown="## Session Usage: D:/workspace/openbitfun/src/private/secret.ts"
+          markdown="## Session Usage: D:/workspace/opcteam/src/private/secret.ts"
           sessionId="session-1"
-          workspacePath="D:/workspace/openbitfun"
+          workspacePath="D:/workspace/opcteam"
           initialTab="files"
         />
       </>
@@ -895,7 +895,7 @@ describe('Session usage report UI components', () => {
     expect(redactionInputs.every(input => input.closest('label')?.getAttribute('data-appearance') === 'native')).toBe(true);
     expect(container.textContent).toContain('[redacted path]');
     expect(container.textContent).toContain('secret.ts');
-    expect(container.textContent).not.toContain('D:/workspace/openbitfun');
+    expect(container.textContent).not.toContain('D:/workspace/opcteam');
     expect(container.textContent).not.toContain('src/private/secret.ts');
     expect(container.querySelector('[data-tooltip="[redacted path]/secret.ts"]')).not.toBeNull();
 
@@ -915,10 +915,10 @@ describe('Session usage report UI components', () => {
       `input[aria-label="Redact paths"]`
     ));
     expect(updatedInputs.every(input => input.checked)).toBe(false);
-    expect(container.textContent).toContain('D:/workspace/openbitfun');
+    expect(container.textContent).toContain('D:/workspace/opcteam');
     expect(container.querySelector('[data-tooltip="src/private/secret.ts"]')).not.toBeNull();
     await act(async () => copy?.click());
-    expect(navigator.clipboard.writeText).toHaveBeenLastCalledWith('## Session Usage: D:/workspace/openbitfun/src/private/secret.ts');
+    expect(navigator.clipboard.writeText).toHaveBeenLastCalledWith('## Session Usage: D:/workspace/opcteam/src/private/secret.ts');
     act(() => updatedInputs[1]?.labels?.[0].click());
     expect(updatedInputs.every(input => input.checked)).toBe(true);
     expect(preferenceWrite).toHaveBeenCalledTimes(2);
@@ -1137,7 +1137,7 @@ describe('Session usage report UI components', () => {
 
   it('preserves initial-tab updates and saved appearance selectors on the native tabs', () => {
     const legacyPackage: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
+      schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.usage-tabs', name: 'Usage tabs', version: '1.0.0', mode: 'dark',
       components: { 'session-usage-panel': { parts: { tab: { contexts: [{
         when: { facets: { tab: 'models' }, states: ['active'] },
@@ -1149,7 +1149,7 @@ describe('Session usage report UI components', () => {
     const registry = new AppearanceRegistry().registerComponent(sessionUsagePanelAppearanceDescriptor);
     const snapshot = new AppearanceCompiler(registry).compile(restored, 1);
     expect(JSON.stringify(restored)).toBe(serialized);
-    document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
+    document.documentElement.setAttribute('data-opc-appearance', snapshot.id);
     document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
     const style = document.createElement('style');
     style.textContent = snapshot.cssText;
@@ -1449,7 +1449,7 @@ describe('Session usage report UI components', () => {
         report={report}
         markdown="## Session Usage"
         sessionId="session-1"
-        workspacePath="D:/workspace/openbitfun"
+        workspacePath="D:/workspace/opcteam"
       />
     );
 
@@ -1511,7 +1511,7 @@ describe('Session usage report UI components', () => {
         report={report}
         markdown="## Session Usage"
         sessionId="session-1"
-        workspacePath="D:/workspace/openbitfun"
+        workspacePath="D:/workspace/opcteam"
       />
     );
 
@@ -1547,12 +1547,12 @@ describe('Session usage report UI components', () => {
         error: null,
         sessionKind: 'normal',
         workspaceId: 'workspace-1',
-        workspacePath: 'D:/workspace/openbitfun',
+        workspacePath: 'D:/workspace/opcteam',
       } as Session]]),
       activeSessionId: 'session-1',
     }));
     snapshotApiMocks.getOperationDiff.mockResolvedValue({
-      filePath: 'D:/workspace/openbitfun/src/main.rs',
+      filePath: 'D:/workspace/opcteam/src/main.rs',
       originalContent: 'before',
       modifiedContent: 'after',
       anchorLine: 42,
@@ -1582,7 +1582,7 @@ describe('Session usage report UI components', () => {
         report={report}
         markdown="## Session Usage"
         sessionId="session-1"
-        workspacePath="D:/workspace/openbitfun"
+        workspacePath="D:/workspace/opcteam"
       />
     );
 
@@ -1601,17 +1601,17 @@ describe('Session usage report UI components', () => {
 
     expect(snapshotApiMocks.getOperationDiff).toHaveBeenCalledWith(
       'session-1',
-      'D:/workspace/openbitfun/src/main.rs',
+      'D:/workspace/opcteam/src/main.rs',
       'operation-1',
     );
     expect(tabUtilsMocks.createDiffEditorTab).toHaveBeenCalledWith(
-      'D:/workspace/openbitfun/src/main.rs',
+      'D:/workspace/opcteam/src/main.rs',
       'main.rs',
       'before',
       'after',
       true,
       'agent',
-      'D:/workspace/openbitfun',
+      'D:/workspace/opcteam',
       42,
       undefined,
       {

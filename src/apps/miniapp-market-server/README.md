@@ -78,7 +78,7 @@ cargo run -p opc-miniapp-market-server
 | 变量 | 作用 |
 | --- | --- |
 | `MARKET_BIND` | 服务监听地址；生产容器内为 `0.0.0.0:9710` |
-| `MARKET_PUBLIC_BASE_URL` | 公开 base；生产为 `https://market.openbitfun.com/miniapp` |
+| `MARKET_PUBLIC_BASE_URL` | 公开 base；生产为 `https://market.opcteam.eu.cc/miniapp` |
 | `MARKET_DATABASE_PATH` | SQLite 文件 |
 | `MARKET_ARTIFACT_DIR` | 内容寻址包和截图目录 |
 | `MARKET_WEB_DIR` | 构建后的网页目录 |
@@ -98,7 +98,7 @@ env 文件内容判断已经生效。
 
 固定生产 OAuth callback 是：
 
-`https://auth.openbitfun.com/api/v1/auth/github/callback`
+`https://auth.opcteam.eu.cc/api/v1/auth/github/callback`
 
 ## 修改后的最小验证
 

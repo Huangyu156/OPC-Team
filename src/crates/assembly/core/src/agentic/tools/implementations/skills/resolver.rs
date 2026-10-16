@@ -24,7 +24,7 @@ mod tests {
             path: format!("/tmp/{}", dir_name),
             level: SkillLocation::User,
             source_slot: "opc-system".to_string(),
-            source_id: "openbitfun".to_string(),
+            source_id: "opcteam".to_string(),
             source_label: "OPC-Team".to_string(),
             installation_source: None,
             import_origin: None,
@@ -42,13 +42,13 @@ mod tests {
 
     fn custom_user_skill(dir_name: &str) -> SkillInfo {
         SkillInfo {
-            key: format!("user::openbitfun::{}", dir_name),
+            key: format!("user::opc::{}", dir_name),
             name: dir_name.to_string(),
             description: String::new(),
             path: format!("/tmp/{}", dir_name),
             level: SkillLocation::User,
-            source_slot: "openbitfun".to_string(),
-            source_id: "openbitfun".to_string(),
+            source_slot: "opcteam".to_string(),
+            source_id: "opcteam".to_string(),
             source_label: "OPC-Team".to_string(),
             installation_source: None,
             import_origin: None,

@@ -555,7 +555,7 @@ mod tests {
             CanvasId::new(canvas_id),
             CanvasRevision::new("rev_1"),
             "canvas.tsx",
-            "import { Stack } from 'openbitfun/canvas'; export default function C() { return <Stack />; }",
+            "import { Stack } from 'opc/canvas'; export default function C() { return <Stack />; }",
             "0.1.0",
             1,
         )

@@ -18,7 +18,7 @@ function withWindow<T>(run: () => T): T {
 describe('OpenBitFun Canvas hook adapters', () => {
   it('delegates host appearance access to runtime hooks', () => {
     withWindow(() => {
-      window.OpenBitFunCanvasRuntimeHooks = {
+      window.OpcCanvasRuntimeHooks = {
         useHostAppearance: () => ({ type: 'dark' }),
       };
 
@@ -29,7 +29,7 @@ describe('OpenBitFun Canvas hook adapters', () => {
   it('delegates canvas actions to runtime hooks', async () => {
     await withWindow(async () => {
       const action = vi.fn(async () => 'done');
-      window.OpenBitFunCanvasRuntimeHooks = {
+      window.OpcCanvasRuntimeHooks = {
         useCanvasAction: () => action,
       };
 

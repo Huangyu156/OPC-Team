@@ -227,7 +227,7 @@ const WorkspaceItem: React.FC<WorkspaceItemProps> = ({
         setWorkspaceSearchEnabled(nextSettings.enable_workspace_search);
       });
     }, {
-      signalName: 'openbitfun:interactive-shell-ready',
+      signalName: 'opc:interactive-shell-ready',
       fallbackTimeoutMs: 10000,
       frameCount: 1,
     });
@@ -325,7 +325,7 @@ const WorkspaceItem: React.FC<WorkspaceItemProps> = ({
       tone = 'green';
     }
 
-    // The daemon says `needs_index` both while OpenBitFun's auto-index policy is still evaluating the
+    // The daemon says `needs_index` both while OPC-Team's auto-index policy is still evaluating the
     // workspace and after it deliberately declined, so without the policy's own decision the UI
     // can only hedge. When the decision is known it replaces the hedged wording with the reason.
     const autoIndex = workspaceSearchIndex.indexStatus?.autoIndex ?? null;
@@ -511,12 +511,12 @@ const WorkspaceItem: React.FC<WorkspaceItemProps> = ({
     };
 
     void loadAcpClients();
-    window.addEventListener('openbitfun:acp-clients-changed', loadAcpClients);
-    window.addEventListener('openbitfun:acp-requirements-changed', loadAcpClients);
+    window.addEventListener('opc:acp-clients-changed', loadAcpClients);
+    window.addEventListener('opc:acp-requirements-changed', loadAcpClients);
     return () => {
       cancelled = true;
-      window.removeEventListener('openbitfun:acp-clients-changed', loadAcpClients);
-      window.removeEventListener('openbitfun:acp-requirements-changed', loadAcpClients);
+      window.removeEventListener('opc:acp-clients-changed', loadAcpClients);
+      window.removeEventListener('opc:acp-requirements-changed', loadAcpClients);
     };
   }, [menuOpen, workspace]);
 

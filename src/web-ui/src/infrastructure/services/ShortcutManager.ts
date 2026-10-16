@@ -468,7 +468,7 @@ export class ShortcutManager {
 
   /**
    * Check whether a given config conflicts with registered shortcuts in the same scope
-   * or with app-scope shortcuts. App-scope shortcuts are active globally inside OpenBitFun,
+   * or with app-scope shortcuts. App-scope shortcuts are active globally inside OPC-Team,
    * so they can shadow or be shadowed by scoped shortcuts.
    * Used by the settings UI for real-time conflict detection.
    */

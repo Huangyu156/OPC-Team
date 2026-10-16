@@ -8,8 +8,8 @@ Appearance packages.
 - Routes: `/skin/`, `/skin/appearances/:slug`, `/skin/submissions`, and `/skin/admin`
 - Features: catalog search and filters, release details and downloads, personal submission status and withdrawal, plus administrator review and publishing
 - Installation remains an OPC-Team Desktop action through Settings > Appearance.
-- Visitors without the desktop client reach `https://openbitfun.com/download`
-  from the catalog masthead and from every appearance page (`src/GetOpenBitFunCta.tsx`,
+- Visitors without the desktop client reach `https://opcteam.eu.cc/download`
+  from the catalog masthead and from every appearance page (`src/GetOpcCta.tsx`,
   `src/links.ts`).
 
 The site is self-contained and does not import the main Web UI locale or theme catalogs.

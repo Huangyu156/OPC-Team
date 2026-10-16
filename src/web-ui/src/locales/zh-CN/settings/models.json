@@ -174,7 +174,7 @@
       "name": "OpenCode Go",
       "description": "OpenCode 推出的模型订阅套餐。"
     },
-    "openbitfun": {
+    "opc": {
       "name": "OPC-Team 服务",
       "description": "OPC-Team 大模型平台",
       "urlOptions": {

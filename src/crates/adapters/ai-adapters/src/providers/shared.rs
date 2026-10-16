@@ -28,7 +28,7 @@ pub(crate) fn normalize_generic_reasoning_effort(value: &str) -> Option<&'static
 #[cfg(feature = "subscription-auth")]
 pub(crate) fn product_user_agent() -> String {
     format!(
-        "OpenBitFun/{} ({}; {})",
+        "OPC-Team/{} ({}; {})",
         env!("CARGO_PKG_VERSION"),
         std::env::consts::OS,
         std::env::consts::ARCH

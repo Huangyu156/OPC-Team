@@ -218,7 +218,7 @@
 .opc-collection-form {
   padding: var(--opcteam-space-4);
   border-bottom: 1px solid var(--opcteam-color-border-subtle);
-  animation: openbitfun-collection-slide-down 0.18s var(--opcteam-motion-easing-standard);
+  animation: opc-collection-slide-down 0.18s var(--opcteam-motion-easing-standard);
 }
 
 .opc-collection-form__header {
@@ -296,7 +296,7 @@
 
 // ─── animation ─────────────────────────────────────────────────────────────────
 
-@keyframes openbitfun-collection-slide-down {
+@keyframes opc-collection-slide-down {
   from {
     opacity: 0;
     transform: translateY(-6px);

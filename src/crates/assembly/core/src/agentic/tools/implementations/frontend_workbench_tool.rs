@@ -280,13 +280,13 @@ mod tests {
                 .await
                 .unwrap_err()
                 .to_string()
-                .contains("OpenBitFunControl"));
+                .contains("OpcControl"));
             assert!(FinalizeMiniAppTool::new()
                 .call_impl(&json!({"app_id": "counter"}), &remote)
                 .await
                 .unwrap_err()
                 .to_string()
-                .contains("OpenBitFunControl"));
+                .contains("OpcControl"));
         }
     }
 

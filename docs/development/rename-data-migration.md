@@ -1,7 +1,7 @@
 # Rename data migration
 
 The product rename changed the **data identity**, not only the display name:
-user-level state moved from the `openbitfun` namespace and the `.openbitfun`
+user-level state moved from the `opc` namespace and the `.opc`
 home directory to `opcteam` and `.opcteam`.
 
 [`scripts/migrate-opc-to-opcteam.mjs`](../../scripts/migrate-opc-to-opcteam.mjs)
@@ -30,11 +30,11 @@ The script resolves the same directories the product resolves, per platform.
 
 | Item | Source | Target |
 | --- | --- | --- |
-| User config namespace | Windows `%APPDATA%\openbitfun` | `%APPDATA%\opcteam` |
-| User config namespace | macOS `~/Library/Application Support/openbitfun` | `~/Library/Application Support/opcteam` |
-| User config namespace | Linux/other `${XDG_CONFIG_HOME:-~/.config}/openbitfun` | `${XDG_CONFIG_HOME:-~/.config}/opcteam` |
-| Hidden data directory | `~/.openbitfun` | `~/.opcteam` |
-| Project directory | `<workspace>/.openbitfun` | `<workspace>/.opcteam` |
+| User config namespace | Windows `%APPDATA%\opc` | `%APPDATA%\opcteam` |
+| User config namespace | macOS `~/Library/Application Support/opc` | `~/Library/Application Support/opcteam` |
+| User config namespace | Linux/other `${XDG_CONFIG_HOME:-~/.config}/opc` | `${XDG_CONFIG_HOME:-~/.config}/opcteam` |
+| Hidden data directory | `~/.opc` | `~/.opcteam` |
+| Project directory | `<workspace>/.opc` | `<workspace>/.opcteam` |
 
 The project directory is migrated only for paths passed with `--workspace`.
 The script never scans the disk for project directories, because guessing them
@@ -44,7 +44,7 @@ would risk copying data that belongs to someone else.
 
 | Item | Why |
 | --- | --- |
-| `%LOCALAPPDATA%\OpenBitFun` | The SSH data directory intentionally keeps its published name; the product still reads it in place, so renaming it would hide the data. |
+| `%LOCALAPPDATA%\OPC-Team` | The SSH data directory intentionally keeps its published name; the product still reads it in place, so renaming it would hide the data. |
 | Pre-rename 0.2.x product data | Owned by the standalone Data Migrator (`src/apps/data-migrator/`). |
 | Project directories that were not passed with `--workspace` | No implicit disk scan is performed. |
 
@@ -80,7 +80,7 @@ copy is in progress.
 | --- | --- |
 | `--apply` | Copy the data. Without this flag the script only prints a plan. |
 | `--force` | Overwrite files that already exist in the destination. |
-| `--workspace <path>` | Also migrate `<path>/.openbitfun` to `<path>/.opcteam`. Repeatable. |
+| `--workspace <path>` | Also migrate `<path>/.opc` to `<path>/.opcteam`. Repeatable. |
 | `--json` | Print a machine-readable JSON report instead of text. |
 | `--help` | Show usage. |
 

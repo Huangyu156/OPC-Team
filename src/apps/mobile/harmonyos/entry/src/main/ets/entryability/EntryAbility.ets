@@ -4,7 +4,7 @@ import { display, window } from '@kit.ArkUI';
 import { MobileDesignColors, MobileTextScale } from '../generated/MobileDesignTokens';
 
 const DOMAIN = 0x0000;
-const TAG = 'OpenBitFunRemote';
+const TAG = 'OpcRemote';
 
 export default class EntryAbility extends UIAbility {
   private mainWindow?: window.Window;
@@ -12,7 +12,7 @@ export default class EntryAbility extends UIAbility {
   private previewStorage?: LocalStorage;
 
   onCreate(want: Want, launchParam: AbilityConstant.LaunchParam): void {
-    const scenarioId = want.parameters?.['openbitfunDesignPreview'];
+    const scenarioId = want.parameters?.['opcDesignPreview'];
     if (scenarioId === 'history-scroll' || scenarioId === 'durable-timeline' || scenarioId === 'composer-submit' || scenarioId === 'catalog-refresh' || scenarioId === 'catalog-refresh-dark' || scenarioId === 'model-role-selector' || scenarioId === 'model-role-selector-dark' || scenarioId === 'model-role-selector-wide' || scenarioId === 'subagent-process' || scenarioId === 'subagent-process-dark' || scenarioId === 'file-visibility' || scenarioId === 'file-visibility-dark' || scenarioId === 'immersive-bottom' || scenarioId === 'immersive-bottom-dark' || scenarioId === 'immersive-bottom-wide' || scenarioId === 'immersive-bottom-drawer' || scenarioId === 'immersive-bottom-drawer-dark' || scenarioId === 'immersive-bottom-settings' || scenarioId === 'immersive-bottom-settings-dark' || scenarioId === 'immersive-bottom-cover' || scenarioId === 'immersive-bottom-miniapps' || scenarioId === 'immersive-bottom-wide-shell' || scenarioId === 'immersive-bottom-tools' || scenarioId === 'immersive-bottom-tools-editor' || scenarioId === 'immersive-bottom-tools-file-action' || scenarioId === 'immersive-bottom-view-settings' || scenarioId === 'immersive-bottom-connect' || scenarioId === 'composer-overflow' || scenarioId === 'composer-overflow-empty' || scenarioId === 'composer-overflow-dark' || scenarioId === 'composer-overflow-wide' || scenarioId === 'composer-overflow-expanded' || scenarioId === 'composer-overflow-expanded-dark' || scenarioId === 'device-selector' || scenarioId === 'device-selector-dark' || scenarioId === 'welcome-home' || scenarioId === 'connected-conversation' ||
       scenarioId === 'streaming-dark' ||
       scenarioId === 'reconnecting-wide' || scenarioId === 'narrow-multiline' ||

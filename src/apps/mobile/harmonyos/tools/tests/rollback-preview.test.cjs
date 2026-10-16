@@ -13,7 +13,7 @@ const ts = require('typescript');
 // with. The rendering, the system selection menu and the wire call stay
 // device-level checks.
 //
-// Sources of truth: `.openbitfun/plans/mobile-copy-rollback.plan.md` (decision 4)
+// Sources of truth: `.opcteam/plans/mobile-copy-rollback.plan.md` (decision 4)
 // and the production seams the fixture reuses
 // (`RemoteChatCommandController.rollbackSessionToTurn` / `sendPreparedMessage`,
 // `RollbackOutcomePolicy`).

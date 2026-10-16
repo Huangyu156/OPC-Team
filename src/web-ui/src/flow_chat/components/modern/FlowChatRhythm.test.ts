@@ -58,10 +58,10 @@ describe('FlowChat transcript rhythm', () => {
   it('keeps control actions distinct from discovery across model rounds, including deferred calls', () => {
     const read = modelRound('turn-1', 'read', [{ toolName: 'Read' }]);
     const discovery = modelRound('turn-1', 'discovery', [{
-      toolName: 'OpenBitFunControl', input: { action: 'get' },
+      toolName: 'OpcControl', input: { action: 'get' },
     }]);
     const control = modelRound('turn-1', 'control', [{
-      toolName: 'CallDeferredTool', input: { tool_name: 'OpenBitFunControl', args: { action: 'configure' } },
+      toolName: 'CallDeferredTool', input: { tool_name: 'OpcControl', args: { action: 'configure' } },
     }]);
     expect(isAmbientToolRunContinuationAfter(read, discovery)).toBe(true);
     expect(isAmbientToolRunContinuationAfter(discovery, control)).toBe(false);

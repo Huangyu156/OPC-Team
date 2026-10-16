@@ -10,10 +10,10 @@ use std::path::{Path, PathBuf};
 use anyhow::{anyhow, Context, Result};
 
 #[cfg(target_os = "macos")]
-const LAUNCH_AGENT_LABEL: &str = "com.openbitfun.cli.daemon";
+const LAUNCH_AGENT_LABEL: &str = "com.opcteam.cli.daemon";
 
 #[cfg(all(unix, not(target_os = "macos")))]
-const SYSTEMD_UNIT_NAME: &str = "openbitfun-cli-daemon.service";
+const SYSTEMD_UNIT_NAME: &str = "opc-cli-daemon.service";
 
 fn current_exe_path() -> Result<PathBuf> {
     std::env::current_exe().context("resolve current executable path")
@@ -157,7 +157,7 @@ fn ensure_systemd_user_available() -> Result<()> {
     Err(anyhow!(
         "systemd user session is not available (no user bus; common in containers, WSL, or SSH accounts without a logind user manager).\n\
          Enable a systemd user session for this account, or run the daemon under your own supervisor instead:\n\
-         \x20 openbitfun daemon run"
+         \x20 opc daemon run"
     ))
 }
 
@@ -239,7 +239,7 @@ fn install_platform_service(executable: &Path) -> Result<String> {
 #[cfg(not(unix))]
 fn install_platform_service(_executable: &Path) -> Result<String> {
     Err(anyhow!(
-        "daemon auto-start service is not supported on this platform; run `openbitfun daemon run` in a terminal instead"
+        "daemon auto-start service is not supported on this platform; run `opc daemon run` in a terminal instead"
     ))
 }
 
@@ -315,11 +315,9 @@ pub(crate) fn install_service() -> Result<()> {
 fn ensure_persisted_account_session() -> Result<()> {
     match opc_core::service::remote_connect::session_store::load_session() {
         Ok(Some(_)) => Ok(()),
-        Ok(None) => {
-            Err(anyhow!(
-                "not logged in; run `openbitfun`, log in with `/login`, then re-run `openbitfun daemon install`"
-            ))
-        }
+        Ok(None) => Err(anyhow!(
+            "not logged in; run `opc`, log in with `/login`, then re-run `opc daemon install`"
+        )),
         Err(error) => Err(anyhow!("read account session: {error}")),
     }
 }
@@ -391,7 +389,7 @@ pub(crate) fn print_status() -> Result<()> {
         );
     }
     if !installed && !running {
-        println!("hint: `openbitfun daemon install` keeps this device reachable after reboot");
+        println!("hint: `opc daemon install` keeps this device reachable after reboot");
     }
     Ok(())
 }
@@ -402,8 +400,8 @@ mod tests {
 
     #[test]
     fn systemd_unit_runs_daemon_run_and_restarts_on_failure() {
-        let unit = render_systemd_unit(Path::new("/home/u/.local/bin/openbitfun"));
-        assert!(unit.contains("ExecStart=/home/u/.local/bin/openbitfun daemon run"));
+        let unit = render_systemd_unit(Path::new("/home/u/.local/bin/opc"));
+        assert!(unit.contains("ExecStart=/home/u/.local/bin/opc daemon run"));
         assert!(unit.contains("Restart=on-failure"));
         assert!(unit.contains("WantedBy=default.target"));
         assert!(unit.contains("After=network-online.target"));
@@ -412,8 +410,8 @@ mod tests {
     #[cfg(target_os = "macos")]
     #[test]
     fn launch_agent_runs_daemon_run_at_load() {
-        let plist = render_launch_agent(Path::new("/usr/local/bin/openbitfun"));
-        assert!(plist.contains("<string>/usr/local/bin/openbitfun</string>"));
+        let plist = render_launch_agent(Path::new("/usr/local/bin/opc"));
+        assert!(plist.contains("<string>/usr/local/bin/opc</string>"));
         assert!(plist.contains("<string>run</string>"));
         assert!(plist.contains("<key>RunAtLoad</key>"));
         assert!(plist.contains(LAUNCH_AGENT_LABEL));

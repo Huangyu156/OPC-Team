@@ -7,7 +7,7 @@ A separate, optional desktop utility for importing old **BitFun** data into
 
 ## Download and run
 
-**Latest release: [v0.1.2 — download Data Migrator](https://github.com/GCWing/OpenBitFun/releases/tag/data-migrator-v0.1.2).**
+**Latest release: [v0.1.2 — download Data Migrator](https://github.com/GCWing/OPC-Team/releases/tag/data-migrator-v0.1.2).**
 
 | Platform | Download | Launch |
 | --- | --- | --- |
@@ -68,7 +68,7 @@ may remain imported.
 Plans, journals, reports, backups and staging live under:
 
 ```text
-<destination settings-and-data>/data/migrations/bitfun-to-openbitfun/runs/<run-id>/
+<destination settings-and-data>/data/migrations/bitfun-to-opc/runs/<run-id>/
 ```
 
 Reopen the tool, select the original directories, and use **Saved migration
@@ -79,7 +79,7 @@ never replace earlier journals. Old handoff-based plans remain readable even
 if their `request.json` has expired; select the original locations before
 resuming them. Unreadable files are not deleted or reset.
 
-The tool remembers selected locations in its own `com.openbitfun.data-migrator`
+The tool remembers selected locations in its own `com.opcteam.data-migrator`
 application configuration directory. It does not write main-app onboarding or
 reminder preferences. **Export failure diagnostics** writes a sanitized file
 containing result codes and journal phases. Review personal information before
@@ -106,7 +106,7 @@ If OPC-Team contains no new data you need to keep, you can clear its destination
 
 The reset preview uses the selected destination locations. For standard locations,
 it also covers platform Skills/SSH parent directories and Desktop WebView/UI data
-under `com.openbitfun.desktop`. It preserves the original BitFun source, the
+under `com.opcteam.desktop`. It preserves the original BitFun source, the
 migrator's preferences, and ordinary project directories outside the listed roots.
 Unsafe overlaps and linked reset paths are rejected.
 
@@ -115,18 +115,18 @@ Windows destination directories:
 ```text
 %APPDATA%\opcteam
 %USERPROFILE%\.opcteam
-%LOCALAPPDATA%\OpenBitFun
+%LOCALAPPDATA%\OPC-Team
 ```
 
 On macOS the standard roots are `~/.opcteam` and
-`~/Library/Application Support/{opcteam,OpenBitFun}`. On Linux they are
+`~/Library/Application Support/{opcteam,OPC-Team}`. On Linux they are
 `~/.opcteam`, `~/.config/opcteam`, and
-`~/.local/share/{opcteam,OpenBitFun}` (or the corresponding XDG locations).
+`~/.local/share/{opcteam,OPC-Team}` (or the corresponding XDG locations).
 Always review the actual paths shown by the tool before confirming.
 
 **The issue persists after retrying**
 
-Open a report in [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) or share your feedback in the OPC-Team user WeChat group. Include:
+Open a report in [GitHub Issues](https://github.com/GCWing/OPC-Team/issues) or share your feedback in the OPC-Team user WeChat group. Include:
 
 - Your operating system and the BitFun, OPC-Team, and migrator versions.
 - Steps to reproduce, the expected result, and the actual result.
@@ -136,7 +136,7 @@ Open a report in [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) or
 Windows migration log location:
 
 ```text
-%APPDATA%\opcteam\data\migrations\bitfun-to-openbitfun\runs\<run-id>\
+%APPDATA%\opcteam\data\migrations\bitfun-to-opc\runs\<run-id>\
 ```
 
 Provide the log files from the affected run, such as `report.json`, `plan.json`, `journal.jsonl`, `locations.json`, and `release-observation.json` when present. The `stage` and `backup` directories contain personal data, so sharing them is optional and at your discretion; the log files listed above are usually sufficient for an initial report. Save the logs before clearing the destination directories for another attempt.

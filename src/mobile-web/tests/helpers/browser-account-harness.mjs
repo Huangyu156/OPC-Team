@@ -12,7 +12,7 @@ import { sha256 } from '@noble/hashes/sha2.js';
 import { gcm } from '@noble/ciphers/aes.js';
 
 export const LAN = 'http://192.168.50.7:9700';
-export const OFFICIAL = 'https://remote.openbitfun.com/v/1.0.2';
+export const OFFICIAL = 'https://remote.opcteam.eu.cc/v/1.0.2';
 // The reverse proxy strips the official version prefix before the Relay sees a path.
 const OFFICIAL_PREFIX = new URL(OFFICIAL).pathname.replace(/\/+$/, '');
 export const invitation = (endpoint = LAN, device = 'desktop-a') => `${endpoint}/#/pair?did=${device}`;
@@ -25,7 +25,7 @@ const hostPublicKey = x25519.getPublicKey(hostPrivateKey);
 function messageKey(publicKey) {
   const shared = x25519.getSharedSecret(hostPrivateKey, publicKey);
   const sorted = [hostPublicKey, publicKey].sort((a, b) => Buffer.compare(a, b));
-  return hkdf(sha256, shared, new TextEncoder().encode('OpenBitFun Relay v1.0.0 device key'),
+  return hkdf(sha256, shared, new TextEncoder().encode('OPC-Team Relay v1.0.0 device key'),
     Buffer.concat(sorted.map(key => Buffer.from(key))), 32);
 }
 
@@ -245,7 +245,7 @@ export class RelayFixture {
         constructor(url, protocols) {
           const target = new URL(url);
           if (target.pathname.endsWith('/v1/updates/')) {
-            const endpoint = target.hostname === 'remote.openbitfun.com' ? official : lan;
+            const endpoint = target.hostname === 'remote.opcteam.eu.cc' ? official : lan;
             url = `${origin.replace('http:', 'ws:')}/__relay_fixture/${id}?endpoint=${encodeURIComponent(endpoint)}`;
           }
           super(url, protocols);
@@ -265,7 +265,7 @@ export class RelayFixture {
             body: JSON.stringify({ id, login: `user-${id}`, avatar_url: '' }) });
           return;
         }
-        const endpoint = requested.hostname === 'remote.openbitfun.com' ? OFFICIAL : LAN;
+        const endpoint = requested.hostname === 'remote.opcteam.eu.cc' ? OFFICIAL : LAN;
         if (![new URL(LAN).origin, new URL(OFFICIAL).origin].includes(requested.origin)) {
           await request.abort(); return;
         }

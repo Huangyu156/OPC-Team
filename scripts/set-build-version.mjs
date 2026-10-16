@@ -13,7 +13,7 @@ export function setBuildVersion(root, version) {
 
   for (const relative of [
     'package.json',
-    'OpenBitFun-Installer/package.json',
+    'Opc-Installer/package.json',
     'src/web-ui/package.json',
     'src/mobile-web/package.json',
     'src/miniapp-market-web/package.json',
@@ -36,7 +36,7 @@ export function setBuildVersion(root, version) {
     `version = "${version}" # x-release-please-version`,
   );
   replaceVersion(
-    path.join(root, 'OpenBitFun-Installer/src-tauri/Cargo.toml'),
+    path.join(root, 'Opc-Installer/src-tauri/Cargo.toml'),
     /^version = "[^"]+"$/m,
     `version = "${version}"`,
   );

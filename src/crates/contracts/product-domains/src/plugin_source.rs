@@ -722,7 +722,7 @@ impl fmt::Display for PluginSourceContractError {
             {
                 write!(
                     formatter,
-                    "pre-OpenBitFun plugin trust schema version {version} requires the explicit data migration tool"
+                    "pre-Opc plugin trust schema version {version} requires the explicit data migration tool"
                 )
             }
             Self::UnsupportedTrustStoreSchema(version) => {

@@ -510,13 +510,13 @@ mod tests {
     #[test]
     fn capability_fingerprint_changes_with_effective_model_preference() {
         let inherited = ReviewCapabilityDescriptor::new(
-            "agent:project::openbitfun::reviewer",
+            "agent:project::opc::reviewer",
             "Reviewer",
             "Check one concern",
             &agent_fingerprint_material("same guidance", None),
         );
         let explicit = ReviewCapabilityDescriptor::new(
-            "agent:project::openbitfun::reviewer",
+            "agent:project::opc::reviewer",
             "Reviewer",
             "Check one concern",
             &agent_fingerprint_material("same guidance", Some("fast")),

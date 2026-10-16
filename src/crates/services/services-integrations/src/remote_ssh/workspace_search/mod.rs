@@ -254,14 +254,10 @@ fn resolve_local_flashgrep_bundle(binary_name: &str) -> Option<PathBuf> {
             candidates.push(parent.join("resources/flashgrep").join(binary_name));
             candidates.push(parent.join("flashgrep").join(binary_name));
             candidates.push(parent.join("../Resources/flashgrep").join(binary_name));
+            candidates.push(parent.join("../share/opc/flashgrep").join(binary_name));
             candidates.push(
                 parent
-                    .join("../share/openbitfun/flashgrep")
-                    .join(binary_name),
-            );
-            candidates.push(
-                parent
-                    .join("../share/com.openbitfun.desktop/flashgrep")
+                    .join("../share/com.opcteam.desktop/flashgrep")
                     .join(binary_name),
             );
         }

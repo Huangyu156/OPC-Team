@@ -68,15 +68,15 @@ it('distinguishes mail delivery failures from invalid verification codes', async
 });
 
 it('remembers only the exact native app callback target', async () => {
-  window.history.replaceState(null, '', '/sign-in?returnTo=openbitfun%3A%2F%2Fauth%2Fcallback#ticket=device-ticket');
+  window.history.replaceState(null, '', '/sign-in?returnTo=opc%3A%2F%2Fauth%2Fcallback#ticket=device-ticket');
   await act(async () => root.unmount());
   root = createRoot(container);
   await act(async () => root.render(<AccountSignIn />));
-  expect(sessionStorage.getItem('openbitfun.auth.returnTo')).toBe('openbitfun://auth/callback');
+  expect(sessionStorage.getItem('opc.auth.returnTo')).toBe('opc://auth/callback');
 
   window.history.replaceState(null, '', '/sign-in?returnTo=https%3A%2F%2Fevil.example%2F#ticket=device-ticket');
   await act(async () => root.unmount());
   root = createRoot(container);
   await act(async () => root.render(<AccountSignIn />));
-  expect(sessionStorage.getItem('openbitfun.auth.returnTo')).toBeNull();
+  expect(sessionStorage.getItem('opc.auth.returnTo')).toBeNull();
 });

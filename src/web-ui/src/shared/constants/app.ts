@@ -6,7 +6,7 @@ export const APP_INFO = {
   version: '1.0.0',
   description: 'AI code analysis and visualization tool',
   author: 'OPC-Team',
-  homepage: 'https://openbitfun.dev'
+  homepage: 'https://opc.dev'
 } as const;
 
 

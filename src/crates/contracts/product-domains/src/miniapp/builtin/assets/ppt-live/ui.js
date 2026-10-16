@@ -1,10 +1,10 @@
 // ─────────────────────────────────────────────────────────────────────────────
 // PPT Live — UI entry point
 //
-// This is the entry point for build-openbitfun.mjs. All src/*.js modules and npm
+// This is the entry point for build-opc.mjs. All src/*.js modules and npm
 // dependencies are bundled into dist/ui.bundle.js at build time.
 //
-// After editing this file or any src/*.js file, run:  node build-openbitfun.mjs
+// After editing this file or any src/*.js file, run:  node build-opc.mjs
 // ─────────────────────────────────────────────────────────────────────────────
 import { translate as t, getLocale } from './src/i18n.js';
 import {
@@ -48,7 +48,7 @@ import {
 import { downloadBase64File, downloadHtmlDeck, fileSafe } from './src/export-html.js';
 import { exportFormatIcon, exportFormatTone } from './src/export-format-icons.js';
 import {
-  installOpenBitFunBackendAdapter,
+  installOpcBackendAdapter,
   PPT_DESIGN_SKILL_KEY,
 } from './src/opc-backend-adapter.js';
 import {
@@ -78,7 +78,7 @@ let historyItems = [];
 let lastHistoryWriteAt = 0;
 const $ = (id) => document.getElementById(id);
 const runtime = () => window.app || {};
-installOpenBitFunBackendAdapter(runtime());
+installOpcBackendAdapter(runtime());
 const STORAGE_TIMEOUT_MS = 2500;
 const memoryStorage = new Map();
 

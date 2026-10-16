@@ -13903,7 +13903,7 @@ fn runtime_session_workspace_binding(binding: WorkspaceBinding) -> AgentSessionW
     }
 }
 
-fn runtime_port_error_from_openbitfun(error: OpcTeamError) -> opc_runtime_ports::PortError {
+fn runtime_port_error_from_opc(error: OpcTeamError) -> opc_runtime_ports::PortError {
     let (kind, message) = match error {
         OpcTeamError::Validation(message) => {
             (opc_runtime_ports::PortErrorKind::InvalidRequest, message)
@@ -13928,7 +13928,7 @@ fn runtime_port_error_from_openbitfun(error: OpcTeamError) -> opc_runtime_ports:
 
 fn runtime_port_error_preserving_message(error: OpcTeamError) -> opc_runtime_ports::PortError {
     let message = error.to_string();
-    let mut port_error = runtime_port_error_from_openbitfun(error);
+    let mut port_error = runtime_port_error_from_opc(error);
     port_error.message = message;
     port_error
 }
@@ -15011,7 +15011,7 @@ impl opc_runtime_ports::AgentThreadGoalManagementPort for ConversationCoordinato
             request.token_budget,
         )
         .await
-        .map_err(runtime_port_error_from_openbitfun)
+        .map_err(runtime_port_error_from_opc)
     }
 
     async fn update_thread_goal_status(
@@ -15030,7 +15030,7 @@ impl opc_runtime_ports::AgentThreadGoalManagementPort for ConversationCoordinato
             request.turn_id.as_deref(),
         )
         .await
-        .map_err(runtime_port_error_from_openbitfun)
+        .map_err(runtime_port_error_from_opc)
     }
 }
 
@@ -16765,10 +16765,10 @@ mod tests {
             session_storage_workspace_locator(
                 Some(r"D:\worktrees\session-1"),
                 Some("D:/worktrees/session-1"),
-                Some("D:/projects/OpenBitFun"),
+                Some("D:/projects/OPC-Team"),
             )
             .as_deref(),
-            Some("D:/projects/OpenBitFun")
+            Some("D:/projects/OPC-Team")
         );
     }
 
@@ -16778,7 +16778,7 @@ mod tests {
             session_storage_workspace_locator(
                 None,
                 Some("/worktrees/session-1"),
-                Some("/projects/OpenBitFun"),
+                Some("/projects/OPC-Team"),
             )
             .as_deref(),
             None
@@ -16791,7 +16791,7 @@ mod tests {
             session_storage_workspace_locator(
                 Some("/projects/other"),
                 Some("/worktrees/session-1"),
-                Some("/projects/OpenBitFun"),
+                Some("/projects/OPC-Team"),
             )
             .as_deref(),
             Some("/projects/other")
@@ -17492,7 +17492,7 @@ mod tests {
             enable_persistence,
             Arc::new(CoreRuntimeOwnership::embedded_with_facts(
                 ownership_root,
-                "openbitfun".to_string(),
+                "opc".to_string(),
                 "test",
             )),
         )
@@ -17535,7 +17535,7 @@ mod tests {
             true,
             Arc::new(CoreRuntimeOwnership::embedded_with_facts(
                 ownership_root,
-                "openbitfun".to_string(),
+                "opc".to_string(),
                 "test",
             )),
             registry,
@@ -18544,7 +18544,7 @@ mod tests {
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
         let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
-            "openbitfun",
+            "opc",
         )
         .expect("ownership key");
         let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
@@ -18555,7 +18555,7 @@ mod tests {
         .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
-            "openbitfun".to_string(),
+            "opc".to_string(),
             "test",
         ));
         let (coordinator, session_manager) =
@@ -18674,7 +18674,7 @@ mod tests {
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
         let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
-            "openbitfun",
+            "opc",
         )
         .expect("ownership key");
         let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
@@ -18685,7 +18685,7 @@ mod tests {
         .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
-            "openbitfun".to_string(),
+            "opc".to_string(),
             "test",
         ));
         let (coordinator, session_manager) =
@@ -18766,7 +18766,7 @@ mod tests {
             .expect("remember remote workspace");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             root.path().join("ownership"),
-            "openbitfun".to_string(),
+            "opc".to_string(),
             "test",
         ));
         let (coordinator, _) = test_coordinator_with_config_and_ownership(100, false, owner);
@@ -18814,7 +18814,7 @@ mod tests {
         }
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             root.path().join("ownership"),
-            "openbitfun".to_string(),
+            "opc".to_string(),
             "test",
         ));
         let (coordinator, _) = test_coordinator_with_config_and_ownership(100, false, owner);
@@ -18875,7 +18875,7 @@ mod tests {
             .expect("remember remote workspace");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             root.path().join("ownership"),
-            "openbitfun".to_string(),
+            "opc".to_string(),
             "test",
         ));
         let (coordinator, _) = test_coordinator_with_config_and_ownership(100, false, owner);
@@ -18911,7 +18911,7 @@ mod tests {
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
         let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
-            "openbitfun",
+            "opc",
         )
         .expect("ownership key");
         let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
@@ -18922,7 +18922,7 @@ mod tests {
         .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
-            "openbitfun".to_string(),
+            "opc".to_string(),
             "test",
         ));
         let (coordinator, _) = test_coordinator_with_config_and_ownership(100, false, owner);
@@ -18972,7 +18972,7 @@ mod tests {
         crate::service::workspace::legacy_compat::register_local_fixture_blocking(workspace.path());
         let key = opc_services_core::runtime_ownership::RuntimeOwnershipKey::for_workspace(
             workspace.path(),
-            "openbitfun",
+            "opc",
         )
         .expect("ownership key");
         let _shared = opc_services_core::runtime_ownership::WorkspaceRuntimeOwnership::try_acquire(
@@ -18983,7 +18983,7 @@ mod tests {
         .expect("shared owner");
         let owner = Arc::new(CoreRuntimeOwnership::embedded_with_facts(
             ownership_root.path().to_path_buf(),
-            "openbitfun".to_string(),
+            "opc".to_string(),
             "test",
         ));
         let (coordinator, session_manager) =
@@ -21096,7 +21096,7 @@ mod tests {
         // build the expected IO projections from the same canonical root.
         let canonical_root =
             dunce::canonicalize(temp_root.path()).expect("temp root should canonicalize");
-        let project_path = canonical_root.join("OpenBitFun");
+        let project_path = canonical_root.join("OPC-Team");
         let worktree_path = canonical_root.join("managed-worktree");
         std::fs::create_dir_all(&project_path).expect("project dir should exist");
         std::fs::create_dir_all(&worktree_path).expect("worktree dir should exist");

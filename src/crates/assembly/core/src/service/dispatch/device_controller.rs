@@ -903,13 +903,13 @@ mod tests {
                         .is_some_and(|value| !value.is_empty()));
                     Ok(json!({
                         "changed": true,
-                        "branch": "openbitfun/dispatch/job-1",
+                        "branch": "opc/dispatch/job-1",
                         "baseCommit": "0".repeat(40),
                         "headCommit": "1".repeat(40),
                         "commitCount": 1,
                         "changes": [{ "status": "A", "path": "new.txt" }],
                         "truncatedChanges": false,
-                        "bundlePath": "/home/u/.openbitfun/dispatch/workspaces/job-1/result.bundle",
+                        "bundlePath": "/home/u/.opcteam/dispatch/workspaces/job-1/result.bundle",
                         "bundleSha256": self.declared_digest,
                         "bundleSize": self.bundle.len() as u64,
                     }))

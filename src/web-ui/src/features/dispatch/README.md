@@ -60,7 +60,7 @@ dispatch.
     inside the managed baseline. The user's checkout is never changed, and
     ignored runtime inputs are not sent to the target.
 11. SSH submission automatically installs or upgrades a compatible signed
-    prebuilt `openbitfun` release when the target runner is missing or incompatible.
+    prebuilt `opc` release when the target runner is missing or incompatible.
     The resolved version, URL, and SHA-256 remain visible, integrity checks stay
     mandatory, installation has a bounded deadline, and submission probes the
     installed runner again before provisioning. Each `cli-install` audit

@@ -143,7 +143,7 @@
       "label": "OPC-Team Installer",
       "kind": "canonical-web",
       "owner": "@opc-team/theme with the installer preset owner",
-      "root": "OpenBitFun-Installer",
+      "root": "Opc-Installer",
       "audit": {
         "engine": "theme",
         "baseline": "scripts/theme-color-governance-baseline.installer.json"
@@ -209,8 +209,8 @@
         "platform": "android",
         "extensions": [".kt"],
         "excludePaths": [
-          "com/openbitfun/mobile/app/ui/theme/generated",
-          "com/openbitfun/mobile/app/ui/preview/generated"
+          "com/opcteam/mobile/app/ui/theme/generated",
+          "com/opcteam/mobile/app/ui/preview/generated"
         ]
       }
     },
@@ -219,7 +219,7 @@
       "label": "Native iOS",
       "kind": "native-mobile",
       "owner": "src/apps/mobile/design-system/tokens/mobile-tokens.json",
-      "root": "src/apps/mobile/ios/OpenBitFun",
+      "root": "src/apps/mobile/ios/OPC-Team",
       "audit": {
         "engine": "native",
         "platform": "ios",
@@ -504,7 +504,7 @@
       "id": "ppt-generated-bundle",
       "path": "src/crates/contracts/product-domains/src/miniapp/builtin/assets/ppt-live/dist",
       "kind": "generated-output",
-      "owner": "PPT Live build-openbitfun.mjs",
+      "owner": "PPT Live build-opc.mjs",
       "reason": "Bundled JavaScript is generated from the registered PPT source owner."
     },
     {
@@ -516,7 +516,7 @@
     },
     {
       "id": "ios-template-icons",
-      "path": "src/apps/mobile/ios/OpenBitFun/Resources.xcassets",
+      "path": "src/apps/mobile/ios/OPC-Team/Resources.xcassets",
       "kind": "native-template-asset",
       "owner": "iOS asset catalog",
       "reason": "Template images and app metadata are tinted or consumed by the platform asset layer."

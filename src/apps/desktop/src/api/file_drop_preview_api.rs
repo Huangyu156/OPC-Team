@@ -120,7 +120,7 @@ mod native {
         },
     };
 
-    const EVENT: &str = "openbitfun://file-drop-preview";
+    const EVENT: &str = "opc://file-drop-preview";
     const TIMER: usize = 1;
     const PREVIEW_FILES: usize = 1;
 

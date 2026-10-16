@@ -374,7 +374,7 @@ pub struct OpenWorkspaceRequest {
     /// New-folder creation or upgrade-only payload from a pre-ID client.
     #[serde(default)]
     pub path: String,
-    /// Optional SSH connection scope for a remote root that is already known to OpenBitFun. Path-only
+    /// Optional SSH connection scope for a remote root that is already known to OPC-Team. Path-only
     /// callers may omit it; the workspace service then resolves the connection from history.
     #[serde(default, rename = "remoteConnectionId")]
     pub remote_connection_id: Option<String>,

@@ -249,7 +249,7 @@ function worktree(overrides: Record<string, unknown> = {}) {
   return {
     worktreeId: 'wt-1',
     projectWorkspacePath: '/repo',
-    path: '/managed/OpenBitFun-wt-1',
+    path: '/managed/opc-wt-1',
     head: '0123456789abcdef',
     lifecycle: 'managed',
     isMain: false,
@@ -341,7 +341,7 @@ describe('WorktreeSettingsSection', () => {
     expect(checkboxes[1].checked).toBe(true);
     expect(limit?.value).toBe('15');
     expect(container.textContent).toContain('/repo');
-    expect(container.textContent).toContain('/managed/OpenBitFun-wt-1');
+    expect(container.textContent).toContain('/managed/opc-wt-1');
     expect(container.textContent).toContain('Ship worktree management');
   });
 
@@ -581,7 +581,7 @@ describe('WorktreeSettingsSection', () => {
 
     const results = container.querySelector('.opc-worktree-settings__results');
     expect(results?.getAttribute('aria-busy')).toBe('true');
-    expect(container.textContent).toContain('/managed/OpenBitFun-wt-1');
+    expect(container.textContent).toContain('/managed/opc-wt-1');
 
     await act(async () => {
       refresh.resolve([{
@@ -593,7 +593,7 @@ describe('WorktreeSettingsSection', () => {
     });
 
     expect(results?.getAttribute('aria-busy')).toBe('false');
-    expect(container.textContent).toContain('/managed/OpenBitFun-wt-1');
+    expect(container.textContent).toContain('/managed/opc-wt-1');
   });
 
   it('keeps the settings scroll position while deletion refreshes the list', async () => {

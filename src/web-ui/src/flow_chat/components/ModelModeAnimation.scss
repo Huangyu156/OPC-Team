@@ -44,7 +44,7 @@
   :where([data-mode='smart']) &__nebula {
     // Move the overscanned texture as a whole, with enough coverage at both ends.
     transform-box: view-box;
-    animation-name: openbitfun-model-smart-nebula-drift;
+    animation-name: opc-model-smart-nebula-drift;
   }
 
   &[data-mode='smart'] &__nebula {
@@ -56,7 +56,7 @@
     --_model-star-drift-y: 1.5px;
 
     // The whole sky shares one slow direction; only depth changes its travel distance.
-    animation: openbitfun-model-sky-drift 12s ease-in-out -4.5s infinite alternate;
+    animation: opc-model-sky-drift 12s ease-in-out -4.5s infinite alternate;
   }
 
   &__sky-layer--far {
@@ -85,11 +85,11 @@
 
   &__sky-star {
     opacity: var(--_model-star-opacity);
-    animation: openbitfun-model-sky-twinkle var(--_model-star-duration) ease-in-out var(--_model-star-delay) infinite;
+    animation: opc-model-sky-twinkle var(--_model-star-duration) ease-in-out var(--_model-star-delay) infinite;
   }
 
   &__sky-star--near {
-    animation-name: openbitfun-model-sky-flare;
+    animation-name: opc-model-sky-flare;
   }
 
   &__sky-glow {
@@ -144,7 +144,7 @@
 
   &__battery-energy,
   &__battery-particles {
-    animation: openbitfun-model-battery-breathe var(--_model-mode-cycle) ease-in-out calc(var(--_model-mode-cycle) * var(--_model-star-cell-phase)) infinite;
+    animation: opc-model-battery-breathe var(--_model-mode-cycle) ease-in-out calc(var(--_model-mode-cycle) * var(--_model-star-cell-phase)) infinite;
   }
 
   &__battery-shell {
@@ -200,11 +200,11 @@
 
   &__battery-particle {
     opacity: calc(var(--_model-star-opacity) * 0.75);
-    animation: openbitfun-model-battery-rise var(--_model-star-duration) linear var(--_model-star-delay) infinite;
+    animation: opc-model-battery-rise var(--_model-star-duration) linear var(--_model-star-delay) infinite;
   }
 }
 
-@keyframes openbitfun-model-sky-drift {
+@keyframes opc-model-sky-drift {
   from {
     transform: translate(calc(var(--_model-star-drift-x) * -1), var(--_model-star-drift-y));
   }
@@ -215,7 +215,7 @@
 }
 
 // Hold the bright phase long enough to read before each star fades independently.
-@keyframes openbitfun-model-sky-twinkle {
+@keyframes opc-model-sky-twinkle {
   0%, 100% {
     opacity: calc(var(--_model-star-opacity) * 0.3);
   }
@@ -237,7 +237,7 @@
   }
 }
 
-@keyframes openbitfun-model-sky-flare {
+@keyframes opc-model-sky-flare {
   0%, 100% {
     opacity: calc(var(--_model-star-opacity) * 0.16);
   }
@@ -255,7 +255,7 @@
   }
 }
 
-@keyframes openbitfun-model-smart-nebula-drift {
+@keyframes opc-model-smart-nebula-drift {
   from {
     transform: translate(-8%, 5%) scale(1.3);
     opacity: 0.75;
@@ -280,7 +280,7 @@
 }
 
 // Overlapping phases pass a soft emphasis left to right without moving the glass.
-@keyframes openbitfun-model-battery-breathe {
+@keyframes opc-model-battery-breathe {
   0%, 100% {
     opacity: 0.7;
   }
@@ -299,7 +299,7 @@
 }
 
 // Short rising currents fade before wrapping; individual phases prevent a wave of resets.
-@keyframes openbitfun-model-battery-rise {
+@keyframes opc-model-battery-rise {
   0% {
     opacity: 0;
     transform: translate(0, var(--_model-star-rise-y));

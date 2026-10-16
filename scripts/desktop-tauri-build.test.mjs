@@ -330,7 +330,7 @@ test('Desktop Tauri projection consumes only the resolved member identity', () =
   const baseConfig = join(fixture, 'tauri.conf.json');
   writeFileSync(baseConfig, JSON.stringify({
     productName: 'OpenBitFun',
-    identifier: 'com.openbitfun.desktop',
+    identifier: 'com.opcteam.desktop',
     bundle: { resources: {} },
   }));
   try {
@@ -447,11 +447,11 @@ test('beta Desktop artifacts compile and bundle only beta updater endpoints', ()
     const config = JSON.parse(readFileSync(generated, 'utf8'));
     assert.equal(
       config.plugins.updater.endpoints[0],
-      'https://github.com/GCWing/OpenBitFun/releases/download/channel-v1-beta/latest-v1.json',
+      'https://github.com/GCWing/OPC-Team/releases/download/channel-v1-beta/latest-v1.json',
     );
     assert.equal(
       config.plugins.updater.endpoints[1],
-      'https://openbitfun.com/release/beta/latest-v1.json',
+      'https://opcteam.eu.cc/release/beta/latest-v1.json',
     );
     assert.equal(
       process.env.OPC_UPDATER_PRIMARY_ENDPOINT,

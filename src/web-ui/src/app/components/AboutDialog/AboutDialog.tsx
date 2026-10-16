@@ -27,11 +27,11 @@ import {
 import { createLogger } from '@/shared/utils/logger';
 import { systemAPI } from '@/infrastructure/api';
 import { isTauriRuntime } from '@/infrastructure/update/tauriEnv';
-import { OpenBitFunBrandMotion } from '@opc-team/ui/brand';
+import { OpcBrandMotion } from '@opc-team/ui/brand';
 import './AboutDialog.scss';
 
 const log = createLogger('AboutDialog');
-const GITHUB_REPOSITORY_URL = 'https://github.com/GCWing/OpenBitFun';
+const GITHUB_REPOSITORY_URL = 'https://github.com/GCWing/OPC-Team';
 
 interface AboutDialogProps {
   /** Whether visible */
@@ -130,7 +130,7 @@ export const AboutDialog: React.FC<AboutDialogProps> = ({
                 aria-hidden="true"
               >
                 <div className="opc-about-dialog__artwork">
-                  <OpenBitFunBrandMotion className="opc-about-dialog__brand-mark" active={isOpen} />
+                  <OpcBrandMotion className="opc-about-dialog__brand-mark" active={isOpen} />
                 </div>
                 <p className="opc-about-dialog__brand-statement">
                   {t('about.brandStatement')}

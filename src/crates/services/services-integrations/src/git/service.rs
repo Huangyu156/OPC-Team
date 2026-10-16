@@ -1559,7 +1559,7 @@ mod review_path_tests {
                 "-c",
                 "user.name=OPC-Team Tests",
                 "-c",
-                "user.email=openbitfun@example.com",
+                "user.email=opc@example.com",
                 "commit",
                 "-m",
                 message,

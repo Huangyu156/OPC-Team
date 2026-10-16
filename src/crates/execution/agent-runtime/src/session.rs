@@ -581,7 +581,7 @@ mod tests {
             root_path: "/worktrees/session_1".to_string(),
             base_ref: Some("main".to_string()),
             base_commit: Some("0123456789abcdef".to_string()),
-            branch: Some("openbitfun/session_1".to_string()),
+            branch: Some("opc/session_1".to_string()),
             lifecycle: Some(WorktreeLifecycle::Managed),
         };
         let session = Session::new_with_id(

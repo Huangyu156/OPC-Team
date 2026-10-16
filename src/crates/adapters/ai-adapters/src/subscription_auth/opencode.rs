@@ -844,7 +844,7 @@ fn inference_headers() -> HashMap<String, String> {
             "User-Agent".to_string(),
             crate::providers::shared::product_user_agent(),
         ),
-        ("x-opencode-client".to_string(), "openbitfun".to_string()),
+        ("x-opencode-client".to_string(), "opc".to_string()),
     ])
 }
 

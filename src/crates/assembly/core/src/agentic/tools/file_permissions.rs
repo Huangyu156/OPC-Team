@@ -300,8 +300,8 @@ mod tests {
         );
 
         for path in [
-            "openbitfun://current-session/artifacts/session-references/reference.txt",
-            "openbitfun://current-session/artifacts/compression-transcripts/transcript.txt",
+            "opc://current-session/artifacts/session-references/reference.txt",
+            "opc://current-session/artifacts/compression-transcripts/transcript.txt",
         ] {
             let intents = file_permission_intents("read", [path], &context)
                 .expect("current session permission intents");

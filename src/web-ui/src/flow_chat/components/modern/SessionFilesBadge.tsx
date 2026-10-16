@@ -244,7 +244,7 @@ export const SessionFilesBadge: React.FC<SessionFilesBadgeProps> = ({
         setQuickActions(nextActions ?? DEFAULT_QUICK_ACTIONS);
       });
     }, {
-      signalName: 'openbitfun:interactive-shell-ready',
+      signalName: 'opc:interactive-shell-ready',
       fallbackTimeoutMs: 10000,
       frameCount: 1,
     });

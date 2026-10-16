@@ -171,7 +171,7 @@ struct MobileDesignGallery {
 }
 
 @Preview({
-  title: 'OpenBitFun Mobile · Compact',
+  title: 'OPC-Team Mobile · Compact',
   width: 390,
   height: 844
 })
@@ -183,7 +183,7 @@ struct MobileDesignCompactPreview {
 }
 
 @Preview({
-  title: 'OpenBitFun Mobile · Dark',
+  title: 'OPC-Team Mobile · Dark',
   width: 390,
   height: 844
 })
@@ -195,7 +195,7 @@ struct MobileDesignStreamingDarkPreview {
 }
 
 @Preview({
-  title: 'OpenBitFun Mobile · Wide',
+  title: 'OPC-Team Mobile · Wide',
   width: 1024,
   height: 768
 })

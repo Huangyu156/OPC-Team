@@ -110,21 +110,21 @@ describe('AppearanceService', () => {
   });
 
   it('uses and consumes the desktop bootstrap selection before reading config', async () => {
-    globalThis.__OPC_BOOTSTRAP_APPEARANCE_ID__ = 'openbitfun-dark';
-    globalThis.__OPC_BOOTSTRAP_APPEARANCE_SELECTION__ = 'openbitfun-dark';
+    globalThis.__OPC_BOOTSTRAP_APPEARANCE_ID__ = 'opc-dark';
+    globalThis.__OPC_BOOTSTRAP_APPEARANCE_SELECTION__ = 'opc-dark';
     const { runtime, service } = createService();
 
     await service.initialize();
 
     expect(configMocks.getConfig).not.toHaveBeenCalled();
     expect(runtime.initialize).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 'openbitfun-dark' }),
+      expect.objectContaining({ id: 'opc-dark' }),
       {},
     );
     expect(service.getSnapshot()).toMatchObject({
       initialized: true,
-      selectedAppearanceId: 'openbitfun-dark',
-      resolvedAppearanceId: 'openbitfun-dark',
+      selectedAppearanceId: 'opc-dark',
+      resolvedAppearanceId: 'opc-dark',
     });
     expect(Object.prototype.hasOwnProperty.call(globalThis, '__OPC_BOOTSTRAP_APPEARANCE_ID__')).toBe(false);
     expect(Object.prototype.hasOwnProperty.call(globalThis, '__OPC_BOOTSTRAP_APPEARANCE_SELECTION__')).toBe(false);
@@ -135,12 +135,12 @@ describe('AppearanceService', () => {
     const { service } = createService();
     await service.initialize();
 
-    await service.select('openbitfun-dark');
+    await service.select('opc-dark');
 
-    expect(configMocks.setConfig).toHaveBeenCalledWith('appearance.selection', 'openbitfun-dark');
+    expect(configMocks.setConfig).toHaveBeenCalledWith('appearance.selection', 'opc-dark');
     expect(service.getSnapshot()).toMatchObject({
-      selectedAppearanceId: 'openbitfun-dark',
-      resolvedAppearanceId: 'openbitfun-dark',
+      selectedAppearanceId: 'opc-dark',
+      resolvedAppearanceId: 'opc-dark',
     });
   });
 
@@ -151,24 +151,24 @@ describe('AppearanceService', () => {
     const { service } = createService();
     await service.initialize();
 
-    const selection = service.select('openbitfun-dark');
+    const selection = service.select('opc-dark');
     await vi.waitFor(() => expect(configMocks.setConfig).toHaveBeenCalledOnce());
 
     expect(service.getSnapshot()).toMatchObject({
       status: 'applying',
       selectedAppearanceId: 'system',
-      pendingSelectionId: 'openbitfun-dark',
+      pendingSelectionId: 'opc-dark',
     });
-    expect(service.hasAppliedPendingSelection('openbitfun-dark')).toBe(true);
-    expect(service.hasAppliedPendingSelection('openbitfun-light')).toBe(false);
+    expect(service.hasAppliedPendingSelection('opc-dark')).toBe(true);
+    expect(service.hasAppliedPendingSelection('opc-light')).toBe(false);
 
     pendingWrite.resolve(undefined);
     await selection;
-    expect(service.hasAppliedPendingSelection('openbitfun-dark')).toBe(false);
+    expect(service.hasAppliedPendingSelection('opc-dark')).toBe(false);
   });
 
   it('reconciles externally persisted selections without writing them again', async () => {
-    configMocks.getConfig.mockResolvedValueOnce('system').mockResolvedValueOnce('openbitfun-dark');
+    configMocks.getConfig.mockResolvedValueOnce('system').mockResolvedValueOnce('opc-dark');
     const { service } = createService();
     await service.initialize();
 
@@ -176,8 +176,8 @@ describe('AppearanceService', () => {
 
     expect(configMocks.setConfig).not.toHaveBeenCalled();
     expect(service.getSnapshot()).toMatchObject({
-      selectedAppearanceId: 'openbitfun-dark',
-      resolvedAppearanceId: 'openbitfun-dark',
+      selectedAppearanceId: 'opc-dark',
+      resolvedAppearanceId: 'opc-dark',
     });
   });
 
@@ -189,14 +189,14 @@ describe('AppearanceService', () => {
 
     expect(configMocks.setConfig).not.toHaveBeenCalled();
     expect(runtime.initialize).toHaveBeenCalledWith(
-      expect.objectContaining({ id: 'openbitfun-light' }),
+      expect.objectContaining({ id: 'opc-light' }),
       {},
     );
     expect(service.getSnapshot()).toMatchObject({
       selectedAppearanceId: 'system',
       persistedSelectionId: 'missing-appearance',
       unavailableSelectionId: 'missing-appearance',
-      resolvedAppearanceId: 'openbitfun-light',
+      resolvedAppearanceId: 'opc-light',
       status: 'degraded',
     });
   });
@@ -206,7 +206,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const stored: StoredAppearancePackage = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'market.shared', name: 'Shared',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'market.shared', name: 'Shared',
         version: '1.0.0', mode: 'dark',
       },
       archive: new ArrayBuffer(4),
@@ -245,7 +245,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const first: StoredAppearancePackage = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'market.theme', name: 'Market Theme',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'market.theme', name: 'Market Theme',
         version: '1.0.0', mode: 'dark',
       },
       archive: new ArrayBuffer(4),
@@ -298,7 +298,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const parsed: StoredAppearancePackage = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'unexpected.theme', name: 'Unexpected',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'unexpected.theme', name: 'Unexpected',
         version: '1.0.0', mode: 'dark',
       },
       archive: new ArrayBuffer(4),
@@ -328,7 +328,7 @@ describe('AppearanceService', () => {
     const importedAt = '2026-08-03T00:00:00.000Z';
     const unsupported = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: 1, id: 'unsupported.saved', name: 'Unsupported Saved',
+        schema: 'opc.appearance', schemaVersion: 1, id: 'unsupported.saved', name: 'Unsupported Saved',
         version: '1.0.0', mode: 'dark',
         renderers: {
           'css-tokens': {
@@ -360,22 +360,22 @@ describe('AppearanceService', () => {
     await service.initialize();
     configMocks.setConfig.mockRejectedValueOnce(new Error('config unavailable'));
 
-    await expect(service.select('openbitfun-dark')).rejects.toThrow('config unavailable');
+    await expect(service.select('opc-dark')).rejects.toThrow('config unavailable');
 
     expect(runtime.applyPackage).toHaveBeenNthCalledWith(
       1,
-      expect.objectContaining({ id: 'openbitfun-dark' }),
+      expect.objectContaining({ id: 'opc-dark' }),
       {},
     );
     expect(runtime.applyPackage).toHaveBeenNthCalledWith(
       2,
-      expect.objectContaining({ id: 'openbitfun-light' }),
+      expect.objectContaining({ id: 'opc-light' }),
       {},
     );
     expect(service.getSnapshot()).toMatchObject({
       status: 'ready',
       selectedAppearanceId: 'system',
-      resolvedAppearanceId: 'openbitfun-light',
+      resolvedAppearanceId: 'opc-light',
     });
   });
 
@@ -388,8 +388,8 @@ describe('AppearanceService', () => {
     const { runtime, service } = createService();
     await service.initialize();
 
-    const first = service.select('openbitfun-dark');
-    const second = service.select('openbitfun-light');
+    const first = service.select('opc-dark');
+    const second = service.select('opc-light');
     await vi.waitFor(() => expect(configMocks.setConfig).toHaveBeenCalledTimes(1));
     expect(runtime.applyPackage).toHaveBeenCalledTimes(1);
 
@@ -397,13 +397,13 @@ describe('AppearanceService', () => {
     await Promise.all([first, second]);
 
     expect(configMocks.setConfig.mock.calls).toEqual([
-      ['appearance.selection', 'openbitfun-dark'],
-      ['appearance.selection', 'openbitfun-light'],
+      ['appearance.selection', 'opc-dark'],
+      ['appearance.selection', 'opc-light'],
     ]);
     expect(service.getSnapshot()).toMatchObject({
       status: 'ready',
-      selectedAppearanceId: 'openbitfun-light',
-      resolvedAppearanceId: 'openbitfun-light',
+      selectedAppearanceId: 'opc-light',
+      resolvedAppearanceId: 'opc-light',
     });
   });
 
@@ -420,7 +420,7 @@ describe('AppearanceService', () => {
     await storage.put({
       ...packageBase,
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'explicit.preview', name: 'Explicit',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'explicit.preview', name: 'Explicit',
         version: '1.0.0', mode: 'light', preview: { kind: 'asset', assetId: 'hero' },
       },
       assets: { hero: { mimeType: 'image/webp', bytes: previewBytes, width: 16, height: 9 } },
@@ -428,7 +428,7 @@ describe('AppearanceService', () => {
     await storage.put({
       ...packageBase,
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'fallback.preview', name: 'Fallback',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'fallback.preview', name: 'Fallback',
         version: '1.0.0', mode: 'light',
       },
       assets: { background: { mimeType: 'image/png', bytes: backgroundBytes, width: 16, height: 9 } },
@@ -449,7 +449,7 @@ describe('AppearanceService', () => {
       archiveSchemaVersion: APPEARANCE_SCHEMA_VERSION,
       importedAt: '2026-07-29T00:00:00.000Z',
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'video.preview', name: 'Video',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'video.preview', name: 'Video',
         version: '1.0.0', mode: 'dark',
       },
       assets: {
@@ -481,15 +481,15 @@ describe('AppearanceService', () => {
     const second = createSyncedService();
     await Promise.all([first.initialize(), second.initialize()]);
 
-    await first.select('openbitfun-dark');
+    await first.select('opc-dark');
     await vi.waitFor(() => {
-      expect(second.getSnapshot().selectedAppearanceId).toBe('openbitfun-dark');
+      expect(second.getSnapshot().selectedAppearanceId).toBe('opc-dark');
     });
 
     expect(configMocks.setConfig).toHaveBeenCalledTimes(1);
     expect(second.getSnapshot()).toMatchObject({
       status: 'ready',
-      resolvedAppearanceId: 'openbitfun-dark',
+      resolvedAppearanceId: 'opc-dark',
     });
   });
 
@@ -499,7 +499,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const stored: StoredAppearancePackage = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'shared.market-theme',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'shared.market-theme',
         name: 'Shared Market Theme', version: '1.0.0', mode: 'dark',
       },
       archive: new ArrayBuffer(4),
@@ -547,7 +547,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const oldPackage = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.active', name: 'Old',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.active', name: 'Old',
         version: '1.0.0', mode: 'dark',
       } as AppearancePackage,
       archive: new ArrayBuffer(1),
@@ -592,7 +592,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const stored = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.saved', name: 'Saved',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.saved', name: 'Saved',
         version: '1.0.0', mode: 'dark',
       } as AppearancePackage,
       archive: new ArrayBuffer(1),
@@ -621,7 +621,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const stored = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.active-delete', name: 'Active',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.active-delete', name: 'Active',
         version: '1.0.0', mode: 'dark',
       } as AppearancePackage,
       archive: new ArrayBuffer(1),
@@ -660,7 +660,7 @@ describe('AppearanceService', () => {
     const storage = new MemoryAppearanceStorage();
     const stored = {
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.degraded-delete', name: 'Degraded',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.degraded-delete', name: 'Degraded',
         version: '1.0.0', mode: 'dark',
       } as AppearancePackage,
       archive: new ArrayBuffer(1),
@@ -695,8 +695,8 @@ describe('AppearanceService', () => {
     expect(service.getSnapshot()).toMatchObject({
       status: 'degraded',
       selectedAppearanceId: 'system',
-      resolvedAppearanceId: 'openbitfun-light',
-      current: expect.objectContaining({ id: 'openbitfun-light' }),
+      resolvedAppearanceId: 'opc-light',
+      current: expect.objectContaining({ id: 'opc-light' }),
     });
   });
 
@@ -713,19 +713,19 @@ describe('AppearanceService', () => {
       }),
       removeEventListener: vi.fn(),
     });
-    configMocks.getConfig.mockResolvedValueOnce('system').mockResolvedValueOnce('openbitfun-dark');
+    configMocks.getConfig.mockResolvedValueOnce('system').mockResolvedValueOnce('opc-dark');
     const { service } = createService();
     await service.initialize();
 
     focusListener?.();
     await vi.waitFor(() => {
-      expect(service.getSnapshot().selectedAppearanceId).toBe('openbitfun-dark');
+      expect(service.getSnapshot().selectedAppearanceId).toBe('opc-dark');
     });
 
     expect(configMocks.setConfig).not.toHaveBeenCalled();
     expect(service.getSnapshot()).toMatchObject({
       status: 'ready',
-      resolvedAppearanceId: 'openbitfun-dark',
+      resolvedAppearanceId: 'opc-dark',
     });
   });
 
@@ -746,7 +746,7 @@ describe('AppearanceService', () => {
     const { runtime, service, storage } = createService();
     await storage.put({
       manifest: {
-        schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.dynamic', name: 'Dynamic',
+        schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.dynamic', name: 'Dynamic',
         version: '1.0.0', mode: 'dark',
       },
       archive: new ArrayBuffer(1),
@@ -779,7 +779,7 @@ describe('AppearanceService', () => {
     configMocks.getConfig.mockResolvedValue('sample.dynamic');
     const { runtime, service, storage } = createService();
     const manifest: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.dynamic', name: 'Dynamic',
+      schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION, id: 'sample.dynamic', name: 'Dynamic',
       version: '1.0.0', mode: 'dark',
     };
     await storage.put({

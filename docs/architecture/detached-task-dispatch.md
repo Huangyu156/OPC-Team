@@ -227,7 +227,7 @@ cannot make two product data spaces compatible.
 
 `probe` is read-only and never installs software. Immediately before SSH
 provisioning, submission probes again and automatically installs or upgrades a
-compatible latest prebuilt `openbitfun` release when needed. Release resolution
+compatible latest prebuilt `opc` release when needed. Release resolution
 stays bound to the expected OS and architecture. GitHub is the default byte
 source; when its measured transfer rate is below 512 KiB/s, OPC-Team is tried
 first and GitHub remains the fallback. The same policy applies whether the SSH
@@ -280,9 +280,9 @@ Conversely, controller-side commands such as `dispatch_submit` remain
 local-only in every Peer Device Mode deny table. Disconnecting the last Peer
 controller must not cancel or hide a detached dispatch job.
 
-An account target must already have a compatible `openbitfun dispatch` runner. A
+An account target must already have a compatible `opc dispatch` runner. A
 CLI daemon already satisfies this. The Desktop account host delegates to an
-installed `openbitfun` binary (including a package-manager symlink); if none is
+installed `opc` binary (including a package-manager symlink); if none is
 available, probe reports the missing runner and submission remains disabled
 rather than falling back to local execution. Device dispatch never performs
 SSH-style installation through the Relay.

@@ -386,21 +386,20 @@ fn custom_agent_discovery_ignores_non_opc_agent_dirs() {
     let workspace = TestTempDir::new("opc-runtime-custom-agent-workspace");
     let user_root = TestTempDir::new("opc-runtime-custom-agent-user");
     let home = TestTempDir::new("opc-runtime-custom-agent-home");
-    let project_openbitfun = workspace
+    let project_opc = workspace
         .path
         .join(opc_core_types::product_identity::hidden_data_directory())
         .join("agents");
     let project_claude = workspace.path.join(".claude").join("agents");
     let user_agents = user_root.path.join("agents");
     let home_claude = home.path.join(".claude").join("agents");
-    fs::create_dir_all(&project_openbitfun)
-        .expect("project openbitfun agents dir should be created");
+    fs::create_dir_all(&project_opc).expect("project openbitfun agents dir should be created");
     fs::create_dir_all(&project_claude).expect("project claude agents dir should be created");
     fs::create_dir_all(&user_agents).expect("user agents dir should be created");
     fs::create_dir_all(&home_claude).expect("home claude agents dir should be created");
 
     write_subagent(
-        &project_openbitfun.join("project-openbitfun.md"),
+        &project_opc.join("project-opc.md"),
         "OpcTeamProject",
         CustomAgentLevel::Project,
     );
@@ -410,7 +409,7 @@ fn custom_agent_discovery_ignores_non_opc_agent_dirs() {
         CustomAgentLevel::Project,
     );
     write_subagent(
-        &user_agents.join("user-openbitfun.md"),
+        &user_agents.join("user-opc.md"),
         "OpcTeamUser",
         CustomAgentLevel::User,
     );
@@ -431,7 +430,7 @@ fn custom_agent_discovery_ignores_non_opc_agent_dirs() {
             .iter()
             .map(|entry| entry.path.as_path())
             .collect::<Vec<_>>(),
-        vec![project_openbitfun.as_path(), user_agents.as_path()]
+        vec![project_opc.as_path(), user_agents.as_path()]
     );
 
     let report = load_custom_agent_definitions(&roots);

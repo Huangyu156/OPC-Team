@@ -10,7 +10,7 @@ use opc_product_domains::account::GitHubUser;
 use reqwest::{RequestBuilder, Response, StatusCode};
 use serde::de::DeserializeOwned;
 use serde::{Deserialize, Serialize};
-pub const DEFAULT_ACCOUNT_API_URL: &str = "https://auth.openbitfun.com/api/v1";
+pub const DEFAULT_ACCOUNT_API_URL: &str = "https://auth.opcteam.eu.cc/api/v1";
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct DesktopAuthStart {
@@ -160,7 +160,7 @@ impl AccountIdentityClient {
             ));
         }
         let client = crate::reqwest_client_builder()
-            .user_agent(format!("OpenBitFun/{}", env!("CARGO_PKG_VERSION")))
+            .user_agent(format!("OPC-Team/{}", env!("CARGO_PKG_VERSION")))
             .redirect(reqwest::redirect::Policy::none())
             .build()
             .map_err(|error| local_error("market_client_init_failed", error.to_string()))?;

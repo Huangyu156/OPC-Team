@@ -1,7 +1,7 @@
 # OPC-Team Appearance 外观包系统
 
 本文定义 Web UI 的唯一外观运行时。原 `ThemeService + SkinService + DeepSkinComponents.scss`
-双系统已经废弃；`openbitfun.skin`、`.opc-skin`、旧 IndexedDB 数据和旧 manifest 均不兼容、
+双系统已经废弃；`opc.skin`、`.opc-skin`、旧 IndexedDB 数据和旧 manifest 均不兼容、
 不迁移。
 
 ## 目标
@@ -32,7 +32,7 @@ src/web-ui/src/infrastructure/appearance/
 
 `AppearanceRuntime` 是唯一视觉 owner。内置外观和导入外观使用同一个 `AppearancePackage`
 契约、同一个 compiler、同一个事务提交路径。选择值由正式配置键 `appearance.selection`
-持久化；IndexedDB `openbitfun-appearance` 只保存导入包和 catalog，不保存当前选择。
+持久化；IndexedDB `opc-appearance` 只保存导入包和 catalog，不保存当前选择。
 
 包可以只声明需要覆盖的字段，但进入 runtime 前必须通过 `composeAppearancePackage` 与同模式的
 完整内置基准组合。compiler 会按“内置基准普通层、导入包覆盖层”分别生成 surface 规则，避免
@@ -49,10 +49,10 @@ material 结构；外观包必须按本文和当前 registry 重新生成。
 
 ## 包格式
 
-文件扩展名为 `.openbitfun-appearance`，内容为 ZIP，根目录必须包含 `appearance.json`：
+文件扩展名为 `.opc-appearance`，内容为 ZIP，根目录必须包含 `appearance.json`：
 
 ```text
-aurora.openbitfun-appearance
+aurora.opc-appearance
 ├── appearance.json
 └── assets/
     ├── preview.webp
@@ -65,7 +65,7 @@ aurora.openbitfun-appearance
 
 ```json
 {
-  "schema": "openbitfun.appearance",
+  "schema": "opc.appearance",
   "schemaVersion": 1,
   "id": "example.aurora",
   "name": "Aurora",
@@ -78,7 +78,7 @@ aurora.openbitfun-appearance
 
 ```json
 {
-  "schema": "openbitfun.appearance",
+  "schema": "opc.appearance",
   "schemaVersion": 1,
   "id": "example.aurora",
   "name": "Aurora",
@@ -288,7 +288,7 @@ states: [
 自己的 selector。编译器按 descriptor 生成规则，例如：
 
 ```css
-:root[data-openbitfun-appearance="example.aurora"]
+:root[data-opc-appearance="example.aurora"]
   [data-opc-component="button"][data-opc-part="root"][data-opc-variant="primary"]:hover:not(:disabled) { ... }
 ```
 
@@ -391,7 +391,7 @@ flowchart LR
 每次成功提交都会增加单调 revision，并原子更新：
 
 - `<style data-opc-appearance-runtime="revision">`；
-- `data-openbitfun-appearance`、`data-opc-appearance-mode`、`data-opc-appearance-revision`；
+- `data-opc-appearance`、`data-opc-appearance-mode`、`data-opc-appearance-revision`；
 - `ResolvedAppearance`；
 - renderer adapter 状态；
 - 当前包的 blob URL 生命周期。
@@ -429,9 +429,9 @@ IndexedDB 前完成相同 preflight；覆盖活动包时，存储、目录或后
 ## Skin 市场边界
 
 产品在目录、设置入口和公网 URL 中把 Appearance 包称为 **Skin**；这只是产品文案，不新增
-Skin runtime、manifest 或文件格式。公网入口固定为 `market.openbitfun.com/skin/`，稳定 API 为
-`/skin/api/v1`，下载物仍是 `.openbitfun-appearance`，根 manifest 仍是 `appearance.json` 和
-`schema: openbitfun.appearance`。
+Skin runtime、manifest 或文件格式。公网入口固定为 `market.opcteam.eu.cc/skin/`，稳定 API 为
+`/skin/api/v1`，下载物仍是 `.opc-appearance`，根 manifest 仍是 `appearance.json` 和
+`schema: opc.appearance`。
 
 市场稳定 DTO 和发布状态机由 `opc-product-domains::appearance_market` 拥有。独立
 `opc-skin-market` 服务使用自己的 SQLite、content-addressed package/preview artifacts、审核日志、
@@ -454,7 +454,7 @@ UI 明确显示为本地版本，不能继续伪装成已安装的市场 release
 安装是当前设备 UI 行为，与 workspace 本地/远程无关，绝不能把 package 发送到 SSH workspace。
 
 Agent 的 outward-facing `PublishAppearance` 只接受用户明确指定的本机绝对
-`.openbitfun-appearance` 路径，在上传前执行本地 package envelope 校验，并复用 Desktop 登录与投稿编排。
+`.opc-appearance` 路径，在上传前执行本地 package envelope 校验，并复用 Desktop 登录与投稿编排。
 远程 SSH workspace 中它必须 fail closed；Agent Runtime 不得扫描目录、猜测用户许可，或假装能读取
 WebView IndexedDB 中已安装的包。
 
@@ -463,7 +463,7 @@ snapshot 和结构化日志中；未来可以按产品无障碍策略升级为 g
 
 ## 存储与安全
 
-系统只使用 IndexedDB `openbitfun-appearance`，不读取旧主题或皮肤数据库。
+系统只使用 IndexedDB `opc-appearance`，不读取旧主题或皮肤数据库。
 
 导入限制：
 
@@ -506,7 +506,7 @@ Appearance 系统的完成标准由以下持续性证据定义：
 - 每个 scene canvas、导航区、工具栏、空状态和重复业务卡片都有契约；
 - 所有 Portal 使用统一 OverlayHost；
 - Monaco、xterm、canvas、mermaid、widget 等都有 renderer adapter；
-- 生产代码不存在 `SkinService`、`DeepSkinComponents.scss`、`openbitfun.skin` 兼容逻辑；
+- 生产代码不存在 `SkinService`、`DeepSkinComponents.scss`、`opc.skin` 兼容逻辑；
 - `ThemeService` 和旧 CSS 变量 owner 已删除，内置外观直接由 Appearance 定义；
 - registry 覆盖检查、包解析测试、compiler snapshot、runtime rollback、组件 DOM contract、
   type-check、i18n audit 和 `theme:color-audit:all` 全部通过。

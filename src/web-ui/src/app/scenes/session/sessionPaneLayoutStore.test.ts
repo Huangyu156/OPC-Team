@@ -32,7 +32,7 @@ describe('session pane layout', () => {
   });
 
   it('falls back for unknown layout preferences without rewriting them', () => {
-    const storage = preferences({ 'openbitfun:sessionPaneDisplayMode': 'future', 'openbitfun:sessionOverlayWidth': 'invalid' });
+    const storage = preferences({ 'opc:sessionPaneDisplayMode': 'future', 'opc:sessionOverlayWidth': 'invalid' });
     const store = createSessionPaneLayoutStore(storage);
     expect(store.getState().displayMode).toBe('split');
     expect(store.getState().preferredOverlayWidth).toBeGreaterThan(0);

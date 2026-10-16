@@ -172,7 +172,7 @@ fn reset_memory_workspace_git_baseline_sync(root: &Path) -> Result<(), MemoryWor
     let tree = repository
         .find_tree(tree_id)
         .map_err(|source| git_operation(root, "load baseline tree", source))?;
-    let signature = Signature::now("OpenBitFun", "openbitfun@localhost")
+    let signature = Signature::now("OPC-Team", "opc@localhost")
         .map_err(|source| git_operation(root, "create baseline signature", source))?;
     repository
         .commit(

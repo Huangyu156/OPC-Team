@@ -17,7 +17,7 @@ const EDIT_TOOL_PROMPT: &str = r#"Performs exact string replacements in files.
 - A focused Read window is sufficient when it contains the full target block. Truncated lines and extracted document Markdown are not exact source; obtain a complete source view before editing.
 - Choose the smallest unique `old_string`. If it occurs more than once, add context or use `replace_all` only when every occurrence should change.
 - If matching fails, inspect the current target again and correct the text or scope before retrying.
-- `file_path` accepts a workspace-relative path, an absolute path inside the workspace, or an exact `openbitfun://...` URI returned by a tool."#;
+- `file_path` accepts a workspace-relative path, an absolute path inside the workspace, or an exact `opc://...` URI returned by a tool."#;
 
 impl Default for FileEditTool {
     fn default() -> Self {

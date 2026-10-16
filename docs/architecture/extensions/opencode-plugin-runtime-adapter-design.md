@@ -206,7 +206,7 @@ OpenCode 项目和用户目录可以直接成为兼容来源。OpenCode 来源�
 “上一版本不可恢复”，不能从当前来源重建后仍冒充旧版本。运行时发现新依赖后只更新当前版本记录，不能追溯改写
 旧版本身份。
 
-OPC-Team 原生 `openbitfun.plugin.json` 包继续使用现有来源校验；OpenCode 兼容来源与原生包最终进入相同 Plugin Host
+OPC-Team 原生 `opc.plugin.json` 包继续使用现有来源校验；OpenCode 兼容来源与原生包最终进入相同 Plugin Host
 可靠性边界，但来源格式、安装和更新生命周期不必相同。
 
 ## 5. 工具与插件加载
@@ -437,7 +437,7 @@ OpenCode 特有规则：来源已经允许执行时可直接准备，动态贡�
 
 当前仍需保留并逐步迁移的边界：
 
-- `openbitfun.plugin.json` 不是所有 OpenCode 插件的强制作者格式。
+- `opc.plugin.json` 不是所有 OpenCode 插件的强制作者格式。
 - 静态候选不是完整工具真实定义；当前 standalone Tool 路径在 load 时核对预期 export，不匹配就拒绝加载；完整 Plugin Host 后续比较动态贡献差异。
 - 无 custom tool 的插件仍可因 Hook、auth 或 provider 被启用。
 - `client/server` 不再一律拒绝；由 OpenCode adapter 的插件兼容接口映射到现有归属模块。

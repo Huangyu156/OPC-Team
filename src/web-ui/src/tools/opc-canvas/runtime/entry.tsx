@@ -1,7 +1,7 @@
 import '@opc-team/design-tokens/tokens.css';
 import './styles/canvas-runtime.scss';
 import * as sdkAdapters from './sdk';
-import { installOpenBitFunCanvasRuntimeApp } from './CanvasRuntimeApp';
+import { installOpcCanvasRuntimeApp } from './CanvasRuntimeApp';
 import {
   CANVAS_RUNTIME_VERSION,
   CANVAS_SDK_RUNTIME_EXPORTS,
@@ -10,8 +10,8 @@ import {
 
 declare global {
   interface Window {
-    OpenBitFunCanvasSDKAdapters?: typeof sdkAdapters;
-    OpenBitFunCanvasContract?: {
+    OpcCanvasSDKAdapters?: typeof sdkAdapters;
+    OpcCanvasContract?: {
       runtimeVersion: string;
       sdkVersion: string;
     };
@@ -23,9 +23,9 @@ if (missingExports.length > 0) {
   throw new Error(`Canvas SDK runtime contract is incomplete: ${missingExports.join(', ')}`);
 }
 
-window.OpenBitFunCanvasContract = {
+window.OpcCanvasContract = {
   runtimeVersion: CANVAS_RUNTIME_VERSION,
   sdkVersion: CANVAS_SDK_VERSION,
 };
-window.OpenBitFunCanvasSDKAdapters = sdkAdapters;
-installOpenBitFunCanvasRuntimeApp();
+window.OpcCanvasSDKAdapters = sdkAdapters;
+installOpcCanvasRuntimeApp();

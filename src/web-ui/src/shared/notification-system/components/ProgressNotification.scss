@@ -9,7 +9,7 @@
   padding: var(--opcteam-space-3);
   min-width: 280px;
   max-width: 320px;
-  animation: openbitfun-progress-notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: opc-progress-notification-slide-in 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-family: var(--opcteam-type-body-sm-font-family);
 
   
@@ -41,7 +41,7 @@
   }
 
   &__spinner {
-    animation: openbitfun-progress-notification-spin 1s linear infinite;
+    animation: opc-progress-notification-spin 1s linear infinite;
   }
 
   &__status-icon {
@@ -135,7 +135,7 @@
 }
 
 
-@keyframes openbitfun-progress-notification-spin {
+@keyframes opc-progress-notification-spin {
   from {
     transform: rotate(0deg);
   }
@@ -145,7 +145,7 @@
 }
 
 
-@keyframes openbitfun-progress-notification-slide-in {
+@keyframes opc-progress-notification-slide-in {
   from {
     opacity: 0;
     transform: translateX(-100%);

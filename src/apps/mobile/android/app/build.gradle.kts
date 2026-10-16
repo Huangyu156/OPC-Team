@@ -21,12 +21,12 @@ val allowUnsignedRelease = providers.gradleProperty("allowUnsignedRelease")
     .get()
 android {
     sourceSets.getByName("main").assets.srcDir(file("../../../../shared/terminal/webview/generated"))
-    namespace = "com.openbitfun.mobile.app"
+    namespace = "com.opc.mobile.app"
     compileSdk = libs.versions.androidCompileSdk.get().toInt()
 
     defaultConfig {
-        // Same family as com.openbitfun.desktop; see the implementation plan section 3.
-        applicationId = "com.openbitfun.mobile"
+        // Same family as com.opcteam.desktop; see the implementation plan section 3.
+        applicationId = "com.opc.mobile"
         minSdk = libs.versions.androidMinSdk.get().toInt()
         targetSdk = libs.versions.androidTargetSdk.get().toInt()
         versionCode = 1
@@ -75,7 +75,7 @@ android {
 dependencies {
     // The only shared module an app may name. Everything below it — transport,
     // crypto, persistence — is reached through UiState and Intent or not at all.
-    implementation("com.openbitfun.mobile:core-feature")
+    implementation("com.opc.mobile:core-feature")
 
     implementation(platform(libs.compose.bom))
     implementation(libs.compose.ui)

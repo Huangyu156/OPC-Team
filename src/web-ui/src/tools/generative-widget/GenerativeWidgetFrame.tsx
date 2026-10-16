@@ -736,7 +736,7 @@ ${createWidgetAppearanceFallbackCss()}
         if (!appearance) return;
         var root = document.documentElement;
         if (!root) return;
-        if (appearance.id) root.setAttribute('data-openbitfun-appearance', String(appearance.id));
+        if (appearance.id) root.setAttribute('data-opc-appearance', String(appearance.id));
         if (appearance.mode) root.setAttribute('data-opc-appearance-mode', String(appearance.mode));
         var vars = appearance.vars || {};
         Object.keys(vars).forEach(function (name) {
@@ -762,7 +762,7 @@ ${createWidgetAppearanceFallbackCss()}
         }
       };
 
-      window.openbitfunWidget = bridge;
+      window.opcWidget = bridge;
       window.glimpse = bridge;
       window.sendPrompt = function (text) {
         parent.postMessage({

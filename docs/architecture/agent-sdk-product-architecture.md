@@ -42,7 +42,7 @@ OPC-Team 不选择“复制 Claude”“复制 OpenCode”或“复制 Codex”�
 flowchart LR
   Need{"你要做什么？"}
   Need -->|"人工交互"| Product["OPC-Team GUI / TUI"]
-  Need -->|"shell、一次性任务、普通 CI"| CLI["openbitfun exec"]
+  Need -->|"shell、一次性任务、普通 CI"| CLI["opc exec"]
   Need -->|"应用、服务、IDE、复杂自动化"| SDK["OPC-Team Agent SDK"]
 ```
 
@@ -96,9 +96,9 @@ flowchart LR
   OpenCode["OpenCode Server / SDK\n单内核与多客户端"] --> Customization["定制化门槛"]
   Vercel["Vercel AI SDK / Elements\nUI 状态与 transport 分离"] --> Customization
 
-  Capability --> OpenBitFun["一个 OPC-Team Agent SDK"]
-  Protocol --> OpenBitFun
-  Customization --> OpenBitFun
+  Capability --> OPC-Team["一个 OPC-Team Agent SDK"]
+  Protocol --> OPC-Team
+  Customization --> OPC-Team
 ```
 
 这张图表达的是决策证据来源，而不是把多个竞品 API 拼成一个超集。能力、协议和界面定制分别取证，
@@ -177,7 +177,7 @@ Python SDK、TypeScript SDK、managed Host 和连接预启动 Host 不是四种 
 ```mermaid
 flowchart TB
   GUI["GUI / TUI"] --> UIA["UI adapter"]
-  CLI["openbitfun exec"] --> CLIA["CLI adapter"]
+  CLI["opc exec"] --> CLIA["CLI adapter"]
   SDK["Agent SDK"] --> SDKA["SDK Host"]
   ACP["ACP"] --> ACPA["ACP adapter"]
   Server["Server / Remote"] --> RemoteA["Server / Remote adapter"]
@@ -244,11 +244,11 @@ flowchart LR
 
 | 组件 | 必须 | 禁止 |
 |---|---|---|
-| `openbitfun` CLI | 依赖共享 Runtime/Application 能力 | 依赖 SDK Host app、SDK protocol 或公开语言包 |
+| `opc` CLI | 依赖共享 Runtime/Application 能力 | 依赖 SDK Host app、SDK protocol 或公开语言包 |
 | GUI/TUI | 依赖共享应用用例和各自平台 adapter | 经公开 SDK 绕行 Runtime；共享 renderer/protocol |
 | `opc-sdk-host` | 独立组装入口，选择 SDK profile | 依赖 CLI crate；成为第二个 Server 或 Runtime |
 | SDK Host adapter | 协议、能力协商、连接/Query 资源清理责任和 DTO 转换 | stdin/stdout 入口、Agent 业务状态、Tool/MCP 注册表 |
-| Python/TypeScript SDK | 管理或连接匹配 Host，提供一致公开 API | 要求用户安装 `openbitfun` CLI；暴露内部 wire DTO |
+| Python/TypeScript SDK | 管理或连接匹配 Host，提供一致公开 API | 要求用户安装 `opc` CLI；暴露内部 wire DTO |
 | `CoreRuntimeOwnership` | 第一方 Rust 入口选择 Embedded/Shared，并把本机 workspace lease 注入 Coordinator | 进入公开 SDK/wire；成为 Session 单写或 Server 路由 owner |
 
 通讯能力按“协议机械层、载体、产品协议”三层拆分：
@@ -473,7 +473,7 @@ flowchart LR
 
 CLI 和 SDK 共享能力事实，但不是上下层关系：
 
-| 需求 | `openbitfun exec` | Agent SDK |
+| 需求 | `opc exec` | Agent SDK |
 |---|---|---|
 | 一次性命令、shell 管道 | 首选 | 可用，但增加语言和 Host 生命周期 |
 | 普通 CI | 首选：稳定退出码、JSON/JSONL、进程级期限 | 只有需要类型明确的 callback、并发 Session 或应用内状态时选择 |
@@ -489,7 +489,7 @@ CLI 和 SDK 共享能力事实，但不是上下层关系：
 
 - CLI 不默认依赖 SDK Host，也不通过 SDK package 运行。
 - CLI、ACP、Desktop 与 SDK Host 只共享 Core ownership 和 Runtime 行为 owner；共享这些内部 owner 不构成产品依赖，也不新增第二种 SDK。
-- 一次性 `openbitfun exec` 默认使用 Embedded Runtime；只有恢复或控制 Shared Agent Runtime 中的共享 Session 时，才使用第一方
+- 一次性 `opc exec` 默认使用 Embedded Runtime；只有恢复或控制 Shared Agent Runtime 中的共享 Session 时，才使用第一方
   client adapter attach，且不经过 SDK Host。
 - SDK 不解析 CLI `stream-json` 作为正式双向协议。
 - 普通脚本/CI 不需要为了“架构统一”改写成 SDK；复杂生产自动化才选择 SDK。
@@ -562,7 +562,7 @@ flowchart LR
 版本兼容但能力缺失时仍必须返回明确不可用，不能根据 SDK 包版本推断 Runtime 已支持。
 
 SDK 安装后必须能定位匹配 Host。TypeScript 可使用平台可选包，Python 可使用平台 wheel；具体打包方案可按仓库和签名体系调整，
-但用户不应先安装或升级 `openbitfun` CLI。连接预启动 Host 是高级模式，需双向认证、端点 owner/ACL 校验和 capability negotiation。
+但用户不应先安装或升级 `opc` CLI。连接预启动 Host 是高级模式，需双向认证、端点 owner/ACL 校验和 capability negotiation。
 
 ### 10.3 发布渠道
 

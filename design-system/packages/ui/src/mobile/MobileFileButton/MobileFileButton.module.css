@@ -5,7 +5,7 @@
   .input { position: absolute; inline-size: 1px; block-size: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
   .slot, .spinner { display: grid; inline-size: 20px; block-size: 20px; flex: 0 0 20px; place-items: center; }
   .slot > :where(svg, img) { inline-size: 100%; block-size: 100%; }
-  .spinner { border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: var(--opcteam-radius-pill); animation: openbitfun-mobile-file-button-spin var(--opcteam-motion-duration-loop) linear infinite; }
-  @keyframes openbitfun-mobile-file-button-spin { to { transform: rotate(360deg); } }
+  .spinner { border: 2px solid currentColor; border-inline-end-color: transparent; border-radius: var(--opcteam-radius-pill); animation: opc-mobile-file-button-spin var(--opcteam-motion-duration-loop) linear infinite; }
+  @keyframes opc-mobile-file-button-spin { to { transform: rotate(360deg); } }
   @media (prefers-reduced-motion: reduce) { .spinner { animation: none; } }
 }

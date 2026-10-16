@@ -1795,20 +1795,20 @@ mod tests {
             files: vec![
                 opc_core::native_hooks::NativeHookFileView {
                     scope: "user",
-                    path: PathBuf::from("C:/Users/private/AppData/Roaming/OpenBitFun/config/hooks.json"),
+                    path: PathBuf::from("C:/Users/private/AppData/Roaming/OPC-Team/config/hooks.json"),
                     exists: true,
                     loaded: true,
                 },
                 opc_core::native_hooks::NativeHookFileView {
                     scope: "project",
-                    path: PathBuf::from("D:/secret/project/.openbitfun/config/hooks.json"),
+                    path: PathBuf::from("D:/secret/project/.opcteam/config/hooks.json"),
                     exists: true,
                     loaded: true,
                 },
                 opc_core::native_hooks::NativeHookFileView {
                     scope: "user",
                     path: PathBuf::from(
-                        "C:/Users/private/AppData/Roaming/OpenBitFun/runtime/hook-imports/bundles/import-one/version/hooks.json",
+                        "C:/Users/private/AppData/Roaming/OPC-Team/runtime/hook-imports/bundles/import-one/version/hooks.json",
                     ),
                     exists: true,
                     loaded: true,
@@ -1819,7 +1819,7 @@ mod tests {
                 matcher: "Bash".to_string(),
                 matcher_is_valid: true,
                 scope: "project",
-                source: "D:/secret/project/.openbitfun/config/hooks.json".to_string(),
+                source: "D:/secret/project/.opcteam/config/hooks.json".to_string(),
                 handlers: vec![opc_core::native_hooks::NativeHookHandlerView {
                     command: format!("secret-token {}", "x".repeat(240)),
                     timeout_seconds: 5,
@@ -1828,7 +1828,7 @@ mod tests {
             }],
             total_handlers: 1,
             issues: vec![
-                "Failed to read hook configuration: path=D:/secret/project/.openbitfun/config/hooks.json"
+                "Failed to read hook configuration: path=D:/secret/project/.opcteam/config/hooks.json"
                     .to_string(),
             ],
         }
@@ -1895,7 +1895,7 @@ mod tests {
 
         assert_eq!(
             overview.files[1].location,
-            "<workspace>/.openbitfun/config/hooks.json"
+            "<workspace>/.opcteam/config/hooks.json"
         );
         assert!(overview.files[2].location.starts_with("<managed-hooks>/"));
         assert!(overview.rules[0].handlers[0].command_truncated);
@@ -1910,7 +1910,7 @@ mod tests {
         for secret in ["D:/secret/project", "C:/Users/private", "secret-token"] {
             assert!(!debug.contains(secret), "native Hook Debug leaked {secret}");
         }
-        assert!(overview.issues[0].contains("<workspace>/.openbitfun/config/hooks.json"));
+        assert!(overview.issues[0].contains("<workspace>/.opcteam/config/hooks.json"));
         assert!(!overview.issues[0].contains("D:/secret/project"));
     }
 

@@ -27,9 +27,9 @@ const CHINA_NIGHT_GREEN_HOVER = '#7eb09b';
 const chinaNightText = (alpha: number | string) => rgbaFromHex(CHINA_NIGHT_TEXT_PRIMARY, alpha);
 const chinaNightAccent = (alpha: number | string) => rgbaFromHex(CHINA_NIGHT_ACCENT, alpha);
 
-export const openBitFunChinaNightPalette: AppearancePalette = {
+export const opcChinaNightPalette: AppearancePalette = {
 
-  id: 'openbitfun-china-night',
+  id: 'opc-china-night',
   name: 'Ink Night',
   type: 'dark',
   description: 'Chinese dark appearance - Starlit ink night, moonlight like water, serene and elegant',

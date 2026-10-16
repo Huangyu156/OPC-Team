@@ -63,7 +63,7 @@ class PreviewFileHost implements RemoteFileDownloadClient {
   private readonly files: Map<string, PreviewFile> = new Map<string, PreviewFile>();
 
   constructor() {
-    this.add(new PreviewFile('png/openbitfun-wordmark.png', 'openbitfun-wordmark.png', 'image/png',
+    this.add(new PreviewFile('png/opc-wordmark.png', 'opc-wordmark.png', 'image/png',
       PREVIEW_PNG_BASE64));
     this.add(PreviewFile.text('artifacts/REPORT.md', 'text/markdown',
       '# Brand report\n\nThe wordmark and the bundle are ready.\n'));
@@ -279,16 +279,16 @@ export struct FileVisibilityPreview {
 
   private finalAnswer(): string {
     return 'Done. The brand export wrote these files:\n\n' +
-      '- [openbitfun-wordmark.png](computer://png/openbitfun-wordmark.png)\n' +
+      '- [opc-wordmark.png](computer://png/opc-wordmark.png)\n' +
       '- [REPORT.md](computer://artifacts/REPORT.md)\n' +
       '- [bundle.zip](computer://artifacts/bundle.zip)\n\n' +
       'The run log is at computer://artifacts/run.log, and the source image is ' +
-      'png/openbitfun-wordmark.png.';
+      'png/opc-wordmark.png.';
   }
 
   private trailingAnswer(): string {
     return 'Checked the workspace files.\n\n' +
-      '- [openbitfun-wordmark.png](computer://png/openbitfun-wordmark.png)\n' +
+      '- [opc-wordmark.png](computer://png/opc-wordmark.png)\n' +
       '- [REPORT.md](computer://artifacts/REPORT.md)';
   }
 

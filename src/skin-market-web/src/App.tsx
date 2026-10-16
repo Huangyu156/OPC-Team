@@ -249,7 +249,7 @@ export default function App() {
         <div className="shell site-footer__inner">
           <span>{t('brand')} {t('market')}</span>
           <a className="site-footer__link" href={OPC_HOME_URL} target="_blank" rel="noreferrer">
-            {t('openbitfunHome')}
+            {t('opcHome')}
             <ArrowSquareOut size={16} aria-hidden="true" />
           </a>
         </div>

@@ -15,7 +15,7 @@ const SOURCE_GROUPS = Object.freeze({
   'web-ui': [
     'src/web-ui/src',
     'src/mobile-web/src',
-    'OpenBitFun-Installer/src',
+    'Opc-Installer/src',
   ],
 });
 
@@ -54,14 +54,14 @@ const SEMANTIC_ROLE_PRODUCT_STYLE_ROOTS = [
   'packages/flow-chat-presentation/src/',
   'src/web-ui/src/',
   'src/mobile-web/src/',
-  'OpenBitFun-Installer/src/',
+  'Opc-Installer/src/',
   'design-system/apps/design-lab/src/',
 ];
 
 const COMPLETE_PRODUCT_STYLE_ROOTS = [
   'src/web-ui/src/',
   'src/mobile-web/src/',
-  'OpenBitFun-Installer/src/',
+  'Opc-Installer/src/',
 ];
 
 const TYPOGRAPHY_PROPERTIES = new Set([
@@ -260,7 +260,7 @@ const FILE_CONTRACTS = Object.freeze([
     ],
   },
   {
-    path: 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/references/appearance-registry.json',
+    path: 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/references/appearance-registry.json',
     forbidden: [
       {
         code: 'appearance-registry-flowchat-font-contract-reintroduced',
@@ -270,7 +270,7 @@ const FILE_CONTRACTS = Object.freeze([
     ],
   },
   {
-    path: 'src/crates/assembly/core/builtin_skills/create-openbitfun-skin/scripts/opc_appearance.py',
+    path: 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/scripts/opcteam_appearance.py',
     forbidden: [
       {
         code: 'standalone-appearance-typography-reintroduced',
@@ -465,7 +465,7 @@ function auditCssDeclarations(text, relativePath) {
       relativePath,
       line,
       'raw-css-typography',
-      `${cssProperty} must use a canonical --openbitfun typography token.`,
+      `${cssProperty} must use a canonical --opc typography token.`,
       `${cssProperty}: ${value}`,
     ));
   }
@@ -504,7 +504,7 @@ function auditCssDeclarations(text, relativePath) {
       relativePath,
       line,
       'raw-private-typography-token',
-      `${customProperty} must resolve to a canonical --openbitfun typography token.`,
+      `${customProperty} must resolve to a canonical --opc typography token.`,
       `${customProperty}: ${value}`,
     ));
   }

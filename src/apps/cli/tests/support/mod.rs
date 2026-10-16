@@ -233,7 +233,7 @@ impl CliTestEnvironment {
 
     pub(crate) fn std_command(&self) -> Command {
         let mut command =
-            opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"));
+            opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"));
         command.current_dir(&self.workspace);
         self.apply_std_environment(&mut command);
         command
@@ -255,7 +255,7 @@ impl CliTestEnvironment {
     }
 
     pub(crate) fn pty_command(&self) -> CommandBuilder {
-        self.pty_command_for(env!("CARGO_BIN_EXE_openbitfun"))
+        self.pty_command_for(env!("CARGO_BIN_EXE_opc"))
     }
 
     fn pty_command_for(&self, binary: &str) -> CommandBuilder {
@@ -685,7 +685,7 @@ fn serve_product_control_response(stream: &mut TcpStream, attempt: usize) {
                             "id": call_id,
                             "type": "function",
                             "function": {
-                                "name": "OpenBitFunControl",
+                                "name": "OpcControl",
                                 "arguments": arguments.to_string()
                             }
                         }]

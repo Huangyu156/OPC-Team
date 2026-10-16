@@ -173,9 +173,7 @@ impl ControlHubTool {
             .or_else(|| params.get("browser_target"))
             .and_then(Value::as_str);
         match explicit {
-            Some("builtin" | "built_in" | "embedded" | "openbitfun") => {
-                Ok(BrowserTargetKind::BuiltIn)
-            }
+            Some("builtin" | "built_in" | "embedded" | "opc") => Ok(BrowserTargetKind::BuiltIn),
             Some("external" | "cdp" | "headless") | None => {
                 if explicit.is_none()
                     && params
@@ -775,7 +773,7 @@ Branch on `ok` and `error.code`, not on English messages.
                     push(
                         &mut suggestions,
                         "unavailable",
-                        Some("OpenBitFunControl"),
+                        Some("OpcControl"),
                         95,
                         "The request is to show OPC-Team's browser surface without a URL. Call OpcTeamControl open with capability_id='feature.browser' and omit item_id; do not invent about:blank.",
                     );
@@ -3863,7 +3861,7 @@ mod control_hub_tests {
             .expect("route_hint succeeds");
         let payload = results.first().expect("one result").content();
         assert_eq!(payload["suggested_domain"], "unavailable");
-        assert_eq!(payload["suggested_tool"], "OpenBitFunControl");
+        assert_eq!(payload["suggested_tool"], "OpcControl");
         assert!(payload.to_string().contains("feature.browser"));
         assert!(payload.to_string().contains("about:blank"));
     }
@@ -4375,7 +4373,7 @@ mod control_hub_tests {
         let payload = results.first().expect("one result").content();
         assert_eq!(payload["ok"], false);
         assert_eq!(payload["error"]["code"], "INVALID_PARAMS");
-        assert!(payload.to_string().contains("OpenBitFunControl"));
+        assert!(payload.to_string().contains("OpcControl"));
         assert!(payload.to_string().contains("feature.browser"));
     }
 
@@ -4543,9 +4541,9 @@ mod control_hub_tests {
         let ctx = empty_context();
         let probe = if cfg!(target_os = "windows") {
             // PowerShell prints with the Unicode code page configured above.
-            "Write-Output 'hello-openbitfun'"
+            "Write-Output 'hello-opc'"
         } else {
-            "echo hello-openbitfun"
+            "echo hello-opc"
         };
         let results = tool
             .handle_system(
@@ -4563,8 +4561,8 @@ mod control_hub_tests {
         );
         let out = payload.get("output").and_then(|v| v.as_str()).unwrap_or("");
         assert!(
-            out.contains("hello-openbitfun"),
-            "expected stdout to contain 'hello-openbitfun', got '{out}'"
+            out.contains("hello-opc"),
+            "expected stdout to contain 'hello-opc', got '{out}'"
         );
     }
 

@@ -1284,7 +1284,7 @@ mod tests {
             render_system_reminder(ContextCompressor::COMPRESSION_CONTINUATION_REMINDER)
         );
 
-        let uri = "openbitfun://current-session/artifacts/compression-transcripts/12-a3f9.txt";
+        let uri = "opc://current-session/artifacts/compression-transcripts/12-a3f9.txt";
         let index_range = TranscriptLineRange {
             start_line: 1,
             end_line: 14,

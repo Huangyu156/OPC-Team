@@ -3,14 +3,14 @@ name = "opc-desktop"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
-description = "OpenBitFun Desktop Application (Tauri)"
+description = "OPC-Team Desktop Application (Tauri)"
 
 [lib]
 name = "opc_desktop_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [[bin]]
-name = "openbitfun-desktop"
+name = "opc-desktop"
 path = "src/main.rs"
 
 [build-dependencies]

@@ -122,7 +122,7 @@ describe('L1 external file composer input', () => {
 
       const tagTypes = await browser.execute(() => Array.from(
         document.querySelectorAll<HTMLElement>('[data-opc-part="contextTag"]'),
-        element => element.dataset.openbitfunContextType,
+        element => element.dataset.opcContextType,
       ));
       const tagTitles = await browser.execute(() => Array.from(
         document.querySelectorAll<HTMLElement>('[data-opc-part="contextTag"]'),

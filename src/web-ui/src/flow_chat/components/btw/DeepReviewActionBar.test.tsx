@@ -1187,7 +1187,7 @@ describeWithJsdom('DeepReviewActionBar', () => {
     expect(sendMessageMock).not.toHaveBeenCalled();
 
     const legacy: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
+      schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.review-input', name: 'Review input', version: '1.0.0', mode: 'dark',
       components: { 'deep-review-action-bar': { parts: {
         customInput: { base: { opacity: { kind: 'number', value: 0.6 } } },
@@ -1198,7 +1198,7 @@ describeWithJsdom('DeepReviewActionBar', () => {
     const snapshot = new AppearanceCompiler(new AppearanceRegistry()
       .registerComponent(deepReviewActionBarAppearanceDescriptor)).compile(restored, 1);
     expect(JSON.stringify(restored)).toBe(serialized);
-    document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
+    document.documentElement.setAttribute('data-opc-appearance', snapshot.id);
     document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
     const style = document.createElement('style');
     style.textContent = snapshot.cssText;

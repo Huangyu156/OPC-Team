@@ -6,8 +6,8 @@ import sharp from 'sharp';
 import { canonicalizeIcns } from './icns-container.mjs';
 
 const GENERATED_ICNS_FILES = [
-  'src/apps/desktop/icons/openbitfun-app-icon.icns',
-  'OpenBitFun-Installer/src-tauri/icons/openbitfun-app-icon.icns',
+  'src/apps/desktop/icons/opc-app-icon.icns',
+  'Opc-Installer/src-tauri/icons/opc-app-icon.icns',
 ];
 
 const HARMONY_MEDIA_DIRS = [
@@ -61,7 +61,7 @@ test('generated macOS icons use the canonical ICNS layout', () => {
   assert.ok(desktop.equals(canonicalizeIcns(desktop)), 'desktop ICNS is not canonical');
   assert.ok(installer.equals(canonicalizeIcns(installer)), 'installer ICNS is not canonical');
   assert.ok(desktop.equals(installer), 'desktop and installer ICNS files differ');
-  assert.deepEqual(desktop, readFileSync('assets/brand/exports/openbitfun-app-icon.icns'));
+  assert.deepEqual(desktop, readFileSync('assets/brand/exports/opc-app-icon.icns'));
 });
 
 test('macOS ICNS PNG representations preserve a visible body and transparent Dock margins', async () => {
@@ -96,14 +96,14 @@ test('macOS ICNS PNG representations preserve a visible body and transparent Doc
 });
 
 test('desktop and installer retain independent Windows/Linux icons alongside the macOS fallback', () => {
-  for (const configPath of ['src/apps/desktop/tauri.conf.json', 'OpenBitFun-Installer/src-tauri/tauri.conf.json']) {
+  for (const configPath of ['src/apps/desktop/tauri.conf.json', 'Opc-Installer/src-tauri/tauri.conf.json']) {
     const { bundle } = JSON.parse(readFileSync(configPath, 'utf8'));
-    assert.equal(bundle.icon.find(icon => icon.endsWith('.icns')), 'icons/openbitfun-app-icon.icns');
-    assert.equal(bundle.icon.find(icon => icon.endsWith('.png')), 'icons/openbitfun-app-icon.png');
-    assert.equal(bundle.icon.find(icon => icon.endsWith('.ico')), 'icons/openbitfun-app-icon.ico');
+    assert.equal(bundle.icon.find(icon => icon.endsWith('.icns')), 'icons/opc-app-icon.icns');
+    assert.equal(bundle.icon.find(icon => icon.endsWith('.png')), 'icons/opc-app-icon.png');
+    assert.equal(bundle.icon.find(icon => icon.endsWith('.ico')), 'icons/opc-app-icon.ico');
   }
-  for (const iconDir of ['src/apps/desktop/icons', 'OpenBitFun-Installer/src-tauri/icons']) {
-    assert.deepEqual(readFileSync(`${iconDir}/openbitfun-app-icon.png`),
+  for (const iconDir of ['src/apps/desktop/icons', 'Opc-Installer/src-tauri/icons']) {
+    assert.deepEqual(readFileSync(`${iconDir}/opc-app-icon.png`),
       readFileSync('assets/brand/exports/opc-app-icon-1024.png'));
   }
   for (const size of [16, 32, 48, 64, 96, 128, 256, 512]) {
@@ -133,7 +133,7 @@ test('application icons preserve the submitted artwork independently from the st
 });
 
 test('iOS App Store icon is a 1024 pixel RGB image without alpha', async () => {
-  const metadata = await sharp('src/apps/mobile/ios/OpenBitFun/Resources.xcassets/AppIcon.appiconset/openbitfun-app-icon.png').metadata();
+  const metadata = await sharp('src/apps/mobile/ios/OPC-Team/Resources.xcassets/AppIcon.appiconset/opc-app-icon.png').metadata();
   assert.equal(metadata.width, 1024);
   assert.equal(metadata.height, 1024);
   assert.equal(metadata.hasAlpha, false);
@@ -176,7 +176,7 @@ test('Web UI exposes the canonical mark as a reusable currentColor vector asset'
 });
 
 test('Windows ICO frames contain the size-specific app PNGs', async () => {
-  const ico = readFileSync('src/apps/desktop/icons/openbitfun-app-icon.ico');
+  const ico = readFileSync('src/apps/desktop/icons/opc-app-icon.ico');
   assert.equal(ico.readUInt16LE(0), 0);
   assert.equal(ico.readUInt16LE(2), 1);
   const sizes = [];
@@ -194,7 +194,7 @@ test('Windows ICO frames contain the size-specific app PNGs', async () => {
     sizes.push(size);
   }
   assert.deepEqual(sizes.sort((a, b) => a - b), [16, 24, 32, 48, 64, 256]);
-  assert.deepEqual(ico, readFileSync('OpenBitFun-Installer/src-tauri/icons/openbitfun-app-icon.ico'));
+  assert.deepEqual(ico, readFileSync('Opc-Installer/src-tauri/icons/opc-app-icon.ico'));
 });
 
 test('small icons retain a bright rim around the entire silhouette', async () => {
@@ -232,7 +232,7 @@ test('browser entry points reference generated application favicons', () => {
     ['src/web-ui/index.html', 'src/web-ui/public/brand'],
     ['src/mobile-web/index.html', 'src/mobile-web/public/brand'],
     ['src/apps/relay-server/static/index.html', 'src/apps/relay-server/static/brand'],
-    ['OpenBitFun-Installer/index.html', 'OpenBitFun-Installer/src/assets'],
+    ['Opc-Installer/index.html', 'Opc-Installer/src/assets'],
   ]) {
     const html = readFileSync(htmlPath, 'utf8');
     for (const size of [16, 32]) {
@@ -275,13 +275,13 @@ test('ICNS canonicalization rejects malformed containers', () => {
 
 test('verification email reuses the current mark and the OpenBitFun reference palette', () => {
   const emailMark = readFileSync('src/miniapp-market-web/public/assets/opc-email-app-icon.png');
-  assert.deepEqual(emailMark, readFileSync('src/web-ui/public/brand/openbitfun-app-icon.png'));
+  assert.deepEqual(emailMark, readFileSync('src/web-ui/public/brand/opc-app-icon.png'));
   assert.deepEqual(emailMark, readFileSync('src/crates/services/miniapp-market-service/src/email/app-icon.png'));
   const html = readFileSync('src/crates/services/miniapp-market-service/src/email/sign-in.html', 'utf8');
   const tokens = JSON.parse(readFileSync('design-system/packages/theme/src/reference.tokens.json', 'utf8'));
   const palette = new Set([...Object.values(tokens.ref.color.neutral), ...Object.values(tokens.ref.color.cyan)]
     .map(token => token?.$value).filter(Boolean));
   for (const [color] of html.matchAll(/#[0-9a-f]{6}\b/g)) assert.ok(palette.has(color), `Email color ${color} must come from the existing neutral/cyan palette`);
-  assert.match(html, /src="cid:openbitfun-app-icon"/);
+  assert.match(html, /src="cid:opc-app-icon"/);
   assert.doesNotMatch(html, /<script|<form|data:image|\?[^\s]*\{\{code\}\}/i);
 });

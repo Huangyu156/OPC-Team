@@ -70,32 +70,32 @@
     image-rendering: pixelated;
     transform-origin: 50% 80%;
     animation:
-      openbitfun-petdex-walk 1.8s steps(var(--opcteam-petdex-frames)) infinite,
-      openbitfun-petdex-breathe 6s ease-in-out infinite;
+      opc-petdex-walk 1.8s steps(var(--opcteam-petdex-frames)) infinite,
+      opc-petdex-breathe 6s ease-in-out infinite;
   }
 
   &__petdex--rest {
     animation:
-      openbitfun-petdex-walk 2.4s steps(var(--opcteam-petdex-frames)) infinite,
-      openbitfun-petdex-breathe 6.4s ease-in-out infinite;
+      opc-petdex-walk 2.4s steps(var(--opcteam-petdex-frames)) infinite,
+      opc-petdex-breathe 6.4s ease-in-out infinite;
   }
 
   &__petdex--working {
     animation:
-      openbitfun-petdex-walk 1.16s steps(var(--opcteam-petdex-frames)) infinite,
-      openbitfun-petdex-work 0.56s linear infinite;
+      opc-petdex-walk 1.16s steps(var(--opcteam-petdex-frames)) infinite,
+      opc-petdex-work 0.56s linear infinite;
   }
 
   &__petdex--hover {
     animation:
-      openbitfun-petdex-walk 1.44s steps(var(--opcteam-petdex-frames)) infinite,
-      openbitfun-petdex-hover 1.9s ease-in-out infinite;
+      opc-petdex-walk 1.44s steps(var(--opcteam-petdex-frames)) infinite,
+      opc-petdex-hover 1.9s ease-in-out infinite;
   }
 
   &__petdex--dragging {
     animation:
-      openbitfun-petdex-walk 0.96s steps(var(--opcteam-petdex-frames)) infinite,
-      openbitfun-petdex-dragging 0.48s linear infinite;
+      opc-petdex-walk 0.96s steps(var(--opcteam-petdex-frames)) infinite,
+      opc-petdex-dragging 0.48s linear infinite;
   }
 }
 
@@ -109,7 +109,7 @@
   --opcteam-pet-decor-soft: color-mix(in srgb, var(--opcteam-pet-cream) 60%, transparent);
 
   .opc-panda-head__silhouette {
-    filter: url(#openbitfun-panda-outline);
+    filter: url(#opc-panda-outline);
   }
 }
 
@@ -128,36 +128,36 @@
 .opc-panda-head {
   transform-origin: 50% 88%;
   transform-box: fill-box;
-  animation: openbitfun-head-breathe 6.8s ease-in-out infinite;
+  animation: opc-head-breathe 6.8s ease-in-out infinite;
 
   &--analyzing {
     animation:
-      openbitfun-head-breathe 5.2s ease-in-out infinite,
-      openbitfun-head-tilt 4.8s ease-in-out infinite;
+      opc-head-breathe 5.2s ease-in-out infinite,
+      opc-head-tilt 4.8s ease-in-out infinite;
   }
 
   &--waiting {
     animation:
-      openbitfun-head-breathe 5.2s ease-in-out infinite,
-      openbitfun-head-look 6s ease-in-out infinite;
+      opc-head-breathe 5.2s ease-in-out infinite,
+      opc-head-look 6s ease-in-out infinite;
   }
 
   &--working {
     animation:
-      openbitfun-head-breathe 5.2s ease-in-out infinite,
-      openbitfun-head-shake 0.36s linear infinite;
+      opc-head-breathe 5.2s ease-in-out infinite,
+      opc-head-shake 0.36s linear infinite;
   }
 
   &--hover {
     animation:
-      openbitfun-head-breathe 4.2s ease-in-out infinite,
-      openbitfun-head-perk 1.9s ease-in-out infinite;
+      opc-head-breathe 4.2s ease-in-out infinite,
+      opc-head-perk 1.9s ease-in-out infinite;
   }
 
   &--dragging {
     animation:
-      openbitfun-head-breathe 4.8s ease-in-out infinite,
-      openbitfun-head-carried 0.48s linear infinite;
+      opc-head-breathe 4.8s ease-in-out infinite,
+      opc-head-carried 0.48s linear infinite;
   }
 }
 
@@ -184,30 +184,30 @@
 
     &--a {
       font-size: var(--opcteam-type-display-sm-font-size);
-      animation: openbitfun-zzz-rise 6.8s ease-in-out infinite;
+      animation: opc-zzz-rise 6.8s ease-in-out infinite;
     }
 
     &--b {
       font-size: var(--opcteam-type-display-md-font-size);
-      animation: openbitfun-zzz-rise 6.8s ease-in-out -2.2s infinite;
+      animation: opc-zzz-rise 6.8s ease-in-out -2.2s infinite;
     }
 
     &--c {
       font-size: var(--opcteam-type-display-xl-font-size);
-      animation: openbitfun-zzz-rise 6.8s ease-in-out -4.4s infinite;
+      animation: opc-zzz-rise 6.8s ease-in-out -4.4s infinite;
     }
   }
 
   /* Analyzing — ears twitch + think pips climb upward in sequence. */
 
   &--analyzing .opc-panda-head__ear--left {
-    animation: openbitfun-ear-twitch-l 2.8s ease-in-out infinite;
+    animation: opc-ear-twitch-l 2.8s ease-in-out infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
   }
 
   &--analyzing .opc-panda-head__ear--right {
-    animation: openbitfun-ear-twitch-r 2.8s ease-in-out 0.72s infinite;
+    animation: opc-ear-twitch-r 2.8s ease-in-out 0.72s infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
   }
@@ -215,7 +215,7 @@
   &__think-pip {
     fill: var(--opcteam-pet-decor);
     opacity: 0;
-    animation: openbitfun-think-pulse 3.2s ease-in-out infinite;
+    animation: opc-think-pulse 3.2s ease-in-out infinite;
 
     &:nth-child(1) {
       animation-delay: 0s;
@@ -233,7 +233,7 @@
   /* Waiting — front paw taps + dots bob. */
 
   &--waiting .opc-panda-head__paw--front {
-    animation: openbitfun-paw-tap 1.8s ease-in-out infinite;
+    animation: opc-paw-tap 1.8s ease-in-out infinite;
     transform-origin: 70% 60%;
     transform-box: fill-box;
   }
@@ -241,7 +241,7 @@
   &__wait-pip {
     fill: var(--opcteam-pet-decor);
     opacity: 0.5;
-    animation: openbitfun-wait-bounce 2.2s ease-in-out infinite;
+    animation: opc-wait-bounce 2.2s ease-in-out infinite;
 
     &:nth-child(1) {
       animation-delay: 0s;
@@ -261,18 +261,18 @@
   &__sweat-drop {
     fill: var(--opcteam-pet-decor-soft);
     opacity: 0;
-    animation: openbitfun-sweat-fall 3.2s ease-in infinite;
+    animation: opc-sweat-fall 3.2s ease-in infinite;
   }
 
   &--working .opc-panda-head__ear--right {
-    animation: openbitfun-ear-tense 3.2s ease-in-out infinite;
+    animation: opc-ear-tense 3.2s ease-in-out infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
   }
 
   &--hover .opc-panda-head__ear--left,
   &--hover .opc-panda-head__ear--right {
-    animation: openbitfun-ear-perk 1.9s ease-in-out infinite;
+    animation: opc-ear-perk 1.9s ease-in-out infinite;
     transform-origin: 50% 100%;
     transform-box: fill-box;
   }
@@ -282,7 +282,7 @@
     opacity: 0;
     transform-origin: center;
     transform-box: fill-box;
-    animation: openbitfun-sparkle-pop 2.4s ease-in-out infinite;
+    animation: opc-sparkle-pop 2.4s ease-in-out infinite;
 
     &--b {
       animation-delay: 0.44s;
@@ -291,7 +291,7 @@
 
   &--dragging .opc-panda-head__paw--front,
   &--dragging .opc-panda-head__paw--rear {
-    animation: openbitfun-paw-hold 0.96s ease-in-out infinite;
+    animation: opc-paw-hold 0.96s ease-in-out infinite;
     transform-origin: 50% 60%;
     transform-box: fill-box;
   }
@@ -302,7 +302,7 @@
     stroke-width: 8;
     stroke-linecap: round;
     opacity: 0;
-    animation: openbitfun-drag-line-swoop 1.44s ease-in-out infinite;
+    animation: opc-drag-line-swoop 1.44s ease-in-out infinite;
 
     &--b {
       animation-delay: 0.32s;
@@ -313,50 +313,50 @@
 /* ---------- Mood transition micro-bump ---------- */
 
 .opc-agent-companion-pet__stage--transition {
-  animation: openbitfun-stage-bump 0.64s cubic-bezier(0.2, 1.4, 0.5, 1);
+  animation: opc-stage-bump 0.64s cubic-bezier(0.2, 1.4, 0.5, 1);
 }
 
 /* ---------- Idle micro-actions (rest only, all in-place) ---------- */
 
 .opc-agent-companion-pet__stage--idle-ear-twitch-left .opc-panda-head__ear--left {
-  animation: openbitfun-ear-twitch-once 1.4s ease-in-out;
+  animation: opc-ear-twitch-once 1.4s ease-in-out;
   transform-origin: 50% 100%;
   transform-box: fill-box;
 }
 
 .opc-agent-companion-pet__stage--idle-ear-twitch-right .opc-panda-head__ear--right {
-  animation: openbitfun-ear-twitch-once 1.4s ease-in-out;
+  animation: opc-ear-twitch-once 1.4s ease-in-out;
   transform-origin: 50% 100%;
   transform-box: fill-box;
 }
 
 .opc-agent-companion-pet__stage--idle-yawn .opc-panda-head__muzzle {
-  animation: openbitfun-yawn 2.6s ease-in-out;
+  animation: opc-yawn 2.6s ease-in-out;
   transform-origin: 50% 30%;
   transform-box: fill-box;
 }
 
 .opc-agent-companion-pet__stage--idle-deep-breath .opc-panda-head__body--front {
-  animation: openbitfun-deep-breath 1.8s ease-in-out;
+  animation: opc-deep-breath 1.8s ease-in-out;
   transform-origin: 50% 95%;
   transform-box: fill-box;
 }
 
 .opc-agent-companion-pet__stage--idle-body-roll .opc-panda-head {
   animation:
-    openbitfun-head-breathe 6.8s ease-in-out infinite,
-    openbitfun-body-roll 3.0s ease-in-out;
+    opc-head-breathe 6.8s ease-in-out infinite,
+    opc-body-roll 3.0s ease-in-out;
 }
 
 .opc-agent-companion-pet__stage--idle-paw-wiggle .opc-panda-head__paw--front {
-  animation: openbitfun-paw-wiggle 1.8s ease-in-out;
+  animation: opc-paw-wiggle 1.8s ease-in-out;
   transform-origin: 70% 60%;
   transform-box: fill-box;
 }
 
 /* ---------- Keyframes ---------- */
 
-@keyframes openbitfun-head-breathe {
+@keyframes opc-head-breathe {
   0%,
   100% {
     transform: translateY(0) scale(1, 1);
@@ -367,7 +367,7 @@
   }
 }
 
-@keyframes openbitfun-head-tilt {
+@keyframes opc-head-tilt {
   0%,
   100% {
     transform: rotate(-2.2deg);
@@ -378,7 +378,7 @@
   }
 }
 
-@keyframes openbitfun-head-look {
+@keyframes opc-head-look {
   0%,
   100% {
     transform: translateX(0);
@@ -393,7 +393,7 @@
   }
 }
 
-@keyframes openbitfun-head-shake {
+@keyframes opc-head-shake {
   0%,
   100% {
     transform: translate(0, 0);
@@ -412,7 +412,7 @@
   }
 }
 
-@keyframes openbitfun-zzz-rise {
+@keyframes opc-zzz-rise {
   0% {
     opacity: 0;
     transform: translate(0, 0) scale(0.7);
@@ -434,7 +434,7 @@
   }
 }
 
-@keyframes openbitfun-think-pulse {
+@keyframes opc-think-pulse {
   0%,
   60%,
   100% {
@@ -449,7 +449,7 @@
   }
 }
 
-@keyframes openbitfun-wait-bounce {
+@keyframes opc-wait-bounce {
   0%,
   100% {
     transform: translateY(0);
@@ -462,7 +462,7 @@
   }
 }
 
-@keyframes openbitfun-paw-tap {
+@keyframes opc-paw-tap {
   0%,
   100% {
     transform: rotate(0deg) translateY(0);
@@ -477,7 +477,7 @@
   }
 }
 
-@keyframes openbitfun-sweat-fall {
+@keyframes opc-sweat-fall {
   0% {
     opacity: 0;
     transform: translate(0, -12px) scale(0.4);
@@ -499,7 +499,7 @@
   }
 }
 
-@keyframes openbitfun-ear-twitch-l {
+@keyframes opc-ear-twitch-l {
   0%,
   85%,
   100% {
@@ -511,7 +511,7 @@
   }
 }
 
-@keyframes openbitfun-ear-twitch-r {
+@keyframes opc-ear-twitch-r {
   0%,
   85%,
   100% {
@@ -523,7 +523,7 @@
   }
 }
 
-@keyframes openbitfun-ear-twitch-once {
+@keyframes opc-ear-twitch-once {
   0%,
   100% {
     transform: rotate(0deg);
@@ -542,7 +542,7 @@
   }
 }
 
-@keyframes openbitfun-ear-tense {
+@keyframes opc-ear-tense {
   0%,
   100% {
     transform: rotate(0deg);
@@ -553,7 +553,7 @@
   }
 }
 
-@keyframes openbitfun-stage-bump {
+@keyframes opc-stage-bump {
   0%,
   100% {
     transform: scale(1, 1);
@@ -568,7 +568,7 @@
   }
 }
 
-@keyframes openbitfun-yawn {
+@keyframes opc-yawn {
   0%,
   100% {
     transform: scale(1, 1);
@@ -580,7 +580,7 @@
   }
 }
 
-@keyframes openbitfun-deep-breath {
+@keyframes opc-deep-breath {
   0%,
   100% {
     transform: scale(1, 1);
@@ -591,7 +591,7 @@
   }
 }
 
-@keyframes openbitfun-body-roll {
+@keyframes opc-body-roll {
   0%,
   100% {
     transform: rotate(0deg);
@@ -606,7 +606,7 @@
   }
 }
 
-@keyframes openbitfun-paw-wiggle {
+@keyframes opc-paw-wiggle {
   0%,
   100% {
     transform: rotate(0deg);
@@ -625,7 +625,7 @@
   }
 }
 
-@keyframes openbitfun-head-perk {
+@keyframes opc-head-perk {
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
@@ -636,7 +636,7 @@
   }
 }
 
-@keyframes openbitfun-head-carried {
+@keyframes opc-head-carried {
   0%,
   100% {
     transform: rotate(0deg) translateY(0);
@@ -651,7 +651,7 @@
   }
 }
 
-@keyframes openbitfun-ear-perk {
+@keyframes opc-ear-perk {
   0%,
   100% {
     transform: rotate(0deg) translateY(0);
@@ -662,7 +662,7 @@
   }
 }
 
-@keyframes openbitfun-sparkle-pop {
+@keyframes opc-sparkle-pop {
   0%,
   100% {
     opacity: 0;
@@ -676,7 +676,7 @@
   }
 }
 
-@keyframes openbitfun-paw-hold {
+@keyframes opc-paw-hold {
   0%,
   100% {
     transform: translateY(0) rotate(0deg);
@@ -687,7 +687,7 @@
   }
 }
 
-@keyframes openbitfun-drag-line-swoop {
+@keyframes opc-drag-line-swoop {
   0% {
     opacity: 0;
     transform: translateX(10px) scaleX(0.7);
@@ -705,7 +705,7 @@
   }
 }
 
-@keyframes openbitfun-petdex-walk {
+@keyframes opc-petdex-walk {
   from {
     background-position-x: 0;
   }
@@ -715,7 +715,7 @@
   }
 }
 
-@keyframes openbitfun-petdex-breathe {
+@keyframes opc-petdex-breathe {
   0%,
   100% {
     transform: translateY(0) scale(1);
@@ -726,7 +726,7 @@
   }
 }
 
-@keyframes openbitfun-petdex-work {
+@keyframes opc-petdex-work {
   0%,
   100% {
     transform: translate(0, 0);
@@ -737,7 +737,7 @@
   }
 }
 
-@keyframes openbitfun-petdex-hover {
+@keyframes opc-petdex-hover {
   0%,
   100% {
     transform: translateY(0) scale(1);
@@ -748,7 +748,7 @@
   }
 }
 
-@keyframes openbitfun-petdex-dragging {
+@keyframes opc-petdex-dragging {
   0%,
   100% {
     transform: rotate(0deg) translateY(0);

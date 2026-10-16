@@ -1190,8 +1190,8 @@ mod tests {
             assert_eq!(resolved.expires_at, Some(actual_expiry));
             assert_eq!(resolved.api_key, token);
             if provider == SubscriptionProvider::Codex {
-                assert_eq!(resolved.extra_headers["originator"], "openbitfun");
-                assert!(resolved.extra_headers["User-Agent"].starts_with("OpenBitFun/"));
+                assert_eq!(resolved.extra_headers["originator"], "opc");
+                assert!(resolved.extra_headers["User-Agent"].starts_with("OPC-Team/"));
                 assert_eq!(resolved.extra_headers["ChatGPT-Account-ID"], "test-account");
                 assert!(!resolved.extra_headers.contains_key("session-id"));
             }
@@ -1216,10 +1216,10 @@ mod tests {
         // Deserialized legacy user settings, including differently cased stale
         // auth headers. Assert the final request, not just the merged HashMap.
         for (format, url, headers, auth_header) in [
-            ("responses", "https://chatgpt.com/backend-api/codex/responses", vec![("originator", "openbitfun"), ("User-Agent", "OpenBitFun/test"), ("ChatGPT-Account-ID", "current-account")], "authorization"),
+            ("responses", "https://chatgpt.com/backend-api/codex/responses", vec![("originator", "opc"), ("User-Agent", "OPC-Team/test"), ("ChatGPT-Account-ID", "current-account")], "authorization"),
             ("responses", "https://api.x.ai/v1/responses", vec![("User-Agent", "opencode/test")], "authorization"),
-            ("openai", "https://opencode.ai/zen/v1/chat/completions", vec![("x-org-id", "current-org"), ("User-Agent", "OpenBitFun/test")], "authorization"),
-            ("anthropic", "https://opencode.ai/zen/v1/messages", vec![("x-org-id", "current-org"), ("User-Agent", "OpenBitFun/test")], "x-api-key"),
+            ("openai", "https://opencode.ai/zen/v1/chat/completions", vec![("x-org-id", "current-org"), ("User-Agent", "OPC-Team/test")], "authorization"),
+            ("anthropic", "https://opencode.ai/zen/v1/messages", vec![("x-org-id", "current-org"), ("User-Agent", "OPC-Team/test")], "x-api-key"),
             ("openai", "https://inference-api.nousresearch.com/v1/chat/completions", vec![], "authorization"),
             ("anthropic", "https://inference-api.nousresearch.com/v1/messages", vec![], "authorization"),
             ("gemini-code-assist", "https://daily-cloudcode-pa.sandbox.googleapis.com/v1internal:streamGenerateContent?alt=sse", vec![("User-Agent", "antigravity/test"), ("X-Goog-Api-Client", "google-cloud-sdk vscode_cloudshelleditor/0.1"), ("Client-Metadata", "ANTIGRAVITY")], "authorization"),

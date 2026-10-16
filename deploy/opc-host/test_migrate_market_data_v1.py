@@ -26,7 +26,7 @@ def compact_json(value: object) -> str:
 
 
 class MarketDataMigrationTest(unittest.TestCase):
-    def test_miniapp_migrates_to_the_single_openbitfun_field_and_is_idempotent(self) -> None:
+    def test_miniapp_migrates_to_the_single_opc_field_and_is_idempotent(self) -> None:
         with tempfile.TemporaryDirectory() as temporary:
             database = Path(temporary) / "market.sqlite"
             connection = sqlite3.connect(database)
@@ -69,7 +69,7 @@ class MarketDataMigrationTest(unittest.TestCase):
             self.assertEqual(len(rows), 2)
             for (raw,) in rows:
                 value = json.loads(raw)
-                self.assertEqual(value["minOpenBitFunVersion"], "1.0.0")
+                self.assertEqual(value["minOpcVersion"], "1.0.0")
                 for retired_field in migration.RETIRED_VERSION_FIELDS:
                     self.assertNotIn(retired_field, value)
 
@@ -195,8 +195,8 @@ class MarketDataMigrationTest(unittest.TestCase):
 
             draft_json, new_sha, new_size, manifest_json = submission
             migrated_manifest = json.loads(manifest_json)
-            self.assertEqual(json.loads(draft_json)["minOpenBitFunVersion"], "1.0.0")
-            self.assertEqual(migrated_manifest["schema"], "openbitfun.appearance")
+            self.assertEqual(json.loads(draft_json)["minOpcVersion"], "1.0.0")
+            self.assertEqual(migrated_manifest["schema"], "opc.appearance")
             self.assertNotEqual(new_sha, retired_sha)
 
             migrated_path = migration.skin_package_path(

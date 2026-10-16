@@ -1991,7 +1991,7 @@ export function runManifestParserSelfTest({
       throw new Error(`${dependencyName} must have a workspace-wide manifest dependency guard`);
     }
   }
-  for (const scanRoot of ['src/apps', 'src/crates', 'OpenBitFun-Installer/src-tauri']) {
+  for (const scanRoot of ['src/apps', 'src/crates', 'Opc-Installer/src-tauri']) {
     if (!opencodeManifestRule.scanRoots?.includes(scanRoot)) {
       throw new Error(`OpenCode adapter manifest guard must scan ${scanRoot}`);
     }
@@ -2016,7 +2016,7 @@ export function runManifestParserSelfTest({
   const opencodeSourceRules = forbiddenContentUnderRules.filter((rule) =>
     rule.reason.includes('OpenCode adapter production imports are limited'),
   );
-  for (const scanRoot of ['src', 'OpenBitFun-Installer/src-tauri']) {
+  for (const scanRoot of ['src', 'Opc-Installer/src-tauri']) {
     if (!opencodeSourceRules.some((rule) => rule.path === scanRoot)) {
       throw new Error(`OpenCode adapter source guard must scan ${scanRoot}`);
     }
@@ -4440,7 +4440,7 @@ export function runManifestParserSelfTest({
     },
     {
       path: 'src/crates/assembly/core/src/service/search/service.rs',
-      contracts: ['owner::WorkspaceSearchService::new_with_hooks', 'CoreWorkspaceSearchRuntimeHooks', 'WorkspaceSearchRepoConfig', 'get_global_config_service', 'ensure_workspace_gitignore_ignores_openbitfun'],
+      contracts: ['owner::WorkspaceSearchService::new_with_hooks', 'CoreWorkspaceSearchRuntimeHooks', 'WorkspaceSearchRepoConfig', 'get_global_config_service', 'ensure_workspace_gitignore_ignores_opc'],
     },
     {
       path: 'src/crates/assembly/core/src/service/search/remote.rs',
@@ -5643,7 +5643,7 @@ async fn release_baseline_claim(release: BaselineClaimRelease) -> Result<(), Dis
   if (!cliServerHostPattern) {
     throw new Error('CLI source must carry a opc_app_server import guard');
   }
-  if (!cliServerHostPattern.regex.test('use opc_app_server::OpenBitFunAppServer;')) {
+  if (!cliServerHostPattern.regex.test('use opc_app_server::OpcAppServer;')) {
     throw new Error('CLI app-server import guard must match implementation imports');
   }
   if (

@@ -264,8 +264,8 @@ pub(crate) async fn list_external_clients() -> Result<()> {
     }
 
     println!();
-    println!("Enable a built-in client with `openbitfun acp clients enable opencode`.");
-    println!("Run a prompt with `openbitfun acp run opencode \"your task\"`.");
+    println!("Enable a built-in client with `opc acp clients enable opencode`.");
+    println!("Run a prompt with `opc acp run opencode \"your task\"`.");
     Ok(())
 }
 

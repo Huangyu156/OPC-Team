@@ -363,7 +363,7 @@ function FrameworkPreview({
             actions={actions}
             content={(
               <code className="flow-chat-tool-card-preview__command">
-                {'curl -s -o /dev/null -w "HTTP %{http_code}" https://openbitfun.com'}
+                {'curl -s -o /dev/null -w "HTTP %{http_code}" https://opcteam.eu.cc'}
               </code>
             )}
             extra={(
@@ -584,7 +584,7 @@ function SearchPreview({
             key: "one",
             onOpen: interactive && kind === "web" ? () => undefined : undefined,
             title: kind === "web" ? "FlowChat tool cards" : "src/flow_chat/tool-cards/index.ts",
-            url: kind === "web" ? "https://openbitfun.com/docs/flow-chat" : undefined,
+            url: kind === "web" ? "https://opcteam.eu.cc/docs/flow-chat" : undefined,
           },
           {
             icon: kind === "directory" ? "directory" : "file",
@@ -698,7 +698,7 @@ function StandardAmbientPreview({
         onOpenUrl={interactive ? () => undefined : undefined}
         openUrlLabel="Open source"
         title="FlowChat architecture"
-        url="https://openbitfun.com/docs/flow-chat"
+        url="https://opcteam.eu.cc/docs/flow-chat"
       />
     );
   } else if (kind === "default") {
@@ -1167,7 +1167,7 @@ export const flowChatPreviewDefinitions = {
   },
   ProminentToolCard: {
     attention: "prominent",
-    codeSample: (t) => `import { ProminentToolCard, ProminentToolCardSummary } from "@opc-team/ui/flow-chat";\nimport { SquareTerminal } from "lucide-react";\n\n<ProminentToolCard\n  status="completed"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  summary={(\n    <ProminentToolCardSummary\n      icon={<SquareTerminal />}\n      action="${t("components.preview.flowChat.runCommand")}"\n      content={<code>curl https://openbitfun.com</code>}\n    />\n  )}\n  expandedContent={<CommandOutput />}\n/>`,
+    codeSample: (t) => `import { ProminentToolCard, ProminentToolCardSummary } from "@opc-team/ui/flow-chat";\nimport { SquareTerminal } from "lucide-react";\n\n<ProminentToolCard\n  status="completed"\n  isExpanded={isExpanded}\n  onToggle={() => setIsExpanded((value) => !value)}\n  summary={(\n    <ProminentToolCardSummary\n      icon={<SquareTerminal />}\n      action="${t("components.preview.flowChat.runCommand")}"\n      content={<code>curl https://opcteam.eu.cc</code>}\n    />\n  )}\n  expandedContent={<CommandOutput />}\n/>`,
     icon: SquareTerminal,
     render: (options) => <FrameworkPreview {...options} kind="prominent" />,
     section: "framework",

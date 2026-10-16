@@ -75,7 +75,7 @@ OPC-Team 可以把 Claude Code 或 Codex 中兼容的 `type: "command"` Hook 保
 经审阅的本地快照。这是一次显式复制，不是实时挂载其他产品的配置：
 
 1. 打开**设置 → Agent Hooks**，或在 TUI 中运行 `/hooks`；脚本化查看可使用
-   `openbitfun hooks list`。
+   `opc hooks list`。
 2. 选择来源，并审阅每条实际命令、Windows 覆盖命令、超时、复制或外部依赖、
    跳过项以及计划指纹。
 3. 确认这份确切计划。若来源在审阅后发生变化，OPC-Team 不会写入，而是返回一份
@@ -131,13 +131,13 @@ Hook 目录继续明确返回不支持。对应上游版本与源码链接见本
 根 CLI 对应命令如下：
 
 ```text
-openbitfun hooks list [--refresh] [--format text|json]
-openbitfun hooks import --source <source-key> [--confirm <plan-fingerprint>]
-openbitfun hooks update <import-id> [--confirm <plan-fingerprint>]
-openbitfun hooks enable <import-id>
-openbitfun hooks disable <import-id>
-openbitfun hooks remove <import-id> --confirm
-openbitfun hooks reset <user|project> --confirm
+opc hooks list [--refresh] [--format text|json]
+opc hooks import --source <source-key> [--confirm <plan-fingerprint>]
+opc hooks update <import-id> [--confirm <plan-fingerprint>]
+opc hooks enable <import-id>
+opc hooks disable <import-id>
+opc hooks remove <import-id> --confirm
+opc hooks reset <user|project> --confirm
 ```
 
 未提供匹配指纹时，导入和更新只做预览。TUI 复用同一后端，并保留

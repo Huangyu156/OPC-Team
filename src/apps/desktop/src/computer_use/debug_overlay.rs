@@ -5,7 +5,7 @@
 //! coordinates an agent computed actually land on the intended UI element.
 //!
 //! Ported from cua-driver-rs `cua-driver-core/src/image_utils.rs`
-//! `crosshair_png_bytes` / `write_crosshair_png`, adapted to OpenBitFun's
+//! `crosshair_png_bytes` / `write_crosshair_png`, adapted to OPC-Team's
 //! `image` pipeline (`RgbaImage` + `OpcTeamError`).
 
 #![allow(dead_code)]

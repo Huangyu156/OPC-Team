@@ -891,12 +891,12 @@ export default function conversationStateUnitTest() {
   describe('MarkdownParser', () => {
     it('parses document-leading YAML frontmatter without rendering its markers as dividers', 0, () => {
       const blocks = MarkdownParser.parse(
-        '---\nname: OpenBitFun\nvibe: calm\n---\n\n# Identity\n\nBody\n\n---\n\nTail'
+        '---\nname: OPC-Team\nvibe: calm\n---\n\n# Identity\n\nBody\n\n---\n\nTail'
       );
 
       expect(blocks.length).assertEqual(5);
       expect(blocks[0].type).assertEqual('frontmatter');
-      expect(blocks[0].text).assertEqual('name: OpenBitFun\nvibe: calm');
+      expect(blocks[0].text).assertEqual('name: OPC-Team\nvibe: calm');
       expect(blocks[1].type).assertEqual('heading');
       expect(blocks[2].type).assertEqual('paragraph');
       expect(blocks[3].type).assertEqual('divider');
@@ -937,7 +937,7 @@ export default function conversationStateUnitTest() {
 
     it('parses GFM table cells, alignment, escaped pipes, and inline formatting', 0, () => {
       const blocks = MarkdownParser.parse(
-        '**Name** | Status | Note\n:--- | :---: | ---:\nOpenBitFun | ~~old~~ | a \\| b'
+        '**Name** | Status | Note\n:--- | :---: | ---:\nOpc | ~~old~~ | a \\| b'
       );
 
       expect(blocks.length).assertEqual(1);
@@ -1101,7 +1101,7 @@ export default function conversationStateUnitTest() {
     it('projects configuration, busy state, and status text', 0, () => {
       const state = new GeneralChatPageState();
       state.setConfiguration(
-        'https://api.openbitfun.com',
+        'https://api.opcteam.eu.cc',
         'deepseek-v4-flash',
         true,
         GeneralChatServiceState.Ready
@@ -1109,7 +1109,7 @@ export default function conversationStateUnitTest() {
       state.setBusy(true);
       state.setStatus('Generating');
 
-      expect(state.apiUrl).assertEqual('https://api.openbitfun.com');
+      expect(state.apiUrl).assertEqual('https://api.opcteam.eu.cc');
       expect(state.modelName).assertEqual('deepseek-v4-flash');
       expect(state.hasApiKey).assertTrue();
       expect(state.serviceState).assertEqual(GeneralChatServiceState.Ready);
@@ -1262,8 +1262,8 @@ export default function conversationStateUnitTest() {
 
       expect(state.desktopName).assertEqual('');
       expect(state.desktopId).assertEqual('');
-      expect(RemoteUiState.desktopNameFromRemoteUrl('openbitfun://pair?room=room-1')).assertEqual('');
-      expect(RemoteUiState.desktopNameFromRemoteUrl('openbitfun://pair?room=room-1&dn=Developer%20Mac'))
+      expect(RemoteUiState.desktopNameFromRemoteUrl('opc://pair?room=room-1')).assertEqual('');
+      expect(RemoteUiState.desktopNameFromRemoteUrl('opc://pair?room=room-1&dn=Developer%20Mac'))
         .assertEqual('Developer Mac');
     });
 
@@ -1277,7 +1277,7 @@ export default function conversationStateUnitTest() {
       state.setConnectionFailureKind('');
       state.setBusy(true);
       state.setLoadingHome(true);
-      state.setWorkspace('OpenBitFun', '/workspace/OpenBitFun', 'default', 'main', 'normal');
+      state.setWorkspace('OPC-Team', '/workspace/OPC-Team', 'default', 'main', 'normal');
       state.setSessions([
         remoteSession('session-1', '/canvas draw architecture'),
         remoteSession('session-2', 'Write release notes'),
@@ -1298,7 +1298,7 @@ export default function conversationStateUnitTest() {
       expect(state.isBusy).assertTrue();
       expect(state.isLoadingHome).assertTrue();
       expect(state.showRemoteUrlInput).assertTrue();
-      expect(state.workspacePath).assertEqual('/workspace/OpenBitFun');
+      expect(state.workspacePath).assertEqual('/workspace/OPC-Team');
       expect(state.workspaceBranch).assertEqual('main');
       expect(state.workspaceKind).assertEqual('normal');
       expect(state.assistantId).assertEqual('default');
@@ -1311,7 +1311,7 @@ export default function conversationStateUnitTest() {
     it('clears loading errors on success and clears only list state on reset', 0, () => {
       const state = new RemotePageState();
       state.setDesktopName('Developer Mac');
-      state.setWorkspace('OpenBitFun', '/workspace/OpenBitFun', 'default');
+      state.setWorkspace('OPC-Team', '/workspace/OPC-Team', 'default');
       state.setQuery('canvas');
       state.setLoading(true);
       state.setLoadingHome(true);
@@ -1330,7 +1330,7 @@ export default function conversationStateUnitTest() {
       expect(state.isLoadingHome).assertFalse();
       expect(state.sessionQuery).assertEqual('canvas');
       expect(state.desktopName).assertEqual('Developer Mac');
-      expect(state.workspaceName).assertEqual('OpenBitFun');
+      expect(state.workspaceName).assertEqual('OPC-Team');
     });
 
     it('owns active remote session, timeline projection, and model catalog', 0, () => {
@@ -1362,7 +1362,7 @@ export default function conversationStateUnitTest() {
       state.setActiveSession({
         sessionId: 'remote-1',
         title: 'Remote task',
-        workspacePath: '/workspace/OpenBitFun',
+        workspacePath: '/workspace/OPC-Team',
         agentType: 'code'
       });
       state.setTimelineProjection([userMessage], [], activeTurn, false, timelineItems);
@@ -1373,7 +1373,7 @@ export default function conversationStateUnitTest() {
       timelineItems.length = 0;
 
       expect(state.activeSession.sessionId).assertEqual('remote-1');
-      expect(state.activeSession.workspacePath).assertEqual('/workspace/OpenBitFun');
+      expect(state.activeSession.workspacePath).assertEqual('/workspace/OPC-Team');
       expect(state.timelineItems.length).assertEqual(1);
       expect(state.hasRunningActiveTurn()).assertTrue();
       expect(state.modelCatalog.version).assertEqual(2);
@@ -1393,7 +1393,7 @@ export default function conversationStateUnitTest() {
       const session: SessionSummary = {
         sessionId: 'remote-nested-1',
         title: 'Remote original',
-        workspacePath: '/workspace/OpenBitFun',
+        workspacePath: '/workspace/OPC-Team',
         agentType: 'code',
         initialTurnId: 'remote-turn-initial'
       };
@@ -1413,7 +1413,7 @@ export default function conversationStateUnitTest() {
       catalog.session_model_id = 'model-b';
 
       expect(state.activeSession.sessionId).assertEqual('remote-nested-1');
-      expect(state.activeSession.workspacePath).assertEqual('/workspace/OpenBitFun');
+      expect(state.activeSession.workspacePath).assertEqual('/workspace/OPC-Team');
       expect(state.activeSession.agentType).assertEqual('code');
       expect(state.activeTurnMessage.text).assertEqual('Run tests');
       expect(state.activeTurnMessage.renderVersion || 0).assertEqual(2);
@@ -1426,15 +1426,15 @@ export default function conversationStateUnitTest() {
     it('owns remote download status projection', 0, () => {
       const state = new RemotePageState();
 
-      state.setDownloadStatus('/workspace/OpenBitFun/README.md', '', '10 B / 20 B');
-      expect(state.downloadingFilePath).assertEqual('/workspace/OpenBitFun/README.md');
+      state.setDownloadStatus('/workspace/OPC-Team/README.md', '', '10 B / 20 B');
+      expect(state.downloadingFilePath).assertEqual('/workspace/OPC-Team/README.md');
       expect(state.downloadedFilePath).assertEqual('');
       expect(state.fileDownloadStatus).assertEqual('10 B / 20 B');
 
-      state.setDownloadStatus('/workspace/OpenBitFun/README.md', '/workspace/OpenBitFun/README.md', '下载完成 README.md · 20 B');
+      state.setDownloadStatus('/workspace/OPC-Team/README.md', '/workspace/OPC-Team/README.md', '下载完成 README.md · 20 B');
       state.clearDownloadingFilePath();
       expect(state.downloadingFilePath).assertEqual('');
-      expect(state.downloadedFilePath).assertEqual('/workspace/OpenBitFun/README.md');
+      expect(state.downloadedFilePath).assertEqual('/workspace/OPC-Team/README.md');
       expect(state.fileDownloadStatus).assertEqual('下载完成 README.md · 20 B');
 
       state.clearDownloadStatus();
@@ -1474,13 +1474,13 @@ export default function conversationStateUnitTest() {
     it('owns copied workspace and assistant picker projections', 0, () => {
       const state = new RemotePageState();
       const workspaces: RecentWorkspaceEntry[] = [{
-        path: '/workspace/OpenBitFun',
-        name: 'OpenBitFun',
+        path: '/workspace/OPC-Team',
+        name: 'OPC-Team',
         lastOpened: '2026-07-21T00:00:00.000Z',
         workspaceKind: 'normal'
       }];
       const assistants: AssistantEntry[] = [{
-        path: '/workspace/OpenBitFun/.openbitfun/assistants/default.md',
+        path: '/workspace/OPC-Team/.opcteam/assistants/default.md',
         name: 'Default',
         assistant_id: 'default'
       }];
@@ -1543,7 +1543,7 @@ export default function conversationStateUnitTest() {
       expect(ConversationViewState.project(AppRoute.RemoteChat, remote, general, '').isLoadingTranscript).assertFalse();
       remote.setTranscriptLoading(false);
       remote.setActiveSession({
-        sessionId: 'remote-session', title: 'Remote', workspacePath: '/workspace/OpenBitFun', agentType: 'code'
+        sessionId: 'remote-session', title: 'Remote', workspacePath: '/workspace/OPC-Team', agentType: 'code'
       });
       remote.setConversationLoading(true);
 
@@ -1673,7 +1673,7 @@ export default function conversationStateUnitTest() {
       remote.setActiveSession({
         sessionId: 'remote-1',
         title: 'Remote chat',
-        workspacePath: '/workspace/OpenBitFun',
+        workspacePath: '/workspace/OPC-Team',
         agentType: 'code'
       });
       general.setTimelineProjection([generalMessage], [], RemoteUiState.emptyActiveTurn(), false, [{
@@ -1701,7 +1701,7 @@ export default function conversationStateUnitTest() {
       expect(general.activeSession.sessionId).assertEqual('');
       expect(general.persistedMessages.length).assertEqual(0);
       expect(remote.activeSession.sessionId).assertEqual('remote-1');
-      expect(remote.activeSession.workspacePath).assertEqual('/workspace/OpenBitFun');
+      expect(remote.activeSession.workspacePath).assertEqual('/workspace/OPC-Team');
       expect(remote.persistedMessages.length).assertEqual(1);
     });
 

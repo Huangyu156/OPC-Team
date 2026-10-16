@@ -685,8 +685,8 @@ const SessionsSection: React.FC<SessionsSectionProps> = ({
         void loadMetadataPage(SESSIONS_LEVEL_0, undefined, 'sessions_nav_post_archive');
       }
     };
-    window.addEventListener('openbitfun:session-archived', handler);
-    return () => window.removeEventListener('openbitfun:session-archived', handler);
+    window.addEventListener('opc:session-archived', handler);
+    return () => window.removeEventListener('opc:session-archived', handler);
   }, [isVisible, workspaceId, loadMetadataPage]);
 
   const closeSessionMenu = useCallback(() => {
@@ -1277,7 +1277,7 @@ const SessionsSection: React.FC<SessionsSectionProps> = ({
       e.stopPropagation();
       try {
         await flowChatManager.archiveChatSession(sessionId);
-        window.dispatchEvent(new CustomEvent('openbitfun:session-archived'));
+        window.dispatchEvent(new CustomEvent('opc:session-archived'));
         notificationService.success(t('nav.sessions.archivedAll', { count: 1 }), { duration: 3000 });
       } catch (err) {
         log.error('Failed to archive session', err);

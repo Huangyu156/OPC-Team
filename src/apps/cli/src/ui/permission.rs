@@ -369,10 +369,10 @@ mod tests {
     #[test]
     fn permission_prompt_prefers_a_nonempty_project_path_for_display() {
         let mut with_path = request();
-        with_path.project_path = Some("  E:/Projects/OpenBitFun  ".to_string());
+        with_path.project_path = Some("  E:/Projects/OPC-Team  ".to_string());
         assert_eq!(
             permission_project_display_label(&with_path),
-            "E:/Projects/OpenBitFun"
+            "E:/Projects/OPC-Team"
         );
 
         let mut empty_path = request();
@@ -382,11 +382,7 @@ mod tests {
 
     #[test]
     fn permission_footer_secondary_content_remains_visible_in_ansi16_themes() {
-        for theme_id in [
-            "openbitfun-dark",
-            "openbitfun-midnight",
-            "openbitfun-tokyo-night",
-        ] {
+        for theme_id in ["opc-dark", "opc-midnight", "opc-tokyo-night"] {
             let theme = Theme::dark()
                 .apply_opencode_theme_json(
                     builtin_theme_json(theme_id).expect("built-in theme must exist"),

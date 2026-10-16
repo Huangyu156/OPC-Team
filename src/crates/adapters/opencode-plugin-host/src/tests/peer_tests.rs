@@ -396,7 +396,7 @@ async fn client_opens_a_typed_plugin_instance() {
             .await
             .expect("instance open request should be readable");
         assert_eq!(request["method"], "host.instance.open");
-        assert_eq!(request["params"]["instanceID"], "openbitfun:test-instance");
+        assert_eq!(request["params"]["instanceID"], "opc:test-instance");
         assert_eq!(request["params"]["plugins"][0]["spec"], "opc-demo-echo");
         write_frame(
             &mut host_stream,
@@ -404,7 +404,7 @@ async fn client_opens_a_typed_plugin_instance() {
                 "jsonrpc": "2.0",
                 "id": request["id"],
                 "result": {
-                    "instanceID": "openbitfun:test-instance",
+                    "instanceID": "opc:test-instance",
                     "generationKey": "generation-fixture",
                     "revision": "revision-fixture"
                 }
@@ -418,7 +418,7 @@ async fn client_opens_a_typed_plugin_instance() {
     let result = client
         .open_instance(
             PluginInstanceOpenRequest {
-                instance_id: "openbitfun:test-instance".to_string(),
+                instance_id: "opc:test-instance".to_string(),
                 generation_key: "generation-fixture".to_string(),
                 revision: "revision-fixture".to_string(),
                 project: json!({"id": "project", "worktree": "C:/workspace"}),
@@ -439,7 +439,7 @@ async fn client_opens_a_typed_plugin_instance() {
         .await
         .expect("instance open should resolve");
 
-    assert_eq!(result["instanceID"], "openbitfun:test-instance");
+    assert_eq!(result["instanceID"], "opc:test-instance");
     host.await.expect("fake host should finish");
 }
 

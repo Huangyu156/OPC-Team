@@ -36,7 +36,7 @@ async fn ensure_markdown_placeholder(path: &Path, content: &str) -> OpcTeamResul
     Ok(true)
 }
 
-fn gitignore_already_ignores_openbitfun(content: &str) -> bool {
+fn gitignore_already_ignores_opc(content: &str) -> bool {
     let directory = opc_core_types::product_identity::hidden_data_directory();
     content.lines().any(|line| {
         let entry = line.trim();
@@ -48,7 +48,7 @@ fn gitignore_already_ignores_openbitfun(content: &str) -> bool {
     })
 }
 
-pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
+pub(crate) async fn ensure_workspace_gitignore_ignores_opc(
     workspace_root: &Path,
 ) -> OpcTeamResult<bool> {
     let gitignore_path = workspace_root.join(".gitignore");
@@ -75,7 +75,7 @@ pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
         }
     };
 
-    if gitignore_already_ignores_openbitfun(&content) {
+    if gitignore_already_ignores_opc(&content) {
         return Ok(false);
     }
 
@@ -110,7 +110,7 @@ pub(crate) async fn ensure_workspace_gitignore_ignores_openbitfun(
 }
 
 async fn ensure_workspace_gitignore_ignores_opc_best_effort(workspace_root: &Path) -> bool {
-    match ensure_workspace_gitignore_ignores_openbitfun(workspace_root).await {
+    match ensure_workspace_gitignore_ignores_opc(workspace_root).await {
         Ok(updated) => updated,
         Err(e) => {
             warn!(
@@ -336,7 +336,7 @@ fn persona_file_description(file_name: &str) -> &'static str {
 #[cfg(all(test, feature = "agent-runtime"))]
 mod tests {
     use super::{
-        ensure_workspace_gitignore_ignores_openbitfun, ensure_workspace_persona_files_for_prompt,
+        ensure_workspace_gitignore_ignores_opc, ensure_workspace_persona_files_for_prompt,
         initialize_workspace_persona_files, normalize_line_endings, BOOTSTRAP_FILE_NAME,
         IDENTITY_FILE_NAME, SOUL_FILE_NAME, USER_FILE_NAME,
     };
@@ -366,7 +366,7 @@ mod tests {
             .await
             .expect("Failed to create temp workspace");
 
-        let updated = ensure_workspace_gitignore_ignores_openbitfun(&workspace_root)
+        let updated = ensure_workspace_gitignore_ignores_opc(&workspace_root)
             .await
             .expect("Failed to ensure .gitignore");
 
@@ -391,7 +391,7 @@ mod tests {
             .await
             .expect("Failed to seed .gitignore");
 
-        ensure_workspace_gitignore_ignores_openbitfun(&workspace_root)
+        ensure_workspace_gitignore_ignores_opc(&workspace_root)
             .await
             .expect("Failed to ensure .gitignore");
 
@@ -427,7 +427,7 @@ mod tests {
         .await
         .expect("Failed to seed .gitignore");
 
-        ensure_workspace_gitignore_ignores_openbitfun(&workspace_root)
+        ensure_workspace_gitignore_ignores_opc(&workspace_root)
             .await
             .expect("Failed to ensure .gitignore");
 

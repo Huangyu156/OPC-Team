@@ -279,10 +279,10 @@ describe('startup performance contract', () => {
   it('starts non-critical work after the startup overlay handoff', () => {
     const source = readSource('../../main.tsx');
 
-    expect(STARTUP_OVERLAY_HIDDEN_EVENT).toBe('openbitfun:startup-overlay-hidden');
+    expect(STARTUP_OVERLAY_HIDDEN_EVENT).toBe('opc:startup-overlay-hidden');
     expect(source).toContain('STARTUP_OVERLAY_HIDDEN_EVENT');
-    expect(source).not.toContain("signalName: 'openbitfun:interactive-shell-ready'");
-    expect(source).not.toContain("signalName: 'openbitfun:main-window-shown'");
+    expect(source).not.toContain("signalName: 'opc:interactive-shell-ready'");
+    expect(source).not.toContain("signalName: 'opc:main-window-shown'");
     expect(source).toContain('fallbackTimeoutMs: 10000');
   });
 
@@ -317,7 +317,7 @@ describe('startup performance contract', () => {
     expect(source).not.toMatch(/useAIInitialization/);
     expect(source).not.toMatch(/useCurrentModelConfig/);
     expect(source).not.toMatch(/from\s+['"]@\/infrastructure\/config\/services\/AIExperienceConfigService['"]/);
-    expect(source).toContain('openbitfun:interactive-shell-ready');
+    expect(source).toContain('opc:interactive-shell-ready');
     expect(source).toContain('STARTUP_OVERLAY_HIDDEN_EVENT');
   });
 

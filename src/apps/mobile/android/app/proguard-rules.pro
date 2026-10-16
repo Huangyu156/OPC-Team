@@ -2,7 +2,7 @@
 -keepattributes *Annotation*,InnerClasses,EnclosingMethod
 
 # SQLDelight schemas and Ktor engines are referenced through generated/service metadata.
--keep class com.openbitfun.mobile.core.persistence.db.** { *; }
+-keep class com.opc.mobile.core.persistence.db.** { *; }
 -dontwarn org.slf4j.**
 
 # BouncyCastle registers these services by class name. R8 cannot see those

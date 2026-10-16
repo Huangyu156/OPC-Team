@@ -464,8 +464,8 @@ mod tests {
         let markdown = "[Docs](/guide/start) [External](https://example.org)";
 
         assert_eq!(
-            absolutize_root_relative_markdown(markdown, "https://openbitfun.dev/docs/page"),
-            "[Docs](https://openbitfun.dev/guide/start) [External](https://example.org)"
+            absolutize_root_relative_markdown(markdown, "https://opc.dev/docs/page"),
+            "[Docs](https://opc.dev/guide/start) [External](https://example.org)"
         );
     }
 }

@@ -1606,7 +1606,7 @@ mod tests {
         assert_eq!(report.workspace.kind, UsageWorkspaceKind::Local);
         assert_eq!(
             report.workspace.path_label.as_deref(),
-            Some("D:/workspace/openbitfun")
+            Some("D:/workspace/opcteam")
         );
     }
 
@@ -1946,14 +1946,14 @@ mod tests {
                 test_snapshot_operation(
                     "op-visible",
                     0,
-                    "D:/workspace/openbitfun/src/visible.rs",
+                    "D:/workspace/opcteam/src/visible.rs",
                     2,
                     0,
                 ),
                 test_snapshot_operation(
                     "op-hidden",
                     1,
-                    "D:/workspace/openbitfun/src/hidden.rs",
+                    "D:/workspace/opcteam/src/hidden.rs",
                     30,
                     4,
                 ),
@@ -1992,7 +1992,7 @@ mod tests {
             120,
             serde_json::json!({
                 "tool_name": "write_file",
-                "args": { "path": "D:/workspace/openbitfun/src/main.rs" }
+                "args": { "path": "D:/workspace/opcteam/src/main.rs" }
             }),
         );
         let turn = test_turn_with_tools("turn-1", 0, DialogTurnKind::UserDialog, vec![tool]);
@@ -2116,7 +2116,7 @@ mod tests {
                 "write_file",
                 Some(true),
                 500,
-                "D:/workspace/openbitfun/src/main.rs",
+                "D:/workspace/opcteam/src/main.rs",
             )],
         );
         turn.duration_ms = Some(900);
@@ -2177,7 +2177,7 @@ mod tests {
                 "write_file",
                 Some(false),
                 120,
-                "D:/workspace/openbitfun/src/main.rs",
+                "D:/workspace/opcteam/src/main.rs",
             )],
         );
         failed_turn.model_rounds[0].model_config_id = Some("config-model-a".to_string());
@@ -2245,14 +2245,14 @@ mod tests {
                     "write_file",
                     Some(false),
                     120,
-                    "D:/workspace/openbitfun/src/main.rs",
+                    "D:/workspace/opcteam/src/main.rs",
                 ),
                 test_tool_item(
                     "tool-cancelled",
                     "edit_file",
                     None,
                     80,
-                    "D:/workspace/openbitfun/src/lib.rs",
+                    "D:/workspace/opcteam/src/lib.rs",
                 ),
             ],
         );
@@ -2290,28 +2290,28 @@ mod tests {
                     "write_file",
                     Some(true),
                     10,
-                    "D:/workspace/openbitfun/src/a.rs",
+                    "D:/workspace/opcteam/src/a.rs",
                 ),
                 test_tool_item(
                     "tool-2",
                     "write_file",
                     Some(true),
                     100,
-                    "D:/workspace/openbitfun/src/b.rs",
+                    "D:/workspace/opcteam/src/b.rs",
                 ),
                 test_tool_item(
                     "tool-3",
                     "write_file",
                     Some(true),
                     200,
-                    "D:/workspace/openbitfun/src/c.rs",
+                    "D:/workspace/opcteam/src/c.rs",
                 ),
                 test_tool_item(
                     "tool-4",
                     "edit_file",
                     Some(true),
                     60,
-                    "D:/workspace/openbitfun/src/d.rs",
+                    "D:/workspace/opcteam/src/d.rs",
                 ),
             ],
         );
@@ -2343,7 +2343,7 @@ mod tests {
             "write_file",
             Some(true),
             100,
-            "D:/workspace/openbitfun/src/a.rs",
+            "D:/workspace/opcteam/src/a.rs",
         );
         first.queue_wait_ms = Some(7);
         first.preflight_ms = Some(11);
@@ -2355,7 +2355,7 @@ mod tests {
             "write_file",
             Some(true),
             80,
-            "D:/workspace/openbitfun/src/b.rs",
+            "D:/workspace/opcteam/src/b.rs",
         );
         second.queue_wait_ms = Some(3);
         second.preflight_ms = Some(5);
@@ -2532,9 +2532,9 @@ mod tests {
     fn aggregates_operation_summary_file_stats_without_reading_file_bodies() {
         let request = test_request(None);
         let snapshot_facts = test_snapshot_facts(vec![
-            test_snapshot_operation("op-1", 0, "D:/workspace/openbitfun/src/main.rs", 10, 2),
-            test_snapshot_operation("op-2", 1, "D:/workspace/openbitfun/src/main.rs", 5, 1),
-            test_snapshot_operation("op-3", 1, "D:/workspace/openbitfun/src/lib.rs", 4, 0),
+            test_snapshot_operation("op-1", 0, "D:/workspace/opcteam/src/main.rs", 10, 2),
+            test_snapshot_operation("op-2", 1, "D:/workspace/opcteam/src/main.rs", 5, 1),
+            test_snapshot_operation("op-3", 1, "D:/workspace/opcteam/src/lib.rs", 4, 0),
         ]);
 
         let report = build_session_usage_report_from_sources(
@@ -2608,14 +2608,14 @@ mod tests {
                     "Write",
                     Some(true),
                     100,
-                    serde_json::json!({ "file_path": "D:/workspace/openbitfun/src/main.rs" }),
+                    serde_json::json!({ "file_path": "D:/workspace/opcteam/src/main.rs" }),
                 ),
                 test_tool_item_with_input(
                     "tool-2",
                     "Edit",
                     Some(true),
                     80,
-                    serde_json::json!({ "target_file": "D:/workspace/openbitfun/src/lib.rs" }),
+                    serde_json::json!({ "target_file": "D:/workspace/opcteam/src/lib.rs" }),
                 ),
             ],
         );
@@ -2655,14 +2655,14 @@ mod tests {
                     "Write",
                     Some(false),
                     100,
-                    "D:/workspace/openbitfun/src/main.rs",
+                    "D:/workspace/opcteam/src/main.rs",
                 ),
                 test_tool_item(
                     "tool-2",
                     "ExecCommand",
                     Some(false),
                     120,
-                    "D:/workspace/openbitfun",
+                    "D:/workspace/opcteam",
                 ),
             ],
         );
@@ -2693,8 +2693,8 @@ mod tests {
     fn file_rows_preserve_operation_turn_and_session_scopes() {
         let request = test_request(None);
         let snapshot_facts = test_snapshot_facts(vec![
-            test_snapshot_operation("op-9", 2, "D:/workspace/openbitfun/src/main.rs", 1, 0),
-            test_snapshot_operation("op-1", 0, "D:/workspace/openbitfun/src/main.rs", 2, 1),
+            test_snapshot_operation("op-9", 2, "D:/workspace/opcteam/src/main.rs", 1, 0),
+            test_snapshot_operation("op-1", 0, "D:/workspace/opcteam/src/main.rs", 2, 1),
         ]);
 
         let report = build_session_usage_report_from_sources(
@@ -2721,7 +2721,7 @@ mod tests {
         SessionUsageReportRequest {
             session_id: "session-1".to_string(),
             workspace_id: None,
-            workspace_path: Some("D:/workspace/openbitfun".to_string()),
+            workspace_path: Some("D:/workspace/opcteam".to_string()),
             remote_connection_id: remote_connection_id.map(ToOwned::to_owned),
             remote_ssh_host: remote_connection_id.map(|_| "host.example".to_string()),
             include_hidden_subagents: true,
@@ -2762,7 +2762,7 @@ mod tests {
                 "write_file",
                 Some(true),
                 100,
-                "D:/workspace/openbitfun/src/main.rs",
+                "D:/workspace/opcteam/src/main.rs",
             )],
         )
     }

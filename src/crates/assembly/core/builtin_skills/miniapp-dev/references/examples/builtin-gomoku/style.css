@@ -54,7 +54,7 @@ body, html { margin: 0; padding: 0; height: 100%; }
 }
 
 /* Light theme — invert rim contrast since the board is now bright. */
-[data-openbitfun-appearance-mode="light"] {
+[data-opc-appearance-mode="light"] {
   --g-stone-black:        #1c1c1f;
   --g-stone-black-stroke: rgba(0, 0, 0, 0.55);
   --g-stone-white-stroke: rgba(0, 0, 0, 0.22);

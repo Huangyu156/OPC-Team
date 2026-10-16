@@ -318,7 +318,7 @@ impl MCPServerProcess {
         );
 
         let result: InitializeResult = connection
-            .initialize("OpenBitFun", env!("CARGO_PKG_VERSION"))
+            .initialize("OPC-Team", env!("CARGO_PKG_VERSION"))
             .await?;
 
         info!(

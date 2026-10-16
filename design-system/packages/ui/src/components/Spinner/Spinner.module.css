@@ -44,7 +44,7 @@
     block-size: var(--_spinner-cell);
     border-radius: var(--opcteam-layout-spinner-matrix-radius);
     background: currentColor;
-    animation: openbitfun-spinner-matrix-pulse var(--opcteam-motion-duration-loop) ease-in-out infinite;
+    animation: opc-spinner-matrix-pulse var(--opcteam-motion-duration-loop) ease-in-out infinite;
     will-change: opacity, transform;
   }
 
@@ -73,7 +73,7 @@
     inline-size: 0.22em;
     border-radius: var(--opcteam-radius-pill);
     background: currentColor;
-    animation: openbitfun-spinner-bars-pulse var(--opcteam-motion-duration-loop) ease-in-out infinite;
+    animation: opc-spinner-bars-pulse var(--opcteam-motion-duration-loop) ease-in-out infinite;
   }
 
   .root[data-variant="bars"] .cell:nth-child(1),
@@ -104,12 +104,12 @@
     text-align: center;
   }
 
-  @keyframes openbitfun-spinner-matrix-pulse {
+  @keyframes opc-spinner-matrix-pulse {
     0%, 100% { opacity: 0.2; transform: scale(0.82); }
     45%, 60% { opacity: 1; transform: scale(1); }
   }
 
-  @keyframes openbitfun-spinner-bars-pulse {
+  @keyframes opc-spinner-bars-pulse {
     0%, 100% { opacity: 0.35; transform: scaleY(0.7); }
     50% { opacity: 1; transform: scaleY(1); }
   }

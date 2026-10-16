@@ -16,7 +16,7 @@ struct AppServerProcess {
 
 impl AppServerProcess {
     async fn spawn(environment: &CliTestEnvironment) -> Self {
-        let mut command = tokio::process::Command::new(env!("CARGO_BIN_EXE_openbitfun"));
+        let mut command = tokio::process::Command::new(env!("CARGO_BIN_EXE_opc"));
         command
             .arg("server")
             .stdin(Stdio::piped())

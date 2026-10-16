@@ -401,7 +401,7 @@ img {
 
 /* An appearance package only applies inside the desktop client, so the catalog
    and every listing carry the same visible route to the download page. */
-.get-openbitfun {
+.get-opc {
   display: grid;
   grid-template-columns: auto 1fr;
   gap: 14px;
@@ -414,12 +414,12 @@ img {
   transition: border-color 150ms ease, background-color 150ms ease;
 }
 
-.get-openbitfun:hover {
+.get-opc:hover {
   border-color: var(--opcteam-color-border-strong);
   background: var(--opcteam-color-surface-raised);
 }
 
-.get-openbitfun__icon {
+.get-opc__icon {
   display: grid;
   width: 38px;
   height: 38px;
@@ -429,24 +429,24 @@ img {
   color: var(--opcteam-color-link-default);
 }
 
-.get-openbitfun__copy {
+.get-opc__copy {
   display: grid;
   gap: 7px;
   min-width: 0;
 }
 
-.get-openbitfun__copy strong {
+.get-opc__copy strong {
   color: var(--opcteam-color-content-primary);
   font-size: 15px;
   font-weight: 700;
 }
 
-.get-openbitfun__copy > span {
+.get-opc__copy > span {
   font-size: 14px;
   line-height: 1.55;
 }
 
-.get-openbitfun__action {
+.get-opc__action {
   display: inline-flex;
   width: fit-content;
   align-items: center;
@@ -457,11 +457,11 @@ img {
   font-weight: 720;
 }
 
-.get-openbitfun__action svg {
+.get-opc__action svg {
   transition: transform 150ms ease;
 }
 
-.get-openbitfun:hover .get-openbitfun__action svg {
+.get-opc:hover .get-opc__action svg {
   transform: translateX(3px);
 }
 
@@ -1049,7 +1049,7 @@ img {
   color: var(--opcteam-color-accent-default);
 }
 
-.get-openbitfun--listing {
+.get-opc--listing {
   margin-top: 22px;
 }
 
@@ -2054,7 +2054,7 @@ img {
     line-height: 1;
   }
 
-  .get-openbitfun--catalog {
+  .get-opc--catalog {
     max-width: 540px;
   }
 
@@ -2284,7 +2284,7 @@ img {
 }
 .profile-avatar img { width: 100%; height: 100%; object-fit: cover; border: 0; }
 
-.search-field > .market-input[data-openbitfun-component='input'] {
+.search-field > .market-input[data-opc-component='input'] {
   flex: 1;
   min-width: 0;
   block-size: auto;
@@ -2293,14 +2293,14 @@ img {
   background: transparent;
   box-shadow: none;
 }
-.market-input[data-openbitfun-component='input'] > input {
+.market-input[data-opc-component='input'] > input {
   font: inherit;
   letter-spacing: inherit;
   height: auto;
 }
 
 /* Textarea owns a wrapper; keep the native editor filling its form column. */
-.market-textarea[data-openbitfun-component="textarea"] {
+.market-textarea[data-opc-component="textarea"] {
   display: flex;
   width: 100%;
   min-width: 0;
@@ -2311,7 +2311,7 @@ img {
 }
 
 /* Keep each surface's control geometry while using shared button semantics. */
-:where([data-openbitfun-component="button"]) {
+:where([data-opc-component="button"]) {
   display: inline-block;
   block-size: auto;
   padding: 0;
@@ -2321,31 +2321,31 @@ img {
   letter-spacing: inherit;
   white-space: normal;
 }
-:where([data-openbitfun-component="icon-button"]) {
+:where([data-opc-component="icon-button"]) {
   inline-size: auto;
   block-size: auto;
 }
-[data-openbitfun-component="button"]::before,
-[data-openbitfun-component="icon-button"]::before {
+[data-opc-component="button"]::before,
+[data-opc-component="icon-button"]::before {
   content: none;
 }
 /* Rich labels (previews, review cards, icon + text) retain the root layout. */
-[data-openbitfun-component="button"] > [data-openbitfun-part="content"],
-[data-openbitfun-component="button"] > [data-openbitfun-part="content"] > [data-openbitfun-part="label"] {
+[data-opc-component="button"] > [data-opc-part="content"],
+[data-opc-component="button"] > [data-opc-part="content"] > [data-opc-part="label"] {
   display: contents;
   white-space: inherit;
 }
-[data-openbitfun-component="icon-button"] > [data-openbitfun-part="icon"] {
+[data-opc-component="icon-button"] > [data-opc-part="icon"] {
   position: static;
   inline-size: auto;
   block-size: auto;
 }
-[data-openbitfun-component="icon-button"] > [data-openbitfun-part="icon"] > svg {
+[data-opc-component="icon-button"] > [data-opc-part="icon"] > svg {
   inline-size: 18px;
   block-size: 18px;
 }
 
-.header-actions > [data-openbitfun-component="icon-button"] > [data-openbitfun-part="icon"] > svg {
+.header-actions > [data-opc-component="icon-button"] > [data-opc-part="icon"] > svg {
   inline-size: 20px;
   block-size: 20px;
 }

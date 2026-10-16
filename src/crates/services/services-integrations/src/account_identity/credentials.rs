@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 use std::sync::{Mutex, OnceLock};
 
 #[cfg(not(target_os = "macos"))]
-const KEYRING_SERVICE: &str = "openbitfun.miniapp-market.v1";
+const KEYRING_SERVICE: &str = "opc.miniapp-market.v1";
 const CREDENTIAL_ENTRY: &str = "github-oauth";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

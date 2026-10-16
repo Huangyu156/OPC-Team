@@ -129,7 +129,7 @@ interface ModelSelectorProps {
   externalSelection?: ExternalModelSelection;
   /** Agent-profile model used only when the session has no explicit selection. */
   modeDefaultModelId?: string;
-  /** Whether a selection also changes OpenBitFun's shared built-in mode default. */
+  /** Whether a selection also changes the OPC-Team shared built-in mode default. */
   persistSharedModeDefault?: boolean;
   /** Whether lifecycle ownership currently prevents Session setting changes. */
   disabled?: boolean;
@@ -513,7 +513,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
     const restoreRequestId = `acp-options:${sessionId}:${acpClientId}`;
     if (shouldShowRestoreToast) {
       acpRestoreToastShownRef.current = sessionId;
-      window.dispatchEvent(new CustomEvent('openbitfun:acp-session-creation', {
+      window.dispatchEvent(new CustomEvent('opc:acp-session-creation', {
         detail: { phase: 'start', clientId: acpClientId, action: 'restore', requestId: restoreRequestId },
       }));
     }
@@ -543,7 +543,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
       setAcpOptionsLoadState('error');
     } finally {
       if (shouldShowRestoreToast) {
-        window.dispatchEvent(new CustomEvent('openbitfun:acp-session-creation', {
+        window.dispatchEvent(new CustomEvent('opc:acp-session-creation', {
           detail: {
             phase: 'finish',
             clientId: acpClientId,

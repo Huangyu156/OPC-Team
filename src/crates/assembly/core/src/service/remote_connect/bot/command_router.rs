@@ -4844,7 +4844,7 @@ mod handle_chat_tests {
         state.current_assistant = Some("/tmp/a".into());
         state.current_session_id = Some("s1".into());
         let s = strings_for(BotLanguage::ZhCN);
-        let result = handle_chat(&mut state, "hello openbitfun", vec![], s).await;
+        let result = handle_chat(&mut state, "hello opc", vec![], s).await;
 
         assert!(
             result.forward_to_session.is_some(),

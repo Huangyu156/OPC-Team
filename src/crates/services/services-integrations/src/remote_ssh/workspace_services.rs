@@ -336,16 +336,13 @@ mod bounded_read_tests {
     #[test]
     fn remote_workspace_paths_keep_posix_syntax_for_absolute_home_and_relative_roots() {
         for (root, expected) in [
-            ("/", "/.openbitfun/report.md"),
-            ("~", "~/.openbitfun/report.md"),
-            ("~/repo", "~/repo/.openbitfun/report.md"),
-            ("repo", "repo/.openbitfun/report.md"),
-            (".", "./.openbitfun/report.md"),
+            ("/", "/.opcteam/report.md"),
+            ("~", "~/.opcteam/report.md"),
+            ("~/repo", "~/repo/.opcteam/report.md"),
+            ("repo", "repo/.opcteam/report.md"),
+            (".", "./.opcteam/report.md"),
         ] {
-            assert_eq!(
-                join_posix_path(root, &[".openbitfun", "report.md"]),
-                expected
-            );
+            assert_eq!(join_posix_path(root, &[".opcteam", "report.md"]), expected);
         }
     }
 

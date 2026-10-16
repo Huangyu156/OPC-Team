@@ -173,7 +173,7 @@ async fn main() -> Result<()> {
     let path_manager = Arc::new(opc_core::infrastructure::PathManager::new()?);
     let ssh_data_dir = dirs::data_local_dir()
         .ok_or_else(|| anyhow::anyhow!("Could not resolve the local data directory"))?
-        .join("OpenBitFun")
+        .join("OPC-Team")
         .join("ssh");
     let ssh_manager = Arc::new(opc_core::service::remote_ssh::SSHConnectionManager::new(
         ssh_data_dir,

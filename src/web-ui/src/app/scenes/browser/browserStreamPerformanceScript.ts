@@ -1,7 +1,7 @@
 /**
  * Injected into browser webviews to reduce composition cost for realtime
  * canvas/video preview pages. It is intentionally conservative and only
- * activates for pages that look like OpenBitFun's Harmony device preview stream.
+ * activates for pages that look like the OPC-Team Harmony device preview stream.
  */
 export const STREAM_RENDER_OPTIMIZATION_SCRIPT = /* js */ `(function(){
   if(window.__opc_stream_render_optimized){return;}

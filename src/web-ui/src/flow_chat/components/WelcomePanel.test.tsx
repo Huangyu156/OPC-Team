@@ -154,7 +154,7 @@ describe('WelcomePanel Git summary loading', () => {
     });
     document.querySelector('[data-opc-overlay-host="true"]')?.remove();
     document.head.querySelector('style[data-welcome-appearance-test]')?.remove();
-    document.documentElement.removeAttribute('data-openbitfun-appearance');
+    document.documentElement.removeAttribute('data-opc-appearance');
     document.documentElement.removeAttribute('data-opc-appearance-revision');
     container.remove();
   });
@@ -264,7 +264,7 @@ describe('WelcomePanel Git summary loading', () => {
 
   it('keeps saved welcome action styles targeting the migrated Button', async () => {
     const legacyPackage: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
+      schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.welcome', name: 'Welcome', version: '1.0.0', mode: 'dark',
       components: {
         'welcome-panel': { parts: {
@@ -277,7 +277,7 @@ describe('WelcomePanel Git summary loading', () => {
     const registry = new AppearanceRegistry().registerComponent(welcomePanelAppearanceDescriptor);
     const snapshot = new AppearanceCompiler(registry).compile(restored, 1);
     expect(JSON.stringify(restored)).toBe(serialized);
-    document.documentElement.setAttribute('data-openbitfun-appearance', snapshot.id);
+    document.documentElement.setAttribute('data-opc-appearance', snapshot.id);
     document.documentElement.setAttribute('data-opc-appearance-revision', String(snapshot.revision));
     const style = document.createElement('style');
     style.setAttribute('data-welcome-appearance-test', '');

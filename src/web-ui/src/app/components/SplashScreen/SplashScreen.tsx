@@ -6,7 +6,7 @@
  */
 
 import React, { useEffect, useCallback, useState } from 'react';
-import { OpenBitFunMark } from '@opc-team/ui/brand';
+import { OpcMark } from '@opc-team/ui/brand';
 import './SplashScreen.scss';
 
 const DEFAULT_LOADING_MESSAGE_DELAY_MS = 1800;
@@ -56,7 +56,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
     >
       <div className="splash-screen__center" data-opc-component="splash-screen" data-opc-part="center">
         <div className="splash-screen__logo-wrap" data-opc-component="splash-screen" data-opc-part="logo">
-          <OpenBitFunMark className="splash-screen__logo" motion="breathe" active={!isExiting} />
+          <OpcMark className="splash-screen__logo" motion="breathe" active={!isExiting} />
         </div>
         {showDelayedMessage && delayedMessage && !isExiting && (
           <div

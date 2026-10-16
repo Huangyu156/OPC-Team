@@ -58,7 +58,7 @@ export const ControlHubToolCard: React.FC<ToolCardProps> = ({ toolItem, onExpand
   addField(t('toolCards.controlHub.selector'), model.params.selector ?? model.params.ref);
   addField(t('toolCards.controlHub.session'), model.data.session_id ?? model.data.terminal_session_id ?? model.params.session_id ?? model.params.terminal_session_id);
   const target = runtimeToolText(model.data.target) ?? runtimeToolText(model.params.target) ?? runtimeToolText(model.params.browser_target);
-  addField(t('toolCards.controlHub.target'), target && (['builtin', 'built_in', 'embedded', 'openbitfun'].includes(target)
+  addField(t('toolCards.controlHub.target'), target && (['builtin', 'built_in', 'embedded', 'opc'].includes(target)
     ? t('toolCards.controlHub.builtin') : ['external', 'cdp'].includes(target) ? t('toolCards.controlHub.external') : target));
   if (typeof model.data.ms === 'number') addField(t('toolCards.controlHub.elapsed'), t('toolCards.controlHub.milliseconds', { value: formatNumber(model.data.ms) }));
   if (model.route) {

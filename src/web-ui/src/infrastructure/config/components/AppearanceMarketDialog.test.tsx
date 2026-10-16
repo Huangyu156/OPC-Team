@@ -167,10 +167,10 @@ const summary = {
   mode: 'dark',
   packageVersion: '2.0.0',
   latestRelease: 2,
-  minOpenBitFunVersion: '1.0.0',
+  minOpcVersion: '1.0.0',
   requiredCapabilities: ['components.v1'],
   owner: { githubId: 1, login: 'studio', avatarUrl: '' },
-  previewUrl: `https://market.openbitfun.com/skin/api/v1/artifacts/previews/${'a'.repeat(64)}`,
+  previewUrl: `https://market.opcteam.eu.cc/skin/api/v1/artifacts/previews/${'a'.repeat(64)}`,
   downloadCount: 10,
   publishedAt: 1,
 } as const;
@@ -180,7 +180,7 @@ const release = {
   listingId: 'listing-1',
   releaseNumber: 2,
   packageVersion: '2.0.0',
-  minOpenBitFunVersion: '1.0.0',
+  minOpcVersion: '1.0.0',
   packageSha256: 'a'.repeat(64),
   packageSize: 100,
   reviewBundleHash: 'b'.repeat(64),
@@ -208,7 +208,7 @@ describe('AppearanceMarketDialog', () => {
     mocks.downloadRelease.mockReset().mockResolvedValue(new Uint8Array([1, 2, 3]).buffer);
     mocks.listSubmissions.mockReset().mockResolvedValue([]);
     mocks.chooseSubmissionPackage.mockReset()
-      .mockResolvedValue('/tmp/ocean-night.openbitfun-appearance');
+      .mockResolvedValue('/tmp/ocean-night.opc-appearance');
     mocks.submitPackage.mockReset().mockResolvedValue({
       submissionId: 'submission-upload',
       slug: 'ocean-night',
@@ -218,7 +218,7 @@ describe('AppearanceMarketDialog', () => {
       description: 'A calm blue appearance',
       mode: 'dark',
       packageVersion: '1.0.0',
-      minOpenBitFunVersion: '1.0.0',
+      minOpcVersion: '1.0.0',
       requiredCapabilities: [],
       changelog: 'Initial release.',
       license: { spdxExpression: 'MIT' },
@@ -393,7 +393,7 @@ describe('AppearanceMarketDialog', () => {
       description: 'Candidate package',
       mode: 'dark',
       packageVersion: '2.0.0',
-      minOpenBitFunVersion: '1.0.0',
+      minOpcVersion: '1.0.0',
       requiredCapabilities: ['components.v1'],
       changelog: 'More polished',
       license: { spdxExpression: 'MIT' },
@@ -492,7 +492,7 @@ describe('AppearanceMarketDialog', () => {
       slug: 'unpublished-skin',
       releaseNumber: 1,
       name: 'Unpublished Skin',
-      minOpenBitFunVersion: '1.0.0',
+      minOpcVersion: '1.0.0',
       requiredCapabilities: [],
       changelog: 'Initial release',
       license: { spdxExpression: 'MIT' },
@@ -555,9 +555,9 @@ describe('AppearanceMarketDialog', () => {
     await act(async () => submitButton?.click());
 
     await vi.waitFor(() => expect(mocks.submitPackage).toHaveBeenCalledWith({
-      packagePath: '/tmp/ocean-night.openbitfun-appearance',
+      packagePath: '/tmp/ocean-night.opc-appearance',
       slug: undefined,
-      minOpenBitFunVersion: '1.0.0',
+      minOpcVersion: '1.0.0',
       changelog: undefined,
       license: { spdxExpression: 'MIT' },
       repositoryUrl: undefined,

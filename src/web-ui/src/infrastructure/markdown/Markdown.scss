@@ -610,7 +610,7 @@
 // Scope to actual arriving text parents; the hook retains this marker only until
 // their final arrival settles, including the last 160 ms after streaming ends.
 @for $level from 0 through 31 {
-  [data-stream-reveal-active]::highlight(openbitfun-stream-reveal-#{$level}) {
+  [data-stream-reveal-active]::highlight(opc-stream-reveal-#{$level}) {
     color: color-mix(in srgb, currentColor #{20% + $level * 2.5%}, transparent);
   }
 }

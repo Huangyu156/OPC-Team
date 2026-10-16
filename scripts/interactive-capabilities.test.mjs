@@ -232,7 +232,7 @@ test('every product Agent tool is mapped to a user capability or explicitly clas
   assert.ok(item('feature.remote-workspaces', 'remote-files').control.tools.includes('Read'));
   assert.deepEqual(item('feature.remote-workspaces', 'port-forwarding').control.tools, ['PortForward']);
   assert.ok(item('setting.tools.mcp', 'resources').control.tools.includes('ReadMCPResource'));
-  assert.equal(byId.get('feature.desktop-pet').agentControl.tool, 'OpenBitFunControl');
+  assert.equal(byId.get('feature.desktop-pet').agentControl.tool, 'OpcControl');
   assert.equal(item('feature.desktop-pet', 'petdex-import').control.kind, 'delegate');
   const { publicCatalog } = buildCapabilityCatalog();
   const petSetting = publicCatalog.capabilities
@@ -282,9 +282,9 @@ test('built-in and external browsers share one agent action contract', async () 
   assert.ok(browser.searchTerms.some((term) => /one BrowserActions/iu.test(term)));
   assert.equal(browser.agentControl.tool, 'ControlHub');
   assert.ok(browser.agentControl.workflowZh.some((step) => step.includes('browser.open_builtin')));
-  assert.ok(browser.agentControl.workflowZh.some((step) => step.includes('OpenBitFunControl') && step.includes('about:blank')));
+  assert.ok(browser.agentControl.workflowZh.some((step) => step.includes('OpcControl') && step.includes('about:blank')));
   assert.ok(browser.agentControl.workflowEn.some((step) => /share.*contract/iu.test(step)));
-  assert.ok(browser.agentControl.workflowEn.some((step) => /OpenBitFunControl/iu.test(step) && /about:blank/iu.test(step)));
+  assert.ok(browser.agentControl.workflowEn.some((step) => /OpcControl/iu.test(step) && /about:blank/iu.test(step)));
 
   const actions = await read(
     'src/crates/assembly/core/src/agentic/tools/browser_control/actions.rs',
@@ -412,7 +412,7 @@ test('website, global search, and agent control consume generated semantic proje
     'src/web-ui/src/app/global-search/providers/interactiveCapabilitySearchProvider.ts',
   );
   const searchProviders = await read('src/web-ui/src/app/global-search/providers/index.ts');
-  const controlBridge = await read('src/web-ui/src/app/global-search/openBitFunControlBridge.ts');
+  const controlBridge = await read('src/web-ui/src/app/global-search/opcControlBridge.ts');
   const controlTool = await read(
     'src/crates/assembly/core/src/agentic/tools/implementations/opc_control_tool.rs',
   );
@@ -423,14 +423,14 @@ test('website, global search, and agent control consume generated semantic proje
   assert.doesNotMatch(searchProviders, /settingsSearchProvider/u);
   assert.match(controlBridge, /getInteractiveCapability/u);
   assert.match(controlBridge, /native ProductControl executor/u);
-  assert.doesNotMatch(controlBridge, /discoverOpenBitFunCapabilities|configureOption|currentOptionValue/u);
+  assert.doesNotMatch(controlBridge, /discoverOpcCapabilities|configureOption|currentOptionValue/u);
   assert.doesNotMatch(controlTool, /include_(?:str|bytes)!/u);
   assert.match(controlTool, /two-step/u);
 });
 
-test('Desktop and Web UI share the OpenBitFunControl transport contract', async () => {
+test('Desktop and Web UI share the OpcControl transport contract', async () => {
   const host = await read('src/apps/desktop/src/opc_control_host.rs');
-  const bridge = await read('src/web-ui/src/app/global-search/openBitFunControlBridge.ts');
+  const bridge = await read('src/web-ui/src/app/global-search/opcControlBridge.ts');
   const desktopRegistration = await read('src/apps/desktop/src/lib.rs');
 
   for (const source of [host, bridge]) {

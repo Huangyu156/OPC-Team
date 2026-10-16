@@ -1047,7 +1047,7 @@ mod tests {
             "   42 /Users/test/Development Projects/target/debug/opc-desktop\n\
               43 /Applications/BitFun.app/Contents/MacOS/BitFun\n\
               44 /Applications/Custom Product.app/Contents/MacOS/Custom Product\n\
-              45 /Applications/OpenBitFun.app/Contents/MacOS/opc-data-migrator\n\
+              45 /Applications/OPC-Team.app/Contents/MacOS/opc-data-migrator\n\
               46 /usr/bin/unrelated\n",
         )
         .expect("parse process inventory");

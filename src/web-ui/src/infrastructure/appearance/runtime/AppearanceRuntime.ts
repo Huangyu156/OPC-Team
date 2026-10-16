@@ -115,7 +115,7 @@ export class AppearanceRuntime {
     this.assetGenerations.clear();
     this.activeAssetRevision = null;
     const root = document.documentElement;
-    root.removeAttribute('data-openbitfun-appearance');
+    root.removeAttribute('data-opc-appearance');
     root.removeAttribute('data-opc-appearance-mode');
     root.removeAttribute('data-opc-appearance-revision');
     root.removeAttribute('data-opc-appearance-root');
@@ -170,7 +170,7 @@ export class AppearanceRuntime {
 
     const root = document.documentElement;
     root.setAttribute('data-opc-appearance-root', 'true');
-    root.setAttribute('data-openbitfun-appearance', next.id);
+    root.setAttribute('data-opc-appearance', next.id);
     root.setAttribute('data-opc-appearance-mode', next.mode);
     // Revision is the activation switch because every generated selector is revision-scoped.
     root.setAttribute('data-opc-appearance-revision', String(next.revision));
@@ -304,7 +304,7 @@ export class AppearanceRuntime {
       declarations.setProperty(`--opcteam-appearance-asset-${id.replace(/\./g, '-')}`, `url("${asset.url}")`);
     });
     if (!declarations.cssText) return '';
-    return `:root[data-openbitfun-appearance="${appearanceId}"][data-opc-appearance-revision="${revision}"]{${declarations.cssText}}`;
+    return `:root[data-opc-appearance="${appearanceId}"][data-opc-appearance-revision="${revision}"]{${declarations.cssText}}`;
   }
 
   private revokeAssetUrls(urls: ReadonlyMap<string, string>): void {

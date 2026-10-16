@@ -1,4 +1,4 @@
-export const OFFICIAL_RELAY_URL = 'https://remote.openbitfun.com/v/1.0.2';
+export const OFFICIAL_RELAY_URL = 'https://remote.opcteam.eu.cc/v/1.0.2';
 
 export function normalizeRelayUrl(value: string): string | null {
   try {

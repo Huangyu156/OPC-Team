@@ -60,7 +60,7 @@ async function main() {
   const designTokensSource = await readFile(designTokensCssPath, 'utf8');
   const themeSource = await readFile(themeCssPath, 'utf8');
   const buildSource = await readFile(buildScriptPath);
-  const logoPath = path.join(repositoryRoot, 'src/apps/desktop/icons/openbitfun-app-icon.png');
+  const logoPath = path.join(repositoryRoot, 'src/apps/desktop/icons/opc-app-icon.png');
   const logoSource = await readFile(logoPath);
   const socialImage = path.join(sourceRoot, 'og.png');
   let socialSource = Buffer.alloc(0);
@@ -93,7 +93,7 @@ async function main() {
   await writeFile(path.join(outputRoot, 'assets/design-tokens.css'), designTokensSource);
   await writeFile(path.join(outputRoot, 'assets/theme.css'), themeSource);
   await cp(path.join(sourceRoot, 'styles.css'), path.join(outputRoot, 'assets/styles.css'));
-  await cp(logoPath, path.join(outputRoot, 'assets/openbitfun.png'));
+  await cp(logoPath, path.join(outputRoot, 'assets/opc.png'));
 
   try {
     await cp(socialImage, path.join(outputRoot, 'og.png'));
@@ -149,7 +149,7 @@ async function main() {
   );
 
   process.stdout.write(
-    `Built OpenBitFun Playbook ${assetVersion} with ${catalog.counts.features} feature guides + ${catalog.counts.settings} settings guides (${catalog.digest.slice(0, 12)} catalog).\n`,
+    `Built OPC-Team Playbook ${assetVersion} with ${catalog.counts.features} feature guides + ${catalog.counts.settings} settings guides (${catalog.digest.slice(0, 12)} catalog).\n`,
   );
 }
 

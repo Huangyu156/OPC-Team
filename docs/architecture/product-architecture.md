@@ -191,7 +191,7 @@ block-beta
 | Development area | Repository scope | Current modules |
 |---|---|---|
 | Apps | `src/apps/*` | `desktop`、`cli`、`server`、`relay-server`、`sdk-host`、`miniapp-market-server`、`skin-market-server` |
-| Web and delivery | product roots | `src/web-ui`、`src/mobile-web`、`src/miniapp-market-web`、`src/skin-market-web`、`src/apps/mobile`、`OpenBitFun-Installer`、`tests/e2e` |
+| Web and delivery | product roots | `src/web-ui`、`src/mobile-web`、`src/miniapp-market-web`、`src/skin-market-web`、`src/apps/mobile`、`Opc-Installer`、`tests/e2e` |
 | SDK | `sdk/*` | `typescript` |
 | Shared frontend | `src/shared` | `shared` |
 | Interfaces | `src/crates/interfaces/*` | `acp`、`app-server`、`app-server-client`、`app-server-protocol`、`sdk-host` |
@@ -500,7 +500,7 @@ adapter 映射到稳定 owner 接口，不因该目标复用 App Server wire。�
 | 能力归属模块 / Agent Runtime API | 字段明确的请求和响应、状态事实、权限/取消规则、与框架无关的用例方法 | `tauri::State`、`AppHandle`、窗口/菜单对象、command 宏、HTTP/WebSocket/ACP/SDK Host 消息结构 |
 | Desktop Tauri / product Host adapter | 当前组装 Tauri adapter；目标按部署组装 direct Runtime adapter 或 App Server transport、注入真实 capability 与平台 provider、管理窗口和桌面生命周期、投递 typed Runtime/App Server notification 或桌面专属事件 | 复制业务校验、持有第二份权威状态、在目标迁移完成后为同一能力保留第二条 Runtime 旁路、把 Tauri 类型传入下层 |
 | Server / Remote adapter | 路由鉴权、协议消息、连接生命周期、流量控制与取消转换 | 为同一能力另建业务含义不同的 DTO 或 handler |
-| GUI / Web / TUI frontend | 当前依赖各自 infrastructure；Embedded/Shared TUI controller 直接组合 `CliAgentRuntimeClient` 与所需的 owner/service API，Web 或其他确需连接边界的 surface 才组合 App Server client；各自保留渲染状态 | 在 UI component/view 中直接依赖 Runtime 实现或私有 Shared IPC、公开 Python/TypeScript SDK、Tauri 业务 command；创建 catch-all TUI client、surface service、owner adapter、统一 TUI management 模块，或让 CLI 在 `openbitfun server` 之外依赖 App Server implementation/client（唯一经评审的例外是 `src/apps/cli/src/server_host.rs` 中的独立 stdio Server Host 装配点：它选择 `DeliveryProfile::Cli` 复用已评审的 CLI Agent 内核装配，再以 Host 注入的 allowlist/scope 收敛能力；TUI/controller/Headless CLI 仍禁止依赖 App Server） |
+| GUI / Web / TUI frontend | 当前依赖各自 infrastructure；Embedded/Shared TUI controller 直接组合 `CliAgentRuntimeClient` 与所需的 owner/service API，Web 或其他确需连接边界的 surface 才组合 App Server client；各自保留渲染状态 | 在 UI component/view 中直接依赖 Runtime 实现或私有 Shared IPC、公开 Python/TypeScript SDK、Tauri 业务 command；创建 catch-all TUI client、surface service、owner adapter、统一 TUI management 模块，或让 CLI 在 `opc server` 之外依赖 App Server implementation/client（唯一经评审的例外是 `src/apps/cli/src/server_host.rs` 中的独立 stdio Server Host 装配点：它选择 `DeliveryProfile::Cli` 复用已评审的 CLI Agent 内核装配，再以 Host 注入的 allowlist/scope 收敛能力；TUI/controller/Headless CLI 仍禁止依赖 App Server） |
 
 本文其他章节和历史设计中出现的“Runtime SDK”，如果指 `agent-runtime::sdk`，统一称为
 **Rust Runtime SDK（当前 preview）**；它是共享 **Agent Runtime API** 的当前 Rust 入口。只有
@@ -715,7 +715,7 @@ package plugin、OpenCode/通用动态 Hook Runtime、primary agent、外部 age
 配置兼容已经可用。独立目录可以发现并脱敏展示 OpenCode、Claude Code 与 Codex 的本地 Hook 声明；其中只有明确审阅的
 Claude Code/Codex 命令子集可复制为既有 `AgentHookEngine` 的原生层，OpenCode 和其余声明仍不加载 handler 或授予权限。
 
-目标路线不要求 OpenCode 插件作者维护 `openbitfun.plugin.json` 或复制到 `.opcteam/plugins`。OPC-Team 直接发现用户和
+目标路线不要求 OpenCode 插件作者维护 `opc.plugin.json` 或复制到 `.opcteam/plugins`。OPC-Team 直接发现用户和
 项目的 OpenCode 配置、插件目录、工具目录和软件包来源；低风险内容按用户偏好自动应用或先询问，可执行来源在
 首次启用或能力扩大时非阻塞确认。用户允许执行的候选自动记录当前版本，在自有脚本进程中真实加载插件，再通过兼容
 适配层把工具、稳定钩子、Client 和 TUI 插件入口接入现有归属模块。
@@ -827,7 +827,7 @@ flowchart TB
 ```
 
 当前 HTTP Server 调用 agent bootstrap，创建 Embedded Runtime 和 workspace ownership，并把 `/ws` 连接交给
-`OpenBitFunAppServer::serve`。它固定绑定 loopback，只有 Origin allowlist，没有每连接认证和 user/workspace/execution-domain
+`OpcAppServer::serve`。它固定绑定 loopback，只有 Origin allowlist，没有每连接认证和 user/workspace/execution-domain
 绑定；因此只能视为本机单用户 App Server Host，不能据此宣称远程、多用户或公开 Server Agent API 已交付。
 
 当前 Peer 运行连接：

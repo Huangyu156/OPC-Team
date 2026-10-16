@@ -41,7 +41,7 @@ pub fn deserialize_project_permission_config(
 
     if value.is_array() {
         Err(OpcTeamError::config(
-            "Project permission config uses the pre-OpenBitFun array format; use the explicit data migration tool instead",
+            "Project permission config uses the pre-Opc array format; use the explicit data migration tool instead",
         ))
     } else {
         serde_json::from_value(value).map_err(|error| {
@@ -110,9 +110,9 @@ mod tests {
         let error = deserialize_project_permission_config(
             r#"[{"action":"read","resource":"secrets/*","effect":"deny"}]"#,
         )
-        .expect_err("pre-OpenBitFun array config must require explicit migration");
+        .expect_err("pre-Opc array config must require explicit migration");
 
-        assert!(error.to_string().contains("pre-OpenBitFun"), "{error}");
+        assert!(error.to_string().contains("pre-Opc"), "{error}");
         assert!(
             error.to_string().contains("explicit data migration tool"),
             "{error}"

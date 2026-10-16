@@ -3773,7 +3773,7 @@ mod tests {
                         "opc-scheduler-ownership-test-{}",
                         uuid::Uuid::new_v4()
                     )),
-                    "openbitfun".to_string(),
+                    "opc".to_string(),
                     "test",
                 ),
             ),

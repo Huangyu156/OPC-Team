@@ -7,7 +7,7 @@ const ts = require('typescript');
 // The staged rollback is a client-only preview: entering it sends nothing to the
 // host, the timeline shows ghost rows, and the composer is refilled with the
 // withdrawn prompt. Gating and the three exits are frozen in
-// .openbitfun/plans/mobile-copy-rollback.plan.md (decision 4) and mirrored from
+// .opcteam/plans/mobile-copy-rollback.plan.md (decision 4) and mirrored from
 // src/web-ui/src/flow_chat/services/SessionRollbackService.ts:78-140. Only the
 // pure policy is covered here; the bar, the ghost rows and the wire call stay
 // device-level checks.

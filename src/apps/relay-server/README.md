@@ -4,7 +4,7 @@ The official Relay connects devices signed in to the same GitHub identity.
 GitHub identity is shared with the marketplaces. Users sign in
 from OPC-Team; they do not create a Relay account or deploy a server.
 
-The official endpoint is `https://remote.openbitfun.com/v/1.0.2`. This release is deployed with
+The official endpoint is `https://remote.opcteam.eu.cc/v/1.0.2`. This release is deployed with
 its own process, database, assets, and reverse-proxy location. An existing
 `/relay` deployment remains on its existing binary and data directory.
 
@@ -23,7 +23,7 @@ public-key lookup, RPC and presence all use the selected Relay endpoint.
 The two modes differ only in endpoint and host startup; no device traffic is
 forwarded from the local Relay to the official Relay.
 
-Both modes verify GitHub identity through `auth.openbitfun.com`, so signing in
+Both modes verify GitHub identity through `auth.opcteam.eu.cc`, so signing in
 requires internet access. An invitation contains only the selected endpoint
 and device id (`/#/pair?did=<device-id>`); scanning it grants no authority.
 The controller must sign in and resolve that id in its same-account directory.
@@ -43,7 +43,7 @@ Relay URL. A private Relay therefore needs a matching client build.
    and `src/mobile-web/src/services/pairingLink.ts`. Native clients have
    matching constants in KMP `core-transport/AccountDeviceLink.kt` and HarmonyOS
    `services/AccountDeviceLink.ets`; update the HarmonyOS account-link parser too.
-   Search for `https://remote.openbitfun.com/v/1.0.2` to verify every runtime
+   Search for `https://remote.opcteam.eu.cc/v/1.0.2` to verify every runtime
    reference and corresponding test before building your distribution.
 3. Decide who owns identity. You can retain the official GitHub identity
    authority, or run the [shared identity service](../../../deploy/miniapp-market/README.md)
@@ -83,7 +83,7 @@ shared HTTP/WebSocket implementation lives in `src/crates/services/relay-service
 Set `RELAY_DB_PATH` to a persistent SQLite database before starting the service.
 Startup fails if it is missing; anonymous public relay mode is unsupported.
 The service validates OPC-Team access tokens against the fixed GitHub identity
-authority at `https://auth.openbitfun.com/api/v1/me`.
+authority at `https://auth.opcteam.eu.cc/api/v1/me`.
 
 ```bash
 cargo build --release -p opc-relay-server

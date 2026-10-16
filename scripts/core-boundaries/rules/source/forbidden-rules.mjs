@@ -4146,7 +4146,7 @@ export const forbiddenContentUnderRules = [
     ],
   },
   {
-    path: 'OpenBitFun-Installer',
+    path: 'Opc-Installer',
     reason:
       'installer surfaces must consume capability-surface projections instead of raw plugin runtime client contracts',
     patterns: [
@@ -4187,7 +4187,7 @@ export const forbiddenContentUnderRules = [
     ],
   },
   {
-    path: 'OpenBitFun-Installer/src-tauri',
+    path: 'Opc-Installer/src-tauri',
     reason:
       'OpenCode adapter production imports are limited to the reviewed composition root',
     patterns: [

@@ -293,7 +293,7 @@
     color: var(--opcteam-color-action-neutral-content);
     background: var(--opcteam-color-surface-panel);
     box-shadow: var(--opcteam-shadow-menu);
-    animation: openbitfun-combobox-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-enter);
+    animation: opc-combobox-in var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-enter);
   }
 
   .popover[data-placement="top"] {
@@ -380,10 +380,10 @@
   .spinner {
     inline-size: var(--opcteam-overlay-menu-item-icon-size);
     block-size: var(--opcteam-overlay-menu-item-icon-size);
-    animation: openbitfun-combobox-spin var(--opcteam-motion-duration-loop) linear infinite;
+    animation: opc-combobox-spin var(--opcteam-motion-duration-loop) linear infinite;
   }
 
-  @keyframes openbitfun-combobox-spin {
+  @keyframes opc-combobox-spin {
     to {
       transform: rotate(360deg);
     }
@@ -420,7 +420,7 @@
     }
   }
 
-  @keyframes openbitfun-combobox-in {
+  @keyframes opc-combobox-in {
     from { opacity: 0; }
     to { opacity: 1; }
   }

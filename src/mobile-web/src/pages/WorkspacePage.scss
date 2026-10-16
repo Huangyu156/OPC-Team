@@ -32,12 +32,12 @@
   .workspace-terminal__screen { padding: 8px; }
 }
 .workspace-page .workspace-page__header {
-  [data-openbitfun-part="leading"]:empty { display: none; }
-  [data-openbitfun-part="copy"] { flex: 1; min-width: 0; }
+  [data-opc-part="leading"]:empty { display: none; }
+  [data-opc-part="copy"] { flex: 1; min-width: 0; }
 }
 .workspace-page__navigation [role="radio"] { display: flex; align-items: center; justify-content: center; gap: 8px; }
 @media (max-width: 600px) {
-  .workspace-page__navigation [data-openbitfun-component="mobile-segmented-control"] { width: 100%; }
+  .workspace-page__navigation [data-opc-component="mobile-segmented-control"] { width: 100%; }
   .workspace-page__navigation [role="radio"] { padding-inline: 8px; gap: 4px; }
 }
 .workspace-folder-picker {
@@ -57,7 +57,7 @@
 .workspace-page.workspace-page--tools { padding-top: 0; background: var(--opcteam-color-surface-canvas); }
 .workspace-page .workspace-page__sheet { border-radius: 0; }
 
-.workspace-picker__path-field [data-openbitfun-part="trailing"] { width: 48px; height: 48px; flex: 0 0 48px; }
+.workspace-picker__path-field [data-opc-part="trailing"] { width: 48px; height: 48px; flex: 0 0 48px; }
 
 .device-tools-page {
   .device-tools-page__location {
@@ -129,9 +129,9 @@
   }
   .workspace-page__recent-item-name { font-size: var(--opcteam-type-body-md-font-size); }
   .workspace-page__recent-item-path { font-size: var(--opcteam-type-meta-font-size); }
-  [data-openbitfun-component="mobile-button"],
-  [data-openbitfun-component="mobile-icon-button"],
-  [data-openbitfun-component="mobile-list-row"] {
+  [data-opc-component="mobile-button"],
+  [data-opc-component="mobile-icon-button"],
+  [data-opc-component="mobile-list-row"] {
     &:hover, &:active { box-shadow: none; transform: none; }
   }
 }

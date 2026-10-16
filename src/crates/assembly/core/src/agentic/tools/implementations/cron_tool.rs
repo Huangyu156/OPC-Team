@@ -1405,7 +1405,7 @@ mod tests {
                 &json!({
                     "action": "list",
                     "session_id": "worker_1",
-                    "workspace": "E:/Projects/OpenBitFun/OpenBitFun",
+                    "workspace": "E:/Projects/OPC-Team/OPC-Team",
                 }),
                 Some(&empty_context()),
             )

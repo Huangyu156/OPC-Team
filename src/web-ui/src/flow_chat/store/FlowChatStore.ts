@@ -4532,7 +4532,7 @@ export class FlowChatStore {
       };
     });
     
-    window.dispatchEvent(new CustomEvent('openbitfun:session-switched', {
+    window.dispatchEvent(new CustomEvent('opc:session-switched', {
       detail: { sessionId, mode: sessionMode || 'Standard' }
     }));
 
@@ -7053,7 +7053,7 @@ export class FlowChatStore {
       const newSessions = new Map(prev.sessions);
       newSessions.set(sessionId, updatedSession);
 
-      window.dispatchEvent(new CustomEvent('openbitfun:dialog-cancelled', {
+      window.dispatchEvent(new CustomEvent('opc:dialog-cancelled', {
         detail: { sessionId }
       }));
 

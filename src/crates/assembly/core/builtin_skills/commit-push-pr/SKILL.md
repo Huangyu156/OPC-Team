@@ -37,7 +37,7 @@ Do not duplicate either attribution. Preserve an equivalent existing trailer/foo
 
 1. Inspect repository rules, status, remotes, base, and the complete branch diff.
 2. Confirm scope; stage only intended paths.
-3. Create `openbitfun/<description>` only when currently on the base branch.
+3. Create `opc/<description>` only when currently on the base branch.
 4. Run the repository's focused verification.
 5. Commit real changes, following the resolved commit co-author setting above.
 6. Push normally; never force-push automatically.
@@ -79,7 +79,7 @@ Before committing, inspect the staged diff in full and run `git diff --cached --
 ### 3. Choose the branch safely
 
 - If already on an appropriate feature branch, keep it.
-- If on the target default/base branch, create `openbitfun/<short-kebab-description>` unless repository conventions require another prefix.
+- If on the target default/base branch, create `opc/<short-kebab-description>` unless repository conventions require another prefix.
 - Do not switch branches when that would risk unrelated work; ask instead.
 - Do not rebase, merge, squash, or cherry-pick merely to create a PR.
 - In a fork workflow, distinguish the push remote from the target repository. The PR head may be `<fork-owner>:<branch>` while the base belongs to `upstream`.

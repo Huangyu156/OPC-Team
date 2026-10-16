@@ -6,7 +6,7 @@
 
 ## 下载和使用
 
-**最新版本：[v0.1.2 — 下载数据迁移器](https://github.com/GCWing/OpenBitFun/releases/tag/data-migrator-v0.1.2)。**
+**最新版本：[v0.1.2 — 下载数据迁移器](https://github.com/GCWing/OPC-Team/releases/tag/data-migrator-v0.1.2)。**
 
 | 系统 | 下载文件 | 启动方式 |
 | --- | --- | --- |
@@ -50,7 +50,7 @@ Windows 需要 Microsoft Edge WebView2；macOS 使用系统 WebView，Linux 包�
 任务保存在：
 
 ```text
-<目标设置与数据目录>/data/migrations/bitfun-to-openbitfun/runs/<任务 ID>/
+<目标设置与数据目录>/data/migrations/bitfun-to-opc/runs/<任务 ID>/
 ```
 
 重新打开迁移器，选择原来的目录，在“历史迁移任务”中查看或恢复。恢复会校验计划、
@@ -59,7 +59,7 @@ Windows 需要 Microsoft Edge WebView2；macOS 使用系统 WebView，Linux 包�
 旧版交接流程留下的计划与日志仍可读取，即使 `request.json` 已过期；恢复前须选择原目录。
 无法读取的任务文件不会被删除或重置。
 
-迁移器只在自己的 `com.openbitfun.data-migrator` 配置目录中记住所选位置，不写主应用的
+迁移器只在自己的 `com.opcteam.data-migrator` 配置目录中记住所选位置，不写主应用的
 引导或提醒状态。“导出失败诊断”生成包含结果码和执行阶段的去敏文件。
 完整报告与数据目录可能含个人信息；反馈时请按下文说明检查内容，并自行选择是否提供数据目录。
 
@@ -81,7 +81,7 @@ Windows 需要 Microsoft Edge WebView2；macOS 使用系统 WebView，Linux 包�
 5. 重新扫描并开始新迁移，完成后再启动 OPC-Team。
 
 重置预览以所选目标位置为准；使用标准位置时，还会包含系统 Skills/SSH 所在的父目录，
-以及 `com.openbitfun.desktop` 下的桌面 WebView/UI 数据。
+以及 `com.opcteam.desktop` 下的桌面 WebView/UI 数据。
 旧 BitFun 来源、迁移器自身配置和列表之外的普通项目目录会保留。
 危险目录重叠、带符号链接或 junction 的重置路径会被拒绝。
 
@@ -90,18 +90,18 @@ Windows 目标目录：
 ```text
 %APPDATA%\opcteam
 %USERPROFILE%\.opcteam
-%LOCALAPPDATA%\OpenBitFun
+%LOCALAPPDATA%\OPC-Team
 ```
 
 macOS 标准目录为 `~/.opcteam` 和
-`~/Library/Application Support/{opcteam,OpenBitFun}`；Linux 为
+`~/Library/Application Support/{opcteam,OPC-Team}`；Linux 为
 `~/.opcteam`、`~/.config/opcteam` 和
-`~/.local/share/{opcteam,OpenBitFun}`（或对应的 XDG 目录）。
+`~/.local/share/{opcteam,OPC-Team}`（或对应的 XDG 目录）。
 确认前请以迁移器显示的实际路径为准。
 
 **重试后仍然异常**
 
-请在 [GitHub Issues](https://github.com/GCWing/OpenBitFun/issues) 提交问题，或在 OPC-Team 用户微信群中反馈，并提供：
+请在 [GitHub Issues](https://github.com/GCWing/OPC-Team/issues) 提交问题，或在 OPC-Team 用户微信群中反馈，并提供：
 
 - 操作系统、BitFun 版本、OPC-Team 版本和迁移器版本。
 - 操作步骤、预期结果及实际结果。
@@ -111,7 +111,7 @@ macOS 标准目录为 `~/.opcteam` 和
 Windows 迁移日志目录：
 
 ```text
-%APPDATA%\opcteam\data\migrations\bitfun-to-openbitfun\runs\<运行ID>\
+%APPDATA%\opcteam\data\migrations\bitfun-to-opc\runs\<运行ID>\
 ```
 
 请提供对应运行目录中的日志文件，例如 `report.json`、`plan.json`、`journal.jsonl`、`locations.json` 和 `release-observation.json`（如存在）。`stage` 和 `backup` 目录包含个人数据，是否一并提供可自行选择；初次反馈通常只需上述日志文件。如果准备清空目标目录重试，请先保存这份日志。

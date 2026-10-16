@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.OpenBitFun">
+        android:theme="@style/Theme.OPC-Team">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -27,7 +27,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="openbitfun" android:host="auth" android:pathPrefix="/callback" />
+                <data android:scheme="opc" android:host="auth" android:pathPrefix="/callback" />
             </intent-filter>
         </activity>
     </application>

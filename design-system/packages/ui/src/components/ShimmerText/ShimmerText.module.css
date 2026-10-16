@@ -28,12 +28,12 @@
         mask-position: 100% 0;
         -webkit-mask-repeat: no-repeat;
         mask-repeat: no-repeat;
-        animation: openbitfun-text-shimmer calc(var(--opcteam-motion-duration-loop) * 4) linear infinite;
+        animation: opc-text-shimmer calc(var(--opcteam-motion-duration-loop) * 4) linear infinite;
       }
     }
   }
 
-  @keyframes openbitfun-text-shimmer {
+  @keyframes opc-text-shimmer {
     /* The band rests outside the text at both ends, making the loop seam invisible. */
     from, 6% { -webkit-mask-position: 100% 0; mask-position: 100% 0; }
     92%, to { -webkit-mask-position: 0% 0; mask-position: 0% 0; }

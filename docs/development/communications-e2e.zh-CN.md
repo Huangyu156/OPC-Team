@@ -306,8 +306,8 @@ cargo test --locked -p opc-services-integrations --no-default-features --feature
 cargo test --locked -p opc-services-integrations --no-default-features --features remote-connect --test remote_connect_contracts
 cargo test --locked -p opc-services-integrations --no-default-features --features remote-ssh-concrete --lib remote_ssh::
 cargo test --locked -p opc-services-integrations --no-default-features --features remote-ssh --test remote_ssh_contracts
-cargo test --locked -p opc-cli --bin openbitfun dispatch::
-cargo test --locked -p opc-cli --bin openbitfun peer_host::
+cargo test --locked -p opc-cli --bin opc dispatch::
+cargo test --locked -p opc-cli --bin opc peer_host::
 cargo test --locked -p opc-agent-runtime-ipc
 cargo test --locked -p opc-app-server --lib server::wire::tests
 cargo test --locked -p opc-app-server-protocol --test legacy_wire_contracts

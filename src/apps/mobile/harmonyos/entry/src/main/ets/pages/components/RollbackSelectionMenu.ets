@@ -28,7 +28,7 @@ export class RollbackSelectionMenu {
    * `TextMenuItemId.of` takes it as its whole identity, so the value is only ever
    * compared against itself and never shown to a user.
    */
-  private static readonly ITEM_ID: string = 'openbitfun_rollback_to_message';
+  private static readonly ITEM_ID: string = 'opc_rollback_to_message';
 
   /**
    * Options for one surface's `Text`.

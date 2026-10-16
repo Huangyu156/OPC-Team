@@ -289,15 +289,15 @@ fn workspace_and_user_context_renderers_preserve_section_shape() {
     assert!(remote.contains("**Remote SSH** — connection"));
 
     let managed_worktree = render_workspace_context(&WorkspaceContextFacts {
-        workspace_path: "/managed/OpenBitFun-wt-1".to_string(),
+        workspace_path: "/managed/OPC-Team-wt-1".to_string(),
         related_paths: Vec::new(),
         remote_execution: None,
         worktree: Some(WorktreeContextFacts {
-            project_workspace_path: "/projects/OpenBitFun".to_string(),
+            project_workspace_path: "/projects/OPC-Team".to_string(),
             execution_target: SessionExecutionTarget {
                 kind: SessionExecutionTargetKind::ManagedWorktree,
                 worktree_id: Some("wt-1".to_string()),
-                root_path: "/managed/OpenBitFun-wt-1".to_string(),
+                root_path: "/managed/OPC-Team-wt-1".to_string(),
                 base_ref: Some("HEAD".to_string()),
                 base_commit: Some("0123456789abcdef".to_string()),
                 branch: None,
@@ -307,7 +307,7 @@ fn workspace_and_user_context_renderers_preserve_section_shape() {
     });
     assert!(managed_worktree.contains("Managed Git worktree created for this session"));
     assert!(managed_worktree.contains("Owning project root"));
-    assert!(managed_worktree.contains("/projects/OpenBitFun"));
+    assert!(managed_worktree.contains("/projects/OPC-Team"));
     assert!(managed_worktree.contains("Worktree ID: wt-1"));
     assert!(managed_worktree.contains("Worktree checkout: detached HEAD"));
     assert!(managed_worktree.contains("Worktree base commit: 0123456789abcdef"));

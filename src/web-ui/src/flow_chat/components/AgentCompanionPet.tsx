@@ -1,5 +1,5 @@
 /**
- * OpenBitFun Agent companion renderer — sleeping panda and Petdex sprites.
+ * OPC Agent companion renderer — sleeping panda and Petdex sprites.
  *
  * Geometry: lifted verbatim from the user's hand-drawn panda.svg
  * (viewBox 320x204). The component layers:

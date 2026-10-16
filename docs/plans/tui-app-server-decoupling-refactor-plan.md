@@ -111,7 +111,7 @@ pnpm run fmt:rs
 cargo check -p opc-cli
 cargo test -p opc-cli --test cli_command_contracts
 cargo test -p opc-cli
-cargo test -p opc-cli --bin openbitfun dual_backend_behavior_tests
+cargo test -p opc-cli --bin opc dual_backend_behavior_tests
 pnpm run check:core-boundaries
 git diff --check
 ```

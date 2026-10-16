@@ -141,7 +141,7 @@ export function hasPendingFlowGroupClassification(item: FlowItem, currentCategor
   return tool.toolName === DEFERRED_TOOL_GATEWAY_NAME
     || ((currentCategory === undefined || currentCategory === 'file-edit')
       && ['Edit', 'Write'].includes(getEffectiveToolName(tool)))
-    || ['OpenBitFunControl', 'ControlHub', 'ComputerUse'].includes(getEffectiveToolName(tool));
+    || ['OpcControl', 'ControlHub', 'ComputerUse'].includes(getEffectiveToolName(tool));
 }
 
 export function meetsFlowGroupThreshold(category: FlowGroupCategory, items: readonly FlowItem[]): boolean {

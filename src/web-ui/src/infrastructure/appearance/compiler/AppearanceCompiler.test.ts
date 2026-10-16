@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { builtinAppearancePalettes, openBitFunDarkPalette } from '../builtins/palettes';
+import { builtinAppearancePalettes, opcDarkPalette } from '../builtins/palettes';
 import { buildBuiltinAppearance } from '../builtins/buildBuiltinAppearance';
 import { composeAppearancePackage } from '../builtins/composeAppearancePackage';
 import { AppearanceRegistry } from '../registry/AppearanceRegistry';
@@ -11,7 +11,7 @@ import { AppearanceCompiler } from './AppearanceCompiler';
 describe('AppearanceCompiler', () => {
   it('applies saved Shell group styling to the unified work group without rewriting the package', () => {
     const pkg: AppearancePackage = {
-      ...buildBuiltinAppearance(openBitFunDarkPalette),
+      ...buildBuiltinAppearance(opcDarkPalette),
       components: {
         'shell-group': {
           parts: { root: { base: { opacity: { kind: 'number', value: 0.9 } } } },
@@ -28,7 +28,7 @@ describe('AppearanceCompiler', () => {
 
   it('preserves structured validation diagnostics when compilation is rejected', () => {
     const pkg = {
-      ...buildBuiltinAppearance(openBitFunDarkPalette),
+      ...buildBuiltinAppearance(opcDarkPalette),
       components: {
         'toolbar-mode': {
           parts: {
@@ -44,9 +44,9 @@ describe('AppearanceCompiler', () => {
 
   it('compiles a built-in appearance without retired design-system component selectors', () => {
     const compiler = new AppearanceCompiler(createDefaultAppearanceRegistry());
-    const snapshot = compiler.compile(buildBuiltinAppearance(openBitFunDarkPalette), 3);
+    const snapshot = compiler.compile(buildBuiltinAppearance(opcDarkPalette), 3);
 
-    expect(snapshot.id).toBe(openBitFunDarkPalette.id);
+    expect(snapshot.id).toBe(opcDarkPalette.id);
     expect(snapshot.revision).toBe(3);
     expect(snapshot.cssText).toContain('--opcteam-appearance-colors-bg-primary');
     expect(snapshot.cssText).not.toContain('[data-opc-component="card"]');
@@ -57,7 +57,7 @@ describe('AppearanceCompiler', () => {
 
   it('keeps product Appearance selectors distinct from design-system anatomy', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.product-surface',
       name: 'Product Surface',
@@ -85,7 +85,7 @@ describe('AppearanceCompiler', () => {
 
   it('targets the renamed context picker for legacy file-picker Appearance packages', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.legacy-context-picker',
       name: 'Legacy Context Picker',
@@ -112,7 +112,7 @@ describe('AppearanceCompiler', () => {
 
   it('rejects retired Settings surface ids without rewriting the package', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.legacy-settings-surface',
       name: 'Legacy Settings Surface',
@@ -160,7 +160,7 @@ describe('AppearanceCompiler', () => {
 
   it('rejects retired split execution facets without rewriting the package', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.split-execution-settings',
       name: 'Split Execution Settings',
@@ -188,7 +188,7 @@ describe('AppearanceCompiler', () => {
 
   it('rejects retired appearance Settings parts without rewriting the package', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.legacy-appearance-settings-cards',
       name: 'Legacy Appearance Settings Cards',
@@ -212,7 +212,7 @@ describe('AppearanceCompiler', () => {
     const visible = { kind: 'number', value: 0.9 } as const;
     const retired = { kind: 'number', value: 0.4 } as const;
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.retired-product-actions',
       name: 'Retired Product Actions',
@@ -259,7 +259,7 @@ describe('AppearanceCompiler', () => {
   it('rejects retired component surfaces without rewriting the package', () => {
     const visible = { kind: 'number', value: 0.9 } as const;
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.retired-component-surfaces',
       name: 'Retired Component Surfaces',
@@ -280,7 +280,7 @@ describe('AppearanceCompiler', () => {
   it('compiles canonical Settings surface ids', () => {
     const accent = { kind: 'hex', value: '#4488ff' } as const;
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.settings-surfaces',
       name: 'Settings Surfaces',
@@ -327,7 +327,7 @@ describe('AppearanceCompiler', () => {
 
   it('calculates real contrast diagnostics for structured colors', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.low-contrast',
       name: 'Low Contrast',
@@ -354,7 +354,7 @@ describe('AppearanceCompiler', () => {
 
   it('uses important declarations only for explicitly overriding parts', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.cascade-override',
       name: 'Cascade Override',
@@ -378,7 +378,7 @@ describe('AppearanceCompiler', () => {
 
   it('keeps non-forceable layout declarations in the normal cascade', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.property-level-override',
       name: 'Property Level Override',
@@ -410,7 +410,7 @@ describe('AppearanceCompiler', () => {
 
   it('normalizes side borders and outlines into deterministic CSS', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.border-normalization',
       name: 'Border Normalization',
@@ -443,7 +443,7 @@ describe('AppearanceCompiler', () => {
 
   it('combines materials in declaration order before applying the part base', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.material-composition',
       name: 'Material Composition',
@@ -485,7 +485,7 @@ describe('AppearanceCompiler', () => {
 
   it('does not synthesize retired component baselines for an explicit product-surface override', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.layered-cascade',
       name: 'Layered Cascade',
@@ -513,7 +513,7 @@ describe('AppearanceCompiler', () => {
 
   it('compiles structured layout, media, transform, and filter values without CSS passthrough', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.structured-style',
       name: 'Structured Style',
@@ -565,7 +565,7 @@ describe('AppearanceCompiler', () => {
 
   it('compiles layered package assets into aligned host-owned background declarations', () => {
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.layered-backgrounds',
       name: 'Layered Backgrounds',
@@ -632,7 +632,7 @@ describe('AppearanceCompiler', () => {
       })
       .freeze();
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.ancestor-state',
       name: 'Ancestor State',
@@ -660,7 +660,7 @@ describe('AppearanceCompiler', () => {
   it('targets multiple parts, facets, and states across complex product surfaces', () => {
     const accent = { kind: 'hex', value: '#ff3366' } as const;
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.product-surfaces',
       name: 'Product Surfaces',
@@ -710,7 +710,7 @@ describe('AppearanceCompiler', () => {
   it('compiles dedicated contracts for large interactive owners', () => {
     const accent = { kind: 'hex', value: '#33ffaa' } as const;
     const pkg: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.large-owners',
       name: 'Large Owners',

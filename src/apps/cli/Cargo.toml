@@ -4,12 +4,12 @@ version.workspace = true
 authors.workspace = true
 edition.workspace = true
 description = "OPC-Team CLI - Terminal User Interface"
-default-run = "openbitfun"
+default-run = "opc"
 autobins = false
 autotests = false
 
 [[bin]]
-name = "openbitfun"
+name = "opc"
 path = "src/main.rs"
 
 [[test]]

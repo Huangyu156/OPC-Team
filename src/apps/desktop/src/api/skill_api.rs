@@ -74,11 +74,11 @@ fn can_delete_owned_skill(source_id: &str, source_slot: &str, is_builtin: bool) 
 
     let source_id = source_id.trim().to_ascii_lowercase();
     if !source_id.is_empty() {
-        return matches!(source_id.as_str(), "openbitfun" | "opc-system");
+        return matches!(source_id.as_str(), "opcteam" | "opc-system");
     }
 
     let source_slot = source_slot.trim().to_ascii_lowercase();
-    source_slot.starts_with("openbitfun")
+    source_slot.starts_with("opcteam")
 }
 
 fn ensure_skill_can_be_deleted(skill: &SkillInfo) -> Result<(), String> {
@@ -1643,8 +1643,8 @@ mod tests {
 
     #[test]
     fn only_opc_owned_non_builtin_skills_are_deletable() {
-        assert!(can_delete_owned_skill("openbitfun", "openbitfun", false));
-        assert!(can_delete_owned_skill("", "openbitfun", false));
+        assert!(can_delete_owned_skill("opcteam", "opcteam", false));
+        assert!(can_delete_owned_skill("", "opcteam", false));
         assert!(can_delete_owned_skill("opc-system", "opc-system", false));
         assert!(!can_delete_owned_skill("opc-system", "opc-system", true));
         assert!(!can_delete_owned_skill("opencode", "home.opencode", false));

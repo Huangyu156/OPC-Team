@@ -8,10 +8,10 @@ use support::{
 };
 
 fn run_cli(args: &[&str]) -> Output {
-    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_openbitfun"))
+    opc_services_core::process_manager::create_command(env!("CARGO_BIN_EXE_opc"))
         .args(args)
         .output()
-        .expect("run openbitfun")
+        .expect("run opc")
 }
 
 fn stdout(output: &Output) -> String {
@@ -127,7 +127,7 @@ fn cli_agent_controls_its_own_isolated_config_through_opc_control() {
         .as_array()
         .expect("model tools")
         .iter()
-        .find(|tool| tool["function"]["name"] == "OpenBitFunControl")
+        .find(|tool| tool["function"]["name"] == "OpcControl")
         .expect("OpcTeamControl is loaded for the CLI Agent");
     let description = opc_control["function"]["description"]
         .as_str()

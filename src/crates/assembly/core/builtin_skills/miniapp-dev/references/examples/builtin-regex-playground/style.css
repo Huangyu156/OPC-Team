@@ -1,7 +1,7 @@
 /* Regex Playground — developer-tool theme.
  * Design system reference:
  *   palette  ─ Inherits OPC-Team host theme (--opcteam-* tokens) so it reads
- *              as a native panel under both openbitfun-dark and openbitfun-light.
+ *              as a native panel under both opc-dark and opc-light.
  *              Local --rx-* tokens are derived from the required host vars;
  *              the host contract owns first-paint defaults.
  *   accent   ─ host primary (cool blue / slate) for focus & active states;
@@ -64,7 +64,7 @@ body, html { margin: 0; padding: 0; height: 100%; }
   --rx-ease: cubic-bezier(.2,.8,.2,1);
 }
 
-[data-openbitfun-appearance-mode="light"] {
+[data-opc-appearance-mode="light"] {
   color-scheme: light;
 }
 
@@ -695,10 +695,10 @@ button, input, textarea, select { font-family: inherit; color: inherit; }
   .match__groups { margin-left: 40px; }
 }
 
-[data-openbitfun-appearance-mode="light"] .topbar {
+[data-opc-appearance-mode="light"] .topbar {
   background: color-mix(in srgb, var(--rx-bg) 85%, transparent);
   border-bottom-color: var(--rx-border);
 }
-[data-openbitfun-appearance-mode="light"] .pattern-error {
+[data-opc-appearance-mode="light"] .pattern-error {
   color: var(--rx-error);
 }

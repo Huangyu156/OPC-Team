@@ -539,7 +539,7 @@ on network transfer.
 The path resolver and Runtime context select the provider once from the
 Session's verified workspace binding. A remote request with an unavailable
 provider fails; it never acquires a local provider as a fallback. Explicit
-`openbitfun://` artifacts remain host-owned and use local storage even in a remote
+`opc://` artifacts remain host-owned and use local storage even in a remote
 Session. Tools must not consult whichever workspace is currently selected in
 the UI. POSIX remote paths must not acquire controller OS path semantics.
 

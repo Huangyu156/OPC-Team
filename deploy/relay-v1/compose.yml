@@ -1,14 +1,14 @@
-name: openbitfun-relay-v1.0.2
+name: opc-relay-v1.0.2
 services:
   relay-v1:
-    image: openbitfun-relay-v1.0.2:${RELAY_GIT_COMMIT:?Set the verified source commit}
+    image: opc-relay-v1.0.2:${RELAY_GIT_COMMIT:?Set the verified source commit}
     build:
       context: ../..
       dockerfile: src/apps/relay-server/Dockerfile
       args:
         RELAY_GIT_COMMIT: ${RELAY_GIT_COMMIT:?Set the verified source commit}
         CARGO_BUILD_JOBS: "4"
-    container_name: openbitfun-relay-v1.0.2
+    container_name: opc-relay-v1.0.2
     network_mode: host
     user: "10001:10001"
     read_only: true
@@ -32,14 +32,14 @@ services:
       RELAY_DB_PATH: /app/data/relay.db
       RELAY_ROOM_WEB_DIR: /app/room-web
       RELAY_ASSET_STORE_MAX_BYTES: "1073741824"
-      RELAY_CORS_ALLOW_ORIGINS: https://remote.openbitfun.com,https://auth.openbitfun.com
-      RELAY_PAGE_PUBLIC_BASE_URL: https://remote.openbitfun.com/v/1.0.2
-      RELAY_PAGE_AUTH_BASE_URL: https://auth.openbitfun.com/v/1.0.2
+      RELAY_CORS_ALLOW_ORIGINS: https://remote.opcteam.eu.cc,https://auth.opcteam.eu.cc
+      RELAY_PAGE_PUBLIC_BASE_URL: https://remote.opcteam.eu.cc/v/1.0.2
+      RELAY_PAGE_AUTH_BASE_URL: https://auth.opcteam.eu.cc/v/1.0.2
       RUST_LOG: info
     volumes:
-      - /srv/openbitfun-relay-v1.0.2/data:/app/data
-      - /srv/openbitfun-relay-v1.0.2/assets:/app/room-web
-      - /srv/openbitfun-relay-v1.0.2/static:/app/static:ro
+      - /srv/opc-relay-v1.0.2/data:/app/data
+      - /srv/opc-relay-v1.0.2/assets:/app/room-web
+      - /srv/opc-relay-v1.0.2/static:/app/static:ro
     logging:
       driver: json-file
       options:

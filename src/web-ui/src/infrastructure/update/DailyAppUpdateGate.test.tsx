@@ -54,13 +54,13 @@ it('synchronizes skips in development without starting discovery or dismissing a
   try {
     await act(async () => root.render(<DailyAppUpdateGate />));
     act(() => {
-      localStorage.setItem('openbitfun:update:skippedVersion', '1.5.0');
-      window.dispatchEvent(new StorageEvent('storage', { key: 'openbitfun:update:skippedVersion' }));
+      localStorage.setItem('opc:update:skippedVersion', '1.5.0');
+      window.dispatchEvent(new StorageEvent('storage', { key: 'opc:update:skippedVersion' }));
     });
     expect(useUpdateInstallStore.getState()).toMatchObject({ skippedVersion: '1.5.0', notice: 'available' });
     act(() => {
-      localStorage.setItem('openbitfun:update:skippedVersion', '2.0.0');
-      window.dispatchEvent(new StorageEvent('storage', { key: 'openbitfun:update:skippedVersion' }));
+      localStorage.setItem('opc:update:skippedVersion', '2.0.0');
+      window.dispatchEvent(new StorageEvent('storage', { key: 'opc:update:skippedVersion' }));
     });
     expect(useUpdateInstallStore.getState()).toMatchObject({ skippedVersion: '2.0.0', notice: null, version: '1.5.0' });
     expect(mocks.check).not.toHaveBeenCalled();

@@ -63,11 +63,11 @@ impl DshPluginRuntimeAdapter {
             .trim_start_matches("sha256:")
             .to_string();
         let package_uri = format!(
-            "openbitfun://managed-plugins/{provenance_id}/{}",
+            "opc://managed-plugins/{provenance_id}/{}",
             urlencoding::encode(&source.package_id)
         );
         let package_json_uri = format!(
-            "openbitfun://managed-plugins/{provenance_id}/{}/{PACKAGE_JSON}",
+            "opc://managed-plugins/{provenance_id}/{}/{PACKAGE_JSON}",
             source.package_id
         );
         let projections = project_package(
@@ -1309,7 +1309,7 @@ fn managed_source_uri(provenance_id: &str, package_id: &str, relative_path: &str
         .collect::<Vec<_>>()
         .join("/");
     format!(
-        "openbitfun://managed-plugins/{provenance_id}/{}/{encoded_path}",
+        "opc://managed-plugins/{provenance_id}/{}/{encoded_path}",
         urlencoding::encode(package_id)
     )
 }

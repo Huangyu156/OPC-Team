@@ -265,11 +265,11 @@
   }
 
   &__spinner {
-    animation: openbitfun-notification-center-spin 1s linear infinite;
+    animation: opc-notification-center-spin 1s linear infinite;
   }
 }
 
-@keyframes openbitfun-notification-center-spin {
+@keyframes opc-notification-center-spin {
   to { transform: rotate(360deg); }
 }
 

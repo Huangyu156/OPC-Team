@@ -158,8 +158,8 @@
   function markCanvasNode(value, component) {
     for (const item of toArray(value)) {
       if (item instanceof Element) {
-        if (!item.dataset.openbitfunCanvasNode) item.dataset.openbitfunCanvasNode = `node-${++nodeSeq}`;
-        if (!item.dataset.openbitfunCanvasComponent) item.dataset.openbitfunCanvasComponent = component;
+        if (!item.dataset.opcCanvasNode) item.dataset.opcCanvasNode = `node-${++nodeSeq}`;
+        if (!item.dataset.opcCanvasComponent) item.dataset.opcCanvasComponent = component;
       }
     }
     return value;
@@ -190,8 +190,8 @@
     const text = (element.innerText || element.textContent || '').replace(/\s+/g, ' ').trim();
     const rect = element.getBoundingClientRect();
     return {
-      nodeId: element.dataset.openbitfunCanvasNode || null,
-      component: element.dataset.openbitfunCanvasComponent || element.tagName.toLowerCase(),
+      nodeId: element.dataset.opcCanvasNode || null,
+      component: element.dataset.opcCanvasComponent || element.tagName.toLowerCase(),
       tagName: element.tagName.toLowerCase(),
       selector: elementSelector(element),
       text: text.length > 180 ? `${text.slice(0, 180)}...` : text,
@@ -232,7 +232,7 @@
   }
   function setDesignMode(enabled) {
     designMode = Boolean(enabled);
-    document.body.dataset.openbitfunCanvasDesignMode = designMode ? 'true' : 'false';
+    document.body.dataset.opcCanvasDesignMode = designMode ? 'true' : 'false';
     document.body.style.cursor = designMode ? 'crosshair' : '';
     if (!designMode) clearInspectHighlight();
   }

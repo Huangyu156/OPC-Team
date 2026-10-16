@@ -216,10 +216,10 @@
     },
     {
       "key": "installer-shell",
-      "owner": "OpenBitFun-Installer/src/theme; OpenBitFun-Installer/src/pages; OpenBitFun-Installer/src/styles",
+      "owner": "Opc-Installer/src/theme; Opc-Installer/src/pages; Opc-Installer/src/styles",
       "platforms": ["installer"],
       "formFactors": ["desktop", "narrow"],
-      "themes": ["dark", "light", "system", "openbitfun-dark", "openbitfun-light", "openbitfun-midnight", "openbitfun-china-style", "openbitfun-china-night", "openbitfun-cyber", "openbitfun-slate", "openbitfun-tokyo-night"],
+      "themes": ["dark", "light", "system", "opc-dark", "opc-light", "opc-midnight", "opc-china-style", "opc-china-night", "opc-cyber", "opc-slate", "opc-tokyo-night"],
       "states": ["theme-setup", "language", "options", "loading", "progress", "error", "completed", "hover", "focus"],
       "tokenFamilies": ["@opc-team/theme", "--opcteam-color-surface-*", "--opcteam-color-content-*", "--opcteam-color-border-*", "--opcteam-color-action-*", "--opcteam-color-accent-*", "--opcteam-color-status-*"],
       "evidence": [

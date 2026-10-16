@@ -1,0 +1,6 @@
+{
+  "name": "libopc_crypto.so",
+  "types": "./index.d.ts",
+  "version": "1.0.0",
+  "description": "OPC-Team Argon2id NAPI bindings."
+}

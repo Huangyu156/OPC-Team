@@ -8,8 +8,8 @@ const expected = args.version || readJsonVersion('package.json');
 const versions = new Map([
   ['package.json', readJsonVersion('package.json')],
   ['Cargo.toml', readTomlVersion('Cargo.toml', /version = "([^"]+)" # x-release-please-version/)],
-  ['OpenBitFun-Installer/package.json', readJsonVersion('OpenBitFun-Installer/package.json')],
-  ['OpenBitFun-Installer/src-tauri/Cargo.toml', readTomlVersion('OpenBitFun-Installer/src-tauri/Cargo.toml', /^version = "([^"]+)"/m)],
+  ['Opc-Installer/package.json', readJsonVersion('Opc-Installer/package.json')],
+  ['Opc-Installer/src-tauri/Cargo.toml', readTomlVersion('Opc-Installer/src-tauri/Cargo.toml', /^version = "([^"]+)"/m)],
   ['src/web-ui/package.json', readJsonVersion('src/web-ui/package.json')],
   ['src/mobile-web/package.json', readJsonVersion('src/mobile-web/package.json')],
   ['src/miniapp-market-web/package.json', readJsonVersion('src/miniapp-market-web/package.json')],
@@ -21,7 +21,7 @@ const versions = new Map([
 
 const mobileVersions = new Map([
   ['src/apps/mobile/android/app/build.gradle.kts', readTextVersion('src/apps/mobile/android/app/build.gradle.kts', /versionName\s*=\s*"([^"]+)"/)],
-  ['src/apps/mobile/ios/OpenBitFun/Info.plist', readTextVersion('src/apps/mobile/ios/OpenBitFun/Info.plist', /<key>CFBundleShortVersionString<\/key>\s*<string>([^<]+)<\/string>/)],
+  ['src/apps/mobile/ios/OPC-Team/Info.plist', readTextVersion('src/apps/mobile/ios/OPC-Team/Info.plist', /<key>CFBundleShortVersionString<\/key>\s*<string>([^<]+)<\/string>/)],
   ['src/apps/mobile/harmonyos/AppScope/app.json5', readTextVersion('src/apps/mobile/harmonyos/AppScope/app.json5', /"versionName"\s*:\s*"([^"]+)"/)],
 ]);
 

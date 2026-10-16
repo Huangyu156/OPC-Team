@@ -367,13 +367,13 @@ mod tests {
     fn same_named_models_from_different_suppliers_keep_distinct_keys() {
         let resolver = UsageAttributionResolver::new(&[
             config(
-                "cfg-openbitfun",
-                "OpenBitFun",
+                "cfg-opc",
+                "OPC-Team",
                 "anthropic",
                 "MiniMax-M3",
                 "https://gateway.example.com",
                 None,
-                Some("provider-openbitfun"),
+                Some("provider-opc"),
             ),
             config(
                 "cfg-minimax",
@@ -386,11 +386,11 @@ mod tests {
             ),
         ]);
 
-        let first = resolver.attribute(&record("cfg-openbitfun", "MiniMax-M3"));
+        let first = resolver.attribute(&record("cfg-opc", "MiniMax-M3"));
         let second = resolver.attribute(&record("cfg-minimax", "MiniMax-M3"));
         assert_eq!(first.model.name, second.model.name);
         assert_ne!(first.model.key, second.model.key);
-        assert_eq!(first.model.provider_name.as_deref(), Some("OpenBitFun"));
+        assert_eq!(first.model.provider_name.as_deref(), Some("OPC-Team"));
         assert_eq!(second.model.provider_name.as_deref(), Some("MiniMax"));
     }
 

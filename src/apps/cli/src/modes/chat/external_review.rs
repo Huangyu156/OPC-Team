@@ -34,7 +34,7 @@ fn external_command_projections(
                     .sources
                     .iter()
                     .find(|source| source.record.key == entry.definition.id.source)?;
-                let native_candidate_id = format!("openbitfun.cli:{}", action.id);
+                let native_candidate_id = format!("opc.cli:{}", action.id);
                 let external_candidate_id = entry.candidate_id.clone();
                 let conflict_key = native_prompt_command_conflict_key(
                     source.record.execution_domain_id.as_str(),
@@ -91,7 +91,7 @@ fn external_command_projections(
                     .find(|source| source.record.key == candidate.source)
                     .map(|source| source.record.execution_domain_id.as_str())
             })?;
-            let native_candidate_id = format!("openbitfun.cli:{}", action.id);
+            let native_candidate_id = format!("opc.cli:{}", action.id);
             let mut candidates = conflict
                 .candidates
                 .iter()
@@ -172,7 +172,7 @@ fn external_integration_policy_lines(snapshot: &ExternalSourceCatalogSnapshot) -
                 "Access: safely off; unsupported policy schema {}",
                 policy.schema_major
             ),
-            "Recover: openbitfun config external reset-incompatible".to_string(),
+            "Recover: opc config external reset-incompatible".to_string(),
         ];
     }
     if !policy.status.is_compatible() {
@@ -237,7 +237,7 @@ fn external_integration_policy_lines(snapshot: &ExternalSourceCatalogSnapshot) -
             descriptor.display_name
         ));
     }
-    lines.push("Manage: openbitfun config external --help".to_string());
+    lines.push("Manage: opc config external --help".to_string());
     lines
 }
 

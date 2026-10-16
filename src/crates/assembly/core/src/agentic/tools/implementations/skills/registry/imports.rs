@@ -583,14 +583,14 @@ mod tests {
         let origin = import_copy(source.clone(), target.clone()).await.unwrap();
         let native = SkillRegistry::scan_skills_in_dir(&root(
             target.clone(),
-            "openbitfun",
+            "opcteam",
             OPC_USER_SKILL_SLOT,
             0,
         ))
         .await
         .candidates
         .remove(0);
-        assert_eq!(native.info.source_id, "openbitfun");
+        assert_eq!(native.info.source_id, "opcteam");
         assert_eq!(native.info.import_origin.as_ref().unwrap(), &origin);
         assert_eq!(native.info.argument_hint.as_deref(), Some("target"));
         let content = SkillRegistry::read_local_skill_markdown(&native.info)
@@ -619,7 +619,7 @@ mod tests {
         external.push(native);
         let selected = resolve_visible_skills(external);
         assert_eq!(selected.len(), 1);
-        assert_eq!(selected[0].source_id, "openbitfun");
+        assert_eq!(selected[0].source_id, "opcteam");
         fs::write(target.join("demo/scripts/tool.py"), "user edit")
             .await
             .unwrap();
@@ -754,7 +754,7 @@ mod tests {
         .unwrap();
         let candidates = SkillRegistry::scan_skills_in_dir(&root(
             target.clone(),
-            "openbitfun",
+            "opcteam",
             OPC_USER_SKILL_SLOT,
             0,
         ))

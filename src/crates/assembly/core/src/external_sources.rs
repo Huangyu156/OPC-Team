@@ -4846,7 +4846,7 @@ fn native_mcp_behavior_version(
     let mut encoded = Vec::new();
     write_canonical_json(&value, &mut encoded)
         .map_err(|error| format!("Could not fingerprint OPC-Team MCP configuration: {error}"))?;
-    Ok(revision_key.opaque_revision("openbitfun.mcp.behavior.v1", [encoded.as_slice()]))
+    Ok(revision_key.opaque_revision("opc.mcp.behavior.v1", [encoded.as_slice()]))
 }
 
 fn write_canonical_json(value: &serde_json::Value, output: &mut Vec<u8>) -> serde_json::Result<()> {
@@ -6885,7 +6885,7 @@ async fn remember_native_prompt_command_conflict_choice(
             .any(|candidate| validate_conflict_preference(conflict_key, candidate).is_err())
         || native_candidate_ids.iter().any(|candidate| {
             !participants.contains(candidate)
-                || !candidate.starts_with("openbitfun.")
+                || !candidate.starts_with("opc.")
                 || validate_conflict_preference(conflict_key, candidate).is_err()
         })
     {
@@ -8654,7 +8654,7 @@ mod tests {
         ));
         assert!(!config_update_refreshes_external_model_bindings(
             &ConfigUpdateEvent::AppearanceUpdated {
-                appearance_id: "openbitfun-dark".to_string(),
+                appearance_id: "opc-dark".to_string(),
             }
         ));
     }
@@ -8723,7 +8723,7 @@ mod tests {
         };
         let native_v1 = NativePromptCommandDescriptor {
             command_name: "review".to_string(),
-            candidate_id: "openbitfun.desktop:action:review".to_string(),
+            candidate_id: "opc.desktop:action:review".to_string(),
             behavior_version: "native-v1".to_string(),
         };
         let first = project_native_prompt_command_conflicts(
@@ -8756,7 +8756,7 @@ mod tests {
 
         let cli_surface = NativePromptCommandDescriptor {
             command_name: "review".to_string(),
-            candidate_id: "openbitfun.cli:action:review".to_string(),
+            candidate_id: "opc.cli:action:review".to_string(),
             behavior_version: "native-v1".to_string(),
         };
         let isolated = project_native_prompt_command_conflicts(
@@ -8885,7 +8885,7 @@ mod tests {
     #[test]
     fn native_prompt_command_choice_does_not_mark_external_candidate_as_self_conflicted() {
         let mut config = ExternalSourcesConfig::default();
-        let native = "openbitfun.desktop:action:review".to_string();
+        let native = "opc.desktop:action:review".to_string();
         let external = "opencode.commands:project:review";
         let first_key = native_prompt_command_conflict_key(
             "local-user",
@@ -8991,8 +8991,8 @@ mod tests {
     #[test]
     fn native_prompt_command_reconfirmation_clears_the_whole_native_command_group() {
         let mut config = ExternalSourcesConfig::default();
-        let first = "openbitfun.desktop:action:review".to_string();
-        let second = "openbitfun.desktop:mode:review".to_string();
+        let first = "opc.desktop:action:review".to_string();
+        let second = "opc.desktop:mode:review".to_string();
         let external = "opencode.commands:project:review";
         let desktop_key = native_prompt_command_conflict_key(
             "local-user",
@@ -9003,7 +9003,7 @@ mod tests {
                 (external, "external-v1"),
             ],
         );
-        let cli = "openbitfun.cli:action:review".to_string();
+        let cli = "opc.cli:action:review".to_string();
         let cli_key = native_prompt_command_conflict_key(
             "local-user",
             "review",
@@ -10766,7 +10766,7 @@ mod tests {
             ),
             (
                 "native:prompt_command:local-user:help:old".to_string(),
-                "openbitfun.cli:help".to_string(),
+                "opc.cli:help".to_string(),
             ),
         ]);
         let mut lineage_keys = BTreeMap::from([
@@ -10782,7 +10782,7 @@ mod tests {
         let mut conflicted_ids = BTreeSet::from([
             "external-a".to_string(),
             "external-b".to_string(),
-            "openbitfun.cli:help".to_string(),
+            "opc.cli:help".to_string(),
         ]);
 
         ExternalSourceCoordinator::reconcile_conflict_preferences(
@@ -10790,8 +10790,8 @@ mod tests {
             &mut lineage_keys,
             &mut conflicted_ids,
             "native:prompt_command:local-user:help:new",
-            "openbitfun.cli:help",
-            &["openbitfun.cli:help".to_string()],
+            "opc.cli:help",
+            &["opc.cli:help".to_string()],
         );
 
         assert!(choices.contains_key("prompt_command:local-user:review:old"));

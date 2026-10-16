@@ -88,7 +88,7 @@ $reasoning-dust: ();
   &__stars {
     inset: -3%;
     opacity: 1;
-    animation: openbitfun-reasoning-starfield 12s ease-in-out -4s infinite alternate;
+    animation: opc-reasoning-starfield 12s ease-in-out -4s infinite alternate;
     // The brightest stars stay around the text, not behind its letterforms.
     mask-image: radial-gradient(ellipse 42% 64% at 50% 42%,
       transparent 8%, color-mix(in srgb, var(--opcteam-color-content-on-dark) 30%, transparent) 40%, var(--opcteam-color-content-on-dark) 88%);
@@ -111,7 +111,7 @@ $reasoning-dust: ();
       background:
         radial-gradient(ellipse 32% 20% at 20% 78%, color-mix(in srgb, var(--_reasoning-control-highlight) 32%, transparent), transparent 74%),
         radial-gradient(ellipse 30% 28% at 82% 28%, color-mix(in srgb, var(--_reasoning-control-glow) 38%, transparent), transparent 76%);
-      animation: openbitfun-reasoning-nebula 6.4s ease-in-out -2.1s infinite alternate;
+      animation: opc-reasoning-nebula 6.4s ease-in-out -2.1s infinite alternate;
     }
   }
 
@@ -128,7 +128,7 @@ $reasoning-dust: ();
     color: var(--_reasoning-control-highlight);
     opacity: var(--_reasoning-texture-opacity);
     transform-origin: center;
-    animation: openbitfun-reasoning-cloud 8s ease-in-out -2.7s infinite alternate;
+    animation: opc-reasoning-cloud 8s ease-in-out -2.7s infinite alternate;
     mask-image: radial-gradient(ellipse 46% 64% at 50% 40%,
       color-mix(in srgb, var(--opcteam-color-content-on-dark) 32%, transparent), var(--opcteam-color-content-on-dark) 90%);
   }
@@ -146,7 +146,7 @@ $reasoning-dust: ();
       inset: -22% -18%;
       opacity: 0.88;
       transform-origin: center;
-      animation: openbitfun-reasoning-near-cloud 7.2s ease-in-out -2.4s infinite alternate;
+      animation: opc-reasoning-near-cloud 7.2s ease-in-out -2.4s infinite alternate;
     }
 
     &::before {
@@ -218,7 +218,7 @@ $reasoning-dust: ();
     background: var(--_reasoning-star-color);
     box-shadow: 0 0 calc(var(--opcteam-space-1) * 0.5) color-mix(in srgb, var(--_reasoning-star-color) 26%, transparent);
     opacity: 0.86;
-    animation: openbitfun-reasoning-star 4s ease-in-out infinite;
+    animation: opc-reasoning-star 4s ease-in-out infinite;
   }
 
   &[data-intensity='2'] {
@@ -312,7 +312,7 @@ $reasoning-dust: ();
     .opc-reasoning-control__aurora::before,
     .opc-reasoning-control__aurora::after {
       filter: none;
-      animation: openbitfun-reasoning-balance 6s ease-in-out infinite alternate;
+      animation: opc-reasoning-balance 6s ease-in-out infinite alternate;
     }
 
     .opc-reasoning-control__aurora::before {
@@ -511,7 +511,7 @@ $reasoning-dust: ();
   }
 }
 
-@keyframes openbitfun-reasoning-nebula {
+@keyframes opc-reasoning-nebula {
   from {
     transform: translate3d(-6%, 4%, 0) scale(1.06);
     opacity: 0.55;
@@ -523,7 +523,7 @@ $reasoning-dust: ();
   }
 }
 
-@keyframes openbitfun-reasoning-cloud {
+@keyframes opc-reasoning-cloud {
   from {
     transform: translate3d(-8%, 5%, 0) scale(1.3);
     opacity: calc(var(--_reasoning-texture-opacity) * 0.85);
@@ -535,7 +535,7 @@ $reasoning-dust: ();
   }
 }
 
-@keyframes openbitfun-reasoning-near-cloud {
+@keyframes opc-reasoning-near-cloud {
   from {
     transform: translate3d(-8%, 5%, 0) scale(1.06);
     opacity: 0.78;
@@ -547,7 +547,7 @@ $reasoning-dust: ();
   }
 }
 
-@keyframes openbitfun-reasoning-balance {
+@keyframes opc-reasoning-balance {
   from {
     transform: translate3d(-6%, 3%, 0) scale(1.06);
     opacity: 0.66;
@@ -559,7 +559,7 @@ $reasoning-dust: ();
   }
 }
 
-@keyframes openbitfun-reasoning-starfield {
+@keyframes opc-reasoning-starfield {
   from {
     transform: translate3d(-6px, 2px, 0);
   }
@@ -569,7 +569,7 @@ $reasoning-dust: ();
   }
 }
 
-@keyframes openbitfun-reasoning-star {
+@keyframes opc-reasoning-star {
   0%,
   100% {
     opacity: 0.28;

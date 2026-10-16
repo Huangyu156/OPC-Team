@@ -79,7 +79,7 @@ test("Design Lab registers shared UI source watching only for development", asyn
     fileURLToPath(new URL("../vite.config.ts", import.meta.url)),
   );
   const plugins = loaded.config.plugins.flat(Infinity);
-  const watcher = plugins.find(plugin => plugin?.name === "openbitfun:watch-ui-source");
+  const watcher = plugins.find(plugin => plugin?.name === "opc:watch-ui-source");
   assert.ok(watcher, "The real application config must install the source watcher");
   assert.equal(watcher.apply, "serve");
   const watched = [];

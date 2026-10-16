@@ -18,7 +18,7 @@ owner Query / Command
         |
         +-- ResolvedProductCapabilityGraph
                 +-- global search
-                +-- OpenBitFunControl discovery
+                +-- OpcControl discovery
                 +-- Playbook
 ```
 
@@ -58,7 +58,7 @@ overlay 不得重新声明 handler、配置路径或由真实 registry 提供的
 - `PresentationTarget`：设置页、子视图、场景、产品动作或事件入口；
 - `ResolvedProductCapabilityGraph`：供发现与静态投影使用的版本化解析图。
 
-`OpenBitFunControl` 使用 `list/search/get/open/configure/execute` 的当前 wire shape。完整能力
+`OpcControl` 使用 `list/search/get/open/configure/execute` 的当前 wire shape。完整能力
 不会进入 system prompt；模型先发现或搜索，再按 `get` 返回的精确 schema 调用。已经退休的
 产品控制 ID 在正常运行时直接拒绝，不提供旧名称 alias；未来如需导入旧数据，由独立迁移边界完成。
 
@@ -90,7 +90,7 @@ Product Control Registry 是闭集路由，不是第二个业务 owner，也不�
 
 每个用户条目必须具有机器可检查的控制分类：
 
-- `direct`：OpenBitFunControl 可直接调用 Query/Command；
+- `direct`：OpcControl 可直接调用 Query/Command；
 - `delegate`：专用 Agent 工具是该能力的现有执行 adapter，且最终调用同一 owner；
 - `open`：必须由用户完成外部登录、secret 录入、视觉选择或无法结构化的实时交互；
 - `unsupported`：当前交付形态明确不支持，并提供恢复建议。
@@ -140,7 +140,7 @@ CI 必须结构性证明以下闭包，而不是依赖人工更新数量基线�
 
 ## 8. 创造模式的运行时扩展
 
-创造模式使用两类边界。已有产品能力仍由 `OpenBitFunControl` 的闭集 owner 图控制；
+创造模式使用两类边界。已有产品能力仍由 `OpcControl` 的闭集 owner 图控制；
 用户新建的命令由 `infrastructure/creation/creationCapabilities.ts` 中的激活期注册表持有。
 后者不向 ProductControl 注入任意 RPC，也不修改全局 Agent 工具表。Agent 使用
 `FrontendWorkbench inspect/invoke` 发现和调用当前自定义模块的命令；调用经过原有工具

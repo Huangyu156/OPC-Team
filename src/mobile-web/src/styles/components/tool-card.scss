@@ -815,7 +815,7 @@
     border-color: color-mix(in srgb, var(--opcteam-color-status-danger-border) 35%, var(--opcteam-color-border-subtle));
   }
 
-  .chat-thinking > [data-openbitfun-part="trigger"],
+  .chat-thinking > [data-opc-part="trigger"],
   .chat-tool-card__row,
   .chat-task-card__header,
   .chat-todo-card__header {
@@ -835,16 +835,16 @@
     min-block-size: 46px;
   }
 
-  .chat-thinking > [data-openbitfun-part="trigger"] {
+  .chat-thinking > [data-opc-part="trigger"] {
     color: var(--opcteam-color-content-secondary);
     font-size: var(--opcteam-type-body-sm-font-size);
 
-    &:not(:has([data-openbitfun-part="leading"])) {
+    &:not(:has([data-opc-part="leading"])) {
       padding-inline-start: calc(var(--size-gap-3) + 20px + var(--size-gap-2));
     }
   }
 
-  .chat-thinking > [data-openbitfun-part="body"] {
+  .chat-thinking > [data-opc-part="body"] {
     padding-inline: calc(var(--size-gap-3) + 20px + var(--size-gap-2)) var(--size-gap-3);
   }
 
@@ -862,7 +862,7 @@
 
   .chat-tool-card__icon,
   .chat-todo-card__icon,
-  .chat-thinking > [data-openbitfun-part="trigger"] > [data-openbitfun-part="leading"] {
+  .chat-thinking > [data-opc-part="trigger"] > [data-opc-part="leading"] {
     display: grid;
     place-items: center;
     flex: 0 0 20px;

@@ -37500,7 +37500,7 @@ function installAgentBackend(app) {
     }
   };
 }
-function installOpenBitFunBackendAdapter(app = window.app) {
+function installOpcBackendAdapter(app = window.app) {
   if (!app || app.backend?.call) return;
   if (app.agent?.run) installAgentBackend(app);
 }
@@ -38130,7 +38130,7 @@ var historyItems = [];
 var lastHistoryWriteAt = 0;
 var $ = (id) => document.getElementById(id);
 var runtime = () => window.app || {};
-installOpenBitFunBackendAdapter(runtime());
+installOpcBackendAdapter(runtime());
 var STORAGE_TIMEOUT_MS = 2500;
 var memoryStorage = /* @__PURE__ */ new Map();
 function safeLocalStorageGet(key) {

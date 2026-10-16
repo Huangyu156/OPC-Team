@@ -1,14 +1,14 @@
 // Renderer defaults for sparse/legacy Appearance packages. The adapter adds
 // concrete paint colors after this stylesheet when the accent is available.
-[data-flowchat-highlight-excerpt]::highlight(openbitfun-flowchat-excerpt),
-[data-flowchat-highlight-annotations]::highlight(openbitfun-flowchat-annotations) {
+[data-flowchat-highlight-excerpt]::highlight(opc-flowchat-excerpt),
+[data-flowchat-highlight-annotations]::highlight(opc-flowchat-annotations) {
   background-color: var(--opcteam-color-selection-surface);
   color: var(--opcteam-component-conversation-excerpt-accent);
 }
 
 @media (forced-colors: active) {
-  [data-flowchat-highlight-excerpt]::highlight(openbitfun-flowchat-excerpt),
-  [data-flowchat-highlight-annotations]::highlight(openbitfun-flowchat-annotations) {
+  [data-flowchat-highlight-excerpt]::highlight(opc-flowchat-excerpt),
+  [data-flowchat-highlight-annotations]::highlight(opc-flowchat-annotations) {
     background-color: Highlight;
     color: HighlightText;
   }

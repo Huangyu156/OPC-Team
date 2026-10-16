@@ -15,7 +15,7 @@ const protectedFiles = new Set([
 
 // Global keep-list: literal substrings that must never be rewritten anywhere.
 const keepLiterals = [
-  'openbitfun.com',            // domain
+  'opcteam.eu.cc',            // domain
   'openbitfun-appearance',     // skin package format
   'openbitfun-home',           // test fixture dir names
   'openbitfun-dark', 'openbitfun-light', 'openbitfun-midnight', 'openbitfun-ink-night',

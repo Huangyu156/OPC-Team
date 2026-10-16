@@ -5409,7 +5409,7 @@ mod tests {
         };
         let host = FakePollHost {
             tracker: Arc::new(RemoteSessionStateTracker::new("session-a".to_string())),
-            storage_dir: Some(PathBuf::from("/workspace/project/.openbitfun/sessions")),
+            storage_dir: Some(PathBuf::from("/workspace/project/.opcteam/sessions")),
             messages: vec![message.clone()],
             history_read_count: Arc::new(AtomicUsize::new(0)),
         };
@@ -5457,7 +5457,7 @@ mod tests {
         let history_read_count = Arc::new(AtomicUsize::new(0));
         let host = FakePollHost {
             tracker: tracker.clone(),
-            storage_dir: Some(PathBuf::from("/workspace/project/.openbitfun/sessions")),
+            storage_dir: Some(PathBuf::from("/workspace/project/.opcteam/sessions")),
             messages: vec![ChatMessage {
                 id: "message-visible".to_string(),
                 role: "user".to_string(),
@@ -5566,7 +5566,7 @@ mod tests {
         );
         let host = FakePollHost {
             tracker: tracker.clone(),
-            storage_dir: Some(PathBuf::from("/workspace/project/.openbitfun/sessions")),
+            storage_dir: Some(PathBuf::from("/workspace/project/.opcteam/sessions")),
             messages: vec![assistant.clone()],
             history_read_count: Arc::new(AtomicUsize::new(0)),
         };
@@ -5633,7 +5633,7 @@ mod tests {
         );
         let first_host = FakePollHost {
             tracker: tracker.clone(),
-            storage_dir: Some(PathBuf::from("/workspace/project/.openbitfun/sessions")),
+            storage_dir: Some(PathBuf::from("/workspace/project/.opcteam/sessions")),
             messages: vec![older_assistant.clone()],
             history_read_count: Arc::new(AtomicUsize::new(0)),
         };
@@ -5665,7 +5665,7 @@ mod tests {
         );
         let retry_host = FakePollHost {
             tracker: tracker.clone(),
-            storage_dir: Some(PathBuf::from("/workspace/project/.openbitfun/sessions")),
+            storage_dir: Some(PathBuf::from("/workspace/project/.opcteam/sessions")),
             messages: vec![older_assistant, current_assistant],
             history_read_count: Arc::new(AtomicUsize::new(0)),
         };

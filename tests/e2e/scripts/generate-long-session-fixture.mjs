@@ -10,31 +10,31 @@ const MAX_PROJECT_SLUG_LEN = 120;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-function defaultOpenBitFunHome() {
+function defaultOpcHome() {
   if (process.env.OPC_E2E_HOME) {
     return process.env.OPC_E2E_HOME;
   }
   if (process.env.OPC_E2E_USE_REAL_PROFILE === '1') {
-    return process.env.OPC_HOME || path.join(os.homedir(), '.openbitfun');
+    return process.env.OPC_HOME || path.join(os.homedir(), '.opcteam');
   }
-  return path.resolve(__dirname, '..', '.openbitfun', 'runtime', 'home');
+  return path.resolve(__dirname, '..', '.opcteam', 'runtime', 'home');
 }
 
-function defaultOpenBitFunUserRoot() {
+function defaultOpcUserRoot() {
   if (process.env.OPC_E2E_USER_ROOT) {
     return process.env.OPC_E2E_USER_ROOT;
   }
   if (process.env.OPC_E2E_USE_REAL_PROFILE === '1') {
     return null;
   }
-  return path.resolve(__dirname, '..', '.openbitfun', 'runtime', 'user-root');
+  return path.resolve(__dirname, '..', '.opcteam', 'runtime', 'user-root');
 }
 
 function parseArgs(argv) {
   const options = {
     workspace: undefined,
-    openbitfunHome: defaultOpenBitFunHome(),
-    openbitfunUserRoot: defaultOpenBitFunUserRoot(),
+    opcHome: defaultOpcHome(),
+    opcUserRoot: defaultOpcUserRoot(),
     sessionPrefix: 'perf-long-session',
     scenario: 'mixed-visible',
     sessionCount: 80,
@@ -65,10 +65,10 @@ function parseArgs(argv) {
         options.workspace = next();
         break;
       case '--opcteam-home':
-        options.openbitfunHome = next();
+        options.opcHome = next();
         break;
       case '--opcteam-user-root':
-        options.openbitfunUserRoot = next();
+        options.opcUserRoot = next();
         break;
       case '--session-prefix':
         options.sessionPrefix = next();
@@ -166,8 +166,8 @@ Options:
   --last-active-step-ms <n> lastActiveAt decrement per session index. Default: 1000
   --session-prefix <text>   Session id prefix. Default: perf-long-session
   --scenario <name>         Fixture shape: mixed-visible, dense-visible, explore-only, or user-only-latest. Default: mixed-visible
-  --opcteam-home <path>      OPC-Team home root. Default: OPC_E2E_HOME or isolated tests/e2e/.openbitfun/runtime/home; OPC_HOME is used only with OPC_E2E_USE_REAL_PROFILE=1
-  --opcteam-user-root <path> OPC-Team user config root for seeding active workspace. Default: OPC_E2E_USER_ROOT or isolated tests/e2e/.openbitfun/runtime/user-root; skipped for real profile unless provided
+  --opcteam-home <path>      OPC-Team home root. Default: OPC_E2E_HOME or isolated tests/e2e/.opcteam/runtime/home; OPC_HOME is used only with OPC_E2E_USE_REAL_PROFILE=1
+  --opcteam-user-root <path> OPC-Team user config root for seeding active workspace. Default: OPC_E2E_USER_ROOT or isolated tests/e2e/.opcteam/runtime/user-root; skipped for real profile unless provided
   --cleanup                 Remove generated sessions for the prefix.
 `);
 }
@@ -594,11 +594,11 @@ async function readJsonOptional(filePath) {
 }
 
 async function seedWorkspaceState(options, workspacePath) {
-  if (!options.openbitfunUserRoot) {
+  if (!options.opcUserRoot) {
     return null;
   }
 
-  const userRoot = path.resolve(options.openbitfunUserRoot);
+  const userRoot = path.resolve(options.opcUserRoot);
   const workspaceDataPath = path.join(userRoot, 'data', 'workspace_data.json');
   const existing = await readJsonOptional(workspaceDataPath);
   const workspaces = existing?.workspaces && typeof existing.workspaces === 'object'
@@ -701,7 +701,7 @@ async function writeIndex(sessionsRoot, generatedMetadata, sessionPrefix) {
 async function generate(options) {
   const workspacePath = fsSync.realpathSync(options.workspace);
   const slug = projectRuntimeSlug(workspacePath);
-  const sessionsRoot = path.join(options.openbitfunHome, 'projects', slug, 'sessions');
+  const sessionsRoot = path.join(options.opcHome, 'projects', slug, 'sessions');
 
   await fs.mkdir(sessionsRoot, { recursive: true });
   await removeGeneratedSessions(sessionsRoot, options.sessionPrefix);
@@ -774,8 +774,8 @@ async function generate(options) {
   return {
     action: 'generate',
     workspacePath,
-    openbitfunHome: options.openbitfunHome,
-    openbitfunUserRoot: options.openbitfunUserRoot,
+    opcHome: options.opcHome,
+    opcUserRoot: options.opcUserRoot,
     sessionsRoot,
     sessionPrefix: options.sessionPrefix,
     workspaceStateSeeded: Boolean(seededWorkspaceState),

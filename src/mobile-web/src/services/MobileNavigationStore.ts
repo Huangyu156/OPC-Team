@@ -1,5 +1,5 @@
 import { canonicalAgentId } from '../../../shared/agent-harness/contract.generated';
-const STORAGE_KEY = 'openbitfun.mobile.navigation.v1';
+const STORAGE_KEY = 'opc.mobile.navigation.v1';
 
 export interface MobileNavigationScope {
   accountId: string;

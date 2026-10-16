@@ -1358,7 +1358,7 @@ describe('ExternalSourcesConfig', () => {
           candidateId: 'builtin-review',
           displayName: 'OpenBitFun Review',
           kind: 'built_in',
-          providerId: 'openbitfun.builtin',
+          providerId: 'opc.builtin',
           contentVersion: 'builtin-v1',
         }, {
           candidateId: 'external-review',
@@ -1417,9 +1417,9 @@ describe('ExternalSourcesConfig', () => {
       7,
     );
 
-    const openbitfunAgent = Array.from(container.querySelectorAll('button')).find((button) =>
+    const opcAgent = Array.from(container.querySelectorAll('button')).find((button) =>
       button.textContent?.includes('OpenBitFun Review Agent'));
-    await act(async () => openbitfunAgent?.click());
+    await act(async () => opcAgent?.click());
     expect(chooseSubagentConflictMock).toHaveBeenCalledWith(
       'D:/workspace/project',
       'agent-conflict-v1',
@@ -1496,7 +1496,7 @@ describe('ExternalSourcesConfig', () => {
           candidateId: 'builtin-review',
           displayName: 'OpenBitFun Review',
           kind: 'built_in',
-          providerId: 'openbitfun.builtin',
+          providerId: 'opc.builtin',
           contentVersion: 'builtin-v1',
         }, {
           candidateId: 'external-review',
@@ -1739,7 +1739,7 @@ describe('ExternalSourcesConfig', () => {
     expect(notice?.querySelector('[data-opc-part="icon"]')).toBeNull();
 
     const legacy: AppearancePackage = {
-      schema: 'openbitfun.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
+      schema: 'opc.appearance', schemaVersion: APPEARANCE_SCHEMA_VERSION,
       id: 'test.external-notice', name: 'External notice', version: '1.0.0', mode: 'dark',
       components: { 'external-sources-config': { parts: {
         notice: { base: { opacity: { kind: 'number', value: 0.8 } } },
@@ -1753,12 +1753,12 @@ describe('ExternalSourcesConfig', () => {
     const selector = appearance.cssText.match(/:root[^{}]+(?=\{)/g)
       ?.find(candidate => candidate.includes('[data-opc-product-part="notice"]'))?.trim();
     expect(selector).toBeDefined();
-    document.documentElement.setAttribute('data-openbitfun-appearance', appearance.id);
+    document.documentElement.setAttribute('data-opc-appearance', appearance.id);
     document.documentElement.setAttribute('data-opc-appearance-revision', String(appearance.revision));
     try {
       expect(notice?.matches(selector!)).toBe(true);
     } finally {
-      document.documentElement.removeAttribute('data-openbitfun-appearance');
+      document.documentElement.removeAttribute('data-opc-appearance');
       document.documentElement.removeAttribute('data-opc-appearance-revision');
     }
   });

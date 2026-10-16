@@ -14,8 +14,8 @@ COPY design-system/tooling/token-engine/package.json design-system/tooling/token
 COPY design-system/packages/design-tokens/package.json design-system/packages/design-tokens/package.json
 COPY design-system/packages/theme/package.json design-system/packages/theme/package.json
 COPY src/skin-market-web/package.json src/skin-market-web/package.json
-RUN --mount=type=cache,id=openbitfun-skin-market-pnpm,target=/root/.local/share/pnpm/store,sharing=locked \
-    pnpm install --frozen-lockfile --ignore-scripts --filter openbitfun-skin-market-web...
+RUN --mount=type=cache,id=opc-skin-market-pnpm,target=/root/.local/share/pnpm/store,sharing=locked \
+    pnpm install --frozen-lockfile --ignore-scripts --filter opc-skin-market-web...
 
 COPY design-system/packages/ui/ design-system/packages/ui/
 COPY design-system/tooling/token-engine/ design-system/tooling/token-engine/
@@ -48,13 +48,13 @@ COPY Cargo.toml Cargo.lock ./
 COPY third_party/eioc/ third_party/eioc/
 COPY src/ src/
 
-RUN --mount=type=cache,id=openbitfun-skin-market-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
-    --mount=type=cache,id=openbitfun-skin-market-cargo-git,target=/usr/local/cargo/git,sharing=locked \
-    --mount=type=cache,id=openbitfun-skin-market-target,target=/build/target,sharing=locked \
+RUN --mount=type=cache,id=opc-skin-market-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=opc-skin-market-cargo-git,target=/usr/local/cargo/git,sharing=locked \
+    --mount=type=cache,id=opc-skin-market-target,target=/build/target,sharing=locked \
     { [ -n "${CARGO_BUILD_JOBS:-}" ] || unset CARGO_BUILD_JOBS; } \
-    && cargo build --locked --release -p openbitfun-skin-market-server \
-    && cp target/release/openbitfun-skin-market-server /tmp/openbitfun-skin-market-server \
-    && strip /tmp/openbitfun-skin-market-server
+    && cargo build --locked --release -p opc-skin-market-server \
+    && cp target/release/opc-skin-market-server /tmp/opc-skin-market-server \
+    && strip /tmp/opc-skin-market-server
 
 FROM debian:bookworm-slim AS runtime
 
@@ -69,7 +69,7 @@ RUN apt-get update \
     && useradd --uid 10002 --gid 10002 --no-create-home --shell /usr/sbin/nologin market
 
 WORKDIR /app
-COPY --from=rust-builder /tmp/openbitfun-skin-market-server /app/openbitfun-skin-market-server
+COPY --from=rust-builder /tmp/opc-skin-market-server /app/opc-skin-market-server
 COPY --from=web-builder /build/src/skin-market-web/dist/ /app/web/
 
 RUN mkdir -p /app/data /app/artifacts \
@@ -87,4 +87,4 @@ EXPOSE 9720
 HEALTHCHECK --interval=20s --timeout=5s --start-period=15s --retries=5 \
   CMD curl -fsS http://127.0.0.1:9720/skin/api/v1/health || exit 1
 
-ENTRYPOINT ["/app/openbitfun-skin-market-server"]
+ENTRYPOINT ["/app/opc-skin-market-server"]

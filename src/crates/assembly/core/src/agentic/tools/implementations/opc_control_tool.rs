@@ -302,7 +302,7 @@ impl Default for OpcTeamControlTool {
 #[async_trait]
 impl Tool for OpcTeamControlTool {
     fn name(&self) -> &str {
-        "OpenBitFunControl"
+        "OpcControl"
     }
 
     async fn description(&self) -> OpcTeamResult<String> {
@@ -1322,7 +1322,7 @@ mod tests {
             "action": "execute",
             "capability_id": "setting.application.pet",
             "operation_id": "use-pet",
-            "arguments": { "id": "openbitfun" }
+            "arguments": { "id": "bitblob" }
         });
         assert!(tool.validate_input(&id_request, Some(&remote)).await.result);
     }

@@ -1077,7 +1077,7 @@ fn sync_in_store(
                 "-c",
                 "user.name=OPC-Team Dispatch",
                 "-c",
-                "user.email=dispatch@openbitfun.local",
+                "user.email=dispatch@opcteam.local",
                 "commit",
                 "--no-verify",
                 "-m",
@@ -1927,10 +1927,10 @@ mod tests {
                 protocol_version: DISPATCH_PROTOCOL_VERSION,
                 job_id: "job-1".to_string(),
                 repo_key: "abcdef0123456789".to_string(),
-                project_label: Some("OpenBitFun".to_string()),
+                project_label: Some("OPC-Team".to_string()),
                 remote_url: None,
                 base_commit: "0".repeat(40),
-                branch: "openbitfun/dispatch/job-1".to_string(),
+                branch: "opc/dispatch/job-1".to_string(),
             },
         )
         .expect("provision");
@@ -1958,10 +1958,10 @@ mod tests {
                 protocol_version: DISPATCH_PROTOCOL_VERSION,
                 job_id: "job-1".to_string(),
                 repo_key: "abcdef0123456789".to_string(),
-                project_label: Some("OpenBitFun".to_string()),
+                project_label: Some("OPC-Team".to_string()),
                 remote_url: Some(source.to_string_lossy().to_string()),
                 base_commit: base_commit.clone(),
-                branch: "openbitfun/dispatch/job-1".to_string(),
+                branch: "opc/dispatch/job-1".to_string(),
             },
         )
         .expect("provision");
@@ -2010,10 +2010,10 @@ mod tests {
                 protocol_version: DISPATCH_PROTOCOL_VERSION,
                 job_id: "job-1".to_string(),
                 repo_key: "abcdef0123456789".to_string(),
-                project_label: Some("OpenBitFun".to_string()),
+                project_label: Some("OPC-Team".to_string()),
                 remote_url: Some(missing.to_string_lossy().to_string()),
                 base_commit: "0".repeat(40),
-                branch: "openbitfun/dispatch/job-1".to_string(),
+                branch: "opc/dispatch/job-1".to_string(),
             },
         )
         .expect("provision");
@@ -2054,7 +2054,7 @@ mod tests {
                 protocol_version: DISPATCH_PROTOCOL_VERSION,
                 job_id: "job-1".to_string(),
                 repo_key: "abcdef0123456789".to_string(),
-                project_label: Some("OpenBitFun".to_string()),
+                project_label: Some("OPC-Team".to_string()),
                 remote_url: Some(
                     temp.path()
                         .join("no-such-repository")
@@ -2062,7 +2062,7 @@ mod tests {
                         .to_string(),
                 ),
                 base_commit: "0".repeat(40),
-                branch: "openbitfun/dispatch/job-1".to_string(),
+                branch: "opc/dispatch/job-1".to_string(),
             },
         )
         .expect("provision");
@@ -2116,7 +2116,7 @@ mod tests {
             job_id: "job-1".to_string(),
             repo_key: "abcdef0123456789".to_string(),
             remote_url: None,
-            project_label: Some("OpenBitFun".to_string()),
+            project_label: Some("OPC-Team".to_string()),
             base_commit: base_commit.clone(),
             branch: "main".to_string(),
         };
@@ -2212,7 +2212,7 @@ mod tests {
                 protocol_version: DISPATCH_PROTOCOL_VERSION,
                 job_id: "job-1".to_string(),
                 repo_key: "abcdef0123456789".to_string(),
-                project_label: Some("OpenBitFun".to_string()),
+                project_label: Some("OPC-Team".to_string()),
                 remote_url: None,
                 base_commit,
                 branch: "main".to_string(),
@@ -2418,7 +2418,7 @@ mod tests {
         }
 
         let dir = tempfile::tempdir().expect("tempdir");
-        let opc_home = dir.path().join("openbitfun-home");
+        let opc_home = dir.path().join("opc-home");
         let user_root = dir.path().join("user-root");
         let output = opc_services_core::process_manager::create_command(
             std::env::current_exe().expect("test executable"),
@@ -2627,10 +2627,10 @@ mod tests {
                 protocol_version: DISPATCH_PROTOCOL_VERSION,
                 job_id: "job-1".to_string(),
                 repo_key: "abcdef0123456789".to_string(),
-                project_label: Some("OpenBitFun".to_string()),
+                project_label: Some("OPC-Team".to_string()),
                 remote_url: None,
                 base_commit: "0".repeat(40),
-                branch: "openbitfun/dispatch/job-1".to_string(),
+                branch: "opc/dispatch/job-1".to_string(),
             },
         )
         .expect("partial repository should be rebuilt");
@@ -2674,7 +2674,7 @@ mod tests {
             job_id: "job-1".to_string(),
             repo_key: "abcdef0123456789".to_string(),
             remote_url: None,
-            project_label: Some("OpenBitFun".to_string()),
+            project_label: Some("OPC-Team".to_string()),
             base_commit: base_commit.to_string(),
             branch: "main".to_string(),
         };
@@ -2716,18 +2716,14 @@ mod tests {
         // The controller branches its baseline before bundling, so the managed
         // branch is what the target fetches out of the bundle.
         let bundle = temp.path().join("base.bundle");
-        git(
-            &source,
-            &["branch", &format!("openbitfun/dispatch/{first}")],
-        )
-        .expect("managed branch");
+        git(&source, &["branch", &format!("opc/dispatch/{first}")]).expect("managed branch");
         git(
             &source,
             &[
                 "bundle",
                 "create",
                 path_arg(&bundle).expect("path"),
-                &format!("openbitfun/dispatch/{first}"),
+                &format!("opc/dispatch/{first}"),
             ],
         )
         .expect("bundle");
@@ -2737,9 +2733,9 @@ mod tests {
             job_id: job_id.to_string(),
             repo_key: "abcdef0123456789".to_string(),
             remote_url: None,
-            project_label: Some("OpenBitFun".to_string()),
+            project_label: Some("OPC-Team".to_string()),
             base_commit: base_commit.clone(),
-            branch: format!("openbitfun/dispatch/{job_id}"),
+            branch: format!("opc/dispatch/{job_id}"),
         };
 
         // The first session has to carry the objects over: nothing is cached yet.
@@ -2802,7 +2798,7 @@ mod tests {
                 &["symbolic-ref", "--quiet", "--short", "HEAD"],
             )
             .expect("branch");
-            assert_eq!(branch.trim(), format!("openbitfun/dispatch/{job_id}"));
+            assert_eq!(branch.trim(), format!("opc/dispatch/{job_id}"));
         }
 
         // And re-provisioning either one is still idempotent.
@@ -2819,11 +2815,11 @@ mod tests {
         };
         assert_eq!(
             label(&worktree_directory_name(
-                Some("OpenBitFun"),
+                Some("OPC-Team"),
                 None,
                 "dispatch-3d82ff46-bbf9-44c3"
             )),
-            "OpenBitFun"
+            "OPC-Team"
         );
         // No label: the remote's own basename is the next most recognizable name.
         assert_eq!(
@@ -2849,8 +2845,8 @@ mod tests {
         );
         // An id with no characters to digest still yields a usable directory.
         assert_eq!(
-            worktree_directory_name(Some("OpenBitFun"), None, ""),
-            "OpenBitFun"
+            worktree_directory_name(Some("OPC-Team"), None, ""),
+            "OPC-Team"
         );
     }
 
@@ -2859,13 +2855,13 @@ mod tests {
     /// of a project onto one directory and made the second one fail to provision.
     #[test]
     fn every_job_of_one_project_gets_its_own_worktree_directory() {
-        let name = |job_id: &str| worktree_directory_name(Some("OpenBitFun"), None, job_id);
+        let name = |job_id: &str| worktree_directory_name(Some("OPC-Team"), None, job_id);
         let first = name("dispatch-3d82ff46-bbf9-44c3-9c0f-2a1b0c4d5e6f");
         let second = name("dispatch-ac8fe8a3-85c7-4091-9ba4-856db2d55c2b");
 
         assert_ne!(first, second);
-        assert!(first.starts_with("OpenBitFun-"), "{first} lost its label");
-        assert!(second.starts_with("OpenBitFun-"), "{second} lost its label");
+        assert!(first.starts_with("OPC-Team-"), "{first} lost its label");
+        assert!(second.starts_with("OPC-Team-"), "{second} lost its label");
         // Stable across calls: a retry must land on the directory it already has.
         assert_eq!(first, name("dispatch-3d82ff46-bbf9-44c3-9c0f-2a1b0c4d5e6f"));
         // Ids that differ only past the slice window still separate.
@@ -2877,7 +2873,7 @@ mod tests {
         let temp = tempfile::tempdir().expect("tempdir");
         let store = DispatchStore::open(temp.path().join("dispatch")).expect("store");
         let name = worktree_directory_name(
-            Some("OpenBitFun"),
+            Some("OPC-Team"),
             None,
             "dispatch-3d82ff46-bbf9-44c3-9c0f-2a1b0c4d5e6f",
         );

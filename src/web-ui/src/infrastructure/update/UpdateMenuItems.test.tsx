@@ -185,7 +185,7 @@ it('allows an explicit check to revisit a skipped release without restoring its 
   expect(container.querySelector('[data-testid="app-update-indicator"]')).toBeNull();
   expect(state()).toMatchObject({ skippedVersion: '2.0.0', notice: 'available', detailsOpen: false });
   expect(selectHasUpdateAttention(state())).toBe(false);
-  expect(localStorage.getItem('openbitfun:update:skippedVersion')).toBe('2.0.0');
+  expect(localStorage.getItem('opc:update:skippedVersion')).toBe('2.0.0');
 });
 
 it('leaves the downloaded version to the checkmark but reminds about a newer release', async () => {
@@ -230,7 +230,7 @@ it('shows a known version on hover and opens the card only on click', async () =
   act(() => state().skipVersion('2.0.0'));
   expect(reminder()).toBeNull();
   expect(state().notice).toBeNull();
-  expect(localStorage.getItem('openbitfun:update:skippedVersion')).toBe('2.0.0');
+  expect(localStorage.getItem('opc:update:skippedVersion')).toBe('2.0.0');
 });
 
 it('delivers an available release through the existing card after the menu is closed during a check', async () => {

@@ -1694,8 +1694,8 @@ impl ToolPathResolution {
     }
 }
 
-pub const OPC_RUNTIME_URI_PREFIX: &str = "openbitfun://runtime/";
-pub const OPC_CURRENT_SESSION_URI_PREFIX: &str = "openbitfun://current-session/";
+pub const OPC_RUNTIME_URI_PREFIX: &str = "opc://runtime/";
+pub const OPC_CURRENT_SESSION_URI_PREFIX: &str = "opc://current-session/";
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct ParsedOpcTeamRuntimeUri {
@@ -1788,7 +1788,7 @@ pub fn is_opc_current_session_uri(path: &str) -> bool {
 }
 
 pub fn is_opc_tool_uri(path: &str) -> bool {
-    path.trim().starts_with("openbitfun://")
+    path.trim().starts_with("opc://")
 }
 
 pub fn normalize_host_path(path: &str) -> String {

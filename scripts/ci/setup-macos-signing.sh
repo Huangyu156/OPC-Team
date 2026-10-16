@@ -27,10 +27,10 @@ if [[ "${#missing[@]}" -gt 0 ]]; then
   exit 0
 fi
 
-signing_dir="${RUNNER_TEMP}/openbitfun-apple-signing"
+signing_dir="${RUNNER_TEMP}/opc-apple-signing"
 certificate_path="${signing_dir}/developer-id.p12"
 api_key_path="${signing_dir}/AuthKey_${APPLE_API_KEY}.p8"
-keychain_path="${RUNNER_TEMP}/openbitfun-signing.keychain-db"
+keychain_path="${RUNNER_TEMP}/opc-signing.keychain-db"
 
 mkdir -p "${signing_dir}"
 chmod 700 "${signing_dir}"

@@ -232,7 +232,7 @@ impl Tool for ViewImageTool {
             "properties": {
                 "path": {
                     "type": "string",
-                    "description": "Path to an image file. Use an absolute local path, a workspace-relative path, or an exact openbitfun:// URI returned by another tool."
+                    "description": "Path to an image file. Use an absolute local path, a workspace-relative path, or an exact opc:// URI returned by another tool."
                 },
                 "detail": {
                     "type": "string",

@@ -63,7 +63,7 @@ function requestControlConversation(expectedSessionId?: string): Promise<Control
     }
     const existing = flowChatStore.getState().sessions.get(result.sessionId);
     if (!existing) {
-      flowChatStore.addExternalSession(result.sessionId, 'OPC-Team', 'OpenBitFun', result.workspacePath,
+      flowChatStore.addExternalSession(result.sessionId, 'OPC-Team', 'OPC-Team', result.workspacePath,
         { isTransient: true, agentBackedTransient: true, workspaceId: result.workspaceId });
     }
     if (!existing || existing.historyState === 'failed') {

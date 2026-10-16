@@ -72,7 +72,7 @@ impl DesktopComputerUseHost {
             let mut snap = crate::computer_use::control_session::spawn_blocking(move || {
                 // Wrap in @try/@catch — AX APIs can throw NSException for
                 // sandboxed / partially-loaded / dying processes, and an
-                // unwound foreign exception aborts the whole openbitfun process
+                // unwound foreign exception aborts the whole OPC-Team process
                 // (`Rust cannot catch foreign exceptions, aborting`).
                 macos::catch_objc(|| {
                     crate::computer_use::macos_ax_dump::dump_app_ax(

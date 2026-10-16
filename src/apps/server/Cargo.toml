@@ -6,7 +6,7 @@ edition.workspace = true
 description = "OPC-Team Server - Web-based AI Code Assistant"
 
 [[bin]]
-name = "openbitfun-server"
+name = "opc-server"
 path = "src/main.rs"
 
 [dependencies]

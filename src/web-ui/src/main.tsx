@@ -5,7 +5,7 @@ import "@opc-team/ui/styles.css";
 import AppErrorBoundary from "./app/components/AppErrorBoundary";
 import { STARTUP_OVERLAY_HIDDEN_EVENT } from "./app/startup/startupSignals";
 import { I18nProvider } from "./infrastructure/i18n/providers/I18nProvider";
-import { OpenBitFunDesignSystemProvider } from "./infrastructure/design-system";
+import { OpcDesignSystemProvider } from "./infrastructure/design-system";
 import "./app/styles/index.scss";
 
 // The build-selected font profile is linked from index.html before first paint.
@@ -218,7 +218,7 @@ async function initializeBeforeRender(): Promise<void> {
     });
   });
 
-  log.info('Initializing OpenBitFun');
+  log.info('Initializing OPC-Team');
 
   await traceStartupStep('before_render_step', 'appearance_initialize', async () => {
     await measureAsyncAndLog(log, 'Startup step completed', async () => {
@@ -312,7 +312,7 @@ async function initializeAfterRender(): Promise<void> {
     }
   });
 
-  log.info('OpenBitFun core systems initialized successfully');
+  log.info('OPC-Team core systems initialized successfully');
   logElapsed(log, 'Startup phase completed', phaseStartedAt, {
     data: { phase: 'initializeAfterRender' },
   });
@@ -325,7 +325,7 @@ async function startApplication(): Promise<void> {
   const appStartedAt = nowMs();
   startupTrace.markPhase('start_application_start');
   const isAgentCompanionWindow = new URLSearchParams(window.location.search)
-    .get('openbitfunWindow') === 'agent-companion';
+    .get('opcWindow') === 'agent-companion';
   // Select the dependency graph before importing either window. Start loading
   // alongside appearance initialization, avoiding another startup waterfall.
   // Keep separate import statements: a conditional import expression can be
@@ -340,7 +340,7 @@ async function startApplication(): Promise<void> {
   try {
     await initializeBeforeRender();
   } catch (error) {
-    log.error('Failed to initialize OpenBitFun (pre-render)', error);
+    log.error('Failed to initialize OPC-Team (pre-render)', error);
   }
 
   startupTrace.markPhase('startup_step_start', { step: 'load_i18n_provider', mode: 'static' });
@@ -355,9 +355,9 @@ async function startApplication(): Promise<void> {
     ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <AppErrorBoundary>
         <I18nProvider>
-          <OpenBitFunDesignSystemProvider>
+          <OpcDesignSystemProvider>
             <WindowContent />
-          </OpenBitFunDesignSystemProvider>
+          </OpcDesignSystemProvider>
         </I18nProvider>
       </AppErrorBoundary>
     );
@@ -377,9 +377,9 @@ async function startApplication(): Promise<void> {
   ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     <AppErrorBoundary>
       <I18nProvider>
-        <OpenBitFunDesignSystemProvider>
+        <OpcDesignSystemProvider>
           <WindowContent />
-        </OpenBitFunDesignSystemProvider>
+        </OpcDesignSystemProvider>
       </I18nProvider>
     </AppErrorBoundary>
   );

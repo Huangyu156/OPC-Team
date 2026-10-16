@@ -93,7 +93,7 @@ export default function RealtimeVoiceSettingsSection() {
           setVoiceCallDraft(saved);
           setVoiceCallSaveError(null);
         }
-        window.dispatchEvent(new CustomEvent('openbitfun:realtime-voice-config-changed', {
+        window.dispatchEvent(new CustomEvent('opc:realtime-voice-config-changed', {
           detail: saved,
         }));
       } catch (error) {

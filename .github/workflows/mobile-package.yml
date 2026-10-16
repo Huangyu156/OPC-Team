@@ -90,7 +90,7 @@ jobs:
           mkdir -p mobile-release-assets
           suffix='-debug'
           cp src/apps/mobile/android/app/build/outputs/apk/release/app-release.apk \
-            "mobile-release-assets/OpenBitFun-Mobile-${VERSION}-android${suffix}.apk"
+            "mobile-release-assets/Opc-Mobile-${VERSION}-android${suffix}.apk"
           (cd mobile-release-assets && sha256sum ./*.apk > SHA256SUMS)
 
       - uses: actions/upload-artifact@v6

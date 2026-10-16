@@ -124,9 +124,9 @@ async function stableChrome(label, operation) {
 
 async function recordClick(element) {
   await execute(el => {
-    window.__openbitfunScrollClick = null;
+    window.__opcScrollClick = null;
     el.addEventListener('click', event => {
-      window.__openbitfunScrollClick = { x: event.clientX, y: event.clientY,
+      window.__opcScrollClick = { x: event.clientX, y: event.clientY,
         viewportWidth: innerWidth, viewportHeight: innerHeight };
     }, { once: true, passive: true });
     return true;
@@ -134,7 +134,7 @@ async function recordClick(element) {
 }
 
 async function assertClick() {
-  const point = await execute(() => window.__openbitfunScrollClick);
+  const point = await execute(() => window.__opcScrollClick);
   assert.ok(point, 'The production target must receive a click');
   assert.ok(point.x >= 0 && point.x < point.viewportWidth && point.y >= 0 && point.y < point.viewportHeight,
     'The click point must lie inside the viewport: ' + JSON.stringify(point));
@@ -289,8 +289,8 @@ try {
       text: document.body?.innerText.slice(0, 3000), inputs: [...document.querySelectorAll('input')].map(el => ({
         id: el.id, class: el.className, parent: el.parentElement?.outerHTML.slice(0, 500),
       })), pointer: {
-        x: window.__openbitfunWdRuntimeState?.pointer.x, y: window.__openbitfunWdRuntimeState?.pointer.y,
-        target: window.__openbitfunWdRuntimeState?.pointer.target?.outerHTML?.slice(0, 500),
+        x: window.__opcWdRuntimeState?.pointer.x, y: window.__opcWdRuntimeState?.pointer.y,
+        target: window.__opcWdRuntimeState?.pointer.target?.outerHTML?.slice(0, 500),
       } })).catch(String);
     await writeFile(path.join(root, 'failure.json'), JSON.stringify(diagnostics, null, 2));
   }

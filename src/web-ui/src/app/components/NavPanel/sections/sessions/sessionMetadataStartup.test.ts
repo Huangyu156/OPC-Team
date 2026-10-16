@@ -52,7 +52,7 @@ describe('session metadata startup scheduling', () => {
   });
 
   it('keeps deferred metadata tied to the startup overlay handoff', () => {
-    expect(SESSION_METADATA_DEFERRED_SIGNAL).toBe('openbitfun:startup-overlay-hidden');
+    expect(SESSION_METADATA_DEFERRED_SIGNAL).toBe('opc:startup-overlay-hidden');
     expect(SESSION_METADATA_DEFERRED_FALLBACK_MS).toBe(10000);
     expect(SESSION_METADATA_DEFERRED_FRAME_COUNT).toBe(1);
   });

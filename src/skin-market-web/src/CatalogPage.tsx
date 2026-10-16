@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { skinMarketApi, SkinMarketApiError } from './api';
 import { formatCompactNumber, formatMarketDate } from './format';
-import { GetOpenBitFunCta } from './GetOpenBitFunCta';
+import { GetOpcCta } from './GetOpcCta';
 import type { Locale, Translate } from './i18n';
 import { PosterImage } from './PosterImage';
 import type {
@@ -156,7 +156,7 @@ export function CatalogPage({
           <h1 id="market-heading">{t('headline')}</h1>
           <p>{t('intro')}</p>
         </div>
-        <GetOpenBitFunCta placement="catalog" t={t} />
+        <GetOpcCta placement="catalog" t={t} />
       </section>
 
       <section className="catalog shell" aria-labelledby="catalog-heading">
@@ -285,7 +285,7 @@ function AppearanceRow({ eager, item, locale, onNavigate, t }: AppearanceRowProp
         <p className="appearance-row__author">{t('by', { author })}</p>
         <dl className="appearance-row__facts">
           <div><dt>{t('version')}</dt><dd>{item.packageVersion}</dd></div>
-          <div><dt>{t('compatibility')}</dt><dd>{t('minOpenBitFun', { version: item.minOpenBitFunVersion })}</dd></div>
+          <div><dt>{t('compatibility')}</dt><dd>{t('minOpc', { version: item.minOpcVersion })}</dd></div>
         </dl>
         <a className="text-link" href={path} onClick={follow}>
           {t('openDetail', { name: item.name })}

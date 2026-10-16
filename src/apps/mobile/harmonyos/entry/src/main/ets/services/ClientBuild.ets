@@ -18,7 +18,7 @@ import { bundleManager } from '@kit.AbilityKit';
  *  - increment only on a breaking change to the client control contract.
  *
  * Kept numerically identical to
- * `openbitfun_product_domains::account::CLIENT_PROTOCOL_VERSION` in
+ * `opc_product_domains::account::CLIENT_PROTOCOL_VERSION` in
  * `src/crates/contracts/product-domains/src/account.rs` and to the Kotlin
  * `CLIENT_PROTOCOL_VERSION` the other mobile clients share;
  * `tools/tests/client-build-contract.test.cjs` pins the three together so one

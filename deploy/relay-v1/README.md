@@ -2,14 +2,14 @@
 
 The owner guide is [Relay Server](../../src/apps/relay-server/README.md).
 Use this independent Compose project for `/v/1.0.2/`. Keep the `/v/1.0.1/` Compose project
-(`openbitfun-relay-v1.0.1`, port `19701`, `/srv/openbitfun-relay-v1.0.1`) running with its own
+(`opc-relay-v1.0.1`, port `19701`, `/srv/opc-relay-v1.0.1`) running with its own
 container, image, database, assets, and proxy location: clients built for 1.0.1 keep using it,
 and the two releases do not share a credential database.
 
-Deploy from a committed checkout at `/srv/openbitfun-relay-v1.0.2/app`. Set
+Deploy from a committed checkout at `/srv/opc-relay-v1.0.2/app`. Set
 `RELAY_GIT_COMMIT` to that checkout's verified full commit. Build mobile web
 from the same checkout with `pnpm run build:mobile-web` and stage its `dist`
-contents into `/srv/openbitfun-relay-v1.0.2/static`. Create `data` and `assets`
+contents into `/srv/opc-relay-v1.0.2/static`. Create `data` and `assets`
 under that root owned by UID/GID 10001 before starting Compose.
 
 The Linux host network plus explicit `127.0.0.1:19702` listener lets the service
@@ -25,11 +25,11 @@ peers. Keep the range list synchronized with the WAF control plane. Raise
 16384; validate with `nginx -t` before a graceful reload.
 
 Published Pages use the existing official Relay address:
-`https://remote.openbitfun.com/v/1.0.2/p/{github_username}/{slug}`.
+`https://remote.opcteam.eu.cc/v/1.0.2/p/{github_username}/{slug}`.
 Compose sets this public base URL and the separate sign-in base URL
-`https://auth.openbitfun.com/v/1.0.2`. Users do not configure domains.
+`https://auth.opcteam.eu.cc/v/1.0.2`. Users do not configure domains.
 Install the versioned Pages sign-in locations from
-[`nginx-auth.openbitfun.com.conf`](../miniapp-market/nginx-auth.openbitfun.com.conf)
+[`nginx-auth.opcteam.eu.cc.conf`](../miniapp-market/nginx-auth.opcteam.eu.cc.conf)
 in the existing auth server as well. Keep its marketplace sign-in routes intact.
 These locations forward only Page sign-in and GitHub start/poll endpoints to
 Relay, preserve the auth Host, and omit query strings from access logs.
@@ -64,7 +64,7 @@ pinned by `src/crates/services/relay-service/src/retired_version.rs`.
 
    ```nginx
    location ^~ /v/1.0.0/ {
-       proxy_set_header X-OpenBitFun-Relay-Served-Prefix /v/1.0.0;
+       proxy_set_header X-Opc-Relay-Served-Prefix /v/1.0.0;
        # …the same proxy_pass, real-IP and admission settings as the live prefix
    }
    ```
@@ -175,11 +175,11 @@ freed pages in its freelist and reuses them, which stops the growth but leaves
 the file at its high-water mark. Either reclaim in a short window:
 
 ```bash
-docker stop openbitfun-relay-v1.0.1
+docker stop opc-relay-v1.0.1
 # Keep the previous file (plus its -wal/-shm) until the new one is verified.
-sqlite3 /srv/openbitfun-relay-v1.0.1/data/relay.db \
+sqlite3 /srv/opc-relay-v1.0.1/data/relay.db \
   "PRAGMA auto_vacuum=INCREMENTAL; PRAGMA journal_mode=WAL; VACUUM;"
-docker start openbitfun-relay-v1.0.1
+docker start opc-relay-v1.0.1
 ```
 
 or compact online first and swap inside the window, which is what turned a
@@ -215,9 +215,9 @@ install -m 0755 prune-legacy-message-log.py /root/ops/
 ```
 
 ```ini
-# /etc/systemd/system/openbitfun-relay-1.0.1-prune.service
+# /etc/systemd/system/opc-relay-1.0.1-prune.service
 [Unit]
-Description=Prune the legacy OpenBitFun Relay 1.0.1 realtime message log
+Description=Prune the legacy OPC-Team Relay 1.0.1 realtime message log
 After=network-online.target docker.service
 
 [Service]
@@ -228,24 +228,24 @@ IOSchedulingPriority=6
 ExecStart=/usr/bin/python3 /root/ops/prune-legacy-message-log.py --apply \
   --keep-hours 24 --safety-minutes 60 --max-msgs 5000 --min-keep 200 \
   --batch-rows 500 --sleep-ms 25 --incremental-vacuum-pages 2000
-StandardOutput=append:/var/log/openbitfun-relay-1.0.1-prune.log
-StandardError=append:/var/log/openbitfun-relay-1.0.1-prune.log
+StandardOutput=append:/var/log/opc-relay-1.0.1-prune.log
+StandardError=append:/var/log/opc-relay-1.0.1-prune.log
 
-# /etc/systemd/system/openbitfun-relay-1.0.1-prune.timer
+# /etc/systemd/system/opc-relay-1.0.1-prune.timer
 [Unit]
-Description=Hourly prune of the legacy OpenBitFun Relay 1.0.1 message log
+Description=Hourly prune of the legacy OPC-Team Relay 1.0.1 message log
 
 [Timer]
 OnCalendar=hourly
 RandomizedDelaySec=300
 Persistent=true
-Unit=openbitfun-relay-1.0.1-prune.service
+Unit=opc-relay-1.0.1-prune.service
 
 [Install]
 WantedBy=timers.target
 ```
 
-`systemctl enable --now openbitfun-relay-1.0.1-prune.timer`. The steady-state run
+`systemctl enable --now opc-relay-1.0.1-prune.timer`. The steady-state run
 is cheap: hourly traffic moves past the window in seconds, versus 455 seconds
 for the first pass over 2.17 M rows. Pruning and retiring are separate steps —
 pruning only buys time until the version reaches the retirement switch above.

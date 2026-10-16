@@ -1,7 +1,7 @@
-//! Independent stdio Server Host behind the `openbitfun server` command.
+//! Independent stdio Server Host behind the `opc server` command.
 //!
 //! This module is the only assembly point in the CLI that may import the App
-//! Server implementation (`opc_app_server`). `openbitfun server` is not a TUI,
+//! Server implementation (`opc_app_server`). `opc server` is not a TUI,
 //! controller, or headless-CLI feature: it is a separate Host surface that
 //! reuses the reviewed CLI product assembly, selected with
 //! `DeliveryProfile::Cli` because the CLI assembly is the reviewed kernel
@@ -39,7 +39,7 @@ use opc_app_server::{
 };
 
 /// Host identity injected into the connection policy.
-const SERVER_HOST_IDENTITY: &str = "openbitfun-cli-server-host";
+const SERVER_HOST_IDENTITY: &str = "opc-cli-server-host";
 
 /// Explicit method allowlist for the stdio Host.
 ///

@@ -14,13 +14,13 @@ export interface CanvasStateOptions<T> {
 
 declare global {
   interface Window {
-    OpenBitFunCanvasRuntimeHooks?: CanvasRuntimeHooks;
+    OpcCanvasRuntimeHooks?: CanvasRuntimeHooks;
   }
 }
 
 function runtimeHooks(): CanvasRuntimeHooks {
   if (typeof window === 'undefined') return {};
-  return window.OpenBitFunCanvasRuntimeHooks || {};
+  return window.OpcCanvasRuntimeHooks || {};
 }
 
 export function useHostAppearance() {

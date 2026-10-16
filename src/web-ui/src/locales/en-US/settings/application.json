@@ -48,11 +48,11 @@
     "systemAppearance": "Match system",
     "systemAppearanceDescription": "Switch between light and dark themes with the system",
     "presets": {
-      "openbitfun-dark": {
+      "opc-dark": {
         "name": "Dark",
         "description": "Default dark appearance"
       },
-      "openbitfun-light": {
+      "opc-light": {
         "name": "Light",
         "description": "Light appearance - Crisp white surfaces, soft neutral grays, and deep navy actions"
       },
@@ -60,27 +60,27 @@
         "name": "Black & White",
         "description": "Black-and-white contrast appearance - Deep black chrome, bright white workspace, and soft neutral blocks"
       },
-      "openbitfun-midnight": {
+      "opc-midnight": {
         "name": "Midnight",
         "description": "Midnight gray dark appearance - Professional and elegant, inspired by JetBrains IDE"
       },
-      "openbitfun-china-style": {
+      "opc-china-style": {
         "name": "Ink Charm",
         "description": "Chinese style appearance - Rice paper and ink, blue and vermilion, warm and elegant"
       },
-      "openbitfun-china-night": {
+      "opc-china-night": {
         "name": "Ink Night",
         "description": "Chinese dark appearance - Starlit ink night, moonlight like water, serene and elegant"
       },
-      "openbitfun-cyber": {
+      "opc-cyber": {
         "name": "Cyber",
         "description": "Tech-style appearance - Deep black hole, neon future, ultimate tech aesthetics"
       },
-      "openbitfun-slate": {
+      "opc-slate": {
         "name": "Slate",
         "description": "Slate gray geometric appearance - Deep immersion, high contrast grayscale aesthetics"
       },
-      "openbitfun-tokyo-night": {
+      "opc-tokyo-night": {
         "name": "Tokyo Night",
         "description": "Popular Tokyo Night palette - Indigo night, blue and violet highlights"
       }

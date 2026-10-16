@@ -329,7 +329,7 @@ impl AppearanceConfig {
             || ((cfg!(feature = "devtools") || std::env::var_os("OPC_PERF_TRACE").is_some())
                 && std::env::var_os("OPC_WEBDRIVER_PORT").is_some());
         let bootstrap_appearance_id_json =
-            serde_json::to_string(&self.id).unwrap_or_else(|_| "\"openbitfun-light\"".to_string());
+            serde_json::to_string(&self.id).unwrap_or_else(|_| "\"opc-light\"".to_string());
         let bootstrap_appearance_selection_json = self
             .selection_id
             .as_ref()
@@ -362,7 +362,7 @@ impl AppearanceConfig {
                     var root = document.documentElement;
                     if (!root) return false;
                     
-                    root.setAttribute('data-openbitfun-appearance', '{id}');
+                    root.setAttribute('data-opc-appearance', '{id}');
                     root.setAttribute('data-opc-appearance-mode', '{appearance_mode}');
                     root.setAttribute('data-opcteam-design-system-root', '');
                     root.setAttribute('data-color-scheme', '{appearance_mode}');
@@ -458,7 +458,7 @@ mod startup_appearance_tests {
 
         assert!(script.contains("__OPC_BOOTSTRAP_APPEARANCE_ID__"));
         assert!(script.contains("__OPC_BOOTSTRAP_APPEARANCE_SELECTION__"));
-        assert!(script.contains("data-openbitfun-appearance"));
+        assert!(script.contains("data-opc-appearance"));
         assert!(script.contains("data-opc-appearance-mode"));
         assert!(script.contains("data-opcteam-design-system-root"));
         assert!(script.contains("data-color-scheme"));
@@ -992,7 +992,7 @@ pub async fn show_agent_companion_desktop_pet(app: tauri::AppHandle) -> Result<(
         return Ok(());
     }
 
-    let url = app_url(&app, "?openbitfunWindow=agent-companion");
+    let url = app_url(&app, "?opcWindow=agent-companion");
     let mut builder = tauri::WebviewWindowBuilder::new(&app, AGENT_COMPANION_WINDOW_LABEL, url)
         .title("OPC-Team Agent Companion")
         .inner_size(
@@ -1164,10 +1164,10 @@ mod development_frontend_tests {
             let base = origin.parse().unwrap();
             assert_eq!(development_frontend_url(Some(&base), "").unwrap(), base);
             assert_eq!(
-                development_frontend_url(Some(&base), "?openbitfunWindow=agent-companion")
+                development_frontend_url(Some(&base), "?opcWindow=agent-companion")
                     .unwrap()
                     .as_str(),
-                format!("{origin}?openbitfunWindow=agent-companion")
+                format!("{origin}?opcWindow=agent-companion")
             );
         }
     }

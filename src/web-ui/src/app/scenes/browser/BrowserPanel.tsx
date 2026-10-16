@@ -19,7 +19,7 @@ import { BrowserPreview } from './BrowserPreview';
 import './BrowserPanel.scss';
 
 const log = createLogger('BrowserPanel');
-const DEFAULT_URL = 'https://openbitfun.com/';
+const DEFAULT_URL = 'https://opcteam.eu.cc/';
 
 interface InspectorElementData {
   tagName: string;

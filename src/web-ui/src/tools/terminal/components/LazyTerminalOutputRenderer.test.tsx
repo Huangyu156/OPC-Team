@@ -13,7 +13,7 @@ it('resolves the active output font at use time rather than module import time',
   const property = '--opcteam-font-family-mono';
   const previous = style.getPropertyValue(property);
   try {
-    const family = '"Fira Code", "OpenBitFun HarmonyOS Sans SC", monospace';
+    const family = '"Fira Code", "OPC HarmonyOS Sans SC", monospace';
     style.setProperty(property, family);
     expect(readTerminalOutputFontFamily()).toBe(family);
     style.removeProperty(property);

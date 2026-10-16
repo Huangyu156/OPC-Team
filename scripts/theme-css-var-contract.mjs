@@ -18,7 +18,7 @@ function readDesignSystemTokenDocument(relativePath) {
 const designSystemTokens = resolveTokens(readDesignSystemTokenDocument(
   'design-system/packages/design-tokens/src/system.tokens.json',
 ));
-const openbitfunThemeTokens = resolveTokens(mergeTokenDocuments(
+const opcThemeTokens = resolveTokens(mergeTokenDocuments(
   readDesignSystemTokenDocument('design-system/packages/theme/src/reference.tokens.json'),
   readDesignSystemTokenDocument('design-system/packages/theme/src/light.tokens.json'),
 ));
@@ -41,7 +41,7 @@ export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
     owner: 'design-system/packages/theme/src/light.tokens.json',
     packageName: '@opc-team/theme',
     variables: Object.freeze(
-      Object.keys(openbitfunThemeTokens)
+      Object.keys(opcThemeTokens)
         .filter(name => publicThemePrefixes.some(prefix => name.startsWith(prefix)))
         .map(name => tokenNameToCssVariable(name)),
     ),
@@ -52,7 +52,7 @@ export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
     owner: 'design-system/packages/theme/scripts/build.mjs',
     packageName: '@opc-team/theme',
     variables: Object.freeze(
-      Object.keys(openbitfunThemeTokens)
+      Object.keys(opcThemeTokens)
         .filter(name => publicThemePrefixes.some(prefix => name.startsWith(prefix)))
         .map(name => `--opc-${tokenNameToCssVariable(name).slice('--opcteam-'.length)}`),
     ),
@@ -65,7 +65,7 @@ export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
  * the canonical token package after the Web UI Sass token owner is removed.
  */
 export const CANONICAL_THEME_COLOR_TOKENS = Object.freeze(
-  Object.entries(openbitfunThemeTokens)
+  Object.entries(opcThemeTokens)
     .filter(([name, token]) => (
       publicThemePrefixes.some(prefix => name.startsWith(prefix))
       && token.type === 'color'
@@ -111,7 +111,7 @@ export const COLOR_EXTENSIONS = new Set([
 ]);
 
 export const TOKEN_PATH_PARTS = [
-  'OpenBitFun-Installer/src/theme',
+  'Opc-Installer/src/theme',
   'design-system/packages/design-tokens/src',
   'design-system/packages/theme/src',
 ];
@@ -121,7 +121,7 @@ export const TOKEN_ALIAS_SOURCE_PATH_PARTS = [
 ];
 
 export const CONTRACT_VAR_DEFINITION_PATH_PARTS = [
-  'OpenBitFun-Installer/src/theme/installerThemeRuntime.ts',
+  'Opc-Installer/src/theme/installerThemeRuntime.ts',
   'design-system/packages/design-tokens/src',
   'design-system/packages/theme/src',
   'infrastructure/appearance',
@@ -137,7 +137,7 @@ export const STATIC_CONTRACT_VAR_DEFINITION_PATH_PARTS = [
 ];
 
 export const RUNTIME_CONTRACT_VAR_DEFINITION_PATH_PARTS = [
-  'OpenBitFun-Installer/src/theme/installerThemeRuntime.ts',
+  'Opc-Installer/src/theme/installerThemeRuntime.ts',
   'infrastructure/appearance',
 ];
 
@@ -164,7 +164,7 @@ export const COLOR_DOMAIN_RULES = [
   {
     key: 'themePreset',
     label: 'Appearance palettes',
-    pathParts: ['OpenBitFun-Installer/src/theme', 'infrastructure/appearance/builtins', 'theme/presets'],
+    pathParts: ['Opc-Installer/src/theme', 'infrastructure/appearance/builtins', 'theme/presets'],
   },
   {
     key: 'themeRuntime',
@@ -182,8 +182,8 @@ export const COLOR_DOMAIN_RULES = [
     pathParts: ['tools/generative-widget'],
   },
   {
-    key: 'openbitfunCanvas',
-    label: 'OpenBitFun Canvas',
+    key: 'opcCanvas',
+    label: 'OPC Canvas',
     pathParts: ['tools/opc-canvas'],
   },
   {
@@ -256,7 +256,7 @@ export const COLOR_DOMAIN_CONTRACTS = [
   },
   {
     key: 'themePreset',
-    owner: 'src/web-ui/src/infrastructure/appearance/builtins; OpenBitFun-Installer/src/theme',
+    owner: 'src/web-ui/src/infrastructure/appearance/builtins; Opc-Installer/src/theme',
     reason: 'Builtin appearances own primitive palette mapping and must keep per-appearance personality instead of being folded into shared app tokens.',
     mergePolicy: 'Only merge exact duplicate primitive values after confirming the theme still exposes distinct semantic roles.',
   },
@@ -279,9 +279,9 @@ export const COLOR_DOMAIN_CONTRACTS = [
     mergePolicy: 'Derive fallback values from a builtin Appearance package and keep iframe payload keys canonical.',
   },
   {
-    key: 'openbitfunCanvas',
+    key: 'opcCanvas',
     owner: 'src/web-ui/src/tools/opc-canvas',
-    reason: 'OpenBitFun Canvas renders generated TSX inside a dedicated iframe runtime with an SDK palette that must stay isolated from app chrome tokens.',
+    reason: 'OPC Canvas renders generated TSX inside a dedicated iframe runtime with an SDK palette that must stay isolated from app chrome tokens.',
     mergePolicy: 'Keep Canvas iframe and SDK colors in the Canvas Appearance contract; promote only reusable host chrome roles to shared app tokens.',
   },
   {
@@ -351,7 +351,7 @@ export const DYNAMIC_VAR_FAMILY_CONTRACTS = [
   {
     prefix: '--opcteam-canvas-',
     owner: 'src/web-ui/src/tools/opc-canvas/runtime/canvasRuntimeInstaller.ts; src/web-ui/src/tools/opc-canvas/runtime/styles/canvas-runtime.scss',
-    reason: 'OpenBitFun Canvas iframe runtime receives host Appearance values through a scoped CSS variable family that must stay isolated from app root tokens.',
+    reason: 'OPC Canvas iframe runtime receives host Appearance values through a scoped CSS variable family that must stay isolated from app root tokens.',
   },
   {
     prefix: '--opcteam-font-size-',

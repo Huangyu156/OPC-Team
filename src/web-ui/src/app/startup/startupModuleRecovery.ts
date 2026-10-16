@@ -1,6 +1,6 @@
 import { isModuleLoadError } from '@/shared/utils/moduleLoader';
 
-const STARTUP_MODULE_RELOAD_KEY = 'openbitfun:startup-module-reload-attempted';
+const STARTUP_MODULE_RELOAD_KEY = 'opc:startup-module-reload-attempted';
 
 type StartupModuleRecoveryStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
 

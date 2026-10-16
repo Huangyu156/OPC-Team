@@ -12,7 +12,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/relay': {
-        target: 'https://remote.openbitfun.com',
+        target: 'https://remote.opcteam.eu.cc',
         changeOrigin: true,
         secure: true,
         ws: true,

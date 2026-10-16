@@ -50,26 +50,26 @@ const LEGACY_APPLICATION_ASSETS = [
   'src/apps/desktop/icons/StoreLogo.png',
   'src/web-ui/public/Logo-ICON.png',
   'src/web-ui/public/Logo-ICON-128.png',
-  'src/web-ui/public/OpenBitFun-Logo.png',
+  'src/web-ui/public/Opc-Logo.png',
   'src/mobile-web/src/assets/Logo-ICON.png',
-  'OpenBitFun-Installer/src/Logo-ICON.png',
-  'OpenBitFun-Installer/src-tauri/icons/icon.png',
-  'OpenBitFun-Installer/src-tauri/icons/icon.ico',
-  'OpenBitFun-Installer/src-tauri/icons/icon.icns',
+  'Opc-Installer/src/Logo-ICON.png',
+  'Opc-Installer/src-tauri/icons/icon.png',
+  'Opc-Installer/src-tauri/icons/icon.ico',
+  'Opc-Installer/src-tauri/icons/icon.icns',
   'src/apps/mobile/harmonyos/AppScope/resources/base/media/opc_icon.png',
-  'src/apps/mobile/harmonyos/AppScope/resources/base/media/openbitfun-app-icon.png',
+  'src/apps/mobile/harmonyos/AppScope/resources/base/media/opc-app-icon.png',
   'src/apps/mobile/harmonyos/AppScope/resources/base/media/background.png',
   'src/apps/mobile/harmonyos/AppScope/resources/base/media/foreground.png',
   'src/apps/mobile/harmonyos/AppScope/resources/base/media/layered_image.json',
   'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/opc_icon.png',
-  'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/openbitfun-app-icon.png',
+  'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/opc-app-icon.png',
   'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/opc-start-window.png',
   'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/background.png',
   'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/foreground.png',
   'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/layered_image.json',
   'src/apps/mobile/harmonyos/entry/src/main/resources/base/media/startIcon.png',
-  'src/apps/mobile/ios/OpenBitFun/Resources.xcassets/AppIcon.appiconset/opc_icon.png',
-  'src/apps/mobile/ios/OpenBitFun/Resources.xcassets/OpenBitFunLogo.imageset',
+  'src/apps/mobile/ios/OPC-Team/Resources.xcassets/AppIcon.appiconset/opc_icon.png',
+  'src/apps/mobile/ios/OPC-Team/Resources.xcassets/OpcLogo.imageset',
 ];
 
 const outputPath = (...segments) => path.join(ROOT_DIR, ...segments);
@@ -168,7 +168,7 @@ async function createAdaptiveForeground(applicationMarkMono, size) {
 
 async function generateWindowsIcon(applicationIcon, renderIcon) {
   const tempDir = await mkdtemp(path.join(os.tmpdir(), 'opc-tauri-icons-'));
-  const inputPath = path.join(tempDir, 'openbitfun-app-icon.png');
+  const inputPath = path.join(tempDir, 'opc-app-icon.png');
   const tauriCliPath = path.join(ROOT_DIR, 'node_modules', '@tauri-apps', 'cli', 'tauri.js');
   try {
     await writeFile(inputPath, applicationIcon);
@@ -259,8 +259,8 @@ async function generateBrandAssets() {
       await renderIcon(size),
     );
   }
-  await writeFile(path.join(exportDir, 'openbitfun-app-icon.ico'), windowsIcon);
-  await writeFile(path.join(exportDir, 'openbitfun-app-icon.icns'), macosFallback);
+  await writeFile(path.join(exportDir, 'opc-app-icon.ico'), windowsIcon);
+  await writeFile(path.join(exportDir, 'opc-app-icon.icns'), macosFallback);
 
   await writePng(outputPath('src', 'miniapp-market-web', 'public', 'assets', 'opc-email-mark.png'), darkMarkSmall);
 
@@ -273,13 +273,13 @@ async function generateBrandAssets() {
   await writePng(path.join(webBrandDir, 'opc-mark-light.png'), lightMark);
   await writePng(path.join(webBrandDir, 'opc-mark-dark-128.png'), darkMarkSmall);
   await writePng(path.join(webBrandDir, 'opc-mark-light-128.png'), lightMarkSmall);
-  await writePng(path.join(webBrandDir, 'openbitfun-app-icon.png'), applicationIcon);
+  await writePng(path.join(webBrandDir, 'opc-app-icon.png'), applicationIcon);
   await writeFile(path.join(webBrandDir, 'opc-mark.svg'), createReusableWebMark(svg), 'utf8');
 
   const desktopIconDir = outputPath('src', 'apps', 'desktop', 'icons');
-  await writePng(path.join(desktopIconDir, 'openbitfun-app-icon.png'), applicationIconLarge);
-  await writePng(path.join(desktopIconDir, 'openbitfun-app-icon.ico'), windowsIcon);
-  await writePng(path.join(desktopIconDir, 'openbitfun-app-icon.icns'), macosFallback);
+  await writePng(path.join(desktopIconDir, 'opc-app-icon.png'), applicationIconLarge);
+  await writePng(path.join(desktopIconDir, 'opc-app-icon.ico'), windowsIcon);
+  await writePng(path.join(desktopIconDir, 'opc-app-icon.icns'), macosFallback);
   for (const size of DESKTOP_HICOLOR_SIZES) {
     const icon = await renderIcon(size);
     await writePng(
@@ -292,22 +292,22 @@ async function generateBrandAssets() {
   await writePng(path.join(mobileWebAssetDir, 'opc-mark-dark.png'), darkMark);
   await writePng(path.join(mobileWebAssetDir, 'opc-mark-light.png'), lightMark);
   await writePng(
-    outputPath('src', 'mobile-web', 'public', 'brand', 'openbitfun-app-icon.png'),
+    outputPath('src', 'mobile-web', 'public', 'brand', 'opc-app-icon.png'),
     applicationIcon,
   );
   await writePng(
-    outputPath('src', 'apps', 'relay-server', 'static', 'brand', 'openbitfun-app-icon.png'),
+    outputPath('src', 'apps', 'relay-server', 'static', 'brand', 'opc-app-icon.png'),
     applicationIcon,
   );
 
-  const installerBrandDir = outputPath('OpenBitFun-Installer', 'src', 'assets');
+  const installerBrandDir = outputPath('Opc-Installer', 'src', 'assets');
   await writePng(path.join(installerBrandDir, 'opc-mark-dark.png'), darkMark);
   await writePng(path.join(installerBrandDir, 'opc-mark-light.png'), lightMark);
-  await writePng(path.join(installerBrandDir, 'openbitfun-app-icon.png'), applicationIcon);
-  const installerIconDir = outputPath('OpenBitFun-Installer', 'src-tauri', 'icons');
-  await writePng(path.join(installerIconDir, 'openbitfun-app-icon.png'), applicationIconLarge);
-  await writePng(path.join(installerIconDir, 'openbitfun-app-icon.ico'), windowsIcon);
-  await writePng(path.join(installerIconDir, 'openbitfun-app-icon.icns'), macosFallback);
+  await writePng(path.join(installerBrandDir, 'opc-app-icon.png'), applicationIcon);
+  const installerIconDir = outputPath('Opc-Installer', 'src-tauri', 'icons');
+  await writePng(path.join(installerIconDir, 'opc-app-icon.png'), applicationIconLarge);
+  await writePng(path.join(installerIconDir, 'opc-app-icon.ico'), windowsIcon);
+  await writePng(path.join(installerIconDir, 'opc-app-icon.icns'), macosFallback);
 
   for (const directory of [webBrandDir, installerBrandDir,
     outputPath('src', 'mobile-web', 'public', 'brand'),
@@ -328,12 +328,12 @@ async function generateBrandAssets() {
   }
 
   await writePng(
-    outputPath('src', 'apps', 'mobile', 'ios', 'OpenBitFun', 'Resources.xcassets', 'AppIcon.appiconset', 'openbitfun-app-icon.png'),
+    outputPath('src', 'apps', 'mobile', 'ios', 'OPC-Team', 'Resources.xcassets', 'AppIcon.appiconset', 'opc-app-icon.png'),
     // App Store icons must be opaque; iOS applies its own corner mask.
     await sharp(applicationIconLarge).flatten({ background: '#000000' }).png().toBuffer(),
   );
   await writePng(
-    outputPath('src', 'apps', 'mobile', 'ios', 'OpenBitFun', 'Resources.xcassets', 'OpenBitFunMark.imageset', 'opc-mark-light.png'),
+    outputPath('src', 'apps', 'mobile', 'ios', 'OPC-Team', 'Resources.xcassets', 'OpcMark.imageset', 'opc-mark-light.png'),
     lightMark,
   );
 
@@ -352,7 +352,7 @@ async function generateBrandAssets() {
 
   await removeLegacyApplicationAssets();
 
-  console.log('Generated OpenBitFun application brand assets.');
+  console.log('Generated OPC-Team application brand assets.');
 }
 
 await generateBrandAssets();

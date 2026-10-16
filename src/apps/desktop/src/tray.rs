@@ -1,4 +1,4 @@
-//! System tray integration for OpenBitFun Desktop.
+//! System tray integration for OPC-Team Desktop.
 //!
 //! Creates a system tray icon with a context menu. On Windows and Linux the tray
 //! icon is always visible while the process is running; on macOS the icon appears

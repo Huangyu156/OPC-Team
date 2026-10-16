@@ -1,12 +1,12 @@
 import {
-  Checkbox as OpenBitFunCheckbox,
+  Checkbox as OpcCheckbox,
   Field as DesignField,
-  IconButton as OpenBitFunIconButton,
+  IconButton as OpcIconButton,
   Input as DesignInput,
-  Select as OpenBitFunSelect,
-  Switch as OpenBitFunSwitch,
-  Textarea as OpenBitFunTextarea,
-  Tooltip as OpenBitFunTooltip,
+  Select as OpcSelect,
+  Switch as OpcSwitch,
+  Textarea as OpcTextarea,
+  Tooltip as OpcTooltip,
 } from '@opc-team/ui';
 import type {
   CanvasCheckboxProps,
@@ -35,7 +35,7 @@ function designSystemControlSize(
 
 function designSystemIconButtonStyle(
   variant: CanvasIconButtonProps['variant'],
-): Pick<React.ComponentProps<typeof OpenBitFunIconButton>, 'tone' | 'variant'> {
+): Pick<React.ComponentProps<typeof OpcIconButton>, 'tone' | 'variant'> {
   if (variant === 'danger') return { tone: 'danger', variant: 'quiet' };
   if (variant === 'primary' || variant === 'ai') return { variant: 'primary' };
   if (variant === 'success' || variant === 'warning') return { variant: 'fill' };
@@ -63,7 +63,7 @@ export function Toggle({
 }: CanvasToggleProps) {
   const statusText = checked ? checkedText : uncheckedText;
   const control = (
-    <OpenBitFunSwitch
+    <OpcSwitch
       {...props}
       checked={checked}
       disabled={disabled || loading}
@@ -93,7 +93,7 @@ export function Toggle({
 
 export function Checkbox({ error, onChange, size, ...props }: CanvasCheckboxProps) {
   return (
-    <OpenBitFunCheckbox
+    <OpcCheckbox
       {...props}
       invalid={error}
       size={controlSize(size)}
@@ -121,7 +121,7 @@ export function Select({
   const normalizedDefaultValue = Array.isArray(defaultValue) ? defaultValue[0] : defaultValue;
 
   return (
-    <OpenBitFunSelect
+    <OpcSelect
       {...props}
       className={selectClassName}
       defaultValue={normalizedDefaultValue}
@@ -171,7 +171,7 @@ export function TextInput({
 
 export function TextArea({ error, onChange, ...props }: CanvasTextAreaProps) {
   return (
-    <OpenBitFunTextarea
+    <OpcTextarea
       {...props}
       invalid={error}
       onChange={event => onChange?.(event.target.value)}
@@ -193,7 +193,7 @@ export function IconButton({
     ?? (typeof tooltip === 'string' ? tooltip : undefined)
     ?? (typeof title === 'string' ? title : 'Action');
   const control = (
-    <OpenBitFunIconButton
+    <OpcIconButton
       {...props}
       {...designSystemIconButtonStyle(variant)}
       aria-label={resolvedLabel}
@@ -206,6 +206,6 @@ export function IconButton({
 
   const tooltipContent = tooltip ?? title;
   return tooltipContent ? (
-    <OpenBitFunTooltip content={tooltipContent}>{control}</OpenBitFunTooltip>
+    <OpcTooltip content={tooltipContent}>{control}</OpcTooltip>
   ) : control;
 }

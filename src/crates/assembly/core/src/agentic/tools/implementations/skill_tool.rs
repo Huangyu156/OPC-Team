@@ -809,8 +809,8 @@ Use the remote project skill.
         };
         assert_eq!(data["skill_name"], "deep-research");
         assert!(data.get("skill_display_name").is_none());
-        assert_eq!(data["source_slot"], "openbitfun");
-        assert_eq!(data["source_id"], "openbitfun");
+        assert_eq!(data["source_slot"], "opcteam");
+        assert_eq!(data["source_id"], "opcteam");
         assert_eq!(data["source_label"], "OPC-Team");
     }
 
@@ -878,7 +878,7 @@ Use the remote project skill.
             .await;
         assert!(visible
             .iter()
-            .any(|skill| { skill.name == "deploy-service" && skill.source_slot == "openbitfun" }));
+            .any(|skill| { skill.name == "deploy-service" && skill.source_slot == "opcteam" }));
 
         let results = SkillTool::new()
             .call_impl(
@@ -974,7 +974,7 @@ Use the remote project skill.
             .await;
         assert!(visible
             .iter()
-            .any(|skill| { skill.name == "remote-review" && skill.source_slot == "openbitfun" }));
+            .any(|skill| { skill.name == "remote-review" && skill.source_slot == "opcteam" }));
 
         let loaded = registry
             .find_and_load_skill_for_remote_workspace(
@@ -986,7 +986,7 @@ Use the remote project skill.
             .await
             .expect("remote Claude skill should load with the discovery dialect");
         assert_eq!(loaded.name, "remote-review");
-        assert_eq!(loaded.source_id, "openbitfun");
+        assert_eq!(loaded.source_id, "opcteam");
         assert_eq!(loaded.source_label, "OPC-Team");
         assert_eq!(loaded.argument_names, ["target", "focus"]);
         assert_eq!(loaded.compatibility_warnings.len(), 2);
@@ -1196,7 +1196,7 @@ Use the remote project skill.
         assert_eq!(data["skill_name"], "ppt-design");
         assert_eq!(data["skill_key"], "user::opc-system::ppt-design");
         assert_eq!(data["source_slot"], "opc-system");
-        assert_eq!(data["source_id"], "openbitfun");
+        assert_eq!(data["source_id"], "opcteam");
         assert_eq!(data["source_label"], "OPC-Team");
         assert!(data["content"]
             .as_str()

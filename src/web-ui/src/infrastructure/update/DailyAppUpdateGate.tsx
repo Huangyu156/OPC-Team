@@ -25,7 +25,7 @@ export function DailyAppUpdateGate(): ReactElement | null {
   useEffect(() => {
     if (!canCheckForAppUpdates()) return;
     const onStorage = (event: StorageEvent) => {
-      if (event.key !== null && !event.key.startsWith('openbitfun:update:')) return;
+      if (event.key !== null && !event.key.startsWith('opc:update:')) return;
       const skippedVersion = getSkippedVersion();
       const current = useUpdateInstallStore.getState();
       useUpdateInstallStore.setState({
@@ -52,7 +52,7 @@ export function DailyAppUpdateGate(): ReactElement | null {
         });
       }, 5000);
     }, {
-      signalName: 'openbitfun:interactive-shell-ready',
+      signalName: 'opc:interactive-shell-ready',
       fallbackTimeoutMs: 10000,
       frameCount: 1,
       onError: error => log.warn('Failed to schedule update checks after startup', error),

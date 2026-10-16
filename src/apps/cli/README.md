@@ -2,7 +2,7 @@
 
 OPC-Team CLI provides an interactive terminal UI, non-interactive Agent runs,
 session management, and machine-owned background tasks. The executable and
-command name is `openbitfun`.
+command name is `opc`.
 
 ## Install
 
@@ -12,12 +12,12 @@ From the repository root:
 pnpm run cli:install
 ```
 
-The installer builds and installs the `openbitfun` entrypoint for the current
+The installer builds and installs the `opc` entrypoint for the current
 platform. The default install directory is `~/.local/bin` on macOS/Linux and
-`%LOCALAPPDATA%\OpenBitFun\bin` on Windows. Open a new terminal after installation
+`%LOCALAPPDATA%\OPC-Team\bin` on Windows. Open a new terminal after installation
 so the updated `PATH` is visible.
 
-Official release archives contain the same `openbitfun` executable.
+Official release archives contain the same `opc` executable.
 
 Prerequisites for a source install are a Rust toolchain and this repository.
 See the repository [contribution guide](../../../CONTRIBUTING.md) for development
@@ -26,18 +26,18 @@ setup and build commands.
 ## Quick start
 
 ```bash
-openbitfun                                  # interactive TUI
-openbitfun exec "summarize this project"   # one non-interactive Agent run
-openbitfun exec "run tests" --auto         # approve interactive tool asks for this run
-openbitfun sessions list
-openbitfun doctor
+opc                                  # interactive TUI
+opc exec "summarize this project"   # one non-interactive Agent run
+opc exec "run tests" --auto         # approve interactive tool asks for this run
+opc sessions list
+opc doctor
 ```
 
 The interactive TUI asks before protected Agent tool calls. Non-interactive
 `exec` rejects permission requests by default; use `--auto` only when the
 current invocation may approve them.
 
-Run `openbitfun --help` or `openbitfun <command> --help` for the complete command and
+Run `opc --help` or `opc <command> --help` for the complete command and
 option reference.
 
 ## Interactive TUI
@@ -166,7 +166,7 @@ unsupported and keeps the draft unchanged.
 ### Shared TUI
 
 ```bash
-openbitfun chat --shared
+opc chat --shared
 ```
 
 Shared TUI lets multiple terminal processes reuse one workspace Runtime. Each
@@ -196,23 +196,23 @@ produce a non-zero result instead of reporting partial success.
 ## Other command groups
 
 ```bash
-openbitfun agents --help
-openbitfun models --help
-openbitfun mcp --help
-openbitfun plugins --help
-openbitfun hooks --help
-openbitfun config --help
-openbitfun acp --help
-openbitfun server --help
+opc agents --help
+opc models --help
+opc mcp --help
+opc plugins --help
+opc hooks --help
+opc config --help
+opc acp --help
+opc server --help
 ```
 
-`openbitfun mcp import` is an explicit preview/apply snapshot. It does not copy
+`opc mcp import` is an explicit preview/apply snapshot. It does not copy
 credentials, headers, environment values, or explicit working directories, and
 new native entries remain disabled until reviewed.
 
 ### Persistent tasks
 
-`openbitfun dispatch` is the machine-readable target-side interface used by other
+`opc dispatch` is the machine-readable target-side interface used by other
 OPC-Team surfaces. Jobs remain owned by this machine after the submitting client
 disconnects. Controllers should call `dispatch probe` and honor the returned
 protocol version before submitting or inspecting jobs. See the
@@ -225,7 +225,7 @@ provide required task choices in the prompt instead of waiting for a question.
 
 ### App server
 
-`openbitfun server` starts the OPC-Team App Server surface over stdio. stdout carries
+`opc server` starts the OPC-Team App Server surface over stdio. stdout carries
 JSON-RPC traffic only, so an App Server client (for example an editor
 integration) can connect by spawning this command; logs go to stderr. The
 server scope is the current directory, matching the CLI's cwd-only session
@@ -267,22 +267,22 @@ After signing in with `/login`, a server can keep its account device route
 online without an interactive TUI:
 
 ```bash
-openbitfun daemon install
-openbitfun daemon status
+opc daemon install
+opc daemon status
 ```
 
 Linux uses a systemd user service and macOS uses a LaunchAgent. Windows does not
-currently install an auto-start service; use `openbitfun daemon run` under a
-supervisor instead. Run `openbitfun daemon --help` for lifecycle commands and
+currently install an auto-start service; use `opc daemon run` under a
+supervisor instead. Run `opc daemon --help` for lifecycle commands and
 platform diagnostics.
 
 ## Updates and troubleshooting
 
 ```bash
-openbitfun update --check
-openbitfun update
-openbitfun doctor
-openbitfun health
+opc update --check
+opc update
+opc doctor
+opc health
 ```
 
 Official Linux archive installations perform a small, rate-limited update check

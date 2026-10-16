@@ -119,7 +119,7 @@ fn set_inhibitor_enabled(
                 .idle(true)
                 .reason("Prevent sleep is enabled in OPC-Team")
                 .app_name("OPC-Team")
-                .app_reverse_domain("com.openbitfun.desktop")
+                .app_reverse_domain("com.opcteam.desktop")
                 .create()
                 .map_err(|error| {
                     let message = format!("Failed to prevent system sleep: {}", error);

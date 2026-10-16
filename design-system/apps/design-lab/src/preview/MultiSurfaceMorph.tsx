@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type HTMLAttributes, type ReactNode } from "react";
 import { Icon, StatusPill } from "@opc-team/ui";
 import { MobileComposer, MobileIconButton, MobileMessage, MobilePageHeader, MobileTabBar } from "@opc-team/ui/mobile";
-import { OpenBitFunSolidMark } from "@opc-team/ui/brand";
+import { OpcSolidMark } from "@opc-team/ui/brand";
 import { useI18n } from "../i18n";
 import "./MultiSurfaceMorph.css";
 
@@ -128,7 +128,7 @@ function PhoneSurface() {
   const { t } = useI18n();
   return (
     <div className="design-morph-phone">
-      <MobilePageHeader className="design-morph-phone-head" leading={<OpenBitFunSolidMark size={22} />}
+      <MobilePageHeader className="design-morph-phone-head" leading={<OpcSolidMark size={22} />}
         title={t("design.homePreview.assistant")} subtitle="Claw" />
       <div className="design-morph-phone-thread">
         <MobileMessage roleType="user">{t("design.homePreview.composerPlaceholder")}</MobileMessage>
@@ -160,7 +160,7 @@ function WatchSurface() {
   return (
     <div className="design-morph-watch">
       <div className="design-morph-watch-face">
-        <OpenBitFunSolidMark className="design-morph-watch-mark" size={28} />
+        <OpcSolidMark className="design-morph-watch-mark" size={28} />
         <span className="design-morph-watch-wave" aria-hidden="true">
           {WAVE.map((height, index) => (
             <i key={index} style={{ "--_morph-wave": `${height}%` } as CSSProperties} />
@@ -181,7 +181,7 @@ function GlassesSurface() {
     <div className="design-morph-glasses">
       <span className="design-morph-glasses-lens" aria-hidden="true" />
       <div className="design-morph-glasses-hud">
-        <OpenBitFunSolidMark size={18} />
+        <OpcSolidMark size={18} />
         <span className="design-morph-glasses-line">{t("design.homePreview.composerPlaceholder")}</span>
         <StatusPill emphasis tone="success">{t("design.homePreview.contextAsk")}</StatusPill>
         <span className="design-morph-glasses-mic" aria-hidden="true"><Icon name="mic" /></span>

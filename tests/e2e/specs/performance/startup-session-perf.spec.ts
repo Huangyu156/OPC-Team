@@ -47,14 +47,14 @@ type LongSessionPostVisibleInteraction =
   | 'resize-window'
   | 'resize-window-width';
 
-function defaultOpenBitFunHome(): string {
+function defaultOpcHome(): string {
   if (process.env.OPC_E2E_HOME) {
     return process.env.OPC_E2E_HOME;
   }
   if (process.env.OPC_E2E_USE_REAL_PROFILE === '1') {
-    return process.env.OPC_HOME || path.join(os.homedir(), '.openbitfun');
+    return process.env.OPC_HOME || path.join(os.homedir(), '.opcteam');
   }
-  return path.resolve(__dirname, '..', '..', '.openbitfun', 'runtime', 'home');
+  return path.resolve(__dirname, '..', '..', '.opcteam', 'runtime', 'home');
 }
 
 type LongSessionWindowRect = {
@@ -857,7 +857,7 @@ async function readLongSessionMetadata(sessionId: string): Promise<LongSessionMe
 }
 
 async function findLongSessionMetadataPath(sessionId: string): Promise<string | null> {
-  const openbitfunHome = defaultOpenBitFunHome();
+  const opcHome = defaultOpcHome();
   const workspaceCandidates = Array.from(new Set([
     process.env.E2E_TEST_WORKSPACE,
     path.resolve(process.cwd(), '..', '..'),
@@ -867,7 +867,7 @@ async function findLongSessionMetadataPath(sessionId: string): Promise<string | 
   for (const workspacePath of workspaceCandidates) {
     try {
       const metadataPath = path.join(
-        openbitfunHome,
+        opcHome,
         'projects',
         projectRuntimeSlug(workspacePath),
         'sessions',
@@ -882,7 +882,7 @@ async function findLongSessionMetadataPath(sessionId: string): Promise<string | 
   }
 
   try {
-    const projectsDir = path.join(openbitfunHome, 'projects');
+    const projectsDir = path.join(opcHome, 'projects');
     const projectEntries = await fs.readdir(projectsDir, { withFileTypes: true });
     for (const entry of projectEntries) {
       if (!entry.isDirectory()) {
@@ -1249,58 +1249,58 @@ async function startLongSessionViewportTimelineRecorder(
 ): Promise<void> {
   await browser.execute((targetTurnId, clickTime, shouldEnableRenderProfile) => {
     const globalWindow = window as typeof window & {
-      __openbitfunLongSessionViewportTimeline?: LongSessionViewportTimelineSample[];
-      __openbitfunLongSessionMainThreadTasks?: LongSessionMainThreadTask[];
-      __openbitfunLongSessionMutationEvents?: LongSessionDomMutationEvent[];
-      __openbitfunLongSessionVisualStateEvents?: LongSessionVisualStateEvent[];
-      __openbitfunLongSessionLayoutShiftEvents?: LongSessionLayoutShiftEvent[];
-      __openbitfunLongSessionViewportTimelineTimer?: number;
-      __openbitfunLongSessionVisualFrameRequest?: number;
-      __openbitfunLongSessionVisualProbeTimers?: number[];
-      __openbitfunLongSessionLongTaskObserver?: PerformanceObserver;
-      __openbitfunLongSessionLayoutShiftObserver?: PerformanceObserver;
-      __openbitfunLongSessionMutationObserver?: MutationObserver;
-      __openbitfunLongSessionOpenIntentAt?: number;
-      __openbitfunLongSessionOpenIntentSessionId?: string | null;
-      __openbitfunLongSessionOpenIntentHandler?: EventListener;
-      __openbitfunLongSessionUserInteractionHandler?: EventListener;
+      __opcLongSessionViewportTimeline?: LongSessionViewportTimelineSample[];
+      __opcLongSessionMainThreadTasks?: LongSessionMainThreadTask[];
+      __opcLongSessionMutationEvents?: LongSessionDomMutationEvent[];
+      __opcLongSessionVisualStateEvents?: LongSessionVisualStateEvent[];
+      __opcLongSessionLayoutShiftEvents?: LongSessionLayoutShiftEvent[];
+      __opcLongSessionViewportTimelineTimer?: number;
+      __opcLongSessionVisualFrameRequest?: number;
+      __opcLongSessionVisualProbeTimers?: number[];
+      __opcLongSessionLongTaskObserver?: PerformanceObserver;
+      __opcLongSessionLayoutShiftObserver?: PerformanceObserver;
+      __opcLongSessionMutationObserver?: MutationObserver;
+      __opcLongSessionOpenIntentAt?: number;
+      __opcLongSessionOpenIntentSessionId?: string | null;
+      __opcLongSessionOpenIntentHandler?: EventListener;
+      __opcLongSessionUserInteractionHandler?: EventListener;
       __OPC_RENDER_PROFILE_ENABLED__?: boolean;
     };
     globalWindow.__OPC_RENDER_PROFILE_ENABLED__ = shouldEnableRenderProfile;
-    if (globalWindow.__openbitfunLongSessionViewportTimelineTimer !== undefined) {
-      window.clearInterval(globalWindow.__openbitfunLongSessionViewportTimelineTimer);
+    if (globalWindow.__opcLongSessionViewportTimelineTimer !== undefined) {
+      window.clearInterval(globalWindow.__opcLongSessionViewportTimelineTimer);
     }
-    if (globalWindow.__openbitfunLongSessionVisualFrameRequest !== undefined) {
-      window.cancelAnimationFrame(globalWindow.__openbitfunLongSessionVisualFrameRequest);
+    if (globalWindow.__opcLongSessionVisualFrameRequest !== undefined) {
+      window.cancelAnimationFrame(globalWindow.__opcLongSessionVisualFrameRequest);
     }
-    for (const timerId of globalWindow.__openbitfunLongSessionVisualProbeTimers ?? []) {
+    for (const timerId of globalWindow.__opcLongSessionVisualProbeTimers ?? []) {
       window.clearTimeout(timerId);
     }
-    globalWindow.__openbitfunLongSessionVisualProbeTimers = [];
-    globalWindow.__openbitfunLongSessionLongTaskObserver?.disconnect();
-    globalWindow.__openbitfunLongSessionLayoutShiftObserver?.disconnect();
-    globalWindow.__openbitfunLongSessionMutationObserver?.disconnect();
-    if (globalWindow.__openbitfunLongSessionOpenIntentHandler) {
+    globalWindow.__opcLongSessionVisualProbeTimers = [];
+    globalWindow.__opcLongSessionLongTaskObserver?.disconnect();
+    globalWindow.__opcLongSessionLayoutShiftObserver?.disconnect();
+    globalWindow.__opcLongSessionMutationObserver?.disconnect();
+    if (globalWindow.__opcLongSessionOpenIntentHandler) {
       window.removeEventListener(
         'flowchat:history-session-open-intent',
-        globalWindow.__openbitfunLongSessionOpenIntentHandler,
+        globalWindow.__opcLongSessionOpenIntentHandler,
       );
     }
-    if (globalWindow.__openbitfunLongSessionUserInteractionHandler) {
+    if (globalWindow.__opcLongSessionUserInteractionHandler) {
       window.removeEventListener(
-        'openbitfun:e2e-long-session-user-interaction',
-        globalWindow.__openbitfunLongSessionUserInteractionHandler,
+        'opc:e2e-long-session-user-interaction',
+        globalWindow.__opcLongSessionUserInteractionHandler,
       );
     }
-    globalWindow.__openbitfunLongSessionOpenIntentAt = undefined;
-    globalWindow.__openbitfunLongSessionOpenIntentSessionId = undefined;
+    globalWindow.__opcLongSessionOpenIntentAt = undefined;
+    globalWindow.__opcLongSessionOpenIntentSessionId = undefined;
     const handleOpenIntent: EventListener = event => {
       const detail =
         event instanceof CustomEvent && typeof event.detail?.sessionId === 'string'
           ? event.detail
           : null;
-      globalWindow.__openbitfunLongSessionOpenIntentAt = performance.now();
-      globalWindow.__openbitfunLongSessionOpenIntentSessionId = detail?.sessionId ?? null;
+      globalWindow.__opcLongSessionOpenIntentAt = performance.now();
+      globalWindow.__opcLongSessionOpenIntentSessionId = detail?.sessionId ?? null;
       recordMutationEvent('history-open-intent');
       recordVisualStateEvent('history-open-intent', true);
       for (const delayMs of [100, 250, 500, 1_000]) {
@@ -1308,10 +1308,10 @@ async function startLongSessionViewportTimelineRecorder(
           () => recordVisualStateEvent(`history-open-intent-probe-${delayMs}ms`, true),
           delayMs,
         );
-        globalWindow.__openbitfunLongSessionVisualProbeTimers?.push(timerId);
+        globalWindow.__opcLongSessionVisualProbeTimers?.push(timerId);
       }
     };
-    globalWindow.__openbitfunLongSessionOpenIntentHandler = handleOpenIntent;
+    globalWindow.__opcLongSessionOpenIntentHandler = handleOpenIntent;
     window.addEventListener('flowchat:history-session-open-intent', handleOpenIntent);
     const handleUserInteraction: EventListener = event => {
       const interactionType =
@@ -1326,8 +1326,8 @@ async function startLongSessionViewportTimelineRecorder(
         );
       }
     };
-    globalWindow.__openbitfunLongSessionUserInteractionHandler = handleUserInteraction;
-    window.addEventListener('openbitfun:e2e-long-session-user-interaction', handleUserInteraction);
+    globalWindow.__opcLongSessionUserInteractionHandler = handleUserInteraction;
+    window.addEventListener('opc:e2e-long-session-user-interaction', handleUserInteraction);
     const samples: LongSessionViewportTimelineSample[] = [];
     const mainThreadTasks: LongSessionMainThreadTask[] = [];
     const mutationEvents: LongSessionDomMutationEvent[] = [];
@@ -2104,7 +2104,7 @@ async function startLongSessionViewportTimelineRecorder(
         completedToolTransitionSignature,
         latestContentVisuallyVisible ? 'latest-visible' : 'latest-hidden',
         latestModelRoundTextLength > 0 ? 'latest-text' : 'latest-no-text',
-        globalWindow.__openbitfunLongSessionOpenIntentSessionId ?? 'no-open-intent-session',
+        globalWindow.__opcLongSessionOpenIntentSessionId ?? 'no-open-intent-session',
         roundMetric(scrollTop),
         roundMetric(scrollHeight),
         roundMetric(clientHeight),
@@ -2126,10 +2126,10 @@ async function startLongSessionViewportTimelineRecorder(
       return {
         atMs,
         sinceClickMs: atMs - clickTime,
-        sinceHistoryOpenIntentMs: typeof globalWindow.__openbitfunLongSessionOpenIntentAt === 'number'
-          ? atMs - globalWindow.__openbitfunLongSessionOpenIntentAt
+        sinceHistoryOpenIntentMs: typeof globalWindow.__opcLongSessionOpenIntentAt === 'number'
+          ? atMs - globalWindow.__opcLongSessionOpenIntentAt
           : null,
-        historyOpenIntentSessionId: globalWindow.__openbitfunLongSessionOpenIntentSessionId ?? null,
+        historyOpenIntentSessionId: globalWindow.__opcLongSessionOpenIntentSessionId ?? null,
         frame: visualFrame,
         reason,
         signature,
@@ -2216,12 +2216,12 @@ async function startLongSessionViewportTimelineRecorder(
     const recordAnimationFrame = () => {
       visualFrame += 1;
       recordVisualStateEvent('raf');
-      globalWindow.__openbitfunLongSessionVisualFrameRequest =
+      globalWindow.__opcLongSessionVisualFrameRequest =
         window.requestAnimationFrame(recordAnimationFrame);
     };
-    globalWindow.__openbitfunLongSessionVisualFrameRequest =
+    globalWindow.__opcLongSessionVisualFrameRequest =
       window.requestAnimationFrame(recordAnimationFrame);
-    globalWindow.__openbitfunLongSessionVisualProbeTimers = [
+    globalWindow.__opcLongSessionVisualProbeTimers = [
       500,
       1_000,
       2_000,
@@ -2284,7 +2284,7 @@ async function startLongSessionViewportTimelineRecorder(
         'role',
       ],
     });
-    globalWindow.__openbitfunLongSessionMutationObserver = mutationObserver;
+    globalWindow.__opcLongSessionMutationObserver = mutationObserver;
     try {
       if (PerformanceObserver.supportedEntryTypes.includes('longtask')) {
         const observer = new PerformanceObserver(list => {
@@ -2302,10 +2302,10 @@ async function startLongSessionViewportTimelineRecorder(
           }
         });
         observer.observe({ entryTypes: ['longtask'] });
-        globalWindow.__openbitfunLongSessionLongTaskObserver = observer;
+        globalWindow.__opcLongSessionLongTaskObserver = observer;
       }
     } catch {
-      globalWindow.__openbitfunLongSessionLongTaskObserver = undefined;
+      globalWindow.__opcLongSessionLongTaskObserver = undefined;
     }
     try {
       if (PerformanceObserver.supportedEntryTypes.includes('layout-shift')) {
@@ -2340,10 +2340,10 @@ async function startLongSessionViewportTimelineRecorder(
           }
         });
         observer.observe({ type: 'layout-shift', buffered: true });
-        globalWindow.__openbitfunLongSessionLayoutShiftObserver = observer;
+        globalWindow.__opcLongSessionLayoutShiftObserver = observer;
       }
     } catch {
-      globalWindow.__openbitfunLongSessionLayoutShiftObserver = undefined;
+      globalWindow.__opcLongSessionLayoutShiftObserver = undefined;
     }
     const readSample = (): LongSessionViewportTimelineSample => {
       const messages = document.querySelector<HTMLElement>('.modern-flowchat-container__messages');
@@ -2503,8 +2503,8 @@ async function startLongSessionViewportTimelineRecorder(
         ? Math.max(0, effectiveScrollerBottom - scrollerRect.top)
         : null;
       const atMs = performance.now();
-      const historyOpenIntentAtMs = globalWindow.__openbitfunLongSessionOpenIntentAt ?? null;
-      const historyOpenIntentSessionId = globalWindow.__openbitfunLongSessionOpenIntentSessionId ?? null;
+      const historyOpenIntentAtMs = globalWindow.__opcLongSessionOpenIntentAt ?? null;
+      const historyOpenIntentSessionId = globalWindow.__opcLongSessionOpenIntentSessionId ?? null;
 
       return {
         atMs,
@@ -2558,78 +2558,78 @@ async function startLongSessionViewportTimelineRecorder(
       }
     };
 
-    globalWindow.__openbitfunLongSessionViewportTimeline = samples;
-    globalWindow.__openbitfunLongSessionMainThreadTasks = mainThreadTasks;
-    globalWindow.__openbitfunLongSessionMutationEvents = mutationEvents;
-    globalWindow.__openbitfunLongSessionVisualStateEvents = visualStateEvents;
-    globalWindow.__openbitfunLongSessionLayoutShiftEvents = layoutShiftEvents;
+    globalWindow.__opcLongSessionViewportTimeline = samples;
+    globalWindow.__opcLongSessionMainThreadTasks = mainThreadTasks;
+    globalWindow.__opcLongSessionMutationEvents = mutationEvents;
+    globalWindow.__opcLongSessionVisualStateEvents = visualStateEvents;
+    globalWindow.__opcLongSessionLayoutShiftEvents = layoutShiftEvents;
     record();
-    globalWindow.__openbitfunLongSessionViewportTimelineTimer = window.setInterval(record, 50);
+    globalWindow.__opcLongSessionViewportTimelineTimer = window.setInterval(record, 50);
   }, expectedLatestTurnId, clickedAtMs, enableRenderProfile);
 }
 
 async function stopLongSessionViewportTimelineRecorder(): Promise<LongSessionViewportTimeline> {
   return browser.execute(() => {
     const globalWindow = window as typeof window & {
-      __openbitfunLongSessionViewportTimeline?: LongSessionViewportTimelineSample[];
-      __openbitfunLongSessionMainThreadTasks?: LongSessionMainThreadTask[];
-      __openbitfunLongSessionMutationEvents?: LongSessionDomMutationEvent[];
-      __openbitfunLongSessionVisualStateEvents?: LongSessionVisualStateEvent[];
-      __openbitfunLongSessionLayoutShiftEvents?: LongSessionLayoutShiftEvent[];
-      __openbitfunLongSessionViewportTimelineTimer?: number;
-      __openbitfunLongSessionVisualFrameRequest?: number;
-      __openbitfunLongSessionVisualProbeTimers?: number[];
-      __openbitfunLongSessionLongTaskObserver?: PerformanceObserver;
-      __openbitfunLongSessionLayoutShiftObserver?: PerformanceObserver;
-      __openbitfunLongSessionMutationObserver?: MutationObserver;
-      __openbitfunLongSessionOpenIntentAt?: number;
-      __openbitfunLongSessionOpenIntentHandler?: EventListener;
-      __openbitfunLongSessionUserInteractionHandler?: EventListener;
+      __opcLongSessionViewportTimeline?: LongSessionViewportTimelineSample[];
+      __opcLongSessionMainThreadTasks?: LongSessionMainThreadTask[];
+      __opcLongSessionMutationEvents?: LongSessionDomMutationEvent[];
+      __opcLongSessionVisualStateEvents?: LongSessionVisualStateEvent[];
+      __opcLongSessionLayoutShiftEvents?: LongSessionLayoutShiftEvent[];
+      __opcLongSessionViewportTimelineTimer?: number;
+      __opcLongSessionVisualFrameRequest?: number;
+      __opcLongSessionVisualProbeTimers?: number[];
+      __opcLongSessionLongTaskObserver?: PerformanceObserver;
+      __opcLongSessionLayoutShiftObserver?: PerformanceObserver;
+      __opcLongSessionMutationObserver?: MutationObserver;
+      __opcLongSessionOpenIntentAt?: number;
+      __opcLongSessionOpenIntentHandler?: EventListener;
+      __opcLongSessionUserInteractionHandler?: EventListener;
       __OPC_RENDER_PROFILE_ENABLED__?: boolean;
     };
-    if (globalWindow.__openbitfunLongSessionViewportTimelineTimer !== undefined) {
-      window.clearInterval(globalWindow.__openbitfunLongSessionViewportTimelineTimer);
-      globalWindow.__openbitfunLongSessionViewportTimelineTimer = undefined;
+    if (globalWindow.__opcLongSessionViewportTimelineTimer !== undefined) {
+      window.clearInterval(globalWindow.__opcLongSessionViewportTimelineTimer);
+      globalWindow.__opcLongSessionViewportTimelineTimer = undefined;
     }
-    if (globalWindow.__openbitfunLongSessionVisualFrameRequest !== undefined) {
-      window.cancelAnimationFrame(globalWindow.__openbitfunLongSessionVisualFrameRequest);
-      globalWindow.__openbitfunLongSessionVisualFrameRequest = undefined;
+    if (globalWindow.__opcLongSessionVisualFrameRequest !== undefined) {
+      window.cancelAnimationFrame(globalWindow.__opcLongSessionVisualFrameRequest);
+      globalWindow.__opcLongSessionVisualFrameRequest = undefined;
     }
-    for (const timerId of globalWindow.__openbitfunLongSessionVisualProbeTimers ?? []) {
+    for (const timerId of globalWindow.__opcLongSessionVisualProbeTimers ?? []) {
       window.clearTimeout(timerId);
     }
-    globalWindow.__openbitfunLongSessionVisualProbeTimers = undefined;
-    globalWindow.__openbitfunLongSessionLongTaskObserver?.disconnect();
-    globalWindow.__openbitfunLongSessionLongTaskObserver = undefined;
-    globalWindow.__openbitfunLongSessionLayoutShiftObserver?.disconnect();
-    globalWindow.__openbitfunLongSessionLayoutShiftObserver = undefined;
-    globalWindow.__openbitfunLongSessionMutationObserver?.disconnect();
-    globalWindow.__openbitfunLongSessionMutationObserver = undefined;
-    if (globalWindow.__openbitfunLongSessionOpenIntentHandler) {
+    globalWindow.__opcLongSessionVisualProbeTimers = undefined;
+    globalWindow.__opcLongSessionLongTaskObserver?.disconnect();
+    globalWindow.__opcLongSessionLongTaskObserver = undefined;
+    globalWindow.__opcLongSessionLayoutShiftObserver?.disconnect();
+    globalWindow.__opcLongSessionLayoutShiftObserver = undefined;
+    globalWindow.__opcLongSessionMutationObserver?.disconnect();
+    globalWindow.__opcLongSessionMutationObserver = undefined;
+    if (globalWindow.__opcLongSessionOpenIntentHandler) {
       window.removeEventListener(
         'flowchat:history-session-open-intent',
-        globalWindow.__openbitfunLongSessionOpenIntentHandler,
+        globalWindow.__opcLongSessionOpenIntentHandler,
       );
-      globalWindow.__openbitfunLongSessionOpenIntentHandler = undefined;
+      globalWindow.__opcLongSessionOpenIntentHandler = undefined;
     }
-    if (globalWindow.__openbitfunLongSessionUserInteractionHandler) {
+    if (globalWindow.__opcLongSessionUserInteractionHandler) {
       window.removeEventListener(
-        'openbitfun:e2e-long-session-user-interaction',
-        globalWindow.__openbitfunLongSessionUserInteractionHandler,
+        'opc:e2e-long-session-user-interaction',
+        globalWindow.__opcLongSessionUserInteractionHandler,
       );
-      globalWindow.__openbitfunLongSessionUserInteractionHandler = undefined;
+      globalWindow.__opcLongSessionUserInteractionHandler = undefined;
     }
-    globalWindow.__openbitfunLongSessionOpenIntentAt = undefined;
-    const samples = globalWindow.__openbitfunLongSessionViewportTimeline ?? [];
-    const mainThreadTasks = globalWindow.__openbitfunLongSessionMainThreadTasks ?? [];
-    const mutationEvents = globalWindow.__openbitfunLongSessionMutationEvents ?? [];
-    const visualStateEvents = globalWindow.__openbitfunLongSessionVisualStateEvents ?? [];
-    const layoutShiftEvents = globalWindow.__openbitfunLongSessionLayoutShiftEvents ?? [];
-    globalWindow.__openbitfunLongSessionViewportTimeline = undefined;
-    globalWindow.__openbitfunLongSessionMainThreadTasks = undefined;
-    globalWindow.__openbitfunLongSessionMutationEvents = undefined;
-    globalWindow.__openbitfunLongSessionVisualStateEvents = undefined;
-    globalWindow.__openbitfunLongSessionLayoutShiftEvents = undefined;
+    globalWindow.__opcLongSessionOpenIntentAt = undefined;
+    const samples = globalWindow.__opcLongSessionViewportTimeline ?? [];
+    const mainThreadTasks = globalWindow.__opcLongSessionMainThreadTasks ?? [];
+    const mutationEvents = globalWindow.__opcLongSessionMutationEvents ?? [];
+    const visualStateEvents = globalWindow.__opcLongSessionVisualStateEvents ?? [];
+    const layoutShiftEvents = globalWindow.__opcLongSessionLayoutShiftEvents ?? [];
+    globalWindow.__opcLongSessionViewportTimeline = undefined;
+    globalWindow.__opcLongSessionMainThreadTasks = undefined;
+    globalWindow.__opcLongSessionMutationEvents = undefined;
+    globalWindow.__opcLongSessionVisualStateEvents = undefined;
+    globalWindow.__opcLongSessionLayoutShiftEvents = undefined;
     globalWindow.__OPC_RENDER_PROFILE_ENABLED__ = false;
     return { samples, mainThreadTasks, mutationEvents, visualStateEvents, layoutShiftEvents };
   });
@@ -3826,7 +3826,7 @@ async function recordLongSessionPostVisibleInteraction(
   detail: LongSessionPostVisibleInteractionResult,
 ): Promise<void> {
   await browser.execute((eventDetail) => {
-    window.dispatchEvent(new CustomEvent('openbitfun:e2e-long-session-user-interaction', {
+    window.dispatchEvent(new CustomEvent('opc:e2e-long-session-user-interaction', {
       detail: eventDetail,
     }));
   }, detail);
@@ -3899,7 +3899,7 @@ async function performLongSessionPostVisibleInteraction(
     }));
     scroller.scrollTop = Math.max(0, Math.min(maxScrollTop, beforeScrollTop + deltaY));
     scroller.dispatchEvent(new Event('scroll', { bubbles: true }));
-    window.dispatchEvent(new CustomEvent('openbitfun:e2e-long-session-user-interaction', {
+    window.dispatchEvent(new CustomEvent('opc:e2e-long-session-user-interaction', {
       detail: {
         type: interactionType,
         beforeScrollTop,
@@ -4569,7 +4569,7 @@ async function clickLongSessionSendButton(): Promise<void> {
   await button.waitForExist({ timeout: 3000 });
   await button.click();
   await browser.execute(() => {
-    window.dispatchEvent(new CustomEvent('openbitfun:e2e-long-session-user-interaction', {
+    window.dispatchEvent(new CustomEvent('opc:e2e-long-session-user-interaction', {
       detail: { type: 'send-message' },
     }));
   });

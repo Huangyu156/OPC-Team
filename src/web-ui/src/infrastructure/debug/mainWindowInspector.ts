@@ -1,7 +1,7 @@
 /**
  * Main-window element inspector for desktop debugging.
  *
- * Injected into the main OpenBitFun webview to provide interactive element
+ * Injected into the main OPC-Team webview to provide interactive element
  * inspection without relying on external DevTools.
  *
  * Activation:  Cmd/Ctrl + Shift + I  (or programmatic via toggleInspector())

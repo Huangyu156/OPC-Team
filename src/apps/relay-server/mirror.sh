@@ -2,7 +2,7 @@
 # OPC-Team Relay deploy — region detection and China mirror configuration.
 #
 # Source this file, then call:
-#   openbitfun_mirror_init [--cn-mirror|--global-mirror]
+#   opc_mirror_init [--cn-mirror|--global-mirror]
 #
 # Or execute directly:
 #   bash mirror.sh [--cn-mirror|--global-mirror]
@@ -28,7 +28,7 @@
 
 # shellcheck disable=SC2034
 
-openbitfun_mirror_default_docker_mirrors() {
+opc_mirror_default_docker_mirrors() {
   # Order from Beijing CN re-probe (2026-07-25):
   # - 1ms: fastest digests for hello-world/debian/rust (~0.5s)
   # - dockerproxy.net: stable digests (~1.5-2.5s)
@@ -37,12 +37,12 @@ openbitfun_mirror_default_docker_mirrors() {
   echo "https://docker.1ms.run https://dockerproxy.net https://docker.m.daocloud.io"
 }
 
-openbitfun_mirror_normalize_list() {
+opc_mirror_normalize_list() {
   # Portable: BSD/GNU sed differ on \n in character classes; use tr.
   echo "$1" | tr ',\t\n' '   ' | tr -s ' ' | sed 's/^[[:space:]]*//;s/[[:space:]]*$//'
 }
 
-openbitfun_mirror_priv() {
+opc_mirror_priv() {
   if [ "$(id -u)" = "0" ]; then
     "$@"
   elif command -v sudo >/dev/null 2>&1 && sudo -n true >/dev/null 2>&1; then
@@ -54,7 +54,7 @@ openbitfun_mirror_priv() {
   fi
 }
 
-openbitfun_mirror_parse_args() {
+opc_mirror_parse_args() {
   local arg
   for arg in "$@"; do
     case "$arg" in
@@ -71,7 +71,7 @@ openbitfun_mirror_parse_args() {
   done
 }
 
-openbitfun_mirror_http_ok() {
+opc_mirror_http_ok() {
   local url="$1"
   local timeout="${2:-3}"
   if command -v curl >/dev/null 2>&1; then
@@ -95,7 +95,7 @@ PY
   return 1
 }
 
-openbitfun_mirror_http_body() {
+opc_mirror_http_body() {
   local url="$1"
   local timeout="${2:-3}"
   if command -v curl >/dev/null 2>&1; then
@@ -122,7 +122,7 @@ PY
 # Last-resort country lookup for minimal hosts without curl/wget/python.
 # Uses bash /dev/tcp against the same plain-HTTP ip-api endpoint already used
 # above, bounded by coreutils/busybox `timeout`.
-openbitfun_mirror_country_via_bash_tcp() {
+opc_mirror_country_via_bash_tcp() {
   if ! command -v timeout >/dev/null 2>&1; then
     return 1
   fi
@@ -155,13 +155,13 @@ openbitfun_mirror_country_via_bash_tcp() {
 # so an on-path attacker who can rewrite a plain-HTTP body can choose that for
 # us. The HTTP endpoints are kept only as a last resort for hosts where TLS is
 # unavailable, and the mode they produce is announced as unverified.
-openbitfun_mirror_detect_country() {
+opc_mirror_detect_country() {
   local code="" endpoint
   for endpoint in \
     "https://ipinfo.io/country" \
     "https://ifconfig.co/country-iso" \
     "https://api.country.is/"; do
-    code="$(openbitfun_mirror_http_body "$endpoint" 3 \
+    code="$(opc_mirror_http_body "$endpoint" 3 \
       | tr -d '[:space:]' \
       | tr '[:lower:]' '[:upper:]' \
       | sed -n 's/.*"COUNTRY":"\([A-Z][A-Z]\)".*/\1/p;s/^\([A-Z][A-Z]\)$/\1/p' \
@@ -171,13 +171,13 @@ openbitfun_mirror_detect_country() {
       return 0
     fi
   done
-  code="$(openbitfun_mirror_http_body "http://ip-api.com/line/?fields=countryCode" 3 | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
+  code="$(opc_mirror_http_body "http://ip-api.com/line/?fields=countryCode" 3 | tr -d '[:space:]' | tr '[:lower:]' '[:upper:]')"
   if [ "${#code}" -eq 2 ]; then
     echo ">>> Region detect: only the unauthenticated HTTP lookup answered" >&2
     echo "$code"
     return 0
   fi
-  code="$(openbitfun_mirror_country_via_bash_tcp 2>/dev/null || true)"
+  code="$(opc_mirror_country_via_bash_tcp 2>/dev/null || true)"
   if [ "${#code}" -eq 2 ]; then
     echo ">>> Region detect: only the unauthenticated HTTP lookup answered" >&2
     echo "$code"
@@ -186,7 +186,7 @@ openbitfun_mirror_detect_country() {
   return 1
 }
 
-openbitfun_mirror_timezone_suggests_cn() {
+opc_mirror_timezone_suggests_cn() {
   local tz=""
   if [ -n "${TZ:-}" ]; then
     tz="$TZ"
@@ -203,10 +203,10 @@ openbitfun_mirror_timezone_suggests_cn() {
   return 1
 }
 
-openbitfun_mirror_connectivity_suggests_cn() {
+opc_mirror_connectivity_suggests_cn() {
   # GitHub hard to reach, but a mainland mirror works → likely CN.
-  if openbitfun_mirror_http_ok "https://mirrors.aliyun.com/" 4; then
-    if ! openbitfun_mirror_http_ok "https://github.com/" 4; then
+  if opc_mirror_http_ok "https://mirrors.aliyun.com/" 4; then
+    if ! opc_mirror_http_ok "https://github.com/" 4; then
       return 0
     fi
   fi
@@ -214,7 +214,7 @@ openbitfun_mirror_connectivity_suggests_cn() {
 }
 
 # Resolve OPC_MIRROR_MODE to cn|global. Returns 0 always.
-openbitfun_mirror_resolve_mode() {
+opc_mirror_resolve_mode() {
   local forced="${OPC_MIRROR:-auto}"
   forced="$(echo "$forced" | tr '[:upper:]' '[:lower:]')"
   case "$forced" in
@@ -253,7 +253,7 @@ openbitfun_mirror_resolve_mode() {
   esac
 
   local country=""
-  country="$(openbitfun_mirror_detect_country || true)"
+  country="$(opc_mirror_detect_country || true)"
   if [ "$country" = "CN" ]; then
     echo ">>> Region detect: public IP country=CN → China mirrors"
     export OPC_MIRROR_MODE=cn
@@ -275,7 +275,7 @@ openbitfun_mirror_resolve_mode() {
     return 0
   fi
 
-  if openbitfun_mirror_timezone_suggests_cn; then
+  if opc_mirror_timezone_suggests_cn; then
     echo ">>> Region detect: timezone suggests mainland China → China mirrors"
     export OPC_MIRROR_MODE=cn
     export OPC_MIRROR_REASON=timezone-cn
@@ -283,7 +283,7 @@ openbitfun_mirror_resolve_mode() {
     return 0
   fi
 
-  if openbitfun_mirror_connectivity_suggests_cn; then
+  if opc_mirror_connectivity_suggests_cn; then
     echo ">>> Region detect: GitHub unreachable + Aliyun reachable → China mirrors"
     export OPC_MIRROR_MODE=cn
     export OPC_MIRROR_REASON=connectivity-cn
@@ -298,9 +298,9 @@ openbitfun_mirror_resolve_mode() {
   return 0
 }
 
-openbitfun_mirror_export_urls() {
-  local git_upstream="${OPC_REPO_GIT_URL:-https://github.com/GCWing/OpenBitFun.git}"
-  local tarball_upstream="${OPC_REPO_TARBALL_URL:-https://github.com/GCWing/OpenBitFun/archive/refs/heads/main.tar.gz}"
+opc_mirror_export_urls() {
+  local git_upstream="${OPC_REPO_GIT_URL:-https://github.com/GCWing/OPC-Team.git}"
+  local tarball_upstream="${OPC_REPO_TARBALL_URL:-https://github.com/GCWing/OPC-Team/archive/refs/heads/main.tar.gz}"
   local proxy="${OPC_GITHUB_PROXY:-https://ghfast.top/}"
   local docker_get_upstream="${OPC_DOCKER_INSTALL_URL:-https://get.docker.com}"
 
@@ -308,7 +308,7 @@ openbitfun_mirror_export_urls() {
   export OPC_CARGO_SPARSE_URL="${OPC_CARGO_SPARSE_URL:-sparse+https://rsproxy.cn/index/}"
   export OPC_RUSTUP_DIST_SERVER="${OPC_RUSTUP_DIST_SERVER:-https://rsproxy.cn}"
   export OPC_DOCKER_REGISTRY_MIRRORS
-  OPC_DOCKER_REGISTRY_MIRRORS="$(openbitfun_mirror_normalize_list "${OPC_DOCKER_REGISTRY_MIRRORS:-$(openbitfun_mirror_default_docker_mirrors)}")"
+  OPC_DOCKER_REGISTRY_MIRRORS="$(opc_mirror_normalize_list "${OPC_DOCKER_REGISTRY_MIRRORS:-$(opc_mirror_default_docker_mirrors)}")"
 
   if [ "${OPC_MIRROR_MODE:-global}" != "cn" ]; then
     export OPC_GITHUB_GIT_URL="$git_upstream"
@@ -349,27 +349,27 @@ openbitfun_mirror_export_urls() {
   export OPC_USE_CN_MIRROR=1
 }
 
-openbitfun_mirror_backup_file() {
+opc_mirror_backup_file() {
   local src="$1"
   local stamp="${OPC_MIRROR_BACKUP_STAMP:-$(date +%Y%m%d%H%M%S)}"
-  local dest_dir="${2:-/etc/openbitfun}"
+  local dest_dir="${2:-/etc/opc}"
   if [ ! -e "$src" ]; then
     return 0
   fi
-  openbitfun_mirror_priv mkdir -p "$dest_dir" 2>/dev/null || mkdir -p "$HOME/.openbitfun/mirror-backup" 2>/dev/null || true
+  opc_mirror_priv mkdir -p "$dest_dir" 2>/dev/null || mkdir -p "$HOME/.opc/mirror-backup" 2>/dev/null || true
   local base dest
   base="$(basename "$src")"
-  if openbitfun_mirror_priv test -d "$dest_dir" 2>/dev/null; then
+  if opc_mirror_priv test -d "$dest_dir" 2>/dev/null; then
     dest="${dest_dir}/mirror-backup-${stamp}-${base}"
-    openbitfun_mirror_priv cp -a "$src" "$dest" 2>/dev/null || true
+    opc_mirror_priv cp -a "$src" "$dest" 2>/dev/null || true
   else
-    dest="$HOME/.openbitfun/mirror-backup/mirror-backup-${stamp}-${base}"
+    dest="$HOME/.opc/mirror-backup/mirror-backup-${stamp}-${base}"
     mkdir -p "$(dirname "$dest")" 2>/dev/null || true
     cp -a "$src" "$dest" 2>/dev/null || true
   fi
 }
 
-openbitfun_mirror_chown_to_home_owner() {
+opc_mirror_chown_to_home_owner() {
   if [ ! -d "$HOME" ] || ! command -v stat >/dev/null 2>&1; then
     return 0
   fi
@@ -386,29 +386,29 @@ openbitfun_mirror_chown_to_home_owner() {
     if [ "$(id -u)" = "0" ]; then
       chown "$owner" "$path" 2>/dev/null || true
     else
-      openbitfun_mirror_priv chown "$owner" "$path" 2>/dev/null || true
+      opc_mirror_priv chown "$owner" "$path" 2>/dev/null || true
     fi
   done
 }
 
-openbitfun_mirror_file_cksum() {
+opc_mirror_file_cksum() {
   local path="$1"
   if ! command -v cksum >/dev/null 2>&1; then
     return 1
   fi
   cksum "$path" 2>/dev/null | awk '{print $1 " " $2}' \
-    || openbitfun_mirror_priv cksum "$path" 2>/dev/null | awk '{print $1 " " $2}'
+    || opc_mirror_priv cksum "$path" 2>/dev/null | awk '{print $1 " " $2}'
 }
 
 # Scheme for the apt mirror we are about to write.
 #
-# `openbitfun_mirror_init` runs before anything is installed, and minimal cloud
+# `opc_mirror_init` runs before anything is installed, and minimal cloud
 # images ship without `ca-certificates` — that is precisely why their stock
 # sources are `http://`. Writing `https://` there breaks the very `apt-get
 # update` that would install the CA bundle, and it fails with a TLS error that
 # says nothing about mirrors. Package signatures are what protect apt, so http
 # costs integrity nothing; use https only when the host can actually verify it.
-openbitfun_mirror_apt_scheme() {
+opc_mirror_apt_scheme() {
   if [ -n "${OPC_APT_SCHEME:-}" ]; then
     printf '%s' "$OPC_APT_SCHEME"
     return 0
@@ -430,10 +430,10 @@ openbitfun_mirror_apt_scheme() {
   printf 'http'
 }
 
-openbitfun_mirror_apply_apt_debian_family() {
+opc_mirror_apply_apt_debian_family() {
   local mirror="${OPC_APT_MIRROR:-mirrors.aliyun.com}"
   local scheme
-  scheme="$(openbitfun_mirror_apt_scheme)"
+  scheme="$(opc_mirror_apt_scheme)"
   local id="" version_codename="" id_like=""
   # shellcheck disable=SC1091
   . /etc/os-release 2>/dev/null || true
@@ -471,13 +471,13 @@ openbitfun_mirror_apply_apt_debian_family() {
       ;;
   esac
 
-  openbitfun_mirror_priv mkdir -p /etc/apt/sources.list.d /etc/openbitfun 2>/dev/null || true
+  opc_mirror_priv mkdir -p /etc/apt/sources.list.d /etc/opc 2>/dev/null || true
   if [ -f /etc/apt/sources.list ]; then
-    openbitfun_mirror_backup_file /etc/apt/sources.list
+    opc_mirror_backup_file /etc/apt/sources.list
   fi
 
   # Prefer an OPC-Team-owned list so cloud-init vendor files stay intact.
-  local list_file="/etc/apt/sources.list.d/openbitfun-cn-mirror.list"
+  local list_file="/etc/apt/sources.list.d/opc-cn-mirror.list"
   local tmp
   tmp="$(mktemp)"
   case "$id" in
@@ -502,7 +502,7 @@ EOF
       # Unknown distro: the suites can only come from the file that is already
       # there. Write the rewrite into the OPC-Team-owned list and disable the
       # original by rename rather than overwriting it in place — an in-place
-      # edit is invisible to `openbitfun_mirror_restore_apt`, which leaves the host
+      # edit is invisible to `opc_mirror_restore_apt`, which leaves the host
       # permanently pinned to Chinese mirrors with only a timestamped backup the
       # operator has to find by hand.
       if [ ! -f /etc/apt/sources.list ]; then
@@ -518,19 +518,19 @@ EOF
           -e "s|security.ubuntu.com/ubuntu|${mirror}/ubuntu|g" \
           /etc/apt/sources.list
       } >"$tmp"
-      openbitfun_mirror_priv cp "$tmp" "$list_file"
+      opc_mirror_priv cp "$tmp" "$list_file"
       rm -f "$tmp"
-      openbitfun_mirror_backup_file /etc/apt/sources.list
-      if [ -e /etc/apt/sources.list.openbitfun-disabled ]; then
+      opc_mirror_backup_file /etc/apt/sources.list
+      if [ -e /etc/apt/sources.list.opc-disabled ]; then
         # A previous deploy already saved the real upstream sources here.
         # Overwriting it would destroy the only copy `restore_apt` can put back,
         # so drop the current file (already mirrored, and preserved as a
         # timestamped backup above) instead of promoting it to "the original".
-        openbitfun_mirror_priv rm -f /etc/apt/sources.list 2>/dev/null || true
-      elif ! openbitfun_mirror_priv mv /etc/apt/sources.list /etc/apt/sources.list.openbitfun-disabled; then
+        opc_mirror_priv rm -f /etc/apt/sources.list 2>/dev/null || true
+      elif ! opc_mirror_priv mv /etc/apt/sources.list /etc/apt/sources.list.opc-disabled; then
         # Could not disable the original, so both lists would be active and the
         # overseas hosts would still be tried. Undo instead of half-applying.
-        openbitfun_mirror_priv rm -f "$list_file" 2>/dev/null || true
+        opc_mirror_priv rm -f "$list_file" 2>/dev/null || true
         echo ">>> apt mirror: could not disable /etc/apt/sources.list; left untouched" >&2
         return 1
       fi
@@ -539,7 +539,7 @@ EOF
       ;;
   esac
 
-  openbitfun_mirror_priv cp "$tmp" "$list_file"
+  opc_mirror_priv cp "$tmp" "$list_file"
   rm -f "$tmp"
 
   # Disable conflicting default lists that still point overseas (keep backups).
@@ -547,8 +547,8 @@ EOF
   for f in /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
     /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/official-package-repositories.list; do
     if [ -f "$f" ] && grep -Eq 'deb\.debian\.org|security\.debian\.org|archive\.ubuntu\.com|security\.ubuntu\.com' "$f" 2>/dev/null; then
-      openbitfun_mirror_backup_file "$f"
-      openbitfun_mirror_priv mv "$f" "${f}.openbitfun-disabled" 2>/dev/null || true
+      opc_mirror_backup_file "$f"
+      opc_mirror_priv mv "$f" "${f}.opc-disabled" 2>/dev/null || true
     fi
   done
 
@@ -556,27 +556,27 @@ EOF
 }
 
 # Bounded `apt-get update` against whatever sources are currently active.
-openbitfun_mirror_probe_apt() {
+opc_mirror_probe_apt() {
   local timeout_prefix=""
   if command -v timeout >/dev/null 2>&1; then
     timeout_prefix="timeout 180"
   fi
   # shellcheck disable=SC2086
-  openbitfun_mirror_priv $timeout_prefix apt-get \
+  opc_mirror_priv $timeout_prefix apt-get \
     -o Acquire::Retries=1 \
     -o Acquire::http::Timeout=15 \
     -o Acquire::https::Timeout=15 \
     update >/dev/null 2>&1
 }
 
-openbitfun_mirror_apply_apt() {
+opc_mirror_apply_apt() {
   if ! command -v apt-get >/dev/null 2>&1; then
     return 0
   fi
   if [ ! -f /etc/os-release ]; then
     return 0
   fi
-  if ! openbitfun_mirror_apply_apt_debian_family; then
+  if ! opc_mirror_apply_apt_debian_family; then
     echo ">>> apt mirror: apply failed (continuing)" >&2
     return 0
   fi
@@ -584,33 +584,33 @@ openbitfun_mirror_apply_apt() {
   # A write that succeeds still proves nothing about the mirror. Without this
   # probe the first symptom is an `apt-get update` failure several steps later,
   # with nothing tying it back to the sources OPC-Team swapped in.
-  if openbitfun_mirror_probe_apt; then
+  if opc_mirror_probe_apt; then
     return 0
   fi
   echo ">>> apt mirror: ${OPC_APT_MIRROR:-mirrors.aliyun.com} did not answer a test \
 apt-get update; restoring the previous sources" >&2
-  openbitfun_mirror_restore_apt || true
-  if ! openbitfun_mirror_probe_apt; then
+  opc_mirror_restore_apt || true
+  if ! opc_mirror_probe_apt; then
     echo ">>> apt mirror: apt-get update still fails after restoring the original \
 sources, so the failure is not the mirror" >&2
   fi
   return 0
 }
 
-openbitfun_mirror_write_docker_daemon_json() {
+opc_mirror_write_docker_daemon_json() {
   local mirrors_csv="$1"
   local tmp py added_tmp state_dir state_file created_state prior_added daemon_json mirror checksum
   tmp="$(mktemp)"
   py="$(mktemp)"
   added_tmp="$(mktemp)"
   daemon_json="${OPC_DOCKER_DAEMON_JSON:-/etc/docker/daemon.json}"
-  state_dir="$HOME/.openbitfun/mirror-state"
+  state_dir="$HOME/.opc/mirror-state"
   state_file="${state_dir}/docker-added-mirrors"
   created_state="${state_dir}/docker-daemon-created.cksum"
   mkdir -p "$state_dir" 2>/dev/null || true
   prior_added=""
   if [ -f "$state_file" ]; then
-    prior_added="$(cat "$state_file" 2>/dev/null || openbitfun_mirror_priv cat "$state_file" 2>/dev/null || true)"
+    prior_added="$(cat "$state_file" 2>/dev/null || opc_mirror_priv cat "$state_file" 2>/dev/null || true)"
   fi
   cat >"$py" <<'PY'
 import json, os, sys
@@ -633,7 +633,7 @@ existing = data.get("registry-mirrors") or []
 if not isinstance(existing, list):
     print("daemon.json registry-mirrors must be an array", file=sys.stderr)
     sys.exit(2)
-legacy_managed = bool(data.pop("openbitfun-cn-mirror", False))
+legacy_managed = bool(data.pop("opc-cn-mirror", False))
 merged = []
 for item in list(existing) + mirrors:
     if item and item not in merged:
@@ -657,42 +657,42 @@ with open(sys.argv[4], "w", encoding="utf-8") as f:
 PY
   if command -v python3 >/dev/null 2>&1; then
     if [ -f "$daemon_json" ]; then
-      openbitfun_mirror_backup_file "$daemon_json"
+      opc_mirror_backup_file "$daemon_json"
     fi
-    if ! openbitfun_mirror_priv mkdir -p "$(dirname "$daemon_json")"; then
+    if ! opc_mirror_priv mkdir -p "$(dirname "$daemon_json")"; then
       echo ">>> docker mirror: cannot create $(dirname "$daemon_json")" >&2
       rm -f "$tmp" "$py" "$added_tmp"
       return 1
     fi
-    if openbitfun_mirror_priv python3 "$py" "$mirrors_csv" "$tmp" "$prior_added" "$added_tmp" "$daemon_json"; then
+    if opc_mirror_priv python3 "$py" "$mirrors_csv" "$tmp" "$prior_added" "$added_tmp" "$daemon_json"; then
       if command -v dockerd >/dev/null 2>&1 \
-        && ! openbitfun_mirror_priv dockerd --validate --config-file "$tmp" >/dev/null; then
+        && ! opc_mirror_priv dockerd --validate --config-file "$tmp" >/dev/null; then
         echo ">>> docker mirror: generated daemon.json failed dockerd validation; not installing it" >&2
         rm -f "$tmp" "$py" "$added_tmp"
         return 1
       fi
-      if ! openbitfun_mirror_priv cp "$tmp" "$daemon_json"; then
+      if ! opc_mirror_priv cp "$tmp" "$daemon_json"; then
         echo ">>> docker mirror: cannot install ${daemon_json}" >&2
         rm -f "$tmp" "$py" "$added_tmp"
         return 1
       fi
       if cp "$added_tmp" "$state_file" 2>/dev/null \
-        || openbitfun_mirror_priv cp "$added_tmp" "$state_file" 2>/dev/null; then
+        || opc_mirror_priv cp "$added_tmp" "$state_file" 2>/dev/null; then
         :
       else
         echo ">>> docker mirror: could not persist rollback state" >&2
         rm -f "$state_dir/version" 2>/dev/null \
-          || openbitfun_mirror_priv rm -f "$state_dir/version" 2>/dev/null \
+          || opc_mirror_priv rm -f "$state_dir/version" 2>/dev/null \
           || true
       fi
       chmod 644 "$state_file" 2>/dev/null || true
-      openbitfun_mirror_chown_to_home_owner "$state_dir" "$state_file"
+      opc_mirror_chown_to_home_owner "$state_dir" "$state_file"
       if [ -f "$created_state" ]; then
-        checksum="$(openbitfun_mirror_file_cksum "$daemon_json" || true)"
+        checksum="$(opc_mirror_file_cksum "$daemon_json" || true)"
         if [ -n "$checksum" ]; then
           echo "$checksum" >"$created_state"
           chmod 644 "$created_state" 2>/dev/null || true
-          openbitfun_mirror_chown_to_home_owner "$created_state"
+          opc_mirror_chown_to_home_owner "$created_state"
         fi
       fi
       echo ">>> docker mirror: merged registry-mirrors into ${daemon_json}"
@@ -707,7 +707,7 @@ PY
       rm -f "$tmp" "$py" "$added_tmp"
       return 1
     else
-      if ! openbitfun_mirror_priv mkdir -p "$(dirname "$daemon_json")"; then
+      if ! opc_mirror_priv mkdir -p "$(dirname "$daemon_json")"; then
         echo ">>> docker mirror: cannot create $(dirname "$daemon_json")" >&2
         rm -f "$tmp" "$py" "$added_tmp"
         return 1
@@ -724,7 +724,7 @@ PY
         echo '  ]'
         echo '}'
       } >"$tmp"
-      if ! openbitfun_mirror_priv cp "$tmp" "$daemon_json"; then
+      if ! opc_mirror_priv cp "$tmp" "$daemon_json"; then
         echo ">>> docker mirror: cannot install ${daemon_json}" >&2
         rm -f "$tmp" "$py" "$added_tmp"
         return 1
@@ -734,25 +734,25 @@ PY
         printf '%s\n' "$mirror" >>"$added_tmp"
       done
       if cp "$added_tmp" "$state_file" 2>/dev/null \
-        || openbitfun_mirror_priv cp "$added_tmp" "$state_file" 2>/dev/null; then
+        || opc_mirror_priv cp "$added_tmp" "$state_file" 2>/dev/null; then
         :
       else
         echo ">>> docker mirror: could not persist rollback state" >&2
         rm -f "$state_dir/version" 2>/dev/null \
-          || openbitfun_mirror_priv rm -f "$state_dir/version" 2>/dev/null \
+          || opc_mirror_priv rm -f "$state_dir/version" 2>/dev/null \
           || true
       fi
       chmod 644 "$state_file" 2>/dev/null || true
-      openbitfun_mirror_chown_to_home_owner "$state_dir" "$state_file"
-      checksum="$(openbitfun_mirror_file_cksum "$daemon_json" || true)"
+      opc_mirror_chown_to_home_owner "$state_dir" "$state_file"
+      checksum="$(opc_mirror_file_cksum "$daemon_json" || true)"
       if [ -n "$checksum" ]; then
         if echo "$checksum" >"$created_state"; then
           chmod 644 "$created_state" 2>/dev/null || true
-          openbitfun_mirror_chown_to_home_owner "$created_state"
+          opc_mirror_chown_to_home_owner "$created_state"
         else
           echo ">>> docker mirror: could not persist created-file checksum for rollback" >&2
           rm -f "$state_dir/version" 2>/dev/null \
-            || openbitfun_mirror_priv rm -f "$state_dir/version" 2>/dev/null \
+            || opc_mirror_priv rm -f "$state_dir/version" 2>/dev/null \
             || true
         fi
       fi
@@ -762,38 +762,38 @@ PY
   rm -f "$tmp" "$py" "$added_tmp"
 }
 
-openbitfun_mirror_restart_docker_if_needed() {
+opc_mirror_restart_docker_if_needed() {
   if ! command -v docker >/dev/null 2>&1; then
     return 0
   fi
-  if docker info >/dev/null 2>&1 || openbitfun_mirror_priv docker info >/dev/null 2>&1; then
+  if docker info >/dev/null 2>&1 || opc_mirror_priv docker info >/dev/null 2>&1; then
     echo ">>> docker mirror: restarting docker to apply registry-mirrors..."
-    openbitfun_mirror_priv systemctl restart docker 2>/dev/null \
-      || openbitfun_mirror_priv service docker restart 2>/dev/null \
+    opc_mirror_priv systemctl restart docker 2>/dev/null \
+      || opc_mirror_priv service docker restart 2>/dev/null \
       || true
     sleep 1
   fi
 }
 
-openbitfun_mirror_apply_docker_daemon() {
+opc_mirror_apply_docker_daemon() {
   local mirrors
-  mirrors="$(openbitfun_mirror_normalize_list "${OPC_DOCKER_REGISTRY_MIRRORS:-$(openbitfun_mirror_default_docker_mirrors)}")"
+  mirrors="$(opc_mirror_normalize_list "${OPC_DOCKER_REGISTRY_MIRRORS:-$(opc_mirror_default_docker_mirrors)}")"
   if [ -z "$mirrors" ]; then
     return 0
   fi
-  if openbitfun_mirror_write_docker_daemon_json "$mirrors"; then
-    openbitfun_mirror_restart_docker_if_needed || true
+  if opc_mirror_write_docker_daemon_json "$mirrors"; then
+    opc_mirror_restart_docker_if_needed || true
   else
     echo ">>> docker mirror: apply failed (continuing)" >&2
   fi
 }
 
-openbitfun_mirror_restore_apt() {
-  local list_file="/etc/apt/sources.list.d/openbitfun-cn-mirror.list"
+opc_mirror_restore_apt() {
+  local list_file="/etc/apt/sources.list.d/opc-cn-mirror.list"
   local changed=0 restore_failed=0 original disabled
   for original in /etc/apt/sources.list /etc/apt/sources.list.d/debian.sources \
     /etc/apt/sources.list.d/ubuntu.sources /etc/apt/sources.list.d/official-package-repositories.list; do
-    disabled="${original}.openbitfun-disabled"
+    disabled="${original}.opc-disabled"
     if [ ! -f "$disabled" ]; then
       continue
     fi
@@ -802,7 +802,7 @@ openbitfun_mirror_restore_apt() {
       restore_failed=1
       continue
     fi
-    if openbitfun_mirror_priv mv "$disabled" "$original" 2>/dev/null; then
+    if opc_mirror_priv mv "$disabled" "$original" 2>/dev/null; then
       changed=1
     else
       echo ">>> apt mirror: failed to restore ${original}" >&2
@@ -810,7 +810,7 @@ openbitfun_mirror_restore_apt() {
     fi
   done
   if [ -f "$list_file" ] && [ "$restore_failed" -eq 0 ]; then
-    if openbitfun_mirror_priv rm -f "$list_file" 2>/dev/null; then
+    if opc_mirror_priv rm -f "$list_file" 2>/dev/null; then
       changed=1
     else
       echo ">>> apt mirror: failed to remove ${list_file}" >&2
@@ -823,54 +823,54 @@ openbitfun_mirror_restore_apt() {
   fi
 }
 
-openbitfun_mirror_remove_docker_daemon() {
+opc_mirror_remove_docker_daemon() {
   local daemon_json="${OPC_DOCKER_DAEMON_JSON:-/etc/docker/daemon.json}"
-  local state_file="$HOME/.openbitfun/mirror-state/docker-added-mirrors"
-  local created_state="$HOME/.openbitfun/mirror-state/docker-daemon-created.cksum"
-  local version_file="$HOME/.openbitfun/mirror-state/version"
-  local mode_file="$HOME/.openbitfun/mirror-mode"
+  local state_file="$HOME/.opc/mirror-state/docker-added-mirrors"
+  local created_state="$HOME/.opc/mirror-state/docker-daemon-created.cksum"
+  local version_file="$HOME/.opc/mirror-state/version"
+  local mode_file="$HOME/.opc/mirror-mode"
   local managed=0 mirrors_to_remove="" tmp py status expected_checksum actual_checksum
 
   if [ -f "$state_file" ]; then
     managed=1
-    mirrors_to_remove="$(cat "$state_file" 2>/dev/null || openbitfun_mirror_priv cat "$state_file" 2>/dev/null || true)"
+    mirrors_to_remove="$(cat "$state_file" 2>/dev/null || opc_mirror_priv cat "$state_file" 2>/dev/null || true)"
   elif [ ! -f "$version_file" ] && [ "$(cat "$mode_file" 2>/dev/null || true)" = "cn" ]; then
     # Compatibility cleanup for hosts touched by early versions that did not
     # record exactly which registry mirrors they added.
     managed=1
-    mirrors_to_remove="$(openbitfun_mirror_default_docker_mirrors)"
-  elif [ -r "$daemon_json" ] && grep -q '"openbitfun-cn-mirror"' "$daemon_json" 2>/dev/null; then
+    mirrors_to_remove="$(opc_mirror_default_docker_mirrors)"
+  elif [ -r "$daemon_json" ] && grep -q '"opc-cn-mirror"' "$daemon_json" 2>/dev/null; then
     managed=1
-    mirrors_to_remove="$(openbitfun_mirror_default_docker_mirrors)"
+    mirrors_to_remove="$(opc_mirror_default_docker_mirrors)"
   fi
   if [ "$managed" -ne 1 ]; then
     if [ -f "$version_file" ] && [ ! -f "$state_file" ]; then
       rm -f "$version_file" "$created_state" 2>/dev/null \
-        || openbitfun_mirror_priv rm -f "$version_file" "$created_state" 2>/dev/null \
+        || opc_mirror_priv rm -f "$version_file" "$created_state" 2>/dev/null \
         || true
     fi
     return 0
   fi
   if [ ! -f "$daemon_json" ]; then
     rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
-      || openbitfun_mirror_priv rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
+      || opc_mirror_priv rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
       || true
     return 0
   fi
   if ! command -v python3 >/dev/null 2>&1; then
     if [ -f "$created_state" ]; then
       expected_checksum="$(cat "$created_state" 2>/dev/null || true)"
-      actual_checksum="$(openbitfun_mirror_file_cksum "$daemon_json" || true)"
+      actual_checksum="$(opc_mirror_file_cksum "$daemon_json" || true)"
       if [ -n "$expected_checksum" ] && [ "$actual_checksum" = "$expected_checksum" ]; then
-        openbitfun_mirror_backup_file "$daemon_json"
-        if openbitfun_mirror_priv rm -f "$daemon_json"; then
+        opc_mirror_backup_file "$daemon_json"
+        if opc_mirror_priv rm -f "$daemon_json"; then
           rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
-            || openbitfun_mirror_priv rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
+            || opc_mirror_priv rm -f "$state_file" "$version_file" "$created_state" 2>/dev/null \
             || true
           echo ">>> docker mirror: removed OPC-Team-created ${daemon_json}"
           if command -v docker >/dev/null 2>&1; then
-            openbitfun_mirror_priv systemctl restart docker 2>/dev/null \
-              || openbitfun_mirror_priv service docker restart 2>/dev/null \
+            opc_mirror_priv systemctl restart docker 2>/dev/null \
+              || opc_mirror_priv service docker restart 2>/dev/null \
               || true
           fi
           return 0
@@ -898,7 +898,7 @@ if not isinstance(data, dict):
     print("daemon.json root must be an object", file=sys.stderr)
     sys.exit(2)
 before = json.dumps(data, sort_keys=True)
-data.pop("openbitfun-cn-mirror", None)
+data.pop("opc-cn-mirror", None)
 existing = data.get("registry-mirrors")
 if isinstance(existing, list):
     kept = [item for item in existing if item not in remove]
@@ -915,12 +915,12 @@ with open(sys.argv[2], "w", encoding="utf-8") as f:
 PY
 
   status=0
-  openbitfun_mirror_priv python3 "$py" "$mirrors_to_remove" "$tmp" "$daemon_json" || status=$?
+  opc_mirror_priv python3 "$py" "$mirrors_to_remove" "$tmp" "$daemon_json" || status=$?
   if [ "$status" -eq 3 ]; then
     rm -f "$tmp" "$py"
-    rm -f "$state_file" 2>/dev/null || openbitfun_mirror_priv rm -f "$state_file" 2>/dev/null || true
-    rm -f "$version_file" 2>/dev/null || openbitfun_mirror_priv rm -f "$version_file" 2>/dev/null || true
-    rm -f "$created_state" 2>/dev/null || openbitfun_mirror_priv rm -f "$created_state" 2>/dev/null || true
+    rm -f "$state_file" 2>/dev/null || opc_mirror_priv rm -f "$state_file" 2>/dev/null || true
+    rm -f "$version_file" 2>/dev/null || opc_mirror_priv rm -f "$version_file" 2>/dev/null || true
+    rm -f "$created_state" 2>/dev/null || opc_mirror_priv rm -f "$created_state" 2>/dev/null || true
     return 0
   fi
   if [ "$status" -ne 0 ]; then
@@ -929,84 +929,84 @@ PY
     return 1
   fi
   if command -v dockerd >/dev/null 2>&1 \
-    && ! openbitfun_mirror_priv dockerd --validate --config-file "$tmp" >/dev/null; then
+    && ! opc_mirror_priv dockerd --validate --config-file "$tmp" >/dev/null; then
     echo ">>> docker mirror: restored daemon.json failed dockerd validation; leaving current file untouched" >&2
     rm -f "$tmp" "$py"
     return 1
   fi
-  openbitfun_mirror_backup_file "$daemon_json"
-  if ! openbitfun_mirror_priv cp "$tmp" "$daemon_json"; then
+  opc_mirror_backup_file "$daemon_json"
+  if ! opc_mirror_priv cp "$tmp" "$daemon_json"; then
     echo ">>> docker mirror: failed to restore ${daemon_json}" >&2
     rm -f "$tmp" "$py"
     return 1
   fi
   rm -f "$tmp" "$py"
-  rm -f "$state_file" 2>/dev/null || openbitfun_mirror_priv rm -f "$state_file" 2>/dev/null || true
-  rm -f "$version_file" 2>/dev/null || openbitfun_mirror_priv rm -f "$version_file" 2>/dev/null || true
-  rm -f "$created_state" 2>/dev/null || openbitfun_mirror_priv rm -f "$created_state" 2>/dev/null || true
+  rm -f "$state_file" 2>/dev/null || opc_mirror_priv rm -f "$state_file" 2>/dev/null || true
+  rm -f "$version_file" 2>/dev/null || opc_mirror_priv rm -f "$version_file" 2>/dev/null || true
+  rm -f "$created_state" 2>/dev/null || opc_mirror_priv rm -f "$created_state" 2>/dev/null || true
   echo ">>> docker mirror: removed OPC-Team-managed registry mirrors from ${daemon_json}"
   if command -v docker >/dev/null 2>&1; then
-    openbitfun_mirror_priv systemctl restart docker 2>/dev/null \
-      || openbitfun_mirror_priv service docker restart 2>/dev/null \
+    opc_mirror_priv systemctl restart docker 2>/dev/null \
+      || opc_mirror_priv service docker restart 2>/dev/null \
       || true
   fi
 }
 
-openbitfun_mirror_remove_cargo_managed_block() {
+opc_mirror_remove_cargo_managed_block() {
   local cargo_home="${CARGO_HOME:-$HOME/.cargo}"
   local cfg="${cargo_home}/config.toml"
   local tmp backup
   if [ ! -f "$cfg" ]; then
     return 0
   fi
-  if ! grep -q '^# >>> OPENBITFUN-CN-MIRROR$' "$cfg" 2>/dev/null \
-    && ! openbitfun_mirror_priv grep -q '^# >>> OPENBITFUN-CN-MIRROR$' "$cfg" 2>/dev/null; then
+  if ! grep -q '^# >>> OPC-CN-MIRROR$' "$cfg" 2>/dev/null \
+    && ! opc_mirror_priv grep -q '^# >>> OPC-CN-MIRROR$' "$cfg" 2>/dev/null; then
     return 0
   fi
-  mkdir -p "$HOME/.openbitfun/mirror-backup" 2>/dev/null || true
-  backup="$HOME/.openbitfun/mirror-backup/cargo-config.toml.$(date +%Y%m%d%H%M%S)"
-  if cp -a "$cfg" "$backup" 2>/dev/null || openbitfun_mirror_priv cp -a "$cfg" "$backup" 2>/dev/null; then
+  mkdir -p "$HOME/.opc/mirror-backup" 2>/dev/null || true
+  backup="$HOME/.opc/mirror-backup/cargo-config.toml.$(date +%Y%m%d%H%M%S)"
+  if cp -a "$cfg" "$backup" 2>/dev/null || opc_mirror_priv cp -a "$cfg" "$backup" 2>/dev/null; then
     :
   else
     echo ">>> cargo mirror: cannot back up ${cfg}; leaving it untouched" >&2
     return 1
   fi
-  openbitfun_mirror_chown_to_home_owner "$HOME/.openbitfun/mirror-backup" "$backup"
+  opc_mirror_chown_to_home_owner "$HOME/.opc/mirror-backup" "$backup"
   tmp="$(mktemp)"
   # shellcheck disable=SC2016
   if ! awk '
       BEGIN {skip=0}
-      /^# >>> OPENBITFUN-CN-MIRROR$/ {skip=1; next}
-      /^# <<< OPENBITFUN-CN-MIRROR$/ {skip=0; next}
+      /^# >>> OPC-CN-MIRROR$/ {skip=1; next}
+      /^# <<< OPC-CN-MIRROR$/ {skip=0; next}
       skip==0 {print}
     ' "$cfg" >"$tmp" 2>/dev/null; then
-    openbitfun_mirror_priv awk '
+    opc_mirror_priv awk '
         BEGIN {skip=0}
-        /^# >>> OPENBITFUN-CN-MIRROR$/ {skip=1; next}
-        /^# <<< OPENBITFUN-CN-MIRROR$/ {skip=0; next}
+        /^# >>> OPC-CN-MIRROR$/ {skip=1; next}
+        /^# <<< OPC-CN-MIRROR$/ {skip=0; next}
         skip==0 {print}
       ' "$cfg" >"$tmp"
   fi
-  if cp "$tmp" "$cfg" 2>/dev/null || openbitfun_mirror_priv cp "$tmp" "$cfg" 2>/dev/null; then
+  if cp "$tmp" "$cfg" 2>/dev/null || opc_mirror_priv cp "$tmp" "$cfg" 2>/dev/null; then
     :
   else
     echo ">>> cargo mirror: failed to remove legacy managed block from ${cfg}" >&2
     rm -f "$tmp"
     return 1
   fi
-  openbitfun_mirror_chown_to_home_owner "$cargo_home" "$cfg"
+  opc_mirror_chown_to_home_owner "$cargo_home" "$cfg"
   rm -f "$tmp"
   echo ">>> cargo mirror: removed legacy OPC-Team block from ${cfg}; relay Cargo mirroring is build-local"
 }
 
-openbitfun_mirror_restore_host() {
+opc_mirror_restore_host() {
   echo ">>> Restoring global host sources managed by OPC-Team..."
-  openbitfun_mirror_restore_apt || true
-  openbitfun_mirror_remove_docker_daemon || true
-  openbitfun_mirror_remove_cargo_managed_block || true
+  opc_mirror_restore_apt || true
+  opc_mirror_remove_docker_daemon || true
+  opc_mirror_remove_cargo_managed_block || true
 }
 
-openbitfun_mirror_apply_host() {
+opc_mirror_apply_host() {
   if [ "${OPC_MIRROR_SKIP_APPLY:-0}" = "1" ]; then
     echo ">>> mirror apply skipped (OPC_MIRROR_SKIP_APPLY=1)"
     return 0
@@ -1014,20 +1014,20 @@ openbitfun_mirror_apply_host() {
   if [ "${OPC_MIRROR_MODE:-global}" != "cn" ]; then
     return 0
   fi
-  mkdir -p "$HOME/.openbitfun/mirror-state" 2>/dev/null || true
-  echo "2" >"$HOME/.openbitfun/mirror-state/version" 2>/dev/null || true
-  openbitfun_mirror_chown_to_home_owner \
-    "$HOME/.openbitfun" "$HOME/.openbitfun/mirror-state" "$HOME/.openbitfun/mirror-state/version"
+  mkdir -p "$HOME/.opc/mirror-state" 2>/dev/null || true
+  echo "2" >"$HOME/.opc/mirror-state/version" 2>/dev/null || true
+  opc_mirror_chown_to_home_owner \
+    "$HOME/.opc" "$HOME/.opc/mirror-state" "$HOME/.opc/mirror-state/version"
   echo ">>> Applying China host mirrors (apt / docker; Cargo stays build-local)..."
-  openbitfun_mirror_apply_apt || true
-  openbitfun_mirror_apply_docker_daemon || true
+  opc_mirror_apply_apt || true
+  opc_mirror_apply_docker_daemon || true
   # Relay compilation happens inside Docker. Do not mutate the SSH user's
   # global Cargo config; older versions did and could create duplicate TOML
   # tables or root-owned ~/.cargo directories.
-  openbitfun_mirror_remove_cargo_managed_block || true
-  mkdir -p "$HOME/.openbitfun" 2>/dev/null || true
-  echo "cn" >"$HOME/.openbitfun/mirror-mode" 2>/dev/null || true
-  openbitfun_mirror_chown_to_home_owner "$HOME/.openbitfun" "$HOME/.openbitfun/mirror-mode"
+  opc_mirror_remove_cargo_managed_block || true
+  mkdir -p "$HOME/.opc" 2>/dev/null || true
+  echo "cn" >"$HOME/.opc/mirror-mode" 2>/dev/null || true
+  opc_mirror_chown_to_home_owner "$HOME/.opc" "$HOME/.opc/mirror-mode"
 }
 
 # Undo a partially applied Aliyun docker-ce repository.
@@ -1035,13 +1035,13 @@ openbitfun_mirror_apply_host() {
 # The caller falls back to get.docker.com when this install fails, and that path
 # runs its own `apt-get update` — which would pick up a half-written docker.list
 # or an unusable docker.asc and fail on those instead, hiding the real error.
-openbitfun_mirror_cleanup_docker_aliyun_apt() {
-  openbitfun_mirror_priv rm -f /etc/apt/sources.list.d/docker.list /etc/apt/keyrings/docker.asc \
+opc_mirror_cleanup_docker_aliyun_apt() {
+  opc_mirror_priv rm -f /etc/apt/sources.list.d/docker.list /etc/apt/keyrings/docker.asc \
     2>/dev/null || true
 }
 
 # Install Docker Engine from Aliyun docker-ce (CN). Returns 0 on success.
-openbitfun_mirror_install_docker_aliyun() {
+opc_mirror_install_docker_aliyun() {
   if ! command -v apt-get >/dev/null 2>&1 && ! command -v dnf >/dev/null 2>&1 && ! command -v yum >/dev/null 2>&1; then
     return 1
   fi
@@ -1070,12 +1070,12 @@ openbitfun_mirror_install_docker_aliyun() {
     esac
     [ -n "$version_codename" ] || return 1
 
-    openbitfun_mirror_priv apt-get update -y || true
-    openbitfun_mirror_priv apt-get install -y ca-certificates curl || {
+    opc_mirror_priv apt-get update -y || true
+    opc_mirror_priv apt-get install -y ca-certificates curl || {
       echo ">>> Aliyun docker-ce: could not install ca-certificates/curl" >&2
       return 1
     }
-    openbitfun_mirror_priv install -m 0755 -d /etc/apt/keyrings || return 1
+    opc_mirror_priv install -m 0755 -d /etc/apt/keyrings || return 1
 
     local key_tmp
     key_tmp="$(mktemp)"
@@ -1087,29 +1087,29 @@ openbitfun_mirror_install_docker_aliyun() {
       echo ">>> Aliyun docker-ce: GPG key download failed or was empty" >&2
       return 1
     fi
-    openbitfun_mirror_priv cp "$key_tmp" /etc/apt/keyrings/docker.asc || {
+    opc_mirror_priv cp "$key_tmp" /etc/apt/keyrings/docker.asc || {
       rm -f "$key_tmp"
-      openbitfun_mirror_cleanup_docker_aliyun_apt
+      opc_mirror_cleanup_docker_aliyun_apt
       return 1
     }
     rm -f "$key_tmp"
-    openbitfun_mirror_priv chmod a+r /etc/apt/keyrings/docker.asc || true
+    opc_mirror_priv chmod a+r /etc/apt/keyrings/docker.asc || true
     echo "deb [arch=${arch} signed-by=/etc/apt/keyrings/docker.asc] https://mirrors.aliyun.com/docker-ce/linux/${docker_ce_distro} ${version_codename} stable" \
-      | openbitfun_mirror_priv tee /etc/apt/sources.list.d/docker.list >/dev/null || {
-        openbitfun_mirror_cleanup_docker_aliyun_apt
+      | opc_mirror_priv tee /etc/apt/sources.list.d/docker.list >/dev/null || {
+        opc_mirror_cleanup_docker_aliyun_apt
         return 1
       }
-    if ! openbitfun_mirror_priv apt-get update -y; then
-      openbitfun_mirror_cleanup_docker_aliyun_apt
+    if ! opc_mirror_priv apt-get update -y; then
+      opc_mirror_cleanup_docker_aliyun_apt
       echo ">>> Aliyun docker-ce: apt-get update failed for the docker-ce repository" >&2
       return 1
     fi
     # `return 0` unconditionally here would report success on a failed install,
     # and the caller would skip its fallback and fail later at `systemctl enable
     # --now docker` with an error that says nothing about apt.
-    if ! openbitfun_mirror_priv apt-get install -y docker-ce docker-ce-cli containerd.io \
+    if ! opc_mirror_priv apt-get install -y docker-ce docker-ce-cli containerd.io \
       docker-buildx-plugin docker-compose-plugin; then
-      openbitfun_mirror_cleanup_docker_aliyun_apt
+      opc_mirror_cleanup_docker_aliyun_apt
       echo ">>> Aliyun docker-ce: package installation failed" >&2
       return 1
     fi
@@ -1119,7 +1119,7 @@ openbitfun_mirror_install_docker_aliyun() {
   if command -v dnf >/dev/null 2>&1 || command -v yum >/dev/null 2>&1; then
     local pkg=yum
     command -v dnf >/dev/null 2>&1 && pkg=dnf
-    openbitfun_mirror_priv tee /etc/yum.repos.d/docker-ce.repo >/dev/null <<EOF
+    opc_mirror_priv tee /etc/yum.repos.d/docker-ce.repo >/dev/null <<EOF
 [docker-ce-stable]
 name=Docker CE Stable - \$basearch
 baseurl=https://mirrors.aliyun.com/docker-ce/linux/centos/\$releasever/\$basearch/stable
@@ -1127,9 +1127,9 @@ enabled=1
 gpgcheck=1
 gpgkey=https://mirrors.aliyun.com/docker-ce/linux/centos/gpg
 EOF
-    if ! openbitfun_mirror_priv "$pkg" install -y docker-ce docker-ce-cli containerd.io \
+    if ! opc_mirror_priv "$pkg" install -y docker-ce docker-ce-cli containerd.io \
       docker-buildx-plugin docker-compose-plugin; then
-      openbitfun_mirror_priv rm -f /etc/yum.repos.d/docker-ce.repo 2>/dev/null || true
+      opc_mirror_priv rm -f /etc/yum.repos.d/docker-ce.repo 2>/dev/null || true
       echo ">>> Aliyun docker-ce: package installation failed" >&2
       return 1
     fi
@@ -1138,7 +1138,7 @@ EOF
   return 1
 }
 
-openbitfun_mirror_sha256_of() {
+opc_mirror_sha256_of() {
   if command -v sha256sum >/dev/null 2>&1; then
     sha256sum "$1" 2>/dev/null | awk '{print $1}'
   elif command -v shasum >/dev/null 2>&1; then
@@ -1165,7 +1165,7 @@ openbitfun_mirror_sha256_of() {
 # `OPC_DOCKER_INSTALL_ALLOW_UNVERIFIED=1` exists as a deliberate, logged
 # opt-out. It is not the default: the Aliyun docker-ce path above is GPG-verified
 # and covers Debian/Ubuntu/RHEL, so failing closed here costs little.
-openbitfun_mirror_fetch_docker_install_script() {
+opc_mirror_fetch_docker_install_script() {
   local dest="$1"
   local url="${OPC_DOCKER_GET_URL:-https://get.docker.com}"
   local expected="${OPC_DOCKER_INSTALL_SHA256:-}"
@@ -1174,7 +1174,7 @@ openbitfun_mirror_fetch_docker_install_script() {
   echo ">>> Fetching Docker install script: ${url}"
   curl -fsSL --retry 3 "$url" -o "$dest" || return 1
 
-  actual="$(openbitfun_mirror_sha256_of "$dest" || true)"
+  actual="$(opc_mirror_sha256_of "$dest" || true)"
   if [ -z "$actual" ]; then
     echo ">>> Docker install script: no sha256 tool available; cannot verify" >&2
   elif [ -n "$expected" ]; then
@@ -1193,7 +1193,7 @@ ${expected}; refusing to run it" >&2
       "https://raw.githubusercontent.com/docker/docker-install/master/install.sh"; do
       [ "$candidate" = "$url" ] && continue
       if curl -fsSL --retry 1 --max-time 30 "$candidate" -o "${dest}.crosscheck" 2>/dev/null; then
-        reference="$(openbitfun_mirror_sha256_of "${dest}.crosscheck" || true)"
+        reference="$(opc_mirror_sha256_of "${dest}.crosscheck" || true)"
         rm -f "${dest}.crosscheck"
         if [ -n "$reference" ] && [ "$reference" = "$actual" ]; then
           verified=1
@@ -1234,10 +1234,10 @@ OPC_DOCKER_INSTALL_ALLOW_UNVERIFIED=1 to accept the risk." >&2
   return 1
 }
 
-openbitfun_mirror_init() {
-  openbitfun_mirror_parse_args "$@"
-  openbitfun_mirror_resolve_mode
-  openbitfun_mirror_export_urls
+opc_mirror_init() {
+  opc_mirror_parse_args "$@"
+  opc_mirror_resolve_mode
+  opc_mirror_export_urls
   echo ">>> Mirror mode: ${OPC_MIRROR_MODE} (requested=${OPC_MIRROR_REQUESTED_MODE:-auto}, reason=${OPC_MIRROR_REASON:-unknown}, OPC_USE_CN_MIRROR=${OPC_USE_CN_MIRROR})"
   if [ "${OPC_MIRROR_MODE}" = "cn" ]; then
     echo ">>> GitHub git URL:     ${OPC_GITHUB_GIT_URL}"
@@ -1246,12 +1246,12 @@ openbitfun_mirror_init() {
     echo ">>> apt mirror:         ${OPC_APT_MIRROR}"
     echo ">>> cargo sparse:       ${OPC_CARGO_SPARSE_URL}"
     echo ">>> docker registries:  ${OPC_DOCKER_REGISTRY_MIRRORS}"
-    openbitfun_mirror_apply_host
+    opc_mirror_apply_host
   else
-    openbitfun_mirror_restore_host
-    mkdir -p "$HOME/.openbitfun" 2>/dev/null || true
-    echo "global" >"$HOME/.openbitfun/mirror-mode" 2>/dev/null || true
-    openbitfun_mirror_chown_to_home_owner "$HOME/.openbitfun" "$HOME/.openbitfun/mirror-mode"
+    opc_mirror_restore_host
+    mkdir -p "$HOME/.opc" 2>/dev/null || true
+    echo "global" >"$HOME/.opc/mirror-mode" 2>/dev/null || true
+    opc_mirror_chown_to_home_owner "$HOME/.opc" "$HOME/.opc/mirror-mode"
   fi
 }
 
@@ -1261,5 +1261,5 @@ openbitfun_mirror_init() {
 if [[ "${BASH_SOURCE[0]:-}" == "${0}" ]] \
   && [[ "$(basename "${BASH_SOURCE[0]}")" == "mirror.sh" ]]; then
   set -euo pipefail
-  openbitfun_mirror_init "$@"
+  opc_mirror_init "$@"
 fi

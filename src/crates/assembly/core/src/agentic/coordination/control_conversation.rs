@@ -145,8 +145,8 @@ impl ConversationCoordinator {
             } else if create_new || session_id == CONTROL_SESSION_ID {
                 self.create_session_with_id(
                     Some(session_id.clone()),
-                    "OpenBitFun".to_string(),
-                    "OpenBitFun".to_string(),
+                    "OPC-Team".to_string(),
+                    "OPC-Team".to_string(),
                     SessionConfig {
                         workspace_id: Some(workspace_record.id.clone()),
                         workspace_path: Some(workspace_path.clone()),

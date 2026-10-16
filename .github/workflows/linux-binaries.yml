@@ -170,8 +170,8 @@ jobs:
           bash scripts/ci/check-glibc-floor.sh 2.35 \
             "$rel/opc-relay-server" \
             "$rel/relay-admin" \
-            "$rel/openbitfun" \
-            "$rel/openbitfun"
+            "$rel/opc" \
+            "$rel/opc"
 
       - name: Test CLI installer
         shell: bash

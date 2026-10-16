@@ -240,11 +240,11 @@ fn emit_account_event(event: &str, payload: serde_json::Value) {
 /// streams on one bus. The frontend routes on this key and delivers an event
 /// only to the device surface it belongs to. Keep in sync with
 /// `src/web-ui/src/infrastructure/peer-device/deviceSurfaceRouting.ts`.
-pub const PEER_EVENT_SOURCE_KEY: &str = "__openbitfunSourceDeviceId";
+pub const PEER_EVENT_SOURCE_KEY: &str = "__opcSourceDeviceId";
 
 /// Wrapper key used when a peer payload is not a JSON object and therefore
 /// cannot carry `PEER_EVENT_SOURCE_KEY` inline.
-pub const PEER_EVENT_WRAPPED_PAYLOAD_KEY: &str = "__openbitfunSourcePayload";
+pub const PEER_EVENT_WRAPPED_PAYLOAD_KEY: &str = "__opcSourcePayload";
 
 /// Tag a peer-originated event payload with the device that produced it.
 fn tag_peer_event_source(payload: serde_json::Value, source_device_id: &str) -> serde_json::Value {
@@ -1540,12 +1540,12 @@ fn detect_from_exe() -> Option<String> {
     candidates.push(exe_dir.join("resources/mobile-web"));
 
     if cfg!(target_os = "linux") {
-        candidates.push(exe_dir.join("../lib/openbitfun/mobile-web/dist"));
-        candidates.push(exe_dir.join("../lib/openbitfun/mobile-web"));
-        candidates.push(exe_dir.join("../share/openbitfun/mobile-web/dist"));
-        candidates.push(exe_dir.join("../share/openbitfun/mobile-web"));
-        candidates.push(exe_dir.join("../share/com.openbitfun.desktop/mobile-web/dist"));
-        candidates.push(exe_dir.join("../share/com.openbitfun.desktop/mobile-web"));
+        candidates.push(exe_dir.join("../lib/opc/mobile-web/dist"));
+        candidates.push(exe_dir.join("../lib/opc/mobile-web"));
+        candidates.push(exe_dir.join("../share/opc/mobile-web/dist"));
+        candidates.push(exe_dir.join("../share/opc/mobile-web"));
+        candidates.push(exe_dir.join("../share/com.opcteam.desktop/mobile-web/dist"));
+        candidates.push(exe_dir.join("../share/com.opcteam.desktop/mobile-web"));
     }
 
     check_candidates(&candidates, "exe-relative")
@@ -3389,7 +3389,7 @@ mod sync_state_tests {
         for (method, endpoint) in [
             (
                 serde_json::json!("opc_server"),
-                "https://remote.openbitfun.com/v/1.0.2",
+                "https://remote.opcteam.eu.cc/v/1.0.2",
             ),
             (
                 serde_json::json!({"lan":{"ip":"192.168.1.2"}}),

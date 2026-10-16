@@ -55,7 +55,7 @@ async function loadCurrentClientVersion(): Promise<string | undefined> {
   try {
     return await systemAPI.getAppVersion();
   } catch (error) {
-    log.warn('Failed to load current OpenBitFun version for MiniApp submission defaults', error);
+    log.warn('Failed to load current OPC-Team version for MiniApp submission defaults', error);
     return undefined;
   }
 }
@@ -93,7 +93,7 @@ const MiniAppSubmissionsView: React.FC<MiniAppSubmissionsViewProps> = ({ tabs })
     try {
       const [installed, currentClientVersion] = await Promise.all([
         miniAppAPI.listMiniApps(),
-        draft.minOpenBitFunVersion ? Promise.resolve(undefined) : loadCurrentClientVersion(),
+        draft.minOpcVersion ? Promise.resolve(undefined) : loadCurrentClientVersion(),
       ]);
       setApps(installed);
       if (currentClientVersion) {
@@ -460,10 +460,10 @@ const MiniAppSubmissionsView: React.FC<MiniAppSubmissionsViewProps> = ({ tabs })
                 </Field>
                 <Field label={t('market.submissions.minVersion')} controlWidth="fill" required>
                   <Input
-                    value={draft.minOpenBitFunVersion}
+                    value={draft.minOpcVersion}
                     disabled={busy}
                     onChange={(event) =>
-                      setDraft({ ...draft, minOpenBitFunVersion: event.target.value })
+                      setDraft({ ...draft, minOpcVersion: event.target.value })
                     }
                   />
                 </Field>

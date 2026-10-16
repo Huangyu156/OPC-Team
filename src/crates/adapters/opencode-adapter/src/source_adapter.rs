@@ -145,11 +145,11 @@ impl OpenCodePluginRuntimeAdapter {
             .to_string();
         let package_path = format!("/managed-plugins/{provenance_id}/{}", source.package_id);
         let package_uri = format!(
-            "openbitfun://managed-plugins/{provenance_id}/{}",
+            "opc://managed-plugins/{provenance_id}/{}",
             urlencoding::encode(&source.package_id)
         );
         let config_uri = format!(
-            "openbitfun://managed-plugins/{provenance_id}/{}/opencode.json",
+            "opc://managed-plugins/{provenance_id}/{}/opencode.json",
             source.package_id
         );
         let mut projections = Vec::new();
@@ -886,8 +886,8 @@ impl OpenCodeInvalidProjection {
             package_uri,
         );
         let manifest = PluginManifestRef {
-            manifest_id: format!("{plugin_id}:openbitfun.plugin"),
-            schema_version: "openbitfun.plugin.package.v1".to_string(),
+            manifest_id: format!("{plugin_id}:opc.plugin"),
+            schema_version: "opc.plugin.package.v1".to_string(),
             path: Some(package_uri.to_string()),
         };
         Self {
@@ -2208,9 +2208,7 @@ impl OpenCodeCustomTool {
                 artifact_id: format!("{plugin_id}:{}:source", self.id),
                 artifact_kind: "opencode_plugin_source".to_string(),
                 display_name: self.id.clone(),
-                uri: Some(format!(
-                    "openbitfun://plugins/{plugin_id}/tools/{target_id}"
-                )),
+                uri: Some(format!("opc://plugins/{plugin_id}/tools/{target_id}")),
             }),
         }
     }
@@ -2745,7 +2743,7 @@ fn managed_source_uri(provenance_id: &str, package_id: &str, relative_path: &str
         .collect::<Vec<_>>()
         .join("/");
     format!(
-        "openbitfun://managed-plugins/{provenance_id}/{}/{encoded_path}",
+        "opc://managed-plugins/{provenance_id}/{}/{encoded_path}",
         urlencoding::encode(package_id)
     )
 }
@@ -3138,7 +3136,7 @@ export const DemoPlugin = async () => ({
                 schema_version: "agent.turn.completed.v1".to_string(),
                 data_classification: PluginDataClassification::Workspace,
                 redaction: PluginPayloadRedaction::Partial,
-                uri: Some("openbitfun://payloads/payload-1".to_string()),
+                uri: Some("opc://payloads/payload-1".to_string()),
             }),
         }
     }

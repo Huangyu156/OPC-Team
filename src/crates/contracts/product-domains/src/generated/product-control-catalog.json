@@ -2,7 +2,7 @@
   "schemaVersion": 5,
   "product": "OPC-Team",
   "title": "OPC-Team Playbook",
-  "origin": "https://playbook.openbitfun.com",
+  "origin": "https://playbook.opcteam.eu.cc",
   "source": "src/shared/interactive-capabilities/catalog.json",
   "digest": "33df04a443269396ce39aec76d99aa36badb2f05bf85095dd79091dd49cf2bde",
   "ownerDigest": "6a24c2a1c3787c1b18edf5c3d3c49bb200d3e7e2a6089ceb7c1125ef9356f866",
@@ -9081,7 +9081,7 @@
       },
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9127,7 +9127,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9173,7 +9173,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9219,7 +9219,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9265,7 +9265,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9311,7 +9311,7 @@
       "openReason": "externalAuth",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9357,7 +9357,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9403,7 +9403,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       }
     },
     {
@@ -9455,7 +9455,7 @@
       },
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9504,7 +9504,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9553,7 +9553,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9602,7 +9602,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9651,7 +9651,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9700,7 +9700,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9749,7 +9749,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9798,7 +9798,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -9847,7 +9847,7 @@
       "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -10780,7 +10780,7 @@
         "additionalProperties": true
       },
       "delegateTools": [
-        "OpenBitFunControl"
+        "OpcControl"
       ],
       "presentationTarget": {
         "kind": "settings",
@@ -10825,7 +10825,7 @@
         "additionalProperties": true
       },
       "delegateTools": [
-        "OpenBitFunControl"
+        "OpcControl"
       ],
       "presentationTarget": {
         "kind": "settings",
@@ -10870,7 +10870,7 @@
         "additionalProperties": true
       },
       "delegateTools": [
-        "OpenBitFunControl"
+        "OpcControl"
       ],
       "presentationTarget": {
         "kind": "settings",
@@ -10915,7 +10915,7 @@
         "additionalProperties": true
       },
       "delegateTools": [
-        "OpenBitFunControl"
+        "OpcControl"
       ],
       "presentationTarget": {
         "kind": "settings",
@@ -11426,15 +11426,15 @@
         "type": "string",
         "enum": [
           "system",
-          "openbitfun-light",
+          "opc-light",
           "opc-monochrome",
-          "openbitfun-slate",
-          "openbitfun-dark",
-          "openbitfun-midnight",
-          "openbitfun-china-style",
-          "openbitfun-china-night",
-          "openbitfun-cyber",
-          "openbitfun-tokyo-night"
+          "opc-slate",
+          "opc-dark",
+          "opc-midnight",
+          "opc-china-style",
+          "opc-china-night",
+          "opc-cyber",
+          "opc-tokyo-night"
         ]
       },
       "outputSchema": {
@@ -19812,7 +19812,7 @@
         "Use TodoWrite to maintain progress for complex work; create formal plan artifacts with Write under the project's .opcteam/plans directory",
         "Use AskUserQuestion only for a missing choice that changes the outcome; do not ask again for facts available from the repository or current context"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.ai-assistant/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.ai-assistant/"
     },
     {
       "id": "feature.agents",
@@ -20011,7 +20011,7 @@
         "Start a bounded subtask with AgentSpawn and retain the returned agent_id",
         "Use AgentList or AgentWait for progress, AgentSendInput for corrections, and interrupt or delete only when necessary before synthesizing the results"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.agents/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.agents/"
     },
     {
       "id": "feature.personal-assistants",
@@ -20262,7 +20262,7 @@
         "Take me to the nursery to configure default assistant tools",
         "I want to edit my primary assistant's persona"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.personal-assistants/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.personal-assistants/"
     },
     {
       "id": "feature.projects",
@@ -20488,7 +20488,7 @@
         "Help me open a project",
         "Open the new-project flow"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.projects/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.projects/"
     },
     {
       "id": "feature.files-editor",
@@ -20806,7 +20806,7 @@
         "Use view_image for a local image preview or original view, then analyze_image when structured visual analysis is needed",
         "Retrieve remote or otherwise inaccessible images through the active workspace data plane first; never reinterpret a remote path as local"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.files-editor/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.files-editor/"
     },
     {
       "id": "feature.terminal",
@@ -21039,7 +21039,7 @@
         "Start the command with ExecCommand; enable TTY for interactive programs and keep the returned session_id",
         "Use WriteStdin to enter text or poll output, and ExecControl to interrupt or terminate the process"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.terminal/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.terminal/"
     },
     {
       "id": "feature.git",
@@ -21348,7 +21348,7 @@
         "Run git cherry-pick through ExecCommand",
         "Use --continue or --abort to continue or cancel the operation"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.git/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.git/"
     },
     {
       "id": "feature.code-review",
@@ -21587,7 +21587,7 @@
         "Launch a specialist review agent with LaunchReviewAgent for the confirmed workspace, commit, or PR target and wait for findings",
         "Review agents submit structured findings with submit_code_review; queue management and human inspection remain available in the Deep Review surface"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.code-review/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.code-review/"
     },
     {
       "id": "feature.browser",
@@ -21644,12 +21644,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21685,12 +21685,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21706,12 +21706,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21727,12 +21727,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21748,12 +21748,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21769,12 +21769,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21790,12 +21790,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21831,12 +21831,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21852,12 +21852,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21873,12 +21873,12 @@
               "ControlHub"
             ],
             "workflowZh": [
-              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+              "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
               "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
               "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
             ],
             "workflowEn": [
-              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+              "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
               "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
               "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
             ]
@@ -21898,12 +21898,12 @@
       "agentControl": {
         "tool": "ControlHub",
         "workflowZh": [
-          "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+          "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
           "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
           "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external"
         ],
         "workflowEn": [
-          "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+          "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
           "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
           "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection"
         ]
@@ -21987,10 +21987,10 @@
         "Open this URL in the built-in browser and find the sign-in button",
         "Inspect the current built-in page and fill this form",
         "Use the built-in browser to open the search result and summarize the page",
-        "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpenBitFunControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
+        "用户给出网址时，用 browser.open_builtin 打开并取得内置页面的 session_id；用户只要求显示内置浏览器且没有网址时，改用 OpcControl 打开 feature.browser 能力根入口，不得臆造 about:blank",
         "对同一个 session_id 指定 target 为 builtin，也可用 target_url 或 target_title 定位；快照、点击、填写、滚动和截图等动作与外部 CDP 浏览器共用同一套契约",
         "页面变化后重新快照并使用最新元素引用；只有网络追踪、原始 CDP 和文件输入等协议扩展才切换到 external",
-        "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpenBitFunControl and never invent about:blank",
+        "When the user supplies a URL, open it with browser.open_builtin and keep the returned built-in session_id; when they only want the built-in browser surface, open the feature.browser capability root with OpcControl and never invent about:blank",
         "Address that session_id with target set to builtin, or locate it by target_url or target_title; snapshots, clicks, fills, scrolling, screenshots, and other portable actions share the external CDP contract",
         "Take a new snapshot after page changes and use fresh element refs; switch to external only for protocol extensions such as network tracing, raw CDP, or file-input injection",
         "ControlHub",
@@ -22006,7 +22006,7 @@
         "Use ControlHub directly for normal page actions; for a matching built-in common flow, resolve steps with Playbook and execute each through ControlHub",
         "Take a fresh snapshot after page changes and use current element refs; Playbook is only a step guide and unexecuted steps must never be reported as complete"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.browser/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.browser/"
     },
     {
       "id": "feature.computer-use",
@@ -22285,7 +22285,7 @@
         "Use ComputerUse control_status to inspect the current target, owner, and mode; do not start a session when none is active",
         "Use ComputerUse stop_control to release the tool-owned session. Users can also stop from the executing Desktop control card; its button addresses the displayed generation rather than a subsequently created session."
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.computer-use/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.computer-use/"
     },
     {
       "id": "feature.skills",
@@ -22501,7 +22501,7 @@
         "Call Skill only when the task matches and it is visible to the current agent; read the complete SKILL.md before following it",
         "Installation, removal, and global enablement remain owned by the Skills surface; the execution tool does not pretend to be a package manager"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.skills/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.skills/"
     },
     {
       "id": "feature.miniapps",
@@ -23071,7 +23071,7 @@
         "Call PublishMiniApp only after an explicit request to submit externally, with the completed app, license, and release notes",
         "When authentication, validation, or upload returns a resumable state, show the exact next step and never report pending authorization or review as published"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.miniapps/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.miniapps/"
     },
     {
       "id": "feature.canvas",
@@ -23130,11 +23130,11 @@
               "UpdateCanvas"
             ],
             "workflowZh": [
-              "用 CreateCanvas 提交单文件 TSX，并仅从 openbitfun/canvas 导入允许的运行时组件",
+              "用 CreateCanvas 提交单文件 TSX，并仅从 opc/canvas 导入允许的运行时组件",
               "保留返回的 opc-canvas 引用，先 ReadCanvas 获取当前版本，再用 PatchCanvas 做局部改动或 UpdateCanvas 完整更新"
             ],
             "workflowEn": [
-              "Use CreateCanvas with a single TSX file and import runtime components only from openbitfun/canvas",
+              "Use CreateCanvas with a single TSX file and import runtime components only from opc/canvas",
               "Keep the returned opc-canvas reference, inspect it with ReadCanvas, then use PatchCanvas for focused changes or UpdateCanvas for a full update"
             ]
           }
@@ -23290,9 +23290,9 @@
         "ReadCanvas",
         "PatchCanvas",
         "UpdateCanvas",
-        "用 CreateCanvas 提交单文件 TSX，并仅从 openbitfun/canvas 导入允许的运行时组件",
+        "用 CreateCanvas 提交单文件 TSX，并仅从 opc/canvas 导入允许的运行时组件",
         "保留返回的 opc-canvas 引用，先 ReadCanvas 获取当前版本，再用 PatchCanvas 做局部改动或 UpdateCanvas 完整更新",
-        "Use CreateCanvas with a single TSX file and import runtime components only from openbitfun/canvas",
+        "Use CreateCanvas with a single TSX file and import runtime components only from opc/canvas",
         "Keep the returned opc-canvas reference, inspect it with ReadCanvas, then use PatchCanvas for focused changes or UpdateCanvas for a full update",
         "GenerativeUI",
         "仅在可视化或交互能明显帮助理解时使用 GenerativeUI，并输出紧凑、自包含且适配明暗外观的组件",
@@ -23302,7 +23302,7 @@
         "用 ReadCanvas 按 artifact_reference 或 canvas_id 读取源码、状态、诊断与编译信息",
         "Use ReadCanvas with artifact_reference or canvas_id to inspect source, status, diagnostics, and compiled information"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.canvas/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.canvas/"
     },
     {
       "id": "feature.tasks-automation",
@@ -23510,7 +23510,7 @@
         "Use GetTime first for relative dates or timezone-sensitive requests, then express the schedule with Cron at, every, or cron",
         "Restate the absolute run time and timezone before creation so relative phrases such as tomorrow are not misinterpreted"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.tasks-automation/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.tasks-automation/"
     },
     {
       "id": "feature.insights",
@@ -23675,7 +23675,7 @@
         "Open Insights",
         "Show me my work insights"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.insights/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.insights/"
     },
     {
       "id": "feature.ecosystem-compatibility",
@@ -23892,7 +23892,7 @@
         "Open external AI ecosystem compatibility",
         "I want to migrate my Claude Code configuration"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.ecosystem-compatibility/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.ecosystem-compatibility/"
     },
     {
       "id": "feature.remote-workspaces",
@@ -24167,7 +24167,7 @@
         "Load PortForward if deferred; list or detect remote ports first, then start forwarding for an explicit target",
         "Keep the returned forwarding identifier, inspect it with list, and stop it when no longer needed; never guess the remote host or port"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.remote-workspaces/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.remote-workspaces/"
     },
     {
       "id": "feature.remote-connect",
@@ -24310,7 +24310,7 @@
       ],
       "destination": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect"
+        "eventName": "opc:open-remote-connect"
       },
       "operations": [],
       "options": [],
@@ -24363,7 +24363,7 @@
         "I want to configure mobile remote control",
         "Take me to connected-device management"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.remote-connect/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.remote-connect/"
     },
     {
       "id": "feature.detached-dispatch",
@@ -24507,7 +24507,7 @@
       ],
       "destination": {
         "kind": "event",
-        "eventName": "openbitfun:open-remote-connect",
+        "eventName": "opc:open-remote-connect",
         "detail": {
           "group": "account"
         }
@@ -24556,7 +24556,7 @@
         "Open device management so I can dispatch work to another machine",
         "Take me to remote task dispatch setup"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.detached-dispatch/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.detached-dispatch/"
     },
     {
       "id": "feature.pages",
@@ -24753,7 +24753,7 @@
         "Use PagePublish for new content or a new saved version; set deploy only when the user explicitly asks to publish and confirm visibility",
         "Use PageDeploy to promote or roll back to an existing saved version; open private/relay links safely through the Pages scene or tool card"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.pages/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.pages/"
     },
     {
       "id": "feature.voice-input",
@@ -24973,7 +24973,7 @@
         "Open voice-input settings",
         "Help me configure dictation"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.voice-input/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.voice-input/"
     },
     {
       "id": "feature.desktop-pet",
@@ -25015,7 +25015,7 @@
           "control": {
             "kind": "delegate",
             "tools": [
-              "OpenBitFunControl"
+              "OpcControl"
             ],
             "workflowZh": [
               "先用 search 搜索“桌面宠物 / Petdex / companion”，再 get `setting.application.pet` 读取当前选项和受支持操作",
@@ -25036,7 +25036,7 @@
           "control": {
             "kind": "delegate",
             "tools": [
-              "OpenBitFunControl"
+              "OpcControl"
             ],
             "workflowZh": [
               "先用 search 搜索“桌面宠物 / Petdex / companion”，再 get `setting.application.pet` 读取当前选项和受支持操作",
@@ -25057,7 +25057,7 @@
           "control": {
             "kind": "delegate",
             "tools": [
-              "OpenBitFunControl"
+              "OpcControl"
             ],
             "workflowZh": [
               "先用 search 搜索“桌面宠物 / Petdex / companion”，再 get `setting.application.pet` 读取当前选项和受支持操作",
@@ -25078,7 +25078,7 @@
           "control": {
             "kind": "delegate",
             "tools": [
-              "OpenBitFunControl"
+              "OpcControl"
             ],
             "workflowZh": [
               "先用 search 搜索“桌面宠物 / Petdex / companion”，再 get `setting.application.pet` 读取当前选项和受支持操作",
@@ -25115,7 +25115,7 @@
         "Choose a preset or import a Petdex pack"
       ],
       "agentControl": {
-        "tool": "OpenBitFunControl",
+        "tool": "OpcControl",
         "workflowZh": [
           "先用 search 搜索“桌面宠物 / Petdex / companion”，再 get `setting.application.pet` 读取当前选项和受支持操作",
           "用 configure 修改 `enabled`；用 execute 的 `list-pets`、`use-pet`、`delete-pet` 查看、导入/选择或删除角色",
@@ -25182,9 +25182,9 @@
         "Search for desktop pet, Petdex, or companion first, then get `setting.application.pet` for current options and supported operations",
         "Use configure for `enabled`, and execute `list-pets`, `use-pet`, or `delete-pet` to inspect, import/select, or remove a character",
         "Read back the real state with get or list-pets; local package paths are unavailable to remote workspaces and failures must be explicit",
-        "OpenBitFunControl"
+        "OpcControl"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/feature.desktop-pet/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/feature.desktop-pet/"
     },
     {
       "id": "setting.application.general",
@@ -25466,7 +25466,7 @@
         "Minimize to tray when I close the window",
         "Open General settings"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.general/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.application.general/"
     },
     {
       "id": "setting.application.appearance",
@@ -25576,11 +25576,11 @@
               "PublishAppearance"
             ],
             "workflowZh": [
-              "仅在用户明确要求对外投稿时调用 PublishAppearance，并使用本机绝对 `.openbitfun-appearance` 路径及用户确认的许可证",
+              "仅在用户明确要求对外投稿时调用 PublishAppearance，并使用本机绝对 `.opc-appearance` 路径及用户确认的许可证",
               "登录或校验返回待处理状态时展示具体下一步；工具不支持远程 SSH 路径，也不能把提交审核报告为已经上架"
             ],
             "workflowEn": [
-              "Call PublishAppearance only after an explicit external-submission request, using a local absolute `.openbitfun-appearance` path and a user-confirmed license",
+              "Call PublishAppearance only after an explicit external-submission request, using a local absolute `.opc-appearance` path and a user-confirmed license",
               "Show the exact next step for pending authentication or validation; remote SSH paths are unsupported and submission for review is not publication"
             ]
           }
@@ -25644,15 +25644,15 @@
             "type": "string",
             "enum": [
               "system",
-              "openbitfun-light",
+              "opc-light",
               "opc-monochrome",
-              "openbitfun-slate",
-              "openbitfun-dark",
-              "openbitfun-midnight",
-              "openbitfun-china-style",
-              "openbitfun-china-night",
-              "openbitfun-cyber",
-              "openbitfun-tokyo-night"
+              "opc-slate",
+              "opc-dark",
+              "opc-midnight",
+              "opc-china-style",
+              "opc-china-night",
+              "opc-cyber",
+              "opc-tokyo-night"
             ]
           },
           "handler": {
@@ -25727,12 +25727,12 @@
         "Change the interface language to English",
         "Open Appearance settings",
         "PublishAppearance",
-        "仅在用户明确要求对外投稿时调用 PublishAppearance，并使用本机绝对 `.openbitfun-appearance` 路径及用户确认的许可证",
+        "仅在用户明确要求对外投稿时调用 PublishAppearance，并使用本机绝对 `.opc-appearance` 路径及用户确认的许可证",
         "登录或校验返回待处理状态时展示具体下一步；工具不支持远程 SSH 路径，也不能把提交审核报告为已经上架",
-        "Call PublishAppearance only after an explicit external-submission request, using a local absolute `.openbitfun-appearance` path and a user-confirmed license",
+        "Call PublishAppearance only after an explicit external-submission request, using a local absolute `.opc-appearance` path and a user-confirmed license",
         "Show the exact next step for pending authentication or validation; remote SSH paths are unsupported and submission for review is not publication"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.appearance/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.application.appearance/"
     },
     {
       "id": "setting.application.pet",
@@ -25997,7 +25997,7 @@
         "Turn off the desktop companion",
         "Make OPC-Team use the pet at /path/to/pet"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.pet/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.application.pet/"
     },
     {
       "id": "setting.application.input",
@@ -26288,7 +26288,7 @@
         "Open voice-input settings",
         "Set the voice-input language to Chinese"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.input/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.application.input/"
     },
     {
       "id": "setting.application.shortcuts",
@@ -26398,7 +26398,7 @@
         "打开快捷键设置",
         "Open keyboard-shortcut settings"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.shortcuts/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.application.shortcuts/"
     },
     {
       "id": "setting.application.development",
@@ -27043,7 +27043,7 @@
         "把编辑器字号改成 15",
         "Set the editor font size to 15"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.development/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.application.development/"
     },
     {
       "id": "setting.ai.models",
@@ -27339,7 +27339,7 @@
         "Use ListModels to read models and capabilities actually available to the current runtime before choosing for the task",
         "If no model is available or a provider is unhealthy, surface the specific configuration state and open model settings; never guess model IDs"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.ai.models/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.ai.models/"
     },
     {
       "id": "setting.ai.memory",
@@ -27771,7 +27771,7 @@
         "Allow BTW sessions to generate memories",
         "Open Memory settings"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.ai.memory/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.ai.memory/"
     },
     {
       "id": "setting.workspace.session",
@@ -27997,7 +27997,7 @@
         "Turn off automatic session titles",
         "Enable accelerated workspace search"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.workspace.session/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.workspace.session/"
     },
     {
       "id": "setting.workspace.worktrees",
@@ -28279,7 +28279,7 @@
         "Load Worktree if deferred, then use list to inspect managed worktrees and associated sessions",
         "Worktree is available only for the local main project; remote workspaces must report unsupported instead of operating on the controller repository"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.workspace.worktrees/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.workspace.worktrees/"
     },
     {
       "id": "setting.tools.execution",
@@ -28767,7 +28767,7 @@
         "Set maximum subagent concurrency to 8",
         "Open permission settings"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.tools.execution/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.tools.execution/"
     },
     {
       "id": "setting.application.terminal",
@@ -28919,7 +28919,7 @@
         "Open terminal settings",
         "Move the terminal panel to the bottom"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.application.terminal/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.application.terminal/"
     },
     {
       "id": "setting.tools.desktop-control",
@@ -29018,7 +29018,7 @@
         "Open Desktop Control settings",
         "Check Computer Use permissions"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.tools.desktop-control/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.tools.desktop-control/"
     },
     {
       "id": "setting.tools.browser-control",
@@ -29118,7 +29118,7 @@
         "Open Browser Control settings",
         "Check the browser connection"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.tools.browser-control/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.tools.browser-control/"
     },
     {
       "id": "setting.tools.automation",
@@ -29411,7 +29411,7 @@
         "Locate the user- or project-level Hooks config from the manual, inspect the existing JSON with Read, and use Glob when the path is uncertain",
         "Apply a focused Edit only to handlers or events the user requested, then read back to verify; the existing Hooks contract reloads it at runtime"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.tools.automation/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.tools.automation/"
     },
     {
       "id": "setting.tools.web-search",
@@ -29554,7 +29554,7 @@
         "Open Web Search settings",
         "Take me to WebSearch provider setup"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.tools.web-search/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.tools.web-search/"
     },
     {
       "id": "setting.tools.mcp",
@@ -29804,7 +29804,7 @@
         "Call ListMCPResources for an explicit server_id, then read a returned URI with ReadMCPResource",
         "Resources belong to the server boundary; refresh, connection, and permission failures must be explicit rather than represented as empty success"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.tools.mcp/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.tools.mcp/"
     },
     {
       "id": "setting.tools.acp",
@@ -30019,7 +30019,7 @@
         "Open ACP settings",
         "Take me to external-agent setup"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.tools.acp/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.tools.acp/"
     },
     {
       "id": "setting.data.usage",
@@ -30183,7 +30183,7 @@
         "Open Token usage",
         "Show me usage statistics"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.data.usage/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.data.usage/"
     },
     {
       "id": "setting.data.archived",
@@ -30334,7 +30334,7 @@
         "Open archived sessions",
         "Take me to restore an old session"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.data.archived/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.data.archived/"
     },
     {
       "id": "setting.data.diagnostics",
@@ -30562,7 +30562,7 @@
         "Open diagnostics settings",
         "Take me to export a diagnostic bundle"
       ],
-      "docsUrl": "https://playbook.openbitfun.com/capabilities/setting.data.diagnostics/"
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.data.diagnostics/"
     }
   ]
 }

@@ -8,12 +8,12 @@ website, or source-code patch for a change to their running client.
 
 Choose the actual owner before editing:
 
-1. Existing UI controls and settings: use `OpenBitFunControl` search/get, then
+1. Existing UI controls and settings: use `OpcControl` search/get, then
    execute/configure/open using the exact returned schemas. It controls the
    product through the same owner as the GUI. Opening a page does not mean a
    setting changed or an operation completed. Read back the result.
 2. Installed MiniApps: load `miniapp-dev`, then get `feature.miniapps` through
-   `OpenBitFunControl`. Use its list/inspect/create/update/delete operations.
+   `OpcControl`. Use its list/inspect/create/update/delete operations.
    Source fields are sent as data and are compiled and saved by the product;
    no repository, package manager, or local path is needed. Inspect before
    editing or deleting; use the returned appId and expectedVersion. Updates

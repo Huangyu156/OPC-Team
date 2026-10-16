@@ -29,9 +29,9 @@ const DARK_ACCENT_HOVER = getDesignSystemThemeString('dark', 'color.accent.hover
 const DARK_PURPLE = '#8b5cf6';
 const DARK_PURPLE_HOVER = '#7c3aed';
 
-export const openBitFunDarkPalette: AppearancePalette = {
+export const opcDarkPalette: AppearancePalette = {
 
-  id: 'openbitfun-dark',
+  id: 'opc-dark',
   name: 'Dark',
   type: 'dark',
   description: 'Default dark appearance',

@@ -261,7 +261,7 @@ void *obf_capture_start(int32_t pid, uint32_t requestedWindow, uint64_t generati
                 session.configuration = config;
                 [session.condition unlock];
                 NSError *outputError = nil;
-                dispatch_queue_t queue = dispatch_queue_create("com.openbitfun.computer-use.frames", DISPATCH_QUEUE_SERIAL);
+                dispatch_queue_t queue = dispatch_queue_create("com.opcteam.computer-use.frames", DISPATCH_QUEUE_SERIAL);
                 if (![stream addStreamOutput:session type:SCStreamOutputTypeScreen sampleHandlerQueue:queue error:&outputError]) {
                     [session fail:outputError.localizedDescription]; return;
                 }

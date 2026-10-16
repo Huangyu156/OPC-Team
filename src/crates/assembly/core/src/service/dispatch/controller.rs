@@ -1981,7 +1981,7 @@ mod tests {
         )
         .expect("record");
         record.baseline_worktree_path = Some(repository.to_string_lossy().to_string());
-        record.branch = Some("openbitfun/dispatch/job-branch-guard".to_string());
+        record.branch = Some("opc/dispatch/job-branch-guard".to_string());
 
         let error = finish_sync(
             &store,
@@ -2029,7 +2029,7 @@ mod tests {
             .expect("started audit");
         let probe = DispatchSshProbe {
             cli_installed: true,
-            cli_path: Some("/home/user/.openbitfun/bin/openbitfun".to_string()),
+            cli_path: Some("/home/user/.opcteam/bin/opc".to_string()),
             os: "Linux".to_string(),
             arch: "x86_64".to_string(),
             install_supported: true,

@@ -14,7 +14,7 @@ pub(crate) fn create_http_client(
         .connect_timeout(std::time::Duration::from_secs(
             AIClient::STREAM_CONNECT_TIMEOUT_SECS,
         ))
-        .user_agent("OpenBitFun/1.0")
+        .user_agent("OPC-Team/1.0")
         .pool_idle_timeout(std::time::Duration::from_secs(
             AIClient::HTTP_POOL_IDLE_TIMEOUT_SECS,
         ))

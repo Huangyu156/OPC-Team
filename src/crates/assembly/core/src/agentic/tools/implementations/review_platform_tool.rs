@@ -1349,8 +1349,8 @@ mod tests {
     #[test]
     fn canonical_remotes_collapse_origin_and_upstream_aliases_for_the_same_repository() {
         let remotes = vec![
-            github_remote("upstream-id", "upstream", "GCWing/OpenBitFun"),
-            github_remote("origin-id", "origin", "gcwing/openbitfun"),
+            github_remote("upstream-id", "upstream", "GCWing/OPC-Team"),
+            github_remote("origin-id", "origin", "gcwing/opcteam"),
         ];
 
         let supported = canonical_supported_remotes(&remotes);
@@ -1362,12 +1362,12 @@ mod tests {
     #[test]
     fn different_provider_repositories_return_typed_remote_selection() {
         let remotes = vec![
-            github_remote("origin-id", "origin", "limityan/OpenBitFun"),
-            github_remote("upstream-id", "upstream", "GCWing/OpenBitFun"),
+            github_remote("origin-id", "origin", "limityan/OPC-Team"),
+            github_remote("upstream-id", "upstream", "GCWing/OPC-Team"),
         ];
         let supported = canonical_supported_remotes(&remotes);
 
-        let selection = remote_selection_result(ACTION_GET, "D:/workspace/OpenBitFun", &supported);
+        let selection = remote_selection_result(ACTION_GET, "D:/workspace/OPC-Team", &supported);
 
         assert_eq!(selection["status"], "needs_remote_selection");
         assert_eq!(selection["action"], ACTION_GET);

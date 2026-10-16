@@ -72,8 +72,8 @@ jobs:
       OPC_RELEASE_CHANNEL: nightly
       # Nightly does not publish a Tauri latest-v1.json feed yet. Preserve its
       # existing stable updater endpoints until that publishing path exists.
-      TAURI_UPDATER_ENDPOINT: https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json
-      TAURI_UPDATER_FALLBACK_ENDPOINT: https://openbitfun.com/release/latest-v1.json
+      TAURI_UPDATER_ENDPOINT: https://github.com/GCWing/OPC-Team/releases/latest/download/latest-v1.json
+      TAURI_UPDATER_FALLBACK_ENDPOINT: https://opcteam.eu.cc/release/latest-v1.json
       # Nightly relay archives are signed too (linux-binaries.yml receives the
       # key), so nightly Desktop needs the same trust root to verify them.
       OPC_RELEASE_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
@@ -170,14 +170,14 @@ jobs:
 
       - name: Verify Installer i18n projection
         if: runner.os == 'Windows'
-        run: pnpm --dir OpenBitFun-Installer run sync:i18n
+        run: pnpm --dir Opc-Installer run sync:i18n
 
       - name: Verify Installer Tauri package alignment
         if: runner.os == 'Windows'
         shell: bash
         run: |
           set -euo pipefail
-          info="$(pnpm --dir OpenBitFun-Installer exec tauri info 2>&1)"
+          info="$(pnpm --dir Opc-Installer exec tauri info 2>&1)"
           printf '%s\n' "$info"
           if grep -Fq 'Error: Found version mismatched Tauri packages.' <<<"$info"; then
             exit 1
@@ -344,7 +344,7 @@ jobs:
               test -s "${cli_archives[0]}.sha256"
               ;;
             windows-x64)
-              test -s OpenBitFun-Installer/src-tauri/target/release/opc-installer.exe
+              test -s Opc-Installer/src-tauri/target/release/opc-installer.exe
               ;;
             *)
               echo "Unsupported package platform: ${{ matrix.platform }}" >&2
@@ -363,7 +363,7 @@ jobs:
             target/*/release/bundle
             target/release/bundle
             src/apps/desktop/target/release/bundle
-            OpenBitFun-Installer/src-tauri/target/release/opc-installer.exe
+            Opc-Installer/src-tauri/target/release/opc-installer.exe
             opc-cli-*-apple-darwin.tar.gz
             opc-cli-*-apple-darwin.tar.gz.sha256
             opc-cli-*-apple-darwin.tar.gz.sig

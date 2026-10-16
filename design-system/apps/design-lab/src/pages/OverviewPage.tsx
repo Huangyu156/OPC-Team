@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { Button, ComposerContextBar, ComposerDivider, Icon, IconButton, KeyHint, NavigationPanel, NavigationPanelBody, NavigationPanelContent, NavigationPanelFooter, NavigationPanelHeader, NavigationPanelItem, NavigationPanelSection, NumberBadge, PageHeader, SearchField, SegmentedControl, StatusPill, ThemeRoot, type IconName, type ThemeRootProps } from "@opc-team/ui";
 import { ChatComposer, ChatComposerActionButton } from "@opc-team/ui/flow-chat";
-import { OpenBitFunSolidMark, SubagentHatch, type SubagentHatchPhase } from "@opc-team/ui/brand";
+import { OpcSolidMark, SubagentHatch, type SubagentHatchPhase } from "@opc-team/ui/brand";
 import { useI18n } from "../i18n";
 import { SUBAGENT_AVATAR_CATALOG } from "../assets/subagentAvatars";
 import { GuideCodeCard, GuideStepList } from "../components/GuideContract";
@@ -168,7 +168,7 @@ export function OverviewPage({ onNavigate, colorScheme, contrast, density, token
               </div>
               <div className="design-home-preview-stage">
                 <div className="design-home-preview-welcome">
-                  <OpenBitFunSolidMark className="design-app-mark design-home-preview-welcome-mark" size={48} />
+                  <OpcSolidMark className="design-app-mark design-home-preview-welcome-mark" size={48} />
                   {/* The product's welcome screen is a display PageHeader; the picture uses the same
                       part, so the greeting and its line keep the roles the product publishes. */}
                   <PageHeader align="center" className="design-home-preview-welcome-header" level={2} size="display"
@@ -242,7 +242,7 @@ export function OverviewPage({ onNavigate, colorScheme, contrast, density, token
             {/* The lockup is the way out of the Lab: same mark-and-name treatment as the topbar's
                 own, now an outbound link to the product site. It leaves the Lab, so it opens in a
                 new tab and carries the arrow that says so. */}
-            <a className="design-home-footer-wordmark" href="https://openbitfun.com/" rel="noreferrer"
+            <a className="design-home-footer-wordmark" href="https://opcteam.eu.cc/" rel="noreferrer"
               target="_blank" aria-label={t("design.homeFooter.siteLabel")}>
               <span aria-hidden="true">&gt;_</span> OPC-Team
               <Icon className="design-home-footer-wordmark-arrow" aria-hidden="true" name="arrow-up-right" size="sm" />
@@ -277,7 +277,7 @@ export function OverviewPage({ onNavigate, colorScheme, contrast, density, token
         </div>
         <div className="design-home-footer-meta">
           <p>{t("design.homeFooter.copyright", { year: new Date().getFullYear() })}</p>
-          <a href="mailto:hello@openbitfun.com" aria-label={t("design.homeFooter.contactLabel")}>
+          <a href="mailto:hello@opcteam.eu.cc" aria-label={t("design.homeFooter.contactLabel")}>
             {t("design.homeFooter.contact")}
           </a>
           <p>{t("design.homeFooter.openSource")}<span aria-hidden="true"> · </span>{t("design.homeFooter.license")}</p>

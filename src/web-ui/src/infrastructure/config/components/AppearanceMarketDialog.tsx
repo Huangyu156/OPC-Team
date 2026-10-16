@@ -78,7 +78,7 @@ function hasUnsupportedCapabilities(detail: AppearanceMarketListingSummary): boo
   return detail.requiredCapabilities.some(capability => !SUPPORTED_CAPABILITIES.has(capability));
 }
 
-function requiresNewerOpenBitFun(minimum: string): boolean {
+function requiresNewerOpc(minimum: string): boolean {
   const parse = (value: string) => {
     const match = /^(\d+)\.(\d+)\.(\d+)(?:-([0-9A-Za-z.-]+))?(?:\+[0-9A-Za-z.-]+)?$/.exec(value);
     return match ? {
@@ -270,8 +270,8 @@ export function AppearanceMarketDialog({ isOpen, onClose }: AppearanceMarketDial
     const local = installedEntry(appearances, detail);
     const active = selectedAppearanceId === detail.packageId;
     const unsupported = hasUnsupportedCapabilities(detail);
-    const incompatibleVersion = requiresNewerOpenBitFun(
-      release?.minOpenBitFunVersion ?? detail.minOpenBitFunVersion,
+    const incompatibleVersion = requiresNewerOpc(
+      release?.minOpcVersion ?? detail.minOpcVersion,
     );
     const linkedToOtherListing = local?.marketOrigin
       && local.marketOrigin.listingId !== detail.listingId;
@@ -337,7 +337,7 @@ export function AppearanceMarketDialog({ isOpen, onClose }: AppearanceMarketDial
           </div>
           <p>{detail.description}</p>
           <dl className="appearance-market__facts">
-            <div><dt><OverflowText>{t('package.market.minimumVersion')}</OverflowText></dt><dd><OverflowText>{detail.minOpenBitFunVersion}</OverflowText></dd></div>
+            <div><dt><OverflowText>{t('package.market.minimumVersion')}</OverflowText></dt><dd><OverflowText>{detail.minOpcVersion}</OverflowText></dd></div>
             <div><dt><OverflowText>{t('package.market.license')}</OverflowText></dt><dd><OverflowText>{detail.license.spdxExpression || t('package.market.customLicense')}</OverflowText></dd></div>
           </dl>
           {detail.requiredCapabilities.length > 0 && (
@@ -372,7 +372,7 @@ export function AppearanceMarketDialog({ isOpen, onClose }: AppearanceMarketDial
                     ? t('package.market.installedReleaseYanked')
                     : incompatibleVersion
                       ? t('package.market.incompatibleVersion', {
-                          version: release?.minOpenBitFunVersion ?? detail.minOpenBitFunVersion,
+                          version: release?.minOpcVersion ?? detail.minOpcVersion,
                         })
                       : unsupported
                         ? t('package.market.unsupportedCapabilities')

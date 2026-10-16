@@ -265,7 +265,7 @@ impl LegacyDomainAdapter for WorkspaceSessionsAdapter {
                 ),
             },
             conflicts: plan.conflicts,
-            target_schema: Some("openbitfun.workspace-session.current".to_string()),
+            target_schema: Some("opc.workspace-session.current".to_string()),
             dependencies: Vec::new(),
         })
     }

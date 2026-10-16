@@ -134,7 +134,7 @@ fn promoted_catalog_source(
                 .any(|provider_id| catalog.provider_facts(provider_id).is_some())
         })
     });
-    if has_bound_catalog_data && source == ProviderCatalogSource::OpenBitFun {
+    if has_bound_catalog_data && source == ProviderCatalogSource::OpcTeam {
         ProviderCatalogSource::Mixed
     } else {
         source
@@ -540,7 +540,7 @@ fn curated_model_fallback(
         display_name: None,
         description: None,
         recommended,
-        source: ProviderCatalogModelSource::OpenBitFun,
+        source: ProviderCatalogModelSource::OpcTeam,
         catalog_provider_ids: provider.catalog_provider_ids.clone(),
         endpoint_ids: provider
             .endpoints
@@ -622,18 +622,17 @@ mod tests {
             .providers
             .iter()
             .any(|provider| provider.id == "opencode-zen" || provider.id == "opencode"));
-        let openbitfun = overlay
+        let opc = overlay
             .providers
             .iter()
-            .find(|provider| provider.id == "openbitfun")
-            .expect("openbitfun");
+            .find(|provider| provider.id == "opc")
+            .expect("opc");
         assert_eq!(
-            openbitfun.model_policy.curated_models,
+            opc.model_policy.curated_models,
             ["glm-5.2", "deepseek-v4-flash", "deepseek-v4-pro"]
         );
         assert_eq!(
-            openbitfun
-                .endpoints
+            opc.endpoints
                 .iter()
                 .map(|endpoint| (
                     endpoint.id.as_str(),
@@ -643,8 +642,8 @@ mod tests {
                 ))
                 .collect::<Vec<_>>(),
             [
-                ("default", "https://api.openbitfun.com", "anthropic", true,),
-                ("openai", "https://api.openbitfun.com/v1", "openai", false,),
+                ("default", "https://api.opcteam.eu.cc", "anthropic", true,),
+                ("openai", "https://api.opcteam.eu.cc/v1", "openai", false,),
             ]
         );
         let qwen = overlay
@@ -759,7 +758,7 @@ mod tests {
         let unavailable = resolve_builtin_provider_catalog(
             None,
             "none".to_string(),
-            ProviderCatalogSource::OpenBitFun,
+            ProviderCatalogSource::OpcTeam,
         );
         let qwen = unavailable
             .providers
@@ -772,9 +771,9 @@ mod tests {
                 .map(|model| (model.id.as_str(), model.source))
                 .collect::<Vec<_>>(),
             [
-                ("qwen3.7-plus", ProviderCatalogModelSource::OpenBitFun),
-                ("qwen3.7-max", ProviderCatalogModelSource::OpenBitFun),
-                ("qwen3.6-flash", ProviderCatalogModelSource::OpenBitFun),
+                ("qwen3.7-plus", ProviderCatalogModelSource::OpcTeam),
+                ("qwen3.7-max", ProviderCatalogModelSource::OpcTeam),
+                ("qwen3.6-flash", ProviderCatalogModelSource::OpcTeam),
             ]
         );
 
@@ -796,7 +795,7 @@ mod tests {
         assert!(qwen
             .models
             .iter()
-            .all(|model| model.source == ProviderCatalogModelSource::OpenBitFun));
+            .all(|model| model.source == ProviderCatalogModelSource::OpcTeam));
     }
 
     #[test]
@@ -824,7 +823,7 @@ mod tests {
             .models
             .iter()
             .any(|model| model.id == "qwen-early-access"
-                && model.source == ProviderCatalogModelSource::OpenBitFun
+                && model.source == ProviderCatalogModelSource::OpcTeam
                 && !model.recommended));
         assert!(!resolved
             .models
@@ -905,7 +904,7 @@ mod tests {
         assert_eq!(
             trusted_models_dev_binding(
                 "anthropic",
-                "https://api.openbitfun.com/v1/messages",
+                "https://api.opcteam.eu.cc/v1/messages",
                 "GLM-5.2",
                 &relayed,
             ),
@@ -914,7 +913,7 @@ mod tests {
         assert_eq!(
             trusted_models_dev_binding(
                 "openai",
-                "https://api.openbitfun.com/v1",
+                "https://api.opcteam.eu.cc/v1",
                 "GLM-5.2",
                 &relayed,
             ),
@@ -923,7 +922,7 @@ mod tests {
         assert_eq!(
             trusted_models_dev_binding(
                 "anthropic",
-                "https://api.openbitfun.com",
+                "https://api.opcteam.eu.cc",
                 "deepseek-v4-flash",
                 &relayed,
             ),
@@ -932,7 +931,7 @@ mod tests {
         assert_eq!(
             trusted_models_dev_binding(
                 "openai",
-                "https://api.openbitfun.com/v1/chat/completions",
+                "https://api.opcteam.eu.cc/v1/chat/completions",
                 "deepseek-v4-flash",
                 &relayed,
             ),
@@ -950,7 +949,7 @@ mod tests {
         assert_eq!(
             trusted_models_dev_binding(
                 "anthropic",
-                "https://api.openbitfun.com",
+                "https://api.opcteam.eu.cc",
                 "deepseek-v4-pro",
                 &relayed,
             ),
@@ -959,7 +958,7 @@ mod tests {
         assert_eq!(
             trusted_models_dev_binding(
                 "anthropic",
-                "https://api.openbitfun.com",
+                "https://api.opcteam.eu.cc",
                 "unmapped-model",
                 &relayed,
             ),

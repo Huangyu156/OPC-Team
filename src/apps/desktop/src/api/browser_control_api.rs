@@ -23,8 +23,8 @@ fn default_cdp_port() -> u16 {
 ///
 /// The browser remembers the remote debugging preference across its own
 /// restarts, and it keeps an approved connection grant for as long as it stays
-/// running — but OpenBitFun's connection registry lives in this process, so every
-/// OpenBitFun restart otherwise leaves Settings reporting "not connected" until
+/// running — but OPC-Team's connection registry lives in this process, so every
+/// OPC-Team restart otherwise leaves Settings reporting "not connected" until
 /// something asks for the browser. Reattaching here restores that connection
 /// without the user having to click anything.
 ///
@@ -163,7 +163,7 @@ pub struct BrowserControlStatusResponse {
     /// the platform-specific automatic open did not produce the right tab.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub setup_url: Option<String>,
-    /// The selected browser is running with remote debugging on, so OpenBitFun can
+    /// The selected browser is running with remote debugging on, so OPC-Team can
     /// attach whenever it needs to. Distinguishes "ready, nothing attached yet"
     /// from "nothing to attach to", which both used to read as "not connected".
     pub browser_ready: bool,
@@ -471,7 +471,7 @@ pub struct BrowserControlDisconnectResponse {
     pub browser_kind: String,
 }
 
-/// Detach OpenBitFun from the selected browser without closing browser tabs or
+/// Detach OPC-Team from the selected browser without closing browser tabs or
 /// changing the browser-owned Remote debugging preference.
 #[tauri::command]
 pub async fn browser_control_disconnect(

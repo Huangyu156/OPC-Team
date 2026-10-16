@@ -208,7 +208,7 @@ Plugin Source 由各自 owner 选择，完整产品仍经 `product-full` 显式�
 上一轮根 `Cargo.lock` 从 1176 降到 1169，精确删除 `syntect-tui`、`custom_error`、`fancy-regex`、
 `yaml-rust`、`linked-hash-map`、`tauri-plugin-global-shortcut` 和 `global-hotkey`；没有新增、升级或
 降级 package。本轮 feature/角色边界调整保持该 lockfile 字节不变，也没有新增第三方 package。
-Installer 自己生成的 `OpenBitFun-Installer/src-tauri/Cargo.lock` 不提交。
+Installer 自己生成的 `Opc-Installer/src-tauri/Cargo.lock` 不提交。
 
 以下以 `gcwing/main@a4e06cae3` 为变更前基线，完成 Core feature-free 依赖基线的剩余 owner
 收敛。统计仍使用相同三个 target triple、`normal,build` 边和版本化 package instance 去重口径：

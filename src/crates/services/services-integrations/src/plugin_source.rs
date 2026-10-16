@@ -24,7 +24,7 @@ use std::time::{Duration, Instant, SystemTime, UNIX_EPOCH};
 use tokio::fs;
 use tokio::task;
 
-const PLUGIN_MANIFEST_FILE: &str = "openbitfun.plugin.json";
+const PLUGIN_MANIFEST_FILE: &str = "opc.plugin.json";
 const MAX_MANIFEST_BYTES: u64 = 64 * 1024;
 const MAX_PACKAGE_FILE_BYTES: u64 = 1024 * 1024;
 const MAX_PACKAGE_BYTES: u64 = 16 * 1024 * 1024;
@@ -3372,7 +3372,7 @@ mod tests {
             }],
         });
         tokio::fs::write(
-            package.join("openbitfun.plugin.json"),
+            package.join("opc.plugin.json"),
             serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
         )
         .await
@@ -3391,7 +3391,7 @@ mod tests {
             let temp = tempfile::tempdir().expect("tempdir");
             let workspace = temp.path().join("workspace");
             let fixture = Self {
-                workspace_root: workspace.join(".openbitfun/plugins"),
+                workspace_root: workspace.join(".opcteam/plugins"),
                 trust_path: temp.path().join("state/trust.json"),
                 workspace,
                 _temp: temp,
@@ -3541,7 +3541,7 @@ mod tests {
         let original = br#"{"schemaVersion":1,"epoch":7,"records":[]}"#;
         tokio::fs::write(&fixture.trust_path, original)
             .await
-            .expect("write pre-OpenBitFun trust store");
+            .expect("write pre-Opc trust store");
 
         let snapshot = fixture.service().refresh(&fixture.workspace).await;
         let persisted = tokio::fs::read(&fixture.trust_path)
@@ -3551,7 +3551,7 @@ mod tests {
         assert_eq!(persisted, original);
         assert_eq!(snapshot.issues.len(), 1);
         assert_eq!(snapshot.issues[0].code, "trust_store_invalid");
-        assert!(snapshot.issues[0].message.contains("pre-OpenBitFun"));
+        assert!(snapshot.issues[0].message.contains("pre-Opc"));
         assert!(snapshot.issues[0]
             .message
             .contains("explicit data migration tool"));
@@ -3707,9 +3707,7 @@ mod tests {
         let service = fixture.service();
         fixture.activate(&service, "acme.demo").await;
         tokio::fs::write(
-            fixture
-                .workspace_root
-                .join("acme.demo/openbitfun.plugin.json"),
+            fixture.workspace_root.join("acme.demo/opc.plugin.json"),
             b"{not-json",
         )
         .await
@@ -4525,7 +4523,7 @@ mod tests {
         assert_eq!(
             discovery.packages[0].identity.content_hash,
             PluginPackageManifest::parse_json(
-                &tokio::fs::read_to_string(root.join("acme.demo/openbitfun.plugin.json"))
+                &tokio::fs::read_to_string(root.join("acme.demo/opc.plugin.json"))
                     .await
                     .expect("read manifest")
             )
@@ -4554,7 +4552,7 @@ mod tests {
     async fn fixed_package_reads_are_serialized_per_service_instance() {
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
-        let workspace_root = workspace.join(".openbitfun/plugins");
+        let workspace_root = workspace.join(".opcteam/plugins");
         let user_root = temp.path().join("user/plugins");
         tokio::fs::create_dir_all(&user_root)
             .await
@@ -4601,7 +4599,7 @@ mod tests {
         let service = ManagedPluginSourceService::new(
             temp.path().join("user/plugins"),
             temp.path().join("user"),
-            workspace.join(".openbitfun/plugins"),
+            workspace.join(".opcteam/plugins"),
             workspace.clone(),
             temp.path().join("trust.json"),
         );
@@ -4652,7 +4650,7 @@ mod tests {
     async fn selected_package_load_ignores_unrelated_invalid_package_content() {
         let temp = tempfile::tempdir().expect("tempdir");
         let workspace = temp.path().join("workspace");
-        let workspace_root = workspace.join(".openbitfun/plugins");
+        let workspace_root = workspace.join(".opcteam/plugins");
         let user_root = temp.path().join("user/plugins");
         tokio::fs::create_dir_all(&user_root)
             .await
@@ -4674,7 +4672,7 @@ mod tests {
             .await
             .expect("create unrelated package");
         tokio::fs::write(
-            workspace_root.join("broken.unrelated/openbitfun.plugin.json"),
+            workspace_root.join("broken.unrelated/opc.plugin.json"),
             b"not json",
         )
         .await
@@ -4798,7 +4796,7 @@ mod tests {
             }],
         });
         tokio::fs::write(
-            package.join("openbitfun.plugin.json"),
+            package.join("opc.plugin.json"),
             serde_json::to_vec_pretty(&manifest).expect("serialize manifest"),
         )
         .await
@@ -4869,8 +4867,8 @@ mod tests {
         tokio::fs::create_dir_all(outside.join("plugins"))
             .await
             .expect("create outside plugins");
-        symlink(&outside, workspace.join(".openbitfun")).expect("link workspace plugin parent");
-        let root = workspace.join(".openbitfun/plugins");
+        symlink(&outside, workspace.join(".opcteam")).expect("link workspace plugin parent");
+        let root = workspace.join(".opcteam/plugins");
         let store = ProductPluginSourceStore::new(
             vec![PluginPackageRoot::new(root, PluginPackageScope::Workspace)
                 .with_containment_root(workspace)],

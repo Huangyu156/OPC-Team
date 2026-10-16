@@ -19,7 +19,7 @@ import { Button, Dialog, DialogBody, DialogClose, DialogDescription, DialogHeade
   type DensityMode,
   type IconName,
 } from "@opc-team/ui";
-import { OpenBitFunSolidMark } from "@opc-team/ui/brand";
+import { OpcSolidMark } from "@opc-team/ui/brand";
 import { BrandPage } from "./pages/BrandPage";
 import { componentRegistry } from "@opc-team/ui/registry";
 import {
@@ -443,7 +443,7 @@ export function App() {
           }}>
             {/* The product site's header lockup: the app mark next to the wordmark. The name is
                 visible now, and the link's accessible label still says which site it leads to. */}
-            <OpenBitFunSolidMark className="design-app-mark" size={28} />
+            <OpcSolidMark className="design-app-mark" size={28} />
             <span className="design-wordmark-name">OPC-Team</span>
           </a>
           <LabNavigation page={route.page} componentName={activeComponent?.name}

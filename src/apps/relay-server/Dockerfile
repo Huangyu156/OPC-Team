@@ -54,9 +54,9 @@ RUN set -eux; \
       # while global builds kept working.
       printf '%s\n' \
         '[source.crates-io]' \
-        'replace-with = "openbitfun-rsproxy-sparse"' \
+        'replace-with = "opc-rsproxy-sparse"' \
         '' \
-        '[source.openbitfun-rsproxy-sparse]' \
+        '[source.opc-rsproxy-sparse]' \
         "registry = \"${OPC_CARGO_SPARSE_URL}\"" \
         > /usr/local/cargo/config.toml; \
     fi
@@ -80,14 +80,14 @@ COPY src/crates/services/page-function-runtime/Cargo.toml ../../crates/services/
 
 # Warm dependency objects into the BuildKit target cache. Placeholder sources
 # live only in this layer; real sources are copied afterward.
-RUN --mount=type=cache,id=openbitfun-relay-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
-    --mount=type=cache,id=openbitfun-relay-cargo-git,target=/usr/local/cargo/git,sharing=locked \
-    --mount=type=cache,id=openbitfun-relay-target,target=/build/src/apps/relay-server/target,sharing=locked \
+RUN --mount=type=cache,id=opc-relay-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=opc-relay-cargo-git,target=/usr/local/cargo/git,sharing=locked \
+    --mount=type=cache,id=opc-relay-target,target=/build/src/apps/relay-server/target,sharing=locked \
     mkdir -p src/bin \
         ../../crates/services/relay-service/src \
         ../../crates/services/page-function-runtime/src \
     && printf 'fn main() {}\n' > src/main.rs \
-    && printf 'pub use openbitfun_relay_service::*;\n' > src/lib.rs \
+    && printf 'pub use opc_relay_service::*;\n' > src/lib.rs \
     && printf 'fn main() {}\n' > src/bin/relay_admin.rs \
     && printf '// placeholder\n' > ../../crates/services/relay-service/src/lib.rs \
     && printf '// placeholder\n' > ../../crates/services/page-function-runtime/src/lib.rs \
@@ -103,17 +103,17 @@ COPY src/crates/services/page-function-runtime/src/ ../../crates/services/page-f
 
 # Rebuild workspace crates against cached dependency objects, then copy
 # release binaries out of the cache mount into the image.
-RUN --mount=type=cache,id=openbitfun-relay-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
-    --mount=type=cache,id=openbitfun-relay-cargo-git,target=/usr/local/cargo/git,sharing=locked \
-    --mount=type=cache,id=openbitfun-relay-target,target=/build/src/apps/relay-server/target,sharing=locked \
+RUN --mount=type=cache,id=opc-relay-cargo-registry,target=/usr/local/cargo/registry,sharing=locked \
+    --mount=type=cache,id=opc-relay-cargo-git,target=/usr/local/cargo/git,sharing=locked \
+    --mount=type=cache,id=opc-relay-target,target=/build/src/apps/relay-server/target,sharing=locked \
     rm -f target/release/opc-relay-server \
         target/release/relay-admin \
-        target/release/deps/*openbitfun_relay_service* \
-        target/release/deps/*openbitfun_page_function_runtime* \
-        target/release/deps/*openbitfun_relay_server* \
+        target/release/deps/*opc_relay_service* \
+        target/release/deps/*opc_page_function_runtime* \
+        target/release/deps/*opc_relay_server* \
         target/release/deps/*relay_admin* \
-    && rm -rf target/release/.fingerprint/openbitfun-relay-service-* \
-        target/release/.fingerprint/openbitfun-page-function-runtime-* \
+    && rm -rf target/release/.fingerprint/opc-relay-service-* \
+        target/release/.fingerprint/opc-page-function-runtime-* \
         target/release/.fingerprint/opc-relay-server-* \
         target/release/.fingerprint/relay-admin-* \
     && touch ../../crates/services/relay-service/src/lib.rs \
@@ -134,7 +134,7 @@ ARG OPC_APT_MIRROR=mirrors.aliyun.com
 
 LABEL org.opencontainers.image.title="OPC-Team Relay Server" \
       org.opencontainers.image.description="Self-hosted relay server for OPC-Team" \
-      org.opencontainers.image.source="https://github.com/GCWing/OpenBitFun" \
+      org.opencontainers.image.source="https://github.com/GCWing/OPC-Team" \
       org.opencontainers.image.revision="${RELAY_GIT_COMMIT}" \
       org.opencontainers.image.licenses="MIT"
 

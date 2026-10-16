@@ -1013,7 +1013,7 @@ fn conflict_for_action(
         domain,
         code: code.to_string(),
         source_summary: format!("legacy extension id {source_id}"),
-        target_summary: format!("OpenBitFun extension id {target_id}"),
+        target_summary: format!("OPC-Team extension id {target_id}"),
         resolution,
     })
 }

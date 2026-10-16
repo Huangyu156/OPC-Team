@@ -1,6 +1,6 @@
-# OpenBitFun application brand assets
+# OPC-Team application brand assets
 
-`source/openbitfun-mark.svg` is the transparent vector master for the current
+`source/opc-mark.svg` is the transparent vector master for the current
 fine-line Logo used by startup and in-product brand surfaces. Its fifteen rounded
 hexagonal contours match the About dialog's static geometry. Motion and moving
 highlights are intentionally absent from static files. The SVG uses
@@ -11,7 +11,7 @@ The generator also maintains the existing transparent PNG paths:
 - `opc-mark-dark.png` is the dark mark for light surfaces.
 - `opc-mark-light.png` is the light mark for dark surfaces.
 
-`source/openbitfun-app-mark.png` preserves the originally submitted silver
+`source/opc-app-mark.png` preserves the originally submitted silver
 hexagonal application mark. Application, window, taskbar, Dock, tray, browser,
 installer, and mobile launcher icons use this artwork on the black rounded-square
 background with transparent corners. It is intentionally independent from the
@@ -29,7 +29,7 @@ shared PNGs, Windows ICO, Linux, web, and mobile artwork are unchanged.
 
 ## macOS icons
 
-`macos/openbitfun.icon` is the Icon Composer document for macOS 26 and newer,
+`macos/opcteam.icon` is the Icon Composer document for macOS 26 and newer,
 including macOS 27. Its background is an opaque, full-bleed black fill and its
 foreground is the transparent silver mark projected from the same brand master.
 It has no baked outer mask, shadow, or Dock padding. macOS applies the enclosure
@@ -82,7 +82,7 @@ node --test scripts/generate-brand-assets.test.mjs scripts/macos-icon-bundle.tes
 # Full Xcode: exercise actual Tauri + actool packaging in a disposable fixture.
 OPC_TEST_MACOS_BUNDLE=1 node --test scripts/macos-icon-bundle.test.mjs
 # Inspect an existing bundle without launching it.
-node scripts/macos-icon-bundle.mjs verify /path/to/OpenBitFun.app
+node scripts/macos-icon-bundle.mjs verify /path/to/OPC-Team.app
 ```
 
 These checks validate resources, native decoding, and package metadata. They do

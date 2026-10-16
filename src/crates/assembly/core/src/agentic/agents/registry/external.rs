@@ -837,7 +837,7 @@ fn local_binding(logical_id: &str, runtime_agent_key: &str) -> ExternalSubagentI
 fn is_builtin_session_primary_agent(id: &str) -> bool {
     matches!(
         id,
-        CODE_REVIEW_AGENT_TYPE | DEEP_REVIEW_AGENT_TYPE | REVIEW_FIXER_AGENT_TYPE | "OpenBitFun"
+        CODE_REVIEW_AGENT_TYPE | DEEP_REVIEW_AGENT_TYPE | REVIEW_FIXER_AGENT_TYPE | "OPC-Team"
     )
 }
 

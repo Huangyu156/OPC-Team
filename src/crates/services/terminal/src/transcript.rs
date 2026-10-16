@@ -45,7 +45,7 @@ terminals/
 
 `index.json` lists the available sessions. Each `transcript_id` in it names one session directory. Log file-name order is chronological.
 
-Each log begins with a small `[openbitfun: ...]` header. Later `[openbitfun: ...]` lines record executed commands and terminal metadata such as command exit codes, working-directory changes, and session closure.
+Each log begins with a small `[opc: ...]` header. Later `[opc: ...]` lines record executed commands and terminal metadata such as command exit codes, working-directory changes, and session closure.
 
 ## How to inspect terminal history
 
@@ -185,7 +185,7 @@ impl TranscriptRecorder {
         self.with_store(|store| store.append(session_id, data, false))
     }
 
-    /// Records a structured `[openbitfun: ...]` marker. Markers are the anchors
+    /// Records a structured `[opc: ...]` marker. Markers are the anchors
     /// readers navigate by (command boundaries, exit codes, cwd changes), so
     /// they are flushed to disk immediately: a crash or force-quit must not be
     /// able to leave a command's output on disk without its exit code, nor a
@@ -201,19 +201,16 @@ impl TranscriptRecorder {
 
         self.record_marker(
             session_id,
-            &format!("\n[openbitfun: command={}]\n", one_line(command)),
+            &format!("\n[opc: command={}]\n", one_line(command)),
         )
     }
 
     pub(crate) fn record_exit_code(&self, session_id: &str, exit_code: i32) -> io::Result<()> {
-        self.record_marker(
-            session_id,
-            &format!("\n[openbitfun: exit_code={exit_code}]\n"),
-        )
+        self.record_marker(session_id, &format!("\n[opc: exit_code={exit_code}]\n"))
     }
 
     pub(crate) fn record_cwd_changed(&self, session_id: &str, cwd: &str) -> io::Result<()> {
-        self.record_marker(session_id, &format!("\n[openbitfun: cwd={cwd}]\n"))
+        self.record_marker(session_id, &format!("\n[opc: cwd={cwd}]\n"))
     }
 
     pub(crate) fn finish_session(
@@ -446,7 +443,7 @@ impl TranscriptStore {
             Ok(()) => {
                 if let Some(error) = self.recovered_write_errors.remove(session_id) {
                     let recovery_marker = format!(
-                        "\n[openbitfun: recorder_recovered_after_error={}]\n",
+                        "\n[opc: recorder_recovered_after_error={}]\n",
                         one_line(&error)
                     );
                     self.append_inner(session_id, &recovery_marker, true)?;
@@ -511,8 +508,8 @@ impl TranscriptStore {
         }
 
         let marker = match exit_code {
-            Some(code) => format!("\n[openbitfun: session_closed exit_code={code}]\n"),
-            None => "\n[openbitfun: session_closed]\n".to_string(),
+            Some(code) => format!("\n[opc: session_closed exit_code={code}]\n"),
+            None => "\n[opc: session_closed]\n".to_string(),
         };
         self.append(session_id, &marker, true)?;
 
@@ -780,7 +777,7 @@ impl TranscriptStore {
         for line in BufReader::new(file).lines().take(16) {
             let line = line?;
             let Some(body) = line
-                .strip_prefix("[openbitfun: ")
+                .strip_prefix("[opc: ")
                 .and_then(|line| line.strip_suffix(']'))
             else {
                 continue;
@@ -801,18 +798,14 @@ fn write_segment_header_from_index(
     previous_segment: Option<&str>,
 ) -> io::Result<()> {
     writeln!(file, "===== OPC-Team user terminal transcript =====")?;
-    writeln!(file, "[openbitfun: session_id={}]", session.session_id)?;
-    writeln!(
-        file,
-        "[openbitfun: transcript_id={}]",
-        session.transcript_id
-    )?;
-    writeln!(file, "[openbitfun: shell={}]", session.shell)?;
-    writeln!(file, "[openbitfun: initial_cwd={}]", session.initial_cwd)?;
-    writeln!(file, "[openbitfun: started_at={}]", session.started_at)?;
-    writeln!(file, "[openbitfun: segment={:06}]", segment)?;
+    writeln!(file, "[opc: session_id={}]", session.session_id)?;
+    writeln!(file, "[opc: transcript_id={}]", session.transcript_id)?;
+    writeln!(file, "[opc: shell={}]", session.shell)?;
+    writeln!(file, "[opc: initial_cwd={}]", session.initial_cwd)?;
+    writeln!(file, "[opc: started_at={}]", session.started_at)?;
+    writeln!(file, "[opc: segment={:06}]", segment)?;
     if let Some(previous_segment) = previous_segment {
-        writeln!(file, "[openbitfun: previous_segment={previous_segment}]")?;
+        writeln!(file, "[opc: previous_segment={previous_segment}]")?;
     }
     writeln!(file)?;
     Ok(())
@@ -977,9 +970,9 @@ mod tests {
             fs::read_to_string(root.join(&indexed_session.transcript_id).join("000001.log"))
                 .expect("segment should be readable");
         assert!(!root.join("manual-1").exists());
-        assert!(segment.contains("[openbitfun: session_id=manual-1]"));
+        assert!(segment.contains("[opc: session_id=manual-1]"));
         assert!(segment.contains(&format!(
-            "[openbitfun: transcript_id={}]",
+            "[opc: transcript_id={}]",
             indexed_session.transcript_id
         )));
         assert!(segment.contains("PS E:\\workspace> echo hello"));
@@ -1040,14 +1033,14 @@ mod tests {
         let segment = fs::read_to_string(root.join(transcript_id).join("000001.log"))
             .expect("segment should be readable");
 
-        assert!(segment.contains("[openbitfun: command=echo hello]\nhello\n"));
-        assert_eq!(segment.matches("[openbitfun: command=").count(), 1);
+        assert!(segment.contains("[opc: command=echo hello]\nhello\n"));
+        assert_eq!(segment.matches("[opc: command=").count(), 1);
     }
 
     #[test]
     fn structured_markers_reach_disk_without_an_explicit_flush() {
         // Bulk output is buffered for throughput, but the structured
-        // `[openbitfun: ...]` anchors must be durable immediately: a crash or
+        // `[opc: ...]` anchors must be durable immediately: a crash or
         // force-quit must never leave output on disk without its exit code.
         let temp_dir = TempDir::new().expect("temporary directory should create");
         let mut transcript_config = config(&temp_dir);
@@ -1073,7 +1066,7 @@ mod tests {
 
         // Flushing the marker also flushes everything buffered before it.
         assert!(segment.contains("hello\n"));
-        assert!(segment.contains("[openbitfun: exit_code=0]"));
+        assert!(segment.contains("[opc: exit_code=0]"));
     }
 
     #[test]

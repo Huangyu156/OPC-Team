@@ -2473,7 +2473,7 @@
       "fromLine": "第 {{start}} 行起",
       "tailLines": "最後 {{formattedCount}} 行"
     },
-    "openBitFunControl": {
+    "opcControl": {
       "allFeatures": "全部功能",
       "title": "$t(shared:product.name)",
       "actions": {

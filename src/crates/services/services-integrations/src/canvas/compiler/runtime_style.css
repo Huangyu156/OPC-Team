@@ -33,7 +33,7 @@ html {
   overflow-y: auto;
   overscroll-behavior: contain;
 }
-#openbitfun-canvas-root {
+#opc-canvas-root {
   min-height: 100vh;
   padding: 24px 20px 56px;
   box-sizing: border-box;

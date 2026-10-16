@@ -76,7 +76,7 @@ i18n locale 集合和 key parity。
 - 打包和平台矩阵只在变更触及对应交付路径时运行，不作为产品定义的默认本地预检。
 
 Data Migrator 已从产品 family 与 sibling binary 投影中移除，使用自己的版本、Tauri 身份、构建与发布工作流。
-它固定面向 OpenBitFun 数据格式；工具身份与目标数据身份分开。旧定制产品定义应移除 `members.dataMigrator`。
+它固定面向 OPC-Team 数据格式；工具身份与目标数据身份分开。旧定制产品定义应移除 `members.dataMigrator`。
 详见 [迁移器 README](../../src/apps/data-migrator/README.zh-CN.md)。
 
 ## 1. 设计结论

@@ -97,10 +97,10 @@
 
   .root[data-loading="true"] .spinner {
     opacity: 1;
-    animation: openbitfun-mobile-icon-button-spin var(--opcteam-motion-duration-loop) linear infinite;
+    animation: opc-mobile-icon-button-spin var(--opcteam-motion-duration-loop) linear infinite;
   }
 
-  @keyframes openbitfun-mobile-icon-button-spin {
+  @keyframes opc-mobile-icon-button-spin {
     to { transform: rotate(360deg); }
   }
 

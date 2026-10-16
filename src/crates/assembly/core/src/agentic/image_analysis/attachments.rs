@@ -144,7 +144,7 @@ mod tests {
             .await
             .unwrap();
         let reference = images[0].image_path.as_deref().unwrap();
-        assert!(reference.starts_with("openbitfun://runtime/remote-workspace/attachments/images/"));
+        assert!(reference.starts_with("opc://runtime/remote-workspace/attachments/images/"));
         assert!(!reference.contains(root.path().to_str().unwrap()));
         assert_eq!(images[0].image_path, images[1].image_path);
         assert_ne!(images[0].id, images[1].id);

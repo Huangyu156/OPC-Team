@@ -567,7 +567,7 @@ async function observeVoiceTaskSession(
  * Agent execution path; delegated sessions will inherit it automatically. Only
  * direct client-control operations need a new Voice function command.
  */
-export async function runOpenBitFunVoiceTask(
+export async function runOpcVoiceTask(
   task: string,
   options: RunVoiceTaskOptions,
 ): Promise<VoiceTaskResult> {

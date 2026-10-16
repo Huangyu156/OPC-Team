@@ -163,7 +163,7 @@ mod tests {
             provider_conflict_key: None,
             native_collision: Some(NativeCommandCollisionProjection {
                 native_action_id: name.to_string(),
-                native_candidate_id: format!("openbitfun.cli:{name}"),
+                native_candidate_id: format!("opc.cli:{name}"),
                 external_candidate_id: format!("external:{name}"),
                 conflict_key: "conflict-v1".to_string(),
                 selected_candidate_id: selected_candidate_id.map(str::to_string),
@@ -466,10 +466,10 @@ mod tests {
                 "conflictKey": "conflict-v1",
                 "toolName": "review",
                 "candidates": [{
-                    "candidateId": "openbitfun:review",
+                    "candidateId": "opc:review",
                     "displayName": "OPC-Team review",
                     "kind": "built_in",
-                    "providerId": "openbitfun",
+                    "providerId": "opc",
                     "contentVersion": "builtin-v1"
                 }, {
                     "candidateId": "external:review",
@@ -562,7 +562,7 @@ mod tests {
         assert!(text.contains("OpenCode: recommended"));
         assert!(text.contains("command auto"));
         assert!(text.contains("tool ask"));
-        assert!(text.contains("openbitfun config external --help"));
+        assert!(text.contains("opc config external --help"));
     }
 
     #[test]
@@ -667,7 +667,7 @@ mod tests {
             parse_external_tool_review_action("choose 1 1", Some(&snapshot), None).unwrap(),
             ExternalToolReviewAction::Choose {
                 conflict_key: "conflict-v1".to_string(),
-                candidate_id: "openbitfun:review".to_string(),
+                candidate_id: "opc:review".to_string(),
             }
         );
         let notice = external_tool_pending_notice_key(&snapshot).unwrap();
@@ -1355,7 +1355,7 @@ mod tests {
 
     #[test]
     fn native_choice_is_reused_when_multiple_external_candidates_remain_unresolved() {
-        let selected_native = "openbitfun.cli:help";
+        let selected_native = "opc.cli:help";
         let first = external_command("help", Some(selected_native));
         let mut second = external_command("help", Some(selected_native));
         second.candidate_id = "external:help:second".to_string();
@@ -1393,7 +1393,7 @@ mod tests {
             let descriptors = cli_native_prompt_command_descriptors(alias);
             assert_eq!(descriptors.len(), 1);
             assert_eq!(descriptors[0].command_name, alias);
-            assert_eq!(descriptors[0].candidate_id, "openbitfun.cli:mcp_servers");
+            assert_eq!(descriptors[0].candidate_id, "opc.cli:mcp_servers");
         }
     }
 
@@ -1413,7 +1413,7 @@ mod tests {
             choices: BTreeMap::new(),
             lineage_current_keys: BTreeMap::new(),
             conflicted_candidate_ids: BTreeSet::from([
-                "openbitfun.cli:help".to_string(),
+                "opc.cli:help".to_string(),
                 "external:help".to_string(),
             ]),
         };
@@ -2349,7 +2349,7 @@ mod tests {
                 "conflictKey": "conflict-v1",
                 "logicalId": "review",
                 "candidates": [{
-                    "candidateId": "openbitfun:review",
+                    "candidateId": "opc:review",
                     "displayName": "OPC-Team review",
                     "sourceLabel": "OPC-Team",
                     "external": false
@@ -2423,7 +2423,7 @@ mod tests {
 
     #[test]
     fn agent_management_behavior_change_invalidates_an_old_native_choice() {
-        let candidate_id = "openbitfun.cli:switch_agent";
+        let candidate_id = "opc.cli:switch_agent";
         let old_key = native_prompt_command_conflict_key(
             "local-user",
             "agents",
@@ -2465,7 +2465,7 @@ mod tests {
             parse_external_agent_review_action("choose 1 1", Some(&snapshot), None).unwrap(),
             ExternalAgentReviewAction::Choose {
                 conflict_key: "conflict-v1".to_string(),
-                candidate_id: "openbitfun:review".to_string(),
+                candidate_id: "opc:review".to_string(),
                 approve_external: false,
                 expected_subagent_generation: 4,
                 expected_preference_revision: 7,

@@ -58,7 +58,7 @@ const SYNCED = {
     { status: 'M', path: 'src/main.ts' },
   ],
   truncatedChanges: false,
-  baselineWorktreePath: '/home/me/.openbitfun/worktrees/repo/dispatch-job-1',
+  baselineWorktreePath: '/home/me/.opcteam/worktrees/repo/dispatch-job-1',
   syncedHeadCommit: '1'.repeat(40),
 };
 
@@ -79,7 +79,7 @@ describe('DispatchResultDialog Git sync', () => {
           open
           jobId="job-1"
           branch="openbitfun/dispatch/job-1"
-          baselineWorktreePath="/home/me/.openbitfun/worktrees/repo/dispatch-job-1"
+          baselineWorktreePath="/home/me/.opcteam/worktrees/repo/dispatch-job-1"
           targetLabel="build-host"
           onClose={vi.fn()}
           {...props}
@@ -106,7 +106,7 @@ describe('DispatchResultDialog Git sync', () => {
     await render();
 
     expect(container.textContent).toContain('openbitfun/dispatch/job-1');
-    expect(container.textContent).toContain('/home/me/.openbitfun/worktrees/repo/dispatch-job-1');
+    expect(container.textContent).toContain('/home/me/.opcteam/worktrees/repo/dispatch-job-1');
     expect(container.querySelector('[data-opc-component="disclosure"] button[aria-expanded]')?.getAttribute('aria-expanded')).toBe('false');
     expect(mocks.syncResult).not.toHaveBeenCalled();
 

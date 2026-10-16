@@ -5005,8 +5005,7 @@ mod tests {
     #[tokio::test]
     async fn image_inputs_keep_pixels_for_native_models_and_tool_paths_for_text_models() {
         let mut image = crate::agentic::image_analysis::attachments::test_image();
-        image.image_path =
-            Some("openbitfun://runtime/current/attachments/images/example.png".into());
+        image.image_path = Some("opc://runtime/current/attachments/images/example.png".into());
         let messages = vec![
             Message::user_multimodal("Read this screenshot".into(), vec![image.clone()])
                 .with_turn_id("turn".into()),

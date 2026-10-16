@@ -13,7 +13,7 @@ node_modules
 
 # These packages share pnpm-lock.yaml. Standalone npm packages keep their own lockfile.
 /package-lock.json
-/OpenBitFun-Installer/package-lock.json
+/Opc-Installer/package-lock.json
 /src/mobile-web/package-lock.json
 /tests/e2e/package-lock.json
 
@@ -37,7 +37,7 @@ sdk/typescript/src/internal/wire-validators.ts
 !Cargo.lock
 # The standalone Installer resolves against the shared source tree and owns a
 # generated lockfile that must not be committed.
-/OpenBitFun-Installer/src-tauri/Cargo.lock
+/Opc-Installer/src-tauri/Cargo.lock
 
 # Monaco Editor - copied from node_modules
 public/monaco-editor/
@@ -89,8 +89,8 @@ tests/e2e/reports/
 tmp/
 Cross.toml
 
-# OpenBitFun sandbox data - auto managed
-.openbitfun/
+# OPC-Team sandbox data - auto managed
+.opcteam/
 .cursor
 .cursor/rules/no-cargo.mdc
 .sisyphus/
@@ -99,7 +99,7 @@ Cross.toml
 ASSETS_LICENSES.md
 
 external/
-/.openbitfun/search/flashgrep-index/
+/.opcteam/search/flashgrep-index/
 .agents/
 /.flashgrep-index-engine/
 
@@ -122,7 +122,7 @@ src/apps/mobile/android/*/build/
 src/apps/mobile/android/local.properties
 src/apps/mobile/android/.kotlin/
 /src/apps/mobile/ios/build/
-.openbitfun/
+.opcteam/
 .opcteam/
 .bitfun/
 
@@ -135,7 +135,7 @@ src/apps/mobile/android/.kotlin/
 
 # Retired implementation-process notes stay local; durable docs live with their owner.
 /docs/superpowers/
-/OPC-Team/.openbitfun/search/flashgrep-index/
+/OPC-Team/.opcteam/search/flashgrep-index/
 
 # Rivet agent runtime state: meridian SQLite DB + WAL, memory index, tool artifacts.
 .rivet/

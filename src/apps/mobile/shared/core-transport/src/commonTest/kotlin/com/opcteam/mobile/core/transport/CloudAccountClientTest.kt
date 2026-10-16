@@ -1,0 +1,461 @@
+package com.opc.mobile.core.transport
+
+import com.opc.mobile.core.crypto.CloudAccountCipher
+import com.opc.mobile.core.crypto.DeviceIdentity
+import com.opc.mobile.core.protocol.CommandStatusResponse
+import com.opc.mobile.core.protocol.EncryptedPayload
+import com.opc.mobile.core.protocol.RelayJson
+import com.opc.mobile.core.protocol.RemoteCommand
+import io.ktor.client.engine.mock.MockEngine
+import io.ktor.client.engine.mock.MockRequestHandleScope
+import io.ktor.client.engine.mock.respond
+import io.ktor.client.engine.mock.toByteArray
+import io.ktor.client.request.HttpRequestData
+import io.ktor.http.HttpHeaders
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.headersOf
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.cancelAndJoin
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.advanceUntilIdle
+import kotlinx.coroutines.test.runCurrent
+import kotlinx.coroutines.test.runTest
+import kotlinx.serialization.json.JsonElement
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import kotlinx.serialization.json.encodeToJsonElement
+import kotlinx.serialization.json.decodeFromJsonElement
+import kotlinx.serialization.json.jsonObject
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonPrimitive
+import kotlin.io.encoding.Base64
+import kotlin.test.Test
+import kotlin.test.assertContentEquals
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
+import kotlin.test.assertFalse
+import kotlin.test.assertIs
+import kotlin.test.assertTrue
+
+class CloudAccountClientTest {
+    @Test
+    fun publicProfileDoesNotForwardCredentialsAndChecksImmutableIdentity() = runTest {
+        val client = CloudAccountClient(relayHttpClient(MockEngine { request ->
+            assertEquals("https://api.github.com/user/42", request.url.toString())
+            assertEquals(null, request.headers["Authorization"])
+            json("""{"id":42,"login":"octocat","avatar_url":"https://avatars.githubusercontent.com/u/42"}""")
+        }))
+        assertEquals("octocat", client.githubProfile("42")?.username)
+        assertEquals(null, client.githubProfile("../42"))
+        val wrong = CloudAccountClient(relayHttpClient(MockEngine {
+            json("""{"id":99,"login":"other"}""")
+        }))
+        assertEquals(null, wrong.githubProfile("42"))
+        val unsafeAvatar = CloudAccountClient(relayHttpClient(MockEngine {
+            json("""{"id":42,"login":"octocat","avatar_url":"http://localhost/private"}""")
+        }))
+        assertEquals(null, unsafeAvatar.githubProfile("42")?.avatarUrl)
+    }
+
+    @Test
+    fun authorizationAcceptsTheIdentityAuthorityGithubUrlAndRejectsOtherDestinations() = runTest {
+        for (url in listOf("https://github.com/login/oauth/authorize?state=test", "https://auth.opcteam.eu.cc/sign-in#ticket=test", "https://auth.opcteam.eu.cc.evil.example/sign-in", "https://user@auth.opcteam.eu.cc/sign-in", "https://auth.opcteam.eu.cc:444/sign-in", "https://github.com.evil.example/login/oauth/authorize", "https://github.com/login", "https://user@github.com/login/oauth/authorize", "http://github.com/login/oauth/authorize")) {
+            val engine = MockEngine { json("""{"transactionId":"txn","transactionSecret":"secret","authorizationUrl":"$url","expiresAt":9999999999,"pollIntervalSeconds":3}""") }
+            val client = CloudAccountClient(relayHttpClient(engine))
+            if (url == "https://github.com/login/oauth/authorize?state=test" || url == "https://auth.opcteam.eu.cc/sign-in#ticket=test") assertEquals(url, client.startAuthorization(DEFAULT_CLOUD_RELAY_URL).authorizationUrl)
+            else assertFailsWith<IllegalArgumentException> { client.startAuthorization(DEFAULT_CLOUD_RELAY_URL) }
+        }
+    }
+
+    @Test
+    fun githubLoginRegistersOnlyThePublicDeviceKey() = runTest {
+        val bodies = mutableListOf<kotlinx.serialization.json.JsonObject>()
+        val engine = MockEngine { request ->
+            assertEquals("https://remote.opcteam.eu.cc/v/1.0.2/api/auth/login", request.url.toString())
+            bodies += RelayJson.parseToJsonElement(request.text()).jsonObject
+            json("""{"token":"token-1","user_id":"123"}""")
+        }
+        val client = CloudAccountClient(relayHttpClient(engine))
+        val first = client.login(DEFAULT_CLOUD_RELAY_URL, "verified-identity", "device-1", "Android", ByteArray(32) { 7 })
+        val second = client.login(DEFAULT_CLOUD_RELAY_URL, "verified-identity", "device-2", "iOS", ByteArray(32) { 11 })
+        assertEquals("verified-identity", bodies[0]["access_token"]?.jsonPrimitive?.content)
+        assertEquals(Base64.Default.encode(DeviceIdentity.publicKey(first.masterKey)), bodies[0]["public_key"]?.jsonPrimitive?.content)
+        assertFalse(first.masterKey.contentEquals(second.masterKey))
+        assertFalse(bodies[0].containsKey("password"))
+        assertFalse(bodies[0].containsKey("master_key"))
+        assertFalse(first.toString().contains("token-1"))
+        // The Relay stores this build on the device row and gates control on it.
+        assertEquals(CLIENT_VERSION, bodies[0]["clientVersion"]?.jsonPrimitive?.content)
+        assertEquals(CLIENT_PROTOCOL_VERSION, bodies[0]["clientProtocol"]?.jsonPrimitive?.int)
+    }
+
+    @Test
+    fun deviceDirectoryCarriesTheRelayCompatibilityVerdict() = runTest {
+        val engine = MockEngine { _ ->
+            json("""[
+                {"device_id":"d-1","device_name":"Desktop 1","device_kind":"desktop","online":true,"compatible":true},
+                {"device_id":"d-2","device_name":"Desktop 2","device_kind":"desktop","online":true,"compatible":false},
+                {"device_id":"d-3","device_name":"Desktop 3","device_kind":"desktop","online":true}
+            ]""")
+        }
+        val client = CloudAccountClient(relayHttpClient(engine))
+        val session = CloudAccountSession("token-1", "123", ByteArray(32) { 7 })
+        val devices = client.listDevices(DEFAULT_CLOUD_RELAY_URL, session, "phone-1").associateBy { it.deviceId }
+        assertEquals(true, devices.getValue("d-1").compatible)
+        assertEquals(false, devices.getValue("d-2").compatible)
+        // An older Relay that does not gate reads as "unknown but usable".
+        assertEquals(null, devices.getValue("d-3").compatible)
+        assertEquals(listOf(true, false, true), listOf("d-1", "d-2", "d-3").map { devices.getValue(it).controllable })
+    }
+
+    @Test
+    fun relayRpcRejectionKeepsTheRelaysOwnWording() {
+        val outdated = relayRpcRejection("incompatible client build: remote control requires matching client versions")
+        val failure = assertIs<RelayTransportException>(outdated).failure
+        assertEquals(RelayFailure.ClientOutdated("incompatible client build: remote control requires matching client versions"), failure)
+        assertFalse(isRetryableStreamFailure(outdated))
+
+        val offline = assertIs<CloudAccountException>(relayRpcRejection("RPC target unavailable"))
+        assertEquals(CloudAccountFailure.RELAY_UNAVAILABLE, offline.failure)
+        assertEquals("RPC target unavailable", offline.detail)
+        assertTrue(offline.message!!.contains("RPC target unavailable"))
+        assertTrue(isRetryableStreamFailure(offline))
+
+        assertEquals("Relay RPC failed", assertIs<CloudAccountException>(relayRpcRejection(null)).detail)
+    }
+
+    /**
+     * Only hosts can be driven, so only hosts are offered: a desktop and a CLI
+     * host both run the control plane, while a phone or a watch is a controller.
+     * A row without a kind comes from a relay that predates them: this device's
+     * own row and the names our own builds register under are dropped anyway, and
+     * anything else is kept rather than risk hiding a real host.
+     */
+    @Test
+    fun listDevicesOffersHostsAndDropsPhones() = runTest {
+        val engine = MockEngine {
+            json(
+                """[
+                  {"device_id":"desktop-1","device_name":"Studio Mac","online":true,"device_kind":"desktop"},
+                  {"device_id":"cli-1","device_name":"Build host","online":true,"device_kind":"cli"},
+                  {"device_id":"phone-2","device_name":"Pixel 8","online":true,"device_kind":"mobile"},
+                  {"device_id":"watch-1","device_name":"Watch","online":false,"device_kind":"watch"},
+                  {"device_id":"phone-1","device_name":"Pixel 8","online":true},
+                  {"device_id":"harmony-phone","device_name":"HarmonyOS Phone","online":true},
+                  {"device_id":"harmony-watch","device_name":"HarmonyOS Watch","online":false},
+                  {"device_id":"phone-3","device_name":"Legacy Phone","online":true},
+                  {"device_id":"watch-2","device_name":"Legacy Watch","online":false},
+                  {"device_id":"legacy-1","device_name":"DESKTOP-KM3L4UI","online":false,"last_seen_at":9}
+                ]""",
+            )
+        }
+        val client = CloudAccountClient(
+            relayHttpClient(engine),
+            legacyMobileDeviceNames = setOf("Legacy Phone", "Legacy Watch"),
+        )
+
+        val devices = client.listDevices(
+            "http://192.168.1.2:9700",
+            CloudAccountSession("token-1", "user-1", ByteArray(32)),
+            "phone-1",
+        )
+
+        assertEquals(listOf("desktop-1", "cli-1", "legacy-1"), devices.map { it.deviceId })
+        assertEquals("desktop", devices[0].deviceKind)
+        assertEquals("cli", devices[1].deviceKind)
+        assertEquals(null, devices[2].deviceKind)
+    }
+
+    @Test
+    fun accountDeviceTransportEncryptsCommandAndDecryptsResponse() = runTest {
+        val masterKey = ByteArray(32) { it.toByte() }
+        val session = CloudAccountSession("token-1", "user-1", masterKey)
+        val peerSecret = ByteArray(32) { 11 }
+        val peerPublic = DeviceIdentity.publicKey(peerSecret)
+        val messageKey = DeviceIdentity.messageKey(peerSecret, DeviceIdentity.publicKey(masterKey))
+        val client = rpcClient(peerPublic) { target, params ->
+            assertEquals("desktop 1", target)
+            val envelope = RelayJson.decodeFromJsonElement(EncryptedPayload.serializer(), params)
+            val commandText = CloudAccountCipher.decrypt(
+                Base64.Default.decode(envelope.encryptedData), messageKey,
+                Base64.Default.decode(envelope.nonce),
+            ).decodeToString()
+            assertEquals("ping", RelayJson.decodeFromString(RemoteCommand.serializer(), commandText).cmd)
+            encryptedReply(messageKey, CommandStatusResponse("ok", null))
+        }
+        val transport = AccountDeviceCommandTransport(client, "http://192.168.1.2:9700", session, "desktop 1")
+
+        val response = transport.send<CommandStatusResponse>(RemoteCommand(cmd = "ping"))
+
+        assertEquals("ok", response.resp)
+    }
+
+    /**
+     * A desktop that answers `{"resp":"error"}` answered — the acknowledged exchange
+     * succeeded, so nothing below this notices. The paired transport has always
+     * turned that into a rejection, and a caller cannot be asked to remember
+     * which of the two it is talking to.
+     */
+    @Test
+    fun accountDeviceTransportReportsARefusalRatherThanReturningIt() = runTest {
+        val masterKey = ByteArray(32) { it.toByte() }
+        val session = CloudAccountSession("token-1", "user-1", masterKey)
+        val peerSecret = ByteArray(32) { 11 }
+        val peerPublic = DeviceIdentity.publicKey(peerSecret)
+        val messageKey = DeviceIdentity.messageKey(peerSecret, DeviceIdentity.publicKey(masterKey))
+        val client = rpcClient(peerPublic) { _, _ ->
+            encryptedReply(messageKey, CommandStatusResponse("error", "No workspace is open"))
+        }
+        val transport = AccountDeviceCommandTransport(
+            client,
+            "http://192.168.1.2:9700",
+            session,
+            "desktop-1",
+        )
+
+        val error = assertFailsWith<RelayTransportException> {
+            transport.send<CommandStatusResponse>(RemoteCommand(cmd = "list_sessions"))
+        }
+
+        assertEquals(RelayFailure.RemoteRejected("No workspace is open"), error.failure)
+    }
+
+    /**
+     * The account path speaks [CloudAccountFailure] and everything above a
+     * transport speaks [RelayFailure]; the translation belongs here, or a screen
+     * shared with the paired path can only report "something went wrong".
+     */
+    @Test
+    fun accountDeviceTransportTranslatesRelayStatusIntoATypedFailure() = runTest {
+        val session = CloudAccountSession("token-1", "user-1", ByteArray(32))
+        val engine = MockEngine { respond("upstream is down", HttpStatusCode.ServiceUnavailable) }
+        val transport = AccountDeviceCommandTransport(
+            CloudAccountClient(relayHttpClient(engine), realtimeFactory = { _, _, _ ->
+                FakeRpc(emptyFlow()) { _, _ -> error("Failed key lookup must prevent RPC dispatch") }
+            }),
+            "http://192.168.1.2:9700",
+            session,
+            "desktop-1",
+        )
+
+        val error = assertFailsWith<RelayTransportException> {
+            transport.send<CommandStatusResponse>(RemoteCommand(cmd = "list_sessions"))
+        }
+
+        assertEquals(RelayFailure.RelayUnavailable(500), error.failure)
+        assertEquals(CloudAccountFailure.RELAY_UNAVAILABLE, (error.cause as CloudAccountException).failure)
+    }
+
+    @Test
+    fun hostStreamRetriesTransientFailureButStopsAtAuthenticationFailure() = runTest {
+        var calls = 0
+        val failures = mutableListOf<Throwable>()
+        val client = rpcClient(DeviceIdentity.publicKey(ByteArray(32) { 11 })) { _, _ ->
+            calls++
+            throw CloudAccountException(if (calls == 1) CloudAccountFailure.TIMEOUT else CloudAccountFailure.AUTHENTICATION)
+        }
+        val error = assertFailsWith<CloudAccountException> {
+            client.subscribeSession("http://192.168.1.2:9700", CloudAccountSession("token-1", "user-1", ByteArray(32)),
+                "desktop-1", "session", { failures += it }, {}).collect()
+        }
+        assertEquals(CloudAccountFailure.AUTHENTICATION, error.failure)
+        assertEquals(2, calls)
+        assertEquals(listOf(CloudAccountFailure.TIMEOUT), failures.map { (it as CloudAccountException).failure })
+    }
+
+    @Test
+    fun cancellingHostStreamBackoffPreventsAnotherRequest() = runTest {
+        var calls = 0
+        val entered = CompletableDeferred<Unit>()
+        val client = rpcClient(DeviceIdentity.publicKey(ByteArray(32) { 11 })) { _, _ ->
+            calls++
+            entered.complete(Unit)
+            throw CloudAccountException(CloudAccountFailure.NETWORK)
+        }
+        val job = launch {
+            client.subscribeSession("http://192.168.1.2:9700", CloudAccountSession("token-1", "user-1", ByteArray(32)),
+                "desktop-1", "session", {}, {}).collect()
+        }
+        entered.await()
+        assertEquals(1, calls)
+        job.cancelAndJoin()
+        advanceUntilIdle()
+        assertEquals(1, calls)
+    }
+
+    /**
+     * The opening page is the only thing repeated after a timeout, and it is a
+     * `read_stream` that subscribes to hints: the relay never sees a session
+     * key or a stored transcript on this path. Closing the flow tells the host
+     * to stop hinting.
+     */
+    @Test
+    fun hostStreamRecoversRepeatsOnlyTheReadAndUnsubscribesOnClose() = runTest {
+        val commands = mutableListOf<RemoteCommand>()
+        val master = ByteArray(32)
+        val peerSecret = ByteArray(32) { 11 }
+        val key = DeviceIdentity.messageKey(peerSecret, DeviceIdentity.publicKey(master))
+        var keyReads = 0
+        val client = rpcClient(DeviceIdentity.publicKey(peerSecret), onKeyRead = { keyReads++ }) { target, params ->
+            assertEquals("desktop-1", target)
+            val envelope = RelayJson.decodeFromJsonElement(EncryptedPayload.serializer(), params)
+            val plain = CloudAccountCipher.decrypt(Base64.Default.decode(envelope.encryptedData), key,
+                Base64.Default.decode(envelope.nonce)).decodeToString()
+            val command = RelayJson.decodeFromString(RemoteCommand.serializer(), plain)
+            commands += command
+            if (commands.size == 1) throw CloudAccountException(CloudAccountFailure.TIMEOUT)
+            val nonce = ByteArray(12) { (commands.size + 20).toByte() }
+            val response = when (command.cmd) {
+                "read_stream" -> """{"resp":"stream_page","stream_id":"session","epoch":4,"events":[{"seq":1,"event":"session-record","payload":{"id":"m1"}}],"has_more":false,"cursor":1,"oldest_seq":1,"truncated":false}"""
+                "unsubscribe_stream" -> """{"resp":"stream_unsubscribed","stream_id":"session"}"""
+                else -> error("unexpected ${command.cmd}")
+            }
+            val encrypted = CloudAccountCipher.encrypt(response.encodeToByteArray(), key, nonce)
+            RelayJson.encodeToJsonElement(EncryptedPayload.serializer(),
+                EncryptedPayload(Base64.Default.encode(encrypted), Base64.Default.encode(nonce)))
+        }
+        val received = mutableListOf<String>()
+        // Collected in the test body so the (real) mock HTTP round trips are
+        // awaited while the backoff delay stays virtual; `first` closes the flow
+        // once the opening page has landed.
+        client.subscribeSession("http://192.168.1.2:9700", CloudAccountSession("token-1", "user-1", master),
+            "desktop-1", "session", {}, {})
+            .onEach { received += it.getValue("event").jsonPrimitive.content }
+            .first { it.getValue("event").jsonPrimitive.content == STREAM_EVENT_READY }
+        assertEquals(listOf("read_stream", "read_stream", "unsubscribe_stream"), commands.map { it.cmd })
+        assertEquals(RemoteCommand(cmd = "read_stream", streamId = "session", subscribe = true), commands[1])
+        assertEquals(listOf("session-record", STREAM_EVENT_READY), received)
+        assertEquals("session", commands.last().streamId)
+        assertEquals(1, keyReads, "the peer key is fetched once and reused for every read")
+    }
+
+    @Test
+    fun deviceEventsFromTheControlledDesktopBecomeStreamHints() = runTest {
+        val master = ByteArray(32)
+        val peerSecret = ByteArray(32) { 11 }
+        val key = DeviceIdentity.messageKey(peerSecret, DeviceIdentity.publicKey(master))
+        val notices = MutableSharedFlow<JsonObject>()
+        var reads = 0
+        val client = rpcClient(DeviceIdentity.publicKey(peerSecret), notifications = notices) { _, params ->
+            val envelope = RelayJson.decodeFromJsonElement(EncryptedPayload.serializer(), params)
+            val plain = CloudAccountCipher.decrypt(Base64.Default.decode(envelope.encryptedData), key,
+                Base64.Default.decode(envelope.nonce)).decodeToString()
+            val command = RelayJson.decodeFromString(RemoteCommand.serializer(), plain)
+            val response = when (command.cmd) {
+                "read_stream" -> {
+                    reads++
+                    // Opening page: the host holds one record. Catch-up after the
+                    // hint: the second record, appended meanwhile.
+                    val events = if (command.after == null) """[{"seq":1,"event":"session-record","payload":{"id":"m1"}}]"""
+                        else """[{"seq":2,"event":"session-record","payload":{"id":"m2"}}]"""
+                    """{"resp":"stream_page","stream_id":"session","epoch":1,"events":$events,"has_more":false,"cursor":${if (command.after == null) 1 else 2},"oldest_seq":1,"truncated":false}"""
+                }
+                else -> """{"resp":"stream_unsubscribed","stream_id":"session"}"""
+            }
+            val nonce = ByteArray(12) { (reads + 40).toByte() }
+            val encrypted = CloudAccountCipher.encrypt(response.encodeToByteArray(), key, nonce)
+            RelayJson.encodeToJsonElement(EncryptedPayload.serializer(),
+                EncryptedPayload(Base64.Default.encode(encrypted), Base64.Default.encode(nonce)))
+        }
+        val received = Channel<String>(Channel.UNLIMITED)
+        val job = launch {
+            client.subscribeSession("http://192.168.1.2:9700", CloudAccountSession("token-1", "user-1", master),
+                "desktop-1", "session", {}, {}).collect { received.send(it.getValue("event").jsonPrimitive.content) }
+        }
+        assertEquals("session-record", received.receive())
+        assertEquals(STREAM_EVENT_READY, received.receive())
+        assertEquals(1, reads)
+        // Hints are only delivered once the stream listens for them.
+        notices.subscriptionCount.first { it > 0 }
+        var hintNonce = 30
+        suspend fun hint(source: String, cursor: Long): JsonObject {
+            val plain = """{"cmd":"device_event","event":"$HOST_STREAM_CHANGED_EVENT","payload":{"stream_id":"session","epoch":1,"cursor":$cursor}}"""
+            val nonce = ByteArray(12) { (hintNonce++).toByte() }
+            val encrypted = CloudAccountCipher.encrypt(plain.encodeToByteArray(), key, nonce)
+            return buildJsonObject {
+                put("type", "device-event"); put("sourceDeviceId", source)
+                put("params", RelayJson.encodeToJsonElement(EncryptedPayload.serializer(),
+                    EncryptedPayload(Base64.Default.encode(encrypted), Base64.Default.encode(nonce))))
+            }
+        }
+        notices.emit(hint("desktop-2", 2))
+        notices.emit(buildJsonObject { put("type", "device-presence") })
+        notices.emit(hint("desktop-1", 2))
+        // Notices are handled in order, so the record arriving proves the
+        // foreign hint and the presence notice caused no read of their own.
+        assertEquals("session-record", received.receive())
+        assertEquals(2, reads)
+        job.cancelAndJoin()
+    }
+
+    private class FakeRpc(
+        override val notifications: Flow<JsonObject>,
+        private val reply: suspend (String, JsonElement) -> JsonElement,
+    ) : AccountRpcConnection {
+        override suspend fun call(target: String, params: JsonElement, timeoutMs: Long): JsonElement = reply(target, params)
+        override fun close() {}
+    }
+
+    private fun rpcClient(
+        peerPublic: ByteArray,
+        notifications: Flow<JsonObject> = emptyFlow(),
+        onKeyRead: () -> Unit = {},
+        reply: suspend (String, JsonElement) -> JsonElement,
+    ): CloudAccountClient =
+        CloudAccountClient(relayHttpClient(MockEngine { request ->
+            assertEquals("Bearer token-1", request.headers[HttpHeaders.Authorization])
+            assertTrue(request.url.encodedPath.endsWith("/key"), "HTTP must only read the authenticated public key")
+            onKeyRead()
+            json("""{"public_key":"${Base64.Default.encode(peerPublic)}"}""")
+        }), processingDispatcher = kotlinx.coroutines.Dispatchers.Unconfined, realtimeFactory = { _, _, token ->
+            assertEquals("token-1", token)
+            FakeRpc(notifications, reply)
+        })
+
+    private suspend fun encryptedReply(key: ByteArray, response: CommandStatusResponse): JsonElement {
+        val nonce = ByteArray(12) { (it + 20).toByte() }
+        val plain = RelayJson.encodeToString(CommandStatusResponse.serializer(), response)
+        val ciphertext = CloudAccountCipher.encrypt(plain.encodeToByteArray(), key, nonce)
+        return RelayJson.encodeToJsonElement(EncryptedPayload.serializer(),
+            EncryptedPayload(Base64.Default.encode(ciphertext), Base64.Default.encode(nonce)))
+    }
+
+    /**
+     * The reply is the user's own sessions, so the reason a decode failed has to
+     * be assembled from the schema rather than quoted from the document.
+     */
+    @Test
+    fun decodeDetailNamesTheFieldWithoutQuotingThePayload() {
+        val secret = "a session title nobody else should read"
+        val cause = assertFailsWith<Throwable> {
+            RelayJson.decodeFromString(
+                RemoteWorkspaceProbe.serializer(),
+                """{"title":"$secret"}""",
+            )
+        }
+
+        val detail = decodeDetail(cause)
+
+        assertTrue(detail.contains("missing="), detail)
+        assertTrue(detail.contains("path"), detail)
+        assertFalse(detail.contains(secret), detail)
+    }
+}
+
+/** A required field the fixture above deliberately omits. */
+@kotlinx.serialization.Serializable
+private data class RemoteWorkspaceProbe(val path: String, val title: String)
+
+private suspend fun HttpRequestData.text(): String = body.toByteArray().decodeToString()
+
+private fun MockRequestHandleScope.json(body: String) =
+    respond(body, HttpStatusCode.OK, headersOf(HttpHeaders.ContentType, "application/json"))

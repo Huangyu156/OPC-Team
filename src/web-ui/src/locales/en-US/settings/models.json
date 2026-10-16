@@ -174,7 +174,7 @@
       "name": "OpenCode Go",
       "description": "A model subscription plan from OpenCode."
     },
-    "openbitfun": {
+    "opc": {
       "name": "OPC-Team Service",
       "description": "OPC-Team Model Platform",
       "urlOptions": {

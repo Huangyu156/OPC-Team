@@ -39,9 +39,9 @@ interface SessionPaneLayoutState {
   clearSessionMemory: () => void;
 }
 
-const CONTENT_SIDE_KEY = 'openbitfun:sessionContentSide';
-const DISPLAY_MODE_KEY = 'openbitfun:sessionPaneDisplayMode';
-const OVERLAY_WIDTH_KEY = 'openbitfun:sessionOverlayWidth';
+const CONTENT_SIDE_KEY = 'opc:sessionContentSide';
+const DISPLAY_MODE_KEY = 'opc:sessionPaneDisplayMode';
+const OVERLAY_WIDTH_KEY = 'opc:sessionOverlayWidth';
 const scopeKey = (surfaceId: string, sessionId: string | null) => surfaceScopedKey(surfaceId, sessionId);
 
 export const selectSessionPaneMode = (state: SessionPaneLayoutState): SessionPaneMode => (

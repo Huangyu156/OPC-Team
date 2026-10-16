@@ -393,7 +393,7 @@ async function sendMessageInternal(
   // Switch UI mode if specified
   if (switchToMode && switchToMode !== session.mode) {
     context.flowChatStore.updateSessionMode(sessionId, switchToMode);
-    window.dispatchEvent(new CustomEvent('openbitfun:session-switched', {
+    window.dispatchEvent(new CustomEvent('opc:session-switched', {
       detail: { sessionId, mode: switchToMode }
     }));
   }

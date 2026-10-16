@@ -3,7 +3,7 @@ name = "opc-relay-server"
 version = "1.0.5" # x-release-please-version
 authors = ["OPC-Team"]
 edition = "2021"
-description = "OpenBitFun standalone Remote Connect relay server"
+description = "OPC-Team standalone Remote Connect relay server"
 
 [lib]
 name = "opc_relay_server"

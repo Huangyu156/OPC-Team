@@ -1,5 +1,5 @@
 /**
- * OpenBitFun desktop shell.
+ * OPC-Team desktop shell.
  *
  * The root stays visually quiet and lets the scene viewport carry elevation.
  * Frequent workspace and panel changes deliberately avoid entrance motion.
@@ -91,7 +91,7 @@ html[data-opc-native-material='sidebar'] body {
 
   // ==================== Modifier - error ====================
   &--error {
-    .openbitfun-app-header {
+    .opc-app-header {
       border-bottom-color: var(--opcteam-color-status-danger-content);
       background: linear-gradient(135deg,
         var(--opcteam-color-status-danger-surface) 0%,

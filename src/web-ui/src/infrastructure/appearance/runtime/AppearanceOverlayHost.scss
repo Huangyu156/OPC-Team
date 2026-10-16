@@ -20,7 +20,7 @@
  * no transform, filter, backdrop-filter, will-change or contain — or every
  * viewport-anchored overlay would shift.
  */
-#openbitfun-appearance-overlay-host {
+#opc-appearance-overlay-host {
   position: fixed;
   inset: 0;
   z-index: var(--opcteam-layer-overlay-host);
@@ -30,6 +30,6 @@
 
 // Hand hit testing back to the overlays themselves. Zero specificity, so an
 // overlay that deliberately opts out — a tooltip — keeps its own declaration.
-:where(#openbitfun-appearance-overlay-host) > :where(*) {
+:where(#opc-appearance-overlay-host) > :where(*) {
   pointer-events: auto;
 }

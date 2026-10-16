@@ -1,7 +1,7 @@
 /**
- * OpenBitFun API unified exports.
+ * OPC-Team API unified exports.
  *
- * Follows the OpenBitFun Tauri command conventions.
+ * Follows the OPC-Team Tauri command conventions.
  */
 
 export * from './service-api/types';

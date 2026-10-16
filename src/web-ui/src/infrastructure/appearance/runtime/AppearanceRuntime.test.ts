@@ -10,7 +10,7 @@ import { AppearanceRuntime } from './AppearanceRuntime';
 
 function pkg(id: string, background: string): AppearancePackage {
   return {
-    schema: 'openbitfun.appearance',
+    schema: 'opc.appearance',
     schemaVersion: 2,
     id,
     name: id,
@@ -55,12 +55,12 @@ describe('AppearanceRuntime', () => {
     runtime.subscribe(listener);
 
     await runtime.initialize(pkg('test.first', 'first'));
-    expect(document.documentElement.getAttribute('data-openbitfun-appearance')).toBe('test.first');
+    expect(document.documentElement.getAttribute('data-opc-appearance')).toBe('test.first');
     expect(document.querySelectorAll('style[data-opc-appearance-runtime]')).toHaveLength(1);
 
     await expect(runtime.applyPackage(pkg('test.second', 'fail'))).rejects.toThrow('renderer failed');
     expect(runtime.getSnapshot()?.id).toBe('test.first');
-    expect(document.documentElement.getAttribute('data-openbitfun-appearance')).toBe('test.first');
+    expect(document.documentElement.getAttribute('data-opc-appearance')).toBe('test.first');
     expect(document.querySelectorAll('style[data-opc-appearance-runtime]')).toHaveLength(1);
     expect(calls.at(-1)).toEqual({ tokens: { '--opcteam-color-surface-canvas': 'first' } });
     expect(listener).toHaveBeenCalledTimes(1);
@@ -74,7 +74,7 @@ describe('AppearanceRuntime', () => {
       .freeze();
     const runtime = new AppearanceRuntime(registry);
     const assetPackage: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.assets',
       name: 'Assets',
@@ -118,7 +118,7 @@ describe('AppearanceRuntime', () => {
       .freeze();
     const runtime = new AppearanceRuntime(registry);
     const assetPackage: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.assets',
       name: 'Assets',
@@ -164,7 +164,7 @@ describe('AppearanceRuntime', () => {
     vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => undefined);
     const runtime = new AppearanceRuntime(new AppearanceRegistry().freeze());
     const assetPackage: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.video-background',
       name: 'Video Background',
@@ -218,7 +218,7 @@ describe('AppearanceRuntime', () => {
 
     expect(observations).toEqual([expect.objectContaining({ rootRevision: '1' })]);
     expect(observations[0].stagedCss).toContain(
-      '[data-openbitfun-appearance="test.same-id"][data-opc-appearance-revision="2"]',
+      '[data-opc-appearance="test.same-id"][data-opc-appearance-revision="2"]',
     );
     expect(document.documentElement.getAttribute('data-opc-appearance-revision')).toBe('2');
     expect(document.querySelectorAll('style[data-opc-appearance-runtime]')).toHaveLength(1);
@@ -232,7 +232,7 @@ describe('AppearanceRuntime', () => {
       .freeze();
     const runtime = new AppearanceRuntime(registry);
     const basePackage: AppearancePackage = {
-      schema: 'openbitfun.appearance',
+      schema: 'opc.appearance',
       schemaVersion: 2,
       id: 'test.computed-style',
       name: 'Computed Style',

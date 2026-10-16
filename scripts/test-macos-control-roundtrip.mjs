@@ -19,9 +19,9 @@ let harness;
 try {
   const binary = join(directory, 'input-fixture');
   const result = join(directory, 'counts.json');
-  const contents = join(directory, 'OpenBitFun Roundtrip Observer.app', 'Contents');
+  const contents = join(directory, 'OPC Roundtrip Observer.app', 'Contents');
   await mkdir(join(contents, 'MacOS'), { recursive: true });
-  await writeFile(join(contents, 'Info.plist'), `<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>dev.openbitfun.roundtrip-fixture.observer</string><key>CFBundleName</key><string>OpenBitFun Roundtrip Observer</string><key>CFBundleExecutable</key><string>fixture</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>`);
+  await writeFile(join(contents, 'Info.plist'), `<?xml version="1.0" encoding="UTF-8"?><plist version="1.0"><dict><key>CFBundleIdentifier</key><string>dev.opc.roundtrip-fixture.observer</string><key>CFBundleName</key><string>OPC-Team Roundtrip Observer</string><key>CFBundleExecutable</key><string>fixture</string><key>CFBundlePackageType</key><string>APPL</string></dict></plist>`);
   const observerBinary = join(contents, 'MacOS', 'fixture');
   await run('xcrun', ['clang', '-fobjc-arc', '-Wall', '-Werror', 'scripts/fixtures/computer-use-roundtrip.m', '-framework', 'AppKit', '-o', binary]);
   await run('xcrun', ['clang', '-fobjc-arc', '-Wall', '-Werror', 'scripts/fixtures/computer-use-input-controls.m', '-framework', 'AppKit', '-o', observerBinary]);

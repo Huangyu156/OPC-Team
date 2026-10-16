@@ -3,7 +3,7 @@ import type { ModeSkillInfo, SkillInfo } from './types';
 import {
   buildSkillCoverageSourceMap,
   canDeleteSkill,
-  isOpenBitFunManagedSkill,
+  isOpcManagedSkill,
   findSkillByKey,
   formatSkillOrigin,
   getModeSkillRuntimeStatus,
@@ -14,13 +14,13 @@ import {
 
 function skill(overrides: Partial<SkillInfo> = {}): SkillInfo {
   return {
-    key: 'project::openbitfun::pdf',
+    key: 'project::opc::pdf',
     name: 'pdf',
     description: 'PDF workflow',
-    path: '/workspace/.openbitfun/skills/pdf',
+    path: '/workspace/.opcteam/skills/pdf',
     level: 'project',
-    sourceSlot: 'openbitfun',
-    sourceId: 'openbitfun',
+    sourceSlot: 'opc',
+    sourceId: 'opc',
     sourceLabel: 'OPC-Team',
     dirName: 'pdf',
     isBuiltin: false,
@@ -42,11 +42,11 @@ function modeSkill(overrides: Partial<ModeSkillInfo> = {}): ModeSkillInfo {
 
 describe('skill source presentation', () => {
   it('keeps legacy native and imported copies while excluding external identities from native management', () => {
-    expect(isOpenBitFunManagedSkill(skill({ sourceId: undefined, sourceSlot: 'opc-user' }))).toBe(true);
-    expect(isOpenBitFunManagedSkill(skill({ installationSource: 'github:example/external-skill' }))).toBe(true);
-    expect(isOpenBitFunManagedSkill(skill({ sourceId: undefined, sourceSlot: 'home.codex' }))).toBe(false);
-    expect(isOpenBitFunManagedSkill(skill({ sourceId: 'claude-code', sourceLabel: 'OPC-Team' }))).toBe(false);
-    expect(isOpenBitFunManagedSkill(skill({ isBuiltin: true }))).toBe(true);
+    expect(isOpcManagedSkill(skill({ sourceId: undefined, sourceSlot: 'opc-user' }))).toBe(true);
+    expect(isOpcManagedSkill(skill({ installationSource: 'github:example/external-skill' }))).toBe(true);
+    expect(isOpcManagedSkill(skill({ sourceId: undefined, sourceSlot: 'home.codex' }))).toBe(false);
+    expect(isOpcManagedSkill(skill({ sourceId: 'claude-code', sourceLabel: 'OPC-Team' }))).toBe(false);
+    expect(isOpcManagedSkill(skill({ isBuiltin: true }))).toBe(true);
   });
 
   it('normalizes legacy discovery slots without using paths or display labels as group identity', () => {
@@ -56,8 +56,8 @@ describe('skill source presentation', () => {
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'home.pi' }))).toBe('pi');
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'home.agents' }))).toBe('agent-skills');
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'config.opencode.custom-root' }))).toBe('opencode');
-    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'opc-system' }))).toBe('openbitfun');
-    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: '' }))).toBe('openbitfun');
+    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'opc-system' }))).toBe('opc');
+    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: '' }))).toBe('opc');
     expect(getSkillSourceId(skill({ sourceId: 'future-agent', sourceLabel: 'Codex' }))).toBe('future-agent');
   });
 

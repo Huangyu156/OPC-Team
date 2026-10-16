@@ -1,5 +1,5 @@
-const AUTH_RETURN_TO_KEY = 'openbitfun.auth.returnTo';
-export const OPC_AUTH_CALLBACK = 'openbitfun://auth/callback';
+const AUTH_RETURN_TO_KEY = 'opc.auth.returnTo';
+export const OPC_AUTH_CALLBACK = 'opc://auth/callback';
 
 /**
  * The return target is only a wake-up signal. Keep the allowlist exact so a
@@ -10,7 +10,7 @@ export function parseNativeAuthReturnTo(value: string | null): string | null {
   try {
     const target = new URL(value);
     if (
-      target.protocol !== 'openbitfun:' ||
+      target.protocol !== 'opc:' ||
       target.hostname !== 'auth' ||
       target.pathname !== '/callback' ||
       target.username ||

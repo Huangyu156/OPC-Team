@@ -238,7 +238,7 @@ impl AppState {
         } else {
             dirs::data_local_dir()
                 .unwrap_or_else(|| std::path::PathBuf::from("."))
-                .join("OpenBitFun")
+                .join("OPC-Team")
                 .join("ssh")
         };
         let ssh_manager = Arc::new(RwLock::new(None));

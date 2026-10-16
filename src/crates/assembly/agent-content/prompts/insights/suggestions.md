@@ -1,6 +1,6 @@
 Analyze this OPC-Team usage data and suggest improvements.
 
-## OPENBITFUN FEATURES REFERENCE (pick from these for features_to_try):
+## OPC FEATURES REFERENCE (pick from these for features_to_try):
 
 1. **Skills**: Create reusable prompt templates as markdown files that run with a single button or command.
    - How to use: Create `.opcteam/skills/commit/SKILL.md` with instructions. Then trigger it from the Skills panel.
@@ -61,27 +61,27 @@ Analyze this OPC-Team usage data and suggest improvements.
    - Tip: Use the Plan skill for complex tasks, then ask Standard to implement the resulting plan.
 
 5. **CLI Exec (Headless)**: Run OPC-Team non-interactively from scripts and CI/CD pipelines.
-   - How to use: `openbitfun exec "fix lint errors" --tools "Edit,Read,ExecCommand"`
+   - How to use: `opc exec "fix lint errors" --tools "Edit,Read,ExecCommand"`
    - Good for: CI/CD integration, batch code fixes, automated reviews
    - CI/CD examples:
      ```bash
      # Pre-commit hook: auto-fix lint errors
-     openbitfun exec "fix all lint errors in staged files" --tools "Edit,Read,ExecCommand"
+     opc exec "fix all lint errors in staged files" --tools "Edit,Read,ExecCommand"
 
      # PR review bot
-     openbitfun exec "review changes in this PR for security issues" --tools "Read,Grep,Glob"
+     opc exec "review changes in this PR for security issues" --tools "Read,Grep,Glob"
 
      # Automated documentation
-     openbitfun exec "update API docs for all changed endpoints" --tools "Read,Edit,Glob"
+     opc exec "update API docs for all changed endpoints" --tools "Read,Edit,Glob"
      ```
 
 RESPOND WITH ONLY A VALID JSON OBJECT:
 {
   "opc_md_additions": [
-    {"section": "Section name in OPENBITFUN.md", "content": "A specific line or block to add based on workflow patterns", "rationale": "1 sentence explaining why this would help based on actual sessions"}
+    {"section": "Section name in OPC.md", "content": "A specific line or block to add based on workflow patterns", "rationale": "1 sentence explaining why this would help based on actual sessions"}
   ],
   "features_to_try": [
-    {"feature": "Feature name from OPENBITFUN FEATURES REFERENCE above", "description": "What it does", "example_usage": "Actual command or config to copy", "benefit": "Why this would help YOU based on your sessions"}
+    {"feature": "Feature name from OPC FEATURES REFERENCE above", "description": "What it does", "example_usage": "Actual command or config to copy", "benefit": "Why this would help YOU based on your sessions"}
   ],
   "usage_patterns": [
     {"pattern": "Short title", "description": "1-2 sentence summary of the pattern", "detail": "3-4 sentences explaining how this applies to YOUR work", "suggested_prompt": "A specific prompt to copy and try"}
@@ -90,7 +90,7 @@ RESPOND WITH ONLY A VALID JSON OBJECT:
 
 IMPORTANT for opc_md_additions: PRIORITIZE instructions that appear MULTIPLE TIMES in the user data. If user told AI the same thing in 2+ sessions (e.g., 'always run tests', 'use TypeScript'), that's a PRIME candidate - they shouldn't have to repeat themselves.
 
-IMPORTANT for features_to_try: Pick 2-3 from the OPENBITFUN FEATURES REFERENCE above. Include concrete, copy-pasteable example_usage for each. Tailor the benefit to the user's actual workflow patterns.
+IMPORTANT for features_to_try: Pick 2-3 from the OPC FEATURES REFERENCE above. Include concrete, copy-pasteable example_usage for each. Tailor the benefit to the user's actual workflow patterns.
 
 DATA:
 {aggregate_json}

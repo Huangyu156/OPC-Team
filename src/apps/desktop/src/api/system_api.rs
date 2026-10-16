@@ -18,11 +18,11 @@ const UPDATE_PROGRESS_EVENT: &str = "opc-update-progress";
 /// `scripts/desktop-tauri-build.mjs`, which bakes the same pair into the bundle.
 const GITHUB_UPDATER_ENDPOINT: &str = match option_env!("OPC_UPDATER_PRIMARY_ENDPOINT") {
     Some(endpoint) => endpoint,
-    None => "https://github.com/GCWing/OpenBitFun/releases/latest/download/latest-v1.json",
+    None => "https://github.com/GCWing/OPC-Team/releases/latest/download/latest-v1.json",
 };
 const OPC_UPDATER_ENDPOINT: &str = match option_env!("OPC_UPDATER_FALLBACK_ENDPOINT") {
     Some(endpoint) => endpoint,
-    None => "https://openbitfun.com/release/latest-v1.json",
+    None => "https://opcteam.eu.cc/release/latest-v1.json",
 };
 
 /// Throughput probe settings, matching the CLI updater and the relay deploy
@@ -73,7 +73,7 @@ async fn updater_endpoints_by_policy() -> Vec<tauri::Url> {
         fetch_updater_manifest(&client, OPC_UPDATER_ENDPOINT, &platform),
     );
     let Some(github_manifest) = github_manifest else {
-        log::info!("GitHub updater metadata is unavailable; trying the OpenBitFun mirror first");
+        log::info!("GitHub updater metadata is unavailable; trying the OPC-Team mirror first");
         return mirror_first_endpoints();
     };
     let github_speed = probe_endpoint_throughput(&client, &github_manifest.package_url).await;
@@ -84,7 +84,7 @@ async fn updater_endpoints_by_policy() -> Vec<tauri::Url> {
     );
     if prefer_mirror(&github_manifest, mirror_manifest.as_ref(), github_speed) {
         log::info!(
-            "GitHub updater speed is {} KiB/s, under the {} KiB/s bar; trying the synchronized OpenBitFun mirror first.",
+            "GitHub updater speed is {} KiB/s, under the {} KiB/s bar; trying the synchronized OPC-Team mirror first.",
             github_speed / 1024,
             HEALTHY_THROUGHPUT / 1024
         );
@@ -1038,7 +1038,7 @@ fn should_use_configured_notification_app_id() -> bool {
     use std::path::MAIN_SEPARATOR;
 
     // Match the Tauri plugin's development behavior. A Cargo-built executable
-    // has no installed Windows shortcut that registers OpenBitFun's AppUserModelID.
+    // has no installed Windows shortcut that registers OPC-Team's AppUserModelID.
     let Ok(executable) = tauri::utils::platform::current_exe() else {
         return false;
     };
@@ -1207,11 +1207,11 @@ mod tests {
     fn updater_uses_mirror_only_for_a_slow_github_and_the_same_release() {
         let github = UpdaterManifestInfo {
             version: "1.2.3".into(),
-            package_url: "https://github.example/openbitfun.tar.gz".into(),
+            package_url: "https://github.example/opc.tar.gz".into(),
         };
         let synchronized_mirror = UpdaterManifestInfo {
             version: "1.2.3".into(),
-            package_url: "https://mirror.example/openbitfun.tar.gz".into(),
+            package_url: "https://mirror.example/opc.tar.gz".into(),
         };
         let stale_mirror = UpdaterManifestInfo {
             version: "1.2.2".into(),

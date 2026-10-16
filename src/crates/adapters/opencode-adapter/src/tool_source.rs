@@ -27,7 +27,7 @@ const MAX_TOOL_FILES: usize = 1024;
 const MAX_TOOL_FILE_BYTES: u64 = 512 * 1024;
 
 const TOOL_SHIM: &str = r#"
-const __openbitfunSchema = (schema) => Object.assign(schema, {
+const __opcSchema = (schema) => Object.assign(schema, {
   describe(description) { this.description = description; return this; },
   optional() { this.__optional = true; return this; },
   default(value) { this.__default = value; this.__optional = true; return this; },
@@ -47,12 +47,12 @@ const __openbitfunSchema = (schema) => Object.assign(schema, {
 });
 const tool = (definition) => definition;
 tool.schema = {
-  string: () => __openbitfunSchema({ type: "string" }),
-  number: () => __openbitfunSchema({ type: "number" }),
-  boolean: () => __openbitfunSchema({ type: "boolean" }),
-  enum: (values) => __openbitfunSchema({ type: "string", enum: values }),
-  array: (items) => __openbitfunSchema({ type: "array", items }),
-  object: (properties) => __openbitfunSchema({ type: "object", properties, additionalProperties: false }),
+  string: () => __opcSchema({ type: "string" }),
+  number: () => __opcSchema({ type: "number" }),
+  boolean: () => __opcSchema({ type: "boolean" }),
+  enum: (values) => __opcSchema({ type: "string", enum: values }),
+  array: (items) => __opcSchema({ type: "array", items }),
+  object: (properties) => __opcSchema({ type: "object", properties, additionalProperties: false }),
 };
 "#;
 

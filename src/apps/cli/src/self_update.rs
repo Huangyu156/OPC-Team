@@ -15,8 +15,8 @@ use std::time::{Duration, Instant, SystemTime};
 use tar::Archive;
 
 const GITHUB_MANIFEST: &str =
-    "https://github.com/GCWing/OpenBitFun/releases/latest/download/linux-binaries-v1.json";
-const OPC_MANIFEST: &str = "https://openbitfun.com/release/linux-binaries-v1.json";
+    "https://github.com/GCWing/OPC-Team/releases/latest/download/linux-binaries-v1.json";
+const OPC_MANIFEST: &str = "https://opcteam.eu.cc/release/linux-binaries-v1.json";
 const AUTO_CHECK_INTERVAL: Duration = Duration::from_secs(6 * 60 * 60);
 
 /// Source-selection tuning. Mirrors the relay deploy path in
@@ -111,7 +111,7 @@ pub(crate) async fn run_manual(check_only: bool) -> Result<UpdateOutcome> {
             )
         }
         // `try_source` already printed the available version and its source.
-        UpdateOutcome::Available => println!("Run `openbitfun update` to install it."),
+        UpdateOutcome::Available => println!("Run `opc update` to install it."),
         UpdateOutcome::Updated => println!(
             "OPC-Team CLI was updated successfully. Restart this command to use the new version."
         ),
@@ -174,7 +174,7 @@ pub(crate) async fn maybe_run_automatic() {
     }
 }
 
-/// Run `openbitfun update` detached so it outlives this process. Returns false when
+/// Run `opc update` detached so it outlives this process. Returns false when
 /// another install already holds the lock.
 fn spawn_detached_install() -> Result<bool> {
     if InstallLock::is_held() {
@@ -236,10 +236,10 @@ fn report_background_failure() {
         return;
     }
     eprintln!("The last background OPC-Team CLI update failed: {message}");
-    eprintln!("Run `openbitfun update` to retry.");
+    eprintln!("Run `opc update` to retry.");
 }
 
-/// Guards against two `openbitfun update` runs swapping the binary at once.
+/// Guards against two `opc update` runs swapping the binary at once.
 struct InstallLock {
     path: PathBuf,
 }
@@ -273,7 +273,7 @@ impl InstallLock {
             let _ = fs::create_dir_all(parent);
         }
         // `create_new` is the whole point: a check-then-write leaves a window in
-        // which two `openbitfun update` processes both see no lock, and interleaving
+        // which two `opc update` processes both see no lock, and interleaving
         // their backup/stage/swap renames can leave no working binary at all.
         // Only a stale lock is cleared, and only then is the create retried.
         match fs::OpenOptions::new()
@@ -354,7 +354,7 @@ async fn update_from_configured_sources(check_only: bool) -> Result<UpdateOutcom
     }
 
     // Only sources that actually carry the newest version are candidates. During
-    // the mirror's sync window openbitfun still advertises the previous release,
+    // the mirror's sync window opc still advertises the previous release,
     // so it is simply not offering these bytes yet.
     let mut candidates = Vec::new();
     let mut skipped = Vec::new();
@@ -379,7 +379,7 @@ async fn update_from_configured_sources(check_only: bool) -> Result<UpdateOutcom
                     source: if *source == "GitHub" {
                         ReleaseSource::GitHub
                     } else {
-                        ReleaseSource::OpenBitFun
+                        ReleaseSource::OpcTeam
                     },
                     url: asset.url.clone(),
                     sha256_url: asset.sha256_url.clone(),
@@ -402,7 +402,7 @@ async fn update_from_configured_sources(check_only: bool) -> Result<UpdateOutcom
     let ranked = order_sources(&client, candidates).await;
     if ranked
         .first()
-        .is_some_and(|(candidate, _)| candidate.source == ReleaseSource::OpenBitFun)
+        .is_some_and(|(candidate, _)| candidate.source == ReleaseSource::OpcTeam)
     {
         if let Some((_, github_speed)) = ranked
             .iter()
@@ -579,7 +579,7 @@ impl PartialDownload {
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 enum ReleaseSource {
     GitHub,
-    OpenBitFun,
+    OpcTeam,
 }
 
 #[derive(Debug, Clone)]
@@ -603,7 +603,7 @@ async fn fetch_manifests(
 
     let mut manifests = Vec::new();
     let mut errors = Vec::new();
-    for (source, result) in [("GitHub", github), ("openbitfun.com", mirror)] {
+    for (source, result) in [("GitHub", github), ("opcteam.eu.cc", mirror)] {
         match result {
             Ok(manifest) => manifests.push((source, manifest)),
             Err(error) => errors.push(format!("{source}: {error:#}")),
@@ -760,12 +760,12 @@ async fn order_sources_with_window(
     if github_speed >= HEALTHY_THROUGHPUT
         || !candidates
             .iter()
-            .any(|candidate| candidate.source == ReleaseSource::OpenBitFun)
+            .any(|candidate| candidate.source == ReleaseSource::OpcTeam)
     {
         candidates.swap(0, github_index);
     } else if let Some(mirror_index) = candidates
         .iter()
-        .position(|candidate| candidate.source == ReleaseSource::OpenBitFun)
+        .position(|candidate| candidate.source == ReleaseSource::OpcTeam)
     {
         candidates.swap(0, mirror_index);
     }
@@ -957,9 +957,9 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
     let install_dir = current_exe
         .parent()
         .ok_or_else(|| anyhow!("current executable has no parent directory"))?;
-    if current_exe.file_name().and_then(|name| name.to_str()) != Some("openbitfun") {
+    if current_exe.file_name().and_then(|name| name.to_str()) != Some("opc") {
         return Err(anyhow!(
-            "self-update requires the official executable name `openbitfun`"
+            "self-update requires the official executable name `opc`"
         ));
     }
     let plugin_host_target = install_dir.join("resources").join("ext-host");
@@ -969,7 +969,7 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
         .unpack(extract_dir.path())
         .context("extract CLI update archive")?;
     let package_dir = find_package_dir(extract_dir.path())?;
-    let new_primary = package_dir.join("openbitfun");
+    let new_primary = package_dir.join("opc");
     let new_plugin_host = package_dir.join("resources").join("ext-host");
     validate_entrypoint(&new_primary)?;
     validate_plugin_host_resources(&new_plugin_host)?;
@@ -987,21 +987,21 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
                 install_dir.display()
             )
         })?;
-    let staged_primary = stage.path().join("openbitfun");
+    let staged_primary = stage.path().join("opc");
     let staged_plugin_host = stage.path().join("ext-host");
-    fs::copy(&new_primary, &staged_primary).context("stage openbitfun")?;
+    fs::copy(&new_primary, &staged_primary).context("stage opc")?;
     copy_plugin_host_resources(&new_plugin_host, &staged_plugin_host)?;
     fs::set_permissions(&staged_primary, fs::Permissions::from_mode(0o755))?;
     validate_entrypoint(&staged_primary)?;
     validate_plugin_host_resources(&staged_plugin_host)?;
 
-    let primary_backup = stage.path().join("previous-openbitfun");
+    let primary_backup = stage.path().join("previous-opc");
     let plugin_host_backup = stage.path().join("previous-ext-host");
     let plugin_host_existed = plugin_host_target.is_dir();
 
     // Rollback runs while something has already gone wrong, so its own failures
     // are the ones that matter most: they are the difference between "the update
-    // did not apply" and "there is no working `openbitfun` on this machine any
+    // did not apply" and "there is no working `opc` on this machine any
     // more". Swallowing them leaves the user with a broken install and no clue.
     let mut rollback_failures: Vec<String> = Vec::new();
     let restore = |from: &Path, to: &Path, rollback_failures: &mut Vec<String>| {
@@ -1020,7 +1020,7 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
         ))
     };
 
-    fs::rename(current_exe, &primary_backup).context("back up current openbitfun")?;
+    fs::rename(current_exe, &primary_backup).context("back up current opc")?;
     if plugin_host_existed {
         if let Err(error) = fs::rename(&plugin_host_target, &plugin_host_backup) {
             restore(&primary_backup, current_exe, &mut rollback_failures);
@@ -1042,7 +1042,7 @@ fn install_archive(archive: &[u8], current_exe: &Path) -> Result<()> {
         restore(&primary_backup, current_exe, &mut rollback_failures);
         return Err(rollback_error(
             error,
-            "install updated openbitfun",
+            "install updated opc",
             rollback_failures,
         ));
     }
@@ -1126,11 +1126,11 @@ fn install_archive(_archive: &[u8], _current_exe: &Path) -> Result<()> {
 fn find_package_dir(root: &Path) -> Result<PathBuf> {
     for entry in fs::read_dir(root).context("inspect CLI update archive")? {
         let path = entry?.path();
-        if path.is_dir() && path.join("openbitfun").is_file() {
+        if path.is_dir() && path.join("opc").is_file() {
             return Ok(path);
         }
     }
-    Err(anyhow!("CLI update archive does not contain openbitfun"))
+    Err(anyhow!("CLI update archive does not contain opc"))
 }
 
 fn validate_entrypoint(executable: &Path) -> Result<()> {
@@ -1263,13 +1263,13 @@ fn restart_managed_daemon() {
         dirs::config_dir(),
         dirs::home_dir().map(|it| it.join(".config")),
     ];
-    let installed = candidates.iter().flatten().any(|dir| {
-        dir.join("systemd/user/openbitfun-cli-daemon.service")
-            .is_file()
-    });
+    let installed = candidates
+        .iter()
+        .flatten()
+        .any(|dir| dir.join("systemd/user/opc-cli-daemon.service").is_file());
     if installed {
         let _ = Command::new("systemctl")
-            .args(["--user", "try-restart", "openbitfun-cli-daemon.service"])
+            .args(["--user", "try-restart", "opc-cli-daemon.service"])
             .status();
     }
 }
@@ -1380,7 +1380,7 @@ mod tests {
         let ordered = order_sources_with_window(
             &client,
             vec![
-                mirror.candidate(ReleaseSource::OpenBitFun, "a.tar.gz"),
+                mirror.candidate(ReleaseSource::OpcTeam, "a.tar.gz"),
                 github.candidate(ReleaseSource::GitHub, "a.tar.gz"),
             ],
             Duration::from_secs(1),
@@ -1404,13 +1404,13 @@ mod tests {
             &client,
             vec![
                 github.candidate(ReleaseSource::GitHub, "a.tar.gz"),
-                mirror.candidate(ReleaseSource::OpenBitFun, "a.tar.gz"),
+                mirror.candidate(ReleaseSource::OpcTeam, "a.tar.gz"),
             ],
             Duration::from_millis(400),
         )
         .await;
 
-        assert_eq!(ordered[0].0.source, ReleaseSource::OpenBitFun);
+        assert_eq!(ordered[0].0.source, ReleaseSource::OpcTeam);
         let github_speed = ordered
             .iter()
             .find(|(candidate, _)| candidate.source == ReleaseSource::GitHub)
@@ -1512,13 +1512,13 @@ mod tests {
         // Mirror lags GitHub during its sync window; the newer one must win.
         let manifests = vec![
             ("GitHub", manifest("1.0.1")),
-            ("openbitfun.com", manifest("1.0.0")),
+            ("opcteam.eu.cc", manifest("1.0.0")),
         ];
         assert_eq!(newest_version(&manifests), "1.0.1");
 
         let reversed = vec![
             ("GitHub", manifest("1.0.0")),
-            ("openbitfun.com", manifest("1.0.1")),
+            ("opcteam.eu.cc", manifest("1.0.1")),
         ];
         assert_eq!(newest_version(&reversed), "1.0.1");
     }
@@ -1544,7 +1544,7 @@ mod tests {
     /// minisign wire format, pinning the exact on-disk format CI must emit.
     const FIXTURE_PUBKEY: &str = "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IERENTQzQUM5RUY0NTIzRTMKUldUakkwWHZ5VHBVM1NOMXJWMHhLVlljSDBOY2x4YlpxVHA2clN1NEJPMWcyY2Qvd2U4VUR2b3AK";
     const FIXTURE_SIGNATURE: &str = "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVUakkwWHZ5VHBVM2RVVFdoR3FNZDltSWNUeEQ1K2ZnNWRUSnYxWk5lUkZzd0h0MkdzSUhUSlV6a0haUTdNZm1aemM5QVBQWW50UWgvaWpFcEp1Zkp4SERWdnhIc1g2YUFrPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNzg4NDg2NTU4CWZpbGU6Lm9wZW5iaXRmdW4tbWluaXNpZ24tZml4dHVyZS50eHQKa1QxdDQ3bWtLVlhaZUdFSjR4R0V5R1Z3REVnUlI0RGJqbHFoZkVHdkdLSlFyTGJ5Z05JRTI5V3dwdXRkSFpZckUrK0RaUVVJYUJod1dzcmVydHZnQXc9PQo=";
-    const FIXTURE_DATA: &[u8] = b"hello-openbitfun\n";
+    const FIXTURE_DATA: &[u8] = b"hello-opc\n";
 
     #[test]
     fn release_signature_accepts_the_tauri_wire_format() {
@@ -1571,7 +1571,7 @@ mod tests {
 
     #[test]
     fn checksum_contract_accepts_standard_sha_file() {
-        let data = b"openbitfun";
+        let data = b"opc";
         let digest = format!("{:x}", Sha256::digest(data));
         verify_sha256(
             data,

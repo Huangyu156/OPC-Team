@@ -223,7 +223,7 @@ const WorkspaceSessionBatchModal: React.FC<WorkspaceSessionBatchModalProps> = ({
       const successCount = results.filter(result => result.status === 'fulfilled').length;
       if (successCount > 0) {
         await refreshWorkspaceSessions();
-        window.dispatchEvent(new CustomEvent('openbitfun:session-archived'));
+        window.dispatchEvent(new CustomEvent('opc:session-archived'));
         notificationService.success(t('nav.sessions.archivedAll', { count: successCount }), { duration: 3000 });
       }
       if (successCount !== selectedIds.length) {

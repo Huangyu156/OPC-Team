@@ -54,8 +54,8 @@ export struct ModelRoleSelectorPreview {
       models: [
         this.fixtureModel('anthropic/claude-sonnet-4.5', 'Claude Sonnet 4.5', 'anthropic',
           'claude-sonnet-4-5', 200000, true),
-        this.fixtureModel('openbitfun:gpt-5-mini', 'GPT-5 mini', 'openai',
-          'openbitfun:gpt-5-mini', 128000, true),
+        this.fixtureModel('opc:gpt-5-mini', 'GPT-5 mini', 'openai',
+          'opc:gpt-5-mini', 128000, true),
         this.fixtureModel('google/gemini-2.5-flash', 'Gemini 2.5 Flash', 'google',
           'gemini-2.5-flash', 1000000, true),
         this.fixtureModel('local:qwen3-coder', 'Qwen3 Coder', 'local', 'qwen3-coder', 32768, true),
@@ -63,7 +63,7 @@ export struct ModelRoleSelectorPreview {
       ],
       default_models: {
         primary: 'anthropic/claude-sonnet-4.5',
-        fast: 'openbitfun:gpt-5-mini',
+        fast: 'opc:gpt-5-mini',
         search: '',
         image_understanding: ''
       },

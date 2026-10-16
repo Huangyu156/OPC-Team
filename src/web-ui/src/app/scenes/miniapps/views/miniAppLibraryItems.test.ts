@@ -36,7 +36,7 @@ function listing(
     tags: [],
     owner: { githubId: 1, login: 'owner', avatarUrl: '' },
     latestRelease,
-    minOpenBitFunVersion: '1.0.0',
+    minOpcVersion: '1.0.0',
     permissions: {},
     screenshotUrls: [],
     ratingAverage: 0,

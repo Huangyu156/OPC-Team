@@ -22,7 +22,7 @@ use std::collections::HashSet;
 use std::time::Duration;
 use thiserror::Error;
 
-const USER_AGENT_VALUE: &str = "OpenBitFun/1.0";
+const USER_AGENT_VALUE: &str = "OPC-Team/1.0";
 const WEB_FETCH_TIMEOUT_SECS: u64 = 30;
 const EXA_URL: &str = "https://mcp.exa.ai/mcp";
 const EXA_TIMEOUT_SECS: u64 = 60;
@@ -835,7 +835,7 @@ mod tests {
     async fn opc_http_protocol_uses_v1_media_type_and_camel_case_body() {
         let response_body = r#"{"results":[{"title":"One","url":"https://example.com/one","publishedAt":"2026-08-30T00:00:00Z","author":"A"}]}"#;
         let (endpoint, request_task) = serve_once(format!(
-            "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.openbitfun.web-search.v1+json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+            "HTTP/1.1 200 OK\r\nContent-Type: application/vnd.opc.web-search.v1+json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
             response_body.len(),
             response_body
         ))
@@ -861,7 +861,7 @@ mod tests {
             .expect("OPC-Team HTTP fixture request task");
         let request_lower = request.to_ascii_lowercase();
 
-        assert!(request_lower.contains("accept: application/vnd.openbitfun.web-search.v1+json"));
+        assert!(request_lower.contains("accept: application/vnd.opc.web-search.v1+json"));
         assert!(request_lower.contains("x-search-key: http-secret"));
         assert!(request.ends_with(r#"{"query":"rust async","maxResults":5}"#));
         assert_eq!(response.provider.as_str(), "opc_search_http");
@@ -910,7 +910,7 @@ mod tests {
         let response_body =
             r#"{"error":{"code":"rate_limited","message":"Slow down","retryAfterSeconds":17}}"#;
         let (endpoint, request_task) = serve_once(format!(
-            "HTTP/1.1 503 Service Unavailable\r\nContent-Type: application/vnd.openbitfun.web-search.v1+json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
+            "HTTP/1.1 503 Service Unavailable\r\nContent-Type: application/vnd.opc.web-search.v1+json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{}",
             response_body.len(),
             response_body
         ))

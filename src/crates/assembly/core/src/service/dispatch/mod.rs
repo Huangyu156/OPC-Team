@@ -944,7 +944,7 @@ mod tests {
         )
         .expect("record")
         .with_source_workspace(
-            Some("/Users/test/projects/OpenBitFun".to_string()),
+            Some("/Users/test/projects/OPC-Team".to_string()),
             Some("workspace-1".to_string()),
         );
 
@@ -956,7 +956,7 @@ mod tests {
             .expect("persisted record");
         assert_eq!(
             persisted.source_workspace_path.as_deref(),
-            Some("/Users/test/projects/OpenBitFun")
+            Some("/Users/test/projects/OPC-Team")
         );
         assert_eq!(
             persisted.source_workspace_id.as_deref(),

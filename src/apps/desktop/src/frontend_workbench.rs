@@ -223,7 +223,7 @@ impl FrontendWorkbenchManager {
                 );
             } else {
                 // Never keep serving an unconfirmed candidate just because its
-                // prior revision was damaged outside OpenBitFun. The bundled copy
+                // prior revision was damaged outside OPC-Team. The bundled copy
                 // below becomes the recovery target.
                 state.active_revision = None;
                 state.previous_revision = None;
@@ -1403,9 +1403,9 @@ fn revision_frontend_url_value(
         .map_err(|error| format!("Invalid frontend URL: {error}"))?;
     {
         let mut query = url.query_pairs_mut();
-        query.append_pair("openbitfunFrontendRevision", revision_id);
+        query.append_pair("opcFrontendRevision", revision_id);
         if let Some(transaction_id) = transaction_id {
-            query.append_pair("openbitfunFrontendTransaction", transaction_id);
+            query.append_pair("opcFrontendTransaction", transaction_id);
         }
     }
     Ok(url)
@@ -2383,10 +2383,10 @@ mod tests {
 
     #[test]
     fn custom_frontend_navigation_matches_the_windows_protocol_projection() {
-        let native = "opc-ui://localhost/index.html?openbitfunFrontendRevision=creative-1&openbitfunFrontendTransaction=tx"
+        let native = "opc-ui://localhost/index.html?opcFrontendRevision=creative-1&opcFrontendTransaction=tx"
             .parse::<Url>()
             .expect("native URL");
-        let windows = "http://opc-ui.localhost/index.html?openbitfunFrontendRevision=creative-1&openbitfunFrontendTransaction=tx"
+        let windows = "http://opc-ui.localhost/index.html?opcFrontendRevision=creative-1&opcFrontendTransaction=tx"
             .parse::<Url>()
             .expect("Windows URL");
 

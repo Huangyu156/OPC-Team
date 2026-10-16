@@ -5,8 +5,8 @@ import '@opc-team/design-tokens/tokens.css';
 import '@opc-team/theme/default.css';
 import '../../src/app/styles/index.scss';
 import { I18nProvider, i18nService } from '../../src/infrastructure/i18n';
-import { OpenBitFunDesignSystemProvider } from '../../src/infrastructure/design-system';
-import { appearanceRuntime, buildBuiltinAppearance, openBitFunDarkPalette } from '../../src/infrastructure/appearance';
+import { OpcDesignSystemProvider } from '../../src/infrastructure/design-system';
+import { appearanceRuntime, buildBuiltinAppearance, opcDarkPalette } from '../../src/infrastructure/appearance';
 import { workspaceAPI } from '../../src/infrastructure/api';
 import MarkdownEditor from '../../src/tools/editor/components/MarkdownEditor';
 import { Preview } from './preview-reference';
@@ -21,7 +21,7 @@ workspaceAPI.writeFileContent = async (_workspace, _file, content) => {
   if (!response.ok) throw new Error('Fixture file write failed');
 };
 await i18nService.initialize();
-await appearanceRuntime.initialize(buildBuiltinAppearance(openBitFunDarkPalette));
+await appearanceRuntime.initialize(buildBuiltinAppearance(opcDarkPalette));
 
 const showReference = new URLSearchParams(location.search).has('reference');
 const referenceContent = showReference ? await workspaceAPI.readFileContent('/workspace/test.md') : '';
@@ -29,13 +29,13 @@ const referenceContent = showReference ? await workspaceAPI.readFileContent('/wo
 function Fixture() {
   const [dirty, setDirty] = useState(false);
   const [readonly, setReadonly] = useState(false);
-  return <I18nProvider><OpenBitFunDesignSystemProvider>
+  return <I18nProvider><OpcDesignSystemProvider>
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', maxWidth: 960, margin: 'auto' }}>
       <div><button data-testid="readonly" onClick={() => setReadonly(!readonly)}>Toggle readonly</button>
         <output data-testid="dirty">{dirty ? 'Unsaved' : 'Saved'}</output></div>
       {showReference ? <Preview value={referenceContent} /> : <MarkdownEditor filePath="/workspace/test.md" workspacePath="/workspace" readOnly={readonly}
         onContentChange={(_content, changed) => setDirty(changed)} />}
     </div>
-  </OpenBitFunDesignSystemProvider></I18nProvider>;
+  </OpcDesignSystemProvider></I18nProvider>;
 }
 createRoot(document.getElementById('root')!).render(<Fixture />);

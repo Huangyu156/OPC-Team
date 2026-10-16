@@ -340,7 +340,7 @@ async fn download_release(
     response.headers_mut().insert(
         header::CONTENT_DISPOSITION,
         HeaderValue::from_str(&format!(
-            "attachment; filename=\"{}-{}.openbitfun-appearance\"",
+            "attachment; filename=\"{}-{}.opc-appearance\"",
             slug, meta.package_version
         ))
         .map_err(SkinMarketError::internal)?,
@@ -1629,13 +1629,13 @@ fn validate_min_opc_version(value: &str) -> SkinMarketResult<()> {
     let version = Version::parse(value).map_err(|_| {
         SkinMarketError::bad_request(
             "invalid_min_opc_version",
-            "minOpenBitFunVersion must use semantic version syntax, for example 1.0.0.",
+            "minOpcVersion must use semantic version syntax, for example 1.0.0.",
         )
     })?;
     if version < OPC_INITIAL_RELEASE_VERSION {
         return Err(SkinMarketError::bad_request(
             "invalid_min_opc_version",
-            "minOpenBitFunVersion must be 1.0.0 or newer.",
+            "minOpcVersion must be 1.0.0 or newer.",
         ));
     }
     Ok(())

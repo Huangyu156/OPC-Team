@@ -325,7 +325,7 @@
         color-mix(in srgb, var(--opcteam-color-content-on-dark) 18%, transparent) 48%,
         color-mix(in srgb, var(--opcteam-color-content-on-dark) 0%, transparent) 100%
       );
-      animation: openbitfun-market-skeleton-shimmer 1.3s var(--opcteam-motion-easing-standard) infinite;
+      animation: opc-market-skeleton-shimmer 1.3s var(--opcteam-motion-easing-standard) infinite;
     }
   }
 
@@ -410,7 +410,7 @@
   }
 }
 
-@keyframes openbitfun-market-skeleton-shimmer {
+@keyframes opc-market-skeleton-shimmer {
   100% {
     transform: translateX(100%);
   }

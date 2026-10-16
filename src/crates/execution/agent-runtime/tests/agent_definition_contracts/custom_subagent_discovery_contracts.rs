@@ -36,21 +36,20 @@ fn custom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_di
     let opc_user = TestTempDir::new("opc-runtime-subagent-user");
     let home = TestTempDir::new("opc-runtime-subagent-home");
 
-    let project_openbitfun = workspace
+    let project_opc = workspace
         .path
         .join(opc_core_types::product_identity::hidden_data_directory())
         .join("agents");
     let project_claude = workspace.path.join(".claude").join("agents");
-    let user_openbitfun = opc_user.path.join("agents");
+    let user_opc = opc_user.path.join("agents");
     let home_claude = home.path.join(".claude").join("agents");
-    fs::create_dir_all(&project_openbitfun)
-        .expect("project openbitfun agents dir should be created");
+    fs::create_dir_all(&project_opc).expect("project openbitfun agents dir should be created");
     fs::create_dir_all(&project_claude).expect("project claude agents dir should be created");
-    fs::create_dir_all(&user_openbitfun).expect("user openbitfun agents dir should be created");
+    fs::create_dir_all(&user_opc).expect("user openbitfun agents dir should be created");
     fs::create_dir_all(&home_claude).expect("home claude agents dir should be created");
 
     write_agent(
-        &project_openbitfun.join("shared.md"),
+        &project_opc.join("shared.md"),
         "Shared",
         "Shared",
         "Project OPC-Team agent",
@@ -64,7 +63,7 @@ fn custom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_di
         CustomSubagentKind::Project,
     );
     write_agent(
-        &user_openbitfun.join("user-only.md"),
+        &user_opc.join("user-only.md"),
         "UserOnly",
         "UserOnly",
         "OPC-Team user agent",
@@ -77,11 +76,11 @@ fn custom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_di
         "Claude user agent",
         CustomSubagentKind::User,
     );
-    fs::write(project_openbitfun.join("ignored.txt"), "ignored")
+    fs::write(project_opc.join("ignored.txt"), "ignored")
         .expect("ignored text file should be written");
-    fs::create_dir_all(project_openbitfun.join("nested")).expect("nested dir should be created");
+    fs::create_dir_all(project_opc.join("nested")).expect("nested dir should be created");
     write_agent(
-        &project_openbitfun.join("nested").join("nested.md"),
+        &project_opc.join("nested").join("nested.md"),
         "Nested",
         "Nested",
         "Nested project agent",
@@ -90,7 +89,7 @@ fn custom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_di
 
     let roots = CustomSubagentDiscoveryRoots {
         workspace_root: Some(workspace.path.clone()),
-        opc_user_agents_dir: Some(user_openbitfun.clone()),
+        opc_user_agents_dir: Some(user_opc.clone()),
         home_dir: Some(home.path.clone()),
     };
 
@@ -99,7 +98,7 @@ fn custom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_di
         dirs.iter()
             .map(|entry| entry.path.as_path())
             .collect::<Vec<_>>(),
-        vec![project_openbitfun.as_path(), user_openbitfun.as_path()]
+        vec![project_opc.as_path(), user_opc.as_path()]
     );
     assert_eq!(
         dirs.iter().map(|entry| entry.level).collect::<Vec<_>>(),
@@ -120,24 +119,21 @@ fn custom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_di
         report.definitions[0].definition.description,
         "Project OPC-Team agent"
     );
-    assert_eq!(
-        report.definitions[0].path,
-        project_openbitfun.join("shared.md")
-    );
+    assert_eq!(report.definitions[0].path, project_opc.join("shared.md"));
 }
 
 #[test]
 fn custom_subagent_discovery_reports_parse_errors_without_dropping_valid_files() {
     let workspace = TestTempDir::new("opc-runtime-subagent-invalid");
-    let project_openbitfun = workspace
+    let project_opc = workspace
         .path
         .join(opc_core_types::product_identity::hidden_data_directory())
         .join("agents");
-    fs::create_dir_all(&project_openbitfun).expect("project agents dir should be created");
-    let broken_path = project_openbitfun.join("broken.md");
+    fs::create_dir_all(&project_opc).expect("project agents dir should be created");
+    let broken_path = project_opc.join("broken.md");
     fs::write(&broken_path, "No front matter").expect("broken markdown file should be written");
     write_agent(
-        &project_openbitfun.join("valid.md"),
+        &project_opc.join("valid.md"),
         "Valid",
         "Valid",
         "Valid project agent",

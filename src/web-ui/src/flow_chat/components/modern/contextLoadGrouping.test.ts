@@ -29,8 +29,8 @@ function inline(items: AnyFlowItem[]) {
 describe('context loading classification', () => {
   it('classifies skill/spec and the three discovery actions, including deferred identities', () => {
     for (const item of [tool('skill'), tool('spec', 'GetToolSpec'),
-      ...['list', 'search', 'get'].map(action => tool(action, 'OpenBitFunControl', { action })),
-      tool('deferred', 'CallDeferredTool', { tool_name: 'OpenBitFunControl', args: { action: 'get' } }),
+      ...['list', 'search', 'get'].map(action => tool(action, 'OpcControl', { action })),
+      tool('deferred', 'CallDeferredTool', { tool_name: 'OpcControl', args: { action: 'get' } }),
       tool('deferred-skill', 'CallDeferredTool', { tool_name: 'Skill', args: { command: 'review' } }),
     ]) expect(isSettledContextLoad(item)).toBe(true);
   });
@@ -38,7 +38,7 @@ describe('context loading classification', () => {
   it('keeps execution, ordinary reading, MCP calls and unknown gateway targets outside context loading', () => {
     for (const item of [tool('read', 'Read', { file_path: 'SKILL.md' }), tool('compress', 'ContextCompression'),
       tool('command', 'ExecCommand'), tool('mcp', 'mcp__server__search'), tool('unknown', 'CallDeferredTool'),
-      ...['open', 'execute', 'configure'].map(action => tool(action, 'OpenBitFunControl', { action })),
+      ...['open', 'execute', 'configure'].map(action => tool(action, 'OpcControl', { action })),
       tool('deferred-edit', 'CallDeferredTool', { tool_name: 'Edit', args: {} }),
     ]) expect(getContextLoadKind(item)).toBeUndefined();
   });
@@ -56,7 +56,7 @@ describe('context loading classification', () => {
       { ...tool('partial'), isParamsStreaming: true },
       { ...tool('failed'), toolResult: { success: false, result: {} } },
       { ...tool('payload-failed'), toolResult: { success: true, result: { success: false } } },
-      { ...tool('unavailable', 'OpenBitFunControl', { action: 'get' }),
+      { ...tool('unavailable', 'OpcControl', { action: 'get' }),
         toolResult: { success: true, result: { capability: { id: 'remote' }, controlAvailability: { status: 'unavailable' } } } },
     ];
     failures.forEach(item => expect(isSettledContextLoad(item)).toBe(false));
@@ -90,7 +90,7 @@ describe('context group projection', () => {
   it('appends without resetting an open source group or changing its owner', () => {
     const first = model('first', [tool('one'), tool('two', 'GetToolSpec')]);
     const initial = contextGroups(projectAdjacentExploreGroups([first]))[0];
-    const second = model('second', [tool('three', 'OpenBitFunControl', { action: 'search' })]);
+    const second = model('second', [tool('three', 'OpcControl', { action: 'search' })]);
     const appended = contextGroups(projectAdjacentExploreGroups([first, second]))[0];
     expect(appended.groupId).toBe(initial.groupId);
     expect(isExploreGroupExpanded(appended, new Map([[initial.groupId, true]]))).toBe(true);

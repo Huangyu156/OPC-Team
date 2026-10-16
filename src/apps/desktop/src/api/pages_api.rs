@@ -1,4 +1,4 @@
-//! OpenBitFun Page Tauri commands (Save Version → Deploy).
+//! OPC-Team Page Tauri commands (Save Version → Deploy).
 
 use opc_services_integrations::remote_connect::{
     create_page_open_link_on_relay, delete_page_from_relay, delete_page_version_on_relay,

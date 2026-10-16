@@ -114,7 +114,7 @@ it('keeps a manual check of a skipped release quiet and offers an explicit resto
   expect(restore).toBeDefined();
   act(() => restore.click());
   expect(selectHasUpdateAttention(state())).toBe(true);
-  expect(localStorage.getItem('openbitfun:update:skippedVersion')).toBeNull();
+  expect(localStorage.getItem('opc:update:skippedVersion')).toBeNull();
   expect(state().notice).toBeNull();
   expect(state().status).toBe('idle');
 });

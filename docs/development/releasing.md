@@ -89,7 +89,7 @@ commit separately.
 Public beta assets are stored on the immutable version tag. After every asset
 and signature is verified, the workflow updates only the `latest-v1.json` asset on
 the `channel-v1-beta` pre-release. Beta Desktop builds read that pointer and fall
-back to `https://openbitfun.com/release/beta/latest-v1.json`.
+back to `https://opcteam.eu.cc/release/beta/latest-v1.json`.
 Beta releases include Desktop and Installer assets, Linux CLI and Relay Server
 archives for x86_64 and aarch64, and a multi-platform Relay image for linux/amd64
 and linux/arm64. Release publication requires every producer to succeed. Archives
@@ -124,7 +124,7 @@ The selected ref must resolve to a commit in the protected `main` history. The
 workflow pins that SHA before dispatching platform jobs and rejects an existing
 release tag if it points somewhere else. Configure the signing secrets and the
 public beta approval policy so untrusted pull-request code cannot access them.
-This protected-history requirement applies to the canonical `GCWing/OpenBitFun`
+This protected-history requirement applies to the canonical `GCWing/OPC-Team`
 repository; forks may run packaging from their own test branches. A fork beta
 uses that fork's `channel-v1-beta` release as both updater origins, so it cannot
 silently consume or mutate the canonical beta channel.

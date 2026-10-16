@@ -626,7 +626,7 @@ impl BrowserLauncher {
         dirs::data_local_dir()
             .or_else(dirs::data_dir)
             .unwrap_or_else(std::env::temp_dir)
-            .join("OpenBitFun")
+            .join("OPC-Team")
     }
 
     fn ensure_managed_user_data_dir(kind: &BrowserKind, root: &Path) -> Result<PathBuf> {

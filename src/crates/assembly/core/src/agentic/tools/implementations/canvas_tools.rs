@@ -83,7 +83,7 @@ Use this for rich visual artifacts, dashboards, explainers, interactive summarie
 
 Rules:
 - Provide one complete TSX source string.
-- Import only from `openbitfun/canvas`.
+- Import only from `opc/canvas`.
 - Do not use relative imports, dynamic imports, npm packages, network fetches, or helper files.
 - The source must include `export default`.
 
@@ -111,7 +111,7 @@ Returns a stable `opc-canvas://...` artifact reference for subsequent Canvas too
                 },
                 "source": {
                     "type": "string",
-                    "description": "Complete single-file TSX source using imports from openbitfun/canvas only."
+                    "description": "Complete single-file TSX source using imports from opc/canvas only."
                 },
                 "filename": {
                     "type": "string",
@@ -297,7 +297,7 @@ Provide either `artifact_reference` or `canvas_id`, plus one complete replacemen
                 },
                 "source": {
                     "type": "string",
-                    "description": "Complete replacement TSX source using imports from openbitfun/canvas only."
+                    "description": "Complete replacement TSX source using imports from opc/canvas only."
                 },
                 "title": {
                     "type": "string",
@@ -841,7 +841,7 @@ mod tests {
     }
 
     fn valid_source() -> &'static str {
-        "import { Stack } from 'openbitfun/canvas'; export default function Canvas() { return <Stack />; }"
+        "import { Stack } from 'opc/canvas'; export default function Canvas() { return <Stack />; }"
     }
 
     #[tokio::test]
@@ -995,7 +995,7 @@ mod tests {
             .call_impl(
                 &json!({
                     "title": "Stats",
-                    "source": "import { Stat } from 'openbitfun/canvas'; export default function Canvas() { return <Stat value=\"+191\" label=\"Added\" />; }",
+                    "source": "import { Stat } from 'opc/canvas'; export default function Canvas() { return <Stat value=\"+191\" label=\"Added\" />; }",
                 }),
                 &context,
             )
@@ -1044,7 +1044,7 @@ mod tests {
             .call_impl(
                 &json!({
                     "title": "Duplicate",
-                    "source": "import { Text } from 'openbitfun/canvas'; export default function Canvas() { return <><Text>same</Text><Text>same</Text></>; }",
+                    "source": "import { Text } from 'opc/canvas'; export default function Canvas() { return <><Text>same</Text><Text>same</Text></>; }",
                 }),
                 &context,
             )
@@ -1212,18 +1212,16 @@ mod tests {
     #[test]
     fn normalize_canvas_source_input_strips_only_complete_cdata_wrapper() {
         assert_eq!(
-            normalize_canvas_source_input(
-                "<![CDATA[\nimport { Text } from 'openbitfun/canvas';\n]]>"
-            ),
-            "import { Text } from 'openbitfun/canvas';"
+            normalize_canvas_source_input("<![CDATA[\nimport { Text } from 'opc/canvas';\n]]>"),
+            "import { Text } from 'opc/canvas';"
         );
         assert_eq!(
             normalize_canvas_source_input("<![CDATA[incomplete"),
             "<![CDATA[incomplete"
         );
         assert_eq!(
-            normalize_canvas_source_input("import { Text } from 'openbitfun/canvas';"),
-            "import { Text } from 'openbitfun/canvas';"
+            normalize_canvas_source_input("import { Text } from 'opc/canvas';"),
+            "import { Text } from 'opc/canvas';"
         );
     }
 }

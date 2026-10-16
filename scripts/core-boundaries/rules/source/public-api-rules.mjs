@@ -60,7 +60,7 @@ export const agentRuntimeRootPublicModules = [
 
 const contractSlices = {
   frontendBackendCapabilityService: 'frontend-backend-capability-service',
-  openbitfunPluginExtension: 'opc-plugin-extension-contract',
+  opcPluginExtension: 'opc-plugin-extension-contract',
   pluginRuntimeInternalAbi: 'plugin-runtime-internal-abi',
   opencodeAdapterBoundary: 'opencode-adapter-boundary',
   externalSourceControlContract: 'external-source-control-contract',
@@ -106,7 +106,7 @@ export const pluginRuntimePublicApiEntries = [
       'plugin discovery, status, and config-validation projection',
       'PluginRuntimeClient read model and product assembly plugin status projection',
       'runtime-ports read-model contract tests, OpenCode fixture projection tests, and plugin-runtime-client read-model tests',
-      contractSlices.openbitfunPluginExtension,
+      contractSlices.opcPluginExtension,
     ),
   ),
   ...[
@@ -134,7 +134,7 @@ export const pluginRuntimePublicApiEntries = [
       'plugin permission, effect-preview, and provider handoff',
       'PluginRuntimeClient, tool ABI integration, and security-control candidate validation',
       'runtime-ports candidate-effect contract tests and plugin-runtime-client permission/effect validation tests',
-      contractSlices.openbitfunPluginExtension,
+      contractSlices.opcPluginExtension,
     ),
   ),
   ...[
@@ -151,7 +151,7 @@ export const pluginRuntimePublicApiEntries = [
       'plugin diagnostics and quarantine read-model projection',
       'PluginRuntimeClient read model and capability-service diagnostics projection',
       'runtime-ports diagnostics tests and plugin-runtime-client quarantine/read-model owner tests',
-      contractSlices.openbitfunPluginExtension,
+      contractSlices.opcPluginExtension,
     ),
   ),
   ...[
@@ -222,7 +222,7 @@ function opencodeAdapterEntry(symbol, consumer) {
     contractSlice: contractSlices.opencodeAdapterBoundary,
     wireImpact: false,
     rationale:
-      'P0-C needs one adapter factory that consumes fixed OpenBitFun-managed package content and returns the existing PluginRuntimeAdapter boundary',
+      'P0-C needs one adapter factory that consumes fixed Opc-managed package content and returns the existing PluginRuntimeAdapter boundary',
     exit:
       'remove only if source discovery moves behind a reviewed product source registry with equivalent client tests',
   };
@@ -645,7 +645,7 @@ export const pluginCapabilityProjectionPublicApiEntries = [
   verification:
     'product-domain projection contract tests, OpenCode projection tests, opc-core publication tests, and core-boundary checks',
   p0: 'provider-neutral Agent, Tool, and Skill contributions from executable plugin adapters',
-  contractSlice: contractSlices.openbitfunPluginExtension,
+  contractSlice: contractSlices.opcPluginExtension,
   wireImpact: false,
   rationale:
     'sibling executable plugin adapters need one typed contribution shape without sharing source formats, Host protocols, or lifecycle',
@@ -1166,7 +1166,7 @@ export const externalSourceCorePublicApiEntries = [
     externalSourceControlEntry(
       symbol,
       'opc-core external source control composition facade',
-      'OpenBitFun CLI, Desktop, Server, Peer Host, and Web API adapters',
+      'OPC-Team CLI, Desktop, Server, Peer Host, and Web API adapters',
     ),
   ),
   ...[
@@ -1190,7 +1190,7 @@ export const externalSourceCorePublicApiEntries = [
     externalIntegrationPolicyEntry(
       symbol,
       'opc-core external integration policy composition facade',
-      'OpenBitFun CLI, Desktop, Server, Peer Host, and Web API adapters',
+      'OPC-Team CLI, Desktop, Server, Peer Host, and Web API adapters',
       true,
     ),
   ),
@@ -1243,7 +1243,7 @@ export const externalSourceCorePublicApiEntries = [
     externalSourceEntry(
       symbol,
       'opc-core external source composition facade',
-      'OpenBitFun CLI and desktop host APIs',
+      'OPC-Team CLI and desktop host APIs',
     ),
   ),
   externalReferenceEntry(
@@ -1303,7 +1303,7 @@ export const externalSourceCorePublicApiEntries = [
     externalToolEntry(
       symbol,
       'opc-core external tool composition facade',
-      'OpenBitFun CLI and desktop host APIs',
+      'OPC-Team CLI and desktop host APIs',
     ),
   ),
   ...[
@@ -1326,7 +1326,7 @@ export const externalSourceCorePublicApiEntries = [
     externalSubagentEntry(
       symbol,
       'opc-core external subagent composition facade',
-      'OpenBitFun CLI and desktop host APIs',
+      'OPC-Team CLI and desktop host APIs',
     ),
   ),
   ...[
@@ -1343,7 +1343,7 @@ export const externalSourceCorePublicApiEntries = [
     externalMcpEntry(
       symbol,
       'opc-core external MCP composition facade',
-      'OpenBitFun CLI and desktop host APIs',
+      'OPC-Team CLI and desktop host APIs',
     ),
   ),
 ];
@@ -1355,7 +1355,7 @@ function pluginSourceEntry(symbol, owner, consumer, verification, wireImpact) {
     consumer,
     verification,
     p0: 'P0-C managed package discovery, workspace review state, fixed adapter input, and CLI diagnostics',
-    contractSlice: contractSlices.openbitfunPluginExtension,
+    contractSlice: contractSlices.opcPluginExtension,
     wireImpact,
     rationale:
       'P0-C needs one ecosystem-neutral package identity, review, and fixed-content boundary without exposing adapter or plugin-internal ABI types',
@@ -1398,8 +1398,8 @@ export const managedPluginSourcePublicApiEntries = [
   pluginSourceEntry(
     symbol,
     'opc-core managed plugin source compatibility facade',
-    'OpenBitFun CLI plugins and doctor commands',
-    'services-integrations plugin_source tests, core boundary checks, and OpenBitFun CLI plugin command tests',
+    'OPC-Team CLI plugins and doctor commands',
+    'services-integrations plugin_source tests, core boundary checks, and OPC-Team CLI plugin command tests',
     false,
   ),
 );
@@ -1415,8 +1415,8 @@ export const managedPluginActivationPublicApiEntries = [
   pluginSourceEntry(
     symbol,
     'opc-core managed plugin composition root',
-    'OpenBitFun CLI plugin activation commands',
-    'opc-core plugin_runtime tests, OpenBitFun CLI plugin source tests, and core boundary checks',
+    'OPC-Team CLI plugin activation commands',
+    'opc-core plugin_runtime tests, OPC-Team CLI plugin source tests, and core boundary checks',
     false,
   ),
 );

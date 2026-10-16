@@ -52,7 +52,7 @@ impl ClawMode {
                 // Desktop control runs directly through its own native tool.
                 "ControlHub".to_string(),
                 "ComputerUse".to_string(),
-                "OpenBitFunControl".to_string(),
+                "OpcControl".to_string(),
                 "PublishAppearance".to_string(),
                 "PageDeploy".to_string(),
                 "PagePublish".to_string(),

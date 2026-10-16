@@ -94,7 +94,7 @@ mod tests {
         let mode = CreativeHarness::new();
         assert_eq!(mode.prompt_template_name(None), "creative_mode");
         let prompt = crate::agentic::agents::get_embedded_prompt("creative_mode").unwrap();
-        assert!(prompt.contains("OpenBitFunControl"));
+        assert!(prompt.contains("OpcControl"));
         assert!(prompt
             .split_whitespace()
             .collect::<Vec<_>>()

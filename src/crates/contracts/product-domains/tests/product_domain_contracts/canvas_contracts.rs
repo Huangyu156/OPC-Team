@@ -133,27 +133,24 @@ fn canvas_diagnostic_shape_is_structured() {
     let diagnostic = CanvasDiagnostic {
         severity: CanvasDiagnosticSeverity::Error,
         category: CanvasDiagnosticCategory::ImportPolicy,
-        message: "Only openbitfun/canvas imports are allowed".to_string(),
+        message: "Only opc/canvas imports are allowed".to_string(),
         code: Some("canvas.import.unsupported".to_string()),
         line: Some(2),
         column: Some(8),
-        suggested_fix: Some("Import UI helpers from openbitfun/canvas.".to_string()),
+        suggested_fix: Some("Import UI helpers from opc/canvas.".to_string()),
     };
 
     let value = serde_json::to_value(&diagnostic).unwrap();
 
     assert_eq!(value["severity"], "error");
     assert_eq!(value["category"], "import_policy");
-    assert_eq!(
-        value["suggestedFix"],
-        "Import UI helpers from openbitfun/canvas."
-    );
+    assert_eq!(value["suggestedFix"], "Import UI helpers from opc/canvas.");
 }
 
 #[test]
 fn canvas_import_policy_rejects_relative_and_dynamic_imports() {
     let source = r#"
-import { Stack } from 'openbitfun/canvas';
+import { Stack } from 'opc/canvas';
 import React from 'react';
 import helper from './helper';
 export * from './exports';
@@ -188,7 +185,7 @@ fn canvas_import_policy_allows_canvas_compat_imports() {
     let source = r#"
 import { useState, useEffect } from 'react';
 import { Stack } from 'cursor/canvas';
-import { Text } from 'openbitfun/canvas';
+import { Text } from 'opc/canvas';
 "#;
 
     let diagnostics = validate_canvas_imports(source);

@@ -1783,7 +1783,7 @@ mod tests {
         let root = tempfile::tempdir().unwrap();
         let identity = opc_agent_runtime_ipc::RuntimeInstanceIdentity::for_workspace(
             root.path(),
-            "openbitfun",
+            "opc",
             "stable",
             "fixture-user",
             opc_agent_runtime_ipc::PROTOCOL_VERSION,

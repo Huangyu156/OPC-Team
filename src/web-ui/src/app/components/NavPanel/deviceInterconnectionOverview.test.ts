@@ -50,7 +50,7 @@ describe('projectDeviceInterconnectionOverview', () => {
   it('does not turn account service availability into a connected-device state', () => {
     const overview = projectDeviceInterconnectionOverview(baseInput({
       accountService: connectionServiceFromRelayUrl(
-        'https://remote.openbitfun.com/relay',
+        'https://remote.opcteam.eu.cc/relay',
       ),
     }));
 
@@ -64,7 +64,7 @@ describe('projectDeviceInterconnectionOverview', () => {
       remoteStatus: {
         ...disconnectedStatus,
         relay_connected: true,
-        relay_url: 'https://remote.openbitfun.com/v/1.0.2',
+        relay_url: 'https://remote.opcteam.eu.cc/v/1.0.2',
         active_method: 'opc_server' as const,
         clients: [{ id: 'mobile-user', name: 'My iPhone' }],
       },
@@ -237,7 +237,7 @@ describe('selectActivityFacts', () => {
   const connectedPhone = {
     ...disconnectedStatus,
     relay_connected: true,
-        relay_url: 'https://remote.openbitfun.com/v/1.0.2',
+        relay_url: 'https://remote.opcteam.eu.cc/v/1.0.2',
         active_method: 'opc_server' as const,
         clients: [{ id: 'mobile-user', name: 'My iPhone' }],
   };
@@ -317,7 +317,7 @@ describe('selectAttachedGroups', () => {
       remoteStatus: {
         ...disconnectedStatus,
         relay_connected: true,
-        relay_url: 'https://remote.openbitfun.com/v/1.0.2',
+        relay_url: 'https://remote.opcteam.eu.cc/v/1.0.2',
         active_method: 'opc_server' as const,
         clients: [{ id: 'mobile-user', name: 'My iPhone' }],
         bot_connected: 'Weixin (family group)',
@@ -380,7 +380,7 @@ describe('device display names', () => {
       remoteStatus: {
         ...disconnectedStatus,
         relay_connected: true,
-        relay_url: 'https://remote.openbitfun.com/v/1.0.2',
+        relay_url: 'https://remote.opcteam.eu.cc/v/1.0.2',
         active_method: 'opc_server' as const,
         clients: [{ id: 'mobile-user', name: 'Pixel.lan' }],
       },
@@ -404,7 +404,7 @@ describe('device display names', () => {
 
 describe('connection service classification', () => {
   it('only classifies the canonical OpenBitFun relay host as official', () => {
-    expect(classifyAccountRelayUrl('https://remote.openbitfun.com/relay')).toBe('official-relay');
+    expect(classifyAccountRelayUrl('https://remote.opcteam.eu.cc/relay')).toBe('official-relay');
     expect(classifyAccountRelayUrl('https://relay.example.com')).toBe('self-hosted-relay');
     expect(classifyAccountRelayUrl('not a url')).toBe('unknown');
   });

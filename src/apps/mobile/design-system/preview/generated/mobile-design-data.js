@@ -2,7 +2,7 @@
 export const mobileTokens = {
   "version": 1,
   "identity": {
-    "name": "OpenBitFun Mobile",
+    "name": "OPC-Team Mobile",
     "signature": "Paper-and-ink conversation chrome with a single blue information accent"
   },
   "colors": {

@@ -84,7 +84,7 @@ Use these tables to select tools for the user's tasks, then put their exact name
 
 | Tool name | Purpose |
 | --- | --- |
-| `OpenBitFunControl` | Discover and control OPC-Team features and settings. |
+| `OpcControl` | Discover and control OPC-Team features and settings. |
 | `FrontendWorkbench` | Draft and hot-apply the packaged OPC-Team frontend with rollback protection. |
 | `PublishAppearance` | Submit an Appearance package to the Skin market for review. |
 

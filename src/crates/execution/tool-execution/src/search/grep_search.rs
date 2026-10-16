@@ -1257,7 +1257,7 @@ pub fn build_grep_candidate_command(options: &GrepOptions) -> String {
     // a match accepted by the Runtime's matcher.
     format!(
         "command -v rg >/dev/null 2>&1 || exit 127\n\
-         printf 'before\\000openbitfun.probe\\n' | command rg --no-config --fixed-strings --text --quiet -e 'openbitfun.probe' || exit 127\n\
+         printf 'before\\000opc.probe\\n' | command rg --no-config --fixed-strings --text --quiet -e 'opc.probe' || exit 127\n\
          printf '\\377\\376b\\000f\\000\\n\\000' | command rg --no-config --fixed-strings --text --quiet -e bf || exit 127\n\
          printf '\\376\\377\\000b\\000f\\000\\n' | command rg --no-config --fixed-strings --text --quiet -e bf || exit 127\n\
          printf 'OPC_RG_CANDIDATES_BEGIN\\000'\n\

@@ -34,7 +34,7 @@ def main():
         run('shell', 'aa', 'force-stop', bundle)
         params = ['shell', 'aa', 'start', '-a', 'EntryAbility', '-b', bundle]
         if preview:
-            params += ['--ps', 'openbitfunDesignPreview', 'history-scroll']
+            params += ['--ps', 'opcDesignPreview', 'history-scroll']
         run(*params)
         time.sleep(1)
 

@@ -9,7 +9,7 @@ packages:
   - "src/mobile-web"
   - "src/miniapp-market-web"
   - "src/skin-market-web"
-  - "OpenBitFun-Installer"
+  - "Opc-Installer"
   - "website"
   - "tests/e2e"
 

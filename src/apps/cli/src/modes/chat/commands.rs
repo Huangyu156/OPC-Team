@@ -1127,7 +1127,7 @@ impl ChatMode {
                 self.handle_hook_management("", chat_view, chat_state, rt_handle);
             }
             ActionHandler::AcpHelp => {
-                chat_state.add_system_message(crate::acp_cli::acp_help_text("openbitfun"));
+                chat_state.add_system_message(crate::acp_cli::acp_help_text("opc"));
                 chat_view.set_status(Some(
                     "ACP setup added to the conversation. You can keep typing.".to_string(),
                 ));

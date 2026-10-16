@@ -597,7 +597,7 @@
       "value": "关于"
     },
     {
-      "name": "settings_about_openbitfun",
+      "name": "settings_about_opc",
       "value": "关于 OPC-Team"
     },
     {
@@ -901,7 +901,7 @@
       "value": "新聊天"
     },
     {
-      "name": "sidebar_signInOpenBitFunAccount",
+      "name": "sidebar_signInOpcAccount",
       "value": "使用邮箱或 GitHub 登录"
     },
     {
@@ -1229,7 +1229,7 @@
       "value": "尚未连接桌面端"
     },
     {
-      "name": "remote_settings_openbitfunUser",
+      "name": "remote_settings_opcUser",
       "value": "OPC-Team 用户"
     },
     {
@@ -1538,7 +1538,7 @@
     },
     {
       "name": "connect_urlPlaceholder",
-      "value": "openbitfun:// 或 https://...#/pair?room=...&pk=...&relay=..."
+      "value": "opc:// 或 https://...#/pair?room=...&pk=...&relay=..."
     },
     {
       "name": "connect_statusTitle",
@@ -2145,7 +2145,7 @@
       "value": "模型"
     },
     {
-      "name": "chat_openbitfunProcessing",
+      "name": "chat_opcProcessing",
       "value": "OPC-Team 正在处理..."
     },
     {

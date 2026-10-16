@@ -375,7 +375,7 @@ Returns numbered lines (line number, tab, text). Choose the window needed for th
             "properties": {
                 "file_path": {
                     "type": "string",
-                    "description": "The file to read. Use a workspace-relative path, an absolute path inside the current workspace, or an exact openbitfun:// URI returned by another tool."
+                    "description": "The file to read. Use a workspace-relative path, an absolute path inside the current workspace, or an exact opc:// URI returned by another tool."
                 },
                 "offset": {
                     "type": "number",

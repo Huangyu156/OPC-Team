@@ -344,7 +344,7 @@ mod macos {
         // Perform the request synchronously.
         handler
             .performRequests_error(&requests)
-            .map_err(ns_error_to_openbitfun)?;
+            .map_err(ns_error_to_opc)?;
 
         // Collect results.
         let results = match request.results() {
@@ -354,7 +354,7 @@ mod macos {
         Ok(results.to_vec())
     }
 
-    fn ns_error_to_openbitfun(err: Retained<NSError>) -> OpcTeamError {
+    fn ns_error_to_opc(err: Retained<NSError>) -> OpcTeamError {
         let desc = err.localizedDescription().to_string();
         OpcTeamError::tool(format!("macOS Vision OCR failed: {}", desc))
     }

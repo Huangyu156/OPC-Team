@@ -343,7 +343,7 @@ export struct ImmersiveBottomPreview {
       return;
     }
     if (scenarioId.endsWith('-connect')) {
-      this.remotePageState.setPairingInput('https://pair.example/openbitfun/legacy', 'user-1', false);
+      this.remotePageState.setPairingInput('https://pair.example/opc/legacy', 'user-1', false);
       return;
     }
     if (this.drawer || this.viewSettings) {

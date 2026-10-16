@@ -82,7 +82,7 @@
             ],
             "uris": [
               {
-                "scheme": "openbitfun",
+                "scheme": "opc",
                 "host": "auth",
                 "path": "/callback"
               }

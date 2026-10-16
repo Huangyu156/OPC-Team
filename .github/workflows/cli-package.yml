@@ -270,7 +270,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.HOMEBREW_TAP_DISPATCH_TOKEN }}
           RELEASE_TAG: ${{ needs.prepare.outputs.release_tag }}
-          OFFICIAL_REPOSITORY: ${{ github.repository == 'GCWing/OpenBitFun' }}
+          OFFICIAL_REPOSITORY: ${{ github.repository == 'GCWing/OPC-Team' }}
         shell: bash
         run: |
           set -euo pipefail
@@ -288,7 +288,7 @@ jobs:
             event_type: "opc-release-published",
             client_payload: {
               tag_name: $tag_name,
-              primary_binary: "openbitfun"
+              primary_binary: "opc"
             }
           }')"
           curl -fsSL -X POST \

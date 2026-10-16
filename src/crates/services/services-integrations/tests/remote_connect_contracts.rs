@@ -58,7 +58,7 @@ use std::sync::{Arc, Mutex};
 #[test]
 fn relay_invitations_and_authentication_use_the_same_protocol_for_all_endpoints() {
     for endpoint in [
-        "https://remote.openbitfun.com/v/1.0.2",
+        "https://remote.opcteam.eu.cc/v/1.0.2",
         "http://192.168.1.8:9700",
     ] {
         assert_eq!(
@@ -1190,7 +1190,7 @@ async fn remote_connect_command_owner_builds_a_projected_plan_with_hidden_execut
         &host,
         &RemoteCommand::BuildPlan {
             session_id: "session-1".to_string(),
-            plan_file_path: "/repo/.openbitfun/plans/mobile.plan.md".to_string(),
+            plan_file_path: "/repo/.opcteam/plans/mobile.plan.md".to_string(),
             plan_name: Some("Mobile plan".to_string()),
             agent_type: Some("code".to_string()),
         },
@@ -1208,7 +1208,7 @@ async fn remote_connect_command_owner_builds_a_projected_plan_with_hidden_execut
     let submitted = host.submitted_dialog();
     assert_eq!(
         submitted.content,
-        remote_plan_build_content("/repo/.openbitfun/plans/mobile.plan.md")
+        remote_plan_build_content("/repo/.opcteam/plans/mobile.plan.md")
     );
     assert_eq!(
         submitted.display_content.as_deref(),
@@ -1223,18 +1223,18 @@ fn remote_connect_plan_projection_covers_legacy_create_and_modern_write_tools() 
         "CreatePlan",
         Some(&serde_json::json!({ "name": "Legacy plan" })),
         Some(&serde_json::json!({
-            "plan_file_path": "/repo/.openbitfun/plans/legacy.plan.md",
+            "plan_file_path": "/repo/.opcteam/plans/legacy.plan.md",
             "overview": "Ship the mobile flow"
         })),
     )
     .expect("legacy CreatePlan is projected");
     assert_eq!(legacy.name, "Legacy plan");
-    assert_eq!(legacy.file_path, "/repo/.openbitfun/plans/legacy.plan.md");
+    assert_eq!(legacy.file_path, "/repo/.opcteam/plans/legacy.plan.md");
 
     let modern = project_remote_plan_tool(
         "Write",
         Some(&serde_json::json!({
-            "file_path": "/repo/.openbitfun/plans/modern.plan.md"
+            "file_path": "/repo/.opcteam/plans/modern.plan.md"
         })),
         None,
     )

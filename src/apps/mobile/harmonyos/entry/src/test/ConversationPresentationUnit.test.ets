@@ -605,7 +605,7 @@ export default function conversationPresentationUnitTest() {
         id: 'plan-1',
         name: 'Write',
         status: 'completed',
-        input_preview: '{"file_path":"/repo/.openbitfun/plans/mobile.plan.md"}'
+        input_preview: '{"file_path":"/repo/.opcteam/plans/mobile.plan.md"}'
       };
       const groups = ToolCollapsePolicy.collapsedGroups([
         toolStatus('1', 'Read', 'completed'),
@@ -614,7 +614,7 @@ export default function conversationPresentationUnitTest() {
       ]);
       expect(groups.length).assertEqual(3);
       expect(groups[1].tools[0].name).assertEqual('Write');
-      expect(PlanToolPolicy.descriptor(planTool)?.file_path || '').assertEqual('/repo/.openbitfun/plans/mobile.plan.md');
+      expect(PlanToolPolicy.descriptor(planTool)?.file_path || '').assertEqual('/repo/.opcteam/plans/mobile.plan.md');
       expect(PlanToolPolicy.canBuild(planTool)).assertTrue();
     });
 
@@ -748,7 +748,7 @@ export default function conversationPresentationUnitTest() {
       expect(RemoteI18n.t('sidebar.newChat')).assertEqual('聊天');
       expect(RemoteI18n.t('sidebar.connectDesktop')).assertEqual('连接电脑');
       expect(RemoteI18n.t('sidebar.scanToConnect')).assertEqual('sidebar.scanToConnect');
-      expect(RemoteI18n.t('sidebar.signInOpenBitFunAccount')).assertEqual('使用邮箱或 GitHub 登录');
+      expect(RemoteI18n.t('sidebar.signInOpcAccount')).assertEqual('使用邮箱或 GitHub 登录');
       expect(RemoteI18n.t('connect.chooseConnectionTitle')).assertEqual('连接电脑');
       expect(RemoteI18n.t('sidebar.local')).assertEqual('sidebar.local');
       expect(RemoteI18n.t('sidebar.code')).assertEqual('sidebar.code');

@@ -2324,8 +2324,8 @@ mod opencode_configured_skill_tests {
         let standard = SkillRegistry::scan_skills_in_dir(&SkillRootEntry {
             path: project.join(hidden_data_directory()).join("skills"),
             level: SkillLocation::Project,
-            slot: "openbitfun",
-            source_id: "openbitfun",
+            slot: "opcteam",
+            source_id: "opcteam",
             source_label: "OPC-Team",
             priority: 0,
             is_builtin: false,

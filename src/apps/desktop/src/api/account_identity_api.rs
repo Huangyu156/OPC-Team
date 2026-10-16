@@ -1,4 +1,4 @@
-//! Controller-local adapter for the shared OpenBitFun GitHub identity.
+//! Controller-local adapter for the shared OPC-Team GitHub identity.
 use opc_product_domains::account::{
     GitHubAuthPollRequest, GitHubAuthPollResponse, GitHubAuthStart,
 };

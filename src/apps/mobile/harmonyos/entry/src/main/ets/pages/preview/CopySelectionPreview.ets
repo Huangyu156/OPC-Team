@@ -79,7 +79,7 @@ const LONG_SINGLE_LINE_TEXT: string = [
 const ASSISTANT_MARKDOWN: string = [
   '## 选择与复制验证',
   '',
-  '第一段正文：**加粗**、*斜体*、`行内代码`、~~删除线~~，以及一个 [OpenBitFun 文档](https://example.com/docs) 链接。',
+  '第一段正文：**加粗**、*斜体*、`行内代码`、~~删除线~~，以及一个 [OPC-Team 文档](https://example.com/docs) 链接。',
   '',
   '- 列表项 A：拖动手柄时选择应能越过这一项',
   '- 列表项 B：块间拼接应保留换行',

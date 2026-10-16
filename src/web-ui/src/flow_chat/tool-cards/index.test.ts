@@ -15,7 +15,7 @@ import {
 import { TaskToolDisplay } from './TaskToolDisplay';
 import { AgentControlToolCard } from './AgentControlToolCard';
 import { AgentInteractionToolCard } from './AgentInteractionToolCard';
-import { OpenBitFunControlToolCard } from './OpenBitFunControlToolCard';
+import { OpcControlToolCard } from './OpcControlToolCard';
 
 // These cards remain available for rendering historical tool calls, but are no
 // longer part of the current presentation registry: AgentControl replaced the
@@ -26,9 +26,9 @@ const COMPATIBILITY_ONLY_TOOL_CARD_NAMES = new Set(
 
 describe('tool card registry', () => {
   it('keeps OpenBitFun controls visible through their dedicated product card', () => {
-    expect(getToolCardComponent('OpenBitFunControl')).toBe(OpenBitFunControlToolCard);
-    expect(usesDefaultToolCard('OpenBitFunControl')).toBe(false);
-    expect(isCollapsibleTool('OpenBitFunControl')).toBe(false);
+    expect(getToolCardComponent('OpcControl')).toBe(OpcControlToolCard);
+    expect(usesDefaultToolCard('OpcControl')).toBe(false);
+    expect(isCollapsibleTool('OpcControl')).toBe(false);
   });
   it('projects managed Review workers through the unified coverage card', () => {
     expect(getToolCardComponent('LaunchReviewAgent')).toBe(TaskToolDisplay);
@@ -118,7 +118,7 @@ describe('tool card registry', () => {
       'InitMiniApp',
       'GenerativeUI',
       'ComputerUse',
-      'OpenBitFunControl',
+      'OpcControl',
       'CreateCanvas',
       'ReadCanvas',
       'UpdateCanvas',
