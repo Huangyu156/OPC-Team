@@ -596,7 +596,7 @@ describe('FlowChatHeader', () => {
     getWorkspaceSnapshotMock.mockResolvedValueOnce({
       pullRequests: [{
         id: '42',
-        providerId: 'origin:github:openbitfun',
+        providerId: 'origin:github:opc',
         number: 42,
         title: 'Keep status lists compact',
         webUrl: 'https://example.test/pull/42',
@@ -635,7 +635,7 @@ describe('FlowChatHeader', () => {
     expect(createReviewPlatformPullRequestDetailTabMock).toHaveBeenCalledWith({
       workspaceId: 'workspace-1',
       workspacePath: '/workspace',
-      remoteId: 'origin:github:openbitfun',
+      remoteId: 'origin:github:opc',
       pullRequestId: '42',
       pullRequestUrl: 'https://example.test/pull/42',
       title: '#42 Keep status lists compact',

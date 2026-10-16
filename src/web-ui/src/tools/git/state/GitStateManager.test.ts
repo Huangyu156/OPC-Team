@@ -52,7 +52,7 @@ function deferred<T>() {
   return { promise, resolve, reject };
 }
 
-const repositoryPath = { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OpenBitFun' };
+const repositoryPath = { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OPC-Team' };
 
 describe('GitStateManager refresh performance guards', () => {
   let manager: GitStateManager;
@@ -66,7 +66,7 @@ describe('GitStateManager refresh performance guards', () => {
     gitApiMocks.isGitRepository.mockResolvedValue(true);
     gitApiMocks.getRepositoryBasic.mockResolvedValue({
       path: repositoryPath.repositoryPath,
-      name: 'OpenBitFun',
+      name: 'OPC-Team',
       current_branch: 'main',
       is_bare: false,
       has_changes: false,
@@ -74,7 +74,7 @@ describe('GitStateManager refresh performance guards', () => {
     });
     gitApiMocks.getRepository.mockResolvedValue({
       path: repositoryPath.repositoryPath,
-      name: 'OpenBitFun',
+      name: 'OPC-Team',
       current_branch: 'main',
       is_bare: false,
       has_changes: true,
@@ -531,7 +531,7 @@ describe('GitStateManager branch switch propagation', () => {
     gitApiMocks.isGitRepository.mockResolvedValue(true);
     gitApiMocks.getRepositoryBasic.mockResolvedValue({
       path: repositoryPath.repositoryPath,
-      name: 'OpenBitFun',
+      name: 'OPC-Team',
       current_branch: 'main',
       is_bare: false,
       has_changes: false,

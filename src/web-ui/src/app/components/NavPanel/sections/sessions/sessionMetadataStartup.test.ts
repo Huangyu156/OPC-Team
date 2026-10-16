@@ -58,8 +58,8 @@ describe('session metadata startup scheduling', () => {
   });
 
   it('uses a stable bounded stagger for background workspace metadata', () => {
-    const first = getDeferredSessionMetadataDelayMs('D:\\workspace\\OpenBitFun');
-    const second = getDeferredSessionMetadataDelayMs('D:\\workspace\\OpenBitFun');
+    const first = getDeferredSessionMetadataDelayMs('D:\\workspace\\OPC-Team');
+    const second = getDeferredSessionMetadataDelayMs('D:\\workspace\\OPC-Team');
     const other = getDeferredSessionMetadataDelayMs('D:\\workspace\\Other');
 
     expect(first).toBe(second);

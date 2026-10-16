@@ -329,7 +329,7 @@ test('Desktop Tauri projection consumes only the resolved member identity', () =
   mkdirSync(fixture, { recursive: true });
   const baseConfig = join(fixture, 'tauri.conf.json');
   writeFileSync(baseConfig, JSON.stringify({
-    productName: 'OpenBitFun',
+    productName: 'OPC-Team',
     identifier: 'com.opcteam.desktop',
     bundle: { resources: {} },
   }));

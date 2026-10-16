@@ -261,7 +261,7 @@ describe('WorkspaceListSection layout styles', () => {
     );
   });
 
-  it('uses stable OpenBitFun semantics for grouped entries without a redundant aggregate header', () => {
+  it('uses stable OPC-Team semantics for grouped entries without a redundant aggregate header', () => {
     const itemSource = readWorkspaceItemSource();
     const listSource = readWorkspaceListSource();
     const stylesheet = readWorkspaceListStylesheet();

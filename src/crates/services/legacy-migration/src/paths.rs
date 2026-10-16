@@ -114,7 +114,7 @@ impl MigrationRoots {
                 let base = base.ok_or_else(|| {
                     LegacyMigrationError::PathUnavailable("platform desktop data directory".into())
                 })?;
-                roots.push(base.join("com.openbitfun.desktop"));
+                roots.push(base.join("com.opcteam.desktop"));
             }
         }
         Ok(roots)

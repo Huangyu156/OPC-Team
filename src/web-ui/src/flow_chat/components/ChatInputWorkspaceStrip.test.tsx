@@ -183,35 +183,35 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
           deferPassiveGitRefresh
         />
       );
     });
 
     expect(mocks.useGitState).toHaveBeenCalledWith(expect.objectContaining({
-      repositoryPath: { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OpenBitFun' },
+      repositoryPath: { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OPC-Team' },
       layers: ['basic'],
       isActive: false,
       refreshOnMount: false,
       refreshOnActive: false,
     }));
-    expect(container.textContent).toContain('OpenBitFun');
+    expect(container.textContent).toContain('OPC-Team');
   });
 
   it('keeps passive git refresh enabled for normal sessions', async () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
         />
       );
     });
 
     expect(mocks.useGitState).toHaveBeenCalledWith(expect.objectContaining({
-      repositoryPath: { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OpenBitFun' },
+      repositoryPath: { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OPC-Team' },
       isActive: true,
       refreshOnMount: true,
       refreshOnActive: false,
@@ -222,8 +222,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
         />
       );
     });
@@ -239,8 +239,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
         />
       );
     });
@@ -267,8 +267,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     const options = [
         {
           id: 'ws-1',
-          name: 'OpenBitFun',
-          rootPath: 'D:/workspace/OpenBitFun',
+          name: 'OPC-Team',
+          rootPath: 'D:/workspace/OPC-Team',
           workspaceKind: 'normal',
         },
         {
@@ -296,8 +296,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
           workspaceControl={{ selectedId: 'ws-1', options, locked: false, onSelect }}
         />
       );
@@ -321,7 +321,7 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     ).toBe('true');
     expect(
       menu?.querySelector('[data-testid="chat-input-workspace-option-ws-1"]')?.textContent,
-    ).toContain('D:/workspace/OpenBitFun');
+    ).toContain('D:/workspace/OPC-Team');
     expect(
       menu?.querySelector('[data-testid="chat-input-workspace-option-ws-2"]')?.textContent,
     ).toContain('D:/workspace/Other');
@@ -381,8 +381,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
           worktreeControl={{ enabled: false, locked: false, onChange: vi.fn() }}
           permissionControl={{ mode: 'auto', onChange: vi.fn() }}
           usageReport={{ visible: true, currentTokens: 480, maxTokens: 4000, onOpen: vi.fn() }}
@@ -952,8 +952,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
           permissionControl={{ mode: 'acp' }}
         />
       );
@@ -972,8 +972,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
           permissionControl={{ mode: 'acp' }}
           usageReport={{ visible: true, currentTokens: 1680, maxTokens: 4000, onOpen: vi.fn() }}
         />
@@ -989,8 +989,8 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
     await act(async () => {
       root.render(
         <ChatInputWorkspaceStrip workspaceId="workspace-1"
-          repositoryPath="D:/workspace/OpenBitFun"
-          workspaceLabel="OpenBitFun"
+          repositoryPath="D:/workspace/OPC-Team"
+          workspaceLabel="OPC-Team"
           permissionControl={{ mode: 'acp' }}
         />
       );
@@ -1114,7 +1114,7 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
             worktreeId: 'wt-1',
             rootPath: '/worktrees/wt-1',
             baseCommit: '0123456789abcdef',
-            branch: 'openbitfun/isolated',
+            branch: 'opc/isolated',
             lifecycle: 'managed',
           }}
           worktreeControl={{ enabled: true, locked: false, onChange }}
@@ -1124,7 +1124,7 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
 
     const toggle = container.querySelector<HTMLButtonElement>('[data-testid="chat-input-worktree-toggle"]');
     expect(toggle?.dataset.worktreeEnabled).toBe('true');
-    expect(container.textContent).toContain('openbitfun/isolated');
+    expect(container.textContent).toContain('opc/isolated');
     expect(container.querySelector('[data-testid="chat-input-branch-trigger"]')).toBeNull();
 
     await act(async () => {
@@ -1256,14 +1256,14 @@ describe('ChatInputWorkspaceStrip git refresh behavior', () => {
               displayName: 'build-host',
             },
             locked: true,
-            branch: 'openbitfun/dispatch/job-1',
+            branch: 'opc/dispatch/job-1',
             onSelectTarget: vi.fn(),
           }}
         />
       );
     });
 
-    expect(container.textContent).toContain('openbitfun/dispatch/job-1');
+    expect(container.textContent).toContain('opc/dispatch/job-1');
     expect(container.textContent).not.toContain('main');
     expect(container.querySelector('[data-testid="chat-input-branch-trigger"]')).toBeNull();
   });

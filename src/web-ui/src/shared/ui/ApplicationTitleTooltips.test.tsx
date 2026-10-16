@@ -199,7 +199,7 @@ describe('application-only title tooltips', () => {
   });
 
   it('keeps document, iframe, and SVG names intact', () => {
-    document.title = 'OpenBitFun';
+    document.title = 'OPC-Team';
     render(<><iframe title="Widget preview" /><svg aria-labelledby="diagram-title">
       <title id="diagram-title">Diagram</title>
     </svg></>);
@@ -207,7 +207,7 @@ describe('application-only title tooltips', () => {
     enter(frame);
     reveal();
     expect(frame.title).toBe('Widget preview');
-    expect(document.title).toBe('OpenBitFun');
+    expect(document.title).toBe('OPC-Team');
     expect(host.querySelector('svg title')?.textContent).toBe('Diagram');
     expect(popup()).toBeNull();
   });

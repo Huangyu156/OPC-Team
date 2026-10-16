@@ -10,7 +10,7 @@ import {
   Toggle,
 } from './controls';
 
-describe('OpenBitFun Canvas control adapters', () => {
+describe('OPC-Team Canvas control adapters', () => {
   it('renders toggle and checkbox through the design system', () => {
     const markup = renderToStaticMarkup(
       <>

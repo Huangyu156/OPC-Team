@@ -72,10 +72,10 @@ async fn request_response_round_trip() {
                 .builder()
                 .connect_with(client_transport, async |cx: ConnectionTo<AppServer>| {
                     let response = recv(cx.send_request(GreetRequest {
-                        name: "openbitfun".to_string(),
+                        name: "opc".to_string(),
                     }))
                     .await?;
-                    assert_eq!(response.message, "hello, openbitfun!");
+                    assert_eq!(response.message, "hello, opc!");
                     Ok(())
                 })
                 .await;

@@ -47,13 +47,13 @@ test('rejects raw CSS sizes, weights, line heights, tracking, and font stacks', 
 test('accepts only build-owned font faces and stacks in Web font profiles', () => {
   const issues = auditTypographyText(`
     @font-face {
-      font-family: "OpenBitFun HarmonyOS Sans";
+      font-family: "OPC HarmonyOS Sans";
       font-weight: 500;
     }
     @layer opcteam.tokens.system {
       :where([data-opcteam-design-system-root]) {
-        --opcteam-font-family-sans: "OpenBitFun HarmonyOS Sans", system-ui, sans-serif;
-        --opcteam-font-family-control: "OpenBitFun HarmonyOS Sans", system-ui, sans-serif;
+        --opcteam-font-family-sans: "OPC HarmonyOS Sans", system-ui, sans-serif;
+        --opcteam-font-family-control: "OPC HarmonyOS Sans", system-ui, sans-serif;
         --opcteam-font-family-mono: "Fira Code", monospace;
       }
     }

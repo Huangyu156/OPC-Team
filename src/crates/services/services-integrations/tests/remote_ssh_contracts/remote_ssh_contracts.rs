@@ -196,7 +196,7 @@ fn remote_workspace_path_helpers_preserve_current_identity_contract() {
 
 #[test]
 fn remote_workspace_session_paths_use_supplied_mirror_root() {
-    let mirror_root = std::path::PathBuf::from("/openbitfun/remote_ssh");
+    let mirror_root = std::path::PathBuf::from("/opc/remote_ssh");
 
     assert_eq!(
         remote_workspace_runtime_root(&mirror_root, " Example.COM ", "/home/user/repo"),

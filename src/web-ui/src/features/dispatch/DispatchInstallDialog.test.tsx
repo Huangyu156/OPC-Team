@@ -164,7 +164,7 @@ describe('DispatchInstallDialog target preparation', () => {
       release: {
         version: '1.2.3',
         target: 'x86_64-unknown-linux-gnu',
-        url: 'https://example.test/openbitfun',
+        url: 'https://example.test/opc',
         sha256: 'abc123',
       },
     });
@@ -172,7 +172,7 @@ describe('DispatchInstallDialog target preparation', () => {
       scriptPath: '/tmp/install.sh',
       version: '1.2.3',
       target: 'x86_64-unknown-linux-gnu',
-      url: 'https://example.test/openbitfun',
+      url: 'https://example.test/opc',
       sha256: 'abc123',
     });
     mocks.installCliPoll.mockResolvedValue({
@@ -231,7 +231,7 @@ describe('DispatchInstallDialog target preparation', () => {
           release: {
             version: '1.2.3',
             target: 'x86_64-unknown-linux-gnu',
-            url: 'https://example.test/openbitfun',
+            url: 'https://example.test/opc',
             sha256: 'abc123',
           },
         });
@@ -345,7 +345,7 @@ describe('DispatchInstallDialog target preparation', () => {
           release: {
             version: '1.2.3',
             target: 'x86_64-unknown-linux-gnu',
-            url: 'https://example.test/openbitfun',
+            url: 'https://example.test/opc',
             sha256: 'abc123',
           },
         });
@@ -501,7 +501,7 @@ describe('DispatchInstallDialog target preparation', () => {
   it('never offers to compile on the target and explains why it cannot be prepared', async () => {
     // A target no published binary fits. Preparing it is not something this
     // controller can do, so the dialog says so instead of offering to build
-    // OpenBitFun on someone else's machine.
+    // OPC-Team on someone else's machine.
     mocks.probeTarget.mockResolvedValue({
       cliInstalled: false,
       os: 'linux',

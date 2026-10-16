@@ -221,7 +221,7 @@ describe('dispatchJobStore', () => {
       baselineWorktreeId: 'worktree-1',
       baselineWorktreePath: '/controller/.opcteam/worktrees/baseline',
       baseCommit: 'abc123',
-      branch: 'openbitfun/dispatch/job-rest',
+      branch: 'opc/dispatch/job-rest',
       remoteUrl: 'git@example.test:team/repo.git',
       syncedHeadCommit: 'def456',
       lastCursor: 900,
@@ -238,7 +238,7 @@ describe('dispatchJobStore', () => {
       reasoningPreset: 'high',
       sourceWorkspacePath: '/controller/repo',
       sourceWorkspaceId: 'workspace-1',
-      branch: 'openbitfun/dispatch/job-rest',
+      branch: 'opc/dispatch/job-rest',
       baselineWorktreePath: '/controller/.opcteam/worktrees/baseline',
       syncedHeadCommit: 'def456',
       cursor: 0,
@@ -259,7 +259,7 @@ describe('dispatchJobStore', () => {
       },
       sourceWorkspacePath: '/source',
       baselineWorktreePath: '/source/.opcteam/worktrees/baseline',
-      branch: 'openbitfun/dispatch/job-1',
+      branch: 'opc/dispatch/job-1',
       syncedHeadCommit: 'def456',
       workspacePath: '/target/repo',
       promptPreview: 'Dispatch test',
@@ -270,7 +270,7 @@ describe('dispatchJobStore', () => {
     }]);
 
     expect(dispatchJobStore.getState().jobs['job-1']).toMatchObject({
-      branch: 'openbitfun/dispatch/job-1',
+      branch: 'opc/dispatch/job-1',
       baselineWorktreePath: '/source/.opcteam/worktrees/baseline',
       syncedHeadCommit: 'def456',
     });
@@ -421,7 +421,7 @@ describe('dispatchJobStore', () => {
       baselineProjectWorkspacePath: '/controller/main-project',
       baselineWorktreeId: 'worktree-1',
       baselineWorktreePath: '/controller/baselines/job-stable-project',
-      branch: 'openbitfun/dispatch/job-stable-project',
+      branch: 'opc/dispatch/job-stable-project',
       workspacePath: '/target/repo',
       promptPreview: 'Prompt preview',
       lastCursor: 0,

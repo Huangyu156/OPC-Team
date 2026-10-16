@@ -12,7 +12,7 @@ function call(input: unknown, result?: unknown, status: FlowToolItem['status'] =
   };
 }
 
-describe('OpenBitFun control card projection', () => {
+describe('OPC-Team control card projection', () => {
   it.each([
     ['list', { items: [] }, 'ambient'],
     ['search', { items: [{ capabilityId: 'remote.feature', titleEn: 'Remote feature' }] }, 'ambient'],

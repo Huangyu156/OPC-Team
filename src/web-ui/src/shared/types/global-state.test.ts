@@ -126,7 +126,7 @@ describe('createGlobalStateAPI workspace startup bootstrap', () => {
       id: 'workspace-miniapp',
       name: 'deck-1785130332234-eilik4',
       rootPath:
-        '/Users/me/Library/Application Support/openbitfun/data/miniapps/builtin-ppt-live/decks/deck-1785130332234-eilik4',
+        '/Users/me/Library/Application Support/opc/data/miniapps/builtin-ppt-live/decks/deck-1785130332234-eilik4',
     };
     snapshot.recentWorkspaces = [...snapshot.recentWorkspaces, miniAppWorkspace];
     bootstrapGlobals.__OPC_BOOTSTRAP_WORKSPACE_STARTUP_STATE__ = snapshot;

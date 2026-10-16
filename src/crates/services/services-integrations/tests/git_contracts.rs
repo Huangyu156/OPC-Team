@@ -80,11 +80,11 @@ fn git_command_output_preserves_raw_stream_contract() {
 #[test]
 fn git_text_parsers_preserve_branch_and_log_contracts() {
     assert_eq!(
-        parse_git_log_line("abc123|OPC-Team|openbitfun@example.com|2026-05-12|subject|body"),
+        parse_git_log_line("abc123|OPC-Team|opc@example.com|2026-05-12|subject|body"),
         Some((
             "abc123".to_string(),
             "OPC-Team".to_string(),
-            "openbitfun@example.com".to_string(),
+            "opc@example.com".to_string(),
             "2026-05-12".to_string(),
             "subject|body".to_string(),
         ))
@@ -788,7 +788,7 @@ fn git_commit_params_preserves_no_verify_rename_contract() {
         no_verify: Some(true),
         author: Some(GitAuthor {
             name: "OPC-Team".to_string(),
-            email: "openbitfun@example.com".to_string(),
+            email: "opc@example.com".to_string(),
         }),
     };
 
@@ -805,7 +805,7 @@ fn git_graph_contract_preserves_camel_case_contract() {
             message: "initial".to_string(),
             full_message: "initial commit".to_string(),
             author_name: "OPC-Team".to_string(),
-            author_email: "openbitfun@example.com".to_string(),
+            author_email: "opc@example.com".to_string(),
             timestamp: 1_700_000_000,
             parents: Vec::new(),
             children: vec!["def456".to_string()],

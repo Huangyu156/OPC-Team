@@ -1013,8 +1013,8 @@ describe('AcpAgentsConfig', () => {
     });
 
     expect(container.textContent).toContain('DeepSeek Harness');
-    // Unlike omp, the harness is a plain npm global, so OpenBitFun installs it.
-    // The bridge is not a separate adapter — it ships inside OpenBitFun.
+    // Unlike omp, the harness is a plain npm global, so OPC-Team installs it.
+    // The bridge is not a separate adapter — it ships inside OPC-Team.
     expect(container.textContent).not.toContain('registry.adapterMissing');
 
     const installButtons = Array.from(container.querySelectorAll('button'))
@@ -1039,7 +1039,7 @@ describe('AcpAgentsConfig', () => {
     );
   });
 
-  it('adds DeepSeek Harness as a launch of the profile OpenBitFun materializes', async () => {
+  it('adds DeepSeek Harness as a launch of the profile OPC-Team materializes', async () => {
     probeClientRequirementsMock.mockResolvedValue([
       {
         id: 'dsh',
@@ -1077,7 +1077,7 @@ describe('AcpAgentsConfig', () => {
       await Promise.resolve();
     });
 
-    // The command has to name the profile OpenBitFun materializes; a bare `dsh`
+    // The command has to name the profile OPC-Team materializes; a bare `dsh`
     // would drop the user into the harness's own default composition, which
     // does not speak ACP at all.
     expect(saveJsonConfigMock).toHaveBeenCalledWith(expect.stringContaining('opc-acp'));

@@ -1410,7 +1410,7 @@ test('Relay image tag selection keeps Beta and old stable backfills away from la
     const output = path.join(root, 'output');
     writeFileSync(output, '');
     const result = spawnSync('bash', ['-c', `gh() { printf 'v1.0.0\\n'; }\n${step.run}`], {
-      env: { ...process.env, GITHUB_OUTPUT: output, GITHUB_REPOSITORY: 'test-owner/OpenBitFun',
+      env: { ...process.env, GITHUB_OUTPUT: output, GITHUB_REPOSITORY: 'test-owner/OPC-Team',
         IMAGE: 'ghcr.io/test-owner/opc-relay-server', RELEASE_TAG: `v${scenario.version}`,
         RELEASE_VERSION: scenario.version, RELEASE_CHANNEL: scenario.channel, IMAGE_ONLY: scenario.imageOnly },
       encoding: 'utf8', windowsHide: true,

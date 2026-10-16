@@ -29,7 +29,7 @@ vi.mock('../state/GitStateManager', () => ({
   gitStateManager: gitStateManagerMock,
 }));
 
-const repositoryPath = { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OpenBitFun' };
+const repositoryPath = { workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/OPC-Team' };
 
 describe('GitService branch loading', () => {
   it('preserves the legacy empty-list fallback but lets interactive callers receive errors', async () => {

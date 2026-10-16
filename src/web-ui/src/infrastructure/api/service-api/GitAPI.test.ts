@@ -97,9 +97,9 @@ describe('GitAPI repository probe cache', () => {
 
     invokeMock.mockResolvedValueOnce({
       state: 'trusted',
-      repositoryPath: 'D:/workspace/OpenBitFun',
+      repositoryPath: 'D:/workspace/OPC-Team',
       alreadyTrusted: false,
-      addedEntries: ['D:/workspace/OpenBitFun'],
+      addedEntries: ['D:/workspace/OPC-Team'],
       detail: null,
       manualCommand: null,
     });
@@ -137,7 +137,7 @@ describe('GitAPI repository probe cache', () => {
 
     invokeMock.mockResolvedValueOnce({
       state: 'trusted',
-      repositoryPath: 'D:/workspace/OpenBitFun',
+      repositoryPath: 'D:/workspace/OPC-Team',
       detail: null,
       manualCommand: null,
     });
@@ -153,9 +153,9 @@ describe('GitAPI repository probe cache', () => {
 
     invokeMock.mockResolvedValueOnce({
       state: 'trust_required',
-      repositoryPath: 'D:/workspace/OpenBitFun',
+      repositoryPath: 'D:/workspace/OPC-Team',
       detail: 'detected dubious ownership',
-      manualCommand: "git config --global --add safe.directory 'D:/workspace/OpenBitFun'",
+      manualCommand: "git config --global --add safe.directory 'D:/workspace/OPC-Team'",
     });
     await gitAPI.getRepositoryTrust(workspace);
 
@@ -169,11 +169,11 @@ describe('GitAPI repository probe cache', () => {
 
     invokeMock.mockResolvedValueOnce({
       state: 'trust_required',
-      repositoryPath: 'D:/workspace/OpenBitFun',
+      repositoryPath: 'D:/workspace/OPC-Team',
       alreadyTrusted: false,
       addedEntries: [],
       detail: 'detected dubious ownership',
-      manualCommand: 'git config --global --add safe.directory "D:/workspace/OpenBitFun"',
+      manualCommand: 'git config --global --add safe.directory "D:/workspace/OPC-Team"',
     });
     await gitAPI.trustRepository(workspace);
 

@@ -676,10 +676,10 @@ const WRITER_EXECUTABLE_NAMES: &[&str] = &[
     "bitfun-desktop.exe",
     "bitfun",
     "bitfun-desktop",
-    "openbitfun.exe",
+    "opc.exe",
     "opc-desktop.exe",
     "opc-agent-runtime.exe",
-    "openbitfun",
+    "opc",
     "opc-desktop",
     "opc-agent-runtime",
 ];
@@ -1123,7 +1123,7 @@ mod tests {
             nonce: uuid::Uuid::new_v4().to_string(),
             selection: MigrationSelection::all(),
             caller_process_id: 42,
-            product_id: "openbitfun".to_string(),
+            product_id: "opc".to_string(),
             release_channel: "stable".to_string(),
             created_at_ms: now_ms,
             expires_at_ms: now_ms + 60_000,
@@ -1170,7 +1170,7 @@ mod tests {
     fn handoff_nonce_can_only_resume_the_same_persisted_plan() {
         let temporary = tempfile::tempdir().expect("temporary directory");
         let roots = roots(temporary.path());
-        let store = HandoffStore::new(roots, "openbitfun", "stable");
+        let store = HandoffStore::new(roots, "opc", "stable");
         let request = request(1_000);
         store.write_request(&request, 1_000).expect("write request");
         let handoff = store
@@ -1204,7 +1204,7 @@ mod tests {
     #[test]
     fn handoff_rejects_wrong_product_channel_and_expiry() {
         let temporary = tempfile::tempdir().expect("temporary directory");
-        let store = HandoffStore::new(roots(temporary.path()), "openbitfun", "stable");
+        let store = HandoffStore::new(roots(temporary.path()), "opc", "stable");
         let mut wrong_product = request(1_000);
         wrong_product.product_id = "other".to_string();
         assert!(store.write_request(&wrong_product, 1_000).is_err());
@@ -1248,7 +1248,7 @@ mod tests {
             },
             ProcessEntry {
                 process_id: 81,
-                executable_name: "openbitfun.exe".into(),
+                executable_name: "opc.exe".into(),
             },
         ];
         let blockers = classify_writer_processes(&processes, 0, 42, &[]);

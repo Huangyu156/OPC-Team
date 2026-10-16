@@ -122,7 +122,7 @@ describe('isGitRepositoryUntrustedError', () => {
       isGitRepositoryUntrustedError(
         new TauriCommandError('Command failed', {
           command: 'git_get_status',
-          originalError: 'git_repository_untrusted: D:/workspace/project/OpenBitFun',
+          originalError: 'git_repository_untrusted: D:/workspace/project/OPC-Team',
         }),
       ),
     ).toBe(true);
@@ -155,10 +155,10 @@ describe('isGitRepositoryUntrustedError', () => {
   it('carries the repository path Git rejected', () => {
     const error = new TauriCommandError('Command failed', {
       command: 'git_get_status',
-      originalError: 'git_repository_untrusted: D:/workspace/project/OpenBitFun',
+      originalError: 'git_repository_untrusted: D:/workspace/project/OPC-Team',
     });
 
-    expect(gitRepositoryUntrustedPath(error)).toBe('D:/workspace/project/OpenBitFun');
+    expect(gitRepositoryUntrustedPath(error)).toBe('D:/workspace/project/OPC-Team');
     expect(gitRepositoryUntrustedPath(new Error('unrelated'))).toBeUndefined();
   });
 

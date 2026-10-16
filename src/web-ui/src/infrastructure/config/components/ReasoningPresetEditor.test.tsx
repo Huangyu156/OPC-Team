@@ -191,7 +191,7 @@ describe('ReasoningPresetEditor', () => {
     expect(model?.options ?? []).toHaveLength(0);
   });
 
-  it('lists a provider outside the OpenBitFun built-in overlay', () => {
+  it('lists a provider outside the OPC-Team built-in overlay', () => {
     render({ catalog: { source: 'models_dev', provider: 'github-copilot', model: '' }, presets: [] });
     const model = selectProps['reasoningPresets.catalogModel'];
     expect(model?.options?.map(o => o.value)).toEqual(['gpt-5.1-codex']);

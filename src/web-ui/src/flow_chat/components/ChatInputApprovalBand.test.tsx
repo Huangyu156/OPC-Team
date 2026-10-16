@@ -61,7 +61,7 @@ function request(overrides: Partial<PermissionRequest> = {}): PermissionRequest 
     order: 0,
     sessionId: 'session-1',
     toolCallId: 'tool-1',
-    projectPath: '/workspace/OpenBitFun',
+    projectPath: '/workspace/OPC-Team',
     projectId: 'project-1',
     agentId: 'Standard',
     action: 'edit',

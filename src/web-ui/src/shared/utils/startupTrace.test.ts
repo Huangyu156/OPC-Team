@@ -404,7 +404,7 @@ describe('startupTrace', () => {
 
     trace.markPhase('historical_session_hydrate_start', {
       sessionTraceId: 'session-1',
-      workspacePath: '/workspace/OpenBitFun',
+      workspacePath: '/workspace/OPC-Team',
       remote: false,
     });
     trace.recordApiCall({

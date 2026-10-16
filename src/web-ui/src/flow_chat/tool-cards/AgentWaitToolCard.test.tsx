@@ -74,7 +74,7 @@ function item(status: FlowToolItem['status'] = 'running'): FlowToolItem {
 }
 
 describe('AgentWaitToolCard', () => {
-  it('shows the steering hint only for a running top-level OpenBitFun session', () => {
+  it('shows the steering hint only for a running top-level OPC-Team session', () => {
     const topLevel = session();
     expect(shouldShowAgentWaitSteeringHint('running', 'default', topLevel)).toBe(true);
     expect(shouldShowAgentWaitSteeringHint('completed', 'default', topLevel)).toBe(false);

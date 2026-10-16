@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 import { Button, Card, CardBody, CardHeader, Empty, Pill, Tabs } from './adapters';
 
-describe('OpenBitFun Canvas structural adapters', () => {
+describe('OPC-Team Canvas structural adapters', () => {
   it('preserves primary action emphasis, disabled state, and existing secondary choices', () => {
     const primary = renderToStaticMarkup(<Button variant="primary" size="small" disabled>Save</Button>);
     expect(primary).toContain('data-opc-variant="primary"');

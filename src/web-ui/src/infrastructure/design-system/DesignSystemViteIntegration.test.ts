@@ -13,11 +13,11 @@ describe('design-system Vite integration', () => {
 
     expect(serveAliases).toHaveLength(5);
     expect(serveAliases.map(alias => String(alias.find))).toEqual([
-      '/^@openbitfun\\/ui\\/brand$/',
-      '/^@openbitfun\\/ui\\/flow-chat$/',
-      '/^@openbitfun\\/ui\\/registry$/',
-      '/^@openbitfun\\/ui\\/styles\\.css$/',
-      '/^@openbitfun\\/ui$/',
+      '/^@opc-team\\/ui\\/brand$/',
+      '/^@opc-team\\/ui\\/flow-chat$/',
+      '/^@opc-team\\/ui\\/registry$/',
+      '/^@opc-team\\/ui\\/styles\\.css$/',
+      '/^@opc-team\\/ui$/',
     ]);
     expect(path.normalize(serveAliases[1].replacement)).toContain(
       path.normalize('design-system/packages/ui/src/flow-chat.ts'),

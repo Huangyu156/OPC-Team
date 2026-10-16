@@ -39,11 +39,11 @@ fn git_contracts_remain_available_from_core_facade() {
     assert_eq!(command_output.exit_code, 1);
 
     assert_eq!(
-        parse_git_log_line("abc123|OPC-Team|openbitfun@example.com|2026-05-12|subject"),
+        parse_git_log_line("abc123|OPC-Team|opc@example.com|2026-05-12|subject"),
         Some((
             "abc123".to_string(),
             "OPC-Team".to_string(),
-            "openbitfun@example.com".to_string(),
+            "opc@example.com".to_string(),
             "2026-05-12".to_string(),
             "subject".to_string(),
         ))
@@ -80,7 +80,7 @@ fn git_contracts_remain_available_from_core_facade() {
             message: "initial".to_string(),
             full_message: "initial commit".to_string(),
             author_name: "OPC-Team".to_string(),
-            author_email: "openbitfun@example.com".to_string(),
+            author_email: "opc@example.com".to_string(),
             timestamp: 1_700_000_000,
             parents: Vec::new(),
             children: Vec::new(),

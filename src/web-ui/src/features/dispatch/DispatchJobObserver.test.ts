@@ -573,7 +573,7 @@ describe('DispatchJobObserver', () => {
       action: 'cli-install',
       details: {
         stage: 'cli-install-succeeded',
-        release: { version: '1.2.3', cliPath: '/usr/local/bin/openbitfun' },
+        release: { version: '1.2.3', cliPath: '/usr/local/bin/opc' },
       },
     };
     mocks.status.mockResolvedValue(status({
@@ -929,7 +929,7 @@ describe('DispatchJobObserver', () => {
     await vi.advanceTimersByTimeAsync(0);
     expect(context.flowChatStore.addExternalSession).not.toHaveBeenCalled();
 
-    context.currentWorkspacePath = '/projects/OpenBitFun';
+    context.currentWorkspacePath = '/projects/OPC-Team';
     await vi.advanceTimersByTimeAsync(DISPATCH_JOB_POLL_INTERVAL_MS);
     expect(context.flowChatStore.addExternalSession).not.toHaveBeenCalled();
     expect(dispatchJobStore.getState().jobs['job-restored']).toBeUndefined();
@@ -947,7 +947,7 @@ describe('DispatchJobObserver', () => {
         workspacePath: '/target/repo',
         displayName: 'build-host',
       },
-      sourceWorkspacePath: '/projects/OpenBitFun',
+      sourceWorkspacePath: '/projects/OPC-Team',
       sourceWorkspaceId: 'workspace-1',
       workspacePath: '/target/repo',
       promptPreview: 'Dispatch test',
@@ -991,9 +991,9 @@ describe('DispatchJobObserver', () => {
       'session-restored',
       'Dispatch test',
       'Standard',
-      '/projects/OpenBitFun',
+      '/projects/OPC-Team',
       expect.objectContaining({
-        projectWorkspacePath: '/projects/OpenBitFun',
+        projectWorkspacePath: '/projects/OPC-Team',
         workspaceId: 'workspace-1',
       }),
     );

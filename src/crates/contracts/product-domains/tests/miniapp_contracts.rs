@@ -691,7 +691,7 @@ fn miniapp_export_and_runtime_dtos_remain_stable() {
 
 #[test]
 fn miniapp_storage_layout_preserves_file_shape_contract() {
-    let root = PathBuf::from("/openbitfun/miniapps");
+    let root = PathBuf::from("/opc/miniapps");
     let layout = MiniAppStorageLayout::new(&root, "app-1");
 
     assert_eq!(META_JSON, "meta.json");
@@ -756,7 +756,7 @@ fn miniapp_storage_layout_preserves_file_shape_contract() {
 
 #[test]
 fn miniapp_runtime_search_plan_preserves_common_install_locations() {
-    let home = PathBuf::from("/home/openbitfun");
+    let home = PathBuf::from("/home/opc");
     let candidates = candidate_dirs(Some(&home));
 
     assert_eq!(candidates[0], PathBuf::from("/opt/homebrew/bin"));
@@ -775,10 +775,10 @@ fn miniapp_runtime_search_plan_preserves_common_install_locations() {
     );
     assert_eq!(
         versioned_executable_candidate(
-            Path::new("/home/openbitfun/.nvm/versions/node/v20"),
+            Path::new("/home/opc/.nvm/versions/node/v20"),
             "node"
         ),
-        PathBuf::from("/home/openbitfun/.nvm/versions/node/v20")
+        PathBuf::from("/home/opc/.nvm/versions/node/v20")
             .join("bin")
             .join("node")
     );

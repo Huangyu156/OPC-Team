@@ -653,7 +653,7 @@ fn workspace_binding() -> AgentSessionWorkspaceBinding {
 fn test_identity(workspace: &Path) -> RuntimeInstanceIdentity {
     RuntimeInstanceIdentity::for_workspace(
         workspace,
-        "openbitfun",
+        "opc",
         "stable",
         "user-a",
         PROTOCOL_VERSION,

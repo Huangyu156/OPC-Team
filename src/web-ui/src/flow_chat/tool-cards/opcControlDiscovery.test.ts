@@ -5,7 +5,7 @@ import type { ProductControlDiscoveryRequest } from '@/infrastructure/api/servic
 const scope = { assertCurrent() {} };
 const signal = () => new AbortController().signal;
 
-describe('complete OpenBitFun discovery reads', () => {
+describe('complete OPC-Team discovery reads', () => {
   it('loads all 46 matches from a recorded 20-item page, preserving the query and history', async () => {
     const all = Array.from({ length: 46 }, (_, index) => ({ capabilityId: `feature.${index}`, titleEn: `Feature ${index}` }));
     const original = { items: all.slice(20, 40), cursor: 20, totalCount: 46, nextCursor: 40, catalogDigest: 'peer-catalog' };

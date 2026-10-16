@@ -28,7 +28,7 @@ const job: CronJob = {
   enabled: true,
   target: {
     kind: 'workspace',
-    workspace: { workspacePath: '/workspace/openbitfun' },
+    workspace: { workspacePath: '/workspace/opc' },
     launch: { agentType: 'Standard' },
   },
   createdAtMs: 0,

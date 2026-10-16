@@ -191,7 +191,7 @@ impl LegacyDomainAdapter for AgentCoordinationAdapter {
             },
             conflicts,
             target_schema: Some(format!(
-                "openbitfun.agent-coordination.v{COORDINATION_SCHEMA_VERSION}"
+                "opc.agent-coordination.v{COORDINATION_SCHEMA_VERSION}"
             )),
             dependencies: vec![MigrationDomainId::WorkspaceSessions],
         })

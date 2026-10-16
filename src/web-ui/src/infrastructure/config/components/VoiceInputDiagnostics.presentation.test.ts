@@ -41,7 +41,7 @@ describe('VoiceInputDiagnostics presentation', () => {
 
     expect(source.match(/className="voice-input-config__balanced-row"/g)).toHaveLength(1);
     expect(microphoneRow).not.toContain('voice-input-config__balanced-row');
-    expect(source).toMatch(/import \{[^}]*\bButton\b[^}]*} from '@openbitfun\/ui';/);
+    expect(source).toMatch(/import \{[^}]*\bButton\b[^}]*} from '@opc\/ui';/);
     expect(source).toContain('className="voice-input-config__diagnostic-button"');
     expect(source).not.toContain('Activity');
     expect(source).not.toContain('voice-input-config__level');

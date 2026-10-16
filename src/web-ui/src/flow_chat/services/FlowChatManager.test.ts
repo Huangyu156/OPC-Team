@@ -151,7 +151,7 @@ function createHistoricalSession(overrides: Record<string, unknown> = {}) {
     historyState: 'metadata-only',
     todos: [],
     mode: 'Standard',
-    workspacePath: 'D:/workspace/OpenBitFun',
+    workspacePath: 'D:/workspace/OPC-Team',
     sessionKind: 'normal',
     ...overrides,
   };
@@ -387,7 +387,7 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    const initialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const initialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     await flushAsyncWork();
     manager.destroy();
@@ -442,8 +442,8 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    const firstInitialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
-    const secondInitialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const firstInitialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
+    const secondInitialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     await flushAsyncWork();
 
@@ -500,7 +500,7 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    const initialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const initialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     await flushAsyncWork();
     expect(storeMocks.store.loadSessionHistory).toHaveBeenCalledWith('history-1');
@@ -547,7 +547,7 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    const initialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const initialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     await flushAsyncWork();
     activeSessionId = 'other-1';
@@ -584,7 +584,7 @@ describe('FlowChatManager initialization', () => {
         workspacePath: string,
       ) => ({
         sessions: [],
-        totalTopLevelCount: workspacePath === 'D:/workspace/OpenBitFun' ? 1 : 0,
+        totalTopLevelCount: workspacePath === 'D:/workspace/OPC-Team' ? 1 : 0,
         hasMore: false,
       })),
       getState: vi.fn(() => ({
@@ -603,7 +603,7 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    const opcInitialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const opcInitialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     await flushAsyncWork();
     await expect(manager.initialize(workspaceFixture('D:/workspace/Other', undefined, undefined), undefined)).resolves.toBe(true);
@@ -626,7 +626,7 @@ describe('FlowChatManager initialization', () => {
         historyState: 'ready',
         createdAt: 10,
         lastFinishedAt: 30,
-        workspacePath: 'D:/workspace/OpenBitFun',
+        workspacePath: 'D:/workspace/OPC-Team',
         sessionKind: 'normal',
       })],
       ['subagent-1', createHistoricalSession({
@@ -636,7 +636,7 @@ describe('FlowChatManager initialization', () => {
         historyState: 'ready',
         createdAt: 40,
         lastFinishedAt: undefined,
-        workspacePath: 'D:/workspace/OpenBitFun',
+        workspacePath: 'D:/workspace/OPC-Team',
         sessionKind: 'subagent',
         parentSessionId: 'parent-1',
         mode: 'Explore',
@@ -663,7 +663,7 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    await expect(manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined)).resolves.toBe(true);
+    await expect(manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined)).resolves.toBe(true);
 
     expect(storeMocks.store.switchSession).toHaveBeenCalledTimes(1);
     expect(storeMocks.store.switchSession).toHaveBeenCalledWith('parent-1');
@@ -691,7 +691,7 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    await expect(manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined)).rejects.toSatisfy(isSurfaceChangedError);
+    await expect(manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined)).rejects.toSatisfy(isSurfaceChangedError);
 
     expect(storeMocks.store.loadSessionMetadataPage).toHaveBeenCalledTimes(1);
     expect(storeMocks.store.switchSession).not.toHaveBeenCalled();
@@ -722,13 +722,13 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    const localInitialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const localInitialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
     await flushAsyncWork();
     expect(storeMocks.store.loadSessionMetadataPage).toHaveBeenCalledTimes(1);
 
     activateSurface('device-b');
     activateSurface(destination);
-    const peerInitialize = manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    const peerInitialize = manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined);
     await flushAsyncWork();
     // A shared key would have handed this bootstrap the local device's request.
     expect(storeMocks.store.loadSessionMetadataPage).toHaveBeenCalledTimes(2);
@@ -771,7 +771,7 @@ describe('FlowChatManager initialization', () => {
     };
 
     const manager = FlowChatManager.getInstance();
-    await expect(manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined)).resolves.toBe(true);
+    await expect(manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined)).resolves.toBe(true);
 
     // Without this the breadcrumb and turn rail render from the catalog while
     // the message area stays blank until the user clicks the session.
@@ -797,7 +797,7 @@ describe('FlowChatManager initialization', () => {
     // `false` is the caller's signal to create a session against the live
     // workspace. Returning `true` here would leave the surface with no active
     // session and no new one.
-    await expect(manager.initialize(workspaceFixture('D:/workspace/OpenBitFun', undefined, undefined), undefined)).resolves.toBe(false);
+    await expect(manager.initialize(workspaceFixture('D:/workspace/OPC-Team', undefined, undefined), undefined)).resolves.toBe(false);
     expect(storeMocks.store.switchSession).not.toHaveBeenCalled();
   });
 });

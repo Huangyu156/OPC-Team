@@ -118,8 +118,8 @@ vi.mock('@opc-team/ui', async importOriginal => ({
 const workspaceOption: TodoWorkspaceOption = {
   workspace: {
     id: 'workspace-1',
-    name: 'OpenBitFun',
-    rootPath: 'D:/workspace/OpenBitFun',
+    name: 'OPC-Team',
+    rootPath: 'D:/workspace/OPC-Team',
     workspaceType: WorkspaceType.SingleProject,
     workspaceKind: WorkspaceKind.Normal,
     languages: ['TypeScript'],
@@ -128,8 +128,8 @@ const workspaceOption: TodoWorkspaceOption = {
     tags: [],
   },
   value: 'workspace-1',
-  label: 'OpenBitFun',
-  description: 'D:/workspace/OpenBitFun',
+  label: 'OPC-Team',
+  description: 'D:/workspace/OPC-Team',
   remoteConnectionId: null,
   remoteSshHost: null,
 };

@@ -393,7 +393,7 @@ fn custom_agent_discovery_ignores_non_opc_agent_dirs() {
     let project_claude = workspace.path.join(".claude").join("agents");
     let user_agents = user_root.path.join("agents");
     let home_claude = home.path.join(".claude").join("agents");
-    fs::create_dir_all(&project_opc).expect("project openbitfun agents dir should be created");
+    fs::create_dir_all(&project_opc).expect("project opc agents dir should be created");
     fs::create_dir_all(&project_claude).expect("project claude agents dir should be created");
     fs::create_dir_all(&user_agents).expect("user agents dir should be created");
     fs::create_dir_all(&home_claude).expect("home claude agents dir should be created");

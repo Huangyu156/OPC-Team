@@ -403,7 +403,7 @@ describe('device display names', () => {
 });
 
 describe('connection service classification', () => {
-  it('only classifies the canonical OpenBitFun relay host as official', () => {
+  it('only classifies the canonical OPC-Team relay host as official', () => {
     expect(classifyAccountRelayUrl('https://remote.opcteam.eu.cc/relay')).toBe('official-relay');
     expect(classifyAccountRelayUrl('https://relay.example.com')).toBe('self-hosted-relay');
     expect(classifyAccountRelayUrl('not a url')).toBe('unknown');

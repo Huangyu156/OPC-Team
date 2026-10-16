@@ -273,7 +273,7 @@ test('ICNS canonicalization rejects malformed containers', () => {
   assert.throws(() => canonicalizeIcns(truncated), /Invalid ICNS length/);
 });
 
-test('verification email reuses the current mark and the OpenBitFun reference palette', () => {
+test('verification email reuses the current mark and the legacy reference palette', () => {
   const emailMark = readFileSync('src/miniapp-market-web/public/assets/opc-email-app-icon.png');
   assert.deepEqual(emailMark, readFileSync('src/web-ui/public/brand/opc-app-icon.png'));
   assert.deepEqual(emailMark, readFileSync('src/crates/services/miniapp-market-service/src/email/app-icon.png'));

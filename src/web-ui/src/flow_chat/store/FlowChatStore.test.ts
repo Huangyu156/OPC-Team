@@ -228,8 +228,8 @@ const createSession = (overrides: Partial<Session> = {}): Session => ({
   todos: [],
   maxContextTokens: 128128,
   mode: 'Standard',
-  workspaceId: fixtureWorkspaceId(overrides.workspacePath || 'D:/workspace/OpenBitFun', overrides.remoteConnectionId, overrides.remoteSshHost),
-  workspacePath: 'D:/workspace/OpenBitFun',
+  workspaceId: fixtureWorkspaceId(overrides.workspacePath || 'D:/workspace/OPC-Team', overrides.remoteConnectionId, overrides.remoteSshHost),
+  workspacePath: 'D:/workspace/OPC-Team',
   isTransient: false,
   ...overrides,
 });
@@ -890,12 +890,12 @@ describe('FlowChatStore session removal active selection', () => {
     const keepSession = createSession({
       sessionId: 'session-keep',
       title: 'Keep me',
-      workspacePath: 'D:/workspace/OpenBitFun',
+      workspacePath: 'D:/workspace/OPC-Team',
     });
     const removeSession = createSession({
       sessionId: 'session-remove',
       title: 'Remove me',
-      workspacePath: 'D:/workspace/OpenBitFun',
+      workspacePath: 'D:/workspace/OPC-Team',
     });
 
     flowChatStore.setState(() => ({
@@ -1803,7 +1803,7 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     const session = flowChatStore.getState().sessions.get('history-1');
     expect(session).toMatchObject({
@@ -1876,7 +1876,7 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     const local = flowChatStore.getState().sessions.get('local-history');
     expect(local?.workspaceHostname).toBe('localhost');
@@ -3500,7 +3500,7 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     const configPaths = configManagerMock.getConfig.mock.calls.map(([path]) => path);
     expect(configPaths.filter(path => path === 'ai.models')).toHaveLength(1);
@@ -3537,7 +3537,7 @@ describe('FlowChatStore historical session hydration state', () => {
       return {};
     });
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     expect(flowChatStore.getState().sessions.has('bad-1')).toBe(false);
     expect(flowChatStore.getState().sessions.get('good-1')).toMatchObject({
@@ -3550,8 +3550,8 @@ describe('FlowChatStore historical session hydration state', () => {
     const sessions = createDeferred<any[]>();
     apiMocks.listSessions.mockReturnValueOnce(sessions.promise);
 
-    const firstLoad = flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), 'first-source');
-    const secondLoad = flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), 'second-source');
+    const firstLoad = flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), 'first-source');
+    const secondLoad = flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), 'second-source');
 
     await vi.waitFor(() => {
       expect(apiMocks.listSessions).toHaveBeenCalledTimes(1);
@@ -3587,8 +3587,8 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), 'first-source');
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), 'second-source');
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), 'first-source');
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), 'second-source');
 
     expect(apiMocks.listSessions).toHaveBeenCalledTimes(1);
     expect(flowChatStore.getState().sessions.get('history-1')).toMatchObject({
@@ -3616,11 +3616,11 @@ describe('FlowChatStore historical session hydration state', () => {
       hasMore: true,
     });
 
-    const page = await flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), 5, undefined, 'nav_initial');
+    const page = await flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), 5, undefined, 'nav_initial');
 
     expect(apiMocks.listSessions).not.toHaveBeenCalled();
     expect(apiMocks.listSessionsPage).toHaveBeenCalledWith({
-      workspaceId: fixtureWorkspaceId('D:/workspace/OpenBitFun'),
+      workspaceId: fixtureWorkspaceId('D:/workspace/OPC-Team'),
       limit: 5,
       cursor: undefined,
     });
@@ -3658,7 +3658,7 @@ describe('FlowChatStore historical session hydration state', () => {
       };
     });
 
-    const load = flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), 5, undefined, 'nav_initial');
+    const load = flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), 5, undefined, 'nav_initial');
 
     await vi.waitFor(() => {
       expect(apiMocks.listSessionsPage).toHaveBeenCalledTimes(1);
@@ -3880,7 +3880,7 @@ describe('FlowChatStore historical session hydration state', () => {
           sessionKind: 'subagent',
           mode: 'Explore',
           config: { agentType: 'Explore' },
-          workspacePath: 'D:/workspace/OpenBitFun',
+          workspacePath: 'D:/workspace/OPC-Team',
         })],
       ]),
       activeSessionId: 'parent-1',
@@ -3916,7 +3916,7 @@ describe('FlowChatStore historical session hydration state', () => {
           sessionKind: 'subagent',
           mode: 'Explore',
           config: { agentType: 'Explore', reasoningPreset: 'high' },
-          workspacePath: 'D:/workspace/OpenBitFun',
+          workspacePath: 'D:/workspace/OPC-Team',
         })],
       ]),
       activeSessionId: 'parent-1',
@@ -4726,7 +4726,7 @@ describe('FlowChatStore historical session hydration state', () => {
           totalTurnCount: 2,
           contextRestoreState: 'pending',
           dialogTurns: [latestTurn],
-          workspacePath: 'D:/workspace/OpenBitFun',
+          workspacePath: 'D:/workspace/OPC-Team',
         })],
         ['history-2', createSession({
           sessionId: 'history-2',
@@ -4826,7 +4826,7 @@ describe('FlowChatStore historical session hydration state', () => {
         ['history-1', createSession({
           sessionId: 'history-1',
           workspaceId: 'workspace-1',
-          workspacePath: 'D:/workspace/OpenBitFun',
+          workspacePath: 'D:/workspace/OPC-Team',
           isHistorical: true,
           historyState: 'ready',
         })],
@@ -4857,7 +4857,7 @@ describe('FlowChatStore historical session hydration state', () => {
 
     expect(flowChatStore.removeSessionsForWorkspace({
       id: 'workspace-1',
-      rootPath: 'D:/workspace/OpenBitFun',
+      rootPath: 'D:/workspace/OPC-Team',
       connectionId: null,
       sshHost: null,
     })).toEqual(['history-1']);
@@ -7132,7 +7132,7 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     expect(flowChatStore.getState().sessions.get('history-1')?.currentTokenUsage).toMatchObject({
       inputTokens: 42000,
@@ -7163,7 +7163,7 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     expect(flowChatStore.getState().sessions.get('history-1')?.currentTokenUsage).toBeUndefined();
   });
@@ -7188,7 +7188,7 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     expect(flowChatStore.getState().sessions.get('history-1')?.currentTokenUsage).toBeUndefined();
   });
@@ -7213,7 +7213,7 @@ describe('FlowChatStore historical session hydration state', () => {
       },
     ]);
 
-    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OpenBitFun', undefined, undefined), undefined);
+    await flowChatStore.initializeFromDisk(fixtureWorkspaceId('D:/workspace/OPC-Team', undefined, undefined), undefined);
 
     expect(flowChatStore.getState().sessions.get('history-1')?.currentTokenUsage).toBeUndefined();
   });
@@ -7225,7 +7225,7 @@ describe('FlowChatStore reconcile snapshot content safety', () => {
     turnId: 'turn-0',
     roundIndex: 0,
     timestamp: 2,
-    textItems: [{ id: 'text-0', content: 'OpenBitFun is an agentic IDE…', timestamp: 2 }],
+    textItems: [{ id: 'text-0', content: 'OPC-Team is an agentic IDE…', timestamp: 2 }],
     toolItems: [],
     thinkingItems: [],
     startTime: 2,
@@ -7267,7 +7267,7 @@ describe('FlowChatStore reconcile snapshot content safety', () => {
       sessions: new Map([
         ['history-1', createSession({
           sessionId: 'history-1',
-          workspacePath: '/repo/OpenBitFun',
+          workspacePath: '/repo/OPC-Team',
           isHistorical: true,
           historyState: 'metadata-only',
         })],
@@ -7341,7 +7341,7 @@ describe('FlowChatStore reconcile snapshot content safety', () => {
         ...createPersistedTurn(0),
         modelRounds: [{
           ...HYDRATED_ROUND,
-          textItems: [{ id: 'text-0', content: 'OpenBitFun is', timestamp: 2 }],
+          textItems: [{ id: 'text-0', content: 'OPC-Team is', timestamp: 2 }],
         }],
       }],
       contextRestoreState: 'ready',
@@ -7356,12 +7356,12 @@ describe('FlowChatStore reconcile snapshot content safety', () => {
     expect(
       flowChatStore.getState().sessions.get('history-1')
         ?.dialogTurns[0].modelRounds[0].items[0],
-    ).toMatchObject({ content: 'OpenBitFun is an agentic IDE…' });
+    ).toMatchObject({ content: 'OPC-Team is an agentic IDE…' });
   });
 
   it('repairs a settled local or Peer projection from the host tail', async () => {
     await hydrateSessionWithContent();
-    const completeContent = 'OpenBitFun is an agentic IDE… with a complete persisted response.';
+    const completeContent = 'OPC-Team is an agentic IDE… with a complete persisted response.';
     flowChatStore.addModelRoundItem('history-1', 'turn-0', {
       id: 'plan-display-test',
       type: 'tool',
@@ -7420,7 +7420,7 @@ describe('FlowChatStore reconcile snapshot content safety', () => {
         modelRounds: [{
           ...HYDRATED_ROUND,
           textItems: [
-            { id: 'text-0', content: 'OpenBitFun is an agentic IDE…', timestamp: 2 },
+            { id: 'text-0', content: 'OPC-Team is an agentic IDE…', timestamp: 2 },
             { id: 'text-1', content: '…with multi-device control.', timestamp: 3 },
           ],
         }],
@@ -7668,12 +7668,12 @@ describe('FlowChatStore device surfaces', () => {
       hasMore: false,
     });
 
-    await flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('/repo/OpenBitFun', undefined, undefined), 5, undefined, undefined);
+    await flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('/repo/OPC-Team', undefined, undefined), 5, undefined, undefined);
     expect(apiMocks.listSessionsPage).toHaveBeenCalledTimes(1);
 
     // Same path, other machine: the dedup entry must not answer for it.
     activateSurface(PEER_SURFACE_ID);
-    await flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('/repo/OpenBitFun', undefined, undefined), 5, undefined, undefined);
+    await flowChatStore.loadSessionMetadataPage(fixtureWorkspaceId('/repo/OPC-Team', undefined, undefined), 5, undefined, undefined);
 
     expect(apiMocks.listSessionsPage).toHaveBeenCalledTimes(2);
   });

@@ -1138,7 +1138,7 @@ describe('ExternalSourcesConfig', () => {
         serverName: 'github',
         candidates: [{
           candidateId: 'native-mcp-github',
-          displayName: 'OpenBitFun: github',
+          displayName: 'OPC-Team: github',
           external: false,
           behaviorVersion: 'native-v1',
           available: true,
@@ -1263,7 +1263,7 @@ describe('ExternalSourcesConfig', () => {
     );
 
     const nativeCandidate = Array.from(container.querySelectorAll('button')).find((button) =>
-      button.textContent?.includes('OpenBitFun: github'));
+      button.textContent?.includes('OPC-Team: github'));
     await act(async () => nativeCandidate?.click());
     expect(chooseMcpConflictMock).toHaveBeenCalledWith(
       'D:/workspace/project',
@@ -1356,7 +1356,7 @@ describe('ExternalSourcesConfig', () => {
         selectedCandidateId: 'builtin-review',
         candidates: [{
           candidateId: 'builtin-review',
-          displayName: 'OpenBitFun Review',
+          displayName: 'OPC-Team Review',
           kind: 'built_in',
           providerId: 'opc.builtin',
           contentVersion: 'builtin-v1',
@@ -1378,8 +1378,8 @@ describe('ExternalSourcesConfig', () => {
         selectedCandidateId: '__opc_disabled__',
         candidates: [{
           candidateId: 'builtin-agent-review',
-          displayName: 'OpenBitFun Review Agent',
-          sourceLabel: 'OpenBitFun',
+          displayName: 'OPC-Team Review Agent',
+          sourceLabel: 'OPC-Team',
           external: false,
         }, {
           candidateId: 'external-agent-review',
@@ -1402,9 +1402,9 @@ describe('ExternalSourcesConfig', () => {
     expect(container.textContent).toContain('conflicts.currentSelection');
     expect(container.textContent).toContain('toolConflicts.currentSelection');
     expect(container.textContent).toContain('agentConflicts.keptUnavailable');
-    expect(container.textContent).toContain('OpenBitFun Review');
+    expect(container.textContent).toContain('OPC-Team Review');
     expect(container.textContent).toContain('OpenCode Review Tool');
-    expect(container.textContent).toContain('OpenBitFun Review Agent');
+    expect(container.textContent).toContain('OPC-Team Review Agent');
     expect(container.textContent).toContain('OpenCode Review Agent');
 
     const externalTool = Array.from(container.querySelectorAll('button')).find((button) =>
@@ -1418,7 +1418,7 @@ describe('ExternalSourcesConfig', () => {
     );
 
     const opcAgent = Array.from(container.querySelectorAll('button')).find((button) =>
-      button.textContent?.includes('OpenBitFun Review Agent'));
+      button.textContent?.includes('OPC-Team Review Agent'));
     await act(async () => opcAgent?.click());
     expect(chooseSubagentConflictMock).toHaveBeenCalledWith(
       'D:/workspace/project',
@@ -1494,7 +1494,7 @@ describe('ExternalSourcesConfig', () => {
         selectedCandidateId: 'external-review',
         candidates: [{
           candidateId: 'builtin-review',
-          displayName: 'OpenBitFun Review',
+          displayName: 'OPC-Team Review',
           kind: 'built_in',
           providerId: 'opc.builtin',
           contentVersion: 'builtin-v1',
@@ -1534,8 +1534,8 @@ describe('ExternalSourcesConfig', () => {
         selectedCandidateId: 'external-agent-review',
         candidates: [{
           candidateId: 'builtin-agent-review',
-          displayName: 'OpenBitFun Review Agent',
-          sourceLabel: 'OpenBitFun',
+          displayName: 'OPC-Team Review Agent',
+          sourceLabel: 'OPC-Team',
           external: false,
         }, {
           candidateId: 'external-agent-review',
@@ -1763,7 +1763,7 @@ describe('ExternalSourcesConfig', () => {
     }
   });
 
-  it('describes OpenBitFun preference-storage diagnostics without blaming source files', async () => {
+  it('describes OPC-Team preference-storage diagnostics without blaming source files', async () => {
     getSnapshotMock.mockResolvedValue({
       ...snapshot,
       diagnostics: [{
@@ -1868,8 +1868,8 @@ describe('ExternalSourcesConfig', () => {
         logicalId: 'explore',
         candidates: [{
           candidateId: 'builtin-explore',
-          displayName: 'OpenBitFun Explore',
-          sourceLabel: 'OpenBitFun',
+          displayName: 'OPC-Team Explore',
+          sourceLabel: 'OPC-Team',
           external: false,
         }, {
           candidateId: 'external-explore-v1',

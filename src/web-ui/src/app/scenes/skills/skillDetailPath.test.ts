@@ -3,17 +3,17 @@ import { formatSkillDetailPath } from './skillDetailPath';
 
 describe('Skill detail path presentation', () => {
   it('keeps complete directories around the omission in the reported Windows path', () => {
-    expect(formatSkillDetailPath(String.raw`C:\Users\HUAWEI\AppData\Roaming\openbitfun\skills\.system\agent-browser`))
+    expect(formatSkillDetailPath(String.raw`C:\Users\HUAWEI\AppData\Roaming\opc\skills\.system\agent-browser`))
       .toBe(String.raw`C:\Users\HUAWEI\…\.system\agent-browser`);
   });
 
   it('preserves a remote POSIX root and complete trailing directory names', () => {
-    expect(formatSkillDetailPath('/home/alex/.config/openbitfun/skills/.system/create-opc-skin'))
+    expect(formatSkillDetailPath('/home/alex/.config/opc/skills/.system/create-opc-skin'))
       .toBe('/home/alex/.config/…/.system/create-opc-skin');
   });
 
   it('preserves the UNC prefix and trailing separator', () => {
-    expect(formatSkillDetailPath('\\\\server\\share\\team\\tools\\openbitfun\\skills\\agent-browser\\'))
+    expect(formatSkillDetailPath('\\\\server\\share\\team\\tools\\opc\\skills\\agent-browser\\'))
       .toBe('\\\\server\\share\\team\\…\\skills\\agent-browser\\');
   });
 

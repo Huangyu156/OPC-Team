@@ -22,7 +22,7 @@ const gitApiMock = vi.hoisted(() => ({
 }));
 
 const workspaceMocks = vi.hoisted(() => ({
-  currentWorkspace: { id: 'workspace-1', name: 'OpenBitFun', rootPath: 'D:/workspace/OpenBitFun', workspaceKind: 'normal' },
+  currentWorkspace: { id: 'workspace-1', name: 'OPC-Team', rootPath: 'D:/workspace/OPC-Team', workspaceKind: 'normal' },
   openedWorkspaces: new Map<string, WorkspaceInfo>(),
   selectDraftWorkspace: vi.fn(),
   openWorkspace: vi.fn(),
@@ -200,8 +200,8 @@ describe('WelcomePanel Git summary loading', () => {
     expect(menu.querySelector('[aria-checked="true"]')?.textContent).toContain('Other project');
     await act(async () => menu.querySelector<HTMLButtonElement>('[data-opc-product-part="workspaceItem"]')!.click());
 
-    expect(welcomeTrigger().textContent).toContain('OpenBitFun');
-    expect(stripTrigger().textContent).toContain('OpenBitFun');
+    expect(welcomeTrigger().textContent).toContain('OPC-Team');
+    expect(stripTrigger().textContent).toContain('OPC-Team');
     expect(workspaceMocks.gitScopes.at(-1)).toBe('workspace-1');
     expect(container.querySelector('[data-testid="canonical-workspace"]')?.textContent).toBe('workspace-1');
     expect(workspaceMocks.selectDraftWorkspace.mock.calls).toEqual([

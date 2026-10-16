@@ -107,7 +107,7 @@ impl LegacyDomainAdapter for CrossReferenceAdapter {
                 ..ScanFinding::default()
             },
             conflicts: Vec::new(),
-            target_schema: Some("openbitfun.cross-references.current".to_string()),
+            target_schema: Some("opc.cross-references.current".to_string()),
             dependencies: self.dependencies.clone(),
         })
     }

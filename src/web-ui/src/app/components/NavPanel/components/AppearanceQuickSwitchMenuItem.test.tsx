@@ -13,7 +13,7 @@ vi.mock('@/infrastructure/appearance', () => ({
     appearances: [
       {
         id: 'opc-light',
-        name: 'OpenBitFun Light',
+        name: 'OPC-Team Light',
         version: '1.0.0',
         mode: 'light',
         source: 'builtin',
@@ -26,7 +26,7 @@ vi.mock('@/infrastructure/appearance', () => ({
         source: 'imported',
       },
     ],
-    current: { id: 'opc-light', name: 'OpenBitFun Light' },
+    current: { id: 'opc-light', name: 'OPC-Team Light' },
     initialized: true,
     select: selectAppearance,
     selectedAppearanceId: 'opc-light',

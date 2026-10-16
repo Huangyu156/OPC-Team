@@ -31,7 +31,7 @@ returns nil for it; the zoom button remains in the list. The legacy filename-lis
 pasteboard format is retained at its three registration/read sites, with local
 deprecation annotations, so this cleanup does not change drag payload semantics.
 
-OpenBitFun keeps its original toolbar height and tab spacing. The desktop host
+OPC-Team keeps its original toolbar height and tab spacing. The desktop host
 derives the configured inset from the shared design height and native metrics;
 the framework owns applying that inset during its native window lifecycle.
 

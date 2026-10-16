@@ -19,7 +19,7 @@ use std::fs;
 use std::path::PathBuf;
 
 const SOURCE_SCHEMA: &str = "bitfun.config.v1";
-const TARGET_SCHEMA: &str = "openbitfun.config.current";
+const TARGET_SCHEMA: &str = "opc.config.current";
 
 pub(crate) struct SettingsAdapter;
 pub(crate) struct CredentialsAdapter;

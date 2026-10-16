@@ -25,7 +25,7 @@ use std::path::{Path, PathBuf};
 
 const DOMAIN_DIR: &str = "remote-connect";
 const SOURCE_SCHEMA: &str = "bitfun.remote-connect.v0.2.19";
-const TARGET_SCHEMA: &str = "openbitfun.remote-connect.current";
+const TARGET_SCHEMA: &str = "opc.remote-connect.current";
 const MAX_REMOTE_FILES: usize = 4_096;
 const MAX_SECRET_BYTES: u64 = 16 * 1024 * 1024;
 const LEGACY_ACCOUNT_SESSION_KEY_DOMAINS: LegacyAccountSessionKeyDomains<'static> =

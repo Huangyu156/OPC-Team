@@ -1,4 +1,4 @@
-// Native regression coverage for the OpenBitFun macOS chrome patch.
+// Native regression coverage for the OPC-Team macOS chrome patch.
 // A standalone main is required because AppKit must run on the main thread.
 
 #[cfg(target_os = "macos")]

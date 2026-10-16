@@ -245,7 +245,7 @@ describe('Remote Connect safety contracts', () => {
     expect(dialogSource).not.toContain('<MessagesSquare size={28} />');
   });
 
-  it('keeps OpenBitFun Page out of the account and device lifecycle', () => {
+  it('keeps OPC-Team Page out of the account and device lifecycle', () => {
     expect(accountPanelSource).not.toContain('pagesEntry');
     expect(accountPanelSource).not.toContain("openScene('pages')");
     expect(accountPanelSource).not.toContain('PanelsTopLeft');

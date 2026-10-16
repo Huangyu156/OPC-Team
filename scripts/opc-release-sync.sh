@@ -680,9 +680,12 @@ print(json.dumps(data, indent=2))
 }
 
 prune_old_versions() {
-  local dirs=() total remove_count i
+  local dirs=() total remove_count i cr
+  # Strip a trailing CR so the loop also works when PYTHON is Windows
+  # python (text-mode stdout translates LF to CRLF when piped).
+  cr=$'\r'
   while IFS= read -r d; do
-    dirs+=("$d")
+    dirs+=("${d%"$cr"}")
   done < <("$PYTHON" - "$WEBSITE_RELEASE_DIR" <<'PY'
 import os, re, sys
 root = sys.argv[1]

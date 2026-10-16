@@ -39,7 +39,7 @@ vi.mock('@/shared/notification-system', () => ({
   },
 }));
 
-const REPOSITORY_PATH = 'D:/workspace/project/OpenBitFun';
+const REPOSITORY_PATH = 'D:/workspace/project/OPC-Team';
 
 function untrustedError(repositoryPath = REPOSITORY_PATH): TauriCommandError {
   return new TauriCommandError('Command failed', {
@@ -194,8 +194,8 @@ describe('requestGitRepositoryTrust', () => {
     );
     trustRepositoryMock.mockResolvedValue(grantedOutcome());
 
-    const first = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/project/OpenBitFun' });
-    const second = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'd:\\workspace\\project\\OpenBitFun' });
+    const first = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'D:/workspace/project/OPC-Team' });
+    const second = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'd:\\workspace\\project\\OPC-Team' });
     resolveConfirm(true);
 
     await expect(Promise.all([first, second])).resolves.toEqual([true, true]);
@@ -214,8 +214,8 @@ describe('requestGitRepositoryTrust', () => {
     );
     trustRepositoryMock.mockResolvedValue(grantedOutcome());
 
-    const first = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'D:/Workspace/Project/OpenBitFun' });
-    const second = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'd:/workspace/project/openbitfun' });
+    const first = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'D:/Workspace/Project/OPC-Team' });
+    const second = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: 'd:/workspace/project/opc' });
     resolveConfirm(true);
 
     await expect(Promise.all([first, second])).resolves.toEqual([true, true]);
@@ -233,8 +233,8 @@ describe('requestGitRepositoryTrust', () => {
     );
     trustRepositoryMock.mockResolvedValue(grantedOutcome());
 
-    const first = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: '\\\\Build01\\Shared\\OpenBitFun' });
-    const second = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: '//build01/shared/openbitfun' });
+    const first = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: '\\\\Build01\\Shared\\OPC-Team' });
+    const second = requestGitRepositoryTrust({ workspaceId: 'workspace-1', repositoryPath: '//build01/shared/opc' });
     resolveConfirm(true);
 
     await expect(Promise.all([first, second])).resolves.toEqual([true, true]);

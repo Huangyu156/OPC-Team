@@ -25,7 +25,7 @@ use std::path::{Path, PathBuf};
 
 const DOMAIN_DIR: &str = "remote-ssh";
 const SOURCE_SCHEMA: &str = "bitfun.remote-ssh.v0.2.19";
-const TARGET_SCHEMA: &str = "openbitfun.remote-ssh.current";
+const TARGET_SCHEMA: &str = "opc.remote-ssh.current";
 const FILES: [&str; 5] = [
     "ssh_connections.json",
     "remote_workspace.json",

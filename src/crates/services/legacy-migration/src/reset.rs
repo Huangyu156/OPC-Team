@@ -275,8 +275,8 @@ mod tests {
             roots.target_ssh_root.parent().unwrap().to_path_buf(),
             dirs::data_local_dir()
                 .unwrap()
-                .join("com.openbitfun.desktop"),
-            dirs::cache_dir().unwrap().join("com.openbitfun.desktop"),
+                .join("com.opcteam.desktop"),
+            dirs::cache_dir().unwrap().join("com.opcteam.desktop"),
         ] {
             assert!(
                 candidates.contains(&required),

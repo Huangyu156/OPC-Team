@@ -26,7 +26,7 @@ function render(action: string, result: unknown, status: FlowToolItem['status'] 
   </I18nextProvider>);
 }
 
-describe('OpenBitFun control card content', () => {
+describe('OPC-Team control card content', () => {
   it('uses real shared card frameworks for discovery and control', () => {
     expect(render('list', { items: [] })).toContain('data-opc-attention="ambient"');
     const html = render('configure', { configured: true, effectiveValue: false });

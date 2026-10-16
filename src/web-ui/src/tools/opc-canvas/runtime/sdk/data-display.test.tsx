@@ -17,7 +17,7 @@ import {
   UsageBar,
 } from './data-display';
 
-describe('OpenBitFun Canvas data display components', () => {
+describe('OPC-Team Canvas data display components', () => {
   it('renders callouts as lightweight themed notes', () => {
     const markup = renderToStaticMarkup(
       <Callout tone="info" title="Repository Rule">

@@ -12,7 +12,7 @@ import {
 async function frontendFixture() {
   const root = await mkdtemp(path.join(tmpdir(), 'opc-frontend-revision-'));
   await mkdir(path.join(root, 'assets'));
-  await writeFile(path.join(root, 'index.html'), '<main>OpenBitFun</main>');
+  await writeFile(path.join(root, 'index.html'), '<main>OPC-Team</main>');
   await writeFile(path.join(root, 'assets', 'app.js'), 'export const value = 1;');
   return root;
 }

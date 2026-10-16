@@ -94,7 +94,7 @@ impl LegacyDomainAdapter for SkillsAdapter {
             self.domain(),
             "legacy_skills_supported",
             "agent-skill.v1",
-            "openbitfun.agent-skill.current",
+            "opc.agent-skill.current",
             &planned,
         ))
     }
@@ -205,7 +205,7 @@ impl LegacyDomainAdapter for MiniappsAdapter {
             self.domain(),
             "legacy_miniapps_supported",
             "miniapp.flat.v1",
-            "openbitfun.miniapp.current",
+            "opc.miniapp.current",
             &planned,
         ))
     }
@@ -414,7 +414,7 @@ impl LegacyDomainAdapter for AgentsAdapter {
                         .to_string(),
             },
             conflicts,
-            target_schema: Some("openbitfun.custom-agent.current".to_string()),
+            target_schema: Some("opc.custom-agent.current".to_string()),
             dependencies: Vec::new(),
         })
     }

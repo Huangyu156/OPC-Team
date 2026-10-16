@@ -13,7 +13,7 @@ const appearance = { id: 'test.widget', mode: 'dark', vars: {
 } };
 const options = {
   title: 'Chart <script>unsafe</script> & 比较', language: 'zh-CN',
-  widgetCode: '<p>Widget</p>', hostUnavailableMessage: 'Requires OpenBitFun', appearance,
+  widgetCode: '<p>Widget</p>', hostUnavailableMessage: 'Requires OPC-Team', appearance,
 };
 
 beforeEach(() => saveHtmlFile.mockReset());

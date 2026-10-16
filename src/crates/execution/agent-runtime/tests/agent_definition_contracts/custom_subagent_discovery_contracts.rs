@@ -43,9 +43,9 @@ fn custom_subagent_discovery_preserves_opc_priority_and_ignores_foreign_agent_di
     let project_claude = workspace.path.join(".claude").join("agents");
     let user_opc = opc_user.path.join("agents");
     let home_claude = home.path.join(".claude").join("agents");
-    fs::create_dir_all(&project_opc).expect("project openbitfun agents dir should be created");
+    fs::create_dir_all(&project_opc).expect("project opc agents dir should be created");
     fs::create_dir_all(&project_claude).expect("project claude agents dir should be created");
-    fs::create_dir_all(&user_opc).expect("user openbitfun agents dir should be created");
+    fs::create_dir_all(&user_opc).expect("user opc agents dir should be created");
     fs::create_dir_all(&home_claude).expect("home claude agents dir should be created");
 
     write_agent(

@@ -25,7 +25,7 @@ const COMPATIBILITY_ONLY_TOOL_CARD_NAMES = new Set(
 );
 
 describe('tool card registry', () => {
-  it('keeps OpenBitFun controls visible through their dedicated product card', () => {
+  it('keeps OPC-Team controls visible through their dedicated product card', () => {
     expect(getToolCardComponent('OpcControl')).toBe(OpcControlToolCard);
     expect(usesDefaultToolCard('OpcControl')).toBe(false);
     expect(isCollapsibleTool('OpcControl')).toBe(false);
