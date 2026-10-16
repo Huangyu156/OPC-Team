@@ -160,7 +160,7 @@ test('maps representative changes to the smallest predictive validation', () => 
       'src/apps/desktop/scripts/post-install-icons.sh',
       'src/apps/desktop/dmg/background.png',
       'scripts/product-customization/projections.mjs',
-      'products/openbitfun/product.jsonc',
+      'products/opcteam/product.jsonc',
     ].map((desktopInput) => ({
       paths: [desktopInput],
       result: expected({

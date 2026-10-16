@@ -3,13 +3,9 @@
   "description": "Residual retired product-identity occurrences. Lower an entry with `node scripts/product-identity-audit.mjs --update-baseline` as occurrences are removed; the audit fails if any count grows or shrinks.",
   "allowances": {
     "retired-opc-name": {
-      "products/openbitfun/locales/en-US.json": 3,
-      "products/openbitfun/locales/zh-CN.json": 3,
-      "products/openbitfun/locales/zh-TW.json": 3,
-      "products/openbitfun/product.jsonc": 4,
       "scripts/audit-typography-tokens.test.mjs": 3,
       "scripts/check-github-config.test.mjs": 1,
-      "scripts/ci/classify-build-impact.test.mjs": 3,
+      "scripts/ci/classify-build-impact.test.mjs": 2,
       "scripts/cli-product.test.mjs": 5,
       "scripts/desktop-tauri-build.test.mjs": 1,
       "scripts/generate-brand-assets.test.mjs": 1,
@@ -73,7 +69,6 @@
       "src/web-ui/src/flow_chat/components/voice/voiceTaskBridge.test.ts": 5,
       "src/web-ui/src/flow_chat/deep-review/launch/targetResolver.test.ts": 8,
       "src/web-ui/src/flow_chat/services/FlowChatManager.test.ts": 16,
-      "src/web-ui/src/flow_chat/services/controlConversation.test.ts": 1,
       "src/web-ui/src/flow_chat/services/flow-chat-manager/PeerSessionRefreshModule.test.ts": 10,
       "src/web-ui/src/flow_chat/services/flow-chat-manager/PersistenceModule.test.ts": 1,
       "src/web-ui/src/flow_chat/services/flow-chat-manager/SessionModule.test.ts": 2,

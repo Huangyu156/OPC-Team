@@ -67,7 +67,7 @@ describe('voice history recovery', () => {
     fixture.invoke.mockResolvedValue({ sessionId: 'new', workspaceId: 'workspace-control', workspacePath: '/peer/control' });
     await service.createControlConversation('old');
     expect(fixture.invoke).toHaveBeenCalledWith('create_control_conversation', { request: { expectedSessionId: 'old' } });
-    expect(fixture.addSession).toHaveBeenCalledWith('new', 'OPC-Team', 'OpenBitFun', '/peer/control',
+    expect(fixture.addSession).toHaveBeenCalledWith('new', 'OPC-Team', 'OPC-Team', '/peer/control',
       { isTransient: true, agentBackedTransient: true, workspaceId: 'workspace-control' });
     expect(fixture.history).toHaveBeenCalledWith('new', { includeInternal: true });
   });
