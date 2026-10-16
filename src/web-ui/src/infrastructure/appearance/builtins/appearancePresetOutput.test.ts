@@ -450,47 +450,47 @@ describe('builtin appearance preset output', () => {
     }))).toMatchInlineSnapshot(`
       [
         {
-          "hash": "7af27a87536b4bb9bc7b11f1ea2e8e1de17a33b1f785f84d04459d7c2b4e0078",
+          "hash": "c282bc0ec23e11fff707dbb757e725bd34cf8c2793456902d8096a1f2fb1bd51",
           "id": "opc-light",
           "type": "light",
         },
         {
-          "hash": "1ef7644b2681a148d4c1aed88853d1733051f57ba31c7beee2db9293b07850ed",
+          "hash": "d08b15d5e0c9beb3974ae7fe9e4aecb3a312d7399ad6e36425bcaa8d7bd4face",
           "id": "opc-monochrome",
           "type": "light",
         },
         {
-          "hash": "6881bcb324f2ceca12db7951a84bb0a3fc2ff8bbb95440a3d0b79eae13b86c7e",
+          "hash": "d773193afc57e4a411c491b4c00906abf595948e823b39cda7c1ebd47960ab7d",
           "id": "opc-slate",
           "type": "dark",
         },
         {
-          "hash": "2e661919780720fb10c299eb2833a07e168119ff957912ada0a7c9bf43451bb1",
+          "hash": "b427bc9dfa6c3771f366946c22fbc53caf298f294c71b9deda43d8a0a6e99ab2",
           "id": "opc-dark",
           "type": "dark",
         },
         {
-          "hash": "a6789a5583ed61fa9c111376cd6528238e25021bcff13cdc89677b5a3341fa5a",
+          "hash": "504eb971c80f0aadb8bac33ee975c90b95abea5af0d1a0f223992be87b5ef257",
           "id": "opc-midnight",
           "type": "dark",
         },
         {
-          "hash": "71bb280040a388af2a6cc1246ec5892cd753eb5c070c350f431da5c55580b0de",
+          "hash": "29c1d588979df63290f8a926c9415457ffb3334d70ab7d1bc6bc6db8eb231a91",
           "id": "opc-china-style",
           "type": "light",
         },
         {
-          "hash": "ff90fa8fed4e2374f83bd0c618d05354b771c634f52df4fe05950633d2a00fe4",
+          "hash": "03d37af2ee8ed530b3e068aded57ca95c35fcec89850f8bf38abdf2dfe862cec",
           "id": "opc-china-night",
           "type": "dark",
         },
         {
-          "hash": "1f268ec7627a8ad85a2fb83a6a44623342c395a64c7ce16624b321911ac11ec6",
+          "hash": "0c846d29a637385352b6b6658c3006d5246a90819662ed00fbd3e23f495c0a22",
           "id": "opc-cyber",
           "type": "dark",
         },
         {
-          "hash": "93d50ba213102b8353088f53b8ed4fc8a1c4d7bea85e2127d4d8a13fe6d2ce9f",
+          "hash": "6a89b2fe93336994b4cca5bbd2acfae2c5bdb3a3a95d43bfbfc5b465a25b5b16",
           "id": "opc-tokyo-night",
           "type": "dark",
         },

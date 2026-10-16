@@ -77,7 +77,7 @@ describe('Nursery gallery presentation', () => {
     expect(cardSection).not.toContain('&__new-session-btn {');
     expect(cardSection).not.toContain('&__set-primary-btn {');
     expect(cardSection).not.toContain('&__delete-btn {');
-    expect(source).toMatch(/import \{[^}]*\bButton\b[^}]*} from '@opc\/ui';/);
+    expect(source).toMatch(/import \{[^}]*\bButton\b[^}]*} from '@opc-team\/ui';/);
     expect(source).toContain('<CardHeader');
     expect(source).toContain('<CardFooter');
     expect(source).toContain('leadingIcon={<Icon name="side-chat" size="sm" />}');

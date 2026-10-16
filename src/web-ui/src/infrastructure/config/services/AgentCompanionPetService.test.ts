@@ -26,7 +26,7 @@ describe('AgentCompanionPetService built-in presets', () => {
 
     const pets = await listAgentCompanionPets();
     const blueGolden = pets.find(pet => pet.id === 'blue-golden');
-    const opc = pets.find(pet => pet.id === 'opc');
+    const opc = pets.find(pet => pet.id === 'opc-bifang');
 
     expect(DEFAULT_AGENT_COMPANION_PET).toMatchObject({
       id: 'bitblob',
@@ -55,8 +55,8 @@ describe('AgentCompanionPetService built-in presets', () => {
     });
     expect(opc).toMatchObject({
       displayName: 'OPC-Team',
-      packagePath: '/agent-companion-pets/opc',
-      spritesheetPath: '/agent-companion-pets/opc/spritesheet.webp',
+      packagePath: '/agent-companion-pets/opc-bifang',
+      spritesheetPath: '/agent-companion-pets/opc-bifang/spritesheet.webp',
     });
     expect(invoke).not.toHaveBeenCalled();
   });

@@ -14,13 +14,13 @@ import {
 
 function skill(overrides: Partial<SkillInfo> = {}): SkillInfo {
   return {
-    key: 'project::opc::pdf',
+    key: 'project::opcteam::pdf',
     name: 'pdf',
     description: 'PDF workflow',
     path: '/workspace/.opcteam/skills/pdf',
     level: 'project',
-    sourceSlot: 'opc',
-    sourceId: 'opc',
+    sourceSlot: 'opcteam',
+    sourceId: 'opcteam',
     sourceLabel: 'OPC-Team',
     dirName: 'pdf',
     isBuiltin: false,
@@ -56,8 +56,8 @@ describe('skill source presentation', () => {
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'home.pi' }))).toBe('pi');
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'home.agents' }))).toBe('agent-skills');
     expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'config.opencode.custom-root' }))).toBe('opencode');
-    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'opc-system' }))).toBe('opc');
-    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: '' }))).toBe('opc');
+    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: 'opc-system' }))).toBe('opcteam');
+    expect(getSkillSourceId(skill({ sourceId: '', sourceSlot: '' }))).toBe('opcteam');
     expect(getSkillSourceId(skill({ sourceId: 'future-agent', sourceLabel: 'Codex' }))).toBe('future-agent');
   });
 

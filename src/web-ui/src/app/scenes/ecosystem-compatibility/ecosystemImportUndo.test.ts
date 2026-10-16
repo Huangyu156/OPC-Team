@@ -9,7 +9,7 @@ vi.mock('@/infrastructure/api/service-api/ConfigAPI', () => ({ configAPI: { getS
 vi.mock('@/infrastructure/api/service-api/ExternalHooksAPI', () => ({ externalHooksAPI: {} }));
 import { applyImportUndo, matchesSkillReceipt, prepareMcpUndo, readSkillImportReceipt, rememberSkillImport } from './ecosystemImportUndo';
 
-const native = { key: 'native-demo', path: '/native/demo', sourceId: 'opc', level: 'user', isBuiltin: false } as SkillInfo;
+const native = { key: 'native-demo', path: '/native/demo', sourceId: 'opcteam', level: 'user', isBuiltin: false } as SkillInfo;
 const key = (source: string) => `opc:external-skill-import:v2:${JSON.stringify(['local', '', source])}`;
 
 describe('external import undo ownership and compatibility', () => {

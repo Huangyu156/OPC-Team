@@ -100,13 +100,13 @@ const BUILTIN_PETS: AgentCompanionPetSelection[] = [
     spriteVersionNumber: 2,
   },
   {
-    id: 'opc-girl',
+    id: 'opc-bifang',
     displayName: 'OPC-Team',
     description:
       "OPC-Team's mascot — Bifang, a figure from Chinese mythology said to live on Mount Zhang'e. In the Classic of Mountains and Seas (Shan Hai Jing · Western Mountains), Bifang is described as crane-like with one foot, blue feathers marked with red, and a white beak.",
     source: 'preset',
-    packagePath: `${BUILTIN_PET_BASE}/opc-girl`,
-    spritesheetPath: `${BUILTIN_PET_BASE}/opc-girl/spritesheet.webp`,
+    packagePath: `${BUILTIN_PET_BASE}/opc-bifang`,
+    spritesheetPath: `${BUILTIN_PET_BASE}/opc-bifang/spritesheet.webp`,
     spritesheetMimeType: 'image/webp',
   },
   {

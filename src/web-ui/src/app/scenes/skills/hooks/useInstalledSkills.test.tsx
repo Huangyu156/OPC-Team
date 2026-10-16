@@ -277,7 +277,7 @@ describe('useInstalledSkills', () => {
 
   it('groups native imported copies by persisted origin and keeps native deletion available', async () => {
     const imported: SkillInfo = { key: 'owned-import', name: 'demo', description: '', path: '/native/demo',
-      level: 'user', sourceId: 'opc', sourceSlot: 'opc', dirName: 'demo', isBuiltin: false,
+      level: 'user', sourceId: 'opcteam', sourceSlot: 'opcteam', dirName: 'demo', isBuiltin: false,
       importOrigin: { schemaVersion: 1, importId: 'receipt', sourceKey: 'external', sourcePath: '/external/demo',
         sourceId: 'codex', sourceLabel: 'Codex', sourceSlot: 'home.codex', fingerprint: 'copy-hash' } };
     getSkillConfigsMock.mockResolvedValue([imported]);
