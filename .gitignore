@@ -139,3 +139,4 @@ src/apps/mobile/android/.kotlin/
 
 # Rivet agent runtime state: meridian SQLite DB + WAL, memory index, tool artifacts.
 .rivet/
+logo-source-original.jpg
