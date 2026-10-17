@@ -190,17 +190,6 @@ const css = [
   }),
 ].join("\n");
 
-const legacyAliasCss = `/* Legacy compatibility aliases: skins authored before the OPC-Team rename reference --opc-* names. Keep until no supported skin can still reference them. */
-:root, :where([data-opcteam-design-system-root]) {
-${Object.keys(semanticThemes.light)
-  .map((name) => {
-    const newName = tokenNameToCssVariable(name);
-    return `  --opc-${newName.slice("--opcteam-".length)}: var(${newName});`;
-  })
-  .join("\n")}
-}
-`;
-
 const themeData = {
   dark: Object.fromEntries(Object.entries(semanticThemes.dark).map(([name, token]) => [name, token.value])),
   highContrastDark: Object.fromEntries(
@@ -276,7 +265,7 @@ const authoringDeclarationSource = [
 
 await mkdir(outputDirectory, { recursive: true });
 await Promise.all([
-  writeFile(path.join(outputDirectory, "themes.css"), css + legacyAliasCss),
+  writeFile(path.join(outputDirectory, "themes.css"), css),
   writeFile(
     path.join(outputDirectory, "default.css"),
     '@import "@opc-team/design-tokens/tokens.css";\n@import "./themes.css";\n',

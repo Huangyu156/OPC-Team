@@ -17,7 +17,7 @@ import outlineUrl from "../../../../packages/ui/src/brand/assets/opc-mark.svg?ur
 import appPngUrl from "../../../../../assets/brand/exports/opc-app-icon-512.png?url";
 import appIcoUrl from "../../../../../assets/brand/exports/opc-app-icon.ico?url";
 import appIcnsUrl from "../../../../../assets/brand/exports/opc-app-icon.icns?url";
-import wordmarkUrl from "../../../../../png/opc-wordmark.png?url";
+import wordmarkUrl from "../../../../../png/opcteam-wordmark.png?url";
 import "./BrandPage.css";
 
 type BrandResource = {
@@ -52,7 +52,7 @@ export const brandResources: readonly BrandResource[] = [
   {
     name: "wordmark", label: "design.wordmark",
     description: "brandAssets.wordmarkDescription", specification: "PNG · 2172 × 724",
-    downloads: [{ label: "PNG", url: wordmarkUrl, filename: "opc-wordmark.png" }],
+    downloads: [{ label: "PNG", url: wordmarkUrl, filename: "opcteam-wordmark.png" }],
   },
   {
     name: "OpcBrandMotion", label: "design.aboutMotion", motion: true,

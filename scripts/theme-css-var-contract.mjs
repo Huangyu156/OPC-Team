@@ -46,17 +46,6 @@ export const PACKAGE_CSS_VAR_DEFINITION_CONTRACTS = Object.freeze([
         .map(name => tokenNameToCssVariable(name)),
     ),
   }),
-  // Legacy compatibility aliases emitted by the theme build (themes.css): skins
-  // authored before the OPC-Team rename reference --opc-* names.
-  Object.freeze({
-    owner: 'design-system/packages/theme/scripts/build.mjs',
-    packageName: '@opc-team/theme',
-    variables: Object.freeze(
-      Object.keys(opcThemeTokens)
-        .filter(name => publicThemePrefixes.some(prefix => name.startsWith(prefix)))
-        .map(name => `--opc-${tokenNameToCssVariable(name).slice('--opcteam-'.length)}`),
-    ),
-  }),
 ]);
 
 /**

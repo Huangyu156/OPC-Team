@@ -67,7 +67,7 @@
       "audit": {
         "engine": "theme",
         "baseline": "scripts/theme-color-governance-baseline.design-system-ui.json",
-        "excludePaths": ["src/brand/assets/subagent-egg.svg"],
+        "excludePaths": ["src/brand/assets/subagent-egg.svg", "src/brand/assets/opc-mark.svg"],
         "packageContracts": ["@opc-team/design-tokens", "@opc-team/theme"]
       }
     },
@@ -444,6 +444,13 @@
     }
   ],
   "exclusions": [
+    {
+      "id": "brand-mark-master-artwork",
+      "path": "design-system/packages/ui/src/brand/assets/opc-mark.svg",
+      "kind": "authored-vector-artwork",
+      "owner": "scripts/generate-brand-assets.mjs",
+      "reason": "This exact SVG is the transparent vector master that serializes the two canonical brand strokes; scripts/generate-brand-assets.mjs rewrites them to currentColor for every web, icon and native export and fails if the source stops declaring them. Only this master leaves the generic metadata budget; every derived asset and all surrounding UI remain under theme governance."
+    },
     {
       "id": "subagent-hatch-artwork",
       "path": "design-system/packages/ui/src/brand/assets/subagent-egg.svg",

@@ -2,7 +2,7 @@
 
 <div align="center">
 
-<img src="./png/opc-wordmark.png" alt="OPC-Team" width="520" />
+<img src="./png/opcteam-wordmark.png" alt="OPC-Team" width="520" />
 
 ### Built to keep going.
 
@@ -36,13 +36,13 @@ for stable releases 0.2.17–0.2.19.
 
 ---
 
-![The OPC-Team desktop interface](./png/opc-desktop.png)
+![The OPC-Team desktop interface](./png/opcteam-desktop.png)
 
 ## Four modes for the way you work
 
 **The Agent Harness shapes how a task gets done.** It plans steps, manages context, calls tools, coordinates agents, and brings their results together. Choose the mode that fits the task:
 
-![Four working modes: Minimal, Standard, Ultimate, and Creative](./png/opc-harness-modes.png)
+![Four working modes: Minimal, Standard, Ultimate, and Creative](./png/opcteam-harness-modes.png)
 
 | Mode | When to use it |
 | --- | --- |
@@ -59,7 +59,7 @@ for stable releases 0.2.17–0.2.19.
 
 **We're also building ways to connect from watches and glasses.** The device extension protocol lets us bring task updates and simple interactions to more wearables, extending collaboration from your desk to your wrist and beyond.
 
-![OPC-Team across a laptop, phone, watch, and glasses](./png/opc-multi-device.png)
+![OPC-Team across a laptop, phone, watch, and glasses](./png/opcteam-multi-device.png)
 
 <details>
 <summary>Connection and deployment details</summary>
@@ -99,13 +99,13 @@ In this **DeepSWE v1.1** evaluation, OPC-Team achieved:
 - **GLM-5.3-Flash**: **64.6%** pass rate, **42.9 minutes** median runtime (P50).
 - **DeepSeek-V4-Flash**: **56.6%** pass rate, **19.6 minutes** median runtime (P50).
 
-![DeepSWE v1.1 comparison: pass rate, runtime P50, and token P50](./png/opc-deepswe-v1.1.png)
+![DeepSWE v1.1 comparison: pass rate, runtime P50, and token P50](./png/opcteam-deepswe-v1.1.png)
 
 ## More to explore
 
 **These are just some of OPC-Team's features.** Explore more tools, workflows, and extensions as you put it to work on your own tasks.
 
-![A selection of OPC-Team's features](./png/opc-feature-wall.jpg)
+![A selection of OPC-Team's features](./png/opcteam-feature-wall.jpg)
 
 ## Where we're headed
 
