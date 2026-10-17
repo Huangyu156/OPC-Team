@@ -1,11 +1,11 @@
 {
   "schema": "opc.appearance.registry",
   "schemaVersion": 2,
-  "generatedFrom": "c26255bf5a1e7bea34ee98c901ccbfec117b3dcf",
-  "generatedAt": "2026-10-15T10:50:16.302989+00:00",
-  "sourceRevision": "c26255bf5a1e7bea34ee98c901ccbfec117b3dcf",
-  "sourceDirty": false,
-  "sourceTreeHash": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+  "generatedFrom": "06fcb7fb83ec31e3bdf79362171fc0e40781c98d",
+  "generatedAt": "2026-10-17T12:48:35.072255+00:00",
+  "sourceRevision": "06fcb7fb83ec31e3bdf79362171fc0e40781c98d",
+  "sourceDirty": true,
+  "sourceTreeHash": "7fdf3271b5eb470b19638a8bae3a3576ac49cd7e57a95c43de644bdfb373cdb4",
   "components": [
     {
       "id": "split-view",
@@ -1922,10 +1922,6 @@
         },
         {
           "id": "preventSleep",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "autoUpdate",
           "propertyProfile": "container"
         },
         {
@@ -4119,168 +4115,6 @@
       ]
     },
     {
-      "id": "update",
-      "parts": [
-        {
-          "id": "notice",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        },
-        {
-          "id": "noticeTitle",
-          "propertyProfile": "paint",
-          "visualRole": "content"
-        },
-        {
-          "id": "releaseArtwork",
-          "propertyProfile": "paint",
-          "visualRole": "decoration"
-        },
-        {
-          "id": "indicator",
-          "propertyProfile": "paint",
-          "visualRole": "decoration"
-        },
-        {
-          "id": "downloadControl",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        },
-        {
-          "id": "downloadVessel",
-          "propertyProfile": "paint",
-          "visualRole": "content"
-        },
-        {
-          "id": "downloadFill",
-          "propertyProfile": "paint",
-          "visualRole": "decoration"
-        },
-        {
-          "id": "downloadTransfer",
-          "propertyProfile": "paint",
-          "visualRole": "decoration"
-        },
-        {
-          "id": "panel",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        },
-        {
-          "id": "panelStatus",
-          "propertyProfile": "paint",
-          "visualRole": "content"
-        },
-        {
-          "id": "availableRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "lead",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "leadIcon",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "subtitle",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "versions",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "versionRow",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "versionLabel",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "versionValue",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "notes",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "notesLabel",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "notesBody",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "actions",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "progressRoot",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "alert",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "progressBar",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "progressFill",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "progressHint",
-          "propertyProfile": "container"
-        },
-        {
-          "id": "restartHint",
-          "propertyProfile": "container"
-        }
-      ],
-      "facets": [
-        {
-          "id": "variant",
-          "attribute": "data-opc-variant",
-          "values": [
-            "daily",
-            "manual"
-          ]
-        },
-        {
-          "id": "status",
-          "attribute": "data-opc-status",
-          "values": [
-            "downloading",
-            "error",
-            "installed"
-          ]
-        }
-      ],
-      "states": [
-        {
-          "id": "highlight",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-opc-state~=\"highlight\"]"
-          }
-        },
-        {
-          "id": "indeterminate",
-          "selector": {
-            "kind": "self",
-            "suffix": "[data-opc-state~=\"indeterminate\"]"
-          }
-        }
-      ]
-    },
-    {
       "id": "assistant-avatar",
       "parts": [
         {
@@ -6297,31 +6131,6 @@
           "visualRole": "content"
         },
         {
-          "id": "updateCard",
-          "propertyProfile": "container",
-          "visualRole": "content"
-        },
-        {
-          "id": "updateFeedback",
-          "propertyProfile": "paint",
-          "visualRole": "content"
-        },
-        {
-          "id": "updateActions",
-          "propertyProfile": "container",
-          "visualRole": "toolbar"
-        },
-        {
-          "id": "progress",
-          "propertyProfile": "control",
-          "visualRole": "control"
-        },
-        {
-          "id": "progressFill",
-          "propertyProfile": "paint",
-          "visualRole": "decoration"
-        },
-        {
           "id": "infoRow",
           "propertyProfile": "container",
           "visualRole": "content"
@@ -6365,48 +6174,7 @@
         }
       ],
       "facets": [],
-      "states": [
-        {
-          "id": "checking",
-          "selector": {
-            "kind": "ancestorPart",
-            "part": "updateCard",
-            "suffix": "[data-opc-state~=\"checking\"]"
-          }
-        },
-        {
-          "id": "latest",
-          "selector": {
-            "kind": "ancestorPart",
-            "part": "updateCard",
-            "suffix": "[data-opc-state~=\"latest\"]"
-          }
-        },
-        {
-          "id": "downloading",
-          "selector": {
-            "kind": "ancestorPart",
-            "part": "updateCard",
-            "suffix": "[data-opc-state~=\"downloading\"]"
-          }
-        },
-        {
-          "id": "installed",
-          "selector": {
-            "kind": "ancestorPart",
-            "part": "updateCard",
-            "suffix": "[data-opc-state~=\"installed\"]"
-          }
-        },
-        {
-          "id": "error",
-          "selector": {
-            "kind": "ancestorPart",
-            "part": "updateCard",
-            "suffix": "[data-opc-state~=\"error\"]"
-          }
-        }
-      ]
+      "states": []
     },
     {
       "id": "nav-panel",
@@ -14154,6 +13922,25 @@
         },
         {
           "id": "worktreeList",
+          "propertyProfile": "container"
+        }
+      ],
+      "facets": [],
+      "states": []
+    },
+    {
+      "id": "background-run",
+      "parts": [
+        {
+          "id": "root",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "summary",
+          "propertyProfile": "container"
+        },
+        {
+          "id": "details",
           "propertyProfile": "container"
         }
       ],

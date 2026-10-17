@@ -183,106 +183,6 @@
   white-space: nowrap;
 }
 
-.opc-about-dialog__update-card {
-  min-width: 0;
-  margin-top: var(--opcteam-space-5);
-}
-
-.opc-about-dialog__update-card-actions {
-  display: flex;
-  align-items: center;
-}
-
-.opc-about-dialog__update-feedback {
-  &:not(:empty) {
-    margin-top: 12px;
-  }
-}
-
-.opc-about-dialog__update-alert {
-  width: 100%;
-  text-align: left;
-}
-
-.opc-about-dialog__download-status {
-  display: flex;
-  flex-direction: column;
-  gap: 7px;
-}
-
-.opc-about-dialog__download-bar {
-  position: relative;
-  width: 100%;
-  height: 6px;
-  overflow: hidden;
-  border-radius: 999px;
-  background: var(--opcteam-color-surface-subtle);
-}
-
-.opc-about-dialog__download-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: var(--opcteam-color-accent-default);
-  transition: width var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
-
-  &--indeterminate {
-    width: 38%;
-    animation: about-update-progress-indeterminate 1.1s ease-in-out infinite;
-  }
-}
-
-@keyframes about-update-progress-indeterminate {
-  0% {
-    transform: translateX(-105%);
-  }
-
-  100% {
-    transform: translateX(265%);
-  }
-}
-
-.opc-about-dialog__download-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  color: var(--opcteam-color-content-secondary);
-  font-size: var(--opcteam-type-label-md-font-size);
-  line-height: var(--opcteam-type-modifier-leading-ui-line-height);
-}
-
-.opc-about-dialog__download-hint {
-  margin: 0;
-  color: var(--opcteam-color-content-muted);
-  font-size: var(--opcteam-type-label-md-font-size);
-  line-height: var(--opcteam-type-flow-support-line-height);
-}
-
-.opc-about-dialog__update-installed {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 10px;
-}
-
-.opc-about-dialog__update-status {
-  display: flex;
-  align-items: flex-start;
-  gap: 8px;
-  color: var(--opcteam-color-content-muted);
-  font-size: var(--opcteam-type-label-md-font-size);
-  line-height: var(--opcteam-type-flow-support-line-height);
-
-  &-icon {
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-
-  &--success .opc-about-dialog__update-status-icon {
-    color: var(--opcteam-color-status-success-content);
-  }
-}
-
 .opc-about-dialog__footer {
   display: flex;
   flex: 0 0 auto;
@@ -343,8 +243,4 @@
     display: none;
   }
 
-  .opc-about-dialog__download-fill--indeterminate {
-    animation: none;
-    transform: none;
-  }
 }

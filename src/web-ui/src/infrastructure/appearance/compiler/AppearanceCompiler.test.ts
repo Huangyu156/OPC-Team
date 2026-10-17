@@ -671,7 +671,11 @@ describe('AppearanceCompiler', () => {
           parts: {
             hero: { base: { backgroundColor: accent } },
             title: { base: { color: { kind: 'hex', value: '#ffffff' } } },
-            progressFill: { states: { downloading: { backgroundColor: accent } } },
+          },
+        },
+        'workspace-item': {
+          parts: {
+            card: { states: { active: { backgroundColor: accent } } },
           },
         },
         'nav-panel': {
@@ -701,7 +705,7 @@ describe('AppearanceCompiler', () => {
 
     const snapshot = new AppearanceCompiler(createDefaultAppearanceRegistry()).compile(pkg, 1);
     expect(snapshot.cssText).toContain('[data-opc-component="about-dialog"][data-opc-part="hero"]');
-    expect(snapshot.cssText).toContain('[data-opc-component="about-dialog"][data-opc-part="updateCard"][data-opc-state~="downloading"] [data-opc-component="about-dialog"][data-opc-part="progressFill"]');
+    expect(snapshot.cssText).toContain('[data-opc-product-component="workspace-item"][data-opc-product-part="root"][data-opc-state~="active"] [data-opc-product-component="workspace-item"][data-opc-product-part="card"]');
     expect(snapshot.cssText).toContain('[data-opc-component="nav-panel"][data-opc-part="topAction"][data-opc-action="new-session"][data-opc-state~="active"]');
     expect(snapshot.cssText).toContain('[data-opc-component="canvas-editor-area"][data-opc-part="root"][data-opc-layout="grid"]');
     expect(snapshot.cssText).toContain('[data-opc-product-component="canvas-tab"][data-opc-product-part="root"][data-opc-state~="active"]');
