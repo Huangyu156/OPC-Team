@@ -215,12 +215,43 @@ Evidence:
   `--opcteam-font-family-serif`, `font-serif`) returns no match.
 - Only two font profiles exist: `apple-system.css` and `harmony-bundled.css`. A
   profile is selected per surface **at build time**, not per appearance.
+- Stronger than absence, the shape is **prohibited**: the same audit carries six named
+  "do not reintroduce" gates, so appearance-carried typography cannot be added without
+  deleting a guard rail. Their codes and files are
+  `appearance-compiler-typography-reintroduced` (`AppearanceCompiler.ts`),
+  `appearance-validator-typography-reintroduced` (`AppearancePackageValidator.ts`),
+  `appearance-profile-typography-reintroduced` (`appearancePropertyProfiles.ts`),
+  `appearance-font-global-merge-reintroduced` (`composeAppearancePackage.ts`),
+  `appearance-font-runtime-reintroduced` (`FontPreferenceService.ts`) and
+  `standalone-appearance-typography-reintroduced` (the distributed `create-opc-skin`
+  validator `opcteam_appearance.py`). Every code reads `-reintroduced`, i.e. the project
+  removed this capability on purpose.
+- Those gates arrived with commit `e9655cb2d` *feat(ui): unify the semantic typography
+  system* (2026-08-30), which added `scripts/audit-typography-tokens.mjs` (813 lines)
+  plus a 174-line test and stripped the typography plumbing out of the appearance
+  contracts. The appearance architecture document does define a general extension
+  procedure — `docs/architecture/appearance-package-system.md:139-145` lists the five
+  places a new `AppearanceStyle` property must be threaded (type, validator, compiler,
+  descriptor `allowedProperties`, focused tests plus the color audit) — but typography
+  is a deliberate carve-out from that procedure, owned by the semantic typography
+  system instead.
+- There is no user-facing font-family control to piggyback on either:
+  `src/web-ui/src/infrastructure/font-preference/types/index.ts` models
+  `FontPreference` as size only (`FontSizeLevel = 'compact' | 'small' | 'default' |
+  'medium' | 'large' | 'custom'`), and the `canonical-font-runtime-missing` gate
+  requires `FontPreferenceService` to write nothing but `--opcteam-font-size-*`.
+- The exclusion is a **policy** decision rather than a technical impossibility: a
+  runtime experiment in the live dev server set `--opcteam-font-family-sans` and
+  `--opcteam-font-family-control` inline on `<html>` and the override propagated to
+  **91 of 342** leaf elements. The mechanism works; the architecture forbids it.
 
-Making the Claude appearance serif would therefore require a new serif stack token, a
-third font profile, a build-time profile selection mechanism, and the cooperation of
-every appearance — it would change all appearances rather than one, which contradicts
-the compatibility objective. It is recorded here as a deliberate, evidenced exclusion
-instead of being silently dropped.
+Making the Claude appearance serif would therefore require deleting six guard rails, a
+new serif stack token, a third font profile, a build-time profile selection mechanism,
+and the cooperation of every appearance — it would change all appearances rather than
+one, which contradicts the compatibility objective. It is recorded here as a deliberate,
+evidenced exclusion instead of being silently dropped. A global (non-per-appearance)
+serif profile remains available to the project later as an independent decision, since
+`src/web-ui/src/font-profiles/` is the sanctioned home for font stacks.
 
 ## Compatibility
 
@@ -390,7 +421,7 @@ dark-palette config-page row-hover separation. The forbidden literals `#fdfdfd`,
 | 6 | Theme color audit passes | Met — `theme:color-audit:test` 50/50, `theme:color-audit:all` 24/24 surfaces, `check:web` exit 0 |
 | 7 | No ratchet fixture was raised without disclosure | **Partially met — disclosed exception.** Four `themePreset`-only baseline values were raised to their measured post-merge values; see *Color governance*. No assertion, fixture count, allowlist or CI coverage changed. |
 | 8 | An older build degrades gracefully on an unknown persisted id | Met by the existing `unavailableSelectionId` path |
-| 9 | Serif reading typography reproduced | **Not met — not expressible**; see *Typography* |
+| 9 | Serif reading typography reproduced | **Not met — prohibited by architecture, not merely inexpressible.** Six named `-reintroduced` gates in `scripts/audit-typography-tokens.mjs` (added by `e9655cb2d`) forbid appearance-carried typography; a runtime experiment proved the mechanism itself works (91/342 leaf elements). See *Typography*. |
 | 10 | High-contrast variant delivered | **Not delivered** — deliberately out of scope |
 
 ## Out of scope
@@ -425,3 +456,4 @@ dark-palette config-page row-hover separation. The forbidden literals `#fdfdfd`,
 | 0.1.0 | 2026-10-18 | Initial spec, written before the integration point was confirmed; described a `design-system/packages/theme` theme package. |
 | 1.0.0 | 2026-10-18 | Rewritten as-built for the appearance-palette integration: correct file paths, real token projection, evidenced typography exclusion, compatibility analysis, verification results and recorded rejected alternatives. |
 | 1.1.0 | 2026-10-18 | Reconciled with theme color governance after the t4 verification failure: merged seven sub-threshold stops, adopted three canonical neutral values, added five near-pair decisions, and recorded the disclosed `themePreset` baseline adjustment. Verification table and acceptance criteria updated to the re-measured state. |
+| 1.2.0 | 2026-10-18 | Strengthened the typography exclusion from "not expressible" to "prohibited by architecture": recorded the six `-reintroduced` guard-rail gates, their introducing commit `e9655cb2d`, the size-only `FontPreference` contract, and the runtime experiment (91/342 leaf elements) proving the exclusion is policy rather than technical limit. Acceptance criterion 9 restated accordingly. |

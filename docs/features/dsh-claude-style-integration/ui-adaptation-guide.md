@@ -174,7 +174,7 @@ Two behaviours worth knowing:
 
 | Want | Reality |
 |---|---|
-| Serif / custom reading type | **Not available.** No typography field on `AppearancePalette`. Font stacks are build-owned per surface by `src/web-ui/src/font-profiles/{apple-system,harmony-bundled}.css`, the only files allowed to declare `--opcteam-font-family-sans`, `--opcteam-font-family-control`, `--opcteam-font-family-mono`. No serif stack token exists. Restyling type for one appearance would restyle it for all. |
+| Serif / custom reading type | **Not available — and prohibited, not merely absent.** No typography field on `AppearancePalette`. Font stacks are build-owned per surface by `src/web-ui/src/font-profiles/{apple-system,harmony-bundled}.css`, the only files allowed to declare `--opcteam-font-family-sans`, `--opcteam-font-family-control`, `--opcteam-font-family-mono`. No serif stack token exists. Six named `-reintroduced` gates in `scripts/audit-typography-tokens.mjs` (added by `e9655cb2d`) fail the build if appearance-carried typography comes back, and `FontPreference` is size-only. Restyling type for one appearance would restyle it for all. A global serif profile under `src/font-profiles/` is the only sanctioned route, and it is a product-wide decision. |
 | Per-appearance component CSS | Not available, and not needed: components read tokens. Fix the component if it hardcodes a color. |
 | A per-appearance icon set or background image | Only via the package/asset path (`storage`/`getPreviewAsset`), not through a builtin palette. |
 | Animation timing beyond `motion.duration` / `motion.easing` | The reference's `data-dsh-motion` system/reduced/full modes have no appearance-level equivalent. Reduced motion is a host/OS concern here. |
@@ -263,4 +263,5 @@ id returns.
 |---|---|---|
 | 0.1.0 | 2026-10-18 | Initial guide; assumed a `design-system/packages/theme` theme package, serif CSS overrides, store changes and an xterm theme object. |
 | 1.0.0 | 2026-10-18 | Rewritten as-built: real pipeline, real token projection table, exact registration steps, evidenced typography limitation, real verification commands and invariants, compatibility and troubleshooting. |
-| 1.1.0 | 2026-10-18 | Added the theme color governance step (near-pair decisions, merge-first rule, disclosed `themePreset` adjustment), refreshed the verification checklist and expected results, and added two troubleshooting rows. |
+| 1.1.0 | 2026-10-18 | Added the theme color governance step (merge sub-threshold stops first, then record decisions, then disclose any `themePreset` budget change), renumbered the audit step, refreshed the checklist, added two troubleshooting rows. |
+| 1.2.0 | 2026-10-18 | Typography row upgraded from "not available" to "prohibited by architecture", citing the six `-reintroduced` audit gates, commit `e9655cb2d` and the size-only `FontPreference` contract. |
