@@ -4,28 +4,28 @@ use std::ptr::NonNull;
 use std::sync::{Mutex, OnceLock};
 
 unsafe extern "C" {
-    fn obf_capture_activation_epoch() -> u64;
-    fn obf_capture_start(
+    fn opc_capture_activation_epoch() -> u64;
+    fn opc_capture_start(
         pid: i32,
         window: u32,
         generation: u64,
         error: *mut c_char,
         capacity: usize,
     ) -> *mut c_void;
-    fn obf_capture_validate_target(
+    fn opc_capture_validate_target(
         pid: i32,
         window: u32,
         error: *mut c_char,
         capacity: usize,
     ) -> u32;
-    fn obf_capture_status(handle: *mut c_void, error: *mut c_char, capacity: usize) -> i32;
-    fn obf_capture_bounds(
+    fn opc_capture_status(handle: *mut c_void, error: *mut c_char, capacity: usize) -> i32;
+    fn opc_capture_bounds(
         handle: *mut c_void,
         bounds: *mut f64,
         error: *mut c_char,
         capacity: usize,
     ) -> i32;
-    fn obf_capture_frame(
+    fn opc_capture_frame(
         handle: *mut c_void,
         bytes: *mut *mut u8,
         length: *mut usize,
@@ -37,18 +37,18 @@ unsafe extern "C" {
         error: *mut c_char,
         capacity: usize,
     ) -> i32;
-    fn obf_capture_bind_revision(handle: *mut c_void, revision: u64);
-    fn obf_capture_mark_input(handle: *mut c_void);
-    fn obf_capture_free(bytes: *mut c_void);
-    fn obf_capture_stop(handle: *mut c_void);
-    fn obf_pointer_show(window: u32, x: f64, y: f64, click: bool);
-    fn obf_pointer_hide();
+    fn opc_capture_bind_revision(handle: *mut c_void, revision: u64);
+    fn opc_capture_mark_input(handle: *mut c_void);
+    fn opc_capture_free(bytes: *mut c_void);
+    fn opc_capture_stop(handle: *mut c_void);
+    fn opc_pointer_show(window: u32, x: f64, y: f64, click: bool);
+    fn opc_pointer_hide();
 }
 
 /// Process-wide native workspace activation sequence. Zero means the observer
 /// has not reached the main runloop yet and must not be used for cache reuse.
 pub(super) fn activation_epoch() -> u64 {
-    unsafe { obf_capture_activation_epoch() }
+    unsafe { opc_capture_activation_epoch() }
 }
 
 pub(super) struct CaptureFrame {
@@ -84,7 +84,7 @@ impl CaptureSession {
         let mut error = [0; 1024];
         let generation = super::control_session::capture_token()?.generation();
         let handle = NonNull::new(unsafe {
-            obf_capture_start(
+            opc_capture_start(
                 pid,
                 window_id.unwrap_or(0),
                 generation,
@@ -105,7 +105,7 @@ impl CaptureSession {
     }
     fn check(&self) -> Result<(), String> {
         let mut error = [0; 1024];
-        if unsafe { obf_capture_status(self.handle.as_ptr(), error.as_mut_ptr(), error.len()) } == 0
+        if unsafe { opc_capture_status(self.handle.as_ptr(), error.as_mut_ptr(), error.len()) } == 0
         {
             return Err(error_string(&error));
         }
@@ -118,7 +118,7 @@ impl CaptureSession {
         let (mut width, mut height, mut window_id, mut sequence) = (0, 0, 0, 0);
         let mut bounds = [0.0; 4];
         let ok = unsafe {
-            obf_capture_frame(
+            opc_capture_frame(
                 self.handle.as_ptr(),
                 &mut bytes,
                 &mut length,
@@ -135,11 +135,11 @@ impl CaptureSession {
             return Err(error_string(&error));
         }
         if bytes.is_null() || length != width as usize * height as usize * 4 {
-            unsafe { obf_capture_free(bytes.cast()) };
+            unsafe { opc_capture_free(bytes.cast()) };
             return Err("CAPTURE_INVALID_FRAME: Invalid RGBA buffer".into());
         }
         let rgba = unsafe { std::slice::from_raw_parts(bytes, length).to_vec() };
-        unsafe { obf_capture_free(bytes.cast()) };
+        unsafe { opc_capture_free(bytes.cast()) };
         Ok(CaptureFrame {
             rgba,
             width,
@@ -156,7 +156,7 @@ impl CaptureSession {
 }
 impl Drop for CaptureSession {
     fn drop(&mut self) {
-        unsafe { obf_capture_stop(self.handle.as_ptr()) };
+        unsafe { opc_capture_stop(self.handle.as_ptr()) };
     }
 }
 static CAPTURE: OnceLock<Mutex<Option<CaptureSession>>> = OnceLock::new();
@@ -199,7 +199,7 @@ pub(super) fn ensure_capture(pid: i32, mut window_id: Option<u32>) -> Result<(),
         // new target before releasing the previous one; never overlap streams.
         let mut error = [0; 1024];
         let validated_window = unsafe {
-            obf_capture_validate_target(
+            opc_capture_validate_target(
                 pid,
                 window_id.unwrap_or(0),
                 error.as_mut_ptr(),
@@ -218,7 +218,7 @@ pub(super) fn ensure_capture(pid: i32, mut window_id: Option<u32>) -> Result<(),
     super::control_session::capture_allowed()?;
     super::control_session::bind_target(format!("pid:{pid}/window:{}", session.window_id))?;
     session.target_revision = super::control_session::observation_scope()?.target_revision;
-    unsafe { obf_capture_bind_revision(session.handle.as_ptr(), session.target_revision) };
+    unsafe { opc_capture_bind_revision(session.handle.as_ptr(), session.target_revision) };
     session.check()?;
     *active = Some(session);
     Ok(())
@@ -272,7 +272,7 @@ pub(super) fn window_bounds(pid: i32, window_id: u32) -> Result<[f64; 4], String
     let mut bounds = [0.0; 4];
     let mut error = [0; 1024];
     if unsafe {
-        obf_capture_bounds(
+        opc_capture_bounds(
             session.handle.as_ptr(),
             bounds.as_mut_ptr(),
             error.as_mut_ptr(),
@@ -289,7 +289,7 @@ pub(super) fn window_bounds(pid: i32, window_id: u32) -> Result<[f64; 4], String
 pub(super) fn note_input(pid: i32) {
     if let Ok(active) = capture().lock() {
         if let Some(session) = active.as_ref().filter(|session| session.pid == pid) {
-            unsafe { obf_capture_mark_input(session.handle.as_ptr()) };
+            unsafe { opc_capture_mark_input(session.handle.as_ptr()) };
         }
     }
 }
@@ -307,18 +307,18 @@ pub(super) fn show_pointer(gx: f64, gy: f64, click: bool) {
     }
     if let Ok(active) = capture().lock() {
         if let Some(session) = active.as_ref().filter(|s| s.check().is_ok()) {
-            unsafe { obf_pointer_show(session.window_id, gx, gy, click) };
+            unsafe { opc_pointer_show(session.window_id, gx, gy, click) };
         }
     }
 }
 pub(super) fn hide_pointer() {
-    unsafe { obf_pointer_hide() };
+    unsafe { opc_pointer_hide() };
 }
 
 // Native delegates call this after releasing NSCondition. The owner must only
 // revoke input here; it must not synchronously re-enter the capture mutex.
 #[unsafe(no_mangle)]
-extern "C" fn obf_control_native_stopped(
+extern "C" fn opc_control_native_stopped(
     generation: u64,
     target_revision: u64,
     pid: i32,

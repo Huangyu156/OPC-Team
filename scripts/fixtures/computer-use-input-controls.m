@@ -26,9 +26,9 @@ static void publish(void) {
     NSDictionary *data = @{@"bundle_id":NSBundle.mainBundle.bundleIdentifier ?: @"", @"frontmost_pid":@(NSWorkspace.sharedWorkspace.frontmostApplication.processIdentifier), @"activation_history":activationHistory ?: @[], @"lifecycle_history":lifecycleHistory ?: @[], @"foreign_actions":@(foreignActions), @"selected_count":@(table.selectedRowIndexes.count), @"selected_row":@(table.selectedRow), @"canvas_scrolls":@(canvasScrolls), @"canvas_scroll_x":@(canvasScrollX), @"canvas_scroll_y":@(canvasScrollY), @"button_actions":@(buttonActions), @"shortcut_actions":@(shortcutActions), @"field_text":field.stringValue ?: @"", @"canvas_command_downs":@(canvasCommandDowns), @"canvas_downs":@(canvasDowns), @"canvas_text":canvasText, @"canvas_escape_presses":@(canvasEscapes), @"events":events, @"targets":targets ?: @{}, @"window_id":@(targetWindow.windowNumber), @"key_window":@(targetWindow.keyWindow), @"active":@(NSApp.active)};
     [[NSJSONSerialization dataWithJSONObject:data options:0 error:nil] writeToFile:resultPath atomically:YES];
 }
-@interface OBFControlsApp : NSApplication
+@interface OPCControlsApp : NSApplication
 @end
-@implementation OBFControlsApp
+@implementation OPCControlsApp
 - (void)sendEvent:(NSEvent *)event {
     if (event.type == NSEventTypeLeftMouseDown || event.type == NSEventTypeLeftMouseUp) {
         NSPoint local = event.locationInWindow;
@@ -42,9 +42,9 @@ static void publish(void) {
     publish();
 }
 @end
-@interface OBFPlainCanvas : NSView
+@interface OPCPlainCanvas : NSView
 @end
-@implementation OBFPlainCanvas
+@implementation OPCPlainCanvas
 - (BOOL)acceptsFirstResponder { return YES; }
 - (BOOL)isAccessibilityElement { return NO; }
 - (void)drawRect:(NSRect)dirty { [NSColor.systemBlueColor setFill]; NSRectFill(self.bounds); }
@@ -52,9 +52,9 @@ static void publish(void) {
 - (void)scrollWheel:(NSEvent *)event { canvasScrolls++; canvasScrollX += event.scrollingDeltaX; canvasScrollY += event.scrollingDeltaY; publish(); }
 - (void)keyDown:(NSEvent *)event { if (event.keyCode == 53) canvasEscapes++; else if (event.characters) [canvasText appendString:event.characters]; publish(); }
 @end
-@interface OBFControlsActions : NSObject <NSTextFieldDelegate, NSTableViewDataSource, NSTableViewDelegate>
+@interface OPCControlsActions : NSObject <NSTextFieldDelegate, NSTableViewDataSource, NSTableViewDelegate>
 @end
-@implementation OBFControlsActions
+@implementation OPCControlsActions
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)view { return 3; }
 - (id)tableView:(NSTableView *)view objectValueForTableColumn:(NSTableColumn *)column row:(NSInteger)row { return [NSString stringWithFormat:@"Row %ld",(long)row]; }
 - (void)tableViewSelectionDidChange:(NSNotification *)note { if (targets) publish(); }
@@ -156,12 +156,12 @@ int main(int argc, const char **argv) { @autoreleasepool {
     }
     resultPath = [NSString stringWithUTF8String:argv[1]];
     events = [NSMutableArray array]; canvasText = [NSMutableString string];
-    NSApplication *app = [OBFControlsApp sharedApplication];
+    NSApplication *app = [OPCControlsApp sharedApplication];
     [app setActivationPolicy:NSApplicationActivationPolicyAccessory];
     targetWindow = [[NSWindow alloc] initWithContentRect:NSMakeRect(100,100,700,300) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:NO];
     targetWindow.title = @"OPC-Team Inactive Controls Fixture";
     targetWindow.releasedWhenClosed = NO;
-    OBFControlsActions *actions = [[OBFControlsActions alloc] init];
+    OPCControlsActions *actions = [[OPCControlsActions alloc] init];
     // Ordinary AppKit menu dispatch: no event interception or automation hooks.
     NSMenu *mainMenu = [[NSMenu alloc] initWithTitle:@"Fixture"];
     NSMenuItem *menuRoot = [[NSMenuItem alloc] initWithTitle:@"Fixture" action:NULL keyEquivalent:@""];
@@ -178,7 +178,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
     field = [[NSTextField alloc] initWithFrame:NSMakeRect(20,180,300,30)];
     [field setAccessibilityIdentifier:@"fixture-text-field"];
     field.delegate = actions;
-    OBFPlainCanvas *canvas = [[OBFPlainCanvas alloc] initWithFrame:NSMakeRect(20,20,300,100)];
+    OPCPlainCanvas *canvas = [[OPCPlainCanvas alloc] initWithFrame:NSMakeRect(20,20,300,100)];
     [targetWindow.contentView addSubview:button]; [targetWindow.contentView addSubview:field]; [targetWindow.contentView addSubview:canvas];
     table = [[NSTableView alloc] initWithFrame:NSMakeRect(440,20,220,240)];
     NSTableColumn *column = [[NSTableColumn alloc] initWithIdentifier:@"selection"]; column.width=220;

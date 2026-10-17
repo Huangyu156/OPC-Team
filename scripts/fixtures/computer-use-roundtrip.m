@@ -8,14 +8,14 @@ static void publish(void) {
     NSData *data = [NSJSONSerialization dataWithJSONObject:@{@"downs":@(downs), @"ups":@(ups), @"enters":@(enters), @"activations":@(activations), @"text":receivedText} options:0 error:nil];
     [data writeToFile:resultPath atomically:YES];
 }
-@interface OBFRoundtripWindow : NSWindow
+@interface OPCRoundtripWindow : NSWindow
 @end
-@implementation OBFRoundtripWindow
+@implementation OPCRoundtripWindow
 - (BOOL)canBecomeKeyWindow { return YES; }
 @end
-@interface OBFRoundtripEditor : NSView
+@interface OPCRoundtripEditor : NSView
 @end
-@implementation OBFRoundtripEditor
+@implementation OPCRoundtripEditor
 - (BOOL)acceptsFirstMouse:(NSEvent *)event { return YES; }
 - (BOOL)acceptsFirstResponder { return YES; }
 - (BOOL)isAccessibilityElement { return YES; }
@@ -36,10 +36,10 @@ static void publish(void) {
     publish();
 }
 @end
-@interface OBFRoundtripActions : NSObject
+@interface OPCRoundtripActions : NSObject
 - (void)activateFixture:(id)sender;
 @end
-@implementation OBFRoundtripActions
+@implementation OPCRoundtripActions
 - (void)activateFixture:(id)sender { activations++; publish(); }
 @end
 int main(int argc, const char **argv) { @autoreleasepool {
@@ -48,13 +48,13 @@ int main(int argc, const char **argv) { @autoreleasepool {
     receivedText = [NSMutableString string];
     NSApplication *app = NSApplication.sharedApplication;
     [app setActivationPolicy:NSApplicationActivationPolicyAccessory];
-    OBFRoundtripWindow *window = [[OBFRoundtripWindow alloc] initWithContentRect:NSMakeRect(100,100,420,240) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:NO];
+    OPCRoundtripWindow *window = [[OPCRoundtripWindow alloc] initWithContentRect:NSMakeRect(100,100,420,240) styleMask:NSWindowStyleMaskTitled backing:NSBackingStoreBuffered defer:NO];
     window.title = @"Computer Use Roundtrip Fixture";
     window.releasedWhenClosed = NO;
     NSView *root = [[NSView alloc] initWithFrame:NSMakeRect(0,0,420,240)];
-    OBFRoundtripEditor *editor = [[OBFRoundtripEditor alloc] initWithFrame:NSMakeRect(0,0,420,180)];
+    OPCRoundtripEditor *editor = [[OPCRoundtripEditor alloc] initWithFrame:NSMakeRect(0,0,420,180)];
     [root addSubview:editor];
-    OBFRoundtripActions *actions = [[OBFRoundtripActions alloc] init];
+    OPCRoundtripActions *actions = [[OPCRoundtripActions alloc] init];
     NSButton *button = [NSButton buttonWithTitle:@"Fixture semantic action" target:actions action:@selector(activateFixture:)];
     button.frame = NSMakeRect(20,190,240,32);
     [root addSubview:button];

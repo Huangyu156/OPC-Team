@@ -8,9 +8,9 @@ static void publish(void) {
     NSData *data = [NSJSONSerialization dataWithJSONObject:@{@"downs":@(downs), @"ups":@(ups), @"locations":locations} options:0 error:nil];
     [data writeToFile:resultPath atomically:YES];
 }
-@interface OBFInputFixtureView : NSView
+@interface OPCInputFixtureView : NSView
 @end
-@implementation OBFInputFixtureView
+@implementation OPCInputFixtureView
 - (BOOL)acceptsFirstMouse:(NSEvent *)event { return YES; }
 - (BOOL)acceptsFirstResponder { return YES; }
 - (void)mouseDown:(NSEvent *)event { downs++; [locations addObject:@[@(event.locationInWindow.x), @(event.locationInWindow.y)]]; publish(); }
@@ -24,7 +24,7 @@ int main(int argc, const char **argv) { @autoreleasepool {
     [app setActivationPolicy:NSApplicationActivationPolicyAccessory];
     NSWindow *window = [[NSWindow alloc] initWithContentRect:NSMakeRect(100,100,240,160) styleMask:NSWindowStyleMaskBorderless backing:NSBackingStoreBuffered defer:NO];
     window.backgroundColor = NSColor.windowBackgroundColor;
-    window.contentView = [[OBFInputFixtureView alloc] initWithFrame:NSMakeRect(0,0,240,160)];
+    window.contentView = [[OPCInputFixtureView alloc] initWithFrame:NSMakeRect(0,0,240,160)];
     window.releasedWhenClosed = NO;
     [window orderFront:nil];
     publish();

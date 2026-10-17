@@ -230,6 +230,14 @@ const identityRules = Object.freeze([
     pattern: new RegExp(`\\b${shortPrefix.toUpperCase()}_[A-Z0-9_]+\\b`, 'gu'),
   }),
   Object.freeze({
+    id: 'retired-obf-native-symbol',
+    description: 'retired native FFI symbol prefix',
+    pattern: new RegExp(
+      `(?<![A-Za-z0-9])(?:${'ob' + 'f'}_|OBF(?=[A-Z_])|Obf(?=[A-Z]))`,
+      'gu',
+    ),
+  }),
+  Object.freeze({
     id: 'parallel-identity-version',
     description: 'parallel product-identity version label',
     pattern: new RegExp(

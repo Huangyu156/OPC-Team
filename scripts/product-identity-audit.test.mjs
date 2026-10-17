@@ -295,7 +295,8 @@ test('allows retired Harmony identifiers only at the upgrade identity boundary',
   );
 });
 
-test('rejects retired short CSS, DOM, dataset, layer, and environment prefixes', () => {
+test('rejects retired short CSS, DOM, dataset, layer, environment, and native symbol prefixes', () => {
+  const obfPrefix = 'ob' + 'f';
   const source = [
     `--${shortPrefix}-surface: white;`,
     `data-${shortPrefix}-component="button"`,
@@ -303,6 +304,8 @@ test('rejects retired short CSS, DOM, dataset, layer, and environment prefixes',
     `element.dataset['${shortPrefix}State'] = 'active';`,
     `@layer ${shortPrefix}.components;`,
     `${shortPrefix.toUpperCase()}_E2E_HOME=/tmp/example`,
+    `void *${obfPrefix}_capture_start(uint32_t display_id);`,
+    `${obfPrefix.toUpperCase()}WindowCapture *window_session = NULL;`,
   ].join('\n');
 
   const rules = violationsFor(source).map((violation) => violation.rule);
@@ -313,6 +316,8 @@ test('rejects retired short CSS, DOM, dataset, layer, and environment prefixes',
     'retired-dataset-property-prefix',
     'retired-css-layer-prefix',
     'retired-environment-prefix',
+    'retired-obf-native-symbol',
+    'retired-obf-native-symbol',
   ]);
 });
 
@@ -359,6 +364,7 @@ test('does not confuse unrelated abbreviations, issue ids, or hashes with produc
     'sha256:46bf68c6409f',
     'buffer.slice(0, 2)',
     'const bf = bestFit;',
+    'const obfuscationRules = readOptions();',
   ].join('\n');
 
   assert.deepEqual(violationsFor(source), []);

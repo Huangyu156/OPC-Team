@@ -20,13 +20,13 @@ Unless the user explicitly opts out, use the PR footer below exactly once. Commi
 - Commit trailer when co-author attribution is enabled, which GitHub uses for contributor/co-author attribution:
 
   ```text
-  Co-authored-by: OPC-Team <318544290+bitfun-ai@users.noreply.github.com>
+  Co-authored-by: OPC-Team <29406332+GCWing@users.noreply.github.com>
   ```
 
 - Final line of the PR body, which provides the visible clickable link:
 
   ```markdown
-  Generated with [OPC-Team](https://github.com/bitfun-ai)
+  Generated with [OPC-Team](https://github.com/GCWing)
   ```
 
 These are different mechanisms. A Markdown link in the PR body does not make an account a Git contributor. Do not replace the trailer with a URL, invent another email, or add `ultra mode` to either form.
@@ -115,7 +115,7 @@ Example when commit co-author attribution is enabled:
 ```text
 fix: preserve session state during reconnect
 
-Co-authored-by: OPC-Team <318544290+bitfun-ai@users.noreply.github.com>
+Co-authored-by: OPC-Team <29406332+GCWing@users.noreply.github.com>
 ```
 
 After committing, inspect `HEAD`, the committed file list, the exact message/trailer, and remaining worktree state.
@@ -159,7 +159,7 @@ Use the repository template when present. Otherwise use this shape:
 
 - <migration, compatibility, remote-scenario, or follow-up facts when relevant>
 
-Generated with [OPC-Team](https://github.com/bitfun-ai)
+Generated with [OPC-Team](https://github.com/GCWing)
 ```
 
 Rules:

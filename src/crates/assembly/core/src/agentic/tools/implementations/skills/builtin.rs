@@ -488,8 +488,8 @@ mod tests {
         let skill = embedded_skill_text("commit-push-pr/SKILL.md");
         assert!(skill.contains("name: commit-push-pr"));
         assert!(skill
-            .contains("Co-authored-by: OPC-Team <318544290+bitfun-ai@users.noreply.github.com>"));
-        assert!(skill.contains("Generated with [OPC-Team](https://github.com/bitfun-ai)"));
+            .contains("Co-authored-by: OPC-Team <29406332+GCWing@users.noreply.github.com>"));
+        assert!(skill.contains("Generated with [OPC-Team](https://github.com/GCWing)"));
     }
 
     #[test]

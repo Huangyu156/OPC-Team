@@ -656,7 +656,7 @@ async fn run_covered_semantic() {
     assert_eq!(
         events
             .iter()
-            .filter(|e| e["hit"] == "OBFPlainCanvas" && e["type"] == 1)
+            .filter(|e| e["hit"] == "OPCPlainCanvas" && e["type"] == 1)
             .count(),
         1
     );

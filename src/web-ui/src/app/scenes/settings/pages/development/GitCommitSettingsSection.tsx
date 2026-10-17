@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import { useSettingsSectionAnchor } from '../shared/useSettingsSectionAnchor';
 
 const log = createLogger('GitCommitSettingsSection');
-const COMMIT_COAUTHOR_ACCOUNT = `@${new URL('https://github.com/bitfun-ai').pathname.slice(1)}`;
+const COMMIT_COAUTHOR_ACCOUNT = `@${new URL('https://github.com/GCWing').pathname.slice(1)}`;
 
 export default function GitCommitSettingsSection() {
   const { t } = useTranslation('settings/quick-actions');

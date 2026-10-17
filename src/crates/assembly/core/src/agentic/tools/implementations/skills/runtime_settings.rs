@@ -74,7 +74,7 @@ mod tests {
                 assert!(!assistant
                     .contains("add the exact OPC-Team co-author trailer below exactly once"));
             }
-            assert!(assistant.contains("Generated with [OPC-Team](https://github.com/bitfun-ai)"));
+            assert!(assistant.contains("Generated with [OPC-Team](https://github.com/GCWing)"));
         }
     }
 

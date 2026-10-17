@@ -8,13 +8,13 @@
 #include <stdlib.h>
 #include <stdatomic.h>
 #include <string.h>
-extern void obf_control_native_stopped(uint64_t generation, uint64_t revision, int32_t pid, uint32_t windowID, const char *reason);
+extern void opc_control_native_stopped(uint64_t generation, uint64_t revision, int32_t pid, uint32_t windowID, const char *reason);
 
 // Zero means the main-thread observer is not installed yet. Consumers must
 // not cache focus preparation against that uninitialized value. Installation
 // is asynchronous off-main to avoid waiting on AppKit while Rust owns CAPTURE.
 static _Atomic(uint64_t) obfActivationEpoch = 0;
-static void obf_install_activation_observer(void) {
+static void opc_install_activation_observer(void) {
     static dispatch_once_t scheduled;
     dispatch_once(&scheduled, ^{
         void (^install)(void) = ^{
@@ -31,11 +31,11 @@ static void obf_install_activation_observer(void) {
         else dispatch_async(dispatch_get_main_queue(), install);
     });
 }
-uint64_t obf_capture_activation_epoch(void) {
+uint64_t opc_capture_activation_epoch(void) {
     return atomic_load_explicit(&obfActivationEpoch, memory_order_acquire);
 }
 
-@interface OBFWindowCapture : NSObject <SCStreamOutput, SCStreamDelegate>
+@interface OPCWindowCapture : NSObject <SCStreamOutput, SCStreamDelegate>
 @property(nonatomic, strong) SCStream *stream;
 @property(nonatomic, strong) SCStreamConfiguration *configuration;
 @property(nonatomic, strong) NSCondition *condition;
@@ -58,7 +58,7 @@ uint64_t obf_capture_activation_epoch(void) {
 @property(nonatomic, strong) CIContext *imageContext;
 @end
 
-@implementation OBFWindowCapture
+@implementation OPCWindowCapture
 - (instancetype)init {
     if ((self = [super init])) {
         _condition = [[NSCondition alloc] init];
@@ -78,13 +78,13 @@ uint64_t obf_capture_activation_epoch(void) {
 }
 - (void)stream:(SCStream *)stream didStopWithError:(NSError *)error {
     [self fail:[NSString stringWithFormat:@"CAPTURE_STOPPED: %@", error.localizedDescription]];
-    obf_control_native_stopped(self.generation, self.targetRevision, self.pid, self.windowID, self.failure.UTF8String);
+    opc_control_native_stopped(self.generation, self.targetRevision, self.pid, self.windowID, self.failure.UTF8String);
 }
 // macOS 15.2+: a closed target must immediately revoke input, even if the
 // framework keeps the stream available for a later reopened window.
 - (void)streamDidBecomeInactive:(SCStream *)stream {
     [self fail:@"TARGET_WINDOW_UNAVAILABLE: Shared window became inactive"];
-    obf_control_native_stopped(self.generation, self.targetRevision, self.pid, self.windowID, self.failure.UTF8String);
+    opc_control_native_stopped(self.generation, self.targetRevision, self.pid, self.windowID, self.failure.UTF8String);
     [stream stopCaptureWithCompletionHandler:^(NSError *error) { (void)error; }];
 }
 - (void)stream:(SCStream *)stream didOutputSampleBuffer:(CMSampleBufferRef)sample ofType:(SCStreamOutputType)type {
@@ -130,7 +130,7 @@ uint64_t obf_capture_activation_epoch(void) {
 }
 @end
 
-static void obf_error(char *buffer, size_t capacity, NSString *message) {
+static void opc_error(char *buffer, size_t capacity, NSString *message) {
     if (buffer && capacity) snprintf(buffer, capacity, "%s", message.UTF8String ?: "Native capture error");
 }
 
@@ -138,7 +138,7 @@ static void obf_error(char *buffer, size_t capacity, NSString *message) {
 // `-nodefaultlibs`, so clang's compiler-rt availability helper would remain
 // unresolved in the final desktop binary. NSProcessInfo is available on our
 // minimum deployment target and preserves the same runtime guard semantics.
-static BOOL obf_os_at_least(NSInteger major, NSInteger minor) {
+static BOOL opc_os_at_least(NSInteger major, NSInteger minor) {
     NSOperatingSystemVersion version = NSProcessInfo.processInfo.operatingSystemVersion;
     return version.majorVersion > major ||
         (version.majorVersion == major && version.minorVersion >= minor);
@@ -147,7 +147,7 @@ static BOOL obf_os_at_least(NSInteger major, NSInteger minor) {
 // The lock fact is present on current macOS releases but is not a required
 // dictionary key. Missing metadata is unknown, never proof that a session is
 // locked; preserve ordinary capture errors in that case.
-static BOOL obf_session_locked(void) {
+static BOOL opc_session_locked(void) {
     NSDictionary *session = CFBridgingRelease(CGSessionCopyCurrentDictionary());
     NSNumber *locked = session[@"CGSSessionScreenIsLocked"];
     return [locked isKindOfClass:NSNumber.class] && locked.boolValue;
@@ -155,7 +155,7 @@ static BOOL obf_session_locked(void) {
 
 // Choose a visible content window before considering hidden/minimized ones.
 // Apps may keep a much larger off-screen utility window beside their real UI.
-static SCWindow *obf_select_window(SCShareableContent *content, int32_t pid, uint32_t requestedWindow) {
+static SCWindow *opc_select_window(SCShareableContent *content, int32_t pid, uint32_t requestedWindow) {
     SCWindow *selected = nil;
     for (SCWindow *window in content.windows) {
         if (window.owningApplication.processID != pid || window.windowLayer != 0) continue;
@@ -171,21 +171,21 @@ static SCWindow *obf_select_window(SCShareableContent *content, int32_t pid, uin
 // Occlusion is supported by desktop-independent capture. Hidden/minimized or
 // another-Space windows can have no live surface; never suggest activation as
 // automatic recovery, since that takes the human's foreground focus.
-static NSString *obf_unavailable_surface(int32_t pid) {
+static NSString *opc_unavailable_surface(int32_t pid) {
     NSRunningApplication *app = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
     if (app.hidden) return @"TARGET_APP_HIDDEN: The app is hidden; a live window surface is unavailable. Background control does not activate or unhide applications";
     return @"TARGET_SURFACE_UNAVAILABLE: Window is minimized, off the current Space, or ordered out; no live surface is available. Occluded windows are supported. Background control does not activate windows";
 }
 
 // Validate a replacement without stopping the currently authorized stream.
-uint32_t obf_capture_validate_target(int32_t pid, uint32_t requestedWindow, char *error, size_t capacity) {
+uint32_t opc_capture_validate_target(int32_t pid, uint32_t requestedWindow, char *error, size_t capacity) {
     @autoreleasepool {
         if ([NSThread isMainThread]) {
-            obf_error(error, capacity, @"CAPTURE_WRONG_THREAD: Resolve capture on a worker thread");
+            opc_error(error, capacity, @"CAPTURE_WRONG_THREAD: Resolve capture on a worker thread");
             return 0;
         }
-        if (obf_session_locked()) {
-            obf_error(error, capacity, @"SESSION_LOCKED: Execution host screen is locked; capture and control are unavailable");
+        if (opc_session_locked()) {
+            opc_error(error, capacity, @"SESSION_LOCKED: Execution host screen is locked; capture and control are unavailable");
             return 0;
         }
         NSCondition *condition = [[NSCondition alloc] init];
@@ -194,11 +194,11 @@ uint32_t obf_capture_validate_target(int32_t pid, uint32_t requestedWindow, char
         __block uint32_t resolvedWindow = 0;
         [SCShareableContent getShareableContentExcludingDesktopWindows:YES onScreenWindowsOnly:NO
             completionHandler:^(SCShareableContent *content, NSError *contentError) {
-            SCWindow *selected = obf_select_window(content, pid, requestedWindow);
+            SCWindow *selected = opc_select_window(content, pid, requestedWindow);
             [condition lock];
             failure = contentError.localizedDescription;
             if (!failure && !selected) failure = @"TARGET_WINDOW_UNAVAILABLE: No capturable window matches the target";
-            if (!failure && !selected.isOnScreen) failure = obf_unavailable_surface(pid);
+            if (!failure && !selected.isOnScreen) failure = opc_unavailable_surface(pid);
             resolvedWindow = selected.windowID;
             completed = YES;
             [condition broadcast];
@@ -208,7 +208,7 @@ uint32_t obf_capture_validate_target(int32_t pid, uint32_t requestedWindow, char
         NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:10];
         while (!completed && [condition waitUntilDate:deadline]) {}
         BOOL valid = completed && !failure;
-        if (!valid) obf_error(error, capacity, failure ?: @"CAPTURE_TIMEOUT: Target discovery timed out; previous capture remains active");
+        if (!valid) opc_error(error, capacity, failure ?: @"CAPTURE_TIMEOUT: Target discovery timed out; previous capture remains active");
         [condition unlock];
         return valid ? resolvedWindow : 0;
     }
@@ -216,32 +216,32 @@ uint32_t obf_capture_validate_target(int32_t pid, uint32_t requestedWindow, char
 
 // This entry must run off the AppKit main thread; the OS delivers completion
 // asynchronously. Timed-out callbacks retain their object and stop late streams.
-void *obf_capture_start(int32_t pid, uint32_t requestedWindow, uint64_t generation, char *error, size_t errorCapacity) {
-    obf_install_activation_observer();
+void *opc_capture_start(int32_t pid, uint32_t requestedWindow, uint64_t generation, char *error, size_t errorCapacity) {
+    opc_install_activation_observer();
     @autoreleasepool {
-        if (obf_os_at_least(12, 3)) {
+        if (opc_os_at_least(12, 3)) {
             if ([NSThread isMainThread]) {
-                obf_error(error, errorCapacity, @"CAPTURE_WRONG_THREAD: Start capture on a worker thread");
+                opc_error(error, errorCapacity, @"CAPTURE_WRONG_THREAD: Start capture on a worker thread");
                 return NULL;
             }
-            if (obf_session_locked()) {
-                obf_error(error, errorCapacity, @"SESSION_LOCKED: Execution host screen is locked; capture and control are unavailable");
+            if (opc_session_locked()) {
+                opc_error(error, errorCapacity, @"SESSION_LOCKED: Execution host screen is locked; capture and control are unavailable");
                 return NULL;
             }
             if (!CGPreflightScreenCaptureAccess()) {
-                obf_error(error, errorCapacity, @"SCREEN_CAPTURE_PERMISSION_REQUIRED: Grant Screen Recording permission on the execution host");
+                opc_error(error, errorCapacity, @"SCREEN_CAPTURE_PERMISSION_REQUIRED: Grant Screen Recording permission on the execution host");
                 return NULL;
             }
-            OBFWindowCapture *session = [[OBFWindowCapture alloc] init];
+            OPCWindowCapture *session = [[OPCWindowCapture alloc] init];
             session.pid = pid;
             session.generation = generation;
             session.targetRevision = UINT64_MAX;
             [SCShareableContent getShareableContentExcludingDesktopWindows:YES onScreenWindowsOnly:NO
                 completionHandler:^(SCShareableContent *content, NSError *contentError) {
                 if (contentError) { [session fail:contentError.localizedDescription]; return; }
-                SCWindow *selected = obf_select_window(content, pid, requestedWindow);
+                SCWindow *selected = opc_select_window(content, pid, requestedWindow);
                 if (!selected) { [session fail:@"TARGET_WINDOW_UNAVAILABLE: No capturable window matches the target"]; return; }
-                if (!selected.isOnScreen) { [session fail:obf_unavailable_surface(pid)]; return; }
+                if (!selected.isOnScreen) { [session fail:opc_unavailable_surface(pid)]; return; }
                 [session.condition lock];
                 if (session.stopped) { [session.condition unlock]; return; }
                 session.windowID = selected.windowID;
@@ -254,8 +254,8 @@ void *obf_capture_start(int32_t pid, uint32_t requestedWindow, uint64_t generati
                 config.queueDepth = 3;
                 config.showsCursor = NO;
                 config.pixelFormat = kCVPixelFormatType_32BGRA;
-                if (obf_os_at_least(13, 0)) config.capturesAudio = NO;
-                if (obf_os_at_least(14, 0)) config.ignoreShadowsSingleWindow = YES;
+                if (opc_os_at_least(13, 0)) config.capturesAudio = NO;
+                if (opc_os_at_least(14, 0)) config.ignoreShadowsSingleWindow = YES;
                 SCStream *stream = [[SCStream alloc] initWithFilter:filter configuration:config delegate:session];
                 session.stream = stream;
                 session.configuration = config;
@@ -282,7 +282,7 @@ void *obf_capture_start(int32_t pid, uint32_t requestedWindow, uint64_t generati
             }
             if (session.stopped || !session.started || !session.pixels) {
                 session.stopped = YES;
-                obf_error(error, errorCapacity, session.failure ?: [NSString stringWithFormat:
+                opc_error(error, errorCapacity, session.failure ?: [NSString stringWithFormat:
                     @"CAPTURE_TIMEOUT: No complete window frame received (started=%d samples=%llu last_status=%ld configured=%zux%zu)",
                     session.started, session.receivedFrames, (long)session.lastFrameStatus,
                     session.configuration.width, session.configuration.height]);
@@ -296,18 +296,18 @@ void *obf_capture_start(int32_t pid, uint32_t requestedWindow, uint64_t generati
             [session.condition unlock];
             return (__bridge_retained void *)session;
         }
-        obf_error(error, errorCapacity, @"CAPTURE_UNSUPPORTED: ScreenCaptureKit requires macOS 12.3 or newer");
+        opc_error(error, errorCapacity, @"CAPTURE_UNSUPPORTED: ScreenCaptureKit requires macOS 12.3 or newer");
         return NULL;
     }
 }
 
-int obf_capture_status(void *handle, char *error, size_t capacity) {
-    OBFWindowCapture *session = (__bridge OBFWindowCapture *)handle;
-    if (obf_session_locked()) {
+int opc_capture_status(void *handle, char *error, size_t capacity) {
+    OPCWindowCapture *session = (__bridge OPCWindowCapture *)handle;
+    if (opc_session_locked()) {
         [session fail:@"SESSION_LOCKED: Execution host screen is locked; start control again after unlocking"];
-        obf_control_native_stopped(session.generation, session.targetRevision, session.pid, session.windowID, session.failure.UTF8String);
+        opc_control_native_stopped(session.generation, session.targetRevision, session.pid, session.windowID, session.failure.UTF8String);
         [session.stream stopCaptureWithCompletionHandler:^(NSError *e) { (void)e; }];
-        obf_error(error, capacity, session.failure);
+        opc_error(error, capacity, session.failure);
         return 0;
     }
     CFArrayRef info = CGWindowListCopyWindowInfo(kCGWindowListOptionIncludingWindow, session.windowID);
@@ -322,33 +322,33 @@ int obf_capture_status(void *handle, char *error, size_t capacity) {
     [session.condition unlock];
     if (!wasStopped && !valid) {
         [session fail:@"TARGET_WINDOW_UNAVAILABLE: Original target window is no longer capturable (closed or hidden)"];
-        obf_control_native_stopped(session.generation, session.targetRevision, session.pid, session.windowID, session.failure.UTF8String);
+        opc_control_native_stopped(session.generation, session.targetRevision, session.pid, session.windowID, session.failure.UTF8String);
         [session.stream stopCaptureWithCompletionHandler:^(NSError *e) { (void)e; }];
     }
     [session.condition lock];
     BOOL stopped = session.stopped;
     if (!stopped && !onScreen) {
-        obf_error(error, capacity, obf_unavailable_surface(session.pid));
+        opc_error(error, capacity, opc_unavailable_surface(session.pid));
         [session.condition unlock];
         return 0;
     }
-    if (stopped) obf_error(error, capacity, session.failure ?: @"CAPTURE_STOPPED");
+    if (stopped) opc_error(error, capacity, session.failure ?: @"CAPTURE_STOPPED");
     [session.condition unlock];
     return stopped ? 0 : 1;
 }
 
 // Cheap authoritative geometry read for input. It must not copy pixels or
 // encode a preview, and movement must not leave input using cached origins.
-int obf_capture_bounds(void *handle, double *bounds, char *error, size_t capacity) {
-    if (!obf_capture_status(handle, error, capacity)) return 0;
-    OBFWindowCapture *session = (__bridge OBFWindowCapture *)handle;
+int opc_capture_bounds(void *handle, double *bounds, char *error, size_t capacity) {
+    if (!opc_capture_status(handle, error, capacity)) return 0;
+    OPCWindowCapture *session = (__bridge OPCWindowCapture *)handle;
     CFArrayRef info = CGWindowListCopyWindowInfo(kCGWindowListOptionIncludingWindow, session.windowID);
     NSDictionary *window = [(__bridge NSArray *)info firstObject];
     CGRect frame = CGRectZero;
     BOOL valid = window && [window[(id)kCGWindowOwnerPID] intValue] == session.pid &&
         CGRectMakeWithDictionaryRepresentation((__bridge CFDictionaryRef)window[(id)kCGWindowBounds], &frame);
     if (info) CFRelease(info);
-    if (!valid) { obf_error(error, capacity, @"TARGET_WINDOW_UNAVAILABLE: Bound window no longer exists"); return 0; }
+    if (!valid) { opc_error(error, capacity, @"TARGET_WINDOW_UNAVAILABLE: Bound window no longer exists"); return 0; }
     bounds[0] = frame.origin.x; bounds[1] = frame.origin.y;
     bounds[2] = frame.size.width; bounds[3] = frame.size.height;
     return 1;
@@ -356,29 +356,29 @@ int obf_capture_bounds(void *handle, double *bounds, char *error, size_t capacit
 
 // Establish a presentation-time barrier after input. A queued pre-input frame
 // cannot satisfy the next observation merely because it arrives late.
-void obf_capture_bind_revision(void *handle, uint64_t revision) {
-    OBFWindowCapture *session = (__bridge OBFWindowCapture *)handle;
+void opc_capture_bind_revision(void *handle, uint64_t revision) {
+    OPCWindowCapture *session = (__bridge OPCWindowCapture *)handle;
     session.targetRevision = revision;
 }
 
-void obf_capture_mark_input(void *handle) {
-    OBFWindowCapture *session = (__bridge OBFWindowCapture *)handle;
+void opc_capture_mark_input(void *handle) {
+    OPCWindowCapture *session = (__bridge OPCWindowCapture *)handle;
     [session.condition lock];
     session.inputBarrier = CMClockGetTime(CMClockGetHostTimeClock());
     [session.condition unlock];
 }
-static BOOL obf_frame_is_current(OBFWindowCapture *session) {
+static BOOL opc_frame_is_current(OPCWindowCapture *session) {
     return session.pixels && (!CMTIME_IS_VALID(session.inputBarrier) ||
         (CMTIME_IS_VALID(session.lastObservedSample) &&
          CMTimeCompare(session.lastObservedSample, session.inputBarrier) >= 0));
 }
 
-// malloc ownership transfers to Rust; freeing uses obf_capture_free.
-int obf_capture_frame(void *handle, uint8_t **bytes, size_t *length, uint32_t *width,
+// malloc ownership transfers to Rust; freeing uses opc_capture_free.
+int opc_capture_frame(void *handle, uint8_t **bytes, size_t *length, uint32_t *width,
                       uint32_t *height, uint32_t *windowID, double *bounds,
                       uint64_t *sequence, char *error, size_t capacity) {
-    if (!obf_capture_status(handle, error, capacity)) return 0;
-    OBFWindowCapture *session = (__bridge OBFWindowCapture *)handle;
+    if (!opc_capture_status(handle, error, capacity)) return 0;
+    OPCWindowCapture *session = (__bridge OPCWindowCapture *)handle;
     CFArrayRef info = CGWindowListCopyWindowInfo(kCGWindowListOptionIncludingWindow, session.windowID);
     NSDictionary *window = [(__bridge NSArray *)info firstObject];
     CGRect frame = CGRectZero;
@@ -388,12 +388,12 @@ int obf_capture_frame(void *handle, uint8_t **bytes, size_t *length, uint32_t *w
     if (!valid) [session fail:@"TARGET_WINDOW_UNAVAILABLE: Original target window is no longer capturable (closed or hidden)"];
     [session.condition lock];
     if (session.stopped) {
-        obf_error(error, capacity, session.failure ?: @"CAPTURE_STOPPED");
+        opc_error(error, capacity, session.failure ?: @"CAPTURE_STOPPED");
         [session.condition unlock]; return 0;
     }
     size_t requestedWidth = (size_t)ceil(frame.size.width), requestedHeight = (size_t)ceil(frame.size.height);
     if (!requestedWidth || !requestedHeight || requestedWidth > 8192 || requestedHeight > 8192) {
-        obf_error(error, capacity, @"TARGET_GEOMETRY_UNSUPPORTED: Window capture dimensions out of range");
+        opc_error(error, capacity, @"TARGET_GEOMETRY_UNSUPPORTED: Window capture dimensions out of range");
         [session.condition unlock]; return 0;
     }
     if (requestedWidth != session.configuration.width || requestedHeight != session.configuration.height) {
@@ -411,16 +411,16 @@ int obf_capture_frame(void *handle, uint8_t **bytes, size_t *length, uint32_t *w
     }
     session.bounds = frame;
     NSDate *deadline = [NSDate dateWithTimeIntervalSinceNow:5];
-    while (!session.stopped && !obf_frame_is_current(session)) {
+    while (!session.stopped && !opc_frame_is_current(session)) {
         if (![session.condition waitUntilDate:deadline]) break;
     }
-    if (session.stopped || !obf_frame_is_current(session)) {
-        obf_error(error, capacity, session.failure ?: @"CAPTURE_FRAME_UNAVAILABLE: No post-input frame or idle observation for the current window geometry");
+    if (session.stopped || !opc_frame_is_current(session)) {
+        opc_error(error, capacity, session.failure ?: @"CAPTURE_FRAME_UNAVAILABLE: No post-input frame or idle observation for the current window geometry");
         [session.condition unlock]; return 0;
     }
     *length = session.pixels.length;
     *bytes = malloc(*length);
-    if (!*bytes) { obf_error(error, capacity, @"CAPTURE_ALLOCATION_FAILED"); [session.condition unlock]; return 0; }
+    if (!*bytes) { opc_error(error, capacity, @"CAPTURE_ALLOCATION_FAILED"); [session.condition unlock]; return 0; }
     memcpy(*bytes, session.pixels.bytes, *length);
     *width = session.width; *height = session.height; *windowID = session.windowID;
     bounds[0] = frame.origin.x; bounds[1] = frame.origin.y;
@@ -429,10 +429,10 @@ int obf_capture_frame(void *handle, uint8_t **bytes, size_t *length, uint32_t *w
     [session.condition unlock];
     return 1;
 }
-void obf_capture_free(void *bytes) { free(bytes); }
-void obf_capture_stop(void *handle) {
+void opc_capture_free(void *bytes) { free(bytes); }
+void opc_capture_stop(void *handle) {
     if (!handle) return;
-    OBFWindowCapture *session = (__bridge_transfer OBFWindowCapture *)handle;
+    OPCWindowCapture *session = (__bridge_transfer OPCWindowCapture *)handle;
     [session fail:@"CAPTURE_STOPPED: Control session ended"];
     SCStream *stream = session.stream;
     session.stream = nil;
@@ -441,10 +441,10 @@ void obf_capture_stop(void *handle) {
 }
 
 // A passive session cursor. Its hotspot is (8, 8); the user's cursor is untouched.
-@interface OBFControlPointerView : NSView
+@interface OPCControlPointerView : NSView
 @property(nonatomic) BOOL click;
 @end
-@implementation OBFControlPointerView
+@implementation OPCControlPointerView
 - (BOOL)isFlipped { return YES; }
 - (void)drawRect:(NSRect)rect {
     if (self.click) {
@@ -481,7 +481,7 @@ static CGPoint obfPointerOffset;
 static BOOL obfPointerHasOffset;
 static NSTimeInterval obfPointerClickUntil;
 
-static void obf_pointer_refresh(BOOL animate) {
+static void opc_pointer_refresh(BOOL animate) {
     if (!obfPointerTarget) return;
     CFArrayRef raw = CGWindowListCopyWindowInfo(kCGWindowListOptionOnScreenOnly | kCGWindowListExcludeDesktopElements, kCGNullWindowID);
     NSArray *windows = CFBridgingRelease(raw);
@@ -520,9 +520,9 @@ static void obf_pointer_refresh(BOOL animate) {
         obfPointerPanel.hasShadow = NO;
         obfPointerPanel.hidesOnDeactivate = NO;
         obfPointerPanel.collectionBehavior = NSWindowCollectionBehaviorCanJoinAllSpaces | NSWindowCollectionBehaviorFullScreenAuxiliary;
-        obfPointerPanel.contentView = [[OBFControlPointerView alloc] initWithFrame:NSMakeRect(0, 0, 40, 40)];
+        obfPointerPanel.contentView = [[OPCControlPointerView alloc] initWithFrame:NSMakeRect(0, 0, 40, 40)];
     }
-    OBFControlPointerView *view = (OBFControlPointerView *)obfPointerPanel.contentView;
+    OPCControlPointerView *view = (OPCControlPointerView *)obfPointerPanel.contentView;
     BOOL click = NSDate.timeIntervalSinceReferenceDate < obfPointerClickUntil;
     if (view.click != click) { view.click = click; view.needsDisplay = YES; }
     double primaryHeight = CGDisplayBounds(CGMainDisplayID()).size.height;
@@ -539,14 +539,14 @@ static void obf_pointer_refresh(BOOL animate) {
     [obfPointerPanel orderWindow:NSWindowAbove relativeTo:obfPointerTarget];
 }
 
-void obf_pointer_hide(void) {
+void opc_pointer_hide(void) {
     dispatch_async(dispatch_get_main_queue(), ^{
         [obfPointerTimer invalidate]; obfPointerTimer = nil;
         obfPointerTarget = 0; obfPointerHasOffset = NO; obfPointerClickUntil = 0;
         [obfPointerPanel orderOut:nil];
     });
 }
-void obf_pointer_show(uint32_t targetWindow, double x, double y, bool click) {
+void opc_pointer_show(uint32_t targetWindow, double x, double y, bool click) {
     dispatch_async(dispatch_get_main_queue(), ^{
         BOOL sameTarget = obfPointerTarget == targetWindow;
         if (!sameTarget) {
@@ -567,11 +567,11 @@ void obf_pointer_show(uint32_t targetWindow, double x, double y, bool click) {
         obfPointerOffset = CGPointMake(x - target.origin.x, y - target.origin.y);
         obfPointerHasOffset = YES;
         if (click) obfPointerClickUntil = NSDate.timeIntervalSinceReferenceDate + 0.2;
-        obf_pointer_refresh(sameTarget);
+        opc_pointer_refresh(sameTarget);
         if (!obfPointerTimer) {
             obfPointerTimer = [NSTimer timerWithTimeInterval:0.15 repeats:YES block:^(NSTimer *timer) {
                 (void)timer;
-                if (obfPointerHasOffset) obf_pointer_refresh(NO);
+                if (obfPointerHasOffset) opc_pointer_refresh(NO);
             }];
             [[NSRunLoop mainRunLoop] addTimer:obfPointerTimer forMode:NSRunLoopCommonModes];
         }
