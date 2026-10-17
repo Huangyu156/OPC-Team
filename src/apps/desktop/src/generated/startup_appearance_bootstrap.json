@@ -92,6 +92,26 @@
       "textPrimary": "#c0caf5",
       "textMuted": "#9aa5ce",
       "accentColor": "#7aa2f7"
+    },
+    {
+      "id": "opc-claude-style",
+      "bgPrimary": "#f0eee6",
+      "bgSecondary": "#fcfcfb",
+      "bgScene": "#fcfcfb",
+      "isLight": true,
+      "textPrimary": "#141413",
+      "textMuted": "#6b6960",
+      "accentColor": "#d97757"
+    },
+    {
+      "id": "opc-claude-night",
+      "bgPrimary": "#0e0e10",
+      "bgSecondary": "#1c1c1f",
+      "bgScene": "#141413",
+      "isLight": false,
+      "textPrimary": "#f0eee6",
+      "textMuted": "#a8a69d",
+      "accentColor": "#d97757"
     }
   ]
 }

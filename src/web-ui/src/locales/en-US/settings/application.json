@@ -83,6 +83,14 @@
       "opc-tokyo-night": {
         "name": "Tokyo Night",
         "description": "Popular Tokyo Night palette - Indigo night, blue and violet highlights"
+      },
+      "opc-claude-style": {
+        "name": "Claude",
+        "description": "Claude appearance - Warm ivory canvas, slate ink, and a restrained clay accent"
+      },
+      "opc-claude-night": {
+        "name": "Claude Night",
+        "description": "Claude night appearance - Warm near-black canvas, ivory ink, and a softly lifted clay accent"
       }
     },
     "fontSize": {

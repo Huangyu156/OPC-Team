@@ -83,6 +83,14 @@
       "opc-tokyo-night": {
         "name": "东京夜",
         "description": "Tokyo Night 经典配色 - 靛蓝夜色，蓝紫高光"
+      },
+      "opc-claude-style": {
+        "name": "Claude",
+        "description": "Claude 风格外观 - 暖调象牙画布、石板墨色与克制的陶土橙点缀"
+      },
+      "opc-claude-night": {
+        "name": "Claude 夜",
+        "description": "Claude 深色外观 - 暖调近黑画布、象牙墨色与柔和提亮的陶土橙"
       }
     },
     "fontSize": {

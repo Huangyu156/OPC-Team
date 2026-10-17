@@ -155,6 +155,40 @@
       "spacing4": "16px",
       "shadowBase": "0 4px 12px rgba(0, 0, 0, 0.48)",
       "styleNotes": "Tokyo Night - deep indigo base with soft blue and magenta accents"
+    },
+    {
+      "id": "opc-claude-style",
+      "mode": "light",
+      "bgPrimary": "#fcfcfb",
+      "bgSecondary": "#fcfcfb",
+      "bgScene": "#fcfcfb",
+      "textPrimary": "#141413",
+      "textMuted": "#6b6960",
+      "accent500": "#d97757",
+      "accent600": "#c6613f",
+      "borderBase": "rgba(20, 20, 19, 0.14)",
+      "elementBase": "rgba(20, 20, 19, 0.08)",
+      "radiusBase": "8px",
+      "spacing4": "16px",
+      "shadowBase": "0 4px 8px rgba(20, 20, 19, 0.09)",
+      "styleNotes": "Claude appearance - Warm ivory canvas, slate ink, and a restrained clay accent"
+    },
+    {
+      "id": "opc-claude-night",
+      "mode": "dark",
+      "bgPrimary": "#141413",
+      "bgSecondary": "#1c1c1f",
+      "bgScene": "#141413",
+      "textPrimary": "#f0eee6",
+      "textMuted": "#a8a69d",
+      "accent500": "#d97757",
+      "accent600": "#e08a6b",
+      "borderBase": "rgba(240, 238, 230, 0.16)",
+      "elementBase": "rgba(240, 238, 230, 0.09)",
+      "radiusBase": "8px",
+      "spacing4": "16px",
+      "shadowBase": "0 4px 8px rgba(0, 0, 0, 0.7)",
+      "styleNotes": "Claude night appearance - Warm near-black canvas, ivory ink, and a softly lifted clay accent"
     }
   ]
 }

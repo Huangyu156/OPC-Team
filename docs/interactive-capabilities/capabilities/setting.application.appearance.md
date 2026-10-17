@@ -55,7 +55,7 @@ Switch themes and languages, tune typography, and install or import appearance p
 
 | 选项 / Option | 可用值 / Values | 中文说明 | English description |
 | --- | --- | --- | --- |
-| 主题 / Theme | `system` / `opc-light` / `opc-monochrome` / `opc-slate` / `opc-dark` / `opc-midnight` / `opc-china-style` / `opc-china-night` / `opc-cyber` / `opc-tokyo-night` | 使用系统、OPC-Team 深色或 OPC-Team 浅色外观。 | Use the system, OPC-Team dark, or OPC-Team light appearance. |
+| 主题 / Theme | `system` / `opc-light` / `opc-monochrome` / `opc-slate` / `opc-dark` / `opc-midnight` / `opc-china-style` / `opc-china-night` / `opc-cyber` / `opc-tokyo-night` / `opc-claude-style` / `opc-claude-night` | 使用系统、OPC-Team 深色或 OPC-Team 浅色外观。 | Use the system, OPC-Team dark, or OPC-Team light appearance. |
 | 界面语言 / Interface language | `zh-CN` / `en-US` / `zh-TW` | 设置 OPC-Team 的界面语言。 | Set the OPC-Team interface language. |
 
 ## 可以直接对智能体说 / Try saying

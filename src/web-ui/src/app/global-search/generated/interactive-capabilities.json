@@ -4,8 +4,8 @@
   "title": "OPC-Team Playbook",
   "origin": "https://playbook.opcteam.eu.cc",
   "source": "src/shared/interactive-capabilities/catalog.json",
-  "digest": "ad468d2805afae30aae1783f97cf0b4d3429b3f90d0d589f1dc33daa6abf79da",
-  "ownerDigest": "7752175715f9d2fb4552c4ccba2556958e9bc047513c98490e8d9885aeb40a33",
+  "digest": "81be612a5eab6dcfb13195adc52f8d4226127c64d97fe154806c8c9d2ffbc6e6",
+  "ownerDigest": "e3defa8d216f9d858a58b9063f08268de809448a23d5b3a4fe3476e55e9e296c",
   "searchAcceptance": [
     {
       "id": "companion-pet-mixed",
@@ -11342,7 +11342,9 @@
           "opc-china-style",
           "opc-china-night",
           "opc-cyber",
-          "opc-tokyo-night"
+          "opc-tokyo-night",
+          "opc-claude-style",
+          "opc-claude-night"
         ]
       },
       "outputSchema": {
@@ -25491,7 +25493,9 @@
               "opc-china-style",
               "opc-china-night",
               "opc-cyber",
-              "opc-tokyo-night"
+              "opc-tokyo-night",
+              "opc-claude-style",
+              "opc-claude-night"
             ]
           }
         },

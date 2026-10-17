@@ -28,6 +28,51 @@
       "owner": "src/web-ui/src/infrastructure/appearance/builtins/buildBuiltinAppearance.ts",
       "reason": "The first value is the light xterm blue and the second is the light workbench link hover. They belong to different renderer and document interaction semantics.",
       "reevaluateWhen": "Reevaluate only when terminal ANSI and workbench link roles share a reviewed palette contract."
+    },
+    {
+      "root": "src/web-ui",
+      "domain": "themePreset",
+      "key": "#0e0e10 <-> #141413",
+      "decision": "keep",
+      "owner": "src/web-ui/src/infrastructure/appearance/builtins",
+      "reason": "Claude Night keeps the reference warm near-black #141413 as its canvas, while #0e0e10 is the canonical recessed neutral the other dark builtins already declare. Merging would either flatten the Claude warm-black identity or restyle unrelated dark appearances.",
+      "reevaluateWhen": "Only after a reviewed warm-neutral recessed ramp is shared by every dark builtin palette."
+    },
+    {
+      "root": "src/web-ui",
+      "domain": "themePreset",
+      "key": "#262421 <-> #262626",
+      "decision": "keep",
+      "owner": "src/web-ui/src/infrastructure/appearance/builtins",
+      "reason": "Claude elevated surfaces are deliberately warm (#262421) to preserve the reference brown-black cast, while #262626 is the canonical neutral raised stop of the existing dark builtins. Color temperature is the identity being preserved here.",
+      "reevaluateWhen": "Only after the dark builtin palettes agree on a single raised-surface temperature."
+    },
+    {
+      "root": "src/web-ui",
+      "domain": "themePreset",
+      "key": "#f0eee6 <-> #f5f3e8",
+      "decision": "keep",
+      "owner": "src/web-ui/src/infrastructure/appearance/builtins",
+      "reason": "Claude uses ivory #f0eee6 as a chrome band that must read as a lighter layer above the recessed content inset #f5f3e8. They are two role-separated steps of one warm surface ramp inside a single theme.",
+      "reevaluateWhen": "Only after a Claude surface review unifies the chrome band and content inset roles."
+    },
+    {
+      "root": "src/web-ui",
+      "domain": "themePreset",
+      "key": "#f0ede0 <-> #f0eee6",
+      "decision": "keep",
+      "owner": "src/web-ui/src/infrastructure/appearance/builtins",
+      "reason": "Cross-theme identity: #f0ede0 is the China Style rice-paper surface and #f0eee6 is the Claude chrome ivory band. Neither appearance can adopt the other value without losing the palette it was sampled from.",
+      "reevaluateWhen": "Only after China Style and Claude share one reviewed paper and ivory token."
+    },
+    {
+      "root": "src/web-ui",
+      "domain": "themePreset",
+      "key": "#fcfcfb <-> #ffffff",
+      "decision": "keep",
+      "owner": "src/web-ui/src/infrastructure/appearance/builtins",
+      "reason": "The Claude reference forbids pure white, so its canvas stays at #fcfcfb, while the default Light appearance intentionally keeps pure white surfaces. The gap encodes two different product appearances rather than a duplicated role.",
+      "reevaluateWhen": "Only after every light appearance adopts one reviewed canvas off-white value."
     }
   ]
 }

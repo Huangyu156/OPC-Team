@@ -1,0 +1,201 @@
+
+import { AppearancePalette } from './AppearancePalette';
+import {
+  createAccentScale,
+  createGitColors,
+  createSecondaryAccentScale,
+  createSemanticColors,
+  createStandardEasing,
+  createStandardRadius,
+  createStandardSpacing,
+  rgbFromHex,
+  rgbaFromHex,
+  STATIC_WHITE,
+} from './paletteHelpers';
+
+const CLAUDE_CANVAS = '#fcfcfb';
+const CLAUDE_IVORY = '#f0eee6';
+// The reference distinguishes canvas, sidebar and elevated surfaces by 1-2 RGB steps,
+// which is below the color-governance near-pair threshold and visually indistinct.
+// They are collapsed onto the single canvas value; the recessed inset and the chrome
+// band carry the remaining layer separation.
+const CLAUDE_IVORY_INSET = '#f5f3e8';
+const CLAUDE_INK = '#141413';
+const CLAUDE_BODY_TEXT = '#3a3833';
+const CLAUDE_MUTED_TEXT = '#6b6960';
+const CLAUDE_DISABLED_TEXT = '#a8a69d';
+const CLAUDE_CLAY = '#d97757';
+const CLAUDE_CLAY_DEEP = '#c6613f';
+const CLAUDE_SECONDARY = '#6b8cae';
+const CLAUDE_SECONDARY_DEEP = '#52718f';
+
+const claudeInk = (alpha: number | string) => rgbaFromHex(CLAUDE_INK, alpha);
+const claudeClay = (alpha: number | string) => rgbaFromHex(CLAUDE_CLAY, alpha);
+
+export const opcClaudeStylePalette: AppearancePalette = {
+  id: 'opc-claude-style',
+  name: 'Claude',
+  type: 'light',
+  description: 'Claude appearance - Warm ivory canvas, slate ink, and a restrained clay accent',
+  author: 'OPC-Team',
+  version: '1.0.0',
+
+  colors: {
+    background: {
+      // Low-contrast warm layers: ivory canvas, darker inset well, and near-white overlays.
+      primary: CLAUDE_CANVAS,
+      secondary: CLAUDE_CANVAS,
+      tertiary: CLAUDE_IVORY_INSET,
+      elevated: CLAUDE_CANVAS,
+      workbench: CLAUDE_IVORY_INSET,
+      scene: CLAUDE_CANVAS,
+      chrome: CLAUDE_IVORY,
+    },
+
+    text: {
+      // Never pure black: slate ink keeps a warm undertone on every surface.
+      primary: CLAUDE_INK,
+      secondary: CLAUDE_BODY_TEXT,
+      muted: CLAUDE_MUTED_TEXT,
+      disabled: CLAUDE_DISABLED_TEXT,
+    },
+
+    accent: createAccentScale({ base: CLAUDE_CLAY, hover: CLAUDE_CLAY_DEEP }),
+
+    purple: createSecondaryAccentScale({ base: CLAUDE_SECONDARY, hover: CLAUDE_SECONDARY_DEEP }),
+
+    semantic: createSemanticColors('light'),
+
+    border: {
+      // Warm hairlines instead of neutral gray rules.
+      subtle: claudeInk(0.08),
+      base: claudeInk(0.14),
+      medium: claudeInk(0.2),
+      strong: claudeInk(0.3),
+      prominent: claudeInk(0.45),
+    },
+
+    element: {
+      subtle: claudeInk(0.03),
+      soft: claudeInk(0.05),
+      base: claudeInk(0.08),
+      medium: claudeInk(0.11),
+      strong: claudeInk(0.15),
+    },
+
+    git: createGitColors('light', {
+      branch: rgbFromHex(CLAUDE_CLAY),
+      branchBg: claudeClay(0.1),
+    }),
+  },
+
+  effects: {
+    shadow: {
+      xs: `0 1px 2px ${claudeInk(0.05)}`,
+      sm: `0 2px 4px ${claudeInk(0.07)}`,
+      base: `0 4px 8px ${claudeInk(0.09)}`,
+      lg: `0 8px 16px ${claudeInk(0.11)}`,
+      xl: `0 12px 24px ${claudeInk(0.14)}`,
+    },
+
+    blur: {
+      subtle: 'blur(4px) saturate(1.02)',
+      base: 'blur(8px) saturate(1.04)',
+    },
+
+    radius: createStandardRadius(),
+
+    spacing: createStandardSpacing(),
+
+    opacity: {
+      disabled: 0.5,
+      hover: 0.75,
+      focus: 0.9,
+    },
+  },
+
+  motion: {
+    duration: {
+      instant: '0.08s',
+      fast: '0.14s',
+      base: '0.22s',
+      slow: '0.42s',
+    },
+
+    easing: createStandardEasing(),
+  },
+
+  components: {
+    button: {
+      primary: {
+        default: {
+          background: CLAUDE_CLAY,
+          color: STATIC_WHITE,
+          border: 'transparent',
+          shadow: 'none',
+        },
+        hover: {
+          background: CLAUDE_CLAY_DEEP,
+          color: STATIC_WHITE,
+          border: 'transparent',
+          shadow: 'none',
+          transform: 'none',
+        },
+        active: {
+          background: '#b24c2e',
+          color: STATIC_WHITE,
+          border: 'transparent',
+          shadow: 'none',
+          transform: 'none',
+        },
+      },
+
+      ghost: {
+        default: {
+          color: CLAUDE_MUTED_TEXT,
+        },
+        hover: {
+          background: claudeClay(0.11),
+          color: CLAUDE_INK,
+          border: 'transparent',
+        },
+      },
+    },
+  },
+
+  monaco: {
+    base: 'vs',
+    inherit: true,
+    rules: [
+      { token: 'comment', foreground: '8a8578', fontStyle: 'italic' },
+      { token: 'keyword', foreground: 'b24c2e' },
+      { token: 'string', foreground: '5f7a4f' },
+      { token: 'number', foreground: 'a56a2a' },
+      { token: 'type', foreground: '52718f' },
+      { token: 'class', foreground: '52718f' },
+      { token: 'function', foreground: '9a5b3d' },
+      { token: 'variable', foreground: '141413' },
+      { token: 'constant', foreground: '8a5a8a' },
+      { token: 'operator', foreground: 'b24c2e' },
+      { token: 'tag', foreground: '52718f' },
+      { token: 'attribute.name', foreground: '9a5b3d' },
+      { token: 'attribute.value', foreground: '5f7a4f' },
+    ],
+    colors: {
+      background: CLAUDE_CANVAS,
+      foreground: CLAUDE_INK,
+      lineHighlight: CLAUDE_IVORY_INSET,
+      selection: 'rgba(51, 102, 208, 0.22)',
+      cursor: CLAUDE_CLAY,
+
+      'editor.selectionBackground': 'rgba(51, 102, 208, 0.22)',
+      'editor.selectionForeground': CLAUDE_INK,
+      'editor.inactiveSelectionBackground': 'rgba(51, 102, 208, 0.16)',
+      'editor.selectionHighlightBackground': claudeClay(0.18),
+      'editor.selectionHighlightBorder': claudeClay(0.32),
+      'editorCursor.foreground': CLAUDE_CLAY,
+      'editor.wordHighlightBackground': claudeInk(0.1),
+      'editor.wordHighlightStrongBackground': claudeClay(0.2),
+    },
+  },
+};

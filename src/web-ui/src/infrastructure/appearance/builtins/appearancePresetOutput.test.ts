@@ -494,6 +494,16 @@ describe('builtin appearance preset output', () => {
           "id": "opc-tokyo-night",
           "type": "dark",
         },
+        {
+          "hash": "fd5395182d6ad31c952dd1c768853e3825d1523f3ca64fe8f95b829180fe33b4",
+          "id": "opc-claude-style",
+          "type": "light",
+        },
+        {
+          "hash": "891dafa3868ba2a3971cea5443cb79b5286dc8b69e8a5c6e1c378adc2498d958",
+          "id": "opc-claude-night",
+          "type": "dark",
+        },
       ]
     `);
   });
