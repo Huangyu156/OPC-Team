@@ -924,7 +924,7 @@ mod tests {
                 &json!({
                     "action": "configure",
                     "capability_id": "setting.application.general",
-                    "option_id": "auto-update",
+                    "option_id": "prevent-sleep",
                     "value": false
                 }),
                 None,
@@ -1216,7 +1216,7 @@ mod tests {
                 &json!({
                     "action": "configure",
                     "capability_id": "setting.application.general",
-                    "option_id": "auto-update",
+                    "option_id": "prevent-sleep",
                     "value": false
                 }),
                 &context(),
@@ -1225,7 +1225,7 @@ mod tests {
         assert_eq!(intents[0].action, "opc_control");
         assert_eq!(
             intents[0].resources,
-            vec!["configure:setting.application.general:auto-update"]
+            vec!["configure:setting.application.general:prevent-sleep"]
         );
 
         let open_intents = tool

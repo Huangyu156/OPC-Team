@@ -124,19 +124,18 @@ describe('unified project session creation', () => {
     expect(mainNav).not.toContain("activateProductAction('settings.external-sources.open')");
   });
 
-  it('keeps the settings gear and places update checks before Settings in its utility menu, independently of About', () => {
+  it('keeps the settings gear and its utility menu ordering, independently of About', () => {
     const footerActions = source('./components/PersistentFooterActions.tsx');
     const appearanceQuickSwitch = source('./components/AppearanceQuickSwitchMenuItem.tsx');
     const floatingIndex = footerActions.indexOf('data-testid="nav-settings-floating-item"');
     const notificationIndex = footerActions.indexOf('<NotificationButton menuItem');
     const appearanceIndex = footerActions.indexOf('<AppearanceQuickSwitchMenuItem');
-    const updateIndex = footerActions.indexOf('<UpdateMenuItems');
     const openSettingsIndex = footerActions.indexOf('data-testid="nav-settings-open-item"');
     const aboutIndex = footerActions.indexOf('data-testid="nav-settings-about-item"');
 
     expect(footerActions).toContain('data-testid="nav-footer-settings-item"');
-    expect(footerActions).toContain('icon={<span className="opc-update-indicator-anchor"><Icon name="gear" size="sm" aria-hidden="true" /><UpdateIndicator /></span>}');
-    expect(footerActions).toMatch(/className="opc-nav-panel__footer-right">\s*<UpdateDownloadIndicator \/>\s*<div className="opc-nav-panel__footer-menu-wrap">/);
+    expect(footerActions).toContain('icon={<Icon name="gear" size="sm" aria-hidden="true" />}');
+    expect(footerActions).toMatch(/className="opc-nav-panel__footer-right">\s*<div className="opc-nav-panel__footer-menu-wrap">/);
     expect(footerActions).toMatch(
       /leading=\{<Icon name="gear" size="sm" aria-hidden="true" \/>\}[\s\S]*?data-testid="nav-settings-open-item"/,
     );
@@ -144,10 +143,8 @@ describe('unified project session creation', () => {
     expect(floatingIndex).toBeGreaterThan(-1);
     expect(notificationIndex).toBeGreaterThan(floatingIndex);
     expect(appearanceIndex).toBeGreaterThan(notificationIndex);
-    expect(updateIndex).toBeGreaterThan(appearanceIndex);
-    expect(openSettingsIndex).toBeGreaterThan(updateIndex);
+    expect(openSettingsIndex).toBeGreaterThan(appearanceIndex);
     expect(aboutIndex).toBeGreaterThan(openSettingsIndex);
-    expect(footerActions.slice(footerActions.indexOf('onClick={handleShowAbout}'), aboutIndex)).not.toContain('UpdateIndicator');
     expect(footerActions).toContain("useSettingsStore.getState().openPage('application.appearance')");
     expect(footerActions).not.toContain('GithubStarButton');
     expect(footerActions).not.toContain('nav-footer-github-star-btn');

@@ -7,7 +7,6 @@ import { SSHRemoteProvider } from '../features/ssh-remote';
 import { ContextMenuRenderer } from '../shared/context-menu-system/components/ContextMenuRenderer';
 import { NotificationContainer, notificationService } from '../shared/notification-system';
 import { ComputerUseControlCard } from './components/ComputerUseControlCard';
-import { UpdateNotificationCard } from '@/infrastructure/update/UpdateNotificationCard';
 import { NotificationCenter } from '../shared/notification-system/components/NotificationCenter';
 import { ConfirmDialogRenderer } from '@/infrastructure/confirm-dialog';
 import { SessionUsageModal } from '../flow_chat/components/usage/SessionUsageModal';
@@ -960,7 +959,7 @@ function App() {
               <ContextMenuRenderer />
 
               {/* Notification system */}
-              <NotificationContainer><ComputerUseControlCard /><UpdateNotificationCard /></NotificationContainer>
+              <NotificationContainer><ComputerUseControlCard /></NotificationContainer>
               <NotificationCenter />
 
               {/* Confirm dialog */}

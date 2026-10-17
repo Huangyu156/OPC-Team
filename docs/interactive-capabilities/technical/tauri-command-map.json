@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "6a408cadc91d4d9287f6a60786b9b374b19093c2836989a19a4ae0db0fc3938e",
-  "commandCount": 674,
+  "catalogDigest": "ad468d2805afae30aae1783f97cf0b4d3429b3f90d0d589f1dc33daa6abf79da",
+  "commandCount": 669,
   "coverage": {
-    "commandCount": 674,
-    "documentedCommandCount": 626,
+    "commandCount": 669,
+    "documentedCommandCount": 621,
     "implementationCommandCount": 48,
-    "implementationDigest": "1657322f1c01ccb337ba85c0906c69aba31744971fcc6290e319b1cd23580741"
+    "implementationDigest": "390f263310138c69f4caa8c68dd98e7a8c6c9b3166f25b41cd6a3e6b12acc81d"
   },
   "commands": [
     {
@@ -1118,23 +1118,6 @@
       "sourceFile": "src/apps/desktop/src/api/system_api.rs",
       "signature": "fn check_commands_exist( commands: Vec<String>, ) -> Result<Vec<(String, CheckCommandResponse)>, String>",
       "remoteWorkspacePolicy": "LocalOnly"
-    },
-    {
-      "id": "check_for_updates",
-      "moduleId": "system",
-      "capabilityId": "setting.application.general",
-      "capabilityIds": [
-        "setting.application.general"
-      ],
-      "documentedItemIds": [
-        "setting.application.general:automatic-updates",
-        "setting.application.general:manual-update"
-      ],
-      "visibility": "documented",
-      "rustPath": "check_for_updates",
-      "sourceFile": "src/apps/desktop/src/api/system_api.rs",
-      "signature": "fn check_for_updates( app: AppHandle, request: CheckForUpdatesRequest, ) -> Result<CheckForUpdatesResponse, String>",
-      "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {
       "id": "check_git_isolation",
@@ -2415,22 +2398,6 @@
       "remoteWorkspacePolicy": "LegacyUnaudited"
     },
     {
-      "id": "download_update",
-      "moduleId": "update",
-      "capabilityId": "setting.application.general",
-      "capabilityIds": [
-        "setting.application.general"
-      ],
-      "documentedItemIds": [
-        "setting.application.general:manual-update"
-      ],
-      "visibility": "documented",
-      "rustPath": "api::update_api::download_update",
-      "sourceFile": "src/apps/desktop/src/api/update_api.rs",
-      "signature": "fn download_update( app: AppHandle, request: DownloadUpdateRequest, ) -> Result<PendingUpdateResponse, String>",
-      "remoteWorkspacePolicy": "WorkspaceAgnostic"
-    },
-    {
       "id": "editor_ai_cancel",
       "moduleId": "editor_ai",
       "capabilityId": "feature.ai-assistant",
@@ -2913,10 +2880,8 @@
       "capabilityIds": [
         "setting.application.general"
       ],
-      "documentedItemIds": [
-        "setting.application.general:manual-update"
-      ],
-      "visibility": "documented",
+      "documentedItemIds": [],
+      "visibility": "implementation",
       "rustPath": "get_app_version",
       "sourceFile": "src/apps/desktop/src/api/system_api.rs",
       "signature": "fn get_app_version( app: AppHandle, request: GetAppVersionRequest, ) -> Result<String, String>",
@@ -3724,22 +3689,6 @@
       "sourceFile": "src/apps/desktop/src/api/snapshot_service.rs",
       "signature": "fn get_operation_summary( runtime: State<'_, DesktopRuntimeContext>, mut request: GetOperationSummaryRequest, ) -> Result<serde_json::Value, String>",
       "remoteWorkspacePolicy": "RemoteRouted"
-    },
-    {
-      "id": "get_pending_update",
-      "moduleId": "update",
-      "capabilityId": "setting.application.general",
-      "capabilityIds": [
-        "setting.application.general"
-      ],
-      "documentedItemIds": [
-        "setting.application.general:manual-update"
-      ],
-      "visibility": "documented",
-      "rustPath": "api::update_api::get_pending_update",
-      "sourceFile": "src/apps/desktop/src/api/update_api.rs",
-      "signature": "fn get_pending_update( app: AppHandle, request: PendingUpdateRequest, ) -> Result<Option<PendingUpdateResponse>, String>",
-      "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {
       "id": "get_prevent_sleep_enabled",
@@ -5024,36 +4973,6 @@
       "sourceFile": "src/apps/desktop/src/api/acp_client_api.rs",
       "signature": "fn install_acp_client_cli( state: State<'_, AppState>, request: AcpClientIdRequest, ) -> Result<(), String>",
       "remoteWorkspacePolicy": "LegacyUnaudited"
-    },
-    {
-      "id": "install_pending_update",
-      "moduleId": "update",
-      "capabilityId": "setting.application.general",
-      "capabilityIds": [
-        "setting.application.general"
-      ],
-      "documentedItemIds": [
-        "setting.application.general:manual-update"
-      ],
-      "visibility": "documented",
-      "rustPath": "api::update_api::install_pending_update",
-      "sourceFile": "src/apps/desktop/src/api/update_api.rs",
-      "signature": "fn install_pending_update( app: AppHandle, request: InstallPendingUpdateRequest, ) -> Result<(), String>",
-      "remoteWorkspacePolicy": "WorkspaceAgnostic"
-    },
-    {
-      "id": "install_update",
-      "moduleId": "system",
-      "capabilityId": "setting.application.general",
-      "capabilityIds": [
-        "setting.application.general"
-      ],
-      "documentedItemIds": [],
-      "visibility": "implementation",
-      "rustPath": "install_update",
-      "sourceFile": "src/apps/desktop/src/api/system_api.rs",
-      "signature": "fn install_update(app: AppHandle, request: InstallUpdateRequest) -> Result<(), String>",
-      "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {
       "id": "interrupt_dialog_turn",

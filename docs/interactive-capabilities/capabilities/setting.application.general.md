@@ -11,16 +11,12 @@ title_en: "General settings"
 
 > 设置 / Setting
 
-管理启动、更新、关闭行为、通知与睡眠保持等应用级偏好。
+管理启动、关闭行为、通知与睡眠保持等应用级偏好。
 
-Manage app-level preferences for startup, updates, close behavior, notifications, and sleep prevention.
+Manage app-level preferences for startup, close behavior, notifications, and sleep prevention.
 
 ## 完整功能清单 / Everything included
 
-- **智能体可直接控制 / Direct Agent control** · 启用或停用自动检查更新
-  - Enable or disable automatic update checks
-- **智能体可定位入口，需交互完成 / Agent opens; interaction required** · 手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装
-  - Check and download updates in the background, then confirm installation and restart or install later from About
 - **智能体可直接控制 / Direct Agent control** · 控制 OPC-Team 是否在登录系统后自动启动
   - Choose whether OPC-Team launches automatically after system sign-in
 - **智能体可直接控制 / Direct Agent control** · 控制 OPC-Team 运行期间是否阻止电脑自动睡眠
@@ -53,15 +49,12 @@ Manage app-level preferences for startup, updates, close behavior, notifications
 | --- | --- | --- | --- |
 | 登录后自动启动 / Launch at login | `boolean` | 在当前桌面系统登录后自动启动 OPC-Team。 | Launch OPC-Team automatically after signing in to this desktop system. |
 | 阻止系统睡眠 / Prevent system sleep | `boolean` | 在 OPC-Team 运行期间持有本机睡眠抑制器。 | Hold a local sleep inhibitor while OPC-Team is running. |
-| 自动检查更新 / Automatic updates | `boolean` | 启动后自动检查可用更新。 | Check for available updates automatically after startup. |
 | 关闭按钮行为 / Close button behavior | `ask` / `minimize_to_tray` / `quit` | 选择退出应用或最小化到托盘。 | Choose whether closing quits the app or minimizes it to the tray. |
 | 任务完成通知 / Completion notifications | `boolean` | 会话任务完成时发送系统通知。 | Send an OS notification when session work completes. |
 | 权限请求通知 / Permission request notifications | `boolean` | 智能体等待权限确认时发送系统通知。 | Send an OS notification when an agent waits for permission. |
 
 ## 可以直接对智能体说 / Try saying
 
-- “关闭自动更新”
-  - “Turn off automatic updates”
 - “以后关闭窗口时最小化到托盘”
   - “Minimize to tray when I close the window”
 - “打开常规设置”

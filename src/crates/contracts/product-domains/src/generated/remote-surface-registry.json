@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "digest": "fnv1a64:0eccd913aa919920",
+  "digest": "fnv1a64:5489bd88544937ed",
   "retiredCommandPrefixes": [
     {
       "prefix": "lsp_",
@@ -897,18 +897,6 @@
       "cliPeer": {
         "kind": "unsupported",
         "reason": "the CLI peer host has no handler for this command"
-      }
-    },
-    {
-      "id": "check_for_updates",
-      "surface": "tauri_command",
-      "remoteWorkspace": "WorkspaceAgnostic",
-      "peer": {
-        "kind": "controller_local"
-      },
-      "cliPeer": {
-        "kind": "unsupported",
-        "reason": "the controller keeps this command; peer hosts refuse it before dispatch"
       }
     },
     {
@@ -2013,18 +2001,6 @@
       }
     },
     {
-      "id": "download_update",
-      "surface": "tauri_command",
-      "remoteWorkspace": "WorkspaceAgnostic",
-      "peer": {
-        "kind": "controller_local"
-      },
-      "cliPeer": {
-        "kind": "unsupported",
-        "reason": "the controller keeps this command; peer hosts refuse it before dispatch"
-      }
-    },
-    {
       "id": "editor_ai_cancel",
       "surface": "tauri_command",
       "remoteWorkspace": "LegacyUnaudited",
@@ -2975,18 +2951,6 @@
       "cliPeer": {
         "kind": "unsupported",
         "reason": "the CLI peer host has no handler for this command"
-      }
-    },
-    {
-      "id": "get_pending_update",
-      "surface": "tauri_command",
-      "remoteWorkspace": "WorkspaceAgnostic",
-      "peer": {
-        "kind": "controller_local"
-      },
-      "cliPeer": {
-        "kind": "unsupported",
-        "reason": "the controller keeps this command; peer hosts refuse it before dispatch"
       }
     },
     {
@@ -3958,30 +3922,6 @@
       "cliPeer": {
         "kind": "unsupported",
         "reason": "the CLI peer host has no handler for this command"
-      }
-    },
-    {
-      "id": "install_pending_update",
-      "surface": "tauri_command",
-      "remoteWorkspace": "WorkspaceAgnostic",
-      "peer": {
-        "kind": "controller_local"
-      },
-      "cliPeer": {
-        "kind": "unsupported",
-        "reason": "the controller keeps this command; peer hosts refuse it before dispatch"
-      }
-    },
-    {
-      "id": "install_update",
-      "surface": "tauri_command",
-      "remoteWorkspace": "WorkspaceAgnostic",
-      "peer": {
-        "kind": "controller_local"
-      },
-      "cliPeer": {
-        "kind": "unsupported",
-        "reason": "the controller keeps this command; peer hosts refuse it before dispatch"
       }
     },
     {

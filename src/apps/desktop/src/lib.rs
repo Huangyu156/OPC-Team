@@ -713,7 +713,6 @@ pub async fn run() {
                 .build(),
         )
         .plugin(tauri_plugin_notification::init())
-        .plugin(tauri_plugin_updater::Builder::new().build())
         // The desktop owns validated snapshots and atomic writes. Do not install
         // window-state: its exit hook can overwrite repairs with stale cached data.
         .manage(window_state_support::MainWindowState::default())
@@ -1709,11 +1708,6 @@ pub async fn run() {
             api::terminal_api::terminal_get_history,
             get_system_info,
             get_app_version,
-            check_for_updates,
-            install_update,
-            api::update_api::download_update,
-            api::update_api::get_pending_update,
-            api::update_api::install_pending_update,
             api::system_api::open_html_file_in_browser,
             restart_app,
             send_system_notification,

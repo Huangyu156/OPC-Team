@@ -331,12 +331,6 @@ pub fn owner_definitions() -> Vec<ProductControlOwnerDefinition> {
         ),
         option(
             "setting.application.general",
-            "auto-update",
-            boolean(),
-            config("app.auto_update"),
-        ),
-        option(
-            "setting.application.general",
             "close-button-behavior",
             string_enum(&["ask", "minimize_to_tray", "quit"]),
             config("app.close_button_behavior"),

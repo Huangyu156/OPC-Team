@@ -57,5 +57,3 @@ export type {
   UsageTrendPoint,
 } from './tokenUsageStatisticsApi';
 
-// Export types
-export type { CheckForUpdatesResponse } from './service-api/SystemAPI';

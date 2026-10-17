@@ -76,9 +76,6 @@ describe('remote surface generated bindings', () => {
       'dispatch_submit',
       'mark_opc_control_surface_ready',
       'show_main_window',
-      'download_update',
-      'get_pending_update',
-      'install_pending_update',
     ]) {
       expect(PEER_CONTROLLER_LOCAL_COMMANDS.has(command), command).toBe(true);
     }

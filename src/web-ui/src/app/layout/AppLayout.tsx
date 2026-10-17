@@ -30,7 +30,6 @@ import type { CloseBehavior } from '@/infrastructure/api/service-api/SystemAPI';
 import { RetainedMountBoundary } from '@/shared/presence';
 import { confirmDialog } from '@/infrastructure/confirm-dialog';
 import { createLogger } from '@/shared/utils/logger';
-import { DailyAppUpdateGate } from '@/infrastructure/update';
 import { useI18n } from '@/infrastructure/i18n';
 import { WorkspaceKind } from '@/shared/types';
 import { SSHContext } from '@/features/ssh-remote/SSHRemoteContext';
@@ -692,7 +691,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
   if (isToolbarMode) {
     return (
       <>
-        <DailyAppUpdateGate />
         {aboutDialog}
         <div
           className={`${containerClassName} opc-app-layout--toolbar-mode`}
@@ -718,7 +716,6 @@ const AppLayout: React.FC<AppLayoutProps> = ({ className = '' }) => {
 
   return (
     <>
-      <DailyAppUpdateGate />
       <div
         className={containerClassName}
         data-testid="app-layout"

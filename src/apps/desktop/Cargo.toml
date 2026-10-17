@@ -42,7 +42,6 @@ tauri-plugin-fs = { workspace = true }
 tauri-plugin-log = { workspace = true }
 tauri-plugin-autostart = { workspace = true }
 tauri-plugin-notification = { workspace = true }
-tauri-plugin-updater = { workspace = true }
 tauri-plugin-single-instance = { workspace = true }
 keepawake = { workspace = true }
 # Keep Tauri's transitive time resolution on the known-good release.

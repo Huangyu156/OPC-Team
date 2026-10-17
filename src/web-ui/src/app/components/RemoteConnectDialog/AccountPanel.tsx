@@ -24,8 +24,7 @@ import {
 } from '@/infrastructure/account/accountErrorUtils';
 import { useNotification } from '@/shared/notification-system';
 import { createLogger } from '@/shared/utils/logger';
-import { canCheckForAppUpdates } from '@/infrastructure/update/tauriEnv';
-import { useUpdateInstallStore } from '@/infrastructure/update/updateInstallStore';
+import { systemAPI } from '@/infrastructure/api/service-api/SystemAPI';
 import {
   classifyRelayFailure,
   relayFailureAction,
@@ -36,6 +35,9 @@ import { ensureAccountSession } from './ensureAccountSession';
 import './AccountPanel.scss';
 
 const log = createLogger('AccountPanel');
+
+/** Where a retired client build can pick up a newer release. */
+const RELEASES_URL = 'https://github.com/GCWing/OPC-Team/releases/latest';
 
 /** Banner sentence for each classified relay/account failure. HTTP status and
  * exception text never reach the surface; the raw detail stays in the log. */
@@ -139,14 +141,12 @@ interface FailureBannerProps {
 }
 
 /**
- * The button a failure banner offers, if any. An update check only exists where
- * updates can be installed; elsewhere the banner stays a statement instead of
- * offering an action that cannot run.
+ * The button a failure banner offers, if any. A retired client is fixed by
+ * installing a newer build, which this surface links to instead of running an
+ * in-app update check.
  */
 const failureBannerAction = (failure: PanelFailure): RelayFailureAction | null => (
-  failure.action === 'retry' || (failure.action === 'check-updates' && canCheckForAppUpdates())
-    ? failure.action
-    : null
+  failure.action === 'retry' || failure.action === 'check-updates' ? failure.action : null
 );
 
 /**
@@ -170,7 +170,7 @@ const FailureBanner: React.FC<FailureBannerProps> = ({ failure, t, busy, onClose
           onClick={() => onAction(actionable)}
           disabled={busy}
         >
-          {actionable === 'check-updates' ? t('update.checkForUpdates') : t('accountLogin.retryConnect')}
+          {actionable === 'check-updates' ? t('accountLogin.openReleases') : t('accountLogin.retryConnect')}
         </Button>
       )}
     </div>
@@ -206,9 +206,6 @@ export const AccountPanel: React.FC<AccountPanelProps> = ({
   /** True after either device presence or a list_devices response is available. */
   const [devicesReady, setDevicesReady] = useState(false);
   const [relayFailure, setRelayFailure] = useState<PanelFailure | null>(null);
-  /** Update result the banner has to report itself; the update surface is shell-owned. */
-  const [updateNotice, setUpdateNotice] = useState<string | null>(null);
-  const [checkingUpdates, setCheckingUpdates] = useState(false);
   /** Account epoch whose presence events may update the device list. */
   const [activeAccountEpoch, setActiveAccountEpoch] = useState<number | null>(null);
   const refreshTimer = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -271,7 +268,6 @@ export const AccountPanel: React.FC<AccountPanelProps> = ({
     setLocalDeviceId(null);
     setDevicesReady(false);
     setRelayFailure(null);
-    setUpdateNotice(null);
     refreshInFlightRef.current = null;
     deviceRoutingReadyRef.current = false;
     deviceListFailureCountRef.current = 0;
@@ -489,29 +485,6 @@ export const AccountPanel: React.FC<AccountPanelProps> = ({
   const handleRetryConnect = useCallback(() => {
     void attemptDeviceReconnect(true);
   }, [attemptDeviceReconnect]);
-
-  /**
-   * The banner's "check updates" step. Discovery and the update surface stay in
-   * the shared update store, so the shell opens its single details dialog; the
-   * panel only reports a check that found nothing or failed.
-   */
-  const handleCheckForUpdates = useCallback(async () => {
-    if (checkingUpdates) return;
-    setCheckingUpdates(true);
-    setUpdateNotice(null);
-    try {
-      await useUpdateInstallStore.getState().checkForUpdates('manual');
-      const update = useUpdateInstallStore.getState();
-      if (update.checkStatus === 'available' && update.availableUpdate) update.openDetails();
-      else if (update.checkStatus === 'latest') setUpdateNotice(t('update.noUpdate'));
-      else setUpdateNotice(t('update.checkFailed'));
-    } catch (e: unknown) {
-      log.warn('check_for_updates failed', e);
-      setUpdateNotice(t('update.checkFailed'));
-    } finally {
-      setCheckingUpdates(false);
-    }
-  }, [checkingUpdates, t]);
 
   // Initial dial failures have no RelayClient instance to run its built-in
   // reconnect loop. Keep recovering in the background while this account view
@@ -804,11 +777,11 @@ export const AccountPanel: React.FC<AccountPanelProps> = ({
 
   /** Run the next step a banner offers; sign-in keeps its existing flow. */
   const runFailureAction = useCallback((action: RelayFailureAction) => {
-    if (action === 'check-updates') { void handleCheckForUpdates(); return; }
+    if (action === 'check-updates') { void systemAPI.openExternal(RELEASES_URL); return; }
     if (action === 'retry') {
       if (view === 'login') { void handleLogin(); } else { void handleRetryConnect(); }
     }
-  }, [handleCheckForUpdates, handleLogin, handleRetryConnect, view]);
+  }, [handleLogin, handleRetryConnect, view]);
 
   const renderSectionHeading = (id: string, title: string, action?: React.ReactNode) => (
     <div className="account-panel__section-heading">
@@ -828,12 +801,6 @@ export const AccountPanel: React.FC<AccountPanelProps> = ({
             onClose={() => setError(null)}
             onAction={runFailureAction}
           />
-        )}
-
-        {updateNotice && (
-          <div className="account-panel__error-banner" data-opc-component="remote-account-panel" data-opc-part="error">
-            <Alert tone="info" message={updateNotice} closable onClose={() => setUpdateNotice(null)} />
-          </div>
         )}
 
         {loading && view === 'devices' && (

@@ -370,10 +370,7 @@ describe('startup performance contract', () => {
     expect(footerSource).not.toContain("import('../../AboutDialog')");
     expect(footerSource).toContain("new Event('nav:show-about')");
     expect(appLayoutSource).toContain("window.addEventListener('nav:show-about', handleShowAbout)");
-    expect(appLayoutSource).not.toContain('useUpdateInstallStore');
     const aboutSource = readSource('../components/AboutDialog/AboutDialog.tsx');
-    expect(aboutSource).not.toContain('AppUpdatePanel');
-    expect(aboutSource).not.toContain('useUpdateInstallStore');
     expect(chatPaneSource).not.toContain("from '../../../flow_chat'");
     expect(chatPaneSource).toContain(
       "from '../../../flow_chat/components/modern/ModernFlowChatContainer'"
@@ -716,7 +713,6 @@ describe('startup performance contract', () => {
     const sources = [
       '../../app/layout/AppLayout.tsx',
       '../../app/hooks/useDialogCompletionNotify.ts',
-      '../../infrastructure/update/DailyAppUpdateGate.tsx',
       '../../flow_chat/components/ChatInput.tsx',
       '../../tools/git/services/GitEventService.ts',
     ].map(readSource);

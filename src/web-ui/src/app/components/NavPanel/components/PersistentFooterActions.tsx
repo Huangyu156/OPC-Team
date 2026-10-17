@@ -31,11 +31,6 @@ import { useSettingsStore } from '@/app/scenes/settings/settingsStore';
 import { PeerConnectionStatus } from '@/infrastructure/peer-device/PeerConnectionStatus';
 import DeviceStatusControl from './DeviceStatusControl';
 import AppearanceQuickSwitchMenuItem from './AppearanceQuickSwitchMenuItem';
-import { UpdateIndicator } from '@/infrastructure/update/UpdateIndicator';
-import { useHasAppUpdate } from '@/infrastructure/update/useHasAppUpdate';
-import { UpdateDownloadIndicator } from '@/infrastructure/update/UpdateDownloadIndicator';
-import { UpdateMenuItems } from '@/infrastructure/update/UpdateMenuItems';
-import { useUpdateInstallStore } from '@/infrastructure/update/updateInstallStore';
 
 const RemoteConnectDialog = lazyWithRecovery(() => import('../../RemoteConnectDialog'));
 
@@ -56,8 +51,6 @@ const PersistentFooterActions: React.FC = () => {
     alignment: 'end',
     gap: 6,
   });
-  const hasAppUpdate = useHasAppUpdate();
-  const updateVersion = useUpdateInstallStore(state => state.downloadVersion ?? state.availableUpdate?.latestVersion);
   const [showRemoteConnect, setShowRemoteConnect] = useState(false);
   const [remoteInitialGroup, setRemoteInitialGroup] = useState<'network' | 'bot' | 'account' | undefined>(undefined);
   const [showRemoteDisclaimer, setShowRemoteDisclaimer] = useState(false);
@@ -174,10 +167,9 @@ const PersistentFooterActions: React.FC = () => {
         </div>
 
         <div className="opc-nav-panel__footer-right">
-          <UpdateDownloadIndicator />
           <div className="opc-nav-panel__footer-menu-wrap">
             <Tooltip
-              content={hasAppUpdate ? t('update.availableVersion', { version: updateVersion }) : t('actions.more')}
+              content={t('actions.more')}
               placement="right"
               followCursor
               disabled={menuOpen}
@@ -185,7 +177,7 @@ const PersistentFooterActions: React.FC = () => {
               <IconButton
                 ref={menuTriggerRef}
                 className={`opc-nav-panel__footer-btn opc-nav-panel__footer-btn--icon${menuOpen ? ' is-active' : ''}`}
-                aria-label={hasAppUpdate ? t('update.moreAttention') : t('actions.more')}
+                aria-label={t('actions.more')}
                 aria-expanded={menuOpen}
                 aria-haspopup="menu"
                 onClick={toggleMenu}
@@ -193,7 +185,7 @@ const PersistentFooterActions: React.FC = () => {
                 data-opc-component="nav-panel"
                 data-opc-part="settingsEntry"
                 data-opc-state={menuOpen ? 'open' : undefined}
-                icon={<span className="opc-update-indicator-anchor"><Icon name="gear" size="sm" aria-hidden="true" /><UpdateIndicator /></span>}
+                icon={<Icon name="gear" size="sm" aria-hidden="true" />}
                 size="sm"
                 variant="quiet"
               />
@@ -242,7 +234,6 @@ const PersistentFooterActions: React.FC = () => {
                     onOpenAppearanceSettings={handleOpenAppearanceSettings}
                   />
                   <MenuSeparator />
-                  <UpdateMenuItems onCloseMenu={closeMenu} />
                   <MenuItem
                     leading={<Icon name="gear" size="sm" aria-hidden="true" />}
                     onClick={handleOpenSettings}

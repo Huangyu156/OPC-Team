@@ -1169,10 +1169,11 @@ test('Desktop packaging keeps beta identity explicit and stable-safe', () => {
     packageJob.env.OPC_RELEASE_CHANNEL,
     '${{ needs.prepare.outputs.release_channel }}',
   );
-  assert.match(packageJob.env.TAURI_UPDATER_ENDPOINT, /github\.repository/);
-  assert.match(packageJob.env.TAURI_UPDATER_ENDPOINT, /channel-v1-beta/);
-  assert.ok(packageJob.env.TAURI_UPDATER_ENDPOINT.includes("format('https://github.com/{0}/releases/latest/download/latest-v1.json', github.repository)"));
-  assert.equal(packageJob.env.TAURI_UPDATER_ENDPOINT, packageJob.env.TAURI_UPDATER_FALLBACK_ENDPOINT);
+  // Automatic updates were removed from the product, so packaging must not
+  // configure Tauri updater artifacts or endpoints any more.
+  assert.equal(packageJob.env.OPC_ENABLE_UPDATER_ARTIFACTS, undefined);
+  assert.equal(packageJob.env.TAURI_UPDATER_ENDPOINT, undefined);
+  assert.equal(packageJob.env.TAURI_UPDATER_FALLBACK_ENDPOINT, undefined);
   assert.match(packageJob.env.OPC_RELEASE_PUBKEY, /OPC_RELEASE_PUBKEY/);
   const appleSetupIndex = packageJob.steps.findIndex(
     (step) => step.name === 'Configure Apple Developer ID signing and notarization',
@@ -1493,15 +1494,9 @@ test('nightly and beta use the shared build-version projection', () => {
   );
   assert.match(patch.run, /node scripts\/set-build-version\.mjs/);
   assert.equal(artifacts.jobs.package.env.OPC_RELEASE_CHANNEL, 'nightly');
-  assert.equal(
-    artifacts.jobs.package.env.TAURI_UPDATER_ENDPOINT,
-    'https://github.com/GCWing/OPC-Team/releases/latest/download/latest-v1.json',
-  );
-  assert.equal(
-    artifacts.jobs.package.env.TAURI_UPDATER_FALLBACK_ENDPOINT,
-    'https://opcteam.eu.cc/release/latest-v1.json',
-  );
   assert.equal(artifacts.jobs.package.env.OPC_ENABLE_UPDATER_ARTIFACTS, undefined);
+  assert.equal(artifacts.jobs.package.env.TAURI_UPDATER_ENDPOINT, undefined);
+  assert.equal(artifacts.jobs.package.env.TAURI_UPDATER_FALLBACK_ENDPOINT, undefined);
   const signingStep = nightly.jobs['publish-nightly'].steps.find(
     (step) => step.name === 'Sign installer packages',
   );

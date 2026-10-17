@@ -91,11 +91,5 @@
     },
     "macOSPrivateApi": true,
     "withGlobalTauri": true
-  },
-  "plugins": {
-    "updater": {
-      "endpoints": [],
-      "pubkey": ""
-    }
   }
 }

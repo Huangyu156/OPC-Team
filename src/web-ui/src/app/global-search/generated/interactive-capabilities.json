@@ -4,8 +4,8 @@
   "title": "OPC-Team Playbook",
   "origin": "https://playbook.opcteam.eu.cc",
   "source": "src/shared/interactive-capabilities/catalog.json",
-  "digest": "6a408cadc91d4d9287f6a60786b9b374b19093c2836989a19a4ae0db0fc3938e",
-  "ownerDigest": "d70d3a86fce5c7715680752ddbddbe154b1bfd697be4fb1dc8189df352a2d61c",
+  "digest": "ad468d2805afae30aae1783f97cf0b4d3429b3f90d0d589f1dc33daa6abf79da",
+  "ownerDigest": "7752175715f9d2fb4552c4ccba2556958e9bc047513c98490e8d9885aeb40a33",
   "searchAcceptance": [
     {
       "id": "companion-pet-mixed",
@@ -138,11 +138,11 @@
     "features": 22,
     "settings": 21,
     "userFacing": 43,
-    "documentedItems": 328,
+    "documentedItems": 326,
     "controlCoverage": {
-      "direct": 50,
+      "direct": 49,
       "delegated": 62,
-      "interactive": 216,
+      "interactive": 215,
       "unsupported": 0
     }
   },
@@ -10972,8 +10972,6 @@
       "id": "setting.application.general:query",
       "capabilityId": "setting.application.general",
       "itemIds": [
-        "automatic-updates",
-        "manual-update",
         "launch-at-login",
         "prevent-sleep",
         "close-behavior",
@@ -11115,50 +11113,6 @@
       }
     },
     {
-      "id": "setting.application.general:option:auto-update",
-      "capabilityId": "setting.application.general",
-      "itemIds": [
-        "automatic-updates"
-      ],
-      "kind": "option",
-      "risk": "write",
-      "executionHost": "productHost",
-      "availability": {
-        "desktop": {
-          "available": true
-        },
-        "cli": {
-          "available": true
-        },
-        "peer": {
-          "available": true,
-          "requiredCapabilities": [
-            "product_control_v1"
-          ]
-        },
-        "remoteControl": {
-          "available": true
-        },
-        "detachedDispatch": {
-          "available": true
-        }
-      },
-      "inputSchema": {
-        "type": "boolean"
-      },
-      "outputSchema": {
-        "type": "object",
-        "additionalProperties": true
-      },
-      "valueSource": {
-        "kind": "static"
-      },
-      "presentationTarget": {
-        "kind": "settings",
-        "pageId": "application.general"
-      }
-    },
-    {
       "id": "setting.application.general:option:close-button-behavior",
       "capabilityId": "setting.application.general",
       "itemIds": [
@@ -11290,52 +11244,6 @@
       "valueSource": {
         "kind": "static"
       },
-      "presentationTarget": {
-        "kind": "settings",
-        "pageId": "application.general"
-      }
-    },
-    {
-      "id": "setting.application.general:open:manual-update",
-      "capabilityId": "setting.application.general",
-      "itemIds": [
-        "manual-update"
-      ],
-      "kind": "open",
-      "risk": "ui",
-      "executionHost": "presentationSurface",
-      "availability": {
-        "desktop": {
-          "available": true
-        },
-        "cli": {
-          "available": false,
-          "reason": "This delivery profile has no live presentation surface"
-        },
-        "peer": {
-          "available": true,
-          "requiredCapabilities": [
-            "product_control_v1",
-            "product_control_presentation_v1"
-          ]
-        },
-        "remoteControl": {
-          "available": true
-        },
-        "detachedDispatch": {
-          "available": false,
-          "reason": "This delivery profile has no live presentation surface"
-        }
-      },
-      "inputSchema": {
-        "type": "object",
-        "additionalProperties": false
-      },
-      "outputSchema": {
-        "type": "object",
-        "additionalProperties": true
-      },
-      "openReason": "unstructuredInteraction",
       "presentationTarget": {
         "kind": "settings",
         "pageId": "application.general"
@@ -25196,12 +25104,11 @@
       "categoryId": "application",
       "titleZh": "常规设置",
       "titleEn": "General settings",
-      "summaryZh": "管理启动、更新、关闭行为、通知与睡眠保持等应用级偏好。",
-      "summaryEn": "Manage app-level preferences for startup, updates, close behavior, notifications, and sleep prevention.",
+      "summaryZh": "管理启动、关闭行为、通知与睡眠保持等应用级偏好。",
+      "summaryEn": "Manage app-level preferences for startup, close behavior, notifications, and sleep prevention.",
       "keywordsZh": [
         "常规设置",
         "开机启动",
-        "自动更新",
         "通知",
         "关闭按钮",
         "阻止睡眠"
@@ -25209,47 +25116,21 @@
       "keywordsEn": [
         "general settings",
         "launch at login",
-        "auto update",
         "notifications",
         "close button",
         "prevent sleep"
       ],
       "highlightsZh": [
-        "开机启动与自动更新",
+        "开机启动与窗口行为",
         "窗口关闭和托盘行为",
         "任务完成与权限请求通知"
       ],
       "highlightsEn": [
-        "Launch-at-login and automatic updates",
+        "Launch-at-login and window behavior",
         "Window close and tray behavior",
         "Completion and permission notifications"
       ],
       "items": [
-        {
-          "id": "automatic-updates",
-          "titleZh": "启用或停用自动检查更新",
-          "titleEn": "Enable or disable automatic update checks",
-          "control": {
-            "kind": "direct",
-            "operations": [],
-            "options": [
-              {
-                "id": "auto-update"
-              }
-            ]
-          }
-        },
-        {
-          "id": "manual-update",
-          "titleZh": "手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装",
-          "titleEn": "Check and download updates in the background, then confirm installation and restart or install later from About",
-          "control": {
-            "kind": "open",
-            "reasonCode": "unstructuredInteraction",
-            "reasonZh": "“手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装”需要下载后由用户确认安装与重启；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
-            "reasonEn": "“Check and download updates in the background, then confirm installation and restart or install later from About” requires user confirmation after downloading, before installation and restart; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
-          }
-        },
         {
           "id": "launch-at-login",
           "titleZh": "控制 OPC-Team 是否在登录系统后自动启动",
@@ -25321,12 +25202,10 @@
         "Change a control; updates are saved automatically"
       ],
       "agentExamplesZh": [
-        "关闭自动更新",
         "以后关闭窗口时最小化到托盘",
         "打开常规设置"
       ],
       "agentExamplesEn": [
-        "Turn off automatic updates",
         "Minimize to tray when I close the window",
         "Open General settings"
       ],
@@ -25352,16 +25231,6 @@
           "titleEn": "Prevent system sleep",
           "descriptionZh": "在 OPC-Team 运行期间持有本机睡眠抑制器。",
           "descriptionEn": "Hold a local sleep inhibitor while OPC-Team is running.",
-          "valueSchema": {
-            "type": "boolean"
-          }
-        },
-        {
-          "id": "auto-update",
-          "titleZh": "自动检查更新",
-          "titleEn": "Automatic updates",
-          "descriptionZh": "启动后自动检查可用更新。",
-          "descriptionEn": "Check for available updates automatically after startup.",
           "valueSchema": {
             "type": "boolean"
           }
@@ -25409,26 +25278,20 @@
         "应用设置",
         "Application settings",
         "开机启动",
-        "自动更新",
         "通知",
         "关闭按钮",
         "阻止睡眠",
         "general settings",
         "launch at login",
-        "auto update",
         "notifications",
         "close button",
         "prevent sleep",
-        "开机启动与自动更新",
+        "开机启动与窗口行为",
         "窗口关闭和托盘行为",
         "任务完成与权限请求通知",
-        "Launch-at-login and automatic updates",
+        "Launch-at-login and window behavior",
         "Window close and tray behavior",
         "Completion and permission notifications",
-        "启用或停用自动检查更新",
-        "Enable or disable automatic update checks",
-        "手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装",
-        "Check and download updates in the background, then confirm installation and restart or install later from About",
         "控制 OPC-Team 是否在登录系统后自动启动",
         "Choose whether OPC-Team launches automatically after system sign-in",
         "控制 OPC-Team 运行期间是否阻止电脑自动睡眠",
@@ -25437,10 +25300,8 @@
         "Choose whether closing the main window quits, minimizes to tray, or asks each time",
         "分别控制任务完成和权限请求通知",
         "Control completion and permission-request notifications independently",
-        "关闭自动更新",
         "以后关闭窗口时最小化到托盘",
         "打开常规设置",
-        "Turn off automatic updates",
         "Minimize to tray when I close the window",
         "Open General settings"
       ],

@@ -10,10 +10,6 @@ interface FooterSurfaceContract {
 
 const footerSurfaces: FooterSurfaceContract[] = [
   {
-    source: '../../infrastructure/update/AppUpdatePanel.tsx',
-    marker: 'className="opc-update-details__footer"',
-  },
-  {
     source: '../../app/components/RemoteConnectDialog/RemoteConnectDisclaimer.tsx',
     marker: 'className="opc-remote-disclaimer__actions"',
     stylesheet: '../../app/components/RemoteConnectDialog/RemoteConnectDisclaimer.scss',

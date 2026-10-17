@@ -26,7 +26,7 @@ import {
 } from '@/shared/utils/version';
 import { createLogger } from '@/shared/utils/logger';
 import { systemAPI } from '@/infrastructure/api';
-import { isTauriRuntime } from '@/infrastructure/update/tauriEnv';
+import { isTauriRuntime } from '@/infrastructure/runtime/environment';
 import { OpcBrandMotion } from '@opc-team/ui/brand';
 import './AboutDialog.scss';
 

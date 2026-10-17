@@ -6,28 +6,10 @@ import { copyTextToClipboard } from '@/shared/utils/textSelection';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { createLogger } from '@/shared/utils/logger';
 import { productControlAPI } from './ProductControlAPI';
-import {
-  getControllerAppVersion,
-  getControllerAutoUpdateEnabled,
-  setControllerAutoUpdateEnabled,
-} from '../adapters/app-update-adapter';
 
 
 const log = createLogger('SystemAPI');
-const AUTO_UPDATE_CHANGED = 'opc:auto-update-preference-changed';
 
-/** Matches `check_for_updates` / `CheckForUpdatesResponse` from desktop `system_api.rs` (camelCase). */
-export interface CheckForUpdatesResponse {
-  updateAvailable: boolean;
-  currentVersion: string;
-  latestVersion: string | null;
-  releaseNotes: string | null;
-  releaseDate: string | null;
-}
-
-export interface PendingUpdateResponse {
-  version: string;
-}
 
 /** Matches `toggle_main_window_fullscreen` / desktop `ToggleMainWindowFullscreenResponse`. */
 export interface ToggleMainWindowFullscreenResponse {
@@ -50,24 +32,9 @@ export interface SystemInfo {
 }
 
 export class SystemAPI {
-  /** Application updates always belong to the controller, including in Peer mode. */
+  /** Local build version, read from the desktop bundle metadata. */
   async getLocalAppVersion(): Promise<string> {
-    return getControllerAppVersion();
-  }
-
-  async getAutoUpdateEnabled(): Promise<boolean> {
-    return getControllerAutoUpdateEnabled();
-  }
-
-  async setAutoUpdateEnabled(enabled: boolean): Promise<void> {
-    await setControllerAutoUpdateEnabled(enabled);
-    window.dispatchEvent(new CustomEvent(AUTO_UPDATE_CHANGED, { detail: enabled }));
-  }
-
-  onAutoUpdateEnabledChange(callback: (enabled: boolean) => void): () => void {
-    const listener = (event: Event) => callback((event as CustomEvent<boolean>).detail);
-    window.addEventListener(AUTO_UPDATE_CHANGED, listener);
-    return () => window.removeEventListener(AUTO_UPDATE_CHANGED, listener);
+    return this.getAppVersion();
   }
    
   async getSystemInfo(): Promise<SystemInfo> {
@@ -90,60 +57,6 @@ export class SystemAPI {
       throw createTauriCommandError('get_app_version', error);
     }
   }
-
-   
-  async checkForUpdates(): Promise<CheckForUpdatesResponse> {
-    try {
-      return await api.invoke('check_for_updates', { 
-        request: {} 
-      });
-    } catch (error) {
-      throw createTauriCommandError('check_for_updates', error);
-    }
-  }
-
-  /** Desktop only: download and install update after user confirms (calls updater again). */
-  async installUpdate(): Promise<void> {
-    try {
-      await api.invoke('install_update', {
-        request: {}
-      });
-    } catch (error) {
-      throw createTauriCommandError('install_update', error);
-    }
-  }
-
-  /** Download and verify without starting the installer. */
-  async downloadUpdate(expectedVersion?: string): Promise<PendingUpdateResponse> {
-    try {
-      return await api.invoke('download_update', { request: expectedVersion ? { expectedVersion } : {} }, {
-        timeout: 60 * 60 * 1000,
-        retries: 0,
-      });
-    } catch (error) {
-      throw createTauriCommandError('download_update', error);
-    }
-  }
-
-  async getPendingUpdate(): Promise<PendingUpdateResponse | null> {
-    try {
-      return await api.invoke('get_pending_update', { request: {} });
-    } catch (error) {
-      throw createTauriCommandError('get_pending_update', error);
-    }
-  }
-
-  async installPendingUpdate(version: string): Promise<void> {
-    try {
-      await api.invoke('install_pending_update', { request: { version } }, {
-        timeout: 120000,
-        retries: 0,
-      });
-    } catch (error) {
-      throw createTauriCommandError('install_pending_update', error);
-    }
-  }
-
   /** Desktop only: restart the app after an update has been installed. */
   async restartApp(): Promise<void> {
     try {

@@ -353,52 +353,12 @@ export function prepareTauriConfig(
   injectDshProfileResource(config);
   injectExternalFrontendResource(config);
 
+  // Automatic updates were removed from the product; only the release channel
+  // is still normalized here because version generation and bundle metadata
+  // consume it.
   const release = releaseChannel
     ?? resolveReleaseChannel(process.env.OPC_RELEASE_CHANNEL);
-  const primaryEndpoint =
-    process.env.TAURI_UPDATER_ENDPOINT || release.primaryUpdaterEndpoint;
-  const fallbackEndpoint =
-    process.env.TAURI_UPDATER_FALLBACK_ENDPOINT || release.fallbackUpdaterEndpoint;
   process.env.OPC_RELEASE_CHANNEL = release.channel;
-  process.env.OPC_UPDATER_PRIMARY_ENDPOINT = primaryEndpoint;
-  process.env.OPC_UPDATER_FALLBACK_ENDPOINT = fallbackEndpoint;
-
-  const enabled = ['1', 'true', 'yes'].includes(
-    String(process.env.OPC_ENABLE_UPDATER_ARTIFACTS || '').toLowerCase()
-  );
-
-  if (enabled) {
-    const pubkey = process.env.TAURI_UPDATER_PUBKEY;
-    if (!pubkey) {
-      console.error('OPC_ENABLE_UPDATER_ARTIFACTS is set, but TAURI_UPDATER_PUBKEY is missing.');
-      process.exit(1);
-    }
-    if (!process.env.TAURI_SIGNING_PRIVATE_KEY) {
-      console.error('OPC_ENABLE_UPDATER_ARTIFACTS is set, but TAURI_SIGNING_PRIVATE_KEY is missing.');
-      process.exit(1);
-    }
-
-    // Fallback endpoint used when GitHub is unreachable (not when no update is found).
-    // Tauri updater iterates endpoints and only falls through on network/HTTP errors;
-    // a 204 (no update) or a successfully parsed manifest stops the loop.
-    config.bundle = {
-      ...(config.bundle || {}),
-      createUpdaterArtifacts: true,
-    };
-    config.plugins = {
-      ...(config.plugins || {}),
-      updater: {
-        endpoints: [primaryEndpoint, fallbackEndpoint],
-        pubkey,
-        windows: {
-          installMode: 'quiet',
-        },
-      },
-    };
-    console.log(
-      `[tauri-build] Updater artifacts enabled for ${release.channel}: ${primaryEndpoint} (fallback: ${fallbackEndpoint})`
-    );
-  }
 
   const generatedDir = join(desktopDir, 'gen');
   mkdirSync(generatedDir, { recursive: true });

@@ -146,10 +146,7 @@ jobs:
     if: needs.prepare.outputs.relay_image_only != 'true'
     env:
       NODE_OPTIONS: --max-old-space-size=6144
-      OPC_ENABLE_UPDATER_ARTIFACTS: ${{ needs.prepare.outputs.upload_to_release }}
       OPC_RELEASE_CHANNEL: ${{ needs.prepare.outputs.release_channel }}
-      TAURI_UPDATER_ENDPOINT: ${{ github.repository != 'GCWing/OPC-Team' && (needs.prepare.outputs.release_channel == 'beta' && format('https://github.com/{0}/releases/download/channel-v1-beta/latest-v1.json', github.repository) || format('https://github.com/{0}/releases/latest/download/latest-v1.json', github.repository)) || '' }}
-      TAURI_UPDATER_FALLBACK_ENDPOINT: ${{ github.repository != 'GCWing/OPC-Team' && (needs.prepare.outputs.release_channel == 'beta' && format('https://github.com/{0}/releases/download/channel-v1-beta/latest-v1.json', github.repository) || format('https://github.com/{0}/releases/latest/download/latest-v1.json', github.repository)) || '' }}
       TAURI_UPDATER_PUBKEY: ${{ secrets.TAURI_UPDATER_PUBKEY }}
       # Same trust root, compiled into the Desktop binary so one-click relay
       # deploy can verify the signed checksum locally and hand the remote host
@@ -364,7 +361,7 @@ jobs:
           certum-key-id: ${{ env.WINDOWS_CERTIFICATE_THUMBPRINT }}
           capture-diagnostics: 'false'
 
-      - name: Bundle Windows updater and verify Authenticode
+      - name: Bundle Windows installer and verify Authenticode
         if: runner.os == 'Windows'
         timeout-minutes: 20
         shell: pwsh

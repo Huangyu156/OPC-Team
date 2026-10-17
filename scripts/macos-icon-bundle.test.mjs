@@ -43,16 +43,12 @@ test('CLI is locked and macOS overlays preserve the same dev/legacy icon', () =>
 
 test('generated release config cannot overwrite platform icon selection', () => {
   const directory = mkdtempSync(join(tmpdir(), 'opc-icon-config-'));
-  const updaterEnabled = process.env.OPC_ENABLE_UPDATER_ARTIFACTS;
-  process.env.OPC_ENABLE_UPDATER_ARTIFACTS = 'false';
   try {
     const configPath = join(directory, 'tauri.conf.json');
     writeFileSync(configPath, JSON.stringify({ bundle: { icon: ['legacy.icns', 'windows.ico'] } }));
     const generated = prepareTauriConfig(configPath, { desktopDir: directory });
     assert.equal(json(generated).bundle.icon, undefined);
   } finally {
-    if (updaterEnabled === undefined) delete process.env.OPC_ENABLE_UPDATER_ARTIFACTS;
-    else process.env.OPC_ENABLE_UPDATER_ARTIFACTS = updaterEnabled;
     rmSync(directory, { recursive: true, force: true });
   }
 });

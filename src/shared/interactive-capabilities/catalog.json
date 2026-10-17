@@ -190,9 +190,6 @@
     "publicMarketImageCache": [
       "market_image_load"
     ],
-    "legacyUpdateCompatibility": [
-      "install_update"
-    ],
     "commandDiscovery": [
       "check_command_exists",
       "check_commands_exist"
@@ -215,6 +212,9 @@
       "get_config",
       "get_configs",
       "set_config"
+    ],
+    "appMetadata": [
+      "get_app_version"
     ],
     "modelCatalogEnrichment": [
       "get_local_models_dev_catalogs"
@@ -5285,12 +5285,11 @@
       "categoryId": "application",
       "titleZh": "常规设置",
       "titleEn": "General settings",
-      "summaryZh": "管理启动、更新、关闭行为、通知与睡眠保持等应用级偏好。",
-      "summaryEn": "Manage app-level preferences for startup, updates, close behavior, notifications, and sleep prevention.",
+      "summaryZh": "管理启动、关闭行为、通知与睡眠保持等应用级偏好。",
+      "summaryEn": "Manage app-level preferences for startup, close behavior, notifications, and sleep prevention.",
       "keywordsZh": [
         "常规设置",
         "开机启动",
-        "自动更新",
         "通知",
         "关闭按钮",
         "阻止睡眠"
@@ -5298,58 +5297,21 @@
       "keywordsEn": [
         "general settings",
         "launch at login",
-        "auto update",
         "notifications",
         "close button",
         "prevent sleep"
       ],
       "highlightsZh": [
-        "开机启动与自动更新",
+        "开机启动与窗口行为",
         "窗口关闭和托盘行为",
         "任务完成与权限请求通知"
       ],
       "highlightsEn": [
-        "Launch-at-login and automatic updates",
+        "Launch-at-login and window behavior",
         "Window close and tray behavior",
         "Completion and permission notifications"
       ],
       "items": [
-        {
-          "id": "automatic-updates",
-          "titleZh": "启用或停用自动检查更新",
-          "titleEn": "Enable or disable automatic update checks",
-          "control": {
-            "kind": "direct",
-            "operations": [],
-            "options": [
-              {
-                "id": "auto-update"
-              }
-            ]
-          },
-          "evidence": [
-            "source:src/web-ui/src/locales/zh-CN/settings/application.json#autoUpdate.toggleLabel",
-            "command:check_for_updates"
-          ]
-        },
-        {
-          "id": "manual-update",
-          "titleZh": "手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装",
-          "titleEn": "Check and download updates in the background, then confirm installation and restart or install later from About",
-          "control": {
-            "kind": "open",
-            "reasonCode": "unstructuredInteraction",
-            "reasonZh": "“手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装”需要下载后由用户确认安装与重启；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
-            "reasonEn": "“Check and download updates in the background, then confirm installation and restart or install later from About” requires user confirmation after downloading, before installation and restart; the Agent opens the exact entry and keeps the remaining interaction visible to the user."
-          },
-          "evidence": [
-            "command:check_for_updates",
-            "command:download_update",
-            "command:get_pending_update",
-            "command:install_pending_update",
-            "command:get_app_version"
-          ]
-        },
         {
           "id": "launch-at-login",
           "titleZh": "控制 OPC-Team 是否在登录系统后自动启动",
@@ -5439,12 +5401,10 @@
         "Change a control; updates are saved automatically"
       ],
       "agentExamplesZh": [
-        "关闭自动更新",
         "以后关闭窗口时最小化到托盘",
         "打开常规设置"
       ],
       "agentExamplesEn": [
-        "Turn off automatic updates",
         "Minimize to tray when I close the window",
         "Open General settings"
       ],
@@ -5467,13 +5427,6 @@
           "titleEn": "Prevent system sleep",
           "descriptionZh": "在 OPC-Team 运行期间持有本机睡眠抑制器。",
           "descriptionEn": "Hold a local sleep inhibitor while OPC-Team is running."
-        },
-        {
-          "id": "auto-update",
-          "titleZh": "自动检查更新",
-          "titleEn": "Automatic updates",
-          "descriptionZh": "启动后自动检查可用更新。",
-          "descriptionEn": "Check for available updates automatically after startup."
         },
         {
           "id": "close-button-behavior",
@@ -9585,9 +9538,6 @@
       "capabilityId": "feature.detached-dispatch"
     },
     "system": {
-      "capabilityId": "setting.application.general"
-    },
-    "update": {
       "capabilityId": "setting.application.general"
     },
     "miniapp_market": {

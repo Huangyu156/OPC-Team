@@ -1254,6 +1254,12 @@ mod tests {
             assert!(!config_path_invalidates_ai_client(path));
         }
 
+        let prevent_sleep = product_capability("setting.application.general")
+            .unwrap()
+            .options
+            .iter()
+            .find(|option| option.id == "prevent-sleep")
+            .unwrap();
         let appearance = product_capability("setting.application.appearance")
             .unwrap()
             .options
@@ -1266,14 +1272,8 @@ mod tests {
             .iter()
             .find(|option| option.id == "language")
             .unwrap();
-        let auto_update = product_capability("setting.application.general")
-            .unwrap()
-            .options
-            .iter()
-            .find(|option| option.id == "auto-update")
-            .unwrap();
         assert!(option_requires_presentation_commit(appearance));
         assert!(option_requires_presentation_commit(language));
-        assert!(!option_requires_presentation_commit(auto_update));
+        assert!(!option_requires_presentation_commit(prevent_sleep));
     }
 }

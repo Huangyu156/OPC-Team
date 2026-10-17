@@ -268,19 +268,5 @@
       "saveSuccess": "通知設置已儲存",
       "saveFailed": "儲存通知設置失敗"
     }
-  },
-  "autoUpdate": {
-    "sections": {
-      "title": "更新",
-      "hint": "啟動後是否自動檢查新版本"
-    },
-    "toggleLabel": "自動檢查更新",
-    "toggleDescription": "啟動及執行期間自動檢查新版本，每個版本只主動提醒一次；關閉後仍可手動檢查",
-    "messages": {
-      "loading": "載入中…",
-      "loadFailed": "無法讀取更新相關設定",
-      "saveFailed": "無法儲存更新相關設定",
-      "saved": "已儲存更新偏好"
-    }
   }
 }

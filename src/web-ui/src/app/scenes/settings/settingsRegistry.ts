@@ -74,7 +74,6 @@ export const SETTINGS_PAGE_MANIFESTS: readonly SettingsPageManifest[] = [
       phrase('settings/application', 'applicationGroups.windowAndNotifications.title'),
       phrase('settings/application', 'launchAtLogin.toggleLabel'),
       phrase('settings/application', 'preventSleep.toggleLabel'),
-      phrase('settings/application', 'autoUpdate.toggleLabel'),
       phrase('settings/application', 'notifications.title'),
     ],
     load: () => import('./pages/application/GeneralSettingsPage'),

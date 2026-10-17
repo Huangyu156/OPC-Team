@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "6a408cadc91d4d9287f6a60786b9b374b19093c2836989a19a4ae0db0fc3938e",
-  "count": 216,
+  "catalogDigest": "ad468d2805afae30aae1783f97cf0b4d3429b3f90d0d589f1dc33daa6abf79da",
+  "count": 215,
   "reasonCounts": {
     "externalAuth": 4,
     "secretEntry": 5,
-    "unstructuredInteraction": 184,
+    "unstructuredInteraction": 183,
     "visualSelection": 23
   },
   "entries": [
@@ -2551,26 +2551,6 @@
         "command:hide_agent_companion_desktop_pet",
         "command:resize_agent_companion_desktop_pet",
         "command:show_main_window"
-      ]
-    },
-    {
-      "capabilityId": "setting.application.general",
-      "itemId": "manual-update",
-      "titleZh": "手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装",
-      "titleEn": "Check and download updates in the background, then confirm installation and restart or install later from About",
-      "reasonCode": "unstructuredInteraction",
-      "reasonZh": "“手动检查并后台下载更新，确认后安装并重启，或稍后从关于页面安装”需要下载后由用户确认安装与重启；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
-      "reasonEn": "“Check and download updates in the background, then confirm installation and restart or install later from About” requires user confirmation after downloading, before installation and restart; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
-      "presentationTarget": {
-        "kind": "settings",
-        "pageId": "application.general"
-      },
-      "evidence": [
-        "command:check_for_updates",
-        "command:download_update",
-        "command:get_pending_update",
-        "command:install_pending_update",
-        "command:get_app_version"
       ]
     },
     {

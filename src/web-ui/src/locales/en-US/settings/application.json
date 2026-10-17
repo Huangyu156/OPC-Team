@@ -103,20 +103,6 @@
     },
     "interfaceHint": "Choose the language for menus, buttons, and messages; changes apply immediately"
   },
-  "autoUpdate": {
-    "sections": {
-      "title": "Updates",
-      "hint": "Check for new versions after startup"
-    },
-    "toggleLabel": "Automatic update check",
-    "toggleDescription": "Check for updates at startup and while running, with one prompt per version; manual checks remain available when off",
-    "messages": {
-      "loading": "Loading...",
-      "loadFailed": "Failed to read update settings",
-      "saveFailed": "Failed to save update settings",
-      "saved": "Update preference saved"
-    }
-  },
   "launchAtLogin": {
     "sections": {
       "title": "Login",

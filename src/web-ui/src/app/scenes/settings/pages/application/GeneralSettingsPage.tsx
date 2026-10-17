@@ -107,101 +107,6 @@ function LaunchAtLoginSetting() {
   );
 }
 
-function AutoUpdateSetting() {
-  const { t } = useTranslation('settings/application');
-  const isTauri = typeof window !== 'undefined' && '__TAURI__' in window;
-  const [enabled, setEnabled] = useState(true);
-  const [loading, setLoading] = useState(true);
-  const [loadFailed, setLoadFailed] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: 'success' | 'error' | 'info'; text: string } | null>(null);
-
-  const showMessage = useCallback((type: 'success' | 'error' | 'info', text: string) => {
-    setMessage({ type, text });
-    setTimeout(() => setMessage(null), 3000);
-  }, []);
-
-  const loadData = useCallback(async () => {
-    if (!isTauri) return;
-    setLoading(true);
-    setLoadFailed(false);
-    try {
-      setEnabled(await systemAPI.getAutoUpdateEnabled());
-    } catch (error) {
-      log.error('Failed to load app.auto_update', error);
-      setLoadFailed(true);
-    } finally {
-      setLoading(false);
-    }
-  }, [isTauri]);
-
-  useEffect(() => {
-    if (!isTauri) {
-      setLoading(false);
-      return;
-    }
-    void loadData();
-  }, [isTauri, loadData]);
-
-  const handleToggle = useCallback(
-    async (next: boolean) => {
-      const previous = enabled;
-      setEnabled(next);
-      setSaving(true);
-      try {
-        await systemAPI.setAutoUpdateEnabled(next);
-        showMessage('success', t('autoUpdate.messages.saved'));
-      } catch (error) {
-        setEnabled(previous);
-        log.error('Failed to set app.auto_update', { next, error });
-        showMessage('error', t('autoUpdate.messages.saveFailed'));
-      } finally {
-        setSaving(false);
-      }
-    },
-    [enabled, showMessage, t]
-  );
-
-  if (!isTauri) {
-    return null;
-  }
-
-  if (loading || loadFailed) {
-    return (
-      <ConfigPageRow
-        label={t('autoUpdate.toggleLabel')}
-        description={t(loading ? 'autoUpdate.messages.loading' : 'autoUpdate.messages.loadFailed')}
-        align="center"
-      >
-        <Button type="button" variant="outline" size="sm" loading={loading} disabled={loading} onClick={() => void loadData()}>
-          {t('common.retry')}
-        </Button>
-      </ConfigPageRow>
-    );
-  }
-
-  return (
-    <>
-      <ConfigMessage message={message} />
-      <ConfigPageRow
-        label={t('autoUpdate.toggleLabel')}
-        description={t('autoUpdate.toggleDescription')}
-        align="center"
-      >
-        <div data-opc-component="application-settings" data-opc-part="autoUpdate">
-          <Switch
-            checked={enabled}
-            onChange={(e) => {
-              void handleToggle(e.target.checked);
-            }}
-            disabled={saving}
-          />
-        </div>
-      </ConfigPageRow>
-    </>
-  );
-}
-
 function PreventSleepSetting() {
   const { t } = useTranslation('settings/application');
   const isTauri = typeof window !== 'undefined' && '__TAURI__' in window;
@@ -515,7 +420,6 @@ const GeneralSettingsPage: React.FC = () => {
         <ConfigPageSection title={t('applicationGroups.startupAndUpdates.title')} description={t('applicationGroups.startupAndUpdates.description')}>
           <LaunchAtLoginSetting />
           <PreventSleepSetting />
-          <AutoUpdateSetting />
         </ConfigPageSection>
       )}
       <ConfigPageSection title={t('applicationGroups.windowAndNotifications.title')} description={t('applicationGroups.windowAndNotifications.description')}>
