@@ -16,10 +16,26 @@ export function sha256(bytes) {
   return createHash('sha256').update(bytes).digest('hex');
 }
 
+export const MACOS_ICON_SOURCE_FILES = [
+  'opcteam.icon/icon.json',
+  'opcteam.icon/Assets/Mark.png',
+  'legacy-canvas.json',
+];
+
+// JSON sources are hashed with LF endings so the digest does not depend on the
+// checkout's autocrlf setting; binary sources are hashed byte for byte.
+function macosSourceBytes(file) {
+  const bytes = readFileSync(join(MACOS_ICON_DIR, file));
+  if (!file.endsWith('.json')) {
+    return bytes;
+  }
+  return Buffer.from(bytes.toString('latin1').replace(/\r\n/g, '\n'), 'latin1');
+}
+
 export function macosSourceDigest() {
   const hash = createHash('sha256');
-  for (const file of ['opcteam.icon/icon.json', 'opcteam.icon/Assets/Mark.png', 'legacy-canvas.json']) {
-    hash.update(file).update('\0').update(readFileSync(join(MACOS_ICON_DIR, file)));
+  for (const file of MACOS_ICON_SOURCE_FILES) {
+    hash.update(file).update('\0').update(macosSourceBytes(file));
   }
   return hash.digest('hex');
 }
