@@ -626,6 +626,11 @@ mod tests {
 function generateInstallerRustLocaleContract(contract) {
   const locales = orderedLocales(contract, 'installer');
 
+  // Emitted already in rustfmt form. The generated file is committed, and
+  // `cargo fmt` / `pnpm run fmt:rs` rewrites the trailing comma of the last
+  // array element and wraps the long test asserts. A raw template would then
+  // make `generate-i18n-contract.mjs --check` report the file as out of date on
+  // every audit after a format pass.
   return `${generatedHeader('rust')}#[derive(Debug, Clone, Copy)]
 pub(super) struct InstallerGeneratedLocaleEntry {
     pub code: &'static str,
@@ -636,7 +641,7 @@ pub(super) const INSTALLER_GENERATED_LOCALES: &[InstallerGeneratedLocaleEntry] =
 ${locales.map((locale) => `    InstallerGeneratedLocaleEntry {
         code: ${rustString(locale.id)},
         aliases: ${rustStringArray(locale.aliases)},
-    }`).join(',\n')}
+    },`).join('\n')}
 ];
 
 #[cfg(test)]
@@ -645,9 +650,15 @@ mod tests {
 
     #[test]
     fn generated_installer_contract_keeps_canonical_aliases() {
-        assert!(INSTALLER_GENERATED_LOCALES.iter().any(|locale| locale.code == "zh-CN" && locale.aliases.contains(&"zh")));
-        assert!(INSTALLER_GENERATED_LOCALES.iter().any(|locale| locale.code == "zh-TW" && locale.aliases.contains(&"zh-Hant")));
-        assert!(INSTALLER_GENERATED_LOCALES.iter().any(|locale| locale.code == "en-US" && locale.aliases.contains(&"en")));
+        assert!(INSTALLER_GENERATED_LOCALES
+            .iter()
+            .any(|locale| locale.code == "zh-CN" && locale.aliases.contains(&"zh")));
+        assert!(INSTALLER_GENERATED_LOCALES
+            .iter()
+            .any(|locale| locale.code == "zh-TW" && locale.aliases.contains(&"zh-Hant")));
+        assert!(INSTALLER_GENERATED_LOCALES
+            .iter()
+            .any(|locale| locale.code == "en-US" && locale.aliases.contains(&"en")));
     }
 }
 `;
