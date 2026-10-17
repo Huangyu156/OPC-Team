@@ -21,7 +21,7 @@ const crossBoundaryRoots = [
   path.join(repoRoot, 'tests', 'e2e', 'helpers'),
   path.join(repoRoot, 'src', 'crates', 'contracts', 'product-domains', 'src', 'miniapp'),
   path.join(repoRoot, 'src', 'crates', 'services', 'services-integrations', 'src', 'canvas'),
-  path.join(repoRoot, 'src', 'crates', 'assembly', 'core', 'builtin_skills', 'opcteam-canvas'),
+  path.join(repoRoot, 'src', 'crates', 'assembly', 'core', 'builtin_skills', 'opc-canvas'),
   path.join(repoRoot, 'src', 'crates', 'assembly', 'core', 'builtin_skills', 'miniapp-dev'),
 ];
 const failures = [];

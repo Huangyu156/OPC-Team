@@ -260,7 +260,7 @@ const FILE_CONTRACTS = Object.freeze([
     ],
   },
   {
-    path: 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/references/appearance-registry.json',
+    path: 'src/crates/assembly/core/builtin_skills/create-opc-skin/references/appearance-registry.json',
     forbidden: [
       {
         code: 'appearance-registry-flowchat-font-contract-reintroduced',
@@ -270,7 +270,7 @@ const FILE_CONTRACTS = Object.freeze([
     ],
   },
   {
-    path: 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/scripts/opcteam_appearance.py',
+    path: 'src/crates/assembly/core/builtin_skills/create-opc-skin/scripts/opcteam_appearance.py',
     forbidden: [
       {
         code: 'standalone-appearance-typography-reintroduced',

@@ -342,7 +342,7 @@ test('rejects a backend FlowChat font snapshot', () => {
 test('rejects retired FlowChat typography in the distributed Appearance registry', () => {
   const issues = auditTypographyFileContractText(`{
     "components": [{ "id": "font-preference", "parts": [{ "id": "flowChatControls" }] }]
-  }`, 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/references/appearance-registry.json');
+  }`, 'src/crates/assembly/core/builtin_skills/create-opc-skin/references/appearance-registry.json');
 
   assert.deepEqual(issues.map(issue => issue.code), [
     'appearance-registry-flowchat-font-contract-reintroduced',
@@ -350,7 +350,7 @@ test('rejects retired FlowChat typography in the distributed Appearance registry
 });
 
 test('rejects typography in the standalone Appearance validator but allows Monaco fontStyle', () => {
-  const path = 'src/crates/assembly/core/builtin_skills/create-opcteam-skin/scripts/opcteam_appearance.py';
+  const path = 'src/crates/assembly/core/builtin_skills/create-opc-skin/scripts/opcteam_appearance.py';
   const valid = auditTypographyFileContractText(`
     font_style = rule.get("fontStyle")
   `, path);
