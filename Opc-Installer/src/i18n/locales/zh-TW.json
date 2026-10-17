@@ -46,7 +46,7 @@
     "modelName": "模型名稱（如 deepseek-v4-flash）",
     "skip": "稍後設定",
     "nextTheme": "下一步：主題",
-    "description": "管理預設模型、模型服務、訂閱帳戶、模型目錄與網路連線",
+    "description": "連線模型服務，並選擇各類任務使用的模型",
     "providerLabel": "選擇模型提供商",
     "selectProvider": "或選擇預設提供商",
     "customProvider": "自定義設定",
@@ -150,6 +150,21 @@
       "tokendance": {
         "name": "詞元跳動",
         "description": "統一的大模型 API 閘道"
+      },
+      "opencode-go": {
+        "name": "OpenCode Go",
+        "description": "OpenCode 推出的模型訂閱方案。"
+      },
+      "xiaomi": {
+        "name": "Xiaomi MiMo",
+        "description": "小米 MiMo 系列模型，API 與 Token Plan 金鑰不可混用。",
+        "urlOptions": {
+          "default": "API - OpenAI Chat Completions（預設）",
+          "responses": "API - OpenAI Responses",
+          "anthropic": "API - Anthropic Messages",
+          "tokenPlan": "中國 - Token Plan - OpenAI",
+          "tokenPlanAnthropic": "中國 - Token Plan - Anthropic"
+        }
       }
     },
     "modelNameSelectPlaceholder": "選擇模型",

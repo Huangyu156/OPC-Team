@@ -46,7 +46,7 @@
     "modelName": "Model name (e.g. deepseek-v4-flash)",
     "skip": "Skip for now",
     "nextTheme": "Next: Theme",
-    "description": "Manage default models, providers, subscriptions, catalog data, and network connections.",
+    "description": "Connect model providers and choose models for each type of task",
     "providerLabel": "Select Model Provider",
     "selectProvider": "or select a preset provider",
     "customProvider": "Custom Configuration",
@@ -150,6 +150,21 @@
       "tokendance": {
         "name": "TokenDance",
         "description": "Unified AI model gateway"
+      },
+      "opencode-go": {
+        "name": "OpenCode Go",
+        "description": "A model subscription plan from OpenCode."
+      },
+      "xiaomi": {
+        "name": "Xiaomi MiMo",
+        "description": "Xiaomi MiMo models. API and Token Plan keys are separate.",
+        "urlOptions": {
+          "default": "API - OpenAI Chat Completions - Default",
+          "responses": "API - OpenAI Responses",
+          "anthropic": "API - Anthropic Messages",
+          "tokenPlan": "China - Token Plan - OpenAI",
+          "tokenPlanAnthropic": "China - Token Plan - Anthropic"
+        }
       }
     },
     "modelNameSelectPlaceholder": "Select model",
