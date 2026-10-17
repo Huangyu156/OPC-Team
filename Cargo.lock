@@ -5898,7 +5898,7 @@ checksum = "c08d65885ee38876c4f86fa503fb49d7b507c2b62552df7c70b2fce627e06381"
 
 [[package]]
 name = "opc-acp"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "agent-client-protocol",
  "async-trait",
@@ -5924,11 +5924,11 @@ dependencies = [
 
 [[package]]
 name = "opc-agent-content"
-version = "1.0.5"
+version = "1.0.6"
 
 [[package]]
 name = "opc-agent-runtime"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "dashmap",
@@ -5953,7 +5953,7 @@ dependencies = [
 
 [[package]]
 name = "opc-agent-runtime-ipc"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "dunce",
@@ -5974,7 +5974,7 @@ dependencies = [
 
 [[package]]
 name = "opc-agent-stream"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -5994,7 +5994,7 @@ dependencies = [
 
 [[package]]
 name = "opc-agent-tools"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "indexmap 2.14.0",
@@ -6007,14 +6007,14 @@ dependencies = [
 
 [[package]]
 name = "opc-agent-workflows"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "regex",
 ]
 
 [[package]]
 name = "opc-ai-adapters"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -6048,7 +6048,7 @@ dependencies = [
 
 [[package]]
 name = "opc-app-server"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "agent-client-protocol",
  "anyhow",
@@ -6070,7 +6070,7 @@ dependencies = [
 
 [[package]]
 name = "opc-app-server-client"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "agent-client-protocol",
  "anyhow",
@@ -6081,7 +6081,7 @@ dependencies = [
 
 [[package]]
 name = "opc-app-server-protocol"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "agent-client-protocol",
  "opc-core-types",
@@ -6095,7 +6095,7 @@ dependencies = [
 
 [[package]]
 name = "opc-claude-code-adapter"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "dirs 6.0.0",
  "dunce",
@@ -6114,7 +6114,7 @@ dependencies = [
 
 [[package]]
 name = "opc-cli"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "arboard",
@@ -6173,7 +6173,7 @@ dependencies = [
 
 [[package]]
 name = "opc-codex-adapter"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "dirs 6.0.0",
  "dunce",
@@ -6190,7 +6190,7 @@ dependencies = [
 
 [[package]]
 name = "opc-config-contracts"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "chrono",
  "hex",
@@ -6205,7 +6205,7 @@ dependencies = [
 
 [[package]]
 name = "opc-core"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -6278,7 +6278,7 @@ dependencies = [
 
 [[package]]
 name = "opc-core-types"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "serde",
  "serde_json",
@@ -6303,7 +6303,7 @@ dependencies = [
 
 [[package]]
 name = "opc-desktop"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "alloc-no-stdlib",
  "alloc-stdlib",
@@ -6394,7 +6394,7 @@ dependencies = [
 
 [[package]]
 name = "opc-dsh-adapter"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "dirs 6.0.0",
@@ -6415,7 +6415,7 @@ dependencies = [
 
 [[package]]
 name = "opc-events"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -6429,7 +6429,7 @@ dependencies = [
 
 [[package]]
 name = "opc-external-sources"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "futures",
  "log",
@@ -6439,7 +6439,7 @@ dependencies = [
 
 [[package]]
 name = "opc-legacy-migration"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "chrono",
  "dirs 6.0.0",
@@ -6461,7 +6461,7 @@ dependencies = [
 
 [[package]]
 name = "opc-legacy-migration-adapters"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "chrono",
@@ -6485,7 +6485,7 @@ dependencies = [
 
 [[package]]
 name = "opc-miniapp-market-server"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -6497,7 +6497,7 @@ dependencies = [
 
 [[package]]
 name = "opc-miniapp-market-service"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -6530,7 +6530,7 @@ dependencies = [
 
 [[package]]
 name = "opc-opencode-adapter"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "dirs 6.0.0",
@@ -6559,7 +6559,7 @@ dependencies = [
 
 [[package]]
 name = "opc-opencode-plugin-host"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "base64 0.22.1",
@@ -6578,7 +6578,7 @@ dependencies = [
 
 [[package]]
 name = "opc-page-function-runtime"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "rquickjs",
  "serde",
@@ -6588,7 +6588,7 @@ dependencies = [
 
 [[package]]
 name = "opc-pi-adapter"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "dirs 6.0.0",
  "opc-product-domains",
@@ -6600,7 +6600,7 @@ dependencies = [
 
 [[package]]
 name = "opc-plugin-runtime-client"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "opc-runtime-ports",
@@ -6609,7 +6609,7 @@ dependencies = [
 
 [[package]]
 name = "opc-product-capabilities"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "opc-agent-runtime",
@@ -6621,7 +6621,7 @@ dependencies = [
 
 [[package]]
 name = "opc-product-domains"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "dirs 6.0.0",
  "hex",
@@ -6639,7 +6639,7 @@ dependencies = [
 
 [[package]]
 name = "opc-relay-server"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -6656,7 +6656,7 @@ dependencies = [
 
 [[package]]
 name = "opc-relay-service"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -6687,7 +6687,7 @@ dependencies = [
 
 [[package]]
 name = "opc-runtime-ports"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -6702,7 +6702,7 @@ dependencies = [
 
 [[package]]
 name = "opc-runtime-services"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -6717,7 +6717,7 @@ dependencies = [
 
 [[package]]
 name = "opc-sdk-host"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "async-trait",
  "futures-util",
@@ -6736,7 +6736,7 @@ dependencies = [
 
 [[package]]
 name = "opc-sdk-host-app"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -6758,7 +6758,7 @@ dependencies = [
 
 [[package]]
 name = "opc-server"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "agent-client-protocol",
  "anyhow",
@@ -6784,7 +6784,7 @@ dependencies = [
 
 [[package]]
 name = "opc-services-core"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "aes-gcm",
  "anyhow",
@@ -6826,7 +6826,7 @@ dependencies = [
 
 [[package]]
 name = "opc-services-integrations"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "aes",
  "aes-gcm",
@@ -6904,7 +6904,7 @@ dependencies = [
 
 [[package]]
 name = "opc-skin-market-server"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -6916,7 +6916,7 @@ dependencies = [
 
 [[package]]
 name = "opc-skin-market-service"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -6946,7 +6946,7 @@ dependencies = [
 
 [[package]]
 name = "opc-static-hook-support"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "hex",
  "opc-product-domains",
@@ -6959,11 +6959,11 @@ dependencies = [
 
 [[package]]
 name = "opc-tool-packs"
-version = "1.0.5"
+version = "1.0.6"
 
 [[package]]
 name = "opc-transport"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -6977,7 +6977,7 @@ dependencies = [
 
 [[package]]
 name = "opc-webdriver"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "axum",
@@ -10868,7 +10868,7 @@ dependencies = [
 
 [[package]]
 name = "terminal-core"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -11315,7 +11315,7 @@ checksum = "7d56353a2a665ad0f41a421187180aab746c8c325620617ad883a99a1cbe66d2"
 
 [[package]]
 name = "tool-runtime"
-version = "1.0.5"
+version = "1.0.6"
 dependencies = [
  "anydoc",
  "dashmap",

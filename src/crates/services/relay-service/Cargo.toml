@@ -1,6 +1,6 @@
 [package]
 name = "opc-relay-service"
-version = "1.0.5"
+version = "1.0.6"
 authors = ["OPC-Team"]
 edition = "2021"
 description = "Reusable relay runtime for OPC-Team Remote Connect"

@@ -27,7 +27,7 @@
   position: relative;
   inline-size: var(--_morph-w);
   block-size: var(--_morph-h);
-  border: var(--_lab-rule);
+  border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   border-radius: var(--_morph-r);
   overflow: hidden;
   background: var(--opcteam-color-surface-canvas);
@@ -105,7 +105,7 @@
 }
 
 .design-morph-phone-head {
-  border-block-end: var(--_lab-rule);
+  border-block-end: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
 }
 
 .design-morph-phone-thread {
@@ -149,7 +149,7 @@
   content: "";
   position: absolute;
   inset: var(--opcteam-space-3);
-  border: var(--_lab-rule);
+  border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   border-radius: var(--opcteam-radius-pill);
 }
 
@@ -166,7 +166,7 @@
 
 .design-morph-watch-wave > i {
   inline-size: 3px;
-  block-size: var(--_morph-wave, 40%);
+  block-size: var(--_morph-wave);
   border-radius: var(--opcteam-radius-pill);
   background: var(--opcteam-color-accent-default);
 }
@@ -196,7 +196,7 @@
   gap: var(--opcteam-space-4);
   inline-size: min(calc(100% - var(--opcteam-space-16)), 640px);
   padding: var(--opcteam-space-3) var(--opcteam-space-5);
-  border: var(--_lab-rule);
+  border: var(--opcteam-border-width-default) solid var(--opcteam-color-border-subtle);
   border-radius: var(--opcteam-radius-2xl);
   background: var(--opcteam-color-surface-panel);
   color: var(--opcteam-color-content-primary);

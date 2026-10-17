@@ -542,6 +542,7 @@ impl AgentDialogTurnPort for FakeOwner {
                         success: Some(true),
                         finish_reason: Some("stop".to_string()),
                         has_final_response: Some(true),
+                        background_delivery: None,
                     },
                     None,
                 )
@@ -1562,6 +1563,7 @@ async fn query_result_aggregates_usage_for_its_turn() {
             success: Some(true),
             finish_reason: Some("stop".to_string()),
             has_final_response: Some(true),
+            background_delivery: None,
         },
     ] {
         queue.enqueue(event, None).await.unwrap();
@@ -3140,6 +3142,7 @@ async fn queued_query_is_accepted_and_tracked_by_its_exact_turn() {
                 success: Some(true),
                 finish_reason: Some("stop".to_string()),
                 has_final_response: Some(true),
+                background_delivery: None,
             },
             None,
         )
@@ -3162,6 +3165,7 @@ async fn queued_query_is_accepted_and_tracked_by_its_exact_turn() {
                 success: Some(true),
                 finish_reason: Some("stop".to_string()),
                 has_final_response: Some(true),
+                background_delivery: None,
             },
             None,
         )

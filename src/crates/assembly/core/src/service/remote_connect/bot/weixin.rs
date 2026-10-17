@@ -151,8 +151,25 @@ fn settled_turn_text(mut poll: Value, turn_id: &str) -> Option<String> {
     // a partial overlay until its own subscriber sees the persistence fence.
     // Prefer the persisted record regardless of subscriber execution order.
     poll["active_turn"] = Value::Null;
-    let turn =
-        opc_services_integrations::remote_connect::bot::remote_turn::observe_turn(&poll, turn_id)?;
+    let turn = opc_services_integrations::remote_connect::bot::remote_turn::observe_turn(
+        &poll, turn_id,
+    )?;
+    if let Some(delivery) = turn.background_delivery.as_ref() {
+        if matches!(turn.status.as_str(), "failed" | "error" | "interrupted")
+            || turn.error.is_some()
+        {
+            return Some(
+                turn.error
+                    .unwrap_or_else(|| "Background task execution failed.".to_owned()),
+            );
+        }
+        if delivery.suppresses_report() {
+            return None;
+        }
+        if delivery.reason == "recovery_completed" && turn.text.trim().is_empty() {
+            return Some("Background task execution recovered and completed.".to_owned());
+        }
+    }
     (matches!(turn.status.as_str(), "done" | "completed") && turn.error.is_none())
         .then_some(turn.text)
 }
@@ -1364,6 +1381,7 @@ mod tests {
             success: Some(true),
             finish_reason: Some("complete".into()),
             has_final_response: Some(true),
+            background_delivery: None,
         };
         assert!(settled_session_turn(&early).is_none());
         assert!(settled_session_turn(&AgenticEvent::SessionHistoryChanged {
@@ -1399,6 +1417,35 @@ mod tests {
         assert_eq!(
             settled_turn_text(poll, "turn").as_deref(),
             Some("legacy final result")
+        );
+    }
+
+    #[test]
+    fn background_delivery_suppresses_quiet_but_preserves_failure_and_old_host_output() {
+        use opc_core_types::background_delivery::{
+            BackgroundDelivery, BackgroundReportDisposition, BackgroundReportPolicy,
+        };
+        let mut delivery = BackgroundDelivery::pending(
+            "generic".into(),
+            "turn".into(),
+            BackgroundReportPolicy::Conditional,
+        );
+        delivery.disposition = BackgroundReportDisposition::Quiet;
+        delivery.resolved_at_ms = Some(1);
+        let mut poll = json!({"new_messages":[{"turn_id":"turn","role":"assistant","status":"completed","content":"No change; remaining quiet.","metadata":{"backgroundDelivery":delivery}}]});
+        assert!(settled_turn_text(poll.clone(), "turn").is_none());
+        poll["new_messages"][0]["status"] = json!("failed");
+        poll["new_messages"][0]["error"] = json!("Model provider disconnected");
+        assert_eq!(
+            settled_turn_text(poll.clone(), "turn").as_deref(),
+            Some("Model provider disconnected")
+        );
+        poll["new_messages"][0]["status"] = json!("completed");
+        poll["new_messages"][0]["error"] = Value::Null;
+        poll["new_messages"][0]["metadata"]["backgroundDelivery"]["schemaVersion"] = json!(2);
+        assert_eq!(
+            settled_turn_text(poll, "turn").as_deref(),
+            Some("No change; remaining quiet.")
         );
     }
 

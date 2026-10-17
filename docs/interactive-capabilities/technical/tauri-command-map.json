@@ -1,7 +1,7 @@
 {
   "schemaVersion": 2,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "33df04a443269396ce39aec76d99aa36badb2f05bf85095dd79091dd49cf2bde",
+  "catalogDigest": "6a408cadc91d4d9287f6a60786b9b374b19093c2836989a19a4ae0db0fc3938e",
   "commandCount": 674,
   "coverage": {
     "commandCount": 674,
@@ -3443,7 +3443,7 @@
       "visibility": "implementation",
       "rustPath": "get_local_models_dev_catalogs",
       "sourceFile": "src/apps/desktop/src/api/commands.rs",
-      "signature": "fn get_local_models_dev_catalogs( ) -> Result<opc_core::LocalModelsDevCatalogs, String>",
+      "signature": "fn get_local_models_dev_catalogs() -> Result<opc_core::LocalModelsDevCatalogs, String>",
       "remoteWorkspacePolicy": "LocalOnly"
     },
     {
@@ -5627,7 +5627,7 @@
       "visibility": "internal",
       "rustPath": "opc_control_host::mark_opc_control_surface_ready",
       "sourceFile": "src/apps/desktop/src/opc_control_host.rs",
-      "signature": "fn mark_opc_control_surface_ready( request: Option<ProductControlSurfaceReadyRequest>, )",
+      "signature": "fn mark_opc_control_surface_ready(request: Option<ProductControlSurfaceReadyRequest>)",
       "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {

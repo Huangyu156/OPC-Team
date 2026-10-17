@@ -189,6 +189,7 @@ mod tests {
             config_updated_at_ms: 1_700_000_000_000,
             updated_at_ms: 1_700_000_000_000,
             state: CronJobState::default(),
+            report_policy: Default::default(),
         }
     }
 

@@ -64,6 +64,7 @@ import { UserMessageImage } from './UserMessageImage';
 import { useSubmittedMessageMotion } from './useSubmittedMessageMotion';
 import { finishSubmittedMessagePreview } from '../../services/submittedMessagePresentation';
 import { getActiveSurfaceScope } from '@/infrastructure/peer-device/deviceSurface';
+import { backgroundDeliveryFromMetadata } from '../../utils/backgroundDelivery';
 import './UserMessageItem.scss';
 
 const log = createLogger('UserMessageItem');
@@ -685,6 +686,8 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
           </div>
         ) : (
           <div className="user-message-item__main" data-opc-product-component="user-message-item" data-opc-product-part="main">
+          {backgroundDeliveryFromMetadata(message.metadata, turnId)?.reason === 'recovery_completed'
+                    ? <p>{t('backgroundDelivery.recoveryCompleted')}</p> : null}
           <div
             className={
               isFailed
@@ -707,6 +710,7 @@ export const UserMessageItem = React.memo<UserMessageItemProps>(
                     cursor: (hasOverflow || expanded) ? 'pointer' : 'text',
                   }}
                 >
+
                   {composerPresentation ? (
                     <UserMessagePresentationContent presentation={composerPresentation} />
                   ) : <UserMessageTextContent text={displayText} />}

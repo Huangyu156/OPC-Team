@@ -1395,6 +1395,8 @@ impl CoreAgentRuntimeCompatibility {
                         }
                         _ => ("idle", None),
                     };
+                    let unread_turn =
+                        opc_services_core::session::unread_completion_target(&metadata);
                     SessionActivitySummary {
                         pending_approvals: approvals
                             .get(&metadata.session_id)
@@ -1409,6 +1411,7 @@ impl CoreAgentRuntimeCompatibility {
                         active_turn_id,
                         last_turn: metadata.last_turn,
                         unread_completion: metadata.unread_completion,
+                        unread_turn,
                     }
                 })
                 .collect(),

@@ -90,7 +90,12 @@ use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use dashmap::DashMap;
 use log::{debug, error, info, warn};
 use opc_agent_runtime::deep_review::FocusedReviewAssignment;
-use opc_agent_runtime::permission::{AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY};
+use opc_agent_runtime::permission::{
+    AUTO_APPROVE_ASK_CONTEXT_KEY, PERMISSION_MODE_CONTEXT_KEY,
+};
+use opc_agent_runtime::prompt_suggestion::{
+    prompt_suggestion_source_eligible, PROMPT_SUGGESTION_ELIGIBLE_CONTEXT_KEY,
+};
 use opc_agent_runtime::remote_file_delivery::{
     needs_computer_links_for_source, remote_file_delivery_reminder,
     TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY,
@@ -1603,6 +1608,25 @@ impl ConversationCoordinator {
         context: &mut HashMap<String, String>,
         metadata: Option<&serde_json::Value>,
     ) {
+        if let Some(run_id) = metadata
+            .and_then(|metadata| {
+                metadata.get(
+                    opc_core_types::background_delivery::BACKGROUND_DELIVERY_METADATA_KEY,
+                )
+            })
+            .and_then(|delivery| delivery.get("runId"))
+            .and_then(serde_json::Value::as_str)
+        {
+            if let Some(delivery) =
+                opc_core_types::background_delivery::BackgroundDelivery::from_metadata(
+                    metadata, run_id,
+                )
+            {
+                if let Ok(serialized) = serde_json::to_string(&delivery) {
+                    context.insert(crate::agentic::execution::background_delivery::BACKGROUND_DELIVERY_CONTEXT_KEY.to_owned(), serialized);
+                }
+            }
+        }
         if let Some(schema) = metadata
             .and_then(serde_json::Value::as_object)
             .and_then(|metadata| metadata.get(OUTPUT_SCHEMA_CONTEXT_KEY))
@@ -3085,9 +3109,17 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
         }
 
         if persistence_succeeded {
+            let quiet_completion = execution_result.effective_finish_reason == "background_quiet"
+                && session_manager
+                    .background_delivery_for_turn(session_id, turn_id)
+                    .await
+                    .ok()
+                    .flatten()
+                    .is_some();
             let status = if execution_result.success
                 && (execution_result.has_final_response
-                    || execution_result.effective_finish_reason == "user_steering")
+                    || execution_result.effective_finish_reason == "user_steering"
+                    || quiet_completion)
             {
                 AgentTurnSettlementStatus::Completed
             } else {
@@ -3119,6 +3151,11 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                         success: Some(execution_result.success),
                         finish_reason: Some(execution_result.effective_finish_reason.clone()),
                         has_final_response: Some(execution_result.has_final_response),
+                        background_delivery: session_manager
+                            .background_delivery_for_turn(session_id, turn_id)
+                            .await
+                            .ok()
+                            .flatten(),
                     },
                     None,
                 )
@@ -4700,6 +4737,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                             success: Some(true),
                             finish_reason: Some("complete".to_string()),
                             has_final_response: Some(false),
+                            background_delivery: None,
                         })
                         .await;
                 }
@@ -5931,6 +5969,7 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                     success: Some(true),
                     finish_reason: Some("complete".to_string()),
                     has_final_response: Some(true),
+                    background_delivery: None,
                 },
                 Some(EventPriority::Normal),
             )
@@ -6637,6 +6676,15 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             default_permission_mode_from_global_config().await,
         );
         let mut metadata = Self::ensure_user_message_metadata_object(user_message_metadata.take());
+        if submission_policy.trigger_source
+            != opc_runtime_ports::DialogTriggerSource::ScheduledJob
+        {
+            if let Some(object) = metadata.as_object_mut() {
+                object.remove(
+                    opc_core_types::background_delivery::BACKGROUND_DELIVERY_METADATA_KEY,
+                );
+            }
+        }
         if let Some(object) = metadata.as_object_mut() {
             object.insert(
                 INTERRUPTED_TURN_PERMISSION_MODE_METADATA_KEY.to_string(),
@@ -6940,8 +6988,20 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
                 run_manifest.to_string(),
             );
         }
-        if metadata_bool(user_message_metadata.as_ref(), "acp_transport") == Some(true) {
+        let acp_transport =
+            metadata_bool(user_message_metadata.as_ref(), "acp_transport") == Some(true);
+        if acp_transport {
             context_vars.insert("acp_transport".to_string(), "true".to_string());
+        }
+        if prompt_suggestion_source_eligible(
+            submission_policy.trigger_source,
+            session.kind,
+            acp_transport,
+        ) {
+            context_vars.insert(
+                PROMPT_SUGGESTION_ELIGIBLE_CONTEXT_KEY.to_string(),
+                "true".to_string(),
+            );
         }
         if let Some(user_input_available) = metadata_bool(
             user_message_metadata.as_ref(),
@@ -6961,6 +7021,20 @@ Update the persona files and delete BOOTSTRAP.md as soon as bootstrap is complet
             );
         }
         Self::copy_output_schema_context(&mut context_vars, user_message_metadata.as_ref());
+        if let Some(delivery) =
+            opc_core_types::background_delivery::BackgroundDelivery::from_metadata(
+                user_message_metadata.as_ref(),
+                &turn_id,
+            )
+        {
+            if let Ok(serialized) = serde_json::to_string(&delivery) {
+                context_vars.insert(
+                    crate::agentic::execution::background_delivery::BACKGROUND_DELIVERY_CONTEXT_KEY
+                        .to_owned(),
+                    serialized,
+                );
+            }
+        }
         if needs_computer_links_for_source(submission_policy.trigger_source) {
             context_vars.insert(
                 TOOL_CONTEXT_REMOTE_FILE_DELIVERY_KEY.to_string(),
@@ -14812,6 +14886,7 @@ impl ConversationCoordinator {
                             "tool_error".to_string()
                         }),
                         has_final_response: Some(false),
+                        background_delivery: None,
                     },
                     Some(EventPriority::Normal),
                 )

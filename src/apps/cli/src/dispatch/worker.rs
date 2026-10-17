@@ -758,6 +758,7 @@ mod tests {
             success: Some(true),
             finish_reason: Some("stop".to_string()),
             has_final_response: Some(true),
+            background_delivery: None,
         };
         assert_eq!(
             terminal_outcome(&completed, "turn-1"),
