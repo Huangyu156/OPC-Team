@@ -278,6 +278,7 @@ pub(super) const OPERATIONS: &[OperationDefinition] = &[
     op("get_all_tools_info",                                         Unaudited,   Proxied,          HANDLED),
     op("get_app_state",                                              Agnostic,    Proxied,          CLI_NOT_IMPLEMENTED),
     op("get_app_version",                                            Agnostic,    Proxied,          CLI_NOT_IMPLEMENTED),
+    op("get_assistant_workspace_locations",                          LocalOnly,   Proxied,          CLI_NOT_IMPLEMENTED),
     op("get_assistant_workspaces",                                   Agnostic,    Proxied,          CLI_NOT_IMPLEMENTED),
     op("get_available_modes",                                        Unaudited,   Proxied,          HANDLED),
     op("get_available_tools",                                        Unaudited,   Proxied,          CLI_NOT_IMPLEMENTED),

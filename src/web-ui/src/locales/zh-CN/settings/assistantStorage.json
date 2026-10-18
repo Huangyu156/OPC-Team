@@ -1,0 +1,46 @@
+{
+  "title": "智能助手存储",
+  "subtitle": "选择智能助手工作区在磁盘上的保存位置",
+  "storage": {
+    "sections": {
+      "location": "智能助手工作区位置",
+      "locationHint": "新创建的智能助手工作区会放在当前生效的根目录下；已有的助手保持原位置不变。"
+    },
+    "customRoot": {
+      "label": "自定义根目录",
+      "description": "选择任意磁盘上的任意目录。留空则使用默认位置。",
+      "defaultHint": "默认（产品主目录）",
+      "pick": "选择目录",
+      "reset": "重置"
+    },
+    "activeRoot": {
+      "label": "当前生效根目录",
+      "description": "新的智能助手工作区将创建在这里。"
+    },
+    "legacyRoot": {
+      "label": "原默认根目录",
+      "description": "在设置自定义根目录之前创建的助手仍保存在这里，并继续可用。"
+    },
+    "existingAssistants": {
+      "title": "已有助手不会被移动",
+      "description": "已创建的助手保留在原位置，其会话与文件仍然可达；只有新助手会使用新根目录。"
+    },
+    "actions": {
+      "openFolderTooltip": "在文件管理器中打开"
+    }
+  },
+  "picker": {
+    "title": "选择智能助手工作区根目录"
+  },
+  "messages": {
+    "loading": "正在加载智能助手存储设置",
+    "loadFailed": "加载智能助手工作区位置失败",
+    "rootUpdated": "智能助手工作区根目录已更新，新助手将创建在所选目录下。",
+    "rootReset": "智能助手工作区根目录已重置为默认位置。",
+    "saveFailed": "更新智能助手工作区根目录失败",
+    "openFailed": "打开文件夹失败"
+  },
+  "common": {
+    "retry": "重试"
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "title": "Assistant Storage",
+  "subtitle": "Choose where assistant workspaces live on disk",
+  "storage": {
+    "sections": {
+      "location": "Assistant workspace location",
+      "locationHint": "New assistant workspaces are created under the active root. Existing assistants keep working in their current location."
+    },
+    "customRoot": {
+      "label": "Custom root directory",
+      "description": "Pick any directory on any drive. Leave empty to use the default location.",
+      "defaultHint": "Default (product home directory)",
+      "pick": "Choose directory",
+      "reset": "Reset"
+    },
+    "activeRoot": {
+      "label": "Active root",
+      "description": "New assistant workspaces are created here."
+    },
+    "legacyRoot": {
+      "label": "Previous default root",
+      "description": "Existing assistants created before the custom root still live here and remain available."
+    },
+    "existingAssistants": {
+      "title": "Existing assistants are not moved",
+      "description": "Assistants already created stay in their current location so their sessions and files remain reachable. Only new assistants use the new root."
+    },
+    "actions": {
+      "openFolderTooltip": "Open in file manager"
+    }
+  },
+  "picker": {
+    "title": "Choose the assistant workspace root directory"
+  },
+  "messages": {
+    "loading": "Loading assistant storage settings",
+    "loadFailed": "Failed to load assistant workspace locations",
+    "rootUpdated": "Assistant workspace root updated. New assistants will be created under the chosen directory.",
+    "rootReset": "Assistant workspace root reset to the default location.",
+    "saveFailed": "Failed to update the assistant workspace root",
+    "openFailed": "Failed to open the folder"
+  },
+  "common": {
+    "retry": "Retry"
+  }
+}

@@ -13,7 +13,7 @@ use sha2::{Digest, Sha256};
 use std::collections::HashMap;
 use std::env;
 use std::path::{Path, PathBuf};
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc, Mutex, RwLock};
 
 const LEGACY_REMOTE_RUNTIME_DIRECTORIES: &[&str] = &[
     "sessions",
@@ -47,6 +47,13 @@ pub struct PathManager {
     /// Optional override for the product home directory, used by tests to avoid
     /// touching the real user home.
     product_home_override: Option<PathBuf>,
+    /// User-selected root that hosts assistant workspaces.
+    ///
+    /// `None` keeps the historical `product_home_dir()/personal_assistant`
+    /// location. The configuration service installs the persisted value after
+    /// startup, so this field must stay mutable on a shared instance instead of
+    /// being resolved once in `new()`.
+    assistant_workspace_root_override: Arc<RwLock<Option<PathBuf>>>,
     /// Cache of runtime keys keyed by the original and canonical workspace paths.
     project_runtime_key_cache: Arc<Mutex<HashMap<PathBuf, String>>>,
 }
@@ -61,6 +68,7 @@ impl PathManager {
         Ok(Self {
             user_root,
             product_home_override,
+            assistant_workspace_root_override: Arc::new(RwLock::new(None)),
             project_runtime_key_cache: Arc::new(Mutex::new(HashMap::new())),
         })
     }
@@ -131,12 +139,55 @@ impl PathManager {
 
     /// Get assistant workspace base directory: ~/.opcteam/personal_assistant/
     ///
-    /// `override_root` is reserved for future user customization.
+    /// `override_root` wins over the user-selected root so callers can resolve a
+    /// candidate location without mutating shared state. A configured root is
+    /// wrapped in the same `personal_assistant` segment as the default, so
+    /// discovery never enumerates the user's own directory.
     pub fn assistant_workspace_base_dir(&self, override_root: Option<&Path>) -> PathBuf {
         override_root
             .map(Path::to_path_buf)
+            .or_else(|| self.assistant_workspace_root_override())
             .unwrap_or_else(|| self.product_home_dir())
             .join("personal_assistant")
+    }
+
+    /// Current user-selected assistant workspace root, if one is configured.
+    pub fn assistant_workspace_root_override(&self) -> Option<PathBuf> {
+        self.assistant_workspace_root_override
+            .read()
+            .ok()
+            .and_then(|guard| guard.clone())
+    }
+
+    /// Install (or clear) the user-selected assistant workspace root.
+    ///
+    /// Takes effect for every later resolution on this instance; callers are
+    /// responsible for persisting the choice. Blank or non-absolute input clears
+    /// the override so a corrupt value cannot silently disable the assistant.
+    pub fn set_assistant_workspace_root_override(&self, root: Option<PathBuf>) {
+        let normalized = root.filter(|path| path.is_absolute());
+        match self.assistant_workspace_root_override.write() {
+            Ok(mut guard) => *guard = normalized,
+            Err(error) => error!("Failed to update assistant workspace root override: {}", error),
+        }
+    }
+
+    /// Every assistant workspace base directory this install may use.
+    ///
+    /// The configured root comes first, then the historical product-home
+    /// location, so selecting a new root never strands assistants created
+    /// before the change. The list is de-duplicated and stable.
+    pub fn assistant_workspace_base_dirs(&self) -> Vec<PathBuf> {
+        let configured = self.assistant_workspace_root_override();
+        let legacy = self.product_home_dir();
+        let mut dirs = Vec::new();
+        for root in configured.into_iter().chain(std::iter::once(legacy)) {
+            let dir = root.join("personal_assistant");
+            if !dirs.contains(&dir) {
+                dirs.push(dir);
+            }
+        }
+        dirs
     }
 
     /// Get the default assistant workspace directory: ~/.opcteam/personal_assistant/workspace
@@ -177,7 +228,9 @@ impl PathManager {
         if !p.is_absolute() {
             return false;
         }
-        p.starts_with(self.assistant_workspace_base_dir(None))
+        self.assistant_workspace_base_dirs()
+            .iter()
+            .any(|base| p.starts_with(base))
     }
 
     /// Get the root directory for user-scoped OPC-Team storage.
@@ -726,6 +779,7 @@ impl Default for PathManager {
                     user_root: std::env::temp_dir().join(data_namespace()),
                     product_home_override: Self::get_product_home_override(),
                     project_runtime_key_cache: Arc::new(Mutex::new(HashMap::new())),
+                    assistant_workspace_root_override: Arc::new(RwLock::new(None)),
                 }
             }
         }
@@ -743,6 +797,7 @@ impl PathManager {
             user_root,
             product_home_override: Some(base.join("home").join(hidden_data_directory())),
             project_runtime_key_cache: Arc::new(Mutex::new(HashMap::new())),
+            assistant_workspace_root_override: Arc::new(RwLock::new(None)),
         }
     }
 }
@@ -831,7 +886,7 @@ mod tests {
         remote_workspace_runtime_key, remote_workspace_runtime_root,
     };
     use std::ffi::OsString;
-    use std::path::Path;
+    use std::path::{Path, PathBuf};
     use std::sync::{Arc, Mutex};
 
     static ENV_LOCK: Mutex<()> = Mutex::new(());
@@ -928,6 +983,70 @@ mod tests {
                 .to_string_lossy()
         ));
         assert!(!pm.is_local_assistant_workspace_path("/tmp/not-opc"));
+    }
+
+    #[test]
+    fn configured_assistant_workspace_root_redirects_new_paths_and_keeps_legacy() {
+        let base = std::env::temp_dir().join("opc-assistant-root-path-test");
+        let pm = PathManager::with_user_root_for_tests(base.join("user-root"));
+        let legacy_base = pm.assistant_workspace_base_dir(None);
+
+        let custom_root = base.join("custom-drive");
+        pm.set_assistant_workspace_root_override(Some(custom_root.clone()));
+
+        let configured_base = pm.assistant_workspace_base_dir(None);
+        assert_eq!(configured_base, custom_root.join("personal_assistant"));
+        assert_eq!(
+            pm.default_assistant_workspace_dir(None),
+            configured_base.join("workspace")
+        );
+        assert_eq!(
+            pm.assistant_workspace_dir("demo", None),
+            configured_base.join("workspace-demo")
+        );
+
+        // Discovery keeps the historical location reachable and scans the
+        // configured root first.
+        assert_eq!(
+            pm.assistant_workspace_base_dirs(),
+            vec![configured_base.clone(), legacy_base.clone()]
+        );
+
+        // Both roots count as managed assistant-workspace locations.
+        assert!(pm.is_local_assistant_workspace_path(
+            &configured_base.join("workspace-abc").to_string_lossy()
+        ));
+        assert!(pm.is_local_assistant_workspace_path(
+            &legacy_base.join("workspace-abc").to_string_lossy()
+        ));
+        assert!(!pm.is_local_assistant_workspace_path(
+            &base.join("elsewhere").join("workspace-abc").to_string_lossy()
+        ));
+
+        // An explicit call-site override still wins over the configured root.
+        let candidate = base.join("candidate-root");
+        assert_eq!(
+            pm.assistant_workspace_base_dir(Some(&candidate)),
+            candidate.join("personal_assistant")
+        );
+
+        pm.set_assistant_workspace_root_override(None);
+        assert_eq!(pm.assistant_workspace_base_dir(None), legacy_base);
+        assert_eq!(pm.assistant_workspace_base_dirs(), vec![legacy_base]);
+    }
+
+    #[test]
+    fn set_assistant_workspace_root_override_ignores_relative_paths() {
+        let pm = PathManager::with_user_root_for_tests(std::env::temp_dir().join("opc-assistant-relative-test"));
+
+        pm.set_assistant_workspace_root_override(Some(PathBuf::from("relative/root")));
+        assert_eq!(pm.assistant_workspace_root_override(), None);
+
+        pm.set_assistant_workspace_root_override(Some(std::env::temp_dir()));
+        assert_eq!(
+            pm.assistant_workspace_root_override(),
+            Some(std::env::temp_dir())
+        );
     }
 
     #[test]

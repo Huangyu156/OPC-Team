@@ -210,8 +210,7 @@
     ],
     "genericConfigPrimitives": [
       "get_config",
-      "get_configs",
-      "set_config"
+      "get_configs"
     ],
     "appMetadata": [
       "get_app_version"
@@ -9456,6 +9455,109 @@
           "titleEn": "Include sensitive diagnostics",
           "descriptionZh": "仅在明确需要并理解隐私风险时启用。",
           "descriptionEn": "Enable only when explicitly needed and after reviewing the privacy risk."
+        }
+      ]
+    },
+    {
+      "id": "setting.data.assistant-storage",
+      "kind": "setting",
+      "categoryId": "data",
+      "titleZh": "智能助手存储",
+      "titleEn": "Assistant storage",
+      "summaryZh": "选择智能助手工作区在磁盘上的保存位置，并查看当前生效的根目录。",
+      "summaryEn": "Choose where assistant workspaces are stored on disk and inspect the active root.",
+      "keywordsZh": [
+        "智能助手",
+        "存储",
+        "工作区",
+        "位置",
+        "磁盘",
+        "目录"
+      ],
+      "keywordsEn": [
+        "assistant",
+        "storage",
+        "workspace",
+        "location",
+        "disk",
+        "folder"
+      ],
+      "highlightsZh": [
+        "为新的助手工作区选择自定义根目录",
+        "查看当前生效与历史默认根目录",
+        "一键打开所在文件夹"
+      ],
+      "highlightsEn": [
+        "Pick a custom root for new assistant workspaces",
+        "Inspect the active and historical default roots",
+        "Open the folder in the file manager"
+      ],
+      "items": [
+        {
+          "id": "assistant-workspace-root",
+          "titleZh": "为新的助手工作区选择自定义根目录，或恢复默认位置",
+          "titleEn": "Pick a custom root for new assistant workspaces or restore the default location",
+          "control": {
+            "kind": "direct",
+            "operations": [],
+            "options": [
+              {
+                "id": "assistant-workspace-root"
+              }
+            ]
+          },
+          "evidence": [
+            "source:src/web-ui/src/locales/zh-CN/settings/assistantStorage.json#storage.customRoot.label",
+            "command:set_config"
+          ]
+        },
+        {
+          "id": "assistant-workspace-locations",
+          "titleZh": "查看当前生效的根目录并在文件管理器中打开",
+          "titleEn": "Inspect the active workspace root and open it in the file manager",
+          "control": {
+            "kind": "open",
+            "reasonCode": "unstructuredInteraction",
+            "reasonZh": "查看当前生效的根目录并在文件管理器中打开依赖宿主文件管理器的窗口交互，需要用户在可见界面中确认打开结果；Agent 可准确打开入口，但不冒充为直接执行。",
+            "reasonEn": "Inspect the active workspace root and open it in the file manager depends on the host file manager window interaction; the user confirms the opened folder in a visible window, and the Agent can open the exact entry without impersonating direct execution."
+          },
+          "evidence": [
+            "source:src/web-ui/src/locales/zh-CN/settings/assistantStorage.json#storage.activeRoot.label",
+            "command:get_assistant_workspace_locations",
+            "command:reveal_in_explorer"
+          ]
+        }
+      ],
+      "stepsZh": [
+        "打开设置",
+        "进入“数据 > 智能助手存储”",
+        "选择自定义根目录，或打开当前根目录"
+      ],
+      "stepsEn": [
+        "Open Settings",
+        "Go to Data > Assistant Storage",
+        "Pick a custom root or open the active root"
+      ],
+      "agentExamplesZh": [
+        "把智能助手存储位置改到 D 盘",
+        "打开助手存储设置"
+      ],
+      "agentExamplesEn": [
+        "Move the assistant storage location to the D drive",
+        "Open assistant storage settings"
+      ],
+      "destination": {
+        "kind": "settings",
+        "pageId": "data.assistantStorage"
+      },
+      "operations": [],
+      "options": [
+        {
+          "id": "assistant-workspace-root",
+          "titleZh": "智能助手工作区根目录",
+          "titleEn": "Assistant workspace root",
+          "descriptionZh": "新的智能助手工作区将创建在这个目录下；留空则使用默认位置。",
+          "descriptionEn": "New assistant workspaces are created under this directory; leave empty for the default location."
         }
       ]
     }

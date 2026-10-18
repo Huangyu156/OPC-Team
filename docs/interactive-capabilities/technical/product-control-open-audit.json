@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "81be612a5eab6dcfb13195adc52f8d4226127c64d97fe154806c8c9d2ffbc6e6",
-  "count": 215,
+  "catalogDigest": "7c535c515b932bbdda4e327f73650c584600518579bb93dbea4cd5f991f400b2",
+  "count": 216,
   "reasonCounts": {
     "externalAuth": 4,
     "secretEntry": 5,
-    "unstructuredInteraction": 183,
+    "unstructuredInteraction": 184,
     "visualSelection": 23
   },
   "entries": [
@@ -3883,6 +3883,24 @@
       "evidence": [
         "command:debug_element_picked",
         "source:src/web-ui/src/infrastructure/debug/mainWindowInspector.ts#debug_element_picked"
+      ]
+    },
+    {
+      "capabilityId": "setting.data.assistant-storage",
+      "itemId": "assistant-workspace-locations",
+      "titleZh": "查看当前生效的根目录并在文件管理器中打开",
+      "titleEn": "Inspect the active workspace root and open it in the file manager",
+      "reasonCode": "unstructuredInteraction",
+      "reasonZh": "查看当前生效的根目录并在文件管理器中打开依赖宿主文件管理器的窗口交互，需要用户在可见界面中确认打开结果；Agent 可准确打开入口，但不冒充为直接执行。",
+      "reasonEn": "Inspect the active workspace root and open it in the file manager depends on the host file manager window interaction; the user confirms the opened folder in a visible window, and the Agent can open the exact entry without impersonating direct execution.",
+      "presentationTarget": {
+        "kind": "settings",
+        "pageId": "data.assistantStorage"
+      },
+      "evidence": [
+        "source:src/web-ui/src/locales/zh-CN/settings/assistantStorage.json#storage.activeRoot.label",
+        "command:get_assistant_workspace_locations",
+        "command:reveal_in_explorer"
       ]
     }
   ]

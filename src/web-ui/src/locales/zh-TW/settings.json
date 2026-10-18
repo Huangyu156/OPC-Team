@@ -87,6 +87,10 @@
       "workspaceGit": {
         "label": "工作區與 Git",
         "description": "設定檔案搜尋、Git 提交署名與 Worktree，管理隔離工作目錄"
+      },
+      "assistantStorage": {
+        "label": "智慧助理儲存",
+        "description": "選擇智慧助理工作區在磁碟上的儲存位置"
       }
     },
     "views": {

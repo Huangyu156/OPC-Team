@@ -199,6 +199,13 @@ pub struct AppConfig {
     /// Defaults for opt-in managed Git worktrees.
     #[serde(default)]
     pub worktrees: WorktreeSettings,
+    /// Absolute host directory that hosts assistant workspaces.
+    ///
+    /// `None` keeps the historical location inside the product home directory.
+    /// Older builds ignore the field, and an unreadable or relative value falls
+    /// back to the default instead of disabling the assistant.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub assistant_workspace_root: Option<String>,
 }
 
 /// An explicit empty source list stays empty; defaults apply only to absent settings.
@@ -1927,6 +1934,7 @@ impl Default for AppConfig {
             close_button_behavior: default_close_button_behavior(),
             hooks: AgentHooksConfig::default(),
             worktrees: WorktreeSettings::default(),
+            assistant_workspace_root: None,
         }
     }
 }

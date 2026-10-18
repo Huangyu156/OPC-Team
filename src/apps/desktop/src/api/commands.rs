@@ -1563,6 +1563,34 @@ pub async fn get_primary_assistant_workspace(
         .map(|workspace| WorkspaceInfoDto::from_workspace_info(&workspace)))
 }
 
+#[derive(Debug, Serialize)]
+#[serde(rename_all = "camelCase")]
+pub struct AssistantWorkspaceLocationsDto {
+    /// Root that new assistant workspaces are created under.
+    pub active_root: String,
+    /// Historical product-home root; still scanned so older assistants stay reachable.
+    pub legacy_root: String,
+    /// Whether the user has configured a custom root (active_root differs from legacy_root).
+    pub custom_root_active: bool,
+}
+
+#[tauri::command]
+pub async fn get_assistant_workspace_locations(
+    state: State<'_, AppState>,
+    _request: GetPrimaryAssistantWorkspaceRequest,
+) -> Result<AssistantWorkspaceLocationsDto, String> {
+    let path_manager = state.workspace_service.path_manager();
+    let mut roots = path_manager.assistant_workspace_base_dirs();
+    let legacy_root = path_manager.product_home_dir().join("personal_assistant");
+    // Discovery guarantees the legacy root is always present in the list.
+    let active_root = roots.remove(0);
+    Ok(AssistantWorkspaceLocationsDto {
+        active_root: active_root.to_string_lossy().into_owned(),
+        legacy_root: legacy_root.to_string_lossy().into_owned(),
+        custom_root_active: active_root != legacy_root,
+    })
+}
+
 #[tauri::command]
 pub async fn set_primary_assistant_workspace(
     state: State<'_, AppState>,

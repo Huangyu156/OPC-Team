@@ -1674,6 +1674,7 @@ pub async fn run() {
             cleanup_invalid_workspaces,
             get_opened_workspaces,
             get_assistant_workspaces,
+            get_assistant_workspace_locations,
             open_workspace,
             open_remote_workspace,
             create_assistant_workspace,

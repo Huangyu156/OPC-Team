@@ -452,6 +452,20 @@ export const SETTINGS_PAGE_MANIFESTS: readonly SettingsPageManifest[] = [
     ],
     load: () => import('./pages/data/DiagnosticsSettingsPage'),
   }),
+  definePage({
+    id: 'data.assistantStorage',
+    categoryId: 'data',
+    labelKey: 'navigation.pages.assistantStorage.label',
+    descriptionKey: 'navigation.pages.assistantStorage.description',
+    keywords: ['assistant', 'storage', 'workspace', 'location', 'disk', 'folder', 'drive'],
+    namespaces: ['settings/assistantStorage'],
+    searchPhrases: [
+      phrase('settings/assistantStorage', 'title'),
+      phrase('settings/assistantStorage', 'subtitle'),
+      phrase('settings/assistantStorage', 'storage.customRoot.label'),
+    ],
+    load: () => import('./pages/data/AssistantStorageSettingsPage'),
+  }),
 ] as const;
 
 export interface SettingsCategory {

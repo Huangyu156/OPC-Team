@@ -635,6 +635,27 @@ impl ConfigProvider for AppConfigProvider {
                 warnings.push("Sidebar width should be between 200 and 800 pixels".to_string());
             }
 
+            if let Some(root) = app_config
+                .assistant_workspace_root
+                .as_deref()
+                .map(str::trim)
+                .filter(|value| !value.is_empty())
+            {
+                let path = std::path::Path::new(root);
+                if !path.is_absolute() {
+                    return Err(OpcTeamError::validation(format!(
+                        "Invalid app.assistant_workspace_root '{}': expected an absolute directory path",
+                        root
+                    )));
+                }
+                if path.exists() && !path.is_dir() {
+                    return Err(OpcTeamError::validation(format!(
+                        "Invalid app.assistant_workspace_root '{}': path exists but is not a directory",
+                        root
+                    )));
+                }
+            }
+
             let valid_log_level = matches!(
                 app_config.logging.level.to_lowercase().as_str(),
                 "trace" | "debug" | "info" | "warn" | "error" | "off"
@@ -661,8 +682,11 @@ impl ConfigProvider for AppConfigProvider {
     ) -> OpcTeamResult<()> {
         if let Ok(app_config) = serde_json::from_value::<AppConfig>(new_config.clone()) {
             info!(
-                "App config changed: language={}, zoom_level={}, log_level={}",
-                app_config.language, app_config.zoom_level, app_config.logging.level
+                "App config changed: language={}, zoom_level={}, log_level={}, assistant_workspace_root={:?}",
+                app_config.language,
+                app_config.zoom_level,
+                app_config.logging.level,
+                app_config.assistant_workspace_root
             );
         }
         Ok(())

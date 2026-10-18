@@ -78,6 +78,8 @@ export interface AppConfig {
   voice_call?: VoiceCallSettings;
   user_tool_groups?: UserToolGroupsConfig;
   user_skill_groups?: UserSkillGroupsConfig;
+  /** Absolute host directory hosting assistant workspaces. Omitted means the product-home default. */
+  assistant_workspace_root?: string | null;
 }
 
 export interface UserToolGroupsConfig {

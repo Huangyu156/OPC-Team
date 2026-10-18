@@ -71,6 +71,15 @@ export interface WorkspaceInfo {
   sshHost?: string;
 }
 
+export interface AssistantWorkspaceLocations {
+  /** Root currently used for NEW assistant workspaces (configured override or the legacy product-home root). */
+  activeRoot: string;
+  /** Historical product-home root; may equal activeRoot when no override is configured. */
+  legacyRoot: string;
+  /** True when the user configured a custom assistant workspace root. */
+  customRootActive: boolean;
+}
+
 export interface RemoteWorkspaceSnapshot {
   connectionId: string;
   connectionName: string;
@@ -260,6 +269,14 @@ export class GlobalAPI {
       return await api.invoke('get_primary_assistant_workspace', { request: {} });
     } catch (error) {
       throw createTauriCommandError('get_primary_assistant_workspace', error);
+    }
+  }
+
+  async getAssistantWorkspaceLocations(): Promise<AssistantWorkspaceLocations> {
+    try {
+      return await api.invoke('get_assistant_workspace_locations', { request: {} });
+    } catch (error) {
+      throw createTauriCommandError('get_assistant_workspace_locations', error);
     }
   }
 

@@ -133,6 +133,26 @@ struct AssistantWorkspaceDescriptor {
     display_name: String,
 }
 
+/// Adds a descriptor unless the same assistant identity is already present.
+///
+/// Roots are scanned in priority order, so the first descriptor for an identity
+/// wins and a stale directory in a lower-priority root cannot displace it.
+fn push_assistant_descriptor(
+    descriptors: &mut Vec<AssistantWorkspaceDescriptor>,
+    descriptor: AssistantWorkspaceDescriptor,
+) {
+    // Identity is the assistant id, not the path: the same assistant may exist
+    // in both the active and the historical root after a location change, and
+    // only one of them may be registered. Roots are scanned active-first, so
+    // keeping the first match keeps the configured location authoritative.
+    let duplicate = descriptors
+        .iter()
+        .any(|existing| existing.assistant_id == descriptor.assistant_id);
+    if !duplicate {
+        descriptors.push(descriptor);
+    }
+}
+
 impl WorkspaceService {
     fn normalize_workspace_name(name: String) -> OpcTeamResult<String> {
         let name = name.trim();
@@ -2083,8 +2103,12 @@ impl WorkspaceService {
     }
 
     fn assistant_descriptor_from_path(&self, path: &Path) -> Option<AssistantWorkspaceDescriptor> {
-        let default_workspace = self.path_manager.default_assistant_workspace_dir(None);
-        if path == default_workspace {
+        let base_dirs = self.path_manager.assistant_workspace_base_dirs();
+        if path
+            .parent()
+            .is_some_and(|parent| base_dirs.iter().any(|base| base == parent))
+            && path.file_name().is_some_and(|name| name == "workspace")
+        {
             return Some(AssistantWorkspaceDescriptor {
                 path: path.to_path_buf(),
                 assistant_id: None,
@@ -2092,8 +2116,8 @@ impl WorkspaceService {
             });
         }
 
-        let assistant_root = self.path_manager.assistant_workspace_base_dir(None);
-        if path.parent()? != assistant_root {
+        let assistant_root = path.parent()?;
+        if !base_dirs.iter().any(|base| base == assistant_root) {
             return None;
         }
 
@@ -2168,76 +2192,97 @@ impl WorkspaceService {
     async fn discover_assistant_workspaces(
         &self,
     ) -> OpcTeamResult<Vec<AssistantWorkspaceDescriptor>> {
-        let assistant_root = self.path_manager.assistant_workspace_base_dir(None);
-        fs::create_dir_all(&assistant_root).await.map_err(|e| {
-            OpcTeamError::service(format!(
-                "Failed to create assistant workspace root '{}': {}",
-                assistant_root.display(),
-                e
-            ))
-        })?;
+        // The active root is first, followed by the historical product-home
+        // location. Scanning both keeps assistants created before a location
+        // change reachable; the active root wins every identity collision so a
+        // stale legacy directory cannot shadow the configured one.
+        let assistant_roots = self.path_manager.assistant_workspace_base_dirs();
+        let mut descriptors: Vec<AssistantWorkspaceDescriptor> = Vec::new();
 
-        let default_workspace = self.path_manager.default_assistant_workspace_dir(None);
-        let mut descriptors = Vec::new();
-        if fs::try_exists(&default_workspace).await.map_err(|e| {
-            OpcTeamError::service(format!(
-                "Failed to inspect default assistant workspace '{}': {}",
-                default_workspace.display(),
-                e
-            ))
-        })? {
-            descriptors.push(AssistantWorkspaceDescriptor {
-                path: default_workspace.clone(),
-                assistant_id: None,
-                display_name: Self::assistant_display_name(None),
-            });
-        }
+        for (index, assistant_root) in assistant_roots.iter().enumerate() {
+            if index == 0 {
+                fs::create_dir_all(assistant_root).await.map_err(|e| {
+                    OpcTeamError::service(format!(
+                        "Failed to create assistant workspace root '{}': {}",
+                        assistant_root.display(),
+                        e
+                    ))
+                })?;
+            } else if !fs::try_exists(assistant_root).await.unwrap_or(false) {
+                // A historical root that no longer exists is not recreated: the
+                // user may have removed it on purpose, and recreating it would
+                // leave an empty directory beside the configured one forever.
+                continue;
+            }
 
-        let mut entries = fs::read_dir(&assistant_root).await.map_err(|e| {
-            OpcTeamError::service(format!(
-                "Failed to read assistant workspace root '{}': {}",
-                assistant_root.display(),
-                e
-            ))
-        })?;
-
-        while let Some(entry) = entries.next_entry().await.map_err(|e| {
-            OpcTeamError::service(format!(
-                "Failed to iterate assistant workspace root '{}': {}",
-                assistant_root.display(),
-                e
-            ))
-        })? {
-            let file_type = entry.file_type().await.map_err(|e| {
+            let default_workspace = assistant_root.join("workspace");
+            if fs::try_exists(&default_workspace).await.map_err(|e| {
                 OpcTeamError::service(format!(
-                    "Failed to inspect assistant workspace entry '{}': {}",
-                    entry.path().display(),
+                    "Failed to inspect default assistant workspace '{}': {}",
+                    default_workspace.display(),
+                    e
+                ))
+            })? {
+                push_assistant_descriptor(
+                    &mut descriptors,
+                    AssistantWorkspaceDescriptor {
+                        path: default_workspace,
+                        assistant_id: None,
+                        display_name: Self::assistant_display_name(None),
+                    },
+                );
+            }
+
+            let mut entries = fs::read_dir(assistant_root).await.map_err(|e| {
+                OpcTeamError::service(format!(
+                    "Failed to read assistant workspace root '{}': {}",
+                    assistant_root.display(),
                     e
                 ))
             })?;
-            if !file_type.is_dir() {
-                continue;
-            }
 
-            let file_name = entry.file_name().to_string_lossy().to_string();
-            let Some(assistant_id) = file_name.strip_prefix("workspace-") else {
-                continue;
-            };
-            if assistant_id.trim().is_empty() {
-                continue;
-            }
+            while let Some(entry) = entries.next_entry().await.map_err(|e| {
+                OpcTeamError::service(format!(
+                    "Failed to iterate assistant workspace root '{}': {}",
+                    assistant_root.display(),
+                    e
+                ))
+            })? {
+                let file_type = entry.file_type().await.map_err(|e| {
+                    OpcTeamError::service(format!(
+                        "Failed to inspect assistant workspace entry '{}': {}",
+                        entry.path().display(),
+                        e
+                    ))
+                })?;
+                if !file_type.is_dir() {
+                    continue;
+                }
 
-            descriptors.push(AssistantWorkspaceDescriptor {
-                path: entry.path(),
-                assistant_id: Some(assistant_id.to_string()),
-                display_name: Self::assistant_display_name(Some(assistant_id)),
-            });
+                let file_name = entry.file_name().to_string_lossy().to_string();
+                let Some(assistant_id) = file_name.strip_prefix("workspace-") else {
+                    continue;
+                };
+                if assistant_id.trim().is_empty() {
+                    continue;
+                }
+
+                push_assistant_descriptor(
+                    &mut descriptors,
+                    AssistantWorkspaceDescriptor {
+                        path: entry.path(),
+                        assistant_id: Some(assistant_id.to_string()),
+                        display_name: Self::assistant_display_name(Some(assistant_id)),
+                    },
+                );
+            }
         }
 
         // A fresh installation still gets the built-in assistant. Once the
         // primary role has moved to a named assistant, deleting the built-in
         // workspace must not cause it to reappear on the next launch.
         if descriptors.is_empty() {
+            let default_workspace = self.path_manager.default_assistant_workspace_dir(None);
             fs::create_dir_all(&default_workspace).await.map_err(|e| {
                 OpcTeamError::service(format!(
                     "Failed to create default assistant workspace '{}': {}",
@@ -2773,6 +2818,81 @@ mod tests {
         assert_eq!(assistants.len(), 1);
         assert_eq!(assistants[0].id, named.id);
         assert!(assistants[0].assistant_id.is_some());
+    }
+
+    #[tokio::test]
+    async fn assistant_discovery_scans_configured_root_first_and_keeps_legacy_workspaces() {
+        let env = TestEnvironment::new();
+        let custom_root = env.root.join("custom-drive");
+        std::fs::create_dir_all(&custom_root).expect("custom root should be created");
+        env.path_manager
+            .set_assistant_workspace_root_override(Some(custom_root.clone()));
+
+        let service = build_test_workspace_service(env.path_manager.clone()).await;
+        service.ensure_assistant_workspaces().await.unwrap();
+
+        // The built-in assistant is created under the configured root.
+        let built_in = service.get_primary_assistant_workspace().await.unwrap();
+        let configured_base = custom_root.join("personal_assistant");
+        assert_eq!(
+            built_in.root_path.parent(),
+            Some(configured_base.as_path())
+        );
+
+        let named = service
+            .create_assistant_workspace(Some("moved-assistant".to_string()))
+            .await
+            .unwrap();
+        assert_eq!(
+            named.root_path.parent(),
+            Some(configured_base.as_path())
+        );
+
+        // A workspace left behind in the historical product-home root stays
+        // discoverable after the location change.
+        let legacy_base = env.path_manager.product_home_dir().join("personal_assistant");
+        let legacy_assistant_dir = legacy_base.join("workspace-legacy");
+        std::fs::create_dir_all(&legacy_assistant_dir)
+            .expect("legacy assistant directory should be created");
+        service.ensure_assistant_workspaces().await.unwrap();
+
+        let assistants = service.get_assistant_workspaces().await;
+        let paths: Vec<_> = assistants.iter().map(|w| w.root_path.clone()).collect();
+        assert!(paths.contains(&named.root_path));
+        assert!(paths.contains(&legacy_assistant_dir));
+
+        // The configured root is authoritative: new assistants never land in
+        // the historical root, and both roots count as managed locations.
+        assert!(service.is_assistant_workspace_path(&legacy_assistant_dir));
+        let another = service
+            .create_assistant_workspace(Some("post-move".to_string()))
+            .await
+            .unwrap();
+        assert_eq!(
+            another.root_path.parent(),
+            Some(configured_base.as_path())
+        );
+    }
+
+    #[tokio::test]
+    async fn assistant_discovery_does_not_recreate_a_missing_historical_root() {
+        let env = TestEnvironment::new();
+        let service = build_test_workspace_service(env.path_manager.clone()).await;
+        service.ensure_assistant_workspaces().await.unwrap();
+
+        // Simulate an install that previously used a custom root which has
+        // since been deleted: discovery must not recreate it.
+        let custom_root = env.root.join("removed-drive");
+        std::fs::create_dir_all(custom_root.join("personal_assistant"))
+            .expect("historical root should exist first");
+        env.path_manager
+            .set_assistant_workspace_root_override(Some(custom_root.clone()));
+
+        service.ensure_assistant_workspaces().await.unwrap();
+        assert!(
+            !custom_root.join("personal_assistant").join("workspace").exists(),
+            "a missing historical root must stay missing"
+        );
     }
 
     #[tokio::test]

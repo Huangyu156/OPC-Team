@@ -796,6 +796,12 @@ pub fn owner_definitions() -> Vec<ProductControlOwnerDefinition> {
             boolean(),
             config("app.logging.include_sensitive_diagnostics"),
         ),
+        option(
+            "setting.data.assistant-storage",
+            "assistant-workspace-root",
+            string(),
+            config("app.assistant_workspace_root"),
+        ),
     ]
 }
 

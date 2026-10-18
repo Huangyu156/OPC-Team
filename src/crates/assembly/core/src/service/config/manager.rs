@@ -252,6 +252,7 @@ impl ConfigManager {
         };
 
         manager.load_or_create_config().await?;
+        manager.apply_assistant_workspace_root();
         #[cfg(feature = "ai-adapter-runtime")]
         {
             opc_ai_adapters::diagnostics::set_include_sensitive_diagnostics(
@@ -266,6 +267,35 @@ impl ConfigManager {
     /// Returns the path manager.
     pub fn path_manager(&self) -> &Arc<PathManager> {
         &self.path_manager
+    }
+
+    /// Pushes the persisted assistant workspace root into the shared path
+    /// manager.
+    ///
+    /// Runs on every load and after every successful save, so a runtime change
+    /// reaches the singleton every resolution site already uses. A relative or
+    /// blank value is treated as "unset" rather than failing startup: the
+    /// assistant must keep working even when the stored path is unusable.
+    fn apply_assistant_workspace_root(&self) {
+        let configured = self
+            .config
+            .app
+            .assistant_workspace_root
+            .as_deref()
+            .map(str::trim)
+            .filter(|value| !value.is_empty())
+            .map(PathBuf::from)
+            .filter(|path| path.is_absolute());
+        if let Some(path) = &configured {
+            if !path.exists() {
+                warn!(
+                    "Configured assistant workspace root does not exist yet: {}",
+                    path.display()
+                );
+            }
+        }
+        self.path_manager
+            .set_assistant_workspace_root_override(configured);
     }
 
     /// Reloads from the same storage root while the service holds its write
@@ -717,6 +747,7 @@ impl ConfigManager {
         config.last_modified = chrono::Utc::now();
         self.persist_config(&config).await?;
         let old_config = std::mem::replace(&mut self.config, config);
+        self.apply_assistant_workspace_root();
         let paths = match path.filter(|path| !path.is_empty()) {
             Some(path) => vec![path.to_string()],
             None => self.providers.get_provider_names(),

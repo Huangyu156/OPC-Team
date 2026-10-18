@@ -1,13 +1,13 @@
 {
   "schemaVersion": 2,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "81be612a5eab6dcfb13195adc52f8d4226127c64d97fe154806c8c9d2ffbc6e6",
-  "commandCount": 669,
+  "catalogDigest": "7c535c515b932bbdda4e327f73650c584600518579bb93dbea4cd5f991f400b2",
+  "commandCount": 670,
   "coverage": {
-    "commandCount": 669,
-    "documentedCommandCount": 621,
-    "implementationCommandCount": 48,
-    "implementationDigest": "390f263310138c69f4caa8c68dd98e7a8c6c9b3166f25b41cd6a3e6b12acc81d"
+    "commandCount": 670,
+    "documentedCommandCount": 623,
+    "implementationCommandCount": 47,
+    "implementationDigest": "0089f61cfe146bf1f3e47e5178061698527865b3dde3d8f3b368f96af7ba1ab8"
   },
   "commands": [
     {
@@ -2886,6 +2886,22 @@
       "sourceFile": "src/apps/desktop/src/api/system_api.rs",
       "signature": "fn get_app_version( app: AppHandle, request: GetAppVersionRequest, ) -> Result<String, String>",
       "remoteWorkspacePolicy": "WorkspaceAgnostic"
+    },
+    {
+      "id": "get_assistant_workspace_locations",
+      "moduleId": "commands",
+      "capabilityId": "setting.data.assistant-storage",
+      "capabilityIds": [
+        "setting.data.assistant-storage"
+      ],
+      "documentedItemIds": [
+        "setting.data.assistant-storage:assistant-workspace-locations"
+      ],
+      "visibility": "documented",
+      "rustPath": "get_assistant_workspace_locations",
+      "sourceFile": "src/apps/desktop/src/api/commands.rs",
+      "signature": "fn get_assistant_workspace_locations( state: State<'_, AppState>, _request: GetPrimaryAssistantWorkspaceRequest, ) -> Result<AssistantWorkspaceLocationsDto, String>",
+      "remoteWorkspacePolicy": "LocalOnly"
     },
     {
       "id": "get_assistant_workspaces",
@@ -7895,12 +7911,14 @@
     {
       "id": "reveal_in_explorer",
       "moduleId": "commands",
-      "capabilityId": "feature.files-editor",
+      "capabilityId": null,
       "capabilityIds": [
-        "feature.files-editor"
+        "feature.files-editor",
+        "setting.data.assistant-storage"
       ],
       "documentedItemIds": [
-        "feature.files-editor:reveal-in-system"
+        "feature.files-editor:reveal-in-system",
+        "setting.data.assistant-storage:assistant-workspace-locations"
       ],
       "visibility": "documented",
       "rustPath": "reveal_in_explorer",
@@ -8633,12 +8651,14 @@
     {
       "id": "set_config",
       "moduleId": "config",
-      "capabilityId": "setting.application.general",
+      "capabilityId": "setting.data.assistant-storage",
       "capabilityIds": [
-        "setting.application.general"
+        "setting.data.assistant-storage"
       ],
-      "documentedItemIds": [],
-      "visibility": "implementation",
+      "documentedItemIds": [
+        "setting.data.assistant-storage:assistant-workspace-root"
+      ],
+      "visibility": "documented",
       "rustPath": "set_config",
       "sourceFile": "src/apps/desktop/src/api/config_api.rs",
       "signature": "fn set_config( _state: State<'_, AppState>, app: tauri::AppHandle, startup_trace: State<'_, DesktopStartupTrace>, request: SetConfigRequest, ) -> Result<String, String>",

@@ -87,6 +87,10 @@
       "workspaceGit": {
         "label": "Workspace & Git",
         "description": "Configure file search, commit attribution, and worktrees, and manage isolated working directories"
+      },
+      "assistantStorage": {
+        "label": "Assistant Storage",
+        "description": "Choose where assistant workspaces are stored on disk"
       }
     },
     "views": {

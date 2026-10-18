@@ -1,0 +1,46 @@
+{
+  "title": "智慧助理儲存",
+  "subtitle": "選擇智慧助理工作區在磁碟上的儲存位置",
+  "storage": {
+    "sections": {
+      "location": "智慧助理工作區位置",
+      "locationHint": "新建立的智慧助理工作區會放在目前生效的根目錄下；既有的助理保持原位置不變。"
+    },
+    "customRoot": {
+      "label": "自訂根目錄",
+      "description": "選擇任意磁碟上的任意目錄。留空則使用預設位置。",
+      "defaultHint": "預設（產品主目錄）",
+      "pick": "選擇目錄",
+      "reset": "重設"
+    },
+    "activeRoot": {
+      "label": "目前生效根目錄",
+      "description": "新的智慧助理工作區將建立在這裡。"
+    },
+    "legacyRoot": {
+      "label": "原預設根目錄",
+      "description": "在設定自訂根目錄之前建立的助理仍保存在這裡，並繼續可用。"
+    },
+    "existingAssistants": {
+      "title": "既有助理不會被搬移",
+      "description": "已建立的助理保留在原位置，其工作階段與檔案仍然可達；只有新助理會使用新根目錄。"
+    },
+    "actions": {
+      "openFolderTooltip": "在檔案管理員中開啟"
+    }
+  },
+  "picker": {
+    "title": "選擇智慧助理工作區根目錄"
+  },
+  "messages": {
+    "loading": "正在載入智慧助理儲存設定",
+    "loadFailed": "載入智慧助理工作區位置失敗",
+    "rootUpdated": "智慧助理工作區根目錄已更新，新助理將建立在所選目錄下。",
+    "rootReset": "智慧助理工作區根目錄已重設為預設位置。",
+    "saveFailed": "更新智慧助理工作區根目錄失敗",
+    "openFailed": "開啟資料夾失敗"
+  },
+  "common": {
+    "retry": "重試"
+  }
+}

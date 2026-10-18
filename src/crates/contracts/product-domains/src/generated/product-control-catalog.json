@@ -4,8 +4,8 @@
   "title": "OPC-Team Playbook",
   "origin": "https://playbook.opcteam.eu.cc",
   "source": "src/shared/interactive-capabilities/catalog.json",
-  "digest": "81be612a5eab6dcfb13195adc52f8d4226127c64d97fe154806c8c9d2ffbc6e6",
-  "ownerDigest": "e3defa8d216f9d858a58b9063f08268de809448a23d5b3a4fe3476e55e9e296c",
+  "digest": "7c535c515b932bbdda4e327f73650c584600518579bb93dbea4cd5f991f400b2",
+  "ownerDigest": "a2e60879826bb60c32582e43798e321f0808f5ebf5aa82d6d3bdfb80634bc009",
   "searchAcceptance": [
     {
       "id": "companion-pet-mixed",
@@ -136,13 +136,13 @@
   ],
   "counts": {
     "features": 22,
-    "settings": 21,
-    "userFacing": 43,
-    "documentedItems": 326,
+    "settings": 22,
+    "userFacing": 44,
+    "documentedItems": 328,
     "controlCoverage": {
-      "direct": 49,
+      "direct": 50,
       "delegated": 62,
-      "interactive": 215,
+      "interactive": 216,
       "unsupported": 0
     }
   },
@@ -19330,6 +19330,142 @@
         "kind": "settings",
         "pageId": "data.diagnostics"
       }
+    },
+    {
+      "id": "setting.data.assistant-storage:query",
+      "capabilityId": "setting.data.assistant-storage",
+      "itemIds": [
+        "assistant-workspace-root",
+        "assistant-workspace-locations"
+      ],
+      "kind": "query",
+      "risk": "read",
+      "executionHost": "productHost",
+      "availability": {
+        "desktop": {
+          "available": true
+        },
+        "cli": {
+          "available": true
+        },
+        "peer": {
+          "available": true,
+          "requiredCapabilities": [
+            "product_control_v1"
+          ]
+        },
+        "remoteControl": {
+          "available": true
+        },
+        "detachedDispatch": {
+          "available": true
+        }
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "valueSource": {
+        "kind": "static"
+      },
+      "presentationTarget": {
+        "kind": "settings",
+        "pageId": "data.assistantStorage"
+      }
+    },
+    {
+      "id": "setting.data.assistant-storage:option:assistant-workspace-root",
+      "capabilityId": "setting.data.assistant-storage",
+      "itemIds": [
+        "assistant-workspace-root"
+      ],
+      "kind": "option",
+      "risk": "write",
+      "executionHost": "productHost",
+      "availability": {
+        "desktop": {
+          "available": true
+        },
+        "cli": {
+          "available": true
+        },
+        "peer": {
+          "available": true,
+          "requiredCapabilities": [
+            "product_control_v1"
+          ]
+        },
+        "remoteControl": {
+          "available": true
+        },
+        "detachedDispatch": {
+          "available": true
+        }
+      },
+      "inputSchema": {
+        "type": "string"
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "valueSource": {
+        "kind": "static"
+      },
+      "presentationTarget": {
+        "kind": "settings",
+        "pageId": "data.assistantStorage"
+      }
+    },
+    {
+      "id": "setting.data.assistant-storage:open:assistant-workspace-locations",
+      "capabilityId": "setting.data.assistant-storage",
+      "itemIds": [
+        "assistant-workspace-locations"
+      ],
+      "kind": "open",
+      "risk": "ui",
+      "executionHost": "presentationSurface",
+      "availability": {
+        "desktop": {
+          "available": true
+        },
+        "cli": {
+          "available": false,
+          "reason": "This delivery profile has no live presentation surface"
+        },
+        "peer": {
+          "available": true,
+          "requiredCapabilities": [
+            "product_control_v1",
+            "product_control_presentation_v1"
+          ]
+        },
+        "remoteControl": {
+          "available": true
+        },
+        "detachedDispatch": {
+          "available": false,
+          "reason": "This delivery profile has no live presentation surface"
+        }
+      },
+      "inputSchema": {
+        "type": "object",
+        "additionalProperties": false
+      },
+      "outputSchema": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "openReason": "unstructuredInteraction",
+      "presentationTarget": {
+        "kind": "settings",
+        "pageId": "data.assistantStorage"
+      }
     }
   ],
   "capabilities": [
@@ -30510,6 +30646,141 @@
         "Take me to export a diagnostic bundle"
       ],
       "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.data.diagnostics/"
+    },
+    {
+      "id": "setting.data.assistant-storage",
+      "kind": "setting",
+      "categoryId": "data",
+      "titleZh": "智能助手存储",
+      "titleEn": "Assistant storage",
+      "summaryZh": "选择智能助手工作区在磁盘上的保存位置，并查看当前生效的根目录。",
+      "summaryEn": "Choose where assistant workspaces are stored on disk and inspect the active root.",
+      "keywordsZh": [
+        "智能助手",
+        "存储",
+        "工作区",
+        "位置",
+        "磁盘",
+        "目录"
+      ],
+      "keywordsEn": [
+        "assistant",
+        "storage",
+        "workspace",
+        "location",
+        "disk",
+        "folder"
+      ],
+      "highlightsZh": [
+        "为新的助手工作区选择自定义根目录",
+        "查看当前生效与历史默认根目录",
+        "一键打开所在文件夹"
+      ],
+      "highlightsEn": [
+        "Pick a custom root for new assistant workspaces",
+        "Inspect the active and historical default roots",
+        "Open the folder in the file manager"
+      ],
+      "items": [
+        {
+          "id": "assistant-workspace-root",
+          "titleZh": "为新的助手工作区选择自定义根目录，或恢复默认位置",
+          "titleEn": "Pick a custom root for new assistant workspaces or restore the default location",
+          "control": {
+            "kind": "direct",
+            "operations": [],
+            "options": [
+              {
+                "id": "assistant-workspace-root"
+              }
+            ]
+          }
+        },
+        {
+          "id": "assistant-workspace-locations",
+          "titleZh": "查看当前生效的根目录并在文件管理器中打开",
+          "titleEn": "Inspect the active workspace root and open it in the file manager",
+          "control": {
+            "kind": "open",
+            "reasonCode": "unstructuredInteraction",
+            "reasonZh": "查看当前生效的根目录并在文件管理器中打开依赖宿主文件管理器的窗口交互，需要用户在可见界面中确认打开结果；Agent 可准确打开入口，但不冒充为直接执行。",
+            "reasonEn": "Inspect the active workspace root and open it in the file manager depends on the host file manager window interaction; the user confirms the opened folder in a visible window, and the Agent can open the exact entry without impersonating direct execution."
+          }
+        }
+      ],
+      "stepsZh": [
+        "打开设置",
+        "进入“数据 > 智能助手存储”",
+        "选择自定义根目录，或打开当前根目录"
+      ],
+      "stepsEn": [
+        "Open Settings",
+        "Go to Data > Assistant Storage",
+        "Pick a custom root or open the active root"
+      ],
+      "agentExamplesZh": [
+        "把智能助手存储位置改到 D 盘",
+        "打开助手存储设置"
+      ],
+      "agentExamplesEn": [
+        "Move the assistant storage location to the D drive",
+        "Open assistant storage settings"
+      ],
+      "destination": {
+        "kind": "settings",
+        "pageId": "data.assistantStorage"
+      },
+      "operations": [],
+      "options": [
+        {
+          "id": "assistant-workspace-root",
+          "titleZh": "智能助手工作区根目录",
+          "titleEn": "Assistant workspace root",
+          "descriptionZh": "新的智能助手工作区将创建在这个目录下；留空则使用默认位置。",
+          "descriptionEn": "New assistant workspaces are created under this directory; leave empty for the default location.",
+          "valueSchema": {
+            "type": "string"
+          },
+          "handler": {
+            "kind": "config",
+            "path": "app.assistant_workspace_root"
+          }
+        }
+      ],
+      "searchTerms": [
+        "setting.data.assistant-storage",
+        "智能助手存储",
+        "Assistant storage",
+        "数据与诊断",
+        "Data & diagnostics",
+        "智能助手",
+        "存储",
+        "工作区",
+        "位置",
+        "磁盘",
+        "目录",
+        "assistant",
+        "storage",
+        "workspace",
+        "location",
+        "disk",
+        "folder",
+        "为新的助手工作区选择自定义根目录",
+        "查看当前生效与历史默认根目录",
+        "一键打开所在文件夹",
+        "Pick a custom root for new assistant workspaces",
+        "Inspect the active and historical default roots",
+        "Open the folder in the file manager",
+        "为新的助手工作区选择自定义根目录，或恢复默认位置",
+        "Pick a custom root for new assistant workspaces or restore the default location",
+        "查看当前生效的根目录并在文件管理器中打开",
+        "Inspect the active workspace root and open it in the file manager",
+        "把智能助手存储位置改到 D 盘",
+        "打开助手存储设置",
+        "Move the assistant storage location to the D drive",
+        "Open assistant storage settings"
+      ],
+      "docsUrl": "https://playbook.opcteam.eu.cc/capabilities/setting.data.assistant-storage/"
     }
   ]
 }
