@@ -502,7 +502,7 @@ describe('builtin appearance preset output', () => {
           "type": "light",
         },
         {
-          "hash": "891dafa3868ba2a3971cea5443cb79b5286dc8b69e8a5c6e1c378adc2498d958",
+          "hash": "364ee2eefa66f529e9d350bd2de402f547f560761e537b1502e897300e858e93",
           "id": "opc-claude-night",
           "type": "dark",
         },

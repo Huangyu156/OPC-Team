@@ -6,7 +6,6 @@ import {
   createSecondaryAccentScale,
   createSemanticColors,
   createStandardEasing,
-  createStandardRadius,
   createStandardSpacing,
   overlayBlack,
   rgbFromHex,
@@ -110,7 +109,16 @@ export const opcClaudeNightPalette: AppearancePalette = {
       base: 'blur(8px) saturate(1.16)',
     },
 
-    radius: createStandardRadius(),
+    // Same reference scale as the light palette, so a theme switch does not
+    // change a control's silhouette.
+    radius: {
+      sm: '4px',
+      base: '8px',
+      lg: '16px',
+      xl: '16px',
+      '2xl': '20px',
+      full: '9999px',
+    },
 
     spacing: createStandardSpacing(),
 
