@@ -357,6 +357,22 @@ The live quick-switch menu lists exactly 12 `button[role=menuitemradio]` entries
 `appearance.presets` names. Selecting one flips the checked row and the applied tokens; the
 screenshots above show `Claude` and `Claude 夜` checked.
 
+The editorial serif route was verified in the same live session, for both appearances.
+With `Claude` active the resolved value of `--opcteam-type-heading-page-font-family`,
+`--opcteam-type-flow-body-font-family` and `--opcteam-type-page-intro-font-family` is
+`"Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", …`, while
+`--opcteam-type-label-md-font-family` and `--opcteam-type-body-sm-font-family` stay on
+`"OPC HarmonyOS Sans SC"` and `--opcteam-type-code-md-font-family` stays on `'Fira Code'`;
+the nav labels 搜索一切 / 智能助理 / 任务看板 were re-checked and remain sans. Re-pointing
+`data-opc-appearance` to `opc-cyber` reverted every probed token, proving the remap is
+scoped to the two Claude appearances. With `Claude 夜` active (screenshot below),
+`app=opc-claude-night`, `scheme=dark`, and the same three editorial tokens resolve to the
+serif stack while `--opcteam-type-label-md-font-family` stays sans.
+
+![The Claude appearance reading in the editorial serif voice](assets/live-claude-serif.png)
+
+![The Claude Night appearance reading in the editorial serif voice](assets/live-claude-night-serif.png)
+
 **Environment note for reproducing this.** `src/apps/server/src/main.rs:229` hard-codes
 `SocketAddr::from(([127, 0, 0, 1], 8080))`, and on the verification host port 8080 was
 already owned by an unrelated Jenkins/Jetty process, so the app server could not bind it
