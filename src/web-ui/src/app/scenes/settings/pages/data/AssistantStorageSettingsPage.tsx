@@ -124,7 +124,7 @@ function AssistantWorkspaceStorageSection() {
   }
 
   return (
-    <div className="opc-logging-config" data-opc-component="application-settings" data-opc-part="assistant-storage">
+    <div className="opc-logging-config" data-opc-component="application-settings" data-opc-part="assistantStorage">
       <div className="opc-logging-config__content">
         <ConfigMessage message={message} />
 

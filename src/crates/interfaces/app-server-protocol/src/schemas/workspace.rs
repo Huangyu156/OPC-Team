@@ -29,6 +29,26 @@ pub struct SearchWorkspaceReferencesResponse(pub AgentWorkspaceReferenceSearchRe
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "rpc", derive(JsonRpcRequest))]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "rpc", request(method = "workspace/assistantLocations", response = AssistantWorkspaceLocationsResponse))]
+pub struct AssistantWorkspaceLocationsRequest {}
+
+/// Where assistant workspaces live on disk. Mirrors the desktop
+/// `AssistantWorkspaceLocationsDto` so both transports return the same shape.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "rpc", derive(JsonRpcResponse))]
+#[serde(rename_all = "camelCase")]
+pub struct AssistantWorkspaceLocationsResponse {
+    /// The root new assistant workspaces are created under.
+    pub active_root: String,
+    /// The historical product-home root that older assistants may still live in.
+    pub legacy_root: String,
+    /// True when a user-configured root overrides the historical location.
+    pub custom_root_active: bool,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "rpc", derive(JsonRpcRequest))]
 #[cfg_attr(feature = "rpc", request(method = "workspace/messageReferences", response = MessageReferencesResponse))]
 pub struct MessageReferencesRequest(pub AgentMessageWorkspaceReferencesRequest);
 

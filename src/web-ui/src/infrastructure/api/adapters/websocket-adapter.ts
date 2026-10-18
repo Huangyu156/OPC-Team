@@ -191,6 +191,7 @@ export const AGENT_COMMAND_SCHEMA = {
   project_ai_model_reasoning_catalog: { method: 'model/projectReasoningCatalog' },
   get_config: { method: 'config/getConfig' },
   get_configs: { method: 'config/getConfigs' },
+  get_assistant_workspace_locations: { method: 'workspace/assistantLocations' },
   set_agent_profile_config: {
     method: 'config/setAgentProfileConfig',
     request: null as unknown as SetAgentProfileConfigMessage,

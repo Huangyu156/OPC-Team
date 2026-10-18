@@ -54,4 +54,26 @@ pub(in crate::server) fn builder(
             },
             agent_client_protocol::on_receive_request!(),
         )
+        .on_receive_request(
+            async move |_: AssistantWorkspaceLocationsRequest, responder, _cx| {
+                // The PathManager singleton is the owner of assistant workspace
+                // path policy; the handler only converts its view to the wire.
+                let manager =
+                    opc_core::infrastructure::app_paths::get_path_manager_arc();
+                let base_dirs = manager.assistant_workspace_base_dirs();
+                let fallback = std::path::PathBuf::new();
+                let (active_root, legacy_root) = match base_dirs.as_slice() {
+                    [active, legacy, ..] => (active.clone(), legacy.clone()),
+                    [active] => (active.clone(), active.clone()),
+                    _ => (fallback.clone(), fallback),
+                };
+                let custom_root_active = manager.assistant_workspace_root_override().is_some();
+                responder.respond_with_result(Ok(AssistantWorkspaceLocationsResponse {
+                    active_root: active_root.to_string_lossy().into_owned(),
+                    legacy_root: legacy_root.to_string_lossy().into_owned(),
+                    custom_root_active,
+                }))
+            },
+            agent_client_protocol::on_receive_request!(),
+        )
 }

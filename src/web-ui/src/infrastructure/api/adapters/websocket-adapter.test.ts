@@ -158,11 +158,12 @@ describe('resolveWsMethod', () => {
     // session-content search makes 36 — the two arrived on separate branches,
     // so the count only reaches 36 once main is merged in. The three
     // device-local WebSearch credential commands make 39.
+    // The assistant-workspace storage location probe makes 41.
     expect(AGENT_COMMAND_SCHEMA.start_dialog_turn.method).toBe(
       'agent/submitDialogTurn'
     );
     expect(AGENT_COMMAND_SCHEMA.copy_session.method).toBe('session/fork');
-    expect(Object.keys(AGENT_COMMAND_SCHEMA).length).toBe(40);
+    expect(Object.keys(AGENT_COMMAND_SCHEMA).length).toBe(41);
 
     // Touch the locals so noUnusedLocals does not flag them under vitest's
     // transformed build (tsc --noEmit is the real gate; this is belt-and-suspenders).
