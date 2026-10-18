@@ -1,0 +1,168 @@
+name: Release Publish From Artifacts
+
+# Publishes an existing release tag from the platform bundles produced by an
+# earlier desktop-package.yml run.
+#
+# desktop-package.yml can only publish when its own build ran with
+# upload_to_release=true, and that same input also turns on REQUIRE_SIGNING for
+# the Windows Authenticode check. A build host without the CERTUM secrets
+# therefore has to run with upload_to_release=false and cannot publish anything.
+# This workflow separates the two concerns: it downloads the already built
+# bundles, publishes their installers, and never rebuilds or re-signs anything.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing release tag to publish, for example v1.1.0
+        required: true
+        type: string
+      version:
+        description: Version without the tag prefix, for example 1.1.0
+        required: true
+        type: string
+      run_id:
+        description: Actions run id that produced the platform bundles
+        required: true
+        type: string
+      artifacts:
+        description: Comma separated bundle artifact names to publish
+        required: true
+        type: string
+      notes_file:
+        description: Repository path of the release notes file, empty to generate notes
+        required: false
+        default: ''
+        type: string
+
+permissions:
+  contents: write
+  actions: read
+
+concurrency:
+  group: release-publish-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Download platform bundles
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run_id }}
+          ARTIFACTS: ${{ inputs.artifacts }}
+        run: |
+          set -euo pipefail
+          mkdir -p bundle
+          while IFS= read -r name; do
+            [ -z "${name}" ] && continue
+            echo "downloading artifact ${name}"
+            gh run download "${RUN_ID}" --repo "${GITHUB_REPOSITORY}" -n "${name}" -D "bundle/${name}"
+          done < <(printf '%s' "${ARTIFACTS}" | tr ',' '\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | sed '/^$/d')
+          echo "downloaded bundle files:"
+          find bundle -type f -printf '%10s %p\n' | sort -k2
+
+      - name: Stage release assets
+        env:
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          rm -rf upload
+          mkdir -p upload
+
+          # The published Windows installer is the bundled opc-installer.exe
+          # republished under the product release name.
+          node scripts/prepare-windows-installer-asset.mjs \
+            --assets-dir bundle \
+            --version "${VERSION}" \
+            --out-dir upload \
+            || echo "::warning::the windows manual installer asset was not produced; publishing the raw bundle files only"
+
+          while IFS= read -r -d '' file; do
+            base="$(basename "${file}")"
+            dest="upload/${base}"
+            if [ -e "${dest}" ]; then
+              echo "::error::two bundle files would publish the same asset name ${base}: ${file}"
+              exit 1
+            fi
+            cp -v "${file}" "${dest}"
+          done < <(find bundle -type f \( \
+            -iname '*-setup.exe' -o \
+            -iname '*.dmg' -o \
+            -iname '*.AppImage' -o \
+            -iname '*.deb' -o \
+            -iname '*.rpm' -o \
+            -iname '*.sig' -o \
+            -iname 'minisign.pub' \
+            \) -print0)
+
+          echo "staged release assets:"
+          find upload -maxdepth 1 -type f -printf '%10s %f\n' | sort -k2
+
+          if [ -z "$(ls -A upload)" ]; then
+            echo "::error::no release assets were staged"
+            exit 1
+          fi
+
+          while IFS= read -r -d '' file; do
+            size="$(stat -c '%s' "${file}")"
+            if [ "${size}" -lt 1048576 ]; then
+              echo "::error::staged asset ${file} is only ${size} bytes"
+              exit 1
+            fi
+          done < <(find upload -maxdepth 1 -type f -print0)
+
+      - name: Create draft release and upload assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          VERSION: ${{ inputs.version }}
+          NOTES_FILE: ${{ inputs.notes_file }}
+        run: |
+          set -euo pipefail
+          if gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" >/dev/null 2>&1; then
+            echo "release ${TAG} already exists; adding assets to it"
+          elif [ -n "${NOTES_FILE}" ] && [ -f "${NOTES_FILE}" ]; then
+            gh release create "${TAG}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --verify-tag \
+              --draft \
+              --title "OPC-Team ${VERSION}" \
+              --notes-file "${NOTES_FILE}"
+          else
+            gh release create "${TAG}" \
+              --repo "${GITHUB_REPOSITORY}" \
+              --verify-tag \
+              --draft \
+              --title "OPC-Team ${VERSION}" \
+              --generate-notes
+          fi
+          gh release upload "${TAG}" --repo "${GITHUB_REPOSITORY}" --clobber upload/*
+          gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" \
+            --json isDraft,assets \
+            --jq '{isDraft: .isDraft, assets: [.assets[] | "\(.name) \(.size)"]}'
+
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          VERSION: ${{ inputs.version }}
+        run: |
+          set -euo pipefail
+          count="$(gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" --json assets --jq '.assets | length')"
+          if [ "${count}" -lt 2 ]; then
+            echo "::error::release ${TAG} has only ${count} asset(s); it stays a draft"
+            exit 1
+          fi
+          gh release edit "${TAG}" \
+            --repo "${GITHUB_REPOSITORY}" \
+            --title "OPC-Team ${VERSION}" \
+            --draft=false \
+            --latest
+          gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" \
+            --json tagName,isDraft,isLatest,assets \
+            --jq '{tag: .tagName, draft: .isDraft, latest: .isLatest, assets: [.assets[] | "\(.name) \(.size)"]}'
