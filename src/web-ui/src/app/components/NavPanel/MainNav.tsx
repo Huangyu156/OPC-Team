@@ -7,7 +7,7 @@
  *   3. Unified Sessions (all or grouped by project / assistant)
  */
 
-import React, { useCallback, useState, useMemo, useEffect, useRef, useSyncExternalStore } from 'react';
+import React, { useCallback, useState, useEffect, useRef, useSyncExternalStore } from 'react';
 import { subscribeOverlayInteraction, createOverlayPortal, OverflowText,
   Icon,
   IconButton,
@@ -35,10 +35,8 @@ import SectionHeader from './components/SectionHeader';
 import StickySectionHeader from './components/StickySectionHeader';
 import WorkspaceSessionGroupingToggle from './components/WorkspaceSessionGroupingToggle';
 import WorkspaceSessionFilterMenu from './components/WorkspaceSessionFilterMenu';
-import MiniAppEntry from './components/MiniAppEntry';
 import WorkspaceListSection from './sections/workspaces/WorkspaceListSection';
 import { useSceneStore } from '../../stores/sceneStore';
-import { useMiniAppCatalogSync } from '../../scenes/miniapps/hooks/useMiniAppCatalogSync';
 import { workspaceManager } from '@/infrastructure/services/business/workspaceManager';
 import { useWorkspaceContext } from '@/infrastructure/contexts/WorkspaceContext';
 import { createLogger } from '@/shared/utils/logger';
@@ -81,21 +79,10 @@ const MainNav: React.FC = () => {
   // const { t: tPages } = useI18n('scenes/pages'); // temporarily hidden: Pages nav entry
   const {
     currentWorkspace,
-    loading: workspaceLoading,
     recentWorkspaces,
     openedWorkspacesList,
     switchWorkspace,
   } = useWorkspaceContext();
-
-  useMiniAppCatalogSync({
-    enabled: !workspaceLoading,
-    initialLoad: 'idle',
-  });
-
-  const activeMiniAppId = useMemo(
-    () => (typeof activeTabId === 'string' && activeTabId.startsWith('miniapp:') ? activeTabId.slice('miniapp:'.length) : null),
-    [activeTabId]
-  );
 
   const workspaceMenuButtonRef = useRef<HTMLButtonElement | null>(null);
   const workspaceMenuRef = useRef<HTMLDivElement | null>(null);
@@ -440,15 +427,6 @@ const MainNav: React.FC = () => {
               {taskBoardLabel}
             </NavigationPanelItem>
           </Tooltip>
-
-          <div className="opc-nav-panel__miniapp-navigation" data-opc-component="nav-panel" data-opc-part="miniAppFooter">
-            <MiniAppEntry
-              isActive={activeTabId === 'miniapps' || !!activeMiniAppId}
-              activeMiniAppId={activeMiniAppId}
-              onOpenMiniApps={() => openScene('miniapps')}
-              onOpenMiniApp={(appId) => openScene(`miniapp:${appId}`)}
-            />
-          </div>
 
           <div className="opc-nav-panel__top-action-expand" data-opc-component="nav-panel" data-opc-part="extensionGroup" data-opc-state={isExtensionsOpen ? 'open' : ''} data-testid="agent-skill-panel">
             <Tooltip content={extensionsLabel} placement="right" followCursor>

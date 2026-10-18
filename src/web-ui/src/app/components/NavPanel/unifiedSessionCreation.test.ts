@@ -104,18 +104,17 @@ describe('unified project session creation', () => {
     expect(projection).toContain("WorkspaceBackedSessionGroupKind = 'assistant' | 'project'");
   });
 
-  it('places Task Board below AI Assistant, before Mini Apps and capability management', () => {
+  it('places Task Board below AI Assistant, before capability management', () => {
     const mainNav = source('./MainNav.tsx');
     const assistantIndex = mainNav.indexOf('data-testid="nav-assistant-manager"');
     const taskBoardIndex = mainNav.indexOf('data-testid="nav-todos-btn"');
-    const miniAppsIndex = mainNav.indexOf('className="opc-nav-panel__miniapp-navigation"');
     const extensionIndex = mainNav.indexOf('data-testid="agent-skill-entry"');
     const sessionsIndex = mainNav.indexOf('data-opc-section="sessions"');
 
     expect(taskBoardIndex).toBeGreaterThan(assistantIndex);
-    expect(miniAppsIndex).toBeGreaterThan(taskBoardIndex);
-    expect(extensionIndex).toBeGreaterThan(miniAppsIndex);
+    expect(extensionIndex).toBeGreaterThan(taskBoardIndex);
     expect(sessionsIndex).toBeGreaterThan(extensionIndex);
+    expect(mainNav).not.toContain('opc-nav-panel__miniapp-navigation');
     expect(mainNav).toContain("t('nav.items.todos')");
     expect(mainNav).not.toContain('data-testid="nav-bottom-bar"');
     expect(mainNav).toContain('className="opc-nav-panel__top-action-expand"');

@@ -64,9 +64,6 @@ export async function activateProductAction(
     case 'surface.ecosystemCompatibility.open':
       openEcosystemCompatibility();
       return;
-    case 'surface.miniapps.open':
-      sceneStore.openScene('miniapps');
-      return;
     case 'surface.todos.open':
       sceneStore.openScene('todos');
       return;

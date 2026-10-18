@@ -144,20 +144,52 @@ export interface InteractiveCapabilityCatalog {
 
 // Keep the host contract intact while filtering controls unavailable for the workspace.
 const hostCatalog = generatedCatalog as InteractiveCapabilityCatalog;
-const catalog: InteractiveCapabilityCatalog = {
-  ...hostCatalog,
-  capabilities: hostCatalog.capabilities.map(capability => ({
+/**
+ * Capabilities this product no longer presents. The MiniApp surface is removed
+ * from the product UI, so its control definitions and search items must not
+ * reach global search either.
+ */
+const REMOVED_CAPABILITY_IDS = new Set(['feature.miniapps']);
+const presentedCapabilities = hostCatalog.capabilities
+  .filter(capability => !REMOVED_CAPABILITY_IDS.has(capability.id))
+  .map(capability => ({
     ...capability,
     destination: projectSettingsCapabilityDestination(capability.id, capability.destination),
     items: capability.items.map(item => ({
       ...item,
       destination: projectSettingsCapabilityDestination(capability.id, item.destination ?? capability.destination, item.id),
     })),
-  })),
-  definitions: hostCatalog.definitions.map(definition => ({
+  }));
+const presentedDefinitions = hostCatalog.definitions
+  .filter(definition => !REMOVED_CAPABILITY_IDS.has(definition.capabilityId))
+  .map(definition => ({
     ...definition,
     presentationTarget: projectSettingsCapabilityDestination(definition.capabilityId, definition.presentationTarget, definition.itemIds[0]),
-  })),
+  }));
+// The host digest counts every generated capability, so an intentionally
+// removed capability is dropped from the counts the same way it is dropped
+// from the presented catalog.
+const presentedCoverage = { direct: 0, delegated: 0, interactive: 0, unsupported: 0 };
+for (const capability of presentedCapabilities) {
+  for (const item of capability.items) {
+    if (item.control.kind === 'direct') presentedCoverage.direct += 1;
+    else if (item.control.kind === 'delegate') presentedCoverage.delegated += 1;
+    else if (item.control.kind === 'open') presentedCoverage.interactive += 1;
+    else if (item.control.kind === 'unsupported') presentedCoverage.unsupported += 1;
+  }
+}
+const catalog: InteractiveCapabilityCatalog = {
+  ...hostCatalog,
+  capabilities: presentedCapabilities,
+  definitions: presentedDefinitions,
+  counts: {
+    ...hostCatalog.counts,
+    features: presentedCapabilities.filter(capability => capability.kind === 'feature').length,
+    settings: presentedCapabilities.filter(capability => capability.kind === 'setting').length,
+    userFacing: presentedCapabilities.length,
+    documentedItems: presentedCapabilities.reduce((total, capability) => total + capability.items.length, 0),
+    controlCoverage: presentedCoverage,
+  },
 };
 const suspendedSearchItems = new Set(['accelerated-search', 'search-index']);
 export function getInteractiveCapabilityCatalog(

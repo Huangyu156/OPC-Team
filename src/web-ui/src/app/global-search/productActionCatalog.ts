@@ -24,7 +24,6 @@ export type ProductActionId =
   | 'surface.agents.open'
   | 'surface.skills.open'
   | 'surface.ecosystemCompatibility.open'
-  | 'surface.miniapps.open'
   | 'surface.todos.open'
   | 'surface.insights.open'
   | 'settings.open'
@@ -105,14 +104,6 @@ export const PRODUCT_ACTION_CATALOG: readonly ProductActionDefinition[] = [
     aliases: ['skills', 'skill'],
     icon: 'book-open',
     defaultPriority: 80,
-  },
-  {
-    id: 'surface.miniapps.open',
-    labelKey: 'nav.search.actions.openMiniApps',
-    descriptionKey: 'nav.search.actionDescriptions.openMiniApps',
-    aliases: ['mini apps', 'apps', 'applications'],
-    icon: 'blocks',
-    defaultPriority: 78,
   },
   {
     id: 'surface.todos.open',

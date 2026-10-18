@@ -41,7 +41,7 @@ describe('catalog icon consumer integration', () => {
   });
 
   it('uses catalog marks in navigation, the creative entry and string-based menus', () => {
-    expect(source('app/components/NavPanel/components/MiniAppEntry.tsx')).toContain('<Icon name="mini-app" size="sm"');
+    expect(source('app/components/NavPanel/MainNav.tsx')).toContain('<Icon name="clock" size="sm"');
     expect(source('app/components/NavBar/NavBar.tsx')).toContain('<Icon name="sidebar-left"');
     const harnessSource = source('app/scenes/agents/components/AgentHarnessOverview.tsx');
     expect(harnessSource).toContain('HARNESS_PRESENTATION[id]');
