@@ -35,6 +35,11 @@
         "$type": "fontFamily",
         "$description": "Shared code font for code, diffs, editors and terminals. Prefer bundled Fira Code; missing glyphs follow the localized body font.",
         "$value": "'Fira Code', 'Cascadia Mono', 'Cascadia Code', Consolas, 'Liberation Mono', SFMono-Regular, 'SF Mono', Menlo, Monaco, 'Courier New', {font.family.sans}, monospace"
+      },
+      "serif": {
+        "$type": "fontFamily",
+        "$description": "Editorial reading font for serif-reading appearances. Latin glyphs take the serif voice; missing glyphs, including CJK, follow the localized body font so locale metrics stay unchanged.",
+        "$value": "'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', {font.family.sans}, serif"
       }
     },
     "size": {

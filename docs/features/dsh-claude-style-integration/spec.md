@@ -85,7 +85,7 @@ component code.
 |---|---|
 | Add themes to `design-system/packages/theme` | Those tokens are build-owned mode themes (light, dark, high-contrast) generated from `design-system/packages/theme/src/*.tokens.json` and covered by color ratchet baselines. They are not user-selectable appearances, and a per-user theme there would change every surface at once. |
 | Port the reference as a DOM-patching plugin | OPC-Team owns its DOM. Selector-guessing, `MutationObserver` refresh loops and `body[data-*]` scoping are unnecessary here and would bypass the appearance audits. |
-| Per-appearance font stack / serif typography | Not expressible. Font stacks are **build-owned per surface** by web font profiles (`src/web-ui/src/font-profiles/apple-system.css`, `harmony-bundled.css`), which are the only place allowed to define `--opcteam-font-family-sans`, `--opcteam-font-family-control` and `--opcteam-font-family-mono`. There is no serif stack token anywhere in the repository. See *Typography* below. |
+| Appearance-carried font stack | Not expressible, and now actively prohibited. Font stacks are **build-owned per surface** by web font profiles (`src/web-ui/src/font-profiles/apple-system.css`, `harmony-bundled.css`); six `-reintroduced` guard rails in `scripts/audit-typography-tokens.mjs` forbid re-adding typography to the appearance contracts. The reference's serif reading type is therefore delivered through the profile route instead — see *Typography* below. |
 | A high-contrast variant | Not requested and not derivable from the reference, which has exactly two schemes. Left out rather than invented. |
 
 ## Delivered artifacts
@@ -197,61 +197,89 @@ only reachable through the accent scale.
 
 ## Typography
 
-**Out of scope, by construction.** The reference's serif reading type cannot be
-reproduced through an appearance: `AppearancePalette` has no typography or font-family
-field, and font stacks are build-owned per surface.
+**Delivered through the sanctioned route.** The reference's serif reading type is
+reproduced by adding a fourth build-owned stack, `--opcteam-font-family-serif`, to the
+web font profiles and remapping **only the editorial semantic roles** to it, scoped to
+the two Claude appearances. No appearance contract, guard rail or baseline was deleted
+or loosened.
 
-Evidence:
+### Why not through an appearance
+
+`AppearancePalette` has no typography or font-family field, and the shape is not merely
+absent but **prohibited**:
 
 - `src/web-ui/src/infrastructure/appearance/builtins/AppearancePalette.ts` declares
-  `monaco` and `layout` as its only non-color extension points. There is no
-  `fontFamily`, `typography` or `fonts` field.
-- `scripts/audit-typography-tokens.mjs` restricts font-stack declarations to
+  `monaco` and `layout` as its only non-color extension points.
+- `scripts/audit-typography-tokens.mjs` confines font-stack declarations to
   `WEB_FONT_PROFILE_STYLE_ROOTS` (`src/web-ui/src/font-profiles/`,
-  `design-system/apps/design-lab/src/font-profiles/`) and to the stack properties
-  `--opcteam-font-family-sans`, `--opcteam-font-family-control`,
-  `--opcteam-font-family-mono`.
-- A repository-wide search for a serif stack token (`font-family-serif`,
-  `--opcteam-font-family-serif`, `font-serif`) returns no match.
-- Only two font profiles exist: `apple-system.css` and `harmony-bundled.css`. A
-  profile is selected per surface **at build time**, not per appearance.
-- Stronger than absence, the shape is **prohibited**: the same audit carries six named
-  "do not reintroduce" gates, so appearance-carried typography cannot be added without
-  deleting a guard rail. Their codes and files are
+  `design-system/apps/design-lab/src/font-profiles/`).
+- The same audit carries six "do not reintroduce" gates, all suffixed `-reintroduced`:
   `appearance-compiler-typography-reintroduced` (`AppearanceCompiler.ts`),
   `appearance-validator-typography-reintroduced` (`AppearancePackageValidator.ts`),
   `appearance-profile-typography-reintroduced` (`appearancePropertyProfiles.ts`),
   `appearance-font-global-merge-reintroduced` (`composeAppearancePackage.ts`),
   `appearance-font-runtime-reintroduced` (`FontPreferenceService.ts`) and
   `standalone-appearance-typography-reintroduced` (the distributed `create-opc-skin`
-  validator `opcteam_appearance.py`). Every code reads `-reintroduced`, i.e. the project
-  removed this capability on purpose.
-- Those gates arrived with commit `e9655cb2d` *feat(ui): unify the semantic typography
-  system* (2026-08-30), which added `scripts/audit-typography-tokens.mjs` (813 lines)
-  plus a 174-line test and stripped the typography plumbing out of the appearance
-  contracts. The appearance architecture document does define a general extension
-  procedure — `docs/architecture/appearance-package-system.md:139-145` lists the five
-  places a new `AppearanceStyle` property must be threaded (type, validator, compiler,
-  descriptor `allowedProperties`, focused tests plus the color audit) — but typography
-  is a deliberate carve-out from that procedure, owned by the semantic typography
-  system instead.
-- There is no user-facing font-family control to piggyback on either:
-  `src/web-ui/src/infrastructure/font-preference/types/index.ts` models
-  `FontPreference` as size only (`FontSizeLevel = 'compact' | 'small' | 'default' |
-  'medium' | 'large' | 'custom'`), and the `canonical-font-runtime-missing` gate
-  requires `FontPreferenceService` to write nothing but `--opcteam-font-size-*`.
-- The exclusion is a **policy** decision rather than a technical impossibility: a
-  runtime experiment in the live dev server set `--opcteam-font-family-sans` and
-  `--opcteam-font-family-control` inline on `<html>` and the override propagated to
-  **91 of 342** leaf elements. The mechanism works; the architecture forbids it.
+  validator `opcteam_appearance.py`). They arrived with commit `e9655cb2d` *feat(ui):
+  unify the semantic typography system* (2026-08-30); typography is a deliberate carve-out
+  from the extension procedure in `docs/architecture/appearance-package-system.md:139-145`.
+- `FontPreference` is size-only (`FontSizeLevel = 'compact' | 'small' | 'default' |
+  'medium' | 'large' | 'custom'`), and `canonical-font-runtime-missing` requires
+  `FontPreferenceService` to write nothing but `--opcteam-font-size-*`.
+- A runtime experiment set `--opcteam-font-family-sans` inline on `<html>` and the
+  override propagated to **91 of 342** leaf elements — the mechanism works, so this is
+  policy, not a technical limit. It is also the wrong lever: it turned 12 left-nav
+  chrome labels serif along with the reading text.
 
-Making the Claude appearance serif would therefore require deleting six guard rails, a
-new serif stack token, a third font profile, a build-time profile selection mechanism,
-and the cooperation of every appearance — it would change all appearances rather than
-one, which contradicts the compatibility objective. It is recorded here as a deliberate,
-evidenced exclusion instead of being silently dropped. A global (non-per-appearance)
-serif profile remains available to the project later as an independent decision, since
-`src/web-ui/src/font-profiles/` is the sanctioned home for font stacks.
+### What was built
+
+- `src/web-ui/src/font-profiles/harmony-bundled.css` and
+  `src/web-ui/src/font-profiles/apple-system.css` each define
+  `--opcteam-font-family-serif` in the base, `:lang(zh-CN)` and `:lang(zh-TW)` contexts,
+  mirroring how each profile already declares its sans and control stacks.
+- `[data-opcteam-design-system-root][data-opc-appearance='opc-claude-style']` and
+  `[data-opcteam-design-system-root][data-opc-appearance='opc-claude-night']` remap 19
+  editorial role tokens to `var(--opcteam-font-family-serif)`:
+  `display-fluid-hero`, `display-fluid-title`, `display-xl`, `display-xxl`, `display-lg`,
+  `display-md`, `display-sm`, `heading-display`, `heading-dialog`, `heading-page`,
+  `heading-panel`, `heading-section`, `heading-welcome`, `flow-body`, `flow-lead`,
+  `flow-page-title`, `flow-section-title`, `flow-title`, `page-intro`.
+- Everything else keeps its shipped stack: `body-*`, `label-*`, `meta`, `micro`,
+  `overline-*`, `support`, `flow-control`/`flow-meta`/`flow-micro`/`flow-support`,
+  `heading-card`, `heading-navigation`, `heading-compact-page` and `code-*`. Chrome,
+  navigation, metadata and code therefore stay sans/mono, exactly as the reference does.
+- Latin glyphs take the serif voice; **CJK glyphs fall through to the profile's tuned CJK
+  sans faces** (`OPC HarmonyOS Sans SC` for `zh-CN`, the platform face for `zh-TW`), so
+  localized metrics and ideograph centering are unchanged. This matches how Claude Desktop
+  renders Chinese. To give CJK a serif face as well, insert `"Songti SC", SimSun,
+  "Noto Serif CJK SC"` ahead of the CJK sans entries in the serif stack — a one-line,
+  per-profile change.
+
+### Disclosed contract extension
+
+`scripts/audit-typography-tokens.mjs` `WEB_FONT_PROFILE_STACK_PROPERTIES` gained
+`--opcteam-font-family-serif` (plus a three-line comment). This is an owner-contract
+extension, not a loosening: a raw family list is still legal only inside a profile root,
+and a private raw stack declared beside it is still rejected — pinned by two new cases in
+`scripts/audit-typography-tokens.test.mjs`. This audit has no baseline file, and none was
+created.
+
+### Verified
+
+| Evidence | Result |
+|---|---|
+| Static audit | `pnpm run typography:audit` → "Typography token audit passed with zero violations." |
+| Audit tests | `pnpm run typography:audit:test` → 18 tests, 18 pass, 0 fail |
+| Token resolution (live, Claude light) | `--opcteam-type-heading-page-font-family`, `-flow-body-` and `-page-intro-` resolve to `Iowan Old Style`; `label-md` and `body-sm` stay `OPC HarmonyOS Sans SC`; `code-md` stays `Fira Code` |
+| Appearance scoping (live) | re-pointing the root to `data-opc-appearance='opc-cyber'` reverts all six probed tokens to `OPC HarmonyOS Sans SC`; the remap is confined to the two Claude appearances |
+| Chrome unchanged (live) | nav-panel labels (`搜索一切`, `智能助理`, `任务看板`) compute `OPC HarmonyOS Sans SC` — the rejected coarse alternative had turned them serif |
+| Editorial rendered (live) | `welcome-scene__brand-name` computes `Iowan Old Style`; see `assets/live-claude-serif.png` |
+
+Making the Claude appearance serif through the *appearance* contract would have required
+deleting six guard rails, changing every appearance rather than one, and contradicting the
+compatibility objective. The profile route reaches the same visual result without any of
+that, which is why it is the one shipped.
+
 
 ## Compatibility
 
@@ -421,12 +449,13 @@ dark-palette config-page row-hover separation. The forbidden literals `#fdfdfd`,
 | 6 | Theme color audit passes | Met — `theme:color-audit:test` 50/50, `theme:color-audit:all` 24/24 surfaces, `check:web` exit 0 |
 | 7 | No ratchet fixture was raised without disclosure | **Partially met — disclosed exception.** Four `themePreset`-only baseline values were raised to their measured post-merge values; see *Color governance*. No assertion, fixture count, allowlist or CI coverage changed. |
 | 8 | An older build degrades gracefully on an unknown persisted id | Met by the existing `unavailableSelectionId` path |
-| 9 | Serif reading typography reproduced | **Not met — prohibited by architecture, not merely inexpressible.** Six named `-reintroduced` gates in `scripts/audit-typography-tokens.mjs` (added by `e9655cb2d`) forbid appearance-carried typography; a runtime experiment proved the mechanism itself works (91/342 leaf elements). See *Typography*. |
+| 9 | Serif reading typography reproduced | **Met — through the sanctioned profile route, not through an appearance.** `--opcteam-font-family-serif` is a fourth build-owned stack in both font profiles; 19 editorial role tokens are remapped to it under `[data-opc-appearance='opc-claude-style']` / `'opc-claude-night'` only. Six `-reintroduced` gates (added by `e9655cb2d`) still forbid appearance-carried typography and were left intact. One disclosed contract extension: `WEB_FONT_PROFILE_STACK_PROPERTIES` gained the serif stack, pinned by two new audit tests. See *Typography*. |
 | 10 | High-contrast variant delivered | **Not delivered** — deliberately out of scope |
 
 ## Out of scope
 
-- Serif/typographic styling (see *Typography*).
+- Appearance-carried typography (see *Typography* — the serif itself IS delivered, but
+  through the font profiles, and the six `-reintroduced` gates stay in place).
 - High-contrast variant.
 - Theming `Opc-Installer`, CLI/TUI, or `src/mobile-web` theme lists.
 - Reproducing the reference's runtime mechanisms (DOM patching, observers, motion modes,
@@ -437,7 +466,7 @@ dark-palette config-page row-hover separation. The forbidden literals `#fdfdfd`,
 
 | Risk | Assessment |
 |---|---|
-| Users expect serif type from "Claude style" | Documented limitation; the palette delivers color, borders, shadows, buttons and editor theming only. |
+| Users expect serif type from "Claude style" | Resolved. The serif editorial voice ships through the font profiles; CJK glyphs intentionally keep the tuned CJK sans metrics rather than falling back to an unbundled system serif. |
 | Two new ids inflate the appearance list | Acceptable; the list is user-facing and grouped by name/mode. |
 | Generated artifacts drift | Covered: both manifests and the capability catalog are generator-checked, and the palette snapshot is asserted. |
 | Future palette edits silently change these hashes | Intended — the inline snapshot is the guard. |
@@ -457,3 +486,4 @@ dark-palette config-page row-hover separation. The forbidden literals `#fdfdfd`,
 | 1.0.0 | 2026-10-18 | Rewritten as-built for the appearance-palette integration: correct file paths, real token projection, evidenced typography exclusion, compatibility analysis, verification results and recorded rejected alternatives. |
 | 1.1.0 | 2026-10-18 | Reconciled with theme color governance after the t4 verification failure: merged seven sub-threshold stops, adopted three canonical neutral values, added five near-pair decisions, and recorded the disclosed `themePreset` baseline adjustment. Verification table and acceptance criteria updated to the re-measured state. |
 | 1.2.0 | 2026-10-18 | Strengthened the typography exclusion from "not expressible" to "prohibited by architecture": recorded the six `-reintroduced` guard-rail gates, their introducing commit `e9655cb2d`, the size-only `FontPreference` contract, and the runtime experiment (91/342 leaf elements) proving the exclusion is policy rather than technical limit. Acceptance criterion 9 restated accordingly. |
+| 1.3.0 | 2026-10-18 | Delivered the serif reading typography through the sanctioned route: `--opcteam-font-family-serif` added to both web font profiles, 19 editorial role tokens remapped under the two Claude appearances only, chrome/code deliberately untouched, CJK glyphs left on the tuned CJK sans faces. Rewrote the *Typography* section as-built, marked acceptance criterion 9 **Met**, and disclosed the one-line contract extension to `WEB_FONT_PROFILE_STACK_PROPERTIES` plus its two new audit tests and the live resolution/scoping/rendering evidence. |

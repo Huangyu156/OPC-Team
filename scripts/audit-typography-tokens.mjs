@@ -41,6 +41,11 @@ const WEB_FONT_PROFILE_STACK_PROPERTIES = new Set([
   '--opcteam-font-family-sans',
   '--opcteam-font-family-control',
   '--opcteam-font-family-mono',
+  // Editorial reading stack. It is a fourth build-owned stack rather than a
+  // semantic role token because only a profile may hold a raw family list, and
+  // no existing stack can carry it: re-pointing sans/control would also restyle
+  // chrome, while serif and sans must be able to coexist in one document.
+  '--opcteam-font-family-serif',
 ]);
 
 const SEMANTIC_ROLE_COMPONENT_STYLE_ROOT = 'design-system/packages/ui/src/';

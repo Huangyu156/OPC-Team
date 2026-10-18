@@ -3,5 +3,34 @@
     --opcteam-font-family-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
     --opcteam-font-family-control: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", sans-serif;
     --opcteam-font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, "PingFang SC", "Hiragino Sans GB", monospace;
+    /* Editorial reading stack. Latin glyphs take the serif voice; CJK glyphs
+       fall through to the platform CJK sans faces on purpose, so localized
+       metrics stay exactly as shipped. */
+    --opcteam-font-family-serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, "Times New Roman", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  }
+
+  /* The Claude appearances read in the serif voice. Only editorial roles are
+     remapped, so labels, navigation, metadata, controls and code keep sans/mono. */
+  [data-opcteam-design-system-root][data-opc-appearance='opc-claude-style'],
+  [data-opcteam-design-system-root][data-opc-appearance='opc-claude-night'] {
+    --opcteam-type-display-fluid-hero-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-display-fluid-title-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-display-xl-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-display-xxl-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-display-lg-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-display-md-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-display-sm-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-heading-display-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-heading-dialog-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-heading-page-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-heading-panel-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-heading-section-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-heading-welcome-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-flow-body-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-flow-lead-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-flow-page-title-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-flow-section-title-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-flow-title-font-family: var(--opcteam-font-family-serif);
+    --opcteam-type-page-intro-font-family: var(--opcteam-font-family-serif);
   }
 }

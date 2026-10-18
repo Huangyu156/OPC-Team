@@ -62,6 +62,34 @@ test('accepts only build-owned font faces and stacks in Web font profiles', () =
   assert.deepEqual(issues, []);
 });
 
+test('accepts the build-owned editorial serif stack and role remaps in profiles', () => {
+  const issues = auditTypographyText(`
+    @layer opcteam.tokens.system {
+      :where([data-opcteam-design-system-root]) {
+        --opcteam-font-family-serif: Georgia, "Times New Roman", "OPC HarmonyOS Sans SC", sans-serif;
+      }
+      [data-opcteam-design-system-root][data-opc-appearance='opc-claude-style'] {
+        --opcteam-type-heading-page-font-family: var(--opcteam-font-family-serif);
+        --opcteam-type-flow-body-font-family: var(--opcteam-font-family-serif);
+      }
+    }
+  `, 'src/web-ui/src/font-profiles/harmony-bundled.css');
+
+  assert.deepEqual(issues, []);
+});
+
+test('still rejects a private raw stack beside the sanctioned editorial serif stack', () => {
+  const codes = codesFor(`
+    :where([data-opcteam-design-system-root]) {
+      --opcteam-font-family-serif: Georgia, serif;
+      --opcteam-font-family-editorial: Georgia, serif;
+    }
+  `, 'src/web-ui/src/font-profiles/harmony-bundled.css');
+
+  assert.ok(codes.includes('raw-private-typography-token'));
+  assert.equal(codes.filter(code => code === 'raw-private-typography-token').length, 1);
+});
+
 test('rejects unrelated raw typography inside Web font profiles', () => {
   const codes = codesFor(`
     .bad {
