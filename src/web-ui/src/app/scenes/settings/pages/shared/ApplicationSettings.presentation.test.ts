@@ -13,7 +13,6 @@ describe('Application settings presentation', () => {
     expect(source).toContain("applicationGroups.windowAndNotifications.title");
     expect(source).toContain('<LaunchAtLoginSetting />');
     expect(source).toContain('<PreventSleepSetting />');
-    expect(source).toContain('<AutoUpdateSetting />');
     expect(source).toContain('<WindowBehaviorSetting />');
     expect(source).toContain('<NotificationSettings />');
     expect(source).not.toContain('function LaunchAtLoginSection');
