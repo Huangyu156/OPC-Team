@@ -3385,6 +3385,8 @@
     "current": "推理強度：{{preset}}",
     "currentAuto": "推理強度：自動（{{preset}}）",
     "updateFailed": "更新思考預設失敗",
+    "weaker": "較低",
+    "stronger": "較高",
     "levels": {
       "off": "關閉",
       "on": "開啟",

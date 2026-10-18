@@ -49,7 +49,9 @@ import { getModelSelectorDropdownLayout } from './modelSelectorDropdownPosition'
 import { AcpModeSelector } from './AcpModeSelector';
 import { ModelModeAnimation } from './ModelModeAnimation';
 import { ReasoningIntensityControl } from './ReasoningIntensityControl';
+import { ReasoningStrengthTrigger } from './ReasoningStrengthTrigger';
 import { isAutomaticReasoningPreset, reasoningPresetChoices, reasoningSelectionLabel, resolveReasoningPresetChoice } from './reasoningPresetPresentation';
+import { reasoningLadderShape, reasoningStrengthSteps, reasoningStrengthValue } from './reasoningPresetLadder';
 import {
   getRecentReasoningPreset,
   setRecentReasoningPreset,
@@ -331,6 +333,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   persistSharedModeDefault = true,
   disabled = false,
   disabledReason,
+  reasoningTriggerPresentation = 'meter',
 }) => {
   const { t } = useI18n('flow-chat');
   const deviceSurfaceScope = useSyncExternalStore(onSurfaceActivated, getActiveSurfaceScope, getActiveSurfaceScope);
@@ -1124,6 +1127,14 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   const hasSettingsPanel = hasReasoningSettings || isNativeModelSelection;
   const automaticReasoning = (selectedReasoningDescriptor && isAutomaticReasoningPreset(selectedReasoningDescriptor))
     || (!selectedReasoningDescriptor && (!isAcpSession || Boolean(externalSelection)));
+  // The ladder shape is a fact about the advertised catalog: only comparable effort
+  // levels earn the standalone seat, while budget/patch catalogs stay in the card.
+  const reasoningLadder = hasReasoningSettings ? reasoningLadderShape(catalogReasoningPresets) : 'hidden';
+  const reasoningSteps = useMemo(
+    () => (reasoningLadder === 'ranked' ? reasoningStrengthSteps(catalogReasoningPresets, t) : []),
+    [catalogReasoningPresets, reasoningLadder, t],
+  );
+  const reasoningStrengthSelection = reasoningStrengthValue(reasoningSteps, selectedReasoningDescriptor);
   useEffect(() => {
     if (!dropdownOpen) return;
     if (activePanel === 'modes' && !isNativeModelSelection) {
@@ -1574,6 +1585,13 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   }, [disabled, externalSelection, handleSelectAcpReasoning, handleSelectReasoningPreset,
     isAcpSession, loading, reasoningLoading, t]);
 
+  // The ladder seat speaks the same `preset:<id>` value the segmented choices use, so one
+  // commit path serves both entry points and neither can drift from the other.
+  const handleCommitReasoningStrength = useCallback((value: string) => {
+    const presetId = value.startsWith('preset:') ? value.slice('preset:'.length) : null;
+    void handleSelectReasoningPresetFromControl(presetId);
+  }, [handleSelectReasoningPresetFromControl]);
+
   const handleSelectUpcomingMode = useCallback(async (mode: UpcomingModelMode) => {
     const selected = await handleSelectModelFromMenu('primary', mode);
     if (!selected) return;
@@ -1972,7 +1990,23 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
       ref={dropdownRef}
       className={`opc-model-selector ${className}`}
       data-opc-state={[modelInformationLoading ? 'loading' : displayedAvailability.status, dropdownOpen && 'open'].filter(Boolean).join(' ')}
+      data-opc-reasoning-ladder={reasoningLadder}
     >
+      {showModelTrigger && reasoningLadder === 'ranked' && (
+        <ReasoningStrengthTrigger
+          className="opc-model-selector__strength"
+          steps={reasoningSteps}
+          value={reasoningStrengthSelection}
+          ariaLabel={t('reasoningSelector.title')}
+          title={t('reasoningSelector.title')}
+          weakerLabel={t('reasoningSelector.weaker')}
+          strongerLabel={t('reasoningSelector.stronger')}
+          presentation={reasoningTriggerPresentation}
+          disabled={disabled || loading || reasoningLoading || externalSelection?.disabled}
+          pending={reasoningLoading}
+          onCommit={handleCommitReasoningStrength}
+        />
+      )}
       {showModelTrigger && (
       <Tooltip content={disabledReason || tooltipContent} disabled={dropdownOpen}>
         <button data-overflow-trigger
@@ -2013,7 +2047,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
           {isAcpSelection && acpFastMode?.enabled && (
             <Icon glyph={Zap} size="xs" className="opc-model-selector__fast-icon" />
           )}
-          {hasReasoningSettings && (
+          {hasReasoningSettings && reasoningLadder !== 'ranked' && (
             <span
               className="opc-model-selector__trigger-reasoning"
               data-testid="chat-model-selector-trigger-reasoning"

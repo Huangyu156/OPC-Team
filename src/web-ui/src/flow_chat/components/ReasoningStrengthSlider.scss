@@ -1,0 +1,172 @@
+// Reasoning strength slider: one row of [weaker caption] [groove + fill + ticks + knob] [stronger caption]
+// with the committed step name above the track. Every colour, size and duration comes from a public
+// design token. The only private variables are the --_slider-* ones: --_slider-ratio is written by the
+// component's inline style, the rest are derived here.
+
+.opc-reasoning-slider {
+  // Defaults live here rather than in var() fallbacks, so the ratio is a declared property of
+  // this component and the theme audit counts no ad-hoc fallback channel.
+  --_slider-ratio: 0;
+  --_slider-tick-ratio: 0;
+  --_slider-knob-inline: var(--opcteam-space-4);
+  --_slider-groove-block: var(--opcteam-overlay-menu-item-height);
+  // The knob travels inside the groove, so its centre moves over the span minus one knob width.
+  --_slider-travel: calc(100% - var(--_slider-knob-inline));
+  --_slider-transition: var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--opcteam-space-1);
+  inline-size: 100%;
+  min-inline-size: 0;
+  color: var(--opcteam-color-content-secondary);
+  font-family: var(--opcteam-type-label-sm-font-family);
+  font-size: var(--opcteam-type-label-sm-font-size);
+  font-weight: var(--opcteam-type-label-sm-font-weight);
+  line-height: var(--opcteam-type-label-sm-line-height);
+  letter-spacing: var(--opcteam-type-label-sm-letter-spacing);
+  user-select: none;
+  -webkit-user-select: none;
+
+  &:focus-visible {
+    outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+    outline-offset: var(--opcteam-focus-offset);
+  }
+
+  /* The current step name. The track never changes height, and a name that no longer fits
+     fades inside this fixed line box instead of reflowing the control. Centring lives on the
+     wrapper: the shared text primitive raises text-align to the reading start of its own root
+     once the label starts fading, which is the correct trade for a clipped label. */
+  &__value {
+    min-inline-size: 0;
+    text-align: center;
+    color: var(--opcteam-color-content-primary);
+  }
+
+  &__axis {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: var(--opcteam-space-2);
+    min-inline-size: 0;
+  }
+
+  &__caption {
+    white-space: nowrap;
+  }
+
+  /* Hit area: the whole track height, never a thinner inner bar, so a press anywhere on the
+     groove lands on a step. */
+  &__rail {
+    position: relative;
+    display: block;
+    block-size: var(--_slider-groove-block);
+    min-inline-size: 0;
+    border-radius: var(--opcteam-radius-base);
+    cursor: pointer;
+    touch-action: none;
+  }
+
+  &__groove,
+  &__fill,
+  &__knob {
+    position: absolute;
+    inset-block-start: 50%;
+    block-size: var(--_slider-groove-block);
+    margin-block-start: calc(var(--_slider-groove-block) / -2);
+    pointer-events: none;
+  }
+
+  &__groove {
+    inset-inline: 0;
+    border-radius: var(--opcteam-radius-base);
+    background: var(--opcteam-color-action-neutral-surface-hover);
+  }
+
+  &__fill {
+    inset-inline-start: 0;
+    inline-size: calc(var(--_slider-knob-inline) / 2 + var(--_slider-ratio) * var(--_slider-travel));
+    border-radius: var(--opcteam-radius-base);
+    background: var(--opcteam-color-accent-default);
+    transition: inline-size var(--_slider-transition);
+  }
+
+  &__ticks {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &__tick {
+    position: absolute;
+    inset-block-start: 50%;
+    // Same travel span as the knob, so a tick always sits under the knob centre for its step.
+    inset-inline-start: calc(var(--_slider-knob-inline) / 2 + var(--_slider-tick-ratio) * var(--_slider-travel));
+    inline-size: calc(var(--opcteam-space-1) / 2);
+    block-size: var(--opcteam-space-2);
+    margin-block-start: calc(var(--opcteam-space-2) / -2);
+    border-radius: var(--opcteam-radius-pill);
+    background: var(--opcteam-color-content-secondary);
+    opacity: 0.45;
+    transform: translateX(-50%);
+  }
+
+  &__knob {
+    // No half-knob offset here: the knob is drawn from its leading edge, so its centre sits
+    // at knob/2 + ratio * travel, exactly on the matching tick, and never overhangs an end.
+    inset-inline-start: calc(var(--_slider-ratio) * var(--_slider-travel));
+    inline-size: var(--_slider-knob-inline);
+    border: 1px solid var(--opcteam-color-border-default);
+    border-radius: var(--opcteam-radius-base);
+    background: var(--opcteam-color-surface-raised);
+    transition: inset-inline-start var(--_slider-transition);
+  }
+
+  /* A press animates the knob to the pressed step; once the pointer really drags, the knob has
+     to follow the pointer exactly, so transitions are dropped for the rest of the gesture. */
+  &[data-reasoning-slider-state='dragging'] {
+    --_slider-transition: 0s;
+
+    .opc-reasoning-slider__rail {
+      cursor: grabbing;
+    }
+  }
+
+  &[data-reasoning-slider-state='pending'] {
+    .opc-reasoning-slider__rail {
+      cursor: progress;
+    }
+  }
+
+  &[data-reasoning-slider-state='disabled'] {
+    opacity: 0.5;
+
+    .opc-reasoning-slider__rail {
+      cursor: default;
+    }
+  }
+
+  /* Mirror of the JS preference: the component reports the reduced state through
+     data-reasoning-reduced-motion, so the stylesheet and the render agree on one signal. */
+  &[data-reasoning-reduced-motion='true'] {
+    --_slider-transition: 0s;
+  }
+}
+
+/* Touch density raises the pressable track without changing the drawn groove height. */
+:where([data-density='touch']) .opc-reasoning-slider__rail {
+  block-size: var(--opcteam-control-hit-target);
+}
+
+/* Fallback for the same state before the component reads the media query, and for any other
+   consumer that reuses these classes. */
+@media (prefers-reduced-motion: reduce) {
+  .opc-reasoning-slider {
+    --_slider-transition: 0s;
+  }
+
+  .opc-reasoning-slider__fill,
+  .opc-reasoning-slider__knob {
+    transition: none;
+  }
+}

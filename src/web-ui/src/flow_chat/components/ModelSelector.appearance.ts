@@ -10,6 +10,14 @@ export const modelSelectorAppearanceDescriptor: AppearanceSurfaceDescriptor = {
     { id: 'modeMaterial' },
     { id: 'modeChoices' },
     { id: 'reasoningSummary' },
+    { id: 'reasoningTrigger' },
+    { id: 'reasoningSliderMenu' },
+    { id: 'reasoningSliderTrack' },
+    { id: 'reasoningSliderAxis' },
+    { id: 'reasoningSliderRail' },
+    { id: 'reasoningSliderFill' },
+    { id: 'reasoningSliderTicks' },
+    { id: 'reasoningSliderKnob' },
     { id: 'reasoningSlider' },
     { id: 'reasoningSliderSky' },
     { id: 'reasoningSliderNebula' },
@@ -27,7 +35,17 @@ export const modelSelectorAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   ],
   states: [
     { id: 'open', selector: { kind: 'self', suffix: '[data-opc-state~="open"]' } },
+    { id: 'idle', selector: { kind: 'self', suffix: '[data-opc-state~="idle"]' } },
+    { id: 'pending', selector: { kind: 'self', suffix: '[data-opc-state~="pending"]' } },
+    { id: 'disabled', selector: { kind: 'self', suffix: '[data-opc-state~="disabled"]' } },
     { id: 'loading', selector: { kind: 'self', suffix: '[data-opc-state~="loading"]' } },
     { id: 'selected', selector: { kind: 'self', suffix: '[data-opc-state~="selected"]' } },
+  ],
+  facets: [
+    {
+      id: 'reasoningLadder',
+      attribute: 'data-opc-reasoning-ladder',
+      values: ['ranked', 'segmented', 'hidden'],
+    },
   ],
 };

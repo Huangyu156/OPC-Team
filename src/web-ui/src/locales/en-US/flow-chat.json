@@ -3385,6 +3385,8 @@
     "current": "Reasoning effort: {{preset}}",
     "currentAuto": "Reasoning effort: Auto ({{preset}})",
     "updateFailed": "Failed to update reasoning preset",
+    "weaker": "Less",
+    "stronger": "More",
     "levels": {
       "off": "Off",
       "on": "On",

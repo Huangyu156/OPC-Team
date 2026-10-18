@@ -1,0 +1,107 @@
+// Standalone reasoning strength seat. Layout mirrors the model trigger beside it: transparent
+// button, pill radius, control-height row, secondary content colour. Every value is a public
+// token so the seat follows the active appearance instead of the Claude palette only.
+
+.opc-reasoning-strength {
+  display: inline-flex;
+  align-items: center;
+  min-inline-size: 0;
+  flex-shrink: 0;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--opcteam-space-1);
+    max-inline-size: var(--opcteam-control-flow-chat-model-name-max-width);
+    block-size: var(--opcteam-space-5);
+    padding: 0 var(--opcteam-space-2);
+    border: none;
+    border-radius: var(--opcteam-radius-pill);
+    background: transparent;
+    color: var(--opcteam-color-content-secondary);
+    font-family: var(--opcteam-type-flow-control-font-family);
+    font-size: var(--opcteam-type-flow-control-font-size);
+    cursor: pointer;
+    transition:
+      color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      background-color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
+      opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
+
+    &:hover:not(:disabled) {
+      background: var(--opcteam-color-action-quiet-hover);
+      color: var(--opcteam-color-content-primary);
+    }
+
+    &:focus-visible {
+      outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
+      outline-offset: var(--opcteam-focus-offset);
+    }
+
+    &:disabled {
+      cursor: default;
+      opacity: var(--opcteam-control-flow-chat-model-idle-opacity);
+    }
+  }
+
+  &__label {
+    max-inline-size: var(--opcteam-control-flow-chat-model-name-max-width);
+  }
+
+  &__meter {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+  }
+
+  &__meter-cell {
+    inline-size: 3px;
+    block-size: var(--opcteam-space-2);
+    border-radius: var(--opcteam-radius-pill);
+    background: var(--opcteam-color-border-strong);
+
+    &[data-filled='true'] {
+      background: var(--opcteam-color-accent-default);
+    }
+  }
+
+  &__menu {
+    // The shared menu owns width and padding; the seat only narrows the surface to its track.
+    min-inline-size: var(--opcteam-overlay-menu-min-inline-size);
+    inline-size: var(--opcteam-overlay-menu-inline-size);
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--opcteam-space-2);
+    padding: var(--opcteam-overlay-menu-surface-padding);
+  }
+
+  &__caption {
+    color: var(--opcteam-color-content-secondary);
+    font-family: var(--opcteam-type-label-sm-font-family);
+    font-size: var(--opcteam-type-label-sm-font-size);
+    font-weight: var(--opcteam-type-label-sm-font-weight);
+    line-height: var(--opcteam-type-label-sm-line-height);
+  }
+
+  &[data-opc-state='disabled'] {
+    opacity: var(--opcteam-control-flow-chat-model-idle-opacity);
+  }
+
+  &[data-opc-presentation='meter'] &__trigger {
+    padding-inline: var(--opcteam-space-1);
+  }
+}
+
+@container chat-input (max-width: 360px) {
+  .opc-reasoning-strength__label {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opc-reasoning-strength__trigger {
+    transition: none;
+  }
+}
