@@ -58,11 +58,18 @@ jobs:
         run: |
           set -euo pipefail
           mkdir -p bundle
-          while IFS= read -r name; do
+          # Read the last entry even when the input has no trailing newline.
+          while IFS= read -r name || [ -n "${name}" ]; do
             [ -z "${name}" ] && continue
             echo "downloading artifact ${name}"
             gh run download "${RUN_ID}" --repo "${GITHUB_REPOSITORY}" -n "${name}" -D "bundle/${name}"
-          done < <(printf '%s' "${ARTIFACTS}" | tr ',' '\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | sed '/^$/d')
+            file_count="$(find "bundle/${name}" -type f | wc -l)"
+            echo "artifact ${name} produced ${file_count} file(s)"
+            if [ "${file_count}" -eq 0 ]; then
+              echo "::error::artifact ${name} produced no files"
+              exit 1
+            fi
+          done < <(printf '%s\n' "${ARTIFACTS}" | tr ',' '\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' | sed '/^$/d')
           echo "downloaded bundle files:"
           find bundle -type f -printf '%10s %p\n' | sort -k2
 
@@ -164,5 +171,6 @@ jobs:
             --draft=false \
             --latest
           gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" \
-            --json tagName,isDraft,isLatest,assets \
-            --jq '{tag: .tagName, draft: .isDraft, latest: .isLatest, assets: [.assets[] | "\(.name) \(.size)"]}'
+            --json tagName,isDraft,isPrerelease,publishedAt,assets \
+            --jq '{tag: .tagName, draft: .isDraft, prerelease: .isPrerelease, publishedAt: .publishedAt, assets: [.assets[] | "\(.name) \(.size)"]}'
+          gh release list --repo "${GITHUB_REPOSITORY}" --limit 3
