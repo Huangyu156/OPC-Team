@@ -9,6 +9,27 @@ name: Release Publish From Artifacts
 # therefore has to run with upload_to_release=false and cannot publish anything.
 # This workflow separates the two concerns: it downloads the already built
 # bundles, publishes their installers, and never rebuilds or re-signs anything.
+#
+# Deliberate boundaries, do not "fix" them without reading the evidence:
+#
+# - It does not publish updater manifests (latest-v1.json, latest.json,
+#   linux-binaries.json, minisign.pub). The desktop bundle is built without
+#   updater artifacts on purpose: scripts/data-migrator-tauri-build.mjs deletes
+#   bundle.createUpdaterArtifacts, scripts/desktop-tauri-build.test.mjs asserts
+#   that bundle.createUpdaterArtifacts and plugins.updater are both absent, and
+#   no .sig file exists in any bundle to sign a manifest with. The live update
+#   feeds are owned by the upstream project
+#   (https://github.com/GCWing/OPC-Team/releases/latest/download/latest-v1.json
+#   and https://opcteam.eu.cc/release/latest-v1.json), so a release published
+#   here deliberately does not move anyone's auto-update.
+# - REQUIRE_SIGNING stays coupled to upload_to_release in desktop-package.yml.
+#   That input means "this run is the signed official publication", and
+#   unlinking it would add a second publish path that is silently unsigned.
+#   A host without signing secrets publishes through this workflow instead.
+# - Assets are whatever the downloaded bundles contain. A bundle whose package
+#   job was skipped for that platform contributes only the files it has, so the
+#   asset set varies per dispatch; each named artifact must yield at least one
+#   file or the run fails.
 on:
   workflow_dispatch:
     inputs:
