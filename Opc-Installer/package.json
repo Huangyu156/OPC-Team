@@ -1,6 +1,6 @@
 {
   "name": "opc-installer",
-  "version": "1.0.7",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
   "description": "OPC-Team Installer - Modern branded installation experience",

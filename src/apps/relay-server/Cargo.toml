@@ -1,6 +1,6 @@
 [package]
 name = "opc-relay-server"
-version = "1.0.7" # x-release-please-version
+version = "1.1.0" # x-release-please-version
 authors = ["OPC-Team"]
 edition = "2021"
 description = "OPC-Team standalone Remote Connect relay server"
