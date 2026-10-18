@@ -10,7 +10,10 @@
       "label": "Custom root directory",
       "description": "Pick any directory on any drive. Leave empty to use the default location.",
       "defaultHint": "Default (product home directory)",
+      "pathPlaceholder": "e.g. D:\\AssistantWorkspaces",
+      "apply": "Apply",
       "pick": "Choose directory",
+      "manualHint": "The desktop app can browse for a directory. In the browser-hosted Web UI, type an absolute path and select Apply.",
       "reset": "Reset"
     },
     "activeRoot": {
@@ -38,7 +41,10 @@
     "rootUpdated": "Assistant workspace root updated. New assistants will be created under the chosen directory.",
     "rootReset": "Assistant workspace root reset to the default location.",
     "saveFailed": "Failed to update the assistant workspace root",
-    "openFailed": "Failed to open the folder"
+    "openFailed": "Failed to open the folder",
+    "pathRequired": "Enter an absolute directory path",
+    "invalidPath": "Enter an absolute path, for example D:\\AssistantWorkspaces or /home/user/workspaces",
+    "pickerUnavailable": "The directory browser is only available in the desktop app. Type an absolute path instead."
   },
   "common": {
     "retry": "Retry"

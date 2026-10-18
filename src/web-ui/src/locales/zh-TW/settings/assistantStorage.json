@@ -10,7 +10,10 @@
       "label": "自訂根目錄",
       "description": "選擇任意磁碟上的任意目錄。留空則使用預設位置。",
       "defaultHint": "預設（產品主目錄）",
+      "pathPlaceholder": "例如 D:\\助理工作區",
+      "apply": "套用",
       "pick": "選擇目錄",
+      "manualHint": "桌面版可以瀏覽選擇目錄；瀏覽器版 Web UI 請直接填寫絕對路徑後點選「套用」。",
       "reset": "重設"
     },
     "activeRoot": {
@@ -38,7 +41,10 @@
     "rootUpdated": "智慧助理工作區根目錄已更新，新助理將建立在所選目錄下。",
     "rootReset": "智慧助理工作區根目錄已重設為預設位置。",
     "saveFailed": "更新智慧助理工作區根目錄失敗",
-    "openFailed": "開啟資料夾失敗"
+    "openFailed": "開啟資料夾失敗",
+    "pathRequired": "請輸入絕對目錄路徑",
+    "invalidPath": "請輸入絕對路徑，例如 D:\\助理工作區 或 /home/user/workspaces",
+    "pickerUnavailable": "目錄瀏覽器僅在桌面版可用，請改為直接填寫絕對路徑。"
   },
   "common": {
     "retry": "重試"

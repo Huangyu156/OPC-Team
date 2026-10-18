@@ -161,6 +161,7 @@ fn registered_capabilities(
                 "workspace/diff",
                 "workspace/searchReferences",
                 "workspace/messageReferences",
+                "workspace/assistantLocations",
             ],
         ),
         (
@@ -184,6 +185,7 @@ fn registered_capabilities(
                 "config/getConfig",
                 "config/getConfigs",
                 "config/setConfig",
+                "config/resetConfig",
                 "config/saveCloudSpeechConfig",
                 "config/validateConfig",
                 "config/setAgentProfileConfig",

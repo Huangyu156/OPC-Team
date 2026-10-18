@@ -10,7 +10,10 @@
       "label": "自定义根目录",
       "description": "选择任意磁盘上的任意目录。留空则使用默认位置。",
       "defaultHint": "默认（产品主目录）",
+      "pathPlaceholder": "例如 D:\\助手工作区",
+      "apply": "应用",
       "pick": "选择目录",
+      "manualHint": "桌面版可以浏览选择目录；浏览器版 Web UI 请直接填写绝对路径后点击“应用”。",
       "reset": "重置"
     },
     "activeRoot": {
@@ -38,7 +41,10 @@
     "rootUpdated": "智能助手工作区根目录已更新，新助手将创建在所选目录下。",
     "rootReset": "智能助手工作区根目录已重置为默认位置。",
     "saveFailed": "更新智能助手工作区根目录失败",
-    "openFailed": "打开文件夹失败"
+    "openFailed": "打开文件夹失败",
+    "pathRequired": "请输入绝对目录路径",
+    "invalidPath": "请输入绝对路径，例如 D:\\助手工作区 或 /home/user/workspaces",
+    "pickerUnavailable": "目录浏览器仅在桌面版可用，请改为直接填写绝对路径。"
   },
   "common": {
     "retry": "重试"

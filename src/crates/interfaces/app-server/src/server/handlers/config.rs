@@ -106,6 +106,19 @@ pub(in crate::server) fn builder() -> Builder<AppServer, impl HandleDispatchFrom
             agent_client_protocol::on_receive_request!(),
         )
         .on_receive_request(
+            async move |request: ResetConfigMessage, responder, _cx| {
+                let result = async {
+                    let service = opc_core::service::config::get_global_config_service().await?;
+                    service.reset_config(Some(request.path.as_str())).await
+                }
+                .await
+                .map(|()| ResetConfigResponse {})
+                .map_err(opc_error);
+                responder.respond_with_result(result)
+            },
+            agent_client_protocol::on_receive_request!(),
+        )
+        .on_receive_request(
             async move |request: SaveCloudSpeechConfigMessage, responder, _cx| {
                 let result = async {
                     let service = opc_core::service::config::get_global_config_service().await?;

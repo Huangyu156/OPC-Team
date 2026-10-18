@@ -203,6 +203,7 @@ export const AGENT_COMMAND_SCHEMA = {
     response: null as unknown as ResetAgentProfileConfigResponse,
   },
   set_config: { method: 'config/setConfig' },
+  reset_config: { method: 'config/resetConfig' },
   save_cloud_speech_config: { method: 'config/saveCloudSpeechConfig' },
   get_web_search_credential_status: { method: 'config/getWebSearchCredentialStatus' },
   save_web_search_credential: { method: 'config/saveWebSearchCredential' },

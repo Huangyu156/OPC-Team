@@ -100,6 +100,23 @@ pub struct SetConfigMessage {
 #[cfg_attr(feature = "rpc", derive(JsonRpcResponse))]
 pub struct SetConfigResponse {}
 
+/// Restores one configuration path to its default value.
+///
+/// `path` is required so a remote surface can never wipe the whole
+/// configuration in one call; a full reset stays an explicit local action on
+/// the host that owns the config file.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "rpc", derive(JsonRpcRequest))]
+#[serde(rename_all = "camelCase")]
+#[cfg_attr(feature = "rpc", request(method = "config/resetConfig", response = ResetConfigResponse))]
+pub struct ResetConfigMessage {
+    pub path: String,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[cfg_attr(feature = "rpc", derive(JsonRpcResponse))]
+pub struct ResetConfigResponse {}
+
 #[derive(Debug, Clone, Serialize, Deserialize)]
 #[cfg_attr(feature = "rpc", derive(JsonRpcRequest))]
 #[cfg_attr(feature = "ts", derive(ts_rs::TS), ts(export))]

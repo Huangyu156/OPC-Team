@@ -45,12 +45,27 @@ function defaultLocations() {
   return { activeRoot: LEGACY_ROOT, legacyRoot: LEGACY_ROOT, customRootActive: false };
 }
 
+/**
+ * The picker and the reveal buttons are host capabilities. The page must read
+ * them from the runtime instead of assuming a desktop shell.
+ */
+function setDesktopRuntime(enabled: boolean) {
+  if (enabled) {
+    (window as unknown as { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__ = {
+      invoke: () => Promise.resolve(),
+    };
+    return;
+  }
+  delete (window as unknown as { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__;
+}
+
 describe('AssistantStorageSettingsPage', () => {
   let container: HTMLElement;
   let root: Root;
 
   beforeEach(() => {
     vi.clearAllMocks();
+    setDesktopRuntime(true);
     mocks.getConfig.mockResolvedValue(null);
     mocks.getAssistantWorkspaceLocations.mockResolvedValue(defaultLocations());
     container = document.createElement('div');
@@ -61,22 +76,54 @@ describe('AssistantStorageSettingsPage', () => {
   afterEach(async () => {
     await act(async () => root.unmount());
     container.remove();
+    setDesktopRuntime(false);
   });
+
+  const flushPromises = async () => {
+    await act(async () => {
+      await Promise.resolve();
+      await Promise.resolve();
+      await Promise.resolve();
+    });
+  };
 
   const renderPage = async () => {
     await act(async () => root.render(React.createElement(AssistantStorageSettingsPage)));
+    await flushPromises();
   };
 
   const inputByTitle = (title: string) =>
     Array.from(container.querySelectorAll('input')).find((el) => el.getAttribute('title') === title);
 
-  it('shows the active root when no custom root is configured', async () => {
-    await renderPage();
+  const rootInput = () =>
+    container.querySelector<HTMLInputElement>('[data-testid="assistant-storage-root-input"]');
 
+  const pickButton = () => container.querySelector('[data-testid="assistant-storage-pick-button"]');
+
+  const applyButton = () =>
+    container.querySelector<HTMLButtonElement>('[data-testid="assistant-storage-apply-button"]');
+
+  const click = async (element: Element | null) => {
+    expect(element).not.toBeNull();
     await act(async () => {
+      element!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+      await Promise.resolve();
       await Promise.resolve();
       await Promise.resolve();
     });
+  };
+
+  const typeInto = async (input: HTMLInputElement, value: string) => {
+    await act(async () => {
+      const valueSetter = Object.getOwnPropertyDescriptor(window.HTMLInputElement.prototype, 'value')?.set;
+      valueSetter?.call(input, value);
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      await Promise.resolve();
+    });
+  };
+
+  it('shows the active root when no custom root is configured', async () => {
+    await renderPage();
 
     expect(inputByTitle(LEGACY_ROOT)).not.toBeUndefined();
     expect(mocks.getAssistantWorkspaceLocations).toHaveBeenCalledTimes(1);
@@ -91,20 +138,7 @@ describe('AssistantStorageSettingsPage', () => {
 
     await renderPage();
 
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
-    });
-
-    const pickButton = container.querySelector('[data-testid="assistant-storage-pick-button"]');
-    expect(pickButton).not.toBeNull();
-
-    await act(async () => {
-      pickButton!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      await Promise.resolve();
-      await Promise.resolve();
-      await Promise.resolve();
-    });
+    await click(pickButton());
 
     expect(mocks.pickWorkspaceDirectory).toHaveBeenCalledTimes(1);
     expect(mocks.setConfig).toHaveBeenCalledWith('app.assistant_workspace_root', 'D:\\assistants');
@@ -118,21 +152,60 @@ describe('AssistantStorageSettingsPage', () => {
 
     await renderPage();
 
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
-    });
-
-    const pickButton = container.querySelector('[data-testid="assistant-storage-pick-button"]');
-    expect(pickButton).not.toBeNull();
-
-    await act(async () => {
-      pickButton!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      await Promise.resolve();
-      await Promise.resolve();
-    });
+    await click(pickButton());
 
     expect(mocks.setConfig).not.toHaveBeenCalled();
+  });
+
+  it('persists an absolute path typed into the field', async () => {
+    mocks.setConfig.mockResolvedValue(undefined);
+    mocks.getAssistantWorkspaceLocations
+      .mockResolvedValueOnce(defaultLocations())
+      .mockResolvedValueOnce({ activeRoot: CUSTOM_ROOT, legacyRoot: LEGACY_ROOT, customRootActive: true });
+
+    await renderPage();
+
+    const input = rootInput();
+    expect(input).not.toBeNull();
+    await typeInto(input!, 'D:\\assistants');
+    await click(applyButton());
+
+    expect(mocks.pickWorkspaceDirectory).not.toHaveBeenCalled();
+    expect(mocks.setConfig).toHaveBeenCalledWith('app.assistant_workspace_root', 'D:\\assistants');
+    expect(inputByTitle(CUSTOM_ROOT)).not.toBeUndefined();
+  });
+
+  it('rejects a relative path without writing configuration', async () => {
+    await renderPage();
+
+    await typeInto(rootInput()!, 'assistants/local');
+    await click(applyButton());
+
+    expect(mocks.setConfig).not.toHaveBeenCalled();
+    expect(container.textContent).toContain('messages.invalidPath');
+  });
+
+  it('degrades to typed input when the host has no native directory browser', async () => {
+    setDesktopRuntime(false);
+
+    await renderPage();
+
+    expect(pickButton()).toBeNull();
+    expect(container.querySelector('[data-testid="assistant-storage-manual-hint"]')).not.toBeNull();
+
+    mocks.setConfig.mockResolvedValue(undefined);
+    mocks.getAssistantWorkspaceLocations.mockResolvedValue({
+      activeRoot: CUSTOM_ROOT,
+      legacyRoot: LEGACY_ROOT,
+      customRootActive: true,
+    });
+
+    await typeInto(rootInput()!, 'D:\\assistants');
+    await click(applyButton());
+
+    expect(mocks.pickWorkspaceDirectory).not.toHaveBeenCalled();
+    expect(mocks.setConfig).toHaveBeenCalledWith('app.assistant_workspace_root', 'D:\\assistants');
+    expect(container.textContent).toContain('messages.rootUpdated');
   });
 
   it('restores the default root through resetConfig', async () => {
@@ -144,21 +217,9 @@ describe('AssistantStorageSettingsPage', () => {
 
     await renderPage();
 
-    await act(async () => {
-      await Promise.resolve();
-      await Promise.resolve();
-    });
+    const resetButton = container.querySelector('[data-testid="assistant-storage-reset-button"]');
 
-    const resetButton = Array.from(container.querySelectorAll('button'))
-      .find((el) => el.textContent === 'storage.customRoot.reset');
-    expect(resetButton).not.toBeUndefined();
-
-    await act(async () => {
-      resetButton!.dispatchEvent(new MouseEvent('click', { bubbles: true }));
-      await Promise.resolve();
-      await Promise.resolve();
-      await Promise.resolve();
-    });
+    await click(resetButton);
 
     expect(mocks.resetConfig).toHaveBeenCalledWith('app.assistant_workspace_root');
     expect(inputByTitle(LEGACY_ROOT)).not.toBeUndefined();
