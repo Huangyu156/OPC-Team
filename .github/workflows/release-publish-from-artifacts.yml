@@ -8,7 +8,9 @@ name: Release Publish From Artifacts
 # the Windows Authenticode check. A build host without the CERTUM secrets
 # therefore has to run with upload_to_release=false and cannot publish anything.
 # This workflow separates the two concerns: it downloads the already built
-# bundles, publishes their installers, and never rebuilds or re-signs anything.
+# bundles, publishes their installers together with a SHA256SUMS manifest,
+# checks every uploaded asset against the digest GitHub computes on upload, and
+# never rebuilds or re-signs anything.
 #
 # Deliberate boundaries, do not "fix" them without reading the evidence:
 #
@@ -144,6 +146,15 @@ jobs:
             fi
           done < <(find upload -maxdepth 1 -type f -print0)
 
+          # A download can then be checked with "sha256sum -c SHA256SUMS".
+          # The manifest is written outside upload/ first so the glob expansion
+          # cannot pick up the manifest itself.
+          ( cd upload && LC_ALL=C sha256sum * ) > SHA256SUMS.gen
+          mv SHA256SUMS.gen upload/SHA256SUMS
+
+          echo "checksum manifest:"
+          cat upload/SHA256SUMS
+
       - name: Create draft release and upload assets
         env:
           GH_TOKEN: ${{ github.token }}
@@ -173,6 +184,37 @@ jobs:
           gh release view "${TAG}" --repo "${GITHUB_REPOSITORY}" \
             --json isDraft,assets \
             --jq '{isDraft: .isDraft, assets: [.assets[] | "\(.name) \(.size)"]}'
+
+      - name: Verify uploaded digests
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          digests="${RUNNER_TEMP}/remote-digests.txt"
+          missing=""
+          for attempt in 1 2 3 4 5; do
+            gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${TAG}" \
+              --jq '.assets[] | "\(.name) \(.digest)"' > "${digests}"
+            missing="$(awk 'NR==FNR { want[$2]=1; next } $2 ~ /^sha256:/ { have[$1]=1 } END { for (n in want) if (!(n in have)) print n }' upload/SHA256SUMS "${digests}")"
+            if [ -z "${missing}" ]; then
+              break
+            fi
+            echo "GitHub has not reported a sha256 digest for: ${missing} (attempt ${attempt})"
+            sleep 5
+          done
+          if [ -n "${missing}" ]; then
+            echo "::error::GitHub did not report a sha256 digest for every uploaded asset"
+            exit 1
+          fi
+          while read -r local_sum name; do
+            remote="$(awk -v n="${name}" '$1==n { print $2 }' "${digests}")"
+            if [ "${remote}" != "sha256:${local_sum}" ]; then
+              echo "::error::digest mismatch for ${name}: local ${local_sum}, remote ${remote}"
+              exit 1
+            fi
+          done < upload/SHA256SUMS
+          echo "every uploaded asset matches its local sha256"
 
       - name: Publish release
         env:
