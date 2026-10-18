@@ -554,11 +554,6 @@ $_section-header-height: 22px;
     padding: var(--opcteam-space-1) var(--opcteam-space-2) var(--opcteam-space-1);
   }
 
-  &__miniapp-navigation {
-    width: 100%;
-    min-width: 0;
-  }
-
   &__pages-entry {
     min-width: 0;
     min-height: 42px;
@@ -655,206 +650,6 @@ $_section-header-height: 22px;
     font-size: var(--opcteam-type-label-md-font-size);
     font-weight: var(--opcteam-type-label-sm-font-weight);
     line-height: var(--opcteam-type-display-sm-line-height);
-  }
-
-  &__miniapp-entry-wrap {
-    margin: 0;
-  }
-
-  &__miniapp-item {
-    display: flex;
-    // Anchors the trailing app bubbles, which trail as an overlay.
-    position: relative;
-    width: 100%;
-    min-height: var(--opcteam-layout-navigation-panel-item-height);
-    padding: 0;
-    background: transparent;
-  }
-
-  // Every nav row paints its hover/selected pill on the ActionItem trigger. This
-  // row's root also lays the trailing actions region out in flow, so the root gap
-  // plus that region's own inset pushed the trigger 12px off the row's right edge
-  // and the pill stopped short with it. Trailing the region as an overlay keeps
-  // the bubbles on their existing gutter and lets the pill span the full row.
-  &__miniapp-item > [data-opc-part='actions'] {
-    position: absolute;
-    inset-block: 0;
-    inset-inline-end: var(--opcteam-space-2);
-  }
-
-  &__miniapp-entry {
-    position: relative;
-    width: 100%;
-    min-height: 42px;
-    display: flex;
-    align-items: center;
-    gap: var(--opcteam-space-2);
-    padding: 8px 10px 8px var(--opcteam-space-2);
-    border: 1px solid transparent;
-    border-radius: 10px;
-    background: transparent;
-    color: var(--opcteam-color-content-secondary);
-    cursor: pointer;
-    text-align: left;
-    transition: background var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
-                color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
-                transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
-                box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
-
-    &:hover {
-      color: var(--opcteam-color-content-primary);
-      background: color-mix(in srgb, var(--opcteam-color-action-quiet-hover) 94%, transparent);
-      box-shadow: 0 2px 8px color-mix(in srgb, var(--opcteam-color-content-on-light) 8%, transparent);
-    }
-
-    &:active {
-      transform: translateY(1px);
-      background: color-mix(in srgb, var(--opcteam-color-action-neutral-surface-hover) 82%, transparent);
-    }
-
-    &:focus-visible {
-      outline: 2px solid var(--opcteam-color-accent-default);
-      outline-offset: 0;
-    }
-
-    &.is-active {
-      color: var(--opcteam-color-content-primary);
-      background: color-mix(in srgb, var(--opcteam-color-action-quiet-hover) 94%, transparent);
-      border: 1px solid var(--opcteam-color-border-subtle);
-      box-shadow: 0 2px 8px color-mix(in srgb, var(--opcteam-color-content-on-light) 8%, transparent);
-    }
-
-    &:hover,
-    &:focus-visible,
-    &.is-active {
-      .opc-nav-panel__miniapp-entry-icon {
-        color: var(--opcteam-color-content-primary);
-      }
-    }
-
-    &.has-customizing-apps {
-      color: var(--opcteam-color-content-primary);
-
-      &::after {
-        content: "";
-        position: absolute;
-        top: 6px;
-        left: 7px;
-        width: 7px;
-        height: 7px;
-        border-radius: 999px;
-        background: var(--opcteam-color-accent-default);
-        box-shadow:
-          0 0 0 2px var(--opcteam-color-surface-canvas),
-          0 0 8px color-mix(in srgb, var(--opcteam-color-accent-default) 75%, transparent);
-        pointer-events: none;
-      }
-    }
-  }
-
-  &__miniapp-entry-main {
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    gap: var(--opcteam-space-2);
-    flex: 1;
-  }
-
-  &__miniapp-entry-icon {
-    // Share the top-action icon column so Mini App and Extensions stay aligned.
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    flex: 0 0 var(--_nav-icon-slot-size);
-    width: var(--_nav-icon-slot-size);
-    height: var(--_nav-icon-slot-size);
-    color: var(--_nav-icon-color);
-    transition: color var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
-  }
-
-  &__miniapp-entry-apps {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: var(--opcteam-space-1);
-    flex: 0 0 auto;
-    margin-left: auto;
-    min-width: 0;
-  }
-
-  &__miniapp-bubble {
-    position: relative;
-    width: 26px;
-    height: 26px;
-    border-radius: 999px;
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--opcteam-color-content-primary);
-    border: none;
-    box-shadow: none;
-    overflow: hidden;
-    --_icon-button-background: transparent;
-    --_icon-button-background-hover: transparent;
-    --_icon-button-background-active: transparent;
-    transition: transform var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
-                box-shadow var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
-                filter var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard),
-                opacity var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
-
-    &:not(.is-active):not(.opc-nav-panel__miniapp-bubble--more) {
-      filter: saturate(0.72);
-      opacity: 0.9;
-    }
-
-    &:hover {
-      box-shadow: 0 10px 20px color-mix(in srgb, var(--opcteam-color-content-on-light) 24%, transparent);
-      filter: saturate(1);
-      opacity: 1;
-    }
-
-    &.is-active {
-      filter: saturate(1);
-      opacity: 1;
-      box-shadow: none;
-    }
-
-    &.is-customizing {
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--opcteam-color-accent-default) 42%, transparent),
-                  0 8px 18px color-mix(in srgb, var(--opcteam-color-content-on-light) 20%, transparent);
-
-      &::after {
-        position: absolute;
-        right: 2px;
-        bottom: 2px;
-        width: 6px;
-        height: 6px;
-        border-radius: var(--opcteam-radius-pill);
-        background: var(--opcteam-color-accent-default);
-        box-shadow: 0 0 0 1px color-mix(in srgb, var(--opcteam-color-content-on-light) 28%, transparent), 0 0 7px color-mix(in srgb, var(--opcteam-color-accent-default) 72%, transparent);
-        content: '';
-        pointer-events: none;
-      }
-    }
-
-    &.is-active.is-customizing {
-      box-shadow: 0 0 0 2px color-mix(in srgb, var(--opcteam-color-accent-default) 42%, transparent);
-    }
-
-    &--more {
-      background: color-mix(in srgb, var(--opcteam-color-action-neutral-surface-hover) 92%, transparent);
-      color: var(--opcteam-color-content-secondary);
-      font-size: var(--opcteam-type-micro-font-size);
-      font-weight: var(--opcteam-type-heading-page-font-weight);
-      letter-spacing: var(--opcteam-type-modifier-tracking-subtle-letter-spacing);
-      filter: none;
-      opacity: 1;
-
-      &:hover {
-        color: var(--opcteam-color-content-primary);
-      }
-    }
   }
 
   &__section-actions {
@@ -2377,8 +2172,7 @@ $_section-header-height: 22px;
 // Keep every primary navigation entry on the same token-owned icon column.
 // ActionItem's leading slot is a direct child of the trigger; the icon wrappers
 // inside it inherit this fixed geometry instead of participating in label growth.
-.opc-nav-panel__top-action-btn,
-.opc-nav-panel__miniapp-entry {
+.opc-nav-panel__top-action-btn {
   > [data-opc-part='leading'] {
     flex: 0 0 var(--_nav-icon-slot-size);
     inline-size: var(--_nav-icon-slot-size);
@@ -2678,8 +2472,7 @@ $_section-header-height: 22px;
   }
 
   &__pages-entry,
-  &__assistant-entry,
-  &__miniapp-entry {
+  &__assistant-entry {
     min-height: 30px;
     gap: var(--opcteam-space-2);
     padding-inline: var(--opcteam-space-2);
@@ -2700,24 +2493,10 @@ $_section-header-height: 22px;
   }
 
   &__pages-entry.is-active,
-  &__assistant-entry.is-active,
-  &__miniapp-entry.is-active {
+  &__assistant-entry.is-active {
     border-color: transparent;
     @include nav-font.nav-panel-text-row-active;
     @include shell-surfaces.navigation-selection-feedback;
-  }
-
-  &__miniapp-bubble {
-    width: 24px;
-    height: 24px;
-    transition:
-      transform 120ms cubic-bezier(0.23, 1, 0.32, 1),
-      opacity 120ms ease,
-      filter 120ms ease;
-
-    &:hover {
-      box-shadow: none;
-    }
   }
 
   &__mode-pill {
@@ -2891,8 +2670,7 @@ $_section-header-height: 22px;
   &__top-action-btn,
   &__item,
   &__pages-entry,
-  &__assistant-entry,
-  &__miniapp-entry {
+  &__assistant-entry {
     @include nav-font.nav-panel-text-row;
   }
 
@@ -2901,22 +2679,19 @@ $_section-header-height: 22px;
   &__item:hover,
   &__item:focus-visible,
   &__pages-entry:hover,
-  &__assistant-entry:hover,
-  &__miniapp-entry:hover {
+  &__assistant-entry:hover {
     @include nav-font.nav-panel-text-heading;
   }
 
   &__top-action-btn.is-active,
   &__item.is-active,
   &__pages-entry.is-active,
-  &__assistant-entry.is-active,
-  &__miniapp-entry.is-active {
+  &__assistant-entry.is-active {
     @include nav-font.nav-panel-text-row-active;
   }
 
   &__pages-entry:hover,
-  &__assistant-entry:hover,
-  &__miniapp-entry:hover {
+  &__assistant-entry:hover {
     @include shell-surfaces.navigation-hover-feedback;
   }
 

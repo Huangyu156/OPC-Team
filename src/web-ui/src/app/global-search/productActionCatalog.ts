@@ -7,7 +7,6 @@ export type ProductActionIcon =
   | 'files'
   | 'users'
   | 'book-open'
-  | 'blocks'
   | 'check-square'
   | 'chart'
   | 'gear'

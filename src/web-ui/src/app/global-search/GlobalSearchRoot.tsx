@@ -77,7 +77,6 @@ const ACTION_ICONS: Record<ProductActionIcon, IconSource> = {
   files: { glyph: FileText },
   users: { glyph: Users },
   'book-open': { name: 'book-open' },
-  blocks: { glyph: Blocks },
   'check-square': { glyph: CheckSquare2 },
   chart: { glyph: BarChart3 },
   gear: { name: 'gear' },

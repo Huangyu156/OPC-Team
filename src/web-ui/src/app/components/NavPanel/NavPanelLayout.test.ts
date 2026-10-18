@@ -208,8 +208,7 @@ describe('NavPanel layout styles', () => {
     const stylesheet = readNavPanelStylesheet();
 
     expect(stylesheet).toContain(
-      ".opc-nav-panel__top-action-btn,\n" +
-      ".opc-nav-panel__miniapp-entry {\n" +
+      ".opc-nav-panel__top-action-btn {\n" +
       "  > [data-opc-part='leading'] {\n" +
       '    flex: 0 0 var(--_nav-icon-slot-size);\n' +
       '    inline-size: var(--_nav-icon-slot-size);\n' +
@@ -222,23 +221,5 @@ describe('NavPanel layout styles', () => {
     expect(stylesheet).not.toContain(
       '> span:not([data-overflow-content]):not(.opc-nav-panel__top-action-icon-circle)',
     );
-  });
-
-  it('keeps the miniapp row pill on the full row width', () => {
-    const stylesheet = readNavPanelStylesheet();
-    const itemBlock = extractBlock(stylesheet, '&__miniapp-item');
-    const trailingBlock = extractBlock(
-      stylesheet,
-      "&__miniapp-item > [data-opc-part='actions']",
-    );
-
-    // The row paints its hover/selected pill on the ActionItem trigger, so the
-    // trailing actions region must stay out of the trigger's flex line: as an
-    // in-flow sibling it took the root gap plus its own margin off the row and
-    // left the pill short of the row's right edge.
-    expect(itemBlock).toContain('position: relative;');
-    expect(trailingBlock).toContain('position: absolute;');
-    expect(trailingBlock).toContain('inset-inline-end: var(--opcteam-space-2);');
-    expect(trailingBlock).not.toContain('margin-inline-end');
   });
 });
