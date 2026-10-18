@@ -12,6 +12,7 @@
  */
 
 import { useState, useEffect, useRef } from 'react';
+import { resolveMotionMode, subscribeMotionModeChange } from '@/shared/utils/motionPreference';
 
 interface GraphemeSegment {
   index: number;
@@ -74,9 +75,10 @@ export function safeGraphemeRevealEnd(
 }
 
 function getPrefersReducedMotion(): boolean {
-  return typeof window !== 'undefined'
-    && typeof window.matchMedia === 'function'
-    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // Read the resolved answer from the single motion truth source instead of
+  // querying the media query here; the shell mirrors the same value onto
+  // `data-opc-motion` for CSS and non-React consumers.
+  return resolveMotionMode() === 'reduced';
 }
 
 /** Steady reveal rate while backlog is small (live streaming). */
@@ -112,6 +114,20 @@ export const TYPEWRITER_MIN_PAINT_INTERVAL_MS = 16;
 /** Finish mode paints every animation frame budget. */
 export const TYPEWRITER_FINISH_MIN_PAINT_INTERVAL_MS = 8;
 
+/**
+ * A single content commit whose backlog exceeds this many characters is
+ * backfill, not live typing, so it is applied at once instead of being drained
+ * at the typewriter rate.
+ *
+ * Peer reconnect and cursor replay can deliver a whole transcript-sized chunk
+ * in one commit. Draining that at `TYPEWRITER_MAX_CHARS_PER_SEC` keeps
+ * `isRevealing` true for `backlog / 720` seconds, which holds the reveal gate
+ * (and the footer behind it) closed for no perceptual gain. The bypass is
+ * scoped to the commit that triggered it: the next live chunk animates again.
+ * Upstream uses the same shape of guard for its arrival cascade.
+ */
+export const TYPEWRITER_BURST_IMMEDIATE_CHARS = 4000;
+
 export interface TypewriterOptions {
   /** Skip playback and drain immediately, e.g. when the owning body is hidden.
    * Unlike animate=false (stream finished), this does not animate the backlog.
@@ -127,6 +143,16 @@ export interface TypewriterOptions {
    * which the user sees as the conversation refreshing itself.
    */
   replayOnMount?: boolean;
+  /**
+   * Backfill tolerance. When one content commit leaves more than this many
+   * characters unrevealed, the commit is applied at once instead of drained at
+   * the typewriter rate. Defaults to `TYPEWRITER_BURST_IMMEDIATE_CHARS`.
+   *
+   * This is not a playback setting: live streaming backlogs stay well below the
+   * threshold (the rate accelerates to `TYPEWRITER_MAX_CHARS_PER_SEC`, and each
+   * commit only appends a chunk), so only reconnect/replay-sized commits trip it.
+   */
+  burstImmediateChars?: number;
 }
 
 export interface TypewriterCharsPerSecInput {
@@ -214,6 +240,10 @@ export function useTypewriter(
 ): TypewriterResult {
   const replayOnMount = options.replayOnMount ?? false;
   const revealImmediately = options.revealImmediately ?? false;
+  const burstImmediateChars = Math.max(
+    0,
+    options.burstImmediateChars ?? TYPEWRITER_BURST_IMMEDIATE_CHARS
+  );
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(getPrefersReducedMotion);
   const shouldReplayInitialText = animate && replayOnMount && !prefersReducedMotion && !revealImmediately;
   const [displayText, setDisplayText] = useState(shouldReplayInitialText ? '' : targetText);
@@ -270,6 +300,25 @@ export function useTypewriter(
       fractionalCarryRef.current = 0;
       lastPaintMsRef.current = 0;
       setDisplayText('');
+    }
+
+    // Backfill protection. A commit that leaves more than `burstImmediateChars`
+    // unrevealed is a reconnect/replay payload, not live typing: draining it at
+    // the typewriter rate would keep the reveal gate closed for
+    // `backlog / TYPEWRITER_MAX_CHARS_PER_SEC` seconds with no perceptual gain.
+    // Apply this one payload at once and keep animating later chunks normally.
+    const commitBacklog = targetText.length - revealedRef.current;
+    if (burstImmediateChars > 0 && commitBacklog > burstImmediateChars) {
+      if (rafRef.current !== null) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      lastTickMsRef.current = null;
+      lastPaintMsRef.current = 0;
+      fractionalCarryRef.current = 0;
+      revealedRef.current = targetText.length;
+      setDisplayText(targetText);
+      return;
     }
 
     // History / completed mounts that never started a reveal stay fully shown.
@@ -364,15 +413,14 @@ export function useTypewriter(
     if (rafRef.current === null && targetText.length > revealedRef.current) {
       rafRef.current = requestAnimationFrame(tick);
     }
-  }, [targetText, animate, prefersReducedMotion, revealImmediately]);
+  }, [targetText, animate, prefersReducedMotion, revealImmediately, burstImmediateChars]);
 
   useEffect(() => {
-    if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') return;
-    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const handleChange = (event: MediaQueryListEvent) => setPrefersReducedMotion(event.matches);
-    setPrefersReducedMotion(media.matches);
-    media.addEventListener?.('change', handleChange);
-    return () => media.removeEventListener?.('change', handleChange);
+    // Read the single motion truth source instead of opening a second copy of
+    // the media query. The shared subscription re-resolves and reports only the
+    // two published answers, so this hook cannot disagree with the paint side.
+    setPrefersReducedMotion(getPrefersReducedMotion());
+    return subscribeMotionModeChange(mode => setPrefersReducedMotion(mode === 'reduced'));
   }, []);
 
   useEffect(() => {

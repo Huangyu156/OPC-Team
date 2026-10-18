@@ -1,6 +1,10 @@
-import { describe, expect, it } from 'vitest';
+// @vitest-environment jsdom
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import React, { act } from 'react';
+import { createRoot } from 'react-dom/client';
 import {
   TYPEWRITER_BASE_CHARS_PER_SEC,
+  TYPEWRITER_BURST_IMMEDIATE_CHARS,
   TYPEWRITER_FINISH_CHARS_PER_SEC,
   TYPEWRITER_FINISH_MAX_CHARS_PER_PAINT,
   TYPEWRITER_MAX_CHARS_PER_PAINT,
@@ -8,6 +12,9 @@ import {
   commitTypewriterReveal,
   computeTypewriterCharsPerSec,
   safeGraphemeRevealEnd,
+  useTypewriter,
+  type TypewriterOptions,
+  type TypewriterResult,
 } from './useTypewriter';
 
 describe('computeTypewriterCharsPerSec', () => {
@@ -100,5 +107,126 @@ describe('safeGraphemeRevealEnd', () => {
     const prefix = 'a'.repeat(10_000);
     expect(safeGraphemeRevealEnd(`${prefix}😀!`, prefix.length + 1, prefix.length))
       .toBe(prefix.length + 2);
+  });
+});
+
+interface HarnessProps {
+  text: string;
+  animate: boolean;
+  options?: TypewriterOptions;
+  onResult: (result: TypewriterResult) => void;
+}
+
+function Harness({ text, animate, options, onResult }: HarnessProps) {
+  const result = useTypewriter(text, animate, options);
+  onResult(result);
+  return React.createElement('span', null, result.displayText);
+}
+
+const cleanups: (() => void)[] = [];
+
+function renderTypewriter(props: HarnessProps) {
+  const container = document.createElement('div');
+  document.body.appendChild(container);
+  const root = createRoot(container);
+  const render = (next: HarnessProps) => {
+    act(() => {
+      root.render(React.createElement(Harness, next));
+    });
+  };
+  render(props);
+  const unmount = () => {
+    act(() => root.unmount());
+    container.remove();
+  };
+  cleanups.push(unmount);
+  return {
+    container,
+    rerender: (next: Omit<HarnessProps, 'onResult'>) => render({ ...next, onResult: props.onResult }),
+    unmount,
+  };
+}
+
+describe('useTypewriter burst backfill', () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    (globalThis as { IS_REACT_ACT_ENVIRONMENT?: boolean }).IS_REACT_ACT_ENVIRONMENT = true;
+    vi.stubGlobal('matchMedia', () => ({
+      matches: false,
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+    }));
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) =>
+      setTimeout(() => callback(performance.now()), 16));
+    vi.stubGlobal('cancelAnimationFrame', clearTimeout);
+  });
+
+  afterEach(() => {
+    cleanups.splice(0).forEach(fn => fn());
+    vi.useRealTimers();
+    vi.unstubAllGlobals();
+  });
+
+  it('jumps to the full text when a single commit exceeds the burst limit', () => {
+    let latest: TypewriterResult = { displayText: '', isRevealing: false };
+    const view = renderTypewriter({ text: '', animate: true, onResult: r => { latest = r; } });
+    // A peer reconnect replays a large block in one commit: at 720 chars per
+    // second the typewriter would hold the reveal gate for backlog / 720
+    // seconds, so this commit is painted whole instead.
+    const burst = 'x'.repeat(TYPEWRITER_BURST_IMMEDIATE_CHARS + 1);
+    view.rerender({ text: burst, animate: true });
+    expect(latest.displayText).toBe(burst);
+    // The gate is released the moment the stream ends instead of draining the
+    // backfill at the typewriter rate.
+    view.rerender({ text: burst, animate: false });
+    expect(latest.isRevealing).toBe(false);
+    expect(latest.displayText).toBe(burst);
+  });
+
+  it('keeps animating when the commit stays under the burst limit', () => {
+    let latest: TypewriterResult = { displayText: '', isRevealing: false };
+    const view = renderTypewriter({ text: '', animate: true, onResult: r => { latest = r; } });
+    view.rerender({ text: 'hello', animate: true });
+    expect(latest.displayText).not.toBe('hello');
+    expect(latest.isRevealing).toBe(true);
+  });
+
+  it('honours a caller-provided burstImmediateChars', () => {
+    let latest: TypewriterResult = { displayText: '', isRevealing: false };
+    const view = renderTypewriter({
+      text: '',
+      animate: true,
+      options: { burstImmediateChars: 4 },
+      onResult: r => { latest = r; },
+    });
+    view.rerender({
+      text: 'abcdefgh',
+      animate: true,
+      options: { burstImmediateChars: 4 },
+    });
+    expect(latest.displayText).toBe('abcdefgh');
+    view.rerender({
+      text: 'abcdefgh',
+      animate: false,
+      options: { burstImmediateChars: 4 },
+    });
+    expect(latest.isRevealing).toBe(false);
+  });
+
+  it('treats burstImmediateChars = 0 as disabling the guard', () => {
+    let latest: TypewriterResult = { displayText: '', isRevealing: false };
+    const view = renderTypewriter({
+      text: '',
+      animate: true,
+      options: { burstImmediateChars: 0 },
+      onResult: r => { latest = r; },
+    });
+    view.rerender({
+      text: 'y'.repeat(TYPEWRITER_BURST_IMMEDIATE_CHARS + 1),
+      animate: true,
+      options: { burstImmediateChars: 0 },
+    });
+    expect(latest.displayText).not.toBe('y'.repeat(TYPEWRITER_BURST_IMMEDIATE_CHARS + 1));
+    expect(latest.isRevealing).toBe(true);
   });
 });
