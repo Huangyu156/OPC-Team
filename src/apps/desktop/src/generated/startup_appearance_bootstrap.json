@@ -95,8 +95,8 @@
     },
     {
       "id": "opc-claude-style",
-      "bgPrimary": "#f0eee6",
-      "bgSecondary": "#fcfcfb",
+      "bgPrimary": "#fcfcfb",
+      "bgSecondary": "#ffffff",
       "bgScene": "#fcfcfb",
       "isLight": true,
       "textPrimary": "#141413",

@@ -1,4 +1,3 @@
-
 import { AppearancePalette } from './AppearancePalette';
 import {
   createAccentScale,
@@ -6,7 +5,6 @@ import {
   createSecondaryAccentScale,
   createSemanticColors,
   createStandardEasing,
-  createStandardRadius,
   createStandardSpacing,
   rgbFromHex,
   rgbaFromHex,
@@ -14,11 +12,10 @@ import {
 } from './paletteHelpers';
 
 const CLAUDE_CANVAS = '#fcfcfb';
-const CLAUDE_IVORY = '#f0eee6';
 // The reference distinguishes canvas, sidebar and elevated surfaces by 1-2 RGB steps,
 // which is below the color-governance near-pair threshold and visually indistinct.
-// They are collapsed onto the single canvas value; the recessed inset and the chrome
-// band carry the remaining layer separation.
+// They are collapsed onto the single canvas value; the recessed inset and the raised
+// overlay carry the layer separation that actually reads on screen.
 const CLAUDE_IVORY_INSET = '#f5f3e8';
 const CLAUDE_INK = '#141413';
 const CLAUDE_BODY_TEXT = '#3a3833';
@@ -26,8 +23,15 @@ const CLAUDE_MUTED_TEXT = '#6b6960';
 const CLAUDE_DISABLED_TEXT = '#a8a69d';
 const CLAUDE_CLAY = '#d97757';
 const CLAUDE_CLAY_DEEP = '#c6613f';
+// One pressed clay rung carries every "already pressed" use: button active, syntax
+// keyword, and link hover. A second near-identical brick would only add a color pair
+// the audit reads as a duplicate.
+const CLAUDE_CLAY_ACTIVE = '#b24c2e';
 const CLAUDE_SECONDARY = '#6b8cae';
 const CLAUDE_SECONDARY_DEEP = '#52718f';
+// Reading-surface ink from the reference's markdown scale. A body link is navigation,
+// not emphasis, so it never borrows the clay accent.
+const CLAUDE_LINK = '#184f95';
 
 const claudeInk = (alpha: number | string) => rgbaFromHex(CLAUDE_INK, alpha);
 const claudeClay = (alpha: number | string) => rgbaFromHex(CLAUDE_CLAY, alpha);
@@ -44,12 +48,13 @@ export const opcClaudeStylePalette: AppearancePalette = {
     background: {
       // Low-contrast warm layers: ivory canvas, darker inset well, and near-white overlays.
       primary: CLAUDE_CANVAS,
-      secondary: CLAUDE_CANVAS,
+      secondary: STATIC_WHITE,
       tertiary: CLAUDE_IVORY_INSET,
-      elevated: CLAUDE_CANVAS,
+      elevated: STATIC_WHITE,
       workbench: CLAUDE_IVORY_INSET,
       scene: CLAUDE_CANVAS,
-      chrome: CLAUDE_IVORY,
+      chrome: CLAUDE_CANVAS,
+      input: STATIC_WHITE,
     },
 
     text: {
@@ -76,17 +81,30 @@ export const opcClaudeStylePalette: AppearancePalette = {
     },
 
     element: {
+      // A three-step wash ramp. Adjacent two-percent steps are indistinguishable on
+      // screen and read as duplicate colors to the audit; wide rungs survive both.
       subtle: claudeInk(0.03),
-      soft: claudeInk(0.05),
+      soft: claudeInk(0.03),
       base: claudeInk(0.08),
-      medium: claudeInk(0.11),
-      strong: claudeInk(0.15),
+      medium: claudeInk(0.14),
+      strong: claudeInk(0.22),
     },
 
     git: createGitColors('light', {
       branch: rgbFromHex(CLAUDE_CLAY),
       branchBg: claudeClay(0.1),
     }),
+
+    // Focus follows the ink, never the accent: a focus ring is a structural outline,
+    // and the accent is reserved for emphasis the product itself chose to add.
+    focus: {
+      ring: CLAUDE_INK,
+    },
+
+    link: {
+      default: CLAUDE_LINK,
+      hover: CLAUDE_CLAY_ACTIVE,
+    },
   },
 
   effects: {
@@ -103,7 +121,15 @@ export const opcClaudeStylePalette: AppearancePalette = {
       base: 'blur(8px) saturate(1.04)',
     },
 
-    radius: createStandardRadius(),
+    // The reference's own scale: control 4px, container 8px, panel 16px.
+    radius: {
+      sm: '4px',
+      base: '8px',
+      lg: '16px',
+      xl: '16px',
+      '2xl': '20px',
+      full: '9999px',
+    },
 
     spacing: createStandardSpacing(),
 
@@ -130,20 +156,22 @@ export const opcClaudeStylePalette: AppearancePalette = {
       primary: {
         default: {
           background: CLAUDE_CLAY,
-          color: STATIC_WHITE,
+          // Clay is a mid-luminance fill, so white label text cannot reach AA on it.
+          // The ink label does, and it keeps the button legible in bright rooms.
+          color: CLAUDE_INK,
           border: 'transparent',
           shadow: 'none',
         },
         hover: {
           background: CLAUDE_CLAY_DEEP,
-          color: STATIC_WHITE,
+          color: CLAUDE_INK,
           border: 'transparent',
           shadow: 'none',
           transform: 'none',
         },
         active: {
-          background: '#b24c2e',
-          color: STATIC_WHITE,
+          background: CLAUDE_CLAY_ACTIVE,
+          color: CLAUDE_INK,
           border: 'transparent',
           shadow: 'none',
           transform: 'none',
@@ -190,7 +218,7 @@ export const opcClaudeStylePalette: AppearancePalette = {
 
       'editor.selectionBackground': 'rgba(51, 102, 208, 0.22)',
       'editor.selectionForeground': CLAUDE_INK,
-      'editor.inactiveSelectionBackground': 'rgba(51, 102, 208, 0.16)',
+      'editor.inactiveSelectionBackground': 'rgba(51, 102, 208, 0.22)',
       'editor.selectionHighlightBackground': claudeClay(0.18),
       'editor.selectionHighlightBorder': claudeClay(0.32),
       'editorCursor.foreground': CLAUDE_CLAY,

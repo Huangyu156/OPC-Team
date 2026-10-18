@@ -120,6 +120,7 @@ function createThemeTokenValues(palette: AppearancePalette): Record<ThemeTokenNa
     thumbHover: palette.type === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
   };
   const button = palette.components?.button;
+  const focusRing = colors.focus?.ring ?? colors.accent[500];
   const values: Record<ThemeTokenName, ThemeValue> = { ...themes[palette.type] };
 
   Object.assign(values, {
@@ -171,16 +172,18 @@ function createThemeTokenValues(palette: AppearancePalette): Record<ThemeTokenNa
     'color.action.quiet.content': colors.text.secondary,
     'color.selection.surface': colors.element.medium,
     'color.field.groupBackground': colors.background.tertiary,
-    'color.field.background': colors.background.secondary,
+    'color.field.background': colors.background.input ?? colors.background.secondary,
     'color.field.backgroundHover': colors.element.subtle,
     'color.composer.border': colors.border.base,
     'color.composer.contextBackground': colors.element.subtle,
     'color.field.border': colors.border.base,
     'color.field.borderHover': colors.border.medium,
-    'color.field.borderFocus': colors.accent[500],
-    'color.field.borderActive': colors.accent[500],
+    'color.field.borderFocus': focusRing,
+    'color.field.borderActive': focusRing,
     'color.field.placeholder': colors.text.muted,
-    'color.focus.ring': colors.accent[500],
+    'color.focus.ring': focusRing,
+    'color.link.default': colors.link?.default ?? values['color.link.default'],
+    'color.link.hover': colors.link?.hover ?? values['color.link.hover'],
     'color.status.info.content': colors.semantic.info,
     'color.status.info.surface': colors.semantic.infoBg,
     'color.status.info.border': colors.semantic.infoBorder,
@@ -224,6 +227,9 @@ function createChromeThemeTokens(
     thumb: palette.type === 'dark' ? 'rgba(255, 255, 255, 0.2)' : 'rgba(0, 0, 0, 0.2)',
     thumbHover: palette.type === 'dark' ? 'rgba(255, 255, 255, 0.3)' : 'rgba(0, 0, 0, 0.3)',
   };
+  // Chrome focus keeps following the palette's focus ink when it declares one;
+  // otherwise it stays on the accent so existing chrome palettes are unchanged.
+  const chromeFocusRing = palette.colors.focus?.ring ?? chrome.accent[500];
 
   Object.assign(values, {
     'color.surface.canvas': chrome.background.primary,
@@ -263,16 +269,16 @@ function createChromeThemeTokens(
     'color.action.quiet.content': chrome.text.secondary,
     'color.selection.surface': chrome.element.medium,
     'color.field.groupBackground': chrome.background.tertiary,
-    'color.field.background': chrome.background.secondary,
+    'color.field.background': chrome.background.input ?? chrome.background.secondary,
     'color.field.backgroundHover': chrome.element.subtle,
     'color.composer.border': chrome.border.base,
     'color.composer.contextBackground': chrome.element.subtle,
     'color.field.border': chrome.border.base,
     'color.field.borderHover': chrome.border.medium,
-    'color.field.borderFocus': chrome.accent[500],
-    'color.field.borderActive': chrome.accent[500],
+    'color.field.borderFocus': chromeFocusRing,
+    'color.field.borderActive': chromeFocusRing,
     'color.field.placeholder': chrome.text.muted,
-    'color.focus.ring': chrome.accent[500],
+    'color.focus.ring': chromeFocusRing,
     'color.scrollbar.thumb': scrollbar.thumb,
     'color.scrollbar.thumbHover': scrollbar.thumbHover,
   } satisfies Partial<Record<ThemeTokenName, ThemeValue>>);

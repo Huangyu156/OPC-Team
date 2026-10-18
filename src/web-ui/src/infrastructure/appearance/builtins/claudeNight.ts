@@ -87,6 +87,13 @@ export const opcClaudeNightPalette: AppearancePalette = {
       branch: rgbFromHex(CLAUDE_CLAY),
       branchBg: claudeClay(0.14),
     }),
+
+    // Links lift off the warm near-black canvas the same way the accent does; the
+    // light palette's ink-dark link would disappear here.
+    link: {
+      default: CLAUDE_SECONDARY_LIGHT,
+      hover: CLAUDE_NIGHT_IVORY,
+    },
   },
 
   effects: {
