@@ -48,6 +48,7 @@ const BrowserScene    = lazyWithRecovery(() => import('./browser/BrowserScene'))
 const TodosScene      = lazyWithRecovery(() => import('./todos/TodosScene'));
 const InsightsScene   = lazyWithRecovery(() => import('./my-agent/InsightsScene'));
 const ShellScene      = lazyWithRecovery(() => import('./shell/ShellScene'));
+const KnowledgeScene  = lazyWithRecovery(() => import('./knowledge/KnowledgeScene'));
 const MiniAppScene    = lazyWithRecovery(() => import('./miniapps/MiniAppScene'));
 
 const SCENE_ENTRY_DURATION_MS = 480;
@@ -332,6 +333,8 @@ function renderScene(
       return <TodosScene />;
     case 'insights':
       return <InsightsScene />;
+    case 'knowledge':
+      return <KnowledgeScene />;
     case 'shell':
       return <ShellScene isActive={isActive} />;
     default:

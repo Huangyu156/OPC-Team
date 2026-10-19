@@ -34,6 +34,9 @@ pub mod round_preempt;
 // Image analysis module
 pub mod image_analysis;
 pub(crate) mod keyed_lock;
+// Durable knowledge base facade
+#[cfg(feature = "knowledge-base")]
+pub mod knowledge;
 pub mod memories;
 pub(crate) mod permission_policy;
 

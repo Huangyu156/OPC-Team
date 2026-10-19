@@ -612,6 +612,7 @@ impl AgentRegistry {
                 .map(str::to_string)
                 .collect(),
             level: level.to_string(),
+            knowledge_base_refs: data.knowledge_base_refs.clone(),
         }
     }
 
@@ -628,6 +629,7 @@ impl AgentRegistry {
         review: Option<bool>,
         user_context_policy: Option<opc_agent_runtime::prompt::UserContextPolicy>,
         model: Option<String>,
+        knowledge_base_refs: Option<Vec<opc_agent_runtime::custom_agent::KnowledgeBaseRef>>,
     ) -> OpcTeamResult<()> {
         self.ensure_user_custom_agents_loaded().await;
         if let Some(root) = workspace_id {
@@ -671,6 +673,9 @@ impl AgentRegistry {
             definition.readonly = readonly.unwrap_or(old.data.readonly);
             definition.user_context_policy =
                 user_context_policy.unwrap_or_else(|| old.data.user_context_policy.clone());
+            definition.knowledge_base_refs = knowledge_base_refs
+                .clone()
+                .unwrap_or_else(|| old.data.knowledge_base_refs.clone());
             Self::validate_custom_agent(
                 &mut definition,
                 &CustomAgentFrontMatterMetadata {
@@ -712,6 +717,9 @@ impl AgentRegistry {
             definition.review = review;
             definition.user_context_policy =
                 user_context_policy.unwrap_or_else(|| old.data.user_context_policy.clone());
+            definition.knowledge_base_refs = knowledge_base_refs
+                .clone()
+                .unwrap_or_else(|| old.data.knowledge_base_refs.clone());
             Self::validate_custom_agent(
                 &mut definition,
                 &CustomAgentFrontMatterMetadata {
@@ -751,6 +759,7 @@ impl AgentRegistry {
             tools,
             readonly,
             review,
+            None,
             None,
             None,
         )

@@ -11,6 +11,17 @@ export type UserContextSection =
   | 'workspace_instructions'
   | 'project_layout';
 
+export type KnowledgeBaseAccessMode = 'read' | 'readwrite';
+
+/**
+ * A user-level knowledge base this agent may consult. `readwrite` additionally
+ * lets the agent call `KnowledgeWrite` to extend and enrich the base.
+ */
+export interface KnowledgeBaseRef {
+  id: string;
+  mode: KnowledgeBaseAccessMode;
+}
+
 export interface CustomAgentDetail {
   agentId: string;
   kind: CustomAgentKind;
@@ -24,6 +35,7 @@ export interface CustomAgentDetail {
   path: string;
   level: CustomAgentLevel;
   userContextPolicy: UserContextSection[];
+  knowledgeBaseRefs?: KnowledgeBaseRef[];
 }
 
 export interface GetCustomAgentDetailPayload {
@@ -43,6 +55,7 @@ export interface CreateCustomAgentPayload {
   review?: boolean;
   model?: string;
   userContextPolicy?: UserContextSection[];
+  knowledgeBaseRefs?: KnowledgeBaseRef[];
   workspaceId?: string;
 }
 
@@ -56,6 +69,8 @@ export interface UpdateCustomAgentPayload {
   review?: boolean;
   model?: string;
   userContextPolicy?: UserContextSection[];
+  /** Omitted keeps the stored references so older clients never unbind them. */
+  knowledgeBaseRefs?: KnowledgeBaseRef[];
   workspaceId?: string;
 }
 

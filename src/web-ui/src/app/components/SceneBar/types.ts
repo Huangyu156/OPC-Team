@@ -28,6 +28,7 @@ export type SceneTabId =
   | 'assistant'
   | 'todos'
   | 'insights'
+  | 'knowledge'
   | 'shell'
   | `content:${string}`
   | `session:${string}`

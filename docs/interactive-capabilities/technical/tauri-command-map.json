@@ -1,11 +1,11 @@
 {
   "schemaVersion": 2,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "7c535c515b932bbdda4e327f73650c584600518579bb93dbea4cd5f991f400b2",
-  "commandCount": 670,
+  "catalogDigest": "a74ac4129ed00663249c1d3b1a5b54ac0eb554a9d93da8812730c9f62077ed70",
+  "commandCount": 680,
   "coverage": {
-    "commandCount": 670,
-    "documentedCommandCount": 623,
+    "commandCount": 680,
+    "documentedCommandCount": 633,
     "implementationCommandCount": 47,
     "implementationDigest": "0089f61cfe146bf1f3e47e5178061698527865b3dde3d8f3b368f96af7ba1ab8"
   },
@@ -1754,6 +1754,22 @@
       "remoteWorkspacePolicy": "RemoteRouted"
     },
     {
+      "id": "create_knowledge_base",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:manage-bases"
+      ],
+      "visibility": "documented",
+      "rustPath": "create_knowledge_base",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn create_knowledge_base( request: CreateKnowledgeBaseRequest, ) -> Result<KnowledgeBaseRecord, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
+    },
+    {
       "id": "create_miniapp",
       "moduleId": "miniapp",
       "capabilityId": "feature.miniapps",
@@ -1995,6 +2011,38 @@
       "sourceFile": "src/apps/desktop/src/api/commands.rs",
       "signature": "fn delete_file( state: State<'_, AppState>, request: DeleteFileRequest, ) -> Result<(), String>",
       "remoteWorkspacePolicy": "RemoteRouted"
+    },
+    {
+      "id": "delete_knowledge_base",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:manage-bases"
+      ],
+      "visibility": "documented",
+      "rustPath": "delete_knowledge_base",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn delete_knowledge_base(request: DeleteKnowledgeBaseRequest) -> Result<bool, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
+    },
+    {
+      "id": "delete_knowledge_entry",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:edit-entries"
+      ],
+      "visibility": "documented",
+      "rustPath": "delete_knowledge_entry",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn delete_knowledge_entry(request: DeleteKnowledgeEntryRequest) -> Result<bool, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {
       "id": "delete_mcp_server",
@@ -3396,6 +3444,22 @@
       "sourceFile": "src/apps/desktop/src/api/external_sources_api.rs",
       "signature": "fn get_instruction_source_catalog( request: ExternalSourceSnapshotRequest, ) -> ExternalSourceOperationResult<opc_core::external_sources::InstructionSourceCatalog>",
       "remoteWorkspacePolicy": "RemoteUnsupported"
+    },
+    {
+      "id": "get_knowledge_entry",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:browse-entries"
+      ],
+      "visibility": "documented",
+      "rustPath": "get_knowledge_entry",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn get_knowledge_entry( request: GetKnowledgeEntryRequest, ) -> Result<Option<KnowledgeEntryRecord>, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {
       "id": "get_latest_insights",
@@ -5119,6 +5183,54 @@
       "sourceFile": "src/apps/desktop/src/api/commands.rs",
       "signature": "fn list_directory_files( state: State<'_, AppState>, request: ListDirectoryFilesRequest, ) -> Result<Vec<String>, String>",
       "remoteWorkspacePolicy": "RemoteRouted"
+    },
+    {
+      "id": "list_knowledge_bases",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:browse-bases"
+      ],
+      "visibility": "documented",
+      "rustPath": "list_knowledge_bases",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn list_knowledge_bases() -> Result<Vec<KnowledgeBaseRecord>, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
+    },
+    {
+      "id": "list_knowledge_entries",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:browse-entries"
+      ],
+      "visibility": "documented",
+      "rustPath": "list_knowledge_entries",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn list_knowledge_entries( request: ListKnowledgeEntriesRequest, ) -> Result<Vec<KnowledgeEntryRecord>, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
+    },
+    {
+      "id": "list_knowledge_ledger",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:audit-ledger"
+      ],
+      "visibility": "documented",
+      "rustPath": "list_knowledge_ledger",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn list_knowledge_ledger( request: ListKnowledgeLedgerRequest, ) -> Result<Vec<KnowledgeLedgerRecord>, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {
       "id": "list_manageable_subagents",
@@ -8469,6 +8581,22 @@
       "remoteWorkspacePolicy": "RemoteUnsupported"
     },
     {
+      "id": "search_knowledge_entries",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:browse-entries"
+      ],
+      "visibility": "documented",
+      "rustPath": "search_knowledge_entries",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn search_knowledge_entries( request: SearchKnowledgeEntriesRequest, ) -> Result<KnowledgeSearchOutcome, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
+    },
+    {
       "id": "search_rebuild_index",
       "moduleId": "search",
       "capabilityId": null,
@@ -10333,6 +10461,22 @@
       "remoteWorkspacePolicy": "RemoteUnsupported"
     },
     {
+      "id": "update_knowledge_base",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:manage-bases"
+      ],
+      "visibility": "documented",
+      "rustPath": "update_knowledge_base",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn update_knowledge_base( request: UpdateKnowledgeBaseRequest, ) -> Result<KnowledgeBaseRecord, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
+    },
+    {
       "id": "update_mcp_remote_auth",
       "moduleId": "mcp",
       "capabilityId": "setting.tools.mcp",
@@ -10509,6 +10653,22 @@
       "sourceFile": "src/apps/desktop/src/api/context_upload_api.rs",
       "signature": "fn upload_image_contexts( request: UploadImageContextRequest, ) -> Result<Vec<UploadedImageContextResponse>, String>",
       "remoteWorkspacePolicy": "LegacyUnaudited"
+    },
+    {
+      "id": "upsert_knowledge_entry",
+      "moduleId": "knowledge",
+      "capabilityId": "feature.knowledge",
+      "capabilityIds": [
+        "feature.knowledge"
+      ],
+      "documentedItemIds": [
+        "feature.knowledge:edit-entries"
+      ],
+      "visibility": "documented",
+      "rustPath": "upsert_knowledge_entry",
+      "sourceFile": "src/apps/desktop/src/api/knowledge_api.rs",
+      "signature": "fn upsert_knowledge_entry( request: UpsertKnowledgeEntryRequest, ) -> Result<KnowledgeEntryUpsertOutcome, String>",
+      "remoteWorkspacePolicy": "WorkspaceAgnostic"
     },
     {
       "id": "validate_config",

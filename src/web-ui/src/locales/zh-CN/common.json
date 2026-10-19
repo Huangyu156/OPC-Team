@@ -86,7 +86,8 @@
       "terminal": "Shell",
       "git": "Git",
       "miniApps": "小应用",
-      "insights": "洞察"
+      "insights": "洞察",
+      "knowledge": "知识库"
     },
     "tooltips": {
       "persona": "智能成员 — 展开查看基于角色和记忆的成员会话",
@@ -98,7 +99,8 @@
       "ecosystemCompatibilityUnseen": "生态兼容 — 发现了新的兼容应用",
       "tools": "它能用什么工具 — 内置工具与 MCP 服务",
       "addWorkspace": "添加工作区",
-      "addSessionGroup": "添加项目或个人助理"
+      "addSessionGroup": "添加项目或个人助理",
+      "knowledge": "知识库与条目"
     },
     "sections": {
       "extensions": "扩展与兼容",
@@ -158,7 +160,8 @@
         "openInsights": "打开洞察",
         "openSettings": "打开设置",
         "openKeyboardShortcuts": "打开键盘快捷键",
-        "openIntegrations": "打开生态兼容"
+        "openIntegrations": "打开生态兼容",
+        "openKnowledge": "打开知识库"
       },
       "actionDescriptions": {
         "newSession": "通过统一会话流程开始新对话",
@@ -173,7 +176,8 @@
         "openInsights": "查看活动与使用洞察",
         "openSettings": "配置 OPC-Team",
         "openKeyboardShortcuts": "查看和自定义键盘快捷键",
-        "openIntegrations": "管理外部 AI 应用中的兼容能力与运行方式"
+        "openIntegrations": "管理外部 AI 应用中的兼容能力与运行方式",
+        "openKnowledge": "浏览与管理知识库及其条目与审计账本"
       },
       "badges": {
         "userMessage": "你",
@@ -1509,7 +1513,8 @@
     "assistant": "$t(shared:agents.Claw)",
     "todos": "任务看板",
     "shell": "Shell",
-    "panelView": "面板视图"
+    "panelView": "面板视图",
+    "knowledge": "知识库"
   },
   "sceneBar": {
     "tabsLabel": "场景标签页",

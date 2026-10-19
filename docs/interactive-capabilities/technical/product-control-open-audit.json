@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "generatedFrom": "src/shared/interactive-capabilities/catalog.json",
-  "catalogDigest": "7c535c515b932bbdda4e327f73650c584600518579bb93dbea4cd5f991f400b2",
-  "count": 216,
+  "catalogDigest": "a74ac4129ed00663249c1d3b1a5b54ac0eb554a9d93da8812730c9f62077ed70",
+  "count": 221,
   "reasonCounts": {
     "externalAuth": 4,
     "secretEntry": 5,
-    "unstructuredInteraction": 184,
+    "unstructuredInteraction": 189,
     "visualSelection": 23
   },
   "entries": [
@@ -338,6 +338,91 @@
         "command:list_agent_tool_names",
         "source:src/web-ui/src/app/scenes/agents/components/ToolGroupPicker.tsx#ToolGroupPicker",
         "source:src/web-ui/src/app/scenes/agents/components/SkillGroupPicker.tsx#SkillGroupPicker"
+      ]
+    },
+    {
+      "capabilityId": "feature.knowledge",
+      "itemId": "browse-bases",
+      "titleZh": "查看全部知识库及其条目规模",
+      "titleEn": "List every knowledge base with its entry volume",
+      "reasonCode": "unstructuredInteraction",
+      "reasonZh": "“查看全部知识库及其条目规模”由多个依赖实时状态的步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
+      "reasonEn": "“List every knowledge base with its entry volume” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
+      "presentationTarget": {
+        "kind": "action",
+        "actionId": "surface.knowledge.open"
+      },
+      "evidence": [
+        "command:list_knowledge_bases"
+      ]
+    },
+    {
+      "capabilityId": "feature.knowledge",
+      "itemId": "manage-bases",
+      "titleZh": "新建、重命名和删除知识库",
+      "titleEn": "Create, rename, and delete knowledge bases",
+      "reasonCode": "unstructuredInteraction",
+      "reasonZh": "“新建、重命名和删除知识库”由多个依赖实时状态的步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
+      "reasonEn": "“Create, rename, and delete knowledge bases” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
+      "presentationTarget": {
+        "kind": "action",
+        "actionId": "surface.knowledge.open"
+      },
+      "evidence": [
+        "command:create_knowledge_base",
+        "command:update_knowledge_base",
+        "command:delete_knowledge_base"
+      ]
+    },
+    {
+      "capabilityId": "feature.knowledge",
+      "itemId": "browse-entries",
+      "titleZh": "浏览、检索并查看知识条目正文",
+      "titleEn": "Browse, search, and open the full text of knowledge entries",
+      "reasonCode": "unstructuredInteraction",
+      "reasonZh": "“浏览、检索并查看知识条目正文”由多个依赖实时状态的步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
+      "reasonEn": "“Browse, search, and open the full text of knowledge entries” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
+      "presentationTarget": {
+        "kind": "action",
+        "actionId": "surface.knowledge.open"
+      },
+      "evidence": [
+        "command:list_knowledge_entries",
+        "command:get_knowledge_entry",
+        "command:search_knowledge_entries"
+      ]
+    },
+    {
+      "capabilityId": "feature.knowledge",
+      "itemId": "edit-entries",
+      "titleZh": "新建、编辑和删除知识条目",
+      "titleEn": "Create, edit, and delete knowledge entries",
+      "reasonCode": "unstructuredInteraction",
+      "reasonZh": "“新建、编辑和删除知识条目”由多个依赖实时状态的步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
+      "reasonEn": "“Create, edit, and delete knowledge entries” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
+      "presentationTarget": {
+        "kind": "action",
+        "actionId": "surface.knowledge.open"
+      },
+      "evidence": [
+        "command:upsert_knowledge_entry",
+        "command:delete_knowledge_entry"
+      ]
+    },
+    {
+      "capabilityId": "feature.knowledge",
+      "itemId": "audit-ledger",
+      "titleZh": "查看知识库的追加式变更账本",
+      "titleEn": "Inspect the append-only change ledger of a knowledge base",
+      "reasonCode": "unstructuredInteraction",
+      "reasonZh": "“查看知识库的追加式变更账本”由多个依赖实时状态的步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
+      "reasonEn": "“Inspect the append-only change ledger of a knowledge base” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
+      "presentationTarget": {
+        "kind": "action",
+        "actionId": "surface.knowledge.open"
+      },
+      "evidence": [
+        "command:list_knowledge_ledger"
       ]
     },
     {
@@ -1243,8 +1328,8 @@
       "reasonZh": "“浏览市场、查看详情并安装或更新发布版本”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
       "reasonEn": "“Browse the market, inspect listings, and install or update releases” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:miniapp_market_browse",
@@ -1265,8 +1350,8 @@
       "reasonZh": "市场登录必须由用户在外部认证流程中确认；智能体可以打开准确入口，但不能代替账户持有人完成认证。",
       "reasonEn": "Market sign-in requires the account holder to confirm an external authentication flow; the Agent can open the exact entry but cannot complete that authentication for them.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:account_github_start",
@@ -1287,8 +1372,8 @@
       "reasonZh": "“按路径或工作区授予权限，并在定制前审查权限差异”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
       "reasonEn": "“Grant path or workspace access and review permission changes before customization” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:grant_miniapp_path",
@@ -1306,8 +1391,8 @@
       "reasonZh": "“运行 Mini App Host 与 Worker，查看状态并停止后台 Worker”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
       "reasonEn": "“Run Mini App host and worker calls, inspect status, and stop background workers” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:miniapp_host_call",
@@ -1332,8 +1417,8 @@
       "reasonZh": "“为正式应用和定制草稿分别读取与保存持久状态”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
       "reasonEn": "“Read and save persistent state separately for installed apps and customization drafts” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:get_miniapp_storage",
@@ -1351,8 +1436,8 @@
       "reasonZh": "“在 Mini App 中调用模型补全、聊天和专属智能体会话”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
       "reasonEn": "“Use model completion, chat, and dedicated agent sessions inside Mini Apps” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:miniapp_ai_complete",
@@ -1376,8 +1461,8 @@
       "reasonZh": "“创建定制草稿、实时预览，并应用、同步或丢弃修改”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
       "reasonEn": "“Create customization drafts, preview them live, and apply, sync, or discard changes” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:miniapp_create_draft",
@@ -1397,8 +1482,8 @@
       "reasonZh": "“查看版本历史并回滚到旧版本”由多个实时状态相关步骤组成，目前没有一个能确定完成整个流程的单一结构化 Command；智能体会打开精确入口，并把后续交互保留在用户可见界面。",
       "reasonEn": "“Inspect version history and roll back to an earlier release” spans multiple live-state-dependent steps and currently has no single structured Command that can deterministically complete the whole workflow; the Agent opens the exact entry and keeps the remaining interaction visible to the user.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:get_miniapp_versions",
@@ -1415,8 +1500,8 @@
       "reasonZh": "智能体已能提交完成的 Mini App；撤回、审核队列和幻灯片渲染仍依赖账户权限或当前界面状态，因此保留准确入口而不扩大工具承诺。",
       "reasonEn": "The Agent can submit a completed Mini App; withdrawal, review queues, and slide rendering still depend on account permissions or live UI state, so the contract keeps an exact entry without overstating tool support.",
       "presentationTarget": {
-        "kind": "action",
-        "actionId": "surface.miniapps.open"
+        "kind": "scene",
+        "sceneId": "miniapps"
       },
       "evidence": [
         "command:miniapp_market_withdraw_submission",

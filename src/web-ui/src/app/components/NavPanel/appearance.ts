@@ -27,7 +27,7 @@ export const navPanelAppearanceDescriptor: AppearanceSurfaceDescriptor = {
   ],
   facets: [
     { id: 'layer', attribute: 'data-opc-layer', values: ['main', 'scene'] },
-    { id: 'action', attribute: 'data-opc-action', values: ['new-session', 'smart-members', 'long-term-tracking', 'todos', 'extensions', 'agents', 'skills', 'ecosystem-compatibility', 'session-filter', 'assistant-manager'] },
+    { id: 'action', attribute: 'data-opc-action', values: ['new-session', 'smart-members', 'long-term-tracking', 'todos', 'extensions', 'agents', 'skills', 'knowledge', 'ecosystem-compatibility', 'session-filter', 'assistant-manager'] },
     { id: 'section', attribute: 'data-opc-section', values: ['smart-members', 'workspace', 'sessions'] },
   ],
   states: [

@@ -22,6 +22,7 @@ export type ProductActionId =
   | 'surface.files.open'
   | 'surface.agents.open'
   | 'surface.skills.open'
+  | 'surface.knowledge.open'
   | 'surface.ecosystemCompatibility.open'
   | 'surface.todos.open'
   | 'surface.insights.open'
@@ -103,6 +104,14 @@ export const PRODUCT_ACTION_CATALOG: readonly ProductActionDefinition[] = [
     aliases: ['skills', 'skill'],
     icon: 'book-open',
     defaultPriority: 80,
+  },
+  {
+    id: 'surface.knowledge.open',
+    labelKey: 'nav.search.actions.openKnowledge',
+    descriptionKey: 'nav.search.actionDescriptions.openKnowledge',
+    aliases: ['knowledge', 'knowledge base', 'knowledge bases', 'wiki'],
+    icon: 'book-open',
+    defaultPriority: 78,
   },
   {
     id: 'surface.todos.open',

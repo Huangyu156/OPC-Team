@@ -1298,6 +1298,7 @@ async fn updating_custom_mode_definition_rewrites_file_and_preserves_mode_kind()
             None,
             Some(UserContextPolicy::empty().with_workspace_context()),
             Some("fast".to_string()),
+            None,
         )
         .await
         .expect("mode definition update should save");

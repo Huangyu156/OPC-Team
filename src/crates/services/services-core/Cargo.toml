@@ -116,6 +116,7 @@ local-storage = [
     "windows/Win32_Storage_FileSystem",
 ]
 memory-store = ["dep:rusqlite"]
+knowledge-store = ["dep:rusqlite", "dep:sha2"]
 product-identity = ["dep:opc-core-types"]
 token-usage-statistics = ["local-storage", "dep:chrono-tz"]
 process-runtime = [

@@ -1,0 +1,90 @@
+{
+  "sidebar": {
+    "title": "知識庫",
+    "new": "新增",
+    "sectionTitle": "知識庫清單",
+    "loading": "正在載入知識庫…",
+    "error": "無法載入知識庫",
+    "empty": "還沒有知識庫。",
+    "retry": "重試"
+  },
+  "header": {
+    "noSelectionTitle": "尚未選擇知識庫",
+    "noSelectionDescription": "先建一個知識庫，再往裡面放智慧助理可以引用的條目。",
+    "noDescription": "尚無描述",
+    "rename": "重新命名",
+    "delete": "刪除",
+    "newEntry": "新增條目",
+    "refresh": "重新整理",
+    "viewEntries": "條目",
+    "viewLedger": "審計帳本"
+  },
+  "entries": {
+    "searchPlaceholder": "搜尋條目",
+    "searchLabel": "搜尋知識庫條目",
+    "clearSearch": "清除搜尋",
+    "loading": "正在載入條目…",
+    "error": "無法載入條目",
+    "empty": "這個知識庫還沒有條目。",
+    "emptySearch": "沒有符合這個搜尋的條目。",
+    "emptyHint": "條目裡放的是智慧助理可以引用的事實和流程。",
+    "untitled": "未命名條目",
+    "edit": "編輯條目",
+    "delete": "刪除",
+    "source": "來源：{{source}}",
+    "channelSubstring": "子串",
+    "channelFullText": "全文",
+    "fullTextNeedsLongerTerms": "全文檢索要求每個關鍵詞至少 {{min}} 個字元。請切換到「子串」，或改用更長的詞。",
+    "answeredFullText": "全文索引命中",
+    "answeredSubstring": "子串掃描命中",
+    "answeredRecent": "顯示最近更新"
+  },
+  "ledger": {
+    "loading": "正在載入審計帳本…",
+    "error": "無法載入審計帳本",
+    "empty": "尚無變更記錄。",
+    "actionCreateEntry": "新增了條目",
+    "actionUpdateEntry": "更新了條目",
+    "actionDeleteEntry": "刪除了條目",
+    "actionUnknown": "變更",
+    "actorUser": "你",
+    "actorAgent": "智慧助理 {{id}}",
+    "actorUnknown": "不明來源"
+  },
+  "dialog": {
+    "baseCreateTitle": "新增知識庫",
+    "baseEditTitle": "編輯知識庫",
+    "baseName": "名稱",
+    "baseNamePlaceholder": "例如：發佈操作手冊",
+    "baseDescription": "描述",
+    "baseDescriptionPlaceholder": "這個知識庫要放什麼內容？",
+    "entryCreateTitle": "新增條目",
+    "entryEditTitle": "編輯條目",
+    "entryTitle": "標題",
+    "entryTitlePlaceholder": "一個短、可搜尋的標題",
+    "entryBody": "內容",
+    "entryBodyPlaceholder": "智慧助理需要引用的事實或流程",
+    "entryTags": "標籤",
+    "entryTagsPlaceholder": "以逗號分隔標籤",
+    "entrySource": "來源",
+    "entrySourcePlaceholder": "這些內容來自哪裡",
+    "save": "儲存",
+    "cancel": "取消"
+  },
+  "confirm": {
+    "deleteBaseTitle": "刪除知識庫",
+    "deleteBaseMessage": "確定刪除「{{name}}」及其全部條目？這個操作無法復原。",
+    "deleteEntryTitle": "刪除條目",
+    "deleteEntryMessage": "確定從這個知識庫中刪除「{{title}}」？"
+  },
+  "errors": {
+    "nameRequired": "請先填寫知識庫名稱。",
+    "titleRequired": "請先填寫條目標題。",
+    "bodyRequired": "請先填寫條目內容。",
+    "generic": "無法儲存這次修改：{{message}}"
+  },
+  "unavailable": {
+    "title": "此處無法使用知識庫",
+    "description": "知識庫儲存在執行智慧助理的那台機器上，請在那台機器上開啟本頁。"
+  }
+}

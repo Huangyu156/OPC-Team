@@ -1,11 +1,12 @@
 use super::common::CustomAgentData;
 use crate::agentic::agents::Agent;
 use crate::agentic::agents::{PromptBuilderContext, UserContextPolicy};
+use crate::agentic::session::UserContextCacheIdentity;
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use opc_agent_runtime::custom_agent::{
     custom_agent_read_markdown_file, default_custom_agent_user_context_policy,
-    CustomAgentDefinition, CustomAgentKind, CustomAgentLevel,
+    CustomAgentDefinition, CustomAgentKind, CustomAgentLevel, KnowledgeBaseRef,
 };
 
 pub struct CustomMode {
@@ -59,6 +60,15 @@ impl CustomMode {
     pub fn save_to_file(&self, model: Option<&str>) -> OpcTeamResult<()> {
         self.data.save_to_file(model, None)
     }
+
+    /// Attach the knowledge bases this mode may cite.
+    ///
+    /// Kept as a setter rather than a constructor argument because the
+    /// constructor is already at the argument-count limit and every existing
+    /// caller does not know about knowledge bases.
+    pub fn set_knowledge_base_refs(&mut self, refs: Vec<KnowledgeBaseRef>) {
+        self.data.knowledge_base_refs = refs;
+    }
 }
 
 #[async_trait]
@@ -100,6 +110,14 @@ impl Agent for CustomMode {
 
     fn user_context_policy(&self) -> UserContextPolicy {
         self.data.user_context_policy.clone()
+    }
+
+    fn user_context_cache_identity(&self) -> UserContextCacheIdentity {
+        self.data.user_context_cache_identity()
+    }
+
+    fn knowledge_base_refs(&self) -> &[KnowledgeBaseRef] {
+        &self.data.knowledge_base_refs
     }
 
     fn is_readonly(&self) -> bool {

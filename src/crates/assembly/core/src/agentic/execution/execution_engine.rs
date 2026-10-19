@@ -1570,15 +1570,42 @@ impl ExecutionEngine {
         (user_context, cacheable)
     }
 
+    /// Build the knowledge base index section for an agent's user context.
+    ///
+    /// Remote workspace sessions get `None`: the knowledge store is a user-level
+    /// local resource, and injecting a local index into a session whose filesystem
+    /// lives on another host would advertise tools that fail on first call.
+    #[cfg(feature = "knowledge-base")]
+    async fn build_knowledge_base_index(
+        agent: &dyn crate::agentic::agents::Agent,
+    ) -> Option<String> {
+        if agent.knowledge_base_refs().is_empty() {
+            return None;
+        }
+        crate::agentic::knowledge::build_knowledge_base_index_reminder(
+            agent.knowledge_base_refs(),
+            agent.is_readonly(),
+        )
+        .await
+    }
+
     async fn build_cached_prepended_prompt_reminders(
         &self,
         execution_context: &ExecutionContext,
         current_agent: &dyn crate::agentic::agents::Agent,
         prompt_context: Option<&PromptBuilderContext>,
     ) -> PrependedPromptReminders {
-        let Some(prompt_context) = prompt_context.cloned() else {
+        let Some(mut prompt_context) = prompt_context.cloned() else {
             return PrependedPromptReminders::default();
         };
+        #[cfg(feature = "knowledge-base")]
+        {
+            prompt_context.knowledge_base_index = if prompt_context.remote_execution.is_some() {
+                None
+            } else {
+                Self::build_knowledge_base_index(current_agent).await
+            };
+        }
         let session_id = &execution_context.session_id;
 
         // Extract remote execution info before prompt_context is moved into PromptBuilder.
@@ -4751,10 +4778,10 @@ impl ExecutionEngine {
             .context
             .get(super::background_delivery::BACKGROUND_DELIVERY_CONTEXT_KEY)
             .and_then(|value| {
-                serde_json::from_str::<
-                        opc_core_types::background_delivery::BackgroundDelivery,
-                    >(value)
-                    .ok()
+                serde_json::from_str::<opc_core_types::background_delivery::BackgroundDelivery>(
+                    value,
+                )
+                .ok()
             })
             .filter(|delivery| delivery.run_id == context.dialog_turn_id)
         {

@@ -145,6 +145,10 @@ pub struct CreateCustomAgentRequest {
     pub review: Option<bool>,
     pub model: Option<String>,
     pub user_context_policy: Option<Vec<UserContextSection>>,
+    /// Knowledge bases this agent may cite. Omitted or empty means the agent
+    /// cites nothing, which is the pre-knowledge behaviour.
+    #[serde(default)]
+    pub knowledge_base_refs: Option<Vec<opc_agent_runtime::custom_agent::KnowledgeBaseRef>>,
     #[serde(default)]
     pub workspace_id: Option<String>,
     /// Upgrade-only input for pre-ID clients.
@@ -258,7 +262,7 @@ pub async fn create_custom_agent(
 
     match request.kind {
         CustomAgentKind::Mode => {
-            let mode = CustomMode::new(
+            let mut mode = CustomMode::new(
                 id.clone(),
                 request.name.trim().to_string(),
                 request.description.trim().to_string(),
@@ -269,6 +273,7 @@ pub async fn create_custom_agent(
                 model.clone(),
                 user_context_policy,
             );
+            mode.set_knowledge_base_refs(request.knowledge_base_refs.clone().unwrap_or_default());
             mode.save_to_file(None).map_err(|error| error.to_string())?;
         }
         CustomAgentKind::Subagent => {
@@ -286,6 +291,8 @@ pub async fn create_custom_agent(
                 user_context_policy,
             );
             subagent.set_review(review);
+            subagent
+                .set_knowledge_base_refs(request.knowledge_base_refs.clone().unwrap_or_default());
             subagent
                 .save_to_file(None)
                 .map_err(|error| error.to_string())?;
@@ -312,6 +319,10 @@ pub struct UpdateCustomAgentRequest {
     pub review: Option<bool>,
     pub model: Option<String>,
     pub user_context_policy: Option<Vec<UserContextSection>>,
+    /// Knowledge bases this agent may cite. Omission keeps the stored refs so
+    /// an older client that does not know the field cannot silently detach them.
+    #[serde(default)]
+    pub knowledge_base_refs: Option<Vec<opc_agent_runtime::custom_agent::KnowledgeBaseRef>>,
     #[serde(default)]
     pub workspace_id: Option<String>,
     /// Upgrade-only input for pre-ID clients.
@@ -378,6 +389,7 @@ pub async fn update_custom_agent(
             request.review,
             user_context_policy,
             request.model.clone(),
+            request.knowledge_base_refs.clone(),
         )
         .await
         .map_err(|error| error.to_string())

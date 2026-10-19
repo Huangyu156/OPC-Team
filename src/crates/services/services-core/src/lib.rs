@@ -28,6 +28,8 @@ pub mod instruction_scope;
 #[cfg(any(feature = "json-io", feature = "local-storage"))]
 pub mod json_store;
 pub mod jsonc;
+#[cfg(feature = "knowledge-store")]
+pub mod knowledge_store;
 pub mod local_instructions;
 #[cfg(feature = "workspace-runtime")]
 pub mod local_runtime_ports;

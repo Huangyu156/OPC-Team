@@ -41,6 +41,8 @@ pub mod get_file_diff_tool;
 pub mod get_time_tool;
 pub mod glob_tool;
 pub mod grep_tool;
+#[cfg(feature = "knowledge-base")]
+pub mod knowledge;
 pub mod list_models_tool;
 pub mod list_workspaces_tool;
 pub mod ls_tool;
@@ -112,6 +114,8 @@ pub use get_file_diff_tool::GetFileDiffTool;
 pub use get_time_tool::GetTimeTool;
 pub use glob_tool::GlobTool;
 pub use grep_tool::GrepTool;
+#[cfg(feature = "knowledge-base")]
+pub use knowledge::{KnowledgeReadTool, KnowledgeSearchTool, KnowledgeWriteTool};
 pub use list_models_tool::ListModelsTool;
 pub use list_workspaces_tool::ListWorkspacesTool;
 pub use ls_tool::LSTool;

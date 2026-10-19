@@ -25,6 +25,7 @@ pub enum ProductCapabilityId {
     Pages,
     Creation,
     Canvas,
+    Knowledge,
     VoiceInput,
 }
 
@@ -38,6 +39,7 @@ impl ProductCapabilityId {
             Self::Pages => "pages",
             Self::Creation => "creation",
             Self::Canvas => "canvas",
+            Self::Knowledge => "knowledge",
             Self::VoiceInput => "voice-input",
         }
     }
@@ -63,6 +65,7 @@ pub enum ProductFeatureGroup {
     Creation,
     Canvas,
     AgentControl,
+    Knowledge,
 }
 
 impl ProductFeatureGroup {
@@ -79,6 +82,7 @@ impl ProductFeatureGroup {
             Self::Creation => "creation",
             Self::Canvas => "canvas",
             Self::AgentControl => "agent-control",
+            Self::Knowledge => "knowledge",
         }
     }
 }
@@ -103,6 +107,7 @@ impl From<ToolPackFeatureGroup> for ProductFeatureGroup {
             ToolPackFeatureGroup::Creation => Self::Creation,
             ToolPackFeatureGroup::Canvas => Self::Canvas,
             ToolPackFeatureGroup::AgentControl => Self::AgentControl,
+            ToolPackFeatureGroup::Knowledge => Self::Knowledge,
         }
     }
 }
@@ -121,6 +126,7 @@ impl From<ProductFeatureGroup> for ToolPackFeatureGroup {
             ProductFeatureGroup::Creation => Self::Creation,
             ProductFeatureGroup::Canvas => Self::Canvas,
             ProductFeatureGroup::AgentControl => Self::AgentControl,
+            ProductFeatureGroup::Knowledge => Self::Knowledge,
         }
     }
 }
@@ -1027,6 +1033,7 @@ const DEEP_RESEARCH_TOOL_GROUPS: &[&str] = &["core.web", "core.mcp"];
 const MINIAPP_TOOL_GROUPS: &[&str] = &["core.miniapp"];
 const CREATION_TOOL_GROUPS: &[&str] = &["core.creation", "core.miniapp"];
 const CANVAS_TOOL_GROUPS: &[&str] = &["core.canvas"];
+const KNOWLEDGE_TOOL_GROUPS: &[&str] = &["core.knowledge"];
 
 const CODE_AGENT_IDS: &[&str] = &[
     "OPC-Team",
@@ -1096,6 +1103,12 @@ const CANVAS_CAPABILITY_PACK: ProductCapabilityPack = ProductCapabilityPack::new
     CANVAS_TOOL_GROUPS,
     NO_PRODUCT_AGENTS,
 );
+const KNOWLEDGE_CAPABILITY_PACK: ProductCapabilityPack = ProductCapabilityPack::new(
+    ProductCapabilityId::Knowledge,
+    &[],
+    KNOWLEDGE_TOOL_GROUPS,
+    NO_PRODUCT_AGENTS,
+);
 const VOICE_INPUT_CAPABILITY_PACK: ProductCapabilityPack =
     ProductCapabilityPack::new(ProductCapabilityId::VoiceInput, &[], &[], NO_PRODUCT_AGENTS);
 
@@ -1107,6 +1120,7 @@ const DEFAULT_PRODUCT_CAPABILITY_PACKS: &[ProductCapabilityPack] = &[
     PAGES_CAPABILITY_PACK,
     CREATION_CAPABILITY_PACK,
     CANVAS_CAPABILITY_PACK,
+    KNOWLEDGE_CAPABILITY_PACK,
     VOICE_INPUT_CAPABILITY_PACK,
 ];
 const EMPTY_PRODUCT_CAPABILITY_PACKS: &[ProductCapabilityPack] = &[];

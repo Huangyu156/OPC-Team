@@ -161,6 +161,13 @@ pub trait Agent: Send + Sync + 'static {
         UserContextCacheIdentity::new(self.user_context_policy().cache_scope_key())
     }
 
+    /// Knowledge bases this agent is wired to. Built-in agents reference none;
+    /// custom agents carry their front-matter references here so the tool layer
+    /// can scope search and write calls to an explicit allowlist.
+    fn knowledge_base_refs(&self) -> &[opc_agent_runtime::custom_agent::KnowledgeBaseRef] {
+        &[]
+    }
+
     fn system_reminder_template_name(&self) -> Option<&str> {
         None // by default, no system reminder
     }

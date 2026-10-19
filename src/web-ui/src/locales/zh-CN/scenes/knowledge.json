@@ -1,0 +1,90 @@
+{
+  "sidebar": {
+    "title": "知识库",
+    "new": "新建",
+    "sectionTitle": "知识库列表",
+    "loading": "正在加载知识库…",
+    "error": "无法加载知识库",
+    "empty": "还没有知识库。",
+    "retry": "重试"
+  },
+  "header": {
+    "noSelectionTitle": "未选择知识库",
+    "noSelectionDescription": "先建一个知识库，再往里面放智能助理可以引用的条目。",
+    "noDescription": "暂无描述",
+    "rename": "重命名",
+    "delete": "删除",
+    "newEntry": "新建条目",
+    "refresh": "刷新",
+    "viewEntries": "条目",
+    "viewLedger": "审计账本"
+  },
+  "entries": {
+    "searchPlaceholder": "搜索条目",
+    "searchLabel": "搜索知识库条目",
+    "clearSearch": "清空搜索",
+    "loading": "正在加载条目…",
+    "error": "无法加载条目",
+    "empty": "这个知识库还没有条目。",
+    "emptySearch": "没有匹配这个搜索的条目。",
+    "emptyHint": "条目里放的是智能助理可以引用的事实和流程。",
+    "untitled": "未命名条目",
+    "edit": "编辑条目",
+    "delete": "删除",
+    "source": "来源：{{source}}",
+    "channelSubstring": "子串",
+    "channelFullText": "全文",
+    "fullTextNeedsLongerTerms": "全文检索要求每个关键词至少 {{min}} 个字符。请切换到「子串」，或换用更长的词。",
+    "answeredFullText": "全文索引命中",
+    "answeredSubstring": "子串扫描命中",
+    "answeredRecent": "显示最近更新"
+  },
+  "ledger": {
+    "loading": "正在加载审计账本…",
+    "error": "无法加载审计账本",
+    "empty": "暂无变更记录。",
+    "actionCreateEntry": "新建了条目",
+    "actionUpdateEntry": "更新了条目",
+    "actionDeleteEntry": "删除了条目",
+    "actionUnknown": "变更",
+    "actorUser": "你",
+    "actorAgent": "智能助理 {{id}}",
+    "actorUnknown": "未知来源"
+  },
+  "dialog": {
+    "baseCreateTitle": "新建知识库",
+    "baseEditTitle": "编辑知识库",
+    "baseName": "名称",
+    "baseNamePlaceholder": "例如：发布操作手册",
+    "baseDescription": "描述",
+    "baseDescriptionPlaceholder": "这个知识库放什么内容？",
+    "entryCreateTitle": "新建条目",
+    "entryEditTitle": "编辑条目",
+    "entryTitle": "标题",
+    "entryTitlePlaceholder": "一个短、可搜索的标题",
+    "entryBody": "内容",
+    "entryBodyPlaceholder": "智能助理需要引用的事实或流程",
+    "entryTags": "标签",
+    "entryTagsPlaceholder": "用逗号分隔标签",
+    "entrySource": "来源",
+    "entrySourcePlaceholder": "这些内容来自哪里",
+    "save": "保存",
+    "cancel": "取消"
+  },
+  "confirm": {
+    "deleteBaseTitle": "删除知识库",
+    "deleteBaseMessage": "确定删除“{{name}}”及其全部条目？这个操作无法撤销。",
+    "deleteEntryTitle": "删除条目",
+    "deleteEntryMessage": "确定从这个知识库中删除“{{title}}”？"
+  },
+  "errors": {
+    "nameRequired": "请先填写知识库名称。",
+    "titleRequired": "请先填写条目标题。",
+    "bodyRequired": "请先填写条目内容。",
+    "generic": "无法保存这次修改：{{message}}"
+  },
+  "unavailable": {
+    "title": "此处不可用知识库",
+    "description": "知识库保存在运行智能助理的那台机器上，请在那台机器上打开本页。"
+  }
+}
