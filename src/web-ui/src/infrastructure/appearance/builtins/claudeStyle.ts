@@ -27,8 +27,11 @@ const CLAUDE_CLAY_DEEP = '#c6613f';
 // keyword, and link hover. A second near-identical brick would only add a color pair
 // the audit reads as a duplicate.
 const CLAUDE_CLAY_ACTIVE = '#b24c2e';
-const CLAUDE_SECONDARY = '#6b8cae';
-const CLAUDE_SECONDARY_DEEP = '#52718f';
+// The top reasoning rung is not clay: the reference lifts to its own violet, so the
+// supporting color scale carries it. It stays a graphics-only hue (3.53:1 on canvas),
+// which is exactly the "dot matrix and glow, never body text" role it is mapped to.
+const CLAUDE_APEX = '#8b7ad0';
+const CLAUDE_APEX_INK = '#5f51b5';
 // Reading-surface ink from the reference's markdown scale. A body link is navigation,
 // not emphasis, so it never borrows the clay accent.
 const CLAUDE_LINK = '#184f95';
@@ -67,7 +70,7 @@ export const opcClaudeStylePalette: AppearancePalette = {
 
     accent: createAccentScale({ base: CLAUDE_CLAY, hover: CLAUDE_CLAY_DEEP }),
 
-    purple: createSecondaryAccentScale({ base: CLAUDE_SECONDARY, hover: CLAUDE_SECONDARY_DEEP }),
+    purple: createSecondaryAccentScale({ base: CLAUDE_APEX, hover: CLAUDE_APEX_INK }),
 
     semantic: createSemanticColors('light'),
 

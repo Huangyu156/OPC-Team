@@ -26,8 +26,12 @@ const CLAUDE_NIGHT_MUTED_TEXT = '#a8a69d';
 const CLAUDE_NIGHT_DISABLED_TEXT = '#6b6960';
 const CLAUDE_CLAY = '#d97757';
 const CLAUDE_CLAY_LIGHT = '#e08a6b';
-const CLAUDE_SECONDARY = '#8faecb';
-const CLAUDE_SECONDARY_LIGHT = '#a8c4dc';
+// The lifted violet for the top reasoning rung, one step brighter than the light skin's
+// so it still clears body-text contrast on the warm near-black canvas.
+const CLAUDE_APEX = '#9d8ce0';
+// Links keep their own cool hue: if they borrowed the apex violet, navigation and the
+// accent that flags "this is the maximum" would read as the same signal.
+const CLAUDE_LINK = '#a8c4dc';
 
 const claudeNightIvory = (alpha: number | string) => rgbaFromHex(CLAUDE_NIGHT_IVORY, alpha);
 const claudeClay = (alpha: number | string) => rgbaFromHex(CLAUDE_CLAY, alpha);
@@ -62,7 +66,7 @@ export const opcClaudeNightPalette: AppearancePalette = {
 
     accent: createAccentScale({ base: CLAUDE_CLAY, hover: CLAUDE_CLAY_LIGHT }),
 
-    purple: createSecondaryAccentScale({ base: CLAUDE_SECONDARY, hover: CLAUDE_SECONDARY_LIGHT }),
+    purple: createSecondaryAccentScale({ base: CLAUDE_APEX }),
 
     semantic: createSemanticColors('dark'),
 
@@ -96,7 +100,7 @@ export const opcClaudeNightPalette: AppearancePalette = {
     // Links lift off the warm near-black canvas the same way the accent does; the
     // light palette's ink-dark link would disappear here.
     link: {
-      default: CLAUDE_SECONDARY_LIGHT,
+      default: CLAUDE_LINK,
       hover: CLAUDE_NIGHT_IVORY,
     },
   },
@@ -151,20 +155,20 @@ export const opcClaudeNightPalette: AppearancePalette = {
       primary: {
         default: {
           background: CLAUDE_CLAY,
-          color: '#141413',
+          color: CLAUDE_NIGHT_CANVAS,
           border: 'transparent',
           shadow: 'none',
         },
         hover: {
           background: CLAUDE_CLAY_LIGHT,
-          color: '#141413',
+          color: CLAUDE_NIGHT_CANVAS,
           border: 'transparent',
           shadow: 'none',
           transform: 'none',
         },
         active: {
           background: '#c6613f',
-          color: '#141413',
+          color: CLAUDE_NIGHT_CANVAS,
           border: 'transparent',
           shadow: 'none',
           transform: 'none',
