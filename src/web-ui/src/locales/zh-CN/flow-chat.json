@@ -3323,6 +3323,7 @@
     "modelExplanation": "模型说明",
     "modelSettings": "模型设置",
     "modelSelection": "选择模型",
+    "priceRatio": "· x{{ratio}}",
     "primaryModel": "主力模型",
     "primaryModelDesc": "使用已配置的主力模型",
     "fastModel": "快速模型",
@@ -3360,7 +3361,8 @@
       "agentPromptLabel": "上次请求输入上下文",
       "acpContext": "ACP 上报上下文: {{usage}}",
       "acpContextLabel": "ACP 上报上下文"
-    }
+    },
+    "priceRatioReference": "为该provider最贵对话模型价格的 x{{ratio}}"
   },
   "reasoningEffort": {
     "title": "推理深度",
@@ -3385,6 +3387,8 @@
     "current": "推理强度：{{preset}}",
     "currentAuto": "推理强度：自动（{{preset}}）",
     "updateFailed": "更新思考预设失败",
+    "weaker": "较低",
+    "stronger": "较高",
     "levels": {
       "off": "关闭",
       "on": "开启",

@@ -3323,6 +3323,7 @@
     "modelExplanation": "Model explanation",
     "modelSettings": "Model settings",
     "modelSelection": "Select Model",
+    "priceRatio": "· x{{ratio}}",
     "primaryModel": "Primary Model",
     "primaryModelDesc": "Uses the configured primary model",
     "fastModel": "Fast Model",
@@ -3360,7 +3361,8 @@
       "agentPromptLabel": "Last request prompt",
       "acpContext": "ACP reported context: {{usage}}",
       "acpContextLabel": "ACP reported context"
-    }
+    },
+    "priceRatioReference": "x{{ratio}} of the priciest chat model on this provider"
   },
   "reasoningEffort": {
     "title": "Reasoning Effort",
@@ -3385,6 +3387,8 @@
     "current": "Reasoning effort: {{preset}}",
     "currentAuto": "Reasoning effort: Auto ({{preset}})",
     "updateFailed": "Failed to update reasoning preset",
+    "weaker": "Less",
+    "stronger": "More",
     "levels": {
       "off": "Off",
       "on": "On",

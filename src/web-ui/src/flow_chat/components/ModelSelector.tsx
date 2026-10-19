@@ -49,7 +49,15 @@ import { getModelSelectorDropdownLayout } from './modelSelectorDropdownPosition'
 import { AcpModeSelector } from './AcpModeSelector';
 import { ModelModeAnimation } from './ModelModeAnimation';
 import { ReasoningIntensityControl } from './ReasoningIntensityControl';
+import { ReasoningStrengthTrigger } from './ReasoningStrengthTrigger';
 import { isAutomaticReasoningPreset, reasoningPresetChoices, reasoningSelectionLabel, resolveReasoningPresetChoice } from './reasoningPresetPresentation';
+import { reasoningLadderShape, reasoningStrengthSteps, reasoningStrengthValue } from './reasoningPresetLadder';
+import {
+  findCatalogProviderByBaseUrl,
+  formatPriceRatio,
+  resolveModelCatalogDetails,
+  type ModelCatalogDetails,
+} from './modelCatalogDetails';
 import {
   getRecentReasoningPreset,
   setRecentReasoningPreset,
@@ -153,6 +161,8 @@ interface ModelInfo {
   providerKey?: string;
   contextWindow?: number;
   maxOutputTokens?: number;
+  /** Catalog description and list price, when models.dev recognizes this model. */
+  catalogDetails?: ModelCatalogDetails;
 }
 
 /** One provider instance and the chat models configured under it. */
@@ -255,6 +265,71 @@ const getModelDisplayLabel = (model: ModelInfo | null, fallback: string): string
   return model.displayName || model.modelName || model.configName || fallback;
 };
 
+/**
+ * The row's copy block: the model name, and under it the catalog's own one-line
+ * description when models.dev recognizes the model.
+ *
+ * The description sits in the label rather than a second MenuItem slot because
+ * `MenuItem` deliberately has no subtitle slot, and a row that is not the row
+ * is a row that quietly loses its checked state and metadata.
+ */
+const ModelOptionLabel: React.FC<{
+  model: ModelInfo;
+  description?: string;
+  priceLabel?: string;
+}> = ({ model, description, priceLabel }) => (
+  <span className="opc-model-selector__option-copy">
+    <span className="opc-model-selector__option-title">
+      <OverflowText className="opc-model-selector__option-name">{model.modelName}</OverflowText>
+      {priceLabel ? (
+        <span className="opc-model-selector__option-price">{priceLabel}</span>
+      ) : null}
+    </span>
+    {description ? (
+      <span className="opc-model-selector__option-description">{description}</span>
+    ) : null}
+  </span>
+);
+
+/**
+ * The price suffix a row carries, e.g. `· x0.25`.
+ *
+ * The number is this model's input price as a fraction of the priciest chat
+ * model its catalog provider lists, so the row that is the reference prints
+ * `x1`. Every priced row prints a ratio, including the reference: a column with
+ * one row silently missing cannot be read as a column, and `x1` is what makes
+ * `x0.25` mean a quarter of something.
+ *
+ * The suffix says nothing about rank. A quarter of the flagship is cheap, but
+ * two rows can both be a quarter, and a row cannot claim "cheapest" on the
+ * strength of a ratio it does not compare against the actual cheapest row.
+ */
+const formatModelPriceLabel = (
+  details: ModelCatalogDetails | undefined,
+  t: (key: string, options?: Record<string, unknown>) => string,
+): string | undefined => {
+  if (details?.priceRatio === undefined) return undefined;
+  const ratio = formatPriceRatio(details.priceRatio);
+  if (!ratio) return undefined;
+  return t('modelSelector.priceRatio', { ratio });
+};
+
+/**
+ * The tooltip a model row carries: provider and context window, plus what the
+ * price ratio is measured against when the row prints one.
+ */
+const buildModelRowTooltipText = (
+  model: ModelInfo,
+  t: (key: string, options?: Record<string, unknown>) => string,
+): string => {
+  const base = buildModelMetaText(model);
+  const ratio = model.catalogDetails?.priceRatio === undefined
+    ? ''
+    : formatPriceRatio(model.catalogDetails.priceRatio);
+  if (!ratio) return base;
+  return `${base} · ${t('modelSelector.priceRatioReference', { ratio })}`;
+};
+
 const getModelTooltipText = (model: ModelInfo | null, fallback: string): string => {
   if (!model) return fallback;
   if (isSpecialModel(model.id)) {
@@ -331,6 +406,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   persistSharedModeDefault = true,
   disabled = false,
   disabledReason,
+  reasoningTriggerPresentation = 'meter',
 }) => {
   const { t } = useI18n('flow-chat');
   const deviceSurfaceScope = useSyncExternalStore(onSurfaceActivated, getActiveSurfaceScope, getActiveSurfaceScope);
@@ -634,6 +710,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
     };
   }, [acpAvailableModels, acpClientId, acpOptions?.currentModelId, isAcpSession]);
 
+  const catalogProviders = modelCatalog?.provider_catalog?.providers;
   const externalAvailableModels = useMemo((): ModelInfo[] => {
     if (!externalSelection) return [];
     const localSelectable = externalSelection.includeLocalCatalog
@@ -648,26 +725,30 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         // worker must execute. Reuse the controller catalog for presentation
         // so generated ids never leak into the normal model-picker UI.
         const localModel = allModels.find(model => model.id === modelId);
-        return localModel
-          ? {
-              id: modelId,
-              configName: localModel.name,
-              modelName: localModel.model_name,
-              providerName: getProviderDisplayName(localModel),
-              provider: localModel.provider,
-              providerKey: getProviderGroupKey(localModel),
-              contextWindow: localModel.context_window,
-              maxOutputTokens: localModel.max_tokens,
-            }
-          : {
-              id: modelId,
-              configName: modelId,
-              modelName: modelId,
-              providerName: externalSelection.providerLabel,
-              provider: 'external',
-            };
+        if (!localModel) {
+          return {
+            id: modelId,
+            configName: modelId,
+            modelName: modelId,
+            providerName: externalSelection.providerLabel,
+            provider: 'external',
+          };
+        }
+        const catalogProvider = findCatalogProviderByBaseUrl(localModel.base_url, catalogProviders);
+        const catalogDetails = resolveModelCatalogDetails(localModel.model_name, catalogProvider?.models);
+        return {
+          id: modelId,
+          configName: localModel.name,
+          modelName: localModel.model_name,
+          providerName: getProviderDisplayName(localModel),
+          provider: localModel.provider,
+          providerKey: getProviderGroupKey(localModel),
+          contextWindow: localModel.context_window,
+          maxOutputTokens: localModel.max_tokens,
+          ...(catalogDetails.description || catalogDetails.priceRatio !== undefined ? { catalogDetails } : {}),
+        };
       });
-  }, [allModels, externalSelection]);
+  }, [allModels, catalogProviders, externalSelection]);
 
   /**
    * This device's own default, resolved to the concrete id the executing side
@@ -777,17 +858,22 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   
   const availableModels = useMemo((): ModelInfo[] => {
     return filterSelectableTextChatModels(allModels)
-      .map(m => ({
-        id: m.id || '',
-        configName: m.name,
-        modelName: m.model_name,
-        providerName: getProviderDisplayName(m),
-        provider: m.provider,
-        providerKey: getProviderGroupKey(m),
-        contextWindow: m.context_window,
-        maxOutputTokens: m.max_tokens,
-      }));
-  }, [allModels]);
+      .map(m => {
+        const catalogProvider = findCatalogProviderByBaseUrl(m.base_url, catalogProviders);
+        const catalogDetails = resolveModelCatalogDetails(m.model_name, catalogProvider?.models);
+        return {
+          id: m.id || '',
+          configName: m.name,
+          modelName: m.model_name,
+          providerName: getProviderDisplayName(m),
+          provider: m.provider,
+          providerKey: getProviderGroupKey(m),
+          contextWindow: m.context_window,
+          maxOutputTokens: m.max_tokens,
+          ...(catalogDetails.description || catalogDetails.priceRatio !== undefined ? { catalogDetails } : {}),
+        };
+      });
+  }, [allModels, catalogProviders]);
 
   /**
    * Configuration order is preserved so a provider does not move between
@@ -1124,6 +1210,14 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   const hasSettingsPanel = hasReasoningSettings || isNativeModelSelection;
   const automaticReasoning = (selectedReasoningDescriptor && isAutomaticReasoningPreset(selectedReasoningDescriptor))
     || (!selectedReasoningDescriptor && (!isAcpSession || Boolean(externalSelection)));
+  // The ladder shape is a fact about the advertised catalog: only comparable effort
+  // levels earn the standalone seat, while budget/patch catalogs stay in the card.
+  const reasoningLadder = hasReasoningSettings ? reasoningLadderShape(catalogReasoningPresets) : 'hidden';
+  const reasoningSteps = useMemo(
+    () => (reasoningLadder === 'ranked' ? reasoningStrengthSteps(catalogReasoningPresets, t) : []),
+    [catalogReasoningPresets, reasoningLadder, t],
+  );
+  const reasoningStrengthSelection = reasoningStrengthValue(reasoningSteps, selectedReasoningDescriptor);
   useEffect(() => {
     if (!dropdownOpen) return;
     if (activePanel === 'modes' && !isNativeModelSelection) {
@@ -1574,6 +1668,13 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   }, [disabled, externalSelection, handleSelectAcpReasoning, handleSelectReasoningPreset,
     isAcpSession, loading, reasoningLoading, t]);
 
+  // The ladder seat speaks the same `preset:<id>` value the segmented choices use, so one
+  // commit path serves both entry points and neither can drift from the other.
+  const handleCommitReasoningStrength = useCallback((value: string) => {
+    const presetId = value.startsWith('preset:') ? value.slice('preset:'.length) : null;
+    void handleSelectReasoningPresetFromControl(presetId);
+  }, [handleSelectReasoningPresetFromControl]);
+
   const handleSelectUpcomingMode = useCallback(async (mode: UpcomingModelMode) => {
     const selected = await handleSelectModelFromMenu('primary', mode);
     if (!selected) return;
@@ -1972,7 +2073,23 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
       ref={dropdownRef}
       className={`opc-model-selector ${className}`}
       data-opc-state={[modelInformationLoading ? 'loading' : displayedAvailability.status, dropdownOpen && 'open'].filter(Boolean).join(' ')}
+      data-opc-reasoning-ladder={reasoningLadder}
     >
+      {showModelTrigger && reasoningLadder === 'ranked' && (
+        <ReasoningStrengthTrigger
+          className="opc-model-selector__strength"
+          steps={reasoningSteps}
+          value={reasoningStrengthSelection}
+          ariaLabel={t('reasoningSelector.title')}
+          title={t('reasoningSelector.title')}
+          weakerLabel={t('reasoningSelector.weaker')}
+          strongerLabel={t('reasoningSelector.stronger')}
+          presentation={reasoningTriggerPresentation}
+          disabled={disabled || loading || reasoningLoading || externalSelection?.disabled}
+          pending={reasoningLoading}
+          onCommit={handleCommitReasoningStrength}
+        />
+      )}
       {showModelTrigger && (
       <Tooltip content={disabledReason || tooltipContent} disabled={dropdownOpen}>
         <button data-overflow-trigger
@@ -2013,7 +2130,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
           {isAcpSelection && acpFastMode?.enabled && (
             <Icon glyph={Zap} size="xs" className="opc-model-selector__fast-icon" />
           )}
-          {hasReasoningSettings && (
+          {hasReasoningSettings && reasoningLadder !== 'ranked' && (
             <span
               className="opc-model-selector__trigger-reasoning"
               data-testid="chat-model-selector-trigger-reasoning"
@@ -2128,7 +2245,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                             ? renderUnavailableModelMenu(displayedAvailability,
                               Boolean(externalSelection?.includeLocalCatalog && !externalSelectionIsUnavailable))
                             : (externalSelection ? externalAvailableModels : acpAvailableModels).map(model => (
-                              <Tooltip key={model.id} content={buildModelMetaText(model)} placement="right">
+                              <Tooltip key={model.id} content={buildModelRowTooltipText(model, t)} placement="right">
                                 <MenuItem
                                   role="menuitemradio"
                                   checked={currentModelId === model.id}
@@ -2142,7 +2259,11 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                   metadata={currentModelId === model.id ? <Icon name="check-line" size="sm" aria-hidden /> : null}
                                   onClick={() => handleSelectModelFromMenu(model.id)}
                                 >
-                                  {model.modelName}
+                                  <ModelOptionLabel
+                                    model={model}
+                                    description={model.catalogDetails?.description}
+                                    priceLabel={formatModelPriceLabel(model.catalogDetails, t)}
+                                  />
                                 </MenuItem>
                               </Tooltip>
                             ))}
@@ -2167,7 +2288,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                         const isSelected = (isNativeModelSelection ? concreteModelId : currentModelId) === model.id;
 
                         return (
-                          <Tooltip key={model.id} content={buildModelMetaText(model)} placement="right">
+                          <Tooltip key={model.id} content={buildModelRowTooltipText(model, t)} placement="right">
                             <MenuItem
                               role="menuitemradio"
                               checked={isSelected}
@@ -2181,7 +2302,11 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                               metadata={isSelected ? <Icon name="check-line" size="sm" aria-hidden /> : null}
                               onClick={() => handleSelectModelFromMenu(model.id)}
                             >
-                              {model.modelName}
+                              <ModelOptionLabel
+                                model={model}
+                                description={model.catalogDetails?.description}
+                                priceLabel={formatModelPriceLabel(model.catalogDetails, t)}
+                              />
                             </MenuItem>
                           </Tooltip>
                         );

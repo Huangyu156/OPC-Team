@@ -15,7 +15,7 @@ import { bootstrapLogger, createLogger, initLogger } from './shared/utils/logger
 import { elapsedMs, logElapsed, measureAsyncAndLog, nowMs } from './shared/utils/timing';
 import { startupTrace } from './shared/utils/startupTrace';
 import { scheduleAfterStartupSignal } from './shared/utils/startupTaskScheduling';
-import { installInteractionModalityTracking } from './shared/utils/motionPreference';
+import { installInteractionModalityTracking, installMotionModeMirror } from './shared/utils/motionPreference';
 import { installTextInputGuard } from '../../shared/text-input/textInputGuard';
 import {
   buildReactCrashLogPayload,
@@ -188,6 +188,9 @@ function registerGlobalErrorHandlers() {
 
 registerGlobalErrorHandlers();
 installInteractionModalityTracking();
+// Publish the resolved motion mode on the document element so stylesheets and
+// feature hooks read one answer instead of each re-deriving the media query.
+installMotionModeMirror();
 const removeTextInputGuard = installTextInputGuard(document);
 if (import.meta.hot) import.meta.hot.dispose(removeTextInputGuard);
 

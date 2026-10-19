@@ -11,6 +11,11 @@ export interface BackgroundColors {
   scene: ColorValue;
   /** Optional structural navigation/window surface; ordinary palettes share the primary surface. */
   chrome?: ColorValue;
+  /**
+   * Optional text-entry surface. A palette whose inputs recede below the canvas
+   * cannot express that through `secondary`, which also drives raised panels.
+   */
+  input?: ColorValue;
 }
 
 export interface TextColors {
@@ -77,6 +82,24 @@ export interface GitColors {
 export interface ScrollbarColors {
   thumb: ColorValue;
   thumbHover: ColorValue;
+}
+
+/**
+ * A palette can keep focus strokes on its own ink instead of the accent. Product
+ * styling calls for the field hairline to read as text, not as emphasis, and to
+ * invert with the theme rather than stay on `accent[500]`.
+ */
+export interface FocusColors {
+  ring: ColorValue;
+}
+
+/**
+ * Body links are a reading-surface role: they can differ from the accent used by
+ * chrome controls. Palettes that omit this slice keep the design system's link.
+ */
+export interface LinkColors {
+  default: ColorValue;
+  hover: ColorValue;
 }
 
 /**
@@ -218,6 +241,8 @@ export interface AppearancePalette {
     git: GitColors;
     scrollbar?: ScrollbarColors;
     chrome?: ChromeColors;
+    focus?: FocusColors;
+    link?: LinkColors;
   };
   effects: {
     shadow: ShadowConfig;

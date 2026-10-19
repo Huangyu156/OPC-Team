@@ -336,6 +336,87 @@ describe('ModelSelector provider levels', () => {
       ? 'modelSelector.status.loadError' : 'acme-fast-native');
   });
 
+  it('prints the catalog description and price ratio on a model row', async () => {
+    aiApiMocks.getModelCatalog.mockResolvedValue({
+      version: 1,
+      models: [],
+      provider_catalog: {
+        revision: 'test',
+        source: 'mixed',
+        providers: [{
+          id: 'deepseek',
+          display_order: 0,
+          name: 'DeepSeek',
+          description: 'DeepSeek',
+          requires_api_key: true,
+          endpoints: [],
+          models: [
+            {
+              id: 'acme-fast-native',
+              description: 'Small model, low cost.',
+              recommended: false,
+              source: 'models_dev',
+              capabilities: {
+                chat: true, tool_call: true, reasoning: false,
+                attachment: false, structured_output: false,
+              },
+              pricing: { input: '0.5', output: '2' },
+            },
+            {
+              id: 'acme-deep-native',
+              description: 'Flagship model.',
+              recommended: false,
+              source: 'models_dev',
+              capabilities: {
+                chat: true, tool_call: true, reasoning: true,
+                attachment: false, structured_output: false,
+              },
+              pricing: { input: '2', output: '8' },
+            },
+          ],
+        }],
+      },
+    });
+    const deepseekModels = [
+      {
+        ...model('acme-fast', 'DeepSeek', 'provider-deepseek', 'https://api.deepseek.com/v1'),
+        model_name: 'acme-fast-native',
+      },
+      {
+        ...model('acme-deep', 'DeepSeek', 'provider-deepseek', 'https://api.deepseek.com/v1'),
+        model_name: 'acme-deep-native',
+      },
+    ];
+    await renderSelector(deepseekModels);
+    await openMenu();
+    await openProvider('provider-deepseek');
+
+    const fast = modelOption('acme-fast')!;
+    expect(fast.querySelector('.opc-model-selector__option-description')?.textContent)
+      .toBe('Small model, low cost.');
+    expect(fast.querySelector('.opc-model-selector__option-price')?.textContent)
+      .toBe('modelSelector.priceRatio');
+
+    const deep = modelOption('acme-deep')!;
+    expect(deep.querySelector('.opc-model-selector__option-description')?.textContent)
+      .toBe('Flagship model.');
+    // The reference row prints x1 rather than nothing, so the ratios beside it
+    // read as a column instead of a comparison against an invisible ruler.
+    expect(deep.querySelector('.opc-model-selector__option-price')?.textContent)
+      .toBe('modelSelector.priceRatio');
+  });
+
+  it('keeps the row name-only when the provider is not in the catalog', async () => {
+    await renderSelector();
+    await openMenu();
+    await openProvider('provider-acme');
+
+    const row = modelOption('acme-fast')!;
+    expect(row.textContent).toContain('acme-fast-native');
+    expect(row.querySelector('.opc-model-selector__option-description')).toBeNull();
+    expect(row.querySelector('.opc-model-selector__option-price')).toBeNull();
+  });
+
   it('preserves model information during a catalog refresh', async () => {
     await renderSelector();
     await openSettingsMenu();

@@ -160,7 +160,7 @@
       "id": "opc-claude-style",
       "mode": "light",
       "bgPrimary": "#fcfcfb",
-      "bgSecondary": "#fcfcfb",
+      "bgSecondary": "#ffffff",
       "bgScene": "#fcfcfb",
       "textPrimary": "#141413",
       "textMuted": "#6b6960",

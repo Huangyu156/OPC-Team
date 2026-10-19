@@ -84,10 +84,12 @@ describe('builtin appearance preset output', () => {
     for (const palette of builtinAppearancePalettes) {
       if (palette.id === 'opc-light') continue;
       const tokens = getBuiltinAppearanceThemeTokens(palette.id);
+      // A palette may declare structural focus ink; the accent stays the default.
+      const focusRing = palette.colors.focus?.ring ?? palette.colors.accent[500];
       expect(tokens['--opcteam-color-action-card-background']).toBe(palette.colors.element.base);
       expect(tokens['--opcteam-color-field-border']).toBe(palette.colors.border.base);
-      expect(tokens['--opcteam-color-field-border-focus']).toBe(palette.colors.accent[500]);
-      expect(tokens['--opcteam-color-field-border-active']).toBe(palette.colors.accent[500]);
+      expect(tokens['--opcteam-color-field-border-focus']).toBe(focusRing);
+      expect(tokens['--opcteam-color-field-border-active']).toBe(focusRing);
       expect(tokens['--opcteam-color-field-group-background']).toBe(palette.colors.background.tertiary);
       expect(tokens['--opcteam-color-field-placeholder']).toBe(palette.colors.text.muted);
     }
@@ -495,12 +497,12 @@ describe('builtin appearance preset output', () => {
           "type": "dark",
         },
         {
-          "hash": "fd5395182d6ad31c952dd1c768853e3825d1523f3ca64fe8f95b829180fe33b4",
+          "hash": "e95c345f234a762655d7b98afb9f4d765e5203abac10911583e25e4fddeb1127",
           "id": "opc-claude-style",
           "type": "light",
         },
         {
-          "hash": "891dafa3868ba2a3971cea5443cb79b5286dc8b69e8a5c6e1c378adc2498d958",
+          "hash": "323477e5fad19a8afe5ffdcb009691a37575a67ee37d8f5019262b6d56ce4936",
           "id": "opc-claude-night",
           "type": "dark",
         },
