@@ -53,7 +53,9 @@ export const opcClaudeNightPalette: AppearancePalette = {
       elevated: CLAUDE_NIGHT_ELEVATED,
       workbench: CLAUDE_NIGHT_RECESSED,
       scene: CLAUDE_NIGHT_CANVAS,
-      chrome: CLAUDE_NIGHT_RECESSED,
+      // The sidebar sits on the canvas in this appearance; the hairline border separates them.
+      // Recessing it instead made the navigation read colder than the page it frames.
+      chrome: CLAUDE_NIGHT_CANVAS,
     },
 
     text: {

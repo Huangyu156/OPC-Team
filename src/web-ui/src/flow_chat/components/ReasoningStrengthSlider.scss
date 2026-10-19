@@ -54,7 +54,15 @@
   user-select: none;
   -webkit-user-select: none;
 
+  /* The focusable element is the whole control, because the slider role and its value belong to
+     the group rather than to the track. The ring is drawn on the track alone: ringing the card
+     would fence in the header and both end captions, which are labels, not part of the target.
+     The root suppresses the shared accent ring so only the track is circled. */
   &:focus-visible {
+    outline: none;
+  }
+
+  &:focus-visible &__rail {
     outline: var(--opcteam-focus-width) solid var(--opcteam-color-focus-ring);
     outline-offset: var(--opcteam-focus-offset);
   }
