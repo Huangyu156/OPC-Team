@@ -59,6 +59,8 @@ jobs:
       checkout_ref: ${{ steps.meta.outputs.checkout_ref }}
       release_channel: ${{ steps.meta.outputs.release_channel }}
       relay_image_only: ${{ steps.meta.outputs.relay_image_only }}
+      platform_matrix: ${{ steps.platform_matrix.outputs.platform_matrix }}
+      single_platform_only: ${{ steps.platform_matrix.outputs.single_platform_only }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -143,15 +145,54 @@ jobs:
           echo "release_channel=$CHANNEL"  >> "$GITHUB_OUTPUT"
           echo "relay_image_only=${INPUT_RELAY_IMAGE_ONLY:-false}" >> "$GITHUB_OUTPUT"
 
+      - name: Compute package platform matrix
+        id: platform_matrix
+        shell: bash
+        env:
+          INPUT_PLATFORMS: ${{ inputs.platforms }}
+        run: |
+          set -euo pipefail
+
+          # Single source of truth for the package job matrix. Job-level if
+          # expressions cannot reference matrix values, so the platforms
+          # input filter is applied here instead. Keep the entries in sync
+          # with the historical matrix (os/name/target/build_command).
+          FULL_MATRIX='[
+            {"os":"ubuntu-latest","name":"linux-x64","target":"x86_64-unknown-linux-gnu","build_command":"pnpm run desktop:build:linux -- --target x86_64-unknown-linux-gnu --bundles deb,rpm,appimage"},
+            {"os":"ubuntu-24.04-arm","name":"linux-arm64","target":"aarch64-unknown-linux-gnu","build_command":"pnpm run desktop:build:linux -- --target aarch64-unknown-linux-gnu --bundles deb,rpm,appimage"},
+            {"os":"macos-15","name":"macos-arm64","target":"aarch64-apple-darwin","build_command":"pnpm run desktop:build:arm64"},
+            {"os":"macos-15-intel","name":"macos-x64","target":"x86_64-apple-darwin","build_command":"pnpm run desktop:build:x86_64"},
+            {"os":"windows-latest","name":"windows-x64","target":"x86_64-pc-windows-msvc","build_command":"node scripts/desktop-tauri-build.mjs --no-bundle --target x86_64-pc-windows-msvc --verbose"}
+          ]'
+
+          platforms="${INPUT_PLATFORMS}"
+          if [[ -z "${platforms}" || "${platforms}" == "all" ]]; then
+            selected="${FULL_MATRIX}"
+            single_platform_only="false"
+          else
+            case ",linux-x64,linux-arm64,macos-arm64,macos-x64,windows-x64," in
+              *",${platforms},"*)
+                selected="$(jq -c --arg name "${platforms}" '[.[] | select(.name == $name)]' <<<"${FULL_MATRIX}")"
+                single_platform_only="true"
+                ;;
+              *)
+                echo "::error::Unsupported platforms input '${platforms}'. Valid values: all, linux-x64, linux-arm64, macos-arm64, macos-x64, windows-x64." >&2
+                exit 1
+                ;;
+            esac
+          fi
+
+          echo "platform_matrix=${selected}" >> "$GITHUB_OUTPUT"
+          echo "single_platform_only=${single_platform_only}" >> "$GITHUB_OUTPUT"
+
   # ── Build per platform ─────────────────────────────────────────────
   package:
     name: Package (${{ matrix.platform.name }})
     runs-on: ${{ matrix.platform.os }}
     needs: prepare
-    if: >-
-      needs.prepare.outputs.relay_image_only != 'true' &&
-      (inputs.platforms == 'all' || inputs.platforms == '' ||
-       matrix.platform.name == inputs.platforms)
+    # The platforms input is filtered in the prepare job; job-level if
+    # expressions cannot reference matrix values.
+    if: needs.prepare.outputs.relay_image_only != 'true'
     env:
       NODE_OPTIONS: --max-old-space-size=6144
       OPC_RELEASE_CHANNEL: ${{ needs.prepare.outputs.release_channel }}
@@ -163,33 +204,13 @@ jobs:
       TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
       TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY_PASSWORD }}
 
+    # Thin LTO is now the workspace-wide [profile.release] default, so there
+    # is no CARGO_PROFILE_RELEASE_LTO=thin override. Windows compiles before
+    # opening the short-lived SimplySign session.
     strategy:
       fail-fast: false
       matrix:
-        platform:
-          - os: ubuntu-latest
-            name: linux-x64
-            target: x86_64-unknown-linux-gnu
-            build_command: pnpm run desktop:build:linux -- --target x86_64-unknown-linux-gnu --bundles deb,rpm,appimage
-          - os: ubuntu-24.04-arm
-            name: linux-arm64
-            target: aarch64-unknown-linux-gnu
-            # Thin LTO is now the workspace-wide [profile.release] default, so
-            # the previous CARGO_PROFILE_RELEASE_LTO=thin override is gone.
-            build_command: pnpm run desktop:build:linux -- --target aarch64-unknown-linux-gnu --bundles deb,rpm,appimage
-          - os: macos-15
-            name: macos-arm64
-            target: aarch64-apple-darwin
-            build_command: pnpm run desktop:build:arm64
-          - os: macos-15-intel
-            name: macos-x64
-            target: x86_64-apple-darwin
-            build_command: pnpm run desktop:build:x86_64
-          - os: windows-latest
-            name: windows-x64
-            target: x86_64-pc-windows-msvc
-            # Compile before opening the short-lived SimplySign session.
-            build_command: node scripts/desktop-tauri-build.mjs --no-bundle --target x86_64-pc-windows-msvc --verbose
+        platform: ${{ fromJSON(needs.prepare.outputs.platform_matrix) }}
 
     steps:
       - name: Checkout
@@ -426,9 +447,11 @@ jobs:
   linux-binaries:
     name: Linux CLI and Relay Server
     needs: prepare
+    # Single-platform runs are artifact-only builds; the Linux binaries and
+    # Relay image chain only run for full matrices that may publish.
     if: >-
       needs.prepare.outputs.relay_image_only != 'true' &&
-      (inputs.platforms == 'all' || inputs.platforms == '')
+      needs.prepare.outputs.single_platform_only != 'true'
     uses: ./.github/workflows/linux-binaries.yml
     secrets:
       release_signing_key: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
