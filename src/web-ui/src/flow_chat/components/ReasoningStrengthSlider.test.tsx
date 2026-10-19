@@ -303,4 +303,16 @@ describe('ReasoningStrengthSlider', () => {
     expect(knob()).toBe(first);
     expect(slider().getAttribute('aria-valuetext')).toContain(LONG_LABEL);
   });
+
+  it('draws every step at its own position on a ladder longer than five', async () => {
+    // Regression: clamping the step index instead of the finished ratio pinned every step
+    // above the first one to the same spot, so only a five-step ladder looked correct.
+    await render(ladder(6), 's0');
+    expect(valueOf()).toBe(0);
+    await render(ladder(6), 's1');
+    expect(valueOf()).toBe(2000);
+    await render(ladder(6), 's5');
+    expect(valueOf()).toBe(10000);
+    expect(slider().getAttribute('aria-valuenow')).toBe('5');
+  });
 });

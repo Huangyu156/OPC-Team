@@ -94,7 +94,9 @@ function clamp01(value: number): number {
 
 function stepRatio(index: number, stepCount: number): number {
   if (stepCount <= 1) return 0;
-  return clamp01(index) / (stepCount - 1);
+  // Clamp the finished ratio, not the index: clamping the index first pins every step
+  // above the first one to the same position.
+  return clamp01(index / (stepCount - 1));
 }
 
 /**
