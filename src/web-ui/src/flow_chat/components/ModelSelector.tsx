@@ -53,6 +53,12 @@ import { ReasoningStrengthTrigger } from './ReasoningStrengthTrigger';
 import { isAutomaticReasoningPreset, reasoningPresetChoices, reasoningSelectionLabel, resolveReasoningPresetChoice } from './reasoningPresetPresentation';
 import { reasoningLadderShape, reasoningStrengthSteps, reasoningStrengthValue } from './reasoningPresetLadder';
 import {
+  findCatalogProviderByBaseUrl,
+  formatPriceRatio,
+  resolveModelCatalogDetails,
+  type ModelCatalogDetails,
+} from './modelCatalogDetails';
+import {
   getRecentReasoningPreset,
   setRecentReasoningPreset,
 } from '../utils/reasoningPresets';
@@ -155,6 +161,8 @@ interface ModelInfo {
   providerKey?: string;
   contextWindow?: number;
   maxOutputTokens?: number;
+  /** Catalog description and list price, when models.dev recognizes this model. */
+  catalogDetails?: ModelCatalogDetails;
 }
 
 /** One provider instance and the chat models configured under it. */
@@ -255,6 +263,50 @@ const buildResolvedModelTooltipText = (
 const getModelDisplayLabel = (model: ModelInfo | null, fallback: string): string => {
   if (!model) return fallback;
   return model.displayName || model.modelName || model.configName || fallback;
+};
+
+/**
+ * The row's copy block: the model name, and under it the catalog's own one-line
+ * description when models.dev recognizes the model.
+ *
+ * The description sits in the label rather than a second MenuItem slot because
+ * `MenuItem` deliberately has no subtitle slot, and a row that is not the row
+ * is a row that quietly loses its checked state and metadata.
+ */
+const ModelOptionLabel: React.FC<{
+  model: ModelInfo;
+  description?: string;
+  priceLabel?: string;
+}> = ({ model, description, priceLabel }) => (
+  <span className="opc-model-selector__option-copy">
+    <span className="opc-model-selector__option-title">
+      <OverflowText className="opc-model-selector__option-name">{model.modelName}</OverflowText>
+      {priceLabel ? (
+        <span className="opc-model-selector__option-price">{priceLabel}</span>
+      ) : null}
+    </span>
+    {description ? (
+      <span className="opc-model-selector__option-description">{description}</span>
+    ) : null}
+  </span>
+);
+
+/**
+ * The price suffix a row carries, e.g. `· Cheapest x0.25`.
+ *
+ * A ratio against the provider's flagship is the only comparison the catalog
+ * supports. The flagship itself has ratio 1, which is the reference rather than
+ * a comparison, so it carries no suffix: a row measuring the ruler against
+ * itself says nothing.
+ */
+const formatModelPriceLabel = (
+  details: ModelCatalogDetails | undefined,
+  t: (key: string, options?: Record<string, unknown>) => string,
+): string | undefined => {
+  if (!details || details.priceRatio === undefined || details.priceRatio >= 1) return undefined;
+  const ratio = formatPriceRatio(details.priceRatio);
+  if (!ratio) return undefined;
+  return t('modelSelector.priceRatio', { ratio });
 };
 
 const getModelTooltipText = (model: ModelInfo | null, fallback: string): string => {
@@ -637,6 +689,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
     };
   }, [acpAvailableModels, acpClientId, acpOptions?.currentModelId, isAcpSession]);
 
+  const catalogProviders = modelCatalog?.provider_catalog?.providers;
   const externalAvailableModels = useMemo((): ModelInfo[] => {
     if (!externalSelection) return [];
     const localSelectable = externalSelection.includeLocalCatalog
@@ -651,26 +704,30 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
         // worker must execute. Reuse the controller catalog for presentation
         // so generated ids never leak into the normal model-picker UI.
         const localModel = allModels.find(model => model.id === modelId);
-        return localModel
-          ? {
-              id: modelId,
-              configName: localModel.name,
-              modelName: localModel.model_name,
-              providerName: getProviderDisplayName(localModel),
-              provider: localModel.provider,
-              providerKey: getProviderGroupKey(localModel),
-              contextWindow: localModel.context_window,
-              maxOutputTokens: localModel.max_tokens,
-            }
-          : {
-              id: modelId,
-              configName: modelId,
-              modelName: modelId,
-              providerName: externalSelection.providerLabel,
-              provider: 'external',
-            };
+        if (!localModel) {
+          return {
+            id: modelId,
+            configName: modelId,
+            modelName: modelId,
+            providerName: externalSelection.providerLabel,
+            provider: 'external',
+          };
+        }
+        const catalogProvider = findCatalogProviderByBaseUrl(localModel.base_url, catalogProviders);
+        const catalogDetails = resolveModelCatalogDetails(localModel.model_name, catalogProvider?.models);
+        return {
+          id: modelId,
+          configName: localModel.name,
+          modelName: localModel.model_name,
+          providerName: getProviderDisplayName(localModel),
+          provider: localModel.provider,
+          providerKey: getProviderGroupKey(localModel),
+          contextWindow: localModel.context_window,
+          maxOutputTokens: localModel.max_tokens,
+          ...(catalogDetails.description || catalogDetails.priceRatio !== undefined ? { catalogDetails } : {}),
+        };
       });
-  }, [allModels, externalSelection]);
+  }, [allModels, catalogProviders, externalSelection]);
 
   /**
    * This device's own default, resolved to the concrete id the executing side
@@ -780,17 +837,22 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
   
   const availableModels = useMemo((): ModelInfo[] => {
     return filterSelectableTextChatModels(allModels)
-      .map(m => ({
-        id: m.id || '',
-        configName: m.name,
-        modelName: m.model_name,
-        providerName: getProviderDisplayName(m),
-        provider: m.provider,
-        providerKey: getProviderGroupKey(m),
-        contextWindow: m.context_window,
-        maxOutputTokens: m.max_tokens,
-      }));
-  }, [allModels]);
+      .map(m => {
+        const catalogProvider = findCatalogProviderByBaseUrl(m.base_url, catalogProviders);
+        const catalogDetails = resolveModelCatalogDetails(m.model_name, catalogProvider?.models);
+        return {
+          id: m.id || '',
+          configName: m.name,
+          modelName: m.model_name,
+          providerName: getProviderDisplayName(m),
+          provider: m.provider,
+          providerKey: getProviderGroupKey(m),
+          contextWindow: m.context_window,
+          maxOutputTokens: m.max_tokens,
+          ...(catalogDetails.description || catalogDetails.priceRatio !== undefined ? { catalogDetails } : {}),
+        };
+      });
+  }, [allModels, catalogProviders]);
 
   /**
    * Configuration order is preserved so a provider does not move between
@@ -2176,7 +2238,11 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                                   metadata={currentModelId === model.id ? <Icon name="check-line" size="sm" aria-hidden /> : null}
                                   onClick={() => handleSelectModelFromMenu(model.id)}
                                 >
-                                  {model.modelName}
+                                  <ModelOptionLabel
+                                    model={model}
+                                    description={model.catalogDetails?.description}
+                                    priceLabel={formatModelPriceLabel(model.catalogDetails, t)}
+                                  />
                                 </MenuItem>
                               </Tooltip>
                             ))}
@@ -2215,7 +2281,11 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                               metadata={isSelected ? <Icon name="check-line" size="sm" aria-hidden /> : null}
                               onClick={() => handleSelectModelFromMenu(model.id)}
                             >
-                              {model.modelName}
+                              <ModelOptionLabel
+                                model={model}
+                                description={model.catalogDetails?.description}
+                                priceLabel={formatModelPriceLabel(model.catalogDetails, t)}
+                              />
                             </MenuItem>
                           </Tooltip>
                         );

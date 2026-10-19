@@ -3323,6 +3323,7 @@
     "modelExplanation": "模型说明",
     "modelSettings": "模型设置",
     "modelSelection": "选择模型",
+    "priceRatio": "· 最低 x{{ratio}}",
     "primaryModel": "主力模型",
     "primaryModelDesc": "使用已配置的主力模型",
     "fastModel": "快速模型",

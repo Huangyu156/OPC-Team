@@ -767,6 +767,46 @@ $model-mode-dust-sizes: ();
     flex: 1;
   }
 
+  &__option-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-inline-size: 0;
+    flex: 1;
+    /* A two-line row needs its own breathing room: the menu row's minimum block
+       size is tuned for one line, and padding here keeps the single-line rows
+       on the same baseline grid as the pairs. */
+    padding-block: 2px;
+  }
+
+  &__option-title {
+    display: flex;
+    align-items: baseline;
+    gap: var(--opcteam-space-1);
+    min-inline-size: 0;
+  }
+
+  &__option-price {
+    flex: 0 0 auto;
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-label-xs-font-size);
+    font-weight: var(--opcteam-type-label-xs-font-weight);
+    line-height: var(--opcteam-type-label-xs-line-height);
+    white-space: nowrap;
+  }
+
+  &__option-description {
+    display: block;
+    min-inline-size: 0;
+    overflow: hidden;
+    color: var(--opcteam-color-content-muted);
+    font-size: var(--opcteam-type-label-xs-font-size);
+    font-weight: var(--opcteam-type-label-xs-font-weight);
+    line-height: var(--opcteam-type-label-xs-line-height);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   &__option-name {
     display: flex;
     min-inline-size: 0;

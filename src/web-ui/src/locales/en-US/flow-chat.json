@@ -3323,6 +3323,7 @@
     "modelExplanation": "Model explanation",
     "modelSettings": "Model settings",
     "modelSelection": "Select Model",
+    "priceRatio": "· Cheapest x{{ratio}}",
     "primaryModel": "Primary Model",
     "primaryModelDesc": "Uses the configured primary model",
     "fastModel": "Fast Model",
