@@ -1,6 +1,6 @@
 [package]
 name = "opc-page-function-runtime"
-version = "1.1.0"
+version = "1.1.1"
 authors = ["OPC-Team"]
 edition = "2021"
 description = "Embedded JS Page Function runtime for OPC-Team Pages (rquickjs)"
