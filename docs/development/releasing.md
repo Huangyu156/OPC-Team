@@ -22,6 +22,24 @@ its tag automatically. Release creation and editing use GitHub CLI without
 `--target`: sending `target_commitish` for workflow-changing commits can require
 `workflows:write`, even for an existing tag. Asset upload precedes publication.
 
+### Windows x64-only release scope (this fork)
+
+This fork builds and publishes **Windows x64 only**. macOS and Linux desktop
+bundles are out of scope here, so dispatch `Desktop Package` with
+`platforms=windows-x64` instead of `all`. A non-`all` value also marks the run
+single-platform, which skips the Linux binaries, the Relay image, and the
+workflow's own publish step.
+
+Publishing stays a separate manual step. Build with `upload_to_release=false`,
+then run `Release Publish From Artifacts` against that run id with the
+`opc-v<version>-windows-x64-bundle` artifact. The release uses the
+`(Windows)` title, carries `SHA256SUMS`, and ships two assets:
+`OPC-Team_<version>_x64-setup.exe` (NSIS bundle) and
+`OPC-Team_<version>_windows-x86_64-installer.exe` (custom installer). These
+installers are unsigned, so the release notes must keep the SmartScreen note.
+
+Worked example: version `1.0.7`, tag `v1.0.7`.
+
 ## Mobile Android releases
 
 Mobile Android packages are released independently from Desktop packages. Use a
