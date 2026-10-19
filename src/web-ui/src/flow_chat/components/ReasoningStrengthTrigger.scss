@@ -77,14 +77,6 @@
     padding: var(--opcteam-overlay-menu-surface-padding);
   }
 
-  &__caption {
-    color: var(--opcteam-color-content-secondary);
-    font-family: var(--opcteam-type-label-sm-font-family);
-    font-size: var(--opcteam-type-label-sm-font-size);
-    font-weight: var(--opcteam-type-label-sm-font-weight);
-    line-height: var(--opcteam-type-label-sm-line-height);
-  }
-
   &[data-opc-state='disabled'] {
     opacity: var(--opcteam-control-flow-chat-model-idle-opacity);
   }

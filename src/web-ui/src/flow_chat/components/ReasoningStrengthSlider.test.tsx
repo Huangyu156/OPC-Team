@@ -100,6 +100,23 @@ describe('ReasoningStrengthSlider', () => {
     await act(async () => { vi.advanceTimersByTime(ms); });
   };
 
+  /**
+   * Give the groove a real box. The matrix is sized from the measured track, and jsdom reports a
+   * zero-sized box for every element, so without this the field never leaves its empty state. It
+   * has to be installed before render, because the measuring effect runs on commit.
+   */
+  const stubGrooveRect = () => {
+    const original = HTMLElement.prototype.getBoundingClientRect;
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockImplementation(function (this: HTMLElement) {
+      if (this.classList.contains('opc-reasoning-slider__groove')) {
+        return {
+          left: 0, right: 200, top: 0, bottom: 26, width: 200, height: 26, x: 0, y: 0, toJSON: () => ({}),
+        } as DOMRect;
+      }
+      return original.call(this);
+    });
+  };
+
   beforeEach(() => {
     motion.reduced = false;
     onCommit.mockReset();
@@ -117,6 +134,7 @@ describe('ReasoningStrengthSlider', () => {
     await act(async () => root.unmount());
     container.remove();
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
   it('exposes the slider ARIA contract and tracks the committed value and the ladder length', async () => {
@@ -314,5 +332,46 @@ describe('ReasoningStrengthSlider', () => {
     await render(ladder(6), 's5');
     expect(valueOf()).toBe(10000);
     expect(slider().getAttribute('aria-valuenow')).toBe('5');
+  });
+
+  it('keeps the top-step matrix off every step but the top one', async () => {
+    await render(ladder(5), 's3');
+    expect(slider().getAttribute('data-apex')).toBeNull();
+    expect(container.querySelector('.opc-reasoning-slider__matrix')).toBeNull();
+
+    await render(ladder(5), 's4');
+    expect(slider().getAttribute('data-apex')).toBe('true');
+    expect(container.querySelector('.opc-reasoning-slider__matrix')).not.toBeNull();
+  });
+
+  it('fills the top-step matrix from the measured track, five rows deep', async () => {
+    stubGrooveRect();
+    await render(ladder(5), 's4');
+    const cells = container.querySelectorAll('.opc-reasoning-slider__matrix-cell');
+    // 200px of track at device ratio 1: five rows of 4px blocks behind 1px gaps come to 24px, and
+    // the width fits 40 blocks plus 39 gaps (199px). The field is always exactly five rows.
+    expect(cells).toHaveLength(5 * 40);
+    expect(container.querySelectorAll('.opc-reasoning-slider__matrix-square')).toHaveLength(5 * 40);
+    // Every cell keeps one tone, drawn from the cell hash, so the field survives rerenders.
+    const tones = Array.from(container.querySelectorAll('.opc-reasoning-slider__matrix-square'))
+      .map(square => square.getAttribute('data-tone'));
+    expect(new Set(tones).size).toBeGreaterThan(1);
+    expect(tones.every(tone => tone !== null && Number(tone) >= 0 && Number(tone) <= 7)).toBe(true);
+
+    await render(ladder(5), 's4');
+    const repeated = Array.from(container.querySelectorAll('.opc-reasoning-slider__matrix-square'))
+      .map(square => square.getAttribute('data-tone'));
+    expect(repeated).toEqual(tones);
+  });
+
+  it('drops the matrix animation when reduced motion is asked for', async () => {
+    stubGrooveRect();
+    motion.reduced = true;
+    await render(ladder(5), 's4');
+    const squares = Array.from(container.querySelectorAll<HTMLElement>('.opc-reasoning-slider__matrix-square'));
+    expect(squares.length).toBeGreaterThan(0);
+    // No flash timing reaches the DOM, so the stylesheet's own reduced-motion block is the only
+    // thing that would animate and it matches the same preference.
+    expect(squares.every(square => square.style.animationDuration === '')).toBe(true);
   });
 });

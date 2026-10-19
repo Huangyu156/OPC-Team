@@ -1,7 +1,13 @@
-// Reasoning strength slider: one row of [weaker caption] [groove + fill + ticks + knob] [stronger caption]
-// with the committed step name above the track. Every colour, size and duration comes from a public
-// design token. The only private variables are the --_slider-* ones: --_slider-ratio is written by the
-// component's inline style, the rest are derived here.
+// Reasoning strength slider: a card header (label + current step), one captions row (weak end left,
+// strong end right), then a 30px track. The track is a recessed groove 26px tall with a 4px-per-step
+// tick row and a 16x30 white knob; the span before the knob is filled with a 26% ink wash. At the top
+// step the fill and the ticks retire and a five-row dot matrix takes over: violet squares whose
+// brightness is feathered from the weak end to the strong end and whose flash is phase-staggered per
+// cell, so the surface reads as a lit field instead of one blinking block.
+//
+// Every colour, size and duration comes from a public design token. The only private variables are
+// the --_slider-* ones: --_slider-ratio is written by the component's inline style, the rest are
+// derived here.
 
 .opc-reasoning-slider {
   // Defaults live here rather than in var() fallbacks, so the ratio is a declared property of
@@ -9,10 +15,30 @@
   --_slider-ratio: 0;
   --_slider-tick-ratio: 0;
   --_slider-knob-inline: var(--opcteam-space-4);
-  --_slider-groove-block: var(--opcteam-overlay-menu-item-height);
+  // The pressable band is one menu row tall; the drawn groove sits inside it with a 2px bleed on
+  // each side, which is what makes the track read as recessed rather than as a printed bar.
+  --_slider-rail-block: var(--opcteam-overlay-menu-item-height);
+  --_slider-groove-block: calc(var(--_slider-rail-block) - var(--opcteam-space-1));
   // The knob travels inside the groove, so its centre moves over the span minus one knob width.
   --_slider-travel: calc(100% - var(--_slider-knob-inline));
   --_slider-transition: var(--opcteam-motion-duration-fast) var(--opcteam-motion-easing-standard);
+  --_slider-move-transition: var(--opcteam-motion-duration-base) var(--opcteam-motion-easing-standard);
+  // The groove and the fill are the same ink at two densities: 8% reads as a recess, 26% as the
+  // travelled part of it. Deriving both from the primary content colour keeps them one hue.
+  --_slider-groove-wash: 8%;
+  --_slider-fill-wash: 26%;
+  // The top step flashes at twice the shared loop period. This is the one place a duration is
+  // derived as a multiple of a motion token: the matrix needs a period long enough for the
+  // per-cell phase offsets to read as a field, and the loop token is the only sanctioned source.
+  --_slider-flash-period: calc(var(--opcteam-motion-duration-loop) * 2);
+  // The pale end of the flash ramp. Mixing the supporting accent into the constant white gives a
+  // tinted white in both appearances; mixing into the raised surface would make the flash darker
+  // than the base colour in the dark theme, inverting the pulse.
+  --_slider-apex-flash: color-mix(
+    in srgb,
+    var(--opcteam-color-accent-secondary) 30%,
+    var(--opcteam-color-content-on-dark)
+  );
 
   display: flex;
   flex-direction: column;
@@ -20,11 +46,11 @@
   inline-size: 100%;
   min-inline-size: 0;
   color: var(--opcteam-color-content-secondary);
-  font-family: var(--opcteam-type-label-sm-font-family);
-  font-size: var(--opcteam-type-label-sm-font-size);
-  font-weight: var(--opcteam-type-label-sm-font-weight);
-  line-height: var(--opcteam-type-label-sm-line-height);
-  letter-spacing: var(--opcteam-type-label-sm-letter-spacing);
+  font-family: var(--opcteam-type-label-xs-font-family);
+  font-size: var(--opcteam-type-label-xs-font-size);
+  font-weight: var(--opcteam-type-label-xs-font-weight);
+  line-height: var(--opcteam-type-label-xs-line-height);
+  letter-spacing: var(--opcteam-type-label-xs-letter-spacing);
   user-select: none;
   -webkit-user-select: none;
 
@@ -33,20 +59,43 @@
     outline-offset: var(--opcteam-focus-offset);
   }
 
-  /* The current step name. The track never changes height, and a name that no longer fits
-     fades inside this fixed line box instead of reflowing the control. Centring lives on the
-     wrapper: the shared text primitive raises text-align to the reading start of its own root
-     once the label starts fading, which is the correct trade for a clipped label. */
-  &__value {
+  /* One row: the control name in muted text, the current step beside it in body ink. Only the top
+     step recolours the value; every other step keeps the neutral reading colour. */
+  &__header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--opcteam-space-1);
     min-inline-size: 0;
-    text-align: center;
-    color: var(--opcteam-color-content-primary);
+    font-family: var(--opcteam-type-label-md-font-family);
+    font-size: var(--opcteam-type-label-md-font-size);
+    line-height: var(--opcteam-type-label-md-line-height);
+    letter-spacing: var(--opcteam-type-label-md-letter-spacing);
   }
 
+  &__title {
+    flex: 0 0 auto;
+    color: var(--opcteam-color-content-muted);
+    white-space: nowrap;
+  }
+
+  /* The current step name. The track never changes height, and a name that no longer fits fades
+     inside this fixed line box instead of reflowing the control. */
+  &__value {
+    flex: 0 1 auto;
+    min-inline-size: 0;
+    text-align: start;
+    color: var(--opcteam-color-content-primary);
+    // The "label-selected" role is the semantic name for the one item a control is currently
+    // pointing at; the foundation weight token is not consumable from a product surface.
+    font-weight: var(--opcteam-type-label-selected-font-weight);
+    transition: color var(--_slider-transition);
+  }
+
+  /* The axis captions own their own row above the track, one at each end of the travel. */
   &__axis {
-    display: grid;
-    grid-template-columns: auto minmax(0, 1fr) auto;
+    display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: var(--opcteam-space-2);
     min-inline-size: 0;
   }
@@ -55,12 +104,12 @@
     white-space: nowrap;
   }
 
-  /* Hit area: the whole track height, never a thinner inner bar, so a press anywhere on the
-     groove lands on a step. */
+  /* Hit area: the whole 30px band, never only the 26px groove, so a press on the groove edge or on
+     the blank band around it still lands on a step. */
   &__rail {
     position: relative;
     display: block;
-    block-size: var(--_slider-groove-block);
+    block-size: var(--_slider-rail-block);
     min-inline-size: 0;
     border-radius: var(--opcteam-radius-base);
     cursor: pointer;
@@ -69,6 +118,7 @@
 
   &__groove,
   &__fill,
+  &__matrix,
   &__knob {
     position: absolute;
     inset-block-start: 50%;
@@ -80,52 +130,176 @@
   &__groove {
     inset-inline: 0;
     border-radius: var(--opcteam-radius-base);
-    background: var(--opcteam-color-action-neutral-surface-hover);
+    background: color-mix(
+      in srgb,
+      var(--opcteam-color-content-primary) var(--_slider-groove-wash),
+      transparent
+    );
   }
 
+  /* The travelled span. Its trailing edge is square because the knob covers it; only the two corners
+     that stay exposed take the groove radius. */
   &__fill {
     inset-inline-start: 0;
     inline-size: calc(var(--_slider-knob-inline) / 2 + var(--_slider-ratio) * var(--_slider-travel));
-    border-radius: var(--opcteam-radius-base);
-    background: var(--opcteam-color-accent-default);
-    transition: inline-size var(--_slider-transition);
+    border-start-start-radius: var(--opcteam-radius-base);
+    border-end-start-radius: var(--opcteam-radius-base);
+    background: color-mix(
+      in srgb,
+      var(--opcteam-color-content-primary) var(--_slider-fill-wash),
+      transparent
+    );
+    transition:
+      inline-size var(--_slider-move-transition),
+      opacity var(--_slider-move-transition);
   }
 
   &__ticks {
     position: absolute;
     inset: 0;
     pointer-events: none;
+    transition: opacity var(--_slider-move-transition);
   }
 
+  /* One 4px dot per step, sitting on the same travel span as the knob so a dot is always under the
+     knob centre for its own step. */
   &__tick {
     position: absolute;
     inset-block-start: 50%;
-    // Same travel span as the knob, so a tick always sits under the knob centre for its step.
     inset-inline-start: calc(var(--_slider-knob-inline) / 2 + var(--_slider-tick-ratio) * var(--_slider-travel));
-    inline-size: calc(var(--opcteam-space-1) / 2);
-    block-size: var(--opcteam-space-2);
-    margin-block-start: calc(var(--opcteam-space-2) / -2);
+    inline-size: var(--opcteam-space-1);
+    block-size: var(--opcteam-space-1);
+    margin-block-start: calc(var(--opcteam-space-1) / -2);
     border-radius: var(--opcteam-radius-pill);
-    background: var(--opcteam-color-content-secondary);
-    opacity: 0.45;
+    background: color-mix(
+      in srgb,
+      var(--opcteam-color-content-primary) var(--_slider-fill-wash),
+      transparent
+    );
     transform: translateX(-50%);
   }
 
+  /* A solid white knob in both appearances: it is the one element that must stay legible over the
+     groove wash, the ink fill and the violet matrix alike. */
   &__knob {
     // No half-knob offset here: the knob is drawn from its leading edge, so its centre sits
     // at knob/2 + ratio * travel, exactly on the matching tick, and never overhangs an end.
     inset-inline-start: calc(var(--_slider-ratio) * var(--_slider-travel));
     inline-size: var(--_slider-knob-inline);
-    border: 1px solid var(--opcteam-color-border-default);
+    block-size: var(--_slider-rail-block);
+    margin-block-start: calc(var(--_slider-rail-block) / -2);
+    border-radius: var(--opcteam-radius-xs);
+    background: var(--opcteam-color-content-on-dark);
+    box-shadow:
+      0 1px var(--opcteam-space-1) -1px color-mix(in srgb, var(--opcteam-color-content-on-light) 28%, transparent),
+      0 0 0 1px color-mix(in srgb, var(--opcteam-color-content-on-light) 6%, transparent);
+    transition:
+      inset-inline-start var(--_slider-move-transition),
+      inline-size var(--_slider-move-transition),
+      background-color var(--_slider-transition),
+      box-shadow var(--_slider-transition);
+  }
+
+  /* Top step: the bars are spent, so the whole groove turns into a lit field. The fill and the ticks
+     retire, the knob takes a violet wash and a halo, and the value names itself in apex ink. */
+  &[data-apex='true'] {
+    .opc-reasoning-slider__fill,
+    .opc-reasoning-slider__ticks {
+      opacity: 0;
+    }
+
+    .opc-reasoning-slider__knob {
+      background: color-mix(
+        in srgb,
+        var(--opcteam-color-accent-secondary) 22%,
+        var(--opcteam-color-content-on-dark)
+      );
+      box-shadow:
+        // 8px + 4px/2 = the reference's 10px halo, still derived from spacing steps.
+        0 0 calc(var(--opcteam-space-2) + var(--opcteam-space-1) / 2)
+          color-mix(in srgb, var(--opcteam-color-accent-secondary) 80%, transparent),
+        0 0 0 1px color-mix(in srgb, var(--opcteam-color-accent-secondary) 35%, transparent);
+    }
+
+    .opc-reasoning-slider__value {
+      color: var(--opcteam-color-accent-secondary-hover);
+    }
+
+    .opc-reasoning-slider__matrix {
+      display: grid;
+    }
+  }
+
+  /* Five rows of small squares, laid out by the component from the measured track width so the
+     block size lands on a whole pixel at the current device scale. */
+  &__matrix {
+    inset-inline: 0;
+    display: none;
     border-radius: var(--opcteam-radius-base);
-    background: var(--opcteam-color-surface-raised);
-    transition: inset-inline-start var(--_slider-transition);
+    overflow: hidden;
+    box-sizing: border-box;
+    grid-auto-flow: row;
+  }
+
+  &__matrix-cell {
+    display: block;
+    min-inline-size: 0;
+    min-block-size: 0;
+    // The field sweeps in from the strong end; the delay is written per cell by the component.
+    animation: opc-reasoning-slider-matrix-fade var(--opcteam-motion-duration-base)
+      var(--opcteam-motion-easing-standard) both;
+  }
+
+  &__matrix-square {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    border-radius: 1px;
+    // --_slider-cell-flash is set per cell by the tone rule below.
+    background-color: var(--opcteam-color-accent-secondary);
+    animation: opc-reasoning-slider-matrix-flash var(--_slider-flash-period)
+      var(--opcteam-motion-easing-standard) infinite;
+  }
+
+  // Eight brightness steps. A cell keeps one tone for the whole session, so the field looks like a
+  // still texture whose highlights travel; without them the flash would read as one flat blink.
+  &__matrix-square[data-tone='0'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 62%, var(--_slider-apex-flash));
+  }
+
+  &__matrix-square[data-tone='1'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 54%, var(--_slider-apex-flash));
+  }
+
+  &__matrix-square[data-tone='2'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 46%, var(--_slider-apex-flash));
+  }
+
+  &__matrix-square[data-tone='3'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 38%, var(--_slider-apex-flash));
+  }
+
+  &__matrix-square[data-tone='4'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 30%, var(--_slider-apex-flash));
+  }
+
+  &__matrix-square[data-tone='5'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 22%, var(--_slider-apex-flash));
+  }
+
+  &__matrix-square[data-tone='6'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 14%, var(--_slider-apex-flash));
+  }
+
+  &__matrix-square[data-tone='7'] {
+    --_slider-cell-flash: color-mix(in srgb, var(--opcteam-color-accent-secondary) 6%, var(--_slider-apex-flash));
   }
 
   /* A press animates the knob to the pressed step; once the pointer really drags, the knob has
      to follow the pointer exactly, so transitions are dropped for the rest of the gesture. */
   &[data-reasoning-slider-state='dragging'] {
     --_slider-transition: 0s;
+    --_slider-move-transition: 0s;
 
     .opc-reasoning-slider__rail {
       cursor: grabbing;
@@ -150,6 +324,40 @@
      data-reasoning-reduced-motion, so the stylesheet and the render agree on one signal. */
   &[data-reasoning-reduced-motion='true'] {
     --_slider-transition: 0s;
+    --_slider-move-transition: 0s;
+
+    .opc-reasoning-slider__matrix-cell,
+    .opc-reasoning-slider__matrix-square {
+      animation: none;
+    }
+  }
+}
+
+@keyframes opc-reasoning-slider-matrix-fade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* The reference's asymmetric dwell: two thirds of the period sits on the pale tone, one third on the
+   full violet, with a short snap between them. */
+@keyframes opc-reasoning-slider-matrix-flash {
+  0%,
+  17.24% {
+    background-color: var(--opcteam-color-accent-secondary);
+  }
+
+  17.25%,
+  50.34% {
+    background-color: var(--_slider-cell-flash);
+  }
+
+  100% {
+    background-color: var(--opcteam-color-accent-secondary);
   }
 }
 
@@ -163,10 +371,18 @@
 @media (prefers-reduced-motion: reduce) {
   .opc-reasoning-slider {
     --_slider-transition: 0s;
+    --_slider-move-transition: 0s;
   }
 
   .opc-reasoning-slider__fill,
-  .opc-reasoning-slider__knob {
+  .opc-reasoning-slider__knob,
+  .opc-reasoning-slider__value,
+  .opc-reasoning-slider__ticks {
     transition: none;
+  }
+
+  .opc-reasoning-slider__matrix-cell,
+  .opc-reasoning-slider__matrix-square {
+    animation: none;
   }
 }

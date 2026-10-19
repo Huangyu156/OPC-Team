@@ -19,6 +19,8 @@ export interface ReasoningStrengthSliderProps {
   value: string;
   /** Localized name of the whole control, used as the slider's aria-label. */
   ariaLabel: string;
+  /** Localized name of the whole control, rendered as the card header label. */
+  title?: string;
   /** Localized caption for the weak end of the axis. */
   weakerLabel: string;
   /** Localized caption for the strong end of the axis. */
@@ -80,6 +82,184 @@ const RATIO_EPSILON = 0.0005;
 const KNOB_INLINE_SIZE_PX = 16;
 
 /**
+ * Rows in the top-step dot matrix. Five rows of roughly four device pixels read as a pixel field;
+ * a sixth row would resolve to three-pixel blocks and blur into a texture instead of a grid.
+ */
+const MATRIX_ROWS = 5;
+
+/** Groove height in CSS pixels, used only until the rendered groove can be measured. */
+const MATRIX_GROOVE_FALLBACK_PX = 26;
+
+/** Flash period in milliseconds, matching two loop tokens for a host without computed styles. */
+const MATRIX_FLASH_FALLBACK_MS = 1440;
+
+/** One cell of the top-step dot matrix, ready to render. */
+interface MatrixCell {
+  key: string;
+  /** Brightness step 0..7; the stylesheet turns it into a flash colour. */
+  tone: number;
+  /** Static feather from the weak end to the strong end. */
+  opacity: number;
+  /** Delay of the sweep-in animation, in milliseconds. */
+  enterDelayMs: number;
+  /** Delay of the flash loop, in milliseconds. */
+  flashDelayMs: number;
+  /** Per-cell flash duration, in milliseconds. */
+  flashDurationMs: number;
+}
+
+/** Resolved matrix geometry in CSS pixels, plus the cells it produces. */
+interface MatrixField {
+  cols: number;
+  blockPx: number;
+  gapPx: number;
+  padBlockStartPx: number;
+  padBlockEndPx: number;
+  padInlineStartPx: number;
+  padInlineEndPx: number;
+  cells: MatrixCell[];
+}
+
+/** Resolved track geometry in device pixels, before conversion back to CSS pixels. */
+interface MatrixGeometry {
+  cols: number;
+  blockPx: number;
+  gapPx: number;
+  padBlockStartPx: number;
+  padBlockEndPx: number;
+  padInlineStartPx: number;
+  padInlineEndPx: number;
+}
+
+/**
+ * Stable pseudo-random value in [0, 1) for one matrix coordinate. Both coordinates are mixed into
+ * the seed before the avalanche step, so neighbouring cells do not drift into a diagonal band the
+ * way a single linear index would.
+ */
+function cellUnit(row: number, column: number, seed: number): number {
+  let hash = Math.imul(row + 1, 0x9e3779b1) ^ Math.imul(column + 1, 0x85ebca6b) ^ Math.imul(seed + 1, 0x27d4eb2f);
+  hash = Math.imul(hash ^ (hash >>> 15), 0x2545f491);
+  hash ^= hash >>> 13;
+  return (hash >>> 0) / 4294967296;
+}
+
+/**
+ * Static feather along the travel axis. The weak end stays empty, the strong end is fully lit, and
+ * a smoothstep bridges the two so the field has no visible edge where the ramp starts.
+ */
+function cellFade(fx: number): number {
+  if (fx <= 0.05) return 0;
+  if (fx >= 0.75) return 1;
+  const t = (fx - 0.05) / 0.7;
+  return t * t * (3 - 2 * t);
+}
+
+/**
+ * Fit as many whole blocks as the track holds. The block size is rounded to a whole device pixel
+ * so every square is crisp, and the leftover space is split evenly into padding instead of being
+ * absorbed by one fat cell. All rounding happens in device pixels, never in CSS pixels.
+ */
+function solveMatrix(widthDev: number, heightDev: number, dpr: number): MatrixGeometry {
+  const gap = Math.max(1, Math.round(1 * dpr));
+  const margin = Math.max(1, Math.round(0.5 * dpr));
+  const block = Math.max(3, Math.floor((heightDev - 2 * margin - (MATRIX_ROWS - 1) * gap) / MATRIX_ROWS));
+  const cols = Math.max(1, Math.floor((widthDev + gap) / (block + gap)));
+  const restX = widthDev - (cols * block + (cols - 1) * gap);
+  const restY = heightDev - (MATRIX_ROWS * block + (MATRIX_ROWS - 1) * gap);
+  const padTop = Math.floor(restY / 2);
+  const padLeft = Math.floor(restX / 2);
+  return {
+    cols,
+    blockPx: block / dpr,
+    gapPx: gap / dpr,
+    padBlockStartPx: padTop / dpr,
+    padBlockEndPx: (restY - padTop) / dpr,
+    padInlineStartPx: padLeft / dpr,
+    padInlineEndPx: (restX - padLeft) / dpr,
+  };
+}
+
+/**
+ * Resolve the flash period from the same motion token the stylesheet derives its animation
+ * duration from, so the per-cell phase offsets and the CSS loop stay in lockstep. A host without
+ * computed styles, or one that has collapsed the token to zero for reduced motion, gets the
+ * fallback; reduced motion is handled by the caller and never reaches the animation path.
+ */
+function resolveFlashPeriodMs(element: HTMLElement | null): number {
+  if (!element || typeof getComputedStyle !== 'function') return MATRIX_FLASH_FALLBACK_MS;
+  const raw = getComputedStyle(element).getPropertyValue('--opcteam-motion-duration-loop').trim();
+  if (!raw) return MATRIX_FLASH_FALLBACK_MS;
+  const value = Number.parseFloat(raw);
+  if (!Number.isFinite(value) || value <= 0) return MATRIX_FLASH_FALLBACK_MS;
+  const period = (raw.endsWith('ms') ? value : value * 1000) * 2;
+  return Number.isFinite(period) && period > 0 ? period : MATRIX_FLASH_FALLBACK_MS;
+}
+
+/**
+ * Build the matrix field. Tone, entry delay, flash offset and flash duration are all keyed off a
+ * hash of the cell coordinate, so a given cell keeps its identity across renders and a resize
+ * produces a fresh field rather than a reshuffle of the one on screen.
+ */
+function buildMatrix(geometry: MatrixGeometry, flashPeriodMs: number, reducedMotion: boolean): MatrixField {
+  const cells: MatrixCell[] = [];
+  for (let row = 0; row < MATRIX_ROWS; row += 1) {
+    for (let column = 0; column < geometry.cols; column += 1) {
+      const fx = geometry.cols > 1 ? column / (geometry.cols - 1) : 1;
+      const tone = Math.floor(cellUnit(row, column, 1) * 8) % 8;
+      const opacity = cellFade(fx);
+      if (reducedMotion) {
+        cells.push({ key: `${row}-${column}`, tone, opacity, enterDelayMs: 0, flashDelayMs: 0, flashDurationMs: 0 });
+        continue;
+      }
+      cells.push({
+        key: `${row}-${column}`,
+        tone,
+        opacity,
+        // The field sweeps in from the strong end, so the weak end starts last.
+        enterDelayMs: (1 - fx) * flashPeriodMs * 0.31 + cellUnit(row, column, 4) * flashPeriodMs * 0.055,
+        flashDelayMs: cellUnit(row, column, 2) * flashPeriodMs * 0.95 + flashPeriodMs * 0.21,
+        flashDurationMs: flashPeriodMs * (0.92 + cellUnit(row, column, 3) * 0.16),
+      });
+    }
+  }
+  return { ...geometry, cells };
+}
+
+/**
+ * Sweep-in style for one cell. Written inline because the delay is a function of the cell's
+ * distance from the strong end, which only the measured field knows.
+ */
+function matrixCellStyle(cell: MatrixCell): React.CSSProperties {
+  if (cell.enterDelayMs <= 0) return {};
+  return { animationDelay: `${cell.enterDelayMs.toFixed(0)}ms` };
+}
+
+/**
+ * Flash style for one square. The static feather lives here rather than on the cell because the
+ * cell already owns an opacity animation whose end state would overwrite it.
+ */
+function matrixSquareStyle(cell: MatrixCell): React.CSSProperties {
+  const style: React.CSSProperties = { opacity: cell.opacity };
+  if (cell.flashDurationMs > 0) {
+    style.animationDelay = `${cell.flashDelayMs.toFixed(0)}ms`;
+    style.animationDuration = `${cell.flashDurationMs.toFixed(0)}ms`;
+  }
+  return style;
+}
+
+/**
+ * Two fields are equal when their geometry and every cell's tone match. Cell delays never need
+ * comparing: they are a pure function of the coordinate and the flash period, and the period only
+ * changes when the geometry does.
+ */
+function sameMatrixField(current: MatrixField | null, next: MatrixField): boolean {
+  if (!current) return false;
+  if (current.cols !== next.cols || current.blockPx !== next.blockPx || current.gapPx !== next.gapPx) return false;
+  if (current.cells.length !== next.cells.length) return false;
+  return current.cells.every((cell, index) => cell.tone === next.cells[index]?.tone);
+}
+
+/**
  * Keys this control owns. Arrow keys follow numeric strength, not the visual axis:
  * ArrowRight/ArrowUp always increase the index and ArrowLeft/ArrowDown always decrease
  * it, in both LTR and RTL, because the ladder is a numeric scale and never mirrors with
@@ -132,6 +312,7 @@ export const ReasoningStrengthSlider: React.FC<ReasoningStrengthSliderProps> = (
   steps,
   value,
   ariaLabel,
+  title,
   weakerLabel,
   strongerLabel,
   disabled = false,
@@ -151,9 +332,13 @@ export const ReasoningStrengthSlider: React.FC<ReasoningStrengthSliderProps> = (
   const [displayIndex, setDisplayIndex] = useState(committedIndex);
   const [dragRatio, setDragRatio] = useState<number | null>(null);
   const [dragging, setDragging] = useState(false);
+  // The top-step matrix is sized from the rendered groove, never from a guessed width, so the
+  // column count follows the actual popover width in every host.
+  const [matrixField, setMatrixField] = useState<MatrixField | null>(null);
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const railRef = useRef<HTMLDivElement | null>(null);
+  const grooveRef = useRef<HTMLSpanElement | null>(null);
   const knobRef = useRef<HTMLDivElement | null>(null);
   const onCommitRef = useRef(onCommit);
   const onPreviewRef = useRef(onPreview);
@@ -378,9 +563,63 @@ export const ReasoningStrengthSlider: React.FC<ReasoningStrengthSliderProps> = (
   const sliderState: SliderState = disabled ? 'disabled' : pending ? 'pending' : dragging ? 'dragging' : 'idle';
   const reducedMotion = isReducedMotionPreferred();
   const rootClassName = className ? `opc-reasoning-slider ${className}` : 'opc-reasoning-slider';
+  // The top step is the only one that lights the knob and the header value up, so the
+  // stylesheet reads one attribute instead of comparing indices it cannot see.
+  const atApex = displayIndex === maxIndex && stepCount > 1;
   // One inherited custom property drives both the fill and the knob, so nothing but a style
   // value changes as steps or the committed value move; the nodes themselves never remount.
   const rootStyle = { '--_slider-ratio': visualRatio.toFixed(4) } as React.CSSProperties;
+
+  // Grid geometry lives in an inline style because the block size depends on the measured track
+  // and the current device scale, neither of which a stylesheet can see.
+  const matrixStyle: React.CSSProperties | undefined = React.useMemo(() => {
+    if (!atApex || !matrixField) return undefined;
+    return {
+      columnGap: `${matrixField.gapPx}px`,
+      rowGap: `${matrixField.gapPx}px`,
+      // Top and bottom are resolved separately: the leftover device pixels split one by one, so a
+      // 26px groove still centres the rows exactly instead of rounding the whole padding down.
+      paddingBlockStart: `${matrixField.padBlockStartPx}px`,
+      paddingBlockEnd: `${matrixField.padBlockEndPx}px`,
+      paddingInlineStart: `${matrixField.padInlineStartPx}px`,
+      paddingInlineEnd: `${matrixField.padInlineEndPx}px`,
+      gridTemplateColumns: `repeat(${matrixField.cols}, ${matrixField.blockPx}px)`,
+      gridAutoRows: `${matrixField.blockPx}px`,
+    };
+  }, [atApex, matrixField]);
+
+  useLayoutEffect(() => {
+    // The matrix only exists at the top step; measuring it otherwise would cost a layout read
+    // on every step change for a layer nobody can see.
+    if (!atApex) return undefined;
+    const groove = grooveRef.current;
+    if (!groove) return undefined;
+    let disposed = false;
+
+    const measure = () => {
+      if (disposed) return;
+      const rect = groove.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const dpr = window.devicePixelRatio || 1;
+      const geometry = solveMatrix(
+        Math.round(rect.width * dpr),
+        Math.round((rect.height || MATRIX_GROOVE_FALLBACK_PX) * dpr),
+        dpr,
+      );
+      const flashPeriodMs = resolveFlashPeriodMs(groove);
+      const next = buildMatrix(geometry, flashPeriodMs, reducedMotion);
+      setMatrixField(current => (sameMatrixField(current, next) ? current : next));
+    };
+
+    measure();
+    if (typeof ResizeObserver === 'undefined') return () => { disposed = true; };
+    const observer = new ResizeObserver(measure);
+    observer.observe(groove);
+    return () => {
+      disposed = true;
+      observer.disconnect();
+    };
+  }, [atApex, reducedMotion]);
 
   return (
     <div
@@ -392,6 +631,7 @@ export const ReasoningStrengthSlider: React.FC<ReasoningStrengthSliderProps> = (
       data-testid="chat-model-selector-reasoning-slider"
       data-reasoning-slider-state={sliderState}
       data-reasoning-reduced-motion={reducedMotion ? 'true' : undefined}
+      data-apex={atApex ? 'true' : undefined}
       data-overflow-trigger="true"
       role="slider"
       tabIndex={disabled ? -1 : 0}
@@ -408,8 +648,11 @@ export const ReasoningStrengthSlider: React.FC<ReasoningStrengthSliderProps> = (
       onPointerUp={handlePointerUp}
       onPointerCancel={handlePointerCancel}
     >
-      <div className="opc-reasoning-slider__value" aria-hidden="true">
-        <OverflowText behavior="fade">{activeStep?.label ?? ''}</OverflowText>
+      <div className="opc-reasoning-slider__header" aria-hidden="true">
+        {title ? <span className="opc-reasoning-slider__title">{title}</span> : null}
+        <div className="opc-reasoning-slider__value">
+          <OverflowText behavior="fade">{activeStep?.label ?? ''}</OverflowText>
+        </div>
       </div>
       <div
         className="opc-reasoning-slider__axis"
@@ -417,41 +660,60 @@ export const ReasoningStrengthSlider: React.FC<ReasoningStrengthSliderProps> = (
         data-opc-part="reasoningSliderAxis"
       >
         <span className="opc-reasoning-slider__caption">{weakerLabel}</span>
+        <span className="opc-reasoning-slider__caption">{strongerLabel}</span>
+      </div>
+      <div
+        ref={railRef}
+        className="opc-reasoning-slider__rail"
+        data-opc-component="model-selector"
+        data-opc-part="reasoningSliderRail"
+      >
+        <span ref={grooveRef} className="opc-reasoning-slider__groove" aria-hidden="true" />
         <div
-          ref={railRef}
-          className="opc-reasoning-slider__rail"
+          className="opc-reasoning-slider__fill"
           data-opc-component="model-selector"
-          data-opc-part="reasoningSliderRail"
+          data-opc-part="reasoningSliderFill"
+        />
+        <div
+          className="opc-reasoning-slider__ticks"
+          data-opc-component="model-selector"
+          data-opc-part="reasoningSliderTicks"
+          aria-hidden="true"
         >
-          <span className="opc-reasoning-slider__groove" aria-hidden="true" />
+          {tickRatios.map((tick) => (
+            <span
+              key={tick.rank}
+              className="opc-reasoning-slider__tick"
+              style={{ '--_slider-tick-ratio': tick.ratio.toFixed(4) } as React.CSSProperties}
+            />
+          ))}
+        </div>
+        {atApex ? (
           <div
-            className="opc-reasoning-slider__fill"
+            className="opc-reasoning-slider__matrix"
             data-opc-component="model-selector"
-            data-opc-part="reasoningSliderFill"
-          />
-          <div
-            className="opc-reasoning-slider__ticks"
-            data-opc-component="model-selector"
-            data-opc-part="reasoningSliderTicks"
+            data-opc-part="reasoningSliderMatrix"
             aria-hidden="true"
+            style={matrixStyle}
           >
-            {tickRatios.map((tick) => (
+            {matrixField?.cells.map(cell => (
               <span
-                key={tick.rank}
-                className="opc-reasoning-slider__tick"
-                style={{ '--_slider-tick-ratio': tick.ratio.toFixed(4) } as React.CSSProperties}
-              />
+                key={cell.key}
+                className="opc-reasoning-slider__matrix-cell"
+                style={matrixCellStyle(cell)}
+              >
+                <span className="opc-reasoning-slider__matrix-square" data-tone={cell.tone} style={matrixSquareStyle(cell)} />
+              </span>
             ))}
           </div>
-          <div
-            ref={knobRef}
-            className="opc-reasoning-slider__knob"
-            data-opc-component="model-selector"
-            data-opc-part="reasoningSliderKnob"
-            aria-hidden="true"
-          />
-        </div>
-        <span className="opc-reasoning-slider__caption">{strongerLabel}</span>
+        ) : null}
+        <div
+          ref={knobRef}
+          className="opc-reasoning-slider__knob"
+          data-opc-component="model-selector"
+          data-opc-part="reasoningSliderKnob"
+          aria-hidden="true"
+        />
       </div>
     </div>
   );

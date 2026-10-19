@@ -195,11 +195,11 @@ export const ReasoningStrengthTrigger: React.FC<ReasoningStrengthTriggerProps> =
             onKeyDown={handleMenuKeyDown}
           >
             <div className="opc-reasoning-strength__panel">
-              <span className="opc-reasoning-strength__caption">{title}</span>
               <ReasoningStrengthSlider
                 steps={steps}
                 value={value}
                 ariaLabel={ariaLabel}
+                title={title}
                 weakerLabel={weakerLabel}
                 strongerLabel={strongerLabel}
                 pending={pending}

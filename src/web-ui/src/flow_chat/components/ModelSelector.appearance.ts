@@ -17,6 +17,7 @@ export const modelSelectorAppearanceDescriptor: AppearanceSurfaceDescriptor = {
     { id: 'reasoningSliderRail' },
     { id: 'reasoningSliderFill' },
     { id: 'reasoningSliderTicks' },
+    { id: 'reasoningSliderMatrix' },
     { id: 'reasoningSliderKnob' },
     { id: 'reasoningSlider' },
     { id: 'reasoningSliderSky' },
