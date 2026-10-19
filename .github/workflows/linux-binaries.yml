@@ -120,7 +120,11 @@ jobs:
       - name: Cache Rust build
         uses: swatinem/rust-cache@v2
         with:
-          shared-key: "linux-binaries-v2-${{ github.base_ref || github.ref_name }}-${{ matrix.platform.name }}"
+          # The key must not carry the ref: a release build runs on its tag
+          # (v1.2.3), so a ref-scoped key guarantees a cold cache on every
+          # release. Platform-only keys let consecutive releases reuse the
+          # compiled dependency graph.
+          shared-key: "linux-binaries-v2-${{ matrix.platform.name }}"
           cache-bin: false
           save-if: ${{ inputs.cache_write && github.event_name != 'pull_request' }}
           cache-on-failure: ${{ inputs.cache_write && github.event_name != 'pull_request' }}

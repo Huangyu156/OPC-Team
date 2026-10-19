@@ -32,6 +32,11 @@ on:
         required: false
         default: false
         type: boolean
+      platforms:
+        description: "Package one platform only ('all' keeps the full matrix). Single-platform runs skip the Linux binaries and Relay image chain, so they never publish a release by themselves."
+        required: false
+        default: "all"
+        type: string
 
 permissions:
   contents: write
@@ -143,7 +148,10 @@ jobs:
     name: Package (${{ matrix.platform.name }})
     runs-on: ${{ matrix.platform.os }}
     needs: prepare
-    if: needs.prepare.outputs.relay_image_only != 'true'
+    if: >-
+      needs.prepare.outputs.relay_image_only != 'true' &&
+      (inputs.platforms == 'all' || inputs.platforms == '' ||
+       matrix.platform.name == inputs.platforms)
     env:
       NODE_OPTIONS: --max-old-space-size=6144
       OPC_RELEASE_CHANNEL: ${{ needs.prepare.outputs.release_channel }}
@@ -419,7 +427,8 @@ jobs:
     name: Linux CLI and Relay Server
     needs: prepare
     if: >-
-      needs.prepare.outputs.relay_image_only != 'true'
+      needs.prepare.outputs.relay_image_only != 'true' &&
+      (inputs.platforms == 'all' || inputs.platforms == '')
     uses: ./.github/workflows/linux-binaries.yml
     secrets:
       release_signing_key: ${{ secrets.TAURI_SIGNING_PRIVATE_KEY }}
@@ -429,6 +438,9 @@ jobs:
       checkout_ref: ${{ needs.prepare.outputs.checkout_ref }}
       version: ${{ needs.prepare.outputs.version }}
       artifact_prefix: ${{ needs.prepare.outputs.release_tag }}
+      # A publishing caller may refresh the cache; without this the workflow
+      # defaults to save-if: false and every release recompiles from scratch.
+      cache_write: true
 
   # Publish the Relay once, as a multi-platform image. User servers only pull
   # this image; they no longer download an archive and build a runtime image.
