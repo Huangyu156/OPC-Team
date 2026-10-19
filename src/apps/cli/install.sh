@@ -95,9 +95,13 @@ SHELLRC_MARKER_BEGIN="# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.s
 SHELLRC_MARKER_END="# <<< OPC-Team CLI PATH (managed by src/apps/cli/install.sh) <<<"
 # Pre-rename marker. Installs made before the OPC-Team rename wrote this block,
 # so it is still recognized: an upgrade replaces the stale block instead of
-# leaving it behind and appending a second one beside it.
-SHELLRC_LEGACY_MARKER_BEGIN="# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>"
-SHELLRC_LEGACY_MARKER_END="# <<< OPC-Team CLI PATH (managed by src/apps/cli/install.sh) <<<"
+# leaving it behind and appending a second one beside it. These strings must
+# keep the historical product name verbatim — rewriting them to OPC-Team makes
+# the legacy marker identical to the managed one, and the upgrade path stops
+# being distinguishable (scripts/cli/test-install-unix.sh asserts the legacy
+# block is gone after an upgrade).
+SHELLRC_LEGACY_MARKER_BEGIN="# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>"
+SHELLRC_LEGACY_MARKER_END="# <<< OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) <<<"
 
 ensure_bin_dir_on_path_block() {
   local bin_dir="$1"

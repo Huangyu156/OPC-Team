@@ -25,13 +25,13 @@ mkdir -p "$HOME"
 # install wrote, not leave it beside the new OPC-Team marker.
 for rc_file in "$HOME/.bashrc" "$HOME/.zshrc"; do
   cat >"$rc_file" <<'EOF'
-# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>
-# Added so `opc` is available in new shells after install.sh.
+# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>
+# Added so `openbitfun` is available in new shells after install.sh.
 case ":$PATH:" in
   *":$HOME/.local/bin:"*) ;;
   *) export PATH="$HOME/.local/bin:$PATH" ;;
 esac
-# <<< OPC-Team CLI PATH (managed by src/apps/cli/install.sh) <<<
+# <<< OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) <<<
 EOF
 done
 
@@ -50,7 +50,7 @@ bash "${REPO_ROOT}/src/apps/cli/install.sh"
 [ -f "${OPC_CLI_BIN_DIR}/resources/ext-host/extension-host.js" ]
 
 MANAGED_MARKER='# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>'
-LEGACY_MANAGED_MARKER='# >>> OPC-Team CLI PATH (managed by src/apps/cli/install.sh) >>>'
+LEGACY_MANAGED_MARKER='# >>> OpenBitFun CLI PATH (managed by src/apps/cli/install.sh) >>>'
 for rc_file in "$HOME/.bashrc" "$HOME/.zshrc"; do
   [ "$(grep -Fc "$MANAGED_MARKER" "$rc_file")" -eq 1 ]
   [ "$(grep -Fc "$LEGACY_MANAGED_MARKER" "$rc_file")" -eq 0 ]
