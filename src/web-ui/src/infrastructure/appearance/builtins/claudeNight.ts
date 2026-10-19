@@ -87,6 +87,12 @@ export const opcClaudeNightPalette: AppearancePalette = {
       branchBg: claudeClay(0.14),
     }),
 
+    // Focus follows the ink, never the accent: a focus ring is a structural outline,
+    // and the accent is reserved for emphasis the product itself chose to add.
+    focus: {
+      ring: CLAUDE_NIGHT_IVORY,
+    },
+
     // Links lift off the warm near-black canvas the same way the accent does; the
     // light palette's ink-dark link would disappear here.
     link: {
