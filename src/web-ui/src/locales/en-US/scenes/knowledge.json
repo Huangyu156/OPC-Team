@@ -1,0 +1,90 @@
+{
+  "sidebar": {
+    "title": "Knowledge bases",
+    "new": "New",
+    "sectionTitle": "Bases",
+    "loading": "Loading knowledge bases…",
+    "error": "Knowledge bases could not be loaded",
+    "empty": "No knowledge bases yet.",
+    "retry": "Retry"
+  },
+  "header": {
+    "noSelectionTitle": "No knowledge base selected",
+    "noSelectionDescription": "Create a knowledge base to collect entries an agent can reference.",
+    "noDescription": "No description",
+    "rename": "Rename",
+    "delete": "Delete",
+    "newEntry": "New entry",
+    "refresh": "Refresh",
+    "viewEntries": "Entries",
+    "viewLedger": "Audit ledger"
+  },
+  "entries": {
+    "searchPlaceholder": "Search entries",
+    "searchLabel": "Search knowledge entries",
+    "clearSearch": "Clear search",
+    "loading": "Loading entries…",
+    "error": "Entries could not be loaded",
+    "empty": "This knowledge base has no entries yet.",
+    "emptySearch": "No entries match this search.",
+    "emptyHint": "Entries collect the facts and procedures an agent may cite.",
+    "untitled": "Untitled entry",
+    "edit": "Edit entry",
+    "delete": "Delete",
+    "source": "Source: {{source}}",
+    "channelSubstring": "Substring",
+    "channelFullText": "Full-text",
+    "fullTextNeedsLongerTerms": "Full-text search needs terms of at least {{min}} characters. Switch to Substring, or use longer words.",
+    "answeredFullText": "Matched by full-text index",
+    "answeredSubstring": "Matched by substring scan",
+    "answeredRecent": "Showing recent entries"
+  },
+  "ledger": {
+    "loading": "Loading audit ledger…",
+    "error": "The audit ledger could not be loaded",
+    "empty": "No recorded changes yet.",
+    "actionCreateEntry": "Created entry",
+    "actionUpdateEntry": "Updated entry",
+    "actionDeleteEntry": "Deleted entry",
+    "actionUnknown": "Changed",
+    "actorUser": "You",
+    "actorAgent": "Agent {{id}}",
+    "actorUnknown": "Unknown source"
+  },
+  "dialog": {
+    "baseCreateTitle": "New knowledge base",
+    "baseEditTitle": "Edit knowledge base",
+    "baseName": "Name",
+    "baseNamePlaceholder": "For example: Release runbook",
+    "baseDescription": "Description",
+    "baseDescriptionPlaceholder": "What belongs in this knowledge base?",
+    "entryCreateTitle": "New entry",
+    "entryEditTitle": "Edit entry",
+    "entryTitle": "Title",
+    "entryTitlePlaceholder": "A short, searchable title",
+    "entryBody": "Content",
+    "entryBodyPlaceholder": "The facts or procedure an agent should be able to cite",
+    "entryTags": "Tags",
+    "entryTagsPlaceholder": "Comma-separated tags",
+    "entrySource": "Source",
+    "entrySourcePlaceholder": "Where this content came from",
+    "save": "Save",
+    "cancel": "Cancel"
+  },
+  "confirm": {
+    "deleteBaseTitle": "Delete knowledge base",
+    "deleteBaseMessage": "Delete “{{name}}” with all of its entries? This cannot be undone.",
+    "deleteEntryTitle": "Delete entry",
+    "deleteEntryMessage": "Delete “{{title}}” from this knowledge base?"
+  },
+  "errors": {
+    "nameRequired": "Enter a name for the knowledge base.",
+    "titleRequired": "Enter a title for the entry.",
+    "bodyRequired": "Enter content for the entry.",
+    "generic": "The change could not be saved: {{message}}"
+  },
+  "unavailable": {
+    "title": "Knowledge is unavailable here",
+    "description": "Knowledge bases live on the machine that runs the agent. Open this scene on that machine."
+  }
+}

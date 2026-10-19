@@ -75,7 +75,7 @@ export const optionalDependencyFeatureOwnerRules = [
           'workspace-instructions',
         ],
       },
-      { depName: 'rusqlite', ownerFeatures: ['memory-store', 'permission', 'session-search', 'coordination-store'] },
+      { depName: 'rusqlite', ownerFeatures: ['memory-store', 'permission', 'session-search', 'coordination-store', 'knowledge-store'] },
       { depName: 'rustls', ownerFeatures: ['tls-provider'] },
       { depName: 'serde_yaml', ownerFeatures: ['markdown', 'workspace-instructions'] },
       { depName: 'similar', ownerFeatures: ['diff', 'local-storage'] },
@@ -85,6 +85,7 @@ export const optionalDependencyFeatureOwnerRules = [
           'pet-packages',
           'dispatch-workspace',
           'filesystem',
+          'knowledge-store',
           'local-storage',
           'runtime-ownership',
           'workspace-identity',
@@ -156,6 +157,7 @@ export const optionalDependencyFeatureOwnerRules = [
   },
   {
     crateName: 'core',
+    reviewedAggregateFeatures: ['knowledge-base'],
     reason:
       'opc-core product/runtime optional dependencies must stay owned by explicit feature gates',
     dependencies: [
@@ -229,6 +231,7 @@ export const optionalDependencyFeatureOwnerRules = [
           'tools-mcp',
           'tools-miniapp',
           'tools-pages',
+          'knowledge-base',
         ],
       },
       { depName: 'chrono-tz', ownerFeatures: ['scheduled-jobs'] },
@@ -245,7 +248,7 @@ export const optionalDependencyFeatureOwnerRules = [
       { depName: 'md5', ownerFeatures: ['agent-runtime'] },
       { depName: 'reqwest', ownerFeatures: ['mcp-runtime', 'tools-miniapp'] },
       { depName: 'regex', ownerFeatures: ['agent-runtime'] },
-      { depName: 'rusqlite', ownerFeatures: ['agent-runtime'] },
+      { depName: 'rusqlite', ownerFeatures: ['agent-runtime', 'knowledge-base'] },
       { depName: 'semver', ownerFeatures: ['tools-miniapp'] },
       { depName: 'serde_yaml', ownerFeatures: ['workspace-runtime'] },
       { depName: 'similar', ownerFeatures: ['agent-runtime'] },
@@ -462,7 +465,7 @@ export const capabilityContractDependencyRules = [
           capabilityForwarder('web-tools', 'web-search-port'),
         ],
         [],
-        ['external-sources', 'mcp-runtime', 'opencode-plugin-host', 'product-full', 'remote-connect', 'tools-browser-web', 'tools-mcp'],
+        ['external-sources', 'knowledge-base', 'mcp-runtime', 'opencode-plugin-host', 'product-full', 'remote-connect', 'tools-browser-web', 'tools-mcp'],
       )],
       ['opc-desktop', capabilityConsumer([
         capabilityEdge(['agent-api', 'permission', 'workspace-ports']),
@@ -568,6 +571,7 @@ export const capabilityContractDependencyRules = [
         [
           'dispatch-store',
           'external-sources',
+          'knowledge-base',
           'opencode-plugin-host',
           'plugin-runtime',
           'product-search',
@@ -674,7 +678,7 @@ export const capabilityContractDependencyRules = [
           capabilityForwarder('agent-runtime', 'agent-runtime'),
         ],
         ['agent-runtime'],
-        ['external-sources', 'mcp-runtime', 'opencode-plugin-host', 'plugin-runtime', 'product-search', 'product-full', 'remote-connect', 'tools-mcp'],
+        ['external-sources', 'knowledge-base', 'mcp-runtime', 'opencode-plugin-host', 'plugin-runtime', 'product-search', 'product-full', 'remote-connect', 'tools-mcp'],
       )],
       ['opc-desktop', capabilityConsumer([
         capabilityEdge(['agent-runtime']),
@@ -1762,6 +1766,7 @@ export const ownerCrateFeatureAssemblyRules = [
       'creation',
       'canvas',
       'agent-control',
+      'knowledge',
     ],
   },
   {

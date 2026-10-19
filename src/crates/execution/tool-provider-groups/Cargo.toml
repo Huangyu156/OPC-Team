@@ -22,7 +22,8 @@ pages = []
 creation = []
 canvas = []
 agent-control = []
-product-full = ["basic", "git", "mcp", "browser-web", "computer-use", "image-analysis", "miniapp", "pages", "creation", "canvas", "agent-control"]
+knowledge = []
+product-full = ["basic", "git", "mcp", "browser-web", "computer-use", "image-analysis", "miniapp", "pages", "creation", "canvas", "agent-control", "knowledge"]
 
 [lints]
 workspace = true

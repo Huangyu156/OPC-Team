@@ -153,6 +153,15 @@ export const SCENE_TAB_REGISTRY: SceneTabDef[] = [
     defaultOpen: false,
   },
   {
+    id: 'knowledge' as SceneTabId,
+    label: 'Knowledge',
+    labelKey: 'scenes.knowledge',
+    Icon: catalogSceneIcon('book-open'),
+    pinned: false,
+    singleton: true,
+    defaultOpen: false,
+  },
+  {
     id: 'shell' as SceneTabId,
     label: 'Shell',
     labelKey: 'scenes.shell',

@@ -1,8 +1,9 @@
 use crate::agentic::agents::{PromptBuilder, PromptBuilderContext, UserContextPolicy};
-use crate::agentic::session::SystemPromptCacheIdentity;
+use crate::agentic::session::{SystemPromptCacheIdentity, UserContextCacheIdentity};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use opc_agent_runtime::custom_agent::{
     custom_agent_save_markdown_file, CustomAgentDefinition, CustomAgentKind, CustomAgentLevel,
+    KnowledgeBaseRef,
 };
 use sha2::{Digest, Sha256};
 
@@ -21,6 +22,7 @@ pub(crate) struct CustomAgentData {
     pub model: String,
     pub model_is_explicit: bool,
     pub user_context_policy: UserContextPolicy,
+    pub knowledge_base_refs: Vec<KnowledgeBaseRef>,
 }
 
 impl CustomAgentData {
@@ -39,6 +41,7 @@ impl CustomAgentData {
             model: definition.model,
             model_is_explicit: definition.model_is_explicit,
             user_context_policy: definition.user_context_policy,
+            knowledge_base_refs: definition.knowledge_base_refs,
         }
     }
 
@@ -61,12 +64,32 @@ impl CustomAgentData {
             model_is_explicit: model_is_explicit
                 .unwrap_or(model.is_some() || self.model_is_explicit),
             user_context_policy: self.user_context_policy.clone(),
+            knowledge_base_refs: self.knowledge_base_refs.clone(),
         }
     }
 
     pub(crate) fn system_prompt_cache_identity(&self) -> SystemPromptCacheIdentity {
         let prompt_hash = hex::encode(Sha256::digest(self.prompt.as_bytes()));
         SystemPromptCacheIdentity::new(format!("custom_prompt_sha256:{prompt_hash}"))
+    }
+
+    /// Knowledge references are part of the agent's user-context identity, not
+    /// of its rendered prompt. Two agents that share a prompt but attach to
+    /// different bases must not reuse one cached user-context entry, and an
+    /// agent that references nothing keeps the plain policy key so existing
+    /// cache entries stay valid.
+    pub(crate) fn user_context_cache_identity(&self) -> UserContextCacheIdentity {
+        let policy_key = self.user_context_policy.cache_scope_key();
+        if self.knowledge_base_refs.is_empty() {
+            return UserContextCacheIdentity::new(policy_key);
+        }
+        let mut parts: Vec<String> = self
+            .knowledge_base_refs
+            .iter()
+            .map(|reference| format!("{}:{}", reference.id, reference.mode.as_str()))
+            .collect();
+        parts.sort();
+        UserContextCacheIdentity::new(format!("{policy_key}||knowledge:{}", parts.join(",")))
     }
 
     pub(crate) async fn build_prompt(

@@ -10,6 +10,7 @@ import {
   CustomAgentAPI,
   type CustomAgentKind,
   type CustomAgentLevel,
+  type KnowledgeBaseRef,
   type UserContextSection,
 } from '@/infrastructure/api/service-api/CustomAgentAPI';
 import { toolAPI } from '@/infrastructure/api/service-api/ToolAPI';
@@ -23,6 +24,7 @@ import {
   type SubagentEditorToolInfo,
 } from './subagentEditorUtils';
 import { ToolGroupPicker, ToolGroupSummary } from './ToolGroupPicker';
+import { KnowledgeBasePicker } from './KnowledgeBasePicker';
 import { useUserToolGroups } from './useUserToolGroups';
 import '../AgentsView.scss';
 import './CreateAgentPage.scss';
@@ -125,6 +127,7 @@ const CreateAgentPage: React.FC = () => {
   const [userContextPolicy, setUserContextPolicy] = useState<Set<UserContextSection>>(
     () => new Set(defaultPolicyForKind('mode')),
   );
+  const [knowledgeBaseRefs, setKnowledgeBaseRefs] = useState<KnowledgeBaseRef[]>([]);
   const [submitting, setSubmitting] = useState(false);
   const [detailLoading, setDetailLoading] = useState(false);
   const [detailError, setDetailError] = useState<string | null>(null);
@@ -220,6 +223,7 @@ const CreateAgentPage: React.FC = () => {
         setToolsEditing(false);
         setPendingTools(null);
         setUserContextPolicy(new Set(detail.userContextPolicy));
+        setKnowledgeBaseRefs(detail.knowledgeBaseRefs ?? []);
         setAgentIdError(null);
       } catch (error) {
         if (cancelled) {
@@ -413,6 +417,7 @@ const CreateAgentPage: React.FC = () => {
         review: kind === 'subagent' ? review : false,
         tools: selectedTools.size > 0 ? Array.from(selectedTools) : undefined,
         userContextPolicy: Array.from(userContextPolicy),
+        knowledgeBaseRefs,
         workspaceId: kind === 'subagent' && level === 'project' ? workspaceId : undefined,
       } as const;
 
@@ -426,6 +431,7 @@ const CreateAgentPage: React.FC = () => {
           review: payload.review,
           tools: payload.tools,
           userContextPolicy: payload.userContextPolicy,
+          knowledgeBaseRefs: payload.knowledgeBaseRefs,
           workspaceId: payload.workspaceId,
         });
         notification.success(t('agentsOverview.form.updateSuccess', { name: payload.name }));
@@ -461,6 +467,7 @@ const CreateAgentPage: React.FC = () => {
     selectedTools,
     t,
     userContextPolicy,
+    knowledgeBaseRefs,
     validateAgentId,
     workspaceId,
   ]);
@@ -886,6 +893,14 @@ const CreateAgentPage: React.FC = () => {
                     })}
                   </div>
                 </div>
+
+                <KnowledgeBasePicker
+                  selectedRefs={knowledgeBaseRefs}
+                  onChange={setKnowledgeBaseRefs}
+                  disabled={submitting}
+                  readOnlyAgent={readonly}
+                  testId="custom-agent-knowledge-bases"
+                />
 
                 <div className="th-create-panel__field th-create-panel__field--prompt">
                   <label className="th-create-panel__label th-create-panel__label--strong" htmlFor="custom-agent-prompt">

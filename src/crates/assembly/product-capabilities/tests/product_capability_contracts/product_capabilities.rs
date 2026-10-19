@@ -145,6 +145,7 @@ fn default_capability_registry_preserves_product_tool_provider_order() {
             "core.pages",
             "core.creation",
             "core.canvas",
+            "core.knowledge",
         ]
     );
 }
@@ -168,6 +169,7 @@ fn capability_packs_describe_service_and_tool_requirements() {
             "pages",
             "creation",
             "canvas",
+            "knowledge",
             "voice-input"
         ]
     );
@@ -188,6 +190,7 @@ fn product_assembly_plan_keeps_full_capabilities_only_for_core_compatibility_pro
         "pages",
         "creation",
         "canvas",
+        "knowledge",
     ];
     let full_tool_groups = vec![
         "core.basic",
@@ -202,6 +205,7 @@ fn product_assembly_plan_keeps_full_capabilities_only_for_core_compatibility_pro
         "core.pages",
         "core.creation",
         "core.canvas",
+        "core.knowledge",
     ];
 
     for profile in [DeliveryProfile::ProductFull, DeliveryProfile::Desktop] {
@@ -504,6 +508,7 @@ fn product_assembly_plan_exposes_build_feature_groups_explicitly() {
             ProductFeatureGroup::Pages,
             ProductFeatureGroup::Creation,
             ProductFeatureGroup::Canvas,
+            ProductFeatureGroup::Knowledge,
         ]
     );
     assert_eq!(
@@ -520,6 +525,7 @@ fn product_assembly_plan_exposes_build_feature_groups_explicitly() {
             "pages",
             "creation",
             "canvas",
+            "knowledge",
         ]
     );
 }
@@ -827,6 +833,7 @@ fn default_capability_assembly_keeps_service_and_tool_facts_together() {
             "pages",
             "creation",
             "canvas",
+            "knowledge",
             "voice-input"
         ]
     );
@@ -866,6 +873,7 @@ fn default_capability_assembly_keeps_service_and_tool_facts_together() {
             "core.pages",
             "core.creation",
             "core.canvas",
+            "core.knowledge",
         ]
     );
 }

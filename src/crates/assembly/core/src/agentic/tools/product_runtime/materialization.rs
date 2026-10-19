@@ -78,6 +78,9 @@ const PRODUCT_TOOL_REGISTRATION_ORDER: &[&str] = &[
     "ControlHub",
     "ComputerUse",
     "Playbook",
+    "KnowledgeSearch",
+    "KnowledgeRead",
+    "KnowledgeWrite",
 ];
 
 #[derive(Debug, thiserror::Error)]
@@ -193,6 +196,12 @@ impl StaticToolProviderFactory<dyn Tool> for ProductConcreteToolFactory {
             "ComputerUse" => Some(Arc::new(ComputerUseTool::new())),
             #[cfg(feature = "tools-miniapp")]
             "Playbook" => Some(Arc::new(PlaybookTool::new())),
+            #[cfg(feature = "knowledge-base")]
+            "KnowledgeSearch" => Some(Arc::new(KnowledgeSearchTool::new())),
+            #[cfg(feature = "knowledge-base")]
+            "KnowledgeRead" => Some(Arc::new(KnowledgeReadTool::new())),
+            #[cfg(feature = "knowledge-base")]
+            "KnowledgeWrite" => Some(Arc::new(KnowledgeWriteTool::new())),
             _ => None,
         }
     }

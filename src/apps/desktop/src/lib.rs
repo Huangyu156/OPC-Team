@@ -84,6 +84,7 @@ use api::external_sources_api::*;
 use api::git_agent_api::*;
 use api::git_api::*;
 use api::i18n_api::*;
+use api::knowledge_api::*;
 use api::mcp_api::*;
 use api::review_platform_api::*;
 use api::runtime_api::*;
@@ -1503,6 +1504,16 @@ pub async fn run() {
             update_custom_agent,
             delete_custom_agent,
             reload_custom_agents,
+            list_knowledge_bases,
+            create_knowledge_base,
+            update_knowledge_base,
+            delete_knowledge_base,
+            list_knowledge_entries,
+            get_knowledge_entry,
+            upsert_knowledge_entry,
+            delete_knowledge_entry,
+            search_knowledge_entries,
+            list_knowledge_ledger,
             get_subagent_detail,
             delete_subagent,
             create_subagent,

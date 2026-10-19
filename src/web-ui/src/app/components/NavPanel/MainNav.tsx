@@ -227,22 +227,27 @@ const MainNav: React.FC = () => {
     void activateProductAction('surface.skills.open');
   }, []);
 
+  const handleOpenKnowledge = useCallback(() => {
+    void activateProductAction('surface.knowledge.open');
+  }, []);
+
   const handleOpenEcosystemCompatibility = useCallback(() => {
     void activateProductAction('surface.ecosystemCompatibility.open');
   }, []);
 
   const isAgentsActive = activeTabId === 'agents';
   const isSkillsActive = activeTabId === 'skills';
+  const isKnowledgeActive = activeTabId === 'knowledge';
   const isEcosystemCompatibilityActive = activeTabId === 'ecosystem-compatibility';
   const hasUnseenEcosystemCompatibility = useExternalAppAwareness(
     isEcosystemCompatibilityActive,
   );
 
   useEffect(() => {
-    if (isAgentsActive || isSkillsActive || isEcosystemCompatibilityActive) {
+    if (isAgentsActive || isSkillsActive || isKnowledgeActive || isEcosystemCompatibilityActive) {
       setIsExtensionsOpen(true);
     }
-  }, [isAgentsActive, isEcosystemCompatibilityActive, isSkillsActive]);
+  }, [isAgentsActive, isEcosystemCompatibilityActive, isKnowledgeActive, isSkillsActive]);
 
   const workspaceMenuPortal = workspaceMenuOpen ? createOverlayPortal(
     <Menu
@@ -326,6 +331,7 @@ const MainNav: React.FC = () => {
   const addSessionGroupTooltip = t('nav.tooltips.addSessionGroup');
   const agentsTooltip = t('nav.tooltips.agents');
   const skillsTooltip = t('nav.tooltips.skills');
+  const knowledgeTooltip = t('nav.tooltips.knowledge');
   const ecosystemCompatibilityTooltip = hasUnseenEcosystemCompatibility
     ? t('nav.tooltips.ecosystemCompatibilityUnseen')
     : t('nav.tooltips.ecosystemCompatibility');
@@ -525,6 +531,32 @@ const MainNav: React.FC = () => {
                     selected={isSkillsActive}
                   >
                     {t('nav.items.skills')}
+                  </NavigationPanelItem>
+                </Tooltip>
+
+                <Tooltip content={knowledgeTooltip} placement="right" followCursor>
+                  <NavigationPanelItem
+                    className="opc-nav-panel__top-action-item opc-nav-panel__top-action-item--sub"
+                    triggerClassName={[
+                      'opc-nav-panel__top-action-btn',
+                      'opc-nav-panel__top-action-btn--sub',
+                      isKnowledgeActive ? 'is-active' : '',
+                    ].filter(Boolean).join(' ')}
+                    data-opc-component="nav-panel"
+                    data-opc-part="topAction"
+                    data-opc-action="knowledge"
+                    data-opc-state={isKnowledgeActive ? 'active' : ''}
+                    onClick={handleOpenKnowledge}
+                    aria-label={knowledgeTooltip}
+                    data-testid="knowledge-tab"
+                    leading={(
+                      <span className="opc-nav-panel__top-action-icon-slot">
+                        <Icon name="layers" size="sm" />
+                      </span>
+                    )}
+                    selected={isKnowledgeActive}
+                  >
+                    {t('nav.items.knowledge')}
                   </NavigationPanelItem>
                 </Tooltip>
 

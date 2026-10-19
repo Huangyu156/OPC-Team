@@ -61,6 +61,9 @@ export async function activateProductAction(
     case 'surface.skills.open':
       sceneStore.openScene('skills');
       return;
+    case 'surface.knowledge.open':
+      sceneStore.openScene('knowledge');
+      return;
     case 'surface.ecosystemCompatibility.open':
       openEcosystemCompatibility();
       return;

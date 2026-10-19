@@ -185,6 +185,7 @@ product-full = [
     "filesystem",
     "git",
     "local-storage",
+    "knowledge-base",
     "process-runtime",
     "remote-workspace",
     "review-platform",
@@ -437,6 +438,17 @@ diagnostics = ["opc-services-core/diagnostics"]
 diff = ["opc-services-core/diff"]
 dispatch-store = ["dep:base64", "local-storage", "opc-services-core/dispatch-workspace"]
 filesystem = ["opc-services-core/filesystem"]
+# Durable user-level knowledge base: owned SQLite format in `opc-services-core`,
+# async facade and connection lifecycle in `agentic::knowledge`. `git` is pulled
+# in because `agentic::tools::implementations` registers worktree_tool without a
+# gate, so `agent-runtime` alone does not compile in this tree.
+knowledge-base = [
+    "agent-runtime",
+    "git",
+    "dep:rusqlite",
+    "opc-services-core/knowledge-store",
+    "opc-tool-packs/knowledge",
+]
 local-storage = ["dep:opc-agent-tools", "opc-services-core/local-storage"]
 process-runtime = ["opc-services-core/process-runtime"]
 terminal = ["dep:terminal-core"]

@@ -195,6 +195,7 @@ const CORE_TOKIO_FEATURES = new Map([
 ]);
 const CORE_TOKIO_AGGREGATES = new Set([
   'external-sources',
+  'knowledge-base',
   'plugin-runtime',
   'product-search',
   'opencode-plugin-host',

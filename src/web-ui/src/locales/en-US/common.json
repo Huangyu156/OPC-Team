@@ -86,7 +86,8 @@
       "terminal": "Shell",
       "git": "Git",
       "miniApps": "Mini App",
-      "insights": "Insights"
+      "insights": "Insights",
+      "knowledge": "Knowledge"
     },
     "tooltips": {
       "persona": "Smart Members — expand role- and memory-based member sessions",
@@ -98,7 +99,8 @@
       "ecosystemCompatibilityUnseen": "Ecosystem Compatibility — new compatible applications were found",
       "tools": "What it can use — built-in tools & MCP services",
       "addWorkspace": "Add workspace",
-      "addSessionGroup": "Add a project or personal assistant"
+      "addSessionGroup": "Add a project or personal assistant",
+      "knowledge": "Knowledge bases and entries"
     },
     "sections": {
       "extensions": "Extensions & Compatibility",
@@ -158,7 +160,8 @@
         "openInsights": "Open insights",
         "openSettings": "Open settings",
         "openKeyboardShortcuts": "Open keyboard shortcuts",
-        "openIntegrations": "Open ecosystem compatibility"
+        "openIntegrations": "Open ecosystem compatibility",
+        "openKnowledge": "Open knowledge"
       },
       "actionDescriptions": {
         "newSession": "Start a conversation using the canonical session flow",
@@ -173,7 +176,8 @@
         "openInsights": "Review activity and usage insights",
         "openSettings": "Configure OPC-Team",
         "openKeyboardShortcuts": "Review and customize keyboard shortcuts",
-        "openIntegrations": "Manage compatible capabilities and runtimes from external AI apps"
+        "openIntegrations": "Manage compatible capabilities and runtimes from external AI apps",
+        "openKnowledge": "Browse and manage knowledge bases, entries, and the audit ledger"
       },
       "badges": {
         "userMessage": "You",
@@ -1509,7 +1513,8 @@
     "assistant": "$t(shared:agents.Claw)",
     "todos": "Task Board",
     "shell": "Shell",
-    "panelView": "Panel View"
+    "panelView": "Panel View",
+    "knowledge": "Knowledge"
   },
   "sceneBar": {
     "tabsLabel": "Scene tabs",

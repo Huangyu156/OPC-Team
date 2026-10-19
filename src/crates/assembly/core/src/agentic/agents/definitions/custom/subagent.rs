@@ -1,12 +1,12 @@
 use super::common::CustomAgentData;
 use crate::agentic::agents::Agent;
 use crate::agentic::agents::{PromptBuilderContext, UserContextPolicy};
-use crate::agentic::session::SystemPromptCacheIdentity;
+use crate::agentic::session::{SystemPromptCacheIdentity, UserContextCacheIdentity};
 use crate::util::errors::{OpcTeamError, OpcTeamResult};
 use async_trait::async_trait;
 use opc_agent_runtime::custom_agent::{
     custom_agent_read_markdown_file, default_custom_agent_user_context_policy,
-    CustomAgentDefinition, CustomAgentKind,
+    CustomAgentDefinition, CustomAgentKind, KnowledgeBaseRef,
 };
 pub use opc_agent_runtime::custom_subagent::CustomSubagentKind;
 type CustomSubagentDefinition = CustomAgentDefinition;
@@ -59,6 +59,14 @@ impl Agent for CustomSubagent {
 
     fn user_context_policy(&self) -> UserContextPolicy {
         self.data.user_context_policy.clone()
+    }
+
+    fn user_context_cache_identity(&self) -> UserContextCacheIdentity {
+        self.data.user_context_cache_identity()
+    }
+
+    fn knowledge_base_refs(&self) -> &[KnowledgeBaseRef] {
+        &self.data.knowledge_base_refs
     }
 
     fn is_readonly(&self) -> bool {
@@ -186,6 +194,14 @@ impl CustomSubagent {
         if review {
             self.data.readonly = true;
         }
+    }
+
+    /// Attach the knowledge bases this subagent may cite.
+    ///
+    /// Setter rather than constructor argument: the constructor already has
+    /// eleven parameters and no existing caller knows about knowledge bases.
+    pub fn set_knowledge_base_refs(&mut self, refs: Vec<KnowledgeBaseRef>) {
+        self.data.knowledge_base_refs = refs;
     }
 }
 

@@ -168,7 +168,10 @@ impl PathManager {
         let normalized = root.filter(|path| path.is_absolute());
         match self.assistant_workspace_root_override.write() {
             Ok(mut guard) => *guard = normalized,
-            Err(error) => error!("Failed to update assistant workspace root override: {}", error),
+            Err(error) => error!(
+                "Failed to update assistant workspace root override: {}",
+                error
+            ),
         }
     }
 
@@ -335,6 +338,13 @@ impl PathManager {
         self.user_data_dir()
             .join("memories")
             .join("memories.sqlite")
+    }
+
+    /// Get the user-level knowledge base database file: ~/.config/opcteam/data/knowledge/knowledge.sqlite
+    pub fn knowledge_database_file(&self) -> PathBuf {
+        self.user_data_dir()
+            .join("knowledge")
+            .join("knowledge.sqlite")
     }
 
     /// Get the durable agent coordination database file.
@@ -906,6 +916,20 @@ mod tests {
     }
 
     #[test]
+    fn knowledge_database_lives_under_the_user_data_root() {
+        let user_root = std::env::temp_dir().join("opc-knowledge-path-test");
+        let path_manager = PathManager::with_user_root_for_tests(user_root);
+
+        assert_eq!(
+            path_manager.knowledge_database_file(),
+            path_manager
+                .user_data_dir()
+                .join("knowledge")
+                .join("knowledge.sqlite")
+        );
+    }
+
+    #[test]
     fn strict_path_access_rejects_a_cached_temporary_fallback() {
         let state = GlobalPathManagerState::fallback(
             Arc::new(PathManager::with_user_root_for_tests(
@@ -1020,7 +1044,10 @@ mod tests {
             &legacy_base.join("workspace-abc").to_string_lossy()
         ));
         assert!(!pm.is_local_assistant_workspace_path(
-            &base.join("elsewhere").join("workspace-abc").to_string_lossy()
+            &base
+                .join("elsewhere")
+                .join("workspace-abc")
+                .to_string_lossy()
         ));
 
         // An explicit call-site override still wins over the configured root.
@@ -1037,7 +1064,9 @@ mod tests {
 
     #[test]
     fn set_assistant_workspace_root_override_ignores_relative_paths() {
-        let pm = PathManager::with_user_root_for_tests(std::env::temp_dir().join("opc-assistant-relative-test"));
+        let pm = PathManager::with_user_root_for_tests(
+            std::env::temp_dir().join("opc-assistant-relative-test"),
+        );
 
         pm.set_assistant_workspace_root_override(Some(PathBuf::from("relative/root")));
         assert_eq!(pm.assistant_workspace_root_override(), None);

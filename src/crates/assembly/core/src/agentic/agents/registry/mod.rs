@@ -47,6 +47,12 @@ pub struct CustomAgentDetail {
     pub user_context_policy: Vec<String>,
     /// `"user"` or `"project"`
     pub level: String,
+    /// Knowledge bases this agent may cite, with the access mode per base.
+    ///
+    /// Serialized camelCase so the editor page can round-trip the selection
+    /// without re-deriving it from the markdown file.
+    #[serde(default)]
+    pub knowledge_base_refs: Vec<opc_agent_runtime::custom_agent::KnowledgeBaseRef>,
 }
 
 pub type CustomSubagentDetail = CustomAgentDetail;

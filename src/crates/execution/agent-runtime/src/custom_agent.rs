@@ -57,6 +57,70 @@ pub enum CustomAgentLevel {
     User,
 }
 
+/// Access mode an agent holds over one knowledge base.
+///
+/// Read is the default: an agent that references a knowledge base without
+/// saying how may search and read it, but may not add or rewrite entries.
+/// Write access must be declared explicitly by the agent definition, because
+/// it widens the blast radius of a prompt-injected turn.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, Default, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum KnowledgeBaseAccessMode {
+    #[default]
+    Read,
+    ReadWrite,
+}
+
+impl KnowledgeBaseAccessMode {
+    pub const fn as_str(self) -> &'static str {
+        match self {
+            Self::Read => "read",
+            Self::ReadWrite => "readwrite",
+        }
+    }
+
+    /// Whether this mode lets the agent add or rewrite entries in the base.
+    pub const fn is_writable(self) -> bool {
+        matches!(self, Self::ReadWrite)
+    }
+
+    /// Widen-only merge used when the same base is referenced twice. A single
+    /// explicit `readwrite` must not be narrowed away by a later `read`.
+    fn merge_widest(self, other: Self) -> Self {
+        match (self, other) {
+            (Self::ReadWrite, _) | (_, Self::ReadWrite) => Self::ReadWrite,
+            _ => Self::Read,
+        }
+    }
+}
+
+/// One knowledge base reference carried by an agent definition.
+///
+/// This is a reference, not a copy: entry bodies stay in the user-level
+/// knowledge store so editing a base updates every agent that references it.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct KnowledgeBaseRef {
+    pub id: String,
+    #[serde(default)]
+    pub mode: KnowledgeBaseAccessMode,
+}
+
+impl KnowledgeBaseRef {
+    pub fn read(id: impl Into<String>) -> Self {
+        Self {
+            id: id.into(),
+            mode: KnowledgeBaseAccessMode::Read,
+        }
+    }
+
+    pub fn read_write(id: impl Into<String>) -> Self {
+        Self {
+            id: id.into(),
+            mode: KnowledgeBaseAccessMode::ReadWrite,
+        }
+    }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CustomAgentDefinition {
     pub id: String,
@@ -75,6 +139,10 @@ pub struct CustomAgentDefinition {
     /// while an explicit `fast` remains a real per-subagent override.
     pub model_is_explicit: bool,
     pub user_context_policy: UserContextPolicy,
+    /// Knowledge bases this agent may consult. Empty means the agent is not
+    /// knowledge-enabled at all; the knowledge tools report that instead of
+    /// silently searching every base.
+    pub knowledge_base_refs: Vec<KnowledgeBaseRef>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Default)]
@@ -139,6 +207,7 @@ impl CustomAgentDefinition {
             model,
             model_is_explicit: true,
             user_context_policy,
+            knowledge_base_refs: Vec::new(),
         }
     }
 
@@ -155,6 +224,37 @@ impl CustomAgentDefinition {
         user_context_policy: Option<UserContextPolicy>,
         prompt: String,
         level: CustomAgentLevel,
+    ) -> Result<ParsedCustomAgentDefinition, CustomAgentDefinitionError> {
+        Self::from_front_matter_fields_with_knowledge(
+            id,
+            name,
+            description,
+            kind,
+            tools,
+            readonly,
+            review,
+            model,
+            user_context_policy,
+            prompt,
+            level,
+            None,
+        )
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    pub fn from_front_matter_fields_with_knowledge(
+        id: Option<&str>,
+        name: Option<&str>,
+        description: Option<&str>,
+        kind: Option<CustomAgentKind>,
+        tools: Option<Vec<String>>,
+        readonly: Option<bool>,
+        review: Option<bool>,
+        model: Option<&str>,
+        user_context_policy: Option<UserContextPolicy>,
+        prompt: String,
+        level: CustomAgentLevel,
+        knowledge_base_refs: Option<Vec<KnowledgeBaseRef>>,
     ) -> Result<ParsedCustomAgentDefinition, CustomAgentDefinitionError> {
         let kind = kind.unwrap_or(CustomAgentKind::Subagent);
         let name = name
@@ -210,6 +310,7 @@ impl CustomAgentDefinition {
                 model,
                 model_is_explicit,
                 user_context_policy,
+                knowledge_base_refs: knowledge_base_refs.unwrap_or_default(),
             },
             metadata: CustomAgentFrontMatterMetadata {
                 schema_version: None,
@@ -240,6 +341,33 @@ impl CustomAgentDefinition {
 
     pub fn should_save_user_context_policy(&self) -> bool {
         custom_agent_user_context_policy_should_save(self.kind, &self.user_context_policy)
+    }
+
+    /// An empty knowledge reference list is the unchanged default and stays
+    /// out of front matter so existing files keep byte-identical shape.
+    pub fn should_save_knowledge_base_refs(&self) -> bool {
+        !self.knowledge_base_refs.is_empty()
+    }
+
+    /// Bases the agent may write to. Read-only references are excluded, and a
+    /// globally read-only agent never reports a writable base regardless of
+    /// the per-reference mode.
+    pub fn writable_knowledge_base_ids(&self) -> Vec<&str> {
+        if self.readonly {
+            return Vec::new();
+        }
+        self.knowledge_base_refs
+            .iter()
+            .filter(|reference| reference.mode == KnowledgeBaseAccessMode::ReadWrite)
+            .map(|reference| reference.id.as_str())
+            .collect()
+    }
+
+    pub fn readable_knowledge_base_ids(&self) -> Vec<&str> {
+        self.knowledge_base_refs
+            .iter()
+            .map(|reference| reference.id.as_str())
+            .collect()
     }
 }
 
@@ -580,8 +708,30 @@ pub fn custom_agent_save_markdown_file(
     path: impl AsRef<Path>,
     definition: &CustomAgentDefinition,
 ) -> Result<(), String> {
+    custom_agent_save_markdown_file_preserving_unknown_keys(path, definition)
+}
+
+/// Write a custom agent definition back to Markdown.
+///
+/// This module only owns the front-matter keys it knows about. Everything else
+/// a human or a newer build may have put in the same file is data we do not
+/// understand, so a save must not delete it: the rewrite starts from the keys
+/// already on disk, drops our own keys so removals take effect, and then adds
+/// our current values. The write itself goes through a temporary file in the
+/// same directory plus a rename, because a partial write here corrupts an agent
+/// the user still expects to exist.
+pub fn custom_agent_save_markdown_file_preserving_unknown_keys(
+    path: impl AsRef<Path>,
+    definition: &CustomAgentDefinition,
+) -> Result<(), String> {
+    let path = path.as_ref();
     let metadata = custom_agent_markdown_metadata(definition);
-    let yaml = serde_yaml::to_string(&metadata)
+    let merged = match std::fs::read_to_string(path) {
+        Ok(existing) => merge_front_matter_preserving_unknown_keys(&existing, &metadata),
+        Err(error) if error.kind() == std::io::ErrorKind::NotFound => metadata,
+        Err(error) => return Err(format!("Failed to read markdown file: {error}")),
+    };
+    let yaml = serde_yaml::to_string(&merged)
         .map_err(|error| format!("Failed to serialize YAML: {error}"))?;
     let contents = format!(
         "---\n{}\n---\n\n{}",
@@ -589,10 +739,96 @@ pub fn custom_agent_save_markdown_file(
         definition.prompt.trim_start()
     );
 
-    std::fs::write(path, contents)
-        .map_err(|error| format!("Failed to write markdown file: {error}"))
+    write_markdown_file_atomically(path, &contents)
 }
 
+fn write_markdown_file_atomically(path: &Path, contents: &str) -> Result<(), String> {
+    let parent = path
+        .parent()
+        .ok_or_else(|| format!("Markdown path '{}' has no parent", path.display()))?;
+    std::fs::create_dir_all(parent).map_err(|error| {
+        format!(
+            "Failed to create markdown directory {}: {error}",
+            parent.display()
+        )
+    })?;
+    let file_name = path
+        .file_name()
+        .ok_or_else(|| format!("Markdown path '{}' has no file name", path.display()))?
+        .to_string_lossy()
+        .to_string();
+    let temp_path = parent.join(format!(
+        ".{file_name}.tmp-{}-{}",
+        std::process::id(),
+        time_based_suffix()
+    ));
+    std::fs::write(&temp_path, contents)
+        .map_err(|error| format!("Failed to write markdown file: {error}"))?;
+    match std::fs::rename(&temp_path, path) {
+        Ok(()) => Ok(()),
+        Err(error) => {
+            let _ = std::fs::remove_file(&temp_path);
+            Err(format!("Failed to replace markdown file: {error}"))
+        }
+    }
+}
+
+fn time_based_suffix() -> u64 {
+    std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map(|duration| duration.as_nanos() as u64)
+        .unwrap_or_default()
+}
+
+/// Keys this module owns. A key in this set that the current definition no
+/// longer wants must disappear from the file, so the merge removes owned keys
+/// before copying current values back in. Keys outside the set belong to other
+/// code, another build, or the user, and survive untouched.
+const OWNED_FRONT_MATTER_KEYS: &[&str] = &[
+    "schema_version",
+    "kind",
+    "id",
+    "name",
+    "description",
+    "tools",
+    "readonly",
+    "review",
+    "model",
+    "user_context_policy",
+    "knowledge_base_refs",
+];
+
+fn merge_front_matter_preserving_unknown_keys(existing: &str, current: &Value) -> Value {
+    let mut merged = existing_front_matter_mapping(existing).unwrap_or_default();
+    for key in OWNED_FRONT_MATTER_KEYS {
+        merged.remove(Value::String((*key).to_string()));
+    }
+    if let Value::Mapping(current) = current {
+        for (key, value) in current {
+            merged.insert(key.clone(), value.clone());
+        }
+    }
+    Value::Mapping(merged)
+}
+
+fn existing_front_matter_mapping(existing: &str) -> Option<Mapping> {
+    static FRONT_MATTER_REGEX: std::sync::LazyLock<Regex> = std::sync::LazyLock::new(|| {
+        Regex::new(r"(?s)^---\r?\n(.*?)\r?\n---").expect("front matter regex pattern is valid")
+    });
+    let captures = FRONT_MATTER_REGEX.captures(existing)?;
+    let yaml = captures.get(1)?.as_str();
+    match serde_yaml::from_str::<Value>(yaml).ok()? {
+        Value::Mapping(mapping) => Some(mapping),
+        _ => None,
+    }
+}
+
+/// Build a definition from parsed front matter.
+///
+/// Only the keys this module models are read, so a file written by another
+/// build stays loadable. Unknown top-level keys are ignored on read and
+/// preserved on write: a save rewrites the known keys and leaves the rest of
+/// the front matter untouched.
 fn custom_agent_definition_from_metadata(
     metadata: &Value,
     prompt: String,
@@ -609,7 +845,7 @@ fn custom_agent_definition_from_metadata(
         None => None,
     };
 
-    let parsed = CustomAgentDefinition::from_front_matter_fields(
+    let parsed = CustomAgentDefinition::from_front_matter_fields_with_knowledge(
         metadata.get("id").and_then(Value::as_str),
         metadata.get("name").and_then(Value::as_str),
         metadata.get("description").and_then(Value::as_str),
@@ -621,6 +857,7 @@ fn custom_agent_definition_from_metadata(
         metadata_user_context_policy(metadata)?,
         prompt,
         level,
+        metadata_knowledge_base_refs(metadata)?,
     )
     .map_err(|error| error.message().to_string())?;
 
@@ -700,6 +937,88 @@ fn metadata_user_context_policy(metadata: &Value) -> Result<Option<UserContextPo
     }
 
     Ok(Some(policy))
+}
+
+/// Parse the `knowledge_base_refs` front-matter field.
+///
+/// Accepts the documented object form (`- {id, mode}`) and a bare string, so a
+/// hand-written file that only names bases stays readable. A later duplicate of
+/// the same id widens rather than narrows the access mode, keeping the merge
+/// result independent of entry order.
+fn metadata_knowledge_base_refs(metadata: &Value) -> Result<Option<Vec<KnowledgeBaseRef>>, String> {
+    let Some(value) = metadata.get("knowledge_base_refs") else {
+        return Ok(None);
+    };
+    if value.is_null() {
+        return Ok(None);
+    }
+    let Value::Sequence(values) = value else {
+        return Err("Invalid knowledge_base_refs field: expected a list".to_string());
+    };
+
+    let mut refs: Vec<KnowledgeBaseRef> = Vec::new();
+    for (index, item) in values.iter().enumerate() {
+        let reference = match item {
+            Value::String(raw) => {
+                let id = raw.trim();
+                if id.is_empty() {
+                    return Err(format!(
+                        "Invalid knowledge_base_refs field: entry {index} is missing a non-empty id"
+                    ));
+                }
+                KnowledgeBaseRef::read(id)
+            }
+            Value::Mapping(mapping) => {
+                let id = mapping
+                    .get("id")
+                    .and_then(Value::as_str)
+                    .map(str::trim)
+                    .filter(|id| !id.is_empty())
+                    .ok_or_else(|| {
+                        format!(
+                            "Invalid knowledge_base_refs field: entry {index} is missing a non-empty id"
+                        )
+                    })?;
+                let mode = match mapping.get("mode") {
+                    None | Some(Value::Null) => KnowledgeBaseAccessMode::Read,
+                    Some(raw) => match raw.as_str() {
+                        Some(raw) => match raw.trim().to_ascii_lowercase().as_str() {
+                            "read" => KnowledgeBaseAccessMode::Read,
+                            "readwrite" | "read_write" | "read-write" => {
+                                KnowledgeBaseAccessMode::ReadWrite
+                            }
+                            _ => {
+                                return Err(format!(
+                                    "Invalid knowledge_base_refs field: entry {index} has unsupported mode {raw:?}"
+                                ));
+                            }
+                        },
+                        None => {
+                            return Err(format!(
+                                "Invalid knowledge_base_refs field: entry {index} has unsupported mode {raw:?}"
+                            ));
+                        }
+                    },
+                };
+                KnowledgeBaseRef {
+                    id: id.to_string(),
+                    mode,
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "Invalid knowledge_base_refs field: entry {index} must be an id string or a mapping"
+                ));
+            }
+        };
+
+        match refs.iter_mut().find(|existing| existing.id == reference.id) {
+            Some(existing) => existing.mode = existing.mode.merge_widest(reference.mode),
+            None => refs.push(reference),
+        }
+    }
+
+    Ok(Some(refs))
 }
 
 fn custom_agent_markdown_metadata(definition: &CustomAgentDefinition) -> Value {
@@ -785,6 +1104,30 @@ fn custom_agent_markdown_metadata(definition: &CustomAgentDefinition) -> Value {
         );
     }
 
+    if definition.should_save_knowledge_base_refs() {
+        metadata.insert(
+            Value::String("knowledge_base_refs".into()),
+            Value::Sequence(
+                definition
+                    .knowledge_base_refs
+                    .iter()
+                    .map(|reference| {
+                        let mut item = Mapping::new();
+                        item.insert(
+                            Value::String("id".into()),
+                            Value::String(reference.id.clone()),
+                        );
+                        item.insert(
+                            Value::String("mode".into()),
+                            Value::String(reference.mode.as_str().to_string()),
+                        );
+                        Value::Mapping(item)
+                    })
+                    .collect(),
+            ),
+        );
+    }
+
     Value::Mapping(metadata)
 }
 
@@ -812,6 +1155,7 @@ mod tests {
                 .with_workspace_instructions()
                 .with_project_layout()
                 .with_memory_summary(),
+            knowledge_base_refs: Vec::new(),
         };
 
         let stamp = SystemTime::now()
@@ -846,5 +1190,237 @@ mod tests {
 
         assert!(policy.includes(UserContextSection::WorkspaceContext));
         assert!(policy.includes(UserContextSection::MemorySummary));
+    }
+
+    fn knowledge_test_definition(references: Vec<KnowledgeBaseRef>) -> CustomAgentDefinition {
+        CustomAgentDefinition {
+            id: "kb-mode".to_string(),
+            name: "KB Mode".to_string(),
+            description: "Test".to_string(),
+            kind: CustomAgentKind::Mode,
+            tools: vec!["KnowledgeSearch".to_string()],
+            prompt: "Answer from the knowledge base.".to_string(),
+            readonly: false,
+            review: false,
+            level: CustomAgentLevel::User,
+            model: "primary".to_string(),
+            model_is_explicit: true,
+            user_context_policy: default_custom_agent_user_context_policy(CustomAgentKind::Mode),
+            knowledge_base_refs: references,
+        }
+    }
+
+    fn knowledge_test_path(label: &str) -> std::path::PathBuf {
+        let stamp = SystemTime::now()
+            .duration_since(UNIX_EPOCH)
+            .expect("time should move forward")
+            .as_nanos();
+        std::env::temp_dir().join(format!("custom-agent-{label}-{stamp}.md"))
+    }
+
+    #[test]
+    fn knowledge_base_refs_round_trip_through_markdown() {
+        let path = knowledge_test_path("kb-round-trip");
+        let definition = knowledge_test_definition(vec![
+            KnowledgeBaseRef::read("product-docs"),
+            KnowledgeBaseRef::read_write("team-notes"),
+        ]);
+
+        custom_agent_save_markdown_file(&path, &definition).expect("markdown should save");
+        let contents = std::fs::read_to_string(&path).expect("markdown should read");
+        let parsed = custom_agent_read_markdown_str(&contents, CustomAgentLevel::User)
+            .expect("markdown should parse");
+        let _ = std::fs::remove_file(&path);
+
+        assert_eq!(
+            parsed.definition.knowledge_base_refs,
+            definition.knowledge_base_refs
+        );
+        assert_eq!(
+            parsed.definition.knowledge_base_refs[0].mode,
+            KnowledgeBaseAccessMode::Read
+        );
+        assert_eq!(
+            parsed.definition.knowledge_base_refs[1].mode,
+            KnowledgeBaseAccessMode::ReadWrite
+        );
+    }
+
+    #[test]
+    fn absent_knowledge_base_refs_stay_out_of_front_matter() {
+        let path = knowledge_test_path("kb-absent");
+        let definition = knowledge_test_definition(Vec::new());
+
+        custom_agent_save_markdown_file(&path, &definition).expect("markdown should save");
+        let contents = std::fs::read_to_string(&path).expect("markdown should read");
+        let _ = std::fs::remove_file(&path);
+
+        assert!(!contents.contains("knowledge_base_refs"));
+        assert!(!definition.should_save_knowledge_base_refs());
+    }
+
+    #[test]
+    fn legacy_document_without_knowledge_base_refs_parses_to_empty() {
+        let document =
+            "---\nid: legacy\nname: Legacy\ndescription: Old file\nkind: mode\n---\n\nBody";
+
+        let parsed = custom_agent_read_markdown_str(document, CustomAgentLevel::User)
+            .expect("legacy markdown should parse");
+
+        assert!(parsed.definition.knowledge_base_refs.is_empty());
+    }
+
+    #[test]
+    fn bare_string_knowledge_base_refs_default_to_read() {
+        let document = "---\nid: bare\nname: Bare\ndescription: Shorthand\nkind: mode\nknowledge_base_refs:\n  - product-docs\n---\n\nBody";
+        let compact = "---\nid: bare\nname: Bare\ndescription: Shorthand\nkind: mode\nknowledge_base_refs: [alpha, beta]\n---\n\nBody";
+
+        let parsed = custom_agent_read_markdown_str(document, CustomAgentLevel::User)
+            .expect("shorthand markdown should parse");
+        let compact_parsed = custom_agent_read_markdown_str(compact, CustomAgentLevel::User)
+            .expect("compact shorthand markdown should parse");
+
+        assert_eq!(
+            parsed.definition.knowledge_base_refs,
+            vec![KnowledgeBaseRef::read("product-docs")]
+        );
+        assert_eq!(
+            compact_parsed.definition.knowledge_base_refs,
+            vec![
+                KnowledgeBaseRef::read("alpha"),
+                KnowledgeBaseRef::read("beta")
+            ]
+        );
+    }
+
+    #[test]
+    fn null_knowledge_base_refs_parse_to_the_default() {
+        for document in [
+            "---\nid: null-refs\nname: Null Refs\ndescription: Explicit null\nkind: mode\nknowledge_base_refs: null\n---\n\nBody",
+            "---\nid: null-refs\nname: Null Refs\ndescription: Empty null\nkind: mode\nknowledge_base_refs:\n---\n\nBody",
+        ] {
+            let parsed = custom_agent_read_markdown_str(document, CustomAgentLevel::User)
+                .expect("null knowledge_base_refs should parse");
+            assert!(
+                parsed.definition.knowledge_base_refs.is_empty(),
+                "YAML null must mean no references: {document}"
+            );
+            assert!(parsed.metadata.schema_version.is_none());
+        }
+    }
+
+    #[test]
+    fn knowledge_base_ref_modes_accept_common_spellings() {
+        for raw in ["readwrite", "readWrite", "read_write", "read-write"] {
+            let document = format!(
+                "---\nid: spellings\nname: Spellings\ndescription: Modes\nkind: mode\nknowledge_base_refs:\n  - id: team-notes\n    mode: {raw}\n---\n\nBody"
+            );
+            let parsed = custom_agent_read_markdown_str(&document, CustomAgentLevel::User)
+                .expect("markdown should parse");
+            assert_eq!(
+                parsed.definition.knowledge_base_refs[0].mode,
+                KnowledgeBaseAccessMode::ReadWrite,
+                "mode spelling {raw} should widen to readwrite"
+            );
+        }
+    }
+
+    #[test]
+    fn duplicate_knowledge_base_refs_widen_to_readwrite() {
+        let document = "---\nid: dup\nname: Duplicate\ndescription: Merge\nkind: mode\nknowledge_base_refs:\n  - id: team-notes\n    mode: read\n  - id: team-notes\n    mode: readwrite\n---\n\nBody";
+
+        let parsed = custom_agent_read_markdown_str(document, CustomAgentLevel::User)
+            .expect("markdown should parse");
+
+        assert_eq!(parsed.definition.knowledge_base_refs.len(), 1);
+        assert_eq!(
+            parsed.definition.knowledge_base_refs[0].mode,
+            KnowledgeBaseAccessMode::ReadWrite
+        );
+    }
+
+    #[test]
+    fn invalid_knowledge_base_refs_are_rejected() {
+        for document in [
+            "---\nid: bad\nname: Bad\ndescription: Bad\nkind: mode\nknowledge_base_refs:\n  - id: team-notes\n    mode: write\n---\n\nBody",
+            "---\nid: bad\nname: Bad\ndescription: Bad\nkind: mode\nknowledge_base_refs:\n  - mode: readwrite\n---\n\nBody",
+            "---\nid: bad\nname: Bad\ndescription: Bad\nkind: mode\nknowledge_base_refs:\n  - id: \"   \"\n    mode: read\n---\n\nBody",
+            "---\nid: bad\nname: Bad\ndescription: Bad\nkind: mode\nknowledge_base_refs:\n  - \"  \"\n---\n\nBody",
+            "---\nid: bad\nname: Bad\ndescription: Bad\nkind: mode\nknowledge_base_refs: team-notes\n---\n\nBody",
+        ] {
+            assert!(
+                custom_agent_read_markdown_str(document, CustomAgentLevel::User).is_err(),
+                "invalid knowledge_base_refs should fail: {document}"
+            );
+        }
+    }
+
+    #[test]
+    fn save_preserves_unknown_front_matter_keys() {
+        let path = knowledge_test_path("kb-unknown-keys");
+        std::fs::write(
+            &path,
+            "---\nid: kb-mode\nname: KB Mode\ndescription: Test\nkind: mode\nfuture_field: keep-me\nfuture_nested:\n  a: 1\nfuture_key: hello\n---\n\nOld body",
+        )
+        .expect("fixture should write");
+
+        let definition = knowledge_test_definition(vec![KnowledgeBaseRef::read("product-docs")]);
+        custom_agent_save_markdown_file(&path, &definition).expect("markdown should save");
+        let contents = std::fs::read_to_string(&path).expect("markdown should read");
+        let _ = std::fs::remove_file(&path);
+
+        assert!(
+            contents.contains("future_field"),
+            "unknown key must survive a save"
+        );
+        assert!(contents.contains("future_key: hello"));
+        assert!(contents.contains("future_nested"));
+        assert!(contents.contains("knowledge_base_refs"));
+    }
+
+    #[test]
+    fn save_removes_owned_keys_that_are_no_longer_set() {
+        let path = knowledge_test_path("kb-owned-keys");
+        std::fs::write(
+            &path,
+            "---\nid: kb-mode\nname: KB Mode\ndescription: Test\nkind: mode\nreadonly: true\nmodel: fast\nknowledge_base_refs:\n  - id: stale\n---\n\nBody",
+        )
+        .expect("fixture should write");
+
+        let mut definition = knowledge_test_definition(Vec::new());
+        definition.model_is_explicit = false;
+        custom_agent_save_markdown_file(&path, &definition).expect("markdown should save");
+        let contents = std::fs::read_to_string(&path).expect("markdown should read");
+        let _ = std::fs::remove_file(&path);
+
+        assert!(
+            !contents.contains("knowledge_base_refs"),
+            "cleared owned key must be removed"
+        );
+        assert!(
+            !contents.contains("readonly:"),
+            "cleared readonly must be removed"
+        );
+        assert!(
+            !contents.contains("model:"),
+            "cleared model must be removed"
+        );
+    }
+
+    #[test]
+    fn readonly_knowledge_refs_are_never_writable() {
+        let definition = knowledge_test_definition(vec![
+            KnowledgeBaseRef::read("product-docs"),
+            KnowledgeBaseRef::read_write("team-notes"),
+        ]);
+        assert_eq!(
+            definition.readable_knowledge_base_ids(),
+            vec!["product-docs", "team-notes"]
+        );
+        assert_eq!(definition.writable_knowledge_base_ids(), vec!["team-notes"]);
+
+        let mut readonly = definition.clone();
+        readonly.readonly = true;
+        assert!(readonly.writable_knowledge_base_ids().is_empty());
     }
 }

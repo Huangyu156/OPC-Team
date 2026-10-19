@@ -90,6 +90,13 @@ pub struct PromptBuilderContext {
     pub workspace_instruction_files_context: Option<String>,
     /// Distinguishes a resolved empty result from a caller that has not resolved instructions.
     pub workspace_instruction_files_context_resolved: bool,
+    /// Caller-resolved knowledge base index section for the user context reminder.
+    ///
+    /// The section lists base names and reference modes only. Entry bodies stay in
+    /// the knowledge store and reach the model through `KnowledgeSearch` /
+    /// `KnowledgeRead`, because a snapshot of changing bodies would invalidate the
+    /// user context cache on every write.
+    pub knowledge_base_index: Option<String>,
 }
 
 impl PromptBuilderContext {
@@ -112,6 +119,7 @@ impl PromptBuilderContext {
             remote_file_delivery_channel: false,
             workspace_instruction_files_context: None,
             workspace_instruction_files_context_resolved: false,
+            knowledge_base_index: None,
         }
     }
 
@@ -152,6 +160,11 @@ impl PromptBuilderContext {
 
     pub fn with_remote_file_delivery_channel(mut self, enabled: bool) -> Self {
         self.remote_file_delivery_channel = enabled;
+        self
+    }
+
+    pub fn with_knowledge_base_index(mut self, index: Option<String>) -> Self {
+        self.knowledge_base_index = index;
         self
     }
 
@@ -467,6 +480,10 @@ impl PromptBuilder {
 
         if policy.includes(UserContextSection::ProjectLayout) {
             additional_sections.push(self.get_project_layout());
+        }
+
+        if let Some(knowledge_base_index) = &self.context.knowledge_base_index {
+            additional_sections.push(knowledge_base_index.clone());
         }
 
         render_user_context_reminder(additional_sections)

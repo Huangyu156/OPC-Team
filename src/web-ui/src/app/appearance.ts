@@ -40,6 +40,7 @@ export const workbenchAppearanceDescriptor: AppearanceSurfaceDescriptor = {
         'insights',
         'shell',
         'todos',
+        'knowledge',
         'ecosystem-compatibility',
       ],
     },

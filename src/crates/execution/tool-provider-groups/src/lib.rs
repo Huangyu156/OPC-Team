@@ -20,6 +20,7 @@ pub enum ToolPackFeatureGroup {
     Creation,
     Canvas,
     AgentControl,
+    Knowledge,
 }
 
 impl ToolPackFeatureGroup {
@@ -36,6 +37,7 @@ impl ToolPackFeatureGroup {
             Self::Creation => "creation",
             Self::Canvas => "canvas",
             Self::AgentControl => "agent-control",
+            Self::Knowledge => "knowledge",
         }
     }
 }
@@ -52,6 +54,7 @@ pub const ALL_FEATURE_GROUPS: &[ToolPackFeatureGroup] = &[
     ToolPackFeatureGroup::Creation,
     ToolPackFeatureGroup::Canvas,
     ToolPackFeatureGroup::AgentControl,
+    ToolPackFeatureGroup::Knowledge,
 ];
 
 pub fn all_feature_groups() -> &'static [ToolPackFeatureGroup] {
@@ -83,6 +86,7 @@ pub fn enabled_feature_groups() -> Vec<ToolPackFeatureGroup> {
             cfg!(feature = "agent-control"),
             ToolPackFeatureGroup::AgentControl,
         ),
+        (cfg!(feature = "knowledge"), ToolPackFeatureGroup::Knowledge),
     ]
     .into_iter()
     .filter_map(|(enabled, group)| enabled.then_some(group))
@@ -115,6 +119,9 @@ pub fn tool_feature_group(tool_name: &str) -> Option<ToolPackFeatureGroup> {
         | "CallDeferredTool" | "ListWorkspaces" | "SessionControl" | "SessionMessage"
         | "SessionHistory" | "Cron" | "PortForward" | "OpcControl" => {
             Some(ToolPackFeatureGroup::AgentControl)
+        }
+        "KnowledgeSearch" | "KnowledgeRead" | "KnowledgeWrite" => {
+            Some(ToolPackFeatureGroup::Knowledge)
         }
         _ => None,
     }
@@ -167,6 +174,7 @@ const CORE_COMPUTER_USE_FEATURE_GROUPS: &[ToolPackFeatureGroup] =
     &[ToolPackFeatureGroup::ComputerUse];
 const CORE_MINIAPP_FEATURE_GROUPS: &[ToolPackFeatureGroup] = &[ToolPackFeatureGroup::MiniApp];
 const CORE_CREATION_FEATURE_GROUPS: &[ToolPackFeatureGroup] = &[ToolPackFeatureGroup::Creation];
+const CORE_KNOWLEDGE_FEATURE_GROUPS: &[ToolPackFeatureGroup] = &[ToolPackFeatureGroup::Knowledge];
 
 const PRODUCT_TOOL_PROVIDER_GROUP_PLAN: &[ToolProviderGroupPlan] = &[
     ToolProviderGroupPlan {
@@ -279,6 +287,11 @@ const PRODUCT_TOOL_PROVIDER_GROUP_PLAN: &[ToolProviderGroupPlan] = &[
         feature_groups: CORE_CANVAS_FEATURE_GROUPS,
         tool_names: &["CreateCanvas", "ReadCanvas", "UpdateCanvas", "PatchCanvas"],
     },
+    ToolProviderGroupPlan {
+        provider_id: "core.knowledge",
+        feature_groups: CORE_KNOWLEDGE_FEATURE_GROUPS,
+        tool_names: &["KnowledgeSearch", "KnowledgeRead", "KnowledgeWrite"],
+    },
 ];
 
 pub fn product_tool_provider_group_plan() -> &'static [ToolProviderGroupPlan] {
@@ -357,7 +370,8 @@ mod tests {
                 "pages",
                 "creation",
                 "canvas",
-                "agent-control"
+                "agent-control",
+                "knowledge"
             ]
         );
     }
@@ -405,6 +419,10 @@ mod tests {
         assert_eq!(
             groups.contains(&ToolPackFeatureGroup::AgentControl),
             cfg!(feature = "agent-control")
+        );
+        assert_eq!(
+            groups.contains(&ToolPackFeatureGroup::Knowledge),
+            cfg!(feature = "knowledge")
         );
     }
 
@@ -503,6 +521,7 @@ mod tests {
                 "core.pages",
                 "core.creation",
                 "core.canvas",
+                "core.knowledge",
             ]
         );
     }
@@ -578,6 +597,9 @@ mod tests {
                 "ReadCanvas",
                 "UpdateCanvas",
                 "PatchCanvas",
+                "KnowledgeSearch",
+                "KnowledgeRead",
+                "KnowledgeWrite",
             ]
         );
     }
@@ -613,6 +635,7 @@ mod tests {
                 ("core.pages", vec!["pages"]),
                 ("core.creation", vec!["creation"]),
                 ("core.canvas", vec!["canvas"]),
+                ("core.knowledge", vec!["knowledge"]),
             ]
         );
     }
