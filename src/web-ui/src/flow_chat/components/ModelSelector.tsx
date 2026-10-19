@@ -292,21 +292,42 @@ const ModelOptionLabel: React.FC<{
 );
 
 /**
- * The price suffix a row carries, e.g. `· Cheapest x0.25`.
+ * The price suffix a row carries, e.g. `· x0.25`.
  *
- * A ratio against the provider's flagship is the only comparison the catalog
- * supports. The flagship itself has ratio 1, which is the reference rather than
- * a comparison, so it carries no suffix: a row measuring the ruler against
- * itself says nothing.
+ * The number is this model's input price as a fraction of the priciest chat
+ * model its catalog provider lists, so the row that is the reference prints
+ * `x1`. Every priced row prints a ratio, including the reference: a column with
+ * one row silently missing cannot be read as a column, and `x1` is what makes
+ * `x0.25` mean a quarter of something.
+ *
+ * The suffix says nothing about rank. A quarter of the flagship is cheap, but
+ * two rows can both be a quarter, and a row cannot claim "cheapest" on the
+ * strength of a ratio it does not compare against the actual cheapest row.
  */
 const formatModelPriceLabel = (
   details: ModelCatalogDetails | undefined,
   t: (key: string, options?: Record<string, unknown>) => string,
 ): string | undefined => {
-  if (!details || details.priceRatio === undefined || details.priceRatio >= 1) return undefined;
+  if (details?.priceRatio === undefined) return undefined;
   const ratio = formatPriceRatio(details.priceRatio);
   if (!ratio) return undefined;
   return t('modelSelector.priceRatio', { ratio });
+};
+
+/**
+ * The tooltip a model row carries: provider and context window, plus what the
+ * price ratio is measured against when the row prints one.
+ */
+const buildModelRowTooltipText = (
+  model: ModelInfo,
+  t: (key: string, options?: Record<string, unknown>) => string,
+): string => {
+  const base = buildModelMetaText(model);
+  const ratio = model.catalogDetails?.priceRatio === undefined
+    ? ''
+    : formatPriceRatio(model.catalogDetails.priceRatio);
+  if (!ratio) return base;
+  return `${base} · ${t('modelSelector.priceRatioReference', { ratio })}`;
 };
 
 const getModelTooltipText = (model: ModelInfo | null, fallback: string): string => {
@@ -2224,7 +2245,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                             ? renderUnavailableModelMenu(displayedAvailability,
                               Boolean(externalSelection?.includeLocalCatalog && !externalSelectionIsUnavailable))
                             : (externalSelection ? externalAvailableModels : acpAvailableModels).map(model => (
-                              <Tooltip key={model.id} content={buildModelMetaText(model)} placement="right">
+                              <Tooltip key={model.id} content={buildModelRowTooltipText(model, t)} placement="right">
                                 <MenuItem
                                   role="menuitemradio"
                                   checked={currentModelId === model.id}
@@ -2267,7 +2288,7 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                         const isSelected = (isNativeModelSelection ? concreteModelId : currentModelId) === model.id;
 
                         return (
-                          <Tooltip key={model.id} content={buildModelMetaText(model)} placement="right">
+                          <Tooltip key={model.id} content={buildModelRowTooltipText(model, t)} placement="right">
                             <MenuItem
                               role="menuitemradio"
                               checked={isSelected}

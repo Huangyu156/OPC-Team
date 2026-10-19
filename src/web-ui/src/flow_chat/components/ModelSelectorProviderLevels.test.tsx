@@ -396,12 +396,14 @@ describe('ModelSelector provider levels', () => {
       .toBe('Small model, low cost.');
     expect(fast.querySelector('.opc-model-selector__option-price')?.textContent)
       .toBe('modelSelector.priceRatio');
-    expect(fast.querySelector('[data-tooltip]')).toBeNull();
 
     const deep = modelOption('acme-deep')!;
     expect(deep.querySelector('.opc-model-selector__option-description')?.textContent)
       .toBe('Flagship model.');
-    expect(deep.querySelector('.opc-model-selector__option-price')).toBeNull();
+    // The reference row prints x1 rather than nothing, so the ratios beside it
+    // read as a column instead of a comparison against an invisible ruler.
+    expect(deep.querySelector('.opc-model-selector__option-price')?.textContent)
+      .toBe('modelSelector.priceRatio');
   });
 
   it('keeps the row name-only when the provider is not in the catalog', async () => {

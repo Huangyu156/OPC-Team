@@ -3323,7 +3323,7 @@
     "modelExplanation": "Model explanation",
     "modelSettings": "Model settings",
     "modelSelection": "Select Model",
-    "priceRatio": "· Cheapest x{{ratio}}",
+    "priceRatio": "· x{{ratio}}",
     "primaryModel": "Primary Model",
     "primaryModelDesc": "Uses the configured primary model",
     "fastModel": "Fast Model",
@@ -3361,7 +3361,8 @@
       "agentPromptLabel": "Last request prompt",
       "acpContext": "ACP reported context: {{usage}}",
       "acpContextLabel": "ACP reported context"
-    }
+    },
+    "priceRatioReference": "x{{ratio}} of the priciest chat model on this provider"
   },
   "reasoningEffort": {
     "title": "Reasoning Effort",
