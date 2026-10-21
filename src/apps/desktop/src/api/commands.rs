@@ -10,9 +10,8 @@ use crate::api::path_target::{
 };
 use crate::api::search_api::{
     build_content_search_request, group_search_results, prepare_content_search_runner,
-    remote_content_search_refusal, remote_content_search_refusal_message,
-    search_file_contents_via_workspace_search, search_metadata_from_content_result,
-    should_use_workspace_search, SearchMetadataResponse,
+    remote_content_search_refusal, search_file_contents_via_workspace_search,
+    search_metadata_from_content_result, should_use_workspace_search, SearchMetadataResponse,
 };
 use crate::api::workspace_activation::spawn_workspace_background_warmup;
 use crate::startup_trace::DesktopStartupTrace;
@@ -97,7 +96,7 @@ fn lock_active_searches<'a>(
     }
 }
 
-fn register_search(
+pub(crate) fn register_search(
     state: &State<'_, AppState>,
     search_id: Option<&str>,
 ) -> Option<Arc<AtomicBool>> {
@@ -113,7 +112,7 @@ fn register_search(
     Some(cancel_flag)
 }
 
-fn unregister_search(state: &State<'_, AppState>, search_id: Option<&str>) {
+pub(crate) fn unregister_search(state: &State<'_, AppState>, search_id: Option<&str>) {
     let Some(search_id) = search_id.filter(|value| !value.is_empty()) else {
         return;
     };
@@ -157,7 +156,7 @@ fn serialize_search_result(result: &FileSearchResult) -> serde_json::Value {
     })
 }
 
-fn serialize_search_results(results: Vec<FileSearchResult>) -> Vec<serde_json::Value> {
+pub(crate) fn serialize_search_results(results: Vec<FileSearchResult>) -> Vec<serde_json::Value> {
     results
         .into_iter()
         .map(|result| serialize_search_result(&result))
@@ -722,15 +721,15 @@ pub struct CancelSearchRequest {
     pub search_id: String,
 }
 
-const DEFAULT_FILENAME_SEARCH_RESULTS: usize = 512;
-const DEFAULT_CONTENT_SEARCH_RESULTS: usize = 1_000;
+pub(crate) const DEFAULT_FILENAME_SEARCH_RESULTS: usize = 512;
+pub(crate) const DEFAULT_CONTENT_SEARCH_RESULTS: usize = 1_000;
 const HARD_MAX_SEARCH_RESULTS: usize = 2_000;
 
 fn default_include_directories() -> bool {
     true
 }
 
-fn resolve_search_limit(requested: Option<usize>, fallback: usize) -> usize {
+pub(crate) fn resolve_search_limit(requested: Option<usize>, fallback: usize) -> usize {
     requested
         .unwrap_or(fallback)
         .clamp(1, HARD_MAX_SEARCH_RESULTS)
@@ -4701,192 +4700,9 @@ pub(crate) fn reveal_local_path_in_explorer(
 #[tauri::command]
 pub async fn search_files(
     state: State<'_, AppState>,
-    mut request: SearchFilesRequest,
+    request: SearchFilesRequest,
 ) -> Result<serde_json::Value, String> {
-    use opc_core::service::filesystem::FileSearchOptions;
-    let workspace = crate::api::search_api::resolve_search_workspace(
-        &state,
-        request.workspace_id.as_deref(),
-        &request.root_path,
-        request.remote_connection_id.as_deref(),
-    )
-    .await?;
-    request.root_path = workspace.root_path.to_string_lossy().into_owned();
-    request.remote_connection_id = Some(
-        workspace
-            .filesystem_connection_id()?
-            .unwrap_or("")
-            .to_owned(),
-    );
-
-    let search_id = request.search_id.clone();
-    let cancel_flag = register_search(&state, search_id.as_deref());
-    let max_results = resolve_search_limit(
-        request.max_results,
-        if request.search_content {
-            DEFAULT_CONTENT_SEARCH_RESULTS
-        } else {
-            DEFAULT_FILENAME_SEARCH_RESULTS
-        },
-    );
-    let options = FileSearchOptions {
-        include_content: request.search_content,
-        case_sensitive: request.case_sensitive,
-        use_regex: request.use_regex,
-        whole_word: request.whole_word,
-        max_results: Some(max_results),
-        file_extensions: None,
-        include_directories: request.include_directories,
-    };
-
-    let use_workspace_search =
-        request.search_content && should_use_workspace_search(&state, &workspace).await;
-    let result = if request.search_content {
-        if workspace.workspace_kind == WorkspaceKind::Remote {
-            if !use_workspace_search {
-                Err(
-                    remote_content_search_refusal(&state, "search_files", &workspace)
-                        .await
-                        .unwrap_or_else(|| {
-                            remote_content_search_refusal_message(
-                                "search_files",
-                                &request.root_path,
-                                "remote workspace search is unavailable",
-                            )
-                        }),
-                )
-            } else {
-                search_file_contents_via_workspace_search(
-                    &state,
-                    &workspace,
-                    &request.pattern,
-                    request.case_sensitive,
-                    request.use_regex,
-                    request.whole_word,
-                    max_results,
-                )
-                .await
-                .map(|result| result.outcome.results)
-            }
-        } else {
-            let filename_outcome = state
-                .filesystem_service
-                .search_file_names(
-                    &request.root_path,
-                    &request.pattern,
-                    FileSearchOptions {
-                        include_content: false,
-                        include_directories: request.include_directories,
-                        ..options.clone()
-                    },
-                    cancel_flag.clone(),
-                )
-                .await?;
-            let mut filename_results = filename_outcome.results;
-
-            if filename_results.len() >= max_results {
-                Ok(filename_results)
-            } else {
-                let remaining = max_results - filename_results.len();
-                let mut content_outcome = if use_workspace_search {
-                    search_file_contents_via_workspace_search(
-                        &state,
-                        &workspace,
-                        &request.pattern,
-                        request.case_sensitive,
-                        request.use_regex,
-                        request.whole_word,
-                        remaining,
-                    )
-                    .await
-                    .map(|result| result.outcome)?
-                } else {
-                    state
-                        .filesystem_service
-                        .search_file_contents(
-                            &request.root_path,
-                            &request.pattern,
-                            FileSearchOptions {
-                                include_content: true,
-                                include_directories: false,
-                                max_results: Some(remaining),
-                                ..options
-                            },
-                            cancel_flag,
-                        )
-                        .await?
-                };
-                if filename_outcome.truncated || content_outcome.truncated {
-                    debug!(
-                        "Legacy search truncated: root_path={}, pattern={}, search_content={}, limit={}",
-                        request.root_path,
-                        request.pattern,
-                        request.search_content,
-                        max_results
-                    );
-                }
-                filename_results.append(&mut content_outcome.results);
-                Ok(filename_results)
-            }
-        }
-    } else {
-        match crate::api::path_target::resolve_desktop_workspace_target(&state, &workspace.id)
-        .await
-        {
-            Ok(DesktopPathTarget::Remote {
-                requested_path,
-                entry,
-            }) => match state.get_remote_file_service_async().await {
-                Ok(remote_fs) => search_remote_file_names(RemoteFileNameSearch {
-                    remote_fs,
-                    workspace: entry,
-                    root_path: requested_path,
-                    pattern: request.pattern.clone(),
-                    case_sensitive: request.case_sensitive,
-                    use_regex: request.use_regex,
-                    whole_word: request.whole_word,
-                    include_directories: request.include_directories,
-                    limit: max_results,
-                    cancel_flag,
-                    progress_sink: None,
-                })
-                .await
-                .map(|outcome| outcome.results),
-                Err(error) => Err(format!(
-                    "search_files cannot list remote workspace path '{}': remote file service is unavailable ({}); local filesystem fallback was not attempted",
-                    request.root_path, error
-                )),
-            },
-            Ok(DesktopPathTarget::Local { .. }) => state
-                .filesystem_service
-                .search_file_names(&request.root_path, &request.pattern, options, cancel_flag)
-                .await
-                .map(|outcome| outcome.results)
-                .map_err(|error| format!("Failed to search filenames: {}", error)),
-            Err(error) => Err(error),
-        }
-    };
-    unregister_search(&state, search_id.as_deref());
-
-    match result {
-        Ok(results) => {
-            info!(
-                "Legacy search completed: root_path={}, pattern={}, search_content={}, results_count={}",
-                request.root_path,
-                request.pattern,
-                request.search_content,
-                results.len()
-            );
-            Ok(serde_json::json!(serialize_search_results(results)))
-        }
-        Err(e) => {
-            error!(
-                "Failed to execute legacy search: root_path={}, pattern={}, search_content={}, error={}",
-                request.root_path, request.pattern, request.search_content, e
-            );
-            Err(format!("Failed to execute legacy search: {}", e))
-        }
-    }
+    crate::api::search_files_api::run_search_files(state, request).await
 }
 
 #[tauri::command]

@@ -48,6 +48,7 @@ pub mod remote_workspace_policy;
 pub mod review_platform_api;
 pub mod runtime_api;
 pub mod search_api;
+pub(crate) mod search_files_api;
 pub mod session_api;
 pub mod session_storage_directory;
 pub mod session_storage_path;
