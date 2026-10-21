@@ -221,6 +221,12 @@ impl fmt::Display for MCPServerConfigValidationError {
 
 impl std::error::Error for MCPServerConfigValidationError {}
 
+impl From<MCPServerConfigValidationError> for opc_core_types::opc_team_error::OpcTeamError {
+    fn from(error: MCPServerConfigValidationError) -> Self {
+        opc_core_types::opc_team_error::OpcTeamError::Configuration(error.to_string())
+    }
+}
+
 impl MCPServerConfig {
     pub fn remote_oauth_enabled(&self) -> bool {
         self.oauth_enabled.unwrap_or(true)

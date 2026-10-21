@@ -150,6 +150,7 @@ mcp = [
     "anyhow",
     "async-trait",
     "base64",
+    "dep:opc-core-types",
     "opc-agent-tools/mcp-bridge",
     "opc-services-core/process-runtime",
     "opc-services-core/tls-provider",

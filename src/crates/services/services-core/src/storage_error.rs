@@ -30,3 +30,25 @@ impl StorageError {
         Self::Tool(message)
     }
 }
+
+// `opc-core-types` is optional here; the mapping exists whenever it is compiled
+// in. Owner features that enable it are `filesystem`, `local-storage`,
+// `product-identity`, and `workspace-persistence`.
+#[cfg(any(
+    feature = "filesystem",
+    feature = "local-storage",
+    feature = "product-identity",
+    feature = "workspace-persistence"
+))]
+impl From<StorageError> for opc_core_types::opc_team_error::OpcTeamError {
+    fn from(error: StorageError) -> Self {
+        use opc_core_types::opc_team_error::OpcTeamError;
+        match error {
+            StorageError::Config(message) => OpcTeamError::config(message),
+            StorageError::Validation(message) => OpcTeamError::validation(message),
+            StorageError::Io(message) => OpcTeamError::io(message),
+            StorageError::Service(message) => OpcTeamError::service(message),
+            StorageError::Tool(message) => OpcTeamError::tool(message),
+        }
+    }
+}

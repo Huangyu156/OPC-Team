@@ -284,7 +284,7 @@ export const optionalDependencyFeatureOwnerRules = [
       { depName: 'opc-agent-workflows', ownerFeatures: ['deep-research'] },
       {
         depName: 'opc-core-types',
-        ownerFeatures: ['deep-research', 'remote-connect', 'remote-ssh-concrete', 'speech'],
+        ownerFeatures: ['deep-research', 'mcp', 'remote-connect', 'remote-ssh-concrete', 'speech'],
       },
       { depName: 'opc-product-domains', ownerFeatures: ['account-identity', 'canvas-runtime', 'function-agents', 'hook-import', 'miniapp-market', 'miniapp-runtime', 'miniapp-storage', 'plugin-source', 'remote-connect'] },
       { depName: 'opc-runtime-ports', ownerFeatures: ['deep-research', 'git', 'remote-connect', 'remote-ssh', 'remote-ssh-concrete', 'script-tool-runtime', 'web-tools'] },

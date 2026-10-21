@@ -111,3 +111,24 @@ impl From<anyhow::Error> for MCPRuntimeError {
         Self::other(error.to_string())
     }
 }
+
+impl From<MCPRuntimeError> for opc_core_types::opc_team_error::OpcTeamError {
+    fn from(error: MCPRuntimeError) -> Self {
+        use opc_core_types::opc_team_error::OpcTeamError;
+
+        let message = error.message().to_string();
+        match error.kind() {
+            MCPRuntimeErrorKind::Configuration => OpcTeamError::Configuration(message),
+            MCPRuntimeErrorKind::Validation => OpcTeamError::Validation(message),
+            MCPRuntimeErrorKind::Io => OpcTeamError::io(message),
+            MCPRuntimeErrorKind::Serialization => OpcTeamError::serialization(message),
+            MCPRuntimeErrorKind::Deserialization => OpcTeamError::Deserialization(message),
+            MCPRuntimeErrorKind::Process => OpcTeamError::ProcessError(message),
+            MCPRuntimeErrorKind::MCP => OpcTeamError::MCPError(message),
+            MCPRuntimeErrorKind::NotFound => OpcTeamError::NotFound(message),
+            MCPRuntimeErrorKind::NotImplemented => OpcTeamError::NotImplemented(message),
+            MCPRuntimeErrorKind::Timeout => OpcTeamError::Timeout(message),
+            MCPRuntimeErrorKind::Other => OpcTeamError::Other(anyhow::anyhow!(message)),
+        }
+    }
+}

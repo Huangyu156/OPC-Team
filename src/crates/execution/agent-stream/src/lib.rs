@@ -77,6 +77,17 @@ impl fmt::Display for StreamProcessorError {
 
 impl std::error::Error for StreamProcessorError {}
 
+impl From<StreamProcessorError> for opc_core_types::opc_team_error::OpcTeamError {
+    fn from(error: StreamProcessorError) -> Self {
+        use opc_core_types::opc_team_error::OpcTeamError;
+        match error {
+            StreamProcessorError::AiClient(msg) => OpcTeamError::AIClient(msg),
+            StreamProcessorError::AiProvider(error) => OpcTeamError::AIProvider(error),
+            StreamProcessorError::Cancelled(msg) => OpcTeamError::Cancelled(msg),
+        }
+    }
+}
+
 /// Event sink abstraction used by stream processing. Product crates can adapt
 /// their own queue implementation without making this crate depend on core.
 #[async_trait::async_trait]

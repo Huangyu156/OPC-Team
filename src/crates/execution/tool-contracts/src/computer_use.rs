@@ -33,6 +33,12 @@ impl fmt::Display for ComputerUseContractError {
 
 impl std::error::Error for ComputerUseContractError {}
 
+impl From<ComputerUseContractError> for opc_core_types::opc_team_error::OpcTeamError {
+    fn from(error: ComputerUseContractError) -> Self {
+        opc_core_types::opc_team_error::OpcTeamError::Tool(error.to_string())
+    }
+}
+
 pub type ComputerUseContractResult<T> = Result<T, ComputerUseContractError>;
 
 /// Center of a **point crop** in **full-display native capture pixels** (same origin as full-screen computer-use JPEG pixels).

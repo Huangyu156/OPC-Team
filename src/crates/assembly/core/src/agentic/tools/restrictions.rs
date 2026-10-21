@@ -8,12 +8,6 @@ pub use opc_agent_tools::{
 };
 use std::path::{Path, PathBuf};
 
-impl From<ToolRestrictionError> for OpcTeamError {
-    fn from(error: ToolRestrictionError) -> Self {
-        OpcTeamError::tool(error.to_string())
-    }
-}
-
 pub fn is_local_path_within_root(path: &Path, root: &Path) -> OpcTeamResult<bool> {
     let canonical_path = canonicalize_local_path_best_effort(path)?;
     let canonical_root = canonicalize_local_path_best_effort(root)?;

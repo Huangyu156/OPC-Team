@@ -3530,8 +3530,13 @@ export function runManifestParserSelfTest({
       contracts: [
         'tool_restrictions_for_delegation_policy',
         'miniapp_headless_agent_tool_restrictions',
-        'impl From<ToolRestrictionError> for OpcTeamError',
         'is_local_path_within_root',
+      ],
+    },
+    {
+      path: 'src/crates/execution/tool-contracts/src/framework.rs',
+      contracts: [
+        'impl From<ToolRestrictionError> for opc_core_types::opc_team_error::OpcTeamError',
       ],
     },
     {

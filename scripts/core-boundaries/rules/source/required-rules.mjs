@@ -3324,7 +3324,7 @@ export const requiredContentRules = [
   {
     path: 'src/crates/assembly/core/src/agentic/tools/restrictions.rs',
     reason:
-      'core tool restrictions facade must delegate runtime restriction policy to agent-tools while preserving core error and local-path adapters',
+      'core tool restrictions facade must delegate runtime restriction policy to agent-tools while preserving local-path adapters; the core error mapping adapter lives with ToolRestrictionError because orphan rules forbid it in core',
     patterns: [
       {
         regex: /\btool_restrictions_for_delegation_policy\b/,
@@ -3333,10 +3333,6 @@ export const requiredContentRules = [
       {
         regex: /\bminiapp_headless_agent_tool_restrictions\b/,
         message: 'missing agent-tools MiniApp headless restriction re-export',
-      },
-      {
-        regex: /\bimpl From<ToolRestrictionError> for OpcTeamError\b/,
-        message: 'missing core error mapping adapter',
       },
       {
         regex: /\bis_local_path_within_root\b/,
@@ -5513,6 +5509,10 @@ export const requiredContentRules = [
       {
         regex: /\bpub struct ToolCatalogRuntime\b/,
         message: 'missing provider-backed tool catalog runtime facade',
+      },
+      {
+        regex: /\bimpl From<ToolRestrictionError> for opc_core_types::opc_team_error::OpcTeamError\b/,
+        message: 'missing core error mapping adapter for tool restriction errors',
       },
     ],
   },

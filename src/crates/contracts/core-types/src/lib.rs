@@ -10,6 +10,7 @@ pub mod background_delivery;
 pub mod errors;
 pub mod installer_config_handoff;
 pub mod model;
+pub mod opc_team_error;
 pub mod product_identity;
 pub mod session;
 pub mod session_usage;
@@ -33,6 +34,7 @@ pub use ai::{
     ToolCallResponseInfo, ToolDefinition,
 };
 pub use errors::{AiErrorDetail, ErrorCategory};
+pub use opc_team_error::{OpcTeamError, OpcTeamResult};
 pub use model::{
     ModelEditProjection, ModelListProjection, ModelMutation, ModelSummary, SecretUpdate,
     TuiModelCatalogProjection,

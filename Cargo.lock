@@ -6248,8 +6248,10 @@ dependencies = [
 name = "opc-core-types"
 version = "1.1.1"
 dependencies = [
+ "anyhow",
  "serde",
  "serde_json",
+ "thiserror 2.0.19",
  "ts-rs",
 ]
 
@@ -6601,7 +6603,6 @@ dependencies = [
  "tokio",
  "ts-rs",
  "url",
- "which 8.0.5",
 ]
 
 [[package]]

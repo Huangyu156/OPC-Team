@@ -2517,6 +2517,12 @@ impl fmt::Display for ToolRestrictionError {
 
 impl std::error::Error for ToolRestrictionError {}
 
+impl From<ToolRestrictionError> for opc_core_types::opc_team_error::OpcTeamError {
+    fn from(error: ToolRestrictionError) -> Self {
+        opc_core_types::opc_team_error::OpcTeamError::tool(error.to_string())
+    }
+}
+
 /// Validation result
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct ValidationResult {
