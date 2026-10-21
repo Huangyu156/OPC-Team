@@ -1,5 +1,11 @@
 //! Shared, runtime-free bounded file and parser support for ecosystem source adapters.
 
+mod adapter_shared;
+pub use adapter_shared::{
+    command_file_reference_regex, cwd_preview, directories_between, file_reference_capabilities,
+    is_dynamic_file_reference, literal_file_references, normalize_path_lexically,
+    sanitized_https_origin, string_map,
+};
 mod catalog;
 pub use catalog::StaticHookCatalog;
 

@@ -1,7 +1,7 @@
 use crate::command_source::strip_jsonc;
 use crate::local_source_paths::{
-    local_source_plan, local_source_watch_roots, normalize_path_lexically, path_identity,
-    LocalConfigDocument, LocalSourcePlanItem, OpenCodeLocalConfigOptions,
+    local_source_plan, local_source_watch_roots, path_identity, LocalConfigDocument,
+    LocalSourcePlanItem, OpenCodeLocalConfigOptions,
 };
 use opc_product_domains::external_sources::{
     EcosystemId, ExternalSourceAssetKind, ExternalSourceContext, ExternalSourceDiagnostic,
@@ -13,6 +13,7 @@ use opc_product_domains::workspace_references::{
     ExternalWorkspaceReferenceProviderSnapshot, ExternalWorkspaceReferenceSourceProvider,
 };
 use opc_services_core::bounded_fs::BoundedTextRead;
+use opc_static_hook_support::normalize_path_lexically;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;

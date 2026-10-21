@@ -10,16 +10,19 @@ use opc_services_core::markdown::{
     expand_prompt_template_arguments, parse_prompt_shell_directives,
     prompt_template_expansion_upper_bound, FrontMatterMarkdown,
 };
-use opc_services_core::workspace_text::normalize_workspace_relative_path;
 use opc_static_hook_support::{
     collect_bounded_regular_files, read_bounded_text, BoundedDirectoryWalkError,
     BoundedDirectoryWalkLimits, BoundedTextRead,
+};
+use opc_static_hook_support::{
+    directories_between, file_reference_capabilities, literal_file_references,
+    normalize_path_lexically,
 };
 use regex::Regex;
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::path::{Component, Path, PathBuf};
+use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
 
 const PROVIDER_ID: &str = "claude-code.commands";
@@ -804,44 +807,6 @@ fn shell_regex() -> &'static Regex {
     REGEX.get_or_init(|| Regex::new(r"!`[^`]+`").expect("static shell regex compiles"))
 }
 
-fn file_regex() -> &'static Regex {
-    static REGEX: OnceLock<Regex> = OnceLock::new();
-    REGEX.get_or_init(|| {
-        Regex::new(r"(?:^|[^\w`])@(\.?[^\s`,.]*(?:\.[^\s`,.]+)*)")
-            .expect("static file regex compiles")
-    })
-}
-
-fn literal_file_references(template: &str) -> Vec<String> {
-    let mut seen = BTreeSet::new();
-    file_regex()
-        .captures_iter(template)
-        .filter_map(|capture| capture.get(1).map(|value| value.as_str()))
-        .filter(|path| !is_dynamic_file_reference(path))
-        .filter_map(|path| normalize_workspace_relative_path(path).ok())
-        .filter(|path| seen.insert(path.clone()))
-        .collect()
-}
-
-fn file_reference_capabilities(template: &str) -> Vec<String> {
-    let mut capabilities = Vec::new();
-    for path in file_regex()
-        .captures_iter(template)
-        .filter_map(|capture| capture.get(1).map(|value| value.as_str()))
-    {
-        if is_dynamic_file_reference(path) {
-            capabilities.push("command.file_reference.dynamic".to_string());
-        } else if normalize_workspace_relative_path(path).is_err() {
-            capabilities.push("command.file_reference.unsafe_path".to_string());
-        }
-    }
-    capabilities
-}
-
-fn is_dynamic_file_reference(path: &str) -> bool {
-    path.contains('$') || path.contains('{') || path.contains('}')
-}
-
 fn dynamic_variable_regex() -> &'static Regex {
     static REGEX: OnceLock<Regex> = OnceLock::new();
     REGEX.get_or_init(|| {
@@ -892,33 +857,4 @@ fn find_project_root(start: &Path) -> PathBuf {
         .find(|path| path.join(".git").exists())
         .unwrap_or(start)
         .to_path_buf()
-}
-
-fn directories_between(root: &Path, opened: &Path) -> Vec<PathBuf> {
-    let opened = if opened.is_file() {
-        opened.parent().unwrap_or(opened)
-    } else {
-        opened
-    };
-    let mut directories = opened
-        .ancestors()
-        .take_while(|path| path.starts_with(root))
-        .map(Path::to_path_buf)
-        .collect::<Vec<_>>();
-    directories.reverse();
-    directories
-}
-
-fn normalize_path_lexically(path: &Path) -> PathBuf {
-    let mut normalized = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::CurDir => {}
-            Component::ParentDir => {
-                normalized.pop();
-            }
-            component => normalized.push(component.as_os_str()),
-        }
-    }
-    normalized
 }

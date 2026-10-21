@@ -599,6 +599,16 @@ export const staticHookSupportPublicApiEntries = [
   'BoundedDirectoryWalkError',
   'collect_bounded_regular_files',
 ].map(staticSourceSupportEntry)).concat([
+  'directories_between',
+  'normalize_path_lexically',
+  'cwd_preview',
+  'sanitized_https_origin',
+  'string_map',
+  'command_file_reference_regex',
+  'is_dynamic_file_reference',
+  'literal_file_references',
+  'file_reference_capabilities',
+].map(staticSourceSupportEntry)).concat([
   'common_external_subagent_tool_capability',
 ].map(commonExternalSubagentToolMappingEntry));
 

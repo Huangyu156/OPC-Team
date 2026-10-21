@@ -1,5 +1,6 @@
 use opc_product_domains::external_sources::{ExternalSourceScope, ExternalWatchRoot};
 use opc_services_core::bounded_fs::{read_bounded_text, BoundedTextRead};
+use opc_static_hook_support::normalize_path_lexically;
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
@@ -523,22 +524,6 @@ fn environment_truthy(key: &str) -> bool {
     std::env::var(key)
         .ok()
         .is_some_and(|value| matches!(value.to_ascii_lowercase().as_str(), "1" | "true"))
-}
-
-pub(crate) fn normalize_path_lexically(path: &Path) -> PathBuf {
-    use std::path::Component;
-
-    let mut normalized = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::CurDir => {}
-            Component::ParentDir => {
-                normalized.pop();
-            }
-            component => normalized.push(component.as_os_str()),
-        }
-    }
-    normalized
 }
 
 fn opened_directory(path: &Path) -> &Path {

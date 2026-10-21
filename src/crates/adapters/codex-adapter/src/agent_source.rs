@@ -17,10 +17,11 @@ use opc_static_hook_support::{
     BoundedDirectoryWalkError, BoundedDirectoryWalkLimits, BoundedFileResolveError,
     BoundedTextRead,
 };
+use opc_static_hook_support::{directories_between, normalize_path_lexically};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::path::{Component, Path, PathBuf};
+use std::path::{Path, PathBuf};
 use toml::Value;
 
 const PROVIDER_ID: &str = "codex.agents";
@@ -1025,33 +1026,4 @@ fn find_project_root(start: &Path) -> PathBuf {
         .find(|path| path.join(".git").exists())
         .unwrap_or(start)
         .to_path_buf()
-}
-
-fn directories_between(root: &Path, opened: &Path) -> Vec<PathBuf> {
-    let opened = if opened.is_file() {
-        opened.parent().unwrap_or(opened)
-    } else {
-        opened
-    };
-    let mut directories = opened
-        .ancestors()
-        .take_while(|path| path.starts_with(root))
-        .map(Path::to_path_buf)
-        .collect::<Vec<_>>();
-    directories.reverse();
-    directories
-}
-
-fn normalize_path_lexically(path: &Path) -> PathBuf {
-    let mut normalized = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::CurDir => {}
-            Component::ParentDir => {
-                normalized.pop();
-            }
-            component => normalized.push(component.as_os_str()),
-        }
-    }
-    normalized
 }

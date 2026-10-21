@@ -9,13 +9,16 @@ use opc_product_domains::external_sources::{
     MAX_EXTERNAL_MCP_TIMEOUT_MS,
 };
 use opc_static_hook_support::{
+    cwd_preview, directories_between, normalize_path_lexically, sanitized_https_origin,
+};
+use opc_static_hook_support::{
     read_bounded_text, redacted_executable_preview, resolve_bounded_regular_file,
     BoundedFileResolveError, BoundedTextRead,
 };
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
-use std::path::{Component, Path, PathBuf};
+use std::path::{Path, PathBuf};
 use toml::Value;
 
 const PROVIDER_ID: &str = "codex.mcp";
@@ -1164,34 +1167,6 @@ fn valid_environment_name(name: &str) -> bool {
         })
 }
 
-fn sanitized_https_origin(value: &str) -> Result<String, String> {
-    let mut url = url::Url::parse(value).map_err(|_| "Remote MCP URL is invalid".to_string())?;
-    if url.scheme() != "https" {
-        return Err("Remote MCP URL must use HTTPS".to_string());
-    }
-    let _ = url.set_username("");
-    let _ = url.set_password(None);
-    url.set_path("/");
-    url.set_query(None);
-    url.set_fragment(None);
-    Ok(url.to_string())
-}
-
-fn cwd_preview(path: &Path, context: &ExternalSourceContext) -> String {
-    context
-        .workspace_root
-        .as_ref()
-        .and_then(|workspace| path.strip_prefix(workspace).ok())
-        .map(|relative| {
-            if relative.as_os_str().is_empty() {
-                ".".to_string()
-            } else {
-                format!("./{}", relative.to_string_lossy().replace('\\', "/"))
-            }
-        })
-        .unwrap_or_else(|| "<configured>".to_string())
-}
-
 fn enforce_size(bytes: usize, reasons: &mut Vec<String>) {
     if bytes > MAX_RUNTIME_TEXT_BYTES {
         reasons.push(format!(
@@ -1326,35 +1301,6 @@ fn find_project_root(start: &Path) -> PathBuf {
         .find(|path| path.join(".git").exists())
         .unwrap_or(start)
         .to_path_buf()
-}
-
-fn directories_between(root: &Path, opened: &Path) -> Vec<PathBuf> {
-    let opened = if opened.is_file() {
-        opened.parent().unwrap_or(opened)
-    } else {
-        opened
-    };
-    let mut directories = opened
-        .ancestors()
-        .take_while(|path| path.starts_with(root))
-        .map(Path::to_path_buf)
-        .collect::<Vec<_>>();
-    directories.reverse();
-    directories
-}
-
-fn normalize_path_lexically(path: &Path) -> PathBuf {
-    let mut normalized = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::CurDir => {}
-            Component::ParentDir => {
-                normalized.pop();
-            }
-            component => normalized.push(component.as_os_str()),
-        }
-    }
-    normalized
 }
 
 fn digest<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {

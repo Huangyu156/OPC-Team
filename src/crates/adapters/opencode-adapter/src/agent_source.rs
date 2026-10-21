@@ -24,6 +24,7 @@ use opc_product_domains::tool_permissions::{
 };
 use opc_services_core::{jsonc::strip_jsonc, markdown::FrontMatterMarkdown};
 use opc_static_hook_support::common_external_subagent_tool_capability;
+use opc_static_hook_support::normalize_path_lexically;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
@@ -1654,21 +1655,6 @@ fn deduplicate_layers_keep_last(layers: Vec<AgentLayer>) -> Vec<AgentLayer> {
         .collect::<Vec<_>>();
     unique.reverse();
     unique
-}
-
-fn normalize_path_lexically(path: &Path) -> PathBuf {
-    use std::path::Component;
-    let mut normalized = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::CurDir => {}
-            Component::ParentDir => {
-                normalized.pop();
-            }
-            component => normalized.push(component.as_os_str()),
-        }
-    }
-    normalized
 }
 
 fn digest(parts: impl IntoIterator<Item = impl AsRef<str>>) -> String {

@@ -2,9 +2,8 @@ mod v1;
 mod v2;
 
 use crate::local_source_paths::{
-    local_source_plan, local_source_watch_roots, normalize_path_lexically,
-    LocalConfigDirectoryKind, LocalConfigDocument, LocalConfigDocumentKind, LocalSourcePlanItem,
-    OpenCodeLocalConfigOptions,
+    local_source_plan, local_source_watch_roots, LocalConfigDirectoryKind, LocalConfigDocument,
+    LocalConfigDocumentKind, LocalSourcePlanItem, OpenCodeLocalConfigOptions,
 };
 use opc_product_domains::external_sources::{
     EcosystemId, ExternalMcpDiscoveryInput, ExternalMcpProviderIdentity,
@@ -17,6 +16,7 @@ use opc_product_domains::external_sources::{
     MAX_EXTERNAL_MCP_TIMEOUT_MS,
 };
 use opc_services_core::jsonc::strip_jsonc;
+use opc_static_hook_support::normalize_path_lexically;
 use opc_static_hook_support::BoundedTextRead;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};

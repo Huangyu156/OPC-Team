@@ -6,8 +6,9 @@ use opc_services_core::local_instructions::{
     read_local_instruction_file, LocalInstructionFile, LocalInstructionFiles,
     MAX_LOCAL_INSTRUCTION_FILES, MAX_LOCAL_INSTRUCTION_TOTAL_BYTES,
 };
+use opc_static_hook_support::normalize_path_lexically;
 use std::collections::HashSet;
-use std::path::{Component, Path, PathBuf};
+use std::path::{Path, PathBuf};
 
 const MAX_CLAUDE_IMPORT_DEPTH: usize = 5;
 
@@ -287,20 +288,6 @@ fn claude_import_paths(
         }
     }
     imports
-}
-
-fn normalize_path_lexically(path: &Path) -> PathBuf {
-    let mut normalized = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::CurDir => {}
-            Component::ParentDir => {
-                normalized.pop();
-            }
-            component => normalized.push(component.as_os_str()),
-        }
-    }
-    normalized
 }
 
 #[cfg(test)]

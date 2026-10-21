@@ -8,6 +8,7 @@ use opc_product_domains::external_sources::{
     PreparedExternalMcpTransport, SecretValue, SourceKey, SourceQualifiedMcpServerId,
     MAX_EXTERNAL_MCP_TIMEOUT_MS,
 };
+use opc_static_hook_support::{cwd_preview, normalize_path_lexically, sanitized_https_origin};
 use opc_static_hook_support::{
     read_bounded_text, redacted_executable_preview, resolve_bounded_regular_file,
     BoundedFileResolveError, BoundedTextRead,
@@ -851,21 +852,6 @@ fn timeout_overrides(
     }
 }
 
-fn cwd_preview(path: &Path, context: &ExternalSourceContext) -> String {
-    context
-        .workspace_root
-        .as_ref()
-        .and_then(|workspace| path.strip_prefix(workspace).ok())
-        .map(|relative| {
-            if relative.as_os_str().is_empty() {
-                ".".to_string()
-            } else {
-                format!("./{}", relative.to_string_lossy().replace('\\', "/"))
-            }
-        })
-        .unwrap_or_else(|| "<configured>".to_string())
-}
-
 fn unsupported_local(
     id: SourceQualifiedMcpServerId,
     source: SourceKey,
@@ -1158,19 +1144,6 @@ fn expand_environment_references(value: &str) -> Result<String, ExternalSourcePr
     })
 }
 
-fn sanitized_https_origin(value: &str) -> Result<String, String> {
-    let mut url = url::Url::parse(value).map_err(|_| "Remote MCP URL is invalid".to_string())?;
-    if url.scheme() != "https" {
-        return Err("Remote MCP URL must use HTTPS".to_string());
-    }
-    let _ = url.set_username("");
-    let _ = url.set_password(None);
-    url.set_path("/");
-    url.set_query(None);
-    url.set_fragment(None);
-    Ok(url.to_string())
-}
-
 fn provider_error(suffix: &str, message: &str, transient: bool) -> ExternalSourceProviderError {
     ExternalSourceProviderError::new(format!("claude.mcp.{suffix}"), message, transient)
 }
@@ -1247,21 +1220,6 @@ fn find_project_root(start: &Path) -> PathBuf {
         .find(|path| path.join(".git").exists())
         .unwrap_or(start)
         .to_path_buf()
-}
-
-fn normalize_path_lexically(path: &Path) -> PathBuf {
-    use std::path::Component;
-    let mut normalized = PathBuf::new();
-    for component in path.components() {
-        match component {
-            Component::CurDir => {}
-            Component::ParentDir => {
-                normalized.pop();
-            }
-            component => normalized.push(component.as_os_str()),
-        }
-    }
-    normalized
 }
 
 fn enforce_runtime_size(bytes: usize, reason: &mut Option<String>) {

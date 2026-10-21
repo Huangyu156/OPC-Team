@@ -14,11 +14,11 @@ pub(crate) use opc_services_core::jsonc::strip_jsonc;
 use opc_services_core::markdown::{
     parse_prompt_shell_directives, prompt_template_expansion_upper_bound, FrontMatterMarkdown,
 };
-use opc_services_core::workspace_text::normalize_workspace_relative_path;
 use opc_static_hook_support::{
     collect_bounded_regular_files, read_bounded_text, BoundedDirectoryWalkError,
     BoundedDirectoryWalkLimits, BoundedTextRead,
 };
+use opc_static_hook_support::{file_reference_capabilities, literal_file_references};
 use regex::Regex;
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
@@ -1028,44 +1028,6 @@ fn placeholder_regex() -> &'static Regex {
 fn shell_regex() -> &'static Regex {
     static REGEX: OnceLock<Regex> = OnceLock::new();
     REGEX.get_or_init(|| Regex::new(r"!`[^`]+`").expect("static shell regex must compile"))
-}
-
-fn file_regex() -> &'static Regex {
-    static REGEX: OnceLock<Regex> = OnceLock::new();
-    REGEX.get_or_init(|| {
-        Regex::new(r"(?:^|[^\w`])@(\.?[^\s`,.]*(?:\.[^\s`,.]+)*)")
-            .expect("static file reference regex must compile")
-    })
-}
-
-fn literal_file_references(template: &str) -> Vec<String> {
-    let mut seen = BTreeSet::new();
-    file_regex()
-        .captures_iter(template)
-        .filter_map(|capture| capture.get(1).map(|value| value.as_str()))
-        .filter(|path| !is_dynamic_file_reference(path))
-        .filter_map(|path| normalize_workspace_relative_path(path).ok())
-        .filter(|path| seen.insert(path.clone()))
-        .collect()
-}
-
-fn file_reference_capabilities(template: &str) -> Vec<String> {
-    let mut capabilities = Vec::new();
-    for path in file_regex()
-        .captures_iter(template)
-        .filter_map(|capture| capture.get(1).map(|value| value.as_str()))
-    {
-        if is_dynamic_file_reference(path) {
-            capabilities.push("command.file_reference.dynamic".to_string());
-        } else if normalize_workspace_relative_path(path).is_err() {
-            capabilities.push("command.file_reference.unsafe_path".to_string());
-        }
-    }
-    capabilities
-}
-
-fn is_dynamic_file_reference(path: &str) -> bool {
-    path.contains('$') || path.contains('{') || path.contains('}')
 }
 
 fn config_variable_regex() -> &'static Regex {
