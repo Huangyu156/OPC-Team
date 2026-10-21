@@ -489,6 +489,35 @@ tokio = { workspace = true, features = ["macros", "rt-multi-thread", "test-util"
 name = "git_contracts"
 required-features = ["git"]
 
+# Tests extracted from inline `#[cfg(test)] mod tests` blocks. Each target is
+# declared explicitly so `cargo test --tests` picks it up; without the
+# declaration `--lib` runs alone and these files never execute.
+#
+# required-features mirrors the crate-level `#![cfg(feature = "agent-runtime")]`
+# in each file, which is what the boundary check enforces. Callers must still
+# enable `git` as well: `agentic::tools::implementations` registers
+# `worktree_tool` without a gate while `service::worktree` is gated on
+# `all(agent-runtime, git)`, so `agent-runtime` alone does not compile.
+[[test]]
+name = "agents_catalog"
+required-features = ["agent-runtime"]
+
+[[test]]
+name = "prompt_builder"
+required-features = ["agent-runtime"]
+
+[[test]]
+name = "claw_mode"
+required-features = ["agent-runtime"]
+
+[[test]]
+name = "cowork_mode"
+required-features = ["agent-runtime"]
+
+[[test]]
+name = "skill_resolver"
+required-features = ["agent-runtime"]
+
 [build-dependencies]
 sha2 = { workspace = true }
 

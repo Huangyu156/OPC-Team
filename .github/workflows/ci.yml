@@ -314,9 +314,41 @@ jobs:
         if: runner.os != 'Linux'
         run: cargo test --locked -p opc-core --lib
 
+      # `--lib` above never reaches the `tests/` targets, so integration tests
+      # declared in the crate manifest need their own step. Targets are listed
+      # explicitly instead of `--tests`: the latter also runs the lib target,
+      # whose `agent-runtime,git` configuration carries pre-existing failures.
+      # `agent-runtime` and `git` are both required because `worktree_tool` is
+      # registered without a gate while `service::worktree` is gated on both.
+      - name: Run core integration tests
+        if: runner.os != 'Linux'
+        run: >-
+          cargo test --locked -p opc-core
+          --features agent-runtime,git
+          --test git_contracts
+          --test agents_catalog
+          --test prompt_builder
+          --test claw_mode
+          --test cowork_mode
+          --test skill_resolver
+
       - name: Run full core library tests on Linux
         if: runner.os == 'Linux'
         run: cargo test --locked -p opc-core --features product-full --lib
+
+      # `product-full` already implies `agent-runtime` and `git`, so the same
+      # integration targets build without a second feature resolution.
+      - name: Run full core integration tests on Linux
+        if: runner.os == 'Linux'
+        run: >-
+          cargo test --locked -p opc-core
+          --features product-full
+          --test git_contracts
+          --test agents_catalog
+          --test prompt_builder
+          --test claw_mode
+          --test cowork_mode
+          --test skill_resolver
 
       - name: Run desktop library tests
         if: runner.os != 'Windows'
