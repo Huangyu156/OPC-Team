@@ -367,7 +367,6 @@ export const optionalDependencyFeatureOwnerRules = [
       { depName: 'log', ownerFeatures: ['function-agents'] },
       { depName: 'hex', ownerFeatures: ['appearance-market', 'external-sources', 'miniapp', 'plugin-source'] },
       { depName: 'sha2', ownerFeatures: ['appearance-market', 'external-sources', 'miniapp', 'plugin-source'] },
-      { depName: 'which', ownerFeatures: ['miniapp'] },
     ],
   },
 ];

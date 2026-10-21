@@ -48,8 +48,9 @@ use opc_product_domains::miniapp::ports::{
     MiniAppRuntimePort, MiniAppStoragePort,
 };
 use opc_product_domains::miniapp::runtime::{
-    candidate_dirs, candidate_executable_path, detect_runtime, runtime_lookup_order,
-    version_manager_roots, versioned_executable_candidate, DetectedRuntime, RuntimeKind,
+    candidate_dirs, candidate_executable_path, detect_runtime_with_probe, runtime_lookup_order,
+    version_manager_roots, versioned_executable_candidate, DetectedRuntime, MiniAppRuntimeProbe,
+    RuntimeKind,
 };
 use opc_product_domains::miniapp::storage::{
     build_import_bundle_plan, build_import_fallbacks, build_package_json, parse_npm_dependencies,
@@ -75,6 +76,31 @@ use std::sync::{Arc, Mutex};
 use std::task::{Context, Poll, RawWaker, RawWakerVTable, Waker};
 
 struct RuntimePortStub;
+
+/// Probe stub proving the portable detector takes host IO from the caller.
+struct FakeRuntimeProbe;
+
+impl MiniAppRuntimeProbe for FakeRuntimeProbe {
+    fn find_on_path(&self, _name: &str) -> Option<PathBuf> {
+        None
+    }
+
+    fn home_dir(&self) -> Option<PathBuf> {
+        None
+    }
+
+    fn is_executable(&self, _path: &Path) -> bool {
+        false
+    }
+
+    fn version_dirs(&self, _root: &Path) -> Vec<PathBuf> {
+        Vec::new()
+    }
+
+    fn runtime_version(&self, _path: &Path) -> Option<String> {
+        None
+    }
+}
 
 impl MiniAppRuntimePort for RuntimePortStub {
     fn detect_runtime(
@@ -768,7 +794,8 @@ fn miniapp_runtime_search_plan_preserves_common_install_locations() {
     assert!(roots.contains(&home.join(".fnm").join("node-versions")));
 
     assert_eq!(runtime_lookup_order(), &["bun", "node"]);
-    let _detect_runtime: fn() -> Option<DetectedRuntime> = detect_runtime;
+    let _detect_runtime_with_probe: fn(&FakeRuntimeProbe) -> Option<DetectedRuntime> =
+        detect_runtime_with_probe::<FakeRuntimeProbe>;
     assert_eq!(
         candidate_executable_path(Path::new("/usr/local/bin"), "node"),
         PathBuf::from("/usr/local/bin").join("node")

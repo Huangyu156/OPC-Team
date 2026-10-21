@@ -5,7 +5,7 @@ use opc_product_domains::miniapp::ports::{
     MiniAppInstallDepsRequest, MiniAppPortError, MiniAppPortErrorKind, MiniAppPortFuture,
     MiniAppRuntimePort,
 };
-use opc_product_domains::miniapp::runtime::{detect_runtime, DetectedRuntime};
+use opc_product_domains::miniapp::runtime::DetectedRuntime;
 use opc_product_domains::miniapp::types::{NodePermissions, NpmDep};
 pub use opc_product_domains::miniapp::worker::InstallResult;
 use opc_product_domains::miniapp::worker::{
@@ -182,7 +182,7 @@ impl JsWorkerPool {
         worker_host_path: PathBuf,
         event_sink: Option<SharedMiniAppWorkerEventSink>,
     ) -> MiniAppWorkerPoolResult<Self> {
-        let runtime = detect_runtime().ok_or_else(|| {
+        let runtime = crate::miniapp::runtime_probe::detect_runtime().ok_or_else(|| {
             MiniAppWorkerPoolError::validation(
                 "No JS runtime found (install Bun or Node.js)".to_string(),
             )

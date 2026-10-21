@@ -8959,28 +8959,8 @@ export const requiredContentRules = [
   {
     path: 'src/crates/contracts/product-domains/src/miniapp/runtime.rs',
     reason:
-      'product-domains owns MiniApp runtime detection, including the reviewed concrete PATH/fs/version probe',
+      'product-domains owns MiniApp runtime detection policy only; host IO (PATH lookup, directory scan, version command) belongs to services-integrations',
     patterns: [
-      {
-        regex: /\bpub fn detect_runtime\b/,
-        message: 'missing MiniApp concrete runtime detector',
-      },
-      {
-        regex: /\bstruct DefaultMiniAppRuntimeProbe\b/,
-        message: 'missing MiniApp default runtime probe owner',
-      },
-      {
-        regex: /\bwhich::which\b/,
-        message: 'missing MiniApp PATH lookup owner',
-      },
-      {
-        regex: /\bstd::fs::read_dir\b/,
-        message: 'missing MiniApp version-manager directory scan owner',
-      },
-      {
-        regex: /\bcreate_version_command\b/,
-        message: 'missing MiniApp version process command owner',
-      },
       {
         regex: /\bpub fn runtime_lookup_order\b/,
         message: 'missing MiniApp runtime lookup order contract',
@@ -9809,6 +9789,29 @@ export const requiredContentRules = [
       {
         regex: /\bimpl MiniAppRuntimePort for JsWorkerPool\b/,
         message: 'missing MiniApp runtime port implementation in integrations owner',
+      },
+    ],
+  },
+  {
+    path: 'src/crates/services/services-integrations/src/miniapp/runtime_probe.rs',
+    reason:
+      'services-integrations owns the host-backed MiniApp runtime probe (PATH lookup, version-manager directory scan, version command) while product-domains keeps the portable detection policy',
+    patterns: [
+      {
+        regex: /\bpub struct HostMiniAppRuntimeProbe\b/,
+        message: 'missing services-owned host MiniApp runtime probe',
+      },
+      {
+        regex: /\bimpl MiniAppRuntimeProbe for HostMiniAppRuntimeProbe\b/,
+        message: 'missing MiniApp runtime probe implementation in integrations owner',
+      },
+      {
+        regex: /\bpub fn detect_runtime\b/,
+        message: 'missing services-owned MiniApp runtime detection entry point',
+      },
+      {
+        regex: /\bprocess_manager::create_command\b/,
+        message: 'missing services-owned MiniApp runtime version process execution',
       },
     ],
   },
