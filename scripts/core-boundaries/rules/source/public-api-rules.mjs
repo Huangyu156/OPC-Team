@@ -610,7 +610,17 @@ export const staticHookSupportPublicApiEntries = [
   'file_reference_capabilities',
 ].map(staticSourceSupportEntry)).concat([
   'common_external_subagent_tool_capability',
-].map(commonExternalSubagentToolMappingEntry));
+].map(commonExternalSubagentToolMappingEntry)).concat([
+  'find_project_root',
+  'nearest_existing_path',
+  'should_inspect',
+  'digest',
+  'content_hash',
+  'short_hash',
+  'hook_warning',
+  'import_error',
+  'increment_skip',
+].map(staticSourceSupportEntry));
 
 function externalHookContractEntry(symbol, owner, consumer, wireImpact = false) {
   return {

@@ -2,9 +2,10 @@
 
 mod adapter_shared;
 pub use adapter_shared::{
-    command_file_reference_regex, cwd_preview, directories_between, file_reference_capabilities,
-    is_dynamic_file_reference, literal_file_references, normalize_path_lexically,
-    sanitized_https_origin, string_map,
+    command_file_reference_regex, content_hash, cwd_preview, digest, directories_between,
+    file_reference_capabilities, find_project_root, hook_warning, import_error, increment_skip,
+    is_dynamic_file_reference, literal_file_references, nearest_existing_path,
+    normalize_path_lexically, sanitized_https_origin, short_hash, should_inspect, string_map,
 };
 mod catalog;
 pub use catalog::StaticHookCatalog;

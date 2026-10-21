@@ -19,7 +19,9 @@ use opc_product_domains::external_sources::{
     ExternalSourceScope, SourceKey,
 };
 use opc_services_core::bounded_fs::BoundedTextRead;
-use opc_static_hook_support::{read_bounded_file, BoundedFileRead};
+use opc_static_hook_support::{
+    content_hash, hook_warning, read_bounded_file, short_hash, BoundedFileRead,
+};
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::fs;
@@ -706,19 +708,6 @@ fn redacted_discovery_version(
         hasher.update([0]);
     }
     format!("sha256:{}", hex::encode(hasher.finalize()))
-}
-
-fn content_hash(value: &[u8]) -> String {
-    format!("sha256:{}", hex::encode(Sha256::digest(value)))
-}
-
-fn short_hash(value: &[u8]) -> String {
-    hex::encode(Sha256::digest(value))[..24].to_string()
-}
-
-fn hook_warning(code: &str, message: &str, source: Option<SourceKey>) -> ExternalSourceDiagnostic {
-    ExternalSourceDiagnostic::warning(code, message, source)
-        .with_asset_kind(ExternalSourceAssetKind::Hook)
 }
 
 fn hook_info(code: &str, message: &str, source: Option<SourceKey>) -> ExternalSourceDiagnostic {

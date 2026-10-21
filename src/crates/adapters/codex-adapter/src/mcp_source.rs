@@ -9,13 +9,13 @@ use opc_product_domains::external_sources::{
     MAX_EXTERNAL_MCP_TIMEOUT_MS,
 };
 use opc_static_hook_support::{
-    cwd_preview, directories_between, normalize_path_lexically, sanitized_https_origin,
+    cwd_preview, digest, directories_between, find_project_root, normalize_path_lexically,
+    sanitized_https_origin,
 };
 use opc_static_hook_support::{
     read_bounded_text, redacted_executable_preview, resolve_bounded_regular_file,
     BoundedFileResolveError, BoundedTextRead,
 };
-use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -1288,26 +1288,4 @@ fn push_layer(
             display_name,
         });
     }
-}
-
-fn find_project_root(start: &Path) -> PathBuf {
-    let start = if start.is_file() {
-        start.parent().unwrap_or(start)
-    } else {
-        start
-    };
-    start
-        .ancestors()
-        .find(|path| path.join(".git").exists())
-        .unwrap_or(start)
-        .to_path_buf()
-}
-
-fn digest<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {
-    let mut hasher = Sha256::new();
-    for part in parts {
-        hasher.update(part.as_bytes());
-        hasher.update([0]);
-    }
-    hex::encode(hasher.finalize())
 }

@@ -17,10 +17,10 @@ use opc_static_hook_support::{
     BoundedDirectoryWalkError, BoundedDirectoryWalkLimits, BoundedFileResolveError,
     BoundedTextRead,
 };
-use opc_static_hook_support::{directories_between, normalize_path_lexically};
-use sha2::{Digest, Sha256};
+use opc_static_hook_support::{
+    digest, directories_between, find_project_root, normalize_path_lexically, should_inspect,
+};
 use std::collections::{BTreeMap, BTreeSet};
-use std::fs;
 use std::path::{Path, PathBuf};
 use toml::Value;
 
@@ -941,13 +941,6 @@ fn source_key(path: &Path, kind: &str) -> SourceKey {
     .expect("hashed Codex agent source id is valid")
 }
 
-fn should_inspect(path: &Path) -> bool {
-    match fs::metadata(path) {
-        Ok(metadata) => metadata.is_file(),
-        Err(error) => error.kind() != std::io::ErrorKind::NotFound,
-    }
-}
-
 fn provider_error(suffix: &str, message: &str, transient: bool) -> ExternalSourceProviderError {
     ExternalSourceProviderError::new(format!("codex.agent.{suffix}"), message, transient)
 }
@@ -1004,26 +997,4 @@ fn validate_logical_id(logical_id: &str) -> Result<(), ExternalSourceProviderErr
 
 fn normalize_logical_id(value: &str) -> String {
     value.trim().to_ascii_lowercase().replace(' ', "-")
-}
-
-fn digest<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {
-    let mut hasher = Sha256::new();
-    for part in parts {
-        hasher.update(part.as_bytes());
-        hasher.update([0]);
-    }
-    hex::encode(hasher.finalize())
-}
-
-fn find_project_root(start: &Path) -> PathBuf {
-    let start = if start.is_file() {
-        start.parent().unwrap_or(start)
-    } else {
-        start
-    };
-    start
-        .ancestors()
-        .find(|path| path.join(".git").exists())
-        .unwrap_or(start)
-        .to_path_buf()
 }

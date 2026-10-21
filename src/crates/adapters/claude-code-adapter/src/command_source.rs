@@ -15,8 +15,8 @@ use opc_static_hook_support::{
     BoundedDirectoryWalkLimits, BoundedTextRead,
 };
 use opc_static_hook_support::{
-    directories_between, file_reference_capabilities, literal_file_references,
-    normalize_path_lexically,
+    digest, directories_between, file_reference_capabilities, find_project_root,
+    literal_file_references, normalize_path_lexically,
 };
 use regex::Regex;
 use sha2::{Digest, Sha256};
@@ -835,26 +835,4 @@ fn command_warning(
 ) -> ExternalSourceDiagnostic {
     ExternalSourceDiagnostic::warning(code, message, source)
         .with_asset_kind(ExternalSourceAssetKind::Command)
-}
-
-fn digest<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {
-    let mut hasher = Sha256::new();
-    for part in parts {
-        hasher.update(part.as_bytes());
-        hasher.update([0]);
-    }
-    hex::encode(hasher.finalize())
-}
-
-fn find_project_root(start: &Path) -> PathBuf {
-    let start = if start.is_file() {
-        start.parent().unwrap_or(start)
-    } else {
-        start
-    };
-    start
-        .ancestors()
-        .find(|path| path.join(".git").exists())
-        .unwrap_or(start)
-        .to_path_buf()
 }

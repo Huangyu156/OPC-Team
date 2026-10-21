@@ -17,6 +17,7 @@ use opc_product_domains::external_sources::{
 };
 use opc_services_core::jsonc::strip_jsonc;
 use opc_static_hook_support::normalize_path_lexically;
+use opc_static_hook_support::string_map;
 use opc_static_hook_support::BoundedTextRead;
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
@@ -988,29 +989,6 @@ fn string_array(value: Option<&Value>) -> Result<Vec<String>, String> {
                 .as_str()
                 .map(str::to_string)
                 .ok_or_else(|| "Local MCP command must contain only strings".to_string())
-        })
-        .collect()
-}
-
-fn string_map(value: Option<&Value>) -> Result<BTreeMap<String, String>, String> {
-    let Some(value) = value else {
-        return Ok(BTreeMap::new());
-    };
-    let object = value
-        .as_object()
-        .ok_or_else(|| "MCP environment or headers must be an object".to_string())?;
-    if object.len() > MAX_MAP_ENTRIES {
-        return Err(format!(
-            "MCP environment or headers exceed the {MAX_MAP_ENTRIES} entry limit"
-        ));
-    }
-    object
-        .iter()
-        .map(|(key, value)| {
-            value
-                .as_str()
-                .map(|value| (key.clone(), value.to_string()))
-                .ok_or_else(|| "MCP environment and header values must be strings".to_string())
         })
         .collect()
 }

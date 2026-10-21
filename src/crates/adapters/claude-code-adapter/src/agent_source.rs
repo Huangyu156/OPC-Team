@@ -14,12 +14,12 @@ use opc_product_domains::external_subagents::{
 };
 use opc_services_core::markdown::FrontMatterMarkdown;
 use opc_static_hook_support::{
-    collect_bounded_regular_files, common_external_subagent_tool_capability, read_bounded_text,
-    BoundedDirectoryWalkError, BoundedDirectoryWalkLimits, BoundedTextRead,
+    collect_bounded_regular_files, common_external_subagent_tool_capability, digest,
+    find_project_root, read_bounded_text, BoundedDirectoryWalkError, BoundedDirectoryWalkLimits,
+    BoundedTextRead,
 };
 use opc_static_hook_support::{directories_between, normalize_path_lexically};
 use serde_json::{Map, Value};
-use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
@@ -715,26 +715,4 @@ fn valid_agent_name(value: &str) -> bool {
             .all(|byte| byte.is_ascii_lowercase() || byte == b'-')
         && value.as_bytes().first().is_some_and(u8::is_ascii_lowercase)
         && value.as_bytes().last().is_some_and(u8::is_ascii_lowercase)
-}
-
-fn digest<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {
-    let mut hasher = Sha256::new();
-    for part in parts {
-        hasher.update(part.as_bytes());
-        hasher.update([0]);
-    }
-    hex::encode(hasher.finalize())
-}
-
-fn find_project_root(start: &Path) -> PathBuf {
-    let start = if start.is_file() {
-        start.parent().unwrap_or(start)
-    } else {
-        start
-    };
-    start
-        .ancestors()
-        .find(|path| path.join(".git").exists())
-        .unwrap_or(start)
-        .to_path_buf()
 }

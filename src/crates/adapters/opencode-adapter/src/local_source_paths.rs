@@ -1,6 +1,6 @@
 use opc_product_domains::external_sources::{ExternalSourceScope, ExternalWatchRoot};
 use opc_services_core::bounded_fs::{read_bounded_text, BoundedTextRead};
-use opc_static_hook_support::normalize_path_lexically;
+use opc_static_hook_support::{nearest_existing_path, normalize_path_lexically};
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 
@@ -531,17 +531,6 @@ fn opened_directory(path: &Path) -> &Path {
         path.parent().unwrap_or(path)
     } else {
         path
-    }
-}
-
-fn nearest_existing_path(mut path: PathBuf) -> Option<PathBuf> {
-    loop {
-        if path.exists() {
-            return Some(path);
-        }
-        if !path.pop() {
-            return None;
-        }
     }
 }
 

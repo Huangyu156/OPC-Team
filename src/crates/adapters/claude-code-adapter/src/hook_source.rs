@@ -10,18 +10,18 @@ use opc_product_domains::external_hook_import::{
     PreparedExternalHookImport,
 };
 use opc_product_domains::external_sources::{
-    EcosystemId, ExternalSourceAssetKind, ExternalSourceContext, ExternalSourceDiagnostic,
-    ExternalSourceHealth, ExternalSourceProviderError, ExternalSourceScope, SourceKey,
+    EcosystemId, ExternalSourceContext, ExternalSourceDiagnostic, ExternalSourceHealth,
+    ExternalSourceProviderError, ExternalSourceScope, SourceKey,
 };
 use opc_static_hook_support::{
-    bounded_project_ancestors, importable_hook_matcher, optional_hook_string,
-    optional_positive_hook_u64, parse_hook_document, prepare_static_hook_command,
-    read_bounded_file, redacted_parse_content_version, regular_file_exists, required_hook_string,
-    static_hook_handler_fact, visit_hook_document, BoundedFileRead, StaticHookDocumentFormat,
-    StaticHookHandlerFact, StaticHookHandlerRule, StaticHookParseIssue, StaticHookParseResult,
+    bounded_project_ancestors, content_hash, hook_warning, import_error, importable_hook_matcher,
+    increment_skip, optional_hook_string, optional_positive_hook_u64, parse_hook_document,
+    prepare_static_hook_command, read_bounded_file, redacted_parse_content_version,
+    regular_file_exists, required_hook_string, short_hash, static_hook_handler_fact,
+    visit_hook_document, BoundedFileRead, StaticHookDocumentFormat, StaticHookHandlerFact,
+    StaticHookHandlerRule, StaticHookParseIssue, StaticHookParseResult,
 };
 use serde_json::Value;
-use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Path, PathBuf};
 
@@ -549,15 +549,6 @@ fn summary_group_has_unknown_fields(group: &serde_json::Map<String, Value>) -> b
         .any(|field| !matches!(field.as_str(), "matcher" | "hooks"))
 }
 
-fn increment_skip(skipped: &mut BTreeMap<&'static str, u32>, reason: &'static str) {
-    let count = skipped.entry(reason).or_default();
-    *count = count.saturating_add(1);
-}
-
-fn import_error(code: &'static str, message: impl Into<String>) -> ExternalSourceProviderError {
-    ExternalSourceProviderError::new(code, message, false)
-}
-
 struct SettingsLayer {
     path: PathBuf,
     source_id: String,
@@ -752,17 +743,4 @@ fn source(
         content_version,
         diagnostics,
     }
-}
-
-fn hook_warning(code: &str, message: &str, source: Option<SourceKey>) -> ExternalSourceDiagnostic {
-    ExternalSourceDiagnostic::warning(code, message, source)
-        .with_asset_kind(ExternalSourceAssetKind::Hook)
-}
-
-fn content_hash(value: &[u8]) -> String {
-    format!("sha256:{}", hex::encode(Sha256::digest(value)))
-}
-
-fn short_hash(value: &[u8]) -> String {
-    hex::encode(Sha256::digest(value))[..24].to_string()
 }

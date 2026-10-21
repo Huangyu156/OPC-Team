@@ -5,10 +5,14 @@
 //! one takes explicit arguments and returns plain data, so a single copy here
 //! replaces every duplicate without changing adapter behavior.
 
-use opc_product_domains::external_sources::ExternalSourceContext;
+use opc_product_domains::external_sources::{
+    ExternalSourceAssetKind, ExternalSourceContext, ExternalSourceDiagnostic,
+    ExternalSourceProviderError, SourceKey,
+};
 use opc_services_core::workspace_text::normalize_workspace_relative_path;
 use regex::Regex;
 use serde_json::Value;
+use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 use std::path::{Component, Path, PathBuf};
 use std::sync::OnceLock;
@@ -150,6 +154,86 @@ pub fn file_reference_capabilities(template: &str) -> Vec<String> {
         }
     }
     capabilities
+}
+
+/// Reports whether a path names a regular file, treating a missing path as
+/// absent but surfacing other metadata failures so the coordinator can retain
+/// the last valid snapshot as stale.
+pub fn should_inspect(path: &Path) -> bool {
+    match std::fs::metadata(path) {
+        Ok(metadata) => metadata.is_file(),
+        Err(error) => error.kind() != std::io::ErrorKind::NotFound,
+    }
+}
+
+/// Walks up from `start` (or its parent when it names a file) to the nearest
+/// ancestor that contains a `.git` entry, falling back to the starting
+/// directory when no project boundary exists.
+pub fn find_project_root(start: &Path) -> PathBuf {
+    let start = if start.is_file() {
+        start.parent().unwrap_or(start)
+    } else {
+        start
+    };
+    start
+        .ancestors()
+        .find(|path| path.join(".git").exists())
+        .unwrap_or(start)
+        .to_path_buf()
+}
+
+/// Returns the deepest existing ancestor of `path`, or `None` when the walk
+/// reaches the filesystem root without finding one.
+pub fn nearest_existing_path(mut path: PathBuf) -> Option<PathBuf> {
+    loop {
+        if path.exists() {
+            return Some(path);
+        }
+        if !path.pop() {
+            return None;
+        }
+    }
+}
+
+/// Hashes each part with a `NUL` separator so concatenation cannot collide.
+pub fn digest<'a>(parts: impl IntoIterator<Item = &'a str>) -> String {
+    let mut hasher = Sha256::new();
+    for part in parts {
+        hasher.update(part.as_bytes());
+        hasher.update([0]);
+    }
+    hex::encode(hasher.finalize())
+}
+
+/// Renders the full `sha256:` content version of `value`.
+pub fn content_hash(value: &[u8]) -> String {
+    format!("sha256:{}", hex::encode(Sha256::digest(value)))
+}
+
+/// Renders the 24-character short content version used in public ids.
+pub fn short_hash(value: &[u8]) -> String {
+    hex::encode(Sha256::digest(value))[..24].to_string()
+}
+
+/// Builds a Hook warning diagnostic.
+pub fn hook_warning(
+    code: &str,
+    message: &str,
+    source: Option<SourceKey>,
+) -> ExternalSourceDiagnostic {
+    ExternalSourceDiagnostic::warning(code, message, source)
+        .with_asset_kind(ExternalSourceAssetKind::Hook)
+}
+
+/// Builds a non-retryable external source provider error.
+pub fn import_error(code: &'static str, message: impl Into<String>) -> ExternalSourceProviderError {
+    ExternalSourceProviderError::new(code, message, false)
+}
+
+/// Increments the skip counter for one stable reason label.
+pub fn increment_skip(skipped: &mut BTreeMap<&'static str, u32>, reason: &'static str) {
+    let count = skipped.entry(reason).or_default();
+    *count = count.saturating_add(1);
 }
 
 #[cfg(test)]

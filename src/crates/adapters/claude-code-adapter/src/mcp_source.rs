@@ -8,7 +8,10 @@ use opc_product_domains::external_sources::{
     PreparedExternalMcpTransport, SecretValue, SourceKey, SourceQualifiedMcpServerId,
     MAX_EXTERNAL_MCP_TIMEOUT_MS,
 };
-use opc_static_hook_support::{cwd_preview, normalize_path_lexically, sanitized_https_origin};
+use opc_static_hook_support::{
+    cwd_preview, find_project_root, nearest_existing_path, normalize_path_lexically,
+    sanitized_https_origin, should_inspect, string_map,
+};
 use opc_static_hook_support::{
     read_bounded_text, redacted_executable_preview, resolve_bounded_regular_file,
     BoundedFileResolveError, BoundedTextRead,
@@ -16,7 +19,6 @@ use opc_static_hook_support::{
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
-use std::fs;
 use std::path::{Path, PathBuf};
 
 const PROVIDER_ID: &str = "claude-code.mcp";
@@ -1054,29 +1056,6 @@ fn string_array(value: Option<&Value>) -> Result<Vec<String>, String> {
         .collect()
 }
 
-fn string_map(value: Option<&Value>) -> Result<BTreeMap<String, String>, String> {
-    let Some(value) = value else {
-        return Ok(BTreeMap::new());
-    };
-    let object = value
-        .as_object()
-        .ok_or_else(|| "MCP environment or headers must be an object".to_string())?;
-    if object.len() > MAX_MAP_ENTRIES {
-        return Err(format!(
-            "MCP environment or headers exceed the {MAX_MAP_ENTRIES} entry limit"
-        ));
-    }
-    object
-        .iter()
-        .map(|(key, value)| {
-            value
-                .as_str()
-                .map(|value| (key.clone(), value.to_string()))
-                .ok_or_else(|| "MCP environment and header values must be strings".to_string())
-        })
-        .collect()
-}
-
 fn collect_environment_reference_names<'a>(
     values: impl IntoIterator<Item = &'a String>,
 ) -> Result<Vec<String>, String> {
@@ -1191,13 +1170,6 @@ fn source_key(layer: &ConfigLayer) -> SourceKey {
     .expect("hashed Claude Code MCP source id must be valid")
 }
 
-fn should_inspect(path: &Path) -> bool {
-    match fs::metadata(path) {
-        Ok(metadata) => metadata.is_file(),
-        Err(error) => error.kind() != std::io::ErrorKind::NotFound,
-    }
-}
-
 fn paths_equal(left: &Path, right: &Path) -> bool {
     let left = dunce::canonicalize(left).unwrap_or_else(|_| normalize_path_lexically(left));
     let right = dunce::canonicalize(right).unwrap_or_else(|_| normalize_path_lexically(right));
@@ -1209,35 +1181,11 @@ fn paths_equal(left: &Path, right: &Path) -> bool {
     }
 }
 
-fn find_project_root(start: &Path) -> PathBuf {
-    let start = if start.is_file() {
-        start.parent().unwrap_or(start)
-    } else {
-        start
-    };
-    start
-        .ancestors()
-        .find(|path| path.join(".git").exists())
-        .unwrap_or(start)
-        .to_path_buf()
-}
-
 fn enforce_runtime_size(bytes: usize, reason: &mut Option<String>) {
     if bytes > MAX_RUNTIME_TEXT_BYTES {
         reason.get_or_insert_with(|| {
             format!("MCP runtime values exceed the {MAX_RUNTIME_TEXT_BYTES} byte limit")
         });
-    }
-}
-
-fn nearest_existing_path(mut path: PathBuf) -> Option<PathBuf> {
-    loop {
-        if path.exists() {
-            return Some(path);
-        }
-        if !path.pop() {
-            return None;
-        }
     }
 }
 
